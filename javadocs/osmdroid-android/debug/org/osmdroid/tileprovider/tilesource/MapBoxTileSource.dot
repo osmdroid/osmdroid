@@ -10,18 +10,18 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.tileprovider.tilesource.MapBoxTileSource
-	c17360 [label=<<table title="org.osmdroid.tileprovider.tilesource.MapBoxTileSource" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./MapBoxTileSource.html">
+	c17458 [label=<<table title="org.osmdroid.tileprovider.tilesource.MapBoxTileSource" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./MapBoxTileSource.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MapBoxTileSource </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MapBoxTileSource.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase
-	c17362 [label=<<table title="org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./OnlineTileSourceBase.html">
+	c17460 [label=<<table title="org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./OnlineTileSourceBase.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> OnlineTileSourceBase </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./OnlineTileSourceBase.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.tileprovider.tilesource.MapBoxTileSource extends org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase
-	c17362:p -> c17360:p [dir=back,arrowtail=empty];
+	c17460:p -> c17458:p [dir=back,arrowtail=empty];
 }
 

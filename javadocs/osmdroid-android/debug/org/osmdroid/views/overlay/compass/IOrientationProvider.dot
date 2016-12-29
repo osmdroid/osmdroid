@@ -10,19 +10,19 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.views.overlay.compass.InternalCompassOrientationProvider
-	c12816 [label=<<table title="org.osmdroid.views.overlay.compass.InternalCompassOrientationProvider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./InternalCompassOrientationProvider.html">
+	c12889 [label=<<table title="org.osmdroid.views.overlay.compass.InternalCompassOrientationProvider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./InternalCompassOrientationProvider.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> InternalCompassOrientationProvider </td></tr>
 		</table></td></tr>
 		</table>>, URL="./InternalCompassOrientationProvider.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.compass.IOrientationProvider
-	c12818 [label=<<table title="org.osmdroid.views.overlay.compass.IOrientationProvider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./IOrientationProvider.html">
+	c12891 [label=<<table title="org.osmdroid.views.overlay.compass.IOrientationProvider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./IOrientationProvider.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> IOrientationProvider </td></tr>
 		</table></td></tr>
 		</table>>, URL="./IOrientationProvider.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.views.overlay.compass.InternalCompassOrientationProvider implements org.osmdroid.views.overlay.compass.IOrientationProvider
-	c12818:p -> c12816:p [dir=back,arrowtail=empty,style=dashed];
+	c12891:p -> c12889:p [dir=back,arrowtail=empty,style=dashed];
 }
 

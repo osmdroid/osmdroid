@@ -691,5 +691,419 @@ You can tell lint (and other tools) which language is the default language in yo
             column="13"/>
     </issue>
 
+    <issue
+        id="MissingTranslation"
+        severity="Fatal"
+        message="&quot;`extend_downloaded_tiles_by_this_much_time_in_milliseconds`&quot; is not translated in &quot;de&quot; (German), &quot;it&quot; (Italian)"
+        category="Correctness:Messages"
+        priority="8"
+        summary="Incomplete translation"
+        explanation="If an application has more than one locale, then all the strings declared in one language should also be translated in all other languages.
+
+If the string should *not* be translated, you can add the attribute `translatable=&quot;false&quot;` on the `&lt;string>` element, or you can define all your non-translatable strings in a resource file called `donottranslate.xml`. Or, you can ignore the issue with a `tools:ignore=&quot;MissingTranslation&quot;` attribute.
+
+By default this detector allows regions of a language to just provide a subset of the strings and fall back to the standard language strings. You can require all regions to provide a full translation by setting the environment variable `ANDROID_LINT_COMPLETE_REGIONS`.
+
+You can tell lint (and other tools) which language is the default language in your `res/values/` folder by specifying `tools:locale=&quot;languageCode&quot;` for the root `&lt;resources>` element in your resource file. (The `tools` prefix refers to the namespace declaration `http://schemas.android.com/tools`.)"
+        errorLine1="    &lt;string name=&quot;extend_downloaded_tiles_by_this_much_time_in_milliseconds&quot;>Extend downloaded tiles by this much time (in milliseconds)&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+        quickfix="adt">
+        <location
+            file=".\OpenStreetMapViewer\src\main\res\values\strings.xml"
+            line="47"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        severity="Fatal"
+        message="&quot;`time_to_wait_for_a_gps_fix_to_switch_to_network_based_location_ms`&quot; is not translated in &quot;de&quot; (German), &quot;it&quot; (Italian)"
+        category="Correctness:Messages"
+        priority="8"
+        summary="Incomplete translation"
+        explanation="If an application has more than one locale, then all the strings declared in one language should also be translated in all other languages.
+
+If the string should *not* be translated, you can add the attribute `translatable=&quot;false&quot;` on the `&lt;string>` element, or you can define all your non-translatable strings in a resource file called `donottranslate.xml`. Or, you can ignore the issue with a `tools:ignore=&quot;MissingTranslation&quot;` attribute.
+
+By default this detector allows regions of a language to just provide a subset of the strings and fall back to the standard language strings. You can require all regions to provide a full translation by setting the environment variable `ANDROID_LINT_COMPLETE_REGIONS`.
+
+You can tell lint (and other tools) which language is the default language in your `res/values/` folder by specifying `tools:locale=&quot;languageCode&quot;` for the root `&lt;resources>` element in your resource file. (The `tools` prefix refers to the namespace declaration `http://schemas.android.com/tools`.)"
+        errorLine1="    &lt;string name=&quot;time_to_wait_for_a_gps_fix_to_switch_to_network_based_location_ms&quot;>Time to wait for a GPS fix to switch to Network based location (ms)&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+        quickfix="adt">
+        <location
+            file=".\OpenStreetMapViewer\src\main\res\values\strings.xml"
+            line="48"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        severity="Fatal"
+        message="&quot;`miscellaneous`&quot; is not translated in &quot;de&quot; (German), &quot;it&quot; (Italian)"
+        category="Correctness:Messages"
+        priority="8"
+        summary="Incomplete translation"
+        explanation="If an application has more than one locale, then all the strings declared in one language should also be translated in all other languages.
+
+If the string should *not* be translated, you can add the attribute `translatable=&quot;false&quot;` on the `&lt;string>` element, or you can define all your non-translatable strings in a resource file called `donottranslate.xml`. Or, you can ignore the issue with a `tools:ignore=&quot;MissingTranslation&quot;` attribute.
+
+By default this detector allows regions of a language to just provide a subset of the strings and fall back to the standard language strings. You can require all regions to provide a full translation by setting the environment variable `ANDROID_LINT_COMPLETE_REGIONS`.
+
+You can tell lint (and other tools) which language is the default language in your `res/values/` folder by specifying `tools:locale=&quot;languageCode&quot;` for the root `&lt;resources>` element in your resource file. (The `tools` prefix refers to the namespace declaration `http://schemas.android.com/tools`.)"
+        errorLine1="    &lt;string name=&quot;miscellaneous&quot;>Miscellaneous&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~"
+        quickfix="adt">
+        <location
+            file=".\OpenStreetMapViewer\src\main\res\values\strings.xml"
+            line="49"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        severity="Fatal"
+        message="&quot;`map_tile_file_system_max_queue_size`&quot; is not translated in &quot;de&quot; (German), &quot;it&quot; (Italian)"
+        category="Correctness:Messages"
+        priority="8"
+        summary="Incomplete translation"
+        explanation="If an application has more than one locale, then all the strings declared in one language should also be translated in all other languages.
+
+If the string should *not* be translated, you can add the attribute `translatable=&quot;false&quot;` on the `&lt;string>` element, or you can define all your non-translatable strings in a resource file called `donottranslate.xml`. Or, you can ignore the issue with a `tools:ignore=&quot;MissingTranslation&quot;` attribute.
+
+By default this detector allows regions of a language to just provide a subset of the strings and fall back to the standard language strings. You can require all regions to provide a full translation by setting the environment variable `ANDROID_LINT_COMPLETE_REGIONS`.
+
+You can tell lint (and other tools) which language is the default language in your `res/values/` folder by specifying `tools:locale=&quot;languageCode&quot;` for the root `&lt;resources>` element in your resource file. (The `tools` prefix refers to the namespace declaration `http://schemas.android.com/tools`.)"
+        errorLine1="    &lt;string name=&quot;map_tile_file_system_max_queue_size&quot;>Map tile file system max queue size&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+        quickfix="adt">
+        <location
+            file=".\OpenStreetMapViewer\src\main\res\values\strings.xml"
+            line="50"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        severity="Fatal"
+        message="&quot;`file_system_loading_threads`&quot; is not translated in &quot;de&quot; (German), &quot;it&quot; (Italian)"
+        category="Correctness:Messages"
+        priority="8"
+        summary="Incomplete translation"
+        explanation="If an application has more than one locale, then all the strings declared in one language should also be translated in all other languages.
+
+If the string should *not* be translated, you can add the attribute `translatable=&quot;false&quot;` on the `&lt;string>` element, or you can define all your non-translatable strings in a resource file called `donottranslate.xml`. Or, you can ignore the issue with a `tools:ignore=&quot;MissingTranslation&quot;` attribute.
+
+By default this detector allows regions of a language to just provide a subset of the strings and fall back to the standard language strings. You can require all regions to provide a full translation by setting the environment variable `ANDROID_LINT_COMPLETE_REGIONS`.
+
+You can tell lint (and other tools) which language is the default language in your `res/values/` folder by specifying `tools:locale=&quot;languageCode&quot;` for the root `&lt;resources>` element in your resource file. (The `tools` prefix refers to the namespace declaration `http://schemas.android.com/tools`.)"
+        errorLine1="    &lt;string name=&quot;file_system_loading_threads&quot;>File system loading threads&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+        quickfix="adt">
+        <location
+            file=".\OpenStreetMapViewer\src\main\res\values\strings.xml"
+            line="51"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        severity="Fatal"
+        message="&quot;`in_memory_tile_cache_size`&quot; is not translated in &quot;de&quot; (German), &quot;it&quot; (Italian)"
+        category="Correctness:Messages"
+        priority="8"
+        summary="Incomplete translation"
+        explanation="If an application has more than one locale, then all the strings declared in one language should also be translated in all other languages.
+
+If the string should *not* be translated, you can add the attribute `translatable=&quot;false&quot;` on the `&lt;string>` element, or you can define all your non-translatable strings in a resource file called `donottranslate.xml`. Or, you can ignore the issue with a `tools:ignore=&quot;MissingTranslation&quot;` attribute.
+
+By default this detector allows regions of a language to just provide a subset of the strings and fall back to the standard language strings. You can require all regions to provide a full translation by setting the environment variable `ANDROID_LINT_COMPLETE_REGIONS`.
+
+You can tell lint (and other tools) which language is the default language in your `res/values/` folder by specifying `tools:locale=&quot;languageCode&quot;` for the root `&lt;resources>` element in your resource file. (The `tools` prefix refers to the namespace declaration `http://schemas.android.com/tools`.)"
+        errorLine1="    &lt;string name=&quot;in_memory_tile_cache_size&quot;>In memory tile cache size&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+        quickfix="adt">
+        <location
+            file=".\OpenStreetMapViewer\src\main\res\values\strings.xml"
+            line="52"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        severity="Fatal"
+        message="&quot;`map_tile_download_max_queue_size`&quot; is not translated in &quot;de&quot; (German), &quot;it&quot; (Italian)"
+        category="Correctness:Messages"
+        priority="8"
+        summary="Incomplete translation"
+        explanation="If an application has more than one locale, then all the strings declared in one language should also be translated in all other languages.
+
+If the string should *not* be translated, you can add the attribute `translatable=&quot;false&quot;` on the `&lt;string>` element, or you can define all your non-translatable strings in a resource file called `donottranslate.xml`. Or, you can ignore the issue with a `tools:ignore=&quot;MissingTranslation&quot;` attribute.
+
+By default this detector allows regions of a language to just provide a subset of the strings and fall back to the standard language strings. You can require all regions to provide a full translation by setting the environment variable `ANDROID_LINT_COMPLETE_REGIONS`.
+
+You can tell lint (and other tools) which language is the default language in your `res/values/` folder by specifying `tools:locale=&quot;languageCode&quot;` for the root `&lt;resources>` element in your resource file. (The `tools` prefix refers to the namespace declaration `http://schemas.android.com/tools`.)"
+        errorLine1="    &lt;string name=&quot;map_tile_download_max_queue_size&quot;>Map tile download max queue size&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+        quickfix="adt">
+        <location
+            file=".\OpenStreetMapViewer\src\main\res\values\strings.xml"
+            line="53"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        severity="Fatal"
+        message="&quot;`tile_download_threads`&quot; is not translated in &quot;de&quot; (German), &quot;it&quot; (Italian)"
+        category="Correctness:Messages"
+        priority="8"
+        summary="Incomplete translation"
+        explanation="If an application has more than one locale, then all the strings declared in one language should also be translated in all other languages.
+
+If the string should *not* be translated, you can add the attribute `translatable=&quot;false&quot;` on the `&lt;string>` element, or you can define all your non-translatable strings in a resource file called `donottranslate.xml`. Or, you can ignore the issue with a `tools:ignore=&quot;MissingTranslation&quot;` attribute.
+
+By default this detector allows regions of a language to just provide a subset of the strings and fall back to the standard language strings. You can require all regions to provide a full translation by setting the environment variable `ANDROID_LINT_COMPLETE_REGIONS`.
+
+You can tell lint (and other tools) which language is the default language in your `res/values/` folder by specifying `tools:locale=&quot;languageCode&quot;` for the root `&lt;resources>` element in your resource file. (The `tools` prefix refers to the namespace declaration `http://schemas.android.com/tools`.)"
+        errorLine1="    &lt;string name=&quot;tile_download_threads&quot;>Tile download threads&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+        quickfix="adt">
+        <location
+            file=".\OpenStreetMapViewer\src\main\res\values\strings.xml"
+            line="54"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        severity="Fatal"
+        message="&quot;`downloads_memory_cache_and_offline_storage_settings`&quot; is not translated in &quot;de&quot; (German), &quot;it&quot; (Italian)"
+        category="Correctness:Messages"
+        priority="8"
+        summary="Incomplete translation"
+        explanation="If an application has more than one locale, then all the strings declared in one language should also be translated in all other languages.
+
+If the string should *not* be translated, you can add the attribute `translatable=&quot;false&quot;` on the `&lt;string>` element, or you can define all your non-translatable strings in a resource file called `donottranslate.xml`. Or, you can ignore the issue with a `tools:ignore=&quot;MissingTranslation&quot;` attribute.
+
+By default this detector allows regions of a language to just provide a subset of the strings and fall back to the standard language strings. You can require all regions to provide a full translation by setting the environment variable `ANDROID_LINT_COMPLETE_REGIONS`.
+
+You can tell lint (and other tools) which language is the default language in your `res/values/` folder by specifying `tools:locale=&quot;languageCode&quot;` for the root `&lt;resources>` element in your resource file. (The `tools` prefix refers to the namespace declaration `http://schemas.android.com/tools`.)"
+        errorLine1="    &lt;string name=&quot;downloads_memory_cache_and_offline_storage_settings&quot;>Downloads, Memory Cache and Offline Storage Settings&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+        quickfix="adt">
+        <location
+            file=".\OpenStreetMapViewer\src\main\res\values\strings.xml"
+            line="55"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        severity="Fatal"
+        message="&quot;`http_user_agent_to_use_when_downloading`&quot; is not translated in &quot;de&quot; (German), &quot;it&quot; (Italian)"
+        category="Correctness:Messages"
+        priority="8"
+        summary="Incomplete translation"
+        explanation="If an application has more than one locale, then all the strings declared in one language should also be translated in all other languages.
+
+If the string should *not* be translated, you can add the attribute `translatable=&quot;false&quot;` on the `&lt;string>` element, or you can define all your non-translatable strings in a resource file called `donottranslate.xml`. Or, you can ignore the issue with a `tools:ignore=&quot;MissingTranslation&quot;` attribute.
+
+By default this detector allows regions of a language to just provide a subset of the strings and fall back to the standard language strings. You can require all regions to provide a full translation by setting the environment variable `ANDROID_LINT_COMPLETE_REGIONS`.
+
+You can tell lint (and other tools) which language is the default language in your `res/values/` folder by specifying `tools:locale=&quot;languageCode&quot;` for the root `&lt;resources>` element in your resource file. (The `tools` prefix refers to the namespace declaration `http://schemas.android.com/tools`.)"
+        errorLine1="    &lt;string name=&quot;http_user_agent_to_use_when_downloading&quot;>HTTP User Agent to use when downloading&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+        quickfix="adt">
+        <location
+            file=".\OpenStreetMapViewer\src\main\res\values\strings.xml"
+            line="56"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        severity="Fatal"
+        message="&quot;`logging_and_debugging`&quot; is not translated in &quot;de&quot; (German), &quot;it&quot; (Italian)"
+        category="Correctness:Messages"
+        priority="8"
+        summary="Incomplete translation"
+        explanation="If an application has more than one locale, then all the strings declared in one language should also be translated in all other languages.
+
+If the string should *not* be translated, you can add the attribute `translatable=&quot;false&quot;` on the `&lt;string>` element, or you can define all your non-translatable strings in a resource file called `donottranslate.xml`. Or, you can ignore the issue with a `tools:ignore=&quot;MissingTranslation&quot;` attribute.
+
+By default this detector allows regions of a language to just provide a subset of the strings and fall back to the standard language strings. You can require all regions to provide a full translation by setting the environment variable `ANDROID_LINT_COMPLETE_REGIONS`.
+
+You can tell lint (and other tools) which language is the default language in your `res/values/` folder by specifying `tools:locale=&quot;languageCode&quot;` for the root `&lt;resources>` element in your resource file. (The `tools` prefix refers to the namespace declaration `http://schemas.android.com/tools`.)"
+        errorLine1="    &lt;string name=&quot;logging_and_debugging&quot;>Logging and Debugging&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+        quickfix="adt">
+        <location
+            file=".\OpenStreetMapViewer\src\main\res\values\strings.xml"
+            line="57"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        severity="Fatal"
+        message="&quot;`map_view_debug`&quot; is not translated in &quot;de&quot; (German), &quot;it&quot; (Italian)"
+        category="Correctness:Messages"
+        priority="8"
+        summary="Incomplete translation"
+        explanation="If an application has more than one locale, then all the strings declared in one language should also be translated in all other languages.
+
+If the string should *not* be translated, you can add the attribute `translatable=&quot;false&quot;` on the `&lt;string>` element, or you can define all your non-translatable strings in a resource file called `donottranslate.xml`. Or, you can ignore the issue with a `tools:ignore=&quot;MissingTranslation&quot;` attribute.
+
+By default this detector allows regions of a language to just provide a subset of the strings and fall back to the standard language strings. You can require all regions to provide a full translation by setting the environment variable `ANDROID_LINT_COMPLETE_REGIONS`.
+
+You can tell lint (and other tools) which language is the default language in your `res/values/` folder by specifying `tools:locale=&quot;languageCode&quot;` for the root `&lt;resources>` element in your resource file. (The `tools` prefix refers to the namespace declaration `http://schemas.android.com/tools`.)"
+        errorLine1="    &lt;string name=&quot;map_view_debug&quot;>Map View Debug&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~"
+        quickfix="adt">
+        <location
+            file=".\OpenStreetMapViewer\src\main\res\values\strings.xml"
+            line="58"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        severity="Fatal"
+        message="&quot;`cache_management`&quot; is not translated in &quot;de&quot; (German), &quot;it&quot; (Italian)"
+        category="Correctness:Messages"
+        priority="8"
+        summary="Incomplete translation"
+        explanation="If an application has more than one locale, then all the strings declared in one language should also be translated in all other languages.
+
+If the string should *not* be translated, you can add the attribute `translatable=&quot;false&quot;` on the `&lt;string>` element, or you can define all your non-translatable strings in a resource file called `donottranslate.xml`. Or, you can ignore the issue with a `tools:ignore=&quot;MissingTranslation&quot;` attribute.
+
+By default this detector allows regions of a language to just provide a subset of the strings and fall back to the standard language strings. You can require all regions to provide a full translation by setting the environment variable `ANDROID_LINT_COMPLETE_REGIONS`.
+
+You can tell lint (and other tools) which language is the default language in your `res/values/` folder by specifying `tools:locale=&quot;languageCode&quot;` for the root `&lt;resources>` element in your resource file. (The `tools` prefix refers to the namespace declaration `http://schemas.android.com/tools`.)"
+        errorLine1="    &lt;string name=&quot;cache_management&quot;>Cache Management&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~"
+        quickfix="adt">
+        <location
+            file=".\OpenStreetMapViewer\src\main\res\values\strings.xml"
+            line="59"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        severity="Fatal"
+        message="&quot;`reset_to_defaults`&quot; is not translated in &quot;de&quot; (German), &quot;it&quot; (Italian)"
+        category="Correctness:Messages"
+        priority="8"
+        summary="Incomplete translation"
+        explanation="If an application has more than one locale, then all the strings declared in one language should also be translated in all other languages.
+
+If the string should *not* be translated, you can add the attribute `translatable=&quot;false&quot;` on the `&lt;string>` element, or you can define all your non-translatable strings in a resource file called `donottranslate.xml`. Or, you can ignore the issue with a `tools:ignore=&quot;MissingTranslation&quot;` attribute.
+
+By default this detector allows regions of a language to just provide a subset of the strings and fall back to the standard language strings. You can require all regions to provide a full translation by setting the environment variable `ANDROID_LINT_COMPLETE_REGIONS`.
+
+You can tell lint (and other tools) which language is the default language in your `res/values/` folder by specifying `tools:locale=&quot;languageCode&quot;` for the root `&lt;resources>` element in your resource file. (The `tools` prefix refers to the namespace declaration `http://schemas.android.com/tools`.)"
+        errorLine1="    &lt;string name=&quot;reset_to_defaults&quot;>Reset to defaults&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~"
+        quickfix="adt">
+        <location
+            file=".\OpenStreetMapViewer\src\main\res\values\strings.xml"
+            line="60"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        severity="Fatal"
+        message="&quot;`total_rows`&quot; is not translated in &quot;de&quot; (German), &quot;it&quot; (Italian)"
+        category="Correctness:Messages"
+        priority="8"
+        summary="Incomplete translation"
+        explanation="If an application has more than one locale, then all the strings declared in one language should also be translated in all other languages.
+
+If the string should *not* be translated, you can add the attribute `translatable=&quot;false&quot;` on the `&lt;string>` element, or you can define all your non-translatable strings in a resource file called `donottranslate.xml`. Or, you can ignore the issue with a `tools:ignore=&quot;MissingTranslation&quot;` attribute.
+
+By default this detector allows regions of a language to just provide a subset of the strings and fall back to the standard language strings. You can require all regions to provide a full translation by setting the environment variable `ANDROID_LINT_COMPLETE_REGIONS`.
+
+You can tell lint (and other tools) which language is the default language in your `res/values/` folder by specifying `tools:locale=&quot;languageCode&quot;` for the root `&lt;resources>` element in your resource file. (The `tools` prefix refers to the namespace declaration `http://schemas.android.com/tools`.)"
+        errorLine1="    &lt;string name=&quot;total_rows&quot;>Total rows&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~"
+        quickfix="adt">
+        <location
+            file=".\OpenStreetMapViewer\src\main\res\values\strings.xml"
+            line="61"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        severity="Fatal"
+        message="&quot;`cache_size_bytes`&quot; is not translated in &quot;de&quot; (German), &quot;it&quot; (Italian)"
+        category="Correctness:Messages"
+        priority="8"
+        summary="Incomplete translation"
+        explanation="If an application has more than one locale, then all the strings declared in one language should also be translated in all other languages.
+
+If the string should *not* be translated, you can add the attribute `translatable=&quot;false&quot;` on the `&lt;string>` element, or you can define all your non-translatable strings in a resource file called `donottranslate.xml`. Or, you can ignore the issue with a `tools:ignore=&quot;MissingTranslation&quot;` attribute.
+
+By default this detector allows regions of a language to just provide a subset of the strings and fall back to the standard language strings. You can require all regions to provide a full translation by setting the environment variable `ANDROID_LINT_COMPLETE_REGIONS`.
+
+You can tell lint (and other tools) which language is the default language in your `res/values/` folder by specifying `tools:locale=&quot;languageCode&quot;` for the root `&lt;resources>` element in your resource file. (The `tools` prefix refers to the namespace declaration `http://schemas.android.com/tools`.)"
+        errorLine1="    &lt;string name=&quot;cache_size_bytes&quot;>Cache size &lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~"
+        quickfix="adt">
+        <location
+            file=".\OpenStreetMapViewer\src\main\res\values\strings.xml"
+            line="62"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        severity="Fatal"
+        message="&quot;`loading_stats`&quot; is not translated in &quot;de&quot; (German), &quot;it&quot; (Italian)"
+        category="Correctness:Messages"
+        priority="8"
+        summary="Incomplete translation"
+        explanation="If an application has more than one locale, then all the strings declared in one language should also be translated in all other languages.
+
+If the string should *not* be translated, you can add the attribute `translatable=&quot;false&quot;` on the `&lt;string>` element, or you can define all your non-translatable strings in a resource file called `donottranslate.xml`. Or, you can ignore the issue with a `tools:ignore=&quot;MissingTranslation&quot;` attribute.
+
+By default this detector allows regions of a language to just provide a subset of the strings and fall back to the standard language strings. You can require all regions to provide a full translation by setting the environment variable `ANDROID_LINT_COMPLETE_REGIONS`.
+
+You can tell lint (and other tools) which language is the default language in your `res/values/` folder by specifying `tools:locale=&quot;languageCode&quot;` for the root `&lt;resources>` element in your resource file. (The `tools` prefix refers to the namespace declaration `http://schemas.android.com/tools`.)"
+        errorLine1="    &lt;string name=&quot;loading_stats&quot;>Loading stats...&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~"
+        quickfix="adt">
+        <location
+            file=".\OpenStreetMapViewer\src\main\res\values\strings.xml"
+            line="63"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        severity="Fatal"
+        message="&quot;`cache_analyzer_tasks`&quot; is not translated in &quot;de&quot; (German), &quot;it&quot; (Italian)"
+        category="Correctness:Messages"
+        priority="8"
+        summary="Incomplete translation"
+        explanation="If an application has more than one locale, then all the strings declared in one language should also be translated in all other languages.
+
+If the string should *not* be translated, you can add the attribute `translatable=&quot;false&quot;` on the `&lt;string>` element, or you can define all your non-translatable strings in a resource file called `donottranslate.xml`. Or, you can ignore the issue with a `tools:ignore=&quot;MissingTranslation&quot;` attribute.
+
+By default this detector allows regions of a language to just provide a subset of the strings and fall back to the standard language strings. You can require all regions to provide a full translation by setting the environment variable `ANDROID_LINT_COMPLETE_REGIONS`.
+
+You can tell lint (and other tools) which language is the default language in your `res/values/` folder by specifying `tools:locale=&quot;languageCode&quot;` for the root `&lt;resources>` element in your resource file. (The `tools` prefix refers to the namespace declaration `http://schemas.android.com/tools`.)"
+        errorLine1="    &lt;string name=&quot;cache_analyzer_tasks&quot;>Cache Analyzer Tasks&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+        quickfix="adt">
+        <location
+            file=".\OpenStreetMapViewer\src\main\res\values\strings.xml"
+            line="64"
+            column="13"/>
+    </issue>
+
 </issues>
 

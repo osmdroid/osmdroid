@@ -10,19 +10,19 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.tileprovider.IRegisterReceiver
-	c32637 [label=<<table title="org.osmdroid.tileprovider.IRegisterReceiver" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../IRegisterReceiver.html">
+	c32822 [label=<<table title="org.osmdroid.tileprovider.IRegisterReceiver" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../IRegisterReceiver.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> IRegisterReceiver </td></tr>
 		</table></td></tr>
 		</table>>, URL="../IRegisterReceiver.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.util.SimpleRegisterReceiver
-	c32692 [label=<<table title="org.osmdroid.tileprovider.util.SimpleRegisterReceiver" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./SimpleRegisterReceiver.html">
+	c32878 [label=<<table title="org.osmdroid.tileprovider.util.SimpleRegisterReceiver" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./SimpleRegisterReceiver.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SimpleRegisterReceiver </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SimpleRegisterReceiver.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.tileprovider.util.SimpleRegisterReceiver implements org.osmdroid.tileprovider.IRegisterReceiver
-	c32637:p -> c32692:p [dir=back,arrowtail=empty,style=dashed];
+	c32822:p -> c32878:p [dir=back,arrowtail=empty,style=dashed];
 }
 

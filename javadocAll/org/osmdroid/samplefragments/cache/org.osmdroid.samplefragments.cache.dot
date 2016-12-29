@@ -10,49 +10,49 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.samplefragments.cache.CacheImport
-	c4100 [label=<<table title="org.osmdroid.samplefragments.cache.CacheImport" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./CacheImport.html">
+	c5544 [label=<<table title="org.osmdroid.samplefragments.cache.CacheImport" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./CacheImport.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> CacheImport </td></tr>
 		</table></td></tr>
 		</table>>, URL="./CacheImport.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.cache.CachePurge
-	c4101 [label=<<table title="org.osmdroid.samplefragments.cache.CachePurge" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./CachePurge.html">
+	c5545 [label=<<table title="org.osmdroid.samplefragments.cache.CachePurge" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./CachePurge.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> CachePurge </td></tr>
 		</table></td></tr>
 		</table>>, URL="./CachePurge.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.cache.SampleAlternateCacheDir
-	c4102 [label=<<table title="org.osmdroid.samplefragments.cache.SampleAlternateCacheDir" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleAlternateCacheDir.html">
+	c5546 [label=<<table title="org.osmdroid.samplefragments.cache.SampleAlternateCacheDir" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleAlternateCacheDir.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleAlternateCacheDir </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SampleAlternateCacheDir.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.cache.SampleCacheDownloader
-	c4103 [label=<<table title="org.osmdroid.samplefragments.cache.SampleCacheDownloader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleCacheDownloader.html">
+	c5547 [label=<<table title="org.osmdroid.samplefragments.cache.SampleCacheDownloader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleCacheDownloader.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleCacheDownloader </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SampleCacheDownloader.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.cache.SampleCacheDownloaderArchive
-	c4104 [label=<<table title="org.osmdroid.samplefragments.cache.SampleCacheDownloaderArchive" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleCacheDownloaderArchive.html">
+	c5548 [label=<<table title="org.osmdroid.samplefragments.cache.SampleCacheDownloaderArchive" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleCacheDownloaderArchive.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleCacheDownloaderArchive </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SampleCacheDownloaderArchive.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.cache.SampleCacheDownloaderCustomUI
-	c4105 [label=<<table title="org.osmdroid.samplefragments.cache.SampleCacheDownloaderCustomUI" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleCacheDownloaderCustomUI.html">
+	c5549 [label=<<table title="org.osmdroid.samplefragments.cache.SampleCacheDownloaderCustomUI" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleCacheDownloaderCustomUI.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleCacheDownloaderCustomUI </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SampleCacheDownloaderCustomUI.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.cache.SampleJumboCache
-	c4106 [label=<<table title="org.osmdroid.samplefragments.cache.SampleJumboCache" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleJumboCache.html">
+	c5550 [label=<<table title="org.osmdroid.samplefragments.cache.SampleJumboCache" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleJumboCache.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleJumboCache </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SampleJumboCache.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.cache.SampleSqliteOnly
-	c4107 [label=<<table title="org.osmdroid.samplefragments.cache.SampleSqliteOnly" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleSqliteOnly.html">
+	c5551 [label=<<table title="org.osmdroid.samplefragments.cache.SampleSqliteOnly" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleSqliteOnly.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleSqliteOnly </td></tr>
 		</table></td></tr>

@@ -10,7 +10,7 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// microsoft.mappoint.TileSystem
-	c6965 [label=<<table title="microsoft.mappoint.TileSystem" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./TileSystem.html">
+	c8509 [label=<<table title="microsoft.mappoint.TileSystem" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./TileSystem.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> TileSystem </td></tr>
 		</table></td></tr>

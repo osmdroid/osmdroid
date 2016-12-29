@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<pmd version="5.2.3" timestamp="2016-12-18T11:53:31.738">
+<pmd version="5.2.3" timestamp="2016-12-28T15:21:27.944">
 <file name=".\OSMMapTilePackager\src\main\java\org\osmdroid\mtp\OSMMapTilePackager.java">
 <violation beginline="25" endline="25" begincolumn="21" endcolumn="42" rule="SuspiciousConstantFieldName" ruleset="Naming" package="org.osmdroid.mtp" class="OSMMapTilePackager" variable="FORCE" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.2.3/pmd-java/rules/java/naming.html#SuspiciousConstantFieldName" priority="3">
 The field name indicates a constant but its modifiers do not

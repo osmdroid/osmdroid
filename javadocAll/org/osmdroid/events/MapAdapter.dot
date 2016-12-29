@@ -10,19 +10,19 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.events.MapAdapter
-	c51978 [label=<<table title="org.osmdroid.events.MapAdapter" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./MapAdapter.html">
+	c57054 [label=<<table title="org.osmdroid.events.MapAdapter" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./MapAdapter.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> MapAdapter </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./MapAdapter.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.events.MapListener
-	c51981 [label=<<table title="org.osmdroid.events.MapListener" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapListener.html">
+	c57057 [label=<<table title="org.osmdroid.events.MapListener" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapListener.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> MapListener </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MapListener.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.events.MapAdapter implements org.osmdroid.events.MapListener
-	c51981:p -> c51978:p [dir=back,arrowtail=empty,style=dashed];
+	c57057:p -> c57054:p [dir=back,arrowtail=empty,style=dashed];
 }
 

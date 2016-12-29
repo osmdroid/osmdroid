@@ -10,31 +10,31 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.samplefragments.pager.MapFragment
-	c6005 [label=<<table title="org.osmdroid.samplefragments.pager.MapFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapFragment.html">
+	c7515 [label=<<table title="org.osmdroid.samplefragments.pager.MapFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapFragment.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MapFragment </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MapFragment.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.pager.MapInAViewPagerFragment
-	c6006 [label=<<table title="org.osmdroid.samplefragments.pager.MapInAViewPagerFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapInAViewPagerFragment.html">
+	c7516 [label=<<table title="org.osmdroid.samplefragments.pager.MapInAViewPagerFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapInAViewPagerFragment.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MapInAViewPagerFragment </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MapInAViewPagerFragment.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.pager.MapSliderAdapter
-	c6007 [label=<<table title="org.osmdroid.samplefragments.pager.MapSliderAdapter" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapSliderAdapter.html">
+	c7517 [label=<<table title="org.osmdroid.samplefragments.pager.MapSliderAdapter" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapSliderAdapter.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MapSliderAdapter </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MapSliderAdapter.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.pager.SimpleTextFragment
-	c6008 [label=<<table title="org.osmdroid.samplefragments.pager.SimpleTextFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SimpleTextFragment.html">
+	c7518 [label=<<table title="org.osmdroid.samplefragments.pager.SimpleTextFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SimpleTextFragment.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SimpleTextFragment </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SimpleTextFragment.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.pager.WebviewFragment
-	c6009 [label=<<table title="org.osmdroid.samplefragments.pager.WebviewFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./WebviewFragment.html">
+	c7519 [label=<<table title="org.osmdroid.samplefragments.pager.WebviewFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./WebviewFragment.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> WebviewFragment </td></tr>
 		</table></td></tr>

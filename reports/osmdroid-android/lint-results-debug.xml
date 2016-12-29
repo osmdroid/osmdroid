@@ -315,7 +315,7 @@ Similarly, do not reference the `/data/data/` path directly; it can vary in mult
         errorLine2="                                                               ~~~~~~~~~~~~~">
         <location
             file=".\osmdroid-android\src\main\java\org\osmdroid\config\DefaultConfigurationProvider.java"
-            line="268"
+            line="270"
             column="64"/>
     </issue>
 
@@ -339,7 +339,7 @@ Similarly, do not reference the `/data/data/` path directly; it can vary in mult
     <issue
         id="GradleOverrides"
         severity="Warning"
-        message="This `versionCode` value (`1`) is not used; it is always overridden by the value specified in the Gradle build script (`25`)"
+        message="This `versionCode` value (`1`) is not used; it is always overridden by the value specified in the Gradle build script (`26`)"
         category="Correctness"
         priority="4"
         summary="Value overridden by Gradle build script"
@@ -355,7 +355,7 @@ Similarly, do not reference the `/data/data/` path directly; it can vary in mult
     <issue
         id="GradleOverrides"
         severity="Warning"
-        message="This `versionName` value (`5.3-SNAPSHOT`) is not used; it is always overridden by the value specified in the Gradle build script (`5.6.1`)"
+        message="This `versionName` value (`5.3-SNAPSHOT`) is not used; it is always overridden by the value specified in the Gradle build script (`5.6.2`)"
         category="Correctness"
         priority="4"
         summary="Value overridden by Gradle build script"

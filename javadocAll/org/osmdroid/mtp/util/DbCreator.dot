@@ -10,7 +10,7 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.mtp.util.DbCreator
-	c28767 [label=<<table title="org.osmdroid.mtp.util.DbCreator" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./DbCreator.html">
+	c32047 [label=<<table title="org.osmdroid.mtp.util.DbCreator" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./DbCreator.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> DbCreator </td></tr>
 		</table></td></tr>

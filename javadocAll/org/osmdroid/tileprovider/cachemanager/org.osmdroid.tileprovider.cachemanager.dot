@@ -10,39 +10,39 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.tileprovider.cachemanager.CacheManager
-	c8859 [label=<<table title="org.osmdroid.tileprovider.cachemanager.CacheManager" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./CacheManager.html">
+	c10469 [label=<<table title="org.osmdroid.tileprovider.cachemanager.CacheManager" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./CacheManager.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> CacheManager </td></tr>
 		</table></td></tr>
 		</table>>, URL="./CacheManager.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerCallback
-	c8860 [label=<<table title="org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerCallback" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./CacheManager.CacheManagerCallback.html">
+	c10470 [label=<<table title="org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerCallback" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./CacheManager.CacheManagerCallback.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> CacheManagerCallback </td></tr>
 		</table></td></tr>
 		</table>>, URL="./CacheManager.CacheManagerCallback.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerTask
-	c8861 [label=<<table title="org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerTask" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./CacheManager.CacheManagerTask.html">
+	c10471 [label=<<table title="org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerTask" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./CacheManager.CacheManagerTask.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> CacheManagerTask </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./CacheManager.CacheManagerTask.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.cachemanager.CacheManager.DownloadingTask
-	c8862 [label=<<table title="org.osmdroid.tileprovider.cachemanager.CacheManager.DownloadingTask" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./CacheManager.DownloadingTask.html">
+	c10472 [label=<<table title="org.osmdroid.tileprovider.cachemanager.CacheManager.DownloadingTask" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./CacheManager.DownloadingTask.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> DownloadingTask </td></tr>
 		</table></td></tr>
 		</table>>, URL="./CacheManager.DownloadingTask.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.cachemanager.CacheManager.CleaningTask
-	c8863 [label=<<table title="org.osmdroid.tileprovider.cachemanager.CacheManager.CleaningTask" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./CacheManager.CleaningTask.html">
+	c10473 [label=<<table title="org.osmdroid.tileprovider.cachemanager.CacheManager.CleaningTask" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./CacheManager.CleaningTask.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> CleaningTask </td></tr>
 		</table></td></tr>
 		</table>>, URL="./CacheManager.CleaningTask.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.tileprovider.cachemanager.CacheManager.DownloadingTask extends org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerTask
-	c8861:p -> c8862:p [dir=back,arrowtail=empty];
+	c10471:p -> c10472:p [dir=back,arrowtail=empty];
 	//org.osmdroid.tileprovider.cachemanager.CacheManager.CleaningTask extends org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerTask
-	c8861:p -> c8863:p [dir=back,arrowtail=empty];
+	c10471:p -> c10473:p [dir=back,arrowtail=empty];
 }
 

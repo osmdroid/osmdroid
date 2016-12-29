@@ -10,15 +10,15 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.views.overlay.simplefastpoint.SimpleFastPointOverlay.LabelledPoint
-	c31004 [label=<<table title="org.osmdroid.views.overlay.simplefastpoint.SimpleFastPointOverlay.LabelledPoint" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./SimpleFastPointOverlay.LabelledPoint.html">
+	c31180 [label=<<table title="org.osmdroid.views.overlay.simplefastpoint.SimpleFastPointOverlay.LabelledPoint" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./SimpleFastPointOverlay.LabelledPoint.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> LabelledPoint </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SimpleFastPointOverlay.LabelledPoint.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.views.overlay.simplefastpoint.SimpleFastPointOverlay.LabelledPoint extends Point
-	c31020:p -> c31004:p [dir=back,arrowtail=empty];
+	c31196:p -> c31180:p [dir=back,arrowtail=empty];
 	// Point
-	c31020[label=<<table title="Point" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api//Point.html">
+	c31196[label=<<table title="Point" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api//Point.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> Point </td></tr>
 		</table></td></tr>

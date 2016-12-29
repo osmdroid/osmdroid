@@ -10,27 +10,27 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.tileprovider.tilesource.CloudmadeTileSource
-	c26429 [label=<<table title="org.osmdroid.tileprovider.tilesource.CloudmadeTileSource" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./CloudmadeTileSource.html">
+	c29631 [label=<<table title="org.osmdroid.tileprovider.tilesource.CloudmadeTileSource" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./CloudmadeTileSource.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> CloudmadeTileSource </td></tr>
 		</table></td></tr>
 		</table>>, URL="./CloudmadeTileSource.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.tilesource.IStyledTileSource<T>
-	c26432 [label=<<table title="org.osmdroid.tileprovider.tilesource.IStyledTileSource" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./IStyledTileSource.html">
+	c29634 [label=<<table title="org.osmdroid.tileprovider.tilesource.IStyledTileSource" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./IStyledTileSource.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> IStyledTileSource&lt;T&gt; </td></tr>
 		</table></td></tr>
 		</table>>, URL="./IStyledTileSource.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase
-	c26436 [label=<<table title="org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./OnlineTileSourceBase.html">
+	c29638 [label=<<table title="org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./OnlineTileSourceBase.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> OnlineTileSourceBase </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./OnlineTileSourceBase.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.tileprovider.tilesource.CloudmadeTileSource extends org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase
-	c26436:p -> c26429:p [dir=back,arrowtail=empty];
+	c29638:p -> c29631:p [dir=back,arrowtail=empty];
 	//org.osmdroid.tileprovider.tilesource.CloudmadeTileSource implements org.osmdroid.tileprovider.tilesource.IStyledTileSource<T>
-	c26432:p -> c26429:p [dir=back,arrowtail=empty,style=dashed];
+	c29634:p -> c29631:p [dir=back,arrowtail=empty,style=dashed];
 }
 

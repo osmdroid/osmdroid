@@ -10,26 +10,26 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.tileprovider.modules.MapTileDownloader
-	c20677 [label=<<table title="org.osmdroid.tileprovider.modules.MapTileDownloader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileDownloader.html">
+	c20794 [label=<<table title="org.osmdroid.tileprovider.modules.MapTileDownloader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileDownloader.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MapTileDownloader </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MapTileDownloader.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.modules.MapTileFileStorageProviderBase
-	c20681 [label=<<table title="org.osmdroid.tileprovider.modules.MapTileFileStorageProviderBase" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileFileStorageProviderBase.html">
+	c20798 [label=<<table title="org.osmdroid.tileprovider.modules.MapTileFileStorageProviderBase" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileFileStorageProviderBase.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> MapTileFileStorageProviderBase </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./MapTileFileStorageProviderBase.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.modules.MapTileModuleProviderBase
-	c20684 [label=<<table title="org.osmdroid.tileprovider.modules.MapTileModuleProviderBase" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./MapTileModuleProviderBase.html">
+	c20801 [label=<<table title="org.osmdroid.tileprovider.modules.MapTileModuleProviderBase" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./MapTileModuleProviderBase.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> MapTileModuleProviderBase </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./MapTileModuleProviderBase.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.tileprovider.modules.MapTileDownloader extends org.osmdroid.tileprovider.modules.MapTileModuleProviderBase
-	c20684:p -> c20677:p [dir=back,arrowtail=empty];
+	c20801:p -> c20794:p [dir=back,arrowtail=empty];
 	//org.osmdroid.tileprovider.modules.MapTileFileStorageProviderBase extends org.osmdroid.tileprovider.modules.MapTileModuleProviderBase
-	c20684:p -> c20681:p [dir=back,arrowtail=empty];
+	c20801:p -> c20798:p [dir=back,arrowtail=empty];
 }
 

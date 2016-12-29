@@ -10,18 +10,18 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.tileprovider.modules.MapTileModuleProviderBase.TileLoader
-	c22095 [label=<<table title="org.osmdroid.tileprovider.modules.MapTileModuleProviderBase.TileLoader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileModuleProviderBase.TileLoader.html">
+	c22220 [label=<<table title="org.osmdroid.tileprovider.modules.MapTileModuleProviderBase.TileLoader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileModuleProviderBase.TileLoader.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> TileLoader </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./MapTileModuleProviderBase.TileLoader.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.modules.MapTileSqlCacheProvider.TileLoader
-	c22098 [label=<<table title="org.osmdroid.tileprovider.modules.MapTileSqlCacheProvider.TileLoader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./MapTileSqlCacheProvider.TileLoader.html">
+	c22223 [label=<<table title="org.osmdroid.tileprovider.modules.MapTileSqlCacheProvider.TileLoader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./MapTileSqlCacheProvider.TileLoader.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> TileLoader </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MapTileSqlCacheProvider.TileLoader.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.tileprovider.modules.MapTileSqlCacheProvider.TileLoader extends org.osmdroid.tileprovider.modules.MapTileModuleProviderBase.TileLoader
-	c22095:p -> c22098:p [dir=back,arrowtail=empty];
+	c22220:p -> c22223:p [dir=back,arrowtail=empty];
 }
 

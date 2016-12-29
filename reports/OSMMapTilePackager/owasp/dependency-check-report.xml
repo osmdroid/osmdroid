@@ -64,11 +64,11 @@
         </dataSource>
         <dataSource>
             <name>NVD CVE Checked</name>
-            <timestamp>18/12/2016 09:32:02</timestamp>
+            <timestamp>28/12/2016 15:20:20</timestamp>
         </dataSource>
         <dataSource>
             <name>NVD CVE Modified</name>
-            <timestamp>18/12/2016 08:00:32</timestamp>
+            <timestamp>28/12/2016 14:02:56</timestamp>
         </dataSource>
         <dataSource>
             <name>VersionCheckOn</name>
@@ -77,7 +77,7 @@
     </scanInfo>
     <projectInfo>
         <name>OSMMapTilePackager</name>
-        <reportDate>2016-12-18T11:53:21.014-0500</reportDate>
+        <reportDate>2016-12-28T15:21:10.115-0500</reportDate>
         <credits>This report contains data retrieved from the National Vulnerability Database: http://nvd.nist.gov</credits>
     </projectInfo>
     <dependencies>
@@ -4315,6 +4315,11 @@ file comparators, endian transformation classes, and much more.
                             <url>https://support.apple.com/HT205212</url>
                             <name>https://support.apple.com/HT205212</name>
                         </reference>
+                        <reference>
+                            <source>SECTRACK</source>
+                            <url>http://www.securitytracker.com/id/1033609</url>
+                            <name>1033609</name>
+                        </reference>
                     </references>
                     <vulnerableSoftware>
                         <software allPreviousVersion="true">cpe:/a:sqlite:sqlite:3.8.10.1</software>
@@ -4419,9 +4424,24 @@ file comparators, endian transformation classes, and much more.
                             <name>20150414 several issues in SQLite (+ catching up on several other bugs)</name>
                         </reference>
                         <reference>
+                            <source>GENTOO</source>
+                            <url>https://security.gentoo.org/glsa/201507-05</url>
+                            <name>GLSA-201507-05</name>
+                        </reference>
+                        <reference>
                             <source>MANDRIVA</source>
                             <url>http://www.mandriva.com/security/advisories?name=MDVSA-2015:217</url>
                             <name>MDVSA-2015:217</name>
+                        </reference>
+                        <reference>
+                            <source>REDHAT</source>
+                            <url>http://rhn.redhat.com/errata/RHSA-2015-1634.html</url>
+                            <name>RHSA-2015:1634</name>
+                        </reference>
+                        <reference>
+                            <source>REDHAT</source>
+                            <url>http://rhn.redhat.com/errata/RHSA-2015-1635.html</url>
+                            <name>RHSA-2015:1635</name>
                         </reference>
                         <reference>
                             <source>SECTRACK</source>
@@ -4494,9 +4514,19 @@ file comparators, endian transformation classes, and much more.
                             <name>20150414 several issues in SQLite (+ catching up on several other bugs)</name>
                         </reference>
                         <reference>
+                            <source>GENTOO</source>
+                            <url>https://security.gentoo.org/glsa/201507-05</url>
+                            <name>GLSA-201507-05</name>
+                        </reference>
+                        <reference>
                             <source>MANDRIVA</source>
                             <url>http://www.mandriva.com/security/advisories?name=MDVSA-2015:217</url>
                             <name>MDVSA-2015:217</name>
+                        </reference>
+                        <reference>
+                            <source>REDHAT</source>
+                            <url>http://rhn.redhat.com/errata/RHSA-2015-1635.html</url>
+                            <name>RHSA-2015:1635</name>
                         </reference>
                         <reference>
                             <source>SECTRACK</source>
@@ -4567,9 +4597,19 @@ file comparators, endian transformation classes, and much more.
                             <name>20150414 several issues in SQLite (+ catching up on several other bugs)</name>
                         </reference>
                         <reference>
+                            <source>GENTOO</source>
+                            <url>https://security.gentoo.org/glsa/201507-05</url>
+                            <name>GLSA-201507-05</name>
+                        </reference>
+                        <reference>
                             <source>MANDRIVA</source>
                             <url>http://www.mandriva.com/security/advisories?name=MDVSA-2015:217</url>
                             <name>MDVSA-2015:217</name>
+                        </reference>
+                        <reference>
+                            <source>REDHAT</source>
+                            <url>http://rhn.redhat.com/errata/RHSA-2015-1635.html</url>
+                            <name>RHSA-2015:1635</name>
                         </reference>
                         <reference>
                             <source>SECTRACK</source>

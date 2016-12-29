@@ -1,12 +1,12 @@
-Processing .\OpenStreetMapViewer\build\outputs\apk\OpenStreetMapViewer-5.6.1-debug.apk
-Read in 18121 method IDs and 5676 field IDs
+Processing .\OpenStreetMapViewer\build\outputs\apk\OpenStreetMapViewer-5.6.2-debug.apk
+Read in 18246 method IDs and 5752 field IDs
 ----------------------------------
 Package details:
 (default) Methods 1 Fields 0
-android Methods 11212 Fields 2942
+android Methods 11214 Fields 2942
 	accessibilityservice Methods 6 Fields 0
 	animation Methods 17 Fields 0
-	app Methods 210 Fields 25
+	app Methods 211 Fields 25
 	content Methods 199 Fields 22
 		pm Methods 14 Fields 21
 		res Methods 41 Fields 1
@@ -63,8 +63,8 @@ android Methods 11212 Fields 2942
 				animation Methods 29 Fields 8
 			widget Methods 1394 Fields 495
 	telephony Methods 1 Fields 0
-	text Methods 18 Fields 3
-		format Methods 9 Fields 1
+	text Methods 19 Fields 3
+		format Methods 10 Fields 1
 		method Methods 2 Fields 0
 	transition Methods 17 Fields 0
 	util Methods 30 Fields 7
@@ -91,17 +91,17 @@ com Methods 2745 Fields 846
 			analyzer Methods 1 Fields 6
 			internal Methods 133 Fields 64
 			watcher Methods 1 Fields 6
-java Methods 808 Fields 28
-	io Methods 108 Fields 3
-	lang Methods 293 Fields 17
+java Methods 815 Fields 28
+	io Methods 110 Fields 3
+	lang Methods 296 Fields 17
 		annotation Methods 0 Fields 11
 		ref Methods 7 Fields 0
 		reflect Methods 19 Fields 0
 	net Methods 23 Fields 0
 	nio Methods 17 Fields 2
 		channels Methods 1 Fields 1
-	text Methods 8 Fields 0
-	util Methods 359 Fields 6
+	text Methods 9 Fields 0
+	util Methods 360 Fields 6
 		concurrent Methods 52 Fields 2
 			atomic Methods 19 Fields 0
 		logging Methods 1 Fields 0
@@ -111,7 +111,7 @@ javax Methods 8 Fields 0
 		ssl Methods 8 Fields 0
 microsoft Methods 15 Fields 7
 	mappoint Methods 15 Fields 7
-org Methods 3325 Fields 1852
+org Methods 3441 Fields 1928
 	acra Methods 558 Fields 290
 		annotation Methods 43 Fields 0
 		collector Methods 82 Fields 65
@@ -126,15 +126,19 @@ org Methods 3325 Fields 1852
 	metalev Methods 58 Fields 74
 		multitouch Methods 58 Fields 74
 			controller Methods 58 Fields 74
-	osmdroid Methods 2699 Fields 1488
+	osmdroid Methods 2815 Fields 1564
 		api Methods 33 Fields 1
 		bugtestfragments Methods 104 Fields 49
-		config Methods 80 Fields 19
+		config Methods 88 Fields 21
 		constants Methods 0 Fields 7
+		debug Methods 96 Fields 30
+			browser Methods 11 Fields 2
+			model Methods 11 Fields 5
+			util Methods 55 Fields 15
 		events Methods 23 Fields 12
 		library Methods 6 Fields 62
-		model Methods 13 Fields 2
-		samplefragments Methods 563 Fields 253
+		model Methods 13 Fields 3
+		samplefragments Methods 568 Fields 255
 			cache Methods 139 Fields 75
 			data Methods 127 Fields 62
 			events Methods 82 Fields 40
@@ -142,17 +146,17 @@ org Methods 3325 Fields 1852
 			location Methods 53 Fields 31
 			models Methods 23 Fields 3
 			pager Methods 32 Fields 10
-			tilesources Methods 49 Fields 16
-		samples Methods 40 Fields 23
-		tileprovider Methods 554 Fields 247
+			tilesources Methods 54 Fields 18
+		samples Methods 41 Fields 24
+		tileprovider Methods 559 Fields 253
 			cachemanager Methods 58 Fields 29
 			constants Methods 5 Fields 13
-			modules Methods 228 Fields 72
-			tilesource Methods 111 Fields 51
+			modules Methods 229 Fields 74
+			tilesource Methods 115 Fields 55
 			util Methods 33 Fields 26
 		util Methods 157 Fields 53
 			constants Methods 1 Fields 6
-		views Methods 1017 Fields 515
+		views Methods 1018 Fields 515
 			drawing Methods 9 Fields 7
 			overlay Methods 770 Fields 404
 				compass Methods 39 Fields 22
@@ -167,7 +171,7 @@ sun Methods 2 Fields 0
 	misc Methods 1 Fields 0
 	nio Methods 1 Fields 0
 		ch Methods 1 Fields 0
-Processed .\OpenStreetMapViewer\build\outputs\apk\OpenStreetMapViewer-5.6.1-debug.apk
-Read in 18121 method IDs and 5676 field IDs
+Processed .\OpenStreetMapViewer\build\outputs\apk\OpenStreetMapViewer-5.6.2-debug.apk
+Read in 18246 method IDs and 5752 field IDs
 ----------------------------------
 

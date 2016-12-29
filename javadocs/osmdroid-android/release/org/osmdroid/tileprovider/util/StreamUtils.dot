@@ -10,7 +10,7 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.tileprovider.util.StreamUtils
-	c33575 [label=<<table title="org.osmdroid.tileprovider.util.StreamUtils" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./StreamUtils.html">
+	c33766 [label=<<table title="org.osmdroid.tileprovider.util.StreamUtils" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./StreamUtils.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> StreamUtils </td></tr>
 		</table></td></tr>

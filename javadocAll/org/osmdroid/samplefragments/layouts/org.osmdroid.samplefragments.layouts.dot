@@ -10,13 +10,13 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.samplefragments.layouts.SampleFragmentXmlLayout
-	c5061 [label=<<table title="org.osmdroid.samplefragments.layouts.SampleFragmentXmlLayout" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleFragmentXmlLayout.html">
+	c6538 [label=<<table title="org.osmdroid.samplefragments.layouts.SampleFragmentXmlLayout" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleFragmentXmlLayout.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleFragmentXmlLayout </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SampleFragmentXmlLayout.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.layouts.SampleSplitScreen
-	c5062 [label=<<table title="org.osmdroid.samplefragments.layouts.SampleSplitScreen" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleSplitScreen.html">
+	c6539 [label=<<table title="org.osmdroid.samplefragments.layouts.SampleSplitScreen" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleSplitScreen.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleSplitScreen </td></tr>
 		</table></td></tr>

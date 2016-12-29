@@ -64,11 +64,11 @@
         </dataSource>
         <dataSource>
             <name>NVD CVE Checked</name>
-            <timestamp>18/12/2016 09:32:02</timestamp>
+            <timestamp>28/12/2016 15:20:20</timestamp>
         </dataSource>
         <dataSource>
             <name>NVD CVE Modified</name>
-            <timestamp>18/12/2016 08:00:32</timestamp>
+            <timestamp>28/12/2016 14:02:56</timestamp>
         </dataSource>
         <dataSource>
             <name>VersionCheckOn</name>
@@ -77,7 +77,7 @@
     </scanInfo>
     <projectInfo>
         <name>osmdroid-forge-app</name>
-        <reportDate>2016-12-18T11:57:35.447-0500</reportDate>
+        <reportDate>2016-12-28T15:26:06.768-0500</reportDate>
         <credits>This report contains data retrieved from the National Vulnerability Database: http://nvd.nist.gov</credits>
     </projectInfo>
     <dependencies>
@@ -472,6 +472,11 @@
                             <source>CONFIRM</source>
                             <url>http://www.oracle.com/technetwork/topics/security/ovmbulletinjul2016-3090546.html</url>
                             <name>http://www.oracle.com/technetwork/topics/security/ovmbulletinjul2016-3090546.html</name>
+                        </reference>
+                        <reference>
+                            <source>CONFIRM</source>
+                            <url>https://bto.bluecoat.com/security-advisory/sa131</url>
+                            <name>https://bto.bluecoat.com/security-advisory/sa131</name>
                         </reference>
                         <reference>
                             <source>CONFIRM</source>
@@ -2107,6 +2112,11 @@ file comparators, endian transformation classes, and much more.
                             <source>CONFIRM</source>
                             <url>http://www.oracle.com/technetwork/topics/security/ovmbulletinjul2016-3090546.html</url>
                             <name>http://www.oracle.com/technetwork/topics/security/ovmbulletinjul2016-3090546.html</name>
+                        </reference>
+                        <reference>
+                            <source>CONFIRM</source>
+                            <url>https://bto.bluecoat.com/security-advisory/sa131</url>
+                            <name>https://bto.bluecoat.com/security-advisory/sa131</name>
                         </reference>
                         <reference>
                             <source>CONFIRM</source>

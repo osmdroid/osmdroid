@@ -10,46 +10,46 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.views.overlay.mylocation.DirectedLocationOverlay
-	c12716 [label=<<table title="org.osmdroid.views.overlay.mylocation.DirectedLocationOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./DirectedLocationOverlay.html">
+	c14459 [label=<<table title="org.osmdroid.views.overlay.mylocation.DirectedLocationOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./DirectedLocationOverlay.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> DirectedLocationOverlay </td></tr>
 		</table></td></tr>
 		</table>>, URL="./DirectedLocationOverlay.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider
-	c12717 [label=<<table title="org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./GpsMyLocationProvider.html">
+	c14460 [label=<<table title="org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./GpsMyLocationProvider.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> GpsMyLocationProvider </td></tr>
 		</table></td></tr>
 		</table>>, URL="./GpsMyLocationProvider.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.mylocation.IMyLocationConsumer
-	c12718 [label=<<table title="org.osmdroid.views.overlay.mylocation.IMyLocationConsumer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./IMyLocationConsumer.html">
+	c14461 [label=<<table title="org.osmdroid.views.overlay.mylocation.IMyLocationConsumer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./IMyLocationConsumer.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> IMyLocationConsumer </td></tr>
 		</table></td></tr>
 		</table>>, URL="./IMyLocationConsumer.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.mylocation.IMyLocationProvider
-	c12719 [label=<<table title="org.osmdroid.views.overlay.mylocation.IMyLocationProvider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./IMyLocationProvider.html">
+	c14462 [label=<<table title="org.osmdroid.views.overlay.mylocation.IMyLocationProvider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./IMyLocationProvider.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> IMyLocationProvider </td></tr>
 		</table></td></tr>
 		</table>>, URL="./IMyLocationProvider.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay
-	c12720 [label=<<table title="org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MyLocationNewOverlay.html">
+	c14463 [label=<<table title="org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MyLocationNewOverlay.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MyLocationNewOverlay </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MyLocationNewOverlay.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.mylocation.SimpleLocationOverlay
-	c12721 [label=<<table title="org.osmdroid.views.overlay.mylocation.SimpleLocationOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SimpleLocationOverlay.html">
+	c14464 [label=<<table title="org.osmdroid.views.overlay.mylocation.SimpleLocationOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SimpleLocationOverlay.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SimpleLocationOverlay </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SimpleLocationOverlay.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider implements org.osmdroid.views.overlay.mylocation.IMyLocationProvider
-	c12719:p -> c12717:p [dir=back,arrowtail=empty,style=dashed];
+	c14462:p -> c14460:p [dir=back,arrowtail=empty,style=dashed];
 	//org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay implements org.osmdroid.views.overlay.mylocation.IMyLocationConsumer
-	c12718:p -> c12720:p [dir=back,arrowtail=empty,style=dashed];
+	c14461:p -> c14463:p [dir=back,arrowtail=empty,style=dashed];
 }
 

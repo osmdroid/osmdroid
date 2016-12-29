@@ -31703,7 +31703,7 @@
                 <ConcreteClasses>4</ConcreteClasses>
                 <AbstractClasses>2</AbstractClasses>
                 <Ca>0</Ca>
-                <Ce>20</Ce>
+                <Ce>22</Ce>
                 <A>0.33</A>
                 <I>1</I>
                 <D>0.33</D>
@@ -31739,11 +31739,13 @@
                 <Package>android.content</Package>
                 <Package>android.graphics</Package>
                 <Package>android.os</Package>
+                <Package>android.text</Package>
                 <Package>android.util</Package>
                 <Package>android.widget</Package>
                 <Package>java.io</Package>
                 <Package>java.lang</Package>
                 <Package>java.net</Package>
+                <Package>java.text</Package>
                 <Package>java.util</Package>
                 <Package>org.osmdroid.api</Package>
                 <Package>org.osmdroid.config</Package>
@@ -31959,14 +31961,14 @@
 
         <Package name="org.osmdroid.tileprovider.tilesource">
             <Stats>
-                <TotalClasses>15</TotalClasses>
+                <TotalClasses>16</TotalClasses>
                 <ConcreteClasses>11</ConcreteClasses>
-                <AbstractClasses>4</AbstractClasses>
+                <AbstractClasses>5</AbstractClasses>
                 <Ca>7</Ca>
                 <Ce>11</Ce>
-                <A>0.27</A>
+                <A>0.31</A>
                 <I>0.61</I>
-                <D>0.12</D>
+                <D>0.08</D>
                 <V>1</V>
             </Stats>
 
@@ -31982,6 +31984,9 @@
                 </Class>
                 <Class sourceFile="OnlineTileSourceBase.java">
                     org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase
+                </Class>
+                <Class sourceFile="TMSOnlineTileSourceBase.java">
+                    org.osmdroid.tileprovider.tilesource.TMSOnlineTileSourceBase
                 </Class>
             </AbstractClasses>
 

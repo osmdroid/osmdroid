@@ -10,14 +10,14 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.util.constants.GeoConstants
-	c10175 [label=<<table title="org.osmdroid.util.constants.GeoConstants" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./GeoConstants.html">
+	c11830 [label=<<table title="org.osmdroid.util.constants.GeoConstants" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./GeoConstants.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> GeoConstants </td></tr>
 		</table></td></tr>
 		</table>>, URL="./GeoConstants.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.util.constants.UtilConstants
-	c10176 [label=<<table title="org.osmdroid.util.constants.UtilConstants" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./UtilConstants.html">
+	c11831 [label=<<table title="org.osmdroid.util.constants.UtilConstants" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./UtilConstants.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> UtilConstants </td></tr>

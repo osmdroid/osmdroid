@@ -16,50 +16,50 @@ digraph G {
 		</table></td></tr>
 		</table>>, URL="./BugsTestingActivity.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.ExtraSamplesActivity
-	c12 [label=<<table title="org.osmdroid.ExtraSamplesActivity" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ExtraSamplesActivity.html">
+	c21 [label=<<table title="org.osmdroid.ExtraSamplesActivity" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ExtraSamplesActivity.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> ExtraSamplesActivity </td></tr>
 		</table></td></tr>
 		</table>>, URL="./ExtraSamplesActivity.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.ISampleFactory
-	c13 [label=<<table title="org.osmdroid.ISampleFactory" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ISampleFactory.html">
+	c22 [label=<<table title="org.osmdroid.ISampleFactory" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ISampleFactory.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> ISampleFactory </td></tr>
 		</table></td></tr>
 		</table>>, URL="./ISampleFactory.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.MainActivity
-	c14 [label=<<table title="org.osmdroid.MainActivity" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MainActivity.html">
+	c23 [label=<<table title="org.osmdroid.MainActivity" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MainActivity.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MainActivity </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MainActivity.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.OsmApplication
-	c18 [label=<<table title="org.osmdroid.OsmApplication" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./OsmApplication.html">
+	c27 [label=<<table title="org.osmdroid.OsmApplication" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./OsmApplication.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> OsmApplication </td></tr>
 		</table></td></tr>
 		</table>>, URL="./OsmApplication.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.OsmApplication.OsmUncaughtExceptionHandler
-	c19 [label=<<table title="org.osmdroid.OsmApplication.OsmUncaughtExceptionHandler" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./OsmApplication.OsmUncaughtExceptionHandler.html">
+	c28 [label=<<table title="org.osmdroid.OsmApplication.OsmUncaughtExceptionHandler" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./OsmApplication.OsmUncaughtExceptionHandler.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> OsmUncaughtExceptionHandler </td></tr>
 		</table></td></tr>
 		</table>>, URL="./OsmApplication.OsmUncaughtExceptionHandler.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.PreferenceActivity
-	c20 [label=<<table title="org.osmdroid.PreferenceActivity" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./PreferenceActivity.html">
+	c29 [label=<<table title="org.osmdroid.PreferenceActivity" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./PreferenceActivity.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> PreferenceActivity </td></tr>
 		</table></td></tr>
 		</table>>, URL="./PreferenceActivity.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.StarterMapActivity
-	c78 [label=<<table title="org.osmdroid.StarterMapActivity" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./StarterMapActivity.html">
+	c88 [label=<<table title="org.osmdroid.StarterMapActivity" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./StarterMapActivity.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> StarterMapActivity </td></tr>
 		</table></td></tr>
 		</table>>, URL="./StarterMapActivity.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.StarterMapFragment
-	c79 [label=<<table title="org.osmdroid.StarterMapFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./StarterMapFragment.html">
+	c89 [label=<<table title="org.osmdroid.StarterMapFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./StarterMapFragment.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> StarterMapFragment </td></tr>
 		</table></td></tr>

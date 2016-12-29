@@ -11,8 +11,8 @@
 <area shape="rect" id="node5" href="../bugtestfragments/Bug82WinDeath.html" title="&lt;TABLE&gt;" alt="" coords="656,101,791,149"/>
 <area shape="rect" id="node6_5" href="../bugtestfragments/SampleBug57.html" title="org.osmdroid.bugtestfragments.SampleBug57" alt="" coords="825,113,925,138"/>
 <area shape="rect" id="node6" href="../bugtestfragments/SampleBug57.html" title="&lt;TABLE&gt;" alt="" coords="815,101,936,149"/>
-<area shape="rect" id="node7_6" href="./BaseSampleFragment.html" title="org.osmdroid.samplefragments.BaseSampleFragment" alt="" coords="4453,17,4601,42"/>
-<area shape="rect" id="node7" href="./BaseSampleFragment.html" title="&lt;TABLE&gt;" alt="" coords="4443,5,4612,53"/>
+<area shape="rect" id="node7_6" href="./BaseSampleFragment.html" title="org.osmdroid.samplefragments.BaseSampleFragment" alt="" coords="4603,17,4751,42"/>
+<area shape="rect" id="node7" href="./BaseSampleFragment.html" title="&lt;TABLE&gt;" alt="" coords="4592,5,4761,53"/>
 <area shape="rect" id="node8_7" href="./BugReportingTest.html" title="org.osmdroid.samplefragments.BugReportingTest" alt="" coords="971,113,1094,138"/>
 <area shape="rect" id="node8" href="./BugReportingTest.html" title="&lt;TABLE&gt;" alt="" coords="961,101,1105,149"/>
 <area shape="rect" id="node9_8" href="./cache/CacheImport.html" title="org.osmdroid.samplefragments.cache.CacheImport" alt="" coords="1140,113,1232,138"/>
@@ -91,6 +91,8 @@
 <area shape="rect" id="node45" href="./tilesources/SampleMapQuest.html" title="&lt;TABLE&gt;" alt="" coords="8705,101,8851,149"/>
 <area shape="rect" id="node46_45" href="./tilesources/SampleOfflineOnly.html" title="org.osmdroid.samplefragments.tilesources.SampleOfflineOnly" alt="" coords="8885,113,9012,138"/>
 <area shape="rect" id="node46" href="./tilesources/SampleOfflineOnly.html" title="&lt;TABLE&gt;" alt="" coords="8875,101,9023,149"/>
-<area shape="rect" id="node47_46" href="./tilesources/SampleWhackyColorFilter.html" title="org.osmdroid.samplefragments.tilesources.SampleWhackyColorFilter" alt="" coords="9058,113,9229,138"/>
-<area shape="rect" id="node47" href="./tilesources/SampleWhackyColorFilter.html" title="&lt;TABLE&gt;" alt="" coords="9047,101,9239,149"/>
+<area shape="rect" id="node47_46" href="./tilesources/SampleOpenSeaMap.html" title="org.osmdroid.samplefragments.tilesources.SampleOpenSeaMap" alt="" coords="9057,113,9200,138"/>
+<area shape="rect" id="node47" href="./tilesources/SampleOpenSeaMap.html" title="&lt;TABLE&gt;" alt="" coords="9047,101,9211,149"/>
+<area shape="rect" id="node48_47" href="./tilesources/SampleWhackyColorFilter.html" title="org.osmdroid.samplefragments.tilesources.SampleWhackyColorFilter" alt="" coords="9246,113,9417,138"/>
+<area shape="rect" id="node48" href="./tilesources/SampleWhackyColorFilter.html" title="&lt;TABLE&gt;" alt="" coords="9235,101,9427,149"/>
 </map>

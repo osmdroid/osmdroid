@@ -10,67 +10,67 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.util.BoundingBox
-	c2201 [label=<<table title="org.osmdroid.util.BoundingBox" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./BoundingBox.html">
+	c2214 [label=<<table title="org.osmdroid.util.BoundingBox" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./BoundingBox.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> BoundingBox </td></tr>
 		</table></td></tr>
 		</table>>, URL="./BoundingBox.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.util.BoundingBoxE6
-	c2202 [label=<<table title="org.osmdroid.util.BoundingBoxE6" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./BoundingBoxE6.html">
+	c2215 [label=<<table title="org.osmdroid.util.BoundingBoxE6" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./BoundingBoxE6.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> BoundingBoxE6 </td></tr>
 		</table></td></tr>
 		</table>>, URL="./BoundingBoxE6.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.util.GEMFFile
-	c2205 [label=<<table title="org.osmdroid.util.GEMFFile" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./GEMFFile.html">
+	c2218 [label=<<table title="org.osmdroid.util.GEMFFile" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./GEMFFile.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> GEMFFile </td></tr>
 		</table></td></tr>
 		</table>>, URL="./GEMFFile.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.util.GEMFFile.GEMFInputStream
-	c2206 [label=<<table title="org.osmdroid.util.GEMFFile.GEMFInputStream" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./GEMFFile.GEMFInputStream.html">
+	c2219 [label=<<table title="org.osmdroid.util.GEMFFile.GEMFInputStream" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./GEMFFile.GEMFInputStream.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> GEMFInputStream </td></tr>
 		</table></td></tr>
 		</table>>, URL="./GEMFFile.GEMFInputStream.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.util.GeometryMath
-	c2207 [label=<<table title="org.osmdroid.util.GeometryMath" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./GeometryMath.html">
+	c2220 [label=<<table title="org.osmdroid.util.GeometryMath" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./GeometryMath.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> GeometryMath </td></tr>
 		</table></td></tr>
 		</table>>, URL="./GeometryMath.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.util.GeoPoint
-	c2208 [label=<<table title="org.osmdroid.util.GeoPoint" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./GeoPoint.html">
+	c2221 [label=<<table title="org.osmdroid.util.GeoPoint" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./GeoPoint.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> GeoPoint </td></tr>
 		</table></td></tr>
 		</table>>, URL="./GeoPoint.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.util.LocationUtils
-	c2209 [label=<<table title="org.osmdroid.util.LocationUtils" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./LocationUtils.html">
+	c2222 [label=<<table title="org.osmdroid.util.LocationUtils" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./LocationUtils.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> LocationUtils </td></tr>
 		</table></td></tr>
 		</table>>, URL="./LocationUtils.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.util.MyMath
-	c2210 [label=<<table title="org.osmdroid.util.MyMath" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MyMath.html">
+	c2223 [label=<<table title="org.osmdroid.util.MyMath" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MyMath.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MyMath </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MyMath.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.util.NetworkLocationIgnorer
-	c2211 [label=<<table title="org.osmdroid.util.NetworkLocationIgnorer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./NetworkLocationIgnorer.html">
+	c2224 [label=<<table title="org.osmdroid.util.NetworkLocationIgnorer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./NetworkLocationIgnorer.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> NetworkLocationIgnorer </td></tr>
 		</table></td></tr>
 		</table>>, URL="./NetworkLocationIgnorer.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.util.TileLooper
-	c2212 [label=<<table title="org.osmdroid.util.TileLooper" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./TileLooper.html">
+	c2225 [label=<<table title="org.osmdroid.util.TileLooper" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./TileLooper.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> TileLooper </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./TileLooper.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.util.TileSystem
-	c2213 [label=<<table title="org.osmdroid.util.TileSystem" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./TileSystem.html">
+	c2226 [label=<<table title="org.osmdroid.util.TileSystem" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./TileSystem.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> TileSystem </td></tr>
 		</table></td></tr>

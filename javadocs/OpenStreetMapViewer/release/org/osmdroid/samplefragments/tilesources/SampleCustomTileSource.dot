@@ -10,18 +10,18 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.samplefragments.BaseSampleFragment
-	c4376 [label=<<table title="org.osmdroid.samplefragments.BaseSampleFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../BaseSampleFragment.html">
+	c5934 [label=<<table title="org.osmdroid.samplefragments.BaseSampleFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../BaseSampleFragment.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> BaseSampleFragment </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="../BaseSampleFragment.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.tilesources.SampleCustomTileSource
-	c4420 [label=<<table title="org.osmdroid.samplefragments.tilesources.SampleCustomTileSource" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./SampleCustomTileSource.html">
+	c5978 [label=<<table title="org.osmdroid.samplefragments.tilesources.SampleCustomTileSource" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./SampleCustomTileSource.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleCustomTileSource </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SampleCustomTileSource.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.samplefragments.tilesources.SampleCustomTileSource extends org.osmdroid.samplefragments.BaseSampleFragment
-	c4376:p -> c4420:p [dir=back,arrowtail=empty];
+	c5934:p -> c5978:p [dir=back,arrowtail=empty];
 }
 

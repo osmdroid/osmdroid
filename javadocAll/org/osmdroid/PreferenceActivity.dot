@@ -10,15 +10,15 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.PreferenceActivity
-	c80936 [label=<<table title="org.osmdroid.PreferenceActivity" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./PreferenceActivity.html">
+	c87357 [label=<<table title="org.osmdroid.PreferenceActivity" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./PreferenceActivity.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> PreferenceActivity </td></tr>
 		</table></td></tr>
 		</table>>, URL="./PreferenceActivity.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.PreferenceActivity extends Activity
-	c81207:p -> c80936:p [dir=back,arrowtail=empty];
+	c87630:p -> c87357:p [dir=back,arrowtail=empty];
 	// Activity
-	c81207[label=<<table title="Activity" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api//Activity.html">
+	c87630[label=<<table title="Activity" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api//Activity.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> Activity </td></tr>
 		</table></td></tr>

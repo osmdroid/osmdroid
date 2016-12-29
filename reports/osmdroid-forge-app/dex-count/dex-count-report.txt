@@ -1,5 +1,5 @@
-Processing .\osmdroid-forge-app\build\outputs\apk\osmdroid-forge-app-5.6.1-debug.apk
-Read in 22639 method IDs and 10660 field IDs
+Processing .\osmdroid-forge-app\build\outputs\apk\osmdroid-forge-app-5.6.2-debug.apk
+Read in 22654 method IDs and 10668 field IDs
 ----------------------------------
 Package details:
 (default) Methods 1 Fields 0
@@ -94,7 +94,7 @@ ch Methods 1 Fields 1
 com Methods 685 Fields 696
 	caverock Methods 685 Fields 696
 		androidsvg Methods 685 Fields 696
-java Methods 766 Fields 29
+java Methods 767 Fields 29
 	io Methods 128 Fields 3
 	lang Methods 311 Fields 18
 		annotation Methods 0 Fields 11
@@ -104,7 +104,7 @@ java Methods 766 Fields 29
 	net Methods 31 Fields 0
 	nio Methods 1 Fields 0
 	text Methods 10 Fields 0
-	util Methods 284 Fields 8
+	util Methods 285 Fields 8
 		concurrent Methods 60 Fields 2
 			atomic Methods 19 Fields 0
 			locks Methods 7 Fields 0
@@ -118,7 +118,7 @@ javax Methods 11 Fields 0
 		parsers Methods 3 Fields 0
 microsoft Methods 15 Fields 7
 	mappoint Methods 15 Fields 7
-org Methods 4937 Fields 4057
+org Methods 4951 Fields 4065
 	acra Methods 558 Fields 290
 		annotation Methods 43 Fields 0
 		collector Methods 82 Fields 65
@@ -175,24 +175,24 @@ org Methods 4937 Fields 4057
 	metalev Methods 58 Fields 74
 		multitouch Methods 58 Fields 74
 			controller Methods 58 Fields 74
-	osmdroid Methods 1945 Fields 2317
+	osmdroid Methods 1959 Fields 2325
 		api Methods 33 Fields 1
-		config Methods 80 Fields 19
+		config Methods 88 Fields 21
 		events Methods 23 Fields 12
 		forge Methods 48 Fields 1329
 			app Methods 48 Fields 1329
 		library Methods 6 Fields 62
 		mapforge Methods 6 Fields 62
 		mapsforge Methods 23 Fields 13
-		tileprovider Methods 552 Fields 247
+		tileprovider Methods 557 Fields 253
 			cachemanager Methods 58 Fields 29
 			constants Methods 5 Fields 13
-			modules Methods 228 Fields 72
-			tilesource Methods 110 Fields 51
+			modules Methods 229 Fields 74
+			tilesource Methods 114 Fields 55
 			util Methods 33 Fields 26
 		util Methods 157 Fields 53
 			constants Methods 1 Fields 6
-		views Methods 1005 Fields 515
+		views Methods 1006 Fields 515
 			drawing Methods 9 Fields 7
 			overlay Methods 760 Fields 404
 				compass Methods 39 Fields 22
@@ -208,7 +208,7 @@ org Methods 4937 Fields 4057
 			ext Methods 1 Fields 0
 	xmlpull Methods 81 Fields 27
 		v1 Methods 81 Fields 27
-Processed .\osmdroid-forge-app\build\outputs\apk\osmdroid-forge-app-5.6.1-debug.apk
-Read in 22639 method IDs and 10660 field IDs
+Processed .\osmdroid-forge-app\build\outputs\apk\osmdroid-forge-app-5.6.2-debug.apk
+Read in 22654 method IDs and 10668 field IDs
 ----------------------------------
 

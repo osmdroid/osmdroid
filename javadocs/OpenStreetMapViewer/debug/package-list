@@ -1,6 +1,10 @@
 org.osmdroid
 org.osmdroid.bugtestfragments
 org.osmdroid.constants
+org.osmdroid.debug
+org.osmdroid.debug.browser
+org.osmdroid.debug.model
+org.osmdroid.debug.util
 org.osmdroid.model
 org.osmdroid.samplefragments
 org.osmdroid.samplefragments.cache

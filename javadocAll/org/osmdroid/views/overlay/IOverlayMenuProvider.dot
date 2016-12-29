@@ -10,43 +10,43 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.views.overlay.compass.CompassOverlay
-	c42706 [label=<<table title="org.osmdroid.views.overlay.compass.CompassOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./compass/CompassOverlay.html">
+	c47453 [label=<<table title="org.osmdroid.views.overlay.compass.CompassOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./compass/CompassOverlay.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> CompassOverlay </td></tr>
 		</table></td></tr>
 		</table>>, URL="./compass/CompassOverlay.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.gestures.RotationGestureOverlay
-	c42714 [label=<<table title="org.osmdroid.views.overlay.gestures.RotationGestureOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./gestures/RotationGestureOverlay.html">
+	c47461 [label=<<table title="org.osmdroid.views.overlay.gestures.RotationGestureOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./gestures/RotationGestureOverlay.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> RotationGestureOverlay </td></tr>
 		</table></td></tr>
 		</table>>, URL="./gestures/RotationGestureOverlay.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.IOverlayMenuProvider
-	c42720 [label=<<table title="org.osmdroid.views.overlay.IOverlayMenuProvider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./IOverlayMenuProvider.html">
+	c47467 [label=<<table title="org.osmdroid.views.overlay.IOverlayMenuProvider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./IOverlayMenuProvider.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> IOverlayMenuProvider </td></tr>
 		</table></td></tr>
 		</table>>, URL="./IOverlayMenuProvider.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay
-	c42738 [label=<<table title="org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./mylocation/MyLocationNewOverlay.html">
+	c47485 [label=<<table title="org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./mylocation/MyLocationNewOverlay.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MyLocationNewOverlay </td></tr>
 		</table></td></tr>
 		</table>>, URL="./mylocation/MyLocationNewOverlay.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.TilesOverlay
-	c42764 [label=<<table title="org.osmdroid.views.overlay.TilesOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./TilesOverlay.html">
+	c47511 [label=<<table title="org.osmdroid.views.overlay.TilesOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./TilesOverlay.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> TilesOverlay </td></tr>
 		</table></td></tr>
 		</table>>, URL="./TilesOverlay.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.views.overlay.compass.CompassOverlay implements org.osmdroid.views.overlay.IOverlayMenuProvider
-	c42720:p -> c42706:p [dir=back,arrowtail=empty,style=dashed];
+	c47467:p -> c47453:p [dir=back,arrowtail=empty,style=dashed];
 	//org.osmdroid.views.overlay.gestures.RotationGestureOverlay implements org.osmdroid.views.overlay.IOverlayMenuProvider
-	c42720:p -> c42714:p [dir=back,arrowtail=empty,style=dashed];
+	c47467:p -> c47461:p [dir=back,arrowtail=empty,style=dashed];
 	//org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay implements org.osmdroid.views.overlay.IOverlayMenuProvider
-	c42720:p -> c42738:p [dir=back,arrowtail=empty,style=dashed];
+	c47467:p -> c47485:p [dir=back,arrowtail=empty,style=dashed];
 	//org.osmdroid.views.overlay.TilesOverlay implements org.osmdroid.views.overlay.IOverlayMenuProvider
-	c42720:p -> c42764:p [dir=back,arrowtail=empty,style=dashed];
+	c47467:p -> c47511:p [dir=back,arrowtail=empty,style=dashed];
 }
 

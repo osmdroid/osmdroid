@@ -10,15 +10,15 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.samplefragments.pager.MapSliderAdapter
-	c55687 [label=<<table title="org.osmdroid.samplefragments.pager.MapSliderAdapter" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./MapSliderAdapter.html">
+	c60894 [label=<<table title="org.osmdroid.samplefragments.pager.MapSliderAdapter" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./MapSliderAdapter.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MapSliderAdapter </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MapSliderAdapter.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.samplefragments.pager.MapSliderAdapter extends FragmentStatePagerAdapter
-	c55920:p -> c55687:p [dir=back,arrowtail=empty];
+	c61129:p -> c60894:p [dir=back,arrowtail=empty];
 	// FragmentStatePagerAdapter
-	c55920[label=<<table title="FragmentStatePagerAdapter" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api//FragmentStatePagerAdapter.html">
+	c61129[label=<<table title="FragmentStatePagerAdapter" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api//FragmentStatePagerAdapter.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> FragmentStatePagerAdapter </td></tr>
 		</table></td></tr>

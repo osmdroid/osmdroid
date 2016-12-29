@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <javancss>
-  <date>2016-12-18</date>
-  <time>11:58:47</time>
+  <date>2016-12-28</date>
+  <time>15:27:21</time>
   <packages>
     <package>
       <name>org.osmdroid.api</name>

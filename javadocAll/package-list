@@ -5,6 +5,10 @@ org.osmdroid.api
 org.osmdroid.bugtestfragments
 org.osmdroid.config
 org.osmdroid.constants
+org.osmdroid.debug
+org.osmdroid.debug.browser
+org.osmdroid.debug.model
+org.osmdroid.debug.util
 org.osmdroid.events
 org.osmdroid.forge.app
 org.osmdroid.google.overlay

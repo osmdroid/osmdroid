@@ -10,18 +10,18 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase
-	c29161 [label=<<table title="org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./OnlineTileSourceBase.html">
+	c29326 [label=<<table title="org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./OnlineTileSourceBase.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> OnlineTileSourceBase </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./OnlineTileSourceBase.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.tilesource.QuadTreeTileSource
-	c29162 [label=<<table title="org.osmdroid.tileprovider.tilesource.QuadTreeTileSource" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./QuadTreeTileSource.html">
+	c29327 [label=<<table title="org.osmdroid.tileprovider.tilesource.QuadTreeTileSource" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./QuadTreeTileSource.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> QuadTreeTileSource </td></tr>
 		</table></td></tr>
 		</table>>, URL="./QuadTreeTileSource.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.tileprovider.tilesource.QuadTreeTileSource extends org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase
-	c29161:p -> c29162:p [dir=back,arrowtail=empty];
+	c29326:p -> c29327:p [dir=back,arrowtail=empty];
 }
 

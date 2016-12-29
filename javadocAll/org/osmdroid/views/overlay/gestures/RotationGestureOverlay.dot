@@ -10,36 +10,36 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.views.overlay.gestures.RotationGestureDetector.RotationListener
-	c82983 [label=<<table title="org.osmdroid.views.overlay.gestures.RotationGestureDetector.RotationListener" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RotationGestureDetector.RotationListener.html">
+	c89472 [label=<<table title="org.osmdroid.views.overlay.gestures.RotationGestureDetector.RotationListener" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RotationGestureDetector.RotationListener.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> RotationListener </td></tr>
 		</table></td></tr>
 		</table>>, URL="./RotationGestureDetector.RotationListener.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.gestures.RotationGestureOverlay
-	c82984 [label=<<table title="org.osmdroid.views.overlay.gestures.RotationGestureOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./RotationGestureOverlay.html">
+	c89473 [label=<<table title="org.osmdroid.views.overlay.gestures.RotationGestureOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./RotationGestureOverlay.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> RotationGestureOverlay </td></tr>
 		</table></td></tr>
 		</table>>, URL="./RotationGestureOverlay.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.IOverlayMenuProvider
-	c82990 [label=<<table title="org.osmdroid.views.overlay.IOverlayMenuProvider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../IOverlayMenuProvider.html">
+	c89479 [label=<<table title="org.osmdroid.views.overlay.IOverlayMenuProvider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../IOverlayMenuProvider.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> IOverlayMenuProvider </td></tr>
 		</table></td></tr>
 		</table>>, URL="../IOverlayMenuProvider.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.Overlay
-	c83011 [label=<<table title="org.osmdroid.views.overlay.Overlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../Overlay.html">
+	c89500 [label=<<table title="org.osmdroid.views.overlay.Overlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../Overlay.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> Overlay </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="../Overlay.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.views.overlay.gestures.RotationGestureOverlay extends org.osmdroid.views.overlay.Overlay
-	c83011:p -> c82984:p [dir=back,arrowtail=empty];
+	c89500:p -> c89473:p [dir=back,arrowtail=empty];
 	//org.osmdroid.views.overlay.gestures.RotationGestureOverlay implements org.osmdroid.views.overlay.gestures.RotationGestureDetector.RotationListener
-	c82983:p -> c82984:p [dir=back,arrowtail=empty,style=dashed];
+	c89472:p -> c89473:p [dir=back,arrowtail=empty,style=dashed];
 	//org.osmdroid.views.overlay.gestures.RotationGestureOverlay implements org.osmdroid.views.overlay.IOverlayMenuProvider
-	c82990:p -> c82984:p [dir=back,arrowtail=empty,style=dashed];
+	c89479:p -> c89473:p [dir=back,arrowtail=empty,style=dashed];
 }
 

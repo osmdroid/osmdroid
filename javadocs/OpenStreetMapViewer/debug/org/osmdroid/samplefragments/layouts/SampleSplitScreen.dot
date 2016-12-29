@@ -10,23 +10,23 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.samplefragments.BaseSampleFragment
-	c6226 [label=<<table title="org.osmdroid.samplefragments.BaseSampleFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../BaseSampleFragment.html">
+	c8104 [label=<<table title="org.osmdroid.samplefragments.BaseSampleFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../BaseSampleFragment.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> BaseSampleFragment </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="../BaseSampleFragment.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.layouts.SampleSplitScreen
-	c6254 [label=<<table title="org.osmdroid.samplefragments.layouts.SampleSplitScreen" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./SampleSplitScreen.html">
+	c8132 [label=<<table title="org.osmdroid.samplefragments.layouts.SampleSplitScreen" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./SampleSplitScreen.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleSplitScreen </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SampleSplitScreen.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.samplefragments.layouts.SampleSplitScreen extends org.osmdroid.samplefragments.BaseSampleFragment
-	c6226:p -> c6254:p [dir=back,arrowtail=empty];
+	c8104:p -> c8132:p [dir=back,arrowtail=empty];
 	//org.osmdroid.samplefragments.layouts.SampleSplitScreen implements org.osmdroid.events.MapListener
-	c6285:p -> c6254:p [dir=back,arrowtail=empty,style=dashed];
+	c8164:p -> c8132:p [dir=back,arrowtail=empty,style=dashed];
 	// org.osmdroid.events.MapListener
-	c6285 [label=<<table title="org.osmdroid.events.MapListener" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/org/osmdroid/events/MapListener.html">
+	c8164 [label=<<table title="org.osmdroid.events.MapListener" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/org/osmdroid/events/MapListener.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> MapListener </td></tr>

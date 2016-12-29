@@ -10,18 +10,18 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.bugtestfragments.Bug382Crash
-	c21285 [label=<<table title="org.osmdroid.bugtestfragments.Bug382Crash" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./Bug382Crash.html">
+	c23328 [label=<<table title="org.osmdroid.bugtestfragments.Bug382Crash" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./Bug382Crash.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> Bug382Crash </td></tr>
 		</table></td></tr>
 		</table>>, URL="./Bug382Crash.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.BaseSampleFragment
-	c21304 [label=<<table title="org.osmdroid.samplefragments.BaseSampleFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../samplefragments/BaseSampleFragment.html">
+	c23356 [label=<<table title="org.osmdroid.samplefragments.BaseSampleFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../samplefragments/BaseSampleFragment.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> BaseSampleFragment </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="../samplefragments/BaseSampleFragment.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.bugtestfragments.Bug382Crash extends org.osmdroid.samplefragments.BaseSampleFragment
-	c21304:p -> c21285:p [dir=back,arrowtail=empty];
+	c23356:p -> c23328:p [dir=back,arrowtail=empty];
 }
 

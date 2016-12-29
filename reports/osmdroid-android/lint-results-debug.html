@@ -18,7 +18,7 @@ document.getElementById(id+'Link').style.display = 'none';
 <body>
 <h1>Lint Report</h1>
 <div class="titleSeparator"></div>
-Check performed at Sun Dec 18 11:55:48 EST 2016.<br/>
+Check performed at Wed Dec 28 15:23:58 EST 2016.<br/>
 33 errors and 71 warnings found:<br/><br/>
 <table class="overview">
 <tr><td></td><td class="categoryColumn"><a href="#Correctness">Correctness</a>
@@ -345,13 +345,13 @@ To fix this issue, set the <code>targetSdkVersion</code> to the highest availabl
 <div class="id"><a href="#" title="Return to top">SdCardPath: Hardcoded reference to <code>/sdcard</code></a><div class="issueSeparator"></div>
 </div>
 <div class="warningslist">
-<span class="location"><a href="../../src/main/java/org/osmdroid/config/DefaultConfigurationProvider.java">../../src/main/java/org/osmdroid/config/DefaultConfigurationProvider.java</a>:268</span>: <span class="message">Do not hardcode "<code>/data/</code>"; use <code>Context.getFilesDir().getPath()</code> instead</span><br /><pre class="errorlines">
-<span class="lineno"> 265</span>             File discoveredCachPath = getOsmdroidTileCache();
-<span class="lineno"> 266</span>             if (!discoveredBestPath.exists() || !StorageUtils.isWritable(discoveredBestPath)) {
-<span class="lineno"> 267</span>                 //this should always be writable...
-<span class="lineno"> 268</span>                 discoveredCachPath=discoveredBestPath=new File(<span class="errorspan">"/data/data/" + ctx.getPackageName() + "/osmdroid/");</span>
-<span class="lineno"> 269</span>                 discoveredCachPath.mkdirs();
-<span class="lineno"> 270</span>             }
+<span class="location"><a href="../../src/main/java/org/osmdroid/config/DefaultConfigurationProvider.java">../../src/main/java/org/osmdroid/config/DefaultConfigurationProvider.java</a>:270</span>: <span class="message">Do not hardcode "<code>/data/</code>"; use <code>Context.getFilesDir().getPath()</code> instead</span><br /><pre class="errorlines">
+<span class="lineno"> 267</span>             File discoveredCachPath = getOsmdroidTileCache();
+<span class="lineno"> 268</span>             if (!discoveredBestPath.exists() || !StorageUtils.isWritable(discoveredBestPath)) {
+<span class="lineno"> 269</span>                 //this should always be writable...
+<span class="lineno"> 270</span>                 discoveredCachPath=discoveredBestPath=new File(<span class="errorspan">"/data/data/" + ctx.getPackageName() + "/osmdroid/");</span>
+<span class="lineno"> 271</span>                 discoveredCachPath.mkdirs();
+<span class="lineno"> 272</span>             }
 </pre>
 </div>
 <div class="metadata">Priority: 6 / 10<br/>
@@ -396,7 +396,7 @@ Custom views typically need to call <code>measure()</code> on their children, no
 <div class="id"><a href="#" title="Return to top">GradleOverrides: Value overridden by Gradle build script</a><div class="issueSeparator"></div>
 </div>
 <div class="warningslist">
-<span class="location"><a href="../../src/main/AndroidManifest.xml">../../src/main/AndroidManifest.xml</a>:4</span>: <span class="message">This <code>versionCode</code> value (<code>1</code>) is not used; it is always overridden by the value specified in the Gradle build script (<code>25</code>)</span><br /><pre class="errorlines">
+<span class="location"><a href="../../src/main/AndroidManifest.xml">../../src/main/AndroidManifest.xml</a>:4</span>: <span class="message">This <code>versionCode</code> value (<code>1</code>) is not used; it is always overridden by the value specified in the Gradle build script (<code>26</code>)</span><br /><pre class="errorlines">
 <span class="lineno">   1</span> &lt;?xml version="1.0" encoding="utf-8"?>
 <span class="lineno">   2</span> &lt;manifest xmlns:android="http://schemas.android.com/apk/res/android"
 <span class="lineno">   3</span> 		package="org.osmdroid.library"
@@ -404,7 +404,7 @@ Custom views typically need to call <code>measure()</code> on their children, no
 <span class="lineno">   5</span> 
 <span class="lineno">   6</span> 	&lt;uses-sdk android:minSdkVersion="8" android:targetSdkVersion="23" />
 </pre>
-<span class="location"><a href="../../src/main/AndroidManifest.xml">../../src/main/AndroidManifest.xml</a>:4</span>: <span class="message">This <code>versionName</code> value (<code>5.3-SNAPSHOT</code>) is not used; it is always overridden by the value specified in the Gradle build script (<code>5.6.1</code>)</span><br /><pre class="errorlines">
+<span class="location"><a href="../../src/main/AndroidManifest.xml">../../src/main/AndroidManifest.xml</a>:4</span>: <span class="message">This <code>versionName</code> value (<code>5.3-SNAPSHOT</code>) is not used; it is always overridden by the value specified in the Gradle build script (<code>5.6.2</code>)</span><br /><pre class="errorlines">
 <span class="lineno">   1</span> &lt;?xml version="1.0" encoding="utf-8"?>
 <span class="lineno">   2</span> &lt;manifest xmlns:android="http://schemas.android.com/apk/res/android"
 <span class="lineno">   3</span> 		package="org.osmdroid.library"

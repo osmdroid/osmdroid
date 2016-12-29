@@ -1,5 +1,5 @@
-Processing .\GoogleWrapperSample\build\outputs\apk\GoogleWrapperSample-5.6.1-debug.apk
-Read in 57735 method IDs and 32950 field IDs
+Processing .\GoogleWrapperSample\build\outputs\apk\GoogleWrapperSample-5.6.2-debug.apk
+Read in 57750 method IDs and 32958 field IDs
 ----------------------------------
 Package details:
 (default) Methods 1 Fields 0
@@ -276,7 +276,7 @@ com Methods 36456 Fields 20981
 			maps Methods 44 Fields 0
 dalvik Methods 2 Fields 0
 	system Methods 2 Fields 0
-java Methods 1091 Fields 50
+java Methods 1092 Fields 50
 	io Methods 151 Fields 2
 	lang Methods 383 Fields 33
 		annotation Methods 0 Fields 11
@@ -291,7 +291,7 @@ java Methods 1091 Fields 50
 		cert Methods 3 Fields 0
 		spec Methods 2 Fields 0
 	text Methods 11 Fields 0
-	util Methods 427 Fields 13
+	util Methods 428 Fields 13
 		concurrent Methods 112 Fields 7
 			atomic Methods 21 Fields 0
 			locks Methods 10 Fields 0
@@ -307,7 +307,7 @@ javax Methods 8 Fields 0
 			x500 Methods 2 Fields 0
 microsoft Methods 15 Fields 7
 	mappoint Methods 15 Fields 7
-org Methods 2397 Fields 4351
+org Methods 2411 Fields 4359
 	apache Methods 40 Fields 0
 		http Methods 40 Fields 0
 			client Methods 15 Fields 0
@@ -321,9 +321,9 @@ org Methods 2397 Fields 4351
 	metalev Methods 58 Fields 74
 		multitouch Methods 58 Fields 74
 			controller Methods 58 Fields 74
-	osmdroid Methods 2238 Fields 4276
+	osmdroid Methods 2252 Fields 4284
 		api Methods 84 Fields 15
-		config Methods 80 Fields 19
+		config Methods 88 Fields 21
 		events Methods 23 Fields 12
 		google Methods 265 Fields 1792
 			overlay Methods 24 Fields 11
@@ -332,17 +332,17 @@ org Methods 2397 Fields 4351
 				v2 Methods 100 Fields 23
 		library Methods 6 Fields 62
 		thirdparty Methods 18 Fields 1518
-		tileprovider Methods 577 Fields 280
+		tileprovider Methods 582 Fields 286
 			cachemanager Methods 58 Fields 29
 			constants Methods 5 Fields 13
-			modules Methods 228 Fields 72
-			tilesource Methods 135 Fields 84
+			modules Methods 229 Fields 74
+			tilesource Methods 139 Fields 88
 				bing Methods 25 Fields 33
 					imagerymetadata Methods 6 Fields 20
 			util Methods 33 Fields 26
 		util Methods 166 Fields 59
 			constants Methods 1 Fields 6
-		views Methods 1007 Fields 515
+		views Methods 1008 Fields 515
 			drawing Methods 9 Fields 7
 			overlay Methods 762 Fields 404
 				compass Methods 39 Fields 22
@@ -355,7 +355,7 @@ org Methods 2397 Fields 4351
 				constants Methods 1 Fields 18
 	xmlpull Methods 12 Fields 0
 		v1 Methods 12 Fields 0
-Processed .\GoogleWrapperSample\build\outputs\apk\GoogleWrapperSample-5.6.1-debug.apk
-Read in 57735 method IDs and 32950 field IDs
+Processed .\GoogleWrapperSample\build\outputs\apk\GoogleWrapperSample-5.6.2-debug.apk
+Read in 57750 method IDs and 32958 field IDs
 ----------------------------------
 
