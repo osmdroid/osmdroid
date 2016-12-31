@@ -74,7 +74,18 @@ public class StorageUtils {
     public static List<StorageInfo> getStorageList() {
 
         List<StorageInfo> list = new ArrayList<StorageInfo>();
-        String def_path = Environment.getExternalStorageDirectory().getPath();
+        String def_path = "";
+
+        try {
+            if (Environment.getExternalStorageDirectory()!=null) {
+                def_path = Environment.getExternalStorageDirectory().getPath();
+            }
+        }catch (Exception ex) {
+            //trap for android studio layout editor and some for certain devices
+            //see https://github.com/osmdroid/osmdroid/issues/508
+            ex.printStackTrace();
+        }
+
         boolean def_path_internal = (Build.VERSION.SDK_INT >= 9) && !Environment.isExternalStorageRemovable();
         String def_path_state = Environment.getExternalStorageState();
         boolean def_path_available = def_path_state.equals(Environment.MEDIA_MOUNTED)
@@ -116,7 +127,7 @@ public class StorageUtils {
                 }
             }
 
-            if (!paths.contains(def_path) && def_path_available) {
+            if (!paths.contains(def_path) && def_path_available && def_path.length() > 0) {
                 list.add(0, new StorageInfo(def_path, def_path_internal, def_path_readonly, -1));
             }
 
