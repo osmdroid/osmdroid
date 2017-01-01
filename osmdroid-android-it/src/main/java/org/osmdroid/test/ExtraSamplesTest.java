@@ -9,7 +9,6 @@
 
 package org.osmdroid.test;
 
-import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.test.ActivityInstrumentationTestCase2;
@@ -19,14 +18,14 @@ import junit.framework.Assert;
 
 import org.osmdroid.ExtraSamplesActivity;
 import org.osmdroid.ISampleFactory;
-import org.osmdroid.MainActivity;
 import org.osmdroid.OsmApplication;
 import org.osmdroid.bugtestfragments.BugFactory;
 import org.osmdroid.samplefragments.*;
+import org.osmdroid.samplefragments.ui.FragmentSamples;
+import org.osmdroid.samplefragments.ui.SamplesMenuFragment;
 import org.osmdroid.tileprovider.util.Counters;
 
 import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class ExtraSamplesTest extends ActivityInstrumentationTestCase2<ExtraSamplesActivity> {
 
@@ -62,7 +61,7 @@ public class ExtraSamplesTest extends ActivityInstrumentationTestCase2<ExtraSamp
         Fragment frag = (fm.findFragmentByTag(ExtraSamplesActivity.SAMPLES_FRAGMENT_TAG));
         assertNotNull(frag);
 
-        assertTrue(frag instanceof FragmentSamples);
+        assertTrue(frag instanceof SamplesMenuFragment);
         //FragmentSamples samples = (FragmentSamples) frag;
 
 

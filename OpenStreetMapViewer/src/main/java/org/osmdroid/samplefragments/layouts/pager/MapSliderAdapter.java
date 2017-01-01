@@ -1,4 +1,4 @@
-package org.osmdroid.samplefragments.pager;
+package org.osmdroid.samplefragments.layouts.pager;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

@@ -8,11 +8,8 @@ import org.osmdroid.views.overlay.TilesOverlay;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
-
-import static org.osmdroid.samplefragments.FragmentSamples.TAG;
 
 /**
  *

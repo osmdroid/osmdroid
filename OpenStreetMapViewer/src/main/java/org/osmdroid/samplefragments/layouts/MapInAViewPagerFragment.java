@@ -1,4 +1,4 @@
-package org.osmdroid.samplefragments.pager;
+package org.osmdroid.samplefragments.layouts;
 
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 
 import org.osmdroid.R;
 import org.osmdroid.samplefragments.BaseSampleFragment;
-import org.osmdroid.views.MapView;
+import org.osmdroid.samplefragments.layouts.pager.MapSliderAdapter;
 
 /**
  * Created by alex on 10/22/16.

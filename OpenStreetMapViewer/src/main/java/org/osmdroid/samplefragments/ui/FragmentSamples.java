@@ -1,4 +1,4 @@
-package org.osmdroid.samplefragments;
+package org.osmdroid.samplefragments.ui;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -13,6 +13,7 @@ import android.widget.ListView;
 import org.osmdroid.ExtraSamplesActivity;
 import org.osmdroid.ISampleFactory;
 import org.osmdroid.model.BaseActivity;
+import org.osmdroid.samplefragments.BaseSampleFragment;
 
 import java.util.ArrayList;
 import java.util.List;

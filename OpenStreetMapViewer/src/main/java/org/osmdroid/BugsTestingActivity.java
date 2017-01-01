@@ -1,6 +1,5 @@
 package org.osmdroid;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -8,7 +7,7 @@ import android.support.v4.app.FragmentManager;
 import org.osmdroid.bugtestfragments.BugFactory;
 import org.osmdroid.bugtestfragments.WeathForceActivity;
 import org.osmdroid.model.BaseActivity;
-import org.osmdroid.samplefragments.FragmentSamples;
+import org.osmdroid.samplefragments.ui.FragmentSamples;
 
 import java.util.ArrayList;
 import java.util.List;
