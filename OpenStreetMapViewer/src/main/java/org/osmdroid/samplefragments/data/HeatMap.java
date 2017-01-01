@@ -61,6 +61,7 @@ public class HeatMap extends BaseSampleFragment implements MapListener, Runnable
     }
 
     String TAG = "heatmap";
+    DisplayMetrics dm = null;
 
     // async loading stuff
     boolean renderJobActive = false;
@@ -90,6 +91,7 @@ public class HeatMap extends BaseSampleFragment implements MapListener, Runnable
     @Override
     public void addOverlays() {
         super.addOverlays();
+        dm = getResources().getDisplayMetrics();
         mMapView.getController().setCenter(new GeoPoint(38.8977, -77.0365));
         mMapView.getController().setZoom(14);
         mMapView.setMapListener(this);
@@ -115,11 +117,13 @@ public class HeatMap extends BaseSampleFragment implements MapListener, Runnable
      */
     private void generateMap() {
 
+        if (getActivity()==null)  //java.lang.IllegalStateException: Fragment HeatMap{44f341d0} not attached to Activity
+            return;
         if (renderJobActive)
             return;
         renderJobActive = true;
 
-        DisplayMetrics dm = getResources().getDisplayMetrics();
+
 
         int densityDpi = (int) (dm.density * cellSizeInDp);
         //10 dpi sized cells
@@ -190,6 +194,10 @@ public class HeatMap extends BaseSampleFragment implements MapListener, Runnable
             }
         }
         Log.i(TAG, "render done , done " + (System.currentTimeMillis() - now));
+        if (getActivity()==null)    //java.lang.IllegalStateException: Fragment HeatMap{44f341d0} not attached to Activity
+            return;
+        if (mMapView==null)  //java.lang.IllegalStateException: Fragment HeatMap{44f341d0} not attached to Activity
+            return;
         mMapView.post(new Runnable() {
             @Override
             public void run() {
@@ -367,5 +375,16 @@ public class HeatMap extends BaseSampleFragment implements MapListener, Runnable
                 }
             }
         }
+    }
+
+
+    /**
+     * optional place to put automated test procedures, used during the connectCheck tests
+     * this is called OFF of the UI thread. block this method call util the test is done
+     */
+    @Override
+    public void runTestProcedures() throws Exception{
+        Thread.sleep(5000);
+
     }
 }
