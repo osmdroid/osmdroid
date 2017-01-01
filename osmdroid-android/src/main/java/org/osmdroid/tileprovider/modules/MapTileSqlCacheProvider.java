@@ -197,7 +197,7 @@ public class MapTileSqlCacheProvider  extends MapTileFileStorageProviderBase{
             InputStream inputStream = null;
             try {
                 if (Configuration.getInstance().isDebugMode()) {
-                    Log.d(IMapView.LOGTAG,"Tile doesn't exist: " + pTile);
+                    Log.d(IMapView.LOGTAG,"SqlCache - Tile doesn't exist: " + pTile);
                 }
 
                 final long x = (long) pTile.getX();

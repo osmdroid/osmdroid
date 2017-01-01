@@ -362,6 +362,7 @@ public class HeatMap extends BaseSampleFragment implements MapListener, Runnable
         } catch (InterruptedException e) {
 
         }
+        //TODO replace me with a timer task
         while (running) {
             try {
                 Thread.sleep(1000);
