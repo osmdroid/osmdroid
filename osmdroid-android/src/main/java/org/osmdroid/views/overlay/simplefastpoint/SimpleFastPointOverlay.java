@@ -145,7 +145,8 @@ public class SimpleFastPointOverlay extends Overlay {
                     // test whether in this grid cell there is already a point, skip if yes
                     gridX = (int) Math.floor((float) mPositionPixels.x / mStyle.mCellSize);
                     gridY = (int) Math.floor((float) mPositionPixels.y / mStyle.mCellSize);
-                    if (gridX >= gridWid || gridY >= gridHei || grid[gridX][gridY] != null)
+                    if (gridX >= gridWid || gridY >= gridHei || gridX < 0 || gridY < 0
+                        || grid[gridX][gridY] != null)
                         continue;
                     grid[gridX][gridY] = new LabelledPoint(mPositionPixels
                             , mPointList.isLabelled() ? ((LabelledGeoPoint) pt1).getLabel() : null);
@@ -338,7 +339,8 @@ public class SimpleFastPointOverlay extends Overlay {
                             // this makes a lot of difference in rendering speed
                             gridX = (int) Math.floor((float) mPositionPixels.x / mStyle.mCellSize);
                             gridY = (int) Math.floor((float) mPositionPixels.y / mStyle.mCellSize);
-                            if (gridX >= gridWid || gridY >= gridHei || gridBool[gridX][gridY])
+                            if (gridX >= gridWid || gridY >= gridHei || gridX < 0 || gridY < 0
+                                    || gridBool[gridX][gridY])
                                 continue;
                             gridBool[gridX][gridY] = true;
 

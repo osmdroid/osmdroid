@@ -10,6 +10,7 @@ import org.osmdroid.samplefragments.cache.SampleCacheDownloaderArchive;
 import org.osmdroid.samplefragments.cache.SampleCacheDownloaderCustomUI;
 import org.osmdroid.samplefragments.cache.SampleJumboCache;
 import org.osmdroid.samplefragments.cache.SampleSqliteOnly;
+import org.osmdroid.samplefragments.data.SampleMarker;
 import org.osmdroid.samplefragments.data.SampleSimpleLocation;
 import org.osmdroid.samplefragments.events.SampleAnimateTo;
 import org.osmdroid.samplefragments.events.SampleAnimatedZoomToLocation;
@@ -40,7 +41,7 @@ import org.osmdroid.samplefragments.tilesources.SampleMapQuest;
 import org.osmdroid.samplefragments.tilesources.SampleOfflineOnly;
 import org.osmdroid.samplefragments.tilesources.SampleOpenSeaMap;
 import org.osmdroid.samplefragments.tilesources.SampleWhackyColorFilter;
-import org.osmdroid.samplefragments.pager.MapInAViewPagerFragment;
+import org.osmdroid.samplefragments.layouts.MapInAViewPagerFragment;
 
 /**
  * factory for all examples
@@ -138,6 +139,8 @@ public final class SampleFactory implements ISampleFactory {
 				SampleSimpleFastPointOverlay.class,
 				//37
 				SampleOpenSeaMap.class,
+				//38
+				SampleMarker.class
 
         };
 	}

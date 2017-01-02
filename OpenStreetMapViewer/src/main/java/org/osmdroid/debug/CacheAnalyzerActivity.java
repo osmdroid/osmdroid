@@ -22,9 +22,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A basic list view to show various cache metrics and management
+ * A debug utility to show various cache metrics and management
  * <p>
- * requires api11+
+ * requires api11+ due to the use of sqlite
  * <p>
  * created on 12/21/2016.
  *

@@ -11,8 +11,10 @@ import org.osmdroid.debug.model.SqlTileWriterExt;
 import org.osmdroid.debug.util.FileDateUtil;
 
 /**
+ * A simple view for browsing the osmdroid tile cache database
  * created on 12/20/2016.
  *
+ * @see org.osmdroid.debug.CacheAnalyzerActivity
  * @author Alex O'Ree
  * @since 5.6.2
  */

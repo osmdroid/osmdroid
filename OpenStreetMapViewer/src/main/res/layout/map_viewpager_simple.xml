@@ -6,5 +6,5 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Hello World!"/>
+        android:text="Lorem ipsum dolor sit amet, nulla feugiat. Nunc pellentesque sociis fermentum volutpat, suscipit sed vivamus enim sed blandit mauris, est in rutrum lacus illum mauris morbi. Feugiat nibh bibendum aptent elit curabitur. Viverra wisi etiam lacus phasellus occaecat. Elit magna leo ut dolor tortor ipsum, a dapibus cras. Vitae non, accumsan duis urna velit eget non, sed in. Ut mollis erat ultricies. Quisque enim tincidunt. Nulla sem, quis pretium vivamus. Nunc vestibulum eget fermentum vivamus nunc, et id nostra cursus maecenas proin, massa ultricies sed justo laborum. Et porttitor, malesuada lectus aenean, lacus augue wisi, erat tempor, egestas in ligula integer ut. Eget ante mattis dolor et."/>
 </LinearLayout>

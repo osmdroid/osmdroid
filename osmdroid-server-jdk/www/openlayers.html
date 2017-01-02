@@ -1,0 +1,114 @@
+<!DOCTYPE HTML>
+<html>
+     <head>
+	  <title>Map Services</title>
+	  <link rel="stylesheet" href="v3.5.0-dist/ol.css" type="text/css">
+	  <script src="v3.5.0-dist/ol.js"></script>
+	  <style type="text/css">
+
+	       html,body {height:100%; width:100%; margin: 0px; padding: 0px; }
+	       #map { height: 100%; width: 100%; }
+	  </style>
+     </head>
+     <body>
+	  <table border="1" cellpadding="5"><tr><td>Map Services</td><td>Select a map tile <a href="sources">source</a>:
+			 <select id="layer-select"> 
+
+			 </select></td></tr></table>
+	  <div id="map" >
+	       <h1>Loading map sources...</h1>
+	  </div>
+
+	  <script>
+
+	       //these are all of the tile sources on this box
+	       var styles = [];
+
+
+	       var set = false;
+	       var xmlhttp = new XMLHttpRequest();
+	       var url = window.location.href + "sources";
+	       xmlhttp.onreadystatechange = function () {
+		    if (xmlhttp.status == 200 && xmlhttp.responseText != "") {
+			 if (!set) {
+			      var contents = JSON.parse(xmlhttp.responseText);
+			      var selector = document.getElementById('layer-select');
+			      for (i = selector.options.length - 1; i >= 0; i--) {
+				   selector.remove(i);
+			      }
+			      for (i = 0; i < contents.length; i++) {
+				   var opt = document.createElement("option");
+				   opt.text = contents[i];
+				   selector.add(opt);
+			      }
+			      styles = contents;
+			      initMap();
+			 }
+		    }
+	       };
+	       xmlhttp.open("GET", url, true);
+	       xmlhttp.send();
+
+
+
+
+
+	       function initMap() {
+
+
+		    document.getElementById('map').innerHTML = "";
+		    var layers = [];
+		    var i, ii;
+		    for (i = 0, ii = styles.length; i < ii; ++i) {
+			 layers.push(new ol.layer.Tile({
+			      visibile: false,
+			      prelload: Infinity,
+			      source: new ol.source.OSM({
+				   attributions: [
+					new ol.Attribution({
+					     html: 'Microsoft,MapQuest,Arcgis,USGS'
+					}),
+					ol.source.OSM.ATTRIBUTION
+				   ],
+				   crossOrigin: null,
+				   url: window.location.href + styles[i] + '/{z}/{x}/{y}.png'
+
+			      })
+			 }));
+
+		    }
+
+		    var attribution = new ol.Attribution({
+			 html: 'USGS, Bing, Mapquest'
+		    });
+
+		    var map = new ol.Map({
+			 target: 'map',
+			 controls: ol.control.defaults({
+			      attributionOptions: /** @type {olx.control.AttributionOptions} */ ({
+				   collapsible: false
+			      })
+			 }),
+			 layers: layers
+			 ,
+			 view: new ol.View({
+			      center: [-472202, 7530279],
+			      zoom: 1
+			 })
+		    });
+
+
+		    var select = document.getElementById('layer-select');
+		    function onChange() {
+			 var style = select.value;
+			 for (var i = 0, ii = layers.length; i < ii; ++i) {
+			      layers[i].setVisible(styles[i] === style);
+			 }
+		    }
+		    select.addEventListener('change', onChange);
+		    onChange();
+	       }
+	  </script>
+     </body>
+</html>
+
