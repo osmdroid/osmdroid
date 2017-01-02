@@ -42,15 +42,15 @@ public class StorageUtils {
         public final boolean internal;
         public final boolean readonly;
         public final int display_number;
-        public long freeSpace=0;
+        public long freeSpace = 0;
 
         StorageInfo(String path, boolean internal, boolean readonly, int display_number) {
             this.path = path;
             this.internal = internal;
             this.readonly = readonly;
             this.display_number = display_number;
-            if (Build.VERSION.SDK_INT >= 9){
-                this.freeSpace=new File(path).getFreeSpace();
+            if (Build.VERSION.SDK_INT >= 9) {
+                this.freeSpace = new File(path).getFreeSpace();
             }
 
         }
@@ -75,21 +75,26 @@ public class StorageUtils {
 
         List<StorageInfo> list = new ArrayList<StorageInfo>();
         String def_path = "";
-
+        boolean def_path_internal = false;
         try {
-            if (Environment.getExternalStorageDirectory()!=null) {
+            if (Environment.getExternalStorageDirectory() != null) {
                 def_path = Environment.getExternalStorageDirectory().getPath();
             }
-        }catch (Exception ex) {
+        } catch (Exception ex) {
             //trap for android studio layout editor and some for certain devices
             //see https://github.com/osmdroid/osmdroid/issues/508
             ex.printStackTrace();
         }
-
-        boolean def_path_internal = (Build.VERSION.SDK_INT >= 9) && !Environment.isExternalStorageRemovable();
+        try {
+            def_path_internal = (Build.VERSION.SDK_INT >= 9) && !Environment.isExternalStorageRemovable();
+        } catch (Exception ex) {
+            //trap for android studio layout editor and some for certain devices
+            //see https://github.com/osmdroid/osmdroid/issues/508
+            ex.printStackTrace();
+        }
         String def_path_state = Environment.getExternalStorageState();
         boolean def_path_available = def_path_state.equals(Environment.MEDIA_MOUNTED)
-                || def_path_state.equals(Environment.MEDIA_MOUNTED_READ_ONLY);
+            || def_path_state.equals(Environment.MEDIA_MOUNTED_READ_ONLY);
         boolean def_path_readonly = Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED_READ_ONLY);
         BufferedReader buf_reader = null;
         try {
@@ -116,10 +121,10 @@ public class StorageUtils {
                         list.add(0, new StorageInfo(def_path, def_path_internal, readonly, -1));
                     } else if (line.contains("/dev/block/vold")) {
                         if (!line.contains("/mnt/secure")
-                                && !line.contains("/mnt/asec")
-                                && !line.contains("/mnt/obb")
-                                && !line.contains("/dev/mapper")
-                                && !line.contains("tmpfs")) {
+                            && !line.contains("/mnt/asec")
+                            && !line.contains("/mnt/obb")
+                            && !line.contains("/dev/mapper")
+                            && !line.contains("tmpfs")) {
                             paths.add(mount_point);
                             list.add(new StorageInfo(mount_point, false, readonly, cur_display_number++));
                         }
@@ -139,7 +144,8 @@ public class StorageUtils {
             if (buf_reader != null) {
                 try {
                     buf_reader.close();
-                } catch (IOException ex) {}
+                } catch (IOException ex) {
+                }
             }
         }
         return list;
@@ -148,23 +154,24 @@ public class StorageUtils {
 
     /**
      * gets the best possible storage location by freespace
+     *
      * @return
      */
-    public static File getStorage(){
+    public static File getStorage() {
         //Map<String, File> allStorageLocations = getAllStorageLocations();
         //if (allStorageLocations.isEmpty()){
-            //use the current app's storage
-          //  return Environment.getDataDirectory();
+        //use the current app's storage
+        //  return Environment.getDataDirectory();
         //}
 
-        StorageInfo ptr=null;
+        StorageInfo ptr = null;
         List<StorageInfo> storageList = getStorageList();
         for (int i = 0; i < storageList.size(); i++) {
             StorageInfo storageInfo = storageList.get(i);
-            if (!storageInfo.readonly && isWritable(new File(storageInfo.path))){
-                if (ptr!=null){
+            if (!storageInfo.readonly && isWritable(new File(storageInfo.path))) {
+                if (ptr != null) {
                     //compare free space
-                    if (ptr.freeSpace < storageInfo.freeSpace){
+                    if (ptr.freeSpace < storageInfo.freeSpace) {
                         ptr = storageInfo;
                     }
                 } else {
@@ -172,7 +179,7 @@ public class StorageUtils {
                 }
             }
         }
-        if (ptr!=null){
+        if (ptr != null) {
             return new File(ptr.path);
         }
         //http://stackoverflow.com/questions/21230629/getfilesdir-vs-environment-getdatadirectory
@@ -181,23 +188,24 @@ public class StorageUtils {
 
     /**
      * gets the best possible storage location by freespace
+     *
      * @return
      */
-    public static File getStorage(final Context ctx){
+    public static File getStorage(final Context ctx) {
         //Map<String, File> allStorageLocations = getAllStorageLocations();
         //if (allStorageLocations.isEmpty()){
         //use the current app's storage
         //  return Environment.getDataDirectory();
         //}
 
-        StorageInfo ptr=null;
+        StorageInfo ptr = null;
         List<StorageInfo> storageList = getStorageList();
         for (int i = 0; i < storageList.size(); i++) {
             StorageInfo storageInfo = storageList.get(i);
-            if (!storageInfo.readonly && isWritable(new File(storageInfo.path))){
-                if (ptr!=null){
+            if (!storageInfo.readonly && isWritable(new File(storageInfo.path))) {
+                if (ptr != null) {
                     //compare free space
-                    if (ptr.freeSpace < storageInfo.freeSpace){
+                    if (ptr.freeSpace < storageInfo.freeSpace) {
                         ptr = storageInfo;
                     }
                 } else {
@@ -205,11 +213,11 @@ public class StorageUtils {
                 }
             }
         }
-        if (ptr!=null){
+        if (ptr != null) {
             return new File(ptr.path);
         }
         //http://stackoverflow.com/questions/21230629/getfilesdir-vs-environment-getdatadirectory
-        return new File(ctx.getDatabasePath("temp.sqlite").getAbsolutePath().replace("temp.sqlite",""));
+        return new File(ctx.getDatabasePath("temp.sqlite").getAbsolutePath().replace("temp.sqlite", ""));
     }
 
 
@@ -241,23 +249,23 @@ public class StorageUtils {
     }
 
     public static boolean isWritable(File path) {
-       if (path.exists()){
-           if (path.canWrite()) {
-               //try to create a new file, save it, then delete it
-               try{
-                   UUID rand = UUID.randomUUID();
-                   File tmp = new File(path.getAbsolutePath() + File.separator + rand.toString());
-                   FileOutputStream fos = new FileOutputStream(tmp);
-                   fos.write("hi".getBytes());
-                   fos.close();
-                   tmp.delete();
-                   return true;
-               }catch (Throwable ex){
-                   ex.printStackTrace();
-                   return false;
-               }
-           }
-       }
+        if (path.exists()) {
+            if (path.canWrite()) {
+                //try to create a new file, save it, then delete it
+                try {
+                    UUID rand = UUID.randomUUID();
+                    File tmp = new File(path.getAbsolutePath() + File.separator + rand.toString());
+                    FileOutputStream fos = new FileOutputStream(tmp);
+                    fos.write("hi".getBytes());
+                    fos.close();
+                    tmp.delete();
+                    return true;
+                } catch (Throwable ex) {
+                    ex.printStackTrace();
+                    return false;
+                }
+            }
+        }
         return false;
 
     }
@@ -275,7 +283,7 @@ public class StorageUtils {
 
         try {
             File mountFile = new File("/proc/mounts");
-            if(mountFile.exists()){
+            if (mountFile.exists()) {
                 Scanner scanner = new Scanner(mountFile);
                 while (scanner.hasNext()) {
                     String line = scanner.nextLine();
@@ -296,7 +304,7 @@ public class StorageUtils {
 
         try {
             File voldFile = new File("/system/etc/vold.fstab");
-            if(voldFile.exists()){
+            if (voldFile.exists()) {
                 Scanner scanner = new Scanner(voldFile);
                 while (scanner.hasNext()) {
                     String line = scanner.nextLine();
@@ -325,18 +333,18 @@ public class StorageUtils {
 
         List<String> mountHash = new ArrayList<String>(10);
 
-        for(String mount : mMounts){
+        for (String mount : mMounts) {
             File root = new File(mount);
             if (root.exists() && root.isDirectory() && root.canWrite()) {
                 File[] list = root.listFiles();
                 String hash = "[";
-                if(list!=null){
-                    for(File f : list){
-                        hash += f.getName().hashCode()+":"+f.length()+", ";
+                if (list != null) {
+                    for (File f : list) {
+                        hash += f.getName().hashCode() + ":" + f.length() + ", ";
                     }
                 }
                 hash += "]";
-                if(!mountHash.contains(hash)){
+                if (!mountHash.contains(hash)) {
                     String key = SD_CARD + "_" + map.size();
                     if (map.size() == 0) {
                         key = SD_CARD;
@@ -351,7 +359,7 @@ public class StorageUtils {
 
         mMounts.clear();
 
-        if(map.isEmpty()){
+        if (map.isEmpty()) {
             map.put(SD_CARD, Environment.getExternalStorageDirectory());
         }
 
@@ -361,24 +369,21 @@ public class StorageUtils {
 
 
         String primary_sd = System.getenv("EXTERNAL_STORAGE");
-        if(primary_sd != null){
+        if (primary_sd != null) {
             File t = new File(primary_sd);
             if (t.exists() && !map.containsValue(t))
                 map.put(SD_CARD, t);
         }
 
         String secondary_sd = System.getenv("SECONDARY_STORAGE");
-        if(secondary_sd != null) {
+        if (secondary_sd != null) {
             String[] split = secondary_sd.split(File.pathSeparator);
-            for (int i=0; i < split.length; i++){
+            for (int i = 0; i < split.length; i++) {
                 File t = new File(split[i]);
                 if (t.exists() && !map.containsValue(t))
                     map.put(SD_CARD, t);
             }
         }
-
-
-
 
 
         return map;

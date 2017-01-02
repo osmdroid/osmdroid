@@ -141,7 +141,7 @@ public class SqlTileWriter implements IFilesystemCache {
 
     @Override
     public boolean saveFile(final ITileSource pTileSourceInfo, final MapTile pTile, final InputStream pStream) {
-        if (db == null) {
+        if (db == null || !db.isOpen()) {
             Log.d(IMapView.LOGTAG, "Unable to store cached tile from " + pTileSourceInfo.name() + " " + pTile.toString() + ", database not available.");
             Counters.fileCacheSaveErrors++;
             return false;
@@ -200,6 +200,10 @@ public class SqlTileWriter implements IFilesystemCache {
      * @since 5.6
      */
     public boolean exists(String pTileSource, MapTile pTile) {
+        if (db == null || !db.isOpen()) {
+            Log.d(IMapView.LOGTAG, "Unable to test for tile exists cached tile from " + pTileSource + " " + pTile.toString() + ", database not available.");
+            return false;
+        }
         try {
             final String[] tile = {DatabaseFileArchive.COLUMN_TILE};
             final long x = (long) pTile.getX();
@@ -216,6 +220,7 @@ public class SqlTileWriter implements IFilesystemCache {
         } catch (Throwable ex) {
             Log.e(IMapView.LOGTAG, "Unable to store cached tile from " + pTileSource + " " + pTile.toString(), ex);
         }
+
         return false;
     }
 
@@ -237,7 +242,9 @@ public class SqlTileWriter implements IFilesystemCache {
         if (db != null && db.isOpen()) {
             try {
                 db.close();
+                Log.i(IMapView.LOGTAG, "Database detached");
             } catch (Exception ex) {
+                Log.e(IMapView.LOGTAG, "Database detach failed",ex);
             }
         }
         db = null;
