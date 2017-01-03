@@ -146,6 +146,7 @@ public class BingMapTileSource extends QuadTreeTileSource implements IStyledTile
 		return mImageryData.m_imageHeight;
 	}
 
+
 	/**
 	 * get the base path used for caching purpose
 	 * @return a base path built on name given as constructor parameter and current style name
@@ -153,6 +154,11 @@ public class BingMapTileSource extends QuadTreeTileSource implements IStyledTile
 	@Override
 	public String pathBase() {
 		return mName + mStyle;
+	}
+
+	@Override
+	public String getCopyrightNotice(){
+		return mImageryData.copyright;
 	}
 
 	/*--------------- IStyledTileSource --------------------*/

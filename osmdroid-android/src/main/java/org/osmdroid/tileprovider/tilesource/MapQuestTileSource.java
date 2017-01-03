@@ -32,7 +32,7 @@ public class MapQuestTileSource extends OnlineTileSourceBase
      */
     public MapQuestTileSource(final Context ctx)
     {
-		super("mapbox", 1, 19, 256, ".png", mapBoxBaseUrl);
+		super("mapbox", 1, 19, 256, ".png", mapBoxBaseUrl, "MapQuest");
           retrieveAccessToken(ctx);
           retrieveMapBoxMapId(ctx);
         mName="mapbox" + mapBoxMapId;
@@ -46,7 +46,7 @@ public class MapQuestTileSource extends OnlineTileSourceBase
      */
     public MapQuestTileSource(final String mapboxid, final String accesstoken)
     {
-		super("mapbox"+mapboxid, 1, 19, 256, ".png", mapBoxBaseUrl);
+		super("mapbox"+mapboxid, 1, 19, 256, ".png", mapBoxBaseUrl, "MapQuest");
           this.accessToken=accesstoken;
           this.mapBoxMapId=mapboxid;
     }
@@ -62,7 +62,7 @@ public class MapQuestTileSource extends OnlineTileSourceBase
 	 */
     public MapQuestTileSource(String name, int zoomMinLevel, int zoomMaxLevel, int tileSizePixels, String imageFilenameEnding)
     {
-		super(name, zoomMinLevel, zoomMaxLevel, tileSizePixels, imageFilenameEnding, mapBoxBaseUrl);
+		super(name, zoomMinLevel, zoomMaxLevel, tileSizePixels, imageFilenameEnding, mapBoxBaseUrl, "MapQuest");
     }
 
     /**
@@ -77,8 +77,9 @@ public class MapQuestTileSource extends OnlineTileSourceBase
      */
     public MapQuestTileSource(String name, int zoomMinLevel, int zoomMaxLevel, int tileSizePixels, String imageFilenameEnding, String mapBoxMapId, String mapBoxVersionBaseUrl)
     {
-		super(name, zoomMinLevel, zoomMaxLevel, tileSizePixels, imageFilenameEnding,
-				new String[] { mapBoxVersionBaseUrl });
+		super(name+mapBoxMapId, zoomMinLevel, zoomMaxLevel, tileSizePixels, imageFilenameEnding,
+				new String[] { mapBoxVersionBaseUrl }, "MapQuest");
+        this.mapBoxMapId=mapBoxMapId;
     }
 
     /**

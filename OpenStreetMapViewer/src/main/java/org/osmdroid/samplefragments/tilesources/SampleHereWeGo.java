@@ -10,7 +10,7 @@ import org.osmdroid.tileprovider.tilesource.HEREWeGoTileSource;
 public class SampleHereWeGo  extends BaseSampleFragment {
     @Override
     public String getSampleTitle() {
-        return "HERE WeGo map tiles";
+        return "HERE WeGo map tiles (keys are expired)";
     }
 
     @Override

@@ -24,7 +24,7 @@ public class USGSTileSource extends OnlineTileSourceBase {
      * @param aBaseUrl             the base url(s) of the tile server used when constructing the url to download the tiles
      */
     public USGSTileSource(String aName, int aZoomMinLevel, int aZoomMaxLevel, int aTileSizePixels, String aImageFilenameEnding, String[] aBaseUrl) {
-        super(aName, aZoomMinLevel, aZoomMaxLevel, aTileSizePixels, aImageFilenameEnding, aBaseUrl);
+        super(aName, aZoomMinLevel, aZoomMaxLevel, aTileSizePixels, aImageFilenameEnding, aBaseUrl,"USGS");
     }
 
     @Override

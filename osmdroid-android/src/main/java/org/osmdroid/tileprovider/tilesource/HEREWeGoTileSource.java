@@ -44,7 +44,7 @@ public class HEREWeGoTileSource  extends OnlineTileSourceBase
      */
     public HEREWeGoTileSource()
     {
-        super("herewego", 1, 20, 256, ".png", mapBoxBaseUrl);
+        super("herewego", 1, 20, 256, ".png", mapBoxBaseUrl, "© 1987 - 2017 HERE. All rights reserved.");
     }
 
     /**
@@ -54,7 +54,7 @@ public class HEREWeGoTileSource  extends OnlineTileSourceBase
      */
     public HEREWeGoTileSource(final Context ctx)
     {
-        super("herewego", 1, 20, 256, ".png", mapBoxBaseUrl);
+        super("herewego", 1, 20, 256, ".png", mapBoxBaseUrl,"© 1987 - 2017 HERE. All rights reserved.");
         retrieveAppId(ctx);
         retrieveMapBoxMapId(ctx);
         retrieveAppCode(ctx);
@@ -79,14 +79,12 @@ public class HEREWeGoTileSource  extends OnlineTileSourceBase
      * @param accesstoken
      * @since 5.1
      */
-    public HEREWeGoTileSource(final String mapboxid, final String accesstoken, final String appCode)
+    public HEREWeGoTileSource(final String herewegoMapId, final String accesstoken, final String appCode)
     {
-        super("herewego", 1, 20, 256, ".png", mapBoxBaseUrl);
+        super("herewego"+herewegoMapId, 1, 20, 256, ".png", mapBoxBaseUrl,"© 1987 - 2017 HERE. All rights reserved.");
         this.appId =accesstoken;
-        this.herewegoMapId =mapboxid;
+        this.herewegoMapId =herewegoMapId;
         this.appCode = appCode;
-        //this line will ensure uniqueness in the tile cache
-        mName="herewego"+ herewegoMapId;
     }
 
     /**
@@ -100,7 +98,7 @@ public class HEREWeGoTileSource  extends OnlineTileSourceBase
      */
     public HEREWeGoTileSource(String name, int zoomMinLevel, int zoomMaxLevel, int tileSizePixels, String imageFilenameEnding)
     {
-        super(name, zoomMinLevel, zoomMaxLevel, tileSizePixels, imageFilenameEnding, mapBoxBaseUrl);
+        super(name, zoomMinLevel, zoomMaxLevel, tileSizePixels, imageFilenameEnding, mapBoxBaseUrl,"© 1987 - 2017 HERE. All rights reserved.");
     }
 
     /**
@@ -116,7 +114,7 @@ public class HEREWeGoTileSource  extends OnlineTileSourceBase
     public HEREWeGoTileSource(String name, int zoomMinLevel, int zoomMaxLevel, int tileSizePixels, String imageFilenameEnding, String mapBoxMapId, String mapBoxVersionBaseUrl)
     {
         super(name, zoomMinLevel, zoomMaxLevel, tileSizePixels, imageFilenameEnding,
-                new String[] { mapBoxVersionBaseUrl });
+                new String[] { mapBoxVersionBaseUrl },"© 1987 - 2017 HERE. All rights reserved.");
     }
 
     public final void retrieveAppCode(final Context aContext){

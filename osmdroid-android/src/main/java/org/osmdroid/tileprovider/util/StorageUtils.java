@@ -76,26 +76,47 @@ public class StorageUtils {
         List<StorageInfo> list = new ArrayList<StorageInfo>();
         String def_path = "";
         boolean def_path_internal = false;
+        String def_path_state = "";
+        boolean def_path_readonly = true;
+        boolean def_path_available = false;
         try {
             if (Environment.getExternalStorageDirectory() != null) {
                 def_path = Environment.getExternalStorageDirectory().getPath();
             }
-        } catch (Exception ex) {
+        } catch (Throwable ex) {
             //trap for android studio layout editor and some for certain devices
             //see https://github.com/osmdroid/osmdroid/issues/508
             ex.printStackTrace();
         }
         try {
             def_path_internal = (Build.VERSION.SDK_INT >= 9) && !Environment.isExternalStorageRemovable();
-        } catch (Exception ex) {
+        } catch (Throwable ex) {
             //trap for android studio layout editor and some for certain devices
             //see https://github.com/osmdroid/osmdroid/issues/508
             ex.printStackTrace();
         }
-        String def_path_state = Environment.getExternalStorageState();
-        boolean def_path_available = def_path_state.equals(Environment.MEDIA_MOUNTED)
-            || def_path_state.equals(Environment.MEDIA_MOUNTED_READ_ONLY);
-        boolean def_path_readonly = Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED_READ_ONLY);
+        try {
+            def_path_state = Environment.getExternalStorageState();
+        } catch (Throwable ex) {
+            //trap for android studio layout editor and some for certain devices
+            //see https://github.com/osmdroid/osmdroid/issues/508
+            ex.printStackTrace();
+        }
+        try {
+            def_path_available = def_path_state.equals(Environment.MEDIA_MOUNTED) || def_path_state.equals(Environment.MEDIA_MOUNTED_READ_ONLY);
+        } catch (Throwable ex) {
+            //trap for android studio layout editor and some for certain devices
+            //see https://github.com/osmdroid/osmdroid/issues/508
+            ex.printStackTrace();
+        }
+
+        try {
+            def_path_readonly = Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED_READ_ONLY);
+        } catch (Throwable ex) {
+            //trap for android studio layout editor and some for certain devices
+            //see https://github.com/osmdroid/osmdroid/issues/508
+            ex.printStackTrace();
+        }
         BufferedReader buf_reader = null;
         try {
             HashSet<String> paths = new HashSet<String>();
@@ -183,7 +204,13 @@ public class StorageUtils {
             return new File(ptr.path);
         }
         //http://stackoverflow.com/questions/21230629/getfilesdir-vs-environment-getdatadirectory
-        return Environment.getExternalStorageDirectory();
+        try {
+            return Environment.getExternalStorageDirectory();
+        }catch (Exception ex) {
+            //trap for android studio layout editor and some for certain devices
+            //see https://github.com/osmdroid/osmdroid/issues/508
+            return null;
+        }
     }
 
     /**

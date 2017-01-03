@@ -63,7 +63,7 @@ public class MapsForgeTileSource extends BitmapTileSourceBase {
      * @param xmlRenderTheme the theme to render tiles with
      */
     protected MapsForgeTileSource(String cacheTileSourceName, int minZoom, int maxZoom, int tileSizePixels, File[] file, XmlRenderTheme xmlRenderTheme, MultiMapDataStore.DataPolicy dataPolicy) {
-        super(cacheTileSourceName, minZoom, maxZoom, tileSizePixels, ".png");
+        super(cacheTileSourceName, minZoom, maxZoom, tileSizePixels, ".png","© OpenStreetMap contributors");
 
         mapDatabase = new MultiMapDataStore(dataPolicy);
         for (int i = 0; i < file.length; i++)

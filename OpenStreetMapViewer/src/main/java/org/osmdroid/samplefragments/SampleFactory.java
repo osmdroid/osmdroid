@@ -31,6 +31,7 @@ import org.osmdroid.samplefragments.data.SampleOsmPath;
 import org.osmdroid.samplefragments.data.SampleWithMinimapItemizedOverlayWithFocus;
 import org.osmdroid.samplefragments.data.SampleWithMinimapItemizedOverlayWithScale;
 import org.osmdroid.samplefragments.data.SampleSimpleFastPointOverlay;
+import org.osmdroid.samplefragments.location.SampleRotation;
 import org.osmdroid.samplefragments.tilesources.SampleAssetsOnly;
 import org.osmdroid.samplefragments.tilesources.SampleCustomLoadingImage;
 import org.osmdroid.samplefragments.tilesources.SampleCustomTileSource;
@@ -140,7 +141,9 @@ public final class SampleFactory implements ISampleFactory {
 				//37
 				SampleOpenSeaMap.class,
 				//38
-				SampleMarker.class
+				SampleMarker.class,
+				//39
+				SampleRotation.class,
 
         };
 	}

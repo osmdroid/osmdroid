@@ -53,7 +53,7 @@ public class ImageryMetaData {
 
 		final JSONObject resource = resultsSet.getJSONObject(0).getJSONArray(RESOURCE).getJSONObject(0);
 
-		return ImageryMetaDataResource.getInstanceFromJSON(resource);
+		return ImageryMetaDataResource.getInstanceFromJSON(resource,jsonResult);
 	}
 
 }

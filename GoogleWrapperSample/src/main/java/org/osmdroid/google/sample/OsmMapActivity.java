@@ -12,6 +12,7 @@ import org.osmdroid.events.ScrollEvent;
 import org.osmdroid.events.ZoomEvent;
 import org.osmdroid.tileprovider.tilesource.bing.BingMapTileSource;
 import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.CopyrightOverlay;
 
 import java.text.DecimalFormat;
 
@@ -33,8 +34,16 @@ public class OsmMapActivity extends Activity {
 
         //this gets the key from the manifest
         BingMapTileSource.retrieveBingKey(this);
-        BingMapTileSource source = new BingMapTileSource(null);
+        final BingMapTileSource source = new BingMapTileSource(null);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                source.initMetaData();
+            }
+        }).start();
+
         mMapView.setMaxZoomLevel(19);
+        mMapView.getOverlays().add(new CopyrightOverlay(this));
 
         mMapView.setTileSource(source);
         mMapView.setTilesScaledToDpi(true);

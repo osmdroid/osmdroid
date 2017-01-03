@@ -16,6 +16,9 @@ public class ImageryMetaDataResource {
 	private final static String IMAGE_URL_SUBDOMAINS = "imageUrlSubdomains";
 	private final static String ZOOM_MIN = "ZoomMin";
 	private final static String ZOOM_MAX = "ZoomMax";
+	private final static String COPYRIGHT="copyright";
+
+	public String copyright="";
 
 	/** image height in pixels (256 as default value) **/
 	public int m_imageHeight=256;
@@ -49,13 +52,14 @@ public class ImageryMetaDataResource {
 	 * @return	ImageryMetaDataResource object containing parsed information
 	 * @throws Exception
 	 */
-	static public ImageryMetaDataResource getInstanceFromJSON(final JSONObject a_jsonObject) throws Exception
+	static public ImageryMetaDataResource getInstanceFromJSON(final JSONObject a_jsonObject, final JSONObject parent) throws Exception
 	{
 		final ImageryMetaDataResource result = new ImageryMetaDataResource();
 
 		if(a_jsonObject==null) {
 			throw new Exception("JSON to parse is null");
 		}
+		result.copyright = parent.getString(COPYRIGHT);
 
 		if(a_jsonObject.has(IMAGE_HEIGHT)) {
 			result.m_imageHeight = a_jsonObject.getInt(IMAGE_HEIGHT);

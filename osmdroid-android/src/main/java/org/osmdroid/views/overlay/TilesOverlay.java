@@ -1,17 +1,5 @@
 package org.osmdroid.views.overlay;
 
-import org.osmdroid.library.R;
-import org.osmdroid.tileprovider.BitmapPool;
-import org.osmdroid.tileprovider.MapTile;
-import org.osmdroid.tileprovider.MapTileProviderBase;
-import org.osmdroid.tileprovider.ReusableBitmapDrawable;
-import org.osmdroid.tileprovider.tilesource.ITileSource;
-import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
-import org.osmdroid.util.TileLooper;
-import org.osmdroid.util.TileSystem;
-import org.osmdroid.views.MapView;
-import org.osmdroid.views.Projection;
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -24,12 +12,23 @@ import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
+
 import org.osmdroid.api.IMapView;
+import org.osmdroid.library.R;
+import org.osmdroid.tileprovider.BitmapPool;
+import org.osmdroid.tileprovider.MapTile;
+import org.osmdroid.tileprovider.MapTileProviderBase;
+import org.osmdroid.tileprovider.ReusableBitmapDrawable;
+import org.osmdroid.tileprovider.tilesource.ITileSource;
+import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
+import org.osmdroid.util.TileLooper;
+import org.osmdroid.util.TileSystem;
+import org.osmdroid.views.MapView;
+import org.osmdroid.views.Projection;
 
 /**
  * A {@link TilesOverlay} is responsible to display a {@link MapTile}.
@@ -61,12 +60,8 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 	private Point mTopLeftMercator = new Point();
 	private Point mBottomRightMercator = new Point();
 	private Point mTilePointMercator = new Point();
-	private Paint paintTileSourceCopyright = new Paint();
-	protected boolean alignBottom = true;
-	protected boolean alignRight  = false;
 
 	private Projection mProjection;
-	private float densityDpi =240;
 	private boolean mOptionsMenuEnabled = true;
 
 	/** A drawable loading tile **/
@@ -99,13 +94,6 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 					"You must pass a valid tile provider to the tiles overlay.");
 		}
 		this.mTileProvider = aTileProvider;
-		DisplayMetrics dm = ctx.getResources().getDisplayMetrics();
-		densityDpi = dm.density;
-		paintTileSourceCopyright.setTextSize(14 * densityDpi);
-
-		// Set text size to make text fill half canvas width
-		paintTileSourceCopyright.setAntiAlias(true);
-
 	}
 
 	/**
@@ -204,44 +192,8 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 
 		// Draw the tiles!
 		drawTiles(c, projection, projection.getZoomLevel(), TileSystem.getTileSize(), mViewPort);
-
-		drawCopyrightNotice(c, osmv.getTileProvider().getTileSource());
 	}
 
-	private void drawCopyrightNotice(final Canvas canvas, final ITileSource pTileSource) {
-		if (pTileSource.getCopyrightNotice()==null ||
-			pTileSource.getCopyrightNotice().length() == 0)
-			return;
-
-		int width = canvas.getWidth();
-		int height = canvas.getHeight();
-
-		//float length = paintTileSourceCopyright.measureText(pTileSource.getCopyrightNotice());
-
-		float x = 0;
-		float y = 0;
-
-		if (alignRight)
-		{
-			x = width - 8;
-			paintTileSourceCopyright.setTextAlign(Paint.Align.RIGHT);
-		}
-
-		else
-		{
-			x = 8;
-			paintTileSourceCopyright.setTextAlign(Paint.Align.LEFT);
-		}
-
-		if (alignBottom)
-			y = height - 10;
-
-		else
-			y = paintTileSourceCopyright.getTextSize();
-
-		// Draw the text
-		canvas.drawText(pTileSource.getCopyrightNotice(), x, y, paintTileSourceCopyright);
-	}
 
 	/**
 	 * This is meant to be a "pure" tile drawing function that doesn't take into account

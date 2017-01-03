@@ -29,6 +29,7 @@ import org.osmdroid.samplefragments.SampleFactory;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.CopyrightOverlay;
 import org.osmdroid.views.overlay.MinimapOverlay;
 import org.osmdroid.views.overlay.ScaleBarOverlay;
 import org.osmdroid.views.overlay.compass.CompassOverlay;
@@ -66,6 +67,7 @@ public class StarterMapFragment extends Fragment implements OpenStreetMapConstan
      private MinimapOverlay mMinimapOverlay;
      private ScaleBarOverlay mScaleBarOverlay;
      private RotationGestureOverlay mRotationGestureOverlay;
+     private CopyrightOverlay mCopyrightOverlay;
 
      public static StarterMapFragment newInstance() {
          return new StarterMapFragment();
@@ -143,6 +145,8 @@ public class StarterMapFragment extends Fragment implements OpenStreetMapConstan
           mMinimapOverlay.setWidth(dm.widthPixels / 5);
           mMinimapOverlay.setHeight(dm.heightPixels / 5);
 
+          mCopyrightOverlay = new CopyrightOverlay(context);
+
           mScaleBarOverlay = new ScaleBarOverlay(mMapView);
           mScaleBarOverlay.setCentred(true);
           mScaleBarOverlay.setScaleBarOffset(dm.widthPixels / 2, 10);
@@ -155,6 +159,7 @@ public class StarterMapFragment extends Fragment implements OpenStreetMapConstan
 
           mMapView.setTilesScaledToDpi(true);
           mMapView.getOverlays().add(this.mLocationOverlay);
+          mMapView.getOverlays().add(this.mCopyrightOverlay);
 
           mMapView.getOverlays().add(this.mMinimapOverlay);
           mMapView.getOverlays().add(this.mScaleBarOverlay);

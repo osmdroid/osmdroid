@@ -2,6 +2,7 @@ package org.osmdroid.samplefragments;
 
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.CopyrightOverlay;
 
 import android.annotation.TargetApi;
 import android.os.Build;
@@ -56,9 +57,6 @@ public abstract class BaseSampleFragment extends Fragment {
 								if (event.getAxisValue(MotionEvent.AXIS_VSCROLL) < 0.0f)
 									mMapView.getController().zoomOut();
 								else {
-									//this part just centers the map on the current mouse location before the zoom action occurs
-									IGeoPoint iGeoPoint = mMapView.getProjection().fromPixels((int) event.getX(), (int) event.getY());
-									mMapView.getController().animateTo(iGeoPoint);
 									mMapView.getController().zoomIn();
 								}
 								return true;
@@ -76,6 +74,7 @@ public abstract class BaseSampleFragment extends Fragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		Log.d(TAG, "onActivityCreated");
+		mMapView.getOverlays().add(new CopyrightOverlay(getContext()));
 		addOverlays();
 
 		if (mMapView!=null) {

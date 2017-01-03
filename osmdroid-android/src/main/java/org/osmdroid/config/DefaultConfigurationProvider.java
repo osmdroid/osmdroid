@@ -57,17 +57,23 @@ public class DefaultConfigurationProvider implements IConfigurationProvider {
     protected long tileFileSystemCacheMaxBytes = 600L * 1024 * 1024;
     protected long tileFileSystemCacheTrimBytes = 500L * 1024 * 1024;
     protected SimpleDateFormat httpHeaderDateTimeFormat = new SimpleDateFormat(HTTP_EXPIRES_HEADER_FORMAT, Locale.US);
-    protected File osmdroidBasePath = new File(StorageUtils.getStorage().getAbsolutePath(), "osmdroid");
-    protected File osmdroidTileCache =  new File(getOsmdroidBasePath(), "tiles");
+    protected File osmdroidBasePath;
+    protected File osmdroidTileCache;
     protected long expirationAdder = 0;
     protected Long expirationOverride=null;
 
     public DefaultConfigurationProvider(){
+
         try {
+            //StorageUtils.getStorage() can return null when android studio is "previewing" a layout
+            osmdroidBasePath = new File(StorageUtils.getStorage().getAbsolutePath(), "osmdroid");
+            osmdroidTileCache =  new File(getOsmdroidBasePath(), "tiles");
             osmdroidBasePath.mkdirs();
             osmdroidTileCache.mkdirs();
         }catch (Exception ex){
             //IO/permissions issue
+            //trap for android studio layout editor and some for certain devices
+            //see https://github.com/osmdroid/osmdroid/issues/508
         }
     }
     /**
