@@ -39,6 +39,7 @@ public class SampleCacheDownloaderCustomUI extends BaseSampleFragment implements
     TextView cache_estimate;
     CacheManager mgr;
     AlertDialog downloadPrompt = null;
+    CacheManager.DownloadingTask downloadingTask=null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -86,7 +87,9 @@ public class SampleCacheDownloaderCustomUI extends BaseSampleFragment implements
         alertDialogBuilder.setItems(new CharSequence[]{
                         getResources().getString(R.string.cache_current_size),
                         getResources().getString(R.string.cache_download),
-                        getResources().getString(R.string.cancel)
+                        getResources().getString(R.string.cancelall),
+                        getResources().getString(R.string.showpendingjobs),
+                        getResources().getString(R.string.close)
                 }, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which) {
@@ -95,10 +98,16 @@ public class SampleCacheDownloaderCustomUI extends BaseSampleFragment implements
                                 break;
                             case 1:
                                 downloadJobAlert();
-                            default:
-                                dialog.dismiss();
+                                break;
+                            case 2:
+                                mgr.cancelAllJobs();
+                                Toast.makeText(getActivity(), "Jobs Canceled", Toast.LENGTH_LONG).show();
+                                break;
+                            case 3:
+                                Toast.makeText(getActivity(), "Pending Jobs: " + mgr.getPendingJobs(), Toast.LENGTH_LONG).show();
                                 break;
                         }
+                        dialog.dismiss();
                     }
                 }
         );
@@ -205,9 +214,17 @@ public class SampleCacheDownloaderCustomUI extends BaseSampleFragment implements
                     progressBar.setMessage("Downloading ...");
                     progressBar.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
                     progressBar.setProgress(0);
-
+                    progressBar.setCancelable(true);
+                    progressBar.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                        @Override
+                        public void onDismiss(DialogInterface dialog) {
+                            //cancel the job wit the dialog is closed
+                            downloadingTask.cancel(true);
+                            System.out.println("Pending jobs " + mgr.getPendingJobs());
+                        }
+                    });
                     //this triggers the download
-                    mgr.downloadAreaAsyncNoUI(getActivity(), bb, zoommin, zoommax, SampleCacheDownloaderCustomUI.this);
+                    downloadingTask = mgr.downloadAreaAsyncNoUI(getActivity(), bb, zoommin, zoommax, SampleCacheDownloaderCustomUI.this);
 
 
                 }

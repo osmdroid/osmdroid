@@ -62,5 +62,8 @@
     <string name="cache_size_bytes">Cache size </string>
     <string name="loading_stats">Loading stats...</string>
     <string name="cache_analyzer_tasks">Cache Analyzer Tasks</string>
+    <string name="close">Close</string>
+    <string name="cancelall">Cancel All Jobs</string>
+    <string name="showpendingjobs">Pending Job Count</string>
 
 </resources>
