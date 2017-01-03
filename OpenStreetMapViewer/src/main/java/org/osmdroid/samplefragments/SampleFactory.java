@@ -10,6 +10,7 @@ import org.osmdroid.samplefragments.cache.SampleCacheDownloaderArchive;
 import org.osmdroid.samplefragments.cache.SampleCacheDownloaderCustomUI;
 import org.osmdroid.samplefragments.cache.SampleJumboCache;
 import org.osmdroid.samplefragments.cache.SampleSqliteOnly;
+import org.osmdroid.samplefragments.data.HeatMap;
 import org.osmdroid.samplefragments.data.SampleMarker;
 import org.osmdroid.samplefragments.data.SampleSimpleLocation;
 import org.osmdroid.samplefragments.events.SampleAnimateTo;
@@ -142,8 +143,11 @@ public final class SampleFactory implements ISampleFactory {
 				SampleOpenSeaMap.class,
 				//38
 				SampleMarker.class,
-				//39
-				SampleRotation.class,
+                //39
+                SampleRotation.class,
+                //40
+                HeatMap.class,
+
 
         };
 	}

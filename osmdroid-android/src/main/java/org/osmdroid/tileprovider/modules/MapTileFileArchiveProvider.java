@@ -218,7 +218,7 @@ public class MapTileFileArchiveProvider extends MapTileFileStorageProviderBase {
 			InputStream inputStream = null;
 			try {
 				if (Configuration.getInstance().isDebugMode()) {
-					Log.d(IMapView.LOGTAG,"Tile doesn't exist: " + pTile);
+					Log.d(IMapView.LOGTAG,"Archives - Tile doesn't exist: " + pTile);
 				}
 
 				inputStream = getInputStream(pTile, tileSource);
