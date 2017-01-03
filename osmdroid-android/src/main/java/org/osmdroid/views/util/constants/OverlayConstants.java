@@ -8,8 +8,6 @@ public interface OverlayConstants {
 	// Final Fields
 	// ===========================================================
 
-	public static boolean DEBUGMODE = false;
-
 	public static final int NOT_SET = Integer.MIN_VALUE;
 
 	public static final int DEFAULT_ZOOMLEVEL_MINIMAP_DIFFERENCE = 3;

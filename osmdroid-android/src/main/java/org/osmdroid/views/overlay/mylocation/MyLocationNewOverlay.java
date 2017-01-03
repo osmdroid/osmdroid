@@ -19,6 +19,7 @@ import android.view.MotionEvent;
 
 import org.osmdroid.api.IMapController;
 import org.osmdroid.api.IMapView;
+import org.osmdroid.config.Configuration;
 import org.osmdroid.library.R;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.TileSystem;
@@ -227,7 +228,7 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 		canvas.getMatrix(mMatrix);
 		mMatrix.getValues(mMatrixValues);
 
-		if (DEBUGMODE) {
+		if (Configuration.getInstance().isDebugMode()) {
 			final float tx = (-mMatrixValues[Matrix.MTRANS_X] + 20)
 					/ mMatrixValues[Matrix.MSCALE_X];
 			final float ty = (-mMatrixValues[Matrix.MTRANS_Y] + 90)
@@ -335,7 +336,7 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 			final double xDiff = x - mMapCoordsTranslated.x;
 			final double yDiff = y - mMapCoordsTranslated.y;
 			boolean snap = xDiff * xDiff + yDiff * yDiff < 64;
-			if (DEBUGMODE) {
+			if (Configuration.getInstance().isDebugMode()) {
                     Log.d(IMapView.LOGTAG, "snap=" + snap);
 			}
 			return snap;

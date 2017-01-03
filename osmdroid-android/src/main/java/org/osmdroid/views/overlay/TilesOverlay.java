@@ -1,5 +1,18 @@
 package org.osmdroid.views.overlay;
 
+import org.osmdroid.config.Configuration;
+import org.osmdroid.library.R;
+import org.osmdroid.tileprovider.BitmapPool;
+import org.osmdroid.tileprovider.MapTile;
+import org.osmdroid.tileprovider.MapTileProviderBase;
+import org.osmdroid.tileprovider.ReusableBitmapDrawable;
+import org.osmdroid.tileprovider.tilesource.ITileSource;
+import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
+import org.osmdroid.util.TileLooper;
+import org.osmdroid.util.TileSystem;
+import org.osmdroid.views.MapView;
+import org.osmdroid.views.Projection;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -12,23 +25,12 @@ import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
-
 import org.osmdroid.api.IMapView;
-import org.osmdroid.library.R;
-import org.osmdroid.tileprovider.BitmapPool;
-import org.osmdroid.tileprovider.MapTile;
-import org.osmdroid.tileprovider.MapTileProviderBase;
-import org.osmdroid.tileprovider.ReusableBitmapDrawable;
-import org.osmdroid.tileprovider.tilesource.ITileSource;
-import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
-import org.osmdroid.util.TileLooper;
-import org.osmdroid.util.TileSystem;
-import org.osmdroid.views.MapView;
-import org.osmdroid.views.Projection;
 
 /**
  * A {@link TilesOverlay} is responsible to display a {@link MapTile}.
@@ -169,7 +171,7 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 	@Override
 	public void draw(Canvas c, MapView osmv, boolean shadow) {
 
-		if (DEBUGMODE) {
+		if (Configuration.getInstance().isDebugTileProviders()) {
                Log.d(IMapView.LOGTAG,"onDraw(" + shadow + ")");
 		}
 
@@ -208,7 +210,7 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 		mTileLooper.loop(c, zoomLevel, tileSizePx, viewPort);
 
 		// draw a cross at center in debug mode
-		if (DEBUGMODE) {
+		if (Configuration.getInstance().isDebugTileProviders()) {
 			// final GeoPoint center = osmv.getMapCenter();
 			final Point centerPoint = new Point(viewPort.centerX(), viewPort.centerY());
 			c.drawLine(centerPoint.x, centerPoint.y - 9, centerPoint.x, centerPoint.y + 9, mDebugPaint);
@@ -254,7 +256,7 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 				}
 			}
 
-			if (DEBUGMODE) {
+			if (Configuration.getInstance().isDebugTileProviders()) {
 				mTileRect.set(pX * pTileSizePx, pY * pTileSizePx, pX * pTileSizePx + pTileSizePx, pY
 						* pTileSizePx + pTileSizePx);
 				pCanvas.drawText(pTile.toString(), mTileRect.left + 1,
