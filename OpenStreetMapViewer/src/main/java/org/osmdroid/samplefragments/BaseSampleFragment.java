@@ -74,10 +74,10 @@ public abstract class BaseSampleFragment extends Fragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		Log.d(TAG, "onActivityCreated");
-		mMapView.getOverlays().add(new CopyrightOverlay(getContext()));
 		addOverlays();
 
 		if (mMapView!=null) {
+			mMapView.getOverlays().add(new CopyrightOverlay(getActivity()));
 			mMapView.setBuiltInZoomControls(true);
 			mMapView.setMultiTouchControls(true);
 			mMapView.setTilesScaledToDpi(true);
