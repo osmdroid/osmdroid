@@ -50,7 +50,8 @@ import org.osmdroid.views.MapView;
  */
 public class CopyrightOverlay extends Overlay {
     private Paint paint;
-
+    int xOffset = 10;
+    int yOffset = 10;
     protected boolean alignBottom = true;
     protected boolean alignRight = false;
     final DisplayMetrics dm;
@@ -90,7 +91,16 @@ public class CopyrightOverlay extends Overlay {
         this.alignRight = alignRight;
     }
 
-    // Draw
+    /**
+     * Sets the screen offset. Values are in real pixels, not dip
+     *
+     * @param x horizontal screen offset, if aligh right is set, the offset is from the right, otherwise lift
+     * @param y vertical screen offset, if align bottom is set, the offset is pixels from the bottom (not the top)
+     */
+    public void setOffset(final int x, final int y) {
+        xOffset = x;
+        yOffset = y;
+    }
 
     @Override
     public void draw(Canvas canvas, MapView map, boolean shadow) {
@@ -110,18 +120,17 @@ public class CopyrightOverlay extends Overlay {
         float y = 0;
 
         if (alignRight) {
-            x = width - 8;
+            x = width - xOffset;
             paint.setTextAlign(Paint.Align.RIGHT);
         } else {
-            x = 8;
+            x = xOffset;
             paint.setTextAlign(Paint.Align.LEFT);
         }
 
         if (alignBottom)
-            y = height - 10;
-
+            y = height - yOffset;
         else
-            y = paint.getTextSize();
+            y = paint.getTextSize() + yOffset;
 
         // Draw the text
         canvas.save();

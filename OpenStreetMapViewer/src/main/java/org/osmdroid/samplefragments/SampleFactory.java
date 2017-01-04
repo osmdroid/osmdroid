@@ -20,6 +20,7 @@ import org.osmdroid.samplefragments.events.SampleMapBootListener;
 import org.osmdroid.samplefragments.events.SampleMapEventListener;
 import org.osmdroid.samplefragments.events.SampleZoomToBounding;
 import org.osmdroid.samplefragments.events.ZoomToBoundsOnStartup;
+import org.osmdroid.samplefragments.layouts.MapInScrollView;
 import org.osmdroid.samplefragments.layouts.SampleFragmentXmlLayout;
 import org.osmdroid.samplefragments.layouts.SampleSplitScreen;
 import org.osmdroid.samplefragments.location.SampleCustomIconDirectedLocationOverlay;
@@ -34,6 +35,7 @@ import org.osmdroid.samplefragments.data.SampleWithMinimapItemizedOverlayWithSca
 import org.osmdroid.samplefragments.data.SampleSimpleFastPointOverlay;
 import org.osmdroid.samplefragments.location.SampleRotation;
 import org.osmdroid.samplefragments.tilesources.SampleAssetsOnly;
+import org.osmdroid.samplefragments.tilesources.SampleCopyrightOverlay;
 import org.osmdroid.samplefragments.tilesources.SampleCustomLoadingImage;
 import org.osmdroid.samplefragments.tilesources.SampleCustomTileSource;
 import org.osmdroid.samplefragments.tilesources.SampleHereWeGo;
@@ -147,6 +149,10 @@ public final class SampleFactory implements ISampleFactory {
                 SampleRotation.class,
                 //40
                 HeatMap.class,
+				//41
+				MapInScrollView.class,
+				//42
+				SampleCopyrightOverlay.class,
 
 
         };
