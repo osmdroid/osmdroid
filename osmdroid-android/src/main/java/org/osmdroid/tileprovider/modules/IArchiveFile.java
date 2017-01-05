@@ -7,6 +7,13 @@ import java.util.Set;
 import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 
+/**
+ * The IArchiveFile is primary used to load tiles from a file archive. Generally, this should only
+ * be used for archives that require little to no computation in order to provide a given tile.
+ *
+ * For cases thereby the tiles are rendered or manipulated (such as from another projection)
+ * @see MapTileModuleProviderBase
+ */
 public interface IArchiveFile {
 
 	void init(File pFile) throws Exception;

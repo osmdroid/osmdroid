@@ -34,7 +34,7 @@ import org.osmdroid.tileprovider.util.SimpleRegisterReceiver;
  */
 public class MapTileProviderBasic extends MapTileProviderArray implements IMapTileProviderCallback {
 
-	IFilesystemCache tileWriter;
+	protected IFilesystemCache tileWriter;
 
 	/**
 	 * Creates a {@link MapTileProviderBasic}.

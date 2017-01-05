@@ -196,9 +196,7 @@ public class MapTileSqlCacheProvider  extends MapTileFileStorageProviderBase{
 
             InputStream inputStream = null;
             try {
-                if (Configuration.getInstance().isDebugMode()) {
-                    Log.d(IMapView.LOGTAG,"SqlCache - Tile doesn't exist: " + pTile);
-                }
+
 
                 final long x = (long) pTile.getX();
                 final long y = (long) pTile.getY();
@@ -214,8 +212,13 @@ public class MapTileSqlCacheProvider  extends MapTileFileStorageProviderBase{
                     lastModified = cur.getLong(cur.getColumnIndex("expires"));
                 }
                 cur.close();
-                if (bits==null)
+                if (bits==null) {
+                    if (Configuration.getInstance().isDebugMode()) {
+                        Log.d(IMapView.LOGTAG,"SqlCache - Tile doesn't exist: " +tileSource.name() + pTile);
+                        Counters.fileCacheMiss++;
+                    }
                     return null;
+                }
                 inputStream = new ByteArrayInputStream(bits);
                 Drawable drawable = tileSource.getDrawable(inputStream);
                 // Check to see if file has expired
@@ -224,11 +227,12 @@ public class MapTileSqlCacheProvider  extends MapTileFileStorageProviderBase{
 
                 if (fileExpired && drawable != null) {
                     if (Configuration.getInstance().isDebugMode()) {
-                        Log.d(IMapView.LOGTAG,"Tile expired: " + tile);
+                        Log.d(IMapView.LOGTAG,"Tile expired: " + tileSource.name() +pTile);
                     }
                     ExpirableBitmapDrawable.setDrawableExpired(drawable);
                     //should we remove from the database here?
                 }
+                Counters.fileCacheHit++;
                 return drawable;
             } catch (final Throwable e) {
                 Log.e(IMapView.LOGTAG,"Error loading tile", e);
