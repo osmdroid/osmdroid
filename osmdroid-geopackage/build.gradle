@@ -21,8 +21,8 @@ dependencies {
 
     compile "mil.nga.geopackage:geopackage-android:1.3.0"
 
-    compile 'com.google.android.gms:play-services:8.4.0'
-    compile 'com.google.maps.android:android-maps-utils:0.4.3'
+    //compile 'com.google.android.gms:play-services:8.4.0'
+    //compile 'com.google.maps.android:android-maps-utils:0.4.3'
     compile 'com.j256.ormlite:ormlite-android:4.48'
     compile 'mil.nga.geopackage:geopackage-core:1.2.0'
     compile 'ar.com.hjg:pngj:2.1.0'
@@ -36,4 +36,22 @@ dependencies {
     //compile 'org.xerial:sqlite-jdbc:3.7.2'
     //compile 'mil.nga.geopackage:geopackage-core:1.1.0'
 
+}
+
+
+project.gradle.taskGraph.whenReady {
+    //this is just for Travis CI builds, since this package needs at least api 9 with google apis
+    //ignore the following build targets 1,2,3,7, 12
+    if (System.getenv("API")!=null){
+        if ("8".equalsIgnoreCase(System.getenv("API").trim()) ||
+                "8g".equalsIgnoreCase(System.getenv("API").trim())||
+                "10".equalsIgnoreCase(System.getenv("API").trim())||
+                "10g".equalsIgnoreCase(System.getenv("API").trim())) {
+            println "Skipping GoogleWrapperSample instrumentation test since the API level doesn't match this project"
+
+            installDebug { actions = []; }
+            connectedDebugAndroidTest { actions = []; }
+
+        }
+    }
 }
