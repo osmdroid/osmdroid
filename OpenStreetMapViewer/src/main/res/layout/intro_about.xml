@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                android:background="@color/primary"
+                android:orientation="vertical"
+                android:padding="18dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="Open Map is a demo application for the osmdroid software library. It's purpose is to show how to use the various functions and capabilities of osmdroid. \n
+        \nGood news: It's free and open source!\n
+        \nWe rely on volunteers and welcome contributions."
+        android:textColor="@color/primary_text"
+        android:textSize="18dp"/>
+</RelativeLayout>

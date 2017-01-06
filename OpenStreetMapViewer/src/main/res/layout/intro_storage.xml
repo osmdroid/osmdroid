@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:background="@color/primary"
+              android:layout_width="match_parent"
+              android:padding="18dp"
+              android:layout_height="match_parent">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:textColor="@color/primary_text"
+        android:text="Cache Storage"
+        android:textSize="22dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/primary_text"
+        android:text="Almost there! We just wanted to confirm that that location we selected automatically, is ok with you storing the map tile cache"
+        android:textSize="14dp"/>
+
+
+    <TextView
+        android:paddingTop="22dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/primary_text"
+        android:text="Current Location:"
+        />
+
+    <TextView
+
+        android:id="@+id/textViewCacheDirectory"
+        android:layout_width="match_parent"
+        android:textColor="@color/primary_text"
+        android:layout_height="wrap_content"
+        android:text="PLACEHOLDER"/>
+
+    <Button
+        android:layout_marginTop="22dp"
+        android:id="@+id/buttonSetCache"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/pick_cache_location"/>
+
+    <Button
+        android:layout_marginTop="22dp"
+        android:id="@+id/buttonManualCacheEntry"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/enter_cache_location"/>
+
+</LinearLayout>

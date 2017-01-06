@@ -1,0 +1,1 @@
+This is the sample app on Google Play

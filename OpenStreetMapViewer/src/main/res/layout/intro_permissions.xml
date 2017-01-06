@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:background="@color/primary"
+              android:layout_width="match_parent"
+              android:padding="18dp"
+              android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:orientation="vertical">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:textColor="@color/primary_text"
+        android:text="Permissions"
+        android:textSize="22dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/primary_text"
+        android:text="osmdroid needs some permissions to get going. It works in most cases without them, but not all examples will function correctly."
+        android:textSize="14dp"/>
+
+    <TextView
+        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/primary_text"
+        android:text="Location/GPS"
+        android:textSize="18dp"/>
+
+    <TextView
+        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/primary_text"
+        android:text="This is needed to place an icon on the map where this device is located."
+        android:textSize="14dp"/>
+
+    <TextView
+        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/primary_text"
+        android:text="Storage Access"
+        android:textSize="18dp"/>
+
+    <TextView
+        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/primary_text"
+        android:text="osmdroid provides access to online maps from a variety of sources. Online maps are chopped up into millions of small images called tiles. To save you bandwidth, osmdroid caches those tiles on your device as they are downloaded. Without this permission, tiles are stored in this application's prviate storage area, typically on the devices internal storage. With this permission, you can store the cache at any writable location, such as an sdcard. When stored on the sdcard, other apps that use osmdroid will share the same cache which saves you space on your device."
+        android:textSize="14dp"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ask for Permissions"
+            android:id="@+id/askPermissions"
+            />
+    </LinearLayout>
+</ScrollView>
