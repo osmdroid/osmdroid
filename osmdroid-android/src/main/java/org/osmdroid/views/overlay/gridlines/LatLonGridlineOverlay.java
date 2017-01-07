@@ -18,7 +18,7 @@ import java.util.List;
  * Latitude/Longitude gridline overlay
  *
  * It's not perfect and has issues with osmdroid's global wrap around (where north pole turns into the south pole).
- * There's probably room for more optimzations too, pull requests are welcome.
+ * There's probably room for more optimizations too, pull requests are welcome.
  *
  * @since 5.2+
  * Created by alex on 12/15/15.
@@ -238,6 +238,7 @@ public class LatLonGridlineOverlay {
 
                     Marker m =  new Marker(mapView);
                     applyMarkerAttributes(m);
+                    m.setRotation(-90f);
                     if (i > 0) {
                         m.setTitle(df.format(i) + "E");
                     } else {
@@ -255,6 +256,7 @@ public class LatLonGridlineOverlay {
                     Marker m =  new Marker(mapView);
 
                     applyMarkerAttributes(m);
+                    m.setRotation(-90f);
                     if (i > 0) {
                         m.setTitle(df.format(i) + "E");
                     } else {

@@ -78,7 +78,7 @@ public class Marker extends OverlayWithIW {
 
 	/*internals*/
 	protected Point mPositionPixels;
-	protected static MarkerInfoWindow mDefaultInfoWindow = null;
+	protected MarkerInfoWindow mDefaultInfoWindow = null;
 	protected static Drawable mDefaultIcon = null; //cache for default icon (resourceProxy.getDrawable being slow)
 	protected Resources resource;
 
@@ -129,7 +129,7 @@ public class Marker extends OverlayWithIW {
 	/** Sets the icon for the marker. Can be changed at any time.
 	 * @param icon if null, the default osmdroid marker is used. 
 	 */
-	public void setIcon(Drawable icon){
+	public void setIcon(final Drawable icon){
 		if (ENABLE_TEXT_LABELS_WHEN_NO_IMAGE && icon==null && this.mTitle!=null && this.mTitle.length() > 0) {
 			Paint background = new Paint();
 			background.setColor(mTextLabelBackgroundColor);
@@ -150,12 +150,14 @@ public class Marker extends OverlayWithIW {
 			c.drawText(getTitle(),0,baseline,p);
 
 			mIcon=new BitmapDrawable(resource,image);
-		}
-		if (!ENABLE_TEXT_LABELS_WHEN_NO_IMAGE && icon!=null)
-			this.mIcon=icon;
-		//there's still an edge case here, title label no defined, icon is null and textlabel is enabled
-		if (this.mIcon==null)
+		} else if (!ENABLE_TEXT_LABELS_WHEN_NO_IMAGE && icon!=null) {
+			this.mIcon = icon;
+		} else if (this.mIcon!=null) {
+			mIcon=icon;
+		} else
+			//there's still an edge case here, title label no defined, icon is null and textlabel is enabled
 			mIcon = mDefaultIcon;
+
 	}
 	
 	public GeoPoint getPosition(){
@@ -333,7 +335,7 @@ public class Marker extends OverlayWithIW {
 	 */
 	public static void cleanDefaults(){
 				mDefaultIcon = null;
-				mDefaultInfoWindow = null;
+				//mDefaultInfoWindow = null;
 	}
 
 	public boolean hitTest(final MotionEvent event, final MapView mapView){

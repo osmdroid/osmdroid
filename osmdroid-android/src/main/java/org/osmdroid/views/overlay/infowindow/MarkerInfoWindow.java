@@ -1,10 +1,12 @@
 package org.osmdroid.views.overlay.infowindow;
 
+import org.osmdroid.api.IMapView;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.infowindow.BasicInfoWindow;
 
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -53,7 +55,10 @@ public class MarkerInfoWindow extends BasicInfoWindow {
 		super.onOpen(item);
 		
 		mMarkerRef = (Marker)item;
-		
+		if (mView==null) {
+			Log.w(IMapView.LOGTAG, "Error trapped, MarkerInfoWindow.open, mView is null!");
+			return;
+		}
 		//handle image
 		ImageView imageView = (ImageView)mView.findViewById(mImageId /*R.id.image*/);
 		Drawable image = mMarkerRef.getImage();

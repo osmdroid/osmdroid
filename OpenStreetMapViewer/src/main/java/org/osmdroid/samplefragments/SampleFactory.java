@@ -13,6 +13,7 @@ import org.osmdroid.samplefragments.cache.SampleSqliteOnly;
 import org.osmdroid.samplefragments.data.AsyncTaskDemoFragment;
 import org.osmdroid.samplefragments.data.HeatMap;
 import org.osmdroid.samplefragments.data.SampleGridlines;
+import org.osmdroid.samplefragments.data.SampleIISTracker;
 import org.osmdroid.samplefragments.data.SampleMarker;
 import org.osmdroid.samplefragments.data.SampleMilitaryIcons;
 import org.osmdroid.samplefragments.data.SampleOsmPath;
@@ -199,6 +200,8 @@ public final class SampleFactory implements ISampleFactory {
         mSamples.add(
             //42
             SampleCopyrightOverlay.class);
+
+        mSamples.add(SampleIISTracker.class);   //43
 
 
     }

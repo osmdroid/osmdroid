@@ -1,5 +1,6 @@
 package org.osmdroid.samplefragments.data;
 
+import android.graphics.Color;
 import android.util.Log;
 
 import org.osmdroid.samplefragments.BaseSampleFragment;
@@ -55,6 +56,9 @@ public class SampleGridlines extends BaseSampleFragment implements MapListener {
             mMapView.getOverlayManager().remove(activeLatLonGrid);
             activeLatLonGrid.onDetach(mMapView);
         }
+        LatLonGridlineOverlay.backgroundColor= Color.BLACK;
+        LatLonGridlineOverlay.fontColor=Color.GREEN;
+        LatLonGridlineOverlay.lineColor=Color.GREEN;
         activeLatLonGrid = LatLonGridlineOverlay.getLatLonGrid(getActivity(), mMapView);
         mMapView.getOverlays().add(activeLatLonGrid);
 
@@ -63,7 +67,8 @@ public class SampleGridlines extends BaseSampleFragment implements MapListener {
     @Override
     public void onDestroyView(){
 
-        activeLatLonGrid.onDetach(mMapView);
+        if (activeLatLonGrid!=null)
+            activeLatLonGrid.onDetach(mMapView);
         activeLatLonGrid=null;
         super.onDestroyView();
     }
