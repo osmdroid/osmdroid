@@ -110,7 +110,7 @@ public class SampleMilitaryIconsItemizedIcons extends BaseSampleFragment {
           }
 
           // Zoom and center on the focused item.
-          mMapView.getController().setZoom(5);
+          mMapView.getController().setZoom(3);
           IGeoPoint geoPoint = itemOverlay.getFocusedItem().getPoint();
           mMapView.getController().animateTo(geoPoint);
 

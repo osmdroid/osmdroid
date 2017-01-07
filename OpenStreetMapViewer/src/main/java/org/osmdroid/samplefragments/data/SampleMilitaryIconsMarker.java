@@ -75,7 +75,7 @@ public class SampleMilitaryIconsMarker extends BaseSampleFragment {
           mMapView.getOverlays().add(mRotationGestureOverlay);
 
           // Zoom and center on the focused item.
-          mMapView.getController().setZoom(5);
+          mMapView.getController().setZoom(3);
 
           setHasOptionsMenu(true);
           Toast.makeText(context, "Icon selection and location are random!", Toast.LENGTH_SHORT).show();

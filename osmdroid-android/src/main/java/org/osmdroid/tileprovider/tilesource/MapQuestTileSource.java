@@ -32,10 +32,10 @@ public class MapQuestTileSource extends OnlineTileSourceBase
      */
     public MapQuestTileSource(final Context ctx)
     {
-		super("mapbox", 1, 19, 256, ".png", mapBoxBaseUrl, "MapQuest");
+		super("MapQuest", 1, 19, 256, ".png", mapBoxBaseUrl, "MapQuest");
           retrieveAccessToken(ctx);
           retrieveMapBoxMapId(ctx);
-        mName="mapbox" + mapBoxMapId;
+        mName="MapQuest" + mapBoxMapId;
     }
 
     /**
@@ -46,7 +46,7 @@ public class MapQuestTileSource extends OnlineTileSourceBase
      */
     public MapQuestTileSource(final String mapboxid, final String accesstoken)
     {
-		super("mapbox"+mapboxid, 1, 19, 256, ".png", mapBoxBaseUrl, "MapQuest");
+		super("MapQuest"+mapboxid, 1, 19, 256, ".png", mapBoxBaseUrl, "MapQuest");
           this.accessToken=accesstoken;
           this.mapBoxMapId=mapboxid;
     }
