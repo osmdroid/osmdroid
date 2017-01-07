@@ -50,6 +50,34 @@
             android:layout_height="wrap_content"
             android:text="@string/cache_management"
             />
+
+        <TextView
+            android:id="@+id/baseDirTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/base_directory"
+            />
+
+        <TextView
+            android:id="@+id/textViewBaseDirectory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="/storage/sdcard"/>
+
+        <Button
+            android:id="@+id/buttonSetBase"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/pick_base_location"/>
+
+        <Button
+            android:id="@+id/buttonManualBaseEntry"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/enter_base_location"/>
+
+
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
