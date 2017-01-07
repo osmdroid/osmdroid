@@ -13,6 +13,7 @@ import org.osmdroid.events.MapListener;
 import org.osmdroid.events.ScrollEvent;
 import org.osmdroid.events.ZoomEvent;
 import org.osmdroid.samplefragments.BaseSampleFragment;
+import org.osmdroid.samplefragments.data.SampleGridlines;
 import org.osmdroid.samplefragments.data.utils.JSONParser;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.overlay.FolderOverlay;
@@ -53,7 +54,7 @@ public class SampleIISTracker extends SampleGridlines {
 
     @Override
     public String getSampleTitle() {
-        return "Internal Space Station Tracker";
+        return "Internal Space Station Tracker (Network connection required)";
     }
 
     boolean added=false;
@@ -86,18 +87,16 @@ public class SampleIISTracker extends SampleGridlines {
                                 try {
                                     marker.setPosition(location);
                                     mMapView.getController().setCenter(location);
-
-
                                     marker.setSnippet(nf.format(location.getLatitude()) + "," + nf.format(location.getLongitude()));
                                     if (marker.isInfoWindowShown()) {
                                         marker.closeInfoWindow();
                                         marker.showInfoWindow();
                                     }
-                                    if (!added)
+                                    if (!added) {
+                                        //only add it once
                                         mMapView.getOverlayManager().add(marker);
-                                    //mMapView.getOverlayManager().remove(marker);
-
-                                    added=true;
+                                        added = true;
+                                    }
 
                                 } catch (Exception ex) {
                                     Log.e(TAG, "error updating marker", ex);

@@ -78,7 +78,7 @@ public class Marker extends OverlayWithIW {
 
 	/*internals*/
 	protected Point mPositionPixels;
-	protected MarkerInfoWindow mDefaultInfoWindow = null;
+	protected static MarkerInfoWindow mDefaultInfoWindow = null;
 	protected static Drawable mDefaultIcon = null; //cache for default icon (resourceProxy.getDrawable being slow)
 	protected Resources resource;
 
@@ -244,7 +244,7 @@ public class Marker extends OverlayWithIW {
 	 * Note that this InfoWindow will receive the Marker object as an input, so it MUST be able to handle Marker attributes. 
 	 * If you don't want any InfoWindow to open, you can set it to null. */
 	public void setInfoWindow(MarkerInfoWindow infoWindow){
-		if (mInfoWindow!=null)
+		if (mInfoWindow!=null && mInfoWindow!=mDefaultInfoWindow )
 			mInfoWindow.onDetach();
 		mInfoWindow = infoWindow;
 	}
@@ -290,7 +290,7 @@ public class Marker extends OverlayWithIW {
 		Rect rect = new Rect(0, 0, width, height);
 		rect.offset(-(int)(mAnchorU*width), -(int)(mAnchorV*height));
 		mIcon.setBounds(rect);
-		
+
 		mIcon.setAlpha((int)(mAlpha*255));
 		
 		float rotationOnScreen = (mFlat ? -mBearing : mapView.getMapOrientation()-mBearing);
@@ -318,12 +318,18 @@ public class Marker extends OverlayWithIW {
 				}
 			}
 		}
-		cleanDefaults();
+		//cleanDefaults();
 		this.mOnMarkerClickListener=null;
 		this.mOnMarkerDragListener=null;
 		this.resource=null;
 		setRelatedObject(null);
-		closeInfoWindow();
+		if (mInfoWindow!=mDefaultInfoWindow) {
+			if (isInfoWindowShown())
+				closeInfoWindow();
+		}
+		//	//if we're using the shared info window, this will cause all instances to close
+
+		setInfoWindow(null);
 		onDestroy();
 
 
@@ -337,7 +343,7 @@ public class Marker extends OverlayWithIW {
 	 */
 	public static void cleanDefaults(){
 				mDefaultIcon = null;
-				//mDefaultInfoWindow = null;
+				mDefaultInfoWindow = null;
 	}
 
 	public boolean hitTest(final MotionEvent event, final MapView mapView){

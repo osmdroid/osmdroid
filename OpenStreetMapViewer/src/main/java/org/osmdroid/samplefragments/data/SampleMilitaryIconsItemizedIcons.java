@@ -25,12 +25,12 @@ import java.util.List;
  *
  * @author alex
  */
-public class SampleMilitaryIcons extends BaseSampleFragment {
+public class SampleMilitaryIconsItemizedIcons extends BaseSampleFragment {
 
 	// ===========================================================
      // Constants
      // ===========================================================
-     public static final String TITLE = "Military Icons";
+     public static final String TITLE = "Military Icons using Itemized Icons";
 
      private static final int MENU_ZOOMIN_ID = Menu.FIRST;
      private static final int MENU_ZOOMOUT_ID = MENU_ZOOMIN_ID + 1;

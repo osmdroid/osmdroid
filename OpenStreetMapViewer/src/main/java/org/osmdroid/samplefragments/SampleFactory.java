@@ -15,7 +15,8 @@ import org.osmdroid.samplefragments.data.HeatMap;
 import org.osmdroid.samplefragments.data.SampleGridlines;
 import org.osmdroid.samplefragments.data.SampleIISTracker;
 import org.osmdroid.samplefragments.data.SampleMarker;
-import org.osmdroid.samplefragments.data.SampleMilitaryIcons;
+import org.osmdroid.samplefragments.data.SampleMilitaryIconsItemizedIcons;
+import org.osmdroid.samplefragments.data.SampleMilitaryIconsMarker;
 import org.osmdroid.samplefragments.data.SampleOsmPath;
 import org.osmdroid.samplefragments.data.SampleSimpleFastPointOverlay;
 import org.osmdroid.samplefragments.data.SampleSimpleLocation;
@@ -94,7 +95,7 @@ public final class SampleFactory implements ISampleFactory {
             SampleAlternateCacheDir.class);
         mSamples.add(
             //7
-            SampleMilitaryIcons.class);
+            SampleMilitaryIconsItemizedIcons.class);
         mSamples.add(
             //8
             SampleMapBox.class);
@@ -202,6 +203,7 @@ public final class SampleFactory implements ISampleFactory {
             SampleCopyrightOverlay.class);
 
         mSamples.add(SampleIISTracker.class);   //43
+        mSamples.add(SampleMilitaryIconsMarker.class);   //44
 
 
     }
