@@ -244,6 +244,8 @@ public class Marker extends OverlayWithIW {
 	 * Note that this InfoWindow will receive the Marker object as an input, so it MUST be able to handle Marker attributes. 
 	 * If you don't want any InfoWindow to open, you can set it to null. */
 	public void setInfoWindow(MarkerInfoWindow infoWindow){
+		if (mInfoWindow!=null)
+			mInfoWindow.onDetach();
 		mInfoWindow = infoWindow;
 	}
 
