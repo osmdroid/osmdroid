@@ -21,6 +21,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.osmdroid.PreferenceActivity;
 import org.osmdroid.R;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.util.StorageUtils;
@@ -63,6 +64,15 @@ public class StoragePreferenceFragment extends Fragment implements View.OnClickL
 
 
         return v;
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        //only needed for api23+ since we "should" have had permissions granted by now
+        PreferenceActivity.resetSettings(this.getContext());
+        Configuration.getInstance().load(getContext(), PreferenceManager.getDefaultSharedPreferences(getContext()));
+        textViewCacheDirectory.setText(Configuration.getInstance().getOsmdroidTileCache().toString());
     }
 
 

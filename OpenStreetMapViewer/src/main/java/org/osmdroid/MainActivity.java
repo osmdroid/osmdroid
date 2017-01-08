@@ -57,11 +57,12 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
         list.add("OSMapView with ItemizedOverlay");
         list.add("OSMapView with Minimap and ZoomControls");
         list.add("Sample with tiles overlay");
-        list.add("Sample with tiles overlay and custom tile source");
+        list.add("Sample with tiles overlay and secondary tile overlay");
         list.add("More Samples");
-        list.add("Bug Drivers");
+
         list.add("Report a bug");
         list.add("Settings");
+        list.add("Bug Drivers");
         if (BuildConfig.VERSION_CODE >= 11)
             list.add("Cache Analyzer");
 
@@ -98,15 +99,15 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
                 this.startActivity(new Intent(this, ExtraSamplesActivity.class));
                 break;
             case 7:
-                this.startActivity(new Intent(this, BugsTestingActivity.class));
-                break;
-            case 8:
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/osmdroid/osmdroid/issues"));
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/osmdroid/osmdroid/issues/new"));
                 startActivity(browserIntent);
                 break;
-            case 9:
+            case 8:
                 Intent i = new Intent(this,PreferenceActivity.class);
                 startActivity(i);
+                break;
+            case 9:
+                this.startActivity(new Intent(this, BugsTestingActivity.class));
                 break;
             case 10:
             {
@@ -162,8 +163,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
         final String state = Environment.getExternalStorageState();
 
         boolean mSdCardAvailable = Environment.MEDIA_MOUNTED.equals(state);
-        tv.setText((mSdCardAvailable ? "Mounted" : "Not Available") + "\n" + Configuration.getInstance().getOsmdroidTileCache().getAbsolutePath() + "\n" +
-            "Cache size: " + Formatter.formatFileSize(this,cacheSize));
+        tv.setText((mSdCardAvailable ? "Mounted" : "Not Available") );
         if (!mSdCardAvailable) {
             tv.setTextColor(Color.RED);
             tv.setTypeface(null, Typeface.BOLD);
@@ -171,6 +171,10 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 
         tv = (TextView) findViewById(R.id.version_text);
         tv.setText(BuildConfig.VERSION_NAME + " " + BuildConfig.BUILD_TYPE);
+
+        tv = (TextView) findViewById(R.id.mainstorageInfo);
+        tv.setText(Configuration.getInstance().getOsmdroidTileCache().getAbsolutePath() + "\n" +
+            "Cache size: " + Formatter.formatFileSize(this,cacheSize));
     }
 
 

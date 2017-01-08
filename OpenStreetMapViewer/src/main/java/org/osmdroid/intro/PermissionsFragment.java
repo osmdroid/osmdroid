@@ -88,7 +88,7 @@ public class PermissionsFragment extends Fragment implements View.OnClickListene
             message += "\nStorage access to store map tiles.";
         }
         if (!permissions.isEmpty()) {
-            Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
+            //Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
             String[] params = permissions.toArray(new String[permissions.size()]);
             requestPermissions(params, REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS);
         } // else: We already have permissions, so handle as normal

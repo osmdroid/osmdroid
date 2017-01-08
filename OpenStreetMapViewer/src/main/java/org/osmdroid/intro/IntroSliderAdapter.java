@@ -3,12 +3,15 @@ package org.osmdroid.intro;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.view.ViewGroup;
 
 /**
  * Created by alex on 10/22/16.
  */
 
 public class IntroSliderAdapter extends FragmentStatePagerAdapter {
+
+
     public IntroSliderAdapter(FragmentManager fm) {
         super(fm);
     }
@@ -27,5 +30,12 @@ public class IntroSliderAdapter extends FragmentStatePagerAdapter {
     @Override
     public int getCount() {
         return 4;
+    }
+
+    @Override
+    public void setPrimaryItem(ViewGroup container, int position, Object object) {
+        super.setPrimaryItem(container,position,object);
+        System.out.println("New pager is " + position);
+
     }
 }

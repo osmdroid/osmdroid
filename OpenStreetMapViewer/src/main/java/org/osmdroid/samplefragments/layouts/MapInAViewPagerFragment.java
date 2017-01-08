@@ -17,9 +17,9 @@ import org.osmdroid.samplefragments.layouts.pager.MapSliderAdapter;
  */
 
 public class MapInAViewPagerFragment extends BaseSampleFragment {
-    int PAGES=3;
     ViewPager mPager;
     PagerAdapter mPagerAdapter;
+
     @Override
     public String getSampleTitle() {
         return "Map in a view pager";

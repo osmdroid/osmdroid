@@ -2,6 +2,7 @@ package org.osmdroid;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -223,7 +224,7 @@ public class PreferenceActivity extends Activity implements View.OnClickListener
             }
             break;
             case R.id.buttonReset: {
-                resetSettings();
+                resetSettings(this);
                 abortSave=true;
                 finish();
             }
@@ -241,15 +242,17 @@ public class PreferenceActivity extends Activity implements View.OnClickListener
         }
     }
 
-       private void resetSettings() {
+    public static void resetSettings(Context ctx) {
         //delete all preference keys, if you're using this for your own application
         //you may want to consider some additional logic here (only clear osmdroid settings or
         //use something other than the default shared preferences map
-        SharedPreferences.Editor edit = PreferenceManager.getDefaultSharedPreferences(this).edit();
+        SharedPreferences.Editor edit = PreferenceManager.getDefaultSharedPreferences(ctx).edit();
         edit.clear();
         edit.commit();
+        //this will repopulate the default settings
         Configuration.setConfigurationProvider(new DefaultConfigurationProvider());
-        Configuration.getInstance().save(this, PreferenceManager.getDefaultSharedPreferences(this));
+        //this will save the default along with the user agent (important for downloading tiles)
+        Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
     }
 
     private void purgeCache() {

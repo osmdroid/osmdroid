@@ -104,7 +104,6 @@
             android:required="false" />
 
         <activity android:name=".intro.IntroActivity"
-                  android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen"
                   android:icon="@drawable/icon"
                   android:label="@string/app_name"
             >

@@ -5,7 +5,6 @@ apply from: "https://raw.githubusercontent.com/gradle-fury/gradle-fury/v1.1.3/gr
 
 android {
     defaultConfig {
-        minSdkVersion 11
         applicationId 'org.osmdroid'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -28,13 +27,11 @@ android {
 
 
 dependencies {
-    compile 'com.android.support:support-v4:24+'
+    compile 'com.android.support:support-v4:23+'
     compile project(':osmdroid-android')
 
     //crash logging
     compile 'ch.acra:acra:4.7.0'
-
-    compile 'com.github.paolorotolo:appintro:4.1.0'
 
     //memory leak testing
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.4-beta2'
@@ -42,7 +39,7 @@ dependencies {
     testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'
 
     //on device testing
-    androidTestCompile 'com.android.support:support-annotations:24+'
+    androidTestCompile 'com.android.support:support-annotations:23+'
     androidTestCompile 'com.android.support.test:runner:0.4.+'
     androidTestCompile 'com.android.support.test:rules:0.4.+'
 }
