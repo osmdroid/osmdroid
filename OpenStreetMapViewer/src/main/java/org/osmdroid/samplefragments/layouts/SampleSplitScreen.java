@@ -14,6 +14,7 @@ import org.osmdroid.samplefragments.BaseSampleFragment;
 import org.osmdroid.tileprovider.tilesource.MapBoxTileSource;
 import org.osmdroid.tileprovider.tilesource.MapQuestTileSource;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
+import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 
 
@@ -44,6 +45,10 @@ public class SampleSplitScreen extends BaseSampleFragment implements MapListener
     @Override
     protected void addOverlays() {
         mMapView.setTileSource(TileSourceFactory.MAPNIK);
+        mMapView.getController().setZoom(1);
+        mMapView.getController().setCenter(new GeoPoint(39.8282, 98.5795));
+        mMapView2.getController().setZoom(1);
+        mMapView2.getController().setCenter(new GeoPoint(39.8282, 98.5795));
         mMapView.setMapListener(this);
         //hey, check out the other constructors for mapbox, there's a few options to load up your
         //access token and tile set preferences
