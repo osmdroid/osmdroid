@@ -79,6 +79,7 @@ public class IntroActivity extends FragmentActivity implements View.OnClickListe
                     //next to MainActivity
                     Intent i = new Intent(this, MainActivity.class);
                     startActivity(i);
+                    finish();   //prevent the back button from returning to this activity
                 }
                 break;
             case R.id.introPrev:
