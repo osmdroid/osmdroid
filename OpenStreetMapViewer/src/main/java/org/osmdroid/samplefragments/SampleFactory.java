@@ -37,6 +37,8 @@ import org.osmdroid.samplefragments.location.SampleFollowMe;
 import org.osmdroid.samplefragments.location.SampleHeadingCompassUp;
 import org.osmdroid.samplefragments.location.SampleRotation;
 import org.osmdroid.samplefragments.tilesources.SampleAssetsOnly;
+import org.osmdroid.samplefragments.tilesources.SampleBingHybrid;
+import org.osmdroid.samplefragments.tilesources.SampleBingRoad;
 import org.osmdroid.samplefragments.tilesources.SampleCopyrightOverlay;
 import org.osmdroid.samplefragments.tilesources.SampleCustomLoadingImage;
 import org.osmdroid.samplefragments.tilesources.SampleCustomTileSource;
@@ -204,6 +206,8 @@ public final class SampleFactory implements ISampleFactory {
 
 
         mSamples.add(ScaleBarOnBottom.class);
+        mSamples.add(SampleBingHybrid.class);
+        mSamples.add(SampleBingRoad.class);
     }
 
     public void addSample(Class<? extends BaseSampleFragment> clz) {

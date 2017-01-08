@@ -1,4 +1,4 @@
-package org.osmdroid.tileprovider.tilesource.bing.imagerymetadata;
+package org.osmdroid.tileprovider.tilesource.bing;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

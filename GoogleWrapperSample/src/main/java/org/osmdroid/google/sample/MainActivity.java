@@ -54,7 +54,7 @@ public class MainActivity extends ListActivity {
         // Generate a ListView with Sample Maps
         final ArrayList<String> list = new ArrayList<String>();
         list.add("Google Maps v2 (out of the box)");
-        list.add("OSMDroid using Bing for tiles");
+        //list.add("OSMDroid using Bing for tiles");    //MOVE INTO osmdroid-android and the Open Map sample application
         list.add("Google Maps v1 via the osmdroid APIs");
         list.add("Google Maps v2 via the osmdroid APIs");
 
@@ -70,16 +70,16 @@ public class MainActivity extends ListActivity {
                 } else
                     Toast.makeText(this, "Not available on your device", Toast.LENGTH_LONG).show();
                 break;
+            //case 1: MOVED
+              //  this.startActivity(new Intent(this, OsmMapActivity.class));
+                //break;
             case 1:
-                this.startActivity(new Intent(this, OsmMapActivity.class));
-                break;
-            case 2:
                 if (isGooglePlayServicesInstalled && isV1Supported) {
                     this.startActivity(new Intent(this, Googlev1WrapperSample.class));
                 } else
                     Toast.makeText(this, "Not available on your device", Toast.LENGTH_LONG).show();
                 break;
-            case 3:
+            case 2:
                 if (isGooglePlayServicesInstalled && isV2Supported) {
                     this.startActivity(new Intent(this, Googlev2WrapperSample.class));
                 } else
