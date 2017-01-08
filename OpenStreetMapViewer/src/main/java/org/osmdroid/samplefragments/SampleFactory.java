@@ -11,6 +11,7 @@ import org.osmdroid.samplefragments.cache.SampleCacheDownloaderCustomUI;
 import org.osmdroid.samplefragments.cache.SampleJumboCache;
 import org.osmdroid.samplefragments.cache.SampleSqliteOnly;
 import org.osmdroid.samplefragments.data.AsyncTaskDemoFragment;
+import org.osmdroid.samplefragments.data.Gridlines2;
 import org.osmdroid.samplefragments.data.HeatMap;
 import org.osmdroid.samplefragments.data.SampleGridlines;
 import org.osmdroid.samplefragments.data.SampleMarker;
@@ -47,6 +48,7 @@ import org.osmdroid.samplefragments.tilesources.SampleMapQuest;
 import org.osmdroid.samplefragments.tilesources.SampleOfflineOnly;
 import org.osmdroid.samplefragments.tilesources.SampleOpenSeaMap;
 import org.osmdroid.samplefragments.tilesources.SampleWhackyColorFilter;
+import org.osmdroid.samplefragments.tilesources.SepiaToneTiles;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -204,6 +206,8 @@ public final class SampleFactory implements ISampleFactory {
 
 
         mSamples.add(ScaleBarOnBottom.class);
+        mSamples.add(Gridlines2.class);
+        mSamples.add(SepiaToneTiles.class);
     }
 
     public void addSample(Class<? extends BaseSampleFragment> clz) {
