@@ -68,5 +68,8 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="userconfirm">Are you sure?</string>
+    <string name="close">Close</string>
+    <string name="cancelall">Cancel All Jobs</string>
+    <string name="showpendingjobs">Pending Job Count</string>
 
 </resources>
