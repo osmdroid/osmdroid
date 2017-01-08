@@ -70,6 +70,7 @@ public class SampleOsmPath extends BaseSampleFragment implements MapListener {
 	protected void addOverlays() {
 		super.addOverlays();
 
+		//we override this to force zoom to 22, even though mapnik dooesn't do that deep
 		OnlineTileSourceBase mapnik = new XYTileSource("Mapnik",
 				0, 22, 256, ".png", new String[] {
 				"http://a.tile.openstreetmap.org/",

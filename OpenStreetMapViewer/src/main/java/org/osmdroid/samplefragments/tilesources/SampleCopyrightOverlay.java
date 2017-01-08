@@ -32,8 +32,9 @@ public class SampleCopyrightOverlay extends BaseSampleFragment {
         copyrightOverlay.setTextColor(Color.GREEN);
         copyrightOverlay.setTextSize(20);
         copyrightOverlay.setAlignBottom(true);
-        copyrightOverlay.setAlignRight(true);
-        copyrightOverlay.setOffset(45,90);
+        copyrightOverlay.setAlignRight(false);
+        copyrightOverlay.setOffset(20,40);
+        //with align bottom and left, this should be 20dp from the bottom, 20dp from the left
 
         mMapView.getOverlays().add(copyrightOverlay);
 

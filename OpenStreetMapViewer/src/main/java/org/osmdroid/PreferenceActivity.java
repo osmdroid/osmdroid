@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Editable;
@@ -45,8 +46,11 @@ public class PreferenceActivity extends Activity implements View.OnClickListener
     Button buttonSetCache,
         buttonManualCacheEntry,
         buttonPurgeCache,
-        buttonReset;
+        buttonReset,
+        buttonSetBase,
+        buttonManualBaseEntry;
     TextView textViewCacheDirectory;
+    TextView textViewBaseDirectory;
     EditText httpUserAgent,
         tileDownloadThreads,
         tileDownloadMaxQueueSize,
@@ -70,6 +74,7 @@ public class PreferenceActivity extends Activity implements View.OnClickListener
         checkBoxMapViewDebug.setOnClickListener(this);
 
         textViewCacheDirectory = (TextView) findViewById(R.id.textViewCacheDirectory);
+        textViewBaseDirectory = (TextView) findViewById(R.id.textViewBaseDirectory);
         buttonPurgeCache = (Button) findViewById(R.id.buttonPurgeCache);
         httpUserAgent = (EditText) findViewById(R.id.httpUserAgent);
         tileDownloadThreads = (EditText) findViewById(R.id.tileDownloadThreads);
@@ -89,13 +94,20 @@ public class PreferenceActivity extends Activity implements View.OnClickListener
 
         overrideExpirationTime = (EditText) findViewById(R.id.overrideExpirationTime);
 
+        buttonSetBase = (Button) findViewById(R.id.buttonSetBase);
+        buttonSetBase.setOnClickListener(this);
         buttonSetCache = (Button) findViewById(R.id.buttonSetCache);
         buttonManualCacheEntry = (Button) findViewById(R.id.buttonManualCacheEntry);
         buttonSetCache.setOnClickListener(this);
+        buttonManualBaseEntry = (Button) findViewById(R.id.buttonManualBaseEntry);
+        buttonManualBaseEntry.setOnClickListener(this);
         buttonManualCacheEntry.setOnClickListener(this);
         buttonPurgeCache.setOnClickListener(this);
         buttonReset = (Button) findViewById(R.id.buttonReset);
         buttonReset.setOnClickListener(this);
+
+        findViewById(R.id.baseDirTitle).setOnClickListener(this);
+
     }
 
     @Override
@@ -118,6 +130,7 @@ public class PreferenceActivity extends Activity implements View.OnClickListener
         checkBoxHardwareAcceleration.setChecked(Configuration.getInstance().isMapViewHardwareAccelerated());
         checkBoxDebugDownloading.setChecked(Configuration.getInstance().isDebugMapTileDownloader());
         textViewCacheDirectory.setText(Configuration.getInstance().getOsmdroidTileCache().getAbsolutePath());
+        textViewBaseDirectory.setText(Configuration.getInstance().getOsmdroidBasePath().getAbsolutePath());
     }
 
     @Override
@@ -187,6 +200,7 @@ public class PreferenceActivity extends Activity implements View.OnClickListener
         Configuration.getInstance().setMapViewHardwareAccelerated(checkBoxHardwareAcceleration.isChecked());
         Configuration.getInstance().setDebugMapTileDownloader(checkBoxDebugDownloading.isChecked());
         Configuration.getInstance().setOsmdroidTileCache(new File(textViewCacheDirectory.getText().toString()));
+        Configuration.getInstance().setOsmdroidBasePath(new File(textViewBaseDirectory.getText().toString()));
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         Configuration.getInstance().save(this, prefs);
@@ -197,11 +211,11 @@ public class PreferenceActivity extends Activity implements View.OnClickListener
 
         switch (v.getId()) {
             case R.id.buttonManualCacheEntry: {
-                showManualEntry();
+                showManualEntry(textViewCacheDirectory);
             }
             break;
             case R.id.buttonSetCache: {
-                showPickCacheFromList();
+                showPickCacheFromList(textViewCacheDirectory, "tiles" + File.separator);
             }
             break;
             case R.id.buttonPurgeCache: {
@@ -214,11 +228,20 @@ public class PreferenceActivity extends Activity implements View.OnClickListener
                 finish();
             }
             break;
+            case R.id.buttonManualBaseEntry: {
+                showManualEntry(textViewBaseDirectory);
+            }
+            break;
+            case R.id.buttonSetBase: {
+                showPickCacheFromList(textViewBaseDirectory, "");
+            }
+            break;
+
 
         }
     }
 
-    private void resetSettings() {
+       private void resetSettings() {
         //delete all preference keys, if you're using this for your own application
         //you may want to consider some additional logic here (only clear osmdroid settings or
         //use something other than the default shared preferences map
@@ -230,17 +253,36 @@ public class PreferenceActivity extends Activity implements View.OnClickListener
     }
 
     private void purgeCache() {
-        SqlTileWriter sqlTileWriter = new SqlTileWriter();
-        boolean b = sqlTileWriter.purgeCache();
-        sqlTileWriter.onDetach();
-        sqlTileWriter = null;
-        if (b)
-            Toast.makeText(this, "SQL Cache purged", Toast.LENGTH_SHORT).show();
-        else
-            Toast.makeText(this, "SQL Cache purge failed, see logcat for details", Toast.LENGTH_LONG).show();
+        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which){
+                    case DialogInterface.BUTTON_POSITIVE:
+                        //Yes button clicked
+                        SqlTileWriter sqlTileWriter = new SqlTileWriter();
+                        boolean b = sqlTileWriter.purgeCache();
+                        sqlTileWriter.onDetach();
+                        sqlTileWriter = null;
+                        if (b)
+                            Toast.makeText(PreferenceActivity.this, "SQL Cache purged", Toast.LENGTH_SHORT).show();
+                        else
+                            Toast.makeText(PreferenceActivity.this, "SQL Cache purge failed, see logcat for details", Toast.LENGTH_LONG).show();
+                        break;
+
+                    case DialogInterface.BUTTON_NEGATIVE:
+                        //No button clicked
+                        break;
+                }
+            }
+        };
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.userconfirm).setPositiveButton(R.string.yes, dialogClickListener)
+            .setNegativeButton(R.string.no, dialogClickListener).show();
+
     }
 
-    private void showPickCacheFromList() {
+    private void showPickCacheFromList(final TextView tv, final String  postfix) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.enterCacheLocation);
@@ -252,17 +294,20 @@ public class PreferenceActivity extends Activity implements View.OnClickListener
             if (!storageList.get(i).readonly)
                 arrayAdapter.add(storageList.get(i).path);
         }
+        arrayAdapter.add("/data/data/" + getPackageName());
 
         builder.setAdapter(arrayAdapter, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String item = arrayAdapter.getItem(which);
                 try {
-                    new File(item + File.separator + "osmdroid" + File.separator + "tiles" + File.separator).mkdirs();
+                    new File(item + File.separator + "osmdroid" + File.separator + postfix).mkdirs();
+                    tv.setText(item + File.separator + "osmdroid" + File.separator + postfix);
                 } catch (Exception ex) {
                     ex.printStackTrace();
+                    Toast.makeText(PreferenceActivity.this, "Invalid entry: " + ex.getMessage(), Toast.LENGTH_LONG);
                 }
-                textViewCacheDirectory.setText(item + File.separator + "osmdroid" + File.separator + "tiles");
+
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -276,7 +321,7 @@ public class PreferenceActivity extends Activity implements View.OnClickListener
     }
 
 
-    private void showManualEntry() {
+    private void showManualEntry(final TextView textView) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.enterCacheLocation);
@@ -286,7 +331,7 @@ public class PreferenceActivity extends Activity implements View.OnClickListener
         // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
         input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
         input.setLines(1);
-        input.setText(textViewCacheDirectory.getText().toString());
+        input.setText(textView.getText().toString());
         input.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -319,7 +364,7 @@ public class PreferenceActivity extends Activity implements View.OnClickListener
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if (input.getError() == null) {
-                    textViewCacheDirectory.setText(input.getText().toString());
+                    textView.setText(input.getText().toString());
                 }
             }
         });
@@ -333,4 +378,6 @@ public class PreferenceActivity extends Activity implements View.OnClickListener
         builder.show();
 
     }
+
+
 }

@@ -31,6 +31,7 @@ import org.osmdroid.samplefragments.layouts.MapInAViewPagerFragment;
 import org.osmdroid.samplefragments.layouts.MapInScrollView;
 import org.osmdroid.samplefragments.layouts.SampleFragmentXmlLayout;
 import org.osmdroid.samplefragments.layouts.SampleSplitScreen;
+import org.osmdroid.samplefragments.layouts.ScaleBarOnBottom;
 import org.osmdroid.samplefragments.location.SampleCustomIconDirectedLocationOverlay;
 import org.osmdroid.samplefragments.location.SampleFollowMe;
 import org.osmdroid.samplefragments.location.SampleHeadingCompassUp;
@@ -201,6 +202,8 @@ public final class SampleFactory implements ISampleFactory {
             SampleCopyrightOverlay.class);
 
 
+
+        mSamples.add(ScaleBarOnBottom.class);
     }
 
     public void addSample(Class<? extends BaseSampleFragment> clz) {
