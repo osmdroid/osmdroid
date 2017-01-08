@@ -123,7 +123,7 @@ public class SamplesMenuFragment extends Fragment {
 
         //category, content
         listDataChild = new HashMap<String, List<String>>();
-
+        //had this throw an NPE once after device rotation and a back button press.
         for (int a = 0; a < sampleFactory.count(); a++) {
             final BaseSampleFragment f = sampleFactory.getSample(a);
             titleSampleMap.put(f.getSampleTitle(), f);
