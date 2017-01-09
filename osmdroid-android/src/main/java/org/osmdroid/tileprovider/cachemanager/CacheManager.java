@@ -223,7 +223,6 @@ public class CacheManager {
      * Calculation done based on http://www.movable-type.co.uk/scripts/latlong.html
      */
     public int possibleTilesCovered(ArrayList<GeoPoint> geoPoints, final int zoomMin, final int zoomMax) {
-        int total = 0;
         ArrayList<Point> tilePoints = new ArrayList<>();
         boolean foundTilePoint;
         GeoPoint prevPoint = null, wayPoint;
@@ -627,8 +626,8 @@ public class CacheManager {
 
             if (mBB != null) {
                 for (int zoomLevel = mZoomMin; zoomLevel <= mZoomMax; zoomLevel++) {
-                    Point mLowerRight = getMapTileFromCoordinates(mBB.getLatSouth() , mBB.getLonEast() , zoomLevel);
-                    Point mUpperLeft = getMapTileFromCoordinates(mBB.getLatNorth(), mBB.getLonWest() , zoomLevel);
+                    Point mLowerRight = getMapTileFromCoordinates(mBB.getLatSouth() , mBB.getLonEast(), zoomLevel);
+                    Point mUpperLeft = getMapTileFromCoordinates(mBB.getLatNorth() , mBB.getLonWest(), zoomLevel);
                     final int mapTileUpperBound = 1 << zoomLevel;
                     //Get all the MapTiles from the upper left to the lower right:
                     for (int y = mUpperLeft.y; y <= mLowerRight.y; y++) {
@@ -642,7 +641,7 @@ public class CacheManager {
                                 errors++;
                             }
                             tileCounter++;
-                            if (tileCounter % 20 == 0) {
+                            if (tileCounter % 10 == 0) {
                                 if (isCancelled()) {
                                     return errors;
                                 }
@@ -659,6 +658,7 @@ public class CacheManager {
                 boolean foundTilePoint;
 
                 for (int zoomLevel = mZoomMin; zoomLevel <= mZoomMax; zoomLevel++) {
+                    final int mapTileUpperBound = 1 << zoomLevel;
 
                     for (GeoPoint geoPoint : mGeoPoints) {
 
@@ -679,9 +679,9 @@ public class CacheManager {
                                 wayPoint = new GeoPoint(prevPoint.getLatitude(), prevPoint.getLongitude());
 
                                 while ((((geoPoint.getLatitude() > prevPoint.getLatitude()) && (wayPoint.getLatitude() < geoPoint.getLatitude())) ||
-                                        (geoPoint.getLatitude() < prevPoint.getLatitude()) && (wayPoint.getLatitude() > geoPoint.getLatitude())) &&
-                                        (((geoPoint.getLongitude() > prevPoint.getLongitude()) && (wayPoint.getLongitude() < geoPoint.getLongitude())) ||
-                                                ((geoPoint.getLongitude() < prevPoint.getLongitude()) && (wayPoint.getLongitude() > geoPoint.getLongitude())))) {
+                                    (geoPoint.getLatitude() < prevPoint.getLatitude()) && (wayPoint.getLatitude() > geoPoint.getLatitude())) &&
+                                    (((geoPoint.getLongitude() > prevPoint.getLongitude()) && (wayPoint.getLongitude() < geoPoint.getLongitude())) ||
+                                        ((geoPoint.getLongitude() < prevPoint.getLongitude()) && (wayPoint.getLongitude() > geoPoint.getLongitude())))) {
 
                                     lastPoint = new Point();
                                     TileSystem.LatLongToPixelXY(geoPoint.getLatitude(), geoPoint.getLongitude(), zoomLevel, lastPoint);
@@ -699,8 +699,8 @@ public class CacheManager {
 
                                     if (!tile.equals(prevTile)) {
                                         //Log.d(Constants.APP_TAG, "New Tile lat " + tile.x + " lon " + tile.y);
-                                        for (int xAround = tile.x - 1; xAround <= tile.x + 1; xAround++) {
-                                            for (int yAround = tile.y - 1; yAround <= tile.y + 1; yAround++) {
+                                        for (int xAround = (tile.x > 0 ? tile.x - 1 : 0); xAround <= tile.x + 1; xAround++) {
+                                            for (int yAround = (tile.y > 0 ? tile.y - 1 : 0); yAround <= tile.y + 1; yAround++) {
                                                 Point tileAround = new Point(xAround, yAround);
                                                 foundTilePoint = false;
 
@@ -718,14 +718,16 @@ public class CacheManager {
                                                 }
 
                                                 if (!foundTilePoint) {
-                                                    final MapTile tileToDownload = new MapTile(zoomLevel, tileAround.x, tileAround.y);
+                                                    final int tileY = MyMath.mod(tileAround.y, mapTileUpperBound);
+                                                    final int tileX = MyMath.mod(tileAround.x, mapTileUpperBound);
+                                                    final MapTile tileToDownload = new MapTile(zoomLevel, tileX, tileY);
                                                     //Drawable currentMapTile = mTileProvider.getMapTile(tile);
                                                     boolean ok = loadTile(tileSource, tileToDownload);
                                                     if (!ok) {
                                                         errors++;
                                                     }
                                                     tileCounter++;
-                                                    if (tileCounter % 20 == 0) {
+                                                    if (tileCounter % 10 == 0) {
                                                         if (isCancelled()) {
                                                             return errors;
                                                         }
@@ -746,10 +748,12 @@ public class CacheManager {
                             prevTile = tile;
                             //Log.d(Constants.APP_TAG, "New Tile lat " + tile.x + " lon " + tile.y);
 
-                            for (int xAround = tile.x - 1; xAround <= tile.x + 1; xAround ++) {
-                                for (int yAround = tile.y - 1; yAround <= tile.y + 1; yAround ++) {
+                            for (int xAround = (tile.x > 0 ? tile.x - 1 : 0); xAround <= tile.x + 1; xAround ++) {
+                                for (int yAround = (tile.y > 0 ? tile.y - 1 : 0); yAround <= tile.y + 1; yAround ++) {
                                     Point tileAround = new Point(xAround, yAround);
-                                    final MapTile tileToDownload = new MapTile(zoomLevel, tileAround.x, tileAround.y);
+                                    final int tileY = MyMath.mod(tileAround.y, mapTileUpperBound);
+                                    final int tileX = MyMath.mod(tileAround.x, mapTileUpperBound);
+                                    final MapTile tileToDownload = new MapTile(zoomLevel, tileX, tileY);
 
                                     //Drawable currentMapTile = mTileProvider.getMapTile(tile);
                                     boolean ok = loadTile(tileSource, tileToDownload);
@@ -757,7 +761,7 @@ public class CacheManager {
                                         errors++;
                                     }
                                     tileCounter++;
-                                    if (tileCounter % 20 == 0) {
+                                    if (tileCounter % 10 == 0) {
                                         if (isCancelled()) {
                                             return errors;
                                         }
@@ -772,6 +776,8 @@ public class CacheManager {
                         prevPoint = geoPoint;
                     }
                 }
+
+                Log.d(IMapView.LOGTAG, "downloaded " + tilePoints.size() + " tiles");
             }
             return errors;
         }
