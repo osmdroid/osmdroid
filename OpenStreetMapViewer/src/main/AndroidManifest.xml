@@ -103,12 +103,24 @@
             android:name="com.google.android.maps"
             android:required="false" />
 
+        <activity android:name=".intro.IntroActivity"
+                  android:icon="@drawable/icon"
+                  android:label="@string/app_name"
+            >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+
+        </activity>
         <activity
             android:name=".MainActivity"
             android:icon="@drawable/icon"
             android:label="@string/app_name">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
