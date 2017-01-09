@@ -24,20 +24,22 @@ import java.util.List;
  * Created by alex on 12/15/15.
  */
 public class LatLonGridlineOverlay {
-    final static DecimalFormat df = new DecimalFormat("#.##");
+    final static DecimalFormat df = new DecimalFormat("#.#####");
     public static int lineColor = Color.BLACK;
     public static int fontColor=Color.WHITE;
+    public static short fontSizeDp=24;
     public static int backgroundColor=Color.BLACK;
-    final static float lineWidth = 1f;
-    final static boolean DEBUG = false;
-    final static boolean DEBUG2 = false;
+    public static float lineWidth = 1f;
+    //extra debugging options
+    public static boolean DEBUG = false;
+    public static boolean DEBUG2 = false;
 
     //used to adjust the number of grid lines displayed on screen
     private static float multiplier = 1f;
 
     private static void applyMarkerAttributes(Marker m){
         m.setTextLabelBackgroundColor(backgroundColor);
-        m.setTextLabelFontSize(36);
+        m.setTextLabelFontSize(fontSizeDp);
         m.setTextLabelForegroundColor(fontColor);
     }
 
@@ -460,5 +462,20 @@ public class LatLonGridlineOverlay {
             default:
                 return 0.0000244140625 * multiplier;
         }
+    }
+
+    /**
+     * resets the settings
+     * @since 5.6.3
+     */
+    public static void setDefaults() {
+
+        lineColor = Color.BLACK;
+        fontColor=Color.WHITE;
+        backgroundColor=Color.BLACK;
+        lineWidth = 1f;
+        fontSizeDp=32;
+        DEBUG=false;
+        DEBUG2=false;
     }
 }
