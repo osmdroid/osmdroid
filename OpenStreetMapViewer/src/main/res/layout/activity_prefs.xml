@@ -177,6 +177,34 @@
             android:lines="1"
             />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Cache Trim size (bytes)"
+            />
+
+        <EditText
+            android:id="@+id/cacheTrimSize"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:lines="1"
+            />
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Cache Max size (bytes)"
+            />
+
+        <EditText
+            android:id="@+id/cacheMaxSize"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:lines="1"
+            />
 
 
         <TextView

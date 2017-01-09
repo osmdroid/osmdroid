@@ -55,6 +55,8 @@ public class PreferenceActivity extends Activity implements View.OnClickListener
         tileDownloadThreads,
         tileDownloadMaxQueueSize,
         cacheMapTileCount,
+        cacheMaxSize,
+        cacheTrimSize,
         tileFileSystemThreads,
         tileFileSystemMaxQueueSize, gpsWaitTime, additionalExpirationTime,overrideExpirationTime;
     boolean abortSave=false;
@@ -91,6 +93,11 @@ public class PreferenceActivity extends Activity implements View.OnClickListener
         gpsWaitTime.addTextChangedListener(new PositiveLongTextValidator(gpsWaitTime,1));
         additionalExpirationTime = (EditText) findViewById(R.id.additionalExpirationTime);
         additionalExpirationTime .addTextChangedListener(new PositiveLongTextValidator(additionalExpirationTime,0));
+
+        cacheMaxSize = (EditText) findViewById(R.id.cacheMaxSize);
+        cacheTrimSize = (EditText) findViewById(R.id.cacheTrimSize);
+        cacheMaxSize.addTextChangedListener(new PositiveLongTextValidator(additionalExpirationTime,0));
+        cacheTrimSize.addTextChangedListener(new PositiveLongTextValidator(additionalExpirationTime,0));
 
         overrideExpirationTime = (EditText) findViewById(R.id.overrideExpirationTime);
 
@@ -131,6 +138,9 @@ public class PreferenceActivity extends Activity implements View.OnClickListener
         checkBoxDebugDownloading.setChecked(Configuration.getInstance().isDebugMapTileDownloader());
         textViewCacheDirectory.setText(Configuration.getInstance().getOsmdroidTileCache().getAbsolutePath());
         textViewBaseDirectory.setText(Configuration.getInstance().getOsmdroidBasePath().getAbsolutePath());
+
+        cacheMaxSize.setText(Configuration.getInstance().getTileFileSystemCacheMaxBytes()+"");
+        cacheTrimSize.setText(Configuration.getInstance().getTileFileSystemCacheTrimBytes()+"");
     }
 
     @Override
@@ -192,6 +202,21 @@ public class PreferenceActivity extends Activity implements View.OnClickListener
             Configuration.getInstance().setExpirationOverrideDuration(null);
         }
 
+        try {
+            Long val=Long.parseLong(cacheMaxSize.getText().toString());
+            if (val > 0)
+                Configuration.getInstance().setTileFileSystemCacheMaxBytes(val);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        try {
+            Long val=Long.parseLong(cacheTrimSize.getText().toString());
+            if (val > 0)
+                Configuration.getInstance().setTileFileSystemCacheTrimBytes(val);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
 
         Configuration.getInstance().setUserAgentValue(httpUserAgent.getText().toString());
         Configuration.getInstance().setDebugMapView(checkBoxMapViewDebug.isChecked());
