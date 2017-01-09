@@ -68,5 +68,25 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="userconfirm">Are you sure?</string>
+    <string name="done">Done</string>
+    <string name="previous">Previous</string>
+    <string name="next">Next</string>
+    <string name="visit_our_site_on_github">Visit our site on Github</string>
+    <string name="open_map_description">Open Map is a demo application for the osmdroid software library. It\'s purpose is to show how to use the various functions and capabilities of osmdroid. \n \nosmdroid is a (almost) full/free replacement for Android\'s MapView (v1 API) class. It also includes a modular tile provider system with support for numerous online and offline tile sources and overlay support with built-in overlays for plotting icons, tracking location, and drawing shapes.\n \nGood news: It\'s free and open source!\n \nWe rely on volunteers to keep osmdroid going and welcome contributions of all types.</string>
+    <string name="osmdroid_demo_app">osmdroid demo app</string>
+    <string name="permissions">Permissions</string>
+    <string name="osmdroid_needs_some_permissions_to_get_going_it_works_in_most_cases_without_them_but_not_all_examples_will_function_correctly">osmdroid needs some permissions to get going. It works in most cases without them, but not all examples will function correctly.</string>
+    <string name="location_gps">Location/GPS</string>
+    <string name="gpspermissiondescription">This is needed to place an icon on the map where this device is located.</string>
+    <string name="permissionsrequest">osmdroid needs some permissions to get going. It works in most cases without them, but not all examples will function correctly.</string>
+    <string name="storage_access">Storage Access</string>
+    <string name="permissionstoragedescription">osmdroid provides access to online maps from a variety of sources. Online maps are chopped up into millions of small images called tiles. To save you bandwidth, osmdroid caches those tiles on your device as they are downloaded. Without this permission, tiles are stored in this application\'s prviate storage area, typically on the devices internal storage. With this permission, you can store the cache at any writable location, such as an sdcard. When stored on the sdcard, other apps that use osmdroid will share the same cache which saves you space on your device.</string>
+    <string name="ask_for_permissions">Ask for Permissions</string>
+    <string name="cache_storage">Cache Storage</string>
+    <string name="introalmostthere">Almost there! We just wanted to confirm that that location we selected automatically, is ok with you storing the map tile cache</string>
+    <string name="current_location">Current Location:</string>
+    <string name="close">Close</string>
+    <string name="cancelall">Cancel All Jobs</string>
+    <string name="showpendingjobs">Pending Job Count</string>
 
 </resources>

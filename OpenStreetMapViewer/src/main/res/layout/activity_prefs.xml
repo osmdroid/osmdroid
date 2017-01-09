@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
+            android:padding="18dp"
             android:layout_height="match_parent">
 
     <LinearLayout
@@ -177,6 +178,34 @@
             android:lines="1"
             />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Cache Trim size (bytes)"
+            />
+
+        <EditText
+            android:id="@+id/cacheTrimSize"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:lines="1"
+            />
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Cache Max size (bytes)"
+            />
+
+        <EditText
+            android:id="@+id/cacheMaxSize"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:lines="1"
+            />
 
 
         <TextView

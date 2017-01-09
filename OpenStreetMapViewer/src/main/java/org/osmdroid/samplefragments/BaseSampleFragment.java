@@ -5,9 +5,11 @@ import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.CopyrightOverlay;
 
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.InputDevice;
 import android.view.KeyEvent;
@@ -77,7 +79,17 @@ public abstract class BaseSampleFragment extends Fragment {
 		addOverlays();
 
 		if (mMapView!=null) {
-			mMapView.getOverlays().add(new CopyrightOverlay(getActivity()));
+			final Context context = this.getActivity();
+			final DisplayMetrics dm = context.getResources().getDisplayMetrics();
+
+			CopyrightOverlay copyrightOverlay = new CopyrightOverlay(getActivity());
+
+			//i hate this very much, but it seems as if certain versions of android and/or
+			//device types handle screen offsets differently
+			if (Build.VERSION.SDK_INT <= 10)
+				copyrightOverlay.setOffset(0,(int)(55*dm.density));
+
+			mMapView.getOverlays().add(copyrightOverlay);
 			mMapView.setBuiltInZoomControls(true);
 			mMapView.setMultiTouchControls(true);
 			mMapView.setTilesScaledToDpi(true);

@@ -11,6 +11,7 @@ import org.osmdroid.samplefragments.cache.SampleCacheDownloaderCustomUI;
 import org.osmdroid.samplefragments.cache.SampleJumboCache;
 import org.osmdroid.samplefragments.cache.SampleSqliteOnly;
 import org.osmdroid.samplefragments.data.AsyncTaskDemoFragment;
+import org.osmdroid.samplefragments.data.Gridlines2;
 import org.osmdroid.samplefragments.data.HeatMap;
 import org.osmdroid.samplefragments.data.SampleGridlines;
 import org.osmdroid.samplefragments.data.SampleIISTracker;
@@ -34,11 +35,14 @@ import org.osmdroid.samplefragments.layouts.MapInAViewPagerFragment;
 import org.osmdroid.samplefragments.layouts.MapInScrollView;
 import org.osmdroid.samplefragments.layouts.SampleFragmentXmlLayout;
 import org.osmdroid.samplefragments.layouts.SampleSplitScreen;
+import org.osmdroid.samplefragments.layouts.ScaleBarOnBottom;
 import org.osmdroid.samplefragments.location.SampleCustomIconDirectedLocationOverlay;
 import org.osmdroid.samplefragments.location.SampleFollowMe;
 import org.osmdroid.samplefragments.location.SampleHeadingCompassUp;
 import org.osmdroid.samplefragments.location.SampleRotation;
 import org.osmdroid.samplefragments.tilesources.SampleAssetsOnly;
+import org.osmdroid.samplefragments.tilesources.SampleBingHybrid;
+import org.osmdroid.samplefragments.tilesources.SampleBingRoad;
 import org.osmdroid.samplefragments.tilesources.SampleCopyrightOverlay;
 import org.osmdroid.samplefragments.tilesources.SampleCustomLoadingImage;
 import org.osmdroid.samplefragments.tilesources.SampleCustomTileSource;
@@ -49,6 +53,7 @@ import org.osmdroid.samplefragments.tilesources.SampleMapQuest;
 import org.osmdroid.samplefragments.tilesources.SampleOfflineOnly;
 import org.osmdroid.samplefragments.tilesources.SampleOpenSeaMap;
 import org.osmdroid.samplefragments.tilesources.SampleWhackyColorFilter;
+import org.osmdroid.samplefragments.tilesources.SepiaToneTiles;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -122,6 +127,12 @@ public final class SampleFactory implements ISampleFactory {
 
 
 
+
+        mSamples.add(ScaleBarOnBottom.class);
+        mSamples.add(SampleBingHybrid.class);
+        mSamples.add(SampleBingRoad.class);
+        mSamples.add(Gridlines2.class);
+        mSamples.add(SepiaToneTiles.class);
     }
 
     public void addSample(Class<? extends BaseSampleFragment> clz) {

@@ -18,6 +18,7 @@ import org.osmdroid.events.ZoomEvent;
 import org.osmdroid.samplefragments.BaseSampleFragment;
 import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase;
+import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.views.MapView;
 
 import java.text.DecimalFormat;
@@ -49,16 +50,9 @@ public class SampleMapEventListener extends BaseSampleFragment
     @Override
     protected void addOverlays() {
         super.addOverlays();
+        updateInfo();
 
-        //FIXME, this tile source only goes to 15, set to 25 to test overflows for zoom > 20
-        mMapView.setTileSource(new OnlineTileSourceBase("USGS Topo", 0, 25, 256, "",
-                new String[] { "http://basemap.nationalmap.gov/ArcGIS/rest/services/USGSTopo/MapServer/tile/" }) {
-            @Override
-            public String getTileURLString(MapTile aTile) {
-                return getBaseUrl() + aTile.getZoomLevel() + "/" + aTile.getY() + "/" + aTile.getX()
-                        + mImageFilenameEnding;
-            }
-        });
+        mMapView.setTileSource(TileSourceFactory.USGS_SAT);
         mMapView.setMapListener(new MapListener() {
             @Override
             public boolean onScroll(ScrollEvent event) {
@@ -81,7 +75,7 @@ public class SampleMapEventListener extends BaseSampleFragment
         IGeoPoint mapCenter = mMapView.getMapCenter();
         textViewCurrentLocation.setText(df.format(mapCenter.getLatitude())+","+
                 df.format(mapCenter.getLongitude())
-                +","+mMapView.getZoomLevel());
+                +",zoom="+mMapView.getZoomLevel());
 
     }
 }
