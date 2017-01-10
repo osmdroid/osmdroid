@@ -223,14 +223,13 @@ public class CacheManager {
      * Calculation done based on http://www.movable-type.co.uk/scripts/latlong.html
      */
     public int possibleTilesCovered(ArrayList<GeoPoint> geoPoints, final int zoomMin, final int zoomMax) {
-        ArrayList<Point> tilePoints = new ArrayList<>();
+        ArrayList<Point>  tilePoints = new ArrayList<>();
         boolean foundTilePoint;
         GeoPoint prevPoint = null, wayPoint;
         double d, leadCoef, brng, latRad, lonRad, prevLatRad, prevLonRad;
         Point tile, prevTile = null, lastPoint;
 
         for (int zoomLevel = zoomMin; zoomLevel <= zoomMax; zoomLevel++) {
-
             for (GeoPoint geoPoint : geoPoints) {
 
                 d = TileSystem.GroundResolution(geoPoint.getLatitude(), zoomLevel);
@@ -250,9 +249,9 @@ public class CacheManager {
                         wayPoint = new GeoPoint(prevPoint.getLatitude(), prevPoint.getLongitude());
 
                         while ((((geoPoint.getLatitude() > prevPoint.getLatitude()) && (wayPoint.getLatitude() < geoPoint.getLatitude())) ||
-                                (geoPoint.getLatitude() < prevPoint.getLatitude()) && (wayPoint.getLatitude() > geoPoint.getLatitude())) &&
-                                (((geoPoint.getLongitude() > prevPoint.getLongitude()) && (wayPoint.getLongitude() < geoPoint.getLongitude())) ||
-                                        ((geoPoint.getLongitude() < prevPoint.getLongitude()) && (wayPoint.getLongitude() > geoPoint.getLongitude())))) {
+                            (geoPoint.getLatitude() < prevPoint.getLatitude()) && (wayPoint.getLatitude() > geoPoint.getLatitude())) &&
+                            (((geoPoint.getLongitude() > prevPoint.getLongitude()) && (wayPoint.getLongitude() < geoPoint.getLongitude())) ||
+                                ((geoPoint.getLongitude() < prevPoint.getLongitude()) && (wayPoint.getLongitude() > geoPoint.getLongitude())))) {
 
                             lastPoint = new Point();
                             TileSystem.LatLongToPixelXY(geoPoint.getLatitude(), geoPoint.getLongitude(), zoomLevel, lastPoint);
@@ -269,14 +268,16 @@ public class CacheManager {
                             tile = getMapTileFromCoordinates(wayPoint.getLatitude(), wayPoint.getLongitude(), zoomLevel);
 
                             if (!tile.equals(prevTile)) {
-                                for (int xAround = tile.x - 1; xAround <= tile.x + 1; xAround++) {
-                                    for (int yAround = tile.y - 1; yAround <= tile.y + 1; yAround++) {
+//Log.d(Constants.APP_TAG, "New Tile lat " + tile.x + " lon " + tile.y);
+                                int ofsx = tile.x >= 0 ? 0 : -tile.x;
+                                int ofsy = tile.y >= 0 ? 0 : -tile.y;
+                                for (int xAround = tile.x + ofsx; xAround <= tile.x + 1 + ofsx; xAround++) {
+                                    for (int yAround = tile.y + ofsy; yAround <= tile.y + 1 + ofsy; yAround++) {
 
                                         Point tileAround = new Point(xAround, yAround);
                                         foundTilePoint = false;
-                                        int iterate = 0;
                                         for (Point inList : tilePoints) {
-                                            iterate++;
+
                                             if (tileAround.equals(inList.x, inList.y)) {
                                                 foundTilePoint = true;
                                                 break;
@@ -298,8 +299,10 @@ public class CacheManager {
                     tile = getMapTileFromCoordinates(geoPoint.getLatitude(), geoPoint.getLongitude(), zoomLevel);
                     prevTile = tile;
 
-                    for (int xAround = tile.x - 1; xAround <= tile.x + 1; xAround ++) {
-                        for (int yAround = tile.y - 1; yAround <= tile.y + 1; yAround ++) {
+                    int ofsx = tile.x >= 0 ? 0 : -tile.x;
+                    int ofsy = tile.y >= 0 ? 0 : -tile.y;
+                    for (int xAround = tile.x + ofsx; xAround <= tile.x + 1 + ofsx; xAround++) {
+                        for (int yAround = tile.y + ofsy; yAround <= tile.y + 1 + ofsy; yAround++) {
                             Point tileAround = new Point(xAround, yAround);
                             tilePoints.add(0, tileAround);
                         }
@@ -308,8 +311,8 @@ public class CacheManager {
 
                 prevPoint = geoPoint;
             }
-
         }
+        Log.d(IMapView.LOGTAG, "need " + tilePoints.size() + " Tiles");
         return tilePoints.size();
     }
 
@@ -699,8 +702,10 @@ public class CacheManager {
 
                                     if (!tile.equals(prevTile)) {
                                         //Log.d(Constants.APP_TAG, "New Tile lat " + tile.x + " lon " + tile.y);
-                                        for (int xAround = (tile.x > 0 ? tile.x - 1 : 0); xAround <= tile.x + 1; xAround++) {
-                                            for (int yAround = (tile.y > 0 ? tile.y - 1 : 0); yAround <= tile.y + 1; yAround++) {
+                                        int ofsx = tile.x >= 0 ? 0 : -tile.x;
+                                        int ofsy = tile.y >= 0 ? 0 : -tile.y;
+                                        for (int xAround = tile.x + ofsx; xAround <= tile.x + 1 + ofsx; xAround++) {
+                                            for (int yAround = tile.y + ofsy; yAround <= tile.y + 1 + ofsy; yAround++) {
                                                 Point tileAround = new Point(xAround, yAround);
                                                 foundTilePoint = false;
 
@@ -747,9 +752,10 @@ public class CacheManager {
                             tile = getMapTileFromCoordinates(geoPoint.getLatitude(), geoPoint.getLongitude(), zoomLevel);
                             prevTile = tile;
                             //Log.d(Constants.APP_TAG, "New Tile lat " + tile.x + " lon " + tile.y);
-
-                            for (int xAround = (tile.x > 0 ? tile.x - 1 : 0); xAround <= tile.x + 1; xAround ++) {
-                                for (int yAround = (tile.y > 0 ? tile.y - 1 : 0); yAround <= tile.y + 1; yAround ++) {
+                            int ofsx = tile.x >= 0 ? 0 : -tile.x;
+                            int ofsy = tile.y >= 0 ? 0 : -tile.y;
+                            for (int xAround = tile.x + ofsx; xAround <= tile.x + 1 + ofsx; xAround ++) {
+                                for (int yAround = tile.y + ofsy; yAround <= tile.y + 1 + ofsy; yAround ++) {
                                     Point tileAround = new Point(xAround, yAround);
                                     final int tileY = MyMath.mod(tileAround.y, mapTileUpperBound);
                                     final int tileX = MyMath.mod(tileAround.x, mapTileUpperBound);
@@ -883,14 +889,18 @@ public class CacheManager {
 
                 final int mapTileUpperBound = 1 << zoomLevel;
                 //Get all the MapTiles from the upper left to the lower right:
-                for (int y = mUpperLeft.y; y <= mLowerRight.y; y++) {
-                    for (int x = mUpperLeft.x; x <= mLowerRight.x; x++) {
+                //In case we used GeoPoint list, we also have to take care of the tiles around the area.
+                int ofsy = mUpperLeft.y > 0 ? -1 : 0;
+                int ofsx = mUpperLeft.x > 0 ? -1 : 0;
+                for (int y = mUpperLeft.y + ofsy; y <= mLowerRight.y + 2 + ofsy; y++) {
+                    for (int x = mUpperLeft.x + ofsx; x <= mLowerRight.x + 2 + ofsx; x++) {
                         final int tileY = MyMath.mod(y, mapTileUpperBound);
                         final int tileX = MyMath.mod(x, mapTileUpperBound);
                         final MapTile tile = new MapTile(zoomLevel, tileX, tileY);
-                        if (mTileWriter.exists(tileSource, tile)){
-                            if (mTileWriter.remove(tileSource, tile))
-                                deleted++;
+                        File file = getFileName(tileSource, tile);
+                        if (file.exists()) {
+                            file.delete();
+                            deleted++;
                         }
                         tileCounter++;
                         if (tileCounter % 1000 == 0) {
