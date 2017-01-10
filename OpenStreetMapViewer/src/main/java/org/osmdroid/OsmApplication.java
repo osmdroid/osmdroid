@@ -3,6 +3,7 @@ package org.osmdroid;
 import android.app.Application;
 import android.content.Context;
 import android.os.Environment;
+import android.support.v7.app.AppCompatDelegate;
 import android.util.Log;
 
 import com.squareup.leakcanary.LeakCanary;
@@ -32,6 +33,7 @@ import java.io.PrintWriter;
  * Also see note on setting the UserAgent value
  * Created by alex on 7/4/16.
  */
+
 @ReportsCrashes(formUri = "")
 public class OsmApplication extends Application {
 

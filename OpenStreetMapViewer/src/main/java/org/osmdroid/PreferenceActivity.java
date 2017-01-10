@@ -8,6 +8,8 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
@@ -38,7 +40,7 @@ import java.util.List;
  * Created by alex on 10/21/16.
  */
 
-public class PreferenceActivity extends Activity implements View.OnClickListener {
+public class PreferenceActivity extends AppCompatActivity implements View.OnClickListener {
     CheckBox checkBoxDebugTileProvider,
         checkBoxDebugMode,
         checkBoxHardwareAcceleration,
@@ -66,6 +68,9 @@ public class PreferenceActivity extends Activity implements View.OnClickListener
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_prefs);
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
+
         checkBoxDebugTileProvider = (CheckBox) findViewById(R.id.checkBoxDebugTileProvider);
         checkBoxDebugMode = (CheckBox) findViewById(R.id.checkBoxDebugMode);
         checkBoxHardwareAcceleration = (CheckBox) findViewById(R.id.checkBoxHardwareAcceleration);

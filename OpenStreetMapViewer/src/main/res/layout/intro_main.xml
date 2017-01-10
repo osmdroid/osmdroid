@@ -2,7 +2,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/primary"
                 android:padding="18dp"
                 android:layout_marginBottom="60dp"
     >
@@ -13,7 +12,6 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/introtitle"
         android:src="@drawable/icon"
-
         />
 
     <TextView
@@ -22,15 +20,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-
         android:layout_centerInParent="true"
         android:layout_centerVertical="true"
         android:layout_margin="18dp"
         android:text="@string/app_name"
-        android:textColor="@color/primary_text"
         android:textSize="32dp"
-
-
         />
 
     <TextView
@@ -40,7 +34,5 @@
         android:layout_centerHorizontal="true"
         android:layout_margin="18dp"
         android:text="@string/osmdroid_demo_app"
-        android:textColor="@color/primary_text"
-
         android:textSize="14dp"/>
 </RelativeLayout>

@@ -1,6 +1,7 @@
 package org.osmdroid.samplefragments.tilesources;
 
 import android.os.Environment;
+import android.support.design.widget.Snackbar;
 import android.widget.Toast;
 
 import org.osmdroid.R;
@@ -93,7 +94,7 @@ public class SampleOfflineOnly extends BaseSampleFragment {
                                 this.mMapView.setTileSource(TileSourceFactory.DEFAULT_TILE_SOURCE);
                             }
 
-                            Toast.makeText(getActivity(), "Using " + list[i].getAbsolutePath() + " " + source, Toast.LENGTH_SHORT).show();
+                            Snackbar.make(getView(), "Using " + list[i].getAbsolutePath() + " " + source, Snackbar.LENGTH_SHORT).show();
                             this.mMapView.invalidate();
                             return;
                         } catch (Exception ex) {

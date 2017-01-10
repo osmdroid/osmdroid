@@ -2,9 +2,6 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-
-
-            android:background="@color/primary"
             android:orientation="vertical"
             android:padding="18dp">
 
@@ -18,7 +15,6 @@
             android:layout_height="wrap_content"
 
             android:text="@string/open_map_description"
-            android:textColor="@color/primary_text"
             android:textSize="18dp"/>
 
         <Button
