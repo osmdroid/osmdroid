@@ -2,6 +2,7 @@
 package org.osmdroid;
 
 import android.Manifest;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -14,6 +15,8 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.format.Formatter;
 import android.view.View;
 import android.widget.AdapterView;
@@ -38,7 +41,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MainActivity extends Activity implements AdapterView.OnItemClickListener {
+public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
     public static final String TAG = "OSM";
 
@@ -49,15 +52,8 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        // Request permissions to support Android Marshmallow and above devices
-        if (Build.VERSION.SDK_INT >= 23) {
-            checkPermissions();
-        }
-
-
-
-
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
         // Generate a ListView with Sample Maps
         final ArrayList<String> list = new ArrayList<>();
         list.add("OSMDroid Sample map (Start Here)");
@@ -65,12 +61,13 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
         list.add("OSMapView with ItemizedOverlay");
         list.add("OSMapView with Minimap and ZoomControls");
         list.add("Sample with tiles overlay");
-        list.add("Sample with tiles overlay and custom tile source");
+        list.add("Sample with tiles overlay and secondary tile overlay");
         list.add("More Samples");
-        list.add("Bug Drivers");
+
         list.add("Report a bug");
         list.add("Settings");
-        if (BuildConfig.VERSION_CODE >= 11 && Configuration.getInstance().isDebugMode())
+        list.add("Bug Drivers");
+        if (BuildConfig.VERSION_CODE >= 11)
             list.add("Cache Analyzer");
 
         ListView lv = (ListView) findViewById(R.id.activitylist);
@@ -106,15 +103,15 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
                 this.startActivity(new Intent(this, ExtraSamplesActivity.class));
                 break;
             case 7:
-                this.startActivity(new Intent(this, BugsTestingActivity.class));
-                break;
-            case 8:
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/osmdroid/osmdroid/issues"));
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/osmdroid/osmdroid/issues/new"));
                 startActivity(browserIntent);
                 break;
-            case 9:
+            case 8:
                 Intent i = new Intent(this,PreferenceActivity.class);
                 startActivity(i);
+                break;
+            case 9:
+                this.startActivity(new Intent(this, BugsTestingActivity.class));
                 break;
             case 10:
             {
@@ -170,8 +167,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
         final String state = Environment.getExternalStorageState();
 
         boolean mSdCardAvailable = Environment.MEDIA_MOUNTED.equals(state);
-        tv.setText((mSdCardAvailable ? "Mounted" : "Not Available") + "\n" + Configuration.getInstance().getOsmdroidTileCache().getAbsolutePath() + "\n" +
-            "Cache size: " + Formatter.formatFileSize(this,cacheSize));
+        tv.setText((mSdCardAvailable ? "Mounted" : "Not Available") );
         if (!mSdCardAvailable) {
             tv.setTextColor(Color.RED);
             tv.setTypeface(null, Typeface.BOLD);
@@ -179,62 +175,11 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 
         tv = (TextView) findViewById(R.id.version_text);
         tv.setText(BuildConfig.VERSION_NAME + " " + BuildConfig.BUILD_TYPE);
+
+        tv = (TextView) findViewById(R.id.mainstorageInfo);
+        tv.setText(Configuration.getInstance().getOsmdroidTileCache().getAbsolutePath() + "\n" +
+            "Cache size: " + Formatter.formatFileSize(this,cacheSize));
     }
 
-    // START PERMISSION CHECK
-    final private int REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS = 124;
 
-    private void checkPermissions() {
-        List<String> permissions = new ArrayList<>();
-        String message = "osmdroid permissions:";
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            permissions.add(Manifest.permission.ACCESS_FINE_LOCATION);
-            message += "\nLocation to show user location.";
-        }
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            permissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-            message += "\nStorage access to store map tiles.";
-        }
-        if (!permissions.isEmpty()) {
-            Toast.makeText(this, message, Toast.LENGTH_LONG).show();
-            String[] params = permissions.toArray(new String[permissions.size()]);
-            requestPermissions(params, REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS);
-        } // else: We already have permissions, so handle as normal
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        switch (requestCode) {
-            case REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS: {
-                Map<String, Integer> perms = new HashMap<>();
-                // Initial
-                perms.put(Manifest.permission.ACCESS_FINE_LOCATION, PackageManager.PERMISSION_GRANTED);
-                perms.put(Manifest.permission.WRITE_EXTERNAL_STORAGE, PackageManager.PERMISSION_GRANTED);
-                // Fill with results
-                for (int i = 0; i < permissions.length; i++)
-                    perms.put(permissions[i], grantResults[i]);
-                // Check for ACCESS_FINE_LOCATION and WRITE_EXTERNAL_STORAGE
-                Boolean location = perms.get(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
-                Boolean storage = perms.get(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
-                if (location && storage) {
-                    // All Permissions Granted
-                    Toast.makeText(MainActivity.this, "All permissions granted", Toast.LENGTH_SHORT).show();
-                } else if (location) {
-                    Toast.makeText(this, "Storage permission is required to store map tiles to reduce data usage and for offline usage.", Toast.LENGTH_LONG).show();
-                } else if (storage) {
-                    Toast.makeText(this, "Location permission is required to show the user's location on map.", Toast.LENGTH_LONG).show();
-                } else { // !location && !storage case
-                    // Permission Denied
-                    Toast.makeText(MainActivity.this, "Storage permission is required to store map tiles to reduce data usage and for offline usage." +
-                            "\nLocation permission is required to show the user's location on map.", Toast.LENGTH_SHORT).show();
-                }
-                updateStorageInfo();
-            }
-            break;
-            default:
-                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        }
-    }
-
-    // END PERMISSION CHECK
 }

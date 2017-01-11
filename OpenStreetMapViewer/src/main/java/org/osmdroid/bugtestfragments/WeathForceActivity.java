@@ -10,16 +10,11 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Surface;
 import android.view.WindowManager;
-import android.widget.Toast;
 
-import org.osmdroid.BuildConfig;
-import org.osmdroid.MainActivity;
 import org.osmdroid.R;
 import org.osmdroid.api.IMapController;
 import org.osmdroid.config.Configuration;

@@ -2,11 +2,14 @@ package org.osmdroid;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
@@ -37,7 +40,7 @@ import java.util.List;
  * Created by alex on 10/21/16.
  */
 
-public class PreferenceActivity extends Activity implements View.OnClickListener {
+public class PreferenceActivity extends AppCompatActivity implements View.OnClickListener {
     CheckBox checkBoxDebugTileProvider,
         checkBoxDebugMode,
         checkBoxHardwareAcceleration,
@@ -55,6 +58,8 @@ public class PreferenceActivity extends Activity implements View.OnClickListener
         tileDownloadThreads,
         tileDownloadMaxQueueSize,
         cacheMapTileCount,
+        cacheMaxSize,
+        cacheTrimSize,
         tileFileSystemThreads,
         tileFileSystemMaxQueueSize, gpsWaitTime, additionalExpirationTime,overrideExpirationTime;
     boolean abortSave=false;
@@ -63,6 +68,9 @@ public class PreferenceActivity extends Activity implements View.OnClickListener
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_prefs);
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
+
         checkBoxDebugTileProvider = (CheckBox) findViewById(R.id.checkBoxDebugTileProvider);
         checkBoxDebugMode = (CheckBox) findViewById(R.id.checkBoxDebugMode);
         checkBoxHardwareAcceleration = (CheckBox) findViewById(R.id.checkBoxHardwareAcceleration);
@@ -91,6 +99,11 @@ public class PreferenceActivity extends Activity implements View.OnClickListener
         gpsWaitTime.addTextChangedListener(new PositiveLongTextValidator(gpsWaitTime,1));
         additionalExpirationTime = (EditText) findViewById(R.id.additionalExpirationTime);
         additionalExpirationTime .addTextChangedListener(new PositiveLongTextValidator(additionalExpirationTime,0));
+
+        cacheMaxSize = (EditText) findViewById(R.id.cacheMaxSize);
+        cacheTrimSize = (EditText) findViewById(R.id.cacheTrimSize);
+        cacheMaxSize.addTextChangedListener(new PositiveLongTextValidator(additionalExpirationTime,0));
+        cacheTrimSize.addTextChangedListener(new PositiveLongTextValidator(additionalExpirationTime,0));
 
         overrideExpirationTime = (EditText) findViewById(R.id.overrideExpirationTime);
 
@@ -131,6 +144,9 @@ public class PreferenceActivity extends Activity implements View.OnClickListener
         checkBoxDebugDownloading.setChecked(Configuration.getInstance().isDebugMapTileDownloader());
         textViewCacheDirectory.setText(Configuration.getInstance().getOsmdroidTileCache().getAbsolutePath());
         textViewBaseDirectory.setText(Configuration.getInstance().getOsmdroidBasePath().getAbsolutePath());
+
+        cacheMaxSize.setText(Configuration.getInstance().getTileFileSystemCacheMaxBytes()+"");
+        cacheTrimSize.setText(Configuration.getInstance().getTileFileSystemCacheTrimBytes()+"");
     }
 
     @Override
@@ -192,6 +208,21 @@ public class PreferenceActivity extends Activity implements View.OnClickListener
             Configuration.getInstance().setExpirationOverrideDuration(null);
         }
 
+        try {
+            Long val=Long.parseLong(cacheMaxSize.getText().toString());
+            if (val > 0)
+                Configuration.getInstance().setTileFileSystemCacheMaxBytes(val);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        try {
+            Long val=Long.parseLong(cacheTrimSize.getText().toString());
+            if (val > 0)
+                Configuration.getInstance().setTileFileSystemCacheTrimBytes(val);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
 
         Configuration.getInstance().setUserAgentValue(httpUserAgent.getText().toString());
         Configuration.getInstance().setDebugMapView(checkBoxMapViewDebug.isChecked());
@@ -223,7 +254,7 @@ public class PreferenceActivity extends Activity implements View.OnClickListener
             }
             break;
             case R.id.buttonReset: {
-                resetSettings();
+                resetSettings(this);
                 abortSave=true;
                 finish();
             }
@@ -241,15 +272,17 @@ public class PreferenceActivity extends Activity implements View.OnClickListener
         }
     }
 
-       private void resetSettings() {
+    public static void resetSettings(Context ctx) {
         //delete all preference keys, if you're using this for your own application
         //you may want to consider some additional logic here (only clear osmdroid settings or
         //use something other than the default shared preferences map
-        SharedPreferences.Editor edit = PreferenceManager.getDefaultSharedPreferences(this).edit();
+        SharedPreferences.Editor edit = PreferenceManager.getDefaultSharedPreferences(ctx).edit();
         edit.clear();
         edit.commit();
+        //this will repopulate the default settings
         Configuration.setConfigurationProvider(new DefaultConfigurationProvider());
-        Configuration.getInstance().save(this, PreferenceManager.getDefaultSharedPreferences(this));
+        //this will save the default along with the user agent (important for downloading tiles)
+        Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
     }
 
     private void purgeCache() {

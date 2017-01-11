@@ -27,11 +27,14 @@ public class SampleGridlines extends BaseSampleFragment implements MapListener {
 
     @Override
     protected void addOverlays() {
+        super.addOverlays();
+        LatLonGridlineOverlay.setDefaults();
         mMapView.getController().setCenter(new GeoPoint(0d,0d));
         mMapView.getController().setZoom(5);
         mMapView.setTilesScaledToDpi(true);
         mMapView.setMapListener(this);
         mMapView.getController().setZoom(3);
+
         updateGridlines();
     }
 
@@ -47,7 +50,7 @@ public class SampleGridlines extends BaseSampleFragment implements MapListener {
         return false;
     }
 
-    private void updateGridlines(){
+    protected void updateGridlines(){
 
         if (mMapView==null)
             return; //happens during unit tests with rapid recycling of the fragment

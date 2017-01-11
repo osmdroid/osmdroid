@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:padding="18dp"
+            android:layout_marginBottom="60dp"
+              android:layout_height="match_parent">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/cache_storage"
+        android:textSize="22dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/introalmostthere"
+        android:textSize="14dp"/>
+
+    <TextView
+        android:paddingTop="22dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/current_location"
+        />
+
+    <TextView
+
+        android:id="@+id/textViewCacheDirectory"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="PLACEHOLDER"/>
+
+    <Button
+        android:layout_marginTop="22dp"
+        android:id="@+id/buttonSetCache"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/pick_cache_location"/>
+
+    <Button
+        android:layout_marginTop="22dp"
+        android:id="@+id/buttonManualCacheEntry"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/enter_cache_location"/>
+    </LinearLayout>
+</ScrollView>

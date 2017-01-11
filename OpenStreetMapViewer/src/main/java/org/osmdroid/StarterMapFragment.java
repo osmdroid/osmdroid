@@ -145,7 +145,13 @@ public class StarterMapFragment extends Fragment implements OpenStreetMapConstan
           mMinimapOverlay.setWidth(dm.widthPixels / 5);
           mMinimapOverlay.setHeight(dm.heightPixels / 5);
 
+
           mCopyrightOverlay = new CopyrightOverlay(context);
+
+         //i hate this very much, but it seems as if certain versions of android and/or
+         //device types handle screen offsets differently
+         if (Build.VERSION.SDK_INT <= 10)
+             mCopyrightOverlay.setOffset(0,(int)(55*dm.density));
 
           mScaleBarOverlay = new ScaleBarOverlay(mMapView);
           mScaleBarOverlay.setCentred(true);
