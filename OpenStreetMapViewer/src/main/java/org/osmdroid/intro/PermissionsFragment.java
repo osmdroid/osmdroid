@@ -5,6 +5,7 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
@@ -110,7 +111,8 @@ public class PermissionsFragment extends Fragment implements View.OnClickListene
                 Boolean storage = perms.get(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
                 if (location && storage) {
                     // All Permissions Granted
-                    Toast.makeText(getContext(), "All permissions granted", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getContext(), "All permissions granted", Toast.LENGTH_SHORT).show();
+                    Snackbar.make(getView(), "All permissions granted", Snackbar.LENGTH_LONG).show();
                 } else if (location) {
                     Toast.makeText(getContext(), "Storage permission is required to store map tiles to reduce data usage and for offline usage.", Toast.LENGTH_LONG).show();
                 } else if (storage) {

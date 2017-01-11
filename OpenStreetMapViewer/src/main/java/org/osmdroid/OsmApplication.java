@@ -13,12 +13,10 @@ import org.acra.collector.CrashReportData;
 import org.acra.sender.ReportSender;
 import org.acra.sender.ReportSenderException;
 import org.osmdroid.config.Configuration;
-import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
-import org.osmdroid.tileprovider.tilesource.CloudmadeTileSource;
-import org.osmdroid.tileprovider.tilesource.HEREWeGoTileSource;
 import org.osmdroid.tileprovider.tilesource.MapBoxTileSource;
 import org.osmdroid.tileprovider.tilesource.MapQuestTileSource;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
+import org.osmdroid.tileprovider.tilesource.bing.BingMapTileSource;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -31,6 +29,7 @@ import java.io.PrintWriter;
  * Also see note on setting the UserAgent value
  * Created by alex on 7/4/16.
  */
+
 @ReportsCrashes(formUri = "")
 public class OsmApplication extends Application {
 
@@ -53,6 +52,32 @@ public class OsmApplication extends Application {
         //agent. Do not use the sample application's user agent for your app! Use your own setting, such
         //as the app id.
         Configuration.getInstance().setUserAgentValue(getPackageName());
+        BingMapTileSource.retrieveBingKey(this);
+        final BingMapTileSource source = new BingMapTileSource(null);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                source.initMetaData();
+            }
+        }).start();
+        source.setStyle(BingMapTileSource.IMAGERYSET_AERIALWITHLABELS);
+        TileSourceFactory.addTileSource(source);
+
+        final BingMapTileSource source2 = new BingMapTileSource(null);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                source2.initMetaData();
+            }
+        }).start();
+        source2.setStyle(BingMapTileSource.IMAGERYSET_ROAD);
+        TileSourceFactory.addTileSource(source2);
+
+
+
+        //FIXME need a key for this TileSourceFactory.addTileSource(TileSourceFactory.CLOUDMADESMALLTILES);
+
+        //FIXME need a key for this TileSourceFactory.addTileSource(TileSourceFactory.CLOUDMADESTANDARDTILES);
 
 
         //the sample app a few additional tile sources that we have api keys for, so add them here
@@ -60,7 +85,6 @@ public class OsmApplication extends Application {
         //FIXME this key is expired TileSourceFactory.addTileSource(new HEREWeGoTileSource(getApplicationContext()));
         TileSourceFactory.addTileSource(new MapBoxTileSource(getApplicationContext()));
         TileSourceFactory.addTileSource(new MapQuestTileSource(getApplicationContext()));
-        //TODO in the future, add the bing source here
 
     }
 

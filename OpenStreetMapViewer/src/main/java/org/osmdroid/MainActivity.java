@@ -2,6 +2,7 @@
 package org.osmdroid;
 
 import android.Manifest;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -14,6 +15,8 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.format.Formatter;
 import android.view.View;
 import android.widget.AdapterView;
@@ -38,7 +41,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MainActivity extends Activity implements AdapterView.OnItemClickListener {
+public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
     public static final String TAG = "OSM";
 
@@ -49,7 +52,8 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
         // Generate a ListView with Sample Maps
         final ArrayList<String> list = new ArrayList<>();
         list.add("OSMDroid Sample map (Start Here)");

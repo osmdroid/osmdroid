@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
-              android:background="@color/primary"
               android:layout_width="match_parent"
               android:padding="18dp"
             android:layout_marginBottom="60dp"
@@ -13,14 +12,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
-        android:textColor="@color/primary_text"
         android:text="@string/permissions"
         android:textSize="22dp"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/primary_text"
         android:text="@string/permissionsrequest"
         android:textSize="14dp"/>
 
@@ -28,7 +25,6 @@
         android:layout_marginTop="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/primary_text"
         android:text="@string/location_gps"
         android:textSize="18dp"/>
 
@@ -36,7 +32,6 @@
         android:layout_marginTop="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/primary_text"
         android:text="@string/gpspermissiondescription"
         android:textSize="14dp"/>
 
@@ -44,7 +39,6 @@
         android:layout_marginTop="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/primary_text"
         android:text="@string/storage_access"
         android:textSize="18dp"/>
 
@@ -52,7 +46,6 @@
         android:layout_marginTop="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/primary_text"
         android:text="@string/permissionstoragedescription"
         android:textSize="14dp"/>
 

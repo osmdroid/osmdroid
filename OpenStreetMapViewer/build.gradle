@@ -30,6 +30,8 @@ dependencies {
     compile 'com.android.support:support-v4:23+'
     compile project(':osmdroid-android')
 
+    compile 'com.android.support:design:23.+'
+
     //crash logging
     compile 'ch.acra:acra:4.7.0'
 

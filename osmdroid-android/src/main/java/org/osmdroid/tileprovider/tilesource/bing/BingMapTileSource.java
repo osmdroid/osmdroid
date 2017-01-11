@@ -177,6 +177,7 @@ public class BingMapTileSource extends QuadTreeTileSource implements IStyledTile
 			}
 		}
 		mStyle = pStyle;
+		mName = pathBase();
 	}
 
 	@Override

@@ -111,23 +111,16 @@ public class DefaultOverlayManager extends AbstractList<Overlay> implements Over
         return mOverlayList;
     }
 
+
     @Override
     public void onDraw(final Canvas c, final MapView pMapView) {
-        if (mTilesOverlay != null && mTilesOverlay.isEnabled()) {
-            mTilesOverlay.draw(c, pMapView, true);
-        }
 
+        //always pass false, the shadow parameter will be removed in a later version of osmdroid, this change should result in the on draw being called twice
         if (mTilesOverlay != null && mTilesOverlay.isEnabled()) {
             mTilesOverlay.draw(c, pMapView, false);
         }
 
-        for (final Overlay overlay : mOverlayList) {
-            //#396 fix, null check
-            if (overlay!=null && overlay.isEnabled()) {
-                overlay.draw(c, pMapView, true);
-            }
-        }
-
+        //always pass false, the shadow parameter will be removed in a later version of osmdroid, this change should result in the on draw being called twice
         for (final Overlay overlay : mOverlayList) {
             //#396 fix, null check
             if (overlay!=null && overlay.isEnabled()) {

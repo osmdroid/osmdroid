@@ -13,14 +13,18 @@ import android.widget.ExpandableListView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import org.osmdroid.BugsTestingActivity;
 import org.osmdroid.ExtraSamplesActivity;
 import org.osmdroid.ISampleFactory;
 import org.osmdroid.R;
 import org.osmdroid.model.BaseActivity;
 import org.osmdroid.model.IBaseActivity;
 import org.osmdroid.samplefragments.BaseSampleFragment;
+import org.osmdroid.views.overlay.Polygon;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -39,6 +43,7 @@ public class SamplesMenuFragment extends Fragment {
 
     public final static String TAG="osmfragsample";
 
+    private Bundle savedState = null;
     private ISampleFactory sampleFactory=null;
     private List<IBaseActivity> additionActivitybasedSamples;
 
@@ -59,6 +64,49 @@ public class SamplesMenuFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.sample_menu_layout, container,false);
+
+        //http://stackoverflow.com/a/15314508/1203182
+
+
+        /* (...) */
+
+        /* If the Fragment was destroyed inbetween (screen rotation), we need to recover the savedState first */
+        /* However, if it was not, it stays in the instance from the last onDestroyView() and we don't want to overwrite it */
+        if(savedInstanceState != null && savedState == null) {
+            savedState = savedInstanceState.getBundle(TAG);
+        }
+        if(savedState != null) {
+            if (sampleFactory!=null){
+                //do nothing
+            } else {
+                String factory  = savedState.getString("factory");
+                ArrayList<String> acts = null;
+                if (savedState.containsKey("acts"))
+                    acts=savedState.getStringArrayList("acts");
+                try {
+                    Class<?> aClass = Class.forName(factory);
+                    Method method = aClass.getMethod("getInstance");
+                    sampleFactory = (ISampleFactory) method.invoke(null);
+                    if (acts==null) {
+                        additionActivitybasedSamples = Collections.EMPTY_LIST;
+                    } else {
+                        //restore the list
+                        additionActivitybasedSamples = new ArrayList<>();
+                        for (int i=0; i < acts.size(); i++){
+                            additionActivitybasedSamples.add((IBaseActivity) Class.forName(acts.get(i)).newInstance());
+                        }
+                    }
+                } catch (Throwable t) {
+                    //can resume for some reason
+                    t.printStackTrace();
+                    getActivity().finish();
+                }
+            }
+
+        }
+        savedState = null;
+
+
         // get the listview
         expListView = (ExpandableListView) root.findViewById(R.id.lvExp);
 
@@ -68,7 +116,6 @@ public class SamplesMenuFragment extends Fragment {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v,
                                         int groupPosition, int childPosition, long id) {
-                // TODO fire up the fragment
                 String title = listDataChild.get(
                     listDataHeader.get(groupPosition)).get(
                     childPosition);
@@ -106,7 +153,12 @@ public class SamplesMenuFragment extends Fragment {
         //makes no sense, but that's Android for you.
 
         // preparing list data
-        prepareListData();
+        boolean success=prepareListData();
+        if (!success) {
+            Activity act = getActivity();
+            act.finish();
+            return;
+        }
 
         listAdapter = new ExpandableListAdapter(getActivity(), listDataHeader, listDataChild);
 
@@ -117,12 +169,16 @@ public class SamplesMenuFragment extends Fragment {
     /*
     * Preparing the list data
     */
-    private void prepareListData() {
+    private boolean prepareListData() {
         Set<String> headers = new HashSet<>();
         listDataHeader = new ArrayList<String>();
 
         //category, content
         listDataChild = new HashMap<String, List<String>>();
+        if (sampleFactory==null || additionActivitybasedSamples==null) {
+            //getActivity().getSupportFragmentManager().popBackStack();
+            return false;
+        }
         //had this throw an NPE once after device rotation and a back button press.
         for (int a = 0; a < sampleFactory.count(); a++) {
             final BaseSampleFragment f = sampleFactory.getSample(a);
@@ -153,6 +209,7 @@ public class SamplesMenuFragment extends Fragment {
 
         listDataHeader.addAll(headers);
 
+        return true;
     }
 
     private String capitialize(String group) {
@@ -168,13 +225,37 @@ public class SamplesMenuFragment extends Fragment {
     public void onResume(){
         super.onResume();
 
-        FragmentManager fm = getFragmentManager();
-        fm.popBackStack();
-        System.gc();
+        //FragmentManager fm = getFragmentManager();
+        //fm.popBackStack();
+        //System.gc();
     }
 
     @Override
-    public void onDestroyView(){
+    public void onDestroyView() {
         super.onDestroyView();
+        savedState = saveState();
+
+    }
+
+    private Bundle saveState() { /* called either from onDestroyView() or onSaveInstanceState() */
+        Bundle state = new Bundle();
+        if (sampleFactory!=null)    //yup, hate android
+            state.putString("factory", sampleFactory.getClass().getCanonicalName());
+        if (additionActivitybasedSamples!=null){
+            ArrayList<String> actClasses = new ArrayList<>();
+            for (int i=0; i < additionActivitybasedSamples.size(); i++)
+                actClasses.add(additionActivitybasedSamples.get(i).getClass().getCanonicalName());
+            state.putStringArrayList("acts", actClasses);
+        }
+        return state;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        /* If onDestroyView() is called first, we can use the previously savedState but we can't call saveState() anymore */
+        /* If onSaveInstanceState() is called first, we don't have savedState, so we need to call saveState() */
+        /* => (?:) operator inevitable! */
+        outState.putBundle(TAG, (savedState != null) ? savedState : saveState());
     }
 }

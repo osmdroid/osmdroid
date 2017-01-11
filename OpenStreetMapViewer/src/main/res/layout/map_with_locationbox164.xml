@@ -15,13 +15,13 @@
         android:text="PLACEHOLDER"
         android:textAlignment="center"
         android:gravity="center"
-        android:textColor="@android:color/white"
-        android:background="@android:color/black"
         android:layout_height="wrap_content"></TextView>
     <Button android:id="@+id/animateTo" android:text="Random"
         android:layout_below="@+id/textViewCurrentLocation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+            android:textColor="@android:color/white"
+            android:background="#77000000"
         />
 
 
