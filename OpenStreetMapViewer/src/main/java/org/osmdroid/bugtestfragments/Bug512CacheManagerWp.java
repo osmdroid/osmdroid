@@ -60,7 +60,7 @@ public class Bug512CacheManagerWp extends BaseSampleFragment implements CacheMan
             @Override
             public void run() {
 
-                downloadingTask = mgr.downloadAreaAsync(mMapView.getContext(), pts, 0, 10, Bug512CacheManagerWp.this);
+                downloadingTask = mgr.downloadAreaAsyncNoUI(mMapView.getContext(), pts, 0, 10, Bug512CacheManagerWp.this);
             }
         });
         //downloadingTask = mgr.downloadAreaAsync(mMapView.getContext(), pts, 0, 5, this);
@@ -116,15 +116,11 @@ public class Bug512CacheManagerWp extends BaseSampleFragment implements CacheMan
 
     @Override
     public void onClick(View v) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    runTestProcedures();
-                } catch (Throwable e) {
-                    e.printStackTrace();
-                }
-            }
-        }).start();
+
+        try {
+            runTestProcedures();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
