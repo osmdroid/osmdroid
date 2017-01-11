@@ -2,14 +2,12 @@ package org.osmdroid;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 
 import org.osmdroid.samplefragments.BaseSampleFragment;
-import org.osmdroid.samplefragments.ui.FragmentSamples;
 import org.osmdroid.samplefragments.SampleFactory;
 import org.osmdroid.samplefragments.ui.SamplesMenuFragment;
 import org.osmdroid.views.MapView;
@@ -19,6 +17,7 @@ import java.util.Collections;
 public class ExtraSamplesActivity extends AppCompatActivity {
     public static final String SAMPLES_FRAGMENT_TAG = "org.osmdroid.SAMPLES_FRAGMENT_TAG";
 
+    SamplesMenuFragment fragmentSamples;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,9 +30,16 @@ public class ExtraSamplesActivity extends AppCompatActivity {
 
         FragmentManager fm = this.getSupportFragmentManager();
         if (fm.findFragmentByTag(SAMPLES_FRAGMENT_TAG) == null) {
-            SamplesMenuFragment fragmentSamples = SamplesMenuFragment.newInstance(SampleFactory.getInstance(), Collections.EMPTY_LIST);
+            fragmentSamples = SamplesMenuFragment.newInstance(SampleFactory.getInstance(), Collections.EMPTY_LIST);
             fm.beginTransaction().add(org.osmdroid.R.id.samples_container, fragmentSamples, SAMPLES_FRAGMENT_TAG).commit();
         }
+    }
+
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        fragmentSamples=null;
     }
 
     /**

@@ -14,12 +14,15 @@ import android.util.Log;
 import android.view.InputDevice;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
 public abstract class BaseSampleFragment extends Fragment {
-
+	private static final int MENU_LAST_ID =  Menu.FIRST; // Always set to last unused id
 	public static final String TAG = "osmBaseFrag";
 	public abstract String getSampleTitle();
 
@@ -36,6 +39,7 @@ public abstract class BaseSampleFragment extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setHasOptionsMenu(true);
 		Log.d(TAG, "onCreate");
 	}
 
@@ -110,6 +114,37 @@ public abstract class BaseSampleFragment extends Fragment {
 		super.onDestroy();
 		Log.d(TAG, "onDestroy");
 
+	}
+
+
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		// Put overlay items first
+		try {
+			mMapView.getOverlayManager().onCreateOptionsMenu(menu, MENU_LAST_ID, mMapView);
+		}catch (NullPointerException npe){
+			//can happen during CI tests and very rapid fragment switching
+		}
+		super.onCreateOptionsMenu(menu, inflater);
+	}
+
+	@Override
+	public void onPrepareOptionsMenu(Menu menu) {
+		try{
+			mMapView.getOverlayManager().onPrepareOptionsMenu(menu, MENU_LAST_ID, mMapView);
+		}catch (NullPointerException npe){
+			//can happen during CI tests and very rapid fragment switching
+		}
+		super.onPrepareOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if (mMapView.getOverlayManager().onOptionsItemSelected(item, MENU_LAST_ID, mMapView)) {
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
