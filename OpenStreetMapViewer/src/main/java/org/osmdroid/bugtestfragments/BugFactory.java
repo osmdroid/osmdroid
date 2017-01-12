@@ -30,6 +30,7 @@ public final class BugFactory implements ISampleFactory {
                 Bug419Zoom.class,
                 Bug445Caching.class,
                 Bug512Marker.class,
+                Bug512CacheManagerWp.class,
         };
     }
 

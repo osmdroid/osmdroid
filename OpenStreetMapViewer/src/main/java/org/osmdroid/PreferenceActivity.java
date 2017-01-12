@@ -292,14 +292,20 @@ public class PreferenceActivity extends AppCompatActivity implements View.OnClic
                 switch (which){
                     case DialogInterface.BUTTON_POSITIVE:
                         //Yes button clicked
-                        SqlTileWriter sqlTileWriter = new SqlTileWriter();
-                        boolean b = sqlTileWriter.purgeCache();
-                        sqlTileWriter.onDetach();
-                        sqlTileWriter = null;
-                        if (b)
-                            Toast.makeText(PreferenceActivity.this, "SQL Cache purged", Toast.LENGTH_SHORT).show();
-                        else
-                            Toast.makeText(PreferenceActivity.this, "SQL Cache purge failed, see logcat for details", Toast.LENGTH_LONG).show();
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                SqlTileWriter sqlTileWriter = new SqlTileWriter();
+                                boolean b = sqlTileWriter.purgeCache();
+                                sqlTileWriter.onDetach();
+                                sqlTileWriter = null;
+                                if (b)
+                                    Toast.makeText(PreferenceActivity.this, "SQL Cache purged", Toast.LENGTH_SHORT).show();
+                                else
+                                    Toast.makeText(PreferenceActivity.this, "SQL Cache purge failed, see logcat for details", Toast.LENGTH_LONG).show();
+                            }
+                        }).start();
+
                         break;
 
                     case DialogInterface.BUTTON_NEGATIVE:
