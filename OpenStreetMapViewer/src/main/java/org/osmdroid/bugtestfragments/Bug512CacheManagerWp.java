@@ -60,11 +60,11 @@ public class Bug512CacheManagerWp extends BaseSampleFragment implements CacheMan
             @Override
             public void run() {
 
-                downloadingTask = mgr.downloadAreaAsyncNoUI(mMapView.getContext(), pts, 0, 10, Bug512CacheManagerWp.this);
+                downloadingTask = mgr.downloadAreaAsyncNoUI(mMapView.getContext(), pts, 0, 4, Bug512CacheManagerWp.this);
             }
         });
         //downloadingTask = mgr.downloadAreaAsync(mMapView.getContext(), pts, 0, 5, this);
-        int timeoutSeconds=300;
+        int timeoutSeconds=30;
         while (taskRunning && timeoutSeconds>0) {
             Thread.sleep(1000);
             timeoutSeconds--;
@@ -112,6 +112,7 @@ public class Bug512CacheManagerWp extends BaseSampleFragment implements CacheMan
     public void onTaskFailed(int errors) {
         this.errors=errors;
         Log.i(IMapView.LOGTAG, "down job failed with error count: " + errors);
+        taskRunning=false;
     }
 
     @Override
