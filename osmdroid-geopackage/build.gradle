@@ -6,9 +6,7 @@ apply from: "https://raw.githubusercontent.com/gradle-fury/gradle-fury/v1.1.3/gr
 android {
 
     defaultConfig {
-        applicationId "org.osmdroid.gpkg"
         minSdkVersion 14
-        targetSdkVersion 22
     }
 }
 
