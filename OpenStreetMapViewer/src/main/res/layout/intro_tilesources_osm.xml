@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="18dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18dp"
+            android:text="Important information on Open Street Maps"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="This demo application provides access to Open Street Map map tiles by default.
+\n\n
+OpenStreetMap® is open data, licensed under the Open Data Commons Open Database License (ODbL) by the OpenStreetMap Foundation (OSMF).
+\n\n
+You are free to copy, distribute, transmit and adapt our data, as long as you credit OpenStreetMap and its contributors. If you alter or build upon our data, you may distribute the result only under the same licence. The full legal code explains your rights and responsibilities.
+\n\n
+The cartography in our map tiles, and our documentation, are licensed under the Creative Commons Attribution-ShareAlike 2.0 license (CC BY-SA).
+
+            "
+            />
+
+        <TextView
+            android:paddingTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18dp"
+            android:text="Important information on Microsoft map sources"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="This demo application provides access to Microsoft's Bing map data. Bing maps are NOT free. Our key may stop working at any time.
+\n\n
+If using Bing map sources, you agree to the following.\n
+- Do not use Open Map's API key in any other application or derived application based on osmdroid.\n
+- Do not use the the Cache Manager to bulk download tiles\n
+- That you agree to Microsoft's Terms of Services linked below (it's way too big to put here).\n\n
+\n
+https://www.microsoft.com/en-us/servicesagreement/
+\n\n
+Get your own key here: https://www.bingmapsportal.com/
+            "
+            />
+
+
+
+        <TextView
+            android:paddingTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18dp"
+            android:text="Important information on HERE Map sources"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="This demo application provides access to HERE's map services. HERE's maps are not free. Our key is actually expired and may not working at any time.
+\n\n
+If using HERE map sources, you agree to the following.\n
+- Do not use Open Map's API key in any other application or derived application based on osmdroid.\n
+- Do not use the the Cache Manager to bulk download tiles\n
+- That you agree to HERE's Terms of Services linked below.\n
+\n
+Terms of Service\n
+https://legal.here.com/en/terms/serviceterms/us/
+\n\n
+Here your own key here:\n
+https://developer.here.com\n
+            "
+            />
+
+
+        <TextView
+            android:paddingTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18dp"
+            android:text="Important information on MapBox map sources"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="This demo application provides access to MapBox map data. MapBox maps are NOT free. Our key may stop working at any time.
+\n\n
+If using MapBox map sources, you agree to the following.\n
+- Do not use Open Map's API key in any other application or derived application based on osmdroid.\n
+- Do not use the the Cache Manager to bulk download tiles\n
+- That you agree to MapBox's Terms of Services linked below.\n
+\n
+https://www.mapbox.com/tos/
+\n\n
+Get your own key here: https://www.mapbox.com
+            "
+            />
+        <TextView
+            android:paddingTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18dp"
+            android:text="Important information on Mapquest map sources"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="This demo application provides access to Mapquest map data. Mapquest maps are NOT free. Our key may stop working at any time.
+\n\n
+If using Mapquest map sources, you agree to the following.\n
+- Do not use Open Map's API key in any other application or derived application based on osmdroid.\n
+- Do not use the the Cache Manager to bulk download tiles\n
+- That you agree to Mapquest's Terms of Services linked below.\n
+\n\n
+https://developer.mapquest.com/legal
+\n\n
+Get your own key here: https://developer.mapquest.com/
+            "
+            />
+
+
+        <TextView
+            android:paddingTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18dp"
+            android:text="Important information on Chartbundle map sources"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="This demo application provides access to Chartbundle map data. Chartbunlde provides access to FAA avaiation charts.
+\n\n
+These products are derived from official FAA data but are not themselves official navigation products. Use of these products is at users own risk. All charts have been reprojected, distances and angles measured on them may not match reality.
+\n\n
+More information visit http://www.chartbundle.com/charts/
+            "
+            />
+
+
+
+        <TextView
+            android:paddingTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18dp"
+            android:text="Important information on Cycle Map Tile Sources"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="This demo application provides access to Cyclemap provided by Thunderforest.
+\n\n
+Maps © Thunderforest, Data © OpenStreetMap contributors.\n
+https://www.opencyclemap.org/
+\n
+\n
+http://www.thunderforest.com/
+            "
+            />
+
+
+        <TextView
+            android:paddingTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18dp"
+            android:text="Important information on OpenTopo map sources"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="This demo application provides access to OpenTopo map data.\n\n
+\n\n
+OpenTopoMap is licensed under the CC-BY-SA . This means that the card may be used free of charge and free of charge, as long as the name is always given and the transmission is possible under the same conditions.
+\n\n
+More information visit http://www.opentopomap.org/
+            "
+            />
+
+        <TextView
+            android:paddingTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18dp"
+            android:text="Important information on USGS Tile Sources"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="This demo application provides access to United States National Map Services provided by the United States Geological Survey.
+\n\n
+Map data coverage does not the entire at all elevations world.
+\n\n
+https://www.usgs.gov/
+\n\n
+https://viewer.nationalmap.gov/help/HowTo.htm
+            "
+
+
+            />
+
+
+
+
+    </LinearLayout>
+</ScrollView>

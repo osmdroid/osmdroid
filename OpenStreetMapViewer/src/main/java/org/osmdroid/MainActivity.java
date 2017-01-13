@@ -5,7 +5,9 @@ import android.Manifest;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -15,6 +17,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.format.Formatter;
@@ -28,6 +31,7 @@ import android.widget.Toast;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.debug.CacheAnalyzerActivity;
 import org.osmdroid.debug.browser.CacheBrowserActivity;
+import org.osmdroid.intro.IntroActivity;
 import org.osmdroid.samples.SampleExtensive;
 import org.osmdroid.samples.SampleWithMinimapItemizedoverlay;
 import org.osmdroid.samples.SampleWithMinimapZoomcontrols;
@@ -67,6 +71,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         list.add("Report a bug");
         list.add("Settings");
         list.add("Bug Drivers");
+        list.add("View the intro again");
         if (BuildConfig.VERSION_CODE >= 11)
             list.add("Cache Analyzer");
 
@@ -115,6 +120,18 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 break;
             case 10:
             {
+                //skip this nonsense
+                SharedPreferences.Editor edit = PreferenceManager.getDefaultSharedPreferences(this).edit();
+                edit.remove("osmdroid_first_ran");
+                edit.commit();
+
+                Intent intent = new Intent(this, IntroActivity.class);
+                startActivity(intent);
+                finish();
+                break;
+            }
+            case 11:
+            {
                 if (BuildConfig.VERSION_CODE >= 11){
                     Intent starter = new Intent(this,CacheAnalyzerActivity.class);
                     startActivity(starter );
@@ -128,6 +145,54 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     public void onResume(){
         super.onResume();
         updateStorageInfo();
+        checkForCrashLogs();
+    }
+
+    private void checkForCrashLogs() {
+        //look for osmdroid crash logs
+        File root = Environment.getExternalStorageDirectory();
+        String pathToMyAttachedFile = "/osmdroid/crash.lgo";
+        final File file = new File(root, pathToMyAttachedFile);
+        if (!file.exists() || !file.canRead()) {
+            return;
+        }
+
+        //if found, prompt user to send to
+        //osmdroidbugs@gmail.com
+
+        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which){
+                    case DialogInterface.BUTTON_POSITIVE:
+                        //Yes button clicked
+                        Intent emailIntent = new Intent(Intent.ACTION_SEND);
+                        emailIntent.setType("text/plain");
+                        emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[] {"osmdroidbugs@gmail.com"});
+                        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Open Map crash log");
+                        emailIntent.putExtra(Intent.EXTRA_TEXT, "Log data");
+
+                        Uri uri = Uri.fromFile(file);
+                        emailIntent.putExtra(Intent.EXTRA_STREAM, uri);
+                        startActivity(Intent.createChooser(emailIntent, "Pick an Email provider"));
+                        break;
+
+                    case DialogInterface.BUTTON_NEGATIVE:
+                        //No button clicked
+                        file.delete();
+                        break;
+                }
+            }
+        };
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Crash logs");
+        builder.setMessage("Sorry, it looks like we crashed at some point, would you mind sending us the" +
+            "crash log?").setPositiveButton("Yes", dialogClickListener)
+            .setNegativeButton("No", dialogClickListener).show();
+
+
+
     }
 
     /**
