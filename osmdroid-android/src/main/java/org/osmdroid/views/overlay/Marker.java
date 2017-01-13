@@ -129,7 +129,7 @@ public class Marker extends OverlayWithIW {
 	/** Sets the icon for the marker. Can be changed at any time.
 	 * @param icon if null, the default osmdroid marker is used. 
 	 */
-	public void setIcon(Drawable icon){
+	public void setIcon(final Drawable icon){
 		if (ENABLE_TEXT_LABELS_WHEN_NO_IMAGE && icon==null && this.mTitle!=null && this.mTitle.length() > 0) {
 			Paint background = new Paint();
 			background.setColor(mTextLabelBackgroundColor);
@@ -150,12 +150,14 @@ public class Marker extends OverlayWithIW {
 			c.drawText(getTitle(),0,baseline,p);
 
 			mIcon=new BitmapDrawable(resource,image);
-		}
-		if (!ENABLE_TEXT_LABELS_WHEN_NO_IMAGE && icon!=null)
-			this.mIcon=icon;
-		//there's still an edge case here, title label no defined, icon is null and textlabel is enabled
-		if (this.mIcon==null)
+		} else if (!ENABLE_TEXT_LABELS_WHEN_NO_IMAGE && icon!=null) {
+			this.mIcon = icon;
+		} else if (this.mIcon!=null) {
+			mIcon=icon;
+		} else
+			//there's still an edge case here, title label no defined, icon is null and textlabel is enabled
 			mIcon = mDefaultIcon;
+
 	}
 	
 	public GeoPoint getPosition(){
@@ -242,6 +244,8 @@ public class Marker extends OverlayWithIW {
 	 * Note that this InfoWindow will receive the Marker object as an input, so it MUST be able to handle Marker attributes. 
 	 * If you don't want any InfoWindow to open, you can set it to null. */
 	public void setInfoWindow(MarkerInfoWindow infoWindow){
+		if (mInfoWindow!=null && mInfoWindow!=mDefaultInfoWindow )
+			mInfoWindow.onDetach();
 		mInfoWindow = infoWindow;
 	}
 
@@ -286,7 +290,7 @@ public class Marker extends OverlayWithIW {
 		Rect rect = new Rect(0, 0, width, height);
 		rect.offset(-(int)(mAnchorU*width), -(int)(mAnchorV*height));
 		mIcon.setBounds(rect);
-		
+
 		mIcon.setAlpha((int)(mAlpha*255));
 		
 		float rotationOnScreen = (mFlat ? -mBearing : mapView.getMapOrientation()-mBearing);
@@ -314,12 +318,18 @@ public class Marker extends OverlayWithIW {
 				}
 			}
 		}
-		cleanDefaults();
+		//cleanDefaults();
 		this.mOnMarkerClickListener=null;
 		this.mOnMarkerDragListener=null;
 		this.resource=null;
 		setRelatedObject(null);
-		closeInfoWindow();
+		if (mInfoWindow!=mDefaultInfoWindow) {
+			if (isInfoWindowShown())
+				closeInfoWindow();
+		}
+		//	//if we're using the shared info window, this will cause all instances to close
+
+		setInfoWindow(null);
 		onDestroy();
 
 

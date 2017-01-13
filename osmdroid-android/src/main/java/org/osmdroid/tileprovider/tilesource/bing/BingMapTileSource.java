@@ -1,28 +1,26 @@
 package org.osmdroid.tileprovider.tilesource.bing;
 
-import java.io.BufferedOutputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.util.Locale;
+import android.content.Context;
+import android.util.Log;
 
-import microsoft.mappoint.TileSystem;
-
-
+import org.osmdroid.api.IMapView;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.MapTile;
-import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 import org.osmdroid.tileprovider.tilesource.IStyledTileSource;
 import org.osmdroid.tileprovider.tilesource.QuadTreeTileSource;
-import org.osmdroid.tileprovider.tilesource.bing.imagerymetadata.ImageryMetaData;
-import org.osmdroid.tileprovider.tilesource.bing.imagerymetadata.ImageryMetaDataResource;
+import org.osmdroid.tileprovider.tilesource.bing.ImageryMetaData;
+import org.osmdroid.tileprovider.tilesource.bing.ImageryMetaDataResource;
 import org.osmdroid.tileprovider.util.ManifestUtil;
 import org.osmdroid.tileprovider.util.StreamUtils;
 
-import android.content.Context;
-import android.util.Log;
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import org.osmdroid.thirdparty.Constants;
+import java.util.Locale;
+
+import microsoft.mappoint.TileSystem;
 
 /**
  * BingMap tile source used with OSMDroid<br>
@@ -179,6 +177,7 @@ public class BingMapTileSource extends QuadTreeTileSource implements IStyledTile
 			}
 		}
 		mStyle = pStyle;
+		mName = pathBase();
 	}
 
 	@Override
@@ -216,7 +215,7 @@ public class BingMapTileSource extends QuadTreeTileSource implements IStyledTile
 	 */
 	private ImageryMetaDataResource getMetaData()
 	{
-		Log.d(Constants.LOGTAG,"getMetaData");
+		Log.d(IMapView.LOGTAG,"getMetaData");
 
 		
 		          
@@ -224,12 +223,12 @@ public class BingMapTileSource extends QuadTreeTileSource implements IStyledTile
  		HttpURLConnection client=null;
 		try {
 			client = (HttpURLConnection)(new URL(String.format(BASE_URL_PATTERN, mStyle, mBingMapKey)).openConnection());
-			Log.d(Constants.LOGTAG,"make request "+client.getURL().toString().toString());
+			Log.d(IMapView.LOGTAG,"make request "+client.getURL().toString().toString());
 			client.setRequestProperty(Configuration.getInstance().getUserAgentHttpHeader(), Configuration.getInstance().getUserAgentValue());
 			client.connect();
 
 			if (client.getResponseCode()!= 200) {
-				Log.e(Constants.LOGTAG,"Cannot get response for url "+client.getURL().toString() + " " + client.getResponseMessage());
+				Log.e(IMapView.LOGTAG,"Cannot get response for url "+client.getURL().toString() + " " + client.getResponseMessage());
 				return null;
 			}
 
@@ -242,7 +241,7 @@ public class BingMapTileSource extends QuadTreeTileSource implements IStyledTile
 			return ImageryMetaData.getInstanceFromJSON(dataStream.toString());
 
 		} catch(final Exception e) {
-			Log.e(Constants.LOGTAG,"Error getting imagery meta data", e);
+			Log.e(IMapView.LOGTAG,"Error getting imagery meta data", e);
 		} finally {
 			try {
 				if (client!=null)
@@ -250,7 +249,7 @@ public class BingMapTileSource extends QuadTreeTileSource implements IStyledTile
 			} catch(Exception e) {
 
 			}
-			Log.d(Constants.LOGTAG,"end getMetaData");
+			Log.d(IMapView.LOGTAG,"end getMetaData");
 		}
 		return null;
 	}
@@ -261,7 +260,7 @@ public class BingMapTileSource extends QuadTreeTileSource implements IStyledTile
 	 */
 	protected void updateBaseUrl()
 	{
-		Log.d(Constants.LOGTAG,"updateBaseUrl");
+		Log.d(IMapView.LOGTAG,"updateBaseUrl");
 		final String subDomain = mImageryData.getSubDomain();
 		final int idx = mImageryData.m_imageUrl.lastIndexOf("/");
 		if(idx>0) {
@@ -276,8 +275,8 @@ public class BingMapTileSource extends QuadTreeTileSource implements IStyledTile
 			mBaseUrl = String.format(mBaseUrl, subDomain);
 			mUrl = String.format(mUrl, subDomain,"%s",mLocale);
 		}
-		Log.d(Constants.LOGTAG,"updated url = "+mUrl);
-		Log.d(Constants.LOGTAG,"end updateBaseUrl");
+		Log.d(IMapView.LOGTAG,"updated url = "+mUrl);
+		Log.d(IMapView.LOGTAG,"end updateBaseUrl");
 	}
 
 }

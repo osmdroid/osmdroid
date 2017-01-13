@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/introviewpager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="60dp"></android.support.v4.view.ViewPager>
+    <!-- bottom frame -->
+
+<LinearLayout
+    android:layout_alignParentBottom="true"
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:weightSum="1">
+
+    <Button
+        android:id="@+id/introPrev"
+        android:layout_weight="0.15"
+        android:layout_width="wrap_content"
+        android:visibility="invisible"
+        android:text="@string/previous"
+        android:layout_height="wrap_content"/>
+
+
+    <ProgressBar
+
+        style="?android:attr/progressBarStyleHorizontal"
+        android:id="@+id/introProgressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.70"/>
+
+    <Button
+
+        android:layout_width="wrap_content"
+        android:layout_weight="0.15"
+        android:text="@string/next"
+        android:id="@+id/introNext"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>
+
+</RelativeLayout>

@@ -198,6 +198,9 @@ public class AsyncTaskDemoFragment extends BaseSampleFragment {
                     latMax = latMin;
                     latMin = t;
                 }
+                if (latMax-latMin < 0.00001)
+                    return null;
+                    //this is a problem, abort https://github.com/osmdroid/osmdroid/issues/521
 
                 if (lonMin > lonMax) {
                     double t = lonMax;
@@ -213,7 +216,11 @@ public class AsyncTaskDemoFragment extends BaseSampleFragment {
                         " ,lonMax=" +lonMax+
                         ", zoom=" + zoom);
                 // simulate heavy computation ...
+                if (isCancelled())
+                    return null;
                 Thread.sleep(1000, 0);
+                if (isCancelled())
+                    return null;
 
                 // i.e.
                 // SELECT poi.lat, poi.lon, poi.id, poi.name FROM poi
@@ -226,7 +233,11 @@ public class AsyncTaskDemoFragment extends BaseSampleFragment {
                 for (double lat = latMin; lat <= latMax; lat += latStep) {
                     for (double lon = lonMin; lon <= lonMax; lon += lonStep) {
                         result.add(createMarker(lat, lon, zoom));
+                        if (isCancelled())
+                            break;
                     }
+                    if (isCancelled())
+                        break;
 
                 }
             } catch (Exception ex) {

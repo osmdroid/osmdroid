@@ -71,7 +71,13 @@ public class BasicInfoWindow extends InfoWindow {
 		String title = overlay.getTitle();
 		if (title == null)
 			title = "";
-		((TextView)mView.findViewById(mTitleId /*R.id.title*/)).setText(title);
+		if (mView==null) {
+			Log.w(IMapView.LOGTAG, "Error trapped, BasicInfoWindow.open, mView is null!");
+			return;
+		}
+		TextView temp=((TextView)mView.findViewById(mTitleId /*R.id.title*/));
+
+		if (temp!=null) temp.setText(title);
 		
 		String snippet = overlay.getSnippet();
 		if (snippet == null)

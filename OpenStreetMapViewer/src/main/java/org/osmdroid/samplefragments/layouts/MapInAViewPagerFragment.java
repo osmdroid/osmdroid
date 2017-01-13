@@ -1,5 +1,6 @@
 package org.osmdroid.samplefragments.layouts;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -7,6 +8,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import junit.framework.Assert;
 
 import org.osmdroid.R;
 import org.osmdroid.samplefragments.BaseSampleFragment;
@@ -17,9 +20,9 @@ import org.osmdroid.samplefragments.layouts.pager.MapSliderAdapter;
  */
 
 public class MapInAViewPagerFragment extends BaseSampleFragment {
-    int PAGES=3;
     ViewPager mPager;
     PagerAdapter mPagerAdapter;
+
     @Override
     public String getSampleTitle() {
         return "Map in a view pager";
@@ -61,6 +64,18 @@ public class MapInAViewPagerFragment extends BaseSampleFragment {
 
     @Override
     public void runTestProcedures(){
+        Activity act = getActivity();
+        int count=0;
+        while (act==null && count < 10){
+            count++;
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+
+            }
+        }
+        if (act==null)
+            Assert.fail("fragment was never attached to an activity");
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {

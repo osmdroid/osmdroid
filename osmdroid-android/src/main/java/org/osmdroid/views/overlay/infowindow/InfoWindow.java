@@ -2,10 +2,13 @@ package org.osmdroid.views.overlay.infowindow;
 
 import java.util.ArrayList;
 
+import org.osmdroid.api.IMapView;
+import org.osmdroid.config.Configuration;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -82,8 +85,12 @@ public abstract class InfoWindow {
 				MapView.LayoutParams.WRAP_CONTENT,
 				position, MapView.LayoutParams.BOTTOM_CENTER, 
 				offsetX, offsetY);
-		mMapView.addView(mView, lp);
-		mIsVisible = true;
+		if (mMapView!=null && mView!=null) {
+			mMapView.addView(mView, lp);
+			mIsVisible = true;
+		} else {
+			Log.w(IMapView.LOGTAG, "Error trapped, InfoWindow.open mMapView: " + (mMapView==null ? "null" : "ok") + " mView: "  + (mView==null ? "null" : "ok"));
+		}
 	}
     
 	public void close() {
@@ -103,6 +110,8 @@ public abstract class InfoWindow {
 			mView.setTag(null);
 		mView=null;
 		mMapView=null;
+		if (Configuration.getInstance().isDebugMode())
+			Log.d(IMapView.LOGTAG, "Marked detached");
 	}
 	
 	public boolean isOpen(){
