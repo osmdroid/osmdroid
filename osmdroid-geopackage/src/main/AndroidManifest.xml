@@ -1,31 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.osmdroid.gpkg"  >
-    <supports-screens android:largeScreens="true" android:normalScreens="true" android:anyDensity="true" />
-
-    <!-- PROTECTION_NORMAL permissions, automatically granted -->
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.INTERNET" />
-
-    <!-- DANGEROUS PERMISSIONS, must request -->
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
-    <application
-
-        android:largeHeap="true"
-        android:allowBackup="true"
-        android:label="@string/app_name"
-        android:supportsRtl="true" >
-        <activity android:name="MainActivity"  android:icon="@drawable/icon"  android:label="OSM Gpgk">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"></action>
-                <category android:name="android.intent.category.LAUNCHER"></category>
-            </intent-filter>
-        </activity>
-        <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version"/>
-    </application>
+  
 
 </manifest>

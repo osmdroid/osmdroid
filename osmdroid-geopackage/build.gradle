@@ -1,6 +1,6 @@
 description = 'Geopackage support for osmdroid'
 
-apply plugin: 'com.android.application'
+apply plugin: 'com.android.library'
 apply from: "https://raw.githubusercontent.com/gradle-fury/gradle-fury/v1.1.3/gradle/android-support.gradle"
 
 android {
@@ -19,39 +19,14 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile project(':osmdroid-android')
 
-    compile "mil.nga.geopackage:geopackage-android:1.3.0"
+    compile ("mil.nga.geopackage:geopackage-android:1.3.0"){
+        exclude group: 'com.google.android.gms', module:'play-services'
+        exclude group: 'com.google.maps.android', module:'android-maps-utils'
+    }
 
-    //compile 'com.google.android.gms:play-services:8.4.0'
-    //compile 'com.google.maps.android:android-maps-utils:0.4.3'
     compile 'com.j256.ormlite:ormlite-android:4.48'
     compile 'mil.nga.geopackage:geopackage-core:1.2.0'
     compile 'ar.com.hjg:pngj:2.1.0'
     compile 'mil.nga:tiff:1.0.0'
-
-    //compile 'com.j256.ormlite:ormlite-android:4.48'
-    //compile 'mil.nga.geopackage:geopackage-core:1.2.0'
-    //compile 'mil.nga.geopackage:geopackage:1.2.0'
-
-    //compile 'org.sqldroid:sqldroid:1.1.0-SNAPSHOT'
-    //compile 'org.xerial:sqlite-jdbc:3.7.2'
-    //compile 'mil.nga.geopackage:geopackage-core:1.1.0'
-
 }
 
-
-project.gradle.taskGraph.whenReady {
-    //this is just for Travis CI builds, since this package needs at least api 9 with google apis
-    //ignore the following build targets 1,2,3,7, 12
-    if (System.getenv("API")!=null){
-        if ("8".equalsIgnoreCase(System.getenv("API").trim()) ||
-                "8g".equalsIgnoreCase(System.getenv("API").trim())||
-                "10".equalsIgnoreCase(System.getenv("API").trim())||
-                "10g".equalsIgnoreCase(System.getenv("API").trim())) {
-            println "Skipping GoogleWrapperSample instrumentation test since the API level doesn't match this project"
-
-            installDebug { actions = []; }
-            connectedDebugAndroidTest { actions = []; }
-
-        }
-    }
-}
