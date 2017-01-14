@@ -72,6 +72,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         list.add("Settings");
         list.add("Bug Drivers");
         list.add("View the intro again");
+        list.add("Licenses");
         if (BuildConfig.VERSION_CODE >= 11)
             list.add("Cache Analyzer");
 
@@ -111,9 +112,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/osmdroid/osmdroid/issues/new"));
                 startActivity(browserIntent);
                 break;
-            case 8:
+            case 8:{
                 Intent i = new Intent(this,PreferenceActivity.class);
                 startActivity(i);
+            }
                 break;
             case 9:
                 this.startActivity(new Intent(this, BugsTestingActivity.class));
@@ -130,7 +132,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 finish();
                 break;
             }
-            case 11:
+            case 11:{
+                Intent i = new Intent(this,LicenseActivity.class);
+                startActivity(i);
+                break;
+            }
+            case 12:
             {
                 if (BuildConfig.VERSION_CODE >= 11){
                     Intent starter = new Intent(this,CacheAnalyzerActivity.class);
