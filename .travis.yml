@@ -109,7 +109,7 @@ before_script:
   - adb shell chmod 777 /mnt/sdcard
   - adb shell mkdir /sdcard/osmdroid/
   - adb push world.map /sdcard/osmdroid/world.map
-  - adb push ERDC_Whitehorse_GeoPackage.gpkg /sdcard/osmdroid/ERDC_Whitehorse_GeoPackage.gpkg
+  #maybe one day it will be added to the repo- adb push ERDC_Whitehorse_GeoPackage.gpkg /sdcard/osmdroid/ERDC_Whitehorse_GeoPackage.gpkg
   #- adb push resources/usgsbase.gemf /sdcard/osmdroid/usgsbase.gemf
   #- adb push resources/usgstopo.sqlite /sdcard/osmdroid/usgstopo.sqlite
   #- adb push resources/usgssat.zip /sdcard/osmdroid/usgssat.zip
