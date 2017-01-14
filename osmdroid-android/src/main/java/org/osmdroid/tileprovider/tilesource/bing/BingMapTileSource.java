@@ -103,7 +103,7 @@ public class BingMapTileSource extends QuadTreeTileSource implements IStyledTile
 	/*-------------- overrides OnlineTileSourceBase ---------------------*/
 
 	@Override
-	protected String getBaseUrl() {
+	public String getBaseUrl() {
 		if (!mImageryData.m_isInitialised) {
 			initMetaData();
 		}

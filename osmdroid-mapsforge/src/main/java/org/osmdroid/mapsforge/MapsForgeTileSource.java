@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable;
 import android.util.Log;
 
 import org.mapsforge.core.graphics.GraphicFactory;
+import org.mapsforge.core.model.BoundingBox;
 import org.mapsforge.core.model.Tile;
 import org.mapsforge.map.android.graphics.AndroidGraphicFactory;
 import org.mapsforge.map.android.graphics.AndroidTileBitmap;
@@ -93,6 +94,17 @@ public class MapsForgeTileSource extends BitmapTileSourceBase {
             //super important!! without the following line, all rendering activities will block until the theme is created.
             new Thread(theme).start();
         }
+    }
+
+    public BoundingBox getBounds(){
+        return mapDatabase.boundingBox();
+    }
+
+    public org.osmdroid.util.BoundingBox getBoundsOsmdroid(){
+        BoundingBox boundingBox = mapDatabase.boundingBox();
+        org.osmdroid.util.BoundingBox bounds = new org.osmdroid.util.BoundingBox(boundingBox.maxLatitude, boundingBox.maxLongitude,
+            boundingBox.minLatitude, boundingBox.minLongitude);
+        return bounds;
     }
 
     /**

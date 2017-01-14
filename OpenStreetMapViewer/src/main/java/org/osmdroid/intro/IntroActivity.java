@@ -14,9 +14,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 
-
-import com.squareup.haha.perflib.Main;
-
 import org.osmdroid.MainActivity;
 import org.osmdroid.R;
 

@@ -7,11 +7,11 @@ rootProject.name = 'osmdroid-parent'
 include ':osmdroid-android'
 include ':osmdroid-third-party'
 include ':osmdroid-mapsforge'
+include ':osmdroid-geopackage'
 
 //sample apps
 include ':OpenStreetMapViewer'
 include ':GoogleWrapperSample'
-include ':osmdroid-forge-app'
 
 //jdk specific tools and applications
 include ':OSMMapTilePackager'
