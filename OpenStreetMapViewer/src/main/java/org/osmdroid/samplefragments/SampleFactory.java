@@ -39,6 +39,7 @@ import org.osmdroid.samplefragments.layouts.ScaleBarOnBottom;
 import org.osmdroid.samplefragments.location.SampleCustomIconDirectedLocationOverlay;
 import org.osmdroid.samplefragments.location.SampleFollowMe;
 import org.osmdroid.samplefragments.location.SampleHeadingCompassUp;
+import org.osmdroid.samplefragments.location.SampleMyLocationWithClick;
 import org.osmdroid.samplefragments.location.SampleRotation;
 import org.osmdroid.samplefragments.tilesources.SampleAssetsOnly;
 import org.osmdroid.samplefragments.tilesources.SampleBingHybrid;
@@ -123,7 +124,7 @@ public final class SampleFactory implements ISampleFactory {
         mSamples.add(SampleCopyrightOverlay.class);
         mSamples.add(SampleIISTracker.class);
         mSamples.add(SampleIISTrackerMotionTrails.class);
-
+        mSamples.add(SampleMyLocationWithClick.class);
 
 
 
