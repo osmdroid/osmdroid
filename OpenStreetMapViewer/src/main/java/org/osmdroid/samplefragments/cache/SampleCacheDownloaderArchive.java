@@ -50,7 +50,7 @@ public class SampleCacheDownloaderArchive  extends BaseSampleFragment implements
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.sample_cachemgr, container,false);
-
+        setHasOptionsMenu(false);//prevent tile source changes
         mMapView = (MapView) root.findViewById(R.id.mapview);
         btnCache = (Button) root.findViewById(R.id.btnCache);
         btnCache.setOnClickListener(this);
