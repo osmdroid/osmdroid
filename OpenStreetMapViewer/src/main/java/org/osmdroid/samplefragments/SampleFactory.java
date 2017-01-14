@@ -24,6 +24,7 @@ import org.osmdroid.samplefragments.data.SampleSimpleFastPointOverlay;
 import org.osmdroid.samplefragments.data.SampleSimpleLocation;
 import org.osmdroid.samplefragments.data.SampleWithMinimapItemizedOverlayWithFocus;
 import org.osmdroid.samplefragments.data.SampleWithMinimapItemizedOverlayWithScale;
+import org.osmdroid.samplefragments.drawing.SampleDrawPolyline;
 import org.osmdroid.samplefragments.events.SampleAnimateTo;
 import org.osmdroid.samplefragments.events.SampleAnimatedZoomToLocation;
 import org.osmdroid.samplefragments.events.SampleLimitedScrollArea;
@@ -126,7 +127,7 @@ public final class SampleFactory implements ISampleFactory {
         mSamples.add(SampleIISTrackerMotionTrails.class);
         mSamples.add(SampleMyLocationWithClick.class);
 
-
+        mSamples.add(SampleDrawPolyline.class);
 
 
         mSamples.add(ScaleBarOnBottom.class);
