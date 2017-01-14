@@ -9,6 +9,12 @@ import org.osmdroid.tileprovider.MapTileProviderBase;
 import org.osmdroid.views.MapView;
 
 /**
+ * The only delta with this class vs the standard mapview is that it overcomes some of the issues
+ * with the map view being inside of some kind of container which allows scrolling, such as
+ * scroll view
+ * recycler/card view
+ *
+ *
  * created on 1/3/2017.
  *
  * @author Alex O'Ree

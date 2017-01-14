@@ -34,6 +34,7 @@ import org.osmdroid.samplefragments.events.SampleZoomToBounding;
 import org.osmdroid.samplefragments.events.ZoomToBoundsOnStartup;
 import org.osmdroid.samplefragments.layouts.MapInAViewPagerFragment;
 import org.osmdroid.samplefragments.layouts.MapInScrollView;
+import org.osmdroid.samplefragments.layouts.RecyclerCardView;
 import org.osmdroid.samplefragments.layouts.SampleFragmentXmlLayout;
 import org.osmdroid.samplefragments.layouts.SampleSplitScreen;
 import org.osmdroid.samplefragments.layouts.ScaleBarOnBottom;
@@ -129,6 +130,7 @@ public final class SampleFactory implements ISampleFactory {
 
         mSamples.add(SampleDrawPolyline.class);
 
+        mSamples.add(RecyclerCardView.class);
 
         mSamples.add(ScaleBarOnBottom.class);
         mSamples.add(SampleBingHybrid.class);

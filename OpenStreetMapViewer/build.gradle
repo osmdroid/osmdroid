@@ -30,8 +30,9 @@ dependencies {
     compile 'com.android.support:support-v4:23+'
     compile project(':osmdroid-android')
 
-    compile 'com.android.support:design:23.+'
-
+    compile 'com.android.support:design:23.+' //needed for UI menuing
+    compile 'com.android.support:cardview-v7:23.+'  //needed for samples only
+    compile 'com.android.support:recyclerview-v7:23.+' //needed for samples only
     //crash logging
     compile 'ch.acra:acra:4.7.0'
 
