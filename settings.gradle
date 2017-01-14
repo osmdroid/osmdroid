@@ -12,7 +12,6 @@ include ':osmdroid-geopackage'
 //sample apps
 include ':OpenStreetMapViewer'
 include ':GoogleWrapperSample'
-include ':osmdroid-forge-app'
 
 //jdk specific tools and applications
 include ':OSMMapTilePackager'

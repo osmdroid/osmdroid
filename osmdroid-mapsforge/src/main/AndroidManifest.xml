@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="org.osmdroid.mapforge">
+    package="org.osmdroid.mapsforge">
 
     <uses-sdk
         android:minSdkVersion="10"

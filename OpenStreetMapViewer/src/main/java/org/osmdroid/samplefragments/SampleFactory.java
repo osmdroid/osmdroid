@@ -1,6 +1,8 @@
 package org.osmdroid.samplefragments;
 
 
+import android.os.Build;
+
 import org.osmdroid.ISampleFactory;
 import org.osmdroid.samplefragments.cache.CacheImport;
 import org.osmdroid.samplefragments.cache.CachePurge;
@@ -40,7 +42,9 @@ import org.osmdroid.samplefragments.location.SampleCustomIconDirectedLocationOve
 import org.osmdroid.samplefragments.location.SampleFollowMe;
 import org.osmdroid.samplefragments.location.SampleHeadingCompassUp;
 import org.osmdroid.samplefragments.location.SampleRotation;
-import org.osmdroid.samplefragments.tilesources.SampleAssetsOnly;
+import org.osmdroid.samplefragments.tileproviders.GeopackageSample;
+import org.osmdroid.samplefragments.tileproviders.MapsforgeTileProviderSample;
+import org.osmdroid.samplefragments.tileproviders.SampleAssetsOnly;
 import org.osmdroid.samplefragments.tilesources.SampleBingHybrid;
 import org.osmdroid.samplefragments.tilesources.SampleBingRoad;
 import org.osmdroid.samplefragments.tilesources.SampleCopyrightOverlay;
@@ -50,7 +54,7 @@ import org.osmdroid.samplefragments.tilesources.SampleHereWeGo;
 import org.osmdroid.samplefragments.tilesources.SampleInvertedTiles_NightMode;
 import org.osmdroid.samplefragments.tilesources.SampleMapBox;
 import org.osmdroid.samplefragments.tilesources.SampleMapQuest;
-import org.osmdroid.samplefragments.tilesources.SampleOfflineOnly;
+import org.osmdroid.samplefragments.tileproviders.SampleOfflineOnly;
 import org.osmdroid.samplefragments.tilesources.SampleOpenSeaMap;
 import org.osmdroid.samplefragments.tilesources.SampleWhackyColorFilter;
 import org.osmdroid.samplefragments.tilesources.SepiaToneTiles;
@@ -133,6 +137,11 @@ public final class SampleFactory implements ISampleFactory {
         mSamples.add(SampleBingRoad.class);
         mSamples.add(Gridlines2.class);
         mSamples.add(SepiaToneTiles.class);
+
+        if (Build.VERSION.SDK_INT >= 10)
+            mSamples.add(MapsforgeTileProviderSample.class);
+        if (Build.VERSION.SDK_INT >= 14)
+            mSamples.add(GeopackageSample.class);
     }
 
     public void addSample(Class<? extends BaseSampleFragment> clz) {

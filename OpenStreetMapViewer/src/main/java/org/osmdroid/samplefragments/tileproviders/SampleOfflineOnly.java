@@ -1,4 +1,4 @@
-package org.osmdroid.samplefragments.tilesources;
+package org.osmdroid.samplefragments.tileproviders;
 
 import android.os.Environment;
 import android.support.design.widget.Snackbar;

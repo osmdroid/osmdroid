@@ -1,4 +1,4 @@
-package org.osmdroid.samplefragments.tilesources;
+package org.osmdroid.samplefragments.tileproviders;
 
 import org.osmdroid.samplefragments.BaseSampleFragment;
 import org.osmdroid.tileprovider.MapTileProviderArray;

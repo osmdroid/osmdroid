@@ -141,9 +141,9 @@ public class GeoPackageMapTileModuleProvider extends MapTileModuleProviderBase {
     }
 
     public static class Container {
-        String database;
-        List<String> tiles;
-        List<String> features;
+        public String database;
+        public List<String> tiles;
+        public List<String> features;
     }
 
 
