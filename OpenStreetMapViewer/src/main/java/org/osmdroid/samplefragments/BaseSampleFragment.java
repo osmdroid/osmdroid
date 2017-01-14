@@ -22,7 +22,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 public abstract class BaseSampleFragment extends Fragment {
-	private static final int MENU_LAST_ID =  Menu.FIRST; // Always set to last unused id
+	private static int MENU_LAST_ID =  Menu.FIRST; // Always set to last unused id
 	public static final String TAG = "osmBaseFrag";
 	public abstract String getSampleTitle();
 
@@ -119,6 +119,8 @@ public abstract class BaseSampleFragment extends Fragment {
 
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		MenuItem add = menu.add("Run Tests");
+		MENU_LAST_ID++;
 		// Put overlay items first
 		try {
 			mMapView.getOverlayManager().onCreateOptionsMenu(menu, MENU_LAST_ID, mMapView);
@@ -140,7 +142,20 @@ public abstract class BaseSampleFragment extends Fragment {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		if (mMapView.getOverlayManager().onOptionsItemSelected(item, MENU_LAST_ID, mMapView)) {
+		if (item.getTitle().toString().equals("Run Tests")){
+			new Thread(new Runnable() {
+				@Override
+				public void run() {
+					try {
+						runTestProcedures();
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			}).start();
+			return true;
+		}
+		else if (mMapView.getOverlayManager().onOptionsItemSelected(item, MENU_LAST_ID, mMapView)) {
 			return true;
 		}
 
