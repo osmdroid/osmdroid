@@ -34,7 +34,7 @@
 
             android:text="This demo application provides access to online map source. When used on a metered network, this may be result in data charges.
 
-The Cache Manager can use a LOT of data. Use your own judgement. We're not responsible for data overages of charges.
+The Cache Manager can use a LOT of data. Use your own judgement. We're not responsible for data overages or charges.
             "
             />
 

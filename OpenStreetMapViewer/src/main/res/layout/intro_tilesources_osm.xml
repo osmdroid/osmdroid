@@ -27,9 +27,52 @@ OpenStreetMap® is open data, licensed under the Open Data Commons Open Database
 You are free to copy, distribute, transmit and adapt our data, as long as you credit OpenStreetMap and its contributors. If you alter or build upon our data, you may distribute the result only under the same licence. The full legal code explains your rights and responsibilities.
 \n\n
 The cartography in our map tiles, and our documentation, are licensed under the Creative Commons Attribution-ShareAlike 2.0 license (CC BY-SA).
-
-            "
+\n\n
+More information is available at http://www.openstreetmaps.org"
             />
+
+
+        <TextView
+            android:paddingTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18dp"
+            android:text="Important information on Mapsforge"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="This demo application provides access to Mapsforge based tiles. Osmdroid and OpenMap are
+open source, Apache Software Foundation 2.0 Licensed projects. Mapsforge is LGPL v3. If you use Mapsforge
+in your project, you should understand the terms of the license and adhere to it. Mapforge is not required for osmdroid to function.\n\n
+More information is available at https://github.com/mapsforge/mapsforge"
+            />
+
+        <TextView
+            android:paddingTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18dp"
+            android:text="Important information on Geopackage"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="This demo application provides access to Geopackage based tiles. Osmdroid and OpenMap are
+open source, Apache Software Foundation 2.0 Licensed projects. The GeoPackage Libraries were developed at the
+U.S. National Geospatial-Intelligence Agency (NGA) in collaboration with BIT Systems. The government has 'unlimited rights'
+and is releasing this software to increase the impact of government investments by providing developers
+with the opportunity to take things in new directions. The software use, modification, and distribution
+rights are stipulated within the MIT license. If you use Geopackage
+in your project, you should understand the terms of the license and adhere to it. Geopackage support is not required
+for osmdroid to function.\n\n
+More information is available at https://github.com/ngageoint/geopackage-android"
+            />
+
+
+
 
         <TextView
             android:paddingTop="20dp"
@@ -187,7 +230,6 @@ http://www.thunderforest.com/
             android:layout_height="wrap_content"
 
             android:text="This demo application provides access to OpenTopo map data.\n\n
-\n\n
 OpenTopoMap is licensed under the CC-BY-SA . This means that the card may be used free of charge and free of charge, as long as the name is always given and the transmission is possible under the same conditions.
 \n\n
 More information visit http://www.opentopomap.org/
@@ -207,10 +249,10 @@ More information visit http://www.opentopomap.org/
 
             android:text="This demo application provides access to United States National Map Services provided by the United States Geological Survey.
 \n\n
-Map data coverage does not the entire at all elevations world.
+Map data does not provide coverage for the entire world at all elevations.
 \n\n
-https://www.usgs.gov/
-\n\n
+More information is available at https://www.usgs.gov/
+\nand\n
 https://viewer.nationalmap.gov/help/HowTo.htm
             "
 
