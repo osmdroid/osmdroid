@@ -88,7 +88,7 @@ public class MapsForgeTileModuleProvider extends MapTileFileStorageProviderBase 
 
         @Override
         public Drawable loadTile(final MapTileRequestState pState) {
-            //TODO find a more efficient want to do this, seems overlay complicated
+            //TODO find a more efficient want to do this, seems overly complicated
             MapTile mapTile = pState.getMapTile();
             String dbgPrefix = null;
             if (Configuration.getInstance().isDebugTileProviders()) {

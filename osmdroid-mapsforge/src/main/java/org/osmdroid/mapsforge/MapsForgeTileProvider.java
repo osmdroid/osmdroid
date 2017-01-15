@@ -21,7 +21,7 @@ import org.osmdroid.tileprovider.modules.TileWriter;
  * Adapted from code found here : http://www.sieswerda.net/2012/08/15/upping-the-developer-friendliness/
  */
 public class MapsForgeTileProvider extends MapTileProviderArray {
-
+    IFilesystemCache tileWriter;
     /**
      *
      * @param pRegisterReceiver
@@ -37,7 +37,7 @@ public class MapsForgeTileProvider extends MapTileProviderArray {
                 pRegisterReceiver, pTileSource);
         mTileProviderList.add(archiveProvider);
 
-        IFilesystemCache tileWriter;
+
         if (cacheWriter != null) {
             tileWriter = cacheWriter;
         } else {
@@ -51,12 +51,22 @@ public class MapsForgeTileProvider extends MapTileProviderArray {
         // Create the module provider; this class provides a TileLoader that
         // actually loads the tile from the map file.
         MapsForgeTileModuleProvider moduleProvider = new MapsForgeTileModuleProvider(pRegisterReceiver, (MapsForgeTileSource) getTileSource(), tileWriter);
+        //this is detached by super
 
 
         // Add the module provider to the array of providers; mTileProviderList
         // is defined by the superclass.
         mTileProviderList.add(moduleProvider);
 
+    }
+
+
+    @Override
+    public void detach() {
+        if (tileWriter!=null)
+            tileWriter.onDetach();
+        tileWriter=null;
+        super.detach();
     }
 
 }

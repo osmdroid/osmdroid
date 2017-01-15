@@ -252,12 +252,9 @@ public class SampleHeadingCompassUp extends BaseSampleFragment implements Locati
                     }
                 });
         } catch (Exception ex) {
+            ex.printStackTrace();
         }
         Log.i(TAG,isGps + ","+gpsspeed + "," + gpsbearing + "," + deviceOrientation + "," + bearing + "," + trueNorth.intValue() + "," + mMapView.getMapOrientation() + "," + screen_orientation);
     }
 
-    private void updateMap() {
-
-
-    }
 }

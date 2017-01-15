@@ -101,6 +101,7 @@ public class GeoPackageProvider extends MapTileProviderArray implements IMapTile
         if (tileWriter != null)
             tileWriter.onDetach();
         tileWriter = null;
+        geopackage.detach();
         super.detach();
     }
 

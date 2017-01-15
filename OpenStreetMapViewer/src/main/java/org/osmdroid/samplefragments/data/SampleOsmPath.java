@@ -209,8 +209,8 @@ public class SampleOsmPath extends BaseSampleFragment implements MapListener {
 				@Override
 				public void run() {
 					try {
-						Log.i("Zoomer", "zoom event triggered");
-						Toast.makeText(getActivity(), "Zoom is " + event.getZoomLevel(), Toast.LENGTH_SHORT).show();
+						Log.i("Zoomer", "zoom event triggered " + event.getZoomLevel());
+						//Toast.makeText(getActivity(), "Zoom is " + event.getZoomLevel(), Toast.LENGTH_SHORT).show();
 					} catch (Exception ex) {
 						ex.printStackTrace();
 					}

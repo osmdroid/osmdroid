@@ -168,12 +168,13 @@ public class GeoPackageMapTileModuleProvider extends MapTileModuleProviderBase {
     public void detach() {
 
 
-        Iterator<GeoPackage> iterator = tileSources.iterator();
-        while (iterator.hasNext()){
-            iterator.next().close();
+        if (tileSources!=null) {
+            Iterator<GeoPackage> iterator = tileSources.iterator();
+            while (iterator.hasNext()) {
+                iterator.next().close();
+            }
+            tileSources.clear();
         }
-        tileSources.clear();
-
         manager = null;
     }
 

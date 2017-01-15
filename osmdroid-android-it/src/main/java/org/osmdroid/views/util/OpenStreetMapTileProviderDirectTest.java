@@ -52,6 +52,12 @@ public class OpenStreetMapTileProviderDirectTest extends AndroidTestCase {
 		super.setUp();
 	}
 
+	@Override
+	protected void tearDown() throws Exception {
+		super.tearDown();
+		mProvider.detach();
+	}
+
 	public void test_getMapTile_not_found() {
 		final MapTile tile = new MapTile(2, 3, 4);
 

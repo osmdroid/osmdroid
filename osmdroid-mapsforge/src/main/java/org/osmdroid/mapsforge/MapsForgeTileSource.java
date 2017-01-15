@@ -184,6 +184,9 @@ public class MapsForgeTileSource extends BitmapTileSourceBase {
         //	jobTheme = InternalRenderTheme.OSMARENDER;
         //}
 
+
+        if (mapDatabase==null)
+            return null;
         try {
             //Draw the tile
             RendererJob mapGeneratorJob = new RendererJob(tile, mapDatabase, theme, model, scale, false, false);
@@ -207,4 +210,11 @@ public class MapsForgeTileSource extends BitmapTileSourceBase {
     }
 
 
+    public void dispose() {
+        theme=null;
+        renderer=null;
+        if (mapDatabase!=null)
+            mapDatabase.close();
+        mapDatabase=null;
+    }
 }

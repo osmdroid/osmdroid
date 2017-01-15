@@ -83,67 +83,123 @@ public final class SampleFactory implements ISampleFactory {
     }
 
     private SampleFactory() {
+
+        //these are indexed with comments to make life easier when running
+        //stress/memory leak testing
+        //0
         mSamples.add(SampleWithMinimapItemizedOverlayWithFocus.class);
+        //1
         mSamples.add(SampleWithMinimapItemizedOverlayWithScale.class);
+        //2
         mSamples.add(SampleLimitedScrollArea.class);
+        //3
         mSamples.add(SampleFragmentXmlLayout.class);
+        //4
         mSamples.add(SampleOsmPath.class);
+        //5
         mSamples.add(SampleInvertedTiles_NightMode.class);
+        //6
         mSamples.add(SampleOfflineOnly.class);
+        //7
         mSamples.add(SampleAlternateCacheDir.class);
+        //8
         mSamples.add(SampleMilitaryIconsItemizedIcons.class);
+        //9
         mSamples.add(SampleMilitaryIconsMarker.class);
+        //10
         mSamples.add(SampleMapBox.class);
+        //11
         mSamples.add(SampleJumboCache.class);
+        //12
         mSamples.add(SampleCustomTileSource.class);
+        //13
         mSamples.add(SampleAnimatedZoomToLocation.class);
+        //14
         mSamples.add(SampleWhackyColorFilter.class);
+        //15
         mSamples.add(SampleCustomIconDirectedLocationOverlay.class);
+        //16
         mSamples.add(SampleAssetsOnly.class);
+        //17
         mSamples.add(SampleSqliteOnly.class);
+        //18
         mSamples.add(SampleCacheDownloader.class);
+        //19
         mSamples.add(SampleCacheDownloaderCustomUI.class);
+        //20
         mSamples.add(SampleCacheDownloaderArchive.class);
+        //21
         mSamples.add(SampleGridlines.class);
+        //22
         mSamples.add(SampleMapEventListener.class);
+        //23
         mSamples.add(SampleAnimateTo.class);
+        //24
         mSamples.add(SampleHeadingCompassUp.class);
+        //25
         mSamples.add(SampleSplitScreen.class);
+        //26
         mSamples.add(SampleMapBootListener.class);
+        //27
         mSamples.add(SampleFollowMe.class);
+        //28
         mSamples.add(SampleMapQuest.class);
+        //29
         mSamples.add(SampleHereWeGo.class);
+        //30
         mSamples.add(SampleCustomLoadingImage.class);
+        //31
         mSamples.add(AsyncTaskDemoFragment.class);
+        //32
         mSamples.add(CacheImport.class);
+        //33
         mSamples.add(CachePurge.class);
+        //34
         mSamples.add(SampleZoomToBounding.class);
+        //35
         mSamples.add(MapInAViewPagerFragment.class);
+        //36
         mSamples.add(ZoomToBoundsOnStartup.class);
+        //37
         mSamples.add(SampleSimpleLocation.class);
+        //38
         mSamples.add(SampleSimpleFastPointOverlay.class);
+        //39
         mSamples.add(SampleOpenSeaMap.class);
+        //40
         mSamples.add(SampleMarker.class);
+        //41
         mSamples.add(SampleRotation.class);
+        //42
         mSamples.add(HeatMap.class);
+        //43
         mSamples.add(MapInScrollView.class);
+        //44
         mSamples.add(SampleCopyrightOverlay.class);
+        //45
         mSamples.add(SampleIISTracker.class);
+        //46
         mSamples.add(SampleIISTrackerMotionTrails.class);
+        //47
         mSamples.add(SampleMyLocationWithClick.class);
-
+        //48
         mSamples.add(SampleDrawPolyline.class);
-
+        //49
         mSamples.add(RecyclerCardView.class);
-
+        //50
         mSamples.add(ScaleBarOnBottom.class);
+        //51
         mSamples.add(SampleBingHybrid.class);
+        //52
         mSamples.add(SampleBingRoad.class);
+        //53
         mSamples.add(Gridlines2.class);
+        //54
         mSamples.add(SepiaToneTiles.class);
-
+        //55
         if (Build.VERSION.SDK_INT >= 10)
             mSamples.add(MapsforgeTileProviderSample.class);
+        //56
         if (Build.VERSION.SDK_INT >= 14)
             mSamples.add(GeopackageSample.class);
     }

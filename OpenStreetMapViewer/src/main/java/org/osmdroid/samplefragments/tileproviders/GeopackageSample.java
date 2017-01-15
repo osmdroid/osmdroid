@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.mapsforge.map.android.graphics.AndroidGraphicFactory;
 import org.osmdroid.R;
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.api.IMapView;
@@ -49,6 +50,7 @@ public class GeopackageSample extends BaseSampleFragment {
     TextView textViewCurrentLocation;
     GeoPackageProvider.TileSourceBounds tileSourceBounds;
     XYTileSource currentSource = null;
+    GeoPackageProvider geoPackageProvider=null;
 
     @Override
     public String getSampleTitle() {
@@ -138,7 +140,7 @@ public class GeopackageSample extends BaseSampleFragment {
 
         } else {
             Toast.makeText(getContext(), "Loaded " + maps.length + " map files", Toast.LENGTH_LONG).show();
-            GeoPackageProvider geoPackageProvider = new GeoPackageProvider(maps, this.getContext());
+            geoPackageProvider = new GeoPackageProvider(maps, this.getContext());
             mMapView.setTileProvider(geoPackageProvider);
             List<GeoPackageMapTileModuleProvider.Container> tileSources = geoPackageProvider.geoPackageMapTileModuleProvider().getTileSources();
 
@@ -189,6 +191,16 @@ public class GeopackageSample extends BaseSampleFragment {
         });
         updateInfo();
     }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        this.currentSource=null;
+        if (geoPackageProvider!=null)
+            geoPackageProvider.detach();
+
+    }
+
 
     private void updateInfo() {
         StringBuilder sb = new StringBuilder();
