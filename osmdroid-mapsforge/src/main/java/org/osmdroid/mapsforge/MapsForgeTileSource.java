@@ -211,6 +211,7 @@ public class MapsForgeTileSource extends BitmapTileSourceBase {
 
 
     public void dispose() {
+        theme.decrementRefCount();
         theme=null;
         renderer=null;
         if (mapDatabase!=null)
