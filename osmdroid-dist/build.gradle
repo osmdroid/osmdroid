@@ -12,17 +12,16 @@ distributions {
                 exclude '**/*unaligned*.apk'
             }
             from('../osmdroid-mapsforge/build/outputs/aar') {
-                exclude '**/osmdroid-mapsforge-release.aar'
+            }
+			from('../osmdroid-geopackage/build/outputs/aar') {
             }
             from('../osmdroid-mapsforge/build/libs/')   //javadoc and sources
 
             from('../osmdroid-third-party/build/outputs/aar') {
-                exclude '**/osmdroid-third-party-release.aar'
             }
             from('../osmdroid-third-party/build/libs/')   //javadoc and sources
 
             from('../osmdroid-android/build/outputs/aar') {
-                exclude '**/osmdroid-android-release.aar'
             }
             from('../osmdroid-android/build/libs/')   //javadoc and sources
 
