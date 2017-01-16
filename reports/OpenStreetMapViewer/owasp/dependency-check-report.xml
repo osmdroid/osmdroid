@@ -1,83 +1,87 @@
 <?xml version="1.0"?>
 <analysis xmlns="https://jeremylong.github.io/DependencyCheck/dependency-check.1.3.xsd">
     <scanInfo>
-        <engineVersion>1.4.3</engineVersion>
+        <engineVersion>1.4.4</engineVersion>
         <dataSource>
             <name>NVD CVE 2002</name>
-            <timestamp>16/12/2016 03:30:11</timestamp>
+            <timestamp>05/01/2017 03:11:17</timestamp>
         </dataSource>
         <dataSource>
             <name>NVD CVE 2003</name>
-            <timestamp>08/12/2016 03:31:14</timestamp>
+            <timestamp>03/01/2017 03:25:13</timestamp>
         </dataSource>
         <dataSource>
             <name>NVD CVE 2004</name>
-            <timestamp>16/12/2016 03:28:25</timestamp>
+            <timestamp>20/12/2016 03:20:02</timestamp>
         </dataSource>
         <dataSource>
             <name>NVD CVE 2005</name>
-            <timestamp>16/12/2016 03:27:34</timestamp>
+            <timestamp>03/01/2017 03:24:37</timestamp>
         </dataSource>
         <dataSource>
             <name>NVD CVE 2006</name>
-            <timestamp>16/12/2016 03:26:04</timestamp>
+            <timestamp>20/12/2016 03:17:07</timestamp>
         </dataSource>
         <dataSource>
             <name>NVD CVE 2007</name>
-            <timestamp>16/12/2016 03:23:42</timestamp>
+            <timestamp>07/01/2017 03:21:56</timestamp>
         </dataSource>
         <dataSource>
             <name>NVD CVE 2008</name>
-            <timestamp>16/12/2016 03:21:35</timestamp>
+            <timestamp>03/01/2017 03:22:49</timestamp>
         </dataSource>
         <dataSource>
             <name>NVD CVE 2009</name>
-            <timestamp>16/12/2016 03:18:56</timestamp>
+            <timestamp>07/01/2017 03:19:30</timestamp>
         </dataSource>
         <dataSource>
             <name>NVD CVE 2010</name>
-            <timestamp>16/12/2016 03:16:57</timestamp>
+            <timestamp>14/01/2017 03:06:55</timestamp>
         </dataSource>
         <dataSource>
             <name>NVD CVE 2011</name>
-            <timestamp>16/12/2016 03:14:22</timestamp>
+            <timestamp>07/01/2017 03:14:53</timestamp>
         </dataSource>
         <dataSource>
             <name>NVD CVE 2012</name>
-            <timestamp>16/12/2016 03:11:18</timestamp>
+            <timestamp>07/01/2017 03:11:40</timestamp>
         </dataSource>
         <dataSource>
             <name>NVD CVE 2013</name>
-            <timestamp>17/12/2016 03:07:49</timestamp>
+            <timestamp>07/01/2017 03:09:24</timestamp>
         </dataSource>
         <dataSource>
             <name>NVD CVE 2014</name>
-            <timestamp>16/12/2016 03:06:45</timestamp>
+            <timestamp>13/01/2017 03:07:05</timestamp>
         </dataSource>
         <dataSource>
             <name>NVD CVE 2015</name>
-            <timestamp>17/12/2016 03:05:04</timestamp>
+            <timestamp>14/01/2017 03:04:28</timestamp>
         </dataSource>
         <dataSource>
             <name>NVD CVE 2016</name>
-            <timestamp>18/12/2016 03:02:26</timestamp>
+            <timestamp>16/01/2017 03:02:28</timestamp>
+        </dataSource>
+        <dataSource>
+            <name>NVD CVE 2017</name>
+            <timestamp>16/01/2017 03:00:02</timestamp>
         </dataSource>
         <dataSource>
             <name>NVD CVE Checked</name>
-            <timestamp>28/12/2016 15:20:20</timestamp>
+            <timestamp>16/01/2017 12:03:25</timestamp>
         </dataSource>
         <dataSource>
             <name>NVD CVE Modified</name>
-            <timestamp>28/12/2016 14:02:56</timestamp>
+            <timestamp>16/01/2017 10:00:27</timestamp>
         </dataSource>
         <dataSource>
             <name>VersionCheckOn</name>
-            <timestamp>1480817979332</timestamp>
+            <timestamp>1483650148175</timestamp>
         </dataSource>
     </scanInfo>
     <projectInfo>
         <name>OpenStreetMapViewer</name>
-        <reportDate>2016-12-28T15:22:41.377-0500</reportDate>
+        <reportDate>2017-01-16T12:06:21.259-0500</reportDate>
         <credits>This report contains data retrieved from the National Vulnerability Database: http://nvd.nist.gov</credits>
     </projectInfo>
     <dependencies>
@@ -86,16 +90,6 @@
             <filePath>C:\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\23.4.0\support-annotations-23.4.0.jar</filePath>
             <md5>c5a1a4d0e132746c9f809cd79a68f97a</md5>
             <sha1>ffbe55fdb2bb456b1485831706a9eac3300bb6b8</sha1>
-            <relatedDependencies>
-                <relatedDependency>
-                    <filePath>C:\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\23.4.0\support-annotations-23.4.0.jar</filePath>
-                    <sha1>ffbe55fdb2bb456b1485831706a9eac3300bb6b8</sha1>
-                    <md5>c5a1a4d0e132746c9f809cd79a68f97a</md5>
-                    <identifier type="maven">
-                        <name>(com.android.support:support-annotations:23.4.0)</name>
-                    </identifier>
-                </relatedDependency>
-            </relatedDependencies>
             <evidenceCollected>
                 <evidence type="vendor" confidence="HIGH">
                     <source>file</source>
@@ -171,6 +165,122 @@
             <identifiers>
                 <identifier type="maven" confidence="HIGH">
                     <name>(com.android.support:support-annotations:23.4.0)</name>
+                </identifier>
+            </identifiers>
+        </dependency>
+        <dependency>
+            <fileName>pngj-2.1.0.jar</fileName>
+            <filePath>C:\Users\Dad\.gradle\caches\modules-2\files-2.1\ar.com.hjg\pngj\2.1.0\b9a0d5cca5108431c4068976e795d4d2766dab5b\pngj-2.1.0.jar</filePath>
+            <md5>a10444ea8ae2deaf6221d2efa89c8664</md5>
+            <sha1>b9a0d5cca5108431c4068976e795d4d2766dab5b</sha1>
+            <description>Pure Java library for efficient PNG encoding/decoding</description>
+            <license>The Apache Software License, Version 2.0: http://www.apache.org/licenses/LICENSE-2.0.txt</license>
+            <evidenceCollected>
+                <evidence type="vendor" confidence="HIGHEST">
+                    <source>central</source>
+                    <name>groupid</name>
+                    <value>ar.com.hjg</value>
+                </evidence>
+                <evidence type="vendor" confidence="HIGH">
+                    <source>file</source>
+                    <name>name</name>
+                    <value>pngj</value>
+                </evidence>
+                <evidence type="vendor" confidence="MEDIUM">
+                    <source>Manifest</source>
+                    <name>Implementation-Vendor-Id</name>
+                    <value>ar.com.hjg</value>
+                </evidence>
+                <evidence type="vendor" confidence="LOW">
+                    <source>pom</source>
+                    <name>artifactid</name>
+                    <value>pngj</value>
+                </evidence>
+                <evidence type="vendor" confidence="MEDIUM">
+                    <source>pom</source>
+                    <name>description</name>
+                    <value>Pure Java library for efficient PNG encoding/decoding</value>
+                </evidence>
+                <evidence type="vendor" confidence="HIGHEST">
+                    <source>pom</source>
+                    <name>groupid</name>
+                    <value>ar.com.hjg</value>
+                </evidence>
+                <evidence type="vendor" confidence="HIGH">
+                    <source>pom</source>
+                    <name>name</name>
+                    <value>PNGJ</value>
+                </evidence>
+                <evidence type="vendor" confidence="HIGHEST">
+                    <source>pom</source>
+                    <name>url</name>
+                    <value>http://pngj.googlecode.com/</value>
+                </evidence>
+                <evidence type="product" confidence="HIGHEST">
+                    <source>central</source>
+                    <name>artifactid</name>
+                    <value>pngj</value>
+                </evidence>
+                <evidence type="product" confidence="HIGH">
+                    <source>file</source>
+                    <name>name</name>
+                    <value>pngj</value>
+                </evidence>
+                <evidence type="product" confidence="HIGH">
+                    <source>Manifest</source>
+                    <name>Implementation-Title</name>
+                    <value>PNGJ</value>
+                </evidence>
+                <evidence type="product" confidence="HIGHEST">
+                    <source>pom</source>
+                    <name>artifactid</name>
+                    <value>pngj</value>
+                </evidence>
+                <evidence type="product" confidence="MEDIUM">
+                    <source>pom</source>
+                    <name>description</name>
+                    <value>Pure Java library for efficient PNG encoding/decoding</value>
+                </evidence>
+                <evidence type="product" confidence="LOW">
+                    <source>pom</source>
+                    <name>groupid</name>
+                    <value>ar.com.hjg</value>
+                </evidence>
+                <evidence type="product" confidence="HIGH">
+                    <source>pom</source>
+                    <name>name</name>
+                    <value>PNGJ</value>
+                </evidence>
+                <evidence type="version" confidence="HIGHEST">
+                    <source>central</source>
+                    <name>version</name>
+                    <value>2.1.0</value>
+                </evidence>
+                <evidence type="version" confidence="MEDIUM">
+                    <source>file</source>
+                    <name>name</name>
+                    <value>pngj</value>
+                </evidence>
+                <evidence type="version" confidence="HIGHEST">
+                    <source>file</source>
+                    <name>version</name>
+                    <value>2.1.0</value>
+                </evidence>
+                <evidence type="version" confidence="HIGH">
+                    <source>Manifest</source>
+                    <name>Implementation-Version</name>
+                    <value>2.1.0</value>
+                </evidence>
+                <evidence type="version" confidence="HIGHEST">
+                    <source>pom</source>
+                    <name>version</name>
+                    <value>2.1.0</value>
+                </evidence>
+            </evidenceCollected>
+            <identifiers>
+                <identifier type="maven" confidence="HIGHEST">
+                    <name>(ar.com.hjg:pngj:2.1.0)</name>
+                    <url>http://search.maven.org/#search|ga|1|1%3A%22b9a0d5cca5108431c4068976e795d4d2766dab5b%22</url>
                 </identifier>
             </identifiers>
         </dependency>
@@ -306,23 +416,858 @@
             </identifiers>
         </dependency>
         <dependency>
+            <fileName>androidsvg-1.2.2-beta-1.jar</fileName>
+            <filePath>C:\Users\Dad\.gradle\caches\modules-2\files-2.1\com.caverock\androidsvg\1.2.2-beta-1\d98fcdbfa06bd8fcca1dab708c0468b9821f3ed9\androidsvg-1.2.2-beta-1.jar</filePath>
+            <md5>f1d4123df98bfe72862c9fd80b0df062</md5>
+            <sha1>d98fcdbfa06bd8fcca1dab708c0468b9821f3ed9</sha1>
+            <description>AndroidSVG is an SVG rendering library for Android.</description>
+            <license>The Apache Software License, Version 2.0: http://www.apache.org/licenses/LICENSE-2.0.txt</license>
+            <evidenceCollected>
+                <evidence type="vendor" confidence="HIGHEST">
+                    <source>central</source>
+                    <name>groupid</name>
+                    <value>com.caverock</value>
+                </evidence>
+                <evidence type="vendor" confidence="HIGH">
+                    <source>file</source>
+                    <name>name</name>
+                    <value>androidsvg</value>
+                </evidence>
+                <evidence type="vendor" confidence="LOW">
+                    <source>jar</source>
+                    <name>package name</name>
+                    <value>androidsvg</value>
+                </evidence>
+                <evidence type="vendor" confidence="LOW">
+                    <source>jar</source>
+                    <name>package name</name>
+                    <value>caverock</value>
+                </evidence>
+                <evidence type="vendor" confidence="LOW">
+                    <source>pom</source>
+                    <name>artifactid</name>
+                    <value>androidsvg</value>
+                </evidence>
+                <evidence type="vendor" confidence="MEDIUM">
+                    <source>pom</source>
+                    <name>description</name>
+                    <value>AndroidSVG is an SVG rendering library for Android.</value>
+                </evidence>
+                <evidence type="vendor" confidence="HIGHEST">
+                    <source>pom</source>
+                    <name>groupid</name>
+                    <value>caverock</value>
+                </evidence>
+                <evidence type="vendor" confidence="HIGH">
+                    <source>pom</source>
+                    <name>name</name>
+                    <value>AndroidSVG</value>
+                </evidence>
+                <evidence type="vendor" confidence="HIGHEST">
+                    <source>pom</source>
+                    <name>url</name>
+                    <value>http://code.google.com/p/androidsvg/</value>
+                </evidence>
+                <evidence type="product" confidence="HIGHEST">
+                    <source>central</source>
+                    <name>artifactid</name>
+                    <value>androidsvg</value>
+                </evidence>
+                <evidence type="product" confidence="HIGH">
+                    <source>file</source>
+                    <name>name</name>
+                    <value>androidsvg</value>
+                </evidence>
+                <evidence type="product" confidence="LOW">
+                    <source>jar</source>
+                    <name>package name</name>
+                    <value>androidsvg</value>
+                </evidence>
+                <evidence type="product" confidence="HIGHEST">
+                    <source>pom</source>
+                    <name>artifactid</name>
+                    <value>androidsvg</value>
+                </evidence>
+                <evidence type="product" confidence="MEDIUM">
+                    <source>pom</source>
+                    <name>description</name>
+                    <value>AndroidSVG is an SVG rendering library for Android.</value>
+                </evidence>
+                <evidence type="product" confidence="LOW">
+                    <source>pom</source>
+                    <name>groupid</name>
+                    <value>caverock</value>
+                </evidence>
+                <evidence type="product" confidence="HIGH">
+                    <source>pom</source>
+                    <name>name</name>
+                    <value>AndroidSVG</value>
+                </evidence>
+                <evidence type="version" confidence="HIGHEST">
+                    <source>central</source>
+                    <name>version</name>
+                    <value>1.2.2-beta-1</value>
+                </evidence>
+                <evidence type="version" confidence="MEDIUM">
+                    <source>file</source>
+                    <name>name</name>
+                    <value>androidsvg</value>
+                </evidence>
+                <evidence type="version" confidence="HIGHEST">
+                    <source>file</source>
+                    <name>version</name>
+                    <value>1.2.2.beta</value>
+                </evidence>
+                <evidence type="version" confidence="HIGHEST">
+                    <source>pom</source>
+                    <name>version</name>
+                    <value>1.2.2-beta-1</value>
+                </evidence>
+            </evidenceCollected>
+            <identifiers>
+                <identifier type="maven" confidence="HIGHEST">
+                    <name>(com.caverock:androidsvg:1.2.2-beta-1)</name>
+                    <url>http://search.maven.org/remotecontent?filepath=com/caverock/androidsvg/1.2.2-beta-1/androidsvg-1.2.2-beta-1.jar</url>
+                </identifier>
+                <identifier type="cpe" confidence="LOW">
+                    <name>(cpe:/a:google:android:1.2.2.beta)</name>
+                </identifier>
+            </identifiers>
+            <vulnerabilities>
+                <vulnerability>
+                    <name>CVE-2016-5696</name>
+                    <cvssScore>5.8</cvssScore>
+                    <cvssAccessVector>NETWORK</cvssAccessVector>
+                    <cvssAccessComplexity>MEDIUM</cvssAccessComplexity>
+                    <cvssAuthenticationr>NONE</cvssAuthenticationr>
+                    <cvssConfidentialImpact>NONE</cvssConfidentialImpact>
+                    <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+                    <cvssAvailabilityImpact>PARTIAL</cvssAvailabilityImpact>
+                    <severity>Medium</severity>
+                    <cwe>CWE-200 Information Exposure</cwe>
+                    <description>net/ipv4/tcp_input.c in the Linux kernel before 4.7 does not properly determine the rate of challenge ACK segments, which makes it easier for remote attackers to hijack TCP sessions via a blind in-window attack.</description>
+                    <references>
+                        <reference>
+                            <source>BID</source>
+                            <url>http://www.securityfocus.com/bid/91704</url>
+                            <name>91704</name>
+                        </reference>
+                        <reference>
+                            <source>CONFIRM</source>
+                            <url>http://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/?id=75ff39ccc1bd5d3c455b6822ab09e533c551f758</url>
+                            <name>http://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/?id=75ff39ccc1bd5d3c455b6822ab09e533c551f758</name>
+                        </reference>
+                        <reference>
+                            <source>CONFIRM</source>
+                            <url>http://source.android.com/security/bulletin/2016-10-01.html</url>
+                            <name>http://source.android.com/security/bulletin/2016-10-01.html</name>
+                        </reference>
+                        <reference>
+                            <source>CONFIRM</source>
+                            <url>http://www.oracle.com/technetwork/topics/security/linuxbulletinjul2016-3090544.html</url>
+                            <name>http://www.oracle.com/technetwork/topics/security/linuxbulletinjul2016-3090544.html</name>
+                        </reference>
+                        <reference>
+                            <source>CONFIRM</source>
+                            <url>http://www.oracle.com/technetwork/topics/security/ovmbulletinjul2016-3090546.html</url>
+                            <name>http://www.oracle.com/technetwork/topics/security/ovmbulletinjul2016-3090546.html</name>
+                        </reference>
+                        <reference>
+                            <source>CONFIRM</source>
+                            <url>https://bto.bluecoat.com/security-advisory/sa131</url>
+                            <name>https://bto.bluecoat.com/security-advisory/sa131</name>
+                        </reference>
+                        <reference>
+                            <source>CONFIRM</source>
+                            <url>https://bugzilla.redhat.com/show_bug.cgi?id=1354708</url>
+                            <name>https://bugzilla.redhat.com/show_bug.cgi?id=1354708</name>
+                        </reference>
+                        <reference>
+                            <source>CONFIRM</source>
+                            <url>https://github.com/torvalds/linux/commit/75ff39ccc1bd5d3c455b6822ab09e533c551f758</url>
+                            <name>https://github.com/torvalds/linux/commit/75ff39ccc1bd5d3c455b6822ab09e533c551f758</name>
+                        </reference>
+                        <reference>
+                            <source>CONFIRM</source>
+                            <url>https://kc.mcafee.com/corporate/index?page=content&amp;id=SB10167</url>
+                            <name>https://kc.mcafee.com/corporate/index?page=content&amp;id=SB10167</name>
+                        </reference>
+                        <reference>
+                            <source>MISC</source>
+                            <url>http://www.prnewswire.com/news-releases/mitnick-attack-reappears-at-geekpwn-macau-contest-300270779.html</url>
+                            <name>http://www.prnewswire.com/news-releases/mitnick-attack-reappears-at-geekpwn-macau-contest-300270779.html</name>
+                        </reference>
+                        <reference>
+                            <source>MISC</source>
+                            <url>https://github.com/Gnoxter/mountain_goat</url>
+                            <name>https://github.com/Gnoxter/mountain_goat</name>
+                        </reference>
+                        <reference>
+                            <source>MISC</source>
+                            <url>https://www.usenix.org/system/files/conference/usenixsecurity16/sec16_paper_cao.pdf</url>
+                            <name>https://www.usenix.org/system/files/conference/usenixsecurity16/sec16_paper_cao.pdf</name>
+                        </reference>
+                        <reference>
+                            <source>MLIST</source>
+                            <url>http://www.openwall.com/lists/oss-security/2016/07/12/2</url>
+                            <name>[oss-security] 20160712 Re: CVE-2016-5389: linux kernel - challange ack information leak.</name>
+                        </reference>
+                        <reference>
+                            <source>REDHAT</source>
+                            <url>http://rhn.redhat.com/errata/RHSA-2016-1631.html</url>
+                            <name>RHSA-2016:1631</name>
+                        </reference>
+                        <reference>
+                            <source>REDHAT</source>
+                            <url>http://rhn.redhat.com/errata/RHSA-2016-1632.html</url>
+                            <name>RHSA-2016:1632</name>
+                        </reference>
+                        <reference>
+                            <source>REDHAT</source>
+                            <url>http://rhn.redhat.com/errata/RHSA-2016-1633.html</url>
+                            <name>RHSA-2016:1633</name>
+                        </reference>
+                        <reference>
+                            <source>REDHAT</source>
+                            <url>http://rhn.redhat.com/errata/RHSA-2016-1657.html</url>
+                            <name>RHSA-2016:1657</name>
+                        </reference>
+                        <reference>
+                            <source>REDHAT</source>
+                            <url>http://rhn.redhat.com/errata/RHSA-2016-1664.html</url>
+                            <name>RHSA-2016:1664</name>
+                        </reference>
+                        <reference>
+                            <source>REDHAT</source>
+                            <url>http://rhn.redhat.com/errata/RHSA-2016-1814.html</url>
+                            <name>RHSA-2016:1814</name>
+                        </reference>
+                        <reference>
+                            <source>REDHAT</source>
+                            <url>http://rhn.redhat.com/errata/RHSA-2016-1815.html</url>
+                            <name>RHSA-2016:1815</name>
+                        </reference>
+                        <reference>
+                            <source>SECTRACK</source>
+                            <url>http://www.securitytracker.com/id/1036625</url>
+                            <name>1036625</name>
+                        </reference>
+                        <reference>
+                            <source>UBUNTU</source>
+                            <url>http://www.ubuntu.com/usn/USN-3070-1</url>
+                            <name>USN-3070-1</name>
+                        </reference>
+                        <reference>
+                            <source>UBUNTU</source>
+                            <url>http://www.ubuntu.com/usn/USN-3070-2</url>
+                            <name>USN-3070-2</name>
+                        </reference>
+                        <reference>
+                            <source>UBUNTU</source>
+                            <url>http://www.ubuntu.com/usn/USN-3070-3</url>
+                            <name>USN-3070-3</name>
+                        </reference>
+                        <reference>
+                            <source>UBUNTU</source>
+                            <url>http://www.ubuntu.com/usn/USN-3070-4</url>
+                            <name>USN-3070-4</name>
+                        </reference>
+                        <reference>
+                            <source>UBUNTU</source>
+                            <url>http://www.ubuntu.com/usn/USN-3071-1</url>
+                            <name>USN-3071-1</name>
+                        </reference>
+                        <reference>
+                            <source>UBUNTU</source>
+                            <url>http://www.ubuntu.com/usn/USN-3071-2</url>
+                            <name>USN-3071-2</name>
+                        </reference>
+                        <reference>
+                            <source>UBUNTU</source>
+                            <url>http://www.ubuntu.com/usn/USN-3072-1</url>
+                            <name>USN-3072-1</name>
+                        </reference>
+                        <reference>
+                            <source>UBUNTU</source>
+                            <url>http://www.ubuntu.com/usn/USN-3072-2</url>
+                            <name>USN-3072-2</name>
+                        </reference>
+                    </references>
+                    <vulnerableSoftware>
+                        <software allPreviousVersion="true">cpe:/a:google:android:7.0</software>
+                        <software allPreviousVersion="true">cpe:/a:linux:linux_kernel:4.6.6</software>
+                        <software>cpe:/a:oracle:vm_server:3.3</software>
+                        <software>cpe:/a:oracle:vm_server:3.4</software>
+                    </vulnerableSoftware>
+                </vulnerability>
+                <vulnerability>
+                    <name>CVE-2014-6060</name>
+                    <cvssScore>3.3</cvssScore>
+                    <cvssAccessVector>ADJACENT_NETWORK</cvssAccessVector>
+                    <cvssAccessComplexity>LOW</cvssAccessComplexity>
+                    <cvssAuthenticationr>NONE</cvssAuthenticationr>
+                    <cvssConfidentialImpact>NONE</cvssConfidentialImpact>
+                    <cvssIntegrityImpact>NONE</cvssIntegrityImpact>
+                    <cvssAvailabilityImpact>PARTIAL</cvssAvailabilityImpact>
+                    <severity>Low</severity>
+                    <cwe>CWE-399 Resource Management Errors</cwe>
+                    <description>The get_option function in dhcpcd 4.0.0 through 6.x before 6.4.3 allows remote DHCP servers to cause a denial of service by resetting the DHO_OPTIONSOVERLOADED option in the (1) bootfile or (2) servername section, which triggers the option to be processed again.</description>
+                    <references>
+                        <reference>
+                            <source>BID</source>
+                            <url>http://www.securityfocus.com/bid/68970</url>
+                            <name>68970</name>
+                        </reference>
+                        <reference>
+                            <source>CONFIRM</source>
+                            <url>http://advisories.mageia.org/MGASA-2014-0334.html</url>
+                            <name>http://advisories.mageia.org/MGASA-2014-0334.html</name>
+                        </reference>
+                        <reference>
+                            <source>CONFIRM</source>
+                            <url>http://roy.marples.name/projects/dhcpcd/ci/1d2b93aa5ce25a8a710082fe2d36a6bf7f5794d5?sbs=0</url>
+                            <name>http://roy.marples.name/projects/dhcpcd/ci/1d2b93aa5ce25a8a710082fe2d36a6bf7f5794d5?sbs=0</name>
+                        </reference>
+                        <reference>
+                            <source>CONFIRM</source>
+                            <url>http://source.android.com/security/bulletin/2016-04-02.html</url>
+                            <name>http://source.android.com/security/bulletin/2016-04-02.html</name>
+                        </reference>
+                        <reference>
+                            <source>MANDRIVA</source>
+                            <url>http://www.mandriva.com/security/advisories?name=MDVSA-2014:171</url>
+                            <name>MDVSA-2014:171</name>
+                        </reference>
+                        <reference>
+                            <source>MLIST</source>
+                            <url>http://www.openwall.com/lists/oss-security/2014/07/30/5</url>
+                            <name>[oss-security] 20140730 CVE Request: dhcpcd DoS attack</name>
+                        </reference>
+                        <reference>
+                            <source>MLIST</source>
+                            <url>http://www.openwall.com/lists/oss-security/2014/09/01/11</url>
+                            <name>[oss-security] 20140901 CVE Request: dhcpcd DoS attack</name>
+                        </reference>
+                        <reference>
+                            <source>SLACKWARE</source>
+                            <url>http://www.slackware.com/security/viewer.php?l=slackware-security&amp;y=2014&amp;m=slackware-security.462420</url>
+                            <name>SSA:2014-213-02</name>
+                        </reference>
+                    </references>
+                    <vulnerableSoftware>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:4.0.0</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:4.0.0:alpha1</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:4.0.0:alpha2</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:4.0.0:alpha3</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:4.0.0:beta1</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:4.0.0:beta2</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:4.0.0:beta3</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:4.0.0:beta4</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:4.0.0:beta5</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:4.0.0:beta6</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:4.0.0:beta7</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:4.0.0:beta8</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:4.0.0:beta9</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:4.0.0:rc1</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:4.0.0:rc2</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:4.0.0:rc3</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:4.0.0:rc4</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:4.0.0:rc5</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:4.0.1</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:4.0.2</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:4.0.3</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:4.0.4</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:4.0.5</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:4.0.6</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:4.0.7</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:4.0.10</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:4.0.11</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:4.0.12</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:4.0.13</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:4.0.14</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:4.0.15</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.0.0</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.0.1</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.0.3</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.0.4</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.0.6</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.0.7</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.0.8</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.0.9</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.1.0</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.1.1</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.1.2</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.1.3</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.1.4</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.1.5</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.2.0</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.2.1</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.2.3</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.2.4</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.2.5</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.2.6</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.2.7</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.2.8</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.2.9</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.2.10</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.2.11</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.2.12</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.5.0</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.5.1</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.5.1:test1</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.5.2</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.5.3</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.5.4</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.5.5</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.5.6</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.6.0</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.6.1</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.6.2</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.6.3</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.6.4</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.6.5</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.6.6</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.6.7</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.6.8</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.99.2</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.99.3</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.99.4</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.99.5</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.99.6</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.99.7</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:6.0.0</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:6.0.1</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:6.0.2</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:6.0.3</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:6.0.4</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:6.0.5</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:6.1.0</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:6.2.0</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:6.2.1</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:6.3.0</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:6.3.1</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:6.3.2</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:6.4.0</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:6.4.1</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:6.4.2</software>
+                        <software allPreviousVersion="true">cpe:/a:google:android:4.4.3</software>
+                    </vulnerableSoftware>
+                </vulnerability>
+                <vulnerability>
+                    <name>CVE-2014-1939</name>
+                    <cvssScore>7.5</cvssScore>
+                    <cvssAccessVector>NETWORK</cvssAccessVector>
+                    <cvssAccessComplexity>LOW</cvssAccessComplexity>
+                    <cvssAuthenticationr>NONE</cvssAuthenticationr>
+                    <cvssConfidentialImpact>PARTIAL</cvssConfidentialImpact>
+                    <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+                    <cvssAvailabilityImpact>PARTIAL</cvssAvailabilityImpact>
+                    <severity>High</severity>
+                    <cwe>CWE-94 Improper Control of Generation of Code (&apos;Code Injection&apos;)</cwe>
+                    <description>java/android/webkit/BrowserFrame.java in Android before 4.4 uses the addJavascriptInterface API in conjunction with creating an object of the SearchBoxImpl class, which allows attackers to execute arbitrary Java code by leveraging access to the searchBoxJavaBridge_ interface at certain Android API levels.</description>
+                    <references>
+                        <reference>
+                            <source>CONFIRM</source>
+                            <url>http://blog.chromium.org/2013/11/introducing-chromium-powered-android.html</url>
+                            <name>http://blog.chromium.org/2013/11/introducing-chromium-powered-android.html</name>
+                        </reference>
+                        <reference>
+                            <source>CONFIRM</source>
+                            <url>https://support.lenovo.com/us/en/product_security/len_6421</url>
+                            <name>https://support.lenovo.com/us/en/product_security/len_6421</name>
+                        </reference>
+                        <reference>
+                            <source>MLIST</source>
+                            <url>http://openwall.com/lists/oss-security/2014/02/11/2</url>
+                            <name>[oss-security] 20140210 CVE-2014-1939 searchBoxJavaBridge_ in Android Jelly Bean</name>
+                        </reference>
+                    </references>
+                    <vulnerableSoftware>
+                        <software allPreviousVersion="true">cpe:/a:google:android:4.3.1</software>
+                        <software allPreviousVersion="true">cpe:/a:lenovo:shareit:3.5.88_ww::~~~android~~</software>
+                    </vulnerableSoftware>
+                </vulnerability>
+                <vulnerability>
+                    <name>CVE-2013-7372</name>
+                    <cvssScore>5.0</cvssScore>
+                    <cvssAccessVector>NETWORK</cvssAccessVector>
+                    <cvssAccessComplexity>LOW</cvssAccessComplexity>
+                    <cvssAuthenticationr>NONE</cvssAuthenticationr>
+                    <cvssConfidentialImpact>NONE</cvssConfidentialImpact>
+                    <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+                    <cvssAvailabilityImpact>NONE</cvssAvailabilityImpact>
+                    <severity>Medium</severity>
+                    <cwe>CWE-310 Cryptographic Issues</cwe>
+                    <description>The engineNextBytes function in classlib/modules/security/src/main/java/common/org/apache/harmony/security/provider/crypto/SHA1PRNG_SecureRandomImpl.java in the SecureRandom implementation in Apache Harmony through 6.0M3, as used in the Java Cryptography Architecture (JCA) in Android before 4.4 and other products, when no seed is provided by the user, uses an incorrect offset value, which makes it easier for attackers to defeat cryptographic protection mechanisms by leveraging the resulting PRNG predictability, as exploited in the wild against Bitcoin wallet applications in August 2013.</description>
+                    <references>
+                        <reference>
+                            <source>CONFIRM</source>
+                            <url>http://android-developers.blogspot.com.au/2013/08/some-securerandom-thoughts.html</url>
+                            <name>http://android-developers.blogspot.com.au/2013/08/some-securerandom-thoughts.html</name>
+                        </reference>
+                        <reference>
+                            <source>CONFIRM</source>
+                            <url>https://android.googlesource.com/platform/libcore/+/kitkat-release/luni/src/main/java/org/apache/harmony/security/provider/crypto/SHA1PRNG_SecureRandomImpl.java</url>
+                            <name>https://android.googlesource.com/platform/libcore/+/kitkat-release/luni/src/main/java/org/apache/harmony/security/provider/crypto/SHA1PRNG_SecureRandomImpl.java</name>
+                        </reference>
+                        <reference>
+                            <source>MISC</source>
+                            <url>http://www.nds.rub.de/media/nds/veroeffentlichungen/2013/03/25/paper_2.pdf</url>
+                            <name>http://www.nds.rub.de/media/nds/veroeffentlichungen/2013/03/25/paper_2.pdf</name>
+                        </reference>
+                        <reference>
+                            <source>MISC</source>
+                            <url>https://bitcoin.org/en/alert/2013-08-11-android</url>
+                            <name>https://bitcoin.org/en/alert/2013-08-11-android</name>
+                        </reference>
+                    </references>
+                    <vulnerableSoftware>
+                        <software allPreviousVersion="true">cpe:/a:apache:harmony:6.0:m3</software>
+                        <software allPreviousVersion="true">cpe:/a:google:android:4.3.1</software>
+                    </vulnerableSoftware>
+                </vulnerability>
+                <vulnerability>
+                    <name>CVE-2010-1807</name>
+                    <cvssScore>9.3</cvssScore>
+                    <cvssAccessVector>NETWORK</cvssAccessVector>
+                    <cvssAccessComplexity>MEDIUM</cvssAccessComplexity>
+                    <cvssAuthenticationr>NONE</cvssAuthenticationr>
+                    <cvssConfidentialImpact>COMPLETE</cvssConfidentialImpact>
+                    <cvssIntegrityImpact>COMPLETE</cvssIntegrityImpact>
+                    <cvssAvailabilityImpact>COMPLETE</cvssAvailabilityImpact>
+                    <severity>High</severity>
+                    <cwe>CWE-20 Improper Input Validation</cwe>
+                    <description>WebKit in Apple Safari 4.x before 4.1.2 and 5.x before 5.0.2; Android before 2.2; and webkitgtk before 1.2.6; does not properly validate floating-point data, which allows remote attackers to execute arbitrary code or cause a denial of service (application crash) via a crafted HTML document, related to non-standard NaN representation.</description>
+                    <references>
+                        <reference>
+                            <source>APPLE</source>
+                            <url>http://lists.apple.com/archives/security-announce/2010//Sep/msg00001.html</url>
+                            <name>APPLE-SA-2010-09-07-1</name>
+                        </reference>
+                        <reference>
+                            <source>APPLE</source>
+                            <url>http://lists.apple.com/archives/security-announce/2010//Nov/msg00003.html</url>
+                            <name>APPLE-SA-2010-11-22-1</name>
+                        </reference>
+                        <reference>
+                            <source>BID</source>
+                            <url>http://www.securityfocus.com/bid/43047</url>
+                            <name>43047</name>
+                        </reference>
+                        <reference>
+                            <source>CONFIRM</source>
+                            <url>http://support.apple.com/kb/HT4333</url>
+                            <name>http://support.apple.com/kb/HT4333</name>
+                        </reference>
+                        <reference>
+                            <source>CONFIRM</source>
+                            <url>http://support.apple.com/kb/HT4456</url>
+                            <name>http://support.apple.com/kb/HT4456</name>
+                        </reference>
+                        <reference>
+                            <source>CONFIRM</source>
+                            <url>http://trac.webkit.org/changeset/64706</url>
+                            <name>http://trac.webkit.org/changeset/64706</name>
+                        </reference>
+                        <reference>
+                            <source>CONFIRM</source>
+                            <url>https://bugzilla.redhat.com/show_bug.cgi?id=627703</url>
+                            <name>https://bugzilla.redhat.com/show_bug.cgi?id=627703</name>
+                        </reference>
+                        <reference>
+                            <source>MANDRIVA</source>
+                            <url>http://www.mandriva.com/security/advisories?name=MDVSA-2011:039</url>
+                            <name>MDVSA-2011:039</name>
+                        </reference>
+                        <reference>
+                            <source>MISC</source>
+                            <url>http://www.computerworld.com/s/article/9195058/Researcher_to_release_Web_based_Android_attack</url>
+                            <name>http://www.computerworld.com/s/article/9195058/Researcher_to_release_Web_based_Android_attack</name>
+                        </reference>
+                        <reference>
+                            <source>REDHAT</source>
+                            <url>http://www.redhat.com/support/errata/RHSA-2011-0177.html</url>
+                            <name>RHSA-2011:0177</name>
+                        </reference>
+                        <reference>
+                            <source>SUSE</source>
+                            <url>http://lists.opensuse.org/opensuse-security-announce/2011-01/msg00006.html</url>
+                            <name>SUSE-SR:2011:002</name>
+                        </reference>
+                        <reference>
+                            <source>UBUNTU</source>
+                            <url>http://www.ubuntu.com/usn/USN-1006-1</url>
+                            <name>USN-1006-1</name>
+                        </reference>
+                        <reference>
+                            <source>VUPEN</source>
+                            <url>http://www.vupen.com/english/advisories/2010/2722</url>
+                            <name>ADV-2010-2722</name>
+                        </reference>
+                        <reference>
+                            <source>VUPEN</source>
+                            <url>http://www.vupen.com/english/advisories/2010/3046</url>
+                            <name>ADV-2010-3046</name>
+                        </reference>
+                        <reference>
+                            <source>VUPEN</source>
+                            <url>http://www.vupen.com/english/advisories/2011/0212</url>
+                            <name>ADV-2011-0212</name>
+                        </reference>
+                        <reference>
+                            <source>VUPEN</source>
+                            <url>http://www.vupen.com/english/advisories/2011/0216</url>
+                            <name>ADV-2011-0216</name>
+                        </reference>
+                        <reference>
+                            <source>VUPEN</source>
+                            <url>http://www.vupen.com/english/advisories/2011/0552</url>
+                            <name>ADV-2011-0552</name>
+                        </reference>
+                    </references>
+                    <vulnerableSoftware>
+                        <software>cpe:/a:apple:safari:4.0</software>
+                        <software>cpe:/a:apple:safari:4.0:beta</software>
+                        <software>cpe:/a:apple:safari:4.0.0b</software>
+                        <software>cpe:/a:apple:safari:4.0.1</software>
+                        <software>cpe:/a:apple:safari:4.0.2</software>
+                        <software>cpe:/a:apple:safari:4.0.3</software>
+                        <software>cpe:/a:apple:safari:4.0.4</software>
+                        <software>cpe:/a:apple:safari:4.0.5</software>
+                        <software>cpe:/a:apple:safari:4.1</software>
+                        <software>cpe:/a:apple:safari:4.1.1</software>
+                        <software>cpe:/a:apple:safari:5.0</software>
+                        <software>cpe:/a:apple:safari:5.0.1</software>
+                        <software allPreviousVersion="true">cpe:/a:google:android:2.1</software>
+                        <software>cpe:/a:webkitgtk:webkitgtk:1.2.0</software>
+                        <software>cpe:/a:webkitgtk:webkitgtk:1.2.1</software>
+                        <software>cpe:/a:webkitgtk:webkitgtk:1.2.2</software>
+                        <software>cpe:/a:webkitgtk:webkitgtk:1.2.3</software>
+                        <software>cpe:/a:webkitgtk:webkitgtk:1.2.4</software>
+                        <software allPreviousVersion="true">cpe:/a:webkitgtk:webkitgtk:1.2.5</software>
+                    </vulnerableSoftware>
+                </vulnerability>
+            </vulnerabilities>
+        </dependency>
+        <dependency>
+            <fileName>ormlite-android-4.48.jar</fileName>
+            <filePath>C:\Users\Dad\.gradle\caches\modules-2\files-2.1\com.j256.ormlite\ormlite-android\4.48\afa06f539a4026c10b247386312aa67404b80a16\ormlite-android-4.48.jar</filePath>
+            <md5>5cc9f499634671bbacdb1683ae52c24d</md5>
+            <sha1>afa06f539a4026c10b247386312aa67404b80a16</sha1>
+            <description>Lightweight Object Relational Model (ORM) Android classes</description>
+            <license>ISC License: http://ormlite.com/docs/license</license>
+            <evidenceCollected>
+                <evidence type="vendor" confidence="HIGHEST">
+                    <source>central</source>
+                    <name>groupid</name>
+                    <value>com.j256.ormlite</value>
+                </evidence>
+                <evidence type="vendor" confidence="HIGH">
+                    <source>file</source>
+                    <name>name</name>
+                    <value>ormlite-android</value>
+                </evidence>
+                <evidence type="vendor" confidence="LOW">
+                    <source>pom</source>
+                    <name>artifactid</name>
+                    <value>ormlite-android</value>
+                </evidence>
+                <evidence type="vendor" confidence="MEDIUM">
+                    <source>pom</source>
+                    <name>description</name>
+                    <value>Lightweight Object Relational Model (ORM) Android classes</value>
+                </evidence>
+                <evidence type="vendor" confidence="HIGHEST">
+                    <source>pom</source>
+                    <name>groupid</name>
+                    <value>j256.ormlite</value>
+                </evidence>
+                <evidence type="vendor" confidence="HIGH">
+                    <source>pom</source>
+                    <name>name</name>
+                    <value>ORMLite Android</value>
+                </evidence>
+                <evidence type="vendor" confidence="HIGHEST">
+                    <source>pom</source>
+                    <name>url</name>
+                    <value>http://ormlite.sourceforge.net/</value>
+                </evidence>
+                <evidence type="product" confidence="HIGHEST">
+                    <source>central</source>
+                    <name>artifactid</name>
+                    <value>ormlite-android</value>
+                </evidence>
+                <evidence type="product" confidence="HIGH">
+                    <source>file</source>
+                    <name>name</name>
+                    <value>ormlite-android</value>
+                </evidence>
+                <evidence type="product" confidence="HIGHEST">
+                    <source>pom</source>
+                    <name>artifactid</name>
+                    <value>ormlite-android</value>
+                </evidence>
+                <evidence type="product" confidence="MEDIUM">
+                    <source>pom</source>
+                    <name>description</name>
+                    <value>Lightweight Object Relational Model (ORM) Android classes</value>
+                </evidence>
+                <evidence type="product" confidence="LOW">
+                    <source>pom</source>
+                    <name>groupid</name>
+                    <value>j256.ormlite</value>
+                </evidence>
+                <evidence type="product" confidence="HIGH">
+                    <source>pom</source>
+                    <name>name</name>
+                    <value>ORMLite Android</value>
+                </evidence>
+                <evidence type="version" confidence="HIGHEST">
+                    <source>central</source>
+                    <name>version</name>
+                    <value>4.48</value>
+                </evidence>
+                <evidence type="version" confidence="MEDIUM">
+                    <source>file</source>
+                    <name>name</name>
+                    <value>ormlite-android</value>
+                </evidence>
+                <evidence type="version" confidence="HIGHEST">
+                    <source>file</source>
+                    <name>version</name>
+                    <value>4.48</value>
+                </evidence>
+                <evidence type="version" confidence="MEDIUM">
+                    <source>Manifest</source>
+                    <name>application-version</name>
+                    <value></value>
+                </evidence>
+                <evidence type="version" confidence="HIGHEST">
+                    <source>pom</source>
+                    <name>version</name>
+                    <value>4.48</value>
+                </evidence>
+            </evidenceCollected>
+            <identifiers>
+                <identifier type="maven" confidence="HIGHEST">
+                    <name>(com.j256.ormlite:ormlite-android:4.48)</name>
+                    <url>http://search.maven.org/#search|ga|1|1%3A%22afa06f539a4026c10b247386312aa67404b80a16%22</url>
+                </identifier>
+            </identifiers>
+        </dependency>
+        <dependency>
+            <fileName>ormlite-core-4.48.jar</fileName>
+            <filePath>C:\Users\Dad\.gradle\caches\modules-2\files-2.1\com.j256.ormlite\ormlite-core\4.48\e579bd2905d0399af5029aaaf9817d5fa0ca88a5\ormlite-core-4.48.jar</filePath>
+            <md5>74d1b09c4d0e3e216b0584485208c515</md5>
+            <sha1>e579bd2905d0399af5029aaaf9817d5fa0ca88a5</sha1>
+            <description>Lightweight Object Relational Model (ORM) for persisting objects to SQL databases.</description>
+            <license>ISC License: http://ormlite.com/docs/license</license>
+            <evidenceCollected>
+                <evidence type="vendor" confidence="HIGHEST">
+                    <source>central</source>
+                    <name>groupid</name>
+                    <value>com.j256.ormlite</value>
+                </evidence>
+                <evidence type="vendor" confidence="HIGH">
+                    <source>file</source>
+                    <name>name</name>
+                    <value>ormlite-core</value>
+                </evidence>
+                <evidence type="vendor" confidence="LOW">
+                    <source>pom</source>
+                    <name>artifactid</name>
+                    <value>ormlite-core</value>
+                </evidence>
+                <evidence type="vendor" confidence="MEDIUM">
+                    <source>pom</source>
+                    <name>description</name>
+                    <value>Lightweight Object Relational Model (ORM) for persisting objects to SQL databases.</value>
+                </evidence>
+                <evidence type="vendor" confidence="HIGHEST">
+                    <source>pom</source>
+                    <name>groupid</name>
+                    <value>j256.ormlite</value>
+                </evidence>
+                <evidence type="vendor" confidence="HIGH">
+                    <source>pom</source>
+                    <name>name</name>
+                    <value>ORMLite Core</value>
+                </evidence>
+                <evidence type="vendor" confidence="HIGHEST">
+                    <source>pom</source>
+                    <name>url</name>
+                    <value>http://ormlite.sourceforge.net/</value>
+                </evidence>
+                <evidence type="product" confidence="HIGHEST">
+                    <source>central</source>
+                    <name>artifactid</name>
+                    <value>ormlite-core</value>
+                </evidence>
+                <evidence type="product" confidence="HIGH">
+                    <source>file</source>
+                    <name>name</name>
+                    <value>ormlite-core</value>
+                </evidence>
+                <evidence type="product" confidence="HIGHEST">
+                    <source>pom</source>
+                    <name>artifactid</name>
+                    <value>ormlite-core</value>
+                </evidence>
+                <evidence type="product" confidence="MEDIUM">
+                    <source>pom</source>
+                    <name>description</name>
+                    <value>Lightweight Object Relational Model (ORM) for persisting objects to SQL databases.</value>
+                </evidence>
+                <evidence type="product" confidence="LOW">
+                    <source>pom</source>
+                    <name>groupid</name>
+                    <value>j256.ormlite</value>
+                </evidence>
+                <evidence type="product" confidence="HIGH">
+                    <source>pom</source>
+                    <name>name</name>
+                    <value>ORMLite Core</value>
+                </evidence>
+                <evidence type="version" confidence="HIGHEST">
+                    <source>central</source>
+                    <name>version</name>
+                    <value>4.48</value>
+                </evidence>
+                <evidence type="version" confidence="MEDIUM">
+                    <source>file</source>
+                    <name>name</name>
+                    <value>ormlite-core</value>
+                </evidence>
+                <evidence type="version" confidence="HIGHEST">
+                    <source>file</source>
+                    <name>version</name>
+                    <value>4.48</value>
+                </evidence>
+                <evidence type="version" confidence="MEDIUM">
+                    <source>Manifest</source>
+                    <name>application-version</name>
+                    <value></value>
+                </evidence>
+                <evidence type="version" confidence="HIGHEST">
+                    <source>pom</source>
+                    <name>version</name>
+                    <value>4.48</value>
+                </evidence>
+            </evidenceCollected>
+            <identifiers>
+                <identifier type="maven" confidence="HIGHEST">
+                    <name>(com.j256.ormlite:ormlite-core:4.48)</name>
+                    <url>http://search.maven.org/#search|ga|1|1%3A%22e579bd2905d0399af5029aaaf9817d5fa0ca88a5%22</url>
+                </identifier>
+            </identifiers>
+        </dependency>
+        <dependency>
             <fileName>haha-2.0.2.jar</fileName>
             <filePath>C:\Users\Dad\.gradle\caches\modules-2\files-2.1\com.squareup.haha\haha\2.0.2\fd65b84d12d6adc77ec0e4fcaca623fc391d8679\haha-2.0.2.jar</filePath>
             <md5>0054c94e965e46a67ed13bd1f1332872</md5>
             <sha1>fd65b84d12d6adc77ec0e4fcaca623fc391d8679</sha1>
             <description>Java library to automate the analysis of Android heap dumps.</description>
             <license>Apache 2: http://www.apache.org/licenses/LICENSE-2.0.txt</license>
-            <relatedDependencies>
-                <relatedDependency>
-                    <filePath>C:\Users\Dad\.gradle\caches\modules-2\files-2.1\com.squareup.haha\haha\2.0.2\fd65b84d12d6adc77ec0e4fcaca623fc391d8679\haha-2.0.2.jar</filePath>
-                    <sha1>fd65b84d12d6adc77ec0e4fcaca623fc391d8679</sha1>
-                    <md5>0054c94e965e46a67ed13bd1f1332872</md5>
-                    <identifier type="maven">
-                        <name>(com.squareup.haha:haha:2.0.2)</name>
-                        <url>http://search.maven.org/remotecontent?filepath=com/squareup/haha/haha/2.0.2/haha-2.0.2.jar</url>
-                    </identifier>
-                </relatedDependency>
-            </relatedDependencies>
             <evidenceCollected>
                 <evidence type="vendor" confidence="HIGHEST">
                     <source>central</source>
@@ -464,17 +1409,6 @@
             <sha1>449777cd466ac0a16f7e8d0dc508e70e2cdd13a9</sha1>
             <description>Leak Canary</description>
             <license>The Apache Software License, Version 2.0: http://www.apache.org/licenses/LICENSE-2.0.txt</license>
-            <relatedDependencies>
-                <relatedDependency>
-                    <filePath>C:\Users\Dad\.gradle\caches\modules-2\files-2.1\com.squareup.leakcanary\leakcanary-analyzer\1.4-beta2\449777cd466ac0a16f7e8d0dc508e70e2cdd13a9\leakcanary-analyzer-1.4-beta2.jar</filePath>
-                    <sha1>449777cd466ac0a16f7e8d0dc508e70e2cdd13a9</sha1>
-                    <md5>9fbb8fdf18c02d1296fe946c09cd6ac6</md5>
-                    <identifier type="maven">
-                        <name>(com.squareup.leakcanary:leakcanary-analyzer:1.4-beta2)</name>
-                        <url>http://search.maven.org/remotecontent?filepath=com/squareup/leakcanary/leakcanary-analyzer/1.4-beta2/leakcanary-analyzer-1.4-beta2.jar</url>
-                    </identifier>
-                </relatedDependency>
-            </relatedDependencies>
             <evidenceCollected>
                 <evidence type="vendor" confidence="HIGHEST">
                     <source>central</source>
@@ -591,17 +1525,6 @@
             <sha1>6a920fb0d14e5e3b36e37cf33b1eeef2bcce4c92</sha1>
             <description>Leak Canary</description>
             <license>The Apache Software License, Version 2.0: http://www.apache.org/licenses/LICENSE-2.0.txt</license>
-            <relatedDependencies>
-                <relatedDependency>
-                    <filePath>C:\Users\Dad\.gradle\caches\modules-2\files-2.1\com.squareup.leakcanary\leakcanary-watcher\1.4-beta2\6a920fb0d14e5e3b36e37cf33b1eeef2bcce4c92\leakcanary-watcher-1.4-beta2.jar</filePath>
-                    <sha1>6a920fb0d14e5e3b36e37cf33b1eeef2bcce4c92</sha1>
-                    <md5>63fff7cc0cfecce8dce50c68f908ec0f</md5>
-                    <identifier type="maven">
-                        <name>(com.squareup.leakcanary:leakcanary-watcher:1.4-beta2)</name>
-                        <url>http://search.maven.org/remotecontent?filepath=com/squareup/leakcanary/leakcanary-watcher/1.4-beta2/leakcanary-watcher-1.4-beta2.jar</url>
-                    </identifier>
-                </relatedDependency>
-            </relatedDependencies>
             <evidenceCollected>
                 <evidence type="vendor" confidence="HIGHEST">
                     <source>central</source>
@@ -1431,138 +2354,415 @@ file comparators, endian transformation classes, and much more.
             </identifiers>
         </dependency>
         <dependency>
-            <fileName>junit-4.12.jar</fileName>
-            <filePath>C:\Users\Dad\.gradle\caches\modules-2\files-2.1\junit\junit\4.12\2973d150c0dc1fefe998f834810d68f278ea58ec\junit-4.12.jar</filePath>
-            <md5>5b38c40c97fbd0adee29f91e60405584</md5>
-            <sha1>2973d150c0dc1fefe998f834810d68f278ea58ec</sha1>
-            <description>JUnit is a unit testing framework for Java, created by Erich Gamma and Kent Beck.</description>
-            <license>Eclipse Public License 1.0: http://www.eclipse.org/legal/epl-v10.html</license>
+            <fileName>geopackage-core-1.2.0.jar</fileName>
+            <filePath>C:\Users\Dad\.gradle\caches\modules-2\files-2.1\mil.nga.geopackage\geopackage-core\1.2.0\d5936e8dd91ea2ecd42fcfacacf8acca9fe195be\geopackage-core-1.2.0.jar</filePath>
+            <md5>9e8657cedb02351453206db0926ff9ae</md5>
+            <sha1>d5936e8dd91ea2ecd42fcfacacf8acca9fe195be</sha1>
+            <description>Core functionality for GeoPackage implementations</description>
+            <license>The MIT License (MIT): https://github.com/ngageoint/geopackage-core-java/blob/master/LICENSE.txt</license>
             <evidenceCollected>
                 <evidence type="vendor" confidence="HIGHEST">
                     <source>central</source>
                     <name>groupid</name>
-                    <value>junit</value>
+                    <value>mil.nga.geopackage</value>
                 </evidence>
                 <evidence type="vendor" confidence="HIGH">
                     <source>file</source>
                     <name>name</name>
-                    <value>junit</value>
+                    <value>geopackage-core</value>
                 </evidence>
                 <evidence type="vendor" confidence="LOW">
                     <source>jar</source>
                     <name>package name</name>
-                    <value>junit</value>
+                    <value>geopackage</value>
                 </evidence>
-                <evidence type="vendor" confidence="HIGH">
-                    <source>Manifest</source>
-                    <name>Implementation-Vendor</name>
-                    <value>JUnit</value>
+                <evidence type="vendor" confidence="LOW">
+                    <source>jar</source>
+                    <name>package name</name>
+                    <value>mil</value>
                 </evidence>
-                <evidence type="vendor" confidence="MEDIUM">
-                    <source>Manifest</source>
-                    <name>Implementation-Vendor-Id</name>
-                    <value>junit</value>
+                <evidence type="vendor" confidence="LOW">
+                    <source>jar</source>
+                    <name>package name</name>
+                    <value>nga</value>
                 </evidence>
                 <evidence type="vendor" confidence="LOW">
                     <source>pom</source>
                     <name>artifactid</name>
-                    <value>junit</value>
+                    <value>geopackage-core</value>
                 </evidence>
                 <evidence type="vendor" confidence="MEDIUM">
                     <source>pom</source>
                     <name>description</name>
-                    <value>JUnit is a unit testing framework for Java, created by Erich Gamma and Kent Beck.</value>
+                    <value>Core functionality for GeoPackage implementations</value>
                 </evidence>
                 <evidence type="vendor" confidence="HIGHEST">
                     <source>pom</source>
                     <name>groupid</name>
-                    <value>junit</value>
+                    <value>mil.nga.geopackage</value>
                 </evidence>
                 <evidence type="vendor" confidence="HIGH">
                     <source>pom</source>
                     <name>name</name>
-                    <value>JUnit</value>
+                    <value>GeoPackage Core</value>
                 </evidence>
                 <evidence type="vendor" confidence="HIGH">
                     <source>pom</source>
                     <name>organization name</name>
-                    <value>http://www.junit.org</value>
+                    <value>https://www.nga.mil/</value>
                 </evidence>
                 <evidence type="vendor" confidence="HIGHEST">
                     <source>pom</source>
                     <name>url</name>
-                    <value>http://junit.org</value>
+                    <value>https://github.com/ngageoint/geopackage-core-java</value>
                 </evidence>
                 <evidence type="product" confidence="HIGHEST">
                     <source>central</source>
                     <name>artifactid</name>
-                    <value>junit</value>
+                    <value>geopackage-core</value>
                 </evidence>
                 <evidence type="product" confidence="HIGH">
                     <source>file</source>
                     <name>name</name>
-                    <value>junit</value>
+                    <value>geopackage-core</value>
                 </evidence>
-                <evidence type="product" confidence="HIGH">
-                    <source>Manifest</source>
-                    <name>Implementation-Title</name>
-                    <value>JUnit</value>
+                <evidence type="product" confidence="LOW">
+                    <source>jar</source>
+                    <name>package name</name>
+                    <value>geopackage</value>
+                </evidence>
+                <evidence type="product" confidence="LOW">
+                    <source>jar</source>
+                    <name>package name</name>
+                    <value>nga</value>
                 </evidence>
                 <evidence type="product" confidence="HIGHEST">
                     <source>pom</source>
                     <name>artifactid</name>
-                    <value>junit</value>
+                    <value>geopackage-core</value>
                 </evidence>
                 <evidence type="product" confidence="MEDIUM">
                     <source>pom</source>
                     <name>description</name>
-                    <value>JUnit is a unit testing framework for Java, created by Erich Gamma and Kent Beck.</value>
+                    <value>Core functionality for GeoPackage implementations</value>
                 </evidence>
                 <evidence type="product" confidence="LOW">
                     <source>pom</source>
                     <name>groupid</name>
-                    <value>junit</value>
+                    <value>mil.nga.geopackage</value>
                 </evidence>
                 <evidence type="product" confidence="HIGH">
                     <source>pom</source>
                     <name>name</name>
-                    <value>JUnit</value>
+                    <value>GeoPackage Core</value>
                 </evidence>
                 <evidence type="product" confidence="LOW">
                     <source>pom</source>
                     <name>organization name</name>
-                    <value>http://www.junit.org</value>
+                    <value>https://www.nga.mil/</value>
                 </evidence>
                 <evidence type="version" confidence="HIGHEST">
                     <source>central</source>
                     <name>version</name>
-                    <value>4.12</value>
+                    <value>1.2.0</value>
                 </evidence>
                 <evidence type="version" confidence="MEDIUM">
                     <source>file</source>
                     <name>name</name>
-                    <value>junit</value>
+                    <value>geopackage-core</value>
                 </evidence>
                 <evidence type="version" confidence="HIGHEST">
                     <source>file</source>
                     <name>version</name>
-                    <value>4.12</value>
-                </evidence>
-                <evidence type="version" confidence="HIGH">
-                    <source>Manifest</source>
-                    <name>Implementation-Version</name>
-                    <value>4.12</value>
+                    <value>1.2.0</value>
                 </evidence>
                 <evidence type="version" confidence="HIGHEST">
                     <source>pom</source>
                     <name>version</name>
-                    <value>4.12</value>
+                    <value>1.2.0</value>
                 </evidence>
             </evidenceCollected>
             <identifiers>
                 <identifier type="maven" confidence="HIGHEST">
-                    <name>(junit:junit:4.12)</name>
-                    <url>http://search.maven.org/remotecontent?filepath=junit/junit/4.12/junit-4.12.jar</url>
+                    <name>(mil.nga.geopackage:geopackage-core:1.2.0)</name>
+                    <url>http://search.maven.org/#search|ga|1|1%3A%22d5936e8dd91ea2ecd42fcfacacf8acca9fe195be%22</url>
+                </identifier>
+            </identifiers>
+        </dependency>
+        <dependency>
+            <fileName>tiff-1.0.0.jar</fileName>
+            <filePath>C:\Users\Dad\.gradle\caches\modules-2\files-2.1\mil.nga\tiff\1.0.0\b0f99d6c49d564aef7965d9af74e909f722bf6ba\tiff-1.0.0.jar</filePath>
+            <md5>48313750246da5e7c59b291462fb99e1</md5>
+            <sha1>b0f99d6c49d564aef7965d9af74e909f722bf6ba</sha1>
+            <description>Library for reading and writing TIFF (Tagged Image File Format) files</description>
+            <license>The MIT License (MIT): https://github.com/ngageoint/geopackage-tiff-java/blob/master/LICENSE.txt</license>
+            <evidenceCollected>
+                <evidence type="vendor" confidence="HIGHEST">
+                    <source>central</source>
+                    <name>groupid</name>
+                    <value>mil.nga</value>
+                </evidence>
+                <evidence type="vendor" confidence="HIGH">
+                    <source>file</source>
+                    <name>name</name>
+                    <value>tiff</value>
+                </evidence>
+                <evidence type="vendor" confidence="LOW">
+                    <source>jar</source>
+                    <name>package name</name>
+                    <value>mil</value>
+                </evidence>
+                <evidence type="vendor" confidence="LOW">
+                    <source>jar</source>
+                    <name>package name</name>
+                    <value>nga</value>
+                </evidence>
+                <evidence type="vendor" confidence="LOW">
+                    <source>jar</source>
+                    <name>package name</name>
+                    <value>tiff</value>
+                </evidence>
+                <evidence type="vendor" confidence="LOW">
+                    <source>pom</source>
+                    <name>artifactid</name>
+                    <value>tiff</value>
+                </evidence>
+                <evidence type="vendor" confidence="MEDIUM">
+                    <source>pom</source>
+                    <name>description</name>
+                    <value>Library for reading and writing TIFF (Tagged Image File Format) files</value>
+                </evidence>
+                <evidence type="vendor" confidence="HIGHEST">
+                    <source>pom</source>
+                    <name>groupid</name>
+                    <value>mil.nga</value>
+                </evidence>
+                <evidence type="vendor" confidence="HIGH">
+                    <source>pom</source>
+                    <name>name</name>
+                    <value>Tagged Image File Format</value>
+                </evidence>
+                <evidence type="vendor" confidence="HIGH">
+                    <source>pom</source>
+                    <name>organization name</name>
+                    <value>https://www.nga.mil/</value>
+                </evidence>
+                <evidence type="vendor" confidence="HIGHEST">
+                    <source>pom</source>
+                    <name>url</name>
+                    <value>https://github.com/ngageoint/geopackage-tiff-java</value>
+                </evidence>
+                <evidence type="product" confidence="HIGHEST">
+                    <source>central</source>
+                    <name>artifactid</name>
+                    <value>tiff</value>
+                </evidence>
+                <evidence type="product" confidence="HIGH">
+                    <source>file</source>
+                    <name>name</name>
+                    <value>tiff</value>
+                </evidence>
+                <evidence type="product" confidence="LOW">
+                    <source>jar</source>
+                    <name>package name</name>
+                    <value>nga</value>
+                </evidence>
+                <evidence type="product" confidence="LOW">
+                    <source>jar</source>
+                    <name>package name</name>
+                    <value>tiff</value>
+                </evidence>
+                <evidence type="product" confidence="HIGHEST">
+                    <source>pom</source>
+                    <name>artifactid</name>
+                    <value>tiff</value>
+                </evidence>
+                <evidence type="product" confidence="MEDIUM">
+                    <source>pom</source>
+                    <name>description</name>
+                    <value>Library for reading and writing TIFF (Tagged Image File Format) files</value>
+                </evidence>
+                <evidence type="product" confidence="LOW">
+                    <source>pom</source>
+                    <name>groupid</name>
+                    <value>mil.nga</value>
+                </evidence>
+                <evidence type="product" confidence="HIGH">
+                    <source>pom</source>
+                    <name>name</name>
+                    <value>Tagged Image File Format</value>
+                </evidence>
+                <evidence type="product" confidence="LOW">
+                    <source>pom</source>
+                    <name>organization name</name>
+                    <value>https://www.nga.mil/</value>
+                </evidence>
+                <evidence type="version" confidence="HIGHEST">
+                    <source>central</source>
+                    <name>version</name>
+                    <value>1.0.0</value>
+                </evidence>
+                <evidence type="version" confidence="MEDIUM">
+                    <source>file</source>
+                    <name>name</name>
+                    <value>tiff</value>
+                </evidence>
+                <evidence type="version" confidence="HIGHEST">
+                    <source>file</source>
+                    <name>version</name>
+                    <value>1.0.0</value>
+                </evidence>
+                <evidence type="version" confidence="HIGHEST">
+                    <source>pom</source>
+                    <name>version</name>
+                    <value>1.0.0</value>
+                </evidence>
+            </evidenceCollected>
+            <identifiers>
+                <identifier type="maven" confidence="HIGHEST">
+                    <name>(mil.nga:tiff:1.0.0)</name>
+                    <url>http://search.maven.org/#search|ga|1|1%3A%22b0f99d6c49d564aef7965d9af74e909f722bf6ba%22</url>
+                </identifier>
+            </identifiers>
+        </dependency>
+        <dependency>
+            <fileName>wkb-1.0.2.jar</fileName>
+            <filePath>C:\Users\Dad\.gradle\caches\modules-2\files-2.1\mil.nga\wkb\1.0.2\27e1031d8f033836e675beaf12e3cd8fd7ee5a03\wkb-1.0.2.jar</filePath>
+            <md5>e7a189a1b5c32e75ef17f6cf3aa50f0a</md5>
+            <sha1>27e1031d8f033836e675beaf12e3cd8fd7ee5a03</sha1>
+            <description>Library for writing and reading Well-Known Binary Geometries to and from bytes</description>
+            <license>The MIT License (MIT): https://github.com/ngageoint/geopackage-wkb-java/blob/master/LICENSE.txt</license>
+            <evidenceCollected>
+                <evidence type="vendor" confidence="HIGHEST">
+                    <source>central</source>
+                    <name>groupid</name>
+                    <value>mil.nga</value>
+                </evidence>
+                <evidence type="vendor" confidence="HIGH">
+                    <source>file</source>
+                    <name>name</name>
+                    <value>wkb</value>
+                </evidence>
+                <evidence type="vendor" confidence="LOW">
+                    <source>jar</source>
+                    <name>package name</name>
+                    <value>mil</value>
+                </evidence>
+                <evidence type="vendor" confidence="LOW">
+                    <source>jar</source>
+                    <name>package name</name>
+                    <value>nga</value>
+                </evidence>
+                <evidence type="vendor" confidence="LOW">
+                    <source>jar</source>
+                    <name>package name</name>
+                    <value>wkb</value>
+                </evidence>
+                <evidence type="vendor" confidence="LOW">
+                    <source>pom</source>
+                    <name>artifactid</name>
+                    <value>wkb</value>
+                </evidence>
+                <evidence type="vendor" confidence="MEDIUM">
+                    <source>pom</source>
+                    <name>description</name>
+                    <value>Library for writing and reading Well-Known Binary Geometries to and from bytes</value>
+                </evidence>
+                <evidence type="vendor" confidence="HIGHEST">
+                    <source>pom</source>
+                    <name>groupid</name>
+                    <value>mil.nga</value>
+                </evidence>
+                <evidence type="vendor" confidence="HIGH">
+                    <source>pom</source>
+                    <name>name</name>
+                    <value>Well-Known Binary</value>
+                </evidence>
+                <evidence type="vendor" confidence="HIGH">
+                    <source>pom</source>
+                    <name>organization name</name>
+                    <value>https://www.nga.mil/</value>
+                </evidence>
+                <evidence type="vendor" confidence="HIGHEST">
+                    <source>pom</source>
+                    <name>url</name>
+                    <value>https://github.com/ngageoint/geopackage-wkb-java</value>
+                </evidence>
+                <evidence type="product" confidence="HIGHEST">
+                    <source>central</source>
+                    <name>artifactid</name>
+                    <value>wkb</value>
+                </evidence>
+                <evidence type="product" confidence="HIGH">
+                    <source>file</source>
+                    <name>name</name>
+                    <value>wkb</value>
+                </evidence>
+                <evidence type="product" confidence="LOW">
+                    <source>jar</source>
+                    <name>package name</name>
+                    <value>geom</value>
+                </evidence>
+                <evidence type="product" confidence="LOW">
+                    <source>jar</source>
+                    <name>package name</name>
+                    <value>nga</value>
+                </evidence>
+                <evidence type="product" confidence="LOW">
+                    <source>jar</source>
+                    <name>package name</name>
+                    <value>wkb</value>
+                </evidence>
+                <evidence type="product" confidence="HIGHEST">
+                    <source>pom</source>
+                    <name>artifactid</name>
+                    <value>wkb</value>
+                </evidence>
+                <evidence type="product" confidence="MEDIUM">
+                    <source>pom</source>
+                    <name>description</name>
+                    <value>Library for writing and reading Well-Known Binary Geometries to and from bytes</value>
+                </evidence>
+                <evidence type="product" confidence="LOW">
+                    <source>pom</source>
+                    <name>groupid</name>
+                    <value>mil.nga</value>
+                </evidence>
+                <evidence type="product" confidence="HIGH">
+                    <source>pom</source>
+                    <name>name</name>
+                    <value>Well-Known Binary</value>
+                </evidence>
+                <evidence type="product" confidence="LOW">
+                    <source>pom</source>
+                    <name>organization name</name>
+                    <value>https://www.nga.mil/</value>
+                </evidence>
+                <evidence type="version" confidence="HIGHEST">
+                    <source>central</source>
+                    <name>version</name>
+                    <value>1.0.2</value>
+                </evidence>
+                <evidence type="version" confidence="MEDIUM">
+                    <source>file</source>
+                    <name>name</name>
+                    <value>wkb</value>
+                </evidence>
+                <evidence type="version" confidence="HIGHEST">
+                    <source>file</source>
+                    <name>version</name>
+                    <value>1.0.2</value>
+                </evidence>
+                <evidence type="version" confidence="HIGHEST">
+                    <source>pom</source>
+                    <name>version</name>
+                    <value>1.0.2</value>
+                </evidence>
+            </evidenceCollected>
+            <identifiers>
+                <identifier type="maven" confidence="HIGHEST">
+                    <name>(mil.nga:wkb:1.0.2)</name>
+                    <url>http://search.maven.org/#search|ga|1|1%3A%2227e1031d8f033836e675beaf12e3cd8fd7ee5a03%22</url>
                 </identifier>
             </identifiers>
         </dependency>
@@ -1681,6 +2881,528 @@ file comparators, endian transformation classes, and much more.
                     <url>http://search.maven.org/remotecontent?filepath=net/java/dev/javacc/javacc/5.0/javacc-5.0.jar</url>
                 </identifier>
             </identifiers>
+        </dependency>
+        <dependency>
+            <fileName>kxml2-2.3.0.jar</fileName>
+            <filePath>C:\Users\Dad\.gradle\caches\modules-2\files-2.1\net.sf.kxml\kxml2\2.3.0\ccbc77a5fd907ef863c29f3596c6f54ffa4e9442\kxml2-2.3.0.jar</filePath>
+            <md5>04a03b3a4f1ef0e3fda28bf1792e2ee7</md5>
+            <sha1>ccbc77a5fd907ef863c29f3596c6f54ffa4e9442</sha1>
+            <description>A library jar that provides APIs for Applications written for the Google Android Platform.</description>
+            <license>Apache 2.0: http://www.apache.org/licenses/LICENSE-2.0</license>
+            <evidenceCollected>
+                <evidence type="vendor" confidence="HIGH">
+                    <source>central</source>
+                    <name>groupid</name>
+                    <value>net.sf.kxml</value>
+                </evidence>
+                <evidence type="vendor" confidence="HIGH">
+                    <source>central</source>
+                    <name>groupid</name>
+                    <value>org.robolectric</value>
+                </evidence>
+                <evidence type="vendor" confidence="HIGH">
+                    <source>file</source>
+                    <name>name</name>
+                    <value>kxml2</value>
+                </evidence>
+                <evidence type="vendor" confidence="LOW">
+                    <source>jar</source>
+                    <name>package name</name>
+                    <value>kxml2</value>
+                </evidence>
+                <evidence type="vendor" confidence="LOW">
+                    <source>pom</source>
+                    <name>artifactid</name>
+                    <value>android-kxml2</value>
+                </evidence>
+                <evidence type="vendor" confidence="MEDIUM">
+                    <source>pom</source>
+                    <name>description</name>
+                    <value>A library jar that provides APIs for Applications written for the Google Android Platform.</value>
+                </evidence>
+                <evidence type="vendor" confidence="HIGHEST">
+                    <source>pom</source>
+                    <name>groupid</name>
+                    <value>robolectric</value>
+                </evidence>
+                <evidence type="vendor" confidence="HIGH">
+                    <source>pom</source>
+                    <name>name</name>
+                    <value>Google Android kxml2 Library</value>
+                </evidence>
+                <evidence type="vendor" confidence="HIGHEST">
+                    <source>pom</source>
+                    <name>url</name>
+                    <value>http://source.android.com/</value>
+                </evidence>
+                <evidence type="product" confidence="HIGH">
+                    <source>central</source>
+                    <name>artifactid</name>
+                    <value>android-kxml2</value>
+                </evidence>
+                <evidence type="product" confidence="HIGH">
+                    <source>central</source>
+                    <name>artifactid</name>
+                    <value>kxml2</value>
+                </evidence>
+                <evidence type="product" confidence="HIGH">
+                    <source>file</source>
+                    <name>name</name>
+                    <value>kxml2</value>
+                </evidence>
+                <evidence type="product" confidence="HIGHEST">
+                    <source>pom</source>
+                    <name>artifactid</name>
+                    <value>android-kxml2</value>
+                </evidence>
+                <evidence type="product" confidence="MEDIUM">
+                    <source>pom</source>
+                    <name>description</name>
+                    <value>A library jar that provides APIs for Applications written for the Google Android Platform.</value>
+                </evidence>
+                <evidence type="product" confidence="LOW">
+                    <source>pom</source>
+                    <name>groupid</name>
+                    <value>robolectric</value>
+                </evidence>
+                <evidence type="product" confidence="HIGH">
+                    <source>pom</source>
+                    <name>name</name>
+                    <value>Google Android kxml2 Library</value>
+                </evidence>
+                <evidence type="version" confidence="HIGH">
+                    <source>central</source>
+                    <name>version</name>
+                    <value>2.3.0</value>
+                </evidence>
+                <evidence type="version" confidence="HIGH">
+                    <source>central</source>
+                    <name>version</name>
+                    <value>4.1.2_r1_rc</value>
+                </evidence>
+                <evidence type="version" confidence="MEDIUM">
+                    <source>file</source>
+                    <name>name</name>
+                    <value>kxml2</value>
+                </evidence>
+                <evidence type="version" confidence="HIGHEST">
+                    <source>file</source>
+                    <name>version</name>
+                    <value>2.3.0</value>
+                </evidence>
+                <evidence type="version" confidence="HIGHEST">
+                    <source>pom</source>
+                    <name>version</name>
+                    <value>4.1.2_r1_rc</value>
+                </evidence>
+            </evidenceCollected>
+            <identifiers>
+                <identifier type="cpe" confidence="LOW">
+                    <name>(cpe:/a:google:android:2.3.0)</name>
+                </identifier>
+                <identifier type="maven" confidence="HIGHEST">
+                    <name>(net.sf.kxml:kxml2:2.3.0)</name>
+                    <url>http://search.maven.org/remotecontent?filepath=net/sf/kxml/kxml2/2.3.0/kxml2-2.3.0.jar</url>
+                </identifier>
+                <identifier type="maven" confidence="HIGHEST">
+                    <name>(org.robolectric:android-kxml2:4.1.2_r1_rc)</name>
+                    <url>http://search.maven.org/remotecontent?filepath=org/robolectric/android-kxml2/4.1.2_r1_rc/android-kxml2-4.1.2_r1_rc.jar</url>
+                </identifier>
+            </identifiers>
+            <vulnerabilities>
+                <vulnerability>
+                    <name>CVE-2016-5696</name>
+                    <cvssScore>5.8</cvssScore>
+                    <cvssAccessVector>NETWORK</cvssAccessVector>
+                    <cvssAccessComplexity>MEDIUM</cvssAccessComplexity>
+                    <cvssAuthenticationr>NONE</cvssAuthenticationr>
+                    <cvssConfidentialImpact>NONE</cvssConfidentialImpact>
+                    <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+                    <cvssAvailabilityImpact>PARTIAL</cvssAvailabilityImpact>
+                    <severity>Medium</severity>
+                    <cwe>CWE-200 Information Exposure</cwe>
+                    <description>net/ipv4/tcp_input.c in the Linux kernel before 4.7 does not properly determine the rate of challenge ACK segments, which makes it easier for remote attackers to hijack TCP sessions via a blind in-window attack.</description>
+                    <references>
+                        <reference>
+                            <source>BID</source>
+                            <url>http://www.securityfocus.com/bid/91704</url>
+                            <name>91704</name>
+                        </reference>
+                        <reference>
+                            <source>CONFIRM</source>
+                            <url>http://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/?id=75ff39ccc1bd5d3c455b6822ab09e533c551f758</url>
+                            <name>http://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/?id=75ff39ccc1bd5d3c455b6822ab09e533c551f758</name>
+                        </reference>
+                        <reference>
+                            <source>CONFIRM</source>
+                            <url>http://source.android.com/security/bulletin/2016-10-01.html</url>
+                            <name>http://source.android.com/security/bulletin/2016-10-01.html</name>
+                        </reference>
+                        <reference>
+                            <source>CONFIRM</source>
+                            <url>http://www.oracle.com/technetwork/topics/security/linuxbulletinjul2016-3090544.html</url>
+                            <name>http://www.oracle.com/technetwork/topics/security/linuxbulletinjul2016-3090544.html</name>
+                        </reference>
+                        <reference>
+                            <source>CONFIRM</source>
+                            <url>http://www.oracle.com/technetwork/topics/security/ovmbulletinjul2016-3090546.html</url>
+                            <name>http://www.oracle.com/technetwork/topics/security/ovmbulletinjul2016-3090546.html</name>
+                        </reference>
+                        <reference>
+                            <source>CONFIRM</source>
+                            <url>https://bto.bluecoat.com/security-advisory/sa131</url>
+                            <name>https://bto.bluecoat.com/security-advisory/sa131</name>
+                        </reference>
+                        <reference>
+                            <source>CONFIRM</source>
+                            <url>https://bugzilla.redhat.com/show_bug.cgi?id=1354708</url>
+                            <name>https://bugzilla.redhat.com/show_bug.cgi?id=1354708</name>
+                        </reference>
+                        <reference>
+                            <source>CONFIRM</source>
+                            <url>https://github.com/torvalds/linux/commit/75ff39ccc1bd5d3c455b6822ab09e533c551f758</url>
+                            <name>https://github.com/torvalds/linux/commit/75ff39ccc1bd5d3c455b6822ab09e533c551f758</name>
+                        </reference>
+                        <reference>
+                            <source>CONFIRM</source>
+                            <url>https://kc.mcafee.com/corporate/index?page=content&amp;id=SB10167</url>
+                            <name>https://kc.mcafee.com/corporate/index?page=content&amp;id=SB10167</name>
+                        </reference>
+                        <reference>
+                            <source>MISC</source>
+                            <url>http://www.prnewswire.com/news-releases/mitnick-attack-reappears-at-geekpwn-macau-contest-300270779.html</url>
+                            <name>http://www.prnewswire.com/news-releases/mitnick-attack-reappears-at-geekpwn-macau-contest-300270779.html</name>
+                        </reference>
+                        <reference>
+                            <source>MISC</source>
+                            <url>https://github.com/Gnoxter/mountain_goat</url>
+                            <name>https://github.com/Gnoxter/mountain_goat</name>
+                        </reference>
+                        <reference>
+                            <source>MISC</source>
+                            <url>https://www.usenix.org/system/files/conference/usenixsecurity16/sec16_paper_cao.pdf</url>
+                            <name>https://www.usenix.org/system/files/conference/usenixsecurity16/sec16_paper_cao.pdf</name>
+                        </reference>
+                        <reference>
+                            <source>MLIST</source>
+                            <url>http://www.openwall.com/lists/oss-security/2016/07/12/2</url>
+                            <name>[oss-security] 20160712 Re: CVE-2016-5389: linux kernel - challange ack information leak.</name>
+                        </reference>
+                        <reference>
+                            <source>REDHAT</source>
+                            <url>http://rhn.redhat.com/errata/RHSA-2016-1631.html</url>
+                            <name>RHSA-2016:1631</name>
+                        </reference>
+                        <reference>
+                            <source>REDHAT</source>
+                            <url>http://rhn.redhat.com/errata/RHSA-2016-1632.html</url>
+                            <name>RHSA-2016:1632</name>
+                        </reference>
+                        <reference>
+                            <source>REDHAT</source>
+                            <url>http://rhn.redhat.com/errata/RHSA-2016-1633.html</url>
+                            <name>RHSA-2016:1633</name>
+                        </reference>
+                        <reference>
+                            <source>REDHAT</source>
+                            <url>http://rhn.redhat.com/errata/RHSA-2016-1657.html</url>
+                            <name>RHSA-2016:1657</name>
+                        </reference>
+                        <reference>
+                            <source>REDHAT</source>
+                            <url>http://rhn.redhat.com/errata/RHSA-2016-1664.html</url>
+                            <name>RHSA-2016:1664</name>
+                        </reference>
+                        <reference>
+                            <source>REDHAT</source>
+                            <url>http://rhn.redhat.com/errata/RHSA-2016-1814.html</url>
+                            <name>RHSA-2016:1814</name>
+                        </reference>
+                        <reference>
+                            <source>REDHAT</source>
+                            <url>http://rhn.redhat.com/errata/RHSA-2016-1815.html</url>
+                            <name>RHSA-2016:1815</name>
+                        </reference>
+                        <reference>
+                            <source>SECTRACK</source>
+                            <url>http://www.securitytracker.com/id/1036625</url>
+                            <name>1036625</name>
+                        </reference>
+                        <reference>
+                            <source>UBUNTU</source>
+                            <url>http://www.ubuntu.com/usn/USN-3070-1</url>
+                            <name>USN-3070-1</name>
+                        </reference>
+                        <reference>
+                            <source>UBUNTU</source>
+                            <url>http://www.ubuntu.com/usn/USN-3070-2</url>
+                            <name>USN-3070-2</name>
+                        </reference>
+                        <reference>
+                            <source>UBUNTU</source>
+                            <url>http://www.ubuntu.com/usn/USN-3070-3</url>
+                            <name>USN-3070-3</name>
+                        </reference>
+                        <reference>
+                            <source>UBUNTU</source>
+                            <url>http://www.ubuntu.com/usn/USN-3070-4</url>
+                            <name>USN-3070-4</name>
+                        </reference>
+                        <reference>
+                            <source>UBUNTU</source>
+                            <url>http://www.ubuntu.com/usn/USN-3071-1</url>
+                            <name>USN-3071-1</name>
+                        </reference>
+                        <reference>
+                            <source>UBUNTU</source>
+                            <url>http://www.ubuntu.com/usn/USN-3071-2</url>
+                            <name>USN-3071-2</name>
+                        </reference>
+                        <reference>
+                            <source>UBUNTU</source>
+                            <url>http://www.ubuntu.com/usn/USN-3072-1</url>
+                            <name>USN-3072-1</name>
+                        </reference>
+                        <reference>
+                            <source>UBUNTU</source>
+                            <url>http://www.ubuntu.com/usn/USN-3072-2</url>
+                            <name>USN-3072-2</name>
+                        </reference>
+                    </references>
+                    <vulnerableSoftware>
+                        <software allPreviousVersion="true">cpe:/a:google:android:7.0</software>
+                        <software allPreviousVersion="true">cpe:/a:linux:linux_kernel:4.6.6</software>
+                        <software>cpe:/a:oracle:vm_server:3.3</software>
+                        <software>cpe:/a:oracle:vm_server:3.4</software>
+                    </vulnerableSoftware>
+                </vulnerability>
+                <vulnerability>
+                    <name>CVE-2014-6060</name>
+                    <cvssScore>3.3</cvssScore>
+                    <cvssAccessVector>ADJACENT_NETWORK</cvssAccessVector>
+                    <cvssAccessComplexity>LOW</cvssAccessComplexity>
+                    <cvssAuthenticationr>NONE</cvssAuthenticationr>
+                    <cvssConfidentialImpact>NONE</cvssConfidentialImpact>
+                    <cvssIntegrityImpact>NONE</cvssIntegrityImpact>
+                    <cvssAvailabilityImpact>PARTIAL</cvssAvailabilityImpact>
+                    <severity>Low</severity>
+                    <cwe>CWE-399 Resource Management Errors</cwe>
+                    <description>The get_option function in dhcpcd 4.0.0 through 6.x before 6.4.3 allows remote DHCP servers to cause a denial of service by resetting the DHO_OPTIONSOVERLOADED option in the (1) bootfile or (2) servername section, which triggers the option to be processed again.</description>
+                    <references>
+                        <reference>
+                            <source>BID</source>
+                            <url>http://www.securityfocus.com/bid/68970</url>
+                            <name>68970</name>
+                        </reference>
+                        <reference>
+                            <source>CONFIRM</source>
+                            <url>http://advisories.mageia.org/MGASA-2014-0334.html</url>
+                            <name>http://advisories.mageia.org/MGASA-2014-0334.html</name>
+                        </reference>
+                        <reference>
+                            <source>CONFIRM</source>
+                            <url>http://roy.marples.name/projects/dhcpcd/ci/1d2b93aa5ce25a8a710082fe2d36a6bf7f5794d5?sbs=0</url>
+                            <name>http://roy.marples.name/projects/dhcpcd/ci/1d2b93aa5ce25a8a710082fe2d36a6bf7f5794d5?sbs=0</name>
+                        </reference>
+                        <reference>
+                            <source>CONFIRM</source>
+                            <url>http://source.android.com/security/bulletin/2016-04-02.html</url>
+                            <name>http://source.android.com/security/bulletin/2016-04-02.html</name>
+                        </reference>
+                        <reference>
+                            <source>MANDRIVA</source>
+                            <url>http://www.mandriva.com/security/advisories?name=MDVSA-2014:171</url>
+                            <name>MDVSA-2014:171</name>
+                        </reference>
+                        <reference>
+                            <source>MLIST</source>
+                            <url>http://www.openwall.com/lists/oss-security/2014/07/30/5</url>
+                            <name>[oss-security] 20140730 CVE Request: dhcpcd DoS attack</name>
+                        </reference>
+                        <reference>
+                            <source>MLIST</source>
+                            <url>http://www.openwall.com/lists/oss-security/2014/09/01/11</url>
+                            <name>[oss-security] 20140901 CVE Request: dhcpcd DoS attack</name>
+                        </reference>
+                        <reference>
+                            <source>SLACKWARE</source>
+                            <url>http://www.slackware.com/security/viewer.php?l=slackware-security&amp;y=2014&amp;m=slackware-security.462420</url>
+                            <name>SSA:2014-213-02</name>
+                        </reference>
+                    </references>
+                    <vulnerableSoftware>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:4.0.0</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:4.0.0:alpha1</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:4.0.0:alpha2</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:4.0.0:alpha3</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:4.0.0:beta1</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:4.0.0:beta2</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:4.0.0:beta3</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:4.0.0:beta4</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:4.0.0:beta5</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:4.0.0:beta6</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:4.0.0:beta7</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:4.0.0:beta8</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:4.0.0:beta9</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:4.0.0:rc1</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:4.0.0:rc2</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:4.0.0:rc3</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:4.0.0:rc4</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:4.0.0:rc5</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:4.0.1</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:4.0.2</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:4.0.3</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:4.0.4</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:4.0.5</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:4.0.6</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:4.0.7</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:4.0.10</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:4.0.11</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:4.0.12</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:4.0.13</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:4.0.14</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:4.0.15</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.0.0</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.0.1</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.0.3</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.0.4</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.0.6</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.0.7</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.0.8</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.0.9</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.1.0</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.1.1</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.1.2</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.1.3</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.1.4</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.1.5</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.2.0</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.2.1</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.2.3</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.2.4</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.2.5</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.2.6</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.2.7</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.2.8</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.2.9</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.2.10</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.2.11</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.2.12</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.5.0</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.5.1</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.5.1:test1</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.5.2</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.5.3</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.5.4</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.5.5</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.5.6</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.6.0</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.6.1</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.6.2</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.6.3</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.6.4</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.6.5</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.6.6</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.6.7</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.6.8</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.99.2</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.99.3</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.99.4</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.99.5</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.99.6</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:5.99.7</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:6.0.0</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:6.0.1</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:6.0.2</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:6.0.3</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:6.0.4</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:6.0.5</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:6.1.0</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:6.2.0</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:6.2.1</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:6.3.0</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:6.3.1</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:6.3.2</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:6.4.0</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:6.4.1</software>
+                        <software>cpe:/a:dhcpcd_project:dhcpcd:6.4.2</software>
+                        <software allPreviousVersion="true">cpe:/a:google:android:4.4.3</software>
+                    </vulnerableSoftware>
+                </vulnerability>
+                <vulnerability>
+                    <name>CVE-2014-1939</name>
+                    <cvssScore>7.5</cvssScore>
+                    <cvssAccessVector>NETWORK</cvssAccessVector>
+                    <cvssAccessComplexity>LOW</cvssAccessComplexity>
+                    <cvssAuthenticationr>NONE</cvssAuthenticationr>
+                    <cvssConfidentialImpact>PARTIAL</cvssConfidentialImpact>
+                    <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+                    <cvssAvailabilityImpact>PARTIAL</cvssAvailabilityImpact>
+                    <severity>High</severity>
+                    <cwe>CWE-94 Improper Control of Generation of Code (&apos;Code Injection&apos;)</cwe>
+                    <description>java/android/webkit/BrowserFrame.java in Android before 4.4 uses the addJavascriptInterface API in conjunction with creating an object of the SearchBoxImpl class, which allows attackers to execute arbitrary Java code by leveraging access to the searchBoxJavaBridge_ interface at certain Android API levels.</description>
+                    <references>
+                        <reference>
+                            <source>CONFIRM</source>
+                            <url>http://blog.chromium.org/2013/11/introducing-chromium-powered-android.html</url>
+                            <name>http://blog.chromium.org/2013/11/introducing-chromium-powered-android.html</name>
+                        </reference>
+                        <reference>
+                            <source>CONFIRM</source>
+                            <url>https://support.lenovo.com/us/en/product_security/len_6421</url>
+                            <name>https://support.lenovo.com/us/en/product_security/len_6421</name>
+                        </reference>
+                        <reference>
+                            <source>MLIST</source>
+                            <url>http://openwall.com/lists/oss-security/2014/02/11/2</url>
+                            <name>[oss-security] 20140210 CVE-2014-1939 searchBoxJavaBridge_ in Android Jelly Bean</name>
+                        </reference>
+                    </references>
+                    <vulnerableSoftware>
+                        <software allPreviousVersion="true">cpe:/a:google:android:4.3.1</software>
+                        <software allPreviousVersion="true">cpe:/a:lenovo:shareit:3.5.88_ww::~~~android~~</software>
+                    </vulnerableSoftware>
+                </vulnerability>
+                <vulnerability>
+                    <name>CVE-2013-7372</name>
+                    <cvssScore>5.0</cvssScore>
+                    <cvssAccessVector>NETWORK</cvssAccessVector>
+                    <cvssAccessComplexity>LOW</cvssAccessComplexity>
+                    <cvssAuthenticationr>NONE</cvssAuthenticationr>
+                    <cvssConfidentialImpact>NONE</cvssConfidentialImpact>
+                    <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+                    <cvssAvailabilityImpact>NONE</cvssAvailabilityImpact>
+                    <severity>Medium</severity>
+                    <cwe>CWE-310 Cryptographic Issues</cwe>
+                    <description>The engineNextBytes function in classlib/modules/security/src/main/java/common/org/apache/harmony/security/provider/crypto/SHA1PRNG_SecureRandomImpl.java in the SecureRandom implementation in Apache Harmony through 6.0M3, as used in the Java Cryptography Architecture (JCA) in Android before 4.4 and other products, when no seed is provided by the user, uses an incorrect offset value, which makes it easier for attackers to defeat cryptographic protection mechanisms by leveraging the resulting PRNG predictability, as exploited in the wild against Bitcoin wallet applications in August 2013.</description>
+                    <references>
+                        <reference>
+                            <source>CONFIRM</source>
+                            <url>http://android-developers.blogspot.com.au/2013/08/some-securerandom-thoughts.html</url>
+                            <name>http://android-developers.blogspot.com.au/2013/08/some-securerandom-thoughts.html</name>
+                        </reference>
+                        <reference>
+                            <source>CONFIRM</source>
+                            <url>https://android.googlesource.com/platform/libcore/+/kitkat-release/luni/src/main/java/org/apache/harmony/security/provider/crypto/SHA1PRNG_SecureRandomImpl.java</url>
+                            <name>https://android.googlesource.com/platform/libcore/+/kitkat-release/luni/src/main/java/org/apache/harmony/security/provider/crypto/SHA1PRNG_SecureRandomImpl.java</name>
+                        </reference>
+                        <reference>
+                            <source>MISC</source>
+                            <url>http://www.nds.rub.de/media/nds/veroeffentlichungen/2013/03/25/paper_2.pdf</url>
+                            <name>http://www.nds.rub.de/media/nds/veroeffentlichungen/2013/03/25/paper_2.pdf</name>
+                        </reference>
+                        <reference>
+                            <source>MISC</source>
+                            <url>https://bitcoin.org/en/alert/2013-08-11-android</url>
+                            <name>https://bitcoin.org/en/alert/2013-08-11-android</name>
+                        </reference>
+                    </references>
+                    <vulnerableSoftware>
+                        <software allPreviousVersion="true">cpe:/a:apache:harmony:6.0:m3</software>
+                        <software allPreviousVersion="true">cpe:/a:google:android:4.3.1</software>
+                    </vulnerableSoftware>
+                </vulnerability>
+            </vulnerabilities>
         </dependency>
         <dependency>
             <fileName>pmd-core-5.2.3.jar</fileName>
@@ -2748,169 +4470,11 @@ file comparators, endian transformation classes, and much more.
             </identifiers>
         </dependency>
         <dependency>
-            <fileName>hamcrest-core-1.3.jar</fileName>
-            <filePath>C:\Users\Dad\.gradle\caches\modules-2\files-2.1\org.hamcrest\hamcrest-core\1.3\42a25dc3219429f0e5d060061f71acb49bf010a0\hamcrest-core-1.3.jar</filePath>
-            <md5>6393363b47ddcbba82321110c3e07519</md5>
-            <sha1>42a25dc3219429f0e5d060061f71acb49bf010a0</sha1>
-            <description>
-    This is the core API of hamcrest matcher framework to be used by third-party framework providers. This includes the a foundation set of matcher implementations for common operations.
-  </description>
-            <evidenceCollected>
-                <evidence type="vendor" confidence="HIGHEST">
-                    <source>central</source>
-                    <name>groupid</name>
-                    <value>org.hamcrest</value>
-                </evidence>
-                <evidence type="vendor" confidence="HIGH">
-                    <source>file</source>
-                    <name>name</name>
-                    <value>hamcrest-core</value>
-                </evidence>
-                <evidence type="vendor" confidence="LOW">
-                    <source>jar</source>
-                    <name>package name</name>
-                    <value>hamcrest</value>
-                </evidence>
-                <evidence type="vendor" confidence="LOW">
-                    <source>Manifest</source>
-                    <name>built-date</name>
-                    <value>2012-07-09 19:49:34</value>
-                </evidence>
-                <evidence type="vendor" confidence="HIGH">
-                    <source>Manifest</source>
-                    <name>Implementation-Vendor</name>
-                    <value>hamcrest.org</value>
-                </evidence>
-                <evidence type="vendor" confidence="LOW">
-                    <source>pom</source>
-                    <name>artifactid</name>
-                    <value>hamcrest-core</value>
-                </evidence>
-                <evidence type="vendor" confidence="LOW">
-                    <source>pom</source>
-                    <name>description</name>
-                    <value>This is the core API of hamcrest matcher framework to be used by third-party framework providers. This includes the a foundation set of matcher implementations for common operations.</value>
-                </evidence>
-                <evidence type="vendor" confidence="HIGHEST">
-                    <source>pom</source>
-                    <name>groupid</name>
-                    <value>hamcrest</value>
-                </evidence>
-                <evidence type="vendor" confidence="HIGH">
-                    <source>pom</source>
-                    <name>name</name>
-                    <value>Hamcrest Core</value>
-                </evidence>
-                <evidence type="vendor" confidence="LOW">
-                    <source>pom</source>
-                    <name>parent-artifactid</name>
-                    <value>hamcrest-parent</value>
-                </evidence>
-                <evidence type="vendor" confidence="MEDIUM">
-                    <source>pom</source>
-                    <name>parent-groupid</name>
-                    <value>org.hamcrest</value>
-                </evidence>
-                <evidence type="product" confidence="HIGHEST">
-                    <source>central</source>
-                    <name>artifactid</name>
-                    <value>hamcrest-core</value>
-                </evidence>
-                <evidence type="product" confidence="HIGH">
-                    <source>file</source>
-                    <name>name</name>
-                    <value>hamcrest-core</value>
-                </evidence>
-                <evidence type="product" confidence="LOW">
-                    <source>Manifest</source>
-                    <name>built-date</name>
-                    <value>2012-07-09 19:49:34</value>
-                </evidence>
-                <evidence type="product" confidence="HIGH">
-                    <source>Manifest</source>
-                    <name>Implementation-Title</name>
-                    <value>hamcrest-core</value>
-                </evidence>
-                <evidence type="product" confidence="HIGHEST">
-                    <source>pom</source>
-                    <name>artifactid</name>
-                    <value>hamcrest-core</value>
-                </evidence>
-                <evidence type="product" confidence="LOW">
-                    <source>pom</source>
-                    <name>description</name>
-                    <value>This is the core API of hamcrest matcher framework to be used by third-party framework providers. This includes the a foundation set of matcher implementations for common operations.</value>
-                </evidence>
-                <evidence type="product" confidence="LOW">
-                    <source>pom</source>
-                    <name>groupid</name>
-                    <value>hamcrest</value>
-                </evidence>
-                <evidence type="product" confidence="HIGH">
-                    <source>pom</source>
-                    <name>name</name>
-                    <value>Hamcrest Core</value>
-                </evidence>
-                <evidence type="product" confidence="MEDIUM">
-                    <source>pom</source>
-                    <name>parent-artifactid</name>
-                    <value>hamcrest-parent</value>
-                </evidence>
-                <evidence type="product" confidence="LOW">
-                    <source>pom</source>
-                    <name>parent-groupid</name>
-                    <value>org.hamcrest</value>
-                </evidence>
-                <evidence type="version" confidence="HIGHEST">
-                    <source>central</source>
-                    <name>version</name>
-                    <value>1.3</value>
-                </evidence>
-                <evidence type="version" confidence="MEDIUM">
-                    <source>file</source>
-                    <name>name</name>
-                    <value>hamcrest-core</value>
-                </evidence>
-                <evidence type="version" confidence="HIGHEST">
-                    <source>file</source>
-                    <name>version</name>
-                    <value>1.3</value>
-                </evidence>
-                <evidence type="version" confidence="HIGH">
-                    <source>Manifest</source>
-                    <name>Implementation-Version</name>
-                    <value>1.3</value>
-                </evidence>
-                <evidence type="version" confidence="HIGHEST">
-                    <source>pom</source>
-                    <name>version</name>
-                    <value>1.3</value>
-                </evidence>
-            </evidenceCollected>
-            <identifiers>
-                <identifier type="maven" confidence="HIGHEST">
-                    <name>(org.hamcrest:hamcrest-core:1.3)</name>
-                    <url>http://search.maven.org/remotecontent?filepath=org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar</url>
-                </identifier>
-            </identifiers>
-        </dependency>
-        <dependency>
             <fileName>org.jacoco.agent-0.7.4.201502262128.jar</fileName>
             <filePath>C:\Users\Dad\.gradle\caches\modules-2\files-2.1\org.jacoco\org.jacoco.agent\0.7.4.201502262128\a579ae4cde66201b73266bfd78fdb50158d179f1\org.jacoco.agent-0.7.4.201502262128.jar</filePath>
             <md5>ab7e8bde4902191b923be4afeaf7a3c4</md5>
             <sha1>a579ae4cde66201b73266bfd78fdb50158d179f1</sha1>
             <description>JaCoCo Agent</description>
-            <relatedDependencies>
-                <relatedDependency>
-                    <filePath>C:\Users\Dad\.gradle\caches\modules-2\files-2.1\org.jacoco\org.jacoco.agent\0.7.4.201502262128\a579ae4cde66201b73266bfd78fdb50158d179f1\org.jacoco.agent-0.7.4.201502262128.jar</filePath>
-                    <sha1>a579ae4cde66201b73266bfd78fdb50158d179f1</sha1>
-                    <md5>ab7e8bde4902191b923be4afeaf7a3c4</md5>
-                    <identifier type="maven">
-                        <name>(org.jacoco:org.jacoco.agent:0.7.4.201502262128)</name>
-                        <url>http://search.maven.org/#search|ga|1|1%3A%22a579ae4cde66201b73266bfd78fdb50158d179f1%22</url>
-                    </identifier>
-                </relatedDependency>
-            </relatedDependencies>
             <evidenceCollected>
                 <evidence type="vendor" confidence="HIGHEST">
                     <source>central</source>
@@ -3055,13 +4619,6 @@ file comparators, endian transformation classes, and much more.
             <filePath>C:\Users\Dad\.gradle\caches\modules-2\files-2.1\org.jacoco\org.jacoco.agent\0.7.4.201502262128\a579ae4cde66201b73266bfd78fdb50158d179f1\org.jacoco.agent-0.7.4.201502262128.jar\jacocoagent.jar</filePath>
             <md5>391505e6410f91b47817c45074d2ab00</md5>
             <sha1>ea73283d55c98ab1fccb8c23d76c68b7d7ecbd83</sha1>
-            <relatedDependencies>
-                <relatedDependency>
-                    <filePath>C:\Users\Dad\.gradle\caches\modules-2\files-2.1\org.jacoco\org.jacoco.agent\0.7.4.201502262128\a579ae4cde66201b73266bfd78fdb50158d179f1\org.jacoco.agent-0.7.4.201502262128.jar\jacocoagent.jar</filePath>
-                    <sha1>ea73283d55c98ab1fccb8c23d76c68b7d7ecbd83</sha1>
-                    <md5>391505e6410f91b47817c45074d2ab00</md5>
-                </relatedDependency>
-            </relatedDependencies>
             <evidenceCollected>
                 <evidence type="vendor" confidence="HIGH">
                     <source>file</source>
@@ -3119,95 +4676,6 @@ file comparators, endian transformation classes, and much more.
                     <value>0.7.4.201502262128</value>
                 </evidence>
             </evidenceCollected>
-        </dependency>
-        <dependency>
-            <fileName>org.jacoco.agent-0.7.4.201502262128.jar: jacocoagent.jar\META-INF/maven/org.jacoco/org.jacoco.agent.rt/pom.xml</fileName>
-            <filePath>C:\Users\Dad\.gradle\caches\modules-2\files-2.1\org.jacoco\org.jacoco.agent\0.7.4.201502262128\a579ae4cde66201b73266bfd78fdb50158d179f1\org.jacoco.agent-0.7.4.201502262128.jar\jacocoagent.jar\META-INF/maven/org.jacoco/org.jacoco.agent.rt/pom.xml</filePath>
-            <md5>3bf2e81548bf350a4d0a8c124ab99a35</md5>
-            <sha1>b73c3dd49fff5a9bd2df48bbeecc881ce3d05bac</sha1>
-            <description>JaCoCo Java Agent</description>
-            <relatedDependencies>
-                <relatedDependency>
-                    <filePath>C:\Users\Dad\.gradle\caches\modules-2\files-2.1\org.jacoco\org.jacoco.agent\0.7.4.201502262128\a579ae4cde66201b73266bfd78fdb50158d179f1\org.jacoco.agent-0.7.4.201502262128.jar\jacocoagent.jar\META-INF/maven/org.jacoco/org.jacoco.agent.rt/pom.xml</filePath>
-                    <sha1>b73c3dd49fff5a9bd2df48bbeecc881ce3d05bac</sha1>
-                    <md5>3bf2e81548bf350a4d0a8c124ab99a35</md5>
-                    <identifier type="maven">
-                        <name>(org.jacoco:org.jacoco.agent.rt:0.7.4.201502262128)</name>
-                    </identifier>
-                </relatedDependency>
-            </relatedDependencies>
-            <evidenceCollected>
-                <evidence type="vendor" confidence="LOW">
-                    <source>pom</source>
-                    <name>artifactid</name>
-                    <value>jacoco.agent.rt</value>
-                </evidence>
-                <evidence type="vendor" confidence="MEDIUM">
-                    <source>pom</source>
-                    <name>description</name>
-                    <value>JaCoCo Java Agent</value>
-                </evidence>
-                <evidence type="vendor" confidence="HIGHEST">
-                    <source>pom</source>
-                    <name>groupid</name>
-                    <value>jacoco</value>
-                </evidence>
-                <evidence type="vendor" confidence="HIGH">
-                    <source>pom</source>
-                    <name>name</name>
-                    <value>JaCoCo :: Agent RT</value>
-                </evidence>
-                <evidence type="vendor" confidence="LOW">
-                    <source>pom</source>
-                    <name>parent-artifactid</name>
-                    <value>org.jacoco.build</value>
-                </evidence>
-                <evidence type="vendor" confidence="MEDIUM">
-                    <source>pom</source>
-                    <name>parent-groupid</name>
-                    <value>org.jacoco</value>
-                </evidence>
-                <evidence type="product" confidence="HIGHEST">
-                    <source>pom</source>
-                    <name>artifactid</name>
-                    <value>jacoco.agent.rt</value>
-                </evidence>
-                <evidence type="product" confidence="MEDIUM">
-                    <source>pom</source>
-                    <name>description</name>
-                    <value>JaCoCo Java Agent</value>
-                </evidence>
-                <evidence type="product" confidence="LOW">
-                    <source>pom</source>
-                    <name>groupid</name>
-                    <value>jacoco</value>
-                </evidence>
-                <evidence type="product" confidence="HIGH">
-                    <source>pom</source>
-                    <name>name</name>
-                    <value>JaCoCo :: Agent RT</value>
-                </evidence>
-                <evidence type="product" confidence="MEDIUM">
-                    <source>pom</source>
-                    <name>parent-artifactid</name>
-                    <value>org.jacoco.build</value>
-                </evidence>
-                <evidence type="product" confidence="LOW">
-                    <source>pom</source>
-                    <name>parent-groupid</name>
-                    <value>org.jacoco</value>
-                </evidence>
-                <evidence type="version" confidence="HIGHEST">
-                    <source>pom</source>
-                    <name>version</name>
-                    <value>0.7.4.201502262128</value>
-                </evidence>
-            </evidenceCollected>
-            <identifiers>
-                <identifier type="maven" confidence="HIGH">
-                    <name>(org.jacoco:org.jacoco.agent.rt:0.7.4.201502262128)</name>
-                </identifier>
-            </identifiers>
         </dependency>
         <dependency>
             <fileName>org.jacoco.ant-0.7.4.201502262128.jar</fileName>
@@ -3651,6 +5119,598 @@ file comparators, endian transformation classes, and much more.
                 <identifier type="maven" confidence="HIGHEST">
                     <name>(org.jacoco:org.jacoco.report:0.7.4.201502262128)</name>
                     <url>http://search.maven.org/#search|ga|1|1%3A%225c6bb5f95ae695dc4510b95f7d5ad0397e4881ad%22</url>
+                </identifier>
+            </identifiers>
+        </dependency>
+        <dependency>
+            <fileName>mapsforge-core-0.6.1.jar</fileName>
+            <filePath>C:\Users\Dad\.gradle\caches\modules-2\files-2.1\org.mapsforge\mapsforge-core\0.6.1\3085141fe6ec137fd7840720231cf841a04fcbef\mapsforge-core-0.6.1.jar</filePath>
+            <md5>cf6b47ac38085cdfccd17ffd32dc1431</md5>
+            <sha1>3085141fe6ec137fd7840720231cf841a04fcbef</sha1>
+            <evidenceCollected>
+                <evidence type="vendor" confidence="HIGHEST">
+                    <source>central</source>
+                    <name>groupid</name>
+                    <value>org.mapsforge</value>
+                </evidence>
+                <evidence type="vendor" confidence="HIGH">
+                    <source>file</source>
+                    <name>name</name>
+                    <value>mapsforge-core</value>
+                </evidence>
+                <evidence type="vendor" confidence="LOW">
+                    <source>jar</source>
+                    <name>package name</name>
+                    <value>core</value>
+                </evidence>
+                <evidence type="vendor" confidence="LOW">
+                    <source>jar</source>
+                    <name>package name</name>
+                    <value>graphics</value>
+                </evidence>
+                <evidence type="vendor" confidence="LOW">
+                    <source>jar</source>
+                    <name>package name</name>
+                    <value>mapsforge</value>
+                </evidence>
+                <evidence type="vendor" confidence="LOW">
+                    <source>pom</source>
+                    <name>artifactid</name>
+                    <value>mapsforge-core</value>
+                </evidence>
+                <evidence type="vendor" confidence="HIGHEST">
+                    <source>pom</source>
+                    <name>groupid</name>
+                    <value>mapsforge</value>
+                </evidence>
+                <evidence type="vendor" confidence="LOW">
+                    <source>pom</source>
+                    <name>parent-artifactid</name>
+                    <value>mapsforge</value>
+                </evidence>
+                <evidence type="vendor" confidence="MEDIUM">
+                    <source>pom</source>
+                    <name>parent-groupid</name>
+                    <value>org.mapsforge</value>
+                </evidence>
+                <evidence type="product" confidence="HIGHEST">
+                    <source>central</source>
+                    <name>artifactid</name>
+                    <value>mapsforge-core</value>
+                </evidence>
+                <evidence type="product" confidence="HIGH">
+                    <source>file</source>
+                    <name>name</name>
+                    <value>mapsforge-core</value>
+                </evidence>
+                <evidence type="product" confidence="LOW">
+                    <source>jar</source>
+                    <name>package name</name>
+                    <value>core</value>
+                </evidence>
+                <evidence type="product" confidence="LOW">
+                    <source>jar</source>
+                    <name>package name</name>
+                    <value>graphics</value>
+                </evidence>
+                <evidence type="product" confidence="HIGHEST">
+                    <source>pom</source>
+                    <name>artifactid</name>
+                    <value>mapsforge-core</value>
+                </evidence>
+                <evidence type="product" confidence="LOW">
+                    <source>pom</source>
+                    <name>groupid</name>
+                    <value>mapsforge</value>
+                </evidence>
+                <evidence type="product" confidence="MEDIUM">
+                    <source>pom</source>
+                    <name>parent-artifactid</name>
+                    <value>mapsforge</value>
+                </evidence>
+                <evidence type="product" confidence="LOW">
+                    <source>pom</source>
+                    <name>parent-groupid</name>
+                    <value>org.mapsforge</value>
+                </evidence>
+                <evidence type="version" confidence="HIGHEST">
+                    <source>central</source>
+                    <name>version</name>
+                    <value>0.6.1</value>
+                </evidence>
+                <evidence type="version" confidence="MEDIUM">
+                    <source>file</source>
+                    <name>name</name>
+                    <value>mapsforge-core</value>
+                </evidence>
+                <evidence type="version" confidence="HIGHEST">
+                    <source>file</source>
+                    <name>version</name>
+                    <value>0.6.1</value>
+                </evidence>
+                <evidence type="version" confidence="HIGHEST">
+                    <source>pom</source>
+                    <name>version</name>
+                    <value>0.6.1</value>
+                </evidence>
+            </evidenceCollected>
+            <identifiers>
+                <identifier type="maven" confidence="HIGHEST">
+                    <name>(org.mapsforge:mapsforge-core:0.6.1)</name>
+                    <url>http://search.maven.org/#search|ga|1|1%3A%223085141fe6ec137fd7840720231cf841a04fcbef%22</url>
+                </identifier>
+            </identifiers>
+        </dependency>
+        <dependency>
+            <fileName>mapsforge-map-android-0.6.1.jar</fileName>
+            <filePath>C:\Users\Dad\.gradle\caches\modules-2\files-2.1\org.mapsforge\mapsforge-map-android\0.6.1\6a545b760bc8e70bd23a3282d137a110cf096df8\mapsforge-map-android-0.6.1.jar</filePath>
+            <md5>caa8b2388914a8bd5bdcccda07a8ce18</md5>
+            <sha1>6a545b760bc8e70bd23a3282d137a110cf096df8</sha1>
+            <evidenceCollected>
+                <evidence type="vendor" confidence="HIGHEST">
+                    <source>central</source>
+                    <name>groupid</name>
+                    <value>org.mapsforge</value>
+                </evidence>
+                <evidence type="vendor" confidence="HIGH">
+                    <source>file</source>
+                    <name>name</name>
+                    <value>mapsforge-map-android</value>
+                </evidence>
+                <evidence type="vendor" confidence="LOW">
+                    <source>jar</source>
+                    <name>package name</name>
+                    <value>android</value>
+                </evidence>
+                <evidence type="vendor" confidence="LOW">
+                    <source>jar</source>
+                    <name>package name</name>
+                    <value>map</value>
+                </evidence>
+                <evidence type="vendor" confidence="LOW">
+                    <source>jar</source>
+                    <name>package name</name>
+                    <value>mapsforge</value>
+                </evidence>
+                <evidence type="vendor" confidence="LOW">
+                    <source>pom</source>
+                    <name>artifactid</name>
+                    <value>mapsforge-map-android</value>
+                </evidence>
+                <evidence type="vendor" confidence="HIGHEST">
+                    <source>pom</source>
+                    <name>groupid</name>
+                    <value>mapsforge</value>
+                </evidence>
+                <evidence type="vendor" confidence="LOW">
+                    <source>pom</source>
+                    <name>parent-artifactid</name>
+                    <value>mapsforge</value>
+                </evidence>
+                <evidence type="vendor" confidence="MEDIUM">
+                    <source>pom</source>
+                    <name>parent-groupid</name>
+                    <value>org.mapsforge</value>
+                </evidence>
+                <evidence type="product" confidence="HIGHEST">
+                    <source>central</source>
+                    <name>artifactid</name>
+                    <value>mapsforge-map-android</value>
+                </evidence>
+                <evidence type="product" confidence="HIGH">
+                    <source>file</source>
+                    <name>name</name>
+                    <value>mapsforge-map-android</value>
+                </evidence>
+                <evidence type="product" confidence="LOW">
+                    <source>jar</source>
+                    <name>package name</name>
+                    <value>android</value>
+                </evidence>
+                <evidence type="product" confidence="LOW">
+                    <source>jar</source>
+                    <name>package name</name>
+                    <value>map</value>
+                </evidence>
+                <evidence type="product" confidence="HIGHEST">
+                    <source>pom</source>
+                    <name>artifactid</name>
+                    <value>mapsforge-map-android</value>
+                </evidence>
+                <evidence type="product" confidence="LOW">
+                    <source>pom</source>
+                    <name>groupid</name>
+                    <value>mapsforge</value>
+                </evidence>
+                <evidence type="product" confidence="MEDIUM">
+                    <source>pom</source>
+                    <name>parent-artifactid</name>
+                    <value>mapsforge</value>
+                </evidence>
+                <evidence type="product" confidence="LOW">
+                    <source>pom</source>
+                    <name>parent-groupid</name>
+                    <value>org.mapsforge</value>
+                </evidence>
+                <evidence type="version" confidence="HIGHEST">
+                    <source>central</source>
+                    <name>version</name>
+                    <value>0.6.1</value>
+                </evidence>
+                <evidence type="version" confidence="MEDIUM">
+                    <source>file</source>
+                    <name>name</name>
+                    <value>mapsforge-map-android</value>
+                </evidence>
+                <evidence type="version" confidence="HIGHEST">
+                    <source>file</source>
+                    <name>version</name>
+                    <value>0.6.1</value>
+                </evidence>
+                <evidence type="version" confidence="HIGHEST">
+                    <source>pom</source>
+                    <name>version</name>
+                    <value>0.6.1</value>
+                </evidence>
+            </evidenceCollected>
+            <identifiers>
+                <identifier type="maven" confidence="HIGHEST">
+                    <name>(org.mapsforge:mapsforge-map-android:0.6.1)</name>
+                    <url>http://search.maven.org/#search|ga|1|1%3A%226a545b760bc8e70bd23a3282d137a110cf096df8%22</url>
+                </identifier>
+            </identifiers>
+        </dependency>
+        <dependency>
+            <fileName>mapsforge-map-reader-0.6.1.jar</fileName>
+            <filePath>C:\Users\Dad\.gradle\caches\modules-2\files-2.1\org.mapsforge\mapsforge-map-reader\0.6.1\b2ae70c6d05bb4b94991598a132e98d7366ff26b\mapsforge-map-reader-0.6.1.jar</filePath>
+            <md5>95f76647fda606365ea60fbe601391ec</md5>
+            <sha1>b2ae70c6d05bb4b94991598a132e98d7366ff26b</sha1>
+            <evidenceCollected>
+                <evidence type="vendor" confidence="HIGHEST">
+                    <source>central</source>
+                    <name>groupid</name>
+                    <value>org.mapsforge</value>
+                </evidence>
+                <evidence type="vendor" confidence="HIGH">
+                    <source>file</source>
+                    <name>name</name>
+                    <value>mapsforge-map-reader</value>
+                </evidence>
+                <evidence type="vendor" confidence="LOW">
+                    <source>jar</source>
+                    <name>package name</name>
+                    <value>map</value>
+                </evidence>
+                <evidence type="vendor" confidence="LOW">
+                    <source>jar</source>
+                    <name>package name</name>
+                    <value>mapsforge</value>
+                </evidence>
+                <evidence type="vendor" confidence="LOW">
+                    <source>jar</source>
+                    <name>package name</name>
+                    <value>reader</value>
+                </evidence>
+                <evidence type="vendor" confidence="LOW">
+                    <source>pom</source>
+                    <name>artifactid</name>
+                    <value>mapsforge-map-reader</value>
+                </evidence>
+                <evidence type="vendor" confidence="HIGHEST">
+                    <source>pom</source>
+                    <name>groupid</name>
+                    <value>mapsforge</value>
+                </evidence>
+                <evidence type="vendor" confidence="LOW">
+                    <source>pom</source>
+                    <name>parent-artifactid</name>
+                    <value>mapsforge</value>
+                </evidence>
+                <evidence type="vendor" confidence="MEDIUM">
+                    <source>pom</source>
+                    <name>parent-groupid</name>
+                    <value>org.mapsforge</value>
+                </evidence>
+                <evidence type="product" confidence="HIGHEST">
+                    <source>central</source>
+                    <name>artifactid</name>
+                    <value>mapsforge-map-reader</value>
+                </evidence>
+                <evidence type="product" confidence="HIGH">
+                    <source>file</source>
+                    <name>name</name>
+                    <value>mapsforge-map-reader</value>
+                </evidence>
+                <evidence type="product" confidence="LOW">
+                    <source>jar</source>
+                    <name>package name</name>
+                    <value>map</value>
+                </evidence>
+                <evidence type="product" confidence="LOW">
+                    <source>jar</source>
+                    <name>package name</name>
+                    <value>reader</value>
+                </evidence>
+                <evidence type="product" confidence="HIGHEST">
+                    <source>pom</source>
+                    <name>artifactid</name>
+                    <value>mapsforge-map-reader</value>
+                </evidence>
+                <evidence type="product" confidence="LOW">
+                    <source>pom</source>
+                    <name>groupid</name>
+                    <value>mapsforge</value>
+                </evidence>
+                <evidence type="product" confidence="MEDIUM">
+                    <source>pom</source>
+                    <name>parent-artifactid</name>
+                    <value>mapsforge</value>
+                </evidence>
+                <evidence type="product" confidence="LOW">
+                    <source>pom</source>
+                    <name>parent-groupid</name>
+                    <value>org.mapsforge</value>
+                </evidence>
+                <evidence type="version" confidence="HIGHEST">
+                    <source>central</source>
+                    <name>version</name>
+                    <value>0.6.1</value>
+                </evidence>
+                <evidence type="version" confidence="MEDIUM">
+                    <source>file</source>
+                    <name>name</name>
+                    <value>mapsforge-map-reader</value>
+                </evidence>
+                <evidence type="version" confidence="HIGHEST">
+                    <source>file</source>
+                    <name>version</name>
+                    <value>0.6.1</value>
+                </evidence>
+                <evidence type="version" confidence="HIGHEST">
+                    <source>pom</source>
+                    <name>version</name>
+                    <value>0.6.1</value>
+                </evidence>
+            </evidenceCollected>
+            <identifiers>
+                <identifier type="maven" confidence="HIGHEST">
+                    <name>(org.mapsforge:mapsforge-map-reader:0.6.1)</name>
+                    <url>http://search.maven.org/#search|ga|1|1%3A%22b2ae70c6d05bb4b94991598a132e98d7366ff26b%22</url>
+                </identifier>
+            </identifiers>
+        </dependency>
+        <dependency>
+            <fileName>mapsforge-map-0.6.1.jar</fileName>
+            <filePath>C:\Users\Dad\.gradle\caches\modules-2\files-2.1\org.mapsforge\mapsforge-map\0.6.1\1140a4f09c9cc9b4b848430ea44739cddb823ba9\mapsforge-map-0.6.1.jar</filePath>
+            <md5>7fe0b19458d77c2670a672ed80279ab9</md5>
+            <sha1>1140a4f09c9cc9b4b848430ea44739cddb823ba9</sha1>
+            <evidenceCollected>
+                <evidence type="vendor" confidence="HIGHEST">
+                    <source>central</source>
+                    <name>groupid</name>
+                    <value>org.mapsforge</value>
+                </evidence>
+                <evidence type="vendor" confidence="HIGH">
+                    <source>file</source>
+                    <name>name</name>
+                    <value>mapsforge-map</value>
+                </evidence>
+                <evidence type="vendor" confidence="LOW">
+                    <source>jar</source>
+                    <name>package name</name>
+                    <value>map</value>
+                </evidence>
+                <evidence type="vendor" confidence="LOW">
+                    <source>jar</source>
+                    <name>package name</name>
+                    <value>mapsforge</value>
+                </evidence>
+                <evidence type="vendor" confidence="LOW">
+                    <source>pom</source>
+                    <name>artifactid</name>
+                    <value>mapsforge-map</value>
+                </evidence>
+                <evidence type="vendor" confidence="HIGHEST">
+                    <source>pom</source>
+                    <name>groupid</name>
+                    <value>mapsforge</value>
+                </evidence>
+                <evidence type="vendor" confidence="LOW">
+                    <source>pom</source>
+                    <name>parent-artifactid</name>
+                    <value>mapsforge</value>
+                </evidence>
+                <evidence type="vendor" confidence="MEDIUM">
+                    <source>pom</source>
+                    <name>parent-groupid</name>
+                    <value>org.mapsforge</value>
+                </evidence>
+                <evidence type="product" confidence="HIGHEST">
+                    <source>central</source>
+                    <name>artifactid</name>
+                    <value>mapsforge-map</value>
+                </evidence>
+                <evidence type="product" confidence="HIGH">
+                    <source>file</source>
+                    <name>name</name>
+                    <value>mapsforge-map</value>
+                </evidence>
+                <evidence type="product" confidence="LOW">
+                    <source>jar</source>
+                    <name>package name</name>
+                    <value>map</value>
+                </evidence>
+                <evidence type="product" confidence="HIGHEST">
+                    <source>pom</source>
+                    <name>artifactid</name>
+                    <value>mapsforge-map</value>
+                </evidence>
+                <evidence type="product" confidence="LOW">
+                    <source>pom</source>
+                    <name>groupid</name>
+                    <value>mapsforge</value>
+                </evidence>
+                <evidence type="product" confidence="MEDIUM">
+                    <source>pom</source>
+                    <name>parent-artifactid</name>
+                    <value>mapsforge</value>
+                </evidence>
+                <evidence type="product" confidence="LOW">
+                    <source>pom</source>
+                    <name>parent-groupid</name>
+                    <value>org.mapsforge</value>
+                </evidence>
+                <evidence type="version" confidence="HIGHEST">
+                    <source>central</source>
+                    <name>version</name>
+                    <value>0.6.1</value>
+                </evidence>
+                <evidence type="version" confidence="MEDIUM">
+                    <source>file</source>
+                    <name>name</name>
+                    <value>mapsforge-map</value>
+                </evidence>
+                <evidence type="version" confidence="HIGHEST">
+                    <source>file</source>
+                    <name>version</name>
+                    <value>0.6.1</value>
+                </evidence>
+                <evidence type="version" confidence="HIGHEST">
+                    <source>pom</source>
+                    <name>version</name>
+                    <value>0.6.1</value>
+                </evidence>
+            </evidenceCollected>
+            <identifiers>
+                <identifier type="maven" confidence="HIGHEST">
+                    <name>(org.mapsforge:mapsforge-map:0.6.1)</name>
+                    <url>http://search.maven.org/#search|ga|1|1%3A%221140a4f09c9cc9b4b848430ea44739cddb823ba9%22</url>
+                </identifier>
+            </identifiers>
+        </dependency>
+        <dependency>
+            <fileName>proj4j-0.1.0.jar</fileName>
+            <filePath>C:\Users\Dad\.gradle\caches\modules-2\files-2.1\org.osgeo\proj4j\0.1.0\19482c4b13722a3047fb7c3bea1ce962a4800e59\proj4j-0.1.0.jar</filePath>
+            <md5>f75ca1c892260a63219e9c2d238ddf54</md5>
+            <sha1>19482c4b13722a3047fb7c3bea1ce962a4800e59</sha1>
+            <description>Proj4J is a Java library to transform point coordinates from one geographic coordinate system to another, including datum transformations.</description>
+            <license>The Apache License, Version 2.0: http://www.apache.org/licenses/LICENSE-2.0.txt</license>
+            <evidenceCollected>
+                <evidence type="vendor" confidence="HIGHEST">
+                    <source>central</source>
+                    <name>groupid</name>
+                    <value>org.osgeo</value>
+                </evidence>
+                <evidence type="vendor" confidence="HIGH">
+                    <source>file</source>
+                    <name>name</name>
+                    <value>proj4j</value>
+                </evidence>
+                <evidence type="vendor" confidence="LOW">
+                    <source>jar</source>
+                    <name>package name</name>
+                    <value>osgeo</value>
+                </evidence>
+                <evidence type="vendor" confidence="LOW">
+                    <source>jar</source>
+                    <name>package name</name>
+                    <value>proj</value>
+                </evidence>
+                <evidence type="vendor" confidence="LOW">
+                    <source>jar</source>
+                    <name>package name</name>
+                    <value>proj4j</value>
+                </evidence>
+                <evidence type="vendor" confidence="LOW">
+                    <source>pom</source>
+                    <name>artifactid</name>
+                    <value>proj4j</value>
+                </evidence>
+                <evidence type="vendor" confidence="LOW">
+                    <source>pom</source>
+                    <name>description</name>
+                    <value>Proj4J is a Java library to transform point coordinates from one geographic coordinate system to another, including datum transformations.</value>
+                </evidence>
+                <evidence type="vendor" confidence="HIGHEST">
+                    <source>pom</source>
+                    <name>groupid</name>
+                    <value>osgeo</value>
+                </evidence>
+                <evidence type="vendor" confidence="HIGH">
+                    <source>pom</source>
+                    <name>name</name>
+                    <value>proj4j</value>
+                </evidence>
+                <evidence type="vendor" confidence="HIGHEST">
+                    <source>pom</source>
+                    <name>url</name>
+                    <value>http://trac.osgeo.org/proj4j/</value>
+                </evidence>
+                <evidence type="product" confidence="HIGHEST">
+                    <source>central</source>
+                    <name>artifactid</name>
+                    <value>proj4j</value>
+                </evidence>
+                <evidence type="product" confidence="HIGH">
+                    <source>file</source>
+                    <name>name</name>
+                    <value>proj4j</value>
+                </evidence>
+                <evidence type="product" confidence="LOW">
+                    <source>jar</source>
+                    <name>package name</name>
+                    <value>proj</value>
+                </evidence>
+                <evidence type="product" confidence="LOW">
+                    <source>jar</source>
+                    <name>package name</name>
+                    <value>proj4j</value>
+                </evidence>
+                <evidence type="product" confidence="HIGHEST">
+                    <source>pom</source>
+                    <name>artifactid</name>
+                    <value>proj4j</value>
+                </evidence>
+                <evidence type="product" confidence="LOW">
+                    <source>pom</source>
+                    <name>description</name>
+                    <value>Proj4J is a Java library to transform point coordinates from one geographic coordinate system to another, including datum transformations.</value>
+                </evidence>
+                <evidence type="product" confidence="LOW">
+                    <source>pom</source>
+                    <name>groupid</name>
+                    <value>osgeo</value>
+                </evidence>
+                <evidence type="product" confidence="HIGH">
+                    <source>pom</source>
+                    <name>name</name>
+                    <value>proj4j</value>
+                </evidence>
+                <evidence type="version" confidence="HIGHEST">
+                    <source>central</source>
+                    <name>version</name>
+                    <value>0.1.0</value>
+                </evidence>
+                <evidence type="version" confidence="MEDIUM">
+                    <source>file</source>
+                    <name>name</name>
+                    <value>proj4j</value>
+                </evidence>
+                <evidence type="version" confidence="HIGHEST">
+                    <source>file</source>
+                    <name>version</name>
+                    <value>0.1.0</value>
+                </evidence>
+                <evidence type="version" confidence="HIGHEST">
+                    <source>pom</source>
+                    <name>version</name>
+                    <value>0.1.0</value>
+                </evidence>
+            </evidenceCollected>
+            <identifiers>
+                <identifier type="maven" confidence="HIGHEST">
+                    <name>(org.osgeo:proj4j:0.1.0)</name>
+                    <url>http://search.maven.org/#search|ga|1|1%3A%2219482c4b13722a3047fb7c3bea1ce962a4800e59%22</url>
                 </identifier>
             </identifiers>
         </dependency>
@@ -4690,6 +6750,85 @@ The W3C License: http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/java-bi
                 <identifier type="maven" confidence="HIGHEST">
                     <name>(xml-apis:xml-apis:1.4.01)</name>
                     <url>http://search.maven.org/remotecontent?filepath=xml-apis/xml-apis/1.4.01/xml-apis-1.4.01.jar</url>
+                </identifier>
+            </identifiers>
+        </dependency>
+        <dependency>
+            <fileName>org.jacoco.agent-0.7.4.201502262128.jar: jacocoagent.jar\META-INF/maven/org.jacoco/org.jacoco.agent.rt/pom.xml</fileName>
+            <filePath>C:\Users\Dad\.gradle\caches\modules-2\files-2.1\org.jacoco\org.jacoco.agent\0.7.4.201502262128\a579ae4cde66201b73266bfd78fdb50158d179f1\org.jacoco.agent-0.7.4.201502262128.jar\jacocoagent.jar\META-INF/maven/org.jacoco/org.jacoco.agent.rt/pom.xml</filePath>
+            <md5>3bf2e81548bf350a4d0a8c124ab99a35</md5>
+            <sha1>b73c3dd49fff5a9bd2df48bbeecc881ce3d05bac</sha1>
+            <description>JaCoCo Java Agent</description>
+            <evidenceCollected>
+                <evidence type="vendor" confidence="LOW">
+                    <source>pom</source>
+                    <name>artifactid</name>
+                    <value>jacoco.agent.rt</value>
+                </evidence>
+                <evidence type="vendor" confidence="MEDIUM">
+                    <source>pom</source>
+                    <name>description</name>
+                    <value>JaCoCo Java Agent</value>
+                </evidence>
+                <evidence type="vendor" confidence="HIGHEST">
+                    <source>pom</source>
+                    <name>groupid</name>
+                    <value>jacoco</value>
+                </evidence>
+                <evidence type="vendor" confidence="HIGH">
+                    <source>pom</source>
+                    <name>name</name>
+                    <value>JaCoCo :: Agent RT</value>
+                </evidence>
+                <evidence type="vendor" confidence="LOW">
+                    <source>pom</source>
+                    <name>parent-artifactid</name>
+                    <value>org.jacoco.build</value>
+                </evidence>
+                <evidence type="vendor" confidence="MEDIUM">
+                    <source>pom</source>
+                    <name>parent-groupid</name>
+                    <value>org.jacoco</value>
+                </evidence>
+                <evidence type="product" confidence="HIGHEST">
+                    <source>pom</source>
+                    <name>artifactid</name>
+                    <value>jacoco.agent.rt</value>
+                </evidence>
+                <evidence type="product" confidence="MEDIUM">
+                    <source>pom</source>
+                    <name>description</name>
+                    <value>JaCoCo Java Agent</value>
+                </evidence>
+                <evidence type="product" confidence="LOW">
+                    <source>pom</source>
+                    <name>groupid</name>
+                    <value>jacoco</value>
+                </evidence>
+                <evidence type="product" confidence="HIGH">
+                    <source>pom</source>
+                    <name>name</name>
+                    <value>JaCoCo :: Agent RT</value>
+                </evidence>
+                <evidence type="product" confidence="MEDIUM">
+                    <source>pom</source>
+                    <name>parent-artifactid</name>
+                    <value>org.jacoco.build</value>
+                </evidence>
+                <evidence type="product" confidence="LOW">
+                    <source>pom</source>
+                    <name>parent-groupid</name>
+                    <value>org.jacoco</value>
+                </evidence>
+                <evidence type="version" confidence="HIGHEST">
+                    <source>pom</source>
+                    <name>version</name>
+                    <value>0.7.4.201502262128</value>
+                </evidence>
+            </evidenceCollected>
+            <identifiers>
+                <identifier type="maven" confidence="HIGH">
+                    <name>(org.jacoco:org.jacoco.agent.rt:0.7.4.201502262128)</name>
                 </identifier>
             </identifiers>
         </dependency>

@@ -1,10 +1,14 @@
 <map id="G" name="G">
-<area shape="rect" id="node1_0" href="../BaseSampleFragment.html" title="org.osmdroid.samplefragments.BaseSampleFragment" alt="" coords="16,19,164,45"/>
-<area shape="rect" id="node1" href="../BaseSampleFragment.html" title="&lt;TABLE&gt;" alt="" coords="5,8,175,56"/>
-<area shape="rect" id="node2_1" href="./SampleGridlines.html" title="org.osmdroid.samplefragments.data.SampleGridlines" alt="" coords="115,118,230,143"/>
-<area shape="rect" id="node2" href="./SampleGridlines.html" title="&lt;TABLE&gt;" alt="" coords="105,107,241,155"/>
-<area shape="rect" id="node3_2" href="../events/SampleAnimateTo.html" title="org.osmdroid.samplefragments.events.SampleAnimateTo" alt="" coords="110,214,235,239"/>
-<area shape="rect" id="node3" href="../events/SampleAnimateTo.html" title="&lt;TABLE&gt;" alt="" coords="99,203,246,251"/>
-<area shape="rect" id="node4_3" href="../../events/MapListener.html" title="org.osmdroid.events.MapListener" alt="" coords="210,11,301,53"/>
-<area shape="rect" id="node4" href="../../events/MapListener.html" title="&lt;TABLE&gt;" alt="" coords="199,5,311,59"/>
+<area shape="rect" id="node1_0" href="../BaseSampleFragment.html" title="org.osmdroid.samplefragments.BaseSampleFragment" alt="" coords="38,19,186,45"/>
+<area shape="rect" id="node1" href="../BaseSampleFragment.html" title="&lt;TABLE&gt;" alt="" coords="27,8,197,56"/>
+<area shape="rect" id="node4_1" href="./SampleGridlines.html" title="org.osmdroid.samplefragments.data.SampleGridlines" alt="" coords="137,118,252,143"/>
+<area shape="rect" id="node4" href="./SampleGridlines.html" title="&lt;TABLE&gt;" alt="" coords="127,107,263,155"/>
+<area shape="rect" id="node2_2" href="./Gridlines2.html" title="org.osmdroid.samplefragments.data.Gridlines2" alt="" coords="16,214,93,239"/>
+<area shape="rect" id="node2" href="./Gridlines2.html" title="&lt;TABLE&gt;" alt="" coords="5,203,104,251"/>
+<area shape="rect" id="node3_3" href="./IISTrackerBase.html" title="org.osmdroid.samplefragments.data.IISTrackerBase" alt="" coords="139,214,251,239"/>
+<area shape="rect" id="node3" href="./IISTrackerBase.html" title="&lt;TABLE&gt;" alt="" coords="128,203,261,251"/>
+<area shape="rect" id="node5_4" href="../events/SampleAnimateTo.html" title="org.osmdroid.samplefragments.events.SampleAnimateTo" alt="" coords="296,214,421,239"/>
+<area shape="rect" id="node5" href="../events/SampleAnimateTo.html" title="&lt;TABLE&gt;" alt="" coords="285,203,432,251"/>
+<area shape="rect" id="node6_5" href="../../events/MapListener.html" title="org.osmdroid.events.MapListener" alt="" coords="232,11,323,53"/>
+<area shape="rect" id="node6" href="../../events/MapListener.html" title="&lt;TABLE&gt;" alt="" coords="221,5,333,59"/>
 </map>

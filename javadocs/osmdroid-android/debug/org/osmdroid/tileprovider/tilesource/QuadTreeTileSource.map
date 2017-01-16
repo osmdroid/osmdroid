@@ -1,6 +1,8 @@
 <map id="G" name="G">
-<area shape="rect" id="node1_0" href="./OnlineTileSourceBase.html" title="org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase" alt="" coords="16,17,164,42"/>
-<area shape="rect" id="node1" href="./OnlineTileSourceBase.html" title="&lt;TABLE&gt;" alt="" coords="5,5,175,53"/>
-<area shape="rect" id="node2_1" href="./QuadTreeTileSource.html" title="org.osmdroid.tileprovider.tilesource.QuadTreeTileSource" alt="" coords="22,113,158,138"/>
-<area shape="rect" id="node2" href="./QuadTreeTileSource.html" title="&lt;TABLE&gt;" alt="" coords="11,101,169,149"/>
+<area shape="rect" id="node1_0" href="./bing/BingMapTileSource.html" title="org.osmdroid.tileprovider.tilesource.bing.BingMapTileSource" alt="" coords="24,209,156,234"/>
+<area shape="rect" id="node1" href="./bing/BingMapTileSource.html" title="&lt;TABLE&gt;" alt="" coords="13,197,167,245"/>
+<area shape="rect" id="node2_1" href="./OnlineTileSourceBase.html" title="org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase" alt="" coords="16,17,164,42"/>
+<area shape="rect" id="node2" href="./OnlineTileSourceBase.html" title="&lt;TABLE&gt;" alt="" coords="5,5,175,53"/>
+<area shape="rect" id="node3_2" href="./QuadTreeTileSource.html" title="org.osmdroid.tileprovider.tilesource.QuadTreeTileSource" alt="" coords="22,113,158,138"/>
+<area shape="rect" id="node3" href="./QuadTreeTileSource.html" title="&lt;TABLE&gt;" alt="" coords="11,101,169,149"/>
 </map>

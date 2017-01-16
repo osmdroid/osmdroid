@@ -7,10 +7,12 @@
 <area shape="rect" id="node3" href="./MapTileFileArchiveProvider.TileLoader.html" title="&lt;TABLE&gt;" alt="" coords="253,203,353,251"/>
 <area shape="rect" id="node4_3" href="./MapTileFilesystemProvider.TileLoader.html" title="org.osmdroid.tileprovider.modules.MapTileFilesystemProvider.TileLoader" alt="" coords="388,214,467,239"/>
 <area shape="rect" id="node4" href="./MapTileFilesystemProvider.TileLoader.html" title="&lt;TABLE&gt;" alt="" coords="377,203,477,251"/>
-<area shape="rect" id="node5_4" href="./MapTileModuleProviderBase.TileLoader.html" title="org.osmdroid.tileprovider.modules.MapTileModuleProviderBase.TileLoader" alt="" coords="263,118,343,143"/>
-<area shape="rect" id="node5" href="./MapTileModuleProviderBase.TileLoader.html" title="&lt;TABLE&gt;" alt="" coords="253,107,354,155"/>
+<area shape="rect" id="node5_4" href="./MapTileModuleProviderBase.TileLoader.html" title="org.osmdroid.tileprovider.modules.MapTileModuleProviderBase.TileLoader" alt="" coords="325,118,405,143"/>
+<area shape="rect" id="node5" href="./MapTileModuleProviderBase.TileLoader.html" title="&lt;TABLE&gt;" alt="" coords="314,107,415,155"/>
 <area shape="rect" id="node6_5" href="./MapTileSqlCacheProvider.TileLoader.html" title="org.osmdroid.tileprovider.modules.MapTileSqlCacheProvider.TileLoader" alt="" coords="512,214,591,239"/>
 <area shape="rect" id="node6" href="./MapTileSqlCacheProvider.TileLoader.html" title="&lt;TABLE&gt;" alt="" coords="501,203,601,251"/>
-<area shape="rect" id="node7_6" href="http://java.sun.com/j2se/1.4.2/docs/api/java/lang/Runnable.html" title="java.lang.Runnable" alt="" coords="262,11,345,53"/>
-<area shape="rect" id="node7" href="http://java.sun.com/j2se/1.4.2/docs/api/java/lang/Runnable.html" title="&lt;TABLE&gt;" alt="" coords="251,5,355,59"/>
+<area shape="rect" id="node7_6" href="../../gpkg/GeoPackageMapTileModuleProvider.TileLoader.html" title="org.osmdroid.gpkg.GeoPackageMapTileModuleProvider.TileLoader" alt="" coords="636,214,715,239"/>
+<area shape="rect" id="node7" href="../../gpkg/GeoPackageMapTileModuleProvider.TileLoader.html" title="&lt;TABLE&gt;" alt="" coords="625,203,725,251"/>
+<area shape="rect" id="node8_7" href="http://java.sun.com/j2se/1.4.2/docs/api/java/lang/Runnable.html" title="java.lang.Runnable" alt="" coords="323,11,406,53"/>
+<area shape="rect" id="node8" href="http://java.sun.com/j2se/1.4.2/docs/api/java/lang/Runnable.html" title="&lt;TABLE&gt;" alt="" coords="313,5,417,59"/>
 </map>

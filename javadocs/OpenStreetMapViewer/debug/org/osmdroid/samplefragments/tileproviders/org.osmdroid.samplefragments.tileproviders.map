@@ -1,0 +1,10 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="./GeopackageSample.html" title="org.osmdroid.samplefragments.tileproviders.GeopackageSample" alt="" coords="16,17,152,42"/>
+<area shape="rect" id="node1" href="./GeopackageSample.html" title="&lt;TABLE&gt;" alt="" coords="5,5,163,53"/>
+<area shape="rect" id="node2_1" href="./MapsforgeTileProviderSample.html" title="org.osmdroid.samplefragments.tileproviders.MapsforgeTileProviderSample" alt="" coords="197,17,387,42"/>
+<area shape="rect" id="node2" href="./MapsforgeTileProviderSample.html" title="&lt;TABLE&gt;" alt="" coords="187,5,397,53"/>
+<area shape="rect" id="node3_2" href="./SampleAssetsOnly.html" title="org.osmdroid.samplefragments.tileproviders.SampleAssetsOnly" alt="" coords="433,17,565,42"/>
+<area shape="rect" id="node3" href="./SampleAssetsOnly.html" title="&lt;TABLE&gt;" alt="" coords="422,5,575,53"/>
+<area shape="rect" id="node4_3" href="./SampleOfflineOnly.html" title="org.osmdroid.samplefragments.tileproviders.SampleOfflineOnly" alt="" coords="610,17,737,42"/>
+<area shape="rect" id="node4" href="./SampleOfflineOnly.html" title="&lt;TABLE&gt;" alt="" coords="599,5,747,53"/>
+</map>

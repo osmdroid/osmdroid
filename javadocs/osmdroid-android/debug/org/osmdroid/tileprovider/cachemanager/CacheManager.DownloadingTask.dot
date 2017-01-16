@@ -10,18 +10,18 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerTask
-	c6597 [label=<<table title="org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerTask" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./CacheManager.CacheManagerTask.html">
+	c7107 [label=<<table title="org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerTask" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./CacheManager.CacheManagerTask.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> CacheManagerTask </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./CacheManager.CacheManagerTask.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.cachemanager.CacheManager.DownloadingTask
-	c6598 [label=<<table title="org.osmdroid.tileprovider.cachemanager.CacheManager.DownloadingTask" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./CacheManager.DownloadingTask.html">
+	c7108 [label=<<table title="org.osmdroid.tileprovider.cachemanager.CacheManager.DownloadingTask" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./CacheManager.DownloadingTask.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> DownloadingTask </td></tr>
 		</table></td></tr>
 		</table>>, URL="./CacheManager.DownloadingTask.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.tileprovider.cachemanager.CacheManager.DownloadingTask extends org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerTask
-	c6597:p -> c6598:p [dir=back,arrowtail=empty];
+	c7107:p -> c7108:p [dir=back,arrowtail=empty];
 }
 

@@ -10,22 +10,40 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.samplefragments.location.SampleCustomIconDirectedLocationOverlay
-	c1229 [label=<<table title="org.osmdroid.samplefragments.location.SampleCustomIconDirectedLocationOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleCustomIconDirectedLocationOverlay.html">
+	c2452 [label=<<table title="org.osmdroid.samplefragments.location.SampleCustomIconDirectedLocationOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleCustomIconDirectedLocationOverlay.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleCustomIconDirectedLocationOverlay </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SampleCustomIconDirectedLocationOverlay.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.location.SampleFollowMe
-	c1230 [label=<<table title="org.osmdroid.samplefragments.location.SampleFollowMe" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleFollowMe.html">
+	c2453 [label=<<table title="org.osmdroid.samplefragments.location.SampleFollowMe" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleFollowMe.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleFollowMe </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SampleFollowMe.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.location.SampleHeadingCompassUp
-	c1231 [label=<<table title="org.osmdroid.samplefragments.location.SampleHeadingCompassUp" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleHeadingCompassUp.html">
+	c2454 [label=<<table title="org.osmdroid.samplefragments.location.SampleHeadingCompassUp" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleHeadingCompassUp.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleHeadingCompassUp </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SampleHeadingCompassUp.html", fontname="arial", fontcolor="black", fontsize=10.0];
+	// org.osmdroid.samplefragments.location.SampleMyLocationWithClick
+	c2455 [label=<<table title="org.osmdroid.samplefragments.location.SampleMyLocationWithClick" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleMyLocationWithClick.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> SampleMyLocationWithClick </td></tr>
+		</table></td></tr>
+		</table>>, URL="./SampleMyLocationWithClick.html", fontname="arial", fontcolor="black", fontsize=10.0];
+	// org.osmdroid.samplefragments.location.SampleMyLocationWithClick.MyLocationOverlayWithClick
+	c2456 [label=<<table title="org.osmdroid.samplefragments.location.SampleMyLocationWithClick.MyLocationOverlayWithClick" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleMyLocationWithClick.MyLocationOverlayWithClick.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> MyLocationOverlayWithClick </td></tr>
+		</table></td></tr>
+		</table>>, URL="./SampleMyLocationWithClick.MyLocationOverlayWithClick.html", fontname="arial", fontcolor="black", fontsize=10.0];
+	// org.osmdroid.samplefragments.location.SampleRotation
+	c2457 [label=<<table title="org.osmdroid.samplefragments.location.SampleRotation" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleRotation.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> SampleRotation </td></tr>
+		</table></td></tr>
+		</table>>, URL="./SampleRotation.html", fontname="arial", fontcolor="black", fontsize=10.0];
 }
 

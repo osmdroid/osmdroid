@@ -10,252 +10,260 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.views.overlay.ClickableIconOverlay<DataType>
-	c2942 [label=<<table title="org.osmdroid.views.overlay.ClickableIconOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ClickableIconOverlay.html">
+	c3190 [label=<<table title="org.osmdroid.views.overlay.ClickableIconOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ClickableIconOverlay.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> ClickableIconOverlay&lt;DataType&gt; </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./ClickableIconOverlay.html", fontname="arial", fontcolor="black", fontsize=10.0];
+	// org.osmdroid.views.overlay.CopyrightOverlay
+	c3195 [label=<<table title="org.osmdroid.views.overlay.CopyrightOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./CopyrightOverlay.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> CopyrightOverlay </td></tr>
+		</table></td></tr>
+		</table>>, URL="./CopyrightOverlay.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.DefaultOverlayManager
-	c2947 [label=<<table title="org.osmdroid.views.overlay.DefaultOverlayManager" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./DefaultOverlayManager.html">
+	c3196 [label=<<table title="org.osmdroid.views.overlay.DefaultOverlayManager" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./DefaultOverlayManager.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> DefaultOverlayManager </td></tr>
 		</table></td></tr>
 		</table>>, URL="./DefaultOverlayManager.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.FolderOverlay
-	c2948 [label=<<table title="org.osmdroid.views.overlay.FolderOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./FolderOverlay.html">
+	c3197 [label=<<table title="org.osmdroid.views.overlay.FolderOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./FolderOverlay.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> FolderOverlay </td></tr>
 		</table></td></tr>
 		</table>>, URL="./FolderOverlay.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.IconOverlay
-	c2953 [label=<<table title="org.osmdroid.views.overlay.IconOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./IconOverlay.html">
+	c3202 [label=<<table title="org.osmdroid.views.overlay.IconOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./IconOverlay.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> IconOverlay </td></tr>
 		</table></td></tr>
 		</table>>, URL="./IconOverlay.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.IOverlayMenuProvider
-	c2957 [label=<<table title="org.osmdroid.views.overlay.IOverlayMenuProvider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./IOverlayMenuProvider.html">
+	c3206 [label=<<table title="org.osmdroid.views.overlay.IOverlayMenuProvider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./IOverlayMenuProvider.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> IOverlayMenuProvider </td></tr>
 		</table></td></tr>
 		</table>>, URL="./IOverlayMenuProvider.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.ItemizedIconOverlay<Item extends org.osmdroid.views.overlay.OverlayItem>
-	c2958 [label=<<table title="org.osmdroid.views.overlay.ItemizedIconOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ItemizedIconOverlay.html">
+	c3207 [label=<<table title="org.osmdroid.views.overlay.ItemizedIconOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ItemizedIconOverlay.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> ItemizedIconOverlay&lt;Item extends OverlayItem&gt; </td></tr>
 		</table></td></tr>
 		</table>>, URL="./ItemizedIconOverlay.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.ItemizedIconOverlay.OnItemGestureListener<T>
-	c2959 [label=<<table title="org.osmdroid.views.overlay.ItemizedIconOverlay.OnItemGestureListener" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ItemizedIconOverlay.OnItemGestureListener.html">
+	c3208 [label=<<table title="org.osmdroid.views.overlay.ItemizedIconOverlay.OnItemGestureListener" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ItemizedIconOverlay.OnItemGestureListener.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> OnItemGestureListener&lt;T&gt; </td></tr>
 		</table></td></tr>
 		</table>>, URL="./ItemizedIconOverlay.OnItemGestureListener.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.ItemizedIconOverlay.ActiveItem
-	c2960 [label=<<table title="org.osmdroid.views.overlay.ItemizedIconOverlay.ActiveItem" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ItemizedIconOverlay.ActiveItem.html">
+	c3209 [label=<<table title="org.osmdroid.views.overlay.ItemizedIconOverlay.ActiveItem" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ItemizedIconOverlay.ActiveItem.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> ActiveItem </td></tr>
 		</table></td></tr>
 		</table>>, URL="./ItemizedIconOverlay.ActiveItem.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.ItemizedOverlay<Item extends org.osmdroid.views.overlay.OverlayItem>
-	c2961 [label=<<table title="org.osmdroid.views.overlay.ItemizedOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ItemizedOverlay.html">
+	c3210 [label=<<table title="org.osmdroid.views.overlay.ItemizedOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ItemizedOverlay.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> ItemizedOverlay&lt;Item extends OverlayItem&gt; </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./ItemizedOverlay.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.ItemizedOverlay.OnFocusChangeListener
-	c2962 [label=<<table title="org.osmdroid.views.overlay.ItemizedOverlay.OnFocusChangeListener" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ItemizedOverlay.OnFocusChangeListener.html">
+	c3211 [label=<<table title="org.osmdroid.views.overlay.ItemizedOverlay.OnFocusChangeListener" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ItemizedOverlay.OnFocusChangeListener.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> OnFocusChangeListener </td></tr>
 		</table></td></tr>
 		</table>>, URL="./ItemizedOverlay.OnFocusChangeListener.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.ItemizedOverlayControlView
-	c2963 [label=<<table title="org.osmdroid.views.overlay.ItemizedOverlayControlView" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ItemizedOverlayControlView.html">
+	c3212 [label=<<table title="org.osmdroid.views.overlay.ItemizedOverlayControlView" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ItemizedOverlayControlView.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> ItemizedOverlayControlView </td></tr>
 		</table></td></tr>
 		</table>>, URL="./ItemizedOverlayControlView.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.ItemizedOverlayControlView.ItemizedOverlayControlViewListener
-	c2964 [label=<<table title="org.osmdroid.views.overlay.ItemizedOverlayControlView.ItemizedOverlayControlViewListener" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ItemizedOverlayControlView.ItemizedOverlayControlViewListener.html">
+	c3213 [label=<<table title="org.osmdroid.views.overlay.ItemizedOverlayControlView.ItemizedOverlayControlViewListener" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ItemizedOverlayControlView.ItemizedOverlayControlViewListener.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> ItemizedOverlayControlViewListener </td></tr>
 		</table></td></tr>
 		</table>>, URL="./ItemizedOverlayControlView.ItemizedOverlayControlViewListener.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.ItemizedOverlayWithFocus<Item extends org.osmdroid.views.overlay.OverlayItem>
-	c2965 [label=<<table title="org.osmdroid.views.overlay.ItemizedOverlayWithFocus" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ItemizedOverlayWithFocus.html">
+	c3214 [label=<<table title="org.osmdroid.views.overlay.ItemizedOverlayWithFocus" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ItemizedOverlayWithFocus.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> ItemizedOverlayWithFocus&lt;Item extends OverlayItem&gt; </td></tr>
 		</table></td></tr>
 		</table>>, URL="./ItemizedOverlayWithFocus.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.MapEventsOverlay
-	c2966 [label=<<table title="org.osmdroid.views.overlay.MapEventsOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapEventsOverlay.html">
+	c3215 [label=<<table title="org.osmdroid.views.overlay.MapEventsOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapEventsOverlay.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MapEventsOverlay </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MapEventsOverlay.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.Marker
-	c2967 [label=<<table title="org.osmdroid.views.overlay.Marker" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Marker.html">
+	c3216 [label=<<table title="org.osmdroid.views.overlay.Marker" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Marker.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> Marker </td></tr>
 		</table></td></tr>
 		</table>>, URL="./Marker.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.Marker.OnMarkerClickListener
-	c2968 [label=<<table title="org.osmdroid.views.overlay.Marker.OnMarkerClickListener" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Marker.OnMarkerClickListener.html">
+	c3217 [label=<<table title="org.osmdroid.views.overlay.Marker.OnMarkerClickListener" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Marker.OnMarkerClickListener.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> OnMarkerClickListener </td></tr>
 		</table></td></tr>
 		</table>>, URL="./Marker.OnMarkerClickListener.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.Marker.OnMarkerDragListener
-	c2969 [label=<<table title="org.osmdroid.views.overlay.Marker.OnMarkerDragListener" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Marker.OnMarkerDragListener.html">
+	c3218 [label=<<table title="org.osmdroid.views.overlay.Marker.OnMarkerDragListener" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Marker.OnMarkerDragListener.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> OnMarkerDragListener </td></tr>
 		</table></td></tr>
 		</table>>, URL="./Marker.OnMarkerDragListener.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.MinimapOverlay
-	c2970 [label=<<table title="org.osmdroid.views.overlay.MinimapOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MinimapOverlay.html">
+	c3219 [label=<<table title="org.osmdroid.views.overlay.MinimapOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MinimapOverlay.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MinimapOverlay </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MinimapOverlay.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.NonAcceleratedOverlay
-	c2977 [label=<<table title="org.osmdroid.views.overlay.NonAcceleratedOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./NonAcceleratedOverlay.html">
+	c3226 [label=<<table title="org.osmdroid.views.overlay.NonAcceleratedOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./NonAcceleratedOverlay.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> NonAcceleratedOverlay </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./NonAcceleratedOverlay.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.Overlay
-	c2978 [label=<<table title="org.osmdroid.views.overlay.Overlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Overlay.html">
+	c3227 [label=<<table title="org.osmdroid.views.overlay.Overlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Overlay.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> Overlay </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./Overlay.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.Overlay.Snappable
-	c2979 [label=<<table title="org.osmdroid.views.overlay.Overlay.Snappable" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Overlay.Snappable.html">
+	c3228 [label=<<table title="org.osmdroid.views.overlay.Overlay.Snappable" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Overlay.Snappable.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> Snappable </td></tr>
 		</table></td></tr>
 		</table>>, URL="./Overlay.Snappable.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.OverlayItem
-	c2980 [label=<<table title="org.osmdroid.views.overlay.OverlayItem" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./OverlayItem.html">
+	c3229 [label=<<table title="org.osmdroid.views.overlay.OverlayItem" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./OverlayItem.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> OverlayItem </td></tr>
 		</table></td></tr>
 		</table>>, URL="./OverlayItem.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.OverlayItem.HotspotPlace
-	c2981 [label=<<table title="org.osmdroid.views.overlay.OverlayItem.HotspotPlace" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./OverlayItem.HotspotPlace.html">
+	c3230 [label=<<table title="org.osmdroid.views.overlay.OverlayItem.HotspotPlace" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./OverlayItem.HotspotPlace.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;enumeration&#187; </td></tr>
 <tr><td align="center" balign="center"> HotspotPlace </td></tr>
 		</table></td></tr>
 		</table>>, URL="./OverlayItem.HotspotPlace.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.OverlayManager
-	c2982 [label=<<table title="org.osmdroid.views.overlay.OverlayManager" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./OverlayManager.html">
+	c3231 [label=<<table title="org.osmdroid.views.overlay.OverlayManager" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./OverlayManager.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> OverlayManager </td></tr>
 		</table></td></tr>
 		</table>>, URL="./OverlayManager.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.OverlayWithIW
-	c2983 [label=<<table title="org.osmdroid.views.overlay.OverlayWithIW" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./OverlayWithIW.html">
+	c3232 [label=<<table title="org.osmdroid.views.overlay.OverlayWithIW" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./OverlayWithIW.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> OverlayWithIW </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./OverlayWithIW.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.PathOverlay
-	c2984 [label=<<table title="org.osmdroid.views.overlay.PathOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./PathOverlay.html">
+	c3233 [label=<<table title="org.osmdroid.views.overlay.PathOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./PathOverlay.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> PathOverlay </td></tr>
 		</table></td></tr>
 		</table>>, URL="./PathOverlay.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.Polygon
-	c2985 [label=<<table title="org.osmdroid.views.overlay.Polygon" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Polygon.html">
+	c3234 [label=<<table title="org.osmdroid.views.overlay.Polygon" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Polygon.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> Polygon </td></tr>
 		</table></td></tr>
 		</table>>, URL="./Polygon.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.Polygon.LinearRing
-	c2986 [label=<<table title="org.osmdroid.views.overlay.Polygon.LinearRing" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Polygon.LinearRing.html">
+	c3235 [label=<<table title="org.osmdroid.views.overlay.Polygon.LinearRing" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Polygon.LinearRing.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> LinearRing </td></tr>
 		</table></td></tr>
 		</table>>, URL="./Polygon.LinearRing.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.Polyline
-	c2987 [label=<<table title="org.osmdroid.views.overlay.Polyline" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Polyline.html">
+	c3236 [label=<<table title="org.osmdroid.views.overlay.Polyline" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Polyline.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> Polyline </td></tr>
 		</table></td></tr>
 		</table>>, URL="./Polyline.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.Polyline.OnClickListener
-	c2988 [label=<<table title="org.osmdroid.views.overlay.Polyline.OnClickListener" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Polyline.OnClickListener.html">
+	c3237 [label=<<table title="org.osmdroid.views.overlay.Polyline.OnClickListener" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Polyline.OnClickListener.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> OnClickListener </td></tr>
 		</table></td></tr>
 		</table>>, URL="./Polyline.OnClickListener.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.ScaleBarOverlay
-	c2989 [label=<<table title="org.osmdroid.views.overlay.ScaleBarOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ScaleBarOverlay.html">
+	c3238 [label=<<table title="org.osmdroid.views.overlay.ScaleBarOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ScaleBarOverlay.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> ScaleBarOverlay </td></tr>
 		</table></td></tr>
 		</table>>, URL="./ScaleBarOverlay.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.ScaleBarOverlay.UnitsOfMeasure
-	c2990 [label=<<table title="org.osmdroid.views.overlay.ScaleBarOverlay.UnitsOfMeasure" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ScaleBarOverlay.UnitsOfMeasure.html">
+	c3239 [label=<<table title="org.osmdroid.views.overlay.ScaleBarOverlay.UnitsOfMeasure" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ScaleBarOverlay.UnitsOfMeasure.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;enumeration&#187; </td></tr>
 <tr><td align="center" balign="center"> UnitsOfMeasure </td></tr>
 		</table></td></tr>
 		</table>>, URL="./ScaleBarOverlay.UnitsOfMeasure.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.TilesOverlay
-	c3001 [label=<<table title="org.osmdroid.views.overlay.TilesOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./TilesOverlay.html">
+	c3250 [label=<<table title="org.osmdroid.views.overlay.TilesOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./TilesOverlay.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> TilesOverlay </td></tr>
 		</table></td></tr>
 		</table>>, URL="./TilesOverlay.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.views.overlay.ClickableIconOverlay<DataType> extends org.osmdroid.views.overlay.IconOverlay
-	c2953:p -> c2942:p [dir=back,arrowtail=empty];
+	c3202:p -> c3190:p [dir=back,arrowtail=empty];
+	//org.osmdroid.views.overlay.CopyrightOverlay extends org.osmdroid.views.overlay.Overlay
+	c3227:p -> c3195:p [dir=back,arrowtail=empty];
 	//org.osmdroid.views.overlay.DefaultOverlayManager implements org.osmdroid.views.overlay.OverlayManager
-	c2982:p -> c2947:p [dir=back,arrowtail=empty,style=dashed];
+	c3231:p -> c3196:p [dir=back,arrowtail=empty,style=dashed];
 	//org.osmdroid.views.overlay.FolderOverlay extends org.osmdroid.views.overlay.Overlay
-	c2978:p -> c2948:p [dir=back,arrowtail=empty];
+	c3227:p -> c3197:p [dir=back,arrowtail=empty];
 	//org.osmdroid.views.overlay.IconOverlay extends org.osmdroid.views.overlay.Overlay
-	c2978:p -> c2953:p [dir=back,arrowtail=empty];
+	c3227:p -> c3202:p [dir=back,arrowtail=empty];
 	//org.osmdroid.views.overlay.ItemizedIconOverlay<Item extends org.osmdroid.views.overlay.OverlayItem> extends org.osmdroid.views.overlay.ItemizedOverlay<Item>
-	c2961:p -> c2958:p [dir=back,arrowtail=empty];
+	c3210:p -> c3207:p [dir=back,arrowtail=empty];
 	//org.osmdroid.views.overlay.ItemizedOverlay<Item extends org.osmdroid.views.overlay.OverlayItem> extends org.osmdroid.views.overlay.Overlay
-	c2978:p -> c2961:p [dir=back,arrowtail=empty];
+	c3227:p -> c3210:p [dir=back,arrowtail=empty];
 	//org.osmdroid.views.overlay.ItemizedOverlay<Item extends org.osmdroid.views.overlay.OverlayItem> implements org.osmdroid.views.overlay.Overlay.Snappable
-	c2979:p -> c2961:p [dir=back,arrowtail=empty,style=dashed];
+	c3228:p -> c3210:p [dir=back,arrowtail=empty,style=dashed];
 	//org.osmdroid.views.overlay.ItemizedOverlayWithFocus<Item extends org.osmdroid.views.overlay.OverlayItem> extends org.osmdroid.views.overlay.ItemizedIconOverlay<Item>
-	c2958:p -> c2965:p [dir=back,arrowtail=empty];
+	c3207:p -> c3214:p [dir=back,arrowtail=empty];
 	//org.osmdroid.views.overlay.MapEventsOverlay extends org.osmdroid.views.overlay.Overlay
-	c2978:p -> c2966:p [dir=back,arrowtail=empty];
+	c3227:p -> c3215:p [dir=back,arrowtail=empty];
 	//org.osmdroid.views.overlay.Marker extends org.osmdroid.views.overlay.OverlayWithIW
-	c2983:p -> c2967:p [dir=back,arrowtail=empty];
+	c3232:p -> c3216:p [dir=back,arrowtail=empty];
 	//org.osmdroid.views.overlay.MinimapOverlay extends org.osmdroid.views.overlay.TilesOverlay
-	c3001:p -> c2970:p [dir=back,arrowtail=empty];
+	c3250:p -> c3219:p [dir=back,arrowtail=empty];
 	//org.osmdroid.views.overlay.NonAcceleratedOverlay extends org.osmdroid.views.overlay.Overlay
-	c2978:p -> c2977:p [dir=back,arrowtail=empty];
+	c3227:p -> c3226:p [dir=back,arrowtail=empty];
 	//org.osmdroid.views.overlay.OverlayWithIW extends org.osmdroid.views.overlay.Overlay
-	c2978:p -> c2983:p [dir=back,arrowtail=empty];
+	c3227:p -> c3232:p [dir=back,arrowtail=empty];
 	//org.osmdroid.views.overlay.PathOverlay extends org.osmdroid.views.overlay.Overlay
-	c2978:p -> c2984:p [dir=back,arrowtail=empty];
+	c3227:p -> c3233:p [dir=back,arrowtail=empty];
 	//org.osmdroid.views.overlay.Polygon extends org.osmdroid.views.overlay.OverlayWithIW
-	c2983:p -> c2985:p [dir=back,arrowtail=empty];
+	c3232:p -> c3234:p [dir=back,arrowtail=empty];
 	//org.osmdroid.views.overlay.Polyline extends org.osmdroid.views.overlay.OverlayWithIW
-	c2983:p -> c2987:p [dir=back,arrowtail=empty];
+	c3232:p -> c3236:p [dir=back,arrowtail=empty];
 	//org.osmdroid.views.overlay.ScaleBarOverlay extends org.osmdroid.views.overlay.Overlay
-	c2978:p -> c2989:p [dir=back,arrowtail=empty];
+	c3227:p -> c3238:p [dir=back,arrowtail=empty];
 	//org.osmdroid.views.overlay.TilesOverlay extends org.osmdroid.views.overlay.Overlay
-	c2978:p -> c3001:p [dir=back,arrowtail=empty];
+	c3227:p -> c3250:p [dir=back,arrowtail=empty];
 	//org.osmdroid.views.overlay.TilesOverlay implements org.osmdroid.views.overlay.IOverlayMenuProvider
-	c2957:p -> c3001:p [dir=back,arrowtail=empty,style=dashed];
+	c3206:p -> c3250:p [dir=back,arrowtail=empty,style=dashed];
 }
 

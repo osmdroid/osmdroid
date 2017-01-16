@@ -1,0 +1,18 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="./AboutFragment.html" title="org.osmdroid.intro.AboutFragment" alt="" coords="16,17,124,42"/>
+<area shape="rect" id="node1" href="./AboutFragment.html" title="&lt;TABLE&gt;" alt="" coords="5,5,135,53"/>
+<area shape="rect" id="node2_1" href="./DataUseWarning.html" title="org.osmdroid.intro.DataUseWarning" alt="" coords="170,17,287,42"/>
+<area shape="rect" id="node2" href="./DataUseWarning.html" title="&lt;TABLE&gt;" alt="" coords="159,5,298,53"/>
+<area shape="rect" id="node3_2" href="./IntroActivity.html" title="org.osmdroid.intro.IntroActivity" alt="" coords="333,17,420,42"/>
+<area shape="rect" id="node3" href="./IntroActivity.html" title="&lt;TABLE&gt;" alt="" coords="323,5,431,53"/>
+<area shape="rect" id="node4_3" href="./IntroSliderAdapter.html" title="org.osmdroid.intro.IntroSliderAdapter" alt="" coords="466,17,589,42"/>
+<area shape="rect" id="node4" href="./IntroSliderAdapter.html" title="&lt;TABLE&gt;" alt="" coords="455,5,599,53"/>
+<area shape="rect" id="node5_4" href="./LogoFragment.html" title="org.osmdroid.intro.LogoFragment" alt="" coords="635,17,737,42"/>
+<area shape="rect" id="node5" href="./LogoFragment.html" title="&lt;TABLE&gt;" alt="" coords="624,5,748,53"/>
+<area shape="rect" id="node6_5" href="./PermissionsFragment.html" title="org.osmdroid.intro.PermissionsFragment" alt="" coords="783,17,930,42"/>
+<area shape="rect" id="node6" href="./PermissionsFragment.html" title="&lt;TABLE&gt;" alt="" coords="773,5,941,53"/>
+<area shape="rect" id="node7_6" href="./StoragePreferenceFragment.html" title="org.osmdroid.intro.StoragePreferenceFragment" alt="" coords="975,17,1157,42"/>
+<area shape="rect" id="node7" href="./StoragePreferenceFragment.html" title="&lt;TABLE&gt;" alt="" coords="965,5,1167,53"/>
+<area shape="rect" id="node8_7" href="./TileSourceWarnings.html" title="org.osmdroid.intro.TileSourceWarnings" alt="" coords="1202,17,1338,42"/>
+<area shape="rect" id="node8" href="./TileSourceWarnings.html" title="&lt;TABLE&gt;" alt="" coords="1191,5,1349,53"/>
+</map>

@@ -3,6 +3,8 @@
 <area shape="rect" id="node1" href="./MapTileDownloader.html" title="&lt;TABLE&gt;" alt="" coords="5,101,159,149"/>
 <area shape="rect" id="node2_1" href="./MapTileFileStorageProviderBase.html" title="org.osmdroid.tileprovider.modules.MapTileFileStorageProviderBase" alt="" coords="194,113,402,138"/>
 <area shape="rect" id="node2" href="./MapTileFileStorageProviderBase.html" title="&lt;TABLE&gt;" alt="" coords="183,101,413,149"/>
-<area shape="rect" id="node3_2" href="./MapTileModuleProviderBase.html" title="org.osmdroid.tileprovider.modules.MapTileModuleProviderBase" alt="" coords="99,17,281,42"/>
-<area shape="rect" id="node3" href="./MapTileModuleProviderBase.html" title="&lt;TABLE&gt;" alt="" coords="88,5,292,53"/>
+<area shape="rect" id="node3_2" href="./MapTileModuleProviderBase.html" title="org.osmdroid.tileprovider.modules.MapTileModuleProviderBase" alt="" coords="207,17,389,42"/>
+<area shape="rect" id="node3" href="./MapTileModuleProviderBase.html" title="&lt;TABLE&gt;" alt="" coords="196,5,400,53"/>
+<area shape="rect" id="node4_3" href="../../gpkg/GeoPackageMapTileModuleProvider.html" title="org.osmdroid.gpkg.GeoPackageMapTileModuleProvider" alt="" coords="448,113,676,138"/>
+<area shape="rect" id="node4" href="../../gpkg/GeoPackageMapTileModuleProvider.html" title="&lt;TABLE&gt;" alt="" coords="437,101,687,149"/>
 </map>

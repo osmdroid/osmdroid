@@ -1,14 +1,16 @@
 <map id="G" name="G">
-<area shape="rect" id="node1_0" href="../samplefragments/data/SampleGridlines.html" title="org.osmdroid.samplefragments.data.SampleGridlines" alt="" coords="16,118,131,143"/>
-<area shape="rect" id="node1" href="../samplefragments/data/SampleGridlines.html" title="&lt;TABLE&gt;" alt="" coords="5,107,141,155"/>
-<area shape="rect" id="node2_1" href="../samplefragments/data/SampleOsmPath.html" title="org.osmdroid.samplefragments.data.SampleOsmPath" alt="" coords="177,118,295,143"/>
-<area shape="rect" id="node2" href="../samplefragments/data/SampleOsmPath.html" title="&lt;TABLE&gt;" alt="" coords="166,107,306,155"/>
-<area shape="rect" id="node3_2" href="../samplefragments/layouts/SampleSplitScreen.html" title="org.osmdroid.samplefragments.layouts.SampleSplitScreen" alt="" coords="341,118,472,143"/>
-<area shape="rect" id="node3" href="../samplefragments/layouts/SampleSplitScreen.html" title="&lt;TABLE&gt;" alt="" coords="331,107,483,155"/>
-<area shape="rect" id="node4_3" href="./DelayedMapListener.html" title="org.osmdroid.events.DelayedMapListener" alt="" coords="518,118,655,143"/>
-<area shape="rect" id="node4" href="./DelayedMapListener.html" title="&lt;TABLE&gt;" alt="" coords="507,107,666,155"/>
-<area shape="rect" id="node5_4" href="./MapAdapter.html" title="org.osmdroid.events.MapAdapter" alt="" coords="701,118,789,143"/>
-<area shape="rect" id="node5" href="./MapAdapter.html" title="&lt;TABLE&gt;" alt="" coords="691,107,800,155"/>
-<area shape="rect" id="node6_5" href="./MapListener.html" title="org.osmdroid.events.MapListener" alt="" coords="361,11,452,53"/>
-<area shape="rect" id="node6" href="./MapListener.html" title="&lt;TABLE&gt;" alt="" coords="351,5,463,59"/>
+<area shape="rect" id="node1_0" href="../samplefragments/data/HeatMap.html" title="org.osmdroid.samplefragments.data.HeatMap" alt="" coords="16,118,88,143"/>
+<area shape="rect" id="node1" href="../samplefragments/data/HeatMap.html" title="&lt;TABLE&gt;" alt="" coords="5,107,99,155"/>
+<area shape="rect" id="node2_1" href="../samplefragments/data/SampleGridlines.html" title="org.osmdroid.samplefragments.data.SampleGridlines" alt="" coords="133,118,248,143"/>
+<area shape="rect" id="node2" href="../samplefragments/data/SampleGridlines.html" title="&lt;TABLE&gt;" alt="" coords="123,107,259,155"/>
+<area shape="rect" id="node3_2" href="../samplefragments/data/SampleOsmPath.html" title="org.osmdroid.samplefragments.data.SampleOsmPath" alt="" coords="294,118,413,143"/>
+<area shape="rect" id="node3" href="../samplefragments/data/SampleOsmPath.html" title="&lt;TABLE&gt;" alt="" coords="283,107,423,155"/>
+<area shape="rect" id="node4_3" href="../samplefragments/layouts/SampleSplitScreen.html" title="org.osmdroid.samplefragments.layouts.SampleSplitScreen" alt="" coords="459,118,589,143"/>
+<area shape="rect" id="node4" href="../samplefragments/layouts/SampleSplitScreen.html" title="&lt;TABLE&gt;" alt="" coords="448,107,600,155"/>
+<area shape="rect" id="node5_4" href="./DelayedMapListener.html" title="org.osmdroid.events.DelayedMapListener" alt="" coords="635,118,773,143"/>
+<area shape="rect" id="node5" href="./DelayedMapListener.html" title="&lt;TABLE&gt;" alt="" coords="625,107,783,155"/>
+<area shape="rect" id="node6_5" href="./MapAdapter.html" title="org.osmdroid.events.MapAdapter" alt="" coords="819,118,907,143"/>
+<area shape="rect" id="node6" href="./MapAdapter.html" title="&lt;TABLE&gt;" alt="" coords="808,107,917,155"/>
+<area shape="rect" id="node7_6" href="./MapListener.html" title="org.osmdroid.events.MapListener" alt="" coords="393,11,484,53"/>
+<area shape="rect" id="node7" href="./MapListener.html" title="&lt;TABLE&gt;" alt="" coords="383,5,495,59"/>
 </map>

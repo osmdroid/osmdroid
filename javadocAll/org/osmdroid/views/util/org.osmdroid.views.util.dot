@@ -10,19 +10,19 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.views.util.Mercator
-	c15463 [label=<<table title="org.osmdroid.views.util.Mercator" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Mercator.html">
+	c19982 [label=<<table title="org.osmdroid.views.util.Mercator" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Mercator.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> Mercator </td></tr>
 		</table></td></tr>
 		</table>>, URL="./Mercator.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.util.MyMath
-	c15464 [label=<<table title="org.osmdroid.views.util.MyMath" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MyMath.html">
+	c19983 [label=<<table title="org.osmdroid.views.util.MyMath" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MyMath.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MyMath </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MyMath.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.util.PathProjection
-	c15465 [label=<<table title="org.osmdroid.views.util.PathProjection" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./PathProjection.html">
+	c19984 [label=<<table title="org.osmdroid.views.util.PathProjection" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./PathProjection.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> PathProjection </td></tr>
 		</table></td></tr>

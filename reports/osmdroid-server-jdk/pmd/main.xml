@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pmd version="5.2.3" timestamp="2017-01-16T12:09:56.262">
+<file name=".\osmdroid-server-jdk\src\main\java\org\osmdroid\server\jdk\TileFetcher.java">
+<violation beginline="75" endline="75" begincolumn="21" endcolumn="38" rule="SystemPrintln" ruleset="Java Logging" package="org.osmdroid.server.jdk" class="TileFetcher" method="initDatabases" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.2.3/pmd-java/rules/java/logging-java.html#SystemPrintln" priority="2">
+System.out.println is used
+</violation>
+<violation beginline="78" endline="78" begincolumn="21" endcolumn="39" rule="AvoidPrintStackTrace" ruleset="Java Logging" package="org.osmdroid.server.jdk" class="TileFetcher" method="initDatabases" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.2.3/pmd-java/rules/java/logging-java.html#AvoidPrintStackTrace" priority="3">
+Avoid printStackTrace(); use a logger call instead.
+</violation>
+<violation beginline="90" endline="90" begincolumn="11" endcolumn="28" rule="SystemPrintln" ruleset="Java Logging" package="org.osmdroid.server.jdk" class="TileFetcher" method="getSourceList" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.2.3/pmd-java/rules/java/logging-java.html#SystemPrintln" priority="2">
+System.out.println is used
+</violation>
+<violation beginline="108" endline="108" begincolumn="16" endcolumn="33" rule="SystemPrintln" ruleset="Java Logging" package="org.osmdroid.server.jdk" class="TileFetcher" method="getImage" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.2.3/pmd-java/rules/java/logging-java.html#SystemPrintln" priority="2">
+System.err.println is used
+</violation>
+<violation beginline="116" endline="116" begincolumn="16" endcolumn="33" rule="SystemPrintln" ruleset="Java Logging" package="org.osmdroid.server.jdk" class="TileFetcher" method="getImage" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.2.3/pmd-java/rules/java/logging-java.html#SystemPrintln" priority="2">
+System.out.println is used
+</violation>
+<violation beginline="126" endline="126" begincolumn="16" endcolumn="33" rule="SystemPrintln" ruleset="Java Logging" package="org.osmdroid.server.jdk" class="TileFetcher" method="getImage" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.2.3/pmd-java/rules/java/logging-java.html#SystemPrintln" priority="2">
+System.out.println is used
+</violation>
+<violation beginline="128" endline="128" begincolumn="16" endcolumn="35" rule="AvoidPrintStackTrace" ruleset="Java Logging" package="org.osmdroid.server.jdk" class="TileFetcher" method="getImage" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.2.3/pmd-java/rules/java/logging-java.html#AvoidPrintStackTrace" priority="3">
+Avoid printStackTrace(); use a logger call instead.
+</violation>
+<violation beginline="139" endline="139" begincolumn="50" endcolumn="96" rule="AvoidDuplicateLiterals" ruleset="String and StringBuffer" package="org.osmdroid.server.jdk" class="TileFetcher" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.2.3/pmd-java/rules/java/strings.html#AvoidDuplicateLiterals" priority="3">
+The String literal &quot;Returns a basic html viewer of the slippy map&quot; appears 4 times in this file; the first occurrence is on line 139
+</violation>
+<violation beginline="182" endline="182" begincolumn="13" endcolumn="32" rule="AvoidPrintStackTrace" ruleset="Java Logging" package="org.osmdroid.server.jdk" class="TileFetcher" method="getFile" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.2.3/pmd-java/rules/java/logging-java.html#AvoidPrintStackTrace" priority="3">
+Avoid printStackTrace(); use a logger call instead.
+</violation>
+<violation beginline="183" endline="183" begincolumn="13" endcolumn="30" rule="SystemPrintln" ruleset="Java Logging" package="org.osmdroid.server.jdk" class="TileFetcher" method="getFile" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.2.3/pmd-java/rules/java/logging-java.html#SystemPrintln" priority="2">
+System.err.println is used
+</violation>
+</file>
+<file name=".\osmdroid-server-jdk\src\main\java\org\osmdroid\server\jdk\TileServer.java">
+<violation beginline="19" endline="19" begincolumn="13" endcolumn="36" rule="SuspiciousConstantFieldName" ruleset="Naming" package="org.osmdroid.server.jdk" class="TileServer" variable="ENDPOINT_ADDRESS" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.2.3/pmd-java/rules/java/naming.html#SuspiciousConstantFieldName" priority="3">
+The field name indicates a constant but its modifiers do not
+</violation>
+<violation beginline="22" endline="22" begincolumn="11" endcolumn="28" rule="SystemPrintln" ruleset="Java Logging" package="org.osmdroid.server.jdk" class="TileServer" method="main" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.2.3/pmd-java/rules/java/logging-java.html#SystemPrintln" priority="2">
+System.out.println is used
+</violation>
+<violation beginline="23" endline="23" begincolumn="11" endcolumn="28" rule="SystemPrintln" ruleset="Java Logging" package="org.osmdroid.server.jdk" class="TileServer" method="main" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.2.3/pmd-java/rules/java/logging-java.html#SystemPrintln" priority="2">
+System.out.println is used
+</violation>
+<violation beginline="24" endline="24" begincolumn="11" endcolumn="28" rule="SystemPrintln" ruleset="Java Logging" package="org.osmdroid.server.jdk" class="TileServer" method="main" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.2.3/pmd-java/rules/java/logging-java.html#SystemPrintln" priority="2">
+System.out.println is used
+</violation>
+<violation beginline="29" endline="29" begincolumn="21" endcolumn="40" rule="AvoidPrintStackTrace" ruleset="Java Logging" package="org.osmdroid.server.jdk" class="TileServer" method="main" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.2.3/pmd-java/rules/java/logging-java.html#AvoidPrintStackTrace" priority="3">
+Avoid printStackTrace(); use a logger call instead.
+</violation>
+<violation beginline="34" endline="34" begincolumn="11" endcolumn="28" rule="SystemPrintln" ruleset="Java Logging" package="org.osmdroid.server.jdk" class="TileServer" method="main" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.2.3/pmd-java/rules/java/logging-java.html#SystemPrintln" priority="2">
+System.out.println is used
+</violation>
+<violation beginline="39" endline="39" begincolumn="16" endcolumn="33" rule="SystemPrintln" ruleset="Java Logging" package="org.osmdroid.server.jdk" class="TileServer" method="main" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.2.3/pmd-java/rules/java/logging-java.html#SystemPrintln" priority="2">
+System.out.println is used
+</violation>
+<violation beginline="42" endline="42" begincolumn="16" endcolumn="33" rule="SystemPrintln" ruleset="Java Logging" package="org.osmdroid.server.jdk" class="TileServer" method="main" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.2.3/pmd-java/rules/java/logging-java.html#SystemPrintln" priority="2">
+System.out.println is used
+</violation>
+</file>
+</pmd>
+

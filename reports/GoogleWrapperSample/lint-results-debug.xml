@@ -353,6 +353,22 @@ If not set to false, and if targeting API 23 or later, lint will also warn that 
     <issue
         id="UnusedResources"
         severity="Warning"
+        message="The resource `R.layout.map_with_locationbox` appears to be unused"
+        category="Performance"
+        priority="3"
+        summary="Unused resources"
+        explanation="Unused resources make applications larger and slow down builds."
+        errorLine1="&lt;RelativeLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;"
+        errorLine2="^">
+        <location
+            file=".\GoogleWrapperSample\src\main\res\layout\map_with_locationbox.xml"
+            line="2"
+            column="1"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        severity="Warning"
         message="The resource `R.string.map_view_google_v1` appears to be unused"
         category="Performance"
         priority="3"

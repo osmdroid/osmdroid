@@ -33,14 +33,8 @@ digraph G {
 <tr><td align="center" balign="center"> MapsActivity </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MapsActivity.html", fontname="arial", fontcolor="black", fontsize=10.0];
-	// org.osmdroid.google.sample.OsmMapActivity
-	c4 [label=<<table title="org.osmdroid.google.sample.OsmMapActivity" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./OsmMapActivity.html">
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> OsmMapActivity </td></tr>
-		</table></td></tr>
-		</table>>, URL="./OsmMapActivity.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.google.sample.MainActivityTest
-	c5 [label=<<table title="org.osmdroid.google.sample.MainActivityTest" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MainActivityTest.html">
+	c4 [label=<<table title="org.osmdroid.google.sample.MainActivityTest" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MainActivityTest.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MainActivityTest </td></tr>
 		</table></td></tr>

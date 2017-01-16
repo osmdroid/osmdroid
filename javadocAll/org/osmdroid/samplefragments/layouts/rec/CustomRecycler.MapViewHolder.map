@@ -1,0 +1,6 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="./CustomRecycler.ViewHolder.html" title="org.osmdroid.samplefragments.layouts.rec.CustomRecycler.ViewHolder" alt="" coords="29,17,113,42"/>
+<area shape="rect" id="node1" href="./CustomRecycler.ViewHolder.html" title="&lt;TABLE&gt;" alt="" coords="18,5,123,53"/>
+<area shape="rect" id="node2_1" href="./CustomRecycler.MapViewHolder.html" title="org.osmdroid.samplefragments.layouts.rec.CustomRecycler.MapViewHolder" alt="" coords="16,113,125,138"/>
+<area shape="rect" id="node2" href="./CustomRecycler.MapViewHolder.html" title="&lt;TABLE&gt;" alt="" coords="5,101,136,149"/>
+</map>

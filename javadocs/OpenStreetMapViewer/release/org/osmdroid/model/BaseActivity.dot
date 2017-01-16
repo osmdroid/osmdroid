@@ -10,23 +10,32 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.bugtestfragments.WeathForceActivity
-	c1834 [label=<<table title="org.osmdroid.bugtestfragments.WeathForceActivity" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../bugtestfragments/WeathForceActivity.html">
+	c3583 [label=<<table title="org.osmdroid.bugtestfragments.WeathForceActivity" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../bugtestfragments/WeathForceActivity.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> WeathForceActivity </td></tr>
 		</table></td></tr>
 		</table>>, URL="../bugtestfragments/WeathForceActivity.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.model.BaseActivity
-	c1848 [label=<<table title="org.osmdroid.model.BaseActivity" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./BaseActivity.html">
+	c3606 [label=<<table title="org.osmdroid.model.BaseActivity" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./BaseActivity.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> BaseActivity </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./BaseActivity.html", fontname="arial", fontcolor="black", fontsize=10.0];
+	// org.osmdroid.model.IBaseActivity
+	c3607 [label=<<table title="org.osmdroid.model.IBaseActivity" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./IBaseActivity.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
+<tr><td align="center" balign="center"> IBaseActivity </td></tr>
+		</table></td></tr>
+		</table>>, URL="./IBaseActivity.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.bugtestfragments.WeathForceActivity extends org.osmdroid.model.BaseActivity
-	c1848:p -> c1834:p [dir=back,arrowtail=empty];
+	c3606:p -> c3583:p [dir=back,arrowtail=empty];
 	//org.osmdroid.model.BaseActivity extends Activity
-	c1914:p -> c1848:p [dir=back,arrowtail=empty];
+	c3702:p -> c3606:p [dir=back,arrowtail=empty];
+	//org.osmdroid.model.BaseActivity implements org.osmdroid.model.IBaseActivity
+	c3607:p -> c3606:p [dir=back,arrowtail=empty,style=dashed];
 	// Activity
-	c1914[label=<<table title="Activity" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api//Activity.html">
+	c3702[label=<<table title="Activity" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api//Activity.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> Activity </td></tr>
 		</table></td></tr>

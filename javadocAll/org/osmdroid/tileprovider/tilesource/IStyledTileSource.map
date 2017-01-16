@@ -1,8 +1,8 @@
 <map id="G" name="G">
-<area shape="rect" id="node1_0" href="./CloudmadeTileSource.html" title="org.osmdroid.tileprovider.tilesource.CloudmadeTileSource" alt="" coords="16,118,161,143"/>
-<area shape="rect" id="node1" href="./CloudmadeTileSource.html" title="&lt;TABLE&gt;" alt="" coords="5,107,172,155"/>
-<area shape="rect" id="node2_1" href="./IStyledTileSource.html" title="org.osmdroid.tileprovider.tilesource.IStyledTileSource" alt="" coords="109,11,253,53"/>
-<area shape="rect" id="node2" href="./IStyledTileSource.html" title="&lt;TABLE&gt;" alt="" coords="98,5,263,59"/>
-<area shape="rect" id="node3_2" href="./bing/BingMapTileSource.html" title="org.osmdroid.tileprovider.tilesource.bing.BingMapTileSource" alt="" coords="207,118,339,143"/>
-<area shape="rect" id="node3" href="./bing/BingMapTileSource.html" title="&lt;TABLE&gt;" alt="" coords="196,107,349,155"/>
+<area shape="rect" id="node1_0" href="./bing/BingMapTileSource.html" title="org.osmdroid.tileprovider.tilesource.bing.BingMapTileSource" alt="" coords="16,118,148,143"/>
+<area shape="rect" id="node1" href="./bing/BingMapTileSource.html" title="&lt;TABLE&gt;" alt="" coords="5,107,159,155"/>
+<area shape="rect" id="node2_1" href="./CloudmadeTileSource.html" title="org.osmdroid.tileprovider.tilesource.CloudmadeTileSource" alt="" coords="193,118,339,143"/>
+<area shape="rect" id="node2" href="./CloudmadeTileSource.html" title="&lt;TABLE&gt;" alt="" coords="183,107,349,155"/>
+<area shape="rect" id="node3_2" href="./IStyledTileSource.html" title="org.osmdroid.tileprovider.tilesource.IStyledTileSource" alt="" coords="102,11,246,53"/>
+<area shape="rect" id="node3" href="./IStyledTileSource.html" title="&lt;TABLE&gt;" alt="" coords="91,5,257,59"/>
 </map>

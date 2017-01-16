@@ -1,0 +1,10 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="./MapFragment.html" title="org.osmdroid.samplefragments.layouts.pager.MapFragment" alt="" coords="16,17,116,42"/>
+<area shape="rect" id="node1" href="./MapFragment.html" title="&lt;TABLE&gt;" alt="" coords="5,5,127,53"/>
+<area shape="rect" id="node2_1" href="./MapSliderAdapter.html" title="org.osmdroid.samplefragments.layouts.pager.MapSliderAdapter" alt="" coords="162,17,285,42"/>
+<area shape="rect" id="node2" href="./MapSliderAdapter.html" title="&lt;TABLE&gt;" alt="" coords="151,5,295,53"/>
+<area shape="rect" id="node3_2" href="./SimpleTextFragment.html" title="org.osmdroid.samplefragments.layouts.pager.SimpleTextFragment" alt="" coords="331,17,471,42"/>
+<area shape="rect" id="node3" href="./SimpleTextFragment.html" title="&lt;TABLE&gt;" alt="" coords="320,5,481,53"/>
+<area shape="rect" id="node4_3" href="./WebviewFragment.html" title="org.osmdroid.samplefragments.layouts.pager.WebviewFragment" alt="" coords="517,17,642,42"/>
+<area shape="rect" id="node4" href="./WebviewFragment.html" title="&lt;TABLE&gt;" alt="" coords="506,5,653,53"/>
+</map>

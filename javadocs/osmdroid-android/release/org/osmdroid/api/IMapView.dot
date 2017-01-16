@@ -10,19 +10,19 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.api.IMapView
-	c11899 [label=<<table title="org.osmdroid.api.IMapView" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./IMapView.html">
+	c12710 [label=<<table title="org.osmdroid.api.IMapView" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./IMapView.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> IMapView </td></tr>
 		</table></td></tr>
 		</table>>, URL="./IMapView.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.MapView
-	c11999 [label=<<table title="org.osmdroid.views.MapView" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../views/MapView.html">
+	c12813 [label=<<table title="org.osmdroid.views.MapView" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../views/MapView.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MapView </td></tr>
 		</table></td></tr>
 		</table>>, URL="../views/MapView.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.views.MapView implements org.osmdroid.api.IMapView
-	c11899:p -> c11999:p [dir=back,arrowtail=empty,style=dashed];
+	c12710:p -> c12813:p [dir=back,arrowtail=empty,style=dashed];
 }
 

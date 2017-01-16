@@ -10,19 +10,19 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.api.IMap
-	c69506 [label=<<table title="org.osmdroid.api.IMap" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../../api/IMap.html">
+	c89982 [label=<<table title="org.osmdroid.api.IMap" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../../api/IMap.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> IMap </td></tr>
 		</table></td></tr>
 		</table>>, URL="../../../api/IMap.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.google.wrapper.v2.MapWrapper
-	c69524 [label=<<table title="org.osmdroid.google.wrapper.v2.MapWrapper" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./MapWrapper.html">
+	c90000 [label=<<table title="org.osmdroid.google.wrapper.v2.MapWrapper" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./MapWrapper.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MapWrapper </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MapWrapper.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.google.wrapper.v2.MapWrapper implements org.osmdroid.api.IMap
-	c69506:p -> c69524:p [dir=back,arrowtail=empty,style=dashed];
+	c89982:p -> c90000:p [dir=back,arrowtail=empty,style=dashed];
 }
 

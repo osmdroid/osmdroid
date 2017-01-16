@@ -8,7 +8,7 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta name="Date-Creation-yyyymmdd" content="20080101"/>
-    <meta name="Date-Revision-yyyymmdd" content="20161228"/>
+    <meta name="Date-Revision-yyyymmdd" content="20170116"/>
     <meta http-equiv="Content-Language" content="en"/>
     <title> osmdroid</title>
     <link rel="stylesheet" href="./css/apache-maven-fluido-1.4.min.css"/>
@@ -65,10 +65,10 @@
             </li>
 
             <li id="publishDate" class="pull-right"><span class="divider">|</span> Last Published:
-                2016-12-28
+                2017-01-16
             </li>
             <li id="projectVersion" class="pull-right">
-                5.6.2
+                5.6.3
             </li>
 
         </ul>
@@ -342,13 +342,13 @@
 <tr><th></th><th></th></tr>
 </thead>
 <tbody>
-<tr><td>Modules:</td><td>9</td></tr>
-<tr><td>Number of dependencies (NOD):</td><td>30</td></tr>
-<tr><td>Number of unique artifacts (NOA):</td><td>31</td></tr>
-<tr><td>Number of version-conflicting artifacts (NOC):</td><td>2</td></tr>
+<tr><td>Modules:</td><td>10</td></tr>
+<tr><td>Number of dependencies (NOD):</td><td>55</td></tr>
+<tr><td>Number of unique artifacts (NOA):</td><td>58</td></tr>
+<tr><td>Number of version-conflicting artifacts (NOC):</td><td>6</td></tr>
 <tr><td>Number of SNAPSHOT artifacts (NOS):</td><td>0</td></tr>
-<tr><td>Number of Wildcard artifacts (NOWC):</td><td>7</td></tr>
-<tr><td>Convergence (NOD/NOA):</td><td>96%</td></tr>
+<tr><td>Number of Wildcard artifacts (NOWC):</td><td>10</td></tr>
+<tr><td>Convergence (NOD/NOA):</td><td>94%</td></tr>
 <tr><td>Ready for release (100 % convergence and no SNAPSHOTS):</td><td><strong>Error</strong><br>You do not have 100 % convergence.</td></tr>
 </tbody>
 </table>
@@ -361,8 +361,14 @@ dependencies {
 	compile: 'com.atlassian.commonmark:commonmark-ext-gfm-tables:0.7.0'
 	compile: 'com.atlassian.commonmark:commonmark-ext-gfm-strikethrough:0.7.0'
 	compile: 'com.atlassian.commonmark:commonmark-ext-autolink:0.7.0'
-	compile: 'org.apache.commons:commons-lang3:3.4'
-	compile: 'commons-io:commons-io:2.5'
+
+
+//WARN dependency converage flag! Currently used by the modules: [root buildscript, osmdroid-server-jdk]
+	compile: 'org.apache.commons:commons-lang3:3.1@jar'
+	compile: 'org.apache.commons:commons-lang3:3.4@jar'
+//END WARN dependency converage flag!
+
+    	compile: 'commons-io:commons-io:2.5'
 	compile: 'org.jsoup:jsoup:1.9.2'
 	compile: 'org.asciidoctor:asciidoctorj:1.5.4'
 	compile: 'com.android.support:support-annotations:23+'
@@ -370,7 +376,7 @@ dependencies {
 	compile: 'com.android.support.test:rules:0.4.+'
 
 
-//WARN dependency converage flag! Currently used by the modules: [osmdroid-forge-app, GoogleWrapperSample]
+//WARN dependency converage flag! Currently used by the modules: [GoogleWrapperSample]
 	compile: 'com.android.support:appcompat-v7:23.1.1'
 	compile: 'com.android.support:appcompat-v7:23.+'
 //END WARN dependency converage flag!
@@ -378,20 +384,51 @@ dependencies {
     	compile: 'com.google.android.gms:play-services:8.+'
 	compile: 'com.google.android.gms:play-services-maps:8.+'
 	compile: 'com.android.support:support-v4:23+'
-	compile: 'org.osmdroid:osmdroid-android:5.6.2@aar'
-	compile: 'org.osmdroid:osmdroid-third-party:5.6.2@aar'
+	compile: 'org.osmdroid:osmdroid-android:5.6.3@aar'
+	compile: 'org.osmdroid:osmdroid-third-party:5.6.3@aar'
 	compile: 'junit:junit:4.12@jar'
 	compile: 'org.jacoco:org.jacoco.agent:0.7.4.201502262128@jar'
 	compile: 'org.jacoco:org.jacoco.ant:0.7.4.201502262128@jar'
 	compile: 'org.apache.httpcomponents:httpmime:4.0.1@jar'
 	compile: 'org.apache.james:apache-mime4j:0.6@jar'
+
+
+//WARN dependency converage flag! Currently used by the modules: [osmdroid-server-jdk, OSMMapTilePackager]
+	compile: 'org.xerial:sqlite-jdbc:3.8.7@jar'
 	compile: 'org.xerial:sqlite-jdbc:3.7.2@jar'
+//END WARN dependency converage flag!
+
+    	compile: 'org.osmdroid:osmdroid-geopackage:5.6.3@aar'
+	compile: 'org.osmdroid:osmdroid-mapsforge:5.6.3@aar'
+	compile: 'com.android.support:design:23.+'
+	compile: 'com.android.support:cardview-v7:23.+'
+	compile: 'com.android.support:recyclerview-v7:23.+'
 	compile: 'ch.acra:acra:4.7.0@aar'
 	compile: 'com.squareup.leakcanary:leakcanary-android:1.4-beta2@aar'
 	compile: 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2@aar'
-	compile: 'org.osmdroid:osmdroid-mapsforge:5.6.2@aar'
+	compile: 'mil.nga.geopackage:geopackage-android:1.3.0@aar'
+	compile: 'com.j256.ormlite:ormlite-android:4.48@jar'
+	compile: 'mil.nga.geopackage:geopackage-core:1.2.0@jar'
+	compile: 'ar.com.hjg:pngj:2.1.0@jar'
+	compile: 'mil.nga:tiff:1.0.0@jar'
 	compile: 'org.mapsforge:mapsforge-map-android:0.6.1@jar'
 	compile: 'org.mapsforge:mapsforge-map:0.6.1@jar'
+	compile: 'javax.servlet:servlet-api:2.5@jar'
+	compile: 'commons-configuration:commons-configuration:1.9@jar'
+	compile: 'commons-collections:commons-collections:3.2@jar'
+	compile: 'org.apache.cxf:cxf-bundle-jaxrs:2.7.5@jar'
+	compile: 'org.springframework:spring-test:3.2.2.RELEASE@jar'
+	compile: 'org.springframework:spring-context:3.2.2.RELEASE@jar'
+	compile: 'commons-codec:commons-codec:1.3@jar'
+	compile: 'org.apache.cxf:cxf-rt-rs-extension-providers:2.7.5@jar'
+	compile: 'javax.servlet.jsp:jsp-api:2.1@jar'
+	compile: 'org.glassfish.jersey.containers:jersey-container-servlet:2.5.1@jar'
+	compile: 'org.glassfish.jersey.core:jersey-client:2.5.1@jar'
+	compile: 'org.glassfish.jersey.media:jersey-media-moxy:2.5.1@jar'
+	compile: 'org.apache.cxf:cxf-rt-transports-http-jetty:2.7.6@jar'
+	compile: 'org.slf4j:slf4j-jdk14:1.7.10@jar'
+	compile: 'org.codehaus.jettison:jettison:1.3.4@jar'
+	compile: 'com.fasterxml.jackson.core:jackson-databind:2.5.1@jar'
 }
 </code></pre>
 <h2>Maven Dependencies, composite</h2>
@@ -424,12 +461,24 @@ dependencies {
 		&lt;artifactId&gt;commonmark-ext-autolink&lt;/artifactId&gt;
 		&lt;version&gt;0.7.0&lt;/version&gt;
 	&lt;/dependency&gt;
+
+
+&lt;!--WARN dependency converage flag! Currently used by the modules: [root buildscript, osmdroid-server-jdk]--&gt;
+	&lt;dependency&gt;
+		&lt;groupId&gt;org.apache.commons&lt;/groupId&gt;
+		&lt;artifactId&gt;commons-lang3&lt;/artifactId&gt;
+		&lt;version&gt;3.1&lt;/version&gt;
+		&lt;type&gt;jar&lt;/type&gt;
+	&lt;/dependency&gt;
 	&lt;dependency&gt;
 		&lt;groupId&gt;org.apache.commons&lt;/groupId&gt;
 		&lt;artifactId&gt;commons-lang3&lt;/artifactId&gt;
 		&lt;version&gt;3.4&lt;/version&gt;
+		&lt;type&gt;jar&lt;/type&gt;
 	&lt;/dependency&gt;
-	&lt;dependency&gt;
+&lt;!--END WARN dependency converage flag!--&gt;
+
+    	&lt;dependency&gt;
 		&lt;groupId&gt;commons-io&lt;/groupId&gt;
 		&lt;artifactId&gt;commons-io&lt;/artifactId&gt;
 		&lt;version&gt;2.5&lt;/version&gt;
@@ -461,7 +510,7 @@ dependencies {
 	&lt;/dependency&gt;
 
 
-&lt;!--WARN dependency converage flag! Currently used by the modules: [osmdroid-forge-app, GoogleWrapperSample]--&gt;
+&lt;!--WARN dependency converage flag! Currently used by the modules: [GoogleWrapperSample]--&gt;
 	&lt;dependency&gt;
 		&lt;groupId&gt;com.android.support&lt;/groupId&gt;
 		&lt;artifactId&gt;appcompat-v7&lt;/artifactId&gt;
@@ -492,13 +541,13 @@ dependencies {
 	&lt;dependency&gt;
 		&lt;groupId&gt;org.osmdroid&lt;/groupId&gt;
 		&lt;artifactId&gt;osmdroid-android&lt;/artifactId&gt;
-		&lt;version&gt;5.6.2&lt;/version&gt;
+		&lt;version&gt;5.6.3&lt;/version&gt;
 		&lt;type&gt;aar&lt;/type&gt;
 	&lt;/dependency&gt;
 	&lt;dependency&gt;
 		&lt;groupId&gt;org.osmdroid&lt;/groupId&gt;
 		&lt;artifactId&gt;osmdroid-third-party&lt;/artifactId&gt;
-		&lt;version&gt;5.6.2&lt;/version&gt;
+		&lt;version&gt;5.6.3&lt;/version&gt;
 		&lt;type&gt;aar&lt;/type&gt;
 	&lt;/dependency&gt;
 	&lt;dependency&gt;
@@ -531,11 +580,49 @@ dependencies {
 		&lt;version&gt;0.6&lt;/version&gt;
 		&lt;type&gt;jar&lt;/type&gt;
 	&lt;/dependency&gt;
+
+
+&lt;!--WARN dependency converage flag! Currently used by the modules: [osmdroid-server-jdk, OSMMapTilePackager]--&gt;
+	&lt;dependency&gt;
+		&lt;groupId&gt;org.xerial&lt;/groupId&gt;
+		&lt;artifactId&gt;sqlite-jdbc&lt;/artifactId&gt;
+		&lt;version&gt;3.8.7&lt;/version&gt;
+		&lt;type&gt;jar&lt;/type&gt;
+	&lt;/dependency&gt;
 	&lt;dependency&gt;
 		&lt;groupId&gt;org.xerial&lt;/groupId&gt;
 		&lt;artifactId&gt;sqlite-jdbc&lt;/artifactId&gt;
 		&lt;version&gt;3.7.2&lt;/version&gt;
 		&lt;type&gt;jar&lt;/type&gt;
+	&lt;/dependency&gt;
+&lt;!--END WARN dependency converage flag!--&gt;
+
+    	&lt;dependency&gt;
+		&lt;groupId&gt;org.osmdroid&lt;/groupId&gt;
+		&lt;artifactId&gt;osmdroid-geopackage&lt;/artifactId&gt;
+		&lt;version&gt;5.6.3&lt;/version&gt;
+		&lt;type&gt;aar&lt;/type&gt;
+	&lt;/dependency&gt;
+	&lt;dependency&gt;
+		&lt;groupId&gt;org.osmdroid&lt;/groupId&gt;
+		&lt;artifactId&gt;osmdroid-mapsforge&lt;/artifactId&gt;
+		&lt;version&gt;5.6.3&lt;/version&gt;
+		&lt;type&gt;aar&lt;/type&gt;
+	&lt;/dependency&gt;
+	&lt;dependency&gt;
+		&lt;groupId&gt;com.android.support&lt;/groupId&gt;
+		&lt;artifactId&gt;design&lt;/artifactId&gt;
+		&lt;version&gt;[23,)&lt;/version&gt;
+	&lt;/dependency&gt;
+	&lt;dependency&gt;
+		&lt;groupId&gt;com.android.support&lt;/groupId&gt;
+		&lt;artifactId&gt;cardview-v7&lt;/artifactId&gt;
+		&lt;version&gt;[23,)&lt;/version&gt;
+	&lt;/dependency&gt;
+	&lt;dependency&gt;
+		&lt;groupId&gt;com.android.support&lt;/groupId&gt;
+		&lt;artifactId&gt;recyclerview-v7&lt;/artifactId&gt;
+		&lt;version&gt;[23,)&lt;/version&gt;
 	&lt;/dependency&gt;
 	&lt;dependency&gt;
 		&lt;groupId&gt;ch.acra&lt;/groupId&gt;
@@ -556,10 +643,34 @@ dependencies {
 		&lt;type&gt;aar&lt;/type&gt;
 	&lt;/dependency&gt;
 	&lt;dependency&gt;
-		&lt;groupId&gt;org.osmdroid&lt;/groupId&gt;
-		&lt;artifactId&gt;osmdroid-mapsforge&lt;/artifactId&gt;
-		&lt;version&gt;5.6.2&lt;/version&gt;
+		&lt;groupId&gt;mil.nga.geopackage&lt;/groupId&gt;
+		&lt;artifactId&gt;geopackage-android&lt;/artifactId&gt;
+		&lt;version&gt;1.3.0&lt;/version&gt;
 		&lt;type&gt;aar&lt;/type&gt;
+	&lt;/dependency&gt;
+	&lt;dependency&gt;
+		&lt;groupId&gt;com.j256.ormlite&lt;/groupId&gt;
+		&lt;artifactId&gt;ormlite-android&lt;/artifactId&gt;
+		&lt;version&gt;4.48&lt;/version&gt;
+		&lt;type&gt;jar&lt;/type&gt;
+	&lt;/dependency&gt;
+	&lt;dependency&gt;
+		&lt;groupId&gt;mil.nga.geopackage&lt;/groupId&gt;
+		&lt;artifactId&gt;geopackage-core&lt;/artifactId&gt;
+		&lt;version&gt;1.2.0&lt;/version&gt;
+		&lt;type&gt;jar&lt;/type&gt;
+	&lt;/dependency&gt;
+	&lt;dependency&gt;
+		&lt;groupId&gt;ar.com.hjg&lt;/groupId&gt;
+		&lt;artifactId&gt;pngj&lt;/artifactId&gt;
+		&lt;version&gt;2.1.0&lt;/version&gt;
+		&lt;type&gt;jar&lt;/type&gt;
+	&lt;/dependency&gt;
+	&lt;dependency&gt;
+		&lt;groupId&gt;mil.nga&lt;/groupId&gt;
+		&lt;artifactId&gt;tiff&lt;/artifactId&gt;
+		&lt;version&gt;1.0.0&lt;/version&gt;
+		&lt;type&gt;jar&lt;/type&gt;
 	&lt;/dependency&gt;
 	&lt;dependency&gt;
 		&lt;groupId&gt;org.mapsforge&lt;/groupId&gt;
@@ -571,6 +682,102 @@ dependencies {
 		&lt;groupId&gt;org.mapsforge&lt;/groupId&gt;
 		&lt;artifactId&gt;mapsforge-map&lt;/artifactId&gt;
 		&lt;version&gt;0.6.1&lt;/version&gt;
+		&lt;type&gt;jar&lt;/type&gt;
+	&lt;/dependency&gt;
+	&lt;dependency&gt;
+		&lt;groupId&gt;javax.servlet&lt;/groupId&gt;
+		&lt;artifactId&gt;servlet-api&lt;/artifactId&gt;
+		&lt;version&gt;2.5&lt;/version&gt;
+		&lt;type&gt;jar&lt;/type&gt;
+	&lt;/dependency&gt;
+	&lt;dependency&gt;
+		&lt;groupId&gt;commons-configuration&lt;/groupId&gt;
+		&lt;artifactId&gt;commons-configuration&lt;/artifactId&gt;
+		&lt;version&gt;1.9&lt;/version&gt;
+		&lt;type&gt;jar&lt;/type&gt;
+	&lt;/dependency&gt;
+	&lt;dependency&gt;
+		&lt;groupId&gt;commons-collections&lt;/groupId&gt;
+		&lt;artifactId&gt;commons-collections&lt;/artifactId&gt;
+		&lt;version&gt;3.2&lt;/version&gt;
+		&lt;type&gt;jar&lt;/type&gt;
+	&lt;/dependency&gt;
+	&lt;dependency&gt;
+		&lt;groupId&gt;org.apache.cxf&lt;/groupId&gt;
+		&lt;artifactId&gt;cxf-bundle-jaxrs&lt;/artifactId&gt;
+		&lt;version&gt;2.7.5&lt;/version&gt;
+		&lt;type&gt;jar&lt;/type&gt;
+	&lt;/dependency&gt;
+	&lt;dependency&gt;
+		&lt;groupId&gt;org.springframework&lt;/groupId&gt;
+		&lt;artifactId&gt;spring-test&lt;/artifactId&gt;
+		&lt;version&gt;3.2.2.RELEASE&lt;/version&gt;
+		&lt;type&gt;jar&lt;/type&gt;
+	&lt;/dependency&gt;
+	&lt;dependency&gt;
+		&lt;groupId&gt;org.springframework&lt;/groupId&gt;
+		&lt;artifactId&gt;spring-context&lt;/artifactId&gt;
+		&lt;version&gt;3.2.2.RELEASE&lt;/version&gt;
+		&lt;type&gt;jar&lt;/type&gt;
+	&lt;/dependency&gt;
+	&lt;dependency&gt;
+		&lt;groupId&gt;commons-codec&lt;/groupId&gt;
+		&lt;artifactId&gt;commons-codec&lt;/artifactId&gt;
+		&lt;version&gt;1.3&lt;/version&gt;
+		&lt;type&gt;jar&lt;/type&gt;
+	&lt;/dependency&gt;
+	&lt;dependency&gt;
+		&lt;groupId&gt;org.apache.cxf&lt;/groupId&gt;
+		&lt;artifactId&gt;cxf-rt-rs-extension-providers&lt;/artifactId&gt;
+		&lt;version&gt;2.7.5&lt;/version&gt;
+		&lt;type&gt;jar&lt;/type&gt;
+	&lt;/dependency&gt;
+	&lt;dependency&gt;
+		&lt;groupId&gt;javax.servlet.jsp&lt;/groupId&gt;
+		&lt;artifactId&gt;jsp-api&lt;/artifactId&gt;
+		&lt;version&gt;2.1&lt;/version&gt;
+		&lt;type&gt;jar&lt;/type&gt;
+	&lt;/dependency&gt;
+	&lt;dependency&gt;
+		&lt;groupId&gt;org.glassfish.jersey.containers&lt;/groupId&gt;
+		&lt;artifactId&gt;jersey-container-servlet&lt;/artifactId&gt;
+		&lt;version&gt;2.5.1&lt;/version&gt;
+		&lt;type&gt;jar&lt;/type&gt;
+	&lt;/dependency&gt;
+	&lt;dependency&gt;
+		&lt;groupId&gt;org.glassfish.jersey.core&lt;/groupId&gt;
+		&lt;artifactId&gt;jersey-client&lt;/artifactId&gt;
+		&lt;version&gt;2.5.1&lt;/version&gt;
+		&lt;type&gt;jar&lt;/type&gt;
+	&lt;/dependency&gt;
+	&lt;dependency&gt;
+		&lt;groupId&gt;org.glassfish.jersey.media&lt;/groupId&gt;
+		&lt;artifactId&gt;jersey-media-moxy&lt;/artifactId&gt;
+		&lt;version&gt;2.5.1&lt;/version&gt;
+		&lt;type&gt;jar&lt;/type&gt;
+	&lt;/dependency&gt;
+	&lt;dependency&gt;
+		&lt;groupId&gt;org.apache.cxf&lt;/groupId&gt;
+		&lt;artifactId&gt;cxf-rt-transports-http-jetty&lt;/artifactId&gt;
+		&lt;version&gt;2.7.6&lt;/version&gt;
+		&lt;type&gt;jar&lt;/type&gt;
+	&lt;/dependency&gt;
+	&lt;dependency&gt;
+		&lt;groupId&gt;org.slf4j&lt;/groupId&gt;
+		&lt;artifactId&gt;slf4j-jdk14&lt;/artifactId&gt;
+		&lt;version&gt;1.7.10&lt;/version&gt;
+		&lt;type&gt;jar&lt;/type&gt;
+	&lt;/dependency&gt;
+	&lt;dependency&gt;
+		&lt;groupId&gt;org.codehaus.jettison&lt;/groupId&gt;
+		&lt;artifactId&gt;jettison&lt;/artifactId&gt;
+		&lt;version&gt;1.3.4&lt;/version&gt;
+		&lt;type&gt;jar&lt;/type&gt;
+	&lt;/dependency&gt;
+	&lt;dependency&gt;
+		&lt;groupId&gt;com.fasterxml.jackson.core&lt;/groupId&gt;
+		&lt;artifactId&gt;jackson-databind&lt;/artifactId&gt;
+		&lt;version&gt;2.5.1&lt;/version&gt;
 		&lt;type&gt;jar&lt;/type&gt;
 	&lt;/dependency&gt;
 &lt;/dependencies&gt;

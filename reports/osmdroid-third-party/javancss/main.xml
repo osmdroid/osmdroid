@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <javancss>
-  <date>2016-12-28</date>
-  <time>15:27:21</time>
+  <date>2017-01-16</date>
+  <time>12:10:29</time>
   <packages>
     <package>
       <name>org.osmdroid.api</name>
@@ -54,26 +54,6 @@
       <multi_comment_lines>5</multi_comment_lines>
     </package>
     <package>
-      <name>org.osmdroid.tileprovider.tilesource.bing</name>
-      <classes>1</classes>
-      <functions>15</functions>
-      <ncss>117</ncss>
-      <javadocs>10</javadocs>
-      <javadoc_lines>51</javadoc_lines>
-      <single_comment_lines>9</single_comment_lines>
-      <multi_comment_lines>15</multi_comment_lines>
-    </package>
-    <package>
-      <name>org.osmdroid.tileprovider.tilesource.bing.imagerymetadata</name>
-      <classes>2</classes>
-      <functions>4</functions>
-      <ncss>77</ncss>
-      <javadocs>6</javadocs>
-      <javadoc_lines>35</javadoc_lines>
-      <single_comment_lines>5</single_comment_lines>
-      <multi_comment_lines>0</multi_comment_lines>
-    </package>
-    <package>
       <name>org.osmdroid.util</name>
       <classes>1</classes>
       <functions>9</functions>
@@ -84,20 +64,20 @@
       <multi_comment_lines>0</multi_comment_lines>
     </package>
     <total>
-      <classes>25</classes>
-      <functions>220</functions>
-      <ncss>1075</ncss>
-      <javadocs>70</javadocs>
-      <javadoc_lines>333</javadoc_lines>
-      <single_comment_lines>48</single_comment_lines>
-      <multi_comment_lines>26</multi_comment_lines>
+      <classes>22</classes>
+      <functions>201</functions>
+      <ncss>881</ncss>
+      <javadocs>54</javadocs>
+      <javadoc_lines>247</javadoc_lines>
+      <single_comment_lines>34</single_comment_lines>
+      <multi_comment_lines>11</multi_comment_lines>
     </total>
     <table>
       <tr><td>Packages</td><td>Classes</td><td>Functions</td><td>NCSS</td><td>Javadocs</td><td>per</td></tr>
-      <tr><td>8.00</td><td>25.00</td><td>220.00</td><td>1,075.00</td><td>70.00</td><td>Project</td></tr>
-      <tr><td></td><td>3.13</td><td>27.50</td><td>134.38</td><td>8.75</td><td>Package</td></tr>
-      <tr><td></td><td></td><td>8.80</td><td>43.00</td><td>2.80</td><td>Class</td></tr>
-      <tr><td></td><td></td><td></td><td>4.89</td><td>0.32</td><td>Function</td></tr>
+      <tr><td>6.00</td><td>22.00</td><td>201.00</td><td>881.00</td><td>54.00</td><td>Project</td></tr>
+      <tr><td></td><td>3.67</td><td>33.50</td><td>146.83</td><td>9.00</td><td>Package</td></tr>
+      <tr><td></td><td></td><td>9.14</td><td>40.05</td><td>2.45</td><td>Class</td></tr>
+      <tr><td></td><td></td><td></td><td>4.38</td><td>0.27</td><td>Function</td></tr>
     </table>
   </packages>
 
@@ -313,36 +293,6 @@
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <object>
-      <name>org.osmdroid.tileprovider.tilesource.bing.BingMapTileSource</name>
-      <ncss>97</ncss>
-      <functions>15</functions>
-      <classes>0</classes>
-      <javadocs>10</javadocs>
-      <javadocs_lines>51</javadocs_lines>
-      <single_comment_lines>9</single_comment_lines>
-      <implementation_comment_lines>15</implementation_comment_lines>
-    </object>
-    <object>
-      <name>org.osmdroid.tileprovider.tilesource.bing.imagerymetadata.ImageryMetaData</name>
-      <ncss>23</ncss>
-      <functions>1</functions>
-      <classes>0</classes>
-      <javadocs>2</javadocs>
-      <javadocs_lines>10</javadocs_lines>
-      <single_comment_lines>3</single_comment_lines>
-      <implementation_comment_lines>0</implementation_comment_lines>
-    </object>
-    <object>
-      <name>org.osmdroid.tileprovider.tilesource.bing.imagerymetadata.ImageryMetaDataResource</name>
-      <ncss>48</ncss>
-      <functions>3</functions>
-      <classes>0</classes>
-      <javadocs>4</javadocs>
-      <javadocs_lines>25</javadocs_lines>
-      <single_comment_lines>2</single_comment_lines>
-      <implementation_comment_lines>0</implementation_comment_lines>
-    </object>
-    <object>
       <name>org.osmdroid.util.Position</name>
       <ncss>28</ncss>
       <functions>9</functions>
@@ -353,15 +303,15 @@
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <averages>
-      <ncss>35.80</ncss>
-      <functions>8.80</functions>
-      <classes>0.20</classes>
-      <javadocs>2.80</javadocs>
-      <javadocs_lines>13.32</javadocs_lines>
-      <single_comment_lines>1.88</single_comment_lines>
-      <implementation_comment_lines>0.84</implementation_comment_lines>
+      <ncss>33.05</ncss>
+      <functions>9.14</functions>
+      <classes>0.23</classes>
+      <javadocs>2.45</javadocs>
+      <javadocs_lines>11.23</javadocs_lines>
+      <single_comment_lines>1.50</single_comment_lines>
+      <implementation_comment_lines>0.27</implementation_comment_lines>
     </averages>
-    <ncss>1,075.00</ncss>
+    <ncss>881.00</ncss>
   </objects>
 
   <functions>
@@ -1554,120 +1504,6 @@
       <javadocs>0</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.tileprovider.tilesource.bing.BingMapTileSource.BingMapTileSource(String)</name>
-      <ncss>5</ncss>
-      <ccn>2</ccn>
-      <javadocs>1</javadocs>
-    </function>
-    <function>
-      <name>org.osmdroid.tileprovider.tilesource.bing.BingMapTileSource.retrieveBingKey(Context)</name>
-      <ncss>2</ncss>
-      <ccn>1</ccn>
-      <javadocs>1</javadocs>
-    </function>
-    <function>
-      <name>org.osmdroid.tileprovider.tilesource.bing.BingMapTileSource.getBingKey()</name>
-      <ncss>2</ncss>
-      <ccn>1</ccn>
-      <javadocs>0</javadocs>
-    </function>
-    <function>
-      <name>org.osmdroid.tileprovider.tilesource.bing.BingMapTileSource.setBingKey(String)</name>
-      <ncss>2</ncss>
-      <ccn>1</ccn>
-      <javadocs>0</javadocs>
-    </function>
-    <function>
-      <name>org.osmdroid.tileprovider.tilesource.bing.BingMapTileSource.getBaseUrl()</name>
-      <ncss>4</ncss>
-      <ccn>2</ccn>
-      <javadocs>0</javadocs>
-    </function>
-    <function>
-      <name>org.osmdroid.tileprovider.tilesource.bing.BingMapTileSource.getTileURLString(MapTile)</name>
-      <ncss>4</ncss>
-      <ccn>2</ccn>
-      <javadocs>0</javadocs>
-    </function>
-    <function>
-      <name>org.osmdroid.tileprovider.tilesource.bing.BingMapTileSource.getMinimumZoomLevel()</name>
-      <ncss>2</ncss>
-      <ccn>1</ccn>
-      <javadocs>1</javadocs>
-    </function>
-    <function>
-      <name>org.osmdroid.tileprovider.tilesource.bing.BingMapTileSource.getMaximumZoomLevel()</name>
-      <ncss>2</ncss>
-      <ccn>1</ccn>
-      <javadocs>1</javadocs>
-    </function>
-    <function>
-      <name>org.osmdroid.tileprovider.tilesource.bing.BingMapTileSource.getTileSizePixels()</name>
-      <ncss>2</ncss>
-      <ccn>1</ccn>
-      <javadocs>1</javadocs>
-    </function>
-    <function>
-      <name>org.osmdroid.tileprovider.tilesource.bing.BingMapTileSource.pathBase()</name>
-      <ncss>2</ncss>
-      <ccn>1</ccn>
-      <javadocs>1</javadocs>
-    </function>
-    <function>
-      <name>org.osmdroid.tileprovider.tilesource.bing.BingMapTileSource.setStyle(String)</name>
-      <ncss>7</ncss>
-      <ccn>2</ccn>
-      <javadocs>0</javadocs>
-    </function>
-    <function>
-      <name>org.osmdroid.tileprovider.tilesource.bing.BingMapTileSource.getStyle()</name>
-      <ncss>2</ncss>
-      <ccn>1</ccn>
-      <javadocs>0</javadocs>
-    </function>
-    <function>
-      <name>org.osmdroid.tileprovider.tilesource.bing.BingMapTileSource.initMetaData()</name>
-      <ncss>10</ncss>
-      <ccn>4</ccn>
-      <javadocs>1</javadocs>
-    </function>
-    <function>
-      <name>org.osmdroid.tileprovider.tilesource.bing.BingMapTileSource.getMetaData()</name>
-      <ncss>24</ncss>
-      <ccn>7</ccn>
-      <javadocs>1</javadocs>
-    </function>
-    <function>
-      <name>org.osmdroid.tileprovider.tilesource.bing.BingMapTileSource.updateBaseUrl()</name>
-      <ncss>14</ncss>
-      <ccn>3</ccn>
-      <javadocs>1</javadocs>
-    </function>
-    <function>
-      <name>org.osmdroid.tileprovider.tilesource.bing.imagerymetadata.ImageryMetaData.getInstanceFromJSON(String)</name>
-      <ncss>16</ncss>
-      <ccn>12</ccn>
-      <javadocs>1</javadocs>
-    </function>
-    <function>
-      <name>org.osmdroid.tileprovider.tilesource.bing.imagerymetadata.ImageryMetaDataResource.getDefaultInstance()</name>
-      <ncss>2</ncss>
-      <ccn>1</ccn>
-      <javadocs>1</javadocs>
-    </function>
-    <function>
-      <name>org.osmdroid.tileprovider.tilesource.bing.imagerymetadata.ImageryMetaDataResource.getInstanceFromJSON(JSONObject)</name>
-      <ncss>22</ncss>
-      <ccn>12</ccn>
-      <javadocs>1</javadocs>
-    </function>
-    <function>
-      <name>org.osmdroid.tileprovider.tilesource.bing.imagerymetadata.ImageryMetaDataResource.getSubDomain()</name>
-      <ncss>9</ncss>
-      <ccn>5</ccn>
-      <javadocs>1</javadocs>
-    </function>
-    <function>
       <name>org.osmdroid.util.Position.Position(double,double)</name>
       <ncss>3</ncss>
       <ccn>1</ccn>
@@ -1722,11 +1558,11 @@
       <javadocs>0</javadocs>
     </function>
     <function_averages>
-      <ncss>3.54</ncss>
-      <ccn>1.63</ccn>
-      <javadocs>0.23</javadocs>
+      <ncss>3.22</ncss>
+      <ccn>1.49</ccn>
+      <javadocs>0.19</javadocs>
     </function_averages>
-    <ncss>1,075.00</ncss>
+    <ncss>881.00</ncss>
   </functions>
 </javancss>
 

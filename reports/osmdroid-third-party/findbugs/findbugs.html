@@ -78,9 +78,9 @@
 <br/>
 </p>
 <h2>Metrics</h2>
-<p>15393 lines of code analyzed,
-	in 365 classes, 
-	in 36 packages.</p>
+<p>15201 lines of code analyzed,
+	in 362 classes, 
+	in 34 packages.</p>
 <table width="500" cellpadding="5" cellspacing="2">
 <tr class="tableheader">
 <th align="left">Metric</th>
@@ -89,8 +89,8 @@
 </tr>
 <tr class="tablerow0">
 <td>High Priority Warnings</td>
-<td align="right">5</td>
-<td align="right">0.32</td>
+<td align="right">3</td>
+<td align="right">0.20</td>
 </tr>
 <tr class="tablerow1">
 <td>Medium Priority Warnings</td>
@@ -102,10 +102,10 @@
 <b>Total Warnings</b>
 </td>
 <td align="right">
-<b>5</b>
+<b>3</b>
 </td>
 <td align="right">
-<b>0.32</b>
+<b>0.20</b>
 </td>
 </tr>
 </table>
@@ -120,12 +120,6 @@
 <ul>
 <li>
 <a href="#Warnings_BAD_PRACTICE">Bad practice Warnings</a>
-</li>
-<li>
-<a href="#Warnings_I18N">Internationalization Warnings</a>
-</li>
-<li>
-<a href="#Warnings_MALICIOUS_CODE">Malicious code vulnerability Warnings</a>
 </li>
 <li>
 <a href="#Details">Details</a>
@@ -145,22 +139,10 @@
 </tr>
 <tr class="tablerow1">
 <td>
-<a href="#Warnings_I18N">Internationalization Warnings</a>
-</td>
-<td align="right">1</td>
-</tr>
-<tr class="tablerow0">
-<td>
-<a href="#Warnings_MALICIOUS_CODE">Malicious code vulnerability Warnings</a>
-</td>
-<td align="right">1</td>
-</tr>
-<tr class="tablerow1">
-<td>
 <b>Total</b>
 </td>
 <td align="right">
-<b>5</b>
+<b>3</b>
 </td>
 </tr>
 </table>
@@ -174,7 +156,7 @@
 <th align="left">Code</th>
 <th align="left">Warning</th>
 </tr>
-<tr class="tablerow1" onclick="toggleRow('N65598');">
+<tr class="tablerow1" onclick="toggleRow('N65592');">
 <td>
 <span class="priority-1">HE</span>
 </td>
@@ -183,12 +165,12 @@
 <tr class="detailrow1">
 <td/>
 <td>
-<p id="N65598" style="display: none;">
+<p id="N65592" style="display: none;">
 <a href="#HE_EQUALS_USE_HASHCODE">Bug type HE_EQUALS_USE_HASHCODE (click for details)</a>
 <br/>In class org.osmdroid.google.wrapper.GeoPoint<br/>In method org.osmdroid.google.wrapper.GeoPoint.equals(Object)<br/>At GeoPoint.java:[lines 41-51]</p>
 </td>
 </tr>
-<tr class="tablerow0" onclick="toggleRow('N65694');">
+<tr class="tablerow0" onclick="toggleRow('N65688');">
 <td>
 <span class="priority-1">HE</span>
 </td>
@@ -197,12 +179,12 @@
 <tr class="detailrow0">
 <td/>
 <td>
-<p id="N65694" style="display: none;">
+<p id="N65688" style="display: none;">
 <a href="#HE_EQUALS_USE_HASHCODE">Bug type HE_EQUALS_USE_HASHCODE (click for details)</a>
 <br/>In class org.osmdroid.google.wrapper.v2.GeoPoint<br/>In method org.osmdroid.google.wrapper.v2.GeoPoint.equals(Object)<br/>At GeoPoint.java:[lines 26-36]</p>
 </td>
 </tr>
-<tr class="tablerow1" onclick="toggleRow('N65651');">
+<tr class="tablerow1" onclick="toggleRow('N65645');">
 <td>
 <span class="priority-1">Nm</span>
 </td>
@@ -211,68 +193,15 @@
 <tr class="detailrow1">
 <td/>
 <td>
-<p id="N65651" style="display: none;">
+<p id="N65645" style="display: none;">
 <a href="#NM_SAME_SIMPLE_NAME_AS_SUPERCLASS">Bug type NM_SAME_SIMPLE_NAME_AS_SUPERCLASS (click for details)</a>
 <br/>In class org.osmdroid.google.wrapper.MyLocationOverlay<br/>In class com.google.android.maps.MyLocationOverlay<br/>At MyLocationOverlay.java:[lines 22-23]</p>
-</td>
-</tr>
-</table>
-<h2>
-<a name="Warnings_I18N">Internationalization Warnings</a>
-</h2>
-<table class="warningtable" width="100%" cellspacing="0">
-<tr class="tableheader">
-<th align="left">Code</th>
-<th align="left">Warning</th>
-</tr>
-<tr class="tablerow1" onclick="toggleRow('N65799');">
-<td>
-<span class="priority-1">Dm</span>
-</td>
-<td>Found reliance on default encoding in org.osmdroid.tileprovider.tilesource.bing.BingMapTileSource.getMetaData(): java.io.ByteArrayOutputStream.toString()</td>
-</tr>
-<tr class="detailrow1">
-<td/>
-<td>
-<p id="N65799" style="display: none;">
-<a href="#DM_DEFAULT_ENCODING">Bug type DM_DEFAULT_ENCODING (click for details)</a>
-<br/>In class org.osmdroid.tileprovider.tilesource.bing.BingMapTileSource<br/>In method org.osmdroid.tileprovider.tilesource.bing.BingMapTileSource.getMetaData()<br/>Called method java.io.ByteArrayOutputStream.toString()<br/>At BingMapTileSource.java:[line 236]</p>
-</td>
-</tr>
-</table>
-<h2>
-<a name="Warnings_MALICIOUS_CODE">Malicious code vulnerability Warnings</a>
-</h2>
-<table class="warningtable" width="100%" cellspacing="0">
-<tr class="tableheader">
-<th align="left">Code</th>
-<th align="left">Warning</th>
-</tr>
-<tr class="tablerow1" onclick="toggleRow('N65747');">
-<td>
-<span class="priority-1">MS</span>
-</td>
-<td>org.osmdroid.thirdparty.Constants.LOGTAG isn't final but should be</td>
-</tr>
-<tr class="detailrow1">
-<td/>
-<td>
-<p id="N65747" style="display: none;">
-<a href="#MS_SHOULD_BE_FINAL">Bug type MS_SHOULD_BE_FINAL (click for details)</a>
-<br/>In class org.osmdroid.thirdparty.Constants<br/>Field org.osmdroid.thirdparty.Constants.LOGTAG<br/>At Constants.java:[line 13]</p>
 </td>
 </tr>
 </table>
 <h1>
 <a name="Details">Details</a>
 </h1>
-<h2>
-<a name="DM_DEFAULT_ENCODING">DM_DEFAULT_ENCODING: Reliance on default encoding</a>
-</h2>
-
-<p> Found a call to a method which will perform a byte to String (or String to byte) conversion, and will assume that the default platform encoding is suitable. This will cause the application behaviour to vary between platforms. Use an alternative API and specify a charset name or Charset object explicitly.  </p>
-
-      
 <h2>
 <a name="HE_EQUALS_USE_HASHCODE">HE_EQUALS_USE_HASHCODE: Class defines equals() and uses Object.hashCode()</a>
 </h2>
@@ -290,18 +219,6 @@ the recommended <code>hashCode</code> implementation to use is:</p>
   assert false : "hashCode not designed";
   return 42; // any arbitrary constant will do
   }</pre>
-
-    
-<h2>
-<a name="MS_SHOULD_BE_FINAL">MS_SHOULD_BE_FINAL: Field isn't final but should be</a>
-</h2>
-
-   <p>
-This static field public but not final, and
-could be changed by malicious code or
-        by accident from another package.
-        The field could be made final to avoid
-        this vulnerability.</p>
 
     
 <h2>

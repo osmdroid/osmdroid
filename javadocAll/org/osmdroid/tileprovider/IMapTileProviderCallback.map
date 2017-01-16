@@ -1,10 +1,12 @@
 <map id="G" name="G">
-<area shape="rect" id="node1_0" href="./IMapTileProviderCallback.html" title="org.osmdroid.tileprovider.IMapTileProviderCallback" alt="" coords="193,11,357,53"/>
-<area shape="rect" id="node1" href="./IMapTileProviderCallback.html" title="&lt;TABLE&gt;" alt="" coords="182,5,367,59"/>
+<area shape="rect" id="node1_0" href="./IMapTileProviderCallback.html" title="org.osmdroid.tileprovider.IMapTileProviderCallback" alt="" coords="282,11,446,53"/>
+<area shape="rect" id="node1" href="./IMapTileProviderCallback.html" title="&lt;TABLE&gt;" alt="" coords="271,5,457,59"/>
 <area shape="rect" id="node2_1" href="./MapTileProviderBase.html" title="org.osmdroid.tileprovider.MapTileProviderBase" alt="" coords="16,118,157,143"/>
 <area shape="rect" id="node2" href="./MapTileProviderBase.html" title="&lt;TABLE&gt;" alt="" coords="5,107,168,155"/>
 <area shape="rect" id="node3_2" href="./MapTileProviderBasic.html" title="org.osmdroid.tileprovider.MapTileProviderBasic" alt="" coords="203,118,347,143"/>
 <area shape="rect" id="node3" href="./MapTileProviderBasic.html" title="&lt;TABLE&gt;" alt="" coords="192,107,357,155"/>
 <area shape="rect" id="node4_3" href="./modules/OfflineTileProvider.html" title="org.osmdroid.tileprovider.modules.OfflineTileProvider" alt="" coords="393,118,514,143"/>
 <area shape="rect" id="node4" href="./modules/OfflineTileProvider.html" title="&lt;TABLE&gt;" alt="" coords="382,107,525,155"/>
+<area shape="rect" id="node5_4" href="../gpkg/GeoPackageProvider.html" title="org.osmdroid.gpkg.GeoPackageProvider" alt="" coords="559,118,699,143"/>
+<area shape="rect" id="node5" href="../gpkg/GeoPackageProvider.html" title="&lt;TABLE&gt;" alt="" coords="549,107,710,155"/>
 </map>

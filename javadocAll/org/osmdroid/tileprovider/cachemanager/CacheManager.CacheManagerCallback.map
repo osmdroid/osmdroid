@@ -1,6 +1,8 @@
 <map id="G" name="G">
-<area shape="rect" id="node1_0" href="../../samplefragments/cache/SampleCacheDownloaderCustomUI.html" title="org.osmdroid.samplefragments.cache.SampleCacheDownloaderCustomUI" alt="" coords="16,118,240,143"/>
-<area shape="rect" id="node1" href="../../samplefragments/cache/SampleCacheDownloaderCustomUI.html" title="&lt;TABLE&gt;" alt="" coords="5,107,251,155"/>
-<area shape="rect" id="node2_1" href="./CacheManager.CacheManagerCallback.html" title="org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerCallback" alt="" coords="50,11,206,53"/>
-<area shape="rect" id="node2" href="./CacheManager.CacheManagerCallback.html" title="&lt;TABLE&gt;" alt="" coords="39,5,217,59"/>
+<area shape="rect" id="node1_0" href="../../bugtestfragments/Bug512CacheManagerWp.html" title="org.osmdroid.bugtestfragments.Bug512CacheManagerWp" alt="" coords="16,118,187,143"/>
+<area shape="rect" id="node1" href="../../bugtestfragments/Bug512CacheManagerWp.html" title="&lt;TABLE&gt;" alt="" coords="5,107,197,155"/>
+<area shape="rect" id="node2_1" href="../../samplefragments/cache/SampleCacheDownloaderCustomUI.html" title="org.osmdroid.samplefragments.cache.SampleCacheDownloaderCustomUI" alt="" coords="232,118,456,143"/>
+<area shape="rect" id="node2" href="../../samplefragments/cache/SampleCacheDownloaderCustomUI.html" title="&lt;TABLE&gt;" alt="" coords="221,107,467,155"/>
+<area shape="rect" id="node3_2" href="./CacheManager.CacheManagerCallback.html" title="org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerCallback" alt="" coords="145,11,301,53"/>
+<area shape="rect" id="node3" href="./CacheManager.CacheManagerCallback.html" title="&lt;TABLE&gt;" alt="" coords="134,5,311,59"/>
 </map>

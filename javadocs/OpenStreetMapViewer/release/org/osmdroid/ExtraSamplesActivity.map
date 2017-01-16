@@ -1,6 +1,6 @@
 <map id="G" name="G">
 <area shape="rect" id="node1_0" href="./ExtraSamplesActivity.html" title="org.osmdroid.ExtraSamplesActivity" alt="" coords="16,113,160,138"/>
 <area shape="rect" id="node1" href="./ExtraSamplesActivity.html" title="&lt;TABLE&gt;" alt="" coords="5,101,171,149"/>
-<area shape="rect" id="node2_1" href="http://java.sun.com/j2se/1.4.2/docs/api/android/support/v4/app/FragmentActivity.html" title="android.support.v4.app.FragmentActivity" alt="" coords="30,17,146,42"/>
-<area shape="rect" id="node2" href="http://java.sun.com/j2se/1.4.2/docs/api/android/support/v4/app/FragmentActivity.html" title="&lt;TABLE&gt;" alt="" coords="19,5,157,53"/>
+<area shape="rect" id="node2_1" href="http://java.sun.com/j2se/1.4.2/docs/api/android/support/v7/app/AppCompatActivity.html" title="android.support.v7.app.AppCompatActivity" alt="" coords="23,17,153,42"/>
+<area shape="rect" id="node2" href="http://java.sun.com/j2se/1.4.2/docs/api/android/support/v7/app/AppCompatActivity.html" title="&lt;TABLE&gt;" alt="" coords="13,5,163,53"/>
 </map>

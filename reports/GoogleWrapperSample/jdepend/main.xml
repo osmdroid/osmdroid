@@ -30971,11 +30971,11 @@
                 <TotalClasses>11</TotalClasses>
                 <ConcreteClasses>3</ConcreteClasses>
                 <AbstractClasses>8</AbstractClasses>
-                <Ca>17</Ca>
+                <Ca>18</Ca>
                 <Ce>5</Ce>
                 <A>0.73</A>
-                <I>0.23</I>
-                <D>0.05</D>
+                <I>0.22</I>
+                <D>0.06</D>
                 <V>1</V>
             </Stats>
 
@@ -31036,6 +31036,7 @@
                 <Package>org.osmdroid.tileprovider.cachemanager</Package>
                 <Package>org.osmdroid.tileprovider.modules</Package>
                 <Package>org.osmdroid.tileprovider.tilesource</Package>
+                <Package>org.osmdroid.tileprovider.tilesource.bing</Package>
                 <Package>org.osmdroid.tileprovider.util</Package>
                 <Package>org.osmdroid.util</Package>
                 <Package>org.osmdroid.views</Package>
@@ -31052,11 +31053,11 @@
                 <TotalClasses>3</TotalClasses>
                 <ConcreteClasses>2</ConcreteClasses>
                 <AbstractClasses>1</AbstractClasses>
-                <Ca>10</Ca>
+                <Ca>13</Ca>
                 <Ce>9</Ce>
                 <A>0.33</A>
-                <I>0.47</I>
-                <D>0.19</D>
+                <I>0.41</I>
+                <D>0.26</D>
                 <V>1</V>
             </Stats>
 
@@ -31097,6 +31098,9 @@
                 <Package>org.osmdroid.util</Package>
                 <Package>org.osmdroid.util.constants</Package>
                 <Package>org.osmdroid.views</Package>
+                <Package>org.osmdroid.views.overlay</Package>
+                <Package>org.osmdroid.views.overlay.infowindow</Package>
+                <Package>org.osmdroid.views.overlay.mylocation</Package>
                 <Package>org.osmdroid.views.util.constants</Package>
             </UsedBy>
         </Package>
@@ -31106,11 +31110,11 @@
                 <TotalClasses>8</TotalClasses>
                 <ConcreteClasses>4</ConcreteClasses>
                 <AbstractClasses>4</AbstractClasses>
-                <Ca>3</Ca>
+                <Ca>2</Ca>
                 <Ce>6</Ce>
                 <A>0.5</A>
-                <I>0.67</I>
-                <D>0.17</D>
+                <I>0.75</I>
+                <D>0.25</D>
                 <V>1</V>
             </Stats>
 
@@ -31154,7 +31158,6 @@
             </DependsUpon>
 
             <UsedBy>
-                <Package>org.osmdroid.google.sample</Package>
                 <Package>org.osmdroid.views</Package>
                 <Package>org.osmdroid.views.overlay</Package>
             </UsedBy>
@@ -31209,11 +31212,11 @@
 
         <Package name="org.osmdroid.google.sample">
             <Stats>
-                <TotalClasses>28</TotalClasses>
-                <ConcreteClasses>28</ConcreteClasses>
+                <TotalClasses>26</TotalClasses>
+                <ConcreteClasses>26</ConcreteClasses>
                 <AbstractClasses>0</AbstractClasses>
                 <Ca>0</Ca>
-                <Ce>27</Ce>
+                <Ce>23</Ce>
                 <A>0</A>
                 <I>1</I>
                 <D>0</D>
@@ -31259,12 +31262,6 @@
                 </Class>
                 <Class sourceFile="MapsActivity.java">
                     org.osmdroid.google.sample.MapsActivity
-                </Class>
-                <Class sourceFile="OsmMapActivity.java">
-                    org.osmdroid.google.sample.OsmMapActivity
-                </Class>
-                <Class sourceFile="OsmMapActivity.java">
-                    org.osmdroid.google.sample.OsmMapActivity$1
                 </Class>
                 <Class sourceFile="R.java">
                     org.osmdroid.google.sample.R
@@ -31328,16 +31325,12 @@
                 <Package>com.google.android.gms.maps.model</Package>
                 <Package>com.google.android.maps</Package>
                 <Package>java.lang</Package>
-                <Package>java.text</Package>
                 <Package>java.util</Package>
                 <Package>org.osmdroid.api</Package>
-                <Package>org.osmdroid.events</Package>
                 <Package>org.osmdroid.google.wrapper.v2</Package>
                 <Package>org.osmdroid.thirdparty</Package>
-                <Package>org.osmdroid.tileprovider.tilesource.bing</Package>
                 <Package>org.osmdroid.tileprovider.util</Package>
                 <Package>org.osmdroid.util</Package>
-                <Package>org.osmdroid.views</Package>
             </DependsUpon>
 
             <UsedBy>
@@ -31525,11 +31518,11 @@
                 <TotalClasses>16</TotalClasses>
                 <ConcreteClasses>16</ConcreteClasses>
                 <AbstractClasses>0</AbstractClasses>
-                <Ca>3</Ca>
+                <Ca>2</Ca>
                 <Ce>1</Ce>
                 <A>0</A>
-                <I>0.25</I>
-                <D>0.75</D>
+                <I>0.33</I>
+                <D>0.67</D>
                 <V>1</V>
             </Stats>
 
@@ -31594,7 +31587,6 @@
             <UsedBy>
                 <Package>org.osmdroid.google.sample</Package>
                 <Package>org.osmdroid.google.wrapper.v2</Package>
-                <Package>org.osmdroid.tileprovider.tilesource.bing</Package>
             </UsedBy>
         </Package>
 
@@ -32053,14 +32045,14 @@
 
         <Package name="org.osmdroid.tileprovider.tilesource.bing">
             <Stats>
-                <TotalClasses>1</TotalClasses>
-                <ConcreteClasses>1</ConcreteClasses>
+                <TotalClasses>3</TotalClasses>
+                <ConcreteClasses>3</ConcreteClasses>
                 <AbstractClasses>0</AbstractClasses>
-                <Ca>1</Ca>
+                <Ca>0</Ca>
                 <Ce>13</Ce>
                 <A>0</A>
-                <I>0.93</I>
-                <D>0.07</D>
+                <I>1</I>
+                <D>0</D>
                 <V>1</V>
             </Stats>
 
@@ -32070,6 +32062,12 @@
             <ConcreteClasses>
                 <Class sourceFile="BingMapTileSource.java">
                     org.osmdroid.tileprovider.tilesource.bing.BingMapTileSource
+                </Class>
+                <Class sourceFile="ImageryMetaData.java">
+                    org.osmdroid.tileprovider.tilesource.bing.ImageryMetaData
+                </Class>
+                <Class sourceFile="ImageryMetaDataResource.java">
+                    org.osmdroid.tileprovider.tilesource.bing.ImageryMetaDataResource
                 </Class>
             </ConcreteClasses>
 
@@ -32081,51 +32079,15 @@
                 <Package>java.net</Package>
                 <Package>java.util</Package>
                 <Package>microsoft.mappoint</Package>
+                <Package>org.json</Package>
+                <Package>org.osmdroid.api</Package>
                 <Package>org.osmdroid.config</Package>
-                <Package>org.osmdroid.thirdparty</Package>
                 <Package>org.osmdroid.tileprovider</Package>
                 <Package>org.osmdroid.tileprovider.tilesource</Package>
-                <Package>org.osmdroid.tileprovider.tilesource.bing.imagerymetadata</Package>
                 <Package>org.osmdroid.tileprovider.util</Package>
             </DependsUpon>
 
             <UsedBy>
-                <Package>org.osmdroid.google.sample</Package>
-            </UsedBy>
-        </Package>
-
-        <Package name="org.osmdroid.tileprovider.tilesource.bing.imagerymetadata">
-            <Stats>
-                <TotalClasses>2</TotalClasses>
-                <ConcreteClasses>2</ConcreteClasses>
-                <AbstractClasses>0</AbstractClasses>
-                <Ca>1</Ca>
-                <Ce>2</Ce>
-                <A>0</A>
-                <I>0.67</I>
-                <D>0.33</D>
-                <V>1</V>
-            </Stats>
-
-            <AbstractClasses>
-            </AbstractClasses>
-
-            <ConcreteClasses>
-                <Class sourceFile="ImageryMetaData.java">
-                    org.osmdroid.tileprovider.tilesource.bing.imagerymetadata.ImageryMetaData
-                </Class>
-                <Class sourceFile="ImageryMetaDataResource.java">
-                    org.osmdroid.tileprovider.tilesource.bing.imagerymetadata.ImageryMetaDataResource
-                </Class>
-            </ConcreteClasses>
-
-            <DependsUpon>
-                <Package>java.lang</Package>
-                <Package>org.json</Package>
-            </DependsUpon>
-
-            <UsedBy>
-                <Package>org.osmdroid.tileprovider.tilesource.bing</Package>
             </UsedBy>
         </Package>
 
@@ -32349,11 +32311,11 @@
                 <TotalClasses>15</TotalClasses>
                 <ConcreteClasses>14</ConcreteClasses>
                 <AbstractClasses>1</AbstractClasses>
-                <Ca>14</Ca>
+                <Ca>13</Ca>
                 <Ce>26</Ce>
                 <A>0.07</A>
-                <I>0.65</I>
-                <D>0.28</D>
+                <I>0.67</I>
+                <D>0.27</D>
                 <V>1</V>
             </Stats>
 
@@ -32439,7 +32401,6 @@
 
             <UsedBy>
                 <Package>org.osmdroid.events</Package>
-                <Package>org.osmdroid.google.sample</Package>
                 <Package>org.osmdroid.google.wrapper.v2</Package>
                 <Package>org.osmdroid.tileprovider</Package>
                 <Package>org.osmdroid.tileprovider.cachemanager</Package>
@@ -32492,12 +32453,12 @@
 
         <Package name="org.osmdroid.views.overlay">
             <Stats>
-                <TotalClasses>44</TotalClasses>
-                <ConcreteClasses>29</ConcreteClasses>
+                <TotalClasses>45</TotalClasses>
+                <ConcreteClasses>30</ConcreteClasses>
                 <AbstractClasses>15</AbstractClasses>
                 <Ca>8</Ca>
-                <Ce>25</Ce>
-                <A>0.34</A>
+                <Ce>26</Ce>
+                <A>0.33</A>
                 <I>0.76</I>
                 <D>0.1</D>
                 <V>1</V>
@@ -32552,6 +32513,9 @@
             </AbstractClasses>
 
             <ConcreteClasses>
+                <Class sourceFile="CopyrightOverlay.java">
+                    org.osmdroid.views.overlay.CopyrightOverlay
+                </Class>
                 <Class sourceFile="DefaultOverlayManager.java">
                     org.osmdroid.views.overlay.DefaultOverlayManager
                 </Class>
@@ -32658,6 +32622,7 @@
                 <Package>java.util.concurrent.atomic</Package>
                 <Package>microsoft.mappoint</Package>
                 <Package>org.osmdroid.api</Package>
+                <Package>org.osmdroid.config</Package>
                 <Package>org.osmdroid.events</Package>
                 <Package>org.osmdroid.library</Package>
                 <Package>org.osmdroid.tileprovider</Package>
@@ -32777,7 +32742,7 @@
                 <ConcreteClasses>1</ConcreteClasses>
                 <AbstractClasses>0</AbstractClasses>
                 <Ca>0</Ca>
-                <Ce>8</Ce>
+                <Ce>9</Ce>
                 <A>0</A>
                 <I>1</I>
                 <D>0</D>
@@ -32796,6 +32761,7 @@
             <DependsUpon>
                 <Package>android.content</Package>
                 <Package>android.graphics</Package>
+                <Package>java.io</Package>
                 <Package>java.lang</Package>
                 <Package>java.text</Package>
                 <Package>java.util</Package>
@@ -32814,7 +32780,7 @@
                 <ConcreteClasses>3</ConcreteClasses>
                 <AbstractClasses>1</AbstractClasses>
                 <Ca>1</Ca>
-                <Ce>13</Ce>
+                <Ce>14</Ce>
                 <A>0.25</A>
                 <I>0.93</I>
                 <D>0.18</D>
@@ -32850,6 +32816,7 @@
                 <Package>java.lang</Package>
                 <Package>java.util</Package>
                 <Package>org.osmdroid.api</Package>
+                <Package>org.osmdroid.config</Package>
                 <Package>org.osmdroid.util</Package>
                 <Package>org.osmdroid.views</Package>
                 <Package>org.osmdroid.views.overlay</Package>
@@ -32912,11 +32879,11 @@
                 <Package>java.lang</Package>
                 <Package>java.util</Package>
                 <Package>org.osmdroid.api</Package>
+                <Package>org.osmdroid.config</Package>
                 <Package>org.osmdroid.library</Package>
                 <Package>org.osmdroid.util</Package>
                 <Package>org.osmdroid.views</Package>
                 <Package>org.osmdroid.views.overlay</Package>
-                <Package>org.osmdroid.views.util.constants</Package>
             </DependsUpon>
 
             <UsedBy>
@@ -33045,11 +33012,11 @@
                 <TotalClasses>3</TotalClasses>
                 <ConcreteClasses>0</ConcreteClasses>
                 <AbstractClasses>3</AbstractClasses>
-                <Ca>5</Ca>
+                <Ca>4</Ca>
                 <Ce>2</Ce>
                 <A>1</A>
-                <I>0.29</I>
-                <D>0.29</D>
+                <I>0.33</I>
+                <D>0.33</D>
                 <V>1</V>
             </Stats>
 
@@ -33077,7 +33044,6 @@
                 <Package>org.osmdroid.util</Package>
                 <Package>org.osmdroid.views</Package>
                 <Package>org.osmdroid.views.overlay</Package>
-                <Package>org.osmdroid.views.overlay.mylocation</Package>
                 <Package>org.osmdroid.views.util</Package>
             </UsedBy>
         </Package>
@@ -34297,12 +34263,11 @@
         </Package>
 
         <Package Name="org.osmdroid.tileprovider.tilesource.bing">
-            <Package>org.osmdroid.tileprovider.util</Package>
-            <Package>org.osmdroid.config</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
             <Package>org.osmdroid.tileprovider.tilesource</Package>
             <Package>org.osmdroid.tileprovider</Package>
             <Package>org.osmdroid.config</Package>
+            <Package>org.osmdroid.tileprovider.modules</Package>
+            <Package>org.osmdroid.tileprovider.tilesource</Package>
         </Package>
 
         <Package Name="org.osmdroid.tileprovider.util">

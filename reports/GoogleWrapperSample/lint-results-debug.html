@@ -18,8 +18,8 @@ document.getElementById(id+'Link').style.display = 'none';
 <body>
 <h1>Lint Report</h1>
 <div class="titleSeparator"></div>
-Check performed at Wed Dec 28 15:20:41 EST 2016.<br/>
-1 errors and 28 warnings found:<br/><br/>
+Check performed at Mon Jan 16 12:03:49 EST 2017.<br/>
+1 errors and 29 warnings found:<br/><br/>
 <table class="overview">
 <tr><td></td><td class="categoryColumn"><a href="#Correctness">Correctness</a>
 </td></tr>
@@ -56,7 +56,7 @@ Check performed at Wed Dec 28 15:20:41 EST 2016.<br/>
 <tr><td></td><td class="categoryColumn"><a href="#Performance">Performance</a>
 </td></tr>
 <tr>
-<td class="countColumn">4</td><td class="issueColumn"><img border="0" align="top" src="lint-results-debug_files/lint-warning.png" alt="Warning" />
+<td class="countColumn">5</td><td class="issueColumn"><img border="0" align="top" src="lint-results-debug_files/lint-warning.png" alt="Warning" />
 <a href="#UnusedResources">UnusedResources: Unused resources</a>
 </td></tr>
 <tr><td></td><td class="categoryColumn"><a href="#Usability:Icons">Usability:Icons</a>
@@ -392,6 +392,12 @@ If not set to false, and if targeting API 23 or later, lint will also warn that 
 <div class="id"><a href="#" title="Return to top">UnusedResources: Unused resources</a><div class="issueSeparator"></div>
 </div>
 <div class="warningslist">
+<span class="location"><a href="../../src/main/res/layout/map_with_locationbox.xml">../../src/main/res/layout/map_with_locationbox.xml</a>:2</span>: <span class="message">The resource <code>R.layout.map_with_locationbox</code> appears to be unused</span><br /><pre class="errorlines">
+<span class="lineno">   1</span> &lt;?xml version="1.0" encoding="utf-8"?>
+<span class="lineno">   2</span> <span class="errorspan">&lt;RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"</span>
+<span class="lineno">   3</span>     android:id="@+id/parent_container"
+<span class="lineno">   4</span>     android:layout_width="match_parent"
+</pre>
 <span class="location"><a href="../../src/main/res/values/strings.xml">../../src/main/res/values/strings.xml</a>:7</span>: <span class="message">The resource <code>R.string.map_view_google_v1</code> appears to be unused</span><br /><pre class="errorlines">
 <span class="lineno">   4</span> 
 <span class="lineno">   5</span>     &lt;string name="app_name">OSMDroid 3rd Party Examples&lt;/string>

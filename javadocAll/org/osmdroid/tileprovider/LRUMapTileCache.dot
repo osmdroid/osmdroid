@@ -10,15 +10,15 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.tileprovider.LRUMapTileCache
-	c53837 [label=<<table title="org.osmdroid.tileprovider.LRUMapTileCache" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./LRUMapTileCache.html">
+	c71247 [label=<<table title="org.osmdroid.tileprovider.LRUMapTileCache" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./LRUMapTileCache.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> LRUMapTileCache </td></tr>
 		</table></td></tr>
 		</table>>, URL="./LRUMapTileCache.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.tileprovider.LRUMapTileCache extends java.util.LinkedHashMap<org.osmdroid.tileprovider.MapTile, Drawable>
-	c54020:p -> c53837:p [dir=back,arrowtail=empty];
+	c71431:p -> c71247:p [dir=back,arrowtail=empty];
 	// java.util.LinkedHashMap<K, V>
-	c54020 [label=<<table title="java.util.LinkedHashMap" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/java/util/LinkedHashMap.html">
+	c71431 [label=<<table title="java.util.LinkedHashMap" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/java/util/LinkedHashMap.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> LinkedHashMap&lt;K, V&gt; </td></tr>
 		</table></td></tr>

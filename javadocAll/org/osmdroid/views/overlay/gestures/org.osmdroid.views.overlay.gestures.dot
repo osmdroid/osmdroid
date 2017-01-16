@@ -10,25 +10,25 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.views.overlay.gestures.RotationGestureDetector
-	c13468 [label=<<table title="org.osmdroid.views.overlay.gestures.RotationGestureDetector" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RotationGestureDetector.html">
+	c17741 [label=<<table title="org.osmdroid.views.overlay.gestures.RotationGestureDetector" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RotationGestureDetector.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> RotationGestureDetector </td></tr>
 		</table></td></tr>
 		</table>>, URL="./RotationGestureDetector.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.gestures.RotationGestureDetector.RotationListener
-	c13469 [label=<<table title="org.osmdroid.views.overlay.gestures.RotationGestureDetector.RotationListener" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RotationGestureDetector.RotationListener.html">
+	c17742 [label=<<table title="org.osmdroid.views.overlay.gestures.RotationGestureDetector.RotationListener" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RotationGestureDetector.RotationListener.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> RotationListener </td></tr>
 		</table></td></tr>
 		</table>>, URL="./RotationGestureDetector.RotationListener.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.gestures.RotationGestureOverlay
-	c13470 [label=<<table title="org.osmdroid.views.overlay.gestures.RotationGestureOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RotationGestureOverlay.html">
+	c17743 [label=<<table title="org.osmdroid.views.overlay.gestures.RotationGestureOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RotationGestureOverlay.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> RotationGestureOverlay </td></tr>
 		</table></td></tr>
 		</table>>, URL="./RotationGestureOverlay.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.views.overlay.gestures.RotationGestureOverlay implements org.osmdroid.views.overlay.gestures.RotationGestureDetector.RotationListener
-	c13469:p -> c13470:p [dir=back,arrowtail=empty,style=dashed];
+	c17742:p -> c17743:p [dir=back,arrowtail=empty,style=dashed];
 }
 

@@ -10,31 +10,31 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.google.wrapper.GeoPoint
-	c16780 [label=<<table title="org.osmdroid.google.wrapper.GeoPoint" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./GeoPoint.html">
+	c21827 [label=<<table title="org.osmdroid.google.wrapper.GeoPoint" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./GeoPoint.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> GeoPoint </td></tr>
 		</table></td></tr>
 		</table>>, URL="./GeoPoint.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.google.wrapper.MapController
-	c16781 [label=<<table title="org.osmdroid.google.wrapper.MapController" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapController.html">
+	c21828 [label=<<table title="org.osmdroid.google.wrapper.MapController" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapController.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MapController </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MapController.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.google.wrapper.MapView
-	c16782 [label=<<table title="org.osmdroid.google.wrapper.MapView" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapView.html">
+	c21829 [label=<<table title="org.osmdroid.google.wrapper.MapView" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapView.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MapView </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MapView.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.google.wrapper.MyLocationOverlay
-	c16783 [label=<<table title="org.osmdroid.google.wrapper.MyLocationOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MyLocationOverlay.html">
+	c21830 [label=<<table title="org.osmdroid.google.wrapper.MyLocationOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MyLocationOverlay.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MyLocationOverlay </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MyLocationOverlay.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.google.wrapper.Projection
-	c16784 [label=<<table title="org.osmdroid.google.wrapper.Projection" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Projection.html">
+	c21831 [label=<<table title="org.osmdroid.google.wrapper.Projection" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Projection.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> Projection </td></tr>
 		</table></td></tr>

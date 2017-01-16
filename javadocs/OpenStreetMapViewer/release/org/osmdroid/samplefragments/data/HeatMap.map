@@ -1,0 +1,10 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="../BaseSampleFragment.html" title="org.osmdroid.samplefragments.BaseSampleFragment" alt="" coords="16,19,164,45"/>
+<area shape="rect" id="node1" href="../BaseSampleFragment.html" title="&lt;TABLE&gt;" alt="" coords="5,8,175,56"/>
+<area shape="rect" id="node2_1" href="./HeatMap.html" title="org.osmdroid.samplefragments.data.HeatMap" alt="" coords="219,118,291,143"/>
+<area shape="rect" id="node2" href="./HeatMap.html" title="&lt;TABLE&gt;" alt="" coords="209,107,302,155"/>
+<area shape="rect" id="node3_2" href="http://java.sun.com/j2se/1.4.2/docs/api/org/osmdroid/events/MapListener.html" title="org.osmdroid.events.MapListener" alt="" coords="210,11,301,53"/>
+<area shape="rect" id="node3" href="http://java.sun.com/j2se/1.4.2/docs/api/org/osmdroid/events/MapListener.html" title="&lt;TABLE&gt;" alt="" coords="199,5,311,59"/>
+<area shape="rect" id="node4_3" href="http://java.sun.com/j2se/1.4.2/docs/api/java/lang/Runnable.html" title="java.lang.Runnable" alt="" coords="346,11,429,53"/>
+<area shape="rect" id="node4" href="http://java.sun.com/j2se/1.4.2/docs/api/java/lang/Runnable.html" title="&lt;TABLE&gt;" alt="" coords="335,5,439,59"/>
+</map>

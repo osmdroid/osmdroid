@@ -1,12 +1,14 @@
 <map id="G" name="G">
-<area shape="rect" id="node1_0" href="../IOverlayMenuProvider.html" title="org.osmdroid.views.overlay.IOverlayMenuProvider" alt="" coords="16,11,160,53"/>
-<area shape="rect" id="node1" href="../IOverlayMenuProvider.html" title="&lt;TABLE&gt;" alt="" coords="5,5,171,59"/>
-<area shape="rect" id="node3_1" href="./MyLocationNewOverlay.html" title="org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay" alt="" coords="277,118,432,143"/>
-<area shape="rect" id="node3" href="./MyLocationNewOverlay.html" title="&lt;TABLE&gt;" alt="" coords="267,107,443,155"/>
-<area shape="rect" id="node2_2" href="./IMyLocationConsumer.html" title="org.osmdroid.views.overlay.mylocation.IMyLocationConsumer" alt="" coords="206,11,354,53"/>
-<area shape="rect" id="node2" href="./IMyLocationConsumer.html" title="&lt;TABLE&gt;" alt="" coords="195,5,365,59"/>
-<area shape="rect" id="node4_3" href="../Overlay.html" title="org.osmdroid.views.overlay.Overlay" alt="" coords="399,19,462,45"/>
-<area shape="rect" id="node4" href="../Overlay.html" title="&lt;TABLE&gt;" alt="" coords="389,8,473,56"/>
-<area shape="rect" id="node5_4" href="../Overlay.Snappable.html" title="org.osmdroid.views.overlay.Overlay.Snappable" alt="" coords="508,11,591,53"/>
-<area shape="rect" id="node5" href="../Overlay.Snappable.html" title="&lt;TABLE&gt;" alt="" coords="497,5,601,59"/>
+<area shape="rect" id="node1_0" href="../../../samplefragments/location/SampleMyLocationWithClick.MyLocationOverlayWithClick.html" title="org.osmdroid.samplefragments.location.SampleMyLocationWithClick.MyLocationOverlayWithClick" alt="" coords="262,214,447,239"/>
+<area shape="rect" id="node1" href="../../../samplefragments/location/SampleMyLocationWithClick.MyLocationOverlayWithClick.html" title="&lt;TABLE&gt;" alt="" coords="251,203,458,251"/>
+<area shape="rect" id="node2_1" href="../IOverlayMenuProvider.html" title="org.osmdroid.views.overlay.IOverlayMenuProvider" alt="" coords="16,11,160,53"/>
+<area shape="rect" id="node2" href="../IOverlayMenuProvider.html" title="&lt;TABLE&gt;" alt="" coords="5,5,171,59"/>
+<area shape="rect" id="node4_2" href="./MyLocationNewOverlay.html" title="org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay" alt="" coords="277,118,432,143"/>
+<area shape="rect" id="node4" href="./MyLocationNewOverlay.html" title="&lt;TABLE&gt;" alt="" coords="267,107,443,155"/>
+<area shape="rect" id="node3_3" href="./IMyLocationConsumer.html" title="org.osmdroid.views.overlay.mylocation.IMyLocationConsumer" alt="" coords="206,11,354,53"/>
+<area shape="rect" id="node3" href="./IMyLocationConsumer.html" title="&lt;TABLE&gt;" alt="" coords="195,5,365,59"/>
+<area shape="rect" id="node5_4" href="../Overlay.html" title="org.osmdroid.views.overlay.Overlay" alt="" coords="399,19,462,45"/>
+<area shape="rect" id="node5" href="../Overlay.html" title="&lt;TABLE&gt;" alt="" coords="389,8,473,56"/>
+<area shape="rect" id="node6_5" href="../Overlay.Snappable.html" title="org.osmdroid.views.overlay.Overlay.Snappable" alt="" coords="508,11,591,53"/>
+<area shape="rect" id="node6" href="../Overlay.Snappable.html" title="&lt;TABLE&gt;" alt="" coords="497,5,601,59"/>
 </map>

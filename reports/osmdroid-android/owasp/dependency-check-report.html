@@ -64,16 +64,68 @@
                     xml += $("#modal-text").text().replace(/\n/g,'\n   ');
                     xml += '\n</suppressions>';
                     $('#modal-text').text(xml).focus().select();
+                    $('#modal-add-header').toggleClass('active');
                 });
             });
-            function copyText(name, sha1, type, val) {
+            function suppressSwitchTo(switchTo) {
+                $('#modal-suppress-change-to-sha1').toggleClass('active');
+                $('#modal-suppress-change-to-gav').toggleClass('active');
+                setCopyText($('#suppress-name').val(),
+                            switchTo,
+                            $('#suppress-'+switchTo).val(), 
+                            $('#suppress-type').val(), 
+                            $('#suppress-val').val());
+            }
+            function copyText(name, sha1, gav, type, val) {
+                $('#suppress-name').val(name);
+                $('#suppress-type').val(type);
+                $('#suppress-val').val(val);
+                $('#suppress-sha1').val(sha1);
+                $('#suppress-gav').val(gav);
+                if (gav=='') {
+                    if ($('#modal-suppress-change-to-gav').hasClass('active')) {
+                        $('#modal-suppress-change-to-gav').toggleClass('active');
+                    }
+                    if ($('#modal-suppress-change-to-sha1').hasClass('active')) {
+                        $('#modal-suppress-change-to-sha1').toggleClass('active');
+                    }
+                    setCopyText(name, 'sha1', sha1, type, val);
+                } else {
+                    if ($('#modal-suppress-change-to-gav').hasClass('active')) {
+                        $('#modal-suppress-change-to-gav').toggleClass('active');
+                    }
+                    if (!$('#modal-suppress-change-to-sha1').hasClass('active')) {
+                        $('#modal-suppress-change-to-sha1').toggleClass('active');
+                    }
+                    setCopyText(name, 'gav', gav, type, val);
+                }
+            }
+            function setCopyText(name, matchType, matchValue, suppressType, suppressVal) {
                 xml =  '<suppress>\n';
                 xml += '   <notes><!'+'[CDATA[\n   file name: ' + name + '\n   ]]'+'></notes>\n';
-                xml += '   <sha1>' + sha1 + '</sha1>\n';
-                xml += '   <'+type+'>' + val + '</'+type+'>\n';
+                if (matchType=='gav') {
+                    v = matchValue.match(/^[^:]+:[^:]+:/);
+                    if (v && v[0]) {
+                        xml += '   <'+matchType+' regex="true">^' + v[0].replace(/\./g,'\\.') + '.*$</'+matchType+'>\n';
+                    } else {
+                        xml += '   <'+matchType+'>' + matchValue + '</'+matchType+'>\n';
+                    }
+                } else {
+                    xml += '   <'+matchType+'>' + matchValue + '</'+matchType+'>\n';
+                }
+                if (suppressType=='cpe') {
+                    v = suppressVal.match(/^cpe:\/a:[^:]+:[^:]+/);
+                    if (v && v[0]) {
+                        xml += '   <'+suppressType+'>' + v[0] + '</'+suppressType+'>\n';
+                    } else {
+                        xml += '   <'+suppressType+'>' + suppressVal + '</'+suppressType+'>\n';
+                    }
+                } else {
+                    xml += '   <'+suppressType+'>' + suppressVal + '</'+suppressType+'>\n';
+                }
                 xml += '</suppress>';
                 $('#modal-text').text(xml);
-                $('#modal-content,#modal-background').toggleClass('active');
+                $('#modal-content,#modal-background').addClass('active');
                 $('#modal-text').focus();
                 $('#modal-text').select();
             }
@@ -131,6 +183,12 @@
             #modal-text:focus {
                 outline: none;
             }
+            .suppresstype {
+                display: none;
+            }
+            .suppresstype.active {
+                display: block;
+            }  
             .suppressedLabel {
                 cursor: default;
                 padding:1px;
@@ -485,6 +543,11 @@
         <div id="modal-background"></div>
         <div id="modal-content">
             <div>Press CTR-C to copy XML&nbsp;<a href="http://jeremylong.github.io/DependencyCheck/general/suppression.html" class="infolink" target="_blank" title="Help with suppressing false positives">[help]</a></div>
+                <button onclick="suppressSwitchTo('gav')" id="modal-suppress-change-to-gav" class="modal-button suppresstype" title="Supress by Maven Group Artifact Version">Suppress By GAV</button>
+                <button onclick="suppressSwitchTo('sha1')" id="modal-suppress-change-to-sha1" class="modal-button suppresstype" title="Supress by SHA1 hash">Suppress By SHA1</button><br/>
+                <input type="hidden" id="suppress-name"/>
+                <input type="hidden" id="suppress-type"/><input type="hidden" id="suppress-val"/>
+                <input type="hidden" id="suppress-sha1"/><input type="hidden" id="suppress-gav"/>
                 <textarea id="modal-text" cols="50" rows="10" readonly></textarea><br/>
                 <button id="modal-add-header" title="Add the parent XML nodes to create the complete XML file that can be used to suppress this finding" class="modal-button">Complete XML Doc</button><button id="modal-close" class="modal-button-right">Close</button>
         </div>
@@ -496,37 +559,42 @@ the reporting provided constitutes acceptance for use in an AS IS condition, and
 implied or otherwise, with regard to the analysis or its use. Any use of the tool and the reporting provided
 is at the user’s risk. In no event shall the copyright holder or OWASP be held liable for any damages whatsoever
 arising out of or in connection with the use of this tool, the analysis performed, or the resulting report.</p>
+<h3><a href="http://jeremylong.github.io/DependencyCheck/general/thereport.html" target="_bank">How&nbsp;to&nbsp;read&nbsp;the&nbsp;report</a> | 
+<a href="http://jeremylong.github.io/DependencyCheck/general/suppression.html" target="_bank">Suppressing false positives</a> |
+Getting Help: <a href="https://groups.google.com/forum/#!forum/dependency-check" target="_blank">google group</a> | 
+<a href="https://github.com/jeremylong/DependencyCheck/issues" target="_blank">github issues</a></h3>
 
             <h2 class="">Project:&nbsp;osmdroid-android</h2>
             <div class="">
                 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        Scan Information (<a href="#" title="Click to toggle display" onclick="return toggleDisplay(this, '.scaninfo', 'show all', 'show less');  return false;">show all</a>):<br/>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                Scan Information (<a href="#" title="Click to toggle display" onclick="return toggleDisplay(this, '.scaninfo', 'show all', 'show less');  return false;">show all</a>):<br/>
                     <ul class="indent">
-                        <li><i>dependency-check version</i>: 1.4.3</li>
-                        <li><i>Report Generated On</i>: Dec 28, 2016 at 15:23:56 EST</li>
-                        <li><i>Dependencies Scanned</i>:&nbsp;31 (26 unique)</li>
+                        <li><i>dependency-check version</i>: 1.4.4</li>
+                        <li><i>Report Generated On</i>: Jan 16, 2017 at 12:07:45 EST</li>
+                        <li><i>Dependencies Scanned</i>:&nbsp;24 (24 unique)</li>
                         <li><i>Vulnerable Dependencies</i>:&nbsp;0</li>
                         <li><i>Vulnerabilities Found</i>:&nbsp;0</li>
                         <li><i>Vulnerabilities Suppressed</i>:&nbsp;0</li>
                         <li class="scaninfo">...</li>
-                                                <li class="scaninfo hidden"><i>NVD CVE 2002</i>: 16/12/2016 03:30:11</li>
-                                                <li class="scaninfo hidden"><i>NVD CVE 2003</i>: 08/12/2016 03:31:14</li>
-                                                <li class="scaninfo hidden"><i>NVD CVE 2004</i>: 16/12/2016 03:28:25</li>
-                                                <li class="scaninfo hidden"><i>NVD CVE 2005</i>: 16/12/2016 03:27:34</li>
-                                                <li class="scaninfo hidden"><i>NVD CVE 2006</i>: 16/12/2016 03:26:04</li>
-                                                <li class="scaninfo hidden"><i>NVD CVE 2007</i>: 16/12/2016 03:23:42</li>
-                                                <li class="scaninfo hidden"><i>NVD CVE 2008</i>: 16/12/2016 03:21:35</li>
-                                                <li class="scaninfo hidden"><i>NVD CVE 2009</i>: 16/12/2016 03:18:56</li>
-                                                <li class="scaninfo hidden"><i>NVD CVE 2010</i>: 16/12/2016 03:16:57</li>
-                                                <li class="scaninfo hidden"><i>NVD CVE 2011</i>: 16/12/2016 03:14:22</li>
-                                                <li class="scaninfo hidden"><i>NVD CVE 2012</i>: 16/12/2016 03:11:18</li>
-                                                <li class="scaninfo hidden"><i>NVD CVE 2013</i>: 17/12/2016 03:07:49</li>
-                                                <li class="scaninfo hidden"><i>NVD CVE 2014</i>: 16/12/2016 03:06:45</li>
-                                                <li class="scaninfo hidden"><i>NVD CVE 2015</i>: 17/12/2016 03:05:04</li>
-                                                <li class="scaninfo hidden"><i>NVD CVE 2016</i>: 18/12/2016 03:02:26</li>
-                                                <li class="scaninfo hidden"><i>NVD CVE Checked</i>: 28/12/2016 15:20:20</li>
-                                                <li class="scaninfo hidden"><i>NVD CVE Modified</i>: 28/12/2016 14:02:56</li>
-                                                <li class="scaninfo hidden"><i>VersionCheckOn</i>: 1480817979332</li>
+                                                <li class="scaninfo hidden"><i>NVD CVE 2002</i>: 05/01/2017 03:11:17</li>
+                                                <li class="scaninfo hidden"><i>NVD CVE 2003</i>: 03/01/2017 03:25:13</li>
+                                                <li class="scaninfo hidden"><i>NVD CVE 2004</i>: 20/12/2016 03:20:02</li>
+                                                <li class="scaninfo hidden"><i>NVD CVE 2005</i>: 03/01/2017 03:24:37</li>
+                                                <li class="scaninfo hidden"><i>NVD CVE 2006</i>: 20/12/2016 03:17:07</li>
+                                                <li class="scaninfo hidden"><i>NVD CVE 2007</i>: 07/01/2017 03:21:56</li>
+                                                <li class="scaninfo hidden"><i>NVD CVE 2008</i>: 03/01/2017 03:22:49</li>
+                                                <li class="scaninfo hidden"><i>NVD CVE 2009</i>: 07/01/2017 03:19:30</li>
+                                                <li class="scaninfo hidden"><i>NVD CVE 2010</i>: 14/01/2017 03:06:55</li>
+                                                <li class="scaninfo hidden"><i>NVD CVE 2011</i>: 07/01/2017 03:14:53</li>
+                                                <li class="scaninfo hidden"><i>NVD CVE 2012</i>: 07/01/2017 03:11:40</li>
+                                                <li class="scaninfo hidden"><i>NVD CVE 2013</i>: 07/01/2017 03:09:24</li>
+                                                <li class="scaninfo hidden"><i>NVD CVE 2014</i>: 13/01/2017 03:07:05</li>
+                                                <li class="scaninfo hidden"><i>NVD CVE 2015</i>: 14/01/2017 03:04:28</li>
+                                                <li class="scaninfo hidden"><i>NVD CVE 2016</i>: 16/01/2017 03:02:28</li>
+                                                <li class="scaninfo hidden"><i>NVD CVE 2017</i>: 16/01/2017 03:00:02</li>
+                                                <li class="scaninfo hidden"><i>NVD CVE Checked</i>: 16/01/2017 12:03:25</li>
+                                                <li class="scaninfo hidden"><i>NVD CVE Modified</i>: 16/01/2017 10:00:27</li>
+                                                <li class="scaninfo hidden"><i>VersionCheckOn</i>: 1483650148175</li>
                                             </ul><br/>
                 Display:&nbsp;<a href="#" title="Click to toggle display" onclick="return toggleDisplay(this, '.notvulnerable', 'Showing Vulnerable Dependencies (click to show all)', 'Showing All Dependencies (click to show less)'); return false;">Showing Vulnerable Dependencies (click to show all)</a><br/><br/>
                                 <table id="summaryTable" class="lined">
@@ -618,20 +686,7 @@ arising out of or in connection with the use of this tool, the analysis performe
                         <td>9</td>
                     </tr>
                                         <tr class="notvulnerable">
-                        <td data-sort-value="junit-4.12.jar"><a href="#l7_2973d150c0dc1fefe998f834810d68f278ea58ec">junit-4.12.jar</a></td>
-                                                                                                                            <td data-sort-value="">
-                                                                                                                                                                                                                        </td>
-                                                <td data-sort-value="junit:junit:4.12">                                                        <a href="http://search.maven.org/remotecontent?filepath=junit/junit/4.12/junit-4.12.jar" target="_blank">junit:junit:4.12</a>
-                                                </td>
-                                                                        <td data-sort-value="-10">
-                                                    &nbsp;
-                                                </td>
-                        <td>0</td>
-                        <td data-sort-value="0"></td>
-                        <td>17</td>
-                    </tr>
-                                        <tr class="notvulnerable">
-                        <td data-sort-value="javacc-5.0.jar"><a href="#l8_f19b7d4278b837fe92504946e6860b0bcc180956">javacc-5.0.jar</a></td>
+                        <td data-sort-value="javacc-5.0.jar"><a href="#l7_f19b7d4278b837fe92504946e6860b0bcc180956">javacc-5.0.jar</a></td>
                                                                                                                             <td data-sort-value="">
                                                                                                                                                                                                                         </td>
                                                 <td data-sort-value="net.java.dev.javacc:javacc:5.0">                                                        <a href="http://search.maven.org/remotecontent?filepath=net/java/dev/javacc/javacc/5.0/javacc-5.0.jar" target="_blank">net.java.dev.javacc:javacc:5.0</a>
@@ -644,7 +699,7 @@ arising out of or in connection with the use of this tool, the analysis performe
                         <td>13</td>
                     </tr>
                                         <tr class="notvulnerable">
-                        <td data-sort-value="pmd-core-5.2.3.jar"><a href="#l9_607cfed215e4ed40f8600cb84dc65d2368a2ff89">pmd-core-5.2.3.jar</a></td>
+                        <td data-sort-value="pmd-core-5.2.3.jar"><a href="#l8_607cfed215e4ed40f8600cb84dc65d2368a2ff89">pmd-core-5.2.3.jar</a></td>
                                                                                                                             <td data-sort-value="">
                                                                                                                                                                                                                         </td>
                                                 <td data-sort-value="net.sourceforge.pmd:pmd-core:5.2.3">                                                        <a href="http://search.maven.org/#search|ga|1|1%3A%22607cfed215e4ed40f8600cb84dc65d2368a2ff89%22" target="_blank">net.sourceforge.pmd:pmd-core:5.2.3</a>
@@ -657,7 +712,7 @@ arising out of or in connection with the use of this tool, the analysis performe
                         <td>13</td>
                     </tr>
                                         <tr class="notvulnerable">
-                        <td data-sort-value="pmd-java-5.2.3.jar"><a href="#l10_f19e63f9cbfe2a7434dd44247445e9019ad51f2e">pmd-java-5.2.3.jar</a></td>
+                        <td data-sort-value="pmd-java-5.2.3.jar"><a href="#l9_f19e63f9cbfe2a7434dd44247445e9019ad51f2e">pmd-java-5.2.3.jar</a></td>
                                                                                                                             <td data-sort-value="">
                                                                                                                                                                                                                         </td>
                                                 <td data-sort-value="net.sourceforge.pmd:pmd-java:5.2.3">                                                        <a href="http://search.maven.org/#search|ga|1|1%3A%22f19e63f9cbfe2a7434dd44247445e9019ad51f2e%22" target="_blank">net.sourceforge.pmd:pmd-java:5.2.3</a>
@@ -670,7 +725,7 @@ arising out of or in connection with the use of this tool, the analysis performe
                         <td>14</td>
                     </tr>
                                         <tr class="notvulnerable">
-                        <td data-sort-value="saxon-9.1.0.8.jar"><a href="#l11_9ffdd08cb74563cbd431c845238b414e933a0483">saxon-9.1.0.8.jar</a></td>
+                        <td data-sort-value="saxon-9.1.0.8.jar"><a href="#l10_9ffdd08cb74563cbd431c845238b414e933a0483">saxon-9.1.0.8.jar</a></td>
                                                                                                                                                                                                             <td data-sort-value="cpe:/a:saxon:saxon:9.1.0.8">
                                                                                                                                                                                 cpe:/a:saxon:saxon:9.1.0.8
                                                                                                                                                                                                                                                                                                                             </td>
@@ -680,11 +735,11 @@ arising out of or in connection with the use of this tool, the analysis performe
                                                     &nbsp;
                                                 </td>
                         <td>0</td>
-                        <td data-sort-value="0">LOW</td>
+                        <td data-sort-value="3">LOW</td>
                         <td>16</td>
                     </tr>
                                         <tr class="notvulnerable">
-                        <td data-sort-value="saxon-9.1.0.8-dom.jar"><a href="#l12_d3bc6741b15bb4c57626708287a2417ab5f67ee6">saxon-9.1.0.8-dom.jar</a></td>
+                        <td data-sort-value="saxon-9.1.0.8-dom.jar"><a href="#l11_d3bc6741b15bb4c57626708287a2417ab5f67ee6">saxon-9.1.0.8-dom.jar</a></td>
                                                                                                                                                                                                             <td data-sort-value="cpe:/a:saxon:saxon:9.1.0.8">
                                                                                                                                                                                 cpe:/a:saxon:saxon:9.1.0.8
                                                                                                                                                                                                                                                                                                                             </td>
@@ -694,11 +749,11 @@ arising out of or in connection with the use of this tool, the analysis performe
                                                     &nbsp;
                                                 </td>
                         <td>0</td>
-                        <td data-sort-value="0">LOW</td>
+                        <td data-sort-value="3">LOW</td>
                         <td>16</td>
                     </tr>
                                         <tr class="notvulnerable">
-                        <td data-sort-value="ant-jdepend-1.9.6.jar"><a href="#l13_b4e994f888c52883e36f9bcfd47b14554051ca30">ant-jdepend-1.9.6.jar</a></td>
+                        <td data-sort-value="ant-jdepend-1.9.6.jar"><a href="#l12_b4e994f888c52883e36f9bcfd47b14554051ca30">ant-jdepend-1.9.6.jar</a></td>
                                                                                                                             <td data-sort-value="">
                                                                                                                                                                                                                         </td>
                                                 <td data-sort-value="org.apache.ant:ant-jdepend:1.9.6">                                                        <a href="http://search.maven.org/remotecontent?filepath=org/apache/ant/ant-jdepend/1.9.6/ant-jdepend-1.9.6.jar" target="_blank">org.apache.ant:ant-jdepend:1.9.6</a>
@@ -711,7 +766,7 @@ arising out of or in connection with the use of this tool, the analysis performe
                         <td>21</td>
                     </tr>
                                         <tr class="notvulnerable">
-                        <td data-sort-value="commons-lang3-3.3.2.jar"><a href="#l14_90a3822c38ec8c996e84c16a3477ef632cbc87a3">commons-lang3-3.3.2.jar</a></td>
+                        <td data-sort-value="commons-lang3-3.3.2.jar"><a href="#l13_90a3822c38ec8c996e84c16a3477ef632cbc87a3">commons-lang3-3.3.2.jar</a></td>
                                                                                                                             <td data-sort-value="">
                                                                                                                                                                                                                         </td>
                                                 <td data-sort-value="org.apache.commons:commons-lang3:3.3.2">                                                        <a href="http://search.maven.org/#search|ga|1|1%3A%2290a3822c38ec8c996e84c16a3477ef632cbc87a3%22" target="_blank">org.apache.commons:commons-lang3:3.3.2</a>
@@ -724,7 +779,7 @@ arising out of or in connection with the use of this tool, the analysis performe
                         <td>26</td>
                     </tr>
                                         <tr class="notvulnerable">
-                        <td data-sort-value="javancss-33.54.jar"><a href="#l15_a5234d6515d04d1eeb5ebfb52a4e4454e94f45c3">javancss-33.54.jar</a></td>
+                        <td data-sort-value="javancss-33.54.jar"><a href="#l14_a5234d6515d04d1eeb5ebfb52a4e4454e94f45c3">javancss-33.54.jar</a></td>
                                                                                                                             <td data-sort-value="">
                                                                                                                                                                                                                         </td>
                                                 <td data-sort-value="org.codehaus.javancss:javancss:33.54">                                                        <a href="http://search.maven.org/#search|ga|1|1%3A%22a5234d6515d04d1eeb5ebfb52a4e4454e94f45c3%22" target="_blank">org.codehaus.javancss:javancss:33.54</a>
@@ -737,20 +792,7 @@ arising out of or in connection with the use of this tool, the analysis performe
                         <td>18</td>
                     </tr>
                                         <tr class="notvulnerable">
-                        <td data-sort-value="hamcrest-core-1.3.jar"><a href="#l16_42a25dc3219429f0e5d060061f71acb49bf010a0">hamcrest-core-1.3.jar</a></td>
-                                                                                                                            <td data-sort-value="">
-                                                                                                                                                                                                                        </td>
-                                                <td data-sort-value="org.hamcrest:hamcrest-core:1.3">                                                        <a href="http://search.maven.org/remotecontent?filepath=org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar" target="_blank">org.hamcrest:hamcrest-core:1.3</a>
-                                                </td>
-                                                                        <td data-sort-value="-10">
-                                                    &nbsp;
-                                                </td>
-                        <td>0</td>
-                        <td data-sort-value="0"></td>
-                        <td>17</td>
-                    </tr>
-                                        <tr class="notvulnerable">
-                        <td data-sort-value="org.jacoco.agent-0.7.4.201502262128.jar"><a href="#l17_a579ae4cde66201b73266bfd78fdb50158d179f1">org.jacoco.agent-0.7.4.201502262128.jar</a></td>
+                        <td data-sort-value="org.jacoco.agent-0.7.4.201502262128.jar"><a href="#l15_a579ae4cde66201b73266bfd78fdb50158d179f1">org.jacoco.agent-0.7.4.201502262128.jar</a></td>
                                                                                                                             <td data-sort-value="">
                                                                                                                                                                                                                         </td>
                                                 <td data-sort-value="org.jacoco:org.jacoco.agent:0.7.4.201502262128">                                                        <a href="http://search.maven.org/#search|ga|1|1%3A%22a579ae4cde66201b73266bfd78fdb50158d179f1%22" target="_blank">org.jacoco:org.jacoco.agent:0.7.4.201502262128</a>
@@ -763,7 +805,7 @@ arising out of or in connection with the use of this tool, the analysis performe
                         <td>16</td>
                     </tr>
                                         <tr class="notvulnerable">
-                        <td data-sort-value="org.jacoco.agent-0.7.4.201502262128.jar: jacocoagent.jar"><a href="#l18_ea73283d55c98ab1fccb8c23d76c68b7d7ecbd83">org.jacoco.agent-0.7.4.201502262128.jar: jacocoagent.jar</a></td>
+                        <td data-sort-value="org.jacoco.agent-0.7.4.201502262128.jar: jacocoagent.jar"><a href="#l16_ea73283d55c98ab1fccb8c23d76c68b7d7ecbd83">org.jacoco.agent-0.7.4.201502262128.jar: jacocoagent.jar</a></td>
                                                                         <td data-sort-value="">
                                                                         </td>
                                                 <td data-sort-value="">
@@ -776,20 +818,7 @@ arising out of or in connection with the use of this tool, the analysis performe
                         <td>8</td>
                     </tr>
                                         <tr class="notvulnerable">
-                        <td data-sort-value="org.jacoco.agent-0.7.4.201502262128.jar: jacocoagent.jar\META-INF/maven/org.jacoco/org.jacoco.agent.rt/pom.xml"><a href="#l19_b73c3dd49fff5a9bd2df48bbeecc881ce3d05bac">org.jacoco.agent-0.7.4.201502262128.jar: jacocoagent.jar\META-INF/maven/org.jacoco/org.jacoco.agent.rt/pom.xml</a></td>
-                                                                                                                            <td data-sort-value="">
-                                                                                                                                                                                                                        </td>
-                                                <td data-sort-value="org.jacoco:org.jacoco.agent.rt:0.7.4.201502262128">                            org.jacoco:org.jacoco.agent.rt:0.7.4.201502262128
-                                                </td>
-                                                                        <td data-sort-value="-10">
-                                                    &nbsp;
-                                                </td>
-                        <td>0</td>
-                        <td data-sort-value="0"></td>
-                        <td>7</td>
-                    </tr>
-                                        <tr class="notvulnerable">
-                        <td data-sort-value="org.jacoco.ant-0.7.4.201502262128.jar"><a href="#l20_e8808120e50c1f2e830ff26cbfacbf3f018441b7">org.jacoco.ant-0.7.4.201502262128.jar</a></td>
+                        <td data-sort-value="org.jacoco.ant-0.7.4.201502262128.jar"><a href="#l17_e8808120e50c1f2e830ff26cbfacbf3f018441b7">org.jacoco.ant-0.7.4.201502262128.jar</a></td>
                                                                                                                             <td data-sort-value="">
                                                                                                                                                                                                                         </td>
                                                 <td data-sort-value="org.jacoco:org.jacoco.ant:0.7.4.201502262128">                                                        <a href="http://search.maven.org/#search|ga|1|1%3A%22e8808120e50c1f2e830ff26cbfacbf3f018441b7%22" target="_blank">org.jacoco:org.jacoco.ant:0.7.4.201502262128</a>
@@ -802,7 +831,7 @@ arising out of or in connection with the use of this tool, the analysis performe
                         <td>17</td>
                     </tr>
                                         <tr class="notvulnerable">
-                        <td data-sort-value="org.jacoco.core-0.7.4.201502262128.jar"><a href="#l21_31482f50411a3a5769b6c78fa9b97ba731c205e7">org.jacoco.core-0.7.4.201502262128.jar</a></td>
+                        <td data-sort-value="org.jacoco.core-0.7.4.201502262128.jar"><a href="#l18_31482f50411a3a5769b6c78fa9b97ba731c205e7">org.jacoco.core-0.7.4.201502262128.jar</a></td>
                                                                                                                             <td data-sort-value="">
                                                                                                                                                                                                                         </td>
                                                 <td data-sort-value="org.jacoco:org.jacoco.core:0.7.4.201502262128">                                                        <a href="http://search.maven.org/#search|ga|1|1%3A%2231482f50411a3a5769b6c78fa9b97ba731c205e7%22" target="_blank">org.jacoco:org.jacoco.core:0.7.4.201502262128</a>
@@ -815,7 +844,7 @@ arising out of or in connection with the use of this tool, the analysis performe
                         <td>16</td>
                     </tr>
                                         <tr class="notvulnerable">
-                        <td data-sort-value="org.jacoco.report-0.7.4.201502262128.jar"><a href="#l22_5c6bb5f95ae695dc4510b95f7d5ad0397e4881ad">org.jacoco.report-0.7.4.201502262128.jar</a></td>
+                        <td data-sort-value="org.jacoco.report-0.7.4.201502262128.jar"><a href="#l19_5c6bb5f95ae695dc4510b95f7d5ad0397e4881ad">org.jacoco.report-0.7.4.201502262128.jar</a></td>
                                                                                                                             <td data-sort-value="">
                                                                                                                                                                                                                         </td>
                                                 <td data-sort-value="org.jacoco:org.jacoco.report:0.7.4.201502262128">                                                        <a href="http://search.maven.org/#search|ga|1|1%3A%225c6bb5f95ae695dc4510b95f7d5ad0397e4881ad%22" target="_blank">org.jacoco:org.jacoco.report:0.7.4.201502262128</a>
@@ -828,7 +857,7 @@ arising out of or in connection with the use of this tool, the analysis performe
                         <td>16</td>
                     </tr>
                                         <tr class="notvulnerable">
-                        <td data-sort-value="asm-debug-all-5.0.1.jar"><a href="#l23_f69b5f7d96cec0d448acf1c1a266584170c9643b">asm-debug-all-5.0.1.jar</a></td>
+                        <td data-sort-value="asm-debug-all-5.0.1.jar"><a href="#l20_f69b5f7d96cec0d448acf1c1a266584170c9643b">asm-debug-all-5.0.1.jar</a></td>
                                                                                                                             <td data-sort-value="">
                                                                                                                                                                                                                         </td>
                                                 <td data-sort-value="org.ow2.asm:asm-debug-all:5.0.1">                                                        <a href="http://search.maven.org/remotecontent?filepath=org/ow2/asm/asm-debug-all/5.0.1/asm-debug-all-5.0.1.jar" target="_blank">org.ow2.asm:asm-debug-all:5.0.1</a>
@@ -841,7 +870,7 @@ arising out of or in connection with the use of this tool, the analysis performe
                         <td>21</td>
                     </tr>
                                         <tr class="notvulnerable">
-                        <td data-sort-value="asm-5.0.3.jar"><a href="#l24_dcc2193db20e19e1feca8b1240dbbc4e190824fa">asm-5.0.3.jar</a></td>
+                        <td data-sort-value="asm-5.0.3.jar"><a href="#l21_dcc2193db20e19e1feca8b1240dbbc4e190824fa">asm-5.0.3.jar</a></td>
                                                                                                                             <td data-sort-value="">
                                                                                                                                                                                                                         </td>
                                                 <td data-sort-value="org.ow2.asm:asm:5.0.3">                                                        <a href="http://search.maven.org/remotecontent?filepath=org/ow2/asm/asm/5.0.3/asm-5.0.3.jar" target="_blank">org.ow2.asm:asm:5.0.3</a>
@@ -854,7 +883,7 @@ arising out of or in connection with the use of this tool, the analysis performe
                         <td>21</td>
                     </tr>
                                         <tr class="notvulnerable">
-                        <td data-sort-value="xercesImpl-2.11.0.jar"><a href="#l25_9bb329db1cfc4e22462c9d6b43a8432f5850e92c">xercesImpl-2.11.0.jar</a></td>
+                        <td data-sort-value="xercesImpl-2.11.0.jar"><a href="#l22_9bb329db1cfc4e22462c9d6b43a8432f5850e92c">xercesImpl-2.11.0.jar</a></td>
                                                                                                                             <td data-sort-value="">
                                                                                                                                                                                                                         </td>
                                                 <td data-sort-value="xerces:xercesImpl:2.11.0">                                                        <a href="http://search.maven.org/remotecontent?filepath=xerces/xercesImpl/2.11.0/xercesImpl-2.11.0.jar" target="_blank">xerces:xercesImpl:2.11.0</a>
@@ -867,7 +896,7 @@ arising out of or in connection with the use of this tool, the analysis performe
                         <td>60</td>
                     </tr>
                                         <tr class="notvulnerable">
-                        <td data-sort-value="xml-apis-1.4.01.jar"><a href="#l26_3789d9fada2d3d458c4ba2de349d48780f381ee3">xml-apis-1.4.01.jar</a></td>
+                        <td data-sort-value="xml-apis-1.4.01.jar"><a href="#l23_3789d9fada2d3d458c4ba2de349d48780f381ee3">xml-apis-1.4.01.jar</a></td>
                                                                                                                             <td data-sort-value="">
                                                                                                                                                                                                                         </td>
                                                 <td data-sort-value="xml-apis:xml-apis:1.4.01">                                                        <a href="http://search.maven.org/remotecontent?filepath=xml-apis/xml-apis/1.4.01/xml-apis-1.4.01.jar" target="_blank">xml-apis:xml-apis:1.4.01</a>
@@ -878,6 +907,19 @@ arising out of or in connection with the use of this tool, the analysis performe
                         <td>0</td>
                         <td data-sort-value="0"></td>
                         <td>55</td>
+                    </tr>
+                                        <tr class="notvulnerable">
+                        <td data-sort-value="org.jacoco.agent-0.7.4.201502262128.jar: jacocoagent.jar\META-INF/maven/org.jacoco/org.jacoco.agent.rt/pom.xml"><a href="#l24_b73c3dd49fff5a9bd2df48bbeecc881ce3d05bac">org.jacoco.agent-0.7.4.201502262128.jar: jacocoagent.jar\META-INF/maven/org.jacoco/org.jacoco.agent.rt/pom.xml</a></td>
+                                                                                                                            <td data-sort-value="">
+                                                                                                                                                                                                                        </td>
+                                                <td data-sort-value="org.jacoco:org.jacoco.agent.rt:0.7.4.201502262128">                            org.jacoco:org.jacoco.agent.rt:0.7.4.201502262128
+                                                </td>
+                                                                        <td data-sort-value="-10">
+                                                    &nbsp;
+                                                </td>
+                        <td>0</td>
+                        <td data-sort-value="0"></td>
+                        <td>7</td>
                     </tr>
                                     </table>
                 <h2>Dependencies</h2>
@@ -916,7 +958,7 @@ arising out of or in connection with the use of this tool, the analysis performe
                                                                                                                             <h4 id="header2" class="subsectionheader white">Identifiers</h4>
                                                 <div id="content2" class="subsectioncontent standardsubsection">
                                                      <ul>
-                                                                                                                                    <li><b>maven:</b>&nbsp;<a href="http://search.maven.org/#search|ga|1|1%3A%2247592e181b0bdbbeb63029e08c5e74f6803c4edd%22" target="_blank">com.beust:jcommander:1.35</a>
+                                                                                                                                                                                                                                                                                        <li><b>maven:</b>&nbsp;<a href="http://search.maven.org/#search|ga|1|1%3A%2247592e181b0bdbbeb63029e08c5e74f6803c4edd%22" target="_blank">com.beust:jcommander:1.35</a>
                                                                                                     &nbsp;&nbsp;<i>Confidence</i>:HIGHEST
                                                                                                                                 </li>
                                                         </ul>
@@ -972,7 +1014,7 @@ The Commons IO library contains utility classes, stream implementations, file fi
                                                                                                                             <h4 id="header4" class="subsectionheader white">Identifiers</h4>
                                                 <div id="content4" class="subsectioncontent standardsubsection">
                                                      <ul>
-                                                                                                                                    <li><b>maven:</b>&nbsp;<a href="http://search.maven.org/#search|ga|1|1%3A%22b1b6ea3b7e4aa4f492509a4952029cd8e48019ad%22" target="_blank">commons-io:commons-io:2.4</a>
+                                                                                                                                                                                                                                                                                        <li><b>maven:</b>&nbsp;<a href="http://search.maven.org/#search|ga|1|1%3A%22b1b6ea3b7e4aa4f492509a4952029cd8e48019ad%22" target="_blank">commons-io:commons-io:2.4</a>
                                                                                                     &nbsp;&nbsp;<i>Confidence</i>:HIGHEST
                                                                                                                                 </li>
                                                         </ul>
@@ -1013,7 +1055,7 @@ The Commons IO library contains utility classes, stream implementations, file fi
                                                                                                                                                                                                                                                                                         <h4 id="header6" class="subsectionheader white">Identifiers</h4>
                                                 <div id="content6" class="subsectioncontent standardsubsection">
                                                      <ul>
-                                                                                                                                    <li><b>maven:</b>&nbsp;<a href="http://search.maven.org/remotecontent?filepath=javancss/ccl/25.45/ccl-25.45.jar" target="_blank">javancss:ccl:25.45</a>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <li><b>maven:</b>&nbsp;<a href="http://search.maven.org/remotecontent?filepath=javancss/ccl/25.45/ccl-25.45.jar" target="_blank">javancss:ccl:25.45</a>
                                                                                                     &nbsp;&nbsp;<i>Confidence</i>:HIGHEST
                                                                                                                                 </li>
                                                                                                                                     <li><b>maven:</b>&nbsp;<a href="http://search.maven.org/remotecontent?filepath=javancss/ccl/26.46/ccl-26.46.jar" target="_blank">javancss:ccl:26.46</a>
@@ -1070,7 +1112,7 @@ The Commons IO library contains utility classes, stream implementations, file fi
                                                                                                                                                                                                                                                                                                                                             <h4 id="header8" class="subsectionheader white">Identifiers</h4>
                                                 <div id="content8" class="subsectioncontent standardsubsection">
                                                      <ul>
-                                                                                                                                    <li><b>maven:</b>&nbsp;<a href="http://search.maven.org/remotecontent?filepath=javancss/jhbasic/21.41/jhbasic-21.41.jar" target="_blank">javancss:jhbasic:21.41</a>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <li><b>maven:</b>&nbsp;<a href="http://search.maven.org/remotecontent?filepath=javancss/jhbasic/21.41/jhbasic-21.41.jar" target="_blank">javancss:jhbasic:21.41</a>
                                                                                                     &nbsp;&nbsp;<i>Confidence</i>:HIGHEST
                                                                                                                                 </li>
                                                                                                                                     <li><b>maven:</b>&nbsp;<a href="http://search.maven.org/remotecontent?filepath=javancss/jhbasic/25.45/jhbasic-25.45.jar" target="_blank">javancss:jhbasic:25.45</a>
@@ -1122,7 +1164,7 @@ The Commons IO library contains utility classes, stream implementations, file fi
                                                                                                                             <h4 id="header10" class="subsectionheader white">Identifiers</h4>
                                                 <div id="content10" class="subsectioncontent standardsubsection">
                                                      <ul>
-                                                                                                                                    <li><b>maven:</b>&nbsp;<a href="http://search.maven.org/#search|ga|1|1%3A%228c06a96cf9150ded75c28b7087ed821a93270c41%22" target="_blank">jaxen:jaxen:1.1.4</a>
+                                                                                                                                                                                                                                                                                        <li><b>maven:</b>&nbsp;<a href="http://search.maven.org/#search|ga|1|1%3A%228c06a96cf9150ded75c28b7087ed821a93270c41%22" target="_blank">jaxen:jaxen:1.1.4</a>
                                                                                                     &nbsp;&nbsp;<i>Confidence</i>:HIGHEST
                                                                                                                                 </li>
                                                         </ul>
@@ -1155,73 +1197,13 @@ The Commons IO library contains utility classes, stream implementations, file fi
                                                                                                                             <h4 id="header12" class="subsectionheader white">Identifiers</h4>
                                                 <div id="content12" class="subsectioncontent standardsubsection">
                                                      <ul>
-                                                                                                                                    <li><b>maven:</b>&nbsp;<a href="http://search.maven.org/remotecontent?filepath=jdepend/jdepend/2.9.1/jdepend-2.9.1.jar" target="_blank">jdepend:jdepend:2.9.1</a>
+                                                                                                                                                                                                                                                                                        <li><b>maven:</b>&nbsp;<a href="http://search.maven.org/remotecontent?filepath=jdepend/jdepend/2.9.1/jdepend-2.9.1.jar" target="_blank">jdepend:jdepend:2.9.1</a>
                                                                                                     &nbsp;&nbsp;<i>Confidence</i>:HIGHEST
                                                                                                                                 </li>
                                                         </ul>
                                                 </div>
                                     </div>
-                                    <h3 class="subsectionheader standardsubsection notvulnerable"><a name="l7_2973d150c0dc1fefe998f834810d68f278ea58ec"></a>junit-4.12.jar</h3>
-                    <div class="subsectioncontent notvulnerable">
-                                                    <p><b>Description:</b>&nbsp;JUnit is a unit testing framework for Java, created by Erich Gamma and Kent Beck.<br/></p>
-                                                <p>
-                                                                                <b>License:</b><pre class="indent">Eclipse Public License 1.0: http://www.eclipse.org/legal/epl-v10.html</pre>
-                                                                                <b>File&nbsp;Path:</b>&nbsp;C:\Users\Dad\.gradle\caches\modules-2\files-2.1\junit\junit\4.12\2973d150c0dc1fefe998f834810d68f278ea58ec\junit-4.12.jar<br/>
-                            <b>MD5:</b>&nbsp;5b38c40c97fbd0adee29f91e60405584<br/>
-                            <b>SHA1:</b>&nbsp;2973d150c0dc1fefe998f834810d68f278ea58ec
-                                                                                        <br/><b>Referenced In Projects/Scopes:</b><ul>
-                                                                    <li>_debugUnitTestApk</li>
-                                                                    <li>_releaseUnitTestApk</li>
-                                                                </ul>
-                                                    </p>
-                                                <h4 id="header13" class="subsectionheader expandable expandablesubsection white">Evidence</h4>
-                        <div id="content13" class="subsectioncontent standardsubsection hidden">
-                            <table class="lined fullwidth" border="0">
-                                <tr><th class="left" style="width:10%;">Source</th><th class="left" style="width:20%;">Name</th><th class="left" style="width:70%;">Value</th></tr>
-                                                                    <tr><td>central</td><td>artifactid</td><td>junit</td></tr>
-                                                                    <tr><td>central</td><td>groupid</td><td>junit</td></tr>
-                                                                    <tr><td>central</td><td>version</td><td>4.12</td></tr>
-                                                                    <tr><td>file</td><td>name</td><td>junit</td></tr>
-                                                                    <tr><td>file</td><td>version</td><td>4.12</td></tr>
-                                                                    <tr><td>jar</td><td>package name</td><td>junit</td></tr>
-                                                                    <tr><td>Manifest</td><td>Implementation-Title</td><td>JUnit</td></tr>
-                                                                    <tr><td>Manifest</td><td>Implementation-Vendor</td><td>JUnit</td></tr>
-                                                                    <tr><td>Manifest</td><td>Implementation-Vendor-Id</td><td>junit</td></tr>
-                                                                    <tr><td>Manifest</td><td>Implementation-Version</td><td>4.12</td></tr>
-                                                                    <tr><td>pom</td><td>artifactid</td><td>junit</td></tr>
-                                                                    <tr><td>pom</td><td>description</td><td>JUnit is a unit testing framework for Java, created by Erich Gamma and Kent Beck.</td></tr>
-                                                                    <tr><td>pom</td><td>groupid</td><td>junit</td></tr>
-                                                                    <tr><td>pom</td><td>name</td><td>JUnit</td></tr>
-                                                                    <tr><td>pom</td><td>organization name</td><td>http://www.junit.org
-    </td></tr>
-                                                                    <tr><td>pom</td><td>url</td><td>http://junit.org</td></tr>
-                                                                    <tr><td>pom</td><td>version</td><td>4.12</td></tr>
-                                                            </table>
-                        </div>
-                                                    <h4 id="header14" class="subsectionheader expandable expandablesubsection white">Related Dependencies</h4>
-                            <div id="content14" class="subsectioncontent standardsubsection hidden">
-                            <ul>
-                                                            <li>junit-4.12.jar
-                                    <ul>
-                                        <li>File Path:&nbsp;C:\Users\Dad\.gradle\caches\modules-2\files-2.1\junit\junit\4.12\2973d150c0dc1fefe998f834810d68f278ea58ec\junit-4.12.jar</li>
-                                        <li>SHA1:&nbsp;2973d150c0dc1fefe998f834810d68f278ea58ec</li>
-                                        <li>MD5:&nbsp;5b38c40c97fbd0adee29f91e60405584</li>
-                                                                                                                                                                                                                                            <li>maven:&nbsp;<a href="http://search.maven.org/remotecontent?filepath=junit/junit/4.12/junit-4.12.jar" target="_blank">junit:junit:4.12</a>
-                                                                                                </li>
-                                                                                                                         </ul>
-                                </li>
-                                                        </ul>
-                            </div>
-                                                                                                                            <h4 id="header15" class="subsectionheader white">Identifiers</h4>
-                                                <div id="content15" class="subsectioncontent standardsubsection">
-                                                     <ul>
-                                                                                                                                    <li><b>maven:</b>&nbsp;<a href="http://search.maven.org/remotecontent?filepath=junit/junit/4.12/junit-4.12.jar" target="_blank">junit:junit:4.12</a>
-                                                                                                    &nbsp;&nbsp;<i>Confidence</i>:HIGHEST
-                                                                                                                                </li>
-                                                        </ul>
-                                                </div>
-                                    </div>
-                                    <h3 class="subsectionheader standardsubsection notvulnerable"><a name="l8_f19b7d4278b837fe92504946e6860b0bcc180956"></a>javacc-5.0.jar</h3>
+                                    <h3 class="subsectionheader standardsubsection notvulnerable"><a name="l7_f19b7d4278b837fe92504946e6860b0bcc180956"></a>javacc-5.0.jar</h3>
                     <div class="subsectioncontent notvulnerable">
                                                     <p><b>Description:</b>&nbsp;JavaCC is a parser/scanner generator for Java.<br/></p>
                                                 <p>
@@ -1232,8 +1214,8 @@ The Commons IO library contains utility classes, stream implementations, file fi
                                                             <br/><b>Referenced In Project/Scope:</b>
                                                                     pmd
                                                                                                                 </p>
-                                                <h4 id="header16" class="subsectionheader expandable expandablesubsection white">Evidence</h4>
-                        <div id="content16" class="subsectioncontent standardsubsection hidden">
+                                                <h4 id="header13" class="subsectionheader expandable expandablesubsection white">Evidence</h4>
+                        <div id="content13" class="subsectioncontent standardsubsection hidden">
                             <table class="lined fullwidth" border="0">
                                 <tr><th class="left" style="width:10%;">Source</th><th class="left" style="width:20%;">Name</th><th class="left" style="width:70%;">Value</th></tr>
                                                                     <tr><td>central</td><td>artifactid</td><td>javacc</td></tr>
@@ -1252,16 +1234,16 @@ The Commons IO library contains utility classes, stream implementations, file fi
                                                                     <tr><td>pom</td><td>version</td><td>5.0</td></tr>
                                                             </table>
                         </div>
-                                                                                                                            <h4 id="header17" class="subsectionheader white">Identifiers</h4>
-                                                <div id="content17" class="subsectioncontent standardsubsection">
+                                                                                                                            <h4 id="header14" class="subsectionheader white">Identifiers</h4>
+                                                <div id="content14" class="subsectioncontent standardsubsection">
                                                      <ul>
-                                                                                                                                    <li><b>maven:</b>&nbsp;<a href="http://search.maven.org/remotecontent?filepath=net/java/dev/javacc/javacc/5.0/javacc-5.0.jar" target="_blank">net.java.dev.javacc:javacc:5.0</a>
+                                                                                                                                                                                                                                                                                        <li><b>maven:</b>&nbsp;<a href="http://search.maven.org/remotecontent?filepath=net/java/dev/javacc/javacc/5.0/javacc-5.0.jar" target="_blank">net.java.dev.javacc:javacc:5.0</a>
                                                                                                     &nbsp;&nbsp;<i>Confidence</i>:HIGHEST
                                                                                                                                 </li>
                                                         </ul>
                                                 </div>
                                     </div>
-                                    <h3 class="subsectionheader standardsubsection notvulnerable"><a name="l9_607cfed215e4ed40f8600cb84dc65d2368a2ff89"></a>pmd-core-5.2.3.jar</h3>
+                                    <h3 class="subsectionheader standardsubsection notvulnerable"><a name="l8_607cfed215e4ed40f8600cb84dc65d2368a2ff89"></a>pmd-core-5.2.3.jar</h3>
                     <div class="subsectioncontent notvulnerable">
                                                 <p>
                                                     <b>File&nbsp;Path:</b>&nbsp;C:\Users\Dad\.gradle\caches\modules-2\files-2.1\net.sourceforge.pmd\pmd-core\5.2.3\607cfed215e4ed40f8600cb84dc65d2368a2ff89\pmd-core-5.2.3.jar<br/>
@@ -1270,8 +1252,8 @@ The Commons IO library contains utility classes, stream implementations, file fi
                                                             <br/><b>Referenced In Project/Scope:</b>
                                                                     pmd
                                                                                                                 </p>
-                                                <h4 id="header18" class="subsectionheader expandable expandablesubsection white">Evidence</h4>
-                        <div id="content18" class="subsectioncontent standardsubsection hidden">
+                                                <h4 id="header15" class="subsectionheader expandable expandablesubsection white">Evidence</h4>
+                        <div id="content15" class="subsectioncontent standardsubsection hidden">
                             <table class="lined fullwidth" border="0">
                                 <tr><th class="left" style="width:10%;">Source</th><th class="left" style="width:20%;">Name</th><th class="left" style="width:70%;">Value</th></tr>
                                                                     <tr><td>central</td><td>artifactid</td><td>pmd-core</td></tr>
@@ -1289,16 +1271,16 @@ The Commons IO library contains utility classes, stream implementations, file fi
                                                                     <tr><td>pom</td><td>version</td><td>5.2.3</td></tr>
                                                             </table>
                         </div>
-                                                                                                                            <h4 id="header19" class="subsectionheader white">Identifiers</h4>
-                                                <div id="content19" class="subsectioncontent standardsubsection">
+                                                                                                                            <h4 id="header16" class="subsectionheader white">Identifiers</h4>
+                                                <div id="content16" class="subsectioncontent standardsubsection">
                                                      <ul>
-                                                                                                                                    <li><b>maven:</b>&nbsp;<a href="http://search.maven.org/#search|ga|1|1%3A%22607cfed215e4ed40f8600cb84dc65d2368a2ff89%22" target="_blank">net.sourceforge.pmd:pmd-core:5.2.3</a>
+                                                                                                                                                                                                                                                                                        <li><b>maven:</b>&nbsp;<a href="http://search.maven.org/#search|ga|1|1%3A%22607cfed215e4ed40f8600cb84dc65d2368a2ff89%22" target="_blank">net.sourceforge.pmd:pmd-core:5.2.3</a>
                                                                                                     &nbsp;&nbsp;<i>Confidence</i>:HIGHEST
                                                                                                                                 </li>
                                                         </ul>
                                                 </div>
                                     </div>
-                                    <h3 class="subsectionheader standardsubsection notvulnerable"><a name="l10_f19e63f9cbfe2a7434dd44247445e9019ad51f2e"></a>pmd-java-5.2.3.jar</h3>
+                                    <h3 class="subsectionheader standardsubsection notvulnerable"><a name="l9_f19e63f9cbfe2a7434dd44247445e9019ad51f2e"></a>pmd-java-5.2.3.jar</h3>
                     <div class="subsectioncontent notvulnerable">
                                                 <p>
                                                     <b>File&nbsp;Path:</b>&nbsp;C:\Users\Dad\.gradle\caches\modules-2\files-2.1\net.sourceforge.pmd\pmd-java\5.2.3\f19e63f9cbfe2a7434dd44247445e9019ad51f2e\pmd-java-5.2.3.jar<br/>
@@ -1307,8 +1289,8 @@ The Commons IO library contains utility classes, stream implementations, file fi
                                                             <br/><b>Referenced In Project/Scope:</b>
                                                                     pmd
                                                                                                                 </p>
-                                                <h4 id="header20" class="subsectionheader expandable expandablesubsection white">Evidence</h4>
-                        <div id="content20" class="subsectioncontent standardsubsection hidden">
+                                                <h4 id="header17" class="subsectionheader expandable expandablesubsection white">Evidence</h4>
+                        <div id="content17" class="subsectioncontent standardsubsection hidden">
                             <table class="lined fullwidth" border="0">
                                 <tr><th class="left" style="width:10%;">Source</th><th class="left" style="width:20%;">Name</th><th class="left" style="width:70%;">Value</th></tr>
                                                                     <tr><td>central</td><td>artifactid</td><td>pmd-java</td></tr>
@@ -1327,16 +1309,16 @@ The Commons IO library contains utility classes, stream implementations, file fi
                                                                     <tr><td>pom</td><td>version</td><td>5.2.3</td></tr>
                                                             </table>
                         </div>
-                                                                                                                            <h4 id="header21" class="subsectionheader white">Identifiers</h4>
-                                                <div id="content21" class="subsectioncontent standardsubsection">
+                                                                                                                            <h4 id="header18" class="subsectionheader white">Identifiers</h4>
+                                                <div id="content18" class="subsectioncontent standardsubsection">
                                                      <ul>
-                                                                                                                                    <li><b>maven:</b>&nbsp;<a href="http://search.maven.org/#search|ga|1|1%3A%22f19e63f9cbfe2a7434dd44247445e9019ad51f2e%22" target="_blank">net.sourceforge.pmd:pmd-java:5.2.3</a>
+                                                                                                                                                                                                                                                                                        <li><b>maven:</b>&nbsp;<a href="http://search.maven.org/#search|ga|1|1%3A%22f19e63f9cbfe2a7434dd44247445e9019ad51f2e%22" target="_blank">net.sourceforge.pmd:pmd-java:5.2.3</a>
                                                                                                     &nbsp;&nbsp;<i>Confidence</i>:HIGHEST
                                                                                                                                 </li>
                                                         </ul>
                                                 </div>
                                     </div>
-                                    <h3 class="subsectionheader standardsubsection notvulnerable"><a name="l11_9ffdd08cb74563cbd431c845238b414e933a0483"></a>saxon-9.1.0.8.jar</h3>
+                                    <h3 class="subsectionheader standardsubsection notvulnerable"><a name="l10_9ffdd08cb74563cbd431c845238b414e933a0483"></a>saxon-9.1.0.8.jar</h3>
                     <div class="subsectioncontent notvulnerable">
                                                     <p><b>Description:</b>&nbsp;
      Saxon a complete and conformant implementation of the XSLT 2.0, XQuery 1.0, and XPath 2.0 Recommendations published on 23 January 2007 by W3C
@@ -1349,8 +1331,8 @@ The Commons IO library contains utility classes, stream implementations, file fi
                                                             <br/><b>Referenced In Project/Scope:</b>
                                                                     pmd
                                                                                                                 </p>
-                                                <h4 id="header22" class="subsectionheader expandable expandablesubsection white">Evidence</h4>
-                        <div id="content22" class="subsectioncontent standardsubsection hidden">
+                                                <h4 id="header19" class="subsectionheader expandable expandablesubsection white">Evidence</h4>
+                        <div id="content19" class="subsectioncontent standardsubsection hidden">
                             <table class="lined fullwidth" border="0">
                                 <tr><th class="left" style="width:10%;">Source</th><th class="left" style="width:20%;">Name</th><th class="left" style="width:70%;">Value</th></tr>
                                                                     <tr><td>central</td><td>artifactid</td><td>saxon</td></tr>
@@ -1372,12 +1354,12 @@ The Commons IO library contains utility classes, stream implementations, file fi
                                                                     <tr><td>pom</td><td>version</td><td>9.1.0.8</td></tr>
                                                             </table>
                         </div>
-                                                                                                                                                                                                            <h4 id="header23" class="subsectionheader white">Identifiers</h4>
-                                                <div id="content23" class="subsectioncontent standardsubsection">
+                                                                                                                                                                                                            <h4 id="header20" class="subsectionheader white">Identifiers</h4>
+                                                <div id="content20" class="subsectioncontent standardsubsection">
                                                      <ul>
-                                                                                                <li><b>cpe:</b>&nbsp;cpe:/a:saxon:saxon:9.1.0.8
+                                                                                                                                                                                                                                                                                                                <li><b>cpe:</b>&nbsp;cpe:/a:saxon:saxon:9.1.0.8
                                                                                                     &nbsp;&nbsp;<i>Confidence</i>:LOW
-                                                                                                                                        &nbsp;&nbsp;<button class="copybutton" title="Generate Suppression XML for this CPE for this file" onclick="copyText('saxon-9.1.0.8.jar', '9ffdd08cb74563cbd431c845238b414e933a0483', 'cpe', 'cpe:/a:saxon:saxon:9.1.0.8')">suppress</button>
+                                                                                                                                        &nbsp;&nbsp;<button class="copybutton" title="Generate Suppression XML for this CPE for this file" onclick="copyText('saxon-9.1.0.8.jar', '9ffdd08cb74563cbd431c845238b414e933a0483', 'net.sourceforge.saxon:saxon:9.1.0.8', 'cpe', 'cpe:/a:saxon:saxon:9.1.0.8')">suppress</button>
                                                                                                 </li>
                                                                                                                                     <li><b>maven:</b>&nbsp;<a href="http://search.maven.org/remotecontent?filepath=net/sourceforge/saxon/saxon/9.1.0.8/saxon-9.1.0.8.jar" target="_blank">net.sourceforge.saxon:saxon:9.1.0.8</a>
                                                                                                     &nbsp;&nbsp;<i>Confidence</i>:HIGHEST
@@ -1385,7 +1367,7 @@ The Commons IO library contains utility classes, stream implementations, file fi
                                                         </ul>
                                                 </div>
                                     </div>
-                                    <h3 class="subsectionheader standardsubsection notvulnerable"><a name="l12_d3bc6741b15bb4c57626708287a2417ab5f67ee6"></a>saxon-9.1.0.8-dom.jar</h3>
+                                    <h3 class="subsectionheader standardsubsection notvulnerable"><a name="l11_d3bc6741b15bb4c57626708287a2417ab5f67ee6"></a>saxon-9.1.0.8-dom.jar</h3>
                     <div class="subsectioncontent notvulnerable">
                                                     <p><b>Description:</b>&nbsp;
      Saxon a complete and conformant implementation of the XSLT 2.0, XQuery 1.0, and XPath 2.0 Recommendations published on 23 January 2007 by W3C
@@ -1398,8 +1380,8 @@ The Commons IO library contains utility classes, stream implementations, file fi
                                                             <br/><b>Referenced In Project/Scope:</b>
                                                                     pmd
                                                                                                                 </p>
-                                                <h4 id="header24" class="subsectionheader expandable expandablesubsection white">Evidence</h4>
-                        <div id="content24" class="subsectioncontent standardsubsection hidden">
+                                                <h4 id="header21" class="subsectionheader expandable expandablesubsection white">Evidence</h4>
+                        <div id="content21" class="subsectioncontent standardsubsection hidden">
                             <table class="lined fullwidth" border="0">
                                 <tr><th class="left" style="width:10%;">Source</th><th class="left" style="width:20%;">Name</th><th class="left" style="width:70%;">Value</th></tr>
                                                                     <tr><td>central</td><td>artifactid</td><td>saxon</td></tr>
@@ -1421,12 +1403,12 @@ The Commons IO library contains utility classes, stream implementations, file fi
                                                                     <tr><td>pom</td><td>version</td><td>9.1.0.8</td></tr>
                                                             </table>
                         </div>
-                                                                                                                                                                                                            <h4 id="header25" class="subsectionheader white">Identifiers</h4>
-                                                <div id="content25" class="subsectioncontent standardsubsection">
+                                                                                                                                                                                                            <h4 id="header22" class="subsectionheader white">Identifiers</h4>
+                                                <div id="content22" class="subsectioncontent standardsubsection">
                                                      <ul>
-                                                                                                <li><b>cpe:</b>&nbsp;cpe:/a:saxon:saxon:9.1.0.8
+                                                                                                                                                                                                                                                                                                                <li><b>cpe:</b>&nbsp;cpe:/a:saxon:saxon:9.1.0.8
                                                                                                     &nbsp;&nbsp;<i>Confidence</i>:LOW
-                                                                                                                                        &nbsp;&nbsp;<button class="copybutton" title="Generate Suppression XML for this CPE for this file" onclick="copyText('saxon-9.1.0.8-dom.jar', 'd3bc6741b15bb4c57626708287a2417ab5f67ee6', 'cpe', 'cpe:/a:saxon:saxon:9.1.0.8')">suppress</button>
+                                                                                                                                        &nbsp;&nbsp;<button class="copybutton" title="Generate Suppression XML for this CPE for this file" onclick="copyText('saxon-9.1.0.8-dom.jar', 'd3bc6741b15bb4c57626708287a2417ab5f67ee6', 'net.sourceforge.saxon:saxon:9.1.0.8', 'cpe', 'cpe:/a:saxon:saxon:9.1.0.8')">suppress</button>
                                                                                                 </li>
                                                                                                                                     <li><b>maven:</b>&nbsp;<a href="http://search.maven.org/remotecontent?filepath=net/sourceforge/saxon/saxon/9.1.0.8/saxon-9.1.0.8.jar" target="_blank">net.sourceforge.saxon:saxon:9.1.0.8</a>
                                                                                                     &nbsp;&nbsp;<i>Confidence</i>:HIGHEST
@@ -1434,7 +1416,7 @@ The Commons IO library contains utility classes, stream implementations, file fi
                                                         </ul>
                                                 </div>
                                     </div>
-                                    <h3 class="subsectionheader standardsubsection notvulnerable"><a name="l13_b4e994f888c52883e36f9bcfd47b14554051ca30"></a>ant-jdepend-1.9.6.jar</h3>
+                                    <h3 class="subsectionheader standardsubsection notvulnerable"><a name="l12_b4e994f888c52883e36f9bcfd47b14554051ca30"></a>ant-jdepend-1.9.6.jar</h3>
                     <div class="subsectioncontent notvulnerable">
                                                     <p><b>Description:</b>&nbsp;task jdepend invoking the jdepend parser. There is also a version 2.9.1 of the
     jdepend parser available on the maven repository<br/></p>
@@ -1445,8 +1427,8 @@ The Commons IO library contains utility classes, stream implementations, file fi
                                                             <br/><b>Referenced In Project/Scope:</b>
                                                                     jdepend
                                                                                                                 </p>
-                                                <h4 id="header26" class="subsectionheader expandable expandablesubsection white">Evidence</h4>
-                        <div id="content26" class="subsectioncontent standardsubsection hidden">
+                                                <h4 id="header23" class="subsectionheader expandable expandablesubsection white">Evidence</h4>
+                        <div id="content23" class="subsectioncontent standardsubsection hidden">
                             <table class="lined fullwidth" border="0">
                                 <tr><th class="left" style="width:10%;">Source</th><th class="left" style="width:20%;">Name</th><th class="left" style="width:70%;">Value</th></tr>
                                                                     <tr><td>central</td><td>artifactid</td><td>ant-jdepend</td></tr>
@@ -1472,16 +1454,16 @@ The Commons IO library contains utility classes, stream implementations, file fi
                                                                     <tr><td>pom</td><td>version</td><td>1.9.6</td></tr>
                                                             </table>
                         </div>
-                                                                                                                            <h4 id="header27" class="subsectionheader white">Identifiers</h4>
-                                                <div id="content27" class="subsectioncontent standardsubsection">
+                                                                                                                            <h4 id="header24" class="subsectionheader white">Identifiers</h4>
+                                                <div id="content24" class="subsectioncontent standardsubsection">
                                                      <ul>
-                                                                                                                                    <li><b>maven:</b>&nbsp;<a href="http://search.maven.org/remotecontent?filepath=org/apache/ant/ant-jdepend/1.9.6/ant-jdepend-1.9.6.jar" target="_blank">org.apache.ant:ant-jdepend:1.9.6</a>
+                                                                                                                                                                                                                                                                                        <li><b>maven:</b>&nbsp;<a href="http://search.maven.org/remotecontent?filepath=org/apache/ant/ant-jdepend/1.9.6/ant-jdepend-1.9.6.jar" target="_blank">org.apache.ant:ant-jdepend:1.9.6</a>
                                                                                                     &nbsp;&nbsp;<i>Confidence</i>:HIGHEST
                                                                                                                                 </li>
                                                         </ul>
                                                 </div>
                                     </div>
-                                    <h3 class="subsectionheader standardsubsection notvulnerable"><a name="l14_90a3822c38ec8c996e84c16a3477ef632cbc87a3"></a>commons-lang3-3.3.2.jar</h3>
+                                    <h3 class="subsectionheader standardsubsection notvulnerable"><a name="l13_90a3822c38ec8c996e84c16a3477ef632cbc87a3"></a>commons-lang3-3.3.2.jar</h3>
                     <div class="subsectioncontent notvulnerable">
                                                     <p><b>Description:</b>&nbsp;
   Apache Commons Lang, a package of Java utility classes for the
@@ -1496,8 +1478,8 @@ The Commons IO library contains utility classes, stream implementations, file fi
                                                             <br/><b>Referenced In Project/Scope:</b>
                                                                     pmd
                                                                                                                 </p>
-                                                <h4 id="header28" class="subsectionheader expandable expandablesubsection white">Evidence</h4>
-                        <div id="content28" class="subsectioncontent standardsubsection hidden">
+                                                <h4 id="header25" class="subsectionheader expandable expandablesubsection white">Evidence</h4>
+                        <div id="content25" class="subsectioncontent standardsubsection hidden">
                             <table class="lined fullwidth" border="0">
                                 <tr><th class="left" style="width:10%;">Source</th><th class="left" style="width:20%;">Name</th><th class="left" style="width:70%;">Value</th></tr>
                                                                     <tr><td>central</td><td>artifactid</td><td>commons-lang3</td></tr>
@@ -1529,16 +1511,16 @@ The Commons IO library contains utility classes, stream implementations, file fi
                                                                     <tr><td>pom</td><td>version</td><td>3.3.2</td></tr>
                                                             </table>
                         </div>
-                                                                                                                            <h4 id="header29" class="subsectionheader white">Identifiers</h4>
-                                                <div id="content29" class="subsectioncontent standardsubsection">
+                                                                                                                            <h4 id="header26" class="subsectionheader white">Identifiers</h4>
+                                                <div id="content26" class="subsectioncontent standardsubsection">
                                                      <ul>
-                                                                                                                                    <li><b>maven:</b>&nbsp;<a href="http://search.maven.org/#search|ga|1|1%3A%2290a3822c38ec8c996e84c16a3477ef632cbc87a3%22" target="_blank">org.apache.commons:commons-lang3:3.3.2</a>
+                                                                                                                                                                                                                                                                                        <li><b>maven:</b>&nbsp;<a href="http://search.maven.org/#search|ga|1|1%3A%2290a3822c38ec8c996e84c16a3477ef632cbc87a3%22" target="_blank">org.apache.commons:commons-lang3:3.3.2</a>
                                                                                                     &nbsp;&nbsp;<i>Confidence</i>:HIGHEST
                                                                                                                                 </li>
                                                         </ul>
                                                 </div>
                                     </div>
-                                    <h3 class="subsectionheader standardsubsection notvulnerable"><a name="l15_a5234d6515d04d1eeb5ebfb52a4e4454e94f45c3"></a>javancss-33.54.jar</h3>
+                                    <h3 class="subsectionheader standardsubsection notvulnerable"><a name="l14_a5234d6515d04d1eeb5ebfb52a4e4454e94f45c3"></a>javancss-33.54.jar</h3>
                     <div class="subsectioncontent notvulnerable">
                                                     <p><b>Description:</b>&nbsp;
     JavaNCSS is a simple command line utility which measures two standard source code metrics for the Java programming
@@ -1552,8 +1534,8 @@ The Commons IO library contains utility classes, stream implementations, file fi
                                                             <br/><b>Referenced In Project/Scope:</b>
                                                                     javancss
                                                                                                                 </p>
-                                                <h4 id="header30" class="subsectionheader expandable expandablesubsection white">Evidence</h4>
-                        <div id="content30" class="subsectioncontent standardsubsection hidden">
+                                                <h4 id="header27" class="subsectionheader expandable expandablesubsection white">Evidence</h4>
+                        <div id="content27" class="subsectioncontent standardsubsection hidden">
                             <table class="lined fullwidth" border="0">
                                 <tr><th class="left" style="width:10%;">Source</th><th class="left" style="width:20%;">Name</th><th class="left" style="width:70%;">Value</th></tr>
                                                                     <tr><td>central</td><td>artifactid</td><td>javancss</td></tr>
@@ -1577,76 +1559,16 @@ The Commons IO library contains utility classes, stream implementations, file fi
                                                                     <tr><td>pom</td><td>version</td><td>33.54</td></tr>
                                                             </table>
                         </div>
-                                                                                                                            <h4 id="header31" class="subsectionheader white">Identifiers</h4>
-                                                <div id="content31" class="subsectioncontent standardsubsection">
+                                                                                                                            <h4 id="header28" class="subsectionheader white">Identifiers</h4>
+                                                <div id="content28" class="subsectioncontent standardsubsection">
                                                      <ul>
-                                                                                                                                    <li><b>maven:</b>&nbsp;<a href="http://search.maven.org/#search|ga|1|1%3A%22a5234d6515d04d1eeb5ebfb52a4e4454e94f45c3%22" target="_blank">org.codehaus.javancss:javancss:33.54</a>
+                                                                                                                                                                                                                                                                                        <li><b>maven:</b>&nbsp;<a href="http://search.maven.org/#search|ga|1|1%3A%22a5234d6515d04d1eeb5ebfb52a4e4454e94f45c3%22" target="_blank">org.codehaus.javancss:javancss:33.54</a>
                                                                                                     &nbsp;&nbsp;<i>Confidence</i>:HIGHEST
                                                                                                                                 </li>
                                                         </ul>
                                                 </div>
                                     </div>
-                                    <h3 class="subsectionheader standardsubsection notvulnerable"><a name="l16_42a25dc3219429f0e5d060061f71acb49bf010a0"></a>hamcrest-core-1.3.jar</h3>
-                    <div class="subsectioncontent notvulnerable">
-                                                    <p><b>Description:</b>&nbsp;
-    This is the core API of hamcrest matcher framework to be used by third-party framework providers. This includes the a foundation set of matcher implementations for common operations.
-  <br/></p>
-                                                <p>
-                                                    <b>File&nbsp;Path:</b>&nbsp;C:\Users\Dad\.gradle\caches\modules-2\files-2.1\org.hamcrest\hamcrest-core\1.3\42a25dc3219429f0e5d060061f71acb49bf010a0\hamcrest-core-1.3.jar<br/>
-                            <b>MD5:</b>&nbsp;6393363b47ddcbba82321110c3e07519<br/>
-                            <b>SHA1:</b>&nbsp;42a25dc3219429f0e5d060061f71acb49bf010a0
-                                                                                        <br/><b>Referenced In Projects/Scopes:</b><ul>
-                                                                    <li>_debugUnitTestApk</li>
-                                                                    <li>_releaseUnitTestApk</li>
-                                                                </ul>
-                                                    </p>
-                                                <h4 id="header32" class="subsectionheader expandable expandablesubsection white">Evidence</h4>
-                        <div id="content32" class="subsectioncontent standardsubsection hidden">
-                            <table class="lined fullwidth" border="0">
-                                <tr><th class="left" style="width:10%;">Source</th><th class="left" style="width:20%;">Name</th><th class="left" style="width:70%;">Value</th></tr>
-                                                                    <tr><td>central</td><td>artifactid</td><td>hamcrest-core</td></tr>
-                                                                    <tr><td>central</td><td>groupid</td><td>org.hamcrest</td></tr>
-                                                                    <tr><td>central</td><td>version</td><td>1.3</td></tr>
-                                                                    <tr><td>file</td><td>name</td><td>hamcrest-core</td></tr>
-                                                                    <tr><td>file</td><td>version</td><td>1.3</td></tr>
-                                                                    <tr><td>jar</td><td>package name</td><td>hamcrest</td></tr>
-                                                                    <tr><td>Manifest</td><td>built-date</td><td>2012-07-09 19:49:34</td></tr>
-                                                                    <tr><td>Manifest</td><td>Implementation-Title</td><td>hamcrest-core</td></tr>
-                                                                    <tr><td>Manifest</td><td>Implementation-Vendor</td><td>hamcrest.org</td></tr>
-                                                                    <tr><td>Manifest</td><td>Implementation-Version</td><td>1.3</td></tr>
-                                                                    <tr><td>pom</td><td>artifactid</td><td>hamcrest-core</td></tr>
-                                                                    <tr><td>pom</td><td>description</td><td> This is the core API of hamcrest matcher framework to be used by third-party framework providers. This includes the a foundation set of matcher implementations for common operations. </td></tr>
-                                                                    <tr><td>pom</td><td>groupid</td><td>hamcrest</td></tr>
-                                                                    <tr><td>pom</td><td>name</td><td>Hamcrest Core</td></tr>
-                                                                    <tr><td>pom</td><td>parent-artifactid</td><td>hamcrest-parent</td></tr>
-                                                                    <tr><td>pom</td><td>parent-groupid</td><td>org.hamcrest</td></tr>
-                                                                    <tr><td>pom</td><td>version</td><td>1.3</td></tr>
-                                                            </table>
-                        </div>
-                                                    <h4 id="header33" class="subsectionheader expandable expandablesubsection white">Related Dependencies</h4>
-                            <div id="content33" class="subsectioncontent standardsubsection hidden">
-                            <ul>
-                                                            <li>hamcrest-core-1.3.jar
-                                    <ul>
-                                        <li>File Path:&nbsp;C:\Users\Dad\.gradle\caches\modules-2\files-2.1\org.hamcrest\hamcrest-core\1.3\42a25dc3219429f0e5d060061f71acb49bf010a0\hamcrest-core-1.3.jar</li>
-                                        <li>SHA1:&nbsp;42a25dc3219429f0e5d060061f71acb49bf010a0</li>
-                                        <li>MD5:&nbsp;6393363b47ddcbba82321110c3e07519</li>
-                                                                                                                                                                                                                                            <li>maven:&nbsp;<a href="http://search.maven.org/remotecontent?filepath=org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar" target="_blank">org.hamcrest:hamcrest-core:1.3</a>
-                                                                                                </li>
-                                                                                                                         </ul>
-                                </li>
-                                                        </ul>
-                            </div>
-                                                                                                                            <h4 id="header34" class="subsectionheader white">Identifiers</h4>
-                                                <div id="content34" class="subsectioncontent standardsubsection">
-                                                     <ul>
-                                                                                                                                    <li><b>maven:</b>&nbsp;<a href="http://search.maven.org/remotecontent?filepath=org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar" target="_blank">org.hamcrest:hamcrest-core:1.3</a>
-                                                                                                    &nbsp;&nbsp;<i>Confidence</i>:HIGHEST
-                                                                                                                                </li>
-                                                        </ul>
-                                                </div>
-                                    </div>
-                                    <h3 class="subsectionheader standardsubsection notvulnerable"><a name="l17_a579ae4cde66201b73266bfd78fdb50158d179f1"></a>org.jacoco.agent-0.7.4.201502262128.jar</h3>
+                                    <h3 class="subsectionheader standardsubsection notvulnerable"><a name="l15_a579ae4cde66201b73266bfd78fdb50158d179f1"></a>org.jacoco.agent-0.7.4.201502262128.jar</h3>
                     <div class="subsectioncontent notvulnerable">
                                                     <p><b>Description:</b>&nbsp;JaCoCo Agent<br/></p>
                                                 <p>
@@ -1658,8 +1580,8 @@ The Commons IO library contains utility classes, stream implementations, file fi
                                                                     <li>androidJacocoAnt</li>
                                                                 </ul>
                                                     </p>
-                                                <h4 id="header35" class="subsectionheader expandable expandablesubsection white">Evidence</h4>
-                        <div id="content35" class="subsectioncontent standardsubsection hidden">
+                                                <h4 id="header29" class="subsectionheader expandable expandablesubsection white">Evidence</h4>
+                        <div id="content29" class="subsectioncontent standardsubsection hidden">
                             <table class="lined fullwidth" border="0">
                                 <tr><th class="left" style="width:10%;">Source</th><th class="left" style="width:20%;">Name</th><th class="left" style="width:70%;">Value</th></tr>
                                                                     <tr><td>central</td><td>artifactid</td><td>org.jacoco.agent</td></tr>
@@ -1680,38 +1602,28 @@ The Commons IO library contains utility classes, stream implementations, file fi
                                                                     <tr><td>pom</td><td>version</td><td>0.7.4.201502262128</td></tr>
                                                             </table>
                         </div>
-                                                    <h4 id="header36" class="subsectionheader expandable expandablesubsection white">Related Dependencies</h4>
-                            <div id="content36" class="subsectioncontent standardsubsection hidden">
-                            <ul>
-                                                            <li>org.jacoco.agent-0.7.4.201502262128.jar
-                                    <ul>
-                                        <li>File Path:&nbsp;C:\Users\Dad\.gradle\caches\modules-2\files-2.1\org.jacoco\org.jacoco.agent\0.7.4.201502262128\a579ae4cde66201b73266bfd78fdb50158d179f1\org.jacoco.agent-0.7.4.201502262128.jar</li>
-                                        <li>SHA1:&nbsp;a579ae4cde66201b73266bfd78fdb50158d179f1</li>
-                                        <li>MD5:&nbsp;ab7e8bde4902191b923be4afeaf7a3c4</li>
-                                                                                                                                                                                                                                            <li>maven:&nbsp;<a href="http://search.maven.org/#search|ga|1|1%3A%22a579ae4cde66201b73266bfd78fdb50158d179f1%22" target="_blank">org.jacoco:org.jacoco.agent:0.7.4.201502262128</a>
-                                                                                                </li>
-                                                                                                                         </ul>
-                                </li>
-                                                        </ul>
-                            </div>
-                                                                                                                            <h4 id="header37" class="subsectionheader white">Identifiers</h4>
-                                                <div id="content37" class="subsectioncontent standardsubsection">
+                                                                                                                            <h4 id="header30" class="subsectionheader white">Identifiers</h4>
+                                                <div id="content30" class="subsectioncontent standardsubsection">
                                                      <ul>
-                                                                                                                                    <li><b>maven:</b>&nbsp;<a href="http://search.maven.org/#search|ga|1|1%3A%22a579ae4cde66201b73266bfd78fdb50158d179f1%22" target="_blank">org.jacoco:org.jacoco.agent:0.7.4.201502262128</a>
+                                                                                                                                                                                                                                                                                        <li><b>maven:</b>&nbsp;<a href="http://search.maven.org/#search|ga|1|1%3A%22a579ae4cde66201b73266bfd78fdb50158d179f1%22" target="_blank">org.jacoco:org.jacoco.agent:0.7.4.201502262128</a>
                                                                                                     &nbsp;&nbsp;<i>Confidence</i>:HIGHEST
                                                                                                                                 </li>
                                                         </ul>
                                                 </div>
                                     </div>
-                                    <h3 class="subsectionheader standardsubsection notvulnerable"><a name="l18_ea73283d55c98ab1fccb8c23d76c68b7d7ecbd83"></a>org.jacoco.agent-0.7.4.201502262128.jar: jacocoagent.jar</h3>
+                                    <h3 class="subsectionheader standardsubsection notvulnerable"><a name="l16_ea73283d55c98ab1fccb8c23d76c68b7d7ecbd83"></a>org.jacoco.agent-0.7.4.201502262128.jar: jacocoagent.jar</h3>
                     <div class="subsectioncontent notvulnerable">
                                                 <p>
                                                     <b>File&nbsp;Path:</b>&nbsp;C:\Users\Dad\.gradle\caches\modules-2\files-2.1\org.jacoco\org.jacoco.agent\0.7.4.201502262128\a579ae4cde66201b73266bfd78fdb50158d179f1\org.jacoco.agent-0.7.4.201502262128.jar\jacocoagent.jar<br/>
                             <b>MD5:</b>&nbsp;391505e6410f91b47817c45074d2ab00<br/>
                             <b>SHA1:</b>&nbsp;ea73283d55c98ab1fccb8c23d76c68b7d7ecbd83
-                                                                                </p>
-                                                <h4 id="header38" class="subsectionheader expandable expandablesubsection white">Evidence</h4>
-                        <div id="content38" class="subsectioncontent standardsubsection hidden">
+                                                                                        <br/><b>Referenced In Projects/Scopes:</b><ul>
+                                                                    <li>androidJacocoAgent</li>
+                                                                    <li>androidJacocoAnt</li>
+                                                                </ul>
+                                                    </p>
+                                                <h4 id="header31" class="subsectionheader expandable expandablesubsection white">Evidence</h4>
+                        <div id="content31" class="subsectioncontent standardsubsection hidden">
                             <table class="lined fullwidth" border="0">
                                 <tr><th class="left" style="width:10%;">Source</th><th class="left" style="width:20%;">Name</th><th class="left" style="width:70%;">Value</th></tr>
                                                                     <tr><td>file</td><td>name</td><td>jacocoagent</td></tr>
@@ -1724,68 +1636,12 @@ The Commons IO library contains utility classes, stream implementations, file fi
                                                                     <tr><td>Manifest</td><td>Implementation-Version</td><td>0.7.4.201502262128</td></tr>
                                                             </table>
                         </div>
-                                                    <h4 id="header39" class="subsectionheader expandable expandablesubsection white">Related Dependencies</h4>
-                            <div id="content39" class="subsectioncontent standardsubsection hidden">
-                            <ul>
-                                                            <li>org.jacoco.agent-0.7.4.201502262128.jar: jacocoagent.jar
-                                    <ul>
-                                        <li>File Path:&nbsp;C:\Users\Dad\.gradle\caches\modules-2\files-2.1\org.jacoco\org.jacoco.agent\0.7.4.201502262128\a579ae4cde66201b73266bfd78fdb50158d179f1\org.jacoco.agent-0.7.4.201502262128.jar\jacocoagent.jar</li>
-                                        <li>SHA1:&nbsp;ea73283d55c98ab1fccb8c23d76c68b7d7ecbd83</li>
-                                        <li>MD5:&nbsp;391505e6410f91b47817c45074d2ab00</li>
-                                                                             </ul>
-                                </li>
-                                                        </ul>
-                            </div>
-                                                                        <h4 id="header40" class="subsectionheader white">Identifiers</h4>
-                                                <div id="content40" class="subsectioncontent standardsubsection">
+                                                                        <h4 id="header32" class="subsectionheader white">Identifiers</h4>
+                                                <div id="content32" class="subsectioncontent standardsubsection">
                                                     <ul><li><b>None</b></li></ul>
                                                 </div>
                                     </div>
-                                    <h3 class="subsectionheader standardsubsection notvulnerable"><a name="l19_b73c3dd49fff5a9bd2df48bbeecc881ce3d05bac"></a>org.jacoco.agent-0.7.4.201502262128.jar: jacocoagent.jar\META-INF/maven/org.jacoco/org.jacoco.agent.rt/pom.xml</h3>
-                    <div class="subsectioncontent notvulnerable">
-                                                    <p><b>Description:</b>&nbsp;JaCoCo Java Agent<br/></p>
-                                                <p>
-                                                    <b>File&nbsp;Path:</b>&nbsp;C:\Users\Dad\.gradle\caches\modules-2\files-2.1\org.jacoco\org.jacoco.agent\0.7.4.201502262128\a579ae4cde66201b73266bfd78fdb50158d179f1\org.jacoco.agent-0.7.4.201502262128.jar\jacocoagent.jar\META-INF/maven/org.jacoco/org.jacoco.agent.rt/pom.xml<br/>
-                            <b>MD5:</b>&nbsp;3bf2e81548bf350a4d0a8c124ab99a35<br/>
-                            <b>SHA1:</b>&nbsp;b73c3dd49fff5a9bd2df48bbeecc881ce3d05bac
-                                                                                </p>
-                                                <h4 id="header41" class="subsectionheader expandable expandablesubsection white">Evidence</h4>
-                        <div id="content41" class="subsectioncontent standardsubsection hidden">
-                            <table class="lined fullwidth" border="0">
-                                <tr><th class="left" style="width:10%;">Source</th><th class="left" style="width:20%;">Name</th><th class="left" style="width:70%;">Value</th></tr>
-                                                                    <tr><td>pom</td><td>artifactid</td><td>jacoco.agent.rt</td></tr>
-                                                                    <tr><td>pom</td><td>description</td><td>JaCoCo Java Agent</td></tr>
-                                                                    <tr><td>pom</td><td>groupid</td><td>jacoco</td></tr>
-                                                                    <tr><td>pom</td><td>name</td><td>JaCoCo :: Agent RT</td></tr>
-                                                                    <tr><td>pom</td><td>parent-artifactid</td><td>org.jacoco.build</td></tr>
-                                                                    <tr><td>pom</td><td>parent-groupid</td><td>org.jacoco</td></tr>
-                                                                    <tr><td>pom</td><td>version</td><td>0.7.4.201502262128</td></tr>
-                                                            </table>
-                        </div>
-                                                    <h4 id="header42" class="subsectionheader expandable expandablesubsection white">Related Dependencies</h4>
-                            <div id="content42" class="subsectioncontent standardsubsection hidden">
-                            <ul>
-                                                            <li>org.jacoco.agent-0.7.4.201502262128.jar: jacocoagent.jar\META-INF/maven/org.jacoco/org.jacoco.agent.rt/pom.xml
-                                    <ul>
-                                        <li>File Path:&nbsp;C:\Users\Dad\.gradle\caches\modules-2\files-2.1\org.jacoco\org.jacoco.agent\0.7.4.201502262128\a579ae4cde66201b73266bfd78fdb50158d179f1\org.jacoco.agent-0.7.4.201502262128.jar\jacocoagent.jar\META-INF/maven/org.jacoco/org.jacoco.agent.rt/pom.xml</li>
-                                        <li>SHA1:&nbsp;b73c3dd49fff5a9bd2df48bbeecc881ce3d05bac</li>
-                                        <li>MD5:&nbsp;3bf2e81548bf350a4d0a8c124ab99a35</li>
-                                                                                                                                                                                        <li>maven:&nbsp;org.jacoco:org.jacoco.agent.rt:0.7.4.201502262128
-                                                                                                </li>
-                                                                                                                         </ul>
-                                </li>
-                                                        </ul>
-                            </div>
-                                                                                                                            <h4 id="header43" class="subsectionheader white">Identifiers</h4>
-                                                <div id="content43" class="subsectioncontent standardsubsection">
-                                                     <ul>
-                                                                                                <li><b>maven:</b>&nbsp;org.jacoco:org.jacoco.agent.rt:0.7.4.201502262128
-                                                                                                    &nbsp;&nbsp;<i>Confidence</i>:HIGH
-                                                                                                                                </li>
-                                                        </ul>
-                                                </div>
-                                    </div>
-                                    <h3 class="subsectionheader standardsubsection notvulnerable"><a name="l20_e8808120e50c1f2e830ff26cbfacbf3f018441b7"></a>org.jacoco.ant-0.7.4.201502262128.jar</h3>
+                                    <h3 class="subsectionheader standardsubsection notvulnerable"><a name="l17_e8808120e50c1f2e830ff26cbfacbf3f018441b7"></a>org.jacoco.ant-0.7.4.201502262128.jar</h3>
                     <div class="subsectioncontent notvulnerable">
                                                     <p><b>Description:</b>&nbsp;JaCoCo Ant Tasks<br/></p>
                                                 <p>
@@ -1795,8 +1651,8 @@ The Commons IO library contains utility classes, stream implementations, file fi
                                                             <br/><b>Referenced In Project/Scope:</b>
                                                                     androidJacocoAnt
                                                                                                                 </p>
-                                                <h4 id="header44" class="subsectionheader expandable expandablesubsection white">Evidence</h4>
-                        <div id="content44" class="subsectioncontent standardsubsection hidden">
+                                                <h4 id="header33" class="subsectionheader expandable expandablesubsection white">Evidence</h4>
+                        <div id="content33" class="subsectioncontent standardsubsection hidden">
                             <table class="lined fullwidth" border="0">
                                 <tr><th class="left" style="width:10%;">Source</th><th class="left" style="width:20%;">Name</th><th class="left" style="width:70%;">Value</th></tr>
                                                                     <tr><td>central</td><td>artifactid</td><td>org.jacoco.ant</td></tr>
@@ -1818,16 +1674,16 @@ The Commons IO library contains utility classes, stream implementations, file fi
                                                                     <tr><td>pom</td><td>version</td><td>0.7.4.201502262128</td></tr>
                                                             </table>
                         </div>
-                                                                                                                            <h4 id="header45" class="subsectionheader white">Identifiers</h4>
-                                                <div id="content45" class="subsectioncontent standardsubsection">
+                                                                                                                            <h4 id="header34" class="subsectionheader white">Identifiers</h4>
+                                                <div id="content34" class="subsectioncontent standardsubsection">
                                                      <ul>
-                                                                                                                                    <li><b>maven:</b>&nbsp;<a href="http://search.maven.org/#search|ga|1|1%3A%22e8808120e50c1f2e830ff26cbfacbf3f018441b7%22" target="_blank">org.jacoco:org.jacoco.ant:0.7.4.201502262128</a>
+                                                                                                                                                                                                                                                                                        <li><b>maven:</b>&nbsp;<a href="http://search.maven.org/#search|ga|1|1%3A%22e8808120e50c1f2e830ff26cbfacbf3f018441b7%22" target="_blank">org.jacoco:org.jacoco.ant:0.7.4.201502262128</a>
                                                                                                     &nbsp;&nbsp;<i>Confidence</i>:HIGHEST
                                                                                                                                 </li>
                                                         </ul>
                                                 </div>
                                     </div>
-                                    <h3 class="subsectionheader standardsubsection notvulnerable"><a name="l21_31482f50411a3a5769b6c78fa9b97ba731c205e7"></a>org.jacoco.core-0.7.4.201502262128.jar</h3>
+                                    <h3 class="subsectionheader standardsubsection notvulnerable"><a name="l18_31482f50411a3a5769b6c78fa9b97ba731c205e7"></a>org.jacoco.core-0.7.4.201502262128.jar</h3>
                     <div class="subsectioncontent notvulnerable">
                                                     <p><b>Description:</b>&nbsp;JaCoCo Core<br/></p>
                                                 <p>
@@ -1837,8 +1693,8 @@ The Commons IO library contains utility classes, stream implementations, file fi
                                                             <br/><b>Referenced In Project/Scope:</b>
                                                                     androidJacocoAnt
                                                                                                                 </p>
-                                                <h4 id="header46" class="subsectionheader expandable expandablesubsection white">Evidence</h4>
-                        <div id="content46" class="subsectioncontent standardsubsection hidden">
+                                                <h4 id="header35" class="subsectionheader expandable expandablesubsection white">Evidence</h4>
+                        <div id="content35" class="subsectioncontent standardsubsection hidden">
                             <table class="lined fullwidth" border="0">
                                 <tr><th class="left" style="width:10%;">Source</th><th class="left" style="width:20%;">Name</th><th class="left" style="width:70%;">Value</th></tr>
                                                                     <tr><td>central</td><td>artifactid</td><td>org.jacoco.core</td></tr>
@@ -1859,16 +1715,16 @@ The Commons IO library contains utility classes, stream implementations, file fi
                                                                     <tr><td>pom</td><td>version</td><td>0.7.4.201502262128</td></tr>
                                                             </table>
                         </div>
-                                                                                                                            <h4 id="header47" class="subsectionheader white">Identifiers</h4>
-                                                <div id="content47" class="subsectioncontent standardsubsection">
+                                                                                                                            <h4 id="header36" class="subsectionheader white">Identifiers</h4>
+                                                <div id="content36" class="subsectioncontent standardsubsection">
                                                      <ul>
-                                                                                                                                    <li><b>maven:</b>&nbsp;<a href="http://search.maven.org/#search|ga|1|1%3A%2231482f50411a3a5769b6c78fa9b97ba731c205e7%22" target="_blank">org.jacoco:org.jacoco.core:0.7.4.201502262128</a>
+                                                                                                                                                                                                                                                                                        <li><b>maven:</b>&nbsp;<a href="http://search.maven.org/#search|ga|1|1%3A%2231482f50411a3a5769b6c78fa9b97ba731c205e7%22" target="_blank">org.jacoco:org.jacoco.core:0.7.4.201502262128</a>
                                                                                                     &nbsp;&nbsp;<i>Confidence</i>:HIGHEST
                                                                                                                                 </li>
                                                         </ul>
                                                 </div>
                                     </div>
-                                    <h3 class="subsectionheader standardsubsection notvulnerable"><a name="l22_5c6bb5f95ae695dc4510b95f7d5ad0397e4881ad"></a>org.jacoco.report-0.7.4.201502262128.jar</h3>
+                                    <h3 class="subsectionheader standardsubsection notvulnerable"><a name="l19_5c6bb5f95ae695dc4510b95f7d5ad0397e4881ad"></a>org.jacoco.report-0.7.4.201502262128.jar</h3>
                     <div class="subsectioncontent notvulnerable">
                                                     <p><b>Description:</b>&nbsp;JaCoCo Reporting<br/></p>
                                                 <p>
@@ -1878,8 +1734,8 @@ The Commons IO library contains utility classes, stream implementations, file fi
                                                             <br/><b>Referenced In Project/Scope:</b>
                                                                     androidJacocoAnt
                                                                                                                 </p>
-                                                <h4 id="header48" class="subsectionheader expandable expandablesubsection white">Evidence</h4>
-                        <div id="content48" class="subsectioncontent standardsubsection hidden">
+                                                <h4 id="header37" class="subsectionheader expandable expandablesubsection white">Evidence</h4>
+                        <div id="content37" class="subsectioncontent standardsubsection hidden">
                             <table class="lined fullwidth" border="0">
                                 <tr><th class="left" style="width:10%;">Source</th><th class="left" style="width:20%;">Name</th><th class="left" style="width:70%;">Value</th></tr>
                                                                     <tr><td>central</td><td>artifactid</td><td>org.jacoco.report</td></tr>
@@ -1900,16 +1756,16 @@ The Commons IO library contains utility classes, stream implementations, file fi
                                                                     <tr><td>pom</td><td>version</td><td>0.7.4.201502262128</td></tr>
                                                             </table>
                         </div>
-                                                                                                                            <h4 id="header49" class="subsectionheader white">Identifiers</h4>
-                                                <div id="content49" class="subsectioncontent standardsubsection">
+                                                                                                                            <h4 id="header38" class="subsectionheader white">Identifiers</h4>
+                                                <div id="content38" class="subsectioncontent standardsubsection">
                                                      <ul>
-                                                                                                                                    <li><b>maven:</b>&nbsp;<a href="http://search.maven.org/#search|ga|1|1%3A%225c6bb5f95ae695dc4510b95f7d5ad0397e4881ad%22" target="_blank">org.jacoco:org.jacoco.report:0.7.4.201502262128</a>
+                                                                                                                                                                                                                                                                                        <li><b>maven:</b>&nbsp;<a href="http://search.maven.org/#search|ga|1|1%3A%225c6bb5f95ae695dc4510b95f7d5ad0397e4881ad%22" target="_blank">org.jacoco:org.jacoco.report:0.7.4.201502262128</a>
                                                                                                     &nbsp;&nbsp;<i>Confidence</i>:HIGHEST
                                                                                                                                 </li>
                                                         </ul>
                                                 </div>
                                     </div>
-                                    <h3 class="subsectionheader standardsubsection notvulnerable"><a name="l23_f69b5f7d96cec0d448acf1c1a266584170c9643b"></a>asm-debug-all-5.0.1.jar</h3>
+                                    <h3 class="subsectionheader standardsubsection notvulnerable"><a name="l20_f69b5f7d96cec0d448acf1c1a266584170c9643b"></a>asm-debug-all-5.0.1.jar</h3>
                     <div class="subsectioncontent notvulnerable">
                                                 <p>
                                                     <b>File&nbsp;Path:</b>&nbsp;C:\Users\Dad\.gradle\caches\modules-2\files-2.1\org.ow2.asm\asm-debug-all\5.0.1\f69b5f7d96cec0d448acf1c1a266584170c9643b\asm-debug-all-5.0.1.jar<br/>
@@ -1918,8 +1774,8 @@ The Commons IO library contains utility classes, stream implementations, file fi
                                                             <br/><b>Referenced In Project/Scope:</b>
                                                                     androidJacocoAnt
                                                                                                                 </p>
-                                                <h4 id="header50" class="subsectionheader expandable expandablesubsection white">Evidence</h4>
-                        <div id="content50" class="subsectioncontent standardsubsection hidden">
+                                                <h4 id="header39" class="subsectionheader expandable expandablesubsection white">Evidence</h4>
+                        <div id="content39" class="subsectioncontent standardsubsection hidden">
                             <table class="lined fullwidth" border="0">
                                 <tr><th class="left" style="width:10%;">Source</th><th class="left" style="width:20%;">Name</th><th class="left" style="width:70%;">Value</th></tr>
                                                                     <tr><td>central</td><td>artifactid</td><td>asm-debug-all</td></tr>
@@ -1945,16 +1801,16 @@ The Commons IO library contains utility classes, stream implementations, file fi
                                                                     <tr><td>pom</td><td>version</td><td>5.0.1</td></tr>
                                                             </table>
                         </div>
-                                                                                                                            <h4 id="header51" class="subsectionheader white">Identifiers</h4>
-                                                <div id="content51" class="subsectioncontent standardsubsection">
+                                                                                                                            <h4 id="header40" class="subsectionheader white">Identifiers</h4>
+                                                <div id="content40" class="subsectioncontent standardsubsection">
                                                      <ul>
-                                                                                                                                    <li><b>maven:</b>&nbsp;<a href="http://search.maven.org/remotecontent?filepath=org/ow2/asm/asm-debug-all/5.0.1/asm-debug-all-5.0.1.jar" target="_blank">org.ow2.asm:asm-debug-all:5.0.1</a>
+                                                                                                                                                                                                                                                                                        <li><b>maven:</b>&nbsp;<a href="http://search.maven.org/remotecontent?filepath=org/ow2/asm/asm-debug-all/5.0.1/asm-debug-all-5.0.1.jar" target="_blank">org.ow2.asm:asm-debug-all:5.0.1</a>
                                                                                                     &nbsp;&nbsp;<i>Confidence</i>:HIGHEST
                                                                                                                                 </li>
                                                         </ul>
                                                 </div>
                                     </div>
-                                    <h3 class="subsectionheader standardsubsection notvulnerable"><a name="l24_dcc2193db20e19e1feca8b1240dbbc4e190824fa"></a>asm-5.0.3.jar</h3>
+                                    <h3 class="subsectionheader standardsubsection notvulnerable"><a name="l21_dcc2193db20e19e1feca8b1240dbbc4e190824fa"></a>asm-5.0.3.jar</h3>
                     <div class="subsectioncontent notvulnerable">
                                                 <p>
                                                     <b>File&nbsp;Path:</b>&nbsp;C:\Users\Dad\.gradle\caches\modules-2\files-2.1\org.ow2.asm\asm\5.0.3\dcc2193db20e19e1feca8b1240dbbc4e190824fa\asm-5.0.3.jar<br/>
@@ -1963,8 +1819,8 @@ The Commons IO library contains utility classes, stream implementations, file fi
                                                             <br/><b>Referenced In Project/Scope:</b>
                                                                     pmd
                                                                                                                 </p>
-                                                <h4 id="header52" class="subsectionheader expandable expandablesubsection white">Evidence</h4>
-                        <div id="content52" class="subsectioncontent standardsubsection hidden">
+                                                <h4 id="header41" class="subsectionheader expandable expandablesubsection white">Evidence</h4>
+                        <div id="content41" class="subsectioncontent standardsubsection hidden">
                             <table class="lined fullwidth" border="0">
                                 <tr><th class="left" style="width:10%;">Source</th><th class="left" style="width:20%;">Name</th><th class="left" style="width:70%;">Value</th></tr>
                                                                     <tr><td>central</td><td>artifactid</td><td>asm</td></tr>
@@ -1990,16 +1846,16 @@ The Commons IO library contains utility classes, stream implementations, file fi
                                                                     <tr><td>pom</td><td>version</td><td>5.0.3</td></tr>
                                                             </table>
                         </div>
-                                                                                                                            <h4 id="header53" class="subsectionheader white">Identifiers</h4>
-                                                <div id="content53" class="subsectioncontent standardsubsection">
+                                                                                                                            <h4 id="header42" class="subsectionheader white">Identifiers</h4>
+                                                <div id="content42" class="subsectioncontent standardsubsection">
                                                      <ul>
-                                                                                                                                    <li><b>maven:</b>&nbsp;<a href="http://search.maven.org/remotecontent?filepath=org/ow2/asm/asm/5.0.3/asm-5.0.3.jar" target="_blank">org.ow2.asm:asm:5.0.3</a>
+                                                                                                                                                                                                                                                                                        <li><b>maven:</b>&nbsp;<a href="http://search.maven.org/remotecontent?filepath=org/ow2/asm/asm/5.0.3/asm-5.0.3.jar" target="_blank">org.ow2.asm:asm:5.0.3</a>
                                                                                                     &nbsp;&nbsp;<i>Confidence</i>:HIGHEST
                                                                                                                                 </li>
                                                         </ul>
                                                 </div>
                                     </div>
-                                    <h3 class="subsectionheader standardsubsection notvulnerable"><a name="l25_9bb329db1cfc4e22462c9d6b43a8432f5850e92c"></a>xercesImpl-2.11.0.jar</h3>
+                                    <h3 class="subsectionheader standardsubsection notvulnerable"><a name="l22_9bb329db1cfc4e22462c9d6b43a8432f5850e92c"></a>xercesImpl-2.11.0.jar</h3>
                     <div class="subsectioncontent notvulnerable">
                                                     <p><b>Description:</b>&nbsp;
       Xerces2 is the next generation of high performance, fully compliant XML parsers in the Apache Xerces family. This new version of Xerces introduces the Xerces Native Interface (XNI), a complete framework for building parser components and configurations that is extremely modular and easy to program.
@@ -2020,8 +1876,8 @@ The Commons IO library contains utility classes, stream implementations, file fi
                                                             <br/><b>Referenced In Project/Scope:</b>
                                                                     pmd
                                                                                                                 </p>
-                                                <h4 id="header54" class="subsectionheader expandable expandablesubsection white">Evidence</h4>
-                        <div id="content54" class="subsectioncontent standardsubsection hidden">
+                                                <h4 id="header43" class="subsectionheader expandable expandablesubsection white">Evidence</h4>
+                        <div id="content43" class="subsectioncontent standardsubsection hidden">
                             <table class="lined fullwidth" border="0">
                                 <tr><th class="left" style="width:10%;">Source</th><th class="left" style="width:20%;">Name</th><th class="left" style="width:70%;">Value</th></tr>
                                                                     <tr><td>central</td><td>artifactid</td><td>xercesImpl</td></tr>
@@ -2086,16 +1942,16 @@ The Commons IO library contains utility classes, stream implementations, file fi
                                                                     <tr><td>pom</td><td>version</td><td>2.11.0</td></tr>
                                                             </table>
                         </div>
-                                                                                                                            <h4 id="header55" class="subsectionheader white">Identifiers</h4>
-                                                <div id="content55" class="subsectioncontent standardsubsection">
+                                                                                                                            <h4 id="header44" class="subsectionheader white">Identifiers</h4>
+                                                <div id="content44" class="subsectioncontent standardsubsection">
                                                      <ul>
-                                                                                                                                    <li><b>maven:</b>&nbsp;<a href="http://search.maven.org/remotecontent?filepath=xerces/xercesImpl/2.11.0/xercesImpl-2.11.0.jar" target="_blank">xerces:xercesImpl:2.11.0</a>
+                                                                                                                                                                                                                                                                                        <li><b>maven:</b>&nbsp;<a href="http://search.maven.org/remotecontent?filepath=xerces/xercesImpl/2.11.0/xercesImpl-2.11.0.jar" target="_blank">xerces:xercesImpl:2.11.0</a>
                                                                                                     &nbsp;&nbsp;<i>Confidence</i>:HIGHEST
                                                                                                                                 </li>
                                                         </ul>
                                                 </div>
                                     </div>
-                                    <h3 class="subsectionheader standardsubsection notvulnerable"><a name="l26_3789d9fada2d3d458c4ba2de349d48780f381ee3"></a>xml-apis-1.4.01.jar</h3>
+                                    <h3 class="subsectionheader standardsubsection notvulnerable"><a name="l23_3789d9fada2d3d458c4ba2de349d48780f381ee3"></a>xml-apis-1.4.01.jar</h3>
                     <div class="subsectioncontent notvulnerable">
                                                     <p><b>Description:</b>&nbsp;xml-commons provides an Apache-hosted set of DOM, SAX, and 
     JAXP interfaces for use in other xml-based projects. Our hope is that we 
@@ -2115,8 +1971,8 @@ The W3C License: http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/java-bi
                                                             <br/><b>Referenced In Project/Scope:</b>
                                                                     pmd
                                                                                                                 </p>
-                                                <h4 id="header56" class="subsectionheader expandable expandablesubsection white">Evidence</h4>
-                        <div id="content56" class="subsectioncontent standardsubsection hidden">
+                                                <h4 id="header45" class="subsectionheader expandable expandablesubsection white">Evidence</h4>
+                        <div id="content45" class="subsectioncontent standardsubsection hidden">
                             <table class="lined fullwidth" border="0">
                                 <tr><th class="left" style="width:10%;">Source</th><th class="left" style="width:20%;">Name</th><th class="left" style="width:70%;">Value</th></tr>
                                                                     <tr><td>central</td><td>artifactid</td><td>xml-apis</td></tr>
@@ -2176,11 +2032,41 @@ The W3C License: http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/java-bi
                                                                     <tr><td>pom</td><td>version</td><td>1.4.01</td></tr>
                                                             </table>
                         </div>
-                                                                                                                            <h4 id="header57" class="subsectionheader white">Identifiers</h4>
-                                                <div id="content57" class="subsectioncontent standardsubsection">
+                                                                                                                            <h4 id="header46" class="subsectionheader white">Identifiers</h4>
+                                                <div id="content46" class="subsectioncontent standardsubsection">
                                                      <ul>
-                                                                                                                                    <li><b>maven:</b>&nbsp;<a href="http://search.maven.org/remotecontent?filepath=xml-apis/xml-apis/1.4.01/xml-apis-1.4.01.jar" target="_blank">xml-apis:xml-apis:1.4.01</a>
+                                                                                                                                                                                                                                                                                        <li><b>maven:</b>&nbsp;<a href="http://search.maven.org/remotecontent?filepath=xml-apis/xml-apis/1.4.01/xml-apis-1.4.01.jar" target="_blank">xml-apis:xml-apis:1.4.01</a>
                                                                                                     &nbsp;&nbsp;<i>Confidence</i>:HIGHEST
+                                                                                                                                </li>
+                                                        </ul>
+                                                </div>
+                                    </div>
+                                    <h3 class="subsectionheader standardsubsection notvulnerable"><a name="l24_b73c3dd49fff5a9bd2df48bbeecc881ce3d05bac"></a>org.jacoco.agent-0.7.4.201502262128.jar: jacocoagent.jar\META-INF/maven/org.jacoco/org.jacoco.agent.rt/pom.xml</h3>
+                    <div class="subsectioncontent notvulnerable">
+                                                    <p><b>Description:</b>&nbsp;JaCoCo Java Agent<br/></p>
+                                                <p>
+                                                    <b>File&nbsp;Path:</b>&nbsp;C:\Users\Dad\.gradle\caches\modules-2\files-2.1\org.jacoco\org.jacoco.agent\0.7.4.201502262128\a579ae4cde66201b73266bfd78fdb50158d179f1\org.jacoco.agent-0.7.4.201502262128.jar\jacocoagent.jar\META-INF/maven/org.jacoco/org.jacoco.agent.rt/pom.xml<br/>
+                            <b>MD5:</b>&nbsp;3bf2e81548bf350a4d0a8c124ab99a35<br/>
+                            <b>SHA1:</b>&nbsp;b73c3dd49fff5a9bd2df48bbeecc881ce3d05bac
+                                                                                </p>
+                                                <h4 id="header47" class="subsectionheader expandable expandablesubsection white">Evidence</h4>
+                        <div id="content47" class="subsectioncontent standardsubsection hidden">
+                            <table class="lined fullwidth" border="0">
+                                <tr><th class="left" style="width:10%;">Source</th><th class="left" style="width:20%;">Name</th><th class="left" style="width:70%;">Value</th></tr>
+                                                                    <tr><td>pom</td><td>artifactid</td><td>jacoco.agent.rt</td></tr>
+                                                                    <tr><td>pom</td><td>description</td><td>JaCoCo Java Agent</td></tr>
+                                                                    <tr><td>pom</td><td>groupid</td><td>jacoco</td></tr>
+                                                                    <tr><td>pom</td><td>name</td><td>JaCoCo :: Agent RT</td></tr>
+                                                                    <tr><td>pom</td><td>parent-artifactid</td><td>org.jacoco.build</td></tr>
+                                                                    <tr><td>pom</td><td>parent-groupid</td><td>org.jacoco</td></tr>
+                                                                    <tr><td>pom</td><td>version</td><td>0.7.4.201502262128</td></tr>
+                                                            </table>
+                        </div>
+                                                                                                                            <h4 id="header48" class="subsectionheader white">Identifiers</h4>
+                                                <div id="content48" class="subsectioncontent standardsubsection">
+                                                     <ul>
+                                                                                                                                                                                                                                                    <li><b>maven:</b>&nbsp;org.jacoco:org.jacoco.agent.rt:0.7.4.201502262128
+                                                                                                    &nbsp;&nbsp;<i>Confidence</i>:HIGH
                                                                                                                                 </li>
                                                         </ul>
                                                 </div>

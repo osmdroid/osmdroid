@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<issues format="4" by="lint 25.2.3">
+
+    <issue
+        id="InvalidPackage"
+        severity="Error"
+        message="Invalid package reference in library; not included in Android: `java.awt.image`. Referenced from `ar.com.hjg.pngj.pixels.ImageLineARGBbi`."
+        category="Correctness"
+        priority="6"
+        summary="Package not included in Android"
+        explanation="This check scans through libraries looking for calls to APIs that are not included in Android.
+
+When you create Android projects, the classpath is set up such that you can only access classes in the API packages that are included in Android. However, if you add other projects to your libs/ folder, there is no guarantee that those .jar files were built with an Android specific classpath, and in particular, they could be accessing unsupported APIs such as java.applet.
+
+This check scans through library jars and looks for references to API packages that are not included in Android and flags these. This is only an error if your code calls one of the library classes which wind up referencing the unsupported package.">
+        <location
+            file="C:\Users\Dad\.gradle\caches\modules-2\files-2.1\ar.com.hjg\pngj\2.1.0\b9a0d5cca5108431c4068976e795d4d2766dab5b\pngj-2.1.0.jar"/>
+    </issue>
+
+</issues>
+

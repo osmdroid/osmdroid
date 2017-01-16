@@ -1,83 +1,87 @@
 <?xml version="1.0"?>
 <analysis xmlns="https://jeremylong.github.io/DependencyCheck/dependency-check.1.3.xsd">
     <scanInfo>
-        <engineVersion>1.4.3</engineVersion>
+        <engineVersion>1.4.4</engineVersion>
         <dataSource>
             <name>NVD CVE 2002</name>
-            <timestamp>16/12/2016 03:30:11</timestamp>
+            <timestamp>05/01/2017 03:11:17</timestamp>
         </dataSource>
         <dataSource>
             <name>NVD CVE 2003</name>
-            <timestamp>08/12/2016 03:31:14</timestamp>
+            <timestamp>03/01/2017 03:25:13</timestamp>
         </dataSource>
         <dataSource>
             <name>NVD CVE 2004</name>
-            <timestamp>16/12/2016 03:28:25</timestamp>
+            <timestamp>20/12/2016 03:20:02</timestamp>
         </dataSource>
         <dataSource>
             <name>NVD CVE 2005</name>
-            <timestamp>16/12/2016 03:27:34</timestamp>
+            <timestamp>03/01/2017 03:24:37</timestamp>
         </dataSource>
         <dataSource>
             <name>NVD CVE 2006</name>
-            <timestamp>16/12/2016 03:26:04</timestamp>
+            <timestamp>20/12/2016 03:17:07</timestamp>
         </dataSource>
         <dataSource>
             <name>NVD CVE 2007</name>
-            <timestamp>16/12/2016 03:23:42</timestamp>
+            <timestamp>07/01/2017 03:21:56</timestamp>
         </dataSource>
         <dataSource>
             <name>NVD CVE 2008</name>
-            <timestamp>16/12/2016 03:21:35</timestamp>
+            <timestamp>03/01/2017 03:22:49</timestamp>
         </dataSource>
         <dataSource>
             <name>NVD CVE 2009</name>
-            <timestamp>16/12/2016 03:18:56</timestamp>
+            <timestamp>07/01/2017 03:19:30</timestamp>
         </dataSource>
         <dataSource>
             <name>NVD CVE 2010</name>
-            <timestamp>16/12/2016 03:16:57</timestamp>
+            <timestamp>14/01/2017 03:06:55</timestamp>
         </dataSource>
         <dataSource>
             <name>NVD CVE 2011</name>
-            <timestamp>16/12/2016 03:14:22</timestamp>
+            <timestamp>07/01/2017 03:14:53</timestamp>
         </dataSource>
         <dataSource>
             <name>NVD CVE 2012</name>
-            <timestamp>16/12/2016 03:11:18</timestamp>
+            <timestamp>07/01/2017 03:11:40</timestamp>
         </dataSource>
         <dataSource>
             <name>NVD CVE 2013</name>
-            <timestamp>17/12/2016 03:07:49</timestamp>
+            <timestamp>07/01/2017 03:09:24</timestamp>
         </dataSource>
         <dataSource>
             <name>NVD CVE 2014</name>
-            <timestamp>16/12/2016 03:06:45</timestamp>
+            <timestamp>13/01/2017 03:07:05</timestamp>
         </dataSource>
         <dataSource>
             <name>NVD CVE 2015</name>
-            <timestamp>17/12/2016 03:05:04</timestamp>
+            <timestamp>14/01/2017 03:04:28</timestamp>
         </dataSource>
         <dataSource>
             <name>NVD CVE 2016</name>
-            <timestamp>18/12/2016 03:02:26</timestamp>
+            <timestamp>16/01/2017 03:02:28</timestamp>
+        </dataSource>
+        <dataSource>
+            <name>NVD CVE 2017</name>
+            <timestamp>16/01/2017 03:00:02</timestamp>
         </dataSource>
         <dataSource>
             <name>NVD CVE Checked</name>
-            <timestamp>28/12/2016 15:20:20</timestamp>
+            <timestamp>16/01/2017 12:03:25</timestamp>
         </dataSource>
         <dataSource>
             <name>NVD CVE Modified</name>
-            <timestamp>28/12/2016 14:02:56</timestamp>
+            <timestamp>16/01/2017 10:00:27</timestamp>
         </dataSource>
         <dataSource>
             <name>VersionCheckOn</name>
-            <timestamp>1480817979332</timestamp>
+            <timestamp>1483650148175</timestamp>
         </dataSource>
     </scanInfo>
     <projectInfo>
         <name>osmdroid-mapsforge</name>
-        <reportDate>2016-12-28T15:26:38.684-0500</reportDate>
+        <reportDate>2017-01-16T12:09:18.922-0500</reportDate>
         <credits>This report contains data retrieved from the National Vulnerability Database: http://nvd.nist.gov</credits>
     </projectInfo>
     <dependencies>
@@ -219,17 +223,6 @@
             <sha1>d98fcdbfa06bd8fcca1dab708c0468b9821f3ed9</sha1>
             <description>AndroidSVG is an SVG rendering library for Android.</description>
             <license>The Apache Software License, Version 2.0: http://www.apache.org/licenses/LICENSE-2.0.txt</license>
-            <relatedDependencies>
-                <relatedDependency>
-                    <filePath>C:\Users\Dad\.gradle\caches\modules-2\files-2.1\com.caverock\androidsvg\1.2.2-beta-1\d98fcdbfa06bd8fcca1dab708c0468b9821f3ed9\androidsvg-1.2.2-beta-1.jar</filePath>
-                    <sha1>d98fcdbfa06bd8fcca1dab708c0468b9821f3ed9</sha1>
-                    <md5>f1d4123df98bfe72862c9fd80b0df062</md5>
-                    <identifier type="maven">
-                        <name>(com.caverock:androidsvg:1.2.2-beta-1)</name>
-                        <url>http://search.maven.org/remotecontent?filepath=com/caverock/androidsvg/1.2.2-beta-1/androidsvg-1.2.2-beta-1.jar</url>
-                    </identifier>
-                </relatedDependency>
-            </relatedDependencies>
             <evidenceCollected>
                 <evidence type="vendor" confidence="HIGHEST">
                     <source>central</source>
@@ -1577,153 +1570,6 @@ file comparators, endian transformation classes, and much more.
             </identifiers>
         </dependency>
         <dependency>
-            <fileName>junit-4.12.jar</fileName>
-            <filePath>C:\Users\Dad\.gradle\caches\modules-2\files-2.1\junit\junit\4.12\2973d150c0dc1fefe998f834810d68f278ea58ec\junit-4.12.jar</filePath>
-            <md5>5b38c40c97fbd0adee29f91e60405584</md5>
-            <sha1>2973d150c0dc1fefe998f834810d68f278ea58ec</sha1>
-            <description>JUnit is a unit testing framework for Java, created by Erich Gamma and Kent Beck.</description>
-            <license>Eclipse Public License 1.0: http://www.eclipse.org/legal/epl-v10.html</license>
-            <relatedDependencies>
-                <relatedDependency>
-                    <filePath>C:\Users\Dad\.gradle\caches\modules-2\files-2.1\junit\junit\4.12\2973d150c0dc1fefe998f834810d68f278ea58ec\junit-4.12.jar</filePath>
-                    <sha1>2973d150c0dc1fefe998f834810d68f278ea58ec</sha1>
-                    <md5>5b38c40c97fbd0adee29f91e60405584</md5>
-                    <identifier type="maven">
-                        <name>(junit:junit:4.12)</name>
-                        <url>http://search.maven.org/remotecontent?filepath=junit/junit/4.12/junit-4.12.jar</url>
-                    </identifier>
-                </relatedDependency>
-            </relatedDependencies>
-            <evidenceCollected>
-                <evidence type="vendor" confidence="HIGHEST">
-                    <source>central</source>
-                    <name>groupid</name>
-                    <value>junit</value>
-                </evidence>
-                <evidence type="vendor" confidence="HIGH">
-                    <source>file</source>
-                    <name>name</name>
-                    <value>junit</value>
-                </evidence>
-                <evidence type="vendor" confidence="LOW">
-                    <source>jar</source>
-                    <name>package name</name>
-                    <value>junit</value>
-                </evidence>
-                <evidence type="vendor" confidence="HIGH">
-                    <source>Manifest</source>
-                    <name>Implementation-Vendor</name>
-                    <value>JUnit</value>
-                </evidence>
-                <evidence type="vendor" confidence="MEDIUM">
-                    <source>Manifest</source>
-                    <name>Implementation-Vendor-Id</name>
-                    <value>junit</value>
-                </evidence>
-                <evidence type="vendor" confidence="LOW">
-                    <source>pom</source>
-                    <name>artifactid</name>
-                    <value>junit</value>
-                </evidence>
-                <evidence type="vendor" confidence="MEDIUM">
-                    <source>pom</source>
-                    <name>description</name>
-                    <value>JUnit is a unit testing framework for Java, created by Erich Gamma and Kent Beck.</value>
-                </evidence>
-                <evidence type="vendor" confidence="HIGHEST">
-                    <source>pom</source>
-                    <name>groupid</name>
-                    <value>junit</value>
-                </evidence>
-                <evidence type="vendor" confidence="HIGH">
-                    <source>pom</source>
-                    <name>name</name>
-                    <value>JUnit</value>
-                </evidence>
-                <evidence type="vendor" confidence="HIGH">
-                    <source>pom</source>
-                    <name>organization name</name>
-                    <value>http://www.junit.org</value>
-                </evidence>
-                <evidence type="vendor" confidence="HIGHEST">
-                    <source>pom</source>
-                    <name>url</name>
-                    <value>http://junit.org</value>
-                </evidence>
-                <evidence type="product" confidence="HIGHEST">
-                    <source>central</source>
-                    <name>artifactid</name>
-                    <value>junit</value>
-                </evidence>
-                <evidence type="product" confidence="HIGH">
-                    <source>file</source>
-                    <name>name</name>
-                    <value>junit</value>
-                </evidence>
-                <evidence type="product" confidence="HIGH">
-                    <source>Manifest</source>
-                    <name>Implementation-Title</name>
-                    <value>JUnit</value>
-                </evidence>
-                <evidence type="product" confidence="HIGHEST">
-                    <source>pom</source>
-                    <name>artifactid</name>
-                    <value>junit</value>
-                </evidence>
-                <evidence type="product" confidence="MEDIUM">
-                    <source>pom</source>
-                    <name>description</name>
-                    <value>JUnit is a unit testing framework for Java, created by Erich Gamma and Kent Beck.</value>
-                </evidence>
-                <evidence type="product" confidence="LOW">
-                    <source>pom</source>
-                    <name>groupid</name>
-                    <value>junit</value>
-                </evidence>
-                <evidence type="product" confidence="HIGH">
-                    <source>pom</source>
-                    <name>name</name>
-                    <value>JUnit</value>
-                </evidence>
-                <evidence type="product" confidence="LOW">
-                    <source>pom</source>
-                    <name>organization name</name>
-                    <value>http://www.junit.org</value>
-                </evidence>
-                <evidence type="version" confidence="HIGHEST">
-                    <source>central</source>
-                    <name>version</name>
-                    <value>4.12</value>
-                </evidence>
-                <evidence type="version" confidence="MEDIUM">
-                    <source>file</source>
-                    <name>name</name>
-                    <value>junit</value>
-                </evidence>
-                <evidence type="version" confidence="HIGHEST">
-                    <source>file</source>
-                    <name>version</name>
-                    <value>4.12</value>
-                </evidence>
-                <evidence type="version" confidence="HIGH">
-                    <source>Manifest</source>
-                    <name>Implementation-Version</name>
-                    <value>4.12</value>
-                </evidence>
-                <evidence type="version" confidence="HIGHEST">
-                    <source>pom</source>
-                    <name>version</name>
-                    <value>4.12</value>
-                </evidence>
-            </evidenceCollected>
-            <identifiers>
-                <identifier type="maven" confidence="HIGHEST">
-                    <name>(junit:junit:4.12)</name>
-                    <url>http://search.maven.org/remotecontent?filepath=junit/junit/4.12/junit-4.12.jar</url>
-                </identifier>
-            </identifiers>
-        </dependency>
-        <dependency>
             <fileName>javacc-5.0.jar</fileName>
             <filePath>C:\Users\Dad\.gradle\caches\modules-2\files-2.1\net.java.dev.javacc\javacc\5.0\f19b7d4278b837fe92504946e6860b0bcc180956\javacc-5.0.jar</filePath>
             <md5>1617a1868e4fc7502d62d792699b8e1a</md5>
@@ -1846,21 +1692,6 @@ file comparators, endian transformation classes, and much more.
             <sha1>ccbc77a5fd907ef863c29f3596c6f54ffa4e9442</sha1>
             <description>A library jar that provides APIs for Applications written for the Google Android Platform.</description>
             <license>Apache 2.0: http://www.apache.org/licenses/LICENSE-2.0</license>
-            <relatedDependencies>
-                <relatedDependency>
-                    <filePath>C:\Users\Dad\.gradle\caches\modules-2\files-2.1\net.sf.kxml\kxml2\2.3.0\ccbc77a5fd907ef863c29f3596c6f54ffa4e9442\kxml2-2.3.0.jar</filePath>
-                    <sha1>ccbc77a5fd907ef863c29f3596c6f54ffa4e9442</sha1>
-                    <md5>04a03b3a4f1ef0e3fda28bf1792e2ee7</md5>
-                    <identifier type="maven">
-                        <name>(net.sf.kxml:kxml2:2.3.0)</name>
-                        <url>http://search.maven.org/remotecontent?filepath=net/sf/kxml/kxml2/2.3.0/kxml2-2.3.0.jar</url>
-                    </identifier>
-                    <identifier type="maven">
-                        <name>(org.robolectric:android-kxml2:4.1.2_r1_rc)</name>
-                        <url>http://search.maven.org/remotecontent?filepath=org/robolectric/android-kxml2/4.1.2_r1_rc/android-kxml2-4.1.2_r1_rc.jar</url>
-                    </identifier>
-                </relatedDependency>
-            </relatedDependencies>
             <evidenceCollected>
                 <evidence type="vendor" confidence="HIGH">
                     <source>central</source>
@@ -3442,180 +3273,11 @@ file comparators, endian transformation classes, and much more.
             </identifiers>
         </dependency>
         <dependency>
-            <fileName>hamcrest-core-1.3.jar</fileName>
-            <filePath>C:\Users\Dad\.gradle\caches\modules-2\files-2.1\org.hamcrest\hamcrest-core\1.3\42a25dc3219429f0e5d060061f71acb49bf010a0\hamcrest-core-1.3.jar</filePath>
-            <md5>6393363b47ddcbba82321110c3e07519</md5>
-            <sha1>42a25dc3219429f0e5d060061f71acb49bf010a0</sha1>
-            <description>
-    This is the core API of hamcrest matcher framework to be used by third-party framework providers. This includes the a foundation set of matcher implementations for common operations.
-  </description>
-            <relatedDependencies>
-                <relatedDependency>
-                    <filePath>C:\Users\Dad\.gradle\caches\modules-2\files-2.1\org.hamcrest\hamcrest-core\1.3\42a25dc3219429f0e5d060061f71acb49bf010a0\hamcrest-core-1.3.jar</filePath>
-                    <sha1>42a25dc3219429f0e5d060061f71acb49bf010a0</sha1>
-                    <md5>6393363b47ddcbba82321110c3e07519</md5>
-                    <identifier type="maven">
-                        <name>(org.hamcrest:hamcrest-core:1.3)</name>
-                        <url>http://search.maven.org/remotecontent?filepath=org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar</url>
-                    </identifier>
-                </relatedDependency>
-            </relatedDependencies>
-            <evidenceCollected>
-                <evidence type="vendor" confidence="HIGHEST">
-                    <source>central</source>
-                    <name>groupid</name>
-                    <value>org.hamcrest</value>
-                </evidence>
-                <evidence type="vendor" confidence="HIGH">
-                    <source>file</source>
-                    <name>name</name>
-                    <value>hamcrest-core</value>
-                </evidence>
-                <evidence type="vendor" confidence="LOW">
-                    <source>jar</source>
-                    <name>package name</name>
-                    <value>hamcrest</value>
-                </evidence>
-                <evidence type="vendor" confidence="LOW">
-                    <source>Manifest</source>
-                    <name>built-date</name>
-                    <value>2012-07-09 19:49:34</value>
-                </evidence>
-                <evidence type="vendor" confidence="HIGH">
-                    <source>Manifest</source>
-                    <name>Implementation-Vendor</name>
-                    <value>hamcrest.org</value>
-                </evidence>
-                <evidence type="vendor" confidence="LOW">
-                    <source>pom</source>
-                    <name>artifactid</name>
-                    <value>hamcrest-core</value>
-                </evidence>
-                <evidence type="vendor" confidence="LOW">
-                    <source>pom</source>
-                    <name>description</name>
-                    <value>This is the core API of hamcrest matcher framework to be used by third-party framework providers. This includes the a foundation set of matcher implementations for common operations.</value>
-                </evidence>
-                <evidence type="vendor" confidence="HIGHEST">
-                    <source>pom</source>
-                    <name>groupid</name>
-                    <value>hamcrest</value>
-                </evidence>
-                <evidence type="vendor" confidence="HIGH">
-                    <source>pom</source>
-                    <name>name</name>
-                    <value>Hamcrest Core</value>
-                </evidence>
-                <evidence type="vendor" confidence="LOW">
-                    <source>pom</source>
-                    <name>parent-artifactid</name>
-                    <value>hamcrest-parent</value>
-                </evidence>
-                <evidence type="vendor" confidence="MEDIUM">
-                    <source>pom</source>
-                    <name>parent-groupid</name>
-                    <value>org.hamcrest</value>
-                </evidence>
-                <evidence type="product" confidence="HIGHEST">
-                    <source>central</source>
-                    <name>artifactid</name>
-                    <value>hamcrest-core</value>
-                </evidence>
-                <evidence type="product" confidence="HIGH">
-                    <source>file</source>
-                    <name>name</name>
-                    <value>hamcrest-core</value>
-                </evidence>
-                <evidence type="product" confidence="LOW">
-                    <source>Manifest</source>
-                    <name>built-date</name>
-                    <value>2012-07-09 19:49:34</value>
-                </evidence>
-                <evidence type="product" confidence="HIGH">
-                    <source>Manifest</source>
-                    <name>Implementation-Title</name>
-                    <value>hamcrest-core</value>
-                </evidence>
-                <evidence type="product" confidence="HIGHEST">
-                    <source>pom</source>
-                    <name>artifactid</name>
-                    <value>hamcrest-core</value>
-                </evidence>
-                <evidence type="product" confidence="LOW">
-                    <source>pom</source>
-                    <name>description</name>
-                    <value>This is the core API of hamcrest matcher framework to be used by third-party framework providers. This includes the a foundation set of matcher implementations for common operations.</value>
-                </evidence>
-                <evidence type="product" confidence="LOW">
-                    <source>pom</source>
-                    <name>groupid</name>
-                    <value>hamcrest</value>
-                </evidence>
-                <evidence type="product" confidence="HIGH">
-                    <source>pom</source>
-                    <name>name</name>
-                    <value>Hamcrest Core</value>
-                </evidence>
-                <evidence type="product" confidence="MEDIUM">
-                    <source>pom</source>
-                    <name>parent-artifactid</name>
-                    <value>hamcrest-parent</value>
-                </evidence>
-                <evidence type="product" confidence="LOW">
-                    <source>pom</source>
-                    <name>parent-groupid</name>
-                    <value>org.hamcrest</value>
-                </evidence>
-                <evidence type="version" confidence="HIGHEST">
-                    <source>central</source>
-                    <name>version</name>
-                    <value>1.3</value>
-                </evidence>
-                <evidence type="version" confidence="MEDIUM">
-                    <source>file</source>
-                    <name>name</name>
-                    <value>hamcrest-core</value>
-                </evidence>
-                <evidence type="version" confidence="HIGHEST">
-                    <source>file</source>
-                    <name>version</name>
-                    <value>1.3</value>
-                </evidence>
-                <evidence type="version" confidence="HIGH">
-                    <source>Manifest</source>
-                    <name>Implementation-Version</name>
-                    <value>1.3</value>
-                </evidence>
-                <evidence type="version" confidence="HIGHEST">
-                    <source>pom</source>
-                    <name>version</name>
-                    <value>1.3</value>
-                </evidence>
-            </evidenceCollected>
-            <identifiers>
-                <identifier type="maven" confidence="HIGHEST">
-                    <name>(org.hamcrest:hamcrest-core:1.3)</name>
-                    <url>http://search.maven.org/remotecontent?filepath=org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar</url>
-                </identifier>
-            </identifiers>
-        </dependency>
-        <dependency>
             <fileName>org.jacoco.agent-0.7.4.201502262128.jar</fileName>
             <filePath>C:\Users\Dad\.gradle\caches\modules-2\files-2.1\org.jacoco\org.jacoco.agent\0.7.4.201502262128\a579ae4cde66201b73266bfd78fdb50158d179f1\org.jacoco.agent-0.7.4.201502262128.jar</filePath>
             <md5>ab7e8bde4902191b923be4afeaf7a3c4</md5>
             <sha1>a579ae4cde66201b73266bfd78fdb50158d179f1</sha1>
             <description>JaCoCo Agent</description>
-            <relatedDependencies>
-                <relatedDependency>
-                    <filePath>C:\Users\Dad\.gradle\caches\modules-2\files-2.1\org.jacoco\org.jacoco.agent\0.7.4.201502262128\a579ae4cde66201b73266bfd78fdb50158d179f1\org.jacoco.agent-0.7.4.201502262128.jar</filePath>
-                    <sha1>a579ae4cde66201b73266bfd78fdb50158d179f1</sha1>
-                    <md5>ab7e8bde4902191b923be4afeaf7a3c4</md5>
-                    <identifier type="maven">
-                        <name>(org.jacoco:org.jacoco.agent:0.7.4.201502262128)</name>
-                        <url>http://search.maven.org/#search|ga|1|1%3A%22a579ae4cde66201b73266bfd78fdb50158d179f1%22</url>
-                    </identifier>
-                </relatedDependency>
-            </relatedDependencies>
             <evidenceCollected>
                 <evidence type="vendor" confidence="HIGHEST">
                     <source>central</source>
@@ -3760,13 +3422,6 @@ file comparators, endian transformation classes, and much more.
             <filePath>C:\Users\Dad\.gradle\caches\modules-2\files-2.1\org.jacoco\org.jacoco.agent\0.7.4.201502262128\a579ae4cde66201b73266bfd78fdb50158d179f1\org.jacoco.agent-0.7.4.201502262128.jar\jacocoagent.jar</filePath>
             <md5>391505e6410f91b47817c45074d2ab00</md5>
             <sha1>ea73283d55c98ab1fccb8c23d76c68b7d7ecbd83</sha1>
-            <relatedDependencies>
-                <relatedDependency>
-                    <filePath>C:\Users\Dad\.gradle\caches\modules-2\files-2.1\org.jacoco\org.jacoco.agent\0.7.4.201502262128\a579ae4cde66201b73266bfd78fdb50158d179f1\org.jacoco.agent-0.7.4.201502262128.jar\jacocoagent.jar</filePath>
-                    <sha1>ea73283d55c98ab1fccb8c23d76c68b7d7ecbd83</sha1>
-                    <md5>391505e6410f91b47817c45074d2ab00</md5>
-                </relatedDependency>
-            </relatedDependencies>
             <evidenceCollected>
                 <evidence type="vendor" confidence="HIGH">
                     <source>file</source>
@@ -3824,95 +3479,6 @@ file comparators, endian transformation classes, and much more.
                     <value>0.7.4.201502262128</value>
                 </evidence>
             </evidenceCollected>
-        </dependency>
-        <dependency>
-            <fileName>org.jacoco.agent-0.7.4.201502262128.jar: jacocoagent.jar\META-INF/maven/org.jacoco/org.jacoco.agent.rt/pom.xml</fileName>
-            <filePath>C:\Users\Dad\.gradle\caches\modules-2\files-2.1\org.jacoco\org.jacoco.agent\0.7.4.201502262128\a579ae4cde66201b73266bfd78fdb50158d179f1\org.jacoco.agent-0.7.4.201502262128.jar\jacocoagent.jar\META-INF/maven/org.jacoco/org.jacoco.agent.rt/pom.xml</filePath>
-            <md5>3bf2e81548bf350a4d0a8c124ab99a35</md5>
-            <sha1>b73c3dd49fff5a9bd2df48bbeecc881ce3d05bac</sha1>
-            <description>JaCoCo Java Agent</description>
-            <relatedDependencies>
-                <relatedDependency>
-                    <filePath>C:\Users\Dad\.gradle\caches\modules-2\files-2.1\org.jacoco\org.jacoco.agent\0.7.4.201502262128\a579ae4cde66201b73266bfd78fdb50158d179f1\org.jacoco.agent-0.7.4.201502262128.jar\jacocoagent.jar\META-INF/maven/org.jacoco/org.jacoco.agent.rt/pom.xml</filePath>
-                    <sha1>b73c3dd49fff5a9bd2df48bbeecc881ce3d05bac</sha1>
-                    <md5>3bf2e81548bf350a4d0a8c124ab99a35</md5>
-                    <identifier type="maven">
-                        <name>(org.jacoco:org.jacoco.agent.rt:0.7.4.201502262128)</name>
-                    </identifier>
-                </relatedDependency>
-            </relatedDependencies>
-            <evidenceCollected>
-                <evidence type="vendor" confidence="LOW">
-                    <source>pom</source>
-                    <name>artifactid</name>
-                    <value>jacoco.agent.rt</value>
-                </evidence>
-                <evidence type="vendor" confidence="MEDIUM">
-                    <source>pom</source>
-                    <name>description</name>
-                    <value>JaCoCo Java Agent</value>
-                </evidence>
-                <evidence type="vendor" confidence="HIGHEST">
-                    <source>pom</source>
-                    <name>groupid</name>
-                    <value>jacoco</value>
-                </evidence>
-                <evidence type="vendor" confidence="HIGH">
-                    <source>pom</source>
-                    <name>name</name>
-                    <value>JaCoCo :: Agent RT</value>
-                </evidence>
-                <evidence type="vendor" confidence="LOW">
-                    <source>pom</source>
-                    <name>parent-artifactid</name>
-                    <value>org.jacoco.build</value>
-                </evidence>
-                <evidence type="vendor" confidence="MEDIUM">
-                    <source>pom</source>
-                    <name>parent-groupid</name>
-                    <value>org.jacoco</value>
-                </evidence>
-                <evidence type="product" confidence="HIGHEST">
-                    <source>pom</source>
-                    <name>artifactid</name>
-                    <value>jacoco.agent.rt</value>
-                </evidence>
-                <evidence type="product" confidence="MEDIUM">
-                    <source>pom</source>
-                    <name>description</name>
-                    <value>JaCoCo Java Agent</value>
-                </evidence>
-                <evidence type="product" confidence="LOW">
-                    <source>pom</source>
-                    <name>groupid</name>
-                    <value>jacoco</value>
-                </evidence>
-                <evidence type="product" confidence="HIGH">
-                    <source>pom</source>
-                    <name>name</name>
-                    <value>JaCoCo :: Agent RT</value>
-                </evidence>
-                <evidence type="product" confidence="MEDIUM">
-                    <source>pom</source>
-                    <name>parent-artifactid</name>
-                    <value>org.jacoco.build</value>
-                </evidence>
-                <evidence type="product" confidence="LOW">
-                    <source>pom</source>
-                    <name>parent-groupid</name>
-                    <value>org.jacoco</value>
-                </evidence>
-                <evidence type="version" confidence="HIGHEST">
-                    <source>pom</source>
-                    <name>version</name>
-                    <value>0.7.4.201502262128</value>
-                </evidence>
-            </evidenceCollected>
-            <identifiers>
-                <identifier type="maven" confidence="HIGH">
-                    <name>(org.jacoco:org.jacoco.agent.rt:0.7.4.201502262128)</name>
-                </identifier>
-            </identifiers>
         </dependency>
         <dependency>
             <fileName>org.jacoco.ant-0.7.4.201502262128.jar</fileName>
@@ -4364,17 +3930,6 @@ file comparators, endian transformation classes, and much more.
             <filePath>C:\Users\Dad\.gradle\caches\modules-2\files-2.1\org.mapsforge\mapsforge-core\0.6.1\3085141fe6ec137fd7840720231cf841a04fcbef\mapsforge-core-0.6.1.jar</filePath>
             <md5>cf6b47ac38085cdfccd17ffd32dc1431</md5>
             <sha1>3085141fe6ec137fd7840720231cf841a04fcbef</sha1>
-            <relatedDependencies>
-                <relatedDependency>
-                    <filePath>C:\Users\Dad\.gradle\caches\modules-2\files-2.1\org.mapsforge\mapsforge-core\0.6.1\3085141fe6ec137fd7840720231cf841a04fcbef\mapsforge-core-0.6.1.jar</filePath>
-                    <sha1>3085141fe6ec137fd7840720231cf841a04fcbef</sha1>
-                    <md5>cf6b47ac38085cdfccd17ffd32dc1431</md5>
-                    <identifier type="maven">
-                        <name>(org.mapsforge:mapsforge-core:0.6.1)</name>
-                        <url>http://search.maven.org/#search|ga|1|1%3A%223085141fe6ec137fd7840720231cf841a04fcbef%22</url>
-                    </identifier>
-                </relatedDependency>
-            </relatedDependencies>
             <evidenceCollected>
                 <evidence type="vendor" confidence="HIGHEST">
                     <source>central</source>
@@ -4494,17 +4049,6 @@ file comparators, endian transformation classes, and much more.
             <filePath>C:\Users\Dad\.gradle\caches\modules-2\files-2.1\org.mapsforge\mapsforge-map-android\0.6.1\6a545b760bc8e70bd23a3282d137a110cf096df8\mapsforge-map-android-0.6.1.jar</filePath>
             <md5>caa8b2388914a8bd5bdcccda07a8ce18</md5>
             <sha1>6a545b760bc8e70bd23a3282d137a110cf096df8</sha1>
-            <relatedDependencies>
-                <relatedDependency>
-                    <filePath>C:\Users\Dad\.gradle\caches\modules-2\files-2.1\org.mapsforge\mapsforge-map-android\0.6.1\6a545b760bc8e70bd23a3282d137a110cf096df8\mapsforge-map-android-0.6.1.jar</filePath>
-                    <sha1>6a545b760bc8e70bd23a3282d137a110cf096df8</sha1>
-                    <md5>caa8b2388914a8bd5bdcccda07a8ce18</md5>
-                    <identifier type="maven">
-                        <name>(org.mapsforge:mapsforge-map-android:0.6.1)</name>
-                        <url>http://search.maven.org/#search|ga|1|1%3A%226a545b760bc8e70bd23a3282d137a110cf096df8%22</url>
-                    </identifier>
-                </relatedDependency>
-            </relatedDependencies>
             <evidenceCollected>
                 <evidence type="vendor" confidence="HIGHEST">
                     <source>central</source>
@@ -4624,17 +4168,6 @@ file comparators, endian transformation classes, and much more.
             <filePath>C:\Users\Dad\.gradle\caches\modules-2\files-2.1\org.mapsforge\mapsforge-map-reader\0.6.1\b2ae70c6d05bb4b94991598a132e98d7366ff26b\mapsforge-map-reader-0.6.1.jar</filePath>
             <md5>95f76647fda606365ea60fbe601391ec</md5>
             <sha1>b2ae70c6d05bb4b94991598a132e98d7366ff26b</sha1>
-            <relatedDependencies>
-                <relatedDependency>
-                    <filePath>C:\Users\Dad\.gradle\caches\modules-2\files-2.1\org.mapsforge\mapsforge-map-reader\0.6.1\b2ae70c6d05bb4b94991598a132e98d7366ff26b\mapsforge-map-reader-0.6.1.jar</filePath>
-                    <sha1>b2ae70c6d05bb4b94991598a132e98d7366ff26b</sha1>
-                    <md5>95f76647fda606365ea60fbe601391ec</md5>
-                    <identifier type="maven">
-                        <name>(org.mapsforge:mapsforge-map-reader:0.6.1)</name>
-                        <url>http://search.maven.org/#search|ga|1|1%3A%22b2ae70c6d05bb4b94991598a132e98d7366ff26b%22</url>
-                    </identifier>
-                </relatedDependency>
-            </relatedDependencies>
             <evidenceCollected>
                 <evidence type="vendor" confidence="HIGHEST">
                     <source>central</source>
@@ -4754,17 +4287,6 @@ file comparators, endian transformation classes, and much more.
             <filePath>C:\Users\Dad\.gradle\caches\modules-2\files-2.1\org.mapsforge\mapsforge-map\0.6.1\1140a4f09c9cc9b4b848430ea44739cddb823ba9\mapsforge-map-0.6.1.jar</filePath>
             <md5>7fe0b19458d77c2670a672ed80279ab9</md5>
             <sha1>1140a4f09c9cc9b4b848430ea44739cddb823ba9</sha1>
-            <relatedDependencies>
-                <relatedDependency>
-                    <filePath>C:\Users\Dad\.gradle\caches\modules-2\files-2.1\org.mapsforge\mapsforge-map\0.6.1\1140a4f09c9cc9b4b848430ea44739cddb823ba9\mapsforge-map-0.6.1.jar</filePath>
-                    <sha1>1140a4f09c9cc9b4b848430ea44739cddb823ba9</sha1>
-                    <md5>7fe0b19458d77c2670a672ed80279ab9</md5>
-                    <identifier type="maven">
-                        <name>(org.mapsforge:mapsforge-map:0.6.1)</name>
-                        <url>http://search.maven.org/#search|ga|1|1%3A%221140a4f09c9cc9b4b848430ea44739cddb823ba9%22</url>
-                    </identifier>
-                </relatedDependency>
-            </relatedDependencies>
             <evidenceCollected>
                 <evidence type="vendor" confidence="HIGHEST">
                     <source>central</source>
@@ -5905,6 +5427,85 @@ The W3C License: http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/java-bi
                 <identifier type="maven" confidence="HIGHEST">
                     <name>(xml-apis:xml-apis:1.4.01)</name>
                     <url>http://search.maven.org/remotecontent?filepath=xml-apis/xml-apis/1.4.01/xml-apis-1.4.01.jar</url>
+                </identifier>
+            </identifiers>
+        </dependency>
+        <dependency>
+            <fileName>org.jacoco.agent-0.7.4.201502262128.jar: jacocoagent.jar\META-INF/maven/org.jacoco/org.jacoco.agent.rt/pom.xml</fileName>
+            <filePath>C:\Users\Dad\.gradle\caches\modules-2\files-2.1\org.jacoco\org.jacoco.agent\0.7.4.201502262128\a579ae4cde66201b73266bfd78fdb50158d179f1\org.jacoco.agent-0.7.4.201502262128.jar\jacocoagent.jar\META-INF/maven/org.jacoco/org.jacoco.agent.rt/pom.xml</filePath>
+            <md5>3bf2e81548bf350a4d0a8c124ab99a35</md5>
+            <sha1>b73c3dd49fff5a9bd2df48bbeecc881ce3d05bac</sha1>
+            <description>JaCoCo Java Agent</description>
+            <evidenceCollected>
+                <evidence type="vendor" confidence="LOW">
+                    <source>pom</source>
+                    <name>artifactid</name>
+                    <value>jacoco.agent.rt</value>
+                </evidence>
+                <evidence type="vendor" confidence="MEDIUM">
+                    <source>pom</source>
+                    <name>description</name>
+                    <value>JaCoCo Java Agent</value>
+                </evidence>
+                <evidence type="vendor" confidence="HIGHEST">
+                    <source>pom</source>
+                    <name>groupid</name>
+                    <value>jacoco</value>
+                </evidence>
+                <evidence type="vendor" confidence="HIGH">
+                    <source>pom</source>
+                    <name>name</name>
+                    <value>JaCoCo :: Agent RT</value>
+                </evidence>
+                <evidence type="vendor" confidence="LOW">
+                    <source>pom</source>
+                    <name>parent-artifactid</name>
+                    <value>org.jacoco.build</value>
+                </evidence>
+                <evidence type="vendor" confidence="MEDIUM">
+                    <source>pom</source>
+                    <name>parent-groupid</name>
+                    <value>org.jacoco</value>
+                </evidence>
+                <evidence type="product" confidence="HIGHEST">
+                    <source>pom</source>
+                    <name>artifactid</name>
+                    <value>jacoco.agent.rt</value>
+                </evidence>
+                <evidence type="product" confidence="MEDIUM">
+                    <source>pom</source>
+                    <name>description</name>
+                    <value>JaCoCo Java Agent</value>
+                </evidence>
+                <evidence type="product" confidence="LOW">
+                    <source>pom</source>
+                    <name>groupid</name>
+                    <value>jacoco</value>
+                </evidence>
+                <evidence type="product" confidence="HIGH">
+                    <source>pom</source>
+                    <name>name</name>
+                    <value>JaCoCo :: Agent RT</value>
+                </evidence>
+                <evidence type="product" confidence="MEDIUM">
+                    <source>pom</source>
+                    <name>parent-artifactid</name>
+                    <value>org.jacoco.build</value>
+                </evidence>
+                <evidence type="product" confidence="LOW">
+                    <source>pom</source>
+                    <name>parent-groupid</name>
+                    <value>org.jacoco</value>
+                </evidence>
+                <evidence type="version" confidence="HIGHEST">
+                    <source>pom</source>
+                    <name>version</name>
+                    <value>0.7.4.201502262128</value>
+                </evidence>
+            </evidenceCollected>
+            <identifiers>
+                <identifier type="maven" confidence="HIGH">
+                    <name>(org.jacoco:org.jacoco.agent.rt:0.7.4.201502262128)</name>
                 </identifier>
             </identifiers>
         </dependency>

@@ -10,27 +10,27 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.api.IMapView
-	c45091 [label=<<table title="org.osmdroid.api.IMapView" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./IMapView.html">
+	c59936 [label=<<table title="org.osmdroid.api.IMapView" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./IMapView.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> IMapView </td></tr>
 		</table></td></tr>
 		</table>>, URL="./IMapView.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.MapView
-	c45188 [label=<<table title="org.osmdroid.views.MapView" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../views/MapView.html">
+	c60036 [label=<<table title="org.osmdroid.views.MapView" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../views/MapView.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MapView </td></tr>
 		</table></td></tr>
 		</table>>, URL="../views/MapView.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.google.wrapper.MapView
-	c45282 [label=<<table title="org.osmdroid.google.wrapper.MapView" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../google/wrapper/MapView.html">
+	c60131 [label=<<table title="org.osmdroid.google.wrapper.MapView" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../google/wrapper/MapView.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MapView </td></tr>
 		</table></td></tr>
 		</table>>, URL="../google/wrapper/MapView.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.views.MapView implements org.osmdroid.api.IMapView
-	c45091:p -> c45188:p [dir=back,arrowtail=empty,style=dashed];
+	c59936:p -> c60036:p [dir=back,arrowtail=empty,style=dashed];
 	//org.osmdroid.google.wrapper.MapView implements org.osmdroid.api.IMapView
-	c45091:p -> c45282:p [dir=back,arrowtail=empty,style=dashed];
+	c59936:p -> c60131:p [dir=back,arrowtail=empty,style=dashed];
 }
 

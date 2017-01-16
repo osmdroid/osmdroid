@@ -10,31 +10,31 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.samples.SampleExtensive
-	c8179 [label=<<table title="org.osmdroid.samples.SampleExtensive" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleExtensive.html">
+	c11428 [label=<<table title="org.osmdroid.samples.SampleExtensive" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleExtensive.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleExtensive </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SampleExtensive.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samples.SampleWithMinimapItemizedoverlay
-	c8180 [label=<<table title="org.osmdroid.samples.SampleWithMinimapItemizedoverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleWithMinimapItemizedoverlay.html">
+	c11429 [label=<<table title="org.osmdroid.samples.SampleWithMinimapItemizedoverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleWithMinimapItemizedoverlay.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleWithMinimapItemizedoverlay </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SampleWithMinimapItemizedoverlay.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samples.SampleWithMinimapZoomcontrols
-	c8181 [label=<<table title="org.osmdroid.samples.SampleWithMinimapZoomcontrols" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleWithMinimapZoomcontrols.html">
+	c11430 [label=<<table title="org.osmdroid.samples.SampleWithMinimapZoomcontrols" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleWithMinimapZoomcontrols.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleWithMinimapZoomcontrols </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SampleWithMinimapZoomcontrols.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samples.SampleWithTilesOverlay
-	c8182 [label=<<table title="org.osmdroid.samples.SampleWithTilesOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleWithTilesOverlay.html">
+	c11431 [label=<<table title="org.osmdroid.samples.SampleWithTilesOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleWithTilesOverlay.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleWithTilesOverlay </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SampleWithTilesOverlay.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samples.SampleWithTilesOverlayAndCustomTileSource
-	c8183 [label=<<table title="org.osmdroid.samples.SampleWithTilesOverlayAndCustomTileSource" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleWithTilesOverlayAndCustomTileSource.html">
+	c11432 [label=<<table title="org.osmdroid.samples.SampleWithTilesOverlayAndCustomTileSource" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleWithTilesOverlayAndCustomTileSource.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleWithTilesOverlayAndCustomTileSource </td></tr>
 		</table></td></tr>

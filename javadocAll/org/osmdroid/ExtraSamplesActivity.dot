@@ -10,17 +10,17 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.ExtraSamplesActivity
-	c34665 [label=<<table title="org.osmdroid.ExtraSamplesActivity" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./ExtraSamplesActivity.html">
+	c44883 [label=<<table title="org.osmdroid.ExtraSamplesActivity" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./ExtraSamplesActivity.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> ExtraSamplesActivity </td></tr>
 		</table></td></tr>
 		</table>>, URL="./ExtraSamplesActivity.html", fontname="arial", fontcolor="black", fontsize=10.0];
-	//org.osmdroid.ExtraSamplesActivity extends FragmentActivity
-	c34946:p -> c34665:p [dir=back,arrowtail=empty];
-	// FragmentActivity
-	c34946[label=<<table title="FragmentActivity" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api//FragmentActivity.html">
+	//org.osmdroid.ExtraSamplesActivity extends AppCompatActivity
+	c45204:p -> c44883:p [dir=back,arrowtail=empty];
+	// AppCompatActivity
+	c45204[label=<<table title="AppCompatActivity" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api//AppCompatActivity.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> FragmentActivity </td></tr>
+<tr><td align="center" balign="center"> AppCompatActivity </td></tr>
 		</table></td></tr>
 		</table>>, fontname="arial", fontcolor="black", fontsize=10.0];
 }

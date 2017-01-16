@@ -10,27 +10,27 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.events.MapEvent
-	c58347 [label=<<table title="org.osmdroid.events.MapEvent" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./MapEvent.html">
+	c77061 [label=<<table title="org.osmdroid.events.MapEvent" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./MapEvent.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> MapEvent </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MapEvent.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.events.ScrollEvent
-	c58350 [label=<<table title="org.osmdroid.events.ScrollEvent" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ScrollEvent.html">
+	c77064 [label=<<table title="org.osmdroid.events.ScrollEvent" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ScrollEvent.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> ScrollEvent </td></tr>
 		</table></td></tr>
 		</table>>, URL="./ScrollEvent.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.events.ZoomEvent
-	c58351 [label=<<table title="org.osmdroid.events.ZoomEvent" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ZoomEvent.html">
+	c77065 [label=<<table title="org.osmdroid.events.ZoomEvent" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ZoomEvent.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> ZoomEvent </td></tr>
 		</table></td></tr>
 		</table>>, URL="./ZoomEvent.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.events.ScrollEvent implements org.osmdroid.events.MapEvent
-	c58347:p -> c58350:p [dir=back,arrowtail=empty,style=dashed];
+	c77061:p -> c77064:p [dir=back,arrowtail=empty,style=dashed];
 	//org.osmdroid.events.ZoomEvent implements org.osmdroid.events.MapEvent
-	c58347:p -> c58351:p [dir=back,arrowtail=empty,style=dashed];
+	c77061:p -> c77065:p [dir=back,arrowtail=empty,style=dashed];
 }
 

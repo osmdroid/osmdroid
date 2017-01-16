@@ -10,15 +10,15 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.google.wrapper.GeoPoint
-	c308 [label=<<table title="org.osmdroid.google.wrapper.GeoPoint" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./GeoPoint.html">
+	c201 [label=<<table title="org.osmdroid.google.wrapper.GeoPoint" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./GeoPoint.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> GeoPoint </td></tr>
 		</table></td></tr>
 		</table>>, URL="./GeoPoint.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.google.wrapper.GeoPoint implements org.osmdroid.api.IGeoPoint
-	c324:p -> c308:p [dir=back,arrowtail=empty,style=dashed];
+	c214:p -> c201:p [dir=back,arrowtail=empty,style=dashed];
 	// org.osmdroid.api.IGeoPoint
-	c324 [label=<<table title="org.osmdroid.api.IGeoPoint" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/org/osmdroid/api/IGeoPoint.html">
+	c214 [label=<<table title="org.osmdroid.api.IGeoPoint" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/org/osmdroid/api/IGeoPoint.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> IGeoPoint </td></tr>

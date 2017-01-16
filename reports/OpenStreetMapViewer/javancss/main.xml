@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <javancss>
-  <date>2016-12-28</date>
-  <time>15:22:41</time>
+  <date>2017-01-16</date>
+  <time>12:06:21</time>
   <packages>
     <package>
       <name>.</name>
@@ -15,22 +15,22 @@
     </package>
     <package>
       <name>org.osmdroid</name>
-      <classes>8</classes>
-      <functions>39</functions>
-      <ncss>687</ncss>
-      <javadocs>16</javadocs>
-      <javadoc_lines>80</javadoc_lines>
-      <single_comment_lines>74</single_comment_lines>
+      <classes>9</classes>
+      <functions>44</functions>
+      <ncss>849</ncss>
+      <javadocs>18</javadocs>
+      <javadoc_lines>93</javadoc_lines>
+      <single_comment_lines>81</single_comment_lines>
       <multi_comment_lines>0</multi_comment_lines>
     </package>
     <package>
       <name>org.osmdroid.bugtestfragments</name>
-      <classes>9</classes>
-      <functions>38</functions>
-      <ncss>485</ncss>
-      <javadocs>9</javadocs>
-      <javadoc_lines>34</javadoc_lines>
-      <single_comment_lines>23</single_comment_lines>
+      <classes>11</classes>
+      <functions>50</functions>
+      <ncss>588</ncss>
+      <javadocs>11</javadocs>
+      <javadoc_lines>45</javadoc_lines>
+      <single_comment_lines>26</single_comment_lines>
       <multi_comment_lines>0</multi_comment_lines>
     </package>
     <package>
@@ -59,7 +59,7 @@
       <functions>7</functions>
       <ncss>81</ncss>
       <javadocs>2</javadocs>
-      <javadoc_lines>13</javadoc_lines>
+      <javadoc_lines>15</javadoc_lines>
       <single_comment_lines>4</single_comment_lines>
       <multi_comment_lines>0</multi_comment_lines>
     </package>
@@ -84,50 +84,80 @@
       <multi_comment_lines>48</multi_comment_lines>
     </package>
     <package>
+      <name>org.osmdroid.intro</name>
+      <classes>8</classes>
+      <functions>29</functions>
+      <ncss>348</ncss>
+      <javadocs>8</javadocs>
+      <javadoc_lines>38</javadoc_lines>
+      <single_comment_lines>19</single_comment_lines>
+      <multi_comment_lines>0</multi_comment_lines>
+    </package>
+    <package>
       <name>org.osmdroid.model</name>
-      <classes>3</classes>
-      <functions>9</functions>
-      <ncss>48</ncss>
-      <javadocs>3</javadocs>
-      <javadoc_lines>15</javadoc_lines>
+      <classes>4</classes>
+      <functions>10</functions>
+      <ncss>51</ncss>
+      <javadocs>4</javadocs>
+      <javadoc_lines>20</javadoc_lines>
       <single_comment_lines>0</single_comment_lines>
       <multi_comment_lines>0</multi_comment_lines>
     </package>
     <package>
       <name>org.osmdroid.samplefragments</name>
-      <classes>5</classes>
-      <functions>28</functions>
-      <ncss>219</ncss>
-      <javadocs>7</javadocs>
-      <javadoc_lines>26</javadoc_lines>
-      <single_comment_lines>60</single_comment_lines>
+      <classes>3</classes>
+      <functions>24</functions>
+      <ncss>269</ncss>
+      <javadocs>5</javadocs>
+      <javadoc_lines>20</javadoc_lines>
+      <single_comment_lines>76</single_comment_lines>
       <multi_comment_lines>0</multi_comment_lines>
     </package>
     <package>
       <name>org.osmdroid.samplefragments.cache</name>
       <classes>8</classes>
       <functions>66</functions>
-      <ncss>692</ncss>
+      <ncss>707</ncss>
       <javadocs>12</javadocs>
       <javadoc_lines>51</javadoc_lines>
-      <single_comment_lines>88</single_comment_lines>
+      <single_comment_lines>92</single_comment_lines>
       <multi_comment_lines>13</multi_comment_lines>
     </package>
     <package>
       <name>org.osmdroid.samplefragments.data</name>
-      <classes>8</classes>
-      <functions>45</functions>
-      <ncss>645</ncss>
-      <javadocs>14</javadocs>
-      <javadoc_lines>66</javadoc_lines>
-      <single_comment_lines>132</single_comment_lines>
-      <multi_comment_lines>24</multi_comment_lines>
+      <classes>15</classes>
+      <functions>78</functions>
+      <ncss>1164</ncss>
+      <javadocs>30</javadocs>
+      <javadoc_lines>197</javadoc_lines>
+      <single_comment_lines>211</single_comment_lines>
+      <multi_comment_lines>28</multi_comment_lines>
+    </package>
+    <package>
+      <name>org.osmdroid.samplefragments.data.utils</name>
+      <classes>1</classes>
+      <functions>2</functions>
+      <ncss>35</ncss>
+      <javadocs>1</javadocs>
+      <javadoc_lines>8</javadoc_lines>
+      <single_comment_lines>6</single_comment_lines>
+      <multi_comment_lines>0</multi_comment_lines>
+    </package>
+    <package>
+      <name>org.osmdroid.samplefragments.drawing</name>
+      <classes>2</classes>
+      <functions>11</functions>
+      <ncss>147</ncss>
+      <javadocs>2</javadocs>
+      <javadoc_lines>12</javadoc_lines>
+      <single_comment_lines>4</single_comment_lines>
+      <multi_comment_lines>0</multi_comment_lines>
     </package>
     <package>
       <name>org.osmdroid.samplefragments.events</name>
       <classes>7</classes>
       <functions>31</functions>
-      <ncss>329</ncss>
+      <ncss>328</ncss>
       <javadocs>7</javadocs>
       <javadoc_lines>29</javadoc_lines>
       <single_comment_lines>29</single_comment_lines>
@@ -135,21 +165,41 @@
     </package>
     <package>
       <name>org.osmdroid.samplefragments.layouts</name>
-      <classes>2</classes>
-      <functions>8</functions>
-      <ncss>67</ncss>
-      <javadocs>1</javadocs>
-      <javadoc_lines>4</javadoc_lines>
-      <single_comment_lines>9</single_comment_lines>
+      <classes>7</classes>
+      <functions>30</functions>
+      <ncss>262</ncss>
+      <javadocs>6</javadocs>
+      <javadoc_lines>33</javadoc_lines>
+      <single_comment_lines>22</single_comment_lines>
       <multi_comment_lines>3</multi_comment_lines>
     </package>
     <package>
-      <name>org.osmdroid.samplefragments.location</name>
+      <name>org.osmdroid.samplefragments.layouts.pager</name>
+      <classes>4</classes>
+      <functions>10</functions>
+      <ncss>66</ncss>
+      <javadocs>4</javadocs>
+      <javadoc_lines>12</javadoc_lines>
+      <single_comment_lines>1</single_comment_lines>
+      <multi_comment_lines>3</multi_comment_lines>
+    </package>
+    <package>
+      <name>org.osmdroid.samplefragments.layouts.rec</name>
       <classes>3</classes>
-      <functions>31</functions>
-      <ncss>326</ncss>
+      <functions>13</functions>
+      <ncss>88</ncss>
       <javadocs>3</javadocs>
-      <javadoc_lines>14</javadoc_lines>
+      <javadoc_lines>15</javadoc_lines>
+      <single_comment_lines>2</single_comment_lines>
+      <multi_comment_lines>24</multi_comment_lines>
+    </package>
+    <package>
+      <name>org.osmdroid.samplefragments.location</name>
+      <classes>5</classes>
+      <functions>36</functions>
+      <ncss>403</ncss>
+      <javadocs>5</javadocs>
+      <javadoc_lines>24</javadoc_lines>
       <single_comment_lines>17</single_comment_lines>
       <multi_comment_lines>3</multi_comment_lines>
     </package>
@@ -164,68 +214,78 @@
       <multi_comment_lines>0</multi_comment_lines>
     </package>
     <package>
-      <name>org.osmdroid.samplefragments.pager</name>
-      <classes>5</classes>
-      <functions>17</functions>
-      <ncss>131</ncss>
-      <javadocs>5</javadocs>
-      <javadoc_lines>15</javadoc_lines>
-      <single_comment_lines>1</single_comment_lines>
-      <multi_comment_lines>3</multi_comment_lines>
+      <name>org.osmdroid.samplefragments.tileproviders</name>
+      <classes>4</classes>
+      <functions>19</functions>
+      <ncss>293</ncss>
+      <javadocs>7</javadocs>
+      <javadoc_lines>43</javadoc_lines>
+      <single_comment_lines>45</single_comment_lines>
+      <multi_comment_lines>10</multi_comment_lines>
     </package>
     <package>
       <name>org.osmdroid.samplefragments.tilesources</name>
-      <classes>11</classes>
-      <functions>29</functions>
-      <ncss>228</ncss>
-      <javadocs>14</javadocs>
-      <javadoc_lines>71</javadoc_lines>
-      <single_comment_lines>38</single_comment_lines>
+      <classes>13</classes>
+      <functions>33</functions>
+      <ncss>227</ncss>
+      <javadocs>16</javadocs>
+      <javadoc_lines>81</javadoc_lines>
+      <single_comment_lines>27</single_comment_lines>
       <multi_comment_lines>13</multi_comment_lines>
+    </package>
+    <package>
+      <name>org.osmdroid.samplefragments.ui</name>
+      <classes>2</classes>
+      <functions>20</functions>
+      <ncss>202</ncss>
+      <javadocs>2</javadocs>
+      <javadoc_lines>14</javadoc_lines>
+      <single_comment_lines>22</single_comment_lines>
+      <multi_comment_lines>10</multi_comment_lines>
     </package>
     <package>
       <name>org.osmdroid.samples</name>
       <classes>5</classes>
       <functions>10</functions>
-      <ncss>274</ncss>
+      <ncss>272</ncss>
       <javadocs>10</javadocs>
       <javadoc_lines>30</javadoc_lines>
       <single_comment_lines>137</single_comment_lines>
       <multi_comment_lines>22</multi_comment_lines>
     </package>
     <total>
-      <classes>85</classes>
-      <functions>423</functions>
-      <ncss>4826</ncss>
-      <javadocs>146</javadocs>
-      <javadoc_lines>724</javadoc_lines>
-      <single_comment_lines>623</single_comment_lines>
-      <multi_comment_lines>178</multi_comment_lines>
+      <classes>122</classes>
+      <functions>588</functions>
+      <ncss>6994</ncss>
+      <javadocs>196</javadocs>
+      <javadoc_lines>1056</javadoc_lines>
+      <single_comment_lines>832</single_comment_lines>
+      <multi_comment_lines>226</multi_comment_lines>
     </total>
     <table>
       <tr><td>Packages</td><td>Classes</td><td>Functions</td><td>NCSS</td><td>Javadocs</td><td>per</td></tr>
-      <tr><td>19.00</td><td>85.00</td><td>423.00</td><td>4,826.00</td><td>146.00</td><td>Project</td></tr>
-      <tr><td></td><td>4.47</td><td>22.26</td><td>254.00</td><td>7.68</td><td>Package</td></tr>
-      <tr><td></td><td></td><td>4.98</td><td>56.78</td><td>1.72</td><td>Class</td></tr>
-      <tr><td></td><td></td><td></td><td>11.41</td><td>0.35</td><td>Function</td></tr>
+      <tr><td>25.00</td><td>122.00</td><td>588.00</td><td>6,994.00</td><td>196.00</td><td>Project</td></tr>
+      <tr><td></td><td>4.88</td><td>23.52</td><td>279.76</td><td>7.84</td><td>Package</td></tr>
+      <tr><td></td><td></td><td>4.82</td><td>57.33</td><td>1.61</td><td>Class</td></tr>
+      <tr><td></td><td></td><td></td><td>11.89</td><td>0.33</td><td>Function</td></tr>
     </table>
   </packages>
 
   <objects>
     <object>
       <name>org.osmdroid.BugsTestingActivity</name>
-      <ncss>12</ncss>
-      <functions>1</functions>
+      <ncss>35</ncss>
+      <functions>3</functions>
       <classes>0</classes>
-      <javadocs>1</javadocs>
-      <javadocs_lines>3</javadocs_lines>
+      <javadocs>2</javadocs>
+      <javadocs_lines>11</javadocs_lines>
       <single_comment_lines>1</single_comment_lines>
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <object>
       <name>org.osmdroid.ExtraSamplesActivity</name>
-      <ncss>27</ncss>
-      <functions>2</functions>
+      <ncss>33</ncss>
+      <functions>3</functions>
       <classes>0</classes>
       <javadocs>1</javadocs>
       <javadocs_lines>8</javadocs_lines>
@@ -243,33 +303,43 @@
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <object>
-      <name>org.osmdroid.MainActivity</name>
-      <ncss>121</ncss>
-      <functions>7</functions>
+      <name>org.osmdroid.LicenseActivity</name>
+      <ncss>36</ncss>
+      <functions>3</functions>
       <classes>0</classes>
+      <javadocs>1</javadocs>
+      <javadocs_lines>5</javadocs_lines>
+      <single_comment_lines>0</single_comment_lines>
+      <implementation_comment_lines>0</implementation_comment_lines>
+    </object>
+    <object>
+      <name>org.osmdroid.MainActivity</name>
+      <ncss>125</ncss>
+      <functions>6</functions>
+      <classes>1</classes>
       <javadocs>3</javadocs>
       <javadocs_lines>12</javadocs_lines>
-      <single_comment_lines>17</single_comment_lines>
+      <single_comment_lines>13</single_comment_lines>
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <object>
       <name>org.osmdroid.OsmApplication</name>
-      <ncss>38</ncss>
+      <ncss>53</ncss>
       <functions>3</functions>
-      <classes>2</classes>
+      <classes>4</classes>
       <javadocs>3</javadocs>
       <javadocs_lines>13</javadocs_lines>
-      <single_comment_lines>9</single_comment_lines>
+      <single_comment_lines>14</single_comment_lines>
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <object>
       <name>org.osmdroid.PreferenceActivity</name>
-      <ncss>191</ncss>
+      <ncss>237</ncss>
       <functions>8</functions>
-      <classes>5</classes>
+      <classes>6</classes>
       <javadocs>1</javadocs>
       <javadocs_lines>8</javadocs_lines>
-      <single_comment_lines>7</single_comment_lines>
+      <single_comment_lines>11</single_comment_lines>
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <object>
@@ -284,12 +354,12 @@
     </object>
     <object>
       <name>org.osmdroid.StarterMapFragment</name>
-      <ncss>124</ncss>
+      <ncss>129</ncss>
       <functions>13</functions>
       <classes>3</classes>
       <javadocs>2</javadocs>
       <javadocs_lines>14</javadocs_lines>
-      <single_comment_lines>32</single_comment_lines>
+      <single_comment_lines>34</single_comment_lines>
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <object>
@@ -330,6 +400,26 @@
       <javadocs>1</javadocs>
       <javadocs_lines>3</javadocs_lines>
       <single_comment_lines>1</single_comment_lines>
+      <implementation_comment_lines>0</implementation_comment_lines>
+    </object>
+    <object>
+      <name>org.osmdroid.bugtestfragments.Bug512CacheManagerWp</name>
+      <ncss>51</ncss>
+      <functions>9</functions>
+      <classes>1</classes>
+      <javadocs>1</javadocs>
+      <javadocs_lines>6</javadocs_lines>
+      <single_comment_lines>3</single_comment_lines>
+      <implementation_comment_lines>0</implementation_comment_lines>
+    </object>
+    <object>
+      <name>org.osmdroid.bugtestfragments.Bug512Marker</name>
+      <ncss>36</ncss>
+      <functions>3</functions>
+      <classes>4</classes>
+      <javadocs>1</javadocs>
+      <javadocs_lines>5</javadocs_lines>
+      <single_comment_lines>0</single_comment_lines>
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <object>
@@ -418,7 +508,7 @@
       <functions>3</functions>
       <classes>0</classes>
       <javadocs>1</javadocs>
-      <javadocs_lines>6</javadocs_lines>
+      <javadocs_lines>8</javadocs_lines>
       <single_comment_lines>0</single_comment_lines>
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
@@ -463,12 +553,102 @@
       <implementation_comment_lines>27</implementation_comment_lines>
     </object>
     <object>
+      <name>org.osmdroid.intro.AboutFragment</name>
+      <ncss>10</ncss>
+      <functions>3</functions>
+      <classes>0</classes>
+      <javadocs>1</javadocs>
+      <javadocs_lines>5</javadocs_lines>
+      <single_comment_lines>0</single_comment_lines>
+      <implementation_comment_lines>0</implementation_comment_lines>
+    </object>
+    <object>
+      <name>org.osmdroid.intro.DataUseWarning</name>
+      <ncss>6</ncss>
+      <functions>2</functions>
+      <classes>0</classes>
+      <javadocs>1</javadocs>
+      <javadocs_lines>5</javadocs_lines>
+      <single_comment_lines>0</single_comment_lines>
+      <implementation_comment_lines>0</implementation_comment_lines>
+    </object>
+    <object>
+      <name>org.osmdroid.intro.IntroActivity</name>
+      <ncss>55</ncss>
+      <functions>5</functions>
+      <classes>0</classes>
+      <javadocs>1</javadocs>
+      <javadocs_lines>5</javadocs_lines>
+      <single_comment_lines>3</single_comment_lines>
+      <implementation_comment_lines>0</implementation_comment_lines>
+    </object>
+    <object>
+      <name>org.osmdroid.intro.IntroSliderAdapter</name>
+      <ncss>23</ncss>
+      <functions>4</functions>
+      <classes>0</classes>
+      <javadocs>1</javadocs>
+      <javadocs_lines>3</javadocs_lines>
+      <single_comment_lines>0</single_comment_lines>
+      <implementation_comment_lines>0</implementation_comment_lines>
+    </object>
+    <object>
+      <name>org.osmdroid.intro.LogoFragment</name>
+      <ncss>4</ncss>
+      <functions>1</functions>
+      <classes>0</classes>
+      <javadocs>1</javadocs>
+      <javadocs_lines>5</javadocs_lines>
+      <single_comment_lines>0</single_comment_lines>
+      <implementation_comment_lines>0</implementation_comment_lines>
+    </object>
+    <object>
+      <name>org.osmdroid.intro.PermissionsFragment</name>
+      <ncss>62</ncss>
+      <functions>6</functions>
+      <classes>0</classes>
+      <javadocs>1</javadocs>
+      <javadocs_lines>5</javadocs_lines>
+      <single_comment_lines>11</single_comment_lines>
+      <implementation_comment_lines>0</implementation_comment_lines>
+    </object>
+    <object>
+      <name>org.osmdroid.intro.StoragePreferenceFragment</name>
+      <ncss>80</ncss>
+      <functions>6</functions>
+      <classes>5</classes>
+      <javadocs>1</javadocs>
+      <javadocs_lines>5</javadocs_lines>
+      <single_comment_lines>5</single_comment_lines>
+      <implementation_comment_lines>0</implementation_comment_lines>
+    </object>
+    <object>
+      <name>org.osmdroid.intro.TileSourceWarnings</name>
+      <ncss>6</ncss>
+      <functions>2</functions>
+      <classes>0</classes>
+      <javadocs>1</javadocs>
+      <javadocs_lines>5</javadocs_lines>
+      <single_comment_lines>0</single_comment_lines>
+      <implementation_comment_lines>0</implementation_comment_lines>
+    </object>
+    <object>
       <name>org.osmdroid.model.BaseActivity</name>
       <ncss>2</ncss>
       <functions>1</functions>
       <classes>0</classes>
       <javadocs>1</javadocs>
       <javadocs_lines>3</javadocs_lines>
+      <single_comment_lines>0</single_comment_lines>
+      <implementation_comment_lines>0</implementation_comment_lines>
+    </object>
+    <object>
+      <name>org.osmdroid.model.IBaseActivity</name>
+      <ncss>2</ncss>
+      <functions>1</functions>
+      <classes>0</classes>
+      <javadocs>1</javadocs>
+      <javadocs_lines>5</javadocs_lines>
       <single_comment_lines>0</single_comment_lines>
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
@@ -494,42 +674,22 @@
     </object>
     <object>
       <name>org.osmdroid.samplefragments.BaseSampleFragment</name>
-      <ncss>48</ncss>
-      <functions>10</functions>
-      <classes>1</classes>
+      <ncss>76</ncss>
+      <functions>13</functions>
+      <classes>2</classes>
       <javadocs>3</javadocs>
       <javadocs_lines>14</javadocs_lines>
-      <single_comment_lines>5</single_comment_lines>
-      <implementation_comment_lines>0</implementation_comment_lines>
-    </object>
-    <object>
-      <name>org.osmdroid.samplefragments.BugReportingTest</name>
-      <ncss>11</ncss>
-      <functions>2</functions>
-      <classes>1</classes>
-      <javadocs>1</javadocs>
-      <javadocs_lines>3</javadocs_lines>
-      <single_comment_lines>0</single_comment_lines>
-      <implementation_comment_lines>0</implementation_comment_lines>
-    </object>
-    <object>
-      <name>org.osmdroid.samplefragments.FragmentSamples</name>
-      <ncss>38</ncss>
-      <functions>6</functions>
-      <classes>0</classes>
-      <javadocs>1</javadocs>
-      <javadocs_lines>3</javadocs_lines>
-      <single_comment_lines>9</single_comment_lines>
+      <single_comment_lines>10</single_comment_lines>
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <object>
       <name>org.osmdroid.samplefragments.SampleFactory</name>
-      <ncss>18</ncss>
-      <functions>4</functions>
+      <ncss>78</ncss>
+      <functions>5</functions>
       <classes>0</classes>
       <javadocs>1</javadocs>
       <javadocs_lines>3</javadocs_lines>
-      <single_comment_lines>39</single_comment_lines>
+      <single_comment_lines>59</single_comment_lines>
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <object>
@@ -574,18 +734,8 @@
     </object>
     <object>
       <name>org.osmdroid.samplefragments.cache.SampleCacheDownloader</name>
-      <ncss>136</ncss>
+      <ncss>137</ncss>
       <functions>16</functions>
-      <classes>4</classes>
-      <javadocs>2</javadocs>
-      <javadocs_lines>8</javadocs_lines>
-      <single_comment_lines>18</single_comment_lines>
-      <implementation_comment_lines>0</implementation_comment_lines>
-    </object>
-    <object>
-      <name>org.osmdroid.samplefragments.cache.SampleCacheDownloaderArchive</name>
-      <ncss>152</ncss>
-      <functions>15</functions>
       <classes>4</classes>
       <javadocs>2</javadocs>
       <javadocs_lines>8</javadocs_lines>
@@ -593,13 +743,23 @@
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <object>
+      <name>org.osmdroid.samplefragments.cache.SampleCacheDownloaderArchive</name>
+      <ncss>153</ncss>
+      <functions>15</functions>
+      <classes>4</classes>
+      <javadocs>2</javadocs>
+      <javadocs_lines>8</javadocs_lines>
+      <single_comment_lines>20</single_comment_lines>
+      <implementation_comment_lines>0</implementation_comment_lines>
+    </object>
+    <object>
       <name>org.osmdroid.samplefragments.cache.SampleCacheDownloaderCustomUI</name>
-      <ncss>145</ncss>
+      <ncss>158</ncss>
       <functions>19</functions>
-      <classes>3</classes>
+      <classes>4</classes>
       <javadocs>2</javadocs>
       <javadocs_lines>7</javadocs_lines>
-      <single_comment_lines>20</single_comment_lines>
+      <single_comment_lines>22</single_comment_lines>
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <object>
@@ -624,17 +784,47 @@
     </object>
     <object>
       <name>org.osmdroid.samplefragments.data.AsyncTaskDemoFragment</name>
-      <ncss>131</ncss>
+      <ncss>141</ncss>
       <functions>10</functions>
       <classes>3</classes>
       <javadocs>6</javadocs>
       <javadocs_lines>28</javadocs_lines>
-      <single_comment_lines>23</single_comment_lines>
+      <single_comment_lines>24</single_comment_lines>
       <implementation_comment_lines>1</implementation_comment_lines>
     </object>
     <object>
+      <name>org.osmdroid.samplefragments.data.Gridlines2</name>
+      <ncss>11</ncss>
+      <functions>2</functions>
+      <classes>0</classes>
+      <javadocs>1</javadocs>
+      <javadocs_lines>5</javadocs_lines>
+      <single_comment_lines>0</single_comment_lines>
+      <implementation_comment_lines>0</implementation_comment_lines>
+    </object>
+    <object>
+      <name>org.osmdroid.samplefragments.data.HeatMap</name>
+      <ncss>169</ncss>
+      <functions>12</functions>
+      <classes>1</classes>
+      <javadocs>9</javadocs>
+      <javadocs_lines>83</javadocs_lines>
+      <single_comment_lines>33</single_comment_lines>
+      <implementation_comment_lines>4</implementation_comment_lines>
+    </object>
+    <object>
+      <name>org.osmdroid.samplefragments.data.IISTrackerBase</name>
+      <ncss>110</ncss>
+      <functions>6</functions>
+      <classes>1</classes>
+      <javadocs>2</javadocs>
+      <javadocs_lines>10</javadocs_lines>
+      <single_comment_lines>15</single_comment_lines>
+      <implementation_comment_lines>0</implementation_comment_lines>
+    </object>
+    <object>
       <name>org.osmdroid.samplefragments.data.SampleGridlines</name>
-      <ncss>29</ncss>
+      <ncss>35</ncss>
       <functions>6</functions>
       <classes>0</classes>
       <javadocs>1</javadocs>
@@ -643,7 +833,37 @@
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <object>
-      <name>org.osmdroid.samplefragments.data.SampleMilitaryIcons</name>
+      <name>org.osmdroid.samplefragments.data.SampleIISTracker</name>
+      <ncss>5</ncss>
+      <functions>2</functions>
+      <classes>0</classes>
+      <javadocs>1</javadocs>
+      <javadocs_lines>12</javadocs_lines>
+      <single_comment_lines>0</single_comment_lines>
+      <implementation_comment_lines>0</implementation_comment_lines>
+    </object>
+    <object>
+      <name>org.osmdroid.samplefragments.data.SampleIISTrackerMotionTrails</name>
+      <ncss>5</ncss>
+      <functions>2</functions>
+      <classes>0</classes>
+      <javadocs>1</javadocs>
+      <javadocs_lines>5</javadocs_lines>
+      <single_comment_lines>0</single_comment_lines>
+      <implementation_comment_lines>0</implementation_comment_lines>
+    </object>
+    <object>
+      <name>org.osmdroid.samplefragments.data.SampleMarker</name>
+      <ncss>42</ncss>
+      <functions>2</functions>
+      <classes>2</classes>
+      <javadocs>1</javadocs>
+      <javadocs_lines>9</javadocs_lines>
+      <single_comment_lines>2</single_comment_lines>
+      <implementation_comment_lines>0</implementation_comment_lines>
+    </object>
+    <object>
+      <name>org.osmdroid.samplefragments.data.SampleMilitaryIconsItemizedIcons</name>
       <ncss>78</ncss>
       <functions>7</functions>
       <classes>1</classes>
@@ -653,13 +873,23 @@
       <implementation_comment_lines>4</implementation_comment_lines>
     </object>
     <object>
+      <name>org.osmdroid.samplefragments.data.SampleMilitaryIconsMarker</name>
+      <ncss>66</ncss>
+      <functions>7</functions>
+      <classes>0</classes>
+      <javadocs>1</javadocs>
+      <javadocs_lines>7</javadocs_lines>
+      <single_comment_lines>26</single_comment_lines>
+      <implementation_comment_lines>0</implementation_comment_lines>
+    </object>
+    <object>
       <name>org.osmdroid.samplefragments.data.SampleOsmPath</name>
-      <ncss>124</ncss>
+      <ncss>123</ncss>
       <functions>7</functions>
       <classes>4</classes>
       <javadocs>1</javadocs>
       <javadocs_lines>5</javadocs_lines>
-      <single_comment_lines>7</single_comment_lines>
+      <single_comment_lines>9</single_comment_lines>
       <implementation_comment_lines>8</implementation_comment_lines>
     </object>
     <object>
@@ -703,13 +933,43 @@
       <implementation_comment_lines>4</implementation_comment_lines>
     </object>
     <object>
+      <name>org.osmdroid.samplefragments.data.utils.JSONParser</name>
+      <ncss>26</ncss>
+      <functions>2</functions>
+      <classes>0</classes>
+      <javadocs>1</javadocs>
+      <javadocs_lines>8</javadocs_lines>
+      <single_comment_lines>6</single_comment_lines>
+      <implementation_comment_lines>0</implementation_comment_lines>
+    </object>
+    <object>
+      <name>org.osmdroid.samplefragments.drawing.CustomPaintingSurface</name>
+      <ncss>85</ncss>
+      <functions>8</functions>
+      <classes>1</classes>
+      <javadocs>1</javadocs>
+      <javadocs_lines>7</javadocs_lines>
+      <single_comment_lines>4</single_comment_lines>
+      <implementation_comment_lines>0</implementation_comment_lines>
+    </object>
+    <object>
+      <name>org.osmdroid.samplefragments.drawing.SampleDrawPolyline</name>
+      <ncss>28</ncss>
+      <functions>3</functions>
+      <classes>0</classes>
+      <javadocs>1</javadocs>
+      <javadocs_lines>5</javadocs_lines>
+      <single_comment_lines>0</single_comment_lines>
+      <implementation_comment_lines>0</implementation_comment_lines>
+    </object>
+    <object>
       <name>org.osmdroid.samplefragments.events.SampleAnimateTo</name>
-      <ncss>35</ncss>
+      <ncss>34</ncss>
       <functions>5</functions>
       <classes>2</classes>
       <javadocs>1</javadocs>
       <javadocs_lines>5</javadocs_lines>
-      <single_comment_lines>3</single_comment_lines>
+      <single_comment_lines>4</single_comment_lines>
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <object>
@@ -744,12 +1004,12 @@
     </object>
     <object>
       <name>org.osmdroid.samplefragments.events.SampleMapEventListener</name>
-      <ncss>27</ncss>
+      <ncss>26</ncss>
       <functions>4</functions>
-      <classes>2</classes>
+      <classes>1</classes>
       <javadocs>1</javadocs>
       <javadocs_lines>5</javadocs_lines>
-      <single_comment_lines>2</single_comment_lines>
+      <single_comment_lines>1</single_comment_lines>
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <object>
@@ -773,6 +1033,46 @@
       <implementation_comment_lines>40</implementation_comment_lines>
     </object>
     <object>
+      <name>org.osmdroid.samplefragments.layouts.CustomMapView</name>
+      <ncss>23</ncss>
+      <functions>7</functions>
+      <classes>0</classes>
+      <javadocs>1</javadocs>
+      <javadocs_lines>11</javadocs_lines>
+      <single_comment_lines>3</single_comment_lines>
+      <implementation_comment_lines>0</implementation_comment_lines>
+    </object>
+    <object>
+      <name>org.osmdroid.samplefragments.layouts.MapInAViewPagerFragment</name>
+      <ncss>58</ncss>
+      <functions>7</functions>
+      <classes>5</classes>
+      <javadocs>1</javadocs>
+      <javadocs_lines>3</javadocs_lines>
+      <single_comment_lines>0</single_comment_lines>
+      <implementation_comment_lines>0</implementation_comment_lines>
+    </object>
+    <object>
+      <name>org.osmdroid.samplefragments.layouts.MapInScrollView</name>
+      <ncss>19</ncss>
+      <functions>4</functions>
+      <classes>1</classes>
+      <javadocs>1</javadocs>
+      <javadocs_lines>5</javadocs_lines>
+      <single_comment_lines>2</single_comment_lines>
+      <implementation_comment_lines>0</implementation_comment_lines>
+    </object>
+    <object>
+      <name>org.osmdroid.samplefragments.layouts.RecyclerCardView</name>
+      <ncss>18</ncss>
+      <functions>2</functions>
+      <classes>0</classes>
+      <javadocs>1</javadocs>
+      <javadocs_lines>5</javadocs_lines>
+      <single_comment_lines>3</single_comment_lines>
+      <implementation_comment_lines>0</implementation_comment_lines>
+    </object>
+    <object>
       <name>org.osmdroid.samplefragments.layouts.SampleFragmentXmlLayout</name>
       <ncss>10</ncss>
       <functions>3</functions>
@@ -784,12 +1084,92 @@
     </object>
     <object>
       <name>org.osmdroid.samplefragments.layouts.SampleSplitScreen</name>
-      <ncss>34</ncss>
+      <ncss>38</ncss>
       <functions>5</functions>
       <classes>0</classes>
       <javadocs>1</javadocs>
       <javadocs_lines>4</javadocs_lines>
       <single_comment_lines>2</single_comment_lines>
+      <implementation_comment_lines>0</implementation_comment_lines>
+    </object>
+    <object>
+      <name>org.osmdroid.samplefragments.layouts.ScaleBarOnBottom</name>
+      <ncss>15</ncss>
+      <functions>2</functions>
+      <classes>0</classes>
+      <javadocs>1</javadocs>
+      <javadocs_lines>5</javadocs_lines>
+      <single_comment_lines>5</single_comment_lines>
+      <implementation_comment_lines>0</implementation_comment_lines>
+    </object>
+    <object>
+      <name>org.osmdroid.samplefragments.layouts.pager.MapFragment</name>
+      <ncss>7</ncss>
+      <functions>2</functions>
+      <classes>0</classes>
+      <javadocs>1</javadocs>
+      <javadocs_lines>3</javadocs_lines>
+      <single_comment_lines>0</single_comment_lines>
+      <implementation_comment_lines>0</implementation_comment_lines>
+    </object>
+    <object>
+      <name>org.osmdroid.samplefragments.layouts.pager.MapSliderAdapter</name>
+      <ncss>14</ncss>
+      <functions>3</functions>
+      <classes>0</classes>
+      <javadocs>1</javadocs>
+      <javadocs_lines>3</javadocs_lines>
+      <single_comment_lines>0</single_comment_lines>
+      <implementation_comment_lines>0</implementation_comment_lines>
+    </object>
+    <object>
+      <name>org.osmdroid.samplefragments.layouts.pager.SimpleTextFragment</name>
+      <ncss>6</ncss>
+      <functions>2</functions>
+      <classes>0</classes>
+      <javadocs>1</javadocs>
+      <javadocs_lines>3</javadocs_lines>
+      <single_comment_lines>0</single_comment_lines>
+      <implementation_comment_lines>0</implementation_comment_lines>
+    </object>
+    <object>
+      <name>org.osmdroid.samplefragments.layouts.pager.WebviewFragment</name>
+      <ncss>11</ncss>
+      <functions>3</functions>
+      <classes>0</classes>
+      <javadocs>1</javadocs>
+      <javadocs_lines>3</javadocs_lines>
+      <single_comment_lines>1</single_comment_lines>
+      <implementation_comment_lines>0</implementation_comment_lines>
+    </object>
+    <object>
+      <name>org.osmdroid.samplefragments.layouts.rec.ConstructorInfoData</name>
+      <ncss>7</ncss>
+      <functions>1</functions>
+      <classes>0</classes>
+      <javadocs>1</javadocs>
+      <javadocs_lines>5</javadocs_lines>
+      <single_comment_lines>0</single_comment_lines>
+      <implementation_comment_lines>0</implementation_comment_lines>
+    </object>
+    <object>
+      <name>org.osmdroid.samplefragments.layouts.rec.CustomRecycler</name>
+      <ncss>47</ncss>
+      <functions>5</functions>
+      <classes>3</classes>
+      <javadocs>1</javadocs>
+      <javadocs_lines>4</javadocs_lines>
+      <single_comment_lines>2</single_comment_lines>
+      <implementation_comment_lines>13</implementation_comment_lines>
+    </object>
+    <object>
+      <name>org.osmdroid.samplefragments.layouts.rec.Info</name>
+      <ncss>20</ncss>
+      <functions>7</functions>
+      <classes>0</classes>
+      <javadocs>1</javadocs>
+      <javadocs_lines>6</javadocs_lines>
+      <single_comment_lines>0</single_comment_lines>
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <object>
@@ -815,11 +1195,31 @@
     <object>
       <name>org.osmdroid.samplefragments.location.SampleHeadingCompassUp</name>
       <ncss>134</ncss>
-      <functions>13</functions>
+      <functions>12</functions>
       <classes>1</classes>
       <javadocs>1</javadocs>
       <javadocs_lines>4</javadocs_lines>
       <single_comment_lines>12</single_comment_lines>
+      <implementation_comment_lines>0</implementation_comment_lines>
+    </object>
+    <object>
+      <name>org.osmdroid.samplefragments.location.SampleMyLocationWithClick</name>
+      <ncss>16</ncss>
+      <functions>2</functions>
+      <classes>1</classes>
+      <javadocs>1</javadocs>
+      <javadocs_lines>5</javadocs_lines>
+      <single_comment_lines>0</single_comment_lines>
+      <implementation_comment_lines>0</implementation_comment_lines>
+    </object>
+    <object>
+      <name>org.osmdroid.samplefragments.location.SampleRotation</name>
+      <ncss>41</ncss>
+      <functions>4</functions>
+      <classes>0</classes>
+      <javadocs>1</javadocs>
+      <javadocs_lines>5</javadocs_lines>
+      <single_comment_lines>0</single_comment_lines>
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <object>
@@ -853,63 +1253,73 @@
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <object>
-      <name>org.osmdroid.samplefragments.pager.MapFragment</name>
-      <ncss>7</ncss>
-      <functions>2</functions>
-      <classes>0</classes>
-      <javadocs>1</javadocs>
-      <javadocs_lines>3</javadocs_lines>
-      <single_comment_lines>0</single_comment_lines>
+      <name>org.osmdroid.samplefragments.tileproviders.GeopackageSample</name>
+      <ncss>107</ncss>
+      <functions>8</functions>
+      <classes>4</classes>
+      <javadocs>3</javadocs>
+      <javadocs_lines>20</javadocs_lines>
+      <single_comment_lines>13</single_comment_lines>
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <object>
-      <name>org.osmdroid.samplefragments.pager.MapInAViewPagerFragment</name>
-      <ncss>51</ncss>
+      <name>org.osmdroid.samplefragments.tileproviders.MapsforgeTileProviderSample</name>
+      <ncss>61</ncss>
       <functions>7</functions>
-      <classes>5</classes>
-      <javadocs>1</javadocs>
-      <javadocs_lines>3</javadocs_lines>
-      <single_comment_lines>0</single_comment_lines>
-      <implementation_comment_lines>0</implementation_comment_lines>
+      <classes>2</classes>
+      <javadocs>2</javadocs>
+      <javadocs_lines>11</javadocs_lines>
+      <single_comment_lines>16</single_comment_lines>
+      <implementation_comment_lines>10</implementation_comment_lines>
     </object>
     <object>
-      <name>org.osmdroid.samplefragments.pager.MapSliderAdapter</name>
-      <ncss>14</ncss>
-      <functions>3</functions>
-      <classes>0</classes>
-      <javadocs>1</javadocs>
-      <javadocs_lines>3</javadocs_lines>
-      <single_comment_lines>0</single_comment_lines>
-      <implementation_comment_lines>0</implementation_comment_lines>
-    </object>
-    <object>
-      <name>org.osmdroid.samplefragments.pager.SimpleTextFragment</name>
-      <ncss>6</ncss>
-      <functions>2</functions>
-      <classes>0</classes>
-      <javadocs>1</javadocs>
-      <javadocs_lines>3</javadocs_lines>
-      <single_comment_lines>0</single_comment_lines>
-      <implementation_comment_lines>0</implementation_comment_lines>
-    </object>
-    <object>
-      <name>org.osmdroid.samplefragments.pager.WebviewFragment</name>
-      <ncss>11</ncss>
-      <functions>3</functions>
-      <classes>0</classes>
-      <javadocs>1</javadocs>
-      <javadocs_lines>3</javadocs_lines>
-      <single_comment_lines>1</single_comment_lines>
-      <implementation_comment_lines>0</implementation_comment_lines>
-    </object>
-    <object>
-      <name>org.osmdroid.samplefragments.tilesources.SampleAssetsOnly</name>
+      <name>org.osmdroid.samplefragments.tileproviders.SampleAssetsOnly</name>
       <ncss>7</ncss>
       <functions>2</functions>
       <classes>0</classes>
       <javadocs>1</javadocs>
       <javadocs_lines>5</javadocs_lines>
       <single_comment_lines>0</single_comment_lines>
+      <implementation_comment_lines>0</implementation_comment_lines>
+    </object>
+    <object>
+      <name>org.osmdroid.samplefragments.tileproviders.SampleOfflineOnly</name>
+      <ncss>41</ncss>
+      <functions>2</functions>
+      <classes>0</classes>
+      <javadocs>1</javadocs>
+      <javadocs_lines>7</javadocs_lines>
+      <single_comment_lines>16</single_comment_lines>
+      <implementation_comment_lines>0</implementation_comment_lines>
+    </object>
+    <object>
+      <name>org.osmdroid.samplefragments.tilesources.SampleBingHybrid</name>
+      <ncss>12</ncss>
+      <functions>2</functions>
+      <classes>1</classes>
+      <javadocs>1</javadocs>
+      <javadocs_lines>5</javadocs_lines>
+      <single_comment_lines>1</single_comment_lines>
+      <implementation_comment_lines>0</implementation_comment_lines>
+    </object>
+    <object>
+      <name>org.osmdroid.samplefragments.tilesources.SampleBingRoad</name>
+      <ncss>13</ncss>
+      <functions>2</functions>
+      <classes>1</classes>
+      <javadocs>1</javadocs>
+      <javadocs_lines>5</javadocs_lines>
+      <single_comment_lines>1</single_comment_lines>
+      <implementation_comment_lines>0</implementation_comment_lines>
+    </object>
+    <object>
+      <name>org.osmdroid.samplefragments.tilesources.SampleCopyrightOverlay</name>
+      <ncss>14</ncss>
+      <functions>2</functions>
+      <classes>0</classes>
+      <javadocs>1</javadocs>
+      <javadocs_lines>6</javadocs_lines>
+      <single_comment_lines>1</single_comment_lines>
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <object>
@@ -973,16 +1383,6 @@
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <object>
-      <name>org.osmdroid.samplefragments.tilesources.SampleOfflineOnly</name>
-      <ncss>41</ncss>
-      <functions>2</functions>
-      <classes>0</classes>
-      <javadocs>1</javadocs>
-      <javadocs_lines>7</javadocs_lines>
-      <single_comment_lines>16</single_comment_lines>
-      <implementation_comment_lines>0</implementation_comment_lines>
-    </object>
-    <object>
       <name>org.osmdroid.samplefragments.tilesources.SampleOpenSeaMap</name>
       <ncss>24</ncss>
       <functions>3</functions>
@@ -1003,14 +1403,44 @@
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <object>
+      <name>org.osmdroid.samplefragments.tilesources.SepiaToneTiles</name>
+      <ncss>12</ncss>
+      <functions>2</functions>
+      <classes>0</classes>
+      <javadocs>1</javadocs>
+      <javadocs_lines>5</javadocs_lines>
+      <single_comment_lines>2</single_comment_lines>
+      <implementation_comment_lines>0</implementation_comment_lines>
+    </object>
+    <object>
       <name>org.osmdroid.samplefragments.tilesources.USGSTileSource</name>
       <ncss>7</ncss>
       <functions>3</functions>
       <classes>0</classes>
       <javadocs>2</javadocs>
-      <javadocs_lines>13</javadocs_lines>
+      <javadocs_lines>14</javadocs_lines>
       <single_comment_lines>0</single_comment_lines>
       <implementation_comment_lines>0</implementation_comment_lines>
+    </object>
+    <object>
+      <name>org.osmdroid.samplefragments.ui.ExpandableListAdapter</name>
+      <ncss>44</ncss>
+      <functions>11</functions>
+      <classes>0</classes>
+      <javadocs>1</javadocs>
+      <javadocs_lines>7</javadocs_lines>
+      <single_comment_lines>2</single_comment_lines>
+      <implementation_comment_lines>0</implementation_comment_lines>
+    </object>
+    <object>
+      <name>org.osmdroid.samplefragments.ui.SamplesMenuFragment</name>
+      <ncss>118</ncss>
+      <functions>9</functions>
+      <classes>1</classes>
+      <javadocs>1</javadocs>
+      <javadocs_lines>7</javadocs_lines>
+      <single_comment_lines>20</single_comment_lines>
+      <implementation_comment_lines>10</implementation_comment_lines>
     </object>
     <object>
       <name>org.osmdroid.samples.SampleExtensive</name>
@@ -1063,28 +1493,46 @@
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <averages>
-      <ncss>44.33</ncss>
-      <functions>4.98</functions>
-      <classes>0.99</classes>
-      <javadocs>1.72</javadocs>
-      <javadocs_lines>8.52</javadocs_lines>
-      <single_comment_lines>7.24</single_comment_lines>
-      <implementation_comment_lines>1.41</implementation_comment_lines>
+      <ncss>44.67</ncss>
+      <functions>4.82</functions>
+      <classes>0.96</classes>
+      <javadocs>1.61</javadocs>
+      <javadocs_lines>8.66</javadocs_lines>
+      <single_comment_lines>6.75</single_comment_lines>
+      <implementation_comment_lines>1.29</implementation_comment_lines>
     </averages>
-    <ncss>4,826.00</ncss>
+    <ncss>6,994.00</ncss>
   </objects>
 
   <functions>
     <function>
       <name>org.osmdroid.BugsTestingActivity.onCreate(Bundle)</name>
+      <ncss>12</ncss>
+      <ccn>2</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.BugsTestingActivity.onDestroy()</name>
+      <ncss>3</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.BugsTestingActivity.onKeyUp(int,KeyEvent)</name>
+      <ncss>17</ncss>
+      <ccn>11</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.ExtraSamplesActivity.onCreate(Bundle)</name>
       <ncss>10</ncss>
       <ccn>2</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.ExtraSamplesActivity.onCreate(Bundle)</name>
-      <ncss>8</ncss>
-      <ccn>2</ccn>
+      <name>org.osmdroid.ExtraSamplesActivity.onDestroy()</name>
+      <ncss>3</ncss>
+      <ccn>1</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
@@ -1106,21 +1554,51 @@
       <javadocs>0</javadocs>
     </function>
     <function>
+      <name>org.osmdroid.LicenseActivity.onCreate(Bundle)</name>
+      <ncss>9</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.LicenseActivity.onItemSelected(AdapterView,View,int,long)</name>
+      <ncss>23</ncss>
+      <ccn>8</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.LicenseActivity.onNothingSelected(AdapterView)</name>
+      <ncss>1</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
       <name>org.osmdroid.MainActivity.onCreate(Bundle)</name>
-      <ncss>22</ncss>
-      <ccn>4</ccn>
+      <ncss>24</ncss>
+      <ccn>2</ccn>
       <javadocs>1</javadocs>
     </function>
     <function>
       <name>org.osmdroid.MainActivity.onItemClick(AdapterView,View,int,long)</name>
-      <ncss>39</ncss>
-      <ccn>13</ccn>
+      <ncss>51</ncss>
+      <ccn>15</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
       <name>org.osmdroid.MainActivity.onResume()</name>
-      <ncss>3</ncss>
+      <ncss>4</ncss>
       <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.MainActivity.DialogInterface.OnClickListener$1.onClick(DialogInterface,int)</name>
+      <ncss>15</ncss>
+      <ccn>3</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.MainActivity.checkForCrashLogs()</name>
+      <ncss>25</ncss>
+      <ccn>4</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
@@ -1131,25 +1609,25 @@
     </function>
     <function>
       <name>org.osmdroid.MainActivity.updateStorageInfo()</name>
-      <ncss>11</ncss>
+      <ncss>13</ncss>
       <ccn>3</ccn>
       <javadocs>1</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.MainActivity.checkPermissions()</name>
-      <ncss>13</ncss>
-      <ccn>4</ccn>
+      <name>org.osmdroid.OsmApplication.Runnable$1.run()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.MainActivity.onRequestPermissionsResult(int,String[],String[][])</name>
-      <ncss>24</ncss>
-      <ccn>7</ccn>
+      <name>org.osmdroid.OsmApplication.Runnable$1.run()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
       <name>org.osmdroid.OsmApplication.onCreate()</name>
-      <ncss>7</ncss>
+      <ncss>22</ncss>
       <ccn>2</ccn>
       <javadocs>0</javadocs>
     </function>
@@ -1179,43 +1657,55 @@
     </function>
     <function>
       <name>org.osmdroid.PreferenceActivity.onCreate(Bundle)</name>
-      <ncss>37</ncss>
+      <ncss>49</ncss>
       <ccn>1</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
       <name>org.osmdroid.PreferenceActivity.onResume()</name>
-      <ncss>18</ncss>
+      <ncss>21</ncss>
       <ccn>2</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
       <name>org.osmdroid.PreferenceActivity.onPause()</name>
-      <ncss>49</ncss>
-      <ccn>19</ccn>
+      <ncss>60</ncss>
+      <ccn>23</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
       <name>org.osmdroid.PreferenceActivity.onClick(View)</name>
-      <ncss>16</ncss>
-      <ccn>5</ccn>
+      <ncss>22</ncss>
+      <ccn>7</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.PreferenceActivity.resetSettings()</name>
+      <name>org.osmdroid.PreferenceActivity.resetSettings(Context)</name>
       <ncss>6</ncss>
       <ccn>1</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.PreferenceActivity.purgeCache()</name>
+      <name>org.osmdroid.PreferenceActivity.DialogInterface.OnClickListener$1.Runnable$1.run()</name>
       <ncss>9</ncss>
       <ccn>2</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
       <name>org.osmdroid.PreferenceActivity.DialogInterface.OnClickListener$1.onClick(DialogInterface,int)</name>
-      <ncss>6</ncss>
+      <ncss>16</ncss>
+      <ccn>3</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.PreferenceActivity.purgeCache()</name>
+      <ncss>20</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.PreferenceActivity.DialogInterface.OnClickListener$1.onClick(DialogInterface,int)</name>
+      <ncss>7</ncss>
       <ccn>2</ccn>
       <javadocs>0</javadocs>
     </function>
@@ -1226,8 +1716,8 @@
       <javadocs>0</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.PreferenceActivity.showPickCacheFromList()</name>
-      <ncss>19</ncss>
+      <name>org.osmdroid.PreferenceActivity.showPickCacheFromList(TextView,String)</name>
+      <ncss>21</ncss>
       <ccn>3</ccn>
       <javadocs>0</javadocs>
     </function>
@@ -1262,7 +1752,7 @@
       <javadocs>0</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.PreferenceActivity.showManualEntry()</name>
+      <name>org.osmdroid.PreferenceActivity.showManualEntry(TextView)</name>
       <ncss>31</ncss>
       <ccn>1</ccn>
       <javadocs>0</javadocs>
@@ -1317,8 +1807,8 @@
     </function>
     <function>
       <name>org.osmdroid.StarterMapFragment.onActivityCreated(Bundle)</name>
-      <ncss>29</ncss>
-      <ccn>2</ccn>
+      <ncss>33</ncss>
+      <ccn>3</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
@@ -1559,6 +2049,108 @@
       <name>org.osmdroid.bugtestfragments.Bug445Caching.runTestProcedures()</name>
       <ncss>55</ncss>
       <ccn>13</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.bugtestfragments.Bug512CacheManagerWp.getSampleTitle()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.bugtestfragments.Bug512CacheManagerWp.onCreateView(LayoutInflater,ViewGroup,Bundle)</name>
+      <ncss>7</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.bugtestfragments.Bug512CacheManagerWp.Runnable$1.run()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.bugtestfragments.Bug512CacheManagerWp.runTestProcedures()</name>
+      <ncss>18</ncss>
+      <ccn>6</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.bugtestfragments.Bug512CacheManagerWp.onTaskComplete()</name>
+      <ncss>4</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.bugtestfragments.Bug512CacheManagerWp.updateProgress(int,int,int,int)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.bugtestfragments.Bug512CacheManagerWp.downloadStarted()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.bugtestfragments.Bug512CacheManagerWp.setPossibleTilesInArea(int)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.bugtestfragments.Bug512CacheManagerWp.onTaskFailed(int)</name>
+      <ncss>4</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.bugtestfragments.Bug512CacheManagerWp.onClick(View)</name>
+      <ncss>4</ncss>
+      <ccn>2</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.bugtestfragments.Bug512Marker.getSampleTitle()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.bugtestfragments.Bug512Marker.addOverlays()</name>
+      <ncss>7</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.bugtestfragments.Bug512Marker.Runnable$1.run()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.bugtestfragments.Bug512Marker.Runnable$1.run()</name>
+      <ncss>9</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.bugtestfragments.Bug512Marker.Runnable$1.run()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.bugtestfragments.Bug512Marker.Runnable$1.run()</name>
+      <ncss>4</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.bugtestfragments.Bug512Marker.runTestProcedures()</name>
+      <ncss>25</ncss>
+      <ccn>1</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
@@ -2120,7 +2712,229 @@
       <javadocs>1</javadocs>
     </function>
     <function>
+      <name>org.osmdroid.intro.AboutFragment.onCreate(Bundle)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.intro.AboutFragment.onCreateView(LayoutInflater,ViewGroup,Bundle)</name>
+      <ncss>4</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.intro.AboutFragment.onClick(View)</name>
+      <ncss>3</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.intro.DataUseWarning.onCreate(Bundle)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.intro.DataUseWarning.onCreateView(LayoutInflater,ViewGroup,Bundle)</name>
+      <ncss>3</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.intro.IntroActivity.onCreate(Bundle)</name>
+      <ncss>18</ncss>
+      <ccn>2</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.intro.IntroActivity.onClick(View)</name>
+      <ncss>17</ncss>
+      <ccn>5</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.intro.IntroActivity.onPageScrolled(int,float,int)</name>
+      <ncss>11</ncss>
+      <ccn>3</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.intro.IntroActivity.onPageSelected(int)</name>
+      <ncss>1</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.intro.IntroActivity.onPageScrollStateChanged(int)</name>
+      <ncss>1</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.intro.IntroSliderAdapter.IntroSliderAdapter(FragmentManager)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.intro.IntroSliderAdapter.getItem(int)</name>
+      <ncss>15</ncss>
+      <ccn>13</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.intro.IntroSliderAdapter.getCount()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.intro.IntroSliderAdapter.setPrimaryItem(ViewGroup,int,Object)</name>
+      <ncss>3</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.intro.LogoFragment.onCreateView(LayoutInflater,ViewGroup,Bundle)</name>
+      <ncss>3</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.intro.PermissionsFragment.onCreate(Bundle)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.intro.PermissionsFragment.onCreateView(LayoutInflater,ViewGroup,Bundle)</name>
+      <ncss>8</ncss>
+      <ccn>3</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.intro.PermissionsFragment.onClick(View)</name>
+      <ncss>5</ncss>
+      <ccn>2</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.intro.PermissionsFragment.needsPermissions()</name>
+      <ncss>9</ncss>
+      <ccn>5</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.intro.PermissionsFragment.checkPermissions()</name>
+      <ncss>12</ncss>
+      <ccn>4</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.intro.PermissionsFragment.onRequestPermissionsResult(int,String[],String[][])</name>
+      <ncss>24</ncss>
+      <ccn>7</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.intro.StoragePreferenceFragment.onCreate(Bundle)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.intro.StoragePreferenceFragment.onCreateView(LayoutInflater,ViewGroup,Bundle)</name>
+      <ncss>10</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.intro.StoragePreferenceFragment.onResume()</name>
+      <ncss>5</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.intro.StoragePreferenceFragment.onClick(View)</name>
+      <ncss>8</ncss>
+      <ccn>3</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.intro.StoragePreferenceFragment.DialogInterface.OnClickListener$1.onClick(DialogInterface,int)</name>
+      <ncss>8</ncss>
+      <ccn>2</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.intro.StoragePreferenceFragment.DialogInterface.OnClickListener$1.onClick(DialogInterface,int)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.intro.StoragePreferenceFragment.showPickCacheFromList()</name>
+      <ncss>21</ncss>
+      <ccn>3</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.intro.StoragePreferenceFragment.TextWatcher$1.beforeTextChanged(CharSequence,int,int,int)</name>
+      <ncss>1</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.intro.StoragePreferenceFragment.TextWatcher$1.onTextChanged(CharSequence,int,int,int)</name>
+      <ncss>1</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.intro.StoragePreferenceFragment.TextWatcher$1.afterTextChanged(Editable)</name>
+      <ncss>12</ncss>
+      <ccn>5</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.intro.StoragePreferenceFragment.DialogInterface.OnClickListener$1.onClick(DialogInterface,int)</name>
+      <ncss>3</ncss>
+      <ccn>2</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.intro.StoragePreferenceFragment.DialogInterface.OnClickListener$1.onClick(DialogInterface,int)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.intro.StoragePreferenceFragment.showManualEntry()</name>
+      <ncss>31</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.intro.TileSourceWarnings.onCreate(Bundle)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.intro.TileSourceWarnings.onCreateView(LayoutInflater,ViewGroup,Bundle)</name>
+      <ncss>3</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
       <name>org.osmdroid.model.BaseActivity.getActivityTitle()</name>
+      <ncss>1</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.model.IBaseActivity.getActivityTitle()</name>
       <ncss>1</ncss>
       <ccn>1</ccn>
       <javadocs>0</javadocs>
@@ -2187,26 +3001,26 @@
     </function>
     <function>
       <name>org.osmdroid.samplefragments.BaseSampleFragment.onCreate(Bundle)</name>
-      <ncss>3</ncss>
+      <ncss>4</ncss>
       <ccn>1</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
       <name>org.osmdroid.samplefragments.BaseSampleFragment.View.OnGenericMotionListener$1.onGenericMotion(View,MotionEvent)</name>
-      <ncss>12</ncss>
+      <ncss>10</ncss>
       <ccn>5</ccn>
       <javadocs>1</javadocs>
     </function>
     <function>
       <name>org.osmdroid.samplefragments.BaseSampleFragment.onCreateView(LayoutInflater,ViewGroup,Bundle)</name>
-      <ncss>18</ncss>
+      <ncss>16</ncss>
       <ccn>2</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
       <name>org.osmdroid.samplefragments.BaseSampleFragment.onActivityCreated(Bundle)</name>
-      <ncss>8</ncss>
-      <ccn>2</ccn>
+      <ncss>14</ncss>
+      <ccn>3</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
@@ -2219,6 +3033,30 @@
       <name>org.osmdroid.samplefragments.BaseSampleFragment.onDestroy()</name>
       <ncss>3</ncss>
       <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.BaseSampleFragment.onCreateOptionsMenu(Menu,MenuInflater)</name>
+      <ncss>6</ncss>
+      <ccn>2</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.BaseSampleFragment.onPrepareOptionsMenu(Menu)</name>
+      <ncss>4</ncss>
+      <ccn>2</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.BaseSampleFragment.Runnable$1.run()</name>
+      <ncss>4</ncss>
+      <ccn>2</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.BaseSampleFragment.onOptionsItemSelected(MenuItem)</name>
+      <ncss>12</ncss>
+      <ccn>5</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
@@ -2240,60 +3078,6 @@
       <javadocs>1</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.samplefragments.BugReportingTest.getSampleTitle()</name>
-      <ncss>2</ncss>
-      <ccn>1</ccn>
-      <javadocs>0</javadocs>
-    </function>
-    <function>
-      <name>org.osmdroid.samplefragments.BugReportingTest.Runnable$1.run()</name>
-      <ncss>5</ncss>
-      <ccn>3</ccn>
-      <javadocs>0</javadocs>
-    </function>
-    <function>
-      <name>org.osmdroid.samplefragments.BugReportingTest.addOverlays()</name>
-      <ncss>8</ncss>
-      <ccn>1</ccn>
-      <javadocs>0</javadocs>
-    </function>
-    <function>
-      <name>org.osmdroid.samplefragments.FragmentSamples.newInstance(ISampleFactory,BaseActivity)</name>
-      <ncss>5</ncss>
-      <ccn>1</ccn>
-      <javadocs>0</javadocs>
-    </function>
-    <function>
-      <name>org.osmdroid.samplefragments.FragmentSamples.onCreate(Bundle)</name>
-      <ncss>2</ncss>
-      <ccn>1</ccn>
-      <javadocs>0</javadocs>
-    </function>
-    <function>
-      <name>org.osmdroid.samplefragments.FragmentSamples.onActivityCreated(Bundle)</name>
-      <ncss>10</ncss>
-      <ccn>3</ccn>
-      <javadocs>0</javadocs>
-    </function>
-    <function>
-      <name>org.osmdroid.samplefragments.FragmentSamples.onListItemClick(ListView,View,int,long)</name>
-      <ncss>10</ncss>
-      <ccn>2</ccn>
-      <javadocs>0</javadocs>
-    </function>
-    <function>
-      <name>org.osmdroid.samplefragments.FragmentSamples.onResume()</name>
-      <ncss>5</ncss>
-      <ccn>1</ccn>
-      <javadocs>0</javadocs>
-    </function>
-    <function>
-      <name>org.osmdroid.samplefragments.FragmentSamples.onDestroyView()</name>
-      <ncss>2</ncss>
-      <ccn>1</ccn>
-      <javadocs>0</javadocs>
-    </function>
-    <function>
       <name>org.osmdroid.samplefragments.SampleFactory.getInstance()</name>
       <ncss>4</ncss>
       <ccn>2</ccn>
@@ -2301,6 +3085,12 @@
     </function>
     <function>
       <name>org.osmdroid.samplefragments.SampleFactory.SampleFactory()</name>
+      <ncss>60</ncss>
+      <ccn>3</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.SampleFactory.addSample(BaseSampleFragment)</name>
       <ncss>2</ncss>
       <ccn>1</ccn>
       <javadocs>0</javadocs>
@@ -2439,7 +3229,7 @@
     </function>
     <function>
       <name>org.osmdroid.samplefragments.cache.SampleCacheDownloader.onCreateView(LayoutInflater,ViewGroup,Bundle)</name>
-      <ncss>7</ncss>
+      <ncss>8</ncss>
       <ccn>1</ccn>
       <javadocs>0</javadocs>
     </function>
@@ -2595,7 +3385,7 @@
     </function>
     <function>
       <name>org.osmdroid.samplefragments.cache.SampleCacheDownloaderArchive.onCreateView(LayoutInflater,ViewGroup,Bundle)</name>
-      <ncss>6</ncss>
+      <ncss>7</ncss>
       <ccn>1</ccn>
       <javadocs>0</javadocs>
     </function>
@@ -2745,7 +3535,7 @@
     </function>
     <function>
       <name>org.osmdroid.samplefragments.cache.SampleCacheDownloaderCustomUI.onCreateView(LayoutInflater,ViewGroup,Bundle)</name>
-      <ncss>7</ncss>
+      <ncss>8</ncss>
       <ccn>1</ccn>
       <javadocs>0</javadocs>
     </function>
@@ -2763,13 +3553,13 @@
     </function>
     <function>
       <name>org.osmdroid.samplefragments.cache.SampleCacheDownloaderCustomUI.DialogInterface.OnClickListener$1.onClick(DialogInterface,int)</name>
-      <ncss>10</ncss>
-      <ccn>3</ccn>
+      <ncss>16</ncss>
+      <ccn>5</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
       <name>org.osmdroid.samplefragments.cache.SampleCacheDownloaderCustomUI.showCacheManagerDialog()</name>
-      <ncss>16</ncss>
+      <ncss>22</ncss>
       <ccn>1</ccn>
       <javadocs>0</javadocs>
     </function>
@@ -2786,8 +3576,14 @@
       <javadocs>0</javadocs>
     </function>
     <function>
+      <name>org.osmdroid.samplefragments.cache.SampleCacheDownloaderCustomUI.DialogInterface.OnDismissListener$1.onDismiss(DialogInterface)</name>
+      <ncss>3</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
       <name>org.osmdroid.samplefragments.cache.SampleCacheDownloaderCustomUI.updateEstimate(boolean)</name>
-      <ncss>23</ncss>
+      <ncss>28</ncss>
       <ccn>10</ccn>
       <javadocs>1</javadocs>
     </function>
@@ -2979,8 +3775,8 @@
     </function>
     <function>
       <name>org.osmdroid.samplefragments.data.AsyncTaskDemoFragment.BackgroundMarkerLoaderTask.doInBackground(Double)</name>
-      <ncss>33</ncss>
-      <ccn>10</ccn>
+      <ncss>43</ncss>
+      <ccn>18</ccn>
       <javadocs>1</javadocs>
     </function>
     <function>
@@ -3008,6 +3804,144 @@
       <javadocs>0</javadocs>
     </function>
     <function>
+      <name>org.osmdroid.samplefragments.data.Gridlines2.getSampleTitle()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.data.Gridlines2.addOverlays()</name>
+      <ncss>8</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.data.HeatMap.getSampleTitle()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.data.HeatMap.addOverlays()</name>
+      <ncss>6</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.data.HeatMap.onPause()</name>
+      <ncss>3</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.data.HeatMap.onResume()</name>
+      <ncss>5</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.data.HeatMap.Runnable$1.run()</name>
+      <ncss>7</ncss>
+      <ccn>2</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.data.HeatMap.generateMap()</name>
+      <ncss>50</ncss>
+      <ccn>15</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.data.HeatMap.loadPoints(BoundingBox)</name>
+      <ncss>40</ncss>
+      <ccn>2</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.data.HeatMap.createPolygon(BoundingBox,Integer,int,int)</name>
+      <ncss>20</ncss>
+      <ccn>4</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.data.HeatMap.increment(IGeoPoint,Integer)</name>
+      <ncss>9</ncss>
+      <ccn>4</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.data.HeatMap.onScroll(ScrollEvent)</name>
+      <ncss>4</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.data.HeatMap.onZoom(ZoomEvent)</name>
+      <ncss>4</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.data.HeatMap.run()</name>
+      <ncss>11</ncss>
+      <ccn>6</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.data.HeatMap.runTestProcedures()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.data.IISTrackerBase.isMotionTrail()</name>
+      <ncss>1</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.data.IISTrackerBase.TimerTask$1.Runnable$1.run()</name>
+      <ncss>41</ncss>
+      <ccn>11</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.data.IISTrackerBase.TimerTask$1.run()</name>
+      <ncss>49</ncss>
+      <ccn>4</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.data.IISTrackerBase.addOverlays()</name>
+      <ncss>63</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.data.IISTrackerBase.getLocation()</name>
+      <ncss>16</ncss>
+      <ccn>8</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.data.IISTrackerBase.onPause()</name>
+      <ncss>6</ncss>
+      <ccn>2</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.data.IISTrackerBase.skipOnCiTests()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.data.IISTrackerBase.onDestroyView()</name>
+      <ncss>8</ncss>
+      <ccn>2</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
       <name>org.osmdroid.samplefragments.data.SampleGridlines.getSampleTitle()</name>
       <ncss>2</ncss>
       <ccn>1</ccn>
@@ -3015,7 +3949,7 @@
     </function>
     <function>
       <name>org.osmdroid.samplefragments.data.SampleGridlines.addOverlays()</name>
-      <ncss>7</ncss>
+      <ncss>9</ncss>
       <ccn>1</ccn>
       <javadocs>0</javadocs>
     </function>
@@ -3033,66 +3967,156 @@
     </function>
     <function>
       <name>org.osmdroid.samplefragments.data.SampleGridlines.updateGridlines()</name>
-      <ncss>8</ncss>
+      <ncss>11</ncss>
       <ccn>4</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
       <name>org.osmdroid.samplefragments.data.SampleGridlines.onDestroyView()</name>
-      <ncss>4</ncss>
-      <ccn>1</ccn>
+      <ncss>5</ncss>
+      <ccn>2</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.samplefragments.data.SampleMilitaryIcons.getSampleTitle()</name>
+      <name>org.osmdroid.samplefragments.data.SampleIISTracker.getSampleTitle()</name>
       <ncss>2</ncss>
       <ccn>1</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.samplefragments.data.SampleMilitaryIcons.ItemizedIconOverlay.OnItemGestureListener$1.onItemSingleTapUp(int,OverlayItem)</name>
+      <name>org.osmdroid.samplefragments.data.SampleIISTracker.isMotionTrail()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.data.SampleIISTrackerMotionTrails.getSampleTitle()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.data.SampleIISTrackerMotionTrails.isMotionTrail()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.data.SampleMarker.getSampleTitle()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.data.SampleMarker.Marker.OnMarkerClickListener$1.onMarkerClick(Marker,MapView)</name>
       <ncss>3</ncss>
       <ccn>1</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.samplefragments.data.SampleMilitaryIcons.ItemizedIconOverlay.OnItemGestureListener$1.onItemLongPress(int,OverlayItem)</name>
+      <name>org.osmdroid.samplefragments.data.SampleMarker.Marker.OnMarkerClickListener$1.onMarkerClick(Marker,MapView)</name>
+      <ncss>4</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.data.SampleMarker.addOverlays()</name>
+      <ncss>39</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.data.SampleMilitaryIconsItemizedIcons.getSampleTitle()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.data.SampleMilitaryIconsItemizedIcons.ItemizedIconOverlay.OnItemGestureListener$1.onItemSingleTapUp(int,OverlayItem)</name>
       <ncss>3</ncss>
       <ccn>1</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.samplefragments.data.SampleMilitaryIcons.addOverlays()</name>
+      <name>org.osmdroid.samplefragments.data.SampleMilitaryIconsItemizedIcons.ItemizedIconOverlay.OnItemGestureListener$1.onItemLongPress(int,OverlayItem)</name>
+      <ncss>3</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.data.SampleMilitaryIconsItemizedIcons.addOverlays()</name>
       <ncss>26</ncss>
       <ccn>1</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.samplefragments.data.SampleMilitaryIcons.onCreateOptionsMenu(Menu,MenuInflater)</name>
+      <name>org.osmdroid.samplefragments.data.SampleMilitaryIconsItemizedIcons.onCreateOptionsMenu(Menu,MenuInflater)</name>
       <ncss>7</ncss>
       <ccn>1</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.samplefragments.data.SampleMilitaryIcons.onPrepareOptionsMenu(Menu)</name>
+      <name>org.osmdroid.samplefragments.data.SampleMilitaryIconsItemizedIcons.onPrepareOptionsMenu(Menu)</name>
       <ncss>3</ncss>
       <ccn>1</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.samplefragments.data.SampleMilitaryIcons.onOptionsItemSelected(MenuItem)</name>
+      <name>org.osmdroid.samplefragments.data.SampleMilitaryIconsItemizedIcons.onOptionsItemSelected(MenuItem)</name>
       <ncss>14</ncss>
       <ccn>9</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.samplefragments.data.SampleMilitaryIcons.addIcons(int)</name>
+      <name>org.osmdroid.samplefragments.data.SampleMilitaryIconsItemizedIcons.addIcons(int)</name>
       <ncss>14</ncss>
       <ccn>3</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.samplefragments.data.SampleMilitaryIcons.onDestroyView()</name>
+      <name>org.osmdroid.samplefragments.data.SampleMilitaryIconsItemizedIcons.onDestroyView()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.data.SampleMilitaryIconsMarker.getSampleTitle()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.data.SampleMilitaryIconsMarker.addOverlays()</name>
+      <ncss>14</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.data.SampleMilitaryIconsMarker.onCreateOptionsMenu(Menu,MenuInflater)</name>
+      <ncss>7</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.data.SampleMilitaryIconsMarker.onPrepareOptionsMenu(Menu)</name>
+      <ncss>3</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.data.SampleMilitaryIconsMarker.onOptionsItemSelected(MenuItem)</name>
+      <ncss>14</ncss>
+      <ccn>9</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.data.SampleMilitaryIconsMarker.addIcons(int)</name>
+      <ncss>15</ncss>
+      <ccn>3</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.data.SampleMilitaryIconsMarker.onDestroyView()</name>
       <ncss>2</ncss>
       <ccn>1</ccn>
       <javadocs>0</javadocs>
@@ -3141,13 +4165,13 @@
     </function>
     <function>
       <name>org.osmdroid.samplefragments.data.SampleOsmPath.Runnable$1.run()</name>
-      <ncss>5</ncss>
+      <ncss>4</ncss>
       <ccn>2</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
       <name>org.osmdroid.samplefragments.data.SampleOsmPath.onZoom(ZoomEvent)</name>
-      <ncss>10</ncss>
+      <ncss>9</ncss>
       <ccn>2</ccn>
       <javadocs>0</javadocs>
     </function>
@@ -3296,6 +4320,90 @@
       <javadocs>0</javadocs>
     </function>
     <function>
+      <name>org.osmdroid.samplefragments.data.utils.JSONParser.JSONParser()</name>
+      <ncss>1</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.data.utils.JSONParser.makeHttpRequest(String)</name>
+      <ncss>24</ncss>
+      <ccn>7</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.drawing.CustomPaintingSurface.CustomPaintingSurface(Context,AttributeSet)</name>
+      <ncss>4</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.drawing.CustomPaintingSurface.onSizeChanged(int,int,int,int)</name>
+      <ncss>4</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.drawing.CustomPaintingSurface.onDraw(Canvas)</name>
+      <ncss>13</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.drawing.CustomPaintingSurface.init(MapView)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.drawing.CustomPaintingSurface.touch_start(float,float)</name>
+      <ncss>5</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.drawing.CustomPaintingSurface.touch_move(float,float)</name>
+      <ncss>7</ncss>
+      <ccn>3</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.drawing.CustomPaintingSurface.Polyline.OnClickListener$1.onClick(Polyline,MapView,GeoPoint)</name>
+      <ncss>3</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.drawing.CustomPaintingSurface.touch_up()</name>
+      <ncss>20</ncss>
+      <ccn>4</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.drawing.CustomPaintingSurface.onTouchEvent(MotionEvent)</name>
+      <ncss>18</ncss>
+      <ccn>4</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.drawing.SampleDrawPolyline.getSampleTitle()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.drawing.SampleDrawPolyline.onCreateView(LayoutInflater,ViewGroup,Bundle)</name>
+      <ncss>11</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.drawing.SampleDrawPolyline.onClick(View)</name>
+      <ncss>12</ncss>
+      <ccn>3</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
       <name>org.osmdroid.samplefragments.events.SampleAnimateTo.getSampleTitle()</name>
       <ncss>2</ncss>
       <ccn>1</ccn>
@@ -3327,13 +4435,13 @@
     </function>
     <function>
       <name>org.osmdroid.samplefragments.events.SampleAnimateTo.Runnable$1.run()</name>
-      <ncss>6</ncss>
+      <ncss>5</ncss>
       <ccn>4</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
       <name>org.osmdroid.samplefragments.events.SampleAnimateTo.runTask()</name>
-      <ncss>12</ncss>
+      <ncss>11</ncss>
       <ccn>5</ccn>
       <javadocs>0</javadocs>
     </function>
@@ -3458,12 +4566,6 @@
       <javadocs>0</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.samplefragments.events.SampleMapEventListener.OnlineTileSourceBase$1.getTileURLString(MapTile)</name>
-      <ncss>2</ncss>
-      <ccn>1</ccn>
-      <javadocs>0</javadocs>
-    </function>
-    <function>
       <name>org.osmdroid.samplefragments.events.SampleMapEventListener.MapListener$1.onScroll(ScrollEvent)</name>
       <ncss>4</ncss>
       <ccn>1</ccn>
@@ -3477,7 +4579,7 @@
     </function>
     <function>
       <name>org.osmdroid.samplefragments.events.SampleMapEventListener.addOverlays()</name>
-      <ncss>14</ncss>
+      <ncss>13</ncss>
       <ccn>1</ccn>
       <javadocs>0</javadocs>
     </function>
@@ -3560,6 +4662,162 @@
       <javadocs>0</javadocs>
     </function>
     <function>
+      <name>org.osmdroid.samplefragments.layouts.CustomMapView.CustomMapView(Context,MapTileProviderBase,Handler,AttributeSet)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.layouts.CustomMapView.CustomMapView(Context,MapTileProviderBase,Handler,AttributeSet,boolean)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.layouts.CustomMapView.CustomMapView(Context,AttributeSet)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.layouts.CustomMapView.CustomMapView(Context)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.layouts.CustomMapView.CustomMapView(Context,MapTileProviderBase)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.layouts.CustomMapView.CustomMapView(Context,MapTileProviderBase,Handler)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.layouts.CustomMapView.onTouchEvent(MotionEvent)</name>
+      <ncss>10</ncss>
+      <ccn>3</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.layouts.MapInAViewPagerFragment.getSampleTitle()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.layouts.MapInAViewPagerFragment.onCreate(Bundle)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.layouts.MapInAViewPagerFragment.onCreateView(LayoutInflater,ViewGroup,Bundle)</name>
+      <ncss>6</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.layouts.MapInAViewPagerFragment.onActivityCreated(Bundle)</name>
+      <ncss>3</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.layouts.MapInAViewPagerFragment.onDestroyView()</name>
+      <ncss>3</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.layouts.MapInAViewPagerFragment.onDestroy()</name>
+      <ncss>3</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.layouts.MapInAViewPagerFragment.Runnable$1.run()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.layouts.MapInAViewPagerFragment.Runnable$1.run()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.layouts.MapInAViewPagerFragment.Runnable$1.run()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.layouts.MapInAViewPagerFragment.Runnable$1.run()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.layouts.MapInAViewPagerFragment.Runnable$1.run()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.layouts.MapInAViewPagerFragment.runTestProcedures()</name>
+      <ncss>36</ncss>
+      <ccn>9</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.layouts.MapInScrollView.getSampleTitle()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.layouts.MapInScrollView.View.OnTouchListener$1.onTouch(View,MotionEvent)</name>
+      <ncss>4</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.layouts.MapInScrollView.onCreateView(LayoutInflater,ViewGroup,Bundle)</name>
+      <ncss>10</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.layouts.MapInScrollView.onDestroyView()</name>
+      <ncss>3</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.layouts.MapInScrollView.onDestroy()</name>
+      <ncss>3</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.layouts.RecyclerCardView.getSampleTitle()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.layouts.RecyclerCardView.onCreateView(LayoutInflater,ViewGroup,Bundle)</name>
+      <ncss>12</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
       <name>org.osmdroid.samplefragments.layouts.SampleFragmentXmlLayout.getSampleTitle()</name>
       <ncss>2</ncss>
       <ccn>1</ccn>
@@ -3591,7 +4849,7 @@
     </function>
     <function>
       <name>org.osmdroid.samplefragments.layouts.SampleSplitScreen.addOverlays()</name>
-      <ncss>8</ncss>
+      <ncss>12</ncss>
       <ccn>1</ccn>
       <javadocs>0</javadocs>
     </function>
@@ -3605,6 +4863,174 @@
       <name>org.osmdroid.samplefragments.layouts.SampleSplitScreen.onZoom(ZoomEvent)</name>
       <ncss>8</ncss>
       <ccn>3</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.layouts.ScaleBarOnBottom.getSampleTitle()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.layouts.ScaleBarOnBottom.addOverlays()</name>
+      <ncss>12</ncss>
+      <ccn>2</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.layouts.pager.MapFragment.getSampleTitle()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.layouts.pager.MapFragment.onCreateView(LayoutInflater,ViewGroup,Bundle)</name>
+      <ncss>4</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.layouts.pager.MapSliderAdapter.MapSliderAdapter(FragmentManager)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.layouts.pager.MapSliderAdapter.getItem(int)</name>
+      <ncss>9</ncss>
+      <ccn>7</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.layouts.pager.MapSliderAdapter.getCount()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.layouts.pager.SimpleTextFragment.onCreate(Bundle)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.layouts.pager.SimpleTextFragment.onCreateView(LayoutInflater,ViewGroup,Bundle)</name>
+      <ncss>3</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.layouts.pager.WebviewFragment.onCreate(Bundle)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.layouts.pager.WebviewFragment.onCreateView(LayoutInflater,ViewGroup,Bundle)</name>
+      <ncss>4</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.layouts.pager.WebviewFragment.onResume()</name>
+      <ncss>3</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.layouts.rec.ConstructorInfoData.obtainData()</name>
+      <ncss>6</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.layouts.rec.CustomRecycler.CustomRecycler(Info)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.layouts.rec.CustomRecycler.ViewHolder.ViewHolder(View)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.layouts.rec.CustomRecycler.MapViewHolder.MapViewHolder(View)</name>
+      <ncss>3</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.layouts.rec.CustomRecycler.InfoDataViewHolder.InfoDataViewHolder(View)</name>
+      <ncss>4</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.layouts.rec.CustomRecycler.onCreateViewHolder(ViewGroup,int)</name>
+      <ncss>8</ncss>
+      <ccn>3</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.layouts.rec.CustomRecycler.onBindViewHolder(ViewHolder,int)</name>
+      <ncss>14</ncss>
+      <ccn>2</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.layouts.rec.CustomRecycler.getItemCount()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.layouts.rec.CustomRecycler.getItemViewType(int)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.layouts.rec.Info.Info(String,String,String)</name>
+      <ncss>4</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.layouts.rec.Info.getTitle()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.layouts.rec.Info.setTitle(String)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.layouts.rec.Info.getTypeLayout()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.layouts.rec.Info.setTypeLayout(String)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.layouts.rec.Info.getContent()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.layouts.rec.Info.setContent(String)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
@@ -3813,14 +5239,56 @@
     </function>
     <function>
       <name>org.osmdroid.samplefragments.location.SampleHeadingCompassUp.updateDisplay(float,boolean)</name>
-      <ncss>9</ncss>
+      <ncss>10</ncss>
       <ccn>3</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.samplefragments.location.SampleHeadingCompassUp.updateMap()</name>
-      <ncss>1</ncss>
+      <name>org.osmdroid.samplefragments.location.SampleMyLocationWithClick.getSampleTitle()</name>
+      <ncss>2</ncss>
       <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.location.SampleMyLocationWithClick.addOverlays()</name>
+      <ncss>6</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.location.SampleMyLocationWithClick.MyLocationOverlayWithClick.MyLocationOverlayWithClick(MapView)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.location.SampleMyLocationWithClick.MyLocationOverlayWithClick.onSingleTapConfirmed(MotionEvent,MapView)</name>
+      <ncss>4</ncss>
+      <ccn>2</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.location.SampleRotation.getSampleTitle()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.location.SampleRotation.onCreateView(LayoutInflater,ViewGroup,Bundle)</name>
+      <ncss>10</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.location.SampleRotation.addOverlays()</name>
+      <ncss>11</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.location.SampleRotation.onClick(View)</name>
+      <ncss>15</ncss>
+      <ccn>5</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
@@ -3896,146 +5364,206 @@
       <javadocs>0</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.samplefragments.pager.MapFragment.getSampleTitle()</name>
+      <name>org.osmdroid.samplefragments.tileproviders.GeopackageSample.getSampleTitle()</name>
       <ncss>2</ncss>
       <ccn>1</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.samplefragments.pager.MapFragment.onCreateView(LayoutInflater,ViewGroup,Bundle)</name>
+      <name>org.osmdroid.samplefragments.tileproviders.GeopackageSample.onCreate(Bundle)</name>
       <ncss>4</ncss>
       <ccn>1</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.samplefragments.pager.MapInAViewPagerFragment.getSampleTitle()</name>
-      <ncss>2</ncss>
-      <ccn>1</ccn>
-      <javadocs>0</javadocs>
-    </function>
-    <function>
-      <name>org.osmdroid.samplefragments.pager.MapInAViewPagerFragment.onCreate(Bundle)</name>
-      <ncss>2</ncss>
-      <ccn>1</ccn>
-      <javadocs>0</javadocs>
-    </function>
-    <function>
-      <name>org.osmdroid.samplefragments.pager.MapInAViewPagerFragment.onCreateView(LayoutInflater,ViewGroup,Bundle)</name>
-      <ncss>6</ncss>
-      <ccn>1</ccn>
-      <javadocs>0</javadocs>
-    </function>
-    <function>
-      <name>org.osmdroid.samplefragments.pager.MapInAViewPagerFragment.onActivityCreated(Bundle)</name>
-      <ncss>3</ncss>
-      <ccn>1</ccn>
-      <javadocs>0</javadocs>
-    </function>
-    <function>
-      <name>org.osmdroid.samplefragments.pager.MapInAViewPagerFragment.onDestroyView()</name>
-      <ncss>3</ncss>
-      <ccn>1</ccn>
-      <javadocs>0</javadocs>
-    </function>
-    <function>
-      <name>org.osmdroid.samplefragments.pager.MapInAViewPagerFragment.onDestroy()</name>
-      <ncss>3</ncss>
-      <ccn>1</ccn>
-      <javadocs>0</javadocs>
-    </function>
-    <function>
-      <name>org.osmdroid.samplefragments.pager.MapInAViewPagerFragment.Runnable$1.run()</name>
-      <ncss>2</ncss>
-      <ccn>1</ccn>
-      <javadocs>0</javadocs>
-    </function>
-    <function>
-      <name>org.osmdroid.samplefragments.pager.MapInAViewPagerFragment.Runnable$1.run()</name>
-      <ncss>2</ncss>
-      <ccn>1</ccn>
-      <javadocs>0</javadocs>
-    </function>
-    <function>
-      <name>org.osmdroid.samplefragments.pager.MapInAViewPagerFragment.Runnable$1.run()</name>
-      <ncss>2</ncss>
-      <ccn>1</ccn>
-      <javadocs>0</javadocs>
-    </function>
-    <function>
-      <name>org.osmdroid.samplefragments.pager.MapInAViewPagerFragment.Runnable$1.run()</name>
-      <ncss>2</ncss>
-      <ccn>1</ccn>
-      <javadocs>0</javadocs>
-    </function>
-    <function>
-      <name>org.osmdroid.samplefragments.pager.MapInAViewPagerFragment.Runnable$1.run()</name>
-      <ncss>2</ncss>
-      <ccn>1</ccn>
-      <javadocs>0</javadocs>
-    </function>
-    <function>
-      <name>org.osmdroid.samplefragments.pager.MapInAViewPagerFragment.runTestProcedures()</name>
-      <ncss>28</ncss>
+      <name>org.osmdroid.samplefragments.tileproviders.GeopackageSample.View.OnGenericMotionListener$1.onGenericMotion(View,MotionEvent)</name>
+      <ncss>10</ncss>
       <ccn>5</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.tileproviders.GeopackageSample.onCreateView(LayoutInflater,ViewGroup,Bundle)</name>
+      <ncss>17</ncss>
+      <ccn>2</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.samplefragments.pager.MapSliderAdapter.MapSliderAdapter(FragmentManager)</name>
-      <ncss>2</ncss>
+      <name>org.osmdroid.samplefragments.tileproviders.GeopackageSample.DialogInterface.OnClickListener$1.onClick(DialogInterface,int)</name>
+      <ncss>1</ncss>
       <ccn>1</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.samplefragments.pager.MapSliderAdapter.getItem(int)</name>
-      <ncss>9</ncss>
+      <name>org.osmdroid.samplefragments.tileproviders.GeopackageSample.MapListener$1.onScroll(ScrollEvent)</name>
+      <ncss>4</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.tileproviders.GeopackageSample.MapListener$1.onZoom(ZoomEvent)</name>
+      <ncss>4</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.tileproviders.GeopackageSample.addOverlays()</name>
+      <ncss>42</ncss>
       <ccn>7</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.samplefragments.pager.MapSliderAdapter.getCount()</name>
+      <name>org.osmdroid.samplefragments.tileproviders.GeopackageSample.onDestroy()</name>
+      <ncss>5</ncss>
+      <ccn>2</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.tileproviders.GeopackageSample.updateInfo()</name>
+      <ncss>13</ncss>
+      <ccn>3</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.tileproviders.GeopackageSample.findMapFiles()</name>
+      <ncss>8</ncss>
+      <ccn>3</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.tileproviders.GeopackageSample.FileFilter$1.accept(File)</name>
+      <ncss>4</ncss>
+      <ccn>3</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.tileproviders.GeopackageSample.scan(File)</name>
+      <ncss>11</ncss>
+      <ccn>3</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.tileproviders.MapsforgeTileProviderSample.getSampleTitle()</name>
       <ncss>2</ncss>
       <ccn>1</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.samplefragments.pager.SimpleTextFragment.onCreate(Bundle)</name>
+      <name>org.osmdroid.samplefragments.tileproviders.MapsforgeTileProviderSample.onCreate(Bundle)</name>
+      <ncss>5</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.tileproviders.MapsforgeTileProviderSample.DialogInterface.OnClickListener$1.onClick(DialogInterface,int)</name>
+      <ncss>1</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.tileproviders.MapsforgeTileProviderSample.addOverlays()</name>
+      <ncss>23</ncss>
+      <ccn>4</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.tileproviders.MapsforgeTileProviderSample.skipOnCiTests()</name>
       <ncss>2</ncss>
       <ccn>1</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.samplefragments.pager.SimpleTextFragment.onCreateView(LayoutInflater,ViewGroup,Bundle)</name>
-      <ncss>3</ncss>
-      <ccn>1</ccn>
+      <name>org.osmdroid.samplefragments.tileproviders.MapsforgeTileProviderSample.onDestroy()</name>
+      <ncss>7</ncss>
+      <ccn>3</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.samplefragments.pager.WebviewFragment.onCreate(Bundle)</name>
+      <name>org.osmdroid.samplefragments.tileproviders.MapsforgeTileProviderSample.findMapFiles()</name>
+      <ncss>8</ncss>
+      <ccn>3</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.tileproviders.MapsforgeTileProviderSample.FileFilter$1.accept(File)</name>
+      <ncss>4</ncss>
+      <ccn>3</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.tileproviders.MapsforgeTileProviderSample.scan(File)</name>
+      <ncss>11</ncss>
+      <ccn>3</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.tileproviders.SampleAssetsOnly.getSampleTitle()</name>
       <ncss>2</ncss>
       <ccn>1</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.samplefragments.pager.WebviewFragment.onCreateView(LayoutInflater,ViewGroup,Bundle)</name>
+      <name>org.osmdroid.samplefragments.tileproviders.SampleAssetsOnly.addOverlays()</name>
       <ncss>4</ncss>
       <ccn>1</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.samplefragments.pager.WebviewFragment.onResume()</name>
-      <ncss>3</ncss>
-      <ccn>1</ccn>
-      <javadocs>0</javadocs>
-    </function>
-    <function>
-      <name>org.osmdroid.samplefragments.tilesources.SampleAssetsOnly.getSampleTitle()</name>
+      <name>org.osmdroid.samplefragments.tileproviders.SampleOfflineOnly.getSampleTitle()</name>
       <ncss>2</ncss>
       <ccn>1</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.samplefragments.tilesources.SampleAssetsOnly.addOverlays()</name>
-      <ncss>4</ncss>
+      <name>org.osmdroid.samplefragments.tileproviders.SampleOfflineOnly.addOverlays()</name>
+      <ncss>38</ncss>
+      <ccn>12</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.tilesources.SampleBingHybrid.getSampleTitle()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.tilesources.SampleBingHybrid.Runnable$1.run()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.tilesources.SampleBingHybrid.addOverlays()</name>
+      <ncss>9</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.tilesources.SampleBingRoad.getSampleTitle()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.tilesources.SampleBingRoad.Runnable$1.run()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.tilesources.SampleBingRoad.addOverlays()</name>
+      <ncss>10</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.tilesources.SampleCopyrightOverlay.getSampleTitle()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.tilesources.SampleCopyrightOverlay.onActivityCreated(Bundle)</name>
+      <ncss>11</ncss>
       <ccn>1</ccn>
       <javadocs>0</javadocs>
     </function>
@@ -4136,18 +5664,6 @@
       <javadocs>0</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.samplefragments.tilesources.SampleOfflineOnly.getSampleTitle()</name>
-      <ncss>2</ncss>
-      <ccn>1</ccn>
-      <javadocs>0</javadocs>
-    </function>
-    <function>
-      <name>org.osmdroid.samplefragments.tilesources.SampleOfflineOnly.addOverlays()</name>
-      <ncss>38</ncss>
-      <ccn>12</ccn>
-      <javadocs>0</javadocs>
-    </function>
-    <function>
       <name>org.osmdroid.samplefragments.tilesources.SampleOpenSeaMap.getSampleTitle()</name>
       <ncss>2</ncss>
       <ccn>1</ccn>
@@ -4196,6 +5712,18 @@
       <javadocs>0</javadocs>
     </function>
     <function>
+      <name>org.osmdroid.samplefragments.tilesources.SepiaToneTiles.getSampleTitle()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.tilesources.SepiaToneTiles.addOverlays()</name>
+      <ncss>9</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
       <name>org.osmdroid.samplefragments.tilesources.USGSTileSource.USGSTileSource()</name>
       <ncss>2</ncss>
       <ccn>1</ccn>
@@ -4211,6 +5739,132 @@
       <name>org.osmdroid.samplefragments.tilesources.USGSTileSource.getTileURLString(MapTile)</name>
       <ncss>2</ncss>
       <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.ui.ExpandableListAdapter.ExpandableListAdapter(Context,String,String)</name>
+      <ncss>4</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.ui.ExpandableListAdapter.getChild(int,int)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.ui.ExpandableListAdapter.getChildId(int,int)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.ui.ExpandableListAdapter.getChildView(int,int,boolean,View,ViewGroup)</name>
+      <ncss>8</ncss>
+      <ccn>2</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.ui.ExpandableListAdapter.getChildrenCount(int)</name>
+      <ncss>5</ncss>
+      <ccn>3</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.ui.ExpandableListAdapter.getGroup(int)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.ui.ExpandableListAdapter.getGroupCount()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.ui.ExpandableListAdapter.getGroupId(int)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.ui.ExpandableListAdapter.getGroupView(int,boolean,View,ViewGroup)</name>
+      <ncss>9</ncss>
+      <ccn>2</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.ui.ExpandableListAdapter.hasStableIds()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.ui.ExpandableListAdapter.isChildSelectable(int,int)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.ui.SamplesMenuFragment.newInstance(ISampleFactory,IBaseActivity)</name>
+      <ncss>5</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.ui.SamplesMenuFragment.ExpandableListView.OnChildClickListener$1.onChildClick(ExpandableListView,View,int,int,long)</name>
+      <ncss>19</ncss>
+      <ccn>7</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.ui.SamplesMenuFragment.onCreateView(LayoutInflater,ViewGroup,Bundle)</name>
+      <ncss>46</ncss>
+      <ccn>9</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.ui.SamplesMenuFragment.onActivityCreated(Bundle)</name>
+      <ncss>9</ncss>
+      <ccn>3</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.ui.SamplesMenuFragment.prepareListData()</name>
+      <ncss>25</ncss>
+      <ccn>8</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.ui.SamplesMenuFragment.capitialize(String)</name>
+      <ncss>5</ncss>
+      <ccn>3</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.ui.SamplesMenuFragment.onResume()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.ui.SamplesMenuFragment.onDestroyView()</name>
+      <ncss>3</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.ui.SamplesMenuFragment.saveState()</name>
+      <ncss>10</ncss>
+      <ccn>4</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.ui.SamplesMenuFragment.onSaveInstanceState(Bundle)</name>
+      <ncss>3</ncss>
+      <ccn>2</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
@@ -4310,11 +5964,11 @@
       <javadocs>1</javadocs>
     </function>
     <function_averages>
-      <ncss>7.20</ncss>
-      <ccn>1.99</ccn>
-      <javadocs>0.12</javadocs>
+      <ncss>7.65</ncss>
+      <ccn>2.04</ccn>
+      <javadocs>0.10</javadocs>
     </function_averages>
-    <ncss>4,826.00</ncss>
+    <ncss>6,994.00</ncss>
   </functions>
 </javancss>
 

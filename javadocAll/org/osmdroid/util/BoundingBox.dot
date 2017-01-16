@@ -10,24 +10,24 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.util.BoundingBox
-	c22534 [label=<<table title="org.osmdroid.util.BoundingBox" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./BoundingBox.html">
+	c27591 [label=<<table title="org.osmdroid.util.BoundingBox" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./BoundingBox.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> BoundingBox </td></tr>
 		</table></td></tr>
 		</table>>, URL="./BoundingBox.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.util.constants.MapViewConstants
-	c22613 [label=<<table title="org.osmdroid.views.util.constants.MapViewConstants" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../views/util/constants/MapViewConstants.html">
+	c27671 [label=<<table title="org.osmdroid.views.util.constants.MapViewConstants" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../views/util/constants/MapViewConstants.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> MapViewConstants </td></tr>
 		</table></td></tr>
 		</table>>, URL="../views/util/constants/MapViewConstants.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.util.BoundingBox implements java.io.Serializable
-	c22657:p -> c22534:p [dir=back,arrowtail=empty,style=dashed];
+	c27712:p -> c27591:p [dir=back,arrowtail=empty,style=dashed];
 	//org.osmdroid.util.BoundingBox implements org.osmdroid.views.util.constants.MapViewConstants
-	c22613:p -> c22534:p [dir=back,arrowtail=empty,style=dashed];
+	c27671:p -> c27591:p [dir=back,arrowtail=empty,style=dashed];
 	// java.io.Serializable
-	c22657 [label=<<table title="java.io.Serializable" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/java/io/Serializable.html">
+	c27712 [label=<<table title="java.io.Serializable" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/java/io/Serializable.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> Serializable </td></tr>

@@ -10,51 +10,51 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.util.BoundingBox
-	c22964 [label=<<table title="org.osmdroid.util.BoundingBox" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../../util/BoundingBox.html">
+	c24388 [label=<<table title="org.osmdroid.util.BoundingBox" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../../util/BoundingBox.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> BoundingBox </td></tr>
 		</table></td></tr>
 		</table>>, URL="../../../util/BoundingBox.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.util.BoundingBoxE6
-	c22965 [label=<<table title="org.osmdroid.util.BoundingBoxE6" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../../util/BoundingBoxE6.html">
+	c24389 [label=<<table title="org.osmdroid.util.BoundingBoxE6" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../../util/BoundingBoxE6.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> BoundingBoxE6 </td></tr>
 		</table></td></tr>
 		</table>>, URL="../../../util/BoundingBoxE6.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.MapView
-	c22981 [label=<<table title="org.osmdroid.views.MapView" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../MapView.html">
+	c24405 [label=<<table title="org.osmdroid.views.MapView" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../MapView.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MapView </td></tr>
 		</table></td></tr>
 		</table>>, URL="../../MapView.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.Projection
-	c23044 [label=<<table title="org.osmdroid.views.Projection" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../Projection.html">
+	c24469 [label=<<table title="org.osmdroid.views.Projection" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../Projection.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> Projection </td></tr>
 		</table></td></tr>
 		</table>>, URL="../../Projection.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.util.constants.MapViewConstants
-	c23045 [label=<<table title="org.osmdroid.views.util.constants.MapViewConstants" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./MapViewConstants.html">
+	c24470 [label=<<table title="org.osmdroid.views.util.constants.MapViewConstants" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./MapViewConstants.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> MapViewConstants </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MapViewConstants.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.util.Mercator
-	c23048 [label=<<table title="org.osmdroid.views.util.Mercator" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../Mercator.html">
+	c24473 [label=<<table title="org.osmdroid.views.util.Mercator" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../Mercator.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> Mercator </td></tr>
 		</table></td></tr>
 		</table>>, URL="../Mercator.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.util.BoundingBox implements org.osmdroid.views.util.constants.MapViewConstants
-	c23045:p -> c22964:p [dir=back,arrowtail=empty,style=dashed];
+	c24470:p -> c24388:p [dir=back,arrowtail=empty,style=dashed];
 	//org.osmdroid.util.BoundingBoxE6 implements org.osmdroid.views.util.constants.MapViewConstants
-	c23045:p -> c22965:p [dir=back,arrowtail=empty,style=dashed];
+	c24470:p -> c24389:p [dir=back,arrowtail=empty,style=dashed];
 	//org.osmdroid.views.MapView implements org.osmdroid.views.util.constants.MapViewConstants
-	c23045:p -> c22981:p [dir=back,arrowtail=empty,style=dashed];
+	c24470:p -> c24405:p [dir=back,arrowtail=empty,style=dashed];
 	//org.osmdroid.views.Projection implements org.osmdroid.views.util.constants.MapViewConstants
-	c23045:p -> c23044:p [dir=back,arrowtail=empty,style=dashed];
+	c24470:p -> c24469:p [dir=back,arrowtail=empty,style=dashed];
 	//org.osmdroid.views.util.Mercator implements org.osmdroid.views.util.constants.MapViewConstants
-	c23045:p -> c23048:p [dir=back,arrowtail=empty,style=dashed];
+	c24470:p -> c24473:p [dir=back,arrowtail=empty,style=dashed];
 }
 

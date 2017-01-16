@@ -1,83 +1,87 @@
 <?xml version="1.0"?>
 <analysis xmlns="https://jeremylong.github.io/DependencyCheck/dependency-check.1.3.xsd">
     <scanInfo>
-        <engineVersion>1.4.3</engineVersion>
+        <engineVersion>1.4.4</engineVersion>
         <dataSource>
             <name>NVD CVE 2002</name>
-            <timestamp>16/12/2016 03:30:11</timestamp>
+            <timestamp>05/01/2017 03:11:17</timestamp>
         </dataSource>
         <dataSource>
             <name>NVD CVE 2003</name>
-            <timestamp>08/12/2016 03:31:14</timestamp>
+            <timestamp>03/01/2017 03:25:13</timestamp>
         </dataSource>
         <dataSource>
             <name>NVD CVE 2004</name>
-            <timestamp>16/12/2016 03:28:25</timestamp>
+            <timestamp>20/12/2016 03:20:02</timestamp>
         </dataSource>
         <dataSource>
             <name>NVD CVE 2005</name>
-            <timestamp>16/12/2016 03:27:34</timestamp>
+            <timestamp>03/01/2017 03:24:37</timestamp>
         </dataSource>
         <dataSource>
             <name>NVD CVE 2006</name>
-            <timestamp>16/12/2016 03:26:04</timestamp>
+            <timestamp>20/12/2016 03:17:07</timestamp>
         </dataSource>
         <dataSource>
             <name>NVD CVE 2007</name>
-            <timestamp>16/12/2016 03:23:42</timestamp>
+            <timestamp>07/01/2017 03:21:56</timestamp>
         </dataSource>
         <dataSource>
             <name>NVD CVE 2008</name>
-            <timestamp>16/12/2016 03:21:35</timestamp>
+            <timestamp>03/01/2017 03:22:49</timestamp>
         </dataSource>
         <dataSource>
             <name>NVD CVE 2009</name>
-            <timestamp>16/12/2016 03:18:56</timestamp>
+            <timestamp>07/01/2017 03:19:30</timestamp>
         </dataSource>
         <dataSource>
             <name>NVD CVE 2010</name>
-            <timestamp>16/12/2016 03:16:57</timestamp>
+            <timestamp>14/01/2017 03:06:55</timestamp>
         </dataSource>
         <dataSource>
             <name>NVD CVE 2011</name>
-            <timestamp>16/12/2016 03:14:22</timestamp>
+            <timestamp>07/01/2017 03:14:53</timestamp>
         </dataSource>
         <dataSource>
             <name>NVD CVE 2012</name>
-            <timestamp>16/12/2016 03:11:18</timestamp>
+            <timestamp>07/01/2017 03:11:40</timestamp>
         </dataSource>
         <dataSource>
             <name>NVD CVE 2013</name>
-            <timestamp>17/12/2016 03:07:49</timestamp>
+            <timestamp>07/01/2017 03:09:24</timestamp>
         </dataSource>
         <dataSource>
             <name>NVD CVE 2014</name>
-            <timestamp>16/12/2016 03:06:45</timestamp>
+            <timestamp>13/01/2017 03:07:05</timestamp>
         </dataSource>
         <dataSource>
             <name>NVD CVE 2015</name>
-            <timestamp>17/12/2016 03:05:04</timestamp>
+            <timestamp>14/01/2017 03:04:28</timestamp>
         </dataSource>
         <dataSource>
             <name>NVD CVE 2016</name>
-            <timestamp>18/12/2016 03:02:26</timestamp>
+            <timestamp>16/01/2017 03:02:28</timestamp>
+        </dataSource>
+        <dataSource>
+            <name>NVD CVE 2017</name>
+            <timestamp>16/01/2017 03:00:02</timestamp>
         </dataSource>
         <dataSource>
             <name>NVD CVE Checked</name>
-            <timestamp>28/12/2016 15:20:20</timestamp>
+            <timestamp>16/01/2017 12:03:25</timestamp>
         </dataSource>
         <dataSource>
             <name>NVD CVE Modified</name>
-            <timestamp>28/12/2016 14:02:56</timestamp>
+            <timestamp>16/01/2017 10:00:27</timestamp>
         </dataSource>
         <dataSource>
             <name>VersionCheckOn</name>
-            <timestamp>1480817979332</timestamp>
+            <timestamp>1483650148175</timestamp>
         </dataSource>
     </scanInfo>
     <projectInfo>
         <name>OSMMapTilePackager</name>
-        <reportDate>2016-12-28T15:21:10.115-0500</reportDate>
+        <reportDate>2017-01-16T12:04:13.687-0500</reportDate>
         <credits>This report contains data retrieved from the National Vulnerability Database: http://nvd.nist.gov</credits>
     </projectInfo>
     <dependencies>
@@ -219,21 +223,6 @@
             <sha1>fd32786786e2adb664d5ecc965da47629dca14ba</sha1>
             <description>Common codecs for Java Agent Development Framework</description>
             <license>LGPL: http://www.gnu.org/licenses/lgpl.html</license>
-            <relatedDependencies>
-                <relatedDependency>
-                    <filePath>C:\Users\Dad\.gradle\caches\modules-2\files-2.1\commons-codec\commons-codec\1.3\fd32786786e2adb664d5ecc965da47629dca14ba\commons-codec-1.3.jar</filePath>
-                    <sha1>fd32786786e2adb664d5ecc965da47629dca14ba</sha1>
-                    <md5>8e149c1053741c03736a52df83974dcc</md5>
-                    <identifier type="maven">
-                        <name>(commons-codec:commons-codec:1.3)</name>
-                        <url>http://search.maven.org/remotecontent?filepath=commons-codec/commons-codec/1.3/commons-codec-1.3.jar</url>
-                    </identifier>
-                    <identifier type="maven">
-                        <name>(net.sf.ingenias:common-codec:1.3)</name>
-                        <url>http://search.maven.org/remotecontent?filepath=net/sf/ingenias/common-codec/1.3/common-codec-1.3.jar</url>
-                    </identifier>
-                </relatedDependency>
-            </relatedDependencies>
             <evidenceCollected>
                 <evidence type="vendor" confidence="HIGH">
                     <source>central</source>
@@ -618,17 +607,6 @@ file comparators, endian transformation classes, and much more.
             <sha1>5043bfebc3db072ed80fbd362e7caf00e885d8ae</sha1>
             <description>Commons Logging is a thin adapter allowing configurable bridging to other,
     well known logging systems.</description>
-            <relatedDependencies>
-                <relatedDependency>
-                    <filePath>C:\Users\Dad\.gradle\caches\modules-2\files-2.1\commons-logging\commons-logging\1.1.1\5043bfebc3db072ed80fbd362e7caf00e885d8ae\commons-logging-1.1.1.jar</filePath>
-                    <sha1>5043bfebc3db072ed80fbd362e7caf00e885d8ae</sha1>
-                    <md5>ed448347fc0104034aa14c8189bf37de</md5>
-                    <identifier type="maven">
-                        <name>(commons-logging:commons-logging:1.1.1)</name>
-                        <url>http://search.maven.org/#search|ga|1|1%3A%225043bfebc3db072ed80fbd362e7caf00e885d8ae%22</url>
-                    </identifier>
-                </relatedDependency>
-            </relatedDependencies>
             <evidenceCollected>
                 <evidence type="vendor" confidence="HIGHEST">
                     <source>central</source>
@@ -2344,17 +2322,6 @@ file comparators, endian transformation classes, and much more.
    HttpComponents Client (base module)
   </description>
             <license>Apache License: ../LICENSE.txt</license>
-            <relatedDependencies>
-                <relatedDependency>
-                    <filePath>C:\Users\Dad\.gradle\caches\modules-2\files-2.1\org.apache.httpcomponents\httpclient\4.0.1\1d7d28fa738bdbfe4fbd895d9486308999bdf440\httpclient-4.0.1.jar</filePath>
-                    <sha1>1d7d28fa738bdbfe4fbd895d9486308999bdf440</sha1>
-                    <md5>9ca98774860101c06ca9010efd6224a1</md5>
-                    <identifier type="maven">
-                        <name>(org.apache.httpcomponents:httpclient:4.0.1)</name>
-                        <url>http://search.maven.org/#search|ga|1|1%3A%221d7d28fa738bdbfe4fbd895d9486308999bdf440%22</url>
-                    </identifier>
-                </relatedDependency>
-            </relatedDependencies>
             <evidenceCollected>
                 <evidence type="vendor" confidence="HIGHEST">
                     <source>central</source>
@@ -2599,6 +2566,11 @@ file comparators, endian transformation classes, and much more.
                             <name>https://h20566.www2.hpe.com/portal/site/hpsc/public/kb/docDisplay?docId=emr_na-c05103564</name>
                         </reference>
                         <reference>
+                            <source>CONFIRM</source>
+                            <url>https://h20566.www2.hpe.com/portal/site/hpsc/public/kb/docDisplay?docId=emr_na-c05363782</url>
+                            <name>https://h20566.www2.hpe.com/portal/site/hpsc/public/kb/docDisplay?docId=emr_na-c05363782</name>
+                        </reference>
+                        <reference>
                             <source>FULLDISC</source>
                             <url>http://seclists.org/fulldisclosure/2014/Aug/48</url>
                             <name>20140818 CVE-2014-3577: Apache HttpComponents client: Hostname verification susceptible to MITM attack</name>
@@ -2607,6 +2579,11 @@ file comparators, endian transformation classes, and much more.
                             <source>MISC</source>
                             <url>http://packetstormsecurity.com/files/127913/Apache-HttpComponents-Man-In-The-Middle.html</url>
                             <name>http://packetstormsecurity.com/files/127913/Apache-HttpComponents-Man-In-The-Middle.html</name>
+                        </reference>
+                        <reference>
+                            <source>OSVDB</source>
+                            <url>http://www.osvdb.org/110143</url>
+                            <name>110143</name>
                         </reference>
                         <reference>
                             <source>REDHAT</source>
@@ -2694,9 +2671,24 @@ file comparators, endian transformation classes, and much more.
                             <name>RHSA-2015:1177</name>
                         </reference>
                         <reference>
+                            <source>SECTRACK</source>
+                            <url>http://www.securitytracker.com/id/1030812</url>
+                            <name>1030812</name>
+                        </reference>
+                        <reference>
+                            <source>SECUNIA</source>
+                            <url>http://secunia.com/advisories/60466</url>
+                            <name>60466</name>
+                        </reference>
+                        <reference>
                             <source>UBUNTU</source>
                             <url>http://www.ubuntu.com/usn/USN-2769-1</url>
                             <name>USN-2769-1</name>
+                        </reference>
+                        <reference>
+                            <source>XF</source>
+                            <url>http://xforce.iss.net/xforce/xfdb/95327</url>
+                            <name>apache-cve20143577-spoofing(95327)</name>
                         </reference>
                     </references>
                     <vulnerableSoftware>
@@ -2849,17 +2841,6 @@ file comparators, endian transformation classes, and much more.
    HttpComponents Core (Java 1.3 compatible)
   </description>
             <license>Apache License: http://www.apache.org/licenses/LICENSE-2.0.html</license>
-            <relatedDependencies>
-                <relatedDependency>
-                    <filePath>C:\Users\Dad\.gradle\caches\modules-2\files-2.1\org.apache.httpcomponents\httpcore\4.0.1\e813b8722c387b22e1adccf7914729db09bcb4a9\httpcore-4.0.1.jar</filePath>
-                    <sha1>e813b8722c387b22e1adccf7914729db09bcb4a9</sha1>
-                    <md5>6c1963fd8ac0c40c004c9e892e0d7703</md5>
-                    <identifier type="maven">
-                        <name>(org.apache.httpcomponents:httpcore:4.0.1)</name>
-                        <url>http://search.maven.org/#search|ga|1|1%3A%22e813b8722c387b22e1adccf7914729db09bcb4a9%22</url>
-                    </identifier>
-                </relatedDependency>
-            </relatedDependencies>
             <evidenceCollected>
                 <evidence type="vendor" confidence="HIGHEST">
                     <source>central</source>
@@ -3008,17 +2989,6 @@ file comparators, endian transformation classes, and much more.
    HttpComponents HttpClient - MIME coded entities
   </description>
             <license>Apache License: ../LICENSE.txt</license>
-            <relatedDependencies>
-                <relatedDependency>
-                    <filePath>C:\Users\Dad\.gradle\caches\modules-2\files-2.1\org.apache.httpcomponents\httpmime\4.0.1\326bf4147f100e8a4fdd7f1867a87e969fb10812\httpmime-4.0.1.jar</filePath>
-                    <sha1>326bf4147f100e8a4fdd7f1867a87e969fb10812</sha1>
-                    <md5>f26585bcb89f16310cfebb8fb84e4a9b</md5>
-                    <identifier type="maven">
-                        <name>(org.apache.httpcomponents:httpmime:4.0.1)</name>
-                        <url>http://search.maven.org/#search|ga|1|1%3A%22326bf4147f100e8a4fdd7f1867a87e969fb10812%22</url>
-                    </identifier>
-                </relatedDependency>
-            </relatedDependencies>
             <evidenceCollected>
                 <evidence type="vendor" confidence="HIGHEST">
                     <source>central</source>
@@ -3263,6 +3233,11 @@ file comparators, endian transformation classes, and much more.
                             <name>https://h20566.www2.hpe.com/portal/site/hpsc/public/kb/docDisplay?docId=emr_na-c05103564</name>
                         </reference>
                         <reference>
+                            <source>CONFIRM</source>
+                            <url>https://h20566.www2.hpe.com/portal/site/hpsc/public/kb/docDisplay?docId=emr_na-c05363782</url>
+                            <name>https://h20566.www2.hpe.com/portal/site/hpsc/public/kb/docDisplay?docId=emr_na-c05363782</name>
+                        </reference>
+                        <reference>
                             <source>FULLDISC</source>
                             <url>http://seclists.org/fulldisclosure/2014/Aug/48</url>
                             <name>20140818 CVE-2014-3577: Apache HttpComponents client: Hostname verification susceptible to MITM attack</name>
@@ -3271,6 +3246,11 @@ file comparators, endian transformation classes, and much more.
                             <source>MISC</source>
                             <url>http://packetstormsecurity.com/files/127913/Apache-HttpComponents-Man-In-The-Middle.html</url>
                             <name>http://packetstormsecurity.com/files/127913/Apache-HttpComponents-Man-In-The-Middle.html</name>
+                        </reference>
+                        <reference>
+                            <source>OSVDB</source>
+                            <url>http://www.osvdb.org/110143</url>
+                            <name>110143</name>
                         </reference>
                         <reference>
                             <source>REDHAT</source>
@@ -3358,9 +3338,24 @@ file comparators, endian transformation classes, and much more.
                             <name>RHSA-2015:1177</name>
                         </reference>
                         <reference>
+                            <source>SECTRACK</source>
+                            <url>http://www.securitytracker.com/id/1030812</url>
+                            <name>1030812</name>
+                        </reference>
+                        <reference>
+                            <source>SECUNIA</source>
+                            <url>http://secunia.com/advisories/60466</url>
+                            <name>60466</name>
+                        </reference>
+                        <reference>
                             <source>UBUNTU</source>
                             <url>http://www.ubuntu.com/usn/USN-2769-1</url>
                             <name>USN-2769-1</name>
+                        </reference>
+                        <reference>
+                            <source>XF</source>
+                            <url>http://xforce.iss.net/xforce/xfdb/95327</url>
+                            <name>apache-cve20143577-spoofing(95327)</name>
                         </reference>
                     </references>
                     <vulnerableSoftware>
@@ -3511,17 +3506,6 @@ file comparators, endian transformation classes, and much more.
             <sha1>945007627e8d12275d755081a9e609c018e1210d</sha1>
             <description>Java stream based MIME message parser</description>
             <license>http://www.apache.org/licenses/LICENSE-2.0.html</license>
-            <relatedDependencies>
-                <relatedDependency>
-                    <filePath>C:\Users\Dad\.gradle\caches\modules-2\files-2.1\org.apache.james\apache-mime4j\0.6\945007627e8d12275d755081a9e609c018e1210d\apache-mime4j-0.6.jar</filePath>
-                    <sha1>945007627e8d12275d755081a9e609c018e1210d</sha1>
-                    <md5>e90fb1ab3f8145ad00def6359da22faf</md5>
-                    <identifier type="maven">
-                        <name>(org.apache.james:apache-mime4j:0.6)</name>
-                        <url>http://search.maven.org/#search|ga|1|1%3A%22945007627e8d12275d755081a9e609c018e1210d%22</url>
-                    </identifier>
-                </relatedDependency>
-            </relatedDependencies>
             <evidenceCollected>
                 <evidence type="vendor" confidence="HIGHEST">
                     <source>central</source>
@@ -4058,17 +4042,6 @@ file comparators, endian transformation classes, and much more.
             <md5>1a6796add6898d6a17923d35fc539fd6</md5>
             <sha1>7a3d67f00508d3881650579f7f228c61bfc1b196</sha1>
             <description>SQLite JDBC library</description>
-            <relatedDependencies>
-                <relatedDependency>
-                    <filePath>C:\Users\Dad\.gradle\caches\modules-2\files-2.1\org.xerial\sqlite-jdbc\3.7.2\7a3d67f00508d3881650579f7f228c61bfc1b196\sqlite-jdbc-3.7.2.jar</filePath>
-                    <sha1>7a3d67f00508d3881650579f7f228c61bfc1b196</sha1>
-                    <md5>1a6796add6898d6a17923d35fc539fd6</md5>
-                    <identifier type="maven">
-                        <name>(org.xerial:sqlite-jdbc:3.7.2)</name>
-                        <url>http://search.maven.org/#search|ga|1|1%3A%227a3d67f00508d3881650579f7f228c61bfc1b196%22</url>
-                    </identifier>
-                </relatedDependency>
-            </relatedDependencies>
             <evidenceCollected>
                 <evidence type="vendor" confidence="HIGHEST">
                     <source>central</source>
@@ -4394,6 +4367,11 @@ file comparators, endian transformation classes, and much more.
                             <name>APPLE-SA-2015-09-30-3</name>
                         </reference>
                         <reference>
+                            <source>BID</source>
+                            <url>http://www.securityfocus.com/bid/74228</url>
+                            <name>74228</name>
+                        </reference>
+                        <reference>
                             <source>CONFIRM</source>
                             <url>http://www.oracle.com/technetwork/topics/security/bulletinapr2016-2952098.html</url>
                             <name>http://www.oracle.com/technetwork/topics/security/bulletinapr2016-2952098.html</name>
@@ -4484,6 +4462,11 @@ file comparators, endian transformation classes, and much more.
                             <name>APPLE-SA-2015-09-30-3</name>
                         </reference>
                         <reference>
+                            <source>BID</source>
+                            <url>http://www.securityfocus.com/bid/74228</url>
+                            <name>74228</name>
+                        </reference>
+                        <reference>
                             <source>CONFIRM</source>
                             <url>http://www.oracle.com/technetwork/topics/security/bulletinapr2016-2952098.html</url>
                             <name>http://www.oracle.com/technetwork/topics/security/bulletinapr2016-2952098.html</name>
@@ -4567,6 +4550,11 @@ file comparators, endian transformation classes, and much more.
                             <name>APPLE-SA-2015-09-30-3</name>
                         </reference>
                         <reference>
+                            <source>BID</source>
+                            <url>http://www.securityfocus.com/bid/74228</url>
+                            <name>74228</name>
+                        </reference>
+                        <reference>
                             <source>CONFIRM</source>
                             <url>http://www.oracle.com/technetwork/topics/security/bulletinapr2016-2952098.html</url>
                             <name>http://www.oracle.com/technetwork/topics/security/bulletinapr2016-2952098.html</name>
@@ -4633,13 +4621,6 @@ file comparators, endian transformation classes, and much more.
             <filePath>C:\Users\Dad\.gradle\caches\modules-2\files-2.1\org.xerial\sqlite-jdbc\3.7.2\7a3d67f00508d3881650579f7f228c61bfc1b196\sqlite-jdbc-3.7.2.jar\native\Windows\amd64\sqlitejdbc.dll</filePath>
             <md5>e5b43485d986cfeca401f10e9268c85a</md5>
             <sha1>a7001eae35ab841e1deaf5db433c288bd73eaab3</sha1>
-            <relatedDependencies>
-                <relatedDependency>
-                    <filePath>C:\Users\Dad\.gradle\caches\modules-2\files-2.1\org.xerial\sqlite-jdbc\3.7.2\7a3d67f00508d3881650579f7f228c61bfc1b196\sqlite-jdbc-3.7.2.jar\native\Windows\amd64\sqlitejdbc.dll</filePath>
-                    <sha1>a7001eae35ab841e1deaf5db433c288bd73eaab3</sha1>
-                    <md5>e5b43485d986cfeca401f10e9268c85a</md5>
-                </relatedDependency>
-            </relatedDependencies>
             <evidenceCollected>
                 <evidence type="vendor" confidence="HIGH">
                     <source>file</source>
@@ -4658,13 +4639,6 @@ file comparators, endian transformation classes, and much more.
             <filePath>C:\Users\Dad\.gradle\caches\modules-2\files-2.1\org.xerial\sqlite-jdbc\3.7.2\7a3d67f00508d3881650579f7f228c61bfc1b196\sqlite-jdbc-3.7.2.jar\native\Windows\x86\sqlitejdbc.dll</filePath>
             <md5>33c89fd5d5d19227de0f5cd4a0d73722</md5>
             <sha1>7ec18d56f06c6b0191136c491737b64ecdcfda60</sha1>
-            <relatedDependencies>
-                <relatedDependency>
-                    <filePath>C:\Users\Dad\.gradle\caches\modules-2\files-2.1\org.xerial\sqlite-jdbc\3.7.2\7a3d67f00508d3881650579f7f228c61bfc1b196\sqlite-jdbc-3.7.2.jar\native\Windows\x86\sqlitejdbc.dll</filePath>
-                    <sha1>7ec18d56f06c6b0191136c491737b64ecdcfda60</sha1>
-                    <md5>33c89fd5d5d19227de0f5cd4a0d73722</md5>
-                </relatedDependency>
-            </relatedDependencies>
             <evidenceCollected>
                 <evidence type="vendor" confidence="HIGH">
                     <source>file</source>

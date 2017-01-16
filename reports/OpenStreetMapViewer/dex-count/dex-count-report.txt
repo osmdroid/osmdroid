@@ -1,42 +1,50 @@
-Processing .\OpenStreetMapViewer\build\outputs\apk\OpenStreetMapViewer-5.6.2-debug.apk
-Read in 18246 method IDs and 5752 field IDs
+Processing .\OpenStreetMapViewer\build\outputs\apk\OpenStreetMapViewer-5.6.3-debug.apk
+Read in 38647 method IDs and 20346 field IDs
 ----------------------------------
 Package details:
 (default) Methods 1 Fields 0
-android Methods 11214 Fields 2942
+android Methods 20509 Fields 8947
 	accessibilityservice Methods 6 Fields 0
-	animation Methods 17 Fields 0
-	app Methods 211 Fields 25
-	content Methods 199 Fields 22
-		pm Methods 14 Fields 21
-		res Methods 41 Fields 1
-	database Methods 37 Fields 0
-		sqlite Methods 11 Fields 0
-	graphics Methods 253 Fields 30
-		drawable Methods 61 Fields 0
-			shapes Methods 1 Fields 0
+	animation Methods 35 Fields 0
+	app Methods 283 Fields 26
+	content Methods 289 Fields 29
+		pm Methods 25 Fields 24
+		res Methods 95 Fields 5
+	database Methods 77 Fields 0
+		sqlite Methods 35 Fields 0
+	graphics Methods 381 Fields 56
+		drawable Methods 106 Fields 0
+			shapes Methods 2 Fields 0
 		pdf Methods 3 Fields 0
 	hardware Methods 22 Fields 2
 		display Methods 3 Fields 0
 		fingerprint Methods 11 Fields 0
 	location Methods 18 Fields 0
-	media Methods 180 Fields 3
+	media Methods 181 Fields 3
 		browse Methods 17 Fields 1
 		session Methods 87 Fields 0
-	net Methods 28 Fields 2
-	os Methods 168 Fields 15
+	net Methods 37 Fields 2
+	os Methods 186 Fields 15
 	preference Methods 1 Fields 0
 	print Methods 23 Fields 3
 		pdf Methods 5 Fields 0
 	provider Methods 10 Fields 0
 	speech Methods 6 Fields 0
 		tts Methods 6 Fields 0
-	support Methods 8964 Fields 2818
+	support Methods 17293 Fields 8760
 		annotation Methods 20 Fields 0
-		v4 Methods 8944 Fields 2818
+		design Methods 1755 Fields 2224
+			internal Methods 187 Fields 52
+			widget Methods 1553 Fields 608
+		graphics Methods 303 Fields 165
+			drawable Methods 303 Fields 165
+				animated Methods 1 Fields 6
+		v13 Methods 98 Fields 38
+			app Methods 97 Fields 32
+		v4 Methods 9019 Fields 2818
 			accessibilityservice Methods 41 Fields 13
 			animation Methods 62 Fields 17
-			app Methods 1628 Fields 770
+			app Methods 1632 Fields 770
 			content Methods 293 Fields 111
 				pm Methods 1 Fields 1
 				res Methods 20 Fields 0
@@ -46,8 +54,8 @@ android Methods 11214 Fields 2942
 			hardware Methods 85 Fields 16
 				display Methods 19 Fields 4
 				fingerprint Methods 66 Fields 12
-			internal Methods 11 Fields 9
-				view Methods 11 Fields 9
+			internal Methods 74 Fields 9
+				view Methods 74 Fields 9
 			media Methods 1463 Fields 609
 				session Methods 818 Fields 272
 			net Methods 64 Fields 5
@@ -61,22 +69,70 @@ android Methods 11214 Fields 2942
 			view Methods 2935 Fields 505
 				accessibility Methods 1116 Fields 112
 				animation Methods 29 Fields 8
-			widget Methods 1394 Fields 495
+			widget Methods 1402 Fields 495
+		v7 Methods 6098 Fields 3515
+			app Methods 968 Fields 378
+			appcompat Methods 15 Fields 1253
+			cardview Methods 8 Fields 42
+			graphics Methods 69 Fields 18
+				drawable Methods 69 Fields 18
+			recyclerview Methods 7 Fields 20
+			text Methods 3 Fields 1
+			transition Methods 2 Fields 2
+			util Methods 140 Fields 93
+			view Methods 744 Fields 268
+				menu Methods 588 Fields 191
+			widget Methods 4142 Fields 1440
+				helper Methods 150 Fields 89
+				util Methods 5 Fields 1
 	telephony Methods 1 Fields 0
-	text Methods 19 Fields 3
+	text Methods 60 Fields 8
 		format Methods 10 Fields 1
-		method Methods 2 Fields 0
+		method Methods 3 Fields 0
+		style Methods 2 Fields 0
 	transition Methods 17 Fields 0
-	util Methods 30 Fields 7
-	view Methods 733 Fields 8
-		accessibility Methods 211 Fields 0
-		animation Methods 33 Fields 0
+	util Methods 60 Fields 15
+	view Methods 915 Fields 18
+		accessibility Methods 215 Fields 0
+		animation Methods 36 Fields 0
+		inputmethod Methods 2 Fields 1
 	webkit Methods 4 Fields 0
-	widget Methods 267 Fields 4
+	widget Methods 604 Fields 10
+ar Methods 1002 Fields 549
+	com Methods 1002 Fields 549
+		hjg Methods 1002 Fields 549
+			pngj Methods 1002 Fields 549
+				chunks Methods 349 Fields 201
+				pixels Methods 150 Fields 129
 ch Methods 1 Fields 1
 	acra Methods 1 Fields 1
 		acra Methods 1 Fields 1
-com Methods 2745 Fields 846
+com Methods 5674 Fields 2262
+	caverock Methods 685 Fields 696
+		androidsvg Methods 685 Fields 696
+	google Methods 49 Fields 3
+		android Methods 46 Fields 3
+			gms Methods 46 Fields 3
+				maps Methods 46 Fields 3
+					model Methods 39 Fields 3
+		maps Methods 3 Fields 0
+			android Methods 3 Fields 0
+	j256 Methods 2195 Fields 717
+		ormlite Methods 2195 Fields 717
+			android Methods 222 Fields 129
+				apptools Methods 85 Fields 30
+				compat Methods 15 Fields 20
+			dao Methods 455 Fields 55
+			db Methods 128 Fields 6
+			field Methods 597 Fields 235
+				types Methods 341 Fields 53
+			logger Methods 119 Fields 34
+			misc Methods 37 Fields 9
+			stmt Methods 469 Fields 218
+				mapped Methods 77 Fields 57
+				query Methods 81 Fields 38
+			support Methods 98 Fields 8
+			table Methods 70 Fields 23
 	squareup Methods 2745 Fields 846
 		haha Methods 2314 Fields 565
 			guava Methods 1733 Fields 307
@@ -91,27 +147,82 @@ com Methods 2745 Fields 846
 			analyzer Methods 1 Fields 6
 			internal Methods 133 Fields 64
 			watcher Methods 1 Fields 6
-java Methods 815 Fields 28
-	io Methods 110 Fields 3
-	lang Methods 296 Fields 17
-		annotation Methods 0 Fields 11
-		ref Methods 7 Fields 0
-		reflect Methods 19 Fields 0
-	net Methods 23 Fields 0
-	nio Methods 17 Fields 2
+java Methods 1201 Fields 43
+	awt Methods 8 Fields 0
+		image Methods 8 Fields 0
+	io Methods 176 Fields 5
+	lang Methods 414 Fields 24
+		annotation Methods 1 Fields 11
+		ref Methods 10 Fields 0
+		reflect Methods 36 Fields 0
+	math Methods 5 Fields 0
+	net Methods 35 Fields 0
+	nio Methods 33 Fields 4
 		channels Methods 1 Fields 1
-	text Methods 9 Fields 0
-	util Methods 360 Fields 6
-		concurrent Methods 52 Fields 2
-			atomic Methods 19 Fields 0
-		logging Methods 1 Fields 0
-		zip Methods 7 Fields 0
-javax Methods 8 Fields 0
+		charset Methods 1 Fields 1
+	sql Methods 8 Fields 0
+	text Methods 24 Fields 0
+	util Methods 498 Fields 10
+		concurrent Methods 79 Fields 3
+			atomic Methods 24 Fields 0
+			locks Methods 7 Fields 0
+		logging Methods 6 Fields 3
+		regex Methods 5 Fields 0
+		zip Methods 37 Fields 0
+javax Methods 11 Fields 0
 	net Methods 8 Fields 0
 		ssl Methods 8 Fields 0
+	xml Methods 3 Fields 0
+		parsers Methods 3 Fields 0
+junit Methods 1 Fields 0
+	framework Methods 1 Fields 0
 microsoft Methods 15 Fields 7
 	mappoint Methods 15 Fields 7
-org Methods 3441 Fields 1928
+mil Methods 3101 Fields 2166
+	nga Methods 3101 Fields 2166
+		geopackage Methods 2545 Fields 1898
+			core Methods 163 Fields 83
+				contents Methods 66 Fields 36
+				srs Methods 97 Fields 47
+			db Methods 198 Fields 73
+				metadata Methods 116 Fields 49
+			extension Methods 327 Fields 98
+				index Methods 148 Fields 46
+				link Methods 69 Fields 14
+			factory Methods 166 Fields 18
+			features Methods 263 Fields 70
+				columns Methods 127 Fields 48
+				index Methods 67 Fields 16
+				user Methods 69 Fields 6
+			geom Methods 239 Fields 58
+				map Methods 212 Fields 50
+			io Methods 23 Fields 0
+			metadata Methods 74 Fields 61
+				reference Methods 43 Fields 25
+			projection Methods 43 Fields 24
+			property Methods 16 Fields 19
+			schema Methods 106 Fields 45
+				columns Methods 48 Fields 18
+				constraints Methods 50 Fields 25
+			tiles Methods 549 Fields 167
+				features Methods 101 Fields 44
+					custom Methods 18 Fields 7
+				matrix Methods 59 Fields 22
+				matrixset Methods 30 Fields 16
+				overlay Methods 107 Fields 24
+				retriever Methods 33 Fields 14
+				user Methods 119 Fields 18
+			user Methods 182 Fields 44
+			validate Methods 5 Fields 0
+		tiff Methods 314 Fields 214
+			compression Methods 28 Fields 7
+			io Methods 56 Fields 5
+			util Methods 5 Fields 56
+		wkb Methods 242 Fields 54
+			geom Methods 151 Fields 42
+			io Methods 52 Fields 8
+			util Methods 39 Fields 4
+org Methods 7125 Fields 6371
 	acra Methods 558 Fields 290
 		annotation Methods 43 Fields 0
 		collector Methods 82 Fields 65
@@ -122,13 +233,64 @@ org Methods 3441 Fields 1928
 		log Methods 38 Fields 0
 		sender Methods 31 Fields 15
 		util Methods 50 Fields 10
-	json Methods 10 Fields 0
+	json Methods 18 Fields 0
+	kxml2 Methods 251 Fields 156
+		io Methods 88 Fields 48
+		kdom Methods 56 Fields 20
+		wap Methods 107 Fields 88
+			syncml Methods 6 Fields 3
+			wml Methods 4 Fields 3
+			wv Methods 3 Fields 13
+	mapsforge Methods 2021 Fields 1193
+		core Methods 375 Fields 142
+			graphics Methods 169 Fields 57
+			mapelements Methods 25 Fields 27
+			model Methods 113 Fields 40
+			util Methods 68 Fields 18
+		map Methods 1646 Fields 1051
+			android Methods 377 Fields 149
+				graphics Methods 158 Fields 67
+				input Methods 72 Fields 41
+				rendertheme Methods 7 Fields 4
+				util Methods 77 Fields 9
+				view Methods 63 Fields 28
+			controller Methods 16 Fields 8
+			datastore Methods 48 Fields 23
+			layer Methods 519 Fields 255
+				cache Methods 103 Fields 25
+				debug Methods 13 Fields 8
+				download Methods 99 Fields 54
+					tilesource Methods 65 Fields 34
+				labels Methods 31 Fields 28
+				overlay Methods 56 Fields 29
+				queue Methods 28 Fields 15
+				renderer Methods 121 Fields 74
+				tilestore Methods 3 Fields 1
+			model Methods 129 Fields 55
+				common Methods 25 Fields 2
+			reader Methods 118 Fields 152
+				header Methods 34 Fields 85
+			rendertheme Methods 302 Fields 324
+				renderinstruction Methods 92 Fields 169
+				rule Methods 140 Fields 121
+			scalebar Methods 65 Fields 58
+			util Methods 34 Fields 11
+			view Methods 38 Fields 16
 	metalev Methods 58 Fields 74
 		multitouch Methods 58 Fields 74
 			controller Methods 58 Fields 74
-	osmdroid Methods 2815 Fields 1564
+	osgeo Methods 844 Fields 931
+		proj4j Methods 844 Fields 931
+			cmd Methods 9 Fields 8
+			datum Methods 39 Fields 80
+			io Methods 32 Fields 45
+			parser Methods 33 Fields 51
+			proj Methods 586 Fields 634
+			units Methods 31 Fields 56
+			util Methods 48 Fields 32
+	osmdroid Methods 3281 Fields 3700
 		api Methods 33 Fields 1
-		bugtestfragments Methods 104 Fields 49
+		bugtestfragments Methods 138 Fields 64
 		config Methods 88 Fields 21
 		constants Methods 0 Fields 7
 		debug Methods 96 Fields 30
@@ -136,42 +298,56 @@ org Methods 3441 Fields 1928
 			model Methods 11 Fields 5
 			util Methods 55 Fields 15
 		events Methods 23 Fields 12
+		gpkg Methods 34 Fields 120
+		intro Methods 58 Fields 18
 		library Methods 6 Fields 62
-		model Methods 13 Fields 3
-		samplefragments Methods 568 Fields 255
-			cache Methods 139 Fields 75
-			data Methods 127 Fields 62
-			events Methods 82 Fields 40
-			layouts Methods 11 Fields 5
-			location Methods 53 Fields 31
+		mapsforge Methods 33 Fields 76
+		model Methods 14 Fields 3
+		samplefragments Methods 794 Fields 370
+			cache Methods 144 Fields 77
+			data Methods 204 Fields 107
+				utils Methods 2 Fields 0
+			drawing Methods 16 Fields 17
+			events Methods 79 Fields 38
+			layouts Methods 86 Fields 32
+				pager Methods 13 Fields 2
+				rec Methods 20 Fields 11
+			location Methods 66 Fields 36
 			models Methods 23 Fields 3
-			pager Methods 32 Fields 10
-			tilesources Methods 54 Fields 18
+			tileproviders Methods 49 Fields 14
+			tilesources Methods 63 Fields 24
+			ui Methods 26 Fields 13
 		samples Methods 41 Fields 24
-		tileprovider Methods 559 Fields 253
-			cachemanager Methods 58 Fields 29
+		tileprovider Methods 594 Fields 291
+			cachemanager Methods 62 Fields 30
 			constants Methods 5 Fields 13
-			modules Methods 229 Fields 74
-			tilesource Methods 115 Fields 55
+			modules Methods 228 Fields 74
+			tilesource Methods 147 Fields 92
+				bing Methods 26 Fields 35
 			util Methods 33 Fields 26
 		util Methods 157 Fields 53
 			constants Methods 1 Fields 6
-		views Methods 1018 Fields 515
+		views Methods 1031 Fields 521
 			drawing Methods 9 Fields 7
-			overlay Methods 770 Fields 404
+			overlay Methods 780 Fields 411
 				compass Methods 39 Fields 22
 				gestures Methods 19 Fields 12
-				gridlines Methods 7 Fields 8
+				gridlines Methods 8 Fields 9
 				infowindow Methods 25 Fields 13
 				mylocation Methods 77 Fields 55
 				simplefastpoint Methods 80 Fields 51
-			util Methods 14 Fields 19
-				constants Methods 1 Fields 18
+			util Methods 14 Fields 18
+				constants Methods 1 Fields 17
+	xml Methods 13 Fields 0
+		sax Methods 13 Fields 0
+			ext Methods 1 Fields 0
+	xmlpull Methods 81 Fields 27
+		v1 Methods 81 Fields 27
 sun Methods 2 Fields 0
 	misc Methods 1 Fields 0
 	nio Methods 1 Fields 0
 		ch Methods 1 Fields 0
-Processed .\OpenStreetMapViewer\build\outputs\apk\OpenStreetMapViewer-5.6.2-debug.apk
-Read in 18246 method IDs and 5752 field IDs
+Processed .\OpenStreetMapViewer\build\outputs\apk\OpenStreetMapViewer-5.6.3-debug.apk
+Read in 38647 method IDs and 20346 field IDs
 ----------------------------------
 

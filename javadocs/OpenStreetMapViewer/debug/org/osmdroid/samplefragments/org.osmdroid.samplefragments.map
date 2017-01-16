@@ -1,12 +1,8 @@
 <map id="G" name="G">
-<area shape="rect" id="node1_0" href="./BaseSampleFragment.html" title="org.osmdroid.samplefragments.BaseSampleFragment" alt="" coords="82,17,230,42"/>
-<area shape="rect" id="node1" href="./BaseSampleFragment.html" title="&lt;TABLE&gt;" alt="" coords="71,5,241,53"/>
-<area shape="rect" id="node2_1" href="./BugReportingTest.html" title="org.osmdroid.samplefragments.BugReportingTest" alt="" coords="16,113,139,138"/>
-<area shape="rect" id="node2" href="./BugReportingTest.html" title="&lt;TABLE&gt;" alt="" coords="5,101,149,149"/>
-<area shape="rect" id="node5_2" href="./SampleTester.html" title="org.osmdroid.samplefragments.SampleTester" alt="" coords="185,113,285,138"/>
-<area shape="rect" id="node5" href="./SampleTester.html" title="&lt;TABLE&gt;" alt="" coords="174,101,295,149"/>
-<area shape="rect" id="node3_3" href="./FragmentSamples.html" title="org.osmdroid.samplefragments.FragmentSamples" alt="" coords="276,17,401,42"/>
-<area shape="rect" id="node3" href="./FragmentSamples.html" title="&lt;TABLE&gt;" alt="" coords="265,5,412,53"/>
-<area shape="rect" id="node4_4" href="./SampleFactory.html" title="org.osmdroid.samplefragments.SampleFactory" alt="" coords="447,17,555,42"/>
-<area shape="rect" id="node4" href="./SampleFactory.html" title="&lt;TABLE&gt;" alt="" coords="437,5,566,53"/>
+<area shape="rect" id="node1_0" href="./BaseSampleFragment.html" title="org.osmdroid.samplefragments.BaseSampleFragment" alt="" coords="16,17,164,42"/>
+<area shape="rect" id="node1" href="./BaseSampleFragment.html" title="&lt;TABLE&gt;" alt="" coords="5,5,175,53"/>
+<area shape="rect" id="node3_1" href="./SampleTester.html" title="org.osmdroid.samplefragments.SampleTester" alt="" coords="40,113,140,138"/>
+<area shape="rect" id="node3" href="./SampleTester.html" title="&lt;TABLE&gt;" alt="" coords="29,101,151,149"/>
+<area shape="rect" id="node2_2" href="./SampleFactory.html" title="org.osmdroid.samplefragments.SampleFactory" alt="" coords="209,17,317,42"/>
+<area shape="rect" id="node2" href="./SampleFactory.html" title="&lt;TABLE&gt;" alt="" coords="199,5,328,53"/>
 </map>

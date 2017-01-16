@@ -1,0 +1,12 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="./GeoPackageMapTileModuleProvider.html" title="org.osmdroid.gpkg.GeoPackageMapTileModuleProvider" alt="" coords="16,17,244,42"/>
+<area shape="rect" id="node1" href="./GeoPackageMapTileModuleProvider.html" title="&lt;TABLE&gt;" alt="" coords="5,5,255,53"/>
+<area shape="rect" id="node2_1" href="./GeoPackageMapTileModuleProvider.Container.html" title="org.osmdroid.gpkg.GeoPackageMapTileModuleProvider.Container" alt="" coords="290,17,365,42"/>
+<area shape="rect" id="node2" href="./GeoPackageMapTileModuleProvider.Container.html" title="&lt;TABLE&gt;" alt="" coords="279,5,375,53"/>
+<area shape="rect" id="node3_2" href="./GeoPackageMapTileModuleProvider.TileLoader.html" title="org.osmdroid.gpkg.GeoPackageMapTileModuleProvider.TileLoader" alt="" coords="411,17,489,42"/>
+<area shape="rect" id="node3" href="./GeoPackageMapTileModuleProvider.TileLoader.html" title="&lt;TABLE&gt;" alt="" coords="400,5,500,53"/>
+<area shape="rect" id="node4_3" href="./GeoPackageProvider.html" title="org.osmdroid.gpkg.GeoPackageProvider" alt="" coords="535,17,675,42"/>
+<area shape="rect" id="node4" href="./GeoPackageProvider.html" title="&lt;TABLE&gt;" alt="" coords="524,5,685,53"/>
+<area shape="rect" id="node5_4" href="./GeoPackageProvider.TileSourceBounds.html" title="org.osmdroid.gpkg.GeoPackageProvider.TileSourceBounds" alt="" coords="720,17,844,42"/>
+<area shape="rect" id="node5" href="./GeoPackageProvider.TileSourceBounds.html" title="&lt;TABLE&gt;" alt="" coords="709,5,855,53"/>
+</map>

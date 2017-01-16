@@ -1,0 +1,9 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="./CustomRecycler.ViewHolder.html" title="org.osmdroid.samplefragments.layouts.rec.CustomRecycler.ViewHolder" alt="" coords="111,113,195,138"/>
+<area shape="rect" id="node1" href="./CustomRecycler.ViewHolder.html" title="&lt;TABLE&gt;" alt="" coords="101,101,206,149"/>
+<area shape="rect" id="node2_1" href="./CustomRecycler.MapViewHolder.html" title="org.osmdroid.samplefragments.layouts.rec.CustomRecycler.MapViewHolder" alt="" coords="16,209,125,234"/>
+<area shape="rect" id="node2" href="./CustomRecycler.MapViewHolder.html" title="&lt;TABLE&gt;" alt="" coords="5,197,136,245"/>
+<area shape="rect" id="node3_2" href="./CustomRecycler.InfoDataViewHolder.html" title="org.osmdroid.samplefragments.layouts.rec.CustomRecycler.InfoDataViewHolder" alt="" coords="171,209,303,234"/>
+<area shape="rect" id="node3" href="./CustomRecycler.InfoDataViewHolder.html" title="&lt;TABLE&gt;" alt="" coords="161,197,314,245"/>
+<area shape="rect" id="node4_3" href="http://java.sun.com/j2se/1.4.2/docs/api/RecyclerView/ViewHolder.html" title="RecyclerView.ViewHolder" alt="" coords="69,17,237,42"/>
+</map>

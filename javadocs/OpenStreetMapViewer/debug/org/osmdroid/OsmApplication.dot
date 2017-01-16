@@ -10,15 +10,15 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.OsmApplication
-	c4486 [label=<<table title="org.osmdroid.OsmApplication" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./OsmApplication.html">
+	c10334 [label=<<table title="org.osmdroid.OsmApplication" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./OsmApplication.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> OsmApplication </td></tr>
 		</table></td></tr>
 		</table>>, URL="./OsmApplication.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.OsmApplication extends Application
-	c4549:p -> c4486:p [dir=back,arrowtail=empty];
+	c10426:p -> c10334:p [dir=back,arrowtail=empty];
 	// Application
-	c4549[label=<<table title="Application" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api//Application.html">
+	c10426[label=<<table title="Application" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api//Application.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> Application </td></tr>
 		</table></td></tr>

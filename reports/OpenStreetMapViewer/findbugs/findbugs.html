@@ -78,9 +78,9 @@
 <br/>
 </p>
 <h2>Metrics</h2>
-<p>5214 lines of code analyzed,
-	in 200 classes, 
-	in 20 packages.</p>
+<p>13490 lines of code analyzed,
+	in 341 classes, 
+	in 33 packages.</p>
 <table width="500" cellpadding="5" cellspacing="2">
 <tr class="tableheader">
 <th align="left">Metric</th>
@@ -90,7 +90,7 @@
 <tr class="tablerow0">
 <td>High Priority Warnings</td>
 <td align="right">5</td>
-<td align="right">0.96</td>
+<td align="right">0.37</td>
 </tr>
 <tr class="tablerow1">
 <td>Medium Priority Warnings</td>
@@ -105,7 +105,7 @@
 <b>5</b>
 </td>
 <td align="right">
-<b>0.96</b>
+<b>0.37</b>
 </td>
 </tr>
 </table>
@@ -183,7 +183,7 @@
 <th align="left">Code</th>
 <th align="left">Warning</th>
 </tr>
-<tr class="tablerow1" onclick="toggleRow('N65925');">
+<tr class="tablerow1" onclick="toggleRow('N66023');">
 <td>
 <span class="priority-1">DE</span>
 </td>
@@ -192,7 +192,7 @@
 <tr class="detailrow1">
 <td/>
 <td>
-<p id="N65925" style="display: none;">
+<p id="N66023" style="display: none;">
 <a href="#DE_MIGHT_IGNORE">Bug type DE_MIGHT_IGNORE (click for details)</a>
 <br/>In class org.osmdroid.samplefragments.location.SampleCustomIconDirectedLocationOverlay<br/>In method org.osmdroid.samplefragments.location.SampleCustomIconDirectedLocationOverlay.onResume()<br/>Exception class java.lang.Exception<br/>At SampleCustomIconDirectedLocationOverlay.java:[line 41]<br/>At SampleCustomIconDirectedLocationOverlay.java:[line 41]</p>
 </td>
@@ -206,7 +206,7 @@
 <th align="left">Code</th>
 <th align="left">Warning</th>
 </tr>
-<tr class="tablerow1" onclick="toggleRow('N65736');">
+<tr class="tablerow1" onclick="toggleRow('N65810');">
 <td>
 <span class="priority-1">Dm</span>
 </td>
@@ -215,9 +215,9 @@
 <tr class="detailrow1">
 <td/>
 <td>
-<p id="N65736" style="display: none;">
+<p id="N65810" style="display: none;">
 <a href="#DM_DEFAULT_ENCODING">Bug type DM_DEFAULT_ENCODING (click for details)</a>
-<br/>In class org.osmdroid.OsmApplication$ErrorFileWriter<br/>In method org.osmdroid.OsmApplication$ErrorFileWriter.send(Context, CrashReportData)<br/>Called method new java.io.FileWriter(File)<br/>At OsmApplication.java:[line 120]</p>
+<br/>In class org.osmdroid.OsmApplication$ErrorFileWriter<br/>In method org.osmdroid.OsmApplication$ErrorFileWriter.send(Context, CrashReportData)<br/>Called method new java.io.FileWriter(File)<br/>At OsmApplication.java:[line 158]</p>
 </td>
 </tr>
 </table>
@@ -229,7 +229,7 @@
 <th align="left">Code</th>
 <th align="left">Warning</th>
 </tr>
-<tr class="tablerow1" onclick="toggleRow('N65805');">
+<tr class="tablerow1" onclick="toggleRow('N65879');">
 <td>
 <span class="priority-1">ML</span>
 </td>
@@ -238,12 +238,12 @@
 <tr class="detailrow1">
 <td/>
 <td>
-<p id="N65805" style="display: none;">
+<p id="N65879" style="display: none;">
 <a href="#ML_SYNC_ON_FIELD_TO_GUARD_CHANGING_THAT_FIELD">Bug type ML_SYNC_ON_FIELD_TO_GUARD_CHANGING_THAT_FIELD (click for details)</a>
-<br/>In class org.osmdroid.bugtestfragments.WeathForceActivity<br/>In method org.osmdroid.bugtestfragments.WeathForceActivity.onOrientationChanged(float, IOrientationProvider)<br/>Field org.osmdroid.bugtestfragments.WeathForceActivity.trueNorth<br/>At WeathForceActivity.java:[line 212]</p>
+<br/>In class org.osmdroid.bugtestfragments.WeathForceActivity<br/>In method org.osmdroid.bugtestfragments.WeathForceActivity.onOrientationChanged(float, IOrientationProvider)<br/>Field org.osmdroid.bugtestfragments.WeathForceActivity.trueNorth<br/>At WeathForceActivity.java:[line 207]</p>
 </td>
 </tr>
-<tr class="tablerow0" onclick="toggleRow('N66003');">
+<tr class="tablerow0" onclick="toggleRow('N66101');">
 <td>
 <span class="priority-1">ML</span>
 </td>
@@ -252,7 +252,7 @@
 <tr class="detailrow0">
 <td/>
 <td>
-<p id="N66003" style="display: none;">
+<p id="N66101" style="display: none;">
 <a href="#ML_SYNC_ON_FIELD_TO_GUARD_CHANGING_THAT_FIELD">Bug type ML_SYNC_ON_FIELD_TO_GUARD_CHANGING_THAT_FIELD (click for details)</a>
 <br/>In class org.osmdroid.samplefragments.location.SampleHeadingCompassUp<br/>In method org.osmdroid.samplefragments.location.SampleHeadingCompassUp.onOrientationChanged(float, IOrientationProvider)<br/>Field org.osmdroid.samplefragments.location.SampleHeadingCompassUp.trueNorth<br/>At SampleHeadingCompassUp.java:[line 215]</p>
 </td>
@@ -266,18 +266,18 @@
 <th align="left">Code</th>
 <th align="left">Warning</th>
 </tr>
-<tr class="tablerow1" onclick="toggleRow('N65872');">
+<tr class="tablerow1" onclick="toggleRow('N65946');">
 <td>
-<span class="priority-1">Dm</span>
+<span class="priority-1">Bx</span>
 </td>
-<td>org.osmdroid.samplefragments.FragmentSamples.onResume() forces garbage collection; extremely dubious except in benchmarking code</td>
+<td>Boxing/unboxing to parse a primitive org.osmdroid.samplefragments.layouts.rec.CustomRecycler.getItemViewType(int)</td>
 </tr>
 <tr class="detailrow1">
 <td/>
 <td>
-<p id="N65872" style="display: none;">
-<a href="#DM_GC">Bug type DM_GC (click for details)</a>
-<br/>In class org.osmdroid.samplefragments.FragmentSamples<br/>In method org.osmdroid.samplefragments.FragmentSamples.onResume()<br/>At FragmentSamples.java:[line 93]</p>
+<p id="N65946" style="display: none;">
+<a href="#DM_BOXED_PRIMITIVE_FOR_PARSING">Bug type DM_BOXED_PRIMITIVE_FOR_PARSING (click for details)</a>
+<br/>In class org.osmdroid.samplefragments.layouts.rec.CustomRecycler<br/>In method org.osmdroid.samplefragments.layouts.rec.CustomRecycler.getItemViewType(int)<br/>Called method Integer.intValue()<br/>Should call Integer.parseInt(String) instead<br/>At CustomRecycler.java:[line 135]</p>
 </td>
 </tr>
 </table>
@@ -285,25 +285,20 @@
 <a name="Details">Details</a>
 </h1>
 <h2>
+<a name="DM_BOXED_PRIMITIVE_FOR_PARSING">DM_BOXED_PRIMITIVE_FOR_PARSING: Boxing/unboxing to parse a primitive</a>
+</h2>
+
+  <p>A boxed primitive is created from a String, just to extract the unboxed primitive value.
+  It is more efficient to just call the static parseXXX method.</p>
+
+    
+<h2>
 <a name="DE_MIGHT_IGNORE">DE_MIGHT_IGNORE: Method might ignore exception</a>
 </h2>
 
   <p> This method might ignore an exception.&nbsp; In general, exceptions
   should be handled or reported in some way, or they should be thrown
   out of the method.</p>
-
-    
-<h2>
-<a name="DM_GC">DM_GC: Explicit garbage collection; extremely dubious except in benchmarking code</a>
-</h2>
-
-  <p> Code explicitly invokes garbage collection.
-  Except for specific use in benchmarking, this is very dubious.</p>
-  <p>In the past, situations where people have explicitly invoked
-  the garbage collector in routines such as close or finalize methods
-  has led to huge performance black holes. Garbage collection
-   can be expensive. Any situation that forces hundreds or thousands
-   of garbage collections will bring the machine to a crawl.</p>
 
     
 <h2>

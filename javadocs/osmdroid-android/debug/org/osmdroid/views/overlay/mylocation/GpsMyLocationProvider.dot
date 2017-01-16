@@ -10,19 +10,19 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider
-	c10616 [label=<<table title="org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./GpsMyLocationProvider.html">
+	c11399 [label=<<table title="org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./GpsMyLocationProvider.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> GpsMyLocationProvider </td></tr>
 		</table></td></tr>
 		</table>>, URL="./GpsMyLocationProvider.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.mylocation.IMyLocationProvider
-	c10618 [label=<<table title="org.osmdroid.views.overlay.mylocation.IMyLocationProvider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./IMyLocationProvider.html">
+	c11401 [label=<<table title="org.osmdroid.views.overlay.mylocation.IMyLocationProvider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./IMyLocationProvider.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> IMyLocationProvider </td></tr>
 		</table></td></tr>
 		</table>>, URL="./IMyLocationProvider.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider implements org.osmdroid.views.overlay.mylocation.IMyLocationProvider
-	c10618:p -> c10616:p [dir=back,arrowtail=empty,style=dashed];
+	c11401:p -> c11399:p [dir=back,arrowtail=empty,style=dashed];
 }
 

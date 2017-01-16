@@ -1,0 +1,1241 @@
+<html><body><pre>
+------------------------------------------------------------
+Project :osmdroid-server-jdk - OpenStreetMaps Tile Server (JRE)
+------------------------------------------------------------
+
+archives - Configuration for archive artifacts.
+No dependencies
+
+checkstyle - The Checkstyle libraries to be used for this project.
+\--- com.puppycrawl.tools:checkstyle:5.9
+     +--- antlr:antlr:2.7.7
+     +--- commons-beanutils:commons-beanutils-core:1.8.3
+     +--- commons-cli:commons-cli:1.2
+     \--- com.google.guava:guava-jdk5:14.0.1
+
+compile - Dependencies for source set 'main'.
++--- javax.servlet:servlet-api:2.5
++--- commons-configuration:commons-configuration:1.9
+|    +--- commons-lang:commons-lang:2.6
+|    \--- commons-logging:commons-logging:1.1.1
++--- org.apache.commons:commons-lang3:3.1
++--- commons-collections:commons-collections:3.2
++--- org.apache.cxf:cxf-bundle-jaxrs:2.7.5
+|    +--- org.codehaus.woodstox:woodstox-core-asl:4.2.0
+|    |    \--- org.codehaus.woodstox:stax2-api:3.1.1
+|    +--- org.codehaus.woodstox:stax2-api:3.1.1
+|    +--- org.apache.ws.xmlschema:xmlschema-core:2.0.3
+|    +--- org.apache.geronimo.specs:geronimo-javamail_1.4_spec:1.7.1
+|    +--- wsdl4j:wsdl4j:1.6.3
+|    +--- com.sun.xml.bind:jaxb-impl:2.1.13
+|    +--- org.eclipse.jetty:jetty-server:8.1.7.v20120910
+|    |    +--- org.eclipse.jetty.orbit:javax.servlet:3.0.0.v201112011016
+|    |    +--- org.eclipse.jetty:jetty-continuation:8.1.7.v20120910
+|    |    \--- org.eclipse.jetty:jetty-http:8.1.7.v20120910
+|    |         \--- org.eclipse.jetty:jetty-io:8.1.7.v20120910
+|    |              \--- org.eclipse.jetty:jetty-util:8.1.7.v20120910
+|    +--- org.eclipse.jetty:jetty-continuation:8.1.7.v20120910
+|    +--- org.eclipse.jetty:jetty-http:8.1.7.v20120910 (*)
+|    +--- org.eclipse.jetty:jetty-io:8.1.7.v20120910 (*)
+|    +--- org.eclipse.jetty:jetty-util:8.1.7.v20120910
+|    +--- org.eclipse.jetty:jetty-security:8.1.7.v20120910
+|    |    \--- org.eclipse.jetty:jetty-server:8.1.7.v20120910 (*)
+|    +--- org.slf4j:slf4j-api:1.7.5 -&gt; 1.7.10
+|    +--- org.apache.geronimo.specs:geronimo-servlet_3.0_spec:1.0
+|    \--- javax.ws.rs:javax.ws.rs-api:2.0-m10
++--- org.springframework:spring-test:3.2.2.RELEASE
+|    \--- org.springframework:spring-core:3.2.2.RELEASE
+|         \--- commons-logging:commons-logging:1.1.1
++--- org.springframework:spring-context:3.2.2.RELEASE
+|    +--- org.springframework:spring-aop:3.2.2.RELEASE
+|    |    +--- aopalliance:aopalliance:1.0
+|    |    +--- org.springframework:spring-beans:3.2.2.RELEASE
+|    |    |    \--- org.springframework:spring-core:3.2.2.RELEASE (*)
+|    |    \--- org.springframework:spring-core:3.2.2.RELEASE (*)
+|    +--- org.springframework:spring-beans:3.2.2.RELEASE (*)
+|    +--- org.springframework:spring-core:3.2.2.RELEASE (*)
+|    \--- org.springframework:spring-expression:3.2.2.RELEASE
+|         \--- org.springframework:spring-core:3.2.2.RELEASE (*)
++--- commons-codec:commons-codec:1.3
++--- org.apache.cxf:cxf-rt-rs-extension-providers:2.7.5
+|    +--- org.apache.cxf:cxf-api:2.7.5 -&gt; 2.7.6
+|    |    +--- org.codehaus.woodstox:woodstox-core-asl:4.2.0 (*)
+|    |    +--- org.apache.ws.xmlschema:xmlschema-core:2.0.3
+|    |    +--- org.apache.geronimo.specs:geronimo-javamail_1.4_spec:1.7.1
+|    |    \--- wsdl4j:wsdl4j:1.6.3
+|    +--- org.apache.cxf:cxf-rt-core:2.7.5 -&gt; 2.7.6
+|    |    +--- org.apache.cxf:cxf-api:2.7.6 (*)
+|    |    +--- com.sun.xml.bind:jaxb-impl:2.1.13
+|    |    +--- org.apache.ws.xmlschema:xmlschema-core:2.0.3
+|    |    \--- org.apache.geronimo.specs:geronimo-javamail_1.4_spec:1.7.1
+|    \--- org.apache.cxf:cxf-rt-frontend-jaxrs:2.7.5
+|         +--- org.apache.cxf:cxf-api:2.7.5 -&gt; 2.7.6 (*)
+|         +--- org.apache.cxf:cxf-rt-core:2.7.5 -&gt; 2.7.6 (*)
+|         +--- javax.ws.rs:javax.ws.rs-api:2.0-m10
+|         +--- org.apache.cxf:cxf-rt-bindings-xml:2.7.5
+|         |    \--- org.apache.cxf:cxf-api:2.7.5 -&gt; 2.7.6 (*)
+|         \--- org.apache.cxf:cxf-rt-transports-http:2.7.5 -&gt; 2.7.6
+|              +--- org.apache.cxf:cxf-api:2.7.6 (*)
+|              \--- org.apache.cxf:cxf-rt-core:2.7.6 (*)
++--- org.xerial:sqlite-jdbc:3.8.7
++--- javax.servlet.jsp:jsp-api:2.1
++--- org.glassfish.jersey.containers:jersey-container-servlet:2.5.1
+|    +--- org.glassfish.jersey.containers:jersey-container-servlet-core:2.5.1
+|    |    +--- org.glassfish.hk2.external:javax.inject:2.2.0-b21
+|    |    +--- org.glassfish.jersey.core:jersey-server:2.5.1
+|    |    |    +--- org.glassfish.jersey.core:jersey-common:2.5.1
+|    |    |    |    +--- javax.ws.rs:javax.ws.rs-api:2.0 -&gt; 2.0-m10
+|    |    |    |    +--- javax.annotation:javax.annotation-api:1.2
+|    |    |    |    +--- com.google.guava:guava:14.0.1
+|    |    |    |    +--- org.glassfish.hk2:hk2-api:2.2.0-b21
+|    |    |    |    |    +--- javax.inject:javax.inject:1
+|    |    |    |    |    \--- org.glassfish.hk2:hk2-utils:2.2.0-b21
+|    |    |    |    |         \--- javax.inject:javax.inject:1
+|    |    |    |    +--- org.glassfish.hk2.external:javax.inject:2.2.0-b21
+|    |    |    |    +--- org.glassfish.hk2:hk2-locator:2.2.0-b21
+|    |    |    |    |    +--- org.glassfish.hk2.external:javax.inject:2.2.0-b21
+|    |    |    |    |    +--- org.glassfish.hk2.external:asm-all-repackaged:2.2.0-b21
+|    |    |    |    |    +--- org.glassfish.hk2:hk2-api:2.2.0-b21 (*)
+|    |    |    |    |    +--- org.glassfish.hk2:hk2-utils:2.2.0-b21 (*)
+|    |    |    |    |    \--- org.glassfish.hk2.external:cglib:2.2.0-b21
+|    |    |    |    \--- org.glassfish.hk2:osgi-resource-locator:1.0.1
+|    |    |    +--- org.glassfish.jersey.core:jersey-client:2.5.1
+|    |    |    |    +--- org.glassfish.jersey.core:jersey-common:2.5.1 (*)
+|    |    |    |    +--- javax.ws.rs:javax.ws.rs-api:2.0 -&gt; 2.0-m10
+|    |    |    |    +--- com.google.guava:guava:14.0.1
+|    |    |    |    +--- org.glassfish.hk2:hk2-api:2.2.0-b21 (*)
+|    |    |    |    +--- org.glassfish.hk2.external:javax.inject:2.2.0-b21
+|    |    |    |    \--- org.glassfish.hk2:hk2-locator:2.2.0-b21 (*)
+|    |    |    +--- javax.ws.rs:javax.ws.rs-api:2.0 -&gt; 2.0-m10
+|    |    |    +--- com.google.guava:guava:14.0.1
+|    |    |    +--- org.glassfish.hk2:hk2-api:2.2.0-b21 (*)
+|    |    |    +--- org.glassfish.hk2.external:javax.inject:2.2.0-b21
+|    |    |    +--- org.glassfish.hk2:hk2-locator:2.2.0-b21 (*)
+|    |    |    \--- javax.validation:validation-api:1.1.0.Final
+|    |    +--- org.glassfish.jersey.core:jersey-common:2.5.1 (*)
+|    |    \--- javax.ws.rs:javax.ws.rs-api:2.0 -&gt; 2.0-m10
+|    +--- org.glassfish.jersey.core:jersey-common:2.5.1 (*)
+|    +--- org.glassfish.jersey.core:jersey-server:2.5.1 (*)
+|    \--- javax.ws.rs:javax.ws.rs-api:2.0 -&gt; 2.0-m10
++--- org.glassfish.jersey.core:jersey-client:2.5.1 (*)
++--- org.glassfish.jersey.media:jersey-media-moxy:2.5.1
+|    +--- org.glassfish.jersey.core:jersey-common:2.5.1 (*)
+|    +--- org.glassfish.jersey.ext:jersey-entity-filtering:2.5.1
+|    |    \--- javax.ws.rs:javax.ws.rs-api:2.0 -&gt; 2.0-m10
+|    +--- org.eclipse.persistence:org.eclipse.persistence.moxy:2.5.0
+|    |    +--- org.eclipse.persistence:org.eclipse.persistence.core:2.5.0
+|    |    |    \--- org.eclipse.persistence:org.eclipse.persistence.asm:2.5.0
+|    |    \--- org.eclipse.persistence:org.eclipse.persistence.antlr:2.5.0
+|    \--- org.eclipse.persistence:org.eclipse.persistence.antlr:2.5.0
++--- org.apache.cxf:cxf-rt-transports-http-jetty:2.7.6
+|    +--- org.apache.cxf:cxf-api:2.7.6 (*)
+|    +--- org.apache.cxf:cxf-rt-transports-http:2.7.6 (*)
+|    +--- org.apache.cxf:cxf-rt-core:2.7.6 (*)
+|    +--- org.eclipse.jetty:jetty-server:8.1.7.v20120910 (*)
+|    +--- org.eclipse.jetty:jetty-security:8.1.7.v20120910 (*)
+|    +--- org.slf4j:slf4j-api:1.7.5 -&gt; 1.7.10
+|    \--- org.apache.geronimo.specs:geronimo-servlet_3.0_spec:1.0
++--- org.slf4j:slf4j-jdk14:1.7.10
+|    \--- org.slf4j:slf4j-api:1.7.10
++--- org.codehaus.jettison:jettison:1.3.4
+|    \--- stax:stax-api:1.0.1
+\--- com.fasterxml.jackson.core:jackson-databind:2.5.1
+     +--- com.fasterxml.jackson.core:jackson-annotations:2.5.0
+     \--- com.fasterxml.jackson.core:jackson-core:2.5.1
+
+compileClasspath - Compile classpath for source set 'main'.
++--- javax.servlet:servlet-api:2.5
++--- commons-configuration:commons-configuration:1.9
+|    +--- commons-lang:commons-lang:2.6
+|    \--- commons-logging:commons-logging:1.1.1
++--- org.apache.commons:commons-lang3:3.1
++--- commons-collections:commons-collections:3.2
++--- org.apache.cxf:cxf-bundle-jaxrs:2.7.5
+|    +--- org.codehaus.woodstox:woodstox-core-asl:4.2.0
+|    |    \--- org.codehaus.woodstox:stax2-api:3.1.1
+|    +--- org.codehaus.woodstox:stax2-api:3.1.1
+|    +--- org.apache.ws.xmlschema:xmlschema-core:2.0.3
+|    +--- org.apache.geronimo.specs:geronimo-javamail_1.4_spec:1.7.1
+|    +--- wsdl4j:wsdl4j:1.6.3
+|    +--- com.sun.xml.bind:jaxb-impl:2.1.13
+|    +--- org.eclipse.jetty:jetty-server:8.1.7.v20120910
+|    |    +--- org.eclipse.jetty.orbit:javax.servlet:3.0.0.v201112011016
+|    |    +--- org.eclipse.jetty:jetty-continuation:8.1.7.v20120910
+|    |    \--- org.eclipse.jetty:jetty-http:8.1.7.v20120910
+|    |         \--- org.eclipse.jetty:jetty-io:8.1.7.v20120910
+|    |              \--- org.eclipse.jetty:jetty-util:8.1.7.v20120910
+|    +--- org.eclipse.jetty:jetty-continuation:8.1.7.v20120910
+|    +--- org.eclipse.jetty:jetty-http:8.1.7.v20120910 (*)
+|    +--- org.eclipse.jetty:jetty-io:8.1.7.v20120910 (*)
+|    +--- org.eclipse.jetty:jetty-util:8.1.7.v20120910
+|    +--- org.eclipse.jetty:jetty-security:8.1.7.v20120910
+|    |    \--- org.eclipse.jetty:jetty-server:8.1.7.v20120910 (*)
+|    +--- org.slf4j:slf4j-api:1.7.5 -&gt; 1.7.10
+|    +--- org.apache.geronimo.specs:geronimo-servlet_3.0_spec:1.0
+|    \--- javax.ws.rs:javax.ws.rs-api:2.0-m10
++--- org.springframework:spring-test:3.2.2.RELEASE
+|    \--- org.springframework:spring-core:3.2.2.RELEASE
+|         \--- commons-logging:commons-logging:1.1.1
++--- org.springframework:spring-context:3.2.2.RELEASE
+|    +--- org.springframework:spring-aop:3.2.2.RELEASE
+|    |    +--- aopalliance:aopalliance:1.0
+|    |    +--- org.springframework:spring-beans:3.2.2.RELEASE
+|    |    |    \--- org.springframework:spring-core:3.2.2.RELEASE (*)
+|    |    \--- org.springframework:spring-core:3.2.2.RELEASE (*)
+|    +--- org.springframework:spring-beans:3.2.2.RELEASE (*)
+|    +--- org.springframework:spring-core:3.2.2.RELEASE (*)
+|    \--- org.springframework:spring-expression:3.2.2.RELEASE
+|         \--- org.springframework:spring-core:3.2.2.RELEASE (*)
++--- commons-codec:commons-codec:1.3
++--- org.apache.cxf:cxf-rt-rs-extension-providers:2.7.5
+|    +--- org.apache.cxf:cxf-api:2.7.5 -&gt; 2.7.6
+|    |    +--- org.codehaus.woodstox:woodstox-core-asl:4.2.0 (*)
+|    |    +--- org.apache.ws.xmlschema:xmlschema-core:2.0.3
+|    |    +--- org.apache.geronimo.specs:geronimo-javamail_1.4_spec:1.7.1
+|    |    \--- wsdl4j:wsdl4j:1.6.3
+|    +--- org.apache.cxf:cxf-rt-core:2.7.5 -&gt; 2.7.6
+|    |    +--- org.apache.cxf:cxf-api:2.7.6 (*)
+|    |    +--- com.sun.xml.bind:jaxb-impl:2.1.13
+|    |    +--- org.apache.ws.xmlschema:xmlschema-core:2.0.3
+|    |    \--- org.apache.geronimo.specs:geronimo-javamail_1.4_spec:1.7.1
+|    \--- org.apache.cxf:cxf-rt-frontend-jaxrs:2.7.5
+|         +--- org.apache.cxf:cxf-api:2.7.5 -&gt; 2.7.6 (*)
+|         +--- org.apache.cxf:cxf-rt-core:2.7.5 -&gt; 2.7.6 (*)
+|         +--- javax.ws.rs:javax.ws.rs-api:2.0-m10
+|         +--- org.apache.cxf:cxf-rt-bindings-xml:2.7.5
+|         |    \--- org.apache.cxf:cxf-api:2.7.5 -&gt; 2.7.6 (*)
+|         \--- org.apache.cxf:cxf-rt-transports-http:2.7.5 -&gt; 2.7.6
+|              +--- org.apache.cxf:cxf-api:2.7.6 (*)
+|              \--- org.apache.cxf:cxf-rt-core:2.7.6 (*)
++--- org.xerial:sqlite-jdbc:3.8.7
++--- javax.servlet.jsp:jsp-api:2.1
++--- org.glassfish.jersey.containers:jersey-container-servlet:2.5.1
+|    +--- org.glassfish.jersey.containers:jersey-container-servlet-core:2.5.1
+|    |    +--- org.glassfish.hk2.external:javax.inject:2.2.0-b21
+|    |    +--- org.glassfish.jersey.core:jersey-server:2.5.1
+|    |    |    +--- org.glassfish.jersey.core:jersey-common:2.5.1
+|    |    |    |    +--- javax.ws.rs:javax.ws.rs-api:2.0 -&gt; 2.0-m10
+|    |    |    |    +--- javax.annotation:javax.annotation-api:1.2
+|    |    |    |    +--- com.google.guava:guava:14.0.1
+|    |    |    |    +--- org.glassfish.hk2:hk2-api:2.2.0-b21
+|    |    |    |    |    +--- javax.inject:javax.inject:1
+|    |    |    |    |    \--- org.glassfish.hk2:hk2-utils:2.2.0-b21
+|    |    |    |    |         \--- javax.inject:javax.inject:1
+|    |    |    |    +--- org.glassfish.hk2.external:javax.inject:2.2.0-b21
+|    |    |    |    +--- org.glassfish.hk2:hk2-locator:2.2.0-b21
+|    |    |    |    |    +--- org.glassfish.hk2.external:javax.inject:2.2.0-b21
+|    |    |    |    |    +--- org.glassfish.hk2.external:asm-all-repackaged:2.2.0-b21
+|    |    |    |    |    +--- org.glassfish.hk2:hk2-api:2.2.0-b21 (*)
+|    |    |    |    |    +--- org.glassfish.hk2:hk2-utils:2.2.0-b21 (*)
+|    |    |    |    |    \--- org.glassfish.hk2.external:cglib:2.2.0-b21
+|    |    |    |    \--- org.glassfish.hk2:osgi-resource-locator:1.0.1
+|    |    |    +--- org.glassfish.jersey.core:jersey-client:2.5.1
+|    |    |    |    +--- org.glassfish.jersey.core:jersey-common:2.5.1 (*)
+|    |    |    |    +--- javax.ws.rs:javax.ws.rs-api:2.0 -&gt; 2.0-m10
+|    |    |    |    +--- com.google.guava:guava:14.0.1
+|    |    |    |    +--- org.glassfish.hk2:hk2-api:2.2.0-b21 (*)
+|    |    |    |    +--- org.glassfish.hk2.external:javax.inject:2.2.0-b21
+|    |    |    |    \--- org.glassfish.hk2:hk2-locator:2.2.0-b21 (*)
+|    |    |    +--- javax.ws.rs:javax.ws.rs-api:2.0 -&gt; 2.0-m10
+|    |    |    +--- com.google.guava:guava:14.0.1
+|    |    |    +--- org.glassfish.hk2:hk2-api:2.2.0-b21 (*)
+|    |    |    +--- org.glassfish.hk2.external:javax.inject:2.2.0-b21
+|    |    |    +--- org.glassfish.hk2:hk2-locator:2.2.0-b21 (*)
+|    |    |    \--- javax.validation:validation-api:1.1.0.Final
+|    |    +--- org.glassfish.jersey.core:jersey-common:2.5.1 (*)
+|    |    \--- javax.ws.rs:javax.ws.rs-api:2.0 -&gt; 2.0-m10
+|    +--- org.glassfish.jersey.core:jersey-common:2.5.1 (*)
+|    +--- org.glassfish.jersey.core:jersey-server:2.5.1 (*)
+|    \--- javax.ws.rs:javax.ws.rs-api:2.0 -&gt; 2.0-m10
++--- org.glassfish.jersey.core:jersey-client:2.5.1 (*)
++--- org.glassfish.jersey.media:jersey-media-moxy:2.5.1
+|    +--- org.glassfish.jersey.core:jersey-common:2.5.1 (*)
+|    +--- org.glassfish.jersey.ext:jersey-entity-filtering:2.5.1
+|    |    \--- javax.ws.rs:javax.ws.rs-api:2.0 -&gt; 2.0-m10
+|    +--- org.eclipse.persistence:org.eclipse.persistence.moxy:2.5.0
+|    |    +--- org.eclipse.persistence:org.eclipse.persistence.core:2.5.0
+|    |    |    \--- org.eclipse.persistence:org.eclipse.persistence.asm:2.5.0
+|    |    \--- org.eclipse.persistence:org.eclipse.persistence.antlr:2.5.0
+|    \--- org.eclipse.persistence:org.eclipse.persistence.antlr:2.5.0
++--- org.apache.cxf:cxf-rt-transports-http-jetty:2.7.6
+|    +--- org.apache.cxf:cxf-api:2.7.6 (*)
+|    +--- org.apache.cxf:cxf-rt-transports-http:2.7.6 (*)
+|    +--- org.apache.cxf:cxf-rt-core:2.7.6 (*)
+|    +--- org.eclipse.jetty:jetty-server:8.1.7.v20120910 (*)
+|    +--- org.eclipse.jetty:jetty-security:8.1.7.v20120910 (*)
+|    +--- org.slf4j:slf4j-api:1.7.5 -&gt; 1.7.10
+|    \--- org.apache.geronimo.specs:geronimo-servlet_3.0_spec:1.0
++--- org.slf4j:slf4j-jdk14:1.7.10
+|    \--- org.slf4j:slf4j-api:1.7.10
++--- org.codehaus.jettison:jettison:1.3.4
+|    \--- stax:stax-api:1.0.1
+\--- com.fasterxml.jackson.core:jackson-databind:2.5.1
+     +--- com.fasterxml.jackson.core:jackson-annotations:2.5.0
+     \--- com.fasterxml.jackson.core:jackson-core:2.5.1
+
+compileOnly - Compile dependencies for source set 'main'.
++--- javax.servlet:servlet-api:2.5
++--- commons-configuration:commons-configuration:1.9
+|    +--- commons-lang:commons-lang:2.6
+|    \--- commons-logging:commons-logging:1.1.1
++--- org.apache.commons:commons-lang3:3.1
++--- commons-collections:commons-collections:3.2
++--- org.apache.cxf:cxf-bundle-jaxrs:2.7.5
+|    +--- org.codehaus.woodstox:woodstox-core-asl:4.2.0
+|    |    \--- org.codehaus.woodstox:stax2-api:3.1.1
+|    +--- org.codehaus.woodstox:stax2-api:3.1.1
+|    +--- org.apache.ws.xmlschema:xmlschema-core:2.0.3
+|    +--- org.apache.geronimo.specs:geronimo-javamail_1.4_spec:1.7.1
+|    +--- wsdl4j:wsdl4j:1.6.3
+|    +--- com.sun.xml.bind:jaxb-impl:2.1.13
+|    +--- org.eclipse.jetty:jetty-server:8.1.7.v20120910
+|    |    +--- org.eclipse.jetty.orbit:javax.servlet:3.0.0.v201112011016
+|    |    +--- org.eclipse.jetty:jetty-continuation:8.1.7.v20120910
+|    |    \--- org.eclipse.jetty:jetty-http:8.1.7.v20120910
+|    |         \--- org.eclipse.jetty:jetty-io:8.1.7.v20120910
+|    |              \--- org.eclipse.jetty:jetty-util:8.1.7.v20120910
+|    +--- org.eclipse.jetty:jetty-continuation:8.1.7.v20120910
+|    +--- org.eclipse.jetty:jetty-http:8.1.7.v20120910 (*)
+|    +--- org.eclipse.jetty:jetty-io:8.1.7.v20120910 (*)
+|    +--- org.eclipse.jetty:jetty-util:8.1.7.v20120910
+|    +--- org.eclipse.jetty:jetty-security:8.1.7.v20120910
+|    |    \--- org.eclipse.jetty:jetty-server:8.1.7.v20120910 (*)
+|    +--- org.slf4j:slf4j-api:1.7.5 -&gt; 1.7.10
+|    +--- org.apache.geronimo.specs:geronimo-servlet_3.0_spec:1.0
+|    \--- javax.ws.rs:javax.ws.rs-api:2.0-m10
++--- org.springframework:spring-test:3.2.2.RELEASE
+|    \--- org.springframework:spring-core:3.2.2.RELEASE
+|         \--- commons-logging:commons-logging:1.1.1
++--- org.springframework:spring-context:3.2.2.RELEASE
+|    +--- org.springframework:spring-aop:3.2.2.RELEASE
+|    |    +--- aopalliance:aopalliance:1.0
+|    |    +--- org.springframework:spring-beans:3.2.2.RELEASE
+|    |    |    \--- org.springframework:spring-core:3.2.2.RELEASE (*)
+|    |    \--- org.springframework:spring-core:3.2.2.RELEASE (*)
+|    +--- org.springframework:spring-beans:3.2.2.RELEASE (*)
+|    +--- org.springframework:spring-core:3.2.2.RELEASE (*)
+|    \--- org.springframework:spring-expression:3.2.2.RELEASE
+|         \--- org.springframework:spring-core:3.2.2.RELEASE (*)
++--- commons-codec:commons-codec:1.3
++--- org.apache.cxf:cxf-rt-rs-extension-providers:2.7.5
+|    +--- org.apache.cxf:cxf-api:2.7.5 -&gt; 2.7.6
+|    |    +--- org.codehaus.woodstox:woodstox-core-asl:4.2.0 (*)
+|    |    +--- org.apache.ws.xmlschema:xmlschema-core:2.0.3
+|    |    +--- org.apache.geronimo.specs:geronimo-javamail_1.4_spec:1.7.1
+|    |    \--- wsdl4j:wsdl4j:1.6.3
+|    +--- org.apache.cxf:cxf-rt-core:2.7.5 -&gt; 2.7.6
+|    |    +--- org.apache.cxf:cxf-api:2.7.6 (*)
+|    |    +--- com.sun.xml.bind:jaxb-impl:2.1.13
+|    |    +--- org.apache.ws.xmlschema:xmlschema-core:2.0.3
+|    |    \--- org.apache.geronimo.specs:geronimo-javamail_1.4_spec:1.7.1
+|    \--- org.apache.cxf:cxf-rt-frontend-jaxrs:2.7.5
+|         +--- org.apache.cxf:cxf-api:2.7.5 -&gt; 2.7.6 (*)
+|         +--- org.apache.cxf:cxf-rt-core:2.7.5 -&gt; 2.7.6 (*)
+|         +--- javax.ws.rs:javax.ws.rs-api:2.0-m10
+|         +--- org.apache.cxf:cxf-rt-bindings-xml:2.7.5
+|         |    \--- org.apache.cxf:cxf-api:2.7.5 -&gt; 2.7.6 (*)
+|         \--- org.apache.cxf:cxf-rt-transports-http:2.7.5 -&gt; 2.7.6
+|              +--- org.apache.cxf:cxf-api:2.7.6 (*)
+|              \--- org.apache.cxf:cxf-rt-core:2.7.6 (*)
++--- org.xerial:sqlite-jdbc:3.8.7
++--- javax.servlet.jsp:jsp-api:2.1
++--- org.glassfish.jersey.containers:jersey-container-servlet:2.5.1
+|    +--- org.glassfish.jersey.containers:jersey-container-servlet-core:2.5.1
+|    |    +--- org.glassfish.hk2.external:javax.inject:2.2.0-b21
+|    |    +--- org.glassfish.jersey.core:jersey-server:2.5.1
+|    |    |    +--- org.glassfish.jersey.core:jersey-common:2.5.1
+|    |    |    |    +--- javax.ws.rs:javax.ws.rs-api:2.0 -&gt; 2.0-m10
+|    |    |    |    +--- javax.annotation:javax.annotation-api:1.2
+|    |    |    |    +--- com.google.guava:guava:14.0.1
+|    |    |    |    +--- org.glassfish.hk2:hk2-api:2.2.0-b21
+|    |    |    |    |    +--- javax.inject:javax.inject:1
+|    |    |    |    |    \--- org.glassfish.hk2:hk2-utils:2.2.0-b21
+|    |    |    |    |         \--- javax.inject:javax.inject:1
+|    |    |    |    +--- org.glassfish.hk2.external:javax.inject:2.2.0-b21
+|    |    |    |    +--- org.glassfish.hk2:hk2-locator:2.2.0-b21
+|    |    |    |    |    +--- org.glassfish.hk2.external:javax.inject:2.2.0-b21
+|    |    |    |    |    +--- org.glassfish.hk2.external:asm-all-repackaged:2.2.0-b21
+|    |    |    |    |    +--- org.glassfish.hk2:hk2-api:2.2.0-b21 (*)
+|    |    |    |    |    +--- org.glassfish.hk2:hk2-utils:2.2.0-b21 (*)
+|    |    |    |    |    \--- org.glassfish.hk2.external:cglib:2.2.0-b21
+|    |    |    |    \--- org.glassfish.hk2:osgi-resource-locator:1.0.1
+|    |    |    +--- org.glassfish.jersey.core:jersey-client:2.5.1
+|    |    |    |    +--- org.glassfish.jersey.core:jersey-common:2.5.1 (*)
+|    |    |    |    +--- javax.ws.rs:javax.ws.rs-api:2.0 -&gt; 2.0-m10
+|    |    |    |    +--- com.google.guava:guava:14.0.1
+|    |    |    |    +--- org.glassfish.hk2:hk2-api:2.2.0-b21 (*)
+|    |    |    |    +--- org.glassfish.hk2.external:javax.inject:2.2.0-b21
+|    |    |    |    \--- org.glassfish.hk2:hk2-locator:2.2.0-b21 (*)
+|    |    |    +--- javax.ws.rs:javax.ws.rs-api:2.0 -&gt; 2.0-m10
+|    |    |    +--- com.google.guava:guava:14.0.1
+|    |    |    +--- org.glassfish.hk2:hk2-api:2.2.0-b21 (*)
+|    |    |    +--- org.glassfish.hk2.external:javax.inject:2.2.0-b21
+|    |    |    +--- org.glassfish.hk2:hk2-locator:2.2.0-b21 (*)
+|    |    |    \--- javax.validation:validation-api:1.1.0.Final
+|    |    +--- org.glassfish.jersey.core:jersey-common:2.5.1 (*)
+|    |    \--- javax.ws.rs:javax.ws.rs-api:2.0 -&gt; 2.0-m10
+|    +--- org.glassfish.jersey.core:jersey-common:2.5.1 (*)
+|    +--- org.glassfish.jersey.core:jersey-server:2.5.1 (*)
+|    \--- javax.ws.rs:javax.ws.rs-api:2.0 -&gt; 2.0-m10
++--- org.glassfish.jersey.core:jersey-client:2.5.1 (*)
++--- org.glassfish.jersey.media:jersey-media-moxy:2.5.1
+|    +--- org.glassfish.jersey.core:jersey-common:2.5.1 (*)
+|    +--- org.glassfish.jersey.ext:jersey-entity-filtering:2.5.1
+|    |    \--- javax.ws.rs:javax.ws.rs-api:2.0 -&gt; 2.0-m10
+|    +--- org.eclipse.persistence:org.eclipse.persistence.moxy:2.5.0
+|    |    +--- org.eclipse.persistence:org.eclipse.persistence.core:2.5.0
+|    |    |    \--- org.eclipse.persistence:org.eclipse.persistence.asm:2.5.0
+|    |    \--- org.eclipse.persistence:org.eclipse.persistence.antlr:2.5.0
+|    \--- org.eclipse.persistence:org.eclipse.persistence.antlr:2.5.0
++--- org.apache.cxf:cxf-rt-transports-http-jetty:2.7.6
+|    +--- org.apache.cxf:cxf-api:2.7.6 (*)
+|    +--- org.apache.cxf:cxf-rt-transports-http:2.7.6 (*)
+|    +--- org.apache.cxf:cxf-rt-core:2.7.6 (*)
+|    +--- org.eclipse.jetty:jetty-server:8.1.7.v20120910 (*)
+|    +--- org.eclipse.jetty:jetty-security:8.1.7.v20120910 (*)
+|    +--- org.slf4j:slf4j-api:1.7.5 -&gt; 1.7.10
+|    \--- org.apache.geronimo.specs:geronimo-servlet_3.0_spec:1.0
++--- org.slf4j:slf4j-jdk14:1.7.10
+|    \--- org.slf4j:slf4j-api:1.7.10
++--- org.codehaus.jettison:jettison:1.3.4
+|    \--- stax:stax-api:1.0.1
+\--- com.fasterxml.jackson.core:jackson-databind:2.5.1
+     +--- com.fasterxml.jackson.core:jackson-annotations:2.5.0
+     \--- com.fasterxml.jackson.core:jackson-core:2.5.1
+
+default - Configuration for default artifacts.
++--- javax.servlet:servlet-api:2.5
++--- commons-configuration:commons-configuration:1.9
+|    +--- commons-lang:commons-lang:2.6
+|    \--- commons-logging:commons-logging:1.1.1
++--- org.apache.commons:commons-lang3:3.1
++--- commons-collections:commons-collections:3.2
++--- org.apache.cxf:cxf-bundle-jaxrs:2.7.5
+|    +--- org.codehaus.woodstox:woodstox-core-asl:4.2.0
+|    |    \--- org.codehaus.woodstox:stax2-api:3.1.1
+|    +--- org.codehaus.woodstox:stax2-api:3.1.1
+|    +--- org.apache.ws.xmlschema:xmlschema-core:2.0.3
+|    +--- org.apache.geronimo.specs:geronimo-javamail_1.4_spec:1.7.1
+|    +--- wsdl4j:wsdl4j:1.6.3
+|    +--- com.sun.xml.bind:jaxb-impl:2.1.13
+|    +--- org.eclipse.jetty:jetty-server:8.1.7.v20120910
+|    |    +--- org.eclipse.jetty.orbit:javax.servlet:3.0.0.v201112011016
+|    |    +--- org.eclipse.jetty:jetty-continuation:8.1.7.v20120910
+|    |    \--- org.eclipse.jetty:jetty-http:8.1.7.v20120910
+|    |         \--- org.eclipse.jetty:jetty-io:8.1.7.v20120910
+|    |              \--- org.eclipse.jetty:jetty-util:8.1.7.v20120910
+|    +--- org.eclipse.jetty:jetty-continuation:8.1.7.v20120910
+|    +--- org.eclipse.jetty:jetty-http:8.1.7.v20120910 (*)
+|    +--- org.eclipse.jetty:jetty-io:8.1.7.v20120910 (*)
+|    +--- org.eclipse.jetty:jetty-util:8.1.7.v20120910
+|    +--- org.eclipse.jetty:jetty-security:8.1.7.v20120910
+|    |    \--- org.eclipse.jetty:jetty-server:8.1.7.v20120910 (*)
+|    +--- org.slf4j:slf4j-api:1.7.5 -&gt; 1.7.10
+|    +--- org.apache.geronimo.specs:geronimo-servlet_3.0_spec:1.0
+|    \--- javax.ws.rs:javax.ws.rs-api:2.0-m10
++--- org.springframework:spring-test:3.2.2.RELEASE
+|    \--- org.springframework:spring-core:3.2.2.RELEASE
+|         \--- commons-logging:commons-logging:1.1.1
++--- org.springframework:spring-context:3.2.2.RELEASE
+|    +--- org.springframework:spring-aop:3.2.2.RELEASE
+|    |    +--- aopalliance:aopalliance:1.0
+|    |    +--- org.springframework:spring-beans:3.2.2.RELEASE
+|    |    |    \--- org.springframework:spring-core:3.2.2.RELEASE (*)
+|    |    \--- org.springframework:spring-core:3.2.2.RELEASE (*)
+|    +--- org.springframework:spring-beans:3.2.2.RELEASE (*)
+|    +--- org.springframework:spring-core:3.2.2.RELEASE (*)
+|    \--- org.springframework:spring-expression:3.2.2.RELEASE
+|         \--- org.springframework:spring-core:3.2.2.RELEASE (*)
++--- commons-codec:commons-codec:1.3
++--- org.apache.cxf:cxf-rt-rs-extension-providers:2.7.5
+|    +--- org.apache.cxf:cxf-api:2.7.5 -&gt; 2.7.6
+|    |    +--- org.codehaus.woodstox:woodstox-core-asl:4.2.0 (*)
+|    |    +--- org.apache.ws.xmlschema:xmlschema-core:2.0.3
+|    |    +--- org.apache.geronimo.specs:geronimo-javamail_1.4_spec:1.7.1
+|    |    \--- wsdl4j:wsdl4j:1.6.3
+|    +--- org.apache.cxf:cxf-rt-core:2.7.5 -&gt; 2.7.6
+|    |    +--- org.apache.cxf:cxf-api:2.7.6 (*)
+|    |    +--- com.sun.xml.bind:jaxb-impl:2.1.13
+|    |    +--- org.apache.ws.xmlschema:xmlschema-core:2.0.3
+|    |    \--- org.apache.geronimo.specs:geronimo-javamail_1.4_spec:1.7.1
+|    \--- org.apache.cxf:cxf-rt-frontend-jaxrs:2.7.5
+|         +--- org.apache.cxf:cxf-api:2.7.5 -&gt; 2.7.6 (*)
+|         +--- org.apache.cxf:cxf-rt-core:2.7.5 -&gt; 2.7.6 (*)
+|         +--- javax.ws.rs:javax.ws.rs-api:2.0-m10
+|         +--- org.apache.cxf:cxf-rt-bindings-xml:2.7.5
+|         |    \--- org.apache.cxf:cxf-api:2.7.5 -&gt; 2.7.6 (*)
+|         \--- org.apache.cxf:cxf-rt-transports-http:2.7.5 -&gt; 2.7.6
+|              +--- org.apache.cxf:cxf-api:2.7.6 (*)
+|              \--- org.apache.cxf:cxf-rt-core:2.7.6 (*)
++--- org.xerial:sqlite-jdbc:3.8.7
++--- javax.servlet.jsp:jsp-api:2.1
++--- org.glassfish.jersey.containers:jersey-container-servlet:2.5.1
+|    +--- org.glassfish.jersey.containers:jersey-container-servlet-core:2.5.1
+|    |    +--- org.glassfish.hk2.external:javax.inject:2.2.0-b21
+|    |    +--- org.glassfish.jersey.core:jersey-server:2.5.1
+|    |    |    +--- org.glassfish.jersey.core:jersey-common:2.5.1
+|    |    |    |    +--- javax.ws.rs:javax.ws.rs-api:2.0 -&gt; 2.0-m10
+|    |    |    |    +--- javax.annotation:javax.annotation-api:1.2
+|    |    |    |    +--- com.google.guava:guava:14.0.1
+|    |    |    |    +--- org.glassfish.hk2:hk2-api:2.2.0-b21
+|    |    |    |    |    +--- javax.inject:javax.inject:1
+|    |    |    |    |    \--- org.glassfish.hk2:hk2-utils:2.2.0-b21
+|    |    |    |    |         \--- javax.inject:javax.inject:1
+|    |    |    |    +--- org.glassfish.hk2.external:javax.inject:2.2.0-b21
+|    |    |    |    +--- org.glassfish.hk2:hk2-locator:2.2.0-b21
+|    |    |    |    |    +--- org.glassfish.hk2.external:javax.inject:2.2.0-b21
+|    |    |    |    |    +--- org.glassfish.hk2.external:asm-all-repackaged:2.2.0-b21
+|    |    |    |    |    +--- org.glassfish.hk2:hk2-api:2.2.0-b21 (*)
+|    |    |    |    |    +--- org.glassfish.hk2:hk2-utils:2.2.0-b21 (*)
+|    |    |    |    |    \--- org.glassfish.hk2.external:cglib:2.2.0-b21
+|    |    |    |    \--- org.glassfish.hk2:osgi-resource-locator:1.0.1
+|    |    |    +--- org.glassfish.jersey.core:jersey-client:2.5.1
+|    |    |    |    +--- org.glassfish.jersey.core:jersey-common:2.5.1 (*)
+|    |    |    |    +--- javax.ws.rs:javax.ws.rs-api:2.0 -&gt; 2.0-m10
+|    |    |    |    +--- com.google.guava:guava:14.0.1
+|    |    |    |    +--- org.glassfish.hk2:hk2-api:2.2.0-b21 (*)
+|    |    |    |    +--- org.glassfish.hk2.external:javax.inject:2.2.0-b21
+|    |    |    |    \--- org.glassfish.hk2:hk2-locator:2.2.0-b21 (*)
+|    |    |    +--- javax.ws.rs:javax.ws.rs-api:2.0 -&gt; 2.0-m10
+|    |    |    +--- com.google.guava:guava:14.0.1
+|    |    |    +--- org.glassfish.hk2:hk2-api:2.2.0-b21 (*)
+|    |    |    +--- org.glassfish.hk2.external:javax.inject:2.2.0-b21
+|    |    |    +--- org.glassfish.hk2:hk2-locator:2.2.0-b21 (*)
+|    |    |    \--- javax.validation:validation-api:1.1.0.Final
+|    |    +--- org.glassfish.jersey.core:jersey-common:2.5.1 (*)
+|    |    \--- javax.ws.rs:javax.ws.rs-api:2.0 -&gt; 2.0-m10
+|    +--- org.glassfish.jersey.core:jersey-common:2.5.1 (*)
+|    +--- org.glassfish.jersey.core:jersey-server:2.5.1 (*)
+|    \--- javax.ws.rs:javax.ws.rs-api:2.0 -&gt; 2.0-m10
++--- org.glassfish.jersey.core:jersey-client:2.5.1 (*)
++--- org.glassfish.jersey.media:jersey-media-moxy:2.5.1
+|    +--- org.glassfish.jersey.core:jersey-common:2.5.1 (*)
+|    +--- org.glassfish.jersey.ext:jersey-entity-filtering:2.5.1
+|    |    \--- javax.ws.rs:javax.ws.rs-api:2.0 -&gt; 2.0-m10
+|    +--- org.eclipse.persistence:org.eclipse.persistence.moxy:2.5.0
+|    |    +--- org.eclipse.persistence:org.eclipse.persistence.core:2.5.0
+|    |    |    \--- org.eclipse.persistence:org.eclipse.persistence.asm:2.5.0
+|    |    \--- org.eclipse.persistence:org.eclipse.persistence.antlr:2.5.0
+|    \--- org.eclipse.persistence:org.eclipse.persistence.antlr:2.5.0
++--- org.apache.cxf:cxf-rt-transports-http-jetty:2.7.6
+|    +--- org.apache.cxf:cxf-api:2.7.6 (*)
+|    +--- org.apache.cxf:cxf-rt-transports-http:2.7.6 (*)
+|    +--- org.apache.cxf:cxf-rt-core:2.7.6 (*)
+|    +--- org.eclipse.jetty:jetty-server:8.1.7.v20120910 (*)
+|    +--- org.eclipse.jetty:jetty-security:8.1.7.v20120910 (*)
+|    +--- org.slf4j:slf4j-api:1.7.5 -&gt; 1.7.10
+|    \--- org.apache.geronimo.specs:geronimo-servlet_3.0_spec:1.0
++--- org.slf4j:slf4j-jdk14:1.7.10
+|    \--- org.slf4j:slf4j-api:1.7.10
++--- org.codehaus.jettison:jettison:1.3.4
+|    \--- stax:stax-api:1.0.1
+\--- com.fasterxml.jackson.core:jackson-databind:2.5.1
+     +--- com.fasterxml.jackson.core:jackson-annotations:2.5.0
+     \--- com.fasterxml.jackson.core:jackson-core:2.5.1
+
+findbugs - The FindBugs libraries to be used for this project.
+\--- com.google.code.findbugs:findbugs:3.0.1
+     +--- net.jcip:jcip-annotations:1.0
+     +--- com.google.code.findbugs:jsr305:2.0.1
+     +--- com.google.code.findbugs:bcel-findbugs:6.0
+     +--- com.google.code.findbugs:jFormatString:2.0.1
+     +--- dom4j:dom4j:1.6.1
+     |    \--- xml-apis:xml-apis:1.0.b2
+     +--- org.ow2.asm:asm-debug-all:5.0.2
+     +--- org.ow2.asm:asm-commons:5.0.2
+     |    \--- org.ow2.asm:asm-tree:5.0.2
+     |         \--- org.ow2.asm:asm:5.0.2
+     +--- commons-lang:commons-lang:2.6
+     +--- com.apple:AppleJavaExtensions:1.4
+     \--- jaxen:jaxen:1.1.6
+
+findbugsPlugins - The FindBugs plugins to be used for this project.
+No dependencies
+
+javancss
+\--- org.codehaus.javancss:javancss:33.54
+     +--- javancss:ccl:29.50
+     \--- javancss:jhbasic:29.50
+
+jdepend - The JDepend libraries to be used for this project.
++--- jdepend:jdepend:2.9.1
+\--- org.apache.ant:ant-jdepend:1.9.6
+     \--- jdepend:jdepend:2.7 -&gt; 2.9.1
+
+pmd - The PMD libraries to be used for this project.
+\--- net.sourceforge.pmd:pmd-java:5.2.3
+     +--- jaxen:jaxen:1.1.4
+     +--- net.java.dev.javacc:javacc:5.0
+     +--- net.sourceforge.pmd:pmd-core:5.2.3
+     |    +--- com.beust:jcommander:1.35
+     |    +--- commons-io:commons-io:2.4
+     |    +--- jaxen:jaxen:1.1.4
+     |    +--- net.java.dev.javacc:javacc:5.0
+     |    +--- net.sourceforge.saxon:saxon:9.1.0.8
+     |    +--- org.apache.commons:commons-lang3:3.3.2
+     |    \--- org.ow2.asm:asm:5.0.3
+     +--- net.sourceforge.saxon:saxon:9.1.0.8
+     +--- org.ow2.asm:asm:5.0.3
+     \--- xerces:xercesImpl:2.11.0
+          \--- xml-apis:xml-apis:1.4.01
+
+providedCompile - Additional compile classpath for libraries that should not be part of the WAR archive.
+No dependencies
+
+providedRuntime - Additional runtime classpath for libraries that should not be part of the WAR archive.
+No dependencies
+
+runtime - Runtime dependencies for source set 'main'.
++--- javax.servlet:servlet-api:2.5
++--- commons-configuration:commons-configuration:1.9
+|    +--- commons-lang:commons-lang:2.6
+|    \--- commons-logging:commons-logging:1.1.1
++--- org.apache.commons:commons-lang3:3.1
++--- commons-collections:commons-collections:3.2
++--- org.apache.cxf:cxf-bundle-jaxrs:2.7.5
+|    +--- org.codehaus.woodstox:woodstox-core-asl:4.2.0
+|    |    \--- org.codehaus.woodstox:stax2-api:3.1.1
+|    +--- org.codehaus.woodstox:stax2-api:3.1.1
+|    +--- org.apache.ws.xmlschema:xmlschema-core:2.0.3
+|    +--- org.apache.geronimo.specs:geronimo-javamail_1.4_spec:1.7.1
+|    +--- wsdl4j:wsdl4j:1.6.3
+|    +--- com.sun.xml.bind:jaxb-impl:2.1.13
+|    +--- org.eclipse.jetty:jetty-server:8.1.7.v20120910
+|    |    +--- org.eclipse.jetty.orbit:javax.servlet:3.0.0.v201112011016
+|    |    +--- org.eclipse.jetty:jetty-continuation:8.1.7.v20120910
+|    |    \--- org.eclipse.jetty:jetty-http:8.1.7.v20120910
+|    |         \--- org.eclipse.jetty:jetty-io:8.1.7.v20120910
+|    |              \--- org.eclipse.jetty:jetty-util:8.1.7.v20120910
+|    +--- org.eclipse.jetty:jetty-continuation:8.1.7.v20120910
+|    +--- org.eclipse.jetty:jetty-http:8.1.7.v20120910 (*)
+|    +--- org.eclipse.jetty:jetty-io:8.1.7.v20120910 (*)
+|    +--- org.eclipse.jetty:jetty-util:8.1.7.v20120910
+|    +--- org.eclipse.jetty:jetty-security:8.1.7.v20120910
+|    |    \--- org.eclipse.jetty:jetty-server:8.1.7.v20120910 (*)
+|    +--- org.slf4j:slf4j-api:1.7.5 -&gt; 1.7.10
+|    +--- org.apache.geronimo.specs:geronimo-servlet_3.0_spec:1.0
+|    \--- javax.ws.rs:javax.ws.rs-api:2.0-m10
++--- org.springframework:spring-test:3.2.2.RELEASE
+|    \--- org.springframework:spring-core:3.2.2.RELEASE
+|         \--- commons-logging:commons-logging:1.1.1
++--- org.springframework:spring-context:3.2.2.RELEASE
+|    +--- org.springframework:spring-aop:3.2.2.RELEASE
+|    |    +--- aopalliance:aopalliance:1.0
+|    |    +--- org.springframework:spring-beans:3.2.2.RELEASE
+|    |    |    \--- org.springframework:spring-core:3.2.2.RELEASE (*)
+|    |    \--- org.springframework:spring-core:3.2.2.RELEASE (*)
+|    +--- org.springframework:spring-beans:3.2.2.RELEASE (*)
+|    +--- org.springframework:spring-core:3.2.2.RELEASE (*)
+|    \--- org.springframework:spring-expression:3.2.2.RELEASE
+|         \--- org.springframework:spring-core:3.2.2.RELEASE (*)
++--- commons-codec:commons-codec:1.3
++--- org.apache.cxf:cxf-rt-rs-extension-providers:2.7.5
+|    +--- org.apache.cxf:cxf-api:2.7.5 -&gt; 2.7.6
+|    |    +--- org.codehaus.woodstox:woodstox-core-asl:4.2.0 (*)
+|    |    +--- org.apache.ws.xmlschema:xmlschema-core:2.0.3
+|    |    +--- org.apache.geronimo.specs:geronimo-javamail_1.4_spec:1.7.1
+|    |    \--- wsdl4j:wsdl4j:1.6.3
+|    +--- org.apache.cxf:cxf-rt-core:2.7.5 -&gt; 2.7.6
+|    |    +--- org.apache.cxf:cxf-api:2.7.6 (*)
+|    |    +--- com.sun.xml.bind:jaxb-impl:2.1.13
+|    |    +--- org.apache.ws.xmlschema:xmlschema-core:2.0.3
+|    |    \--- org.apache.geronimo.specs:geronimo-javamail_1.4_spec:1.7.1
+|    \--- org.apache.cxf:cxf-rt-frontend-jaxrs:2.7.5
+|         +--- org.apache.cxf:cxf-api:2.7.5 -&gt; 2.7.6 (*)
+|         +--- org.apache.cxf:cxf-rt-core:2.7.5 -&gt; 2.7.6 (*)
+|         +--- javax.ws.rs:javax.ws.rs-api:2.0-m10
+|         +--- org.apache.cxf:cxf-rt-bindings-xml:2.7.5
+|         |    \--- org.apache.cxf:cxf-api:2.7.5 -&gt; 2.7.6 (*)
+|         \--- org.apache.cxf:cxf-rt-transports-http:2.7.5 -&gt; 2.7.6
+|              +--- org.apache.cxf:cxf-api:2.7.6 (*)
+|              \--- org.apache.cxf:cxf-rt-core:2.7.6 (*)
++--- org.xerial:sqlite-jdbc:3.8.7
++--- javax.servlet.jsp:jsp-api:2.1
++--- org.glassfish.jersey.containers:jersey-container-servlet:2.5.1
+|    +--- org.glassfish.jersey.containers:jersey-container-servlet-core:2.5.1
+|    |    +--- org.glassfish.hk2.external:javax.inject:2.2.0-b21
+|    |    +--- org.glassfish.jersey.core:jersey-server:2.5.1
+|    |    |    +--- org.glassfish.jersey.core:jersey-common:2.5.1
+|    |    |    |    +--- javax.ws.rs:javax.ws.rs-api:2.0 -&gt; 2.0-m10
+|    |    |    |    +--- javax.annotation:javax.annotation-api:1.2
+|    |    |    |    +--- com.google.guava:guava:14.0.1
+|    |    |    |    +--- org.glassfish.hk2:hk2-api:2.2.0-b21
+|    |    |    |    |    +--- javax.inject:javax.inject:1
+|    |    |    |    |    \--- org.glassfish.hk2:hk2-utils:2.2.0-b21
+|    |    |    |    |         \--- javax.inject:javax.inject:1
+|    |    |    |    +--- org.glassfish.hk2.external:javax.inject:2.2.0-b21
+|    |    |    |    +--- org.glassfish.hk2:hk2-locator:2.2.0-b21
+|    |    |    |    |    +--- org.glassfish.hk2.external:javax.inject:2.2.0-b21
+|    |    |    |    |    +--- org.glassfish.hk2.external:asm-all-repackaged:2.2.0-b21
+|    |    |    |    |    +--- org.glassfish.hk2:hk2-api:2.2.0-b21 (*)
+|    |    |    |    |    +--- org.glassfish.hk2:hk2-utils:2.2.0-b21 (*)
+|    |    |    |    |    \--- org.glassfish.hk2.external:cglib:2.2.0-b21
+|    |    |    |    \--- org.glassfish.hk2:osgi-resource-locator:1.0.1
+|    |    |    +--- org.glassfish.jersey.core:jersey-client:2.5.1
+|    |    |    |    +--- org.glassfish.jersey.core:jersey-common:2.5.1 (*)
+|    |    |    |    +--- javax.ws.rs:javax.ws.rs-api:2.0 -&gt; 2.0-m10
+|    |    |    |    +--- com.google.guava:guava:14.0.1
+|    |    |    |    +--- org.glassfish.hk2:hk2-api:2.2.0-b21 (*)
+|    |    |    |    +--- org.glassfish.hk2.external:javax.inject:2.2.0-b21
+|    |    |    |    \--- org.glassfish.hk2:hk2-locator:2.2.0-b21 (*)
+|    |    |    +--- javax.ws.rs:javax.ws.rs-api:2.0 -&gt; 2.0-m10
+|    |    |    +--- com.google.guava:guava:14.0.1
+|    |    |    +--- org.glassfish.hk2:hk2-api:2.2.0-b21 (*)
+|    |    |    +--- org.glassfish.hk2.external:javax.inject:2.2.0-b21
+|    |    |    +--- org.glassfish.hk2:hk2-locator:2.2.0-b21 (*)
+|    |    |    \--- javax.validation:validation-api:1.1.0.Final
+|    |    +--- org.glassfish.jersey.core:jersey-common:2.5.1 (*)
+|    |    \--- javax.ws.rs:javax.ws.rs-api:2.0 -&gt; 2.0-m10
+|    +--- org.glassfish.jersey.core:jersey-common:2.5.1 (*)
+|    +--- org.glassfish.jersey.core:jersey-server:2.5.1 (*)
+|    \--- javax.ws.rs:javax.ws.rs-api:2.0 -&gt; 2.0-m10
++--- org.glassfish.jersey.core:jersey-client:2.5.1 (*)
++--- org.glassfish.jersey.media:jersey-media-moxy:2.5.1
+|    +--- org.glassfish.jersey.core:jersey-common:2.5.1 (*)
+|    +--- org.glassfish.jersey.ext:jersey-entity-filtering:2.5.1
+|    |    \--- javax.ws.rs:javax.ws.rs-api:2.0 -&gt; 2.0-m10
+|    +--- org.eclipse.persistence:org.eclipse.persistence.moxy:2.5.0
+|    |    +--- org.eclipse.persistence:org.eclipse.persistence.core:2.5.0
+|    |    |    \--- org.eclipse.persistence:org.eclipse.persistence.asm:2.5.0
+|    |    \--- org.eclipse.persistence:org.eclipse.persistence.antlr:2.5.0
+|    \--- org.eclipse.persistence:org.eclipse.persistence.antlr:2.5.0
++--- org.apache.cxf:cxf-rt-transports-http-jetty:2.7.6
+|    +--- org.apache.cxf:cxf-api:2.7.6 (*)
+|    +--- org.apache.cxf:cxf-rt-transports-http:2.7.6 (*)
+|    +--- org.apache.cxf:cxf-rt-core:2.7.6 (*)
+|    +--- org.eclipse.jetty:jetty-server:8.1.7.v20120910 (*)
+|    +--- org.eclipse.jetty:jetty-security:8.1.7.v20120910 (*)
+|    +--- org.slf4j:slf4j-api:1.7.5 -&gt; 1.7.10
+|    \--- org.apache.geronimo.specs:geronimo-servlet_3.0_spec:1.0
++--- org.slf4j:slf4j-jdk14:1.7.10
+|    \--- org.slf4j:slf4j-api:1.7.10
++--- org.codehaus.jettison:jettison:1.3.4
+|    \--- stax:stax-api:1.0.1
+\--- com.fasterxml.jackson.core:jackson-databind:2.5.1
+     +--- com.fasterxml.jackson.core:jackson-annotations:2.5.0
+     \--- com.fasterxml.jackson.core:jackson-core:2.5.1
+
+testCompile - Dependencies for source set 'test'.
++--- javax.servlet:servlet-api:2.5
++--- commons-configuration:commons-configuration:1.9
+|    +--- commons-lang:commons-lang:2.6
+|    \--- commons-logging:commons-logging:1.1.1
++--- org.apache.commons:commons-lang3:3.1
++--- commons-collections:commons-collections:3.2
++--- org.apache.cxf:cxf-bundle-jaxrs:2.7.5
+|    +--- org.codehaus.woodstox:woodstox-core-asl:4.2.0
+|    |    \--- org.codehaus.woodstox:stax2-api:3.1.1
+|    +--- org.codehaus.woodstox:stax2-api:3.1.1
+|    +--- org.apache.ws.xmlschema:xmlschema-core:2.0.3
+|    +--- org.apache.geronimo.specs:geronimo-javamail_1.4_spec:1.7.1
+|    +--- wsdl4j:wsdl4j:1.6.3
+|    +--- com.sun.xml.bind:jaxb-impl:2.1.13
+|    +--- org.eclipse.jetty:jetty-server:8.1.7.v20120910
+|    |    +--- org.eclipse.jetty.orbit:javax.servlet:3.0.0.v201112011016
+|    |    +--- org.eclipse.jetty:jetty-continuation:8.1.7.v20120910
+|    |    \--- org.eclipse.jetty:jetty-http:8.1.7.v20120910
+|    |         \--- org.eclipse.jetty:jetty-io:8.1.7.v20120910
+|    |              \--- org.eclipse.jetty:jetty-util:8.1.7.v20120910
+|    +--- org.eclipse.jetty:jetty-continuation:8.1.7.v20120910
+|    +--- org.eclipse.jetty:jetty-http:8.1.7.v20120910 (*)
+|    +--- org.eclipse.jetty:jetty-io:8.1.7.v20120910 (*)
+|    +--- org.eclipse.jetty:jetty-util:8.1.7.v20120910
+|    +--- org.eclipse.jetty:jetty-security:8.1.7.v20120910
+|    |    \--- org.eclipse.jetty:jetty-server:8.1.7.v20120910 (*)
+|    +--- org.slf4j:slf4j-api:1.7.5 -&gt; 1.7.10
+|    +--- org.apache.geronimo.specs:geronimo-servlet_3.0_spec:1.0
+|    \--- javax.ws.rs:javax.ws.rs-api:2.0-m10
++--- org.springframework:spring-test:3.2.2.RELEASE
+|    \--- org.springframework:spring-core:3.2.2.RELEASE
+|         \--- commons-logging:commons-logging:1.1.1
++--- org.springframework:spring-context:3.2.2.RELEASE
+|    +--- org.springframework:spring-aop:3.2.2.RELEASE
+|    |    +--- aopalliance:aopalliance:1.0
+|    |    +--- org.springframework:spring-beans:3.2.2.RELEASE
+|    |    |    \--- org.springframework:spring-core:3.2.2.RELEASE (*)
+|    |    \--- org.springframework:spring-core:3.2.2.RELEASE (*)
+|    +--- org.springframework:spring-beans:3.2.2.RELEASE (*)
+|    +--- org.springframework:spring-core:3.2.2.RELEASE (*)
+|    \--- org.springframework:spring-expression:3.2.2.RELEASE
+|         \--- org.springframework:spring-core:3.2.2.RELEASE (*)
++--- commons-codec:commons-codec:1.3
++--- org.apache.cxf:cxf-rt-rs-extension-providers:2.7.5
+|    +--- org.apache.cxf:cxf-api:2.7.5 -&gt; 2.7.6
+|    |    +--- org.codehaus.woodstox:woodstox-core-asl:4.2.0 (*)
+|    |    +--- org.apache.ws.xmlschema:xmlschema-core:2.0.3
+|    |    +--- org.apache.geronimo.specs:geronimo-javamail_1.4_spec:1.7.1
+|    |    \--- wsdl4j:wsdl4j:1.6.3
+|    +--- org.apache.cxf:cxf-rt-core:2.7.5 -&gt; 2.7.6
+|    |    +--- org.apache.cxf:cxf-api:2.7.6 (*)
+|    |    +--- com.sun.xml.bind:jaxb-impl:2.1.13
+|    |    +--- org.apache.ws.xmlschema:xmlschema-core:2.0.3
+|    |    \--- org.apache.geronimo.specs:geronimo-javamail_1.4_spec:1.7.1
+|    \--- org.apache.cxf:cxf-rt-frontend-jaxrs:2.7.5
+|         +--- org.apache.cxf:cxf-api:2.7.5 -&gt; 2.7.6 (*)
+|         +--- org.apache.cxf:cxf-rt-core:2.7.5 -&gt; 2.7.6 (*)
+|         +--- javax.ws.rs:javax.ws.rs-api:2.0-m10
+|         +--- org.apache.cxf:cxf-rt-bindings-xml:2.7.5
+|         |    \--- org.apache.cxf:cxf-api:2.7.5 -&gt; 2.7.6 (*)
+|         \--- org.apache.cxf:cxf-rt-transports-http:2.7.5 -&gt; 2.7.6
+|              +--- org.apache.cxf:cxf-api:2.7.6 (*)
+|              \--- org.apache.cxf:cxf-rt-core:2.7.6 (*)
++--- org.xerial:sqlite-jdbc:3.8.7
++--- javax.servlet.jsp:jsp-api:2.1
++--- org.glassfish.jersey.containers:jersey-container-servlet:2.5.1
+|    +--- org.glassfish.jersey.containers:jersey-container-servlet-core:2.5.1
+|    |    +--- org.glassfish.hk2.external:javax.inject:2.2.0-b21
+|    |    +--- org.glassfish.jersey.core:jersey-server:2.5.1
+|    |    |    +--- org.glassfish.jersey.core:jersey-common:2.5.1
+|    |    |    |    +--- javax.ws.rs:javax.ws.rs-api:2.0 -&gt; 2.0-m10
+|    |    |    |    +--- javax.annotation:javax.annotation-api:1.2
+|    |    |    |    +--- com.google.guava:guava:14.0.1
+|    |    |    |    +--- org.glassfish.hk2:hk2-api:2.2.0-b21
+|    |    |    |    |    +--- javax.inject:javax.inject:1
+|    |    |    |    |    \--- org.glassfish.hk2:hk2-utils:2.2.0-b21
+|    |    |    |    |         \--- javax.inject:javax.inject:1
+|    |    |    |    +--- org.glassfish.hk2.external:javax.inject:2.2.0-b21
+|    |    |    |    +--- org.glassfish.hk2:hk2-locator:2.2.0-b21
+|    |    |    |    |    +--- org.glassfish.hk2.external:javax.inject:2.2.0-b21
+|    |    |    |    |    +--- org.glassfish.hk2.external:asm-all-repackaged:2.2.0-b21
+|    |    |    |    |    +--- org.glassfish.hk2:hk2-api:2.2.0-b21 (*)
+|    |    |    |    |    +--- org.glassfish.hk2:hk2-utils:2.2.0-b21 (*)
+|    |    |    |    |    \--- org.glassfish.hk2.external:cglib:2.2.0-b21
+|    |    |    |    \--- org.glassfish.hk2:osgi-resource-locator:1.0.1
+|    |    |    +--- org.glassfish.jersey.core:jersey-client:2.5.1
+|    |    |    |    +--- org.glassfish.jersey.core:jersey-common:2.5.1 (*)
+|    |    |    |    +--- javax.ws.rs:javax.ws.rs-api:2.0 -&gt; 2.0-m10
+|    |    |    |    +--- com.google.guava:guava:14.0.1
+|    |    |    |    +--- org.glassfish.hk2:hk2-api:2.2.0-b21 (*)
+|    |    |    |    +--- org.glassfish.hk2.external:javax.inject:2.2.0-b21
+|    |    |    |    \--- org.glassfish.hk2:hk2-locator:2.2.0-b21 (*)
+|    |    |    +--- javax.ws.rs:javax.ws.rs-api:2.0 -&gt; 2.0-m10
+|    |    |    +--- com.google.guava:guava:14.0.1
+|    |    |    +--- org.glassfish.hk2:hk2-api:2.2.0-b21 (*)
+|    |    |    +--- org.glassfish.hk2.external:javax.inject:2.2.0-b21
+|    |    |    +--- org.glassfish.hk2:hk2-locator:2.2.0-b21 (*)
+|    |    |    \--- javax.validation:validation-api:1.1.0.Final
+|    |    +--- org.glassfish.jersey.core:jersey-common:2.5.1 (*)
+|    |    \--- javax.ws.rs:javax.ws.rs-api:2.0 -&gt; 2.0-m10
+|    +--- org.glassfish.jersey.core:jersey-common:2.5.1 (*)
+|    +--- org.glassfish.jersey.core:jersey-server:2.5.1 (*)
+|    \--- javax.ws.rs:javax.ws.rs-api:2.0 -&gt; 2.0-m10
++--- org.glassfish.jersey.core:jersey-client:2.5.1 (*)
++--- org.glassfish.jersey.media:jersey-media-moxy:2.5.1
+|    +--- org.glassfish.jersey.core:jersey-common:2.5.1 (*)
+|    +--- org.glassfish.jersey.ext:jersey-entity-filtering:2.5.1
+|    |    \--- javax.ws.rs:javax.ws.rs-api:2.0 -&gt; 2.0-m10
+|    +--- org.eclipse.persistence:org.eclipse.persistence.moxy:2.5.0
+|    |    +--- org.eclipse.persistence:org.eclipse.persistence.core:2.5.0
+|    |    |    \--- org.eclipse.persistence:org.eclipse.persistence.asm:2.5.0
+|    |    \--- org.eclipse.persistence:org.eclipse.persistence.antlr:2.5.0
+|    \--- org.eclipse.persistence:org.eclipse.persistence.antlr:2.5.0
++--- org.apache.cxf:cxf-rt-transports-http-jetty:2.7.6
+|    +--- org.apache.cxf:cxf-api:2.7.6 (*)
+|    +--- org.apache.cxf:cxf-rt-transports-http:2.7.6 (*)
+|    +--- org.apache.cxf:cxf-rt-core:2.7.6 (*)
+|    +--- org.eclipse.jetty:jetty-server:8.1.7.v20120910 (*)
+|    +--- org.eclipse.jetty:jetty-security:8.1.7.v20120910 (*)
+|    +--- org.slf4j:slf4j-api:1.7.5 -&gt; 1.7.10
+|    \--- org.apache.geronimo.specs:geronimo-servlet_3.0_spec:1.0
++--- org.slf4j:slf4j-jdk14:1.7.10
+|    \--- org.slf4j:slf4j-api:1.7.10
++--- org.codehaus.jettison:jettison:1.3.4
+|    \--- stax:stax-api:1.0.1
+\--- com.fasterxml.jackson.core:jackson-databind:2.5.1
+     +--- com.fasterxml.jackson.core:jackson-annotations:2.5.0
+     \--- com.fasterxml.jackson.core:jackson-core:2.5.1
+
+testCompileClasspath - Compile classpath for source set 'test'.
++--- javax.servlet:servlet-api:2.5
++--- commons-configuration:commons-configuration:1.9
+|    +--- commons-lang:commons-lang:2.6
+|    \--- commons-logging:commons-logging:1.1.1
++--- org.apache.commons:commons-lang3:3.1
++--- commons-collections:commons-collections:3.2
++--- org.apache.cxf:cxf-bundle-jaxrs:2.7.5
+|    +--- org.codehaus.woodstox:woodstox-core-asl:4.2.0
+|    |    \--- org.codehaus.woodstox:stax2-api:3.1.1
+|    +--- org.codehaus.woodstox:stax2-api:3.1.1
+|    +--- org.apache.ws.xmlschema:xmlschema-core:2.0.3
+|    +--- org.apache.geronimo.specs:geronimo-javamail_1.4_spec:1.7.1
+|    +--- wsdl4j:wsdl4j:1.6.3
+|    +--- com.sun.xml.bind:jaxb-impl:2.1.13
+|    +--- org.eclipse.jetty:jetty-server:8.1.7.v20120910
+|    |    +--- org.eclipse.jetty.orbit:javax.servlet:3.0.0.v201112011016
+|    |    +--- org.eclipse.jetty:jetty-continuation:8.1.7.v20120910
+|    |    \--- org.eclipse.jetty:jetty-http:8.1.7.v20120910
+|    |         \--- org.eclipse.jetty:jetty-io:8.1.7.v20120910
+|    |              \--- org.eclipse.jetty:jetty-util:8.1.7.v20120910
+|    +--- org.eclipse.jetty:jetty-continuation:8.1.7.v20120910
+|    +--- org.eclipse.jetty:jetty-http:8.1.7.v20120910 (*)
+|    +--- org.eclipse.jetty:jetty-io:8.1.7.v20120910 (*)
+|    +--- org.eclipse.jetty:jetty-util:8.1.7.v20120910
+|    +--- org.eclipse.jetty:jetty-security:8.1.7.v20120910
+|    |    \--- org.eclipse.jetty:jetty-server:8.1.7.v20120910 (*)
+|    +--- org.slf4j:slf4j-api:1.7.5 -&gt; 1.7.10
+|    +--- org.apache.geronimo.specs:geronimo-servlet_3.0_spec:1.0
+|    \--- javax.ws.rs:javax.ws.rs-api:2.0-m10
++--- org.springframework:spring-test:3.2.2.RELEASE
+|    \--- org.springframework:spring-core:3.2.2.RELEASE
+|         \--- commons-logging:commons-logging:1.1.1
++--- org.springframework:spring-context:3.2.2.RELEASE
+|    +--- org.springframework:spring-aop:3.2.2.RELEASE
+|    |    +--- aopalliance:aopalliance:1.0
+|    |    +--- org.springframework:spring-beans:3.2.2.RELEASE
+|    |    |    \--- org.springframework:spring-core:3.2.2.RELEASE (*)
+|    |    \--- org.springframework:spring-core:3.2.2.RELEASE (*)
+|    +--- org.springframework:spring-beans:3.2.2.RELEASE (*)
+|    +--- org.springframework:spring-core:3.2.2.RELEASE (*)
+|    \--- org.springframework:spring-expression:3.2.2.RELEASE
+|         \--- org.springframework:spring-core:3.2.2.RELEASE (*)
++--- commons-codec:commons-codec:1.3
++--- org.apache.cxf:cxf-rt-rs-extension-providers:2.7.5
+|    +--- org.apache.cxf:cxf-api:2.7.5 -&gt; 2.7.6
+|    |    +--- org.codehaus.woodstox:woodstox-core-asl:4.2.0 (*)
+|    |    +--- org.apache.ws.xmlschema:xmlschema-core:2.0.3
+|    |    +--- org.apache.geronimo.specs:geronimo-javamail_1.4_spec:1.7.1
+|    |    \--- wsdl4j:wsdl4j:1.6.3
+|    +--- org.apache.cxf:cxf-rt-core:2.7.5 -&gt; 2.7.6
+|    |    +--- org.apache.cxf:cxf-api:2.7.6 (*)
+|    |    +--- com.sun.xml.bind:jaxb-impl:2.1.13
+|    |    +--- org.apache.ws.xmlschema:xmlschema-core:2.0.3
+|    |    \--- org.apache.geronimo.specs:geronimo-javamail_1.4_spec:1.7.1
+|    \--- org.apache.cxf:cxf-rt-frontend-jaxrs:2.7.5
+|         +--- org.apache.cxf:cxf-api:2.7.5 -&gt; 2.7.6 (*)
+|         +--- org.apache.cxf:cxf-rt-core:2.7.5 -&gt; 2.7.6 (*)
+|         +--- javax.ws.rs:javax.ws.rs-api:2.0-m10
+|         +--- org.apache.cxf:cxf-rt-bindings-xml:2.7.5
+|         |    \--- org.apache.cxf:cxf-api:2.7.5 -&gt; 2.7.6 (*)
+|         \--- org.apache.cxf:cxf-rt-transports-http:2.7.5 -&gt; 2.7.6
+|              +--- org.apache.cxf:cxf-api:2.7.6 (*)
+|              \--- org.apache.cxf:cxf-rt-core:2.7.6 (*)
++--- org.xerial:sqlite-jdbc:3.8.7
++--- javax.servlet.jsp:jsp-api:2.1
++--- org.glassfish.jersey.containers:jersey-container-servlet:2.5.1
+|    +--- org.glassfish.jersey.containers:jersey-container-servlet-core:2.5.1
+|    |    +--- org.glassfish.hk2.external:javax.inject:2.2.0-b21
+|    |    +--- org.glassfish.jersey.core:jersey-server:2.5.1
+|    |    |    +--- org.glassfish.jersey.core:jersey-common:2.5.1
+|    |    |    |    +--- javax.ws.rs:javax.ws.rs-api:2.0 -&gt; 2.0-m10
+|    |    |    |    +--- javax.annotation:javax.annotation-api:1.2
+|    |    |    |    +--- com.google.guava:guava:14.0.1
+|    |    |    |    +--- org.glassfish.hk2:hk2-api:2.2.0-b21
+|    |    |    |    |    +--- javax.inject:javax.inject:1
+|    |    |    |    |    \--- org.glassfish.hk2:hk2-utils:2.2.0-b21
+|    |    |    |    |         \--- javax.inject:javax.inject:1
+|    |    |    |    +--- org.glassfish.hk2.external:javax.inject:2.2.0-b21
+|    |    |    |    +--- org.glassfish.hk2:hk2-locator:2.2.0-b21
+|    |    |    |    |    +--- org.glassfish.hk2.external:javax.inject:2.2.0-b21
+|    |    |    |    |    +--- org.glassfish.hk2.external:asm-all-repackaged:2.2.0-b21
+|    |    |    |    |    +--- org.glassfish.hk2:hk2-api:2.2.0-b21 (*)
+|    |    |    |    |    +--- org.glassfish.hk2:hk2-utils:2.2.0-b21 (*)
+|    |    |    |    |    \--- org.glassfish.hk2.external:cglib:2.2.0-b21
+|    |    |    |    \--- org.glassfish.hk2:osgi-resource-locator:1.0.1
+|    |    |    +--- org.glassfish.jersey.core:jersey-client:2.5.1
+|    |    |    |    +--- org.glassfish.jersey.core:jersey-common:2.5.1 (*)
+|    |    |    |    +--- javax.ws.rs:javax.ws.rs-api:2.0 -&gt; 2.0-m10
+|    |    |    |    +--- com.google.guava:guava:14.0.1
+|    |    |    |    +--- org.glassfish.hk2:hk2-api:2.2.0-b21 (*)
+|    |    |    |    +--- org.glassfish.hk2.external:javax.inject:2.2.0-b21
+|    |    |    |    \--- org.glassfish.hk2:hk2-locator:2.2.0-b21 (*)
+|    |    |    +--- javax.ws.rs:javax.ws.rs-api:2.0 -&gt; 2.0-m10
+|    |    |    +--- com.google.guava:guava:14.0.1
+|    |    |    +--- org.glassfish.hk2:hk2-api:2.2.0-b21 (*)
+|    |    |    +--- org.glassfish.hk2.external:javax.inject:2.2.0-b21
+|    |    |    +--- org.glassfish.hk2:hk2-locator:2.2.0-b21 (*)
+|    |    |    \--- javax.validation:validation-api:1.1.0.Final
+|    |    +--- org.glassfish.jersey.core:jersey-common:2.5.1 (*)
+|    |    \--- javax.ws.rs:javax.ws.rs-api:2.0 -&gt; 2.0-m10
+|    +--- org.glassfish.jersey.core:jersey-common:2.5.1 (*)
+|    +--- org.glassfish.jersey.core:jersey-server:2.5.1 (*)
+|    \--- javax.ws.rs:javax.ws.rs-api:2.0 -&gt; 2.0-m10
++--- org.glassfish.jersey.core:jersey-client:2.5.1 (*)
++--- org.glassfish.jersey.media:jersey-media-moxy:2.5.1
+|    +--- org.glassfish.jersey.core:jersey-common:2.5.1 (*)
+|    +--- org.glassfish.jersey.ext:jersey-entity-filtering:2.5.1
+|    |    \--- javax.ws.rs:javax.ws.rs-api:2.0 -&gt; 2.0-m10
+|    +--- org.eclipse.persistence:org.eclipse.persistence.moxy:2.5.0
+|    |    +--- org.eclipse.persistence:org.eclipse.persistence.core:2.5.0
+|    |    |    \--- org.eclipse.persistence:org.eclipse.persistence.asm:2.5.0
+|    |    \--- org.eclipse.persistence:org.eclipse.persistence.antlr:2.5.0
+|    \--- org.eclipse.persistence:org.eclipse.persistence.antlr:2.5.0
++--- org.apache.cxf:cxf-rt-transports-http-jetty:2.7.6
+|    +--- org.apache.cxf:cxf-api:2.7.6 (*)
+|    +--- org.apache.cxf:cxf-rt-transports-http:2.7.6 (*)
+|    +--- org.apache.cxf:cxf-rt-core:2.7.6 (*)
+|    +--- org.eclipse.jetty:jetty-server:8.1.7.v20120910 (*)
+|    +--- org.eclipse.jetty:jetty-security:8.1.7.v20120910 (*)
+|    +--- org.slf4j:slf4j-api:1.7.5 -&gt; 1.7.10
+|    \--- org.apache.geronimo.specs:geronimo-servlet_3.0_spec:1.0
++--- org.slf4j:slf4j-jdk14:1.7.10
+|    \--- org.slf4j:slf4j-api:1.7.10
++--- org.codehaus.jettison:jettison:1.3.4
+|    \--- stax:stax-api:1.0.1
+\--- com.fasterxml.jackson.core:jackson-databind:2.5.1
+     +--- com.fasterxml.jackson.core:jackson-annotations:2.5.0
+     \--- com.fasterxml.jackson.core:jackson-core:2.5.1
+
+testCompileOnly - Compile dependencies for source set 'test'.
++--- javax.servlet:servlet-api:2.5
++--- commons-configuration:commons-configuration:1.9
+|    +--- commons-lang:commons-lang:2.6
+|    \--- commons-logging:commons-logging:1.1.1
++--- org.apache.commons:commons-lang3:3.1
++--- commons-collections:commons-collections:3.2
++--- org.apache.cxf:cxf-bundle-jaxrs:2.7.5
+|    +--- org.codehaus.woodstox:woodstox-core-asl:4.2.0
+|    |    \--- org.codehaus.woodstox:stax2-api:3.1.1
+|    +--- org.codehaus.woodstox:stax2-api:3.1.1
+|    +--- org.apache.ws.xmlschema:xmlschema-core:2.0.3
+|    +--- org.apache.geronimo.specs:geronimo-javamail_1.4_spec:1.7.1
+|    +--- wsdl4j:wsdl4j:1.6.3
+|    +--- com.sun.xml.bind:jaxb-impl:2.1.13
+|    +--- org.eclipse.jetty:jetty-server:8.1.7.v20120910
+|    |    +--- org.eclipse.jetty.orbit:javax.servlet:3.0.0.v201112011016
+|    |    +--- org.eclipse.jetty:jetty-continuation:8.1.7.v20120910
+|    |    \--- org.eclipse.jetty:jetty-http:8.1.7.v20120910
+|    |         \--- org.eclipse.jetty:jetty-io:8.1.7.v20120910
+|    |              \--- org.eclipse.jetty:jetty-util:8.1.7.v20120910
+|    +--- org.eclipse.jetty:jetty-continuation:8.1.7.v20120910
+|    +--- org.eclipse.jetty:jetty-http:8.1.7.v20120910 (*)
+|    +--- org.eclipse.jetty:jetty-io:8.1.7.v20120910 (*)
+|    +--- org.eclipse.jetty:jetty-util:8.1.7.v20120910
+|    +--- org.eclipse.jetty:jetty-security:8.1.7.v20120910
+|    |    \--- org.eclipse.jetty:jetty-server:8.1.7.v20120910 (*)
+|    +--- org.slf4j:slf4j-api:1.7.5 -&gt; 1.7.10
+|    +--- org.apache.geronimo.specs:geronimo-servlet_3.0_spec:1.0
+|    \--- javax.ws.rs:javax.ws.rs-api:2.0-m10
++--- org.springframework:spring-test:3.2.2.RELEASE
+|    \--- org.springframework:spring-core:3.2.2.RELEASE
+|         \--- commons-logging:commons-logging:1.1.1
++--- org.springframework:spring-context:3.2.2.RELEASE
+|    +--- org.springframework:spring-aop:3.2.2.RELEASE
+|    |    +--- aopalliance:aopalliance:1.0
+|    |    +--- org.springframework:spring-beans:3.2.2.RELEASE
+|    |    |    \--- org.springframework:spring-core:3.2.2.RELEASE (*)
+|    |    \--- org.springframework:spring-core:3.2.2.RELEASE (*)
+|    +--- org.springframework:spring-beans:3.2.2.RELEASE (*)
+|    +--- org.springframework:spring-core:3.2.2.RELEASE (*)
+|    \--- org.springframework:spring-expression:3.2.2.RELEASE
+|         \--- org.springframework:spring-core:3.2.2.RELEASE (*)
++--- commons-codec:commons-codec:1.3
++--- org.apache.cxf:cxf-rt-rs-extension-providers:2.7.5
+|    +--- org.apache.cxf:cxf-api:2.7.5 -&gt; 2.7.6
+|    |    +--- org.codehaus.woodstox:woodstox-core-asl:4.2.0 (*)
+|    |    +--- org.apache.ws.xmlschema:xmlschema-core:2.0.3
+|    |    +--- org.apache.geronimo.specs:geronimo-javamail_1.4_spec:1.7.1
+|    |    \--- wsdl4j:wsdl4j:1.6.3
+|    +--- org.apache.cxf:cxf-rt-core:2.7.5 -&gt; 2.7.6
+|    |    +--- org.apache.cxf:cxf-api:2.7.6 (*)
+|    |    +--- com.sun.xml.bind:jaxb-impl:2.1.13
+|    |    +--- org.apache.ws.xmlschema:xmlschema-core:2.0.3
+|    |    \--- org.apache.geronimo.specs:geronimo-javamail_1.4_spec:1.7.1
+|    \--- org.apache.cxf:cxf-rt-frontend-jaxrs:2.7.5
+|         +--- org.apache.cxf:cxf-api:2.7.5 -&gt; 2.7.6 (*)
+|         +--- org.apache.cxf:cxf-rt-core:2.7.5 -&gt; 2.7.6 (*)
+|         +--- javax.ws.rs:javax.ws.rs-api:2.0-m10
+|         +--- org.apache.cxf:cxf-rt-bindings-xml:2.7.5
+|         |    \--- org.apache.cxf:cxf-api:2.7.5 -&gt; 2.7.6 (*)
+|         \--- org.apache.cxf:cxf-rt-transports-http:2.7.5 -&gt; 2.7.6
+|              +--- org.apache.cxf:cxf-api:2.7.6 (*)
+|              \--- org.apache.cxf:cxf-rt-core:2.7.6 (*)
++--- org.xerial:sqlite-jdbc:3.8.7
++--- javax.servlet.jsp:jsp-api:2.1
++--- org.glassfish.jersey.containers:jersey-container-servlet:2.5.1
+|    +--- org.glassfish.jersey.containers:jersey-container-servlet-core:2.5.1
+|    |    +--- org.glassfish.hk2.external:javax.inject:2.2.0-b21
+|    |    +--- org.glassfish.jersey.core:jersey-server:2.5.1
+|    |    |    +--- org.glassfish.jersey.core:jersey-common:2.5.1
+|    |    |    |    +--- javax.ws.rs:javax.ws.rs-api:2.0 -&gt; 2.0-m10
+|    |    |    |    +--- javax.annotation:javax.annotation-api:1.2
+|    |    |    |    +--- com.google.guava:guava:14.0.1
+|    |    |    |    +--- org.glassfish.hk2:hk2-api:2.2.0-b21
+|    |    |    |    |    +--- javax.inject:javax.inject:1
+|    |    |    |    |    \--- org.glassfish.hk2:hk2-utils:2.2.0-b21
+|    |    |    |    |         \--- javax.inject:javax.inject:1
+|    |    |    |    +--- org.glassfish.hk2.external:javax.inject:2.2.0-b21
+|    |    |    |    +--- org.glassfish.hk2:hk2-locator:2.2.0-b21
+|    |    |    |    |    +--- org.glassfish.hk2.external:javax.inject:2.2.0-b21
+|    |    |    |    |    +--- org.glassfish.hk2.external:asm-all-repackaged:2.2.0-b21
+|    |    |    |    |    +--- org.glassfish.hk2:hk2-api:2.2.0-b21 (*)
+|    |    |    |    |    +--- org.glassfish.hk2:hk2-utils:2.2.0-b21 (*)
+|    |    |    |    |    \--- org.glassfish.hk2.external:cglib:2.2.0-b21
+|    |    |    |    \--- org.glassfish.hk2:osgi-resource-locator:1.0.1
+|    |    |    +--- org.glassfish.jersey.core:jersey-client:2.5.1
+|    |    |    |    +--- org.glassfish.jersey.core:jersey-common:2.5.1 (*)
+|    |    |    |    +--- javax.ws.rs:javax.ws.rs-api:2.0 -&gt; 2.0-m10
+|    |    |    |    +--- com.google.guava:guava:14.0.1
+|    |    |    |    +--- org.glassfish.hk2:hk2-api:2.2.0-b21 (*)
+|    |    |    |    +--- org.glassfish.hk2.external:javax.inject:2.2.0-b21
+|    |    |    |    \--- org.glassfish.hk2:hk2-locator:2.2.0-b21 (*)
+|    |    |    +--- javax.ws.rs:javax.ws.rs-api:2.0 -&gt; 2.0-m10
+|    |    |    +--- com.google.guava:guava:14.0.1
+|    |    |    +--- org.glassfish.hk2:hk2-api:2.2.0-b21 (*)
+|    |    |    +--- org.glassfish.hk2.external:javax.inject:2.2.0-b21
+|    |    |    +--- org.glassfish.hk2:hk2-locator:2.2.0-b21 (*)
+|    |    |    \--- javax.validation:validation-api:1.1.0.Final
+|    |    +--- org.glassfish.jersey.core:jersey-common:2.5.1 (*)
+|    |    \--- javax.ws.rs:javax.ws.rs-api:2.0 -&gt; 2.0-m10
+|    +--- org.glassfish.jersey.core:jersey-common:2.5.1 (*)
+|    +--- org.glassfish.jersey.core:jersey-server:2.5.1 (*)
+|    \--- javax.ws.rs:javax.ws.rs-api:2.0 -&gt; 2.0-m10
++--- org.glassfish.jersey.core:jersey-client:2.5.1 (*)
++--- org.glassfish.jersey.media:jersey-media-moxy:2.5.1
+|    +--- org.glassfish.jersey.core:jersey-common:2.5.1 (*)
+|    +--- org.glassfish.jersey.ext:jersey-entity-filtering:2.5.1
+|    |    \--- javax.ws.rs:javax.ws.rs-api:2.0 -&gt; 2.0-m10
+|    +--- org.eclipse.persistence:org.eclipse.persistence.moxy:2.5.0
+|    |    +--- org.eclipse.persistence:org.eclipse.persistence.core:2.5.0
+|    |    |    \--- org.eclipse.persistence:org.eclipse.persistence.asm:2.5.0
+|    |    \--- org.eclipse.persistence:org.eclipse.persistence.antlr:2.5.0
+|    \--- org.eclipse.persistence:org.eclipse.persistence.antlr:2.5.0
++--- org.apache.cxf:cxf-rt-transports-http-jetty:2.7.6
+|    +--- org.apache.cxf:cxf-api:2.7.6 (*)
+|    +--- org.apache.cxf:cxf-rt-transports-http:2.7.6 (*)
+|    +--- org.apache.cxf:cxf-rt-core:2.7.6 (*)
+|    +--- org.eclipse.jetty:jetty-server:8.1.7.v20120910 (*)
+|    +--- org.eclipse.jetty:jetty-security:8.1.7.v20120910 (*)
+|    +--- org.slf4j:slf4j-api:1.7.5 -&gt; 1.7.10
+|    \--- org.apache.geronimo.specs:geronimo-servlet_3.0_spec:1.0
++--- org.slf4j:slf4j-jdk14:1.7.10
+|    \--- org.slf4j:slf4j-api:1.7.10
++--- org.codehaus.jettison:jettison:1.3.4
+|    \--- stax:stax-api:1.0.1
+\--- com.fasterxml.jackson.core:jackson-databind:2.5.1
+     +--- com.fasterxml.jackson.core:jackson-annotations:2.5.0
+     \--- com.fasterxml.jackson.core:jackson-core:2.5.1
+
+testRuntime - Runtime dependencies for source set 'test'.
++--- javax.servlet:servlet-api:2.5
++--- commons-configuration:commons-configuration:1.9
+|    +--- commons-lang:commons-lang:2.6
+|    \--- commons-logging:commons-logging:1.1.1
++--- org.apache.commons:commons-lang3:3.1
++--- commons-collections:commons-collections:3.2
++--- org.apache.cxf:cxf-bundle-jaxrs:2.7.5
+|    +--- org.codehaus.woodstox:woodstox-core-asl:4.2.0
+|    |    \--- org.codehaus.woodstox:stax2-api:3.1.1
+|    +--- org.codehaus.woodstox:stax2-api:3.1.1
+|    +--- org.apache.ws.xmlschema:xmlschema-core:2.0.3
+|    +--- org.apache.geronimo.specs:geronimo-javamail_1.4_spec:1.7.1
+|    +--- wsdl4j:wsdl4j:1.6.3
+|    +--- com.sun.xml.bind:jaxb-impl:2.1.13
+|    +--- org.eclipse.jetty:jetty-server:8.1.7.v20120910
+|    |    +--- org.eclipse.jetty.orbit:javax.servlet:3.0.0.v201112011016
+|    |    +--- org.eclipse.jetty:jetty-continuation:8.1.7.v20120910
+|    |    \--- org.eclipse.jetty:jetty-http:8.1.7.v20120910
+|    |         \--- org.eclipse.jetty:jetty-io:8.1.7.v20120910
+|    |              \--- org.eclipse.jetty:jetty-util:8.1.7.v20120910
+|    +--- org.eclipse.jetty:jetty-continuation:8.1.7.v20120910
+|    +--- org.eclipse.jetty:jetty-http:8.1.7.v20120910 (*)
+|    +--- org.eclipse.jetty:jetty-io:8.1.7.v20120910 (*)
+|    +--- org.eclipse.jetty:jetty-util:8.1.7.v20120910
+|    +--- org.eclipse.jetty:jetty-security:8.1.7.v20120910
+|    |    \--- org.eclipse.jetty:jetty-server:8.1.7.v20120910 (*)
+|    +--- org.slf4j:slf4j-api:1.7.5 -&gt; 1.7.10
+|    +--- org.apache.geronimo.specs:geronimo-servlet_3.0_spec:1.0
+|    \--- javax.ws.rs:javax.ws.rs-api:2.0-m10
++--- org.springframework:spring-test:3.2.2.RELEASE
+|    \--- org.springframework:spring-core:3.2.2.RELEASE
+|         \--- commons-logging:commons-logging:1.1.1
++--- org.springframework:spring-context:3.2.2.RELEASE
+|    +--- org.springframework:spring-aop:3.2.2.RELEASE
+|    |    +--- aopalliance:aopalliance:1.0
+|    |    +--- org.springframework:spring-beans:3.2.2.RELEASE
+|    |    |    \--- org.springframework:spring-core:3.2.2.RELEASE (*)
+|    |    \--- org.springframework:spring-core:3.2.2.RELEASE (*)
+|    +--- org.springframework:spring-beans:3.2.2.RELEASE (*)
+|    +--- org.springframework:spring-core:3.2.2.RELEASE (*)
+|    \--- org.springframework:spring-expression:3.2.2.RELEASE
+|         \--- org.springframework:spring-core:3.2.2.RELEASE (*)
++--- commons-codec:commons-codec:1.3
++--- org.apache.cxf:cxf-rt-rs-extension-providers:2.7.5
+|    +--- org.apache.cxf:cxf-api:2.7.5 -&gt; 2.7.6
+|    |    +--- org.codehaus.woodstox:woodstox-core-asl:4.2.0 (*)
+|    |    +--- org.apache.ws.xmlschema:xmlschema-core:2.0.3
+|    |    +--- org.apache.geronimo.specs:geronimo-javamail_1.4_spec:1.7.1
+|    |    \--- wsdl4j:wsdl4j:1.6.3
+|    +--- org.apache.cxf:cxf-rt-core:2.7.5 -&gt; 2.7.6
+|    |    +--- org.apache.cxf:cxf-api:2.7.6 (*)
+|    |    +--- com.sun.xml.bind:jaxb-impl:2.1.13
+|    |    +--- org.apache.ws.xmlschema:xmlschema-core:2.0.3
+|    |    \--- org.apache.geronimo.specs:geronimo-javamail_1.4_spec:1.7.1
+|    \--- org.apache.cxf:cxf-rt-frontend-jaxrs:2.7.5
+|         +--- org.apache.cxf:cxf-api:2.7.5 -&gt; 2.7.6 (*)
+|         +--- org.apache.cxf:cxf-rt-core:2.7.5 -&gt; 2.7.6 (*)
+|         +--- javax.ws.rs:javax.ws.rs-api:2.0-m10
+|         +--- org.apache.cxf:cxf-rt-bindings-xml:2.7.5
+|         |    \--- org.apache.cxf:cxf-api:2.7.5 -&gt; 2.7.6 (*)
+|         \--- org.apache.cxf:cxf-rt-transports-http:2.7.5 -&gt; 2.7.6
+|              +--- org.apache.cxf:cxf-api:2.7.6 (*)
+|              \--- org.apache.cxf:cxf-rt-core:2.7.6 (*)
++--- org.xerial:sqlite-jdbc:3.8.7
++--- javax.servlet.jsp:jsp-api:2.1
++--- org.glassfish.jersey.containers:jersey-container-servlet:2.5.1
+|    +--- org.glassfish.jersey.containers:jersey-container-servlet-core:2.5.1
+|    |    +--- org.glassfish.hk2.external:javax.inject:2.2.0-b21
+|    |    +--- org.glassfish.jersey.core:jersey-server:2.5.1
+|    |    |    +--- org.glassfish.jersey.core:jersey-common:2.5.1
+|    |    |    |    +--- javax.ws.rs:javax.ws.rs-api:2.0 -&gt; 2.0-m10
+|    |    |    |    +--- javax.annotation:javax.annotation-api:1.2
+|    |    |    |    +--- com.google.guava:guava:14.0.1
+|    |    |    |    +--- org.glassfish.hk2:hk2-api:2.2.0-b21
+|    |    |    |    |    +--- javax.inject:javax.inject:1
+|    |    |    |    |    \--- org.glassfish.hk2:hk2-utils:2.2.0-b21
+|    |    |    |    |         \--- javax.inject:javax.inject:1
+|    |    |    |    +--- org.glassfish.hk2.external:javax.inject:2.2.0-b21
+|    |    |    |    +--- org.glassfish.hk2:hk2-locator:2.2.0-b21
+|    |    |    |    |    +--- org.glassfish.hk2.external:javax.inject:2.2.0-b21
+|    |    |    |    |    +--- org.glassfish.hk2.external:asm-all-repackaged:2.2.0-b21
+|    |    |    |    |    +--- org.glassfish.hk2:hk2-api:2.2.0-b21 (*)
+|    |    |    |    |    +--- org.glassfish.hk2:hk2-utils:2.2.0-b21 (*)
+|    |    |    |    |    \--- org.glassfish.hk2.external:cglib:2.2.0-b21
+|    |    |    |    \--- org.glassfish.hk2:osgi-resource-locator:1.0.1
+|    |    |    +--- org.glassfish.jersey.core:jersey-client:2.5.1
+|    |    |    |    +--- org.glassfish.jersey.core:jersey-common:2.5.1 (*)
+|    |    |    |    +--- javax.ws.rs:javax.ws.rs-api:2.0 -&gt; 2.0-m10
+|    |    |    |    +--- com.google.guava:guava:14.0.1
+|    |    |    |    +--- org.glassfish.hk2:hk2-api:2.2.0-b21 (*)
+|    |    |    |    +--- org.glassfish.hk2.external:javax.inject:2.2.0-b21
+|    |    |    |    \--- org.glassfish.hk2:hk2-locator:2.2.0-b21 (*)
+|    |    |    +--- javax.ws.rs:javax.ws.rs-api:2.0 -&gt; 2.0-m10
+|    |    |    +--- com.google.guava:guava:14.0.1
+|    |    |    +--- org.glassfish.hk2:hk2-api:2.2.0-b21 (*)
+|    |    |    +--- org.glassfish.hk2.external:javax.inject:2.2.0-b21
+|    |    |    +--- org.glassfish.hk2:hk2-locator:2.2.0-b21 (*)
+|    |    |    \--- javax.validation:validation-api:1.1.0.Final
+|    |    +--- org.glassfish.jersey.core:jersey-common:2.5.1 (*)
+|    |    \--- javax.ws.rs:javax.ws.rs-api:2.0 -&gt; 2.0-m10
+|    +--- org.glassfish.jersey.core:jersey-common:2.5.1 (*)
+|    +--- org.glassfish.jersey.core:jersey-server:2.5.1 (*)
+|    \--- javax.ws.rs:javax.ws.rs-api:2.0 -&gt; 2.0-m10
++--- org.glassfish.jersey.core:jersey-client:2.5.1 (*)
++--- org.glassfish.jersey.media:jersey-media-moxy:2.5.1
+|    +--- org.glassfish.jersey.core:jersey-common:2.5.1 (*)
+|    +--- org.glassfish.jersey.ext:jersey-entity-filtering:2.5.1
+|    |    \--- javax.ws.rs:javax.ws.rs-api:2.0 -&gt; 2.0-m10
+|    +--- org.eclipse.persistence:org.eclipse.persistence.moxy:2.5.0
+|    |    +--- org.eclipse.persistence:org.eclipse.persistence.core:2.5.0
+|    |    |    \--- org.eclipse.persistence:org.eclipse.persistence.asm:2.5.0
+|    |    \--- org.eclipse.persistence:org.eclipse.persistence.antlr:2.5.0
+|    \--- org.eclipse.persistence:org.eclipse.persistence.antlr:2.5.0
++--- org.apache.cxf:cxf-rt-transports-http-jetty:2.7.6
+|    +--- org.apache.cxf:cxf-api:2.7.6 (*)
+|    +--- org.apache.cxf:cxf-rt-transports-http:2.7.6 (*)
+|    +--- org.apache.cxf:cxf-rt-core:2.7.6 (*)
+|    +--- org.eclipse.jetty:jetty-server:8.1.7.v20120910 (*)
+|    +--- org.eclipse.jetty:jetty-security:8.1.7.v20120910 (*)
+|    +--- org.slf4j:slf4j-api:1.7.5 -&gt; 1.7.10
+|    \--- org.apache.geronimo.specs:geronimo-servlet_3.0_spec:1.0
++--- org.slf4j:slf4j-jdk14:1.7.10
+|    \--- org.slf4j:slf4j-api:1.7.10
++--- org.codehaus.jettison:jettison:1.3.4
+|    \--- stax:stax-api:1.0.1
+\--- com.fasterxml.jackson.core:jackson-databind:2.5.1
+     +--- com.fasterxml.jackson.core:jackson-annotations:2.5.0
+     \--- com.fasterxml.jackson.core:jackson-core:2.5.1
+
+umljavadoc
+\--- org.umlgraph:umlgraph:5.6.6
+</pre></body></html>
+

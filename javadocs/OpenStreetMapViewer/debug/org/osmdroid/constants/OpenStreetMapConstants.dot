@@ -10,27 +10,27 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.constants.OpenStreetMapConstants
-	c4378 [label=<<table title="org.osmdroid.constants.OpenStreetMapConstants" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./OpenStreetMapConstants.html">
+	c10177 [label=<<table title="org.osmdroid.constants.OpenStreetMapConstants" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./OpenStreetMapConstants.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> OpenStreetMapConstants </td></tr>
 		</table></td></tr>
 		</table>>, URL="./OpenStreetMapConstants.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samples.SampleExtensive
-	c4450 [label=<<table title="org.osmdroid.samples.SampleExtensive" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../samples/SampleExtensive.html">
+	c10288 [label=<<table title="org.osmdroid.samples.SampleExtensive" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../samples/SampleExtensive.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleExtensive </td></tr>
 		</table></td></tr>
 		</table>>, URL="../samples/SampleExtensive.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.StarterMapFragment
-	c4456 [label=<<table title="org.osmdroid.StarterMapFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../StarterMapFragment.html">
+	c10294 [label=<<table title="org.osmdroid.StarterMapFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../StarterMapFragment.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> StarterMapFragment </td></tr>
 		</table></td></tr>
 		</table>>, URL="../StarterMapFragment.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.samples.SampleExtensive implements org.osmdroid.constants.OpenStreetMapConstants
-	c4378:p -> c4450:p [dir=back,arrowtail=empty,style=dashed];
+	c10177:p -> c10288:p [dir=back,arrowtail=empty,style=dashed];
 	//org.osmdroid.StarterMapFragment implements org.osmdroid.constants.OpenStreetMapConstants
-	c4378:p -> c4456:p [dir=back,arrowtail=empty,style=dashed];
+	c10177:p -> c10294:p [dir=back,arrowtail=empty,style=dashed];
 }
 

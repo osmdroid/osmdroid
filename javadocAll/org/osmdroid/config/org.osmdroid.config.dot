@@ -10,25 +10,25 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.config.Configuration
-	c9487 [label=<<table title="org.osmdroid.config.Configuration" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Configuration.html">
+	c12900 [label=<<table title="org.osmdroid.config.Configuration" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Configuration.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> Configuration </td></tr>
 		</table></td></tr>
 		</table>>, URL="./Configuration.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.config.DefaultConfigurationProvider
-	c9488 [label=<<table title="org.osmdroid.config.DefaultConfigurationProvider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./DefaultConfigurationProvider.html">
+	c12901 [label=<<table title="org.osmdroid.config.DefaultConfigurationProvider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./DefaultConfigurationProvider.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> DefaultConfigurationProvider </td></tr>
 		</table></td></tr>
 		</table>>, URL="./DefaultConfigurationProvider.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.config.IConfigurationProvider
-	c9489 [label=<<table title="org.osmdroid.config.IConfigurationProvider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./IConfigurationProvider.html">
+	c12902 [label=<<table title="org.osmdroid.config.IConfigurationProvider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./IConfigurationProvider.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> IConfigurationProvider </td></tr>
 		</table></td></tr>
 		</table>>, URL="./IConfigurationProvider.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.config.DefaultConfigurationProvider implements org.osmdroid.config.IConfigurationProvider
-	c9489:p -> c9488:p [dir=back,arrowtail=empty,style=dashed];
+	c12902:p -> c12901:p [dir=back,arrowtail=empty,style=dashed];
 }
 
