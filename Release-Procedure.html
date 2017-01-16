@@ -68,7 +68,7 @@
                 2017-01-16
             </li>
             <li id="projectVersion" class="pull-right">
-                5.6.3
+                5.6.4-SNAPSHOT
             </li>
 
         </ul>
@@ -97,6 +97,11 @@
                                     Applications   Using   osmdroid</a>
                             </li> <li>
 
+                                <a href="Cache-Manager.html" title="Cache   Manager">
+                                    <span class="none"></span>
+                                    Cache   Manager</a>
+                            </li> <li>
+
                                 <a href="Changelog.html" title="Changelog">
                                     <span class="none"></span>
                                     Changelog</a>
@@ -120,6 +125,11 @@
                                 <a href="Generated-Change-Log.html" title="Generated   Change   Log">
                                     <span class="none"></span>
                                     Generated   Change   Log</a>
+                            </li> <li>
+
+                                <a href="Home.html" title="Home">
+                                    <span class="none"></span>
+                                    Home</a>
                             </li> <li>
 
                                 <a href="Home.html" title="Home">
@@ -366,20 +376,16 @@ android.signingConfigs.release.keyPassword=***
 ./gradlew cC
 ./gradlew site
 </code></pre>
-<p>You may need to repeat the <code>install</code> step a couple of times until it succeeds.</p>
 <p>Go to
 <a href="https://oss.sonatype.org/">Sonatype</a>,
 select â€œstaging repositoriesâ€?, check osmdroid and click â€œcloseâ€? and then â€œreleaseâ€?.</p>
-<h2>Prepare distribution package for Github</h2>
-<pre><code>./gradlew distZip -Pprofile=dist
-</code></pre>
-<h2>Upload release zip on Github</h2>
+<h2>Upload osmdroid-dist release zip on Github</h2>
 <p><a href="https://github.com/osmdroid/osmdroid/releases/new">https://github.com/osmdroid/osmdroid/releases/new</a></p>
 <p>Output zip is at osmdroid-dist/build/distributions/</p>
 <h2>Publish APK to Google Play</h2>
 <p>Output APK is at OpenStreetMapViewer\build\outputs\apk\OpenStreetMapViewer-{version}-release.apk</p>
 <h2>Push the site changes</h2>
-<p>Copy the contents of &quot;docs&quot; into a separate clone of osmdroid on the branch <code>gh-pages</code>, commit and push.</p>
+<p>Copy the contents of &quot;build/src&quot; into a separate clone of osmdroid on the branch <code>gh-pages</code>, commit and push.</p>
 <h2>Post-release steps</h2>
 <p>Update readme.md to have the current version number listed.</p>
 <p>Edit gradle.properties and update the version information :</p>

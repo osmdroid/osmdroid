@@ -68,7 +68,7 @@
                 2017-01-16
             </li>
             <li id="projectVersion" class="pull-right">
-                5.6.3
+                5.6.4-SNAPSHOT
             </li>
 
         </ul>
@@ -97,6 +97,11 @@
                                     Applications   Using   osmdroid</a>
                             </li> <li>
 
+                                <a href="Cache-Manager.html" title="Cache   Manager">
+                                    <span class="none"></span>
+                                    Cache   Manager</a>
+                            </li> <li>
+
                                 <a href="Changelog.html" title="Changelog">
                                     <span class="none"></span>
                                     Changelog</a>
@@ -120,6 +125,11 @@
                                 <a href="Generated-Change-Log.html" title="Generated   Change   Log">
                                     <span class="none"></span>
                                     Generated   Change   Log</a>
+                            </li> <li>
+
+                                <a href="Home.html" title="Home">
+                                    <span class="none"></span>
+                                    Home</a>
                             </li> <li>
 
                                 <a href="Home.html" title="Home">
@@ -335,6 +345,7 @@
             <a name="topOfPage"></a>
             <h1>FAQ</h1>
 <h2>Map tiles dont seem to load in my application</h2>
+<p>Update: as of v5.6 this should never be an issue. On the first load of the app with osmdroid, the largest writable partition is auto selected (even with permission denial) so the caching of tiles that were downloaded should function in all conditions. That said, you, as the app developer, would probably want to give your users the option to put the cache elsewhere. See the [Update Guide] for more details and the sample app.</p>
 <p>Make sure your AndroidManifest.xml file has the android.permission.INTERNET permission. See Prerequisites.</p>
 <p>Aug 2016 - someone managed to get the default user agent used by osmdroid banned from Open Street Maps tile servers. This can also be a reason for tiles failing to load (usually with an access denied, bad request or other similar HTTP error message). To fix, set your user agent to something unique for your app. The User Agent is set via <code>org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants</code> class.</p>
 <p>If you're on an API23+ device, make sure the app has sufficient runtime permissions (user granted).</p>
@@ -353,11 +364,14 @@
 <h2>Debugging tile loading issues</h2>
 <p><a href="Debugging-osmdroid">Moved</a></p>
 <h2>Does my device need an sd card or some kind of storage medium?</h2>
+<p>Update: as of v5.6, as long as application private storage is writable, the map should load and cache tiles appropriately.</p>
 <p>Yes. osmdroid downloads and caches map data on device and it needs to be stored on some writable medium. We use <code>Environment.getExternalStorage</code> and if that doesn't return a writable location (which happens some devices) then the cache won't be available, which well lead to significantly increased data usage (or osmdroid just won't work at all). The location can be overridden to use application private storage or whatever.</p>
 <p>As of 5.6, this was updated to automatically select the largest writable storage directory on start up. The sample application has some logic that you'll definitely want to look at it.</p>
 <h2>What's the Dex count for osmdroid?</h2>
 <p>Rather small, at just over 2000 methods.</p>
 <h2>Can I change where osmdroid looks for tile archives and the location of the tile cache?</h2>
+<p>v5.6 and newer use the <code>IConfiguration</code> interface for all configuration items. Use <code>Configuration.getInstance().set...</code> to configure everything</p>
+<p>v5.5 use the following</p>
 <p>Yes! Both of these settings are in the following class</p>
 <pre><code>        OpenStreetMapTileProviderConstants.setCachePath(...)
         OpenStreetMapTileProviderConstants.setCacheSizes(...)
@@ -378,6 +392,8 @@
 <li>double tapping to zoom in can cause the map to fling towards the other side of the planet</li>
 <li>lines and polygons can disappear</li>
 </ul>
+<h2>Support for Zoom &gt; 22</h2>
+<p>Right now it's not possible, but there are MANY open tickets on this, please don't open another one.</p>
 <h1>If you get 'resource not found' error</h1>
 <p>This is because osmdroid uses a number of graphics (Android drawables) that represent things like current device location, zoom in/out buttons, etc. These are not included with osmdroid because it's distributed as a JAR file (versions =&lt; 4.3). You have two options:</p>
 <ol>

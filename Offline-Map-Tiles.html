@@ -68,7 +68,7 @@
                 2017-01-16
             </li>
             <li id="projectVersion" class="pull-right">
-                5.6.3
+                5.6.4-SNAPSHOT
             </li>
 
         </ul>
@@ -97,6 +97,11 @@
                                     Applications   Using   osmdroid</a>
                             </li> <li>
 
+                                <a href="Cache-Manager.html" title="Cache   Manager">
+                                    <span class="none"></span>
+                                    Cache   Manager</a>
+                            </li> <li>
+
                                 <a href="Changelog.html" title="Changelog">
                                     <span class="none"></span>
                                     Changelog</a>
@@ -120,6 +125,11 @@
                                 <a href="Generated-Change-Log.html" title="Generated   Change   Log">
                                     <span class="none"></span>
                                     Generated   Change   Log</a>
+                            </li> <li>
+
+                                <a href="Home.html" title="Home">
+                                    <span class="none"></span>
+                                    Home</a>
                             </li> <li>
 
                                 <a href="Home.html" title="Home">
@@ -346,7 +356,7 @@
 <h1>How can I create an offline storage archive?</h1>
 <p>There are a few different options.</p>
 <h2>OSM Map Tile Packager</h2>
-<p>osmdroid comes with a tool to enable you to download tiles and storage them for offline use called the <code>OSM Map Tile Packager</code>. See the <a href="https://github.com/osmdroid/osmdroid/blob/master/OSMMapTilePackager/readme.md">readme.md for more information</a>.</p>
+<p>osmdroid comes with a tool to enable you to download tiles and store them for offline use called the <code>OSM Map Tile Packager</code>. See the <a href="https://github.com/osmdroid/osmdroid/blob/master/OSMMapTilePackager/readme.md">readme.md for more information</a>.</p>
 <h2>Mobile Atlas Creator (MOBAC)</h2>
 <p>MOBAC is the easiest to use tool that there is and supports a huge array input map sources and output formats (and is open source).</p>
 <p>General guidance</p>
@@ -361,8 +371,29 @@
 </ol>
 <h2>Maperitive.net</h2>
 <p><a href="http://maperitive.net/">Maperitive</a> supports generating tile images from OSM data API and can be used as a replacement for MOBAC which has been <a href="http://wiki.openstreetmap.org/wiki/Blocked_applications">blocked by openstreetmap.org</a> for overusing traffic.</p>
-<h3>Use the Cache Manager on device ( &gt; version 5.2)</h3>
-<p>TODO</p>
+<h2>Use osmdroid's Cache Manager on device ( &gt; version 5.2)</h2>
+<p>The Cache Manager provides programmatic access to the <code>cache of downloaded tiles</code>. It can also be used to create <code>tile archives</code>. Two key points here:</p>
+<ul>
+<li><code>cache of downloaded tiles</code> is an expiring tile cache of tiles that osmdroid has downloaded from an online tile source. It expires. The default expiration is a based off of what the online tile source has specified or two weeks. The <code>cache</code> also has limits as far as how much storage space it is allowed to consume on user's devices. Both of these settings can be altered and overridden via OpenStreetMapTileProvideConstants for version &lt; 5.6. 5.6 and newer uses the Configuration.getInstance() structure.</li>
+<li><code>Tile Archives</code> are persistent, never expiring tile stores. This is great for offline users however care must be taken to understand what the online tile source's usage rights are on tiles. Many online sources explicitly ban you from creating a permanent tile store. Read the usage rights carefully.</li>
+</ul>
+<p>The cache manager can perform a number of tasks, including</p>
+<ul>
+<li>Downloading all tiles in a given bounding box and zoom levels</li>
+<li>Download all tiles that intersect a given set of points (like a route from point A to B) and zoom levels</li>
+<li>Clear all tiles for a given bounds, zoom level and tile source</li>
+<li>Clear all tiles for a given set of points (again, point A to B)</li>
+</ul>
+<p>The cache manager needs two things to operate. An online tile source and a tile writer. For tile writers, the default for API 8 to 9 is the file system based cache (writes to the zip archive style format using the file system). API10 and newer will default to SqlTileWriter, which uses a sqlite database to store the tiles (which is faster and avoids a number of issues with the maximum number of tiles per folder).</p>
+<h3>Cache Manager examples</h3>
+<p><a href="https://github.com/osmdroid/osmdroid/tree/master/OpenStreetMapViewer/src/main/java/org/osmdroid/samplefragments/cache">Sample application sources</a></p>
+<ul>
+<li><a href="https://github.com/osmdroid/osmdroid/blob/master/OpenStreetMapViewer/src/main/java/org/osmdroid/samplefragments/cache/CacheImport.java">Import from file system cache into the new sqlite based cache</a></li>
+<li><a href="https://github.com/osmdroid/osmdroid/blob/master/OpenStreetMapViewer/src/main/java/org/osmdroid/samplefragments/cache/CachePurge.java">Purge the entire cache</a></li>
+<li><a href="https://github.com/osmdroid/osmdroid/blob/master/OpenStreetMapViewer/src/main/java/org/osmdroid/debug/CacheAnalyzerActivity.java#L110">Purge a specific tile source</a></li>
+<li><a href="https://github.com/osmdroid/osmdroid/blob/master/OpenStreetMapViewer/src/main/java/org/osmdroid/samplefragments/cache/SampleCacheDownloaderArchive.java">Make a tile archive</a></li>
+<li><a href="https://github.com/osmdroid/osmdroid/blob/master/OpenStreetMapViewer/src/main/java/org/osmdroid/samplefragments/cache/SampleCacheDownloader.java">Cache tiles for a given bounds</a></li>
+</ul>
 <h3>Important note on tile source names.</h3>
 <p>When downloading map sources using MOBAC and using one of the following formats</p>
 <ul>
@@ -390,7 +421,7 @@
 <p><a href="https://github.com/MKergall/osmbonuspack">OSMBonusPack</a> is an addon Android library for osmdroid that has the ability to download and cache map tiles on device. See the <a href="https://github.com/MKergall/osmbonuspack/blob/master/OSMBonusPack/src/main/java/org/osmdroid/bonuspack/cachemanager/CacheManager.java">CacheManager</a></p>
 <h1>What legal things do I need to know?</h1>
 <p>Many map sources have disclaimers and legal statements that specifically state to NOT cache and rehost their map imagery. Some may have wording to disallows you to use their map imagery offline or to download large portions of the world.  Make sure you read the fine print! osmdroid takes no responsibility for map imagery misuse. That's between you and the imagery owner.</p>
-<h1>Can you support tile format <code>x</code>?</h1>
+<h1>Can you support tile archive format <code>x</code>?</h1>
 <p>We'll happily take pull requests. That said, it's fairly simple to make a new tile source for osmdroid. Here are the basic steps:</p>
 <ol>
 <li>Create a class that implements IArchiveProvider. At the most basic level, the IArchiveProvider needs to turn an OSM tile coordinates (Zoom, X and Y coordinates) into an InputStream representing the tile if it's available.</li>
@@ -399,15 +430,16 @@
 </ol>
 <h1>Can I change the location osmdroid looks for map tiles archives?</h1>
 <p>Yes! However the answer depends on what version of osmdroid you're using.</p>
-<p>In general, the answer files within the following class.</p>
-<p><a href="https://github.com/osmdroid/osmdroid/blob/master/osmdroid-android/src/main/java/org/osmdroid/tileprovider/constants/OpenStreetMapTileProviderConstants.java">https://github.com/osmdroid/osmdroid/blob/master/osmdroid-android/src/main/java/org/osmdroid/tileprovider/constants/OpenStreetMapTileProviderConstants.java</a></p>
+<p>Versions older than 5.6: <a href="https://github.com/osmdroid/osmdroid/blob/master/osmdroid-android/src/main/java/org/osmdroid/tileprovider/constants/OpenStreetMapTileProviderConstants.java">https://github.com/osmdroid/osmdroid/blob/master/osmdroid-android/src/main/java/org/osmdroid/tileprovider/constants/OpenStreetMapTileProviderConstants.java</a></p>
 <p>See <code>setCachePath</code> and <code>TILE_PATH_BASE</code>. Even though the class is called <code>Constants</code> many of the fields are writable. You can use this to tweak a number of settings for your needs.</p>
+<p>Versions 5.6 and newer: <a href="https://github.com/osmdroid/osmdroid/blob/master/osmdroid-android/src/main/java/org/osmdroid/config/Configuration.java">https://github.com/osmdroid/osmdroid/blob/master/osmdroid-android/src/main/java/org/osmdroid/config/Configuration.java</a></p>
+<p><code>Configuration.getInstance().set...</code></p>
 <h1>What other mechanisms exists for loading tiles?</h1>
 <p>Out of the box, we have the following (and they are checked in this order)</p>
 <ul>
 <li>Assets, you can place exploded zip archives in the assets folder of your app</li>
 <li>Local file system (archives like zip, sqlite, etc)</li>
-<li>Network sources cache - by default /sdcard/osmdroid/tiles/SOURCE/Z/X/Y.extension</li>
+<li>Network sources cache - by default /sdcard/osmdroid/tiles/cache.db</li>
 <li>Network sources - download what you need, when you need it</li>
 </ul>
 <h1>Using offline tile archives</h1>
@@ -419,7 +451,7 @@
                  myMBTiles.mbtile
                  myGEMF.gemf
 /sdcard/osmdroid/tiles/
-                       cache.db (this is used for downloaded tiles)
+                       cache.db (this is used for downloaded and cached tiles)
 </code></pre>
 <p>So now that your archives are there, there's a few options a few mechanisms that can be used to help you on your way towards disconnected bliss. The next step is to tell osmdroid's <code>map tile provider</code> about the map tiles.</p>
 <h2>Map Tile Provider options</h2>

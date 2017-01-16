@@ -68,7 +68,7 @@
                 2017-01-16
             </li>
             <li id="projectVersion" class="pull-right">
-                5.6.3
+                5.6.4-SNAPSHOT
             </li>
 
         </ul>
@@ -97,6 +97,11 @@
                                     Applications   Using   osmdroid</a>
                             </li> <li>
 
+                                <a href="Cache-Manager.html" title="Cache   Manager">
+                                    <span class="none"></span>
+                                    Cache   Manager</a>
+                            </li> <li>
+
                                 <a href="Changelog.html" title="Changelog">
                                     <span class="none"></span>
                                     Changelog</a>
@@ -120,6 +125,11 @@
                                 <a href="Generated-Change-Log.html" title="Generated   Change   Log">
                                     <span class="none"></span>
                                     Generated   Change   Log</a>
+                            </li> <li>
+
+                                <a href="Home.html" title="Home">
+                                    <span class="none"></span>
+                                    Home</a>
                             </li> <li>
 
                                 <a href="Home.html" title="Home">
@@ -440,7 +450,8 @@ while(iterator.hasNext()){
 OpenStreetMapTileProviderConstants.setCacheSizes(1000L, 900L);
 </code></pre>
 <h1>Online Map Sources (out of the box)</h1>
-<p>osmdroid comes with a few map sources preconfigured for you to use. Usage access rules vary based on the source. Make sure you read the fine print.</p>
+<p>osmdroid comes with a few map sources preconfigured for you to use. Usage access rules vary based on the source. Make sure you read the fine print for each</p>
+<p><strong>For the most up to date information, see <a href="https://github.com/osmdroid/osmdroid/blob/master/osmdroid-android/src/main/java/org/osmdroid/tileprovider/tilesource/TileSourceFactory.java">TileSourceFactory</a></strong></p>
 <h2>Mapnik (aka Open Street Maps)</h2>
 <p>Required Java dependencies</p>
 <ul>
@@ -528,6 +539,7 @@ mMapView.setTileSource(tileSource);
 mMapView.setTileSource(tileSource);
 </code></pre>
 <h2>Bing Maps</h2>
+<p>Before using Bing Maps, make sure fully understand their usage terms. Bing maps are not free!</p>
 <p>Required Java dependencies</p>
 <ul>
 <li>osmdroid-android</li>
@@ -556,14 +568,61 @@ mapView.setTileSource(bing);
 <pre><code>bing.setStyle(BingMapTileSource.IMAGERYSET_AERIAL);
 </code></pre>
 <h2>Google Maps</h2>
+<p>There's two options here. If you want to use the same API for osmdroid with Google Maps, see the osmdroid-thirdparty project and GoogleWrapperSample. If you want to use Google's tiles with your application, the following will get you going. Note, this is completely against Google's usage policy, as such, it will never be included with osmdroid.</p>
+<p>Before using Google Maps, make sure fully understand their usage terms. Google maps are not free!</p>
 <p>Required Java dependencies</p>
 <ul>
 <li>osmdroid-android</li>
-<li>osmdroid-third-party</li>
 </ul>
-<p>MinSDK 9</p>
-<p>Code Sample:
-See the example &quot;GoogleMapsWrapper&quot; application</p>
+<p>Code Sample:</p>
+<pre><code>public static final OnlineTileSourceBase GoogleHybrid = new XYTileSource(&quot;Google-Hybrid&quot;,
+		0, 19, 256, &quot;.png&quot;, new String[] {
+		&quot;http://mt0.google.com&quot;,
+		&quot;http://mt1.google.com&quot;,
+		&quot;http://mt2.google.com&quot;,
+		&quot;http://mt3.google.com&quot;,
+
+		}) {
+		@Override
+		public String getTileURLString(MapTile aTile) {
+			return getBaseUrl() + &quot;/vt/lyrs=y&amp;x=&quot; + aTile.getX() + &quot;&amp;y=&quot; +aTile.getY() + &quot;&amp;z=&quot; + aTile.getZoomLevel();
+		}
+	};
+
+	public static final OnlineTileSourceBase GoogleSat = new XYTileSource(&quot;Google-Sat&quot;,
+		0, 19, 256, &quot;.png&quot;, new String[] {
+		&quot;http://mt0.google.com&quot;,
+		&quot;http://mt1.google.com&quot;,
+		&quot;http://mt2.google.com&quot;,
+		&quot;http://mt3.google.com&quot;,
+
+	}) {
+		@Override
+		public String getTileURLString(MapTile aTile) {
+			return getBaseUrl() + &quot;/vt/lyrs=s&amp;x=&quot; + aTile.getX() + &quot;&amp;y=&quot; +aTile.getY() + &quot;&amp;z=&quot; + aTile.getZoomLevel();
+		}
+	};
+
+	public static final OnlineTileSourceBase GoogleRoads = new XYTileSource(&quot;Google-Roads&quot;,
+		0, 19, 256, &quot;.png&quot;, new String[] {
+		&quot;http://mt0.google.com&quot;,
+		&quot;http://mt1.google.com&quot;,
+		&quot;http://mt2.google.com&quot;,
+		&quot;http://mt3.google.com&quot;,
+
+	}) {
+		@Override
+		public String getTileURLString(MapTile aTile) {
+			return getBaseUrl() + &quot;/vt/lyrs=m&amp;x=&quot; + aTile.getX() + &quot;&amp;y=&quot; +aTile.getY() + &quot;&amp;z=&quot; + aTile.getZoomLevel();
+		}
+	};
+
+
+TileSourceFactory.addTileSource(GoogleSat);
+TileSourceFactory.addTileSource(GoogleRoads);
+TileSourceFactory.addTileSource(GoogleHybrid);
+</code></pre>
+<p><strong>Again Google Maps are not free. Do not publish an application using osmdroid with Google Maps as a tile source, anywhere</strong>. Google wants you to use their map engine with their API keys.</p>
 <h2>WMS Support</h2>
 <p>WMS Support on device is something that we're working on, but it's not a high priority on the moment.</p>
 <p>You can use MOBAC to connected to a WMS map provider, then convert those tiles into an offline map source in the mean time.</p>
@@ -611,6 +670,11 @@ See the example &quot;GoogleMapsWrapper&quot; application</p>
 </ol>
 <h1>Can I use an ESRI ArcGIS REST API to display tiles on osmdroid?</h1>
 <p>Yes, as long as the endpoint supports the <code>export</code> API with bounding box then the above example should get you going. Note: ESRI's APIs can vary significantly by version and configuration settings. Consult their API guide additional details (and report back here!)</p>
+<h1>Tile Source Attribution and Copyright notices</h1>
+<p>Most tile sources require you (as an app developer) to annotate on the map some kind of attribution or copyright notice. osmdroid v5.6.3 adds one. It's fairly simple to use.</p>
+<pre><code>mapview.getOverlays().add(new CopyrightOverlay(context));
+</code></pre>
+<p>Font sizes and colors are adjustable, as well as on screen positioning.</p>
 <h1>Translating Map Scale to OSM zoom levels</h1>
 <table>
 <thead>

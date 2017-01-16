@@ -68,7 +68,7 @@
                 2017-01-16
             </li>
             <li id="projectVersion" class="pull-right">
-                5.6.3
+                5.6.4-SNAPSHOT
             </li>
 
         </ul>
@@ -97,6 +97,11 @@
                                     Applications   Using   osmdroid</a>
                             </li> <li>
 
+                                <a href="Cache-Manager.html" title="Cache   Manager">
+                                    <span class="none"></span>
+                                    Cache   Manager</a>
+                            </li> <li>
+
                                 <a href="Changelog.html" title="Changelog">
                                     <span class="none"></span>
                                     Changelog</a>
@@ -120,6 +125,11 @@
                                 <a href="Generated-Change-Log.html" title="Generated   Change   Log">
                                     <span class="none"></span>
                                     Generated   Change   Log</a>
+                            </li> <li>
+
+                                <a href="Home.html" title="Home">
+                                    <span class="none"></span>
+                                    Home</a>
                             </li> <li>
 
                                 <a href="Home.html" title="Home">
@@ -334,8 +344,25 @@
         <div id="bodyColumn" class="span10">
             <a name="topOfPage"></a>
             <h1>A guide for upgrading your app</h1>
-<h2>From version 5.6 to x.y</h2>
-<h2>From version 5.5 to 5.6 (under dev)</h2>
+<h2>From version 5.6.2 to 5.6.3</h2>
+<ul>
+<li>No breaking API changes, new constructors added for tile source for the copyright notice</li>
+<li>Consider using the CopyrightOverlay to give proper attribution to the map source owner</li>
+<li>Old mapsforge example had a memory leak, which is now fixed on the sample with Open Map</li>
+<li>Geopackage support added, see sample</li>
+<li>Sample app Cache Analyzer is now available always</li>
+<li>Bing tile source was moved into osmdroid-android and added to the Sample Open Map</li>
+</ul>
+<h2>From version 5.6.1 to 5.6.2</h2>
+<ul>
+<li>More flexibility with cache expiration dates (new IConfiguration options)</li>
+<li>Sample app now also includes a cache analyzer (only when debug is turned on), which lets you get various statistics about the cache database and browse the cache database records</li>
+</ul>
+<h2>From version 5.6 to 5.6.1</h2>
+<ul>
+<li>no code changes</li>
+</ul>
+<h2>From version 5.5 to 5.6</h2>
 <ul>
 <li>New overlay type added, efficient for many thousands of icons (up to 100k depending on device), see <code>SimpleFastPointOverlay</code></li>
 <li>The SqlTileWriter will at start up, will check its size and trim to be under the maximum size set by the OpenStreetMapTileProviderConstants setting. Expired tiles are not touched until the trim size is reached</li>

@@ -343,79 +343,57 @@
 
         <div id="bodyColumn" class="span10">
             <a name="topOfPage"></a>
-            <h1>Building osmdroid from the command line</h1>
-<p>osmdroid's current, authoritative, build environment is with gradle. We also maintain maven build files however it's non-functional at the moment. As of Jan 2015, all of the Maven projects have been migrated over to Gradle.</p>
-<h2>Building with Maven</h2>
-<p>** NOTICE ** since April 2016, Google's Android team in their infinite wisdom have broken all things related to the maven repository for Google Play Services and Google Maps. As such, osmdroid's maven based build has been failing on on both the 3rd party library and the Google Wrapper APK project. As such, we've been actively using Gradle for the primary build system. See <a href="https://github.com/simpligility/maven-android-sdk-deployer/issues/295">here</a> for details.</p>
+            <p>Originally written by user MKer as part of osmbonuspack (migrated somewhere around version 5.3), the Cache Manager provides a number of super cool kick ass functions. Here's a few quick highlights</p>
 <ul>
-<li>Download the latest Android SDK and update the packages. The command line build requires the <strong>Google-Play-Services</strong> package.
-<ul>
-<li>Create the <strong>ANDROID_HOME</strong> path variable, pointing to your Android SDK install location.
-<ul>
-<li>Windows: Right Click on My Computer, select Properties, Select Environment Variables, and create the variable ANDROID_HOME with the location of your Android SDK</li>
-<li>Linux: <code>export ANDROID_HOME=(path to Android SDK install)</code></li>
+<li>Download and cache tiles for a given geographic area (bounds and min/max zoom)</li>
+<li>Download and cache tiles for a given set of way points (set of points and min/max zoom)</li>
+<li>Download and produce a persistent tile archive (MOBAC like function) (via bounds or waypoints)</li>
+<li>Clear the cache for a given area or way points</li>
 </ul>
-</li>
-</ul>
-</li>
-<li>Download <a href="http://maven.apache.org/download.html">Maven</a> (Project requires at least version 3.2.1)
-<ul>
-<li>Add the <strong>maven/bin</strong> to your <strong>PATH</strong>.
-<ul>
-<li>Windows: <code>set PATH=$PATH%;(path to maven/bin)</code>.</li>
-<li>Linux: <code>export PATH=$PATH:(path to maven/bin)</code></li>
-</ul>
-</li>
-</ul>
-</li>
-<li>Download <a href="https://github.com/simpligility/maven-android-sdk-deployer">Maven Android SDK Deployer</a>. This project will make available the necessary Android dependencies for a maven build.
-<ul>
-<li><code>git clone https://github.com/simpligility/maven-android-sdk-deployer</code></li>
-<li>Navigate to Maven Android SDK Deployer folder and run the command <strong>mvn install -fn</strong>
-<ul>
-<li>This command will try to make available all Android packages for Maven, do not worry about the errors for the platforms we are not using.</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>Checkout the osmdroid source from git to a local folder.
-<ul>
-<li><code>git clone https://github.com/osmdroid/osmdroid.git</code></li>
-</ul>
-</li>
-<li>Navigate to the osmdroid folder and run the command <strong>mvn clean install</strong>. NOTE: You will need a device or emulator running.</li>
-</ul>
-<p>You have now completed all steps to compile osmdroid using Maven</p>
-<h2>Building with Gradle</h2>
-<ul>
-<li>Checkout the osmdroid source from git to a local folder.
-<ul>
-<li><code>git clone https://github.com/osmdroid/osmdroid.git</code></li>
-</ul>
-</li>
-<li>Navigate to the osmdroid folder and run the command <strong>gradlew clean install</strong>. This will also install to your local maven repository.</li>
-<li>To run tests against a device or avd, run <strong>gradlew cC</strong></li>
-</ul>
-<p>You have now completed all steps to compile osmdroid using Gradle</p>
-<h1>Building osmdroid from Eclipse</h1>
-<ul>
-<li>Follow the above instructions for command line builds first.</li>
-<li>Install Maven support for Eclipse from Eclipse Marketplace. Search for &quot;android m2e&quot; and install &quot;Android Connector for Maven&quot;. <a href="http://rgladwell.github.io/m2e-android/">http://rgladwell.github.io/m2e-android/</a></li>
-<li>In Eclipse Import -&gt; Maven -&gt; Existing Maven project. Import all the osmdroid projects.</li>
-<li>Right click on osmdroid-parent project. Click Run as --&gt; Maven install.</li>
-</ul>
-<h1>Building osmdroid using Android Studio</h1>
-<ul>
-<li>Follow the above instructions for command line builds first (the gradle instructions).</li>
-<li>Ensure you can build from the command line first!</li>
-<li>Start up Android Studio and import the project in your checkout_folder</li>
-</ul>
-<h1>Building osmdroid from NetBeans (with maven)</h1>
-<p><strong>Needs updating</strong> - See note above on the status of maven builds</p>
-<ul>
-<li>Follow the above instructions for command line builds first.</li>
-<li>As long as the environment variable for ANDROID_HOME is set, it should build by right clicking on &quot;osmdroid parent&quot;, then &quot;Clean and Build&quot;</li>
-</ul>
+<p>The following section details the WPCacheManager which provides the functions for way points tile fetching produced by user 2ndGAB. WPCacheManager was merged with CacheManager in osmdroid-android.</p>
+<p>OSMDroid CacheManager enhanced to download map tile covered by a waypoints list.</p>
+<p>OSMDroid CacheManager available from 5.3, allows you to download map tiles based on a bounding box.
+That's of course quite useful as we know there are lot of places where mobile connection is not good enough to use online map.</p>
+<p>There is a problem anyway when you develop an application providing pedestrian or cycling courses, for example,
+where the surface of the bounding box could contain lot of tiles for high zoom level whereas the tiles
+covered by the courses are finally not so many.<br />
+The consequence is to wait a long time to download unuseful parts of the map.<br />
+(Note: WPCacheManager is based on CacheManager <a href="https://github.com/osmdroid/osmdroid/issues/315">feature#315</a>.</p>
+<p>So this WPCacheManager, which keep the original features, add the possibility to give a list of waypoints.<br />
+WPCacheManager considers that you follow the path between 2 successives points in the given list.<br />
+And as there is a possibility for your waypoint or the path to be close to the border of a tile, I decided to
+download the 8 tiles around the given one at each zoom level, because I think it's not very cool to not see what's going
+few meters beside.<br />
+Don't be afraid that's not so much, and in fact, only the first tile downloads 8 tiles more, because when you continue your trip,
+some of the next 8 new tiles have already be downloaded.</p>
+<p>For example, consider that you define the path drawn <img src="http://i.imgur.com/Vxf9Z06.jpg" alt="on this image" />:<br />
+To explain what the algorithm do, I only take 3 characteristics points 1, 2 and 3.<br />
+The red point 1 belongs to the the red tinted tile. It will download the 1+8 tiles in the big red square.<br />
+The green point 2 belongs to the the green tinted tile. It will download the 1+8 tiles in the big green square.<br />
+The yellow point 3 belongs to the the yellow titend tile. It will download the 1+8 tiles in the big yellow square.<br />
+And so on...</p>
+<p>As you can see, for point 1, you will effectively downloads 9 tiles.<br />
+For point 2, you will only download the 3 more tiles on the right of the big red square.<br />
+For point 3, you will only download the 3 more tiles above the big green square.<br />
+...</p>
+<p>#So here is the big advantage#
+So of course, if you only need an offline map for this zoom level, because <code>WPCacheManager</code> downloads adjacent tiles, the result is not better because it will download more tiles than the original algorithm.
+Now, consider that you need to download this map from level 13 up to level 18. You will qucikly understand the advantage taking a look below where you can see all tiles downloaded to cover the area at level 18 <img src="http://i.imgur.com/O2hu8ur.jpg" alt="this image" />.</p>
+<h1>New methods:</h1>
+<p>So the new methods have been added to OSMDroid CacheManager. All added methods take care of the extra tiles downloaded
+around the GePoints list. So the method <code>extendedBoundsFromGeoPoints(geoPoints)</code> returns a larger area than the original <code>BoundingBoxE6.fromGeoPoints(geoPoints)</code>.</p>
+<pre><code>public int possibleTilesCovered(ArrayList&lt;GeoPoint&gt; geoPoints, final int zoomMin, final int zoomMax);
+
+public void downloadAreaAsync(Context ctx, ArrayList&lt;GeoPoint&gt; geoPoints, final int zoomMin, final int zoomMax);
+
+public void downloadAreaAsync(Context ctx, ArrayList&lt;GeoPoint&gt; geoPoints, final int zoomMin, final int zoomMax, final CacheManagerCallback callback);
+
+public void downloadAreaAsyncNoUI(Context ctx, ArrayList&lt;GeoPoint&gt; geoPoints, final int zoomMin, final int zoomMax, final CacheManagerCallback callback);
+
+public void cleanAreaAsync(Context ctx, ArrayList&lt;GeoPoint&gt; geoPoints, int zoomMin, int zoomMax);
+
+public BoundingBoxE6 extendedBoundsFromGeoPoints(ArrayList&lt;GeoPoint&gt; geoPoints);
+</code></pre>
 
 
         </div>
