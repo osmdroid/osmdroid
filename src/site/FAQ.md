@@ -2,6 +2,8 @@
 
 ## Map tiles dont seem to load in my application
 
+Update: as of v5.6 this should never be an issue. On the first load of the app with osmdroid, the largest writable partition is auto selected (even with permission denial) so the caching of tiles that were downloaded should function in all conditions. That said, you, as the app developer, would probably want to give your users the option to put the cache elsewhere. See the [Update Guide] for more details and the sample app.
+
 Make sure your AndroidManifest.xml file has the android.permission.INTERNET permission. See Prerequisites.
 
 Aug 2016 - someone managed to get the default user agent used by osmdroid banned from Open Street Maps tile servers. This can also be a reason for tiles failing to load (usually with an access denied, bad request or other similar HTTP error message). To fix, set your user agent to something unique for your app. The User Agent is set via `org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants` class.
@@ -39,6 +41,8 @@ Starting with 5.1, the API has changed a bit for this. See the change log.
 
 ## Does my device need an sd card or some kind of storage medium?
 
+Update: as of v5.6, as long as application private storage is writable, the map should load and cache tiles appropriately.
+
 Yes. osmdroid downloads and caches map data on device and it needs to be stored on some writable medium. We use `Environment.getExternalStorage` and if that doesn't return a writable location (which happens some devices) then the cache won't be available, which well lead to significantly increased data usage (or osmdroid just won't work at all). The location can be overridden to use application private storage or whatever.
 
 As of 5.6, this was updated to automatically select the largest writable storage directory on start up. The sample application has some logic that you'll definitely want to look at it.
@@ -48,6 +52,10 @@ As of 5.6, this was updated to automatically select the largest writable storage
 Rather small, at just over 2000 methods.
 
 ## Can I change where osmdroid looks for tile archives and the location of the tile cache?
+
+v5.6 and newer use the `IConfiguration` interface for all configuration items. Use `Configuration.getInstance().set...` to configure everything
+
+v5.5 use the following
 
 Yes! Both of these settings are in the following class
 
@@ -80,6 +88,9 @@ Behaviors to expect when at zoom > 20
  - double tapping to zoom in can cause the map to fling towards the other side of the planet
  - lines and polygons can disappear
 
+## Support for Zoom > 22
+
+Right now it's not possible, but there are MANY open tickets on this, please don't open another one. 
 
 # If you get 'resource not found' error
 

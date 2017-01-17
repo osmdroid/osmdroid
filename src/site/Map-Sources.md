@@ -143,7 +143,9 @@ OpenStreetMapTileProviderConstants.setCacheSizes(1000L, 900L);
 
 # Online Map Sources (out of the box)
 
-osmdroid comes with a few map sources preconfigured for you to use. Usage access rules vary based on the source. Make sure you read the fine print.
+osmdroid comes with a few map sources preconfigured for you to use. Usage access rules vary based on the source. Make sure you read the fine print for each
+
+**For the most up to date information, see [TileSourceFactory](https://github.com/osmdroid/osmdroid/blob/master/osmdroid-android/src/main/java/org/osmdroid/tileprovider/tilesource/TileSourceFactory.java)**
 
 ## Mapnik (aka Open Street Maps)
 
@@ -270,6 +272,8 @@ mMapView.setTileSource(tileSource);
 
 ## Bing Maps
 
+Before using Bing Maps, make sure fully understand their usage terms. Bing maps are not free!
+
 Required Java dependencies
  - osmdroid-android
  - osmdroid-third-party
@@ -314,15 +318,64 @@ bing.setStyle(BingMapTileSource.IMAGERYSET_AERIAL);
 
 ## Google Maps
 
+There's two options here. If you want to use the same API for osmdroid with Google Maps, see the osmdroid-thirdparty project and GoogleWrapperSample. If you want to use Google's tiles with your application, the following will get you going. Note, this is completely against Google's usage policy, as such, it will never be included with osmdroid. 
+
+Before using Google Maps, make sure fully understand their usage terms. Google maps are not free!
+
 Required Java dependencies
  - osmdroid-android
- - osmdroid-third-party
-
-MinSDK 9
 
 Code Sample:
-See the example "GoogleMapsWrapper" application
+````
+public static final OnlineTileSourceBase GoogleHybrid = new XYTileSource("Google-Hybrid",
+		0, 19, 256, ".png", new String[] {
+		"http://mt0.google.com",
+		"http://mt1.google.com",
+		"http://mt2.google.com",
+		"http://mt3.google.com",
 
+		}) {
+		@Override
+		public String getTileURLString(MapTile aTile) {
+			return getBaseUrl() + "/vt/lyrs=y&x=" + aTile.getX() + "&y=" +aTile.getY() + "&z=" + aTile.getZoomLevel();
+		}
+	};
+
+	public static final OnlineTileSourceBase GoogleSat = new XYTileSource("Google-Sat",
+		0, 19, 256, ".png", new String[] {
+		"http://mt0.google.com",
+		"http://mt1.google.com",
+		"http://mt2.google.com",
+		"http://mt3.google.com",
+
+	}) {
+		@Override
+		public String getTileURLString(MapTile aTile) {
+			return getBaseUrl() + "/vt/lyrs=s&x=" + aTile.getX() + "&y=" +aTile.getY() + "&z=" + aTile.getZoomLevel();
+		}
+	};
+
+	public static final OnlineTileSourceBase GoogleRoads = new XYTileSource("Google-Roads",
+		0, 19, 256, ".png", new String[] {
+		"http://mt0.google.com",
+		"http://mt1.google.com",
+		"http://mt2.google.com",
+		"http://mt3.google.com",
+
+	}) {
+		@Override
+		public String getTileURLString(MapTile aTile) {
+			return getBaseUrl() + "/vt/lyrs=m&x=" + aTile.getX() + "&y=" +aTile.getY() + "&z=" + aTile.getZoomLevel();
+		}
+	};
+
+
+TileSourceFactory.addTileSource(GoogleSat);
+TileSourceFactory.addTileSource(GoogleRoads);
+TileSourceFactory.addTileSource(GoogleHybrid);
+````
+
+**Again Google Maps are not free. Do not publish an application using osmdroid with Google Maps as a tile source, anywhere**. Google wants you to use their map engine with their API keys.
 
 ## WMS Support
 
@@ -381,6 +434,16 @@ Note: the method `tile2boundingBox` was pulled from OSM's [Slippy Map](http://wi
 # Can I use an ESRI ArcGIS REST API to display tiles on osmdroid?
 
 Yes, as long as the endpoint supports the `export` API with bounding box then the above example should get you going. Note: ESRI's APIs can vary significantly by version and configuration settings. Consult their API guide additional details (and report back here!)
+
+# Tile Source Attribution and Copyright notices
+
+Most tile sources require you (as an app developer) to annotate on the map some kind of attribution or copyright notice. osmdroid v5.6.3 adds one. It's fairly simple to use.
+
+````
+mapview.getOverlays().add(new CopyrightOverlay(context));
+````
+
+Font sizes and colors are adjustable, as well as on screen positioning.
 
 # Translating Map Scale to OSM zoom levels
 

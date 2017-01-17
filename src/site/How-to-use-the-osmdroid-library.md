@@ -47,12 +47,21 @@ import org.osmdroid.views.MapView;
 public class MainActivity extends Activity {
     @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
         //important! set your user agent to prevent getting banned from the osm servers  
-    org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants.setUserAgentValue(BuildConfig.APPLICATION_ID);
+        Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
+        setContentView(R.layout.activity_main);
 
         MapView map = (MapView) findViewById(R.id.map);
         map.setTileSource(TileSourceFactory.MAPNIK);
+    }
+
+    public void onResume(){
+        super.onResume();
+        //this will refresh the osmdroid configuration on resuming.
+        //if you make changes to the configuration, use 
+        //SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        //Configuration.getInstance().save(this, prefs);
+        Configuration.getInstance().load(this, PreferenceManager.getDefaultSharedPreferences(this));
     }
 }
 ```
@@ -116,7 +125,7 @@ As mentioned above, the Resource Proxy is a bit of a strange animal that osmdroi
 
 The example osmdroid app includes an example of this called CustomResourceProxy (included with > 4.3 osmdroid). All it does is change the my location drawable (person) to an alternate image. The example is below.
 
-````
+````java
 public class CustomResourceProxy extends DefaultResourceProxyImpl {
 
      private final Context mContext;
@@ -148,7 +157,7 @@ public class CustomResourceProxy extends DefaultResourceProxyImpl {
 
 Then you can use your instance using the following snippet.
 
-````
+````java
 mResourceProxy = new CustomResourceProxy(getApplicationContext());
 final RelativeLayout rl = new RelativeLayout(this);
 this.mOsmv = new MapView(this,mResourceProxy);
@@ -156,7 +165,7 @@ this.mOsmv = new MapView(this,mResourceProxy);
 
 In order to see any difference with our example (changes the person icon), we'll need to get a location fix and add it to the map layers.
 
-````
+````java
 this.mLocationOverlay = new MyLocationNewOverlay(new GpsMyLocationProvider(this), mOsmv, mResourceProxy);
 this.mLocationOverlay.enableMyLocation();
 this.mOsmv.getOverlays().add(mLocationOverlay);
@@ -170,7 +179,7 @@ this.mOsmv.setMultiTouchControls(true);
 
 ## How to add the My Location overlay
 
-````
+````java
 this.mLocationOverlay = new MyLocationNewOverlay(new GpsMyLocationProvider(context),mMapView);
 this.mLocationOverlay.enableMyLocation();
 mMapView.getOverlays().add(this.mLocationOverlay);
@@ -178,7 +187,7 @@ mMapView.getOverlays().add(this.mLocationOverlay);
 
 ## How to add a compass overlay
 
-````
+````java
 this.mCompassOverlay = new CompassOverlay(context, new InternalCompassOrientationProvider(context), mMapView);
 this.mCompassOverlay.enableCompass();
 mMapView.getOverlays().add(this.mCompassOverlay);
@@ -186,7 +195,7 @@ mMapView.getOverlays().add(this.mCompassOverlay);
 
 ## How to enable rotation gestures
 
-````
+````java
 mRotationGestureOverlay = new RotationGestureOverlay(context, mMapView);
 mRotationGestureOverlay.setEnabled(true);
 mMapView.setMultiTouchControls(true);
@@ -195,7 +204,7 @@ mMapView.getOverlays().add(this.mRotationGestureOverlay);
 
 ## How to add Map Scale bar overlay
 
-````
+````java
 mScaleBarOverlay = new ScaleBarOverlay(context);
 mScaleBarOverlay.setCentred(true);
 //play around with these values to get the location on screen in the right place for your applicatio
@@ -207,7 +216,7 @@ mMapView.getOverlays().add(this.mScaleBarOverlay);
 
 Note: do not use when rotation is enabled! (Keep reading for a work around)
 
-````
+````java
 mMinimapOverlay = new MinimapOverlay(context, mMapView.getTileRequestCompleteHandler());
 mMinimapOverlay.setWidth(dm.widthPixels / 5);
 mMinimapOverlay.setHeight(dm.heightPixels / 5);
@@ -223,7 +232,7 @@ Pro tip: If you want the minimap to stay put when rotation is enabled, create a 
 
 ## How do I place icons on the map with a click listener?
 
-````
+````java
 //your items
 ArrayList<OverlayItem> items = new ArrayList<OverlayItem>();
 items.add(new OverlayItem("Title", "Description", new GeoPoint(0.0d,0.0d))); // Lat/Lon decimal degrees

@@ -1,8 +1,22 @@
 # A guide for upgrading your app 
 
-## From version 5.6 to x.y
+## From version 5.6.2 to 5.6.3
+ - No breaking API changes, new constructors added for tile source for the copyright notice
+ - Consider using the CopyrightOverlay to give proper attribution to the map source owner
+ - Old mapsforge example had a memory leak, which is now fixed on the sample with Open Map
+ - Geopackage support added, see sample
+ - Sample app Cache Analyzer is now available always
+ - Bing tile source was moved into osmdroid-android and added to the Sample Open Map
 
-## From version 5.5 to 5.6 (under dev)
+
+## From version 5.6.1 to 5.6.2 
+ - More flexibility with cache expiration dates (new IConfiguration options)
+ - Sample app now also includes a cache analyzer (only when debug is turned on), which lets you get various statistics about the cache database and browse the cache database records
+
+## From version 5.6 to 5.6.1
+ - no code changes
+
+## From version 5.5 to 5.6
  - New overlay type added, efficient for many thousands of icons (up to 100k depending on device), see `SimpleFastPointOverlay`
  - The SqlTileWriter will at start up, will check its size and trim to be under the maximum size set by the OpenStreetMapTileProviderConstants setting. Expired tiles are not touched until the trim size is reached
  - Behavior change for hardware acceleration. At start up, the osmdroid mapview is now automatically set to oftware acceleration mode only due to unpredictable crashes when using polylines or polygons. This behavior can be overridden using the constructor or by `Configuration.getInstance().setMapViewHardwareAccelerated()` before the MapView is created (layout inflation counts!)
