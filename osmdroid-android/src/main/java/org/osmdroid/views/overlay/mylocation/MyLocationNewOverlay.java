@@ -477,7 +477,7 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 	@Override
 	public void onLocationChanged(final Location location, IMyLocationProvider source) {
 
-		if (location != null) {
+		if (location != null && mHandler!=null) {
 			// These location updates can come in from different threads
 			mHandler.postAtTime(new Runnable() {
 				@Override
