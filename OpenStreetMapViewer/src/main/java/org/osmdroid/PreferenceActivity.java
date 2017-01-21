@@ -23,12 +23,14 @@ import android.widget.Toast;
 
 import org.osmdroid.config.Configuration;
 import org.osmdroid.config.DefaultConfigurationProvider;
+import org.osmdroid.intro.StorageAdapter;
 import org.osmdroid.model.PositiveLongTextValidator;
 import org.osmdroid.model.PositiveShortTextValidator;
 import org.osmdroid.tileprovider.modules.SqlTileWriter;
 import org.osmdroid.tileprovider.util.StorageUtils;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -326,22 +328,27 @@ public class PreferenceActivity extends AppCompatActivity implements View.OnClic
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.enterCacheLocation);
 
-        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.select_dialog_singlechoice);
-
         final List<StorageUtils.StorageInfo> storageList = StorageUtils.getStorageList();
-        for (int i = 0; i < storageList.size(); i++) {
-            if (!storageList.get(i).readonly)
-                arrayAdapter.add(storageList.get(i).path);
+        List<StorageUtils.StorageInfo> storageListFiltered = new ArrayList<>();
+        for (int i=0; i < storageList.size(); i++){
+            if (!storageList.get(i).readonly) {
+                storageListFiltered.add(storageList.get(i));
+            }
         }
-        arrayAdapter.add("/data/data/" + getPackageName());
+        try {
+            new File("/data/data/" + this.getPackageName() + "/osmdroid/").mkdirs();
+        } catch (Exception ex) {
+        }
+        storageListFiltered.add(new StorageUtils.StorageInfo("/data/data/" + this.getPackageName() + "/osmdroid/", true, false, 0));
+        final StorageAdapter arrayAdapter = new StorageAdapter(this, storageListFiltered);
 
         builder.setAdapter(arrayAdapter, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                String item = arrayAdapter.getItem(which);
+                StorageUtils.StorageInfo item = (StorageUtils.StorageInfo) arrayAdapter.getItem(which);
                 try {
-                    new File(item + File.separator + "osmdroid" + File.separator + postfix).mkdirs();
-                    tv.setText(item + File.separator + "osmdroid" + File.separator + postfix);
+                    new File(item.path + File.separator + "osmdroid" + File.separator + postfix).mkdirs();
+                    tv.setText(item.path + File.separator + "osmdroid" + File.separator + postfix);
                 } catch (Exception ex) {
                     ex.printStackTrace();
                     Toast.makeText(PreferenceActivity.this, "Invalid entry: " + ex.getMessage(), Toast.LENGTH_LONG);

@@ -82,7 +82,7 @@ public class MapsforgeTileProviderSample extends BaseSampleFragment {
 
             // set dialog message
             alertDialogBuilder
-                .setMessage("In order to render map tiles, you'll need to either create or obtain mapsforge .map files. See https://github.com/mapsforge/mapsforge for more info. Store them iu "
+                .setMessage("In order to render map tiles, you'll need to either create or obtain mapsforge .map files. See https://github.com/mapsforge/mapsforge for more info. Store them in "
                  + Configuration.getInstance().getOsmdroidBasePath().getAbsolutePath())
                 .setCancelable(false)
                 .setPositiveButton("Yes",new DialogInterface.OnClickListener() {

@@ -19,6 +19,8 @@ import org.osmdroid.R;
 
 
 /**
+ * Intro activity, this is a simple intro to osmdroid, some legal stuff, tile storage preference, etc
+ *
  * created on 1/5/2017.
  *
  * @author Alex O'Ree
@@ -102,6 +104,11 @@ public class IntroActivity extends FragmentActivity implements View.OnClickListe
             next.setText(R.string.done);
         } else {
             next.setText(R.string.next);
+        }
+        if (position == 3) {
+            //storage preference fragment, force the update since now permissions may have been granted
+            StoragePreferenceFragment item = (StoragePreferenceFragment) adapter.getItem(position);
+            item.updateStorage(this);
         }
     }
 

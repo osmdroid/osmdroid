@@ -15,9 +15,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.UUID;
 
@@ -40,17 +42,30 @@ public class StorageUtils {
 
         public final String path;
         public final boolean internal;
-        public final boolean readonly;
+        public boolean readonly;
         public final int display_number;
         public long freeSpace = 0;
 
-        StorageInfo(String path, boolean internal, boolean readonly, int display_number) {
+        public StorageInfo(String path, boolean internal, boolean readonly, int display_number) {
             this.path = path;
             this.internal = internal;
-            this.readonly = readonly;
+
             this.display_number = display_number;
             if (Build.VERSION.SDK_INT >= 9) {
                 this.freeSpace = new File(path).getFreeSpace();
+            }
+            if (!readonly) {
+                //confirm it's writable
+                File f = new File(path + File.separator + UUID.randomUUID().toString());
+                try {
+                    f.createNewFile();
+                    f.delete();
+                    this.readonly = false;
+                } catch (Throwable e) {
+                    this.readonly = true;
+                }
+            } else {
+                this.readonly = readonly;
             }
 
         }
@@ -70,6 +85,7 @@ public class StorageUtils {
             return res.toString();
         }
     }
+
 
     public static List<StorageInfo> getStorageList() {
 
@@ -147,7 +163,8 @@ public class StorageUtils {
                             && !line.contains("/dev/mapper")
                             && !line.contains("tmpfs")) {
                             paths.add(mount_point);
-                            list.add(new StorageInfo(mount_point, false, readonly, cur_display_number++));
+                            if (isWritable(new File(mount_point+ File.separator)))
+                                list.add(new StorageInfo(mount_point, false, readonly, cur_display_number++));
                         }
                     }
                 }
@@ -169,6 +186,23 @@ public class StorageUtils {
                 }
             }
         }
+        Set<File> allStorageLocationsRevised = getAllStorageLocationsRevised();
+        Iterator<File> iterator = allStorageLocationsRevised.iterator();
+        while (iterator.hasNext()) {
+            File next = iterator.next();
+            boolean found=false;
+            for (int i=0; i < list.size(); i++){
+                if (list.get(i).path.equals(next.getAbsolutePath())){
+                    found=true;
+                    break;
+                }
+            }
+            if (!found){
+                list.add(new StorageInfo(next.getAbsolutePath(), false, false, -1));
+            }
+        }
+
+
         return list;
     }
 
@@ -276,24 +310,27 @@ public class StorageUtils {
     }
 
     public static boolean isWritable(File path) {
-        if (path.exists()) {
-            if (path.canWrite()) {
+        //if (path.exists())
+        {
+            //if (path.canWrite())
+            {
                 //try to create a new file, save it, then delete it
                 try {
-                    UUID rand = UUID.randomUUID();
-                    File tmp = new File(path.getAbsolutePath() + File.separator + rand.toString());
+
+                    File tmp = new File(path.getAbsolutePath() + File.separator + "osm.tmp  ");
                     FileOutputStream fos = new FileOutputStream(tmp);
                     fos.write("hi".getBytes());
                     fos.close();
+                    Log.i(TAG, path.getAbsolutePath() + " is writable");
                     tmp.delete();
                     return true;
                 } catch (Throwable ex) {
-                    ex.printStackTrace();
+                    Log.i(TAG, path.getAbsolutePath() + " is NOT writable");
                     return false;
                 }
             }
         }
-        return false;
+        //return false;
 
     }
 
@@ -411,6 +448,129 @@ public class StorageUtils {
                     map.put(SD_CARD, t);
             }
         }
+
+
+        return map;
+    }
+
+    /**
+     * @return A map of all storage locations available
+     */
+    private static Set<File> getAllStorageLocationsRevised() {
+
+        Set<File> map = new HashSet<>();
+        String primary_sd = System.getenv("EXTERNAL_STORAGE");
+        if (primary_sd != null) {
+            File t = new File(primary_sd+ File.separator);
+            if (isWritable(t)) {
+                map.add(t);
+            }
+        }
+
+        String secondary_sd = System.getenv("SECONDARY_STORAGE");
+        if (secondary_sd != null) {
+            String[] split = secondary_sd.split(File.pathSeparator);
+            for (int i = 0; i < split.length; i++) {
+                File t = new File(split[i] + File.separator);
+                if (isWritable(t)) {
+                    map.add(t);
+                }
+            }
+        }
+
+
+        if (Environment.getExternalStorageDirectory()!=null) {
+            File t = Environment.getExternalStorageDirectory();
+            if (isWritable(t)) {
+                map.add(t);
+            }
+        }
+
+
+        List<String> mMounts = new ArrayList<String>(10);
+        List<String> mVold = new ArrayList<String>(10);
+        mMounts.add("/mnt/sdcard");
+        mVold.add("/mnt/sdcard");
+
+        try {
+            File mountFile = new File("/proc/mounts");
+            if (mountFile.exists()) {
+                Scanner scanner = new Scanner(mountFile);
+                while (scanner.hasNext()) {
+                    String line = scanner.nextLine();
+                    if (line.startsWith("/dev/block/vold/")) {
+                        String[] lineElements = line.split(" ");
+                        String element = lineElements[1];
+
+                        // don't add the default mount path
+                        // it's already in the list.
+                        if (!element.equals("/mnt/sdcard"))
+                            mMounts.add(element);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        try {
+            File voldFile = new File("/system/etc/vold.fstab");
+            if (voldFile.exists()) {
+                Scanner scanner = new Scanner(voldFile);
+                while (scanner.hasNext()) {
+                    String line = scanner.nextLine();
+                    if (line.startsWith("dev_mount")) {
+                        String[] lineElements = line.split(" ");
+                        String element = lineElements[2];
+
+                        if (element.contains(":"))
+                            element = element.substring(0, element.indexOf(":"));
+                        if (!element.equals("/mnt/sdcard"))
+                            mVold.add(element);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+        for (int i = 0; i < mMounts.size(); i++) {
+            String mount = mMounts.get(i);
+            if (!mVold.contains(mount))
+                mMounts.remove(i--);
+        }
+        mVold.clear();
+
+        List<String> mountHash = new ArrayList<String>(10);
+
+        for (String mount : mMounts) {
+            File root = new File(mount);
+            if (root.exists() && root.isDirectory() && root.canWrite()) {
+                File[] list = root.listFiles();
+                String hash = "[";
+                if (list != null) {
+                    for (File f : list) {
+                        hash += f.getName().hashCode() + ":" + f.length() + ", ";
+                    }
+                }
+                hash += "]";
+                if (!mountHash.contains(hash)) {
+                    String key = SD_CARD + "_" + map.size();
+                    if (map.size() == 0) {
+                        key = SD_CARD;
+                    } else if (map.size() == 1) {
+                        key = EXTERNAL_SD_CARD;
+                    }
+                    mountHash.add(hash);
+                    if (isWritable(root)) {
+                        map.add(root);
+                    }
+                }
+            }
+        }
+
+        mMounts.clear();
 
 
         return map;
