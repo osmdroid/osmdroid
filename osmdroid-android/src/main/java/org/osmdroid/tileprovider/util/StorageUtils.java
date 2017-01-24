@@ -45,6 +45,7 @@ public class StorageUtils {
         public boolean readonly;
         public final int display_number;
         public long freeSpace = 0;
+        String displayName="";
 
         public StorageInfo(String path, boolean internal, boolean readonly, int display_number) {
             this.path = path;
@@ -67,10 +68,6 @@ public class StorageUtils {
             } else {
                 this.readonly = readonly;
             }
-
-        }
-
-        public String getDisplayName() {
             StringBuilder res = new StringBuilder();
             if (internal) {
                 res.append("Internal SD card");
@@ -82,11 +79,23 @@ public class StorageUtils {
             if (readonly) {
                 res.append(" (Read only)");
             }
-            return res.toString();
+            displayName= res.toString();
+        }
+
+        public String getDisplayName() {
+            return displayName;
+        }
+
+        public void setDisplayName(String val){
+            displayName=val;
         }
     }
 
 
+    /**
+     * returns all storage paths, writable or not
+     * @return
+     */
     public static List<StorageInfo> getStorageList() {
 
         List<StorageInfo> list = new ArrayList<StorageInfo>();
@@ -163,7 +172,7 @@ public class StorageUtils {
                             && !line.contains("/dev/mapper")
                             && !line.contains("tmpfs")) {
                             paths.add(mount_point);
-                            if (isWritable(new File(mount_point+ File.separator)))
+                           // if (isWritable(new File(mount_point+ File.separator)))
                                 list.add(new StorageInfo(mount_point, false, readonly, cur_display_number++));
                         }
                     }
@@ -317,7 +326,7 @@ public class StorageUtils {
                 //try to create a new file, save it, then delete it
                 try {
 
-                    File tmp = new File(path.getAbsolutePath() + File.separator + "osm.tmp  ");
+                    File tmp = new File(path.getAbsolutePath() + File.separator + "osm.tmp");
                     FileOutputStream fos = new FileOutputStream(tmp);
                     fos.write("hi".getBytes());
                     fos.close();

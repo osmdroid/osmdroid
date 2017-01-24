@@ -16,16 +16,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import org.osmdroid.PreferenceActivity;
 import org.osmdroid.R;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.util.StorageUtils;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 /**
  * created on 1/5/2017.
@@ -98,20 +95,50 @@ public class StoragePreferenceFragment extends Fragment implements View.OnClickL
         builder.setTitle(R.string.enterCacheLocation);
 
 
-
         final List<StorageUtils.StorageInfo> storageList = StorageUtils.getStorageList();
 
         List<StorageUtils.StorageInfo> storageListFiltered = new ArrayList<>();
-        for (int i=0; i < storageList.size(); i++){
+        for (int i = 0; i < storageList.size(); i++) {
             if (!storageList.get(i).readonly) {
                 storageListFiltered.add(storageList.get(i));
             }
         }
         try {
-            new File("/data/data/" + getActivity().getPackageName() + "/osmdroid/").mkdirs();
+            File f = new File("/data/data/" + getActivity().getPackageName() + "/osmdroid/");
+            f.mkdirs();
+            StorageUtils.StorageInfo privateStorage=new StorageUtils.StorageInfo(f.getAbsolutePath(), true, false, 0);
+            privateStorage.setDisplayName("Application Private Storage");
+            storageListFiltered.add(privateStorage);
         } catch (Exception ex) {
         }
-        storageListFiltered.add(new StorageUtils.StorageInfo("/data/data/" + getActivity().getPackageName() + "/osmdroid/", true, false, 0));
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+            File[] externalFilesDirs = getContext().getExternalFilesDirs(null);
+            if (externalFilesDirs != null) {
+                //i hate android!
+                for (int i = 0; i < externalFilesDirs.length; i++) {
+                    File mount = externalFilesDirs[i];
+                    if (mount.exists() && mount.isDirectory()) {
+                        boolean writable = StorageUtils.isWritable(mount);
+                        if (writable) {
+                            boolean alreadyAdded = false;
+                            for (int k = 0; k < storageList.size(); k++) {
+                                StorageUtils.StorageInfo storageInfo = storageList.get(k);
+                                if (storageInfo.path.equals(mount.getAbsolutePath())) {
+                                    alreadyAdded = true;
+                                    break;
+                                }
+                            }
+                            if (!alreadyAdded) {
+                                StorageUtils.StorageInfo x = new StorageUtils.StorageInfo(mount.getAbsolutePath(), false, false, 0);
+                                x.freeSpace = mount.getFreeSpace();
+                                storageListFiltered.add(x);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         final StorageAdapter arrayAdapter = new StorageAdapter(this.getContext(), storageListFiltered);
 
         builder.setAdapter(arrayAdapter, new DialogInterface.OnClickListener() {
