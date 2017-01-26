@@ -7,6 +7,7 @@ import android.preference.PreferenceManager;
 
 import org.osmdroid.tileprovider.LRUMapTileCache;
 import org.osmdroid.tileprovider.MapTileCache;
+import org.osmdroid.tileprovider.MapTileProviderBase;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -174,17 +175,35 @@ public interface IConfigurationProvider {
     void setOsmdroidBasePath(File osmdroidBasePath);
 
     /**
-     * maps to getOsmdroidBasePath() + "/tiles"
-     *  Change the root path of the osmdroid tile cache.
+     * by default, maps to getOsmdroidBasePath() + "/tiles"
      * By default, it is defined in SD card, osmdroid directory.
+     * Sets the location where the tile cache is stored. Changes are only in effect when the @{link {@link org.osmdroid.views.MapView}}
+     * is created. Changes made after it's creation (either pogrammatic or via layout inflator) have
+     * no effect until the map is restarted or the {@link org.osmdroid.views.MapView#setTileProvider(MapTileProviderBase)}
+     * is changed or recreated.
+     *
+     * Note: basePath and tileCache directories can be changed independently
+     * This has no effect on offline archives and can be changed independently
      * @return
      */
     File getOsmdroidTileCache();
 
+    /**
+     * by default, maps to getOsmdroidBasePath() + "/tiles"
+     * Sets the location where the tile cache is stored. Changes are only in effect when the @{link {@link org.osmdroid.views.MapView}}
+     * is created. Changes made after it's creation (either pogrammatic or via layout inflator) have
+     * no effect until the map is restarted or the {@link org.osmdroid.views.MapView#setTileProvider(MapTileProviderBase)}
+     * is changed or recreated.
+     *
+     * This has no effect on offline archives and can be changed independently
+     * @param osmdroidTileCache
+     */
     void setOsmdroidTileCache(File osmdroidTileCache);
 
     /**
      * "User-Agent" is the default value and standard used throughout all http servers, unlikely to change
+     * When calling @link {@link #load(Context, SharedPreferences)}, it is set to
+     * {@link Context#getPackageName()} which is defined your manifest file
      *
      * made adjustable just in case
      * from {@link org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants}
@@ -192,6 +211,14 @@ public interface IConfigurationProvider {
      */
     String getUserAgentHttpHeader();
 
+    /**
+     * "User-Agent" is the default value and standard used throughout all http servers, unlikely to change
+     * When calling @link {@link #load(Context, SharedPreferences)}, it is set to
+     * {@link Context#getPackageName()} which is defined your manifest file
+     *
+     * made adjustable just in case
+     * from {@link org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants}
+          */
     void setUserAgentHttpHeader(String userAgentHttpHeader);
 
     /**
