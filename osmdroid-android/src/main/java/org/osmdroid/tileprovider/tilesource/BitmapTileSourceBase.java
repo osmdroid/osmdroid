@@ -172,6 +172,8 @@ public abstract class BitmapTileSourceBase implements ITileSource {
 			Log.e(IMapView.LOGTAG,"OutOfMemoryError loading bitmap");
 			System.gc();
 			throw new LowMemoryException(e);
+		} catch (Exception ex) {
+			Log.w(IMapView.LOGTAG,"#547 Error loading bitmap" + pathBase(), ex);
 		}
 		return null;
 	}
