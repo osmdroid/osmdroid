@@ -66,6 +66,16 @@ public abstract class IISTrackerBase extends SampleGridlines {
         marker.setImage(image);
         marker.setIcon(icon);
         marker.setTitle("International Space Station");
+
+
+    }
+
+     public void onResume(){
+         super.onResume();
+         startTask();
+     }
+
+    private void startTask() {
         task = new TimerTask() {
             @Override
             public void run() {
@@ -149,7 +159,6 @@ public abstract class IISTrackerBase extends SampleGridlines {
         };
         t = new Timer();
         t.schedule(task, 1000, 1000);
-
     }
 
 
