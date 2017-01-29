@@ -31,7 +31,7 @@ import static org.osmdroid.tileprovider.modules.DatabaseFileArchive.TABLE;
  * It supports expiration timestamps if provided by the server from which the tile was downloaded. Trimming
  * of expired
  * <p>
- * If the database exceeds {@link Configuration.getInstance().getTileFileSystemCacheTrimBytes()}
+ * If the database exceeds {@link Configuration#getInstance()#getTileFileSystemCacheTrimBytes()}
  * cache exceeds 600 Mb then it will be trimmed to 500 Mb by deleting files that expire first.
  * @see DatabaseFileArchive
  * @see SqliteArchiveTileWriter
@@ -53,6 +53,7 @@ public class SqlTileWriter implements IFilesystemCache {
     public static boolean CLEANUP_ON_START=true;
     protected File db_file;
     protected SQLiteDatabase db;
+    protected long lastSizeCheck=0;
 
     /**
      * a questimated size (average-ish) size of a tile
@@ -116,7 +117,7 @@ public class SqlTileWriter implements IFilesystemCache {
                 //attempt to trim the database
                 //note, i considered adding a looping mechanism here but sqlite can behave differently
                 //i.e. there's no guarantee that the database file size shrinks immediately.
-                Log.d(IMapView.LOGTAG, "Local cache is now " + db_file.length() + " max size is " + Configuration.getInstance().getTileFileSystemCacheMaxBytes());
+                Log.i(IMapView.LOGTAG, "Local cache is now " + db_file.length() + " max size is " + Configuration.getInstance().getTileFileSystemCacheMaxBytes());
                 long diff = db_file.length() - Configuration.getInstance().getTileFileSystemCacheMaxBytes();
                 long tilesToKill = diff / questimate;
                 Log.d(IMapView.LOGTAG, "Local cache purging " + tilesToKill + " tiles.");
@@ -175,12 +176,15 @@ public class SqlTileWriter implements IFilesystemCache {
             db.insert(TABLE, null, cv);
             if (Configuration.getInstance().isDebugMode())
                 Log.d(IMapView.LOGTAG, "tile inserted " + pTileSourceInfo.name() + pTile.toString());
-            //this is causing looping conditions
-            if (db_file!=null && db_file.length() > Configuration.getInstance().getTileFileSystemCacheTrimBytes()){
-                runCleanupOperation();
+            if (System.currentTimeMillis() > lastSizeCheck + 300000){
+                lastSizeCheck = System.currentTimeMillis();
+                if (db_file!=null && db_file.length() > Configuration.getInstance().getTileFileSystemCacheTrimBytes()) {
+                    runCleanupOperation();
+                }
             }
         } catch (SQLiteFullException ex) {
             //the drive is full! trigger the clean up operation
+            //may want to consider reducing the trim size automagically
             runCleanupOperation();
         } catch (Throwable ex) {
             //note, although we check for db null state at the beginning of this method, it's possible for the
