@@ -13,6 +13,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.view.MotionEvent;
+import android.util.TypedValue;
 
 import org.osmdroid.library.R;
 import org.osmdroid.util.GeoPoint;
@@ -369,8 +370,10 @@ public class Marker extends OverlayWithIW {
 	}
 
 	public void moveToEventPosition(final MotionEvent event, final MapView mapView){
+	    float offsetY = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_MM, 10, mapView.getContext().getResources().getDisplayMetrics());
+
 		final Projection pj = mapView.getProjection();
-		mPosition = (GeoPoint) pj.fromPixels((int)event.getX(), (int)event.getY());
+		mPosition = (GeoPoint) pj.fromPixels((int)event.getX(), (int)(event.getY()-offsetY));
 		mapView.invalidate();
 	}
 	
