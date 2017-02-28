@@ -422,7 +422,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 	@Deprecated
 	public void zoomToBoundingBox(final BoundingBoxE6 boundingBox) {
-		BoundingBox box = new BoundingBox(boundingBox.getLatNorthE6()/1e6, boundingBox.getLonEastE6()/1e6, boundingBox.getLatSouthE6()/186, boundingBox.getLonWestE6()/1e6);
+		BoundingBox box = new BoundingBox(boundingBox.getLatNorthE6()/1e6, boundingBox.getLonEastE6()/1e6, boundingBox.getLatSouthE6()/1e6, boundingBox.getLonWestE6()/1e6);
 		zoomToBoundingBox(box, false);
 	}
 
