@@ -13,6 +13,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.view.MotionEvent;
+import android.util.TypedValue;
 
 import org.osmdroid.library.R;
 import org.osmdroid.util.GeoPoint;
@@ -75,6 +76,7 @@ public class Marker extends OverlayWithIW {
 	/*attributes for non-standard features:*/
 	protected Drawable mImage;
 	protected boolean mPanToView;
+	protected float mDragOffsetY;
 
 	/*internals*/
 	protected Point mPositionPixels;
@@ -103,6 +105,7 @@ public class Marker extends OverlayWithIW {
 		mIsDragged = false;
 		mPositionPixels = new Point();
 		mPanToView = true;
+		mDragOffsetY = 0.0f;
 		mFlat = false; //billboard
 		mOnMarkerClickListener = null;
 		mOnMarkerDragListener = null;
@@ -238,6 +241,16 @@ public class Marker extends OverlayWithIW {
 		return mImage;
 	}
 
+	/** set the offset in millimeters that the marker is moved up while dragging */
+	public void setDragOffset(float mmUp){
+		mDragOffsetY = mmUp;
+	}
+
+	/** get the offset in millimeters that the marker is moved up while dragging */
+	public float getDragOffset(){
+		return mDragOffsetY;
+	}
+
 	/** Set the InfoWindow to be used. 
 	 * Default is a MarkerInfoWindow, with the layout named "bonuspack_bubble". 
 	 * You can use this method either to use your own layout, or to use your own sub-class of InfoWindow. 
@@ -369,8 +382,9 @@ public class Marker extends OverlayWithIW {
 	}
 
 	public void moveToEventPosition(final MotionEvent event, final MapView mapView){
+	    float offsetY = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_MM, mDragOffsetY, mapView.getContext().getResources().getDisplayMetrics());
 		final Projection pj = mapView.getProjection();
-		mPosition = (GeoPoint) pj.fromPixels((int)event.getX(), (int)event.getY());
+		mPosition = (GeoPoint) pj.fromPixels((int)event.getX(), (int)(event.getY()-offsetY));
 		mapView.invalidate();
 	}
 	
