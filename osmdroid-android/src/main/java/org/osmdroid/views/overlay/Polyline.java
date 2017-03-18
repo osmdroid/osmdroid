@@ -49,6 +49,8 @@ public class Polyline extends OverlayWithIW {
 	/** Number of points that have precomputed values */
 	private int mPointsPrecomputed;
 	public boolean mRepeatPath = false; /** if true: at low zoom level showing multiple maps, path will be drawn on all maps */
+        /** Cached points for drawLines() */
+        private float[] mPts = null;
 
 	/** bounding rectangle for the current line segment */
 	private final Rect mLineBounds = new Rect();
@@ -305,11 +307,16 @@ public class Polyline extends OverlayWithIW {
 
 		final Projection pj = mapView.getProjection();
 
+
 		final int halfMapSize = TileSystem.MapSize(mapView.getProjection().getZoomLevel()) / 2; // 180° in longitude in pixels
 		final int southLimit = pj.toPixelsFromMercator(0, halfMapSize * 2, null).y;            // southern Limit of the map in Pixels
 
 		// precompute new points to the intermediate projection.
 		precomputePoints(pj);
+
+                if (mPts == null || mPts.length != 4*size-4)
+                    mPts = new float[4*size-4];
+                int j=0;
 
 		Point projectedPoint0 = mPoints.get(0); // points from the points list
 
@@ -365,20 +372,28 @@ public class Polyline extends OverlayWithIW {
 					}
 				}
 				//mPath.lineTo(x1, y1);
-				canvas.drawLine(screenPoint0.x, screenPoint0.y, x1, y1, mPaint);
+                            //TODO
+				//canvas.drawLine(screenPoint0.x, screenPoint0.y, x1, y1, mPaint);
 				//mPath.moveTo(x0, y0);
 				screenPoint0.x = x0;
 				screenPoint0.y = y0;
 			} // end of line break check
 
 			//mPath.lineTo(screenPoint1.x, screenPoint1.y);
-			canvas.drawLine(screenPoint0.x, screenPoint0.y, screenPoint1.x, screenPoint1.y, mPaint);
+                        if ( !screenPoint0.equals(screenPoint1) ) {
+                          mPts[j++] = screenPoint0.x;
+                          mPts[j++] = screenPoint0.y;
+                          mPts[j++] = screenPoint1.x;
+                          mPts[j++] = screenPoint1.y;
+                        }
+			//canvas.drawLine(screenPoint0.x, screenPoint0.y, screenPoint1.x, screenPoint1.y, mPaint);
 
 			// update starting point to next position
 			screenPoint0.x = screenPoint1.x;
 			screenPoint0.y = screenPoint1.y;
 		}
 
+                canvas.drawLines(mPts, 0, j, mPaint);
 		//canvas.drawPath(mPath, mPaint);
 
 		/* (Should we really keep that? This is not supported by any other overlay)
