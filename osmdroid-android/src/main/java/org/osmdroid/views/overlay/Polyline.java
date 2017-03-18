@@ -14,6 +14,7 @@ import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.GeometryMath;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
+import org.osmdroid.views.overlay.OverlayWithIW;
 import org.osmdroid.views.util.constants.MathConstants;
 
 import java.util.ArrayList;
@@ -41,7 +42,7 @@ public class Polyline extends OverlayWithIW {
 	/** original GeoPoints */
 	private double mOriginalPoints[][]; //as an array, to reduce object creation
 	protected boolean mGeodesic;
-	private final Path mPath = new Path();
+	//private final Path mPath = new Path();
 	protected Paint mPaint = new Paint();
 	/** points, converted to the map projection */
 	private ArrayList<Point> mPoints;
@@ -212,6 +213,7 @@ public class Polyline extends OverlayWithIW {
 		}
 	}
 
+	/*
 	protected void drawOld(final Canvas canvas, final MapView mapView, final boolean shadow) {
 
 		if (shadow) {
@@ -286,6 +288,7 @@ public class Polyline extends OverlayWithIW {
 
 		canvas.drawPath(mPath, mPaint);
 	}
+	*/
 
 	@Override
 	public void draw(final Canvas canvas, final MapView mapView, final boolean shadow) {
@@ -313,8 +316,8 @@ public class Polyline extends OverlayWithIW {
 		Point screenPoint0 = pj.toPixelsFromProjected(projectedPoint0, mTempPoint1); // points on screen
 		Point screenPoint1;
 
-		mPath.rewind();
-		mPath.moveTo(screenPoint0.x, screenPoint0.y);
+		//mPath.rewind();
+		//mPath.moveTo(screenPoint0.x, screenPoint0.y);
 
 		for (int i = 1; i < size; i++) {
 			// compute next points
@@ -361,19 +364,24 @@ public class Polyline extends OverlayWithIW {
 						y0 -= halfMapSize * 2;
 					}
 				}
-				mPath.lineTo(x1, y1);
-				mPath.moveTo(x0, y0);
+				//mPath.lineTo(x1, y1);
+				canvas.drawLine(screenPoint0.x, screenPoint0.y, x1, y1, mPaint);
+				//mPath.moveTo(x0, y0);
+				screenPoint0.x = x0;
+				screenPoint0.y = y0;
 			} // end of line break check
 
-			mPath.lineTo(screenPoint1.x, screenPoint1.y);
+			//mPath.lineTo(screenPoint1.x, screenPoint1.y);
+			canvas.drawLine(screenPoint0.x, screenPoint0.y, screenPoint1.x, screenPoint1.y, mPaint);
 
 			// update starting point to next position
 			screenPoint0.x = screenPoint1.x;
 			screenPoint0.y = screenPoint1.y;
 		}
 
-		canvas.drawPath(mPath, mPaint);
+		//canvas.drawPath(mPath, mPaint);
 
+		/* (Should we really keep that? This is not supported by any other overlay)
 		if (mRepeatPath) {
 			Path mPathCopy = new Path(mPath);
 			mPathCopy.offset(-halfMapSize * 2, 0);                 // create left shifted copy of mPath
@@ -387,6 +395,7 @@ public class Polyline extends OverlayWithIW {
 			mPathCopy.addPath(mPath, 0, -halfMapSize * 2);         // add up shifted copy of mPath
 			canvas.drawPath(mPathCopy, mPaint);
 		}
+		*/
 	}
 	
 	/** Detection is done is screen coordinates. 
