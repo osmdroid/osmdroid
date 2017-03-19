@@ -7,8 +7,10 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.util.Log;
 import android.view.MotionEvent;
 
+import org.osmdroid.api.IMapView;
 import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.GeometryMath;
@@ -51,6 +53,7 @@ public class Polyline extends OverlayWithIW {
 	public boolean mRepeatPath = false; /** if true: at low zoom level showing multiple maps, path will be drawn on all maps */
         /** Cached points for drawLines() */
         private float[] mPts = null;
+        private final Rect mClipRect = new Rect();
 
 	/** bounding rectangle for the current line segment */
 	private final Rect mLineBounds = new Rect();
@@ -315,7 +318,7 @@ public class Polyline extends OverlayWithIW {
 		precomputePoints(pj);
 
                 if (mPts == null || mPts.length != 4*size-4)
-                    mPts = new float[4*size-4];
+                    mPts = new float[4*size-4];//TODO smaller?
                 int j=0;
 
 		Point projectedPoint0 = mPoints.get(0); // points from the points list
@@ -331,10 +334,19 @@ public class Polyline extends OverlayWithIW {
 			Point projectedPoint1 = mPoints.get(i);
 			screenPoint1 = pj.toPixelsFromProjected(projectedPoint1, this.mTempPoint2);
 
-			if (Math.abs(screenPoint1.x - screenPoint0.x) + Math.abs(screenPoint1.y - screenPoint0.y) <= 1) {
-				// skip this point, too close to previous point
+
+                        // skip points too close to previous point or on same side of view
+			if (Math.abs(screenPoint1.x - screenPoint0.x) + Math.abs(screenPoint1.y - screenPoint0.y) <= 1)
 				continue;
-			}
+                        mapView.getIntrinsicScreenRect(mClipRect);
+                        if (screenPoint0.x < mClipRect.left && screenPoint1.x < mClipRect.left)
+                                continue;
+                        if (screenPoint0.x > mClipRect.right && screenPoint1.x > mClipRect.right)
+                                continue;
+                        if (screenPoint0.y < mClipRect.top && screenPoint1.y < mClipRect.top)
+                                continue;
+                        if (screenPoint0.y > mClipRect.bottom && screenPoint1.y > mClipRect.bottom)
+                                continue;
 
 			// check for lines exceeding 180° in longitude, or lines crossing to another map:
 			// cut line into two segments
@@ -371,29 +383,26 @@ public class Polyline extends OverlayWithIW {
 						y0 -= halfMapSize * 2;
 					}
 				}
-				//mPath.lineTo(x1, y1);
                             //TODO
 				//canvas.drawLine(screenPoint0.x, screenPoint0.y, x1, y1, mPaint);
-				//mPath.moveTo(x0, y0);
 				screenPoint0.x = x0;
 				screenPoint0.y = y0;
 			} // end of line break check
 
-			//mPath.lineTo(screenPoint1.x, screenPoint1.y);
-                        if ( !screenPoint0.equals(screenPoint1) ) {
-                          mPts[j++] = screenPoint0.x;
-                          mPts[j++] = screenPoint0.y;
-                          mPts[j++] = screenPoint1.x;
-                          mPts[j++] = screenPoint1.y;
-                        }
-			//canvas.drawLine(screenPoint0.x, screenPoint0.y, screenPoint1.x, screenPoint1.y, mPaint);
+                        //save points for drawing
+                        mPts[j++] = screenPoint0.x;
+                        mPts[j++] = screenPoint0.y;
+                        mPts[j++] = screenPoint1.x;
+                        mPts[j++] = screenPoint1.y;
 
 			// update starting point to next position
 			screenPoint0.x = screenPoint1.x;
 			screenPoint0.y = screenPoint1.y;
+                        //TODO if mPts full, draw & reset
 		}
 
                 canvas.drawLines(mPts, 0, j, mPaint);
+                Log.d(IMapView.LOGTAG,"Polyline points : " + j/4);
 		//canvas.drawPath(mPath, mPaint);
 
 		/* (Should we really keep that? This is not supported by any other overlay)
