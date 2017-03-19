@@ -342,14 +342,15 @@ public class Polyline extends OverlayWithIW {
 			if (Math.abs(screenPoint1.x - screenPoint0.x) + Math.abs(screenPoint1.y - screenPoint0.y) <= 1)
 				continue;
 			mapView.getIntrinsicScreenRect(mClipRect);
-			if (screenPoint0.x < mClipRect.left && screenPoint1.x < mClipRect.left)
+			if ( (screenPoint0.x < mClipRect.left && screenPoint1.x < mClipRect.left) ||
+			     (screenPoint0.x > mClipRect.right && screenPoint1.x > mClipRect.right) ||
+			     (screenPoint0.y < mClipRect.top && screenPoint1.y < mClipRect.top) ||
+			     (screenPoint0.y > mClipRect.bottom && screenPoint1.y > mClipRect.bottom) ) {
+				// update starting point to next position
+				screenPoint0.x = screenPoint1.x;
+				screenPoint0.y = screenPoint1.y;
 				continue;
-			if (screenPoint0.x > mClipRect.right && screenPoint1.x > mClipRect.right)
-				continue;
-			if (screenPoint0.y < mClipRect.top && screenPoint1.y < mClipRect.top)
-				continue;
-			if (screenPoint0.y > mClipRect.bottom && screenPoint1.y > mClipRect.bottom)
-				continue;
+			}
 
 			// check for lines exceeding 180° in longitude, or lines crossing to another map:
 			// cut line into two segments
