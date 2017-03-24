@@ -329,8 +329,7 @@ public class Polyline extends OverlayWithIW {
 		Point screenPoint0 = pj.toPixelsFromProjected(projectedPoint0, mTempPoint1); // points on screen
 		Point screenPoint1;
 
-		//mPath.rewind();
-		//mPath.moveTo(screenPoint0.x, screenPoint0.y);
+		mapView.getScreenRect(mClipRect);
 
 		for (int i = 1; i < size; i++) {
 			// compute next points
@@ -341,7 +340,6 @@ public class Polyline extends OverlayWithIW {
 			// skip points too close to previous point or on same side of view
 			if (Math.abs(screenPoint1.x - screenPoint0.x) + Math.abs(screenPoint1.y - screenPoint0.y) <= 1)
 				continue;
-			mapView.getIntrinsicScreenRect(mClipRect);
 			if ( (screenPoint0.x < mClipRect.left && screenPoint1.x < mClipRect.left) ||
 			     (screenPoint0.x > mClipRect.right && screenPoint1.x > mClipRect.right) ||
 			     (screenPoint0.y < mClipRect.top && screenPoint1.y < mClipRect.top) ||
