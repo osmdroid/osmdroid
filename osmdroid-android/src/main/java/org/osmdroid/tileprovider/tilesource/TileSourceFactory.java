@@ -81,12 +81,6 @@ public class TileSourceFactory {
 					"http://b.tile.openstreetmap.org/",
 					"http://c.tile.openstreetmap.org/" },"© OpenStreetMap contributors");
 
-	public static final OnlineTileSourceBase CYCLEMAP = new XYTileSource("CycleMap",
-			0, 17, 256, ".png", new String[] {
-					"http://a.tile.opencyclemap.org/cycle/",
-					"http://b.tile.opencyclemap.org/cycle/",
-					"http://c.tile.opencyclemap.org/cycle/" }, "Maps © Thunderforest, Data © OpenStreetMap contributors.");
-
 	public static final OnlineTileSourceBase PUBLIC_TRANSPORT = new XYTileSource(
 			"OSMPublicTransport", 0, 17, 256, ".png",
 			new String[] { "http://openptmap.org/tiles/" },"© OpenStreetMap contributors");
@@ -189,7 +183,6 @@ public class TileSourceFactory {
 	static {
 		mTileSources = new ArrayList<ITileSource>();
 		mTileSources.add(MAPNIK);
-		mTileSources.add(CYCLEMAP);
 		mTileSources.add(PUBLIC_TRANSPORT);
 		mTileSources.add(HIKEBIKEMAP);
 		mTileSources.add(USGS_TOPO);
