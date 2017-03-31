@@ -36,7 +36,7 @@ build/
 .gradle
 
 # vim swap files
-*.swp`
+*.swp
 *.swo
 *.jks
 src/site/index.md
