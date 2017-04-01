@@ -29,7 +29,8 @@ public class ThunderforestTileSource  extends OnlineTileSourceBase
     public static final int MOBILE_ATLAS=7;
     public static final int NEIGHBOURHOOD=8;
 
-    //** map names used in URLs */
+
+    /** map names used in URLs */
     private static final String[] urlMap = new String[]{
             "cycle",
             "transport",
@@ -41,7 +42,7 @@ public class ThunderforestTileSource  extends OnlineTileSourceBase
             "mobile-atlas",
             "neighbourhood"};
 
-    //** map names used in UI (eg. menu) */
+    /** map names used in UI (eg. menu) */
     private static final String[] uiMap = new String[]{
             "CycleMap",
             "Transport",
@@ -59,7 +60,17 @@ public class ThunderforestTileSource  extends OnlineTileSourceBase
             "https://c.tile.thunderforest.com/{map}/"};
 
     private final int mMap;
-    private String mMapId;
+    private final String mMapId;
+
+    /**
+     * return the name asociated with a map.
+     */
+    public static final String mapName(int m)
+    {
+        if (m<0 || m>=uiMap.length)
+           return "";
+        return uiMap[m];
+    }
 
     /**
      * creates a new Thunderforest tile source, loading the access token and mapid from the manifest
@@ -70,7 +81,7 @@ public class ThunderforestTileSource  extends OnlineTileSourceBase
     {
 	super(uiMap[aMap], 0, 17, 256, ".png", baseUrl, "Maps © Thunderforest, Data © OpenStreetMap contributors.");
         mMap=aMap;
-        retrieveMapId(ctx);
+        mMapId=retrieveMapId(ctx);
         //this line will ensure uniqueness in the tile cache
         //mName="thunderforest"+aMap+mMapId;
     }
@@ -78,10 +89,10 @@ public class ThunderforestTileSource  extends OnlineTileSourceBase
     /**
      * Reads the map id from the manifest.<br>
      */
-    public final void retrieveMapId(final Context aContext)
+    public final String retrieveMapId(final Context aContext)
     {
         // Retrieve the MapId from the Manifest
-        mMapId = ManifestUtil.retrieveKey(aContext, THUNDERFOREST_MAPID);
+        return ManifestUtil.retrieveKey(aContext, THUNDERFOREST_MAPID);
     }
 
     @Override
