@@ -75,6 +75,22 @@ public class TileSourceFactory {
 		mTileSources.add(mTileSource);
 	}
 
+        /**
+         * removes any tile sources whose name matches the regular expression
+         * @param aRegex regular expression
+         * @return number of sources removed
+         */
+	public static int removeTileSources(final String aRegex) {
+	        int n=0;
+                for (int i=mTileSources.size()-1; i>=0; --i) {
+                        if (mTileSources.get(i).name().matches(aRegex)) {
+		                mTileSources.remove(i);
+				++n;
+		        }
+                }
+		return n;
+	}
+
 	public static final OnlineTileSourceBase MAPNIK = new XYTileSource("Mapnik",
 			0, 19, 256, ".png", new String[] {
 					"http://a.tile.openstreetmap.org/",
