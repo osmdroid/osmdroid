@@ -75,17 +75,27 @@ public class TileSourceFactory {
 		mTileSources.add(mTileSource);
 	}
 
+        /**
+         * removes any tile sources whose name matches the regular expression
+         * @param aRegex regular expression
+         * @return number of sources removed
+         */
+	public static int removeTileSources(final String aRegex) {
+	        int n=0;
+                for (int i=mTileSources.size()-1; i>=0; --i) {
+                        if (mTileSources.get(i).name().matches(aRegex)) {
+		                mTileSources.remove(i);
+				++n;
+		        }
+                }
+		return n;
+	}
+
 	public static final OnlineTileSourceBase MAPNIK = new XYTileSource("Mapnik",
 			0, 19, 256, ".png", new String[] {
 					"http://a.tile.openstreetmap.org/",
 					"http://b.tile.openstreetmap.org/",
 					"http://c.tile.openstreetmap.org/" },"© OpenStreetMap contributors");
-
-	public static final OnlineTileSourceBase CYCLEMAP = new XYTileSource("CycleMap",
-			0, 17, 256, ".png", new String[] {
-					"http://a.tile.opencyclemap.org/cycle/",
-					"http://b.tile.opencyclemap.org/cycle/",
-					"http://c.tile.opencyclemap.org/cycle/" }, "Maps © Thunderforest, Data © OpenStreetMap contributors.");
 
 	public static final OnlineTileSourceBase PUBLIC_TRANSPORT = new XYTileSource(
 			"OSMPublicTransport", 0, 17, 256, ".png",
@@ -189,7 +199,6 @@ public class TileSourceFactory {
 	static {
 		mTileSources = new ArrayList<ITileSource>();
 		mTileSources.add(MAPNIK);
-		mTileSources.add(CYCLEMAP);
 		mTileSources.add(PUBLIC_TRANSPORT);
 		mTileSources.add(HIKEBIKEMAP);
 		mTileSources.add(USGS_TOPO);
