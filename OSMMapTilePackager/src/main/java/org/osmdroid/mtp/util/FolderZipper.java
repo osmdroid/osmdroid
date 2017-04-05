@@ -65,7 +65,10 @@ public class FolderZipper {
 				addFolderToZip(file, zip, baseName);
 			} else {
 				/* Otherwise zip it as usual. */
-				final String name = file.getPath().substring(baseName.length());
+				String name = file.getPath().substring(baseName.length());
+				if (name.startsWith(File.separator))
+					name = name.substring(1);
+				System.out.println(name + " added");
 				final ZipEntry zipEntry = new ZipEntry(name);
 				zip.putNextEntry(zipEntry);
 				final FileInputStream fileIn = new FileInputStream(file);
