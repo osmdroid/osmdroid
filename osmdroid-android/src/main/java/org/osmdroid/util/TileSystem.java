@@ -26,7 +26,7 @@ public final class TileSystem {
 	}
 
 	/** @see microsoft.mappoint.TileSystem#MapSize(int) */
-	public static int MapSize(final int levelOfDetail) {
+	public static long MapSize(final int levelOfDetail) {
 		return microsoft.mappoint.TileSystem.MapSize(levelOfDetail);
 	}
 
@@ -52,7 +52,7 @@ public final class TileSystem {
 	/** @see microsoft.mappoint.TileSystem#PixelXYToLatLong(int, int, int, GeoPoint) */
 	public static GeoPoint PixelXYToLatLong(
 			final int pixelX, final int pixelY, final int levelOfDetail, final GeoPoint reuse) {
-		final int mapSize = MapSize(levelOfDetail);
+		final long mapSize = MapSize(levelOfDetail);
 		return microsoft.mappoint.TileSystem.PixelXYToLatLong(
 				(int) wrap(pixelX, 0, mapSize - 1, mapSize),
 				(int) wrap(pixelY, 0, mapSize - 1, mapSize),
