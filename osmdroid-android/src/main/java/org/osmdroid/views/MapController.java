@@ -1,17 +1,6 @@
 // Created by plusminus on 21:37:08 - 27.09.2008
 package org.osmdroid.views;
 
-import java.util.LinkedList;
-
-import org.osmdroid.api.IGeoPoint;
-import org.osmdroid.api.IMapController;
-import org.osmdroid.util.BoundingBox;
-import org.osmdroid.events.ScrollEvent;
-import org.osmdroid.events.ZoomEvent;
-import org.osmdroid.util.BoundingBoxE6;
-import org.osmdroid.views.MapView.OnFirstLayoutListener;
-import org.osmdroid.views.util.MyMath;
-
 import android.animation.Animator;
 import android.animation.ValueAnimator;
 import android.animation.ValueAnimator.AnimatorUpdateListener;
@@ -24,7 +13,19 @@ import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.ScaleAnimation;
 
-import static org.osmdroid.views.util.constants.MapViewConstants.*;
+import org.osmdroid.api.IGeoPoint;
+import org.osmdroid.api.IMapController;
+import org.osmdroid.events.ScrollEvent;
+import org.osmdroid.events.ZoomEvent;
+import org.osmdroid.util.BoundingBox;
+import org.osmdroid.util.BoundingBoxE6;
+import org.osmdroid.views.MapView.OnFirstLayoutListener;
+import org.osmdroid.views.util.MyMath;
+
+import java.util.LinkedList;
+
+import static org.osmdroid.views.util.constants.MapViewConstants.ANIMATION_DURATION_DEFAULT;
+import static org.osmdroid.views.util.constants.MapViewConstants.ANIMATION_DURATION_SHORT;
 
 /**
  * 
@@ -520,21 +521,25 @@ public class MapController implements IMapController, OnFirstLayoutListener {
         }
 
 
-        public void replayCalls() {
+		public void replayCalls() {
 			for (ReplayClass replay : mReplayList) {
 				switch (replay.mReplayType) {
-				case AnimateToGeoPoint:
-					MapController.this.animateTo(replay.mGeoPoint);
-					break;
-				case AnimateToPoint:
-					MapController.this.animateTo(replay.mPoint.x, replay.mPoint.y);
-					break;
-				case SetCenterPoint:
-					MapController.this.setCenter(replay.mGeoPoint);
-					break;
-				case ZoomToSpanPoint:
-					MapController.this.zoomToSpan(replay.mPoint.x, replay.mPoint.y);
-					break;
+					case AnimateToGeoPoint:
+						if (replay.mGeoPoint != null)
+							MapController.this.animateTo(replay.mGeoPoint);
+						break;
+					case AnimateToPoint:
+						if (replay.mPoint != null)
+							MapController.this.animateTo(replay.mPoint.x, replay.mPoint.y);
+						break;
+					case SetCenterPoint:
+						if (replay.mGeoPoint != null)
+							MapController.this.setCenter(replay.mGeoPoint);
+						break;
+					case ZoomToSpanPoint:
+						if (replay.mPoint != null)
+							MapController.this.zoomToSpan(replay.mPoint.x, replay.mPoint.y);
+						break;
 				}
 			}
 			mReplayList.clear();
