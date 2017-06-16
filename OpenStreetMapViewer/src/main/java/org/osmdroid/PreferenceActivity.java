@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -47,7 +48,8 @@ public class PreferenceActivity extends AppCompatActivity implements View.OnClic
         checkBoxDebugMode,
         checkBoxHardwareAcceleration,
         checkBoxMapViewDebug,
-        checkBoxDebugDownloading;
+        checkBoxDebugDownloading,
+        checkboxEnableVerticalScrolling;
     Button buttonSetCache,
         buttonManualCacheEntry,
         buttonPurgeCache,
@@ -78,6 +80,7 @@ public class PreferenceActivity extends AppCompatActivity implements View.OnClic
         checkBoxHardwareAcceleration = (CheckBox) findViewById(R.id.checkBoxHardwareAcceleration);
         checkBoxDebugDownloading = (CheckBox) findViewById(R.id.checkBoxDebugDownloading);
         checkBoxMapViewDebug = (CheckBox) findViewById(R.id.checkBoxMapViewDebug);
+        checkboxEnableVerticalScrolling = (CheckBox) findViewById(R.id.checkBoxEnableVerticalScrolling);
         checkBoxDebugTileProvider.setOnClickListener(this);
         checkBoxDebugMode.setOnClickListener(this);
         checkBoxHardwareAcceleration.setOnClickListener(this);
@@ -144,6 +147,7 @@ public class PreferenceActivity extends AppCompatActivity implements View.OnClic
         checkBoxDebugTileProvider.setChecked(Configuration.getInstance().isDebugTileProviders());
         checkBoxHardwareAcceleration.setChecked(Configuration.getInstance().isMapViewHardwareAccelerated());
         checkBoxDebugDownloading.setChecked(Configuration.getInstance().isDebugMapTileDownloader());
+        checkboxEnableVerticalScrolling.setChecked(Configuration.getInstance().isEnableVerticalScrolling());
         textViewCacheDirectory.setText(Configuration.getInstance().getOsmdroidTileCache().getAbsolutePath());
         textViewBaseDirectory.setText(Configuration.getInstance().getOsmdroidBasePath().getAbsolutePath());
 
@@ -232,6 +236,7 @@ public class PreferenceActivity extends AppCompatActivity implements View.OnClic
         Configuration.getInstance().setDebugTileProviders(checkBoxDebugTileProvider.isChecked());
         Configuration.getInstance().setMapViewHardwareAccelerated(checkBoxHardwareAcceleration.isChecked());
         Configuration.getInstance().setDebugMapTileDownloader(checkBoxDebugDownloading.isChecked());
+        Configuration.getInstance().setEnableVerticalScrolling(checkboxEnableVerticalScrolling.isChecked());
         Configuration.getInstance().setOsmdroidTileCache(new File(textViewCacheDirectory.getText().toString()));
         Configuration.getInstance().setOsmdroidBasePath(new File(textViewBaseDirectory.getText().toString()));
 

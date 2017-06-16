@@ -62,6 +62,16 @@ public class DefaultConfigurationProvider implements IConfigurationProvider {
     protected long expirationAdder = 0;
     protected Long expirationOverride=null;
 
+    public boolean isEnableVerticalScrolling() {
+        return enableVerticalScrolling;
+    }
+
+    public void setEnableVerticalScrolling(boolean enableVerticalScrolling) {
+        this.enableVerticalScrolling = enableVerticalScrolling;
+    }
+
+    protected boolean enableVerticalScrolling=true;
+
     public DefaultConfigurationProvider(){
 
         try {
@@ -301,6 +311,7 @@ public class DefaultConfigurationProvider implements IConfigurationProvider {
             setTileDownloadMaxQueueSize((short)(prefs.getInt("osmdroid.tileDownloadMaxQueueSize",tileDownloadMaxQueueSize)));
             setTileFileSystemMaxQueueSize((short)(prefs.getInt("osmdroid.tileFileSystemMaxQueueSize",tileFileSystemMaxQueueSize)));
             setExpirationExtendedDuration((long)prefs.getLong("osmdroid.ExpirationExtendedDuration", expirationAdder));
+            setEnableVerticalScrolling(prefs.getBoolean("osmdroid.EnableVerticalScrolling", true));
             if (prefs.contains("osmdroid.ExpirationOverride")) {
                 expirationOverride = prefs.getLong("osmdroid.ExpirationOverride",-1);
                 if (expirationOverride!=null && expirationOverride==-1)
@@ -358,6 +369,7 @@ public class DefaultConfigurationProvider implements IConfigurationProvider {
         edit.putInt("osmdroid.tileDownloadMaxQueueSize",tileDownloadMaxQueueSize);
         edit.putInt("osmdroid.tileFileSystemMaxQueueSize",tileFileSystemMaxQueueSize);
         edit.putLong("osmdroid.ExpirationExtendedDuration",expirationAdder);
+        edit.putBoolean("osmdroid.EnableVerticalScrolling", enableVerticalScrolling);
         if (expirationOverride!=null)
             edit.putLong("osmdroid.ExpirationOverride",expirationOverride);
         //TODO save other fields?

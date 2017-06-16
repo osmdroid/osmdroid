@@ -88,5 +88,5 @@
     <string name="close">Close</string>
     <string name="cancelall">Cancel All Jobs</string>
     <string name="showpendingjobs">Pending Job Count</string>
-
+    <string name="enable_mapview_verticalscrolling">Enable vertical scrolling across the poles</string>
 </resources>

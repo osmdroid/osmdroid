@@ -1007,17 +1007,25 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	@Override
 	public void scrollTo(int x, int y) {
 		final int worldSize = TileSystem.MapSize(this.getZoomLevel(false));
-		while (x < 0) {
-			x += worldSize;
-		}
-		while (x >= worldSize) {
-			x -= worldSize;
-		}
-		while (y < 0) {
-			y += worldSize;
-		}
-		while (y >= worldSize) {
-			y -= worldSize;
+		if (Configuration.getInstance().isEnableVerticalScrolling()) {
+			while (x < 0) {
+				x += worldSize;
+			}
+			while (x >= worldSize) {
+				x -= worldSize;
+			}
+			while (y < 0) {
+				y += worldSize;
+			}
+			while (y >= worldSize) {
+				y -= worldSize;
+			}
+		} else {
+			if(y < 0) { // when over north pole
+				y = 0; // scroll to north pole
+			}else if(y + getHeight() >= worldSize) { // when over south pole
+				y = worldSize-getHeight() - 1; // scroll to south pole
+			}
 		}
 
 		if (mScrollableAreaLimit != null) {

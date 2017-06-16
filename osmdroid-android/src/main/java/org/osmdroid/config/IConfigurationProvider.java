@@ -272,4 +272,17 @@ public interface IConfigurationProvider {
      *               if not null, this this value is used
      */
     Long getExpirationOverrideDuration();
+
+    /**
+     * @since 5.6.5
+     * @return
+     */
+    public boolean isEnableVerticalScrolling();
+
+    /**
+     * enables or disable scrolling past the northpole/southpole
+     * @since 5.6.5
+     * @param enableVerticalScrolling
+     */
+    public void setEnableVerticalScrolling(boolean enableVerticalScrolling);
 }
