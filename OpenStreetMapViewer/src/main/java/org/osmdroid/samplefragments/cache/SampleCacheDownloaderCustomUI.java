@@ -39,7 +39,7 @@ public class SampleCacheDownloaderCustomUI extends BaseSampleFragment implements
     TextView cache_estimate;
     CacheManager mgr;
     AlertDialog downloadPrompt = null;
-    CacheManager.DownloadingTask downloadingTask=null;
+    CacheManager.CacheManagerTask downloadingTask=null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
