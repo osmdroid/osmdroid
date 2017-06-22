@@ -81,6 +81,10 @@ public class CacheManager {
         this(mapView.getTileProvider(), writer, mapView.getMinZoomLevel(), mapView.getMaxZoomLevel());
     }
 
+    /**
+     * See https://github.com/osmdroid/osmdroid/issues/619
+     * @since 5.6.5
+     */
     public CacheManager(final MapTileProviderBase pTileProvider,
                         final IFilesystemCache pWriter,
                         final int pMinZoomLevel, final int pMaxZoomLevel) {
