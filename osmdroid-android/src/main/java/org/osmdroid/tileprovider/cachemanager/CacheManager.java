@@ -36,9 +36,11 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 ;
@@ -61,24 +63,35 @@ import java.util.Set;
  * @author M.Kergall
  * @author Alex
  * @author 2ndGAB
+ * @author F.Fontaine
  */
 public class CacheManager {
 
     protected final MapTileProviderBase mTileProvider;
     protected final IFilesystemCache mTileWriter;
-    protected final MapView mMapView;
+    protected final int mMinZoomLevel;
+    protected final int mMaxZoomLevel;
     protected Set<CacheManagerTask> mPendingTasks = new HashSet<>();
 
     public CacheManager(final MapView mapView) {
-        mTileProvider = mapView.getTileProvider();
-        mTileWriter = mapView.getTileProvider().getTileWriter();
-        mMapView = mapView;
+        this(mapView, mapView.getTileProvider().getTileWriter());
     }
 
     public CacheManager(final MapView mapView, IFilesystemCache writer) {
-        mTileProvider = mapView.getTileProvider();
-        mTileWriter = writer;
-        mMapView = mapView;
+        this(mapView.getTileProvider(), writer, mapView.getMinZoomLevel(), mapView.getMaxZoomLevel());
+    }
+
+    /**
+     * See https://github.com/osmdroid/osmdroid/issues/619
+     * @since 5.6.5
+     */
+    public CacheManager(final MapTileProviderBase pTileProvider,
+                        final IFilesystemCache pWriter,
+                        final int pMinZoomLevel, final int pMaxZoomLevel) {
+        mTileProvider = pTileProvider;
+        mTileWriter = pWriter;
+        mMinZoomLevel = pMinZoomLevel;
+        mMaxZoomLevel = pMaxZoomLevel;
     }
 
     /**
@@ -203,121 +216,177 @@ public class CacheManager {
         return false;
     }
 
+    public boolean deleteTile(final MapTile pTile) {
+        final ITileSource tileSource = mTileProvider.getTileSource();
+        return mTileWriter.exists(tileSource, pTile) && mTileWriter.remove(tileSource, pTile);
+    }
+
+    public boolean checkTile(final MapTile pTile) {
+        return mTileWriter.exists(mTileProvider.getTileSource(), pTile);
+    }
+
+    /**
+     * Computes the theoretical tiles covered by the bounding box
+     * @return list of tiles, sorted by ascending zoom level
+     */
+    public static List<MapTile> getTilesCoverage(final BoundingBox pBB,
+                                                 final int pZoomMin, final int pZoomMax) {
+        final List<MapTile> result = new ArrayList<>();
+        for (int zoomLevel = pZoomMin; zoomLevel <= pZoomMax; zoomLevel++) {
+            final Collection<MapTile> resultForZoom = getTilesCoverage(pBB, zoomLevel);
+            result.addAll(resultForZoom);
+        }
+        return result;
+    }
+
+    /**
+     * Computes the theoretical tiles covered by the bounding box
+     * @return list of tiles for that zoom level, without any specific order
+     */
+    public static Collection<MapTile> getTilesCoverage(final BoundingBox pBB, final int pZoomLevel){
+        final Set<MapTile> result = new HashSet<>();
+        final int mapTileUpperBound = 1 << pZoomLevel;
+        final Point lowerRight = getMapTileFromCoordinates(
+                pBB.getLatSouth(), pBB.getLonEast(), pZoomLevel);
+        final Point upperLeft = getMapTileFromCoordinates(
+                pBB.getLatNorth(), pBB.getLonWest(), pZoomLevel);
+        int width = lowerRight.x - upperLeft.x + 1; // handling the modulo
+        if (width <= 0) {
+            width += mapTileUpperBound;
+        }
+        int height = lowerRight.y - upperLeft.y + 1; // handling the modulo
+        if (height <= 0) {
+            height += mapTileUpperBound;
+        }
+        for (int i = 0 ; i < width ; i ++) {
+            for (int j = 0 ; j < height ; j ++) {
+                final int x = MyMath.mod(upperLeft.x + i, mapTileUpperBound);
+                final int y = MyMath.mod(upperLeft.y + j, mapTileUpperBound);
+                result.add(new MapTile(pZoomLevel, x, y));
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Computes the theoretical tiles covered by the list of points
+     * @return list of tiles, sorted by ascending zoom level
+     */
+    public static List<MapTile> getTilesCoverage(final ArrayList<GeoPoint> pGeoPoints,
+                                                 final int pZoomMin, final int pZoomMax) {
+        final List<MapTile> result = new ArrayList<>();
+        for (int zoomLevel = pZoomMin; zoomLevel <= pZoomMax; zoomLevel++) {
+            final Collection<MapTile> resultForZoom = getTilesCoverage(pGeoPoints, zoomLevel);
+            result.addAll(resultForZoom);
+        }
+        return result;
+    }
+
+    /**
+     * Computes the theoretical tiles covered by the list of points
+     * Calculation done based on http://www.movable-type.co.uk/scripts/latlong.html
+     */
+    public static Collection<MapTile> getTilesCoverage(final ArrayList<GeoPoint> pGeoPoints,
+                                                       final int pZoomLevel) {
+        final Set<MapTile> result = new HashSet<>();
+
+        GeoPoint prevPoint = null;
+        Point tile, prevTile = null;
+
+        final int mapTileUpperBound = 1 << pZoomLevel;
+        for (GeoPoint geoPoint : pGeoPoints) {
+
+            final double d = TileSystem.GroundResolution(geoPoint.getLatitude(), pZoomLevel);
+
+            if (result.size() != 0) {
+
+                if (prevPoint != null) {
+
+                    final double leadCoef = (geoPoint.getLatitude() - prevPoint.getLatitude()) / (geoPoint.getLongitude() - prevPoint.getLongitude());
+                    final double brng;
+                    if (geoPoint.getLongitude() > prevPoint.getLongitude()) {
+                        brng = Math.PI / 2 - Math.atan(leadCoef);
+                    } else {
+                        brng = 3 * Math.PI / 2 - Math.atan(leadCoef);
+                    }
+
+                    final GeoPoint wayPoint = new GeoPoint(prevPoint.getLatitude(), prevPoint.getLongitude());
+
+                    while ((((geoPoint.getLatitude() > prevPoint.getLatitude()) && (wayPoint.getLatitude() < geoPoint.getLatitude())) ||
+                            (geoPoint.getLatitude() < prevPoint.getLatitude()) && (wayPoint.getLatitude() > geoPoint.getLatitude())) &&
+                            (((geoPoint.getLongitude() > prevPoint.getLongitude()) && (wayPoint.getLongitude() < geoPoint.getLongitude())) ||
+                                    ((geoPoint.getLongitude() < prevPoint.getLongitude()) && (wayPoint.getLongitude() > geoPoint.getLongitude())))) {
+
+                        final Point lastPoint = new Point();
+                        TileSystem.LatLongToPixelXY(geoPoint.getLatitude(), geoPoint.getLongitude(), pZoomLevel, lastPoint);
+
+                        final double prevLatRad = wayPoint.getLatitude() * Math.PI / 180.0;
+                        final double prevLonRad = wayPoint.getLongitude() * Math.PI / 180.0;
+
+                        final double latRad = Math.asin(Math.sin(prevLatRad) * Math.cos(d / GeoConstants.RADIUS_EARTH_METERS) + Math.cos(prevLatRad) * Math.sin(d / GeoConstants.RADIUS_EARTH_METERS) * Math.cos(brng));
+                        final double lonRad = prevLonRad + Math.atan2(Math.sin(brng) * Math.sin(d / GeoConstants.RADIUS_EARTH_METERS) * Math.cos(prevLatRad), Math.cos(d / GeoConstants.RADIUS_EARTH_METERS) - Math.sin(prevLatRad) * Math.sin(latRad));
+
+                        wayPoint.setLatitude(((latRad * 180.0 / Math.PI)));
+                        wayPoint.setLongitude(((lonRad * 180.0 / Math.PI)));
+
+                        tile = getMapTileFromCoordinates(wayPoint.getLatitude(), wayPoint.getLongitude(), pZoomLevel);
+
+                        if (!tile.equals(prevTile)) {
+//Log.d(Constants.APP_TAG, "New Tile lat " + tile.x + " lon " + tile.y);
+                            int ofsx = tile.x >= 0 ? 0 : -tile.x;
+                            int ofsy = tile.y >= 0 ? 0 : -tile.y;
+                            for (int xAround = tile.x + ofsx; xAround <= tile.x + 1 + ofsx; xAround++) {
+                                for (int yAround = tile.y + ofsy; yAround <= tile.y + 1 + ofsy; yAround++) {
+                                    final int tileY = MyMath.mod(yAround, mapTileUpperBound);
+                                    final int tileX = MyMath.mod(xAround, mapTileUpperBound);
+                                    result.add(new MapTile(pZoomLevel, tileX, tileY));
+                                }
+                            }
+
+                            prevTile = tile;
+                        }
+                    }
+                }
+
+            } else {
+                tile = getMapTileFromCoordinates(geoPoint.getLatitude(), geoPoint.getLongitude(), pZoomLevel);
+                prevTile = tile;
+
+                int ofsx = tile.x >= 0 ? 0 : -tile.x;
+                int ofsy = tile.y >= 0 ? 0 : -tile.y;
+                for (int xAround = tile.x + ofsx; xAround <= tile.x + 1 + ofsx; xAround++) {
+                    for (int yAround = tile.y + ofsy; yAround <= tile.y + 1 + ofsy; yAround++) {
+                        final int tileY = MyMath.mod(yAround, mapTileUpperBound);
+                        final int tileX = MyMath.mod(xAround, mapTileUpperBound);
+                        result.add(new MapTile(pZoomLevel, tileX, tileY));
+                    }
+                }
+            }
+
+            prevPoint = geoPoint;
+        }
+        return result;
+    }
+
     /**
      * @return the theoretical number of tiles in the specified area
      */
-    public int possibleTilesInArea(BoundingBox bb, final int zoomMin, final int zoomMax) {
-        int total = 0;
-        for (int zoomLevel = zoomMin; zoomLevel <= zoomMax; zoomLevel++) {
-            Point mLowerRight = getMapTileFromCoordinates(bb.getLatSouth(), bb.getLonEast(), zoomLevel);
-            Point mUpperLeft = getMapTileFromCoordinates(bb.getLatNorth() , bb.getLonWest(), zoomLevel);
-            int y = mLowerRight.y - mUpperLeft.y + 1;
-            int x = mLowerRight.x - mUpperLeft.x + 1;
-            int nbTilesForZoomLevel = x * y;
-            total += nbTilesForZoomLevel;
-        }
-        return total;
+    public int possibleTilesInArea(final BoundingBox pBB, final int pZoomMin, final int pZoomMax) {
+        return getTilesCoverage(pBB, pZoomMin, pZoomMax).size();
     }
     /**
      * @return the theoretical number of tiles covered by the list of points
      * Calculation done based on http://www.movable-type.co.uk/scripts/latlong.html
      */
-    public int possibleTilesCovered(ArrayList<GeoPoint> geoPoints, final int zoomMin, final int zoomMax) {
-        ArrayList<Point>  tilePoints = new ArrayList<>();
-        boolean foundTilePoint;
-        GeoPoint prevPoint = null, wayPoint;
-        double d, leadCoef, brng, latRad, lonRad, prevLatRad, prevLonRad;
-        Point tile, prevTile = null, lastPoint;
-
-        for (int zoomLevel = zoomMin; zoomLevel <= zoomMax; zoomLevel++) {
-            for (GeoPoint geoPoint : geoPoints) {
-
-                d = TileSystem.GroundResolution(geoPoint.getLatitude(), zoomLevel);
-
-                if (tilePoints.size() != 0) {
-
-                    if (prevPoint != null) {
-
-                        leadCoef = (geoPoint.getLatitude() - prevPoint.getLatitude()) / (geoPoint.getLongitude() - prevPoint.getLongitude());
-
-                        if (geoPoint.getLongitude() > prevPoint.getLongitude()) {
-                            brng = Math.PI / 2 - Math.atan(leadCoef);
-                        } else {
-                            brng = 3 * Math.PI / 2 - Math.atan(leadCoef);
-                        }
-
-                        wayPoint = new GeoPoint(prevPoint.getLatitude(), prevPoint.getLongitude());
-
-                        while ((((geoPoint.getLatitude() > prevPoint.getLatitude()) && (wayPoint.getLatitude() < geoPoint.getLatitude())) ||
-                            (geoPoint.getLatitude() < prevPoint.getLatitude()) && (wayPoint.getLatitude() > geoPoint.getLatitude())) &&
-                            (((geoPoint.getLongitude() > prevPoint.getLongitude()) && (wayPoint.getLongitude() < geoPoint.getLongitude())) ||
-                                ((geoPoint.getLongitude() < prevPoint.getLongitude()) && (wayPoint.getLongitude() > geoPoint.getLongitude())))) {
-
-                            lastPoint = new Point();
-                            TileSystem.LatLongToPixelXY(geoPoint.getLatitude(), geoPoint.getLongitude(), zoomLevel, lastPoint);
-
-                            prevLatRad = wayPoint.getLatitude() * Math.PI / 180.0;
-                            prevLonRad = wayPoint.getLongitude() * Math.PI / 180.0;
-
-                            latRad = Math.asin(Math.sin(prevLatRad) * Math.cos(d / GeoConstants.RADIUS_EARTH_METERS) + Math.cos(prevLatRad) * Math.sin(d / GeoConstants.RADIUS_EARTH_METERS) * Math.cos(brng));
-                            lonRad = prevLonRad + Math.atan2(Math.sin(brng) * Math.sin(d / GeoConstants.RADIUS_EARTH_METERS) * Math.cos(prevLatRad), Math.cos(d / GeoConstants.RADIUS_EARTH_METERS) - Math.sin(prevLatRad) * Math.sin(latRad));
-
-                            wayPoint.setLatitude(((latRad * 180.0 / Math.PI)));
-                            wayPoint.setLongitude(((lonRad * 180.0 / Math.PI)));
-
-                            tile = getMapTileFromCoordinates(wayPoint.getLatitude(), wayPoint.getLongitude(), zoomLevel);
-
-                            if (!tile.equals(prevTile)) {
-//Log.d(Constants.APP_TAG, "New Tile lat " + tile.x + " lon " + tile.y);
-                                int ofsx = tile.x >= 0 ? 0 : -tile.x;
-                                int ofsy = tile.y >= 0 ? 0 : -tile.y;
-                                for (int xAround = tile.x + ofsx; xAround <= tile.x + 1 + ofsx; xAround++) {
-                                    for (int yAround = tile.y + ofsy; yAround <= tile.y + 1 + ofsy; yAround++) {
-
-                                        Point tileAround = new Point(xAround, yAround);
-                                        foundTilePoint = false;
-                                        for (Point inList : tilePoints) {
-
-                                            if (tileAround.equals(inList.x, inList.y)) {
-                                                foundTilePoint = true;
-                                                break;
-                                            }
-                                        }
-
-                                        if (!foundTilePoint) {
-                                            tilePoints.add(0, tileAround);
-                                        }
-                                    }
-                                }
-
-                                prevTile = tile;
-                            }
-                        }
-                    }
-
-                } else {
-                    tile = getMapTileFromCoordinates(geoPoint.getLatitude(), geoPoint.getLongitude(), zoomLevel);
-                    prevTile = tile;
-
-                    int ofsx = tile.x >= 0 ? 0 : -tile.x;
-                    int ofsy = tile.y >= 0 ? 0 : -tile.y;
-                    for (int xAround = tile.x + ofsx; xAround <= tile.x + 1 + ofsx; xAround++) {
-                        for (int yAround = tile.y + ofsy; yAround <= tile.y + 1 + ofsy; yAround++) {
-                            Point tileAround = new Point(xAround, yAround);
-                            tilePoints.add(0, tileAround);
-                        }
-                    }
-                }
-
-                prevPoint = geoPoint;
-            }
-        }
-        Log.d(IMapView.LOGTAG, "need " + tilePoints.size() + " Tiles");
-        return tilePoints.size();
+    public int possibleTilesCovered(final ArrayList<GeoPoint> pGeoPoints,
+                                    final int pZoomMin, final int pZoomMax) {
+        return getTilesCoverage(pGeoPoints, pZoomMin, pZoomMax).size();
     }
 
-    protected String zoomMessage(int zoomLevel, int zoomMin, int zoomMax) {
-        return "Handling zoom level: " + zoomLevel + " (from " + zoomMin + " to " + zoomMax + ")";
+    public CacheManagerTask execute(final CacheManagerTask pTask) {
+        pTask.execute();
+        mPendingTasks.add(pTask);
+        return pTask;
     }
 
     /**
@@ -328,11 +397,10 @@ public class CacheManager {
      * @param zoomMin
      * @param zoomMax
      */
-    public DownloadingTask downloadAreaAsync(Context ctx, BoundingBox bb, final int zoomMin, final int zoomMax) {
-        DownloadingTask task=new DownloadingTask(ctx, bb, zoomMin, zoomMax, null, true);
-        task.execute();
-        mPendingTasks.add(task);
-        return task;
+    public CacheManagerTask downloadAreaAsync(Context ctx, BoundingBox bb, final int zoomMin, final int zoomMax) {
+        final CacheManagerTask task = new CacheManagerTask(this, getDownloadingAction(), bb, zoomMin, zoomMax);
+        task.addCallback(getDownloadingDialog(ctx, task));
+        return execute(task);
     }
 
     /**
@@ -343,11 +411,10 @@ public class CacheManager {
      * @param zoomMin
      * @param zoomMax
      */
-    public DownloadingTask downloadAreaAsync(Context ctx, ArrayList<GeoPoint> geoPoints, final int zoomMin, final int zoomMax) {
-        DownloadingTask task=new DownloadingTask(ctx, geoPoints, zoomMin, zoomMax, null, true);
-        task.execute();
-        mPendingTasks.add(task);
-        return task;
+    public CacheManagerTask downloadAreaAsync(Context ctx, ArrayList<GeoPoint> geoPoints, final int zoomMin, final int zoomMax) {
+        final CacheManagerTask task = new CacheManagerTask(this, getDownloadingAction(), geoPoints, zoomMin, zoomMax);
+        task.addCallback(getDownloadingDialog(ctx, task));
+        return execute(task);
     }
     /**
      * Download in background all tiles of the specified area in osmdroid cache.
@@ -357,11 +424,11 @@ public class CacheManager {
      * @param zoomMin
      * @param zoomMax
      */
-    public DownloadingTask downloadAreaAsync(Context ctx, BoundingBox bb, final int zoomMin, final int zoomMax, final CacheManagerCallback callback) {
-        DownloadingTask task =new DownloadingTask(ctx, bb, zoomMin, zoomMax, callback, true);
-        task.execute();
-        mPendingTasks.add(task);
-        return task;
+    public CacheManagerTask downloadAreaAsync(Context ctx, BoundingBox bb, final int zoomMin, final int zoomMax, final CacheManagerCallback callback) {
+        final CacheManagerTask task = new CacheManagerTask(this, getDownloadingAction(), bb, zoomMin, zoomMax);
+        task.addCallback(callback);
+        task.addCallback(getDownloadingDialog(ctx, task));
+        return execute(task);
     }
 
     /**
@@ -372,11 +439,11 @@ public class CacheManager {
      * @param zoomMin
      * @param zoomMax
      */
-    public DownloadingTask downloadAreaAsync(Context ctx, ArrayList<GeoPoint> geoPoints, final int zoomMin, final int zoomMax, final CacheManagerCallback callback) {
-        DownloadingTask task = new DownloadingTask(ctx, geoPoints, zoomMin, zoomMax, callback, true);
-        task.execute();
-        mPendingTasks.add(task);
-        return task;
+    public CacheManagerTask downloadAreaAsync(Context ctx, ArrayList<GeoPoint> geoPoints, final int zoomMin, final int zoomMax, final CacheManagerCallback callback) {
+        final CacheManagerTask task = new CacheManagerTask(this, getDownloadingAction(), geoPoints, zoomMin, zoomMax);
+        task.addCallback(callback);
+        task.addCallback(getDownloadingDialog(ctx, task));
+        return execute(task);
     }
 
     /**
@@ -388,11 +455,10 @@ public class CacheManager {
      * @param zoomMax
      * @since
      */
-    public DownloadingTask downloadAreaAsyncNoUI(Context ctx, ArrayList<GeoPoint> geoPoints, final int zoomMin, final int zoomMax, final CacheManagerCallback callback) {
-        DownloadingTask task=new DownloadingTask(ctx, geoPoints, zoomMin, zoomMax, callback, false);
-        task.execute();
-        mPendingTasks.add(task);
-        return task;
+    public CacheManagerTask downloadAreaAsyncNoUI(Context ctx, ArrayList<GeoPoint> geoPoints, final int zoomMin, final int zoomMax, final CacheManagerCallback callback) {
+        final CacheManagerTask task = new CacheManagerTask(this, getDownloadingAction(), geoPoints, zoomMin, zoomMax);
+        task.addCallback(callback);
+        return execute(task);
     }
 
     /**
@@ -404,10 +470,10 @@ public class CacheManager {
      * @param zoomMax
      * @since 5.3
      */
-    public DownloadingTask downloadAreaAsyncNoUI(Context ctx, BoundingBox bb, final int zoomMin, final int zoomMax, final CacheManagerCallback callback) {
-        DownloadingTask task=new DownloadingTask(ctx, bb, zoomMin, zoomMax, callback, false);
-        task.execute();
-        mPendingTasks.add(task);
+    public CacheManagerTask downloadAreaAsyncNoUI(Context ctx, BoundingBox bb, final int zoomMin, final int zoomMax, final CacheManagerCallback callback) {
+        final CacheManagerTask task = new CacheManagerTask(this, getDownloadingAction(), bb, zoomMin, zoomMax);
+        task.addCallback(callback);
+        execute(task);
         return task;
     }
 
@@ -422,6 +488,20 @@ public class CacheManager {
             next.cancel(true);
         }
         mPendingTasks.clear();
+    }
+
+    /**
+     * Download in background all tiles of the specified area in osmdroid cache.
+     *
+     * @param ctx
+     * @param pTiles
+     * @param zoomMin
+     * @param zoomMax
+     */
+    public CacheManagerTask downloadAreaAsync(Context ctx, List<MapTile> pTiles, final int zoomMin, final int zoomMax) {
+        final CacheManagerTask task = new CacheManagerTask(this, getDownloadingAction(), pTiles, zoomMin, zoomMax);
+        task.addCallback(getDownloadingDialog(ctx, task));
+        return execute(task);
     }
 
     /**
@@ -463,332 +543,282 @@ public class CacheManager {
         public void onTaskFailed(int errors);
     }
 
+    public static abstract class CacheManagerDialog implements CacheManagerCallback {
+
+        private final CacheManagerTask mTask;
+        private final ProgressDialog mProgressDialog;
+
+        public CacheManagerDialog(final Context pCtx, final CacheManagerTask pTask) {
+            mTask = pTask;
+            mProgressDialog = new ProgressDialog(pCtx);
+            mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            mProgressDialog.setCancelable(true);
+            mProgressDialog.setOnCancelListener(new OnCancelListener() {
+                @Override
+                public void onCancel(DialogInterface dialog) {
+                    mTask.cancel(true);
+                }
+            });
+        }
+
+        protected String zoomMessage(int zoomLevel, int zoomMin, int zoomMax) {
+            return "Handling zoom level: " + zoomLevel + " (from " + zoomMin + " to " + zoomMax + ")";
+        }
+
+        abstract protected String getUITitle();
+
+        @Override
+        public void updateProgress(int progress, int currentZoomLevel, int zoomMin, int zoomMax) {
+            mProgressDialog.setProgress(progress);
+            mProgressDialog.setMessage(zoomMessage(currentZoomLevel, zoomMin, zoomMax));
+        }
+
+        @Override
+        public void downloadStarted() {
+            mProgressDialog.setTitle(getUITitle());
+            mProgressDialog.show();
+        }
+
+        @Override
+        public void setPossibleTilesInArea(int total) {
+            mProgressDialog.setMax(total);
+        }
+
+        @Override
+        public void onTaskComplete() {
+            dismiss();
+        }
+
+        @Override
+        public void onTaskFailed(int errors) {
+            dismiss();
+        }
+
+        private void dismiss() {
+            if (mProgressDialog.isShowing()) {
+                mProgressDialog.dismiss();
+            }
+        }
+    }
+
     /**
      * generic class for common code related to AsyncTask management
+     * - performing an action
+     * - within a manager
+     * - on a list of tiles (potentially sorted by ascending zoom level)
+     * - and with callbacks for task progression
      */
-    public abstract class CacheManagerTask extends AsyncTask<Object, Integer, Integer> {
-        ProgressDialog mProgressDialog=null;
-        boolean showUI = true;
-        int mZoomMin, mZoomMax;
-        BoundingBox mBB;
-        ArrayList<GeoPoint> mGeoPoints;
-        Context mCtx;
-        CacheManagerCallback callback = null;
+    public static class CacheManagerTask extends AsyncTask<Object, Integer, Integer> {
+        private final CacheManager mManager;
+        private final CacheManagerAction mAction;
+        private final List<MapTile> mTiles;
+        private final int mZoomMin;
+        private final int mZoomMax;
+        private final ArrayList<CacheManagerCallback> mCallbacks = new ArrayList<>();
 
-        public CacheManagerTask(Context pCtx, BoundingBox pBB, final int pZoomMin, final int pZoomMax, final CacheManagerCallback callback, final boolean showUI) {
-            this(pCtx, pBB, pZoomMin, pZoomMax);
-            this.callback = callback;
-            this.showUI = showUI;
-        }
-        public CacheManagerTask(Context pCtx, ArrayList<GeoPoint> geoPoints, final int pZoomMin, final int pZoomMax, final CacheManagerCallback callback, final boolean showUI) {
-            this(pCtx, geoPoints, pZoomMin, pZoomMax);
-            this.callback = callback;
-            this.showUI = showUI;
-            this.mGeoPoints = geoPoints;
-        }
-        public CacheManagerTask(Context pCtx, ArrayList<GeoPoint> pGeoPoints, final int pZoomMin, final int pZoomMax) {
-            mCtx = pCtx;
-            mGeoPoints = pGeoPoints;
-            mZoomMin = Math.max(pZoomMin, mMapView.getMinZoomLevel());
-            mZoomMax = Math.min(pZoomMax, mMapView.getMaxZoomLevel());
+        public CacheManagerTask(final CacheManager pManager, final CacheManagerAction pAction,
+                                final List<MapTile> pTiles,
+                                final int pZoomMin, final int pZoomMax) {
+            mManager = pManager;
+            mAction = pAction;
+            mTiles = pTiles;
+            mZoomMin = Math.max(pZoomMin, pManager.mMinZoomLevel);
+            mZoomMax = Math.min(pZoomMax, pManager.mMaxZoomLevel);
         }
 
-        public CacheManagerTask(Context pCtx, BoundingBox pBB, final int pZoomMin, final int pZoomMax) {
-            mCtx = pCtx;
-            mBB = pBB;
-            mZoomMin = Math.max(pZoomMin, mMapView.getMinZoomLevel());
-            mZoomMax = Math.min(pZoomMax, mMapView.getMaxZoomLevel());
+        public CacheManagerTask(final CacheManager pManager,  final CacheManagerAction pAction,
+                                final ArrayList<GeoPoint> pGeoPoints,
+                                final int pZoomMin, final int pZoomMax) {
+            this(pManager, pAction, getTilesCoverage(pGeoPoints, pZoomMin, pZoomMax), pZoomMin, pZoomMax);
+        }
+
+        public CacheManagerTask(final CacheManager pManager,  final CacheManagerAction pAction,
+                                final BoundingBox pBB,
+                                final int pZoomMin, final int pZoomMax) {
+            this(pManager, pAction, getTilesCoverage(pBB, pZoomMin, pZoomMax), pZoomMin, pZoomMax);
+        }
+
+        public void addCallback(final CacheManagerCallback pCallback) {
+            if (pCallback != null) {
+                mCallbacks.add(pCallback);
+            }
         }
 
         @Override
         protected void onPreExecute(){
-            if (showUI) {
-                mProgressDialog = createProgressDialog(mCtx);
+            final int total = mTiles.size();
+            for (final CacheManagerCallback callback : mCallbacks) {
+                try {
+                    callback.setPossibleTilesInArea(total);
+                    callback.downloadStarted();
+                    callback.updateProgress(0, mZoomMin, mZoomMin, mZoomMax);
+                } catch (Throwable t) {
+                    logFaultyCallback(t);
+                }
             }
         }
 
-        protected ProgressDialog createProgressDialog(Context pCtx) {
-            ProgressDialog pd = new ProgressDialog(pCtx);
-            pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-            pd.setCancelable(true);
-            pd.setOnCancelListener(new OnCancelListener() {
-                @Override
-                public void onCancel(DialogInterface dialog) {
-                    cancel(true);
-                }
-            });
-            return pd;
+        private void logFaultyCallback(Throwable pThrowable) {
+            Log.w(IMapView.LOGTAG, "Error caught processing cachemanager callback, your implementation is faulty", pThrowable);
         }
 
         @Override
         protected void onProgressUpdate(final Integer... count) {
             //count[0] = tile counter, count[1] = current zoom level
-            if (showUI) {
-                mProgressDialog.setProgress(count[0]);
-                mProgressDialog.setMessage(zoomMessage(count[1], mZoomMin, mZoomMax));
-            }
-            if (callback != null) {
+            for (final CacheManagerCallback callback : mCallbacks) {
                 try {
                     callback.updateProgress(count[0], count[1], mZoomMin, mZoomMax);
                 } catch (Throwable t) {
-                    Log.w(IMapView.LOGTAG, "Error caught processing cachemanager callback, your implementation is faulty", t);
+                    logFaultyCallback(t);
                 }
             }
         }
 
         @Override
         protected void onCancelled(){
-            super.onCancelled();
-            mPendingTasks.remove(this);
-        }
-
-    }
-
-    public class DownloadingTask extends CacheManagerTask {
-
-        public DownloadingTask(Context pCtx, BoundingBox pBB, final int pZoomMin, final int pZoomMax, final CacheManagerCallback callback, final boolean showUI) {
-            super(pCtx, pBB, pZoomMin, pZoomMax, callback, showUI);
-        }
-        public DownloadingTask(Context pCtx, ArrayList<GeoPoint> pPoints, final int pZoomMin, final int pZoomMax, final CacheManagerCallback callback, final boolean showUI) {
-            super(pCtx, pPoints, pZoomMin, pZoomMax, callback, showUI);
+            mManager.mPendingTasks.remove(this);
         }
 
         @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-
-            int total = 0;
-            if (mBB != null) {
-                total = possibleTilesInArea(mBB, mZoomMin, mZoomMax);
-            } else if (mGeoPoints != null) {
-                total = possibleTilesCovered(mGeoPoints, mZoomMin, mZoomMax);
-            }
-            if (showUI) {
-                mProgressDialog.setTitle("Downloading tiles");
-                mProgressDialog.setMessage(zoomMessage(mZoomMin, mZoomMin, mZoomMax));
-
-                mProgressDialog.setMax(total);
-                mProgressDialog.show();
-            }
-            if (callback != null) {
+        protected void onPostExecute(final Integer specialCount) {
+            mManager.mPendingTasks.remove(this);
+            for (final CacheManagerCallback callback : mCallbacks) {
                 try {
-                    callback.setPossibleTilesInArea(total);
-                    callback.downloadStarted();
-                } catch (Throwable t) {
-                    Log.w(IMapView.LOGTAG, "Error caught processing cachemanager callback, your implementation is faulty", t);
-                }
-            }
-        }
-
-        @Override
-        protected void onPostExecute(final Integer errors) {
-            if (showUI) {
-                if (errors != 0) {
-                    Toast.makeText(mCtx, "Loading completed with " + errors + " errors.", Toast.LENGTH_SHORT).show();
-                }
-                if (mProgressDialog.isShowing()) {
-                    mProgressDialog.dismiss();
-                }
-            }
-            if (callback != null) {
-                try {
-                    if (errors == 0) {
+                    if (specialCount == 0) {
                         callback.onTaskComplete();
                     } else {
-                        callback.onTaskFailed(errors);
+                        callback.onTaskFailed(specialCount);
                     }
                 } catch (Throwable t) {
-                    Log.w(IMapView.LOGTAG, "Error caught processing cachemanager callback, your implementation is faulty", t);
+                    logFaultyCallback(t);
                 }
             }
-            mPendingTasks.remove(this);
         }
 
         @Override
         protected Integer doInBackground(Object... params) {
-            int errors = downloadArea();
-            return errors;
-        }
-
-        /**
-         * Do the job. No attempt to
-         *
-         * @return the number of loading errors.
-         */
-        protected int downloadArea() {
-            OnlineTileSourceBase tileSource;
-            if (mTileProvider.getTileSource() instanceof OnlineTileSourceBase) {
-                tileSource = (OnlineTileSourceBase) mTileProvider.getTileSource();
-            } else {
-                Log.e(IMapView.LOGTAG, "TileSource is not an online tile source");
+            if (!mAction.preCheck()) {
                 return 0;
             }
 
             int tileCounter = 0;
             int errors = 0;
 
-            if (mBB != null) {
-                for (int zoomLevel = mZoomMin; zoomLevel <= mZoomMax; zoomLevel++) {
-                    Point mLowerRight = getMapTileFromCoordinates(mBB.getLatSouth() , mBB.getLonEast(), zoomLevel);
-                    Point mUpperLeft = getMapTileFromCoordinates(mBB.getLatNorth() , mBB.getLonWest(), zoomLevel);
-                    final int mapTileUpperBound = 1 << zoomLevel;
-                    //Get all the MapTiles from the upper left to the lower right:
-                    for (int y = mUpperLeft.y; y <= mLowerRight.y; y++) {
-                        for (int x = mUpperLeft.x; x <= mLowerRight.x; x++) {
-                            final int tileY = MyMath.mod(y, mapTileUpperBound);
-                            final int tileX = MyMath.mod(x, mapTileUpperBound);
-                            final MapTile tile = new MapTile(zoomLevel, tileX, tileY);
-                            //Drawable currentMapTile = mTileProvider.getMapTile(tile);
-                            boolean ok = loadTile(tileSource, tile);
-                            if (!ok) {
-                                errors++;
-                            }
-                            tileCounter++;
-                            if (tileCounter % 10 == 0) {
-                                if (isCancelled()) {
-                                    return errors;
-                                }
-                                publishProgress(tileCounter, zoomLevel);
-                            }
-                        }
+            for (final MapTile tile : mTiles) {
+                final int zoom = tile.getZoomLevel();
+                if (zoom >= mZoomMin && zoom <= mZoomMax) {
+                    if (mAction.tileAction(tile)) {
+                        errors++;
                     }
                 }
-            } else if (mGeoPoints != null) {
-                GeoPoint prevPoint = null, wayPoint;
-                double d, leadCoef, brng, latRad, lonRad, prevLatRad, prevLonRad;
-                Point tile, prevTile = null, lastPoint;
-                ArrayList<Point>  tilePoints = new ArrayList<>();
-                boolean foundTilePoint;
-
-                for (int zoomLevel = mZoomMin; zoomLevel <= mZoomMax; zoomLevel++) {
-                    final int mapTileUpperBound = 1 << zoomLevel;
-
-                    for (GeoPoint geoPoint : mGeoPoints) {
-
-                        d = TileSystem.GroundResolution(geoPoint.getLatitude(), zoomLevel);
-
-                        if (tileCounter != 0) {
-
-                            if (prevPoint != null) {
-
-                                leadCoef = (geoPoint.getLatitude() - prevPoint.getLatitude()) / (geoPoint.getLongitude() - prevPoint.getLongitude());
-
-                                if (geoPoint.getLongitude() > prevPoint.getLongitude()) {
-                                    brng = Math.PI / 2 - Math.atan(leadCoef);
-                                } else {
-                                    brng = 3 * Math.PI / 2 - Math.atan(leadCoef);
-                                }
-
-                                wayPoint = new GeoPoint(prevPoint.getLatitude(), prevPoint.getLongitude());
-
-                                while ((((geoPoint.getLatitude() > prevPoint.getLatitude()) && (wayPoint.getLatitude() < geoPoint.getLatitude())) ||
-                                    (geoPoint.getLatitude() < prevPoint.getLatitude()) && (wayPoint.getLatitude() > geoPoint.getLatitude())) &&
-                                    (((geoPoint.getLongitude() > prevPoint.getLongitude()) && (wayPoint.getLongitude() < geoPoint.getLongitude())) ||
-                                        ((geoPoint.getLongitude() < prevPoint.getLongitude()) && (wayPoint.getLongitude() > geoPoint.getLongitude())))) {
-
-                                    lastPoint = new Point();
-                                    TileSystem.LatLongToPixelXY(geoPoint.getLatitude(), geoPoint.getLongitude(), zoomLevel, lastPoint);
-
-                                    prevLatRad = wayPoint.getLatitude() * Math.PI / 180.0;
-                                    prevLonRad = wayPoint.getLongitude() * Math.PI / 180.0;
-
-                                    latRad = Math.asin(Math.sin(prevLatRad) * Math.cos(d / GeoConstants.RADIUS_EARTH_METERS) + Math.cos(prevLatRad) * Math.sin(d / GeoConstants.RADIUS_EARTH_METERS) * Math.cos(brng));
-                                    lonRad = prevLonRad + Math.atan2(Math.sin(brng) * Math.sin(d / GeoConstants.RADIUS_EARTH_METERS) * Math.cos(prevLatRad), Math.cos(d / GeoConstants.RADIUS_EARTH_METERS) - Math.sin(prevLatRad) * Math.sin(latRad));
-
-                                    wayPoint.setLatitude(((latRad * 180.0 / Math.PI)));
-                                    wayPoint.setLongitude(((lonRad * 180.0 / Math.PI)));
-
-                                    tile = getMapTileFromCoordinates(wayPoint.getLatitude(), wayPoint.getLongitude(), zoomLevel);
-
-                                    if (!tile.equals(prevTile)) {
-                                        //Log.d(Constants.APP_TAG, "New Tile lat " + tile.x + " lon " + tile.y);
-                                        int ofsx = tile.x >= 0 ? 0 : -tile.x;
-                                        int ofsy = tile.y >= 0 ? 0 : -tile.y;
-                                        for (int xAround = tile.x + ofsx; xAround <= tile.x + 1 + ofsx; xAround++) {
-                                            for (int yAround = tile.y + ofsy; yAround <= tile.y + 1 + ofsy; yAround++) {
-                                                Point tileAround = new Point(xAround, yAround);
-                                                foundTilePoint = false;
-
-                                                /**
-                                                 * The following is only necessary to correctly update progress
-                                                 * as we cannot know if a tile is already downloaded or not.
-                                                 * Normally loadTile() will only download a tile if necessary
-                                                 */
-                                                for (Point inList : tilePoints) {
-
-                                                    if (tileAround.equals(inList.x, inList.y)) {
-                                                        foundTilePoint = true;
-                                                        break;
-                                                    }
-                                                }
-
-                                                if (!foundTilePoint) {
-                                                    final int tileY = MyMath.mod(tileAround.y, mapTileUpperBound);
-                                                    final int tileX = MyMath.mod(tileAround.x, mapTileUpperBound);
-                                                    final MapTile tileToDownload = new MapTile(zoomLevel, tileX, tileY);
-                                                    //Drawable currentMapTile = mTileProvider.getMapTile(tile);
-                                                    boolean ok = loadTile(tileSource, tileToDownload);
-                                                    if (!ok) {
-                                                        errors++;
-                                                    }
-                                                    tileCounter++;
-                                                    if (tileCounter % 10 == 0) {
-                                                        if (isCancelled()) {
-                                                            return errors;
-                                                        }
-                                                        publishProgress(tileCounter, zoomLevel);
-                                                    }
-                                                    tilePoints.add(0, tileAround);
-                                                }
-                                            }
-                                        }
-
-                                        prevTile = tile;
-                                    }
-                                }
-                            }
-
-                        } else {
-                            tile = getMapTileFromCoordinates(geoPoint.getLatitude(), geoPoint.getLongitude(), zoomLevel);
-                            prevTile = tile;
-                            //Log.d(Constants.APP_TAG, "New Tile lat " + tile.x + " lon " + tile.y);
-                            int ofsx = tile.x >= 0 ? 0 : -tile.x;
-                            int ofsy = tile.y >= 0 ? 0 : -tile.y;
-                            for (int xAround = tile.x + ofsx; xAround <= tile.x + 1 + ofsx; xAround ++) {
-                                for (int yAround = tile.y + ofsy; yAround <= tile.y + 1 + ofsy; yAround ++) {
-                                    Point tileAround = new Point(xAround, yAround);
-                                    final int tileY = MyMath.mod(tileAround.y, mapTileUpperBound);
-                                    final int tileX = MyMath.mod(tileAround.x, mapTileUpperBound);
-                                    final MapTile tileToDownload = new MapTile(zoomLevel, tileX, tileY);
-
-                                    //Drawable currentMapTile = mTileProvider.getMapTile(tile);
-                                    boolean ok = loadTile(tileSource, tileToDownload);
-                                    if (!ok) {
-                                        errors++;
-                                    }
-                                    tileCounter++;
-                                    if (tileCounter % 10 == 0) {
-                                        if (isCancelled()) {
-                                            return errors;
-                                        }
-                                        publishProgress(tileCounter, zoomLevel);
-                                    }
-
-                                    tilePoints.add(0, tileAround);
-                                }
-                            }
-                        }
-
-                        prevPoint = geoPoint;
+                tileCounter++;
+                if (tileCounter % mAction.getProgressModulo() == 0) {
+                    if (isCancelled()) {
+                        return errors;
                     }
+                    publishProgress(tileCounter, tile.getZoomLevel());
                 }
 
-                Log.d(IMapView.LOGTAG, "downloaded " + tilePoints.size() + " tiles");
             }
             return errors;
         }
+    }
 
-    } //DownloadingTask
+    public CacheManagerDialog getDownloadingDialog(final Context pCtx, final CacheManagerTask pTask) {
+        return new CacheManagerDialog(pCtx, pTask) {
+            @Override
+            protected String getUITitle() {
+                return "Downloading tiles";
+            }
+
+            @Override
+            public void onTaskFailed(int errors) {
+                super.onTaskFailed(errors);
+                Toast.makeText(pCtx, "Loading completed with " + errors + " errors.", Toast.LENGTH_SHORT).show();
+            }
+        };
+    }
+
+    public CacheManagerDialog getCleaningDialog(final Context pCtx, final CacheManagerTask pTask) {
+        return new CacheManagerDialog(pCtx, pTask) {
+            @Override
+            protected String getUITitle() {
+                return "Cleaning tiles";
+            }
+
+            @Override
+            public void onTaskFailed(int deleted) {
+                super.onTaskFailed(deleted);
+                Toast.makeText(pCtx, "Cleaning completed, " + deleted + " tiles deleted.", Toast.LENGTH_SHORT).show();
+            }
+        };
+    }
+
+    /**
+     * Action to perform on a tile within a CacheManagerTask
+     * @author F.Fontaine
+     */
+    public interface CacheManagerAction {
+        /**
+         * Preconditions to check before bulk action
+         * @return true if we pass the check
+         */
+        boolean preCheck();
+
+        /**
+         * We will update the callbacks not for every tile, but at this rate
+         */
+        int getProgressModulo();
+
+        /**
+         * The action to perform on a single tile
+         * @return true if you want to increment the action counter
+         */
+        boolean tileAction(final MapTile pTile);
+    }
+
+    public CacheManagerAction getDownloadingAction() {
+        return new CacheManagerAction() {
+            @Override
+            public boolean preCheck() {
+                if (mTileProvider.getTileSource() instanceof OnlineTileSourceBase) {
+                    return true;
+                } else {
+                    Log.e(IMapView.LOGTAG, "TileSource is not an online tile source");
+                    return false;
+                }
+            }
+
+            @Override
+            public int getProgressModulo() {
+                return 10;
+            }
+
+            @Override
+            public boolean tileAction(MapTile pTile) {
+                return !loadTile((OnlineTileSourceBase) mTileProvider.getTileSource(), pTile);
+            }
+        };
+    }
+
+    public CacheManagerAction getCleaningAction() {
+        return new CacheManagerAction() {
+            @Override
+            public boolean preCheck() {
+                return true;
+            }
+
+            @Override
+            public int getProgressModulo() {
+                return 1000;
+            }
+
+            @Override
+            public boolean tileAction(MapTile pTile) {
+                return deleteTile(pTile);
+            }
+        };
+    }
 
     /**
      * Remove all cached tiles in the specified area.
@@ -798,11 +828,10 @@ public class CacheManager {
      * @param zoomMin
      * @param zoomMax
      */
-    public CleaningTask cleanAreaAsync(Context ctx, BoundingBox bb, int zoomMin, int zoomMax) {
-        CleaningTask task = new CleaningTask(ctx, bb, zoomMin, zoomMax);
-        task.execute();
-        mPendingTasks.add(task);
-        return task;
+    public CacheManagerTask cleanAreaAsync(Context ctx, BoundingBox bb, int zoomMin, int zoomMax) {
+        final CacheManagerTask task = new CacheManagerTask(this, getCleaningAction(), bb, zoomMin, zoomMax);
+        task.addCallback(getCleaningDialog(ctx, task));
+        return execute(task);
     }
 
     /**
@@ -813,14 +842,17 @@ public class CacheManager {
      * @param zoomMin
      * @param zoomMax
      */
-    public CleaningTask cleanAreaAsync(Context ctx, ArrayList<GeoPoint> geoPoints, int zoomMin, int zoomMax) {
-
+    public CacheManagerTask cleanAreaAsync(final Context ctx, ArrayList<GeoPoint> geoPoints, int zoomMin, int zoomMax) {
         BoundingBox extendedBounds = extendedBoundsFromGeoPoints(geoPoints,zoomMin);
-
-        CleaningTask task = new CleaningTask(ctx, extendedBounds, zoomMin, zoomMax);
-        task.execute();
-        mPendingTasks.add(task);
-        return task;
+        return cleanAreaAsync(ctx, extendedBounds, zoomMin, zoomMax);
+    }
+    /**
+     * Remove all cached tiles in the specified area.
+     */
+    public CacheManagerTask cleanAreaAsync(Context ctx, List<MapTile> tiles, int zoomMin, int zoomMax) {
+        final CacheManagerTask task = new CacheManagerTask(this, getCleaningAction(), tiles, zoomMin, zoomMax);
+        task.addCallback(getCleaningDialog(ctx, task));
+        return execute(task);
     }
 
     /**
@@ -839,81 +871,6 @@ public class CacheManager {
 
         return extendedBounds;
     }
-
-    public class CleaningTask extends CacheManagerTask {
-
-        public CleaningTask(Context pCtx, BoundingBox pBB, final int pZoomMin, final int pZoomMax) {
-            super(pCtx, pBB, pZoomMin, pZoomMax);
-            showUI=true;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            if (mProgressDialog!=null) {
-                mProgressDialog.setTitle("Cleaning tiles");
-                mProgressDialog.setMessage(zoomMessage(mZoomMin, mZoomMin, mZoomMax));
-                int total = possibleTilesInArea(mBB, mZoomMin, mZoomMax);
-                mProgressDialog.setMax(total);
-                mProgressDialog.show();
-            }
-        }
-
-        @Override
-        protected void onPostExecute(final Integer deleted) {
-            Toast.makeText(mCtx, "Cleaning completed, " + deleted + " tiles deleted.", Toast.LENGTH_SHORT).show();
-            if (mProgressDialog!=null && mProgressDialog.isShowing()) {
-                mProgressDialog.dismiss();
-            }
-            mPendingTasks.remove(this);
-        }
-
-        @Override
-        protected Integer doInBackground(Object... params) {
-            int errors = cleanArea();
-            return errors;
-        }
-
-        /**
-         * Do the job.
-         *
-         * @return the number of tiles deleted.
-         */
-        protected int cleanArea() {
-            ITileSource tileSource = mTileProvider.getTileSource();
-            int deleted = 0;
-            int tileCounter = 0;
-            for (int zoomLevel = mZoomMin; zoomLevel <= mZoomMax; zoomLevel++) {
-                Point mLowerRight = getMapTileFromCoordinates(mBB.getLatSouth(), mBB.getLonEast() , zoomLevel);
-                Point mUpperLeft = getMapTileFromCoordinates(mBB.getLatNorth() , mBB.getLonWest() , zoomLevel);
-
-                final int mapTileUpperBound = 1 << zoomLevel;
-                //Get all the MapTiles from the upper left to the lower right:
-                //In case we used GeoPoint list, we also have to take care of the tiles around the area.
-                int ofsy = mUpperLeft.y > 0 ? -1 : 0;
-                int ofsx = mUpperLeft.x > 0 ? -1 : 0;
-                for (int y = mUpperLeft.y + ofsy; y <= mLowerRight.y + 2 + ofsy; y++) {
-                    for (int x = mUpperLeft.x + ofsx; x <= mLowerRight.x + 2 + ofsx; x++) {
-                        final int tileY = MyMath.mod(y, mapTileUpperBound);
-                        final int tileX = MyMath.mod(x, mapTileUpperBound);
-                        final MapTile tile = new MapTile(zoomLevel, tileX, tileY);
-                        if (mTileWriter.exists(tileSource, tile)){
-                            if (mTileWriter.remove(tileSource, tile))
-                                deleted++;
-                        }
-                        tileCounter++;
-                        if (tileCounter % 1000 == 0) {
-                            if (isCancelled()) {
-                                return deleted;
-                            }
-                            publishProgress(tileCounter, zoomLevel);
-                        }
-                    }
-                }
-            }
-            return deleted;
-        }
-    } //CleaningTask
 
     /**
      * @return volume currently use in the osmdroid local filesystem cache, in bytes.
