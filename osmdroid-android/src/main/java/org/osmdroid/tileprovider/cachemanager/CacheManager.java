@@ -41,6 +41,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 ;
@@ -155,6 +156,9 @@ public class CacheManager {
             c = (HttpURLConnection) new URL(tileURLString).openConnection();
             c.setUseCaches(true);
             c.setRequestProperty(Configuration.getInstance().getUserAgentHttpHeader(),Configuration.getInstance().getUserAgentValue());
+            for (final Map.Entry<String, String> entry : Configuration.getInstance().getAdditionalHttpRequestProperties().entrySet()) {
+                c.setRequestProperty(entry.getKey(), entry.getValue());
+            }
             c.connect();
 
 

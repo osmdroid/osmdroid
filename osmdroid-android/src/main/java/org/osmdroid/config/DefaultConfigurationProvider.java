@@ -11,7 +11,9 @@ import org.osmdroid.tileprovider.util.StorageUtils;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 import static org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants.HTTP_EXPIRES_HEADER_FORMAT;
 
@@ -49,6 +51,7 @@ public class DefaultConfigurationProvider implements IConfigurationProvider {
     protected boolean isMapViewHardwareAccelerated=false;
     protected String userAgentValue="osmdroid";
     protected String userAgentHttpHeader = "User-Agent";
+    private final Map<String, String> mAdditionalHttpRequestProperties = new HashMap<>();
     protected short cacheMapTileCount = 9;
     protected short tileDownloadThreads = 2;
     protected short tileFileSystemThreads = 8;
@@ -148,6 +151,11 @@ public class DefaultConfigurationProvider implements IConfigurationProvider {
     @Override
     public void setUserAgentValue(String userAgentValue) {
         this.userAgentValue = userAgentValue;
+    }
+
+    @Override
+    public Map<String, String> getAdditionalHttpRequestProperties() {
+        return mAdditionalHttpRequestProperties;
     }
 
     @Override
@@ -295,6 +303,7 @@ public class DefaultConfigurationProvider implements IConfigurationProvider {
             setDebugTileProviders(prefs.getBoolean("osmdroid.DebugTileProvider",false));
             setMapViewHardwareAccelerated(prefs.getBoolean("osmdroid.HardwareAcceleration",false));
             setUserAgentValue(prefs.getString("osmdroid.userAgentValue",ctx.getPackageName()));
+            load(prefs, mAdditionalHttpRequestProperties, "osmdroid.additionalHttpRequestProperty.");
             setGpsWaitTime(prefs.getLong("osmdroid.gpsWaitTime", gpsWaitTime));
             setTileDownloadThreads((short)(prefs.getInt("osmdroid.tileDownloadThreads",tileDownloadThreads)));
             setTileFileSystemThreads((short)(prefs.getInt("osmdroid.tileFileSystemThreads",tileFileSystemThreads)));
@@ -351,6 +360,7 @@ public class DefaultConfigurationProvider implements IConfigurationProvider {
         edit.putBoolean("osmdroid.DebugTileProvider",isDebugTileProviders());
         edit.putBoolean("osmdroid.HardwareAcceleration", isMapViewHardwareAccelerated());
         edit.putString("osmdroid.userAgentValue", getUserAgentValue());
+        save(prefs, edit, mAdditionalHttpRequestProperties, "osmdroid.additionalHttpRequestProperty.");
         edit.putLong("osmdroid.gpsWaitTime",gpsWaitTime);
         edit.putInt("osmdroid.cacheMapTileCount", cacheMapTileCount);
         edit.putInt("osmdroid.tileDownloadThreads", tileDownloadThreads);
@@ -363,6 +373,46 @@ public class DefaultConfigurationProvider implements IConfigurationProvider {
         //TODO save other fields?
 
         edit.commit();
+    }
+
+    /**
+     * Loading a map from preferences, using a prefix for the prefs keys
+     *
+     * @since 5.6.5
+     * @param pPrefs
+     * @param pMap
+     * @param pPrefix
+     */
+    private static void load(final SharedPreferences pPrefs,
+                             final Map<String, String> pMap, final String pPrefix) {
+        pMap.clear();
+        for (final String key : pPrefs.getAll().keySet()) {
+            if (key.startsWith(pPrefix)) {
+                pMap.put(key.substring(pPrefix.length()), pPrefs.getString(key, null));
+            }
+        }
+    }
+
+    /**
+     * Saving a map into preferences, using a prefix for the prefs keys
+     *
+     * @since 5.6.5
+     * @param pPrefs
+     * @param pEdit
+     * @param pMap
+     * @param pPrefix
+     */
+    private static void save(final SharedPreferences pPrefs, final SharedPreferences.Editor pEdit,
+                             final Map<String, String> pMap, final String pPrefix) {
+        for (final String key : pPrefs.getAll().keySet()) {
+            if (key.startsWith(pPrefix)) {
+                pEdit.remove(key);
+            }
+        }
+        for (final Map.Entry<String, String> entry : pMap.entrySet()) {
+            final String key = pPrefix + entry.getKey();
+            pEdit.putString(key, entry.getValue());
+        }
     }
 
     @Override

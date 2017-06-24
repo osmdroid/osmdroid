@@ -11,6 +11,7 @@ import org.osmdroid.tileprovider.MapTileProviderBase;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.Map;
 
 /**
  * Singleton class to get/set a configuration provider for osmdroid
@@ -98,6 +99,18 @@ public interface IConfigurationProvider {
      * @param userAgentValue
      */
     void setUserAgentValue(String userAgentValue);
+
+    /**
+     * Enables you to set and get additional HTTP request properties. Used when downloading tiles.
+     * Mustn't be null, but will be empty in most cases.
+     *
+     * A simple use case would be:
+     * Configuration.getInstance().getAdditionalHttpRequestProperties().put("Origin", "http://www.example-social-network.com");
+     *
+     * See https://github.com/osmdroid/osmdroid/issues/570
+     * @since 5.6.5
+     */
+    Map<String, String> getAdditionalHttpRequestProperties();
 
     /**
      * Initial tile cache size (in memory). The size will be increased as required by calling
