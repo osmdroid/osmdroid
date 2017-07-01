@@ -189,7 +189,11 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 					return null;
 				}
 
-				c = (HttpURLConnection) new URL(tileURLString).openConnection();
+				if (Configuration.getInstance().getHttpProxy() != null) {
+					c = (HttpURLConnection) new URL(tileURLString).openConnection(Configuration.getInstance().getHttpProxy());
+				} else {
+					c = (HttpURLConnection) new URL(tileURLString).openConnection();
+				}
 				c.setUseCaches(true);
 				c.setRequestProperty(Configuration.getInstance().getUserAgentHttpHeader(),Configuration.getInstance().getUserAgentValue());
 				for (final Map.Entry<String, String> entry : Configuration.getInstance().getAdditionalHttpRequestProperties().entrySet()) {
