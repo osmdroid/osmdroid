@@ -10,15 +10,15 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.samplefragments.layouts.rec.CustomRecycler
-	c6292 [label=<<table title="org.osmdroid.samplefragments.layouts.rec.CustomRecycler" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./CustomRecycler.html">
+	c6386 [label=<<table title="org.osmdroid.samplefragments.layouts.rec.CustomRecycler" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./CustomRecycler.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> CustomRecycler </td></tr>
 		</table></td></tr>
 		</table>>, URL="./CustomRecycler.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.samplefragments.layouts.rec.CustomRecycler extends android.support.v7.widget.RecyclerView.Adapter<org.osmdroid.samplefragments.layouts.rec.CustomRecycler.ViewHolder>
-	c6338:p -> c6292:p [dir=back,arrowtail=empty];
+	c6433:p -> c6386:p [dir=back,arrowtail=empty];
 	// android.support.v7.widget.RecyclerView.Adapter<VH extends android.support.v7.widget.RecyclerView.ViewHolder>
-	c6338 [label=<<table title="android.support.v7.widget.RecyclerView.Adapter" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/android/support/v7/widget/RecyclerView/Adapter.html">
+	c6433 [label=<<table title="android.support.v7.widget.RecyclerView.Adapter" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/android/support/v7/widget/RecyclerView/Adapter.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> Adapter&lt;VH extends ViewHolder&gt; </font></td></tr>
 		</table></td></tr>

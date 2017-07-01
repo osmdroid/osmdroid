@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<pmd version="5.2.3" timestamp="2017-01-16T12:04:33.700">
+<pmd version="5.2.3" timestamp="2017-07-01T14:43:59.250">
 <file name=".\OSMMapTilePackager\src\main\java\org\osmdroid\mtp\OSMMapTilePackager.java">
 <violation beginline="25" endline="25" begincolumn="21" endcolumn="42" rule="SuspiciousConstantFieldName" ruleset="Naming" package="org.osmdroid.mtp" class="OSMMapTilePackager" variable="FORCE" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.2.3/pmd-java/rules/java/naming.html#SuspiciousConstantFieldName" priority="3">
 The field name indicates a constant but its modifiers do not
@@ -142,6 +142,12 @@ Avoid printStackTrace(); use a logger call instead.
 </violation>
 <violation beginline="54" endline="54" begincolumn="25" endcolumn="43" rule="AvoidPrintStackTrace" ruleset="Java Logging" package="org.osmdroid.mtp.util" class="FolderZipper" method="zipFolderToFile" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.2.3/pmd-java/rules/java/logging-java.html#AvoidPrintStackTrace" priority="3">
 Avoid printStackTrace(); use a logger call instead.
+</violation>
+<violation beginline="69" endline="70" begincolumn="33" endcolumn="65" rule="IfStmtsMustUseBraces" ruleset="Braces" package="org.osmdroid.mtp.util" class="FolderZipper" method="addFolderToZip" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.2.3/pmd-java/rules/java/braces.html#IfStmtsMustUseBraces" priority="3">
+Avoid using if statements without curly braces
+</violation>
+<violation beginline="71" endline="71" begincolumn="33" endcolumn="50" rule="SystemPrintln" ruleset="Java Logging" package="org.osmdroid.mtp.util" class="FolderZipper" method="addFolderToZip" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.2.3/pmd-java/rules/java/logging-java.html#SystemPrintln" priority="2">
+System.out.println is used
 </violation>
 </file>
 <file name=".\OSMMapTilePackager\src\main\java\org\osmdroid\mtp\util\Util.java">

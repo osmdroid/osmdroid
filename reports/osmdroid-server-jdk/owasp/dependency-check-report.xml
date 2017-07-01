@@ -4,84 +4,84 @@
         <engineVersion>1.4.4</engineVersion>
         <dataSource>
             <name>NVD CVE 2002</name>
-            <timestamp>05/01/2017 03:11:17</timestamp>
+            <timestamp>12/05/2017 03:40:01</timestamp>
         </dataSource>
         <dataSource>
             <name>NVD CVE 2003</name>
-            <timestamp>03/01/2017 03:25:13</timestamp>
+            <timestamp>12/05/2017 03:38:05</timestamp>
         </dataSource>
         <dataSource>
             <name>NVD CVE 2004</name>
-            <timestamp>20/12/2016 03:20:02</timestamp>
+            <timestamp>28/06/2017 03:14:05</timestamp>
         </dataSource>
         <dataSource>
             <name>NVD CVE 2005</name>
-            <timestamp>03/01/2017 03:24:37</timestamp>
+            <timestamp>12/05/2017 03:36:25</timestamp>
         </dataSource>
         <dataSource>
             <name>NVD CVE 2006</name>
-            <timestamp>20/12/2016 03:17:07</timestamp>
+            <timestamp>27/05/2017 03:12:24</timestamp>
         </dataSource>
         <dataSource>
             <name>NVD CVE 2007</name>
-            <timestamp>07/01/2017 03:21:56</timestamp>
+            <timestamp>22/06/2017 03:11:23</timestamp>
         </dataSource>
         <dataSource>
             <name>NVD CVE 2008</name>
-            <timestamp>03/01/2017 03:22:49</timestamp>
+            <timestamp>01/07/2017 03:26:29</timestamp>
         </dataSource>
         <dataSource>
             <name>NVD CVE 2009</name>
-            <timestamp>07/01/2017 03:19:30</timestamp>
+            <timestamp>27/05/2017 03:09:45</timestamp>
         </dataSource>
         <dataSource>
             <name>NVD CVE 2010</name>
-            <timestamp>14/01/2017 03:06:55</timestamp>
+            <timestamp>01/07/2017 03:23:40</timestamp>
         </dataSource>
         <dataSource>
             <name>NVD CVE 2011</name>
-            <timestamp>07/01/2017 03:14:53</timestamp>
+            <timestamp>01/07/2017 03:20:19</timestamp>
         </dataSource>
         <dataSource>
             <name>NVD CVE 2012</name>
-            <timestamp>07/01/2017 03:11:40</timestamp>
+            <timestamp>01/07/2017 03:15:47</timestamp>
         </dataSource>
         <dataSource>
             <name>NVD CVE 2013</name>
-            <timestamp>07/01/2017 03:09:24</timestamp>
+            <timestamp>01/07/2017 03:13:09</timestamp>
         </dataSource>
         <dataSource>
             <name>NVD CVE 2014</name>
-            <timestamp>13/01/2017 03:07:05</timestamp>
+            <timestamp>01/07/2017 03:10:24</timestamp>
         </dataSource>
         <dataSource>
             <name>NVD CVE 2015</name>
-            <timestamp>14/01/2017 03:04:28</timestamp>
+            <timestamp>01/07/2017 03:07:20</timestamp>
         </dataSource>
         <dataSource>
             <name>NVD CVE 2016</name>
-            <timestamp>16/01/2017 03:02:28</timestamp>
+            <timestamp>01/07/2017 03:04:33</timestamp>
         </dataSource>
         <dataSource>
             <name>NVD CVE 2017</name>
-            <timestamp>16/01/2017 03:00:02</timestamp>
+            <timestamp>01/07/2017 03:01:17</timestamp>
         </dataSource>
         <dataSource>
             <name>NVD CVE Checked</name>
-            <timestamp>16/01/2017 12:03:25</timestamp>
+            <timestamp>01/07/2017 14:43:00</timestamp>
         </dataSource>
         <dataSource>
             <name>NVD CVE Modified</name>
-            <timestamp>16/01/2017 10:00:27</timestamp>
+            <timestamp>01/07/2017 14:01:50</timestamp>
         </dataSource>
         <dataSource>
             <name>VersionCheckOn</name>
-            <timestamp>1483650148175</timestamp>
+            <timestamp>1498934581364</timestamp>
         </dataSource>
     </scanInfo>
     <projectInfo>
         <name>osmdroid-server-jdk</name>
-        <reportDate>2017-01-16T12:09:44.848-0500</reportDate>
+        <reportDate>2017-07-01T14:49:32.628-0400</reportDate>
         <credits>This report contains data retrieved from the National Vulnerability Database: http://nvd.nist.gov</credits>
     </projectInfo>
     <dependencies>
@@ -553,6 +553,39 @@
             </identifiers>
             <vulnerabilities>
                 <vulnerability>
+                    <name>CVE-2016-7051</name>
+                    <cvssScore>5.0</cvssScore>
+                    <cvssAccessVector>NETWORK</cvssAccessVector>
+                    <cvssAccessComplexity>LOW</cvssAccessComplexity>
+                    <cvssAuthenticationr>NONE</cvssAuthenticationr>
+                    <cvssConfidentialImpact>NONE</cvssConfidentialImpact>
+                    <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+                    <cvssAvailabilityImpact>NONE</cvssAvailabilityImpact>
+                    <severity>Medium</severity>
+                    <cwe>CWE-918 Server-Side Request Forgery (SSRF)</cwe>
+                    <description>XmlMapper in the Jackson XML dataformat component (aka jackson-dataformat-xml) before 2.7.8 and 2.8.x before 2.8.4 allows remote attackers to conduct server-side request forgery (SSRF) attacks via vectors related to a DTD.</description>
+                    <references>
+                        <reference>
+                            <source>BID</source>
+                            <url>http://www.securityfocus.com/bid/97688</url>
+                            <name>97688</name>
+                        </reference>
+                        <reference>
+                            <source>CONFIRM</source>
+                            <url>https://bugzilla.redhat.com/show_bug.cgi?id=1378673</url>
+                            <name>https://bugzilla.redhat.com/show_bug.cgi?id=1378673</name>
+                        </reference>
+                        <reference>
+                            <source>CONFIRM</source>
+                            <url>https://github.com/FasterXML/jackson-dataformat-xml/issues/211</url>
+                            <name>https://github.com/FasterXML/jackson-dataformat-xml/issues/211</name>
+                        </reference>
+                    </references>
+                    <vulnerableSoftware>
+                        <software>cpe:/a:fasterxml:jackson:-</software>
+                    </vulnerableSoftware>
+                </vulnerability>
+                <vulnerability>
                     <name>CVE-2016-3720</name>
                     <cvssScore>7.5</cvssScore>
                     <cvssAccessVector>NETWORK</cvssAccessVector>
@@ -564,11 +597,6 @@
                     <severity>High</severity>
                     <description>XML external entity (XXE) vulnerability in XmlMapper in the Data format extension for Jackson (aka jackson-dataformat-xml) allows attackers to have unspecified impact via unknown vectors.</description>
                     <references>
-                        <reference>
-                            <source>CONFIRM</source>
-                            <url>https://github.com/FasterXML/jackson-dataformat-xml/issues/199</url>
-                            <name>https://github.com/FasterXML/jackson-dataformat-xml/issues/199</name>
-                        </reference>
                         <reference>
                             <source>FEDORA</source>
                             <url>http://lists.fedoraproject.org/pipermail/package-announce/2016-May/184561.html</url>
@@ -802,6 +830,39 @@
             </identifiers>
             <vulnerabilities>
                 <vulnerability>
+                    <name>CVE-2016-7051</name>
+                    <cvssScore>5.0</cvssScore>
+                    <cvssAccessVector>NETWORK</cvssAccessVector>
+                    <cvssAccessComplexity>LOW</cvssAccessComplexity>
+                    <cvssAuthenticationr>NONE</cvssAuthenticationr>
+                    <cvssConfidentialImpact>NONE</cvssConfidentialImpact>
+                    <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+                    <cvssAvailabilityImpact>NONE</cvssAvailabilityImpact>
+                    <severity>Medium</severity>
+                    <cwe>CWE-918 Server-Side Request Forgery (SSRF)</cwe>
+                    <description>XmlMapper in the Jackson XML dataformat component (aka jackson-dataformat-xml) before 2.7.8 and 2.8.x before 2.8.4 allows remote attackers to conduct server-side request forgery (SSRF) attacks via vectors related to a DTD.</description>
+                    <references>
+                        <reference>
+                            <source>BID</source>
+                            <url>http://www.securityfocus.com/bid/97688</url>
+                            <name>97688</name>
+                        </reference>
+                        <reference>
+                            <source>CONFIRM</source>
+                            <url>https://bugzilla.redhat.com/show_bug.cgi?id=1378673</url>
+                            <name>https://bugzilla.redhat.com/show_bug.cgi?id=1378673</name>
+                        </reference>
+                        <reference>
+                            <source>CONFIRM</source>
+                            <url>https://github.com/FasterXML/jackson-dataformat-xml/issues/211</url>
+                            <name>https://github.com/FasterXML/jackson-dataformat-xml/issues/211</name>
+                        </reference>
+                    </references>
+                    <vulnerableSoftware>
+                        <software>cpe:/a:fasterxml:jackson:-</software>
+                    </vulnerableSoftware>
+                </vulnerability>
+                <vulnerability>
                     <name>CVE-2016-3720</name>
                     <cvssScore>7.5</cvssScore>
                     <cvssAccessVector>NETWORK</cvssAccessVector>
@@ -813,11 +874,6 @@
                     <severity>High</severity>
                     <description>XML external entity (XXE) vulnerability in XmlMapper in the Data format extension for Jackson (aka jackson-dataformat-xml) allows attackers to have unspecified impact via unknown vectors.</description>
                     <references>
-                        <reference>
-                            <source>CONFIRM</source>
-                            <url>https://github.com/FasterXML/jackson-dataformat-xml/issues/199</url>
-                            <name>https://github.com/FasterXML/jackson-dataformat-xml/issues/199</name>
-                        </reference>
                         <reference>
                             <source>FEDORA</source>
                             <url>http://lists.fedoraproject.org/pipermail/package-announce/2016-May/184561.html</url>
@@ -1050,6 +1106,39 @@
             </identifiers>
             <vulnerabilities>
                 <vulnerability>
+                    <name>CVE-2016-7051</name>
+                    <cvssScore>5.0</cvssScore>
+                    <cvssAccessVector>NETWORK</cvssAccessVector>
+                    <cvssAccessComplexity>LOW</cvssAccessComplexity>
+                    <cvssAuthenticationr>NONE</cvssAuthenticationr>
+                    <cvssConfidentialImpact>NONE</cvssConfidentialImpact>
+                    <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+                    <cvssAvailabilityImpact>NONE</cvssAvailabilityImpact>
+                    <severity>Medium</severity>
+                    <cwe>CWE-918 Server-Side Request Forgery (SSRF)</cwe>
+                    <description>XmlMapper in the Jackson XML dataformat component (aka jackson-dataformat-xml) before 2.7.8 and 2.8.x before 2.8.4 allows remote attackers to conduct server-side request forgery (SSRF) attacks via vectors related to a DTD.</description>
+                    <references>
+                        <reference>
+                            <source>BID</source>
+                            <url>http://www.securityfocus.com/bid/97688</url>
+                            <name>97688</name>
+                        </reference>
+                        <reference>
+                            <source>CONFIRM</source>
+                            <url>https://bugzilla.redhat.com/show_bug.cgi?id=1378673</url>
+                            <name>https://bugzilla.redhat.com/show_bug.cgi?id=1378673</name>
+                        </reference>
+                        <reference>
+                            <source>CONFIRM</source>
+                            <url>https://github.com/FasterXML/jackson-dataformat-xml/issues/211</url>
+                            <name>https://github.com/FasterXML/jackson-dataformat-xml/issues/211</name>
+                        </reference>
+                    </references>
+                    <vulnerableSoftware>
+                        <software>cpe:/a:fasterxml:jackson:-</software>
+                    </vulnerableSoftware>
+                </vulnerability>
+                <vulnerability>
                     <name>CVE-2016-3720</name>
                     <cvssScore>7.5</cvssScore>
                     <cvssAccessVector>NETWORK</cvssAccessVector>
@@ -1061,11 +1150,6 @@
                     <severity>High</severity>
                     <description>XML external entity (XXE) vulnerability in XmlMapper in the Data format extension for Jackson (aka jackson-dataformat-xml) allows attackers to have unspecified impact via unknown vectors.</description>
                     <references>
-                        <reference>
-                            <source>CONFIRM</source>
-                            <url>https://github.com/FasterXML/jackson-dataformat-xml/issues/199</url>
-                            <name>https://github.com/FasterXML/jackson-dataformat-xml/issues/199</name>
-                        </reference>
                         <reference>
                             <source>FEDORA</source>
                             <url>http://lists.fedoraproject.org/pipermail/package-announce/2016-May/184561.html</url>
@@ -1793,6 +1877,16 @@ GPL2 w/ CPE: https://glassfish.dev.java.net/public/CDDL+GPL.html</license>
                             <source>CISCO</source>
                             <url>http://tools.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-20151209-java-deserialization</url>
                             <name>20151209 Vulnerability in Java Deserialization Affecting Cisco Products</name>
+                        </reference>
+                        <reference>
+                            <source>CONFIRM</source>
+                            <url>https://h20566.www2.hpe.com/portal/site/hpsc/public/kb/docDisplay?docId=emr_na-c05376917</url>
+                            <name>https://h20566.www2.hpe.com/portal/site/hpsc/public/kb/docDisplay?docId=emr_na-c05376917</name>
+                        </reference>
+                        <reference>
+                            <source>CONFIRM</source>
+                            <url>https://h20566.www2.hpe.com/portal/site/hpsc/public/kb/docDisplay?docId=emr_na-c05390722</url>
+                            <name>https://h20566.www2.hpe.com/portal/site/hpsc/public/kb/docDisplay?docId=emr_na-c05390722</name>
                         </reference>
                     </references>
                     <vulnerableSoftware>
@@ -5632,6 +5726,64 @@ GPL2 w/ CPE: http://glassfish.java.net/public/CDDL+GPL_1_1.html</license>
             </identifiers>
             <vulnerabilities>
                 <vulnerability>
+                    <name>CVE-2017-5656</name>
+                    <cvssScore>5.0</cvssScore>
+                    <cvssAccessVector>NETWORK</cvssAccessVector>
+                    <cvssAccessComplexity>LOW</cvssAccessComplexity>
+                    <cvssAuthenticationr>NONE</cvssAuthenticationr>
+                    <cvssConfidentialImpact>PARTIAL</cvssConfidentialImpact>
+                    <cvssIntegrityImpact>NONE</cvssIntegrityImpact>
+                    <cvssAvailabilityImpact>NONE</cvssAvailabilityImpact>
+                    <severity>Medium</severity>
+                    <cwe>CWE-384</cwe>
+                    <description>Apache CXF&apos;s STSClient before 3.1.11 and 3.0.13 uses a flawed way of caching tokens that are associated with delegation tokens, which means that an attacker could craft a token which would return an identifer corresponding to a cached token for another user.</description>
+                    <references>
+                        <reference>
+                            <source>BID</source>
+                            <url>http://www.securityfocus.com/bid/97971</url>
+                            <name>97971</name>
+                        </reference>
+                        <reference>
+                            <source>CONFIRM</source>
+                            <url>http://cxf.apache.org/security-advisories.data/CVE-2017-5656.txt.asc?version=1&amp;modificationDate=1492515113282&amp;api=v2</url>
+                            <name>http://cxf.apache.org/security-advisories.data/CVE-2017-5656.txt.asc?version=1&amp;modificationDate=1492515113282&amp;api=v2</name>
+                        </reference>
+                    </references>
+                    <vulnerableSoftware>
+                        <software allPreviousVersion="true">cpe:/a:apache:cxf:3.0.12</software>
+                        <software allPreviousVersion="true">cpe:/a:apache:cxf:3.1.10</software>
+                    </vulnerableSoftware>
+                </vulnerability>
+                <vulnerability>
+                    <name>CVE-2017-5653</name>
+                    <cvssScore>5.0</cvssScore>
+                    <cvssAccessVector>NETWORK</cvssAccessVector>
+                    <cvssAccessComplexity>LOW</cvssAccessComplexity>
+                    <cvssAuthenticationr>NONE</cvssAuthenticationr>
+                    <cvssConfidentialImpact>NONE</cvssConfidentialImpact>
+                    <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+                    <cvssAvailabilityImpact>NONE</cvssAvailabilityImpact>
+                    <severity>Medium</severity>
+                    <cwe>CWE-20 Improper Input Validation</cwe>
+                    <description>JAX-RS XML Security streaming clients in Apache CXF before 3.1.11 and 3.0.13 do not validate that the service response was signed or encrypted, which allows remote attackers to spoof servers.</description>
+                    <references>
+                        <reference>
+                            <source>BID</source>
+                            <url>http://www.securityfocus.com/bid/97968</url>
+                            <name>97968</name>
+                        </reference>
+                        <reference>
+                            <source>CONFIRM</source>
+                            <url>http://cxf.apache.org/security-advisories.data/CVE-2017-5653.txt.asc?version=1&amp;modificationDate=1492515074710&amp;api=v2</url>
+                            <name>http://cxf.apache.org/security-advisories.data/CVE-2017-5653.txt.asc?version=1&amp;modificationDate=1492515074710&amp;api=v2</name>
+                        </reference>
+                    </references>
+                    <vulnerableSoftware>
+                        <software allPreviousVersion="true">cpe:/a:apache:cxf:3.0.12</software>
+                        <software allPreviousVersion="true">cpe:/a:apache:cxf:3.1.10</software>
+                    </vulnerableSoftware>
+                </vulnerability>
+                <vulnerability>
                     <name>CVE-2015-5253</name>
                     <cvssScore>4.0</cvssScore>
                     <cvssAccessVector>NETWORK</cvssAccessVector>
@@ -6303,6 +6455,64 @@ GPL2 w/ CPE: http://glassfish.java.net/public/CDDL+GPL_1_1.html</license>
             </identifiers>
             <vulnerabilities>
                 <vulnerability>
+                    <name>CVE-2017-5656</name>
+                    <cvssScore>5.0</cvssScore>
+                    <cvssAccessVector>NETWORK</cvssAccessVector>
+                    <cvssAccessComplexity>LOW</cvssAccessComplexity>
+                    <cvssAuthenticationr>NONE</cvssAuthenticationr>
+                    <cvssConfidentialImpact>PARTIAL</cvssConfidentialImpact>
+                    <cvssIntegrityImpact>NONE</cvssIntegrityImpact>
+                    <cvssAvailabilityImpact>NONE</cvssAvailabilityImpact>
+                    <severity>Medium</severity>
+                    <cwe>CWE-384</cwe>
+                    <description>Apache CXF&apos;s STSClient before 3.1.11 and 3.0.13 uses a flawed way of caching tokens that are associated with delegation tokens, which means that an attacker could craft a token which would return an identifer corresponding to a cached token for another user.</description>
+                    <references>
+                        <reference>
+                            <source>BID</source>
+                            <url>http://www.securityfocus.com/bid/97971</url>
+                            <name>97971</name>
+                        </reference>
+                        <reference>
+                            <source>CONFIRM</source>
+                            <url>http://cxf.apache.org/security-advisories.data/CVE-2017-5656.txt.asc?version=1&amp;modificationDate=1492515113282&amp;api=v2</url>
+                            <name>http://cxf.apache.org/security-advisories.data/CVE-2017-5656.txt.asc?version=1&amp;modificationDate=1492515113282&amp;api=v2</name>
+                        </reference>
+                    </references>
+                    <vulnerableSoftware>
+                        <software allPreviousVersion="true">cpe:/a:apache:cxf:3.0.12</software>
+                        <software allPreviousVersion="true">cpe:/a:apache:cxf:3.1.10</software>
+                    </vulnerableSoftware>
+                </vulnerability>
+                <vulnerability>
+                    <name>CVE-2017-5653</name>
+                    <cvssScore>5.0</cvssScore>
+                    <cvssAccessVector>NETWORK</cvssAccessVector>
+                    <cvssAccessComplexity>LOW</cvssAccessComplexity>
+                    <cvssAuthenticationr>NONE</cvssAuthenticationr>
+                    <cvssConfidentialImpact>NONE</cvssConfidentialImpact>
+                    <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+                    <cvssAvailabilityImpact>NONE</cvssAvailabilityImpact>
+                    <severity>Medium</severity>
+                    <cwe>CWE-20 Improper Input Validation</cwe>
+                    <description>JAX-RS XML Security streaming clients in Apache CXF before 3.1.11 and 3.0.13 do not validate that the service response was signed or encrypted, which allows remote attackers to spoof servers.</description>
+                    <references>
+                        <reference>
+                            <source>BID</source>
+                            <url>http://www.securityfocus.com/bid/97968</url>
+                            <name>97968</name>
+                        </reference>
+                        <reference>
+                            <source>CONFIRM</source>
+                            <url>http://cxf.apache.org/security-advisories.data/CVE-2017-5653.txt.asc?version=1&amp;modificationDate=1492515074710&amp;api=v2</url>
+                            <name>http://cxf.apache.org/security-advisories.data/CVE-2017-5653.txt.asc?version=1&amp;modificationDate=1492515074710&amp;api=v2</name>
+                        </reference>
+                    </references>
+                    <vulnerableSoftware>
+                        <software allPreviousVersion="true">cpe:/a:apache:cxf:3.0.12</software>
+                        <software allPreviousVersion="true">cpe:/a:apache:cxf:3.1.10</software>
+                    </vulnerableSoftware>
+                </vulnerability>
+                <vulnerability>
                     <name>CVE-2015-5253</name>
                     <cvssScore>4.0</cvssScore>
                     <cvssAccessVector>NETWORK</cvssAccessVector>
@@ -6958,6 +7168,64 @@ GPL2 w/ CPE: http://glassfish.java.net/public/CDDL+GPL_1_1.html</license>
                 </identifier>
             </identifiers>
             <vulnerabilities>
+                <vulnerability>
+                    <name>CVE-2017-5656</name>
+                    <cvssScore>5.0</cvssScore>
+                    <cvssAccessVector>NETWORK</cvssAccessVector>
+                    <cvssAccessComplexity>LOW</cvssAccessComplexity>
+                    <cvssAuthenticationr>NONE</cvssAuthenticationr>
+                    <cvssConfidentialImpact>PARTIAL</cvssConfidentialImpact>
+                    <cvssIntegrityImpact>NONE</cvssIntegrityImpact>
+                    <cvssAvailabilityImpact>NONE</cvssAvailabilityImpact>
+                    <severity>Medium</severity>
+                    <cwe>CWE-384</cwe>
+                    <description>Apache CXF&apos;s STSClient before 3.1.11 and 3.0.13 uses a flawed way of caching tokens that are associated with delegation tokens, which means that an attacker could craft a token which would return an identifer corresponding to a cached token for another user.</description>
+                    <references>
+                        <reference>
+                            <source>BID</source>
+                            <url>http://www.securityfocus.com/bid/97971</url>
+                            <name>97971</name>
+                        </reference>
+                        <reference>
+                            <source>CONFIRM</source>
+                            <url>http://cxf.apache.org/security-advisories.data/CVE-2017-5656.txt.asc?version=1&amp;modificationDate=1492515113282&amp;api=v2</url>
+                            <name>http://cxf.apache.org/security-advisories.data/CVE-2017-5656.txt.asc?version=1&amp;modificationDate=1492515113282&amp;api=v2</name>
+                        </reference>
+                    </references>
+                    <vulnerableSoftware>
+                        <software allPreviousVersion="true">cpe:/a:apache:cxf:3.0.12</software>
+                        <software allPreviousVersion="true">cpe:/a:apache:cxf:3.1.10</software>
+                    </vulnerableSoftware>
+                </vulnerability>
+                <vulnerability>
+                    <name>CVE-2017-5653</name>
+                    <cvssScore>5.0</cvssScore>
+                    <cvssAccessVector>NETWORK</cvssAccessVector>
+                    <cvssAccessComplexity>LOW</cvssAccessComplexity>
+                    <cvssAuthenticationr>NONE</cvssAuthenticationr>
+                    <cvssConfidentialImpact>NONE</cvssConfidentialImpact>
+                    <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+                    <cvssAvailabilityImpact>NONE</cvssAvailabilityImpact>
+                    <severity>Medium</severity>
+                    <cwe>CWE-20 Improper Input Validation</cwe>
+                    <description>JAX-RS XML Security streaming clients in Apache CXF before 3.1.11 and 3.0.13 do not validate that the service response was signed or encrypted, which allows remote attackers to spoof servers.</description>
+                    <references>
+                        <reference>
+                            <source>BID</source>
+                            <url>http://www.securityfocus.com/bid/97968</url>
+                            <name>97968</name>
+                        </reference>
+                        <reference>
+                            <source>CONFIRM</source>
+                            <url>http://cxf.apache.org/security-advisories.data/CVE-2017-5653.txt.asc?version=1&amp;modificationDate=1492515074710&amp;api=v2</url>
+                            <name>http://cxf.apache.org/security-advisories.data/CVE-2017-5653.txt.asc?version=1&amp;modificationDate=1492515074710&amp;api=v2</name>
+                        </reference>
+                    </references>
+                    <vulnerableSoftware>
+                        <software allPreviousVersion="true">cpe:/a:apache:cxf:3.0.12</software>
+                        <software allPreviousVersion="true">cpe:/a:apache:cxf:3.1.10</software>
+                    </vulnerableSoftware>
+                </vulnerability>
                 <vulnerability>
                     <name>CVE-2015-5253</name>
                     <cvssScore>4.0</cvssScore>
@@ -7625,6 +7893,64 @@ GPL2 w/ CPE: http://glassfish.java.net/public/CDDL+GPL_1_1.html</license>
             </identifiers>
             <vulnerabilities>
                 <vulnerability>
+                    <name>CVE-2017-5656</name>
+                    <cvssScore>5.0</cvssScore>
+                    <cvssAccessVector>NETWORK</cvssAccessVector>
+                    <cvssAccessComplexity>LOW</cvssAccessComplexity>
+                    <cvssAuthenticationr>NONE</cvssAuthenticationr>
+                    <cvssConfidentialImpact>PARTIAL</cvssConfidentialImpact>
+                    <cvssIntegrityImpact>NONE</cvssIntegrityImpact>
+                    <cvssAvailabilityImpact>NONE</cvssAvailabilityImpact>
+                    <severity>Medium</severity>
+                    <cwe>CWE-384</cwe>
+                    <description>Apache CXF&apos;s STSClient before 3.1.11 and 3.0.13 uses a flawed way of caching tokens that are associated with delegation tokens, which means that an attacker could craft a token which would return an identifer corresponding to a cached token for another user.</description>
+                    <references>
+                        <reference>
+                            <source>BID</source>
+                            <url>http://www.securityfocus.com/bid/97971</url>
+                            <name>97971</name>
+                        </reference>
+                        <reference>
+                            <source>CONFIRM</source>
+                            <url>http://cxf.apache.org/security-advisories.data/CVE-2017-5656.txt.asc?version=1&amp;modificationDate=1492515113282&amp;api=v2</url>
+                            <name>http://cxf.apache.org/security-advisories.data/CVE-2017-5656.txt.asc?version=1&amp;modificationDate=1492515113282&amp;api=v2</name>
+                        </reference>
+                    </references>
+                    <vulnerableSoftware>
+                        <software allPreviousVersion="true">cpe:/a:apache:cxf:3.0.12</software>
+                        <software allPreviousVersion="true">cpe:/a:apache:cxf:3.1.10</software>
+                    </vulnerableSoftware>
+                </vulnerability>
+                <vulnerability>
+                    <name>CVE-2017-5653</name>
+                    <cvssScore>5.0</cvssScore>
+                    <cvssAccessVector>NETWORK</cvssAccessVector>
+                    <cvssAccessComplexity>LOW</cvssAccessComplexity>
+                    <cvssAuthenticationr>NONE</cvssAuthenticationr>
+                    <cvssConfidentialImpact>NONE</cvssConfidentialImpact>
+                    <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+                    <cvssAvailabilityImpact>NONE</cvssAvailabilityImpact>
+                    <severity>Medium</severity>
+                    <cwe>CWE-20 Improper Input Validation</cwe>
+                    <description>JAX-RS XML Security streaming clients in Apache CXF before 3.1.11 and 3.0.13 do not validate that the service response was signed or encrypted, which allows remote attackers to spoof servers.</description>
+                    <references>
+                        <reference>
+                            <source>BID</source>
+                            <url>http://www.securityfocus.com/bid/97968</url>
+                            <name>97968</name>
+                        </reference>
+                        <reference>
+                            <source>CONFIRM</source>
+                            <url>http://cxf.apache.org/security-advisories.data/CVE-2017-5653.txt.asc?version=1&amp;modificationDate=1492515074710&amp;api=v2</url>
+                            <name>http://cxf.apache.org/security-advisories.data/CVE-2017-5653.txt.asc?version=1&amp;modificationDate=1492515074710&amp;api=v2</name>
+                        </reference>
+                    </references>
+                    <vulnerableSoftware>
+                        <software allPreviousVersion="true">cpe:/a:apache:cxf:3.0.12</software>
+                        <software allPreviousVersion="true">cpe:/a:apache:cxf:3.1.10</software>
+                    </vulnerableSoftware>
+                </vulnerability>
+                <vulnerability>
                     <name>CVE-2015-5253</name>
                     <cvssScore>4.0</cvssScore>
                     <cvssAccessVector>NETWORK</cvssAccessVector>
@@ -8291,6 +8617,64 @@ GPL2 w/ CPE: http://glassfish.java.net/public/CDDL+GPL_1_1.html</license>
             </identifiers>
             <vulnerabilities>
                 <vulnerability>
+                    <name>CVE-2017-5656</name>
+                    <cvssScore>5.0</cvssScore>
+                    <cvssAccessVector>NETWORK</cvssAccessVector>
+                    <cvssAccessComplexity>LOW</cvssAccessComplexity>
+                    <cvssAuthenticationr>NONE</cvssAuthenticationr>
+                    <cvssConfidentialImpact>PARTIAL</cvssConfidentialImpact>
+                    <cvssIntegrityImpact>NONE</cvssIntegrityImpact>
+                    <cvssAvailabilityImpact>NONE</cvssAvailabilityImpact>
+                    <severity>Medium</severity>
+                    <cwe>CWE-384</cwe>
+                    <description>Apache CXF&apos;s STSClient before 3.1.11 and 3.0.13 uses a flawed way of caching tokens that are associated with delegation tokens, which means that an attacker could craft a token which would return an identifer corresponding to a cached token for another user.</description>
+                    <references>
+                        <reference>
+                            <source>BID</source>
+                            <url>http://www.securityfocus.com/bid/97971</url>
+                            <name>97971</name>
+                        </reference>
+                        <reference>
+                            <source>CONFIRM</source>
+                            <url>http://cxf.apache.org/security-advisories.data/CVE-2017-5656.txt.asc?version=1&amp;modificationDate=1492515113282&amp;api=v2</url>
+                            <name>http://cxf.apache.org/security-advisories.data/CVE-2017-5656.txt.asc?version=1&amp;modificationDate=1492515113282&amp;api=v2</name>
+                        </reference>
+                    </references>
+                    <vulnerableSoftware>
+                        <software allPreviousVersion="true">cpe:/a:apache:cxf:3.0.12</software>
+                        <software allPreviousVersion="true">cpe:/a:apache:cxf:3.1.10</software>
+                    </vulnerableSoftware>
+                </vulnerability>
+                <vulnerability>
+                    <name>CVE-2017-5653</name>
+                    <cvssScore>5.0</cvssScore>
+                    <cvssAccessVector>NETWORK</cvssAccessVector>
+                    <cvssAccessComplexity>LOW</cvssAccessComplexity>
+                    <cvssAuthenticationr>NONE</cvssAuthenticationr>
+                    <cvssConfidentialImpact>NONE</cvssConfidentialImpact>
+                    <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+                    <cvssAvailabilityImpact>NONE</cvssAvailabilityImpact>
+                    <severity>Medium</severity>
+                    <cwe>CWE-20 Improper Input Validation</cwe>
+                    <description>JAX-RS XML Security streaming clients in Apache CXF before 3.1.11 and 3.0.13 do not validate that the service response was signed or encrypted, which allows remote attackers to spoof servers.</description>
+                    <references>
+                        <reference>
+                            <source>BID</source>
+                            <url>http://www.securityfocus.com/bid/97968</url>
+                            <name>97968</name>
+                        </reference>
+                        <reference>
+                            <source>CONFIRM</source>
+                            <url>http://cxf.apache.org/security-advisories.data/CVE-2017-5653.txt.asc?version=1&amp;modificationDate=1492515074710&amp;api=v2</url>
+                            <name>http://cxf.apache.org/security-advisories.data/CVE-2017-5653.txt.asc?version=1&amp;modificationDate=1492515074710&amp;api=v2</name>
+                        </reference>
+                    </references>
+                    <vulnerableSoftware>
+                        <software allPreviousVersion="true">cpe:/a:apache:cxf:3.0.12</software>
+                        <software allPreviousVersion="true">cpe:/a:apache:cxf:3.1.10</software>
+                    </vulnerableSoftware>
+                </vulnerability>
+                <vulnerability>
                     <name>CVE-2015-5253</name>
                     <cvssScore>4.0</cvssScore>
                     <cvssAccessVector>NETWORK</cvssAccessVector>
@@ -8946,6 +9330,64 @@ GPL2 w/ CPE: http://glassfish.java.net/public/CDDL+GPL_1_1.html</license>
                 </identifier>
             </identifiers>
             <vulnerabilities>
+                <vulnerability>
+                    <name>CVE-2017-5656</name>
+                    <cvssScore>5.0</cvssScore>
+                    <cvssAccessVector>NETWORK</cvssAccessVector>
+                    <cvssAccessComplexity>LOW</cvssAccessComplexity>
+                    <cvssAuthenticationr>NONE</cvssAuthenticationr>
+                    <cvssConfidentialImpact>PARTIAL</cvssConfidentialImpact>
+                    <cvssIntegrityImpact>NONE</cvssIntegrityImpact>
+                    <cvssAvailabilityImpact>NONE</cvssAvailabilityImpact>
+                    <severity>Medium</severity>
+                    <cwe>CWE-384</cwe>
+                    <description>Apache CXF&apos;s STSClient before 3.1.11 and 3.0.13 uses a flawed way of caching tokens that are associated with delegation tokens, which means that an attacker could craft a token which would return an identifer corresponding to a cached token for another user.</description>
+                    <references>
+                        <reference>
+                            <source>BID</source>
+                            <url>http://www.securityfocus.com/bid/97971</url>
+                            <name>97971</name>
+                        </reference>
+                        <reference>
+                            <source>CONFIRM</source>
+                            <url>http://cxf.apache.org/security-advisories.data/CVE-2017-5656.txt.asc?version=1&amp;modificationDate=1492515113282&amp;api=v2</url>
+                            <name>http://cxf.apache.org/security-advisories.data/CVE-2017-5656.txt.asc?version=1&amp;modificationDate=1492515113282&amp;api=v2</name>
+                        </reference>
+                    </references>
+                    <vulnerableSoftware>
+                        <software allPreviousVersion="true">cpe:/a:apache:cxf:3.0.12</software>
+                        <software allPreviousVersion="true">cpe:/a:apache:cxf:3.1.10</software>
+                    </vulnerableSoftware>
+                </vulnerability>
+                <vulnerability>
+                    <name>CVE-2017-5653</name>
+                    <cvssScore>5.0</cvssScore>
+                    <cvssAccessVector>NETWORK</cvssAccessVector>
+                    <cvssAccessComplexity>LOW</cvssAccessComplexity>
+                    <cvssAuthenticationr>NONE</cvssAuthenticationr>
+                    <cvssConfidentialImpact>NONE</cvssConfidentialImpact>
+                    <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+                    <cvssAvailabilityImpact>NONE</cvssAvailabilityImpact>
+                    <severity>Medium</severity>
+                    <cwe>CWE-20 Improper Input Validation</cwe>
+                    <description>JAX-RS XML Security streaming clients in Apache CXF before 3.1.11 and 3.0.13 do not validate that the service response was signed or encrypted, which allows remote attackers to spoof servers.</description>
+                    <references>
+                        <reference>
+                            <source>BID</source>
+                            <url>http://www.securityfocus.com/bid/97968</url>
+                            <name>97968</name>
+                        </reference>
+                        <reference>
+                            <source>CONFIRM</source>
+                            <url>http://cxf.apache.org/security-advisories.data/CVE-2017-5653.txt.asc?version=1&amp;modificationDate=1492515074710&amp;api=v2</url>
+                            <name>http://cxf.apache.org/security-advisories.data/CVE-2017-5653.txt.asc?version=1&amp;modificationDate=1492515074710&amp;api=v2</name>
+                        </reference>
+                    </references>
+                    <vulnerableSoftware>
+                        <software allPreviousVersion="true">cpe:/a:apache:cxf:3.0.12</software>
+                        <software allPreviousVersion="true">cpe:/a:apache:cxf:3.1.10</software>
+                    </vulnerableSoftware>
+                </vulnerability>
                 <vulnerability>
                     <name>CVE-2015-5253</name>
                     <cvssScore>4.0</cvssScore>
@@ -9613,6 +10055,64 @@ GPL2 w/ CPE: http://glassfish.java.net/public/CDDL+GPL_1_1.html</license>
             </identifiers>
             <vulnerabilities>
                 <vulnerability>
+                    <name>CVE-2017-5656</name>
+                    <cvssScore>5.0</cvssScore>
+                    <cvssAccessVector>NETWORK</cvssAccessVector>
+                    <cvssAccessComplexity>LOW</cvssAccessComplexity>
+                    <cvssAuthenticationr>NONE</cvssAuthenticationr>
+                    <cvssConfidentialImpact>PARTIAL</cvssConfidentialImpact>
+                    <cvssIntegrityImpact>NONE</cvssIntegrityImpact>
+                    <cvssAvailabilityImpact>NONE</cvssAvailabilityImpact>
+                    <severity>Medium</severity>
+                    <cwe>CWE-384</cwe>
+                    <description>Apache CXF&apos;s STSClient before 3.1.11 and 3.0.13 uses a flawed way of caching tokens that are associated with delegation tokens, which means that an attacker could craft a token which would return an identifer corresponding to a cached token for another user.</description>
+                    <references>
+                        <reference>
+                            <source>BID</source>
+                            <url>http://www.securityfocus.com/bid/97971</url>
+                            <name>97971</name>
+                        </reference>
+                        <reference>
+                            <source>CONFIRM</source>
+                            <url>http://cxf.apache.org/security-advisories.data/CVE-2017-5656.txt.asc?version=1&amp;modificationDate=1492515113282&amp;api=v2</url>
+                            <name>http://cxf.apache.org/security-advisories.data/CVE-2017-5656.txt.asc?version=1&amp;modificationDate=1492515113282&amp;api=v2</name>
+                        </reference>
+                    </references>
+                    <vulnerableSoftware>
+                        <software allPreviousVersion="true">cpe:/a:apache:cxf:3.0.12</software>
+                        <software allPreviousVersion="true">cpe:/a:apache:cxf:3.1.10</software>
+                    </vulnerableSoftware>
+                </vulnerability>
+                <vulnerability>
+                    <name>CVE-2017-5653</name>
+                    <cvssScore>5.0</cvssScore>
+                    <cvssAccessVector>NETWORK</cvssAccessVector>
+                    <cvssAccessComplexity>LOW</cvssAccessComplexity>
+                    <cvssAuthenticationr>NONE</cvssAuthenticationr>
+                    <cvssConfidentialImpact>NONE</cvssConfidentialImpact>
+                    <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+                    <cvssAvailabilityImpact>NONE</cvssAvailabilityImpact>
+                    <severity>Medium</severity>
+                    <cwe>CWE-20 Improper Input Validation</cwe>
+                    <description>JAX-RS XML Security streaming clients in Apache CXF before 3.1.11 and 3.0.13 do not validate that the service response was signed or encrypted, which allows remote attackers to spoof servers.</description>
+                    <references>
+                        <reference>
+                            <source>BID</source>
+                            <url>http://www.securityfocus.com/bid/97968</url>
+                            <name>97968</name>
+                        </reference>
+                        <reference>
+                            <source>CONFIRM</source>
+                            <url>http://cxf.apache.org/security-advisories.data/CVE-2017-5653.txt.asc?version=1&amp;modificationDate=1492515074710&amp;api=v2</url>
+                            <name>http://cxf.apache.org/security-advisories.data/CVE-2017-5653.txt.asc?version=1&amp;modificationDate=1492515074710&amp;api=v2</name>
+                        </reference>
+                    </references>
+                    <vulnerableSoftware>
+                        <software allPreviousVersion="true">cpe:/a:apache:cxf:3.0.12</software>
+                        <software allPreviousVersion="true">cpe:/a:apache:cxf:3.1.10</software>
+                    </vulnerableSoftware>
+                </vulnerability>
+                <vulnerability>
                     <name>CVE-2015-5253</name>
                     <cvssScore>4.0</cvssScore>
                     <cvssAccessVector>NETWORK</cvssAccessVector>
@@ -10278,6 +10778,64 @@ GPL2 w/ CPE: http://glassfish.java.net/public/CDDL+GPL_1_1.html</license>
                 </identifier>
             </identifiers>
             <vulnerabilities>
+                <vulnerability>
+                    <name>CVE-2017-5656</name>
+                    <cvssScore>5.0</cvssScore>
+                    <cvssAccessVector>NETWORK</cvssAccessVector>
+                    <cvssAccessComplexity>LOW</cvssAccessComplexity>
+                    <cvssAuthenticationr>NONE</cvssAuthenticationr>
+                    <cvssConfidentialImpact>PARTIAL</cvssConfidentialImpact>
+                    <cvssIntegrityImpact>NONE</cvssIntegrityImpact>
+                    <cvssAvailabilityImpact>NONE</cvssAvailabilityImpact>
+                    <severity>Medium</severity>
+                    <cwe>CWE-384</cwe>
+                    <description>Apache CXF&apos;s STSClient before 3.1.11 and 3.0.13 uses a flawed way of caching tokens that are associated with delegation tokens, which means that an attacker could craft a token which would return an identifer corresponding to a cached token for another user.</description>
+                    <references>
+                        <reference>
+                            <source>BID</source>
+                            <url>http://www.securityfocus.com/bid/97971</url>
+                            <name>97971</name>
+                        </reference>
+                        <reference>
+                            <source>CONFIRM</source>
+                            <url>http://cxf.apache.org/security-advisories.data/CVE-2017-5656.txt.asc?version=1&amp;modificationDate=1492515113282&amp;api=v2</url>
+                            <name>http://cxf.apache.org/security-advisories.data/CVE-2017-5656.txt.asc?version=1&amp;modificationDate=1492515113282&amp;api=v2</name>
+                        </reference>
+                    </references>
+                    <vulnerableSoftware>
+                        <software allPreviousVersion="true">cpe:/a:apache:cxf:3.0.12</software>
+                        <software allPreviousVersion="true">cpe:/a:apache:cxf:3.1.10</software>
+                    </vulnerableSoftware>
+                </vulnerability>
+                <vulnerability>
+                    <name>CVE-2017-5653</name>
+                    <cvssScore>5.0</cvssScore>
+                    <cvssAccessVector>NETWORK</cvssAccessVector>
+                    <cvssAccessComplexity>LOW</cvssAccessComplexity>
+                    <cvssAuthenticationr>NONE</cvssAuthenticationr>
+                    <cvssConfidentialImpact>NONE</cvssConfidentialImpact>
+                    <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+                    <cvssAvailabilityImpact>NONE</cvssAvailabilityImpact>
+                    <severity>Medium</severity>
+                    <cwe>CWE-20 Improper Input Validation</cwe>
+                    <description>JAX-RS XML Security streaming clients in Apache CXF before 3.1.11 and 3.0.13 do not validate that the service response was signed or encrypted, which allows remote attackers to spoof servers.</description>
+                    <references>
+                        <reference>
+                            <source>BID</source>
+                            <url>http://www.securityfocus.com/bid/97968</url>
+                            <name>97968</name>
+                        </reference>
+                        <reference>
+                            <source>CONFIRM</source>
+                            <url>http://cxf.apache.org/security-advisories.data/CVE-2017-5653.txt.asc?version=1&amp;modificationDate=1492515074710&amp;api=v2</url>
+                            <name>http://cxf.apache.org/security-advisories.data/CVE-2017-5653.txt.asc?version=1&amp;modificationDate=1492515074710&amp;api=v2</name>
+                        </reference>
+                    </references>
+                    <vulnerableSoftware>
+                        <software allPreviousVersion="true">cpe:/a:apache:cxf:3.0.12</software>
+                        <software allPreviousVersion="true">cpe:/a:apache:cxf:3.1.10</software>
+                    </vulnerableSoftware>
+                </vulnerability>
                 <vulnerability>
                     <name>CVE-2015-5253</name>
                     <cvssScore>4.0</cvssScore>
@@ -18761,6 +19319,161 @@ Eclipse Distribution License v. 1.0: http://www.eclipse.org/org/documents/edl-v1
                     </vulnerableSoftware>
                 </vulnerability>
                 <vulnerability>
+                    <name>CVE-2016-5007</name>
+                    <cvssScore>5.0</cvssScore>
+                    <cvssAccessVector>NETWORK</cvssAccessVector>
+                    <cvssAccessComplexity>LOW</cvssAccessComplexity>
+                    <cvssAuthenticationr>NONE</cvssAuthenticationr>
+                    <cvssConfidentialImpact>NONE</cvssConfidentialImpact>
+                    <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+                    <cvssAvailabilityImpact>NONE</cvssAvailabilityImpact>
+                    <severity>Medium</severity>
+                    <cwe>CWE-264 Permissions, Privileges, and Access Controls</cwe>
+                    <description>Both Spring Security 3.2.x, 4.0.x, 4.1.0 and the Spring Framework 3.2.x, 4.0.x, 4.1.x, 4.2.x rely on URL pattern mappings for authorization and for mapping requests to controllers respectively. Differences in the strictness of the pattern matching mechanisms, for example with regards to space trimming in path segments, can lead Spring Security to not recognize certain paths as not protected that are in fact mapped to Spring MVC controllers that should be protected. The problem is compounded by the fact that the Spring Framework provides richer features with regards to pattern matching as well as by the fact that pattern matching in each Spring Security and the Spring Framework can easily be customized creating additional differences.</description>
+                    <references>
+                        <reference>
+                            <source>BID</source>
+                            <url>http://www.securityfocus.com/bid/91687</url>
+                            <name>91687</name>
+                        </reference>
+                        <reference>
+                            <source>CONFIRM</source>
+                            <url>https://pivotal.io/security/cve-2016-5007</url>
+                            <name>https://pivotal.io/security/cve-2016-5007</name>
+                        </reference>
+                    </references>
+                    <vulnerableSoftware>
+                        <software>cpe:/a:pivotal_software:spring_framework:3.2.0</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:3.2.1</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:3.2.2</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:3.2.3</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:3.2.4</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:3.2.5</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:3.2.6</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:3.2.7</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:3.2.8</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:3.2.9</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:3.2.10</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:3.2.11</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:3.2.12</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:3.2.13</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:3.2.14</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:3.2.15</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:3.2.16</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:3.2.17</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:3.2.18</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:4.0.0</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:4.0.1</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:4.0.2</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:4.0.3</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:4.0.4</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:4.0.5</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:4.0.6</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:4.0.7</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:4.0.8</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:4.0.9</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:4.1.0</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:4.1.1</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:4.1.2</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:4.1.3</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:4.1.4</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:4.1.5</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:4.1.6</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:4.1.7</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:4.1.8</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:4.1.9</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:4.2.0</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:4.2.1</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:4.2.2</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:4.2.3</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:4.2.4</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:4.2.5</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:4.2.6</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:4.2.7</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:4.2.8</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:4.2.9</software>
+                        <software>cpe:/a:pivotal_software:spring_security:3.2.0</software>
+                        <software>cpe:/a:pivotal_software:spring_security:3.2.1</software>
+                        <software>cpe:/a:pivotal_software:spring_security:3.2.2</software>
+                        <software>cpe:/a:pivotal_software:spring_security:3.2.3</software>
+                        <software>cpe:/a:pivotal_software:spring_security:3.2.4</software>
+                        <software>cpe:/a:pivotal_software:spring_security:3.2.5</software>
+                        <software>cpe:/a:pivotal_software:spring_security:3.2.6</software>
+                        <software>cpe:/a:pivotal_software:spring_security:3.2.7</software>
+                        <software>cpe:/a:pivotal_software:spring_security:3.2.8</software>
+                        <software>cpe:/a:pivotal_software:spring_security:3.2.9</software>
+                        <software>cpe:/a:pivotal_software:spring_security:3.2.10</software>
+                        <software>cpe:/a:pivotal_software:spring_security:4.0.0</software>
+                        <software>cpe:/a:pivotal_software:spring_security:4.0.1</software>
+                        <software>cpe:/a:pivotal_software:spring_security:4.0.2</software>
+                        <software>cpe:/a:pivotal_software:spring_security:4.0.3</software>
+                        <software>cpe:/a:pivotal_software:spring_security:4.0.4</software>
+                        <software>cpe:/a:pivotal_software:spring_security:4.1.0</software>
+                    </vulnerableSoftware>
+                </vulnerability>
+                <vulnerability>
+                    <name>CVE-2015-5211</name>
+                    <cvssScore>9.3</cvssScore>
+                    <cvssAccessVector>NETWORK</cvssAccessVector>
+                    <cvssAccessComplexity>MEDIUM</cvssAccessComplexity>
+                    <cvssAuthenticationr>NONE</cvssAuthenticationr>
+                    <cvssConfidentialImpact>COMPLETE</cvssConfidentialImpact>
+                    <cvssIntegrityImpact>COMPLETE</cvssIntegrityImpact>
+                    <cvssAvailabilityImpact>COMPLETE</cvssAvailabilityImpact>
+                    <severity>High</severity>
+                    <cwe>CWE-20 Improper Input Validation</cwe>
+                    <description>Under some situations, the Spring Framework 4.2.0 to 4.2.1, 4.0.0 to 4.1.7, 3.2.0 to 3.2.14 and older unsupported versions is vulnerable to a Reflected File Download (RFD) attack. The attack involves a malicious user crafting a URL with a batch script extension that results in the response being downloaded rather than rendered and also includes some input reflected in the response.</description>
+                    <references>
+                        <reference>
+                            <source>CONFIRM</source>
+                            <url>https://pivotal.io/security/cve-2015-5211</url>
+                            <name>https://pivotal.io/security/cve-2015-5211</name>
+                        </reference>
+                        <reference>
+                            <source>MISC</source>
+                            <url>https://www.trustwave.com/Resources/SpiderLabs-Blog/Reflected-File-Download---A-New-Web-Attack-Vector/</url>
+                            <name>https://www.trustwave.com/Resources/SpiderLabs-Blog/Reflected-File-Download---A-New-Web-Attack-Vector/</name>
+                        </reference>
+                    </references>
+                    <vulnerableSoftware>
+                        <software>cpe:/a:pivotal_software:spring_framework:3.2.0</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:3.2.1</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:3.2.2</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:3.2.3</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:3.2.4</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:3.2.5</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:3.2.6</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:3.2.7</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:3.2.8</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:3.2.9</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:3.2.10</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:3.2.11</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:3.2.12</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:3.2.13</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:3.2.14</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:4.0.0</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:4.0.1</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:4.0.2</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:4.0.3</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:4.0.4</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:4.0.5</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:4.0.6</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:4.0.7</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:4.0.8</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:4.0.9</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:4.1.0</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:4.1.1</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:4.1.2</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:4.1.3</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:4.1.4</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:4.1.5</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:4.1.6</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:4.1.7</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:4.2.0</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:4.2.1</software>
+                    </vulnerableSoftware>
+                </vulnerability>
+                <vulnerability>
                     <name>CVE-2015-3192</name>
                     <cvssScore>4.3</cvssScore>
                     <cvssAccessVector>NETWORK</cvssAccessVector>
@@ -19085,6 +19798,62 @@ Eclipse Distribution License v. 1.0: http://www.eclipse.org/org/documents/edl-v1
                         <software>cpe:/a:springsource:spring_framework:4.0.0:m2</software>
                         <software>cpe:/a:springsource:spring_framework:4.0.0:rc1</software>
                         <software allPreviousVersion="true">cpe:/a:springsource:spring_framework:4.0.1</software>
+                    </vulnerableSoftware>
+                </vulnerability>
+                <vulnerability>
+                    <name>CVE-2014-0225</name>
+                    <cvssScore>6.8</cvssScore>
+                    <cvssAccessVector>NETWORK</cvssAccessVector>
+                    <cvssAccessComplexity>MEDIUM</cvssAccessComplexity>
+                    <cvssAuthenticationr>NONE</cvssAuthenticationr>
+                    <cvssConfidentialImpact>PARTIAL</cvssConfidentialImpact>
+                    <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+                    <cvssAvailabilityImpact>PARTIAL</cvssAvailabilityImpact>
+                    <severity>Medium</severity>
+                    <cwe>CWE-611 Improper Restriction of XML External Entity Reference (&apos;XXE&apos;)</cwe>
+                    <description>When processing user provided XML documents, the Spring Framework 4.0.0 to 4.0.4, 3.0.0 to 3.2.8, and possibly earlier unsupported versions did not disable by default the resolution of URI references in a DTD declaration. This enabled an XXE attack.</description>
+                    <references>
+                        <reference>
+                            <source>CONFIRM</source>
+                            <url>https://pivotal.io/security/cve-2014-0225</url>
+                            <name>https://pivotal.io/security/cve-2014-0225</name>
+                        </reference>
+                    </references>
+                    <vulnerableSoftware>
+                        <software>cpe:/a:pivotal_software:spring_framework:3.0.0</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:3.0.1</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:3.0.2</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:3.0.3</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:3.0.4</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:3.0.5</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:3.0.6</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:3.0.7</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:3.1.0</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:3.1.0:rc1</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:3.1.0:rc2</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:3.1.1</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:3.1.2</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:3.1.3</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:3.1.4</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:3.2.0</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:3.2.0:rc1</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:3.2.0:rc2</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:3.2.0:rc2-a</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:3.2.1</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:3.2.2</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:3.2.3</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:3.2.4</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:3.2.5</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:3.2.6</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:3.2.7</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:3.2.8</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:4.0.0</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:4.0.0:rc1</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:4.0.0:rc2</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:4.0.1</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:4.0.2</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:4.0.3</software>
+                        <software>cpe:/a:pivotal_software:spring_framework:4.0.4</software>
                     </vulnerableSoftware>
                 </vulnerability>
                 <vulnerability>
@@ -20791,6 +21560,11 @@ Eclipse Distribution License v. 1.0: http://www.eclipse.org/org/documents/edl-v1
                     <cwe>CWE-264 Permissions, Privileges, and Access Controls</cwe>
                     <description>SQLite before 3.8.9, as used in Android before 5.1.1 LMY48T, allows attackers to gain privileges via a crafted application, aka internal bug 20099586.</description>
                     <references>
+                        <reference>
+                            <source>BID</source>
+                            <url>http://www.securityfocus.com/bid/76970</url>
+                            <name>76970</name>
+                        </reference>
                         <reference>
                             <source>CONFIRM</source>
                             <url>https://android-review.googlesource.com/#/c/145961/</url>

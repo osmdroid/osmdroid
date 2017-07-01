@@ -10,7 +10,7 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.constants.OpenStreetMapConstants
-	c3673 [label=<<table title="org.osmdroid.constants.OpenStreetMapConstants" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./OpenStreetMapConstants.html">
+	c3703 [label=<<table title="org.osmdroid.constants.OpenStreetMapConstants" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./OpenStreetMapConstants.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> OpenStreetMapConstants </td></tr>

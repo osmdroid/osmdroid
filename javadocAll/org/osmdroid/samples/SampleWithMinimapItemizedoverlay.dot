@@ -10,15 +10,15 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.samples.SampleWithMinimapItemizedoverlay
-	c132022 [label=<<table title="org.osmdroid.samples.SampleWithMinimapItemizedoverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./SampleWithMinimapItemizedoverlay.html">
+	c133477 [label=<<table title="org.osmdroid.samples.SampleWithMinimapItemizedoverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./SampleWithMinimapItemizedoverlay.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleWithMinimapItemizedoverlay </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SampleWithMinimapItemizedoverlay.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.samples.SampleWithMinimapItemizedoverlay extends Activity
-	c132241:p -> c132022:p [dir=back,arrowtail=empty];
+	c133697:p -> c133477:p [dir=back,arrowtail=empty];
 	// Activity
-	c132241[label=<<table title="Activity" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api//Activity.html">
+	c133697[label=<<table title="Activity" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api//Activity.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> Activity </td></tr>
 		</table></td></tr>

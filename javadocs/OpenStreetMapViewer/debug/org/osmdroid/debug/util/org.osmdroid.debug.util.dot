@@ -10,19 +10,19 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.debug.util.FileDateUtil
-	c806 [label=<<table title="org.osmdroid.debug.util.FileDateUtil" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./FileDateUtil.html">
+	c818 [label=<<table title="org.osmdroid.debug.util.FileDateUtil" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./FileDateUtil.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> FileDateUtil </td></tr>
 		</table></td></tr>
 		</table>>, URL="./FileDateUtil.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.debug.util.HumanTime
-	c807 [label=<<table title="org.osmdroid.debug.util.HumanTime" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./HumanTime.html">
+	c819 [label=<<table title="org.osmdroid.debug.util.HumanTime" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./HumanTime.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> HumanTime </td></tr>
 		</table></td></tr>
 		</table>>, URL="./HumanTime.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.debug.util.HumanTime.State
-	c808 [label=<<table title="org.osmdroid.debug.util.HumanTime.State" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./HumanTime.State.html">
+	c820 [label=<<table title="org.osmdroid.debug.util.HumanTime.State" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./HumanTime.State.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;enumeration&#187; </td></tr>
 <tr><td align="center" balign="center"> State </td></tr>

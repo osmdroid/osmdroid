@@ -10,49 +10,55 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.intro.AboutFragment
-	c941 [label=<<table title="org.osmdroid.intro.AboutFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./AboutFragment.html">
+	c955 [label=<<table title="org.osmdroid.intro.AboutFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./AboutFragment.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> AboutFragment </td></tr>
 		</table></td></tr>
 		</table>>, URL="./AboutFragment.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.intro.DataUseWarning
-	c942 [label=<<table title="org.osmdroid.intro.DataUseWarning" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./DataUseWarning.html">
+	c956 [label=<<table title="org.osmdroid.intro.DataUseWarning" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./DataUseWarning.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> DataUseWarning </td></tr>
 		</table></td></tr>
 		</table>>, URL="./DataUseWarning.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.intro.IntroActivity
-	c943 [label=<<table title="org.osmdroid.intro.IntroActivity" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./IntroActivity.html">
+	c957 [label=<<table title="org.osmdroid.intro.IntroActivity" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./IntroActivity.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> IntroActivity </td></tr>
 		</table></td></tr>
 		</table>>, URL="./IntroActivity.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.intro.IntroSliderAdapter
-	c944 [label=<<table title="org.osmdroid.intro.IntroSliderAdapter" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./IntroSliderAdapter.html">
+	c958 [label=<<table title="org.osmdroid.intro.IntroSliderAdapter" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./IntroSliderAdapter.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> IntroSliderAdapter </td></tr>
 		</table></td></tr>
 		</table>>, URL="./IntroSliderAdapter.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.intro.LogoFragment
-	c945 [label=<<table title="org.osmdroid.intro.LogoFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./LogoFragment.html">
+	c959 [label=<<table title="org.osmdroid.intro.LogoFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./LogoFragment.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> LogoFragment </td></tr>
 		</table></td></tr>
 		</table>>, URL="./LogoFragment.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.intro.PermissionsFragment
-	c946 [label=<<table title="org.osmdroid.intro.PermissionsFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./PermissionsFragment.html">
+	c960 [label=<<table title="org.osmdroid.intro.PermissionsFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./PermissionsFragment.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> PermissionsFragment </td></tr>
 		</table></td></tr>
 		</table>>, URL="./PermissionsFragment.html", fontname="arial", fontcolor="black", fontsize=10.0];
+	// org.osmdroid.intro.StorageAdapter
+	c961 [label=<<table title="org.osmdroid.intro.StorageAdapter" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./StorageAdapter.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> StorageAdapter </td></tr>
+		</table></td></tr>
+		</table>>, URL="./StorageAdapter.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.intro.StoragePreferenceFragment
-	c947 [label=<<table title="org.osmdroid.intro.StoragePreferenceFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./StoragePreferenceFragment.html">
+	c962 [label=<<table title="org.osmdroid.intro.StoragePreferenceFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./StoragePreferenceFragment.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> StoragePreferenceFragment </td></tr>
 		</table></td></tr>
 		</table>>, URL="./StoragePreferenceFragment.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.intro.TileSourceWarnings
-	c948 [label=<<table title="org.osmdroid.intro.TileSourceWarnings" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./TileSourceWarnings.html">
+	c963 [label=<<table title="org.osmdroid.intro.TileSourceWarnings" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./TileSourceWarnings.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> TileSourceWarnings </td></tr>
 		</table></td></tr>

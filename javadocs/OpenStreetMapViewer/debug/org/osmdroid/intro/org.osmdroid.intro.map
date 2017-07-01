@@ -11,8 +11,10 @@
 <area shape="rect" id="node5" href="./LogoFragment.html" title="&lt;TABLE&gt;" alt="" coords="624,5,748,53"/>
 <area shape="rect" id="node6_5" href="./PermissionsFragment.html" title="org.osmdroid.intro.PermissionsFragment" alt="" coords="783,17,930,42"/>
 <area shape="rect" id="node6" href="./PermissionsFragment.html" title="&lt;TABLE&gt;" alt="" coords="773,5,941,53"/>
-<area shape="rect" id="node7_6" href="./StoragePreferenceFragment.html" title="org.osmdroid.intro.StoragePreferenceFragment" alt="" coords="975,17,1157,42"/>
-<area shape="rect" id="node7" href="./StoragePreferenceFragment.html" title="&lt;TABLE&gt;" alt="" coords="965,5,1167,53"/>
-<area shape="rect" id="node8_7" href="./TileSourceWarnings.html" title="org.osmdroid.intro.TileSourceWarnings" alt="" coords="1202,17,1338,42"/>
-<area shape="rect" id="node8" href="./TileSourceWarnings.html" title="&lt;TABLE&gt;" alt="" coords="1191,5,1349,53"/>
+<area shape="rect" id="node7_6" href="./StorageAdapter.html" title="org.osmdroid.intro.StorageAdapter" alt="" coords="975,17,1085,42"/>
+<area shape="rect" id="node7" href="./StorageAdapter.html" title="&lt;TABLE&gt;" alt="" coords="965,5,1095,53"/>
+<area shape="rect" id="node8_7" href="./StoragePreferenceFragment.html" title="org.osmdroid.intro.StoragePreferenceFragment" alt="" coords="1130,17,1311,42"/>
+<area shape="rect" id="node8" href="./StoragePreferenceFragment.html" title="&lt;TABLE&gt;" alt="" coords="1119,5,1322,53"/>
+<area shape="rect" id="node9_8" href="./TileSourceWarnings.html" title="org.osmdroid.intro.TileSourceWarnings" alt="" coords="1357,17,1493,42"/>
+<area shape="rect" id="node9" href="./TileSourceWarnings.html" title="&lt;TABLE&gt;" alt="" coords="1346,5,1503,53"/>
 </map>

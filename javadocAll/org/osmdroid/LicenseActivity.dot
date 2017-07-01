@@ -10,15 +10,15 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.LicenseActivity
-	c72577 [label=<<table title="org.osmdroid.LicenseActivity" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./LicenseActivity.html">
+	c73175 [label=<<table title="org.osmdroid.LicenseActivity" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./LicenseActivity.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> LicenseActivity </td></tr>
 		</table></td></tr>
 		</table>>, URL="./LicenseActivity.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.LicenseActivity extends Activity
-	c72888:p -> c72577:p [dir=back,arrowtail=empty];
+	c73488:p -> c73175:p [dir=back,arrowtail=empty];
 	// Activity
-	c72888[label=<<table title="Activity" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api//Activity.html">
+	c73488[label=<<table title="Activity" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api//Activity.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> Activity </td></tr>
 		</table></td></tr>

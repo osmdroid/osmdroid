@@ -10,18 +10,18 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.tileprovider.MapTileProviderArray
-	c90920 [label=<<table title="org.osmdroid.tileprovider.MapTileProviderArray" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../tileprovider/MapTileProviderArray.html">
+	c91669 [label=<<table title="org.osmdroid.tileprovider.MapTileProviderArray" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../tileprovider/MapTileProviderArray.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MapTileProviderArray </td></tr>
 		</table></td></tr>
 		</table>>, URL="../tileprovider/MapTileProviderArray.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.mapsforge.MapsForgeTileProvider
-	c91071 [label=<<table title="org.osmdroid.mapsforge.MapsForgeTileProvider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./MapsForgeTileProvider.html">
+	c91821 [label=<<table title="org.osmdroid.mapsforge.MapsForgeTileProvider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./MapsForgeTileProvider.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MapsForgeTileProvider </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MapsForgeTileProvider.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.mapsforge.MapsForgeTileProvider extends org.osmdroid.tileprovider.MapTileProviderArray
-	c90920:p -> c91071:p [dir=back,arrowtail=empty];
+	c91669:p -> c91821:p [dir=back,arrowtail=empty];
 }
 

@@ -10,18 +10,18 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.samplefragments.models.MyMapItem
-	c97043 [label=<<table title="org.osmdroid.samplefragments.models.MyMapItem" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./MyMapItem.html">
+	c97843 [label=<<table title="org.osmdroid.samplefragments.models.MyMapItem" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./MyMapItem.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MyMapItem </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MyMapItem.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.OverlayItem
-	c97223 [label=<<table title="org.osmdroid.views.overlay.OverlayItem" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../views/overlay/OverlayItem.html">
+	c98024 [label=<<table title="org.osmdroid.views.overlay.OverlayItem" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../views/overlay/OverlayItem.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> OverlayItem </td></tr>
 		</table></td></tr>
 		</table>>, URL="../../views/overlay/OverlayItem.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.samplefragments.models.MyMapItem extends org.osmdroid.views.overlay.OverlayItem
-	c97223:p -> c97043:p [dir=back,arrowtail=empty];
+	c98024:p -> c97843:p [dir=back,arrowtail=empty];
 }
 

@@ -10,18 +10,10 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.ExtraSamplesActivity
-	c7020 [label=<<table title="org.osmdroid.ExtraSamplesActivity" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./ExtraSamplesActivity.html">
+	c7125 [label=<<table title="org.osmdroid.ExtraSamplesActivity" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./ExtraSamplesActivity.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> ExtraSamplesActivity </td></tr>
 		</table></td></tr>
 		</table>>, URL="./ExtraSamplesActivity.html", fontname="arial", fontcolor="black", fontsize=10.0];
-	//org.osmdroid.ExtraSamplesActivity extends android.support.v7.app.AppCompatActivity
-	c7131:p -> c7020:p [dir=back,arrowtail=empty];
-	// android.support.v7.app.AppCompatActivity
-	c7131 [label=<<table title="android.support.v7.app.AppCompatActivity" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/android/support/v7/app/AppCompatActivity.html">
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> AppCompatActivity </td></tr>
-		</table></td></tr>
-		</table>>, URL="http://java.sun.com/j2se/1.4.2/docs/api/android/support/v7/app/AppCompatActivity.html", fontname="arial", fontcolor="black", fontsize=10.0];
 }
 

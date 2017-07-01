@@ -10,35 +10,35 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.api.IGeoPoint
-	c58114 [label=<<table title="org.osmdroid.api.IGeoPoint" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./IGeoPoint.html">
+	c58593 [label=<<table title="org.osmdroid.api.IGeoPoint" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./IGeoPoint.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> IGeoPoint </td></tr>
 		</table></td></tr>
 		</table>>, URL="./IGeoPoint.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.util.GeoPoint
-	c58206 [label=<<table title="org.osmdroid.util.GeoPoint" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../util/GeoPoint.html">
+	c58686 [label=<<table title="org.osmdroid.util.GeoPoint" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../util/GeoPoint.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> GeoPoint </td></tr>
 		</table></td></tr>
 		</table>>, URL="../util/GeoPoint.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.google.wrapper.GeoPoint
-	c58309 [label=<<table title="org.osmdroid.google.wrapper.GeoPoint" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../google/wrapper/GeoPoint.html">
+	c58789 [label=<<table title="org.osmdroid.google.wrapper.GeoPoint" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../google/wrapper/GeoPoint.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> GeoPoint </td></tr>
 		</table></td></tr>
 		</table>>, URL="../google/wrapper/GeoPoint.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.google.wrapper.v2.GeoPoint
-	c58314 [label=<<table title="org.osmdroid.google.wrapper.v2.GeoPoint" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../google/wrapper/v2/GeoPoint.html">
+	c58794 [label=<<table title="org.osmdroid.google.wrapper.v2.GeoPoint" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../google/wrapper/v2/GeoPoint.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> GeoPoint </td></tr>
 		</table></td></tr>
 		</table>>, URL="../google/wrapper/v2/GeoPoint.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.util.GeoPoint implements org.osmdroid.api.IGeoPoint
-	c58114:p -> c58206:p [dir=back,arrowtail=empty,style=dashed];
+	c58593:p -> c58686:p [dir=back,arrowtail=empty,style=dashed];
 	//org.osmdroid.google.wrapper.GeoPoint implements org.osmdroid.api.IGeoPoint
-	c58114:p -> c58309:p [dir=back,arrowtail=empty,style=dashed];
+	c58593:p -> c58789:p [dir=back,arrowtail=empty,style=dashed];
 	//org.osmdroid.google.wrapper.v2.GeoPoint implements org.osmdroid.api.IGeoPoint
-	c58114:p -> c58314:p [dir=back,arrowtail=empty,style=dashed];
+	c58593:p -> c58794:p [dir=back,arrowtail=empty,style=dashed];
 }
 

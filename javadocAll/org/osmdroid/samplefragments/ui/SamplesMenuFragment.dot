@@ -10,15 +10,15 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.samplefragments.ui.SamplesMenuFragment
-	c133844 [label=<<table title="org.osmdroid.samplefragments.ui.SamplesMenuFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./SamplesMenuFragment.html">
+	c135314 [label=<<table title="org.osmdroid.samplefragments.ui.SamplesMenuFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./SamplesMenuFragment.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SamplesMenuFragment </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SamplesMenuFragment.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.samplefragments.ui.SamplesMenuFragment extends Fragment
-	c134065:p -> c133844:p [dir=back,arrowtail=empty];
+	c135536:p -> c135314:p [dir=back,arrowtail=empty];
 	// Fragment
-	c134065[label=<<table title="Fragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api//Fragment.html">
+	c135536[label=<<table title="Fragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api//Fragment.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> Fragment </td></tr>
 		</table></td></tr>

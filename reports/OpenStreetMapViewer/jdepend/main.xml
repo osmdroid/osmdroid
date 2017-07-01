@@ -10236,10 +10236,10 @@
                 <ConcreteClasses>2</ConcreteClasses>
                 <AbstractClasses>1</AbstractClasses>
                 <Ca>19</Ca>
-                <Ce>9</Ce>
+                <Ce>10</Ce>
                 <A>0.33</A>
-                <I>0.32</I>
-                <D>0.35</D>
+                <I>0.34</I>
+                <D>0.32</D>
                 <V>1</V>
             </Stats>
 
@@ -10263,6 +10263,7 @@
                 <Package>android.os</Package>
                 <Package>java.io</Package>
                 <Package>java.lang</Package>
+                <Package>java.net</Package>
                 <Package>java.text</Package>
                 <Package>java.util</Package>
                 <Package>org.osmdroid.tileprovider.constants</Package>
@@ -10383,10 +10384,10 @@
                 <ConcreteClasses>2</ConcreteClasses>
                 <AbstractClasses>0</AbstractClasses>
                 <Ca>1</Ca>
-                <Ce>12</Ce>
+                <Ce>13</Ce>
                 <A>0</A>
-                <I>0.92</I>
-                <D>0.08</D>
+                <I>0.93</I>
+                <D>0.07</D>
                 <V>1</V>
             </Stats>
 
@@ -10414,6 +10415,7 @@
                 <Package>org.osmdroid</Package>
                 <Package>org.osmdroid.debug.model</Package>
                 <Package>org.osmdroid.debug.util</Package>
+                <Package>org.osmdroid.intro</Package>
                 <Package>org.osmdroid.tileprovider.modules</Package>
             </DependsUpon>
 
@@ -10672,14 +10674,14 @@
 
         <Package name="org.osmdroid.intro">
             <Stats>
-                <TotalClasses>13</TotalClasses>
-                <ConcreteClasses>13</ConcreteClasses>
+                <TotalClasses>14</TotalClasses>
+                <ConcreteClasses>14</ConcreteClasses>
                 <AbstractClasses>0</AbstractClasses>
-                <Ca>1</Ca>
-                <Ce>20</Ce>
+                <Ca>2</Ca>
+                <Ce>22</Ce>
                 <A>0</A>
-                <I>0.95</I>
-                <D>0.05</D>
+                <I>0.92</I>
+                <D>0.08</D>
                 <V>1</V>
             </Stats>
 
@@ -10704,6 +10706,9 @@
                 </Class>
                 <Class sourceFile="PermissionsFragment.java">
                     org.osmdroid.intro.PermissionsFragment
+                </Class>
+                <Class sourceFile="StorageAdapter.java">
+                    org.osmdroid.intro.StorageAdapter
                 </Class>
                 <Class sourceFile="StoragePreferenceFragment.java">
                     org.osmdroid.intro.StoragePreferenceFragment
@@ -10745,14 +10750,17 @@
                 <Package>android.widget</Package>
                 <Package>java.io</Package>
                 <Package>java.lang</Package>
+                <Package>java.text</Package>
                 <Package>java.util</Package>
                 <Package>org.osmdroid</Package>
                 <Package>org.osmdroid.config</Package>
+                <Package>org.osmdroid.tileprovider.modules</Package>
                 <Package>org.osmdroid.tileprovider.util</Package>
             </DependsUpon>
 
             <UsedBy>
                 <Package>org.osmdroid</Package>
+                <Package>org.osmdroid.debug.browser</Package>
             </UsedBy>
         </Package>
 
@@ -11482,11 +11490,11 @@
 
         <Package name="org.osmdroid.samplefragments.layouts">
             <Stats>
-                <TotalClasses>13</TotalClasses>
-                <ConcreteClasses>13</ConcreteClasses>
+                <TotalClasses>14</TotalClasses>
+                <ConcreteClasses>14</ConcreteClasses>
                 <AbstractClasses>0</AbstractClasses>
                 <Ca>1</Ca>
-                <Ce>22</Ce>
+                <Ce>24</Ce>
                 <A>0</A>
                 <I>0.96</I>
                 <D>0.04</D>
@@ -11533,6 +11541,9 @@
                 <Class sourceFile="SampleSplitScreen.java">
                     org.osmdroid.samplefragments.layouts.SampleSplitScreen
                 </Class>
+                <Class sourceFile="SampleSplitScreen2.java">
+                    org.osmdroid.samplefragments.layouts.SampleSplitScreen2
+                </Class>
                 <Class sourceFile="ScaleBarOnBottom.java">
                     org.osmdroid.samplefragments.layouts.ScaleBarOnBottom
                 </Class>
@@ -11542,6 +11553,7 @@
                 <Package>android.app</Package>
                 <Package>android.content</Package>
                 <Package>android.content.res</Package>
+                <Package>android.graphics</Package>
                 <Package>android.os</Package>
                 <Package>android.support.v4.app</Package>
                 <Package>android.support.v4.view</Package>
@@ -11549,6 +11561,7 @@
                 <Package>android.util</Package>
                 <Package>android.view</Package>
                 <Package>java.lang</Package>
+                <Package>java.util</Package>
                 <Package>junit.framework</Package>
                 <Package>org.osmdroid</Package>
                 <Package>org.osmdroid.api</Package>
@@ -12224,23 +12237,26 @@
 
         <Package name="org.osmdroid.tileprovider.cachemanager">
             <Stats>
-                <TotalClasses>6</TotalClasses>
-                <ConcreteClasses>4</ConcreteClasses>
-                <AbstractClasses>2</AbstractClasses>
+                <TotalClasses>10</TotalClasses>
+                <ConcreteClasses>7</ConcreteClasses>
+                <AbstractClasses>3</AbstractClasses>
                 <Ca>2</Ca>
                 <Ce>22</Ce>
-                <A>0.33</A>
+                <A>0.3</A>
                 <I>0.92</I>
-                <D>0.25</D>
+                <D>0.22</D>
                 <V>1</V>
             </Stats>
 
             <AbstractClasses>
                 <Class sourceFile="CacheManager.java">
+                    org.osmdroid.tileprovider.cachemanager.CacheManager$CacheManagerAction
+                </Class>
+                <Class sourceFile="CacheManager.java">
                     org.osmdroid.tileprovider.cachemanager.CacheManager$CacheManagerCallback
                 </Class>
                 <Class sourceFile="CacheManager.java">
-                    org.osmdroid.tileprovider.cachemanager.CacheManager$CacheManagerTask
+                    org.osmdroid.tileprovider.cachemanager.CacheManager$CacheManagerDialog
                 </Class>
             </AbstractClasses>
 
@@ -12249,13 +12265,22 @@
                     org.osmdroid.tileprovider.cachemanager.CacheManager
                 </Class>
                 <Class sourceFile="CacheManager.java">
-                    org.osmdroid.tileprovider.cachemanager.CacheManager$CacheManagerTask$1
+                    org.osmdroid.tileprovider.cachemanager.CacheManager$1
                 </Class>
                 <Class sourceFile="CacheManager.java">
-                    org.osmdroid.tileprovider.cachemanager.CacheManager$CleaningTask
+                    org.osmdroid.tileprovider.cachemanager.CacheManager$2
                 </Class>
                 <Class sourceFile="CacheManager.java">
-                    org.osmdroid.tileprovider.cachemanager.CacheManager$DownloadingTask
+                    org.osmdroid.tileprovider.cachemanager.CacheManager$3
+                </Class>
+                <Class sourceFile="CacheManager.java">
+                    org.osmdroid.tileprovider.cachemanager.CacheManager$4
+                </Class>
+                <Class sourceFile="CacheManager.java">
+                    org.osmdroid.tileprovider.cachemanager.CacheManager$CacheManagerDialog$1
+                </Class>
+                <Class sourceFile="CacheManager.java">
+                    org.osmdroid.tileprovider.cachemanager.CacheManager$CacheManagerTask
                 </Class>
             </ConcreteClasses>
 
@@ -12332,11 +12357,11 @@
                 <TotalClasses>34</TotalClasses>
                 <ConcreteClasses>28</ConcreteClasses>
                 <AbstractClasses>6</AbstractClasses>
-                <Ca>13</Ca>
+                <Ca>14</Ca>
                 <Ce>27</Ce>
                 <A>0.18</A>
-                <I>0.68</I>
-                <D>0.15</D>
+                <I>0.66</I>
+                <D>0.16</D>
                 <V>1</V>
             </Stats>
 
@@ -12486,6 +12511,7 @@
                 <Package>org.osmdroid.debug.browser</Package>
                 <Package>org.osmdroid.debug.model</Package>
                 <Package>org.osmdroid.gpkg</Package>
+                <Package>org.osmdroid.intro</Package>
                 <Package>org.osmdroid.mapsforge</Package>
                 <Package>org.osmdroid.samplefragments.cache</Package>
                 <Package>org.osmdroid.samplefragments.tileproviders</Package>
@@ -12497,14 +12523,14 @@
 
         <Package name="org.osmdroid.tileprovider.tilesource">
             <Stats>
-                <TotalClasses>16</TotalClasses>
-                <ConcreteClasses>11</ConcreteClasses>
+                <TotalClasses>17</TotalClasses>
+                <ConcreteClasses>12</ConcreteClasses>
                 <AbstractClasses>5</AbstractClasses>
                 <Ca>17</Ca>
                 <Ce>11</Ce>
-                <A>0.31</A>
+                <A>0.29</A>
                 <I>0.39</I>
-                <D>0.29</D>
+                <D>0.31</D>
                 <V>1</V>
             </Stats>
 
@@ -12547,6 +12573,9 @@
                 </Class>
                 <Class sourceFile="QuadTreeTileSource.java">
                     org.osmdroid.tileprovider.tilesource.QuadTreeTileSource
+                </Class>
+                <Class sourceFile="ThunderforestTileSource.java">
+                    org.osmdroid.tileprovider.tilesource.ThunderforestTileSource
                 </Class>
                 <Class sourceFile="TileSourceFactory.java">
                     org.osmdroid.tileprovider.tilesource.TileSourceFactory
@@ -14224,13 +14253,11 @@
         </Package>
 
         <Package Name="org.osmdroid.tileprovider.cachemanager">
-            <Package>org.osmdroid.views</Package>
-            <Package>org.osmdroid.views.util.constants</Package>
-            <Package>org.osmdroid.config</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
             <Package>org.osmdroid.tileprovider.tilesource</Package>
             <Package>org.osmdroid.tileprovider</Package>
             <Package>org.osmdroid.config</Package>
+            <Package>org.osmdroid.tileprovider.modules</Package>
+            <Package>org.osmdroid.tileprovider.tilesource</Package>
         </Package>
 
         <Package Name="org.osmdroid.tileprovider.constants">

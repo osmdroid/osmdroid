@@ -10,19 +10,19 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.samplefragments.models.MyMapItem
-	c2589 [label=<<table title="org.osmdroid.samplefragments.models.MyMapItem" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MyMapItem.html">
+	c2629 [label=<<table title="org.osmdroid.samplefragments.models.MyMapItem" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MyMapItem.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MyMapItem </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MyMapItem.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.models.SampleItemizedOverlay
-	c2590 [label=<<table title="org.osmdroid.samplefragments.models.SampleItemizedOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleItemizedOverlay.html">
+	c2630 [label=<<table title="org.osmdroid.samplefragments.models.SampleItemizedOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleItemizedOverlay.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleItemizedOverlay </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SampleItemizedOverlay.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.models.SampleOverlayItem
-	c2591 [label=<<table title="org.osmdroid.samplefragments.models.SampleOverlayItem" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleOverlayItem.html">
+	c2631 [label=<<table title="org.osmdroid.samplefragments.models.SampleOverlayItem" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleOverlayItem.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleOverlayItem </td></tr>
 		</table></td></tr>

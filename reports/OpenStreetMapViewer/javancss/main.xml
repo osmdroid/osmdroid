@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <javancss>
-  <date>2017-01-16</date>
-  <time>12:06:21</time>
+  <date>2017-07-01</date>
+  <time>14:45:54</time>
   <packages>
     <package>
       <name>.</name>
@@ -17,10 +17,10 @@
       <name>org.osmdroid</name>
       <classes>9</classes>
       <functions>44</functions>
-      <ncss>849</ncss>
+      <ncss>875</ncss>
       <javadocs>18</javadocs>
       <javadoc_lines>93</javadoc_lines>
-      <single_comment_lines>81</single_comment_lines>
+      <single_comment_lines>82</single_comment_lines>
       <multi_comment_lines>0</multi_comment_lines>
     </package>
     <package>
@@ -57,7 +57,7 @@
       <name>org.osmdroid.debug.browser</name>
       <classes>2</classes>
       <functions>7</functions>
-      <ncss>81</ncss>
+      <ncss>83</ncss>
       <javadocs>2</javadocs>
       <javadoc_lines>15</javadoc_lines>
       <single_comment_lines>4</single_comment_lines>
@@ -76,8 +76,8 @@
     <package>
       <name>org.osmdroid.debug.util</name>
       <classes>2</classes>
-      <functions>41</functions>
-      <ncss>365</ncss>
+      <functions>40</functions>
+      <ncss>359</ncss>
       <javadocs>37</javadocs>
       <javadoc_lines>234</javadoc_lines>
       <single_comment_lines>2</single_comment_lines>
@@ -85,12 +85,12 @@
     </package>
     <package>
       <name>org.osmdroid.intro</name>
-      <classes>8</classes>
-      <functions>29</functions>
-      <ncss>348</ncss>
-      <javadocs>8</javadocs>
-      <javadoc_lines>38</javadoc_lines>
-      <single_comment_lines>19</single_comment_lines>
+      <classes>9</classes>
+      <functions>35</functions>
+      <ncss>455</ncss>
+      <javadocs>9</javadocs>
+      <javadoc_lines>45</javadoc_lines>
+      <single_comment_lines>23</single_comment_lines>
       <multi_comment_lines>0</multi_comment_lines>
     </package>
     <package>
@@ -116,18 +116,18 @@
     <package>
       <name>org.osmdroid.samplefragments.cache</name>
       <classes>8</classes>
-      <functions>66</functions>
-      <ncss>707</ncss>
+      <functions>67</functions>
+      <ncss>711</ncss>
       <javadocs>12</javadocs>
-      <javadoc_lines>51</javadoc_lines>
-      <single_comment_lines>92</single_comment_lines>
+      <javadoc_lines>52</javadoc_lines>
+      <single_comment_lines>100</single_comment_lines>
       <multi_comment_lines>13</multi_comment_lines>
     </package>
     <package>
       <name>org.osmdroid.samplefragments.data</name>
       <classes>15</classes>
-      <functions>78</functions>
-      <ncss>1164</ncss>
+      <functions>80</functions>
+      <ncss>1168</ncss>
       <javadocs>30</javadocs>
       <javadoc_lines>197</javadoc_lines>
       <single_comment_lines>211</single_comment_lines>
@@ -165,11 +165,11 @@
     </package>
     <package>
       <name>org.osmdroid.samplefragments.layouts</name>
-      <classes>7</classes>
-      <functions>30</functions>
-      <ncss>262</ncss>
-      <javadocs>6</javadocs>
-      <javadoc_lines>33</javadoc_lines>
+      <classes>8</classes>
+      <functions>33</functions>
+      <ncss>305</ncss>
+      <javadocs>7</javadocs>
+      <javadoc_lines>37</javadoc_lines>
       <single_comment_lines>22</single_comment_lines>
       <multi_comment_lines>3</multi_comment_lines>
     </package>
@@ -254,20 +254,20 @@
       <multi_comment_lines>22</multi_comment_lines>
     </package>
     <total>
-      <classes>122</classes>
-      <functions>588</functions>
-      <ncss>6994</ncss>
-      <javadocs>196</javadocs>
-      <javadoc_lines>1056</javadoc_lines>
-      <single_comment_lines>832</single_comment_lines>
+      <classes>124</classes>
+      <functions>599</functions>
+      <ncss>7174</ncss>
+      <javadocs>198</javadocs>
+      <javadoc_lines>1068</javadoc_lines>
+      <single_comment_lines>845</single_comment_lines>
       <multi_comment_lines>226</multi_comment_lines>
     </total>
     <table>
       <tr><td>Packages</td><td>Classes</td><td>Functions</td><td>NCSS</td><td>Javadocs</td><td>per</td></tr>
-      <tr><td>25.00</td><td>122.00</td><td>588.00</td><td>6,994.00</td><td>196.00</td><td>Project</td></tr>
-      <tr><td></td><td>4.88</td><td>23.52</td><td>279.76</td><td>7.84</td><td>Package</td></tr>
-      <tr><td></td><td></td><td>4.82</td><td>57.33</td><td>1.61</td><td>Class</td></tr>
-      <tr><td></td><td></td><td></td><td>11.89</td><td>0.33</td><td>Function</td></tr>
+      <tr><td>25.00</td><td>124.00</td><td>599.00</td><td>7,174.00</td><td>198.00</td><td>Project</td></tr>
+      <tr><td></td><td>4.96</td><td>23.96</td><td>286.96</td><td>7.92</td><td>Package</td></tr>
+      <tr><td></td><td></td><td>4.83</td><td>57.85</td><td>1.60</td><td>Class</td></tr>
+      <tr><td></td><td></td><td></td><td>11.98</td><td>0.33</td><td>Function</td></tr>
     </table>
   </packages>
 
@@ -334,12 +334,12 @@
     </object>
     <object>
       <name>org.osmdroid.PreferenceActivity</name>
-      <ncss>237</ncss>
+      <ncss>261</ncss>
       <functions>8</functions>
       <classes>6</classes>
       <javadocs>1</javadocs>
       <javadocs_lines>8</javadocs_lines>
-      <single_comment_lines>11</single_comment_lines>
+      <single_comment_lines>12</single_comment_lines>
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <object>
@@ -534,8 +534,8 @@
     </object>
     <object>
       <name>org.osmdroid.debug.util.FileDateUtil</name>
-      <ncss>18</ncss>
-      <functions>4</functions>
+      <ncss>12</ncss>
+      <functions>3</functions>
       <classes>0</classes>
       <javadocs>1</javadocs>
       <javadocs_lines>5</javadocs_lines>
@@ -574,12 +574,12 @@
     </object>
     <object>
       <name>org.osmdroid.intro.IntroActivity</name>
-      <ncss>55</ncss>
+      <ncss>58</ncss>
       <functions>5</functions>
       <classes>0</classes>
       <javadocs>1</javadocs>
-      <javadocs_lines>5</javadocs_lines>
-      <single_comment_lines>3</single_comment_lines>
+      <javadocs_lines>7</javadocs_lines>
+      <single_comment_lines>4</single_comment_lines>
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <object>
@@ -613,13 +613,23 @@
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <object>
+      <name>org.osmdroid.intro.StorageAdapter</name>
+      <ncss>27</ncss>
+      <functions>5</functions>
+      <classes>0</classes>
+      <javadocs>1</javadocs>
+      <javadocs_lines>5</javadocs_lines>
+      <single_comment_lines>1</single_comment_lines>
+      <implementation_comment_lines>0</implementation_comment_lines>
+    </object>
+    <object>
       <name>org.osmdroid.intro.StoragePreferenceFragment</name>
-      <ncss>80</ncss>
-      <functions>6</functions>
+      <ncss>144</ncss>
+      <functions>7</functions>
       <classes>5</classes>
       <javadocs>1</javadocs>
       <javadocs_lines>5</javadocs_lines>
-      <single_comment_lines>5</single_comment_lines>
+      <single_comment_lines>7</single_comment_lines>
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <object>
@@ -724,12 +734,12 @@
     </object>
     <object>
       <name>org.osmdroid.samplefragments.cache.SampleAlternateCacheDir</name>
-      <ncss>7</ncss>
-      <functions>2</functions>
+      <ncss>10</ncss>
+      <functions>3</functions>
       <classes>0</classes>
       <javadocs>1</javadocs>
-      <javadocs_lines>4</javadocs_lines>
-      <single_comment_lines>5</single_comment_lines>
+      <javadocs_lines>5</javadocs_lines>
+      <single_comment_lines>13</single_comment_lines>
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <object>
@@ -814,8 +824,8 @@
     </object>
     <object>
       <name>org.osmdroid.samplefragments.data.IISTrackerBase</name>
-      <ncss>110</ncss>
-      <functions>6</functions>
+      <ncss>114</ncss>
+      <functions>8</functions>
       <classes>1</classes>
       <javadocs>2</javadocs>
       <javadocs_lines>10</javadocs_lines>
@@ -1090,6 +1100,16 @@
       <javadocs>1</javadocs>
       <javadocs_lines>4</javadocs_lines>
       <single_comment_lines>2</single_comment_lines>
+      <implementation_comment_lines>0</implementation_comment_lines>
+    </object>
+    <object>
+      <name>org.osmdroid.samplefragments.layouts.SampleSplitScreen2</name>
+      <ncss>24</ncss>
+      <functions>3</functions>
+      <classes>0</classes>
+      <javadocs>1</javadocs>
+      <javadocs_lines>4</javadocs_lines>
+      <single_comment_lines>0</single_comment_lines>
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <object>
@@ -1493,15 +1513,15 @@
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <averages>
-      <ncss>44.67</ncss>
-      <functions>4.82</functions>
-      <classes>0.96</classes>
-      <javadocs>1.61</javadocs>
-      <javadocs_lines>8.66</javadocs_lines>
+      <ncss>45.10</ncss>
+      <functions>4.83</functions>
+      <classes>0.94</classes>
+      <javadocs>1.60</javadocs>
+      <javadocs_lines>8.61</javadocs_lines>
       <single_comment_lines>6.75</single_comment_lines>
-      <implementation_comment_lines>1.29</implementation_comment_lines>
+      <implementation_comment_lines>1.27</implementation_comment_lines>
     </averages>
-    <ncss>6,994.00</ncss>
+    <ncss>7,174.00</ncss>
   </objects>
 
   <functions>
@@ -1717,8 +1737,8 @@
     </function>
     <function>
       <name>org.osmdroid.PreferenceActivity.showPickCacheFromList(TextView,String)</name>
-      <ncss>21</ncss>
-      <ccn>3</ccn>
+      <ncss>45</ncss>
+      <ccn>13</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
@@ -2442,12 +2462,6 @@
       <javadocs>0</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.debug.util.FileDateUtil.readableFileSize(long)</name>
-      <ncss>6</ncss>
-      <ccn>3</ccn>
-      <javadocs>0</javadocs>
-    </function>
-    <function>
       <name>org.osmdroid.debug.util.FileDateUtil.getModifiedDate(long)</name>
       <ncss>2</ncss>
       <ccn>1</ccn>
@@ -2755,8 +2769,8 @@
     </function>
     <function>
       <name>org.osmdroid.intro.IntroActivity.onPageScrolled(int,float,int)</name>
-      <ncss>11</ncss>
-      <ccn>3</ccn>
+      <ncss>14</ncss>
+      <ccn>4</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
@@ -2838,6 +2852,36 @@
       <javadocs>0</javadocs>
     </function>
     <function>
+      <name>org.osmdroid.intro.StorageAdapter.StorageAdapter(Context,StorageUtils.StorageInfo)</name>
+      <ncss>3</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.intro.StorageAdapter.getCount()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.intro.StorageAdapter.getItem(int)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.intro.StorageAdapter.readableFileSize(long)</name>
+      <ncss>6</ncss>
+      <ccn>3</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.intro.StorageAdapter.getView(int,View,ViewGroup)</name>
+      <ncss>12</ncss>
+      <ccn>3</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
       <name>org.osmdroid.intro.StoragePreferenceFragment.onCreate(Bundle)</name>
       <ncss>2</ncss>
       <ccn>1</ccn>
@@ -2845,13 +2889,19 @@
     </function>
     <function>
       <name>org.osmdroid.intro.StoragePreferenceFragment.onCreateView(LayoutInflater,ViewGroup,Bundle)</name>
-      <ncss>10</ncss>
+      <ncss>15</ncss>
       <ccn>1</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
       <name>org.osmdroid.intro.StoragePreferenceFragment.onResume()</name>
-      <ncss>5</ncss>
+      <ncss>15</ncss>
+      <ccn>4</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.intro.StoragePreferenceFragment.updateStorage(Context)</name>
+      <ncss>2</ncss>
       <ccn>1</ccn>
       <javadocs>0</javadocs>
     </function>
@@ -2863,8 +2913,8 @@
     </function>
     <function>
       <name>org.osmdroid.intro.StoragePreferenceFragment.DialogInterface.OnClickListener$1.onClick(DialogInterface,int)</name>
-      <ncss>8</ncss>
-      <ccn>2</ccn>
+      <ncss>19</ncss>
+      <ccn>5</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
@@ -2875,8 +2925,8 @@
     </function>
     <function>
       <name>org.osmdroid.intro.StoragePreferenceFragment.showPickCacheFromList()</name>
-      <ncss>21</ncss>
-      <ccn>3</ccn>
+      <ncss>57</ncss>
+      <ccn>13</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
@@ -2899,8 +2949,8 @@
     </function>
     <function>
       <name>org.osmdroid.intro.StoragePreferenceFragment.DialogInterface.OnClickListener$1.onClick(DialogInterface,int)</name>
-      <ncss>3</ncss>
-      <ccn>2</ccn>
+      <ncss>14</ncss>
+      <ccn>5</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
@@ -2911,7 +2961,7 @@
     </function>
     <function>
       <name>org.osmdroid.intro.StoragePreferenceFragment.showManualEntry()</name>
-      <ncss>31</ncss>
+      <ncss>42</ncss>
       <ccn>1</ccn>
       <javadocs>0</javadocs>
     </function>
@@ -3210,6 +3260,12 @@
       <javadocs>0</javadocs>
     </function>
     <function>
+      <name>org.osmdroid.samplefragments.cache.SampleAlternateCacheDir.skipOnCiTests()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
       <name>org.osmdroid.samplefragments.cache.SampleAlternateCacheDir.getSampleTitle()</name>
       <ncss>2</ncss>
       <ccn>1</ccn>
@@ -3217,7 +3273,7 @@
     </function>
     <function>
       <name>org.osmdroid.samplefragments.cache.SampleAlternateCacheDir.onCreateView(LayoutInflater,ViewGroup,Bundle)</name>
-      <ncss>4</ncss>
+      <ncss>5</ncss>
       <ccn>1</ccn>
       <javadocs>0</javadocs>
     </function>
@@ -3900,6 +3956,18 @@
       <javadocs>0</javadocs>
     </function>
     <function>
+      <name>org.osmdroid.samplefragments.data.IISTrackerBase.addOverlays()</name>
+      <ncss>11</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.data.IISTrackerBase.onResume()</name>
+      <ncss>3</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
       <name>org.osmdroid.samplefragments.data.IISTrackerBase.TimerTask$1.Runnable$1.run()</name>
       <ncss>41</ncss>
       <ccn>11</ccn>
@@ -3912,8 +3980,8 @@
       <javadocs>0</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.samplefragments.data.IISTrackerBase.addOverlays()</name>
-      <ncss>63</ncss>
+      <name>org.osmdroid.samplefragments.data.IISTrackerBase.startTask()</name>
+      <ncss>53</ncss>
       <ccn>1</ccn>
       <javadocs>0</javadocs>
     </function>
@@ -4863,6 +4931,24 @@
       <name>org.osmdroid.samplefragments.layouts.SampleSplitScreen.onZoom(ZoomEvent)</name>
       <ncss>8</ncss>
       <ccn>3</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.layouts.SampleSplitScreen2.getSampleTitle()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.layouts.SampleSplitScreen2.onCreateView(LayoutInflater,ViewGroup,Bundle)</name>
+      <ncss>5</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.layouts.SampleSplitScreen2.addOverlays()</name>
+      <ncss>15</ncss>
+      <ccn>1</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
@@ -5964,11 +6050,11 @@
       <javadocs>1</javadocs>
     </function>
     <function_averages>
-      <ncss>7.65</ncss>
-      <ccn>2.04</ccn>
+      <ncss>7.75</ncss>
+      <ccn>2.07</ccn>
       <javadocs>0.10</javadocs>
     </function_averages>
-    <ncss>6,994.00</ncss>
+    <ncss>7,174.00</ncss>
   </functions>
 </javancss>
 

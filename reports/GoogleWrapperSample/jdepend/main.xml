@@ -31054,10 +31054,10 @@
                 <ConcreteClasses>2</ConcreteClasses>
                 <AbstractClasses>1</AbstractClasses>
                 <Ca>13</Ca>
-                <Ce>9</Ce>
+                <Ce>10</Ce>
                 <A>0.33</A>
-                <I>0.41</I>
-                <D>0.26</D>
+                <I>0.43</I>
+                <D>0.23</D>
                 <V>1</V>
             </Stats>
 
@@ -31081,6 +31081,7 @@
                 <Package>android.os</Package>
                 <Package>java.io</Package>
                 <Package>java.lang</Package>
+                <Package>java.net</Package>
                 <Package>java.text</Package>
                 <Package>java.util</Package>
                 <Package>org.osmdroid.tileprovider.constants</Package>
@@ -31691,23 +31692,26 @@
 
         <Package name="org.osmdroid.tileprovider.cachemanager">
             <Stats>
-                <TotalClasses>6</TotalClasses>
-                <ConcreteClasses>4</ConcreteClasses>
-                <AbstractClasses>2</AbstractClasses>
+                <TotalClasses>10</TotalClasses>
+                <ConcreteClasses>7</ConcreteClasses>
+                <AbstractClasses>3</AbstractClasses>
                 <Ca>0</Ca>
                 <Ce>22</Ce>
-                <A>0.33</A>
+                <A>0.3</A>
                 <I>1</I>
-                <D>0.33</D>
+                <D>0.3</D>
                 <V>1</V>
             </Stats>
 
             <AbstractClasses>
                 <Class sourceFile="CacheManager.java">
+                    org.osmdroid.tileprovider.cachemanager.CacheManager$CacheManagerAction
+                </Class>
+                <Class sourceFile="CacheManager.java">
                     org.osmdroid.tileprovider.cachemanager.CacheManager$CacheManagerCallback
                 </Class>
                 <Class sourceFile="CacheManager.java">
-                    org.osmdroid.tileprovider.cachemanager.CacheManager$CacheManagerTask
+                    org.osmdroid.tileprovider.cachemanager.CacheManager$CacheManagerDialog
                 </Class>
             </AbstractClasses>
 
@@ -31716,13 +31720,22 @@
                     org.osmdroid.tileprovider.cachemanager.CacheManager
                 </Class>
                 <Class sourceFile="CacheManager.java">
-                    org.osmdroid.tileprovider.cachemanager.CacheManager$CacheManagerTask$1
+                    org.osmdroid.tileprovider.cachemanager.CacheManager$1
                 </Class>
                 <Class sourceFile="CacheManager.java">
-                    org.osmdroid.tileprovider.cachemanager.CacheManager$CleaningTask
+                    org.osmdroid.tileprovider.cachemanager.CacheManager$2
                 </Class>
                 <Class sourceFile="CacheManager.java">
-                    org.osmdroid.tileprovider.cachemanager.CacheManager$DownloadingTask
+                    org.osmdroid.tileprovider.cachemanager.CacheManager$3
+                </Class>
+                <Class sourceFile="CacheManager.java">
+                    org.osmdroid.tileprovider.cachemanager.CacheManager$4
+                </Class>
+                <Class sourceFile="CacheManager.java">
+                    org.osmdroid.tileprovider.cachemanager.CacheManager$CacheManagerDialog$1
+                </Class>
+                <Class sourceFile="CacheManager.java">
+                    org.osmdroid.tileprovider.cachemanager.CacheManager$CacheManagerTask
                 </Class>
             </ConcreteClasses>
 
@@ -31953,14 +31966,14 @@
 
         <Package name="org.osmdroid.tileprovider.tilesource">
             <Stats>
-                <TotalClasses>16</TotalClasses>
-                <ConcreteClasses>11</ConcreteClasses>
+                <TotalClasses>17</TotalClasses>
+                <ConcreteClasses>12</ConcreteClasses>
                 <AbstractClasses>5</AbstractClasses>
                 <Ca>7</Ca>
                 <Ce>11</Ce>
-                <A>0.31</A>
+                <A>0.29</A>
                 <I>0.61</I>
-                <D>0.08</D>
+                <D>0.09</D>
                 <V>1</V>
             </Stats>
 
@@ -32003,6 +32016,9 @@
                 </Class>
                 <Class sourceFile="QuadTreeTileSource.java">
                     org.osmdroid.tileprovider.tilesource.QuadTreeTileSource
+                </Class>
+                <Class sourceFile="ThunderforestTileSource.java">
+                    org.osmdroid.tileprovider.tilesource.ThunderforestTileSource
                 </Class>
                 <Class sourceFile="TileSourceFactory.java">
                     org.osmdroid.tileprovider.tilesource.TileSourceFactory
@@ -34230,13 +34246,11 @@
         </Package>
 
         <Package Name="org.osmdroid.tileprovider.cachemanager">
-            <Package>org.osmdroid.views</Package>
-            <Package>org.osmdroid.views.util.constants</Package>
-            <Package>org.osmdroid.config</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
             <Package>org.osmdroid.tileprovider.tilesource</Package>
             <Package>org.osmdroid.tileprovider</Package>
             <Package>org.osmdroid.config</Package>
+            <Package>org.osmdroid.tileprovider.modules</Package>
+            <Package>org.osmdroid.tileprovider.tilesource</Package>
         </Package>
 
         <Package Name="org.osmdroid.tileprovider.constants">

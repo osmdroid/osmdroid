@@ -10,24 +10,24 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.constants.OpenStreetMapConstants
-	c142840 [label=<<table title="org.osmdroid.constants.OpenStreetMapConstants" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./constants/OpenStreetMapConstants.html">
+	c144383 [label=<<table title="org.osmdroid.constants.OpenStreetMapConstants" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./constants/OpenStreetMapConstants.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> OpenStreetMapConstants </td></tr>
 		</table></td></tr>
 		</table>>, URL="./constants/OpenStreetMapConstants.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.StarterMapFragment
-	c142957 [label=<<table title="org.osmdroid.StarterMapFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./StarterMapFragment.html">
+	c144502 [label=<<table title="org.osmdroid.StarterMapFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./StarterMapFragment.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> StarterMapFragment </td></tr>
 		</table></td></tr>
 		</table>>, URL="./StarterMapFragment.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.StarterMapFragment extends Fragment
-	c143171:p -> c142957:p [dir=back,arrowtail=empty];
+	c144717:p -> c144502:p [dir=back,arrowtail=empty];
 	//org.osmdroid.StarterMapFragment implements org.osmdroid.constants.OpenStreetMapConstants
-	c142840:p -> c142957:p [dir=back,arrowtail=empty,style=dashed];
+	c144383:p -> c144502:p [dir=back,arrowtail=empty,style=dashed];
 	// Fragment
-	c143171[label=<<table title="Fragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api//Fragment.html">
+	c144717[label=<<table title="Fragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api//Fragment.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> Fragment </td></tr>
 		</table></td></tr>

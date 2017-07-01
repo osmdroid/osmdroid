@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <javancss>
-  <date>2017-01-16</date>
-  <time>12:07:46</time>
+  <date>2017-07-01</date>
+  <time>14:47:31</time>
   <packages>
     <package>
       <name>microsoft.mappoint</name>
@@ -46,10 +46,10 @@
     <package>
       <name>org.osmdroid.config</name>
       <classes>3</classes>
-      <functions>87</functions>
-      <ncss>250</ncss>
-      <javadocs>30</javadocs>
-      <javadoc_lines>182</javadoc_lines>
+      <functions>95</functions>
+      <ncss>281</ncss>
+      <javadocs>35</javadocs>
+      <javadoc_lines>235</javadoc_lines>
       <single_comment_lines>20</single_comment_lines>
       <multi_comment_lines>15</multi_comment_lines>
     </package>
@@ -76,12 +76,12 @@
     <package>
       <name>org.osmdroid.tileprovider.cachemanager</name>
       <classes>1</classes>
-      <functions>23</functions>
-      <ncss>502</ncss>
-      <javadocs>26</javadocs>
-      <javadoc_lines>153</javadoc_lines>
-      <single_comment_lines>19</single_comment_lines>
-      <multi_comment_lines>8</multi_comment_lines>
+      <functions>36</functions>
+      <ncss>425</ncss>
+      <javadocs>34</javadocs>
+      <javadoc_lines>190</javadoc_lines>
+      <single_comment_lines>11</single_comment_lines>
+      <multi_comment_lines>7</multi_comment_lines>
     </package>
     <package>
       <name>org.osmdroid.tileprovider.constants</name>
@@ -97,7 +97,7 @@
       <name>org.osmdroid.tileprovider.modules</name>
       <classes>21</classes>
       <functions>164</functions>
-      <ncss>1479</ncss>
+      <ncss>1488</ncss>
       <javadocs>58</javadocs>
       <javadoc_lines>360</javadoc_lines>
       <single_comment_lines>207</single_comment_lines>
@@ -105,19 +105,19 @@
     </package>
     <package>
       <name>org.osmdroid.tileprovider.tilesource</name>
-      <classes>13</classes>
-      <functions>90</functions>
-      <ncss>452</ncss>
-      <javadocs>48</javadocs>
-      <javadoc_lines>290</javadoc_lines>
-      <single_comment_lines>33</single_comment_lines>
-      <multi_comment_lines>23</multi_comment_lines>
+      <classes>14</classes>
+      <functions>96</functions>
+      <ncss>504</ncss>
+      <javadocs>54</javadocs>
+      <javadoc_lines>313</javadoc_lines>
+      <single_comment_lines>38</single_comment_lines>
+      <multi_comment_lines>27</multi_comment_lines>
     </package>
     <package>
       <name>org.osmdroid.tileprovider.tilesource.bing</name>
       <classes>3</classes>
       <functions>20</functions>
-      <ncss>199</ncss>
+      <ncss>200</ncss>
       <javadocs>16</javadocs>
       <javadoc_lines>86</javadoc_lines>
       <single_comment_lines>14</single_comment_lines>
@@ -126,20 +126,20 @@
     <package>
       <name>org.osmdroid.tileprovider.util</name>
       <classes>7</classes>
-      <functions>25</functions>
-      <ncss>415</ncss>
-      <javadocs>19</javadocs>
-      <javadoc_lines>94</javadoc_lines>
-      <single_comment_lines>64</single_comment_lines>
+      <functions>26</functions>
+      <ncss>513</ncss>
+      <javadocs>21</javadocs>
+      <javadoc_lines>101</javadoc_lines>
+      <single_comment_lines>71</single_comment_lines>
       <multi_comment_lines>8</multi_comment_lines>
     </package>
     <package>
       <name>org.osmdroid.util</name>
       <classes>12</classes>
-      <functions>138</functions>
-      <ncss>963</ncss>
-      <javadocs>35</javadocs>
-      <javadoc_lines>160</javadoc_lines>
+      <functions>140</functions>
+      <ncss>967</ncss>
+      <javadocs>36</javadocs>
+      <javadoc_lines>161</javadoc_lines>
       <single_comment_lines>173</single_comment_lines>
       <multi_comment_lines>83</multi_comment_lines>
     </package>
@@ -157,7 +157,7 @@
       <name>org.osmdroid.views</name>
       <classes>3</classes>
       <functions>139</functions>
-      <ncss>1169</ncss>
+      <ncss>1174</ncss>
       <javadocs>46</javadocs>
       <javadoc_lines>274</javadoc_lines>
       <single_comment_lines>150</single_comment_lines>
@@ -176,12 +176,12 @@
     <package>
       <name>org.osmdroid.views.overlay</name>
       <classes>23</classes>
-      <functions>413</functions>
-      <ncss>2714</ncss>
-      <javadocs>154</javadocs>
-      <javadoc_lines>863</javadoc_lines>
-      <single_comment_lines>394</single_comment_lines>
-      <multi_comment_lines>202</multi_comment_lines>
+      <functions>414</functions>
+      <ncss>2700</ncss>
+      <javadocs>156</javadocs>
+      <javadoc_lines>866</javadoc_lines>
+      <single_comment_lines>383</single_comment_lines>
+      <multi_comment_lines>294</multi_comment_lines>
     </package>
     <package>
       <name>org.osmdroid.views.overlay.compass</name>
@@ -264,20 +264,20 @@
       <multi_comment_lines>1</multi_comment_lines>
     </package>
     <total>
-      <classes>144</classes>
-      <functions>1497</functions>
-      <ncss>11305</ncss>
-      <javadocs>621</javadocs>
-      <javadoc_lines>3534</javadoc_lines>
-      <single_comment_lines>1504</single_comment_lines>
-      <multi_comment_lines>738</multi_comment_lines>
+      <classes>145</classes>
+      <functions>1528</functions>
+      <ncss>11414</ncss>
+      <javadocs>645</javadocs>
+      <javadoc_lines>3658</javadoc_lines>
+      <single_comment_lines>1497</single_comment_lines>
+      <multi_comment_lines>833</multi_comment_lines>
     </total>
     <table>
       <tr><td>Packages</td><td>Classes</td><td>Functions</td><td>NCSS</td><td>Javadocs</td><td>per</td></tr>
-      <tr><td>26.00</td><td>144.00</td><td>1,497.00</td><td>11,305.00</td><td>621.00</td><td>Project</td></tr>
-      <tr><td></td><td>5.54</td><td>57.58</td><td>434.81</td><td>23.88</td><td>Package</td></tr>
-      <tr><td></td><td></td><td>10.40</td><td>78.51</td><td>4.31</td><td>Class</td></tr>
-      <tr><td></td><td></td><td></td><td>7.55</td><td>0.41</td><td>Function</td></tr>
+      <tr><td>26.00</td><td>145.00</td><td>1,528.00</td><td>11,414.00</td><td>645.00</td><td>Project</td></tr>
+      <tr><td></td><td>5.58</td><td>58.77</td><td>439.00</td><td>24.81</td><td>Package</td></tr>
+      <tr><td></td><td></td><td>10.54</td><td>78.72</td><td>4.45</td><td>Class</td></tr>
+      <tr><td></td><td></td><td></td><td>7.47</td><td>0.42</td><td>Function</td></tr>
     </table>
   </packages>
 
@@ -374,21 +374,21 @@
     </object>
     <object>
       <name>org.osmdroid.config.DefaultConfigurationProvider</name>
-      <ncss>178</ncss>
-      <functions>43</functions>
+      <ncss>200</ncss>
+      <functions>48</functions>
       <classes>0</classes>
-      <javadocs>2</javadocs>
-      <javadocs_lines>12</javadocs_lines>
+      <javadocs>4</javadocs>
+      <javadocs_lines>29</javadocs_lines>
       <single_comment_lines>20</single_comment_lines>
       <implementation_comment_lines>15</implementation_comment_lines>
     </object>
     <object>
       <name>org.osmdroid.config.IConfigurationProvider</name>
-      <ncss>43</ncss>
-      <functions>42</functions>
+      <ncss>46</ncss>
+      <functions>45</functions>
       <classes>0</classes>
-      <javadocs>25</javadocs>
-      <javadocs_lines>150</javadocs_lines>
+      <javadocs>28</javadocs>
+      <javadocs_lines>186</javadocs_lines>
       <single_comment_lines>0</single_comment_lines>
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
@@ -584,13 +584,13 @@
     </object>
     <object>
       <name>org.osmdroid.tileprovider.cachemanager.CacheManager</name>
-      <ncss>463</ncss>
-      <functions>23</functions>
-      <classes>4</classes>
-      <javadocs>26</javadocs>
-      <javadocs_lines>153</javadocs_lines>
-      <single_comment_lines>19</single_comment_lines>
-      <implementation_comment_lines>8</implementation_comment_lines>
+      <ncss>383</ncss>
+      <functions>36</functions>
+      <classes>8</classes>
+      <javadocs>34</javadocs>
+      <javadocs_lines>190</javadocs_lines>
+      <single_comment_lines>11</single_comment_lines>
+      <implementation_comment_lines>7</implementation_comment_lines>
     </object>
     <object>
       <name>org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants</name>
@@ -694,7 +694,7 @@
     </object>
     <object>
       <name>org.osmdroid.tileprovider.modules.MapTileDownloader</name>
-      <ncss>124</ncss>
+      <ncss>129</ncss>
       <functions>13</functions>
       <classes>1</classes>
       <javadocs>1</javadocs>
@@ -774,7 +774,7 @@
     </object>
     <object>
       <name>org.osmdroid.tileprovider.modules.SqlTileWriter</name>
-      <ncss>217</ncss>
+      <ncss>220</ncss>
       <functions>11</functions>
       <classes>1</classes>
       <javadocs>9</javadocs>
@@ -814,7 +814,7 @@
     </object>
     <object>
       <name>org.osmdroid.tileprovider.tilesource.BitmapTileSourceBase</name>
-      <ncss>92</ncss>
+      <ncss>94</ncss>
       <functions>13</functions>
       <classes>1</classes>
       <javadocs>2</javadocs>
@@ -923,12 +923,22 @@
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <object>
-      <name>org.osmdroid.tileprovider.tilesource.TileSourceFactory</name>
-      <ncss>54</ncss>
+      <name>org.osmdroid.tileprovider.tilesource.ThunderforestTileSource</name>
+      <ncss>39</ncss>
       <functions>5</functions>
-      <classes>2</classes>
+      <classes>0</classes>
       <javadocs>5</javadocs>
-      <javadocs_lines>31</javadocs_lines>
+      <javadocs_lines>18</javadocs_lines>
+      <single_comment_lines>5</single_comment_lines>
+      <implementation_comment_lines>4</implementation_comment_lines>
+    </object>
+    <object>
+      <name>org.osmdroid.tileprovider.tilesource.TileSourceFactory</name>
+      <ncss>59</ncss>
+      <functions>6</functions>
+      <classes>2</classes>
+      <javadocs>6</javadocs>
+      <javadocs_lines>36</javadocs_lines>
       <single_comment_lines>5</single_comment_lines>
       <implementation_comment_lines>20</implementation_comment_lines>
     </object>
@@ -944,7 +954,7 @@
     </object>
     <object>
       <name>org.osmdroid.tileprovider.tilesource.bing.BingMapTileSource</name>
-      <ncss>100</ncss>
+      <ncss>102</ncss>
       <functions>16</functions>
       <classes>0</classes>
       <javadocs>10</javadocs>
@@ -974,7 +984,7 @@
     </object>
     <object>
       <name>org.osmdroid.tileprovider.util.CloudmadeUtil</name>
-      <ncss>60</ncss>
+      <ncss>62</ncss>
       <functions>4</functions>
       <classes>0</classes>
       <javadocs>5</javadocs>
@@ -1024,12 +1034,12 @@
     </object>
     <object>
       <name>org.osmdroid.tileprovider.util.StorageUtils</name>
-      <ncss>218</ncss>
-      <functions>8</functions>
+      <ncss>313</ncss>
+      <functions>9</functions>
       <classes>1</classes>
-      <javadocs>6</javadocs>
-      <javadocs_lines>27</javadocs_lines>
-      <single_comment_lines>34</single_comment_lines>
+      <javadocs>8</javadocs>
+      <javadocs_lines>34</javadocs_lines>
+      <single_comment_lines>41</single_comment_lines>
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <object>
@@ -1044,11 +1054,11 @@
     </object>
     <object>
       <name>org.osmdroid.util.BoundingBox</name>
-      <ncss>113</ncss>
-      <functions>24</functions>
+      <ncss>117</ncss>
+      <functions>26</functions>
       <classes>1</classes>
-      <javadocs>3</javadocs>
-      <javadocs_lines>17</javadocs_lines>
+      <javadocs>4</javadocs>
+      <javadocs_lines>18</javadocs_lines>
       <single_comment_lines>24</single_comment_lines>
       <implementation_comment_lines>4</implementation_comment_lines>
     </object>
@@ -1164,7 +1174,7 @@
     </object>
     <object>
       <name>org.osmdroid.views.MapController</name>
-      <ncss>274</ncss>
+      <ncss>278</ncss>
       <functions>20</functions>
       <classes>4</classes>
       <javadocs>7</javadocs>
@@ -1324,11 +1334,11 @@
     </object>
     <object>
       <name>org.osmdroid.views.overlay.Marker</name>
-      <ncss>241</ncss>
-      <functions>39</functions>
+      <ncss>248</ncss>
+      <functions>41</functions>
       <classes>2</classes>
-      <javadocs>10</javadocs>
-      <javadocs_lines>49</javadocs_lines>
+      <javadocs>12</javadocs>
+      <javadocs_lines>51</javadocs_lines>
       <single_comment_lines>10</single_comment_lines>
       <implementation_comment_lines>19</implementation_comment_lines>
     </object>
@@ -1414,17 +1424,17 @@
     </object>
     <object>
       <name>org.osmdroid.views.overlay.Polyline</name>
-      <ncss>266</ncss>
-      <functions>31</functions>
+      <ncss>238</ncss>
+      <functions>30</functions>
       <classes>1</classes>
       <javadocs>9</javadocs>
-      <javadocs_lines>40</javadocs_lines>
-      <single_comment_lines>54</single_comment_lines>
-      <implementation_comment_lines>2</implementation_comment_lines>
+      <javadocs_lines>41</javadocs_lines>
+      <single_comment_lines>43</single_comment_lines>
+      <implementation_comment_lines>94</implementation_comment_lines>
     </object>
     <object>
       <name>org.osmdroid.views.overlay.ScaleBarOverlay</name>
-      <ncss>337</ncss>
+      <ncss>340</ncss>
       <functions>28</functions>
       <classes>1</classes>
       <javadocs>17</javadocs>
@@ -1723,15 +1733,15 @@
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <averages>
-      <ncss>69.71</ncss>
-      <functions>10.40</functions>
-      <classes>0.49</classes>
-      <javadocs>4.31</javadocs>
-      <javadocs_lines>24.54</javadocs_lines>
-      <single_comment_lines>10.13</single_comment_lines>
-      <implementation_comment_lines>3.52</implementation_comment_lines>
+      <ncss>69.83</ncss>
+      <functions>10.54</functions>
+      <classes>0.52</classes>
+      <javadocs>4.45</javadocs>
+      <javadocs_lines>25.23</javadocs_lines>
+      <single_comment_lines>10.01</single_comment_lines>
+      <implementation_comment_lines>4.15</implementation_comment_lines>
     </averages>
-    <ncss>11,305.00</ncss>
+    <ncss>11,414.00</ncss>
   </objects>
 
   <functions>
@@ -2450,6 +2460,12 @@
       <javadocs>0</javadocs>
     </function>
     <function>
+      <name>org.osmdroid.config.DefaultConfigurationProvider.getAdditionalHttpRequestProperties()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
       <name>org.osmdroid.config.DefaultConfigurationProvider.getCacheMapTileCount()</name>
       <ncss>2</ncss>
       <ccn>1</ccn>
@@ -2546,6 +2562,18 @@
       <javadocs>0</javadocs>
     </function>
     <function>
+      <name>org.osmdroid.config.DefaultConfigurationProvider.getHttpProxy()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.config.DefaultConfigurationProvider.setHttpProxy(Proxy)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
       <name>org.osmdroid.config.DefaultConfigurationProvider.getOsmdroidBasePath()</name>
       <ncss>2</ncss>
       <ccn>1</ccn>
@@ -2583,15 +2611,27 @@
     </function>
     <function>
       <name>org.osmdroid.config.DefaultConfigurationProvider.load(Context,SharedPreferences)</name>
-      <ncss>48</ncss>
+      <ncss>49</ncss>
       <ccn>11</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
       <name>org.osmdroid.config.DefaultConfigurationProvider.save(Context,SharedPreferences)</name>
-      <ncss>20</ncss>
+      <ncss>21</ncss>
       <ccn>2</ccn>
       <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.config.DefaultConfigurationProvider.load(SharedPreferences,String,String)</name>
+      <ncss>5</ncss>
+      <ccn>3</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.config.DefaultConfigurationProvider.save(SharedPreferences,SharedPreferences.Editor,String,String)</name>
+      <ncss>7</ncss>
+      <ccn>4</ccn>
+      <javadocs>1</javadocs>
     </function>
     <function>
       <name>org.osmdroid.config.DefaultConfigurationProvider.getExpirationExtendedDuration()</name>
@@ -2702,6 +2742,12 @@
       <javadocs>1</javadocs>
     </function>
     <function>
+      <name>org.osmdroid.config.IConfigurationProvider.getAdditionalHttpRequestProperties()</name>
+      <ncss>1</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
       <name>org.osmdroid.config.IConfigurationProvider.getCacheMapTileCount()</name>
       <ncss>1</ncss>
       <ccn>1</ccn>
@@ -2798,6 +2844,18 @@
       <javadocs>0</javadocs>
     </function>
     <function>
+      <name>org.osmdroid.config.IConfigurationProvider.getHttpProxy()</name>
+      <ncss>1</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.config.IConfigurationProvider.setHttpProxy(Proxy)</name>
+      <ncss>1</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
       <name>org.osmdroid.config.IConfigurationProvider.getOsmdroidBasePath()</name>
       <ncss>1</ncss>
       <ccn>1</ccn>
@@ -2819,7 +2877,7 @@
       <name>org.osmdroid.config.IConfigurationProvider.setOsmdroidTileCache(File)</name>
       <ncss>1</ncss>
       <ccn>1</ccn>
-      <javadocs>0</javadocs>
+      <javadocs>1</javadocs>
     </function>
     <function>
       <name>org.osmdroid.config.IConfigurationProvider.getUserAgentHttpHeader()</name>
@@ -2831,7 +2889,7 @@
       <name>org.osmdroid.config.IConfigurationProvider.setUserAgentHttpHeader(String)</name>
       <ncss>1</ncss>
       <ccn>1</ccn>
-      <javadocs>0</javadocs>
+      <javadocs>1</javadocs>
     </function>
     <function>
       <name>org.osmdroid.config.IConfigurationProvider.load(Context,SharedPreferences)</name>
@@ -3639,15 +3697,21 @@
     </function>
     <function>
       <name>org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManager(MapView)</name>
-      <ncss>4</ncss>
+      <ncss>2</ncss>
       <ccn>1</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
       <name>org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManager(MapView,IFilesystemCache)</name>
-      <ncss>4</ncss>
+      <ncss>2</ncss>
       <ccn>1</ccn>
       <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManager(MapTileProviderBase,IFilesystemCache,int,int)</name>
+      <ncss>5</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
     </function>
     <function>
       <name>org.osmdroid.tileprovider.cachemanager.CacheManager.getPendingJobs()</name>
@@ -3675,37 +3739,73 @@
     </function>
     <function>
       <name>org.osmdroid.tileprovider.cachemanager.CacheManager.loadTile(OnlineTileSourceBase,MapTile)</name>
-      <ncss>57</ncss>
-      <ccn>22</ccn>
+      <ncss>59</ncss>
+      <ccn>23</ccn>
       <javadocs>1</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.tileprovider.cachemanager.CacheManager.possibleTilesInArea(BoundingBox,int,int)</name>
-      <ncss>10</ncss>
+      <name>org.osmdroid.tileprovider.cachemanager.CacheManager.deleteTile(MapTile)</name>
+      <ncss>3</ncss>
       <ccn>2</ccn>
-      <javadocs>1</javadocs>
+      <javadocs>0</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.tileprovider.cachemanager.CacheManager.possibleTilesCovered(GeoPoint,int,int)</name>
-      <ncss>53</ncss>
-      <ccn>26</ccn>
-      <javadocs>1</javadocs>
-    </function>
-    <function>
-      <name>org.osmdroid.tileprovider.cachemanager.CacheManager.zoomMessage(int,int,int)</name>
+      <name>org.osmdroid.tileprovider.cachemanager.CacheManager.checkTile(MapTile)</name>
       <ncss>2</ncss>
       <ccn>1</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
+      <name>org.osmdroid.tileprovider.cachemanager.CacheManager.getTilesCoverage(BoundingBox,int,int)</name>
+      <ncss>6</ncss>
+      <ccn>2</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.tileprovider.cachemanager.CacheManager.getTilesCoverage(BoundingBox,int)</name>
+      <ncss>17</ncss>
+      <ccn>5</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.tileprovider.cachemanager.CacheManager.getTilesCoverage(GeoPoint,int,int)</name>
+      <ncss>6</ncss>
+      <ccn>2</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.tileprovider.cachemanager.CacheManager.getTilesCoverage(GeoPoint,int)</name>
+      <ncss>47</ncss>
+      <ccn>22</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.tileprovider.cachemanager.CacheManager.possibleTilesInArea(BoundingBox,int,int)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.tileprovider.cachemanager.CacheManager.possibleTilesCovered(GeoPoint,int,int)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.tileprovider.cachemanager.CacheManager.execute(CacheManagerTask)</name>
+      <ncss>4</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
       <name>org.osmdroid.tileprovider.cachemanager.CacheManager.downloadAreaAsync(Context,BoundingBox,int,int)</name>
-      <ncss>5</ncss>
+      <ncss>4</ncss>
       <ccn>1</ccn>
       <javadocs>1</javadocs>
     </function>
     <function>
       <name>org.osmdroid.tileprovider.cachemanager.CacheManager.downloadAreaAsync(Context,GeoPoint,int,int)</name>
-      <ncss>5</ncss>
+      <ncss>4</ncss>
       <ccn>1</ccn>
       <javadocs>1</javadocs>
     </function>
@@ -3723,7 +3823,7 @@
     </function>
     <function>
       <name>org.osmdroid.tileprovider.cachemanager.CacheManager.downloadAreaAsyncNoUI(Context,GeoPoint,int,int,CacheManagerCallback)</name>
-      <ncss>5</ncss>
+      <ncss>4</ncss>
       <ccn>1</ccn>
       <javadocs>1</javadocs>
     </function>
@@ -3737,6 +3837,12 @@
       <name>org.osmdroid.tileprovider.cachemanager.CacheManager.cancelAllJobs()</name>
       <ncss>6</ncss>
       <ccn>2</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.tileprovider.cachemanager.CacheManager.downloadAreaAsync(Context,MapTile,int,int)</name>
+      <ncss>4</ncss>
+      <ccn>1</ccn>
       <javadocs>1</javadocs>
     </function>
     <function>
@@ -3770,104 +3876,242 @@
       <javadocs>1</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerTask.CacheManagerTask(Context,BoundingBox,int,int,CacheManagerCallback,boolean)</name>
-      <ncss>4</ncss>
+      <name>org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerDialog.OnCancelListener$1.onCancel(DialogInterface)</name>
+      <ncss>2</ncss>
       <ccn>1</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerTask.CacheManagerTask(Context,GeoPoint,int,int,CacheManagerCallback,boolean)</name>
-      <ncss>5</ncss>
+      <name>org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerDialog.CacheManagerDialog(Context,CacheManagerTask)</name>
+      <ncss>8</ncss>
       <ccn>1</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerTask.CacheManagerTask(Context,GeoPoint,int,int)</name>
-      <ncss>5</ncss>
+      <name>org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerDialog.zoomMessage(int,int,int)</name>
+      <ncss>2</ncss>
       <ccn>1</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerTask.CacheManagerTask(Context,BoundingBox,int,int)</name>
-      <ncss>5</ncss>
+      <name>org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerDialog.getUITitle()</name>
+      <ncss>1</ncss>
       <ccn>1</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerTask.onPreExecute()</name>
+      <name>org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerDialog.updateProgress(int,int,int,int)</name>
+      <ncss>3</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerDialog.downloadStarted()</name>
+      <ncss>3</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerDialog.setPossibleTilesInArea(int)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerDialog.onTaskComplete()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerDialog.onTaskFailed(int)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerDialog.dismiss()</name>
       <ncss>3</ncss>
       <ccn>2</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerTask.OnCancelListener$1.onCancel(DialogInterface)</name>
+      <name>org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerTask.CacheManagerTask(CacheManager,CacheManagerAction,MapTile,int,int)</name>
+      <ncss>6</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerTask.CacheManagerTask(CacheManager,CacheManagerAction,GeoPoint,int,int)</name>
       <ncss>2</ncss>
       <ccn>1</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerTask.createProgressDialog(Context)</name>
+      <name>org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerTask.CacheManagerTask(CacheManager,CacheManagerAction,BoundingBox,int,int)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerTask.addCallback(CacheManagerCallback)</name>
+      <ncss>3</ncss>
+      <ccn>2</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerTask.onPreExecute()</name>
       <ncss>8</ncss>
+      <ccn>3</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerTask.logFaultyCallback(Throwable)</name>
+      <ncss>2</ncss>
       <ccn>1</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
       <name>org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerTask.onProgressUpdate(Integer)</name>
-      <ncss>8</ncss>
-      <ccn>4</ccn>
+      <ncss>5</ncss>
+      <ccn>3</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
       <name>org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerTask.onCancelled()</name>
-      <ncss>3</ncss>
-      <ccn>1</ccn>
-      <javadocs>0</javadocs>
-    </function>
-    <function>
-      <name>org.osmdroid.tileprovider.cachemanager.CacheManager.DownloadingTask.DownloadingTask(Context,BoundingBox,int,int,CacheManagerCallback,boolean)</name>
       <ncss>2</ncss>
       <ccn>1</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.tileprovider.cachemanager.CacheManager.DownloadingTask.DownloadingTask(Context,GeoPoint,int,int,CacheManagerCallback,boolean)</name>
+      <name>org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerTask.onPostExecute(Integer)</name>
+      <ncss>9</ncss>
+      <ccn>4</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerTask.doInBackground(Object)</name>
+      <ncss>16</ncss>
+      <ccn>10</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerDialog$1.getUITitle()</name>
       <ncss>2</ncss>
       <ccn>1</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.tileprovider.cachemanager.CacheManager.DownloadingTask.onPreExecute()</name>
-      <ncss>18</ncss>
-      <ccn>6</ccn>
-      <javadocs>0</javadocs>
-    </function>
-    <function>
-      <name>org.osmdroid.tileprovider.cachemanager.CacheManager.DownloadingTask.onPostExecute(Integer)</name>
-      <ncss>14</ncss>
-      <ccn>7</ccn>
-      <javadocs>0</javadocs>
-    </function>
-    <function>
-      <name>org.osmdroid.tileprovider.cachemanager.CacheManager.DownloadingTask.doInBackground(Object)</name>
+      <name>org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerDialog$1.onTaskFailed(int)</name>
       <ncss>3</ncss>
       <ccn>1</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.tileprovider.cachemanager.CacheManager.DownloadingTask.downloadArea()</name>
-      <ncss>104</ncss>
-      <ccn>45</ccn>
+      <name>org.osmdroid.tileprovider.cachemanager.CacheManager.getDownloadingDialog(Context,CacheManagerTask)</name>
+      <ncss>7</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerDialog$1.getUITitle()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerDialog$1.onTaskFailed(int)</name>
+      <ncss>3</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.tileprovider.cachemanager.CacheManager.getCleaningDialog(Context,CacheManagerTask)</name>
+      <ncss>7</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerAction.preCheck()</name>
+      <ncss>1</ncss>
+      <ccn>1</ccn>
       <javadocs>1</javadocs>
     </function>
     <function>
+      <name>org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerAction.getProgressModulo()</name>
+      <ncss>1</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerAction.tileAction(MapTile)</name>
+      <ncss>1</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerAction$1.preCheck()</name>
+      <ncss>6</ncss>
+      <ccn>3</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerAction$1.getProgressModulo()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerAction$1.tileAction(MapTile)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.tileprovider.cachemanager.CacheManager.getDownloadingAction()</name>
+      <ncss>12</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerAction$1.preCheck()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerAction$1.getProgressModulo()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerAction$1.tileAction(MapTile)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.tileprovider.cachemanager.CacheManager.getCleaningAction()</name>
+      <ncss>8</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
       <name>org.osmdroid.tileprovider.cachemanager.CacheManager.cleanAreaAsync(Context,BoundingBox,int,int)</name>
-      <ncss>5</ncss>
+      <ncss>4</ncss>
       <ccn>1</ccn>
       <javadocs>1</javadocs>
     </function>
     <function>
       <name>org.osmdroid.tileprovider.cachemanager.CacheManager.cleanAreaAsync(Context,GeoPoint,int,int)</name>
-      <ncss>6</ncss>
+      <ncss>3</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.tileprovider.cachemanager.CacheManager.cleanAreaAsync(Context,MapTile,int,int)</name>
+      <ncss>4</ncss>
       <ccn>1</ccn>
       <javadocs>1</javadocs>
     </function>
@@ -3875,36 +4119,6 @@
       <name>org.osmdroid.tileprovider.cachemanager.CacheManager.extendedBoundsFromGeoPoints(GeoPoint,int)</name>
       <ncss>8</ncss>
       <ccn>1</ccn>
-      <javadocs>1</javadocs>
-    </function>
-    <function>
-      <name>org.osmdroid.tileprovider.cachemanager.CacheManager.CleaningTask.CleaningTask(Context,BoundingBox,int,int)</name>
-      <ncss>3</ncss>
-      <ccn>1</ccn>
-      <javadocs>0</javadocs>
-    </function>
-    <function>
-      <name>org.osmdroid.tileprovider.cachemanager.CacheManager.CleaningTask.onPreExecute()</name>
-      <ncss>8</ncss>
-      <ccn>2</ccn>
-      <javadocs>0</javadocs>
-    </function>
-    <function>
-      <name>org.osmdroid.tileprovider.cachemanager.CacheManager.CleaningTask.onPostExecute(Integer)</name>
-      <ncss>5</ncss>
-      <ccn>3</ccn>
-      <javadocs>0</javadocs>
-    </function>
-    <function>
-      <name>org.osmdroid.tileprovider.cachemanager.CacheManager.CleaningTask.doInBackground(Object)</name>
-      <ncss>3</ncss>
-      <ccn>1</ccn>
-      <javadocs>0</javadocs>
-    </function>
-    <function>
-      <name>org.osmdroid.tileprovider.cachemanager.CacheManager.CleaningTask.cleanArea()</name>
-      <ncss>25</ncss>
-      <ccn>10</ccn>
       <javadocs>1</javadocs>
     </function>
     <function>
@@ -4347,8 +4561,8 @@
     </function>
     <function>
       <name>org.osmdroid.tileprovider.modules.MapTileDownloader.TileLoader.loadTile(MapTileRequestState)</name>
-      <ncss>78</ncss>
-      <ccn>29</ccn>
+      <ncss>83</ncss>
+      <ccn>31</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
@@ -4851,8 +5065,8 @@
     </function>
     <function>
       <name>org.osmdroid.tileprovider.modules.SqlTileWriter.saveFile(ITileSource,MapTile,InputStream)</name>
-      <ncss>35</ncss>
-      <ccn>13</ccn>
+      <ncss>37</ncss>
+      <ccn>14</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
@@ -5127,8 +5341,8 @@
     </function>
     <function>
       <name>org.osmdroid.tileprovider.tilesource.BitmapTileSourceBase.getDrawable(InputStream)</name>
-      <ncss>11</ncss>
-      <ccn>5</ccn>
+      <ncss>13</ncss>
+      <ccn>6</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
@@ -5564,6 +5778,36 @@
       <javadocs>0</javadocs>
     </function>
     <function>
+      <name>org.osmdroid.tileprovider.tilesource.ThunderforestTileSource.mapName(int)</name>
+      <ncss>4</ncss>
+      <ccn>4</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.tileprovider.tilesource.ThunderforestTileSource.ThunderforestTileSource(Context,int)</name>
+      <ncss>4</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.tileprovider.tilesource.ThunderforestTileSource.retrieveMapId(Context)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.tileprovider.tilesource.ThunderforestTileSource.getTileURLString(MapTile)</name>
+      <ncss>11</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.tileprovider.tilesource.ThunderforestTileSource.haveMapId(Context)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
       <name>org.osmdroid.tileprovider.tilesource.TileSourceFactory.getTileSource(String)</name>
       <ncss>5</ncss>
       <ccn>5</ccn>
@@ -5591,6 +5835,12 @@
       <name>org.osmdroid.tileprovider.tilesource.TileSourceFactory.addTileSource(ITileSource)</name>
       <ncss>2</ncss>
       <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.tileprovider.tilesource.TileSourceFactory.removeTileSources(String)</name>
+      <ncss>7</ncss>
+      <ccn>3</ccn>
       <javadocs>1</javadocs>
     </function>
     <function>
@@ -5709,8 +5959,8 @@
     </function>
     <function>
       <name>org.osmdroid.tileprovider.tilesource.bing.BingMapTileSource.getMetaData()</name>
-      <ncss>24</ncss>
-      <ccn>7</ccn>
+      <ncss>26</ncss>
+      <ccn>8</ccn>
       <javadocs>1</javadocs>
     </function>
     <function>
@@ -5763,8 +6013,8 @@
     </function>
     <function>
       <name>org.osmdroid.tileprovider.util.CloudmadeUtil.getCloudmadeToken()</name>
-      <ncss>34</ncss>
-      <ccn>10</ccn>
+      <ncss>36</ncss>
+      <ccn>11</ccn>
       <javadocs>1</javadocs>
     </function>
     <function>
@@ -5829,21 +6079,27 @@
     </function>
     <function>
       <name>org.osmdroid.tileprovider.util.StorageUtils.StorageInfo.StorageInfo(String,boolean,boolean,int)</name>
-      <ncss>7</ncss>
-      <ccn>2</ccn>
+      <ncss>26</ncss>
+      <ccn>7</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
       <name>org.osmdroid.tileprovider.util.StorageUtils.StorageInfo.getDisplayName()</name>
-      <ncss>12</ncss>
-      <ccn>4</ccn>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.tileprovider.util.StorageUtils.StorageInfo.setDisplayName(String)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
       <name>org.osmdroid.tileprovider.util.StorageUtils.getStorageList()</name>
-      <ncss>59</ncss>
-      <ccn>27</ccn>
-      <javadocs>0</javadocs>
+      <ncss>70</ncss>
+      <ccn>31</ccn>
+      <javadocs>1</javadocs>
     </function>
     <function>
       <name>org.osmdroid.tileprovider.util.StorageUtils.getStorage()</name>
@@ -5877,14 +6133,20 @@
     </function>
     <function>
       <name>org.osmdroid.tileprovider.util.StorageUtils.isWritable(File)</name>
-      <ncss>14</ncss>
-      <ccn>6</ccn>
+      <ncss>11</ncss>
+      <ccn>3</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
       <name>org.osmdroid.tileprovider.util.StorageUtils.getAllStorageLocations()</name>
       <ncss>74</ncss>
       <ccn>32</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.tileprovider.util.StorageUtils.getAllStorageLocationsRevised()</name>
+      <ncss>75</ncss>
+      <ccn>31</ccn>
       <javadocs>1</javadocs>
     </function>
     <function>
@@ -5910,6 +6172,18 @@
       <ncss>5</ncss>
       <ccn>1</ccn>
       <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.BoundingBox.clone()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.BoundingBox.concat(BoundingBox)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
     </function>
     <function>
       <name>org.osmdroid.util.BoundingBox.getCenter()</name>
@@ -6921,8 +7195,8 @@
     </function>
     <function>
       <name>org.osmdroid.views.MapController.ReplayController.replayCalls()</name>
-      <ncss>16</ncss>
-      <ccn>6</ccn>
+      <ncss>20</ncss>
+      <ccn>10</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
@@ -8757,7 +9031,7 @@
     </function>
     <function>
       <name>org.osmdroid.views.overlay.Marker.Marker(MapView,Context)</name>
-      <ncss>23</ncss>
+      <ncss>24</ncss>
       <ccn>4</ccn>
       <javadocs>0</javadocs>
     </function>
@@ -8870,6 +9144,18 @@
       <javadocs>1</javadocs>
     </function>
     <function>
+      <name>org.osmdroid.views.overlay.Marker.setDragOffset(float)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.Marker.getDragOffset()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
       <name>org.osmdroid.views.overlay.Marker.setInfoWindow(MarkerInfoWindow)</name>
       <ncss>4</ncss>
       <ccn>3</ccn>
@@ -8925,7 +9211,7 @@
     </function>
     <function>
       <name>org.osmdroid.views.overlay.Marker.moveToEventPosition(MotionEvent,MapView)</name>
-      <ncss>4</ncss>
+      <ncss>5</ncss>
       <ccn>1</ccn>
       <javadocs>0</javadocs>
     </function>
@@ -9921,7 +10207,7 @@
     </function>
     <function>
       <name>org.osmdroid.views.overlay.Polyline.clearPath()</name>
-      <ncss>3</ncss>
+      <ncss>4</ncss>
       <ccn>1</ccn>
       <javadocs>0</javadocs>
     </function>
@@ -10028,15 +10314,9 @@
       <javadocs>0</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.views.overlay.Polyline.drawOld(Canvas,MapView,boolean)</name>
-      <ncss>40</ncss>
-      <ccn>10</ccn>
-      <javadocs>0</javadocs>
-    </function>
-    <function>
       <name>org.osmdroid.views.overlay.Polyline.draw(Canvas,MapView,boolean)</name>
-      <ncss>55</ncss>
-      <ccn>16</ccn>
+      <ncss>65</ncss>
+      <ccn>26</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
@@ -10215,8 +10495,8 @@
     </function>
     <function>
       <name>org.osmdroid.views.overlay.ScaleBarOverlay.draw(Canvas,MapView,boolean)</name>
-      <ncss>41</ncss>
-      <ccn>23</ccn>
+      <ncss>44</ncss>
+      <ccn>25</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
@@ -11242,7 +11522,7 @@
     <function>
       <name>org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay.onLocationChanged(Location,IMyLocationProvider)</name>
       <ncss>8</ncss>
-      <ccn>2</ccn>
+      <ccn>3</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
@@ -11822,11 +12102,11 @@
       <javadocs>0</javadocs>
     </function>
     <function_averages>
-      <ncss>5.40</ncss>
-      <ccn>2.24</ccn>
+      <ncss>5.32</ncss>
+      <ccn>2.21</ccn>
       <javadocs>0.31</javadocs>
     </function_averages>
-    <ncss>11,305.00</ncss>
+    <ncss>11,414.00</ncss>
   </functions>
 </javancss>
 

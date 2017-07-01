@@ -10,76 +10,76 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.api.IGeoPoint
-	c12532 [label=<<table title="org.osmdroid.api.IGeoPoint" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./IGeoPoint.html">
+	c12636 [label=<<table title="org.osmdroid.api.IGeoPoint" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./IGeoPoint.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> IGeoPoint </td></tr>
 		</table></td></tr>
 		</table>>, URL="./IGeoPoint.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.api.IMapController
-	c12533 [label=<<table title="org.osmdroid.api.IMapController" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./IMapController.html">
+	c12637 [label=<<table title="org.osmdroid.api.IMapController" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./IMapController.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> IMapController </td></tr>
 		</table></td></tr>
 		</table>>, URL="./IMapController.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.api.IMapView
-	c12534 [label=<<table title="org.osmdroid.api.IMapView" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./IMapView.html">
+	c12638 [label=<<table title="org.osmdroid.api.IMapView" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./IMapView.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> IMapView </td></tr>
 		</table></td></tr>
 		</table>>, URL="./IMapView.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.api.IProjection
-	c12535 [label=<<table title="org.osmdroid.api.IProjection" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./IProjection.html">
+	c12639 [label=<<table title="org.osmdroid.api.IProjection" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./IProjection.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> IProjection </td></tr>
 		</table></td></tr>
 		</table>>, URL="./IProjection.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.api.IMap
-	c12717 [label=<<table title="org.osmdroid.api.IMap" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./IMap.html">
+	c12822 [label=<<table title="org.osmdroid.api.IMap" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./IMap.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> IMap </td></tr>
 		</table></td></tr>
 		</table>>, URL="./IMap.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.api.IMyLocationOverlay
-	c12718 [label=<<table title="org.osmdroid.api.IMyLocationOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./IMyLocationOverlay.html">
+	c12823 [label=<<table title="org.osmdroid.api.IMyLocationOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./IMyLocationOverlay.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> IMyLocationOverlay </td></tr>
 		</table></td></tr>
 		</table>>, URL="./IMyLocationOverlay.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.api.IPosition
-	c12719 [label=<<table title="org.osmdroid.api.IPosition" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./IPosition.html">
+	c12824 [label=<<table title="org.osmdroid.api.IPosition" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./IPosition.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> IPosition </td></tr>
 		</table></td></tr>
 		</table>>, URL="./IPosition.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.api.Marker
-	c12720 [label=<<table title="org.osmdroid.api.Marker" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Marker.html">
+	c12825 [label=<<table title="org.osmdroid.api.Marker" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Marker.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> Marker </td></tr>
 		</table></td></tr>
 		</table>>, URL="./Marker.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.api.Marker.Anchor
-	c12721 [label=<<table title="org.osmdroid.api.Marker.Anchor" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Marker.Anchor.html">
+	c12826 [label=<<table title="org.osmdroid.api.Marker.Anchor" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Marker.Anchor.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;enumeration&#187; </td></tr>
 <tr><td align="center" balign="center"> Anchor </td></tr>
 		</table></td></tr>
 		</table>>, URL="./Marker.Anchor.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.api.OnCameraChangeListener
-	c12722 [label=<<table title="org.osmdroid.api.OnCameraChangeListener" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./OnCameraChangeListener.html">
+	c12827 [label=<<table title="org.osmdroid.api.OnCameraChangeListener" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./OnCameraChangeListener.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> OnCameraChangeListener </td></tr>
 		</table></td></tr>
 		</table>>, URL="./OnCameraChangeListener.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.api.Polyline
-	c12723 [label=<<table title="org.osmdroid.api.Polyline" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Polyline.html">
+	c12828 [label=<<table title="org.osmdroid.api.Polyline" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Polyline.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> Polyline </td></tr>
 		</table></td></tr>

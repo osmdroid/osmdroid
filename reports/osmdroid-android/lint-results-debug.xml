@@ -199,7 +199,7 @@ Similarly, you can use tools:targetApi=&quot;11&quot; in an XML file to indicate
         quickfix="studio,adt">
         <location
             file=".\osmdroid-android\src\main\java\org\osmdroid\views\MapController.java"
-            line="302"
+            line="303"
             column="6"/>
     </issue>
 
@@ -224,7 +224,7 @@ Similarly, you can use tools:targetApi=&quot;11&quot; in an XML file to indicate
         quickfix="studio,adt">
         <location
             file=".\osmdroid-android\src\main\java\org\osmdroid\views\MapController.java"
-            line="335"
+            line="336"
             column="6"/>
     </issue>
 
@@ -249,7 +249,7 @@ Similarly, you can use tools:targetApi=&quot;11&quot; in an XML file to indicate
         quickfix="studio,adt">
         <location
             file=".\osmdroid-android\src\main\java\org\osmdroid\views\MapController.java"
-            line="380"
+            line="381"
             column="6"/>
     </issue>
 
@@ -315,7 +315,7 @@ Similarly, do not reference the `/data/data/` path directly; it can vary in mult
         errorLine2="                                                               ~~~~~~~~~~~~~">
         <location
             file=".\osmdroid-android\src\main\java\org\osmdroid\config\DefaultConfigurationProvider.java"
-            line="276"
+            line="295"
             column="64"/>
     </issue>
 
@@ -339,7 +339,7 @@ Similarly, do not reference the `/data/data/` path directly; it can vary in mult
     <issue
         id="GradleOverrides"
         severity="Warning"
-        message="This `versionCode` value (`1`) is not used; it is always overridden by the value specified in the Gradle build script (`27`)"
+        message="This `versionCode` value (`1`) is not used; it is always overridden by the value specified in the Gradle build script (`29`)"
         category="Correctness"
         priority="4"
         summary="Value overridden by Gradle build script"
@@ -355,7 +355,7 @@ Similarly, do not reference the `/data/data/` path directly; it can vary in mult
     <issue
         id="GradleOverrides"
         severity="Warning"
-        message="This `versionName` value (`5.3-SNAPSHOT`) is not used; it is always overridden by the value specified in the Gradle build script (`5.6.3`)"
+        message="This `versionName` value (`5.3-SNAPSHOT`) is not used; it is always overridden by the value specified in the Gradle build script (`5.6.5`)"
         category="Correctness"
         priority="4"
         summary="Value overridden by Gradle build script"
@@ -1141,6 +1141,86 @@ Of course it&apos;s possible that your custom drawable is translucent and you wa
             file=".\osmdroid-android\src\main\res\layout\bonuspack_bubble.xml"
             line="6"
             column="2"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        severity="Warning"
+        message="The resource `R.drawable.osm_ic_center_map` appears to be unused"
+        category="Performance"
+        priority="3"
+        summary="Unused resources"
+        explanation="Unused resources make applications larger and slow down builds.">
+        <location
+            file=".\osmdroid-android\src\main\res\drawable-hdpi\osm_ic_center_map.png"/>
+        <location
+            file=".\osmdroid-android\src\main\res\drawable-mdpi\osm_ic_center_map.png"/>
+        <location
+            file=".\osmdroid-android\src\main\res\drawable-xhdpi\osm_ic_center_map.png"/>
+        <location
+            file=".\osmdroid-android\src\main\res\drawable-xxhdpi\osm_ic_center_map.png"/>
+        <location
+            file=".\osmdroid-android\src\main\res\drawable-xxxhdpi\osm_ic_center_map.png"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        severity="Warning"
+        message="The resource `R.drawable.osm_ic_follow_me` appears to be unused"
+        category="Performance"
+        priority="3"
+        summary="Unused resources"
+        explanation="Unused resources make applications larger and slow down builds.">
+        <location
+            file=".\osmdroid-android\src\main\res\drawable-hdpi\osm_ic_follow_me.png"/>
+        <location
+            file=".\osmdroid-android\src\main\res\drawable-mdpi\osm_ic_follow_me.png"/>
+        <location
+            file=".\osmdroid-android\src\main\res\drawable-xhdpi\osm_ic_follow_me.png"/>
+        <location
+            file=".\osmdroid-android\src\main\res\drawable-xxhdpi\osm_ic_follow_me.png"/>
+        <location
+            file=".\osmdroid-android\src\main\res\drawable-xxxhdpi\osm_ic_follow_me.png"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        severity="Warning"
+        message="The resource `R.drawable.osm_ic_follow_me_on` appears to be unused"
+        category="Performance"
+        priority="3"
+        summary="Unused resources"
+        explanation="Unused resources make applications larger and slow down builds.">
+        <location
+            file=".\osmdroid-android\src\main\res\drawable-hdpi\osm_ic_follow_me_on.png"/>
+        <location
+            file=".\osmdroid-android\src\main\res\drawable-mdpi\osm_ic_follow_me_on.png"/>
+        <location
+            file=".\osmdroid-android\src\main\res\drawable-xhdpi\osm_ic_follow_me_on.png"/>
+        <location
+            file=".\osmdroid-android\src\main\res\drawable-xxhdpi\osm_ic_follow_me_on.png"/>
+        <location
+            file=".\osmdroid-android\src\main\res\drawable-xxxhdpi\osm_ic_follow_me_on.png"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        severity="Warning"
+        message="The resource `R.drawable.osm_ic_ic_map_ortho` appears to be unused"
+        category="Performance"
+        priority="3"
+        summary="Unused resources"
+        explanation="Unused resources make applications larger and slow down builds.">
+        <location
+            file=".\osmdroid-android\src\main\res\drawable-hdpi\osm_ic_ic_map_ortho.png"/>
+        <location
+            file=".\osmdroid-android\src\main\res\drawable-mdpi\osm_ic_ic_map_ortho.png"/>
+        <location
+            file=".\osmdroid-android\src\main\res\drawable-xhdpi\osm_ic_ic_map_ortho.png"/>
+        <location
+            file=".\osmdroid-android\src\main\res\drawable-xxhdpi\osm_ic_ic_map_ortho.png"/>
+        <location
+            file=".\osmdroid-android\src\main\res\drawable-xxxhdpi\osm_ic_ic_map_ortho.png"/>
     </issue>
 
     <issue

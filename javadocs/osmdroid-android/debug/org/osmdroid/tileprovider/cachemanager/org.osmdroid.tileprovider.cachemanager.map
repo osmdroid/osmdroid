@@ -3,10 +3,10 @@
 <area shape="rect" id="node1" href="./CacheManager.html" title="&lt;TABLE&gt;" alt="" coords="5,8,133,56"/>
 <area shape="rect" id="node2_1" href="./CacheManager.CacheManagerCallback.html" title="org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerCallback" alt="" coords="169,11,325,53"/>
 <area shape="rect" id="node2" href="./CacheManager.CacheManagerCallback.html" title="&lt;TABLE&gt;" alt="" coords="158,5,335,59"/>
-<area shape="rect" id="node3_2" href="./CacheManager.CacheManagerTask.html" title="org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerTask" alt="" coords="371,19,507,45"/>
-<area shape="rect" id="node3" href="./CacheManager.CacheManagerTask.html" title="&lt;TABLE&gt;" alt="" coords="360,8,517,56"/>
-<area shape="rect" id="node4_3" href="./CacheManager.DownloadingTask.html" title="org.osmdroid.tileprovider.cachemanager.CacheManager.DownloadingTask" alt="" coords="301,118,421,143"/>
-<area shape="rect" id="node4" href="./CacheManager.DownloadingTask.html" title="&lt;TABLE&gt;" alt="" coords="291,107,432,155"/>
-<area shape="rect" id="node5_4" href="./CacheManager.CleaningTask.html" title="org.osmdroid.tileprovider.cachemanager.CacheManager.CleaningTask" alt="" coords="467,118,565,143"/>
-<area shape="rect" id="node5" href="./CacheManager.CleaningTask.html" title="&lt;TABLE&gt;" alt="" coords="457,107,575,155"/>
+<area shape="rect" id="node3_2" href="./CacheManager.CacheManagerDialog.html" title="org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerDialog" alt="" coords="176,118,317,143"/>
+<area shape="rect" id="node3" href="./CacheManager.CacheManagerDialog.html" title="&lt;TABLE&gt;" alt="" coords="165,107,328,155"/>
+<area shape="rect" id="node4_3" href="./CacheManager.CacheManagerTask.html" title="org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerTask" alt="" coords="370,19,505,45"/>
+<area shape="rect" id="node4" href="./CacheManager.CacheManagerTask.html" title="&lt;TABLE&gt;" alt="" coords="359,8,515,56"/>
+<area shape="rect" id="node5_4" href="./CacheManager.CacheManagerAction.html" title="org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerAction" alt="" coords="551,11,695,53"/>
+<area shape="rect" id="node5" href="./CacheManager.CacheManagerAction.html" title="&lt;TABLE&gt;" alt="" coords="540,5,705,59"/>
 </map>

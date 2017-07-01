@@ -10,18 +10,18 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.tileprovider.tilesource.BitmapTileSourceBase
-	c91320 [label=<<table title="org.osmdroid.tileprovider.tilesource.BitmapTileSourceBase" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../tileprovider/tilesource/BitmapTileSourceBase.html">
+	c92072 [label=<<table title="org.osmdroid.tileprovider.tilesource.BitmapTileSourceBase" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../tileprovider/tilesource/BitmapTileSourceBase.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> BitmapTileSourceBase </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="../tileprovider/tilesource/BitmapTileSourceBase.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.mapsforge.MapsForgeTileSource
-	c91436 [label=<<table title="org.osmdroid.mapsforge.MapsForgeTileSource" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./MapsForgeTileSource.html">
+	c92189 [label=<<table title="org.osmdroid.mapsforge.MapsForgeTileSource" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./MapsForgeTileSource.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MapsForgeTileSource </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MapsForgeTileSource.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.mapsforge.MapsForgeTileSource extends org.osmdroid.tileprovider.tilesource.BitmapTileSourceBase
-	c91320:p -> c91436:p [dir=back,arrowtail=empty];
+	c92072:p -> c92189:p [dir=back,arrowtail=empty];
 }
 

@@ -10,15 +10,15 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.intro.PermissionsFragment
-	c107170 [label=<<table title="org.osmdroid.intro.PermissionsFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./PermissionsFragment.html">
+	c108052 [label=<<table title="org.osmdroid.intro.PermissionsFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./PermissionsFragment.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> PermissionsFragment </td></tr>
 		</table></td></tr>
 		</table>>, URL="./PermissionsFragment.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.intro.PermissionsFragment extends Fragment
-	c107485:p -> c107170:p [dir=back,arrowtail=empty];
+	c108370:p -> c108052:p [dir=back,arrowtail=empty];
 	// Fragment
-	c107485[label=<<table title="Fragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api//Fragment.html">
+	c108370[label=<<table title="Fragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api//Fragment.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> Fragment </td></tr>
 		</table></td></tr>

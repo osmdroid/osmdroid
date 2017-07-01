@@ -10,18 +10,18 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.samplefragments.tilesources.USGSTileSource
-	c148411 [label=<<table title="org.osmdroid.samplefragments.tilesources.USGSTileSource" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./USGSTileSource.html">
+	c150736 [label=<<table title="org.osmdroid.samplefragments.tilesources.USGSTileSource" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./USGSTileSource.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> USGSTileSource </td></tr>
 		</table></td></tr>
 		</table>>, URL="./USGSTileSource.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase
-	c148501 [label=<<table title="org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../tileprovider/tilesource/OnlineTileSourceBase.html">
+	c150826 [label=<<table title="org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../tileprovider/tilesource/OnlineTileSourceBase.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> OnlineTileSourceBase </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="../../tileprovider/tilesource/OnlineTileSourceBase.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.samplefragments.tilesources.USGSTileSource extends org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase
-	c148501:p -> c148411:p [dir=back,arrowtail=empty];
+	c150826:p -> c150736:p [dir=back,arrowtail=empty];
 }
 

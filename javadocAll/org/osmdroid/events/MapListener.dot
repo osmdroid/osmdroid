@@ -10,59 +10,59 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.samplefragments.data.HeatMap
-	c79517 [label=<<table title="org.osmdroid.samplefragments.data.HeatMap" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../samplefragments/data/HeatMap.html">
+	c80172 [label=<<table title="org.osmdroid.samplefragments.data.HeatMap" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../samplefragments/data/HeatMap.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> HeatMap </td></tr>
 		</table></td></tr>
 		</table>>, URL="../samplefragments/data/HeatMap.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.data.SampleGridlines
-	c79519 [label=<<table title="org.osmdroid.samplefragments.data.SampleGridlines" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../samplefragments/data/SampleGridlines.html">
+	c80174 [label=<<table title="org.osmdroid.samplefragments.data.SampleGridlines" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../samplefragments/data/SampleGridlines.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleGridlines </td></tr>
 		</table></td></tr>
 		</table>>, URL="../samplefragments/data/SampleGridlines.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.data.SampleOsmPath
-	c79525 [label=<<table title="org.osmdroid.samplefragments.data.SampleOsmPath" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../samplefragments/data/SampleOsmPath.html">
+	c80180 [label=<<table title="org.osmdroid.samplefragments.data.SampleOsmPath" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../samplefragments/data/SampleOsmPath.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleOsmPath </td></tr>
 		</table></td></tr>
 		</table>>, URL="../samplefragments/data/SampleOsmPath.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.layouts.SampleSplitScreen
-	c79556 [label=<<table title="org.osmdroid.samplefragments.layouts.SampleSplitScreen" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../samplefragments/layouts/SampleSplitScreen.html">
+	c80211 [label=<<table title="org.osmdroid.samplefragments.layouts.SampleSplitScreen" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../samplefragments/layouts/SampleSplitScreen.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleSplitScreen </td></tr>
 		</table></td></tr>
 		</table>>, URL="../samplefragments/layouts/SampleSplitScreen.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.events.DelayedMapListener
-	c79607 [label=<<table title="org.osmdroid.events.DelayedMapListener" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./DelayedMapListener.html">
+	c80263 [label=<<table title="org.osmdroid.events.DelayedMapListener" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./DelayedMapListener.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> DelayedMapListener </td></tr>
 		</table></td></tr>
 		</table>>, URL="./DelayedMapListener.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.events.MapAdapter
-	c79608 [label=<<table title="org.osmdroid.events.MapAdapter" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapAdapter.html">
+	c80264 [label=<<table title="org.osmdroid.events.MapAdapter" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapAdapter.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> MapAdapter </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./MapAdapter.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.events.MapListener
-	c79611 [label=<<table title="org.osmdroid.events.MapListener" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./MapListener.html">
+	c80267 [label=<<table title="org.osmdroid.events.MapListener" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./MapListener.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> MapListener </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MapListener.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.samplefragments.data.HeatMap implements org.osmdroid.events.MapListener
-	c79611:p -> c79517:p [dir=back,arrowtail=empty,style=dashed];
+	c80267:p -> c80172:p [dir=back,arrowtail=empty,style=dashed];
 	//org.osmdroid.samplefragments.data.SampleGridlines implements org.osmdroid.events.MapListener
-	c79611:p -> c79519:p [dir=back,arrowtail=empty,style=dashed];
+	c80267:p -> c80174:p [dir=back,arrowtail=empty,style=dashed];
 	//org.osmdroid.samplefragments.data.SampleOsmPath implements org.osmdroid.events.MapListener
-	c79611:p -> c79525:p [dir=back,arrowtail=empty,style=dashed];
+	c80267:p -> c80180:p [dir=back,arrowtail=empty,style=dashed];
 	//org.osmdroid.samplefragments.layouts.SampleSplitScreen implements org.osmdroid.events.MapListener
-	c79611:p -> c79556:p [dir=back,arrowtail=empty,style=dashed];
+	c80267:p -> c80211:p [dir=back,arrowtail=empty,style=dashed];
 	//org.osmdroid.events.DelayedMapListener implements org.osmdroid.events.MapListener
-	c79611:p -> c79607:p [dir=back,arrowtail=empty,style=dashed];
+	c80267:p -> c80263:p [dir=back,arrowtail=empty,style=dashed];
 	//org.osmdroid.events.MapAdapter implements org.osmdroid.events.MapListener
-	c79611:p -> c79608:p [dir=back,arrowtail=empty,style=dashed];
+	c80267:p -> c80264:p [dir=back,arrowtail=empty,style=dashed];
 }
 

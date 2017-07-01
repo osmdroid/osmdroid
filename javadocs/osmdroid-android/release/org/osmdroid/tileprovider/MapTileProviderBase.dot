@@ -10,27 +10,27 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.tileprovider.IMapTileProviderCallback
-	c22874 [label=<<table title="org.osmdroid.tileprovider.IMapTileProviderCallback" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./IMapTileProviderCallback.html">
+	c23000 [label=<<table title="org.osmdroid.tileprovider.IMapTileProviderCallback" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./IMapTileProviderCallback.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> IMapTileProviderCallback </td></tr>
 		</table></td></tr>
 		</table>>, URL="./IMapTileProviderCallback.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.MapTileProviderArray
-	c22880 [label=<<table title="org.osmdroid.tileprovider.MapTileProviderArray" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileProviderArray.html">
+	c23006 [label=<<table title="org.osmdroid.tileprovider.MapTileProviderArray" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileProviderArray.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MapTileProviderArray </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MapTileProviderArray.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.MapTileProviderBase
-	c22881 [label=<<table title="org.osmdroid.tileprovider.MapTileProviderBase" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./MapTileProviderBase.html">
+	c23007 [label=<<table title="org.osmdroid.tileprovider.MapTileProviderBase" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./MapTileProviderBase.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> MapTileProviderBase </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./MapTileProviderBase.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.tileprovider.MapTileProviderArray extends org.osmdroid.tileprovider.MapTileProviderBase
-	c22881:p -> c22880:p [dir=back,arrowtail=empty];
+	c23007:p -> c23006:p [dir=back,arrowtail=empty];
 	//org.osmdroid.tileprovider.MapTileProviderBase implements org.osmdroid.tileprovider.IMapTileProviderCallback
-	c22874:p -> c22881:p [dir=back,arrowtail=empty,style=dashed];
+	c23000:p -> c23007:p [dir=back,arrowtail=empty,style=dashed];
 }
 

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <javancss>
-  <date>2017-01-16</date>
-  <time>12:04:33</time>
+  <date>2017-07-01</date>
+  <time>14:43:58</time>
   <packages>
     <package>
       <name>org.osmdroid.mtp</name>
@@ -47,7 +47,7 @@
       <name>org.osmdroid.mtp.util</name>
       <classes>5</classes>
       <functions>6</functions>
-      <ncss>114</ncss>
+      <ncss>117</ncss>
       <javadocs>3</javadocs>
       <javadoc_lines>15</javadoc_lines>
       <single_comment_lines>94</single_comment_lines>
@@ -76,7 +76,7 @@
     <total>
       <classes>13</classes>
       <functions>59</functions>
-      <ncss>1263</ncss>
+      <ncss>1266</ncss>
       <javadocs>11</javadocs>
       <javadoc_lines>73</javadoc_lines>
       <single_comment_lines>295</single_comment_lines>
@@ -84,10 +84,10 @@
     </total>
     <table>
       <tr><td>Packages</td><td>Classes</td><td>Functions</td><td>NCSS</td><td>Javadocs</td><td>per</td></tr>
-      <tr><td>7.00</td><td>13.00</td><td>59.00</td><td>1,263.00</td><td>11.00</td><td>Project</td></tr>
-      <tr><td></td><td>1.86</td><td>8.43</td><td>180.43</td><td>1.57</td><td>Package</td></tr>
-      <tr><td></td><td></td><td>4.54</td><td>97.15</td><td>0.85</td><td>Class</td></tr>
-      <tr><td></td><td></td><td></td><td>21.41</td><td>0.19</td><td>Function</td></tr>
+      <tr><td>7.00</td><td>13.00</td><td>59.00</td><td>1,266.00</td><td>11.00</td><td>Project</td></tr>
+      <tr><td></td><td>1.86</td><td>8.43</td><td>180.86</td><td>1.57</td><td>Package</td></tr>
+      <tr><td></td><td></td><td>4.54</td><td>97.38</td><td>0.85</td><td>Class</td></tr>
+      <tr><td></td><td></td><td></td><td>21.46</td><td>0.19</td><td>Function</td></tr>
     </table>
   </packages>
 
@@ -174,7 +174,7 @@
     </object>
     <object>
       <name>org.osmdroid.mtp.util.FolderZipper</name>
-      <ncss>25</ncss>
+      <ncss>28</ncss>
       <functions>2</functions>
       <classes>0</classes>
       <javadocs>0</javadocs>
@@ -223,7 +223,7 @@
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <averages>
-      <ncss>88.69</ncss>
+      <ncss>88.92</ncss>
       <functions>4.54</functions>
       <classes>0.92</classes>
       <javadocs>0.85</javadocs>
@@ -231,7 +231,7 @@
       <single_comment_lines>21.92</single_comment_lines>
       <implementation_comment_lines>6.23</implementation_comment_lines>
     </averages>
-    <ncss>1,263.00</ncss>
+    <ncss>1,266.00</ncss>
   </objects>
 
   <functions>
@@ -549,8 +549,8 @@
     </function>
     <function>
       <name>org.osmdroid.mtp.util.FolderZipper.addFolderToZip(File,ZipOutputStream,String)</name>
-      <ncss>13</ncss>
-      <ccn>3</ccn>
+      <ncss>16</ncss>
+      <ccn>4</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
@@ -722,11 +722,11 @@
       <javadocs>0</javadocs>
     </function>
     <function_averages>
-      <ncss>13.96</ncss>
-      <ccn>3.15</ccn>
+      <ncss>14.00</ncss>
+      <ccn>3.16</ccn>
       <javadocs>0.10</javadocs>
     </function_averages>
-    <ncss>1,263.00</ncss>
+    <ncss>1,266.00</ncss>
   </functions>
 </javancss>
 

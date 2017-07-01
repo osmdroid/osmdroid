@@ -18,8 +18,8 @@ document.getElementById(id+'Link').style.display = 'none';
 <body>
 <h1>Lint Report</h1>
 <div class="titleSeparator"></div>
-Check performed at Mon Jan 16 12:07:47 EST 2017.<br/>
-33 errors and 71 warnings found:<br/><br/>
+Check performed at Sat Jul 01 14:47:34 EDT 2017.<br/>
+33 errors and 75 warnings found:<br/><br/>
 <table class="overview">
 <tr><td></td><td class="categoryColumn"><a href="#Correctness">Correctness</a>
 </td></tr>
@@ -84,7 +84,7 @@ Check performed at Mon Jan 16 12:07:47 EST 2017.<br/>
 <a href="#Overdraw">Overdraw: Overdraw: Painting regions more than once</a>
 </td></tr>
 <tr>
-<td class="countColumn">23</td><td class="issueColumn"><img border="0" align="top" src="lint-results-debug_files/lint-warning.png" alt="Warning" />
+<td class="countColumn">27</td><td class="issueColumn"><img border="0" align="top" src="lint-results-debug_files/lint-warning.png" alt="Warning" />
 <a href="#UnusedResources">UnusedResources: Unused resources</a>
 </td></tr>
 <tr><td></td><td class="categoryColumn"><a href="#Usability:Icons">Usability:Icons</a>
@@ -260,29 +260,29 @@ If your code is <b>deliberately</b> accessing newer APIs, and you have ensured (
 <div class="id"><a href="#" title="Return to top">NewApi: Calling new methods on older versions</a><div class="issueSeparator"></div>
 </div>
 <div class="warningslist">
-<span class="location"><a href="../../src/main/java/org/osmdroid/views/MapController.java">../../src/main/java/org/osmdroid/views/MapController.java</a>:302</span>: <span class="message">Cast from ValueAnimator to Animator requires API level 11 (current min is 8)</span><br /><pre class="errorlines">
-<span class="lineno"> 299</span> 			} else {
-<span class="lineno"> 300</span> 				mMapView.mTargetZoomLevel.set(mMapView.getZoomLevel(false) + 1);
-<span class="lineno"> 301</span> 				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-<span class="lineno"> 302</span> 					<span class="errorspan">mCurrentAnimator = mZoomInAnimation;</span>
-<span class="lineno"> 303</span> 					mZoomInAnimation.start();
-<span class="lineno"> 304</span> 				} else {
+<span class="location"><a href="../../src/main/java/org/osmdroid/views/MapController.java">../../src/main/java/org/osmdroid/views/MapController.java</a>:303</span>: <span class="message">Cast from ValueAnimator to Animator requires API level 11 (current min is 8)</span><br /><pre class="errorlines">
+<span class="lineno"> 300</span> 			} else {
+<span class="lineno"> 301</span> 				mMapView.mTargetZoomLevel.set(mMapView.getZoomLevel(false) + 1);
+<span class="lineno"> 302</span> 				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+<span class="lineno"> 303</span> 					<span class="errorspan">mCurrentAnimator = mZoomInAnimation;</span>
+<span class="lineno"> 304</span> 					mZoomInAnimation.start();
+<span class="lineno"> 305</span> 				} else {
 </pre>
-<span class="location"><a href="../../src/main/java/org/osmdroid/views/MapController.java">../../src/main/java/org/osmdroid/views/MapController.java</a>:335</span>: <span class="message">Cast from ValueAnimator to Animator requires API level 11 (current min is 8)</span><br /><pre class="errorlines">
-<span class="lineno"> 332</span> 			} else {
-<span class="lineno"> 333</span> 				mMapView.mTargetZoomLevel.set(mMapView.getZoomLevel(false) - 1);
-<span class="lineno"> 334</span> 				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-<span class="lineno"> 335</span> 					<span class="errorspan">mCurrentAnimator = mZoomOutAnimation;</span>
-<span class="lineno"> 336</span> 					mZoomOutAnimation.start();
-<span class="lineno"> 337</span> 				} else {
+<span class="location"><a href="../../src/main/java/org/osmdroid/views/MapController.java">../../src/main/java/org/osmdroid/views/MapController.java</a>:336</span>: <span class="message">Cast from ValueAnimator to Animator requires API level 11 (current min is 8)</span><br /><pre class="errorlines">
+<span class="lineno"> 333</span> 			} else {
+<span class="lineno"> 334</span> 				mMapView.mTargetZoomLevel.set(mMapView.getZoomLevel(false) - 1);
+<span class="lineno"> 335</span> 				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+<span class="lineno"> 336</span> 					<span class="errorspan">mCurrentAnimator = mZoomOutAnimation;</span>
+<span class="lineno"> 337</span> 					mZoomOutAnimation.start();
+<span class="lineno"> 338</span> 				} else {
 </pre>
-<span class="location"><a href="../../src/main/java/org/osmdroid/views/MapController.java">../../src/main/java/org/osmdroid/views/MapController.java</a>:380</span>: <span class="message">Cast from ValueAnimator to Animator requires API level 11 (current min is 8)</span><br /><pre class="errorlines">
-<span class="lineno"> 377</span> 					zoomToAnimator.addUpdateListener(zoomAnimatorListener);
-<span class="lineno"> 378</span> 					zoomToAnimator.setDuration(ANIMATION_DURATION_SHORT);
-<span class="lineno"> 379</span> 
-<span class="lineno"> 380</span> 					<span class="errorspan">mCurrentAnimator = zoomToAnimator;</span>
-<span class="lineno"> 381</span> 					zoomToAnimator.start();
-<span class="lineno"> 382</span> 				} else {
+<span class="location"><a href="../../src/main/java/org/osmdroid/views/MapController.java">../../src/main/java/org/osmdroid/views/MapController.java</a>:381</span>: <span class="message">Cast from ValueAnimator to Animator requires API level 11 (current min is 8)</span><br /><pre class="errorlines">
+<span class="lineno"> 378</span> 					zoomToAnimator.addUpdateListener(zoomAnimatorListener);
+<span class="lineno"> 379</span> 					zoomToAnimator.setDuration(ANIMATION_DURATION_SHORT);
+<span class="lineno"> 380</span> 
+<span class="lineno"> 381</span> 					<span class="errorspan">mCurrentAnimator = zoomToAnimator;</span>
+<span class="lineno"> 382</span> 					zoomToAnimator.start();
+<span class="lineno"> 383</span> 				} else {
 </pre>
 <span class="location"><a href="../../src/main/java/org/osmdroid/views/overlay/NonAcceleratedOverlay.java">../../src/main/java/org/osmdroid/views/overlay/NonAcceleratedOverlay.java</a>:78</span>: <span class="message">Call requires API level 11 (current min is 8): <code>android.graphics.Canvas#isHardwareAccelerated</code></span><br /><pre class="errorlines">
 <span class="lineno">  75</span> 	public final void draw(Canvas c, MapView osmv, boolean shadow) {
@@ -345,13 +345,13 @@ To fix this issue, set the <code>targetSdkVersion</code> to the highest availabl
 <div class="id"><a href="#" title="Return to top">SdCardPath: Hardcoded reference to <code>/sdcard</code></a><div class="issueSeparator"></div>
 </div>
 <div class="warningslist">
-<span class="location"><a href="../../src/main/java/org/osmdroid/config/DefaultConfigurationProvider.java">../../src/main/java/org/osmdroid/config/DefaultConfigurationProvider.java</a>:276</span>: <span class="message">Do not hardcode "<code>/data/</code>"; use <code>Context.getFilesDir().getPath()</code> instead</span><br /><pre class="errorlines">
-<span class="lineno"> 273</span>             File discoveredCachPath = getOsmdroidTileCache();
-<span class="lineno"> 274</span>             if (!discoveredBestPath.exists() || !StorageUtils.isWritable(discoveredBestPath)) {
-<span class="lineno"> 275</span>                 //this should always be writable...
-<span class="lineno"> 276</span>                 discoveredCachPath=discoveredBestPath=new File(<span class="errorspan">"/data/data/" + ctx.getPackageName() + "/osmdroid/");</span>
-<span class="lineno"> 277</span>                 discoveredCachPath.mkdirs();
-<span class="lineno"> 278</span>             }
+<span class="location"><a href="../../src/main/java/org/osmdroid/config/DefaultConfigurationProvider.java">../../src/main/java/org/osmdroid/config/DefaultConfigurationProvider.java</a>:295</span>: <span class="message">Do not hardcode "<code>/data/</code>"; use <code>Context.getFilesDir().getPath()</code> instead</span><br /><pre class="errorlines">
+<span class="lineno"> 292</span>             File discoveredCachPath = getOsmdroidTileCache();
+<span class="lineno"> 293</span>             if (!discoveredBestPath.exists() || !StorageUtils.isWritable(discoveredBestPath)) {
+<span class="lineno"> 294</span>                 //this should always be writable...
+<span class="lineno"> 295</span>                 discoveredCachPath=discoveredBestPath=new File(<span class="errorspan">"/data/data/" + ctx.getPackageName() + "/osmdroid/");</span>
+<span class="lineno"> 296</span>                 discoveredCachPath.mkdirs();
+<span class="lineno"> 297</span>             }
 </pre>
 </div>
 <div class="metadata">Priority: 6 / 10<br/>
@@ -396,7 +396,7 @@ Custom views typically need to call <code>measure()</code> on their children, no
 <div class="id"><a href="#" title="Return to top">GradleOverrides: Value overridden by Gradle build script</a><div class="issueSeparator"></div>
 </div>
 <div class="warningslist">
-<span class="location"><a href="../../src/main/AndroidManifest.xml">../../src/main/AndroidManifest.xml</a>:4</span>: <span class="message">This <code>versionCode</code> value (<code>1</code>) is not used; it is always overridden by the value specified in the Gradle build script (<code>27</code>)</span><br /><pre class="errorlines">
+<span class="location"><a href="../../src/main/AndroidManifest.xml">../../src/main/AndroidManifest.xml</a>:4</span>: <span class="message">This <code>versionCode</code> value (<code>1</code>) is not used; it is always overridden by the value specified in the Gradle build script (<code>29</code>)</span><br /><pre class="errorlines">
 <span class="lineno">   1</span> &lt;?xml version="1.0" encoding="utf-8"?>
 <span class="lineno">   2</span> &lt;manifest xmlns:android="http://schemas.android.com/apk/res/android"
 <span class="lineno">   3</span> 		package="org.osmdroid.library"
@@ -404,7 +404,7 @@ Custom views typically need to call <code>measure()</code> on their children, no
 <span class="lineno">   5</span> 
 <span class="lineno">   6</span> 	&lt;uses-sdk android:minSdkVersion="8" android:targetSdkVersion="23" />
 </pre>
-<span class="location"><a href="../../src/main/AndroidManifest.xml">../../src/main/AndroidManifest.xml</a>:4</span>: <span class="message">This <code>versionName</code> value (<code>5.3-SNAPSHOT</code>) is not used; it is always overridden by the value specified in the Gradle build script (<code>5.6.3</code>)</span><br /><pre class="errorlines">
+<span class="location"><a href="../../src/main/AndroidManifest.xml">../../src/main/AndroidManifest.xml</a>:4</span>: <span class="message">This <code>versionName</code> value (<code>5.3-SNAPSHOT</code>) is not used; it is always overridden by the value specified in the Gradle build script (<code>5.6.5</code>)</span><br /><pre class="errorlines">
 <span class="lineno">   1</span> &lt;?xml version="1.0" encoding="utf-8"?>
 <span class="lineno">   2</span> &lt;manifest xmlns:android="http://schemas.android.com/apk/res/android"
 <span class="lineno">   3</span> 		package="org.osmdroid.library"
@@ -851,6 +851,74 @@ Of course it's possible that your custom drawable is translucent and you want it
 <div class="id"><a href="#" title="Return to top">UnusedResources: Unused resources</a><div class="issueSeparator"></div>
 </div>
 <div class="warningslist">
+<span class="location"><a href="../../src/main/res/drawable-hdpi/osm_ic_center_map.png">../../src/main/res/drawable-hdpi/osm_ic_center_map.png</a></span>: <span class="message">The resource <code>R.drawable.osm_ic_center_map</code> appears to be unused</span><br />
+<ul></ul><button id="Location1DivLink" onclick="reveal('Location1Div');" />+ 4 Additional Locations...</button>
+<div id="Location1Div" style="display: none">
+Additional locations: <ul>
+<li> <span class="location"><a href="../../src/main/res/drawable-mdpi/osm_ic_center_map.png">../../src/main/res/drawable-mdpi/osm_ic_center_map.png</a></span>
+<li> <span class="location"><a href="../../src/main/res/drawable-xhdpi/osm_ic_center_map.png">../../src/main/res/drawable-xhdpi/osm_ic_center_map.png</a></span>
+<li> <span class="location"><a href="../../src/main/res/drawable-xxhdpi/osm_ic_center_map.png">../../src/main/res/drawable-xxhdpi/osm_ic_center_map.png</a></span>
+<li> <span class="location"><a href="../../src/main/res/drawable-xxxhdpi/osm_ic_center_map.png">../../src/main/res/drawable-xxxhdpi/osm_ic_center_map.png</a></span>
+</ul>
+</div><br/><br/>
+<table><tr><td><a href="../../src/main/res/drawable-xhdpi/osm_ic_center_map.png"><img border="0" align="top" src="../../src/main/res/drawable-xhdpi/osm_ic_center_map.png" /></a>
+</td><td><a href="../../src/main/res/drawable-hdpi/osm_ic_center_map.png"><img border="0" align="top" src="../../src/main/res/drawable-hdpi/osm_ic_center_map.png" /></a>
+</td><td><a href="../../src/main/res/drawable-mdpi/osm_ic_center_map.png"><img border="0" align="top" src="../../src/main/res/drawable-mdpi/osm_ic_center_map.png" /></a>
+</td><td><a href="../../src/main/res/drawable-xxhdpi/osm_ic_center_map.png"><img border="0" align="top" src="../../src/main/res/drawable-xxhdpi/osm_ic_center_map.png" /></a>
+</td><td><a href="../../src/main/res/drawable-xxxhdpi/osm_ic_center_map.png"><img border="0" align="top" src="../../src/main/res/drawable-xxxhdpi/osm_ic_center_map.png" /></a>
+</td></tr><tr><th>xhdpi</th><th>hdpi</th><th>mdpi</th><th>xxhdpi</th><th>xxxhdpi</th></tr>
+</table>
+<span class="location"><a href="../../src/main/res/drawable-hdpi/osm_ic_follow_me.png">../../src/main/res/drawable-hdpi/osm_ic_follow_me.png</a></span>: <span class="message">The resource <code>R.drawable.osm_ic_follow_me</code> appears to be unused</span><br />
+<ul></ul><button id="Location2DivLink" onclick="reveal('Location2Div');" />+ 4 Additional Locations...</button>
+<div id="Location2Div" style="display: none">
+Additional locations: <ul>
+<li> <span class="location"><a href="../../src/main/res/drawable-mdpi/osm_ic_follow_me.png">../../src/main/res/drawable-mdpi/osm_ic_follow_me.png</a></span>
+<li> <span class="location"><a href="../../src/main/res/drawable-xhdpi/osm_ic_follow_me.png">../../src/main/res/drawable-xhdpi/osm_ic_follow_me.png</a></span>
+<li> <span class="location"><a href="../../src/main/res/drawable-xxhdpi/osm_ic_follow_me.png">../../src/main/res/drawable-xxhdpi/osm_ic_follow_me.png</a></span>
+<li> <span class="location"><a href="../../src/main/res/drawable-xxxhdpi/osm_ic_follow_me.png">../../src/main/res/drawable-xxxhdpi/osm_ic_follow_me.png</a></span>
+</ul>
+</div><br/><br/>
+<table><tr><td><a href="../../src/main/res/drawable-xhdpi/osm_ic_follow_me.png"><img border="0" align="top" src="../../src/main/res/drawable-xhdpi/osm_ic_follow_me.png" /></a>
+</td><td><a href="../../src/main/res/drawable-hdpi/osm_ic_follow_me.png"><img border="0" align="top" src="../../src/main/res/drawable-hdpi/osm_ic_follow_me.png" /></a>
+</td><td><a href="../../src/main/res/drawable-mdpi/osm_ic_follow_me.png"><img border="0" align="top" src="../../src/main/res/drawable-mdpi/osm_ic_follow_me.png" /></a>
+</td><td><a href="../../src/main/res/drawable-xxhdpi/osm_ic_follow_me.png"><img border="0" align="top" src="../../src/main/res/drawable-xxhdpi/osm_ic_follow_me.png" /></a>
+</td><td><a href="../../src/main/res/drawable-xxxhdpi/osm_ic_follow_me.png"><img border="0" align="top" src="../../src/main/res/drawable-xxxhdpi/osm_ic_follow_me.png" /></a>
+</td></tr><tr><th>xhdpi</th><th>hdpi</th><th>mdpi</th><th>xxhdpi</th><th>xxxhdpi</th></tr>
+</table>
+<span class="location"><a href="../../src/main/res/drawable-hdpi/osm_ic_follow_me_on.png">../../src/main/res/drawable-hdpi/osm_ic_follow_me_on.png</a></span>: <span class="message">The resource <code>R.drawable.osm_ic_follow_me_on</code> appears to be unused</span><br />
+<ul></ul><button id="Location3DivLink" onclick="reveal('Location3Div');" />+ 4 Additional Locations...</button>
+<div id="Location3Div" style="display: none">
+Additional locations: <ul>
+<li> <span class="location"><a href="../../src/main/res/drawable-mdpi/osm_ic_follow_me_on.png">../../src/main/res/drawable-mdpi/osm_ic_follow_me_on.png</a></span>
+<li> <span class="location"><a href="../../src/main/res/drawable-xhdpi/osm_ic_follow_me_on.png">../../src/main/res/drawable-xhdpi/osm_ic_follow_me_on.png</a></span>
+<li> <span class="location"><a href="../../src/main/res/drawable-xxhdpi/osm_ic_follow_me_on.png">../../src/main/res/drawable-xxhdpi/osm_ic_follow_me_on.png</a></span>
+<li> <span class="location"><a href="../../src/main/res/drawable-xxxhdpi/osm_ic_follow_me_on.png">../../src/main/res/drawable-xxxhdpi/osm_ic_follow_me_on.png</a></span>
+</ul>
+</div><br/><br/>
+<table><tr><td><a href="../../src/main/res/drawable-xhdpi/osm_ic_follow_me_on.png"><img border="0" align="top" src="../../src/main/res/drawable-xhdpi/osm_ic_follow_me_on.png" /></a>
+</td><td><a href="../../src/main/res/drawable-hdpi/osm_ic_follow_me_on.png"><img border="0" align="top" src="../../src/main/res/drawable-hdpi/osm_ic_follow_me_on.png" /></a>
+</td><td><a href="../../src/main/res/drawable-mdpi/osm_ic_follow_me_on.png"><img border="0" align="top" src="../../src/main/res/drawable-mdpi/osm_ic_follow_me_on.png" /></a>
+</td><td><a href="../../src/main/res/drawable-xxhdpi/osm_ic_follow_me_on.png"><img border="0" align="top" src="../../src/main/res/drawable-xxhdpi/osm_ic_follow_me_on.png" /></a>
+</td><td><a href="../../src/main/res/drawable-xxxhdpi/osm_ic_follow_me_on.png"><img border="0" align="top" src="../../src/main/res/drawable-xxxhdpi/osm_ic_follow_me_on.png" /></a>
+</td></tr><tr><th>xhdpi</th><th>hdpi</th><th>mdpi</th><th>xxhdpi</th><th>xxxhdpi</th></tr>
+</table>
+<span class="location"><a href="../../src/main/res/drawable-hdpi/osm_ic_ic_map_ortho.png">../../src/main/res/drawable-hdpi/osm_ic_ic_map_ortho.png</a></span>: <span class="message">The resource <code>R.drawable.osm_ic_ic_map_ortho</code> appears to be unused</span><br />
+<ul></ul><button id="Location4DivLink" onclick="reveal('Location4Div');" />+ 4 Additional Locations...</button>
+<div id="Location4Div" style="display: none">
+Additional locations: <ul>
+<li> <span class="location"><a href="../../src/main/res/drawable-mdpi/osm_ic_ic_map_ortho.png">../../src/main/res/drawable-mdpi/osm_ic_ic_map_ortho.png</a></span>
+<li> <span class="location"><a href="../../src/main/res/drawable-xhdpi/osm_ic_ic_map_ortho.png">../../src/main/res/drawable-xhdpi/osm_ic_ic_map_ortho.png</a></span>
+<li> <span class="location"><a href="../../src/main/res/drawable-xxhdpi/osm_ic_ic_map_ortho.png">../../src/main/res/drawable-xxhdpi/osm_ic_ic_map_ortho.png</a></span>
+<li> <span class="location"><a href="../../src/main/res/drawable-xxxhdpi/osm_ic_ic_map_ortho.png">../../src/main/res/drawable-xxxhdpi/osm_ic_ic_map_ortho.png</a></span>
+</ul>
+</div><br/><br/>
+<table><tr><td><a href="../../src/main/res/drawable-xhdpi/osm_ic_ic_map_ortho.png"><img border="0" align="top" src="../../src/main/res/drawable-xhdpi/osm_ic_ic_map_ortho.png" /></a>
+</td><td><a href="../../src/main/res/drawable-hdpi/osm_ic_ic_map_ortho.png"><img border="0" align="top" src="../../src/main/res/drawable-hdpi/osm_ic_ic_map_ortho.png" /></a>
+</td><td><a href="../../src/main/res/drawable-mdpi/osm_ic_ic_map_ortho.png"><img border="0" align="top" src="../../src/main/res/drawable-mdpi/osm_ic_ic_map_ortho.png" /></a>
+</td><td><a href="../../src/main/res/drawable-xxhdpi/osm_ic_ic_map_ortho.png"><img border="0" align="top" src="../../src/main/res/drawable-xxhdpi/osm_ic_ic_map_ortho.png" /></a>
+</td><td><a href="../../src/main/res/drawable-xxxhdpi/osm_ic_ic_map_ortho.png"><img border="0" align="top" src="../../src/main/res/drawable-xxxhdpi/osm_ic_ic_map_ortho.png" /></a>
+</td></tr><tr><th>xhdpi</th><th>hdpi</th><th>mdpi</th><th>xxhdpi</th><th>xxxhdpi</th></tr>
+</table>
 <span class="location"><a href="../../src/main/res/values/strings.xml">../../src/main/res/values/strings.xml</a>:3</span>: <span class="message">The resource <code>R.string.app_name</code> appears to be unused</span><br /><pre class="errorlines">
 <span class="lineno">   1</span> &lt;?xml version="1.0" encoding="utf-8"?>
 <span class="lineno">   2</span> &lt;resources>
@@ -858,6 +926,8 @@ Of course it's possible that your custom drawable is translucent and you want it
 <span class="lineno">   4</span> 
 <span class="lineno">   5</span>     &lt;string name="unknown">Unknown&lt;/string>
 </pre>
+<button id="UnusedResourcesDivLink" onclick="reveal('UnusedResourcesDiv');" />+ 22 More Occurrences...</button>
+<div id="UnusedResourcesDiv" style="display: none">
 <span class="location"><a href="../../src/main/res/values/strings.xml">../../src/main/res/values/strings.xml</a>:8</span>: <span class="message">The resource <code>R.string.offline</code> appears to be unused</span><br /><pre class="errorlines">
 <span class="lineno">   5</span>     &lt;string name="unknown">Unknown&lt;/string>
 <span class="lineno">   6</span>     &lt;string name="map_mode">Map Source&lt;/string>
@@ -882,8 +952,8 @@ Of course it's possible that your custom drawable is translucent and you want it
 <span class="lineno">  11</span>     &lt;string name="about_message">This software uses map data provided by OpenStreetMap.org&lt;/string>
 <span class="lineno">  12</span> 
 </pre>
-<ul></ul><button id="Location4DivLink" onclick="reveal('Location4Div');" />+ 2 Additional Locations...</button>
-<div id="Location4Div" style="display: none">
+<ul></ul><button id="Location8DivLink" onclick="reveal('Location8Div');" />+ 2 Additional Locations...</button>
+<div id="Location8Div" style="display: none">
 Additional locations: <ul>
 <li> <span class="location"><a href="../../src/main/res/values-de/strings.xml">../../src/main/res/values-de/strings.xml</a>:5</span>
 <li> <span class="location"><a href="../../src/main/res/values-it/strings.xml">../../src/main/res/values-it/strings.xml</a>:6</span>
@@ -897,15 +967,13 @@ Additional locations: <ul>
 <span class="lineno">  12</span> 
 <span class="lineno">  13</span>     &lt;string name="first_fix_message">Got the first fix&lt;/string>
 </pre>
-<ul></ul><button id="Location5DivLink" onclick="reveal('Location5Div');" />+ 2 Additional Locations...</button>
-<div id="Location5Div" style="display: none">
+<ul></ul><button id="Location9DivLink" onclick="reveal('Location9Div');" />+ 2 Additional Locations...</button>
+<div id="Location9Div" style="display: none">
 Additional locations: <ul>
 <li> <span class="location"><a href="../../src/main/res/values-de/strings.xml">../../src/main/res/values-de/strings.xml</a>:6</span>
 <li> <span class="location"><a href="../../src/main/res/values-it/strings.xml">../../src/main/res/values-it/strings.xml</a>:7</span>
 </ul>
 </div><br/><br/>
-<button id="UnusedResourcesDivLink" onclick="reveal('UnusedResourcesDiv');" />+ 18 More Occurrences...</button>
-<div id="UnusedResourcesDiv" style="display: none">
 <span class="location"><a href="../../src/main/res/values/strings.xml">../../src/main/res/values/strings.xml</a>:13</span>: <span class="message">The resource <code>R.string.first_fix_message</code> appears to be unused</span><br /><pre class="errorlines">
 <span class="lineno">  10</span>     &lt;string name="about">About&lt;/string>
 <span class="lineno">  11</span>     &lt;string name="about_message">This software uses map data provided by OpenStreetMap.org&lt;/string>
@@ -945,8 +1013,8 @@ Additional locations: <ul>
 <span class="lineno">   5</span>     &lt;string name="public_transport">Public transport&lt;/string>
 <span class="lineno">   6</span>     &lt;string name="base">OSM base layer&lt;/string>
 </pre>
-<ul></ul><button id="Location10DivLink" onclick="reveal('Location10Div');" />+ 2 Additional Locations...</button>
-<div id="Location10Div" style="display: none">
+<ul></ul><button id="Location14DivLink" onclick="reveal('Location14Div');" />+ 2 Additional Locations...</button>
+<div id="Location14Div" style="display: none">
 Additional locations: <ul>
 <li> <span class="location"><a href="../../src/main/res/values-de/tile_sources.xml">../../src/main/res/values-de/tile_sources.xml</a>:4</span>
 <li> <span class="location"><a href="../../src/main/res/values-it/tile_sources.xml">../../src/main/res/values-it/tile_sources.xml</a>:3</span>
@@ -968,8 +1036,8 @@ Additional locations: <ul>
 <span class="lineno">   7</span>     &lt;string name="topo">Topographic&lt;/string>
 <span class="lineno">   8</span>     &lt;string name="hills">Hills&lt;/string>
 </pre>
-<ul></ul><button id="Location12DivLink" onclick="reveal('Location12Div');" />+ 1 Additional Locations...</button>
-<div id="Location12Div" style="display: none">
+<ul></ul><button id="Location16DivLink" onclick="reveal('Location16Div');" />+ 1 Additional Locations...</button>
+<div id="Location16Div" style="display: none">
 Additional locations: <ul>
 <li> <span class="location"><a href="../../src/main/res/values-de/tile_sources.xml">../../src/main/res/values-de/tile_sources.xml</a>:3</span>
 </ul>
@@ -982,8 +1050,8 @@ Additional locations: <ul>
 <span class="lineno">   8</span>     &lt;string name="hills">Hills&lt;/string>
 <span class="lineno">   9</span>     &lt;string name="mapquest_osm">Mapquest&lt;/string>
 </pre>
-<ul></ul><button id="Location13DivLink" onclick="reveal('Location13Div');" />+ 2 Additional Locations...</button>
-<div id="Location13Div" style="display: none">
+<ul></ul><button id="Location17DivLink" onclick="reveal('Location17Div');" />+ 2 Additional Locations...</button>
+<div id="Location17Div" style="display: none">
 Additional locations: <ul>
 <li> <span class="location"><a href="../../src/main/res/values-de/tile_sources.xml">../../src/main/res/values-de/tile_sources.xml</a>:4</span>
 <li> <span class="location"><a href="../../src/main/res/values-it/tile_sources.xml">../../src/main/res/values-it/tile_sources.xml</a>:4</span>
@@ -997,8 +1065,8 @@ Additional locations: <ul>
 <span class="lineno">   9</span>     &lt;string name="mapquest_osm">Mapquest&lt;/string>
 <span class="lineno">  10</span>     &lt;string name="mapquest_aerial">Mapquest Aerial&lt;/string>
 </pre>
-<ul></ul><button id="Location14DivLink" onclick="reveal('Location14Div');" />+ 2 Additional Locations...</button>
-<div id="Location14Div" style="display: none">
+<ul></ul><button id="Location18DivLink" onclick="reveal('Location18Div');" />+ 2 Additional Locations...</button>
+<div id="Location18Div" style="display: none">
 Additional locations: <ul>
 <li> <span class="location"><a href="../../src/main/res/values-de/tile_sources.xml">../../src/main/res/values-de/tile_sources.xml</a>:4</span>
 <li> <span class="location"><a href="../../src/main/res/values-it/tile_sources.xml">../../src/main/res/values-it/tile_sources.xml</a>:5</span>

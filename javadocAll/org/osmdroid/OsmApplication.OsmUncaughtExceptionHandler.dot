@@ -10,15 +10,15 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.OsmApplication.OsmUncaughtExceptionHandler
-	c102445 [label=<<table title="org.osmdroid.OsmApplication.OsmUncaughtExceptionHandler" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./OsmApplication.OsmUncaughtExceptionHandler.html">
+	c103289 [label=<<table title="org.osmdroid.OsmApplication.OsmUncaughtExceptionHandler" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./OsmApplication.OsmUncaughtExceptionHandler.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> OsmUncaughtExceptionHandler </td></tr>
 		</table></td></tr>
 		</table>>, URL="./OsmApplication.OsmUncaughtExceptionHandler.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.OsmApplication.OsmUncaughtExceptionHandler implements java.lang.Thread.UncaughtExceptionHandler
-	c102749:p -> c102445:p [dir=back,arrowtail=empty,style=dashed];
+	c103595:p -> c103289:p [dir=back,arrowtail=empty,style=dashed];
 	// java.lang.Thread.UncaughtExceptionHandler
-	c102749 [label=<<table title="java.lang.Thread.UncaughtExceptionHandler" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/java/lang/Thread/UncaughtExceptionHandler.html">
+	c103595 [label=<<table title="java.lang.Thread.UncaughtExceptionHandler" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/java/lang/Thread/UncaughtExceptionHandler.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> UncaughtExceptionHandler </td></tr>

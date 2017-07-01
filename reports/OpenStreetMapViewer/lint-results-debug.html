@@ -18,8 +18,8 @@ document.getElementById(id+'Link').style.display = 'none';
 <body>
 <h1>Lint Report</h1>
 <div class="titleSeparator"></div>
-Check performed at Mon Jan 16 12:06:25 EST 2017.<br/>
-100 errors and 296 warnings found:<br/><br/>
+Check performed at Sat Jul 01 14:46:00 EDT 2017.<br/>
+100 errors and 315 warnings found:<br/><br/>
 <table class="overview">
 <tr><td></td><td class="categoryColumn"><a href="#Correctness">Correctness</a>
 </td></tr>
@@ -52,7 +52,7 @@ Check performed at Mon Jan 16 12:06:25 EST 2017.<br/>
 <a href="#OldTargetApi">OldTargetApi: Target SDK attribute is not targeting latest version</a>
 </td></tr>
 <tr>
-<td class="countColumn">1</td><td class="issueColumn"><img border="0" align="top" src="lint-results-debug_files/lint-warning.png" alt="Warning" />
+<td class="countColumn">2</td><td class="issueColumn"><img border="0" align="top" src="lint-results-debug_files/lint-warning.png" alt="Warning" />
 <a href="#SdCardPath">SdCardPath: Hardcoded reference to <code>/sdcard</code></a>
 </td></tr>
 <tr>
@@ -168,21 +168,21 @@ Check performed at Mon Jan 16 12:06:25 EST 2017.<br/>
 <tr><td></td><td class="categoryColumn"><a href="#Internationalization">Internationalization</a>
 </td></tr>
 <tr>
-<td class="countColumn">56</td><td class="issueColumn"><img border="0" align="top" src="lint-results-debug_files/lint-warning.png" alt="Warning" />
+<td class="countColumn">58</td><td class="issueColumn"><img border="0" align="top" src="lint-results-debug_files/lint-warning.png" alt="Warning" />
 <a href="#SetTextI18n">SetTextI18n: TextView Internationalization</a>
 </td></tr>
 <tr>
-<td class="countColumn">65</td><td class="issueColumn"><img border="0" align="top" src="lint-results-debug_files/lint-warning.png" alt="Warning" />
+<td class="countColumn">73</td><td class="issueColumn"><img border="0" align="top" src="lint-results-debug_files/lint-warning.png" alt="Warning" />
 <a href="#HardcodedText">HardcodedText: Hardcoded text</a>
 </td></tr>
 <tr><td></td><td class="categoryColumn"><a href="#Internationalization:Bidirectional Text">Internationalization:Bidirectional Text</a>
 </td></tr>
 <tr>
-<td class="countColumn">4</td><td class="issueColumn"><img border="0" align="top" src="lint-results-debug_files/lint-warning.png" alt="Warning" />
+<td class="countColumn">8</td><td class="issueColumn"><img border="0" align="top" src="lint-results-debug_files/lint-warning.png" alt="Warning" />
 <a href="#RtlSymmetry">RtlSymmetry: Padding and margin symmetry</a>
 </td></tr>
 <tr>
-<td class="countColumn">12</td><td class="issueColumn"><img border="0" align="top" src="lint-results-debug_files/lint-warning.png" alt="Warning" />
+<td class="countColumn">16</td><td class="issueColumn"><img border="0" align="top" src="lint-results-debug_files/lint-warning.png" alt="Warning" />
 <a href="#RtlHardcoded">RtlHardcoded: Using left/right instead of start/end attributes</a>
 </td></tr>
 <tr>
@@ -327,12 +327,12 @@ Furthermore, for permissions that are revocable (with targetSdkVersion 23), clie
 <span class="lineno">  12</span> 
 </pre>
 <span class="location"><a href="../../src/main/res/layout/intro_storage.xml">../../src/main/res/layout/intro_storage.xml</a>:11</span>: <span class="message">This LinearLayout should use <code>android:layout_height="wrap_content"</code></span><br /><pre class="errorlines">
-<span class="lineno">   8</span>     &lt;LinearLayout
-<span class="lineno">   9</span>         android:orientation="vertical"
+<span class="lineno">   8</span> 
+<span class="lineno">   9</span>     &lt;LinearLayout
 <span class="lineno">  10</span>         android:layout_width="match_parent"
-<span class="lineno">  11</span>         <span class="errorspan">android:layout_height="match_parent"></span>
-<span class="lineno">  12</span>     &lt;TextView
-<span class="lineno">  13</span>         android:layout_width="wrap_content"
+<span class="lineno">  11</span>         <span class="errorspan">android:layout_height="match_parent"</span>
+<span class="lineno">  12</span>         android:orientation="vertical">
+<span class="lineno">  13</span> 
 </pre>
 <span class="location"><a href="../../src/main/res/layout/intro_tilesources_osm.xml">../../src/main/res/layout/intro_tilesources_osm.xml</a>:10</span>: <span class="message">This LinearLayout should use <code>android:layout_height="wrap_content"</code></span><br /><pre class="errorlines">
 <span class="lineno">   7</span> 
@@ -618,13 +618,21 @@ To fix this issue, set the <code>targetSdkVersion</code> to the highest availabl
 <div class="id"><a href="#" title="Return to top">SdCardPath: Hardcoded reference to <code>/sdcard</code></a><div class="issueSeparator"></div>
 </div>
 <div class="warningslist">
-<span class="location"><a href="../../src/main/java/org/osmdroid/PreferenceActivity.java">../../src/main/java/org/osmdroid/PreferenceActivity.java</a>:336</span>: <span class="message">Do not hardcode "<code>/data/</code>"; use <code>Context.getFilesDir().getPath()</code> instead</span><br /><pre class="errorlines">
-<span class="lineno"> 333</span>             if (!storageList.get(i).readonly)
-<span class="lineno"> 334</span>                 arrayAdapter.add(storageList.get(i).path);
-<span class="lineno"> 335</span>         }
-<span class="lineno"> 336</span>         arrayAdapter.add(<span class="errorspan">"/data/data/" + getPackageName());</span>
-<span class="lineno"> 337</span> 
-<span class="lineno"> 338</span>         builder.setAdapter(arrayAdapter, new DialogInterface.OnClickListener() {
+<span class="location"><a href="../../src/main/java/org/osmdroid/PreferenceActivity.java">../../src/main/java/org/osmdroid/PreferenceActivity.java</a>:341</span>: <span class="message">Do not hardcode "<code>/data/</code>"; use <code>Context.getFilesDir().getPath()</code> instead</span><br /><pre class="errorlines">
+<span class="lineno"> 338</span>             }
+<span class="lineno"> 339</span>         }
+<span class="lineno"> 340</span>         try {
+<span class="lineno"> 341</span>             File f = new File(<span class="errorspan">"/data/data/" + getPackageName() + "/osmdroid/");</span>
+<span class="lineno"> 342</span>             f.mkdirs();
+<span class="lineno"> 343</span>             StorageUtils.StorageInfo privateStorage=new StorageUtils.StorageInfo(f.getAbsolutePath(), true, false, 0);
+</pre>
+<span class="location"><a href="../../src/main/java/org/osmdroid/intro/StoragePreferenceFragment.java">../../src/main/java/org/osmdroid/intro/StoragePreferenceFragment.java</a>:130</span>: <span class="message">Do not hardcode "<code>/data/</code>"; use <code>Context.getFilesDir().getPath()</code> instead</span><br /><pre class="errorlines">
+<span class="lineno"> 127</span>             }
+<span class="lineno"> 128</span>         }
+<span class="lineno"> 129</span>         try {
+<span class="lineno"> 130</span>             File f = new File(<span class="errorspan">"/data/data/" + getActivity().getPackageName() + "/osmdroid/");</span>
+<span class="lineno"> 131</span>             f.mkdirs();
+<span class="lineno"> 132</span>             StorageUtils.StorageInfo privateStorage = new StorageUtils.StorageInfo(f.getAbsolutePath(), true, false, 0);
 </pre>
 </div>
 <div class="metadata">Priority: 6 / 10<br/>
@@ -644,13 +652,13 @@ Similarly, do not reference the <code>/data/data/</code> path directly; it can v
 <div class="id"><a href="#" title="Return to top">ShowToast: Toast created but not shown</a><div class="issueSeparator"></div>
 </div>
 <div class="warningslist">
-<span class="location"><a href="../../src/main/java/org/osmdroid/PreferenceActivity.java">../../src/main/java/org/osmdroid/PreferenceActivity.java</a>:347</span>: <span class="message">Toast created but not shown: did you forget to call <code>show()</code> ?</span><br /><pre class="errorlines">
-<span class="lineno"> 344</span>                     tv.setText(item + File.separator + "osmdroid" + File.separator + postfix);
-<span class="lineno"> 345</span>                 } catch (Exception ex) {
-<span class="lineno"> 346</span>                     ex.printStackTrace();
-<span class="lineno"> 347</span>                     <span class="errorspan">Toast.makeText(PreferenceActivity.this, "Invalid entry: " + ex.getMessage(), Toast.LENGTH_LONG);</span>
-<span class="lineno"> 348</span>                 }
-<span class="lineno"> 349</span> 
+<span class="location"><a href="../../src/main/java/org/osmdroid/PreferenceActivity.java">../../src/main/java/org/osmdroid/PreferenceActivity.java</a>:387</span>: <span class="message">Toast created but not shown: did you forget to call <code>show()</code> ?</span><br /><pre class="errorlines">
+<span class="lineno"> 384</span>                     tv.setText(item.path + File.separator + "osmdroid" + File.separator + postfix);
+<span class="lineno"> 385</span>                 } catch (Exception ex) {
+<span class="lineno"> 386</span>                     ex.printStackTrace();
+<span class="lineno"> 387</span>                     <span class="errorspan">Toast.makeText(PreferenceActivity.this, "Invalid entry: " + ex.getMessage(), Toast.LENGTH_LONG);</span>
+<span class="lineno"> 388</span>                 }
+<span class="lineno"> 389</span> 
 </pre>
 </div>
 <div class="metadata">Priority: 6 / 10<br/>
@@ -667,21 +675,21 @@ Explanation: Toast created but not shown.</div>
 <div class="id"><a href="#" title="Return to top">SimpleDateFormat: Implied locale in date format</a><div class="issueSeparator"></div>
 </div>
 <div class="warningslist">
-<span class="location"><a href="../../src/main/java/org/osmdroid/debug/util/FileDateUtil.java">../../src/main/java/org/osmdroid/debug/util/FileDateUtil.java</a>:35</span>: <span class="message">To get local formatting use <code>getDateInstance()</code>, <code>getDateTimeInstance()</code>, or <code>getTimeInstance()</code>, or use <code>new SimpleDateFormat(String template, Locale locale)</code> with for example <code>Locale.US</code> for ASCII dates.</span><br /><pre class="errorlines">
-<span class="lineno">  32</span>         SimpleDateFormat dateFormat = null;
-<span class="lineno">  33</span> 
-<span class="lineno">  34</span>         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-<span class="lineno">  35</span>             dateFormat = <span class="errorspan">new SimpleDateFormat(getDateFormat(locale));</span>
-<span class="lineno">  36</span>         } else {
-<span class="lineno">  37</span>             dateFormat = new SimpleDateFormat("MMM/dd/yyyy hh:mm:ss aa");
+<span class="location"><a href="../../src/main/java/org/osmdroid/debug/util/FileDateUtil.java">../../src/main/java/org/osmdroid/debug/util/FileDateUtil.java</a>:28</span>: <span class="message">To get local formatting use <code>getDateInstance()</code>, <code>getDateTimeInstance()</code>, or <code>getTimeInstance()</code>, or use <code>new SimpleDateFormat(String template, Locale locale)</code> with for example <code>Locale.US</code> for ASCII dates.</span><br /><pre class="errorlines">
+<span class="lineno">  25</span>         SimpleDateFormat dateFormat = null;
+<span class="lineno">  26</span> 
+<span class="lineno">  27</span>         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+<span class="lineno">  28</span>             dateFormat = <span class="errorspan">new SimpleDateFormat(getDateFormat(locale));</span>
+<span class="lineno">  29</span>         } else {
+<span class="lineno">  30</span>             dateFormat = new SimpleDateFormat("MMM/dd/yyyy hh:mm:ss aa");
 </pre>
-<span class="location"><a href="../../src/main/java/org/osmdroid/debug/util/FileDateUtil.java">../../src/main/java/org/osmdroid/debug/util/FileDateUtil.java</a>:37</span>: <span class="message">To get local formatting use <code>getDateInstance()</code>, <code>getDateTimeInstance()</code>, or <code>getTimeInstance()</code>, or use <code>new SimpleDateFormat(String template, Locale locale)</code> with for example <code>Locale.US</code> for ASCII dates.</span><br /><pre class="errorlines">
-<span class="lineno">  34</span>         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-<span class="lineno">  35</span>             dateFormat = new SimpleDateFormat(getDateFormat(locale));
-<span class="lineno">  36</span>         } else {
-<span class="lineno">  37</span>             dateFormat = <span class="errorspan">new SimpleDateFormat("MMM/dd/yyyy hh:mm:ss aa");</span>
-<span class="lineno">  38</span>         }
-<span class="lineno">  39</span> 
+<span class="location"><a href="../../src/main/java/org/osmdroid/debug/util/FileDateUtil.java">../../src/main/java/org/osmdroid/debug/util/FileDateUtil.java</a>:30</span>: <span class="message">To get local formatting use <code>getDateInstance()</code>, <code>getDateTimeInstance()</code>, or <code>getTimeInstance()</code>, or use <code>new SimpleDateFormat(String template, Locale locale)</code> with for example <code>Locale.US</code> for ASCII dates.</span><br /><pre class="errorlines">
+<span class="lineno">  27</span>         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+<span class="lineno">  28</span>             dateFormat = new SimpleDateFormat(getDateFormat(locale));
+<span class="lineno">  29</span>         } else {
+<span class="lineno">  30</span>             dateFormat = <span class="errorspan">new SimpleDateFormat("MMM/dd/yyyy hh:mm:ss aa");</span>
+<span class="lineno">  31</span>         }
+<span class="lineno">  32</span> 
 </pre>
 <span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/data/IISTrackerBase.java">../../src/main/java/org/osmdroid/samplefragments/data/IISTrackerBase.java</a>:36</span>: <span class="message">To get local formatting use <code>getDateInstance()</code>, <code>getDateTimeInstance()</code>, or <code>getTimeInstance()</code>, or use <code>new SimpleDateFormat(String template, Locale locale)</code> with for example <code>Locale.US</code> for ASCII dates.</span><br /><pre class="errorlines">
 <span class="lineno">  33</span> 
@@ -733,13 +741,13 @@ Therefore, you should either use the form of the SimpleDateFormat constructor wh
 <span class="lineno">  15</span>         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
 <span class="lineno">  16</span>         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 </pre>
-<span class="location"><a href="../../src/main/res/layout/activity_main.xml">../../src/main/res/layout/activity_main.xml</a>:13</span>: <span class="message">Attribute <code>elevation</code> is only used in API level 21 and higher (current min is 8)</span><br /><pre class="errorlines">
-<span class="lineno">  10</span>         android:layout_width="match_parent"
-<span class="lineno">  11</span>         android:layout_height="?attr/actionBarSize"
-<span class="lineno">  12</span>         android:background="?attr/colorPrimary"
-<span class="lineno">  13</span>         <span class="errorspan">android:elevation="4dp"</span>
-<span class="lineno">  14</span>         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-<span class="lineno">  15</span>         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+<span class="location"><a href="../../src/main/res/layout/activity_main.xml">../../src/main/res/layout/activity_main.xml</a>:12</span>: <span class="message">Attribute <code>elevation</code> is only used in API level 21 and higher (current min is 8)</span><br /><pre class="errorlines">
+<span class="lineno">   9</span>         android:layout_width="match_parent"
+<span class="lineno">  10</span>         android:layout_height="?attr/actionBarSize"
+<span class="lineno">  11</span>         android:background="?attr/colorPrimary"
+<span class="lineno">  12</span>         <span class="errorspan">android:elevation="4dp"</span>
+<span class="lineno">  13</span>         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+<span class="lineno">  14</span>         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 </pre>
 <span class="location"><a href="../../src/main/res/layout/activity_prefs.xml">../../src/main/res/layout/activity_prefs.xml</a>:14</span>: <span class="message">Attribute <code>elevation</code> is only used in API level 21 and higher (current min is 8)</span><br /><pre class="errorlines">
 <span class="lineno">  11</span>         android:layout_width="match_parent"
@@ -863,13 +871,13 @@ Note: This check does not only apply to attributes. For example, some tags can b
 </pre>
 <button id="InflateParamsDivLink" onclick="reveal('InflateParamsDiv');" />+ 8 More Occurrences...</button>
 <div id="InflateParamsDiv" style="display: none">
-<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/cache/SampleAlternateCacheDir.java">../../src/main/java/org/osmdroid/samplefragments/cache/SampleAlternateCacheDir.java</a>:38</span>: <span class="message">Avoid passing <code>null</code> as the view root (needed to resolve layout parameters on the inflated layout's root element)</span><br /><pre class="errorlines">
-<span class="lineno">  35</span>          // an inflater call.
-<span class="lineno">  36</span>          
-<span class="lineno">  37</span>          // Configuration.getInstance().setOsmdroidTileCache((new File(Environment.getExternalStorageDirectory().getAbsolutePath() +"/osmdroid2")));
-<span class="lineno">  38</span>          View v = inflater.inflate(org.osmdroid.R.layout.activity_starter_mapview, <span class="errorspan">null);</span>
-<span class="lineno">  39</span> 
-<span class="lineno">  40</span> 		mMapView = (MapView) v.findViewById(org.osmdroid.R.id.mapview);
+<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/cache/SampleAlternateCacheDir.java">../../src/main/java/org/osmdroid/samplefragments/cache/SampleAlternateCacheDir.java</a>:62</span>: <span class="message">Avoid passing <code>null</code> as the view root (needed to resolve layout parameters on the inflated layout's root element)</span><br /><pre class="errorlines">
+<span class="lineno">  59</span>         //Configuration.getInstance().setOsmdroidBasePath(adrive);
+<span class="lineno">  60</span> 
+<span class="lineno">  61</span> 
+<span class="lineno">  62</span>         View v = inflater.inflate(org.osmdroid.R.layout.activity_starter_mapview, <span class="errorspan">null);</span>
+<span class="lineno">  63</span> 
+<span class="lineno">  64</span>         mMapView = (MapView) v.findViewById(org.osmdroid.R.id.mapview);
 </pre>
 <span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/drawing/SampleDrawPolyline.java">../../src/main/java/org/osmdroid/samplefragments/drawing/SampleDrawPolyline.java</a>:33</span>: <span class="message">Avoid passing <code>null</code> as the view root (needed to resolve layout parameters on the inflated layout's root element)</span><br /><pre class="errorlines">
 <span class="lineno">  30</span> 
@@ -1026,7 +1034,7 @@ Using <code>+</code> in dependencies lets you automatically pick up the latest a
 <div class="id"><a href="#" title="Return to top">GradleOverrides: Value overridden by Gradle build script</a><div class="issueSeparator"></div>
 </div>
 <div class="warningslist">
-<span class="location"><a href="../../src/main/AndroidManifest.xml">../../src/main/AndroidManifest.xml</a>:5</span>: <span class="message">This <code>versionCode</code> value (<code>20</code>) is not used; it is always overridden by the value specified in the Gradle build script (<code>27</code>)</span><br /><pre class="errorlines">
+<span class="location"><a href="../../src/main/AndroidManifest.xml">../../src/main/AndroidManifest.xml</a>:5</span>: <span class="message">This <code>versionCode</code> value (<code>20</code>) is not used; it is always overridden by the value specified in the Gradle build script (<code>29</code>)</span><br /><pre class="errorlines">
 <span class="lineno">   2</span> &lt;manifest xmlns:android="http://schemas.android.com/apk/res/android"
 <span class="lineno">   3</span>           xmlns:tools="http://schemas.android.com/tools"
 <span class="lineno">   4</span>     package="org.osmdroid"
@@ -1034,7 +1042,7 @@ Using <code>+</code> in dependencies lets you automatically pick up the latest a
 <span class="lineno">   6</span>     android:versionName="5.3-SNAPSHOT">
 <span class="lineno">   7</span> 
 </pre>
-<span class="location"><a href="../../src/main/AndroidManifest.xml">../../src/main/AndroidManifest.xml</a>:6</span>: <span class="message">This <code>versionName</code> value (<code>5.3-SNAPSHOT</code>) is not used; it is always overridden by the value specified in the Gradle build script (<code>5.6.3</code>)</span><br /><pre class="errorlines">
+<span class="location"><a href="../../src/main/AndroidManifest.xml">../../src/main/AndroidManifest.xml</a>:6</span>: <span class="message">This <code>versionName</code> value (<code>5.3-SNAPSHOT</code>) is not used; it is always overridden by the value specified in the Gradle build script (<code>5.6.5</code>)</span><br /><pre class="errorlines">
 <span class="lineno">   3</span>           xmlns:tools="http://schemas.android.com/tools"
 <span class="lineno">   4</span>     package="org.osmdroid"
 <span class="lineno">   5</span>     android:versionCode="20"
@@ -1163,21 +1171,21 @@ The value of (for example) <code>minSdkVersion</code> is only used if it is not 
 <span class="lineno">  51</span> 
 <span class="lineno">  52</span>         &lt;Button
 </pre>
-<span class="location"><a href="../../src/main/res/layout/intro_storage.xml">../../src/main/res/layout/intro_storage.xml</a>:16</span>: <span class="message">Should use "<code>sp</code>" instead of "<code>dp</code>" for text sizes</span><br /><pre class="errorlines">
-<span class="lineno">  13</span>         android:layout_width="wrap_content"
-<span class="lineno">  14</span>         android:layout_height="wrap_content"
-<span class="lineno">  15</span>         android:text="@string/cache_storage"
-<span class="lineno">  16</span>         <span class="errorspan">android:textSize="22dp"/></span>
-<span class="lineno">  17</span> 
-<span class="lineno">  18</span>     &lt;TextView
+<span class="location"><a href="../../src/main/res/layout/intro_storage.xml">../../src/main/res/layout/intro_storage.xml</a>:18</span>: <span class="message">Should use "<code>sp</code>" instead of "<code>dp</code>" for text sizes</span><br /><pre class="errorlines">
+<span class="lineno">  15</span>             android:layout_width="wrap_content"
+<span class="lineno">  16</span>             android:layout_height="wrap_content"
+<span class="lineno">  17</span>             android:text="@string/cache_storage"
+<span class="lineno">  18</span>             <span class="errorspan">android:textSize="22dp"/></span>
+<span class="lineno">  19</span> 
+<span class="lineno">  20</span>         &lt;TextView
 </pre>
-<span class="location"><a href="../../src/main/res/layout/intro_storage.xml">../../src/main/res/layout/intro_storage.xml</a>:22</span>: <span class="message">Should use "<code>sp</code>" instead of "<code>dp</code>" for text sizes</span><br /><pre class="errorlines">
-<span class="lineno">  19</span>         android:layout_width="wrap_content"
-<span class="lineno">  20</span>         android:layout_height="wrap_content"
-<span class="lineno">  21</span>         android:text="@string/introalmostthere"
-<span class="lineno">  22</span>         <span class="errorspan">android:textSize="14dp"/></span>
-<span class="lineno">  23</span> 
-<span class="lineno">  24</span>     &lt;TextView
+<span class="location"><a href="../../src/main/res/layout/intro_storage.xml">../../src/main/res/layout/intro_storage.xml</a>:24</span>: <span class="message">Should use "<code>sp</code>" instead of "<code>dp</code>" for text sizes</span><br /><pre class="errorlines">
+<span class="lineno">  21</span>             android:layout_width="wrap_content"
+<span class="lineno">  22</span>             android:layout_height="wrap_content"
+<span class="lineno">  23</span>             android:text="@string/introalmostthere"
+<span class="lineno">  24</span>             <span class="errorspan">android:textSize="14dp"/></span>
+<span class="lineno">  25</span> 
+<span class="lineno">  26</span>         &lt;LinearLayout
 </pre>
 <span class="location"><a href="../../src/main/res/layout/intro_tilesources_osm.xml">../../src/main/res/layout/intro_tilesources_osm.xml</a>:16</span>: <span class="message">Should use "<code>sp</code>" instead of "<code>dp</code>" for text sizes</span><br /><pre class="errorlines">
 <span class="lineno">  13</span>         &lt;TextView
@@ -2778,7 +2786,7 @@ Note that for text fields, you should not set both the <code>hint</code> and the
 <span class="lineno">  77</span>             try {
 <span class="lineno">  78</span>                 long time = p.getExpires().getTime();
 </pre>
-<button id="SetTextI18nDivLink" onclick="reveal('SetTextI18nDiv');" />+ 51 More Occurrences...</button>
+<button id="SetTextI18nDivLink" onclick="reveal('SetTextI18nDiv');" />+ 53 More Occurrences...</button>
 <div id="SetTextI18nDiv" style="display: none">
 <span class="location"><a href="../../src/main/java/org/osmdroid/debug/browser/CacheAdapter.java">../../src/main/java/org/osmdroid/debug/browser/CacheAdapter.java</a>:92</span>: <span class="message">String literal in <code>setText</code> can not be translated. Use Android resources instead.</span><br /><pre class="errorlines">
 <span class="lineno">  89</span>                 expires.setText(durationUtilExpires);
@@ -2788,29 +2796,29 @@ Note that for text fields, you should not set both the <code>hint</code> and the
 <span class="lineno">  93</span>             }
 <span class="lineno">  94</span>         }
 </pre>
-<span class="location"><a href="../../src/main/java/org/osmdroid/debug/browser/CacheBrowserActivity.java">../../src/main/java/org/osmdroid/debug/browser/CacheBrowserActivity.java</a>:41</span>: <span class="message">Do not concatenate text displayed with <code>setText</code>. Use resource string with placeholders.</span><br /><pre class="errorlines">
-<span class="lineno">  38</span>         ListView lv = (ListView) findViewById(R.id.cacheListView);
-<span class="lineno">  39</span>         lv.setAdapter(adapter);
-<span class="lineno">  40</span> 
-<span class="lineno">  41</span>         ((TextView) findViewById(R.id.rows)).setText(<span class="errorspan">cache.getRowCount(null) + "");</span>
-<span class="lineno">  42</span>         ((TextView) findViewById(R.id.size)).setText(FileDateUtil.readableFileSize(MainActivity.updateStoragePrefreneces(this)));
-<span class="lineno">  43</span>         ((TextView) findViewById(R.id.date)).setText("Now " + FileDateUtil.getModifiedDate(System.currentTimeMillis()));
-</pre>
 <span class="location"><a href="../../src/main/java/org/osmdroid/debug/browser/CacheBrowserActivity.java">../../src/main/java/org/osmdroid/debug/browser/CacheBrowserActivity.java</a>:43</span>: <span class="message">Do not concatenate text displayed with <code>setText</code>. Use resource string with placeholders.</span><br /><pre class="errorlines">
-<span class="lineno">  40</span> 
-<span class="lineno">  41</span>         ((TextView) findViewById(R.id.rows)).setText(cache.getRowCount(null) + "");
-<span class="lineno">  42</span>         ((TextView) findViewById(R.id.size)).setText(FileDateUtil.readableFileSize(MainActivity.updateStoragePrefreneces(this)));
-<span class="lineno">  43</span>         ((TextView) findViewById(R.id.date)).setText(<span class="errorspan">"Now " + FileDateUtil.getModifiedDate(System.currentTimeMillis()));</span>
-<span class="lineno">  44</span>     }
-<span class="lineno">  45</span> 
+<span class="lineno">  40</span>         ListView lv = (ListView) findViewById(R.id.cacheListView);
+<span class="lineno">  41</span>         lv.setAdapter(adapter);
+<span class="lineno">  42</span> 
+<span class="lineno">  43</span>         ((TextView) findViewById(R.id.rows)).setText(<span class="errorspan">cache.getRowCount(null) + "");</span>
+<span class="lineno">  44</span>         ((TextView) findViewById(R.id.size)).setText(StorageAdapter.readableFileSize(MainActivity.updateStoragePrefreneces(this)));
+<span class="lineno">  45</span>         ((TextView) findViewById(R.id.date)).setText("Now " + FileDateUtil.getModifiedDate(System.currentTimeMillis()));
 </pre>
-<span class="location"><a href="../../src/main/java/org/osmdroid/debug/browser/CacheBrowserActivity.java">../../src/main/java/org/osmdroid/debug/browser/CacheBrowserActivity.java</a>:43</span>: <span class="message">String literal in <code>setText</code> can not be translated. Use Android resources instead.</span><br /><pre class="errorlines">
-<span class="lineno">  40</span> 
-<span class="lineno">  41</span>         ((TextView) findViewById(R.id.rows)).setText(cache.getRowCount(null) + "");
-<span class="lineno">  42</span>         ((TextView) findViewById(R.id.size)).setText(FileDateUtil.readableFileSize(MainActivity.updateStoragePrefreneces(this)));
-<span class="lineno">  43</span>         ((TextView) findViewById(R.id.date)).setText(<span class="errorspan">"Now " + FileDateUtil.getModifiedDate(System.currentTimeMillis()));</span>
-<span class="lineno">  44</span>     }
-<span class="lineno">  45</span> 
+<span class="location"><a href="../../src/main/java/org/osmdroid/debug/browser/CacheBrowserActivity.java">../../src/main/java/org/osmdroid/debug/browser/CacheBrowserActivity.java</a>:45</span>: <span class="message">Do not concatenate text displayed with <code>setText</code>. Use resource string with placeholders.</span><br /><pre class="errorlines">
+<span class="lineno">  42</span> 
+<span class="lineno">  43</span>         ((TextView) findViewById(R.id.rows)).setText(cache.getRowCount(null) + "");
+<span class="lineno">  44</span>         ((TextView) findViewById(R.id.size)).setText(StorageAdapter.readableFileSize(MainActivity.updateStoragePrefreneces(this)));
+<span class="lineno">  45</span>         ((TextView) findViewById(R.id.date)).setText(<span class="errorspan">"Now " + FileDateUtil.getModifiedDate(System.currentTimeMillis()));</span>
+<span class="lineno">  46</span>     }
+<span class="lineno">  47</span> 
+</pre>
+<span class="location"><a href="../../src/main/java/org/osmdroid/debug/browser/CacheBrowserActivity.java">../../src/main/java/org/osmdroid/debug/browser/CacheBrowserActivity.java</a>:45</span>: <span class="message">String literal in <code>setText</code> can not be translated. Use Android resources instead.</span><br /><pre class="errorlines">
+<span class="lineno">  42</span> 
+<span class="lineno">  43</span>         ((TextView) findViewById(R.id.rows)).setText(cache.getRowCount(null) + "");
+<span class="lineno">  44</span>         ((TextView) findViewById(R.id.size)).setText(StorageAdapter.readableFileSize(MainActivity.updateStoragePrefreneces(this)));
+<span class="lineno">  45</span>         ((TextView) findViewById(R.id.date)).setText(<span class="errorspan">"Now " + FileDateUtil.getModifiedDate(System.currentTimeMillis()));</span>
+<span class="lineno">  46</span>     }
+<span class="lineno">  47</span> 
 </pre>
 <span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/cache/CacheImport.java">../../src/main/java/org/osmdroid/samplefragments/cache/CacheImport.java</a>:43</span>: <span class="message">String literal in <code>setText</code> can not be translated. Use Android resources instead.</span><br /><pre class="errorlines">
 <span class="lineno">  40</span>         mMapView = (MapView) root.findViewById(R.id.mapview);
@@ -2852,101 +2860,101 @@ Note that for text fields, you should not set both the <code>hint</code> and the
 <span class="lineno"> 254</span>     }
 <span class="lineno"> 255</span> 
 </pre>
-<span class="location"><a href="../../src/main/java/org/osmdroid/PreferenceActivity.java">../../src/main/java/org/osmdroid/PreferenceActivity.java</a>:129</span>: <span class="message">Do not concatenate text displayed with <code>setText</code>. Use resource string with placeholders.</span><br /><pre class="errorlines">
-<span class="lineno"> 126</span>     @Override
-<span class="lineno"> 127</span>     public void onResume() {
-<span class="lineno"> 128</span>         super.onResume();
-<span class="lineno"> 129</span>         tileFileSystemMaxQueueSize.setText(<span class="errorspan">Configuration.getInstance().getTileFileSystemMaxQueueSize() + "");</span>
-<span class="lineno"> 130</span>         tileFileSystemThreads.setText(Configuration.getInstance().getTileFileSystemThreads() + "");
-<span class="lineno"> 131</span>         tileDownloadMaxQueueSize.setText(Configuration.getInstance().getTileDownloadMaxQueueSize() + "");
-</pre>
-<span class="location"><a href="../../src/main/java/org/osmdroid/PreferenceActivity.java">../../src/main/java/org/osmdroid/PreferenceActivity.java</a>:130</span>: <span class="message">Do not concatenate text displayed with <code>setText</code>. Use resource string with placeholders.</span><br /><pre class="errorlines">
-<span class="lineno"> 127</span>     public void onResume() {
-<span class="lineno"> 128</span>         super.onResume();
-<span class="lineno"> 129</span>         tileFileSystemMaxQueueSize.setText(Configuration.getInstance().getTileFileSystemMaxQueueSize() + "");
-<span class="lineno"> 130</span>         tileFileSystemThreads.setText(<span class="errorspan">Configuration.getInstance().getTileFileSystemThreads() + "");</span>
-<span class="lineno"> 131</span>         tileDownloadMaxQueueSize.setText(Configuration.getInstance().getTileDownloadMaxQueueSize() + "");
-<span class="lineno"> 132</span>         tileDownloadThreads.setText(Configuration.getInstance().getTileDownloadThreads() + "");
-</pre>
 <span class="location"><a href="../../src/main/java/org/osmdroid/PreferenceActivity.java">../../src/main/java/org/osmdroid/PreferenceActivity.java</a>:131</span>: <span class="message">Do not concatenate text displayed with <code>setText</code>. Use resource string with placeholders.</span><br /><pre class="errorlines">
-<span class="lineno"> 128</span>         super.onResume();
-<span class="lineno"> 129</span>         tileFileSystemMaxQueueSize.setText(Configuration.getInstance().getTileFileSystemMaxQueueSize() + "");
-<span class="lineno"> 130</span>         tileFileSystemThreads.setText(Configuration.getInstance().getTileFileSystemThreads() + "");
-<span class="lineno"> 131</span>         tileDownloadMaxQueueSize.setText(<span class="errorspan">Configuration.getInstance().getTileDownloadMaxQueueSize() + "");</span>
-<span class="lineno"> 132</span>         tileDownloadThreads.setText(Configuration.getInstance().getTileDownloadThreads() + "");
-<span class="lineno"> 133</span>         gpsWaitTime.setText(Configuration.getInstance().getGpsWaitTime() + "");
+<span class="lineno"> 128</span>     @Override
+<span class="lineno"> 129</span>     public void onResume() {
+<span class="lineno"> 130</span>         super.onResume();
+<span class="lineno"> 131</span>         tileFileSystemMaxQueueSize.setText(<span class="errorspan">Configuration.getInstance().getTileFileSystemMaxQueueSize() + "");</span>
+<span class="lineno"> 132</span>         tileFileSystemThreads.setText(Configuration.getInstance().getTileFileSystemThreads() + "");
+<span class="lineno"> 133</span>         tileDownloadMaxQueueSize.setText(Configuration.getInstance().getTileDownloadMaxQueueSize() + "");
 </pre>
 <span class="location"><a href="../../src/main/java/org/osmdroid/PreferenceActivity.java">../../src/main/java/org/osmdroid/PreferenceActivity.java</a>:132</span>: <span class="message">Do not concatenate text displayed with <code>setText</code>. Use resource string with placeholders.</span><br /><pre class="errorlines">
-<span class="lineno"> 129</span>         tileFileSystemMaxQueueSize.setText(Configuration.getInstance().getTileFileSystemMaxQueueSize() + "");
-<span class="lineno"> 130</span>         tileFileSystemThreads.setText(Configuration.getInstance().getTileFileSystemThreads() + "");
-<span class="lineno"> 131</span>         tileDownloadMaxQueueSize.setText(Configuration.getInstance().getTileDownloadMaxQueueSize() + "");
-<span class="lineno"> 132</span>         tileDownloadThreads.setText(<span class="errorspan">Configuration.getInstance().getTileDownloadThreads() + "");</span>
-<span class="lineno"> 133</span>         gpsWaitTime.setText(Configuration.getInstance().getGpsWaitTime() + "");
-<span class="lineno"> 134</span>         additionalExpirationTime.setText(Configuration.getInstance().getExpirationExtendedDuration()+"");
+<span class="lineno"> 129</span>     public void onResume() {
+<span class="lineno"> 130</span>         super.onResume();
+<span class="lineno"> 131</span>         tileFileSystemMaxQueueSize.setText(Configuration.getInstance().getTileFileSystemMaxQueueSize() + "");
+<span class="lineno"> 132</span>         tileFileSystemThreads.setText(<span class="errorspan">Configuration.getInstance().getTileFileSystemThreads() + "");</span>
+<span class="lineno"> 133</span>         tileDownloadMaxQueueSize.setText(Configuration.getInstance().getTileDownloadMaxQueueSize() + "");
+<span class="lineno"> 134</span>         tileDownloadThreads.setText(Configuration.getInstance().getTileDownloadThreads() + "");
 </pre>
 <span class="location"><a href="../../src/main/java/org/osmdroid/PreferenceActivity.java">../../src/main/java/org/osmdroid/PreferenceActivity.java</a>:133</span>: <span class="message">Do not concatenate text displayed with <code>setText</code>. Use resource string with placeholders.</span><br /><pre class="errorlines">
-<span class="lineno"> 130</span>         tileFileSystemThreads.setText(Configuration.getInstance().getTileFileSystemThreads() + "");
-<span class="lineno"> 131</span>         tileDownloadMaxQueueSize.setText(Configuration.getInstance().getTileDownloadMaxQueueSize() + "");
-<span class="lineno"> 132</span>         tileDownloadThreads.setText(Configuration.getInstance().getTileDownloadThreads() + "");
-<span class="lineno"> 133</span>         gpsWaitTime.setText(<span class="errorspan">Configuration.getInstance().getGpsWaitTime() + "");</span>
-<span class="lineno"> 134</span>         additionalExpirationTime.setText(Configuration.getInstance().getExpirationExtendedDuration()+"");
-<span class="lineno"> 135</span>         cacheMapTileCount.setText(Configuration.getInstance().getCacheMapTileCount() + "");
+<span class="lineno"> 130</span>         super.onResume();
+<span class="lineno"> 131</span>         tileFileSystemMaxQueueSize.setText(Configuration.getInstance().getTileFileSystemMaxQueueSize() + "");
+<span class="lineno"> 132</span>         tileFileSystemThreads.setText(Configuration.getInstance().getTileFileSystemThreads() + "");
+<span class="lineno"> 133</span>         tileDownloadMaxQueueSize.setText(<span class="errorspan">Configuration.getInstance().getTileDownloadMaxQueueSize() + "");</span>
+<span class="lineno"> 134</span>         tileDownloadThreads.setText(Configuration.getInstance().getTileDownloadThreads() + "");
+<span class="lineno"> 135</span>         gpsWaitTime.setText(Configuration.getInstance().getGpsWaitTime() + "");
 </pre>
 <span class="location"><a href="../../src/main/java/org/osmdroid/PreferenceActivity.java">../../src/main/java/org/osmdroid/PreferenceActivity.java</a>:134</span>: <span class="message">Do not concatenate text displayed with <code>setText</code>. Use resource string with placeholders.</span><br /><pre class="errorlines">
-<span class="lineno"> 131</span>         tileDownloadMaxQueueSize.setText(Configuration.getInstance().getTileDownloadMaxQueueSize() + "");
-<span class="lineno"> 132</span>         tileDownloadThreads.setText(Configuration.getInstance().getTileDownloadThreads() + "");
-<span class="lineno"> 133</span>         gpsWaitTime.setText(Configuration.getInstance().getGpsWaitTime() + "");
-<span class="lineno"> 134</span>         additionalExpirationTime.setText(<span class="errorspan">Configuration.getInstance().getExpirationExtendedDuration()+"");</span>
-<span class="lineno"> 135</span>         cacheMapTileCount.setText(Configuration.getInstance().getCacheMapTileCount() + "");
-<span class="lineno"> 136</span>         if (Configuration.getInstance().getExpirationOverrideDuration()!=null)
+<span class="lineno"> 131</span>         tileFileSystemMaxQueueSize.setText(Configuration.getInstance().getTileFileSystemMaxQueueSize() + "");
+<span class="lineno"> 132</span>         tileFileSystemThreads.setText(Configuration.getInstance().getTileFileSystemThreads() + "");
+<span class="lineno"> 133</span>         tileDownloadMaxQueueSize.setText(Configuration.getInstance().getTileDownloadMaxQueueSize() + "");
+<span class="lineno"> 134</span>         tileDownloadThreads.setText(<span class="errorspan">Configuration.getInstance().getTileDownloadThreads() + "");</span>
+<span class="lineno"> 135</span>         gpsWaitTime.setText(Configuration.getInstance().getGpsWaitTime() + "");
+<span class="lineno"> 136</span>         additionalExpirationTime.setText(Configuration.getInstance().getExpirationExtendedDuration()+"");
 </pre>
 <span class="location"><a href="../../src/main/java/org/osmdroid/PreferenceActivity.java">../../src/main/java/org/osmdroid/PreferenceActivity.java</a>:135</span>: <span class="message">Do not concatenate text displayed with <code>setText</code>. Use resource string with placeholders.</span><br /><pre class="errorlines">
-<span class="lineno"> 132</span>         tileDownloadThreads.setText(Configuration.getInstance().getTileDownloadThreads() + "");
-<span class="lineno"> 133</span>         gpsWaitTime.setText(Configuration.getInstance().getGpsWaitTime() + "");
-<span class="lineno"> 134</span>         additionalExpirationTime.setText(Configuration.getInstance().getExpirationExtendedDuration()+"");
-<span class="lineno"> 135</span>         cacheMapTileCount.setText(<span class="errorspan">Configuration.getInstance().getCacheMapTileCount() + "");</span>
-<span class="lineno"> 136</span>         if (Configuration.getInstance().getExpirationOverrideDuration()!=null)
-<span class="lineno"> 137</span>             overrideExpirationTime.setText(Configuration.getInstance().getExpirationOverrideDuration()+"");
+<span class="lineno"> 132</span>         tileFileSystemThreads.setText(Configuration.getInstance().getTileFileSystemThreads() + "");
+<span class="lineno"> 133</span>         tileDownloadMaxQueueSize.setText(Configuration.getInstance().getTileDownloadMaxQueueSize() + "");
+<span class="lineno"> 134</span>         tileDownloadThreads.setText(Configuration.getInstance().getTileDownloadThreads() + "");
+<span class="lineno"> 135</span>         gpsWaitTime.setText(<span class="errorspan">Configuration.getInstance().getGpsWaitTime() + "");</span>
+<span class="lineno"> 136</span>         additionalExpirationTime.setText(Configuration.getInstance().getExpirationExtendedDuration()+"");
+<span class="lineno"> 137</span>         cacheMapTileCount.setText(Configuration.getInstance().getCacheMapTileCount() + "");
+</pre>
+<span class="location"><a href="../../src/main/java/org/osmdroid/PreferenceActivity.java">../../src/main/java/org/osmdroid/PreferenceActivity.java</a>:136</span>: <span class="message">Do not concatenate text displayed with <code>setText</code>. Use resource string with placeholders.</span><br /><pre class="errorlines">
+<span class="lineno"> 133</span>         tileDownloadMaxQueueSize.setText(Configuration.getInstance().getTileDownloadMaxQueueSize() + "");
+<span class="lineno"> 134</span>         tileDownloadThreads.setText(Configuration.getInstance().getTileDownloadThreads() + "");
+<span class="lineno"> 135</span>         gpsWaitTime.setText(Configuration.getInstance().getGpsWaitTime() + "");
+<span class="lineno"> 136</span>         additionalExpirationTime.setText(<span class="errorspan">Configuration.getInstance().getExpirationExtendedDuration()+"");</span>
+<span class="lineno"> 137</span>         cacheMapTileCount.setText(Configuration.getInstance().getCacheMapTileCount() + "");
+<span class="lineno"> 138</span>         if (Configuration.getInstance().getExpirationOverrideDuration()!=null)
 </pre>
 <span class="location"><a href="../../src/main/java/org/osmdroid/PreferenceActivity.java">../../src/main/java/org/osmdroid/PreferenceActivity.java</a>:137</span>: <span class="message">Do not concatenate text displayed with <code>setText</code>. Use resource string with placeholders.</span><br /><pre class="errorlines">
-<span class="lineno"> 134</span>         additionalExpirationTime.setText(Configuration.getInstance().getExpirationExtendedDuration()+"");
-<span class="lineno"> 135</span>         cacheMapTileCount.setText(Configuration.getInstance().getCacheMapTileCount() + "");
-<span class="lineno"> 136</span>         if (Configuration.getInstance().getExpirationOverrideDuration()!=null)
-<span class="lineno"> 137</span>             overrideExpirationTime.setText(<span class="errorspan">Configuration.getInstance().getExpirationOverrideDuration()+"");</span>
-<span class="lineno"> 138</span> 
-<span class="lineno"> 139</span>         httpUserAgent.setText(Configuration.getInstance().getUserAgentValue());
+<span class="lineno"> 134</span>         tileDownloadThreads.setText(Configuration.getInstance().getTileDownloadThreads() + "");
+<span class="lineno"> 135</span>         gpsWaitTime.setText(Configuration.getInstance().getGpsWaitTime() + "");
+<span class="lineno"> 136</span>         additionalExpirationTime.setText(Configuration.getInstance().getExpirationExtendedDuration()+"");
+<span class="lineno"> 137</span>         cacheMapTileCount.setText(<span class="errorspan">Configuration.getInstance().getCacheMapTileCount() + "");</span>
+<span class="lineno"> 138</span>         if (Configuration.getInstance().getExpirationOverrideDuration()!=null)
+<span class="lineno"> 139</span>             overrideExpirationTime.setText(Configuration.getInstance().getExpirationOverrideDuration()+"");
 </pre>
-<span class="location"><a href="../../src/main/java/org/osmdroid/PreferenceActivity.java">../../src/main/java/org/osmdroid/PreferenceActivity.java</a>:148</span>: <span class="message">Do not concatenate text displayed with <code>setText</code>. Use resource string with placeholders.</span><br /><pre class="errorlines">
-<span class="lineno"> 145</span>         textViewCacheDirectory.setText(Configuration.getInstance().getOsmdroidTileCache().getAbsolutePath());
-<span class="lineno"> 146</span>         textViewBaseDirectory.setText(Configuration.getInstance().getOsmdroidBasePath().getAbsolutePath());
-<span class="lineno"> 147</span> 
-<span class="lineno"> 148</span>         cacheMaxSize.setText(<span class="errorspan">Configuration.getInstance().getTileFileSystemCacheMaxBytes()+"");</span>
-<span class="lineno"> 149</span>         cacheTrimSize.setText(Configuration.getInstance().getTileFileSystemCacheTrimBytes()+"");
-<span class="lineno"> 150</span>     }
+<span class="location"><a href="../../src/main/java/org/osmdroid/PreferenceActivity.java">../../src/main/java/org/osmdroid/PreferenceActivity.java</a>:139</span>: <span class="message">Do not concatenate text displayed with <code>setText</code>. Use resource string with placeholders.</span><br /><pre class="errorlines">
+<span class="lineno"> 136</span>         additionalExpirationTime.setText(Configuration.getInstance().getExpirationExtendedDuration()+"");
+<span class="lineno"> 137</span>         cacheMapTileCount.setText(Configuration.getInstance().getCacheMapTileCount() + "");
+<span class="lineno"> 138</span>         if (Configuration.getInstance().getExpirationOverrideDuration()!=null)
+<span class="lineno"> 139</span>             overrideExpirationTime.setText(<span class="errorspan">Configuration.getInstance().getExpirationOverrideDuration()+"");</span>
+<span class="lineno"> 140</span> 
+<span class="lineno"> 141</span>         httpUserAgent.setText(Configuration.getInstance().getUserAgentValue());
 </pre>
-<span class="location"><a href="../../src/main/java/org/osmdroid/PreferenceActivity.java">../../src/main/java/org/osmdroid/PreferenceActivity.java</a>:149</span>: <span class="message">Do not concatenate text displayed with <code>setText</code>. Use resource string with placeholders.</span><br /><pre class="errorlines">
-<span class="lineno"> 146</span>         textViewBaseDirectory.setText(Configuration.getInstance().getOsmdroidBasePath().getAbsolutePath());
-<span class="lineno"> 147</span> 
-<span class="lineno"> 148</span>         cacheMaxSize.setText(Configuration.getInstance().getTileFileSystemCacheMaxBytes()+"");
-<span class="lineno"> 149</span>         cacheTrimSize.setText(<span class="errorspan">Configuration.getInstance().getTileFileSystemCacheTrimBytes()+"");</span>
-<span class="lineno"> 150</span>     }
-<span class="lineno"> 151</span> 
+<span class="location"><a href="../../src/main/java/org/osmdroid/PreferenceActivity.java">../../src/main/java/org/osmdroid/PreferenceActivity.java</a>:150</span>: <span class="message">Do not concatenate text displayed with <code>setText</code>. Use resource string with placeholders.</span><br /><pre class="errorlines">
+<span class="lineno"> 147</span>         textViewCacheDirectory.setText(Configuration.getInstance().getOsmdroidTileCache().getAbsolutePath());
+<span class="lineno"> 148</span>         textViewBaseDirectory.setText(Configuration.getInstance().getOsmdroidBasePath().getAbsolutePath());
+<span class="lineno"> 149</span> 
+<span class="lineno"> 150</span>         cacheMaxSize.setText(<span class="errorspan">Configuration.getInstance().getTileFileSystemCacheMaxBytes()+"");</span>
+<span class="lineno"> 151</span>         cacheTrimSize.setText(Configuration.getInstance().getTileFileSystemCacheTrimBytes()+"");
+<span class="lineno"> 152</span>     }
 </pre>
-<span class="location"><a href="../../src/main/java/org/osmdroid/PreferenceActivity.java">../../src/main/java/org/osmdroid/PreferenceActivity.java</a>:344</span>: <span class="message">Do not concatenate text displayed with <code>setText</code>. Use resource string with placeholders.</span><br /><pre class="errorlines">
-<span class="lineno"> 341</span>                 String item = arrayAdapter.getItem(which);
-<span class="lineno"> 342</span>                 try {
-<span class="lineno"> 343</span>                     new File(item + File.separator + "osmdroid" + File.separator + postfix).mkdirs();
-<span class="lineno"> 344</span>                     tv.setText(<span class="errorspan">item + File.separator + "osmdroid" + File.separator + postfix);</span>
-<span class="lineno"> 345</span>                 } catch (Exception ex) {
-<span class="lineno"> 346</span>                     ex.printStackTrace();
+<span class="location"><a href="../../src/main/java/org/osmdroid/PreferenceActivity.java">../../src/main/java/org/osmdroid/PreferenceActivity.java</a>:151</span>: <span class="message">Do not concatenate text displayed with <code>setText</code>. Use resource string with placeholders.</span><br /><pre class="errorlines">
+<span class="lineno"> 148</span>         textViewBaseDirectory.setText(Configuration.getInstance().getOsmdroidBasePath().getAbsolutePath());
+<span class="lineno"> 149</span> 
+<span class="lineno"> 150</span>         cacheMaxSize.setText(Configuration.getInstance().getTileFileSystemCacheMaxBytes()+"");
+<span class="lineno"> 151</span>         cacheTrimSize.setText(<span class="errorspan">Configuration.getInstance().getTileFileSystemCacheTrimBytes()+"");</span>
+<span class="lineno"> 152</span>     }
+<span class="lineno"> 153</span> 
 </pre>
-<span class="location"><a href="../../src/main/java/org/osmdroid/PreferenceActivity.java">../../src/main/java/org/osmdroid/PreferenceActivity.java</a>:344</span>: <span class="message">String literal in <code>setText</code> can not be translated. Use Android resources instead.</span><br /><pre class="errorlines">
-<span class="lineno"> 341</span>                 String item = arrayAdapter.getItem(which);
-<span class="lineno"> 342</span>                 try {
-<span class="lineno"> 343</span>                     new File(item + File.separator + "osmdroid" + File.separator + postfix).mkdirs();
-<span class="lineno"> 344</span>                     tv.setText(item + File.separator + <span class="errorspan">"osmdroid" + File.separator + postfix);</span>
-<span class="lineno"> 345</span>                 } catch (Exception ex) {
-<span class="lineno"> 346</span>                     ex.printStackTrace();
+<span class="location"><a href="../../src/main/java/org/osmdroid/PreferenceActivity.java">../../src/main/java/org/osmdroid/PreferenceActivity.java</a>:384</span>: <span class="message">Do not concatenate text displayed with <code>setText</code>. Use resource string with placeholders.</span><br /><pre class="errorlines">
+<span class="lineno"> 381</span>                 StorageUtils.StorageInfo item = (StorageUtils.StorageInfo) arrayAdapter.getItem(which);
+<span class="lineno"> 382</span>                 try {
+<span class="lineno"> 383</span>                     new File(item.path + File.separator + "osmdroid" + File.separator + postfix).mkdirs();
+<span class="lineno"> 384</span>                     tv.setText(<span class="errorspan">item.path + File.separator + "osmdroid" + File.separator + postfix);</span>
+<span class="lineno"> 385</span>                 } catch (Exception ex) {
+<span class="lineno"> 386</span>                     ex.printStackTrace();
+</pre>
+<span class="location"><a href="../../src/main/java/org/osmdroid/PreferenceActivity.java">../../src/main/java/org/osmdroid/PreferenceActivity.java</a>:384</span>: <span class="message">String literal in <code>setText</code> can not be translated. Use Android resources instead.</span><br /><pre class="errorlines">
+<span class="lineno"> 381</span>                 StorageUtils.StorageInfo item = (StorageUtils.StorageInfo) arrayAdapter.getItem(which);
+<span class="lineno"> 382</span>                 try {
+<span class="lineno"> 383</span>                     new File(item.path + File.separator + "osmdroid" + File.separator + postfix).mkdirs();
+<span class="lineno"> 384</span>                     tv.setText(item.path + File.separator + <span class="errorspan">"osmdroid" + File.separator + postfix);</span>
+<span class="lineno"> 385</span>                 } catch (Exception ex) {
+<span class="lineno"> 386</span>                     ex.printStackTrace();
 </pre>
 <span class="location"><a href="../../src/main/java/org/osmdroid/bugtestfragments/SampleBug57.java">../../src/main/java/org/osmdroid/bugtestfragments/SampleBug57.java</a>:36</span>: <span class="message">String literal in <code>setText</code> can not be translated. Use Android resources instead.</span><br /><pre class="errorlines">
 <span class="lineno">  33</span>         mMapView = (MapView) root.findViewById(R.id.mapview);
@@ -3164,21 +3172,37 @@ Note that for text fields, you should not set both the <code>hint</code> and the
 <span class="lineno">  34</span> 
 <span class="lineno">  35</span>         return root;
 </pre>
-<span class="location"><a href="../../src/main/java/org/osmdroid/intro/StoragePreferenceFragment.java">../../src/main/java/org/osmdroid/intro/StoragePreferenceFragment.java</a>:118</span>: <span class="message">Do not concatenate text displayed with <code>setText</code>. Use resource string with placeholders.</span><br /><pre class="errorlines">
-<span class="lineno"> 115</span>                 } catch (Exception ex) {
-<span class="lineno"> 116</span>                     ex.printStackTrace();
-<span class="lineno"> 117</span>                 }
-<span class="lineno"> 118</span>                 textViewCacheDirectory.setText(<span class="errorspan">item + File.separator + "osmdroid" + File.separator + "tiles");</span>
-<span class="lineno"> 119</span>                 Configuration.getInstance().setOsmdroidTileCache(new File(textViewCacheDirectory.getText()+""));
-<span class="lineno"> 120</span>                 Configuration.getInstance().save(getContext(), PreferenceManager.getDefaultSharedPreferences(getContext()));
+<span class="location"><a href="../../src/main/java/org/osmdroid/intro/StorageAdapter.java">../../src/main/java/org/osmdroid/intro/StorageAdapter.java</a>:66</span>: <span class="message">Do not concatenate text displayed with <code>setText</code>. Use resource string with placeholders.</span><br /><pre class="errorlines">
+<span class="lineno">  63</span>             TextView frespace= (TextView) convertView.findViewById(R.id.storageFreespace);
+<span class="lineno">  64</span>             TextView path= (TextView) convertView.findViewById(R.id.storagePath);
+<span class="lineno">  65</span>             drive.setText(info.getDisplayName());
+<span class="lineno">  66</span>             frespace.setText(<span class="errorspan">"Free space: " + readableFileSize(info.freeSpace));</span>
+<span class="lineno">  67</span>             path.setText(info.path);
+<span class="lineno">  68</span> 
 </pre>
-<span class="location"><a href="../../src/main/java/org/osmdroid/intro/StoragePreferenceFragment.java">../../src/main/java/org/osmdroid/intro/StoragePreferenceFragment.java</a>:118</span>: <span class="message">String literal in <code>setText</code> can not be translated. Use Android resources instead.</span><br /><pre class="errorlines">
-<span class="lineno"> 115</span>                 } catch (Exception ex) {
-<span class="lineno"> 116</span>                     ex.printStackTrace();
-<span class="lineno"> 117</span>                 }
-<span class="lineno"> 118</span>                 textViewCacheDirectory.setText(item + File.separator + <span class="errorspan">"osmdroid" + File.separator + "tiles");</span>
-<span class="lineno"> 119</span>                 Configuration.getInstance().setOsmdroidTileCache(new File(textViewCacheDirectory.getText()+""));
-<span class="lineno"> 120</span>                 Configuration.getInstance().save(getContext(), PreferenceManager.getDefaultSharedPreferences(getContext()));
+<span class="location"><a href="../../src/main/java/org/osmdroid/intro/StorageAdapter.java">../../src/main/java/org/osmdroid/intro/StorageAdapter.java</a>:66</span>: <span class="message">String literal in <code>setText</code> can not be translated. Use Android resources instead.</span><br /><pre class="errorlines">
+<span class="lineno">  63</span>             TextView frespace= (TextView) convertView.findViewById(R.id.storageFreespace);
+<span class="lineno">  64</span>             TextView path= (TextView) convertView.findViewById(R.id.storagePath);
+<span class="lineno">  65</span>             drive.setText(info.getDisplayName());
+<span class="lineno">  66</span>             frespace.setText(<span class="errorspan">"Free space: " + readableFileSize(info.freeSpace));</span>
+<span class="lineno">  67</span>             path.setText(info.path);
+<span class="lineno">  68</span> 
+</pre>
+<span class="location"><a href="../../src/main/java/org/osmdroid/intro/StoragePreferenceFragment.java">../../src/main/java/org/osmdroid/intro/StoragePreferenceFragment.java</a>:176</span>: <span class="message">Do not concatenate text displayed with <code>setText</code>. Use resource string with placeholders.</span><br /><pre class="errorlines">
+<span class="lineno"> 173</span>                 } catch (Exception ex) {
+<span class="lineno"> 174</span>                     ex.printStackTrace();
+<span class="lineno"> 175</span>                 }
+<span class="lineno"> 176</span>                 textViewCacheDirectory.setText(<span class="errorspan">item.path + File.separator + "osmdroid" + File.separator + "tiles");</span>
+<span class="lineno"> 177</span>                 Configuration.getInstance().setOsmdroidTileCache(new File(textViewCacheDirectory.getText() + ""));
+<span class="lineno"> 178</span>                 Configuration.getInstance().save(getContext(), PreferenceManager.getDefaultSharedPreferences(getContext()));
+</pre>
+<span class="location"><a href="../../src/main/java/org/osmdroid/intro/StoragePreferenceFragment.java">../../src/main/java/org/osmdroid/intro/StoragePreferenceFragment.java</a>:176</span>: <span class="message">String literal in <code>setText</code> can not be translated. Use Android resources instead.</span><br /><pre class="errorlines">
+<span class="lineno"> 173</span>                 } catch (Exception ex) {
+<span class="lineno"> 174</span>                     ex.printStackTrace();
+<span class="lineno"> 175</span>                 }
+<span class="lineno"> 176</span>                 textViewCacheDirectory.setText(item.path + File.separator + <span class="errorspan">"osmdroid" + File.separator + "tiles");</span>
+<span class="lineno"> 177</span>                 Configuration.getInstance().setOsmdroidTileCache(new File(textViewCacheDirectory.getText() + ""));
+<span class="lineno"> 178</span>                 Configuration.getInstance().save(getContext(), PreferenceManager.getDefaultSharedPreferences(getContext()));
 </pre>
 <span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/events/ZoomToBoundsOnStartup.java">../../src/main/java/org/osmdroid/samplefragments/events/ZoomToBoundsOnStartup.java</a>:126</span>: <span class="message">Do not concatenate text displayed with <code>setText</code>. Use resource string with placeholders.</span><br /><pre class="errorlines">
 <span class="lineno"> 123</span> 
@@ -3248,7 +3272,7 @@ When calling <code>TextView#setText</code><br/>
 <span class="lineno">  81</span> 
 <span class="lineno">  82</span>             &lt;Button
 </pre>
-<button id="HardcodedTextDivLink" onclick="reveal('HardcodedTextDiv');" />+ 60 More Occurrences...</button>
+<button id="HardcodedTextDivLink" onclick="reveal('HardcodedTextDiv');" />+ 68 More Occurrences...</button>
 <div id="HardcodedTextDiv" style="display: none">
 <span class="location"><a href="../../src/main/res/layout/activity_prefs.xml">../../src/main/res/layout/activity_prefs.xml</a>:105</span>: <span class="message">[I18N] Hardcoded string "/storage/sdcard", should use <code>@string</code> resource</span><br /><pre class="errorlines">
 <span class="lineno"> 102</span>                 android:id="@+id/textViewCacheDirectory"
@@ -3306,13 +3330,77 @@ When calling <code>TextView#setText</code><br/>
 <span class="lineno">  32</span>             android:layout_width="wrap_content"
 <span class="lineno">  33</span>             android:layout_height="wrap_content"
 </pre>
-<span class="location"><a href="../../src/main/res/layout/intro_storage.xml">../../src/main/res/layout/intro_storage.xml</a>:36</span>: <span class="message">[I18N] Hardcoded string "PLACEHOLDER", should use <code>@string</code> resource</span><br /><pre class="errorlines">
-<span class="lineno">  33</span>         android:id="@+id/textViewCacheDirectory"
-<span class="lineno">  34</span>         android:layout_width="match_parent"
-<span class="lineno">  35</span>         android:layout_height="wrap_content"
-<span class="lineno">  36</span>         <span class="errorspan">android:text="PLACEHOLDER"/></span>
+<span class="location"><a href="../../src/main/res/layout/intro_storage.xml">../../src/main/res/layout/intro_storage.xml</a>:35</span>: <span class="message">[I18N] Hardcoded string "Current Cache Size", should use <code>@string</code> resource</span><br /><pre class="errorlines">
+<span class="lineno">  32</span>                 android:paddingTop="22dp"
+<span class="lineno">  33</span>                 android:layout_width="match_parent"
+<span class="lineno">  34</span>                 android:layout_height="wrap_content"
+<span class="lineno">  35</span>                 <span class="errorspan">android:text="Current Cache Size"</span>
+<span class="lineno">  36</span>                 />
 <span class="lineno">  37</span> 
-<span class="lineno">  38</span>     &lt;Button
+</pre>
+<span class="location"><a href="../../src/main/res/layout/intro_storage.xml">../../src/main/res/layout/intro_storage.xml</a>:43</span>: <span class="message">[I18N] Hardcoded string "PLACEHOLDER", should use <code>@string</code> resource</span><br /><pre class="errorlines">
+<span class="lineno">  40</span>                 android:id="@+id/textViewCacheCurrentSize"
+<span class="lineno">  41</span>                 android:layout_width="match_parent"
+<span class="lineno">  42</span>                 android:layout_height="wrap_content"
+<span class="lineno">  43</span>                 <span class="errorspan">android:text="PLACEHOLDER"/></span>
+<span class="lineno">  44</span>         &lt;/LinearLayout>
+<span class="lineno">  45</span> 
+</pre>
+<span class="location"><a href="../../src/main/res/layout/intro_storage.xml">../../src/main/res/layout/intro_storage.xml</a>:55</span>: <span class="message">[I18N] Hardcoded string "Cache Trim Size", should use <code>@string</code> resource</span><br /><pre class="errorlines">
+<span class="lineno">  52</span>                 android:layout_width="match_parent"
+<span class="lineno">  53</span>                 android:layout_height="wrap_content"
+<span class="lineno">  54</span> 
+<span class="lineno">  55</span>                 <span class="errorspan">android:text="Cache Trim Size"</span>
+<span class="lineno">  56</span>                 />
+<span class="lineno">  57</span> 
+</pre>
+<span class="location"><a href="../../src/main/res/layout/intro_storage.xml">../../src/main/res/layout/intro_storage.xml</a>:63</span>: <span class="message">[I18N] Hardcoded string "PLACEHOLDER", should use <code>@string</code> resource</span><br /><pre class="errorlines">
+<span class="lineno">  60</span>                 android:id="@+id/textViewCacheTrimSize"
+<span class="lineno">  61</span>                 android:layout_width="match_parent"
+<span class="lineno">  62</span>                 android:layout_height="wrap_content"
+<span class="lineno">  63</span>                 <span class="errorspan">android:text="PLACEHOLDER"/></span>
+<span class="lineno">  64</span>         &lt;/LinearLayout>
+<span class="lineno">  65</span> 
+</pre>
+<span class="location"><a href="../../src/main/res/layout/intro_storage.xml">../../src/main/res/layout/intro_storage.xml</a>:74</span>: <span class="message">[I18N] Hardcoded string "Cache Max Size", should use <code>@string</code> resource</span><br /><pre class="errorlines">
+<span class="lineno">  71</span>             &lt;TextView
+<span class="lineno">  72</span>                 android:layout_width="match_parent"
+<span class="lineno">  73</span>                 android:layout_height="wrap_content"
+<span class="lineno">  74</span>                 <span class="errorspan">android:text="Cache Max Size"</span>
+<span class="lineno">  75</span>                 />
+<span class="lineno">  76</span> 
+</pre>
+<span class="location"><a href="../../src/main/res/layout/intro_storage.xml">../../src/main/res/layout/intro_storage.xml</a>:83</span>: <span class="message">[I18N] Hardcoded string "PLACEHOLDER", should use <code>@string</code> resource</span><br /><pre class="errorlines">
+<span class="lineno">  80</span>                 android:layout_width="match_parent"
+<span class="lineno">  81</span>                 android:layout_height="wrap_content"
+<span class="lineno">  82</span>                 android:paddingLeft="5dp"
+<span class="lineno">  83</span>                 <span class="errorspan">android:text="PLACEHOLDER"/></span>
+<span class="lineno">  84</span>         &lt;/LinearLayout>
+<span class="lineno">  85</span> 
+</pre>
+<span class="location"><a href="../../src/main/res/layout/intro_storage.xml">../../src/main/res/layout/intro_storage.xml</a>:95</span>: <span class="message">[I18N] Hardcoded string "Storage Free Space", should use <code>@string</code> resource</span><br /><pre class="errorlines">
+<span class="lineno">  92</span> 
+<span class="lineno">  93</span>                 android:layout_width="match_parent"
+<span class="lineno">  94</span>                 android:layout_height="wrap_content"
+<span class="lineno">  95</span>                 <span class="errorspan">android:text="Storage Free Space"</span>
+<span class="lineno">  96</span>                 />
+<span class="lineno">  97</span> 
+</pre>
+<span class="location"><a href="../../src/main/res/layout/intro_storage.xml">../../src/main/res/layout/intro_storage.xml</a>:103</span>: <span class="message">[I18N] Hardcoded string "PLACEHOLDER", should use <code>@string</code> resource</span><br /><pre class="errorlines">
+<span class="lineno"> 100</span>                 android:id="@+id/textViewCacheFreeSpace"
+<span class="lineno"> 101</span>                 android:layout_width="match_parent"
+<span class="lineno"> 102</span>                 android:layout_height="wrap_content"
+<span class="lineno"> 103</span>                 <span class="errorspan">android:text="PLACEHOLDER"/></span>
+<span class="lineno"> 104</span>         &lt;/LinearLayout>
+<span class="lineno"> 105</span> 
+</pre>
+<span class="location"><a href="../../src/main/res/layout/intro_storage.xml">../../src/main/res/layout/intro_storage.xml</a>:119</span>: <span class="message">[I18N] Hardcoded string "PLACEHOLDER", should use <code>@string</code> resource</span><br /><pre class="errorlines">
+<span class="lineno"> 116</span>             android:id="@+id/textViewCacheDirectory"
+<span class="lineno"> 117</span>             android:layout_width="match_parent"
+<span class="lineno"> 118</span>             android:layout_height="wrap_content"
+<span class="lineno"> 119</span>             <span class="errorspan">android:text="PLACEHOLDER"/></span>
+<span class="lineno"> 120</span> 
+<span class="lineno"> 121</span> 
 </pre>
 <span class="location"><a href="../../src/main/res/layout/intro_tilesources_osm.xml">../../src/main/res/layout/intro_tilesources_osm.xml</a>:17</span>: <span class="message">[I18N] Hardcoded string "Important information on Open Street Maps", should use <code>@string</code> resource</span><br /><pre class="errorlines">
 <span class="lineno">  14</span>             android:layout_width="wrap_content"
@@ -3758,6 +3846,38 @@ In Android Studio and Eclipse there are quickfixes to automatically extract this
 <div class="id"><a href="#" title="Return to top">RtlSymmetry: Padding and margin symmetry</a><div class="issueSeparator"></div>
 </div>
 <div class="warningslist">
+<span class="location"><a href="../../src/main/res/layout/intro_storage.xml">../../src/main/res/layout/intro_storage.xml</a>:39</span>: <span class="message">When you define <code>paddingLeft</code> you should probably also define <code>paddingRight</code> for right-to-left symmetry</span><br /><pre class="errorlines">
+<span class="lineno">  36</span>                 />
+<span class="lineno">  37</span> 
+<span class="lineno">  38</span>             &lt;TextView
+<span class="lineno">  39</span>                 <span class="errorspan">android:paddingLeft="5dp"</span>
+<span class="lineno">  40</span>                 android:id="@+id/textViewCacheCurrentSize"
+<span class="lineno">  41</span>                 android:layout_width="match_parent"
+</pre>
+<span class="location"><a href="../../src/main/res/layout/intro_storage.xml">../../src/main/res/layout/intro_storage.xml</a>:59</span>: <span class="message">When you define <code>paddingLeft</code> you should probably also define <code>paddingRight</code> for right-to-left symmetry</span><br /><pre class="errorlines">
+<span class="lineno">  56</span>                 />
+<span class="lineno">  57</span> 
+<span class="lineno">  58</span>             &lt;TextView
+<span class="lineno">  59</span>                 <span class="errorspan">android:paddingLeft="5dp"</span>
+<span class="lineno">  60</span>                 android:id="@+id/textViewCacheTrimSize"
+<span class="lineno">  61</span>                 android:layout_width="match_parent"
+</pre>
+<span class="location"><a href="../../src/main/res/layout/intro_storage.xml">../../src/main/res/layout/intro_storage.xml</a>:82</span>: <span class="message">When you define <code>paddingLeft</code> you should probably also define <code>paddingRight</code> for right-to-left symmetry</span><br /><pre class="errorlines">
+<span class="lineno">  79</span>                 android:id="@+id/textViewCacheMaxSize"
+<span class="lineno">  80</span>                 android:layout_width="match_parent"
+<span class="lineno">  81</span>                 android:layout_height="wrap_content"
+<span class="lineno">  82</span>                 <span class="errorspan">android:paddingLeft="5dp"</span>
+<span class="lineno">  83</span>                 android:text="PLACEHOLDER"/>
+<span class="lineno">  84</span>         &lt;/LinearLayout>
+</pre>
+<span class="location"><a href="../../src/main/res/layout/intro_storage.xml">../../src/main/res/layout/intro_storage.xml</a>:99</span>: <span class="message">When you define <code>paddingLeft</code> you should probably also define <code>paddingRight</code> for right-to-left symmetry</span><br /><pre class="errorlines">
+<span class="lineno">  96</span>                 />
+<span class="lineno">  97</span> 
+<span class="lineno">  98</span>             &lt;TextView
+<span class="lineno">  99</span>                 <span class="errorspan">android:paddingLeft="5dp"</span>
+<span class="lineno"> 100</span>                 android:id="@+id/textViewCacheFreeSpace"
+<span class="lineno"> 101</span>                 android:layout_width="match_parent"
+</pre>
 <span class="location"><a href="../../src/main/res/layout/list_group.xml">../../src/main/res/layout/list_group.xml</a>:14</span>: <span class="message">When you define <code>paddingLeft</code> you should probably also define <code>paddingRight</code> for right-to-left symmetry</span><br /><pre class="errorlines">
 <span class="lineno">  11</span>         android:id="@+id/lblListHeader"
 <span class="lineno">  12</span>         android:layout_width="fill_parent"
@@ -3805,6 +3925,38 @@ If you specify padding or margin on the left side of a layout, you should probab
 <div class="id"><a href="#" title="Return to top">RtlHardcoded: Using left/right instead of start/end attributes</a><div class="issueSeparator"></div>
 </div>
 <div class="warningslist">
+<span class="location"><a href="../../src/main/res/layout/intro_storage.xml">../../src/main/res/layout/intro_storage.xml</a>:39</span>: <span class="message">Consider adding <code>android:paddingStart="5dp"</code> to better support right-to-left layouts</span><br /><pre class="errorlines">
+<span class="lineno">  36</span>                 />
+<span class="lineno">  37</span> 
+<span class="lineno">  38</span>             &lt;TextView
+<span class="lineno">  39</span>                 <span class="errorspan">android:paddingLeft="5dp"</span>
+<span class="lineno">  40</span>                 android:id="@+id/textViewCacheCurrentSize"
+<span class="lineno">  41</span>                 android:layout_width="match_parent"
+</pre>
+<span class="location"><a href="../../src/main/res/layout/intro_storage.xml">../../src/main/res/layout/intro_storage.xml</a>:59</span>: <span class="message">Consider adding <code>android:paddingStart="5dp"</code> to better support right-to-left layouts</span><br /><pre class="errorlines">
+<span class="lineno">  56</span>                 />
+<span class="lineno">  57</span> 
+<span class="lineno">  58</span>             &lt;TextView
+<span class="lineno">  59</span>                 <span class="errorspan">android:paddingLeft="5dp"</span>
+<span class="lineno">  60</span>                 android:id="@+id/textViewCacheTrimSize"
+<span class="lineno">  61</span>                 android:layout_width="match_parent"
+</pre>
+<span class="location"><a href="../../src/main/res/layout/intro_storage.xml">../../src/main/res/layout/intro_storage.xml</a>:82</span>: <span class="message">Consider adding <code>android:paddingStart="5dp"</code> to better support right-to-left layouts</span><br /><pre class="errorlines">
+<span class="lineno">  79</span>                 android:id="@+id/textViewCacheMaxSize"
+<span class="lineno">  80</span>                 android:layout_width="match_parent"
+<span class="lineno">  81</span>                 android:layout_height="wrap_content"
+<span class="lineno">  82</span>                 <span class="errorspan">android:paddingLeft="5dp"</span>
+<span class="lineno">  83</span>                 android:text="PLACEHOLDER"/>
+<span class="lineno">  84</span>         &lt;/LinearLayout>
+</pre>
+<span class="location"><a href="../../src/main/res/layout/intro_storage.xml">../../src/main/res/layout/intro_storage.xml</a>:99</span>: <span class="message">Consider adding <code>android:paddingStart="5dp"</code> to better support right-to-left layouts</span><br /><pre class="errorlines">
+<span class="lineno">  96</span>                 />
+<span class="lineno">  97</span> 
+<span class="lineno">  98</span>             &lt;TextView
+<span class="lineno">  99</span>                 <span class="errorspan">android:paddingLeft="5dp"</span>
+<span class="lineno"> 100</span>                 android:id="@+id/textViewCacheFreeSpace"
+<span class="lineno"> 101</span>                 android:layout_width="match_parent"
+</pre>
 <span class="location"><a href="../../src/main/res/layout/item_cache.xml">../../src/main/res/layout/item_cache.xml</a>:23</span>: <span class="message">Consider adding <code>android:layout_marginStart="10dp"</code> to better support right-to-left layouts</span><br /><pre class="errorlines">
 <span class="lineno">  20</span>             android:id="@+id/tvSource"
 <span class="lineno">  21</span>             android:layout_width="wrap_content"
@@ -3813,6 +3965,8 @@ If you specify padding or margin on the left side of a layout, you should probab
 <span class="lineno">  24</span>             android:text="MAPNIK"
 <span class="lineno">  25</span>             android:textAppearance="?android:attr/textAppearanceMedium"/>
 </pre>
+<button id="RtlHardcodedDivLink" onclick="reveal('RtlHardcodedDiv');" />+ 11 More Occurrences...</button>
+<div id="RtlHardcodedDiv" style="display: none">
 <span class="location"><a href="../../src/main/res/layout/item_cache.xml">../../src/main/res/layout/item_cache.xml</a>:43</span>: <span class="message">Consider adding <code>android:layout_marginStart="10dp"</code> to better support right-to-left layouts</span><br /><pre class="errorlines">
 <span class="lineno">  40</span>             android:id="@+id/tvDbKey"
 <span class="lineno">  41</span>             android:layout_width="wrap_content"
@@ -3845,8 +3999,6 @@ If you specify padding or margin on the left side of a layout, you should probab
 <span class="lineno">  15</span>         android:textSize="17dp"
 <span class="lineno">  16</span>          />
 </pre>
-<button id="RtlHardcodedDivLink" onclick="reveal('RtlHardcodedDiv');" />+ 7 More Occurrences...</button>
-<div id="RtlHardcodedDiv" style="display: none">
 <span class="location"><a href="../../src/main/res/layout/list_item.xml">../../src/main/res/layout/list_item.xml</a>:15</span>: <span class="message">Consider adding <code>android:paddingStart="?android:attr/expandableListPreferredChildPaddingLeft"</code> to better support right-to-left layouts</span><br /><pre class="errorlines">
 <span class="lineno">  12</span>         android:paddingTop="10dp"
 <span class="lineno">  13</span>         android:paddingBottom="10dp"

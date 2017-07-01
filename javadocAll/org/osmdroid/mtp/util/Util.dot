@@ -10,7 +10,7 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.mtp.util.Util
-	c148649 [label=<<table title="org.osmdroid.mtp.util.Util" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./Util.html">
+	c150975 [label=<<table title="org.osmdroid.mtp.util.Util" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./Util.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> Util </td></tr>
 		</table></td></tr>

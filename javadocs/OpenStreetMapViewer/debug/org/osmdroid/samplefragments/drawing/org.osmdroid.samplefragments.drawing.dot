@@ -10,13 +10,13 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.samplefragments.drawing.CustomPaintingSurface
-	c1770 [label=<<table title="org.osmdroid.samplefragments.drawing.CustomPaintingSurface" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./CustomPaintingSurface.html">
+	c1797 [label=<<table title="org.osmdroid.samplefragments.drawing.CustomPaintingSurface" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./CustomPaintingSurface.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> CustomPaintingSurface </td></tr>
 		</table></td></tr>
 		</table>>, URL="./CustomPaintingSurface.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.drawing.SampleDrawPolyline
-	c1771 [label=<<table title="org.osmdroid.samplefragments.drawing.SampleDrawPolyline" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleDrawPolyline.html">
+	c1798 [label=<<table title="org.osmdroid.samplefragments.drawing.SampleDrawPolyline" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleDrawPolyline.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleDrawPolyline </td></tr>
 		</table></td></tr>

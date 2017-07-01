@@ -10,31 +10,31 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.gpkg.GeoPackageMapTileModuleProvider
-	c20351 [label=<<table title="org.osmdroid.gpkg.GeoPackageMapTileModuleProvider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./GeoPackageMapTileModuleProvider.html">
+	c20519 [label=<<table title="org.osmdroid.gpkg.GeoPackageMapTileModuleProvider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./GeoPackageMapTileModuleProvider.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> GeoPackageMapTileModuleProvider </td></tr>
 		</table></td></tr>
 		</table>>, URL="./GeoPackageMapTileModuleProvider.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.gpkg.GeoPackageMapTileModuleProvider.Container
-	c20352 [label=<<table title="org.osmdroid.gpkg.GeoPackageMapTileModuleProvider.Container" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./GeoPackageMapTileModuleProvider.Container.html">
+	c20520 [label=<<table title="org.osmdroid.gpkg.GeoPackageMapTileModuleProvider.Container" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./GeoPackageMapTileModuleProvider.Container.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> Container </td></tr>
 		</table></td></tr>
 		</table>>, URL="./GeoPackageMapTileModuleProvider.Container.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.gpkg.GeoPackageMapTileModuleProvider.TileLoader
-	c20353 [label=<<table title="org.osmdroid.gpkg.GeoPackageMapTileModuleProvider.TileLoader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./GeoPackageMapTileModuleProvider.TileLoader.html">
+	c20521 [label=<<table title="org.osmdroid.gpkg.GeoPackageMapTileModuleProvider.TileLoader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./GeoPackageMapTileModuleProvider.TileLoader.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> TileLoader </td></tr>
 		</table></td></tr>
 		</table>>, URL="./GeoPackageMapTileModuleProvider.TileLoader.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.gpkg.GeoPackageProvider
-	c20354 [label=<<table title="org.osmdroid.gpkg.GeoPackageProvider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./GeoPackageProvider.html">
+	c20522 [label=<<table title="org.osmdroid.gpkg.GeoPackageProvider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./GeoPackageProvider.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> GeoPackageProvider </td></tr>
 		</table></td></tr>
 		</table>>, URL="./GeoPackageProvider.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.gpkg.GeoPackageProvider.TileSourceBounds
-	c20355 [label=<<table title="org.osmdroid.gpkg.GeoPackageProvider.TileSourceBounds" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./GeoPackageProvider.TileSourceBounds.html">
+	c20523 [label=<<table title="org.osmdroid.gpkg.GeoPackageProvider.TileSourceBounds" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./GeoPackageProvider.TileSourceBounds.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> TileSourceBounds </td></tr>
 		</table></td></tr>

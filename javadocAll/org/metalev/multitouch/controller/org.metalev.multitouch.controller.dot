@@ -10,25 +10,25 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.metalev.multitouch.controller.MultiTouchController<T>
-	c12164 [label=<<table title="org.metalev.multitouch.controller.MultiTouchController" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MultiTouchController.html">
+	c12265 [label=<<table title="org.metalev.multitouch.controller.MultiTouchController" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MultiTouchController.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MultiTouchController&lt;T&gt; </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MultiTouchController.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.metalev.multitouch.controller.MultiTouchController.PointInfo
-	c12165 [label=<<table title="org.metalev.multitouch.controller.MultiTouchController.PointInfo" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MultiTouchController.PointInfo.html">
+	c12266 [label=<<table title="org.metalev.multitouch.controller.MultiTouchController.PointInfo" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MultiTouchController.PointInfo.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> PointInfo </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MultiTouchController.PointInfo.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.metalev.multitouch.controller.MultiTouchController.PositionAndScale
-	c12166 [label=<<table title="org.metalev.multitouch.controller.MultiTouchController.PositionAndScale" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MultiTouchController.PositionAndScale.html">
+	c12267 [label=<<table title="org.metalev.multitouch.controller.MultiTouchController.PositionAndScale" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MultiTouchController.PositionAndScale.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> PositionAndScale </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MultiTouchController.PositionAndScale.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.metalev.multitouch.controller.MultiTouchController.MultiTouchObjectCanvas<T>
-	c12167 [label=<<table title="org.metalev.multitouch.controller.MultiTouchController.MultiTouchObjectCanvas" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MultiTouchController.MultiTouchObjectCanvas.html">
+	c12268 [label=<<table title="org.metalev.multitouch.controller.MultiTouchController.MultiTouchObjectCanvas" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MultiTouchController.MultiTouchObjectCanvas.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> MultiTouchObjectCanvas&lt;T&gt; </td></tr>

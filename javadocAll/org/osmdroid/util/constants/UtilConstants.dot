@@ -10,27 +10,27 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.util.constants.UtilConstants
-	c149244 [label=<<table title="org.osmdroid.util.constants.UtilConstants" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./UtilConstants.html">
+	c151576 [label=<<table title="org.osmdroid.util.constants.UtilConstants" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./UtilConstants.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> UtilConstants </td></tr>
 		</table></td></tr>
 		</table>>, URL="./UtilConstants.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.util.LocationUtils
-	c149247 [label=<<table title="org.osmdroid.util.LocationUtils" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../LocationUtils.html">
+	c151579 [label=<<table title="org.osmdroid.util.LocationUtils" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../LocationUtils.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> LocationUtils </td></tr>
 		</table></td></tr>
 		</table>>, URL="../LocationUtils.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.util.NetworkLocationIgnorer
-	c149249 [label=<<table title="org.osmdroid.util.NetworkLocationIgnorer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../NetworkLocationIgnorer.html">
+	c151581 [label=<<table title="org.osmdroid.util.NetworkLocationIgnorer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../NetworkLocationIgnorer.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> NetworkLocationIgnorer </td></tr>
 		</table></td></tr>
 		</table>>, URL="../NetworkLocationIgnorer.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.util.LocationUtils implements org.osmdroid.util.constants.UtilConstants
-	c149244:p -> c149247:p [dir=back,arrowtail=empty,style=dashed];
+	c151576:p -> c151579:p [dir=back,arrowtail=empty,style=dashed];
 	//org.osmdroid.util.NetworkLocationIgnorer implements org.osmdroid.util.constants.UtilConstants
-	c149244:p -> c149249:p [dir=back,arrowtail=empty,style=dashed];
+	c151576:p -> c151581:p [dir=back,arrowtail=empty,style=dashed];
 }
 
