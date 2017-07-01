@@ -10,6 +10,7 @@ import org.osmdroid.tileprovider.modules.SqlTileWriter;
 import org.osmdroid.tileprovider.util.StorageUtils;
 
 import java.io.File;
+import java.net.Proxy;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Locale;
@@ -64,6 +65,7 @@ public class DefaultConfigurationProvider implements IConfigurationProvider {
     protected File osmdroidTileCache;
     protected long expirationAdder = 0;
     protected Long expirationOverride=null;
+    protected Proxy httpProxy=null;
 
     public DefaultConfigurationProvider(){
 
@@ -239,6 +241,16 @@ public class DefaultConfigurationProvider implements IConfigurationProvider {
     }
 
     @Override
+    public Proxy getHttpProxy() {
+        return httpProxy;
+    }
+
+    @Override
+    public void setHttpProxy(Proxy httpProxy) {
+        this.httpProxy = httpProxy;
+    }
+
+    @Override
     public File getOsmdroidBasePath() {
         return osmdroidBasePath;
     }
@@ -257,7 +269,6 @@ public class DefaultConfigurationProvider implements IConfigurationProvider {
     public void setOsmdroidTileCache(File osmdroidTileCache) {
         this.osmdroidTileCache = osmdroidTileCache;
     }
-
 
     @Override
     public String getUserAgentHttpHeader() {
