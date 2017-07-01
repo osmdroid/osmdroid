@@ -8,8 +8,6 @@ import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.tilesource.IStyledTileSource;
 import org.osmdroid.tileprovider.tilesource.QuadTreeTileSource;
-import org.osmdroid.tileprovider.tilesource.bing.ImageryMetaData;
-import org.osmdroid.tileprovider.tilesource.bing.ImageryMetaDataResource;
 import org.osmdroid.tileprovider.util.ManifestUtil;
 import org.osmdroid.tileprovider.util.StreamUtils;
 
@@ -19,6 +17,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Locale;
+import java.util.Map;
 
 import microsoft.mappoint.TileSystem;
 
@@ -225,6 +224,9 @@ public class BingMapTileSource extends QuadTreeTileSource implements IStyledTile
 			client = (HttpURLConnection)(new URL(String.format(BASE_URL_PATTERN, mStyle, mBingMapKey)).openConnection());
 			Log.d(IMapView.LOGTAG,"make request "+client.getURL().toString().toString());
 			client.setRequestProperty(Configuration.getInstance().getUserAgentHttpHeader(), Configuration.getInstance().getUserAgentValue());
+			for (final Map.Entry<String, String> entry : Configuration.getInstance().getAdditionalHttpRequestProperties().entrySet()) {
+                client.setRequestProperty(entry.getKey(), entry.getValue());
+			}
 			client.connect();
 
 			if (client.getResponseCode()!= 200) {
