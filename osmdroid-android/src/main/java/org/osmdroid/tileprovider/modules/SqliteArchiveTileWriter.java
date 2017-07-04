@@ -118,4 +118,9 @@ public class SqliteArchiveTileWriter implements IFilesystemCache {
         //not supported
         return false;
     }
+
+    @Override
+    public Long getExpirationTimestamp(final ITileSource pTileSource, final MapTile pTile) {
+        return null;
+    }
 }

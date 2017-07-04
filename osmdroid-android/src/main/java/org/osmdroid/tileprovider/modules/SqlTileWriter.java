@@ -149,10 +149,7 @@ public class SqlTileWriter implements IFilesystemCache {
         }
         try {
             ContentValues cv = new ContentValues();
-            final long x = (long) pTile.getX();
-            final long y = (long) pTile.getY();
-            final long z = (long) pTile.getZoomLevel();
-            final long index = ((z << z) + x << z) + y;
+            final long index = getIndex(pTile);
             cv.put(DatabaseFileArchive.COLUMN_PROVIDER, pTileSourceInfo.name());
             BufferedInputStream bis = new BufferedInputStream(pStream);
 
@@ -210,10 +207,7 @@ public class SqlTileWriter implements IFilesystemCache {
         }
         try {
             final String[] tile = {DatabaseFileArchive.COLUMN_TILE};
-            final long x = (long) pTile.getX();
-            final long y = (long) pTile.getY();
-            final long z = (long) pTile.getZoomLevel();
-            final long index = ((z << z) + x << z) + y;
+            final long index = getIndex(pTile);
             final Cursor cur = db.query(TABLE, tile, DatabaseFileArchive.COLUMN_KEY + " = " + index + " and " + DatabaseFileArchive.COLUMN_PROVIDER + " = '" + pTileSource + "'", null, null, null, null);
 
             if (cur.getCount() != 0) {
@@ -330,7 +324,7 @@ public class SqlTileWriter implements IFilesystemCache {
                                                                 final long x1 = Long.parseLong(x[xx].getName());
                                                                 final long y1 = Long.parseLong(y[yy].getName().substring(0, y[yy].getName().indexOf(".")));
                                                                 final long z1 = Long.parseLong(z[zz].getName());
-                                                                final long index = ((z1 << z1) + x1 << z1) + y1;
+                                                                final long index = getIndex(x1, y1, z1);
                                                                 cv.put(DatabaseFileArchive.COLUMN_PROVIDER, tileSources[i].getName());
                                                                 if (!exists(tileSources[i].getName(), new MapTile((int) z1, (int) x1, (int) y1))) {
 
@@ -439,10 +433,7 @@ public class SqlTileWriter implements IFilesystemCache {
             return false;
         }
         try {
-            final long x = (long) pTile.getX();
-            final long y = (long) pTile.getY();
-            final long z = (long) pTile.getZoomLevel();
-            final long index = ((z << z) + x << z) + y;
+            final long index = getIndex(pTile);
             db.delete(DatabaseFileArchive.TABLE, DatabaseFileArchive.COLUMN_KEY + "=? and " + DatabaseFileArchive.COLUMN_PROVIDER + "=?", new String[]{index + "", pTileSourceInfo.name()});
             return true;
         } catch (Throwable ex) {
@@ -478,4 +469,47 @@ public class SqlTileWriter implements IFilesystemCache {
         return 0;
     }
 
+    /**
+     *
+     * @since 5.6.5
+     * @param pX
+     * @param pY
+     * @param pZ
+     * @return
+     */
+    public long getIndex(final long pX, final long pY, final long pZ) {
+        return ((pZ << pZ) + pX << pZ) + pY;
+    }
+
+    /**
+     * Gets the single column index value for a map tile
+     *
+     * @since 5.6.5
+     * @param pTile
+     * @return
+     */
+    public long getIndex(final MapTile pTile) {
+        return getIndex(pTile.getX(), pTile.getY(), pTile.getZoomLevel());
+    }
+
+    @Override
+    public Long getExpirationTimestamp(final ITileSource pTileSource, final MapTile pTile) {
+        Cursor cursor = null;
+        try {
+            cursor = db.query(TABLE, new String[]{COLUMN_EXPIRES},
+                    DatabaseFileArchive.COLUMN_KEY + "=? and " + DatabaseFileArchive.COLUMN_PROVIDER + "=?",
+                    new String[]{getIndex(pTile) + "", pTileSource.name()},
+                    null, null, null, null);
+            while(cursor.moveToNext()) {
+                return cursor.getLong(0);
+            }
+        } catch (Throwable t) {
+            Log.e(IMapView.LOGTAG, "error getting expiration date from the tile cache", t);
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return null;
+    }
 }

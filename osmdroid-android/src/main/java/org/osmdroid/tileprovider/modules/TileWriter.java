@@ -290,4 +290,8 @@ public class TileWriter implements IFilesystemCache {
 		}
 	}
 
+	@Override
+	public Long getExpirationTimestamp(final ITileSource pTileSource, final MapTile pTile) {
+		return null;
+	}
 }
