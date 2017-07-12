@@ -118,7 +118,7 @@ public class SqlTileWriter implements IFilesystemCache {
                 //note, i considered adding a looping mechanism here but sqlite can behave differently
                 //i.e. there's no guarantee that the database file size shrinks immediately.
                 Log.i(IMapView.LOGTAG, "Local cache is now " + db_file.length() + " max size is " + Configuration.getInstance().getTileFileSystemCacheMaxBytes());
-                long diff = db_file.length() - Configuration.getInstance().getTileFileSystemCacheMaxBytes();
+                long diff = db_file.length() - Configuration.getInstance().getTileFileSystemCacheTrimBytes();
                 long tilesToKill = diff / questimate;
                 Log.d(IMapView.LOGTAG, "Local cache purging " + tilesToKill + " tiles.");
                 if (tilesToKill > 0)
@@ -178,7 +178,7 @@ public class SqlTileWriter implements IFilesystemCache {
                 Log.d(IMapView.LOGTAG, "tile inserted " + pTileSourceInfo.name() + pTile.toString());
             if (System.currentTimeMillis() > lastSizeCheck + 300000){
                 lastSizeCheck = System.currentTimeMillis();
-                if (db_file!=null && db_file.length() > Configuration.getInstance().getTileFileSystemCacheTrimBytes()) {
+                if (db_file!=null && db_file.length() > Configuration.getInstance().getTileFileSystemCacheMaxBytes()) {
                     runCleanupOperation();
                 }
             }
