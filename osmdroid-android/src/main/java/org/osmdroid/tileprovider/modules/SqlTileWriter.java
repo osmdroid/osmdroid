@@ -56,9 +56,10 @@ public class SqlTileWriter implements IFilesystemCache {
     protected long lastSizeCheck=0;
 
     /**
-     * a questimated size (average-ish) size of a tile
+     * mean tile size computed on first use.
+     * Sizes are quite variable and a significant underestimate will result in too many tiles being purged.
      */
-    final int questimate=4000;
+    long tileSize=0l;
     static boolean hasInited=false;
 
     public SqlTileWriter() {
@@ -119,7 +120,14 @@ public class SqlTileWriter implements IFilesystemCache {
                 //i.e. there's no guarantee that the database file size shrinks immediately.
                 Log.i(IMapView.LOGTAG, "Local cache is now " + db_file.length() + " max size is " + Configuration.getInstance().getTileFileSystemCacheMaxBytes());
                 long diff = db_file.length() - Configuration.getInstance().getTileFileSystemCacheTrimBytes();
-                long tilesToKill = diff / questimate;
+                if (tileSize == 0l) {
+                    long count = getRowCount(null);
+                    tileSize = db_file.length() / count;
+                    if (Configuration.getInstance().isDebugMode()) {
+                        Log.d(IMapView.LOGTAG, "Number of cached tiles is " + count + ", mean size is " + tileSize);
+                    }
+                }
+                long tilesToKill = diff / tileSize;
                 Log.d(IMapView.LOGTAG, "Local cache purging " + tilesToKill + " tiles.");
                 if (tilesToKill > 0)
                     try {
