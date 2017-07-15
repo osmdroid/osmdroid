@@ -122,7 +122,7 @@ public class SqlTileWriter implements IFilesystemCache {
                 long diff = db_file.length() - Configuration.getInstance().getTileFileSystemCacheTrimBytes();
                 if (tileSize == 0l) {
                     long count = getRowCount(null);
-                    tileSize = db_file.length() / count;
+                    tileSize = count > 0l ? db_file.length() / count : 4000;
                     if (Configuration.getInstance().isDebugMode()) {
                         Log.d(IMapView.LOGTAG, "Number of cached tiles is " + count + ", mean size is " + tileSize);
                     }
