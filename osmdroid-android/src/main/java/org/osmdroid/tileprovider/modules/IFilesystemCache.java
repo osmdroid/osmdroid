@@ -59,7 +59,7 @@ public interface IFilesystemCache {
 	 * @since 5.6.5
 	 * @param pTileSource
 	 * @param pTile
-	 * @return cache expiration timestamp in milliseconds,
+	 * @return cache expiration timestamp in time since UTC epoch (in milliseconds),
 	 * or null if expiration timestamp is not supported or if the tile is not cached
 	 */
 	Long getExpirationTimestamp(final ITileSource pTileSource, final MapTile pTile);
