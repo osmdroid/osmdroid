@@ -486,4 +486,28 @@ public class SqlTileWriter implements IFilesystemCache {
         return 0;
     }
 
+
+    /**
+    * Returns the size of the database file in bytes.
+    */
+    public long getSize() {
+        return db_file.length();
+    }
+
+    /**
+    * Returns the expiry time of the tile that expires first.
+    */
+    public long getFirstExpiry() {
+        try {
+            Cursor cursor = db.rawQuery("select min(" + COLUMN_EXPIRES + ") from " + TABLE, null);
+            cursor.moveToFirst();
+            long time = cursor.getLong(0);
+            cursor.close();
+            return time;
+        } catch (Throwable ex) {
+            Log.e(IMapView.LOGTAG, "Unable to query for oldest tile", ex);
+        }
+        return 0;
+    }
+
 }
