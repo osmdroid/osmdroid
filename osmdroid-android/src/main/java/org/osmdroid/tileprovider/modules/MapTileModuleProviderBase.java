@@ -304,7 +304,7 @@ public abstract class MapTileModuleProviderBase {
 
 				if (result == null) {
 					tileLoadedFailed(state);
-				} else if (ExpirableBitmapDrawable.isDrawableExpired(result)) {
+				} else if (ExpirableBitmapDrawable.getState(result) == ExpirableBitmapDrawable.EXPIRED) {
 					tileLoadedExpired(state, result);
 				} else {
 					tileLoaded(state, result);

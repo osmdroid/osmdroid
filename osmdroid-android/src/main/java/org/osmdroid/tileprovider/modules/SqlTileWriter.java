@@ -169,7 +169,7 @@ public class SqlTileWriter implements IFilesystemCache {
             //this shouldn't happen, but just in case
             if (pTile.getExpires() != null)
                 cv.put(COLUMN_EXPIRES, pTile.getExpires().getTime());
-            db.delete(TABLE, DatabaseFileArchive.COLUMN_KEY + "=? and " + DatabaseFileArchive.COLUMN_PROVIDER + "=?", new String[]{index + "", pTileSourceInfo.name()});
+            db.delete(TABLE, primaryKey, getPrimaryKeyParameters(index, pTileSourceInfo));
             db.insert(TABLE, null, cv);
             if (Configuration.getInstance().isDebugMode())
                 Log.d(IMapView.LOGTAG, "tile inserted " + pTileSourceInfo.name() + pTile.toString());
@@ -208,7 +208,7 @@ public class SqlTileWriter implements IFilesystemCache {
         try {
             final String[] tile = {DatabaseFileArchive.COLUMN_TILE};
             final long index = getIndex(pTile);
-            final Cursor cur = db.query(TABLE, tile, DatabaseFileArchive.COLUMN_KEY + " = " + index + " and " + DatabaseFileArchive.COLUMN_PROVIDER + " = '" + pTileSource + "'", null, null, null, null);
+            final Cursor cur = getTileCursor(getPrimaryKeyParameters(index, pTileSource), tile);
 
             if (cur.getCount() != 0) {
                 cur.close();
@@ -434,7 +434,7 @@ public class SqlTileWriter implements IFilesystemCache {
         }
         try {
             final long index = getIndex(pTile);
-            db.delete(DatabaseFileArchive.TABLE, DatabaseFileArchive.COLUMN_KEY + "=? and " + DatabaseFileArchive.COLUMN_PROVIDER + "=?", new String[]{index + "", pTileSourceInfo.name()});
+            db.delete(DatabaseFileArchive.TABLE, primaryKey, getPrimaryKeyParameters(index, pTileSourceInfo));
             return true;
         } catch (Throwable ex) {
             //note, although we check for db null state at the beginning of this method, it's possible for the
@@ -477,7 +477,7 @@ public class SqlTileWriter implements IFilesystemCache {
      * @param pZ
      * @return
      */
-    public long getIndex(final long pX, final long pY, final long pZ) {
+    public static long getIndex(final long pX, final long pY, final long pZ) {
         return ((pZ << pZ) + pX << pZ) + pY;
     }
 
@@ -488,7 +488,7 @@ public class SqlTileWriter implements IFilesystemCache {
      * @param pTile
      * @return
      */
-    public long getIndex(final MapTile pTile) {
+    public static long getIndex(final MapTile pTile) {
         return getIndex(pTile.getX(), pTile.getY(), pTile.getZoomLevel());
     }
 
@@ -496,10 +496,7 @@ public class SqlTileWriter implements IFilesystemCache {
     public Long getExpirationTimestamp(final ITileSource pTileSource, final MapTile pTile) {
         Cursor cursor = null;
         try {
-            cursor = db.query(TABLE, new String[]{COLUMN_EXPIRES},
-                    DatabaseFileArchive.COLUMN_KEY + "=? and " + DatabaseFileArchive.COLUMN_PROVIDER + "=?",
-                    new String[]{getIndex(pTile) + "", pTileSource.name()},
-                    null, null, null, null);
+            cursor = getTileCursor(getPrimaryKeyParameters(getIndex(pTile), pTileSource), new String[]{COLUMN_EXPIRES});
             while(cursor.moveToNext()) {
                 return cursor.getLong(0);
             }
@@ -511,5 +508,43 @@ public class SqlTileWriter implements IFilesystemCache {
             }
         }
         return null;
+    }
+
+    /**
+     * @since 5.6.5
+     */
+    private static final String primaryKey = DatabaseFileArchive.COLUMN_KEY + "=? and " + DatabaseFileArchive.COLUMN_PROVIDER + "=?";
+
+    /**
+     *
+     * @since 5.6.5
+     * @param pIndex
+     * @param pTileSourceInfo
+     * @return
+     */
+    public static String[] getPrimaryKeyParameters(final long pIndex, final ITileSource pTileSourceInfo) {
+        return getPrimaryKeyParameters(pIndex, pTileSourceInfo.name());
+    }
+
+    /**
+     *
+     * @since 5.6.5
+     * @param pIndex
+     * @param pTileSourceInfo
+     * @return
+     */
+    public static String[] getPrimaryKeyParameters(final long pIndex, final String pTileSourceInfo) {
+        return new String[]{String.valueOf(pIndex), pTileSourceInfo};
+    }
+
+    /**
+     *
+     * @since 5.6.5
+     * @param pPrimaryKeyParameters
+     * @param pColumns
+     * @return
+     */
+    public Cursor getTileCursor(final String[] pPrimaryKeyParameters, final String[] pColumns) {
+        return db.query(DatabaseFileArchive.TABLE, pColumns, primaryKey, pPrimaryKeyParameters, null, null, null);
     }
 }

@@ -39,34 +39,30 @@ public class MapTileSqlCacheProvider  extends MapTileFileStorageProviderBase{
 
     private final AtomicReference<ITileSource> mTileSource = new AtomicReference<ITileSource>();
     private SqlTileWriter mWriter;
-    private final long mMaximumCachedFileAge;
-    //FIXME constants with #348
-    private static final String[] tile = {"tile"};
-    private static final String[] columns={"tile","expires"};
+    private static final String[] columns = {DatabaseFileArchive.COLUMN_TILE, SqlTileWriter.COLUMN_EXPIRES};
 
     // ===========================================================
     // Constructors
     // ===========================================================
 
+    @Deprecated
+    public MapTileSqlCacheProvider(final IRegisterReceiver pRegisterReceiver,
+                                      final ITileSource pTileSource, final long pMaximumCachedFileAge) {
+        this(pRegisterReceiver, pTileSource);
+    }
+
     /**
-     * The tiles may be found on several media. This one works with tiles stored on the file system.
+     * The tiles may be found on several media. This one works with tiles stored on database.
      * It and its friends are typically created and controlled by {@link MapTileProviderBase}.
      */
     public MapTileSqlCacheProvider(final IRegisterReceiver pRegisterReceiver,
-                                      final ITileSource pTileSource, final long pMaximumCachedFileAge) {
+                                      final ITileSource pTileSource) {
         super(pRegisterReceiver,
-            Configuration.getInstance().getTileFileSystemThreads(),
-            Configuration.getInstance().getTileFileSystemMaxQueueSize());
+                Configuration.getInstance().getTileFileSystemThreads(),
+                Configuration.getInstance().getTileFileSystemMaxQueueSize());
 
         setTileSource(pTileSource);
-        mMaximumCachedFileAge = pMaximumCachedFileAge;
         mWriter = new SqlTileWriter();
-
-    }
-
-    public MapTileSqlCacheProvider(final IRegisterReceiver pRegisterReceiver,
-                                      final ITileSource pTileSource) {
-        this(pRegisterReceiver, pTileSource, OpenStreetMapTileProviderConstants.DEFAULT_MAXIMUM_CACHED_FILE_AGE);
     }
 
     // ===========================================================
@@ -150,16 +146,7 @@ public class MapTileSqlCacheProvider  extends MapTileFileStorageProviderBase{
         if (tileSource == null) {
             return false;
         }
-        final long x = (long) pTile.getX();
-        final long y = (long) pTile.getY();
-        final long z = (long) pTile.getZoomLevel();
-        final long index = ((z << z) + x << z) + y;
-        final Cursor cur =mWriter.db.query(DatabaseFileArchive.TABLE,columns,"key = " + index + " and provider = '" + tileSource.name() + "'", null, null, null, null);
-        if(cur.getCount() != 0) {
-            cur.close();
-            return true;
-        }
-        return false;
+        return mWriter.getExpirationTimestamp(tileSource, pTile) != null;
     }
 
 
@@ -198,18 +185,15 @@ public class MapTileSqlCacheProvider  extends MapTileFileStorageProviderBase{
             try {
 
 
-                final long x = (long) pTile.getX();
-                final long y = (long) pTile.getY();
-                final long z = (long) pTile.getZoomLevel();
-                final long index = ((z << z) + x << z) + y;
-                final Cursor cur =mWriter.db.query(DatabaseFileArchive.TABLE,columns,"key = " + index + " and provider = '" + tileSource.name() + "'", null, null, null, null);
+                final long index = SqlTileWriter.getIndex(pTile);
+                final Cursor cur = mWriter.getTileCursor(SqlTileWriter.getPrimaryKeyParameters(index, tileSource), columns);
                 byte[] bits=null;
-                long lastModified=0l;
+                long expirationTimestamp=0;
 
                 if(cur.getCount() != 0) {
                     cur.moveToFirst();
-                    bits = (cur.getBlob(cur.getColumnIndex("tile")));
-                    lastModified = cur.getLong(cur.getColumnIndex("expires"));
+                    bits = cur.getBlob(cur.getColumnIndex(DatabaseFileArchive.COLUMN_TILE));
+                    expirationTimestamp = cur.getLong(cur.getColumnIndex(SqlTileWriter.COLUMN_EXPIRES));
                 }
                 cur.close();
                 if (bits==null) {
@@ -223,14 +207,13 @@ public class MapTileSqlCacheProvider  extends MapTileFileStorageProviderBase{
                 Drawable drawable = tileSource.getDrawable(inputStream);
                 // Check to see if file has expired
                 final long now = System.currentTimeMillis();
-                final boolean fileExpired = lastModified < now - mMaximumCachedFileAge;
+                final boolean fileExpired = expirationTimestamp < now;
 
                 if (fileExpired && drawable != null) {
                     if (Configuration.getInstance().isDebugMode()) {
                         Log.d(IMapView.LOGTAG,"Tile expired: " + tileSource.name() +pTile);
                     }
-                    ExpirableBitmapDrawable.setDrawableExpired(drawable);
-                    //should we remove from the database here?
+                    ExpirableBitmapDrawable.setState(drawable, ExpirableBitmapDrawable.EXPIRED);
                 }
                 Counters.fileCacheHit++;
                 return drawable;
