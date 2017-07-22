@@ -3,14 +3,19 @@ package org.osmdroid.tileprovider.modules;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 
 import org.osmdroid.api.IMapView;
 import org.osmdroid.config.Configuration;
+import org.osmdroid.tileprovider.ExpirableBitmapDrawable;
 import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
+import org.osmdroid.tileprovider.util.Counters;
+import org.osmdroid.tileprovider.util.StreamUtils;
 
 import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -45,7 +50,7 @@ public class SqliteArchiveTileWriter implements IFilesystemCache {
         }
         try {
 
-            db.execSQL("CREATE TABLE IF NOT EXISTS " + DatabaseFileArchive.TABLE + " (key INTEGER , provider TEXT, tile BLOB, PRIMARY KEY (key, provider));");
+            db.execSQL("CREATE TABLE IF NOT EXISTS " + DatabaseFileArchive.TABLE + " (" + DatabaseFileArchive.COLUMN_KEY + " INTEGER , " + DatabaseFileArchive.COLUMN_PROVIDER + " TEXT, tile BLOB, PRIMARY KEY (key, provider));");
         } catch (Throwable t) {
             t.printStackTrace();
             Log.d(IMapView.LOGTAG, "error setting db schema, it probably exists already", t);
@@ -57,10 +62,7 @@ public class SqliteArchiveTileWriter implements IFilesystemCache {
     public boolean saveFile(ITileSource pTileSourceInfo, MapTile pTile, InputStream pStream) {
         try {
             ContentValues cv = new ContentValues();
-            final long x = (long) pTile.getX();
-            final long y = (long) pTile.getY();
-            final long z = (long) pTile.getZoomLevel();
-            final long index = ((z << z) + x << z) + y;
+            final long index = SqlTileWriter.getIndex(pTile);
             cv.put(DatabaseFileArchive.COLUMN_PROVIDER, pTileSourceInfo.name());
             BufferedInputStream bis = new BufferedInputStream(pStream);
 
@@ -89,18 +91,12 @@ public class SqliteArchiveTileWriter implements IFilesystemCache {
     @Override
     public boolean exists(ITileSource pTileSource, MapTile pTile) {
         try {
-            final String[] tile = {DatabaseFileArchive.COLUMN_TILE};
-            final long x = (long) pTile.getX();
-            final long y = (long) pTile.getY();
-            final long z = (long) pTile.getZoomLevel();
-            final long index = ((z << z) + x << z) + y;
-            final Cursor cur = db.query(TABLE, tile, DatabaseFileArchive.COLUMN_KEY + " = " + index + " and " + DatabaseFileArchive.COLUMN_PROVIDER + " = '" + pTileSource.name() + "'", null, null, null, null);
+            final long index = SqlTileWriter.getIndex(pTile);
+            final Cursor cur = getTileCursor(SqlTileWriter.getPrimaryKeyParameters(index, pTileSource));
 
-            if (cur.getCount() != 0) {
-                cur.close();
-                return true;
-            }
+            final boolean result = (cur.getCount() != 0);
             cur.close();
+            return result;
         } catch (Throwable ex) {
             Log.e(IMapView.LOGTAG, "Unable to store cached tile from " + pTileSource.name() + " " + pTile.toString(), ex);
         }
@@ -122,5 +118,56 @@ public class SqliteArchiveTileWriter implements IFilesystemCache {
     @Override
     public Long getExpirationTimestamp(final ITileSource pTileSource, final MapTile pTile) {
         return null;
+    }
+
+    /**
+     * For optimization reasons
+     * @since 5.6.5
+     */
+    private static final String[] queryColumns = {DatabaseFileArchive.COLUMN_TILE};
+
+    /**
+     *
+     * @since 5.6.5
+     * @param pPrimaryKeyParameters
+     * @return
+     */
+    public Cursor getTileCursor(final String[] pPrimaryKeyParameters) {
+        return db.query(DatabaseFileArchive.TABLE, queryColumns, SqlTileWriter.getPrimaryKey(), pPrimaryKeyParameters, null, null, null);
+    }
+
+    /**
+     *
+     * @since 5.6.5
+     * @param pTileSource
+     * @param pTile
+     * @return
+     */
+    @Override
+    public Drawable loadTile(ITileSource pTileSource, MapTile pTile) throws Exception{
+        InputStream inputStream = null;
+        try {
+            final long index = SqlTileWriter.getIndex(pTile);
+            final Cursor cur = getTileCursor(SqlTileWriter.getPrimaryKeyParameters(index, pTileSource));
+            byte[] bits=null;
+
+            if(cur.getCount() != 0) {
+                cur.moveToFirst();
+                bits = cur.getBlob(cur.getColumnIndex(DatabaseFileArchive.COLUMN_TILE));
+            }
+            cur.close();
+            if (bits==null) {
+                if (Configuration.getInstance().isDebugMode()) {
+                    Log.d(IMapView.LOGTAG,"SqlCache - Tile doesn't exist: " +pTileSource.name() + pTile);
+                }
+                return null;
+            }
+            inputStream = new ByteArrayInputStream(bits);
+            return pTileSource.getDrawable(inputStream);
+        } finally {
+            if (inputStream != null) {
+                StreamUtils.closeStream(inputStream);
+            }
+        }
     }
 }

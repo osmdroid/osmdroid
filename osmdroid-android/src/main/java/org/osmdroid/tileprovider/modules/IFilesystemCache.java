@@ -1,5 +1,7 @@
 package org.osmdroid.tileprovider.modules;
 
+import android.graphics.drawable.Drawable;
+
 import java.io.InputStream;
 
 import org.osmdroid.tileprovider.MapTile;
@@ -63,4 +65,14 @@ public interface IFilesystemCache {
 	 * or null if expiration timestamp is not supported or if the tile is not cached
 	 */
 	Long getExpirationTimestamp(final ITileSource pTileSource, final MapTile pTile);
+
+	/**
+	 * Gets the tile drawable
+	 *
+	 * @since 5.6.5
+	 * @param pTileSource
+	 * @param pTile
+	 * @return
+	 */
+	Drawable loadTile(final ITileSource pTileSource, final MapTile pTile) throws Exception;
 }

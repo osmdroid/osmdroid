@@ -48,8 +48,8 @@ public class CacheAdapter extends ArrayAdapter {
             MapTileExt tile = new MapTileExt(0, 0, 0);
             tile.key = select.getLong(select.getColumnIndex(DatabaseFileArchive.COLUMN_KEY));
             tile.source = select.getString(select.getColumnIndex(DatabaseFileArchive.COLUMN_PROVIDER));
-            Long expires = select.getLong(select.getColumnIndex(SqlTileWriter.COLUMN_EXPIRES));
-            if (expires != null) {
+            if (!select.isNull(select.getColumnIndex(SqlTileWriter.COLUMN_EXPIRES))) {
+                final long expires = select.getLong(select.getColumnIndex(SqlTileWriter.COLUMN_EXPIRES));
                 tile.setExpires(new Date(expires));
             }
             return tile;

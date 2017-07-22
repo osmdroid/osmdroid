@@ -12,6 +12,7 @@ import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.MapTileProviderBase;
 import org.osmdroid.tileprovider.MapTileRequestState;
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
+import org.osmdroid.tileprovider.tilesource.BitmapTileSourceBase;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.util.Counters;
 import org.osmdroid.tileprovider.util.StreamUtils;
@@ -158,7 +159,7 @@ public class MapTileSqlCacheProvider  extends MapTileFileStorageProviderBase{
     protected class TileLoader extends MapTileModuleProviderBase.TileLoader {
 
         @Override
-        public Drawable loadTile(final MapTileRequestState pState) {
+        public Drawable loadTile(final MapTileRequestState pState) throws CantContinueException{
 
             ITileSource tileSource = mTileSource.get();
             if (tileSource == null) {
@@ -172,60 +173,26 @@ public class MapTileSqlCacheProvider  extends MapTileFileStorageProviderBase{
                 if (Configuration.getInstance().isDebugMode()) {
                     Log.d(IMapView.LOGTAG,"No sdcard - do nothing for tile: " + pTile);
                 }
+                Counters.fileCacheMiss++;
                 return null;
             }
-            if (mWriter==null || mWriter.db == null) {
-                if (Configuration.getInstance().isDebugMode()) {
-                    Log.d(IMapView.LOGTAG,"Sqlwriter cache is offline - do nothing for tile: " + pTile);
-                }
-                return null;
-            }
-
-            InputStream inputStream = null;
             try {
-
-
-                final long index = SqlTileWriter.getIndex(pTile);
-                final Cursor cur = mWriter.getTileCursor(SqlTileWriter.getPrimaryKeyParameters(index, tileSource), columns);
-                byte[] bits=null;
-                long expirationTimestamp=0;
-
-                if(cur.getCount() != 0) {
-                    cur.moveToFirst();
-                    bits = cur.getBlob(cur.getColumnIndex(DatabaseFileArchive.COLUMN_TILE));
-                    expirationTimestamp = cur.getLong(cur.getColumnIndex(SqlTileWriter.COLUMN_EXPIRES));
+                final Drawable result = mWriter.loadTile(tileSource, pTile);
+                if (result == null) {
+                    Counters.fileCacheMiss++;
+                } else {
+                    Counters.fileCacheHit++;
                 }
-                cur.close();
-                if (bits==null) {
-                    if (Configuration.getInstance().isDebugMode()) {
-                        Log.d(IMapView.LOGTAG,"SqlCache - Tile doesn't exist: " +tileSource.name() + pTile);
-                        Counters.fileCacheMiss++;
-                    }
-                    return null;
-                }
-                inputStream = new ByteArrayInputStream(bits);
-                Drawable drawable = tileSource.getDrawable(inputStream);
-                // Check to see if file has expired
-                final long now = System.currentTimeMillis();
-                final boolean fileExpired = expirationTimestamp < now;
-
-                if (fileExpired && drawable != null) {
-                    if (Configuration.getInstance().isDebugMode()) {
-                        Log.d(IMapView.LOGTAG,"Tile expired: " + tileSource.name() +pTile);
-                    }
-                    ExpirableBitmapDrawable.setState(drawable, ExpirableBitmapDrawable.EXPIRED);
-                }
-                Counters.fileCacheHit++;
-                return drawable;
+                return result;
+            } catch (final BitmapTileSourceBase.LowMemoryException e) {
+                // low memory so empty the queue
+                Log.w(IMapView.LOGTAG, "LowMemoryException downloading MapTile: " + pTile + " : " + e);
+                Counters.fileCacheOOM++;
+                throw new MapTileModuleProviderBase.CantContinueException(e);
             } catch (final Throwable e) {
-                Log.e(IMapView.LOGTAG,"Error loading tile", e);
-            } finally {
-                if (inputStream != null) {
-                    StreamUtils.closeStream(inputStream);
-                }
+                Log.e(IMapView.LOGTAG, "Error loading tile", e);
+                return null;
             }
-
-            return null;
         }
     }
 }

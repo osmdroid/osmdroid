@@ -4,16 +4,20 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteFullException;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 
 import org.osmdroid.api.IMapView;
 import org.osmdroid.config.Configuration;
+import org.osmdroid.tileprovider.ExpirableBitmapDrawable;
 import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.util.Counters;
+import org.osmdroid.tileprovider.util.StreamUtils;
 
 import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -206,9 +210,8 @@ public class SqlTileWriter implements IFilesystemCache {
             return false;
         }
         try {
-            final String[] tile = {DatabaseFileArchive.COLUMN_TILE};
             final long index = getIndex(pTile);
-            final Cursor cur = getTileCursor(getPrimaryKeyParameters(index, pTileSource), tile);
+            final Cursor cur = getTileCursor(getPrimaryKeyParameters(index, pTileSource), expireQueryColumn);
 
             if (cur.getCount() != 0) {
                 cur.close();
@@ -496,7 +499,7 @@ public class SqlTileWriter implements IFilesystemCache {
     public Long getExpirationTimestamp(final ITileSource pTileSource, final MapTile pTile) {
         Cursor cursor = null;
         try {
-            cursor = getTileCursor(getPrimaryKeyParameters(getIndex(pTile), pTileSource), new String[]{COLUMN_EXPIRES});
+            cursor = getTileCursor(getPrimaryKeyParameters(getIndex(pTile), pTileSource), expireQueryColumn);
             while(cursor.moveToNext()) {
                 return cursor.getLong(0);
             }
@@ -514,6 +517,10 @@ public class SqlTileWriter implements IFilesystemCache {
      * @since 5.6.5
      */
     private static final String primaryKey = DatabaseFileArchive.COLUMN_KEY + "=? and " + DatabaseFileArchive.COLUMN_PROVIDER + "=?";
+
+    public static String getPrimaryKey() {
+        return primaryKey;
+    }
 
     /**
      *
@@ -546,5 +553,58 @@ public class SqlTileWriter implements IFilesystemCache {
      */
     public Cursor getTileCursor(final String[] pPrimaryKeyParameters, final String[] pColumns) {
         return db.query(DatabaseFileArchive.TABLE, pColumns, primaryKey, pPrimaryKeyParameters, null, null, null);
+    }
+
+    /**
+     * For optimization reasons
+     * @since 5.6.5
+     */
+    private static final String[] queryColumns = {DatabaseFileArchive.COLUMN_TILE, SqlTileWriter.COLUMN_EXPIRES};
+
+    /**
+     * For optimization reasons
+     * @since 5.6.5
+     */
+    private static final String[] expireQueryColumn = {SqlTileWriter.COLUMN_EXPIRES};
+
+    @Override
+    public Drawable loadTile(final ITileSource pTileSource, final MapTile pTile) throws Exception{
+        InputStream inputStream = null;
+        try {
+            final long index = getIndex(pTile);
+            final Cursor cur = getTileCursor(getPrimaryKeyParameters(index, pTileSource), queryColumns);
+            byte[] bits=null;
+            long expirationTimestamp=0;
+
+            if(cur.getCount() != 0) {
+                cur.moveToFirst();
+                bits = cur.getBlob(cur.getColumnIndex(DatabaseFileArchive.COLUMN_TILE));
+                expirationTimestamp = cur.getLong(cur.getColumnIndex(SqlTileWriter.COLUMN_EXPIRES));
+            }
+            cur.close();
+            if (bits==null) {
+                if (Configuration.getInstance().isDebugMode()) {
+                    Log.d(IMapView.LOGTAG,"SqlCache - Tile doesn't exist: " +pTileSource.name() + pTile);
+                }
+                return null;
+            }
+            inputStream = new ByteArrayInputStream(bits);
+            final Drawable drawable = pTileSource.getDrawable(inputStream);
+            // Check to see if file has expired
+            final long now = System.currentTimeMillis();
+            final boolean fileExpired = expirationTimestamp < now;
+
+            if (fileExpired && drawable != null) {
+                if (Configuration.getInstance().isDebugMode()) {
+                    Log.d(IMapView.LOGTAG,"Tile expired: " + pTileSource.name() +pTile);
+                }
+                ExpirableBitmapDrawable.setState(drawable, ExpirableBitmapDrawable.EXPIRED);
+            }
+            return drawable;
+        } finally {
+            if (inputStream != null) {
+                StreamUtils.closeStream(inputStream);
+            }
+        }
     }
 }
