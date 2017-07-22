@@ -93,7 +93,7 @@ public class MapTileProviderArray extends MapTileProviderBase {
 	@Override
 	public Drawable getMapTile(final MapTile pTile) {
 		final Drawable tile = mTileCache.getMapTile(pTile);
-		if (tile != null && !ExpirableBitmapDrawable.isDrawableExpired(tile)) {
+		if (tile != null && ExpirableBitmapDrawable.getState(tile) == ExpirableBitmapDrawable.UP_TO_DATE) {
 			return tile;
 		} else {
 			boolean alreadyInProgress = false;
@@ -140,8 +140,6 @@ public class MapTileProviderArray extends MapTileProviderBase {
 	public void mapTileRequestCompleted(final MapTileRequestState aState, final Drawable aDrawable) {
 		synchronized (mWorking) {
 			mWorking.remove(aState.getMapTile());
-			// https://github.com/osmdroid/osmdroid/issues/272
-			mTileCache.putTile(aState.getMapTile(), aDrawable);
 		}
 
 		super.mapTileRequestCompleted(aState, aDrawable);

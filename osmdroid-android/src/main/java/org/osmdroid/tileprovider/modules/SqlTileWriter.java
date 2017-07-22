@@ -4,16 +4,20 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteFullException;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 
 import org.osmdroid.api.IMapView;
 import org.osmdroid.config.Configuration;
+import org.osmdroid.tileprovider.ExpirableBitmapDrawable;
 import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.util.Counters;
+import org.osmdroid.tileprovider.util.StreamUtils;
 
 import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -149,10 +153,7 @@ public class SqlTileWriter implements IFilesystemCache {
         }
         try {
             ContentValues cv = new ContentValues();
-            final long x = (long) pTile.getX();
-            final long y = (long) pTile.getY();
-            final long z = (long) pTile.getZoomLevel();
-            final long index = ((z << z) + x << z) + y;
+            final long index = getIndex(pTile);
             cv.put(DatabaseFileArchive.COLUMN_PROVIDER, pTileSourceInfo.name());
             BufferedInputStream bis = new BufferedInputStream(pStream);
 
@@ -172,7 +173,7 @@ public class SqlTileWriter implements IFilesystemCache {
             //this shouldn't happen, but just in case
             if (pTile.getExpires() != null)
                 cv.put(COLUMN_EXPIRES, pTile.getExpires().getTime());
-            db.delete(TABLE, DatabaseFileArchive.COLUMN_KEY + "=? and " + DatabaseFileArchive.COLUMN_PROVIDER + "=?", new String[]{index + "", pTileSourceInfo.name()});
+            db.delete(TABLE, primaryKey, getPrimaryKeyParameters(index, pTileSourceInfo));
             db.insert(TABLE, null, cv);
             if (Configuration.getInstance().isDebugMode())
                 Log.d(IMapView.LOGTAG, "tile inserted " + pTileSourceInfo.name() + pTile.toString());
@@ -209,12 +210,8 @@ public class SqlTileWriter implements IFilesystemCache {
             return false;
         }
         try {
-            final String[] tile = {DatabaseFileArchive.COLUMN_TILE};
-            final long x = (long) pTile.getX();
-            final long y = (long) pTile.getY();
-            final long z = (long) pTile.getZoomLevel();
-            final long index = ((z << z) + x << z) + y;
-            final Cursor cur = db.query(TABLE, tile, DatabaseFileArchive.COLUMN_KEY + " = " + index + " and " + DatabaseFileArchive.COLUMN_PROVIDER + " = '" + pTileSource + "'", null, null, null, null);
+            final long index = getIndex(pTile);
+            final Cursor cur = getTileCursor(getPrimaryKeyParameters(index, pTileSource), expireQueryColumn);
 
             if (cur.getCount() != 0) {
                 cur.close();
@@ -330,7 +327,7 @@ public class SqlTileWriter implements IFilesystemCache {
                                                                 final long x1 = Long.parseLong(x[xx].getName());
                                                                 final long y1 = Long.parseLong(y[yy].getName().substring(0, y[yy].getName().indexOf(".")));
                                                                 final long z1 = Long.parseLong(z[zz].getName());
-                                                                final long index = ((z1 << z1) + x1 << z1) + y1;
+                                                                final long index = getIndex(x1, y1, z1);
                                                                 cv.put(DatabaseFileArchive.COLUMN_PROVIDER, tileSources[i].getName());
                                                                 if (!exists(tileSources[i].getName(), new MapTile((int) z1, (int) x1, (int) y1))) {
 
@@ -439,11 +436,8 @@ public class SqlTileWriter implements IFilesystemCache {
             return false;
         }
         try {
-            final long x = (long) pTile.getX();
-            final long y = (long) pTile.getY();
-            final long z = (long) pTile.getZoomLevel();
-            final long index = ((z << z) + x << z) + y;
-            db.delete(DatabaseFileArchive.TABLE, DatabaseFileArchive.COLUMN_KEY + "=? and " + DatabaseFileArchive.COLUMN_PROVIDER + "=?", new String[]{index + "", pTileSourceInfo.name()});
+            final long index = getIndex(pTile);
+            db.delete(DatabaseFileArchive.TABLE, primaryKey, getPrimaryKeyParameters(index, pTileSourceInfo));
             return true;
         } catch (Throwable ex) {
             //note, although we check for db null state at the beginning of this method, it's possible for the
@@ -478,4 +472,139 @@ public class SqlTileWriter implements IFilesystemCache {
         return 0;
     }
 
+    /**
+     *
+     * @since 5.6.5
+     * @param pX
+     * @param pY
+     * @param pZ
+     * @return
+     */
+    public static long getIndex(final long pX, final long pY, final long pZ) {
+        return ((pZ << pZ) + pX << pZ) + pY;
+    }
+
+    /**
+     * Gets the single column index value for a map tile
+     *
+     * @since 5.6.5
+     * @param pTile
+     * @return
+     */
+    public static long getIndex(final MapTile pTile) {
+        return getIndex(pTile.getX(), pTile.getY(), pTile.getZoomLevel());
+    }
+
+    @Override
+    public Long getExpirationTimestamp(final ITileSource pTileSource, final MapTile pTile) {
+        Cursor cursor = null;
+        try {
+            cursor = getTileCursor(getPrimaryKeyParameters(getIndex(pTile), pTileSource), expireQueryColumn);
+            while(cursor.moveToNext()) {
+                return cursor.getLong(0);
+            }
+        } catch (Throwable t) {
+            Log.e(IMapView.LOGTAG, "error getting expiration date from the tile cache", t);
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return null;
+    }
+
+    /**
+     * @since 5.6.5
+     */
+    private static final String primaryKey = DatabaseFileArchive.COLUMN_KEY + "=? and " + DatabaseFileArchive.COLUMN_PROVIDER + "=?";
+
+    public static String getPrimaryKey() {
+        return primaryKey;
+    }
+
+    /**
+     *
+     * @since 5.6.5
+     * @param pIndex
+     * @param pTileSourceInfo
+     * @return
+     */
+    public static String[] getPrimaryKeyParameters(final long pIndex, final ITileSource pTileSourceInfo) {
+        return getPrimaryKeyParameters(pIndex, pTileSourceInfo.name());
+    }
+
+    /**
+     *
+     * @since 5.6.5
+     * @param pIndex
+     * @param pTileSourceInfo
+     * @return
+     */
+    public static String[] getPrimaryKeyParameters(final long pIndex, final String pTileSourceInfo) {
+        return new String[]{String.valueOf(pIndex), pTileSourceInfo};
+    }
+
+    /**
+     *
+     * @since 5.6.5
+     * @param pPrimaryKeyParameters
+     * @param pColumns
+     * @return
+     */
+    public Cursor getTileCursor(final String[] pPrimaryKeyParameters, final String[] pColumns) {
+        return db.query(DatabaseFileArchive.TABLE, pColumns, primaryKey, pPrimaryKeyParameters, null, null, null);
+    }
+
+    /**
+     * For optimization reasons
+     * @since 5.6.5
+     */
+    private static final String[] queryColumns = {DatabaseFileArchive.COLUMN_TILE, SqlTileWriter.COLUMN_EXPIRES};
+
+    /**
+     * For optimization reasons
+     * @since 5.6.5
+     */
+    private static final String[] expireQueryColumn = {SqlTileWriter.COLUMN_EXPIRES};
+
+    @Override
+    public Drawable loadTile(final ITileSource pTileSource, final MapTile pTile) throws Exception{
+        InputStream inputStream = null;
+        try {
+            final long index = getIndex(pTile);
+            final Cursor cur = getTileCursor(getPrimaryKeyParameters(index, pTileSource), queryColumns);
+            byte[] bits=null;
+            long expirationTimestamp=0;
+
+            if(cur.getCount() != 0) {
+                cur.moveToFirst();
+                bits = cur.getBlob(cur.getColumnIndex(DatabaseFileArchive.COLUMN_TILE));
+                expirationTimestamp = cur.getLong(cur.getColumnIndex(SqlTileWriter.COLUMN_EXPIRES));
+            }
+            cur.close();
+            if (bits==null) {
+                if (Configuration.getInstance().isDebugMode()) {
+                    Log.d(IMapView.LOGTAG,"SqlCache - Tile doesn't exist: " +pTileSource.name() + pTile);
+                }
+                return null;
+            }
+            inputStream = new ByteArrayInputStream(bits);
+            final Drawable drawable = pTileSource.getDrawable(inputStream);
+            // Check to see if file has expired
+            final long now = System.currentTimeMillis();
+            final boolean fileExpired = expirationTimestamp < now;
+
+            if (fileExpired && drawable != null) {
+                if (Configuration.getInstance().isDebugMode()) {
+                    Log.d(IMapView.LOGTAG,"Tile expired: " + pTileSource.name() +pTile);
+                }
+                ExpirableBitmapDrawable.setState(drawable, ExpirableBitmapDrawable.EXPIRED);
+            }
+            return drawable;
+        } finally {
+            if (inputStream != null) {
+                StreamUtils.closeStream(inputStream);
+            }
+        }
+    }
 }
