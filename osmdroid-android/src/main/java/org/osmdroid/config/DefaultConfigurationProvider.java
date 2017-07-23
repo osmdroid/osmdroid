@@ -52,7 +52,7 @@ public class DefaultConfigurationProvider implements IConfigurationProvider {
     protected String userAgentValue="osmdroid";
     protected String userAgentHttpHeader = "User-Agent";
     private final Map<String, String> mAdditionalHttpRequestProperties = new HashMap<>();
-    protected short cacheMapTileCount = 24;
+    protected short cacheMapTileCount = 9;
     protected short tileDownloadThreads = 2;
     protected short tileFileSystemThreads = 8;
     protected short tileDownloadMaxQueueSize = 40;
