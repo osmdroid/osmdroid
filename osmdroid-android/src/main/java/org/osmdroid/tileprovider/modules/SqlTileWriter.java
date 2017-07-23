@@ -60,9 +60,10 @@ public class SqlTileWriter implements IFilesystemCache {
     protected long lastSizeCheck=0;
 
     /**
-     * a questimated size (average-ish) size of a tile
+     * mean tile size computed on first use.
+     * Sizes are quite variable and a significant underestimate will result in too many tiles being purged.
      */
-    final int questimate=4000;
+    long tileSize=0l;
     static boolean hasInited=false;
 
     public SqlTileWriter() {
@@ -122,8 +123,15 @@ public class SqlTileWriter implements IFilesystemCache {
                 //note, i considered adding a looping mechanism here but sqlite can behave differently
                 //i.e. there's no guarantee that the database file size shrinks immediately.
                 Log.i(IMapView.LOGTAG, "Local cache is now " + db_file.length() + " max size is " + Configuration.getInstance().getTileFileSystemCacheMaxBytes());
-                long diff = db_file.length() - Configuration.getInstance().getTileFileSystemCacheMaxBytes();
-                long tilesToKill = diff / questimate;
+                long diff = db_file.length() - Configuration.getInstance().getTileFileSystemCacheTrimBytes();
+                if (tileSize == 0l) {
+                    long count = getRowCount(null);
+                    tileSize = count > 0l ? db_file.length() / count : 4000;
+                    if (Configuration.getInstance().isDebugMode()) {
+                        Log.d(IMapView.LOGTAG, "Number of cached tiles is " + count + ", mean size is " + tileSize);
+                    }
+                }
+                long tilesToKill = diff / tileSize;
                 Log.d(IMapView.LOGTAG, "Local cache purging " + tilesToKill + " tiles.");
                 if (tilesToKill > 0)
                     try {
@@ -179,7 +187,7 @@ public class SqlTileWriter implements IFilesystemCache {
                 Log.d(IMapView.LOGTAG, "tile inserted " + pTileSourceInfo.name() + pTile.toString());
             if (System.currentTimeMillis() > lastSizeCheck + 300000){
                 lastSizeCheck = System.currentTimeMillis();
-                if (db_file!=null && db_file.length() > Configuration.getInstance().getTileFileSystemCacheTrimBytes()) {
+                if (db_file!=null && db_file.length() > Configuration.getInstance().getTileFileSystemCacheMaxBytes()) {
                     runCleanupOperation();
                 }
             }
@@ -468,6 +476,29 @@ public class SqlTileWriter implements IFilesystemCache {
             return count;
         } catch (Throwable ex) {
             Log.e(IMapView.LOGTAG, "Unable to query for row count " + tileSourceName, ex);
+        }
+        return 0;
+    }
+
+
+    /**
+     * Returns the size of the database file in bytes.
+     */
+    public long getSize() {
+        return db_file.length();
+    }
+    /**
+     * Returns the expiry time of the tile that expires first.
+     */
+    public long getFirstExpiry() {
+        try {
+            Cursor cursor = db.rawQuery("select min(" + COLUMN_EXPIRES + ") from " + TABLE, null);
+            cursor.moveToFirst();
+            long time = cursor.getLong(0);
+            cursor.close();
+            return time;
+        } catch (Throwable ex) {
+            Log.e(IMapView.LOGTAG, "Unable to query for oldest tile", ex);
         }
         return 0;
     }
