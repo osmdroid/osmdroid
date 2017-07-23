@@ -160,7 +160,7 @@ public interface IConfigurationProvider {
     void setTileFileSystemCacheMaxBytes(long tileFileSystemCacheMaxBytes);
 
     /**
-     * When the cache size exceeds maxCacheSize, tiles will be automatically removed to reach this target. In Mb. Default is 500 Mb.
+     * When the cache size exceeds maxCacheSize, tiles will be automatically removed to reach this target. In bytes. Default is 500 Mb.
      * @return
      */
     long getTileFileSystemCacheTrimBytes();
