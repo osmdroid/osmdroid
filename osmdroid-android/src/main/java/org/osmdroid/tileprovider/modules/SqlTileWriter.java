@@ -487,6 +487,7 @@ public class SqlTileWriter implements IFilesystemCache {
     public long getSize() {
         return db_file.length();
     }
+
     /**
     * Returns the expiry time of the tile that expires first.
     */
