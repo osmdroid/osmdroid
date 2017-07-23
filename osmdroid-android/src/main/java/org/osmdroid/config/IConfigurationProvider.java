@@ -10,6 +10,7 @@ import org.osmdroid.tileprovider.MapTileCache;
 import org.osmdroid.tileprovider.MapTileProviderBase;
 
 import java.io.File;
+import java.net.Proxy;
 import java.text.SimpleDateFormat;
 import java.util.Map;
 
@@ -169,6 +170,10 @@ public interface IConfigurationProvider {
     SimpleDateFormat getHttpHeaderDateTimeFormat();
 
     void setHttpHeaderDateTimeFormat(SimpleDateFormat httpHeaderDateTimeFormat);
+
+    Proxy getHttpProxy();
+
+    void setHttpProxy(Proxy httpProxy);
 
     /**
      * Base path for osmdroid files. Zip/sqlite/mbtiles/etc files are in this folder.
