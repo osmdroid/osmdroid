@@ -14,6 +14,7 @@ import org.osmdroid.api.IMapView;
 import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.GeometryMath;
+import org.osmdroid.util.TileSystem;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
 import org.osmdroid.views.overlay.OverlayWithIW;
@@ -21,8 +22,6 @@ import org.osmdroid.views.util.constants.MathConstants;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import microsoft.mappoint.TileSystem;
 
 /**
  * A polyline is a list of points, where line segments are drawn between consecutive points.
@@ -313,7 +312,7 @@ public class Polyline extends OverlayWithIW {
 		final Projection pj = mapView.getProjection();
 
 
-		final int halfMapSize = TileSystem.MapSize(mapView.getProjection().getZoomLevel()) / 2; // 180° in longitude in pixels
+		final int halfMapSize = (int) (TileSystem.MapSize(mapView.getProjection().getZoomLevel()) / 2); // 180° in longitude in pixels
 		final int southLimit = pj.toPixelsFromMercator(0, halfMapSize * 2, null).y;            // southern Limit of the map in Pixels
 
 		// precompute new points to the intermediate projection.

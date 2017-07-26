@@ -12,7 +12,9 @@ public interface IMapView {
      public static String LOGTAG="OsmDroid";
 	IMapController getController();
 	IProjection getProjection();
+	@Deprecated
 	int getZoomLevel();
+	double getZoomLevelDouble();
 	int getMaxZoomLevel();
      @Deprecated
 	int getLatitudeSpan();

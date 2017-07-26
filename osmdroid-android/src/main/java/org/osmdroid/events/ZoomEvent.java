@@ -9,9 +9,9 @@ import org.osmdroid.views.MapView;
  */
 public class ZoomEvent implements MapEvent {
 	protected MapView source;
-	protected int zoomLevel;
+	protected double zoomLevel;
 
-	public ZoomEvent(final MapView source, final int zoomLevel) {
+	public ZoomEvent(final MapView source, final double zoomLevel) {
 		this.source = source;
 		this.zoomLevel = zoomLevel;
 	}
@@ -26,7 +26,7 @@ public class ZoomEvent implements MapEvent {
 	/*
 	 * Return the zoom level zoomed to.
 	 */
-	public int getZoomLevel() {
+	public double getZoomLevel() {
 		return zoomLevel;
 	}
 

@@ -115,7 +115,7 @@ public class MapController implements IMapController, OnFirstLayoutListener {
 		 }
 
 		 final BoundingBox bb = this.mMapView.getProjection().getBoundingBox();
-		 final int curZoomLevel = this.mMapView.getProjection().getZoomLevel();
+		 final double curZoomLevel = this.mMapView.getProjection().getZoomLevel();
 
 		 final double curLatSpan = bb.getLatitudeSpan();
 		 final double curLonSpan = bb.getLongitudeSpan();
@@ -136,33 +136,7 @@ public class MapController implements IMapController, OnFirstLayoutListener {
 	// TODO rework zoomToSpan
 	@Override
 	public void zoomToSpan(int latSpanE6, int lonSpanE6) {
-		if (latSpanE6 <= 0 || lonSpanE6 <= 0) {
-			return;
-		}
-
-		// If no layout, delay this call
-		if (!mMapView.isLayoutOccurred()) {
-			mReplayController.zoomToSpan(latSpanE6, lonSpanE6);
-			return;
-		}
-
-		final BoundingBox bb = this.mMapView.getProjection().getBoundingBox();
-		final int curZoomLevel = this.mMapView.getProjection().getZoomLevel();
-
-		final int curLatSpan = bb.getLatitudeSpanE6();
-		final int curLonSpan = bb.getLongitudeSpanE6();
-
-		final float diffNeededLat = (float) latSpanE6 / curLatSpan; // i.e. 600/500 = 1,2
-		final float diffNeededLon = (float) lonSpanE6 / curLonSpan; // i.e. 300/400 = 0,75
-
-		final float diffNeeded = Math.max(diffNeededLat, diffNeededLon); // i.e. 1,2
-
-		if (diffNeeded > 1) { // Zoom Out
-			this.mMapView.setZoomLevel(curZoomLevel - MyMath.getNextSquareNumberAbove(diffNeeded));
-		} else if (diffNeeded < 0.5) { // Can Zoom in
-			this.mMapView.setZoomLevel(curZoomLevel
-					+ MyMath.getNextSquareNumberAbove(1 / diffNeeded) - 1);
-		}
+		zoomToSpan(latSpanE6 * 1E-6, lonSpanE6 * 1E-6);
 	}
 
 	/**
@@ -275,7 +249,12 @@ public class MapController implements IMapController, OnFirstLayoutListener {
 
 	@Override
 	public int setZoom(final int zoomlevel) {
-		return mMapView.setZoomLevel(zoomlevel);
+		return (int)setZoom((double)zoomlevel);
+	}
+
+	@Override
+	public double setZoom(final double pZoomlevel) {
+		return mMapView.setZoomLevel(pZoomlevel);
 	}
 
 	/**
@@ -291,7 +270,7 @@ public class MapController implements IMapController, OnFirstLayoutListener {
 		mMapView.mMultiTouchScalePoint.set(xPixel, yPixel);
 		if (mMapView.canZoomIn()) {
 			if (mMapView.mListener != null) {
-				mMapView.mListener.onZoom(new ZoomEvent(mMapView, mMapView.getZoomLevel()+1));
+				mMapView.mListener.onZoom(new ZoomEvent(mMapView, mMapView.getZoomLevelDouble()+1));
 			}
 			if (mMapView.mIsAnimating.getAndSet(true)) {
 				// TODO extend zoom (and return true)
@@ -324,7 +303,7 @@ public class MapController implements IMapController, OnFirstLayoutListener {
 		mMapView.mMultiTouchScalePoint.set(xPixel, yPixel);
 		if (mMapView.canZoomOut()) {
 			if (mMapView.mListener != null) {
-				mMapView.mListener.onZoom(new ZoomEvent(mMapView, mMapView.getZoomLevel()-1));
+				mMapView.mListener.onZoom(new ZoomEvent(mMapView, mMapView.getZoomLevelDouble()-1));
 			}
 			if (mMapView.mIsAnimating.getAndSet(true)) {
 				// TODO extend zoom (and return true)
@@ -350,11 +329,21 @@ public class MapController implements IMapController, OnFirstLayoutListener {
 	}
 
 	@Override
+	public boolean zoomTo(double pZoomLevel) {
+		return zoomToFixing(pZoomLevel, mMapView.getWidth() / 2, mMapView.getHeight() / 2);
+	}
+
+	@Override
 	public boolean zoomToFixing(int zoomLevel, int xPixel, int yPixel) {
+		return zoomToFixing((double)zoomLevel, xPixel, yPixel);
+	}
+
+	@Override
+	public boolean zoomToFixing(double zoomLevel, int xPixel, int yPixel) {
 		zoomLevel = zoomLevel > mMapView.getMaxZoomLevel() ? mMapView.getMaxZoomLevel() : zoomLevel;
 		zoomLevel = zoomLevel < mMapView.getMinZoomLevel() ? mMapView.getMinZoomLevel() : zoomLevel;
 
-		int currentZoomLevel = mMapView.getZoomLevel();
+		double currentZoomLevel = mMapView.getZoomLevelDouble();
 		boolean canZoom = zoomLevel < currentZoomLevel && mMapView.canZoomOut() ||
 			zoomLevel > currentZoomLevel && mMapView.canZoomIn();
 

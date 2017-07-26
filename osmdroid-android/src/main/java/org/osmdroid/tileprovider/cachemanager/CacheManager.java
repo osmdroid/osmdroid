@@ -67,7 +67,7 @@ import java.util.Set;
  */
 public class CacheManager {
 
-    protected final MapTileProviderBase mTileProvider;
+    protected final ITileSource mTileSource;
     protected final IFilesystemCache mTileWriter;
     protected final int mMinZoomLevel;
     protected final int mMaxZoomLevel;
@@ -84,7 +84,13 @@ public class CacheManager {
     public CacheManager(final MapTileProviderBase pTileProvider,
                         final IFilesystemCache pWriter,
                         final int pMinZoomLevel, final int pMaxZoomLevel) {
-        mTileProvider = pTileProvider;
+        this(pTileProvider.getTileSource(), pWriter, pMinZoomLevel, pMaxZoomLevel);
+    }
+
+    public CacheManager(final ITileSource pTileSource,
+                        final IFilesystemCache pWriter,
+                        final int pMinZoomLevel, final int pMaxZoomLevel) {
+        mTileSource = pTileSource;
         mTileWriter = pWriter;
         mMinZoomLevel = pMinZoomLevel;
         mMaxZoomLevel = pMaxZoomLevel;
@@ -213,12 +219,11 @@ public class CacheManager {
     }
 
     public boolean deleteTile(final MapTile pTile) {
-        final ITileSource tileSource = mTileProvider.getTileSource();
-        return mTileWriter.exists(tileSource, pTile) && mTileWriter.remove(tileSource, pTile);
+        return mTileWriter.exists(mTileSource, pTile) && mTileWriter.remove(mTileSource, pTile);
     }
 
     public boolean checkTile(final MapTile pTile) {
-        return mTileWriter.exists(mTileProvider.getTileSource(), pTile);
+        return mTileWriter.exists(mTileSource, pTile);
     }
 
     /**
@@ -777,7 +782,7 @@ public class CacheManager {
         return new CacheManagerAction() {
             @Override
             public boolean preCheck() {
-                if (mTileProvider.getTileSource() instanceof OnlineTileSourceBase) {
+                if (mTileSource instanceof OnlineTileSourceBase) {
                     return true;
                 } else {
                     Log.e(IMapView.LOGTAG, "TileSource is not an online tile source");
@@ -792,7 +797,7 @@ public class CacheManager {
 
             @Override
             public boolean tileAction(MapTile pTile) {
-                return !loadTile((OnlineTileSourceBase) mTileProvider.getTileSource(), pTile);
+                return !loadTile((OnlineTileSourceBase) mTileSource, pTile);
             }
         };
     }

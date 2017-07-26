@@ -52,6 +52,11 @@ public class MapView implements IMapView {
 	}
 
 	@Override
+	public double getZoomLevelDouble() {
+		return (double) getZoomLevel();
+	}
+
+	@Override
 	public int getLatitudeSpan() {
 		return mMapView.getLatitudeSpan();
 	}

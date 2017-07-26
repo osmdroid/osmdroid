@@ -141,7 +141,7 @@ public class MinimapOverlay extends TilesOverlay {
 		}
 
 		mProjection = osmv.getProjection();
-		final int zoomLevel = mProjection.getZoomLevel();
+		final double zoomLevel = mProjection.getZoomLevel();
 
 		// Save the Mercator coordinates of what is on the screen
 		Rect screenRect = mProjection.getScreenRect();
