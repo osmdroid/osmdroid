@@ -140,8 +140,6 @@ public class MapTileProviderArray extends MapTileProviderBase {
 	public void mapTileRequestCompleted(final MapTileRequestState aState, final Drawable aDrawable) {
 		synchronized (mWorking) {
 			mWorking.remove(aState.getMapTile());
-			// https://github.com/osmdroid/osmdroid/issues/272
-			mTileCache.putTile(aState.getMapTile(), aDrawable);
 		}
 
 		super.mapTileRequestCompleted(aState, aDrawable);

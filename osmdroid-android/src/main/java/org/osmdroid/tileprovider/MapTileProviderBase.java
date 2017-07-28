@@ -283,8 +283,6 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback {
 
 		Log.i(IMapView.LOGTAG,"rescale tile cache from "+ pOldZoomLevel + " to " + pNewZoomLevel);
 
-		final int tileSize = getTileSource().getTileSizePixels();
-
 		Point topLeftMercator = pProjection.toMercatorPixels(pViewPort.left, pViewPort.top, null);
 		Point bottomRightMercator = pProjection.toMercatorPixels(pViewPort.right, pViewPort.bottom,
 				null);
@@ -292,9 +290,9 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback {
 				bottomRightMercator.y);
 
 		final ScaleTileLooper tileLooper = pNewZoomLevel > pOldZoomLevel
-				? new ZoomInTileLooper(pOldZoomLevel)
-				: new ZoomOutTileLooper(pOldZoomLevel);
-		tileLooper.loop(null, pNewZoomLevel, tileSize, viewPort);
+				? new ZoomInTileLooper()
+				: new ZoomOutTileLooper();
+		tileLooper.loop(pNewZoomLevel, viewPort, pOldZoomLevel, getTileSource().getTileSizePixels());
 
 		final long endMs = System.currentTimeMillis();
 		Log.i(IMapView.LOGTAG,"Finished rescale in " + (endMs - startMs) + "ms");
@@ -305,34 +303,38 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback {
 		/** new (scaled) tiles to add to cache
 		  * NB first generate all and then put all in cache,
 		  * otherwise the ones we need will be pushed out */
-		protected final HashMap<MapTile, Bitmap> mNewTiles;
+		protected final HashMap<MapTile, Bitmap> mNewTiles = new HashMap<>();
 
-		protected final double mOldZoomLevel;
 		protected int mOldTileZoomLevel;
+		protected int mTileSize;
 		protected int mDiff;
 		protected int mTileSize_2;
 		protected Rect mSrcRect;
 		protected Rect mDestRect;
 		protected Paint mDebugPaint;
+		private boolean isWorth;
 
-		public ScaleTileLooper(final double pOldZoomLevel) {
-			mOldZoomLevel = pOldZoomLevel;
-			mNewTiles = new HashMap<MapTile, Bitmap>();
+		public void loop(final double pZoomLevel, final Rect pViewPort, final double pOldZoomLevel, final int pTileSize) {
 			mSrcRect = new Rect();
 			mDestRect = new Rect();
 			mDebugPaint = new Paint();
+			mOldTileZoomLevel = TileSystem.getInputTileZoomLevel(pOldZoomLevel);
+			mTileSize = pTileSize;
+			loop(pZoomLevel, pViewPort);
 		}
 
 		@Override
-		public void initialiseLoop(final double pZoomLevel, final int pInputTileSizePx) {
-			mOldTileZoomLevel = TileSystem.getInputTileZoomLevel(mOldZoomLevel);
-			final int newTileZoomLevel = TileSystem.getInputTileZoomLevel(pZoomLevel);
-			mDiff = Math.abs(newTileZoomLevel - mOldTileZoomLevel);
-			mTileSize_2 = pInputTileSizePx >> mDiff;
+		public void initialiseLoop() {
+			mDiff = Math.abs(mTileZoomLevel - mOldTileZoomLevel);
+			mTileSize_2 = mTileSize >> mDiff;
+			isWorth = mDiff != 0;
 		}
 
 		@Override
-		public void handleTile(final Canvas pCanvas, final double pOutputTileSizePx, final MapTile pTile, final int pX, final int pY) {
+		public void handleTile(final MapTile pTile, final int pX, final int pY) {
+			if (!isWorth) {
+				return;
+			}
 
 			// Get tile from cache.
 			// If it's found then no need to created scaled version.
@@ -341,7 +343,7 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback {
 			final Drawable requestedTile = getMapTile(pTile);
 			if (requestedTile == null) {
 				try {
-					handleTile(pOutputTileSizePx, pTile, pX, pY);
+					computeTile(pTile, pX, pY);
 				} catch(final OutOfMemoryError e) {
 					Log.e(IMapView.LOGTAG,"OutOfMemoryError rescaling cache");
 				}
@@ -363,15 +365,23 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback {
 			}
 		}
 
-		protected abstract void handleTile(double pTileSizePx, MapTile pTile, int pX, int pY);
+		protected abstract void computeTile(MapTile pTile, int pX, int pY);
+
+		// Try to get a bitmap from the pool, otherwise allocate a new one
+		protected Bitmap getBitmap() {
+			final Bitmap bitmap = BitmapPool.getInstance().obtainSizedBitmapFromPool(
+					mTileSize, mTileSize);
+			if (bitmap != null) {
+				return bitmap;
+			}
+			return Bitmap.createBitmap(mTileSize, mTileSize, Bitmap.Config.ARGB_8888);
+		}
 	}
 
 	private class ZoomInTileLooper extends ScaleTileLooper {
-		public ZoomInTileLooper(final double pOldZoomLevel) {
-			super(pOldZoomLevel);
-		}
+
 		@Override
-		public void handleTile(final double pTileSizePx, final MapTile pTile, final int pX, final int pY) {
+		public void computeTile(final MapTile pTile, final int pX, final int pY) {
 			// get the correct fraction of the tile from cache and scale up
 
 			final MapTile oldTile = new MapTile(mOldTileZoomLevel, pTile.getX() >> mDiff, pTile.getY() >> mDiff);
@@ -381,13 +391,10 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback {
 				final int xx = (pX % (1 << mDiff)) * mTileSize_2;
 				final int yy = (pY % (1 << mDiff)) * mTileSize_2;
 				mSrcRect.set(xx, yy, xx + mTileSize_2, yy + mTileSize_2);
-				mDestRect.set(0, 0, (int)pTileSizePx, (int)pTileSizePx);
+				mDestRect.set(0, 0, mTileSize, mTileSize);
 
 				// Try to get a bitmap from the pool, otherwise allocate a new one
-				Bitmap bitmap = BitmapPool.getInstance().obtainSizedBitmapFromPool(
-						(int)pTileSizePx, (int)pTileSizePx);
-				if (bitmap == null)
-					bitmap = Bitmap.createBitmap((int)pTileSizePx, (int)pTileSizePx, Bitmap.Config.ARGB_8888);
+				final Bitmap bitmap = getBitmap();
 
 				final Canvas canvas = new Canvas(bitmap);
 				final boolean isReusable = oldDrawable instanceof ReusableBitmapDrawable;
@@ -420,11 +427,9 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback {
 
 	private class ZoomOutTileLooper extends ScaleTileLooper {
 		private static final int MAX_ZOOM_OUT_DIFF = 4;
-		public ZoomOutTileLooper(final double pOldZoomLevel) {
-			super(pOldZoomLevel);
-		}
+
 		@Override
-		protected void handleTile(final double pTileSizePx, final MapTile pTile, final int pX, final int pY) {
+		protected void computeTile(final MapTile pTile, final int pX, final int pY) {
 
 			if (mDiff >= MAX_ZOOM_OUT_DIFF){
 				return;
@@ -444,22 +449,15 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback {
 						final Bitmap oldBitmap = ((BitmapDrawable)oldDrawable).getBitmap();
 						if (oldBitmap != null) {
 							if (bitmap == null) {
-								// Try to get a bitmap from the pool, otherwise allocate a new one
-								bitmap = BitmapPool.getInstance().obtainSizedBitmapFromPool(
-										(int)pTileSizePx, (int)pTileSizePx);
-								if (bitmap == null)
-									bitmap = Bitmap.createBitmap((int)pTileSizePx, (int)pTileSizePx,
-										Bitmap.Config.ARGB_8888);
+								bitmap = getBitmap();
 								canvas = new Canvas(bitmap);
 								canvas.drawColor(Color.LTGRAY);
 							}
 							mDestRect.set(
 									x * mTileSize_2, y * mTileSize_2,
 									(x + 1) * mTileSize_2, (y + 1) * mTileSize_2);
-							if (oldBitmap != null) {
-								canvas.drawBitmap(oldBitmap, null, mDestRect, null);
-								mTileCache.mCachedTiles.remove(oldBitmap);
-							}
+							canvas.drawBitmap(oldBitmap, null, mDestRect, null);
+							mTileCache.mCachedTiles.remove(oldTile);
 						}
 					}
 				}

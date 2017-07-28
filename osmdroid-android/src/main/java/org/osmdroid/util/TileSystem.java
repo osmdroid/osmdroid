@@ -1,6 +1,7 @@
 package org.osmdroid.util;
 
 import android.graphics.Point;
+import android.graphics.Rect;
 
 /**
  * Proxy class for TileSystem. For coordinate conversions (tile to lat/lon and reverse) TileSystem
@@ -157,6 +158,13 @@ public final class TileSystem {
 		final Point out = (pReuse == null ? new Point() : pReuse);
 		out.x = (int) (pPixelX / pTileSize);
 		out.y = (int) (pPixelY / pTileSize);
+		return out;
+	}
+
+	public static Rect PixelXYToTileXY(final Rect rect, final double pTileSize, final Rect pReuse) {
+		final Rect out = (pReuse == null ? new Rect() : pReuse);
+		out.set((int)(rect.left / pTileSize), (int) (rect.top / pTileSize),
+				(int)(rect.right / pTileSize), (int) (rect.bottom / pTileSize));
 		return out;
 	}
 

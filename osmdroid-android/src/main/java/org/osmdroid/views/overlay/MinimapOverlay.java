@@ -181,8 +181,7 @@ public class MinimapOverlay extends TilesOverlay {
 		c.drawRect(mMiniMapCanvasRect.left - 2, mMiniMapCanvasRect.top - 2,
 				mMiniMapCanvasRect.right + 2, mMiniMapCanvasRect.bottom + 2, mPaint);
 
-		super.drawTiles(c, mProjection, mProjection.getZoomLevel() - miniMapZoomLevelDifference,
-				TileSystem.getTileSize(), mTileArea);
+		super.drawTiles(c, mProjection, mProjection.getZoomLevel() - miniMapZoomLevelDifference, mTileArea);
 	}
 
 	@Override
