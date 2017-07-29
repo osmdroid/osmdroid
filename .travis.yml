@@ -11,14 +11,14 @@ android:
     - android-25
     - android-23
     - addon-google_apis-google-23
-    - addon-google_apis-google-8
+    #- addon-google_apis-google-8
 
     # Additional components
     - extra-google-google_play_services
     - extra-google-m2repository
     - extra-android-m2repository
     - addon-google_apis-google-19
-    - sys-img-armeabi-android-8
+    #- sys-img-armeabi-android-8 API 8 was apparently deleted
     - sys-img-armeabi-android-10
     - sys-img-armeabi-android-15
     - sys-img-armeabi-android-19
@@ -41,15 +41,19 @@ env:
     #note when changing these, updating the gradle build file for the GoogleWrapper project
     # first env var is just for display purposes
     #api8 with google
-    - API=8g ANDROID_TARGET=13  ANDROID_ABI=armeabi
+    #- API=8g ANDROID_TARGET=13  ANDROID_ABI=armeabi
     #api8
-    - API=8 ANDROID_TARGET=1  ANDROID_ABI=armeabi
+    #- API=8 ANDROID_TARGET=1  ANDROID_ABI=armeabi
     #api10
-    - API=10 ANDROID_TARGET=2  ANDROID_ABI=armeabi
+    - API=10 ANDROID_TARGET=1  ANDROID_ABI=armeabi
+    - API=15 ANDROID_TARGET=2  ANDROID_ABI=armeabi-v7a
+    - API=16 ANDROID_TARGET=3  ANDROID_ABI=armeabi-v7a
+    - API=14 ANDROID_TARGET=23g  ANDROID_ABI=google_apis/armeabi-v7a
+
     #api10 with google
     - API=10g ANDROID_TARGET=13  ANDROID_ABI=armeabi
     #api15
-    - API=15 ANDROID_TARGET=3  ANDROID_ABI=armeabi-v7a
+    - API=15 ANDROID_TARGET=2  ANDROID_ABI=armeabi-v7a
     #api15 with google
     - API=15g ANDROID_TARGET=15  ANDROID_ABI=armeabi-v7a
     #api19
@@ -69,8 +73,12 @@ install:
   - echo yes | sdkmanager "platforms;android-25"
   - echo yes | sdkmanager "platforms;android-23"
   - echo yes | sdkmanager "system-images;android-23;google_apis;armeabi-v7a"
+  - echo yes | sdkmanager "system-images;android-23;default;armeabi-v7a"
   - echo yes | sdkmanager "system-images;android-24;google_apis;armeabi-v7a"
+  - echo yes | sdkmanager "system-images;android-19;default;armeabi-v7a"
   - echo yes | sdkmanager "system-images;android-25;google_apis;armeabi-v7a"
+  - echo yes | sdkmanager "system-images;android-24;default;armeabi-v7a"
+
   # DOES NOT EXIST - echo yes | sdkmanager "system-images;android-26;google_apis;armeabi-v7a"
   - echo yes | sdkmanager "platforms;android-24"
   - echo yes | sdkmanager "platforms;android-25"
