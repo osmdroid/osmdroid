@@ -25,6 +25,7 @@ public class ZoomEvent implements MapEvent {
 
 	/*
 	 * Return the zoom level zoomed to.
+	 * Used to be an int, but is a double since 6.0
 	 */
 	public double getZoomLevel() {
 		return zoomLevel;

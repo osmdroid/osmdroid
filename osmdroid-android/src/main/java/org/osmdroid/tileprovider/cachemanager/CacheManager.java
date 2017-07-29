@@ -87,6 +87,9 @@ public class CacheManager {
         this(pTileProvider.getTileSource(), pWriter, pMinZoomLevel, pMaxZoomLevel);
     }
 
+    /**
+     * @since 6.0
+     */
     public CacheManager(final ITileSource pTileSource,
                         final IFilesystemCache pWriter,
                         final int pMinZoomLevel, final int pMaxZoomLevel) {

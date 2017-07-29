@@ -32,10 +32,16 @@ public final class TileSystem {
 		return microsoft.mappoint.TileSystem.getTileSize();
 	}
 
+	/**
+	 * @since 6.0
+	 */
 	public static double getTileSize(final double pZoomLevel) {
 		return MapSize(pZoomLevel - getInputTileZoomLevel(pZoomLevel));
 	}
 
+	/**
+	 * @since 6.0
+	 */
 	public static int getInputTileZoomLevel(final double pZoomLevel) {
 		return (int) pZoomLevel;
 	}
@@ -46,11 +52,17 @@ public final class TileSystem {
 		return microsoft.mappoint.TileSystem.MapSize(levelOfDetail);
 	}
 
-	/** @see microsoft.mappoint.TileSystem#MapSize(int) */
+	/**
+	 * @since 6.0
+	 * @see microsoft.mappoint.TileSystem#MapSize(int)
+	 */
 	public static double MapSize(final double pZoomLevel) {
 		return getTileSize() * getFactor(pZoomLevel);
 	}
 
+	/**
+	 * @since 6.0
+	 */
 	public static double getFactor(final double pZoomLevel) {
 		return Math.pow(2, pZoomLevel);
 	}
@@ -60,11 +72,17 @@ public final class TileSystem {
 		return microsoft.mappoint.TileSystem.GroundResolution(wrap(latitude, -90, 90, 180), levelOfDetail);
 	}
 
+	/**
+	 * @since 6.0
+	 */
 	public static double GroundResolution(final double latitude, final double zoomLevel) {
 		return GroundResolutionMapSize(wrap(latitude, -90, 90, 180), MapSize(zoomLevel));
 	}
 
-	/** @see microsoft.mappoint.TileSystem#GroundResolution(double, int) */
+	/**
+	 * @since 6.0
+	 * @see microsoft.mappoint.TileSystem#GroundResolution(double, int)
+	 */
 	public static double GroundResolutionMapSize(double latitude, final double mapSize) {
 		latitude = Clip(latitude, MinLatitude, MaxLatitude);
 		return Math.cos(latitude * Math.PI / 180) * 2 * Math.PI * EarthRadius
@@ -86,6 +104,9 @@ public final class TileSystem {
 				levelOfDetail, reuse);
 	}
 
+	/**
+	 * @since 6.0
+	 */
 	public static Point LatLongToPixelXY(
 			final double latitude, final double longitude, final double zoomLevel, final Point reuse) {
 		return LatLongToPixelXYMapSize(
@@ -94,7 +115,10 @@ public final class TileSystem {
 				MapSize(zoomLevel), reuse);
 	}
 
-	/** @see microsoft.mappoint.TileSystem#LatLongToPixelXY(double, double, int, android.graphics.Point) */
+	/**
+	 * @since 6.0
+	 * @see microsoft.mappoint.TileSystem#LatLongToPixelXY(double, double, int, android.graphics.Point)
+	 */
 	public static Point LatLongToPixelXYMapSize(double latitude, double longitude,
 												final double mapSize, final Point reuse) {
 		final Point out = (reuse == null ? new Point() : reuse);
@@ -121,6 +145,9 @@ public final class TileSystem {
 				levelOfDetail, reuse);
 	}
 
+	/**
+	 * @since 6.0
+	 */
 	public static GeoPoint PixelXYToLatLong(
 			final int pixelX, final int pixelY, final double zoomLevel, final GeoPoint reuse) {
 		final double mapSize = MapSize(zoomLevel);
@@ -130,7 +157,10 @@ public final class TileSystem {
 				mapSize, reuse);
 	}
 
-	/** @see microsoft.mappoint.TileSystem#PixelXYToLatLong(int, int, int, GeoPoint) */
+	/**
+	 * @since 6.0
+	 * @see microsoft.mappoint.TileSystem#PixelXYToLatLong(int, int, int, GeoPoint)
+	 */
 	public static GeoPoint PixelXYToLatLongMapSize(final int pixelX, final int pixelY,
 												   final double mapSize, final GeoPoint reuse) {
 		final GeoPoint out = (reuse == null ? new GeoPoint(0., 0.) : reuse);
@@ -143,7 +173,10 @@ public final class TileSystem {
 		return out;
 	}
 
-	/** @see microsoft.mappoint.TileSystem#Clip(double, double, double) */
+	/**
+	 * @since 6.0
+	 * @see microsoft.mappoint.TileSystem#Clip(double, double, double)
+	 */
 	public static double Clip(final double n, final double minValue, final double maxValue) {
 		return Math.min(Math.max(n, minValue), maxValue);
 	}
@@ -153,7 +186,10 @@ public final class TileSystem {
 		return microsoft.mappoint.TileSystem.PixelXYToTileXY(pixelX, pixelY, reuse);
 	}
 
-	/** @see microsoft.mappoint.TileSystem#PixelXYToTileXY(int, int, Point) */
+	/**
+	 * @since 6.0
+	 * @see microsoft.mappoint.TileSystem#PixelXYToTileXY(int, int, Point)
+	 */
 	public static Point PixelXYToTileXY(final int pPixelX, final int pPixelY, final double pTileSize, final Point pReuse) {
 		final Point out = (pReuse == null ? new Point() : pReuse);
 		out.x = (int) (pPixelX / pTileSize);
@@ -161,6 +197,9 @@ public final class TileSystem {
 		return out;
 	}
 
+	/**
+	 * @since 6.0
+	 */
 	public static Rect PixelXYToTileXY(final Rect rect, final double pTileSize, final Rect pReuse) {
 		final Rect out = (pReuse == null ? new Rect() : pReuse);
 		out.set((int)(rect.left / pTileSize), (int) (rect.top / pTileSize),
@@ -173,7 +212,10 @@ public final class TileSystem {
 		return microsoft.mappoint.TileSystem.TileXYToPixelXY(tileX, tileY, reuse);
 	}
 
-	/** @see microsoft.mappoint.TileSystem#TileXYToPixelXY(int, int, Point) */
+	/**
+	 * @since 6.0
+	 * @see microsoft.mappoint.TileSystem#TileXYToPixelXY(int, int, Point)
+	 */
 	public static Point TileXYToPixelXY(final int pTileX, final int pTileY, final double pTileSize, final Point pReuse) {
 		final Point out = (pReuse == null ? new Point() : pReuse);
 		out.x = (int) (pTileX * pTileSize);

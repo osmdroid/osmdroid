@@ -248,6 +248,9 @@ public class Projection implements IProjection, MapViewConstants {
 		return metersToPixels(meters, getBoundingBox().getCenter().getLatitude(), mZoomLevelProjection);
 	}
 
+	/**
+	 * @since 6.0
+	 */
 	public static float metersToPixels(final float meters, final double latitude, final double zoomLevel) {
 		return (float) (meters / TileSystem.GroundResolution(latitude, zoomLevel));
 	}

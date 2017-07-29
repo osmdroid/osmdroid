@@ -371,6 +371,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	/**
 	 * @param aZoomLevel
 	 *            the zoom level bound by the tile source
+	 * Used to be an int - is a double since 6.0
 	 */
 	double setZoomLevel(final double aZoomLevel) {
 		final int minZoomLevel = getMinZoomLevel();
@@ -486,6 +487,9 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		return (int) getZoomLevelDouble();
 	}
 
+	/**
+	 * @since 6.0
+	 */
 	@Override
 	public double getZoomLevelDouble() {
 		return getZoomLevel(true);
@@ -497,6 +501,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	 * @param aPending
 	 *            if true and we're animating then return the zoom level that we're animating
 	 *            towards, otherwise return the current zoom level
+	 * Used to be an int - is a double since 6.0
 	 * @return the zoom level
 	 */
 	public double getZoomLevel(final boolean aPending) {

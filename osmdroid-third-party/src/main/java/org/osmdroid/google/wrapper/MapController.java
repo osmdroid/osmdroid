@@ -34,6 +34,9 @@ public class MapController implements IMapController {
 		return mController.setZoom(pZoomLevel);
 	}
 
+	/**
+	 * @since 6.0
+	 */
 	@Override
 	public double setZoom(final double pZoomLevel) {
 		return setZoom((int)pZoomLevel);
@@ -64,6 +67,9 @@ public class MapController implements IMapController {
 		return setZoom(zoomLevel) > 0;
 	}
 
+	/**
+	 * @since 6.0
+	 */
 	@Override
 	public boolean zoomTo(final double pZoomLevel) {
 		return zoomTo((int)pZoomLevel);
@@ -74,6 +80,9 @@ public class MapController implements IMapController {
 		return setZoom(zoomLevel) > 0;
 	}
 
+	/**
+	 * @since 6.0
+	 */
 	@Override
 	public boolean zoomToFixing(final double pZoomLevel, final int pXPixel, final int pYPixel) {
 		return zoomToFixing((int)pZoomLevel, pXPixel, pYPixel);

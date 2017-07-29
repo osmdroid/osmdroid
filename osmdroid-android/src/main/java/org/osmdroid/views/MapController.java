@@ -252,6 +252,9 @@ public class MapController implements IMapController, OnFirstLayoutListener {
 		return (int)setZoom((double)zoomlevel);
 	}
 
+	/**
+	 * @since 6.0
+	 */
 	@Override
 	public double setZoom(final double pZoomlevel) {
 		return mMapView.setZoomLevel(pZoomlevel);
@@ -328,6 +331,9 @@ public class MapController implements IMapController, OnFirstLayoutListener {
 		return zoomToFixing(zoomLevel, mMapView.getWidth() / 2, mMapView.getHeight() / 2);
 	}
 
+	/**
+	 * @since 6.0
+	 */
 	@Override
 	public boolean zoomTo(double pZoomLevel) {
 		return zoomToFixing(pZoomLevel, mMapView.getWidth() / 2, mMapView.getHeight() / 2);
@@ -338,6 +344,9 @@ public class MapController implements IMapController, OnFirstLayoutListener {
 		return zoomToFixing((double)zoomLevel, xPixel, yPixel);
 	}
 
+	/**
+	 * @since 6.0
+	 */
 	@Override
 	public boolean zoomToFixing(double zoomLevel, int xPixel, int yPixel) {
 		zoomLevel = zoomLevel > mMapView.getMaxZoomLevel() ? mMapView.getMaxZoomLevel() : zoomLevel;

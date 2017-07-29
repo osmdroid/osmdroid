@@ -217,6 +217,9 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 
 	}
 
+	/**
+	 * @since 6.0
+	 */
 	private class OverlayTileLooper extends TileLooper {
 
 		private Canvas mCanvas;

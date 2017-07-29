@@ -14,6 +14,9 @@ public interface IMapView {
 	IProjection getProjection();
 	@Deprecated
 	int getZoomLevel();
+	/**
+	 * @since 6.0
+	 */
 	double getZoomLevelDouble();
 	int getMaxZoomLevel();
      @Deprecated
