@@ -86,7 +86,7 @@ install:
   - android list targets
   - echo $ANDROID_TARGET $ANDROID_TARGET $ANDROID_ABI
   - echo no | android create avd --force -n test$ANDROID_TARGET -t $ANDROID_TARGET --abi $ANDROID_ABI --sdcard 200M
-  - emulator -memory 1536 -avd test$ANDROID_TARGET -no-skin -no-audio -no-window &
+  - emulator -memory 1536 -avd test$ANDROID_TARGET  -no-window &
   - android-wait-for-emulator
   - adb shell input keyevent 82 &
 
