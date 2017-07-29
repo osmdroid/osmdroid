@@ -77,7 +77,7 @@ install:
   - echo yes | sdkmanager "system-images;android-24;google_apis;armeabi-v7a"
   #- echo yes | sdkmanager "system-images;android-19;armeabi-v7a"
   - echo yes | sdkmanager "system-images;android-25;google_apis;armeabi-v7a"
-  - echo yes | sdkmanager "system-images;android-24;armeabi-v7a"
+  #- echo yes | sdkmanager "system-images;android-24;armeabi-v7a"
 
   # DOES NOT EXIST - echo yes | sdkmanager "system-images;android-26;google_apis;armeabi-v7a"
   - echo yes | sdkmanager "platforms;android-24"
