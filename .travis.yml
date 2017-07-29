@@ -63,7 +63,8 @@ env:
     #- API=23 ANDROID_TARGET=19  ANDROID_ABI=x86 not currently possible with travis, missing some kind of hardware acceleration driver
 
 before_install:
-  - sdkmanager --list
+  - ls /usr/local/android-sdk/tools/bin/
+  - sdkmanager.sh --list
   # create and start emulators
   - android list targets
   - echo no | android create avd --force -n test$ANDROID_TARGET -t $ANDROID_TARGET --abi $ANDROID_ABI --sdcard 200M
