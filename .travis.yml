@@ -5,25 +5,11 @@ android:
     # The BuildTools version used by your project
     - tools
     - platform-tools
-    - build-tools-23.0.2 # 23.0.2 was not available on build
-    - build-tools-23.0.1
-    - build-tools-23.0.3
+    - build-tools-26.0.1
     # The SDK version used to compile your project
-    - android-24
+    - android-26
+    - android-25
     - android-23
-    - android-22
-    - android-21
-    - android-19
-    - android-18
-    - android-15
-    - android-10
-    - android-8
-    - addon-google_apis-google-10
-    - addon-google_apis-google-15
-    - addon-google_apis-google-18
-    - addon-google_apis-google-19
-    - addon-google_apis-google-21
-    - addon-google_apis-google-22
     - addon-google_apis-google-23
     - addon-google_apis-google-8
 
@@ -37,8 +23,10 @@ android:
     - sys-img-armeabi-android-15
     - sys-img-armeabi-android-19
     - sys-img-armeabi-android-21
-    - sys-img-x86-android-22
-    - sys-img-x86-android-23
+    - sys-img-armeabi-android-23
+    - sys-img-armeabi-android-24
+    - sys-img-armeabi-android-25
+    - sys-img-armeabi-android-26
     - addon-google_apis-google-23
 
 sudo: required
@@ -74,7 +62,7 @@ env:
     #api22
     # ANDROID_TARGET=18  ANDROID_ABI=x86 not currently possible with travis, missing some kind of hardware acceleration driver
     #api23
-    # ANDROID_TARGET=19  ANDROID_ABI=x86 not currently possible with travis, missing some kind of hardware acceleration driver
+    #- API=23 ANDROID_TARGET=19  ANDROID_ABI=x86 not currently possible with travis, missing some kind of hardware acceleration driver
 
 before_install:
   # create and start emulators
