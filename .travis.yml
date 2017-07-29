@@ -48,7 +48,7 @@ env:
     - API=10 ANDROID_TARGET=1  ANDROID_ABI=armeabi
     - API=15 ANDROID_TARGET=2  ANDROID_ABI=armeabi-v7a
     - API=16 ANDROID_TARGET=3  ANDROID_ABI=armeabi-v7a
-    - API=14 ANDROID_TARGET=23g  ANDROID_ABI=google_apis/armeabi-v7a
+    - API=23g ANDROID_TARGET=14  ANDROID_ABI=google_apis/armeabi-v7a
 
     #api10 with google
     - API=10g ANDROID_TARGET=13  ANDROID_ABI=armeabi
@@ -84,6 +84,7 @@ install:
   - echo yes | sdkmanager "platforms;android-25"
   - echo yes | sdkmanager "platforms;android-26"
   - android list targets
+  - echo $ANDROID_TARGET $ANDROID_TARGET $ANDROID_ABI
   - echo no | android create avd --force -n test$ANDROID_TARGET -t $ANDROID_TARGET --abi $ANDROID_ABI --sdcard 200M
   - emulator -memory 1536 -avd test$ANDROID_TARGET -no-skin -no-audio -no-window &
   - android-wait-for-emulator
