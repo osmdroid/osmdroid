@@ -25,8 +25,6 @@ android:
     - sys-img-armeabi-android-21
     - sys-img-armeabi-android-23
     - sys-img-armeabi-android-24
-    - sys-img-armeabi-android-25
-    - sys-img-armeabi-android-26
     - addon-google_apis-google-23
 
 sudo: required
@@ -65,6 +63,7 @@ env:
     #- API=23 ANDROID_TARGET=19  ANDROID_ABI=x86 not currently possible with travis, missing some kind of hardware acceleration driver
 
 before_install:
+  - sdkmanager --list
   # create and start emulators
   - android list targets
   - echo no | android create avd --force -n test$ANDROID_TARGET -t $ANDROID_TARGET --abi $ANDROID_ABI --sdcard 200M
@@ -75,6 +74,7 @@ before_install:
 # mvn sdk deploy
 before_script:
   # android list
+
   # TEMPORARY comment out of the maven build since it's broken at the moment
   #- mkdir temp
   #- cd temp
