@@ -5,6 +5,7 @@ import android.os.Build;
 
 import org.osmdroid.tileprovider.modules.IFilesystemCache;
 import org.osmdroid.tileprovider.modules.INetworkAvailablityCheck;
+import org.osmdroid.tileprovider.modules.MapTileApproximater;
 import org.osmdroid.tileprovider.modules.MapTileAssetsProvider;
 import org.osmdroid.tileprovider.modules.MapTileDownloader;
 import org.osmdroid.tileprovider.modules.MapTileFileArchiveProvider;
@@ -95,6 +96,9 @@ public class MapTileProviderBasic extends MapTileProviderArray implements IMapTi
 		final MapTileDownloader downloaderProvider = new MapTileDownloader(pTileSource, tileWriter,
 				aNetworkAvailablityCheck);
 		mTileProviderList.add(downloaderProvider);
+
+		final MapTileApproximater approximationProvider = new MapTileApproximater(pTileSource, tileWriter);
+		mTileProviderList.add(approximationProvider);
 	}
 
 	@Override

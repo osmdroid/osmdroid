@@ -137,6 +137,16 @@ public class CacheManager {
             return true;
         }
 
+        return forceLoadTile(tileSource, tile);
+    }
+
+    /**
+     * Actual tile download, regardless of the tile being already present in the cache
+     *
+     * @return true if success, false if error
+     * @since 5.6.5
+     */
+    public boolean forceLoadTile(final OnlineTileSourceBase tileSource, final MapTile tile) {
         InputStream in = null;
         HttpURLConnection c=null;
 
@@ -172,8 +182,6 @@ public class CacheManager {
 
 
             in = c.getInputStream();
-
-            final ByteArrayOutputStream dataStream = new ByteArrayOutputStream();
 
             //default is 1 week from now
             Date dateExpires;
@@ -227,6 +235,23 @@ public class CacheManager {
 
     public boolean checkTile(final MapTile pTile) {
         return mTileWriter.exists(mTileProvider.getTileSource(), pTile);
+    }
+
+    /**
+     * "Should we download this tile?", either because it's not cached yet or because it's expired
+     *
+     * @since 5.6.5
+     * @param pTileSource
+     * @param pTile
+     * @return
+     */
+    public boolean isTileToBeDownloaded(final ITileSource pTileSource, final MapTile pTile) {
+        final Long expiration = mTileWriter.getExpirationTimestamp(pTileSource, pTile);
+        if (expiration == null) {
+            return true;
+        }
+        final long now = System.currentTimeMillis();
+        return now > expiration;
     }
 
     /**
