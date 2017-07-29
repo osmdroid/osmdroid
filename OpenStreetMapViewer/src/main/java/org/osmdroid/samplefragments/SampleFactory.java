@@ -12,6 +12,7 @@ import org.osmdroid.samplefragments.cache.SampleCacheDownloaderArchive;
 import org.osmdroid.samplefragments.cache.SampleCacheDownloaderCustomUI;
 import org.osmdroid.samplefragments.cache.SampleJumboCache;
 import org.osmdroid.samplefragments.cache.SampleSqliteOnly;
+import org.osmdroid.samplefragments.data.AnimatedMarker;
 import org.osmdroid.samplefragments.data.AsyncTaskDemoFragment;
 import org.osmdroid.samplefragments.data.Gridlines2;
 import org.osmdroid.samplefragments.data.HeatMap;
@@ -197,9 +198,11 @@ public final class SampleFactory implements ISampleFactory {
         //54
         mSamples.add(SepiaToneTiles.class);
         //55
+        mSamples.add(AnimatedMarker.class);
+        //56
         if (Build.VERSION.SDK_INT >= 10)
             mSamples.add(MapsforgeTileProviderSample.class);
-        //56
+        //57
         if (Build.VERSION.SDK_INT >= 14)
             mSamples.add(GeopackageSample.class);
     }
