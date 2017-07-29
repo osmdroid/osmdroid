@@ -26,6 +26,7 @@ android:
     - sys-img-armeabi-android-23
     - sys-img-armeabi-android-24
     - addon-google_apis-google-23
+    - tools
 
 sudo: required
 
@@ -62,10 +63,18 @@ env:
     #api23
     #- API=23 ANDROID_TARGET=19  ANDROID_ABI=x86 not currently possible with travis, missing some kind of hardware acceleration driver
 
-before_install:
-  - ls /usr/local/android-sdk/tools/bin/
-  - sdkmanager.sh --list
+install:
   # create and start emulators
+  - sdkmanager --list || true
+  - echo yes | sdkmanager "platforms;android-25"
+  - echo yes | sdkmanager "platforms;android-23"
+  - echo yes | sdkmanager "system-images;android-23;google_apis;armeabi-v7a"
+  - echo yes | sdkmanager "system-images;android-24;google_apis;armeabi-v7a"
+  - echo yes | sdkmanager "system-images;android-25;google_apis;armeabi-v7a"
+  - echo yes | sdkmanager "system-images;android-26;google_apis;armeabi-v7a"
+  - echo yes | sdkmanager "platforms;android-24"
+  - echo yes | sdkmanager "platforms;android-25"
+  - echo yes | sdkmanager "platforms;android-26"
   - android list targets
   - echo no | android create avd --force -n test$ANDROID_TARGET -t $ANDROID_TARGET --abi $ANDROID_ABI --sdcard 200M
   - emulator -memory 1536 -avd test$ANDROID_TARGET -no-skin -no-audio -no-window &
