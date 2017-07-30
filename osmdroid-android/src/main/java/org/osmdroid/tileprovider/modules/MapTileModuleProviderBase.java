@@ -304,10 +304,10 @@ public abstract class MapTileModuleProviderBase {
 
 				if (result == null) {
 					tileLoadedFailed(state);
-				} else if (ExpirableBitmapDrawable.isDrawableExpired(result)) {
-					tileLoadedExpired(state, result);
-				} else {
+				} else if (ExpirableBitmapDrawable.getState(result) == ExpirableBitmapDrawable.UP_TO_DATE) {
 					tileLoaded(state, result);
+				} else {
+					tileLoadedExpired(state, result);
 				}
 			}
 
