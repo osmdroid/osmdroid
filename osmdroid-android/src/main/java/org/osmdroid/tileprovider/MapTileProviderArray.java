@@ -102,11 +102,9 @@ public class MapTileProviderArray extends MapTileProviderBase {
 		final Drawable tile = mTileCache.getMapTile(pTile);
 		if (tile != null) {
 			if (ExpirableBitmapDrawable.getState(tile) == ExpirableBitmapDrawable.UP_TO_DATE) {
-				Log.e("getMapTile", "tile" + pTile + "*up_to_date");
 				return tile; // best scenario ever
 			}
 			if (isDowngradedMode()) {
-				Log.e("getMapTile", "tile" + pTile + "*status=" + ExpirableBitmapDrawable.getState(tile));
 				return tile; // best we can, considering
 			}
 		}
