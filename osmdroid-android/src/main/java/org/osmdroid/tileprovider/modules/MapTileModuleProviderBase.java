@@ -265,6 +265,16 @@ public abstract class MapTileModuleProviderBase {
 			pState.getCallback().mapTileRequestExpiredTile(pState, pDrawable);
 		}
 
+		protected void tileLoadedScaled(final MapTileRequestState pState, final Drawable pDrawable) {
+			if (Configuration.getInstance().isDebugTileProviders()) {
+				Log.d(IMapView.LOGTAG,"TileLoader.tileLoadedScaled() on provider: " + getName()
+						+ " with tile: " + pState.getMapTile());
+			}
+			removeTileFromQueues(pState.getMapTile());
+			ExpirableBitmapDrawable.setState(pDrawable, ExpirableBitmapDrawable.SCALED);
+			pState.getCallback().mapTileRequestExpiredTile(pState, pDrawable);
+		}
+
 		protected void tileLoadedFailed(final MapTileRequestState pState) {
 			if (Configuration.getInstance().isDebugTileProviders()) {
 				Log.d(IMapView.LOGTAG,"TileLoader.tileLoadedFailed() on provider: " + getName()
@@ -304,10 +314,12 @@ public abstract class MapTileModuleProviderBase {
 
 				if (result == null) {
 					tileLoadedFailed(state);
-				} else if (ExpirableBitmapDrawable.getState(result) == ExpirableBitmapDrawable.UP_TO_DATE) {
-					tileLoaded(state, result);
-				} else {
+				} else if (ExpirableBitmapDrawable.getState(result) == ExpirableBitmapDrawable.EXPIRED) {
 					tileLoadedExpired(state, result);
+				} else if (ExpirableBitmapDrawable.getState(result) == ExpirableBitmapDrawable.SCALED) {
+					tileLoadedScaled(state, result);
+				} else {
+					tileLoaded(state, result);
 				}
 			}
 
