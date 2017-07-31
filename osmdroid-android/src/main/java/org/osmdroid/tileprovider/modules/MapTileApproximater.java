@@ -94,7 +94,6 @@ public class MapTileApproximater extends MapTileModuleProviderBase {
             }
             final BitmapDrawable drawable = new BitmapDrawable(bitmap);
             ExpirableBitmapDrawable.setState(drawable, ExpirableBitmapDrawable.SCALED);
-            Log.e("approx", "tile" + pState.getMapTile());
             return drawable;
         }
     }
