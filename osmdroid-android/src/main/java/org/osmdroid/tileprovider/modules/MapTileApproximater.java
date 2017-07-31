@@ -211,22 +211,3 @@ public class MapTileApproximater extends MapTileModuleProviderBase {
         return Bitmap.createBitmap(pTileSizePx, pTileSizePx, Bitmap.Config.ARGB_8888);
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
