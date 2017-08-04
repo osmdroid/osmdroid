@@ -374,11 +374,14 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 				return;
 			}
 
-			screenWidth	   = mapView.getWidth();
-			screenHeight   = mapView.getHeight();
+			int _screenWidth	   = mapView.getWidth();
+			int _screenHeight   = mapView.getHeight();
+			boolean screenSizeChanged = _screenHeight!=screenHeight || _screenWidth != screenWidth;
+			screenHeight = _screenHeight;
+			screenWidth = _screenWidth;
 			final IGeoPoint center = projection.fromPixels(screenWidth / 2, screenHeight / 2, null);
 			if (zoomLevel != lastZoomLevel
-					|| (int) center.getLatitude() != (int) lastLatitude) {
+				|| (int) center.getLatitude() != (int) lastLatitude || screenSizeChanged) {
 				lastZoomLevel = zoomLevel;
 				lastLatitude = center.getLatitude();
 				rebuildBarPath(projection);

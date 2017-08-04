@@ -12,10 +12,10 @@ import android.provider.Settings;
 import android.util.Log;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLConnection;
+import java.util.Map;
+
 import org.osmdroid.api.IMapView;
 import org.osmdroid.config.Configuration;
-import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 
 /**
  * Utility class for implementing Cloudmade authorization. See
@@ -115,6 +115,9 @@ public class CloudmadeUtil  {
 						urlConnection.setRequestMethod("POST");
 						urlConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
 						urlConnection.setRequestProperty(Configuration.getInstance().getUserAgentHttpHeader(), Configuration.getInstance().getUserAgentValue());
+						for (final Map.Entry<String, String> entry : Configuration.getInstance().getAdditionalHttpRequestProperties().entrySet()) {
+							urlConnection.setRequestProperty(entry.getKey(), entry.getValue());
+						}
 						urlConnection.connect();
 						if (DEBUGMODE) {
 							Log.d(IMapView.LOGTAG,"Response from Cloudmade auth: " + urlConnection.getResponseMessage());

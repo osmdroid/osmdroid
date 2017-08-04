@@ -28,6 +28,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.Date;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
@@ -188,9 +189,16 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 					return null;
 				}
 
-				c = (HttpURLConnection) new URL(tileURLString).openConnection();
+				if (Configuration.getInstance().getHttpProxy() != null) {
+					c = (HttpURLConnection) new URL(tileURLString).openConnection(Configuration.getInstance().getHttpProxy());
+				} else {
+					c = (HttpURLConnection) new URL(tileURLString).openConnection();
+				}
 				c.setUseCaches(true);
 				c.setRequestProperty(Configuration.getInstance().getUserAgentHttpHeader(),Configuration.getInstance().getUserAgentValue());
+				for (final Map.Entry<String, String> entry : Configuration.getInstance().getAdditionalHttpRequestProperties().entrySet()) {
+					c.setRequestProperty(entry.getKey(), entry.getValue());
+				}
 				c.connect();
                                 
 
