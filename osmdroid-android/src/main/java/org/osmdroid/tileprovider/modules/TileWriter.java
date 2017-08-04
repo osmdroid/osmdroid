@@ -269,7 +269,7 @@ public class TileWriter implements IFilesystemCache {
 	 */
 	private void cutCurrentCache() {
 
-          final File lock=Configuration.getInstance().getOsmdroidTileCache();
+		final File lock=Configuration.getInstance().getOsmdroidTileCache();
 		synchronized (lock) {
 
 			if (mUsedCacheSpace > Configuration.getInstance().getTileFileSystemCacheTrimBytes()) {
