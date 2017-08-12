@@ -15,6 +15,7 @@ import android.view.animation.ScaleAnimation;
 
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.api.IMapController;
+import org.osmdroid.config.Configuration;
 import org.osmdroid.events.ScrollEvent;
 import org.osmdroid.events.ZoomEvent;
 import org.osmdroid.util.BoundingBox;
@@ -24,8 +25,6 @@ import org.osmdroid.views.util.MyMath;
 
 import java.util.LinkedList;
 
-import static org.osmdroid.views.util.constants.MapViewConstants.ANIMATION_DURATION_DEFAULT;
-import static org.osmdroid.views.util.constants.MapViewConstants.ANIMATION_DURATION_SHORT;
 
 /**
  * 
@@ -74,20 +73,20 @@ public class MapController implements IMapController, OnFirstLayoutListener {
 			mZoomInAnimation = ValueAnimator.ofFloat(1f, 2f);
 			mZoomInAnimation.addListener(zoomAnimatorListener);
 			mZoomInAnimation.addUpdateListener(zoomAnimatorListener);
-			mZoomInAnimation.setDuration(ANIMATION_DURATION_SHORT);
+			mZoomInAnimation.setDuration(Configuration.getInstance().getAnimationSpeedShort());
 
 			mZoomOutAnimation = ValueAnimator.ofFloat(1f, 0.5f);
 			mZoomOutAnimation.addListener(zoomAnimatorListener);
 			mZoomOutAnimation.addUpdateListener(zoomAnimatorListener);
-			mZoomOutAnimation.setDuration(ANIMATION_DURATION_SHORT);
+			mZoomOutAnimation.setDuration(Configuration.getInstance().getAnimationSpeedShort());
 		} else {
 			ZoomAnimationListener zoomAnimationListener = new ZoomAnimationListener(this);
 			mZoomInAnimationOld = new ScaleAnimation(1, 2, 1, 2, Animation.RELATIVE_TO_SELF, 0.5f,
 					Animation.RELATIVE_TO_SELF, 0.5f);
 			mZoomOutAnimationOld = new ScaleAnimation(1, 0.5f, 1, 0.5f, Animation.RELATIVE_TO_SELF,
 					0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-			mZoomInAnimationOld.setDuration(ANIMATION_DURATION_SHORT);
-			mZoomOutAnimationOld.setDuration(ANIMATION_DURATION_SHORT);
+			mZoomInAnimationOld.setDuration(Configuration.getInstance().getAnimationSpeedShort());
+			mZoomOutAnimationOld.setDuration(Configuration.getInstance().getAnimationSpeedShort());
 			mZoomInAnimationOld.setAnimationListener(zoomAnimationListener);
 			mZoomOutAnimationOld.setAnimationListener(zoomAnimationListener);
 		}
@@ -202,7 +201,7 @@ public class MapController implements IMapController, OnFirstLayoutListener {
 			final int dy = mercatorPoint.y - yStart;
 
 			if(dx != 0 || dy != 0) {
-				mMapView.getScroller().startScroll(xStart, yStart, dx, dy, ANIMATION_DURATION_DEFAULT);
+				mMapView.getScroller().startScroll(xStart, yStart, dx, dy, Configuration.getInstance().getAnimationSpeedDefault());
 				mMapView.postInvalidate();
 			}
 		}
@@ -376,7 +375,7 @@ public class MapController implements IMapController, OnFirstLayoutListener {
 					ValueAnimator zoomToAnimator = ValueAnimator.ofFloat(1f, end);
 					zoomToAnimator.addListener(zoomAnimatorListener);
 					zoomToAnimator.addUpdateListener(zoomAnimatorListener);
-					zoomToAnimator.setDuration(ANIMATION_DURATION_SHORT);
+					zoomToAnimator.setDuration(Configuration.getInstance().getAnimationSpeedShort());
 
 					mCurrentAnimator = zoomToAnimator;
 					zoomToAnimator.start();
@@ -392,7 +391,7 @@ public class MapController implements IMapController, OnFirstLayoutListener {
 						1f, end, //Y
 						Animation.RELATIVE_TO_SELF, 0.5f, //Pivot X
 						Animation.RELATIVE_TO_SELF, 0.5f); //Pivot Y
-					scaleAnimation.setDuration(ANIMATION_DURATION_SHORT);
+					scaleAnimation.setDuration(Configuration.getInstance().getAnimationSpeedShort());
 					scaleAnimation.setAnimationListener(new ZoomAnimationListener(this));
 
 				}

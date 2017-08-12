@@ -1,11 +1,9 @@
 package org.osmdroid;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
@@ -14,7 +12,6 @@ import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -63,7 +60,12 @@ public class PreferenceActivity extends AppCompatActivity implements View.OnClic
         cacheMaxSize,
         cacheTrimSize,
         tileFileSystemThreads,
-        tileFileSystemMaxQueueSize, gpsWaitTime, additionalExpirationTime,overrideExpirationTime;
+        tileFileSystemMaxQueueSize,
+        gpsWaitTime,
+        additionalExpirationTime,
+        overrideExpirationTime,
+        zoomSpeedDefault,
+        zoomSpeedShort;
     boolean abortSave=false;
 
     @Override
@@ -104,10 +106,15 @@ public class PreferenceActivity extends AppCompatActivity implements View.OnClic
 
         cacheMaxSize = (EditText) findViewById(R.id.cacheMaxSize);
         cacheTrimSize = (EditText) findViewById(R.id.cacheTrimSize);
-        cacheMaxSize.addTextChangedListener(new PositiveLongTextValidator(additionalExpirationTime,0));
-        cacheTrimSize.addTextChangedListener(new PositiveLongTextValidator(additionalExpirationTime,0));
+        cacheMaxSize.addTextChangedListener(new PositiveLongTextValidator(cacheMaxSize,0));
+        cacheTrimSize.addTextChangedListener(new PositiveLongTextValidator(cacheTrimSize,0));
 
         overrideExpirationTime = (EditText) findViewById(R.id.overrideExpirationTime);
+        zoomSpeedDefault = (EditText) findViewById(R.id.zoomSpeedDefault);
+        zoomSpeedDefault.addTextChangedListener(new PositiveLongTextValidator(zoomSpeedDefault,1));
+        zoomSpeedShort = (EditText) findViewById(R.id.zoomSpeedShort);
+        zoomSpeedShort.addTextChangedListener(new PositiveLongTextValidator(zoomSpeedShort,1));
+
 
         buttonSetBase = (Button) findViewById(R.id.buttonSetBase);
         buttonSetBase.setOnClickListener(this);
@@ -149,6 +156,10 @@ public class PreferenceActivity extends AppCompatActivity implements View.OnClic
 
         cacheMaxSize.setText(Configuration.getInstance().getTileFileSystemCacheMaxBytes()+"");
         cacheTrimSize.setText(Configuration.getInstance().getTileFileSystemCacheTrimBytes()+"");
+
+        zoomSpeedDefault.setText(Configuration.getInstance().getAnimationSpeedDefault()+"");
+        zoomSpeedShort.setText(Configuration.getInstance().getAnimationSpeedShort()+"");
+
     }
 
     @Override
@@ -234,6 +245,22 @@ public class PreferenceActivity extends AppCompatActivity implements View.OnClic
         Configuration.getInstance().setDebugMapTileDownloader(checkBoxDebugDownloading.isChecked());
         Configuration.getInstance().setOsmdroidTileCache(new File(textViewCacheDirectory.getText().toString()));
         Configuration.getInstance().setOsmdroidBasePath(new File(textViewBaseDirectory.getText().toString()));
+
+        try {
+            Integer val=Integer.parseInt(zoomSpeedDefault.getText().toString());
+            if (val > 0)
+                Configuration.getInstance().setAnimationSpeedDefault(val);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        try {
+            Integer val=Integer.parseInt(zoomSpeedShort.getText().toString());
+            if (val > 0)
+                Configuration.getInstance().setAnimationSpeedShort(val);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         Configuration.getInstance().save(this, prefs);

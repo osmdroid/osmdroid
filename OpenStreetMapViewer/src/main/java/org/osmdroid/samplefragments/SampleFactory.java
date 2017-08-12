@@ -4,6 +4,7 @@ package org.osmdroid.samplefragments;
 import android.os.Build;
 
 import org.osmdroid.ISampleFactory;
+import org.osmdroid.samplefragments.animations.FastZoomSpeedAnimations;
 import org.osmdroid.samplefragments.cache.CacheImport;
 import org.osmdroid.samplefragments.cache.CachePurge;
 import org.osmdroid.samplefragments.cache.SampleAlternateCacheDir;
@@ -200,9 +201,11 @@ public final class SampleFactory implements ISampleFactory {
         //55
         mSamples.add(AnimatedMarker.class);
         //56
+        mSamples.add(FastZoomSpeedAnimations.class);
+        //57
         if (Build.VERSION.SDK_INT >= 10)
             mSamples.add(MapsforgeTileProviderSample.class);
-        //57
+        //58
         if (Build.VERSION.SDK_INT >= 14)
             mSamples.add(GeopackageSample.class);
     }

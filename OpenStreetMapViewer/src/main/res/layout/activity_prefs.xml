@@ -307,6 +307,34 @@
                 android:text="@string/enable_mapview_hardware_acceleration"/>
 
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Animation Speed Default (ms)"
+                />
+
+            <EditText
+                android:id="@+id/zoomSpeedDefault"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:lines="1"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Animation Speed Short (ms)"
+                />
+
+            <EditText
+                android:id="@+id/zoomSpeedShort"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:lines="1"
+                />
+
             <Button
                 android:id="@+id/buttonReset"
                 android:layout_width="match_parent"
