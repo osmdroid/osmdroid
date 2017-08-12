@@ -36,6 +36,7 @@ import java.util.Set;
 public class MapsforgeTileProviderSample extends BaseSampleFragment {
     MapsForgeTileSource fromFiles=null;
     MapsForgeTileProvider forge=null;
+    AlertDialog alertDialog=null;
 
     @Override
     public String getSampleTitle() {
@@ -93,7 +94,7 @@ public class MapsforgeTileProviderSample extends BaseSampleFragment {
 
 
             // create alert dialog
-            AlertDialog alertDialog = alertDialogBuilder.create();
+            alertDialog = alertDialogBuilder.create();
 
             // show it
             alertDialog.show();
@@ -143,6 +144,10 @@ public class MapsforgeTileProviderSample extends BaseSampleFragment {
     @Override
     public void onDestroy(){
         super.onDestroy();
+        if (alertDialog!=null) {
+            alertDialog.dismiss();
+            alertDialog = null;
+        }
         if (fromFiles!=null)
             fromFiles.dispose();
         if (forge!=null)

@@ -1,6 +1,11 @@
 // Created by plusminus on 00:23:14 - 03.10.2008
 package org.osmdroid;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -19,6 +24,25 @@ import org.osmdroid.views.MapView;
 public class StarterMapActivity extends FragmentActivity {
     private static final String MAP_FRAGMENT_TAG = "org.osmdroid.MAP_FRAGMENT_TAG";
 
+    /**
+     * The idea behind that is to force a MapView refresh when switching from offline to online.
+     * If you don't do that, the map may display - when online - approximated tiles
+     * * that were computed when offline
+     * * that could be replaced by downloaded tiles
+     * * but as the display is not refreshed there's no try to get better tiles
+     * @since 6.0
+     */
+    private final BroadcastReceiver networkReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            try {
+                starterMapFragment.getMapView().invalidate();
+            } catch(NullPointerException e) {
+                // lazy handling of an improbable NPE
+            }
+        }
+    };
+
     private StarterMapFragment starterMapFragment=null;
     // ===========================================================
     // Constructors
@@ -28,6 +52,8 @@ public class StarterMapActivity extends FragmentActivity {
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         MainActivity.updateStoragePrefreneces(this);    //needed for unit tests
+
+        registerReceiver(networkReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
 
         this.setContentView(org.osmdroid.R.layout.activity_starter_main);
         FragmentManager fm = this.getSupportFragmentManager();
@@ -71,4 +97,14 @@ public class StarterMapActivity extends FragmentActivity {
         }
         return super.onKeyUp(keyCode,event);
     }
+
+    /**
+     * @since 6.0
+     */
+    @Override
+    protected void onDestroy() {
+        unregisterReceiver(networkReceiver);
+        super.onDestroy();
+    }
+
 }

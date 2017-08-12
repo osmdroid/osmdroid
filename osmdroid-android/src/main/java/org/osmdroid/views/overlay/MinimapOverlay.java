@@ -141,7 +141,7 @@ public class MinimapOverlay extends TilesOverlay {
 		}
 
 		mProjection = osmv.getProjection();
-		final int zoomLevel = mProjection.getZoomLevel();
+		final double zoomLevel = mProjection.getZoomLevel();
 
 		// Save the Mercator coordinates of what is on the screen
 		Rect screenRect = mProjection.getScreenRect();
@@ -181,8 +181,7 @@ public class MinimapOverlay extends TilesOverlay {
 		c.drawRect(mMiniMapCanvasRect.left - 2, mMiniMapCanvasRect.top - 2,
 				mMiniMapCanvasRect.right + 2, mMiniMapCanvasRect.bottom + 2, mPaint);
 
-		super.drawTiles(c, mProjection, mProjection.getZoomLevel() - miniMapZoomLevelDifference,
-				TileSystem.getTileSize(), mTileArea);
+		super.drawTiles(c, mProjection, mProjection.getZoomLevel() - miniMapZoomLevelDifference, mTileArea);
 	}
 
 	@Override
