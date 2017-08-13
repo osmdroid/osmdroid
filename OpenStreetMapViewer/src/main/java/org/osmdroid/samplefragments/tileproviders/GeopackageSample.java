@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.mapsforge.map.android.graphics.AndroidGraphicFactory;
 import org.osmdroid.R;
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.api.IMapView;
@@ -50,7 +49,8 @@ public class GeopackageSample extends BaseSampleFragment {
     TextView textViewCurrentLocation;
     GeoPackageProvider.TileSourceBounds tileSourceBounds;
     XYTileSource currentSource = null;
-    GeoPackageProvider geoPackageProvider=null;
+    GeoPackageProvider geoPackageProvider = null;
+    android.app.AlertDialog alertDialog = null;
 
     @Override
     public String getSampleTitle() {
@@ -127,7 +127,10 @@ public class GeopackageSample extends BaseSampleFragment {
                 .setCancelable(false)
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-
+                        if (alertDialog != null) {
+                            alertDialog.hide();
+                            alertDialog.dismiss();
+                        }
                     }
                 });
 
@@ -193,10 +196,25 @@ public class GeopackageSample extends BaseSampleFragment {
     }
 
     @Override
-    public void onDestroy(){
+    public void onPause() {
+        super.onPause();
+        if (alertDialog != null) {
+            alertDialog.hide();
+            alertDialog.dismiss();
+        }
+        alertDialog = null;
+    }
+
+    @Override
+    public void onDestroy() {
         super.onDestroy();
-        this.currentSource=null;
-        if (geoPackageProvider!=null)
+        if (alertDialog != null) {
+            alertDialog.hide();
+            alertDialog.dismiss();
+        }
+        alertDialog = null;
+        this.currentSource = null;
+        if (geoPackageProvider != null)
             geoPackageProvider.detach();
 
     }

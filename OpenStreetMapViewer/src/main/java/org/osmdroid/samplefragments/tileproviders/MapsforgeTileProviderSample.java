@@ -3,7 +3,6 @@ package org.osmdroid.samplefragments.tileproviders;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-
 import android.util.Log;
 import android.widget.Toast;
 
@@ -26,7 +25,6 @@ import java.util.List;
 import java.util.Set;
 
 /**
- *
  * An example of using MapsForge in osmdroid
  * created on 1/12/2017.
  *
@@ -34,8 +32,9 @@ import java.util.Set;
  */
 
 public class MapsforgeTileProviderSample extends BaseSampleFragment {
-    MapsForgeTileSource fromFiles=null;
-    MapsForgeTileProvider forge=null;
+    MapsForgeTileSource fromFiles = null;
+    MapsForgeTileProvider forge = null;
+    AlertDialog alertDialog = null;
 
     @Override
     public String getSampleTitle() {
@@ -64,7 +63,7 @@ public class MapsforgeTileProviderSample extends BaseSampleFragment {
 
 
     @Override
-    public void addOverlays(){
+    public void addOverlays() {
         super.addOverlays();
         //first let's up our map source, mapsforge needs you to explicitly specify which map files to load
         //this bit does some basic file system scanning
@@ -72,7 +71,7 @@ public class MapsforgeTileProviderSample extends BaseSampleFragment {
         //do a simple scan of local storage for .map files.
         File[] maps = new File[mapfiles.size()];
         maps = mapfiles.toArray(maps);
-        if (maps==null || maps.length==0){
+        if (maps == null || maps.length == 0) {
             //show a warning that no map files were found
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                 getContext());
@@ -83,23 +82,22 @@ public class MapsforgeTileProviderSample extends BaseSampleFragment {
             // set dialog message
             alertDialogBuilder
                 .setMessage("In order to render map tiles, you'll need to either create or obtain mapsforge .map files. See https://github.com/mapsforge/mapsforge for more info. Store them in "
-                 + Configuration.getInstance().getOsmdroidBasePath().getAbsolutePath())
+                    + Configuration.getInstance().getOsmdroidBasePath().getAbsolutePath())
                 .setCancelable(false)
-                .setPositiveButton("Yes",new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog,int id) {
-
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        if (alertDialog != null) alertDialog.dismiss();
                     }
                 });
 
 
             // create alert dialog
-            AlertDialog alertDialog = alertDialogBuilder.create();
+            alertDialog = alertDialogBuilder.create();
 
             // show it
             alertDialog.show();
 
-        }
-        else {
+        } else {
             Toast.makeText(getContext(), "Loaded " + maps.length + " map files", Toast.LENGTH_LONG).show();
 
             //this creates the forge provider and tile sources
@@ -122,7 +120,7 @@ public class MapsforgeTileProviderSample extends BaseSampleFragment {
 
             mMapView.setTileProvider(forge);
 
-            
+
             //now for a magic trick
             //since we, the silly little osmdroid developers have no idea what will be on the
             //user's device and what geographic area it is, this will attempt to center the map
@@ -134,24 +132,33 @@ public class MapsforgeTileProviderSample extends BaseSampleFragment {
 
 
     @Override
-    public boolean skipOnCiTests(){
+    public boolean skipOnCiTests() {
         //FIXME temporary fix until we iron out what is leaking on this
         return false;
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (alertDialog != null) alertDialog.dismiss();
+        alertDialog = null;
+    }
 
     @Override
-    public void onDestroy(){
+    public void onDestroy() {
         super.onDestroy();
-        if (fromFiles!=null)
+        if (alertDialog != null) alertDialog.dismiss();
+        alertDialog = null;
+        if (fromFiles != null)
             fromFiles.dispose();
-        if (forge!=null)
+        if (forge != null)
             forge.detach();
         AndroidGraphicFactory.clearResourceMemoryCache();
     }
 
     /**
      * simple function to scan for paths that match /something/osmdroid/*.map to find mapforge database files
+     *
      * @return
      */
     protected static Set<File> findMapFiles() {

@@ -40,8 +40,18 @@ public class MapController implements IMapController {
 	}
 
 	@Override
+	public boolean zoomIn(Long animationSpeed) {
+		return zoomIn();
+	}
+
+	@Override
 	public boolean zoomInFixing(final int xPixel, final int yPixel) {
 		return mController.zoomInFixing(xPixel, yPixel);
+	}
+
+	@Override
+	public boolean zoomOut(Long animationSpeed) {
+		return zoomOut();
 	}
 
 	@Override
@@ -57,6 +67,11 @@ public class MapController implements IMapController {
 	@Override
 	public boolean zoomTo(int zoomLevel) {
 		return setZoom(zoomLevel) > 0;
+	}
+
+	@Override
+	public boolean zoomTo(int zoomLevel, Long animationSpeed) {
+		return zoomTo(zoomLevel);
 	}
 
 	@Override
