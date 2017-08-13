@@ -15,6 +15,7 @@ dependencies {
     //Mapsforge rendering and database support, which is LGPL
     compile 'org.mapsforge:mapsforge-map-android:0.8.0'
     compile 'org.mapsforge:mapsforge-map:0.8.0'
+    compile 'org.mapsforge:mapsforge-themes:0.8.0'
 
     //osmdroid which is ASF licensed
     compile project(':osmdroid-android')
