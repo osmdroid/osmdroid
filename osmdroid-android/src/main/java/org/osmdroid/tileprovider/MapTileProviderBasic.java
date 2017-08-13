@@ -9,6 +9,7 @@ import org.osmdroid.tileprovider.modules.MapTileApproximater;
 import org.osmdroid.tileprovider.modules.MapTileAssetsProvider;
 import org.osmdroid.tileprovider.modules.MapTileDownloader;
 import org.osmdroid.tileprovider.modules.MapTileFileArchiveProvider;
+import org.osmdroid.tileprovider.modules.MapTileFileStorageProviderBase;
 import org.osmdroid.tileprovider.modules.MapTileFilesystemProvider;
 import org.osmdroid.tileprovider.modules.MapTileSqlCacheProvider;
 import org.osmdroid.tileprovider.modules.NetworkAvailabliltyCheck;
@@ -83,14 +84,14 @@ public class MapTileProviderBasic extends MapTileProviderArray implements IMapTi
 				pRegisterReceiver, pContext.getAssets(), pTileSource);
 		mTileProviderList.add(assetsProvider);
 
+		final MapTileFileStorageProviderBase cacheProvider;
 		if (Build.VERSION.SDK_INT < 10) {
-			final MapTileFilesystemProvider fileSystemProvider = new MapTileFilesystemProvider(
-					pRegisterReceiver, pTileSource);
-			mTileProviderList.add(fileSystemProvider);
+			cacheProvider = new MapTileFilesystemProvider(pRegisterReceiver, pTileSource);
 		} else {
-			final MapTileSqlCacheProvider cachedProvider = new MapTileSqlCacheProvider(pRegisterReceiver, pTileSource);
-			mTileProviderList.add(cachedProvider);
+			cacheProvider = new MapTileSqlCacheProvider(pRegisterReceiver, pTileSource);
 		}
+		mTileProviderList.add(cacheProvider);
+
 		final MapTileFileArchiveProvider archiveProvider = new MapTileFileArchiveProvider(
 				pRegisterReceiver, pTileSource);
 		mTileProviderList.add(archiveProvider);
@@ -99,8 +100,11 @@ public class MapTileProviderBasic extends MapTileProviderArray implements IMapTi
 				aNetworkAvailablityCheck);
 		mTileProviderList.add(downloaderProvider);
 
-		final MapTileApproximater approximationProvider = new MapTileApproximater(pTileSource, tileWriter);
+		final MapTileApproximater approximationProvider = new MapTileApproximater();
 		mTileProviderList.add(approximationProvider);
+		approximationProvider.addProvider(assetsProvider);
+		approximationProvider.addProvider(cacheProvider);
+		approximationProvider.addProvider(archiveProvider);
 	}
 
 	@Override
