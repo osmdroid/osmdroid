@@ -113,9 +113,9 @@ public class PermissionsFragment extends Fragment implements View.OnClickListene
                     // All Permissions Granted
                     //Toast.makeText(getContext(), "All permissions granted", Toast.LENGTH_SHORT).show();
                     Snackbar.make(getView(), "All permissions granted", Snackbar.LENGTH_LONG).show();
-                } else if (location) {
-                    Toast.makeText(getContext(), "Storage permission is required to store map tiles to reduce data usage and for offline usage.", Toast.LENGTH_LONG).show();
                 } else if (storage) {
+                    Toast.makeText(getContext(), "Storage permission is required to store map tiles to reduce data usage and for offline usage.", Toast.LENGTH_LONG).show();
+                } else if (location) {
                     Toast.makeText(getContext(), "Location permission is required to show the user's location on map.", Toast.LENGTH_LONG).show();
                 } else { // !location && !storage case
                     // Permission Denied

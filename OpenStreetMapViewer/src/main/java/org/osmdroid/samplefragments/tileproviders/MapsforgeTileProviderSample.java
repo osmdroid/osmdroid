@@ -147,8 +147,11 @@ public class MapsforgeTileProviderSample extends BaseSampleFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (alertDialog != null) alertDialog.dismiss();
-        alertDialog = null;
+        if (alertDialog != null) {
+			alertDialog.hide();
+			alertDialog.dismiss();
+        	alertDialog = null;
+		}
         if (fromFiles != null)
             fromFiles.dispose();
         if (forge != null)

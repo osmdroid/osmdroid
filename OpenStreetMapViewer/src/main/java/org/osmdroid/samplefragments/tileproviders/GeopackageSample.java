@@ -51,7 +51,6 @@ public class GeopackageSample extends BaseSampleFragment {
     XYTileSource currentSource = null;
     GeoPackageProvider geoPackageProvider = null;
     android.app.AlertDialog alertDialog = null;
-
     @Override
     public String getSampleTitle() {
         return "Geopackage tiles";
@@ -136,7 +135,7 @@ public class GeopackageSample extends BaseSampleFragment {
 
 
             // create alert dialog
-            android.app.AlertDialog alertDialog = alertDialogBuilder.create();
+            alertDialog = alertDialogBuilder.create();
 
             // show it
             alertDialog.show();

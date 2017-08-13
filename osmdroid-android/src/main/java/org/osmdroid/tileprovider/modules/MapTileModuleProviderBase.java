@@ -277,6 +277,7 @@ public abstract class MapTileModuleProviderBase {
 			pState.getCallback().mapTileRequestExpiredTile(pState, pDrawable);
 		}
 
+
 		protected void tileLoadedFailed(final MapTileRequestState pState) {
 			if (Configuration.getInstance().isDebugTileProviders()) {
 				Log.d(IMapView.LOGTAG,"TileLoader.tileLoadedFailed() on provider: " + getName()

@@ -25,6 +25,11 @@ public class MapController implements IMapController {
 	}
 
 	@Override
+	public void animateTo(int x, int y) {
+		mController.animateTo(new com.google.android.maps.GeoPoint((y), (x)));
+	}
+
+	@Override
 	public void setCenter(final IGeoPoint pGeoPoint) {
 		mController.setCenter(new com.google.android.maps.GeoPoint((int)(pGeoPoint.getLatitude()), (int)(pGeoPoint.getLongitude())));
 	}
@@ -32,6 +37,14 @@ public class MapController implements IMapController {
 	@Override
 	public int setZoom(final int pZoomLevel) {
 		return mController.setZoom(pZoomLevel);
+	}
+
+	/**
+	 * @since 6.0
+	 */
+	@Override
+	public double setZoom(final double pZoomLevel) {
+		return setZoom((int)pZoomLevel);
 	}
 
 	@Override
@@ -42,6 +55,11 @@ public class MapController implements IMapController {
 	@Override
 	public boolean zoomIn(Long animationSpeed) {
 		return zoomIn();
+	}
+
+	@Override
+	public boolean zoomInFixing(int xPixel, int yPixel, Long zoomAnimation) {
+		return this.zoomInFixing(xPixel,yPixel);
 	}
 
 	@Override
@@ -69,14 +87,45 @@ public class MapController implements IMapController {
 		return setZoom(zoomLevel) > 0;
 	}
 
+	/**
+	 * @since 6.0
+	 */
+	@Override
+	public boolean zoomTo(final double pZoomLevel) {
+		return zoomTo((int)pZoomLevel);
+	}
+
 	@Override
 	public boolean zoomTo(int zoomLevel, Long animationSpeed) {
 		return zoomTo(zoomLevel);
 	}
 
 	@Override
+	public boolean zoomToFixing(int zoomLevel, int xPixel, int yPixel, Long zoomAnimationSpeed) {
+		return this.zoomToFixing(zoomLevel, xPixel,yPixel);
+	}
+
+	@Override
+	public boolean zoomTo(double pZoomLevel, Long animationSpeed) {
+		return this.zoomTo((int)pZoomLevel);
+	}
+
+	@Override
 	public boolean zoomToFixing(int zoomLevel, int xPixel, int yPixel) {
 		return setZoom(zoomLevel) > 0;
+	}
+
+	@Override
+	public boolean zoomToFixing(double zoomLevel, int xPixel, int yPixel, Long zoomAnimationSpeed) {
+		return this.zoomToFixing((int)zoomLevel,xPixel,yPixel);
+	}
+
+	/**
+	 * @since 6.0
+	 */
+	@Override
+	public boolean zoomToFixing(final double pZoomLevel, final int pXPixel, final int pYPixel) {
+		return zoomToFixing((int)pZoomLevel, pXPixel, pYPixel);
 	}
 
 	@Override

@@ -26,6 +26,7 @@ import org.osmdroid.views.MapView;
  */
 
 public class FastZoomSpeedAnimations extends BaseSampleFragment implements View.OnClickListener {
+
     @Override
     public String getSampleTitle() {
         return "Super fast zoom speed";
@@ -34,6 +35,12 @@ public class FastZoomSpeedAnimations extends BaseSampleFragment implements View.
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        //overrides the default animation speeds
+        //note: the mapview creates the default double tap to zoom in animator when the map view is created
+        //this we have to set the desired zoom speed here before the mapview is created/inflated
+        Configuration.getInstance().setAnimationSpeedShort(100);
+        Configuration.getInstance().setAnimationSpeedDefault(100);
 
         View root = inflater.inflate(R.layout.map_with_locationbox_controls, container,false);
 
@@ -51,9 +58,7 @@ public class FastZoomSpeedAnimations extends BaseSampleFragment implements View.
     @Override
     public void onResume() {
         super.onResume();
-        //overrides the default animation speeds
-        Configuration.getInstance().setAnimationSpeedShort(100);
-        Configuration.getInstance().setAnimationSpeedDefault(100);
+
     }
 
     @Override
