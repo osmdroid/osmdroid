@@ -36,6 +36,7 @@ import org.osmdroid.tileprovider.util.SimpleRegisterReceiver;
 public class MapTileProviderBasic extends MapTileProviderArray implements IMapTileProviderCallback {
 
 	protected IFilesystemCache tileWriter;
+	private final INetworkAvailablityCheck mNetworkAvailabilityCheck;
 
 	/**
 	 * Creates a {@link MapTileProviderBasic}.
@@ -67,6 +68,7 @@ public class MapTileProviderBasic extends MapTileProviderArray implements IMapTi
 			final INetworkAvailablityCheck aNetworkAvailablityCheck, final ITileSource pTileSource,
 			final Context pContext, final IFilesystemCache cacheWriter) {
 		super(pTileSource, pRegisterReceiver);
+		mNetworkAvailabilityCheck = aNetworkAvailablityCheck;
 
 		if (cacheWriter != null) {
 			tileWriter = cacheWriter;
@@ -108,11 +110,19 @@ public class MapTileProviderBasic extends MapTileProviderArray implements IMapTi
 
 	@Override
 	public void detach(){
-        //https://github.com/osmdroid/osmdroid/issues/213
-        //close the writer
+		//https://github.com/osmdroid/osmdroid/issues/213
+		//close the writer
 		if (tileWriter!=null)
 			tileWriter.onDetach();
 		tileWriter=null;
 		super.detach();
+	}
+
+	/**
+	 * @since 6.0
+	 */
+	@Override
+	protected boolean isDowngradedMode() {
+		return mNetworkAvailabilityCheck != null && !mNetworkAvailabilityCheck.getNetworkAvailable();
 	}
 }

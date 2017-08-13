@@ -282,7 +282,7 @@ public class SimpleFastPointOverlay extends Overlay {
                             ((mStyle.mLabelPolicy == SimpleFastPointOverlayOptions.LabelPolicy.DENSITY_THRESHOLD
                                     && numLabels <= mStyle.mMaxNShownLabels)
                                     || (mStyle.mLabelPolicy == SimpleFastPointOverlayOptions.LabelPolicy.ZOOM_THRESHOLD
-                                    && mapView.getZoomLevel() >= mStyle.mMinZoomShowLabels));
+                                    && mapView.getZoomLevelDouble() >= mStyle.mMinZoomShowLabels));
                     // draw points
                     float offX = curX - startX;
                     float offY = curY - startY;
@@ -324,7 +324,7 @@ public class SimpleFastPointOverlay extends Overlay {
                             Arrays.fill(row, false);
 
                     showLabels = (mStyle.mLabelPolicy == SimpleFastPointOverlayOptions.LabelPolicy.ZOOM_THRESHOLD
-                            && mapView.getZoomLevel() >= mStyle.mMinZoomShowLabels);
+                            && mapView.getZoomLevelDouble() >= mStyle.mMinZoomShowLabels);
 
                     int gridX, gridY;
                     viewBBox = mapView.getBoundingBox();
@@ -368,7 +368,7 @@ public class SimpleFastPointOverlay extends Overlay {
                 case NO_OPTIMIZATION:
                     // draw all points
                     showLabels = (mStyle.mLabelPolicy == SimpleFastPointOverlayOptions.LabelPolicy.ZOOM_THRESHOLD
-                            && mapView.getZoomLevel() >= mStyle.mMinZoomShowLabels);
+                            && mapView.getZoomLevelDouble() >= mStyle.mMinZoomShowLabels);
                     viewBBox = mapView.getBoundingBox();
                     for (IGeoPoint pt1 : mPointList) {
                         if (pt1 == null) continue;

@@ -171,7 +171,8 @@ public class StarterMapFragment extends Fragment implements OpenStreetMapConstan
           mMapView.getOverlays().add(this.mScaleBarOverlay);
           mMapView.getOverlays().add(this.mRotationGestureOverlay);
 
-          mMapView.getController().setZoom(mPrefs.getInt(PREFS_ZOOM_LEVEL, 1));
+          final float zoomLevel = mPrefs.getFloat(PREFS_ZOOM_LEVEL_DOUBLE, mPrefs.getInt(PREFS_ZOOM_LEVEL, 1));
+          mMapView.getController().setZoom(zoomLevel);
           mMapView.scrollTo(mPrefs.getInt(PREFS_SCROLL_X, 0), mPrefs.getInt(PREFS_SCROLL_Y, 0));
 
           mLocationOverlay.enableMyLocation();
@@ -194,7 +195,7 @@ public class StarterMapFragment extends Fragment implements OpenStreetMapConstan
           edit.putString(PREFS_TILE_SOURCE, mMapView.getTileProvider().getTileSource().name());
           edit.putInt(PREFS_SCROLL_X, mMapView.getScrollX());
           edit.putInt(PREFS_SCROLL_Y, mMapView.getScrollY());
-          edit.putInt(PREFS_ZOOM_LEVEL, mMapView.getZoomLevel());
+          edit.putFloat(PREFS_ZOOM_LEVEL_DOUBLE, (float)mMapView.getZoomLevelDouble());
           edit.putBoolean(PREFS_SHOW_LOCATION, mLocationOverlay.isMyLocationEnabled());
 
          //sorry for the spaghetti code this is to filter out the compass on api 8

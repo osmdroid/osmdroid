@@ -214,7 +214,7 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 		if (mDrawAccuracyEnabled) {
 			final float radius = lastFix.getAccuracy()
 					/ (float) TileSystem.GroundResolution(lastFix.getLatitude(),
-							mapView.getZoomLevel());
+							mapView.getZoomLevelDouble());
 
 			mCirclePaint.setAlpha(50);
 			mCirclePaint.setStyle(Style.FILL);

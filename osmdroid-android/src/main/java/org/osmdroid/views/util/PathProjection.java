@@ -33,17 +33,18 @@ public class PathProjection {
 			final Point underGeopointTileCoords = TileSystem.LatLongToPixelXY(
 					gp.getLatitude(), gp.getLongitude(), projection.getZoomLevel(),
 					null);
+			final double tileSize = TileSystem.getTileSize(projection.getZoomLevel());
 			TileSystem.PixelXYToTileXY(underGeopointTileCoords.x, underGeopointTileCoords.y,
-					underGeopointTileCoords);
+					tileSize, underGeopointTileCoords);
 
 			/*
 			 * Calculate the Latitude/Longitude on the left-upper ScreenCoords of the MapTile.
 			 */
 			final Point upperRight = TileSystem.TileXYToPixelXY(underGeopointTileCoords.x,
-					underGeopointTileCoords.y, null);
+					underGeopointTileCoords.y, tileSize, null);
 			final Point lowerLeft = TileSystem.TileXYToPixelXY(underGeopointTileCoords.x
 					+ TileSystem.getTileSize(),
-					underGeopointTileCoords.y + TileSystem.getTileSize(), null);
+					underGeopointTileCoords.y + TileSystem.getTileSize(), tileSize, null);
 			final GeoPoint neGeoPoint = TileSystem.PixelXYToLatLong(upperRight.x, upperRight.y,
 					projection.getZoomLevel(), null);
 			final GeoPoint swGeoPoint = TileSystem.PixelXYToLatLong(lowerLeft.x, lowerLeft.y,
@@ -65,9 +66,9 @@ public class PathProjection {
 
 			final Rect screenRect = projection.getScreenRect();
 			Point centerMapTileCoords = TileSystem.PixelXYToTileXY(screenRect.centerX(),
-					screenRect.centerY(), null);
+					screenRect.centerY(), tileSize, null);
 			final Point upperLeftCornerOfCenterMapTile = TileSystem.TileXYToPixelXY(
-					centerMapTileCoords.x, centerMapTileCoords.y, null);
+					centerMapTileCoords.x, centerMapTileCoords.y, tileSize, null);
 			final int tileDiffX = centerMapTileCoords.x - underGeopointTileCoords.x;
 			final int tileDiffY = centerMapTileCoords.y - underGeopointTileCoords.y;
 			final int underGeopointTileScreenLeft = upperLeftCornerOfCenterMapTile.x
