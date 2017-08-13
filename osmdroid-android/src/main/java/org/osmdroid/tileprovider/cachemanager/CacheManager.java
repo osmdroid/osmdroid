@@ -73,6 +73,7 @@ public class CacheManager {
     protected final int mMinZoomLevel;
     protected final int mMaxZoomLevel;
     protected Set<CacheManagerTask> mPendingTasks = new HashSet<>();
+    protected boolean verifyCancel = true;
 
     public CacheManager(final MapView mapView) {
         this(mapView, mapView.getTileProvider().getTileWriter());
@@ -540,6 +541,19 @@ public class CacheManager {
         task.addCallback(getDownloadingDialog(ctx, task));
         return execute(task);
     }
+    
+     /*
+     * verifyCancel decides wether user has to confirm the cancel action via a alert
+     * 
+     * @param state
+     */
+    public void setVerifyCancel(boolean state){
+        verifyCancel = state;
+    }
+
+    public boolean getVerifyCancel(){
+        return verifyCancel;
+    }
 
     /**
      *
@@ -590,12 +604,38 @@ public class CacheManager {
             mProgressDialog = new ProgressDialog(pCtx);
             mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
             mProgressDialog.setCancelable(true);
-            mProgressDialog.setOnCancelListener(new OnCancelListener() {
-                @Override
-                public void onCancel(DialogInterface dialog) {
-                    mTask.cancel(true);
-                }
-            });
+            // If verifyCancel is set to true, ask for verification before canceling
+            if(pTask.mManager.getVerifyCancel()){
+                mProgressDialog.setOnCancelListener(new OnCancelListener() {
+                    @Override public void onCancel(final DialogInterface cancelDialog) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(pCtx);
+                        builder.setTitle("Cancel map download");
+                        builder.setMessage("Do you want to cancel the map download?");
+                        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                mTask.cancel(true);
+                            }
+                        });
+                        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                mProgressDialog.show();
+                            }
+                        });
+                        builder.show();
+                    }
+                });
+            }
+            else{
+                mProgressDialog.setOnCancelListener(new OnCancelListener() {
+                    @Override
+                    public void onCancel(DialogInterface dialog) {
+                        mTask.cancel(true);
+                    }
+                });
+            }
         }
 
         protected String zoomMessage(int zoomLevel, int zoomMin, int zoomMax) {
