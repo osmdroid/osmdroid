@@ -771,8 +771,18 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 	}
 
-	@Override
-	protected void onLayout(final boolean changed, final int l, final int t, final int r,
+    @Override
+    protected void onLayout(final boolean changed, final int l, final int t, final int r,
+                            final int b) {
+        myOnLayout(changed, l, t, r, b);
+    }
+
+    /**
+     * Code was moved from {@link #onLayout(boolean, int, int, int, int)}
+     * in order to avoid Android Studio warnings on direct calls
+     * @since 5.6.6
+     */
+	protected void myOnLayout(final boolean changed, final int l, final int t, final int r,
 			final int b) {
 		final int count = getChildCount();
 
@@ -1071,7 +1081,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 		// Force a layout, so that children are correctly positioned according to map orientation
 		if (getMapOrientation() != 0f)
-			onLayout(true, getLeft(), getTop(), getRight(), getBottom());
+			myOnLayout(true, getLeft(), getTop(), getRight(), getBottom());
 
 		// do callback on listener
 		if (mListener != null) {

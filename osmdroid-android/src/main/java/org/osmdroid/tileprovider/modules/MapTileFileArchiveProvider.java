@@ -102,7 +102,7 @@ public class MapTileFileArchiveProvider extends MapTileFileStorageProviderBase {
 	}
 
 	@Override
-	protected Runnable getTileLoader() {
+	public TileLoader getTileLoader() {
 		return new TileLoader();
 	}
 
@@ -198,14 +198,12 @@ public class MapTileFileArchiveProvider extends MapTileFileStorageProviderBase {
 	protected class TileLoader extends MapTileModuleProviderBase.TileLoader {
 
 		@Override
-		public Drawable loadTile(final MapTileRequestState pState) {
+		public Drawable loadTile(final MapTile pTile) {
 
 			ITileSource tileSource = mTileSource.get();
 			if (tileSource == null) {
 				return null;
 			}
-
-			final MapTile pTile = pState.getMapTile();
 
 			// if there's no sdcard then don't do anything
 			if (!isSdCardAvailable()) {

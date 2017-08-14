@@ -95,7 +95,7 @@ public class MapTileFilesystemProvider extends MapTileFileStorageProviderBase {
 	}
 
 	@Override
-	protected Runnable getTileLoader() {
+	public TileLoader getTileLoader() {
 		return new TileLoader();
 	}
 
@@ -124,25 +124,23 @@ public class MapTileFilesystemProvider extends MapTileFileStorageProviderBase {
 	protected class TileLoader extends MapTileModuleProviderBase.TileLoader {
 
 		@Override
-		public Drawable loadTile(final MapTileRequestState pState) throws CantContinueException {
+		public Drawable loadTile(final MapTile pTile) throws CantContinueException {
 
 			ITileSource tileSource = mTileSource.get();
 			if (tileSource == null) {
 				return null;
 			}
 
-			final MapTile tile = pState.getMapTile();
-
 			// if there's no sdcard then don't do anything
 			if (!isSdCardAvailable()) {
 				if (Configuration.getInstance().isDebugMode()) {
-                         Log.d(IMapView.LOGTAG,"No sdcard - do nothing for tile: " + tile);
+                         Log.d(IMapView.LOGTAG,"No sdcard - do nothing for tile: " + pTile);
 				}
 				Counters.fileCacheMiss++;
 				return null;
 			}
 			try {
-				final Drawable result = mWriter.loadTile(tileSource, tile);
+				final Drawable result = mWriter.loadTile(tileSource, pTile);
 				if (result == null) {
 					Counters.fileCacheMiss++;
 				} else {
@@ -151,7 +149,7 @@ public class MapTileFilesystemProvider extends MapTileFileStorageProviderBase {
 				return result;
 			} catch (final BitmapTileSourceBase.LowMemoryException e) {
 				// low memory so empty the queue
-				Log.w(IMapView.LOGTAG, "LowMemoryException downloading MapTile: " + tile + " : " + e);
+				Log.w(IMapView.LOGTAG, "LowMemoryException downloading MapTile: " + pTile + " : " + e);
 				Counters.fileCacheOOM++;
 				throw new MapTileModuleProviderBase.CantContinueException(e);
 			} catch (final Throwable e) {
