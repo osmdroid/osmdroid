@@ -29,7 +29,6 @@ public class MapTileApproximater extends MapTileModuleProviderBase {
 
     private final List<MapTileModuleProviderBase> mProviders = new ArrayList<>();
     private int minZoomLevel;
-    private int maxZoomLevel;
 
     /**
      * @since 5.6.6
@@ -57,16 +56,14 @@ public class MapTileApproximater extends MapTileModuleProviderBase {
 
     private void computeZoomLevels() {
         boolean first = true;
+        minZoomLevel = OpenStreetMapTileProviderConstants.MINIMUM_ZOOMLEVEL;
         for (final MapTileModuleProviderBase provider : mProviders) {
             final int otherMin = provider.getMinimumZoomLevel();;
-            final int otherMax = provider.getMaximumZoomLevel();;
             if (first) {
                 first = false;
                 minZoomLevel = otherMin;
-                maxZoomLevel = otherMax;
             } else {
                 minZoomLevel = Math.min(minZoomLevel, otherMin);
-                maxZoomLevel = Math.max(maxZoomLevel, otherMax);
             }
         }
     }
@@ -98,7 +95,7 @@ public class MapTileApproximater extends MapTileModuleProviderBase {
 
     @Override
     public int getMaximumZoomLevel() {
-        return maxZoomLevel;
+        return microsoft.mappoint.TileSystem.getMaximumZoomLevel();
     }
 
     @Deprecated
@@ -218,12 +215,16 @@ public class MapTileApproximater extends MapTileModuleProviderBase {
         try {
             if (!isReusable || reusableBitmapDrawable.isBitmapValid()) {
                 final int srcSize = tileSizePixels >> pZoomDiff;
-                final int srcX = (pMapTile.getX() % (1 << pZoomDiff)) * srcSize;
-                final int srcY = (pMapTile.getY() % (1 << pZoomDiff)) * srcSize;
-                final Rect srcRect = new Rect(srcX, srcY, srcX + srcSize, srcY + srcSize);
-                final Rect dstRect = new Rect(0, 0, tileSizePixels, tileSizePixels);
-                canvas.drawBitmap(pSrcDrawable.getBitmap(), srcRect, dstRect, null);
-                success = true;
+                if (srcSize == 0) {
+                    success = false;
+                } else {
+                    final int srcX = (pMapTile.getX() % (1 << pZoomDiff)) * srcSize;
+                    final int srcY = (pMapTile.getY() % (1 << pZoomDiff)) * srcSize;
+                    final Rect srcRect = new Rect(srcX, srcY, srcX + srcSize, srcY + srcSize);
+                    final Rect dstRect = new Rect(0, 0, tileSizePixels, tileSizePixels);
+                    canvas.drawBitmap(pSrcDrawable.getBitmap(), srcRect, dstRect, null);
+                    success = true;
+                }
             }
         } finally {
             if (isReusable)
