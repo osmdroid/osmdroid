@@ -42,8 +42,12 @@ public class OfflineTileProvider extends MapTileProviderArray implements IMapTil
 		}
 		archives = new IArchiveFile[files.size()];
 		archives=files.toArray(archives);
-		
-		mTileProviderList.add(new MapTileFileArchiveProvider(pRegisterReceiver, getTileSource(), archives));
+		final MapTileFileArchiveProvider mapTileFileArchiveProvider = new MapTileFileArchiveProvider(pRegisterReceiver, getTileSource(), archives);
+		mTileProviderList.add(mapTileFileArchiveProvider);
+
+		final MapTileApproximater approximationProvider = new MapTileApproximater();
+		mTileProviderList.add(approximationProvider);
+		approximationProvider.addProvider(mapTileFileArchiveProvider);
 
 	}
 	public IArchiveFile[] getArchives(){

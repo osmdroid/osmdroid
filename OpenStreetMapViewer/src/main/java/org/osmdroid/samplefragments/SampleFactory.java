@@ -49,6 +49,7 @@ import org.osmdroid.samplefragments.location.SampleRotation;
 import org.osmdroid.samplefragments.tileproviders.GeopackageSample;
 import org.osmdroid.samplefragments.tileproviders.MapsforgeTileProviderSample;
 import org.osmdroid.samplefragments.tileproviders.SampleAssetsOnly;
+import org.osmdroid.samplefragments.tileproviders.SampleOfflineGemfOnly;
 import org.osmdroid.samplefragments.tilesources.SampleBingHybrid;
 import org.osmdroid.samplefragments.tilesources.SampleBingRoad;
 import org.osmdroid.samplefragments.tilesources.SampleCopyrightOverlay;
@@ -200,9 +201,11 @@ public final class SampleFactory implements ISampleFactory {
         //55
         mSamples.add(AnimatedMarker.class);
         //56
+        mSamples.add(SampleOfflineGemfOnly.class);
+        //57
         if (Build.VERSION.SDK_INT >= 10)
             mSamples.add(MapsforgeTileProviderSample.class);
-        //57
+        //58
         if (Build.VERSION.SDK_INT >= 14)
             mSamples.add(GeopackageSample.class);
     }
