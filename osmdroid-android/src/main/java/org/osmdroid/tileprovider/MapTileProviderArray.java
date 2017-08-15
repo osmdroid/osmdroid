@@ -90,58 +90,56 @@ public class MapTileProviderArray extends MapTileProviderBase {
 		super.detach();
 	}
 
+	/**
+	 * @since 6.0
+	 */
+	protected boolean isDowngradedMode() {
+		return false;
+	}
+
 	@Override
 	public Drawable getMapTile(final MapTile pTile) {
 		final Drawable tile = mTileCache.getMapTile(pTile);
-		if (tile != null && !ExpirableBitmapDrawable.isDrawableExpired(tile)) {
-			return tile;
-		} else {
-			boolean alreadyInProgress = false;
-			synchronized (mWorking) {
-				alreadyInProgress = mWorking.containsKey(pTile);
+		if (tile != null) {
+			if (ExpirableBitmapDrawable.getState(tile) == ExpirableBitmapDrawable.UP_TO_DATE) {
+				return tile; // best scenario ever
 			}
-
-			if (!alreadyInProgress) {
-				if (Configuration.getInstance().isDebugTileProviders()) {
-                         Log.d(IMapView.LOGTAG,"MapTileProviderArray.getMapTile() requested but not in cache, trying from async providers: "
-							+ pTile);
-				}
-
-				final MapTileRequestState state;
-				synchronized (mTileProviderList) {
-					final MapTileModuleProviderBase[] providerArray =
-						new MapTileModuleProviderBase[mTileProviderList.size()];
-					state = new MapTileRequestState(pTile,
-							mTileProviderList.toArray(providerArray), this);
-				}
-
-				synchronized (mWorking) {
-					// Check again
-					alreadyInProgress = mWorking.containsKey(pTile);
-					if (alreadyInProgress) {
-						return tile;
-					}
-
-					mWorking.put(pTile, state);
-				}
-
-				final MapTileModuleProviderBase provider = findNextAppropriateProvider(state);
-				if (provider != null) {
-					provider.loadMapTileAsync(state);
-				} else {
-					mapTileRequestFailed(state);
-				}
+			if (isDowngradedMode()) {
+				return tile; // best we can, considering
 			}
+		}
+		if (mWorking.containsKey(pTile)) { // already in progress
 			return tile;
 		}
+
+		if (Configuration.getInstance().isDebugTileProviders()) {
+			Log.d(IMapView.LOGTAG,"MapTileProviderArray.getMapTile() requested but not in cache, trying from async providers: "
+					+ pTile);
+		}
+
+		final MapTileRequestState state = new MapTileRequestState(pTile, mTileProviderList, this);
+
+		synchronized (mWorking) {
+			// Check again
+			if (mWorking.containsKey(pTile)) {
+				return tile;
+			}
+			mWorking.put(pTile, state);
+		}
+
+		final MapTileModuleProviderBase provider = findNextAppropriateProvider(state);
+		if (provider != null) {
+			provider.loadMapTileAsync(state);
+		} else {
+			mapTileRequestFailed(state);
+		}
+		return tile;
 	}
 
 	@Override
 	public void mapTileRequestCompleted(final MapTileRequestState aState, final Drawable aDrawable) {
 		synchronized (mWorking) {
 			mWorking.remove(aState.getMapTile());
-			// https://github.com/osmdroid/osmdroid/issues/272
-			mTileCache.putTile(aState.getMapTile(), aDrawable);
 		}
 
 		super.mapTileRequestCompleted(aState, aDrawable);

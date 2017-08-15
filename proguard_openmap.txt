@@ -178,3 +178,7 @@
 #-keep class  sun.misc.** {*;}
 #-keep class javax.lang.model.element.** {*;}
 #-keep class java.beans.** {*;}
+
+
+# https://github.com/osmdroid/osmdroid/issues/633 SDK version 26
+-dontwarn org.osmdroid.tileprovider.modules.NetworkAvailabliltyCheck

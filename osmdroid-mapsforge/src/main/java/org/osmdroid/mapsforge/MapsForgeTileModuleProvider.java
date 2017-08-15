@@ -57,7 +57,7 @@ public class MapsForgeTileModuleProvider extends MapTileFileStorageProviderBase 
     }
 
     @Override
-    protected Runnable getTileLoader() {
+    public TileLoader getTileLoader() {
         return new TileLoader();
     }
 
@@ -87,15 +87,14 @@ public class MapsForgeTileModuleProvider extends MapTileFileStorageProviderBase 
     private class TileLoader extends MapTileModuleProviderBase.TileLoader {
 
         @Override
-        public Drawable loadTile(final MapTileRequestState pState) {
+        public Drawable loadTile(final MapTile pTile) {
             //TODO find a more efficient want to do this, seems overly complicated
-            MapTile mapTile = pState.getMapTile();
             String dbgPrefix = null;
             if (Configuration.getInstance().isDebugTileProviders()) {
-                dbgPrefix = "MapsForgeTileModuleProvider.TileLoader.loadTile(" + mapTile + "): ";
+                dbgPrefix = "MapsForgeTileModuleProvider.TileLoader.loadTile(" + pTile + "): ";
                 Log.d(IMapView.LOGTAG,dbgPrefix + "tileSource.renderTile");
             }
-            Drawable image= tileSource.renderTile(mapTile);
+            Drawable image= tileSource.renderTile(pTile);
             if (image!=null && image instanceof BitmapDrawable) {
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
                 ((BitmapDrawable)image).getBitmap().compress(Bitmap.CompressFormat.PNG, 100, stream);
@@ -104,10 +103,10 @@ public class MapsForgeTileModuleProvider extends MapTileFileStorageProviderBase 
                 if (Configuration.getInstance().isDebugTileProviders()) {
                     Log.d(IMapView.LOGTAG, dbgPrefix +
                             "save tile " + bitmapdata.length +
-                            " bytes to " + tileSource.getTileRelativeFilenameString(mapTile));
+                            " bytes to " + tileSource.getTileRelativeFilenameString(pTile));
                 }
 
-                tilewriter.saveFile(tileSource, mapTile, new ByteArrayInputStream(bitmapdata));
+                tilewriter.saveFile(tileSource, pTile, new ByteArrayInputStream(bitmapdata));
             }
             return image;
         }

@@ -47,7 +47,7 @@ public class Bug512CacheManagerWp extends BaseSampleFragment implements CacheMan
         return root;
     }
 
-    CacheManager.DownloadingTask downloadingTask=null;
+    CacheManager.CacheManagerTask downloadingTask=null;
 
     public void runTestProcedures() throws Exception{
         final CacheManager mgr = new CacheManager(mMapView);

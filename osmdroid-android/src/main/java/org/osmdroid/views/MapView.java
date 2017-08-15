@@ -6,9 +6,7 @@ import java.lang.reflect.Method;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
-
-import microsoft.mappoint.TileSystem;
+import java.util.concurrent.atomic.AtomicReference;
 
 import org.metalev.multitouch.controller.MultiTouchController;
 import org.metalev.multitouch.controller.MultiTouchController.MultiTouchObjectCanvas;
@@ -34,6 +32,7 @@ import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.GeometryMath;
+import org.osmdroid.util.TileSystem;
 import org.osmdroid.views.overlay.DefaultOverlayManager;
 import org.osmdroid.views.overlay.Overlay;
 import org.osmdroid.views.overlay.OverlayManager;
@@ -81,7 +80,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	// ===========================================================
 
 	/** Current zoom level for map tiles. */
-	private int mZoomLevel = 0;
+	private double mZoomLevel = 0;
 
 	private OverlayManager mOverlayManager;
 
@@ -95,7 +94,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	private final Scroller mScroller;
 	protected boolean mIsFlinging;
 
-	protected final AtomicInteger mTargetZoomLevel = new AtomicInteger();
+	protected final AtomicReference<Double> mTargetZoomLevel = new AtomicReference<>();
 	protected final AtomicBoolean mIsAnimating = new AtomicBoolean(false);
 
 	protected Integer mMinimumZoomLevel;
@@ -372,13 +371,14 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	/**
 	 * @param aZoomLevel
 	 *            the zoom level bound by the tile source
+	 * Used to be an int - is a double since 6.0
 	 */
-	int setZoomLevel(final int aZoomLevel) {
+	double setZoomLevel(final double aZoomLevel) {
 		final int minZoomLevel = getMinZoomLevel();
 		final int maxZoomLevel = getMaxZoomLevel();
 
-		final int newZoomLevel = Math.max(minZoomLevel, Math.min(maxZoomLevel, aZoomLevel));
-		final int curZoomLevel = this.mZoomLevel;
+		final double newZoomLevel = Math.max(minZoomLevel, Math.min(maxZoomLevel, aZoomLevel));
+		final double curZoomLevel = this.mZoomLevel;
 
 		if (newZoomLevel != curZoomLevel) {
 			if (mScroller!=null)	//fix for edit mode in the IDE
@@ -481,8 +481,17 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	 * @return the current ZoomLevel between 0 (equator) and 18/19(closest), depending on the tile
 	 *         source chosen.
 	 */
+	@Deprecated
 	@Override
 	public int getZoomLevel() {
+		return (int) getZoomLevelDouble();
+	}
+
+	/**
+	 * @since 6.0
+	 */
+	@Override
+	public double getZoomLevelDouble() {
 		return getZoomLevel(true);
 	}
 
@@ -492,9 +501,10 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	 * @param aPending
 	 *            if true and we're animating then return the zoom level that we're animating
 	 *            towards, otherwise return the current zoom level
+	 * Used to be an int - is a double since 6.0
 	 * @return the zoom level
 	 */
-	public int getZoomLevel(final boolean aPending) {
+	public double getZoomLevel(final boolean aPending) {
 		if (aPending && isAnimating()) {
 			return mTargetZoomLevel.get();
 		} else {
@@ -761,8 +771,18 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 	}
 
-	@Override
-	protected void onLayout(final boolean changed, final int l, final int t, final int r,
+    @Override
+    protected void onLayout(final boolean changed, final int l, final int t, final int r,
+                            final int b) {
+        myOnLayout(changed, l, t, r, b);
+    }
+
+    /**
+     * Code was moved from {@link #onLayout(boolean, int, int, int, int)}
+     * in order to avoid Android Studio warnings on direct calls
+     * @since 5.6.6
+     */
+	protected void myOnLayout(final boolean changed, final int l, final int t, final int r,
 			final int b) {
 		final int count = getChildCount();
 
@@ -1006,7 +1026,8 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 	@Override
 	public void scrollTo(int x, int y) {
-		final int worldSize = TileSystem.MapSize(this.getZoomLevel(false));
+		final double currentZoomLevel = this.getZoomLevel(false);
+		final double worldSize = TileSystem.MapSize(currentZoomLevel);
 		while (x < 0) {
 			x += worldSize;
 		}
@@ -1021,12 +1042,13 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		}
 
 		if (mScrollableAreaLimit != null) {
-			final int zoomDiff = microsoft.mappoint.TileSystem.getMaximumZoomLevel()
-					- getZoomLevel(false);
-			final int minX = (mScrollableAreaLimit.left >> zoomDiff);
-			final int minY = (mScrollableAreaLimit.top >> zoomDiff);
-			final int maxX = (mScrollableAreaLimit.right >> zoomDiff);
-			final int maxY = (mScrollableAreaLimit.bottom >> zoomDiff);
+			final double zoomDiff = microsoft.mappoint.TileSystem.getMaximumZoomLevel()
+					- currentZoomLevel;
+			final double power = TileSystem.getFactor(zoomDiff);
+			final int minX = (int)(mScrollableAreaLimit.left / power);
+			final int minY = (int)(mScrollableAreaLimit.top / power);
+			final int maxX = (int)(mScrollableAreaLimit.right / power);
+			final int maxY = (int)(mScrollableAreaLimit.bottom / power);
 
 			final int scrollableWidth = maxX - minX;
 			final int scrollableHeight = maxY - minY;
@@ -1059,7 +1081,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 		// Force a layout, so that children are correctly positioned according to map orientation
 		if (getMapOrientation() != 0f)
-			onLayout(true, getLeft(), getTop(), getRight(), getBottom());
+			myOnLayout(true, getLeft(), getTop(), getRight(), getBottom());
 
 		// do callback on listener
 		if (mListener != null) {
@@ -1172,7 +1194,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 			final int scaleDiffInt = Math.round(scaleDiffFloat);
 			// If we are changing zoom levels,
 			// adjust the center point in respect to the scaling point
-			if (scaleDiffInt != 0) {
+			if (scaleDiffFloat != 0) {
 				final Rect screenRect = getProjection().getScreenRect();
 				getProjection().unrotateAndScalePoint(screenRect.centerX(), screenRect.centerY(),
 						mRotateScalePoint);
@@ -1182,7 +1204,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 			}
 
 			// Adjust the zoomLevel
-			setZoomLevel(mZoomLevel + scaleDiffInt);
+			setZoomLevel(mZoomLevel + scaleDiffFloat);
 		}
 
 		// reset scale
@@ -1310,11 +1332,11 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 				return true;
 			}
 
-			final int worldSize = TileSystem.MapSize(MapView.this.getZoomLevel(false));
+			final double worldSize = TileSystem.MapSize(MapView.this.getZoomLevel(false));
 			mIsFlinging = true;
 			if (mScroller!=null)	//fix for edit mode in the IDE
 				mScroller.fling(getScrollX(), getScrollY(), (int) -velocityX, (int) -velocityY,
-						-worldSize, worldSize, -worldSize, worldSize);
+						-(int)worldSize, (int)worldSize, -(int)worldSize, (int)worldSize);
 			return true;
 		}
 

@@ -223,7 +223,7 @@ public class SampleOsmPath extends BaseSampleFragment implements MapListener {
 	@Override
 	public void runTestProcedures(){
 		final GeoPoint geoPoint = new GeoPoint(40.886788, -73.959232);
-		while (mMapView.getZoomLevel() < mMapView.getMaxZoomLevel()){
+		while (mMapView.getZoomLevelDouble() < mMapView.getMaxZoomLevel()){
 			getActivity().runOnUiThread(new Runnable() {
 				@Override
 				public void run() {
@@ -240,7 +240,7 @@ public class SampleOsmPath extends BaseSampleFragment implements MapListener {
 
 
 		final GeoPoint geoPoint2 = new GeoPoint(40.796788, -73.949232);
-		while (mMapView.getZoomLevel() < mMapView.getMaxZoomLevel()){
+		while (mMapView.getZoomLevelDouble() < mMapView.getMaxZoomLevel()){
 			getActivity().runOnUiThread(new Runnable() {
 				@Override
 				public void run() {

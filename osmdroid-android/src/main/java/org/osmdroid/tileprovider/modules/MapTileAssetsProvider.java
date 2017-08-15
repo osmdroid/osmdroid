@@ -95,7 +95,7 @@ public class MapTileAssetsProvider extends MapTileFileStorageProviderBase {
 	}
 
 	@Override
-	protected Runnable getTileLoader() {
+	public TileLoader getTileLoader() {
 		return new TileLoader(mAssets);
 	}
 
@@ -129,16 +129,14 @@ public class MapTileAssetsProvider extends MapTileFileStorageProviderBase {
 		}
 
 		@Override
-		public Drawable loadTile(final MapTileRequestState pState) throws CantContinueException {
+		public Drawable loadTile(final MapTile pTile) throws CantContinueException {
 			ITileSource tileSource = mTileSource.get();
 			if (tileSource == null) {
 				return null;
 			}
 
-			final MapTile tile = pState.getMapTile();
-
 			try {
-				InputStream is = mAssets.open(tileSource.getTileRelativeFilenameString(tile));
+				InputStream is = mAssets.open(tileSource.getTileRelativeFilenameString(pTile));
 				final Drawable drawable = tileSource.getDrawable(is);
 				if (drawable != null) {
 					//https://github.com/osmdroid/osmdroid/issues/272 why was this set to expired?

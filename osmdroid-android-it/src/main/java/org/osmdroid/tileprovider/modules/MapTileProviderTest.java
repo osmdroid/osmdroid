@@ -57,10 +57,10 @@ public class MapTileProviderTest extends AndroidTestCase {
 		}
 
 		@Override
-		protected Runnable getTileLoader() {
+		public TileLoader getTileLoader() {
 			return new TileLoader() {
 				@Override
-				protected Drawable loadTile(final MapTileRequestState aState)
+				public Drawable loadTile(final MapTile pTile)
 						throws CantContinueException {
 					try {
 						Thread.sleep(1000);
