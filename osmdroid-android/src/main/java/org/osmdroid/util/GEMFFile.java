@@ -1,5 +1,7 @@
 package org.osmdroid.util;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -610,7 +612,28 @@ public class GEMFFile {
 			// Read data block into a byte array
 			pDataFile.seek(dataOffset);
 
-			return new GEMFInputStream(mFileNames.get(index), dataOffset, dataLength);
+
+
+			GEMFInputStream stream= new GEMFInputStream(mFileNames.get(index), dataOffset, dataLength);
+			// this dynamically extends to take the bytes you read
+			ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
+
+			// this is storage overwritten on each iteration with bytes
+			int bufferSize = 1024;
+			byte[] buffer = new byte[bufferSize];
+
+			// we need to know how may bytes were read to write them to the byteBuffer
+			int len = 0;
+			while (stream.available()>0)
+			{
+				len = stream.read(buffer);
+				if (len>0)
+					byteBuffer.write(buffer, 0, len);
+			}
+
+			// and then we can return your byte array.
+			byte[] bits = byteBuffer.toByteArray();
+			return new ByteArrayInputStream(bits);
 
 		} catch (final java.io.IOException e) {
 			return null;

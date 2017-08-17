@@ -406,7 +406,7 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback {
 
 			if (oldDrawable instanceof BitmapDrawable) {
 				final Bitmap bitmap = MapTileApproximater.approximateTileFromLowerZoom(
-						mTileSize, (BitmapDrawable)oldDrawable, pTile, mDiff);
+						(BitmapDrawable)oldDrawable, pTile, mDiff);
 				if (bitmap != null) {
 					mNewTiles.put(pTile, bitmap);
 				}

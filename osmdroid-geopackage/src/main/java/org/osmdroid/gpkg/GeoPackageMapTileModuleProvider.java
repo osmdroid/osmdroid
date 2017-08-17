@@ -182,10 +182,7 @@ public class GeoPackageMapTileModuleProvider extends MapTileModuleProviderBase {
     protected class TileLoader extends MapTileModuleProviderBase.TileLoader {
 
         @Override
-        public Drawable loadTile(final MapTileRequestState pState) {
-
-            final MapTile pTile = pState.getMapTile();
-
+        public Drawable loadTile(final MapTile pTile) {
             try {
                 Drawable mapTile = getMapTile(pTile);
                 return mapTile;
@@ -209,7 +206,7 @@ public class GeoPackageMapTileModuleProvider extends MapTileModuleProviderBase {
     }
 
     @Override
-    protected Runnable getTileLoader() {
+    public TileLoader getTileLoader() {
         return new TileLoader();
     }
 

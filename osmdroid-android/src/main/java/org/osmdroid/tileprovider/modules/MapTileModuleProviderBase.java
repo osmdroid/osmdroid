@@ -48,7 +48,7 @@ public abstract class MapTileModuleProviderBase {
 	 *
 	 * @return the internal member of this tile provider.
 	 */
-	protected abstract Runnable getTileLoader();
+	public abstract TileLoader getTileLoader();
 
 	/**
 	 * Returns true if implementation uses a data connection, false otherwise. This value is used to
@@ -185,18 +185,25 @@ public abstract class MapTileModuleProviderBase {
 	 * to acquire tiles from servers. It processes tiles from the 'pending' set to the 'working' set
 	 * as they become available. The key unimplemented method is 'loadTile'.
 	 */
-	protected abstract class TileLoader implements Runnable {
+	public abstract class TileLoader implements Runnable {
 
 		/**
 		 * Load the requested tile.
 		 *
+		 * @since 5.6.6
 		 * @return the tile if it was loaded successfully, or null if failed to
 		 *         load and other tile providers need to be called
-		 * @param pState
+		 * @param pTile
 		 * @throws CantContinueException
 		 */
-		protected abstract Drawable loadTile(MapTileRequestState pState)
+		public abstract Drawable loadTile(final MapTile pTile)
 				throws CantContinueException;
+
+		@Deprecated
+		protected Drawable loadTile(MapTileRequestState pState)
+				throws CantContinueException {
+			return loadTile(pState.getMapTile());
+		}
 
 		protected void onTileLoaderInit() {
 			// Do nothing by default
@@ -307,7 +314,7 @@ public abstract class MapTileModuleProviderBase {
 				}
 				try {
 					result = null;
-					result = loadTile(state);
+					result = loadTile(state.getMapTile());
 				} catch (final CantContinueException e) {
 					Log.i(IMapView.LOGTAG,"Tile loader can't continue: " + state.getMapTile(), e);
 					clearQueue();
