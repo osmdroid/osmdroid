@@ -15,6 +15,7 @@ import org.osmdroid.samplefragments.cache.SampleJumboCache;
 import org.osmdroid.samplefragments.cache.SampleSqliteOnly;
 import org.osmdroid.samplefragments.data.AnimatedMarker;
 import org.osmdroid.samplefragments.data.AsyncTaskDemoFragment;
+import org.osmdroid.samplefragments.data.GeopackageFeatures;
 import org.osmdroid.samplefragments.data.Gridlines2;
 import org.osmdroid.samplefragments.data.HeatMap;
 import org.osmdroid.samplefragments.data.SampleGridlines;
@@ -209,8 +210,10 @@ public final class SampleFactory implements ISampleFactory {
         if (Build.VERSION.SDK_INT >= 10)
             mSamples.add(MapsforgeTileProviderSample.class);
         //59
-        if (Build.VERSION.SDK_INT >= 14)
+        if (Build.VERSION.SDK_INT >= 14) {
             mSamples.add(GeopackageSample.class);
+            mSamples.add(GeopackageFeatures.class);
+        }
     }
 
     public void addSample(Class<? extends BaseSampleFragment> clz) {
