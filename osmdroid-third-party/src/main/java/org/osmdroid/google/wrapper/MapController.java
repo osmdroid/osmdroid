@@ -25,6 +25,11 @@ public class MapController implements IMapController {
 	}
 
 	@Override
+	public void animateTo(int x, int y) {
+		mController.animateTo(new com.google.android.maps.GeoPoint((y), (x)));
+	}
+
+	@Override
 	public void setCenter(final IGeoPoint pGeoPoint) {
 		mController.setCenter(new com.google.android.maps.GeoPoint((int)(pGeoPoint.getLatitude()), (int)(pGeoPoint.getLongitude())));
 	}
@@ -48,8 +53,23 @@ public class MapController implements IMapController {
 	}
 
 	@Override
+	public boolean zoomIn(Long animationSpeed) {
+		return zoomIn();
+	}
+
+	@Override
+	public boolean zoomInFixing(int xPixel, int yPixel, Long zoomAnimation) {
+		return this.zoomInFixing(xPixel,yPixel);
+	}
+
+	@Override
 	public boolean zoomInFixing(final int xPixel, final int yPixel) {
 		return mController.zoomInFixing(xPixel, yPixel);
+	}
+
+	@Override
+	public boolean zoomOut(Long animationSpeed) {
+		return zoomOut();
 	}
 
 	@Override
@@ -76,8 +96,28 @@ public class MapController implements IMapController {
 	}
 
 	@Override
+	public boolean zoomTo(int zoomLevel, Long animationSpeed) {
+		return zoomTo(zoomLevel);
+	}
+
+	@Override
+	public boolean zoomToFixing(int zoomLevel, int xPixel, int yPixel, Long zoomAnimationSpeed) {
+		return this.zoomToFixing(zoomLevel, xPixel,yPixel);
+	}
+
+	@Override
+	public boolean zoomTo(double pZoomLevel, Long animationSpeed) {
+		return this.zoomTo((int)pZoomLevel);
+	}
+
+	@Override
 	public boolean zoomToFixing(int zoomLevel, int xPixel, int yPixel) {
 		return setZoom(zoomLevel) > 0;
+	}
+
+	@Override
+	public boolean zoomToFixing(double zoomLevel, int xPixel, int yPixel, Long zoomAnimationSpeed) {
+		return this.zoomToFixing((int)zoomLevel,xPixel,yPixel);
 	}
 
 	/**
