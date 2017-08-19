@@ -7,6 +7,8 @@ rootProject.name = 'osmdroid-parent'
 
 //libraries
 include ':osmdroid-android'
+include ':osmdroid-mapsforge'
+include ':osmdroid-geopackage'
 
 //sample apps
 include ':OpenStreetMapViewer'
