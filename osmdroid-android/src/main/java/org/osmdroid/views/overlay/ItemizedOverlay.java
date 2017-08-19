@@ -2,6 +2,7 @@
 package org.osmdroid.views.overlay;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
@@ -40,6 +41,7 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends Overlay 
 
 	protected final Drawable mDefaultMarker;
 	private final ArrayList<Item> mInternalItemList;
+	private boolean[] mInternalItemDisplayedList;
 	private final Rect mRect = new Rect();
 	private final Point mCurScreenCoords = new Point();
 	protected boolean mDrawFocusedItem = true;
@@ -132,7 +134,10 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends Overlay 
         mPendingFocusChangedEvent = false;
 
         final Projection pj = mapView.getProjection();
-        final int size = this.mInternalItemList.size() - 1;
+        final int size = this.mInternalItemList.size();
+		if (mInternalItemDisplayedList == null || mInternalItemDisplayedList.length != size) {
+			mInternalItemDisplayedList = new boolean[size];
+		}
 
           canvas.getMatrix(mMatrix);
           mMatrix.getValues(mMatrixValues);
@@ -144,7 +149,7 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends Overlay 
                * mMatrixValues[Matrix.MSCALE_Y] + mMatrixValues[Matrix.MSKEW_X]
                * mMatrixValues[Matrix.MSKEW_X]);
 		/* Draw in backward cycle, so the items with the least index are on the front. */
-        for (int i = size; i >= 0; i--) {
+        for (int i = size - 1; i >= 0; i--) {
             final Item item = getItem(i);
             if (item == null) {
                 continue;
@@ -152,7 +157,7 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends Overlay 
 
             pj.toPixels(item.getPoint(), mCurScreenCoords);
 
-           onDrawItem(canvas,item, mCurScreenCoords, mapView.getMapOrientation());
+			mInternalItemDisplayedList[i] = onDrawItem(canvas,item, mCurScreenCoords, mapView.getMapOrientation());
         }
     }
 
@@ -172,6 +177,7 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends Overlay 
 		for (int a = 0; a < size; a++) {
 			mInternalItemList.add(createItem(a));
 		}
+		mInternalItemDisplayedList = null;
 	}
 
 	/**
@@ -198,8 +204,9 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends Overlay 
 	 *            the item to be drawn
 	 * @param curScreenCoords
 	 * @param aMapOrientation
+	 * @return true if the item was actually drawn
 	 */
-	protected void onDrawItem(final Canvas canvas, final Item item, final Point curScreenCoords,
+	protected boolean onDrawItem(final Canvas canvas, final Item item, final Point curScreenCoords,
 			final float aMapOrientation) {
 
 		
@@ -220,9 +227,13 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends Overlay 
 		marker.copyBounds(mRect);
 		marker.setBounds(mRect.left + x, mRect.top + y, mRect.right + x, mRect.bottom + y);
 		canvas.scale(1 / scaleX, 1 / scaleY, x, y);
-		marker.draw(canvas);
+		final boolean displayed = Rect.intersects(marker.getBounds(), canvas.getClipBounds());
+		if (displayed) {
+			marker.draw(canvas);
+		}
 		marker.setBounds(mRect);
 		canvas.restore();
+		return displayed;
 		/*
 		final int state = (mDrawFocusedItem && (mFocusedItem == item) ? OverlayItem.ITEM_STATE_FOCUSED_MASK
 				: 0);
@@ -234,6 +245,27 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends Overlay 
 
 		// draw it
 		Overlay.drawAt(canvas, marker, curScreenCoords.x, curScreenCoords.y, false, aMapOrientation);*/
+	}
+
+	/**
+	 * Get the list of all the items that are currently drawn on the canvas.
+	 * The obvious use case is a "share" or "export" button on a map, restricted to what is displayed.
+	 * The order of the items is kept
+	 *
+	 * @since 5.6.7
+	 * @return the items that have actually been drawn
+	 */
+	public List<Item> getDisplayedItems() {
+		final List<Item> result = new ArrayList<>();
+		if (mInternalItemDisplayedList == null) {
+			return result;
+		}
+		for (int i = 0 ; i < mInternalItemDisplayedList.length ; i ++) {
+			if (mInternalItemDisplayedList[i]) {
+				result.add(getItem(i));
+			}
+		}
+		return result;
 	}
 
 	protected Drawable getDefaultMarker(final int state) {
