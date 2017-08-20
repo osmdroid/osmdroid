@@ -22,6 +22,7 @@ import org.osmdroid.events.ZoomEvent;
 import org.osmdroid.gpkg.GeoPackageMapTileModuleProvider;
 import org.osmdroid.gpkg.GeoPackageProvider;
 import org.osmdroid.samplefragments.BaseSampleFragment;
+import org.osmdroid.tileprovider.MapTileProviderBasic;
 import org.osmdroid.tileprovider.tilesource.XYTileSource;
 import org.osmdroid.tileprovider.util.StorageUtils;
 import org.osmdroid.views.MapView;

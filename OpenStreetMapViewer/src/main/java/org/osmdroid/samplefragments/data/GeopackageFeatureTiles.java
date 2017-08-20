@@ -19,8 +19,9 @@ import org.osmdroid.config.Configuration;
 import org.osmdroid.events.MapListener;
 import org.osmdroid.events.ScrollEvent;
 import org.osmdroid.events.ZoomEvent;
+import org.osmdroid.gpkg.GeoPackageFeatureTileProvider;
 import org.osmdroid.gpkg.GeoPackageProvider;
-import org.osmdroid.gpkg.features.OsmMapShapeConverter;
+import org.osmdroid.gpkg.GeopackageFeatureTilesOverlay;
 import org.osmdroid.samplefragments.BaseSampleFragment;
 import org.osmdroid.tileprovider.tilesource.XYTileSource;
 import org.osmdroid.tileprovider.util.StorageUtils;
@@ -34,27 +35,15 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import mil.nga.geopackage.GeoPackage;
-import mil.nga.geopackage.GeoPackageManager;
-import mil.nga.geopackage.factory.GeoPackageFactory;
-import mil.nga.geopackage.features.user.FeatureCursor;
-import mil.nga.geopackage.features.user.FeatureDao;
-import mil.nga.geopackage.features.user.FeatureRow;
-import mil.nga.geopackage.geom.GeoPackageGeometryData;
-import mil.nga.wkb.geom.Geometry;
-
 import static org.osmdroid.samplefragments.events.SampleMapEventListener.df;
 
 /**
- * One way for viewing geopackage tiles to the osmdroid view
- * <p>
- * created on 1/12/2017.
+ * created on 8/19/2017.
  *
  * @author Alex O'Ree
- * @since 5.6.3
  */
 
-public class GeopackageFeatures extends BaseSampleFragment {
+public class GeopackageFeatureTiles extends BaseSampleFragment {
     TextView textViewCurrentLocation;
     GeoPackageProvider.TileSourceBounds tileSourceBounds;
     XYTileSource currentSource = null;
@@ -63,7 +52,7 @@ public class GeopackageFeatures extends BaseSampleFragment {
 
     @Override
     public String getSampleTitle() {
-        return "Geopackage Features";
+        return "Geopackage Feature Tiles";
     }
 
     @Override
@@ -152,46 +141,28 @@ public class GeopackageFeatures extends BaseSampleFragment {
 
         } else {
             Toast.makeText(getContext(), "Loaded " + maps.length + " map files", Toast.LENGTH_LONG).show();
-// Get a manager
-            GeoPackageManager manager = GeoPackageFactory.getManager(getContext());
-
-// Available databases
-            List<String> databases = manager.databases();
-
-// Import database
-            for (File f : maps) {
-                try {
-                    boolean imported = manager.importGeoPackage(f);
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-            }
 
 
-// Open database
-            GeoPackage geoPackage = manager.open(databases.get(0));
+            GeoPackageFeatureTileProvider provider = new GeoPackageFeatureTileProvider(
+                new XYTileSource(
+                    "GeoPackage1",0,22,256,"png",new String[0])
+                );
+            GeopackageFeatureTilesOverlay overlay = new GeopackageFeatureTilesOverlay(provider,getContext(), maps);
 
-            OsmMapShapeConverter converter = new OsmMapShapeConverter(null);
-            // Feature and tile tables
-            List<String> features = geoPackage.getFeatureTables();
-            // Query Features
-            String featureTable = features.get(1);
-            FeatureDao featureDao = geoPackage.getFeatureDao(featureTable);
-            FeatureCursor featureCursor = featureDao.queryForAll();
+            String db = overlay.getDatabases().get(0);
+            String feature = null;
+
+            //our test database has issues with the first feature table, this the reason for the 1 index
+            //you can get the test data set here: http://www.gadm.org/download
             try {
-                while (featureCursor.moveToNext()) {
-                    try {
-                        FeatureRow featureRow = featureCursor.getRow();
-                        GeoPackageGeometryData geometryData = featureRow.getGeometry();
-                        Geometry geometry = geometryData.getGeometry();
-                        converter.addToMap(mMapView, geometry);
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
-                    }
-                    // ...
-                }
-            } finally {
-                featureCursor.close();
+                List<String> featureTable = overlay.getFeatureTable(db);
+                feature = featureTable .get(1);
+                overlay.setDatabaseAndFeatureTable(db, feature);
+                mMapView.getOverlayManager().add(overlay);
+            } catch (Exception e) {
+                //usually an i/o issue
+                e.printStackTrace();
+
             }
 
 
@@ -244,7 +215,7 @@ public class GeopackageFeatures extends BaseSampleFragment {
         IGeoPoint mapCenter = mMapView.getMapCenter();
         sb.append(df.format(mapCenter.getLatitude()) + "," +
             df.format(mapCenter.getLongitude())
-            + ",zoom=" + mMapView.getZoomLevel());
+            + ",zoom=" + mMapView.getZoomLevelDouble());
 
         if (currentSource != null) {
             sb.append("\n");

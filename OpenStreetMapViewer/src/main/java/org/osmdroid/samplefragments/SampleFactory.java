@@ -4,6 +4,7 @@ package org.osmdroid.samplefragments;
 import android.os.Build;
 
 import org.osmdroid.ISampleFactory;
+import org.osmdroid.gpkg.GeoPackageFeatureTileProvider;
 import org.osmdroid.samplefragments.animations.FastZoomSpeedAnimations;
 import org.osmdroid.samplefragments.cache.CacheImport;
 import org.osmdroid.samplefragments.cache.CachePurge;
@@ -15,6 +16,7 @@ import org.osmdroid.samplefragments.cache.SampleJumboCache;
 import org.osmdroid.samplefragments.cache.SampleSqliteOnly;
 import org.osmdroid.samplefragments.data.AnimatedMarker;
 import org.osmdroid.samplefragments.data.AsyncTaskDemoFragment;
+import org.osmdroid.samplefragments.data.GeopackageFeatureTiles;
 import org.osmdroid.samplefragments.data.GeopackageFeatures;
 import org.osmdroid.samplefragments.data.Gridlines2;
 import org.osmdroid.samplefragments.data.HeatMap;
@@ -213,6 +215,7 @@ public final class SampleFactory implements ISampleFactory {
         if (Build.VERSION.SDK_INT >= 14) {
             mSamples.add(GeopackageSample.class);
             mSamples.add(GeopackageFeatures.class);
+            mSamples.add(GeopackageFeatureTiles.class);
         }
     }
 

@@ -62,7 +62,7 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 	private Point mBottomRightMercator = new Point();
 	private Point mTilePointMercator = new Point();
 
-	private Projection mProjection;
+	protected Projection mProjection;
 	private boolean mOptionsMenuEnabled = true;
 
 	/** A drawable loading tile **/
@@ -220,7 +220,7 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 	/**
 	 * @since 6.0
 	 */
-	private class OverlayTileLooper extends TileLooper {
+	protected class OverlayTileLooper extends TileLooper {
 
 		private Canvas mCanvas;
 		private double mOutputTileSizePx;
