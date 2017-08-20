@@ -115,7 +115,7 @@ public class GeopackageFeatures extends BaseSampleFragment {
     @Override
     public void addOverlays() {
         super.addOverlays();
-        //first let's up our map source, mapsforge needs you to explicitly specify which map files to load
+        //first let's up our map source, geopackage needs you to explicitly specify which map files to load
         //this bit does some basic file system scanning
         Set<File> mapfiles = findMapFiles();
         //do a simple scan of local storage for .gpkg files.
@@ -152,13 +152,13 @@ public class GeopackageFeatures extends BaseSampleFragment {
 
         } else {
             Toast.makeText(getContext(), "Loaded " + maps.length + " map files", Toast.LENGTH_LONG).show();
-// Get a manager
+            // Get a manager
             GeoPackageManager manager = GeoPackageFactory.getManager(getContext());
 
-// Available databases
+            // Available databases
             List<String> databases = manager.databases();
 
-// Import database
+            // Import database
             for (File f : maps) {
                 try {
                     boolean imported = manager.importGeoPackage(f);
@@ -168,11 +168,11 @@ public class GeopackageFeatures extends BaseSampleFragment {
             }
 
 
-// Open database
+            // Open database
             GeoPackage geoPackage = manager.open(databases.get(0));
 
             OsmMapShapeConverter converter = new OsmMapShapeConverter(null);
-            // Feature and tile tables
+            // Feature tile tables
             List<String> features = geoPackage.getFeatureTables();
             // Query Features
             String featureTable = features.get(1);

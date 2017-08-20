@@ -106,7 +106,7 @@ public class GeopackageSample extends BaseSampleFragment {
     @Override
     public void addOverlays() {
         super.addOverlays();
-        //first let's up our map source, mapsforge needs you to explicitly specify which map files to load
+        //first let's up our map source, geopackage needs you to explicitly specify which map files to load
         //this bit does some basic file system scanning
         Set<File> mapfiles = findMapFiles();
         //do a simple scan of local storage for .gpkg files.
