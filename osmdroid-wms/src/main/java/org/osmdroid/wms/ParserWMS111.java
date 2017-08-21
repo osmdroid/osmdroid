@@ -41,8 +41,7 @@ public class ParserWMS111 {
 
 
         WMSEndpoint rets = new WMSEndpoint();
-
-
+                                                     //WMS_Capabilities
         parser.require(XmlPullParser.START_TAG, null, "WMT_MS_Capabilities");
         while (parser.next() != XmlPullParser.END_TAG) {
             if (parser.getEventType() != XmlPullParser.START_TAG) {
@@ -70,7 +69,7 @@ public class ParserWMS111 {
         }
 
         try {
-            //blah blah revised with a million null checks
+            //TODO null checks
             //look for gets
             boolean found = false;
             for (int i = 0; i < ret.getCapability().getRequest().getGetCapabilities().getDCPType().size(); i++) {
@@ -131,7 +130,7 @@ public class ParserWMS111 {
             }
 
             String name = parser.getName();
-            System.out.println("parseCapabilties/" + name);
+            //System.out.println("parseCapabilties/" + name);
             // Starts by looking for the entry tag
             if (name.equals("Request")) {
                 ret.setRequest(parseRequest(parser));
@@ -340,7 +339,7 @@ public class ParserWMS111 {
         ret.setQueryable(parser.getAttributeValue(null, "queryable"));
         while (parser.next() != XmlPullParser.END_TAG) {
 
-            System.out.println("parseLayer/" + parser.getName());
+            //System.out.println("parseLayer/" + parser.getName());
 
             if (parser.getEventType() != XmlPullParser.START_TAG) {
                 continue;

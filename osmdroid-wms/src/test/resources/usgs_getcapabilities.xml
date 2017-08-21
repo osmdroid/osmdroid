@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- pulled from http://basemap.nationalmap.gov/arcgis/services/USGSTopo/MapServer/WMSServer?request=GetCapabilities&service=WMS
-8 jan 2016-->
 <WMS_Capabilities version="1.3.0"
     xmlns="http://www.opengis.net/wms"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:esri_wms="http://www.esri.com/wms"
     xsi:schemaLocation="http://www.opengis.net/wms http://schemas.opengis.net/wms/1.3.0/capabilities_1_3_0.xsd http://www.esri.com/wms http://basemap.nationalmap.gov/arcgis/services/USGSTopo/MapServer/WmsServer?version=1.3.0%26service=WMS%26request=GetSchemaExtension">
-    <Service>
+    <!-- pulled from http://basemap.nationalmap.gov/arcgis/services/USGSTopo/MapServer/WMSServer?request=GetCapabilities&service=WMS
+8 jan 2016--><Service>
         <Name><![CDATA[WMS]]></Name>
         <Title>WMS</Title>
         <Abstract>WMS</Abstract>

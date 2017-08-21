@@ -42,21 +42,26 @@ public class ParserTest{
 
     }
 
+    @Ignore
     @Test
     public void testUSGS() throws Exception {
         ParserWMS111 p = new  ParserWMS111();
         HttpURLConnection c = (HttpURLConnection) new URL("http://basemap.nationalmap.gov/arcgis/services/USGSTopo/MapServer/WMSServer?request=GetCapabilities&service=WMS").openConnection();
         InputStream is = c.getInputStream();
-        WMSEndpoint parse = p.parse(is);
-        Assert.assertNotNull(parse);
+        WMSEndpoint cap = p.parse(is);
+        Assert.assertNotNull(cap);
 
         is.close();
         c.disconnect();
 
+        Assert.assertNotNull(cap);
+        Assert.assertNotNull(cap.baseurl);
+        Assert.assertFalse(cap.layers.isEmpty());
+
     }
 
-    @Test
     @Ignore
+    @Test
     public void testUSGSFile() throws Exception {
 
         ParserWMS111 p = new ParserWMS111();
@@ -69,6 +74,9 @@ public class ParserTest{
         WMSEndpoint cap = p.parse(fis);
         fis.close();
 
+        Assert.assertNotNull(cap);
+        Assert.assertNotNull(cap.baseurl);
+        Assert.assertFalse(cap.layers.isEmpty());
 
     }
 
