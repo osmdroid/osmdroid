@@ -89,7 +89,8 @@ public class ParserWMS111 {
             ex.printStackTrace();
         }
         for (int i = 0; i < ret.getCapability().getLayer().getLayer().size(); i++) {
-            if (ret.getCapability().getLayer().getLayer().get(i).getSRS().contains("EPSG:3857")) {
+            //if (ret.getCapability().getLayer().getLayer().get(i).getSRS().contains("EPSG:3857"))
+            {
                 //ok we can handle it here
 
                 WMSLayer l = new WMSLayer();
@@ -345,26 +346,26 @@ public class ParserWMS111 {
                 continue;
             }
             String name = parser.getName();
-            System.out.println("parseLayer/" + name);
+            //System.out.println("parseLayer/" + name);
             if ("Name".equals(name)) {
                 parser.next();
-                System.out.println("parseLayer/" + name + "/" + parser.getName());
+               // System.out.println("parseLayer/" + name + "/" + parser.getName());
                 ret.setName(parser.getText());
-                System.out.println("parseLayer/" + name + "/" + parser.getName());
-                parser.next();
+               // System.out.println("parseLayer/" + name + "/" + parser.getName());
+               parser.next();
             } else if (name.equals("Title")) {
                 parser.next();
-                System.out.println("parseLayer/" + name + "/" + parser.getName());
+               // System.out.println("parseLayer/" + name + "/" + parser.getName());
                 ret.setTitle(parser.getText());
                 parser.next();
-                System.out.println("parseLayer/" + name + "/" + parser.getName());
+                //System.out.println("parseLayer/" + name + "/" + parser.getName());
 
             } else if (name.equals("Abstract")) {
                 parser.next();
-                System.out.println("parseLayer/" + name + "/" + parser.getName());
+              //  System.out.println("parseLayer/" + name + "/" + parser.getName());
                 ret.setAbstract(parser.getText());
                 parser.next();
-                System.out.println("parseLayer/" + name + "/" + parser.getName());
+              //  System.out.println("parseLayer/" + name + "/" + parser.getName());
 
             } else if (name.equals("SRS")) {
                 // ret.getSRS().add(parseLayer(parser));
@@ -380,15 +381,15 @@ public class ParserWMS111 {
                 ret.getLatLonBoundingBox().setMaxy(parser.getAttributeValue(null, "maxy"));
                 ret.getLatLonBoundingBox().setMiny(parser.getAttributeValue(null, "miny"));
                 ret.getLatLonBoundingBox().setMinx(parser.getAttributeValue(null, "minx"));
-
+                parser.next();
 
             } else if (name.equals("BoundingBox")) {
-                ret.getBoundingBox().add(parseBoundingBox(parser));
+                /*ret.getBoundingBox().add(parseBoundingBox(parser));
                 ret.getLatLonBoundingBox().setMaxx(parser.getAttributeValue(null, "maxx"));
                 ret.getLatLonBoundingBox().setMaxy(parser.getAttributeValue(null, "maxy"));
                 ret.getLatLonBoundingBox().setMiny(parser.getAttributeValue(null, "miny"));
-                ret.getLatLonBoundingBox().setMinx(parser.getAttributeValue(null, "minx"));
-
+                ret.getLatLonBoundingBox().setMinx(parser.getAttributeValue(null, "minx"));*/
+                parser.next();
 
             } else if (name.equals("Layer")) {
                 ret.getLayer().add(parseLayer(parser));
