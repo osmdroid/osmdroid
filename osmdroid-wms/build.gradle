@@ -1,0 +1,43 @@
+description = 'OSMdroid Android WMS Client'
+apply plugin: 'com.android.application'
+apply from: "https://raw.githubusercontent.com/gradle-fury/gradle-fury/v1.1.3/gradle/android-support.gradle"
+
+android {
+
+    defaultConfig {
+        applicationId 'org.osmdroid.wms'
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    testOptions {
+        unitTests.all {
+            // All the usual Gradle options.
+            testLogging {
+                events "passed", "skipped", "failed", "standardOut", "standardError"
+                outputs.upToDateWhen {false}
+                showStandardStreams = true
+            }
+        }
+    }
+    packagingOptions {
+        exclude 'LICENSE.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+    }
+
+}
+
+
+
+dependencies {
+
+    compile project(':osmdroid-android')
+    compile project(':osmdroid-wms131-spec')
+    compile 'com.android.support:appcompat-v7:23.1.1'
+
+    testCompile "org.robolectric:robolectric:3.0"
+
+    testCompile 'junit:junit:4.12'
+
+
+
+}
