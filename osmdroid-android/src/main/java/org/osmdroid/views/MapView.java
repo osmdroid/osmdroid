@@ -129,6 +129,15 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	/* a point that will be reused to lay out added views */
 	private final Point mLayoutPoint = new Point();
 
+	/**
+	 * The initial center of the map
+	 * We need MapView's width and height to compute the corresponding scroll x and y
+	 * and width and height are not available right away
+	 * Therefore we can compute the scroll corresponding to the geo center
+	 * only "at an appropriate time", in our case in {@link #onLayout(boolean, int, int, int, int)}
+	 */
+	private IGeoPoint initCenter;
+
 	// Keep a set of listeners for when the maps have a layout
 	private final LinkedList<OnFirstLayoutListener> mOnFirstLayoutListeners = new LinkedList<MapView.OnFirstLayoutListener>();
 	
@@ -611,10 +620,20 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	 * @param degrees
      */
 	public void setMapOrientation(float degrees) {
+		setMapOrientation(degrees, true);
+	}
+
+	/**
+	 * There are some cases when we don't need explicit redraw
+	 * @since 5.6.6
+	 */
+	public void setMapOrientation(final float degrees, final boolean forceRedraw) {
 		mapOrientation = degrees % 360.0f;
-		// Request a layout, so that children are correctly positioned according to map orientation
-		requestLayout();
-		invalidate();
+		if (forceRedraw) {
+			// Request a layout, so that children are correctly positioned according to map orientation
+			requestLayout();
+			invalidate();
+		}
 	}
 
 	public float getMapOrientation() {
@@ -784,6 +803,11 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
      */
 	protected void myOnLayout(final boolean changed, final int l, final int t, final int r,
 			final int b) {
+		if (initCenter != null) {
+			final Point scroll = TileSystem.LatLongToPixelXY(initCenter.getLatitude(), initCenter.getLongitude(), getZoomLevelDouble(), null);
+			initCenter = null;
+			scrollTo(scroll.x - getWidth() / 2, scroll.y - getHeight() / 2);
+		}
 		final int count = getChildCount();
 
 		for (int i = 0; i < count; i++) {
@@ -1566,4 +1590,10 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		invalidate();
 	}
 
+	/**
+	 * @since 5.6.6
+	 */
+	public void setInitCenter(final IGeoPoint geoPoint) {
+		initCenter = geoPoint;
+	}
 }
