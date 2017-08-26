@@ -60,9 +60,9 @@ public class WMSParser {
         Element element=doc.getDocumentElement();
         element.normalize();
 
-        if ("WMT_MS_Capabilities".equals(element.getNodeName())) {
+        if (element.getNodeName().contains("WMT_MS_Capabilities")) {
             return DomParserWms111.parse(element);
-        } else if ("WMS_Capabilities".equals(element.getNodeName())) {
+        } else if (element.getNodeName().contains("WMS_Capabilities")) {
             return DomParserWms111.parse(element);
         }
         throw new IllegalArgumentException("Unknown root element: " + element.getNodeName());

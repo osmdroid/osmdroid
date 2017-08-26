@@ -10,11 +10,12 @@ import android.widget.EditText;
 
 import org.osmdroid.R;
 import org.osmdroid.samplefragments.data.SampleGridlines;
+import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.wms.WMSEndpoint;
 import org.osmdroid.wms.WMSLayer;
-import org.osmdroid.wms.WMSTileSource;
 import org.osmdroid.wms.WMSParser;
+import org.osmdroid.wms.WMSTileSource;
 
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -26,10 +27,10 @@ import java.net.URL;
  * created on 8/20/2017.
  *
  * @author Alex O'Ree
- * @since 5.6.5
  * @see WMSLayer
  * @see WMSParser
  * @see WMSEndpoint
+ * @since 5.6.5
  */
 
 public class SampleWMSSource extends SampleGridlines {
@@ -45,6 +46,10 @@ public class SampleWMSSource extends SampleGridlines {
         return "WMS Source";
     }
 
+    protected String getDefaultUrl() {
+        //"http://192.168.1.1:8080/geoserver/ows?service=wms&version=1.1.1&request=GetCapabilities"
+        return "http://localhost:8080/geoserver/ows?service=wms&version=1.1.1&request=GetCapabilities";
+    }
 
     @Override
     public void addOverlays() {
@@ -52,8 +57,7 @@ public class SampleWMSSource extends SampleGridlines {
         // prompt for a WMS server
         AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
         final EditText edittext = new EditText(getContext());
-        //geoserver http://192.168.1.1:8080/geoserver/ows?service=wms&version=1.1.1&request=GetCapabilities
-        edittext.setText("http://192.168.1.1:8080/geoserver/ows?service=wms&version=1.1.1&request=GetCapabilities");
+        edittext.setText(getDefaultUrl());
         alert.setMessage("Enter WMS Server Location");
         alert.setTitle("WMS Demo");
 
@@ -176,9 +180,19 @@ public class SampleWMSSource extends SampleGridlines {
                                 if (layer.getBbox() != null) {
                                     //center map on this location
                                     try {
-                                        double centerLat = (Double.parseDouble(layer.getBbox().getMaxy()) + Double.parseDouble(layer.getBbox().getMiny())) / 2;
-                                        double centerLon = (Double.parseDouble(layer.getBbox().getMaxx()) + Double.parseDouble(layer.getBbox().getMinx())) / 2;
-                                        mMapView.getController().animateTo(new GeoPoint(centerLat, centerLon));
+                                        //double centerLat = (Double.parseDouble(layer.getBbox().getMaxy()) + Double.parseDouble(layer.getBbox().getMiny())) / 2;
+                                        //double centerLon = (Double.parseDouble(layer.getBbox().getMaxx()) + Double.parseDouble(layer.getBbox().getMinx())) / 2;
+                                        //mMapView.getController().animateTo(new GeoPoint(centerLat, centerLon));
+                                        mMapView.zoomToBoundingBox(new BoundingBox(Double.parseDouble(layer.getBbox().getMaxy()),
+                                            Double.parseDouble(layer.getBbox().getMaxx()),
+                                            Double.parseDouble(layer.getBbox().getMiny()),
+                                            Double.parseDouble(layer.getBbox().getMiny())
+                                        ), true);
+                                        mMapView.zoomToBoundingBox(new BoundingBox(Double.parseDouble(layer.getBbox().getMaxy()),
+                                            Double.parseDouble(layer.getBbox().getMaxx()),
+                                            Double.parseDouble(layer.getBbox().getMiny()),
+                                            Double.parseDouble(layer.getBbox().getMiny())
+                                        ), true);
                                     } catch (java.lang.Exception ex) {
                                         ex.printStackTrace();
                                     }

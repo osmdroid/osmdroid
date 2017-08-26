@@ -59,9 +59,9 @@ public class ParserTest{
         Assert.assertFalse(cap.getLayers().isEmpty());
         for (int i=0; i < cap.getLayers().size(); i++) {
             WMSLayer wmsLayer = cap.getLayers().get(i);
-            Assert.assertNotNull(wmsLayer.getName());
-            Assert.assertNotNull(wmsLayer.getDescription());
-            Assert.assertNotNull(wmsLayer.getTitle());
+            Assert.assertNotNull(wmsLayer.getName() + wmsLayer.getDescription() + wmsLayer.getTitle(), wmsLayer.getName());
+//            Assert.assertNotNull(wmsLayer.getName() + wmsLayer.getDescription() + wmsLayer.getTitle(), wmsLayer.getDescription());
+            Assert.assertNotNull(wmsLayer.getName() + wmsLayer.getDescription() + wmsLayer.getTitle(), wmsLayer.getTitle());
 
         }
     }
@@ -100,6 +100,69 @@ public class ParserTest{
         Assert.assertEquals("1.3.0", cap.getWmsVersion());
     }
 
+
+    @Test
+    public void testNASA111File() throws Exception {
+
+        File input = new File("./src/test/resources/nasawms111.xml");
+        if (!input.exists()){
+
+            Assert.fail(new File(".").getAbsolutePath() + " = pwd. target file doesn't exist at " + input.getAbsolutePath());
+        }
+        FileInputStream fis = new FileInputStream(input);
+        WMSEndpoint cap = WMSParser.parse(fis);
+        fis.close();
+
+        verify(cap);
+        Assert.assertTrue(cap.getLayers().size()==129);
+        Assert.assertEquals("1.1.1", cap.getWmsVersion());
+    }
+
+
+    @Test
+    public void testNASA130File() throws Exception {
+
+        File input = new File("./src/test/resources/nasawms130.xml");
+        if (!input.exists()){
+
+            Assert.fail(new File(".").getAbsolutePath() + " = pwd. target file doesn't exist at " + input.getAbsolutePath());
+        }
+        FileInputStream fis = new FileInputStream(input);
+        WMSEndpoint cap = WMSParser.parse(fis);
+        fis.close();
+
+        verify(cap);
+        Assert.assertTrue(cap.getLayers().size()==129);
+        Assert.assertEquals("1.3.0", cap.getWmsVersion());
+    }
+
+
+    @Test
+    public void testNASA130SRSFile() throws Exception {
+
+        File input = new File("./src/test/resources/nasasvs.xml");
+        if (!input.exists()){
+
+            Assert.fail(new File(".").getAbsolutePath() + " = pwd. target file doesn't exist at " + input.getAbsolutePath());
+        }
+        FileInputStream fis = new FileInputStream(input);
+        WMSEndpoint cap = WMSParser.parse(fis);
+        fis.close();
+
+        verify(cap);
+        Assert.assertTrue(cap.getLayers().size()==540);
+        Assert.assertEquals("1.1.1", cap.getWmsVersion());
+        for (int i=0; i < cap.getLayers().size(); i++) {
+            WMSLayer wmsLayer = cap.getLayers().get(i);
+            if (wmsLayer.getName().equals("3238_22718_705010")) {
+                Assert.assertEquals(1024, wmsLayer.getPixelSize());
+                Assert.assertEquals("EPSG:4326", wmsLayer.getSrs());
+            }
+
+        }
+
+        //
+    }
 
 
 }

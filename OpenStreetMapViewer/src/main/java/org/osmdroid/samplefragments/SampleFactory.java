@@ -51,6 +51,9 @@ import org.osmdroid.samplefragments.tileproviders.GeopackageSample;
 import org.osmdroid.samplefragments.tileproviders.MapsforgeTileProviderSample;
 import org.osmdroid.samplefragments.tileproviders.SampleAssetsOnly;
 import org.osmdroid.samplefragments.tileproviders.SampleOfflineGemfOnly;
+import org.osmdroid.samplefragments.tilesources.NasaWms111Source;
+import org.osmdroid.samplefragments.tilesources.NasaWms130Source;
+import org.osmdroid.samplefragments.tilesources.NasaWmsSrs;
 import org.osmdroid.samplefragments.tilesources.SampleBingHybrid;
 import org.osmdroid.samplefragments.tilesources.SampleBingRoad;
 import org.osmdroid.samplefragments.tilesources.SampleCopyrightOverlay;
@@ -208,6 +211,9 @@ public final class SampleFactory implements ISampleFactory {
         mSamples.add(SampleOfflineGemfOnly.class);
         //58
         mSamples.add(SampleWMSSource.class);
+        mSamples.add(NasaWms111Source.class);
+        mSamples.add(NasaWms130Source.class);
+        mSamples.add(NasaWmsSrs.class);
         if (Build.VERSION.SDK_INT >= 10)
             mSamples.add(MapsforgeTileProviderSample.class);
         //59

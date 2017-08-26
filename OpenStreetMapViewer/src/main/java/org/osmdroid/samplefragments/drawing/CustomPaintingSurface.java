@@ -116,7 +116,7 @@ public class CustomPaintingSurface extends View {
                 GeoPoint iGeoPoint = (GeoPoint) projection.fromPixels(pts.get(i).x, pts.get(i).y);
                 geoPoints.add(iGeoPoint);
             }
-            //TODO run the double pucker algorithm to reduce the points for performance reasons
+            //TODO run the dougles pucker algorithm to reduce the points for performance reasons
             if (geoPoints.size() > 2) {
                 //only plat a line unless there's at least one item
                 Polyline line = new Polyline();

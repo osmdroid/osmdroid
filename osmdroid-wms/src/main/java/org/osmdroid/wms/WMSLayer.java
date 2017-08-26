@@ -12,10 +12,18 @@ import java.util.List;
  * @since 5.6.6
  */
 public class WMSLayer {
+    private int pixelSize=256;
+    /**
+     * the name goes in the url and is machine intrepretable
+     */
     private String name;
+    /**
+     * human readable title
+     */
     private String title;
     //maps to 'abstract' wms element
     private String description;
+    //TODO replace with osmdroid boundingbox
     private LatLonBoundingBox bbox;
     private String srs;
 
@@ -67,5 +75,13 @@ public class WMSLayer {
 
     public void setSrs(String srs) {
         this.srs = srs;
+    }
+
+    public int getPixelSize() {
+        return pixelSize;
+    }
+
+    public void setPixelSize(int pixelSize) {
+        this.pixelSize = pixelSize;
     }
 }

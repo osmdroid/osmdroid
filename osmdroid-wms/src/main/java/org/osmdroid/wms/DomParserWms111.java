@@ -18,6 +18,10 @@ import org.osmdroid.wms.v111.WMTMSCapabilities;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 /**
  * Provides parsing for WMS 1.1.1 and 1.3.0. The schema's are close enough that the
  * parsing we do will work with both cases.
@@ -42,10 +46,10 @@ public class DomParserWms111 {
         //check the version attribute
         for (int i = 0; i < element.getChildNodes().getLength(); i++) {
             Node e = element.getChildNodes().item(i);
-            if (("Service").equals(e.getNodeName())) {
+            if (e.getNodeName().contains("Service")) {
                 ret.setService(parseService(e));
 
-            } else if (("Capability").equals(e.getNodeName())) {
+            } else if (e.getNodeName().contains("Capability")) {
                 ret.setCapability(parseCapability(e));
 
             }
@@ -75,34 +79,131 @@ public class DomParserWms111 {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-        for (int i = 0; i < ret.getCapability().getLayer().getLayer().size(); i++) {
-            //if (ret.getCapability().getLayer().getLayer().get(i).getSRS().contains("EPSG:3857"))
-            {
-                //ok we can handle it here
+        //FIXME this needs to be recursive.
 
-                WMSLayer l = new WMSLayer();
-                String srsStr = "EPSG:900913";
-                for (SRS srs : ret.getCapability().getLayer().getLayer().get(i).getSRS()) {
-                    if ("EPSG:3857".equals(srs.getvalue())) {
-                        srsStr = srs.getvalue();
-                        break;
-                    }
+        rets.getLayers().addAll(extractLayers(ret));
+
+
+        return rets;
+    }
+
+    private static List<WMSLayer> extractLayers(WMTMSCapabilities ret) {
+        List<WMSLayer> rets = new ArrayList<>();
+        if (ret == null || ret.getCapability() == null)
+            return rets;
+        if (ret.getCapability() != null && ret.getCapability().getLayer() != null && ret.getCapability().getLayer().getLayer() != null && !ret.getCapability().getLayer().getLayer().isEmpty()) {
+            rets.addAll(extractLayers(ret.getCapability().getLayer()));
+
+        } else {
+            if (ret.getCapability().getLayer().getLayer() == null)
+                return rets;
+            //it is a leaf node
+            WMSLayer l = new WMSLayer();
+            String srsStr = "EPSG:900913";
+            for (SRS srs : ret.getCapability().getLayer().getSRS()) {
+                if ("EPSG:3857".equals(srs.getvalue())) {
+                    srsStr = srs.getvalue();
+                    break;
                 }
-                l.setSrs(srsStr);
-                l.setName(ret.getCapability().getLayer().getLayer().get(i).getName());
-                l.setDescription(ret.getCapability().getLayer().getLayer().get(i).getAbstract());
-                l.setTitle(ret.getCapability().getLayer().getLayer().get(i).getTitle());
-                l.setBbox(ret.getCapability().getLayer().getLayer().get(i).getLatLonBoundingBox());
-                if (l.getBbox() == null)
-                    l.setBbox(ret.getCapability().getLayer().getLatLonBoundingBox());
-                for (Style style : ret.getCapability().getLayer().getLayer().get(i).getStyle()){
-                    l.getStyles().add(style.getName());
+                if ("EPSG:4326".equals(srs.getvalue())) {
+                    srsStr = srs.getvalue();
+                    break;
                 }
-                rets.getLayers().add(l);
 
             }
-        }
+            l.setSrs(srsStr);
 
+            if (ret.getCapability().getLayer().getName() == null) {
+                //this is probably not a leaf node
+                rets.addAll(extractLayers(ret.getCapability().getLayer()));
+                return rets;
+
+            }
+            l.setName(ret.getCapability().getLayer().getName());
+            l.setDescription(ret.getCapability().getLayer().getAbstract());
+            if (l.getDescription() == null)
+                l.setDescription(l.getTitle());
+            l.setTitle(ret.getCapability().getLayer().getTitle());
+
+            l.setBbox(ret.getCapability().getLayer().getLatLonBoundingBox());
+            if (l.getBbox() == null)
+                l.setBbox(ret.getCapability().getLayer().getLatLonBoundingBox());
+            for (Style style : ret.getCapability().getLayer().getStyle()) {
+                l.getStyles().add(style.getName());
+            }
+            if (ret.getCapability().getLayer().getFixedHeight() != null &&
+                ret.getCapability().getLayer().getFixedWidth() != null) {
+                if (ret.getCapability().getLayer().getFixedHeight().equals(ret.getCapability().getLayer().getFixedWidth())) {
+                    //osmdroid only supports square pixels
+                    try {
+                        l.setPixelSize(Integer.parseInt(ret.getCapability().getLayer().getFixedHeight()));
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                } else
+                    return rets;    //abort adding it due to tile size
+            }
+            rets.add(l);
+
+        }
+        return rets;
+    }
+
+    private static Collection<? extends WMSLayer> extractLayers(Layer layer) {
+        List<WMSLayer> rets = new ArrayList<>();
+
+        if (!layer.getLayer().isEmpty()) {
+            for (int i = 0; i < layer.getLayer().size(); i++) {
+                rets.addAll(extractLayers(layer.getLayer().get(i)));
+            }
+        } else {
+            //it is a leaf node
+            WMSLayer l = new WMSLayer();
+            String srsStr = "EPSG:900913";
+            for (SRS srs : layer.getSRS()) {
+                if ("EPSG:3857".equals(srs.getvalue())) {
+                    srsStr = srs.getvalue();
+                    break;
+                }
+                if ("EPSG:4326".equals(srs.getvalue())) {
+                    srsStr = srs.getvalue();
+                    break;
+                }
+            }
+            l.setSrs(srsStr);
+            if (layer.getName() == null)
+                return rets;
+            if (layer.getName().equals("(1 month - Terra/MODIS)"))
+                System.out.println();
+            l.setName(layer.getName());
+            l.setDescription(layer.getAbstract());
+            if (l.getDescription() == null)
+                l.setDescription(l.getTitle());
+            l.setTitle(layer.getTitle());
+            if (l.getTitle()==null)
+                l.setTitle(l.getName());
+            l.setBbox(layer.getLatLonBoundingBox());
+            if (l.getBbox() == null)
+                l.setBbox(layer.getLatLonBoundingBox());
+            for (Style style : layer.getStyle()) {
+                l.getStyles().add(style.getName());
+            }
+            if (layer.getFixedHeight() != null &&
+                layer.getFixedWidth() != null) {
+                if (layer.getFixedHeight().equals(layer.getFixedWidth())) {
+                    //osmdroid only supports square pixels
+                    try {
+                        l.setPixelSize(Integer.parseInt(layer.getFixedHeight()));
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                    rets.add(l);
+                } else
+                    return rets;    //skip adding due to the strange tile size
+            }
+            rets.add(l);
+
+        }
         return rets;
     }
 
@@ -115,13 +216,13 @@ public class DomParserWms111 {
             String name = e.getNodeName();
             //System.out.println("parseCapabilties/" + name);
             // Starts by looking for the entry tag
-            if (name.equals("Request")) {
+            if (name.contains("Request")) {
                 ret.setRequest(parseRequest(e));
 
-            } else if (name.equals("Exception")) {
+            } else if (name.contains("Exception")) {
 
 
-            } else if (name.equals("Layer")) {
+            } else if (name.contains("Layer")) {
                 ret.setLayer(parseLayer(e));
 
             } else {
@@ -143,7 +244,7 @@ public class DomParserWms111 {
             //DescribeLayer
             //GetLegendGraphic
             //GetStyles
-            if (name.equals("GetCapabilities")) {
+            if (name.contains("GetCapabilities")) {
                 ret.setGetCapabilities(parseGetCapabilities(e));
 
             }
@@ -161,14 +262,14 @@ public class DomParserWms111 {
             String name = e.getNodeName();
 
             // Starts by looking for the entry tag
-            if (name.equals("Format")) {
+            if (name.contains("Format")) {
                 Format f = new Format();
 
                 f.setvalue(e.getTextContent());
 
                 ret.getFormat().add(f);
 
-            } else if (name.equals("DCPType")) {
+            } else if (name.contains("DCPType")) {
                 DCPType type = parseDCPType(e);
                 if (type != null)
                     ret.getDCPType().add(type);
@@ -188,7 +289,7 @@ public class DomParserWms111 {
             String name = e.getNodeName();
 
             // Starts by looking for the entry tag
-            if (name.equals("HTTP")) {
+            if (name.contains("HTTP")) {
                 ret.setHTTP(parserHttp(e));
 
 
@@ -207,13 +308,13 @@ public class DomParserWms111 {
             String name = e.getNodeName();
 
             // Starts by looking for the entry tag
-            if (name.equals("Get")) {
+            if (name.contains("Get")) {
                 Get get = parseGet(e);
 
                 ret.getGetOrPost().add(get);
 
 
-            } else if (name.equals("Post")) {
+            } else if (name.contains("Post")) {
                 Post get = parsePost(e);
 
                 ret.getGetOrPost().add(get);
@@ -234,7 +335,7 @@ public class DomParserWms111 {
             String name = e.getNodeName();
 
             // Starts by looking for the entry tag
-            if (name.equals("OnlineResource")) {
+            if (name.contains("OnlineResource")) {
 
                 OnlineResource r = new OnlineResource();
                 Node href2 = e.getAttributes().getNamedItem("xlink:href");
@@ -269,7 +370,7 @@ public class DomParserWms111 {
             String name = e.getNodeName();
 
             // Starts by looking for the entry tag
-            if (name.equals("OnlineResource")) {
+            if (name.contains("OnlineResource")) {
 
                 OnlineResource r = new OnlineResource();
                 Node href2 = e.getAttributes().getNamedItem("xlink:href");
@@ -298,33 +399,41 @@ public class DomParserWms111 {
     private static Layer parseLayer(Node element) throws Exception {
 
         Layer ret = new Layer();
+        Node pixel= element.getAttributes().getNamedItem("fixedHeight");
+        if (pixel != null)
+            ret.setFixedHeight(pixel.getNodeValue());
+
+        pixel= element.getAttributes().getNamedItem("fixedWidth");
+        if (pixel != null)
+            ret.setFixedWidth(pixel.getNodeValue());
+
         Node queryable = element.getAttributes().getNamedItem("queryable");
         if (queryable != null)
             ret.setQueryable(queryable.getNodeValue());
         for (int i = 0; i < element.getChildNodes().getLength(); i++) {
             Node e = element.getChildNodes().item(i);
             String name = e.getNodeName();
-            if ("Name".equals(name)) {
+            if (name.contains("Name")) {
                 ret.setName(e.getTextContent());
-            } else if (name.equals("Title")) {
+            } else if (name.contains("Title")) {
                 ret.setTitle(e.getTextContent());
-            } else if (name.equals("Abstract")) {
+            } else if (name.contains("Abstract")) {
                 ret.setAbstract(e.getTextContent());
-            } else if (name.equals("SRS")) {
+            } else if (name.contains("SRS")) {
                 SRS srs = new SRS();
                 srs.setvalue(e.getTextContent());
                 ret.getSRS().add(srs);
-            } else if (name.equals("CRS")) {
+            } else if (name.contains("CRS")) {
                 SRS srs = new SRS();
                 srs.setvalue(e.getTextContent());
                 ret.getSRS().add(srs);
-            } else if (name.equals("LatLonBoundingBox")) {
+            } else if (name.contains("LatLonBoundingBox")) {
                 ret.setLatLonBoundingBox(new LatLonBoundingBox());
                 ret.getLatLonBoundingBox().setMaxx(e.getAttributes().getNamedItem("maxx").getNodeValue());
                 ret.getLatLonBoundingBox().setMaxy(e.getAttributes().getNamedItem("maxy").getNodeValue());
                 ret.getLatLonBoundingBox().setMiny(e.getAttributes().getNamedItem("miny").getNodeValue());
                 ret.getLatLonBoundingBox().setMinx(e.getAttributes().getNamedItem("minx").getNodeValue());
-            } else if (name.equals("BoundingBox")) {
+            } else if (name.contains("BoundingBox")) {
                 //need to check CRS first if it's valid
                 //<BoundingBox CRS="CRS:84" minx="-179.999996" miny="-89.000000" maxx="179.999996" maxy="89.000000"/>
                 //<BoundingBox CRS="EPSG:4326" minx="-89.000000" miny="-179.999996" maxx="89.000000" maxy="179.999996"/>
@@ -347,10 +456,10 @@ public class DomParserWms111 {
                         }
                     }
                 }
-            } else if ("Style".equals(name)) {
-                for (int k= 0; k < e.getChildNodes().getLength(); k++) {
+            } else if (name.contains("Style")) {
+                for (int k = 0; k < e.getChildNodes().getLength(); k++) {
                     Node e2 = e.getChildNodes().item(k);
-                    if ("Name".equals(e2.getNodeName())){
+                    if ("Name".equals(e2.getNodeName())) {
                         Style style = new Style();
                         style.setName(e2.getTextContent());
                         ret.getStyle().add(style);
@@ -358,7 +467,7 @@ public class DomParserWms111 {
                 }
 
 
-            } else if (name.equals("Layer")) {
+            } else if (name.contains("Layer")) {
                 ret.getLayer().add(parseLayer(e));
 
             } else {
@@ -375,13 +484,13 @@ public class DomParserWms111 {
             Node e = element.getChildNodes().item(i);
             String name = e.getNodeName();
             // Starts by looking for the entry tag
-            if (name.equals("Name")) {
+            if (name.contains("Name")) {
                 ret.setName(e.getTextContent());
-            } else if (name.equals("Title")) {
+            } else if (name.contains("Title")) {
                 ret.setTitle(e.getTextContent());
-            } else if (name.equals("Abstract")) {
+            } else if (name.contains("Abstract")) {
                 ret.setAbstract(e.getTextContent());
-            } else if ("OnlineResource".equals(name)) {
+            } else if (name.contains("OnlineResource")) {
                 Node namedItem = e.getAttributes().getNamedItem("xlink:href");
                 Node namedItem2 = e.getAttributes().getNamedItem("href");
                 String baseUrl = null;

@@ -4,6 +4,7 @@ import android.util.Log;
 
 import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase;
+import org.osmdroid.util.BoundingBox;
 
 import java.util.Locale;
 
@@ -18,51 +19,18 @@ import java.util.Locale;
 public class WMSTileSource extends OnlineTileSourceBase{
 
 
-    public static WMSTileSource createFrom(WMSEndpoint endpoint, WMSLayer layer) {
-        if (layer.getStyles().isEmpty()) {
-            WMSTileSource r = new WMSTileSource(layer.getName(), new String[]{endpoint.getBaseurl()},layer.getName(), endpoint.getWmsVersion(), layer.getSrs(), null);
-            return r;
-        }
-
-        WMSTileSource r = new WMSTileSource(layer.getName(), new String[]{endpoint.getBaseurl()},layer.getName(), endpoint.getWmsVersion(), layer.getSrs(),layer.getStyles().get(0));
-        return r;
-
-    }
-    // Web Mercator n/w corner of the map.
-    private static final double[] TILE_ORIGIN = {-20037508.34789244, 20037508.34789244};
-    //array indexes for that data
-    private static final int ORIG_X = 0;
-    private static final int ORIG_Y = 1; // "
-
-    // Size of square world map in meters, using WebMerc projection.
-    private static final double MAP_SIZE = 20037508.34789244 * 2;
-
     // array indexes for array to hold bounding boxes.
     protected static final int MINX = 0;
     protected static final int MAXX = 1;
     protected static final int MINY = 2;
     protected static final int MAXY = 3;
-    private String layer="";
-    private String version="1.1.0";
-    private String srs="EPSG:900913";
-    private String style=null;
-    /**
-     * Constructor
-     *
-     * @param aName                a human-friendly name for this tile source
-     * @param aBaseUrl             the base url(s) of the tile server used when constructing the url to download the tiles http://sedac.ciesin.columbia.edu/geoserver/wms
-     */
-    public WMSTileSource(String aName, String[] aBaseUrl, String layername, String version, String srs, String style) {
-        super(aName, 0, 22, 256, "png", aBaseUrl);
-        this.layer=layername;
-        this.version=version;
-        if (srs!=null)
-            this.srs=srs;
-        this.style=style;
-
-    }
-
-
+    // Web Mercator n/w corner of the map.
+    private static final double[] TILE_ORIGIN = {-20037508.34789244, 20037508.34789244};
+    //array indexes for that data
+    private static final int ORIG_X = 0;
+    private static final int ORIG_Y = 1; // "
+    // Size of square world map in meters, using WebMerc projection.
+    private static final double MAP_SIZE = 20037508.34789244 * 2;
     final String WMS_FORMAT_STRING =
             "%s"+
                     "&version=%s" +
@@ -75,7 +43,56 @@ public class WMSTileSource extends OnlineTileSourceBase{
                     "&format=image/png" +
                     "&style=%s" +
                     "&transparent=true";
+    private String layer="";
+    private String version="1.1.0";
+    private String srs="EPSG:900913";   //used by geo server
+    private String style=null;
+   private boolean forceHttps=false;
+    private boolean forceHttp=false;
 
+    /**
+     * Constructor
+     *
+     * @param aName                a human-friendly name for this tile source
+     * @param aBaseUrl             the base url(s) of the tile server used when constructing the url to download the tiles http://sedac.ciesin.columbia.edu/geoserver/wms
+     */
+    public WMSTileSource(String aName, String[] aBaseUrl, String layername, String version, String srs, String style, int size) {
+        super(aName, 0, 22, size, "png", aBaseUrl);
+        this.layer=layername;
+        this.version=version;
+        if (srs!=null)
+            this.srs=srs;
+        this.style=style;
+
+    }
+
+    public static WMSTileSource createFrom(WMSEndpoint endpoint, WMSLayer layer) {
+        if (layer.getStyles().isEmpty()) {
+            WMSTileSource r = new WMSTileSource(layer.getName(), new String[]{endpoint.getBaseurl()},layer.getName(),
+                endpoint.getWmsVersion(), layer.getSrs(), null, layer.getPixelSize());
+            return r;
+        }
+
+        WMSTileSource r = new WMSTileSource(layer.getName(), new String[]{endpoint.getBaseurl()},layer.getName(),
+            endpoint.getWmsVersion(), layer.getSrs(),layer.getStyles().get(0), layer.getPixelSize());
+        return r;
+
+    }
+
+    private static BoundingBox tile2boundingBox(final int x, final int y, final int zoom) {
+
+        BoundingBox bb = new BoundingBox( tile2lat(y, zoom), tile2lon(x + 1, zoom), tile2lat(y + 1, zoom), tile2lon(x, zoom));
+        return bb;
+    }
+
+    static double tile2lon(int x, int z) {
+        return x / Math.pow(2.0, z) * 360.0 - 180;
+    }
+
+    static double tile2lat(int y, int z) {
+        double n = Math.PI - (2.0 * Math.PI * y) / Math.pow(2.0, z);
+        return Math.toDegrees(Math.atan(Math.sinh(n)));
+    }
 
     // Return a web Mercator bounding box given tile x/y indexes and a zoom
     // level.
@@ -94,20 +111,52 @@ public class WMSTileSource extends OnlineTileSourceBase{
 
         return bbox;
     }
+
+    public boolean isForceHttps() {
+        return forceHttps;
+    }
+
+    public void setForceHttps(boolean forceHttps) {
+        this.forceHttps = forceHttps;
+    }
+
+    public boolean isForceHttp() {
+        return forceHttp;
+    }
+
+    public void setForceHttp(boolean forceHttp) {
+        this.forceHttp = forceHttp;
+    }
+
     @Override
     public String getTileURLString(MapTile aTile) {
-        double[] bbox = getBoundingBox(aTile.getX(), aTile.getY(), aTile.getZoomLevel());
+
         String baseUrl = getBaseUrl();
+        if (forceHttps)
+            baseUrl = baseUrl.replace("http://", "https://");
+        if (forceHttp)
+            baseUrl = baseUrl.replace("https://", "http://");
         StringBuilder sb = new StringBuilder(baseUrl);
         if (!baseUrl.endsWith("&"))
             sb.append("&");
-        sb.append("request=GetMap&width=256&height=256&version=").append(version);
+
+        sb.append("request=GetMap&width=").append(getTileSizePixels()).append("&height=").append(getTileSizePixels()).append("&version=").append(version);
         sb.append("&layers=").append(layer);
         sb.append("&bbox=");
-        sb.append(bbox[MINX]).append(",");
-        sb.append(bbox[MINY]).append(",");
-        sb.append(bbox[MAXX]).append(",");
-        sb.append(bbox[MAXY]);
+        if (srs.equals("EPSG:900913")) {
+            //geoserver style
+            double[] bbox = getBoundingBox(aTile.getX(), aTile.getY(), aTile.getZoomLevel());
+            sb.append(bbox[MINX]).append(",");
+            sb.append(bbox[MINY]).append(",");
+            sb.append(bbox[MAXX]).append(",");
+            sb.append(bbox[MAXY]);
+        } else {
+            BoundingBox boundingBox = tile2boundingBox(aTile.getX(), aTile.getY(), aTile.getZoomLevel());
+            sb.append(boundingBox.getLonWest()).append(",");
+            sb.append(boundingBox.getLatSouth()).append(",");
+            sb.append(boundingBox.getLonEast()).append(",");
+            sb.append(boundingBox.getLatNorth());
+        }
         sb.append("&srs=").append(srs);
         sb.append("&format=image/png&transparent=true");
         if (style!=null)
