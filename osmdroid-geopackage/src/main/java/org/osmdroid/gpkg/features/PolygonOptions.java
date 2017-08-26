@@ -45,7 +45,7 @@ import java.util.List;
 
 public class PolygonOptions {
     private List<GeoPoint> points=new ArrayList<>();
-    private List<List<GeoPoint>> holes;
+    private List<List<GeoPoint>> holes= new ArrayList<>();
 
     public List<GeoPoint> getPoints() {
         return points;
@@ -62,8 +62,8 @@ public class PolygonOptions {
     }
 
     public void addHole(List<GeoPoint> holeLatLngs) {
-       // holes.addAll(holeLatLngs);
-        //FIXME
+        holes.add(holeLatLngs);
+
     }
 
     public void zIndex(float v) {

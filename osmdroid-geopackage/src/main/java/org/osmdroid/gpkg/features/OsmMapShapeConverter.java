@@ -1551,6 +1551,7 @@ public class OsmMapShapeConverter {
         MapView map, PolygonOptions polygon) {
         org.osmdroid.views.overlay.Polygon polygon1 = new org.osmdroid.views.overlay.Polygon();
         polygon1.setPoints(polygon.getPoints());
+        polygon1.getHoles().addAll(polygon.getHoles());
         map.getOverlayManager().add(polygon1);
         return polygon1;
     }
