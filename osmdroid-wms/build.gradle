@@ -10,7 +10,6 @@ android {
 dependencies {
 
     compile project(':osmdroid-android')
-    compile project(':osmdroid-wms131-spec')
     compile 'com.android.support:appcompat-v7:23.1.1'
 
     testCompile "org.robolectric:robolectric:3.0"

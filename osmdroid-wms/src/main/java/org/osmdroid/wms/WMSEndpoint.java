@@ -4,14 +4,41 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Note,
- * Created by alex on 1/10/16.
+ * Simple data model for represeting a WMS server
+ * https://github.com/osmdroid/osmdroid/issues/177
+ *
+ * @author Alex O'Ree
+ *         1/10/16.
+ * @since 5.6.6
  */
 public class WMSEndpoint {
 
+    private String wmsVersion = "1.1.0";
     //capability/getmap/HTTP/Get/OnlineResource
-    String baseurl;
-    List<WMSLayer> layers = new ArrayList<>();
+    private String baseurl;
+    private List<WMSLayer> layers = new ArrayList<>();
 
+    public String getWmsVersion() {
+        return wmsVersion;
+    }
 
+    public void setWmsVersion(String wmsVersion) {
+        this.wmsVersion = wmsVersion;
+    }
+
+    public String getBaseurl() {
+        return baseurl;
+    }
+
+    public void setBaseurl(String baseurl) {
+        this.baseurl = baseurl;
+    }
+
+    public List<WMSLayer> getLayers() {
+        return layers;
+    }
+
+    public void setLayers(List<WMSLayer> layers) {
+        this.layers = layers;
+    }
 }
