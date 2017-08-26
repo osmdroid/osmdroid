@@ -47,11 +47,12 @@ import static org.osmdroid.samplefragments.events.SampleMapEventListener.df;
 
 /**
  * One way for viewing geopackage tiles to the osmdroid view
+ * converts geopackage features to osmdroid overlays
  * <p>
  * created on 1/12/2017.
  *
  * @author Alex O'Ree
- * @since 5.6.3
+ * @since 5.6.6
  */
 
 public class GeopackageFeatures extends BaseSampleFragment {

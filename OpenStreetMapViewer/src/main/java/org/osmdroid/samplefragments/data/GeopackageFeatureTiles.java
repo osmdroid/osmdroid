@@ -38,8 +38,11 @@ import java.util.Set;
 import static org.osmdroid.samplefragments.events.SampleMapEventListener.df;
 
 /**
- * created on 8/19/2017.
+ * One way for viewing geopackage tiles to the osmdroid view
+ * converts geopackage features to rendered tiles for viewing in osmdroid
  *
+ * created on 8/19/2017.
+ *@ since.5.6.6
  * @author Alex O'Ree
  */
 
@@ -149,6 +152,8 @@ public class GeopackageFeatureTiles extends BaseSampleFragment {
                 );
             GeopackageFeatureTilesOverlay overlay = new GeopackageFeatureTilesOverlay(provider,getContext(), maps);
 
+            //get the first database, in a real implementation, if should be a prompt the user
+            //kind of deal
             String db = overlay.getDatabases().get(0);
             String feature = null;
 
@@ -156,16 +161,16 @@ public class GeopackageFeatureTiles extends BaseSampleFragment {
             //you can get the test data set here: http://www.gadm.org/download
             try {
                 List<String> featureTable = overlay.getFeatureTable(db);
-                feature = featureTable .get(1);
+
+                //Here, we are assuming that there's at least one feature table available.
+
+                feature = featureTable .get(0);
                 overlay.setDatabaseAndFeatureTable(db, feature);
                 mMapView.getOverlayManager().add(overlay);
             } catch (Exception e) {
                 //usually an i/o issue
                 e.printStackTrace();
-
             }
-
-
         }
 
         mMapView.setMapListener(new MapListener() {
