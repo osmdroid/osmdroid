@@ -10,21 +10,20 @@ import android.widget.ImageButton;
 import org.osmdroid.R;
 import org.osmdroid.samplefragments.BaseSampleFragment;
 import org.osmdroid.views.MapView;
-import org.osmdroid.views.overlay.Polygon;
 
 /**
- * created on 1/13/2017.
+ * created on 8/26/2017.
  *
  * @author Alex O'Ree
  */
 
-public class SampleDrawPolyline extends BaseSampleFragment implements View.OnClickListener {
+public class DrawPolygon extends BaseSampleFragment implements View.OnClickListener {
     ImageButton painting,panning;
 
     CustomPaintingSurface paint;
     @Override
     public String getSampleTitle() {
-        return "Draw a polyline on screen";
+        return "Draw a polygon on screen";
     }
 
 
@@ -39,7 +38,7 @@ public class SampleDrawPolyline extends BaseSampleFragment implements View.OnCli
         painting.setOnClickListener(this);
         paint = (CustomPaintingSurface) v.findViewById(R.id.paintingSurface);
         paint.init(mMapView);
-        paint.setMode(CustomPaintingSurface.Mode.Polyline);
+        paint.setMode(CustomPaintingSurface.Mode.Polygon);
         return v;
 
     }
