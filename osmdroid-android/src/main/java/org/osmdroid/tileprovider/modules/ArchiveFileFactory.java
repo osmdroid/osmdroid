@@ -77,6 +77,10 @@ public class ArchiveFileFactory {
 		return null;
 	}
 
+	/**
+	 * @since 5.6.6
+	 * @return
+	 */
 	public static Set<String> getRegisteredExtensions() {
 		Set<String> r = new HashSet<>();
 		r.addAll(extensionMap.keySet());

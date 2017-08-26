@@ -59,13 +59,14 @@ import java.util.Set;
 
 public class OfflinePickerSample extends BaseSampleFragment implements View.OnClickListener {
 
+    private Button btnArchives;
+    private Button btnSource;
+    private Set<ITileSource> tileSources = new HashSet<>();
+
     @Override
     public String getSampleTitle() {
         return "Offline Only Tiles with picker";
     }
-
-    Button btnArchives;
-    Button btnSource;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -83,18 +84,15 @@ public class OfflinePickerSample extends BaseSampleFragment implements View.OnCl
         return root;
     }
 
-
     @Override
     public void addOverlays() {
         //not even needed since we are using the offline tile provider only
         this.mMapView.setUseDataConnection(true);
-
-
     }
 
-
-    Set<ITileSource> tileSources = new HashSet<>();
-
+    /**
+     * step 1, users selects files
+     */
     private void promptForFiles() {
         DialogProperties properties = new DialogProperties();
         properties.selection_mode = DialogConfigs.MULTI_MODE;
@@ -104,9 +102,8 @@ public class OfflinePickerSample extends BaseSampleFragment implements View.OnCl
         properties.error_dir = new File(DialogConfigs.DEFAULT_DIR);
         properties.offset = new File(DialogConfigs.DEFAULT_DIR);
 
-        //properties.extensions =
         Set<String> registeredExtensions = ArchiveFileFactory.getRegisteredExtensions();
-        //TODO api check
+        //api check
         if (Build.VERSION.SDK_INT >= 14)
             registeredExtensions.add("gpkg");
         if (Build.VERSION.SDK_INT >= 10)
@@ -131,12 +128,14 @@ public class OfflinePickerSample extends BaseSampleFragment implements View.OnCl
     }
 
 
+    /**
+     * step two, configure our offline tile provider
+     * @param files
+     */
     private void setProviderConfig(String[] files) {
         if (files == null || files.length == 0)
             return;
         SimpleRegisterReceiver simpleRegisterReceiver = new SimpleRegisterReceiver(getContext());
-
-
 
         IFilesystemCache tileWriter;
 
@@ -146,8 +145,6 @@ public class OfflinePickerSample extends BaseSampleFragment implements View.OnCl
             tileWriter = new SqlTileWriter();
         }
 
-
-
         tileSources.clear();
         List<MapTileModuleProviderBase> providers = new ArrayList<>();
         providers.add(new MapTileAssetsProvider(simpleRegisterReceiver, getContext().getAssets()));
@@ -155,6 +152,7 @@ public class OfflinePickerSample extends BaseSampleFragment implements View.OnCl
         List<File> geopackages = new ArrayList<>();
         List<File> forgeMaps = new ArrayList<>();
         List<IArchiveFile> archives = new ArrayList<>();
+        //this part seperates the geopackage and maps forge stuff since they are handled differently
         for (int i = 0; i < files.length; i++) {
             File archive = new File(files[i]);
             if (archive.getName().endsWith("gpkg")) {
@@ -176,10 +174,11 @@ public class OfflinePickerSample extends BaseSampleFragment implements View.OnCl
             }
         }
 
-        //the standard osmdroid offline tile providers
+        //setup the standard osmdroid-android library supported offline tile providers
         IArchiveFile[] archArray = new IArchiveFile[archives.size()];
         archArray = archives.toArray(archArray);
         final MapTileFileArchiveProvider mapTileFileArchiveProvider = new MapTileFileArchiveProvider(simpleRegisterReceiver, TileSourceFactory.DEFAULT_TILE_SOURCE, archArray);
+
 
         GeoPackageMapTileModuleProvider geopackage = null;
         GeoPackageProvider provider = null;
@@ -188,10 +187,8 @@ public class OfflinePickerSample extends BaseSampleFragment implements View.OnCl
             File[] maps = new File[geopackages.size()];
             maps = geopackages.toArray(maps);
 
-
             if (Build.VERSION.SDK_INT < 10) {
-                final MapTileFilesystemProvider fileSystemProvider = new MapTileFilesystemProvider(
-                    simpleRegisterReceiver, TileSourceFactory.DEFAULT_TILE_SOURCE);
+
                 provider = new GeoPackageProvider(maps, getContext());
                 geopackage = provider.geoPackageMapTileModuleProvider();
                 providers.add(geopackage);
@@ -255,9 +252,14 @@ public class OfflinePickerSample extends BaseSampleFragment implements View.OnCl
 
         MapTileProviderArray obj = new MapTileProviderArray(TileSourceFactory.DEFAULT_TILE_SOURCE, simpleRegisterReceiver, providerArray);
         mMapView.setTileProvider(obj);
+
+        //ok everything is setup, we now have 0 or many tile sources available, ask the user
         promptForTileSource();
     }
 
+    /**
+     * step 3 ask for the tile source
+     */
     private void promptForTileSource() {
         AlertDialog.Builder builderSingle = new AlertDialog.Builder(getContext());
         builderSingle.setIcon(R.drawable.icon);
