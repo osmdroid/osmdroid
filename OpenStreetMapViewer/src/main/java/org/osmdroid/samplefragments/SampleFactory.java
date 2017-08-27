@@ -189,6 +189,7 @@ public final class SampleFactory implements ISampleFactory {
         //48
         mSamples.add(SampleDrawPolyline.class);
         //49
+        if (Build.VERSION.SDK_INT >= 9)
         mSamples.add(RecyclerCardView.class);
         //50
         mSamples.add(ScaleBarOnBottom.class);
