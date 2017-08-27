@@ -8,6 +8,7 @@ package org.osmdroid.samplefragments.layouts.rec;
  */
 
 import android.content.Context;
+import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -86,7 +87,7 @@ public class CustomRecycler extends RecyclerView.Adapter<CustomRecycler.ViewHold
         *   In this example, only put two layouts: Map and Info
         * */
 
-        if(viewType == 1){
+        if(viewType == 1 || viewType==8){
             v = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.recyclerviewcard, viewGroup, false);
             return new MapViewHolder(v);
@@ -102,7 +103,7 @@ public class CustomRecycler extends RecyclerView.Adapter<CustomRecycler.ViewHold
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
 
         //For Info data
-        if (viewHolder.getItemViewType() == 3) {
+        if (viewHolder.getItemViewType() != 1 && viewHolder.getItemViewType() !=8) {
 
             Info dat = data.get(position);
             InfoDataViewHolder Indicador = (InfoDataViewHolder) viewHolder;
@@ -116,6 +117,9 @@ public class CustomRecycler extends RecyclerView.Adapter<CustomRecycler.ViewHold
             Indicador.mapaShow.setBuiltInZoomControls(true);
             Indicador.mapaShow.setMultiTouchControls(true);
             Indicador.mapaShow.setClickable(false);
+
+            //on osmdroid-android v5.6.5 and older AND API16 or newer, uncomment the following
+            //Indicador.mapaShow.setHasTransientState(true);
 
 
             Indicador.mapaShow.getController().setZoom(14);
