@@ -217,6 +217,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		see https://github.com/osmdroid/osmdroid/issues/588
 		https://github.com/osmdroid/osmdroid/issues/568
 		 */
+		if (Configuration.getInstance().isMapViewRecyclerFriendly())
 		if (Build.VERSION.SDK_INT >= 16)
 			this.setHasTransientState(true);
 	}
