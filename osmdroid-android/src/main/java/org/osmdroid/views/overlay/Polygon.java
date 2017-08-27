@@ -7,6 +7,7 @@ import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
+import org.osmdroid.util.TileSystem;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
 import android.content.Context;
@@ -80,46 +81,108 @@ public class Polygon extends OverlayWithIW {
 		 * Note - highly optimized to handle long paths, proceed with care.
 		 * Should be fine up to 10K points.
 		 */
-		protected void buildPathPortion(Projection pj){
+		protected void buildPathPortion(Projection pj, MapView mapView, Canvas canvas){
 			final int size = mConvertedPoints.size();
 			if (size < 2) // nothing to paint
 				return;
 
-			// precompute new points to the intermediate projection.
-			if (!mPrecomputed){
-				for (int i=0; i<size; i++) {
-					final Point pt = mConvertedPoints.get(i);
-					pj.toProjectedPixels(pt.x, pt.y, pt);
-				}
-				mPrecomputed = true;
-			}
+         // precompute new points to the intermediate projection.
+         if (!mPrecomputed){
+             for (int i=0; i<size; i++) {
+                 final Point pt = mConvertedPoints.get(i);
+                 pj.toProjectedPixels(pt.x, pt.y, pt);
+             }
+             mPrecomputed = true;
+         }
 
-			Point projectedPoint0 = mConvertedPoints.get(0); // points from the points list
-			Point projectedPoint1;
-			
-			Point screenPoint0 = pj.toPixelsFromProjected(projectedPoint0, mTempPoint1); // points on screen
-			Point screenPoint1;
-			
-			mPath.moveTo(screenPoint0.x, screenPoint0.y);
-			
-			for (int i=0; i<size; i++) {
-				// compute next points
-				projectedPoint1 = mConvertedPoints.get(i);
-				screenPoint1 = pj.toPixelsFromProjected(projectedPoint1, mTempPoint2);
+         Point projectedPoint0 = mConvertedPoints.get(0); // points from the points list
+         Point projectedPoint1;
 
-				if (Math.abs(screenPoint1.x - screenPoint0.x) + Math.abs(screenPoint1.y - screenPoint0.y) <= 1) {
-					// skip this point, too close to previous point
-					continue;
-				}
+         Point screenPoint0 = pj.toPixelsFromProjected(projectedPoint0, mTempPoint1); // points on screen
+         Point screenPoint1;
 
-				mPath.lineTo(screenPoint1.x, screenPoint1.y);
+           final double mapSize = TileSystem.MapSize(mapView.getProjection().getZoomLevel());
+           final double halfMapSize = mapSize / 2;
+
+           final int mapViewWidth = mapView.getWidth();
+           final int halfMapViewWidth = mapViewWidth / 2;
+           int firstPointX = screenPoint0.x;
+           int leftPointX = firstPointX, rightPointX = firstPointX;
+
+           final int mapViewHeight = mapView.getHeight();
+           final int halfMapViewHeight = mapViewHeight / 2;
+           int firstPointY = screenPoint0.y;
+           int topPointY = firstPointY, bottomPointY = firstPointY;
+
+           mPath.moveTo(screenPoint0.x, screenPoint0.y);
+
+           for (int i=0; i<size; i++) {
+               // compute next points
+               projectedPoint1 = mConvertedPoints.get(i);
+               screenPoint1 = pj.toPixelsFromProjected(projectedPoint1, mTempPoint2);
+
+               if (Math.abs(screenPoint1.x - screenPoint0.x) + Math.abs(screenPoint1.y - screenPoint0.y) <= 1) {
+                   // skip this point, too close to previous point
+                   continue;
+               }
+
+               int nextPointX = screenPoint1.x;
+               if ((Math.abs(nextPointX - firstPointX) > halfMapSize)) {
+                   if (nextPointX < halfMapViewWidth) {
+                       nextPointX += mapSize;
+                   } else {
+                       nextPointX -= mapSize;
+                   }
+               }
+               if(nextPointX < leftPointX){
+                   leftPointX = nextPointX;
+               }
+               if(nextPointX > rightPointX){
+                   rightPointX = nextPointX;
+               }
+
+				int nextPointY = screenPoint1.y;
+               if ((Math.abs(nextPointY - firstPointY) > halfMapSize)) {
+                   if (nextPointY < halfMapViewHeight) {
+                       nextPointY += mapSize;
+                   } else {
+                       nextPointY -= mapSize;
+                   }
+               }
+               if(nextPointY < topPointY){
+                   topPointY = nextPointY;
+               }
+               if(nextPointY > bottomPointY){
+                   bottomPointY = nextPointY;
+               }
+
+				mPath.lineTo(nextPointX, nextPointY);
+
 
 				// update starting point to next position
-				projectedPoint0 = projectedPoint1;
-				screenPoint0.x = screenPoint1.x;
-				screenPoint0.y = screenPoint1.y;
+               screenPoint0.x = screenPoint1.x;
+               screenPoint0.y = screenPoint1.y;
 			}
 			mPath.close();
+			Path copy = new Path(mPath);
+           while(rightPointX - mapSize > 0){
+               copy.offset(-(float)mapSize, 0); leftPointX -= mapSize; rightPointX -= mapSize;
+           }
+           while(bottomPointY - mapSize > 0){
+               copy.offset(0, -(float)mapSize); topPointY -= mapSize; bottomPointY -= mapSize;
+           }
+           while(topPointY < mapViewHeight){
+               int horizontalCopiesCount = 0;
+               while(leftPointX < mapViewWidth){
+                   canvas.drawPath(copy, mFillPaint);
+                   canvas.drawPath(copy, mOutlinePaint);
+                   copy.offset((float)mapSize, 0); leftPointX += mapSize; rightPointX += mapSize;
+                   horizontalCopiesCount++;
+               }
+               int returnX = (int)(-(float)mapSize * horizontalCopiesCount);
+               copy.offset(returnX, 0); leftPointX += returnX; rightPointX += returnX;
+               copy.offset(0, (float)mapSize); topPointY += mapSize; bottomPointY += mapSize;
+           }
 		}
 		
 	}
@@ -300,14 +363,14 @@ public class Polygon extends OverlayWithIW {
 		final Projection pj = mapView.getProjection();
 		mPath.rewind();
 		
-		mOutline.buildPathPortion(pj);
+		mOutline.buildPathPortion(pj, mapView, canvas);
 		
 		for (LinearRing hole:mHoles){
-			hole.buildPathPortion(pj);
+			hole.buildPathPortion(pj, mapView, canvas);
 		}
 		
-		canvas.drawPath(mPath, mFillPaint);
-		canvas.drawPath(mPath, mOutlinePaint);
+		//canvas.drawPath(mPath, mFillPaint);
+		//canvas.drawPath(mPath, mOutlinePaint);
 	}
 	
 	/** Important note: this function returns correct results only if the Polygon has been drawn before, 
