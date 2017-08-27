@@ -50,6 +50,7 @@ import org.osmdroid.samplefragments.location.SampleMyLocationWithClick;
 import org.osmdroid.samplefragments.location.SampleRotation;
 import org.osmdroid.samplefragments.tileproviders.GeopackageSample;
 import org.osmdroid.samplefragments.tileproviders.MapsforgeTileProviderSample;
+import org.osmdroid.samplefragments.tileproviders.OfflinePickerSample;
 import org.osmdroid.samplefragments.tileproviders.SampleAssetsOnly;
 import org.osmdroid.samplefragments.tileproviders.SampleOfflineGemfOnly;
 import org.osmdroid.samplefragments.tilesources.SampleBingHybrid;
@@ -211,6 +212,8 @@ public final class SampleFactory implements ISampleFactory {
         mSamples.add(DrawPolygon.class);
         if (Build.VERSION.SDK_INT >= 10)
             mSamples.add(MapsforgeTileProviderSample.class);
+        if (Build.VERSION.SDK_INT >= 9)
+            mSamples.add(OfflinePickerSample.class);
         //59
         if (Build.VERSION.SDK_INT >= 14)
             mSamples.add(GeopackageSample.class);
