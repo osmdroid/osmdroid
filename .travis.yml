@@ -26,6 +26,7 @@ android:
     - addon-google_apis-google-22
     - addon-google_apis-google-23
     - addon-google_apis-google-8
+    - sys-img-armeabi-v7a-google_apis-23
 
     # Additional components
     - extra-google-google_play_services
@@ -61,7 +62,7 @@ env:
     #api8
     - API=8 ANDROID_TARGET=1  ANDROID_ABI=armeabi
     #api10
-    - API=10 ANDROID_TARGET=12  ANDROID_ABI=armeabi
+    - API=10 ANDROID_TARGET=2  ANDROID_ABI=armeabi
     #api10 with google
     - API=10g ANDROID_TARGET=12  ANDROID_ABI=armeabi
     #api15
@@ -69,7 +70,7 @@ env:
     #api15 with google
     - API=15g ANDROID_TARGET=13  ANDROID_ABI=armeabi-v7a
     #api19 with google
-    - API=19 ANDROID_TARGET=15  ANDROID_ABI=armeabi-v7a
+    - API=19 ANDROID_TARGET=5  ANDROID_ABI=armeabi-v7a
     #api19 with google
     # disabling, the system image is no longer available on travis - API=19g ANDROID_TARGET=16  ANDROID_ABI=armeabi-v7a
     #api21
