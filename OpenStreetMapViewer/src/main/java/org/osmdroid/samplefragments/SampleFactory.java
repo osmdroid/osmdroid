@@ -211,9 +211,9 @@ public final class SampleFactory implements ISampleFactory {
         mSamples.add(SampleOfflineGemfOnly.class);
         //58
         mSamples.add(SampleWMSSource.class);
-        mSamples.add(NasaWms111Source.class);
-        mSamples.add(NasaWms130Source.class);
-        mSamples.add(NasaWmsSrs.class);
+        //mSamples.add(NasaWms111Source.class);
+        //mSamples.add(NasaWms130Source.class);
+        //mSamples.add(NasaWmsSrs.class);
         if (Build.VERSION.SDK_INT >= 10)
             mSamples.add(MapsforgeTileProviderSample.class);
         //59

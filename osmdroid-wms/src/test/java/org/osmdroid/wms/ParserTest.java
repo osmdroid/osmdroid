@@ -77,6 +77,7 @@ public class ParserTest{
         WMSEndpoint cap = WMSParser.parse(fis);
         fis.close();
         verify(cap);
+        Assert.assertEquals("https://basemap.nationalmap.gov:443/arcgis/services/USGSTopo/MapServer/WmsServer?", cap.getBaseurl());
         Assert.assertTrue(cap.getLayers().size()==1);
         Assert.assertEquals("1.3.0", cap.getWmsVersion());
         Assert.assertFalse(cap.getLayers().get(0).getStyles().isEmpty());
@@ -94,7 +95,7 @@ public class ParserTest{
         FileInputStream fis = new FileInputStream(input);
         WMSEndpoint cap = WMSParser.parse(fis);
         fis.close();
-
+        Assert.assertEquals("http://basemap.nationalmap.gov/arcgis/services/USGSTopo/MapServer/WmsServer?", cap.getBaseurl());
         verify(cap);
         Assert.assertTrue(cap.getLayers().size()==1);
         Assert.assertEquals("1.3.0", cap.getWmsVersion());
@@ -131,6 +132,7 @@ public class ParserTest{
         WMSEndpoint cap = WMSParser.parse(fis);
         fis.close();
 
+        Assert.assertEquals("https://neo.sci.gsfc.nasa.gov/wms/wms", cap.getBaseurl());
         verify(cap);
         Assert.assertTrue(cap.getLayers().size()==129);
         Assert.assertEquals("1.3.0", cap.getWmsVersion());
@@ -149,14 +151,15 @@ public class ParserTest{
         WMSEndpoint cap = WMSParser.parse(fis);
         fis.close();
 
+        Assert.assertEquals("http://svs.gsfc.nasa.gov/cgi-bin/wms?", cap.getBaseurl());
         verify(cap);
-        Assert.assertTrue(cap.getLayers().size()==540);
+        Assert.assertEquals(288,cap.getLayers().size());
         Assert.assertEquals("1.1.1", cap.getWmsVersion());
         for (int i=0; i < cap.getLayers().size(); i++) {
             WMSLayer wmsLayer = cap.getLayers().get(i);
             if (wmsLayer.getName().equals("3238_22718_705010")) {
                 Assert.assertEquals(1024, wmsLayer.getPixelSize());
-                Assert.assertEquals("EPSG:4326", wmsLayer.getSrs());
+                Assert.assertTrue( wmsLayer.getSrs().contains("EPSG:4326"));
             }
 
         }

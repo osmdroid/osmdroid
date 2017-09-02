@@ -183,16 +183,11 @@ public class SampleWMSSource extends SampleGridlines {
                                         //double centerLat = (Double.parseDouble(layer.getBbox().getMaxy()) + Double.parseDouble(layer.getBbox().getMiny())) / 2;
                                         //double centerLon = (Double.parseDouble(layer.getBbox().getMaxx()) + Double.parseDouble(layer.getBbox().getMinx())) / 2;
                                         //mMapView.getController().animateTo(new GeoPoint(centerLat, centerLon));
-                                        mMapView.zoomToBoundingBox(new BoundingBox(Double.parseDouble(layer.getBbox().getMaxy()),
-                                            Double.parseDouble(layer.getBbox().getMaxx()),
-                                            Double.parseDouble(layer.getBbox().getMiny()),
-                                            Double.parseDouble(layer.getBbox().getMiny())
-                                        ), true);
-                                        mMapView.zoomToBoundingBox(new BoundingBox(Double.parseDouble(layer.getBbox().getMaxy()),
-                                            Double.parseDouble(layer.getBbox().getMaxx()),
-                                            Double.parseDouble(layer.getBbox().getMiny()),
-                                            Double.parseDouble(layer.getBbox().getMiny())
-                                        ), true);
+
+                                        mMapView.zoomToBoundingBox(layer.getBbox(),true);
+                                        mMapView.zoomToBoundingBox(layer.getBbox(),true);
+                                        mMapView.zoomToBoundingBox(layer.getBbox(),true);
+
                                     } catch (java.lang.Exception ex) {
                                         ex.printStackTrace();
                                     }

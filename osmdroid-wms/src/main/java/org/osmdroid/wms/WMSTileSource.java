@@ -6,10 +6,12 @@ import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase;
 import org.osmdroid.util.BoundingBox;
 
-import java.util.Locale;
 
 /**
- * WMS Map Source. Use this in conjunction with the WMSParser
+ * WMS Map Source. Use this in conjunction with the WMSParser.
+ *
+ * This class is known to work with GeoServer, but only supports a subset of possible
+ * WMS configurations.
  * @see WMSParser
  * https://github.com/osmdroid/osmdroid/issues/177
  * @author Alex O'Ree
@@ -67,14 +69,18 @@ public class WMSTileSource extends OnlineTileSourceBase{
     }
 
     public static WMSTileSource createFrom(WMSEndpoint endpoint, WMSLayer layer) {
+        String srs = "EPSG:900913";
+        if (!layer.getSrs().isEmpty()) {
+            srs = layer.getSrs().get(0);
+        }
         if (layer.getStyles().isEmpty()) {
             WMSTileSource r = new WMSTileSource(layer.getName(), new String[]{endpoint.getBaseurl()},layer.getName(),
-                endpoint.getWmsVersion(), layer.getSrs(), null, layer.getPixelSize());
+                endpoint.getWmsVersion(), srs, null, layer.getPixelSize());
             return r;
         }
 
         WMSTileSource r = new WMSTileSource(layer.getName(), new String[]{endpoint.getBaseurl()},layer.getName(),
-            endpoint.getWmsVersion(), layer.getSrs(),layer.getStyles().get(0), layer.getPixelSize());
+            endpoint.getWmsVersion(), srs,layer.getStyles().get(0), layer.getPixelSize());
         return r;
 
     }

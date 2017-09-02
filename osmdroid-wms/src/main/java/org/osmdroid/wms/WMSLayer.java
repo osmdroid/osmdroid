@@ -1,6 +1,6 @@
 package org.osmdroid.wms;
 
-import org.osmdroid.wms.v111.LatLonBoundingBox;
+import org.osmdroid.util.BoundingBox;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,8 +24,8 @@ public class WMSLayer {
     //maps to 'abstract' wms element
     private String description;
     //TODO replace with osmdroid boundingbox
-    private LatLonBoundingBox bbox;
-    private String srs;
+    private BoundingBox bbox;
+    private List<String> srs = new ArrayList<>();
 
     public List<String> getStyles() {
         return styles;
@@ -61,21 +61,14 @@ public class WMSLayer {
         this.description = description;
     }
 
-    public LatLonBoundingBox getBbox() {
+    public BoundingBox getBbox() {
         return bbox;
     }
 
-    public void setBbox(LatLonBoundingBox bbox) {
+    public void setBbox(BoundingBox bbox) {
         this.bbox = bbox;
     }
 
-    public String getSrs() {
-        return srs;
-    }
-
-    public void setSrs(String srs) {
-        this.srs = srs;
-    }
 
     public int getPixelSize() {
         return pixelSize;
@@ -84,4 +77,9 @@ public class WMSLayer {
     public void setPixelSize(int pixelSize) {
         this.pixelSize = pixelSize;
     }
+
+    public List<String> getSrs() {
+        return srs;
+    }
+
 }

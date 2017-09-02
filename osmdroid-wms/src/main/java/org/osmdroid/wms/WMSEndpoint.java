@@ -12,7 +12,31 @@ import java.util.List;
  * @since 5.6.6
  */
 public class WMSEndpoint {
+    public String getName() {
+        return name;
+    }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    private String name, description,title;
     private String wmsVersion = "1.1.0";
     //capability/getmap/HTTP/Get/OnlineResource
     private String baseurl;

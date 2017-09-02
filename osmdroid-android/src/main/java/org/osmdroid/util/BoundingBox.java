@@ -46,6 +46,18 @@ public class BoundingBox implements Parcelable, Serializable, MapViewConstants {
 		this.mLonEast = east;
 		this.mLatSouth = south;
 		this.mLonWest = west;
+		//validate the values
+		//  30 > 0 OK
+		// 30 < 0 not ok
+
+		if (north > 90.0)
+			throw new IllegalArgumentException("north must be less than 90");
+		if (south < -90.0)
+			throw new IllegalArgumentException("north more than -90");
+		if (west < -180)
+			throw new IllegalArgumentException("west must be more than -180");
+		if (east > 180)
+			throw new IllegalArgumentException("east must be less than 180");
 	}
 
 	public BoundingBox clone(){
