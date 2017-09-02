@@ -42,16 +42,20 @@ dependencies {
 project.gradle.taskGraph.whenReady {
     //this is just for Travis CI builds, since this package needs at least api 9 with google apis
     //ignore the following build targets 1,2,3,7, 12
-    if (System.getenv("API")!=null){
-        int api = Integer.parseInt(System.getenv("API").trim());
-        if (api < 9) {
-            println "Skipping GoogleWrapperSample instrumentation test since the API level doesn't match this project"
+    if (System.getenv("API")!=null) {
+        String apistring = System.getenv("API");
+        if (apistring.contains("g")) {
+            int api = Integer.parseInt(System.getenv("API").replace("g", "").trim());
+            if (api < 9) {
+                println "Skipping GoogleWrapperSample instrumentation test since the API level doesn't match this project"
 
-            installDebug { actions = []; }
-            connectedDebugAndroidTest { actions = []; }
+                installDebug { actions = []; }
+                connectedDebugAndroidTest { actions = []; }
 
+            }
         }
     }
+
 }
 
 
