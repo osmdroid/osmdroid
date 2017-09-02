@@ -68,6 +68,7 @@ env:
 
 before_install:
   # create and start emulators
+  - export ANDROID_SDK_ROOT=/usr/local/android-sdk/
   - android list targets
   - echo android create avd --force -n test$ANDROID_TARGET -t $ANDROID_TARGET --abi $ANDROID_ABI --sdcard 200M
   - echo no | android create avd --force -n test$ANDROID_TARGET -t $ANDROID_TARGET --abi $ANDROID_ABI --sdcard 200M
