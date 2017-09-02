@@ -58,7 +58,6 @@ public abstract class InfoWindow {
 		mIsVisible = false;
 		mView = v;
 		mView.setTag(this);
-		Log.w(IMapView.LOGTAG, "foobar Infowwindow new constructor");
 	}
 
 	/**
