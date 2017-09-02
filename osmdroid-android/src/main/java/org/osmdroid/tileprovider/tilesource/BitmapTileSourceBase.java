@@ -100,7 +100,10 @@ public abstract class BitmapTileSourceBase implements ITileSource {
 	public int getTileSizePixels() {
 		return mTileSizePixels;
 	}
-
+	@Override
+	public String toString(){
+		return name();
+	}
 
 	@Override
 	public Drawable getDrawable(final String aFilePath) throws LowMemoryException {

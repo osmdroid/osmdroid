@@ -66,6 +66,7 @@ public class DefaultConfigurationProvider implements IConfigurationProvider {
     protected Proxy httpProxy=null;
     protected int animationSpeedDefault =1000;
     protected int animationSpeedShort =500;
+    protected boolean mapViewRecycler=true;
 
     public DefaultConfigurationProvider(){
 
@@ -321,7 +322,7 @@ public class DefaultConfigurationProvider implements IConfigurationProvider {
             setTileDownloadMaxQueueSize((short)(prefs.getInt("osmdroid.tileDownloadMaxQueueSize",tileDownloadMaxQueueSize)));
             setTileFileSystemMaxQueueSize((short)(prefs.getInt("osmdroid.tileFileSystemMaxQueueSize",tileFileSystemMaxQueueSize)));
             setExpirationExtendedDuration((long)prefs.getLong("osmdroid.ExpirationExtendedDuration", expirationAdder));
-
+            setMapViewRecyclerFriendly((boolean)prefs.getBoolean("osmdroid.mapViewRecycler", mapViewRecycler));
             setAnimationSpeedDefault(prefs.getInt("osmdroid.ZoomSpeedDefault", animationSpeedDefault));
             setAnimationSpeedShort(prefs.getInt("osmdroid.animationSpeedShort", animationSpeedShort));
 
@@ -330,6 +331,7 @@ public class DefaultConfigurationProvider implements IConfigurationProvider {
                 if (expirationOverride!=null && expirationOverride==-1)
                     expirationOverride=null;
             }
+
         }
 
 
@@ -388,6 +390,7 @@ public class DefaultConfigurationProvider implements IConfigurationProvider {
         //TODO save other fields?
         edit.putInt("osmdroid.ZoomSpeedDefault", animationSpeedDefault);
         edit.putInt("osmdroid.animationSpeedShort", animationSpeedShort);
+        edit.putBoolean("osmdroid.mapViewRecycler", mapViewRecycler);
 
         edit.commit();
     }
@@ -473,5 +476,15 @@ public class DefaultConfigurationProvider implements IConfigurationProvider {
     @Override
     public int getAnimationSpeedShort() {
         return animationSpeedShort;
+    }
+
+    @Override
+    public boolean isMapViewRecyclerFriendly() {
+        return mapViewRecycler;
+    }
+
+    @Override
+    public void setMapViewRecyclerFriendly(boolean enabled) {
+        this.mapViewRecycler=enabled;
     }
 }

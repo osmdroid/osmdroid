@@ -211,6 +211,15 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 		mGestureDetector = new GestureDetector(context, new MapViewGestureDetectorListener());
 		mGestureDetector.setOnDoubleTapListener(new MapViewDoubleClickListener());
+
+		/*
+		fix for map in recycler views
+		see https://github.com/osmdroid/osmdroid/issues/588
+		https://github.com/osmdroid/osmdroid/issues/568
+		 */
+		if (Configuration.getInstance().isMapViewRecyclerFriendly())
+		if (Build.VERSION.SDK_INT >= 16)
+			this.setHasTransientState(true);
 	}
 
 	/**

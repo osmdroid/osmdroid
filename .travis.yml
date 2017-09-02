@@ -1,5 +1,5 @@
 language: android
-jdk: oraclejdk7
+jdk: openjdk7
 android:
   components:
     # The BuildTools version used by your project
@@ -26,6 +26,7 @@ android:
     - addon-google_apis-google-22
     - addon-google_apis-google-23
     - addon-google_apis-google-8
+    - sys-img-armeabi-v7a-google_apis-23
 
     # Additional components
     - extra-google-google_play_services
@@ -37,8 +38,11 @@ android:
     - sys-img-armeabi-android-15
     - sys-img-armeabi-android-19
     - sys-img-armeabi-android-21
-    - sys-img-x86-android-22
-    - sys-img-x86-android-23
+    - sys-img-armeabi-v7a-android-10
+    - sys-img-armeabi-v7a-google_apis-19
+    - sys-img-armeabi-v7a-google_apis-21
+    - sys-img-armeabi-v7a-google_apis-15
+    - sys-img-armeabi-v7a-google_apis-23
     - addon-google_apis-google-23
 
 sudo: required
@@ -53,32 +57,23 @@ env:
     matrix:
     #note when changing these, updating the gradle build file for the GoogleWrapper project
     # first env var is just for display purposes
-    #api8 with google
-    - API=8g ANDROID_TARGET=13  ANDROID_ABI=armeabi
-    #api8
+    - API=8g ANDROID_TARGET=11  ANDROID_ABI=armeabi
     - API=8 ANDROID_TARGET=1  ANDROID_ABI=armeabi
-    #api10
     - API=10 ANDROID_TARGET=2  ANDROID_ABI=armeabi
-    #api10 with google
-    - API=10g ANDROID_TARGET=13  ANDROID_ABI=armeabi
-    #api15
-    - API=15 ANDROID_TARGET=3  ANDROID_ABI=armeabi-v7a
-    #api15 with google
-    - API=15g ANDROID_TARGET=15  ANDROID_ABI=armeabi-v7a
-    #api19
-    - API=19 ANDROID_TARGET=7  ANDROID_ABI=armeabi-v7a
-    #api19 with google
-    # disabling, the system image is no longer available on travis - API=19g ANDROID_TARGET=16  ANDROID_ABI=armeabi-v7a
-    #api21
-    #- ANDROID_TARGET=17  ANDROID_ABI=armeabi-v7a no abi available with google apis
-    #api22
-    # ANDROID_TARGET=18  ANDROID_ABI=x86 not currently possible with travis, missing some kind of hardware acceleration driver
-    #api23
-    # ANDROID_TARGET=19  ANDROID_ABI=x86 not currently possible with travis, missing some kind of hardware acceleration driver
+    # - API=19 ANDROID_TARGET=5  ANDROID_ABI=google_apis/armeabi-v7a
+    # (above) stopped working sept 2017 unknown reason
+    # - API=15 ANDROID_TARGET=3  ANDROID_ABI=google_apis/armeabi-v7a
+    # (above) stopped working sept 2017 unknown reason
+    # - API=10g ANDROID_TARGET=12  ANDROID_ABI=armeabi
+    # (above) stopped working sept 2017 unknown reason, the emulator says google services aren't installed
+    # - API=15g ANDROID_TARGET=13  ANDROID_ABI=armeabi-v7a
+    # (above) stopped working sept 2017 unknown reason
 
 before_install:
   # create and start emulators
+  - export ANDROID_SDK_ROOT=/usr/local/android-sdk/
   - android list targets
+  - echo android create avd --force -n test$ANDROID_TARGET -t $ANDROID_TARGET --abi $ANDROID_ABI --sdcard 200M
   - echo no | android create avd --force -n test$ANDROID_TARGET -t $ANDROID_TARGET --abi $ANDROID_ABI --sdcard 200M
   - emulator -memory 1536 -avd test$ANDROID_TARGET -no-skin -no-audio -no-window &
   - android-wait-for-emulator
@@ -127,6 +122,8 @@ script:
   #build using gradle
   # travis_wait 30 https://docs.travis-ci.com/user/common-build-problems/#My-builds-are-timing-out
   - ./gradlew -version
+  - echo $JAVA_HOME
+  - export JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64
   - travis_wait 60 ./gradlew clean connectedCheck
   # fun fact, maven runs android tests concurrently for all connected devices, gradle does not
   # since we're using build matrix, each build target compiles the source, fires up it's specific vm, runs the tests, then exits.
