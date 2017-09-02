@@ -37,8 +37,11 @@ android:
     - sys-img-armeabi-android-15
     - sys-img-armeabi-android-19
     - sys-img-armeabi-android-21
-    - sys-img-x86-android-22
-    - sys-img-x86-android-23
+    - sys-img-armeabi-v7a-android-10
+    - sys-img-armeabi-v7a-google_apis-19
+    - sys-img-armeabi-v7a-google_apis-21
+    - sys-img-armeabi-v7a-google_apis-15
+    - sys-img-armeabi-v7a-google_apis-23
     - addon-google_apis-google-23
 
 sudo: required
@@ -54,19 +57,19 @@ env:
     #note when changing these, updating the gradle build file for the GoogleWrapper project
     # first env var is just for display purposes
     #api8 with google
-    - API=8g ANDROID_TARGET=13  ANDROID_ABI=armeabi
+    - API=8g ANDROID_TARGET=11  ANDROID_ABI=armeabi
     #api8
     - API=8 ANDROID_TARGET=1  ANDROID_ABI=armeabi
     #api10
-    - API=10 ANDROID_TARGET=2  ANDROID_ABI=armeabi
+    - API=10 ANDROID_TARGET=12  ANDROID_ABI=armeabi
     #api10 with google
     - API=10g ANDROID_TARGET=13  ANDROID_ABI=armeabi
     #api15
     - API=15 ANDROID_TARGET=3  ANDROID_ABI=armeabi-v7a
     #api15 with google
-    - API=15g ANDROID_TARGET=15  ANDROID_ABI=armeabi-v7a
-    #api19
-    - API=19 ANDROID_TARGET=7  ANDROID_ABI=armeabi-v7a
+    - API=15g ANDROID_TARGET=13  ANDROID_ABI=armeabi-v7a
+    #api19 with google
+    - API=19 ANDROID_TARGET=15  ANDROID_ABI=armeabi-v7a
     #api19 with google
     # disabling, the system image is no longer available on travis - API=19g ANDROID_TARGET=16  ANDROID_ABI=armeabi-v7a
     #api21
@@ -79,6 +82,7 @@ env:
 before_install:
   # create and start emulators
   - android list targets
+  - echo android create avd --force -n test$ANDROID_TARGET -t $ANDROID_TARGET --abi $ANDROID_ABI --sdcard 200M
   - echo no | android create avd --force -n test$ANDROID_TARGET -t $ANDROID_TARGET --abi $ANDROID_ABI --sdcard 200M
   - emulator -memory 1536 -avd test$ANDROID_TARGET -no-skin -no-audio -no-window &
   - android-wait-for-emulator
