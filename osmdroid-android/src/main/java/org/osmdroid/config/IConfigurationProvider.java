@@ -354,4 +354,19 @@ public interface IConfigurationProvider {
      * @since 5.6.6
      */
     int getAnimationSpeedShort();
+
+    /**
+     * If true, the map view will set .setHasTransientState(true) for API 16+ devices.
+     * This is now the default setting. Set to false if this is causing you issues
+     * @since 5.6.6
+     * @return
+     */
+    boolean isMapViewRecyclerFriendly();
+    /**
+     * If true, the map view will set .setHasTransientState(true) for API 16+ devices.
+     * This is now the default setting. Set to false if this is causing you issues
+     * @since 5.6.6
+     * @return
+     */
+    void setMapViewRecyclerFriendly(boolean enabled);
 }

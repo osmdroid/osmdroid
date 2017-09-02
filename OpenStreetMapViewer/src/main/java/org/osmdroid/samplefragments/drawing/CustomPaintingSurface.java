@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BlurMaskFilter;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.EmbossMaskFilter;
 import android.graphics.Paint;
 import android.graphics.Path;
@@ -20,6 +21,7 @@ import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
+import org.osmdroid.views.overlay.Polygon;
 import org.osmdroid.views.overlay.Polyline;
 
 import java.util.ArrayList;
@@ -34,7 +36,15 @@ import java.util.List;
  */
 
 public class CustomPaintingSurface extends View {
+    public void setMode(Mode mode) {
+        this.drawingMode=mode;
+    }
+    private Mode drawingMode=Mode.Polyline;
 
+    public enum Mode{
+        Polyline,
+        Polygon
+    }
     private Bitmap  mBitmap;
     private Canvas  mCanvas;
     private Path    mPath;
@@ -119,16 +129,30 @@ public class CustomPaintingSurface extends View {
             //TODO run the dougles pucker algorithm to reduce the points for performance reasons
             if (geoPoints.size() > 2) {
                 //only plat a line unless there's at least one item
-                Polyline line = new Polyline();
-                line.setPoints(geoPoints);
-                line.setOnClickListener(new Polyline.OnClickListener() {
-                    @Override
-                    public boolean onClick(Polyline polyline, MapView mapView, GeoPoint eventPos) {
-                        Toast.makeText(mapView.getContext(), "polyline with " + polyline.getPoints().size() + "pts was tapped", Toast.LENGTH_LONG).show();
-                        return false;
-                    }
-                });
-                map.getOverlayManager().add(line);
+                switch (drawingMode) {
+                    case Polyline:
+                        Polyline line = new Polyline();
+                        line.setPoints(geoPoints);
+                        line.setOnClickListener(new Polyline.OnClickListener() {
+                            @Override
+                            public boolean onClick(Polyline polyline, MapView mapView, GeoPoint eventPos) {
+                                Toast.makeText(mapView.getContext(), "polyline with " + polyline.getPoints().size() + "pts was tapped", Toast.LENGTH_LONG).show();
+                                return false;
+                            }
+                        });
+                        map.getOverlayManager().add(line);
+                        break;
+                    case Polygon:
+                        Polygon polygon = new Polygon();
+                        polygon.setFillColor(Color.argb(75, 255,0,0));
+                        geoPoints.add(geoPoints.get(0));    //forces the loop to close
+                        polygon.setPoints(geoPoints);
+                        polygon.setTitle("A sample polygon");
+
+                        map.getOverlayManager().add(polygon);
+                        break;
+                }
+
                 map.invalidate();
             }
         }
