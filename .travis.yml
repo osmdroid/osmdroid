@@ -63,7 +63,7 @@ env:
     #api10
     - API=10 ANDROID_TARGET=12  ANDROID_ABI=armeabi
     #api10 with google
-    - API=10g ANDROID_TARGET=13  ANDROID_ABI=armeabi
+    - API=10g ANDROID_TARGET=12  ANDROID_ABI=armeabi
     #api15
     - API=15 ANDROID_TARGET=3  ANDROID_ABI=armeabi-v7a
     #api15 with google
