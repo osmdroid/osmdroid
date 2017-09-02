@@ -57,28 +57,13 @@ env:
     matrix:
     #note when changing these, updating the gradle build file for the GoogleWrapper project
     # first env var is just for display purposes
-    #api8 with google
     - API=8g ANDROID_TARGET=11  ANDROID_ABI=armeabi
-    #api8
     - API=8 ANDROID_TARGET=1  ANDROID_ABI=armeabi
-    #api10
     - API=10 ANDROID_TARGET=2  ANDROID_ABI=armeabi
-    #api10 with google
-    - API=10g ANDROID_TARGET=12  ANDROID_ABI=armeabi
-    #api15
-    - API=15 ANDROID_TARGET=3  ANDROID_ABI=armeabi-v7a
-    #api15 with google
-    - API=15g ANDROID_TARGET=13  ANDROID_ABI=armeabi-v7a
-    #api19 with google
     - API=19 ANDROID_TARGET=5  ANDROID_ABI=armeabi-v7a
-    #api19 with google
-    # disabling, the system image is no longer available on travis - API=19g ANDROID_TARGET=16  ANDROID_ABI=armeabi-v7a
-    #api21
-    #- ANDROID_TARGET=17  ANDROID_ABI=armeabi-v7a no abi available with google apis
-    #api22
-    # ANDROID_TARGET=18  ANDROID_ABI=x86 not currently possible with travis, missing some kind of hardware acceleration driver
-    #api23
-    # ANDROID_TARGET=19  ANDROID_ABI=x86 not currently possible with travis, missing some kind of hardware acceleration driver
+    - API=15 ANDROID_TARGET=3  ANDROID_ABI=armeabi-v7a
+    - API=10g ANDROID_TARGET=12  ANDROID_ABI=armeabi
+    - API=15g ANDROID_TARGET=13  ANDROID_ABI=armeabi-v7a
 
 before_install:
   # create and start emulators
