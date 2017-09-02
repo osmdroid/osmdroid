@@ -66,11 +66,26 @@ public class BoundingBox implements Parcelable, Serializable, MapViewConstants {
 	// ===========================================================
 
 	/**
+	 * Use {@link #getCenterWithDateLine()} instead to take date line into consideration
 	 * @return GeoPoint center of this BoundingBox
 	 */
+	@Deprecated
 	public GeoPoint getCenter() {
 		return new GeoPoint((this.mLatNorth + this.mLatSouth) / 2.0,
 				(this.mLonEast + this.mLonWest) / 2.0);
+	}
+
+	/**
+	 * This version takes into consideration the date line
+	 * @since 5.6.6
+	 */
+	public GeoPoint getCenterWithDateLine() {
+		final double latitude = (mLatNorth + mLatSouth) / 2.0;
+		double longitude = (mLonEast + mLonWest) / 2.0;
+		if (mLonEast < mLonWest) {
+			longitude += TileSystem.MaxLongitude;
+		}
+		return new GeoPoint(latitude, longitude);
 	}
 
 	public double getDiagonalLengthInMeters() {
