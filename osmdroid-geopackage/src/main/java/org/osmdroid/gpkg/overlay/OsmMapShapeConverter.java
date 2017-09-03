@@ -35,11 +35,13 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 
+import org.osmdroid.gpkg.R;
 import org.osmdroid.gpkg.overlay.features.*;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.Polyline;
+import org.osmdroid.views.overlay.infowindow.BasicInfoWindow;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -119,8 +121,7 @@ public class OsmMapShapeConverter {
 
     /**
      * Constructor with specified projection, see
-     * {@link FeatureDao#getProjection}
-     *
+          *
      * @param projection
      */
     public OsmMapShapeConverter(Projection projection, MarkerOptions options, PolylineOptions polylineOptions,
@@ -211,6 +212,7 @@ public class OsmMapShapeConverter {
             line.setColor(polylineOptions.getColor());
             line.setGeodesic(polylineOptions.isGeodesic());
             line.setWidth(polylineOptions.getWidth());
+            line.setSubDescription(polygonOptions.getSubtitle());
         }
 
         List<GeoPoint> pts = new ArrayList<>();
@@ -688,6 +690,7 @@ public class OsmMapShapeConverter {
             m.setAlpha(options.getAlpha());
             m.setTitle(options.getTitle());
             m.setSubDescription(options.getSubdescription());
+            m.setInfoWindow(new BasicInfoWindow(R.layout.bonuspack_bubble, map));
         }
         map.getOverlayManager().add(m);
         return m;
@@ -702,6 +705,8 @@ public class OsmMapShapeConverter {
      */
     public static Polyline addPolylineToMap(MapView map,
                                             Polyline polyline) {
+        if (polyline.getInfoWindow()==null)
+            polyline.setInfoWindow(new BasicInfoWindow(R.layout.bonuspack_bubble, map));
         map.getOverlayManager().add(polyline);
         return polyline;
     }
@@ -710,7 +715,7 @@ public class OsmMapShapeConverter {
      * Add a Polygon to the map
      *
      * @param map
-     * @param polygon
+
      * @return
      */
     public static org.osmdroid.views.overlay.Polygon addPolygonToMap(
@@ -725,6 +730,8 @@ public class OsmMapShapeConverter {
             polygon1.setTitle(options.getTitle());
             polygon1.setStrokeColor(options.getStrokeColor());
             polygon1.setStrokeWidth(options.getStrokeWidth());
+            polygon1.setSubDescription(options.getSubtitle());
+            polygon1.setInfoWindow(new BasicInfoWindow(R.layout.bonuspack_bubble, map));
 
         }
 
@@ -750,6 +757,8 @@ public class OsmMapShapeConverter {
             polygon.setTitle(options.getTitle());
             polygon.setStrokeColor(options.getStrokeColor());
             polygon.setStrokeWidth(options.getStrokeWidth());
+            polygon.setSubDescription(options.getSubtitle());
+            polygon.setInfoWindow(new BasicInfoWindow(R.layout.bonuspack_bubble, map));
 
         }
 
@@ -787,6 +796,8 @@ public class OsmMapShapeConverter {
         MultiPolyline multiPolyline = new MultiPolyline();
 
         for (Polyline line : polylines) {
+            if (line.getInfoWindow()==null)
+            line.setInfoWindow(new BasicInfoWindow(R.layout.bonuspack_bubble, map));
             map.getOverlayManager().add(line);
             multiPolyline.add(line);
         }
@@ -800,6 +811,8 @@ public class OsmMapShapeConverter {
         for (org.osmdroid.views.overlay.Polygon polygonOption : polygons) {
             org.osmdroid.views.overlay.Polygon polygon = addPolygonToMap(map,polygonOption.getPoints(), polygonOption.getHoles(), opts);
 
+            if (polygon.getInfoWindow()==null)
+                polygon.setInfoWindow(new BasicInfoWindow(R.layout.bonuspack_bubble, map));
             multiPolygon.add(polygon);
         }
         return multiPolygon;

@@ -207,6 +207,16 @@ public class GeopackageFeatures extends BaseSampleFragment {
                                     try {
                                         FeatureRow featureRow = featureCursor.getRow();
                                         GeoPackageGeometryData geometryData = featureRow.getGeometry();
+                                        if ("statesQGIS".equals(featureTable) && "states10".equals(databases.get(k))) {
+                                            //cheating here a bit, if you happen to have the states10.gpkg file
+                                            //this will colorize thes tates based on the 2016 presential election results
+
+                                            //get it here: https://github.com/opengeospatial/geopackage/raw/gh-pages/data/states10.gpkg
+                                            String state = (String) featureRow.getValue("STATE_NAME");
+                                            String stateabbr = (String)featureRow.getValue("STATE_ABBR");
+                                            long population = (long) featureRow.getValue("POP1996");
+                                            applyTheming(state, stateabbr, population, polygonOptions);
+                                        }
                                         Geometry geometry = geometryData.getGeometry();
                                         converter.addToMap(mMapView, geometry);
                                     } catch (Exception ex) {
@@ -244,6 +254,40 @@ public class GeopackageFeatures extends BaseSampleFragment {
             }
         });
         updateInfo();
+    }
+
+    private void applyTheming(String state, String stateabbr, long population, PolygonOptions polygonOptions) {
+        polygonOptions.setTitle(stateabbr);
+        final int alpha = 100;
+        switch (stateabbr) {
+            case "CA":
+            case "CO":
+            case "CT":
+            case "DE":
+            case "DC":
+            case "HI":
+            case "IL":
+            case "ME":
+            case "MD":
+            case "MA":
+            case "MN":
+            case "NE":
+            case "NJ":
+            case "NM":
+            case "NY":
+            case "OR":
+            case "RI":
+            case "VT":
+            case "VA":
+            case "WA":
+               polygonOptions.setFillColor(Color.argb(alpha, 0,0,255));
+                polygonOptions.setSubtitle(state + "<br>Population:" + population +"<br>Voted: Democratic in 2016");
+                break;
+            default:
+                polygonOptions.setFillColor(Color.argb(alpha, 255,0,0));
+                polygonOptions.setSubtitle(state + "<br>Population:" + population +"<br>Voted: Republican in 2016");
+
+        }
     }
 
     @Override
