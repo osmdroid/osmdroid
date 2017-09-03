@@ -29,6 +29,8 @@
  */
 package org.osmdroid.gpkg.features;
 
+import org.osmdroid.views.overlay.Polyline;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,15 +43,15 @@ import java.util.List;
  */
 public class MultiPolylineOptions {
 
-	private List<PolylineOptions> polylineOptions = new ArrayList<PolylineOptions>();
+	private List<Polyline> polylineOptions = new ArrayList<Polyline>();
 
 	private PolylineOptions options;
 
-	public void add(PolylineOptions polylineOption) {
+	public void add(Polyline polylineOption) {
 		polylineOptions.add(polylineOption);
 	}
 
-	public List<PolylineOptions> getPolylineOptions() {
+	public List<Polyline> getPolylineOptions() {
 		return polylineOptions;
 	}
 
@@ -61,7 +63,7 @@ public class MultiPolylineOptions {
 		this.options = options;
 	}
 
-	public void setPolylineOptions(List<PolylineOptions> polylineOptions) {
+	public void setPolylineOptions(List<Polyline> polylineOptions) {
 		this.polylineOptions = polylineOptions;
 	}
 

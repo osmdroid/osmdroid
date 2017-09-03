@@ -32,6 +32,7 @@ package org.osmdroid.gpkg.features;
 
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.util.GeoPoint;
+import org.osmdroid.views.overlay.Polyline;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,19 +44,52 @@ import java.util.List;
  */
 
 public class PolylineOptions {
-    private List<GeoPoint> points=new ArrayList<>();
+    private String title;
+    private String subtitle;
+    private  float width;
+    private int color;
 
-    public List<GeoPoint> getPoints() {
-        return points;
+    public boolean isGeodesic() {
+        return geodesic;
     }
 
-    public void zIndex(float v) {
-//FIXME
+    public void setGeodesic(boolean geodesic) {
+        this.geodesic = geodesic;
     }
 
-    public void add(GeoPoint latLng) {
+    boolean geodesic=false;
 
-        points.add(latLng);
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getSubtitle() {
+        return subtitle;
+    }
+
+    public void setSubtitle(String subtitle) {
+        this.subtitle = subtitle;
+    }
+
+    public float getWidth() {
+        return width;
+    }
+
+    public void setWidth(float width) {
+        this.width = width;
+    }
+
+    public int getColor() {
+        return color;
+    }
+
+    public void setColor(int color) {
+        this.color = color;
 
     }
+
 }

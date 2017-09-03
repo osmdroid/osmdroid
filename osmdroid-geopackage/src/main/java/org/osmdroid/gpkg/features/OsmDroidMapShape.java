@@ -325,12 +325,12 @@ public class OsmDroidMapShape {
                 expandBoundingBox(boundingBox, (GeoPoint) shape);
                 break;
             case MARKER_OPTIONS:
-                expandBoundingBox(boundingBox,
-                        ((MarkerOptions) shape).getPosition());
+                //expandBoundingBox(boundingBox,
+                  //      ((MarkerOptions) shape).getPosition());
                 break;
             case POLYLINE_OPTIONS:
                 expandBoundingBox(boundingBox,
-                        ((PolylineOptions) shape).getPoints());
+                        ((Polyline) shape).getPoints());
                 break;
             case POLYGON_OPTIONS:
                 expandBoundingBox(boundingBox, ((PolygonOptions) shape).getPoints());
@@ -340,8 +340,7 @@ public class OsmDroidMapShape {
                 break;
             case MULTI_POLYLINE_OPTIONS:
                 MultiPolylineOptions multiPolylineOptions = (MultiPolylineOptions) shape;
-                for (PolylineOptions polylineOptions : multiPolylineOptions
-                        .getPolylineOptions()) {
+                for (Polyline polylineOptions : multiPolylineOptions.getPolylineOptions()) {
                     expandBoundingBox(boundingBox, polylineOptions.getPoints());
                 }
                 break;

@@ -29,6 +29,8 @@
  */
 package org.osmdroid.gpkg.features;
 
+import android.graphics.drawable.Drawable;
+
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.util.GeoPoint;
 
@@ -39,14 +41,43 @@ import org.osmdroid.util.GeoPoint;
  */
 
 public class MarkerOptions {
-    protected GeoPoint position;
-    private Object icon;
+    Drawable icon;
+    String title;
+    String subdescription;
 
-    public GeoPoint getPosition() {
-        return position;
-    }
-
-    public Object getIcon() {
+    public Drawable getIcon() {
         return icon;
     }
+
+    public void setIcon(Drawable icon) {
+        this.icon = icon;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getSubdescription() {
+        return subdescription;
+    }
+
+    public void setSubdescription(String subdescription) {
+        this.subdescription = subdescription;
+    }
+
+    public float getAlpha() {
+        return alpha;
+    }
+
+    public void setAlpha(float alpha) {
+        this.alpha = alpha;
+    }
+
+    float alpha;
+
+
 }
