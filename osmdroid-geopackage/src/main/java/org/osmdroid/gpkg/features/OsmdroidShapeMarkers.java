@@ -189,44 +189,6 @@ public class OsmdroidShapeMarkers {
     }
 
     /**
-     * Get the shape markers for a marker, only returns a value of shapes that
-     * can be edited
-     *
-     * @param marker
-     * @return
-
-    public boolean delete(Marker marker) {
-        boolean deleted = false;
-        if (contains(marker)) {
-            deleted = true;
-            ShapeMarkers shapeMarkers = shapeMarkersMap.remove(marker.getId());
-            if (shapeMarkers != null) {
-                shapeMarkers.delete(marker);
-            }
-            marker.remove();
-        }
-        return deleted;
-    }   */
-
-    /**
-     * Removes all objects added to the map
-
-    public void remove() {
-        if (shape != null) {
-            shape.remove();
-        }
-    }   */
-
-    /**
-     * Updates all objects that could have changed from moved markers
-
-    public void update() {
-        if (shape != null) {
-            shape.update();
-        }
-    } */
-
-    /**
      * Determines if the shape is in a valid state
      */
     public boolean isValid() {
@@ -332,7 +294,6 @@ public class OsmdroidShapeMarkers {
      * @since 1.3.2
      */
     public void setVisible(boolean visible) {
-        shape.setVisible(visible);
         setVisibleMarkers(visible);
     }
 

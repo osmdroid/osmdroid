@@ -196,31 +196,6 @@ public class OsmMapShapeConverter {
     }
 
 
-    /**
-     * Convert a {@link GeoPoint} to a {@link Point}
-     *
-     * @param latLng
-     * @return
-     */
-    public Point toPoint(GeoPoint latLng) {
-        return toPoint(latLng, false, false);
-    }
-
-    /**
-     * Convert a {@link GeoPoint} to a {@link Point}
-     *
-     * @param latLng
-     * @param hasZ
-     * @param hasM
-     * @return
-     */
-    public Point toPoint(GeoPoint latLng, boolean hasZ, boolean hasM) {
-        double y = latLng.getLatitude();
-        double x = latLng.getLongitude();
-        Point point = new Point(hasZ, hasM, x, y);
-        point = toProjection(point);
-        return point;
-    }
 
     /**
      * Convert a {@link LineString} to a {@link PolylineOptions}
@@ -248,121 +223,7 @@ public class OsmMapShapeConverter {
         return line;
     }
 
-    /**
-     * Convert a {@link Polyline} to a {@link LineString}
-     *
-     * @param polyline
-     * @return
-     */
-    public LineString toLineString(Polyline polyline) {
-        return toLineString(polyline, false, false);
-    }
 
-    /**
-     * Convert a {@link Polyline} to a {@link LineString}
-     *
-     * @param polyline
-     * @param hasZ
-     * @param hasM
-     * @return
-     */
-    public LineString toLineString(Polyline polyline, boolean hasZ, boolean hasM) {
-        return toLineString2(polyline.getPoints(), hasZ, hasM);
-    }
-
-
-
-    /**
-     * Convert a list of {@link GeoPoint} to a {@link LineString}
-     *
-     * @param latLngs
-     * @return
-     */
-    public LineString toLineString(List<GeoPoint> latLngs) {
-        return toLineString(latLngs, false, false);
-    }
-
-    public LineString toLineString2(List<GeoPoint> latLngs) {
-        return toLineString2(latLngs, false, false);
-    }
-
-    /**
-     * Convert a list of {@link GeoPoint} to a {@link LineString}
-     *
-     * @param latLngs
-     * @param hasZ
-     * @param hasM
-     * @return
-     */
-    public LineString toLineString(List<GeoPoint> latLngs, boolean hasZ,
-                                   boolean hasM) {
-
-        LineString lineString = new LineString(hasZ, hasM);
-
-        populateLineString(lineString, latLngs);
-
-        return lineString;
-    }
-
-    public LineString toLineString2(List<GeoPoint> latLngs, boolean hasZ,
-                                   boolean hasM) {
-
-        LineString lineString = new LineString(hasZ, hasM);
-
-        populateLineString2(lineString, latLngs);
-
-        return lineString;
-    }
-
-    /**
-     * Convert a list of {@link GeoPoint} to a {@link CircularString}
-     *
-     * @param latLngs
-     * @return
-     */
-    public CircularString toCircularString(List<GeoPoint> latLngs) {
-        return toCircularString(latLngs, false, false);
-    }
-
-    /**
-     * Convert a list of {@link GeoPoint} to a {@link CircularString}
-     *
-     * @param latLngs
-     * @param hasZ
-     * @param hasM
-     * @return
-     */
-    public CircularString toCircularString(List<GeoPoint> latLngs, boolean hasZ,
-                                           boolean hasM) {
-
-        CircularString circularString = new CircularString(hasZ, hasM);
-
-        populateLineString(circularString, latLngs);
-
-        return circularString;
-    }
-
-    public void populateLineString2(LineString lineString, List<GeoPoint> latLngs) {
-
-        for (GeoPoint latLng : latLngs) {
-            Point point = toPoint(latLng, lineString.hasZ(), lineString.hasM());
-            lineString.addPoint(point);
-        }
-    }
-
-    /**
-     * Convert a list of {@link GeoPoint} to a {@link LineString}
-     *
-     * @param lineString
-     * @param latLngs
-     */
-    public void populateLineString(LineString lineString, List<GeoPoint> latLngs) {
-
-        for (GeoPoint latLng : latLngs) {
-            Point point = toPoint(latLng, lineString.hasZ(), lineString.hasM());
-            lineString.addPoint(point);
-        }
-    }
 
     /**
      * Convert a {@link Polygon} to a {@link PolygonOptions}
@@ -371,7 +232,7 @@ public class OsmMapShapeConverter {
      * @return
      */
     public org.osmdroid.views.overlay.Polygon toPolygon(Polygon polygon) {
-        org.osmdroid.views.overlay.Polygon polygonOptions = new org.osmdroid.views.overlay.Polygon();
+        org.osmdroid.views.overlay.Polygon newPoloygon = new org.osmdroid.views.overlay.Polygon();
         List<GeoPoint> pts = new ArrayList<>();
         List<List<GeoPoint>> holes = new ArrayList<>();
 
@@ -407,10 +268,17 @@ public class OsmMapShapeConverter {
 
 
         }
-        polygonOptions.setPoints(pts);
-        polygonOptions.setHoles(holes);
+        newPoloygon.setPoints(pts);
+        newPoloygon.setHoles(holes);
 
-        return polygonOptions;
+        if (polygonOptions!=null){
+            newPoloygon.setFillColor(polygonOptions.getFillColor());
+            newPoloygon.setStrokeColor(polygonOptions.getStrokeColor());
+            newPoloygon.setStrokeWidth(polygonOptions.getStrokeWidth());
+            newPoloygon.setTitle(polygonOptions.getTitle());
+        }
+
+        return newPoloygon;
     }
 
     /**
@@ -492,123 +360,7 @@ public class OsmMapShapeConverter {
         return polygonOptions;
     }
 
-    /**
-     * Convert a {@link org.osmdroid.views.overlay.Polygon} to a
-     * {@link Polygon}
-     *
-     * @param polygon
-     * @return
-     */
-    public Polygon toPolygon(org.osmdroid.views.overlay.Polygon polygon) {
-        return toPolygon(polygon, false, false);
-    }
 
-    /**
-     * Convert a {@link org.osmdroid.views.overlay.Polygon} to a
-     * {@link Polygon}
-     *
-     * @param polygon
-     * @param hasZ
-     * @param hasM
-     * @return
-     */
-    public Polygon toPolygon(org.osmdroid.views.overlay.Polygon polygon,
-                             boolean hasZ, boolean hasM) {
-        return toPolygon(polygon.getPoints(), polygon.getHoles(), hasZ, hasM);
-    }
-
-
-    /**
-     * Convert a list of {@link GeoPoint} and list of hole list {@link GeoPoint} to
-     * a {@link Polygon}
-     *
-     * @param latLngs
-     * @param holes
-     * @return
-     */
-    public Polygon toPolygon(List<GeoPoint> latLngs, List<List<GeoPoint>> holes) {
-        return toPolygon(latLngs, holes, false, false);
-    }
-
-    /**
-     * Convert a list of {@link GeoPoint} and list of hole list {@link GeoPoint} to
-     * a {@link Polygon}
-     *
-     * @param latLngs
-     * @param holes
-     * @param hasZ
-     * @param hasM
-     * @return
-     */
-    public Polygon toPolygon(List<GeoPoint> latLngs, List<List<GeoPoint>> holes,
-                             boolean hasZ, boolean hasM) {
-
-        Polygon polygon = new Polygon(hasZ, hasM);
-
-        // Close the ring if needed and determine orientation
-        closePolygonRing(latLngs);
-        PolygonOrientation ringOrientation = getOrientation(latLngs);
-
-        // Add the polygon points
-        LineString polygonLineString = new LineString(hasZ, hasM);
-        for (GeoPoint latLng : latLngs) {
-            Point point = toPoint(latLng);
-            // Add exterior in desired orientation order
-            if (exteriorOrientation == null || exteriorOrientation == ringOrientation) {
-                polygonLineString.addPoint(point);
-            } else {
-                polygonLineString.getPoints().add(0, point);
-            }
-        }
-        polygon.addRing(polygonLineString);
-
-        // Add the holes
-        if (holes != null) {
-            for (List<GeoPoint> hole : holes) {
-
-                // Close the hole if needed and determine orientation
-                closePolygonRing(hole);
-                PolygonOrientation ringHoleOrientation = getOrientation(hole);
-
-                LineString holeLineString = new LineString(hasZ, hasM);
-                for (GeoPoint latLng : hole) {
-                    Point point = toPoint(latLng);
-                    // Add holes in desired orientation order
-                    if (holeOrientation == null || holeOrientation == ringHoleOrientation) {
-                        holeLineString.addPoint(point);
-                    } else {
-                        holeLineString.getPoints().add(0, point);
-                    }
-                }
-                polygon.addRing(holeLineString);
-            }
-        }
-
-        return polygon;
-    }
-
-    /**
-     * Close the polygon ring (exterior or hole) points if needed
-     *
-     * @param points ring points
-     * @since 1.3.2
-     */
-    public void closePolygonRing(List<GeoPoint> points) {
-        if (!PolyUtil.isClosedPolygon(points)) {
-            GeoPoint first = points.get(0);
-            points.add(new GeoPoint(first.getLatitude(), first.getLongitude()));
-        }
-    }
-
-    /**
-     * Determine the closed points orientation
-         * @param points closed points
-     * @return orientation
-     * @since 1.3.2
-        */
-    public PolygonOrientation getOrientation(List<GeoPoint> points) {
-        return SphericalUtil.computeSignedArea(points) >= 0 ? PolygonOrientation.COUNTERCLOCKWISE : PolygonOrientation.CLOCKWISE;
-    }
 
     /**
      * Convert a {@link MultiPoint} to a {@link MultiLatLng}
@@ -628,59 +380,6 @@ public class OsmMapShapeConverter {
         return multiLatLng;
     }
 
-    /**
-     * Convert a {@link MultiLatLng} to a {@link MultiPoint}
-     *
-     * @param latLngs
-     * @return
-     */
-    public MultiPoint toMultiPoint(MultiLatLng latLngs) {
-        return toMultiPoint(latLngs, false, false);
-    }
-
-    /**
-     * Convert a {@link MultiLatLng} to a {@link MultiPoint}
-     *
-     * @param latLngs
-     * @param hasZ
-     * @param hasM
-     * @return
-     */
-    public MultiPoint toMultiPoint(MultiLatLng latLngs, boolean hasZ,
-                                   boolean hasM) {
-        return toMultiPoint(latLngs.getLatLngs(), hasZ, hasM);
-    }
-
-    /**
-     * Convert a {@link MultiLatLng} to a {@link MultiPoint}
-     *
-     * @param latLngs
-     * @return
-     */
-    public MultiPoint toMultiPoint(List<GeoPoint> latLngs) {
-        return toMultiPoint(latLngs, false, false);
-    }
-
-    /**
-     * Convert a {@link MultiLatLng} to a {@link MultiPoint}
-     *
-     * @param latLngs
-     * @param hasZ
-     * @param hasM
-     * @return
-     */
-    public MultiPoint toMultiPoint(List<GeoPoint> latLngs, boolean hasZ,
-                                   boolean hasM) {
-
-        MultiPoint multiPoint = new MultiPoint(hasZ, hasM);
-
-        for (GeoPoint latLng : latLngs) {
-            Point point = toPoint(latLng);
-            multiPoint.addPoint(point);
-        }
-
-        return multiPoint;
-    }
 
     /**
      * Convert a {@link MultiLineString} to a {@link MultiPolylineOptions}
@@ -700,104 +399,10 @@ public class OsmMapShapeConverter {
         return lines;
     }
 
-    /**
-     * Convert a list of {@link Polyline} to a {@link MultiLineString}
-     *
-     * @param polylineList
-     * @return
-     */
-    public MultiLineString toMultiLineString(List<Polyline> polylineList) {
-        return toMultiLineString(polylineList, false, false);
-    }
-
-    /**
-     * Convert a list of {@link Polyline} to a {@link MultiLineString}
-     *
-     * @param polylineList
-     * @param hasZ
-     * @param hasM
-     * @return
-     */
-    public MultiLineString toMultiLineString(List<Polyline> polylineList,
-                                             boolean hasZ, boolean hasM) {
-
-        MultiLineString multiLineString = new MultiLineString(hasZ, hasM);
-
-        for (Polyline polyline : polylineList) {
-            LineString lineString = toLineString(polyline);
-            multiLineString.addLineString(lineString);
-        }
-
-        return multiLineString;
-    }
-
-    /**
-     * Convert a list of List<GeoPoint> to a {@link MultiLineString}
-     *
-     * @param polylineList
-     * @return
-     */
-    public MultiLineString toMultiLineStringFromList(
-        List<List<GeoPoint>> polylineList) {
-        return toMultiLineStringFromList(polylineList, false, false);
-    }
-
-    /**
-     * Convert a list of List<GeoPoint> to a {@link MultiLineString}
-     *
-     * @param polylineList
-     * @param hasZ
-     * @param hasM
-     * @return
-     */
-    public MultiLineString toMultiLineStringFromList(
-        List<List<GeoPoint>> polylineList, boolean hasZ, boolean hasM) {
-
-        MultiLineString multiLineString = new MultiLineString(hasZ, hasM);
-
-        for (List<GeoPoint> polyline : polylineList) {
-            LineString lineString = toLineString(polyline);
-            multiLineString.addLineString(lineString);
-        }
-
-        return multiLineString;
-    }
-
-    /**
-     * Convert a list of List<GeoPoint> to a {@link CompoundCurve}
-     *
-     * @param polylineList
-     * @return
-     */
-    public CompoundCurve toCompoundCurveFromList(List<List<GeoPoint>> polylineList) {
-        return toCompoundCurveFromList(polylineList, false, false);
-    }
-
-    /**
-     * Convert a list of List<GeoPoint> to a {@link CompoundCurve}
-     *
-     * @param polylineList
-     * @param hasZ
-     * @param hasM
-     * @return
-     */
-    public CompoundCurve toCompoundCurveFromList(
-        List<List<GeoPoint>> polylineList, boolean hasZ, boolean hasM) {
-
-        CompoundCurve compoundCurve = new CompoundCurve(hasZ, hasM);
-
-        for (List<GeoPoint> polyline : polylineList) {
-            LineString lineString = toLineString(polyline);
-            compoundCurve.addLineString(lineString);
-        }
-
-        return compoundCurve;
-    }
-
 
 
     /**
-     * Convert a {@link MultiPolygon} to a {@link MultiPolygonOptions}
+     * Convert a {@link MultiPolygon} to a {@link Polygon}
      *
      * @param multiPolygon
      * @return
@@ -815,103 +420,10 @@ public class OsmMapShapeConverter {
         return polygons;
     }
 
-    /**
-     * Convert a list of {@link org.osmdroid.views.overlay.Polygon} to a
-     * {@link MultiPolygon}
-     *
-     * @param polygonList
-     * @return
-     */
-    public MultiPolygon toMultiPolygon(
-        List<org.osmdroid.views.overlay.Polygon> polygonList) {
-        return toMultiPolygon(polygonList, false, false);
-    }
 
-    /**
-     * Convert a list of {@link org.osmdroid.views.overlay.Polygon} to a
-     * {@link MultiPolygon}
-     *
-     * @param polygonList
-     * @param hasZ
-     * @param hasM
-     * @return
-     */
-    public MultiPolygon toMultiPolygon(
-        List<org.osmdroid.views.overlay.Polygon> polygonList,
-        boolean hasZ, boolean hasM) {
 
-        MultiPolygon multiPolygon = new MultiPolygon(hasZ, hasM);
 
-        for (org.osmdroid.views.overlay.Polygon mapPolygon : polygonList) {
-            Polygon polygon = toPolygon(mapPolygon);
-            multiPolygon.addPolygon(polygon);
-        }
 
-        return multiPolygon;
-    }
-
-    /**
-     * Convert a list of {@link Polygon} to a {@link MultiPolygon}
-     *
-     * @param polygonList
-     * @return
-     */
-    public MultiPolygon createMultiPolygon(List<Polygon> polygonList) {
-        return createMultiPolygon(polygonList, false, false);
-    }
-
-    /**
-     * Convert a list of {@link Polygon} to a {@link MultiPolygon}
-     *
-     * @param polygonList
-     * @param hasZ
-     * @param hasM
-     * @return
-     */
-    public MultiPolygon createMultiPolygon(List<Polygon> polygonList,
-                                           boolean hasZ, boolean hasM) {
-
-        MultiPolygon multiPolygon = new MultiPolygon(hasZ, hasM);
-
-        for (Polygon polygon : polygonList) {
-            multiPolygon.addPolygon(polygon);
-        }
-
-        return multiPolygon;
-    }
-
-    /**
-     * Convert a {@link MultiPolygonOptions} to a {@link MultiPolygon}
-     *
-     * @param multiPolygonOptions
-     * @return
-     */
-    public MultiPolygon toMultiPolygonFromOptions(
-        MultiPolygonOptions multiPolygonOptions) {
-        return toMultiPolygonFromOptions(multiPolygonOptions, false, false);
-    }
-
-    /**
-     * Convert a list of {@link PolygonOptions} to a {@link MultiPolygon}
-     *
-     * @param multiPolygonOptions
-     * @param hasZ
-     * @param hasM
-     * @return
-     */
-    public MultiPolygon toMultiPolygonFromOptions(
-        MultiPolygonOptions multiPolygonOptions, boolean hasZ, boolean hasM) {
-
-        MultiPolygon multiPolygon = new MultiPolygon(hasZ, hasM);
-
-        for (PolygonOptions mapPolygon : multiPolygonOptions
-            .getPolygonOptions()) {
-            Polygon polygon = toPolygon(mapPolygon.getPoints(),mapPolygon.getHoles());
-            multiPolygon.addPolygon(polygon);
-        }
-
-        return multiPolygon;
-    }
 
     /**
      * Convert a {@link CompoundCurve} to a {@link MultiPolylineOptions}
@@ -932,40 +444,9 @@ public class OsmMapShapeConverter {
         return lines;
     }
 
-    /**
-     * Convert a list of {@link Polyline} to a {@link CompoundCurve}
-     *
-     * @param polylineList
-     * @return
-     */
-    public CompoundCurve toCompoundCurve(List<Polyline> polylineList) {
-        return toCompoundCurve(polylineList, false, false);
-    }
 
     /**
-     * Convert a list of {@link Polyline} to a {@link CompoundCurve}
-     *
-     * @param polylineList
-     * @param hasZ
-     * @param hasM
-     * @return
-     */
-    public CompoundCurve toCompoundCurve(List<Polyline> polylineList,
-                                         boolean hasZ, boolean hasM) {
-
-        CompoundCurve compoundCurve = new CompoundCurve(hasZ, hasM);
-
-        for (Polyline polyline : polylineList) {
-            LineString lineString = toLineString(polyline);
-            compoundCurve.addLineString(lineString);
-        }
-
-        return compoundCurve;
-    }
-
-
-    /**
-     * Convert a {@link PolyhedralSurface} to a {@link MultiPolygonOptions}
+     * Convert a {@link PolyhedralSurface} to a {@link Polygon}
      *
      * @param polyhedralSurface
      * @return
@@ -982,72 +463,6 @@ public class OsmMapShapeConverter {
         return polygons;
     }
 
-    /**
-     * Convert a list of {@link Polygon} to a {@link PolyhedralSurface}
-     *
-     * @param polygonList
-     * @return
-     */
-    public PolyhedralSurface toPolyhedralSurface(
-        List<org.osmdroid.views.overlay.Polygon> polygonList) {
-        return toPolyhedralSurface(polygonList, false, false);
-    }
-
-    /**
-     * Convert a list of {@link Polygon} to a {@link PolyhedralSurface}
-     *
-     * @param polygonList
-     * @param hasZ
-     * @param hasM
-     * @return
-     */
-    public PolyhedralSurface toPolyhedralSurface(
-        List<org.osmdroid.views.overlay.Polygon> polygonList,
-        boolean hasZ, boolean hasM) {
-
-        PolyhedralSurface polyhedralSurface = new PolyhedralSurface(hasZ, hasM);
-
-        for (org.osmdroid.views.overlay.Polygon mapPolygon : polygonList) {
-            Polygon polygon = toPolygon(mapPolygon);
-            polyhedralSurface.addPolygon(polygon);
-        }
-
-        return polyhedralSurface;
-    }
-
-    /**
-     * Convert a {@link MultiPolygonOptions} to a {@link PolyhedralSurface}
-     *
-     * @param multiPolygonOptions
-     * @return
-
-    public PolyhedralSurface toPolyhedralSurfaceWithOptions(
-        MultiPolygonOptions multiPolygonOptions) {
-        return toPolyhedralSurfaceWithOptions(multiPolygonOptions, false, false);
-    }
-     */
-    /**
-     * Convert a {@link MultiPolygonOptions} to a {@link PolyhedralSurface}
-     *
-     * @param multiPolygonOptions
-     * @param hasZ
-     * @param hasM
-     * @return
-
-    public PolyhedralSurface toPolyhedralSurfaceWithOptions(
-        MultiPolygonOptions multiPolygonOptions, boolean hasZ, boolean hasM) {
-
-        PolyhedralSurface polyhedralSurface = new PolyhedralSurface(hasZ, hasM);
-
-        for (PolygonOptions mapPolygon : multiPolygonOptions
-            .getPolygonOptions()) {
-            Polygon polygon = toPolygon(mapPolygon.);
-            polyhedralSurface.addPolygon(polygon);
-        }
-
-        return polyhedralSurface;
-    }
-     */
     /**
      * Convert a {@link Geometry} to a Map shape
      *
@@ -1372,30 +787,12 @@ public class OsmMapShapeConverter {
         MultiPolyline multiPolyline = new MultiPolyline();
 
         for (Polyline line : polylines) {
-            //FIXME options
             map.getOverlayManager().add(line);
             multiPolyline.add(line);
         }
         return multiPolyline;
     }
 
-    /**
-     * Add a list of Polygons to the map
-     *
-     * @param map
-     * @param polygons
-     * @return
-     */
-    public static  org.osmdroid.gpkg.features.MultiPolygon  addPolygonsToMap(
-        MapView map, MultiPolygonOptions polygons) {
-        org.osmdroid.gpkg.features.MultiPolygon multiPolygon = new org.osmdroid.gpkg.features.MultiPolygon();
-        for (PolygonOptions polygonOption : polygons.getPolygonOptions()) {
-            org.osmdroid.views.overlay.Polygon polygon = addPolygonToMap(map,polygonOption.getPoints(), polygonOption.getHoles(), polygonOption);
-
-            multiPolygon.add(polygon);
-        }
-        return multiPolygon;
-    }
 
     public static  org.osmdroid.gpkg.features.MultiPolygon  addPolygonsToMap(
         MapView map, List<org.osmdroid.views.overlay.Polygon>  polygons, PolygonOptions opts) {
@@ -1430,420 +827,6 @@ public class OsmMapShapeConverter {
     }
 
 
-    /**
-     * Add the list of points as markers
-     *
-     * @param map
-     * @param points
-     * @param customMarkerOptions
-     * @param ignoreIdenticalEnds
-     * @return
-     */
-    public List<Marker> addPointsToMapAsMarkers(MapView map,
-                                                List<GeoPoint> points, MarkerOptions customMarkerOptions,
-                                                boolean ignoreIdenticalEnds) {
 
-        List<Marker> markers = new ArrayList<Marker>();
-        for (int i = 0; i < points.size(); i++) {
-            GeoPoint latLng = points.get(i);
 
-            if (points.size() > 1 && i + 1 == points.size() && ignoreIdenticalEnds) {
-                GeoPoint firstLatLng = points.get(0);
-                if (latLng.getLatitude() == firstLatLng.getLatitude()
-                    && latLng.getLongitude()== firstLatLng.getLongitude()) {
-                    break;
-                }
-            }
-
-            MarkerOptions markerOptions = new MarkerOptions();
-
-            Marker marker = addLatLngToMap(map, latLng, markerOptions);
-
-            if (customMarkerOptions != null) {
-                marker.setIcon(customMarkerOptions.getIcon());
-                //marker.anchor(customMarkerOptions.getAnchorU(),
-                  //  customMarkerOptions.getAnchorV());
-                marker.setTitle(customMarkerOptions.getTitle());
-                marker.setSubDescription(customMarkerOptions.getSubdescription());
-                marker.setAlpha(customMarkerOptions.getAlpha());
-            }
-            markers.add(marker);
-        }
-        return markers;
-    }
-
-    /**
-     * Add a Polyline to the map as markers
-     *
-     * @param map
-     * @param polylineOptions
-     * @param polylineMarkerOptions
-     * @param globalPolylineOptions
-     * @return
-
-    public PolylineMarkers addPolylineToMapAsMarkers(MapView map,
-                                                     PolylineOptions polylineOptions,
-                                                     MarkerOptions polylineMarkerOptions,
-                                                     PolylineOptions globalPolylineOptions) {
-
-        PolylineMarkers polylineMarkers = new PolylineMarkers(this);
-
-        if (globalPolylineOptions != null) {
-            //FIXMEpolylineOptions.color(globalPolylineOptions.getColor());
-            //FIXMEpolylineOptions.geodesic(globalPolylineOptions.isGeodesic());
-        }
-
-        Polyline polyline = addPolylineToMap(map, polylineOptions);
-        polylineMarkers.setPolyline(polyline);
-
-        List<Marker> markers = addPointsToMapAsMarkers(map,
-            polylineOptions.getPoints(), polylineMarkerOptions, false);
-        polylineMarkers.setMarkers(markers);
-
-        return polylineMarkers;
-    }  */
-
-    /**
-     * Add a Polygon to the map as markers
-     *
-     * @param shapeMarkers
-     * @param map
-     * @param polygonOptions
-     * @param polygonMarkerOptions
-     * @param polygonMarkerHoleOptions
-     * @param globalPolygonOptions
-     * @return
-     */
-    public PolygonMarkers addPolygonToMapAsMarkers(
-        OsmdroidShapeMarkers shapeMarkers, MapView map,
-        PolygonOptions polygonOptions, MarkerOptions polygonMarkerOptions,
-        MarkerOptions polygonMarkerHoleOptions,
-        PolygonOptions globalPolygonOptions) {
-
-        PolygonMarkers polygonMarkers = new PolygonMarkers(this);
-
-        if (globalPolygonOptions != null) {
-            //FIXME polygonOptions.fillColor(globalPolygonOptions.getFillColor());
-            //FIXME polygonOptions.strokeColor(globalPolygonOptions.getStrokeColor());
-            //FIXME polygonOptions.geodesic(globalPolygonOptions.isGeodesic());
-        }
-
-        /*org.osmdroid.views.overlay.Polygon polygon = addPolygonToMap(
-            map, polygonOptions);
-        polygonMarkers.setPolygon(polygon);
-
-        List<Marker> markers = addPointsToMapAsMarkers(map,
-            polygon.getPoints(), polygonMarkerOptions, true);
-        polygonMarkers.setMarkers(markers);
-
-        for (List<GeoPoint> holes : polygon.getHoles()) {
-            List<Marker> holeMarkers = addPointsToMapAsMarkers(map, holes,
-                polygonMarkerHoleOptions, true);
-            PolygonHoleMarkers polygonHoleMarkers = new PolygonHoleMarkers(
-                polygonMarkers);
-            polygonHoleMarkers.setMarkers(holeMarkers);
-            shapeMarkers.add(polygonHoleMarkers);
-            polygonMarkers.addHole(polygonHoleMarkers);
-        }
-
-        return polygonMarkers;*/
-        //TODO
-        return null;
-    }
-
-    /**
-     * Convert a OsmDroidMapShape to a Geometry
-     *
-     * @param shape
-     * @return
-
-    public Geometry toGeometry(OsmDroidMapShape shape) {
-
-        Geometry geometry = null;
-        Object shapeObject = shape.getShape();
-
-        switch (shape.getGeometryType()) {
-
-            case POINT:
-                GeoPoint point = null;
-                switch (shape.getShapeType()) {
-                    case LAT_LNG:
-                        point = (GeoPoint) shapeObject;
-                        break;
-                    case MARKER_OPTIONS:
-                        MarkerOptions markerOptions = (MarkerOptions) shapeObject;
-                        point = markerOptions.getPosition();
-                        break;
-                    case MARKER:
-                        Marker marker = (Marker) shapeObject;
-                        point = marker.getPosition();
-                        break;
-                    default:
-                        throw new GeoPackageException("Not a valid "
-                            + shape.getGeometryType().getName() + " shape type: "
-                            + shape.getShapeType());
-                }
-                if (point != null) {
-                    geometry = toPoint(point);
-                }
-
-                break;
-            case LINESTRING:
-            case CIRCULARSTRING:
-                List<GeoPoint> lineStringPoints = null;
-                switch (shape.getShapeType()) {
-                    case POLYLINE_OPTIONS:
-                        PolylineOptions polylineOptions = (PolylineOptions) shapeObject;
-                        lineStringPoints = polylineOptions.getPoints();
-                        break;
-                    case POLYLINE:
-                        Polyline polyline = (Polyline) shapeObject;
-                        lineStringPoints = polyline.getPoints();
-                        break;
-                    case POLYLINE_MARKERS:
-                        PolylineMarkers polylineMarkers = (PolylineMarkers) shapeObject;
-                        if (!polylineMarkers.isValid()) {
-                            throw new GeoPackageException(
-                                PolylineMarkers.class.getSimpleName()
-                                    + " is not valid to create "
-                                    + shape.getGeometryType().getName());
-                        }
-                        if (!polylineMarkers.isDeleted()) {
-                            lineStringPoints = getPointsFromMarkers(polylineMarkers
-                                .getMarkers());
-                        }
-                        break;
-                    default:
-                        throw new GeoPackageException("Not a valid "
-                            + shape.getGeometryType().getName() + " shape type: "
-                            + shape.getShapeType());
-                }
-                if (lineStringPoints != null) {
-                    switch (shape.getGeometryType()) {
-                        case LINESTRING:
-                            geometry = toLineString(lineStringPoints);
-                            break;
-                        case CIRCULARSTRING:
-                            geometry = toCircularString(lineStringPoints);
-                            break;
-                        default:
-                            throw new GeoPackageException("Unhandled "
-                                + shape.getGeometryType().getName());
-                    }
-                }
-
-                break;
-            case POLYGON:
-                List<GeoPoint> polygonPoints = null;
-                List<List<GeoPoint>> holePointList = null;
-                switch (shape.getShapeType()) {
-                    case POLYGON_OPTIONS:
-                        PolygonOptions polygonOptions = (PolygonOptions) shapeObject;
-                        polygonPoints = polygonOptions.getPoints();
-                        holePointList = polygonOptions.getHoles();
-                        break;
-                    case POLYGON:
-                        org.osmdroid.views.overlay.Polygon polygon = (org.osmdroid.views.overlay.Polygon) shapeObject;
-                        polygonPoints = polygon.getPoints();
-                        holePointList = polygon.getHoles();
-                        break;
-                    case POLYGON_MARKERS:
-                        PolygonMarkers polygonMarkers = (PolygonMarkers) shapeObject;
-                        if (!polygonMarkers.isValid()) {
-                            throw new GeoPackageException(
-                                PolygonMarkers.class.getSimpleName()
-                                    + " is not valid to create "
-                                    + shape.getGeometryType().getName());
-                        }
-                        if (!polygonMarkers.isDeleted()) {
-                            polygonPoints = getPointsFromMarkers(polygonMarkers
-                                .getMarkers());
-                            holePointList = new ArrayList<List<GeoPoint>>();
-                            for (PolygonHoleMarkers hole : polygonMarkers.getHoles()) {
-                                if (!hole.isDeleted()) {
-                                    List<GeoPoint> holePoints = getPointsFromMarkers(hole
-                                        .getMarkers());
-                                    holePointList.add(holePoints);
-                                }
-                            }
-                        }
-                        break;
-                    default:
-                        throw new GeoPackageException("Not a valid "
-                            + shape.getGeometryType().getName() + " shape type: "
-                            + shape.getShapeType());
-                }
-                if (polygonPoints != null) {
-                    geometry = toPolygon(polygonPoints, holePointList);
-                }
-
-                break;
-            case MULTIPOINT:
-                List<GeoPoint> multiPoints = null;
-                switch (shape.getShapeType()) {
-                    case MULTI_LAT_LNG:
-                        MultiLatLng multiLatLng = (MultiLatLng) shapeObject;
-                        multiPoints = multiLatLng.getLatLngs();
-                        break;
-                    case MULTI_MARKER:
-                        MultiMarker multiMarker = (MultiMarker) shapeObject;
-                        multiPoints = getPointsFromMarkers(multiMarker.getMarkers());
-                        break;
-                    default:
-                        throw new GeoPackageException("Not a valid "
-                            + shape.getGeometryType().getName() + " shape type: "
-                            + shape.getShapeType());
-                }
-                if (multiPoints != null) {
-                    geometry = toMultiPoint(multiPoints);
-                }
-
-                break;
-            case MULTILINESTRING:
-            case COMPOUNDCURVE:
-                switch (shape.getShapeType()) {
-                    case MULTI_POLYLINE_OPTIONS:
-                        MultiPolylineOptions multiPolylineOptions = (MultiPolylineOptions) shapeObject;
-                        switch (shape.getGeometryType()) {
-                            case MULTILINESTRING:
-                                geometry = toMultiLineStringFromOptions(multiPolylineOptions);
-                                break;
-                            case COMPOUNDCURVE:
-                                geometry = toCompoundCurveFromOptions(multiPolylineOptions);
-                                break;
-                            default:
-                                throw new GeoPackageException("Unhandled "
-                                    + shape.getGeometryType().getName());
-                        }
-                        break;
-                    case MULTI_POLYLINE:
-                        MultiPolyline multiPolyline = (MultiPolyline) shapeObject;
-                        switch (shape.getGeometryType()) {
-                            case MULTILINESTRING:
-                                geometry = toMultiLineString(multiPolyline.getPolylines());
-                                break;
-                            case COMPOUNDCURVE:
-                                geometry = toCompoundCurve(multiPolyline.getPolylines());
-                                break;
-                            default:
-                                throw new GeoPackageException("Unhandled "
-                                    + shape.getGeometryType().getName());
-                        }
-                        break;
-                    case MULTI_POLYLINE_MARKERS:
-                        MultiPolylineMarkers multiPolylineMarkers = (MultiPolylineMarkers) shapeObject;
-                        if (!multiPolylineMarkers.isValid()) {
-                            throw new GeoPackageException(
-                                MultiPolylineMarkers.class.getSimpleName()
-                                    + " is not valid to create "
-                                    + shape.getGeometryType().getName());
-                        }
-                        if (!multiPolylineMarkers.isDeleted()) {
-                            List<List<GeoPoint>> multiPolylineMarkersList = new ArrayList<List<GeoPoint>>();
-                            for (PolylineMarkers polylineMarkers : multiPolylineMarkers
-                                .getPolylineMarkers()) {
-                                if (!polylineMarkers.isDeleted()) {
-                                    multiPolylineMarkersList
-                                        .add(getPointsFromMarkers(polylineMarkers
-                                            .getMarkers()));
-                                }
-                            }
-                            switch (shape.getGeometryType()) {
-                                case MULTILINESTRING:
-                                    geometry = toMultiLineStringFromList(multiPolylineMarkersList);
-                                    break;
-                                case COMPOUNDCURVE:
-                                    geometry = toCompoundCurveFromList(multiPolylineMarkersList);
-                                    break;
-                                default:
-                                    throw new GeoPackageException("Unhandled "
-                                        + shape.getGeometryType().getName());
-                            }
-                        }
-                        break;
-                    default:
-                        throw new GeoPackageException("Not a valid "
-                            + shape.getGeometryType().getName() + " shape type: "
-                            + shape.getShapeType());
-                }
-
-                break;
-            case MULTIPOLYGON:
-                switch (shape.getShapeType()) {
-                    case MULTI_POLYGON_OPTIONS:
-                        MultiPolygonOptions multiPolygonOptions = (MultiPolygonOptions) shapeObject;
-                        geometry = toMultiPolygonFromOptions(multiPolygonOptions);
-                        break;
-                    case MULTI_POLYGON:
-                        MultiPolygon multiPolygon = (MultiPolygon) shapeObject;
-                        geometry = toMultiPolygon(multiPolygon.getPolygons());
-                        break;
-                    case MULTI_POLYGON_MARKERS:
-                        MultiPolygonMarkers multiPolygonMarkers = (MultiPolygonMarkers) shapeObject;
-                        if (!multiPolygonMarkers.isValid()) {
-                            throw new GeoPackageException(
-                                MultiPolygonMarkers.class.getSimpleName()
-                                    + " is not valid to create "
-                                    + shape.getGeometryType().getName());
-                        }
-                        if (!multiPolygonMarkers.isDeleted()) {
-                            List<Polygon> multiPolygonMarkersList = new ArrayList<Polygon>();
-                            for (PolygonMarkers polygonMarkers : multiPolygonMarkers
-                                .getPolygonMarkers()) {
-
-                                if (!polygonMarkers.isDeleted()) {
-
-                                    List<GeoPoint> multiPolygonPoints = getPointsFromMarkers(polygonMarkers
-                                        .getMarkers());
-                                    ArrayList<ArrayList<GeoPoint>> multiPolygonHolePoints = new ArrayList<ArrayList<GeoPoint>>();
-                                    for (PolygonHoleMarkers hole : polygonMarkers
-                                        .getHoles()) {
-                                        if (!hole.isDeleted()) {
-                                            ArrayList<GeoPoint> holePoints = getPointsFromMarkers(hole
-                                                .getMarkers());
-                                            multiPolygonHolePoints.add(holePoints);
-                                        }
-                                    }
-
-                                    multiPolygonMarkersList
-                                        .add(toPolygon(multiPolygonPoints,
-                                            multiPolygonHolePoints));
-                                }
-
-                            }
-                            geometry = createMultiPolygon(multiPolygonMarkersList);
-                        }
-                        break;
-                    default:
-                        throw new GeoPackageException("Not a valid "
-                            + shape.getGeometryType().getName() + " shape type: "
-                            + shape.getShapeType());
-                }
-                break;
-
-            case POLYHEDRALSURFACE:
-            case TIN:
-            case TRIANGLE:
-                throw new GeoPackageException("Unsupported GeoPackage type: "
-                    + shape.getGeometryType());
-            case GEOMETRYCOLLECTION:
-                @SuppressWarnings("unchecked")
-                List<OsmDroidMapShape> shapeList = (List<OsmDroidMapShape>) shapeObject;
-                GeometryCollection<Geometry> geometryCollection = new GeometryCollection<Geometry>(
-                    false, false);
-                for (OsmDroidMapShape shapeListItem : shapeList) {
-                    Geometry subGeometry = toGeometry(shapeListItem);
-                    if (subGeometry != null) {
-                        geometryCollection.addGeometry(subGeometry);
-                    }
-                }
-                if (geometryCollection.numGeometries() > 0) {
-                    geometry = geometryCollection;
-                }
-                break;
-            default:
-        }
-
-        return geometry;
-    }  */
 }

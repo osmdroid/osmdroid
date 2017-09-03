@@ -173,44 +173,55 @@ public class GeopackageFeatures extends BaseSampleFragment {
             }
 
             if (!databases.isEmpty()) {
+
+
                 // Open database
-                GeoPackage geoPackage = manager.open(databases.get(0));
 
-                MarkerOptions markerRenderingOptions = new MarkerOptions();
-                PolylineOptions polylineRenderingOptions = new PolylineOptions();
-                polylineRenderingOptions.setWidth(2f);
-                polylineRenderingOptions.setColor(Color.argb(100,255,0,0));
 
-                PolygonOptions polygonOptions = new PolygonOptions();
-                polygonOptions.setStrokeWidth(2f);
-                polygonOptions.setFillColor(Color.argb(100,255,0,0));
-                polygonOptions.setStrokeColor(Color.argb(100,0,0,255));
+                for (int k=0; k < databases.size(); k++) {
+                    GeoPackage geoPackage = manager.open(databases.get(k));
+                    // Feature tile tables
+                    List<String> features = geoPackage.getFeatureTables();
+                    // Query Features
+                    if (!features.isEmpty()) {
+                        for (int i = 0; i < features.size(); i++) {
 
-                OsmMapShapeConverter converter = new OsmMapShapeConverter(null, markerRenderingOptions, polylineRenderingOptions, polygonOptions );
-                // Feature tile tables
-                List<String> features = geoPackage.getFeatureTables();
-                // Query Features
-                if (!features.isEmpty()) {
-                    String featureTable = features.get(0);
-                    FeatureDao featureDao = geoPackage.getFeatureDao(featureTable);
-                    FeatureCursor featureCursor = featureDao.queryForAll();
-                    try {
-                        while (featureCursor.moveToNext()) {
+                            MarkerOptions markerRenderingOptions = new MarkerOptions();
+                            PolylineOptions polylineRenderingOptions = new PolylineOptions();
+                            polylineRenderingOptions.setWidth(2f);
+                            polylineRenderingOptions.setColor(Color.argb(100, 255, 0, 0));
+                            polylineRenderingOptions.setTitle(databases.get(k) + ":"+ features.get(i));
+
+                            PolygonOptions polygonOptions = new PolygonOptions();
+                            polygonOptions.setStrokeWidth(2f);
+                            polygonOptions.setFillColor(Color.argb(100, 255, 0, 255));
+                            polygonOptions.setStrokeColor(Color.argb(100, 0, 0, 255));
+                            polygonOptions.setTitle(databases.get(k) + ":"+ features.get(i));
+
+                            OsmMapShapeConverter converter = new OsmMapShapeConverter(null, markerRenderingOptions, polylineRenderingOptions, polygonOptions);
+
+                            String featureTable = features.get(i);
+                            FeatureDao featureDao = geoPackage.getFeatureDao(featureTable);
+                            FeatureCursor featureCursor = featureDao.queryForAll();
                             try {
-                                FeatureRow featureRow = featureCursor.getRow();
-                                GeoPackageGeometryData geometryData = featureRow.getGeometry();
-                                Geometry geometry = geometryData.getGeometry();
-                                converter.addToMap(mMapView, geometry);
-                            } catch (Exception ex) {
-                                ex.printStackTrace();
+                                while (featureCursor.moveToNext()) {
+                                    try {
+                                        FeatureRow featureRow = featureCursor.getRow();
+                                        GeoPackageGeometryData geometryData = featureRow.getGeometry();
+                                        Geometry geometry = geometryData.getGeometry();
+                                        converter.addToMap(mMapView, geometry);
+                                    } catch (Exception ex) {
+                                        ex.printStackTrace();
+                                    }
+                                    // ...
+                                }
+                            } finally {
+                                featureCursor.close();
                             }
-                            // ...
                         }
-                    } finally {
-                        featureCursor.close();
-                    }
-                } else
-                    Toast.makeText(getContext(), "No feature tables available in " + geoPackage.getName(), Toast.LENGTH_LONG).show();
+                    } else
+                        Toast.makeText(getContext(), "No feature tables available in " + geoPackage.getName(), Toast.LENGTH_LONG).show();
+                }
             } else {
                 Toast.makeText(getContext(), "No databases available", Toast.LENGTH_LONG).show();
             }

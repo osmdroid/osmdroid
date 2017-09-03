@@ -44,19 +44,11 @@ import java.util.List;
  */
 
 public class PolygonOptions {
-    private List<GeoPoint> points=new ArrayList<>();
-    private List<List<GeoPoint>> holes= new ArrayList<>();
+
     private int fillColor;
     private String title;
     private int strokeColor;
 
-    public void setPoints(List<GeoPoint> points) {
-        this.points = points;
-    }
-
-    public void setHoles(List<List<GeoPoint>> holes) {
-        this.holes = holes;
-    }
 
     public void setFillColor(int fillColor) {
         this.fillColor = fillColor;
@@ -76,19 +68,6 @@ public class PolygonOptions {
 
     private float strokeWidth;
 
-    public List<GeoPoint> getPoints() {
-        return points;
-    }
-
-    public List<List<GeoPoint>> getHoles() {
-        return holes;
-    }
-
-    public void add(GeoPoint latLng) {
-
-        points.add(latLng);
-
-    }
 
 
     public int getFillColor() {

@@ -54,24 +54,6 @@ public class MultiPolygonMarkers {
     }
 
     /**
-     * Update based upon marker changes
-
-    public void update() {
-        for (PolygonMarkers polygonMarker : polygonMarkers) {
-            polygonMarker.update();
-        }
-    }*/
-
-    /**
-     * Remove the polygon and points
-
-    public void remove() {
-        for (PolygonMarkers polygonMarker : polygonMarkers) {
-            polygonMarker.remove();
-        }
-    }   */
-
-    /**
      * Set visibility on the map
      *
      * @param visible visibility flag
@@ -99,20 +81,5 @@ public class MultiPolygonMarkers {
         return valid;
     }
 
-    /**
-     * Is it deleted
-     *
-     * @return
-     */
-    public boolean isDeleted() {
-        boolean deleted = true;
-        for (PolygonMarkers polygon : polygonMarkers) {
-            deleted = polygon.isDeleted();
-            if (!deleted) {
-                break;
-            }
-        }
-        return deleted;
-    }
 
 }
