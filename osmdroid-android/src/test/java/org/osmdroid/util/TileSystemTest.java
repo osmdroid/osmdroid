@@ -18,9 +18,9 @@ public class TileSystemTest {
 
     @Test
     public void testGetY01FromLatitude() {
-        Assert.assertEquals(0, TileSystem.getY01FromLatitude(TileSystem.MaxLatitude), XY01Delta);
-        Assert.assertEquals(.5, TileSystem.getY01FromLatitude(0), XY01Delta);
-        Assert.assertEquals(1, TileSystem.getY01FromLatitude(TileSystem.MinLatitude), XY01Delta);
+        checkXY01(0, TileSystem.getY01FromLatitude(TileSystem.MaxLatitude));
+        checkXY01(.5, TileSystem.getY01FromLatitude(0));
+        checkXY01(1, TileSystem.getY01FromLatitude(TileSystem.MinLatitude));
     }
 
     @Test
@@ -28,8 +28,13 @@ public class TileSystemTest {
         final int iterations = 10;
         for (int i = 0 ; i <= iterations ; i ++) {
             final double longitude = TileSystem.MinLongitude + i * (TileSystem.MaxLongitude - TileSystem.MinLongitude) / iterations;
-            Assert.assertEquals(((double)i) / iterations, TileSystem.getX01FromLongitude(longitude), XY01Delta);
+            checkXY01(((double)i) / iterations, TileSystem.getX01FromLongitude(longitude));
         }
+    }
+
+    private void checkXY01(final double pExpected, final double pActual) {
+        Assert.assertEquals(pExpected, pActual, XY01Delta);
+        Assert.assertTrue(pActual >= 0 && pActual <= 1);
     }
 
     @Test
