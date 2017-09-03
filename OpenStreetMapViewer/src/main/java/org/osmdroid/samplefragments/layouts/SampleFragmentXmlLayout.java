@@ -32,10 +32,6 @@ public class SampleFragmentXmlLayout extends BaseSampleFragment {
 		View v = inflater.inflate(org.osmdroid.R.layout.activity_starter_mapview, null);
 		mMapView = (MapView) v.findViewById(org.osmdroid.R.id.mapview);
 		return v;
-		// mResourceProxy = new ResourceProxyImpl(inflater.getContext().getApplicationContext());
-		// mMapView = new MapView(inflater.getContext(), 256, mResourceProxy);
-		// mMapView.setUseSafeCanvas(true);
-		// return mMapView;
 	}
 
 }

@@ -77,6 +77,16 @@ The [OSMBonusPack project](https://github.com/MKergall/osmbonuspack) adds additi
 ![](images/CustomLayer.png)
 ![](images/TwoMarkers.png)
 
+## Demo Videos
+
+[Free Draw](https://youtu.be/b119xU1UCXs)
+
+[Maps Forge](https://youtu.be/xXCr_bLebMk)
+
+[Floating point zoom](https://youtu.be/YBjjjLPuFdM)
+
+[IIS Tracker](https://youtu.be/Jw8z1ke9Idk)
+
 ## Building from source and using the aar in your app
 Thanks to <a href="https://github.com/gradle-fury/gradle-fury">Gradle Fury</a>, this publishes the artifacts to mavenLocal.
 

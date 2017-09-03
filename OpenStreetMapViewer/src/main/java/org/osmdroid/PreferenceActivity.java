@@ -327,11 +327,14 @@ public class PreferenceActivity extends AppCompatActivity implements View.OnClic
                                 SqlTileWriter sqlTileWriter = new SqlTileWriter();
                                 boolean b = sqlTileWriter.purgeCache();
                                 sqlTileWriter.onDetach();
-                                sqlTileWriter = null;
-                                if (b)
-                                    Toast.makeText(PreferenceActivity.this, "SQL Cache purged", Toast.LENGTH_SHORT).show();
-                                else
-                                    Toast.makeText(PreferenceActivity.this, "SQL Cache purge failed, see logcat for details", Toast.LENGTH_LONG).show();
+                                final String title = b ? "SQL Cache purged" : "SQL Cache purge failed, see logcat for details";
+                                final int length = b ? Toast.LENGTH_SHORT : Toast.LENGTH_LONG;
+                                PreferenceActivity.this.runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Toast.makeText(PreferenceActivity.this, title, length).show();
+                                    }
+                                });
                             }
                         }).start();
 

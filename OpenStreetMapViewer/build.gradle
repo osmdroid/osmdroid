@@ -32,6 +32,8 @@ dependencies {
     compile project(':osmdroid-geopackage')
     compile project(':osmdroid-mapsforge')
 
+    compile 'com.github.angads25:filepicker:1.1.1'
+
     compile 'com.android.support:design:23.+' //needed for UI menuing
     compile 'com.android.support:cardview-v7:23.+'  //needed for samples only
     compile 'com.android.support:recyclerview-v7:23.+' //needed for samples only

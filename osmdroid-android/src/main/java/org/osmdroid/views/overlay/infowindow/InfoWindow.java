@@ -38,7 +38,7 @@ public abstract class InfoWindow {
 	protected View mView;
 	protected boolean mIsVisible;
 	protected MapView mMapView;
-	
+
 	/**
 	 * @param layoutResId	the id of the view resource. 
 	 * @param mapView	the mapview on which is hooked the view
@@ -50,6 +50,13 @@ public abstract class InfoWindow {
 		Context context = mapView.getContext();
 		LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		mView = inflater.inflate(layoutResId, parent, false);
+		mView.setTag(this);
+	}
+
+	public InfoWindow(View v, MapView mapView) {
+		mMapView = mapView;
+		mIsVisible = false;
+		mView = v;
 		mView.setTag(this);
 	}
 
