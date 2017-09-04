@@ -76,7 +76,7 @@ before_install:
   - echo android create avd --force -n test$ANDROID_TARGET -t $ANDROID_TARGET --abi $ANDROID_ABI --sdcard 200M
   - echo no | android create avd --force -n test$ANDROID_TARGET -t $ANDROID_TARGET --abi $ANDROID_ABI --sdcard 200M
   - emulator -memory 1536 -avd test$ANDROID_TARGET -no-skin -no-audio -no-window &
-  - curl https://raw.githubusercontent.com/travis-ci/travis-cookbooks/master/community-cookbooks/android-sdk/files/default/android-wait-for-emulator
+  - curl https://raw.githubusercontent.com/travis-ci/travis-cookbooks/master/community-cookbooks/android-sdk/files/default/android-wait-for-emulator > android-wait-for-emulator.sh
   - chmod u+x android-wait-for-emulator
   - ./android-wait-for-emulator
   - adb shell input keyevent 82 &
