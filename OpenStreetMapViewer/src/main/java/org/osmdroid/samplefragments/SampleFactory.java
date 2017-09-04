@@ -28,6 +28,7 @@ import org.osmdroid.samplefragments.data.SampleSimpleFastPointOverlay;
 import org.osmdroid.samplefragments.data.SampleSimpleLocation;
 import org.osmdroid.samplefragments.data.SampleWithMinimapItemizedOverlayWithFocus;
 import org.osmdroid.samplefragments.data.SampleWithMinimapItemizedOverlayWithScale;
+import org.osmdroid.samplefragments.drawing.DrawPolygon;
 import org.osmdroid.samplefragments.drawing.SampleDrawPolyline;
 import org.osmdroid.samplefragments.events.SampleAnimateTo;
 import org.osmdroid.samplefragments.events.SampleAnimatedZoomToLocation;
@@ -49,6 +50,7 @@ import org.osmdroid.samplefragments.location.SampleMyLocationWithClick;
 import org.osmdroid.samplefragments.location.SampleRotation;
 import org.osmdroid.samplefragments.tileproviders.GeopackageSample;
 import org.osmdroid.samplefragments.tileproviders.MapsforgeTileProviderSample;
+import org.osmdroid.samplefragments.tileproviders.OfflinePickerSample;
 import org.osmdroid.samplefragments.tileproviders.SampleAssetsOnly;
 import org.osmdroid.samplefragments.tileproviders.SampleOfflineGemfOnly;
 import org.osmdroid.samplefragments.tilesources.SampleBingHybrid;
@@ -188,6 +190,7 @@ public final class SampleFactory implements ISampleFactory {
         //48
         mSamples.add(SampleDrawPolyline.class);
         //49
+        if (Build.VERSION.SDK_INT >= 9)
         mSamples.add(RecyclerCardView.class);
         //50
         mSamples.add(ScaleBarOnBottom.class);
@@ -206,8 +209,11 @@ public final class SampleFactory implements ISampleFactory {
         //57
         mSamples.add(SampleOfflineGemfOnly.class);
         //58
+        mSamples.add(DrawPolygon.class);
         if (Build.VERSION.SDK_INT >= 10)
             mSamples.add(MapsforgeTileProviderSample.class);
+        if (Build.VERSION.SDK_INT >= 9)
+            mSamples.add(OfflinePickerSample.class);
         //59
         if (Build.VERSION.SDK_INT >= 14)
             mSamples.add(GeopackageSample.class);

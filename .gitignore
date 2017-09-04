@@ -47,3 +47,4 @@ OSMMapTilePackager/src/main/java/org/osmdroid/api/
 OpenStreetMapViewer/src/androidTest/
 
 docs/
+*.orig
