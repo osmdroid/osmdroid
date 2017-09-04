@@ -57,18 +57,17 @@ env:
     matrix:
     #note when changing these, updating the gradle build file for the GoogleWrapper project
     # first env var is just for display purposes
-    - API=8g ANDROID_TARGET=11  ANDROID_ABI=armeabi
-    - API=8 ANDROID_TARGET=1  ANDROID_ABI=armeabi
-    - API=10 ANDROID_TARGET=2  ANDROID_ABI=armeabi
-    - API=19 ANDROID_TARGET=5  ANDROID_ABI=google_apis/armeabi-v7a
-    # (above) stopped working sept 2017 unknown reason
+    - API=8 ANDROID_TARGET=1  ANDROID_ABI=default/armeabi
+    - API=10 ANDROID_TARGET=2  ANDROID_ABI=default/armeabi-v7a
     - API=15 ANDROID_TARGET=3  ANDROID_ABI=google_apis/armeabi-v7a
-    # (above) stopped working sept 2017 unknown reason
-    - API=10g ANDROID_TARGET=12  ANDROID_ABI=armeabi
+    - API=19 ANDROID_TARGET=4  ANDROID_ABI=google_apis/armeabi-v7a
+    - API=23 ANDROID_TARGET=6  ANDROID_ABI=google_apis/armeabi-v7a
+    - API=8g ANDROID_TARGET=9  ANDROID_ABI=default/armeabi
+    - API=10g ANDROID_TARGET=10  ANDROID_ABI=default/armeabi
     # (above) stopped working sept 2017 unknown reason, the emulator says google services aren't installed
-    - API=15g ANDROID_TARGET=13  ANDROID_ABI=armeabi-v7a
+    - API=15g ANDROID_TARGET=11  ANDROID_ABI=default/armeabi-v7a
     # (above) stopped working sept 2017 unknown reason
-    - API=23 ANDROID_TARGET=13  ANDROID_ABI=armeabi-v7a
+
 
 before_install:
   # create and start emulators
