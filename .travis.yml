@@ -9,30 +9,18 @@ android:
     - build-tools-23.0.1
     - build-tools-23.0.3
     # The SDK version used to compile your project
-    - android-24
     - android-23
-    - android-22
-    - android-21
-    - android-19
-    - android-18
-    - android-15
-    - android-10
-    - android-8
-    - addon-google_apis-google-10
-    - addon-google_apis-google-15
-    - addon-google_apis-google-18
-    - addon-google_apis-google-19
-    - addon-google_apis-google-21
-    - addon-google_apis-google-22
     - addon-google_apis-google-23
-    - addon-google_apis-google-8
-    - sys-img-armeabi-v7a-google_apis-23
 
-    # Additional components
+    - sys-img-armeabi-v7a-google_apis-23
+    # (below) needed for compiling the google wrapper module
+    - addon-google_apis-google-23
     - extra-google-google_play_services
     - extra-google-m2repository
     - extra-android-m2repository
     - addon-google_apis-google-19
+
+    # AVDs for testing against
     - sys-img-armeabi-android-8
     - sys-img-armeabi-android-10
     - sys-img-armeabi-android-15
@@ -43,7 +31,7 @@ android:
     - sys-img-armeabi-v7a-google_apis-21
     - sys-img-armeabi-v7a-google_apis-15
     - sys-img-armeabi-v7a-google_apis-23
-    - addon-google_apis-google-23
+
 
 sudo: required
 
@@ -60,14 +48,15 @@ env:
     - API=8g ANDROID_TARGET=11  ANDROID_ABI=armeabi
     - API=8 ANDROID_TARGET=1  ANDROID_ABI=armeabi
     - API=10 ANDROID_TARGET=2  ANDROID_ABI=armeabi
-    # - API=19 ANDROID_TARGET=5  ANDROID_ABI=google_apis/armeabi-v7a
+    - API=19 ANDROID_TARGET=5  ANDROID_ABI=google_apis/armeabi-v7a
     # (above) stopped working sept 2017 unknown reason
-    # - API=15 ANDROID_TARGET=3  ANDROID_ABI=google_apis/armeabi-v7a
+    - API=15 ANDROID_TARGET=3  ANDROID_ABI=google_apis/armeabi-v7a
     # (above) stopped working sept 2017 unknown reason
-    # - API=10g ANDROID_TARGET=12  ANDROID_ABI=armeabi
+    - API=10g ANDROID_TARGET=12  ANDROID_ABI=armeabi
     # (above) stopped working sept 2017 unknown reason, the emulator says google services aren't installed
-    # - API=15g ANDROID_TARGET=13  ANDROID_ABI=armeabi-v7a
+    - API=15g ANDROID_TARGET=13  ANDROID_ABI=armeabi-v7a
     # (above) stopped working sept 2017 unknown reason
+    - API=23 ANDROID_TARGET=13  ANDROID_ABI=armeabi-v7a
 
 before_install:
   # create and start emulators
