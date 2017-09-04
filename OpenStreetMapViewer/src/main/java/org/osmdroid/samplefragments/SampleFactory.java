@@ -18,6 +18,8 @@ import org.osmdroid.samplefragments.cache.SampleJumboCache;
 import org.osmdroid.samplefragments.cache.SampleSqliteOnly;
 import org.osmdroid.samplefragments.animations.AnimatedMarkerTimer;
 import org.osmdroid.samplefragments.data.AsyncTaskDemoFragment;
+import org.osmdroid.samplefragments.geopackage.GeopackageFeatureTiles;
+import org.osmdroid.samplefragments.geopackage.GeopackageFeatures;
 import org.osmdroid.samplefragments.data.Gridlines2;
 import org.osmdroid.samplefragments.data.HeatMap;
 import org.osmdroid.samplefragments.data.SampleGridlines;
@@ -51,7 +53,7 @@ import org.osmdroid.samplefragments.location.SampleFollowMe;
 import org.osmdroid.samplefragments.location.SampleHeadingCompassUp;
 import org.osmdroid.samplefragments.location.SampleMyLocationWithClick;
 import org.osmdroid.samplefragments.location.SampleRotation;
-import org.osmdroid.samplefragments.tileproviders.GeopackageSample;
+import org.osmdroid.samplefragments.geopackage.GeopackageSample;
 import org.osmdroid.samplefragments.tileproviders.MapsforgeTileProviderSample;
 import org.osmdroid.samplefragments.tileproviders.OfflinePickerSample;
 import org.osmdroid.samplefragments.tileproviders.SampleAssetsOnly;
@@ -226,8 +228,11 @@ public final class SampleFactory implements ISampleFactory {
         if (Build.VERSION.SDK_INT >= 9)
             mSamples.add(OfflinePickerSample.class);
         //59
-        if (Build.VERSION.SDK_INT >= 14)
+        if (Build.VERSION.SDK_INT >= 14) {
             mSamples.add(GeopackageSample.class);
+            mSamples.add(GeopackageFeatures.class);
+            mSamples.add(GeopackageFeatureTiles.class);
+        }
     }
 
     public void addSample(Class<? extends BaseSampleFragment> clz) {

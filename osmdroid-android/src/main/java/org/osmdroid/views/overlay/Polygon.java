@@ -225,8 +225,8 @@ public class Polygon extends OverlayWithIW {
 		}
 	}
 
-	public List<ArrayList<GeoPoint>> getHoles(){
-		ArrayList<ArrayList<GeoPoint>> result = new ArrayList<ArrayList<GeoPoint>>(mHoles.size());
+	public List<List<GeoPoint>> getHoles(){
+		List<List<GeoPoint>> result = new ArrayList<List<GeoPoint>>(mHoles.size());
 		for (LinearRing hole:mHoles){
 			result.add(hole.getPoints());
 		}

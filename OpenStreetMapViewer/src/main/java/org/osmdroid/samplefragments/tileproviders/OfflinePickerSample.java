@@ -18,10 +18,10 @@ import com.github.angads25.filepicker.view.FilePickerDialog;
 import org.mapsforge.map.android.rendertheme.AssetsRenderTheme;
 import org.mapsforge.map.rendertheme.XmlRenderTheme;
 import org.osmdroid.R;
-import org.osmdroid.gpkg.GeoPackageMapTileModuleProvider;
-import org.osmdroid.gpkg.GeoPackageProvider;
+import org.osmdroid.gpkg.tiles.raster.GeoPackageMapTileModuleProvider;
+import org.osmdroid.gpkg.tiles.raster.GeoPackageProvider;
+import org.osmdroid.gpkg.tiles.raster.GeopackageRasterTileSource;
 import org.osmdroid.mapsforge.MapsForgeTileModuleProvider;
-import org.osmdroid.mapsforge.MapsForgeTileProvider;
 import org.osmdroid.mapsforge.MapsForgeTileSource;
 import org.osmdroid.samplefragments.BaseSampleFragment;
 import org.osmdroid.tileprovider.MapTileProviderArray;
@@ -31,14 +31,12 @@ import org.osmdroid.tileprovider.modules.IFilesystemCache;
 import org.osmdroid.tileprovider.modules.MapTileApproximater;
 import org.osmdroid.tileprovider.modules.MapTileAssetsProvider;
 import org.osmdroid.tileprovider.modules.MapTileFileArchiveProvider;
-import org.osmdroid.tileprovider.modules.MapTileFilesystemProvider;
 import org.osmdroid.tileprovider.modules.MapTileModuleProviderBase;
 import org.osmdroid.tileprovider.modules.SqlTileWriter;
 import org.osmdroid.tileprovider.modules.TileWriter;
 import org.osmdroid.tileprovider.tilesource.FileBasedTileSource;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
-import org.osmdroid.tileprovider.tilesource.XYTileSource;
 import org.osmdroid.tileprovider.util.SimpleRegisterReceiver;
 import org.osmdroid.views.MapView;
 
@@ -48,6 +46,9 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+
+import mil.nga.geopackage.GeoPackageManager;
+import mil.nga.geopackage.factory.GeoPackageFactory;
 
 /**
  * lets you pick one or more offline tile archives/providers
@@ -187,24 +188,25 @@ public class OfflinePickerSample extends BaseSampleFragment implements View.OnCl
             File[] maps = new File[geopackages.size()];
             maps = geopackages.toArray(maps);
 
-            if (Build.VERSION.SDK_INT < 10) {
+            if (Build.VERSION.SDK_INT > 10) {
+                GeoPackageManager manager = GeoPackageFactory.getManager(getContext());
+
+                // Import database
+                for (File f : maps) {
+                    try {
+                        boolean imported = manager.importGeoPackage(f);
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                }
 
                 provider = new GeoPackageProvider(maps, getContext());
                 geopackage = provider.geoPackageMapTileModuleProvider();
                 providers.add(geopackage);
-                List<GeoPackageMapTileModuleProvider.Container> geotileSources = geopackage.getTileSources();
-                for (int i = 0; i < geotileSources.size(); i++) {
-                    //this is a list of geopackages, since we only support tile tables, pick the first one of those
-                    //ideally this should populate a spinner so that the user can select whatever tile source they want
-                    if (geotileSources.get(i) != null && !geotileSources.get(i).tiles.isEmpty()) {
-                        for (int k = 0; k < geotileSources.get(i).tiles.size(); k++) {
-                            XYTileSource currentSource = (XYTileSource) provider.getTileSource(geotileSources.get(i).database,
-                                geotileSources.get(i).tiles.get(k)
-                            );
-                            tileSources.add(currentSource);
-                        }
-                    }
-                }
+                List<GeopackageRasterTileSource> geotileSources = new ArrayList<>();
+                geotileSources.addAll( geopackage.getTileSources());
+                tileSources.addAll(geotileSources);
+                //TODO add feature tiles here too
             }
         }
 
@@ -292,10 +294,10 @@ public class OfflinePickerSample extends BaseSampleFragment implements View.OnCl
                             MapsForgeTileSource src = (MapsForgeTileSource) strName;
                             mMapView.getController().setZoom(src.getMinimumZoomLevel());
                             mMapView.zoomToBoundingBox(src.getBoundsOsmdroid(), true);
-                        } else if (strName instanceof GeoPackageProvider.TileSourceBounds) {
-                            GeoPackageProvider.TileSourceBounds src = (GeoPackageProvider.TileSourceBounds) strName;
-                            mMapView.zoomToBoundingBox(src.bounds, true);
-                            mMapView.getController().setZoom(src.minzoom);
+                        } else if (strName instanceof GeopackageRasterTileSource) {
+                            GeopackageRasterTileSource src = (GeopackageRasterTileSource) strName;
+                            mMapView.zoomToBoundingBox(src.getBounds(), true);
+                            mMapView.getController().setZoom(src.getMinimumZoomLevel());
                         }
 
                         dialog.dismiss();
