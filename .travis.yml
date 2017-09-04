@@ -8,13 +8,24 @@ android:
     - build-tools-23.0.2 # 23.0.2 was not available on build
     - build-tools-23.0.1
     - build-tools-23.0.3
-    # The SDK version used to compile your project
+    # The SDK version used to compile your project, also needed for AVDs
+    - android-8
+    - addon-google_apis-google-8
+    - android-10
+    - addon-google_apis-google-10
+    - android-15
+    - addon-google_apis-google-15
+    - android-19
+    - addon-google_apis-google-19
+    - android-21
+    - addon-google_apis-google-21
     - android-23
     - addon-google_apis-google-23
+    - android-24
+    - addon-google_apis-google-24
 
     - sys-img-armeabi-v7a-google_apis-23
     # (below) needed for compiling the google wrapper module
-    - addon-google_apis-google-23
     - extra-google-google_play_services
     - extra-google-m2repository
     - extra-android-m2repository
@@ -31,6 +42,7 @@ android:
     - sys-img-armeabi-v7a-google_apis-21
     - sys-img-armeabi-v7a-google_apis-15
     - sys-img-armeabi-v7a-google_apis-23
+    - sys-img-armeabi-v7a-google_apis-24
 
 
 sudo: required
