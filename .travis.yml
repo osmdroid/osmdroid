@@ -57,15 +57,15 @@ env:
     matrix:
     #note when changing these, updating the gradle build file for the GoogleWrapper project
     # first env var is just for display purposes
-    - API=8 ANDROID_TARGET=1  ANDROID_ABI=default/armeabi IMAGE=platforms;android-8
-    - API=10 ANDROID_TARGET=2  ANDROID_ABI=default/armeabi-v7a IMAGE=platforms;android-10
-    - API=15 ANDROID_TARGET=3  ANDROID_ABI=google_apis/armeabi-v7a IMAGE=system-images;android-15;google_apis;armeabi-v7a
-    - API=19 ANDROID_TARGET=4  ANDROID_ABI=google_apis/armeabi-v7a IMAGE=system-images;android-19;default;armeabi-v7a
-    - API=23 ANDROID_TARGET=6  ANDROID_ABI=google_apis/armeabi-v7a IMAGE=system-images;android-23;default;armeabi-v7a
-    #- API=8g ANDROID_TARGET=9  ANDROID_ABI=default/armeabi IMAGE=add-ons;addon-google_apis-google-8
-    - API=10g ANDROID_TARGET=10  ANDROID_ABI=default/armeabi IMAGE=system-images;android-10;google_apis;armeabi-v7a
+    - API=8 ANDROID_TARGET=1  ANDROID_ABI=default/armeabi
+    - API=10 ANDROID_TARGET=2  ANDROID_ABI=default/armeabi-v7a
+    - API=15 ANDROID_TARGET=3  ANDROID_ABI=google_apis/armeabi-v7a
+    - API=19 ANDROID_TARGET=4  ANDROID_ABI=google_apis/armeabi-v7a
+    - API=23 ANDROID_TARGET=6  ANDROID_ABI=google_apis/armeabi-v7a
+    - API=8g ANDROID_TARGET=9  ANDROID_ABI=default/armeabi
+    - API=10g ANDROID_TARGET=10  ANDROID_ABI=default/armeabi
     # (above) stopped working sept 2017 unknown reason, the emulator says google services aren't installed
-    - API=15g ANDROID_TARGET=11  ANDROID_ABI=default/armeabi-v7a IMAGE=system-images;android-15;google_apis;armeabi-v7a
+    - API=15g ANDROID_TARGET=11  ANDROID_ABI=default/armeabi-v7a
     # (above) stopped working sept 2017 unknown reason
 
 
@@ -73,10 +73,12 @@ before_install:
   # create and start emulators
   - export ANDROID_SDK_ROOT=/usr/local/android-sdk/
   - android list targets
-  - echo android create avd --force -n test$ANDROID_TARGET --abi $ANDROID_ABI --sdcard 200M -k $IMAGE
-  - echo no | android create avd --force -n test$ANDROID_TARGET --abi $ANDROID_ABI --sdcard 200M -k $IMAGE
+  - echo android create avd --force -n test$ANDROID_TARGET -t $ANDROID_TARGET --abi $ANDROID_ABI --sdcard 200M
+  - echo no | android create avd --force -n test$ANDROID_TARGET -t $ANDROID_TARGET --abi $ANDROID_ABI --sdcard 200M
   - emulator -memory 1536 -avd test$ANDROID_TARGET -no-skin -no-audio -no-window &
-  - android-wait-for-emulator
+  - curl https://raw.githubusercontent.com/travis-ci/travis-cookbooks/master/community-cookbooks/android-sdk/files/default/android-wait-for-emulator
+  - chmod u+x android-wait-for-emulator
+  - ./android-wait-for-emulator
   - adb shell input keyevent 82 &
 
 # mvn sdk deploy
