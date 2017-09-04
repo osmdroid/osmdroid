@@ -1,6 +1,7 @@
 package org.osmdroid.bugtestfragments;
 
 import android.util.Log;
+import android.widget.Toast;
 
 import org.osmdroid.samplefragments.BaseSampleFragment;
 import org.osmdroid.tileprovider.modules.IFilesystemCache;
@@ -13,6 +14,12 @@ import org.osmdroid.util.TileSystem;
  */
 
 public class Bug445Caching  extends BaseSampleFragment {
+
+    private static final GeoPoint center = new GeoPoint(52.2742, 0.21130);
+    private static final int minZoom = 10; // should be high enough so that download is needed (cf. archive)
+    private static final int maxZoom = 16; // should be 16 or lower due to osm tile server policy (there is no systematic cache of tiles on server for zoom 17+)
+    private static final int initialZoom = minZoom - 1;
+
     @Override
     public String getSampleTitle() {
         return "Bug 445 Ensure Caching works";
@@ -27,8 +34,7 @@ public class Bug445Caching  extends BaseSampleFragment {
             writer.purgeCache();
 
         }
-        mMapView.getController().setCenter(new GeoPoint(52.2742, 0.21130));
-        mMapView.getController().setZoom(17);
+        setZoomAndCenter(initialZoom);
     }
 
     public void runTestProcedures() throws Exception {
@@ -38,45 +44,45 @@ public class Bug445Caching  extends BaseSampleFragment {
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                mMapView.getController().setZoom(1);
+                Toast.makeText(getActivity(), "downloading from zoom level " + minZoom + " to " + maxZoom, Toast.LENGTH_SHORT).show();
+                setZoomAndCenter(initialZoom);
             }
         });
-
-        final int minExpected = getMinTileExpected();
 
         writer.purgeCache();
         final long count = getDbCount();
         if (count != 0)
             throw new Exception("purge should remove all tiles, but " + count + " were found");
 
-        checkDownload(17, minExpected);
-        checkDownload(18, minExpected);
-        checkDownload(19, minExpected);
+        for (int zoom = minZoom ; zoom <= maxZoom ; zoom ++) {
+            checkDownload(zoom);
+        }
 
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                mMapView.getController().setZoom(1);
+                Toast.makeText(getActivity(), "testing cache from zoom level " + minZoom + " to " + maxZoom, Toast.LENGTH_SHORT).show();
+                setZoomAndCenter(initialZoom);
             }
         });
 
         mMapView.setUseDataConnection(false);
-        mMapView.getTileProvider().clearTileCache();
 
-        checkCache(17);
-        checkCache(18);
-        checkCache(19);
+        for (int zoom = minZoom ; zoom <= maxZoom ; zoom ++) {
+            checkCache(zoom);
+        }
     }
 
     /**
-     * @since 6.0
+     * @since 5.6.6
      */
-    private void checkDownload(final int pZoomLevel, final int pMinExpected) throws Exception{
+    private void checkDownload(final int pZoomLevel) throws Exception{
         final long countBefore = getDbCount();
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                mMapView.getController().setZoom(pZoomLevel);
+                Toast.makeText(getActivity(), "checking download for zoom level " + pZoomLevel, Toast.LENGTH_SHORT).show();
+                setZoomAndCenter(pZoomLevel);
             }
         });
         try {
@@ -86,23 +92,24 @@ public class Bug445Caching  extends BaseSampleFragment {
         }
         final long countAfter = getDbCount();
         final long count = countAfter - countBefore;
-        if (count < pMinExpected) {
+        final int minExpected = getMinTileExpected(pZoomLevel);
+        if (count < minExpected) {
             throw new Exception(
                     "only fetched " + count + " tiles"
                             + " for zoom level " + pZoomLevel
-                            + " but " + pMinExpected + " were expected");
+                            + " but " + minExpected + " were expected");
         }
         Log.i(TAG, "checkDownload ok for zoom level " + pZoomLevel);
     }
 
     /**
-     * @since 6.0
+     * @since 5.6.6
      */
     private void checkCache(final int pZoomLevel) throws Exception{
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                mMapView.getController().setZoom(pZoomLevel);
+                setZoomAndCenter(pZoomLevel);
             }
         });
         try {
@@ -120,18 +127,20 @@ public class Bug445Caching  extends BaseSampleFragment {
     }
 
     /**
-     * @since 6.0
+     * @since 5.6.6
      */
-    private int getMinTileExpected() {
+    private int getMinTileExpected(final int pZoomLevel) {
+        final int maxPerZoom = 1 << pZoomLevel;
+        Log.i(TAG, "max per zoom " + maxPerZoom);
         final int width = mMapView.getWidth();
         Log.i(TAG, "width " + width);
         final int height = mMapView.getHeight();
         Log.i(TAG, "height " + height);
         final int tileSize = TileSystem.getTileSize();
         Log.i(TAG, "tile size " + tileSize);
-        final int minCols = width / tileSize + (width % tileSize == 0 ? 0 : 1);
+        final int minCols = Math.min(maxPerZoom, width / tileSize + (width % tileSize == 0 ? 0 : 1));
         Log.i(TAG, "min cols " + minCols);
-        final int minRows = height / tileSize + (height % tileSize == 0 ? 0 : 1);
+        final int minRows = Math.min(maxPerZoom, height / tileSize + (height % tileSize == 0 ? 0 : 1));
         Log.i(TAG, "min rows " + minRows);
         final int minExpected = minCols * minRows;
         Log.i(TAG, "min expected " + minExpected);
@@ -139,11 +148,19 @@ public class Bug445Caching  extends BaseSampleFragment {
     }
 
     /**
-     * @since 6.0
+     * @since 5.6.6
      */
     private long getDbCount() {
         final long count=writer.getRowCount(mMapView.getTileProvider().getTileSource().name());
         Log.i(TAG, "downloaded " + count + " tiles so far");
         return count;
+    }
+
+    /**
+     * @since 5.6.6
+     */
+    private void setZoomAndCenter(final int pZoomLevel) {
+        mMapView.getController().setZoom(pZoomLevel);
+        mMapView.getController().setCenter(center);
     }
 }
