@@ -1,4 +1,4 @@
-package org.osmdroid.samplefragments.data;
+package org.osmdroid.samplefragments.animations;
 
 import android.app.Activity;
 import android.graphics.Color;
@@ -19,13 +19,15 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 /**
+ * Demonstrates a one way to move an icon in an animation.
+ * It's dirty but it works
  * created on 7/29/2017.
  * https://github.com/osmdroid/osmdroid/issues/636
  *
  * @author Alex O'Ree
  */
 
-public class AnimatedMarker extends BaseSampleFragment implements MapListener {
+public class AnimatedMarkerTimer extends BaseSampleFragment implements MapListener {
 
     boolean alive = true;
     FolderOverlay activeLatLonGrid;

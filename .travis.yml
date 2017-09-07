@@ -60,14 +60,18 @@ env:
     - API=8g ANDROID_TARGET=11  ANDROID_ABI=armeabi
     - API=8 ANDROID_TARGET=1  ANDROID_ABI=armeabi
     - API=10 ANDROID_TARGET=2  ANDROID_ABI=armeabi
-    - API=19 ANDROID_TARGET=5  ANDROID_ABI=google_apis/armeabi-v7a
-    - API=15 ANDROID_TARGET=3  ANDROID_ABI=google_apis/armeabi-v7a
-    # - API=10g ANDROID_TARGET=12  ANDROID_ABI=armeabi this stopped working sept 2017 not sure why
-    # but the emulator says google services aren't installed
-    - API=15g ANDROID_TARGET=13  ANDROID_ABI=armeabi-v7a
+    # - API=19 ANDROID_TARGET=5  ANDROID_ABI=google_apis/armeabi-v7a
+    # (above) stopped working sept 2017 unknown reason
+    # - API=15 ANDROID_TARGET=3  ANDROID_ABI=google_apis/armeabi-v7a
+    # (above) stopped working sept 2017 unknown reason
+    # - API=10g ANDROID_TARGET=12  ANDROID_ABI=armeabi
+    # (above) stopped working sept 2017 unknown reason, the emulator says google services aren't installed
+    # - API=15g ANDROID_TARGET=13  ANDROID_ABI=armeabi-v7a
+    # (above) stopped working sept 2017 unknown reason
 
 before_install:
   # create and start emulators
+  - export ANDROID_SDK_ROOT=/usr/local/android-sdk/
   - android list targets
   - echo android create avd --force -n test$ANDROID_TARGET -t $ANDROID_TARGET --abi $ANDROID_ABI --sdcard 200M
   - echo no | android create avd --force -n test$ANDROID_TARGET -t $ANDROID_TARGET --abi $ANDROID_ABI --sdcard 200M

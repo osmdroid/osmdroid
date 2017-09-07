@@ -9,6 +9,11 @@ import java.util.List;
 /**
  * looking for mapquest? it's moved because they stopped supporting anonymous access to tiles
  * @see MapQuestTileSource
+ * @see org.osmdroid.tileprovider.tilesource.bing.BingMapTileSource
+ * @see CloudmadeTileSource
+ * @see HEREWeGoTileSource
+ * @see MapBoxTileSource
+ * @see TMSOnlineTileSourceBase
  */
 public class TileSourceFactory {
 
