@@ -58,6 +58,9 @@ import org.osmdroid.samplefragments.tileproviders.MapsforgeTileProviderSample;
 import org.osmdroid.samplefragments.tileproviders.OfflinePickerSample;
 import org.osmdroid.samplefragments.tileproviders.SampleAssetsOnly;
 import org.osmdroid.samplefragments.tileproviders.SampleOfflineGemfOnly;
+import org.osmdroid.samplefragments.tilesources.NasaWms111Source;
+import org.osmdroid.samplefragments.tilesources.NasaWms130Source;
+import org.osmdroid.samplefragments.tilesources.NasaWmsSrs;
 import org.osmdroid.samplefragments.tilesources.SampleBingHybrid;
 import org.osmdroid.samplefragments.tilesources.SampleBingRoad;
 import org.osmdroid.samplefragments.tilesources.SampleCopyrightOverlay;
@@ -69,6 +72,7 @@ import org.osmdroid.samplefragments.tilesources.SampleMapBox;
 import org.osmdroid.samplefragments.tilesources.SampleMapQuest;
 import org.osmdroid.samplefragments.tileproviders.SampleOfflineOnly;
 import org.osmdroid.samplefragments.tilesources.SampleOpenSeaMap;
+import org.osmdroid.samplefragments.tilesources.SampleWMSSource;
 import org.osmdroid.samplefragments.tilesources.SampleWhackyColorFilter;
 import org.osmdroid.samplefragments.tilesources.SepiaToneTiles;
 
@@ -215,7 +219,11 @@ public final class SampleFactory implements ISampleFactory {
         mSamples.add(SampleOfflineGemfOnly.class);
         //58
         mSamples.add(DrawPolygon.class);
+        mSamples.add(SampleWMSSource.class);
 
+        //mSamples.add(NasaWms111Source.class);
+        //mSamples.add(NasaWms130Source.class);
+        //mSamples.add(NasaWmsSrs.class);
         if (Build.VERSION.SDK_INT  >= Build.VERSION_CODES.GINGERBREAD )
             mSamples.add(AnimatedMarkerHandler.class);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH)
