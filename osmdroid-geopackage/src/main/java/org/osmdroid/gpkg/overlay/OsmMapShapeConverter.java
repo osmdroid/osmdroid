@@ -34,9 +34,12 @@ package org.osmdroid.gpkg.overlay;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 
+import org.osmdroid.api.IMapView;
 import org.osmdroid.gpkg.R;
 import org.osmdroid.gpkg.overlay.features.*;
+import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
@@ -126,6 +129,7 @@ public class OsmMapShapeConverter {
      */
     public OsmMapShapeConverter(Projection projection, MarkerOptions options, PolylineOptions polylineOptions,
                                 PolygonOptions polygonOptions) {
+        Log.i(IMapView.LOGTAG, "Geopackage support is BETA. Please report any issues");
         this.projection = projection;
         this.polylineOptions=polylineOptions;
         this.polygonOptions=polygonOptions;

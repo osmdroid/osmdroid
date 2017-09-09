@@ -48,7 +48,7 @@ public class GeoPackageMapTileModuleProvider extends MapTileModuleProviderBase {
                                            final Context context, IFilesystemCache cache) {
         //int pThreadPoolSize, final int pPendingQueueSize
         super(Configuration.getInstance().getTileFileSystemThreads(), Configuration.getInstance().getTileFileSystemMaxQueueSize());
-
+        Log.i(IMapView.LOGTAG, "Geopackage support is BETA. Please report any issues");
         tileWriter = cache;
         // Get a manager
         manager = GeoPackageFactory.getManager(context);

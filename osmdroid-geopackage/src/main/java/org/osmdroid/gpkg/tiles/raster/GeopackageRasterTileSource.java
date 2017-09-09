@@ -1,5 +1,8 @@
 package org.osmdroid.gpkg.tiles.raster;
 
+import android.util.Log;
+
+import org.osmdroid.api.IMapView;
 import org.osmdroid.tileprovider.tilesource.XYTileSource;
 import org.osmdroid.util.BoundingBox;
 
@@ -16,6 +19,7 @@ public class GeopackageRasterTileSource extends XYTileSource {
 
     public GeopackageRasterTileSource(String database, String table, int aZoomMinLevel, int aZoomMaxLevel, BoundingBox bbox) {
         super(database + ":" + table, aZoomMinLevel, aZoomMaxLevel, 256, "png", new String[]{""});
+        Log.i(IMapView.LOGTAG, "Geopackage support is BETA. Please report any issues");
         this.database = database;
         this.tableDao = table;
         this.bounds=bbox;

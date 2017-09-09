@@ -1,7 +1,9 @@
 package org.osmdroid.gpkg.tiles.feature;
 
 import android.content.Context;
+import android.util.Log;
 
+import org.osmdroid.api.IMapView;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.TilesOverlay;
 
@@ -31,6 +33,7 @@ public class GeopackageFeatureTilesOverlay extends TilesOverlay {
 
     public GeopackageFeatureTilesOverlay(GeoPackageFeatureTileProvider provider, final Context pContext) {
         super(provider, pContext);
+        Log.i(IMapView.LOGTAG, "Geopackage support is BETA. Please report any issues");
         this.ctx=pContext;
 
         this.provider=provider;

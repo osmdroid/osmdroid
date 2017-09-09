@@ -2,7 +2,9 @@ package org.osmdroid.gpkg.tiles.raster;
 
 import android.content.Context;
 import android.os.Build;
+import android.util.Log;
 
+import org.osmdroid.api.IMapView;
 import org.osmdroid.tileprovider.IMapTileProviderCallback;
 import org.osmdroid.tileprovider.IRegisterReceiver;
 import org.osmdroid.tileprovider.MapTileProviderArray;
@@ -49,7 +51,7 @@ public class GeoPackageProvider extends MapTileProviderArray implements IMapTile
 
 
         super(pTileSource, pRegisterReceiver);
-
+        Log.i(IMapView.LOGTAG, "Geopackage support is BETA. Please report any issues");
 
         if (cacheWriter != null) {
             tileWriter = cacheWriter;
