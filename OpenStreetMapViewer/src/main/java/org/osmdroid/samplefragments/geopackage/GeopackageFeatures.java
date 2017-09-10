@@ -1,6 +1,7 @@
-package org.osmdroid.samplefragments.tileproviders;
+package org.osmdroid.samplefragments.geopackage;
 
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,8 +20,10 @@ import org.osmdroid.config.Configuration;
 import org.osmdroid.events.MapListener;
 import org.osmdroid.events.ScrollEvent;
 import org.osmdroid.events.ZoomEvent;
-import org.osmdroid.gpkg.GeoPackageMapTileModuleProvider;
-import org.osmdroid.gpkg.GeoPackageProvider;
+import org.osmdroid.gpkg.overlay.OsmMapShapeConverter;
+import org.osmdroid.gpkg.overlay.features.MarkerOptions;
+import org.osmdroid.gpkg.overlay.features.PolygonOptions;
+import org.osmdroid.gpkg.overlay.features.PolylineOptions;
 import org.osmdroid.samplefragments.BaseSampleFragment;
 import org.osmdroid.tileprovider.tilesource.XYTileSource;
 import org.osmdroid.tileprovider.util.StorageUtils;
@@ -34,26 +37,37 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import mil.nga.geopackage.GeoPackage;
+import mil.nga.geopackage.GeoPackageManager;
+import mil.nga.geopackage.factory.GeoPackageFactory;
+import mil.nga.geopackage.features.user.FeatureCursor;
+import mil.nga.geopackage.features.user.FeatureDao;
+import mil.nga.geopackage.features.user.FeatureRow;
+import mil.nga.geopackage.geom.GeoPackageGeometryData;
+import mil.nga.wkb.geom.Geometry;
+
 import static org.osmdroid.samplefragments.events.SampleMapEventListener.df;
 
 /**
  * One way for viewing geopackage tiles to the osmdroid view
+ * converts geopackage features to osmdroid overlays
  * <p>
  * created on 1/12/2017.
  *
  * @author Alex O'Ree
- * @since 5.6.3
+ * @since 5.6.6
  */
 
-public class GeopackageSample extends BaseSampleFragment {
+public class GeopackageFeatures extends BaseSampleFragment {
     TextView textViewCurrentLocation;
-    GeoPackageProvider.TileSourceBounds tileSourceBounds;
+
     XYTileSource currentSource = null;
-    GeoPackageProvider geoPackageProvider = null;
+
     android.app.AlertDialog alertDialog = null;
+
     @Override
     public String getSampleTitle() {
-        return "Geopackage tiles";
+        return "Geopackage Feature Overlays";
     }
 
     @Override
@@ -105,7 +119,7 @@ public class GeopackageSample extends BaseSampleFragment {
     @Override
     public void addOverlays() {
         super.addOverlays();
-        //first let's up our map source, mapsforge needs you to explicitly specify which map files to load
+        //first let's up our map source, geopackage needs you to explicitly specify which map files to load
         //this bit does some basic file system scanning
         Set<File> mapfiles = findMapFiles();
         //do a simple scan of local storage for .gpkg files.
@@ -142,38 +156,86 @@ public class GeopackageSample extends BaseSampleFragment {
 
         } else {
             Toast.makeText(getContext(), "Loaded " + maps.length + " map files", Toast.LENGTH_LONG).show();
-            geoPackageProvider = new GeoPackageProvider(maps, this.getContext());
-            mMapView.setTileProvider(geoPackageProvider);
-            List<GeoPackageMapTileModuleProvider.Container> tileSources = geoPackageProvider.geoPackageMapTileModuleProvider().getTileSources();
+            // Get a manager
+            GeoPackageManager manager = GeoPackageFactory.getManager(getContext());
 
-            //here we're keeping track of the current tile source so we can reference it later, primarly for
-            //displaying the bounds of the tile set
-            boolean sourceSet = false;
-            for (int i = 0; i < tileSources.size(); i++) {
-                //this is a list of geopackages, since we only support tile tables, pick the first one of those
-                //ideally this should populate a spinner so that the user can select whatever tile source they want
-                if (tileSources.get(i) != null && !tileSources.get(i).tiles.isEmpty()) {
-                    currentSource = (XYTileSource) geoPackageProvider.getTileSource(tileSources.get(i).database,
-                        tileSources.get(0).tiles.get(i)
-                    );
-                    mMapView.setTileSource(currentSource);
-                    sourceSet = true;
-                    break;
+            // Available databases
+            List<String> databases = manager.databases();
+
+            // Import database
+            for (File f : maps) {
+                try {
+                    boolean imported = manager.importGeoPackage(f);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
                 }
             }
 
+            if (!databases.isEmpty()) {
 
-            if (!sourceSet) {
-                Toast.makeText(getContext(), "No tile source is available, get your geopackages for 'tiles' tables", Toast.LENGTH_LONG).show();
+
+                // Open database
+
+
+                for (int k=0; k < databases.size(); k++) {
+                    GeoPackage geoPackage = manager.open(databases.get(k));
+                    // Feature tile tables
+                    List<String> features = geoPackage.getFeatureTables();
+                    // Query Features
+                    if (!features.isEmpty()) {
+                        for (int i = 0; i < features.size(); i++) {
+
+                            MarkerOptions markerRenderingOptions = new MarkerOptions();
+                            PolylineOptions polylineRenderingOptions = new PolylineOptions();
+                            polylineRenderingOptions.setWidth(2f);
+                            polylineRenderingOptions.setColor(Color.argb(100, 255, 0, 0));
+                            polylineRenderingOptions.setTitle(databases.get(k) + ":"+ features.get(i));
+
+                            PolygonOptions polygonOptions = new PolygonOptions();
+                            polygonOptions.setStrokeWidth(2f);
+                            polygonOptions.setFillColor(Color.argb(100, 255, 0, 255));
+                            polygonOptions.setStrokeColor(Color.argb(100, 0, 0, 255));
+                            polygonOptions.setTitle(databases.get(k) + ":"+ features.get(i));
+
+                            OsmMapShapeConverter converter = new OsmMapShapeConverter(null, markerRenderingOptions, polylineRenderingOptions, polygonOptions);
+
+                            String featureTable = features.get(i);
+                            FeatureDao featureDao = geoPackage.getFeatureDao(featureTable);
+                            FeatureCursor featureCursor = featureDao.queryForAll();
+                            try {
+                                while (featureCursor.moveToNext()) {
+                                    try {
+                                        FeatureRow featureRow = featureCursor.getRow();
+                                        GeoPackageGeometryData geometryData = featureRow.getGeometry();
+                                        if ("statesQGIS".equals(featureTable) && "states10".equals(databases.get(k))) {
+                                            //cheating here a bit, if you happen to have the states10.gpkg file
+                                            //this will colorize thes tates based on the 2016 presential election results
+
+                                            //get it here: https://github.com/opengeospatial/geopackage/raw/gh-pages/data/states10.gpkg
+                                            String state = (String) featureRow.getValue("STATE_NAME");
+                                            String stateabbr = (String)featureRow.getValue("STATE_ABBR");
+                                            long population = (long) featureRow.getValue("POP1996");
+                                            applyTheming(state, stateabbr, population, polygonOptions);
+                                        }
+                                        Geometry geometry = geometryData.getGeometry();
+                                        converter.addToMap(mMapView, geometry);
+                                    } catch (Exception ex) {
+                                        ex.printStackTrace();
+                                    }
+                                    // ...
+                                }
+                            } finally {
+                                featureCursor.close();
+                            }
+                        }
+                    } else
+                        Toast.makeText(getContext(), "No feature tables available in " + geoPackage.getName(), Toast.LENGTH_LONG).show();
+                }
             } else {
-                Toast.makeText(getContext(), "Tile source set to " + mMapView.getTileProvider().getTileSource().name(), Toast.LENGTH_LONG).show();
-                //this part will attempt to zoom to bounds of the selected tile source
-                tileSourceBounds = geoPackageProvider.getTileSourceBounds();
-                if (tileSourceBounds != null) {
-                    mMapView.zoomToBoundingBox(tileSourceBounds.bounds, true);
-                    mMapView.getController().setZoom(tileSourceBounds.minzoom);
-                }
+                Toast.makeText(getContext(), "No databases available", Toast.LENGTH_LONG).show();
             }
+
+
         }
 
         mMapView.setMapListener(new MapListener() {
@@ -192,6 +254,40 @@ public class GeopackageSample extends BaseSampleFragment {
             }
         });
         updateInfo();
+    }
+
+    private void applyTheming(String state, String stateabbr, long population, PolygonOptions polygonOptions) {
+        polygonOptions.setTitle(stateabbr);
+        final int alpha = 100;
+        switch (stateabbr) {
+            case "CA":
+            case "CO":
+            case "CT":
+            case "DE":
+            case "DC":
+            case "HI":
+            case "IL":
+            case "ME":
+            case "MD":
+            case "MA":
+            case "MN":
+            case "NE":
+            case "NJ":
+            case "NM":
+            case "NY":
+            case "OR":
+            case "RI":
+            case "VT":
+            case "VA":
+            case "WA":
+               polygonOptions.setFillColor(Color.argb(alpha, 0,0,255));
+                polygonOptions.setSubtitle(state + "<br>Population:" + population +"<br>Voted: Democratic in 2016");
+                break;
+            default:
+                polygonOptions.setFillColor(Color.argb(alpha, 255,0,0));
+                polygonOptions.setSubtitle(state + "<br>Population:" + population +"<br>Voted: Republican in 2016");
+
+        }
     }
 
     @Override
@@ -213,8 +309,7 @@ public class GeopackageSample extends BaseSampleFragment {
         }
         alertDialog = null;
         this.currentSource = null;
-        if (geoPackageProvider != null)
-            geoPackageProvider.detach();
+
 
     }
 
@@ -231,16 +326,7 @@ public class GeopackageSample extends BaseSampleFragment {
             sb.append(currentSource.name() + "," + currentSource.getBaseUrl());
         }
 
-        if (tileSourceBounds != null) {
-            sb.append("\n");
-            sb.append(" minzoom=" + tileSourceBounds.minzoom);
-            sb.append(" maxzoom=" + tileSourceBounds.maxzoom);
-            sb.append(" bounds=" + df.format(tileSourceBounds.bounds.getLatNorth())
-                + "," + df.format(tileSourceBounds.bounds.getLonEast()) + "," +
-                df.format(tileSourceBounds.bounds.getLatSouth()) + "," +
-                df.format(tileSourceBounds.bounds.getLonWest()));
 
-        }
 
         textViewCurrentLocation.setText(sb.toString());
     }

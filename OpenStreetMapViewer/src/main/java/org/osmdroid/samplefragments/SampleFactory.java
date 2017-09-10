@@ -18,6 +18,8 @@ import org.osmdroid.samplefragments.cache.SampleJumboCache;
 import org.osmdroid.samplefragments.cache.SampleSqliteOnly;
 import org.osmdroid.samplefragments.animations.AnimatedMarkerTimer;
 import org.osmdroid.samplefragments.data.AsyncTaskDemoFragment;
+import org.osmdroid.samplefragments.geopackage.GeopackageFeatureTiles;
+import org.osmdroid.samplefragments.geopackage.GeopackageFeatures;
 import org.osmdroid.samplefragments.data.Gridlines2;
 import org.osmdroid.samplefragments.data.HeatMap;
 import org.osmdroid.samplefragments.data.SampleGridlines;
@@ -51,11 +53,14 @@ import org.osmdroid.samplefragments.location.SampleFollowMe;
 import org.osmdroid.samplefragments.location.SampleHeadingCompassUp;
 import org.osmdroid.samplefragments.location.SampleMyLocationWithClick;
 import org.osmdroid.samplefragments.location.SampleRotation;
-import org.osmdroid.samplefragments.tileproviders.GeopackageSample;
+import org.osmdroid.samplefragments.geopackage.GeopackageSample;
 import org.osmdroid.samplefragments.tileproviders.MapsforgeTileProviderSample;
 import org.osmdroid.samplefragments.tileproviders.OfflinePickerSample;
 import org.osmdroid.samplefragments.tileproviders.SampleAssetsOnly;
 import org.osmdroid.samplefragments.tileproviders.SampleOfflineGemfOnly;
+import org.osmdroid.samplefragments.tilesources.NasaWms111Source;
+import org.osmdroid.samplefragments.tilesources.NasaWms130Source;
+import org.osmdroid.samplefragments.tilesources.NasaWmsSrs;
 import org.osmdroid.samplefragments.tilesources.SampleBingHybrid;
 import org.osmdroid.samplefragments.tilesources.SampleBingRoad;
 import org.osmdroid.samplefragments.tilesources.SampleCopyrightOverlay;
@@ -67,6 +72,7 @@ import org.osmdroid.samplefragments.tilesources.SampleMapBox;
 import org.osmdroid.samplefragments.tilesources.SampleMapQuest;
 import org.osmdroid.samplefragments.tileproviders.SampleOfflineOnly;
 import org.osmdroid.samplefragments.tilesources.SampleOpenSeaMap;
+import org.osmdroid.samplefragments.tilesources.SampleWMSSource;
 import org.osmdroid.samplefragments.tilesources.SampleWhackyColorFilter;
 import org.osmdroid.samplefragments.tilesources.SepiaToneTiles;
 
@@ -213,7 +219,11 @@ public final class SampleFactory implements ISampleFactory {
         mSamples.add(SampleOfflineGemfOnly.class);
         //58
         mSamples.add(DrawPolygon.class);
+        mSamples.add(SampleWMSSource.class);
 
+        //mSamples.add(NasaWms111Source.class);
+        //mSamples.add(NasaWms130Source.class);
+        //mSamples.add(NasaWmsSrs.class);
         if (Build.VERSION.SDK_INT  >= Build.VERSION_CODES.GINGERBREAD )
             mSamples.add(AnimatedMarkerHandler.class);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH)
@@ -226,8 +236,11 @@ public final class SampleFactory implements ISampleFactory {
         if (Build.VERSION.SDK_INT >= 9)
             mSamples.add(OfflinePickerSample.class);
         //59
-        if (Build.VERSION.SDK_INT >= 14)
+        if (Build.VERSION.SDK_INT >= 14) {
             mSamples.add(GeopackageSample.class);
+            mSamples.add(GeopackageFeatures.class);
+            mSamples.add(GeopackageFeatureTiles.class);
+        }
     }
 
     public void addSample(Class<? extends BaseSampleFragment> clz) {

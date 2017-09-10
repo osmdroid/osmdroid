@@ -72,6 +72,7 @@ public class Marker extends OverlayWithIW {
 	protected boolean mFlat;
 	protected OnMarkerClickListener mOnMarkerClickListener;
 	protected OnMarkerDragListener mOnMarkerDragListener;
+	protected String mId;
 	
 	/*attributes for non-standard features:*/
 	protected Drawable mImage;
@@ -420,7 +421,21 @@ public class Marker extends OverlayWithIW {
 		} else 
 			return false;
 	}
-	
+
+	public void setVisible(boolean visible) {
+		if (visible)
+			setAlpha(1f);
+		else setAlpha(0f);
+	}
+
+	public String getId() {
+		return mId;
+	}
+
+	public void setId(final String id) {
+		 mId=id;
+	}
+
 	//-- Marker events listener interfaces ------------------------------------
 	
 	public interface OnMarkerClickListener{
