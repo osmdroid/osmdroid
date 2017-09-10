@@ -16,7 +16,7 @@
 # ----------
 sdkmanager --list --verbose
 # add the packages we need to compile osmdroid
-PACKAGES=$PACKAGES "build-tools;23.0.2 build-tools;23.0.1 build-tools;23.0.3" 
+export PACKAGES=$PACKAGES "build-tools;23.0.2 build-tools;23.0.1 build-tools;23.0.3" 
 PACKAGES=$PACKAGES "extra;google;m2repository extra;google;google_play_services"
 PACKAGES=$PACKAGES "extra;android;m2repository"
 PACKAGES=$PACKAGES "platforms;android-23 add-ons;addon-google_apis-google-23"
