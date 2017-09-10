@@ -77,4 +77,4 @@ esac
 # now call sdkmanager with our package list
 
 echo calling sdkmanager with $PACKAGES
-sdkmanager $PACKAGES
+echo y | sdkmanager $PACKAGES
