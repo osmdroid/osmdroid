@@ -1,5 +1,5 @@
 language: android
-jdk: openjdk7
+jdk: openjdk8
 android:
   components:
     # The BuildTools version used by your project
