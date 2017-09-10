@@ -2,6 +2,7 @@ package org.osmdroid.wms;
 
 import android.util.Log;
 
+import org.osmdroid.api.IMapView;
 import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase;
 import org.osmdroid.util.BoundingBox;
@@ -60,6 +61,7 @@ public class WMSTileSource extends OnlineTileSourceBase{
      */
     public WMSTileSource(String aName, String[] aBaseUrl, String layername, String version, String srs, String style, int size) {
         super(aName, 0, 22, size, "png", aBaseUrl);
+        Log.i(IMapView.LOGTAG, "WMS support is BETA. Please report any issues");
         this.layer=layername;
         this.version=version;
         if (srs!=null)
