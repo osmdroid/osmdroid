@@ -23,13 +23,13 @@ env:
     # first env var is just for display purposes
     #- API=8 ANDROID_TARGET=1  ANDROID_ABI=default/armeabi
     - API=10 ANDROID_TARGET=1  ANDROID_ABI=default/armeabi-v7a
-    - API=15 ANDROID_TARGET=1  ANDROID_ABI=google_apis/armeabi-v7a
-    - API=19 ANDROID_TARGET=1  ANDROID_ABI=google_apis/armeabi-v7a
+    - API=15 ANDROID_TARGET=1  ANDROID_ABI=default/armeabi-v7a
+    - API=19 ANDROID_TARGET=1  ANDROID_ABI=default/armeabi-v7a
     - API=23 ANDROID_TARGET=1  ANDROID_ABI=google_apis/armeabi-v7a
     #- API=8g ANDROID_TARGET=9  ANDROID_ABI=default/armeabi
     - API=10g ANDROID_TARGET=1  ANDROID_ABI=default/armeabi
     # (above) stopped working sept 2017 unknown reason, the emulator says google services aren't installed
-    - API=15g ANDROID_TARGET=1  ANDROID_ABI=default/armeabi-v7a
+    - API=15g ANDROID_TARGET=1  ANDROID_ABI=google_apis/armeabi-v7a
     # (above) stopped working sept 2017 unknown reason
 
 
