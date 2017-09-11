@@ -56,7 +56,7 @@ case "$API" in
     ;;
 '23')
     export PACKAGES="$PACKAGES platforms;android-23" 
-	export PACKAGES="$PACKAGES system-images;android-23;default;armeabi-v7a" 
+	export PACKAGES="$PACKAGES system-images;android-23;google_apis;armeabi-v7a"
     ;;
 '23g')
     export PACKAGES="$PACKAGES platforms;android-23" 

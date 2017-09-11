@@ -8,6 +8,9 @@ android:
     - build-tools-23.0.2 # 23.0.2 was not available on build
     - build-tools-23.0.1
     - build-tools-23.0.3
+    - android-8
+    - addon-google_apis-google-8
+    - sys-img-armeabi-android-8
 
 sudo: required
 
