@@ -14,7 +14,10 @@
 # expected environment variables
 # API = the numerical android api level with an optional 'g' at the end, which signifies to include the google apis
 # ----------
-#sdkmanager --list --verbose
+
+sdkmanager --list --verbose
+
+
 # add the packages we need to compile osmdroid
 export PACKAGES="build-tools;23.0.2 build-tools;23.0.1 build-tools;23.0.3" 
 export PACKAGES="$PACKAGES extras;google;m2repository extras;google;google_play_services"
