@@ -174,23 +174,28 @@ public class MapTileSqlCacheProvider  extends MapTileFileStorageProviderBase{
                 Counters.fileCacheMiss++;
                 return null;
             }
-            try {
-                final Drawable result = mWriter.loadTile(tileSource, pTile);
-                if (result == null) {
-                    Counters.fileCacheMiss++;
-                } else {
-                    Counters.fileCacheHit++;
+            if (mWriter!=null) {
+                try {
+                    final Drawable result = mWriter.loadTile(tileSource, pTile);
+                    if (result == null) {
+                        Counters.fileCacheMiss++;
+                    } else {
+                        Counters.fileCacheHit++;
+                    }
+                    return result;
+                } catch (final BitmapTileSourceBase.LowMemoryException e) {
+                    // low memory so empty the queue
+                    Log.w(IMapView.LOGTAG, "LowMemoryException downloading MapTile: " + pTile + " : " + e);
+                    Counters.fileCacheOOM++;
+                    throw new MapTileModuleProviderBase.CantContinueException(e);
+                } catch (final Throwable e) {
+                    Log.e(IMapView.LOGTAG, "Error loading tile", e);
+                    return null;
                 }
-                return result;
-            } catch (final BitmapTileSourceBase.LowMemoryException e) {
-                // low memory so empty the queue
-                Log.w(IMapView.LOGTAG, "LowMemoryException downloading MapTile: " + pTile + " : " + e);
-                Counters.fileCacheOOM++;
-                throw new MapTileModuleProviderBase.CantContinueException(e);
-            } catch (final Throwable e) {
-                Log.e(IMapView.LOGTAG, "Error loading tile", e);
-                return null;
+            } else {
+                Log.d(IMapView.LOGTAG, "TileLoader failed to load tile due to mWriter being null (map shutdown?)");
             }
+            return null;
         }
     }
 }

@@ -7,16 +7,19 @@
  */
 package org.osmdroid.views;
 
-import org.osmdroid.StarterMapActivity;
-import org.osmdroid.StarterMapFragment;
-import org.osmdroid.R;
-import org.osmdroid.util.GeoPoint;
-import org.osmdroid.views.Projection;
-import org.osmdroid.tileprovider.util.Counters;
 import android.graphics.Point;
+import android.support.v4.app.FragmentManager;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.UiThreadTest;
-import android.support.v4.app.FragmentManager;
+
+import org.osmdroid.R;
+import org.osmdroid.StarterMapActivity;
+import org.osmdroid.StarterMapFragment;
+import org.osmdroid.tileprovider.util.Counters;
+import org.osmdroid.util.GeoPoint;
+import org.osmdroid.util.TileSystem;
+
+import java.util.Random;
 
 /**
  * @author Neil Boyd
@@ -24,11 +27,13 @@ import android.support.v4.app.FragmentManager;
  */
 public class OpenStreetMapViewTest extends ActivityInstrumentationTestCase2<StarterMapActivity> {
 
+	private static final Random random = new Random();
+
 	public OpenStreetMapViewTest() {
         super(StarterMapActivity.class);
 		Counters.reset();
     }
-	
+
 	private MapView mOpenStreetMapView;
 
 	@Override
@@ -47,39 +52,51 @@ public class OpenStreetMapViewTest extends ActivityInstrumentationTestCase2<Star
 	 */
 	@UiThreadTest
 	public void test_toMapPixels_0_0() {
-		final GeoPoint zz = new GeoPoint(0, 0);
-		mOpenStreetMapView.getController().setCenter(zz);
-		mOpenStreetMapView.getController().setZoom(8);
-		final Projection projection = mOpenStreetMapView.getProjection();
+		final int roundingTolerance = 1;
+		final int iterations = 100;
+		for (int i = 0 ; i < iterations ; i ++) {
+			final double zoom = getRandomZoom();
+			final GeoPoint zz = new GeoPoint(getRandomLatitude(), getRandomLongitude());
+			mOpenStreetMapView.getController().setZoom(zoom);
+			mOpenStreetMapView.getController().setCenter(zz);
+			final Projection projection = mOpenStreetMapView.getProjection();
 
-		final Point point = projection.toPixels(zz, null);
+			final Point point = projection.toPixels(zz, null);
 
-		final int width_2 = mOpenStreetMapView.getWidth() / 2;
-		final int height_2 = mOpenStreetMapView.getHeight() / 2;
-		assertTrue("MapView does not have layout. Make sure device is unlocked.", width_2 > 0 && height_2 > 0);
-		final Point expected = new Point(width_2, height_2);
-		assertEquals("TODO describe test", expected, point);
+			final int width_2 = mOpenStreetMapView.getWidth() / 2;
+			final int height_2 = mOpenStreetMapView.getHeight() / 2;
+			assertTrue("MapView does not have layout. Make sure device is unlocked.", width_2 > 0 && height_2 > 0);
+			final Point expected = new Point(width_2, height_2);
+			assertEquals("the geo center of the map is in the pixel center of the map (X)", expected.x, point.x, roundingTolerance);
+			assertEquals("the geo center of the map is in the pixel center of the map (Y)", expected.y, point.y, roundingTolerance);
+		}
 	}
 
 	/**
-	 * This test was retrospectively added based on current implementation. TODO a manual
-	 * calculation and verify that this test gives the correct result.
-	 *
-	 * This test was commented out because it's is screen dpi dependent when the map view is set to scale
-	 * tiles to screen dpi, which is now on by default across the example app
+	 * @since 5.6.6
+	 */
+	private double getRandomLongitude() {
+		return getRandom(TileSystem.MinLongitude, TileSystem.MaxLongitude);
+	}
 
-	@UiThreadTest
-	public void test_toMapPixels_Hannover() {
+	/**
+	 * @since 5.6.6
+	 */
+	private double getRandomLatitude() {
+		return getRandom(TileSystem.MinLatitude, TileSystem.MaxLatitude);
+	}
 
-		final GeoPoint hannover = new GeoPoint(52370816, 9735936);
-		mOpenStreetMapView.getController().setCenter(hannover);
-		mOpenStreetMapView.getController().setZoom(8);
-		final Projection projection = mOpenStreetMapView.getProjection();
+	/**
+	 * @since 5.6.6
+	 */
+	private double getRandomZoom() {
+		return getRandom(mOpenStreetMapView.getMinZoomLevel(), mOpenStreetMapView.getMaxZoomLevel());
+	}
 
-		final Point point = projection.toPixels(hannover, null);
-		projection.toMercatorPixels(point.x, point.y, point);
-
-		final Point expected = new Point(51811, 32306);
-		assertEquals("TODO describe test", expected, point);
-	} */
+	/**
+	 * @since 5.6.6
+	 */
+	private double getRandom(final double pMin, final double pMax) {
+		return pMin + random.nextDouble() * (pMax - pMin);
+	}
 }

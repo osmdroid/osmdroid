@@ -33,14 +33,14 @@ public final class TileSystem {
 	}
 
 	/**
-	 * @since 6.0
+	 * @since 5.6.6
 	 */
 	public static double getTileSize(final double pZoomLevel) {
 		return MapSize(pZoomLevel - getInputTileZoomLevel(pZoomLevel));
 	}
 
 	/**
-	 * @since 6.0
+	 * @since 5.6.6
 	 */
 	public static int getInputTileZoomLevel(final double pZoomLevel) {
 		return (int) pZoomLevel;
@@ -53,7 +53,7 @@ public final class TileSystem {
 	}
 
 	/**
-	 * @since 6.0
+	 * @since 5.6.6
 	 * @see microsoft.mappoint.TileSystem#MapSize(int)
 	 */
 	public static double MapSize(final double pZoomLevel) {
@@ -61,7 +61,7 @@ public final class TileSystem {
 	}
 
 	/**
-	 * @since 6.0
+	 * @since 5.6.6
 	 */
 	public static double getFactor(final double pZoomLevel) {
 		return Math.pow(2, pZoomLevel);
@@ -73,14 +73,14 @@ public final class TileSystem {
 	}
 
 	/**
-	 * @since 6.0
+	 * @since 5.6.6
 	 */
 	public static double GroundResolution(final double latitude, final double zoomLevel) {
 		return GroundResolutionMapSize(wrap(latitude, -90, 90, 180), MapSize(zoomLevel));
 	}
 
 	/**
-	 * @since 6.0
+	 * @since 5.6.6
 	 * @see microsoft.mappoint.TileSystem#GroundResolution(double, int)
 	 */
 	public static double GroundResolutionMapSize(double latitude, final double mapSize) {
@@ -105,7 +105,7 @@ public final class TileSystem {
 	}
 
 	/**
-	 * @since 6.0
+	 * @since 5.6.6
 	 */
 	public static Point LatLongToPixelXY(
 			final double latitude, final double longitude, final double zoomLevel, final Point reuse) {
@@ -116,22 +116,14 @@ public final class TileSystem {
 	}
 
 	/**
-	 * @since 6.0
+	 * @since 5.6.6
 	 * @see microsoft.mappoint.TileSystem#LatLongToPixelXY(double, double, int, android.graphics.Point)
 	 */
 	public static Point LatLongToPixelXYMapSize(double latitude, double longitude,
 												final double mapSize, final Point reuse) {
 		final Point out = (reuse == null ? new Point() : reuse);
-
-		latitude = Clip(latitude, MinLatitude, MaxLatitude);
-		longitude = Clip(longitude, MinLongitude, MaxLongitude);
-
-		final double x = (longitude + 180) / 360;
-		final double sinLatitude = Math.sin(latitude * Math.PI / 180);
-		final double y = 0.5 - Math.log((1 + sinLatitude) / (1 - sinLatitude)) / (4 * Math.PI);
-
-		out.x = (int) Clip(x * mapSize + 0.5, 0, mapSize - 1);
-		out.y = (int) Clip(y * mapSize + 0.5, 0, mapSize - 1);
+		out.x = (int) Clip(getX01FromLongitude(longitude) * mapSize - 0.5, 0, mapSize - 1);
+		out.y = (int) Clip(getY01FromLatitude(latitude) * mapSize - 0.5, 0, mapSize - 1);
 		return out;
 	}
 
@@ -146,7 +138,7 @@ public final class TileSystem {
 	}
 
 	/**
-	 * @since 6.0
+	 * @since 5.6.6
 	 */
 	public static GeoPoint PixelXYToLatLong(
 			final int pixelX, final int pixelY, final double zoomLevel, final GeoPoint reuse) {
@@ -158,7 +150,30 @@ public final class TileSystem {
 	}
 
 	/**
-	 * @since 6.0
+	 * Converts a longitude to its "X01" value,
+	 * id est a double between 0 and 1 for the whole longitude range
+	 * @since 5.6.6
+	 */
+	public static double getX01FromLongitude(double longitude) {
+		longitude = Clip(longitude, MinLongitude, MaxLongitude);
+		return (longitude + 180) / 360;
+	}
+
+	/**
+	 * Converts a latitude to its "Y01" value,
+	 * id est a double between 0 and 1 for the whole latitude range
+	 * @since 5.6.6
+	 */
+	public static double getY01FromLatitude(double latitude) {
+		latitude = Clip(latitude, MinLatitude, MaxLatitude);
+		final double sinus = Math.sin(latitude * Math.PI / 180);
+		// the "Clip" part is there for side effects on 85.05112878 and -85.05112878
+		// with 85.05112877 and -85.05112877 the result is still between 0 and 1
+		return Clip(0.5 - Math.log((1 + sinus) / (1 - sinus)) / (4 * Math.PI), 0, 1);
+	}
+
+	/**
+	 * @since 5.6.6
 	 * @see microsoft.mappoint.TileSystem#PixelXYToLatLong(int, int, int, GeoPoint)
 	 */
 	public static GeoPoint PixelXYToLatLongMapSize(final int pixelX, final int pixelY,
@@ -174,7 +189,7 @@ public final class TileSystem {
 	}
 
 	/**
-	 * @since 6.0
+	 * @since 5.6.6
 	 * @see microsoft.mappoint.TileSystem#Clip(double, double, double)
 	 */
 	public static double Clip(final double n, final double minValue, final double maxValue) {
@@ -187,7 +202,7 @@ public final class TileSystem {
 	}
 
 	/**
-	 * @since 6.0
+	 * @since 5.6.6
 	 * @see microsoft.mappoint.TileSystem#PixelXYToTileXY(int, int, Point)
 	 */
 	public static Point PixelXYToTileXY(final int pPixelX, final int pPixelY, final double pTileSize, final Point pReuse) {
@@ -198,7 +213,7 @@ public final class TileSystem {
 	}
 
 	/**
-	 * @since 6.0
+	 * @since 5.6.6
 	 */
 	public static Rect PixelXYToTileXY(final Rect rect, final double pTileSize, final Rect pReuse) {
 		final Rect out = (pReuse == null ? new Rect() : pReuse);
@@ -213,7 +228,7 @@ public final class TileSystem {
 	}
 
 	/**
-	 * @since 6.0
+	 * @since 5.6.6
 	 * @see microsoft.mappoint.TileSystem#TileXYToPixelXY(int, int, Point)
 	 */
 	public static Point TileXYToPixelXY(final int pTileX, final int pTileY, final double pTileSize, final Point pReuse) {
@@ -231,6 +246,56 @@ public final class TileSystem {
 	/** @see microsoft.mappoint.TileSystem#QuadKeyToTileXY(String, Point) */
 	public static Point QuadKeyToTileXY(final String quadKey, final Point reuse) {
 		return microsoft.mappoint.TileSystem.QuadKeyToTileXY(quadKey, reuse);
+	}
+
+	/**
+	 * @since 5.6.6
+	 * @return the maximum zoom level where a bounding box fits into a screen,
+	 * or Double.MIN_VALUE if bounding box is a single point
+	 */
+	public static double getBoundingBoxZoom(final BoundingBox pBoundingBox, final int pScreenWidth, final int pScreenHeight) {
+		final double longitudeZoom = getLongitudeZoom(pBoundingBox.getLonEast(), pBoundingBox.getLonWest(), pScreenWidth);
+		final double latitudeZoom = getLatitudeZoom(pBoundingBox.getLatNorth(), pBoundingBox.getLatSouth(), pScreenHeight);
+		if (longitudeZoom == Double.MIN_VALUE) {
+			return latitudeZoom;
+		}
+		if (latitudeZoom == Double.MIN_VALUE) {
+			return longitudeZoom;
+		}
+		return Math.min(latitudeZoom, longitudeZoom);
+	}
+
+	/**
+	 * @since 5.6.6
+	 * @return the maximum zoom level where both longitudes fit into a screen,
+	 * or Double.MIN_VALUE if longitudes are equal
+	 */
+	public static double getLongitudeZoom(final double pEast, final double pWest, final int pScreenWidth) {
+		final double x01West = getX01FromLongitude(pWest);
+		final double x01East = getX01FromLongitude(pEast);
+		double span = x01East - x01West;
+		if (span < 0) {
+			span += 1;
+		}
+		if (span == 0) {
+			return Double.MIN_VALUE;
+		}
+		return Math.log(pScreenWidth / span / getTileSize()) / Math.log(2);
+	}
+
+	/**
+	 * @since 5.6.6
+	 * @return the maximum zoom level where both latitudes fit into a screen,
+	 * or Double.MIN_VALUE if latitudes are equal or ill positioned
+	 */
+	public static double getLatitudeZoom(final double pNorth, final double pSouth, final int pScreenHeight) {
+		final double y01North = getY01FromLatitude(pNorth);
+		final double y01South = getY01FromLatitude(pSouth);
+		final double span = y01South - y01North;
+		if (span <= 0) {
+			return Double.MIN_VALUE;
+		}
+		return Math.log(pScreenHeight / span / getTileSize()) / Math.log(2);
 	}
 
 	/**

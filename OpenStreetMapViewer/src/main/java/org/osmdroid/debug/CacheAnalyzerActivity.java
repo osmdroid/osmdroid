@@ -155,6 +155,8 @@ public class CacheAnalyzerActivity extends Activity implements AdapterView.OnIte
 
     @Override
     public void run() {
+        if (cache==null)
+            return;
         List<SqlTileWriterExt.SourceCount> sources = cache.getSources();
         final StringBuilder sb = new StringBuilder("Source: tile count\n");
         if (sources.isEmpty())
@@ -162,7 +164,9 @@ public class CacheAnalyzerActivity extends Activity implements AdapterView.OnIte
         for (int i = 0; i < sources.size(); i++) {
             sb.append(sources.get(i).source + ": " + sources.get(i).rowCount + "\n");
         }
-        long expired = cache.getRowCountExpired();
+        long expired = 0;
+        if (cache!=null)
+            expired = cache.getRowCountExpired();
         sb.append("Expired tiles: " + expired);
 
         this.runOnUiThread(new Runnable() {

@@ -451,46 +451,25 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	 * Suggestion: Check getScreenRect(null).getHeight() &gt; 0
 	 */
 	public void zoomToBoundingBox(final BoundingBox boundingBox, final boolean animated) {
-		final BoundingBox currentBox = getBoundingBox();
+		zoomToBoundingBox(boundingBox, animated, 0);
+	}
 
-		// Calculated required zoom based on latitude span
-		final double maxZoomLatitudeSpan = mZoomLevel == getMaxZoomLevel() ?
-				currentBox.getLatitudeSpan() :
-				currentBox.getLatitudeSpan() / Math.pow(2, getMaxZoomLevel() - mZoomLevel);
-
-		final double requiredLatitudeZoom =
-			getMaxZoomLevel() -
-			Math.ceil(Math.log(boundingBox.getLatitudeSpan() / maxZoomLatitudeSpan) / Math.log(2));
-
-
-		// Calculated required zoom based on longitude span
-		final double maxZoomLongitudeSpan = mZoomLevel == getMaxZoomLevel() ?
-				currentBox.getLongitudeSpan() :
-				currentBox.getLongitudeSpan() / Math.pow(2, getMaxZoomLevel() - mZoomLevel);
-
-		final double requiredLongitudeZoom =
-			getMaxZoomLevel() -
-			Math.ceil(Math.log(boundingBox.getLongitudeSpan() / maxZoomLongitudeSpan) / Math.log(2));
-
-		if (Configuration.getInstance().isDebugMode()){
-			Log.d(LOGTAG, "current bounds " +currentBox.toString());
-			Log.d(LOGTAG, "ZoomToBoundingBox calculations: " + maxZoomLatitudeSpan + ","+maxZoomLongitudeSpan + ","+requiredLatitudeZoom + ","+requiredLongitudeZoom );
+	/**
+	 * @since 5.6.6
+	 */
+	public void zoomToBoundingBox(final BoundingBox boundingBox, final boolean animated, final int borderSizeInPixels) {
+		double nextZoom = TileSystem.getBoundingBoxZoom(boundingBox, getWidth() - 2 * borderSizeInPixels, getHeight() - 2 * borderSizeInPixels);
+		if (nextZoom == Double.MIN_VALUE) {
+			return;
 		}
-
-		// Zoom to boundingBox center, at calculated maximum allowed zoom level
+		nextZoom = Math.min(getMaxZoomLevel(), Math.max(nextZoom, getMinZoomLevel()));
 		if(animated) {
-			getController().zoomTo((int) (
-				requiredLatitudeZoom < requiredLongitudeZoom ?
-					requiredLatitudeZoom : requiredLongitudeZoom));
+			getController().zoomTo(nextZoom);
 		} else {
-			getController().setZoom((int) (
-				requiredLatitudeZoom < requiredLongitudeZoom ?
-					requiredLatitudeZoom : requiredLongitudeZoom));
+			getController().setZoom(nextZoom);
 		}
 
-		getController().setCenter(
-				new GeoPoint(boundingBox.getCenter().getLatitude(), boundingBox.getCenter()
-						.getLongitude()));
+		getController().setCenter(boundingBox.getCenterWithDateLine());
 	}
 
 	/**

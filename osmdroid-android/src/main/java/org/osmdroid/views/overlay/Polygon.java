@@ -288,8 +288,12 @@ public class Polygon extends OverlayWithIW {
 		}
 	}
 
-	public List<ArrayList<GeoPoint>> getHoles(){
-		ArrayList<ArrayList<GeoPoint>> result = new ArrayList<ArrayList<GeoPoint>>(mHoles.size());
+	/**
+	 * returns a copy of the holes this polygon contains
+	 * @return never null
+	 */
+	public List<List<GeoPoint>> getHoles(){
+		List<List<GeoPoint>> result = new ArrayList<List<GeoPoint>>(mHoles.size());
 		for (LinearRing hole:mHoles){
 			result.add(hole.getPoints());
 		}
