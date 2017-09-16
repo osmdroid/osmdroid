@@ -225,6 +225,10 @@ public class Polygon extends OverlayWithIW {
 		}
 	}
 
+	/**
+	 * returns a copy of the holes this polygon contains
+	 * @return never null
+	 */
 	public List<List<GeoPoint>> getHoles(){
 		List<List<GeoPoint>> result = new ArrayList<List<GeoPoint>>(mHoles.size());
 		for (LinearRing hole:mHoles){

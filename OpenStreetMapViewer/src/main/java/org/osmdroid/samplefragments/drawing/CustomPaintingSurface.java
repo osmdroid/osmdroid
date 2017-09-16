@@ -43,7 +43,8 @@ public class CustomPaintingSurface extends View {
 
     public enum Mode{
         Polyline,
-        Polygon
+        Polygon,
+        PolygonHole
     }
     private Bitmap  mBitmap;
     private Canvas  mCanvas;
@@ -56,6 +57,8 @@ public class CustomPaintingSurface extends View {
     private float mX, mY;
     private static final float TOUCH_TOLERANCE = 4;
     private BlurMaskFilter mBlur;
+
+    transient Polygon lastPolygon=null;
 
 
     public CustomPaintingSurface(Context context, AttributeSet attrs) {
@@ -126,9 +129,9 @@ public class CustomPaintingSurface extends View {
                 GeoPoint iGeoPoint = (GeoPoint) projection.fromPixels(pts.get(i).x, pts.get(i).y);
                 geoPoints.add(iGeoPoint);
             }
-            //TODO run the dougles pucker algorithm to reduce the points for performance reasons
+            //TODO run the douglas pucker algorithm to reduce the points for performance reasons
             if (geoPoints.size() > 2) {
-                //only plat a line unless there's at least one item
+                //only plot a line unless there's at least one item
                 switch (drawingMode) {
                     case Polyline:
                         Polyline line = new Polyline();
@@ -141,6 +144,7 @@ public class CustomPaintingSurface extends View {
                             }
                         });
                         map.getOverlayManager().add(line);
+                        lastPolygon=null;
                         break;
                     case Polygon:
                         Polygon polygon = new Polygon();
@@ -150,7 +154,16 @@ public class CustomPaintingSurface extends View {
                         polygon.setTitle("A sample polygon");
 
                         map.getOverlayManager().add(polygon);
+                        lastPolygon=polygon;
                         break;
+                    case PolygonHole:
+                        if (lastPolygon!=null) {
+                            List<List<GeoPoint>> holes = new ArrayList<>();
+                            holes.add(geoPoints);
+                            lastPolygon.setHoles(holes);
+
+
+                        }
                 }
 
                 map.invalidate();
