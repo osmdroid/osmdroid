@@ -170,7 +170,7 @@ public class WMSTileSource extends OnlineTileSourceBase{
         if (style!=null)
             sb.append("&styles=").append(style);
 
-        Log.d("WMSDEMO", sb.toString());
+        Log.i(IMapView.LOGTAG, sb.toString());
         return sb.toString();
     }
 }
