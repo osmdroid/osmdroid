@@ -190,7 +190,7 @@ public abstract class MapTileModuleProviderBase {
 		/**
 		 * Load the requested tile.
 		 *
-		 * @since 5.6.6
+		 * @since 6.0.0
 		 * @return the tile if it was loaded successfully, or null if failed to
 		 *         load and other tile providers need to be called
 		 * @param pTile

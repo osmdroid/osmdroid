@@ -9,7 +9,7 @@ import java.util.List;
  *
  * @author Alex O'Ree
  *         1/10/16.
- * @since 5.6.6
+ * @since 6.0.0
  */
 public class WMSEndpoint {
     public String getName() {

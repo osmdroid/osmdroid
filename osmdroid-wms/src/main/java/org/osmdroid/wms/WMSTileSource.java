@@ -16,7 +16,7 @@ import org.osmdroid.util.BoundingBox;
  * @see WMSParser
  * https://github.com/osmdroid/osmdroid/issues/177
  * @author Alex O'Ree
- * @since 5.6.6
+ * @since 6.0.0
  * 11/5/15.
  */
 public class WMSTileSource extends OnlineTileSourceBase{

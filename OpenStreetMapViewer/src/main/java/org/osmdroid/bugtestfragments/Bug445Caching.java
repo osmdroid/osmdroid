@@ -74,7 +74,7 @@ public class Bug445Caching  extends BaseSampleFragment {
     }
 
     /**
-     * @since 5.6.6
+     * @since 6.0.0
      */
     private void checkDownload(final int pZoomLevel) throws Exception{
         final long countBefore = getDbCount();
@@ -103,7 +103,7 @@ public class Bug445Caching  extends BaseSampleFragment {
     }
 
     /**
-     * @since 5.6.6
+     * @since 6.0.0
      */
     private void checkCache(final int pZoomLevel) throws Exception{
         getActivity().runOnUiThread(new Runnable() {
@@ -127,7 +127,7 @@ public class Bug445Caching  extends BaseSampleFragment {
     }
 
     /**
-     * @since 5.6.6
+     * @since 6.0.0
      */
     private int getMinTileExpected(final int pZoomLevel) {
         final int maxPerZoom = 1 << pZoomLevel;
@@ -148,7 +148,7 @@ public class Bug445Caching  extends BaseSampleFragment {
     }
 
     /**
-     * @since 5.6.6
+     * @since 6.0.0
      */
     private long getDbCount() {
         final long count=writer.getRowCount(mMapView.getTileProvider().getTileSource().name());
@@ -157,7 +157,7 @@ public class Bug445Caching  extends BaseSampleFragment {
     }
 
     /**
-     * @since 5.6.6
+     * @since 6.0.0
      */
     private void setZoomAndCenter(final int pZoomLevel) {
         mMapView.getController().setZoom(pZoomLevel);

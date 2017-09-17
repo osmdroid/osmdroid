@@ -45,7 +45,7 @@ import static org.osmdroid.samplefragments.events.SampleMapEventListener.df;
  * converts geopackage features to rendered tiles for viewing in osmdroid
  *
  * created on 8/19/2017.
- *@ since.5.6.6
+ *@ since.6.0.0
  * @author Alex O'Ree
  */
 

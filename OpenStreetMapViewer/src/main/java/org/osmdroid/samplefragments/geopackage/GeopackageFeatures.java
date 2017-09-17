@@ -55,7 +55,7 @@ import static org.osmdroid.samplefragments.events.SampleMapEventListener.df;
  * created on 1/12/2017.
  *
  * @author Alex O'Ree
- * @since 5.6.6
+ * @since 6.0.0
  */
 
 public class GeopackageFeatures extends BaseSampleFragment {

@@ -8,7 +8,7 @@ import org.junit.Test;
 import java.util.Random;
 
 /**
- * @since 5.6.6
+ * @since 6.0.0
  * @author Fabrice Fontaine
  */
 public class TileSystemTest {

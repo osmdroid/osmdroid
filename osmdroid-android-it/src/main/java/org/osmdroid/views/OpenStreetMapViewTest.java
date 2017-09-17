@@ -73,28 +73,28 @@ public class OpenStreetMapViewTest extends ActivityInstrumentationTestCase2<Star
 	}
 
 	/**
-	 * @since 5.6.6
+	 * @since 6.0.0
 	 */
 	private double getRandomLongitude() {
 		return getRandom(TileSystem.MinLongitude, TileSystem.MaxLongitude);
 	}
 
 	/**
-	 * @since 5.6.6
+	 * @since 6.0.0
 	 */
 	private double getRandomLatitude() {
 		return getRandom(TileSystem.MinLatitude, TileSystem.MaxLatitude);
 	}
 
 	/**
-	 * @since 5.6.6
+	 * @since 6.0.0
 	 */
 	private double getRandomZoom() {
 		return getRandom(mOpenStreetMapView.getMinZoomLevel(), mOpenStreetMapView.getMaxZoomLevel());
 	}
 
 	/**
-	 * @since 5.6.6
+	 * @since 6.0.0
 	 */
 	private double getRandom(final double pMin, final double pMax) {
 		return pMin + random.nextDouble() * (pMax - pMin);

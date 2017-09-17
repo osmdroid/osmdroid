@@ -37,7 +37,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
  * https://github.com/osmdroid/osmdroid/issues/177
  *
  * See also the sample usage in the "Open Map" demo
- * @since 5.6.6
+ * @since 6.0.0
  * @author Alex O'Ree
  */
 

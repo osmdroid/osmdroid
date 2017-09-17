@@ -21,7 +21,7 @@ import java.util.List;
  * @see WMSLayer
  * @see WMSParser
  * @see WMSEndpoint
- * @since 5.6.6
+ * @since 6.0.0
  */
 
 public class DomParserWms111 {

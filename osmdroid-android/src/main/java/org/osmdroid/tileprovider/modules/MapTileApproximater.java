@@ -31,7 +31,7 @@ public class MapTileApproximater extends MapTileModuleProviderBase {
     private int minZoomLevel;
 
     /**
-     * @since 5.6.6
+     * @since 6.0.0
      */
     public MapTileApproximater() {
         this(
@@ -40,14 +40,14 @@ public class MapTileApproximater extends MapTileModuleProviderBase {
     }
 
     /**
-     * @since 5.6.6
+     * @since 6.0.0
      */
     public MapTileApproximater(final int pThreadPoolSize, final int pPendingQueueSize) {
         super(pThreadPoolSize, pPendingQueueSize);
     }
 
     /**
-     * @since 5.6.6
+     * @since 6.0.0
      */
     public void addProvider(final MapTileModuleProviderBase pProvider) {
         mProviders.add(pProvider);
@@ -121,7 +121,7 @@ public class MapTileApproximater extends MapTileModuleProviderBase {
     /**
      * Approximate a tile from a lower zoom level
      *
-     * @since 5.6.6
+     * @since 6.0.0
      * @param pMapTile Destination tile, for the same place on the planet as the source, but on a higher zoom
      * @return
      */
@@ -138,7 +138,7 @@ public class MapTileApproximater extends MapTileModuleProviderBase {
     /**
      * Approximate a tile from a lower zoom level
      *
-     * @since 5.6.6
+     * @since 6.0.0
      * @param pMapTile Destination tile, for the same place on the planet as the source, but on a higher zoom
      * @param pZoomDiff Zoom level difference between the destination and the source; strictly positive
      * @return
@@ -156,7 +156,7 @@ public class MapTileApproximater extends MapTileModuleProviderBase {
     /**
      * Approximate a tile from a lower zoom level
      *
-     * @since 5.6.6
+     * @since 6.0.0
      * @param pProvider Source tile provider
      * @param pMapTile Destination tile, for the same place on the planet as the source, but on a higher zoom
      * @param pZoomDiff Zoom level difference between the destination and the source; strictly positive

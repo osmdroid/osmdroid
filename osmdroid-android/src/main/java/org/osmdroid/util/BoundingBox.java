@@ -89,7 +89,7 @@ public class BoundingBox implements Parcelable, Serializable, MapViewConstants {
 
 	/**
 	 * This version takes into consideration the date line
-	 * @since 5.6.6
+	 * @since 6.0.0
 	 */
 	public GeoPoint getCenterWithDateLine() {
 		final double latitude = (mLatNorth + mLatSouth) / 2.0;
