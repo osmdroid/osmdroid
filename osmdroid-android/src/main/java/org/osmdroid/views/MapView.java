@@ -24,7 +24,6 @@ import org.osmdroid.events.ZoomEvent;
 import org.osmdroid.tileprovider.MapTileProviderArray;
 import org.osmdroid.tileprovider.MapTileProviderBase;
 import org.osmdroid.tileprovider.MapTileProviderBasic;
-import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 import org.osmdroid.tileprovider.modules.MapTileModuleProviderBase;
 import org.osmdroid.tileprovider.tilesource.IStyledTileSource;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
@@ -136,6 +135,8 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	/* becomes true once onLayout has been called for the first time i.e. map is ready to go. */
 	private boolean mLayoutOccurred = false;
 
+	private boolean mapRepetitionEnabled = true;
+
 	public interface OnFirstLayoutListener {
 		/**
 		 * this generally means that the map is ready to go
@@ -191,7 +192,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		mTileProvider.setTileRequestCompleteHandler(mTileRequestCompleteHandler);
 		updateTileSizeForDensity(mTileProvider.getTileSource());
 
-		this.mMapOverlay = new TilesOverlay(mTileProvider, context);
+		this.mMapOverlay = new TilesOverlay(mTileProvider, context, mapRepetitionEnabled);
 		mOverlayManager = new DefaultOverlayManager(mMapOverlay);
 
 		if (isInEditMode()) {
@@ -1007,17 +1008,20 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	@Override
 	public void scrollTo(int x, int y) {
 		final int worldSize = TileSystem.MapSize(this.getZoomLevel(false));
-		while (x < 0) {
-			x += worldSize;
-		}
-		while (x >= worldSize) {
-			x -= worldSize;
-		}
-		while (y < 0) {
-			y += worldSize;
-		}
-		while (y >= worldSize) {
-			y -= worldSize;
+
+		if(mapRepetitionEnabled) {
+			while (x < 0) {
+				x += worldSize;
+			}
+			while (x >= worldSize) {
+				x -= worldSize;
+			}
+			while (y < 0) {
+				y += worldSize;
+			}
+			while (y >= worldSize) {
+				y -= worldSize;
+			}
 		}
 
 		if (mScrollableAreaLimit != null) {
@@ -1232,6 +1236,17 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		mMultiTouchController = on ? new MultiTouchController<Object>(this, false) : null;
 	}
 
+	public boolean isMapRepetitionEnabled() {
+		return mapRepetitionEnabled;
+	}
+
+	public void setMapRepetitionEnabled(boolean mapRepetitionEnabled) {
+		this.mapRepetitionEnabled = mapRepetitionEnabled;
+		mMapOverlay.setWrapEnabled(mapRepetitionEnabled);
+		setProjection(null);
+		this.invalidate();
+	}
+
 	private ITileSource getTileSourceFromAttributes(final AttributeSet aAttributeSet) {
 
 		ITileSource tileSource = TileSourceFactory.DEFAULT_TILE_SOURCE;
@@ -1312,9 +1327,22 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 			final int worldSize = TileSystem.MapSize(MapView.this.getZoomLevel(false));
 			mIsFlinging = true;
-			if (mScroller!=null)	//fix for edit mode in the IDE
-				mScroller.fling(getScrollX(), getScrollY(), (int) -velocityX, (int) -velocityY,
-						-worldSize, worldSize, -worldSize, worldSize);
+			if (mScroller!=null) {  //fix for edit mode in the IDE
+				if(mapRepetitionEnabled) {
+					mScroller.fling(getScrollX(), getScrollY(), (int) -velocityX, (int) -velocityY,
+							-worldSize, worldSize, -worldSize, worldSize);
+				} else {
+					int remainingWidth = worldSize - getWidth();
+					int remainingHeight = worldSize - getHeight();
+					int minX = remainingWidth <= 0 ? remainingWidth : 0;
+					int maxX = remainingWidth > 0 ? remainingWidth : 0;
+					int minY = remainingHeight <= 0 ? remainingHeight : 0;
+					int maxY = remainingHeight > 0 ? remainingHeight : 0;
+
+					mScroller.fling(getScrollX(), getScrollY(), (int) -velocityX, (int) -velocityY, minX,
+							maxX, minY, maxY);
+				}
+			}
 			return true;
 		}
 

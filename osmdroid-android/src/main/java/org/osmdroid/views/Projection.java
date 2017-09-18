@@ -12,7 +12,6 @@ import org.osmdroid.views.util.constants.MapViewConstants;
 import android.graphics.Matrix;
 import android.graphics.Point;
 import android.graphics.Rect;
-import org.osmdroid.util.BoundingBoxE6;
 
 /**
  * A Projection serves to translate between the coordinate system of x/y on-screen pixel coordinates
@@ -46,10 +45,12 @@ public class Projection implements IProjection, MapViewConstants {
 	private final Rect mScreenRectProjection;
 	private final Rect mIntrinsicScreenRectProjection;
 	private MapView mapView;
+	private boolean wrapEnabled;
 
 	Projection(MapView mapView) {
 
 		this.mapView=mapView;
+		this.wrapEnabled = mapView.isMapRepetitionEnabled();
 		mZoomLevelProjection = mapView.getZoomLevel(false);
 		mScreenRectProjection = mapView.getScreenRect(null);
 		mIntrinsicScreenRectProjection = mapView.getIntrinsicScreenRect(null);
@@ -108,7 +109,11 @@ public class Projection implements IProjection, MapViewConstants {
 		//reverting https://github.com/osmdroid/osmdroid/issues/459
 		//due to relapse of https://github.com/osmdroid/osmdroid/issues/507
 		//reverted functionality is now on the method fromPixelsRotationSensitive
-		return TileSystem.PixelXYToLatLong(x - mOffsetX, y - mOffsetY, mZoomLevelProjection, reuse);
+		if(wrapEnabled) {
+			return TileSystem.PixelXYToLatLong(x - mOffsetX, y - mOffsetY, mZoomLevelProjection, reuse);
+		} else {
+			return TileSystem.PixelXYToLatLongWithoutWrap(x - mOffsetX, y - mOffsetY, mZoomLevelProjection, reuse);
+		}
 	}
 
 	public IGeoPoint fromPixelsRotationSensitive(int x, int y, GeoPoint reuse) {
@@ -118,11 +123,14 @@ public class Projection implements IProjection, MapViewConstants {
 
 	@Override
 	public Point toPixels(final IGeoPoint in, final Point reuse) {
-		Point out = TileSystem.LatLongToPixelXY(in.getLatitude(), in.getLongitude(),
+		Point out = TileSystem.LatLongToPixelXYWithoutWrap(in.getLatitude(), in.getLongitude(),
 				getZoomLevel(), reuse);
 
 		out = toPixelsFromMercator(out.x, out.y, out);
-		out = adjustForDateLine(out.x, out.y, out);
+		if(wrapEnabled) {
+			out = adjustForDateLine(out.x, out.y, out);
+		}
+
 		return out;
 	}
 

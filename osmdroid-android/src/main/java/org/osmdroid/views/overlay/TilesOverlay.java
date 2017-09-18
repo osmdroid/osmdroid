@@ -25,7 +25,6 @@ import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -74,6 +73,8 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 	/** For overshooting the tile cache **/
 	private int mOvershootTileCache = 0;
 
+	private boolean wrapEnabled = true;
+
 	//Issue 133 night mode
 	private ColorFilter currentColorFilter=null;
 	final static float[] negate ={
@@ -87,8 +88,11 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 	 */
 	public final static ColorFilter INVERT_COLORS = new ColorMatrixColorFilter(negate);
 
-
 	public TilesOverlay(final MapTileProviderBase aTileProvider, final Context aContext) {
+		this(aTileProvider, aContext, false);
+	}
+
+	public TilesOverlay(final MapTileProviderBase aTileProvider, final Context aContext, boolean wrapEnabled) {
 		super();
 		this.ctx=aContext;
 		if (aTileProvider == null) {
@@ -96,6 +100,7 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 					"You must pass a valid tile provider to the tiles overlay.");
 		}
 		this.mTileProvider = aTileProvider;
+		this.wrapEnabled = wrapEnabled;
 	}
 
 	/**
@@ -187,6 +192,9 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 		projection.toMercatorPixels(screenRect.left, screenRect.top, mTopLeftMercator);
 
 		projection.toMercatorPixels(screenRect.right, screenRect.bottom, mBottomRightMercator);
+
+		Log.e("osmdroid","loop - init: " + screenRect);
+
 		//No overflow detected here! Log.d(IMapView.LOGTAG, "AFTER Rect is " + screenRect.toString()  + mTopLeftMercator.toString() + mBottomRightMercator.toString());
 		mViewPort.set(mTopLeftMercator.x, mTopLeftMercator.y, mBottomRightMercator.x,
 				mBottomRightMercator.y);
@@ -219,7 +227,7 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 
 	}
 
-	private final TileLooper mTileLooper = new TileLooper() {
+	private final TileLooper mTileLooper = new TileLooper(wrapEnabled) {
 		@Override
 		public void initialiseLoop(final int pZoomLevel, final int pTileSizePx) {
 			// make sure the cache is big enough for all the tiles
@@ -454,5 +462,14 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 	public void setColorFilter(ColorFilter filter) {
 
 		this.currentColorFilter=filter;
+	}
+
+	public boolean isWrapEnabled() {
+		return wrapEnabled;
+	}
+
+	public void setWrapEnabled(boolean wrapEnabled) {
+		this.wrapEnabled = wrapEnabled;
+		this.mTileLooper.setWrapEnabled(wrapEnabled);
 	}
 }
