@@ -5,6 +5,7 @@ package org.osmdroid.config;
  * <a href="https://github.com/osmdroid/osmdroid/issues/481">Issue 481</a>
  * Created on 11/29/2016.
  * @author Alex O'Ree
+ * @since 5.6
  * @see org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants
  */
 
