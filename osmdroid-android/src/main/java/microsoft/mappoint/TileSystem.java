@@ -138,21 +138,6 @@ public final class TileSystem {
 		return out;
 	}
 
-	public static Point LatLongToPixelXYWithoutWrap(double latitude, double longitude,
-			final int levelOfDetail, final Point reuse) {
-		final Point out = (reuse == null ? new Point() : reuse);
-
-		final double x = (longitude + 180) / 360;
-		final double sinLatitude = Math.sin(latitude * Math.PI / 180);
-		final double y = 0.5 - Math.log((1 + sinLatitude) / (1 - sinLatitude)) / (4 * Math.PI);
-
-		final int mapSize = MapSize(levelOfDetail);
-		out.x = (int) (x * mapSize + 0.5);
-		out.y = (int) (y * mapSize + 0.5);
-
-		return out;
-	}
-
 	/**
 	 * Converts a pixel from pixel XY coordinates at a specified level of detail into
 	 * latitude/longitude WGS-84 coordinates (in degrees).
@@ -174,22 +159,6 @@ public final class TileSystem {
 		final double mapSize = MapSize(levelOfDetail);
 		final double x = (Clip(pixelX, 0, mapSize - 1) / mapSize) - 0.5;
 		final double y = 0.5 - (Clip(pixelY, 0, mapSize - 1) / mapSize);
-
-		final double latitude = 90 - 360 * Math.atan(Math.exp(-y * 2 * Math.PI)) / Math.PI;
-		final double longitude = 360 * x;
-
-		out.setLatitude(latitude);
-		out.setLongitude(longitude);
-		return out;
-	}
-
-	public static GeoPoint PixelXYToLatLongWithoutWrap(final int pixelX, final int pixelY,
-			final int levelOfDetail, final GeoPoint reuse) {
-		final GeoPoint out = (reuse == null ? new GeoPoint(0, 0) : reuse);
-
-		final double mapSize = MapSize(levelOfDetail);
-		final double x = (pixelX / mapSize) - 0.5;
-		final double y = 0.5 - (pixelY / mapSize);
 
 		final double latitude = 90 - 360 * Math.atan(Math.exp(-y * 2 * Math.PI)) / Math.PI;
 		final double longitude = 360 * x;

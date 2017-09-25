@@ -1274,6 +1274,11 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		return mapRepetitionEnabled;
 	}
 
+	/**
+	 * If mapRepetition is enabled the map repeats in every direction and scrolling wraps around the
+	 * edges. If disabled the map is only shown once. Default is true.
+	 * @param mapRepetitionEnabled
+	 */
 	public void setMapRepetitionEnabled(boolean mapRepetitionEnabled) {
 		this.mapRepetitionEnabled = mapRepetitionEnabled;
 		mMapOverlay.setWrapEnabled(mapRepetitionEnabled);

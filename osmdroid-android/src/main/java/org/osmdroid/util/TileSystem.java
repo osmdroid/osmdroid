@@ -104,15 +104,6 @@ public final class TileSystem {
 				levelOfDetail, reuse);
 	}
 
-	@Deprecated
-	public static Point LatLongToPixelXYWithoutWrap(
-			final double latitude, final double longitude, final int levelOfDetail, final Point reuse) {
-		return microsoft.mappoint.TileSystem.LatLongToPixelXYWithoutWrap(
-				latitude,
-				longitude,
-				levelOfDetail, reuse);
-	}
-
 	/**
 	 * @since 6.0.0
 	 */
@@ -170,15 +161,6 @@ public final class TileSystem {
 		return microsoft.mappoint.TileSystem.PixelXYToLatLong(
 				(int) wrap(pixelX, 0, mapSize - 1, mapSize),
 				(int) wrap(pixelY, 0, mapSize - 1, mapSize),
-				levelOfDetail, reuse);
-	}
-
-	@Deprecated
-	public static GeoPoint PixelXYToLatLongWithoutWrap(
-			final int pixelX, final int pixelY, final int levelOfDetail, final GeoPoint reuse) {
-		return microsoft.mappoint.TileSystem.PixelXYToLatLongWithoutWrap(
-				pixelX,
-				pixelY,
 				levelOfDetail, reuse);
 	}
 
