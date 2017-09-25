@@ -2,7 +2,9 @@ package org.osmdroid.tileprovider.modules;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import android.os.Build;
 import android.util.Log;
@@ -75,4 +77,13 @@ public class ArchiveFileFactory {
 		return null;
 	}
 
+	/**
+	 * @since 6.0.0
+	 * @return
+	 */
+	public static Set<String> getRegisteredExtensions() {
+		Set<String> r = new HashSet<>();
+		r.addAll(extensionMap.keySet());
+		return r;
+	}
 }

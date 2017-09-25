@@ -39,6 +39,7 @@ public class SampleDrawPolyline extends BaseSampleFragment implements View.OnCli
         painting.setOnClickListener(this);
         paint = (CustomPaintingSurface) v.findViewById(R.id.paintingSurface);
         paint.init(mMapView);
+        paint.setMode(CustomPaintingSurface.Mode.Polyline);
         return v;
 
     }

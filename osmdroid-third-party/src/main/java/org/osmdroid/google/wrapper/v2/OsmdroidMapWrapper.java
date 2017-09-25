@@ -53,12 +53,12 @@ class OsmdroidMapWrapper implements IMap {
 
 	@Override
 	public float getZoomLevel() {
-		return mMapView.getZoomLevel();
+		return (float)mMapView.getZoomLevelDouble();
 	}
 
 	@Override
 	public void setZoom(final float aZoomLevel) {
-		mMapView.getController().setZoom((int) aZoomLevel);
+		mMapView.getController().setZoom(aZoomLevel);
 	}
 
 	@Override

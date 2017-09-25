@@ -10,14 +10,17 @@ import android.widget.RelativeLayout.LayoutParams;
 import android.widget.Toast;
 
 import org.osmdroid.api.IMapController;
+import org.osmdroid.events.MapEventsReceiver;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.ItemizedIconOverlay;
 import org.osmdroid.views.overlay.ItemizedOverlay;
+import org.osmdroid.views.overlay.MapEventsOverlay;
 import org.osmdroid.views.overlay.MinimapOverlay;
 import org.osmdroid.views.overlay.OverlayItem;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -59,11 +62,11 @@ public class SampleWithMinimapItemizedoverlay extends Activity {
 		{
 			/* Create a static ItemizedOverlay showing a some Markers on some cities. */
 			final ArrayList<OverlayItem> items = new ArrayList<>();
-			items.add(new OverlayItem("Hannover", "SampleDescription", new GeoPoint(52370816, 9735936)));
-			items.add(new OverlayItem("Berlin", "SampleDescription", new GeoPoint(52518333, 13408333)));
-			items.add(new OverlayItem("Washington", "SampleDescription", new GeoPoint(38895000, -77036667)));
-			items.add(new OverlayItem("San Francisco", "SampleDescription", new GeoPoint(37779300, -122419200)));
-			items.add(new OverlayItem("Tolaga Bay", "SampleDescription", new GeoPoint(-38371000, 178298000)));
+			items.add(new OverlayItem("Hannover", "SampleDescription", new GeoPoint(52.370816, 9.735936)));
+			items.add(new OverlayItem("Berlin", "SampleDescription", new GeoPoint(52.518333, 13.408333)));
+			items.add(new OverlayItem("Washington", "SampleDescription", new GeoPoint(38.895000, -77.036667)));
+			items.add(new OverlayItem("San Francisco", "SampleDescription", new GeoPoint(37.779300, -122.419200)));
+			items.add(new OverlayItem("Tolaga Bay", "SampleDescription", new GeoPoint(-38.371000, 178.298000)));
 
 			/* OnTapListener for the Markers, shows a simple Toast. */
 			this.mMyLocationOverlay = new ItemizedIconOverlay<>(items,
@@ -94,6 +97,32 @@ public class SampleWithMinimapItemizedoverlay extends Activity {
 			final MinimapOverlay miniMapOverlay = new MinimapOverlay(this,
 					mOsmv.getTileRequestCompleteHandler());
 			this.mOsmv.getOverlays().add(miniMapOverlay);
+		}
+
+		/* list of items currently displayed */
+		{
+			final MapEventsReceiver mReceive = new MapEventsReceiver() {
+				@Override
+				public boolean singleTapConfirmedHelper(GeoPoint p) {
+					return false;
+				}
+
+				@Override
+				public boolean longPressHelper(final GeoPoint p) {
+					final List<OverlayItem> displayed = mMyLocationOverlay.getDisplayedItems();
+					final StringBuilder buffer = new StringBuilder();
+					String sep = "";
+					for (final OverlayItem item : displayed) {
+						buffer.append(sep).append('\'').append(item.getTitle()).append('\'');
+						sep = ", ";
+					}
+					Toast.makeText(
+							SampleWithMinimapItemizedoverlay.this,
+							"Currently displayed: " + buffer.toString(), Toast.LENGTH_LONG).show();
+					return true;
+				}
+			};
+			mOsmv.getOverlays().add(new MapEventsOverlay(mReceive));
 		}
 
 		this.setContentView(rl);

@@ -1,19 +1,16 @@
 package org.osmdroid.util;
 
-import org.osmdroid.tileprovider.MapTile;
-
-import android.graphics.Canvas;
-import android.graphics.Point;
 import android.graphics.Rect;
+
+import org.osmdroid.tileprovider.MapTile;
 
 /**
  * A class that will loop around all the map tiles in the given viewport.
  */
 public abstract class TileLooper {
 
-	protected final Point mUpperLeft = new Point();
-	protected final Point mLowerRight = new Point();
-
+	protected final Rect mTiles = new Rect();
+	protected int mTileZoomLevel;
 	private boolean wrapEnabled = true;
 
 	public TileLooper() {
@@ -24,36 +21,45 @@ public abstract class TileLooper {
 		this.wrapEnabled = wrapEnabled;
 	}
 
-	public final void loop(final Canvas pCanvas, final int pZoomLevel, final int pTileSizePx, final Rect pViewPort) {
-		// Calculate the amount of tiles needed for each side around the center one.
-		TileSystem.PixelXYToTileXY(pViewPort.left, pViewPort.top, mUpperLeft);
-		mUpperLeft.offset(-1, -1);
-		TileSystem.PixelXYToTileXY(pViewPort.right, pViewPort.bottom, mLowerRight);
+	protected void loop(final double pZoomLevel, final Rect pViewPort) {
+		TileSystem.PixelXYToTileXY(pViewPort, TileSystem.getTileSize(pZoomLevel), mTiles);
+		mTileZoomLevel = TileSystem.getInputTileZoomLevel(pZoomLevel);
 
-		final int mapTileUpperBound = 1 << pZoomLevel;
+		initialiseLoop();
 
-		initialiseLoop(pZoomLevel, pTileSizePx);
+		final int mapTileUpperBound = 1 << mTileZoomLevel;
 
+		int width = mTiles.right - mTiles.left + 1; // handling the modulo
+		if (width <= 0) {
+			width += mapTileUpperBound;
+		}
+		int height = mTiles.bottom - mTiles.top + 1; // handling the modulo
+		if (height <= 0) {
+			height += mapTileUpperBound;
+		}
+
+		/* Draw all the MapTiles (from the upper left to the lower right). */
 		if(wrapEnabled) {
-			/* Draw all the MapTiles (from the upper left to the lower right). */
-			for (int y = mUpperLeft.y; y <= mLowerRight.y; y++) {
-				for (int x = mUpperLeft.x; x <= mLowerRight.x; x++) {
-					// Construct a MapTile to request from the tile provider.
-					final int tileY = MyMath.mod(y, mapTileUpperBound);
+			for (int i = 0; i < width; i++) {
+				for (int j = 0; j < height; j++) {
+					final int x = mTiles.left + i;
+					final int y = mTiles.top + j;
 					final int tileX = MyMath.mod(x, mapTileUpperBound);
-					final MapTile tile = new MapTile(pZoomLevel, tileX, tileY);
-					handleTile(pCanvas, pTileSizePx, tile, x, y);
+					final int tileY = MyMath.mod(y, mapTileUpperBound);
+					final MapTile tile = new MapTile(mTileZoomLevel, tileX, tileY);
+					handleTile(tile, x, y);
 				}
 			}
-		}
-		else {
-			for (int y = this.mUpperLeft.y; y <= this.mLowerRight.y; ++y) {
-				for (int x = this.mUpperLeft.x; x <= this.mLowerRight.x; ++x) {
-					int tileX = x;
-					int tileY = y;
+		} else {
+			for (int i = 0; i < width; i++) {
+				for (int j = 0; j < height; j++) {
+					final int x = mTiles.left + i;
+					final int y = mTiles.top + j;
+					final int tileX = x;
+					final int tileY = y;
 					if (tileY < mapTileUpperBound && tileY >= 0 && x < mapTileUpperBound && tileX >= 0) {
-						MapTile tile = new MapTile(pZoomLevel, tileX, tileY);
-						this.handleTile(pCanvas, pTileSizePx, tile, x, y);
+						final MapTile tile = new MapTile(mTileZoomLevel, tileX, tileY);
+						handleTile(tile, x, y);
 					}
 				}
 			}
@@ -62,11 +68,11 @@ public abstract class TileLooper {
 		finaliseLoop();
 	}
 
-	public abstract void initialiseLoop(int pZoomLevel, int pTileSizePx);
+	public void initialiseLoop() {}
 
-	public abstract void handleTile(Canvas pCanvas, int pTileSizePx, MapTile pTile, int pX, int pY);
+	public abstract void handleTile(final MapTile pTile, final int pX, final int pY);
 
-	public abstract void finaliseLoop();
+	public void finaliseLoop() {}
 
 	public boolean isWrapEnabled() {
 		return wrapEnabled;
@@ -75,4 +81,5 @@ public abstract class TileLooper {
 	public void setWrapEnabled(boolean wrapEnabled) {
 		this.wrapEnabled = wrapEnabled;
 	}
+
 }

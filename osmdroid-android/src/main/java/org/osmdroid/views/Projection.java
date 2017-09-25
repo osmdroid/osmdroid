@@ -41,7 +41,7 @@ public class Projection implements IProjection, MapViewConstants {
 	private final float[] mRotateScalePoints = new float[2];
 
 	private final BoundingBox mBoundingBoxProjection;
-	private final int mZoomLevelProjection;
+	private final double mZoomLevelProjection;
 	private final Rect mScreenRectProjection;
 	private final Rect mIntrinsicScreenRectProjection;
 	private MapView mapView;
@@ -64,15 +64,15 @@ public class Projection implements IProjection, MapViewConstants {
 		mRotateAndScaleMatrix.invert(mUnrotateAndScaleMatrix);
 		mMultiTouchScale = mapView.mMultiTouchScale;
 
-		final IGeoPoint neGeoPoint = fromPixels(mMapViewWidth, 0, null);
-		final IGeoPoint swGeoPoint = fromPixels(0, mMapViewHeight, null);
+		final IGeoPoint neGeoPoint = fromPixels(mMapViewWidth, 0, null, true);
+		final IGeoPoint swGeoPoint = fromPixels(0, mMapViewHeight, null, true);
 
 		mBoundingBoxProjection = new BoundingBox(neGeoPoint.getLatitude(),
 				neGeoPoint.getLongitude(), swGeoPoint.getLatitude(),
 				swGeoPoint.getLongitude());
 	}
 
-	public int getZoomLevel() {
+	public double getZoomLevel() {
 		return mZoomLevelProjection;
 	}
 
@@ -106,10 +106,14 @@ public class Projection implements IProjection, MapViewConstants {
 	}
 
 	public IGeoPoint fromPixels(int x, int y, GeoPoint reuse) {
+		return this.fromPixels(x, y, reuse, false);
+	}
+
+	public IGeoPoint fromPixels(int x, int y, GeoPoint reuse, boolean forceWrap) {
 		//reverting https://github.com/osmdroid/osmdroid/issues/459
 		//due to relapse of https://github.com/osmdroid/osmdroid/issues/507
 		//reverted functionality is now on the method fromPixelsRotationSensitive
-		if(wrapEnabled) {
+		if(wrapEnabled || forceWrap) {
 			return TileSystem.PixelXYToLatLong(x - mOffsetX, y - mOffsetY, mZoomLevelProjection, reuse);
 		} else {
 			return TileSystem.PixelXYToLatLongWithoutWrap(x - mOffsetX, y - mOffsetY, mZoomLevelProjection, reuse);
@@ -123,11 +127,20 @@ public class Projection implements IProjection, MapViewConstants {
 
 	@Override
 	public Point toPixels(final IGeoPoint in, final Point reuse) {
-		Point out = TileSystem.LatLongToPixelXYWithoutWrap(in.getLatitude(), in.getLongitude(),
-				getZoomLevel(), reuse);
+		return toPixels(in, reuse, false);
+	}
+
+	public Point toPixels(final IGeoPoint in, final Point reuse, boolean forceWrap) {
+		Point out;
+		if(wrapEnabled || forceWrap) {
+			out = TileSystem.LatLongToPixelXY(in.getLatitude(), in.getLongitude(), getZoomLevel(), reuse);
+		} else {
+			out = TileSystem.LatLongToPixelXYWithoutWrap(in.getLatitude(), in.getLongitude(),
+					getZoomLevel(), reuse);
+		}
 
 		out = toPixelsFromMercator(out.x, out.y, out);
-		if(wrapEnabled) {
+		if(wrapEnabled || forceWrap) {
 			out = adjustForDateLine(out.x, out.y, out);
 		}
 
@@ -138,7 +151,7 @@ public class Projection implements IProjection, MapViewConstants {
           final Point out = reuse != null ? reuse : new Point();
           out.set(x, y);
           out.offset(-mMapViewWidth / 2, -mMapViewHeight / 2);     //
-          final int mapSize = TileSystem.MapSize(getZoomLevel());
+          final int mapSize = (int) (TileSystem.MapSize(getZoomLevel()));
           final int absX = Math.abs(out.x);
           final int absY = Math.abs(out.y);
           final int yCompare = mapSize > mMapViewHeight ? mapSize : mMapViewHeight;  // avoid too early vertical adjusting
@@ -213,9 +226,10 @@ public class Projection implements IProjection, MapViewConstants {
 	public Point toPixelsFromProjected(final Point in, final Point reuse) {
 		Point out = reuse != null ? reuse : new Point();
 
-		final int zoomDifference = microsoft.mappoint.TileSystem.getMaximumZoomLevel()
+		final double zoomDifference = microsoft.mappoint.TileSystem.getMaximumZoomLevel()
 				- getZoomLevel();
-		out.set(in.x >> zoomDifference, in.y >> zoomDifference);
+		final double power = TileSystem.getFactor(zoomDifference);
+		out.set((int) (in.x / power), (int)(in.y / power));
 
 		out = toPixelsFromMercator(out.x, out.y, out);
 		out = adjustForDateLine(out.x, out.y, out);
@@ -239,7 +253,7 @@ public class Projection implements IProjection, MapViewConstants {
 
 	@Override
 	public float metersToEquatorPixels(final float meters) {
-		return meters / (float) TileSystem.GroundResolution(0, mZoomLevelProjection);
+		return metersToPixels(meters, 0, mZoomLevelProjection);
 	}
 
 	/**
@@ -252,9 +266,14 @@ public class Projection implements IProjection, MapViewConstants {
 	 *         screen, at the current zoom level. The return value may only be approximate.
 	 */
 	public float metersToPixels(final float meters) {
-		return meters
-				/ (float) TileSystem.GroundResolution(getBoundingBox().getCenter().getLatitude(),
-						mZoomLevelProjection);
+		return metersToPixels(meters, getBoundingBox().getCenter().getLatitude(), mZoomLevelProjection);
+	}
+
+	/**
+	 * @since 6.0
+	 */
+	public static float metersToPixels(final float meters, final double latitude, final double zoomLevel) {
+		return (float) (meters / TileSystem.GroundResolution(latitude, zoomLevel));
 	}
 
 	@Override

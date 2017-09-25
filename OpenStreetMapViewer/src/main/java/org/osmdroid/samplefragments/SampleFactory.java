@@ -4,6 +4,10 @@ package org.osmdroid.samplefragments;
 import android.os.Build;
 
 import org.osmdroid.ISampleFactory;
+import org.osmdroid.samplefragments.animations.AnimatedMarkerHandler;
+import org.osmdroid.samplefragments.animations.AnimatedMarkerTypeEvaluator;
+import org.osmdroid.samplefragments.animations.AnimatedMarkerValueAnimator;
+import org.osmdroid.samplefragments.animations.FastZoomSpeedAnimations;
 import org.osmdroid.samplefragments.cache.CacheImport;
 import org.osmdroid.samplefragments.cache.CachePurge;
 import org.osmdroid.samplefragments.cache.SampleAlternateCacheDir;
@@ -12,7 +16,11 @@ import org.osmdroid.samplefragments.cache.SampleCacheDownloaderArchive;
 import org.osmdroid.samplefragments.cache.SampleCacheDownloaderCustomUI;
 import org.osmdroid.samplefragments.cache.SampleJumboCache;
 import org.osmdroid.samplefragments.cache.SampleSqliteOnly;
+import org.osmdroid.samplefragments.animations.AnimatedMarkerTimer;
 import org.osmdroid.samplefragments.data.AsyncTaskDemoFragment;
+import org.osmdroid.samplefragments.drawing.DrawPolygonHoles;
+import org.osmdroid.samplefragments.geopackage.GeopackageFeatureTiles;
+import org.osmdroid.samplefragments.geopackage.GeopackageFeatures;
 import org.osmdroid.samplefragments.data.Gridlines2;
 import org.osmdroid.samplefragments.data.HeatMap;
 import org.osmdroid.samplefragments.data.SampleGridlines;
@@ -26,6 +34,7 @@ import org.osmdroid.samplefragments.data.SampleSimpleFastPointOverlay;
 import org.osmdroid.samplefragments.data.SampleSimpleLocation;
 import org.osmdroid.samplefragments.data.SampleWithMinimapItemizedOverlayWithFocus;
 import org.osmdroid.samplefragments.data.SampleWithMinimapItemizedOverlayWithScale;
+import org.osmdroid.samplefragments.drawing.DrawPolygon;
 import org.osmdroid.samplefragments.drawing.SampleDrawPolyline;
 import org.osmdroid.samplefragments.events.SampleAnimateTo;
 import org.osmdroid.samplefragments.events.SampleAnimatedZoomToLocation;
@@ -45,9 +54,14 @@ import org.osmdroid.samplefragments.location.SampleFollowMe;
 import org.osmdroid.samplefragments.location.SampleHeadingCompassUp;
 import org.osmdroid.samplefragments.location.SampleMyLocationWithClick;
 import org.osmdroid.samplefragments.location.SampleRotation;
-import org.osmdroid.samplefragments.tileproviders.GeopackageSample;
+import org.osmdroid.samplefragments.geopackage.GeopackageSample;
 import org.osmdroid.samplefragments.tileproviders.MapsforgeTileProviderSample;
+import org.osmdroid.samplefragments.tileproviders.OfflinePickerSample;
 import org.osmdroid.samplefragments.tileproviders.SampleAssetsOnly;
+import org.osmdroid.samplefragments.tileproviders.SampleOfflineGemfOnly;
+import org.osmdroid.samplefragments.tilesources.NasaWms111Source;
+import org.osmdroid.samplefragments.tilesources.NasaWms130Source;
+import org.osmdroid.samplefragments.tilesources.NasaWmsSrs;
 import org.osmdroid.samplefragments.tilesources.SampleBingHybrid;
 import org.osmdroid.samplefragments.tilesources.SampleBingRoad;
 import org.osmdroid.samplefragments.tilesources.SampleCopyrightOverlay;
@@ -59,6 +73,7 @@ import org.osmdroid.samplefragments.tilesources.SampleMapBox;
 import org.osmdroid.samplefragments.tilesources.SampleMapQuest;
 import org.osmdroid.samplefragments.tileproviders.SampleOfflineOnly;
 import org.osmdroid.samplefragments.tilesources.SampleOpenSeaMap;
+import org.osmdroid.samplefragments.tilesources.SampleWMSSource;
 import org.osmdroid.samplefragments.tilesources.SampleWhackyColorFilter;
 import org.osmdroid.samplefragments.tilesources.SepiaToneTiles;
 
@@ -185,6 +200,7 @@ public final class SampleFactory implements ISampleFactory {
         //48
         mSamples.add(SampleDrawPolyline.class);
         //49
+        if (Build.VERSION.SDK_INT >= 9)
         mSamples.add(RecyclerCardView.class);
         //50
         mSamples.add(ScaleBarOnBottom.class);
@@ -197,11 +213,36 @@ public final class SampleFactory implements ISampleFactory {
         //54
         mSamples.add(SepiaToneTiles.class);
         //55
+        mSamples.add(AnimatedMarkerTimer.class);
+        //56
+        mSamples.add(FastZoomSpeedAnimations.class);
+        //57
+        mSamples.add(SampleOfflineGemfOnly.class);
+        //58
+        mSamples.add(DrawPolygon.class);
+        mSamples.add(DrawPolygonHoles.class);
+        mSamples.add(SampleWMSSource.class);
+
+        //mSamples.add(NasaWms111Source.class);
+        //mSamples.add(NasaWms130Source.class);
+        //mSamples.add(NasaWmsSrs.class);
+        if (Build.VERSION.SDK_INT  >= Build.VERSION_CODES.GINGERBREAD )
+            mSamples.add(AnimatedMarkerHandler.class);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+            mSamples.add(AnimatedMarkerTypeEvaluator.class);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR1)
+            mSamples.add(AnimatedMarkerValueAnimator.class);
+
         if (Build.VERSION.SDK_INT >= 10)
             mSamples.add(MapsforgeTileProviderSample.class);
-        //56
-        if (Build.VERSION.SDK_INT >= 14)
+        if (Build.VERSION.SDK_INT >= 9)
+            mSamples.add(OfflinePickerSample.class);
+        //59
+        if (Build.VERSION.SDK_INT >= 14) {
             mSamples.add(GeopackageSample.class);
+            mSamples.add(GeopackageFeatures.class);
+            mSamples.add(GeopackageFeatureTiles.class);
+        }
     }
 
     public void addSample(Class<? extends BaseSampleFragment> clz) {

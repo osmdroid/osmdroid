@@ -1,5 +1,6 @@
 package org.osmdroid.tileprovider.cachemanager;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -68,11 +69,12 @@ import java.util.Set;
  */
 public class CacheManager {
 
-    protected final MapTileProviderBase mTileProvider;
+    protected final ITileSource mTileSource;
     protected final IFilesystemCache mTileWriter;
     protected final int mMinZoomLevel;
     protected final int mMaxZoomLevel;
     protected Set<CacheManagerTask> mPendingTasks = new HashSet<>();
+    protected boolean verifyCancel = true;
 
     public CacheManager(final MapView mapView) {
         this(mapView, mapView.getTileProvider().getTileWriter());
@@ -89,7 +91,16 @@ public class CacheManager {
     public CacheManager(final MapTileProviderBase pTileProvider,
                         final IFilesystemCache pWriter,
                         final int pMinZoomLevel, final int pMaxZoomLevel) {
-        mTileProvider = pTileProvider;
+        this(pTileProvider.getTileSource(), pWriter, pMinZoomLevel, pMaxZoomLevel);
+    }
+
+    /**
+     * @since 6.0
+     */
+    public CacheManager(final ITileSource pTileSource,
+                        final IFilesystemCache pWriter,
+                        final int pMinZoomLevel, final int pMaxZoomLevel) {
+        mTileSource = pTileSource;
         mTileWriter = pWriter;
         mMinZoomLevel = pMinZoomLevel;
         mMaxZoomLevel = pMaxZoomLevel;
@@ -137,6 +148,16 @@ public class CacheManager {
             return true;
         }
 
+        return forceLoadTile(tileSource, tile);
+    }
+
+    /**
+     * Actual tile download, regardless of the tile being already present in the cache
+     *
+     * @return true if success, false if error
+     * @since 5.6.5
+     */
+    public boolean forceLoadTile(final OnlineTileSourceBase tileSource, final MapTile tile) {
         InputStream in = null;
         HttpURLConnection c=null;
 
@@ -172,8 +193,6 @@ public class CacheManager {
 
 
             in = c.getInputStream();
-
-            final ByteArrayOutputStream dataStream = new ByteArrayOutputStream();
 
             //default is 1 week from now
             Date dateExpires;
@@ -221,12 +240,28 @@ public class CacheManager {
     }
 
     public boolean deleteTile(final MapTile pTile) {
-        final ITileSource tileSource = mTileProvider.getTileSource();
-        return mTileWriter.exists(tileSource, pTile) && mTileWriter.remove(tileSource, pTile);
+        return mTileWriter.exists(mTileSource, pTile) && mTileWriter.remove(mTileSource, pTile);
     }
 
     public boolean checkTile(final MapTile pTile) {
-        return mTileWriter.exists(mTileProvider.getTileSource(), pTile);
+        return mTileWriter.exists(mTileSource, pTile);
+    }
+
+    /**
+     * "Should we download this tile?", either because it's not cached yet or because it's expired
+     *
+     * @since 5.6.5
+     * @param pTileSource
+     * @param pTile
+     * @return
+     */
+    public boolean isTileToBeDownloaded(final ITileSource pTileSource, final MapTile pTile) {
+        final Long expiration = mTileWriter.getExpirationTimestamp(pTileSource, pTile);
+        if (expiration == null) {
+            return true;
+        }
+        final long now = System.currentTimeMillis();
+        return now > expiration;
     }
 
     /**
@@ -507,6 +542,19 @@ public class CacheManager {
         task.addCallback(getDownloadingDialog(ctx, task));
         return execute(task);
     }
+    
+     /*
+     * verifyCancel decides wether user has to confirm the cancel action via a alert
+     * 
+     * @param state
+     */
+    public void setVerifyCancel(boolean state){
+        verifyCancel = state;
+    }
+
+    public boolean getVerifyCancel(){
+        return verifyCancel;
+    }
 
     /**
      *
@@ -557,12 +605,38 @@ public class CacheManager {
             mProgressDialog = new ProgressDialog(pCtx);
             mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
             mProgressDialog.setCancelable(true);
-            mProgressDialog.setOnCancelListener(new OnCancelListener() {
-                @Override
-                public void onCancel(DialogInterface dialog) {
-                    mTask.cancel(true);
-                }
-            });
+            // If verifyCancel is set to true, ask for verification before canceling
+            if(pTask.mManager.getVerifyCancel()){
+                mProgressDialog.setOnCancelListener(new OnCancelListener() {
+                    @Override public void onCancel(final DialogInterface cancelDialog) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(pCtx);
+                        builder.setTitle("Cancel map download");
+                        builder.setMessage("Do you want to cancel the map download?");
+                        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                mTask.cancel(true);
+                            }
+                        });
+                        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                mProgressDialog.show();
+                            }
+                        });
+                        builder.show();
+                    }
+                });
+            }
+            else{
+                mProgressDialog.setOnCancelListener(new OnCancelListener() {
+                    @Override
+                    public void onCancel(DialogInterface dialog) {
+                        mTask.cancel(true);
+                    }
+                });
+            }
         }
 
         protected String zoomMessage(int zoomLevel, int zoomMin, int zoomMax) {
@@ -785,7 +859,7 @@ public class CacheManager {
         return new CacheManagerAction() {
             @Override
             public boolean preCheck() {
-                if (mTileProvider.getTileSource() instanceof OnlineTileSourceBase) {
+                if (mTileSource instanceof OnlineTileSourceBase) {
                     return true;
                 } else {
                     Log.e(IMapView.LOGTAG, "TileSource is not an online tile source");
@@ -800,7 +874,7 @@ public class CacheManager {
 
             @Override
             public boolean tileAction(MapTile pTile) {
-                return !loadTile((OnlineTileSourceBase) mTileProvider.getTileSource(), pTile);
+                return !loadTile((OnlineTileSourceBase) mTileSource, pTile);
             }
         };
     }

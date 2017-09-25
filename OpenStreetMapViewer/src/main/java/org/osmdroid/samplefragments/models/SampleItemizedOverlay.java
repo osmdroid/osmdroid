@@ -86,12 +86,6 @@ public class SampleItemizedOverlay extends ItemizedOverlay<SampleOverlayItem> im
 	}
 
 	@Override
-	protected void onDrawItem(Canvas canvas, SampleOverlayItem item, Point curScreenCoords,
-			final float aMapOrientation) {
-		super.onDrawItem(canvas, item, curScreenCoords, aMapOrientation);
-	}
-
-	@Override
 	public int size() {
 		return 2;
 	}

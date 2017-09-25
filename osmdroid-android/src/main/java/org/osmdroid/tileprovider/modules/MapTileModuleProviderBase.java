@@ -48,7 +48,7 @@ public abstract class MapTileModuleProviderBase {
 	 *
 	 * @return the internal member of this tile provider.
 	 */
-	protected abstract Runnable getTileLoader();
+	public abstract TileLoader getTileLoader();
 
 	/**
 	 * Returns true if implementation uses a data connection, false otherwise. This value is used to
@@ -169,7 +169,7 @@ public abstract class MapTileModuleProviderBase {
 
 	}
 
-	void removeTileFromQueues(final MapTile mapTile) {
+	protected void removeTileFromQueues(final MapTile mapTile) {
 		synchronized (mQueueLockObject) {
 			if (Configuration.getInstance().isDebugTileProviders()) {
 				Log.d(IMapView.LOGTAG,"MapTileModuleProviderBase.removeTileFromQueues() on provider: "
@@ -185,18 +185,25 @@ public abstract class MapTileModuleProviderBase {
 	 * to acquire tiles from servers. It processes tiles from the 'pending' set to the 'working' set
 	 * as they become available. The key unimplemented method is 'loadTile'.
 	 */
-	protected abstract class TileLoader implements Runnable {
+	public abstract class TileLoader implements Runnable {
 
 		/**
 		 * Load the requested tile.
 		 *
+		 * @since 6.0.0
 		 * @return the tile if it was loaded successfully, or null if failed to
 		 *         load and other tile providers need to be called
-		 * @param pState
+		 * @param pTile
 		 * @throws CantContinueException
 		 */
-		protected abstract Drawable loadTile(MapTileRequestState pState)
+		public abstract Drawable loadTile(final MapTile pTile)
 				throws CantContinueException;
+
+		@Deprecated
+		protected Drawable loadTile(MapTileRequestState pState)
+				throws CantContinueException {
+			return loadTile(pState.getMapTile());
+		}
 
 		protected void onTileLoaderInit() {
 			// Do nothing by default
@@ -249,6 +256,7 @@ public abstract class MapTileModuleProviderBase {
 						+ pState.getMapTile());
 			}
 			removeTileFromQueues(pState.getMapTile());
+			ExpirableBitmapDrawable.setState(pDrawable, ExpirableBitmapDrawable.UP_TO_DATE);
 			pState.getCallback().mapTileRequestCompleted(pState, pDrawable);
 		}
 
@@ -262,8 +270,20 @@ public abstract class MapTileModuleProviderBase {
 						+ " with tile: " + pState.getMapTile());
 			}
 			removeTileFromQueues(pState.getMapTile());
+			ExpirableBitmapDrawable.setState(pDrawable, ExpirableBitmapDrawable.EXPIRED);
 			pState.getCallback().mapTileRequestExpiredTile(pState, pDrawable);
 		}
+
+		protected void tileLoadedScaled(final MapTileRequestState pState, final Drawable pDrawable) {
+			if (Configuration.getInstance().isDebugTileProviders()) {
+				Log.d(IMapView.LOGTAG,"TileLoader.tileLoadedScaled() on provider: " + getName()
+						+ " with tile: " + pState.getMapTile());
+			}
+			removeTileFromQueues(pState.getMapTile());
+			ExpirableBitmapDrawable.setState(pDrawable, ExpirableBitmapDrawable.SCALED);
+			pState.getCallback().mapTileRequestExpiredTile(pState, pDrawable);
+		}
+
 
 		protected void tileLoadedFailed(final MapTileRequestState pState) {
 			if (Configuration.getInstance().isDebugTileProviders()) {
@@ -294,7 +314,7 @@ public abstract class MapTileModuleProviderBase {
 				}
 				try {
 					result = null;
-					result = loadTile(state);
+					result = loadTile(state.getMapTile());
 				} catch (final CantContinueException e) {
 					Log.i(IMapView.LOGTAG,"Tile loader can't continue: " + state.getMapTile(), e);
 					clearQueue();
@@ -304,8 +324,10 @@ public abstract class MapTileModuleProviderBase {
 
 				if (result == null) {
 					tileLoadedFailed(state);
-				} else if (ExpirableBitmapDrawable.isDrawableExpired(result)) {
+				} else if (ExpirableBitmapDrawable.getState(result) == ExpirableBitmapDrawable.EXPIRED) {
 					tileLoadedExpired(state, result);
+				} else if (ExpirableBitmapDrawable.getState(result) == ExpirableBitmapDrawable.SCALED) {
+					tileLoadedScaled(state, result);
 				} else {
 					tileLoaded(state, result);
 				}

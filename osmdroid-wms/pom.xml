@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.osmdroid</groupId>
+        <artifactId>osmdroid-parent</artifactId>
+        <version>4.4-SNAPSHOT</version>
+    </parent>
+    <artifactId>osmdroid-wms</artifactId>
+    <packaging>aar</packaging>
+    <name>OSMdroid WMS</name>
+    <description>WMS client for OSMdroid.</description>
+    <dependencies>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>osmdroid-android</artifactId>
+            <version>${project.version}</version>
+	    <type>aar</type>
+        </dependency>
+        <!-- Android included libraries -->
+        <dependency>
+            <groupId>android</groupId>
+            <artifactId>android</artifactId>
+        </dependency>
+
+        <!-- test dependencies -->
+        
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
+    </dependencies>
+    <build>
+	 <plugins>
+	      <plugin>
+		    <groupId>com.simpligility.maven.plugins</groupId>
+		    <artifactId>android-maven-plugin</artifactId>
+		    <configuration>
+			 <assetsDirectory>${project.basedir}/src/main/assets</assetsDirectory> 
+			 <sdk>
+			      <platform>23</platform>
+			 </sdk>
+		    </configuration>
+	       </plugin>
+	 </plugins>
+    </build>
+</project>

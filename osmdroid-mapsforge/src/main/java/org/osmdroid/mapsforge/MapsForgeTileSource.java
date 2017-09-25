@@ -19,6 +19,7 @@ import org.mapsforge.map.layer.cache.TileCache;
 import org.mapsforge.map.layer.labels.TileBasedLabelStore;
 import org.mapsforge.map.layer.renderer.DatabaseRenderer;
 import org.mapsforge.map.layer.renderer.RendererJob;
+import org.mapsforge.map.layer.hills.HillsRenderConfig;
 import org.mapsforge.map.model.DisplayModel;
 import org.mapsforge.map.reader.MapFile;
 import org.mapsforge.map.reader.ReadBuffer;
@@ -49,6 +50,7 @@ public class MapsForgeTileSource extends BitmapTileSourceBase {
     private RenderThemeFuture theme = null;
     private XmlRenderTheme mXmlRenderTheme = null;
     private DatabaseRenderer renderer;
+    private HillsRenderConfig hillsRenderConfig;
 
     private MultiMapDataStore mapDatabase;
 
@@ -62,8 +64,9 @@ public class MapsForgeTileSource extends BitmapTileSourceBase {
      * @param tileSizePixels
      * @param file
      * @param xmlRenderTheme the theme to render tiles with
+     * @param hillsRenderConfig the hillshading setup to be used (can be null)
      */
-    protected MapsForgeTileSource(String cacheTileSourceName, int minZoom, int maxZoom, int tileSizePixels, File[] file, XmlRenderTheme xmlRenderTheme, MultiMapDataStore.DataPolicy dataPolicy) {
+    protected MapsForgeTileSource(String cacheTileSourceName, int minZoom, int maxZoom, int tileSizePixels, File[] file, XmlRenderTheme xmlRenderTheme, MultiMapDataStore.DataPolicy dataPolicy, HillsRenderConfig hillsRenderConfig) {
         super(cacheTileSourceName, minZoom, maxZoom, tileSizePixels, ".png","© OpenStreetMap contributors");
 
         mapDatabase = new MultiMapDataStore(dataPolicy);
@@ -77,9 +80,13 @@ public class MapsForgeTileSource extends BitmapTileSourceBase {
         // mapsforge0.6
         // renderer = new DatabaseRenderer(mapDatabase, AndroidGraphicFactory.INSTANCE, new InMemoryTileCache(2));
         // mapsforge0.6.1
+        //InMemoryTileCache tileCache = new InMemoryTileCache(2);
+        //renderer = new DatabaseRenderer(mapDatabase, AndroidGraphicFactory.INSTANCE, tileCache,
+        //        new TileBasedLabelStore(tileCache.getCapacityFirstLevel()), true, true);
+        // mapsforge0.8.0
         InMemoryTileCache tileCache = new InMemoryTileCache(2);
         renderer = new DatabaseRenderer(mapDatabase, AndroidGraphicFactory.INSTANCE, tileCache,
-                new TileBasedLabelStore(tileCache.getCapacityFirstLevel()), true, true);
+                new TileBasedLabelStore(tileCache.getCapacityFirstLevel()), true, true, hillsRenderConfig);
 
         minZoom = MIN_ZOOM;
         maxZoom = renderer.getZoomLevelMax();
@@ -123,7 +130,7 @@ public class MapsForgeTileSource extends BitmapTileSourceBase {
         int maxZoomLevel = MAX_ZOOM;
         int tileSizePixels = TILE_SIZE_PIXELS;
 
-        return new MapsForgeTileSource(InternalRenderTheme.OSMARENDER.name(), minZoomLevel, maxZoomLevel, tileSizePixels, file, InternalRenderTheme.OSMARENDER, MultiMapDataStore.DataPolicy.RETURN_ALL);
+        return new MapsForgeTileSource(InternalRenderTheme.OSMARENDER.name(), minZoomLevel, maxZoomLevel, tileSizePixels, file, InternalRenderTheme.OSMARENDER, MultiMapDataStore.DataPolicy.RETURN_ALL, null);
     }
 
     /**
@@ -144,7 +151,7 @@ public class MapsForgeTileSource extends BitmapTileSourceBase {
         int maxZoomLevel = MAX_ZOOM;
         int tileSizePixels = TILE_SIZE_PIXELS;
 
-        return new MapsForgeTileSource(themeName, minZoomLevel, maxZoomLevel, tileSizePixels, file, theme, MultiMapDataStore.DataPolicy.RETURN_ALL);
+        return new MapsForgeTileSource(themeName, minZoomLevel, maxZoomLevel, tileSizePixels, file, theme, MultiMapDataStore.DataPolicy.RETURN_ALL, null);
     }
 
     /**
@@ -160,13 +167,13 @@ public class MapsForgeTileSource extends BitmapTileSourceBase {
      * @param dataPolicy use this to override the default, which is "RETURN_ALL"
      * @return
      */
-    public static MapsForgeTileSource createFromFiles(File[] file, XmlRenderTheme theme, String themeName, MultiMapDataStore.DataPolicy dataPolicy) {
+    public static MapsForgeTileSource createFromFiles(File[] file, XmlRenderTheme theme, String themeName, MultiMapDataStore.DataPolicy dataPolicy, HillsRenderConfig hillsRenderConfig) {
         //these settings are ignored and are set based on .map file info
         int minZoomLevel = MIN_ZOOM;
         int maxZoomLevel = MAX_ZOOM;
         int tileSizePixels = TILE_SIZE_PIXELS;
 
-        return new MapsForgeTileSource(themeName, minZoomLevel, maxZoomLevel, tileSizePixels, file, theme, dataPolicy);
+        return new MapsForgeTileSource(themeName, minZoomLevel, maxZoomLevel, tileSizePixels, file, theme, dataPolicy, hillsRenderConfig);
     }
 
 

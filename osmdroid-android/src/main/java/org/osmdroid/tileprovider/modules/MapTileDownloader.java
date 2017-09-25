@@ -115,7 +115,7 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 	}
 
 	@Override
-	protected Runnable getTileLoader() {
+	public TileLoader getTileLoader() {
 		return new TileLoader();
 	}
 
@@ -157,7 +157,7 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 	protected class TileLoader extends MapTileModuleProviderBase.TileLoader {
 
 		@Override
-		public Drawable loadTile(final MapTileRequestState aState) throws CantContinueException {
+		public Drawable loadTile(final MapTile pTile) throws CantContinueException {
 
 			OnlineTileSourceBase tileSource = mTileSource.get();
 			if (tileSource == null) {
@@ -167,7 +167,6 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 			InputStream in = null;
 			OutputStream out = null;
 			HttpURLConnection c=null;
-			final MapTile tile = aState.getMapTile();
 
 			try {
 
@@ -179,7 +178,7 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 					return null;
 				}
 
-				final String tileURLString = tileSource.getTileURLString(tile);
+				final String tileURLString = tileSource.getTileURLString(pTile);
 
 				if (Configuration.getInstance().isDebugMode()) {
 					Log.d(IMapView.LOGTAG,"Downloading Maptile from url: " + tileURLString);
@@ -205,7 +204,7 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 				// Check to see if we got success
 				
 				if (c.getResponseCode() != 200) {
-					Log.w(IMapView.LOGTAG, "Problem downloading MapTile: " + tile + " HTTP response: " + c.getResponseMessage());
+					Log.w(IMapView.LOGTAG, "Problem downloading MapTile: " + pTile + " HTTP response: " + c.getResponseMessage());
 					if (Configuration.getInstance().isDebugMapTileDownloader()) {
 						Log.d(IMapView.LOGTAG, tileURLString);
 					}
@@ -238,7 +237,7 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 						}
 					}
 				}
-				tile.setExpires(dateExpires);
+				pTile.setExpires(dateExpires);
 				StreamUtils.copy(in, out);
 				out.flush();
 				final byte[] data = dataStream.toByteArray();
@@ -248,7 +247,7 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 				//this is the only point in which we insert tiles to the db or local file system.
 
 				if (mFilesystemCache != null) {
-					mFilesystemCache.saveFile(tileSource, tile, byteStream);
+					mFilesystemCache.saveFile(tileSource, pTile, byteStream);
 					byteStream.reset();
 				}
 				final Drawable result = tileSource.getDrawable(byteStream);
@@ -256,23 +255,23 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 				return result;
 			} catch (final UnknownHostException e) {
 				// no network connection so empty the queue
-				Log.w(IMapView.LOGTAG,"UnknownHostException downloading MapTile: " + tile + " : " + e);
+				Log.w(IMapView.LOGTAG,"UnknownHostException downloading MapTile: " + pTile + " : " + e);
 				Counters.tileDownloadErrors++;
 				throw new CantContinueException(e);
 			} catch (final LowMemoryException e) {
 				// low memory so empty the queue
 				Counters.countOOM++;
-				Log.w(IMapView.LOGTAG,"LowMemoryException downloading MapTile: " + tile + " : " + e);
+				Log.w(IMapView.LOGTAG,"LowMemoryException downloading MapTile: " + pTile + " : " + e);
 				throw new CantContinueException(e);
 			} catch (final FileNotFoundException e) {
 				Counters.tileDownloadErrors++;
-				Log.w(IMapView.LOGTAG,"Tile not found: " + tile + " : " + e);
+				Log.w(IMapView.LOGTAG,"Tile not found: " + pTile + " : " + e);
 			} catch (final IOException e) {
 				Counters.tileDownloadErrors++;
-				Log.w(IMapView.LOGTAG,"IOException downloading MapTile: " + tile + " : " + e);
+				Log.w(IMapView.LOGTAG,"IOException downloading MapTile: " + pTile + " : " + e);
 			} catch (final Throwable e) {
 				Counters.tileDownloadErrors++;
-				Log.e(IMapView.LOGTAG,"Error downloading MapTile: " + tile, e);
+				Log.e(IMapView.LOGTAG,"Error downloading MapTile: " + pTile, e);
 			} finally {
 				StreamUtils.closeStream(in);
 				StreamUtils.closeStream(out);

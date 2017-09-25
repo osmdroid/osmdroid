@@ -7,6 +7,15 @@ import org.osmdroid.tileprovider.MapTile;
  */
 public class XYTileSource extends OnlineTileSourceBase {
 
+	/**
+	 *
+	 * @param aName this is used for caching purposes, make sure it is consistent and unique
+	 * @param aZoomMinLevel
+	 * @param aZoomMaxLevel
+	 * @param aTileSizePixels
+	 * @param aImageFilenameEnding
+	 * @param aBaseUrl
+	 */
 	public XYTileSource(final String aName, final int aZoomMinLevel,
 			final int aZoomMaxLevel, final int aTileSizePixels, final String aImageFilenameEnding,
 			final String[] aBaseUrl) {
@@ -21,6 +30,10 @@ public class XYTileSource extends OnlineTileSourceBase {
 			aImageFilenameEnding, aBaseUrl,copyright);
 	}
 
+	@Override
+	public String toString(){
+		return name();
+	}
 	@Override
 	public String getTileURLString(final MapTile aTile) {
 		return getBaseUrl() + aTile.getZoomLevel() + "/" + aTile.getX() + "/" + aTile.getY()

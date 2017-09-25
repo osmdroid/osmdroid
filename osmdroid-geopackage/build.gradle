@@ -6,7 +6,7 @@ apply from: "https://raw.githubusercontent.com/gradle-fury/gradle-fury/v1.1.3/gr
 android {
 
     defaultConfig {
-        minSdkVersion 14
+        minSdkVersion 13
     }
 }
 
@@ -17,13 +17,17 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile project(':osmdroid-android')
 
-    compile ("mil.nga.geopackage:geopackage-android:1.3.0"){
+    compile ("mil.nga.geopackage:geopackage-android:1.4.1"){
         exclude group: 'com.google.android.gms', module:'play-services'
         exclude group: 'com.google.maps.android', module:'android-maps-utils'
+        exclude group: 'com.android.support',module: 'support-v13'
     }
 
-    compile 'com.j256.ormlite:ormlite-android:4.48'
-    compile 'mil.nga.geopackage:geopackage-core:1.2.0'
+    compile 'com.j256.ormlite:ormlite-android:5.0'
+    compile 'mil.nga.geopackage:geopackage-core:1.3.1'
+    compile 'ar.com.hjg:pngj:2.1.0'
+    compile 'mil.nga:tiff:1.0.3'
+
     compile 'ar.com.hjg:pngj:2.1.0'
     compile 'mil.nga:tiff:1.0.0'
 }

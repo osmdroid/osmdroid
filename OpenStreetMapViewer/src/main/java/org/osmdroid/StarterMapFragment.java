@@ -28,6 +28,7 @@ import org.osmdroid.samplefragments.BaseSampleFragment;
 import org.osmdroid.samplefragments.SampleFactory;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
+import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.CopyrightOverlay;
 import org.osmdroid.views.overlay.MinimapOverlay;
@@ -99,10 +100,12 @@ public class StarterMapFragment extends Fragment implements OpenStreetMapConstan
                   */
                  @Override
                  public boolean onGenericMotion(View v, MotionEvent event) {
-                     if (0 != (event.getSource() & InputDevice.SOURCE_CLASS_POINTER)) {
+                   if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD
+                           && 0 != (event.getSource() & InputDevice.SOURCE_CLASS_POINTER)) {
                          switch (event.getAction()) {
                              case MotionEvent.ACTION_SCROLL:
-                                 if (event.getAxisValue(MotionEvent.AXIS_VSCROLL) < 0.0f)
+                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR1
+                                         && event.getAxisValue(MotionEvent.AXIS_VSCROLL) < 0.0f)
                                      mMapView.getController().zoomOut();
                                  else {
                                      //this part just centers the map on the current mouse location before the zoom action occurs
@@ -171,8 +174,21 @@ public class StarterMapFragment extends Fragment implements OpenStreetMapConstan
           mMapView.getOverlays().add(this.mScaleBarOverlay);
           mMapView.getOverlays().add(this.mRotationGestureOverlay);
 
-          mMapView.getController().setZoom(mPrefs.getInt(PREFS_ZOOM_LEVEL, 1));
-          mMapView.scrollTo(mPrefs.getInt(PREFS_SCROLL_X, 0), mPrefs.getInt(PREFS_SCROLL_Y, 0));
+          final float zoomLevel = mPrefs.getFloat(PREFS_ZOOM_LEVEL_DOUBLE, mPrefs.getInt(PREFS_ZOOM_LEVEL, 1));
+          mMapView.getController().setZoom(zoomLevel);
+          final float orientation = mPrefs.getFloat(PREFS_ORIENTATION, 0);
+          mMapView.setMapOrientation(orientation, false);
+          final String latitudeString = mPrefs.getString(PREFS_LATITUDE_STRING, null);
+          final String longitudeString = mPrefs.getString(PREFS_LONGITUDE_STRING, null);
+          if (latitudeString == null || longitudeString == null) { // case handled for historical reasons only
+              final int scrollX = mPrefs.getInt(PREFS_SCROLL_X, 0);
+              final int scrollY = mPrefs.getInt(PREFS_SCROLL_Y, 0);
+              mMapView.scrollTo(scrollX, scrollY);
+          } else {
+              final double latitude = Double.valueOf(latitudeString);
+              final double longitude = Double.valueOf(longitudeString);
+              mMapView.setInitCenter(new GeoPoint(latitude, longitude));
+          }
 
           mLocationOverlay.enableMyLocation();
 
@@ -192,9 +208,10 @@ public class StarterMapFragment extends Fragment implements OpenStreetMapConstan
      public void onPause() {
           final SharedPreferences.Editor edit = mPrefs.edit();
           edit.putString(PREFS_TILE_SOURCE, mMapView.getTileProvider().getTileSource().name());
-          edit.putInt(PREFS_SCROLL_X, mMapView.getScrollX());
-          edit.putInt(PREFS_SCROLL_Y, mMapView.getScrollY());
-          edit.putInt(PREFS_ZOOM_LEVEL, mMapView.getZoomLevel());
+          edit.putFloat(PREFS_ORIENTATION, mMapView.getMapOrientation());
+          edit.putString(PREFS_LATITUDE_STRING, String.valueOf(mMapView.getMapCenter().getLatitude()));
+          edit.putString(PREFS_LONGITUDE_STRING, String.valueOf(mMapView.getMapCenter().getLongitude()));
+          edit.putFloat(PREFS_ZOOM_LEVEL_DOUBLE, (float)mMapView.getZoomLevelDouble());
           edit.putBoolean(PREFS_SHOW_LOCATION, mLocationOverlay.isMyLocationEnabled());
 
          //sorry for the spaghetti code this is to filter out the compass on api 8

@@ -1,4 +1,4 @@
-package org.osmdroid.samplefragments.tileproviders;
+package org.osmdroid.samplefragments.geopackage;
 
 import android.content.DialogInterface;
 import android.os.Build;
@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.mapsforge.map.android.graphics.AndroidGraphicFactory;
 import org.osmdroid.R;
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.api.IMapView;
@@ -20,8 +19,8 @@ import org.osmdroid.config.Configuration;
 import org.osmdroid.events.MapListener;
 import org.osmdroid.events.ScrollEvent;
 import org.osmdroid.events.ZoomEvent;
-import org.osmdroid.gpkg.GeoPackageMapTileModuleProvider;
-import org.osmdroid.gpkg.GeoPackageProvider;
+import org.osmdroid.gpkg.tiles.feature.GeoPackageFeatureTileProvider;
+import org.osmdroid.gpkg.tiles.feature.GeopackageFeatureTilesOverlay;
 import org.osmdroid.samplefragments.BaseSampleFragment;
 import org.osmdroid.tileprovider.tilesource.XYTileSource;
 import org.osmdroid.tileprovider.util.StorageUtils;
@@ -35,26 +34,31 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import mil.nga.geopackage.GeoPackage;
+import mil.nga.geopackage.GeoPackageManager;
+import mil.nga.geopackage.factory.GeoPackageFactory;
+
 import static org.osmdroid.samplefragments.events.SampleMapEventListener.df;
 
 /**
  * One way for viewing geopackage tiles to the osmdroid view
- * <p>
- * created on 1/12/2017.
+ * converts geopackage features to rendered tiles for viewing in osmdroid
  *
+ * created on 8/19/2017.
+ *@ since.6.0.0
  * @author Alex O'Ree
- * @since 5.6.3
  */
 
-public class GeopackageSample extends BaseSampleFragment {
+public class GeopackageFeatureTiles extends BaseSampleFragment {
     TextView textViewCurrentLocation;
-    GeoPackageProvider.TileSourceBounds tileSourceBounds;
+
     XYTileSource currentSource = null;
-    GeoPackageProvider geoPackageProvider=null;
+
+    android.app.AlertDialog alertDialog = null;
 
     @Override
     public String getSampleTitle() {
-        return "Geopackage tiles";
+        return "Geopackage Feature Tiles";
     }
 
     @Override
@@ -127,49 +131,56 @@ public class GeopackageSample extends BaseSampleFragment {
                 .setCancelable(false)
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-
+                        if (alertDialog != null) {
+                            alertDialog.hide();
+                            alertDialog.dismiss();
+                        }
                     }
                 });
 
 
             // create alert dialog
-            android.app.AlertDialog alertDialog = alertDialogBuilder.create();
+            alertDialog = alertDialogBuilder.create();
 
             // show it
             alertDialog.show();
 
         } else {
             Toast.makeText(getContext(), "Loaded " + maps.length + " map files", Toast.LENGTH_LONG).show();
-            geoPackageProvider = new GeoPackageProvider(maps, this.getContext());
-            mMapView.setTileProvider(geoPackageProvider);
-            List<GeoPackageMapTileModuleProvider.Container> tileSources = geoPackageProvider.geoPackageMapTileModuleProvider().getTileSources();
 
-            //here we're keeping track of the current tile source so we can reference it later, primarly for
-            //displaying the bounds of the tile set
-            boolean sourceSet = false;
-            for (int i = 0; i < tileSources.size(); i++) {
-                //this is a list of geopackages, since we only support tile tables, pick the first one of those
-                //ideally this should populate a spinner so that the user can select whatever tile source they want
-                if (tileSources.get(i) != null && !tileSources.get(i).tiles.isEmpty()) {
-                    currentSource = (XYTileSource) geoPackageProvider.getTileSource(tileSources.get(i).database,
-                        tileSources.get(0).tiles.get(i)
-                    );
-                    mMapView.setTileSource(currentSource);
-                    sourceSet = true;
-                    break;
+            // Get a manager
+            GeoPackageManager manager = GeoPackageFactory.getManager(getContext());
+
+            // Available databases
+            List<String> databases = manager.databases();
+
+            // Import database
+            for (File f : maps) {
+                try {
+                    boolean imported = manager.importGeoPackage(f);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
                 }
             }
 
+            if (!databases.isEmpty()) {
 
-            if (!sourceSet) {
-                Toast.makeText(getContext(), "No tile source is available, get your geopackages for 'tiles' tables", Toast.LENGTH_LONG).show();
-            } else {
-                Toast.makeText(getContext(), "Tile source set to " + mMapView.getTileProvider().getTileSource().name(), Toast.LENGTH_LONG).show();
-                //this part will attempt to zoom to bounds of the selected tile source
-                tileSourceBounds = geoPackageProvider.getTileSourceBounds();
-                if (tileSourceBounds != null) {
-                    mMapView.zoomToBoundingBox(tileSourceBounds.bounds, true);
-                    mMapView.getController().setZoom(tileSourceBounds.minzoom);
+                for (int k = 0; k < databases.size(); k++) {
+                    // Open database
+                    GeoPackage geoPackage = manager.open(databases.get(k));
+                    // Feature tile tables
+                    List<String> features = geoPackage.getFeatureTables();
+                    // Query Features
+                    if (!features.isEmpty()) {
+                        for (int i = 0; i < features.size(); i++) {
+                            GeoPackageFeatureTileProvider provider = new GeoPackageFeatureTileProvider(
+                                new XYTileSource(databases.get(k) + ":" + features.get(i),0,22,256,"png",new String[0])
+                            );
+                            GeopackageFeatureTilesOverlay overlay = new GeopackageFeatureTilesOverlay(provider,getContext());
+                            overlay.setDatabaseAndFeatureTable(databases.get(k),  features.get(i));
+                            mMapView.getOverlayManager().add(overlay);
+                        }
+                    }
                 }
             }
         }
@@ -193,11 +204,25 @@ public class GeopackageSample extends BaseSampleFragment {
     }
 
     @Override
-    public void onDestroy(){
+    public void onPause() {
+        super.onPause();
+        if (alertDialog != null) {
+            alertDialog.hide();
+            alertDialog.dismiss();
+        }
+        alertDialog = null;
+    }
+
+    @Override
+    public void onDestroy() {
         super.onDestroy();
-        this.currentSource=null;
-        if (geoPackageProvider!=null)
-            geoPackageProvider.detach();
+        if (alertDialog != null) {
+            alertDialog.hide();
+            alertDialog.dismiss();
+        }
+        alertDialog = null;
+        this.currentSource = null;
+
 
     }
 
@@ -207,23 +232,13 @@ public class GeopackageSample extends BaseSampleFragment {
         IGeoPoint mapCenter = mMapView.getMapCenter();
         sb.append(df.format(mapCenter.getLatitude()) + "," +
             df.format(mapCenter.getLongitude())
-            + ",zoom=" + mMapView.getZoomLevel());
+            + ",zoom=" + mMapView.getZoomLevelDouble());
 
         if (currentSource != null) {
             sb.append("\n");
             sb.append(currentSource.name() + "," + currentSource.getBaseUrl());
         }
 
-        if (tileSourceBounds != null) {
-            sb.append("\n");
-            sb.append(" minzoom=" + tileSourceBounds.minzoom);
-            sb.append(" maxzoom=" + tileSourceBounds.maxzoom);
-            sb.append(" bounds=" + df.format(tileSourceBounds.bounds.getLatNorth())
-                + "," + df.format(tileSourceBounds.bounds.getLonEast()) + "," +
-                df.format(tileSourceBounds.bounds.getLatSouth()) + "," +
-                df.format(tileSourceBounds.bounds.getLonWest()));
-
-        }
 
         textViewCurrentLocation.setText(sb.toString());
     }
