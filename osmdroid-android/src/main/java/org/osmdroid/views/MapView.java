@@ -1605,7 +1605,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		mTileProvider.setTileRequestCompleteHandler(mTileRequestCompleteHandler);
 		updateTileSizeForDensity(mTileProvider.getTileSource());
 
-		this.mMapOverlay = new TilesOverlay(mTileProvider, this.getContext());
+		this.mMapOverlay = new TilesOverlay(mTileProvider, this.getContext(), mapRepetitionEnabled);
 		
 		mOverlayManager.setTilesOverlay(mMapOverlay);
 		invalidate();

@@ -100,6 +100,7 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 		}
 		this.mTileProvider = aTileProvider;
 		this.wrapEnabled = wrapEnabled;
+		this.mTileLooper.setWrapEnabled(wrapEnabled);
 	}
 
 	/**
@@ -309,7 +310,7 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 		}
 	}
 
-	private final OverlayTileLooper mTileLooper = new OverlayTileLooper(wrapEnabled);
+	private final OverlayTileLooper mTileLooper = new OverlayTileLooper();
 
 	protected void onTileReadyToDraw(final Canvas c, final Drawable currentMapTile,
 			final Rect tileRect) {
