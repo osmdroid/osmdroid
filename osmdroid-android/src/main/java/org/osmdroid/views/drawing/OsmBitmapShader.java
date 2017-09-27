@@ -1,14 +1,14 @@
 package org.osmdroid.views.drawing;
 
+import org.osmdroid.util.PointL;
 import org.osmdroid.views.Projection;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapShader;
 import android.graphics.Matrix;
-import android.graphics.Point;
 
 public class OsmBitmapShader extends BitmapShader {
-	private static final Point sPoint = new Point();
+	private static final PointL sPoint = new PointL();
 
 	private final Matrix mMatrix = new Matrix();
 	private int mBitmapWidth;

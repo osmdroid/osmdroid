@@ -15,6 +15,7 @@ import android.test.UiThreadTest;
 import org.osmdroid.R;
 import org.osmdroid.StarterMapActivity;
 import org.osmdroid.StarterMapFragment;
+import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.tileprovider.util.Counters;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.TileSystem;
@@ -52,45 +53,66 @@ public class OpenStreetMapViewTest extends ActivityInstrumentationTestCase2<Star
 	 */
 	@UiThreadTest
 	public void test_toMapPixels_0_0() {
-		final int roundingTolerance = 1;
 		final int iterations = 100;
 		for (int i = 0 ; i < iterations ; i ++) {
-			final double zoom = getRandomZoom();
-			final GeoPoint zz = new GeoPoint(getRandomLatitude(), getRandomLongitude());
-			mOpenStreetMapView.getController().setZoom(zoom);
-			mOpenStreetMapView.getController().setCenter(zz);
-			final Projection projection = mOpenStreetMapView.getProjection();
-
-			final Point point = projection.toPixels(zz, null);
-
-			final int width_2 = mOpenStreetMapView.getWidth() / 2;
-			final int height_2 = mOpenStreetMapView.getHeight() / 2;
-			assertTrue("MapView does not have layout. Make sure device is unlocked.", width_2 > 0 && height_2 > 0);
-			final Point expected = new Point(width_2, height_2);
-			assertEquals("the geo center of the map is in the pixel center of the map (X)", expected.x, point.x, roundingTolerance);
-			assertEquals("the geo center of the map is in the pixel center of the map (Y)", expected.y, point.y, roundingTolerance);
+			checkCenter(null, null);
+			checkCenter(getRandomZoom(), getRandomGeoPoint());
+			checkCenter(getRandomZoom(), null);
+			checkCenter(null, getRandomGeoPoint());
 		}
 	}
 
 	/**
 	 * @since 5.6.6
 	 */
+	private void checkCenter(final Double expectedZoom, final GeoPoint expectedCenter) {
+		if (expectedZoom != null) {
+			mOpenStreetMapView.setZoomLevel(expectedZoom);
+		}
+		if (expectedCenter != null) {
+			mOpenStreetMapView.getController().setCenter(expectedCenter);
+		}
+		final Projection projection = mOpenStreetMapView.getProjection();
+		if (expectedZoom != null) {
+			assertEquals("the zoom level is kept", 0 + expectedZoom, projection.getZoomLevel(), 0);
+		}
+		checkCenter(projection, mOpenStreetMapView.getMapCenter(), "computed");
+		if (expectedCenter != null) {
+			checkCenter(projection, expectedCenter, "assigned");
+		}
+	}
+
+	private void checkCenter(final Projection pProjection, final IGeoPoint pCenter, final String tag) {
+		final double roundingTolerance = 2; // as double in order to have assertEquals work with doubles, not with floats
+		final int width_2 = mOpenStreetMapView.getWidth() / 2;
+		final int height_2 = mOpenStreetMapView.getHeight() / 2;
+
+		final Point point = pProjection.toPixels(pCenter, null);
+		assertTrue("MapView does not have layout. Make sure device is unlocked.", width_2 > 0 && height_2 > 0);
+		final Point expected = new Point(width_2, height_2);
+		assertEquals("the " + tag + " center of the map is in the pixel center of the map (X)", expected.x, point.x, roundingTolerance);
+		assertEquals("the " + tag + " center of the map is in the pixel center of the map (Y)", expected.y, point.y, roundingTolerance);
+	}
+
+	/**
+	 * @since 5.6.6
+	 */
 	private double getRandomLongitude() {
-		return getRandom(TileSystem.MinLongitude, TileSystem.MaxLongitude);
+		return TileSystem.getRandomLongitude(random.nextDouble());
 	}
 
 	/**
 	 * @since 5.6.6
 	 */
 	private double getRandomLatitude() {
-		return getRandom(TileSystem.MinLatitude, TileSystem.MaxLatitude);
+		return TileSystem.getRandomLatitude(random.nextDouble(), TileSystem.MinLatitude);
 	}
 
 	/**
 	 * @since 5.6.6
 	 */
 	private double getRandomZoom() {
-		return getRandom(mOpenStreetMapView.getMinZoomLevel(), mOpenStreetMapView.getMaxZoomLevel());
+		return getRandom(0, microsoft.mappoint.TileSystem.getMaximumZoomLevel());
 	}
 
 	/**
@@ -98,5 +120,12 @@ public class OpenStreetMapViewTest extends ActivityInstrumentationTestCase2<Star
 	 */
 	private double getRandom(final double pMin, final double pMax) {
 		return pMin + random.nextDouble() * (pMax - pMin);
+	}
+
+	/**
+	 * @since 5.6.6
+	 */
+	private GeoPoint getRandomGeoPoint() {
+		return new GeoPoint(getRandomLatitude(), getRandomLongitude());
 	}
 }

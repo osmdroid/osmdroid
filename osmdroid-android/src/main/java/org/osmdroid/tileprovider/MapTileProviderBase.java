@@ -8,6 +8,8 @@ import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 import org.osmdroid.tileprovider.modules.IFilesystemCache;
 import org.osmdroid.tileprovider.modules.MapTileApproximater;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
+import org.osmdroid.util.PointL;
+import org.osmdroid.util.RectL;
 import org.osmdroid.util.TileLooper;
 import org.osmdroid.util.TileSystem;
 import org.osmdroid.views.Projection;
@@ -298,16 +300,16 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback {
 
 		Log.i(IMapView.LOGTAG,"rescale tile cache from "+ pOldZoomLevel + " to " + pNewZoomLevel);
 
-		Point topLeftMercator = pProjection.toMercatorPixels(pViewPort.left, pViewPort.top, null);
-		Point bottomRightMercator = pProjection.toMercatorPixels(pViewPort.right, pViewPort.bottom,
+		final PointL topLeftMercator = pProjection.toMercatorPixels(pViewPort.left, pViewPort.top, null);
+		final PointL bottomRightMercator = pProjection.toMercatorPixels(pViewPort.right, pViewPort.bottom,
 				null);
-		final Rect viewPort = new Rect(topLeftMercator.x, topLeftMercator.y, bottomRightMercator.x,
-				bottomRightMercator.y);
+		final RectL viewPortMercator = new RectL(
+				topLeftMercator.x, topLeftMercator.y, bottomRightMercator.x, bottomRightMercator.y);
 
 		final ScaleTileLooper tileLooper = pNewZoomLevel > pOldZoomLevel
 				? new ZoomInTileLooper()
 				: new ZoomOutTileLooper();
-		tileLooper.loop(pNewZoomLevel, viewPort, pOldZoomLevel, getTileSource().getTileSizePixels());
+		tileLooper.loop(pNewZoomLevel, viewPortMercator, pOldZoomLevel, getTileSource().getTileSizePixels());
 
 		final long endMs = System.currentTimeMillis();
 		Log.i(IMapView.LOGTAG,"Finished rescale in " + (endMs - startMs) + "ms");
@@ -329,13 +331,13 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback {
 		protected Paint mDebugPaint;
 		private boolean isWorth;
 
-		public void loop(final double pZoomLevel, final Rect pViewPort, final double pOldZoomLevel, final int pTileSize) {
+		public void loop(final double pZoomLevel, final RectL pViewPortMercator, final double pOldZoomLevel, final int pTileSize) {
 			mSrcRect = new Rect();
 			mDestRect = new Rect();
 			mDebugPaint = new Paint();
 			mOldTileZoomLevel = TileSystem.getInputTileZoomLevel(pOldZoomLevel);
 			mTileSize = pTileSize;
-			loop(pZoomLevel, pViewPort);
+			loop(pZoomLevel, pViewPortMercator);
 		}
 
 		@Override

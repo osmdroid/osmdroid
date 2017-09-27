@@ -31,6 +31,7 @@ package org.osmdroid.views.overlay;
  */
 
 import java.lang.reflect.Field;
+import java.util.Locale;
 
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.library.R;
@@ -443,14 +444,14 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 		IGeoPoint p2 = projection.fromPixels((screenWidth / 2) + (xLen / 2), yOffset, null);
 
 		// get distance in meters between points
-		final int xMeters = ((GeoPoint) p1).distanceTo(p2);
+        final double xMeters = ((GeoPoint) p1).distanceToAsDouble(p2);
 		// get adjusted distance, shortened to the next lower number starting with 1, 2 or 5
 		final double xMetersAdjusted = this.adjustLength ? adjustScaleBarLength(xMeters) : xMeters;
 		// get adjusted length in pixels
 		final int xBarLengthPixels = (int) (xLen * xMetersAdjusted / xMeters);
 
 		// create text
-		final String xMsg = scaleBarLengthText((int) xMetersAdjusted);
+        final String xMsg = scaleBarLengthText(xMetersAdjusted);
 		textPaint.getTextBounds(xMsg, 0, xMsg.length(), sTextBoundsRect);
 		final int xTextSpacing = (int) (sTextBoundsRect.height() / 5.0);
 
@@ -476,14 +477,14 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 				.fromPixels(screenWidth / 2, (screenHeight / 2) + (yLen / 2), null);
 
 		// get distance in meters between points
-		final int yMeters = ((GeoPoint) p1).distanceTo(p2);
+        final double yMeters = ((GeoPoint) p1).distanceToAsDouble(p2);
 		// get adjusted distance, shortened to the next lower number starting with 1, 2 or 5
 		final double yMetersAdjusted = this.adjustLength ? adjustScaleBarLength(yMeters) : yMeters;
 		// get adjusted length in pixels
 		final int yBarLengthPixels = (int) (yLen * yMetersAdjusted / yMeters);
 
 		// create text
-		final String yMsg = scaleBarLengthText((int) yMetersAdjusted);
+        final String yMsg = scaleBarLengthText(yMetersAdjusted);
 		textPaint.getTextBounds(yMsg, 0, yMsg.length(), sTextBoundsRect);
 		final int yTextSpacing = (int) (sTextBoundsRect.height() / 5.0);
 
@@ -515,7 +516,7 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 		IGeoPoint p2 = projection.fromPixels((screenWidth / 2) + (xLen / 2), yOffset, null);
 
 		// get distance in meters between points
-		final int xMeters = ((GeoPoint) p1).distanceTo(p2);
+        final double xMeters = ((GeoPoint) p1).distanceToAsDouble(p2);
 		// get adjusted distance, shortened to the next lower number starting with 1, 2 or 5
 		final double xMetersAdjusted = this.adjustLength ? adjustScaleBarLength(xMeters) : xMeters;
 		// get adjusted length in pixels
@@ -526,20 +527,20 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 		p2 = projection.fromPixels(screenWidth / 2, (screenHeight / 2) + (yLen / 2), null);
 
 		// get distance in meters between points
-		final int yMeters = ((GeoPoint) p1).distanceTo(p2);
+        final double yMeters = ((GeoPoint) p1).distanceToAsDouble(p2);
 		// get adjusted distance, shortened to the next lower number starting with 1, 2 or 5
 		final double yMetersAdjusted = this.adjustLength ? adjustScaleBarLength(yMeters) : yMeters;
 		// get adjusted length in pixels
 		final int yBarLengthPixels = (int) (yLen * yMetersAdjusted / yMeters);
 
 		// create text
-		final String xMsg = scaleBarLengthText((int) xMetersAdjusted);
+        final String xMsg = scaleBarLengthText(xMetersAdjusted);
 		final Rect xTextRect = new Rect();
 		textPaint.getTextBounds(xMsg, 0, xMsg.length(), xTextRect);
 		int xTextSpacing = (int) (xTextRect.height() / 5.0);           
 
 		// create text
-		final String yMsg = scaleBarLengthText((int) yMetersAdjusted);
+        final String yMsg = scaleBarLengthText(yMetersAdjusted);
 		final Rect yTextRect = new Rect();
 		textPaint.getTextBounds(yMsg, 0, yMsg.length(), yTextRect);
 		int yTextSpacing = (int) (yTextRect.height() / 5.0);
@@ -647,40 +648,35 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 		return length;
 	}
 
-	protected String scaleBarLengthText(final int meters) {
+	protected String scaleBarLengthText(final double meters) {
 		switch (unitsOfMeasure) {
 		default:
 		case metric:
 			if (meters >= 1000 * 5) {
-				return context.getResources().getString(R.string.format_distance_kilometers,(meters / 1000));
+                return getScaleString(R.string.format_distance_kilometers, "%.0f", meters / 1000);
 			} else if (meters >= 1000 / 5) {
-				return context.getResources().getString(R.string.format_distance_kilometers,
-						(int) (meters / 100.0) / 10.0);
+				return getScaleString(R.string.format_distance_kilometers, "%.1f", meters / 1000);
+			} else if (meters >= 20){
+                return getScaleString(R.string.format_distance_meters, "%.0f", meters);
 			} else {
-				return context.getResources().getString(R.string.format_distance_meters, meters);
+				return getScaleString(R.string.format_distance_meters, "%.2f", meters);
 			}
 		case imperial:
 			if (meters >= METERS_PER_STATUTE_MILE * 5) {
-				return context.getResources().getString(R.string.format_distance_miles,
-						(int) (meters / METERS_PER_STATUTE_MILE));
+				return getScaleString(R.string.format_distance_miles, "%.0f", meters / METERS_PER_STATUTE_MILE);
 
 			} else if (meters >= METERS_PER_STATUTE_MILE / 5) {
-				return context.getResources().getString(R.string.format_distance_miles,
-						((int) (meters / (METERS_PER_STATUTE_MILE / 10.0))) / 10.0);
+				return getScaleString(R.string.format_distance_miles, "%.1f", meters / METERS_PER_STATUTE_MILE);
 			} else {
-				return context.getResources().getString(R.string.format_distance_feet,
-						(int) (meters * FEET_PER_METER));
+				return getScaleString(R.string.format_distance_feet, "%.0f", meters * FEET_PER_METER);
 			}
 		case nautical:
 			if (meters >= METERS_PER_NAUTICAL_MILE * 5) {
-				return context.getResources().getString(R.string.format_distance_nautical_miles,
-						((int) (meters / METERS_PER_NAUTICAL_MILE)));
+				return getScaleString(R.string.format_distance_nautical_miles, "%.0f", meters / METERS_PER_NAUTICAL_MILE);
 			} else if (meters >= METERS_PER_NAUTICAL_MILE / 5) {
-				return context.getResources().getString(R.string.format_distance_nautical_miles,
-						(((int) (meters / (METERS_PER_NAUTICAL_MILE / 10.0))) / 10.0));
+				return getScaleString(R.string.format_distance_nautical_miles, "%.1f", meters / METERS_PER_NAUTICAL_MILE);
 			} else {
-				return context.getResources().getString(R.string.format_distance_feet,
-						((int) (meters * FEET_PER_METER)));
+				return getScaleString(R.string.format_distance_feet, "%.0f", meters * FEET_PER_METER);
 			}
 		}
 	}
@@ -694,6 +690,12 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 		textPaint=null;
 	}
 
+	/**
+	 * @since 5.6.6
+	 */
+	private String getScaleString(final int pStringResId, final String pFormat, final double pValue) {
+		return context.getResources().getString(pStringResId, String.format(Locale.getDefault(), pFormat, pValue));
+	}
 }
 
 

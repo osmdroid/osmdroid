@@ -362,7 +362,7 @@ public class Marker extends OverlayWithIW {
 	public boolean hitTest(final MotionEvent event, final MapView mapView){
 		final Projection pj = mapView.getProjection();
 		pj.toPixels(mPosition, mPositionPixels);
-		final Rect screenRect = pj.getIntrinsicScreenRect();
+		final Rect screenRect = mapView.getIntrinsicScreenRect(null);
 		int x = -mPositionPixels.x + screenRect.left + (int) event.getX();
 		int y = -mPositionPixels.y + screenRect.top + (int) event.getY();
 		boolean hit = mIcon.getBounds().contains(x, y);

@@ -165,16 +165,13 @@ public class MapController implements IMapController, OnFirstLayoutListener {
 
         if (!mMapView.isAnimating()) {
             mMapView.mIsFlinging = false;
-            Point mercatorPoint = mMapView.getProjection().toMercatorPixels(x, y, null);
-            // The points provided are "center", we want relative to upper-left for scrolling
-            mercatorPoint.offset(-mMapView.getWidth() / 2, -mMapView.getHeight() / 2);
-            final int xStart = mMapView.getScrollX();
-            final int yStart = mMapView.getScrollY();
+            final int xStart = (int)mMapView.getMapScrollX();
+            final int yStart = (int)mMapView.getMapScrollY();
 
-            final int dx = mercatorPoint.x - xStart;
-            final int dy = mercatorPoint.y - yStart;
+            final int dx = x - mMapView.getWidth() / 2;
+            final int dy = y - mMapView.getHeight() / 2;
 
-            if (dx != 0 || dy != 0) {
+            if (dx != xStart || dy != yStart) {
                 mMapView.getScroller().startScroll(xStart, yStart, dx, dy, Configuration.getInstance().getAnimationSpeedDefault());
                 mMapView.postInvalidate();
             }
@@ -199,15 +196,7 @@ public class MapController implements IMapController, OnFirstLayoutListener {
             mReplayController.setCenter(point);
             return;
         }
-
-        Point p = mMapView.getProjection().toPixels(point, null);
-        //FIXME This will overflow for zoom > 20, we'll end up with a negative Point.y by the time we hit scroll to.
-        p = mMapView.getProjection().toMercatorPixels(p.x, p.y, p);
-        // The points provided are "center", we want relative to upper-left for scrolling
-        p.offset(-mMapView.getWidth() / 2, -mMapView.getHeight() / 2);
-
-        mMapView.scrollTo(p.x, p.y);//-2,040,942,406
-        // 2,147,483,648
+        mMapView.setCenter(point);
     }
 
     @Override
@@ -482,16 +471,7 @@ public class MapController implements IMapController, OnFirstLayoutListener {
     }
 
     protected void onAnimationEnd() {
-        final Rect screenRect = mMapView.getProjection().getScreenRect();
-        Point p = mMapView.getProjection().unrotateAndScalePoint(screenRect.centerX(),
-            screenRect.centerY(), null);
-        p = mMapView.getProjection().toMercatorPixels(p.x, p.y, p);
-        // The points provided are "center", we want relative to upper-left for scrolling
-        p.offset(-mMapView.getWidth() / 2, -mMapView.getHeight() / 2);
         mMapView.mIsAnimating.set(false);
-        //scrolls to the point of user input
-        //no overflow detected
-        mMapView.scrollTo(p.x, p.y);
         setZoom(mMapView.mTargetZoomLevel.get());
         mMapView.mMultiTouchScale = 1f;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {

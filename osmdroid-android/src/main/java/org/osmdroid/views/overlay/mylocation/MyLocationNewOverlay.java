@@ -22,6 +22,7 @@ import org.osmdroid.api.IMapView;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.library.R;
 import org.osmdroid.util.GeoPoint;
+import org.osmdroid.util.PointL;
 import org.osmdroid.util.TileSystem;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
@@ -62,7 +63,7 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 	public IMyLocationProvider mMyLocationProvider;
 
 	private final LinkedList<Runnable> mRunOnFirstFix = new LinkedList<Runnable>();
-	private final Point mMapCoordsProjected = new Point();
+	private final PointL mMapCoordsProjected = new PointL();
 	private final Point mMapCoordsTranslated = new Point();
 	private Handler mHandler;
 	private Object mHandlerToken = new Object();
@@ -209,7 +210,7 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 
 	protected void drawMyLocation(final Canvas canvas, final MapView mapView, final Location lastFix) {
 		final Projection pj = mapView.getProjection();
-		pj.toPixelsFromProjected(mMapCoordsProjected, mMapCoordsTranslated);
+		pj.getPixelsFromProjected(mMapCoordsProjected, pj.getProjectedPowerDifference(), mMapCoordsTranslated);
 
 		if (mDrawAccuracyEnabled) {
 			final float radius = lastFix.getAccuracy()
@@ -275,12 +276,13 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 		}
 	}
 
-	protected Rect getMyLocationDrawingBounds(int zoomLevel, Location lastFix, Rect reuse) {
+	protected Rect getMyLocationDrawingBounds(double zoomLevel, Location lastFix, Rect reuse) {
 		if (reuse == null)
 			reuse = new Rect();
 
 		final Projection pj = mMapView.getProjection();
-		pj.toPixelsFromProjected(mMapCoordsProjected, mMapCoordsTranslated);
+		final double powerDifference = pj.getProjectedPowerDifference();
+		pj.getPixelsFromProjected(mMapCoordsProjected, powerDifference, mMapCoordsTranslated);
 
 		// Start with the bitmap bounds
 		if (lastFix.hasBearing()) {
@@ -330,7 +332,8 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 			final IMapView mapView) {
 		if (this.mLocation != null) {
 			Projection pj = mMapView.getProjection();
-			pj.toPixelsFromProjected(mMapCoordsProjected, mMapCoordsTranslated);
+			final double powerDifference = pj.getProjectedPowerDifference();
+			pj.getPixelsFromProjected(mMapCoordsProjected, powerDifference, mMapCoordsTranslated);
 			snapPoint.x = mMapCoordsTranslated.x;
 			snapPoint.y = mMapCoordsTranslated.y;
 			final double xDiff = x - mMapCoordsTranslated.x;
@@ -497,7 +500,7 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 		// If we had a previous location, let's get those bounds
 		Location oldLocation = mLocation;
 		if (oldLocation != null) {
-			this.getMyLocationDrawingBounds(mMapView.getZoomLevel(), oldLocation,
+			getMyLocationDrawingBounds(mMapView.getZoomLevelDouble(), oldLocation,
 					mMyLocationPreviousRect);
 		}
 
@@ -513,7 +516,7 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 			mMapController.animateTo(mGeoPoint);
 		} else {
 			// Get new drawing bounds
-			this.getMyLocationDrawingBounds(mMapView.getZoomLevel(), mLocation, mMyLocationRect);
+			getMyLocationDrawingBounds(mMapView.getZoomLevelDouble(), mLocation, mMyLocationRect);
 
 			// If we had a previous location, merge in those bounds too
 			if (oldLocation != null) {

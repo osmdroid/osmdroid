@@ -12,32 +12,21 @@ public abstract class TileLooper {
 	protected final Rect mTiles = new Rect();
 	protected int mTileZoomLevel;
 
-	protected void loop(final double pZoomLevel, final Rect pViewPort) {
-		TileSystem.PixelXYToTileXY(pViewPort, TileSystem.getTileSize(pZoomLevel), mTiles);
+	protected void loop(final double pZoomLevel, final RectL pMercatorViewPort) {
+		TileSystem.getTileFromMercator(pMercatorViewPort, TileSystem.getTileSize(pZoomLevel), mTiles);
 		mTileZoomLevel = TileSystem.getInputTileZoomLevel(pZoomLevel);
 
 		initialiseLoop();
 
 		final int mapTileUpperBound = 1 << mTileZoomLevel;
 
-		int width = mTiles.right - mTiles.left + 1; // handling the modulo
-		if (width <= 0) {
-			width += mapTileUpperBound;
-		}
-		int height = mTiles.bottom - mTiles.top + 1; // handling the modulo
-		if (height <= 0) {
-			height += mapTileUpperBound;
-		}
-
 		/* Draw all the MapTiles (from the upper left to the lower right). */
-		for (int i = 0 ; i < width ; i ++) {
-			for (int j = 0 ; j < height ; j ++) {
-				final int x = mTiles.left + i;
-				final int y = mTiles.top + j;
-				final int tileX = MyMath.mod(x, mapTileUpperBound);
-				final int tileY = MyMath.mod(y, mapTileUpperBound);
+		for (int i = mTiles.left ; i <= mTiles.right ; i ++) {
+			for (int j = mTiles.top ; j <= mTiles.bottom ; j ++) {
+				final int tileX = MyMath.mod(i, mapTileUpperBound);
+				final int tileY = MyMath.mod(j, mapTileUpperBound);
 				final MapTile tile = new MapTile(mTileZoomLevel, tileX, tileY);
-				handleTile(tile, x, y);
+				handleTile(tile, i, j);
 			}
 		}
 

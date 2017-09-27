@@ -56,6 +56,7 @@ import org.osmdroid.samplefragments.tileproviders.MapsforgeTileProviderSample;
 import org.osmdroid.samplefragments.tileproviders.OfflinePickerSample;
 import org.osmdroid.samplefragments.tileproviders.SampleAssetsOnly;
 import org.osmdroid.samplefragments.tileproviders.SampleOfflineGemfOnly;
+import org.osmdroid.samplefragments.tileproviders.SampleVeryHighZoomLevel;
 import org.osmdroid.samplefragments.tilesources.SampleBingHybrid;
 import org.osmdroid.samplefragments.tilesources.SampleBingRoad;
 import org.osmdroid.samplefragments.tilesources.SampleCopyrightOverlay;
@@ -228,6 +229,8 @@ public final class SampleFactory implements ISampleFactory {
         //59
         if (Build.VERSION.SDK_INT >= 14)
             mSamples.add(GeopackageSample.class);
+        // 60
+        mSamples.add(SampleVeryHighZoomLevel.class);
     }
 
     public void addSample(Class<? extends BaseSampleFragment> clz) {

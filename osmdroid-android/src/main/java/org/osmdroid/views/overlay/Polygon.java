@@ -7,6 +7,7 @@ import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
+import org.osmdroid.util.PointL;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
 import android.content.Context;
@@ -41,14 +42,14 @@ public class Polygon extends OverlayWithIW {
 		int mOriginalPoints[][]; //as an array, to reduce object creation
 		
 		/** Stores points, converted to the map projection. */
-		ArrayList<Point> mConvertedPoints;
+		ArrayList<PointL> mConvertedPoints;
 
 		/** is precomputation of points done or not */
 		boolean mPrecomputed;
 		
 		LinearRing(){
 			mOriginalPoints = new int[0][2];
-			mConvertedPoints = new ArrayList<Point>(0);
+			mConvertedPoints = new ArrayList<>(0);
 			mPrecomputed = false;
 		}
 		
@@ -65,12 +66,12 @@ public class Polygon extends OverlayWithIW {
 		void setPoints(final List<GeoPoint> points) {
 			int size = points.size();
 			mOriginalPoints = new int[size][2];
-			mConvertedPoints = new ArrayList<Point>(size);
+			mConvertedPoints = new ArrayList<>(size);
 			int i=0;
 			for (GeoPoint p:points){
 				mOriginalPoints[i][0] = p.getLatitudeE6();
 				mOriginalPoints[i][1] = p.getLongitudeE6();
-				mConvertedPoints.add(new Point(p.getLatitudeE6(), p.getLongitudeE6()));
+				mConvertedPoints.add(new PointL(p.getLatitudeE6(), p.getLongitudeE6()));
 				i++;
 			}
 			mPrecomputed = false;
@@ -88,16 +89,17 @@ public class Polygon extends OverlayWithIW {
 			// precompute new points to the intermediate projection.
 			if (!mPrecomputed){
 				for (int i=0; i<size; i++) {
-					final Point pt = mConvertedPoints.get(i);
+					final PointL pt = mConvertedPoints.get(i);
 					pj.toProjectedPixels(pt.x, pt.y, pt);
 				}
 				mPrecomputed = true;
 			}
 
-			Point projectedPoint0 = mConvertedPoints.get(0); // points from the points list
-			Point projectedPoint1;
-			
-			Point screenPoint0 = pj.toPixelsFromProjected(projectedPoint0, mTempPoint1); // points on screen
+			PointL projectedPoint0 = mConvertedPoints.get(0); // points from the points list
+			PointL projectedPoint1;
+
+			final double powerDifference = pj.getProjectedPowerDifference();
+			Point screenPoint0 = pj.getPixelsFromProjected(projectedPoint0, powerDifference, mTempPoint1); // points on screen
 			Point screenPoint1;
 			
 			mPath.moveTo(screenPoint0.x, screenPoint0.y);
@@ -105,7 +107,7 @@ public class Polygon extends OverlayWithIW {
 			for (int i=0; i<size; i++) {
 				// compute next points
 				projectedPoint1 = mConvertedPoints.get(i);
-				screenPoint1 = pj.toPixelsFromProjected(projectedPoint1, mTempPoint2);
+				screenPoint1 = pj.getPixelsFromProjected(projectedPoint1, powerDifference, mTempPoint2);
 
 				if (Math.abs(screenPoint1.x - screenPoint0.x) + Math.abs(screenPoint1.y - screenPoint0.y) <= 1) {
 					// skip this point, too close to previous point
