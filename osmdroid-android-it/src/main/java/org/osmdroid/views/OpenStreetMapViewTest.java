@@ -15,7 +15,6 @@ import android.test.UiThreadTest;
 import org.osmdroid.R;
 import org.osmdroid.StarterMapActivity;
 import org.osmdroid.StarterMapFragment;
-import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.tileprovider.util.Counters;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.TileSystem;
@@ -76,13 +75,13 @@ public class OpenStreetMapViewTest extends ActivityInstrumentationTestCase2<Star
 		if (expectedZoom != null) {
 			assertEquals("the zoom level is kept", 0 + expectedZoom, projection.getZoomLevel(), 0);
 		}
-		checkCenter(projection, mOpenStreetMapView.getMapCenter(), "computed");
+		checkCenter(projection, (GeoPoint)mOpenStreetMapView.getMapCenter(), "computed");
 		if (expectedCenter != null) {
 			checkCenter(projection, expectedCenter, "assigned");
 		}
 	}
 
-	private void checkCenter(final Projection pProjection, final IGeoPoint pCenter, final String tag) {
+	private void checkCenter(final Projection pProjection, final GeoPoint pCenter, final String tag) {
 		final double roundingTolerance = 2; // as double in order to have assertEquals work with doubles, not with floats
 		final int width_2 = mOpenStreetMapView.getWidth() / 2;
 		final int height_2 = mOpenStreetMapView.getHeight() / 2;
