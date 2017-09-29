@@ -1553,6 +1553,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 	/**
 	 * @since 6.0.0
+	 * Use {@link #setCenter(IGeoPoint)} instead
 	 */
 	@Deprecated
 	public void setInitCenter(final IGeoPoint geoPoint) {
