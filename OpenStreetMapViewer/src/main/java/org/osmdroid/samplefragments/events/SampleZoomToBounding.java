@@ -85,10 +85,10 @@ public class SampleZoomToBounding extends BaseSampleFragment implements View.OnC
     }
 
     private double getRandomLongitude() {
-        return TileSystem.getRandomLongitude(Math.random());
+        return Math.random() * (TileSystem.MaxLongitude - TileSystem.MinLongitude) + TileSystem.MinLongitude;
     }
 
     private double getRandomLatitude(final double pMinLatitude) {
-        return TileSystem.getRandomLatitude(Math.random(), pMinLatitude);
+        return Math.random() * (TileSystem.MaxLatitude - pMinLatitude) + pMinLatitude;
     }
 }
