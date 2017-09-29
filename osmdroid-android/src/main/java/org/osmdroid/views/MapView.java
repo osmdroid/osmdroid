@@ -468,7 +468,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	}
 
 	/**
-	 * @since 5.6.6
+	 * @since 6.0.0
 	 */
 	public void zoomToBoundingBox(final BoundingBox boundingBox, final boolean animated, final int borderSizeInPixels) {
 		double nextZoom = TileSystem.getBoundingBoxZoom(boundingBox, getWidth() - 2 * borderSizeInPixels, getHeight() - 2 * borderSizeInPixels);
@@ -1553,7 +1553,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 	/**
      * Use {@link #setCenter(IGeoPoint)} instead
-	 * @since 5.6.6
+	 * @since 6.0.0
 	 */
 	@Deprecated
 	public void setInitCenter(final IGeoPoint geoPoint) {

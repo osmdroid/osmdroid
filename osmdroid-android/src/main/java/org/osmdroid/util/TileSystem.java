@@ -36,14 +36,14 @@ public final class TileSystem {
 	}
 
 	/**
-	 * @since 5.6.6
+	 * @since 6.0.0
 	 */
 	public static double getTileSize(final double pZoomLevel) {
 		return MapSize(pZoomLevel - getInputTileZoomLevel(pZoomLevel));
 	}
 
 	/**
-	 * @since 5.6.6
+	 * @since 6.0.0
 	 */
 	public static int getInputTileZoomLevel(final double pZoomLevel) {
 		return MyMath.floorToInt(pZoomLevel);
@@ -56,7 +56,7 @@ public final class TileSystem {
 	}
 
 	/**
-	 * @since 5.6.6
+	 * @since 6.0.0
 	 * @see microsoft.mappoint.TileSystem#MapSize(int)
 	 */
 	public static double MapSize(final double pZoomLevel) {
@@ -64,7 +64,7 @@ public final class TileSystem {
 	}
 
 	/**
-	 * @since 5.6.6
+	 * @since 6.0.0
 	 */
 	public static double getFactor(final double pZoomLevel) {
 		return Math.pow(2, pZoomLevel);
@@ -76,14 +76,14 @@ public final class TileSystem {
 	}
 
 	/**
-	 * @since 5.6.6
+	 * @since 6.0.0
 	 */
 	public static double GroundResolution(final double latitude, final double zoomLevel) {
 		return GroundResolutionMapSize(wrap(latitude, -90, 90, 180), MapSize(zoomLevel));
 	}
 
 	/**
-	 * @since 5.6.6
+	 * @since 6.0.0
 	 * @see microsoft.mappoint.TileSystem#GroundResolution(double, int)
 	 */
 	public static double GroundResolutionMapSize(double latitude, final double mapSize) {
@@ -108,7 +108,7 @@ public final class TileSystem {
 	}
 
 	/**
-	 * @since 5.6.6
+	 * @since 6.0.0
 	 * Use {@link TileSystem#getMercatorFromGeo(double, double, double, PointL)} instead
 	 */
 	@Deprecated
@@ -121,7 +121,7 @@ public final class TileSystem {
 	}
 
 	/**
-	 * @since 5.6.6
+	 * @since 6.0.0
 	 * Use {@link TileSystem#getMercatorFromGeo(double, double, double, PointL)} instead
 	 */
 	@Deprecated
@@ -144,7 +144,7 @@ public final class TileSystem {
 	}
 
 	/**
-	 * @since 5.6.6
+	 * @since 6.0.0
 	 * Use {@link TileSystem#getGeoFromMercator(long, long, double, GeoPoint)} instead
 	 */
 	@Deprecated
@@ -156,7 +156,7 @@ public final class TileSystem {
 	/**
 	 * Converts a longitude to its "X01" value,
 	 * id est a double between 0 and 1 for the whole longitude range
-	 * @since 5.6.6
+	 * @since 6.0.0
 	 */
 	public static double getX01FromLongitude(double longitude) {
 		longitude = Clip(longitude, MinLongitude, MaxLongitude);
@@ -166,7 +166,7 @@ public final class TileSystem {
 	/**
 	 * Converts a latitude to its "Y01" value,
 	 * id est a double between 0 and 1 for the whole latitude range
-	 * @since 5.6.6
+	 * @since 6.0.0
 	 */
 	public static double getY01FromLatitude(double latitude) {
 		latitude = Clip(latitude, MinLatitude, MaxLatitude);
@@ -177,7 +177,7 @@ public final class TileSystem {
 	}
 
 	/**
-	 * @since 5.6.6
+	 * @since 6.0.0
 	 * @see microsoft.mappoint.TileSystem#PixelXYToLatLong(int, int, int, GeoPoint)
 	 * Use {@link TileSystem#getGeoFromMercator(long, long, double, GeoPoint)} instead
 	 */
@@ -188,7 +188,7 @@ public final class TileSystem {
 	}
 
 	/**
-	 * @since 5.6.6
+	 * @since 6.0.0
 	 * @see microsoft.mappoint.TileSystem#Clip(double, double, double)
 	 */
 	public static double Clip(final double n, final double minValue, final double maxValue) {
@@ -201,7 +201,7 @@ public final class TileSystem {
 	}
 
 	/**
-	 * @since 5.6.6
+	 * @since 6.0.0
 	 * @see microsoft.mappoint.TileSystem#PixelXYToTileXY(int, int, Point)
 	 * Use {@link TileSystem#getTileFromMercator(long, double)} instead
 	 */
@@ -214,7 +214,7 @@ public final class TileSystem {
 	}
 
 	/**
-	 * @since 5.6.6
+	 * @since 6.0.0
 	 * Use {@link TileSystem#getTileFromMercator(long, double)} instead
 	 */
 	@Deprecated
@@ -233,7 +233,7 @@ public final class TileSystem {
 	}
 
 	/**
-	 * @since 5.6.6
+	 * @since 6.0.0
 	 * @see microsoft.mappoint.TileSystem#TileXYToPixelXY(int, int, Point)
 	 * Use {@link TileSystem#getMercatorFromTile(int, double)} instead
 	 */
@@ -256,7 +256,7 @@ public final class TileSystem {
 	}
 
 	/**
-	 * @since 5.6.6
+	 * @since 6.0.0
 	 * @return the maximum zoom level where a bounding box fits into a screen,
 	 * or Double.MIN_VALUE if bounding box is a single point
 	 */
@@ -273,7 +273,7 @@ public final class TileSystem {
 	}
 
 	/**
-	 * @since 5.6.6
+	 * @since 6.0.0
 	 * @return the maximum zoom level where both longitudes fit into a screen,
 	 * or Double.MIN_VALUE if longitudes are equal
 	 */
@@ -291,7 +291,7 @@ public final class TileSystem {
 	}
 
 	/**
-	 * @since 5.6.6
+	 * @since 6.0.0
 	 * @return the maximum zoom level where both latitudes fit into a screen,
 	 * or Double.MIN_VALUE if latitudes are equal or ill positioned
 	 */
