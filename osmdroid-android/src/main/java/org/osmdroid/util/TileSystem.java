@@ -72,7 +72,7 @@ public final class TileSystem {
 
 	/** @see microsoft.mappoint.TileSystem#GroundResolution(double, int) */
 	public static double GroundResolution(final double latitude, final int levelOfDetail) {
-		return microsoft.mappoint.TileSystem.GroundResolution(wrap(latitude, -90, 90, 180), levelOfDetail);
+		return GroundResolution(latitude, (double)levelOfDetail);
 	}
 
 	/**
@@ -94,7 +94,7 @@ public final class TileSystem {
 
 	/** @see microsoft.mappoint.TileSystem#MapScale(double, int, int) */
 	public static double MapScale(final double latitude, final int levelOfDetail, final int screenDpi) {
-		return microsoft.mappoint.TileSystem.MapScale(latitude, levelOfDetail, screenDpi);
+		return GroundResolution(latitude, levelOfDetail) * screenDpi / 0.0254;
 	}
 
 	/** @see microsoft.mappoint.TileSystem#LatLongToPixelXY(double, double, int, Point) */

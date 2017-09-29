@@ -14,6 +14,8 @@ public class TileSystemTest {
     private static final Random random = new Random();
     private static final double XY01Delta = 1E-10;
     private static final double latLongDelta = 1E-10;
+    private static final int mMinZoomLevel = 0;
+    private static final int mMaxZoomLevel = microsoft.mappoint.TileSystem.getMaximumZoomLevel();
 
     @Test
     public void testGetY01FromLatitude() {
@@ -139,6 +141,46 @@ public class TileSystemTest {
             }
             final long height = bottom - top;
             checkSize(width, height, screenWidth, screenHeight);
+        }
+    }
+
+    /**
+     * @since 6.0.0
+     * Was previously in TileSystemMathTest
+     * Reference values from: http://msdn.microsoft.com/en-us/library/bb259689.aspx
+     */
+    @Test
+    public void test_MapSize() {
+        for (int zoomLevel = mMinZoomLevel ; zoomLevel <= mMaxZoomLevel ; zoomLevel ++) {
+            Assert.assertEquals(256L << zoomLevel, (long)TileSystem.MapSize((double)zoomLevel));
+        }
+    }
+
+    /**
+     * @since 6.0.0
+     * Was previously in TileSystemMathTest
+     * Reference values from: http://msdn.microsoft.com/en-us/library/bb259689.aspx
+     */
+    @Test
+    public void test_groundResolution() {
+        final double delta = 1e-4;
+
+        for (int zoomLevel = mMinZoomLevel ; zoomLevel <= mMaxZoomLevel ; zoomLevel ++) {
+            Assert.assertEquals(156543.034 / (1 << zoomLevel), TileSystem.GroundResolution(0, zoomLevel), delta);
+        }
+    }
+
+    /**
+     * @since 6.0.0
+     * Was previously in TileSystemMathTest
+     * Reference values from: http://msdn.microsoft.com/en-us/library/bb259689.aspx
+     */
+    @Test
+    public void test_groundMapScale() {
+        final double delta = 1e-2;
+
+        for (int zoomLevel = mMinZoomLevel ; zoomLevel <= mMaxZoomLevel ; zoomLevel ++) {
+            Assert.assertEquals(591658710.9 / (1 << zoomLevel), TileSystem.MapScale(0, zoomLevel, 96), delta);
         }
     }
 
