@@ -10,6 +10,7 @@ import android.graphics.Rect;
 import android.util.Log;
 import android.view.MotionEvent;
 
+import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.api.IMapView;
 import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;

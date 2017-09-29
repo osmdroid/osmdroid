@@ -1,0 +1,21 @@
+description = 'OSMdroid Android WMS Client'
+apply plugin: 'com.android.library'
+apply from: "https://raw.githubusercontent.com/gradle-fury/gradle-fury/v1.1.3/gradle/android-support.gradle"
+
+android {
+
+}
+
+
+dependencies {
+
+    compile project(':osmdroid-android')
+    compile 'com.android.support:appcompat-v7:23.1.1'
+
+    testCompile "org.robolectric:robolectric:3.0"
+
+    testCompile 'junit:junit:4.12'
+
+
+
+}

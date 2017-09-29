@@ -626,7 +626,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 	/**
 	 * There are some cases when we don't need explicit redraw
-	 * @since 5.6.6
+	 * @since 6.0.0
 	 */
 	public void setMapOrientation(final float degrees, final boolean forceRedraw) {
 		mapOrientation = degrees % 360.0f;
@@ -786,7 +786,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
     /**
      * Code was moved from {@link #onLayout(boolean, int, int, int, int)}
      * in order to avoid Android Studio warnings on direct calls
-     * @since 5.6.6
+     * @since 6.0.0
      */
 	protected void myOnLayout(final boolean changed, final int l, final int t, final int r,
 			final int b) {

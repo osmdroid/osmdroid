@@ -374,7 +374,7 @@ public class MapController implements IMapController, OnFirstLayoutListener {
      * @param yPixel
      * @param zoomAnimationSpeed time in milliseconds, if null, the default settings will be used
      * @return
-     * @since 5.6.6
+     * @since 6.0.0
      */
     @Override
     public boolean zoomToFixing(int zoomLevel, int xPixel, int yPixel, Long zoomAnimationSpeed) {

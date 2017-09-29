@@ -324,7 +324,7 @@ public interface IConfigurationProvider {
      * https://github.com/osmdroid/osmdroid/issues/650
      *
      * @param durationsMilliseconds
-     * @since 5.6.6
+     * @since 6.0.0
      */
     void setAnimationSpeedDefault(int durationsMilliseconds);
 
@@ -333,7 +333,7 @@ public interface IConfigurationProvider {
      * https://github.com/osmdroid/osmdroid/issues/650
      *
      * @return
-     * @since 5.6.6
+     * @since 6.0.0
      */
     int getAnimationSpeedDefault();
 
@@ -342,7 +342,7 @@ public interface IConfigurationProvider {
      * https://github.com/osmdroid/osmdroid/issues/650
      *
      * @param durationsMilliseconds
-     * @since 5.6.6
+     * @since 6.0.0
      */
     void setAnimationSpeedShort(int durationsMilliseconds);
 
@@ -351,21 +351,21 @@ public interface IConfigurationProvider {
      * https://github.com/osmdroid/osmdroid/issues/650
      *
      * @return
-     * @since 5.6.6
+     * @since 6.0.0
      */
     int getAnimationSpeedShort();
 
     /**
      * If true, the map view will set .setHasTransientState(true) for API 16+ devices.
      * This is now the default setting. Set to false if this is causing you issues
-     * @since 5.6.6
+     * @since 6.0.0
      * @return
      */
     boolean isMapViewRecyclerFriendly();
     /**
      * If true, the map view will set .setHasTransientState(true) for API 16+ devices.
      * This is now the default setting. Set to false if this is causing you issues
-     * @since 5.6.6
+     * @since 6.0.0
      * @return
      */
     void setMapViewRecyclerFriendly(boolean enabled);

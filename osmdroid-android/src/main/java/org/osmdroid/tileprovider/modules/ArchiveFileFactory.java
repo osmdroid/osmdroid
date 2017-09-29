@@ -78,7 +78,7 @@ public class ArchiveFileFactory {
 	}
 
 	/**
-	 * @since 5.6.6
+	 * @since 6.0.0
 	 * @return
 	 */
 	public static Set<String> getRegisteredExtensions() {
