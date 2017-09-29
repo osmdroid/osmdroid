@@ -62,7 +62,35 @@ public class OpenStreetMapViewTest extends ActivityInstrumentationTestCase2<Star
 	}
 
 	/**
-	 * @since 5.6.6
+	 * @since 6.0.0
+	 */
+	private double getRandomLongitude() {
+		return TileSystem.getRandomLongitude(random.nextDouble());
+	}
+
+	/**
+	 * @since 6.0.0
+	 */
+	private double getRandomLatitude() {
+		return TileSystem.getRandomLatitude(random.nextDouble(), TileSystem.MinLatitude);
+	}
+
+	/**
+	 * @since 6.0.0
+	 */
+	private double getRandomZoom() {
+		return getRandom(0, microsoft.mappoint.TileSystem.getMaximumZoomLevel());
+	}
+
+	/**
+	 * @since 6.0.0
+	 */
+	private double getRandom(final double pMin, final double pMax) {
+		return pMin + random.nextDouble() * (pMax - pMin);
+	}
+
+	/**
+	 * @since 6.0.0
 	 */
 	private void checkCenter(final Double expectedZoom, final GeoPoint expectedCenter) {
 		if (expectedZoom != null) {
@@ -94,35 +122,7 @@ public class OpenStreetMapViewTest extends ActivityInstrumentationTestCase2<Star
 	}
 
 	/**
-	 * @since 5.6.6
-	 */
-	private double getRandomLongitude() {
-		return TileSystem.getRandomLongitude(random.nextDouble());
-	}
-
-	/**
-	 * @since 5.6.6
-	 */
-	private double getRandomLatitude() {
-		return TileSystem.getRandomLatitude(random.nextDouble(), TileSystem.MinLatitude);
-	}
-
-	/**
-	 * @since 5.6.6
-	 */
-	private double getRandomZoom() {
-		return getRandom(0, microsoft.mappoint.TileSystem.getMaximumZoomLevel());
-	}
-
-	/**
-	 * @since 5.6.6
-	 */
-	private double getRandom(final double pMin, final double pMax) {
-		return pMin + random.nextDouble() * (pMax - pMin);
-	}
-
-	/**
-	 * @since 5.6.6
+	 * @since 6.0.0
 	 */
 	private GeoPoint getRandomGeoPoint() {
 		return new GeoPoint(getRandomLatitude(), getRandomLongitude());
