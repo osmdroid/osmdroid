@@ -19,6 +19,8 @@ import org.osmdroid.samplefragments.cache.SampleSqliteOnly;
 import org.osmdroid.samplefragments.animations.AnimatedMarkerTimer;
 import org.osmdroid.samplefragments.data.AsyncTaskDemoFragment;
 import org.osmdroid.samplefragments.drawing.DrawPolygonHoles;
+import org.osmdroid.samplefragments.drawing.DrawPolygonWithoutWrapping;
+import org.osmdroid.samplefragments.drawing.SampleDrawPolylineWithoutWrapping;
 import org.osmdroid.samplefragments.geopackage.GeopackageFeatureTiles;
 import org.osmdroid.samplefragments.geopackage.GeopackageFeatures;
 import org.osmdroid.samplefragments.data.Gridlines2;
@@ -224,6 +226,8 @@ public final class SampleFactory implements ISampleFactory {
         mSamples.add(DrawPolygonHoles.class);
         mSamples.add(SampleWMSSource.class);
         mSamples.add(SampleAssetsOnlyWithoutWrapping.class);
+        mSamples.add(SampleDrawPolylineWithoutWrapping.class);
+        mSamples.add(DrawPolygonWithoutWrapping.class);
 
         //mSamples.add(NasaWms111Source.class);
         //mSamples.add(NasaWms130Source.class);

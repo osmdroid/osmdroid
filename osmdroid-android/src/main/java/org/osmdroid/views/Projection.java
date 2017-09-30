@@ -232,7 +232,9 @@ public class Projection implements IProjection, MapViewConstants {
 		out.set((int) (in.x / power), (int)(in.y / power));
 
 		out = toPixelsFromMercator(out.x, out.y, out);
-		out = adjustForDateLine(out.x, out.y, out);
+		if(wrapEnabled) {
+			out = adjustForDateLine(out.x, out.y, out);
+		}
 
 		return out;
 	}
