@@ -1371,15 +1371,29 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 					mScroller.fling(getScrollX(), getScrollY(), (int) -velocityX, (int) -velocityY,
 							-(int)worldSize, (int)worldSize, -(int)worldSize, (int)worldSize);
 				} else {
-					double remainingWidth = worldSize - getWidth();
-					double remainingHeight = worldSize - getHeight();
-					double minX = remainingWidth <= 0 ? remainingWidth : 0;
-					double maxX = remainingWidth > 0 ? remainingWidth : 0;
-					double minY = remainingHeight <= 0 ? remainingHeight : 0;
-					double maxY = remainingHeight > 0 ? remainingHeight : 0;
+					if (-getScrollX() < 0
+							|| -getScrollX() + worldSize > getWidth()
+							|| -getScrollY() < 0
+							|| -getScrollY() + worldSize > getHeight()) {
+						// The map is offscreen
+						double maximumFlingOffset = worldSize;
+						double minX = getScrollX() - maximumFlingOffset;
+						double maxX = getScrollX() + maximumFlingOffset;
+						double minY = getScrollY() - maximumFlingOffset;
+						double maxY = getScrollY() + maximumFlingOffset;
 
-					mScroller.fling(getScrollX(), getScrollY(), (int) -velocityX, (int) -velocityY,
-							(int) minX, (int) maxX, (int) minY, (int) maxY);
+						mScroller.fling(getScrollX(), getScrollY(), (int) -velocityX, (int) -velocityY, (int) minX, (int) maxX, (int) minY, (int) maxY);
+					} else {
+						// The map is fully onscreen
+						double remainingWidth = worldSize - getWidth();
+						double remainingHeight = worldSize - getHeight();
+						double minX = remainingWidth <= 0 ? remainingWidth : 0;
+						double maxX = remainingWidth > 0 ? remainingWidth : 0;
+						double minY = remainingHeight <= 0 ? remainingHeight : 0;
+						double maxY = remainingHeight > 0 ? remainingHeight : 0;
+
+						mScroller.fling(getScrollX(), getScrollY(), (int) -velocityX, (int) -velocityY, (int) minX, (int) maxX, (int) minY, (int) maxY);
+					}
 				}
 			}
 			return true;
