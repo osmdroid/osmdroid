@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
+import org.osmdroid.util.PointL;
 import org.osmdroid.util.TileSystem;
 import org.osmdroid.views.Projection;
 
@@ -30,25 +31,25 @@ public class PathProjection {
 
 		boolean first = true;
 		for (final GeoPoint gp : in) {
-			final Point underGeopointTileCoords = TileSystem.LatLongToPixelXY(
-					gp.getLatitude(), gp.getLongitude(), projection.getZoomLevel(),
+			final Point underGeopointTileCoords = new Point();
+			final double mapSize = TileSystem.MapSize(projection.getZoomLevel());
+			final PointL mercator = TileSystem.getMercatorFromGeo(
+					gp.getLatitude(), gp.getLongitude(), mapSize,
 					null);
-			final double tileSize = TileSystem.getTileSize(projection.getZoomLevel());
-			TileSystem.PixelXYToTileXY(underGeopointTileCoords.x, underGeopointTileCoords.y,
-					tileSize, underGeopointTileCoords);
+			underGeopointTileCoords.x = projection.getTileFromMercator(mercator.x);
+			underGeopointTileCoords.y = projection.getTileFromMercator(mercator.y);
 
 			/*
 			 * Calculate the Latitude/Longitude on the left-upper ScreenCoords of the MapTile.
 			 */
-			final Point upperRight = TileSystem.TileXYToPixelXY(underGeopointTileCoords.x,
-					underGeopointTileCoords.y, tileSize, null);
-			final Point lowerLeft = TileSystem.TileXYToPixelXY(underGeopointTileCoords.x
-					+ TileSystem.getTileSize(),
-					underGeopointTileCoords.y + TileSystem.getTileSize(), tileSize, null);
-			final GeoPoint neGeoPoint = TileSystem.PixelXYToLatLong(upperRight.x, upperRight.y,
-					projection.getZoomLevel(), null);
-			final GeoPoint swGeoPoint = TileSystem.PixelXYToLatLong(lowerLeft.x, lowerLeft.y,
-					projection.getZoomLevel(), null);
+			final PointL upperRight = new PointL(
+					projection.getMercatorFromTile(underGeopointTileCoords.x),
+					projection.getMercatorFromTile(underGeopointTileCoords.y));
+			final PointL lowerLeft = new PointL(
+					projection.getMercatorFromTile(underGeopointTileCoords.x + TileSystem.getTileSize()),
+					projection.getMercatorFromTile(underGeopointTileCoords.y + TileSystem.getTileSize()));
+			final GeoPoint neGeoPoint = TileSystem.getGeoFromMercator(upperRight.x, upperRight.y, mapSize, null);
+			final GeoPoint swGeoPoint = TileSystem.getGeoFromMercator(lowerLeft.x, lowerLeft.y, mapSize, null);
 			final BoundingBox bb = new BoundingBox(neGeoPoint.getLatitude(),
 					neGeoPoint.getLongitude(), swGeoPoint.getLatitude(),
 					swGeoPoint.getLongitude());
@@ -65,21 +66,23 @@ public class PathProjection {
 			}
 
 			final Rect screenRect = projection.getScreenRect();
-			Point centerMapTileCoords = TileSystem.PixelXYToTileXY(screenRect.centerX(),
-					screenRect.centerY(), tileSize, null);
-			final Point upperLeftCornerOfCenterMapTile = TileSystem.TileXYToPixelXY(
-					centerMapTileCoords.x, centerMapTileCoords.y, tileSize, null);
+			final Point centerMapTileCoords = new Point(
+					projection.getTileFromMercator(screenRect.centerX()),
+					projection.getTileFromMercator(screenRect.centerY()));
+			final PointL upperLeftCornerOfCenterMapTile = new PointL(
+					projection.getMercatorFromTile(centerMapTileCoords.x),
+					projection.getMercatorFromTile(centerMapTileCoords.y));
 			final int tileDiffX = centerMapTileCoords.x - underGeopointTileCoords.x;
 			final int tileDiffY = centerMapTileCoords.y - underGeopointTileCoords.y;
-			final int underGeopointTileScreenLeft = upperLeftCornerOfCenterMapTile.x
+			final long underGeopointTileScreenLeft = upperLeftCornerOfCenterMapTile.x
 					- (TileSystem.getTileSize() * tileDiffX);
-			final int underGeopointTileScreenTop = upperLeftCornerOfCenterMapTile.y
+			final long underGeopointTileScreenTop = upperLeftCornerOfCenterMapTile.y
 					- (TileSystem.getTileSize() * tileDiffY);
 
-			final int x = underGeopointTileScreenLeft
-					+ (int) (relativePositionInCenterMapTile.x * TileSystem.getTileSize());
-			final int y = underGeopointTileScreenTop
-					+ (int) (relativePositionInCenterMapTile.y * TileSystem.getTileSize());
+			final long x = underGeopointTileScreenLeft
+					+ (long) (relativePositionInCenterMapTile.x * TileSystem.getTileSize());
+			final long y = underGeopointTileScreenTop
+					+ (long) (relativePositionInCenterMapTile.y * TileSystem.getTileSize());
 
 			/* Add up the offset caused by touch. */
 			if (first) {

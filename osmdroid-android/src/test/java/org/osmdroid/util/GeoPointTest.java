@@ -3,35 +3,100 @@ package org.osmdroid.util;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
+import org.osmdroid.util.constants.GeoConstants;
+import org.osmdroid.views.util.constants.MathConstants;
+
+import java.util.Random;
 
 public class GeoPointTest {
 
-	// private static final double CIRCUMFERENCE_AT_EQUATOR = 40075160.0; //
-	// http://en.wikipedia.org/wiki/Earth
+	private static Random random = new Random();
 
-	private static final double CIRCUMFERENCE_AT_EQUATOR = 2 * Math.PI * 6378137;
-	// http://en.wikipedia.org/wiki/Earth_radius#Equatorial_radius + a bit of math
-
+	/**
+	 * Testing that a distance from a point to the same point is 0
+	 * @since 5.6.6
+	 */
 	@Test
-	public void test_distanceTo_zero() {
-		final GeoPoint target = new GeoPoint(0.0, 0.0);
-		final GeoPoint other = new GeoPoint(0.0, 0.0);
-		assertEquals("distance to self is zero", 0, target.distanceTo(other));
+	public void test_distanceTo_itself() {
+		final double distancePrecisionDelta = 0;
+		final int iterations = 100;
+		for (int i = 0 ; i < iterations ; i ++) {
+			final GeoPoint target = new GeoPoint(getRandomLatitude(), getRandomLongitude());
+			final GeoPoint other = new GeoPoint(target);
+			assertEquals("distance to self is zero for " + target, 0, target.distanceToAsDouble(other), distancePrecisionDelta);
+			assertEquals("reverse distance to self is zero for " + other, 0, other.distanceToAsDouble(target), distancePrecisionDelta);
+		}
 	}
 
+	/**
+	 * Testing on Equator with an obvious check formula
+	 * @since 5.6.6
+	 */
 	@Test
-	public void test_distanceTo_one() {
-		final GeoPoint target = new GeoPoint(1.0, 1.0);
-		final GeoPoint other = new GeoPoint(1.0, 1.0);
-		assertEquals("distance to self is zero", 0, target.distanceTo(other));
+	public void test_distanceTo_Equator() {
+		final double ratioDelta = 1E-10;
+		final int iterations = 100;
+		final double latitude = 0;
+		for (int i = 0 ; i < iterations ; i ++) {
+			final double longitude1 = getRandomLongitude();
+			final double longitude2 = getRandomLongitude();
+			final GeoPoint target = new GeoPoint(latitude, longitude1);
+			final GeoPoint other = new GeoPoint(latitude, longitude2);
+
+			final double diff = getCleanLongitudeDiff(longitude1, longitude2);
+			final double expected = GeoConstants.RADIUS_EARTH_METERS * diff * MathConstants.DEG2RAD;
+			final double delta = expected * ratioDelta;
+			assertEquals("distance between " + target + " and " + other,
+					expected, target.distanceToAsDouble(other), delta);
+		}
 	}
 
+	/**
+	 * Testing more specifically very close GeoPoints
+	 * @since 5.6.6
+	 */
 	@Test
-	public void test_distanceTo_one_degree() {
-		final GeoPoint target = new GeoPoint(0.0, 0.0);
-		final GeoPoint other = new GeoPoint(0.0, 1.0);
-		assertEquals("distance 10 degress round equator",
-				Math.round(CIRCUMFERENCE_AT_EQUATOR / 360), target.distanceTo(other));
+	public void test_distanceTo_Equator_Smaller() {
+		final double ratioDelta = 1E-5;
+		final int iterations = 10;
+		final double latitude = 0;
+		double longitudeIncrement = 1;
+		for (int i = 0 ; i < iterations ; i ++) {
+			final double longitude1 = getRandomLongitude();
+			final double longitude2 = longitude1 + longitudeIncrement;
+			longitudeIncrement /= 10.;
+			final GeoPoint target = new GeoPoint(latitude, longitude1);
+			final GeoPoint other = new GeoPoint(latitude, longitude2);
+			final double diff = getCleanLongitudeDiff(longitude1, longitude2);
+			final double expected = GeoConstants.RADIUS_EARTH_METERS * diff * MathConstants.DEG2RAD;
+			final double delta = expected * ratioDelta;
+			assertEquals("distance between " + target + " and " + other,
+					expected, target.distanceToAsDouble(other), delta);
+		}
+	}
+
+	/**
+	 * Testing on all parallels with a not so obvious check formula
+	 * @since 5.6.6
+	 */
+	@Test
+	public void test_distanceTo_Parallels() {
+		final double ratioDelta = 1E-5;
+		final int iterations = 100;
+		for (int i = 0 ; i < iterations ; i ++) {
+			final double latitude = getRandomLatitude();
+			final double longitude1 = getRandomLongitude();
+			final double longitude2 = getRandomLongitude();
+			final GeoPoint target = new GeoPoint(latitude, longitude1);
+			final GeoPoint other = new GeoPoint(latitude, longitude2);
+
+			final double diff = getCleanLongitudeDiff(longitude1, longitude2);
+			final double expected = GeoConstants.RADIUS_EARTH_METERS * 2 * Math.asin(
+					Math.cos(latitude * MathConstants.DEG2RAD)*Math.sin(diff * MathConstants.DEG2RAD/ 2));
+			final double delta = expected * ratioDelta;
+			assertEquals("distance between " + target + " and " + other,
+					expected, target.distanceToAsDouble(other), delta);
+		}
 	}
 
 	@Test
@@ -73,8 +138,8 @@ public class GeoPointTest {
 	public void test_destinationPoint_north_west_here() {
 		// this test is based on the actual result, not calculated expectations,
 		// but it is at least a basic sanity check for rounding errors and regression
-		final GeoPoint start = new GeoPoint(52387524, 4891604);
-		final GeoPoint end = new GeoPoint(52.3906999098369, 4.886399738520584);
+		final GeoPoint start = new GeoPoint(52.387524, 4.891604);
+		final GeoPoint end = new GeoPoint(52.3906999098817, 4.886399738626785);
 		assertEquals("destinationPoint north west", end, start.destinationPoint(500, -45));
 	}
 
@@ -124,4 +189,28 @@ public class GeoPointTest {
 	}
 
 
+	/**
+	 * @since 5.6.6
+	 */
+	private double getCleanLongitudeDiff(final double pLongitude1, final double pLongitude2) {
+		double diff = Math.abs(pLongitude1 - pLongitude2);
+		if (diff > TileSystem.MaxLongitude) {
+			diff = TileSystem.MaxLongitude - TileSystem.MinLongitude - diff;
+		}
+		return diff;
+	}
+
+	/**
+	 * @since 5.6.6
+	 */
+	private double getRandomLongitude() {
+		return TileSystem.getRandomLongitude(random.nextDouble());
+	}
+
+	/**
+	 * @since 5.6.6
+	 */
+	private double getRandomLatitude() {
+		return TileSystem.getRandomLatitude(random.nextDouble(), TileSystem.MinLatitude);
+	}
 }

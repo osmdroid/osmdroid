@@ -15,6 +15,7 @@ import org.osmdroid.api.IMapView;
 import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.GeometryMath;
+import org.osmdroid.util.PointL;
 import org.osmdroid.util.TileSystem;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
@@ -47,7 +48,7 @@ public class Polyline extends OverlayWithIW {
 	//private final Path mPath = new Path();
 	protected Paint mPaint = new Paint();
 	/** points, converted to the map projection */
-	private ArrayList<Point> mPoints;
+	private ArrayList<PointL> mPoints;
 	/** Number of points that have precomputed values */
 	private int mPointsPrecomputed;
 	public boolean mRepeatPath = false; /** if true: at low zoom level showing multiple maps, path will be drawn on all maps */
@@ -82,7 +83,7 @@ public class Polyline extends OverlayWithIW {
 	}
 	
 	protected void clearPath() {
-		this.mPoints = new ArrayList<Point>();
+		this.mPoints = new ArrayList<>();
 		this.mPointsPrecomputed = 0;
                 this.mPts = null;
 	}
@@ -92,7 +93,7 @@ public class Polyline extends OverlayWithIW {
 	}
 
 	protected void addPoint(final int aLatitudeE6, final int aLongitudeE6) {
-		mPoints.add(new Point(aLatitudeE6, aLongitudeE6));
+		mPoints.add(new PointL(aLatitudeE6, aLongitudeE6));
 	}
 
 	/** @return a copy of the points. */
@@ -214,7 +215,7 @@ public class Polyline extends OverlayWithIW {
 	protected void precomputePoints(Projection pj){
 		final int size = this.mPoints.size();
 		while (this.mPointsPrecomputed < size) {
-			final Point pt = this.mPoints.get(this.mPointsPrecomputed);
+			final PointL pt = this.mPoints.get(this.mPointsPrecomputed);
 			pj.toProjectedPixels(pt.x, pt.y, pt);
 			this.mPointsPrecomputed++;
 		}
@@ -324,17 +325,18 @@ public class Polyline extends OverlayWithIW {
 			mPts = new float[Math.max(256, 2*size)];
 		int j=0;
 
-		Point projectedPoint0 = mPoints.get(0); // points from the points list
+		PointL projectedPoint0 = mPoints.get(0); // points from the points list
 
-		Point screenPoint0 = pj.toPixelsFromProjected(projectedPoint0, mTempPoint1); // points on screen
+		final double powerDifference = pj.getProjectedPowerDifference();
+		Point screenPoint0 = pj.getPixelsFromProjected(projectedPoint0, powerDifference, mTempPoint1); // points on screen
 		Point screenPoint1;
 
 		mapView.getScreenRect(mClipRect);
 
 		for (int i = 1; i < size; i++) {
 			// compute next points
-			Point projectedPoint1 = mPoints.get(i);
-			screenPoint1 = pj.toPixelsFromProjected(projectedPoint1, this.mTempPoint2);
+			PointL projectedPoint1 = mPoints.get(i);
+			screenPoint1 = pj.getPixelsFromProjected(projectedPoint1, powerDifference, mTempPoint2);
 
 
 			// skip points too close to previous point or on same side of view
@@ -448,16 +450,17 @@ public class Polyline extends OverlayWithIW {
 		Point p = pj.toPixels(point, null);
 		int i = 0;
 		boolean found = false;
+		final double powerDifference = pj.getProjectedPowerDifference();
 		while (i < mPointsPrecomputed - 1 && !found) {
-			Point projectedPoint1 = mPoints.get(i);
+			PointL projectedPoint1 = mPoints.get(i);
 			if (i == 0){
-				pj.toPixelsFromProjected(projectedPoint1, mTempPoint1);
+				pj.getPixelsFromProjected(projectedPoint1, powerDifference, mTempPoint1);
 			} else {
 				//reuse last b:
 				mTempPoint1.set(mTempPoint2.x, mTempPoint2.y);
 			}
-			Point projectedPoint2 = mPoints.get(i+1);
-			pj.toPixelsFromProjected(projectedPoint2, mTempPoint2);
+			PointL projectedPoint2 = mPoints.get(i+1);
+			pj.getPixelsFromProjected(projectedPoint2, powerDifference, mTempPoint2);
 			found = (linePointDist(mTempPoint1, mTempPoint2, p, true) <= tolerance);
 			//TODO: if found, compute and return the point ON the line. 
 			i++;

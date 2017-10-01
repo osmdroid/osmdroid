@@ -6,6 +6,8 @@ import java.util.List;
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
+import org.osmdroid.util.PointL;
+import org.osmdroid.util.RectL;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
 
@@ -39,7 +41,7 @@ public class PathOverlay extends Overlay {
 	/**
 	 * Stores points, converted to the map projection.
 	 */
-	private ArrayList<Point> mPoints;
+	private ArrayList<PointL> mPoints;
 
 	/**
 	 * Number of points that have precomputed values.
@@ -57,7 +59,7 @@ public class PathOverlay extends Overlay {
 	private final Point mTempPoint2 = new Point();
 
 	// bounding rectangle for the current line segment.
-	private final Rect mLineBounds = new Rect();
+	private final RectL mLineBounds = new RectL();
 
 	// ===========================================================
 	// Constructors
@@ -165,7 +167,7 @@ public class PathOverlay extends Overlay {
 	}
 
 	public void clearPath() {
-		this.mPoints = new ArrayList<Point>();
+		this.mPoints = new ArrayList<>();
 		this.mPointsPrecomputed = 0;
 	}
 
@@ -174,7 +176,7 @@ public class PathOverlay extends Overlay {
 	}
 
 	public void addPoint(final double aLatitude, final double aLongitude) {
-		mPoints.add(new Point((int)aLatitude, (int)aLongitude));
+		mPoints.add(new PointL((int)aLatitude, (int)aLongitude));
 	}
 
 	public void addPoints(final IGeoPoint... aPoints) {
@@ -214,7 +216,7 @@ public class PathOverlay extends Overlay {
 
 		// precompute new points to the intermediate projection.
 		while (this.mPointsPrecomputed < size) {
-			final Point pt = this.mPoints.get(this.mPointsPrecomputed);
+			final PointL pt = this.mPoints.get(this.mPointsPrecomputed);
 			pj.toProjectedPixels(pt.x, pt.y, pt);
 
 			this.mPointsPrecomputed++;
@@ -222,27 +224,28 @@ public class PathOverlay extends Overlay {
 
 		Point screenPoint0 = null; // points on screen
 		Point screenPoint1;
-		Point projectedPoint0; // points from the points list
-		Point projectedPoint1;
+		PointL projectedPoint0; // points from the points list
+		PointL projectedPoint1;
 
 		// clipping rectangle in the intermediate projection, to avoid performing projection.
 		BoundingBox boundingBox = pj.getBoundingBox();
-		Point topLeft = pj.toProjectedPixels(boundingBox.getLatNorth(),
+		PointL topLeft = pj.toProjectedPixels(boundingBox.getLatNorth(),
 				boundingBox.getLonWest(), null);
-		Point bottomRight = pj.toProjectedPixels(boundingBox.getLatSouth(),
+		PointL bottomRight = pj.toProjectedPixels(boundingBox.getLatSouth(),
 				boundingBox.getLonEast(), null);
-		final Rect clipBounds = new Rect(topLeft.x, topLeft.y, bottomRight.x, bottomRight.y);
+		final RectL clipBounds = new RectL(topLeft.x, topLeft.y, bottomRight.x, bottomRight.y);
 
 		mPath.rewind();
 		projectedPoint0 = this.mPoints.get(size - 1);
 		mLineBounds.set(projectedPoint0.x, projectedPoint0.y, projectedPoint0.x, projectedPoint0.y);
 
+		final double powerDifference = pj.getProjectedPowerDifference();
 		for (int i = size - 2; i >= 0; i--) {
 			// compute next points
 			projectedPoint1 = this.mPoints.get(i);
 			mLineBounds.union(projectedPoint1.x, projectedPoint1.y);
 
-			if (!Rect.intersects(clipBounds, mLineBounds)) {
+			if (!RectL.intersects(clipBounds, mLineBounds)) {
 				// skip this line, move to next point
 				projectedPoint0 = projectedPoint1;
 				screenPoint0 = null;
@@ -252,11 +255,11 @@ public class PathOverlay extends Overlay {
 			// the starting point may be not calculated, because previous segment was out of clip
 			// bounds
 			if (screenPoint0 == null) {
-				screenPoint0 = pj.toPixelsFromProjected(projectedPoint0, this.mTempPoint1);
+				screenPoint0 = pj.getPixelsFromProjected(projectedPoint0, powerDifference, mTempPoint1);
 				mPath.moveTo(screenPoint0.x, screenPoint0.y);
 			}
 
-			screenPoint1 = pj.toPixelsFromProjected(projectedPoint1, this.mTempPoint2);
+			screenPoint1 = pj.getPixelsFromProjected(projectedPoint1, powerDifference, mTempPoint2);
 
 			// skip this point, too close to previous point
 			if (Math.abs(screenPoint1.x - screenPoint0.x) + Math.abs(screenPoint1.y - screenPoint0.y) <= 1) {
