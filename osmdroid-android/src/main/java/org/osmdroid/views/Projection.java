@@ -10,12 +10,10 @@ import org.osmdroid.util.GeometryMath;
 import org.osmdroid.util.PointL;
 import org.osmdroid.util.RectL;
 import org.osmdroid.util.TileSystem;
-import org.osmdroid.views.util.constants.MapViewConstants;
 
 import android.graphics.Matrix;
 import android.graphics.Point;
 import android.graphics.Rect;
-import org.osmdroid.util.BoundingBoxE6;
 
 /**
  * A Projection serves to translate between the coordinate system of x/y on-screen pixel coordinates
@@ -359,6 +357,16 @@ public class Projection implements IProjection {
 	}
 
 	/**
+     * @since 6.0.0
+     */
+    public PointL getLongPixelsFromProjected(final PointL in, final double powerDifference, final PointL reuse) {
+        final PointL out = reuse != null ? reuse : new PointL();
+        out.x = getLongPixelXFromMercator((long) (in.x / powerDifference), true);
+        out.y = getLongPixelYFromMercator((long) (in.y / powerDifference), true);
+        return out;
+    }
+
+	/**
 	 * @since 5.6.6
 	 * Correction of pixel value.
 	 * Pixel values are identical, modulo mapSize.
@@ -410,16 +418,37 @@ public class Projection implements IProjection {
 		return getPixelFromMercator(pMercatorY, pCloser, mOffsetY, mIntrinsicScreenRectProjection.top, mIntrinsicScreenRectProjection.bottom);
 	}
 
-	/**
+    /**
+     * @since 6.0.0
+     */
+    private long getLongPixelXFromMercator(final long pMercatorX, final boolean pCloser) {
+        return getLongPixelFromMercator(pMercatorX, pCloser, mOffsetX, mIntrinsicScreenRectProjection.left, mIntrinsicScreenRectProjection.right);
+    }
+
+    /**
+     * @since 6.0.0
+     */
+    private long getLongPixelYFromMercator(final long pMercatorY, final boolean pCloser) {
+        return getLongPixelFromMercator(pMercatorY, pCloser, mOffsetY, mIntrinsicScreenRectProjection.top, mIntrinsicScreenRectProjection.bottom);
+    }
+
+    /**
 	 * @since 5.6.6
 	 */
 	private int getPixelFromMercator(final long pMercator, final boolean pCloser, final long pOffset, final int pScreenLimitFirst, final int pScreenLimitLast) {
-		long result = pMercator + pOffset;
-		if (pCloser) {
-			result = getCloserPixel(result, pScreenLimitFirst, pScreenLimitLast, mMercatorMapSize);
-		}
-		return TileSystem.truncateToInt(result);
+		return TileSystem.truncateToInt(getLongPixelFromMercator(pMercator, pCloser, pOffset, pScreenLimitFirst, pScreenLimitLast));
 	}
+
+	/**
+     * @since 6.0.0
+     */
+    private long getLongPixelFromMercator(final long pMercator, final boolean pCloser, final long pOffset, final int pScreenLimitFirst, final int pScreenLimitLast) {
+        long result = pMercator + pOffset;
+        if (pCloser) {
+            result = getCloserPixel(result, pScreenLimitFirst, pScreenLimitLast, mMercatorMapSize);
+        }
+        return result;
+    }
 
 	/**
 	 * @since 5.6.6

@@ -8,6 +8,8 @@ import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.PointL;
+import org.osmdroid.util.RectL;
+import org.osmdroid.util.SegmentIntersection;
 import org.osmdroid.util.TileSystem;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
@@ -16,7 +18,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.graphics.Point;
 import android.graphics.RectF;
 import android.graphics.Region;
 import android.view.MotionEvent;
@@ -94,37 +95,39 @@ public class Polygon extends OverlayWithIW {
 				mPrecomputed = true;
 			}
 
-			PointL projectedPoint0 = mConvertedPoints.get(0); // points from the points list
-			PointL projectedPoint1;
-
 			final double powerDifference = pj.getProjectedPowerDifference();
-			Point screenPoint0 = pj.getPixelsFromProjected(projectedPoint0, powerDifference, mTempPoint1); // points on screen
-			Point screenPoint1;
-			
-			mPath.moveTo(screenPoint0.x, screenPoint0.y);
+			final PointL screenPoint0 = new PointL(); // points on screen
+			final PointL screenPoint1 = new PointL();
+			final RectL currentSegment = new RectL();
+			final PointL latestPathPoint = new PointL();
 			final double worldSize = TileSystem.MapSize(pj.getZoomLevel());
-			for (int i=0; i<size; i++) {
+			boolean firstPoint = true;
+			boolean firstSegment = true;
+			for (final PointL projectedPoint : mConvertedPoints) {
 				// compute next points
-				projectedPoint1 = mConvertedPoints.get(i);
-				screenPoint1 = pj.getPixelsFromProjected(projectedPoint1, powerDifference, mTempPoint2);
-
-				setCloserPoint(screenPoint0, screenPoint1, worldSize);
-
-				if (Math.abs(screenPoint1.x - screenPoint0.x) + Math.abs(screenPoint1.y - screenPoint0.y) <= 1) {
-					// skip this point, too close to previous point
-					continue;
+				pj.getLongPixelsFromProjected(projectedPoint, powerDifference, screenPoint1);
+				if (firstPoint) {
+					firstPoint = false;
+				} else {
+					setCloserPoint(screenPoint0, screenPoint1, worldSize);
+					currentSegment.set(screenPoint0.x, screenPoint0.y, screenPoint1.x, screenPoint1.y);
+					clip(currentSegment);
+					if (firstSegment) {
+						firstSegment = false;
+						mPath.moveTo(currentSegment.left, currentSegment.top);
+						latestPathPoint.set(currentSegment.left, currentSegment.top);
+					}
+					lineTo(currentSegment.left, currentSegment.top, latestPathPoint);
+					lineTo(currentSegment.right, currentSegment.bottom, latestPathPoint);
 				}
 
-				mPath.lineTo(screenPoint1.x, screenPoint1.y);
-
 				// update starting point to next position
-				screenPoint0.x = screenPoint1.x;
-				screenPoint0.y = screenPoint1.y;
+				screenPoint0.set(screenPoint1);
 			}
 			mPath.close();
 		}
 
-		private void setCloserPoint(final Point pPrevious, final Point pNext, final double pWorldSize) {
+		private void setCloserPoint(final PointL pPrevious, final PointL pNext, final double pWorldSize) {
 			while (Math.abs(pNext.x - pWorldSize - pPrevious.x) < Math.abs(pNext.x - pPrevious.x)) {
 				pNext.x -= pWorldSize;
 			}
@@ -138,6 +141,142 @@ public class Polygon extends OverlayWithIW {
 				pNext.y += pWorldSize;
 			}
 		}
+
+		/**
+		 * @since 6.0.0
+		 */
+		private void lineTo(final long pX, final long pY, final PointL pLatest) {
+			if (pLatest.x != pX || pLatest.y != pY) {
+				mPath.lineTo(pX, pY);
+				pLatest.set(pX, pY);
+			}
+		}
+
+		/**
+		 * We build a virtual area [clipMin, clipMin, clipMax, clipMax]
+		 * used to clip our Path in order to cope with
+		 * - very high pixel values (that go beyond the int values, for instance on zoom 29)
+		 * - some kind of Android bug related to hardware acceleration
+		 * The size of the clip area was determined running experiments on my own device
+		 * as there's not explicit value given by Android to avoid Path drawing issues.
+		 * If the size is too big (magnitude around Integer.MAX_VALUE), the Path won't show properly.
+		 * If it's small (just above the size of the screen), the approximations of the clipped Path
+		 * may look gross, particularly if you zoom out in animation.
+		 * The smaller it is, the better it is for performances because the clip
+		 * will then often approximate consecutive Path segments as identical, and we only add
+		 * distinct points to the Path as an optimization.
+		 * As an indication, the initial min/max values of the clip area size were
+		 * Integer.MIN_VALUE / 8 and Integer.MAX_VALUE / 8.
+		 */
+		private static final int clipMax = Integer.MAX_VALUE / 8; // "big enough but not too much"
+		private static final int clipMin = Integer.MIN_VALUE / 8;
+		private final PointL intersection = new PointL();
+		private final PointL intersection1 = new PointL();
+		private final PointL intersection2 = new PointL();
+
+		/**
+		 * @since 6.0.0
+		 */
+		private boolean isInClipArea(final long pX, final long pY) {
+			return pX > clipMin && pX < clipMax && pY > clipMin && pY < clipMax;
+		}
+
+		/**
+		 * @since 6.0.0
+		 */
+		private long clip(final long value) {
+			return value <= clipMin ? clipMin : value >= clipMax ? clipMax : 0;
+		}
+
+		/**
+		 * @since 6.0.0
+		 */
+		private void clip(final RectL pSegment) {
+			if (isInClipArea(pSegment.left, pSegment.top)) {
+				if (isInClipArea(pSegment.right, pSegment.bottom)) {
+					return; // nothing to do
+				}
+				if (intersection(pSegment)) {
+					pSegment.right = intersection.x;
+					pSegment.bottom = intersection.y;
+					return;
+				}
+				throw new RuntimeException("Cannot find expected intersection for " + pSegment);
+			}
+			if (isInClipArea(pSegment.right, pSegment.bottom)) {
+				if (intersection(pSegment)) {
+					pSegment.left = intersection.x;
+					pSegment.top = intersection.y;
+					return;
+				}
+				throw new RuntimeException("Cannot find expected intersection for " + pSegment);
+			}
+			// no point is on the screen
+			int count = 0;
+			if (intersection(pSegment, clipMin, clipMin, clipMin, clipMax)) { // x clipMin segment
+				final PointL point = count ++ == 0 ? intersection1 : intersection2;
+				point.set(intersection);
+			}
+			if (intersection(pSegment, clipMax, clipMin, clipMax, clipMax)) { // x clipMax segment
+				final PointL point = count ++ == 0 ? intersection1 : intersection2;
+				point.set(intersection);
+			}
+			if (intersection(pSegment, clipMin, clipMin, clipMax, clipMin)) { // y clipMin segment
+				final PointL point = count ++ == 0 ? intersection1 : intersection2;
+				point.set(intersection);
+			}
+			if (intersection(pSegment, clipMin, clipMax, clipMax, clipMax)) { // y clipMax segment
+				final PointL point = count ++ == 0 ? intersection1 : intersection2;
+				point.set(intersection);
+			}
+			if (count == 2) {
+				final double distance1 = intersection1.squareDistanceTo(pSegment.left, pSegment.top);
+				final double distance2 = intersection2.squareDistanceTo(pSegment.left, pSegment.top);
+				final PointL start = distance1 < distance2 ? intersection1 : intersection2;
+				final PointL end =  distance1 < distance2 ? intersection2 : intersection1;
+				pSegment.left = start.x;
+				pSegment.top = start.y;
+				pSegment.right = end.x;
+				pSegment.bottom = end.y;
+				return;
+			}
+			if (count == 1) {
+				pSegment.left = intersection1.x;
+				pSegment.top = intersection1.y;
+				pSegment.right = intersection1.x;
+				pSegment.bottom = intersection1.y;
+				return;
+			}
+			if (count == 0) {
+				pSegment.left = clip(pSegment.left);
+				pSegment.right = clip(pSegment.right);
+				pSegment.top = clip(pSegment.top);
+				pSegment.bottom = clip(pSegment.bottom);
+				return;
+			}
+			throw new RuntimeException("Impossible intersection count (" + count + ")");
+		}
+
+		/**
+		 * @since 6.0.0
+		 */
+		private boolean intersection(
+				final RectL segment, final long x3, final long y3, final long x4, final long y4
+		) {
+			return SegmentIntersection.intersection(
+					segment.left, segment.top, segment.right, segment.bottom,
+					x3, y3, x4, y4, intersection);
+		}
+
+		/**
+		 * @since 6.0.0
+		 */
+		private boolean intersection(final RectL pSegment) {
+			return intersection(pSegment, clipMin, clipMin, clipMin, clipMax) // x clipMin segment
+					|| intersection(pSegment, clipMax, clipMin, clipMax, clipMax) // x clipMax segment
+					|| intersection(pSegment, clipMin, clipMin, clipMax, clipMin) // y clipMin segment
+					|| intersection(pSegment, clipMin, clipMax, clipMax, clipMax); // y clipMax segment
+		}
 	}
 
 	private LinearRing mOutline;
@@ -149,9 +288,6 @@ public class Polygon extends OverlayWithIW {
 
 	private final Path mPath = new Path(); //Path drawn is kept for click detection
 
-	private final Point mTempPoint1 = new Point();
-	private final Point mTempPoint2 = new Point();
-	
 	// ===========================================================
 	// Constructors
 	// ===========================================================
