@@ -3,6 +3,7 @@ package org.osmdroid.util;
 import android.graphics.Point;
 import android.graphics.Rect;
 
+import org.osmdroid.views.util.constants.MathConstants;
 /**
  * 
  * @author Marc Kurtz
@@ -10,8 +11,10 @@ import android.graphics.Rect;
  */
 public class GeometryMath
 {
-	public static final double DEG2RAD = (Math.PI / 180.0);
-	public static final double RAD2DEG = (180.0 / Math.PI);
+	@Deprecated
+	public static final double DEG2RAD = MathConstants.DEG2RAD;
+	@Deprecated
+	public static final double RAD2DEG = MathConstants.RAD2DEG;
 
 	public static final Rect getBoundingBoxForRotatatedRectangle(Rect rect, float angle, Rect reuse) {
 		return getBoundingBoxForRotatatedRectangle(rect, rect.centerX(), rect.centerY(), angle,
@@ -28,7 +31,7 @@ public class GeometryMath
 		if (reuse == null)
 			reuse = new Rect();
 
-		double theta = angle * DEG2RAD;
+		double theta = angle * MathConstants.DEG2RAD;
 		double sinTheta = Math.sin(theta);
 		double cosTheta = Math.cos(theta);
 		double dx1 = rect.left - centerX;
@@ -47,8 +50,10 @@ public class GeometryMath
 		double dy4 = rect.bottom - centerY;
 		double newX4 = centerX - dx4 * cosTheta + dy4 * sinTheta;
 		double newY4 = centerY - dx4 * sinTheta - dy4 * cosTheta;
-		reuse.set((int) Min4(newX1, newX2, newX3, newX4), (int) Min4(newY1, newY2, newY3, newY4),
-				(int) Max4(newX1, newX2, newX3, newX4), (int) Max4(newY1, newY2, newY3, newY4));
+		reuse.left = MyMath.floorToInt(Min4(newX1, newX2, newX3, newX4));
+		reuse.top = MyMath.floorToInt(Min4(newY1, newY2, newY3, newY4));
+		reuse.right = MyMath.floorToInt(Max4(newX1, newX2, newX3, newX4));
+		reuse.bottom = MyMath.floorToInt(Max4(newY1, newY2, newY3, newY4));
 
 		return reuse;
 	}

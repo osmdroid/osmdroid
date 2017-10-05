@@ -62,6 +62,7 @@ import org.osmdroid.samplefragments.tileproviders.OfflinePickerSample;
 import org.osmdroid.samplefragments.tileproviders.SampleAssetsOnly;
 import org.osmdroid.samplefragments.tileproviders.SampleAssetsOnlyWithoutWrapping;
 import org.osmdroid.samplefragments.tileproviders.SampleOfflineGemfOnly;
+import org.osmdroid.samplefragments.tileproviders.SampleVeryHighZoomLevel;
 import org.osmdroid.samplefragments.tilesources.NasaWms111Source;
 import org.osmdroid.samplefragments.tilesources.NasaWms130Source;
 import org.osmdroid.samplefragments.tilesources.NasaWmsSrs;
@@ -249,6 +250,8 @@ public final class SampleFactory implements ISampleFactory {
             mSamples.add(GeopackageFeatures.class);
             mSamples.add(GeopackageFeatureTiles.class);
         }
+        // 60
+        mSamples.add(SampleVeryHighZoomLevel.class);
     }
 
     public void addSample(Class<? extends BaseSampleFragment> clz) {

@@ -3,7 +3,9 @@ package org.osmdroid.config;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
+import android.util.Log;
 
+import org.osmdroid.api.IMapView;
 import org.osmdroid.tileprovider.modules.SqlTileWriter;
 import org.osmdroid.tileprovider.util.StorageUtils;
 
@@ -26,22 +28,7 @@ import static org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConst
  */
 public class DefaultConfigurationProvider implements IConfigurationProvider {
 
-    /*public final String[] preferenceKeys = new String[]{
-        "osmdroid.basePath",
-        "osmdroid.cachePath",
-        "osmdroid.DebugMode",
-        "osmdroid.DebugDownloading",
-        "osmdroid.DebugMapView",
-        "osmdroid.DebugTileProvider",
-        "osmdroid.HardwareAcceleration",
-        "osmdroid.userAgentValue",
-        "osmdroid.gpsWaitTime",
-        "osmdroid.tileDownloadThreads",
-        "osmdroid.tileFileSystemThreads",
-        "osmdroid.tileDownloadMaxQueueSize",
-        "osmdroid.tileFileSystemMaxQueueSize"
-    };*/
-    //<editor-fold>
+
     protected long gpsWaitTime =20000;
     protected boolean debugMode= false;
     protected boolean debugMapView = false;
@@ -70,17 +57,7 @@ public class DefaultConfigurationProvider implements IConfigurationProvider {
 
     public DefaultConfigurationProvider(){
 
-        try {
-            //StorageUtils.getStorage() can return null when android studio is "previewing" a layout
-            osmdroidBasePath = new File(StorageUtils.getStorage().getAbsolutePath(), "osmdroid");
-            osmdroidTileCache =  new File(getOsmdroidBasePath(), "tiles");
-            osmdroidBasePath.mkdirs();
-            osmdroidTileCache.mkdirs();
-        }catch (Exception ex){
-            //IO/permissions issue
-            //trap for android studio layout editor and some for certain devices
-            //see https://github.com/osmdroid/osmdroid/issues/508
-        }
+
     }
     /**
      * default is 20 seconds
@@ -253,6 +230,16 @@ public class DefaultConfigurationProvider implements IConfigurationProvider {
 
     @Override
     public File getOsmdroidBasePath() {
+        if (osmdroidBasePath==null)
+            osmdroidBasePath = new File(StorageUtils.getStorage().getAbsolutePath(), "osmdroid");
+        try {
+            osmdroidBasePath.mkdirs();
+        }catch (Exception ex){
+            Log.d(IMapView.LOGTAG, "Unable to create base path at " + osmdroidBasePath.getAbsolutePath(), ex);
+            //IO/permissions issue
+            //trap for android studio layout editor and some for certain devices
+            //see https://github.com/osmdroid/osmdroid/issues/508
+        }
         return osmdroidBasePath;
     }
 
@@ -263,6 +250,16 @@ public class DefaultConfigurationProvider implements IConfigurationProvider {
 
     @Override
     public File getOsmdroidTileCache() {
+        if (osmdroidTileCache==null)
+            osmdroidTileCache =  new File(getOsmdroidBasePath(), "tiles");
+        try {
+            osmdroidTileCache.mkdirs();
+        }catch (Exception ex){
+            Log.d(IMapView.LOGTAG, "Unable to create tile cache path at " + osmdroidTileCache.getAbsolutePath(), ex);
+            //IO/permissions issue
+            //trap for android studio layout editor and some for certain devices
+            //see https://github.com/osmdroid/osmdroid/issues/508
+        }
         return osmdroidTileCache;
     }
 

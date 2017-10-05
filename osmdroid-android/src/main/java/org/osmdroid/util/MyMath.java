@@ -57,6 +57,31 @@ public class MyMath implements MathConstants {
 		return number;
 	}
 
+	/**
+	 * Casting a _negative_ double into a long has a counter-intuitive result.
+	 * E.g. (long)(-0.4) = 0, though -1 would be expected.
+	 * Math.floor would be the answer, but I assume we could go faster than (long)Math.floor
+	 * @since 5.6.6
+	 */
+	public static long floorToLong(final double pValue) {
+		final long result = (long) pValue;
+		if (result <= pValue) {
+			return result;
+		}
+		return result - 1;
+	}
+
+	/**
+	 * @since 5.6.6
+	 */
+	public static int floorToInt(final double pValue) {
+		final int result = (int) pValue;
+		if (result <= pValue) {
+			return result;
+		}
+		return result - 1;
+	}
+
 	// ===========================================================
 	// Inner and Anonymous Classes
 	// ===========================================================

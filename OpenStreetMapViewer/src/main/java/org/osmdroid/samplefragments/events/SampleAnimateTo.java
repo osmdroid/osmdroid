@@ -4,6 +4,7 @@ import android.widget.Toast;
 
 import org.osmdroid.samplefragments.data.SampleGridlines;
 import org.osmdroid.util.GeoPoint;
+import org.osmdroid.util.TileSystem;
 
 import java.util.Random;
 import java.util.Timer;
@@ -68,10 +69,10 @@ public class SampleAnimateTo extends SampleGridlines {
                     @Override
                     public void run() {
                         if (rand != null && mMapView != null && getActivity() != null) {
-                            double lat = rand.nextDouble() * 180 - 90;
-                            double lon = rand.nextDouble() * 360 - 180;
+                            final double lat = TileSystem.getRandomLatitude(rand.nextDouble(), TileSystem.MinLatitude);
+                            final double lon = TileSystem.getRandomLongitude(rand.nextDouble());
                             mMapView.getController().animateTo(new GeoPoint(lat, lon));
-                            //Toast.makeText(getActivity(), "Animate to " + SampleMapEventListener.df.format(lat) + "," + SampleMapEventListener.df.format(lon), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), "Animate to " + SampleMapEventListener.df.format(lat) + "," + SampleMapEventListener.df.format(lon), Toast.LENGTH_LONG).show();
                         }
                     }
                 });

@@ -187,7 +187,7 @@ public class StarterMapFragment extends Fragment implements OpenStreetMapConstan
           } else {
               final double latitude = Double.valueOf(latitudeString);
               final double longitude = Double.valueOf(longitudeString);
-              mMapView.setInitCenter(new GeoPoint(latitude, longitude));
+              mMapView.setCenter(new GeoPoint(latitude, longitude));
           }
 
           mLocationOverlay.enableMyLocation();
@@ -255,10 +255,11 @@ public class StarterMapFragment extends Fragment implements OpenStreetMapConstan
          //sorry for the spaghetti code this is to filter out the compass on api 8
          //Note: the compass overlay causes issues on API 8 devices. See https://github.com/osmdroid/osmdroid/issues/218
           if (mPrefs.getBoolean(PREFS_SHOW_COMPASS, false)) {
-              if (mCompassOverlay!=null)
+              if (mCompassOverlay!=null) {
                   //this call is needed because onPause, the orientation provider is destroyed to prevent context leaks
                   this.mCompassOverlay.setOrientationProvider(new InternalCompassOrientationProvider(getActivity()));
                   this.mCompassOverlay.enableCompass();
+              }
           }
      }
 

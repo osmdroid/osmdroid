@@ -356,9 +356,6 @@ public class CacheManager {
                             (((geoPoint.getLongitude() > prevPoint.getLongitude()) && (wayPoint.getLongitude() < geoPoint.getLongitude())) ||
                                     ((geoPoint.getLongitude() < prevPoint.getLongitude()) && (wayPoint.getLongitude() > geoPoint.getLongitude())))) {
 
-                        final Point lastPoint = new Point();
-                        TileSystem.LatLongToPixelXY(geoPoint.getLatitude(), geoPoint.getLongitude(), pZoomLevel, lastPoint);
-
                         final double prevLatRad = wayPoint.getLatitude() * Math.PI / 180.0;
                         final double prevLonRad = wayPoint.getLongitude() * Math.PI / 180.0;
 

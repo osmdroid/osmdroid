@@ -8,6 +8,7 @@ import org.osmdroid.tileprovider.MapTileProviderBase;
 import org.osmdroid.tileprovider.ReusableBitmapDrawable;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
+import org.osmdroid.util.RectL;
 import org.osmdroid.util.TileLooper;
 import org.osmdroid.util.TileSystem;
 import org.osmdroid.views.MapView;
@@ -56,10 +57,7 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 	/* to avoid allocations during draw */
 	protected final Paint mDebugPaint = new Paint();
 	private final Rect mTileRect = new Rect();
-	private final Rect mViewPort = new Rect();
-	private Point mTopLeftMercator = new Point();
-	private Point mBottomRightMercator = new Point();
-	private Point mTilePointMercator = new Point();
+	protected final RectL mViewPort = new RectL();
 
 	protected Projection mProjection;
 	private boolean mOptionsMenuEnabled = true;
@@ -184,24 +182,14 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 			return;
 		}
 
-		Projection projection = osmv.getProjection();
+		setProjection(osmv.getProjection());
 
 		// Get the area we are drawing to
-		Rect screenRect = projection.getScreenRect();
-		//No overflow detected here! Log.d(IMapView.LOGTAG, "BEFORE Rect is " + screenRect.toString() + mTopLeftMercator.toString());
-		projection.toMercatorPixels(screenRect.left, screenRect.top, mTopLeftMercator);
-
-		projection.toMercatorPixels(screenRect.right, screenRect.bottom, mBottomRightMercator);
-
-		//No overflow detected here! Log.d(IMapView.LOGTAG, "AFTER Rect is " + screenRect.toString()  + mTopLeftMercator.toString() + mBottomRightMercator.toString());
-		mViewPort.set(mTopLeftMercator.x, mTopLeftMercator.y, mBottomRightMercator.x,
-				mBottomRightMercator.y);
-		//No overflow detected here! Log.d(IMapView.LOGTAG, "AFTER Rect is " + mViewPort.toString());
+		getProjection().getMercatorViewPort(mViewPort);
 
 		// Draw the tiles!
-		drawTiles(c, projection, projection.getZoomLevel(), mViewPort);
+		drawTiles(c, getProjection(), getProjection().getZoomLevel(), mViewPort);
 	}
-
 
 	/**
 	 * This is meant to be a "pure" tile drawing function that doesn't take into account
@@ -209,19 +197,9 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 	 * than the upper-left corner). Once the tile is ready to be drawn, it is passed to
 	 * onTileReadyToDraw where custom manipulations can be made before drawing the tile.
 	 */
-	public void drawTiles(final Canvas c, final Projection projection, final double zoomLevel, final Rect viewPort) {
-
+	public void drawTiles(final Canvas c, final Projection projection, final double zoomLevel, final RectL viewPort) {
 		mProjection = projection;
-		mTileLooper.loop(zoomLevel, viewPort, c, TileSystem.getTileSize(zoomLevel));
-
-		// draw a cross at center in debug mode
-		if (Configuration.getInstance().isDebugTileProviders()) {
-			// final GeoPoint center = osmv.getMapCenter();
-			final Point centerPoint = new Point(viewPort.centerX(), viewPort.centerY());
-			c.drawLine(centerPoint.x, centerPoint.y - 9, centerPoint.x, centerPoint.y + 9, mDebugPaint);
-			c.drawLine(centerPoint.x - 9, centerPoint.y, centerPoint.x + 9, centerPoint.y, mDebugPaint);
-		}
-
+		mTileLooper.loop(zoomLevel, viewPort, c);
 	}
 
 	/**
@@ -230,7 +208,6 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 	protected class OverlayTileLooper extends TileLooper {
 
 		private Canvas mCanvas;
-		private double mOutputTileSizePx;
 
 		public OverlayTileLooper() {
 		}
@@ -239,31 +216,21 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 			super(wrapEnabled);
 		}
 
-		public void loop(final double pZoomLevel, final Rect pViewPort, final Canvas pCanvas, final double pOutputTileSizePx) {
+		public void loop(final double pZoomLevel, final RectL pViewPort, final Canvas pCanvas) {
 			mCanvas = pCanvas;
-			mOutputTileSizePx = pOutputTileSizePx;
 			loop(pZoomLevel, pViewPort);
 		}
 
 		@Override
 		public void initialiseLoop() {
-			final int mapTileUpperBound = 1 << mTileZoomLevel;
 			// make sure the cache is big enough for all the tiles
-			int width = mTiles.right - mTiles.left + 1; // handling the modulo
-			if (width <= 0) {
-				width += mapTileUpperBound;
-			}
-			int height = mTiles.bottom - mTiles.top + 1; // handling the modulo
-			if (height <= 0) {
-				height += mapTileUpperBound;
-			}
-
+			final int width = mTiles.right - mTiles.left + 1;
+			final int height = mTiles.bottom - mTiles.top + 1;
 			final int numNeeded = height * width;
 			mTileProvider.ensureCapacity(numNeeded + mOvershootTileCache);
 		}
 		@Override
 		public void handleTile(MapTile pTile, int pX, int pY) {
-			//no overflow detected here Log.d(IMapView.LOGTAG, "computeTile " + pTile.toString() + ","+pX + "," + pY);
 			Drawable currentMapTile = mTileProvider.getMapTile(pTile);
 			boolean isReusable = currentMapTile instanceof ReusableBitmapDrawable;
 			final ReusableBitmapDrawable reusableBitmapDrawable =
@@ -273,7 +240,7 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 			}
 
 			if (currentMapTile != null) {
-				fillRect(pX, pY, mOutputTileSizePx);
+				mProjection.getPixelFromTile(pX, pY, mTileRect);
 				if (isReusable) {
 					reusableBitmapDrawable.beginUsingDrawable();
 				}
@@ -290,7 +257,7 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 			}
 
 			if (Configuration.getInstance().isDebugTileProviders()) {
-				fillRect(pX, pY, mOutputTileSizePx);
+				mProjection.getPixelFromTile(pX, pY, mTileRect);
 				mCanvas.drawText(pTile.toString(), mTileRect.left + 1,
 						mTileRect.top + mDebugPaint.getTextSize(), mDebugPaint);
 				mCanvas.drawLine(mTileRect.left, mTileRect.top, mTileRect.right, mTileRect.top,
@@ -299,26 +266,46 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 						mDebugPaint);
 			}
 		}
-
-		// dangerous rounding!
-		private void fillRect(int pX, int pY, double pOutputTileSizePx) {
-			final double x = pX * pOutputTileSizePx;
-			final double y = pY * pOutputTileSizePx;
-			mTileRect.set(
-					(int)Math.round(x),(int)Math.round(y),
-					(int)Math.round(x + pOutputTileSizePx), (int)(Math.round(y + pOutputTileSizePx)));
-		}
 	}
 
 	private final OverlayTileLooper mTileLooper = new OverlayTileLooper();
+	private final Rect mIntersectionRect = new Rect();
 
-	protected void onTileReadyToDraw(final Canvas c, final Drawable currentMapTile,
-			final Rect tileRect) {
+	private Rect mCanvasRect;
+
+	protected void setCanvasRect(final Rect pCanvasRect) {
+		mCanvasRect = pCanvasRect;
+	}
+	protected Rect getCanvasRect() {
+		return mCanvasRect;
+	}
+	protected void setProjection(final Projection pProjection) {
+		mProjection = pProjection;
+	}
+	protected Projection getProjection() {
+		return mProjection;
+	}
+
+
+	protected void onTileReadyToDraw(final Canvas c, final Drawable currentMapTile, final Rect tileRect) {
 		currentMapTile.setColorFilter(currentColorFilter);
-		mProjection.toPixelsFromMercator(tileRect.left, tileRect.top, mTilePointMercator);
-		tileRect.offsetTo(mTilePointMercator.x, mTilePointMercator.y);
-		currentMapTile.setBounds(tileRect);
-		currentMapTile.draw(c);
+		currentMapTile.setBounds(tileRect.left, tileRect.top, tileRect.right, tileRect.bottom);
+		final Rect canvasRect = getCanvasRect();
+		if (canvasRect == null) {
+			currentMapTile.draw(c);
+			return;
+		}
+		// Save the current clipping bounds
+		c.save();
+		// Check to see if the drawing area intersects with the minimap area
+		if (mIntersectionRect.setIntersect(c.getClipBounds(), canvasRect)) {
+			// If so, then clip that area
+			c.clipRect(mIntersectionRect);
+
+			// Draw the tile, which will be appropriately clipped
+			currentMapTile.draw(c);
+		}
+		c.restore();
 	}
 
 	@Override
