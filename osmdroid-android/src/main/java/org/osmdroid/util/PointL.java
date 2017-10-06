@@ -56,18 +56,4 @@ public class PointL {
         final PointL other = (PointL) object;
         return x == other.x && y == other.y;
     }
-
-    /**
-     * @since 6.0.0
-     */
-    public double squareDistanceTo(final PointL pOther) {
-        return squareDistanceTo(pOther.x, pOther.y);
-    }
-
-    /**
-     * @since 6.0.0
-     */
-    public double squareDistanceTo(final long pX, final long pY) {
-        return ((double)x - pX) * ((double)x - pX) + ((double)y - pY) * ((double)y - pY);
-    }
 }

@@ -359,10 +359,10 @@ public class Projection implements IProjection {
 	/**
      * @since 6.0.0
      */
-    public PointL getLongPixelsFromProjected(final PointL in, final double powerDifference, final PointL reuse) {
+    public PointL getLongPixelsFromProjected(final PointL in, final double powerDifference, final boolean pCloser, final PointL reuse) {
         final PointL out = reuse != null ? reuse : new PointL();
-        out.x = getLongPixelXFromMercator((long) (in.x / powerDifference), true);
-        out.y = getLongPixelYFromMercator((long) (in.y / powerDifference), true);
+        out.x = getLongPixelXFromMercator((long) (in.x / powerDifference), pCloser);
+        out.y = getLongPixelYFromMercator((long) (in.y / powerDifference), pCloser);
         return out;
     }
 
