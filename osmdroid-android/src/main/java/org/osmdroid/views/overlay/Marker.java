@@ -156,10 +156,10 @@ public class Marker extends OverlayWithIW {
 			mIcon=new BitmapDrawable(resource,image);
 		} else if (!ENABLE_TEXT_LABELS_WHEN_NO_IMAGE && icon!=null) {
 			this.mIcon = icon;
-		} else if (this.mIcon!=null) {
+		} else if (icon!=null) {
 			mIcon=icon;
 		} else
-			//there's still an edge case here, title label no defined, icon is null and textlabel is enabled
+			//there's still an edge case here, title label not defined, icon is null and textlabel is enabled
 			mIcon = mDefaultIcon;
 
 	}
