@@ -54,6 +54,12 @@ public class Bug445Caching  extends BaseSampleFragment {
         if (count != 0)
             throw new Exception("purge should remove all tiles, but " + count + " were found");
 
+        int maxTilesNeeded = 0;
+        for (int zoom = minZoom ; zoom <= maxZoom ; zoom ++) {
+            maxTilesNeeded += getMaxTileExpected(zoom);
+        }
+        mMapView.getTileProvider().ensureCapacity(maxTilesNeeded);
+
         for (int zoom = minZoom ; zoom <= maxZoom ; zoom ++) {
             checkDownload(zoom);
         }
@@ -71,6 +77,13 @@ public class Bug445Caching  extends BaseSampleFragment {
         for (int zoom = minZoom ; zoom <= maxZoom ; zoom ++) {
             checkCache(zoom);
         }
+
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(getActivity(), "done", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     /**
@@ -138,13 +151,40 @@ public class Bug445Caching  extends BaseSampleFragment {
         Log.i(TAG, "height " + height);
         final int tileSize = TileSystem.getTileSize();
         Log.i(TAG, "tile size " + tileSize);
-        final int minCols = Math.min(maxPerZoom, width / tileSize + (width % tileSize == 0 ? 0 : 1));
+        final int minCols = getMinNumberExpected(tileSize, width, maxPerZoom);
         Log.i(TAG, "min cols " + minCols);
-        final int minRows = Math.min(maxPerZoom, height / tileSize + (height % tileSize == 0 ? 0 : 1));
+        final int minRows = getMinNumberExpected(tileSize, height, maxPerZoom);
         Log.i(TAG, "min rows " + minRows);
         final int minExpected = minCols * minRows;
         Log.i(TAG, "min expected " + minExpected);
         return minExpected;
+    }
+
+    /**
+     * @since 6.0.0
+     */
+    private int getMaxTileExpected(final int pZoomLevel) {
+        final int maxPerZoom = 1 << pZoomLevel;
+        final int width = mMapView.getWidth();
+        final int height = mMapView.getHeight();
+        final int tileSize = TileSystem.getTileSize();
+        final int minCols = getMaxNumberExpected(tileSize, width, maxPerZoom);
+        final int minRows = getMaxNumberExpected(tileSize, height, maxPerZoom);
+        return minCols * minRows;
+    }
+
+    /**
+     * @since 6.0.0
+     */
+    private int getMinNumberExpected(final int pTileSize, final int pScreenSize, final int pMaxPerZoom) {
+        return Math.min(pMaxPerZoom, pScreenSize / pTileSize + (pScreenSize % pTileSize == 0 ? 0 : 1));
+    }
+
+    /**
+     * @since 6.0.0
+     */
+    private int getMaxNumberExpected(final int pTileSize, final int pScreenSize, final int pMaxPerZoom) {
+        return Math.min(pMaxPerZoom, 1 + getMinNumberExpected(pTileSize, pScreenSize, pMaxPerZoom));
     }
 
     /**
@@ -162,5 +202,6 @@ public class Bug445Caching  extends BaseSampleFragment {
     private void setZoomAndCenter(final int pZoomLevel) {
         mMapView.getController().setZoom(pZoomLevel);
         mMapView.getController().setCenter(center);
+        mMapView.invalidate();
     }
 }
