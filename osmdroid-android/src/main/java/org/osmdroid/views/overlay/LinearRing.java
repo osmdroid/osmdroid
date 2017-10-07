@@ -39,8 +39,8 @@ class LinearRing {
 	 * As an indication, the initial min/max values of the clip area size were
 	 * Integer.MIN_VALUE / 8 and Integer.MAX_VALUE / 8.
 	 */
-	private static final int mClipMax = Integer.MAX_VALUE / 8; // "big enough but not too much"
-	private static final int mClipMin = Integer.MIN_VALUE / 8;
+	private static final int mClipMax = 17000; // "big enough but not too much"
+	private static final int mClipMin = -mClipMax;
 
 	private final ArrayList<GeoPoint> mOriginalPoints = new ArrayList<>();
 	private final ArrayList<PointL> mProjectedPoints = new ArrayList<>();
