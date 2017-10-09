@@ -66,4 +66,22 @@ public class RectL {
     public String toString() {
         return "RectL(" +left+", "+top+" - "+right+", "+bottom+")";
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        final RectL r = (RectL) o;
+        return left == r.left && top == r.top && right == r.right && bottom == r.bottom;
+    }
+
+    @Override
+    public int hashCode() {
+        long result = left;
+        result = 31 * result + top;
+        result = 31 * result + right;
+        result = 31 * result + bottom;
+        return (int) (result % Integer.MAX_VALUE);
+    }
 }

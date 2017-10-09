@@ -46,7 +46,7 @@ public class Polyline extends OverlayWithIW {
 	private final Path mPath = new Path();
 	private final Paint mPaint = new Paint();
 	/** Bounding rectangle for view */
-    private LinearRing mOutline = new LinearRing();
+    private LinearRing mOutline = new LinearRing(mPath);
 
 	protected OnClickListener mOnClickListener;
 
@@ -198,7 +198,7 @@ public class Polyline extends OverlayWithIW {
         final Projection pj = mapView.getProjection();
         mPath.rewind();
 
-        mOutline.buildPathPortion(pj, mPath, false, null);
+        mOutline.buildPathPortion(pj, false, null);
 
         canvas.drawPath(mPath, mPaint);
 	}

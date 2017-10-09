@@ -38,14 +38,13 @@ import android.view.MotionEvent;
  */
 public class Polygon extends OverlayWithIW {
 
-	private LinearRing mOutline = new LinearRing();
+	private final Path mPath = new Path(); //Path drawn is kept for click detection
+	private LinearRing mOutline = new LinearRing(mPath);
 	private ArrayList<LinearRing> mHoles = new ArrayList<>();
 	
 	/** Paint settings. */
 	protected Paint mFillPaint;
 	protected Paint mOutlinePaint;
-
-	private final Path mPath = new Path(); //Path drawn is kept for click detection
 
 	// ===========================================================
 	// Constructors
@@ -127,7 +126,7 @@ public class Polygon extends OverlayWithIW {
 	public void setHoles(List<? extends List<GeoPoint>> holes){
 		mHoles = new ArrayList<LinearRing>(holes.size());
 		for (List<GeoPoint> sourceHole:holes){
-			LinearRing newHole = new LinearRing();
+			LinearRing newHole = new LinearRing(mPath);
 			newHole.setPoints(sourceHole);
 			mHoles.add(newHole);
 		}
@@ -212,10 +211,10 @@ public class Polygon extends OverlayWithIW {
 		final Projection pj = mapView.getProjection();
 		mPath.rewind();
 
-		final PointL offset = mOutline.buildPathPortion(pj, mPath, true, null);
+		final PointL offset = mOutline.buildPathPortion(pj, true, null);
 		
 		for (LinearRing hole:mHoles){
-			hole.buildPathPortion(pj, mPath, true, offset);
+			hole.buildPathPortion(pj, true, offset);
 		}
 		mPath.setFillType(Path.FillType.EVEN_ODD); //for correct support of holes
 

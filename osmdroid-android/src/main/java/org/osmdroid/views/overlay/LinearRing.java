@@ -8,7 +8,7 @@ import org.osmdroid.util.Distance;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.PointL;
 import org.osmdroid.util.RectL;
-import org.osmdroid.util.SegmentIntersection;
+import org.osmdroid.util.SegmentClipper;
 import org.osmdroid.util.TileSystem;
 import org.osmdroid.views.Projection;
 
@@ -21,7 +21,7 @@ import java.util.List;
  * @since 6.0.0
  * @author Fabrice Fontaine
  */
-class LinearRing {
+class LinearRing implements SegmentClipper.SegmentClippable{
 
 	/**
 	 * We build a virtual area [mClipMin, mClipMin, mClipMax, mClipMax]
@@ -44,12 +44,36 @@ class LinearRing {
 
 	private final ArrayList<GeoPoint> mOriginalPoints = new ArrayList<>();
 	private final ArrayList<PointL> mProjectedPoints = new ArrayList<>();
+	private final PointL mLatestPathPoint = new PointL();
+	private final SegmentClipper mSegmentClipper;
+	private final Path mPath;
+	private boolean mIsNextAMove;
 	private boolean mPrecomputed;
 
-	// for optimization reasons: avoiding to create objects all the time
-	private final PointL mOptimIntersection = new PointL();
-	private final PointL mOptimIntersection1 = new PointL();
-	private final PointL mOptimIntersection2 = new PointL();
+	public LinearRing(final Path pPath) {
+		mSegmentClipper = new SegmentClipper(mClipMin, mClipMin, mClipMax, mClipMax, this);
+		mPath = pPath;
+	}
+
+	@Override
+	public void init() {
+		mIsNextAMove = true;
+	}
+
+	@Override
+	public void lineTo(final long pX, final long pY) {
+		if (mIsNextAMove) {
+			mIsNextAMove = false;
+			mPath.moveTo(pX, pY);
+			mLatestPathPoint.set(pX, pY);
+		} else {
+			if (mLatestPathPoint.x != pX || mLatestPathPoint.y != pY) {
+				mPath.lineTo(pX, pY);
+				mLatestPathPoint.set(pX, pY);
+			}
+			mPath.lineTo(pX, pY);
+		}
+	}
 
 	void clearPath() {
 		mOriginalPoints.clear();
@@ -82,7 +106,7 @@ class LinearRing {
 	 * @return the initial offset if not null, or the computed offset
 	 */
 	PointL buildPathPortion(final Projection pProjection,
-							final Path pPath, final boolean pClosePath, final PointL pOffset){
+							final boolean pClosePath, final PointL pOffset){
 		final int size = mOriginalPoints.size();
 		if (size < 2) { // nothing to paint
 			return pOffset;
@@ -94,7 +118,7 @@ class LinearRing {
 		}
 
 		final List<RectL> segments = new ArrayList<>();
-		getSegmentsFromProjected(pProjection, mProjectedPoints, segments);
+		getSegmentsFromProjected(pProjection, mProjectedPoints, segments, pClosePath);
 		final PointL offset;
 		if (pOffset != null) {
 			offset = pOffset;
@@ -103,8 +127,11 @@ class LinearRing {
 			getBestOffset(segments, pProjection, offset);
 		}
 		applyOffset(segments, offset);
+		init();
 		clip(segments);
-		getPathFromSegments(segments, pPath, pClosePath);
+		if (pClosePath) {
+			mPath.close();
+		}
 		return offset;
 	}
 
@@ -199,19 +226,20 @@ class LinearRing {
 
 	private void getSegmentsFromProjected(final Projection pProjection,
 										  final List<PointL> pProjectedPoints,
-										  final List<RectL> pSegments) {
+										  final List<RectL> pSegments,
+										  final boolean pClosePath) {
 		final double worldSize = TileSystem.MapSize(pProjection.getZoomLevel());
 		final double powerDifference = pProjection.getProjectedPowerDifference();
 		final PointL screenPoint0 = new PointL(); // points on screen
 		final PointL screenPoint1 = new PointL();
 		final RectL currentSegment = new RectL();
-		boolean firstPoint = true;
+		PointL firstPoint = null;
 		for (final PointL projectedPoint : pProjectedPoints) {
 			// compute next points
 			pProjection.getLongPixelsFromProjected(
 					projectedPoint, powerDifference, false, screenPoint1);
-			if (firstPoint) {
-				firstPoint = false;
+			if (firstPoint == null) {
+				firstPoint = new PointL(screenPoint1);
 			} else {
 				setCloserPoint(screenPoint0, screenPoint1, worldSize);
 				currentSegment.set(screenPoint0.x, screenPoint0.y, screenPoint1.x, screenPoint1.y);
@@ -221,23 +249,11 @@ class LinearRing {
 			// update starting point to next position
 			screenPoint0.set(screenPoint1);
 		}
-	}
-
-	private void getPathFromSegments(final List<RectL> pSegments,
-									 final Path pPath, final boolean pClosePath) {
-		final PointL latestPathPoint = new PointL();
-		boolean firstSegment = true;
-		for (final RectL segment : pSegments) {
-			if (firstSegment) {
-				firstSegment = false;
-				pPath.moveTo(segment.left, segment.top);
-				latestPathPoint.set(segment.left, segment.top);
-			}
-			lineTo(segment.left, segment.top, latestPathPoint, pPath);
-			lineTo(segment.right, segment.bottom, latestPathPoint, pPath);
-		}
 		if (pClosePath) {
-			pPath.close();
+			if (firstPoint != null) {
+				currentSegment.set(screenPoint0.x, screenPoint0.y, firstPoint.x, firstPoint.y);
+				pSegments.add(new RectL(currentSegment));
+			}
 		}
 	}
 
@@ -261,119 +277,6 @@ class LinearRing {
 		}
 	}
 
-	private void lineTo(final long pX, final long pY, final PointL pLatest, final Path pPath) {
-		if (pLatest.x != pX || pLatest.y != pY) {
-			pPath.lineTo(pX, pY);
-			pLatest.set(pX, pY);
-		}
-	}
-
-	/**
-	 * Check if a point is in the clip area
-	 */
-	private boolean isInClipArea(final long pX, final long pY) {
-		return pX > mClipMin && pX < mClipMax && pY > mClipMin && pY < mClipMax;
-	}
-
-	/**
-	 * Clip a value into the clip area min/max
-	 */
-	private long clip(final long value) {
-		return value <= mClipMin ? mClipMin : value >= mClipMax ? mClipMax : 0;
-	}
-
-	/**
-	 * Clip a segment into the clip area
-	 */
-	private void clip(final RectL pSegment) {
-		if (isInClipArea(pSegment.left, pSegment.top)) {
-			if (isInClipArea(pSegment.right, pSegment.bottom)) {
-				return; // nothing to do
-			}
-			if (intersection(pSegment)) {
-				pSegment.right = mOptimIntersection.x;
-				pSegment.bottom = mOptimIntersection.y;
-				return;
-			}
-			throw new RuntimeException("Cannot find expected mOptimIntersection for " + pSegment);
-		}
-		if (isInClipArea(pSegment.right, pSegment.bottom)) {
-			if (intersection(pSegment)) {
-				pSegment.left = mOptimIntersection.x;
-				pSegment.top = mOptimIntersection.y;
-				return;
-			}
-			throw new RuntimeException("Cannot find expected mOptimIntersection for " + pSegment);
-		}
-		// no point is on the screen
-		int count = 0;
-		if (intersection(pSegment, mClipMin, mClipMin, mClipMin, mClipMax)) { // x mClipMin segment
-			final PointL point = count ++ == 0 ? mOptimIntersection1 : mOptimIntersection2;
-			point.set(mOptimIntersection);
-		}
-		if (intersection(pSegment, mClipMax, mClipMin, mClipMax, mClipMax)) { // x mClipMax segment
-			final PointL point = count ++ == 0 ? mOptimIntersection1 : mOptimIntersection2;
-			point.set(mOptimIntersection);
-		}
-		if (intersection(pSegment, mClipMin, mClipMin, mClipMax, mClipMin)) { // y mClipMin segment
-			final PointL point = count ++ == 0 ? mOptimIntersection1 : mOptimIntersection2;
-			point.set(mOptimIntersection);
-		}
-		if (intersection(pSegment, mClipMin, mClipMax, mClipMax, mClipMax)) { // y mClipMax segment
-			final PointL point = count ++ == 0 ? mOptimIntersection1 : mOptimIntersection2;
-			point.set(mOptimIntersection);
-		}
-		if (count == 2) {
-			final double distance1 = Distance.getSquaredDistanceToPoint(
-					mOptimIntersection1.x, mOptimIntersection1.y, pSegment.left, pSegment.top);
-			final double distance2 = Distance.getSquaredDistanceToPoint(
-					mOptimIntersection2.x, mOptimIntersection2.y, pSegment.left, pSegment.top);
-			final PointL start = distance1 < distance2 ? mOptimIntersection1 : mOptimIntersection2;
-			final PointL end =  distance1 < distance2 ? mOptimIntersection2 : mOptimIntersection1;
-			pSegment.left = start.x;
-			pSegment.top = start.y;
-			pSegment.right = end.x;
-			pSegment.bottom = end.y;
-			return;
-		}
-		if (count == 1) {
-			pSegment.left = mOptimIntersection1.x;
-			pSegment.top = mOptimIntersection1.y;
-			pSegment.right = mOptimIntersection1.x;
-			pSegment.bottom = mOptimIntersection1.y;
-			return;
-		}
-		if (count == 0) {
-			pSegment.left = clip(pSegment.left);
-			pSegment.right = clip(pSegment.right);
-			pSegment.top = clip(pSegment.top);
-			pSegment.bottom = clip(pSegment.bottom);
-			return;
-		}
-		throw new RuntimeException("Impossible mOptimIntersection count (" + count + ")");
-	}
-
-	/**
-	 * Intersection of two segments
-	 */
-	private boolean intersection(
-			final RectL segment, final long x3, final long y3, final long x4, final long y4
-	) {
-		return SegmentIntersection.intersection(
-				segment.left, segment.top, segment.right, segment.bottom,
-				x3, y3, x4, y4, mOptimIntersection);
-	}
-
-	/**
-	 * Intersection of a segment with the 4 segments of the clip area
-	 */
-	private boolean intersection(final RectL pSegment) {
-		return intersection(pSegment, mClipMin, mClipMin, mClipMin, mClipMax) // x min segment
-				|| intersection(pSegment, mClipMax, mClipMin, mClipMax, mClipMax) // x max segment
-				|| intersection(pSegment, mClipMin, mClipMin, mClipMax, mClipMin) // y min segment
-				|| intersection(pSegment, mClipMin, mClipMax, mClipMax, mClipMax); // y max segment
-	}
-
 	/**
 	 * Detection is done in screen coordinates.
 	 * @param tolerance in pixels
@@ -387,7 +290,7 @@ class LinearRing {
 		}
 		final Point pixel = pProjection.toPixels(pPoint, null);
 		final List<RectL> segments = new ArrayList<>();
-		getSegmentsFromProjected(pProjection, mProjectedPoints, segments);
+		getSegmentsFromProjected(pProjection, mProjectedPoints, segments, false);
 		final PointL offset = new PointL();
 		getBestOffset(segments, pProjection, offset);
 		applyOffset(segments, offset);
@@ -420,7 +323,7 @@ class LinearRing {
 
 	private void clip(final List<RectL> pSegments) {
 		for (final RectL segment : pSegments) {
-			clip(segment);
+			mSegmentClipper.clip(segment);
 		}
 	}
 }

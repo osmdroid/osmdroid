@@ -18,6 +18,10 @@ public class PointL {
         y = pY;
     }
 
+    public PointL(final PointL pOther) {
+        set(pOther);
+    }
+
     /**
      * @since 6.0.0
      */
