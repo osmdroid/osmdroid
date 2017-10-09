@@ -19,11 +19,22 @@ public class RectL {
         set(pLeft, pTop, pRight, pBottom);
     }
 
+    public RectL(final RectL pOther) {
+        set(pOther);
+    }
+
     public void set(final long pLeft, final long pTop, final long pRight, final long pBottom) {
         left = pLeft;
         top = pTop;
         right = pRight;
         bottom = pBottom;
+    }
+
+    public void set(final RectL pOther) {
+        left = pOther.left;
+        top = pOther.top;
+        right = pOther.right;
+        bottom = pOther.bottom;
     }
 
     public void union(long x, long y) {
