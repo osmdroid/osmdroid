@@ -8,6 +8,8 @@ import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.PointL;
+import org.osmdroid.util.RectL;
+import org.osmdroid.util.SegmentIntersection;
 import org.osmdroid.util.TileSystem;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
@@ -16,7 +18,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.graphics.Point;
 import android.graphics.RectF;
 import android.graphics.Region;
 import android.view.MotionEvent;
@@ -37,121 +38,14 @@ import android.view.MotionEvent;
  */
 public class Polygon extends OverlayWithIW {
 
-	/** inner class holding one ring: the polygon outline, or a hole inside the polygon */
-	class LinearRing {
-		/** original GeoPoints */
-		private double mOriginalPoints[][]; //as an array, to reduce object creation
-		
-		/** Stores points, converted to the map projection. */
-		ArrayList<PointL> mConvertedPoints;
-
-		/** is precomputation of points done or not */
-		boolean mPrecomputed;
-		
-		LinearRing(){
-			mOriginalPoints = new double[0][2];
-			mConvertedPoints = new ArrayList<>(0);
-			mPrecomputed = false;
-		}
-		
-		ArrayList<GeoPoint> getPoints(){
-			int size = mOriginalPoints.length;
-			ArrayList<GeoPoint> result = new ArrayList<GeoPoint>(size);
-			for (int i=0; i<size; i++){
-				GeoPoint gp = new GeoPoint(mOriginalPoints[i][0], mOriginalPoints[i][1]);
-				result.add(gp);
-			}
-			return result;
-		}
-		
-		void setPoints(final List<GeoPoint> points) {
-			int size = points.size();
-			mOriginalPoints = new double[size][2];
-			mConvertedPoints = new ArrayList<>(size);
-			int i=0;
-			for (GeoPoint p:points){
-				mOriginalPoints[i][0] = p.getLatitude();
-				mOriginalPoints[i][1] = p.getLongitude();
-				i++;
-			}
-			mPrecomputed = false;
-		}
-		
-		/** 
-		 * Note - highly optimized to handle long paths, proceed with care.
-		 * Should be fine up to 10K points.
-		 */
-		protected void buildPathPortion(Projection pj){
-			final int size = mOriginalPoints.length;
-			if (size < 2) // nothing to paint
-				return;
-
-			// precompute new points to the intermediate projection.
-			if (!mPrecomputed){
-				for (int i=0; i<size; i++) {
-					mConvertedPoints.add(pj.toProjectedPixels(mOriginalPoints[i][0], mOriginalPoints[i][1], null));
-				}
-				mPrecomputed = true;
-			}
-
-			PointL projectedPoint0 = mConvertedPoints.get(0); // points from the points list
-			PointL projectedPoint1;
-
-			final double powerDifference = pj.getProjectedPowerDifference();
-			Point screenPoint0 = pj.getPixelsFromProjected(projectedPoint0, powerDifference, mTempPoint1); // points on screen
-			Point screenPoint1;
-			
-			mPath.moveTo(screenPoint0.x, screenPoint0.y);
-			final double worldSize = TileSystem.MapSize(pj.getZoomLevel());
-			for (int i=0; i<size; i++) {
-				// compute next points
-				projectedPoint1 = mConvertedPoints.get(i);
-				screenPoint1 = pj.getPixelsFromProjected(projectedPoint1, powerDifference, mTempPoint2);
-
-				setCloserPoint(screenPoint0, screenPoint1, worldSize);
-
-				if (Math.abs(screenPoint1.x - screenPoint0.x) + Math.abs(screenPoint1.y - screenPoint0.y) <= 1) {
-					// skip this point, too close to previous point
-					continue;
-				}
-
-				mPath.lineTo(screenPoint1.x, screenPoint1.y);
-
-				// update starting point to next position
-				screenPoint0.x = screenPoint1.x;
-				screenPoint0.y = screenPoint1.y;
-			}
-			mPath.close();
-		}
-
-		private void setCloserPoint(final Point pPrevious, final Point pNext, final double pWorldSize) {
-			while (Math.abs(pNext.x - pWorldSize - pPrevious.x) < Math.abs(pNext.x - pPrevious.x)) {
-				pNext.x -= pWorldSize;
-			}
-			while (Math.abs(pNext.x + pWorldSize - pPrevious.x) < Math.abs(pNext.x - pPrevious.x)) {
-				pNext.x += pWorldSize;
-			}
-			while (Math.abs(pNext.y - pWorldSize - pPrevious.y) < Math.abs(pNext.y - pPrevious.y)) {
-				pNext.y -= pWorldSize;
-			}
-			while (Math.abs(pNext.y + pWorldSize - pPrevious.y) < Math.abs(pNext.y - pPrevious.y)) {
-				pNext.y += pWorldSize;
-			}
-		}
-	}
-
-	private LinearRing mOutline;
-	private ArrayList<LinearRing> mHoles;
+	private final Path mPath = new Path(); //Path drawn is kept for click detection
+	private LinearRing mOutline = new LinearRing(mPath);
+	private ArrayList<LinearRing> mHoles = new ArrayList<>();
 	
 	/** Paint settings. */
 	protected Paint mFillPaint;
 	protected Paint mOutlinePaint;
 
-	private final Path mPath = new Path(); //Path drawn is kept for click detection
-
-	private final Point mTempPoint1 = new Point();
-	private final Point mTempPoint2 = new Point();
-	
 	// ===========================================================
 	// Constructors
 	// ===========================================================
@@ -172,9 +66,6 @@ public class Polygon extends OverlayWithIW {
 		mOutlinePaint.setStrokeWidth(10.0f);
 		mOutlinePaint.setStyle(Paint.Style.STROKE);
 		mOutlinePaint.setAntiAlias(true);
-		mOutline = new LinearRing();
-		mHoles = new ArrayList<LinearRing>(0);
-		mPath.setFillType(Path.FillType.EVEN_ODD); //for correct support of holes
 	}
 
 	// ===========================================================
@@ -235,7 +126,7 @@ public class Polygon extends OverlayWithIW {
 	public void setHoles(List<? extends List<GeoPoint>> holes){
 		mHoles = new ArrayList<LinearRing>(holes.size());
 		for (List<GeoPoint> sourceHole:holes){
-			LinearRing newHole = new LinearRing();
+			LinearRing newHole = new LinearRing(mPath);
 			newHole.setPoints(sourceHole);
 			mHoles.add(newHole);
 		}
@@ -319,13 +210,14 @@ public class Polygon extends OverlayWithIW {
 
 		final Projection pj = mapView.getProjection();
 		mPath.rewind();
-		
-		mOutline.buildPathPortion(pj);
+
+		final PointL offset = mOutline.buildPathPortion(pj, true, null);
 		
 		for (LinearRing hole:mHoles){
-			hole.buildPathPortion(pj);
+			hole.buildPathPortion(pj, true, offset);
 		}
-		
+		mPath.setFillType(Path.FillType.EVEN_ODD); //for correct support of holes
+
 		canvas.drawPath(mPath, mFillPaint);
 		canvas.drawPath(mPath, mOutlinePaint);
 	}
