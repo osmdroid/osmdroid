@@ -9,7 +9,32 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tilesource="Mapnik" />
+    <TextView android:id="@+id/textViewCurrentLocation"
+              android:layout_width="fill_parent"
+              android:text="PLACEHOLDER"
+              android:textAlignment="center"
+              android:gravity="center"
+              android:textColor="@android:color/white"
+              android:background="#77000000"
+              android:layout_height="wrap_content"></TextView>
 
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/zoom_in"
+        android:layout_below="@id/textViewCurrentLocation"
+        android:layout_alignParentLeft="true"
+        android:id="@+id/btnRotateLeft"
+        />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/zoom_out"
+        android:id="@+id/btnRotateRight"
+        android:layout_below="@+id/btnRotateLeft"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"/>
     <org.osmdroid.samplefragments.drawing.CustomPaintingSurface
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -21,14 +46,14 @@
         android:layout_height="wrap_content"
         android:id="@+id/enablePanning"
         android:src="@drawable/ic_menu_mylocation"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginRight="13dp"
         android:background="#00ffffff"
         android:contentDescription="@string/bt_center_map_description"
-        android:cropToPadding="true" />
+        android:cropToPadding="true"
+        android:layout_below="@+id/textViewCurrentLocation"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="13dp"/>
 
     <ImageButton
         android:layout_width="wrap_content"
