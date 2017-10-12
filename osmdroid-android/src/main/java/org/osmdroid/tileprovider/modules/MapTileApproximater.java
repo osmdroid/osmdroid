@@ -255,7 +255,7 @@ public class MapTileApproximater extends MapTileModuleProviderBase {
      */
     @Override
     public void detach() {
-        super.detach(); // first detach super
+        super.detach();
         mProviders.clear();
     }
 }
