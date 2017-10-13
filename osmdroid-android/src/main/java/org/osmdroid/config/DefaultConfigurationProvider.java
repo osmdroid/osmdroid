@@ -34,7 +34,7 @@ public class DefaultConfigurationProvider implements IConfigurationProvider {
     protected boolean debugMapView = false;
     protected boolean debugTileProviders = false;
     protected boolean debugMapTileDownloader=false;
-    protected boolean isMapViewHardwareAccelerated=false;
+    protected boolean isMapViewHardwareAccelerated=true;
     protected String userAgentValue="osmdroid";
     protected String userAgentHttpHeader = "User-Agent";
     private final Map<String, String> mAdditionalHttpRequestProperties = new HashMap<>();
@@ -310,7 +310,7 @@ public class DefaultConfigurationProvider implements IConfigurationProvider {
             setDebugMapTileDownloader(prefs.getBoolean("osmdroid.DebugDownloading", false));
             setDebugMapView(prefs.getBoolean("osmdroid.DebugMapView", false));
             setDebugTileProviders(prefs.getBoolean("osmdroid.DebugTileProvider",false));
-            setMapViewHardwareAccelerated(prefs.getBoolean("osmdroid.HardwareAcceleration",false));
+            setMapViewHardwareAccelerated(prefs.getBoolean("osmdroid.HardwareAcceleration",true));
             setUserAgentValue(prefs.getString("osmdroid.userAgentValue",ctx.getPackageName()));
             load(prefs, mAdditionalHttpRequestProperties, "osmdroid.additionalHttpRequestProperty.");
             setGpsWaitTime(prefs.getLong("osmdroid.gpsWaitTime", gpsWaitTime));
