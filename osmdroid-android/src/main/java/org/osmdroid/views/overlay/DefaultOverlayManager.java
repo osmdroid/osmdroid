@@ -18,6 +18,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 
+/**
+ * https://github.com/osmdroid/osmdroid/issues/154
+ * @since 5.0.0
+ * @author dozd
+ */
 public class DefaultOverlayManager extends AbstractList<Overlay> implements OverlayManager {
 
     private TilesOverlay mTilesOverlay;
