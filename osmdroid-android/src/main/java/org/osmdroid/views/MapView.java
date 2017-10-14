@@ -808,9 +808,8 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 					mLayoutPoint.x = p.x;
 					mLayoutPoint.y = p.y;
 				}
-				getProjection().toMercatorPixels(mLayoutPoint.x, mLayoutPoint.y, mMercatorPoint);
-				final long x = mMercatorPoint.x;
-				final long y = mMercatorPoint.y;
+				final long x = mLayoutPoint.x;
+				final long y = mLayoutPoint.y;
 				long childLeft = x;
 				long childTop = y;
 				switch (lp.alignment) {
@@ -1570,6 +1569,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	private void setMapScroll(final long pMapScrollX, final long pMapScrollY) {
 		mMapScrollX = pMapScrollX;
 		mMapScrollY = pMapScrollY;
+		requestLayout();
 	}
 
 	/**
