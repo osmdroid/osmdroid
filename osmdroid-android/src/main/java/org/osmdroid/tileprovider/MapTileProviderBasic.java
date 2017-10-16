@@ -127,6 +127,7 @@ public class MapTileProviderBasic extends MapTileProviderArray implements IMapTi
 	 */
 	@Override
 	protected boolean isDowngradedMode() {
-		return mNetworkAvailabilityCheck != null && !mNetworkAvailabilityCheck.getNetworkAvailable();
+		return (mNetworkAvailabilityCheck != null && !mNetworkAvailabilityCheck.getNetworkAvailable())
+				|| !useDataConnection();
 	}
 }

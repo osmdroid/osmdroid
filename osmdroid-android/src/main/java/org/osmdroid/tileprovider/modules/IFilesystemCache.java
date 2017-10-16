@@ -69,7 +69,7 @@ public interface IFilesystemCache {
 	/**
 	 * Gets the tile drawable
 	 *
-	 * @since 5.6.5
+	 * @since 6.0.0
 	 * @param pTileSource
 	 * @param pTile
 	 * @return

@@ -39,7 +39,7 @@
     <string name="tile_provider_debugging">Tile Provider Debugging</string>
     <string name="cache_directory">Cache Directory</string>
     <string name="base_directory">Base Directory (we search for tile archives here)</string>
-    <string name="enable_mapview_hardware_acceleration">Enable MapView Hardware Acceleration (normally off)</string>
+    <string name="enable_mapview_hardware_acceleration">Enable MapView Hardware Acceleration (normally on)</string>
     <string name="purge_cache">Purge Cache</string>
     <string name="enter_cache_location">Enter Cache Location</string>
     <string name="pick_cache_location">Pick Cache Location</string>

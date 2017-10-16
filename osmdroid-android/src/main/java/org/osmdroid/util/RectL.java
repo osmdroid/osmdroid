@@ -19,11 +19,22 @@ public class RectL {
         set(pLeft, pTop, pRight, pBottom);
     }
 
+    public RectL(final RectL pOther) {
+        set(pOther);
+    }
+
     public void set(final long pLeft, final long pTop, final long pRight, final long pBottom) {
         left = pLeft;
         top = pTop;
         right = pRight;
         bottom = pBottom;
+    }
+
+    public void set(final RectL pOther) {
+        left = pOther.left;
+        top = pOther.top;
+        right = pOther.right;
+        bottom = pOther.bottom;
     }
 
     public void union(long x, long y) {
@@ -54,5 +65,23 @@ public class RectL {
     @Override
     public String toString() {
         return "RectL(" +left+", "+top+" - "+right+", "+bottom+")";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        final RectL r = (RectL) o;
+        return left == r.left && top == r.top && right == r.right && bottom == r.bottom;
+    }
+
+    @Override
+    public int hashCode() {
+        long result = left;
+        result = 31 * result + top;
+        result = 31 * result + right;
+        result = 31 * result + bottom;
+        return (int) (result % Integer.MAX_VALUE);
     }
 }

@@ -11,6 +11,7 @@ import org.osmdroid.R;
 import org.osmdroid.samplefragments.BaseSampleFragment;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Polygon;
+import org.osmdroid.views.overlay.gestures.RotationGestureOverlay;
 
 /**
  * created on 1/13/2017.
@@ -32,6 +33,10 @@ public class SampleDrawPolyline extends BaseSampleFragment implements View.OnCli
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.layout_drawlines, null);
         mMapView = (MapView) v.findViewById(org.osmdroid.R.id.mapview);
+        RotationGestureOverlay mRotationGestureOverlay = new RotationGestureOverlay(mMapView);
+        mRotationGestureOverlay.setEnabled(true);
+        mMapView.setMultiTouchControls(true);
+        mMapView.getOverlayManager().add(mRotationGestureOverlay);
         panning = (ImageButton) v.findViewById(R.id.enablePanning);
         panning.setOnClickListener(this);
         panning.setBackgroundColor(Color.BLACK);
