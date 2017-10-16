@@ -3,9 +3,6 @@ package org.osmdroid.samples;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 
@@ -46,45 +43,7 @@ public class SampleWithMinimapZoomcontrols extends Activity {
 		rl.addView(this.mOsmv, new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT,
 				LayoutParams.FILL_PARENT));
 
-		/* ZoomControls */
-		{
-			/* Create a ImageView with a zoomIn-Icon. */
-			final ImageView ivZoomIn = new ImageView(this);
-			ivZoomIn.setImageResource(org.osmdroid.R.drawable.zoom_in);
-			/* Create RelativeLayoutParams, that position in in the top right corner. */
-			final RelativeLayout.LayoutParams zoominParams = new RelativeLayout.LayoutParams(
-					RelativeLayout.LayoutParams.WRAP_CONTENT,
-					RelativeLayout.LayoutParams.WRAP_CONTENT);
-			zoominParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-			zoominParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-			rl.addView(ivZoomIn, zoominParams);
-
-			ivZoomIn.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(final View v) {
-					SampleWithMinimapZoomcontrols.this.mOsmv.getController().zoomIn();
-				}
-			});
-
-			/* Create a ImageView with a zoomOut-Icon. */
-			final ImageView ivZoomOut = new ImageView(this);
-			ivZoomOut.setImageResource(org.osmdroid.R.drawable.zoom_out);
-
-			/* Create RelativeLayoutParams, that position in in the top left corner. */
-			final RelativeLayout.LayoutParams zoomoutParams = new RelativeLayout.LayoutParams(
-					RelativeLayout.LayoutParams.WRAP_CONTENT,
-					RelativeLayout.LayoutParams.WRAP_CONTENT);
-			zoomoutParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-			zoomoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-			rl.addView(ivZoomOut, zoomoutParams);
-
-			ivZoomOut.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(final View v) {
-					SampleWithMinimapZoomcontrols.this.mOsmv.getController().zoomOut();
-				}
-			});
-		}
+		mOsmv.setBuiltInZoomControls(true);
 
 		/* MiniMap */
 		{
