@@ -6,9 +6,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 
@@ -86,45 +83,7 @@ public class SampleExtensive extends Activity implements OpenStreetMapConstants 
 			this.mMapView.getOverlays().add(mMyLocationOverlay);
 		}
 
-		/* ZoomControls */
-		{
-			/* Create a ImageView with a zoomIn-Icon. */
-			final ImageView ivZoomIn = new ImageView(this);
-			ivZoomIn.setImageResource(org.osmdroid.R.drawable.zoom_in);
-			/* Create RelativeLayoutParams, that position it in the top right corner. */
-			final RelativeLayout.LayoutParams zoominParams = new RelativeLayout.LayoutParams(
-					RelativeLayout.LayoutParams.WRAP_CONTENT,
-					RelativeLayout.LayoutParams.WRAP_CONTENT);
-			zoominParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-			zoominParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-			rl.addView(ivZoomIn, zoominParams);
-
-			ivZoomIn.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(final View v) {
-					SampleExtensive.this.mOsmvController.zoomIn();
-				}
-			});
-
-			/* Create a ImageView with a zoomOut-Icon. */
-			final ImageView ivZoomOut = new ImageView(this);
-			ivZoomOut.setImageResource(org.osmdroid.R.drawable.zoom_out);
-
-			/* Create RelativeLayoutParams, that position it in the top left corner. */
-			final RelativeLayout.LayoutParams zoomoutParams = new RelativeLayout.LayoutParams(
-					RelativeLayout.LayoutParams.WRAP_CONTENT,
-					RelativeLayout.LayoutParams.WRAP_CONTENT);
-			zoomoutParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-			zoomoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-			rl.addView(ivZoomOut, zoomoutParams);
-
-			ivZoomOut.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(final View v) {
-					SampleExtensive.this.mOsmvController.zoomOut();
-				}
-			});
-		}
+		mMapView.setBuiltInZoomControls(true);
 
 		/* MiniMap */
 		{
