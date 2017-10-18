@@ -6,7 +6,6 @@ import android.animation.ValueAnimator;
 import android.animation.ValueAnimator.AnimatorUpdateListener;
 import android.annotation.TargetApi;
 import android.graphics.Point;
-import android.graphics.Rect;
 import android.os.Build;
 import android.view.View;
 import android.view.animation.Animation;
@@ -272,17 +271,20 @@ public class MapController implements IMapController, OnFirstLayoutListener {
     public boolean zoomInFixing(final int xPixel, final int yPixel, Long zoomAnimation) {
         mMapView.mMultiTouchScalePoint.set(xPixel, yPixel);
         if (mMapView.canZoomIn()) {
+            double newZoomLevel = Math.min(mMapView.getZoomLevelDouble() + 1, mMapView.getMaxZoomLevel());
             if (mMapView.mListener != null) {
-                mMapView.mListener.onZoom(new ZoomEvent(mMapView, mMapView.getZoomLevelDouble() + 1));
+                mMapView.mListener.onZoom(new ZoomEvent(mMapView, newZoomLevel));
             }
             if (mMapView.mIsAnimating.getAndSet(true)) {
                 // TODO extend zoom (and return true)
                 return false;
             } else {
-                mMapView.mTargetZoomLevel.set(mMapView.getZoomLevel(false) + 1);
+                float zoomDiffScale = (float) Math.pow(2.0, newZoomLevel - mMapView.getZoomLevel(false));
+                mMapView.mTargetZoomLevel.set(newZoomLevel);
                 if (zoomAnimation == null) {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
                         mCurrentAnimator = mZoomInAnimation;
+                        mZoomInAnimation.setFloatValues(1f, zoomDiffScale);
                         mZoomInAnimation.start();
                     } else {
                         mMapView.startAnimation(mZoomInAnimationOld);
@@ -290,7 +292,7 @@ public class MapController implements IMapController, OnFirstLayoutListener {
                 } else {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
                         ZoomAnimatorListener zoomAnimatorListener = new ZoomAnimatorListener(this);
-                        ValueAnimator mZoomInAnimation = ValueAnimator.ofFloat(1f, 2f);
+                        ValueAnimator mZoomInAnimation = ValueAnimator.ofFloat(1f, zoomDiffScale);
                         mZoomInAnimation.addListener(zoomAnimatorListener);
                         mZoomInAnimation.addUpdateListener(zoomAnimatorListener);
                         mZoomInAnimation.setDuration(Configuration.getInstance().getAnimationSpeedShort());
@@ -298,8 +300,9 @@ public class MapController implements IMapController, OnFirstLayoutListener {
 
                     } else {
                         ZoomAnimationListener zoomAnimationListener = new ZoomAnimationListener(this);
-                        ScaleAnimation mZoomInAnimationOld = new ScaleAnimation(1, 2, 1, 2, Animation.RELATIVE_TO_SELF, 0.5f,
-                            Animation.RELATIVE_TO_SELF, 0.5f);
+                        ScaleAnimation mZoomInAnimationOld = new ScaleAnimation(
+                            1, zoomDiffScale, 1, zoomDiffScale,
+                            Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
                         mZoomInAnimationOld.setDuration(Configuration.getInstance().getAnimationSpeedShort());
                         mZoomInAnimationOld.setAnimationListener(zoomAnimationListener);
                         mMapView.startAnimation(mZoomInAnimationOld);
