@@ -1,28 +1,18 @@
 package org.osmdroid.samplefragments.animations;
 
-import android.app.Activity;
-import android.graphics.Color;
-import android.util.Log;
 import android.widget.Toast;
 import java.util.Locale;
-import java.util.Timer;
-import java.util.TimerTask;
 import org.osmdroid.events.MapListener;
 import org.osmdroid.events.ScrollEvent;
 import org.osmdroid.events.ZoomEvent;
 import org.osmdroid.samplefragments.BaseSampleFragment;
-import org.osmdroid.util.GeoPoint;
-import org.osmdroid.views.overlay.FolderOverlay;
-import org.osmdroid.views.overlay.Marker;
-import org.osmdroid.views.overlay.gridlines.LatLonGridlineOverlay;
 
 /**
- * Demonstrates a one way to move an icon in an animation.
- * It's dirty but it works
- * created on 7/29/2017.
- * https://github.com/osmdroid/osmdroid/issues/636
+ * Demonstrates interaction of double tab zoom with maximum zoom level
+ * created on 10/18/2017.
+ * https://github.com/osmdroid/osmdroid/issues/743
  *
- * @author Alex O'Ree
+ * @author Maradox
  */
 
 public class MaximumZoomLevel extends BaseSampleFragment implements MapListener {
