@@ -144,9 +144,23 @@ public class Projection implements IProjection {
 	@Override
 	public Point toPixels(final IGeoPoint in, final Point reuse) {
 		final Point out = reuse != null ? reuse : new Point();
-		out.x = getPixelXFromMercator(TileSystem.getMercatorXFromLongitude(in.getLongitude(), mMercatorMapSize), true);
-		out.y = getPixelYFromMercator(TileSystem.getMercatorYFromLatitude(in.getLatitude(), mMercatorMapSize), true);
+		out.x = TileSystem.truncateToInt(getLongPixelXFromLongitude(in.getLongitude()));
+		out.y = TileSystem.truncateToInt(getLongPixelYFromLatitude(in.getLatitude()));
 		return out;
+	}
+
+	/**
+	 * @since 6.0.0
+	 */
+	public long getLongPixelXFromLongitude(final double pLongitude) {
+		return getLongPixelXFromMercator(TileSystem.getMercatorXFromLongitude(pLongitude, mMercatorMapSize), true);
+	}
+
+	/**
+	 * @since 6.0.0
+	 */
+	public long getLongPixelYFromLatitude(final double pLatitude) {
+		return getLongPixelYFromMercator(TileSystem.getMercatorYFromLatitude(pLatitude, mMercatorMapSize), true);
 	}
 
 	/**

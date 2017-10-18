@@ -22,7 +22,6 @@ import org.osmdroid.events.ZoomEvent;
 import org.osmdroid.tileprovider.MapTileProviderArray;
 import org.osmdroid.tileprovider.MapTileProviderBase;
 import org.osmdroid.tileprovider.MapTileProviderBasic;
-import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 import org.osmdroid.tileprovider.modules.MapTileModuleProviderBase;
 import org.osmdroid.tileprovider.tilesource.IStyledTileSource;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
@@ -33,7 +32,6 @@ import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.GeometryMath;
 import org.osmdroid.util.PointL;
-import org.osmdroid.util.RectL;
 import org.osmdroid.util.TileSystem;
 import org.osmdroid.views.overlay.DefaultOverlayManager;
 import org.osmdroid.views.overlay.Overlay;
@@ -114,7 +112,6 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	private final Rect mInvalidateRect = new Rect();
 
 	protected BoundingBox mScrollableAreaBoundingBox;
-	protected RectL mScrollableAreaLimit;
 
 	private MapTileProviderBase mTileProvider;
 	private Handler mTileRequestCompleteHandler;
@@ -679,23 +676,6 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
      */
     public void setScrollableAreaLimitDouble(BoundingBox boundingBox) {
         mScrollableAreaBoundingBox = boundingBox;
-
-        // Clear scrollable area limit if null passed.
-        if (boundingBox == null) {
-            mScrollableAreaLimit = null;
-            return;
-        }
-
-        // Get NW/upper-left
-        final PointL upperLeft = TileSystem.getMercatorFromGeo(
-        		boundingBox.getLatNorth(), boundingBox.getLonWest(),
-				microsoft.mappoint.TileSystem.getMaximumZoomLevel(), null);
-
-        // Get SE/lower-right
-        final PointL lowerRight = TileSystem.getMercatorFromGeo(
-        		boundingBox.getLatSouth(), boundingBox.getLonEast(),
-				microsoft.mappoint.TileSystem.getMaximumZoomLevel(), null);
-        mScrollableAreaLimit = new RectL(upperLeft.x, upperLeft.y, lowerRight.x, lowerRight.y);
     }
 
 
@@ -1024,42 +1004,6 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 	@Override
 	public void scrollTo(int x, int y) {
-		if (mScrollableAreaLimit != null) {
-			final double currentZoomLevel = this.getZoomLevel(false);
-			final double zoomDiff = microsoft.mappoint.TileSystem.getMaximumZoomLevel()
-					- currentZoomLevel;
-			final double power = TileSystem.getFactor(zoomDiff);
-			final int minX = (int)(mScrollableAreaLimit.left / power);
-			final int minY = (int)(mScrollableAreaLimit.top / power);
-			final int maxX = (int)(mScrollableAreaLimit.right / power);
-			final int maxY = (int)(mScrollableAreaLimit.bottom / power);
-
-			final int scrollableWidth = maxX - minX;
-			final int scrollableHeight = maxY - minY;
-			final int width = this.getWidth();
-			final int height = this.getHeight();
-
-			// Adjust if we are outside the scrollable area
-			if (scrollableWidth <= width) {
-				if (x > minX)
-					x = minX;
-				else if (x + width < maxX)
-					x = maxX - width;
-			} else if (x < minX)
-				x = minX;
-			else if (x + width > maxX)
-				x = maxX - width;
-
-			if (scrollableHeight <= height) {
-				if (y > minY)
-					y = minY;
-				else if (y + height < maxY)
-					y = maxY - height;
-			} else if (y - (0) < minY)
-				y = minY + (0);
-			else if (y + (height) > maxY)
-				y = maxY - (height);
-		}
 		setMapScroll(x, y);
 		resetProjection();
 		invalidate();
@@ -1073,6 +1017,61 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 			final ScrollEvent event = new ScrollEvent(this, x, y);
 			mListener.onScroll(event);
 		}
+	}
+
+	/**
+	 * @since 6.0.0
+	 */
+	private boolean checkScrollableAreaBoundingBox() {
+		if (mScrollableAreaBoundingBox == null) {
+			return false;
+		}
+		final double worldSize = TileSystem.MapSize(getZoomLevelDouble());
+		final long offsetX = checkScrollableOffset(
+				getProjection().getLongPixelXFromLongitude(mScrollableAreaBoundingBox.getLonWest()),
+				getProjection().getLongPixelXFromLongitude(mScrollableAreaBoundingBox.getLonEast()),
+				worldSize,
+				getWidth());
+		final long offsetY = checkScrollableOffset(
+				getProjection().getLongPixelYFromLatitude(mScrollableAreaBoundingBox.getActualNorth()),
+				getProjection().getLongPixelYFromLatitude(mScrollableAreaBoundingBox.getActualSouth()),
+				worldSize,
+				getHeight());
+		if (offsetX == 0 && offsetY == 0) {
+			return false;
+		}
+		setMapScroll(mMapScrollX + offsetX, mMapScrollY + offsetY);
+		resetProjection();
+		mScroller.setFinalX((int)getMapScrollX());
+		mScroller.setFinalY((int)getMapScrollY());
+		return true;
+	}
+
+	/**
+	 * @since 6.0.0
+	 */
+	private long checkScrollableOffset(final long pPixelMin, long pPixelMax, final double pWorldSize, final int pScreenSize) {
+		while (pPixelMax - pPixelMin < 0) { // date line + several worlds fix
+			pPixelMax += pWorldSize;
+		}
+		if (pPixelMax - pPixelMin < pScreenSize) {
+			return pPixelMax - pScreenSize / 2 - (pPixelMax - pPixelMin) / 2;
+		} else if (pPixelMin >= 0) {
+			return pPixelMin;
+		} else if (pPixelMax <= pScreenSize) {
+			return pPixelMax - pScreenSize;
+		} else {
+			return 0;
+		}
+	}
+
+	/**
+	 * @since 6.0.0
+	 */
+	@Override
+	public void invalidate() {
+		checkScrollableAreaBoundingBox();
+		super.invalidate();
 	}
 
 	/**
@@ -1583,5 +1582,6 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		mCenter = (GeoPoint)pGeoPoint;
 		setMapScroll(0, 0);
 		resetProjection();
+		invalidate();
 	}
 }
