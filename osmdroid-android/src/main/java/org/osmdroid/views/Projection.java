@@ -13,6 +13,7 @@ import org.osmdroid.util.TileSystem;
 
 import android.graphics.Matrix;
 import android.graphics.Point;
+import android.graphics.PointF;
 import android.graphics.Rect;
 
 /**
@@ -35,6 +36,7 @@ public class Projection implements IProjection {
 	private final long mOffsetX;
 	private final long mOffsetY;
 	private final float mMultiTouchScale;
+	private final PointF mMultiTouchScalePoint;
 
 	private final Matrix mRotateAndScaleMatrix = new Matrix();
 	private final Matrix mUnrotateAndScaleMatrix = new Matrix();
@@ -53,7 +55,8 @@ public class Projection implements IProjection {
 				mapView.getZoomLevel(false), mapView.getIntrinsicScreenRect(null),
 				mapView.getCenter(),
 				mapView.getMapScrollX(), mapView.getMapScrollY(),
-				mapView.getMapOrientation(), mapView.getMapScale());
+				mapView.getMapOrientation(), mapView.getMapScale(),
+				mapView.mMultiTouchScalePoint);
 	}
 
 	/**
@@ -63,7 +66,7 @@ public class Projection implements IProjection {
 			final double pZoomLevel, final Rect pScreenRect,
 			final GeoPoint pCenter,
 			final long pScrollX, final long pScrollY,
-			final float pOrientation, final float pScale) {
+			final float pOrientation, final float pScale, final PointF pMultiTouchScalePoint) {
 		mZoomLevelProjection = pZoomLevel;
 		mMercatorMapSize = TileSystem.MapSize(mZoomLevelProjection);
 		mTileSize = TileSystem.getTileSize(mZoomLevelProjection);
@@ -78,7 +81,8 @@ public class Projection implements IProjection {
 				swGeoPoint.getLatitude(), swGeoPoint.getLongitude());
 		mOrientation = pOrientation;
 		mMultiTouchScale = pScale;
-		mRotateAndScaleMatrix.preScale(mMultiTouchScale, mMultiTouchScale, getScreenCenterX(), getScreenCenterY());
+		mMultiTouchScalePoint = pMultiTouchScalePoint;
+		mRotateAndScaleMatrix.preScale(mMultiTouchScale, mMultiTouchScale, mMultiTouchScalePoint.x, mMultiTouchScalePoint.y);
 		mRotateAndScaleMatrix.preRotate(mOrientation, getScreenCenterX(), getScreenCenterY());
 		mRotateAndScaleMatrix.invert(mUnrotateAndScaleMatrix);
 		mScreenRectProjection = new Rect();
@@ -99,7 +103,7 @@ public class Projection implements IProjection {
 		return new Projection(
 				pZoomLevel, pScreenRect,
 				(GeoPoint)fromPixels(getScreenCenterX(), getScreenCenterY()), 0, 0,
-				mOrientation, mMultiTouchScale);
+				mOrientation, mMultiTouchScale, mMultiTouchScalePoint);
 	}
 
 	public double getZoomLevel() {
