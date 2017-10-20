@@ -3,19 +3,14 @@ package org.osmdroid.samplefragments.events;
 import org.osmdroid.samplefragments.BaseSampleFragment;
 import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
-import org.osmdroid.views.MapView;
-import org.osmdroid.views.Projection;
-import org.osmdroid.views.overlay.Overlay;
+import org.osmdroid.views.overlay.Polygon;
 
-import android.content.Context;
-import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Point;
-import android.graphics.Rect;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+
+import java.util.ArrayList;
 
 /**
  * 
@@ -33,20 +28,11 @@ public class SampleLimitedScrollArea extends BaseSampleFragment {
 	private final int MENU_LIMIT_SCROLLING_ID = Menu.FIRST;
 
 	private BoundingBox sCentralParkBoundingBox;
-	private Paint sPaint;
-
-	// ===========================================================
-	// Fields
-	// ===========================================================
-
-	private ShadeAreaOverlay mShadeAreaOverlay;
 
 	public SampleLimitedScrollArea()
 	{
 		sCentralParkBoundingBox = new BoundingBox(40.796788,
 			-73.949232, 40.768094, -73.981762);
-		sPaint = new Paint();
-		sPaint.setColor(Color.argb(50, 255, 0, 0));
 	}
 	@Override
 	public String getSampleTitle() {
@@ -63,10 +49,16 @@ public class SampleLimitedScrollArea extends BaseSampleFragment {
 	protected void addOverlays() {
 		super.addOverlays();
 
-		final Context context = getActivity();
-
-		mShadeAreaOverlay = new ShadeAreaOverlay();
-		mMapView.getOverlayManager().add(mShadeAreaOverlay);
+		final Polygon polygon = new Polygon();
+		final ArrayList<GeoPoint> list = new ArrayList<>();
+		list.add(new GeoPoint(sCentralParkBoundingBox.getLatNorth(), sCentralParkBoundingBox.getLonEast()));
+		list.add(new GeoPoint(sCentralParkBoundingBox.getLatNorth(), sCentralParkBoundingBox.getLonWest()));
+		list.add(new GeoPoint(sCentralParkBoundingBox.getLatSouth(), sCentralParkBoundingBox.getLonWest()));
+		list.add(new GeoPoint(sCentralParkBoundingBox.getLatSouth(), sCentralParkBoundingBox.getLonEast()));
+		polygon.setPoints(list);
+		polygon.setFillColor(Color.argb(75, 255,0,0));
+		mMapView.getOverlays().add(polygon);
+		mMapView.getController().setZoom(13.);
 
 		setLimitScrolling(true);
 		setHasOptionsMenu(true);
@@ -74,18 +66,11 @@ public class SampleLimitedScrollArea extends BaseSampleFragment {
 
 	protected void setLimitScrolling(boolean limitScrolling) {
 		if (limitScrolling) {
-			mMapView.getController().setZoom(15);
 			mMapView.setScrollableAreaLimitDouble(sCentralParkBoundingBox);
-			mMapView.setMinZoomLevel(15);
-			mMapView.setMaxZoomLevel(18);
-			mMapView.getController().animateTo(sCentralParkBoundingBox.getCenter());
-			mShadeAreaOverlay.setEnabled(true);
+			mMapView.getController().animateTo(sCentralParkBoundingBox.getCenterWithDateLine());
 			mMapView.invalidate();
 		} else {
-			mMapView.setScrollableAreaLimit(null);
-			mMapView.setMinZoomLevel(null);
-			mMapView.setMaxZoomLevel(null);
-			mShadeAreaOverlay.setEnabled(false);
+			mMapView.setScrollableAreaLimitDouble(null);
 			mMapView.invalidate();
 		}
 	}
@@ -120,45 +105,5 @@ public class SampleLimitedScrollArea extends BaseSampleFragment {
 			return true;
 		}
 		return false;
-	}
-
-	// ===========================================================
-	// Methods
-	// ===========================================================
-
-	// ===========================================================
-	// Inner and Anonymous Classes
-	// ===========================================================
-	class ShadeAreaOverlay extends Overlay {
-
-		final GeoPoint mTopLeft;
-		final GeoPoint mBottomRight;
-		final Point mTopLeftPoint = new Point();
-		final Point mBottomRightPoint = new Point();
-		Rect area=null;
-		public ShadeAreaOverlay() {
-			super();
-			mTopLeft = new GeoPoint(sCentralParkBoundingBox.getLatNorth(),
-					sCentralParkBoundingBox.getLonWest());
-			mBottomRight = new GeoPoint(sCentralParkBoundingBox.getLatSouth(),
-					sCentralParkBoundingBox.getLonEast());
-		}
-
-		@Override
-		public void draw(Canvas c, MapView osmv, boolean shadow) {
-			if (shadow)
-				return;
-
-			final Projection proj = osmv.getProjection();
-
-			if (area==null) {
-				proj.toPixels(mTopLeft, mTopLeftPoint);
-				proj.toPixels(mBottomRight, mBottomRightPoint);
-
-				area = new Rect(mTopLeftPoint.x, mTopLeftPoint.y, mBottomRightPoint.x,
-						mBottomRightPoint.y);
-			}
-			c.drawRect(area, sPaint);
-		}
 	}
 }
