@@ -13,6 +13,7 @@ import org.osmdroid.samplefragments.BaseSampleFragment;
  * https://github.com/osmdroid/osmdroid/issues/743
  *
  * @author Maradox
+ * @since 6.0.0
  */
 
 public class MaximumZoomLevel extends BaseSampleFragment implements MapListener {
