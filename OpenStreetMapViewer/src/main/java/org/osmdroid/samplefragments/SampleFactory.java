@@ -8,6 +8,7 @@ import org.osmdroid.samplefragments.animations.AnimatedMarkerHandler;
 import org.osmdroid.samplefragments.animations.AnimatedMarkerTypeEvaluator;
 import org.osmdroid.samplefragments.animations.AnimatedMarkerValueAnimator;
 import org.osmdroid.samplefragments.animations.FastZoomSpeedAnimations;
+import org.osmdroid.samplefragments.animations.MaximumZoomLevel;
 import org.osmdroid.samplefragments.cache.CacheImport;
 import org.osmdroid.samplefragments.cache.CachePurge;
 import org.osmdroid.samplefragments.cache.SampleAlternateCacheDir;
@@ -246,6 +247,7 @@ public final class SampleFactory implements ISampleFactory {
         }
         // 60
         mSamples.add(SampleVeryHighZoomLevel.class);
+        mSamples.add(MaximumZoomLevel.class);
     }
 
     public void addSample(Class<? extends BaseSampleFragment> clz) {
