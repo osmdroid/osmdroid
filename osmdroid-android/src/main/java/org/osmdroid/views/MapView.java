@@ -1,4 +1,3 @@
-// Created by plusminus on 17:45:56 - 25.09.2008
 package org.osmdroid.views;
 
 import java.lang.reflect.InvocationTargetException;
@@ -62,6 +61,8 @@ import android.widget.Scroller;
  * This is the primary view for osmdroid
  * 
  * @since the begining
+ * @author plusminus on 17:45:56 - 25.09.2008
+ * @author and many other contributors
  */
 public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		MultiTouchObjectCanvas<Object> {

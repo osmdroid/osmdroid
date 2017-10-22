@@ -1,10 +1,18 @@
-// Created by plusminus on 21:46:22 - 25.09.2008
 package org.osmdroid.tileprovider;
 
-import java.util.HashMap;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
+import android.os.Handler;
+import android.util.Log;
 
+import org.osmdroid.api.IMapView;
 import org.osmdroid.config.Configuration;
-import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 import org.osmdroid.tileprovider.modules.IFilesystemCache;
 import org.osmdroid.tileprovider.modules.MapTileApproximater;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
@@ -14,18 +22,7 @@ import org.osmdroid.util.TileLooper;
 import org.osmdroid.util.TileSystem;
 import org.osmdroid.views.Projection;
 
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Point;
-import android.graphics.Rect;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.os.Build;
-import android.os.Handler;
-import android.util.Log;
-import org.osmdroid.api.IMapView;
+import java.util.HashMap;
 
 /**
  * This is an abstract class. The tile provider is responsible for:
@@ -37,6 +34,8 @@ import org.osmdroid.api.IMapView;
  *
  * @author Marc Kurtz
  * @author Nicolas Gramlich
+ * @author plusminus on 21:46:22 - 25.09.2008
+ * @author and many other contributors
  *
  */
 public abstract class MapTileProviderBase implements IMapTileProviderCallback {
