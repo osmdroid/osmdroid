@@ -122,7 +122,7 @@ public class MapsforgeTileProviderSample extends BaseSampleFragment {
 
 
             //now for a magic trick
-            //since we, the silly little osmdroid developers have no idea what will be on the
+            //since we have no idea what will be on the
             //user's device and what geographic area it is, this will attempt to center the map
             //on whatever the map data provides
             mMapView.getController().setZoom(fromFiles.getMinimumZoomLevel());
