@@ -8,6 +8,7 @@ import android.annotation.TargetApi;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Build;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
@@ -188,6 +189,7 @@ public class MapController implements IMapController, OnFirstLayoutListener {
      */
     @Override
     public void setCenter(final IGeoPoint point) {
+        Log.e("MapController", "setCenter");
         // If no layout, delay this call
         if (mMapView.mListener != null) {
             mMapView.mListener.onScroll(new ScrollEvent(mMapView, 0, 0));
@@ -471,8 +473,15 @@ public class MapController implements IMapController, OnFirstLayoutListener {
     }
 
     protected void onAnimationEnd() {
+        final double newZoom = mMapView.mTargetZoomLevel.get();
+        final Projection newProjection = mMapView.getProjection().getOffspring(
+                newZoom, mMapView.getProjection().getScreenRect());
+        final IGeoPoint newCenter = newProjection.fromPixels(
+                Math.round(mMapView.mMultiTouchScalePoint.x),
+                Math.round(mMapView.mMultiTouchScalePoint.y));
         mMapView.mIsAnimating.set(false);
-        setZoom(mMapView.mTargetZoomLevel.get());
+        setCenter(newCenter);
+        setZoom(newZoom);
         mMapView.mMultiTouchScale = 1f;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             mCurrentAnimator = null;
