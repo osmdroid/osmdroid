@@ -1,4 +1,3 @@
-// Created by plusminus on 17:45:56 - 25.09.2008
 package org.osmdroid.views;
 
 import java.lang.reflect.InvocationTargetException;
@@ -32,12 +31,12 @@ import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.GeometryMath;
 import org.osmdroid.util.PointL;
-import org.osmdroid.util.RectL;
 import org.osmdroid.util.TileSystem;
 import org.osmdroid.views.overlay.DefaultOverlayManager;
 import org.osmdroid.views.overlay.Overlay;
 import org.osmdroid.views.overlay.OverlayManager;
 import org.osmdroid.views.overlay.TilesOverlay;
+import org.osmdroid.views.overlay.ZoomButtonsOverlay;
 import org.osmdroid.views.util.constants.MapViewConstants;
 
 import android.content.Context;
@@ -57,13 +56,13 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Scroller;
-import android.widget.ZoomButtonsController;
-import android.widget.ZoomButtonsController.OnZoomListener;
 
 /**
  * This is the primary view for osmdroid
  * 
  * @since the begining
+ * @author plusminus on 17:45:56 - 25.09.2008
+ * @author and many other contributors
  */
 public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		MultiTouchObjectCanvas<Object> {
@@ -103,10 +102,6 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 	private final MapController mController;
 
-	private final ZoomButtonsController mZoomController;
-	private boolean mEnableZoomController = false;
-
-
 	private MultiTouchController<Object> mMultiTouchController;
 	protected float mMultiTouchScale = 1.0f;
 	protected PointF mMultiTouchScalePoint = new PointF();
@@ -118,7 +113,6 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	private final Rect mInvalidateRect = new Rect();
 
 	protected BoundingBox mScrollableAreaBoundingBox;
-	protected RectL mScrollableAreaLimit;
 
 	private MapTileProviderBase mTileProvider;
 	private Handler mTileRequestCompleteHandler;
@@ -141,6 +135,8 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	private GeoPoint mCenter;
 	private long mMapScrollX;
 	private long mMapScrollY;
+
+	private ZoomButtonsOverlay mZoomButtonsOverlay;
 
 	public interface OnFirstLayoutListener {
 		/**
@@ -172,7 +168,6 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		if(isInEditMode()){ 	//fix for edit mode in the IDE
 			mTileRequestCompleteHandler=null;
 			mController=null;
-			mZoomController=null;
 			mScroller=null;
 			mGestureDetector=null;
 			return;
@@ -200,13 +195,6 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		this.mMapOverlay = new TilesOverlay(mTileProvider, context, mapRepetitionEnabled);
 		mOverlayManager = new DefaultOverlayManager(mMapOverlay);
 
-		if (isInEditMode()) {
-			mZoomController = null;
-		} else {
-			mZoomController = new ZoomButtonsController(this);
-			mZoomController.setOnZoomListener(new MapViewZoomListener());
-		}
-
 		mGestureDetector = new GestureDetector(context, new MapViewGestureDetectorListener());
 		mGestureDetector.setOnDoubleTapListener(new MapViewDoubleClickListener());
 
@@ -218,6 +206,9 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		if (Configuration.getInstance().isMapViewRecyclerFriendly())
 		if (Build.VERSION.SDK_INT >= 16)
 			this.setHasTransientState(true);
+
+		mZoomButtonsOverlay = new ZoomButtonsOverlay(this);
+		mZoomButtonsOverlay.setEnabled(false);
 	}
 
 	/**
@@ -688,23 +679,6 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
      */
     public void setScrollableAreaLimitDouble(BoundingBox boundingBox) {
         mScrollableAreaBoundingBox = boundingBox;
-
-        // Clear scrollable area limit if null passed.
-        if (boundingBox == null) {
-            mScrollableAreaLimit = null;
-            return;
-        }
-
-        // Get NW/upper-left
-        final PointL upperLeft = TileSystem.getMercatorFromGeo(
-        		boundingBox.getLatNorth(), boundingBox.getLonWest(),
-				microsoft.mappoint.TileSystem.getMaximumZoomLevel(), null, true);
-
-        // Get SE/lower-right
-        final PointL lowerRight = TileSystem.getMercatorFromGeo(
-        		boundingBox.getLatSouth(), boundingBox.getLonEast(),
-				microsoft.mappoint.TileSystem.getMaximumZoomLevel(), null, true);
-        mScrollableAreaLimit = new RectL(upperLeft.x, upperLeft.y, lowerRight.x, lowerRight.y);
     }
 
 
@@ -712,6 +686,10 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
         return mScrollableAreaBoundingBox;
     }
 
+	public void setScrollableAreaLimitToMapBounds() {
+		BoundingBox boundingBox = new BoundingBox(90, 180, -90, -180);
+		setScrollableAreaLimitDouble(boundingBox);
+	}
 
 	public void invalidateMapCoordinates(Rect dirty) {
 		invalidateMapCoordinates(dirty.left, dirty.top, dirty.right, dirty.bottom, false);
@@ -885,7 +863,6 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		this.getOverlayManager().onDetach(this);
 		mTileProvider.detach();
 		mTileProvider.clearTileCache();
-		mZoomController.setVisible(false);
 
 		//https://github.com/osmdroid/osmdroid/issues/390
 		if (mTileRequestCompleteHandler instanceof SimpleInvalidationHandler) {
@@ -930,7 +907,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 			Log.d(IMapView.LOGTAG,"dispatchTouchEvent(" + event + ")");
 		}
 
-		if (mZoomController.isVisible() && mZoomController.onTouch(this, event)) {
+		if (mZoomButtonsOverlay.onTouchEvent(event, this)) {
 			return true;
 		}
 
@@ -1033,42 +1010,6 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 	@Override
 	public void scrollTo(int x, int y) {
-		if (mScrollableAreaLimit != null) {
-			final double currentZoomLevel = this.getZoomLevel(false);
-			final double zoomDiff = microsoft.mappoint.TileSystem.getMaximumZoomLevel()
-					- currentZoomLevel;
-			final double power = TileSystem.getFactor(zoomDiff);
-			final int minX = (int)(mScrollableAreaLimit.left / power);
-			final int minY = (int)(mScrollableAreaLimit.top / power);
-			final int maxX = (int)(mScrollableAreaLimit.right / power);
-			final int maxY = (int)(mScrollableAreaLimit.bottom / power);
-
-			final int scrollableWidth = maxX - minX;
-			final int scrollableHeight = maxY - minY;
-			final int width = this.getWidth();
-			final int height = this.getHeight();
-
-			// Adjust if we are outside the scrollable area
-			if (scrollableWidth <= width) {
-				if (x > minX)
-					x = minX;
-				else if (x + width < maxX)
-					x = maxX - width;
-			} else if (x < minX)
-				x = minX;
-			else if (x + width > maxX)
-				x = maxX - width;
-
-			if (scrollableHeight <= height) {
-				if (y > minY)
-					y = minY;
-				else if (y + height < maxY)
-					y = maxY - height;
-			} else if (y - (0) < minY)
-				y = minY + (0);
-			else if (y + (height) > maxY)
-				y = maxY - (height);
-		}
 		setMapScroll(x, y);
 		resetProjection();
 		invalidate();
@@ -1082,6 +1023,62 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 			final ScrollEvent event = new ScrollEvent(this, x, y);
 			mListener.onScroll(event);
 		}
+	}
+
+	/**
+	 * @since 6.0.0
+	 */
+	private boolean checkScrollableAreaBoundingBox() {
+		if (mScrollableAreaBoundingBox == null) {
+			return false;
+		}
+		final double worldSize = TileSystem.MapSize(getZoomLevelDouble());
+		final long offsetX = checkScrollableOffset(
+				getProjection().getLongPixelXFromLongitude(mScrollableAreaBoundingBox.getLonWest(), true),
+				getProjection().getLongPixelXFromLongitude(mScrollableAreaBoundingBox.getLonEast(), true),
+				worldSize,
+				getWidth());
+		final long offsetY = checkScrollableOffset(
+				getProjection().getLongPixelYFromLatitude(mScrollableAreaBoundingBox.getActualNorth(), true),
+				getProjection().getLongPixelYFromLatitude(mScrollableAreaBoundingBox.getActualSouth(), true),
+				worldSize,
+				getHeight());
+		if (offsetX == 0 && offsetY == 0) {
+			return false;
+		}
+		setMapScroll(mMapScrollX + offsetX, mMapScrollY + offsetY);
+		resetProjection();
+		mScroller.setFinalX((int)getMapScrollX());
+		mScroller.setFinalY((int)getMapScrollY());
+		return true;
+	}
+
+	/**
+	 * @since 6.0.0
+	 */
+	private long checkScrollableOffset(final long pPixelMin, long pPixelMax, final double pWorldSize, final int pScreenSize) {
+		while (pPixelMax - pPixelMin < 0) { // date line + several worlds fix
+			pPixelMax += pWorldSize;
+		}
+
+		if (pPixelMax - pPixelMin < pScreenSize) {
+			return pPixelMax - pScreenSize / 2 - (pPixelMax - pPixelMin) / 2;
+		} else if (pPixelMin >= 0) {
+			return pPixelMin;
+		} else if (pPixelMax <= pScreenSize) {
+			return pPixelMax - pScreenSize;
+		} else {
+			return 0;
+		}
+	}
+
+	/**
+	 * @since 6.0.0
+	 */
+	@Override
+	public void invalidate() {
+		checkScrollableAreaBoundingBox();
+		super.invalidate();
 	}
 
 	/**
@@ -1116,7 +1113,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		try {
 			/* Draw all Overlays. */
 			this.getOverlayManager().onDraw(c, this);
-
+			mZoomButtonsOverlay.draw(c, this, false);
 			// Restore the canvas matrix
 			c.restore();
 			super.dispatchDraw(c);
@@ -1132,7 +1129,6 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 	@Override
 	protected void onDetachedFromWindow() {
-		this.mZoomController.setVisible(false);
 		this.onDetach();
 		super.onDetachedFromWindow();
 	}
@@ -1226,13 +1222,36 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	// ===========================================================
 
 	private void checkZoomButtons() {
-		this.mZoomController.setZoomInEnabled(canZoomIn());
-		this.mZoomController.setZoomOutEnabled(canZoomOut());
+		mZoomButtonsOverlay.setZoomInEnabled(canZoomIn());
+		mZoomButtonsOverlay.setZoomOutEnabled(canZoomOut());
 	}
 
 	public void setBuiltInZoomControls(final boolean on) {
-		this.mEnableZoomController = on;
-		this.checkZoomButtons();
+		setBuiltInZoomControls(on,
+				ZoomButtonsOverlay.POSITION_HORIZONTAL_DEFAULT
+				| ZoomButtonsOverlay.POSITION_VERTICAL_DEFAULT);
+	}
+
+	/**
+	 * @since 6.0.0
+	 * @param pPosition OR'ed value between {@link ZoomButtonsOverlay#POSITION_HORIZONTAL_POSSIBLE}
+	 *                     and {@link ZoomButtonsOverlay#POSITION_VERTICAL_POSSIBLE}
+	 */
+	public void setBuiltInZoomControls(final boolean on, final int pPosition) {
+		mZoomButtonsOverlay.setEnabled(on);
+		mZoomButtonsOverlay.setPosition(pPosition);
+		checkZoomButtons();
+	}
+
+	/**
+	 * @since 6.0.0
+	 * @param pLeft Explicit left pixel of the first zoom button
+	 * @param pTop Explicit top pixel of both zoom buttons
+	 */
+	public void setBuiltInZoomControls(final boolean on, final int pLeft, final int pTop) {
+		mZoomButtonsOverlay.setEnabled(on);
+		mZoomButtonsOverlay.setLeftTop(pLeft, pTop);
+		checkZoomButtons();
 	}
 
 	public void setMultiTouchControls(final boolean on) {
@@ -1315,7 +1334,6 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 				return true;
 			}
 
-			mZoomController.setVisible(mEnableZoomController);
 			return true;
 		}
 
@@ -1336,35 +1354,8 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 			final double worldSize = TileSystem.MapSize(MapView.this.getZoomLevel(false));
 			mIsFlinging = true;
 			if (mScroller!=null) {  //fix for edit mode in the IDE
-				if(mapRepetitionEnabled) {
-					mScroller.fling((int) getMapScrollX(), (int) getMapScrollY(), (int) -velocityX, (int) -velocityY,
-							-(int)worldSize, (int)worldSize, -(int)worldSize, (int)worldSize);
-				} else {
-					Log.e("osmdroid","fling: " + getScrollX()+" "+getMapScrollX()+" "+getScrollY()+" "+getMapScrollY()+" | "+worldSize+" "+getWidth()+" | "+getHeight());
-					if (-getMapScrollX() < 0
-							|| -getMapScrollX() + worldSize > getWidth()
-							|| -getMapScrollY() < 0
-							|| -getMapScrollY() + worldSize > getHeight()) {
-						// The map is offscreen
-						double maximumFlingOffset = worldSize;
-						double minX = getMapScrollX() - maximumFlingOffset;
-						double maxX = getMapScrollX() + maximumFlingOffset;
-						double minY = getMapScrollY() - maximumFlingOffset;
-						double maxY = getMapScrollY() + maximumFlingOffset;
-
-						mScroller.fling((int) getMapScrollX(), (int) getMapScrollY(), (int) -velocityX, (int) -velocityY, (int) minX, (int) maxX, (int) minY, (int) maxY);
-					} else {
-						// The map is fully onscreen
-						double remainingWidth = worldSize - getWidth();
-						double remainingHeight = worldSize - getHeight();
-						double minX = remainingWidth <= 0 ? remainingWidth : 0;
-						double maxX = remainingWidth > 0 ? remainingWidth : 0;
-						double minY = remainingHeight <= 0 ? remainingHeight : 0;
-						double maxY = remainingHeight > 0 ? remainingHeight : 0;
-
-						mScroller.fling((int) getMapScrollX(), getScrollY(), (int) -velocityX, (int) -velocityY, (int) minX, (int) maxX, (int) minY, (int) maxY);
-					}
-				}
+				mScroller.fling((int) getMapScrollX(), (int) getMapScrollY(), (int) -velocityX,
+						(int) -velocityY, -(int)worldSize, (int)worldSize, -(int)worldSize, (int)worldSize);
 			}
 			return true;
 		}
@@ -1434,21 +1425,6 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 			}
 
 			return false;
-		}
-	}
-
-	private class MapViewZoomListener implements OnZoomListener {
-		@Override
-		public void onZoom(final boolean zoomIn) {
-			if (zoomIn) {
-				getController().zoomIn();
-			} else {
-				getController().zoomOut();
-			}
-		}
-
-		@Override
-		public void onVisibilityChanged(final boolean visible) {
 		}
 	}
 
@@ -1631,5 +1607,6 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		mCenter = (GeoPoint)pGeoPoint;
 		setMapScroll(0, 0);
 		resetProjection();
+		invalidate();
 	}
 }

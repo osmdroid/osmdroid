@@ -13,6 +13,7 @@ import org.osmdroid.util.TileSystem;
 
 import android.graphics.Matrix;
 import android.graphics.Point;
+import android.graphics.PointF;
 import android.graphics.Rect;
 
 /**
@@ -35,6 +36,7 @@ public class Projection implements IProjection {
 	private final long mOffsetX;
 	private final long mOffsetY;
 	private final float mMultiTouchScale;
+	private final PointF mMultiTouchScalePoint;
 
 	private final Matrix mRotateAndScaleMatrix = new Matrix();
 	private final Matrix mUnrotateAndScaleMatrix = new Matrix();
@@ -56,7 +58,8 @@ public class Projection implements IProjection {
 				mapView.getZoomLevel(false), mapView.getIntrinsicScreenRect(null),
 				mapView.getCenter(),
 				mapView.getMapScrollX(), mapView.getMapScrollY(),
-				mapView.getMapOrientation(), mapView.getMapScale(), mapView.isMapRepetitionEnabled());
+				mapView.getMapOrientation(), mapView.getMapScale(),
+				mapView.mMultiTouchScalePoint, mapView.isMapRepetitionEnabled());
 	}
 
 	/**
@@ -66,7 +69,7 @@ public class Projection implements IProjection {
 			final double pZoomLevel, final Rect pScreenRect,
 			final GeoPoint pCenter,
 			final long pScrollX, final long pScrollY,
-			final float pOrientation, final float pScale, boolean wrapEnabled) {
+			final float pOrientation, final float pScale, final PointF pMultiTouchScalePoint, boolean wrapEnabled) {
 		mZoomLevelProjection = pZoomLevel;
 		this.wrapEnabled = wrapEnabled;
 		mMercatorMapSize = TileSystem.MapSize(mZoomLevelProjection);
@@ -82,7 +85,8 @@ public class Projection implements IProjection {
 				swGeoPoint.getLatitude(), swGeoPoint.getLongitude());
 		mOrientation = pOrientation;
 		mMultiTouchScale = pScale;
-		mRotateAndScaleMatrix.preScale(mMultiTouchScale, mMultiTouchScale, getScreenCenterX(), getScreenCenterY());
+		mMultiTouchScalePoint = pMultiTouchScalePoint;
+		mRotateAndScaleMatrix.preScale(mMultiTouchScale, mMultiTouchScale, mMultiTouchScalePoint.x, mMultiTouchScalePoint.y);
 		mRotateAndScaleMatrix.preRotate(mOrientation, getScreenCenterX(), getScreenCenterY());
 		mRotateAndScaleMatrix.invert(mUnrotateAndScaleMatrix);
 		mScreenRectProjection = new Rect();
@@ -103,7 +107,7 @@ public class Projection implements IProjection {
 		return new Projection(
 				pZoomLevel, pScreenRect,
 				(GeoPoint)fromPixels(getScreenCenterX(), getScreenCenterY()), 0, 0,
-				mOrientation, mMultiTouchScale, wrapEnabled);
+				mOrientation, mMultiTouchScale, mMultiTouchScalePoint, wrapEnabled);
 	}
 
 	public double getZoomLevel() {
@@ -154,9 +158,23 @@ public class Projection implements IProjection {
 
 	public Point toPixels(final IGeoPoint in, final Point reuse, boolean forceWrap) {
 		final Point out = reuse != null ? reuse : new Point();
-		out.x = getPixelXFromMercator(TileSystem.getMercatorXFromLongitude(in.getLongitude(), mMercatorMapSize, wrapEnabled || forceWrap), true);
-		out.y = getPixelYFromMercator(TileSystem.getMercatorYFromLatitude(in.getLatitude(), mMercatorMapSize, wrapEnabled || forceWrap), true);
+		out.x = TileSystem.truncateToInt(getLongPixelXFromLongitude(in.getLongitude(), forceWrap));
+		out.y = TileSystem.truncateToInt(getLongPixelYFromLatitude(in.getLatitude(), forceWrap));
 		return out;
+	}
+
+	/**
+	 * @since 6.0.0
+	 */
+	public long getLongPixelXFromLongitude(final double pLongitude, boolean forceWrap) {
+		return getLongPixelXFromMercator(TileSystem.getMercatorXFromLongitude(pLongitude, mMercatorMapSize, wrapEnabled || forceWrap), wrapEnabled);
+	}
+
+	/**
+	 * @since 6.0.0
+	 */
+	public long getLongPixelYFromLatitude(final double pLatitude, boolean forceWrap) {
+		return getLongPixelYFromMercator(TileSystem.getMercatorYFromLatitude(pLatitude, mMercatorMapSize, wrapEnabled || forceWrap), wrapEnabled);
 	}
 
 	/**

@@ -1,6 +1,7 @@
 package org.osmdroid.util;
 
 import android.graphics.Point;
+import android.graphics.PointF;
 import android.graphics.Rect;
 
 import junit.framework.Assert;
@@ -227,7 +228,7 @@ public class ProjectionTest {
                 pGeoPoint,
                 pOffsetX, pOffsetY,
                 getRandomOrientation(),
-                mScale);
+                mScale, new PointF(mWidth / 2, mHeight / 2), true);
     }
 
     private Projection getRandomProjection(final double pZoomLevel) {

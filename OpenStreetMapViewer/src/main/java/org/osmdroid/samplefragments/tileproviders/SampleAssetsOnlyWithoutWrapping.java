@@ -21,6 +21,7 @@ public class SampleAssetsOnlyWithoutWrapping extends BaseSampleFragment {
     @Override
     public void addOverlays() {
         this.mMapView.setMapRepetitionEnabled(false);
+        this.mMapView.setScrollableAreaLimitToMapBounds();
         this.mMapView.setUseDataConnection(false);
         MapTileAssetsProvider prov = new MapTileAssetsProvider(new SimpleRegisterReceiver(getContext()  ), getActivity().getAssets());
 

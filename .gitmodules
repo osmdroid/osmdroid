@@ -1,0 +1,3 @@
+[submodule "src/site"]
+	path = src/site
+	url = https://github.com/osmdroid/osmdroid.wiki.git

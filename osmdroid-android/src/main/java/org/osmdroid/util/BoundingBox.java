@@ -92,12 +92,7 @@ public class BoundingBox implements Parcelable, Serializable, MapViewConstants {
 	 * @since 6.0.0
 	 */
 	public GeoPoint getCenterWithDateLine() {
-		final double latitude = (mLatNorth + mLatSouth) / 2.0;
-		double longitude = (mLonEast + mLonWest) / 2.0;
-		if (mLonEast < mLonWest) {
-			longitude += TileSystem.MaxLongitude;
-		}
-		return new GeoPoint(latitude, longitude);
+		return new GeoPoint(getCenterLatitude(), getCenterLongitude());
 	}
 
 	public double getDiagonalLengthInMeters() {
@@ -111,6 +106,38 @@ public class BoundingBox implements Parcelable, Serializable, MapViewConstants {
 
 	public double getLatSouth() {
 		return this.mLatSouth;
+	}
+
+	/**
+	 * @since 6.0.0
+	 */
+	public double getCenterLatitude() {
+		return (mLatNorth + mLatSouth) / 2.0;
+	}
+
+	/**
+	 * @since 6.0.0
+	 */
+	public double getCenterLongitude() {
+		double longitude = (mLonEast + mLonWest) / 2.0;
+		if (mLonEast < mLonWest) {
+			longitude += TileSystem.MaxLongitude;
+		}
+		return longitude;
+	}
+
+	/**
+	 * @since 6.0.0
+	 */
+	public double getActualNorth() {
+		return Math.max(mLatNorth, mLatSouth);
+	}
+
+	/**
+	 * @since 6.0.0
+	 */
+	public double getActualSouth() {
+		return Math.min(mLatNorth, mLatSouth);
 	}
 
 	public double getLonEast() {
