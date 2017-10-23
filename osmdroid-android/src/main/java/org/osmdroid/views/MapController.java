@@ -8,7 +8,6 @@ import android.annotation.TargetApi;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Build;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
@@ -189,7 +188,6 @@ public class MapController implements IMapController, OnFirstLayoutListener {
      */
     @Override
     public void setCenter(final IGeoPoint point) {
-        Log.e("MapController", "setCenter");
         // If no layout, delay this call
         if (mMapView.mListener != null) {
             mMapView.mListener.onScroll(new ScrollEvent(mMapView, 0, 0));
