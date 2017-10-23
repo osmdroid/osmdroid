@@ -5,24 +5,13 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.graphics.Point;
-import android.graphics.Rect;
-import android.util.Log;
 import android.view.MotionEvent;
 
-import org.osmdroid.api.IGeoPoint;
-import org.osmdroid.api.IMapView;
-import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
-import org.osmdroid.util.GeometryMath;
-import org.osmdroid.util.PointL;
-import org.osmdroid.util.TileSystem;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
-import org.osmdroid.views.overlay.OverlayWithIW;
 import org.osmdroid.views.util.constants.MathConstants;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -47,6 +36,7 @@ public class Polyline extends OverlayWithIW {
 	private final Paint mPaint = new Paint();
 	/** Bounding rectangle for view */
     private LinearRing mOutline = new LinearRing(mPath);
+	private String id=null;
 
 	protected OnClickListener mOnClickListener;
 
@@ -231,6 +221,22 @@ public class Polyline extends OverlayWithIW {
 			}
 		} else
 			return touched;
+	}
+
+	/**
+	 * @since 6.0.0
+	 * @return
+	 */
+	public String getId() {
+		return id;
+	}
+
+	/**
+	 * @since 6.0.0
+	 * @param id
+	 */
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	//-- Polyline events listener interfaces ------------------------------------

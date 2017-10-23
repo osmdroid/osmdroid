@@ -1,18 +1,5 @@
 package org.osmdroid.views.overlay;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.osmdroid.api.IGeoPoint;
-import org.osmdroid.util.BoundingBox;
-import org.osmdroid.util.BoundingBoxE6;
-import org.osmdroid.util.GeoPoint;
-import org.osmdroid.util.PointL;
-import org.osmdroid.util.RectL;
-import org.osmdroid.util.SegmentIntersection;
-import org.osmdroid.util.TileSystem;
-import org.osmdroid.views.MapView;
-import org.osmdroid.views.Projection;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -21,6 +8,17 @@ import android.graphics.Path;
 import android.graphics.RectF;
 import android.graphics.Region;
 import android.view.MotionEvent;
+
+import org.osmdroid.api.IGeoPoint;
+import org.osmdroid.util.BoundingBox;
+import org.osmdroid.util.BoundingBoxE6;
+import org.osmdroid.util.GeoPoint;
+import org.osmdroid.util.PointL;
+import org.osmdroid.views.MapView;
+import org.osmdroid.views.Projection;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A polygon on the earth's surface that can have a
@@ -41,6 +39,7 @@ public class Polygon extends OverlayWithIW {
 	private final Path mPath = new Path(); //Path drawn is kept for click detection
 	private LinearRing mOutline = new LinearRing(mPath);
 	private ArrayList<LinearRing> mHoles = new ArrayList<>();
+	private String id=null;
 	
 	/** Paint settings. */
 	protected Paint mFillPaint;
@@ -259,4 +258,19 @@ public class Polygon extends OverlayWithIW {
 		onDestroy();
 	}
 
+	/**
+	 * @since 6.0.0
+	 * @return
+	 */
+	public String getId() {
+		return id;
+	}
+
+	/**
+	 * @since 6.0.0
+	 * @param id
+	 */
+	public void setId(String id) {
+		this.id = id;
+	}
 }
