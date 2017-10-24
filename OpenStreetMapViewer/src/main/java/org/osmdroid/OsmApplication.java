@@ -37,7 +37,7 @@ public class OsmApplication extends Application {
     public void onCreate() {
         super.onCreate();
         try {
-            LeakCanary.install(this);
+            //LeakCanary.install(this);
         } catch (Throwable ex) {
 
             //this can happen on androidx86 getExternalStorageDir is not writable or if there is a

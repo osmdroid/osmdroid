@@ -50,6 +50,10 @@ dependencies {
     androidTestCompile 'com.android.support:support-annotations:23+'
     androidTestCompile 'com.android.support.test:runner:0.4.+'
     androidTestCompile 'com.android.support.test:rules:0.4.+'
+
+    testCompile 'junit:junit:4.12'
+    testCompile "org.robolectric:robolectric:3.4.2"
+
 }
 
 
