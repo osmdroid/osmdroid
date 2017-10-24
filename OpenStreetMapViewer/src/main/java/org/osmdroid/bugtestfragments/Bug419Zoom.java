@@ -51,8 +51,8 @@ public class Bug419Zoom extends BaseSampleFragment implements View.OnClickListen
         }
     }
 
-    int i = 0;
-    int x = 0;
+    double i = 0;
+    double x = 0;
 
     //call this from off the UI thread
     public void startTest() {

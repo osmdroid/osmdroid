@@ -107,7 +107,7 @@ public class SampleOsmPath extends BaseSampleFragment implements MapListener {
 			}
 		});*/
 		mMapView.getOverlayManager().add(line);
-		mMapView.setMaxZoomLevel(22);
+		mMapView.setMaxZoomLevel(22.0);
 
 
 		Marker marker = new Marker(mMapView);

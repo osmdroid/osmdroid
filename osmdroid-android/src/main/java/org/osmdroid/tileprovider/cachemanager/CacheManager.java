@@ -81,7 +81,7 @@ public class CacheManager {
     }
 
     public CacheManager(final MapView mapView, IFilesystemCache writer) {
-        this(mapView.getTileProvider(), writer, mapView.getMinZoomLevel(), mapView.getMaxZoomLevel());
+        this(mapView.getTileProvider(), writer, (int) mapView.getMinZoomLevel(), (int) mapView.getMaxZoomLevel());
     }
 
     /**

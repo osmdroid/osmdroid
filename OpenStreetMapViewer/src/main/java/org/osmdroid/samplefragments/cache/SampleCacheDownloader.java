@@ -125,13 +125,13 @@ public class SampleCacheDownloader extends BaseSampleFragment implements View.On
 
         BoundingBox boundingBox = mMapView.getBoundingBox();
         zoom_max=(SeekBar) view.findViewById(R.id.slider_zoom_max);
-        zoom_max.setMax(mMapView.getMaxZoomLevel());
+        zoom_max.setMax((int) mMapView.getMaxZoomLevel());
         zoom_max.setOnSeekBarChangeListener(SampleCacheDownloader.this);
 
 
         zoom_min=(SeekBar) view.findViewById(R.id.slider_zoom_min);
-        zoom_min.setMax(mMapView.getMaxZoomLevel());
-        zoom_min.setProgress(mMapView.getMinZoomLevel());
+        zoom_min.setMax((int) mMapView.getMaxZoomLevel());
+        zoom_min.setProgress((int) mMapView.getMinZoomLevel());
         zoom_min.setOnSeekBarChangeListener(SampleCacheDownloader.this);
         cache_east= (EditText) view.findViewById(R.id.cache_east);
         cache_east.setText(boundingBox.getLonEast() +"");
