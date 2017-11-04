@@ -26,7 +26,7 @@ public class MaximumZoomLevel extends BaseSampleFragment implements MapListener 
     @Override
     protected void addOverlays() {
         super.addOverlays();
-        mMapView.setMaxZoomLevel(5);
+        mMapView.setMaxZoomLevel(5.5);
         mMapView.setMapListener(this);
     }
 

@@ -18,7 +18,7 @@ public interface IMapView {
 	 * @since 6.0
 	 */
 	double getZoomLevelDouble();
-	int getMaxZoomLevel();
+	double getMaxZoomLevel();
      @Deprecated
 	int getLatitudeSpan();
      @Deprecated
