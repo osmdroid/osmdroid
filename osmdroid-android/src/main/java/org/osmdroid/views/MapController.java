@@ -6,7 +6,6 @@ import android.animation.ValueAnimator;
 import android.animation.ValueAnimator.AnimatorUpdateListener;
 import android.annotation.TargetApi;
 import android.graphics.Point;
-import android.graphics.Rect;
 import android.os.Build;
 import android.view.View;
 import android.view.animation.Animation;
@@ -20,6 +19,7 @@ import org.osmdroid.events.ScrollEvent;
 import org.osmdroid.events.ZoomEvent;
 import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.BoundingBoxE6;
+import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView.OnFirstLayoutListener;
 import org.osmdroid.views.util.MyMath;
 
@@ -471,15 +471,11 @@ public class MapController implements IMapController, OnFirstLayoutListener {
     }
 
     protected void onAnimationEnd() {
+        final GeoPoint currentCenter = mMapView.getProjection().getCurrentCenter();
         final double newZoom = mMapView.mTargetZoomLevel.get();
-        final Projection newProjection = mMapView.getProjection().getOffspring(
-                newZoom, mMapView.getProjection().getScreenRect());
-        final IGeoPoint newCenter = newProjection.fromPixels(
-                Math.round(mMapView.mMultiTouchScalePoint.x),
-                Math.round(mMapView.mMultiTouchScalePoint.y));
         mMapView.mIsAnimating.set(false);
-        setCenter(newCenter);
         setZoom(newZoom);
+        mMapView.setCenter(currentCenter);
         mMapView.mMultiTouchScale = 1f;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             mCurrentAnimator = null;
