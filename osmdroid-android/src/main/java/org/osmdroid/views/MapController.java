@@ -19,6 +19,7 @@ import org.osmdroid.events.ScrollEvent;
 import org.osmdroid.events.ZoomEvent;
 import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.BoundingBoxE6;
+import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView.OnFirstLayoutListener;
 import org.osmdroid.views.util.MyMath;
 
@@ -474,8 +475,11 @@ public class MapController implements IMapController, OnFirstLayoutListener {
     }
 
     protected void onAnimationEnd() {
+        final GeoPoint currentCenter = mMapView.getProjection().getCurrentCenter();
+        final double newZoom = mMapView.mTargetZoomLevel.get();
         mMapView.mIsAnimating.set(false);
-        setZoom(mMapView.mTargetZoomLevel.get());
+        setZoom(newZoom);
+        mMapView.setCenter(currentCenter);
         mMapView.mMultiTouchScale = 1f;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             mCurrentAnimator = null;
