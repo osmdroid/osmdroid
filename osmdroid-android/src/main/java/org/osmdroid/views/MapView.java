@@ -1189,14 +1189,12 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	public boolean setPositionAndScale(final Object obj, final PositionAndScale aNewObjPosAndScale,
 			final PointInfo aTouchPoint) {
 		float multiTouchScale = aNewObjPosAndScale.getScale();
-		// If we are at the first or last zoom level, prevent pinching/expanding
-		if (multiTouchScale > 1 && !canZoomIn()) {
-			multiTouchScale = 1;
-		}
-		if (multiTouchScale < 1 && !canZoomOut()) {
-			multiTouchScale = 1;
-		}
-		mMultiTouchScale = multiTouchScale;
+
+		// If we are exceed the minimum or maximum zoom, prevent pinching/expanding
+		float minMultiTouchScale = (float) Math.exp((getMinZoomLevel() - mZoomLevel) / ZOOM_LOG_BASE_INV);
+		float maxMultiTouchScale = (float) Math.exp((getMaxZoomLevel() - mZoomLevel) / ZOOM_LOG_BASE_INV);
+		mMultiTouchScale = Math.max(Math.min(multiTouchScale, maxMultiTouchScale), minMultiTouchScale);
+
 		// Request a layout, so that children are correctly positioned according to scale
 		requestLayout();
 		invalidate(); // redraw
