@@ -8,7 +8,7 @@ import org.osmdroid.samplefragments.animations.AnimatedMarkerHandler;
 import org.osmdroid.samplefragments.animations.AnimatedMarkerTypeEvaluator;
 import org.osmdroid.samplefragments.animations.AnimatedMarkerValueAnimator;
 import org.osmdroid.samplefragments.animations.FastZoomSpeedAnimations;
-import org.osmdroid.samplefragments.animations.MaximumZoomLevel;
+import org.osmdroid.samplefragments.animations.MinMaxZoomLevel;
 import org.osmdroid.samplefragments.cache.CacheImport;
 import org.osmdroid.samplefragments.cache.CachePurge;
 import org.osmdroid.samplefragments.cache.SampleAlternateCacheDir;
@@ -61,9 +61,6 @@ import org.osmdroid.samplefragments.tileproviders.OfflinePickerSample;
 import org.osmdroid.samplefragments.tileproviders.SampleAssetsOnly;
 import org.osmdroid.samplefragments.tileproviders.SampleOfflineGemfOnly;
 import org.osmdroid.samplefragments.tileproviders.SampleVeryHighZoomLevel;
-import org.osmdroid.samplefragments.tilesources.NasaWms111Source;
-import org.osmdroid.samplefragments.tilesources.NasaWms130Source;
-import org.osmdroid.samplefragments.tilesources.NasaWmsSrs;
 import org.osmdroid.samplefragments.tilesources.SampleBingHybrid;
 import org.osmdroid.samplefragments.tilesources.SampleBingRoad;
 import org.osmdroid.samplefragments.tilesources.SampleCopyrightOverlay;
@@ -247,7 +244,7 @@ public final class SampleFactory implements ISampleFactory {
         }
         // 60
         mSamples.add(SampleVeryHighZoomLevel.class);
-        mSamples.add(MaximumZoomLevel.class);
+        mSamples.add(MinMaxZoomLevel.class);
     }
 
     public void addSample(Class<? extends BaseSampleFragment> clz) {
