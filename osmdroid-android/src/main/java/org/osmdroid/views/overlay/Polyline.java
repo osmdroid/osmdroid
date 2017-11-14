@@ -198,6 +198,7 @@ public class Polyline extends OverlayWithIW {
         final Projection pj = mapView.getProjection();
         mPath.rewind();
 
+        mOutline.setClipArea(mapView);
         mOutline.buildPathPortion(pj, false, null);
 
         canvas.drawPath(mPath, mPaint);
