@@ -341,16 +341,16 @@ class LinearRing implements SegmentClipper.SegmentClippable{
 	 */
 	public void setClipArea(final MapView pMapView) {
 		final double border = .1;
-		final int width = pMapView.getWidth();
-		final int height = pMapView.getHeight();
+		final int halfWidth = pMapView.getWidth() / 2;
+		final int halfHeight = pMapView.getHeight() / 2;
 		// People less lazy than me would do more refined computations for width and height
 		// that include the map orientation: the covered area would be smaller but still big enough
-		final double maxSize = Math.max(width, height);
-		final double scaledSize = maxSize / pMapView.getMapScale();
-		final int half = (int) (scaledSize * (.5 + border));
+		// Now we use the circle which contains the `MapView`'s 4 corners
+		final double radius = Math.sqrt(halfWidth * halfWidth + halfHeight * halfHeight);
+		final int scaledRadius = (int) ((radius / pMapView.getMapScale()) * (1 + border));
 		setClipArea(
-				width / 2 - half, height / 2 - half,
-				width / 2 + half, height / 2 + half
+				halfWidth - scaledRadius, halfHeight - scaledRadius,
+				halfWidth + scaledRadius, halfHeight + scaledRadius
 		);
 	}
 }
