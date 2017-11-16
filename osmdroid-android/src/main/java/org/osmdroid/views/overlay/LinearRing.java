@@ -69,7 +69,6 @@ class LinearRing implements SegmentClipper.SegmentClippable{
 				mPath.lineTo(pX, pY);
 				mLatestPathPoint.set(pX, pY);
 			}
-			mPath.lineTo(pX, pY);
 		}
 	}
 
@@ -230,7 +229,6 @@ class LinearRing implements SegmentClipper.SegmentClippable{
 		final double powerDifference = pProjection.getProjectedPowerDifference();
 		final PointL screenPoint0 = new PointL(); // points on screen
 		final PointL screenPoint1 = new PointL();
-		final RectL currentSegment = new RectL();
 		PointL firstPoint = null;
 		for (final PointL projectedPoint : pProjectedPoints) {
 			// compute next points
@@ -240,8 +238,7 @@ class LinearRing implements SegmentClipper.SegmentClippable{
 				firstPoint = new PointL(screenPoint1);
 			} else {
 				setCloserPoint(screenPoint0, screenPoint1, worldSize);
-				currentSegment.set(screenPoint0.x, screenPoint0.y, screenPoint1.x, screenPoint1.y);
-				pSegments.add(new RectL(currentSegment));
+				pSegments.add(new RectL(screenPoint0.x, screenPoint0.y, screenPoint1.x, screenPoint1.y));
 			}
 
 			// update starting point to next position
@@ -249,8 +246,7 @@ class LinearRing implements SegmentClipper.SegmentClippable{
 		}
 		if (pClosePath) {
 			if (firstPoint != null) {
-				currentSegment.set(screenPoint0.x, screenPoint0.y, firstPoint.x, firstPoint.y);
-				pSegments.add(new RectL(currentSegment));
+				pSegments.add(new RectL(screenPoint0.x, screenPoint0.y, firstPoint.x, firstPoint.y));
 			}
 		}
 	}
