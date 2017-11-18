@@ -10,6 +10,7 @@ import org.osmdroid.util.PointL;
 import org.osmdroid.util.RectL;
 import org.osmdroid.util.SegmentClipper;
 import org.osmdroid.util.TileSystem;
+import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
 
 import java.util.ArrayList;
@@ -28,7 +29,7 @@ class LinearRing implements SegmentClipper.SegmentClippable{
 	 * used to clip our Path in order to cope with
 	 * - very high pixel values (that go beyond the int values, for instance on zoom 29)
 	 * - some kind of Android bug related to hardware acceleration
-	 * The size of the clip area was determined running experiments on my own device
+	 * "One size fits all" clip area values cannot be determined
 	 * as there's not explicit value given by Android to avoid Path drawing issues.
 	 * If the size is too big (magnitude around Integer.MAX_VALUE), the Path won't show properly.
 	 * If it's small (just above the size of the screen), the approximations of the clipped Path
@@ -36,22 +37,19 @@ class LinearRing implements SegmentClipper.SegmentClippable{
 	 * The smaller it is, the better it is for performances because the clip
 	 * will then often approximate consecutive Path segments as identical, and we only add
 	 * distinct points to the Path as an optimization.
-	 * As an indication, the initial min/max values of the clip area size were
-	 * Integer.MIN_VALUE / 8 and Integer.MAX_VALUE / 8.
+	 * The best idea so far is to compute the clip area border values
+	 * from the current MapView's characteristics (width, height, scale, orientation)
 	 */
-	private static final int mClipMax = 1400; // "big enough but not too much"
-	private static final int mClipMin = -600;
 
 	private final ArrayList<GeoPoint> mOriginalPoints = new ArrayList<>();
 	private final ArrayList<PointL> mProjectedPoints = new ArrayList<>();
 	private final PointL mLatestPathPoint = new PointL();
-	private final SegmentClipper mSegmentClipper;
+	private SegmentClipper mSegmentClipper;
 	private final Path mPath;
 	private boolean mIsNextAMove;
 	private boolean mPrecomputed;
 
 	public LinearRing(final Path pPath) {
-		mSegmentClipper = new SegmentClipper(mClipMin, mClipMin, mClipMax, mClipMax, this);
 		mPath = pPath;
 	}
 
@@ -71,7 +69,6 @@ class LinearRing implements SegmentClipper.SegmentClippable{
 				mPath.lineTo(pX, pY);
 				mLatestPathPoint.set(pX, pY);
 			}
-			mPath.lineTo(pX, pY);
 		}
 	}
 
@@ -232,7 +229,6 @@ class LinearRing implements SegmentClipper.SegmentClippable{
 		final double powerDifference = pProjection.getProjectedPowerDifference();
 		final PointL screenPoint0 = new PointL(); // points on screen
 		final PointL screenPoint1 = new PointL();
-		final RectL currentSegment = new RectL();
 		PointL firstPoint = null;
 		for (final PointL projectedPoint : pProjectedPoints) {
 			// compute next points
@@ -242,8 +238,7 @@ class LinearRing implements SegmentClipper.SegmentClippable{
 				firstPoint = new PointL(screenPoint1);
 			} else {
 				setCloserPoint(screenPoint0, screenPoint1, worldSize);
-				currentSegment.set(screenPoint0.x, screenPoint0.y, screenPoint1.x, screenPoint1.y);
-				pSegments.add(new RectL(currentSegment));
+				pSegments.add(new RectL(screenPoint0.x, screenPoint0.y, screenPoint1.x, screenPoint1.y));
 			}
 
 			// update starting point to next position
@@ -251,8 +246,7 @@ class LinearRing implements SegmentClipper.SegmentClippable{
 		}
 		if (pClosePath) {
 			if (firstPoint != null) {
-				currentSegment.set(screenPoint0.x, screenPoint0.y, firstPoint.x, firstPoint.y);
-				pSegments.add(new RectL(currentSegment));
+				pSegments.add(new RectL(screenPoint0.x, screenPoint0.y, firstPoint.x, firstPoint.y));
 			}
 		}
 	}
@@ -325,5 +319,34 @@ class LinearRing implements SegmentClipper.SegmentClippable{
 		for (final RectL segment : pSegments) {
 			mSegmentClipper.clip(segment);
 		}
+	}
+
+	/**
+	 * @since 6.0.0
+	 * Mandatory use before clipping.
+	 * Possible optimization: if we're dealing with the same border values,
+	 * we can use the same SegmentClipper instead of constructing a new one at each canvas draw.
+	 */
+	public void setClipArea(final long pXMin, final long pYMin, final long pXMax, final long pYMax) {
+		mSegmentClipper = new SegmentClipper(pXMin, pYMin, pXMax, pYMax, this);
+	}
+
+	/**
+	 * @since 6.0.0
+	 * Mandatory use before clipping.
+	 */
+	public void setClipArea(final MapView pMapView) {
+		final double border = .1;
+		final int halfWidth = pMapView.getWidth() / 2;
+		final int halfHeight = pMapView.getHeight() / 2;
+		// People less lazy than me would do more refined computations for width and height
+		// that include the map orientation: the covered area would be smaller but still big enough
+		// Now we use the circle which contains the `MapView`'s 4 corners
+		final double radius = Math.sqrt(halfWidth * halfWidth + halfHeight * halfHeight);
+		final int scaledRadius = (int) ((radius / pMapView.getMapScale()) * (1 + border));
+		setClipArea(
+				halfWidth - scaledRadius, halfHeight - scaledRadius,
+				halfWidth + scaledRadius, halfHeight + scaledRadius
+		);
 	}
 }

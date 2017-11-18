@@ -210,9 +210,11 @@ public class Polygon extends OverlayWithIW {
 		final Projection pj = mapView.getProjection();
 		mPath.rewind();
 
+		mOutline.setClipArea(mapView);
 		final PointL offset = mOutline.buildPathPortion(pj, true, null);
 		
 		for (LinearRing hole:mHoles){
+			hole.setClipArea(mapView);
 			hole.buildPathPortion(pj, true, offset);
 		}
 		mPath.setFillType(Path.FillType.EVEN_ODD); //for correct support of holes
