@@ -1,6 +1,7 @@
 package org.osmdroid.tileprovider;
 
 import java.util.LinkedHashMap;
+import java.util.NoSuchElementException;
 
 
 import android.graphics.Bitmap;
@@ -58,7 +59,12 @@ public class LRUMapTileCache extends LinkedHashMap<MapTile, Drawable> {
 	public void clear() {
 		// remove them all individually so that they get recycled
 		while (!isEmpty()) {
-			remove(keySet().iterator().next());
+			try {
+				remove(keySet().iterator().next());
+			} catch (NoSuchElementException nse) {
+				// as a protection
+				//https://github.com/osmdroid/osmdroid/issues/776
+			}
 		}
 
 		// and then clear
