@@ -16,18 +16,20 @@ import org.osmdroid.samplefragments.BaseSampleFragment;
  * @since 6.0.0
  */
 
-public class MaximumZoomLevel extends BaseSampleFragment implements MapListener {
+public class MinMaxZoomLevel extends BaseSampleFragment implements MapListener {
 
     @Override
     public String getSampleTitle() {
-        return "Maximum Zoom Level";
+        return "Minimum and Maximum Zoom Level";
     }
 
     @Override
     protected void addOverlays() {
         super.addOverlays();
-        mMapView.setMaxZoomLevel(5);
+        mMapView.setMinZoomLevel(1.5);
+        mMapView.setMaxZoomLevel(5.5);
         mMapView.setMapListener(this);
+        mMapView.getController().zoomTo(2.5);
     }
 
     @Override

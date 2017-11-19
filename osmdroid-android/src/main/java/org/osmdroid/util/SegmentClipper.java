@@ -23,6 +23,8 @@ public class SegmentClipper {
     private final long mXMax;
     private final long mYMax;
     private final SegmentClippable mSegmentClippable;
+    private final long[] cornerX = new long[4];
+    private final long[] cornerY = new long[4];
 
     public SegmentClipper(final long pXMin, final long pYMin, final long pXMax, final long pYMax,
                           final SegmentClippable pSegmentClippable) {
@@ -30,6 +32,10 @@ public class SegmentClipper {
         mYMin = pYMin;
         mXMax = pXMax;
         mYMax = pYMax;
+        cornerX[0] = cornerX[1] = mXMin;
+        cornerX[2] = cornerX[3] = mXMax;
+        cornerY[0] = cornerY[2] = mYMin;
+        cornerY[1] = cornerY[3] = mYMax;
         mSegmentClippable = pSegmentClippable;
     }
 
@@ -98,31 +104,10 @@ public class SegmentClipper {
             return;
         }
         if (count == 0) {
-            final long left = clipX(pSegment.left);
-            final long top = clipY(pSegment.top);
-            final long right = clipX(pSegment.right);
-            final long bottom = clipY(pSegment.bottom);
-            final long xMin = Math.min(left, right);
-            final long xMax = Math.max(left, right);
-            final long yMin = Math.min(top, bottom);
-            final long yMax = Math.max(top, bottom);
-            add(left, top);
-            long x = mXMin - 1;
-            long y = mYMin - 1;
-            if (xMax == mXMax) {
-                x = xMax;
-            } else if (xMin == mXMin) {
-                x = xMin;
-            }
-            if (yMax == mYMax) {
-                y = yMax;
-            } else if (yMin == mYMin) {
-                y = yMin;
-            }
-            if (x != mXMin - 1 && y != yMin - 1) {
-                add(x, y);
-            }
-            add(right, bottom);
+            add(clipX(pSegment.left), clipY(pSegment.top));
+            final int corner = getClosestCorner(pSegment);
+            add(cornerX[corner], cornerY[corner]);
+            add(clipX(pSegment.right), clipY(pSegment.bottom));
             return;
         }
         throw new RuntimeException("Impossible mOptimIntersection count (" + count + ")");
@@ -173,5 +158,34 @@ public class SegmentClipper {
                 || intersection(pSegment, mXMax, mYMin, mXMax, mYMax) // x max segment
                 || intersection(pSegment, mXMin, mYMin, mXMax, mYMin) // y min segment
                 || intersection(pSegment, mXMin, mYMax, mXMax, mYMax); // y max segment
+    }
+
+    /**
+     * Gets the clip area corner which is the closest to the given segment
+     * @since 6.0.0
+     * We have a clip area and we have a segment with no intersection with this clip area.
+     * The question is: how do we clip this segment?
+     * If we only clip both segment ends, we may end up with a (min,min) x (max,max)
+     * clip approximation that displays a backslash on the screen.
+     * The idea is to compute the clip area corner which is the closest to the segment,
+     * and to use it as a clip step.
+     * Which will do something like:
+     * (min,min)[first segment point] x (min,max)[closest corner] x (max,max)[second segment point]
+     * or
+     * (min,min)[first segment point] x (max,min)[closest corner] x (max,max)[second segment point]
+     */
+    private int getClosestCorner(final RectL pSegment) {
+        double min = Double.MAX_VALUE;
+        int corner = 0;
+        for (int i = 0 ; i < cornerX.length ; i ++) {
+            final double distance = Distance.getSquaredDistanceToSegment(
+                    cornerX[i], cornerY[i],
+                    pSegment.left, pSegment.top, pSegment.right, pSegment.bottom);
+            if (min > distance) {
+                min = distance;
+                corner = i;
+            }
+        }
+        return corner;
     }
 }

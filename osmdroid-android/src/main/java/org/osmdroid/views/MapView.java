@@ -97,8 +97,8 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	protected final AtomicReference<Double> mTargetZoomLevel = new AtomicReference<>();
 	protected final AtomicBoolean mIsAnimating = new AtomicBoolean(false);
 
-	protected Integer mMinimumZoomLevel;
-	protected Integer mMaximumZoomLevel;
+	protected Double mMinimumZoomLevel;
+	protected Double mMaximumZoomLevel;
 
 	private final MapController mController;
 
@@ -396,8 +396,8 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	 * Used to be an int - is a double since 6.0
 	 */
 	double setZoomLevel(final double aZoomLevel) {
-		final int minZoomLevel = getMinZoomLevel();
-		final int maxZoomLevel = getMaxZoomLevel();
+		final double minZoomLevel = getMinZoomLevel();
+		final double maxZoomLevel = getMaxZoomLevel();
 
 		final double newZoomLevel = Math.max(minZoomLevel, Math.min(maxZoomLevel, aZoomLevel));
 		final double curZoomLevel = this.mZoomLevel;
@@ -517,7 +517,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	/**
 	 * Get the minimum allowed zoom level for the maps.
 	 */
-	public int getMinZoomLevel() {
+	public double getMinZoomLevel() {
 		return mMinimumZoomLevel == null ? mMapOverlay.getMinimumZoomLevel() : mMinimumZoomLevel;
 	}
 
@@ -525,7 +525,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	 * Get the maximum allowed zoom level for the maps.
 	 */
 	@Override
-	public int getMaxZoomLevel() {
+	public double getMaxZoomLevel() {
 		return mMaximumZoomLevel == null ? mMapOverlay.getMaximumZoomLevel() : mMaximumZoomLevel;
 	}
 
@@ -533,7 +533,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	 * Set the minimum allowed zoom level, or pass null to use the minimum zoom level from the tile
 	 * provider.
 	 */
-	public void setMinZoomLevel(Integer zoomLevel) {
+	public void setMinZoomLevel(Double zoomLevel) {
 		mMinimumZoomLevel = zoomLevel;
 	}
 
@@ -541,12 +541,12 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	 * Set the maximum allowed zoom level, or pass null to use the maximum zoom level from the tile
 	 * provider.
 	 */
-	public void setMaxZoomLevel(Integer zoomLevel) {
+	public void setMaxZoomLevel(Double zoomLevel) {
 		mMaximumZoomLevel = zoomLevel;
 	}
 
 	public boolean canZoomIn() {
-		final int maxZoomLevel = getMaxZoomLevel();
+		final double maxZoomLevel = getMaxZoomLevel();
 		if ((isAnimating() ? mTargetZoomLevel.get() : mZoomLevel) >= maxZoomLevel) {
 			return false;
 		}
@@ -554,7 +554,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	}
 
 	public boolean canZoomOut() {
-		final int minZoomLevel = getMinZoomLevel();
+		final double minZoomLevel = getMinZoomLevel();
 		if ((isAnimating() ? mTargetZoomLevel.get() : mZoomLevel) <= minZoomLevel) {
 			return false;
 		}
@@ -1196,14 +1196,12 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	public boolean setPositionAndScale(final Object obj, final PositionAndScale aNewObjPosAndScale,
 			final PointInfo aTouchPoint) {
 		float multiTouchScale = aNewObjPosAndScale.getScale();
-		// If we are at the first or last zoom level, prevent pinching/expanding
-		if (multiTouchScale > 1 && !canZoomIn()) {
-			multiTouchScale = 1;
-		}
-		if (multiTouchScale < 1 && !canZoomOut()) {
-			multiTouchScale = 1;
-		}
-		mMultiTouchScale = multiTouchScale;
+
+		// If we are exceed the minimum or maximum zoom, prevent pinching/expanding
+		float minMultiTouchScale = (float) Math.exp((getMinZoomLevel() - mZoomLevel) / ZOOM_LOG_BASE_INV);
+		float maxMultiTouchScale = (float) Math.exp((getMaxZoomLevel() - mZoomLevel) / ZOOM_LOG_BASE_INV);
+		mMultiTouchScale = Math.max(Math.min(multiTouchScale, maxMultiTouchScale), minMultiTouchScale);
+
 		// Request a layout, so that children are correctly positioned according to scale
 		requestLayout();
 		invalidate(); // redraw

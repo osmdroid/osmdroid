@@ -10,6 +10,20 @@ import java.util.Random;
 
 public class GeoPointTest {
 
+	/**
+	 * @since 6.0.0
+	 * For very small distances, we are too close to the limits of precision
+	 * for `double` and `Math` trigonometric+pow+sqrt functions.
+	 * Therefore it makes sense to dismiss the assertions for very low distances.
+	 * The distance is in meters.
+	 * The initial value was set to 1 centimeter, which seems a fair value.
+	 * For the record, adding this minimum distance was triggered by a failed unit test:
+	 * `test_distanceTo_Equator_Smaller`, which happened
+	 * to crash for longitude values of 127 and 127 + 1E-9, though
+	 * it passed for longitude values of 0 and 0 + 1E-9
+	 */
+	private static final double minimumDistance = 1E-2; // 1 centimeter
+
 	private static Random random = new Random();
 
 	/**
@@ -45,6 +59,9 @@ public class GeoPointTest {
 
 			final double diff = getCleanLongitudeDiff(longitude1, longitude2);
 			final double expected = GeoConstants.RADIUS_EARTH_METERS * diff * MathConstants.DEG2RAD;
+			if (expected < minimumDistance) {
+				continue;
+			}
 			final double delta = expected * ratioDelta;
 			assertEquals("distance between " + target + " and " + other,
 					expected, target.distanceToAsDouble(other), delta);
@@ -69,6 +86,9 @@ public class GeoPointTest {
 			final GeoPoint other = new GeoPoint(latitude, longitude2);
 			final double diff = getCleanLongitudeDiff(longitude1, longitude2);
 			final double expected = GeoConstants.RADIUS_EARTH_METERS * diff * MathConstants.DEG2RAD;
+			if (expected < minimumDistance) {
+				continue;
+			}
 			final double delta = expected * ratioDelta;
 			assertEquals("distance between " + target + " and " + other,
 					expected, target.distanceToAsDouble(other), delta);
@@ -93,6 +113,9 @@ public class GeoPointTest {
 			final double diff = getCleanLongitudeDiff(longitude1, longitude2);
 			final double expected = GeoConstants.RADIUS_EARTH_METERS * 2 * Math.asin(
 					Math.cos(latitude * MathConstants.DEG2RAD)*Math.sin(diff * MathConstants.DEG2RAD/ 2));
+			if (expected < minimumDistance) {
+				continue;
+			}
 			final double delta = expected * ratioDelta;
 			assertEquals("distance between " + target + " and " + other,
 					expected, target.distanceToAsDouble(other), delta);

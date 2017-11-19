@@ -52,6 +52,7 @@ public class Projection implements IProjection {
 	private final double mMercatorMapSize;
 	private final double mTileSize;
 	private final float mOrientation;
+	private final GeoPoint mCurrentCenter;
 
 	Projection(MapView mapView) {
 		this(
@@ -98,6 +99,10 @@ public class Projection implements IProjection {
 			GeometryMath.getBoundingBoxForRotatatedRectangle(mScreenRectProjection, getScreenCenterX(), getScreenCenterY(),
 					mOrientation, mScreenRectProjection);
 		}
+		final Point newCenter = unrotateAndScalePoint(
+				mIntrinsicScreenRectProjection.centerX(),
+				mIntrinsicScreenRectProjection.centerY(), null);
+		mCurrentCenter = (GeoPoint)fromPixels(newCenter.x, newCenter.y, null);
 	}
 
 	/**
@@ -566,5 +571,12 @@ public class Projection implements IProjection {
 	 */
 	private long getCleanMercator(final long pMercator) {
 		return TileSystem.getCleanMercator(pMercator, mMercatorMapSize, wrapEnabled);
+	}
+
+	/**
+	 * @since 6.0.0
+	 */
+	public GeoPoint getCurrentCenter() {
+		return mCurrentCenter;
 	}
 }
