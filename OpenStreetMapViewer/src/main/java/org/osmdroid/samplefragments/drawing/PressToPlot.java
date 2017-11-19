@@ -22,29 +22,29 @@ import org.osmdroid.views.overlay.gestures.RotationGestureOverlay;
 import static org.osmdroid.samplefragments.events.SampleMapEventListener.df;
 
 /**
- * Drawing a polygon on screen with up to 1 hole
- * created on 8/26/2017.
+ * A simple sample to plot markers with a long press. It's a bit of noise this in the class
+ * that is used to help the osmdroid devs troubleshoot things.
+ *
  * Map replication is ON for this sample (only viewable for numerically lower zoom levels (higher altitude))
+ *
+ * created on 11/19/2017.
+ * @since 6.0.0
  * @author Alex O'Ree
  */
 
-public class DrawPolygonHoles extends BaseSampleFragment implements View.OnClickListener {
-    ImageButton painting,panning,holes;
-
+public class PressToPlot extends BaseSampleFragment implements View.OnClickListener, View.OnLongClickListener {
+    ImageButton painting, panning;
     TextView textViewCurrentLocation;
 
     ImageButton btnRotateLeft, btnRotateRight;
-    CustomPaintingSurface paint;
+
     @Override
     public String getSampleTitle() {
-        return "Draw a polygon with holes on screen";
+        return "Long Press to Plot Marker";
     }
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.layout_drawpolyholes, null);
-        mMapView = (MapView) v.findViewById(R.id.mapview);
+        View v = inflater.inflate(R.layout.layout_drawlines, null);
         btnRotateLeft = (ImageButton) v.findViewById(R.id.btnRotateLeft);
         btnRotateRight = (ImageButton) v.findViewById(R.id.btnRotateRight);
         btnRotateRight.setOnClickListener(this);
@@ -72,46 +72,31 @@ public class DrawPolygonHoles extends BaseSampleFragment implements View.OnClick
         mRotationGestureOverlay.setEnabled(true);
         mMapView.setMultiTouchControls(true);
         mMapView.getOverlayManager().add(mRotationGestureOverlay);
-
+        mMapView.setOnLongClickListener(this);
         panning = (ImageButton) v.findViewById(R.id.enablePanning);
-        panning.setOnClickListener(this);
-        panning.setBackgroundColor(Color.BLACK);
+        panning.setVisibility(View.GONE);
+
         painting = (ImageButton) v.findViewById(R.id.enablePainting);
-        painting.setOnClickListener(this);
+        painting.setVisibility(View.GONE);
 
-        holes = (ImageButton) v.findViewById(R.id.enableHoles);
-        holes.setOnClickListener(this);
 
-        paint = (CustomPaintingSurface) v.findViewById(R.id.paintingSurface);
-        paint.init(mMapView);
+        IconPlottingOverlay plotter = new IconPlottingOverlay(this.getResources().getDrawable(R.drawable.ic_follow_me_on));
+        mMapView.getOverlayManager().add(plotter);
 
         return v;
 
     }
 
+    private void updateInfo() {
+        IGeoPoint mapCenter = mMapView.getMapCenter();
+        textViewCurrentLocation.setText(df.format(mapCenter.getLatitude()) + "," +
+            df.format(mapCenter.getLongitude())
+            + ",zoom=" + mMapView.getZoomLevelDouble() + ",angle=" + mMapView.getMapOrientation());
+
+    }
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.enablePanning:
-                paint.setVisibility(View.GONE);
-                panning.setBackgroundColor(Color.BLACK);
-                painting.setBackgroundColor(Color.TRANSPARENT);
-                holes.setBackgroundColor(Color.TRANSPARENT);
-                break;
-            case R.id.enablePainting:
-                paint.setMode(CustomPaintingSurface.Mode.Polygon);
-                paint.setVisibility(View.VISIBLE);
-                painting.setBackgroundColor(Color.BLACK);
-                panning.setBackgroundColor(Color.TRANSPARENT);
-                holes.setBackgroundColor(Color.TRANSPARENT);
-                break;
-            case R.id.enableHoles:
-                paint.setMode(CustomPaintingSurface.Mode.PolygonHole);
-                paint.setVisibility(View.VISIBLE);
-                holes.setBackgroundColor(Color.BLACK);
-                painting.setBackgroundColor(Color.TRANSPARENT);
-                panning.setBackgroundColor(Color.TRANSPARENT);
-                break;
 
             case R.id.btnRotateLeft: {
                 float angle = mMapView.getMapOrientation() + 10;
@@ -128,17 +113,12 @@ public class DrawPolygonHoles extends BaseSampleFragment implements View.OnClick
                 mMapView.setMapOrientation(angle);
                 updateInfo();
             }
-            break;
-
         }
     }
 
-    private void updateInfo() {
-        IGeoPoint mapCenter = mMapView.getMapCenter();
-        textViewCurrentLocation.setText(df.format(mapCenter.getLatitude()) + "," +
-            df.format(mapCenter.getLongitude())
-            + ",zoom=" + mMapView.getZoomLevelDouble() + ",angle=" + mMapView.getMapOrientation());
+    @Override
+    public boolean onLongClick(View v) {
 
+        return true;
     }
-
 }

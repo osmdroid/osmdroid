@@ -21,6 +21,8 @@ import org.osmdroid.samplefragments.animations.AnimatedMarkerTimer;
 import org.osmdroid.samplefragments.data.AsyncTaskDemoFragment;
 import org.osmdroid.samplefragments.drawing.DrawPolygonHoles;
 import org.osmdroid.samplefragments.drawing.DrawPolygonWithoutWrapping;
+import org.osmdroid.samplefragments.drawing.PressToPlot;
+import org.osmdroid.samplefragments.drawing.PressToPlotWithoutWrapping;
 import org.osmdroid.samplefragments.drawing.SampleDrawPolylineWithoutWrapping;
 import org.osmdroid.samplefragments.geopackage.GeopackageFeatureTiles;
 import org.osmdroid.samplefragments.geopackage.GeopackageFeatures;
@@ -251,6 +253,8 @@ public final class SampleFactory implements ISampleFactory {
         // 60
         mSamples.add(SampleVeryHighZoomLevel.class);
         mSamples.add(MinMaxZoomLevel.class);
+        mSamples.add(PressToPlot.class);
+        mSamples.add(PressToPlotWithoutWrapping.class);
     }
 
     public void addSample(Class<? extends BaseSampleFragment> clz) {

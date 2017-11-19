@@ -1,18 +1,21 @@
 package org.osmdroid.samplefragments.drawing;
 
 /**
+ * A simple sample to plot markers with a long press. It's a bit of noise this in the class
+ * that is used to help the osmdroid devs troubleshoot things.
+ *
  * Map replication is OFF for this sample (only viewable for numerically lower zoom levels (higher altitude))
- * Created by Maradox on 11/26/17.
+ *
+ * created on 11/19/2017.
+ * @since 6.0.0
+ * @author Alex O'Ree
  */
 
-public class DrawPolygonWithoutWrapping extends SampleDrawPolyline {
-
+public class PressToPlotWithoutWrapping extends PressToPlot{
     @Override
     public String getSampleTitle() {
-        return "Draw a polygon on screen without wrapping";
+        return "Long Press to Plot Marker without wrapping";
     }
-
-
     @Override
     public void addOverlays() {
         super.addOverlays();
