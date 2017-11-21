@@ -297,7 +297,11 @@ public class DefaultConfigurationProvider implements IConfigurationProvider {
             SharedPreferences.Editor edit = prefs.edit();
             edit.putString("osmdroid.basePath",discoveredBestPath.getAbsolutePath());
             edit.putString("osmdroid.cachePath",discoveredCachPath.getAbsolutePath());
-            edit.commit();
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
+                edit.apply();
+            } else {
+                edit.commit();
+            }
             setOsmdroidBasePath(discoveredBestPath);
             setOsmdroidTileCache(discoveredCachPath);
             setUserAgentValue(ctx.getPackageName());
@@ -382,8 +386,11 @@ public class DefaultConfigurationProvider implements IConfigurationProvider {
         edit.putInt("osmdroid.animationSpeedShort", animationSpeedShort);
         edit.putBoolean("osmdroid.mapViewRecycler", mapViewRecycler);
 
-        edit.commit();
-    }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
+            edit.apply();
+        } else {
+            edit.commit();
+        }    }
 
     /**
      * Loading a map from preferences, using a prefix for the prefs keys
