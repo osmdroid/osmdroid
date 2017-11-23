@@ -144,10 +144,31 @@ public class Projection implements IProjection {
 		return fromPixels(x, y, null, false);
 	}
 
+	/**
+	 * note: if {@link MapView#setMapRepetitionEnabled} is false, then this
+	 * can return values that beyond the max extents of the world. This may or may not be
+	 * desired. <a href="https://github.com/osmdroid/osmdroid/pull/722">https://github.com/osmdroid/osmdroid/pull/722</a>
+	 * for more information and the discussion associated with this.
+	 * @param pPixelX
+	 * @param pPixelY
+	 * @param pReuse
+	 * @return
+	 */
 	public IGeoPoint fromPixels(final int pPixelX, final int pPixelY, final GeoPoint pReuse) {
 		return this.fromPixels(pPixelX, pPixelY, pReuse, false);
 	}
 
+	/**
+	 *  * note: if {@link MapView#setMapRepetitionEnabled} is false, then this
+	 * can return values that beyond the max extents of the world. This may or may not be
+	 * desired. <a href="https://github.com/osmdroid/osmdroid/pull/722">https://github.com/osmdroid/osmdroid/pull/722</a>
+	 * for more information and the discussion associated with this.
+	 * @param pPixelX
+	 * @param pPixelY
+	 * @param pReuse
+	 * @param forceWrap
+	 * @return
+	 */
 	public IGeoPoint fromPixels(final int pPixelX, final int pPixelY, final GeoPoint pReuse, boolean forceWrap) {
 		//reverting https://github.com/osmdroid/osmdroid/issues/459
 		//due to relapse of https://github.com/osmdroid/osmdroid/issues/507

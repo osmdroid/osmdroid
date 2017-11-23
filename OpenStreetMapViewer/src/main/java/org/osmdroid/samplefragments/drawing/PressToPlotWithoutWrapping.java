@@ -6,6 +6,13 @@ package org.osmdroid.samplefragments.drawing;
  *
  * Map replication is OFF for this sample (only viewable for numerically lower zoom levels (higher altitude))
  *
+ * <b>Note</b></b: when plotting a point off the map, the conversion from
+ * screen coordinates to map coordinates will return values that are invalid from a latitude,longitude
+ * perspective. Sometimes this is a wanted behavior and sometimes it isn't. We are leaving it up to you,
+ * the developer using osmdroid to decide on what is right for your application. See
+ * <a href="https://github.com/osmdroid/osmdroid/pull/722">https://github.com/osmdroid/osmdroid/pull/722</a>
+ * for more information and the discussion associated with this.
+ *
  * created on 11/19/2017.
  * @since 6.0.0
  * @author Alex O'Ree
