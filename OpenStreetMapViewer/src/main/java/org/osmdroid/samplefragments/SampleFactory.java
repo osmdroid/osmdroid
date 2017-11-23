@@ -54,6 +54,7 @@ import org.osmdroid.samplefragments.layouts.RecyclerCardView;
 import org.osmdroid.samplefragments.layouts.SampleFragmentXmlLayout;
 import org.osmdroid.samplefragments.layouts.SampleSplitScreen;
 import org.osmdroid.samplefragments.layouts.ScaleBarOnBottom;
+import org.osmdroid.samplefragments.layouts.StreetAddressFragment;
 import org.osmdroid.samplefragments.location.SampleCustomIconDirectedLocationOverlay;
 import org.osmdroid.samplefragments.location.SampleFollowMe;
 import org.osmdroid.samplefragments.location.SampleHeadingCompassUp;
@@ -255,6 +256,9 @@ public final class SampleFactory implements ISampleFactory {
         mSamples.add(MinMaxZoomLevel.class);
         mSamples.add(PressToPlot.class);
         mSamples.add(PressToPlotWithoutWrapping.class);
+
+        if (Build.VERSION.SDK_INT >= 9)
+            mSamples.add(StreetAddressFragment.class);
     }
 
     public void addSample(Class<? extends BaseSampleFragment> clz) {
