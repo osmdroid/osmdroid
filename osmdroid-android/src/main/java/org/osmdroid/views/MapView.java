@@ -130,6 +130,8 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	/* becomes true once onLayout has been called for the first time i.e. map is ready to go. */
 	private boolean mLayoutOccurred = false;
 
+	private boolean mapRepetitionEnabled = true;
+
 	private GeoPoint mCenter;
 	private long mMapScrollX;
 	private long mMapScrollY;
@@ -190,7 +192,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		mTileProvider.setTileRequestCompleteHandler(mTileRequestCompleteHandler);
 		updateTileSizeForDensity(mTileProvider.getTileSource());
 
-		this.mMapOverlay = new TilesOverlay(mTileProvider, context);
+		this.mMapOverlay = new TilesOverlay(mTileProvider, context, mapRepetitionEnabled);
 		mOverlayManager = new DefaultOverlayManager(mMapOverlay);
 
 		mGestureDetector = new GestureDetector(context, new MapViewGestureDetectorListener());
@@ -422,7 +424,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 			final Projection pj = getProjection();
 			if (this.getOverlayManager().onSnapToItem((int) mMultiTouchScalePoint.x,
 					(int) mMultiTouchScalePoint.y, snapPoint, this)) {
-				IGeoPoint geoPoint = pj.fromPixels(snapPoint.x, snapPoint.y, null);
+				IGeoPoint geoPoint = pj.fromPixels(snapPoint.x, snapPoint.y, null, false);
 				getController().animateTo(geoPoint);
 			}
 
@@ -602,7 +604,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	 */
 	@Override
 	public IGeoPoint getMapCenter() {
-		return getProjection().fromPixels(getWidth() / 2, getHeight() / 2, null);
+		return getProjection().fromPixels(getWidth() / 2, getHeight() / 2, null, false);
 	}
 
 
@@ -684,6 +686,10 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
         return mScrollableAreaBoundingBox;
     }
 
+	public void setScrollableAreaLimitToMapBounds() {
+		BoundingBox boundingBox = new BoundingBox(90, 180, -90, -180);
+		setScrollableAreaLimitDouble(boundingBox);
+	}
 
 	public void invalidateMapCoordinates(Rect dirty) {
 		invalidateMapCoordinates(dirty.left, dirty.top, dirty.right, dirty.bottom, false);
@@ -1028,13 +1034,13 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		}
 		final double worldSize = TileSystem.MapSize(getZoomLevelDouble());
 		final long offsetX = checkScrollableOffset(
-				getProjection().getLongPixelXFromLongitude(mScrollableAreaBoundingBox.getLonWest()),
-				getProjection().getLongPixelXFromLongitude(mScrollableAreaBoundingBox.getLonEast()),
+				getProjection().getLongPixelXFromLongitude(mScrollableAreaBoundingBox.getLonWest(), true),
+				getProjection().getLongPixelXFromLongitude(mScrollableAreaBoundingBox.getLonEast(), true),
 				worldSize,
 				getWidth());
 		final long offsetY = checkScrollableOffset(
-				getProjection().getLongPixelYFromLatitude(mScrollableAreaBoundingBox.getActualNorth()),
-				getProjection().getLongPixelYFromLatitude(mScrollableAreaBoundingBox.getActualSouth()),
+				getProjection().getLongPixelYFromLatitude(mScrollableAreaBoundingBox.getActualNorth(), true),
+				getProjection().getLongPixelYFromLatitude(mScrollableAreaBoundingBox.getActualSouth(), true),
 				worldSize,
 				getHeight());
 		if (offsetX == 0 && offsetY == 0) {
@@ -1054,6 +1060,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		while (pPixelMax - pPixelMin < 0) { // date line + several worlds fix
 			pPixelMax += pWorldSize;
 		}
+
 		if (pPixelMax - pPixelMin < pScreenSize) {
 			return pPixelMax - pScreenSize / 2 - (pPixelMax - pPixelMin) / 2;
 		} else if (pPixelMin >= 0) {
@@ -1249,6 +1256,22 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		mMultiTouchController = on ? new MultiTouchController<Object>(this, false) : null;
 	}
 
+	public boolean isMapRepetitionEnabled() {
+		return mapRepetitionEnabled;
+	}
+
+	/**
+	 * If mapRepetition is enabled the map repeats in every direction and scrolling wraps around the
+	 * edges. If disabled the map is only shown once. Default is true.
+	 * @param mapRepetitionEnabled
+	 */
+	public void setMapRepetitionEnabled(boolean mapRepetitionEnabled) {
+		this.mapRepetitionEnabled = mapRepetitionEnabled;
+		mMapOverlay.setWrapEnabled(mapRepetitionEnabled);
+		setProjection(null);
+		this.invalidate();
+	}
+
 	private ITileSource getTileSourceFromAttributes(final AttributeSet aAttributeSet) {
 
 		ITileSource tileSource = TileSourceFactory.DEFAULT_TILE_SOURCE;
@@ -1328,9 +1351,10 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 			final double worldSize = TileSystem.MapSize(MapView.this.getZoomLevel(false));
 			mIsFlinging = true;
-			if (mScroller!=null)	//fix for edit mode in the IDE
-				mScroller.fling((int)getMapScrollX(), (int)getMapScrollY(), (int) -velocityX, (int) -velocityY,
-						-(int)worldSize, (int)worldSize, -(int)worldSize, (int)worldSize);
+			if (mScroller!=null) {  //fix for edit mode in the IDE
+				mScroller.fling((int) getMapScrollX(), (int) getMapScrollY(), (int) -velocityX,
+						(int) -velocityY, -(int)worldSize, (int)worldSize, -(int)worldSize, (int)worldSize);
+			}
 			return true;
 		}
 
@@ -1539,7 +1563,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		mTileProvider.setTileRequestCompleteHandler(mTileRequestCompleteHandler);
 		updateTileSizeForDensity(mTileProvider.getTileSource());
 
-		this.mMapOverlay = new TilesOverlay(mTileProvider, this.getContext());
+		this.mMapOverlay = new TilesOverlay(mTileProvider, this.getContext(), mapRepetitionEnabled);
 		
 		mOverlayManager.setTilesOverlay(mMapOverlay);
 		invalidate();

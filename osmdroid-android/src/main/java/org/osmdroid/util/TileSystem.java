@@ -109,7 +109,7 @@ public final class TileSystem {
 
 	/**
 	 * @since 6.0.0
-	 * Use {@link TileSystem#getMercatorFromGeo(double, double, double, PointL)} instead
+	 * Use {@link TileSystem#getMercatorFromGeo(double, double, double, PointL, boolean)} instead
 	 */
 	@Deprecated
 	public static PointL LatLongToPixelXY(
@@ -122,16 +122,16 @@ public final class TileSystem {
 
 	/**
 	 * @since 6.0.0
-	 * Use {@link TileSystem#getMercatorFromGeo(double, double, double, PointL)} instead
+	 * Use {@link TileSystem#getMercatorFromGeo(double, double, double, PointL, boolean)} instead
 	 */
 	@Deprecated
 	public static PointL LatLongToPixelXYMapSize(double latitude, double longitude,
 												 final double mapSize, final PointL reuse) {
-		return getMercatorFromGeo(latitude, longitude, mapSize, reuse);
+		return getMercatorFromGeo(latitude, longitude, mapSize, reuse, true);
 	}
 
 	/**
-	 * Use {@link TileSystem#getGeoFromMercator(long, long, double, GeoPoint)} instead
+	 * Use {@link TileSystem#getGeoFromMercator(long, long, double, GeoPoint, boolean)} instead
 	 */
 	@Deprecated
 	public static GeoPoint PixelXYToLatLong(
@@ -145,12 +145,25 @@ public final class TileSystem {
 
 	/**
 	 * @since 6.0.0
-	 * Use {@link TileSystem#getGeoFromMercator(long, long, double, GeoPoint)} instead
+	 * Use {@link TileSystem#getGeoFromMercator(long, long, double, GeoPoint, boolean)} instead
 	 */
 	@Deprecated
 	public static GeoPoint PixelXYToLatLong(
 			final int pixelX, final int pixelY, final double zoomLevel, final GeoPoint reuse) {
-		return getGeoFromMercator(pixelX, pixelY, MapSize(zoomLevel), reuse);
+		return getGeoFromMercator(pixelX, pixelY, MapSize(zoomLevel), reuse, true);
+	}
+
+	/**
+	 * @since 6.0.0
+	 * Same as {@link #PixelXYToLatLong(int, int, double, GeoPoint) PixelXYToLatLong} but without wrap
+	 */
+	public static GeoPoint PixelXYToLatLongWithoutWrap(
+			final int pixelX, final int pixelY, final double zoomLevel, final GeoPoint reuse) {
+		final double mapSize = MapSize(zoomLevel);
+		return PixelXYToLatLongMapSizeWithoutWrap(
+				pixelX,
+				pixelY,
+				mapSize, reuse);
 	}
 
 	/**
@@ -158,8 +171,8 @@ public final class TileSystem {
 	 * id est a double between 0 and 1 for the whole longitude range
 	 * @since 6.0.0
 	 */
-	public static double getX01FromLongitude(double longitude) {
-		longitude = Clip(longitude, MinLongitude, MaxLongitude);
+	public static double getX01FromLongitude(double longitude, boolean wrapEnabled) {
+		longitude = wrapEnabled ? Clip(longitude, MinLongitude, MaxLongitude) : longitude;
 		return (longitude + 180) / 360;
 	}
 
@@ -168,23 +181,61 @@ public final class TileSystem {
 	 * id est a double between 0 and 1 for the whole latitude range
 	 * @since 6.0.0
 	 */
-	public static double getY01FromLatitude(double latitude) {
-		latitude = Clip(latitude, MinLatitude, MaxLatitude);
+	public static double getY01FromLatitude(double latitude, boolean wrapEnabled) {
+		latitude = wrapEnabled ? Clip(latitude, MinLatitude, MaxLatitude) : latitude;
 		final double sinus = Math.sin(latitude * Math.PI / 180);
 		// the "Clip" part is there for side effects on 85.05112878 and -85.05112878
 		// with 85.05112877 and -85.05112877 the result is still between 0 and 1
-		return Clip(0.5 - Math.log((1 + sinus) / (1 - sinus)) / (4 * Math.PI), 0, 1);
+		double y = 0.5 - Math.log((1 + sinus) / (1 - sinus)) / (4 * Math.PI);
+		return wrapEnabled ? Clip(y, 0, 1) : y;
+	}
+
+	/**
+	 * Converts a longitude to its "X01" value,
+	 * Same as {@link #getX01FromLongitude(double, boolean) getX01FromLongitude} but without wrap
+	 * @since 6.0.0
+	 */
+	public static double getX01FromLongitudeWithoutWrap(double longitude) {
+		return (longitude + 180) / 360;
+	}
+
+	/**
+	 * Converts a latitude to its "Y01" value,
+	 * Same as {@link #getY01FromLatitude(double, boolean) getY01FromLatitude} but without wrap
+	 * @since 6.0.0
+	 */
+	public static double getY01FromLatitudeWithoutWrap(double latitude) {
+		final double sinus = Math.sin(latitude * Math.PI / 180);
+		return 0.5 - Math.log((1 + sinus) / (1 - sinus)) / (4 * Math.PI);
 	}
 
 	/**
 	 * @since 6.0.0
 	 * @see microsoft.mappoint.TileSystem#PixelXYToLatLong(int, int, int, GeoPoint)
-	 * Use {@link TileSystem#getGeoFromMercator(long, long, double, GeoPoint)} instead
+	 * Use {@link TileSystem#getGeoFromMercator(long, long, double, GeoPoint, boolean)} instead
 	 */
 	@Deprecated
 	public static GeoPoint PixelXYToLatLongMapSize(final int pixelX, final int pixelY,
-												   final double mapSize, final GeoPoint reuse) {
-		return getGeoFromMercator(pixelX, pixelY, mapSize, reuse);
+												   final double mapSize, final GeoPoint reuse, boolean wrapEnabled) {
+		return getGeoFromMercator(pixelX, pixelY, mapSize, reuse, wrapEnabled);
+	}
+
+	/**
+	 * @since 6.0.0
+	 * Same as {@link #PixelXYToLatLongMapSize(int, int, double, GeoPoint, boolean) PixelXYToLatLongMapSize}
+	 * but without wrap
+	 * @see microsoft.mappoint.TileSystem#PixelXYToLatLong(int, int, int, GeoPoint)
+	 */
+	public static GeoPoint PixelXYToLatLongMapSizeWithoutWrap(final int pixelX, final int pixelY,
+			final double mapSize, final GeoPoint reuse) {
+		final GeoPoint out = (reuse == null ? new GeoPoint(0., 0.) : reuse);
+		final double x = (pixelX / (double)mapSize) - 0.5;
+		final double y = 0.5 - (pixelY / (double)mapSize);
+		final double latitude = 90 - 360 * Math.atan(Math.exp(-y * 2 * Math.PI)) / Math.PI;
+		final double longitude = 360 * x;
+		out.setLatitude(latitude);
+		out.setLongitude(longitude);
+		return out;
 	}
 
 	/**
@@ -278,8 +329,8 @@ public final class TileSystem {
 	 * or Double.MIN_VALUE if longitudes are equal
 	 */
 	public static double getLongitudeZoom(final double pEast, final double pWest, final int pScreenWidth) {
-		final double x01West = getX01FromLongitude(pWest);
-		final double x01East = getX01FromLongitude(pEast);
+		final double x01West = getX01FromLongitude(pWest, true);
+		final double x01East = getX01FromLongitude(pEast, true);
 		double span = x01East - x01West;
 		if (span < 0) {
 			span += 1;
@@ -296,8 +347,8 @@ public final class TileSystem {
 	 * or Double.MIN_VALUE if latitudes are equal or ill positioned
 	 */
 	public static double getLatitudeZoom(final double pNorth, final double pSouth, final int pScreenHeight) {
-		final double y01North = getY01FromLatitude(pNorth);
-		final double y01South = getY01FromLatitude(pSouth);
+		final double y01North = getY01FromLatitude(pNorth, true);
+		final double y01South = getY01FromLatitude(pSouth, true);
 		final double span = y01South - y01North;
 		if (span <= 0) {
 			return Double.MIN_VALUE;
@@ -342,22 +393,22 @@ public final class TileSystem {
 	/**
 	 * @since 5.6.6
 	 */
-	public static long getMercatorYFromLatitude(final double pLatitude, final double pMapSize) {
-		return getMercatorFromXY01(getY01FromLatitude(pLatitude), pMapSize);
+	public static long getMercatorYFromLatitude(final double pLatitude, final double pMapSize, boolean wrapEnabled) {
+		return getMercatorFromXY01(getY01FromLatitude(pLatitude, wrapEnabled), pMapSize, wrapEnabled);
 	}
 
 	/**
 	 * @since 5.6.6
 	 */
-	public static long getMercatorXFromLongitude(final double pLongitude, final double pMapSize) {
-		return getMercatorFromXY01(getX01FromLongitude(pLongitude), pMapSize);
+	public static long getMercatorXFromLongitude(final double pLongitude, final double pMapSize, boolean wrapEnabled) {
+		return getMercatorFromXY01(getX01FromLongitude(pLongitude, wrapEnabled), pMapSize, wrapEnabled);
 	}
 
 	/**
 	 * @since 5.6.6
 	 */
-	public static long getMercatorFromXY01(final double pXY01, final double pMapSize) {
-		return ClipToLong(pXY01 * pMapSize, pMapSize);
+	public static long getMercatorFromXY01(final double pXY01, final double pMapSize, boolean wrapEnabled) {
+		return ClipToLong(pXY01 * pMapSize, pMapSize, wrapEnabled);
 	}
 
 	/**
@@ -366,8 +417,9 @@ public final class TileSystem {
 	 * MaxLatitude:0 ... MinLatitude:1
 	 * @since 5.6.6
 	 */
-	public static double getLatitudeFromY01(final double pY01) {
-		return Clip(90 - 360 * Math.atan(Math.exp((pY01 - 0.5) * 2 * Math.PI)) / Math.PI, MinLatitude, MaxLatitude);
+	public static double getLatitudeFromY01(final double pY01, boolean wrapEnabled) {
+		double latitude = 90 - 360 * Math.atan(Math.exp((pY01 - 0.5) * 2 * Math.PI)) / Math.PI;
+		return wrapEnabled ? Clip(latitude, MinLatitude, MaxLatitude) : latitude;
 	}
 
 	/**
@@ -376,22 +428,23 @@ public final class TileSystem {
 	 * MinLongitude:0 ... MaxLongitude:1
 	 * @since 5.6.6
 	 */
-	public static double getLongitudeFromX01(final double pX01) {
-		return MinLongitude + (MaxLongitude - MinLongitude) * Clip(pX01, 0, 1);
+	public static double getLongitudeFromX01(final double pX01, boolean wrapEnabled) {
+		return MinLongitude + (MaxLongitude - MinLongitude) * (wrapEnabled ? Clip(pX01, 0, 1) : pX01);
 	}
 
 	/**
 	 * @since 5.6.6
 	 */
-	public static long getCleanMercator(final long pMercator, final double pMercatorMapSize) {
-		return ClipToLong(wrap(pMercator, 0, pMercatorMapSize, pMercatorMapSize), pMercatorMapSize);
+	public static long getCleanMercator(final long pMercator, final double pMercatorMapSize, boolean wrapEnabled) {
+		return ClipToLong(wrapEnabled ? wrap(pMercator, 0, pMercatorMapSize, pMercatorMapSize) : pMercator, pMercatorMapSize, wrapEnabled);
 	}
 
 	/**
 	 * @since 5.6.6
 	 */
-	public static long ClipToLong(final double value, final double max) {
-		return Clip(MyMath.floorToLong(value - 0.5), 0, MyMath.floorToLong(max - 1));
+	public static long ClipToLong(final double value, final double max, boolean wrapEnabled) {
+		long longValue =  MyMath.floorToLong(value - 0.5);
+		return wrapEnabled ? Clip(longValue, 0, MyMath.floorToLong(max - 1)) : longValue;
 	}
 
 	/**
@@ -417,28 +470,28 @@ public final class TileSystem {
 	/**
 	 * @since 5.6.6
 	 */
-	public static PointL getMercatorFromGeo(final double pLatitude, final double pLongitude, final double pMapSize, final PointL pReuse) {
+	public static PointL getMercatorFromGeo(final double pLatitude, final double pLongitude, final double pMapSize, final PointL pReuse, boolean wrapEnabled) {
 		final PointL out = (pReuse == null ? new PointL() : pReuse);
-		out.x = getMercatorXFromLongitude(pLongitude, pMapSize);
-		out.y = getMercatorYFromLatitude(pLatitude, pMapSize);
+		out.x = getMercatorXFromLongitude(pLongitude, pMapSize, wrapEnabled);
+		out.y = getMercatorYFromLatitude(pLatitude, pMapSize, wrapEnabled);
 		return out;
 	}
 
 	/**
 	 * @since 5.6.6
 	 */
-	public static GeoPoint getGeoFromMercator(final long pMercatorX, final long pMercatorY, final double pMapSize, final GeoPoint pReuse) {
+	public static GeoPoint getGeoFromMercator(final long pMercatorX, final long pMercatorY, final double pMapSize, final GeoPoint pReuse, boolean wrapEnabled) {
 		final GeoPoint out = pReuse == null ? new GeoPoint(0., 0.) : pReuse;
-		out.setLatitude(getLatitudeFromY01(getXY01FromMercator(pMercatorY, pMapSize)));
-		out.setLongitude(getLongitudeFromX01(getXY01FromMercator(pMercatorX, pMapSize)));
+		out.setLatitude(getLatitudeFromY01(getXY01FromMercator(pMercatorY, pMapSize, wrapEnabled), wrapEnabled));
+		out.setLongitude(getLongitudeFromX01(getXY01FromMercator(pMercatorX, pMapSize, wrapEnabled), wrapEnabled));
 		return out;
 	}
 
 	/**
 	 * @since 5.6.6
 	 */
-	public static double getXY01FromMercator(final long pMercator, final double pMapSize) {
-		return Clip(pMercator / pMapSize, 0, 1);
+	public static double getXY01FromMercator(final long pMercator, final double pMapSize, boolean wrapEnabled) {
+		return wrapEnabled ? Clip(pMercator / pMapSize, 0, 1) : pMercator / pMapSize;
 	}
 
 	/**

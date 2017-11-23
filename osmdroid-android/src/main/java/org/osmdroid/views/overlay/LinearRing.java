@@ -48,6 +48,7 @@ class LinearRing implements SegmentClipper.SegmentClippable{
 	private final Path mPath;
 	private boolean mIsNextAMove;
 	private boolean mPrecomputed;
+	private boolean isWorldRepeating = true;
 
 	public LinearRing(final Path pPath) {
 		mPath = pPath;
@@ -159,6 +160,9 @@ class LinearRing implements SegmentClipper.SegmentClippable{
 
 	private int getBestOffset(final RectL pBoundingBox, final Rect pScreenRect,
 							  final long pDeltaX, final long pDeltaY) {
+		if (!isWorldRepeating ) {
+			return 0;
+		}
 		final double boundingBoxCenterX = (pBoundingBox.left + pBoundingBox.right) / 2.;
 		final double boundingBoxCenterY = (pBoundingBox.top + pBoundingBox.bottom) / 2.;
 		final double screenRectCenterX = (pScreenRect.left + pScreenRect.right) / 2.;
@@ -348,5 +352,6 @@ class LinearRing implements SegmentClipper.SegmentClippable{
 				halfWidth - scaledRadius, halfHeight - scaledRadius,
 				halfWidth + scaledRadius, halfHeight + scaledRadius
 		);
+		this.isWorldRepeating = pMapView.isMapRepetitionEnabled();
 	}
 }

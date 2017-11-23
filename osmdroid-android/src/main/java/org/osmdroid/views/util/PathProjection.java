@@ -35,7 +35,7 @@ public class PathProjection {
 			final double mapSize = TileSystem.MapSize(projection.getZoomLevel());
 			final PointL mercator = TileSystem.getMercatorFromGeo(
 					gp.getLatitude(), gp.getLongitude(), mapSize,
-					null);
+					null, true);
 			underGeopointTileCoords.x = projection.getTileFromMercator(mercator.x);
 			underGeopointTileCoords.y = projection.getTileFromMercator(mercator.y);
 
@@ -48,8 +48,8 @@ public class PathProjection {
 			final PointL lowerLeft = new PointL(
 					projection.getMercatorFromTile(underGeopointTileCoords.x + TileSystem.getTileSize()),
 					projection.getMercatorFromTile(underGeopointTileCoords.y + TileSystem.getTileSize()));
-			final GeoPoint neGeoPoint = TileSystem.getGeoFromMercator(upperRight.x, upperRight.y, mapSize, null);
-			final GeoPoint swGeoPoint = TileSystem.getGeoFromMercator(lowerLeft.x, lowerLeft.y, mapSize, null);
+			final GeoPoint neGeoPoint = TileSystem.getGeoFromMercator(upperRight.x, upperRight.y, mapSize, null, true);
+			final GeoPoint swGeoPoint = TileSystem.getGeoFromMercator(lowerLeft.x, lowerLeft.y, mapSize, null, true);
 			final BoundingBox bb = new BoundingBox(neGeoPoint.getLatitude(),
 					neGeoPoint.getLongitude(), swGeoPoint.getLatitude(),
 					swGeoPoint.getLongitude());
