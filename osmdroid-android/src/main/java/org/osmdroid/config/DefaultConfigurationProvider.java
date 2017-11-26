@@ -354,10 +354,10 @@ public class DefaultConfigurationProvider implements IConfigurationProvider {
                 }
             } else {
                 //this is probably the first time running osmdroid
-                long freeSpace = getOsmdroidTileCache().length();
+                long freeSpace = getOsmdroidTileCache().getFreeSpace();
                 if (getTileFileSystemCacheMaxBytes() > (freeSpace)){
                     setTileFileSystemCacheMaxBytes((long)((freeSpace) * 0.95));
-                    setTileFileSystemCacheMaxBytes((long)((freeSpace) * 0.90));
+                    setTileFileSystemCacheTrimBytes((long)((freeSpace) * 0.90));
                 }
             }
         }
