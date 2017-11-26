@@ -331,8 +331,6 @@ public class DefaultConfigurationProvider implements IConfigurationProvider {
 
         }
 
-
-        long cacheSize=-1;
         if (Build.VERSION.SDK_INT >= 9) {
             //unfortunately API 8 doesn't support File.length()
 
@@ -342,23 +340,18 @@ public class DefaultConfigurationProvider implements IConfigurationProvider {
 
             //if the default max cache size is greater than the available free space
             //reduce it to 95% of the available free space + the size of the cache
+            long cacheSize = 0;
             File dbFile = new File(getOsmdroidTileCache().getAbsolutePath() + File.separator + SqlTileWriter.DATABASE_FILENAME);
             if (dbFile.exists()) {
                 cacheSize = dbFile.length();
-                long freeSpace = getOsmdroidTileCache().getFreeSpace();
+            }
 
-                //Log.i(TAG, "Current cache size is " + cacheSize + " free space is " + freeSpace);
-                if (getTileFileSystemCacheMaxBytes() > (freeSpace + cacheSize)){
-                    setTileFileSystemCacheMaxBytes((long)((freeSpace + cacheSize) * 0.95));
-                    setTileFileSystemCacheTrimBytes((long)((freeSpace + cacheSize) * 0.90));
-                }
-            } else {
-                //this is probably the first time running osmdroid
-                long freeSpace = getOsmdroidTileCache().length();
-                if (getTileFileSystemCacheMaxBytes() > (freeSpace)){
-                    setTileFileSystemCacheMaxBytes((long)((freeSpace) * 0.95));
-                    setTileFileSystemCacheMaxBytes((long)((freeSpace) * 0.90));
-                }
+            long freeSpace = getOsmdroidTileCache().getFreeSpace();
+
+            //Log.i(TAG, "Current cache size is " + cacheSize + " free space is " + freeSpace);
+            if (getTileFileSystemCacheMaxBytes() > (freeSpace + cacheSize)){
+                setTileFileSystemCacheMaxBytes((long)((freeSpace + cacheSize) * 0.95));
+                setTileFileSystemCacheTrimBytes((long)((freeSpace + cacheSize) * 0.90));
             }
         }
     }
