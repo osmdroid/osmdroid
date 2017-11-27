@@ -22,6 +22,7 @@ import org.osmdroid.tileprovider.modules.MapTileAssetsProvider;
 import org.osmdroid.tileprovider.modules.MapTileModuleProviderBase;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.tileprovider.util.SimpleRegisterReceiver;
+import org.osmdroid.util.BoundingBox;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.gestures.RotationGestureOverlay;
 
@@ -34,6 +35,7 @@ public class SampleAssetsOnlyWithoutWrapping extends BaseSampleFragment {
 
     CheckBox horizontalCb;
     CheckBox verticalCb;
+    CheckBox limitBoundsCb;
 
     @Override
     public String getSampleTitle() {
@@ -45,7 +47,12 @@ public class SampleAssetsOnlyWithoutWrapping extends BaseSampleFragment {
         View v = inflater.inflate(R.layout.layout_wrapping, null);
         horizontalCb = (CheckBox) v.findViewById(R.id.horizontalRepetitionCb);
         verticalCb = (CheckBox) v.findViewById(R.id.verticalRepetitionCb);
+        limitBoundsCb = (CheckBox) v.findViewById(R.id.limitBoundsCb);
         mMapView = (MapView) v.findViewById(org.osmdroid.R.id.mapview);
+
+        horizontalCb.setChecked(true);
+        verticalCb.setChecked(true);
+        limitBoundsCb.setChecked(false);
 
         horizontalCb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -56,6 +63,17 @@ public class SampleAssetsOnlyWithoutWrapping extends BaseSampleFragment {
         verticalCb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 mMapView.setVerticalMapRepetitionEnabled(isChecked);
+            }
+        });
+
+        limitBoundsCb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked) {
+                    BoundingBox boundingBox = new BoundingBox(90, 180, -90, -180);
+                    mMapView.setScrollableAreaLimitDouble(boundingBox);
+                } else {
+                    mMapView.setScrollableAreaLimitDouble(null);
+                }
             }
         });
 
