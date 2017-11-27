@@ -64,7 +64,7 @@ import org.osmdroid.samplefragments.geopackage.GeopackageSample;
 import org.osmdroid.samplefragments.tileproviders.MapsforgeTileProviderSample;
 import org.osmdroid.samplefragments.tileproviders.OfflinePickerSample;
 import org.osmdroid.samplefragments.tileproviders.SampleAssetsOnly;
-import org.osmdroid.samplefragments.tileproviders.SampleAssetsOnlyWithoutWrapping;
+import org.osmdroid.samplefragments.tileproviders.SampleAssetsOnlyRepetitionModes;
 import org.osmdroid.samplefragments.tileproviders.SampleOfflineGemfOnly;
 import org.osmdroid.samplefragments.tileproviders.SampleVeryHighZoomLevel;
 import org.osmdroid.samplefragments.tilesources.SampleBingHybrid;
@@ -227,7 +227,7 @@ public final class SampleFactory implements ISampleFactory {
         mSamples.add(DrawPolygon.class);
         mSamples.add(DrawPolygonHoles.class);
         mSamples.add(SampleWMSSource.class);
-        mSamples.add(SampleAssetsOnlyWithoutWrapping.class);
+        mSamples.add(SampleAssetsOnlyRepetitionModes.class);
         mSamples.add(SampleDrawPolylineWithoutWrapping.class);
         mSamples.add(DrawPolygonWithoutWrapping.class);
 

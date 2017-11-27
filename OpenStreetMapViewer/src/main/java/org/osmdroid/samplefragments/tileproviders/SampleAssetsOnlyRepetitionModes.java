@@ -1,37 +1,22 @@
 package org.osmdroid.samplefragments.tileproviders;
 
-import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.ImageButton;
-import android.widget.TextView;
 import org.osmdroid.R;
-import org.osmdroid.api.IMapView;
-import org.osmdroid.events.MapListener;
-import org.osmdroid.events.ScrollEvent;
-import org.osmdroid.events.ZoomEvent;
 import org.osmdroid.samplefragments.BaseSampleFragment;
-import org.osmdroid.samplefragments.drawing.CustomPaintingSurface;
-import org.osmdroid.tileprovider.MapTileProviderArray;
-import org.osmdroid.tileprovider.modules.MapTileAssetsProvider;
-import org.osmdroid.tileprovider.modules.MapTileModuleProviderBase;
-import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
-import org.osmdroid.tileprovider.util.SimpleRegisterReceiver;
 import org.osmdroid.util.BoundingBox;
 import org.osmdroid.views.MapView;
-import org.osmdroid.views.overlay.gestures.RotationGestureOverlay;
 
 /**
- * test for showing the map only once without wrapping
+ * test for showing the map for different repetition modes
  * https://github.com/osmdroid/osmdroid/issues/183
  * Created by Maradox on 11/26/17.
  */
-public class SampleAssetsOnlyWithoutWrapping extends BaseSampleFragment {
+public class SampleAssetsOnlyRepetitionModes extends BaseSampleFragment {
 
     CheckBox horizontalCb;
     CheckBox verticalCb;
@@ -39,7 +24,7 @@ public class SampleAssetsOnlyWithoutWrapping extends BaseSampleFragment {
 
     @Override
     public String getSampleTitle() {
-        return "Assets Only Without Wrapping";
+        return "Assets Only With Repetition Modes";
     }
 
     @Override
