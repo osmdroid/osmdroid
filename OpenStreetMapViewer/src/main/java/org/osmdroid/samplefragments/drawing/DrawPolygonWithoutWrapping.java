@@ -16,7 +16,8 @@ public class DrawPolygonWithoutWrapping extends SampleDrawPolyline {
     @Override
     public void addOverlays() {
         super.addOverlays();
-        this.mMapView.setMapRepetitionEnabled(false);
+        this.mMapView.setHorizontalMapRepetitionEnabled(false);
+        this.mMapView.setVerticalMapRepetitionEnabled(false);
     }
 
 }

@@ -352,6 +352,7 @@ class LinearRing implements SegmentClipper.SegmentClippable{
 				halfWidth - scaledRadius, halfHeight - scaledRadius,
 				halfWidth + scaledRadius, halfHeight + scaledRadius
 		);
-		this.isWorldRepeating = pMapView.isMapRepetitionEnabled();
+		// TODO: Not sure if this is the correct approach
+		this.isWorldRepeating = pMapView.isHorizontalMapRepetitionEnabled() && pMapView.isVerticalMapRepetitionEnabled();
 	}
 }

@@ -2,7 +2,6 @@ package org.osmdroid.util;
 
 import android.graphics.Point;
 import android.graphics.Rect;
-
 import org.osmdroid.util.constants.GeoConstants;
 
 /**
@@ -131,7 +130,7 @@ public final class TileSystem {
 	}
 
 	/**
-	 * Use {@link TileSystem#getGeoFromMercator(long, long, double, GeoPoint, boolean)} instead
+	 * Use {@link TileSystem#getGeoFromMercator(long, long, double, GeoPoint, boolean, boolean)} instead
 	 */
 	@Deprecated
 	public static GeoPoint PixelXYToLatLong(
@@ -145,12 +144,12 @@ public final class TileSystem {
 
 	/**
 	 * @since 6.0.0
-	 * Use {@link TileSystem#getGeoFromMercator(long, long, double, GeoPoint, boolean)} instead
+	 * Use {@link TileSystem#getGeoFromMercator(long, long, double, GeoPoint, boolean, boolean)} instead
 	 */
 	@Deprecated
 	public static GeoPoint PixelXYToLatLong(
 			final int pixelX, final int pixelY, final double zoomLevel, final GeoPoint reuse) {
-		return getGeoFromMercator(pixelX, pixelY, MapSize(zoomLevel), reuse, true);
+		return getGeoFromMercator(pixelX, pixelY, MapSize(zoomLevel), reuse, true, true);
 	}
 
 	/**
@@ -212,17 +211,17 @@ public final class TileSystem {
 	/**
 	 * @since 6.0.0
 	 * @see microsoft.mappoint.TileSystem#PixelXYToLatLong(int, int, int, GeoPoint)
-	 * Use {@link TileSystem#getGeoFromMercator(long, long, double, GeoPoint, boolean)} instead
+	 * Use {@link TileSystem#getGeoFromMercator(long, long, double, GeoPoint, boolean, boolean)} instead
 	 */
-	@Deprecated
-	public static GeoPoint PixelXYToLatLongMapSize(final int pixelX, final int pixelY,
-												   final double mapSize, final GeoPoint reuse, boolean wrapEnabled) {
-		return getGeoFromMercator(pixelX, pixelY, mapSize, reuse, wrapEnabled);
+	@Deprecated public static GeoPoint PixelXYToLatLongMapSize(final int pixelX, final int pixelY,
+			final double mapSize, final GeoPoint reuse, boolean horizontalWrapEnabled,
+			boolean verticalWrapEnabled) {
+		return getGeoFromMercator(pixelX, pixelY, mapSize, reuse, horizontalWrapEnabled, verticalWrapEnabled);
 	}
 
 	/**
 	 * @since 6.0.0
-	 * Same as {@link #PixelXYToLatLongMapSize(int, int, double, GeoPoint, boolean) PixelXYToLatLongMapSize}
+	 * Same as {@link #PixelXYToLatLongMapSize(int, int, double, GeoPoint, boolean, boolean) PixelXYToLatLongMapSize}
 	 * but without wrap
 	 * @see microsoft.mappoint.TileSystem#PixelXYToLatLong(int, int, int, GeoPoint)
 	 */
@@ -480,10 +479,10 @@ public final class TileSystem {
 	/**
 	 * @since 5.6.6
 	 */
-	public static GeoPoint getGeoFromMercator(final long pMercatorX, final long pMercatorY, final double pMapSize, final GeoPoint pReuse, boolean wrapEnabled) {
+	public static GeoPoint getGeoFromMercator(final long pMercatorX, final long pMercatorY, final double pMapSize, final GeoPoint pReuse, boolean horizontalWrapEnabled, boolean verticalWrapEnabled) {
 		final GeoPoint out = pReuse == null ? new GeoPoint(0., 0.) : pReuse;
-		out.setLatitude(getLatitudeFromY01(getXY01FromMercator(pMercatorY, pMapSize, wrapEnabled), wrapEnabled));
-		out.setLongitude(getLongitudeFromX01(getXY01FromMercator(pMercatorX, pMapSize, wrapEnabled), wrapEnabled));
+		out.setLatitude(getLatitudeFromY01(getXY01FromMercator(pMercatorY, pMapSize, verticalWrapEnabled), verticalWrapEnabled));
+		out.setLongitude(getLongitudeFromX01(getXY01FromMercator(pMercatorX, pMapSize, horizontalWrapEnabled), horizontalWrapEnabled));
 		return out;
 	}
 

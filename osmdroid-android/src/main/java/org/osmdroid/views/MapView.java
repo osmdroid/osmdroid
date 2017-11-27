@@ -130,7 +130,8 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	/* becomes true once onLayout has been called for the first time i.e. map is ready to go. */
 	private boolean mLayoutOccurred = false;
 
-	private boolean mapRepetitionEnabled = true;
+	private boolean horizontalMapRepetitionEnabled = true;
+	private boolean verticalMapRepetitionEnabled = true;
 
 	private GeoPoint mCenter;
 	private long mMapScrollX;
@@ -192,7 +193,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		mTileProvider.setTileRequestCompleteHandler(mTileRequestCompleteHandler);
 		updateTileSizeForDensity(mTileProvider.getTileSource());
 
-		this.mMapOverlay = new TilesOverlay(mTileProvider, context, mapRepetitionEnabled);
+		this.mMapOverlay = new TilesOverlay(mTileProvider, context, horizontalMapRepetitionEnabled, verticalMapRepetitionEnabled);
 		mOverlayManager = new DefaultOverlayManager(mMapOverlay);
 
 		mGestureDetector = new GestureDetector(context, new MapViewGestureDetectorListener());
@@ -1256,18 +1257,34 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		mMultiTouchController = on ? new MultiTouchController<Object>(this, false) : null;
 	}
 
-	public boolean isMapRepetitionEnabled() {
-		return mapRepetitionEnabled;
+	public boolean isHorizontalMapRepetitionEnabled() {
+		return horizontalMapRepetitionEnabled;
 	}
 
 	/**
-	 * If mapRepetition is enabled the map repeats in every direction and scrolling wraps around the
-	 * edges. If disabled the map is only shown once. Default is true.
-	 * @param mapRepetitionEnabled
+	 * If horizontalMapRepetition is enabled the map repeats in left/right direction and scrolling wraps around the
+	 * edges. If disabled the map is only shown once for the horizontal direction. Default is true.
+	 * @param horizontalMapRepetitionEnabled
 	 */
-	public void setMapRepetitionEnabled(boolean mapRepetitionEnabled) {
-		this.mapRepetitionEnabled = mapRepetitionEnabled;
-		mMapOverlay.setWrapEnabled(mapRepetitionEnabled);
+	public void setHorizontalMapRepetitionEnabled(boolean horizontalMapRepetitionEnabled) {
+		this.horizontalMapRepetitionEnabled = horizontalMapRepetitionEnabled;
+		mMapOverlay.setHorizontalWrapEnabled(horizontalMapRepetitionEnabled);
+		setProjection(null);
+		this.invalidate();
+	}
+
+	public boolean isVerticalMapRepetitionEnabled() {
+		return verticalMapRepetitionEnabled;
+	}
+
+	/**
+	 * If horizontalMapRepetition is enabled the map repeats in top/bottom direction and scrolling wraps around the
+	 * edges. If disabled the map is only shown once for the vertical direction. Default is true.
+	 * @param verticalMapRepetitionEnabled
+	 */
+	public void setVerticalMapRepetitionEnabled(boolean verticalMapRepetitionEnabled) {
+		this.verticalMapRepetitionEnabled = verticalMapRepetitionEnabled;
+		mMapOverlay.setVerticalWrapEnabled(verticalMapRepetitionEnabled);
 		setProjection(null);
 		this.invalidate();
 	}
@@ -1563,7 +1580,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		mTileProvider.setTileRequestCompleteHandler(mTileRequestCompleteHandler);
 		updateTileSizeForDensity(mTileProvider.getTileSource());
 
-		this.mMapOverlay = new TilesOverlay(mTileProvider, this.getContext(), mapRepetitionEnabled);
+		this.mMapOverlay = new TilesOverlay(mTileProvider, this.getContext(), horizontalMapRepetitionEnabled, verticalMapRepetitionEnabled);
 		
 		mOverlayManager.setTilesOverlay(mMapOverlay);
 		invalidate();
