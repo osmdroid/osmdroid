@@ -687,11 +687,6 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
         return mScrollableAreaBoundingBox;
     }
 
-	public void setScrollableAreaLimitToMapBounds() {
-		BoundingBox boundingBox = new BoundingBox(90, 180, -90, -180);
-		setScrollableAreaLimitDouble(boundingBox);
-	}
-
 	public void invalidateMapCoordinates(Rect dirty) {
 		invalidateMapCoordinates(dirty.left, dirty.top, dirty.right, dirty.bottom, false);
 	}
