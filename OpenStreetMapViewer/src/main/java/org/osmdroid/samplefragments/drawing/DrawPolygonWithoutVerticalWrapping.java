@@ -5,18 +5,18 @@ package org.osmdroid.samplefragments.drawing;
  * Created by Maradox on 11/26/17.
  */
 
-public class DrawPolygonWithoutWrapping extends DrawPolygon {
+public class DrawPolygonWithoutVerticalWrapping extends DrawPolygon {
 
     @Override
     public String getSampleTitle() {
-        return "Draw a polygon on screen without wrapping";
+        return "Draw a polygon on screen without vertical wrapping";
     }
 
 
     @Override
     public void addOverlays() {
         super.addOverlays();
-        this.mMapView.setHorizontalMapRepetitionEnabled(false);
+        this.mMapView.setHorizontalMapRepetitionEnabled(true);
         this.mMapView.setVerticalMapRepetitionEnabled(false);
     }
 

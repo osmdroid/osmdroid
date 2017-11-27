@@ -20,9 +20,11 @@ import org.osmdroid.samplefragments.cache.SampleSqliteOnly;
 import org.osmdroid.samplefragments.animations.AnimatedMarkerTimer;
 import org.osmdroid.samplefragments.data.AsyncTaskDemoFragment;
 import org.osmdroid.samplefragments.drawing.DrawPolygonHoles;
+import org.osmdroid.samplefragments.drawing.DrawPolygonWithoutVerticalWrapping;
 import org.osmdroid.samplefragments.drawing.DrawPolygonWithoutWrapping;
 import org.osmdroid.samplefragments.drawing.PressToPlot;
 import org.osmdroid.samplefragments.drawing.PressToPlotWithoutWrapping;
+import org.osmdroid.samplefragments.drawing.SampleDrawPolylineWithoutVerticalWrapping;
 import org.osmdroid.samplefragments.drawing.SampleDrawPolylineWithoutWrapping;
 import org.osmdroid.samplefragments.geopackage.GeopackageFeatureTiles;
 import org.osmdroid.samplefragments.geopackage.GeopackageFeatures;
@@ -256,6 +258,8 @@ public final class SampleFactory implements ISampleFactory {
         mSamples.add(MinMaxZoomLevel.class);
         mSamples.add(PressToPlot.class);
         mSamples.add(PressToPlotWithoutWrapping.class);
+        mSamples.add(DrawPolygonWithoutVerticalWrapping.class);
+        mSamples.add(SampleDrawPolylineWithoutVerticalWrapping.class);
 
         if (Build.VERSION.SDK_INT >= 9)
             mSamples.add(StreetAddressFragment.class);
