@@ -1032,24 +1032,27 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		if (mScrollableAreaBoundingBox == null) {
 			return false;
 		}
-		final double worldSize = TileSystem.MapSize(getZoomLevelDouble());
-		final long offsetX = checkScrollableOffset(
-				getProjection().getLongPixelXFromLongitude(mScrollableAreaBoundingBox.getLonWest(), true),
-				getProjection().getLongPixelXFromLongitude(mScrollableAreaBoundingBox.getLonEast(), true),
-				worldSize,
-				getWidth());
-		final long offsetY = checkScrollableOffset(
-				getProjection().getLongPixelYFromLatitude(mScrollableAreaBoundingBox.getActualNorth(), true),
-				getProjection().getLongPixelYFromLatitude(mScrollableAreaBoundingBox.getActualSouth(), true),
-				worldSize,
-				getHeight());
+		final long west = getProjection().getLongPixelXFromLongitude(mScrollableAreaBoundingBox.getLonWest(), true);
+		final long east = getProjection().getLongPixelXFromLongitude(mScrollableAreaBoundingBox.getLonEast(), true);
+		final long north = getProjection().getLongPixelYFromLatitude(mScrollableAreaBoundingBox.getActualNorth(), true);
+		final long south = getProjection().getLongPixelYFromLatitude(mScrollableAreaBoundingBox.getActualSouth(), true);
+		final Point topRight = getProjection().scalePoint((int)east, (int)north, null);
+		final Point bottomLeft = getProjection().scalePoint((int)west, (int)south, null);
+		final Point bottomRight = getProjection().scalePoint((int)east, (int)south, null);
+		final int left = bottomLeft.x;
+		final int right = bottomRight.x;
+		final int top = topRight.y;
+		final int bottom = bottomRight.y;
+		final double worldSize = TileSystem.MapSize(getZoomLevelDouble()) * mMultiTouchScale;
+		final long offsetX = Math.round(checkScrollableOffset(left, right, worldSize, getWidth()) / mMultiTouchScale);
+		final long offsetY = Math.round(checkScrollableOffset(top, bottom, worldSize, getHeight()) / mMultiTouchScale);
 		if (offsetX == 0 && offsetY == 0) {
 			return false;
 		}
-		setMapScroll(mMapScrollX + offsetX, mMapScrollY + offsetY);
 		resetProjection();
-		mScroller.setFinalX((int)getMapScrollX());
-		mScroller.setFinalY((int)getMapScrollY());
+		mScroller.setFinalX((int)(mMapScrollX + offsetX));
+		mScroller.setFinalY((int)(mMapScrollY + offsetY));
+		setMapScroll(Math.round(mMapScrollX + offsetX), Math.round(mMapScrollY + offsetY));
 		return true;
 	}
 
