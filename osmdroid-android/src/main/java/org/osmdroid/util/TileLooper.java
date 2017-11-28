@@ -1,7 +1,6 @@
 package org.osmdroid.util;
 
 import android.graphics.Rect;
-
 import org.osmdroid.tileprovider.MapTile;
 
 /**
@@ -11,14 +10,16 @@ public abstract class TileLooper {
 
 	protected final Rect mTiles = new Rect();
 	protected int mTileZoomLevel;
-	private boolean wrapEnabled = true;
+	private boolean horizontalWrapEnabled = true;
+	private boolean verticalWrapEnabled = true;
 
 	public TileLooper() {
-		this(false);
+		this(false, false);
 	}
 
-	public TileLooper(boolean wrapEnabled) {
-		this.wrapEnabled = wrapEnabled;
+	public TileLooper(boolean horizontalWrapEnabled, boolean verticalWrapEnabled) {
+		this.horizontalWrapEnabled = horizontalWrapEnabled;
+		this.verticalWrapEnabled = verticalWrapEnabled;
 	}
 
 	protected void loop(final double pZoomLevel, final RectL pMercatorViewPort) {
@@ -32,9 +33,10 @@ public abstract class TileLooper {
 		/* Draw all the MapTiles (from the upper left to the lower right). */
 		for (int i = mTiles.left ; i <= mTiles.right ; i ++) {
 			for (int j = mTiles.top ; j <= mTiles.bottom ; j ++) {
-				if(wrapEnabled || (i >= 0 && i < mapTileUpperBound && j >= 0 && j < mapTileUpperBound)) {
-					final int tileX = wrapEnabled ? MyMath.mod(i, mapTileUpperBound) : i;
-					final int tileY = wrapEnabled ? MyMath.mod(j, mapTileUpperBound) : j;
+				if ((horizontalWrapEnabled || (i >= 0 && i < mapTileUpperBound)) && (verticalWrapEnabled
+						|| (j >= 0 && j < mapTileUpperBound))) {
+					final int tileX = horizontalWrapEnabled ? MyMath.mod(i, mapTileUpperBound) : i;
+					final int tileY = verticalWrapEnabled ? MyMath.mod(j, mapTileUpperBound) : j;
 					final MapTile tile = new MapTile(mTileZoomLevel, tileX, tileY);
 					handleTile(tile, i, j);
 				}
@@ -50,12 +52,20 @@ public abstract class TileLooper {
 
 	public void finaliseLoop() {}
 
-	public boolean isWrapEnabled() {
-		return wrapEnabled;
+	public boolean isHorizontalWrapEnabled() {
+		return horizontalWrapEnabled;
 	}
 
-	public void setWrapEnabled(boolean wrapEnabled) {
-		this.wrapEnabled = wrapEnabled;
+	public void setHorizontalWrapEnabled(boolean horizontalWrapEnabled) {
+		this.horizontalWrapEnabled = horizontalWrapEnabled;
+	}
+
+	public boolean isVerticalWrapEnabled() {
+		return verticalWrapEnabled;
+	}
+
+	public void setVerticalWrapEnabled(boolean verticalWrapEnabled) {
+		this.verticalWrapEnabled = verticalWrapEnabled;
 	}
 
 }
