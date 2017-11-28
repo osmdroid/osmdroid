@@ -116,6 +116,36 @@ public class Polyline extends OverlayWithIW {
 		mOnClickListener = listener;
 	}
 
+	/**
+	 * A directional arrow is a single arrow drawn in the middle of two points of a polyline to
+	 * provide a visual cue for direction of movement between the two points.
+	 *
+	 * By default the arrows always point towards the lower index as the list of GeoPoints are
+	 * processed.
+	 *
+	 * @param drawDirectionalArrows enable or disable the feature. Cannot be null
+	 */
+	public void setDrawDirectionalArrows(boolean drawDirectionalArrows) {
+		mOutline.setDrawDirectionalArrows(drawDirectionalArrows, null, null );
+	}
+
+	/**
+	 * A directional arrow is a single arrow drawn in the middle of two points of a polyline to
+	 * provide a visual cue for direction of movement between the two points.
+	 *
+	 * By default the arrows always point towards the lower index as the list of GeoPoints are
+	 * processed. The direction the arrows point can be inverted. You can adjust the length
+	 * (in pixels) of how far the arrows extend away from the line.
+	 *
+	 * @param drawDirectionalArrows enable or disable the feature. Cannot be null
+	 * @param arrowLength the length in pixels the arrow sides should be. Use null for default value
+	 * @param invertDirection invert the direction the arrows are drawn. Use null for default value
+	 */
+	public void setDrawDirectionalArrows(
+			boolean drawDirectionalArrows, Float arrowLength, Boolean invertDirection) {
+		mOutline.setDrawDirectionalArrows(drawDirectionalArrows, arrowLength, invertDirection);
+	}
+
 	protected void addGreatCircle(final GeoPoint startPoint, final GeoPoint endPoint, final int numberOfPoints) {
 		//	adapted from page http://compastic.blogspot.co.uk/2011/07/how-to-draw-great-circle-on-map-in.html
 		//	which was adapted from page http://maps.forum.nu/gm_flight_path.html
@@ -192,6 +222,14 @@ public class Polyline extends OverlayWithIW {
         mOutline.buildPathPortion(pj, false, null);
 
         canvas.drawPath(mPath, mPaint);
+
+        if (mOutline.getDirectionalArrowPaths().size() > 0) {
+        	Paint fillPaint = new Paint(mPaint);
+        	fillPaint.setStyle(Paint.Style.FILL);
+        	for (Path p : mOutline.getDirectionalArrowPaths()) {
+        		canvas.drawPath(p, fillPaint);
+			}
+		}
 	}
 	
 	/** Detection is done is screen coordinates. 
