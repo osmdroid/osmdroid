@@ -297,11 +297,7 @@ public class DefaultConfigurationProvider implements IConfigurationProvider {
             SharedPreferences.Editor edit = prefs.edit();
             edit.putString("osmdroid.basePath",discoveredBestPath.getAbsolutePath());
             edit.putString("osmdroid.cachePath",discoveredCachPath.getAbsolutePath());
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
-                edit.apply();
-            } else {
-                edit.commit();
-            }
+            commit(edit);
             setOsmdroidBasePath(discoveredBestPath);
             setOsmdroidTileCache(discoveredCachPath);
             setUserAgentValue(ctx.getPackageName());
@@ -385,12 +381,8 @@ public class DefaultConfigurationProvider implements IConfigurationProvider {
         edit.putInt("osmdroid.ZoomSpeedDefault", animationSpeedDefault);
         edit.putInt("osmdroid.animationSpeedShort", animationSpeedShort);
         edit.putBoolean("osmdroid.mapViewRecycler", mapViewRecycler);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
-            edit.apply();
-        } else {
-            edit.commit();
-        }    }
+        commit(edit);
+    }
 
     /**
      * Loading a map from preferences, using a prefix for the prefs keys
@@ -429,6 +421,14 @@ public class DefaultConfigurationProvider implements IConfigurationProvider {
         for (final Map.Entry<String, String> entry : pMap.entrySet()) {
             final String key = pPrefix + entry.getKey();
             pEdit.putString(key, entry.getValue());
+        }
+    }
+
+    private static void commit(final SharedPreferences.Editor pEditor) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
+            pEditor.apply();
+        } else {
+            pEditor.commit();
         }
     }
 
