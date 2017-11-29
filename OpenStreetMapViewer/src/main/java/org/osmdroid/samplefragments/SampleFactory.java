@@ -20,10 +20,12 @@ import org.osmdroid.samplefragments.cache.SampleSqliteOnly;
 import org.osmdroid.samplefragments.animations.AnimatedMarkerTimer;
 import org.osmdroid.samplefragments.data.AsyncTaskDemoFragment;
 import org.osmdroid.samplefragments.drawing.DrawPolygonHoles;
+import org.osmdroid.samplefragments.drawing.DrawPolygonWithoutVerticalWrapping;
 import org.osmdroid.samplefragments.drawing.DrawPolygonWithoutWrapping;
 import org.osmdroid.samplefragments.drawing.DrawPolylineWithArrows;
 import org.osmdroid.samplefragments.drawing.PressToPlot;
 import org.osmdroid.samplefragments.drawing.PressToPlotWithoutWrapping;
+import org.osmdroid.samplefragments.drawing.SampleDrawPolylineWithoutVerticalWrapping;
 import org.osmdroid.samplefragments.drawing.SampleDrawPolylineWithoutWrapping;
 import org.osmdroid.samplefragments.geopackage.GeopackageFeatureTiles;
 import org.osmdroid.samplefragments.geopackage.GeopackageFeatures;
@@ -65,7 +67,7 @@ import org.osmdroid.samplefragments.geopackage.GeopackageSample;
 import org.osmdroid.samplefragments.tileproviders.MapsforgeTileProviderSample;
 import org.osmdroid.samplefragments.tileproviders.OfflinePickerSample;
 import org.osmdroid.samplefragments.tileproviders.SampleAssetsOnly;
-import org.osmdroid.samplefragments.tileproviders.SampleAssetsOnlyWithoutWrapping;
+import org.osmdroid.samplefragments.tileproviders.SampleAssetsOnlyRepetitionModes;
 import org.osmdroid.samplefragments.tileproviders.SampleOfflineGemfOnly;
 import org.osmdroid.samplefragments.tileproviders.SampleVeryHighZoomLevel;
 import org.osmdroid.samplefragments.tilesources.SampleBingHybrid;
@@ -228,7 +230,7 @@ public final class SampleFactory implements ISampleFactory {
         mSamples.add(DrawPolygon.class);
         mSamples.add(DrawPolygonHoles.class);
         mSamples.add(SampleWMSSource.class);
-        mSamples.add(SampleAssetsOnlyWithoutWrapping.class);
+        mSamples.add(SampleAssetsOnlyRepetitionModes.class);
         mSamples.add(SampleDrawPolylineWithoutWrapping.class);
         mSamples.add(DrawPolygonWithoutWrapping.class);
 
@@ -257,7 +259,10 @@ public final class SampleFactory implements ISampleFactory {
         mSamples.add(MinMaxZoomLevel.class);
         mSamples.add(PressToPlot.class);
         mSamples.add(PressToPlotWithoutWrapping.class);
+        mSamples.add(DrawPolygonWithoutVerticalWrapping.class);
+        mSamples.add(SampleDrawPolylineWithoutVerticalWrapping.class);
         mSamples.add(DrawPolylineWithArrows.class);
+
         if (Build.VERSION.SDK_INT >= 9)
             mSamples.add(StreetAddressFragment.class);  //map in a list view
     }

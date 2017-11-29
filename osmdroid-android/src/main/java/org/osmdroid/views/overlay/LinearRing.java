@@ -48,7 +48,8 @@ class LinearRing implements SegmentClipper.SegmentClippable{
 	private final Path mPath;
 	private boolean mIsNextAMove;
 	private boolean mPrecomputed;
-	private boolean isWorldRepeating = true;
+	private boolean isHoritonalRepeating = true;
+	private boolean isVerticalRepeating  = true;
 
 	private final ArrayList<Path> mDirectionalArrows = new ArrayList<>();
 	private static final float DEFAULT_ARROW_LENGTH = 20f;
@@ -195,17 +196,25 @@ class LinearRing implements SegmentClipper.SegmentClippable{
 	private void getBestOffset(final RectL pBoundingBox, final Rect pScreenRect,
 							   final double pWorldSize, final PointL pOffset) {
 		final long worldSize = Math.round(pWorldSize);
-		final int deltaXPositive = getBestOffset(pBoundingBox, pScreenRect, worldSize, 0);
-		final int deltaXNegative = getBestOffset(pBoundingBox, pScreenRect, -worldSize, 0);
-		final int deltaYPositive = getBestOffset(pBoundingBox, pScreenRect, 0, worldSize);
-		final int deltaYNegative = getBestOffset(pBoundingBox, pScreenRect, 0, -worldSize);
+		int deltaXPositive = getBestOffset(pBoundingBox, pScreenRect, worldSize, 0);
+		int deltaXNegative = getBestOffset(pBoundingBox, pScreenRect, -worldSize, 0);
+		int deltaYPositive = getBestOffset(pBoundingBox, pScreenRect, 0, worldSize);
+		int deltaYNegative = getBestOffset(pBoundingBox, pScreenRect, 0, -worldSize);
+		if (!isVerticalRepeating) {
+			deltaYPositive=0;
+			deltaYNegative=0;
+		}
+		if (!isHoritonalRepeating) {
+			deltaXPositive=0;
+			deltaXNegative=0;
+		}
 		pOffset.x = worldSize * (deltaXPositive > deltaXNegative ? deltaXPositive:-deltaXNegative);
 		pOffset.y = worldSize * (deltaYPositive > deltaYNegative ? deltaYPositive:-deltaYNegative);
 	}
 
 	private int getBestOffset(final RectL pBoundingBox, final Rect pScreenRect,
 							  final long pDeltaX, final long pDeltaY) {
-		if (!isWorldRepeating ) {
+		if (!isHoritonalRepeating && !isVerticalRepeating ) {
 			return 0;
 		}
 		final double boundingBoxCenterX = (pBoundingBox.left + pBoundingBox.right) / 2.;
@@ -401,7 +410,9 @@ class LinearRing implements SegmentClipper.SegmentClippable{
 				halfWidth - scaledRadius, halfHeight - scaledRadius,
 				halfWidth + scaledRadius, halfHeight + scaledRadius
 		);
-		this.isWorldRepeating = pMapView.isMapRepetitionEnabled();
+		// TODO: Not sure if this is the correct approach
+		this.isHoritonalRepeating = pMapView.isHorizontalMapRepetitionEnabled();
+		this.isVerticalRepeating = pMapView.isVerticalMapRepetitionEnabled();
 	}
 
 	private void addDirectionalArrow(PointL screenPoint0, PointL screenPoint1) {
