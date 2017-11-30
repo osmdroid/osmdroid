@@ -297,7 +297,7 @@ public class DefaultConfigurationProvider implements IConfigurationProvider {
             SharedPreferences.Editor edit = prefs.edit();
             edit.putString("osmdroid.basePath",discoveredBestPath.getAbsolutePath());
             edit.putString("osmdroid.cachePath",discoveredCachPath.getAbsolutePath());
-            edit.commit();
+            commit(edit);
             setOsmdroidBasePath(discoveredBestPath);
             setOsmdroidTileCache(discoveredCachPath);
             setUserAgentValue(ctx.getPackageName());
@@ -381,8 +381,7 @@ public class DefaultConfigurationProvider implements IConfigurationProvider {
         edit.putInt("osmdroid.ZoomSpeedDefault", animationSpeedDefault);
         edit.putInt("osmdroid.animationSpeedShort", animationSpeedShort);
         edit.putBoolean("osmdroid.mapViewRecycler", mapViewRecycler);
-
-        edit.commit();
+        commit(edit);
     }
 
     /**
@@ -422,6 +421,14 @@ public class DefaultConfigurationProvider implements IConfigurationProvider {
         for (final Map.Entry<String, String> entry : pMap.entrySet()) {
             final String key = pPrefix + entry.getKey();
             pEdit.putString(key, entry.getValue());
+        }
+    }
+
+    private static void commit(final SharedPreferences.Editor pEditor) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
+            pEditor.apply();
+        } else {
+            pEditor.commit();
         }
     }
 
