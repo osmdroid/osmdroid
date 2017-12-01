@@ -52,7 +52,7 @@ class LinearRing implements SegmentClipper.SegmentClippable{
 	private boolean isVerticalRepeating  = true;
 
 	private final ArrayList<Path> mDirectionalArrows = new ArrayList<>();
-	private static final float DEFAULT_ARROW_LENGTH = 20f;
+	private static final float DEFAULT_ARROW_LENGTH = 15f;
 	private static final boolean DEFAULT_INVERT_ARROWS = false;
 	private boolean mDrawDirectionalArrows = false;
 	private boolean mInvertDirectionalArrows = DEFAULT_INVERT_ARROWS;
@@ -110,21 +110,17 @@ class LinearRing implements SegmentClipper.SegmentClippable{
 	 * (in pixels) of how far the arrows extend away from the line.
  	 *
 	 * @param drawDirectionalArrows to enable or disable
-	 * @param arrowLength the length in pixels the arrow should be. Use null for default value
 	 * @param invertDirection invert the direction the arrows are drawn. Use null for default value
 	 */
 	void setDrawDirectionalArrows(
-			boolean drawDirectionalArrows, Float arrowLength, Boolean invertDirection) {
+			boolean drawDirectionalArrows, Boolean invertDirection, float strokeWidth) {
 		this.mDrawDirectionalArrows = drawDirectionalArrows;
 		// reset defaults if disabling
 		if (!drawDirectionalArrows) {
-			mDirectionalArrowLength = DEFAULT_ARROW_LENGTH;
 			mInvertDirectionalArrows = DEFAULT_INVERT_ARROWS;
 			return;
 		}
-		if (arrowLength != null) {
-			this.mDirectionalArrowLength = arrowLength;
-		}
+		setStrokeWidth(strokeWidth);
 		if (invertDirection != null) {
 			this.mInvertDirectionalArrows = invertDirection;
 		}
@@ -513,5 +509,9 @@ class LinearRing implements SegmentClipper.SegmentClippable{
 		directionalArrowPath.close();
 
 		mDirectionalArrows.add(directionalArrowPath);
+	}
+
+	public void setStrokeWidth(float strokeWidth) {
+		this.mDirectionalArrowLength = DEFAULT_ARROW_LENGTH + strokeWidth;
 	}
 }

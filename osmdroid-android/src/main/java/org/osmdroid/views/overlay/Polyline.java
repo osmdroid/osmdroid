@@ -106,6 +106,7 @@ public class Polyline extends OverlayWithIW {
 	
 	public void setWidth(float width){
 		mPaint.setStrokeWidth(width);
+		mOutline.setStrokeWidth(width);
 	}
 	
 	public void setVisible(boolean visible){
@@ -126,7 +127,7 @@ public class Polyline extends OverlayWithIW {
 	 * @param drawDirectionalArrows enable or disable the feature. Cannot be null
 	 */
 	public void setDrawDirectionalArrows(boolean drawDirectionalArrows) {
-		mOutline.setDrawDirectionalArrows(drawDirectionalArrows, null, null );
+		mOutline.setDrawDirectionalArrows(drawDirectionalArrows, null , mPaint.getStrokeWidth());
 	}
 
 	/**
@@ -138,12 +139,11 @@ public class Polyline extends OverlayWithIW {
 	 * (in pixels) of how far the arrows extend away from the line.
 	 *
 	 * @param drawDirectionalArrows enable or disable the feature. Cannot be null
-	 * @param arrowLength the length in pixels the arrow sides should be. Use null for default value
 	 * @param invertDirection invert the direction the arrows are drawn. Use null for default value
 	 */
 	public void setDrawDirectionalArrows(
-			boolean drawDirectionalArrows, Float arrowLength, Boolean invertDirection) {
-		mOutline.setDrawDirectionalArrows(drawDirectionalArrows, arrowLength, invertDirection);
+			boolean drawDirectionalArrows, Boolean invertDirection) {
+		mOutline.setDrawDirectionalArrows(drawDirectionalArrows, invertDirection, mPaint.getStrokeWidth());
 	}
 
 	protected void addGreatCircle(final GeoPoint startPoint, final GeoPoint endPoint, final int numberOfPoints) {
