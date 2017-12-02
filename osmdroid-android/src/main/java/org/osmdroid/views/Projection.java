@@ -38,6 +38,7 @@ public class Projection implements IProjection {
 
 	private final Matrix mRotateAndScaleMatrix = new Matrix();
 	private final Matrix mUnrotateAndScaleMatrix = new Matrix();
+	private final Matrix mScaleMatrix = new Matrix();
 	private final float[] mRotateScalePoints = new float[2];
 
 	private final BoundingBox mBoundingBoxProjection;
@@ -91,6 +92,8 @@ public class Projection implements IProjection {
 		mRotateAndScaleMatrix.preScale(mMultiTouchScale, mMultiTouchScale, mMultiTouchScalePoint.x, mMultiTouchScalePoint.y);
 		mRotateAndScaleMatrix.preRotate(mOrientation, getScreenCenterX(), getScreenCenterY());
 		mRotateAndScaleMatrix.invert(mUnrotateAndScaleMatrix);
+		mScaleMatrix.preScale(mMultiTouchScale, mMultiTouchScale, mMultiTouchScalePoint.x, mMultiTouchScalePoint.y);
+		mScaleMatrix.preRotate(0, getScreenCenterX(), getScreenCenterY());
 		mScreenRectProjection = new Rect();
 		mScreenRectProjection.left = mIntrinsicScreenRectProjection.left;
 		mScreenRectProjection.top = mIntrinsicScreenRectProjection.top;
@@ -326,20 +329,8 @@ public class Projection implements IProjection {
 	 * drawing to a fixed location on the screen.
 	 */
 	public Point unrotateAndScalePoint(int x, int y, Point reuse) {
-		if (reuse == null)
-			reuse = new Point();
-
-		if (mOrientation != 0 || mMultiTouchScale != 1.0f) {
-			mRotateScalePoints[0] = x;
-			mRotateScalePoints[1] = y;
-			mUnrotateAndScaleMatrix.mapPoints(mRotateScalePoints);
-			reuse.x = (int) mRotateScalePoints[0];
-			reuse.y = (int) mRotateScalePoints[1];
-		} else {
-			reuse.x = x;
-			reuse.y = y;
-		}
-		return reuse;
+		return applyMatrixToPoint(x, y, reuse,
+				mUnrotateAndScaleMatrix, mOrientation != 0 || mMultiTouchScale != 1.0f);
 	}
 
 	/**
@@ -347,20 +338,34 @@ public class Projection implements IProjection {
 	 * converting MotionEvents to a screen point.
 	 */
 	public Point rotateAndScalePoint(int x, int y, Point reuse) {
-		if (reuse == null)
-			reuse = new Point();
+		return applyMatrixToPoint(x, y, reuse,
+				mRotateAndScaleMatrix, mOrientation != 0 || mMultiTouchScale != 1.0f);
+	}
 
-		if (mOrientation != 0 || mMultiTouchScale != 1.0f) {
-			mRotateScalePoints[0] = x;
-			mRotateScalePoints[1] = y;
-			mRotateAndScaleMatrix.mapPoints(mRotateScalePoints);
-			reuse.x = (int) mRotateScalePoints[0];
-			reuse.y = (int) mRotateScalePoints[1];
+	/**
+	 * @since 6.0.0
+	 */
+	public Point scalePoint(int x, int y, Point reuse) {
+		return applyMatrixToPoint(x, y, reuse,
+				mScaleMatrix, mMultiTouchScale != 1.0f);
+	}
+
+	/**
+	 * @since 6.0.0
+	 */
+	private Point applyMatrixToPoint(final int pX, final int pY, final Point reuse, final Matrix pMatrix, final boolean pCondition) {
+		final Point out = reuse != null ? reuse : new Point();
+		if (pCondition) {
+			mRotateScalePoints[0] = pX;
+			mRotateScalePoints[1] = pY;
+			pMatrix.mapPoints(mRotateScalePoints);
+			out.x = (int) mRotateScalePoints[0];
+			out.y = (int) mRotateScalePoints[1];
 		} else {
-			reuse.x = x;
-			reuse.y = y;
+			out.x = pX;
+			out.y = pY;
 		}
-		return reuse;
+		return out;
 	}
 
 	/**
