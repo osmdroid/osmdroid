@@ -137,7 +137,7 @@ public class CustomPaintingSurface extends View {
                     case Polyline:
                         Polyline line = new Polyline();
                         line.setPoints(geoPoints);
-                        line.setDrawDirectionalArrows(withArrows);
+                        line.setDrawDirectionalArrows(withArrows, true);
                         line.setOnClickListener(new Polyline.OnClickListener() {
                             @Override
                             public boolean onClick(Polyline polyline, MapView mapView, GeoPoint eventPos) {
