@@ -12,6 +12,7 @@ import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
 import org.osmdroid.views.util.constants.MathConstants;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -35,7 +36,7 @@ public class Polyline extends OverlayWithIW {
 	private final Path mPath = new Path();
 	private final Paint mPaint = new Paint();
 	/** Bounding rectangle for view */
-    private LinearRing mOutline = new LinearRing(mPath);
+    private ArrowsLinearRing mOutline = new ArrowsLinearRing(mPath);
 	private String id=null;
 
 	protected OnClickListener mOnClickListener;
@@ -223,10 +224,11 @@ public class Polyline extends OverlayWithIW {
 
         canvas.drawPath(mPath, mPaint);
 
-        if (mOutline.getDirectionalArrowPaths().size() > 0) {
+		final ArrayList<Path> directionalArrows = mOutline.getDirectionalArrowPaths();
+        if (directionalArrows != null && directionalArrows.size() > 0) {
         	Paint fillPaint = new Paint(mPaint);
         	fillPaint.setStyle(Paint.Style.FILL);
-        	for (Path p : mOutline.getDirectionalArrowPaths()) {
+        	for (Path p : directionalArrows) {
         		canvas.drawPath(p, fillPaint);
 			}
 		}
