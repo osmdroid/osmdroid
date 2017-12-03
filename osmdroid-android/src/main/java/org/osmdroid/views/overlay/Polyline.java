@@ -119,11 +119,11 @@ public class Polyline extends OverlayWithIW {
 	}
 
 	/**
-	 * A directional arrow is a single arrow drawn in the middle of two points of a polyline to
+	 * A directional arrow is a single arrow drawn in the middle of two points of a to
 	 * provide a visual cue for direction of movement between the two points.
 	 *
 	 * By default the arrows always point towards the lower index as the list of GeoPoints are
-	 * processed.
+	 * processed. The direction the arrows point can be inverted.
 	 *
 	 * @param drawDirectionalArrows enable or disable the feature. Cannot be null
 	 */
@@ -132,12 +132,11 @@ public class Polyline extends OverlayWithIW {
 	}
 
 	/**
-	 * A directional arrow is a single arrow drawn in the middle of two points of a polyline to
+	 * A directional arrow is a single arrow drawn in the middle of two points to
 	 * provide a visual cue for direction of movement between the two points.
 	 *
 	 * By default the arrows always point towards the lower index as the list of GeoPoints are
-	 * processed. The direction the arrows point can be inverted. You can adjust the length
-	 * (in pixels) of how far the arrows extend away from the line.
+	 * processed. The direction the arrows point can be inverted.
 	 *
 	 * @param drawDirectionalArrows enable or disable the feature. Cannot be null
 	 * @param invertDirection invert the direction the arrows are drawn. Use null for default value
@@ -224,14 +223,7 @@ public class Polyline extends OverlayWithIW {
 
         canvas.drawPath(mPath, mPaint);
 
-		final ArrayList<Path> directionalArrows = mOutline.getDirectionalArrowPaths();
-        if (directionalArrows != null && directionalArrows.size() > 0) {
-        	Paint fillPaint = new Paint(mPaint);
-        	fillPaint.setStyle(Paint.Style.FILL);
-        	for (Path p : directionalArrows) {
-        		canvas.drawPath(p, fillPaint);
-			}
-		}
+        mOutline.drawDirectionalArrows(canvas, mPaint);
 	}
 	
 	/** Detection is done is screen coordinates. 

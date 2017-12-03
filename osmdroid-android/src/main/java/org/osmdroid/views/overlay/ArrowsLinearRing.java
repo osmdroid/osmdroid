@@ -1,5 +1,7 @@
 package org.osmdroid.views.overlay;
 
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.Path;
 
 import org.osmdroid.util.PointL;
@@ -7,7 +9,6 @@ import org.osmdroid.util.SegmentClipper;
 import org.osmdroid.views.Projection;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Jason Marks on 12/2/2017.
@@ -16,7 +17,7 @@ import java.util.List;
 class ArrowsLinearRing extends LinearRing implements SegmentClipper.SegmentClippable {
 
     private final ArrayList<Path> mDirectionalArrows = new ArrayList<>();
-    private static final float DEFAULT_ARROW_LENGTH = 15f;
+    private static final float DEFAULT_ARROW_LENGTH = 20f;
     private static final boolean DEFAULT_INVERT_ARROWS = false;
     private boolean mDrawDirectionalArrows = false;
     private boolean mInvertDirectionalArrows = DEFAULT_INVERT_ARROWS;
@@ -34,27 +35,16 @@ class ArrowsLinearRing extends LinearRing implements SegmentClipper.SegmentClipp
 
     @Override
     public void lineTo(final long pX, final long pY) {
-        PointL mPreviousPoint = new PointL(getLatestPathPoint());
-        super.lineTo(pX, pY);
-        if (mPreviousPoint.x != pX || mPreviousPoint.y != pY) {
-            addDirectionalArrow(pX, pY, mPreviousPoint.x, mPreviousPoint.y);
-        }
-    }
-
-    /*
-    ArrayList<Path> computeDirectionalArrows() {
-        ArrayList<PointL> projectedPoints = getProjectedPoints();
-        if (projectedPoints != null && projectedPoints.size() > 0) {
-            for (int i = 0 ; i < projectedPoints.size() ; i++) {
-                if (i+1 != projectedPoints.size()) {
-                    addDirectionalArrow(projectedPoints.get(i), projectedPoints.get(i+1));
-                }
+        if (!mDrawDirectionalArrows) {
+            super.lineTo(pX, pY);
+        } else {
+            if (!getIsNextMove()) {
+                PointL mPreviousPoint = new PointL(getLatestPathPoint());
+                addDirectionalArrow(pX, pY, mPreviousPoint.x, mPreviousPoint.y);
             }
+            super.lineTo(pX, pY);
         }
-
-        return mDirectionalArrows;
     }
-    */
 
     @Override
     void clearPath() {
@@ -73,18 +63,27 @@ class ArrowsLinearRing extends LinearRing implements SegmentClipper.SegmentClipp
     }
 
     /**
-     * A directional arrow is a single arrow drawn in the middle of two points of a polyline to
+     * Update the stroke width
+     *
+     * @param strokeWidth
+     */
+    public void setStrokeWidth(final float strokeWidth) {
+        this.mDirectionalArrowLength = DEFAULT_ARROW_LENGTH + strokeWidth;
+    }
+
+    /**
+     * A directional arrow is a single arrow drawn in the middle of two points to
      * provide a visual cue for direction of movement between the two points.
      *
      * By default the arrows always point towards the lower index as the list of GeoPoints are
-     * processed. The direction the arrows point can be inverted. You can adjust the length
-     * (in pixels) of how far the arrows extend away from the line.
+     * processed. The direction the arrows point can be inverted.
      *
      * @param drawDirectionalArrows to enable or disable
      * @param invertDirection invert the direction the arrows are drawn. Use null for default value
+     * @param strokeWidth the current stroke width of the paint that describes the object
      */
-    void setDrawDirectionalArrows(
-            boolean drawDirectionalArrows, Boolean invertDirection, float strokeWidth) {
+    void setDrawDirectionalArrows(final boolean drawDirectionalArrows,
+                                  final Boolean invertDirection, final float strokeWidth) {
         this.mDrawDirectionalArrows = drawDirectionalArrows;
         // reset defaults if disabling
         if (!drawDirectionalArrows) {
@@ -97,11 +96,24 @@ class ArrowsLinearRing extends LinearRing implements SegmentClipper.SegmentClipp
         }
     }
 
-    ArrayList<Path> getDirectionalArrowPaths() {
-        return mDirectionalArrows;
+    /**
+     * If enabled, draw the directional arrows
+     *
+     * @param canvas the canvas to draw on
+     */
+    void drawDirectionalArrows(final Canvas canvas, final Paint mPaint) {
+        if (mDrawDirectionalArrows) {
+            if (mDirectionalArrows != null && mDirectionalArrows.size() > 0) {
+                Paint fillPaint = new Paint(mPaint);
+                fillPaint.setStyle(Paint.Style.FILL);
+                for (Path p : mDirectionalArrows) {
+                    canvas.drawPath(p, fillPaint);
+                }
+            }
+        }
     }
 
-    private void addDirectionalArrow(long x0, long y0, long x1, long y1) {
+    private void addDirectionalArrow(final long x0, final long y0, final long x1, final long y1) {
         PointL screenPoint0 = new PointL(x0, y0);
         PointL screenPoint1 = new PointL(x1, y1);
 
@@ -202,9 +214,5 @@ class ArrowsLinearRing extends LinearRing implements SegmentClipper.SegmentClipp
         directionalArrowPath.close();
 
         mDirectionalArrows.add(directionalArrowPath);
-    }
-
-    public void setStrokeWidth(float strokeWidth) {
-        this.mDirectionalArrowLength = DEFAULT_ARROW_LENGTH + strokeWidth;
     }
 }
