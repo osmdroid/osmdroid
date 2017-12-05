@@ -17,7 +17,6 @@ import org.osmdroid.events.ScrollEvent;
 import org.osmdroid.events.ZoomEvent;
 import org.osmdroid.samplefragments.BaseSampleFragment;
 import org.osmdroid.views.MapView;
-import org.osmdroid.views.overlay.Polygon;
 import org.osmdroid.views.overlay.gestures.RotationGestureOverlay;
 
 import static org.osmdroid.samplefragments.events.SampleMapEventListener.df;

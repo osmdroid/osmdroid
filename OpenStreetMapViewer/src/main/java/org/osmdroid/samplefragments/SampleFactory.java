@@ -22,6 +22,7 @@ import org.osmdroid.samplefragments.data.AsyncTaskDemoFragment;
 import org.osmdroid.samplefragments.drawing.DrawPolygonHoles;
 import org.osmdroid.samplefragments.drawing.DrawPolygonWithoutVerticalWrapping;
 import org.osmdroid.samplefragments.drawing.DrawPolygonWithoutWrapping;
+import org.osmdroid.samplefragments.drawing.DrawPolylineWithArrows;
 import org.osmdroid.samplefragments.drawing.PressToPlot;
 import org.osmdroid.samplefragments.drawing.PressToPlotWithoutWrapping;
 import org.osmdroid.samplefragments.drawing.SampleDrawPolylineWithoutVerticalWrapping;
@@ -260,9 +261,10 @@ public final class SampleFactory implements ISampleFactory {
         mSamples.add(PressToPlotWithoutWrapping.class);
         mSamples.add(DrawPolygonWithoutVerticalWrapping.class);
         mSamples.add(SampleDrawPolylineWithoutVerticalWrapping.class);
+        mSamples.add(DrawPolylineWithArrows.class);
 
         if (Build.VERSION.SDK_INT >= 9)
-            mSamples.add(StreetAddressFragment.class);
+            mSamples.add(StreetAddressFragment.class);  //map in a list view
     }
 
     public void addSample(Class<? extends BaseSampleFragment> clz) {

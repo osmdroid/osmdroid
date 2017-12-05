@@ -45,6 +45,7 @@ class LinearRing implements SegmentClipper.SegmentClippable{
 	private final ArrayList<PointL> mProjectedPoints = new ArrayList<>();
 	private final PointL mLatestPathPoint = new PointL();
 	private SegmentClipper mSegmentClipper;
+	private SegmentClipper.SegmentClippable mSegmentClipperChild;
 	private final Path mPath;
 	private boolean mIsNextAMove;
 	private boolean mPrecomputed;
@@ -53,6 +54,10 @@ class LinearRing implements SegmentClipper.SegmentClippable{
 
 	public LinearRing(final Path pPath) {
 		mPath = pPath;
+	}
+
+	void setSegmentClipperChild(final SegmentClipper.SegmentClippable segmentClipperChild) {
+		mSegmentClipperChild = segmentClipperChild;
 	}
 
 	@Override
@@ -74,6 +79,8 @@ class LinearRing implements SegmentClipper.SegmentClippable{
 		}
 	}
 
+	boolean getIsNextMove() { return mIsNextAMove; }
+
 	void clearPath() {
 		mOriginalPoints.clear();
 		mPrecomputed = false;
@@ -84,9 +91,13 @@ class LinearRing implements SegmentClipper.SegmentClippable{
 		mPrecomputed = false;
 	}
 
+	PointL getLatestPathPoint() { return mLatestPathPoint; }
+
 	ArrayList<GeoPoint> getPoints(){
 		return mOriginalPoints;
 	}
+
+	ArrayList<PointL> getProjectedPoints() { return mProjectedPoints; }
 
 	void setPoints(final List<GeoPoint> points) {
 		clearPath();
@@ -117,6 +128,7 @@ class LinearRing implements SegmentClipper.SegmentClippable{
 		}
 
 		final List<RectL> segments = new ArrayList<>();
+
 		getSegmentsFromProjected(pProjection, mProjectedPoints, segments, pClosePath);
 		final PointL offset;
 		if (pOffset != null) {
@@ -341,7 +353,7 @@ class LinearRing implements SegmentClipper.SegmentClippable{
 	 * we can use the same SegmentClipper instead of constructing a new one at each canvas draw.
 	 */
 	public void setClipArea(final long pXMin, final long pYMin, final long pXMax, final long pYMax) {
-		mSegmentClipper = new SegmentClipper(pXMin, pYMin, pXMax, pYMax, this);
+		mSegmentClipper = new SegmentClipper(pXMin, pYMin, pXMax, pYMax, mSegmentClipperChild);
 	}
 
 	/**
