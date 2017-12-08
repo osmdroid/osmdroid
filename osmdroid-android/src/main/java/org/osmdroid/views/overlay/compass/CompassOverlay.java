@@ -153,21 +153,19 @@ public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOr
 		mCompassMatrix.setTranslate(-mCompassFrameCenterX, -mCompassFrameCenterY);
 		mCompassMatrix.postTranslate(centerX, centerY);
 
-		canvas.save();
-		canvas.concat(proj.getInvertedScaleRotateCanvasMatrix());
+		proj.save(canvas, false, true);
 		canvas.concat(mCompassMatrix);
 		canvas.drawBitmap(mCompassFrameBitmap, 0, 0, sSmoothPaint);
-		canvas.restore();
+		proj.restore(canvas, true);
 
 		mCompassMatrix.setRotate(-bearing, mCompassRoseCenterX, mCompassRoseCenterY);
 		mCompassMatrix.postTranslate(-mCompassRoseCenterX, -mCompassRoseCenterY);
 		mCompassMatrix.postTranslate(centerX, centerY);
 
-		canvas.save();
-		canvas.concat(proj.getInvertedScaleRotateCanvasMatrix());
+		proj.save(canvas, false, true);
 		canvas.concat(mCompassMatrix);
 		canvas.drawBitmap(mCompassRoseBitmap, 0, 0, sSmoothPaint);
-		canvas.restore();
+		proj.restore(canvas, true);
 	}
 
 	// ===========================================================
