@@ -12,6 +12,7 @@ import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
 import org.osmdroid.views.util.constants.MathConstants;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -35,7 +36,7 @@ public class Polyline extends OverlayWithIW {
 	private final Path mPath = new Path();
 	private final Paint mPaint = new Paint();
 	/** Bounding rectangle for view */
-    private LinearRing mOutline = new LinearRing(mPath);
+    private ArrowsLinearRing mOutline = new ArrowsLinearRing(mPath);
 	private String id=null;
 
 	protected OnClickListener mOnClickListener;
@@ -106,6 +107,7 @@ public class Polyline extends OverlayWithIW {
 	
 	public void setWidth(float width){
 		mPaint.setStrokeWidth(width);
+		mOutline.setStrokeWidth(width);
 	}
 	
 	public void setVisible(boolean visible){
@@ -114,6 +116,34 @@ public class Polyline extends OverlayWithIW {
 
 	public void setOnClickListener(OnClickListener listener){
 		mOnClickListener = listener;
+	}
+
+	/**
+	 * A directional arrow is a single arrow drawn in the middle of two points of a to
+	 * provide a visual cue for direction of movement between the two points.
+	 *
+	 * By default the arrows always point towards the lower index as the list of GeoPoints are
+	 * processed. The direction the arrows point can be inverted.
+	 *
+	 * @param drawDirectionalArrows enable or disable the feature. Cannot be null
+	 */
+	public void setDrawDirectionalArrows(boolean drawDirectionalArrows) {
+		mOutline.setDrawDirectionalArrows(drawDirectionalArrows, null , mPaint.getStrokeWidth());
+	}
+
+	/**
+	 * A directional arrow is a single arrow drawn in the middle of two points to
+	 * provide a visual cue for direction of movement between the two points.
+	 *
+	 * By default the arrows always point towards the lower index as the list of GeoPoints are
+	 * processed. The direction the arrows point can be inverted.
+	 *
+	 * @param drawDirectionalArrows enable or disable the feature. Cannot be null
+	 * @param invertDirection invert the direction the arrows are drawn. Use null for default value
+	 */
+	public void setDrawDirectionalArrows(
+			boolean drawDirectionalArrows, Boolean invertDirection) {
+		mOutline.setDrawDirectionalArrows(drawDirectionalArrows, invertDirection, mPaint.getStrokeWidth());
 	}
 
 	protected void addGreatCircle(final GeoPoint startPoint, final GeoPoint endPoint, final int numberOfPoints) {
@@ -192,6 +222,8 @@ public class Polyline extends OverlayWithIW {
         mOutline.buildPathPortion(pj, false, null);
 
         canvas.drawPath(mPath, mPaint);
+
+        mOutline.drawDirectionalArrows(canvas, mPaint);
 	}
 	
 	/** Detection is done is screen coordinates. 

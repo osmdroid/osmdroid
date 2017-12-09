@@ -117,8 +117,12 @@ public class OpenStreetMapViewTest extends ActivityInstrumentationTestCase2<Star
 		final Point point = pProjection.toPixels(pCenter, null);
 		assertTrue("MapView does not have layout. Make sure device is unlocked.", width_2 > 0 && height_2 > 0);
 		final Point expected = new Point(width_2, height_2);
-		assertEquals("the " + tag + " center of the map is in the pixel center of the map (X)", expected.x, point.x, roundingTolerance);
-		assertEquals("the " + tag + " center of the map is in the pixel center of the map (Y)", expected.y, point.y, roundingTolerance);
+		assertEquals("the " + tag + " center of the map is in the pixel center of the map (X)"
+				+"(zoom=" + pProjection.getZoomLevel() + ",center=" + pCenter + ")",
+				expected.x, point.x, roundingTolerance);
+		assertEquals("the " + tag + " center of the map is in the pixel center of the map (Y)"
+				+ "(zoom=" + pProjection.getZoomLevel() + ",center=" + pCenter + ")",
+				expected.y, point.y, roundingTolerance);
 	}
 
 	/**
