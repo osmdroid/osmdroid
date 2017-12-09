@@ -22,6 +22,7 @@ import android.os.Parcelable;
  */
 public class BoundingBox implements Parcelable, Serializable, MapViewConstants {
 
+	public static final BoundingBox PLANET = new BoundingBox(90d,180d,-90d,-180d);
 	// ===========================================================
 	// Constants
 	// ===========================================================

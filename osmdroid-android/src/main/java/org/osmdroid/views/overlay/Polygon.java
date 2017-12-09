@@ -40,6 +40,7 @@ public class Polygon extends OverlayWithIW {
 	private ArrowsLinearRing mOutline = new ArrowsLinearRing(mPath);
 	private ArrayList<LinearRing> mHoles = new ArrayList<>();
 	private String id=null;
+	private BoundingBox bounds = BoundingBox.PLANET;
 	
 	/** Paint settings. */
 	protected Paint mFillPaint;
@@ -121,6 +122,7 @@ public class Polygon extends OverlayWithIW {
 	 */
 	public void setPoints(final List<GeoPoint> points) {
 		mOutline.setPoints(points);
+		bounds = BoundingBox.fromGeoPoints(points);
 	}
 
 	public void setHoles(List<? extends List<GeoPoint>> holes){
@@ -305,5 +307,10 @@ public class Polygon extends OverlayWithIW {
 	public void setDrawDirectionalArrows(
 			boolean drawDirectionalArrows, Boolean invertDirection) {
 		mOutline.setDrawDirectionalArrows(drawDirectionalArrows, invertDirection, mOutlinePaint.getStrokeWidth());
+	}
+
+	@Override
+	public BoundingBox getBoundingBox(){
+		return bounds;
 	}
 }

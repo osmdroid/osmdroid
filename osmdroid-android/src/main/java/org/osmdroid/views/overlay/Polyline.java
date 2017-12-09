@@ -7,6 +7,7 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.view.MotionEvent;
 
+import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
@@ -38,6 +39,7 @@ public class Polyline extends OverlayWithIW {
 	/** Bounding rectangle for view */
     private ArrowsLinearRing mOutline = new ArrowsLinearRing(mPath);
 	private String id=null;
+	private BoundingBox bounds = BoundingBox.PLANET;
 
 	protected OnClickListener mOnClickListener;
 
@@ -200,6 +202,7 @@ public class Polyline extends OverlayWithIW {
 				addPoint(p);
 			}
 		}
+		bounds = BoundingBox.fromGeoPoints(points);
 	}
 	
 	/** Sets whether to draw each segment of the line as a geodesic or not. 
@@ -291,4 +294,8 @@ public class Polyline extends OverlayWithIW {
 		onDestroy();
 	}
 
+	@Override
+	public BoundingBox getBoundingBox(){
+		return bounds;
+	}
 }

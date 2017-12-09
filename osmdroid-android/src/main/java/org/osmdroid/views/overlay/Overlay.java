@@ -4,6 +4,7 @@ package org.osmdroid.views.overlay;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.osmdroid.api.IMapView;
+import org.osmdroid.util.BoundingBox;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.util.constants.OverlayConstants;
 
@@ -118,6 +119,17 @@ public abstract class Overlay implements OverlayConstants {
 	 * changed for 5.6 to be public see https://github.com/osmdroid/osmdroid/issues/466
 	 */
 	public abstract void draw(final Canvas c, final MapView osmv, final boolean shadow);
+
+	/**
+	 * Purpose: allow generic objects to compute bounding boxes. Subclasses should override this method.
+	 * The default implementation returns the default bounding box planet-wide {@link BoundingBox#PLANET}.
+	 * See <a href="https://github.com/osmdroid/osmdroid/issues/770">#770</a> for details
+	 * @since 6.0.0
+	 * @return
+	 */
+	public BoundingBox getBoundingBox() {
+		return BoundingBox.PLANET;
+	}
 
 	// ===========================================================
 	// Methods
