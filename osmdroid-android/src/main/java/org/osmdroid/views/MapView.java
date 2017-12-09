@@ -1001,9 +1001,9 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		final int right = bottomRight.x;
 		final int top = topRight.y;
 		final int bottom = bottomRight.y;
-		final double worldSize = TileSystem.MapSize(getZoomLevelDouble()) * mMultiTouchScale;
-		final long offsetX = Math.round(checkScrollableOffset(left, right, worldSize, getWidth()) / mMultiTouchScale);
-		final long offsetY = Math.round(checkScrollableOffset(top, bottom, worldSize, getHeight()) / mMultiTouchScale);
+		final double worldSize = TileSystem.MapSize(getZoomLevelDouble());
+		final long offsetX = Math.round(checkScrollableOffset(left, right, worldSize, getWidth()));
+		final long offsetY = Math.round(checkScrollableOffset(top, bottom, worldSize, getHeight()));
 		if (offsetX == 0 && offsetY == 0) {
 			return false;
 		}
