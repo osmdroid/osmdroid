@@ -157,7 +157,7 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends Overlay 
 
             pj.toPixels(item.getPoint(), mCurScreenCoords);
 
-			mInternalItemDisplayedList[i] = onDrawItem(canvas,item, mCurScreenCoords, mapView.getMapOrientation());
+			mInternalItemDisplayedList[i] = onDrawItem(canvas,item, mCurScreenCoords, mapView);
         }
     }
 
@@ -203,11 +203,11 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends Overlay 
 	 * @param item
 	 *            the item to be drawn
 	 * @param curScreenCoords
-	 * @param aMapOrientation
+	 * @param mapView
 	 * @return true if the item was actually drawn
 	 */
 	protected boolean onDrawItem(final Canvas canvas, final Item item, final Point curScreenCoords,
-			final float aMapOrientation) {
+			final MapView mapView) {
 
 		
 
@@ -223,7 +223,7 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends Overlay 
 		int y = mCurScreenCoords.y;
 
 		canvas.save();
-		canvas.rotate(-aMapOrientation, x, y);
+		canvas.rotate(-mapView.getMapOrientation(), x, y);
 		marker.copyBounds(mRect);
 		marker.setBounds(mRect.left + x, mRect.top + y, mRect.right + x, mRect.bottom + y);
 		canvas.scale(1 / scaleX, 1 / scaleY, x, y);

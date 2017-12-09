@@ -37,7 +37,7 @@ import java.util.List;
 public class Polygon extends OverlayWithIW {
 
 	private final Path mPath = new Path(); //Path drawn is kept for click detection
-	private LinearRing mOutline = new LinearRing(mPath);
+	private ArrowsLinearRing mOutline = new ArrowsLinearRing(mPath);
 	private ArrayList<LinearRing> mHoles = new ArrayList<>();
 	private String id=null;
 	
@@ -109,6 +109,7 @@ public class Polygon extends OverlayWithIW {
 	
 	public void setStrokeWidth(final float width) {
 		mOutlinePaint.setStrokeWidth(width);
+		mOutline.setStrokeWidth(width);
 	}
 	
 	public void setVisible(boolean visible){
@@ -221,6 +222,8 @@ public class Polygon extends OverlayWithIW {
 
 		canvas.drawPath(mPath, mFillPaint);
 		canvas.drawPath(mPath, mOutlinePaint);
+
+		mOutline.drawDirectionalArrows(canvas, mOutlinePaint);
 	}
 	
 	/** Important note: this function returns correct results only if the Polygon has been drawn before, 
@@ -274,5 +277,33 @@ public class Polygon extends OverlayWithIW {
 	 */
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	/**
+	 * A directional arrow is a single arrow drawn in the middle of two points of a to
+	 * provide a visual cue for direction of movement between the two points.
+	 *
+	 * By default the arrows always point towards the lower index as the list of GeoPoints are
+	 * processed. The direction the arrows point can be inverted.
+	 *
+	 * @param drawDirectionalArrows enable or disable the feature. Cannot be null
+	 */
+	public void setDrawDirectionalArrows(boolean drawDirectionalArrows) {
+		mOutline.setDrawDirectionalArrows(drawDirectionalArrows, null , mOutlinePaint.getStrokeWidth());
+	}
+
+	/**
+	 * A directional arrow is a single arrow drawn in the middle of two points to
+	 * provide a visual cue for direction of movement between the two points.
+	 *
+	 * By default the arrows always point towards the lower index as the list of GeoPoints are
+	 * processed. The direction the arrows point can be inverted.
+	 *
+	 * @param drawDirectionalArrows enable or disable the feature. Cannot be null
+	 * @param invertDirection invert the direction the arrows are drawn. Use null for default value
+	 */
+	public void setDrawDirectionalArrows(
+			boolean drawDirectionalArrows, Boolean invertDirection) {
+		mOutline.setDrawDirectionalArrows(drawDirectionalArrows, invertDirection, mOutlinePaint.getStrokeWidth());
 	}
 }

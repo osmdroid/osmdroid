@@ -1,5 +1,5 @@
 Please note: issues related to or caused by osmbonuspack will be closed with a
-suggested to open the issue at https://github.com/MKergall/osmbonuspack
+suggestion to open an issue at https://github.com/MKergall/osmbonuspack
 
 (feel free to delete whatever doesn't apply)
 
