@@ -87,6 +87,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	private MultiTouchController<Object> mMultiTouchController;
 	protected PointF mMultiTouchScalePoint = new PointF();
 
+	//
 	protected MapListener mListener;
 
 	// For rotation
