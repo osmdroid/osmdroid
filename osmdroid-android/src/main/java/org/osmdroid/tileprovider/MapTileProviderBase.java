@@ -194,6 +194,18 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback {
 	}
 
 	/**
+	 * Called by implementation class methods indicating that they have failed to retrieve the
+	 * requested map tile, because the max queue size has been reached
+	 *
+	 * @param pState
+	 *            the map tile request state object
+	 */
+	@Override
+	public void mapTileRequestFailedExceedsMaxQueueSize(final MapTileRequestState pState) {
+		mapTileRequestFailed(pState);
+	}
+
+	/**
 	 * Called by implementation class methods indicating that they have produced an expired result
 	 * that can be used but better results may be delivered later. The tile is added to the cache,
 	 * and a MAPTILE_SUCCESS_ID message is sent.
