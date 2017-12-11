@@ -157,6 +157,14 @@ public class MapTileProviderArray extends MapTileProviderBase {
 			super.mapTileRequestFailed(aState);
 		}
 	}
+	
+	@Override
+	public void mapTileRequestFailedExceedsMaxQueueSize(final MapTileRequestState aState) {
+		synchronized (mWorking) {
+			mWorking.remove(aState.getMapTile());
+		}
+		super.mapTileRequestFailed(aState);
+	}
 
 	@Override
 	public void mapTileRequestExpiredTile(MapTileRequestState aState, Drawable aDrawable) {
