@@ -40,6 +40,10 @@ public class MapTileProviderTest extends AndroidTestCase {
 		}
 
 		@Override
+		public void mapTileRequestFailedExceedsMaxQueueSize(final MapTileRequestState aState) {
+		}
+
+		@Override
 		public void mapTileRequestExpiredTile(final MapTileRequestState aState, final Drawable aDrawable) {
 		}
 
