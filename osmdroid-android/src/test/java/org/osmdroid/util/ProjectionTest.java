@@ -227,7 +227,7 @@ public class ProjectionTest {
                 pGeoPoint,
                 pOffsetX, pOffsetY,
                 getRandomOrientation(),
-                new PointF(mWidth / 2, mHeight / 2), true, true);
+                true, true);
     }
 
     private Projection getRandomProjection(final double pZoomLevel) {

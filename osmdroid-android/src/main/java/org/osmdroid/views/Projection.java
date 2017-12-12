@@ -601,7 +601,11 @@ public class Projection implements IProjection {
 	 * @since 6.0.0
 	 */
 	private void refresh() {
-		fromPixels(mIntrinsicScreenRectProjection.centerX(), mIntrinsicScreenRectProjection.centerY(),
+		// of course we could write mIntrinsicScreenRectProjection.centerX() and centerY()
+		// but we should keep writing it that way (cf. ProjectionTest)
+		fromPixels(
+				(mIntrinsicScreenRectProjection.left + mIntrinsicScreenRectProjection.right) / 2,
+				(mIntrinsicScreenRectProjection.top + mIntrinsicScreenRectProjection.bottom) / 2,
 				mCurrentCenter);
 		final IGeoPoint neGeoPoint = fromPixels(
 				mIntrinsicScreenRectProjection.right, mIntrinsicScreenRectProjection.top, null, true);
@@ -615,7 +619,12 @@ public class Projection implements IProjection {
 					mIntrinsicScreenRectProjection, getScreenCenterX(), getScreenCenterY(),
 					mOrientation, mScreenRectProjection);
 		} else {
-			mScreenRectProjection.set(mIntrinsicScreenRectProjection);
+			// of course we could write mScreenRectProjection.set(mIntrinsicScreenRectProjection);
+			// but we should keep writing it that way (cf. ProjectionTest)
+			mScreenRectProjection.left = mIntrinsicScreenRectProjection.left;
+			mScreenRectProjection.top = mIntrinsicScreenRectProjection.top;
+			mScreenRectProjection.right = mIntrinsicScreenRectProjection.right;
+			mScreenRectProjection.bottom = mIntrinsicScreenRectProjection.bottom;
 		}
 	}
 
