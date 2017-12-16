@@ -73,20 +73,19 @@ public class ZoomButtonsOverlay extends Overlay {
 		if (shadow) {
 			return;
 		}
-		c.save();
-		c.concat(mapView.getProjection().getInvertedScaleRotateCanvasMatrix());
+		mapView.getProjection().save(c, false, false);
 		if (mZoomOutEnabled) {
 			c.drawBitmap(mBitmapZoomOut, getLeft(false, c.getWidth()), getTop(c.getHeight()), null);
 		}
 		if (mZoomInEnabled) {
 			c.drawBitmap(mBitmapZoomIn, getLeft(true, c.getWidth()), getTop(c.getHeight()), null);
 		}
-		c.restore();
+		mapView.getProjection().restore(c, false);
 	}
 
 	@Override
 	public boolean onTouchEvent(MotionEvent event, MapView mapView) {
-		if (isEnabled()) {
+		if (isEnabled() && event.getAction() == MotionEvent.ACTION_UP) {
 			final int x = (int) event.getX();
 			final int y = (int) event.getY();
 			if (mZoomInEnabled &&

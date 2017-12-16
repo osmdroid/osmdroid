@@ -133,10 +133,8 @@ public class CopyrightOverlay extends Overlay {
             y = paint.getTextSize() + yOffset;
 
         // Draw the text
-        canvas.save();
-        canvas.concat(map.getProjection().getInvertedScaleRotateCanvasMatrix());
-        //canvas.translate(offsetX, offsetY);
+        map.getProjection().save(canvas, false, false);
         canvas.drawText(map.getTileProvider().getTileSource().getCopyrightNotice(), x, y, paint);
-        canvas.restore();
+        map.getProjection().restore(canvas, false);
     }
 }

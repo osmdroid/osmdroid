@@ -121,11 +121,6 @@ public class MinimapOverlay extends TilesOverlay {
 			return;
 		}
 
-		// Don't draw if we are animating
-		if (osmv.isAnimating()) {
-			return;
-		}
-
 		final double zoomLevel = osmv.getProjection().getZoomLevel() - getZoomDifference();
 		if (zoomLevel < mTileProvider.getMinimumZoomLevel()) {
 			return;

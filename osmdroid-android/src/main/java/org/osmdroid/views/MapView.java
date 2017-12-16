@@ -1,11 +1,8 @@
 package org.osmdroid.views;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicReference;
 
 import org.metalev.multitouch.controller.MultiTouchController;
 import org.metalev.multitouch.controller.MultiTouchController.MultiTouchObjectCanvas;
@@ -30,7 +27,6 @@ import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.GeometryMath;
-import org.osmdroid.util.PointL;
 import org.osmdroid.util.TileSystem;
 import org.osmdroid.views.overlay.DefaultOverlayManager;
 import org.osmdroid.views.overlay.Overlay;
@@ -41,7 +37,6 @@ import org.osmdroid.views.util.constants.MapViewConstants;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Matrix;
 import android.graphics.Point;
 import android.graphics.PointF;
 import android.graphics.Rect;
@@ -67,18 +62,6 @@ import android.widget.Scroller;
 public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		MultiTouchObjectCanvas<Object> {
 
-	// ===========================================================
-	// Constants
-	// ===========================================================
-
-	private static final double ZOOM_SENSITIVITY = 1.0;
-	private static final double ZOOM_LOG_BASE_INV = 1.0 / Math.log(2.0 / ZOOM_SENSITIVITY);
-	private static Method sMotionEventTransformMethod;
-
-	// ===========================================================
-	// Fields
-	// ===========================================================
-
 	/** Current zoom level for map tiles. */
 	private double mZoomLevel = 0;
 
@@ -94,7 +77,6 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	private final Scroller mScroller;
 	protected boolean mIsFlinging;
 
-	protected final AtomicReference<Double> mTargetZoomLevel = new AtomicReference<>();
 	protected final AtomicBoolean mIsAnimating = new AtomicBoolean(false);
 
 	protected Double mMinimumZoomLevel;
@@ -103,9 +85,23 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	private final MapController mController;
 
 	private MultiTouchController<Object> mMultiTouchController;
-	protected float mMultiTouchScale = 1.0f;
-	protected PointF mMultiTouchScalePoint = new PointF();
 
+	/**
+	 * Initial pinch gesture pixel (typically, the middle of both fingers)
+	 */
+	private final PointF mMultiTouchScaleInitPoint = new PointF();
+	/**
+	 * Initial pinch gesture geo point, computed from {@link MapView#mMultiTouchScaleInitPoint}
+	 * and the current Projection
+	 */
+	private final GeoPoint mMultiTouchScaleGeoPoint = new GeoPoint(0., 0);
+	/**
+	 * Current pinch gesture pixel (again, the middle of both fingers)
+	 * We must ensure that this pixel is the projection of {@link MapView#mMultiTouchScaleGeoPoint}
+	 */
+	private PointF mMultiTouchScaleCurrentPoint;
+
+	//
 	protected MapListener mListener;
 
 	// For rotation
@@ -122,7 +118,6 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 	/* a point that will be reused to lay out added views */
 	private final Point mLayoutPoint = new Point();
-	private final PointL mMercatorPoint = new PointL();
 
 	// Keep a set of listeners for when the maps have a layout
 	private final LinkedList<OnFirstLayoutListener> mOnFirstLayoutListeners = new LinkedList<MapView.OnFirstLayoutListener>();
@@ -138,6 +133,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	private long mMapScrollY;
 
 	private ZoomButtonsOverlay mZoomButtonsOverlay;
+	private double mStartAnimationZoom;
 
 	public interface OnFirstLayoutListener {
 		/**
@@ -275,6 +271,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		return mTileRequestCompleteHandler;
 	}
 
+	@Deprecated
 	@Override
 	public int getLatitudeSpan() {
 		return this.getBoundingBoxE6().getLatitudeSpanE6();
@@ -283,6 +280,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		return this.getBoundingBox().getLatitudeSpan();
 	}
 
+	@Deprecated
 	@Override
 	public int getLongitudeSpan() {
 		return this.getBoundingBoxE6().getLongitudeSpanE6();
@@ -291,6 +289,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		return this.getBoundingBox().getLongitudeSpan();
 	}
 
+	@Deprecated
 	public BoundingBoxE6 getBoundingBoxE6() {
           return getProjection().getBoundingBoxE6();
      }
@@ -328,6 +327,8 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	public Projection getProjection() {
 		if (mProjection == null) {
 			mProjection = new Projection(this);
+			mProjection.adjustOffsets(mMultiTouchScaleGeoPoint, mMultiTouchScaleCurrentPoint);
+			mProjection.adjustOffsets(mScrollableAreaBoundingBox);
 		}
 		return mProjection;
 	}
@@ -397,10 +398,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	 * Used to be an int - is a double since 6.0
 	 */
 	double setZoomLevel(final double aZoomLevel) {
-		final double minZoomLevel = getMinZoomLevel();
-		final double maxZoomLevel = getMaxZoomLevel();
-
-		final double newZoomLevel = Math.max(minZoomLevel, Math.min(maxZoomLevel, aZoomLevel));
+		final double newZoomLevel = Math.max(getMinZoomLevel(), Math.min(getMaxZoomLevel(), aZoomLevel));
 		final double curZoomLevel = this.mZoomLevel;
 
 		if (newZoomLevel != curZoomLevel) {
@@ -410,7 +408,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		}
 
 		// Get our current center point
-		final IGeoPoint centerGeoPoint = getMapCenter();
+		final IGeoPoint centerGeoPoint = getProjection().getCurrentCenter();
 
 		this.mZoomLevel = newZoomLevel;
 
@@ -423,8 +421,8 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 			// snap for all snappables
 			final Point snapPoint = new Point();
 			final Projection pj = getProjection();
-			if (this.getOverlayManager().onSnapToItem((int) mMultiTouchScalePoint.x,
-					(int) mMultiTouchScalePoint.y, snapPoint, this)) {
+			if (this.getOverlayManager().onSnapToItem((int) mMultiTouchScaleInitPoint.x,
+					(int) mMultiTouchScaleInitPoint.y, snapPoint, this)) {
 				IGeoPoint geoPoint = pj.fromPixels(snapPoint.x, snapPoint.y, null, false);
 				getController().animateTo(geoPoint);
 			}
@@ -495,7 +493,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	 */
 	@Override
 	public double getZoomLevelDouble() {
-		return getZoomLevel(true);
+		return mZoomLevel;
 	}
 
 	/**
@@ -507,12 +505,9 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	 * Used to be an int - is a double since 6.0
 	 * @return the zoom level
 	 */
+	@Deprecated
 	public double getZoomLevel(final boolean aPending) {
-		if (aPending && isAnimating()) {
-			return mTargetZoomLevel.get();
-		} else {
-			return mZoomLevel;
-		}
+		return getZoomLevelDouble();
 	}
 
 	/**
@@ -547,24 +542,18 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	}
 
 	public boolean canZoomIn() {
-		final double maxZoomLevel = getMaxZoomLevel();
-		if ((isAnimating() ? mTargetZoomLevel.get() : mZoomLevel) >= maxZoomLevel) {
-			return false;
-		}
-		return true;
+		return mZoomLevel < getMaxZoomLevel();
 	}
 
 	public boolean canZoomOut() {
-		final double minZoomLevel = getMinZoomLevel();
-		if ((isAnimating() ? mTargetZoomLevel.get() : mZoomLevel) <= minZoomLevel) {
-			return false;
-		}
-		return true;
+		return mZoomLevel > getMinZoomLevel();
 	}
 
 	/**
 	 * Zoom in by one zoom level.
+	 * Use {@link MapController#zoomIn()}} instead
 	 */
+	@Deprecated
 	boolean zoomIn() {
 		return getController().zoomIn();
 	}
@@ -582,7 +571,9 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 	/**
 	 * Zoom out by one zoom level.
+	 * Use {@link MapController#zoomOut()} instead
 	 */
+	@Deprecated
 	boolean zoomOut() {
 		return getController().zoomOut();
 	}
@@ -637,8 +628,9 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	/**
 	 * @since 5.6.6
 	 */
+	@Deprecated
 	public float getMapScale() {
-		return mMultiTouchScale;
+		return 1;
 	}
 
 	/**
@@ -966,24 +958,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 			rotatedEvent.setLocation(mRotateScalePoint.x, mRotateScalePoint.y);
 		} else {
 			// This method is preferred since it will rotate historical touch events too
-			try {
-				if (sMotionEventTransformMethod == null) {
-					sMotionEventTransformMethod = MotionEvent.class.getDeclaredMethod("transform",
-							new Class[] { Matrix.class });
-				}
-				sMotionEventTransformMethod.invoke(rotatedEvent, getProjection()
-						.getInvertedScaleRotateCanvasMatrix());
-			} catch (SecurityException e) {
-				e.printStackTrace();
-			} catch (NoSuchMethodException e) {
-				e.printStackTrace();
-			} catch (IllegalArgumentException e) {
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
-				e.printStackTrace();
-			} catch (InvocationTargetException e) {
-				e.printStackTrace();
-			}
+			rotatedEvent.transform(getProjection().getInvertedScaleRotateCanvasMatrix());
 		}
 		return rotatedEvent;
 	}
@@ -1022,65 +997,6 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	}
 
 	/**
-	 * @since 6.0.0
-	 */
-	private boolean checkScrollableAreaBoundingBox() {
-		if (mScrollableAreaBoundingBox == null) {
-			return false;
-		}
-		final long west = getProjection().getLongPixelXFromLongitude(mScrollableAreaBoundingBox.getLonWest(), true);
-		final long east = getProjection().getLongPixelXFromLongitude(mScrollableAreaBoundingBox.getLonEast(), true);
-		final long north = getProjection().getLongPixelYFromLatitude(mScrollableAreaBoundingBox.getActualNorth(), true);
-		final long south = getProjection().getLongPixelYFromLatitude(mScrollableAreaBoundingBox.getActualSouth(), true);
-		final Point topRight = getProjection().scalePoint((int)east, (int)north, null);
-		final Point bottomLeft = getProjection().scalePoint((int)west, (int)south, null);
-		final Point bottomRight = getProjection().scalePoint((int)east, (int)south, null);
-		final int left = bottomLeft.x;
-		final int right = bottomRight.x;
-		final int top = topRight.y;
-		final int bottom = bottomRight.y;
-		final double worldSize = TileSystem.MapSize(getZoomLevelDouble()) * mMultiTouchScale;
-		final long offsetX = Math.round(checkScrollableOffset(left, right, worldSize, getWidth()) / mMultiTouchScale);
-		final long offsetY = Math.round(checkScrollableOffset(top, bottom, worldSize, getHeight()) / mMultiTouchScale);
-		if (offsetX == 0 && offsetY == 0) {
-			return false;
-		}
-		resetProjection();
-		mScroller.setFinalX((int)(mMapScrollX + offsetX));
-		mScroller.setFinalY((int)(mMapScrollY + offsetY));
-		setMapScroll(Math.round(mMapScrollX + offsetX), Math.round(mMapScrollY + offsetY));
-		return true;
-	}
-
-	/**
-	 * @since 6.0.0
-	 */
-	private long checkScrollableOffset(final long pPixelMin, long pPixelMax, final double pWorldSize, final int pScreenSize) {
-		while (pPixelMax - pPixelMin < 0) { // date line + several worlds fix
-			pPixelMax += pWorldSize;
-		}
-
-		if (pPixelMax - pPixelMin < pScreenSize) {
-			return pPixelMax - pScreenSize / 2 - (pPixelMax - pPixelMin) / 2;
-		} else if (pPixelMin >= 0) {
-			return pPixelMin;
-		} else if (pPixelMax <= pScreenSize) {
-			return pPixelMax - pScreenSize;
-		} else {
-			return 0;
-		}
-	}
-
-	/**
-	 * @since 6.0.0
-	 */
-	@Override
-	public void invalidate() {
-		checkScrollableAreaBoundingBox();
-		super.invalidate();
-	}
-
-	/**
 	 * @since 5.6.6
 	 */
 	@Override
@@ -1101,11 +1017,8 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		// Reset the projection
 		resetProjection();
 
-		// Save the current canvas matrix
-		c.save();
-
 		// Apply the scale and rotate operations
-		c.concat(getProjection().getScaleRotateCanvasMatrix());
+		getProjection().save(c, true, false);
 
 		/* Draw background */
 		// c.drawColor(mBackgroundColor);
@@ -1114,7 +1027,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 			this.getOverlayManager().onDraw(c, this);
 			mZoomButtonsOverlay.draw(c, this, false);
 			// Restore the canvas matrix
-			c.restore();
+			getProjection().restore(c, false);
 			super.dispatchDraw(c);
 		}catch (Exception ex){
 			//for edit mode
@@ -1157,54 +1070,69 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 			// don't want to step on that.
 			return null;
 		} else {
-			mMultiTouchScalePoint.x = pt.getX();
-			mMultiTouchScalePoint.y = pt.getY();
+			setMultiTouchScaleInitPoint(pt.getX(), pt.getY());
 			return this;
 		}
 	}
 
 	@Override
 	public void getPositionAndScale(final Object obj, final PositionAndScale objPosAndScaleOut) {
-		objPosAndScaleOut.set(0, 0, true, mMultiTouchScale, false, 0, 0, false, 0);
+		startAnimation();
+		objPosAndScaleOut.set(mMultiTouchScaleInitPoint.x, mMultiTouchScaleInitPoint.y, true, 1, false, 0, 0, false, 0);
 	}
 
 	@Override
 	public void selectObject(final Object obj, final PointInfo pt) {
-		// if obj is null it means we released the pointers
-		// if scale is not 1 it means we pinched
-		if (obj == null && mMultiTouchScale != 1.0f) {
-			final float scaleDiffFloat = (float) (Math.log(mMultiTouchScale) * ZOOM_LOG_BASE_INV);
-			// If we are changing zoom levels,
-			// adjust the center point in respect to the scaling point
-			if (scaleDiffFloat != 0) {
-				final Rect screenRect = getProjection().getScreenRect();
-				getProjection().unrotateAndScalePoint(screenRect.centerX(), screenRect.centerY(),
-						mRotateScalePoint);
-				setCenter(getProjection().fromPixels(mRotateScalePoint.x, mRotateScalePoint.y));
-			}
-
-			// Adjust the zoomLevel
-			setZoomLevel(mZoomLevel + scaleDiffFloat);
-		}
-
-		// reset scale
-		mMultiTouchScale = 1.0f;
+		resetMultiTouchScale();
 	}
 
 	@Override
 	public boolean setPositionAndScale(final Object obj, final PositionAndScale aNewObjPosAndScale,
 			final PointInfo aTouchPoint) {
-		float multiTouchScale = aNewObjPosAndScale.getScale();
-
-		// If we are exceed the minimum or maximum zoom, prevent pinching/expanding
-		float minMultiTouchScale = (float) Math.exp((getMinZoomLevel() - mZoomLevel) / ZOOM_LOG_BASE_INV);
-		float maxMultiTouchScale = (float) Math.exp((getMaxZoomLevel() - mZoomLevel) / ZOOM_LOG_BASE_INV);
-		mMultiTouchScale = Math.max(Math.min(multiTouchScale, maxMultiTouchScale), minMultiTouchScale);
-
+		setMultiTouchScaleCurrentPoint(aNewObjPosAndScale.getXOff(), aNewObjPosAndScale.getYOff());
+		setMultiTouchScale(aNewObjPosAndScale.getScale());
 		// Request a layout, so that children are correctly positioned according to scale
 		requestLayout();
 		invalidate(); // redraw
 		return true;
+	}
+
+	/**
+	 * @since 6.0.0
+	 */
+	public void resetMultiTouchScale() {
+		mMultiTouchScaleCurrentPoint = null;
+	}
+
+	/**
+	 * @since 6.0.0
+	 */
+	protected void setMultiTouchScaleInitPoint(final float pX, final float pY) {
+		mMultiTouchScaleInitPoint.set(pX, pY);
+		final Point unRotatedPixel = getProjection().unrotateAndScalePoint((int)pX, (int)pY, null);
+		getProjection().fromPixels(unRotatedPixel.x, unRotatedPixel.y, mMultiTouchScaleGeoPoint);
+		setMultiTouchScaleCurrentPoint(pX, pY);
+	}
+
+	/**
+	 * @since 6.0.0
+	 */
+	protected void setMultiTouchScaleCurrentPoint(final float pX, final float pY) {
+		mMultiTouchScaleCurrentPoint = new PointF(pX, pY);
+	}
+
+	/**
+	 * @since 6.0.0
+	 */
+	protected void setMultiTouchScale(final float pMultiTouchScale) {
+		setZoomLevel(Math.log(pMultiTouchScale) / Math.log(2) + mStartAnimationZoom);
+	}
+
+	/**
+	 * @since 6.0.0
+	 */
+	protected void startAnimation() {
+		mStartAnimationZoom = getZoomLevelDouble();
 	}
 
 	/*
@@ -1267,7 +1195,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	public void setHorizontalMapRepetitionEnabled(boolean horizontalMapRepetitionEnabled) {
 		this.horizontalMapRepetitionEnabled = horizontalMapRepetitionEnabled;
 		mMapOverlay.setHorizontalWrapEnabled(horizontalMapRepetitionEnabled);
-		setProjection(null);
+		resetProjection();
 		this.invalidate();
 	}
 
@@ -1283,7 +1211,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	public void setVerticalMapRepetitionEnabled(boolean verticalMapRepetitionEnabled) {
 		this.verticalMapRepetitionEnabled = verticalMapRepetitionEnabled;
 		mMapOverlay.setVerticalWrapEnabled(verticalMapRepetitionEnabled);
-		setProjection(null);
+		resetProjection();
 		this.invalidate();
 	}
 
@@ -1364,7 +1292,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 				return true;
 			}
 
-			final double worldSize = TileSystem.MapSize(MapView.this.getZoomLevel(false));
+			final double worldSize = TileSystem.MapSize(MapView.this.getZoomLevelDouble());
 			mIsFlinging = true;
 			if (mScroller!=null) {  //fix for edit mode in the IDE
 				mScroller.fling((int) getMapScrollX(), (int) getMapScrollY(), (int) -velocityX,
@@ -1419,7 +1347,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 			// final IGeoPoint center = getProjection().fromPixels((int) e.getX(), (int) e.getY(),
 			// null);
 			getProjection().rotateAndScalePoint((int) e.getX(), (int) e.getY(), mRotateScalePoint);
-			return zoomInFixing(mRotateScalePoint.x, mRotateScalePoint.y);
+			return getController().zoomInFixing(mRotateScalePoint.x, mRotateScalePoint.y);
 		}
 
 		@Override

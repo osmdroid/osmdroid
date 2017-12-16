@@ -397,8 +397,7 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 			if (centred && longitudeBar)
 				offsetY += -longitudeBarRect.height() / 2;
 
-			c.save();
-			c.concat(projection.getInvertedScaleRotateCanvasMatrix());
+			projection.save(c, false, true);
 			c.translate(offsetX, offsetY);
 
 			if (latitudeBar && bgPaint != null)
@@ -416,7 +415,7 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 			if (longitudeBar) {
 				drawLongitudeText(c, projection);
 			}
-			c.restore();
+			projection.restore(c, true);
 		}
 	}
 

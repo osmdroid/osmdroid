@@ -368,7 +368,7 @@ class LinearRing implements SegmentClipper.SegmentClippable{
 		// that include the map orientation: the covered area would be smaller but still big enough
 		// Now we use the circle which contains the `MapView`'s 4 corners
 		final double radius = Math.sqrt(halfWidth * halfWidth + halfHeight * halfHeight);
-		final int scaledRadius = (int) ((radius / pMapView.getMapScale()) * (1 + border));
+		final int scaledRadius = (int) (radius * (1 + border));
 		setClipArea(
 				halfWidth - scaledRadius, halfHeight - scaledRadius,
 				halfWidth + scaledRadius, halfHeight + scaledRadius

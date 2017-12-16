@@ -36,7 +36,6 @@ public class ProjectionTest {
     private static final int mMinimapZoomLevelDifference = 5;
     private static final int mNbIterations = 1000;
     private static final int mDeltaPixel = 2;
-    private static final float mScale = 1;
     private static final Rect mScreenRect = new Rect();
     private static final Rect mMiniMapScreenRect = new Rect();
     private static final int mWidth = 600;
@@ -228,7 +227,7 @@ public class ProjectionTest {
                 pGeoPoint,
                 pOffsetX, pOffsetY,
                 getRandomOrientation(),
-                mScale, new PointF(mWidth / 2, mHeight / 2), true, true);
+                true, true);
     }
 
     private Projection getRandomProjection(final double pZoomLevel) {
