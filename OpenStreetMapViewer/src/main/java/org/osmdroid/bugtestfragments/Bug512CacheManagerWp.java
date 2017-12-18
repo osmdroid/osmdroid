@@ -51,7 +51,7 @@ public class Bug512CacheManagerWp extends BaseSampleFragment implements CacheMan
 
     @Override
     public boolean skipOnCiTests(){
-        return true;
+        return false;
     }
 
     @Override
