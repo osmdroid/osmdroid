@@ -203,10 +203,6 @@ public abstract class IISTrackerBase extends SampleGridlines {
         t = null;
     }
 
-    public boolean skipOnCiTests() {
-        return true;
-    }
-
     @Override
     public void onDestroyView() {
         alive = false;

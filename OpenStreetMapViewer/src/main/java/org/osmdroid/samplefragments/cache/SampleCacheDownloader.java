@@ -321,10 +321,4 @@ public class SampleCacheDownloader extends BaseSampleFragment implements View.On
             downloadPrompt.dismiss();
         }
     }
-
-    @Override
-    public void runTestProcedures(){
-
-    }
-
 }
