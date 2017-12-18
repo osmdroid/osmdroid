@@ -383,15 +383,4 @@ public class HeatMap extends BaseSampleFragment implements MapListener, Runnable
             }
         }
     }
-
-
-    /**
-     * optional place to put automated test procedures, used during the connectCheck tests
-     * this is called OFF of the UI thread. block this method call util the test is done
-     */
-    @Override
-    public void runTestProcedures() throws Exception{
-        Thread.sleep(5000);
-
-    }
 }

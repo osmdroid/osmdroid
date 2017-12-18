@@ -57,6 +57,9 @@ public abstract class BaseSampleFragment extends Fragment {
 				 */
 				@Override
 				public boolean onGenericMotion(View v, MotionEvent event) {
+					if (Build.VERSION.SDK_INT < 12) {
+						return false;
+					}
 					if (0 != (event.getSource() & InputDevice.SOURCE_CLASS_POINTER)) {
 						switch (event.getAction()) {
 							case MotionEvent.ACTION_SCROLL:
@@ -170,7 +173,7 @@ public abstract class BaseSampleFragment extends Fragment {
 	}
 
 	public boolean skipOnCiTests(){
-		return false;
+		return true;
 	}
 
 	/**

@@ -63,6 +63,11 @@ public class MapInAViewPagerFragment extends BaseSampleFragment {
     }
 
     @Override
+    public boolean skipOnCiTests(){
+        return false;
+    }
+
+    @Override
     public void runTestProcedures(){
         Activity act = getActivity();
         int count=0;

@@ -27,11 +27,6 @@ import java.util.List;
 public class SampleAlternateCacheDir extends BaseSampleFragment {
 
     @Override
-    public boolean skipOnCiTests(){
-        return true;
-    }
-
-    @Override
     public String getSampleTitle() {
         return "Alt Cache Dir";
     }

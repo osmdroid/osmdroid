@@ -147,10 +147,6 @@ public class AnimatedMarkerTimer extends BaseSampleFragment implements MapListen
         t = null;
     }
 
-    public boolean skipOnCiTests() {
-        return true;
-    }
-
     @Override
     public void onDestroyView() {
         alive = false;

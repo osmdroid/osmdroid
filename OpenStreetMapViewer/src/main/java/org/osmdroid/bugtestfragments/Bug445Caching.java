@@ -37,6 +37,12 @@ public class Bug445Caching  extends BaseSampleFragment {
         setZoomAndCenter(initialZoom);
     }
 
+    @Override
+    public boolean skipOnCiTests(){
+        return false;
+    }
+
+    @Override
     public void runTestProcedures() throws Exception {
         if (writer==null)
             return;

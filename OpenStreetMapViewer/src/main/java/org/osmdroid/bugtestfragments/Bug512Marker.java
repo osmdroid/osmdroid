@@ -29,6 +29,12 @@ public class Bug512Marker extends BaseSampleFragment {
         mMapView.getOverlayManager().add(marker);
     }
 
+    @Override
+    public boolean skipOnCiTests(){
+        return false;
+    }
+
+    @Override
     public void runTestProcedures() throws Exception {
 
         getActivity().runOnUiThread(new Runnable() {
