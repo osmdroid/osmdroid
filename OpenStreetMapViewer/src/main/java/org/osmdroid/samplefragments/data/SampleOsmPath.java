@@ -222,7 +222,7 @@ public class SampleOsmPath extends BaseSampleFragment implements MapListener {
 
 	@Override
 	public boolean skipOnCiTests(){
-		return false;
+		return true;
 	}
 
 	@Override

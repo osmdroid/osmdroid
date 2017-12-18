@@ -64,7 +64,7 @@ public class MapInAViewPagerFragment extends BaseSampleFragment {
 
     @Override
     public boolean skipOnCiTests(){
-        return false;
+        return true;
     }
 
     @Override
