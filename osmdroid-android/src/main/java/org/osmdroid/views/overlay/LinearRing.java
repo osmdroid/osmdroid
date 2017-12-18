@@ -45,13 +45,19 @@ class LinearRing implements SegmentClipper.SegmentClippable{
 	private final ArrayList<PointL> mProjectedPoints = new ArrayList<>();
 	private final PointL mLatestPathPoint = new PointL();
 	private SegmentClipper mSegmentClipper;
+	private SegmentClipper.SegmentClippable mSegmentClipperChild;
 	private final Path mPath;
 	private boolean mIsNextAMove;
 	private boolean mPrecomputed;
-	private boolean isWorldRepeating = true;
+	private boolean isHoritonalRepeating = true;
+	private boolean isVerticalRepeating  = true;
 
 	public LinearRing(final Path pPath) {
 		mPath = pPath;
+	}
+
+	void setSegmentClipperChild(final SegmentClipper.SegmentClippable segmentClipperChild) {
+		mSegmentClipperChild = segmentClipperChild;
 	}
 
 	@Override
@@ -73,6 +79,8 @@ class LinearRing implements SegmentClipper.SegmentClippable{
 		}
 	}
 
+	boolean getIsNextMove() { return mIsNextAMove; }
+
 	void clearPath() {
 		mOriginalPoints.clear();
 		mPrecomputed = false;
@@ -83,9 +91,13 @@ class LinearRing implements SegmentClipper.SegmentClippable{
 		mPrecomputed = false;
 	}
 
+	PointL getLatestPathPoint() { return mLatestPathPoint; }
+
 	ArrayList<GeoPoint> getPoints(){
 		return mOriginalPoints;
 	}
+
+	ArrayList<PointL> getProjectedPoints() { return mProjectedPoints; }
 
 	void setPoints(final List<GeoPoint> points) {
 		clearPath();
@@ -116,6 +128,7 @@ class LinearRing implements SegmentClipper.SegmentClippable{
 		}
 
 		final List<RectL> segments = new ArrayList<>();
+
 		getSegmentsFromProjected(pProjection, mProjectedPoints, segments, pClosePath);
 		final PointL offset;
 		if (pOffset != null) {
@@ -150,17 +163,25 @@ class LinearRing implements SegmentClipper.SegmentClippable{
 	private void getBestOffset(final RectL pBoundingBox, final Rect pScreenRect,
 							   final double pWorldSize, final PointL pOffset) {
 		final long worldSize = Math.round(pWorldSize);
-		final int deltaXPositive = getBestOffset(pBoundingBox, pScreenRect, worldSize, 0);
-		final int deltaXNegative = getBestOffset(pBoundingBox, pScreenRect, -worldSize, 0);
-		final int deltaYPositive = getBestOffset(pBoundingBox, pScreenRect, 0, worldSize);
-		final int deltaYNegative = getBestOffset(pBoundingBox, pScreenRect, 0, -worldSize);
+		int deltaXPositive = getBestOffset(pBoundingBox, pScreenRect, worldSize, 0);
+		int deltaXNegative = getBestOffset(pBoundingBox, pScreenRect, -worldSize, 0);
+		int deltaYPositive = getBestOffset(pBoundingBox, pScreenRect, 0, worldSize);
+		int deltaYNegative = getBestOffset(pBoundingBox, pScreenRect, 0, -worldSize);
+		if (!isVerticalRepeating) {
+			deltaYPositive=0;
+			deltaYNegative=0;
+		}
+		if (!isHoritonalRepeating) {
+			deltaXPositive=0;
+			deltaXNegative=0;
+		}
 		pOffset.x = worldSize * (deltaXPositive > deltaXNegative ? deltaXPositive:-deltaXNegative);
 		pOffset.y = worldSize * (deltaYPositive > deltaYNegative ? deltaYPositive:-deltaYNegative);
 	}
 
 	private int getBestOffset(final RectL pBoundingBox, final Rect pScreenRect,
 							  final long pDeltaX, final long pDeltaY) {
-		if (!isWorldRepeating ) {
+		if (!isHoritonalRepeating && !isVerticalRepeating ) {
 			return 0;
 		}
 		final double boundingBoxCenterX = (pBoundingBox.left + pBoundingBox.right) / 2.;
@@ -332,7 +353,7 @@ class LinearRing implements SegmentClipper.SegmentClippable{
 	 * we can use the same SegmentClipper instead of constructing a new one at each canvas draw.
 	 */
 	public void setClipArea(final long pXMin, final long pYMin, final long pXMax, final long pYMax) {
-		mSegmentClipper = new SegmentClipper(pXMin, pYMin, pXMax, pYMax, this);
+		mSegmentClipper = new SegmentClipper(pXMin, pYMin, pXMax, pYMax, mSegmentClipperChild);
 	}
 
 	/**
@@ -352,6 +373,8 @@ class LinearRing implements SegmentClipper.SegmentClippable{
 				halfWidth - scaledRadius, halfHeight - scaledRadius,
 				halfWidth + scaledRadius, halfHeight + scaledRadius
 		);
-		this.isWorldRepeating = pMapView.isMapRepetitionEnabled();
+		// TODO: Not sure if this is the correct approach
+		this.isHoritonalRepeating = pMapView.isHorizontalMapRepetitionEnabled();
+		this.isVerticalRepeating = pMapView.isVerticalMapRepetitionEnabled();
 	}
 }

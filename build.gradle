@@ -21,7 +21,7 @@ allprojects {
     project.version =
             ( project.hasProperty('pom.version') ? project.property('pom.version') : "1.0" )
 
-    apply from: "https://raw.githubusercontent.com/gradle-fury/gradle-fury/v1.1.3/gradle/maven-support.gradle"
+    apply from: "https://raw.githubusercontent.com/gradle-fury/gradle-fury/v1.1.4/gradle/maven-support.gradle"
 
     // forces all changing dependencies (i.e. SNAPSHOTs) to automagicially download
     // (thanks, @BillBarnhill!)
@@ -50,9 +50,9 @@ allprojects {
 }
 
 
-apply from: "https://raw.githubusercontent.com/gradle-fury/gradle-fury/v1.1.3/gradle/encryption.gradle"
+apply from: "https://raw.githubusercontent.com/gradle-fury/gradle-fury/v1.1.4/gradle/encryption.gradle"
 
-apply from: "https://raw.githubusercontent.com/gradle-fury/gradle-fury/v1.1.3/gradle/site.gradle"
+apply from: "https://raw.githubusercontent.com/gradle-fury/gradle-fury/v1.1.4/gradle/site.gradle"
 
 
 //copy the readme into the site folder as the index
