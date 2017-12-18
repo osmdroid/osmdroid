@@ -39,7 +39,7 @@ public class Bug445Caching  extends BaseSampleFragment {
 
     @Override
     public boolean skipOnCiTests(){
-        return true;
+        return false;
     }
 
     @Override
