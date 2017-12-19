@@ -31,7 +31,7 @@ public class Bug512Marker extends BaseSampleFragment {
 
     @Override
     public boolean skipOnCiTests(){
-        return true;
+        return false;
     }
 
     @Override
