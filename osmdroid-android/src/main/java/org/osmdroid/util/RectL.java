@@ -54,6 +54,26 @@ public class RectL {
         return a.left < b.right && b.left < a.right && a.top < b.bottom && b.top < a.bottom;
     }
 
+    /**
+     * Returns true if (x,y) is inside the rectangle. Left and top coordinates are considered
+     * inside the bounds, while right and bottom are not.
+     *
+     * @since 6.0.0
+     */
+    public boolean contains(long x, long y) {
+        return left < right && top < bottom && x >= left && x < right && y >= top && y < bottom;
+    }
+
+    /**
+     * @since 6.0.0
+     */
+    public void inset(long dx, long dy) {
+        left += dx;
+        top += dy;
+        right -= dx;
+        bottom -= dy;
+    }
+
     public final long width() {
         return right - left;
     }
