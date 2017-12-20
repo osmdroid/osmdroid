@@ -25,7 +25,6 @@ class ArrowsLinearRing extends LinearRing implements SegmentClipper.SegmentClipp
 
     public ArrowsLinearRing(final Path pPath) {
         super(pPath);
-        setSegmentClipperChild(this);
     }
 
     @Override
