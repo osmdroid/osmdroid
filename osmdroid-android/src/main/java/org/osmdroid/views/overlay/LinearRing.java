@@ -45,7 +45,6 @@ class LinearRing implements SegmentClipper.SegmentClippable{
 	private final ArrayList<PointL> mProjectedPoints = new ArrayList<>();
 	private final PointL mLatestPathPoint = new PointL();
 	private SegmentClipper mSegmentClipper;
-	private SegmentClipper.SegmentClippable mSegmentClipperChild;
 	private final Path mPath;
 	private boolean mIsNextAMove;
 	private boolean mPrecomputed;
@@ -54,10 +53,6 @@ class LinearRing implements SegmentClipper.SegmentClippable{
 
 	public LinearRing(final Path pPath) {
 		mPath = pPath;
-	}
-
-	void setSegmentClipperChild(final SegmentClipper.SegmentClippable segmentClipperChild) {
-		mSegmentClipperChild = segmentClipperChild;
 	}
 
 	@Override
@@ -353,7 +348,7 @@ class LinearRing implements SegmentClipper.SegmentClippable{
 	 * we can use the same SegmentClipper instead of constructing a new one at each canvas draw.
 	 */
 	public void setClipArea(final long pXMin, final long pYMin, final long pXMax, final long pYMax) {
-		mSegmentClipper = new SegmentClipper(pXMin, pYMin, pXMax, pYMax, mSegmentClipperChild);
+		mSegmentClipper = new SegmentClipper(pXMin, pYMin, pXMax, pYMax, this);
 	}
 
 	/**
@@ -373,7 +368,7 @@ class LinearRing implements SegmentClipper.SegmentClippable{
 				halfWidth - scaledRadius, halfHeight - scaledRadius,
 				halfWidth + scaledRadius, halfHeight + scaledRadius
 		);
-		// TODO: Not sure if this is the correct approach
+		// TODO: Not sure if this is the correct approach 
 		this.isHoritonalRepeating = pMapView.isHorizontalMapRepetitionEnabled();
 		this.isVerticalRepeating = pMapView.isVerticalMapRepetitionEnabled();
 	}
