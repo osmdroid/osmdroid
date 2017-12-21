@@ -59,6 +59,7 @@ import org.osmdroid.samplefragments.layouts.SampleSplitScreen;
 import org.osmdroid.samplefragments.layouts.ScaleBarOnBottom;
 import org.osmdroid.samplefragments.layouts.StreetAddressFragment;
 import org.osmdroid.samplefragments.location.SampleCustomIconDirectedLocationOverlay;
+import org.osmdroid.samplefragments.location.SampleCustomMyLocation;
 import org.osmdroid.samplefragments.location.SampleFollowMe;
 import org.osmdroid.samplefragments.location.SampleHeadingCompassUp;
 import org.osmdroid.samplefragments.location.SampleMyLocationWithClick;
@@ -265,6 +266,8 @@ public final class SampleFactory implements ISampleFactory {
 
         if (Build.VERSION.SDK_INT >= 9)
             mSamples.add(StreetAddressFragment.class);  //map in a list view
+
+        mSamples.add(SampleCustomMyLocation.class);
     }
 
     public void addSample(Class<? extends BaseSampleFragment> clz) {
