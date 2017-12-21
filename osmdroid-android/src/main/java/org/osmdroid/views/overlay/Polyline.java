@@ -1,6 +1,7 @@
 package org.osmdroid.views.overlay;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -223,7 +224,7 @@ public class Polyline extends OverlayWithIW {
 
         canvas.drawPath(mPath, mPaint);
 
-        mOutline.drawDirectionalArrows(canvas, mPaint);
+        mOutline.drawDirectionalArrows(canvas, mPaint, mMilestoneBitmap);
 	}
 	
 	/** Detection is done is screen coordinates. 
@@ -291,4 +292,14 @@ public class Polyline extends OverlayWithIW {
 		onDestroy();
 	}
 
+
+	private Bitmap mMilestoneBitmap;
+
+	public Bitmap getMilestoneBitmap() {
+		return mMilestoneBitmap;
+	}
+
+	public void setMilestoneBitmap(Bitmap pMilestoneBitmap) {
+		mMilestoneBitmap = pMilestoneBitmap;
+	}
 }

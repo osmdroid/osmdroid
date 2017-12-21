@@ -223,7 +223,7 @@ public class Polygon extends OverlayWithIW {
 		canvas.drawPath(mPath, mFillPaint);
 		canvas.drawPath(mPath, mOutlinePaint);
 
-		mOutline.drawDirectionalArrows(canvas, mOutlinePaint);
+		mOutline.drawDirectionalArrows(canvas, mOutlinePaint, null);
 	}
 	
 	/** Important note: this function returns correct results only if the Polygon has been drawn before, 

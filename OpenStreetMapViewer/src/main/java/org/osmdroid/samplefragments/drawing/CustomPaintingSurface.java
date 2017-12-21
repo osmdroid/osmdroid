@@ -2,6 +2,7 @@ package org.osmdroid.samplefragments.drawing;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.BlurMaskFilter;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -145,6 +146,7 @@ public class CustomPaintingSurface extends View {
                                 return false;
                             }
                         });
+                        line.setMilestoneBitmap(BitmapFactory.decodeResource(getResources(), org.osmdroid.library.R.drawable.next));
                         map.getOverlayManager().add(line);
                         lastPolygon=null;
                         break;
