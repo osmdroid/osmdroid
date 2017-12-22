@@ -27,8 +27,14 @@ public class ZoomButtonsOverlay extends Overlay {
 			OverlayLayoutParams.BOTTOM,
 			OverlayLayoutParams.CENTER_VERTICAL
 	};
-	public static final int POSITION_HORIZONTAL_DEFAULT = OverlayLayoutParams.RIGHT;
-	public static final int POSITION_VERTICAL_DEFAULT = OverlayLayoutParams.TOP;
+	/**
+	 * see {@link OverlayLayoutParams#CENTER_HORIZONTAL}
+	 */
+	public static final int POSITION_HORIZONTAL_DEFAULT = OverlayLayoutParams.CENTER_HORIZONTAL;
+	/**
+	 * * see {@link OverlayLayoutParams#BOTTOM}
+	 */
+	public static final int POSITION_VERTICAL_DEFAULT = OverlayLayoutParams.BOTTOM;
 
 	private final Bitmap mBitmapZoomIn;
 	private final Bitmap mBitmapZoomOut;
@@ -37,15 +43,32 @@ public class ZoomButtonsOverlay extends Overlay {
 	private int mPosition;
 	private int mLeft;
 	private int mTop;
+	private float screenDpi;
 	private boolean mIsPositioned;
+	private short padding = 10;
 
 	public ZoomButtonsOverlay(final MapView mapView) {
 		super();
 		final Resources resources = mapView.getContext().getResources();
 		mBitmapZoomIn = BitmapFactory.decodeResource(resources, R.drawable.zoom_in);
 		mBitmapZoomOut = BitmapFactory.decodeResource(resources, R.drawable.zoom_out);
+		screenDpi = resources.getDisplayMetrics().density;
 	}
 
+	/**
+	 * call this to overlay the padding/offset when drawing the buttons.
+	 * 
+	 * set to 0 to slam the buttons to the edge of the screen.
+	 * @param dip
+	 */
+	public void setPaddingDip(short dip) {
+		padding = dip;
+	}
+
+	/**
+	 *
+	 * @param pPosition see {@link OverlayLayoutParams}
+	 */
 	public void setPosition(final int pPosition) {
 		mIsPositioned = true;
 		mPosition = pPosition;
@@ -124,9 +147,9 @@ public class ZoomButtonsOverlay extends Overlay {
 				mPosition, POSITION_HORIZONTAL_DEFAULT, POSITION_HORIZONTAL_POSSIBLE);
 		switch(position) {
 			case OverlayLayoutParams.LEFT:
-				return 0;
+				return 0 + ((int)(screenDpi*padding));
 			case OverlayLayoutParams.RIGHT:
-				return pCanvasWidth - 2 * pBitmapWidth;
+				return pCanvasWidth - 2 * pBitmapWidth - ((int)(screenDpi*padding));
 			case OverlayLayoutParams.CENTER_HORIZONTAL:
 				return (pCanvasWidth - 2 * pBitmapWidth) / 2;
 		}
@@ -147,9 +170,9 @@ public class ZoomButtonsOverlay extends Overlay {
 				mPosition, POSITION_VERTICAL_DEFAULT, POSITION_VERTICAL_POSSIBLE);
 		switch(position) {
 			case OverlayLayoutParams.TOP:
-				return 0;
+				return 0 + ((int)(screenDpi*padding));
 			case OverlayLayoutParams.BOTTOM:
-				return pCanvasHeight - pBitmapHeight;
+				return pCanvasHeight - pBitmapHeight - ((int)(screenDpi*padding));
 			case OverlayLayoutParams.CENTER_VERTICAL:
 				return (pCanvasHeight - pBitmapHeight) / 2;
 		}
