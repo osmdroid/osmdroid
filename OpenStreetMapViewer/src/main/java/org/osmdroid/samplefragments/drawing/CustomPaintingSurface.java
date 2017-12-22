@@ -18,15 +18,17 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
-import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
+import org.osmdroid.views.overlay.MilestoneBitmapDisplayer;
+import org.osmdroid.views.overlay.MilestonePathDisplayer;
 import org.osmdroid.views.overlay.Polygon;
 import org.osmdroid.views.overlay.Polyline;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * A very simple borrowed from Android's "Finger Page" example, modified to generate polylines that
@@ -136,9 +138,11 @@ public class CustomPaintingSurface extends View {
                 //only plot a line unless there's at least one item
                 switch (drawingMode) {
                     case Polyline:
+                        final int[] colors = new int[] {Color.BLUE, Color.BLACK, Color.RED, Color.GREEN};
+                        final Random random = new Random();
+                        final int color = colors[random.nextInt(colors.length)];
                         Polyline line = new Polyline();
                         line.setPoints(geoPoints);
-                        line.setDrawDirectionalArrows(withArrows, true);
                         line.setOnClickListener(new Polyline.OnClickListener() {
                             @Override
                             public boolean onClick(Polyline polyline, MapView mapView, GeoPoint eventPos) {
@@ -146,7 +150,20 @@ public class CustomPaintingSurface extends View {
                                 return false;
                             }
                         });
-                        line.setMilestoneBitmap(BitmapFactory.decodeResource(getResources(), org.osmdroid.library.R.drawable.next));
+
+                        line.setColor(color);
+                        final Paint paint = new Paint();
+                        paint.setColor(color);
+                        paint.setStrokeWidth(10.0f);
+                        paint.setStyle(Paint.Style.FILL_AND_STROKE);
+                        paint.setAntiAlias(true);
+                        final Path path = new Path();
+                        path.moveTo(- 10, - 10);
+                        path.lineTo(10, 0);
+                        path.lineTo(- 10, 10);
+                        path.close();
+
+                        line.setMilestoneDisplayer(new MilestonePathDisplayer(0, true, path, paint));
                         map.getOverlayManager().add(line);
                         lastPolygon=null;
                         break;
@@ -156,6 +173,10 @@ public class CustomPaintingSurface extends View {
                         geoPoints.add(geoPoints.get(0));    //forces the loop to close
                         polygon.setPoints(geoPoints);
                         polygon.setTitle("A sample polygon");
+
+                        final Bitmap bitmap = BitmapFactory.decodeResource(getResources(), org.osmdroid.library.R.drawable.direction_arrow);
+                        polygon.setMilestoneDisplayer(new MilestoneBitmapDisplayer(
+                                90, true, bitmap, bitmap.getWidth() / 2, bitmap.getHeight() / 2));
 
                         map.getOverlayManager().add(polygon);
                         lastPolygon=polygon;

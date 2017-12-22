@@ -42,8 +42,9 @@ public class Polygon extends OverlayWithIW {
 	private String id=null;
 	
 	/** Paint settings. */
-	protected Paint mFillPaint;
-	protected Paint mOutlinePaint;
+	private Paint mFillPaint;
+	private Paint mOutlinePaint;
+	private MilestoneDisplayer mMilestoneDisplayer;
 
 	// ===========================================================
 	// Constructors
@@ -223,7 +224,11 @@ public class Polygon extends OverlayWithIW {
 		canvas.drawPath(mPath, mFillPaint);
 		canvas.drawPath(mPath, mOutlinePaint);
 
-		mOutline.drawDirectionalArrows(canvas, mOutlinePaint, null);
+		if (mMilestoneDisplayer != null) {
+			for (final MilestoneStep step : mOutline.getMilestones()) {
+				mMilestoneDisplayer.draw(canvas, step);
+			}
+		}
 	}
 	
 	/** Important note: this function returns correct results only if the Polygon has been drawn before, 
@@ -280,30 +285,9 @@ public class Polygon extends OverlayWithIW {
 	}
 
 	/**
-	 * A directional arrow is a single arrow drawn in the middle of two points of a to
-	 * provide a visual cue for direction of movement between the two points.
-	 *
-	 * By default the arrows always point towards the lower index as the list of GeoPoints are
-	 * processed. The direction the arrows point can be inverted.
-	 *
-	 * @param drawDirectionalArrows enable or disable the feature. Cannot be null
+	 * @since 6.0.0
 	 */
-	public void setDrawDirectionalArrows(boolean drawDirectionalArrows) {
-		mOutline.setDrawDirectionalArrows(drawDirectionalArrows, null , mOutlinePaint.getStrokeWidth());
-	}
-
-	/**
-	 * A directional arrow is a single arrow drawn in the middle of two points to
-	 * provide a visual cue for direction of movement between the two points.
-	 *
-	 * By default the arrows always point towards the lower index as the list of GeoPoints are
-	 * processed. The direction the arrows point can be inverted.
-	 *
-	 * @param drawDirectionalArrows enable or disable the feature. Cannot be null
-	 * @param invertDirection invert the direction the arrows are drawn. Use null for default value
-	 */
-	public void setDrawDirectionalArrows(
-			boolean drawDirectionalArrows, Boolean invertDirection) {
-		mOutline.setDrawDirectionalArrows(drawDirectionalArrows, invertDirection, mOutlinePaint.getStrokeWidth());
+	public void setMilestoneDisplayer(final MilestoneDisplayer pMilestoneDisplayer) {
+		mMilestoneDisplayer = pMilestoneDisplayer;
 	}
 }

@@ -39,6 +39,7 @@ public class Polyline extends OverlayWithIW {
 	/** Bounding rectangle for view */
     private ArrowsLinearRing mOutline = new ArrowsLinearRing(mPath);
 	private String id=null;
+	private MilestoneDisplayer mMilestoneDisplayer;
 
 	protected OnClickListener mOnClickListener;
 
@@ -119,34 +120,6 @@ public class Polyline extends OverlayWithIW {
 		mOnClickListener = listener;
 	}
 
-	/**
-	 * A directional arrow is a single arrow drawn in the middle of two points of a to
-	 * provide a visual cue for direction of movement between the two points.
-	 *
-	 * By default the arrows always point towards the lower index as the list of GeoPoints are
-	 * processed. The direction the arrows point can be inverted.
-	 *
-	 * @param drawDirectionalArrows enable or disable the feature. Cannot be null
-	 */
-	public void setDrawDirectionalArrows(boolean drawDirectionalArrows) {
-		mOutline.setDrawDirectionalArrows(drawDirectionalArrows, null , mPaint.getStrokeWidth());
-	}
-
-	/**
-	 * A directional arrow is a single arrow drawn in the middle of two points to
-	 * provide a visual cue for direction of movement between the two points.
-	 *
-	 * By default the arrows always point towards the lower index as the list of GeoPoints are
-	 * processed. The direction the arrows point can be inverted.
-	 *
-	 * @param drawDirectionalArrows enable or disable the feature. Cannot be null
-	 * @param invertDirection invert the direction the arrows are drawn. Use null for default value
-	 */
-	public void setDrawDirectionalArrows(
-			boolean drawDirectionalArrows, Boolean invertDirection) {
-		mOutline.setDrawDirectionalArrows(drawDirectionalArrows, invertDirection, mPaint.getStrokeWidth());
-	}
-
 	protected void addGreatCircle(final GeoPoint startPoint, final GeoPoint endPoint, final int numberOfPoints) {
 		//	adapted from page http://compastic.blogspot.co.uk/2011/07/how-to-draw-great-circle-on-map-in.html
 		//	which was adapted from page http://maps.forum.nu/gm_flight_path.html
@@ -224,7 +197,11 @@ public class Polyline extends OverlayWithIW {
 
         canvas.drawPath(mPath, mPaint);
 
-        mOutline.drawDirectionalArrows(canvas, mPaint, mMilestoneBitmap);
+		if (mMilestoneDisplayer != null) {
+			for (final MilestoneStep step : mOutline.getMilestones()) {
+				mMilestoneDisplayer.draw(canvas, step);
+			}
+		}
 	}
 	
 	/** Detection is done is screen coordinates. 
@@ -292,14 +269,10 @@ public class Polyline extends OverlayWithIW {
 		onDestroy();
 	}
 
-
-	private Bitmap mMilestoneBitmap;
-
-	public Bitmap getMilestoneBitmap() {
-		return mMilestoneBitmap;
-	}
-
-	public void setMilestoneBitmap(Bitmap pMilestoneBitmap) {
-		mMilestoneBitmap = pMilestoneBitmap;
+	/**
+	 * @since 6.0.0
+	 */
+	public void setMilestoneDisplayer(final MilestoneDisplayer pMilestoneDisplayer) {
+		mMilestoneDisplayer = pMilestoneDisplayer;
 	}
 }

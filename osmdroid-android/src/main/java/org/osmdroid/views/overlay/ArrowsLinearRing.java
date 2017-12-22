@@ -1,8 +1,5 @@
 package org.osmdroid.views.overlay;
 
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.graphics.Path;
 
 import org.osmdroid.util.Distance;
@@ -21,9 +18,6 @@ class ArrowsLinearRing extends LinearRing {
     private double mDistance;
     private final ArrayList<MilestoneStep> mMilestones = new ArrayList<>();
     private static final float DEFAULT_ARROW_LENGTH = 20f;
-    private static final boolean DEFAULT_INVERT_ARROWS = false;
-    private boolean mDrawDirectionalArrows = false;
-    private boolean mInvertDirectionalArrows = DEFAULT_INVERT_ARROWS;
     private float mDirectionalArrowLength = DEFAULT_ARROW_LENGTH;
 
     public ArrowsLinearRing(final Path pPath) {
@@ -32,16 +26,12 @@ class ArrowsLinearRing extends LinearRing {
 
     @Override
     public void lineTo(final long pX, final long pY) {
-        if (!mDrawDirectionalArrows) {
-            super.lineTo(pX, pY);
-        } else {
-            if (!getIsNextMove()) {
-                PointL mPreviousPoint = new PointL(getLatestPathPoint());
+        if (!getIsNextMove()) {
+            PointL mPreviousPoint = new PointL(getLatestPathPoint());
 //                addMilestoneInTheMiddle(mPreviousPoint.x, mPreviousPoint.y, pX, pY);
-                addMilestoneAsDistance(mPreviousPoint.x, mPreviousPoint.y, pX, pY);
-            }
-            super.lineTo(pX, pY);
+            addMilestoneAsDistance(mPreviousPoint.x, mPreviousPoint.y, pX, pY);
         }
+        super.lineTo(pX, pY);
     }
 
     @Override
@@ -71,65 +61,8 @@ class ArrowsLinearRing extends LinearRing {
         this.mDirectionalArrowLength = DEFAULT_ARROW_LENGTH + strokeWidth;
     }
 
-    /**
-     * A directional arrow is a single arrow drawn in the middle of two points to
-     * provide a visual cue for direction of movement between the two points.
-     *
-     * By default the arrows always point towards the lower index as the list of GeoPoints are
-     * processed. The direction the arrows point can be inverted.
-     *
-     * @param drawDirectionalArrows to enable or disable
-     * @param invertDirection invert the direction the arrows are drawn. Use null for default value
-     * @param strokeWidth the current stroke width of the paint that describes the object
-     */
-    void setDrawDirectionalArrows(final boolean drawDirectionalArrows,
-                                  final Boolean invertDirection, final float strokeWidth) {
-        this.mDrawDirectionalArrows = drawDirectionalArrows;
-        // reset defaults if disabling
-        if (!drawDirectionalArrows) {
-            mInvertDirectionalArrows = DEFAULT_INVERT_ARROWS;
-            return;
-        }
-        setStrokeWidth(strokeWidth);
-        if (invertDirection != null) {
-            this.mInvertDirectionalArrows = invertDirection;
-        }
-    }
-
-    /**
-     * If enabled, draw the directional arrows
-     *
-     * @param canvas the canvas to draw on
-     */
-    void drawDirectionalArrows(final Canvas canvas, final Paint mPaint, final Bitmap pBitmap) {
-        if (!mDrawDirectionalArrows) {
-            return;
-        }
-        final Path path;
-        final Paint fillPaint;
-        if (pBitmap == null) {
-            fillPaint = new Paint(mPaint);
-            fillPaint.setStyle(Paint.Style.FILL);
-            path = new Path();
-        } else {
-            fillPaint = null;
-            path = null;
-        }
-        for (final MilestoneStep step : mMilestones) {
-            canvas.save();
-            canvas.rotate((float)step.getOrientation(), step.getX(), step.getY());
-            if (pBitmap != null) {
-                canvas.drawBitmap(pBitmap, step.getX() - pBitmap.getWidth() / 2, step.getY() - pBitmap.getHeight() / 2, null);
-            } else {
-                buildArrowPath(step, path);
-                canvas.drawPath(path, fillPaint);
-            }
-            canvas.restore();
-
-            if (mInvertDirectionalArrows) {
-                // TODO 0000 too
-            }
-        }
+    public ArrayList<MilestoneStep> getMilestones() {
+        return mMilestones;
     }
 
     private void addMilestoneInTheMiddle(final long x0, final long y0, final long x1, final long y1) {
@@ -152,7 +85,7 @@ class ArrowsLinearRing extends LinearRing {
      * @return the orientation (in degrees) of the slope between point p0 and p1, or 0 if same point
      * @since 6.0.0
      */
-    private double getOrientation(final long x0, final long y0, final long x1, final long y1) {
+    public static double getOrientation(final long x0, final long y0, final long x1, final long y1) {
         if (x0 == x1) {
             if (y0 == y1) {
                 return 0;
@@ -189,14 +122,5 @@ class ArrowsLinearRing extends LinearRing {
             final MilestoneStep step = new MilestoneStep((long)x, (long)y, orientation);
             mMilestones.add(step);
         }
-    }
-
-    private void buildArrowPath(final MilestoneStep pStep, final Path pReuse) {
-        final Path path = pReuse != null ? pReuse : new Path();
-        path.rewind();
-        path.moveTo(pStep.getX() - 10, pStep.getY() - 10);
-        path.lineTo(pStep.getX() + 10, pStep.getY());
-        path.lineTo(pStep.getX() - 10, pStep.getY() + 10);
-        path.close();
     }
 }
