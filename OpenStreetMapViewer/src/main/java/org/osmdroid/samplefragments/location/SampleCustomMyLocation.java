@@ -30,6 +30,7 @@ public class SampleCustomMyLocation extends BaseSampleFragment implements Locati
     LocationManager mgr;
     Marker myLocation;
     boolean added = false;
+    boolean followme=true;
 
     @Override
     public void addOverlays() {
@@ -92,6 +93,9 @@ public class SampleCustomMyLocation extends BaseSampleFragment implements Locati
         if (!added) {
             mMapView.getOverlayManager().add(myLocation);
             added = true;
+        }
+        if (followme) {
+            mMapView.getController().animateTo(myLocation.getPosition());
         }
     }
 
