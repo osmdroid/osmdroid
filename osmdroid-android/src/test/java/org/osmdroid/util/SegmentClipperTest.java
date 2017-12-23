@@ -18,7 +18,7 @@ public class SegmentClipperTest {
 	public void test_clip() {
 		final List<PointL> points = new ArrayList<>();
 
-		final SegmentClipper.SegmentClippable clippable = new SegmentClipper.SegmentClippable() {
+		final PointAccepter clippable = new PointAccepter() {
 
 			@Override
 			public void init() {
@@ -26,11 +26,15 @@ public class SegmentClipperTest {
 			}
 
 			@Override
-			public void lineTo(long pX, long pY) {
+			public void add(long pX, long pY) {
 				points.add(new PointL(pX, pY));
 			}
+
+			@Override
+			public void end() {}
 		};
-		final SegmentClipper segmentClipper = new SegmentClipper(-600, -600, 1400, 1400, clippable);
+		final SegmentClipper segmentClipper = new SegmentClipper();
+		segmentClipper.set(-600, -600, 1400, 1400, clippable);
 
 		clippable.init();
 		segmentClipper.clip(new RectL(-2146, -2152, -145, -141));

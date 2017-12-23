@@ -37,7 +37,7 @@ import java.util.List;
 public class Polygon extends OverlayWithIW {
 
 	private final Path mPath = new Path(); //Path drawn is kept for click detection
-	private ArrowsLinearRing mOutline = new ArrowsLinearRing(mPath);
+	private LinearRing mOutline = new LinearRing(mPath);
 	private ArrayList<LinearRing> mHoles = new ArrayList<>();
 	private String id=null;
 	
@@ -45,6 +45,7 @@ public class Polygon extends OverlayWithIW {
 	private Paint mFillPaint;
 	private Paint mOutlinePaint;
 	private MilestoneDisplayer mMilestoneDisplayer;
+	private MilestoneLister mMilestoneLister;
 
 	// ===========================================================
 	// Constructors
@@ -110,7 +111,7 @@ public class Polygon extends OverlayWithIW {
 	
 	public void setStrokeWidth(final float width) {
 		mOutlinePaint.setStrokeWidth(width);
-		mOutline.setStrokeWidth(width);
+// TODO 0000		mOutline.setStrokeWidth(width);
 	}
 	
 	public void setVisible(boolean visible){
@@ -224,8 +225,8 @@ public class Polygon extends OverlayWithIW {
 		canvas.drawPath(mPath, mFillPaint);
 		canvas.drawPath(mPath, mOutlinePaint);
 
-		if (mMilestoneDisplayer != null) {
-			for (final MilestoneStep step : mOutline.getMilestones()) {
+		if (mMilestoneLister != null && mMilestoneDisplayer != null) {
+			for (final MilestoneStep step : mMilestoneLister.getMilestones()) {
 				mMilestoneDisplayer.draw(canvas, step);
 			}
 		}
@@ -289,5 +290,12 @@ public class Polygon extends OverlayWithIW {
 	 */
 	public void setMilestoneDisplayer(final MilestoneDisplayer pMilestoneDisplayer) {
 		mMilestoneDisplayer = pMilestoneDisplayer;
+	}
+
+	/**
+	 * @since 6.0.0
+	 */
+	public void setMilestoneLister(final MilestoneLister pMilestoneLister) {
+		mMilestoneLister = pMilestoneLister;
 	}
 }

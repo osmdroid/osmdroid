@@ -1,7 +1,6 @@
 package org.osmdroid.views.overlay;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -9,11 +8,11 @@ import android.graphics.Path;
 import android.view.MotionEvent;
 
 import org.osmdroid.util.GeoPoint;
+import org.osmdroid.util.RectL;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
 import org.osmdroid.views.util.constants.MathConstants;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -37,9 +36,10 @@ public class Polyline extends OverlayWithIW {
 	private final Path mPath = new Path();
 	private final Paint mPaint = new Paint();
 	/** Bounding rectangle for view */
-    private ArrowsLinearRing mOutline = new ArrowsLinearRing(mPath);
+    private LinearRing mOutline = new LinearRing(mPath);
 	private String id=null;
 	private MilestoneDisplayer mMilestoneDisplayer;
+	private MilestoneLister mMilestoneLister;
 
 	protected OnClickListener mOnClickListener;
 
@@ -109,7 +109,7 @@ public class Polyline extends OverlayWithIW {
 	
 	public void setWidth(float width){
 		mPaint.setStrokeWidth(width);
-		mOutline.setStrokeWidth(width);
+// TODO 0000		mOutline.setStrokeWidth(width);
 	}
 	
 	public void setVisible(boolean visible){
@@ -194,11 +194,23 @@ public class Polyline extends OverlayWithIW {
 
         mOutline.setClipArea(mapView);
         mOutline.buildPathPortion(pj, false, null);
+        if (mMilestoneLister != null) {
+        	mMilestoneLister.init();
+        	boolean first = true;
+        	for (final RectL segment : mOutline.getSegments()) {
+        		if (first) {
+        			first = false;
+        			mMilestoneLister.add(segment.left, segment.top);
+				}
+				mMilestoneLister.add(segment.right, segment.bottom);
+			}
+			mMilestoneLister.end();
+		}
 
         canvas.drawPath(mPath, mPaint);
 
-		if (mMilestoneDisplayer != null) {
-			for (final MilestoneStep step : mOutline.getMilestones()) {
+        if (mMilestoneLister != null && mMilestoneDisplayer != null) {
+			for (final MilestoneStep step : mMilestoneLister.getMilestones()) {
 				mMilestoneDisplayer.draw(canvas, step);
 			}
 		}
@@ -274,5 +286,12 @@ public class Polyline extends OverlayWithIW {
 	 */
 	public void setMilestoneDisplayer(final MilestoneDisplayer pMilestoneDisplayer) {
 		mMilestoneDisplayer = pMilestoneDisplayer;
+	}
+
+	/**
+	 * @since 6.0.0
+	 */
+	public void setMilestoneLister(final MilestoneLister pMilestoneLister) {
+		mMilestoneLister = pMilestoneLister;
 	}
 }

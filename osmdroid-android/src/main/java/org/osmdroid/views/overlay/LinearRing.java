@@ -10,6 +10,7 @@ import org.osmdroid.util.PointL;
 import org.osmdroid.util.RectL;
 import org.osmdroid.util.SegmentClipper;
 import org.osmdroid.util.TileSystem;
+import org.osmdroid.util.PointAccepter;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
 
@@ -22,7 +23,7 @@ import java.util.List;
  * @since 6.0.0
  * @author Fabrice Fontaine
  */
-class LinearRing implements SegmentClipper.SegmentClippable{
+class LinearRing implements PointAccepter{
 
 	/**
 	 * We build a virtual area [mClipMin, mClipMin, mClipMax, mClipMax]
@@ -44,12 +45,13 @@ class LinearRing implements SegmentClipper.SegmentClippable{
 	private final ArrayList<GeoPoint> mOriginalPoints = new ArrayList<>();
 	private final ArrayList<PointL> mProjectedPoints = new ArrayList<>();
 	private final PointL mLatestPathPoint = new PointL();
-	private SegmentClipper mSegmentClipper;
+	private SegmentClipper mSegmentClipper = new SegmentClipper();
 	private final Path mPath;
 	private boolean mIsNextAMove;
 	private boolean mPrecomputed;
-	private boolean isHoritonalRepeating = true;
+	private boolean isHorizontalRepeating = true;
 	private boolean isVerticalRepeating  = true;
+	private final List<RectL> mSegments = new ArrayList<>();
 
 	public LinearRing(final Path pPath) {
 		mPath = pPath;
@@ -61,7 +63,7 @@ class LinearRing implements SegmentClipper.SegmentClippable{
 	}
 
 	@Override
-	public void lineTo(final long pX, final long pY) {
+	public void add(final long pX, final long pY) {
 		if (mIsNextAMove) {
 			mIsNextAMove = false;
 			mPath.moveTo(pX, pY);
@@ -73,6 +75,9 @@ class LinearRing implements SegmentClipper.SegmentClippable{
 			}
 		}
 	}
+
+	@Override
+	public void end() {}
 
 	boolean getIsNextMove() { return mIsNextAMove; }
 
@@ -122,23 +127,30 @@ class LinearRing implements SegmentClipper.SegmentClippable{
 			mPrecomputed = true;
 		}
 
-		final List<RectL> segments = new ArrayList<>();
+		mSegments.clear();
 
-		getSegmentsFromProjected(pProjection, mProjectedPoints, segments, pClosePath);
+		getSegmentsFromProjected(pProjection, mProjectedPoints, pClosePath);
 		final PointL offset;
 		if (pOffset != null) {
 			offset = pOffset;
 		} else {
 			offset = new PointL();
-			getBestOffset(segments, pProjection, offset);
+			getBestOffset(pProjection, offset);
 		}
-		applyOffset(segments, offset);
+		applyOffset(offset);
 		init();
-		clip(segments);
+		clip();
 		if (pClosePath) {
 			mPath.close();
 		}
 		return offset;
+	}
+
+	/**
+	 * @since 6.0.0
+	 */
+	public List<RectL> getSegments() {
+		return mSegments;
 	}
 
 	/**
@@ -147,11 +159,10 @@ class LinearRing implements SegmentClipper.SegmentClippable{
 	 * This notion of pixel offset only has a meaning on very low zoom level,
 	 * when a GeoPoint can be projected on different places on the screen.
 	 */
-	private void getBestOffset(final List<RectL> pSegments,
-							   final Projection pProjection, final PointL pOffset) {
+	private void getBestOffset(final Projection pProjection, final PointL pOffset) {
 		final Rect screenRect = pProjection.getIntrinsicScreenRect();
 		final double worldSize = TileSystem.MapSize(pProjection.getZoomLevel());
-		final RectL boundingBox = getBoundingBox(pSegments, null);
+		final RectL boundingBox = getBoundingBox(mSegments, null);
 		getBestOffset(boundingBox, screenRect, worldSize, pOffset);
 	}
 
@@ -166,7 +177,7 @@ class LinearRing implements SegmentClipper.SegmentClippable{
 			deltaYPositive=0;
 			deltaYNegative=0;
 		}
-		if (!isHoritonalRepeating) {
+		if (!isHorizontalRepeating) {
 			deltaXPositive=0;
 			deltaXNegative=0;
 		}
@@ -176,7 +187,7 @@ class LinearRing implements SegmentClipper.SegmentClippable{
 
 	private int getBestOffset(final RectL pBoundingBox, final Rect pScreenRect,
 							  final long pDeltaX, final long pDeltaY) {
-		if (!isHoritonalRepeating && !isVerticalRepeating ) {
+		if (!isHorizontalRepeating && !isVerticalRepeating ) {
 			return 0;
 		}
 		final double boundingBoxCenterX = (pBoundingBox.left + pBoundingBox.right) / 2.;
@@ -243,7 +254,6 @@ class LinearRing implements SegmentClipper.SegmentClippable{
 
 	private void getSegmentsFromProjected(final Projection pProjection,
 										  final List<PointL> pProjectedPoints,
-										  final List<RectL> pSegments,
 										  final boolean pClosePath) {
 		final double worldSize = TileSystem.MapSize(pProjection.getZoomLevel());
 		final double powerDifference = pProjection.getProjectedPowerDifference();
@@ -258,7 +268,7 @@ class LinearRing implements SegmentClipper.SegmentClippable{
 				firstPoint = new PointL(screenPoint1);
 			} else {
 				setCloserPoint(screenPoint0, screenPoint1, worldSize);
-				pSegments.add(new RectL(screenPoint0.x, screenPoint0.y, screenPoint1.x, screenPoint1.y));
+				mSegments.add(new RectL(screenPoint0.x, screenPoint0.y, screenPoint1.x, screenPoint1.y));
 			}
 
 			// update starting point to next position
@@ -266,7 +276,7 @@ class LinearRing implements SegmentClipper.SegmentClippable{
 		}
 		if (pClosePath) {
 			if (firstPoint != null) {
-				pSegments.add(new RectL(screenPoint0.x, screenPoint0.y, firstPoint.x, firstPoint.y));
+				mSegments.add(new RectL(screenPoint0.x, screenPoint0.y, firstPoint.x, firstPoint.y));
 			}
 		}
 	}
@@ -303,14 +313,14 @@ class LinearRing implements SegmentClipper.SegmentClippable{
 			mPrecomputed = true;
 		}
 		final Point pixel = pProjection.toPixels(pPoint, null);
-		final List<RectL> segments = new ArrayList<>();
-		getSegmentsFromProjected(pProjection, mProjectedPoints, segments, false);
+		mSegments.clear();
+		getSegmentsFromProjected(pProjection, mProjectedPoints, false);
 		final PointL offset = new PointL();
-		getBestOffset(segments, pProjection, offset);
-		applyOffset(segments, offset);
-		clip(segments);
+		getBestOffset(pProjection, offset);
+		applyOffset(offset);
+		clip();
 		final double squaredTolerance = tolerance * tolerance;
-		for (final RectL segment : segments) {
+		for (final RectL segment : mSegments) {
 			if (squaredTolerance > Distance.getSquaredDistanceToSegment(
 					pixel.x, pixel.y, segment.left, segment.top, segment.right, segment.bottom)) {
 				return true;
@@ -319,11 +329,11 @@ class LinearRing implements SegmentClipper.SegmentClippable{
 		return false;
 	}
 
-	private void applyOffset(final List<RectL> pSegments, final PointL pOffset) {
+	private void applyOffset(final PointL pOffset) {
 		if (pOffset.x == 0 && pOffset.y == 0) {
 			return;
 		}
-		for (final RectL segment : pSegments) {
+		for (final RectL segment : mSegments) {
 			if (pOffset.x != 0) {
 				segment.left += pOffset.x;
 				segment.right += pOffset.x;
@@ -335,12 +345,12 @@ class LinearRing implements SegmentClipper.SegmentClippable{
 		}
 	}
 
-	private void clip(final List<RectL> pSegments) {
-		for (final RectL segment : pSegments) {
+	private void clip() {
+		for (final RectL segment : mSegments) {
 			mSegmentClipper.clip(segment);
 		}
 	}
-
+// TODO 0000 PointL instead of segments?
 	/**
 	 * @since 6.0.0
 	 * Mandatory use before clipping.
@@ -348,7 +358,7 @@ class LinearRing implements SegmentClipper.SegmentClippable{
 	 * we can use the same SegmentClipper instead of constructing a new one at each canvas draw.
 	 */
 	public void setClipArea(final long pXMin, final long pYMin, final long pXMax, final long pYMax) {
-		mSegmentClipper = new SegmentClipper(pXMin, pYMin, pXMax, pYMax, this);
+		mSegmentClipper.set(pXMin, pYMin, pXMax, pYMax, this);
 	}
 
 	/**
@@ -369,7 +379,7 @@ class LinearRing implements SegmentClipper.SegmentClippable{
 				halfWidth + scaledRadius, halfHeight + scaledRadius
 		);
 		// TODO: Not sure if this is the correct approach 
-		this.isHoritonalRepeating = pMapView.isHorizontalMapRepetitionEnabled();
+		this.isHorizontalRepeating = pMapView.isHorizontalMapRepetitionEnabled();
 		this.isVerticalRepeating = pMapView.isVerticalMapRepetitionEnabled();
 	}
 }

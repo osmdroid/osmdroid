@@ -10,10 +10,7 @@ import android.graphics.EmbossMaskFilter;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Point;
-import android.graphics.PorterDuff;
 import android.util.AttributeSet;
-import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
@@ -23,6 +20,7 @@ import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
 import org.osmdroid.views.overlay.MilestoneBitmapDisplayer;
 import org.osmdroid.views.overlay.MilestonePathDisplayer;
+import org.osmdroid.views.overlay.MilestoneVertexLister;
 import org.osmdroid.views.overlay.Polygon;
 import org.osmdroid.views.overlay.Polyline;
 
@@ -164,6 +162,9 @@ public class CustomPaintingSurface extends View {
                         path.close();
 
                         line.setMilestoneDisplayer(new MilestonePathDisplayer(0, true, path, paint));
+                        line.setMilestoneLister(new MilestoneVertexLister());
+                        //line.setMilestoneLister(new MilestonePixelDistanceListerOld(50, 200));
+                        //line.setMilestoneLister(new MilestoneMiddleLister(20));
                         map.getOverlayManager().add(line);
                         lastPolygon=null;
                         break;

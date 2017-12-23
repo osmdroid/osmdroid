@@ -8,26 +8,21 @@ package org.osmdroid.util;
 
 public class SegmentClipper {
 
-    public interface SegmentClippable {
-        void init();
-        void lineTo(final long pX, final long pY);
-    }
-
     // for optimization reasons: avoiding to create objects all the time
     private final PointL mOptimIntersection = new PointL();
     private final PointL mOptimIntersection1 = new PointL();
     private final PointL mOptimIntersection2 = new PointL();
 
-    private final long mXMin;
-    private final long mYMin;
-    private final long mXMax;
-    private final long mYMax;
-    private final SegmentClippable mSegmentClippable;
+    private long mXMin;
+    private long mYMin;
+    private long mXMax;
+    private long mYMax;
+    private PointAccepter mPointAccepter;
     private final long[] cornerX = new long[4];
     private final long[] cornerY = new long[4];
 
-    public SegmentClipper(final long pXMin, final long pYMin, final long pXMax, final long pYMax,
-                          final SegmentClippable pSegmentClippable) {
+    public void set(final long pXMin, final long pYMin, final long pXMax, final long pYMax,
+                    final PointAccepter pPointAccepter) {
         mXMin = pXMin;
         mYMin = pYMin;
         mXMax = pXMax;
@@ -36,7 +31,7 @@ public class SegmentClipper {
         cornerX[2] = cornerX[3] = mXMax;
         cornerY[0] = cornerY[2] = mYMin;
         cornerY[1] = cornerY[3] = mYMax;
-        mSegmentClippable = pSegmentClippable;
+        mPointAccepter = pPointAccepter;
     }
 
     /**
@@ -136,7 +131,7 @@ public class SegmentClipper {
     }
 
     private void add(final long pX, final long pY) {
-        mSegmentClippable.lineTo(pX, pY);
+        mPointAccepter.add(pX, pY);
     }
 
     /**
