@@ -501,10 +501,11 @@ public class StorageUtils {
         mMounts.add("/mnt/sdcard");
         mVold.add("/mnt/sdcard");
 
+        Scanner scanner=null;
         try {
             File mountFile = new File("/proc/mounts");
             if (mountFile.exists()) {
-                Scanner scanner = new Scanner(mountFile);
+                scanner = new Scanner(mountFile);
                 while (scanner.hasNext()) {
                     String line = scanner.nextLine();
                     if (line.startsWith("/dev/block/vold/")) {
@@ -520,12 +521,16 @@ public class StorageUtils {
             }
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            try {
+                scanner.close();
+            }catch (Exception e) {}
         }
 
         try {
             File voldFile = new File("/system/etc/vold.fstab");
             if (voldFile.exists()) {
-                Scanner scanner = new Scanner(voldFile);
+                scanner = new Scanner(voldFile);
                 while (scanner.hasNext()) {
                     String line = scanner.nextLine();
                     if (line.startsWith("dev_mount")) {
@@ -541,6 +546,10 @@ public class StorageUtils {
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }finally {
+            try {
+                scanner.close();
+            }catch (Exception e) {}
         }
 
 

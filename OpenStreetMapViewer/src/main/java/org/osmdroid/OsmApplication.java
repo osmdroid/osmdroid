@@ -2,7 +2,9 @@ package org.osmdroid;
 
 import android.app.Application;
 import android.content.Context;
+import android.os.Build;
 import android.os.Environment;
+import android.os.StrictMode;
 import android.util.Log;
 
 import com.squareup.leakcanary.LeakCanary;
@@ -36,6 +38,21 @@ public class OsmApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        if (BuildConfig.DEBUG && Build.VERSION.SDK_INT >=11) {
+            StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
+                .detectDiskReads()
+                .detectDiskWrites()
+                .detectNetwork()   // or .detectAll() for all detectable problems
+                .penaltyLog()
+                .build());
+            StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
+                .detectLeakedSqlLiteObjects()
+                .detectLeakedClosableObjects()
+                .penaltyLog()
+                .penaltyDeath()
+                .build());
+        }
+
         try {
             LeakCanary.install(this);
         } catch (Throwable ex) {
