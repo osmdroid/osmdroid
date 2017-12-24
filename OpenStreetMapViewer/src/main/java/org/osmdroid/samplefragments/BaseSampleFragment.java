@@ -80,6 +80,18 @@ public abstract class BaseSampleFragment extends Fragment {
 	}
 
 	@Override
+	public void onPause(){
+		super.onPause();
+		mMapView.onPause();
+	}
+
+	@Override
+	public void onResume(){
+		super.onResume();
+		mMapView.onResume();
+	}
+
+	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		Log.d(TAG, "onActivityCreated");
