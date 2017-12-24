@@ -22,10 +22,6 @@ public abstract class MilestoneLister implements PointAccepter{
         return mMilestones;
     }
 
-    protected PointL getLatestPoint() {
-        return mLatestPoint;
-    }
-
     @Override
     public void init() {
         mMilestones.clear();
@@ -33,7 +29,7 @@ public abstract class MilestoneLister implements PointAccepter{
     }
 
     @Override
-    public void add(long pX, long pY) {
+    public void add(final long pX, final long pY) {
         if (mFirst) {
             mFirst = false;
             mLatestPoint.set(pX, pY);
@@ -52,7 +48,6 @@ public abstract class MilestoneLister implements PointAccepter{
 
     protected abstract void add(final long x0, final long y0, final long x1, final long y1);
 
-    // TODO 0000 test + static
     /**
      * @return the orientation (in degrees) of the slope between point p0 and p1, or 0 if same point
      * @since 6.0.0

@@ -6,11 +6,11 @@ import android.graphics.Rect;
 
 import org.osmdroid.util.Distance;
 import org.osmdroid.util.GeoPoint;
+import org.osmdroid.util.PathBuilder;
 import org.osmdroid.util.PointL;
 import org.osmdroid.util.RectL;
 import org.osmdroid.util.SegmentClipper;
 import org.osmdroid.util.TileSystem;
-import org.osmdroid.util.PointAccepter;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
 
@@ -23,7 +23,7 @@ import java.util.List;
  * @since 6.0.0
  * @author Fabrice Fontaine
  */
-class LinearRing implements PointAccepter{
+class LinearRing{
 
 	/**
 	 * We build a virtual area [mClipMin, mClipMin, mClipMax, mClipMax]
@@ -44,42 +44,18 @@ class LinearRing implements PointAccepter{
 
 	private final ArrayList<GeoPoint> mOriginalPoints = new ArrayList<>();
 	private final ArrayList<PointL> mProjectedPoints = new ArrayList<>();
-	private final PointL mLatestPathPoint = new PointL();
 	private SegmentClipper mSegmentClipper = new SegmentClipper();
 	private final Path mPath;
-	private boolean mIsNextAMove;
 	private boolean mPrecomputed;
 	private boolean isHorizontalRepeating = true;
 	private boolean isVerticalRepeating  = true;
 	private final List<RectL> mSegments = new ArrayList<>();
+	private final PathBuilder mPathBuilder;
 
 	public LinearRing(final Path pPath) {
 		mPath = pPath;
+		mPathBuilder = new PathBuilder(pPath);
 	}
-
-	@Override
-	public void init() {
-		mIsNextAMove = true;
-	}
-
-	@Override
-	public void add(final long pX, final long pY) {
-		if (mIsNextAMove) {
-			mIsNextAMove = false;
-			mPath.moveTo(pX, pY);
-			mLatestPathPoint.set(pX, pY);
-		} else {
-			if (mLatestPathPoint.x != pX || mLatestPathPoint.y != pY) {
-				mPath.lineTo(pX, pY);
-				mLatestPathPoint.set(pX, pY);
-			}
-		}
-	}
-
-	@Override
-	public void end() {}
-
-	boolean getIsNextMove() { return mIsNextAMove; }
 
 	void clearPath() {
 		mOriginalPoints.clear();
@@ -91,13 +67,9 @@ class LinearRing implements PointAccepter{
 		mPrecomputed = false;
 	}
 
-	PointL getLatestPathPoint() { return mLatestPathPoint; }
-
 	ArrayList<GeoPoint> getPoints(){
 		return mOriginalPoints;
 	}
-
-	ArrayList<PointL> getProjectedPoints() { return mProjectedPoints; }
 
 	void setPoints(final List<GeoPoint> points) {
 		clearPath();
@@ -138,7 +110,7 @@ class LinearRing implements PointAccepter{
 			getBestOffset(pProjection, offset);
 		}
 		applyOffset(offset);
-		init();
+		mPathBuilder.init();
 		clip();
 		if (pClosePath) {
 			mPath.close();
@@ -354,11 +326,9 @@ class LinearRing implements PointAccepter{
 	/**
 	 * @since 6.0.0
 	 * Mandatory use before clipping.
-	 * Possible optimization: if we're dealing with the same border values,
-	 * we can use the same SegmentClipper instead of constructing a new one at each canvas draw.
 	 */
 	public void setClipArea(final long pXMin, final long pYMin, final long pXMax, final long pYMax) {
-		mSegmentClipper.set(pXMin, pYMin, pXMax, pYMax, this);
+		mSegmentClipper.set(pXMin, pYMin, pXMax, pYMax, mPathBuilder);
 	}
 
 	/**

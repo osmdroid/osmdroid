@@ -19,7 +19,9 @@ import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
 import org.osmdroid.views.overlay.MilestoneBitmapDisplayer;
+import org.osmdroid.views.overlay.MilestoneManager;
 import org.osmdroid.views.overlay.MilestonePathDisplayer;
+import org.osmdroid.views.overlay.MilestonePixelDistanceLister;
 import org.osmdroid.views.overlay.MilestoneVertexLister;
 import org.osmdroid.views.overlay.Polygon;
 import org.osmdroid.views.overlay.Polyline;
@@ -161,10 +163,11 @@ public class CustomPaintingSurface extends View {
                         path.lineTo(- 10, 10);
                         path.close();
 
-                        line.setMilestoneDisplayer(new MilestonePathDisplayer(0, true, path, paint));
-                        line.setMilestoneLister(new MilestoneVertexLister());
-                        //line.setMilestoneLister(new MilestonePixelDistanceListerOld(50, 200));
-                        //line.setMilestoneLister(new MilestoneMiddleLister(20));
+                        final Bitmap bitmap = BitmapFactory.decodeResource(getResources(), org.osmdroid.library.R.drawable.previous);
+                        line.setMilestoneManager(new MilestoneManager(
+                                new MilestonePixelDistanceLister(12, 200),
+                                new MilestoneBitmapDisplayer(0, true, bitmap, bitmap.getWidth() / 2, bitmap.getHeight() / 2)
+                        ));
                         map.getOverlayManager().add(line);
                         lastPolygon=null;
                         break;
@@ -175,10 +178,10 @@ public class CustomPaintingSurface extends View {
                         polygon.setPoints(geoPoints);
                         polygon.setTitle("A sample polygon");
 
-                        final Bitmap bitmap = BitmapFactory.decodeResource(getResources(), org.osmdroid.library.R.drawable.direction_arrow);
+/*                        final Bitmap bitmap = BitmapFactory.decodeResource(getResources(), org.osmdroid.library.R.drawable.direction_arrow);
                         polygon.setMilestoneDisplayer(new MilestoneBitmapDisplayer(
                                 90, true, bitmap, bitmap.getWidth() / 2, bitmap.getHeight() / 2));
-
+*/ // TODO 0000
                         map.getOverlayManager().add(polygon);
                         lastPolygon=polygon;
                         break;

@@ -38,8 +38,7 @@ public class Polyline extends OverlayWithIW {
 	/** Bounding rectangle for view */
     private LinearRing mOutline = new LinearRing(mPath);
 	private String id=null;
-	private MilestoneDisplayer mMilestoneDisplayer;
-	private MilestoneLister mMilestoneLister;
+	private MilestoneManager mMilestoneManager;
 
 	protected OnClickListener mOnClickListener;
 
@@ -182,6 +181,7 @@ public class Polyline extends OverlayWithIW {
 		mGeodesic = geodesic;
 	}
 
+	// TODO 0000 Polyline cf Polygon
 	@Override
 	public void draw(final Canvas canvas, final MapView mapView, final boolean shadow) {
 
@@ -194,25 +194,23 @@ public class Polyline extends OverlayWithIW {
 
         mOutline.setClipArea(mapView);
         mOutline.buildPathPortion(pj, false, null);
-        if (mMilestoneLister != null) {
-        	mMilestoneLister.init();
+        if (mMilestoneManager != null) {
+        	mMilestoneManager.init();
         	boolean first = true;
         	for (final RectL segment : mOutline.getSegments()) {
         		if (first) {
         			first = false;
-        			mMilestoneLister.add(segment.left, segment.top);
+        			mMilestoneManager.add(segment.left, segment.top);
 				}
-				mMilestoneLister.add(segment.right, segment.bottom);
+				mMilestoneManager.add(segment.right, segment.bottom);
 			}
-			mMilestoneLister.end();
+			mMilestoneManager.end();
 		}
 
         canvas.drawPath(mPath, mPaint);
 
-        if (mMilestoneLister != null && mMilestoneDisplayer != null) {
-			for (final MilestoneStep step : mMilestoneLister.getMilestones()) {
-				mMilestoneDisplayer.draw(canvas, step);
-			}
+        if (mMilestoneManager != null) {
+        	mMilestoneManager.draw(canvas);
 		}
 	}
 	
@@ -284,14 +282,7 @@ public class Polyline extends OverlayWithIW {
 	/**
 	 * @since 6.0.0
 	 */
-	public void setMilestoneDisplayer(final MilestoneDisplayer pMilestoneDisplayer) {
-		mMilestoneDisplayer = pMilestoneDisplayer;
-	}
-
-	/**
-	 * @since 6.0.0
-	 */
-	public void setMilestoneLister(final MilestoneLister pMilestoneLister) {
-		mMilestoneLister = pMilestoneLister;
+	public void setMilestoneManager(final MilestoneManager pMilestoneManager) {
+		mMilestoneManager = pMilestoneManager;
 	}
 }
