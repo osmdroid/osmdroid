@@ -18,6 +18,7 @@ import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
 import org.osmdroid.views.overlay.MilestoneBitmapDisplayer;
 import org.osmdroid.views.overlay.MilestoneManager;
+import org.osmdroid.views.overlay.MilestoneMiddleLister;
 import org.osmdroid.views.overlay.MilestonePathDisplayer;
 import org.osmdroid.views.overlay.MilestonePixelDistanceLister;
 import org.osmdroid.views.overlay.Polygon;
@@ -149,7 +150,7 @@ public class CustomPaintingSurface extends View {
                             path.lineTo(- 10, 10);
                             path.close();
                             line.setMilestoneManager(new MilestoneManager(
-                                    new MilestonePixelDistanceLister(50, 100),
+                                    new MilestoneMiddleLister(50),
                                     new MilestonePathDisplayer(0, true, path, paint)
                             ));
                         }
