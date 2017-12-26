@@ -9,5 +9,5 @@ public interface PointAccepter {
 
     void init();
     void add(final long pX, final long pY);
-    void end(); // TODO 0000 check that everybody uses init + add + end
+    void end();
 }

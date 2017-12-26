@@ -1,6 +1,7 @@
 package org.osmdroid.views.overlay;
 
 /**
+ * Listing every vertex
  * Created by Fabrice on 23/12/2017.
  * @since 6.0.0
  */

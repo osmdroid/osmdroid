@@ -8,7 +8,7 @@ import android.graphics.Path;
 import android.view.MotionEvent;
 
 import org.osmdroid.util.GeoPoint;
-import org.osmdroid.util.RectL;
+import org.osmdroid.util.PointL;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
 import org.osmdroid.views.util.constants.MathConstants;
@@ -31,7 +31,7 @@ import java.util.List;
  * @see <a href="http://developer.android.com/reference/com/google/android/gms/maps/model/Polyline.html">Google Maps Polyline</a>
  */
 public class Polyline extends OverlayWithIW {
-	
+
 	private boolean mGeodesic;
 	private final Path mPath = new Path();
 	private final Paint mPaint = new Paint();
@@ -58,7 +58,7 @@ public class Polyline extends OverlayWithIW {
 		this.clearPath();
 		mGeodesic = false;
 	}
-	
+
 	protected void clearPath() {
 		mOutline.clearPath();
 	}
@@ -76,41 +76,40 @@ public class Polyline extends OverlayWithIW {
 	public List<GeoPoint> getPoints(){
 		return mOutline.getPoints();
 	}
-	
+
 	public int getNumberOfPoints(){
 		return getPoints().size();
 	}
-	
+
 	public int getColor(){
 		return mPaint.getColor();
 	}
-	
+
 	public float getWidth(){
 		return mPaint.getStrokeWidth();
 	}
-	
+
 	/** @return the Paint used. This allows to set advanced Paint settings. */
 	public Paint getPaint(){
 		return mPaint;
 	}
-	
+
 	public boolean isVisible(){
 		return isEnabled();
 	}
-	
+
 	public boolean isGeodesic(){
 		return mGeodesic;
 	}
-	
+
 	public void setColor(int color){
 		mPaint.setColor(color);
 	}
-	
+
 	public void setWidth(float width){
 		mPaint.setStrokeWidth(width);
-// TODO 0000		mOutline.setStrokeWidth(width);
 	}
-	
+
 	public void setVisible(boolean visible){
 		setEnabled(visible);
 	}
@@ -135,7 +134,7 @@ public class Polyline extends OverlayWithIW {
 				Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(lon1 - lon2))
 				/ -MathConstants.DEG2RAD;
 		bearing = bearing < 0 ? 360 + bearing : bearing;
-		
+
 		for (int i = 1; i <= numberOfPoints; i++) {
 			final double f = 1.0 * i / (numberOfPoints+1);
 			final double A = Math.sin((1 - f) * d) / Math.sin(d);
@@ -181,7 +180,6 @@ public class Polyline extends OverlayWithIW {
 		mGeodesic = geodesic;
 	}
 
-	// TODO 0000 Polyline cf Polygon
 	@Override
 	public void draw(final Canvas canvas, final MapView mapView, final boolean shadow) {
 
@@ -196,13 +194,8 @@ public class Polyline extends OverlayWithIW {
         mOutline.buildPathPortion(pj, false, null);
         if (mMilestoneManager != null) {
         	mMilestoneManager.init();
-        	boolean first = true;
-        	for (final RectL segment : mOutline.getSegments()) {
-        		if (first) {
-        			first = false;
-        			mMilestoneManager.add(segment.left, segment.top);
-				}
-				mMilestoneManager.add(segment.right, segment.bottom);
+        	for (final PointL point : mOutline.getGatheredPoints()) {
+       			mMilestoneManager.add(point.x, point.y);
 			}
 			mMilestoneManager.end();
 		}

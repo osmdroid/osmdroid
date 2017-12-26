@@ -49,7 +49,7 @@ class LinearRing{
 	private boolean mPrecomputed;
 	private boolean isHorizontalRepeating = true;
 	private boolean isVerticalRepeating  = true;
-	private final List<RectL> mSegments = new ArrayList<>();
+	private final List<PointL> mGatheredPoints = new ArrayList<>();
 	private final PathBuilder mPathBuilder;
 
 	public LinearRing(final Path pPath) {
@@ -99,9 +99,7 @@ class LinearRing{
 			mPrecomputed = true;
 		}
 
-		mSegments.clear();
-
-		getSegmentsFromProjected(pProjection, mProjectedPoints, pClosePath);
+		getGatheredPointsFromProjected(pProjection, mProjectedPoints);
 		final PointL offset;
 		if (pOffset != null) {
 			offset = pOffset;
@@ -110,8 +108,18 @@ class LinearRing{
 			getBestOffset(pProjection, offset);
 		}
 		applyOffset(offset);
+		if (pClosePath) {
+			if (mGatheredPoints.size() > 0) {
+				mGatheredPoints.add(mGatheredPoints.get(0));
+			}
+		}
 		mPathBuilder.init();
-		clip();
+		mSegmentClipper.init();
+		for (final PointL point : mGatheredPoints) {
+			mSegmentClipper.add(point.x, point.y);
+		}
+		mSegmentClipper.end();
+		mPathBuilder.end();
 		if (pClosePath) {
 			mPath.close();
 		}
@@ -121,8 +129,8 @@ class LinearRing{
 	/**
 	 * @since 6.0.0
 	 */
-	public List<RectL> getSegments() {
-		return mSegments;
+	public List<PointL> getGatheredPoints() {
+		return mGatheredPoints;
 	}
 
 	/**
@@ -134,7 +142,7 @@ class LinearRing{
 	private void getBestOffset(final Projection pProjection, final PointL pOffset) {
 		final Rect screenRect = pProjection.getIntrinsicScreenRect();
 		final double worldSize = TileSystem.MapSize(pProjection.getZoomLevel());
-		final RectL boundingBox = getBoundingBox(mSegments, null);
+		final RectL boundingBox = getBoundingBox(mGatheredPoints, null);
 		getBestOffset(boundingBox, screenRect, worldSize, pOffset);
 	}
 
@@ -182,32 +190,26 @@ class LinearRing{
 		return i - 1;
 	}
 
-	private RectL getBoundingBox(final List<RectL> pSegments, final RectL pReuse) {
+	private RectL getBoundingBox(final List<PointL> pPoints, final RectL pReuse) {
 		final RectL out = pReuse != null ? pReuse : new RectL();
 		boolean first = true;
-		for (final RectL segment : pSegments) {
-			final long xMin = Math.min(segment.left, segment.right);
-			final long xMax = Math.max(segment.left, segment.right);
-			final long yMin = Math.min(segment.top, segment.bottom);
-			final long yMax = Math.max(segment.top, segment.bottom);
+		for (final PointL point : pPoints) {
 			if (first) {
 				first = false;
-				out.left = xMin;
-				out.right = xMax;
-				out.top = yMin;
-				out.bottom = yMax;
+				out.left = out.right = point.x;
+				out.top = out.bottom = point.y;
 			} else {
-				if (out.left > xMin) {
-					out.left = xMin;
+				if (out.left > point.x) {
+					out.left = point.x;
 				}
-				if (out.top > yMin) {
-					out.top = yMin;
+				if (out.top > point.y) {
+					out.top = point.y;
 				}
-				if (out.right < xMax) {
-					out.right = xMax;
+				if (out.right < point.x) {
+					out.right = point.x;
 				}
-				if (out.bottom < yMax) {
-					out.bottom = yMax;
+				if (out.bottom < point.y) {
+					out.bottom = point.y;
 				}
 			}
 		}
@@ -224,9 +226,12 @@ class LinearRing{
 		}
 	}
 
-	private void getSegmentsFromProjected(final Projection pProjection,
-										  final List<PointL> pProjectedPoints,
-										  final boolean pClosePath) {
+	/**
+	 * @since 6.0.0
+	 */
+	private void getGatheredPointsFromProjected(final Projection pProjection,
+												final List<PointL> pProjectedPoints) {
+		mGatheredPoints.clear();
 		final double worldSize = TileSystem.MapSize(pProjection.getZoomLevel());
 		final double powerDifference = pProjection.getProjectedPowerDifference();
 		final PointL screenPoint0 = new PointL(); // points on screen
@@ -240,16 +245,11 @@ class LinearRing{
 				firstPoint = new PointL(screenPoint1);
 			} else {
 				setCloserPoint(screenPoint0, screenPoint1, worldSize);
-				mSegments.add(new RectL(screenPoint0.x, screenPoint0.y, screenPoint1.x, screenPoint1.y));
 			}
+			mGatheredPoints.add(new PointL(screenPoint1));
 
 			// update starting point to next position
 			screenPoint0.set(screenPoint1);
-		}
-		if (pClosePath) {
-			if (firstPoint != null) {
-				mSegments.add(new RectL(screenPoint0.x, screenPoint0.y, firstPoint.x, firstPoint.y));
-			}
 		}
 	}
 
@@ -285,18 +285,23 @@ class LinearRing{
 			mPrecomputed = true;
 		}
 		final Point pixel = pProjection.toPixels(pPoint, null);
-		mSegments.clear();
-		getSegmentsFromProjected(pProjection, mProjectedPoints, false);
+		getGatheredPointsFromProjected(pProjection, mProjectedPoints);
 		final PointL offset = new PointL();
 		getBestOffset(pProjection, offset);
 		applyOffset(offset);
-		clip();
 		final double squaredTolerance = tolerance * tolerance;
-		for (final RectL segment : mSegments) {
-			if (squaredTolerance > Distance.getSquaredDistanceToSegment(
-					pixel.x, pixel.y, segment.left, segment.top, segment.right, segment.bottom)) {
+		final PointL point0 = new PointL();
+		final PointL point1 = new PointL();
+		boolean first = true;
+		for (final PointL point : mGatheredPoints) {
+			point1.set(point);
+			if (first) {
+				first = false;
+			} else if (squaredTolerance > Distance.getSquaredDistanceToSegment(
+					pixel.x, pixel.y, point0.x, point0.y, point1.x, point1.y)) {
 				return true;
 			}
+			point0.set(point1);
 		}
 		return false;
 	}
@@ -305,24 +310,16 @@ class LinearRing{
 		if (pOffset.x == 0 && pOffset.y == 0) {
 			return;
 		}
-		for (final RectL segment : mSegments) {
+		for (final PointL point : mGatheredPoints) {
 			if (pOffset.x != 0) {
-				segment.left += pOffset.x;
-				segment.right += pOffset.x;
+				pOffset.x += pOffset.x;
 			}
 			if (pOffset.y != 0) {
-				segment.top += pOffset.y;
-				segment.bottom += pOffset.y;
+				point.y += pOffset.y;
 			}
 		}
 	}
 
-	private void clip() {
-		for (final RectL segment : mSegments) {
-			mSegmentClipper.clip(segment);
-		}
-	}
-// TODO 0000 PointL instead of segments?
 	/**
 	 * @since 6.0.0
 	 * Mandatory use before clipping.

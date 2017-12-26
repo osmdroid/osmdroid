@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Creating a list of `MilestoneStep`s from a list of `PointL`
  * Created by Fabrice on 22/12/2017.
  * @since 6.0.0
  */

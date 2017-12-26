@@ -40,12 +40,11 @@ public class Polygon extends OverlayWithIW {
 	private LinearRing mOutline = new LinearRing(mPath);
 	private ArrayList<LinearRing> mHoles = new ArrayList<>();
 	private String id=null;
-	
+
 	/** Paint settings. */
 	private Paint mFillPaint;
 	private Paint mOutlinePaint;
-	private MilestoneDisplayer mMilestoneDisplayer;
-	private MilestoneLister mMilestoneLister;
+	private MilestoneManager mMilestoneManager;
 
 	// ===========================================================
 	// Constructors
@@ -84,12 +83,12 @@ public class Polygon extends OverlayWithIW {
 	public float getStrokeWidth() {
 		return mOutlinePaint.getStrokeWidth();
 	}
-	
+
 	/** @return the Paint used for the outline. This allows to set advanced Paint settings. */
 	public Paint getOutlinePaint(){
 		return mOutlinePaint;
 	}
-	
+
 	/**
 	 * @return a copy of the list of polygon's vertices. 
 	 */
@@ -100,7 +99,7 @@ public class Polygon extends OverlayWithIW {
 	public boolean isVisible(){
 		return isEnabled();
 	}
-	
+
 	public void setFillColor(final int fillColor) {
 		mFillPaint.setColor(fillColor);
 	}
@@ -108,12 +107,11 @@ public class Polygon extends OverlayWithIW {
 	public void setStrokeColor(final int color) {
 		mOutlinePaint.setColor(color);
 	}
-	
+
 	public void setStrokeWidth(final float width) {
 		mOutlinePaint.setStrokeWidth(width);
-// TODO 0000		mOutline.setStrokeWidth(width);
 	}
-	
+
 	public void setVisible(boolean visible){
 		setEnabled(visible);
 	}
@@ -215,7 +213,14 @@ public class Polygon extends OverlayWithIW {
 
 		mOutline.setClipArea(mapView);
 		final PointL offset = mOutline.buildPathPortion(pj, true, null);
-		
+		if (mMilestoneManager != null) {
+			mMilestoneManager.init();
+			for (final PointL point : mOutline.getGatheredPoints()) {
+				mMilestoneManager.add(point.x, point.y);
+			}
+			mMilestoneManager.end();
+		}
+
 		for (LinearRing hole:mHoles){
 			hole.setClipArea(mapView);
 			hole.buildPathPortion(pj, true, offset);
@@ -225,10 +230,8 @@ public class Polygon extends OverlayWithIW {
 		canvas.drawPath(mPath, mFillPaint);
 		canvas.drawPath(mPath, mOutlinePaint);
 
-		if (mMilestoneLister != null && mMilestoneDisplayer != null) {
-			for (final MilestoneStep step : mMilestoneLister.getMilestones()) {
-				mMilestoneDisplayer.draw(canvas, step);
-			}
+		if (mMilestoneManager != null) {
+			mMilestoneManager.draw(canvas);
 		}
 	}
 	
@@ -288,14 +291,7 @@ public class Polygon extends OverlayWithIW {
 	/**
 	 * @since 6.0.0
 	 */
-	public void setMilestoneDisplayer(final MilestoneDisplayer pMilestoneDisplayer) {
-		mMilestoneDisplayer = pMilestoneDisplayer;
-	}
-
-	/**
-	 * @since 6.0.0
-	 */
-	public void setMilestoneLister(final MilestoneLister pMilestoneLister) {
-		mMilestoneLister = pMilestoneLister;
+	public void setMilestoneManager(final MilestoneManager pMilestoneManager) {
+		mMilestoneManager = pMilestoneManager;
 	}
 }
