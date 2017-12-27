@@ -4,6 +4,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.util.Log;
 import android.view.MotionEvent;
 
 import org.osmdroid.library.R;
@@ -107,8 +108,8 @@ public class ZoomButtonsOverlay extends Overlay {
 	}
 
 	@Override
-	public boolean onTouchEvent(MotionEvent event, MapView mapView) {
-		if (isEnabled() && event.getAction() == MotionEvent.ACTION_UP) {
+	public boolean onSingleTapConfirmed(MotionEvent event, MapView mapView) {
+		if (isEnabled()) {
 			final int x = (int) event.getX();
 			final int y = (int) event.getY();
 			if (mZoomInEnabled &&
@@ -128,7 +129,7 @@ public class ZoomButtonsOverlay extends Overlay {
 				return true;
 			}
 		}
-		return super.onTouchEvent(event, mapView);
+		return false;
 	}
 
 	private int getLeft(final boolean pInOrOut, final int pCanvasWidth) {
