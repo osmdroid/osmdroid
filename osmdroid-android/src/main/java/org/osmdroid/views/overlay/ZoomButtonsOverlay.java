@@ -140,7 +140,7 @@ public class ZoomButtonsOverlay extends Overlay {
 		} else {
 			outLeft = mLeft;
 		}
-		return outLeft + (pInOrOut ? bitmapWidth : 0);
+		return outLeft + (pInOrOut ? bitmapWidth + getPaddingPixels() : 0);
 	}
 
 	private int getPositionLeft(final int pCanvasWidth, final int pBitmapWidth) {
@@ -148,9 +148,9 @@ public class ZoomButtonsOverlay extends Overlay {
 				mPosition, POSITION_HORIZONTAL_DEFAULT, POSITION_HORIZONTAL_POSSIBLE);
 		switch(position) {
 			case OverlayLayoutParams.LEFT:
-				return 0 + ((int)(screenDpi*padding));
+				return 0 + getPaddingPixels();
 			case OverlayLayoutParams.RIGHT:
-				return pCanvasWidth - 2 * pBitmapWidth - ((int)(screenDpi*padding));
+				return pCanvasWidth - 2 * pBitmapWidth - getPaddingPixels();
 			case OverlayLayoutParams.CENTER_HORIZONTAL:
 				return (pCanvasWidth - 2 * pBitmapWidth) / 2;
 		}
@@ -166,6 +166,10 @@ public class ZoomButtonsOverlay extends Overlay {
 		}
 	}
 
+	private int getPaddingPixels(){
+		return ((int)(screenDpi*padding));
+	}
+
 	private int getPositionTop(final int pCanvasHeight, final int pBitmapHeight) {
 		final int position = OverlayLayoutParams.getMaskedValue(
 				mPosition, POSITION_VERTICAL_DEFAULT, POSITION_VERTICAL_POSSIBLE);
@@ -173,7 +177,7 @@ public class ZoomButtonsOverlay extends Overlay {
 			case OverlayLayoutParams.TOP:
 				return 0 + ((int)(screenDpi*padding));
 			case OverlayLayoutParams.BOTTOM:
-				return pCanvasHeight - pBitmapHeight - ((int)(screenDpi*padding));
+				return pCanvasHeight - pBitmapHeight - getPaddingPixels();
 			case OverlayLayoutParams.CENTER_VERTICAL:
 				return (pCanvasHeight - pBitmapHeight) / 2;
 		}
