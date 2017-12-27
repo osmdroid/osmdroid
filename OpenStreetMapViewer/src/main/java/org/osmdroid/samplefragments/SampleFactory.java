@@ -19,6 +19,7 @@ import org.osmdroid.samplefragments.cache.SampleJumboCache;
 import org.osmdroid.samplefragments.cache.SampleSqliteOnly;
 import org.osmdroid.samplefragments.animations.AnimatedMarkerTimer;
 import org.osmdroid.samplefragments.data.AsyncTaskDemoFragment;
+import org.osmdroid.samplefragments.drawing.DrawCircle10km;
 import org.osmdroid.samplefragments.drawing.DrawPolygonHoles;
 import org.osmdroid.samplefragments.drawing.DrawPolygonWithoutVerticalWrapping;
 import org.osmdroid.samplefragments.drawing.DrawPolygonWithoutWrapping;
@@ -268,6 +269,7 @@ public final class SampleFactory implements ISampleFactory {
             mSamples.add(StreetAddressFragment.class);  //map in a list view
 
         mSamples.add(SampleCustomMyLocation.class);
+        mSamples.add(DrawCircle10km.class);
     }
 
     public void addSample(Class<? extends BaseSampleFragment> clz) {
