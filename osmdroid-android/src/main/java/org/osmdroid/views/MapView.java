@@ -1175,7 +1175,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 				mZoomButtonsOverlay = null;
 			}
 		}
-
+		invalidate();
 	}
 
 	/**
@@ -1203,6 +1203,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 				mZoomButtonsOverlay = null;
 			}
 		}
+		invalidate();
 	}
 
 	/**
