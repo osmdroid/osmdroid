@@ -4,7 +4,6 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.util.Log;
 import android.view.MotionEvent;
 
 import org.osmdroid.library.R;
@@ -53,6 +52,14 @@ public class ZoomButtonsOverlay extends Overlay {
 		final Resources resources = mapView.getContext().getResources();
 		mBitmapZoomIn = BitmapFactory.decodeResource(resources, R.drawable.zoom_in);
 		mBitmapZoomOut = BitmapFactory.decodeResource(resources, R.drawable.zoom_out);
+		screenDpi = resources.getDisplayMetrics().density;
+	}
+
+	public ZoomButtonsOverlay(final MapView mapView, Bitmap zoomIn, Bitmap zoomOut) {
+		super();
+		final Resources resources = mapView.getContext().getResources();
+		mBitmapZoomIn = zoomIn;
+		mBitmapZoomOut = zoomOut;
 		screenDpi = resources.getDisplayMetrics().density;
 	}
 
@@ -132,7 +139,7 @@ public class ZoomButtonsOverlay extends Overlay {
 		return false;
 	}
 
-	private int getLeft(final boolean pInOrOut, final int pCanvasWidth) {
+	protected int getLeft(final boolean pInOrOut, final int pCanvasWidth) {
 		final int bitmapWidth = mBitmapZoomIn.getWidth();
 		final int outLeft;
 		if (mIsPositioned) {
@@ -143,7 +150,7 @@ public class ZoomButtonsOverlay extends Overlay {
 		return outLeft + (pInOrOut ? bitmapWidth + getPaddingPixels() : 0);
 	}
 
-	private int getPositionLeft(final int pCanvasWidth, final int pBitmapWidth) {
+	protected int getPositionLeft(final int pCanvasWidth, final int pBitmapWidth) {
 		final int position = OverlayLayoutParams.getMaskedValue(
 				mPosition, POSITION_HORIZONTAL_DEFAULT, POSITION_HORIZONTAL_POSSIBLE);
 		switch(position) {
@@ -157,7 +164,7 @@ public class ZoomButtonsOverlay extends Overlay {
 		throw new IllegalArgumentException("Unknown position value: " + mPosition);
 	}
 
-	private int getTop(final int pCanvasHeight) {
+	protected int getTop(final int pCanvasHeight) {
 		final int bitmapHeight = mBitmapZoomIn.getHeight();
 		if (mIsPositioned) {
 			return getPositionTop(pCanvasHeight, bitmapHeight);
@@ -166,11 +173,11 @@ public class ZoomButtonsOverlay extends Overlay {
 		}
 	}
 
-	private int getPaddingPixels(){
+	protected int getPaddingPixels(){
 		return ((int)(screenDpi*padding));
 	}
 
-	private int getPositionTop(final int pCanvasHeight, final int pBitmapHeight) {
+	protected int getPositionTop(final int pCanvasHeight, final int pBitmapHeight) {
 		final int position = OverlayLayoutParams.getMaskedValue(
 				mPosition, POSITION_VERTICAL_DEFAULT, POSITION_VERTICAL_POSSIBLE);
 		switch(position) {
@@ -184,7 +191,7 @@ public class ZoomButtonsOverlay extends Overlay {
 		throw new IllegalArgumentException("Unknown position value: " + mPosition);
 	}
 
-	private static boolean onTouchEvent(
+	protected static boolean onTouchEvent(
 			final int pX, final int pY,
 			final int pLeft, final int pTop, final int pWidth, final int pHeight) {
 		return pX >= pLeft && pX <= pLeft + pWidth && pY >= pTop && pY <= pTop + pHeight;
