@@ -44,7 +44,7 @@ public class Polygon extends OverlayWithIW {
 	/** Paint settings. */
 	private Paint mFillPaint;
 	private Paint mOutlinePaint;
-	private MilestoneManager mMilestoneManager;
+	private List<MilestoneManager> mMilestoneManagers = new ArrayList<>();
 
 	// ===========================================================
 	// Constructors
@@ -213,12 +213,12 @@ public class Polygon extends OverlayWithIW {
 
 		mOutline.setClipArea(mapView);
 		final PointL offset = mOutline.buildPathPortion(pj, true, null);
-		if (mMilestoneManager != null) {
-			mMilestoneManager.init();
+		for (final MilestoneManager milestoneManager : mMilestoneManagers) {
+			milestoneManager.init();
 			for (final PointL point : mOutline.getGatheredPoints()) {
-				mMilestoneManager.add(point.x, point.y);
+				milestoneManager.add(point.x, point.y);
 			}
-			mMilestoneManager.end();
+			milestoneManager.end();
 		}
 
 		for (LinearRing hole:mHoles){
@@ -230,8 +230,8 @@ public class Polygon extends OverlayWithIW {
 		canvas.drawPath(mPath, mFillPaint);
 		canvas.drawPath(mPath, mOutlinePaint);
 
-		if (mMilestoneManager != null) {
-			mMilestoneManager.draw(canvas);
+		for (final MilestoneManager milestoneManager : mMilestoneManagers) {
+			milestoneManager.draw(canvas);
 		}
 	}
 	
@@ -291,7 +291,13 @@ public class Polygon extends OverlayWithIW {
 	/**
 	 * @since 6.0.0
 	 */
-	public void setMilestoneManager(final MilestoneManager pMilestoneManager) {
-		mMilestoneManager = pMilestoneManager;
+	public void setMilestoneManagers(final List<MilestoneManager> pMilestoneManagers) {
+		if (pMilestoneManagers == null) {
+			if (mMilestoneManagers.size() > 0) {
+				mMilestoneManagers.clear();
+			}
+		} else {
+			mMilestoneManagers = pMilestoneManagers;
+		}
 	}
 }

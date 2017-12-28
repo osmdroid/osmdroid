@@ -13,6 +13,7 @@ import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
 import org.osmdroid.views.util.constants.MathConstants;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -38,7 +39,7 @@ public class Polyline extends OverlayWithIW {
 	/** Bounding rectangle for view */
     private LinearRing mOutline = new LinearRing(mPath);
 	private String id=null;
-	private MilestoneManager mMilestoneManager;
+	private List<MilestoneManager> mMilestoneManagers = new ArrayList<>();
 
 	protected OnClickListener mOnClickListener;
 
@@ -192,18 +193,18 @@ public class Polyline extends OverlayWithIW {
 
         mOutline.setClipArea(mapView);
         mOutline.buildPathPortion(pj, false, null);
-        if (mMilestoneManager != null) {
-        	mMilestoneManager.init();
+        for (final MilestoneManager milestoneManager : mMilestoneManagers) {
+        	milestoneManager.init();
         	for (final PointL point : mOutline.getGatheredPoints()) {
-       			mMilestoneManager.add(point.x, point.y);
+       			milestoneManager.add(point.x, point.y);
 			}
-			mMilestoneManager.end();
+			milestoneManager.end();
 		}
 
         canvas.drawPath(mPath, mPaint);
 
-        if (mMilestoneManager != null) {
-        	mMilestoneManager.draw(canvas);
+		for (final MilestoneManager milestoneManager : mMilestoneManagers) {
+        	milestoneManager.draw(canvas);
 		}
 	}
 	
@@ -275,7 +276,13 @@ public class Polyline extends OverlayWithIW {
 	/**
 	 * @since 6.0.0
 	 */
-	public void setMilestoneManager(final MilestoneManager pMilestoneManager) {
-		mMilestoneManager = pMilestoneManager;
+	public void setMilestoneManagers(final List<MilestoneManager> pMilestoneManagers) {
+		if (pMilestoneManagers == null) {
+			if (mMilestoneManagers.size() > 0) {
+				mMilestoneManagers.clear();
+			}
+		} else {
+			mMilestoneManagers = pMilestoneManagers;
+		}
 	}
 }

@@ -21,6 +21,7 @@ import org.osmdroid.views.overlay.MilestoneManager;
 import org.osmdroid.views.overlay.MilestoneMiddleLister;
 import org.osmdroid.views.overlay.MilestonePathDisplayer;
 import org.osmdroid.views.overlay.MilestonePixelDistanceLister;
+import org.osmdroid.views.overlay.MilestoneVertexLister;
 import org.osmdroid.views.overlay.Polygon;
 import org.osmdroid.views.overlay.Polyline;
 
@@ -139,20 +140,36 @@ public class CustomPaintingSurface extends View {
                         line.setColor(color);
 
                         if (withArrows) {
-                            final Paint paint = new Paint();
-                            paint.setColor(color);
-                            paint.setStrokeWidth(10.0f);
-                            paint.setStyle(Paint.Style.FILL_AND_STROKE);
-                            paint.setAntiAlias(true);
-                            final Path path = new Path(); // a simple arrow towards the right
-                            path.moveTo(- 10, - 10);
-                            path.lineTo(10, 0);
-                            path.lineTo(- 10, 10);
-                            path.close();
-                            line.setMilestoneManager(new MilestoneManager(
+                            final Paint arrowPaint = new Paint();
+                            arrowPaint.setColor(color);
+                            arrowPaint.setStrokeWidth(10.0f);
+                            arrowPaint.setStyle(Paint.Style.FILL_AND_STROKE);
+                            arrowPaint.setAntiAlias(true);
+                            final Path arrowPath = new Path(); // a simple arrow towards the right
+                            arrowPath.moveTo(- 10, - 10);
+                            arrowPath.lineTo(10, 0);
+                            arrowPath.lineTo(- 10, 10);
+                            arrowPath.close();
+                            final Paint crossPaint = new Paint();
+                            crossPaint.setColor(Color.RED);
+                            crossPaint.setStrokeWidth(5.0f);
+                            crossPaint.setStyle(Paint.Style.STROKE);
+                            crossPaint.setAntiAlias(true);
+                            final Path crossPath = new Path(); // a simple X
+                            crossPath.moveTo(-10, -10);
+                            crossPath.lineTo(10, 10);
+                            crossPath.moveTo(-10, 10);
+                            crossPath.lineTo(10, -10);
+                            final List<MilestoneManager> managers = new ArrayList<>();
+                            managers.add(new MilestoneManager(
                                     new MilestoneMiddleLister(50),
-                                    new MilestonePathDisplayer(0, true, path, paint)
+                                    new MilestonePathDisplayer(0, true, arrowPath, arrowPaint)
                             ));
+                            managers.add(new MilestoneManager(
+                                    new MilestoneVertexLister(),
+                                    new MilestonePathDisplayer(0, false, crossPath, crossPaint)
+                            ));
+                            line.setMilestoneManagers(managers);
                         }
                         map.getOverlayManager().add(line);
                         lastPolygon=null;
@@ -164,10 +181,24 @@ public class CustomPaintingSurface extends View {
                         polygon.setTitle("A sample polygon");
                         if (withArrows) {
                             final Bitmap bitmap = BitmapFactory.decodeResource(getResources(), org.osmdroid.library.R.drawable.direction_arrow);
-                            polygon.setMilestoneManager(new MilestoneManager(
-                                    new MilestonePixelDistanceLister(12, 200),
+                            final Paint paint = new Paint();
+                            paint.setColor(Color.BLUE);
+                            paint.setStrokeWidth(5.0f);
+                            paint.setStyle(Paint.Style.STROKE);
+                            paint.setAntiAlias(true);
+                            final Path path = new Path(); // a simple -
+                            path.moveTo(-10, 0);
+                            path.lineTo(10, 0);
+                            final List<MilestoneManager> managers = new ArrayList<>();
+                            managers.add(new MilestoneManager(
+                                    new MilestonePixelDistanceLister(20, 200),
                                     new MilestoneBitmapDisplayer(90, true, bitmap, bitmap.getWidth() / 2, bitmap.getHeight() / 2)
                             ));
+                            managers.add(new MilestoneManager(
+                                    new MilestonePixelDistanceLister(120, 200),
+                                    new MilestonePathDisplayer(90, true, path, paint)
+                            ));
+                            polygon.setMilestoneManagers(managers);
                         }
                         map.getOverlayManager().add(polygon);
                         lastPolygon=polygon;
