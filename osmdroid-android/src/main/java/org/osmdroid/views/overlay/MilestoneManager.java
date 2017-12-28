@@ -4,6 +4,8 @@ import android.graphics.Canvas;
 
 import org.osmdroid.util.PointAccepter;
 
+import java.util.List;
+
 /**
  * Created by Fabrice on 24/12/2017.
  * @since 6.0.0
@@ -14,9 +16,9 @@ public class MilestoneManager implements PointAccepter{
     private final MilestoneLister mLister;
     private final MilestoneDisplayer mDisplayer;
 
-    public MilestoneManager(final MilestoneLister mLister, final MilestoneDisplayer mDisplayer) {
-        this.mLister = mLister;
-        this.mDisplayer = mDisplayer;
+    public MilestoneManager(final MilestoneLister pLister, final MilestoneDisplayer pDisplayer) {
+        mLister = pLister;
+        mDisplayer = pDisplayer;
     }
 
     public void draw(final Canvas pCanvas) {
@@ -38,5 +40,9 @@ public class MilestoneManager implements PointAccepter{
     @Override
     public void end() {
         mLister.end();
+    }
+
+    public void setDistances(final List<Double> pDistances) {
+        mLister.setDistances(pDistances);
     }
 }

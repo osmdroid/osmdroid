@@ -43,6 +43,7 @@ class LinearRing{
 	 */
 
 	private final ArrayList<GeoPoint> mOriginalPoints = new ArrayList<>();
+	private final ArrayList<Double> mDistances = new ArrayList<>();
 	private final ArrayList<PointL> mProjectedPoints = new ArrayList<>();
 	private SegmentClipper mSegmentClipper = new SegmentClipper();
 	private final Path mPath;
@@ -59,10 +60,18 @@ class LinearRing{
 
 	void clearPath() {
 		mOriginalPoints.clear();
+		mDistances.clear();
 		mPrecomputed = false;
 	}
 
 	void addPoint(final GeoPoint pGeoPoint) {
+		final int size = mOriginalPoints.size();
+		if (size == 0) {
+			mDistances.add(0d);
+		} else {
+			final GeoPoint previous = mOriginalPoints.get(size - 1);
+			mDistances.add(previous.distanceToAsDouble(pGeoPoint));
+		}
 		mOriginalPoints.add(pGeoPoint);
 		mPrecomputed = false;
 	}
@@ -71,9 +80,15 @@ class LinearRing{
 		return mOriginalPoints;
 	}
 
+	ArrayList<Double> getDistances(){
+		return mDistances;
+	}
+
 	void setPoints(final List<GeoPoint> points) {
 		clearPath();
-		mOriginalPoints.addAll(points);
+		for (final GeoPoint point : points) {
+			addPoint(point);
+		}
 	}
 
 	/**

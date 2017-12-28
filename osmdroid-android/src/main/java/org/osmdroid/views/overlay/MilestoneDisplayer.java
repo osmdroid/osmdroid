@@ -36,12 +36,12 @@ public abstract class MilestoneDisplayer {
         pCanvas.save();
         pCanvas.rotate((float) orientation, pStep.getX(), pStep.getY());
         pCanvas.translate(pStep.getX(), pStep.getY());
-        draw(pCanvas);
+        draw(pCanvas, pStep.getObject());
         pCanvas.restore();
     }
 
     /**
      * Draw on pixel (0,0) with no rotation
      */
-    protected abstract void draw(final Canvas pCanvas);
+    protected abstract void draw(final Canvas pCanvas, final Object pParameter);
 }

@@ -215,6 +215,7 @@ public class Polygon extends OverlayWithIW {
 		final PointL offset = mOutline.buildPathPortion(pj, true, null);
 		for (final MilestoneManager milestoneManager : mMilestoneManagers) {
 			milestoneManager.init();
+			milestoneManager.setDistances(mOutline.getDistances());
 			for (final PointL point : mOutline.getGatheredPoints()) {
 				milestoneManager.add(point.x, point.y);
 			}

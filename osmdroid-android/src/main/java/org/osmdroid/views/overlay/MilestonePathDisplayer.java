@@ -24,7 +24,7 @@ public class MilestonePathDisplayer extends MilestoneDisplayer{
     }
 
     @Override
-    protected void draw(final Canvas pCanvas) {
+    protected void draw(final Canvas pCanvas, final Object pParameter) {
         pCanvas.drawPath(mPath, mPaint);
     }
 }

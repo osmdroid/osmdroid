@@ -46,7 +46,7 @@ public class MilestonePixelDistanceLister extends MilestoneLister{
             currentDistance -= neededForNext;
             x += neededForNext * Math.cos(MathConstants.DEG2RAD * orientation);
             y += neededForNext * Math.sin(MathConstants.DEG2RAD * orientation);
-            add(new MilestoneStep((long)x, (long)y, orientation));
+            add(new MilestoneStep((long)x, (long)y, orientation, mDistance));
         }
     }
 }

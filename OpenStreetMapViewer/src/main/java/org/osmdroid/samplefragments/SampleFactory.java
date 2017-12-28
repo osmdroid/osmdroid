@@ -19,6 +19,7 @@ import org.osmdroid.samplefragments.cache.SampleJumboCache;
 import org.osmdroid.samplefragments.cache.SampleSqliteOnly;
 import org.osmdroid.samplefragments.animations.AnimatedMarkerTimer;
 import org.osmdroid.samplefragments.data.AsyncTaskDemoFragment;
+import org.osmdroid.samplefragments.data.SampleRace;
 import org.osmdroid.samplefragments.drawing.DrawPolygonHoles;
 import org.osmdroid.samplefragments.drawing.DrawPolygonWithArrows;
 import org.osmdroid.samplefragments.drawing.DrawPolygonWithoutVerticalWrapping;
@@ -120,6 +121,7 @@ public final class SampleFactory implements ISampleFactory {
         mSamples.add(SampleFragmentXmlLayout.class);
         //4
         mSamples.add(SampleOsmPath.class);
+        mSamples.add(SampleRace.class);
         //5
         mSamples.add(SampleInvertedTiles_NightMode.class);
         //6

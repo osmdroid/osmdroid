@@ -195,6 +195,7 @@ public class Polyline extends OverlayWithIW {
         mOutline.buildPathPortion(pj, false, null);
         for (final MilestoneManager milestoneManager : mMilestoneManagers) {
         	milestoneManager.init();
+        	milestoneManager.setDistances(mOutline.getDistances());
         	for (final PointL point : mOutline.getGatheredPoints()) {
        			milestoneManager.add(point.x, point.y);
 			}

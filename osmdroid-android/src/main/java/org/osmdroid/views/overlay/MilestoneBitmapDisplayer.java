@@ -25,7 +25,7 @@ public class MilestoneBitmapDisplayer extends MilestoneDisplayer {
     }
 
     @Override
-    protected void draw(final Canvas pCanvas) {
+    protected void draw(final Canvas pCanvas, final Object pParameter) {
         pCanvas.drawBitmap(mBitmap, - mOffsetX, - mOffsetY, null);
     }
 }
