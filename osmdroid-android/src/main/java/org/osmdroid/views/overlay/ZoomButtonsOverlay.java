@@ -56,6 +56,7 @@ public class ZoomButtonsOverlay extends Overlay {
     private MapView mapView = null;
     private boolean visible = true;
     private long lastMovement = 0L;
+    private HideTimer hideTask = null;
 
     public ZoomButtonsOverlay(final MapView mapView) {
         super();
@@ -64,6 +65,19 @@ public class ZoomButtonsOverlay extends Overlay {
         mBitmapZoomIn = BitmapFactory.decodeResource(resources, R.drawable.zoom_in);
         mBitmapZoomOut = BitmapFactory.decodeResource(resources, R.drawable.zoom_out);
         screenDpi = resources.getDisplayMetrics().density;
+        initTimer();
+    }
+
+    public ZoomButtonsOverlay(final MapView mapView, Bitmap zoomIn, Bitmap zoomOut) {
+        super();
+        final Resources resources = mapView.getContext().getResources();
+        mBitmapZoomIn = zoomIn;
+        mBitmapZoomOut = zoomOut;
+        screenDpi = resources.getDisplayMetrics().density;
+    }
+
+    public void onAttach(MapView mapView) {
+        this.mapView = mapView;
         initTimer();
     }
 
@@ -90,31 +104,45 @@ public class ZoomButtonsOverlay extends Overlay {
 
     public void resetTimer() {
         lastMovement = System.currentTimeMillis();
-        //TODO show
         Log.d(IMapView.LOGTAG, "ZoomButtons resettimer");
         if (!this.visible) {
+            //show it
             this.visible = true;
             mapView.invalidate();
         }
     }
 
-    private void initTimer() {
+    private synchronized void initTimer() {
+        if (hideTask != null)
+            hideTask.cancel();
+        if (timer != null) {
 
+            timer.cancel();
+        }
+
+        timer = new Timer();
+        hideTask = new HideTimer();
         timer.schedule(hideTask, 2000, 2000);
     }
 
     private Timer timer = new Timer();
-    private TimerTask hideTask = new TimerTask() {
+
+    private class HideTimer extends TimerTask {
+
         @Override
         public void run() {
-            if ((System.currentTimeMillis() - 3000) > lastMovement) {
-                Log.d(IMapView.LOGTAG, "ZoomButtons hiding buttons");
-                visible = false;
-                mapView.postInvalidate();
-            }
+            if (autoHide)
+                if ((System.currentTimeMillis() - 3000) > lastMovement) {
+                    Log.d(IMapView.LOGTAG, "ZoomButtons hiding buttons");
+                    visible = false;
+                    synchronized (mapView) {
+                        if (mapView != null)
+                            mapView.postInvalidate();
+                    }
+                }
 
         }
-    };
+    }
 
     /**
      * @param pPosition see {@link OverlayLayoutParams}
@@ -158,32 +186,29 @@ public class ZoomButtonsOverlay extends Overlay {
         mapView.getProjection().restore(c, false);
     }
 
-    public void pause(){
+    @Override
+    public void onPause(){
         if (hideTask != null)
             hideTask.cancel();
+        hideTask = null;
         if (timer != null)
             timer.cancel();
+        timer = null;
     }
-    public void resume(){
+
+    public void onResume(){
         initTimer();
-        if (timer == null)
-            timer = new Timer();
-
-        if (hideTask != null)
-            timer.schedule(hideTask, 2000, 2000);
-
-
     }
 
     public void onDetach(final MapView mapView) {
         super.onDetach(mapView);
-        pause();
+        onPause();
         this.mapView = null;
     }
 
     @Override
-    public boolean onTouchEvent(MotionEvent event, MapView mapView) {
-        if (isEnabled() && event.getAction() == MotionEvent.ACTION_UP) {
+    public boolean onSingleTapConfirmed(MotionEvent event, MapView mapView) {
+        if (isEnabled()) {
             final int x = (int) event.getX();
             final int y = (int) event.getY();
             if (mZoomInEnabled &&
@@ -203,10 +228,10 @@ public class ZoomButtonsOverlay extends Overlay {
                 return true;
             }
         }
-        return super.onTouchEvent(event, mapView);
+        return false;
     }
 
-    private int getLeft(final boolean pInOrOut, final int pCanvasWidth) {
+    protected int getLeft(final boolean pInOrOut, final int pCanvasWidth) {
         final int bitmapWidth = mBitmapZoomIn.getWidth();
         final int outLeft;
         if (mIsPositioned) {
@@ -214,24 +239,24 @@ public class ZoomButtonsOverlay extends Overlay {
         } else {
             outLeft = mLeft;
         }
-        return outLeft + (pInOrOut ? bitmapWidth : 0);
+        return outLeft + (pInOrOut ? bitmapWidth + getPaddingPixels() : 0);
     }
 
-    private int getPositionLeft(final int pCanvasWidth, final int pBitmapWidth) {
+    protected int getPositionLeft(final int pCanvasWidth, final int pBitmapWidth) {
         final int position = OverlayLayoutParams.getMaskedValue(
             mPosition, POSITION_HORIZONTAL_DEFAULT, POSITION_HORIZONTAL_POSSIBLE);
         switch (position) {
             case OverlayLayoutParams.LEFT:
-                return 0 + ((int) (screenDpi * padding));
+                return 0 + getPaddingPixels();
             case OverlayLayoutParams.RIGHT:
-                return pCanvasWidth - 2 * pBitmapWidth - ((int) (screenDpi * padding));
+                return pCanvasWidth - 2 * pBitmapWidth - getPaddingPixels();
             case OverlayLayoutParams.CENTER_HORIZONTAL:
                 return (pCanvasWidth - 2 * pBitmapWidth) / 2;
         }
         throw new IllegalArgumentException("Unknown position value: " + mPosition);
     }
 
-    private int getTop(final int pCanvasHeight) {
+    protected int getTop(final int pCanvasHeight) {
         final int bitmapHeight = mBitmapZoomIn.getHeight();
         if (mIsPositioned) {
             return getPositionTop(pCanvasHeight, bitmapHeight);
@@ -240,21 +265,25 @@ public class ZoomButtonsOverlay extends Overlay {
         }
     }
 
-    private int getPositionTop(final int pCanvasHeight, final int pBitmapHeight) {
+    protected int getPaddingPixels() {
+        return ((int) (screenDpi * padding));
+    }
+
+    protected int getPositionTop(final int pCanvasHeight, final int pBitmapHeight) {
         final int position = OverlayLayoutParams.getMaskedValue(
             mPosition, POSITION_VERTICAL_DEFAULT, POSITION_VERTICAL_POSSIBLE);
         switch (position) {
             case OverlayLayoutParams.TOP:
                 return 0 + ((int) (screenDpi * padding));
             case OverlayLayoutParams.BOTTOM:
-                return pCanvasHeight - pBitmapHeight - ((int) (screenDpi * padding));
+                return pCanvasHeight - pBitmapHeight - getPaddingPixels();
             case OverlayLayoutParams.CENTER_VERTICAL:
                 return (pCanvasHeight - pBitmapHeight) / 2;
         }
         throw new IllegalArgumentException("Unknown position value: " + mPosition);
     }
 
-    private static boolean onTouchEvent(
+    protected static boolean onTouchEvent(
         final int pX, final int pY,
         final int pLeft, final int pTop, final int pWidth, final int pHeight) {
         return pX >= pLeft && pX <= pLeft + pWidth && pY >= pTop && pY <= pTop + pHeight;

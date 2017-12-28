@@ -79,6 +79,7 @@ public abstract class BaseSampleFragment extends Fragment {
 		return mMapView;
 	}
 
+	/*
 	@Override
 	public void onPause(){
 		super.onPause();
@@ -89,7 +90,7 @@ public abstract class BaseSampleFragment extends Fragment {
 	public void onResume(){
 		super.onResume();
 		mMapView.onResume();
-	}
+	}*/
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {

@@ -225,7 +225,7 @@ public class StarterMapFragment extends Fragment implements OpenStreetMapConstan
           this.mLocationOverlay.disableMyLocation();
 
 
-         mMapView.onPause();
+          mMapView.onPause();
           super.onPause();
      }
 
