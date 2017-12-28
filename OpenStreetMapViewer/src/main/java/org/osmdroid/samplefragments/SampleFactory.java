@@ -20,6 +20,7 @@ import org.osmdroid.samplefragments.cache.SampleSqliteOnly;
 import org.osmdroid.samplefragments.animations.AnimatedMarkerTimer;
 import org.osmdroid.samplefragments.data.AsyncTaskDemoFragment;
 import org.osmdroid.samplefragments.data.SampleRace;
+import org.osmdroid.samplefragments.drawing.DrawCircle10km;
 import org.osmdroid.samplefragments.drawing.DrawPolygonHoles;
 import org.osmdroid.samplefragments.drawing.DrawPolygonWithArrows;
 import org.osmdroid.samplefragments.drawing.DrawPolygonWithoutVerticalWrapping;
@@ -61,6 +62,7 @@ import org.osmdroid.samplefragments.layouts.SampleSplitScreen;
 import org.osmdroid.samplefragments.layouts.ScaleBarOnBottom;
 import org.osmdroid.samplefragments.layouts.StreetAddressFragment;
 import org.osmdroid.samplefragments.location.SampleCustomIconDirectedLocationOverlay;
+import org.osmdroid.samplefragments.location.SampleCustomMyLocation;
 import org.osmdroid.samplefragments.location.SampleFollowMe;
 import org.osmdroid.samplefragments.location.SampleHeadingCompassUp;
 import org.osmdroid.samplefragments.location.SampleMyLocationWithClick;
@@ -269,6 +271,9 @@ public final class SampleFactory implements ISampleFactory {
 
         if (Build.VERSION.SDK_INT >= 9)
             mSamples.add(StreetAddressFragment.class);  //map in a list view
+
+        mSamples.add(SampleCustomMyLocation.class);
+        mSamples.add(DrawCircle10km.class);
     }
 
     public void addSample(Class<? extends BaseSampleFragment> clz) {

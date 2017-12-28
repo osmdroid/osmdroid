@@ -49,6 +49,12 @@ public class Bug512CacheManagerWp extends BaseSampleFragment implements CacheMan
 
     CacheManager.CacheManagerTask downloadingTask=null;
 
+    @Override
+    public boolean skipOnCiTests(){
+        return false;
+    }
+
+    @Override
     public void runTestProcedures() throws Exception{
         final CacheManager mgr = new CacheManager(mMapView);
         final ArrayList<GeoPoint> pts= new ArrayList<>();

@@ -132,11 +132,13 @@ public class MinimapOverlay extends TilesOverlay {
 		setProjection(osmv.getProjection().getOffspring(zoomLevel, getCanvasRect()));
 		getProjection().getMercatorViewPort(mViewPort);
 		// Draw a solid background where the minimap will be drawn with a 2 pixel inset
+		osmv.getProjection().save(c, false, true);
 		c.drawRect(
 				getCanvasRect().left - 2, getCanvasRect().top - 2,
 				getCanvasRect().right + 2, getCanvasRect().bottom + 2, mPaint);
 
 		super.drawTiles(c, getProjection(), getProjection().getZoomLevel(), mViewPort);
+		osmv.getProjection().restore(c, true);
 	}
 
 	@Override

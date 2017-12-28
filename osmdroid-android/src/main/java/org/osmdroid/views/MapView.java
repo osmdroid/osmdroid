@@ -204,8 +204,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		if (Build.VERSION.SDK_INT >= 16)
 			this.setHasTransientState(true);
 
-		mZoomButtonsOverlay = new ZoomButtonsOverlay(this);
-		mZoomButtonsOverlay.setEnabled(false);
+		setBuiltInZoomControls(true);
 	}
 
 	/**
@@ -895,9 +894,6 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 			Log.d(IMapView.LOGTAG,"dispatchTouchEvent(" + event + ")");
 		}
 
-		if (mZoomButtonsOverlay.onTouchEvent(event, this)) {
-			return true;
-		}
 
 		// Get rotated event for some touch listeners.
 		MotionEvent rotatedEvent = rotateTouchEvent(event);
@@ -1025,7 +1021,6 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		try {
 			/* Draw all Overlays. */
 			this.getOverlayManager().onDraw(c, this);
-			mZoomButtonsOverlay.draw(c, this, false);
 			// Restore the canvas matrix
 			getProjection().restore(c, false);
 			super.dispatchDraw(c);
@@ -1163,26 +1158,67 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	 *                     and {@link ZoomButtonsOverlay#POSITION_VERTICAL_POSSIBLE}
 	 */
 	public void setBuiltInZoomControls(final boolean on, final int pPosition) {
-		mZoomButtonsOverlay.setEnabled(on);
-		mZoomButtonsOverlay.setPosition(pPosition);
-		checkZoomButtons();
+		if (on) {
+			if (mZoomButtonsOverlay==null) {
+				mZoomButtonsOverlay = new ZoomButtonsOverlay(this);
+				mZoomButtonsOverlay.setEnabled(true);
+				mZoomButtonsOverlay.setPosition(pPosition);
+				this.getOverlayManager().add(mZoomButtonsOverlay);
+
+				checkZoomButtons();
+			}
+		} else {
+			if (mZoomButtonsOverlay!=null) {
+				this.getOverlayManager().remove(mZoomButtonsOverlay);
+				mZoomButtonsOverlay.onDetach(this);
+				mZoomButtonsOverlay = null;
+			}
+		}
+		invalidate();
 	}
 
 	/**
+	 * See https://github.com/osmdroid/osmdroid/issues/825 for more information.
+	 * The default setup should now draw, the tiles overlay, followed by zoom controls, then everything else.
+	 * This will change if the built in zoom controls are turned off, then on again, which will paint the zoom buttons last.
 	 * @since 6.0.0
 	 * @param pLeft Explicit left pixel of the first zoom button
 	 * @param pTop Explicit top pixel of both zoom buttons
 	 */
 	public void setBuiltInZoomControls(final boolean on, final int pLeft, final int pTop) {
-		mZoomButtonsOverlay.setEnabled(on);
-		mZoomButtonsOverlay.setLeftTop(pLeft, pTop);
-		checkZoomButtons();
+		if (on) {
+			if (mZoomButtonsOverlay==null) {
+				mZoomButtonsOverlay = new ZoomButtonsOverlay(this);
+			}
+			mZoomButtonsOverlay.setEnabled(true);
+			mZoomButtonsOverlay.setLeftTop(pLeft, pTop);
+			this.getOverlayManager().add(mZoomButtonsOverlay);
+			checkZoomButtons();
+
+		} else {
+			if (mZoomButtonsOverlay!=null) {
+				this.getOverlayManager().remove(mZoomButtonsOverlay);
+				mZoomButtonsOverlay.onDetach(this);
+				mZoomButtonsOverlay = null;
+			}
+		}
+		invalidate();
 	}
 
+	/**
+	 * See https://github.com/osmdroid/osmdroid/issues/825 for more information.
+	 * The default setup should now draw, the tiles overlay, followed by zoom controls, then everything else.
+	 * This will change if the built in zoom controls are turned off, then on again, which will paint the zoom buttons last.
+	 * @param on
+	 */
 	public void setMultiTouchControls(final boolean on) {
 		mMultiTouchController = on ? new MultiTouchController<Object>(this, false) : null;
 	}
 
+	/**
+	 * @since 6.0.0
+	 * @return
+	 */
 	public boolean isHorizontalMapRepetitionEnabled() {
 		return horizontalMapRepetitionEnabled;
 	}
@@ -1191,6 +1227,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	 * If horizontalMapRepetition is enabled the map repeats in left/right direction and scrolling wraps around the
 	 * edges. If disabled the map is only shown once for the horizontal direction. Default is true.
 	 * @param horizontalMapRepetitionEnabled
+	 * @since 6.0.0
 	 */
 	public void setHorizontalMapRepetitionEnabled(boolean horizontalMapRepetitionEnabled) {
 		this.horizontalMapRepetitionEnabled = horizontalMapRepetitionEnabled;
@@ -1199,6 +1236,10 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		this.invalidate();
 	}
 
+	/**
+	 * @since 6.0.0
+	 * @return
+	 */
 	public boolean isVerticalMapRepetitionEnabled() {
 		return verticalMapRepetitionEnabled;
 	}
@@ -1207,6 +1248,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	 * If horizontalMapRepetition is enabled the map repeats in top/bottom direction and scrolling wraps around the
 	 * edges. If disabled the map is only shown once for the vertical direction. Default is true.
 	 * @param verticalMapRepetitionEnabled
+	 * @since 6.0.0
 	 */
 	public void setVerticalMapRepetitionEnabled(boolean verticalMapRepetitionEnabled) {
 		this.verticalMapRepetitionEnabled = verticalMapRepetitionEnabled;
