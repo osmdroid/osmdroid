@@ -6,7 +6,6 @@ import android.view.MotionEvent;
 
 import org.osmdroid.api.IMapView;
 import org.osmdroid.config.Configuration;
-import org.osmdroid.util.CircleUtil;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Overlay;
@@ -61,7 +60,7 @@ public class CirclePlottingOverlay extends Overlay {
         if (pt.getLatitude() < -85.05112877980659)
             pt.setLatitude(-85.05112877980659);
 
-        List<GeoPoint> circle = CircleUtil.getCircle(pt, distanceKm,180);
+        List<GeoPoint> circle = Polygon.pointsAsCircle(pt, distanceKm);
         Polygon p = new Polygon();
         p.setPoints(circle);
         p.setTitle("A circle");
