@@ -2,25 +2,24 @@ package org.osmdroid.samplefragments.drawing;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BlurMaskFilter;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.EmbossMaskFilter;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Point;
-import android.graphics.PorterDuff;
 import android.util.AttributeSet;
-import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
-import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
+import org.osmdroid.views.overlay.MilestoneBitmapDisplayer;
+import org.osmdroid.views.overlay.MilestoneManager;
+import org.osmdroid.views.overlay.MilestonePathDisplayer;
+import org.osmdroid.views.overlay.MilestonePixelDistanceLister;
 import org.osmdroid.views.overlay.Polygon;
 import org.osmdroid.views.overlay.Polyline;
 
@@ -50,14 +49,11 @@ public class CustomPaintingSurface extends View {
     private Bitmap  mBitmap;
     private Canvas  mCanvas;
     private Path    mPath;
-    private Paint   mBitmapPaint;
     private MapView map;
     private List<Point> pts = new ArrayList<>();
-    private EmbossMaskFilter mEmboss;
     private Paint mPaint;
     private float mX, mY;
     private static final float TOUCH_TOLERANCE = 4;
-    private BlurMaskFilter mBlur;
 
     transient Polygon lastPolygon=null;
 
@@ -65,9 +61,6 @@ public class CustomPaintingSurface extends View {
     public CustomPaintingSurface(Context context, AttributeSet attrs) {
         super(context,attrs);
         mPath = new Path();
-
-        mBitmapPaint = new Paint(Paint.DITHER_FLAG);
-
     }
 
 
@@ -92,10 +85,6 @@ public class CustomPaintingSurface extends View {
         mPaint.setStrokeCap(Paint.Cap.ROUND);
         mPaint.setStrokeWidth(12);
 
-        mEmboss = new EmbossMaskFilter(new float[] { 1, 1, 1 },
-            0.4f, 6, 3.5f);
-
-        mBlur = new BlurMaskFilter(8, BlurMaskFilter.Blur.NORMAL);
         canvas.drawPath(mPath, mPaint);
     }
     public void init(MapView mapView) {
@@ -135,9 +124,9 @@ public class CustomPaintingSurface extends View {
                 //only plot a line unless there's at least one item
                 switch (drawingMode) {
                     case Polyline:
+                        final int color = Color.BLACK;
                         Polyline line = new Polyline();
                         line.setPoints(geoPoints);
-                        line.setDrawDirectionalArrows(withArrows, true);
                         line.setOnClickListener(new Polyline.OnClickListener() {
                             @Override
                             public boolean onClick(Polyline polyline, MapView mapView, GeoPoint eventPos) {
@@ -145,16 +134,44 @@ public class CustomPaintingSurface extends View {
                                 return false;
                             }
                         });
+
+                        line.setColor(color);
+
+                        if (withArrows) {
+                            final Paint arrowPaint = new Paint();
+                            arrowPaint.setColor(color);
+                            arrowPaint.setStrokeWidth(10.0f);
+                            arrowPaint.setStyle(Paint.Style.FILL_AND_STROKE);
+                            arrowPaint.setAntiAlias(true);
+                            final Path arrowPath = new Path(); // a simple arrow towards the right
+                            arrowPath.moveTo(- 10, - 10);
+                            arrowPath.lineTo(10, 0);
+                            arrowPath.lineTo(- 10, 10);
+                            arrowPath.close();
+                            final List<MilestoneManager> managers = new ArrayList<>();
+                            managers.add(new MilestoneManager(
+                                    new MilestonePixelDistanceLister(50, 50),
+                                    new MilestonePathDisplayer(0, true, arrowPath, arrowPaint)
+                            ));
+                            line.setMilestoneManagers(managers);
+                        }
                         map.getOverlayManager().add(line);
                         lastPolygon=null;
                         break;
                     case Polygon:
                         Polygon polygon = new Polygon();
                         polygon.setFillColor(Color.argb(75, 255,0,0));
-                        geoPoints.add(geoPoints.get(0));    //forces the loop to close
                         polygon.setPoints(geoPoints);
                         polygon.setTitle("A sample polygon");
-
+                        if (withArrows) {
+                            final Bitmap bitmap = BitmapFactory.decodeResource(getResources(), org.osmdroid.library.R.drawable.direction_arrow);
+                            final List<MilestoneManager> managers = new ArrayList<>();
+                            managers.add(new MilestoneManager(
+                                    new MilestonePixelDistanceLister(20, 200),
+                                    new MilestoneBitmapDisplayer(90, true, bitmap, bitmap.getWidth() / 2, bitmap.getHeight() / 2)
+                            ));
+                            polygon.setMilestoneManagers(managers);
+                        }
                         map.getOverlayManager().add(polygon);
                         lastPolygon=polygon;
                         break;
@@ -163,9 +180,8 @@ public class CustomPaintingSurface extends View {
                             List<List<GeoPoint>> holes = new ArrayList<>();
                             holes.add(geoPoints);
                             lastPolygon.setHoles(holes);
-
-
                         }
+                        break;
                 }
 
                 map.invalidate();

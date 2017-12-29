@@ -37,13 +37,14 @@ import java.util.List;
 public class Polygon extends OverlayWithIW {
 
 	private final Path mPath = new Path(); //Path drawn is kept for click detection
-	private ArrowsLinearRing mOutline = new ArrowsLinearRing(mPath);
+	private LinearRing mOutline = new LinearRing(mPath);
 	private ArrayList<LinearRing> mHoles = new ArrayList<>();
 	private String id=null;
-	
+
 	/** Paint settings. */
-	protected Paint mFillPaint;
-	protected Paint mOutlinePaint;
+	private Paint mFillPaint;
+	private Paint mOutlinePaint;
+	private List<MilestoneManager> mMilestoneManagers = new ArrayList<>();
 
 	// ===========================================================
 	// Constructors
@@ -82,12 +83,12 @@ public class Polygon extends OverlayWithIW {
 	public float getStrokeWidth() {
 		return mOutlinePaint.getStrokeWidth();
 	}
-	
+
 	/** @return the Paint used for the outline. This allows to set advanced Paint settings. */
 	public Paint getOutlinePaint(){
 		return mOutlinePaint;
 	}
-	
+
 	/**
 	 * @return a copy of the list of polygon's vertices. 
 	 */
@@ -98,7 +99,7 @@ public class Polygon extends OverlayWithIW {
 	public boolean isVisible(){
 		return isEnabled();
 	}
-	
+
 	public void setFillColor(final int fillColor) {
 		mFillPaint.setColor(fillColor);
 	}
@@ -106,12 +107,11 @@ public class Polygon extends OverlayWithIW {
 	public void setStrokeColor(final int color) {
 		mOutlinePaint.setColor(color);
 	}
-	
+
 	public void setStrokeWidth(final float width) {
 		mOutlinePaint.setStrokeWidth(width);
-		mOutline.setStrokeWidth(width);
 	}
-	
+
 	public void setVisible(boolean visible){
 		setEnabled(visible);
 	}
@@ -213,7 +213,15 @@ public class Polygon extends OverlayWithIW {
 
 		mOutline.setClipArea(mapView);
 		final PointL offset = mOutline.buildPathPortion(pj, true, null);
-		
+		for (final MilestoneManager milestoneManager : mMilestoneManagers) {
+			milestoneManager.init();
+			milestoneManager.setDistances(mOutline.getDistances());
+			for (final PointL point : mOutline.getGatheredPoints()) {
+				milestoneManager.add(point.x, point.y);
+			}
+			milestoneManager.end();
+		}
+
 		for (LinearRing hole:mHoles){
 			hole.setClipArea(mapView);
 			hole.buildPathPortion(pj, true, offset);
@@ -223,7 +231,9 @@ public class Polygon extends OverlayWithIW {
 		canvas.drawPath(mPath, mFillPaint);
 		canvas.drawPath(mPath, mOutlinePaint);
 
-		mOutline.drawDirectionalArrows(canvas, mOutlinePaint);
+		for (final MilestoneManager milestoneManager : mMilestoneManagers) {
+			milestoneManager.draw(canvas);
+		}
 	}
 	
 	/** Important note: this function returns correct results only if the Polygon has been drawn before, 
@@ -280,30 +290,15 @@ public class Polygon extends OverlayWithIW {
 	}
 
 	/**
-	 * A directional arrow is a single arrow drawn in the middle of two points of a to
-	 * provide a visual cue for direction of movement between the two points.
-	 *
-	 * By default the arrows always point towards the lower index as the list of GeoPoints are
-	 * processed. The direction the arrows point can be inverted.
-	 *
-	 * @param drawDirectionalArrows enable or disable the feature. Cannot be null
+	 * @since 6.0.0
 	 */
-	public void setDrawDirectionalArrows(boolean drawDirectionalArrows) {
-		mOutline.setDrawDirectionalArrows(drawDirectionalArrows, null , mOutlinePaint.getStrokeWidth());
-	}
-
-	/**
-	 * A directional arrow is a single arrow drawn in the middle of two points to
-	 * provide a visual cue for direction of movement between the two points.
-	 *
-	 * By default the arrows always point towards the lower index as the list of GeoPoints are
-	 * processed. The direction the arrows point can be inverted.
-	 *
-	 * @param drawDirectionalArrows enable or disable the feature. Cannot be null
-	 * @param invertDirection invert the direction the arrows are drawn. Use null for default value
-	 */
-	public void setDrawDirectionalArrows(
-			boolean drawDirectionalArrows, Boolean invertDirection) {
-		mOutline.setDrawDirectionalArrows(drawDirectionalArrows, invertDirection, mOutlinePaint.getStrokeWidth());
+	public void setMilestoneManagers(final List<MilestoneManager> pMilestoneManagers) {
+		if (pMilestoneManagers == null) {
+			if (mMilestoneManagers.size() > 0) {
+				mMilestoneManagers.clear();
+			}
+		} else {
+			mMilestoneManagers = pMilestoneManagers;
+		}
 	}
 }
