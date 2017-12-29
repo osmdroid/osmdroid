@@ -18,10 +18,8 @@ import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
 import org.osmdroid.views.overlay.MilestoneBitmapDisplayer;
 import org.osmdroid.views.overlay.MilestoneManager;
-import org.osmdroid.views.overlay.MilestoneMiddleLister;
 import org.osmdroid.views.overlay.MilestonePathDisplayer;
 import org.osmdroid.views.overlay.MilestonePixelDistanceLister;
-import org.osmdroid.views.overlay.MilestoneVertexLister;
 import org.osmdroid.views.overlay.Polygon;
 import org.osmdroid.views.overlay.Polyline;
 
