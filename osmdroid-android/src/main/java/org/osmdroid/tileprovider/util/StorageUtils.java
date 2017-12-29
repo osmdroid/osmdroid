@@ -45,7 +45,7 @@ public class StorageUtils {
         public boolean readonly;
         public final int display_number;
         public long freeSpace = 0;
-        String displayName="";
+        String displayName = "";
 
         public StorageInfo(String path, boolean internal, boolean readonly, int display_number) {
             this.path = path;
@@ -79,21 +79,22 @@ public class StorageUtils {
             if (readonly) {
                 res.append(" (Read only)");
             }
-            displayName= res.toString();
+            displayName = res.toString();
         }
 
         public String getDisplayName() {
             return displayName;
         }
 
-        public void setDisplayName(String val){
-            displayName=val;
+        public void setDisplayName(String val) {
+            displayName = val;
         }
     }
 
 
     /**
      * returns all storage paths, writable or not
+     *
      * @return
      */
     public static List<StorageInfo> getStorageList() {
@@ -172,8 +173,8 @@ public class StorageUtils {
                             && !line.contains("/dev/mapper")
                             && !line.contains("tmpfs")) {
                             paths.add(mount_point);
-                           // if (isWritable(new File(mount_point+ File.separator)))
-                                list.add(new StorageInfo(mount_point, false, readonly, cur_display_number++));
+                            // if (isWritable(new File(mount_point+ File.separator)))
+                            list.add(new StorageInfo(mount_point, false, readonly, cur_display_number++));
                         }
                     }
                 }
@@ -199,14 +200,14 @@ public class StorageUtils {
         Iterator<File> iterator = allStorageLocationsRevised.iterator();
         while (iterator.hasNext()) {
             File next = iterator.next();
-            boolean found=false;
-            for (int i=0; i < list.size(); i++){
-                if (list.get(i).path.equals(next.getAbsolutePath())){
-                    found=true;
+            boolean found = false;
+            for (int i = 0; i < list.size(); i++) {
+                if (list.get(i).path.equals(next.getAbsolutePath())) {
+                    found = true;
                     break;
                 }
             }
-            if (!found){
+            if (!found) {
                 list.add(new StorageInfo(next.getAbsolutePath(), false, false, -1));
             }
         }
@@ -249,7 +250,7 @@ public class StorageUtils {
         //http://stackoverflow.com/questions/21230629/getfilesdir-vs-environment-getdatadirectory
         try {
             return Environment.getExternalStorageDirectory();
-        }catch (Exception ex) {
+        } catch (Exception ex) {
             //trap for android studio layout editor and some for certain devices
             //see https://github.com/osmdroid/osmdroid/issues/508
             return null;
@@ -353,11 +354,11 @@ public class StorageUtils {
         List<String> mVold = new ArrayList<String>(10);
         mMounts.add("/mnt/sdcard");
         mVold.add("/mnt/sdcard");
-
+        Scanner scanner = null;
         try {
             File mountFile = new File("/proc/mounts");
             if (mountFile.exists()) {
-                Scanner scanner = new Scanner(mountFile);
+                scanner = new Scanner(mountFile);
                 while (scanner.hasNext()) {
                     String line = scanner.nextLine();
                     if (line.startsWith("/dev/block/vold/")) {
@@ -373,12 +374,19 @@ public class StorageUtils {
             }
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            if (scanner != null)
+                try {
+                    scanner.close();
+                } catch (Exception ex) {
+                }
+            scanner = null;
         }
 
         try {
             File voldFile = new File("/system/etc/vold.fstab");
             if (voldFile.exists()) {
-                Scanner scanner = new Scanner(voldFile);
+                scanner = new Scanner(voldFile);
                 while (scanner.hasNext()) {
                     String line = scanner.nextLine();
                     if (line.startsWith("dev_mount")) {
@@ -394,6 +402,13 @@ public class StorageUtils {
             }
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            if (scanner != null)
+                try {
+                    scanner.close();
+                } catch (Exception ex) {
+                }
+            scanner = null;
         }
 
 
@@ -470,7 +485,7 @@ public class StorageUtils {
         Set<File> map = new HashSet<>();
         String primary_sd = System.getenv("EXTERNAL_STORAGE");
         if (primary_sd != null) {
-            File t = new File(primary_sd+ File.separator);
+            File t = new File(primary_sd + File.separator);
             if (isWritable(t)) {
                 map.add(t);
             }
@@ -488,7 +503,7 @@ public class StorageUtils {
         }
 
 
-        if (Environment.getExternalStorageDirectory()!=null) {
+        if (Environment.getExternalStorageDirectory() != null) {
             File t = Environment.getExternalStorageDirectory();
             if (isWritable(t)) {
                 map.add(t);
@@ -501,10 +516,11 @@ public class StorageUtils {
         mMounts.add("/mnt/sdcard");
         mVold.add("/mnt/sdcard");
 
+        Scanner scanner = null;
         try {
             File mountFile = new File("/proc/mounts");
             if (mountFile.exists()) {
-                Scanner scanner = new Scanner(mountFile);
+                scanner = new Scanner(mountFile);
                 while (scanner.hasNext()) {
                     String line = scanner.nextLine();
                     if (line.startsWith("/dev/block/vold/")) {
@@ -520,12 +536,19 @@ public class StorageUtils {
             }
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            if (scanner != null)
+                try {
+                    scanner.close();
+                } catch (Exception ex) {
+                }
+            scanner = null;
         }
 
         try {
             File voldFile = new File("/system/etc/vold.fstab");
             if (voldFile.exists()) {
-                Scanner scanner = new Scanner(voldFile);
+                scanner = new Scanner(voldFile);
                 while (scanner.hasNext()) {
                     String line = scanner.nextLine();
                     if (line.startsWith("dev_mount")) {
@@ -541,6 +564,13 @@ public class StorageUtils {
             }
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            if (scanner != null)
+                try {
+                    scanner.close();
+                } catch (Exception ex) {
+                }
+            scanner = null;
         }
 
 

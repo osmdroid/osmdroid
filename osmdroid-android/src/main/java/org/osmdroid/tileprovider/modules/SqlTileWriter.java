@@ -135,7 +135,7 @@ public class SqlTileWriter implements IFilesystemCache {
                 Log.d(IMapView.LOGTAG, "Local cache purging " + tilesToKill + " tiles.");
                 if (tilesToKill > 0)
                     try {
-                        db.execSQL("DELETE FROM " + TABLE + " WHERE " + COLUMN_KEY + " in (SELECT " + COLUMN_KEY + " FROM " + TABLE + " ORDER BY " + COLUMN_EXPIRES + " DESC LIMIT " + tilesToKill + ")");
+                        db.execSQL("DELETE FROM " + TABLE + " WHERE " + COLUMN_KEY + " in (SELECT " + COLUMN_KEY + " FROM " + TABLE + " ORDER BY " + COLUMN_EXPIRES + " ASC LIMIT " + tilesToKill + ")");
                     } catch (Throwable t) {
                         Log.e(IMapView.LOGTAG, "error purging tiles from the tile cache", t);
                     }

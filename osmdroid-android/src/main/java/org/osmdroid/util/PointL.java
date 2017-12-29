@@ -41,6 +41,14 @@ public class PointL {
     /**
      * @since 6.0.0
      */
+    public final void offset(long dx, long dy) {
+        x += dx;
+        y += dy;
+    }
+
+    /**
+     * @since 6.0.0
+     */
     @Override
     public String toString() {
         return "PointL(" + x + ", " + y + ")";

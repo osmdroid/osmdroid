@@ -124,8 +124,4 @@ public class Bug419Zoom extends BaseSampleFragment implements View.OnClickListen
             t.printStackTrace();
         }
     }
-
-    public boolean skipOnCiTests(){
-        return true;
-    }
 }

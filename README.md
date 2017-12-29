@@ -54,7 +54,8 @@ If you're interesting in trying it out, using the following:
 repositories {
     mavenCentral()
     maven{
-        url 'https://oss.sonatype.org/service/local/repositories/snapshots'
+        url  'https://oss.sonatype.org/content/repositories/snapshots/'
+        name 'OSS-Sonatype'
     }
 }
 dependencies {

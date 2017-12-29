@@ -221,6 +221,11 @@ public class SampleOsmPath extends BaseSampleFragment implements MapListener {
 	}
 
 	@Override
+	public boolean skipOnCiTests(){
+		return true;
+	}
+
+	@Override
 	public void runTestProcedures(){
 		final GeoPoint geoPoint = new GeoPoint(40.886788, -73.959232);
 		while (mMapView.getZoomLevelDouble() < mMapView.getMaxZoomLevel()){

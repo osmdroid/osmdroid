@@ -105,9 +105,7 @@ public class CopyrightOverlay extends Overlay {
     @Override
     public void draw(Canvas canvas, MapView map, boolean shadow) {
         if (shadow) return;
-        if (map.isAnimating()) {
-            return;
-        }
+
 
         if (map.getTileProvider().getTileSource().getCopyrightNotice() == null ||
             map.getTileProvider().getTileSource().getCopyrightNotice().length() == 0)

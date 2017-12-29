@@ -130,13 +130,6 @@ public class MapsforgeTileProviderSample extends BaseSampleFragment {
         }
     }
 
-
-    @Override
-    public boolean skipOnCiTests() {
-        //FIXME temporary fix until we iron out what is leaking on this
-        return false;
-    }
-
     @Override
     public void onPause() {
         super.onPause();
