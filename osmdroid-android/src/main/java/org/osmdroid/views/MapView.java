@@ -1170,8 +1170,10 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	// ===========================================================
 
 	private void checkZoomButtons() {
-		mZoomButtonsOverlay.setZoomInEnabled(canZoomIn());
-		mZoomButtonsOverlay.setZoomOutEnabled(canZoomOut());
+		if (mZoomButtonsOverlay!=null) {
+			mZoomButtonsOverlay.setZoomInEnabled(canZoomIn());
+			mZoomButtonsOverlay.setZoomOutEnabled(canZoomOut());
+		}
 	}
 
 	public void setBuiltInZoomControls(final boolean on) {

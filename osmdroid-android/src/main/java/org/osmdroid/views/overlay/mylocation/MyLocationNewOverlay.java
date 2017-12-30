@@ -148,9 +148,9 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 	}
 	@Override
 	public void onPause(){
-		super.onPause();
 		wasEnabledOnPause=mIsFollowing;
 		this.disableMyLocation();
+		super.onPause();
 	}
 
 	@Override

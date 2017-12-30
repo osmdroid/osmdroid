@@ -98,9 +98,9 @@ public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOr
 
 	@Override
 	public void onPause(){
-		super.onPause();
 		wasEnabledOnPause = mIsCompassEnabled;
 		this.disableCompass();
+		super.onPause();
 	}
 
 	@Override

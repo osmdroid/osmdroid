@@ -103,6 +103,7 @@ public class ZoomButtonsOverlay extends Overlay {
     }
 
     public void resetTimer() {
+        //TODO should also reset this with orientation changes
         lastMovement = System.currentTimeMillis();
         Log.d(IMapView.LOGTAG, "ZoomButtons resettimer");
         if (!this.visible) {
@@ -209,21 +210,25 @@ public class ZoomButtonsOverlay extends Overlay {
     @Override
     public boolean onSingleTapConfirmed(MotionEvent event, MapView mapView) {
         if (isEnabled()) {
-            final int x = (int) event.getX();
-            final int y = (int) event.getY();
+            final int x = (int) event.getRawX();
+            final int y = (int) event.getRawY();
             if (mZoomInEnabled &&
                 onTouchEvent(
                     x, y,
-                    getLeft(true, mapView.getWidth()), getTop(mapView.getHeight()),
-                    mBitmapZoomIn.getWidth(), mBitmapZoomIn.getHeight())) {
+                    getLeft(true, mapView.getWidth()),
+                    getTop(mapView.getHeight() - getPaddingPixels()),
+                    mBitmapZoomIn.getWidth() + getPaddingPixels(),
+                    mBitmapZoomIn.getHeight() + getPaddingPixels())) {
                 mapView.getController().zoomIn();
                 return true;
             }
             if (mZoomOutEnabled &&
                 onTouchEvent(
                     x, y,
-                    getLeft(false, mapView.getWidth()), getTop(mapView.getHeight()),
-                    mBitmapZoomOut.getWidth(), mBitmapZoomOut.getHeight())) {
+                    getLeft(false, mapView.getWidth()),
+                    getTop(mapView.getHeight() - getPaddingPixels()),
+                    mBitmapZoomOut.getWidth() + getPaddingPixels(),
+                    mBitmapZoomOut.getHeight() + getPaddingPixels())) {
                 mapView.getController().zoomOut();
                 return true;
             }
