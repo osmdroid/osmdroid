@@ -296,6 +296,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		return getProjection().getBoundingBox();
 	}
 
+
 	/**
 	 * Gets the current bounds of the screen in <I>screen coordinates</I>.
 	 */
@@ -846,8 +847,35 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		return mLayoutOccurred;
 	}
 
+	@Override
+	public void onAttachedToWindow(){
+		super.onAttachedToWindow();
+		if (mZoomButtonsOverlay!=null)
+			mZoomButtonsOverlay.onAttach(this);
+	}
+
+	/**
+	 * activities/fragments using osmdroid should call this to release resources, pause gps, sensors, timers, etc
+	 * @since 6.0.0
+	 */
+	public void onPause(){
+		this.getOverlayManager().onPause();
+	}
+
+	/**
+	 * activities/fragments using osmdroid should call this to release resources, pause gps, sensors, timers, etc
+	 * @since 6.0.0
+	 */
+	public void onResume(){
+		this.getOverlayManager().onResume();
+		if (mZoomButtonsOverlay!=null)
+			mZoomButtonsOverlay.resetTimer();
+	}
+
 	public void onDetach() {
 		this.getOverlayManager().onDetach(this);
+		if (mZoomButtonsOverlay!=null)
+			mZoomButtonsOverlay.onDetach(this);
 		mTileProvider.detach();
 		mTileProvider.clearTileCache();
 
@@ -1142,8 +1170,10 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	// ===========================================================
 
 	private void checkZoomButtons() {
-		mZoomButtonsOverlay.setZoomInEnabled(canZoomIn());
-		mZoomButtonsOverlay.setZoomOutEnabled(canZoomOut());
+		if (mZoomButtonsOverlay!=null) {
+			mZoomButtonsOverlay.setZoomInEnabled(canZoomIn());
+			mZoomButtonsOverlay.setZoomOutEnabled(canZoomOut());
+		}
 	}
 
 	public void setBuiltInZoomControls(final boolean on) {
@@ -1307,6 +1337,8 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		@Override
 		public boolean onDown(final MotionEvent e) {
 
+			if(mZoomButtonsOverlay!=null)
+				mZoomButtonsOverlay.resetTimer();
 			// Stop scrolling if we are in the middle of a fling!
 			if (mIsFlinging) {
 				if (mScroller!=null)	//fix for edit mode in the IDE
@@ -1324,11 +1356,13 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		@Override
 		public boolean onFling(final MotionEvent e1, final MotionEvent e2,
 					final float velocityX, final float velocityY) {
-	            	if (!enableFling || pauseFling) {
-	                	// issue 269, if fling occurs during zoom changes, pauseFling is equals to true, so fling is canceled. But need to reactivate fling for next time.
-	                	pauseFling = false;
-	                	return false;
-	            	}
+			if(mZoomButtonsOverlay!=null)
+				mZoomButtonsOverlay.resetTimer();
+			if (!enableFling || pauseFling) {
+				// issue 269, if fling occurs during zoom changes, pauseFling is equals to true, so fling is canceled. But need to reactivate fling for next time.
+				pauseFling = false;
+				return false;
+			}
 
 			if (MapView.this.getOverlayManager()
 					.onFling(e1, e2, velocityX, velocityY, MapView.this)) {
@@ -1346,6 +1380,8 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 		@Override
 		public void onLongPress(final MotionEvent e) {
+			if(mZoomButtonsOverlay!=null)
+				mZoomButtonsOverlay.resetTimer();
 			if (mMultiTouchController != null && mMultiTouchController.isPinching()) {
 				return;
 			}
@@ -1355,6 +1391,8 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		@Override
 		public boolean onScroll(final MotionEvent e1, final MotionEvent e2, final float distanceX,
 				final float distanceY) {
+			if(mZoomButtonsOverlay!=null)
+				mZoomButtonsOverlay.resetTimer();
 			if (MapView.this.getOverlayManager().onScroll(e1, e2, distanceX, distanceY,
 					MapView.this)) {
 				return true;
@@ -1366,11 +1404,15 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 		@Override
 		public void onShowPress(final MotionEvent e) {
+			if(mZoomButtonsOverlay!=null)
+				mZoomButtonsOverlay.resetTimer();
 			MapView.this.getOverlayManager().onShowPress(e, MapView.this);
 		}
 
 		@Override
 		public boolean onSingleTapUp(final MotionEvent e) {
+			if(mZoomButtonsOverlay!=null)
+				mZoomButtonsOverlay.resetTimer();
 			if (MapView.this.getOverlayManager().onSingleTapUp(e, MapView.this)) {
 				return true;
 			}
@@ -1383,6 +1425,8 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	private class MapViewDoubleClickListener implements GestureDetector.OnDoubleTapListener {
 		@Override
 		public boolean onDoubleTap(final MotionEvent e) {
+			if(mZoomButtonsOverlay!=null)
+				mZoomButtonsOverlay.resetTimer();
 			if (MapView.this.getOverlayManager().onDoubleTap(e, MapView.this)) {
 				return true;
 			}
@@ -1395,6 +1439,8 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 		@Override
 		public boolean onDoubleTapEvent(final MotionEvent e) {
+			if(mZoomButtonsOverlay!=null)
+				mZoomButtonsOverlay.resetTimer();
 			if (MapView.this.getOverlayManager().onDoubleTapEvent(e, MapView.this)) {
 				return true;
 			}
@@ -1404,6 +1450,8 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 		@Override
 		public boolean onSingleTapConfirmed(final MotionEvent e) {
+			if(mZoomButtonsOverlay!=null)
+				mZoomButtonsOverlay.resetTimer();
 			if (MapView.this.getOverlayManager().onSingleTapConfirmed(e, MapView.this)) {
 				return true;
 			}

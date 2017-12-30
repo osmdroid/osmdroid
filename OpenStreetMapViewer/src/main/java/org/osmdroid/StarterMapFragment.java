@@ -225,6 +225,7 @@ public class StarterMapFragment extends Fragment implements OpenStreetMapConstan
           this.mLocationOverlay.disableMyLocation();
 
 
+          mMapView.onPause();
           super.onPause();
      }
 
@@ -261,6 +262,7 @@ public class StarterMapFragment extends Fragment implements OpenStreetMapConstan
                   this.mCompassOverlay.enableCompass();
               }
           }
+         mMapView.onResume();
      }
 
      @Override

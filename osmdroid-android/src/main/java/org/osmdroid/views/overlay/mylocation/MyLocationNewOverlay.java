@@ -94,7 +94,7 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 	private Matrix mMatrix = new Matrix();
 	private Rect mMyLocationRect = new Rect();
 	private Rect mMyLocationPreviousRect = new Rect();
-
+	private boolean wasEnabledOnPause=false;
 	// ===========================================================
 	// Constructors
 	// ===========================================================
@@ -137,6 +137,20 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 		mDirectionArrowCenterX = mDirectionArrowBitmap.getWidth() / 2.0f - 0.5f;
 		mDirectionArrowCenterY = mDirectionArrowBitmap.getHeight() / 2.0f - 0.5f;
 
+	}
+
+	@Override
+	public void onResume(){
+		super.onResume();
+		if (wasEnabledOnPause)
+			this.enableFollowLocation();
+		this.enableFollowLocation();
+	}
+	@Override
+	public void onPause(){
+		wasEnabledOnPause=mIsFollowing;
+		this.disableMyLocation();
+		super.onPause();
 	}
 
 	@Override
