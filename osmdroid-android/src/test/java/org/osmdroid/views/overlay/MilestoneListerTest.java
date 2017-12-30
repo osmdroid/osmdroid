@@ -3,13 +3,7 @@ package org.osmdroid.views.overlay;
 import junit.framework.Assert;
 
 import org.junit.Test;
-import org.osmdroid.util.PointAccepter;
-import org.osmdroid.util.PointL;
-import org.osmdroid.util.RectL;
-import org.osmdroid.util.SegmentClipper;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.osmdroid.views.overlay.milestones.MilestoneLister;
 
 /**
  * @since 6.0.0

@@ -11,6 +11,7 @@ import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.PointL;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
+import org.osmdroid.views.overlay.milestones.MilestoneManager;
 import org.osmdroid.views.util.constants.MathConstants;
 
 import java.util.ArrayList;

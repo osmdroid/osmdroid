@@ -11,12 +11,12 @@ import android.os.Bundle;
 
 import org.osmdroid.samplefragments.BaseSampleFragment;
 import org.osmdroid.util.GeoPoint;
-import org.osmdroid.views.overlay.MilestoneBitmapDisplayer;
-import org.osmdroid.views.overlay.MilestoneDisplayer;
-import org.osmdroid.views.overlay.MilestoneManager;
-import org.osmdroid.views.overlay.MilestoneMeterDistanceLister;
-import org.osmdroid.views.overlay.MilestonePathDisplayer;
-import org.osmdroid.views.overlay.MilestoneVertexLister;
+import org.osmdroid.views.overlay.milestones.MilestoneBitmapDisplayer;
+import org.osmdroid.views.overlay.milestones.MilestoneDisplayer;
+import org.osmdroid.views.overlay.milestones.MilestoneManager;
+import org.osmdroid.views.overlay.milestones.MilestoneMeterDistanceLister;
+import org.osmdroid.views.overlay.milestones.MilestonePathDisplayer;
+import org.osmdroid.views.overlay.milestones.MilestoneVertexLister;
 import org.osmdroid.views.overlay.Polyline;
 
 import java.util.ArrayList;

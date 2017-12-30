@@ -1,4 +1,4 @@
-package org.osmdroid.views.overlay;
+package org.osmdroid.views.overlay.milestones;
 
 import org.osmdroid.util.Distance;
 

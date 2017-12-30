@@ -16,10 +16,10 @@ import android.widget.Toast;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
-import org.osmdroid.views.overlay.MilestoneBitmapDisplayer;
-import org.osmdroid.views.overlay.MilestoneManager;
-import org.osmdroid.views.overlay.MilestonePathDisplayer;
-import org.osmdroid.views.overlay.MilestonePixelDistanceLister;
+import org.osmdroid.views.overlay.milestones.MilestoneBitmapDisplayer;
+import org.osmdroid.views.overlay.milestones.MilestoneManager;
+import org.osmdroid.views.overlay.milestones.MilestonePathDisplayer;
+import org.osmdroid.views.overlay.milestones.MilestonePixelDistanceLister;
 import org.osmdroid.views.overlay.Polygon;
 import org.osmdroid.views.overlay.Polyline;
 

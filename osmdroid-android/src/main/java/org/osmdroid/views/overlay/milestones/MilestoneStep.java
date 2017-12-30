@@ -1,4 +1,4 @@
-package org.osmdroid.views.overlay;
+package org.osmdroid.views.overlay.milestones;
 
 /**
  * A milestone step is a pixel position where a milestone should be displayed with an orientation
