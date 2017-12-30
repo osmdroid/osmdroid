@@ -19,8 +19,10 @@ import org.osmdroid.samplefragments.cache.SampleJumboCache;
 import org.osmdroid.samplefragments.cache.SampleSqliteOnly;
 import org.osmdroid.samplefragments.animations.AnimatedMarkerTimer;
 import org.osmdroid.samplefragments.data.AsyncTaskDemoFragment;
+import org.osmdroid.samplefragments.data.SampleRace;
 import org.osmdroid.samplefragments.drawing.DrawCircle10km;
 import org.osmdroid.samplefragments.drawing.DrawPolygonHoles;
+import org.osmdroid.samplefragments.drawing.DrawPolygonWithArrows;
 import org.osmdroid.samplefragments.drawing.DrawPolygonWithoutVerticalWrapping;
 import org.osmdroid.samplefragments.drawing.DrawPolygonWithoutWrapping;
 import org.osmdroid.samplefragments.drawing.DrawPolylineWithArrows;
@@ -86,6 +88,13 @@ import org.osmdroid.samplefragments.tilesources.SampleOpenSeaMap;
 import org.osmdroid.samplefragments.tilesources.SampleWMSSource;
 import org.osmdroid.samplefragments.tilesources.SampleWhackyColorFilter;
 import org.osmdroid.samplefragments.tilesources.SepiaToneTiles;
+import org.osmdroid.samplefragments.zoomctl.ZoomButtonsCenterBottom;
+import org.osmdroid.samplefragments.zoomctl.ZoomButtonsCenterCenter;
+import org.osmdroid.samplefragments.zoomctl.ZoomButtonsCenterTop;
+import org.osmdroid.samplefragments.zoomctl.ZoomButtonsLeftBottom;
+import org.osmdroid.samplefragments.zoomctl.ZoomButtonsLeftTop;
+import org.osmdroid.samplefragments.zoomctl.ZoomButtonsRightBottom;
+import org.osmdroid.samplefragments.zoomctl.ZoomButtonsRightTop;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -121,6 +130,7 @@ public final class SampleFactory implements ISampleFactory {
         mSamples.add(SampleFragmentXmlLayout.class);
         //4
         mSamples.add(SampleOsmPath.class);
+        mSamples.add(SampleRace.class);
         //5
         mSamples.add(SampleInvertedTiles_NightMode.class);
         //6
@@ -264,12 +274,22 @@ public final class SampleFactory implements ISampleFactory {
         mSamples.add(DrawPolygonWithoutVerticalWrapping.class);
         mSamples.add(SampleDrawPolylineWithoutVerticalWrapping.class);
         mSamples.add(DrawPolylineWithArrows.class);
+        mSamples.add(DrawPolygonWithArrows.class);
 
         if (Build.VERSION.SDK_INT >= 9)
             mSamples.add(StreetAddressFragment.class);  //map in a list view
 
         mSamples.add(SampleCustomMyLocation.class);
         mSamples.add(DrawCircle10km.class);
+
+
+        mSamples.add(ZoomButtonsCenterCenter.class);
+        mSamples.add(ZoomButtonsCenterBottom.class);
+        mSamples.add(ZoomButtonsCenterTop.class);
+        mSamples.add(ZoomButtonsLeftBottom.class);
+        mSamples.add(ZoomButtonsLeftTop.class);
+        mSamples.add(ZoomButtonsRightTop.class);
+        mSamples.add(ZoomButtonsRightBottom.class);
     }
 
     public void addSample(Class<? extends BaseSampleFragment> clz) {

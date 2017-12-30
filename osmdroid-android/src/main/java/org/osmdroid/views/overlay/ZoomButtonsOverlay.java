@@ -242,19 +242,19 @@ public class ZoomButtonsOverlay extends Overlay {
         return outLeft + (pInOrOut ? bitmapWidth + getPaddingPixels() : 0);
     }
 
-    protected int getPositionLeft(final int pCanvasWidth, final int pBitmapWidth) {
-        final int position = OverlayLayoutParams.getMaskedValue(
-            mPosition, POSITION_HORIZONTAL_DEFAULT, POSITION_HORIZONTAL_POSSIBLE);
-        switch (position) {
-            case OverlayLayoutParams.LEFT:
-                return 0 + getPaddingPixels();
-            case OverlayLayoutParams.RIGHT:
-                return pCanvasWidth - 2 * pBitmapWidth - getPaddingPixels();
-            case OverlayLayoutParams.CENTER_HORIZONTAL:
-                return (pCanvasWidth - 2 * pBitmapWidth) / 2;
-        }
-        throw new IllegalArgumentException("Unknown position value: " + mPosition);
-    }
+	protected int getPositionLeft(final int pCanvasWidth, final int pBitmapWidth) {
+		final int position = OverlayLayoutParams.getMaskedValue(
+				mPosition, POSITION_HORIZONTAL_DEFAULT, POSITION_HORIZONTAL_POSSIBLE);
+		switch(position) {
+			case OverlayLayoutParams.LEFT:
+				return 0 + getPaddingPixels();
+			case OverlayLayoutParams.RIGHT:
+				return pCanvasWidth - 2 * pBitmapWidth - (getPaddingPixels()*2);
+			case OverlayLayoutParams.CENTER_HORIZONTAL:
+				return (pCanvasWidth - 2 * pBitmapWidth) / 2;
+		}
+		throw new IllegalArgumentException("Unknown position value: " + mPosition);
+	}
 
     protected int getTop(final int pCanvasHeight) {
         final int bitmapHeight = mBitmapZoomIn.getHeight();

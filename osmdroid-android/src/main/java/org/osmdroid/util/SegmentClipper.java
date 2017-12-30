@@ -6,28 +6,26 @@ package org.osmdroid.util;
  * @author Fabrice Fontaine
  */
 
-public class SegmentClipper {
-
-    public interface SegmentClippable {
-        void init();
-        void lineTo(final long pX, final long pY);
-    }
+public class SegmentClipper implements PointAccepter{
 
     // for optimization reasons: avoiding to create objects all the time
     private final PointL mOptimIntersection = new PointL();
     private final PointL mOptimIntersection1 = new PointL();
     private final PointL mOptimIntersection2 = new PointL();
 
-    private final long mXMin;
-    private final long mYMin;
-    private final long mXMax;
-    private final long mYMax;
-    private final SegmentClippable mSegmentClippable;
+    private long mXMin;
+    private long mYMin;
+    private long mXMax;
+    private long mYMax;
+    private PointAccepter mPointAccepter;
     private final long[] cornerX = new long[4];
     private final long[] cornerY = new long[4];
+    private final PointL mPoint0 = new PointL();
+    private final PointL mPoint1 = new PointL();
+    private boolean mFirstPoint;
 
-    public SegmentClipper(final long pXMin, final long pYMin, final long pXMax, final long pYMax,
-                          final SegmentClippable pSegmentClippable) {
+    public void set(final long pXMin, final long pYMin, final long pXMax, final long pYMax,
+                    final PointAccepter pPointAccepter) {
         mXMin = pXMin;
         mYMin = pYMin;
         mXMax = pXMax;
@@ -36,78 +34,97 @@ public class SegmentClipper {
         cornerX[2] = cornerX[3] = mXMax;
         cornerY[0] = cornerY[2] = mYMin;
         cornerY[1] = cornerY[3] = mYMax;
-        mSegmentClippable = pSegmentClippable;
+        mPointAccepter = pPointAccepter;
     }
+
+    @Override
+    public void init() {
+        mFirstPoint = true;
+    }
+
+    @Override
+    public void add(final long pX, final long pY) {
+        mPoint1.set(pX, pY);
+        if (mFirstPoint) {
+            mFirstPoint = false;
+        } else {
+            clip(mPoint0.x, mPoint0.y, mPoint1.x, mPoint1.y);
+        }
+        mPoint0.set(mPoint1);
+    }
+
+    @Override
+    public void end() {}
 
     /**
      * Clip a segment into the clip area
      */
-    public void clip(final RectL pSegment) {
-        if (isInClipArea(pSegment.left, pSegment.top)) {
-            if (isInClipArea(pSegment.right, pSegment.bottom)) {
-                add(pSegment.left, pSegment.top);
-                add(pSegment.right, pSegment.bottom);
+    public void clip(final long pX0, final long pY0, final long pX1, final long pY1) {
+        if (isInClipArea(pX0, pY0)) {
+            if (isInClipArea(pX1, pY1)) {
+                nextVertex(pX0, pY0);
+                nextVertex(pX1, pY1);
                 return;
             }
-            if (intersection(pSegment)) {
-                add(pSegment.left, pSegment.top);
-                add(mOptimIntersection.x, mOptimIntersection.y);
-                add(clipX(pSegment.right), clipY(pSegment.bottom));
+            if (intersection(pX0, pY0, pX1, pY1)) {
+                nextVertex(pX0, pY0);
+                nextVertex(mOptimIntersection.x, mOptimIntersection.y);
+                nextVertex(clipX(pX1), clipY(pY1));
                 return;
             }
-            throw new RuntimeException("Cannot find expected mOptimIntersection for " + pSegment);
+            throw new RuntimeException("Cannot find expected mOptimIntersection for " + new RectL(pX0, pY0, pX1, pY1));
         }
-        if (isInClipArea(pSegment.right, pSegment.bottom)) {
-            if (intersection(pSegment)) {
-                add(clipX(pSegment.left), clipY(pSegment.top));
-                add(mOptimIntersection.x, mOptimIntersection.y);
-                add(pSegment.right, pSegment.bottom);
+        if (isInClipArea(pX1, pY1)) {
+            if (intersection(pX0, pY0, pX1, pY1)) {
+                nextVertex(clipX(pX0), clipY(pY0));
+                nextVertex(mOptimIntersection.x, mOptimIntersection.y);
+                nextVertex(pX1, pY1);
                 return;
             }
-            throw new RuntimeException("Cannot find expected mOptimIntersection for " + pSegment);
+            throw new RuntimeException("Cannot find expected mOptimIntersection for " + new RectL(pX0, pY0, pX1, pY1));
         }
         // no point is on the screen
         int count = 0;
-        if (intersection(pSegment, mXMin, mYMin, mXMin, mYMax)) { // x mClipMin segment
+        if (intersection(pX0, pY0, pX1, pY1, mXMin, mYMin, mXMin, mYMax)) { // x mClipMin segment
             final PointL point = count ++ == 0 ? mOptimIntersection1 : mOptimIntersection2;
             point.set(mOptimIntersection);
         }
-        if (intersection(pSegment, mXMax, mYMin, mXMax, mYMax)) { // x mClipMax segment
+        if (intersection(pX0, pY0, pX1, pY1, mXMax, mYMin, mXMax, mYMax)) { // x mClipMax segment
             final PointL point = count ++ == 0 ? mOptimIntersection1 : mOptimIntersection2;
             point.set(mOptimIntersection);
         }
-        if (intersection(pSegment, mXMin, mYMin, mXMax, mYMin)) { // y mClipMin segment
+        if (intersection(pX0, pY0, pX1, pY1, mXMin, mYMin, mXMax, mYMin)) { // y mClipMin segment
             final PointL point = count ++ == 0 ? mOptimIntersection1 : mOptimIntersection2;
             point.set(mOptimIntersection);
         }
-        if (intersection(pSegment, mXMin, mYMax, mXMax, mYMax)) { // y mClipMax segment
+        if (intersection(pX0, pY0, pX1, pY1, mXMin, mYMax, mXMax, mYMax)) { // y mClipMax segment
             final PointL point = count ++ == 0 ? mOptimIntersection1 : mOptimIntersection2;
             point.set(mOptimIntersection);
         }
         if (count == 2) {
             final double distance1 = Distance.getSquaredDistanceToPoint(
-                    mOptimIntersection1.x, mOptimIntersection1.y, pSegment.left, pSegment.top);
+                    mOptimIntersection1.x, mOptimIntersection1.y, pX0, pY0);
             final double distance2 = Distance.getSquaredDistanceToPoint(
-                    mOptimIntersection2.x, mOptimIntersection2.y, pSegment.left, pSegment.top);
+                    mOptimIntersection2.x, mOptimIntersection2.y, pX0, pY0);
             final PointL start = distance1 < distance2 ? mOptimIntersection1 : mOptimIntersection2;
             final PointL end =  distance1 < distance2 ? mOptimIntersection2 : mOptimIntersection1;
-            add(clipX(pSegment.left), clipY(pSegment.top));
-            add(start.x, start.y);
-            add(end.x, end.y);
-            add(clipX(pSegment.right), clipY(pSegment.bottom));
+            nextVertex(clipX(pX0), clipY(pY0));
+            nextVertex(start.x, start.y);
+            nextVertex(end.x, end.y);
+            nextVertex(clipX(pX1), clipY(pY1));
             return;
         }
         if (count == 1) {
-            add(clipX(pSegment.left), clipY(pSegment.top));
-            add(mOptimIntersection1.x, mOptimIntersection1.y);
-            add(clipX(pSegment.right), clipY(pSegment.bottom));
+            nextVertex(clipX(pX0), clipY(pY0));
+            nextVertex(mOptimIntersection1.x, mOptimIntersection1.y);
+            nextVertex(clipX(pX1), clipY(pY1));
             return;
         }
         if (count == 0) {
-            add(clipX(pSegment.left), clipY(pSegment.top));
-            final int corner = getClosestCorner(pSegment);
-            add(cornerX[corner], cornerY[corner]);
-            add(clipX(pSegment.right), clipY(pSegment.bottom));
+            nextVertex(clipX(pX0), clipY(pY0));
+            final int corner = getClosestCorner(pX0, pY0, pX1, pY1);
+            nextVertex(cornerX[corner], cornerY[corner]);
+            nextVertex(clipX(pX1), clipY(pY1));
             return;
         }
         throw new RuntimeException("Impossible mOptimIntersection count (" + count + ")");
@@ -135,29 +152,30 @@ public class SegmentClipper {
         return clip(pY, mYMin, mYMax);
     }
 
-    private void add(final long pX, final long pY) {
-        mSegmentClippable.lineTo(pX, pY);
+    private void nextVertex(final long pX, final long pY) {
+        mPointAccepter.add(pX, pY);
     }
 
     /**
      * Intersection of two segments
      */
     private boolean intersection(
-            final RectL segment, final long x3, final long y3, final long x4, final long y4
+            final long pX0, final long pY0, final long pX1, final long pY1,
+            final long pX2, final long pY2, final long pX3, final long pY3
     ) {
         return SegmentIntersection.intersection(
-                segment.left, segment.top, segment.right, segment.bottom,
-                x3, y3, x4, y4, mOptimIntersection);
+                pX0, pY0, pX1, pY1,
+                pX2, pY2, pX3, pY3, mOptimIntersection);
     }
 
     /**
      * Intersection of a segment with the 4 segments of the clip area
      */
-    private boolean intersection(final RectL pSegment) {
-        return intersection(pSegment, mXMin, mYMin, mXMin, mYMax) // x min segment
-                || intersection(pSegment, mXMax, mYMin, mXMax, mYMax) // x max segment
-                || intersection(pSegment, mXMin, mYMin, mXMax, mYMin) // y min segment
-                || intersection(pSegment, mXMin, mYMax, mXMax, mYMax); // y max segment
+    private boolean intersection(final long pX0, final long pY0, final long pX1, final long pY1) {
+        return intersection(pX0, pY0, pX1, pY1, mXMin, mYMin, mXMin, mYMax) // x min segment
+                || intersection(pX0, pY0, pX1, pY1, mXMax, mYMin, mXMax, mYMax) // x max segment
+                || intersection(pX0, pY0, pX1, pY1, mXMin, mYMin, mXMax, mYMin) // y min segment
+                || intersection(pX0, pY0, pX1, pY1, mXMin, mYMax, mXMax, mYMax); // y max segment
     }
 
     /**
@@ -174,13 +192,13 @@ public class SegmentClipper {
      * or
      * (min,min)[first segment point] x (max,min)[closest corner] x (max,max)[second segment point]
      */
-    private int getClosestCorner(final RectL pSegment) {
+    private int getClosestCorner(final long pX0, final long pY0, final long pX1, final long pY1) {
         double min = Double.MAX_VALUE;
         int corner = 0;
         for (int i = 0 ; i < cornerX.length ; i ++) {
             final double distance = Distance.getSquaredDistanceToSegment(
                     cornerX[i], cornerY[i],
-                    pSegment.left, pSegment.top, pSegment.right, pSegment.bottom);
+                    pX0, pY0, pX1, pY1);
             if (min > distance) {
                 min = distance;
                 corner = i;

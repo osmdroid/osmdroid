@@ -1049,7 +1049,6 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		try {
 			/* Draw all Overlays. */
 			this.getOverlayManager().onDraw(c, this);
-			mZoomButtonsOverlay.draw(c, this, false);
 			// Restore the canvas matrix
 			getProjection().restore(c, false);
 			super.dispatchDraw(c);
@@ -1195,7 +1194,8 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 				this.getOverlayManager().add(mZoomButtonsOverlay);
 
 				checkZoomButtons();
-			}
+			} else
+				mZoomButtonsOverlay.setPosition(pPosition);
 		} else {
 			if (mZoomButtonsOverlay!=null) {
 				this.getOverlayManager().remove(mZoomButtonsOverlay);

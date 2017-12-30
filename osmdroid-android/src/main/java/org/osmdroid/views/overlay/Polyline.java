@@ -8,6 +8,7 @@ import android.graphics.Path;
 import android.view.MotionEvent;
 
 import org.osmdroid.util.GeoPoint;
+import org.osmdroid.util.PointL;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
 import org.osmdroid.views.util.constants.MathConstants;
@@ -31,13 +32,14 @@ import java.util.List;
  * @see <a href="http://developer.android.com/reference/com/google/android/gms/maps/model/Polyline.html">Google Maps Polyline</a>
  */
 public class Polyline extends OverlayWithIW {
-	
+
 	private boolean mGeodesic;
 	private final Path mPath = new Path();
 	private final Paint mPaint = new Paint();
 	/** Bounding rectangle for view */
-    private ArrowsLinearRing mOutline = new ArrowsLinearRing(mPath);
+    private LinearRing mOutline = new LinearRing(mPath);
 	private String id=null;
+	private List<MilestoneManager> mMilestoneManagers = new ArrayList<>();
 
 	protected OnClickListener mOnClickListener;
 
@@ -57,7 +59,7 @@ public class Polyline extends OverlayWithIW {
 		this.clearPath();
 		mGeodesic = false;
 	}
-	
+
 	protected void clearPath() {
 		mOutline.clearPath();
 	}
@@ -75,75 +77,46 @@ public class Polyline extends OverlayWithIW {
 	public List<GeoPoint> getPoints(){
 		return mOutline.getPoints();
 	}
-	
+
 	public int getNumberOfPoints(){
 		return getPoints().size();
 	}
-	
+
 	public int getColor(){
 		return mPaint.getColor();
 	}
-	
+
 	public float getWidth(){
 		return mPaint.getStrokeWidth();
 	}
-	
+
 	/** @return the Paint used. This allows to set advanced Paint settings. */
 	public Paint getPaint(){
 		return mPaint;
 	}
-	
+
 	public boolean isVisible(){
 		return isEnabled();
 	}
-	
+
 	public boolean isGeodesic(){
 		return mGeodesic;
 	}
-	
+
 	public void setColor(int color){
 		mPaint.setColor(color);
 	}
-	
+
 	public void setWidth(float width){
 		mPaint.setStrokeWidth(width);
-		mOutline.setStrokeWidth(width);
 	}
-	
+
 	public void setVisible(boolean visible){
 		setEnabled(visible);
 	}
 
 	public void setOnClickListener(OnClickListener listener){
 		mOnClickListener = listener;
-	}
-
-	/**
-	 * A directional arrow is a single arrow drawn in the middle of two points of a to
-	 * provide a visual cue for direction of movement between the two points.
-	 *
-	 * By default the arrows always point towards the lower index as the list of GeoPoints are
-	 * processed. The direction the arrows point can be inverted.
-	 *
-	 * @param drawDirectionalArrows enable or disable the feature. Cannot be null
-	 */
-	public void setDrawDirectionalArrows(boolean drawDirectionalArrows) {
-		mOutline.setDrawDirectionalArrows(drawDirectionalArrows, null , mPaint.getStrokeWidth());
-	}
-
-	/**
-	 * A directional arrow is a single arrow drawn in the middle of two points to
-	 * provide a visual cue for direction of movement between the two points.
-	 *
-	 * By default the arrows always point towards the lower index as the list of GeoPoints are
-	 * processed. The direction the arrows point can be inverted.
-	 *
-	 * @param drawDirectionalArrows enable or disable the feature. Cannot be null
-	 * @param invertDirection invert the direction the arrows are drawn. Use null for default value
-	 */
-	public void setDrawDirectionalArrows(
-			boolean drawDirectionalArrows, Boolean invertDirection) {
-		mOutline.setDrawDirectionalArrows(drawDirectionalArrows, invertDirection, mPaint.getStrokeWidth());
 	}
 
 	protected void addGreatCircle(final GeoPoint startPoint, final GeoPoint endPoint, final int numberOfPoints) {
@@ -162,7 +135,7 @@ public class Polyline extends OverlayWithIW {
 				Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(lon1 - lon2))
 				/ -MathConstants.DEG2RAD;
 		bearing = bearing < 0 ? 360 + bearing : bearing;
-		
+
 		for (int i = 1; i <= numberOfPoints; i++) {
 			final double f = 1.0 * i / (numberOfPoints+1);
 			final double A = Math.sin((1 - f) * d) / Math.sin(d);
@@ -220,10 +193,20 @@ public class Polyline extends OverlayWithIW {
 
         mOutline.setClipArea(mapView);
         mOutline.buildPathPortion(pj, false, null);
+        for (final MilestoneManager milestoneManager : mMilestoneManagers) {
+        	milestoneManager.init();
+        	milestoneManager.setDistances(mOutline.getDistances());
+        	for (final PointL point : mOutline.getGatheredPoints()) {
+       			milestoneManager.add(point.x, point.y);
+			}
+			milestoneManager.end();
+		}
 
         canvas.drawPath(mPath, mPaint);
 
-        mOutline.drawDirectionalArrows(canvas, mPaint);
+		for (final MilestoneManager milestoneManager : mMilestoneManagers) {
+        	milestoneManager.draw(canvas);
+		}
 	}
 	
 	/** Detection is done is screen coordinates. 
@@ -291,4 +274,16 @@ public class Polyline extends OverlayWithIW {
 		onDestroy();
 	}
 
+	/**
+	 * @since 6.0.0
+	 */
+	public void setMilestoneManagers(final List<MilestoneManager> pMilestoneManagers) {
+		if (pMilestoneManagers == null) {
+			if (mMilestoneManagers.size() > 0) {
+				mMilestoneManagers.clear();
+			}
+		} else {
+			mMilestoneManagers = pMilestoneManagers;
+		}
+	}
 }
