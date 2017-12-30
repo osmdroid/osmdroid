@@ -1166,7 +1166,8 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 				this.getOverlayManager().add(mZoomButtonsOverlay);
 
 				checkZoomButtons();
-			}
+			} else
+				mZoomButtonsOverlay.setPosition(pPosition);
 		} else {
 			if (mZoomButtonsOverlay!=null) {
 				this.getOverlayManager().remove(mZoomButtonsOverlay);

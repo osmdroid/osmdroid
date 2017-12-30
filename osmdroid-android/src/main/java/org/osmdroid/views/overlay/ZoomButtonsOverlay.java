@@ -157,7 +157,7 @@ public class ZoomButtonsOverlay extends Overlay {
 			case OverlayLayoutParams.LEFT:
 				return 0 + getPaddingPixels();
 			case OverlayLayoutParams.RIGHT:
-				return pCanvasWidth - 2 * pBitmapWidth - getPaddingPixels();
+				return pCanvasWidth - 2 * pBitmapWidth - (getPaddingPixels()*2);
 			case OverlayLayoutParams.CENTER_HORIZONTAL:
 				return (pCanvasWidth - 2 * pBitmapWidth) / 2;
 		}

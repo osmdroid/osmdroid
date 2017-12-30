@@ -83,21 +83,22 @@ public abstract class BaseSampleFragment extends Fragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		Log.d(TAG, "onActivityCreated");
-		addOverlays();
 
 		if (mMapView!=null) {
+			addOverlays();
+
 			final Context context = this.getActivity();
 			final DisplayMetrics dm = context.getResources().getDisplayMetrics();
 
 			CopyrightOverlay copyrightOverlay = new CopyrightOverlay(getActivity());
-
+			copyrightOverlay.setTextSize(10);
 			//i hate this very much, but it seems as if certain versions of android and/or
 			//device types handle screen offsets differently
 			if (Build.VERSION.SDK_INT <= 10)
 				copyrightOverlay.setOffset(0,(int)(55*dm.density));
 
 			mMapView.getOverlays().add(copyrightOverlay);
-			mMapView.setBuiltInZoomControls(true);
+			//removed with #825 mMapView.setBuiltInZoomControls(true);
 			mMapView.setMultiTouchControls(true);
 			mMapView.setTilesScaledToDpi(true);
 		}

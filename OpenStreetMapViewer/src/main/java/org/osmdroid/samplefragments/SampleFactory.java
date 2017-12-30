@@ -88,6 +88,13 @@ import org.osmdroid.samplefragments.tilesources.SampleOpenSeaMap;
 import org.osmdroid.samplefragments.tilesources.SampleWMSSource;
 import org.osmdroid.samplefragments.tilesources.SampleWhackyColorFilter;
 import org.osmdroid.samplefragments.tilesources.SepiaToneTiles;
+import org.osmdroid.samplefragments.zoomctl.ZoomButtonsCenterBottom;
+import org.osmdroid.samplefragments.zoomctl.ZoomButtonsCenterCenter;
+import org.osmdroid.samplefragments.zoomctl.ZoomButtonsCenterTop;
+import org.osmdroid.samplefragments.zoomctl.ZoomButtonsLeftBottom;
+import org.osmdroid.samplefragments.zoomctl.ZoomButtonsLeftTop;
+import org.osmdroid.samplefragments.zoomctl.ZoomButtonsRightBottom;
+import org.osmdroid.samplefragments.zoomctl.ZoomButtonsRightTop;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -274,6 +281,15 @@ public final class SampleFactory implements ISampleFactory {
 
         mSamples.add(SampleCustomMyLocation.class);
         mSamples.add(DrawCircle10km.class);
+
+
+        mSamples.add(ZoomButtonsCenterCenter.class);
+        mSamples.add(ZoomButtonsCenterBottom.class);
+        mSamples.add(ZoomButtonsCenterTop.class);
+        mSamples.add(ZoomButtonsLeftBottom.class);
+        mSamples.add(ZoomButtonsLeftTop.class);
+        mSamples.add(ZoomButtonsRightTop.class);
+        mSamples.add(ZoomButtonsRightBottom.class);
     }
 
     public void addSample(Class<? extends BaseSampleFragment> clz) {
