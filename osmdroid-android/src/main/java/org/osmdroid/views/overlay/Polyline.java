@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Path;
 import android.view.MotionEvent;
 
 import org.osmdroid.util.GeoPoint;
@@ -35,10 +34,9 @@ import java.util.List;
 public class Polyline extends OverlayWithIW {
 
 	private boolean mGeodesic;
-	private final Path mPath = new Path();
 	private final Paint mPaint = new Paint();
 	/** Bounding rectangle for view */
-    private LinearRing mOutline = new LinearRing(mPath);
+    private LinearRing mOutline = new LinearRing(null);
 	private String id=null;
 	private List<MilestoneManager> mMilestoneManagers = new ArrayList<>();
 
@@ -190,7 +188,6 @@ public class Polyline extends OverlayWithIW {
 		}
 
         final Projection pj = mapView.getProjection();
-        mPath.rewind();
 
         mOutline.setClipArea(mapView);
         mOutline.buildPathPortion(pj, false, null);
@@ -203,7 +200,7 @@ public class Polyline extends OverlayWithIW {
 			milestoneManager.end();
 		}
 
-        canvas.drawPath(mPath, mPaint);
+		drawLines(canvas);
 
 		for (final MilestoneManager milestoneManager : mMilestoneManagers) {
         	milestoneManager.draw(canvas);
@@ -286,5 +283,25 @@ public class Polyline extends OverlayWithIW {
 		} else {
 			mMilestoneManagers = pMilestoneManagers;
 		}
+	}
+
+	/**
+	 * @since 6.0.0
+	 */
+	private void drawLines(final Canvas pCanvas) {
+		boolean first = true;
+		final PointL startPoint = new PointL();
+		final PointL endPoint = new PointL();
+		for (final PointL pointL : mOutline.getSegmentPoints()) {
+			if (first) {
+				first = false;
+				startPoint.set(pointL);
+			} else {
+				endPoint.set(pointL);
+				pCanvas.drawLine(startPoint.x, startPoint.y, endPoint.x, endPoint.y, mPaint);
+				startPoint.set(endPoint);
+			}
+		}
+		pCanvas.drawLine(startPoint.x, startPoint.y, endPoint.x, endPoint.y, mPaint);
 	}
 }

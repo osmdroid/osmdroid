@@ -6,6 +6,7 @@ import android.graphics.Rect;
 
 import org.osmdroid.util.Distance;
 import org.osmdroid.util.GeoPoint;
+import org.osmdroid.util.ListPointL;
 import org.osmdroid.util.PathBuilder;
 import org.osmdroid.util.PointL;
 import org.osmdroid.util.RectL;
@@ -45,12 +46,12 @@ class LinearRing{
 	private final ArrayList<GeoPoint> mOriginalPoints = new ArrayList<>();
 	private final ArrayList<Double> mDistances = new ArrayList<>();
 	private final ArrayList<PointL> mProjectedPoints = new ArrayList<>();
-	private SegmentClipper mSegmentClipper = new SegmentClipper();
+	private final SegmentClipper mSegmentClipper = new SegmentClipper();
 	private final Path mPath;
 	private boolean mPrecomputed;
 	private boolean isHorizontalRepeating = true;
 	private boolean isVerticalRepeating  = true;
-	private final List<PointL> mGatheredPoints = new ArrayList<>();
+	private final ListPointL mGatheredPoints = new ListPointL();
 	private final PathBuilder mPathBuilder;
 
 	public LinearRing(final Path pPath) {
@@ -125,7 +126,8 @@ class LinearRing{
 		applyOffset(offset);
 		if (pClosePath) {
 			if (mGatheredPoints.size() > 0) {
-				mGatheredPoints.add(mGatheredPoints.get(0));
+				final PointL first = mGatheredPoints.get(0);
+				mGatheredPoints.add(first.x, first.y);
 			}
 		}
 		mPathBuilder.init();
@@ -136,7 +138,9 @@ class LinearRing{
 		mSegmentClipper.end();
 		mPathBuilder.end();
 		if (pClosePath) {
-			mPath.close();
+			if (mPath != null) {
+				mPath.close();
+			}
 		}
 		return offset;
 	}
@@ -144,7 +148,7 @@ class LinearRing{
 	/**
 	 * @since 6.0.0
 	 */
-	public List<PointL> getGatheredPoints() {
+	public ListPointL getGatheredPoints() {
 		return mGatheredPoints;
 	}
 
@@ -157,7 +161,7 @@ class LinearRing{
 	private void getBestOffset(final Projection pProjection, final PointL pOffset) {
 		final Rect screenRect = pProjection.getIntrinsicScreenRect();
 		final double worldSize = TileSystem.MapSize(pProjection.getZoomLevel());
-		final RectL boundingBox = getBoundingBox(mGatheredPoints, null);
+		final RectL boundingBox = getBoundingBox(mGatheredPoints);
 		getBestOffset(boundingBox, screenRect, worldSize, pOffset);
 	}
 
@@ -205,8 +209,8 @@ class LinearRing{
 		return i - 1;
 	}
 
-	private RectL getBoundingBox(final List<PointL> pPoints, final RectL pReuse) {
-		final RectL out = pReuse != null ? pReuse : new RectL();
+	private RectL getBoundingBox(final ListPointL pPoints) {
+		final RectL out = new RectL();
 		boolean first = true;
 		for (final PointL point : pPoints) {
 			if (first) {
@@ -261,7 +265,7 @@ class LinearRing{
 			} else {
 				setCloserPoint(screenPoint0, screenPoint1, worldSize);
 			}
-			mGatheredPoints.add(new PointL(screenPoint1));
+			mGatheredPoints.add(screenPoint1.x, screenPoint1.y);
 
 			// update starting point to next position
 			screenPoint0.set(screenPoint1);
@@ -340,7 +344,7 @@ class LinearRing{
 	 * Mandatory use before clipping.
 	 */
 	public void setClipArea(final long pXMin, final long pYMin, final long pXMax, final long pYMax) {
-		mSegmentClipper.set(pXMin, pYMin, pXMax, pYMax, mPathBuilder);
+		mSegmentClipper.set(pXMin, pYMin, pXMax, pYMax, mPathBuilder, mPath != null);
 	}
 
 	/**
@@ -363,5 +367,12 @@ class LinearRing{
 		// TODO: Not sure if this is the correct approach 
 		this.isHorizontalRepeating = pMapView.isHorizontalMapRepetitionEnabled();
 		this.isVerticalRepeating = pMapView.isVerticalMapRepetitionEnabled();
+	}
+
+	/**
+	 * @since 6.0.0
+	 */
+	public ListPointL getSegmentPoints() {
+		return mPathBuilder.getPoints();
 	}
 }
