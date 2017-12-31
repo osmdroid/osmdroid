@@ -307,6 +307,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		return getProjection().getBoundingBox();
 	}
 
+
 	/**
 	 * Gets the current bounds of the screen in <I>screen coordinates</I>.
 	 */
@@ -857,6 +858,27 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		return mLayoutOccurred;
 	}
 
+	@Override
+	public void onAttachedToWindow(){
+		super.onAttachedToWindow();
+	}
+
+	/**
+	 * activities/fragments using osmdroid should call this to release resources, pause gps, sensors, timers, etc
+	 * @since 6.0.0
+	 */
+	public void onPause(){
+		this.getOverlayManager().onPause();
+	}
+
+	/**
+	 * activities/fragments using osmdroid should call this to release resources, pause gps, sensors, timers, etc
+	 * @since 6.0.0
+	 */
+	public void onResume(){
+		this.getOverlayManager().onResume();
+	}
+
 	public void onDetach() {
 		this.getOverlayManager().onDetach(this);
 		mTileProvider.detach();
@@ -1280,11 +1302,12 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		@Override
 		public boolean onFling(final MotionEvent e1, final MotionEvent e2,
 					final float velocityX, final float velocityY) {
-	            	if (!enableFling || pauseFling) {
-	                	// issue 269, if fling occurs during zoom changes, pauseFling is equals to true, so fling is canceled. But need to reactivate fling for next time.
-	                	pauseFling = false;
-	                	return false;
-	            	}
+
+			if (!enableFling || pauseFling) {
+				// issue 269, if fling occurs during zoom changes, pauseFling is equals to true, so fling is canceled. But need to reactivate fling for next time.
+				pauseFling = false;
+				return false;
+			}
 
 			if (MapView.this.getOverlayManager()
 					.onFling(e1, e2, velocityX, velocityY, MapView.this)) {
