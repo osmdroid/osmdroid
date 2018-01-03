@@ -39,7 +39,7 @@ public class NetworkAvailabliltyCheck implements INetworkAvailablityCheck {
 		if (networkInfo == null) {
 			return false;
 		}
-		if (networkInfo.isAvailable()) {
+		if (networkInfo.isConnected()) {
 			return true;
 		}
 		return mIsX86 && networkInfo.getType() == ConnectivityManager.TYPE_ETHERNET;
@@ -53,7 +53,7 @@ public class NetworkAvailabliltyCheck implements INetworkAvailablityCheck {
 		}
 		final NetworkInfo wifi = mConnectionManager
 				.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-		return wifi != null && wifi.isAvailable();
+		return wifi != null && wifi.isConnected();
 	}
 
 	@Override
@@ -64,7 +64,7 @@ public class NetworkAvailabliltyCheck implements INetworkAvailablityCheck {
 		}
 		final NetworkInfo mobile = mConnectionManager
 				.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
-		return mobile != null && mobile.isAvailable();
+		return mobile != null && mobile.isConnected();
 	}
 
 	@Override
