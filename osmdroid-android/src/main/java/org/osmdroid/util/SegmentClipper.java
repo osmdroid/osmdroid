@@ -45,6 +45,7 @@ public class SegmentClipper implements PointAccepter{
     @Override
     public void init() {
         mFirstPoint = true;
+        mPointAccepter.init();
     }
 
     @Override
@@ -59,7 +60,9 @@ public class SegmentClipper implements PointAccepter{
     }
 
     @Override
-    public void end() {}
+    public void end() {
+        mPointAccepter.end();
+    }
 
     /**
      * Clip a segment into the clip area

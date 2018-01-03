@@ -7,6 +7,7 @@ import android.graphics.Paint;
 import android.view.MotionEvent;
 
 import org.osmdroid.util.GeoPoint;
+import org.osmdroid.util.LineBuilder;
 import org.osmdroid.util.PointL;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
@@ -35,8 +36,8 @@ public class Polyline extends OverlayWithIW {
 
 	private boolean mGeodesic;
 	private final Paint mPaint = new Paint();
-	/** Bounding rectangle for view */
-    private LinearRing mOutline = new LinearRing(null);
+	private final LineBuilder mLineBuilder = new LineBuilder();
+    private LinearRing mOutline = new LinearRing(mLineBuilder);
 	private String id=null;
 	private List<MilestoneManager> mMilestoneManagers = new ArrayList<>();
 
@@ -190,17 +191,20 @@ public class Polyline extends OverlayWithIW {
         final Projection pj = mapView.getProjection();
 
         mOutline.setClipArea(mapView);
-        mOutline.buildPathPortion(pj, false, null);
+        mOutline.buildLinePortion(pj, mMilestoneManagers.size() > 0);
         for (final MilestoneManager milestoneManager : mMilestoneManagers) {
         	milestoneManager.init();
         	milestoneManager.setDistances(mOutline.getDistances());
-        	for (final PointL point : mOutline.getGatheredPoints()) {
+        	for (final PointL point : mOutline.getPointsForMilestones()) {
        			milestoneManager.add(point.x, point.y);
 			}
 			milestoneManager.end();
 		}
 
-		drawLines(canvas);
+		final int size = mLineBuilder.getSize();
+        if (size >= 4) {
+			canvas.drawLines(mLineBuilder.getLines(), 0, size, mPaint);
+		}
 
 		for (final MilestoneManager milestoneManager : mMilestoneManagers) {
         	milestoneManager.draw(canvas);
@@ -213,7 +217,7 @@ public class Polyline extends OverlayWithIW {
 	 * @return true if the Polyline is close enough to the point. 
 	 */
 	public boolean isCloseTo(GeoPoint point, double tolerance, MapView mapView) {
-		return mOutline.isCloseTo(point, tolerance, mapView.getProjection());
+		return mOutline.isCloseTo(point, tolerance, mapView.getProjection(), false);
 	}
 
 	public void showInfoWindow(GeoPoint position){
@@ -283,25 +287,5 @@ public class Polyline extends OverlayWithIW {
 		} else {
 			mMilestoneManagers = pMilestoneManagers;
 		}
-	}
-
-	/**
-	 * @since 6.0.0
-	 */
-	private void drawLines(final Canvas pCanvas) {
-		boolean first = true;
-		final PointL startPoint = new PointL();
-		final PointL endPoint = new PointL();
-		for (final PointL pointL : mOutline.getSegmentPoints()) {
-			if (first) {
-				first = false;
-				startPoint.set(pointL);
-			} else {
-				endPoint.set(pointL);
-				pCanvas.drawLine(startPoint.x, startPoint.y, endPoint.x, endPoint.y, mPaint);
-				startPoint.set(endPoint);
-			}
-		}
-		pCanvas.drawLine(startPoint.x, startPoint.y, endPoint.x, endPoint.y, mPaint);
 	}
 }

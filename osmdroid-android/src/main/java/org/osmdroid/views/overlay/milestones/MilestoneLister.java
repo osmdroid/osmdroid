@@ -18,18 +18,18 @@ public abstract class MilestoneLister implements PointAccepter{
     private final List<MilestoneStep> mMilestones = new ArrayList<>();
     private final PointL mLatestPoint = new PointL();
     private boolean mFirst;
-    private List<Double> mDistances;
+    private double[] mDistances;
 
     public List<MilestoneStep> getMilestones() {
         return mMilestones;
     }
 
-    public void setDistances(final List<Double> pDistances) {
+    public void setDistances(final double[] pDistances) {
         mDistances = pDistances;
     }
 
     protected double getDistance(final int pIndex) {
-        return mDistances.get(pIndex);
+        return mDistances[pIndex];
     }
 
     @Override

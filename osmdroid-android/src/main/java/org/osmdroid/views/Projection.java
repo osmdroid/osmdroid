@@ -32,7 +32,11 @@ import android.graphics.Canvas;
  */
 public class Projection implements IProjection {
 
-	private final double mProjectedMapSize = TileSystem.MapSize((double)microsoft.mappoint.TileSystem.projectionZoomLevel);
+	/**
+	 * WARNING: `mProjectedMapSize` MUST NOT be a static member,
+	 * as it depends on {@link TileSystem#getTileSize()}
+	 */
+	public final double mProjectedMapSize = TileSystem.MapSize((double)microsoft.mappoint.TileSystem.projectionZoomLevel);
 	private long mOffsetX;
 	private long mOffsetY;
 
