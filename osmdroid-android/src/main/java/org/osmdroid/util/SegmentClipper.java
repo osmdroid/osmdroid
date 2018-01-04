@@ -68,6 +68,11 @@ public class SegmentClipper implements PointAccepter{
      * Clip a segment into the clip area
      */
     public void clip(final long pX0, final long pY0, final long pX1, final long pY1) {
+        if (!mPathMode) {
+            if (isOnTheSameSideOut(pX0, pY0, pX1, pY1)) {
+                return;
+            }
+        }
         if (isInClipArea(pX0, pY0)) {
             if (isInClipArea(pX1, pY1)) {
                 nextVertex(pX0, pY0);
@@ -226,4 +231,18 @@ public class SegmentClipper implements PointAccepter{
         }
         return corner;
     }
+
+    /**
+     * Optimization for lines (as opposed to Path)
+     * If both points are outside of the clip area and "on the same side of the outside" (sic)
+     * we don't need to compute anything anymore as it won't draw a line in the end
+     * @since 6.0.0
+     */
+    private boolean isOnTheSameSideOut(final long pX0, final long pY0, final long pX1, final long pY1) {
+        return (pX0 < mXMin && pX1 < mXMin)
+                || (pX0 > mXMax && pX1 > mXMax)
+                || (pY0 < mYMin && pY1 < mYMin)
+                || (pY0 > mYMax && pY1 > mYMax);
+    }
+
 }

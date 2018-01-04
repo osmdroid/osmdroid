@@ -5,37 +5,32 @@ package org.osmdroid.util;
  * @since 6.0.0
  */
 
-public class LineBuilder implements PointAccepter {
+public abstract class LineBuilder implements PointAccepter {
 
-    private final ListPointL mPoints = new ListPointL();
-    private float[] mLines;
-    private int mSize;
+    private final float[] mLines;
+    private int mIndex;
+
+    public LineBuilder(final int pMaxSize) {
+        mLines = new float[pMaxSize];
+    }
 
     @Override
     public void init() {
-        mPoints.clear();
-        mSize = 0;
+        mIndex = 0;
     }
 
     @Override
     public void add(final long pX, final long pY) {
-        mPoints.add(pX, pY);
+        mLines[mIndex ++] = pX;
+        mLines[mIndex ++] = pY;
+        if (mIndex >= mLines.length) {
+            innerFlush();
+        }
     }
 
     @Override
     public void end() {
-        mSize = mPoints.size() * 2;
-        if (mSize < 4) {
-            return;
-        }
-        if (mLines == null || mLines.length < mSize) {
-            mLines = new float[mSize];
-        }
-        int index = 0;
-        for (final PointL point : mPoints) {
-            mLines[index ++] = point.x;
-            mLines[index ++] = point.y;
-        }
+        innerFlush();
     }
 
     public float[] getLines() {
@@ -43,6 +38,15 @@ public class LineBuilder implements PointAccepter {
     }
 
     public int getSize() {
-        return mSize;
+        return mIndex;
     }
+
+    private void innerFlush() {
+        if (mIndex > 0) {
+            flush();
+        }
+        mIndex = 0;
+    }
+
+    public abstract void flush();
 }

@@ -7,7 +7,6 @@ import android.graphics.Paint;
 import android.view.MotionEvent;
 
 import org.osmdroid.util.GeoPoint;
-import org.osmdroid.util.LineBuilder;
 import org.osmdroid.util.PointL;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
@@ -36,8 +35,8 @@ public class Polyline extends OverlayWithIW {
 
 	private boolean mGeodesic;
 	private final Paint mPaint = new Paint();
-	private final LineBuilder mLineBuilder = new LineBuilder();
-    private LinearRing mOutline = new LinearRing(mLineBuilder);
+	private final LineDrawer mLineDrawer = new LineDrawer(256);
+    private LinearRing mOutline = new LinearRing(mLineDrawer);
 	private String id=null;
 	private List<MilestoneManager> mMilestoneManagers = new ArrayList<>();
 
@@ -58,6 +57,7 @@ public class Polyline extends OverlayWithIW {
 		mPaint.setAntiAlias(true);
 		this.clearPath();
 		mGeodesic = false;
+		mLineDrawer.setPaint(mPaint);
 	}
 
 	protected void clearPath() {
@@ -190,6 +190,7 @@ public class Polyline extends OverlayWithIW {
 
         final Projection pj = mapView.getProjection();
 
+		mLineDrawer.setCanvas(canvas);
         mOutline.setClipArea(mapView);
         mOutline.buildLinePortion(pj, mMilestoneManagers.size() > 0);
         for (final MilestoneManager milestoneManager : mMilestoneManagers) {
@@ -199,11 +200,6 @@ public class Polyline extends OverlayWithIW {
        			milestoneManager.add(point.x, point.y);
 			}
 			milestoneManager.end();
-		}
-
-		final int size = mLineBuilder.getSize();
-        if (size >= 4) {
-			canvas.drawLines(mLineBuilder.getLines(), 0, size, mPaint);
 		}
 
 		for (final MilestoneManager milestoneManager : mMilestoneManagers) {

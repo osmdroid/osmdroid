@@ -115,8 +115,10 @@ public class CustomPaintingSurface extends View {
         if (map!=null){
             Projection projection = map.getProjection();
             List<GeoPoint> geoPoints = new ArrayList<>();
+            final Point unrotatedPoint = new Point();
             for (int i=0; i < pts.size(); i++) {
-                GeoPoint iGeoPoint = (GeoPoint) projection.fromPixels(pts.get(i).x, pts.get(i).y);
+                projection.unrotateAndScalePoint(pts.get(i).x, pts.get(i).y, unrotatedPoint);
+                GeoPoint iGeoPoint = (GeoPoint) projection.fromPixels(unrotatedPoint.x, unrotatedPoint.y);
                 geoPoints.add(iGeoPoint);
             }
             //TODO run the douglas pucker algorithm to reduce the points for performance reasons
