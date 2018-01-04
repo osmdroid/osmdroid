@@ -539,35 +539,35 @@ public class Projection implements IProjection {
 	/**
 	 * @since 5.6.6
 	 */
-	private int getScreenCenterX() {
+	public int getScreenCenterX() {
 		return (mIntrinsicScreenRectProjection.right + mIntrinsicScreenRectProjection.left) / 2;
 	}
 
 	/**
 	 * @since 5.6.6
 	 */
-	private int getScreenCenterY() {
+	public int getScreenCenterY() {
 		return (mIntrinsicScreenRectProjection.bottom + mIntrinsicScreenRectProjection.top) / 2;
 	}
 
 	/**
 	 * @since 5.6.6
 	 */
-	private long getMercatorXFromPixel(final int pPixelX) {
+	public long getMercatorXFromPixel(final int pPixelX) {
 		return pPixelX - mOffsetX;
 	}
 
 	/**
 	 * @since 5.6.6
 	 */
-	private long getMercatorYFromPixel(final int pPixelY) {
+	public long getMercatorYFromPixel(final int pPixelY) {
 		return pPixelY - mOffsetY;
 	}
 
 	/**
 	 * @since 5.6.6
 	 */
-	private long getCleanMercator(final long pMercator, final boolean wrapEnabled) {
+	public long getCleanMercator(final long pMercator, final boolean wrapEnabled) {
 		return TileSystem.getCleanMercator(pMercator, mMercatorMapSize, wrapEnabled);
 	}
 
@@ -576,6 +576,14 @@ public class Projection implements IProjection {
 	 */
 	public GeoPoint getCurrentCenter() {
 		return mCurrentCenter;
+	}
+
+	public long getOffsetX() {
+		return mOffsetX;
+	}
+
+	public long getOffsetY() {
+		return mOffsetY;
 	}
 
 	/**
