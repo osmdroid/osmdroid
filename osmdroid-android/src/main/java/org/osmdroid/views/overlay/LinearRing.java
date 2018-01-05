@@ -6,9 +6,11 @@ import android.graphics.Rect;
 
 import org.osmdroid.util.Distance;
 import org.osmdroid.util.GeoPoint;
+import org.osmdroid.util.LineBuilder;
+import org.osmdroid.util.ListPointL;
 import org.osmdroid.util.PathBuilder;
+import org.osmdroid.util.PointAccepter;
 import org.osmdroid.util.PointL;
-import org.osmdroid.util.RectL;
 import org.osmdroid.util.SegmentClipper;
 import org.osmdroid.util.TileSystem;
 import org.osmdroid.views.MapView;
@@ -43,35 +45,43 @@ class LinearRing{
 	 */
 
 	private final ArrayList<GeoPoint> mOriginalPoints = new ArrayList<>();
-	private final ArrayList<Double> mDistances = new ArrayList<>();
-	private final ArrayList<PointL> mProjectedPoints = new ArrayList<>();
-	private SegmentClipper mSegmentClipper = new SegmentClipper();
+	private double[] mDistances;
+	private long[] mProjectedPoints;
+	private final PointL mProjectedCenter = new PointL();
+	private final SegmentClipper mSegmentClipper = new SegmentClipper();
 	private final Path mPath;
 	private boolean mPrecomputed;
 	private boolean isHorizontalRepeating = true;
 	private boolean isVerticalRepeating  = true;
-	private final List<PointL> mGatheredPoints = new ArrayList<>();
-	private final PathBuilder mPathBuilder;
+	private final ListPointL mPointsForMilestones = new ListPointL();
+	private final PointAccepter mPointAccepter;
 
+	/**
+	 * Dedicated to `Path`
+	 */
 	public LinearRing(final Path pPath) {
 		mPath = pPath;
-		mPathBuilder = new PathBuilder(pPath);
+		mPointAccepter = new PathBuilder(pPath);
+	}
+
+	/**
+	 * Dedicated to lines
+	 * @since 6.0.0
+	 */
+	public LinearRing(final LineBuilder pLineBuilder) {
+		mPath = null;
+		mPointAccepter = pLineBuilder;
 	}
 
 	void clearPath() {
 		mOriginalPoints.clear();
-		mDistances.clear();
+		mProjectedPoints = null;
+		mDistances = null;
 		mPrecomputed = false;
+		mPointAccepter.init();
 	}
 
 	void addPoint(final GeoPoint pGeoPoint) {
-		final int size = mOriginalPoints.size();
-		if (size == 0) {
-			mDistances.add(0d);
-		} else {
-			final GeoPoint previous = mOriginalPoints.get(size - 1);
-			mDistances.add(previous.distanceToAsDouble(pGeoPoint));
-		}
 		mOriginalPoints.add(pGeoPoint);
 		mPrecomputed = false;
 	}
@@ -80,7 +90,7 @@ class LinearRing{
 		return mOriginalPoints;
 	}
 
-	ArrayList<Double> getDistances(){
+	double[] getDistances(){
 		return mDistances;
 	}
 
@@ -97,24 +107,23 @@ class LinearRing{
 	 * In most cases (Polygon without holes, Polyline) the offset parameter will be null.
 	 * In the case of a Polygon with holes, the first path will use a null offset.
 	 * Then this method will return the pixel offset computed for this path so that
-	 * the path is in the best possible place on the map (maximum area on the map + top left).
+	 * the path is in the best possible place on the map:
+	 * the center of all pixels is as close to the screen center as possible
 	 * Then, this computed offset must be injected into the buildPathPortion for each hole,
 	 * in order to have the main polygon and its holes at the same place on the map.
 	 * @return the initial offset if not null, or the computed offset
 	 */
 	PointL buildPathPortion(final Projection pProjection,
-							final boolean pClosePath, final PointL pOffset){
+							final PointL pOffset,
+							final boolean pStorePoints){
 		final int size = mOriginalPoints.size();
 		if (size < 2) { // nothing to paint
 			return pOffset;
 		}
-
 		if (!mPrecomputed){
-			getProjectedFromGeo(mOriginalPoints, mProjectedPoints, pProjection);
+			computeProjectedAndDistances(pProjection);
 			mPrecomputed = true;
 		}
-
-		getGatheredPointsFromProjected(pProjection, mProjectedPoints);
 		final PointL offset;
 		if (pOffset != null) {
 			offset = pOffset;
@@ -122,79 +131,103 @@ class LinearRing{
 			offset = new PointL();
 			getBestOffset(pProjection, offset);
 		}
-		applyOffset(offset);
-		if (pClosePath) {
-			if (mGatheredPoints.size() > 0) {
-				mGatheredPoints.add(mGatheredPoints.get(0));
-			}
-		}
-		mPathBuilder.init();
 		mSegmentClipper.init();
-		for (final PointL point : mGatheredPoints) {
-			mSegmentClipper.add(point.x, point.y);
-		}
+		clipAndStore(pProjection, offset, true, pStorePoints);
 		mSegmentClipper.end();
-		mPathBuilder.end();
-		if (pClosePath) {
-			mPath.close();
-		}
+		mPath.close();
 		return offset;
+	}
+
+	/**
+	 * Dedicated to Polyline, as they can run much faster with drawLine than through a Path
+	 * @since 6.0.0
+	 */
+	void buildLinePortion(final Projection pProjection,
+						  final boolean pStorePoints){
+		final int size = mOriginalPoints.size();
+		if (size < 2) { // nothing to paint
+			return;
+		}
+		if (!mPrecomputed){
+			computeProjectedAndDistances(pProjection);
+			mPrecomputed = true;
+		}
+		final PointL offset = new PointL();
+		getBestOffset(pProjection, offset);
+		mSegmentClipper.init();
+		clipAndStore(pProjection, offset, false, pStorePoints);
+		mSegmentClipper.end();
 	}
 
 	/**
 	 * @since 6.0.0
 	 */
-	public List<PointL> getGatheredPoints() {
-		return mGatheredPoints;
+	public ListPointL getPointsForMilestones() {
+		return mPointsForMilestones;
 	}
 
 	/**
 	 * Compute the pixel offset so that a list of pixel segments display in the best possible way:
-	 * the biggest possible covered area, and top left.
+	 * the center of all pixels is as close to the screen center as possible
 	 * This notion of pixel offset only has a meaning on very low zoom level,
 	 * when a GeoPoint can be projected on different places on the screen.
 	 */
 	private void getBestOffset(final Projection pProjection, final PointL pOffset) {
+		final double powerDifference = pProjection.getProjectedPowerDifference();
+		final PointL center = pProjection.getLongPixelsFromProjected(
+				mProjectedCenter, powerDifference, false, null);
 		final Rect screenRect = pProjection.getIntrinsicScreenRect();
+		final double screenCenterX = (screenRect.left + screenRect.right) / 2.;
+		final double screenCenterY = (screenRect.top + screenRect.bottom) / 2.;
 		final double worldSize = TileSystem.MapSize(pProjection.getZoomLevel());
-		final RectL boundingBox = getBoundingBox(mGatheredPoints, null);
-		getBestOffset(boundingBox, screenRect, worldSize, pOffset);
+		getBestOffset(center.x, center.y, screenCenterX, screenCenterY, worldSize, pOffset);
 	}
 
-	private void getBestOffset(final RectL pBoundingBox, final Rect pScreenRect,
+	/**
+	 * @since 6.0.0
+	 */
+	private void getBestOffset(final double pPolyCenterX, final double pPolyCenterY,
+							   final double pScreenCenterX, final double pScreenCenterY,
 							   final double pWorldSize, final PointL pOffset) {
 		final long worldSize = Math.round(pWorldSize);
-		int deltaXPositive = getBestOffset(pBoundingBox, pScreenRect, worldSize, 0);
-		int deltaXNegative = getBestOffset(pBoundingBox, pScreenRect, -worldSize, 0);
-		int deltaYPositive = getBestOffset(pBoundingBox, pScreenRect, 0, worldSize);
-		int deltaYNegative = getBestOffset(pBoundingBox, pScreenRect, 0, -worldSize);
+		int deltaPositive;
+		int deltaNegative;
 		if (!isVerticalRepeating) {
-			deltaYPositive=0;
-			deltaYNegative=0;
+			deltaPositive = 0;
+			deltaNegative = 0;
+		} else {
+			deltaPositive = getBestOffset(
+					pPolyCenterX, pPolyCenterY, pScreenCenterX, pScreenCenterY, 0, worldSize);
+			deltaNegative = getBestOffset(
+					pPolyCenterX, pPolyCenterY, pScreenCenterX, pScreenCenterY, 0, -worldSize);
+
 		}
+		pOffset.y = worldSize * (deltaPositive > deltaNegative ? deltaPositive:-deltaNegative);
 		if (!isHorizontalRepeating) {
-			deltaXPositive=0;
-			deltaXNegative=0;
+			deltaPositive = 0;
+			deltaNegative = 0;
+		} else {
+			deltaPositive = getBestOffset(
+					pPolyCenterX, pPolyCenterY, pScreenCenterX, pScreenCenterY, worldSize, 0);
+			deltaNegative = getBestOffset(
+					pPolyCenterX, pPolyCenterY, pScreenCenterX, pScreenCenterY, -worldSize, 0);
+
 		}
-		pOffset.x = worldSize * (deltaXPositive > deltaXNegative ? deltaXPositive:-deltaXNegative);
-		pOffset.y = worldSize * (deltaYPositive > deltaYNegative ? deltaYPositive:-deltaYNegative);
+		pOffset.x = worldSize * (deltaPositive > deltaNegative ? deltaPositive:-deltaNegative);
 	}
 
-	private int getBestOffset(final RectL pBoundingBox, final Rect pScreenRect,
+	/**
+	 * @since 6.0.0
+	 */
+	private int getBestOffset(final double pPolyCenterX, final double pPolyCenterY,
+							  final double pScreenCenterX, final double pScreenCenterY,
 							  final long pDeltaX, final long pDeltaY) {
-		if (!isHorizontalRepeating && !isVerticalRepeating ) {
-			return 0;
-		}
-		final double boundingBoxCenterX = (pBoundingBox.left + pBoundingBox.right) / 2.;
-		final double boundingBoxCenterY = (pBoundingBox.top + pBoundingBox.bottom) / 2.;
-		final double screenRectCenterX = (pScreenRect.left + pScreenRect.right) / 2.;
-		final double screenRectCenterY = (pScreenRect.top + pScreenRect.bottom) / 2.;
 		double squaredDistance = 0;
 		int i = 0;
 		while(true) {
 			final double tmpSquaredDistance = Distance.getSquaredDistanceToPoint(
-					boundingBoxCenterX + i * pDeltaX, boundingBoxCenterY + i * pDeltaY,
-					screenRectCenterX, screenRectCenterY);
+					pPolyCenterX + i * pDeltaX, pPolyCenterY + i * pDeltaY,
+					pScreenCenterX, pScreenCenterY);
 			if (i == 0 || squaredDistance > tmpSquaredDistance) {
 				squaredDistance = tmpSquaredDistance;
 				i ++;
@@ -205,66 +238,80 @@ class LinearRing{
 		return i - 1;
 	}
 
-	private RectL getBoundingBox(final List<PointL> pPoints, final RectL pReuse) {
-		final RectL out = pReuse != null ? pReuse : new RectL();
-		boolean first = true;
-		for (final PointL point : pPoints) {
-			if (first) {
-				first = false;
-				out.left = out.right = point.x;
-				out.top = out.bottom = point.y;
+	private void computeProjectedAndDistances(final Projection pProjection) {
+		if (mProjectedPoints == null || mProjectedPoints.length != mOriginalPoints.size() * 2) {
+			mProjectedPoints = new long[mOriginalPoints.size() * 2];
+		}
+		if (mDistances == null || mDistances.length != mOriginalPoints.size()) {
+			mDistances = new double[mOriginalPoints.size()];
+		}
+		long minX = 0;
+		long maxX = 0;
+		long minY = 0;
+		long maxY = 0;
+		int index = 0;
+		final PointL previous = new PointL();
+		final PointL current = new PointL();
+		final GeoPoint previousGeo = new GeoPoint(0., 0);
+		for (final GeoPoint currentGeo : mOriginalPoints) {
+			pProjection.toProjectedPixels(currentGeo.getLatitude(), currentGeo.getLongitude(), current);
+			if (index == 0) {
+				mDistances[index] = 0;
+				minX = maxX = current.x;
+				minY = maxY = current.y;
 			} else {
-				if (out.left > point.x) {
-					out.left = point.x;
+				mDistances[index] = currentGeo.distanceToAsDouble(previousGeo);
+				setCloserPoint(previous, current, pProjection.mProjectedMapSize);
+				if (minX > current.x) {
+					minX = current.x;
 				}
-				if (out.top > point.y) {
-					out.top = point.y;
+				if (maxX < current.x) {
+					maxX = current.x;
 				}
-				if (out.right < point.x) {
-					out.right = point.x;
+				if (minY > current.y) {
+					minY = current.y;
 				}
-				if (out.bottom < point.y) {
-					out.bottom = point.y;
+				if (maxY < current.y) {
+					maxY = current.y;
 				}
 			}
+			mProjectedPoints[2 * index] = current.x;
+			mProjectedPoints[2 * index + 1] = current.y;
+			previousGeo.setCoords(currentGeo.getLatitude(), currentGeo.getLongitude());
+			previous.set(current.x, current.y);
+			index ++;
 		}
-		return out;
-	}
-
-	private void getProjectedFromGeo(final List<GeoPoint> pGeo, final ArrayList<PointL> pProjected,
-									final Projection pProjection) {
-		pProjected.clear();
-		pProjected.ensureCapacity(pGeo.size());
-		for (final GeoPoint geoPoint : pGeo) {
-			pProjected.add(pProjection.toProjectedPixels(
-					geoPoint.getLatitude(), geoPoint.getLongitude(), null));
-		}
+		mProjectedCenter.set((minX + maxX) / 2, (minY + maxY) / 2);
 	}
 
 	/**
 	 * @since 6.0.0
 	 */
-	private void getGatheredPointsFromProjected(final Projection pProjection,
-												final List<PointL> pProjectedPoints) {
-		mGatheredPoints.clear();
-		final double worldSize = TileSystem.MapSize(pProjection.getZoomLevel());
+	private void clipAndStore(final Projection pProjection, final PointL pOffset,
+							  final boolean pClosePath, final boolean pStorePoints) {
+		mPointsForMilestones.clear();
 		final double powerDifference = pProjection.getProjectedPowerDifference();
-		final PointL screenPoint0 = new PointL(); // points on screen
-		final PointL screenPoint1 = new PointL();
-		PointL firstPoint = null;
-		for (final PointL projectedPoint : pProjectedPoints) {
-			// compute next points
-			pProjection.getLongPixelsFromProjected(
-					projectedPoint, powerDifference, false, screenPoint1);
-			if (firstPoint == null) {
-				firstPoint = new PointL(screenPoint1);
-			} else {
-				setCloserPoint(screenPoint0, screenPoint1, worldSize);
+		final PointL projected = new PointL();
+		final PointL point = new PointL();
+		final PointL first = new PointL();
+		for (int i = 0 ; i < mProjectedPoints.length ; i += 2) {
+			projected.set(mProjectedPoints[i], mProjectedPoints[i + 1]);
+			pProjection.getLongPixelsFromProjected(projected, powerDifference, false, point);
+			final long x = point.x + pOffset.x;
+			final long y = point.y + pOffset.y;
+			if (pStorePoints) {
+				mPointsForMilestones.add(x, y);
 			}
-			mGatheredPoints.add(new PointL(screenPoint1));
-
-			// update starting point to next position
-			screenPoint0.set(screenPoint1);
+			mSegmentClipper.add(x, y);
+			if (i == 0) {
+				first.set(x, y);
+			}
+		}
+		if (pClosePath) {
+			mSegmentClipper.add(first.x, first.y);
+			if (pStorePoints) {
+				mPointsForMilestones.add(first.x, first.y);
+			}
 		}
 	}
 
@@ -294,21 +341,20 @@ class LinearRing{
 	 * @return true if the Polyline is close enough to the point.
 	 */
 	boolean isCloseTo(final GeoPoint pPoint, final double tolerance,
-							 final Projection pProjection) {
+					  final Projection pProjection, final boolean pClosePath) {
 		if (!mPrecomputed){
-			getProjectedFromGeo(mOriginalPoints, mProjectedPoints, pProjection);
+			computeProjectedAndDistances(pProjection);
 			mPrecomputed = true;
 		}
 		final Point pixel = pProjection.toPixels(pPoint, null);
-		getGatheredPointsFromProjected(pProjection, mProjectedPoints);
 		final PointL offset = new PointL();
 		getBestOffset(pProjection, offset);
-		applyOffset(offset);
+		clipAndStore(pProjection, offset, pClosePath, true);
 		final double squaredTolerance = tolerance * tolerance;
 		final PointL point0 = new PointL();
 		final PointL point1 = new PointL();
 		boolean first = true;
-		for (final PointL point : mGatheredPoints) {
+		for (final PointL point : mPointsForMilestones) {
 			point1.set(point);
 			if (first) {
 				first = false;
@@ -321,26 +367,12 @@ class LinearRing{
 		return false;
 	}
 
-	private void applyOffset(final PointL pOffset) {
-		if (pOffset.x == 0 && pOffset.y == 0) {
-			return;
-		}
-		for (final PointL point : mGatheredPoints) {
-			if (pOffset.x != 0) {
-				pOffset.x += pOffset.x;
-			}
-			if (pOffset.y != 0) {
-				point.y += pOffset.y;
-			}
-		}
-	}
-
 	/**
 	 * @since 6.0.0
 	 * Mandatory use before clipping.
 	 */
 	public void setClipArea(final long pXMin, final long pYMin, final long pXMax, final long pYMax) {
-		mSegmentClipper.set(pXMin, pYMin, pXMax, pYMax, mPathBuilder);
+		mSegmentClipper.set(pXMin, pYMin, pXMax, pYMax, mPointAccepter, mPath != null);
 	}
 
 	/**

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Path;
 import android.view.MotionEvent;
 
 import org.osmdroid.util.GeoPoint;
@@ -35,10 +34,9 @@ import java.util.List;
 public class Polyline extends OverlayWithIW {
 
 	private boolean mGeodesic;
-	private final Path mPath = new Path();
 	private final Paint mPaint = new Paint();
-	/** Bounding rectangle for view */
-    private LinearRing mOutline = new LinearRing(mPath);
+	private final LineDrawer mLineDrawer = new LineDrawer(256);
+    private LinearRing mOutline = new LinearRing(mLineDrawer);
 	private String id=null;
 	private List<MilestoneManager> mMilestoneManagers = new ArrayList<>();
 
@@ -59,6 +57,7 @@ public class Polyline extends OverlayWithIW {
 		mPaint.setAntiAlias(true);
 		this.clearPath();
 		mGeodesic = false;
+		mLineDrawer.setPaint(mPaint);
 	}
 
 	protected void clearPath() {
@@ -190,20 +189,18 @@ public class Polyline extends OverlayWithIW {
 		}
 
         final Projection pj = mapView.getProjection();
-        mPath.rewind();
 
+		mLineDrawer.setCanvas(canvas);
         mOutline.setClipArea(mapView);
-        mOutline.buildPathPortion(pj, false, null);
+        mOutline.buildLinePortion(pj, mMilestoneManagers.size() > 0);
         for (final MilestoneManager milestoneManager : mMilestoneManagers) {
         	milestoneManager.init();
         	milestoneManager.setDistances(mOutline.getDistances());
-        	for (final PointL point : mOutline.getGatheredPoints()) {
+        	for (final PointL point : mOutline.getPointsForMilestones()) {
        			milestoneManager.add(point.x, point.y);
 			}
 			milestoneManager.end();
 		}
-
-        canvas.drawPath(mPath, mPaint);
 
 		for (final MilestoneManager milestoneManager : mMilestoneManagers) {
         	milestoneManager.draw(canvas);
@@ -216,7 +213,7 @@ public class Polyline extends OverlayWithIW {
 	 * @return true if the Polyline is close enough to the point. 
 	 */
 	public boolean isCloseTo(GeoPoint point, double tolerance, MapView mapView) {
-		return mOutline.isCloseTo(point, tolerance, mapView.getProjection());
+		return mOutline.isCloseTo(point, tolerance, mapView.getProjection(), false);
 	}
 
 	public void showInfoWindow(GeoPoint position){

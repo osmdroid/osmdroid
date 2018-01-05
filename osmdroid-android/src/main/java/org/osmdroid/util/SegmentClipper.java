@@ -23,9 +23,13 @@ public class SegmentClipper implements PointAccepter{
     private final PointL mPoint0 = new PointL();
     private final PointL mPoint1 = new PointL();
     private boolean mFirstPoint;
+    /**
+     * If true we keep the invisible segments: they have an impact on Path inner area
+     */
+    private boolean mPathMode;
 
     public void set(final long pXMin, final long pYMin, final long pXMax, final long pYMax,
-                    final PointAccepter pPointAccepter) {
+                    final PointAccepter pPointAccepter, final boolean pPathMode) {
         mXMin = pXMin;
         mYMin = pYMin;
         mXMax = pXMax;
@@ -35,11 +39,13 @@ public class SegmentClipper implements PointAccepter{
         cornerY[0] = cornerY[2] = mYMin;
         cornerY[1] = cornerY[3] = mYMax;
         mPointAccepter = pPointAccepter;
+        mPathMode = pPathMode;
     }
 
     @Override
     public void init() {
         mFirstPoint = true;
+        mPointAccepter.init();
     }
 
     @Override
@@ -54,12 +60,19 @@ public class SegmentClipper implements PointAccepter{
     }
 
     @Override
-    public void end() {}
+    public void end() {
+        mPointAccepter.end();
+    }
 
     /**
      * Clip a segment into the clip area
      */
     public void clip(final long pX0, final long pY0, final long pX1, final long pY1) {
+        if (!mPathMode) {
+            if (isOnTheSameSideOut(pX0, pY0, pX1, pY1)) {
+                return;
+            }
+        }
         if (isInClipArea(pX0, pY0)) {
             if (isInClipArea(pX1, pY1)) {
                 nextVertex(pX0, pY0);
@@ -69,14 +82,18 @@ public class SegmentClipper implements PointAccepter{
             if (intersection(pX0, pY0, pX1, pY1)) {
                 nextVertex(pX0, pY0);
                 nextVertex(mOptimIntersection.x, mOptimIntersection.y);
-                nextVertex(clipX(pX1), clipY(pY1));
+                if (mPathMode) {
+                    nextVertex(clipX(pX1), clipY(pY1));
+                }
                 return;
             }
             throw new RuntimeException("Cannot find expected mOptimIntersection for " + new RectL(pX0, pY0, pX1, pY1));
         }
         if (isInClipArea(pX1, pY1)) {
             if (intersection(pX0, pY0, pX1, pY1)) {
-                nextVertex(clipX(pX0), clipY(pY0));
+                if (mPathMode) {
+                    nextVertex(clipX(pX0), clipY(pY0));
+                }
                 nextVertex(mOptimIntersection.x, mOptimIntersection.y);
                 nextVertex(pX1, pY1);
                 return;
@@ -108,23 +125,31 @@ public class SegmentClipper implements PointAccepter{
                     mOptimIntersection2.x, mOptimIntersection2.y, pX0, pY0);
             final PointL start = distance1 < distance2 ? mOptimIntersection1 : mOptimIntersection2;
             final PointL end =  distance1 < distance2 ? mOptimIntersection2 : mOptimIntersection1;
-            nextVertex(clipX(pX0), clipY(pY0));
+            if (mPathMode) {
+                nextVertex(clipX(pX0), clipY(pY0));
+            }
             nextVertex(start.x, start.y);
             nextVertex(end.x, end.y);
-            nextVertex(clipX(pX1), clipY(pY1));
+            if (mPathMode) {
+                nextVertex(clipX(pX1), clipY(pY1));
+            }
             return;
         }
         if (count == 1) {
-            nextVertex(clipX(pX0), clipY(pY0));
-            nextVertex(mOptimIntersection1.x, mOptimIntersection1.y);
-            nextVertex(clipX(pX1), clipY(pY1));
+            if (mPathMode) {
+                nextVertex(clipX(pX0), clipY(pY0));
+                nextVertex(mOptimIntersection1.x, mOptimIntersection1.y);
+                nextVertex(clipX(pX1), clipY(pY1));
+            }
             return;
         }
         if (count == 0) {
-            nextVertex(clipX(pX0), clipY(pY0));
-            final int corner = getClosestCorner(pX0, pY0, pX1, pY1);
-            nextVertex(cornerX[corner], cornerY[corner]);
-            nextVertex(clipX(pX1), clipY(pY1));
+            if (mPathMode) {
+                nextVertex(clipX(pX0), clipY(pY0));
+                final int corner = getClosestCorner(pX0, pY0, pX1, pY1);
+                nextVertex(cornerX[corner], cornerY[corner]);
+                nextVertex(clipX(pX1), clipY(pY1));
+            }
             return;
         }
         throw new RuntimeException("Impossible mOptimIntersection count (" + count + ")");
@@ -206,4 +231,18 @@ public class SegmentClipper implements PointAccepter{
         }
         return corner;
     }
+
+    /**
+     * Optimization for lines (as opposed to Path)
+     * If both points are outside of the clip area and "on the same side of the outside" (sic)
+     * we don't need to compute anything anymore as it won't draw a line in the end
+     * @since 6.0.0
+     */
+    private boolean isOnTheSameSideOut(final long pX0, final long pY0, final long pX1, final long pY1) {
+        return (pX0 < mXMin && pX1 < mXMin)
+                || (pX0 > mXMax && pX1 > mXMax)
+                || (pY0 < mYMin && pY1 < mYMin)
+                || (pY0 > mYMax && pY1 > mYMax);
+    }
+
 }

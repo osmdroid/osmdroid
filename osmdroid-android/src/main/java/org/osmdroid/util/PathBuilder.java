@@ -28,11 +28,9 @@ public class PathBuilder implements PointAccepter{
             mFirst = false;
             mPath.moveTo(pX, pY);
             mLatestPoint.set(pX, pY);
-        } else {
-            if (mLatestPoint.x != pX || mLatestPoint.y != pY) {
-                mPath.lineTo(pX, pY);
-                mLatestPoint.set(pX, pY);
-            }
+        } else if (mLatestPoint.x != pX || mLatestPoint.y != pY) {
+            mPath.lineTo(pX, pY);
+            mLatestPoint.set(pX, pY);
         }
     }
 

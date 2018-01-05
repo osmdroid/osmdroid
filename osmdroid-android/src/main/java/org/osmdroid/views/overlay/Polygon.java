@@ -213,11 +213,11 @@ public class Polygon extends OverlayWithIW {
 		mPath.rewind();
 
 		mOutline.setClipArea(mapView);
-		final PointL offset = mOutline.buildPathPortion(pj, true, null);
+		final PointL offset = mOutline.buildPathPortion(pj, null, mMilestoneManagers.size() > 0);
 		for (final MilestoneManager milestoneManager : mMilestoneManagers) {
 			milestoneManager.init();
 			milestoneManager.setDistances(mOutline.getDistances());
-			for (final PointL point : mOutline.getGatheredPoints()) {
+			for (final PointL point : mOutline.getPointsForMilestones()) {
 				milestoneManager.add(point.x, point.y);
 			}
 			milestoneManager.end();
@@ -225,7 +225,7 @@ public class Polygon extends OverlayWithIW {
 
 		for (LinearRing hole:mHoles){
 			hole.setClipArea(mapView);
-			hole.buildPathPortion(pj, true, offset);
+			hole.buildPathPortion(pj, offset, mMilestoneManagers.size() > 0);
 		}
 		mPath.setFillType(Path.FillType.EVEN_ODD); //for correct support of holes
 
