@@ -184,6 +184,7 @@ public class Projection implements IProjection {
 
 	/**
 	 * @since 6.0.0
+	 * TODO refactor
 	 */
 	public long getLongPixelXFromLongitude(final double pLongitude, boolean forceWrap) {
 		return getLongPixelXFromMercator(TileSystem.getMercatorXFromLongitude(pLongitude, mMercatorMapSize, horizontalWrapEnabled || forceWrap), horizontalWrapEnabled);
@@ -191,9 +192,26 @@ public class Projection implements IProjection {
 
 	/**
 	 * @since 6.0.0
+	 * TODO refactor
+	 */
+	public long getLongPixelXFromLongitude(final double pLongitude) {
+		return getLongPixelXFromMercator(TileSystem.getMercatorXFromLongitude(pLongitude, mMercatorMapSize, false), false);
+	}
+
+	/**
+	 * @since 6.0.0
+	 * TODO refactor
 	 */
 	public long getLongPixelYFromLatitude(final double pLatitude, boolean forceWrap) {
 		return getLongPixelYFromMercator(TileSystem.getMercatorYFromLatitude(pLatitude, mMercatorMapSize, verticalWrapEnabled || forceWrap), verticalWrapEnabled);
+	}
+
+	/**
+	 * @since 6.0.0
+	 * TODO refactor
+	 */
+	public long getLongPixelYFromLatitude(final double pLatitude) {
+		return getLongPixelYFromMercator(TileSystem.getMercatorYFromLatitude(pLatitude, mMercatorMapSize, false), false);
 	}
 
 	/**
@@ -661,10 +679,10 @@ public class Projection implements IProjection {
 		if (pBoundingBox == null) {
 			return;
 		}
-		final long left = getLongPixelXFromLongitude(pBoundingBox.getLonWest(), true);
-		final long right = getLongPixelXFromLongitude(pBoundingBox.getLonEast(), true);
-		final long top = getLongPixelYFromLatitude(pBoundingBox.getActualNorth(), true);
-		final long bottom = getLongPixelYFromLatitude(pBoundingBox.getActualSouth(), true);
+		final long left = getLongPixelXFromLongitude(pBoundingBox.getLonWest());
+		final long right = getLongPixelXFromLongitude(pBoundingBox.getLonEast());
+		final long top = getLongPixelYFromLatitude(pBoundingBox.getActualNorth());
+		final long bottom = getLongPixelYFromLatitude(pBoundingBox.getActualSouth());
 		final long deltaX = checkScrollableOffset(left, right, mMercatorMapSize, mIntrinsicScreenRectProjection.width());
 		final long deltaY = checkScrollableOffset(top, bottom, mMercatorMapSize, mIntrinsicScreenRectProjection.height());
 		adjustOffsets(-deltaX, -deltaY);
