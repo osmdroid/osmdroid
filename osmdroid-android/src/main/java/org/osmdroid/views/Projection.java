@@ -39,6 +39,8 @@ public class Projection implements IProjection {
 	public final double mProjectedMapSize = TileSystem.MapSize((double)microsoft.mappoint.TileSystem.projectionZoomLevel);
 	private long mOffsetX;
 	private long mOffsetY;
+	private long mScrollX;
+	private long mScrollY;
 
 	private final Matrix mRotateAndScaleMatrix = new Matrix();
 	private final Matrix mUnrotateAndScaleMatrix = new Matrix();
@@ -82,8 +84,10 @@ public class Projection implements IProjection {
 		mTileSize = TileSystem.getTileSize(mZoomLevelProjection);
 		mIntrinsicScreenRectProjection = pScreenRect;
 		final GeoPoint center = pCenter != null ? pCenter : new GeoPoint(0., 0);
-		mOffsetX = getScreenCenterX() - pScrollX - TileSystem.getMercatorXFromLongitude(center.getLongitude(), mMercatorMapSize, this.horizontalWrapEnabled);
-		mOffsetY = getScreenCenterY() - pScrollY - TileSystem.getMercatorYFromLatitude(center.getLatitude(), mMercatorMapSize, this.verticalWrapEnabled);
+		mScrollX = pScrollX;
+		mScrollY = pScrollY;
+		mOffsetX = getScreenCenterX() - mScrollX - TileSystem.getMercatorXFromLongitude(center.getLongitude(), mMercatorMapSize, this.horizontalWrapEnabled);
+		mOffsetY = getScreenCenterY() - mScrollY - TileSystem.getMercatorYFromLatitude(center.getLatitude(), mMercatorMapSize, this.verticalWrapEnabled);
 		mOrientation = pOrientation;
 		mRotateAndScaleMatrix.preRotate(mOrientation, getScreenCenterX(), getScreenCenterY());
 		mRotateAndScaleMatrix.invert(mUnrotateAndScaleMatrix);
@@ -644,11 +648,7 @@ public class Projection implements IProjection {
 		final Point unRotatedActualPixel = toPixels(pGeoPoint, null);
 		final long deltaX = unRotatedExpectedPixel.x - unRotatedActualPixel.x;
 		final long deltaY = unRotatedExpectedPixel.y - unRotatedActualPixel.y;
-		if (deltaX != 0 || deltaY != 0) {
-			mOffsetX += deltaX;
-			mOffsetY += deltaY;
-			refresh();
-		}
+		adjustOffsets(deltaX, deltaY);
 	}
 
 	/**
@@ -667,11 +667,35 @@ public class Projection implements IProjection {
 		final long bottom = getLongPixelYFromLatitude(pBoundingBox.getActualSouth(), true);
 		final long deltaX = checkScrollableOffset(left, right, mMercatorMapSize, mIntrinsicScreenRectProjection.width());
 		final long deltaY = checkScrollableOffset(top, bottom, mMercatorMapSize, mIntrinsicScreenRectProjection.height());
-		if (deltaX != 0 || deltaY != 0) {
-			mOffsetX -= deltaX;
-			mOffsetY -= deltaY;
-			refresh();
+		adjustOffsets(-deltaX, -deltaY);
+	}
+
+	/**
+	 * @since 6.0.0
+	 */
+	private void adjustOffsets(final long pDeltaX, final long pDeltaY) {
+		if (pDeltaX == 0 && pDeltaY == 0) {
+			return;
 		}
+		mOffsetX += pDeltaX;
+		mOffsetY += pDeltaY;
+		mScrollX -= pDeltaX;
+		mScrollY -= pDeltaY;
+		refresh();
+	}
+
+	/**
+	 * @since 6.0.0
+	 */
+	public long getScrollX() {
+		return mScrollX;
+	}
+
+	/**
+	 * @since 6.0.0
+	 */
+	public long getScrollY() {
+		return mScrollY;
 	}
 
 	/**

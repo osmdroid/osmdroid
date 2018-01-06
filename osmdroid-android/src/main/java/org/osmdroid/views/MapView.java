@@ -328,6 +328,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 			mProjection = new Projection(this);
 			mProjection.adjustOffsets(mMultiTouchScaleGeoPoint, mMultiTouchScaleCurrentPoint);
 			mProjection.adjustOffsets(mScrollableAreaBoundingBox);
+			setMapScroll(mProjection.getScrollX(), mProjection.getScrollY());
 		}
 		return mProjection;
 	}
@@ -436,8 +437,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 			mListener.onZoom(event);
 		}
 
-		// Allows any views fixed to a Location in the MapView to adjust
-		this.requestLayout();
+		invalidate();
 		return this.mZoomLevel;
 	}
 
@@ -614,8 +614,6 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	public void setMapOrientation(final float degrees, final boolean forceRedraw) {
 		mapOrientation = degrees % 360.0f;
 		if (forceRedraw) {
-			// Request a layout, so that children are correctly positioned according to map orientation
-			requestLayout();
 			invalidate();
 		}
 	}
@@ -1086,9 +1084,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 			final PointInfo aTouchPoint) {
 		setMultiTouchScaleCurrentPoint(aNewObjPosAndScale.getXOff(), aNewObjPosAndScale.getYOff());
 		setMultiTouchScale(aNewObjPosAndScale.getScale());
-		// Request a layout, so that children are correctly positioned according to scale
-		requestLayout();
-		invalidate(); // redraw
+		invalidate();
 		return true;
 	}
 
@@ -1574,7 +1570,6 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	private void setMapScroll(final long pMapScrollX, final long pMapScrollY) {
 		mMapScrollX = pMapScrollX;
 		mMapScrollY = pMapScrollY;
-		requestLayout();
 	}
 
 	/**
