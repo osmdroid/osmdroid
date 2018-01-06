@@ -2,7 +2,6 @@ package org.osmdroid.views.overlay.simplefastpoint;
 
 import android.graphics.Canvas;
 import android.graphics.Point;
-import android.util.Log;
 import android.view.MotionEvent;
 
 import org.osmdroid.api.IGeoPoint;
@@ -38,7 +37,7 @@ public class SimpleFastPointOverlay extends Overlay {
     private LabelledPoint grid[][];
     private boolean gridBool[][];
     private int gridWid, gridHei, viewWid, viewHei;
-    private boolean hasMoved, wasAnimating;
+    private boolean hasMoved = false;
     private int prevNumPointers, numLabels;
     private BoundingBox startBoundingBox;
     private Projection startProjection;
@@ -116,11 +115,12 @@ public class SimpleFastPointOverlay extends Overlay {
         // TODO: 15-11-2016 should take map orientation into account in the BBox!
         BoundingBox viewBBox = pMapView.getBoundingBox();
 
-        if(startBoundingBox == null)
+        if(mStyle.mAlgorithm ==
+                SimpleFastPointOverlayOptions.RenderingAlgorithm.MAXIMUM_OPTIMIZATION) {
             startBoundingBox = viewBBox;
-        if(startProjection == null)
             startProjection = pMapView.getProjection();
-
+        }
+        
         // do not compute grid if BBox is the same
         if(viewBBox.getLatNorth() != prevBoundingBox.getLatNorth()
                 || viewBBox.getLatSouth() != prevBoundingBox.getLatSouth()
