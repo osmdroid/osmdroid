@@ -69,6 +69,19 @@ If you run across any, please report them.
 In case gradle doesn't resolve it, it can be download manually here:
 https://oss.sonatype.org/service/local/repositories/snapshots/content/org/osmdroid/osmdroid-android/6.0.0-SNAPSHOT/osmdroid-android-6.0.0-SNAPSHOT.aar
 
+Side note: gradle's cached dependencies and doesn't really handle snapshot very well.
+To force gradle to update snapshots on every build, try adding this to your root `build.gradle` file.
+
+```groovy
+allprojects  {
+  // forces all changing dependencies (i.e. SNAPSHOTs) to automagicially download
+    configurations.all {
+        resolutionStrategy {
+            cacheChangingModulesFor 0, 'seconds'
+    }
+}
+```
+
 ## OK now what?
 Continue reading here, [How-to-use-the-osmdroid-library](https://github.com/osmdroid/osmdroid/wiki/How-to-use-the-osmdroid-library)
 
