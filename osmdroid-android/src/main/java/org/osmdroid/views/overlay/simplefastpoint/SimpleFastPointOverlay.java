@@ -2,10 +2,12 @@ package org.osmdroid.views.overlay.simplefastpoint;
 
 import android.graphics.Canvas;
 import android.graphics.Point;
+import android.util.Log;
 import android.view.MotionEvent;
 
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.util.BoundingBox;
+import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
 import org.osmdroid.views.overlay.Overlay;
@@ -36,8 +38,10 @@ public class SimpleFastPointOverlay extends Overlay {
     private LabelledPoint grid[][];
     private boolean gridBool[][];
     private int gridWid, gridHei, viewWid, viewHei;
-    private float startX, startY, curX, curY, offsetX, offsetY;
+    private boolean hasMoved, wasAnimating;
     private int prevNumPointers, numLabels;
+    private BoundingBox startBoundingBox;
+    private Projection startProjection;
     private BoundingBox prevBoundingBox = new BoundingBox(0, 0, 0, 0);
 
     public class LabelledPoint extends Point {
@@ -112,6 +116,11 @@ public class SimpleFastPointOverlay extends Overlay {
         // TODO: 15-11-2016 should take map orientation into account in the BBox!
         BoundingBox viewBBox = pMapView.getBoundingBox();
 
+        if(startBoundingBox == null)
+            startBoundingBox = viewBBox;
+        if(startProjection == null)
+            startProjection = pMapView.getProjection();
+
         // do not compute grid if BBox is the same
         if(viewBBox.getLatNorth() != prevBoundingBox.getLatNorth()
                 || viewBBox.getLatSouth() != prevBoundingBox.getLatSouth()
@@ -157,48 +166,24 @@ public class SimpleFastPointOverlay extends Overlay {
     }
 
     @Override
-    public boolean onTouchEvent(MotionEvent event, MapView mapView) {
+    public boolean onTouchEvent(MotionEvent event, final MapView mapView) {
         if(mStyle.mAlgorithm !=
                 SimpleFastPointOverlayOptions.RenderingAlgorithm.MAXIMUM_OPTIMIZATION) return false;
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 prevNumPointers = event.getPointerCount();
-                startX = event.getX(0);
-                startY = event.getY(0);
-                for (int i = 1; i < prevNumPointers; i++) {
-                    startX += event.getX(i);
-                    startY += event.getY(i);
-                }
-                startX /= prevNumPointers;
-                startY /= prevNumPointers;
+                startBoundingBox = mapView.getBoundingBox();
+                startProjection = mapView.getProjection();
                 break;
 
-            // TODO: this isn't quite well synchronized with MultitouchController in zoom...
             case MotionEvent.ACTION_MOVE:
-                curX = event.getX(0);
-                curY = event.getY(0);
-                for (int i = 1; i < event.getPointerCount(); i++) {
-                    curX += event.getX(i);
-                    curY += event.getY(i);
-                }
-                curX /= event.getPointerCount();
-                curY /= event.getPointerCount();
-
-                if(event.getPointerCount() != prevNumPointers) {
-                    computeGrid(mapView);
-                    prevNumPointers = event.getPointerCount();
-                    offsetX = curX - startX;
-                    offsetY = curY - startY;
-                }
+                hasMoved = true;
                 break;
 
             case MotionEvent.ACTION_UP:
-                startX = 0;
-                startY = 0;
-                curX = 0;
-                curY = 0;
-                offsetX = 0;
-                offsetY = 0;
+                hasMoved = false;
+                startBoundingBox = mapView.getBoundingBox();
+                startProjection = mapView.getProjection();
                 mapView.invalidate();
                 break;
         }
@@ -274,9 +259,19 @@ public class SimpleFastPointOverlay extends Overlay {
                     // optimized for speed, recommended for > 10k points
                     // recompute grid only on specific events - only onDraw but when not animating
                     // and not in the middle of a touch scroll gesture
-                    if (grid == null
-                            || (curX == 0 && curY == 0 && !mapView.isAnimating()))
+
+                    if (grid == null || (!hasMoved && !mapView.isAnimating()))
                         computeGrid(mapView);
+
+                    // compute the coordinates of each visible point in the new viewbox
+                    IGeoPoint nw = new GeoPoint(startBoundingBox.getLatNorth(), startBoundingBox.getLonWest());
+                    IGeoPoint se = new GeoPoint(startBoundingBox.getLatSouth(), startBoundingBox.getLonEast());
+                    Point pNw = pj.toPixels(nw, null);
+                    Point pSe = pj.toPixels(se, null);
+                    Point pStartSe = startProjection.toPixels(se, null);
+                    Point dGz = new Point(pSe.x - pStartSe.x, pSe.y - pStartSe.y);
+                    Point dd = new Point(dGz.x - pNw.x, dGz.y - pNw.y);
+                    float tx, ty;
 
                     showLabels =
                             ((mStyle.mLabelPolicy == SimpleFastPointOverlayOptions.LabelPolicy.DENSITY_THRESHOLD
@@ -284,29 +279,30 @@ public class SimpleFastPointOverlay extends Overlay {
                                     || (mStyle.mLabelPolicy == SimpleFastPointOverlayOptions.LabelPolicy.ZOOM_THRESHOLD
                                     && mapView.getZoomLevelDouble() >= mStyle.mMinZoomShowLabels));
                     // draw points
-                    float offX = curX - startX;
-                    float offY = curY - startY;
                     for (int x = 0; x < gridWid; x++) {
                         for (int y = 0; y < gridHei; y++) {
                             if (grid[x][y] != null) {
-                                if(mStyle.mSymbol == SimpleFastPointOverlayOptions.Shape.CIRCLE)
-                                    canvas.drawCircle(grid[x][y].x + offX - offsetX
-                                            , grid[x][y].y + offY - offsetY
+                                tx = (grid[x][y].x * dd.x) / pStartSe.x;
+                                ty = (grid[x][y].y * dd.y) / pStartSe.y;
+                                if (mStyle.mSymbol == SimpleFastPointOverlayOptions.Shape.CIRCLE) {
+                                    canvas.drawCircle(grid[x][y].x + pNw.x + tx
+                                            , grid[x][y].y + pNw.y + ty
                                             , mStyle.mCircleRadius, mStyle.mPointStyle);
-                                else
+                                } else
                                     canvas.drawRect(
-                                            grid[x][y].x + offX - offsetX - mStyle.mCircleRadius
-                                            , grid[x][y].y + offY - offsetY - mStyle.mCircleRadius
-                                            , grid[x][y].x + offX - offsetX + mStyle.mCircleRadius
-                                            , grid[x][y].y + offY - offsetY + mStyle.mCircleRadius
+                                            grid[x][y].x + pNw.x + tx - mStyle.mCircleRadius
+                                            , grid[x][y].y + pNw.y + ty - mStyle.mCircleRadius
+                                            , grid[x][y].x + pNw.x + tx + mStyle.mCircleRadius
+                                            , grid[x][y].y + pNw.y + ty + mStyle.mCircleRadius
                                             , mStyle.mPointStyle);
 
-                                if(mPointList.isLabelled() && showLabels &&
+
+
+                                if (mPointList.isLabelled() && showLabels &&
                                         (tmpLabel = grid[x][y].mlabel) != null)
                                     canvas.drawText(tmpLabel
-                                            , grid[x][y].x + offX - offsetX
-                                            , grid[x][y].y + offY - offsetY - mStyle.mCircleRadius
-                                                    - 5
+                                            , grid[x][y].x + pNw.x + tx
+                                            , grid[x][y].y + pNw.y + ty - mStyle.mCircleRadius - 5
                                             , mStyle.mTextStyle);
 
                             }
