@@ -104,6 +104,6 @@ public class SampleLimitedScrollArea extends BaseSampleFragment {
 			setLimitScrolling(mMapView.getScrollableAreaLimit() == null);
 			return true;
 		}
-		return false;
+		return super.onOptionsItemSelected(item);
 	}
 }

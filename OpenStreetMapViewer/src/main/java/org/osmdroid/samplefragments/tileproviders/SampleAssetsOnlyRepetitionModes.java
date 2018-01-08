@@ -9,6 +9,7 @@ import android.widget.CompoundButton;
 import org.osmdroid.R;
 import org.osmdroid.samplefragments.BaseSampleFragment;
 import org.osmdroid.util.BoundingBox;
+import org.osmdroid.util.TileSystem;
 import org.osmdroid.views.MapView;
 
 /**
@@ -54,8 +55,9 @@ public class SampleAssetsOnlyRepetitionModes extends BaseSampleFragment {
         limitBoundsCb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked) {
-                    BoundingBox boundingBox = new BoundingBox(90, 180, -90, -180);
-                    mMapView.setScrollableAreaLimitDouble(boundingBox);
+                    mMapView.setScrollableAreaLimitDouble(new BoundingBox(
+                            TileSystem.MaxLatitude, TileSystem.MaxLongitude,
+                            TileSystem.MinLatitude, TileSystem.MinLongitude));
                 } else {
                     mMapView.setScrollableAreaLimitDouble(null);
                 }
