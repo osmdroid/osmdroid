@@ -284,22 +284,23 @@ public class DefaultConfigurationProvider implements IConfigurationProvider {
         //cache management starts here
 
         //check to see if the shared preferences is set for the tile cache
-        if (!prefs.contains("osmdroid.basePath")){
+        if (!prefs.contains("osmdroid.basePath")) {
             //this is the first time startup. run the discovery bit
-            File discoveredBestPath = getOsmdroidBasePath();
-            File discoveredCachPath = getOsmdroidTileCache();
-            if (!discoveredBestPath.exists() || !StorageUtils.isWritable(discoveredBestPath)) {
+            File discoveredBasePath = getOsmdroidBasePath();
+            File discoveredCachePath = getOsmdroidTileCache();
+            if (!discoveredBasePath.exists() || !StorageUtils.isWritable(discoveredBasePath)) {
                 //this should always be writable...
-                discoveredCachPath=discoveredBestPath=new File("/data/data/" + ctx.getPackageName() + "/osmdroid/");
-                discoveredCachPath.mkdirs();
+                discoveredBasePath = new File(ctx.getFilesDir(), "osmdroid");
+                discoveredCachePath = new File(discoveredBasePath, "tiles");
+                discoveredCachePath.mkdirs();
             }
 
             SharedPreferences.Editor edit = prefs.edit();
-            edit.putString("osmdroid.basePath",discoveredBestPath.getAbsolutePath());
-            edit.putString("osmdroid.cachePath",discoveredCachPath.getAbsolutePath());
+            edit.putString("osmdroid.basePath",discoveredBasePath.getAbsolutePath());
+            edit.putString("osmdroid.cachePath",discoveredCachePath.getAbsolutePath());
             commit(edit);
-            setOsmdroidBasePath(discoveredBestPath);
-            setOsmdroidTileCache(discoveredCachPath);
+            setOsmdroidBasePath(discoveredBasePath);
+            setOsmdroidTileCache(discoveredCachePath);
             setUserAgentValue(ctx.getPackageName());
             save(ctx,prefs);
         } else {
