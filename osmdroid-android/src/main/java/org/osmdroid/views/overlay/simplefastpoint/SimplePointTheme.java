@@ -16,11 +16,21 @@ import java.util.List;
 
 public final class SimplePointTheme implements SimpleFastPointOverlay.PointAdapter {
     private final List<IGeoPoint> mPoints;
-    private boolean mLabelled;
+    private boolean mLabelled, mStyled;
+
+    public SimplePointTheme(List<IGeoPoint> pPoints) {
+        this(pPoints, pPoints.size() != 0 && pPoints.get(0) instanceof LabelledGeoPoint
+                , pPoints.size() != 0 && pPoints.get(0) instanceof StyledLabelledGeoPoint);
+    }
 
     public SimplePointTheme(List<IGeoPoint> pPoints, boolean labelled) {
+        this(pPoints, labelled, false);
+    }
+
+    public SimplePointTheme(List<IGeoPoint> pPoints, boolean labelled, boolean styled) {
         mPoints = pPoints;
         mLabelled = labelled;
+        mStyled = styled;
     }
 
     @Override
@@ -36,6 +46,11 @@ public final class SimplePointTheme implements SimpleFastPointOverlay.PointAdapt
     @Override
     public boolean isLabelled() {
         return mLabelled;
+    }
+
+    @Override
+    public boolean isStyled() {
+        return mStyled;
     }
 
     /**

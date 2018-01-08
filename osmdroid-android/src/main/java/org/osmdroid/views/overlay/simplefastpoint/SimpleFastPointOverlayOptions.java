@@ -52,6 +52,7 @@ public class SimpleFastPointOverlayOptions {
 
     /**
      * Sets the style for the point overlay, which is applied to all circles.
+     * If the layer is individually styled, the individual style overrides this.
      * @param style A Paint object.
      * @return The updated {@link SimpleFastPointOverlayOptions}
      */
@@ -139,6 +140,7 @@ public class SimpleFastPointOverlayOptions {
 
     /**
      * Sets the style for the labels.
+     * If the layer is individually styled, the individual style overrides this.
      * @param textStyle The style.
      * @return The updated {@link SimpleFastPointOverlayOptions}
      */

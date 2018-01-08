@@ -1,6 +1,7 @@
 package org.osmdroid.views.overlay.simplefastpoint;
 
 import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.Point;
 import android.view.MotionEvent;
 
@@ -34,7 +35,7 @@ public class SimpleFastPointOverlay extends Overlay {
     private Integer mSelectedPoint;
     private OnClickListener clickListener;
     // grid index for optimizing drawing k's of points
-    private LabelledPoint grid[][];
+    private StyledLabelledPoint grid[][];
     private boolean gridBool[][];
     private int gridWid, gridHei, viewWid, viewHei;
     private boolean hasMoved = false;
@@ -43,12 +44,18 @@ public class SimpleFastPointOverlay extends Overlay {
     private Projection startProjection;
     private BoundingBox prevBoundingBox = new BoundingBox(0, 0, 0, 0);
 
-    public class LabelledPoint extends Point {
+    /**
+     * Just a light internal class for storing point data
+     */
+    public class StyledLabelledPoint extends Point {
         private String mlabel;
+        private Paint mPointStyle, mTextStyle;
 
-        public LabelledPoint(Point point, String label) {
+        public StyledLabelledPoint(Point point, String label, Paint pointStyle, Paint textStyle) {
             super(point);
             this.mlabel = label;
+            this.mPointStyle = pointStyle;
+            this.mTextStyle = textStyle;
         }
     }
 
@@ -61,6 +68,12 @@ public class SimpleFastPointOverlay extends Overlay {
          * @return
          */
         boolean isLabelled();
+
+        /**
+         * Whether the points are individually styled
+         * @return
+         */
+        boolean isStyled();
     }
 
     public interface OnClickListener {
@@ -97,7 +110,7 @@ public class SimpleFastPointOverlay extends Overlay {
         gridHei = (int) Math.floor((float) viewHei / mStyle.mCellSize) + 1;
         if(mStyle.mAlgorithm ==
                 SimpleFastPointOverlayOptions.RenderingAlgorithm.MAXIMUM_OPTIMIZATION)
-            grid = new LabelledPoint[gridWid][gridHei];
+            grid = new StyledLabelledPoint[gridWid][gridHei];
         else
             gridBool = new boolean[gridWid][gridHei];
 
@@ -115,12 +128,9 @@ public class SimpleFastPointOverlay extends Overlay {
         // TODO: 15-11-2016 should take map orientation into account in the BBox!
         BoundingBox viewBBox = pMapView.getBoundingBox();
 
-        if(mStyle.mAlgorithm ==
-                SimpleFastPointOverlayOptions.RenderingAlgorithm.MAXIMUM_OPTIMIZATION) {
-            startBoundingBox = viewBBox;
-            startProjection = pMapView.getProjection();
-        }
-        
+        startBoundingBox = viewBBox;
+        startProjection = pMapView.getProjection();
+
         // do not compute grid if BBox is the same
         if(viewBBox.getLatNorth() != prevBoundingBox.getLatNorth()
                 || viewBBox.getLatSouth() != prevBoundingBox.getLatSouth()
@@ -157,8 +167,11 @@ public class SimpleFastPointOverlay extends Overlay {
                     if (gridX >= gridWid || gridY >= gridHei || gridX < 0 || gridY < 0
                         || grid[gridX][gridY] != null)
                         continue;
-                    grid[gridX][gridY] = new LabelledPoint(mPositionPixels
-                            , mPointList.isLabelled() ? ((LabelledGeoPoint) pt1).getLabel() : null);
+                    grid[gridX][gridY] = new StyledLabelledPoint(mPositionPixels
+                        , mPointList.isLabelled() ? ((LabelledGeoPoint) pt1).getLabel() : null
+                        , mPointList.isStyled() ? ((StyledLabelledGeoPoint) pt1).getPointStyle() : null
+                        , mPointList.isStyled() ? ((StyledLabelledGeoPoint) pt1).getTextStyle() : null
+                    );
                     numLabels++;
                 }
             }
@@ -252,8 +265,9 @@ public class SimpleFastPointOverlay extends Overlay {
         final Projection pj = mapView.getProjection();
         String tmpLabel;
         boolean showLabels;
+        Paint pointStyle, textStyle;
 
-        if(mStyle.mPointStyle != null) {
+        if(mStyle.mPointStyle != null || mPointList.isStyled()) {
             switch (mStyle.mAlgorithm) {
                 case MAXIMUM_OPTIMIZATION:
                     // optimized for speed, recommended for > 10k points
@@ -284,26 +298,30 @@ public class SimpleFastPointOverlay extends Overlay {
                             if (grid[x][y] != null) {
                                 tx = (grid[x][y].x * dd.x) / pStartSe.x;
                                 ty = (grid[x][y].y * dd.y) / pStartSe.y;
+
+                                pointStyle = (mPointList.isStyled() && grid[x][y].mPointStyle != null)
+                                        ? grid[x][y].mPointStyle : mStyle.mPointStyle;
+
                                 if (mStyle.mSymbol == SimpleFastPointOverlayOptions.Shape.CIRCLE) {
                                     canvas.drawCircle(grid[x][y].x + pNw.x + tx
                                             , grid[x][y].y + pNw.y + ty
-                                            , mStyle.mCircleRadius, mStyle.mPointStyle);
+                                            , mStyle.mCircleRadius, pointStyle);
                                 } else
                                     canvas.drawRect(
                                             grid[x][y].x + pNw.x + tx - mStyle.mCircleRadius
                                             , grid[x][y].y + pNw.y + ty - mStyle.mCircleRadius
                                             , grid[x][y].x + pNw.x + tx + mStyle.mCircleRadius
                                             , grid[x][y].y + pNw.y + ty + mStyle.mCircleRadius
-                                            , mStyle.mPointStyle);
-
-
+                                            , pointStyle);
 
                                 if (mPointList.isLabelled() && showLabels &&
                                         (tmpLabel = grid[x][y].mlabel) != null)
                                     canvas.drawText(tmpLabel
                                             , grid[x][y].x + pNw.x + tx
                                             , grid[x][y].y + pNw.y + ty - mStyle.mCircleRadius - 5
-                                            , mStyle.mTextStyle);
+                                            , (mPointList.isStyled()
+                                                    && (textStyle = grid[x][y].mTextStyle) != null)
+                                                    ? textStyle : mStyle.mTextStyle);
 
                             }
                         }
@@ -340,23 +358,29 @@ public class SimpleFastPointOverlay extends Overlay {
                                 continue;
                             gridBool[gridX][gridY] = true;
 
+                            // style may come individually or from the whole theme setting
+                            pointStyle = (mPointList.isStyled() && ((StyledLabelledGeoPoint) pt1).getPointStyle() != null)
+                                    ? ((StyledLabelledGeoPoint) pt1).getPointStyle() : mStyle.mPointStyle;
+
                             if(mStyle.mSymbol == SimpleFastPointOverlayOptions.Shape.CIRCLE)
                                 canvas.drawCircle((float) mPositionPixels.x
                                         , (float) mPositionPixels.y
-                                        , mStyle.mCircleRadius, mStyle.mPointStyle);
+                                        , mStyle.mCircleRadius, pointStyle);
                             else
                                 canvas.drawRect((float) mPositionPixels.x - mStyle.mCircleRadius
                                         , (float) mPositionPixels.y - mStyle.mCircleRadius
                                         , (float) mPositionPixels.x + mStyle.mCircleRadius
                                         , (float) mPositionPixels.y + mStyle.mCircleRadius
-                                        , mStyle.mPointStyle);
+                                        , pointStyle);
 
                             if(mPointList.isLabelled() && showLabels &&
                                     (tmpLabel = ((LabelledGeoPoint) pt1).getLabel()) != null)
                                 canvas.drawText(tmpLabel
                                         , (float) mPositionPixels.x
                                         , (float) mPositionPixels.y - mStyle.mCircleRadius - 5
-                                        , mStyle.mTextStyle);
+                                        , (mPointList.isStyled()
+                                                && (textStyle = ((StyledLabelledGeoPoint) pt1).getTextStyle()) != null)
+                                                ? textStyle : mStyle.mTextStyle);
                         }
                     }
                     break;
@@ -373,23 +397,30 @@ public class SimpleFastPointOverlay extends Overlay {
                                 && pt1.getLongitude() > viewBBox.getLonWest()
                                 && pt1.getLongitude() < viewBBox.getLonEast()) {
                             pj.toPixels(pt1, mPositionPixels);
+
+                            // style may come individually or from the whole theme setting
+                            pointStyle = (mPointList.isStyled() && ((StyledLabelledGeoPoint) pt1).getPointStyle() != null)
+                                    ? ((StyledLabelledGeoPoint) pt1).getPointStyle() : mStyle.mPointStyle;
+
                             if(mStyle.mSymbol == SimpleFastPointOverlayOptions.Shape.CIRCLE)
                                 canvas.drawCircle((float) mPositionPixels.x
                                         , (float) mPositionPixels.y
-                                        , mStyle.mCircleRadius, mStyle.mPointStyle);
+                                        , mStyle.mCircleRadius, pointStyle);
                             else
                                 canvas.drawRect((float) mPositionPixels.x - mStyle.mCircleRadius
                                         , (float) mPositionPixels.y - mStyle.mCircleRadius
                                         , (float) mPositionPixels.x + mStyle.mCircleRadius
                                         , (float) mPositionPixels.y + mStyle.mCircleRadius
-                                        , mStyle.mPointStyle);
+                                        , pointStyle);
 
                             if(mPointList.isLabelled() && showLabels &&
                                     (tmpLabel = ((LabelledGeoPoint) pt1).getLabel()) != null)
                                 canvas.drawText(tmpLabel
                                         , (float) mPositionPixels.x
                                         , (float) mPositionPixels.y - mStyle.mCircleRadius - 5
-                                        , mStyle.mTextStyle);
+                                        , (mPointList.isStyled()
+                                                && (textStyle = ((StyledLabelledGeoPoint) pt1).getTextStyle()) != null)
+                                                ? textStyle : mStyle.mTextStyle);
 
                         }
                     }
