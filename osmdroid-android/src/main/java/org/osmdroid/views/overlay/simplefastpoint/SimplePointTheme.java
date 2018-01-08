@@ -7,10 +7,11 @@ import java.util.List;
 
 /**
  * This class is just a simple wrapper for a List of {@link IGeoPoint}s to be used in
- * {@link SimpleFastPointOverlay}. Can be used for unlabelled or labelled GeoPoints. Be sure to set
- * the labelled parameter of the constructor to match the kind of points.
+ * {@link SimpleFastPointOverlay}. Can be used for unlabelled or labelled GeoPoints.
+ * Use the simple constructor, or otherwise be sure to set the labelled and styled parameters of the
+ * constructor to match the kind of points.
  * More complex cases should implement {@link SimpleFastPointOverlay.PointAdapter}, not extend this
- * one.
+ * one. This is a simple example on how to implement an adapter for any case.
  * Created by Miguel Porto on 26-10-2016.
  */
 

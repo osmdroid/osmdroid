@@ -15,9 +15,12 @@ import org.osmdroid.views.overlay.simplefastpoint.LabelledGeoPoint;
 import org.osmdroid.views.overlay.simplefastpoint.SimpleFastPointOverlay;
 import org.osmdroid.views.overlay.simplefastpoint.SimpleFastPointOverlayOptions;
 import org.osmdroid.views.overlay.simplefastpoint.SimplePointTheme;
+import org.osmdroid.views.overlay.simplefastpoint.StyledLabelledGeoPoint;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Example of SimpleFastPointOverlay
@@ -28,13 +31,15 @@ public class SampleSimpleFastPointOverlay extends BaseSampleFragment {
 
     @Override
     public String getSampleTitle() {
-        return "Simple Fast Point Overlay with 10k points";
+        return "Simple Fast Point Overlay with 20k points";
     }
 
     @Override
     protected void addOverlays() {
         super.addOverlays();
-        // create 10k labelled points
+        // **********************************************
+        // Create 10k labelled points sharing same style
+        // **********************************************
         // in most cases, there will be no problems of displaying >100k points, feel free to try
         List<IGeoPoint> points = new ArrayList<>();
         for (int i = 0; i < 10000; i++) {
@@ -43,7 +48,7 @@ public class SampleSimpleFastPointOverlay extends BaseSampleFragment {
         }
 
         // wrap them in a theme
-        SimplePointTheme pt = new SimplePointTheme(points, true);
+        SimplePointTheme pointTheme = new SimplePointTheme(points);
 
         // create label style
         Paint textStyle = new Paint();
@@ -56,10 +61,11 @@ public class SampleSimpleFastPointOverlay extends BaseSampleFragment {
         // we use here MAXIMUM_OPTIMIZATION algorithm, which works well with >100k points
         SimpleFastPointOverlayOptions opt = SimpleFastPointOverlayOptions.getDefaultStyle()
                 .setAlgorithm(SimpleFastPointOverlayOptions.RenderingAlgorithm.MAXIMUM_OPTIMIZATION)
-                .setRadius(7).setIsClickable(true).setCellSize(15).setTextStyle(textStyle);
+                .setRadius(7).setIsClickable(true).setCellSize(12).setTextStyle(textStyle)
+                .setMinZoomShowLabels(9);
 
         // create the overlay with the theme
-        final SimpleFastPointOverlay sfpo = new SimpleFastPointOverlay(pt, opt);
+        final SimpleFastPointOverlay sfpo = new SimpleFastPointOverlay(pointTheme, opt);
 
         // onClick callback
         sfpo.setOnClickListener(new SimpleFastPointOverlay.OnClickListener() {
@@ -74,18 +80,57 @@ public class SampleSimpleFastPointOverlay extends BaseSampleFragment {
         // add overlay
         mMapView.getOverlays().add(sfpo);
 
-        // zoom to its bounding box
-        mMapView.addOnFirstLayoutListener(new MapView.OnFirstLayoutListener() {
+        // *****************************************************
+        // Now add another layer with points individually styled
+        // *****************************************************
+        // create 10k labelled points
+        List<IGeoPoint> individualStyledPoints = new ArrayList<>();
+        Paint indPointStyle, indTextStyle;
 
+        for (int i = 0; i < 10000; i++) {
+            // create random colored style for each point
+            indPointStyle = new Paint();
+            indPointStyle.setStyle(Paint.Style.FILL);
+            indPointStyle.setColor(Color.rgb((int) Math.floor(Math.random() * 255)
+                    , (int) Math.floor(Math.random() * 255), (int) Math.floor(Math.random() * 255)));
+
+            // create style with random color and text size for each point label
+            indTextStyle = new Paint();
+            indTextStyle.setTextSize((int) (10 + Math.random() * 40));
+            indTextStyle.setTextAlign(Paint.Align.CENTER);
+            indTextStyle.setColor(Color.rgb((int) Math.floor(Math.random() * 255)
+                    , (int) Math.floor(Math.random() * 255), (int) Math.floor(Math.random() * 255)));
+            indTextStyle.setStyle(Paint.Style.FILL);
+
+            individualStyledPoints.add(new StyledLabelledGeoPoint(
+                    37 + Math.random() * 5, -3 + Math.random() * 5
+                    , "Point #" + i, indPointStyle, indTextStyle));
+        }
+
+        // wrap point list in a theme
+        SimplePointTheme individualStyledPointTheme = new SimplePointTheme(individualStyledPoints);
+
+        // set some visual options for the theme
+        opt = SimpleFastPointOverlayOptions.getDefaultStyle()
+                .setSymbol(SimpleFastPointOverlayOptions.Shape.SQUARE)
+                .setAlgorithm(SimpleFastPointOverlayOptions.RenderingAlgorithm.MAXIMUM_OPTIMIZATION)
+                .setRadius(7).setCellSize(12).setMinZoomShowLabels(9);
+
+        // create the overlay with the theme
+        final SimpleFastPointOverlay sfpo1 = new SimpleFastPointOverlay(individualStyledPointTheme, opt);
+
+        // add overlay
+        mMapView.getOverlays().add(sfpo1);
+
+        // zoom to both themes' bounding box
+        mMapView.postDelayed(new Runnable() {
             @Override
-            public void onFirstLayout(View v, int left, int top, int right, int bottom) {
-                if(mMapView != null && mMapView.getController() != null) {
-                    mMapView.getController().zoomTo(6);
-                    mMapView.zoomToBoundingBox(sfpo.getBoundingBox(), true);
-                }
-
+            public void run() {
+                if(mMapView != null && mMapView.getController() != null
+                        && mMapView.getIntrinsicScreenRect(null).height() > 0)
+                    mMapView.zoomToBoundingBox(sfpo.getBoundingBox().concat(sfpo1.getBoundingBox()), false);
             }
-        });
+        }, 500L);
 
     }
 
