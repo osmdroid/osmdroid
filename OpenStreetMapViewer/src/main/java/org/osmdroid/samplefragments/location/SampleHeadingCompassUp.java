@@ -64,6 +64,7 @@ public class SampleHeadingCompassUp extends BaseSampleFragment implements Locati
         overlay.setEnableAutoStop(false);
         overlay.enableFollowLocation();
         overlay.enableMyLocation();
+        mMapView.setBuiltInZoomControls(true);
         this.mMapView.getOverlayManager().add(overlay);
     }
 
@@ -111,8 +112,12 @@ public class SampleHeadingCompassUp extends BaseSampleFragment implements Locati
             lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, (LocationListener) this);
             lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, (LocationListener) this);
         } catch (Exception ex) {
+            //usually permissions or
+            //java.lang.IllegalArgumentException: provider doesn't exist: network
+            ex.printStackTrace();
         }
-        compass = new InternalCompassOrientationProvider(getActivity());
+        if (compass==null)
+            compass = new InternalCompassOrientationProvider(getActivity());
         compass.startOrientationProvider(this);
         mMapView.getController().zoomTo(16);
 

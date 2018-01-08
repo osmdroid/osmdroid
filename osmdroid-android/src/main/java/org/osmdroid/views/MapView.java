@@ -32,7 +32,6 @@ import org.osmdroid.views.overlay.DefaultOverlayManager;
 import org.osmdroid.views.overlay.Overlay;
 import org.osmdroid.views.overlay.OverlayManager;
 import org.osmdroid.views.overlay.TilesOverlay;
-import org.osmdroid.views.overlay.ZoomButtonsOverlay;
 import org.osmdroid.views.util.constants.MapViewConstants;
 
 import android.content.Context;
@@ -51,6 +50,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Scroller;
+import android.widget.ZoomButtonsController;
 
 /**
  * This is the primary view for osmdroid
@@ -83,6 +83,10 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	protected Double mMaximumZoomLevel;
 
 	private final MapController mController;
+
+	private final ZoomButtonsController mZoomController;
+	private boolean mEnableZoomController = false;
+
 
 	private MultiTouchController<Object> mMultiTouchController;
 
@@ -132,7 +136,6 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	private long mMapScrollX;
 	private long mMapScrollY;
 
-	private ZoomButtonsOverlay mZoomButtonsOverlay;
 	private double mStartAnimationZoom;
 
 	public interface OnFirstLayoutListener {
@@ -165,6 +168,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		if(isInEditMode()){ 	//fix for edit mode in the IDE
 			mTileRequestCompleteHandler=null;
 			mController=null;
+			mZoomController=null;
 			mScroller=null;
 			mGestureDetector=null;
 			return;
@@ -191,6 +195,13 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 		this.mMapOverlay = new TilesOverlay(mTileProvider, context, horizontalMapRepetitionEnabled, verticalMapRepetitionEnabled);
 		mOverlayManager = new DefaultOverlayManager(mMapOverlay);
+
+		if (isInEditMode()) {
+			mZoomController = null;
+		} else {
+			mZoomController = new ZoomButtonsController(this);
+			mZoomController.setOnZoomListener(new MapViewZoomListener());
+		}
 
 		mGestureDetector = new GestureDetector(context, new MapViewGestureDetectorListener());
 		mGestureDetector.setOnDoubleTapListener(new MapViewDoubleClickListener());
@@ -295,6 +306,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	public BoundingBox getBoundingBox() {
 		return getProjection().getBoundingBox();
 	}
+
 
 	/**
 	 * Gets the current bounds of the screen in <I>screen coordinates</I>.
@@ -844,10 +856,32 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		return mLayoutOccurred;
 	}
 
+	@Override
+	public void onAttachedToWindow(){
+		super.onAttachedToWindow();
+	}
+
+	/**
+	 * activities/fragments using osmdroid should call this to release resources, pause gps, sensors, timers, etc
+	 * @since 6.0.0
+	 */
+	public void onPause(){
+		this.getOverlayManager().onPause();
+	}
+
+	/**
+	 * activities/fragments using osmdroid should call this to release resources, pause gps, sensors, timers, etc
+	 * @since 6.0.0
+	 */
+	public void onResume(){
+		this.getOverlayManager().onResume();
+	}
+
 	public void onDetach() {
 		this.getOverlayManager().onDetach(this);
 		mTileProvider.detach();
 		mTileProvider.clearTileCache();
+		mZoomController.setVisible(false);
 
 		//https://github.com/osmdroid/osmdroid/issues/390
 		if (mTileRequestCompleteHandler instanceof SimpleInvalidationHandler) {
@@ -892,6 +926,9 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 			Log.d(IMapView.LOGTAG,"dispatchTouchEvent(" + event + ")");
 		}
 
+		if (mZoomController.isVisible() && mZoomController.onTouch(this, event)) {
+			return true;
+		}
 
 		// Get rotated event for some touch listeners.
 		MotionEvent rotatedEvent = rotateTouchEvent(event);
@@ -1034,6 +1071,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 	@Override
 	protected void onDetachedFromWindow() {
+		this.mZoomController.setVisible(false);
 		this.onDetach();
 		super.onDetachedFromWindow();
 	}
@@ -1138,76 +1176,15 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	// ===========================================================
 
 	private void checkZoomButtons() {
-		mZoomButtonsOverlay.setZoomInEnabled(canZoomIn());
-		mZoomButtonsOverlay.setZoomOutEnabled(canZoomOut());
+		this.mZoomController.setZoomInEnabled(canZoomIn());
+		this.mZoomController.setZoomOutEnabled(canZoomOut());
 	}
 
 	public void setBuiltInZoomControls(final boolean on) {
-		setBuiltInZoomControls(on,
-				ZoomButtonsOverlay.POSITION_HORIZONTAL_DEFAULT
-				| ZoomButtonsOverlay.POSITION_VERTICAL_DEFAULT);
+		this.mEnableZoomController = on;
+		this.checkZoomButtons();
 	}
 
-	/**
-	 * @since 6.0.0
-	 * @param pPosition OR'ed value between {@link ZoomButtonsOverlay#POSITION_HORIZONTAL_POSSIBLE}
-	 *                     and {@link ZoomButtonsOverlay#POSITION_VERTICAL_POSSIBLE}
-	 */
-	public void setBuiltInZoomControls(final boolean on, final int pPosition) {
-		if (on) {
-			if (mZoomButtonsOverlay==null) {
-				mZoomButtonsOverlay = new ZoomButtonsOverlay(this);
-				mZoomButtonsOverlay.setEnabled(true);
-				mZoomButtonsOverlay.setPosition(pPosition);
-				this.getOverlayManager().add(mZoomButtonsOverlay);
-
-				checkZoomButtons();
-			} else
-				mZoomButtonsOverlay.setPosition(pPosition);
-		} else {
-			if (mZoomButtonsOverlay!=null) {
-				this.getOverlayManager().remove(mZoomButtonsOverlay);
-				mZoomButtonsOverlay.onDetach(this);
-				mZoomButtonsOverlay = null;
-			}
-		}
-		invalidate();
-	}
-
-	/**
-	 * See https://github.com/osmdroid/osmdroid/issues/825 for more information.
-	 * The default setup should now draw, the tiles overlay, followed by zoom controls, then everything else.
-	 * This will change if the built in zoom controls are turned off, then on again, which will paint the zoom buttons last.
-	 * @since 6.0.0
-	 * @param pLeft Explicit left pixel of the first zoom button
-	 * @param pTop Explicit top pixel of both zoom buttons
-	 */
-	public void setBuiltInZoomControls(final boolean on, final int pLeft, final int pTop) {
-		if (on) {
-			if (mZoomButtonsOverlay==null) {
-				mZoomButtonsOverlay = new ZoomButtonsOverlay(this);
-			}
-			mZoomButtonsOverlay.setEnabled(true);
-			mZoomButtonsOverlay.setLeftTop(pLeft, pTop);
-			this.getOverlayManager().add(mZoomButtonsOverlay);
-			checkZoomButtons();
-
-		} else {
-			if (mZoomButtonsOverlay!=null) {
-				this.getOverlayManager().remove(mZoomButtonsOverlay);
-				mZoomButtonsOverlay.onDetach(this);
-				mZoomButtonsOverlay = null;
-			}
-		}
-		invalidate();
-	}
-
-	/**
-	 * See https://github.com/osmdroid/osmdroid/issues/825 for more information.
-	 * The default setup should now draw, the tiles overlay, followed by zoom controls, then everything else.
-	 * This will change if the built in zoom controls are turned off, then on again, which will paint the zoom buttons last.
-	 * @param on
-	 */
 	public void setMultiTouchControls(final boolean on) {
 		mMultiTouchController = on ? new MultiTouchController<Object>(this, false) : null;
 	}
@@ -1314,17 +1291,19 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 				return true;
 			}
 
+			mZoomController.setVisible(mEnableZoomController);
 			return true;
 		}
 
 		@Override
 		public boolean onFling(final MotionEvent e1, final MotionEvent e2,
 					final float velocityX, final float velocityY) {
-	            	if (!enableFling || pauseFling) {
-	                	// issue 269, if fling occurs during zoom changes, pauseFling is equals to true, so fling is canceled. But need to reactivate fling for next time.
-	                	pauseFling = false;
-	                	return false;
-	            	}
+
+			if (!enableFling || pauseFling) {
+				// issue 269, if fling occurs during zoom changes, pauseFling is equals to true, so fling is canceled. But need to reactivate fling for next time.
+				pauseFling = false;
+				return false;
+			}
 
 			if (MapView.this.getOverlayManager()
 					.onFling(e1, e2, velocityX, velocityY, MapView.this)) {
@@ -1405,6 +1384,21 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 			}
 
 			return false;
+		}
+	}
+
+	private class MapViewZoomListener implements ZoomButtonsController.OnZoomListener {
+		@Override
+		public void onZoom(final boolean zoomIn) {
+			if (zoomIn) {
+				getController().zoomIn();
+			} else {
+				getController().zoomOut();
+			}
+		}
+
+		@Override
+		public void onVisibilityChanged(final boolean visible) {
 		}
 	}
 

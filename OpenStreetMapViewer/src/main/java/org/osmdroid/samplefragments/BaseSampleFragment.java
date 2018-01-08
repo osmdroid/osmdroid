@@ -77,6 +77,19 @@ public abstract class BaseSampleFragment extends Fragment {
         return mMapView;
     }
 
+
+	@Override
+	public void onPause(){
+		super.onPause();
+		mMapView.onPause();
+	}
+
+	@Override
+	public void onResume(){
+		super.onResume();
+		mMapView.onResume();
+	}
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -95,12 +108,12 @@ public abstract class BaseSampleFragment extends Fragment {
             if (Build.VERSION.SDK_INT <= 10)
                 copyrightOverlay.setOffset(0, (int) (55 * dm.density));
 
-            mMapView.getOverlays().add(copyrightOverlay);
-            //removed with #825 mMapView.setBuiltInZoomControls(true);
-            mMapView.setMultiTouchControls(true);
-            mMapView.setTilesScaledToDpi(true);
-        }
-    }
+			mMapView.getOverlays().add(copyrightOverlay);
+			mMapView.setBuiltInZoomControls(true);
+			mMapView.setMultiTouchControls(true);
+			mMapView.setTilesScaledToDpi(true);
+		}
+	}
 
     @Override
     public void onDestroyView() {
