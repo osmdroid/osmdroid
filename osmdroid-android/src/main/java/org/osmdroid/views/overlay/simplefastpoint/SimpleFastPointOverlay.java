@@ -112,13 +112,7 @@ public class SimpleFastPointOverlay extends Overlay {
         viewHei = mapView.getHeight();
         gridWid = (int) Math.floor((float) viewWid / mStyle.mCellSize) + 1;
         gridHei = (int) Math.floor((float) viewHei / mStyle.mCellSize) + 1;
-/*
-        if(mStyle.mAlgorithm ==
-                SimpleFastPointOverlayOptions.RenderingAlgorithm.MAXIMUM_OPTIMIZATION)
-            grid = new StyledLabelledPoint[gridWid][gridHei];
-        else
-*/
-            gridBool = new boolean[gridWid][gridHei];
+        gridBool = new boolean[gridWid][gridHei];
 
         // TODO the measures on first draw are not the final values.
         // MapView should propagate onLayout to overlays
