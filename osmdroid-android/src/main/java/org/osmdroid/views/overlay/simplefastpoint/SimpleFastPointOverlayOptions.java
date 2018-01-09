@@ -20,7 +20,7 @@ public class SimpleFastPointOverlayOptions {
     protected boolean mClickable = true;
     protected int mCellSize = 10;   // the size of the grid cells in pixels.
     protected RenderingAlgorithm mAlgorithm = RenderingAlgorithm.MAXIMUM_OPTIMIZATION;
-    protected Shape mSymbol = Shape.CIRCLE;
+    protected Shape mSymbol = Shape.SQUARE;     // default is square, cause circle is a slow renderer
     protected LabelPolicy mLabelPolicy = LabelPolicy.ZOOM_THRESHOLD;
     protected int mMaxNShownLabels = 250;
     protected int mMinZoomShowLabels = 11;
@@ -129,8 +129,8 @@ public class SimpleFastPointOverlayOptions {
     }
 
     /**
-     * Sets the symbol shape for this layer.
-     * @param symbol The symbol.
+     * Sets the symbol shape for this layer. Hint: circle shape is less performant, avoid for large N.
+     * @param symbol The symbol, currently CIRCLE or SQUARE.
      * @return The updated {@link SimpleFastPointOverlayOptions}
      */
     public SimpleFastPointOverlayOptions setSymbol(Shape symbol) {

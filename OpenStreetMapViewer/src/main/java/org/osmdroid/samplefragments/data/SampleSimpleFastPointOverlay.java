@@ -31,18 +31,18 @@ public class SampleSimpleFastPointOverlay extends BaseSampleFragment {
 
     @Override
     public String getSampleTitle() {
-        return "Simple Fast Point Overlay with 20k points";
+        return "Simple Fast Point Overlay with 60k points";
     }
 
     @Override
     protected void addOverlays() {
         super.addOverlays();
         // **********************************************
-        // Create 10k labelled points sharing same style
+        // Create 30k labelled points sharing same style
         // **********************************************
         // in most cases, there will be no problems of displaying >100k points, feel free to try
         List<IGeoPoint> points = new ArrayList<>();
-        for (int i = 0; i < 10000; i++) {
+        for (int i = 0; i < 30000; i++) {
             points.add(new LabelledGeoPoint(37 + Math.random() * 5, -8 + Math.random() * 5
                     , "Point #" + i));
         }
@@ -60,9 +60,10 @@ public class SampleSimpleFastPointOverlay extends BaseSampleFragment {
         // set some visual options for the overlay
         // we use here MAXIMUM_OPTIMIZATION algorithm, which works well with >100k points
         SimpleFastPointOverlayOptions opt = SimpleFastPointOverlayOptions.getDefaultStyle()
+                .setSymbol(SimpleFastPointOverlayOptions.Shape.SQUARE)
                 .setAlgorithm(SimpleFastPointOverlayOptions.RenderingAlgorithm.MAXIMUM_OPTIMIZATION)
                 .setRadius(7).setIsClickable(true).setCellSize(12).setTextStyle(textStyle)
-                .setMinZoomShowLabels(9);
+                .setMinZoomShowLabels(10);
 
         // create the overlay with the theme
         final SimpleFastPointOverlay sfpo = new SimpleFastPointOverlay(pointTheme, opt);
@@ -83,11 +84,11 @@ public class SampleSimpleFastPointOverlay extends BaseSampleFragment {
         // *****************************************************
         // Now add another layer with points individually styled
         // *****************************************************
-        // create 10k labelled points
+        // create 30k labelled points
         List<IGeoPoint> individualStyledPoints = new ArrayList<>();
         Paint indPointStyle, indTextStyle;
 
-        for (int i = 0; i < 10000; i++) {
+        for (int i = 0; i < 30000; i++) {
             // create random colored style for each point
             indPointStyle = new Paint();
             indPointStyle.setStyle(Paint.Style.FILL);
@@ -96,7 +97,7 @@ public class SampleSimpleFastPointOverlay extends BaseSampleFragment {
 
             // create style with random color and text size for each point label
             indTextStyle = new Paint();
-            indTextStyle.setTextSize((int) (10 + Math.random() * 40));
+            indTextStyle.setTextSize((int) (10 + Math.random() * 30));
             indTextStyle.setTextAlign(Paint.Align.CENTER);
             indTextStyle.setColor(Color.rgb((int) Math.floor(Math.random() * 255)
                     , (int) Math.floor(Math.random() * 255), (int) Math.floor(Math.random() * 255)));
@@ -114,7 +115,7 @@ public class SampleSimpleFastPointOverlay extends BaseSampleFragment {
         opt = SimpleFastPointOverlayOptions.getDefaultStyle()
                 .setSymbol(SimpleFastPointOverlayOptions.Shape.SQUARE)
                 .setAlgorithm(SimpleFastPointOverlayOptions.RenderingAlgorithm.MAXIMUM_OPTIMIZATION)
-                .setRadius(7).setCellSize(12).setMinZoomShowLabels(9);
+                .setRadius(7).setCellSize(12).setMinZoomShowLabels(10);
 
         // create the overlay with the theme
         final SimpleFastPointOverlay sfpo1 = new SimpleFastPointOverlay(individualStyledPointTheme, opt);
