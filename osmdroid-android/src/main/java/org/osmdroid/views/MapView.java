@@ -108,7 +108,12 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	private float mapOrientation = 0;
 	private final Rect mInvalidateRect = new Rect();
 
-	protected BoundingBox mScrollableAreaBoundingBox;
+	private boolean mScrollableAreaLimitLatitude;
+	private double mScrollableAreaLimitNorth;
+	private double mScrollableAreaLimitSouth;
+	private boolean mScrollableAreaLimitLongitude;
+	private double mScrollableAreaLimitWest;
+	private double mScrollableAreaLimitEast;
 
 	private MapTileProviderBase mTileProvider;
 	private Handler mTileRequestCompleteHandler;
@@ -327,7 +332,12 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		if (mProjection == null) {
 			mProjection = new Projection(this);
 			mProjection.adjustOffsets(mMultiTouchScaleGeoPoint, mMultiTouchScaleCurrentPoint);
-			mProjection.adjustOffsets(mScrollableAreaBoundingBox);
+			if (mScrollableAreaLimitLatitude) {
+				mProjection.adjustOffsets(mScrollableAreaLimitNorth, mScrollableAreaLimitSouth, true);
+			}
+			if (mScrollableAreaLimitLongitude) {
+				mProjection.adjustOffsets(mScrollableAreaLimitWest, mScrollableAreaLimitEast, false);
+			}
 			setMapScroll(mProjection.getScrollX(), mProjection.getScrollY());
 		}
 		return mProjection;
@@ -667,14 +677,63 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
      *            A lat/long bounding box to limit scrolling to, or null to remove any scrolling
      *            limitations
      */
-    public void setScrollableAreaLimitDouble(BoundingBox boundingBox) {
-        mScrollableAreaBoundingBox = boundingBox;
-    }
+    @Deprecated
+	public void setScrollableAreaLimitDouble(BoundingBox boundingBox) {
+    	if (boundingBox == null) {
+    		resetScrollableAreaLimitLatitude();
+    		resetScrollableAreaLimitLongitude();
+		} else {
+			setScrollableAreaLimitLatitude(boundingBox.getActualNorth(), boundingBox.getActualSouth());
+			setScrollableAreaLimitLongitude(boundingBox.getLonWest(), boundingBox.getLonEast());
+		}
+	}
 
+	/**
+	 * @since 6.0.0
+	 */
+	public void resetScrollableAreaLimitLatitude() {
+		mScrollableAreaLimitLatitude = false;
+	}
 
-    public BoundingBox getScrollableAreaLimit() {
-        return mScrollableAreaBoundingBox;
-    }
+	/**
+	 * @since 6.0.0
+	 */
+	public void resetScrollableAreaLimitLongitude() {
+		mScrollableAreaLimitLongitude = false;
+	}
+
+	/**
+	 * @since 6.0.0
+	 */
+	public void setScrollableAreaLimitLatitude(final double pNorth, final double pSouth) {
+		mScrollableAreaLimitLatitude = true;
+		mScrollableAreaLimitNorth = pNorth;
+		mScrollableAreaLimitSouth = pSouth;
+	}
+
+	/**
+	 * @since 6.0.0
+	 */
+	public void setScrollableAreaLimitLongitude(final double pWest, final double pEast) {
+		mScrollableAreaLimitLongitude = true;
+		mScrollableAreaLimitWest = pWest;
+		mScrollableAreaLimitEast = pEast;
+	}
+
+	/**
+	 * @since 6.0.0
+	 */
+	public boolean isScrollableAreaLimitLatitude() {
+		return mScrollableAreaLimitLatitude;
+	}
+
+	/**
+	 * @since 6.0.0
+	 */
+	public boolean isScrollableAreaLimitLongitude() {
+		return mScrollableAreaLimitLongitude;
+	}
+
 
 	public void invalidateMapCoordinates(Rect dirty) {
 		invalidateMapCoordinates(dirty.left, dirty.top, dirty.right, dirty.bottom, false);

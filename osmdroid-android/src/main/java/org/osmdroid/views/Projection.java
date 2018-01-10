@@ -675,16 +675,34 @@ public class Projection implements IProjection {
 	 * or it is smaller and it is centered
 	 * @since 6.0.0
 	 */
+	@Deprecated
 	public void adjustOffsets(final BoundingBox pBoundingBox) {
 		if (pBoundingBox == null) {
 			return;
 		}
-		final long left = getLongPixelXFromLongitude(pBoundingBox.getLonWest());
-		final long right = getLongPixelXFromLongitude(pBoundingBox.getLonEast());
-		final long top = getLongPixelYFromLatitude(pBoundingBox.getActualNorth());
-		final long bottom = getLongPixelYFromLatitude(pBoundingBox.getActualSouth());
-		final long deltaX = checkScrollableOffset(left, right, mMercatorMapSize, mIntrinsicScreenRectProjection.width());
-		final long deltaY = checkScrollableOffset(top, bottom, mMercatorMapSize, mIntrinsicScreenRectProjection.height());
+		adjustOffsets(pBoundingBox.getLonWest(), pBoundingBox.getLonEast(), false);
+		adjustOffsets(pBoundingBox.getActualNorth(), pBoundingBox.getActualSouth(), true);
+	}
+
+	/**
+	 * @since 6.0.0
+	 */
+	public void adjustOffsets(final double pNorthOrWest, final double pSouthOrEast, final boolean isLatitude) {
+		final long min;
+		final long max;
+		final long deltaX;
+		final long deltaY;
+		if (isLatitude) {
+			min = getLongPixelYFromLatitude(pNorthOrWest);
+			max = getLongPixelYFromLatitude(pSouthOrEast);
+			deltaX = 0;
+			deltaY = checkScrollableOffset(min, max, mMercatorMapSize, mIntrinsicScreenRectProjection.height());
+		} else {
+			min = getLongPixelXFromLongitude(pNorthOrWest);
+			max = getLongPixelXFromLongitude(pSouthOrEast);
+			deltaX = checkScrollableOffset(min, max, mMercatorMapSize, mIntrinsicScreenRectProjection.width());
+			deltaY = 0;
+		}
 		adjustOffsets(-deltaX, -deltaY);
 	}
 
