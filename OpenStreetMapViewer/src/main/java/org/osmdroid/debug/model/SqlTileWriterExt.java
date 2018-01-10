@@ -48,6 +48,7 @@ public class SqlTileWriterExt extends SqlTileWriter {
                 c.rowCount = getRowCount(prov);
                 ret.add(c);
             }
+            cur.close();
         }
         return ret;
 
