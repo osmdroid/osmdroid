@@ -25,6 +25,8 @@ import mil.nga.geopackage.tiles.features.FeatureTiles;
 public class GeoPackageFeatureTileProvider extends MapTileProviderBase {
 
     protected IFilesystemCache tileWriter;
+    protected int minzoom = 0;
+    protected FeatureTiles featureTiles = null;
 
     public GeoPackageFeatureTileProvider(ITileSource pTileSource) {
         super(pTileSource);
@@ -37,9 +39,6 @@ public class GeoPackageFeatureTileProvider extends MapTileProviderBase {
         }
     }
 
-
-    int minzoom = 0;
-    private FeatureTiles featureTiles = null;
 
     @Override
     public Drawable getMapTile(MapTile pTile) {
