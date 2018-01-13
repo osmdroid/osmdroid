@@ -170,6 +170,10 @@ public class Marker extends OverlayWithIW {
 	
 	public void setPosition(GeoPoint position){
 		mPosition = position.clone();
+		if (isInfoWindowShown()) {
+			closeInfoWindow();
+			showInfoWindow();
+		}
 	}
 
 	public float getRotation(){
@@ -309,6 +313,10 @@ public class Marker extends OverlayWithIW {
 		
 		float rotationOnScreen = (mFlat ? -mBearing : mapView.getMapOrientation()-mBearing);
 		drawAt(canvas, mIcon, mPositionPixels.x, mPositionPixels.y, false, rotationOnScreen);
+		if (isInfoWindowShown()) {
+			closeInfoWindow();
+			showInfoWindow();
+		}
 	}
 
     /** Null out the static references when the MapView is detached to prevent memory leaks. */
