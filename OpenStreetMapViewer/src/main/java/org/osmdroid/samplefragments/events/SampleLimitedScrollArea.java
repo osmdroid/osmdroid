@@ -81,9 +81,15 @@ public class SampleLimitedScrollArea extends BaseSampleFragment {
 
 		mMapView.getController().setZoom(13.);
 
-		setLimitScrollingLatitude(true);
-		setLimitScrollingLongitude(true);
 		setHasOptionsMenu(true);
+
+		mMapView.post(new Runnable() { // "post" because we need View.getWidth() to be set
+			@Override
+			public void run() {
+				setLimitScrollingLatitude(true);
+				setLimitScrollingLongitude(true);
+			}
+		});
 	}
 
 	/**
@@ -93,7 +99,7 @@ public class SampleLimitedScrollArea extends BaseSampleFragment {
 		mMapView.getOverlays().remove(mNorthPolyline);
 		mMapView.getOverlays().remove(mSouthPolyline);
 		if (pLimitScrolling) {
-			mMapView.setScrollableAreaLimitLatitude(sCentralParkBoundingBox.getActualNorth(), sCentralParkBoundingBox.getActualSouth());
+			mMapView.setScrollableAreaLimitLatitude(sCentralParkBoundingBox.getActualNorth(), sCentralParkBoundingBox.getActualSouth(), mMapView.getHeight() / 2);
 			mMapView.setCenter(sCentralParkBoundingBox.getCenterWithDateLine());
 			mMapView.getOverlays().add(mNorthPolyline);
 			mMapView.getOverlays().add(mSouthPolyline);
@@ -110,7 +116,7 @@ public class SampleLimitedScrollArea extends BaseSampleFragment {
 		mMapView.getOverlays().remove(mWestPolyline);
 		mMapView.getOverlays().remove(mEastPolyline);
 		if (pLimitScrolling) {
-			mMapView.setScrollableAreaLimitLongitude(sCentralParkBoundingBox.getLonWest(), sCentralParkBoundingBox.getLonEast());
+			mMapView.setScrollableAreaLimitLongitude(sCentralParkBoundingBox.getLonWest(), sCentralParkBoundingBox.getLonEast(), mMapView.getWidth() / 2);
 			mMapView.setCenter(sCentralParkBoundingBox.getCenterWithDateLine());
 			mMapView.getOverlays().add(mWestPolyline);
 			mMapView.getOverlays().add(mEastPolyline);

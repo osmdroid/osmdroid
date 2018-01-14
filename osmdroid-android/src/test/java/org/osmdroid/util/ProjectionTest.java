@@ -183,6 +183,38 @@ public class ProjectionTest {
         }
     }
 
+    /**
+     * @since 6.0.0
+     */
+    @Test
+    public void testCheckScrollableOffset() {
+        // more than enough
+        testCheckScrollableOffset(0, -100, 5000);
+        // limits
+        testCheckScrollableOffset(0, 50, 950);
+        // shorter than possible, in the middle
+        testCheckScrollableOffset(-1, 52, 950);
+        // shorter than possible, on the left side
+        testCheckScrollableOffset(550, -100, 0);
+        // shorter than possible, on the right side
+        testCheckScrollableOffset(-650, 1100, 1200);
+        // to the left
+        testCheckScrollableOffset(-50, 100, 1950);
+        // to the right
+        testCheckScrollableOffset(450, -1000, 500);
+    }
+
+    /**
+     * @since 6.0.0
+     */
+    private void testCheckScrollableOffset(final int pExpected, final int pMin, final int pMax) {
+        final double worldSize = 20000;
+        final int screenSize = 1000;
+        final int extraSize = 50;
+        Assert.assertEquals(pExpected,
+                Projection.getScrollableOffset(pMin, pMax, worldSize, screenSize, extraSize));
+    }
+
     private Point getRandomPixel(final double pMapSize) {
         final Point pixel = new Point();
         pixel.x = mRandom.nextInt((int)Math.min(mWidth, (long) pMapSize));

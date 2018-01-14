@@ -680,14 +680,15 @@ public class Projection implements IProjection {
 		if (pBoundingBox == null) {
 			return;
 		}
-		adjustOffsets(pBoundingBox.getLonWest(), pBoundingBox.getLonEast(), false);
-		adjustOffsets(pBoundingBox.getActualNorth(), pBoundingBox.getActualSouth(), true);
+		adjustOffsets(pBoundingBox.getLonWest(), pBoundingBox.getLonEast(), false, 0);
+		adjustOffsets(pBoundingBox.getActualNorth(), pBoundingBox.getActualSouth(), true, 0);
 	}
 
 	/**
 	 * @since 6.0.0
 	 */
-	public void adjustOffsets(final double pNorthOrWest, final double pSouthOrEast, final boolean isLatitude) {
+	public void adjustOffsets(final double pNorthOrWest, final double pSouthOrEast,
+							  final boolean isLatitude, final int pExtraSize) {
 		final long min;
 		final long max;
 		final long deltaX;
@@ -696,14 +697,14 @@ public class Projection implements IProjection {
 			min = getLongPixelYFromLatitude(pNorthOrWest);
 			max = getLongPixelYFromLatitude(pSouthOrEast);
 			deltaX = 0;
-			deltaY = checkScrollableOffset(min, max, mMercatorMapSize, mIntrinsicScreenRectProjection.height());
+			deltaY = getScrollableOffset(min, max, mMercatorMapSize, mIntrinsicScreenRectProjection.height(), pExtraSize);
 		} else {
 			min = getLongPixelXFromLongitude(pNorthOrWest);
 			max = getLongPixelXFromLongitude(pSouthOrEast);
-			deltaX = checkScrollableOffset(min, max, mMercatorMapSize, mIntrinsicScreenRectProjection.width());
+			deltaX = getScrollableOffset(min, max, mMercatorMapSize, mIntrinsicScreenRectProjection.width(), pExtraSize);
 			deltaY = 0;
 		}
-		adjustOffsets(-deltaX, -deltaY);
+		adjustOffsets(deltaX, deltaY);
 	}
 
 	/**
@@ -721,36 +722,49 @@ public class Projection implements IProjection {
 	}
 
 	/**
+	 * @param pPixelMin Pixel position of the limit (left)
+	 * @param pPixelMax Pixel position of the limit (right)
+	 * @param pWorldSize World map size - for modulo adjustments
+	 * @param pScreenSize Screen size
+	 * @param pExtraSize Extra size to consider at each side of the screen
+	 * @return the offset to apply so that the limits are within the screen
 	 * @since 6.0.0
 	 */
-	public long getScrollX() {
-		return mScrollX;
-	}
-
-	/**
-	 * @since 6.0.0
-	 */
-	public long getScrollY() {
-		return mScrollY;
-	}
-
-	/**
-	 * @since 6.0.0
-	 */
-	private long checkScrollableOffset(
-			final long pPixelMin, long pPixelMax, final double pWorldSize, final int pScreenSize) {
+	public static long getScrollableOffset(final long pPixelMin, long pPixelMax,
+										   final double pWorldSize,
+										   final int pScreenSize, final int pExtraSize) {
 		while (pPixelMax - pPixelMin < 0) { // date line + several worlds fix
 			pPixelMax += pWorldSize;
 		}
 
-		if (pPixelMax - pPixelMin < pScreenSize) {
-			return pPixelMax - pScreenSize / 2 - (pPixelMax - pPixelMin) / 2;
-		} else if (pPixelMin >= 0) {
-			return pPixelMin;
-		} else if (pPixelMax <= pScreenSize) {
-			return pPixelMax - pScreenSize;
-		} else {
+		long delta;
+		if (pPixelMax - pPixelMin < pScreenSize - 2 * pExtraSize) {
+			final long half = (pPixelMax - pPixelMin) / 2;
+			if ((delta = pScreenSize / 2 - half - pPixelMin) > 0) {
+				return delta;
+			}
+			if ((delta = pScreenSize / 2 + half - pPixelMax) < 0) {
+				return delta;
+			}
 			return 0;
 		}
+		if ((delta = pExtraSize - pPixelMin) < 0) {
+			return delta;
+		}
+		if ((delta = pScreenSize - pExtraSize - pPixelMax) > 0) {
+			return delta;
+		}
+		return 0;
+	}
+
+	/**
+	 * @since 6.0.0
+	 */
+	boolean setMapScroll(final MapView pMapView) {
+		if (pMapView.getMapScrollX() == mScrollX && pMapView.getMapScrollY() == mScrollY) {
+			return false;
+		}
+		pMapView.setMapScroll(mScrollX, mScrollY);
+		return true;
 	}
 }

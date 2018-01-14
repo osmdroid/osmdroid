@@ -76,6 +76,11 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	/** Handles map scrolling */
 	private final Scroller mScroller;
 	protected boolean mIsFlinging;
+	/**
+	 * Set to true when the `Projection` actually adjusted the scroll values
+	 * Consequence: on this side effect, we must stop the flinging
+	 */
+	private boolean mImpossibleFlinging;
 
 	protected final AtomicBoolean mIsAnimating = new AtomicBoolean(false);
 
@@ -114,6 +119,8 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	private boolean mScrollableAreaLimitLongitude;
 	private double mScrollableAreaLimitWest;
 	private double mScrollableAreaLimitEast;
+	private int mScrollableAreaLimitExtraWidth;
+	private int mScrollableAreaLimitExtraHeight;
 
 	private MapTileProviderBase mTileProvider;
 	private Handler mTileRequestCompleteHandler;
@@ -333,12 +340,16 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 			mProjection = new Projection(this);
 			mProjection.adjustOffsets(mMultiTouchScaleGeoPoint, mMultiTouchScaleCurrentPoint);
 			if (mScrollableAreaLimitLatitude) {
-				mProjection.adjustOffsets(mScrollableAreaLimitNorth, mScrollableAreaLimitSouth, true);
+				mProjection.adjustOffsets(
+						mScrollableAreaLimitNorth, mScrollableAreaLimitSouth, true,
+						mScrollableAreaLimitExtraHeight);
 			}
 			if (mScrollableAreaLimitLongitude) {
-				mProjection.adjustOffsets(mScrollableAreaLimitWest, mScrollableAreaLimitEast, false);
+				mProjection.adjustOffsets(
+						mScrollableAreaLimitWest, mScrollableAreaLimitEast, false,
+						mScrollableAreaLimitExtraWidth);
 			}
-			setMapScroll(mProjection.getScrollX(), mProjection.getScrollY());
+			mImpossibleFlinging = mProjection.setMapScroll(this);
 		}
 		return mProjection;
 	}
@@ -677,14 +688,13 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
      *            A lat/long bounding box to limit scrolling to, or null to remove any scrolling
      *            limitations
      */
-    @Deprecated
 	public void setScrollableAreaLimitDouble(BoundingBox boundingBox) {
     	if (boundingBox == null) {
     		resetScrollableAreaLimitLatitude();
     		resetScrollableAreaLimitLongitude();
 		} else {
-			setScrollableAreaLimitLatitude(boundingBox.getActualNorth(), boundingBox.getActualSouth());
-			setScrollableAreaLimitLongitude(boundingBox.getLonWest(), boundingBox.getLonEast());
+			setScrollableAreaLimitLatitude(boundingBox.getActualNorth(), boundingBox.getActualSouth(), 0);
+			setScrollableAreaLimitLongitude(boundingBox.getLonWest(), boundingBox.getLonEast(), 0);
 		}
 	}
 
@@ -705,19 +715,23 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	/**
 	 * @since 6.0.0
 	 */
-	public void setScrollableAreaLimitLatitude(final double pNorth, final double pSouth) {
+	public void setScrollableAreaLimitLatitude(final double pNorth, final double pSouth,
+											   final int pExtraHeight) {
 		mScrollableAreaLimitLatitude = true;
 		mScrollableAreaLimitNorth = pNorth;
 		mScrollableAreaLimitSouth = pSouth;
+		mScrollableAreaLimitExtraHeight = pExtraHeight;
 	}
 
 	/**
 	 * @since 6.0.0
 	 */
-	public void setScrollableAreaLimitLongitude(final double pWest, final double pEast) {
+	public void setScrollableAreaLimitLongitude(final double pWest, final double pEast,
+												final int pExtraWidth) {
 		mScrollableAreaLimitLongitude = true;
 		mScrollableAreaLimitWest = pWest;
 		mScrollableAreaLimitEast = pEast;
+		mScrollableAreaLimitExtraWidth = pExtraWidth;
 	}
 
 	/**
@@ -1390,6 +1404,10 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 				return true;
 			}
 
+			if (mImpossibleFlinging) {
+				mImpossibleFlinging = false;
+				return false;
+			}
 			final double worldSize = TileSystem.MapSize(MapView.this.getZoomLevelDouble());
 			mIsFlinging = true;
 			if (mScroller!=null) {  //fix for edit mode in the IDE
@@ -1626,7 +1644,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		return mMapScrollY;
 	}
 
-	private void setMapScroll(final long pMapScrollX, final long pMapScrollY) {
+	void setMapScroll(final long pMapScrollX, final long pMapScrollY) {
 		mMapScrollX = pMapScrollX;
 		mMapScrollY = pMapScrollY;
 	}
