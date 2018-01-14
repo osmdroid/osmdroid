@@ -45,6 +45,7 @@ import org.osmdroid.samplefragments.drawing.PressToPlotWithoutWrapping;
 import org.osmdroid.samplefragments.drawing.SampleDrawPolyline;
 import org.osmdroid.samplefragments.drawing.SampleDrawPolylineWithoutVerticalWrapping;
 import org.osmdroid.samplefragments.drawing.SampleDrawPolylineWithoutWrapping;
+import org.osmdroid.samplefragments.events.MarkerDrag;
 import org.osmdroid.samplefragments.events.SampleAnimateTo;
 import org.osmdroid.samplefragments.events.SampleAnimatedZoomToLocation;
 import org.osmdroid.samplefragments.events.SampleLimitedScrollArea;
@@ -274,7 +275,7 @@ public final class SampleFactory implements ISampleFactory {
 
         mSamples.add(SampleCustomMyLocation.class);
         mSamples.add(DrawCircle10km.class);
-
+mSamples.add(MarkerDrag.class);
     }
 
     public void addSample(Class<? extends BaseSampleFragment> clz) {
