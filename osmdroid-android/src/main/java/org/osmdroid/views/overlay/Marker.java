@@ -314,7 +314,6 @@ public class Marker extends OverlayWithIW {
 		float rotationOnScreen = (mFlat ? -mBearing : mapView.getMapOrientation()-mBearing);
 		drawAt(canvas, mIcon, mPositionPixels.x, mPositionPixels.y, false, rotationOnScreen);
 		if (isInfoWindowShown()) {
-			closeInfoWindow();
 			showInfoWindow();
 		}
 	}

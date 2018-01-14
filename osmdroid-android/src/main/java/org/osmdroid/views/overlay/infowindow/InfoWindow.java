@@ -1,17 +1,18 @@
 package org.osmdroid.views.overlay.infowindow;
 
-import java.util.ArrayList;
-
-import org.osmdroid.api.IMapView;
-import org.osmdroid.config.Configuration;
-import org.osmdroid.util.GeoPoint;
-import org.osmdroid.views.MapView;
-
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import org.osmdroid.api.IGeoPoint;
+import org.osmdroid.api.IMapView;
+import org.osmdroid.config.Configuration;
+import org.osmdroid.util.GeoPoint;
+import org.osmdroid.views.MapView;
+
+import java.util.ArrayList;
 
 /** {@link org.osmdroid.views.overlay.infowindow.InfoWindow} is a (pop-up-) View that can
  * be displayed on an {@link org.osmdroid.views.MapView}, associated to a
@@ -85,20 +86,50 @@ public abstract class InfoWindow {
 	 * This allows to offset the view from the object position. 
 	 */
 	public void open(Object object, GeoPoint position, int offsetX, int offsetY) {
-		close(); //if it was already opened
-		onOpen(object);
-		MapView.LayoutParams lp = new MapView.LayoutParams(
+		boolean render=false;
+		if (this.oldX != offsetX || this.oldY != offsetY){
+			render=true;
+		}
+		if (currentCenter==null)
+			render=true;
+		if (currentCenter!=null && mMapView!=null) {
+			IGeoPoint mapCenter = mMapView.getMapCenter();
+			if (mapCenter.getLatitude() != currentCenter.getLatitude() ||
+				mapCenter.getLongitude()!=currentCenter.getLongitude())
+				render=true;
+			if (mMapView.getZoomLevelDouble()!=currentZoom)
+				render=true;
+			if (mMapView.getMapOrientation()!=rotation){
+				render=true;
+			}
+		}
+		if (render) {	//this check prevents looping forever
+			close(); //if it was already opened
+			oldX=offsetX;
+			oldY=offsetY;
+			onOpen(object);
+			MapView.LayoutParams lp = new MapView.LayoutParams(
 				MapView.LayoutParams.WRAP_CONTENT,
 				MapView.LayoutParams.WRAP_CONTENT,
-				position, MapView.LayoutParams.BOTTOM_CENTER, 
+				position, MapView.LayoutParams.BOTTOM_CENTER,
 				offsetX, offsetY);
-		if (mMapView!=null && mView!=null) {
-			mMapView.addView(mView, lp);
-			mIsVisible = true;
-		} else {
-			Log.w(IMapView.LOGTAG, "Error trapped, InfoWindow.open mMapView: " + (mMapView==null ? "null" : "ok") + " mView: "  + (mView==null ? "null" : "ok"));
+
+			if (mMapView != null && mView != null) {
+				currentCenter=mMapView.getMapCenter();
+				currentZoom =mMapView.getZoomLevelDouble();
+				rotation= mMapView.getMapOrientation();
+				mMapView.addView(mView, lp);
+				mIsVisible = true;
+			} else {
+				Log.w(IMapView.LOGTAG, "Error trapped, InfoWindow.open mMapView: " + (mMapView == null ? "null" : "ok") + " mView: " + (mView == null ? "null" : "ok"));
+			}
 		}
 	}
+	private float rotation=0;
+	private double currentZoom = 0d;
+	private IGeoPoint currentCenter = null;
+	private int oldX=Integer.MIN_VALUE;
+	private int oldY=Integer.MIN_VALUE;
     
 	public void close() {
 		if (mIsVisible) {
@@ -106,6 +137,8 @@ public abstract class InfoWindow {
 			((ViewGroup)mView.getParent()).removeView(mView);
 			onClose();
 		}
+		oldX=Integer.MIN_VALUE;
+		oldY=Integer.MIN_VALUE;
 	}
 
 	/**
