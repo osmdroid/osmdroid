@@ -2,7 +2,7 @@ package org.osmdroid.util;
 
 /**
  * A {@link android.graphics.Rect} with corners in long type instead of int
- * @since 5.6.6
+ * @since 6.0.0
  * @author Fabrice Fontaine
  */
 

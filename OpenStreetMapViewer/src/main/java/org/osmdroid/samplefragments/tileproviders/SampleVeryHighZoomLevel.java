@@ -16,7 +16,7 @@ import org.osmdroid.views.overlay.ScaleBarOverlay;
  * A nicer example would require very high zoom level tiles.
  *
  * @author Fabrice Fontaine
- * @since 5.6.6
+ * @since 6.0.0
  */
 public class SampleVeryHighZoomLevel extends BaseSampleFragment {
 

@@ -664,7 +664,7 @@ public class MapView extends ViewGroup implements IMapView,
 	}
 
 	/**
-	 * @since 5.6.6
+	 * @since 6.0.0
 	 */
 	@Deprecated
 	public float getMapScale() {
@@ -1121,7 +1121,7 @@ public class MapView extends ViewGroup implements IMapView,
 	}
 
 	/**
-	 * @since 5.6.6
+	 * @since 6.0.0
 	 */
 	@Override
 	public void scrollBy(int x, int y) {
@@ -1664,14 +1664,14 @@ public class MapView extends ViewGroup implements IMapView,
 	}
 
 	/**
-	 * @since 5.6.6
+	 * @since 6.0.0
 	 */
 	public GeoPoint getCenter() {
 		return mCenter;
 	}
 
 	/**
-	 * @since 5.6.6
+	 * @since 6.0.0
 	 */
 	public void setCenter(final IGeoPoint pGeoPoint) {
 		mCenter = (GeoPoint)pGeoPoint;

@@ -690,7 +690,7 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 	}
 
 	/**
-	 * @since 5.6.6
+	 * @since 6.0.0
 	 */
 	private String getScaleString(final int pStringResId, final String pFormat, final double pValue) {
 		return context.getResources().getString(pStringResId, String.format(Locale.getDefault(), pFormat, pValue));

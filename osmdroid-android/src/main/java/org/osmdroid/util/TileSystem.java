@@ -390,21 +390,21 @@ public final class TileSystem {
 	}
 
 	/**
-	 * @since 5.6.6
+	 * @since 6.0.0
 	 */
 	public static long getMercatorYFromLatitude(final double pLatitude, final double pMapSize, boolean wrapEnabled) {
 		return getMercatorFromXY01(getY01FromLatitude(pLatitude, wrapEnabled), pMapSize, wrapEnabled);
 	}
 
 	/**
-	 * @since 5.6.6
+	 * @since 6.0.0
 	 */
 	public static long getMercatorXFromLongitude(final double pLongitude, final double pMapSize, boolean wrapEnabled) {
 		return getMercatorFromXY01(getX01FromLongitude(pLongitude, wrapEnabled), pMapSize, wrapEnabled);
 	}
 
 	/**
-	 * @since 5.6.6
+	 * @since 6.0.0
 	 */
 	public static long getMercatorFromXY01(final double pXY01, final double pMapSize, boolean wrapEnabled) {
 		return ClipToLong(pXY01 * pMapSize, pMapSize, wrapEnabled);
@@ -414,7 +414,7 @@ public final class TileSystem {
 	 * Converts a "Y01" value into latitude
 	 * "Y01" is a double between 0 and 1 for the whole latitude range
 	 * MaxLatitude:0 ... MinLatitude:1
-	 * @since 5.6.6
+	 * @since 6.0.0
 	 */
 	public static double getLatitudeFromY01(final double pY01, boolean wrapEnabled) {
 		double latitude = 90 - 360 * Math.atan(Math.exp((pY01 - 0.5) * 2 * Math.PI)) / Math.PI;
@@ -425,21 +425,21 @@ public final class TileSystem {
 	 * Converts a "X01" value into longitude
 	 * "X01" is a double between 0 and 1 for the whole longitude range
 	 * MinLongitude:0 ... MaxLongitude:1
-	 * @since 5.6.6
+	 * @since 6.0.0
 	 */
 	public static double getLongitudeFromX01(final double pX01, boolean wrapEnabled) {
 		return MinLongitude + (MaxLongitude - MinLongitude) * (wrapEnabled ? Clip(pX01, 0, 1) : pX01);
 	}
 
 	/**
-	 * @since 5.6.6
+	 * @since 6.0.0
 	 */
 	public static long getCleanMercator(final long pMercator, final double pMercatorMapSize, boolean wrapEnabled) {
 		return ClipToLong(wrapEnabled ? wrap(pMercator, 0, pMercatorMapSize, pMercatorMapSize) : pMercator, pMercatorMapSize, wrapEnabled);
 	}
 
 	/**
-	 * @since 5.6.6
+	 * @since 6.0.0
 	 */
 	public static long ClipToLong(final double value, final double max, boolean wrapEnabled) {
 		long longValue =  MyMath.floorToLong(value - 0.5);
@@ -447,14 +447,14 @@ public final class TileSystem {
 	}
 
 	/**
-	 * @since 5.6.6
+	 * @since 6.0.0
 	 */
 	public static long Clip(final long n, final long minValue, final long maxValue) {
 		return Math.min(Math.max(n, minValue), maxValue);
 	}
 
 	/**
-	 * @since 5.6.6
+	 * @since 6.0.0
 	 * Casts a long type value into an int with no harm.
 	 * The typical use case is to compute pixel coordinates with high zoom
 	 * (which won't fit into int but will fit into long)
@@ -467,7 +467,7 @@ public final class TileSystem {
 	}
 
 	/**
-	 * @since 5.6.6
+	 * @since 6.0.0
 	 */
 	public static PointL getMercatorFromGeo(final double pLatitude, final double pLongitude, final double pMapSize, final PointL pReuse, boolean wrapEnabled) {
 		final PointL out = (pReuse == null ? new PointL() : pReuse);
@@ -477,7 +477,7 @@ public final class TileSystem {
 	}
 
 	/**
-	 * @since 5.6.6
+	 * @since 6.0.0
 	 */
 	public static GeoPoint getGeoFromMercator(final long pMercatorX, final long pMercatorY, final double pMapSize, final GeoPoint pReuse, boolean horizontalWrapEnabled, boolean verticalWrapEnabled) {
 		final GeoPoint out = pReuse == null ? new GeoPoint(0., 0.) : pReuse;
@@ -487,14 +487,14 @@ public final class TileSystem {
 	}
 
 	/**
-	 * @since 5.6.6
+	 * @since 6.0.0
 	 */
 	public static double getXY01FromMercator(final long pMercator, final double pMapSize, boolean wrapEnabled) {
 		return wrapEnabled ? Clip(pMercator / pMapSize, 0, 1) : pMercator / pMapSize;
 	}
 
 	/**
-	 * @since 5.6.6
+	 * @since 6.0.0
 	 * @param pRandom01 [0,1]
 	 */
 	public static double getRandomLongitude(final double pRandom01) {
@@ -502,7 +502,7 @@ public final class TileSystem {
 	}
 
 	/**
-	 * @since 5.6.6
+	 * @since 6.0.0
 	 * @param pRandom01 [0,1]
 	 */
 	public static double getRandomLatitude(final double pRandom01, final double pMinLatitude) {
@@ -510,14 +510,14 @@ public final class TileSystem {
 	}
 
 	/**
-	 * @since 5.6.6
+	 * @since 6.0.0
 	 */
 	public static int getTileFromMercator(final long pMercator, final double pTileSize) {
 		return MyMath.floorToInt(pMercator / pTileSize);
 	}
 
 	/**
-	 * @since 5.6.6
+	 * @since 6.0.0
 	 */
 	public static Rect getTileFromMercator(final RectL pMercatorRect, final double pTileSize, final Rect pReuse) {
 		final Rect out = (pReuse == null ? new Rect() : pReuse);
@@ -529,7 +529,7 @@ public final class TileSystem {
 	}
 
 	/**
-	 * @since 5.6.6
+	 * @since 6.0.0
 	 */
 	public static long getMercatorFromTile(final int pTile, final double pTileSize) {
 		return Math.round(pTile * pTileSize);
