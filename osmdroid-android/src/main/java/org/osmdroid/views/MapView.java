@@ -453,7 +453,7 @@ public class MapView extends ViewGroup implements IMapView,
 
 		this.mZoomLevel = newZoomLevel;
 
-		setCenter(centerGeoPoint);
+		setExpectedCenter(centerGeoPoint);
 		this.checkZoomButtons();
 
 		if (isLayoutOccurred()) {
@@ -631,8 +631,14 @@ public class MapView extends ViewGroup implements IMapView,
 
 	/**
 	 * Returns the current center-point position of the map, as a GeoPoint (latitude and longitude).
-	 *
+	 * <br><br>
+	 * Gives you the actual current map center, as the Projection computes it from the middle of
+	 * the screen. Most of the time it's supposed to be approximately the same value (because
+	 * of computing rounding side effects), but in some cases (current zoom gesture or scroll
+	 * limits) the values may differ (typically, when {@link Projection#adjustOffsets} had to fine-tune
+	 * the map center).
 	 * @return A GeoPoint of the map's center-point.
+	 * @see #getExpectedCenter()
 	 */
 	@Override
 	public IGeoPoint getMapCenter() {
@@ -1643,11 +1649,13 @@ public class MapView extends ViewGroup implements IMapView,
 	}
 
 	/**
+	 * Sets the initial center point of the map. This can be set before the map view is 'ready'
+	 * meaning that it can be set and honored with the onFirstLayoutListener
 	 * @since 6.0.0
 	 */
 	@Deprecated
 	public void setInitCenter(final IGeoPoint geoPoint) {
-		setCenter(geoPoint);
+		setExpectedCenter(geoPoint);
 	}
 
 	public long getMapScrollX() {
@@ -1664,16 +1672,26 @@ public class MapView extends ViewGroup implements IMapView,
 	}
 
 	/**
+	 * Most of the time you'll want to call {@link #getMapCenter()}.
+	 *
+	 * This method gives to the Projection the desired map center, typically set by
+	 * MapView.setExpectedCenter when you want to center a map on a particular point.
+	 * <a href="https://github.com/osmdroid/osmdroid/issues/868">see issue 868</a>
 	 * @since 6.0.0
+	 * @see #getMapCenter()
 	 */
-	public GeoPoint getCenter() {
+	public GeoPoint getExpectedCenter() {
 		return mCenter;
 	}
 
 	/**
+	 * Should never be used except by the constructor of Projection. It's just a deferred setting of
+	 * the expected next map center computed by the Projection's constructor, with no guarantee
+	 * it will be 100% respected.
+	 * <a href="https://github.com/osmdroid/osmdroid/issues/868">see issue 868</a>
 	 * @since 6.0.0
 	 */
-	public void setCenter(final IGeoPoint pGeoPoint) {
+	public void setExpectedCenter(final IGeoPoint pGeoPoint) {
 		mCenter = (GeoPoint)pGeoPoint;
 		setMapScroll(0, 0);
 		resetProjection();

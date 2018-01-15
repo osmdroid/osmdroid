@@ -187,7 +187,7 @@ public class StarterMapFragment extends Fragment implements OpenStreetMapConstan
           } else {
               final double latitude = Double.valueOf(latitudeString);
               final double longitude = Double.valueOf(longitudeString);
-              mMapView.setCenter(new GeoPoint(latitude, longitude));
+              mMapView.setExpectedCenter(new GeoPoint(latitude, longitude));
           }
 
           mLocationOverlay.enableMyLocation();

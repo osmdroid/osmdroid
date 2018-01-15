@@ -182,7 +182,7 @@ public class MapController implements IMapController, OnFirstLayoutListener {
             mReplayController.setCenter(point);
             return;
         }
-        mMapView.setCenter(point);
+        mMapView.setExpectedCenter(point);
     }
 
     @Override

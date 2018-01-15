@@ -62,7 +62,7 @@ public class Projection implements IProjection {
 	Projection(MapView mapView) {
 		this(
 				mapView.getZoomLevelDouble(), mapView.getIntrinsicScreenRect(null),
-				mapView.getCenter(),
+				mapView.getExpectedCenter(),
 				mapView.getMapScrollX(), mapView.getMapScrollY(),
 				mapView.getMapOrientation(),
 				mapView.isHorizontalMapRepetitionEnabled(), mapView.isVerticalMapRepetitionEnabled());
