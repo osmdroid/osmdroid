@@ -119,8 +119,8 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	private boolean mScrollableAreaLimitLongitude;
 	private double mScrollableAreaLimitWest;
 	private double mScrollableAreaLimitEast;
-	private int mScrollableAreaLimitExtraWidth;
-	private int mScrollableAreaLimitExtraHeight;
+	private int mScrollableAreaLimitExtraPixelWidth;
+	private int mScrollableAreaLimitExtraPixelHeight;
 
 	private MapTileProviderBase mTileProvider;
 	private Handler mTileRequestCompleteHandler;
@@ -342,12 +342,12 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 			if (mScrollableAreaLimitLatitude) {
 				mProjection.adjustOffsets(
 						mScrollableAreaLimitNorth, mScrollableAreaLimitSouth, true,
-						mScrollableAreaLimitExtraHeight);
+						mScrollableAreaLimitExtraPixelHeight);
 			}
 			if (mScrollableAreaLimitLongitude) {
 				mProjection.adjustOffsets(
 						mScrollableAreaLimitWest, mScrollableAreaLimitEast, false,
-						mScrollableAreaLimitExtraWidth);
+						mScrollableAreaLimitExtraPixelWidth);
 			}
 			mImpossibleFlinging = mProjection.setMapScroll(this);
 		}
@@ -716,22 +716,22 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	 * @since 6.0.0
 	 */
 	public void setScrollableAreaLimitLatitude(final double pNorth, final double pSouth,
-											   final int pExtraHeight) {
+											   final int pExtraPixelHeight) {
 		mScrollableAreaLimitLatitude = true;
 		mScrollableAreaLimitNorth = pNorth;
 		mScrollableAreaLimitSouth = pSouth;
-		mScrollableAreaLimitExtraHeight = pExtraHeight;
+		mScrollableAreaLimitExtraPixelHeight = pExtraPixelHeight;
 	}
 
 	/**
 	 * @since 6.0.0
 	 */
 	public void setScrollableAreaLimitLongitude(final double pWest, final double pEast,
-												final int pExtraWidth) {
+												final int pExtraPixelWidth) {
 		mScrollableAreaLimitLongitude = true;
 		mScrollableAreaLimitWest = pWest;
 		mScrollableAreaLimitEast = pEast;
-		mScrollableAreaLimitExtraWidth = pExtraWidth;
+		mScrollableAreaLimitExtraPixelWidth = pExtraPixelWidth;
 	}
 
 	/**

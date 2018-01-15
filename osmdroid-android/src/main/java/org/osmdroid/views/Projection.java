@@ -685,10 +685,13 @@ public class Projection implements IProjection {
 	}
 
 	/**
+	 * Adjust offsets so that north and south (if latitude, west and east if longitude)
+	 * actually "fit" into the screen, with a tolerance of extraSize pixels.
+	 * Used in order to ensure scroll limits.
 	 * @since 6.0.0
 	 */
-	public void adjustOffsets(final double pNorthOrWest, final double pSouthOrEast,
-							  final boolean isLatitude, final int pExtraSize) {
+	void adjustOffsets(final double pNorthOrWest, final double pSouthOrEast,
+					   final boolean isLatitude, final int pExtraSize) {
 		final long min;
 		final long max;
 		final long deltaX;
