@@ -737,7 +737,7 @@ public class MapView extends ViewGroup implements IMapView,
 	 * * @since 6.0.0
 	 * @param pNorth decimal degrees latitude
 	 * @param pSouth decimal degrees latitude
-	 * @param pExtraPixelHeight in pixels
+	 * @param pExtraPixelHeight in pixels, enables scrolling this many pixels past the bounds
 	 */
 	public void setScrollableAreaLimitLatitude(final double pNorth, final double pSouth,
 											   final int pExtraPixelHeight) {
@@ -752,7 +752,7 @@ public class MapView extends ViewGroup implements IMapView,
 	 * @since 6.0.0
 	 * @param pWest decimal degrees longitude
 	 * @param pEast decimal degrees longitude
-	 * @param pExtraPixelWidth in pixels
+	 * @param pExtraPixelWidth in pixels, enables scrolling this many pixels past the bounds
 	 */
 	public void setScrollableAreaLimitLongitude(final double pWest, final double pEast,
 												final int pExtraPixelWidth) {
