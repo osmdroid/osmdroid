@@ -143,6 +143,7 @@ public final class TileSystem {
 		final int mapSize = MapSize(levelOfDetail);
 		out.x = (int) Clip(x * mapSize + 0.5, 0, mapSize - 1);
 		out.y = (int) Clip(y * mapSize + 0.5, 0, mapSize - 1);
+
 		return out;
 	}
 

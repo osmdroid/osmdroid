@@ -1,26 +1,24 @@
 // Created by plusminus on 19:06:38 - 25.09.2008
 package org.osmdroid.util;
 
-import static org.osmdroid.util.MyMath.gudermann;
-import static org.osmdroid.util.MyMath.gudermannInverse;
-
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.osmdroid.api.IGeoPoint;
-import org.osmdroid.views.util.constants.MapViewConstants;
-
 import android.graphics.PointF;
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import org.osmdroid.api.IGeoPoint;
+
+import java.io.Serializable;
+import java.util.List;
+
+import static org.osmdroid.util.MyMath.gudermann;
+import static org.osmdroid.util.MyMath.gudermannInverse;
 
 /**
  *
  * @author Nicolas Gramlich
  *
  */
-public class BoundingBox implements Parcelable, Serializable, MapViewConstants {
+public class BoundingBox implements Parcelable, Serializable {
 
 	// ===========================================================
 	// Constants
@@ -32,20 +30,27 @@ public class BoundingBox implements Parcelable, Serializable, MapViewConstants {
 	// Fields
 	// ===========================================================
 
-	protected final double mLatNorth;
-	protected final double mLatSouth;
-	protected final double mLonEast;
-	protected final double mLonWest;
+	private double mLatNorth;
+	private double mLatSouth;
+	private double mLonEast;
+	private double mLonWest;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 
 	public BoundingBox(final double north, final double east, final double south, final double west) {
-		this.mLatNorth = north;
-		this.mLonEast = east;
-		this.mLatSouth = south;
-		this.mLonWest = west;
+		set(north, east, south, west);
+	}
+
+	/**
+	 * @since 6.0.0
+	 */
+	public void set(final double north, final double east, final double south, final double west) {
+		mLatNorth = north;
+		mLonEast = east;
+		mLatSouth = south;
+		mLonWest = west;
 		//validate the values
 		//  30 > 0 OK
 		// 30 < 0 not ok

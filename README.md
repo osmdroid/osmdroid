@@ -45,6 +45,43 @@ dependencies {
 
 You can also [compile osmdroid from source](https://github.com/osmdroid/osmdroid/wiki/How-to-build-osmdroid-from-source) or [download the dependency directly from OSS](https://oss.sonatype.org/content/groups/public/org/osmdroid/osmdroid-android/) or [download the distribution package](https://github.com/osmdroid/osmdroid/releases)
 
+## Want the latest and greatest?
+
+We are currently working on a major update for osmdroid.
+If you're interesting in trying it out, using the following:
+
+```groovy
+repositories {
+    mavenCentral()
+    maven{
+        url  'https://oss.sonatype.org/content/repositories/snapshots/'
+        name 'OSS-Sonatype'
+    }
+}
+dependencies {
+    compile 'org.osmdroid:osmdroid-android:6.0.0-SNAPSHOT'
+}
+```
+
+Use at your own risk though, it may not be stable or may have bugs or performance issues.
+If you run across any, please report them.
+
+In case gradle doesn't resolve it, it can be download manually here:
+https://oss.sonatype.org/service/local/repositories/snapshots/content/org/osmdroid/osmdroid-android/6.0.0-SNAPSHOT/osmdroid-android-6.0.0-SNAPSHOT.aar
+
+Side note: gradle's cached dependencies and doesn't really handle snapshot very well.
+To force gradle to update snapshots on every build, try adding this to your root `build.gradle` file.
+
+```groovy
+allprojects  {
+  // forces all changing dependencies (i.e. SNAPSHOTs) to automagicially download
+    configurations.all {
+        resolutionStrategy {
+            cacheChangingModulesFor 0, 'seconds'
+    }
+}
+```
+
 ## OK now what?
 Continue reading here, [How-to-use-the-osmdroid-library](https://github.com/osmdroid/osmdroid/wiki/How-to-use-the-osmdroid-library)
 

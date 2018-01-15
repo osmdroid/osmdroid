@@ -4,7 +4,6 @@ package org.osmdroid.views.util;
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
-import org.osmdroid.views.util.constants.MapViewConstants;
 
 import android.graphics.Point;
 
@@ -18,7 +17,7 @@ import android.graphics.Point;
  *
  */
 @Deprecated
-public class Mercator implements MapViewConstants {
+public class Mercator {
 	// ===========================================================
 	// Constants
 	// ===========================================================

@@ -27,7 +27,7 @@ public class SampleWithTilesOverlayAndCustomTileSource extends Activity {
 	// ===========================================================
 	// Fields
 	// ===========================================================
-
+	MapView mMapView;
 	// ===========================================================
 	// Constructors
 	// ===========================================================
@@ -39,15 +39,15 @@ public class SampleWithTilesOverlayAndCustomTileSource extends Activity {
 		// Setup base map
 		final RelativeLayout rl = new RelativeLayout(this);
 
-		final MapView osmv = new MapView(this);
-		osmv.setTilesScaledToDpi(true);
-		rl.addView(osmv, new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT,
+		mMapView = new MapView(this);
+		mMapView.setTilesScaledToDpi(true);
+		rl.addView(mMapView, new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT,
 				LayoutParams.FILL_PARENT));
-		osmv.setBuiltInZoomControls(true);
+		mMapView.setBuiltInZoomControls(true);
 
 		// zoom to the netherlands
-		osmv.getController().setZoom(7);
-		osmv.getController().setCenter(new GeoPoint(51500000, 5400000));
+		mMapView.getController().setZoom(7);
+		mMapView.getController().setCenter(new GeoPoint(51500000, 5400000));
 
 		// Add tiles layer with custom tile source
 		final MapTileProviderBasic tileProvider = new MapTileProviderBasic(getApplicationContext());
@@ -56,7 +56,7 @@ public class SampleWithTilesOverlayAndCustomTileSource extends Activity {
 		tileProvider.setTileSource(tileSource);
 		final TilesOverlay tilesOverlay = new TilesOverlay(tileProvider, this.getBaseContext());
 		tilesOverlay.setLoadingBackgroundColor(Color.TRANSPARENT);
-		osmv.getOverlays().add(tilesOverlay);
+		mMapView.getOverlays().add(tilesOverlay);
 
 		this.setContentView(rl);
 	}
@@ -72,7 +72,17 @@ public class SampleWithTilesOverlayAndCustomTileSource extends Activity {
 	// ===========================================================
 	// Methods
 	// ===========================================================
+	@Override
+	public void onPause(){
+		super.onPause();
+		mMapView.onPause();
+	}
 
+	@Override
+	public void onResume(){
+		super.onResume();
+		mMapView.onResume();
+	}
 	// ===========================================================
 	// Inner and Anonymous Classes
 	// ===========================================================

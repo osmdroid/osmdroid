@@ -119,7 +119,7 @@ public abstract class MapTileModuleProviderBase {
 					if (result != null) {
 						MapTileRequestState state = mPending.get(result);
 						removeTileFromQueues(result);
-						state.getCallback().mapTileRequestFailed(state);
+						state.getCallback().mapTileRequestFailedExceedsMaxQueueSize(state);
 					}
 				}
 				return false;

@@ -13,7 +13,7 @@ import org.osmdroid.views.Projection;
 import java.util.Random;
 
 /**
- * @since 5.6.6
+ * @since 6.0.0
  * @author Fabrice Fontaine
  *
  * VERY IMPORTANT NOTICE
@@ -36,7 +36,6 @@ public class ProjectionTest {
     private static final int mMinimapZoomLevelDifference = 5;
     private static final int mNbIterations = 1000;
     private static final int mDeltaPixel = 2;
-    private static final float mScale = 1;
     private static final Rect mScreenRect = new Rect();
     private static final Rect mMiniMapScreenRect = new Rect();
     private static final int mWidth = 600;
@@ -184,6 +183,38 @@ public class ProjectionTest {
         }
     }
 
+    /**
+     * @since 6.0.0
+     */
+    @Test
+    public void testCheckScrollableOffset() {
+        // more than enough
+        testCheckScrollableOffset(0, -100, 5000);
+        // limits
+        testCheckScrollableOffset(0, 50, 950);
+        // shorter than possible, in the middle
+        testCheckScrollableOffset(-1, 52, 950);
+        // shorter than possible, on the left side
+        testCheckScrollableOffset(550, -100, 0);
+        // shorter than possible, on the right side
+        testCheckScrollableOffset(-650, 1100, 1200);
+        // to the left
+        testCheckScrollableOffset(-50, 100, 1950);
+        // to the right
+        testCheckScrollableOffset(450, -1000, 500);
+    }
+
+    /**
+     * @since 6.0.0
+     */
+    private void testCheckScrollableOffset(final int pExpected, final int pMin, final int pMax) {
+        final double worldSize = 20000;
+        final int screenSize = 1000;
+        final int extraSize = 50;
+        Assert.assertEquals(pExpected,
+                Projection.getScrollableOffset(pMin, pMax, worldSize, screenSize, extraSize));
+    }
+
     private Point getRandomPixel(final double pMapSize) {
         final Point pixel = new Point();
         pixel.x = mRandom.nextInt((int)Math.min(mWidth, (long) pMapSize));
@@ -228,7 +259,7 @@ public class ProjectionTest {
                 pGeoPoint,
                 pOffsetX, pOffsetY,
                 getRandomOrientation(),
-                mScale, new PointF(mWidth / 2, mHeight / 2));
+                true, true);
     }
 
     private Projection getRandomProjection(final double pZoomLevel) {

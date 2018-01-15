@@ -121,11 +121,6 @@ public class MinimapOverlay extends TilesOverlay {
 			return;
 		}
 
-		// Don't draw if we are animating
-		if (osmv.isAnimating()) {
-			return;
-		}
-
 		final double zoomLevel = osmv.getProjection().getZoomLevel() - getZoomDifference();
 		if (zoomLevel < mTileProvider.getMinimumZoomLevel()) {
 			return;
@@ -137,11 +132,13 @@ public class MinimapOverlay extends TilesOverlay {
 		setProjection(osmv.getProjection().getOffspring(zoomLevel, getCanvasRect()));
 		getProjection().getMercatorViewPort(mViewPort);
 		// Draw a solid background where the minimap will be drawn with a 2 pixel inset
+		osmv.getProjection().save(c, false, true);
 		c.drawRect(
 				getCanvasRect().left - 2, getCanvasRect().top - 2,
 				getCanvasRect().right + 2, getCanvasRect().bottom + 2, mPaint);
 
 		super.drawTiles(c, getProjection(), getProjection().getZoomLevel(), mViewPort);
+		osmv.getProjection().restore(c, true);
 	}
 
 	@Override

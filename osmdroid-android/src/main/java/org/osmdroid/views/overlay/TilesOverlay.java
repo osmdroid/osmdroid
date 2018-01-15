@@ -26,7 +26,6 @@ import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -71,6 +70,9 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 	/** For overshooting the tile cache **/
 	private int mOvershootTileCache = 0;
 
+	private boolean horizontalWrapEnabled = true;
+	private boolean verticalWrapEnabled = true;
+
 	//Issue 133 night mode
 	private ColorFilter currentColorFilter=null;
 	final static float[] negate ={
@@ -84,8 +86,11 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 	 */
 	public final static ColorFilter INVERT_COLORS = new ColorMatrixColorFilter(negate);
 
-
 	public TilesOverlay(final MapTileProviderBase aTileProvider, final Context aContext) {
+		this(aTileProvider, aContext, true, true);
+	}
+
+	public TilesOverlay(final MapTileProviderBase aTileProvider, final Context aContext, boolean horizontalWrapEnabled, boolean verticalWrapEnabled) {
 		super();
 		this.ctx=aContext;
 		if (aTileProvider == null) {
@@ -93,6 +98,10 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 					"You must pass a valid tile provider to the tiles overlay.");
 		}
 		this.mTileProvider = aTileProvider;
+		this.horizontalWrapEnabled = horizontalWrapEnabled;
+		this.verticalWrapEnabled = verticalWrapEnabled;
+		this.mTileLooper.setHorizontalWrapEnabled(horizontalWrapEnabled);
+		this.mTileLooper.setVerticalWrapEnabled(verticalWrapEnabled);
 	}
 
 	/**
@@ -202,6 +211,13 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 	protected class OverlayTileLooper extends TileLooper {
 
 		private Canvas mCanvas;
+
+		public OverlayTileLooper() {
+		}
+
+		public OverlayTileLooper(boolean horizontalWrapEnabled, boolean verticalWrapEnabled) {
+			super(horizontalWrapEnabled, verticalWrapEnabled);
+		}
 
 		public void loop(final double pZoomLevel, final RectL pViewPort, final Canvas pCanvas) {
 			mCanvas = pCanvas;
@@ -468,5 +484,25 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 	public void setColorFilter(ColorFilter filter) {
 
 		this.currentColorFilter=filter;
+	}
+
+	public boolean isHorizontalWrapEnabled() {
+		return horizontalWrapEnabled;
+	}
+
+	public void setHorizontalWrapEnabled(boolean horizontalWrapEnabled) {
+		this.horizontalWrapEnabled = horizontalWrapEnabled;
+		this.mTileLooper.setHorizontalWrapEnabled(horizontalWrapEnabled);
+
+	}
+
+	public boolean isVerticalWrapEnabled() {
+		return verticalWrapEnabled;
+	}
+
+	public void setVerticalWrapEnabled(boolean verticalWrapEnabled) {
+		this.verticalWrapEnabled = verticalWrapEnabled;
+		this.mTileLooper.setVerticalWrapEnabled(verticalWrapEnabled);
+
 	}
 }

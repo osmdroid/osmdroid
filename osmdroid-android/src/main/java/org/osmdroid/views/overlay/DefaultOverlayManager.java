@@ -149,6 +149,28 @@ public class DefaultOverlayManager extends AbstractList<Overlay> implements Over
     }
 
     @Override
+    public void onPause() {
+        if (mTilesOverlay != null) {
+            mTilesOverlay.onPause();
+        }
+
+        for (final Overlay overlay : this.overlaysReversed()) {
+            overlay.onPause();
+        }
+    }
+
+    @Override
+    public void onResume() {
+        if (mTilesOverlay != null) {
+            mTilesOverlay.onResume();
+        }
+
+        for (final Overlay overlay : this.overlaysReversed()) {
+            overlay.onResume();
+        }
+    }
+
+    @Override
     public boolean onKeyDown(final int keyCode, final KeyEvent event, final MapView pMapView) {
         for (final Overlay overlay : this.overlaysReversed()) {
             if (overlay.onKeyDown(keyCode, event, pMapView)) {

@@ -73,6 +73,10 @@ public class ExtraSamplesTest extends ActivityInstrumentationTestCase2<ExtraSamp
 
         Log.i(SamplesMenuFragment.TAG, "Memory allocation: INIT Free: " + Runtime.getRuntime().freeMemory() + " Total:" + Runtime.getRuntime().totalMemory() + " Max:" + Runtime.getRuntime().maxMemory());
         for (int i = 0; i < fireOrder.length; i++) {
+            // lousy attempt to decrease the time taken by travis
+            if (i > 60) {
+                break;
+            }
 
 
             for (int k = 0; k < 1; k++) {

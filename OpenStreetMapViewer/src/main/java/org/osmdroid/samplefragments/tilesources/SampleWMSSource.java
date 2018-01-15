@@ -36,6 +36,7 @@ import java.net.URL;
 public class SampleWMSSource extends SampleGridlines {
     AlertDialog show = null;
     AlertDialog layerPicker = null;
+    AlertDialog alertDialog = null;
     MenuItem switchMenu = null;
     //this model represents our WMS server, it's "capabilities"
     WMSEndpoint cap;
@@ -135,7 +136,7 @@ public class SampleWMSSource extends SampleGridlines {
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+                alertDialog = new AlertDialog.Builder(getActivity()).create();
                 alertDialog.setTitle("Error");
                 alertDialog.setMessage("There was an error communicating with the server: \n" + root.getMessage());
                 alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
@@ -207,7 +208,19 @@ public class SampleWMSSource extends SampleGridlines {
         });
     }
 
-
+    @Override
+    public void onPause(){
+        super.onPause();
+        if (alertDialog!=null && alertDialog.isShowing()){
+            alertDialog.dismiss();
+        }
+        if (show!=null && show.isShowing()){
+            show.dismiss();
+        }
+        if (layerPicker!=null && layerPicker.isShowing()){
+            layerPicker.dismiss();
+        }
+    }
     /* android context menu */
     /* android context menu */
     /* android context menu */

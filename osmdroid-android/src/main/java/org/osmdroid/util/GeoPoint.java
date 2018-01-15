@@ -245,7 +245,7 @@ public class GeoPoint implements IGeoPoint, MathConstants, GeoConstants, Parcela
 	/**
 	 * @see <a href="https://en.wikipedia.org/wiki/Haversine_formula">Haversine formula</a>
 	 * @see <a href="http://www.movable-type.co.uk/scripts/gis-faq-5.1.html">GIS FAQ</a>
-	 * @since 5.6.6
+	 * @since 6.0.0
 	 * @return distance in meters
 	 */
 	public double distanceToAsDouble(final IGeoPoint other) {

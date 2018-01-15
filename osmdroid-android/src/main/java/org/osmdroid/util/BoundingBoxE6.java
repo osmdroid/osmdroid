@@ -8,7 +8,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import org.osmdroid.api.IGeoPoint;
-import org.osmdroid.views.util.constants.MapViewConstants;
 
 import android.graphics.PointF;
 import android.os.Parcel;
@@ -17,10 +16,11 @@ import android.os.Parcelable;
 /**
  *
  * @author Nicolas Gramlich
- *
+ * @deprecated
+ * @see BoundingBox
  */
 @Deprecated
-public class BoundingBoxE6 implements Parcelable, Serializable, MapViewConstants {
+public class BoundingBoxE6 implements Parcelable, Serializable {
 
 	// ===========================================================
 	// Constants

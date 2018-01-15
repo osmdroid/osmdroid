@@ -45,6 +45,7 @@ public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOr
 	protected Bitmap mCompassRoseBitmap;
 	private final Matrix mCompassMatrix = new Matrix();
 	private boolean mIsCompassEnabled;
+	private boolean wasEnabledOnPause=false;
 
 	/**
 	 * The bearing, in degrees east of north, or NaN if none has been set.
@@ -93,6 +94,21 @@ public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOr
 		mCompassRoseCenterY = mCompassRoseBitmap.getHeight() / 2 - 0.5f;
 
 		setOrientationProvider(orientationProvider);
+	}
+
+	@Override
+	public void onPause(){
+		wasEnabledOnPause = mIsCompassEnabled;
+		this.disableCompass();
+		super.onPause();
+	}
+
+	@Override
+	public void onResume(){
+		super.onResume();
+		if (wasEnabledOnPause) {
+			this.enableCompass();
+		}
 	}
 
 	@Override
@@ -153,21 +169,19 @@ public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOr
 		mCompassMatrix.setTranslate(-mCompassFrameCenterX, -mCompassFrameCenterY);
 		mCompassMatrix.postTranslate(centerX, centerY);
 
-		canvas.save();
-		canvas.concat(proj.getInvertedScaleRotateCanvasMatrix());
+		proj.save(canvas, false, true);
 		canvas.concat(mCompassMatrix);
 		canvas.drawBitmap(mCompassFrameBitmap, 0, 0, sSmoothPaint);
-		canvas.restore();
+		proj.restore(canvas, true);
 
 		mCompassMatrix.setRotate(-bearing, mCompassRoseCenterX, mCompassRoseCenterY);
 		mCompassMatrix.postTranslate(-mCompassRoseCenterX, -mCompassRoseCenterY);
 		mCompassMatrix.postTranslate(centerX, centerY);
 
-		canvas.save();
-		canvas.concat(proj.getInvertedScaleRotateCanvasMatrix());
+		proj.save(canvas, false, true);
 		canvas.concat(mCompassMatrix);
 		canvas.drawBitmap(mCompassRoseBitmap, 0, 0, sSmoothPaint);
-		canvas.restore();
+		proj.restore(canvas, true);
 	}
 
 	// ===========================================================

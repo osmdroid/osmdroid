@@ -22,8 +22,9 @@ import org.osmdroid.views.overlay.gestures.RotationGestureOverlay;
 import static org.osmdroid.samplefragments.events.SampleMapEventListener.df;
 
 /**
+ * Drawing a polygon on screen with up to 1 hole
  * created on 8/26/2017.
- *
+ * Map replication is ON for this sample (only viewable for numerically lower zoom levels (higher altitude))
  * @author Alex O'Ree
  */
 

@@ -16,6 +16,7 @@ import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.PointL;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
+import org.osmdroid.views.overlay.milestones.MilestoneManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,10 +41,11 @@ public class Polygon extends OverlayWithIW {
 	private LinearRing mOutline = new LinearRing(mPath);
 	private ArrayList<LinearRing> mHoles = new ArrayList<>();
 	private String id=null;
-	
+
 	/** Paint settings. */
-	protected Paint mFillPaint;
-	protected Paint mOutlinePaint;
+	private Paint mFillPaint;
+	private Paint mOutlinePaint;
+	private List<MilestoneManager> mMilestoneManagers = new ArrayList<>();
 
 	// ===========================================================
 	// Constructors
@@ -82,12 +84,12 @@ public class Polygon extends OverlayWithIW {
 	public float getStrokeWidth() {
 		return mOutlinePaint.getStrokeWidth();
 	}
-	
+
 	/** @return the Paint used for the outline. This allows to set advanced Paint settings. */
 	public Paint getOutlinePaint(){
 		return mOutlinePaint;
 	}
-	
+
 	/**
 	 * @return a copy of the list of polygon's vertices. 
 	 */
@@ -98,7 +100,7 @@ public class Polygon extends OverlayWithIW {
 	public boolean isVisible(){
 		return isEnabled();
 	}
-	
+
 	public void setFillColor(final int fillColor) {
 		mFillPaint.setColor(fillColor);
 	}
@@ -106,11 +108,11 @@ public class Polygon extends OverlayWithIW {
 	public void setStrokeColor(final int color) {
 		mOutlinePaint.setColor(color);
 	}
-	
+
 	public void setStrokeWidth(final float width) {
 		mOutlinePaint.setStrokeWidth(width);
 	}
-	
+
 	public void setVisible(boolean visible){
 		setEnabled(visible);
 	}
@@ -210,15 +212,29 @@ public class Polygon extends OverlayWithIW {
 		final Projection pj = mapView.getProjection();
 		mPath.rewind();
 
-		final PointL offset = mOutline.buildPathPortion(pj, true, null);
-		
+		mOutline.setClipArea(mapView);
+		final PointL offset = mOutline.buildPathPortion(pj, null, mMilestoneManagers.size() > 0);
+		for (final MilestoneManager milestoneManager : mMilestoneManagers) {
+			milestoneManager.init();
+			milestoneManager.setDistances(mOutline.getDistances());
+			for (final PointL point : mOutline.getPointsForMilestones()) {
+				milestoneManager.add(point.x, point.y);
+			}
+			milestoneManager.end();
+		}
+
 		for (LinearRing hole:mHoles){
-			hole.buildPathPortion(pj, true, offset);
+			hole.setClipArea(mapView);
+			hole.buildPathPortion(pj, offset, mMilestoneManagers.size() > 0);
 		}
 		mPath.setFillType(Path.FillType.EVEN_ODD); //for correct support of holes
 
 		canvas.drawPath(mPath, mFillPaint);
 		canvas.drawPath(mPath, mOutlinePaint);
+
+		for (final MilestoneManager milestoneManager : mMilestoneManagers) {
+			milestoneManager.draw(canvas);
+		}
 	}
 	
 	/** Important note: this function returns correct results only if the Polygon has been drawn before, 
@@ -272,5 +288,18 @@ public class Polygon extends OverlayWithIW {
 	 */
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	/**
+	 * @since 6.0.0
+	 */
+	public void setMilestoneManagers(final List<MilestoneManager> pMilestoneManagers) {
+		if (pMilestoneManagers == null) {
+			if (mMilestoneManagers.size() > 0) {
+				mMilestoneManagers.clear();
+			}
+		} else {
+			mMilestoneManagers = pMilestoneManagers;
+		}
 	}
 }

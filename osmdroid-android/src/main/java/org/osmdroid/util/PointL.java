@@ -2,7 +2,7 @@ package org.osmdroid.util;
 
 /**
  * A {@link android.graphics.Point} with coordinates in long type instead of int
- * @since 5.6.6
+ * @since 6.0.0
  * @author Fabrice Fontaine
  */
 
@@ -36,6 +36,14 @@ public class PointL {
     public void set(final long pX, final long pY) {
         x = pX;
         y = pY;
+    }
+
+    /**
+     * @since 6.0.0
+     */
+    public final void offset(long dx, long dy) {
+        x += dx;
+        y += dy;
     }
 
     /**

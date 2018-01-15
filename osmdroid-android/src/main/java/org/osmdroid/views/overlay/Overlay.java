@@ -269,6 +269,14 @@ public abstract class Overlay implements OverlayConstants {
 		canvas.restore();
 	}
 
+	public void onPause(){
+
+	}
+
+	public void onResume(){
+
+	}
+
 	// ===========================================================
 	// Inner and Anonymous Classes
 	// ===========================================================

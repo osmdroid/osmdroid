@@ -4,14 +4,16 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Path;
 import android.view.MotionEvent;
 
 import org.osmdroid.util.GeoPoint;
+import org.osmdroid.util.PointL;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
+import org.osmdroid.views.overlay.milestones.MilestoneManager;
 import org.osmdroid.views.util.constants.MathConstants;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,13 +32,13 @@ import java.util.List;
  * @see <a href="http://developer.android.com/reference/com/google/android/gms/maps/model/Polyline.html">Google Maps Polyline</a>
  */
 public class Polyline extends OverlayWithIW {
-	
+
 	private boolean mGeodesic;
-	private final Path mPath = new Path();
 	private final Paint mPaint = new Paint();
-	/** Bounding rectangle for view */
-    private LinearRing mOutline = new LinearRing(mPath);
+	private final LineDrawer mLineDrawer = new LineDrawer(256);
+    private LinearRing mOutline = new LinearRing(mLineDrawer);
 	private String id=null;
+	private List<MilestoneManager> mMilestoneManagers = new ArrayList<>();
 
 	protected OnClickListener mOnClickListener;
 
@@ -55,8 +57,9 @@ public class Polyline extends OverlayWithIW {
 		mPaint.setAntiAlias(true);
 		this.clearPath();
 		mGeodesic = false;
+		mLineDrawer.setPaint(mPaint);
 	}
-	
+
 	protected void clearPath() {
 		mOutline.clearPath();
 	}
@@ -74,40 +77,40 @@ public class Polyline extends OverlayWithIW {
 	public List<GeoPoint> getPoints(){
 		return mOutline.getPoints();
 	}
-	
+
 	public int getNumberOfPoints(){
 		return getPoints().size();
 	}
-	
+
 	public int getColor(){
 		return mPaint.getColor();
 	}
-	
+
 	public float getWidth(){
 		return mPaint.getStrokeWidth();
 	}
-	
+
 	/** @return the Paint used. This allows to set advanced Paint settings. */
 	public Paint getPaint(){
 		return mPaint;
 	}
-	
+
 	public boolean isVisible(){
 		return isEnabled();
 	}
-	
+
 	public boolean isGeodesic(){
 		return mGeodesic;
 	}
-	
+
 	public void setColor(int color){
 		mPaint.setColor(color);
 	}
-	
+
 	public void setWidth(float width){
 		mPaint.setStrokeWidth(width);
 	}
-	
+
 	public void setVisible(boolean visible){
 		setEnabled(visible);
 	}
@@ -132,7 +135,7 @@ public class Polyline extends OverlayWithIW {
 				Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(lon1 - lon2))
 				/ -MathConstants.DEG2RAD;
 		bearing = bearing < 0 ? 360 + bearing : bearing;
-		
+
 		for (int i = 1; i <= numberOfPoints; i++) {
 			final double f = 1.0 * i / (numberOfPoints+1);
 			final double A = Math.sin((1 - f) * d) / Math.sin(d);
@@ -186,11 +189,22 @@ public class Polyline extends OverlayWithIW {
 		}
 
         final Projection pj = mapView.getProjection();
-        mPath.rewind();
 
-        mOutline.buildPathPortion(pj, false, null);
+		mLineDrawer.setCanvas(canvas);
+        mOutline.setClipArea(mapView);
+        mOutline.buildLinePortion(pj, mMilestoneManagers.size() > 0);
+        for (final MilestoneManager milestoneManager : mMilestoneManagers) {
+        	milestoneManager.init();
+        	milestoneManager.setDistances(mOutline.getDistances());
+        	for (final PointL point : mOutline.getPointsForMilestones()) {
+       			milestoneManager.add(point.x, point.y);
+			}
+			milestoneManager.end();
+		}
 
-        canvas.drawPath(mPath, mPaint);
+		for (final MilestoneManager milestoneManager : mMilestoneManagers) {
+        	milestoneManager.draw(canvas);
+		}
 	}
 	
 	/** Detection is done is screen coordinates. 
@@ -199,7 +213,7 @@ public class Polyline extends OverlayWithIW {
 	 * @return true if the Polyline is close enough to the point. 
 	 */
 	public boolean isCloseTo(GeoPoint point, double tolerance, MapView mapView) {
-		return mOutline.isCloseTo(point, tolerance, mapView.getProjection());
+		return mOutline.isCloseTo(point, tolerance, mapView.getProjection(), false);
 	}
 
 	public void showInfoWindow(GeoPoint position){
@@ -258,4 +272,16 @@ public class Polyline extends OverlayWithIW {
 		onDestroy();
 	}
 
+	/**
+	 * @since 6.0.0
+	 */
+	public void setMilestoneManagers(final List<MilestoneManager> pMilestoneManagers) {
+		if (pMilestoneManagers == null) {
+			if (mMilestoneManagers.size() > 0) {
+				mMilestoneManagers.clear();
+			}
+		} else {
+			mMilestoneManagers = pMilestoneManagers;
+		}
+	}
 }

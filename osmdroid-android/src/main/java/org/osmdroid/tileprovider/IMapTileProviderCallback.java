@@ -21,6 +21,14 @@ public interface IMapTileProviderCallback {
 	 *            a state object
 	 */
 	void mapTileRequestFailed(MapTileRequestState aState);
+	
+	/**
+	* The map tile request has failed - exceeds MaxQueueSize.
+	*
+	* @param aState
+	*            a state object
+	*/
+	void mapTileRequestFailedExceedsMaxQueueSize(MapTileRequestState aState);
 
 	/**
 	 * The map tile request has produced an expired tile.

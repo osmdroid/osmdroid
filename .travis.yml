@@ -104,6 +104,9 @@ before_script:
   - adb shell chmod 777 /mnt/sdcard
   - adb shell mkdir /sdcard/osmdroid/
   - adb push world.map /sdcard/osmdroid/world.map
+  - adb push testzoom4.sqlite /sdcard/osmdroid/testzoom4.sqlite
+  - adb push testzoom4.zip /sdcard/osmdroid/testzoom4.zip
+  - adb push testzoom4.gemf /sdcard/osmdroid/testzoom4.gemf
   #maybe one day it will be added to the repo- adb push ERDC_Whitehorse_GeoPackage.gpkg /sdcard/osmdroid/ERDC_Whitehorse_GeoPackage.gpkg
   #- adb push resources/usgsbase.gemf /sdcard/osmdroid/usgsbase.gemf
   #- adb push resources/usgstopo.sqlite /sdcard/osmdroid/usgstopo.sqlite
@@ -124,7 +127,7 @@ script:
   - ./gradlew -version
   - echo $JAVA_HOME
   - export JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64
-  - travis_wait 60 ./gradlew clean connectedCheck
+  - travis_wait 60 ./gradlew clean install connectedCheck
   # fun fact, maven runs android tests concurrently for all connected devices, gradle does not
   # since we're using build matrix, each build target compiles the source, fires up it's specific vm, runs the tests, then exits.
   # --stacktrace
