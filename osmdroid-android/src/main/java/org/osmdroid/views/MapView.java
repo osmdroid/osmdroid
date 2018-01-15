@@ -32,7 +32,6 @@ import org.osmdroid.views.overlay.DefaultOverlayManager;
 import org.osmdroid.views.overlay.Overlay;
 import org.osmdroid.views.overlay.OverlayManager;
 import org.osmdroid.views.overlay.TilesOverlay;
-import org.osmdroid.views.util.constants.MapViewConstants;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -53,13 +52,15 @@ import android.widget.Scroller;
 import android.widget.ZoomButtonsController;
 
 /**
- * This is the primary view for osmdroid
+ * This is the primary view for osmdroid. <br><br>
+ * As of version 6.0.0, please respect the android view lifecycle by calling
+ * {@link MapView#onPause()} and {@link MapView#onResume()} respectively
  * 
  * @since the begining
  * @author plusminus on 17:45:56 - 25.09.2008
  * @author and many other contributors
  */
-public class MapView extends ViewGroup implements IMapView, MapViewConstants,
+public class MapView extends ViewGroup implements IMapView,
 		MultiTouchObjectCanvas<Object> {
 
 	/** Current zoom level for map tiles. */
@@ -403,6 +404,13 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		return mTilesScaledToDpi;
 	}
 
+	/**
+	 * if true, tiles are scaled to the current DPI of the display. This effectively
+	 * makes it easier to read labels, how it may appear pixelated depending on the map
+	 * source.<br>
+	 * if false, tiles are rendered in their real size
+	 * @param tilesScaledToDpi
+	 */
 	public void setTilesScaledToDpi(boolean tilesScaledToDpi) {
 		mTilesScaledToDpi = tilesScaledToDpi;
 		updateTileSizeForDensity(getTileProvider().getTileSource());
@@ -693,7 +701,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
     /**
      * Set the map to limit it's scrollable view to the specified BoundingBox. Note this does not
-     * limit zooming so it will be possible for the user to zoom to an area that is larger than the
+     * limit zooming so it will be possible for the user to zoom out to an area that is larger than the
      * limited area.
      *
      * @param boundingBox
@@ -725,7 +733,11 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	}
 
 	/**
-	 * @since 6.0.0
+	 * sets the scroll limit
+	 * * @since 6.0.0
+	 * @param pNorth decimal degrees latitude
+	 * @param pSouth decimal degrees latitude
+	 * @param pExtraPixelHeight in pixels
 	 */
 	public void setScrollableAreaLimitLatitude(final double pNorth, final double pSouth,
 											   final int pExtraPixelHeight) {
@@ -736,7 +748,11 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	}
 
 	/**
+	 * sets the scroll limit
 	 * @since 6.0.0
+	 * @param pWest decimal degrees longitude
+	 * @param pEast decimal degrees longitude
+	 * @param pExtraPixelWidth in pixels
 	 */
 	public void setScrollableAreaLimitLongitude(final double pWest, final double pEast,
 												final int pExtraPixelWidth) {
@@ -915,6 +931,10 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		resetProjection();
 	}
 
+	/**
+	 * enables you to add a listener for when the map is ready to go.
+	 * @param listener
+	 */
 	public void addOnFirstLayoutListener(OnFirstLayoutListener listener) {
 		// Don't add if we already have a layout
 		if (!isLayoutOccurred())
