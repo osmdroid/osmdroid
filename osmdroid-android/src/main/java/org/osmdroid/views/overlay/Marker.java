@@ -167,7 +167,11 @@ public class Marker extends OverlayWithIW {
 	public GeoPoint getPosition(){
 		return mPosition;
 	}
-	
+
+	/**
+	 * sets the location on the planet where the icon is rendered
+	 * @param position
+	 */
 	public void setPosition(GeoPoint position){
 		mPosition = position.clone();
 		if (isInfoWindowShown()) {
@@ -179,7 +183,11 @@ public class Marker extends OverlayWithIW {
 	public float getRotation(){
 		return mBearing;
 	}
-	
+
+	/**
+	 * rotates the icon in relation to the map
+	 * @param rotation
+	 */
 	public void setRotation(float rotation){
 		mBearing = rotation;
 	}
@@ -272,7 +280,10 @@ public class Marker extends OverlayWithIW {
 	public void setPanToView(boolean panToView){
 		mPanToView = panToView;
 	}
-	
+
+	/**
+	 * shows the info window, if it's open, this will close and reopen it
+	 */
 	public void showInfoWindow(){
 		if (mInfoWindow == null)
 			return;
@@ -360,6 +371,7 @@ public class Marker extends OverlayWithIW {
 
 
 	/**
+	 * Prevent memory leaks and call this when you're done with the map
 	 * reference https://github.com/MKergall/osmbonuspack/pull/210
 	 */
 	public static void cleanDefaults(){
@@ -463,26 +475,51 @@ public class Marker extends OverlayWithIW {
 		return true;
 	}
 
+	/**
+	 * used for when the icon is explicitly set to null and the title is not, this will
+	 * style the rendered text label
+	 * @return
+	 */
 	public int getTextLabelBackgroundColor() {
 		return mTextLabelBackgroundColor;
 	}
-
+	/**
+	 * used for when the icon is explicitly set to null and the title is not, this will
+	 * style the rendered text label
+	 * @return
+	 */
 	public void setTextLabelBackgroundColor(int mTextLabelBackgroundColor) {
 		this.mTextLabelBackgroundColor = mTextLabelBackgroundColor;
 	}
-
+	/**
+	 * used for when the icon is explicitly set to null and the title is not, this will
+	 * style the rendered text label
+	 * @return
+	 */
 	public int getTextLabelForegroundColor() {
 		return mTextLabelForegroundColor;
 	}
-
+	/**
+	 * used for when the icon is explicitly set to null and the title is not, this will
+	 * style the rendered text label
+	 * @return
+	 */
 	public void setTextLabelForegroundColor(int mTextLabelForegroundColor) {
 		this.mTextLabelForegroundColor = mTextLabelForegroundColor;
 	}
-
+	/**
+	 * used for when the icon is explicitly set to null and the title is not, this will
+	 * style the rendered text label
+	 * @return
+	 */
 	public int getTextLabelFontSize() {
 		return mTextLabelFontSize;
 	}
-
+	/**
+	 * used for when the icon is explicitly set to null and the title is not, this will
+	 * style the rendered text label
+	 * @return
+	 */
 	public void setTextLabelFontSize(int mTextLabelFontSize) {
 		this.mTextLabelFontSize = mTextLabelFontSize;
 	}
