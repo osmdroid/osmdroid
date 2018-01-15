@@ -13,6 +13,7 @@ import org.osmdroid.samplefragments.animations.MinMaxZoomLevel;
 import org.osmdroid.samplefragments.cache.CacheImport;
 import org.osmdroid.samplefragments.cache.CachePurge;
 import org.osmdroid.samplefragments.cache.SampleAlternateCacheDir;
+import org.osmdroid.samplefragments.cache.SampleCacheDelete;
 import org.osmdroid.samplefragments.cache.SampleCacheDownloader;
 import org.osmdroid.samplefragments.cache.SampleCacheDownloaderArchive;
 import org.osmdroid.samplefragments.cache.SampleCacheDownloaderCustomUI;
@@ -275,7 +276,8 @@ public final class SampleFactory implements ISampleFactory {
 
         mSamples.add(SampleCustomMyLocation.class);
         mSamples.add(DrawCircle10km.class);
-mSamples.add(MarkerDrag.class);
+        mSamples.add(MarkerDrag.class);
+        mSamples.add(SampleCacheDelete.class);
     }
 
     public void addSample(Class<? extends BaseSampleFragment> clz) {

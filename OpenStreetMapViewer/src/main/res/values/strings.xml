@@ -30,6 +30,7 @@
     <string name="cache_manager">Cache Manager</string>
     <string name="cache_manager_description">The Cache Manager lets you manage what\'s cached on this device and enables you to download and cache tiles locally. Keep in mind, there may be legal implications. Use with caution and be sure to read the usage agreement(s) or terms of service with the tile source.</string>
     <string name="cache_download">Start Download</string>
+    <string name="cache_delete_area">Delete Area</string>
     <string name="sdcardstate">External Storage State:</string>
     <string name="osmdroid_welcome">Welcome to the osmdroid example app. This app is used to demonstrate some of osmdroid\'s features and functions. Enjoy! Please report any issues to https://github.com/osmdroid/osmdroid</string>
 
