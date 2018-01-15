@@ -3,9 +3,8 @@ package org.osmdroid.samplefragments.events;
 import org.osmdroid.samplefragments.BaseSampleFragment;
 import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
-import org.osmdroid.views.overlay.Polygon;
+import org.osmdroid.views.overlay.Polyline;
 
-import android.graphics.Color;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -25,7 +24,8 @@ public class SampleLimitedScrollArea extends BaseSampleFragment {
 
 	public static final String TITLE = "Limited scroll area";
 
-	private final int MENU_LIMIT_SCROLLING_ID = Menu.FIRST;
+	private final int MENU_LIMIT_SCROLLING_LAT_ID = Menu.FIRST;
+	private final int MENU_LIMIT_SCROLLING_LNG_ID = Menu.FIRST + 1;
 
 	private BoundingBox sCentralParkBoundingBox;
 
@@ -43,36 +43,87 @@ public class SampleLimitedScrollArea extends BaseSampleFragment {
 	// Constructors
 	// ===========================================================
 
+	private final Polyline mNorthPolyline = new Polyline();
+	private final Polyline mSouthPolyline = new Polyline();
+	private final Polyline mWestPolyline = new Polyline();
+	private final Polyline mEastPolyline = new Polyline();
 
 
 	@Override
 	protected void addOverlays() {
 		super.addOverlays();
 
-		final Polygon polygon = new Polygon();
 		final ArrayList<GeoPoint> list = new ArrayList<>();
-		list.add(new GeoPoint(sCentralParkBoundingBox.getLatNorth(), sCentralParkBoundingBox.getLonEast()));
-		list.add(new GeoPoint(sCentralParkBoundingBox.getLatNorth(), sCentralParkBoundingBox.getLonWest()));
-		list.add(new GeoPoint(sCentralParkBoundingBox.getLatSouth(), sCentralParkBoundingBox.getLonWest()));
-		list.add(new GeoPoint(sCentralParkBoundingBox.getLatSouth(), sCentralParkBoundingBox.getLonEast()));
-		polygon.setPoints(list);
-		polygon.setFillColor(Color.argb(75, 255,0,0));
-		mMapView.getOverlays().add(polygon);
+
+		list.clear();
+		list.add(new GeoPoint(sCentralParkBoundingBox.getActualNorth(), -85));
+		list.add(new GeoPoint(sCentralParkBoundingBox.getActualNorth(), -65));
+		mNorthPolyline.setPoints(list);
+		mMapView.getOverlays().add(mNorthPolyline);
+
+		list.clear();
+		list.add(new GeoPoint(sCentralParkBoundingBox.getActualSouth(), -85));
+		list.add(new GeoPoint(sCentralParkBoundingBox.getActualSouth(), -65));
+		mSouthPolyline.setPoints(list);
+		mMapView.getOverlays().add(mSouthPolyline);
+
+		list.clear();
+		list.add(new GeoPoint(45, sCentralParkBoundingBox.getLonWest()));
+		list.add(new GeoPoint(35, sCentralParkBoundingBox.getLonWest()));
+		mWestPolyline.setPoints(list);
+		mMapView.getOverlays().add(mWestPolyline);
+
+		list.clear();
+		list.add(new GeoPoint(45, sCentralParkBoundingBox.getLonEast()));
+		list.add(new GeoPoint(35, sCentralParkBoundingBox.getLonEast()));
+		mEastPolyline.setPoints(list);
+		mMapView.getOverlays().add(mEastPolyline);
+
 		mMapView.getController().setZoom(13.);
 
-		setLimitScrolling(true);
 		setHasOptionsMenu(true);
+
+		mMapView.post(new Runnable() { // "post" because we need View.getWidth() to be set
+			@Override
+			public void run() {
+				setLimitScrollingLatitude(true);
+				setLimitScrollingLongitude(true);
+			}
+		});
 	}
 
-	protected void setLimitScrolling(boolean limitScrolling) {
-		if (limitScrolling) {
-			mMapView.setScrollableAreaLimitDouble(sCentralParkBoundingBox);
-			mMapView.getController().animateTo(sCentralParkBoundingBox.getCenterWithDateLine());
-			mMapView.invalidate();
+	/**
+	 * @since 6.0.0
+	 */
+	private void setLimitScrollingLatitude(boolean pLimitScrolling) {
+		mMapView.getOverlays().remove(mNorthPolyline);
+		mMapView.getOverlays().remove(mSouthPolyline);
+		if (pLimitScrolling) {
+			mMapView.setScrollableAreaLimitLatitude(sCentralParkBoundingBox.getActualNorth(), sCentralParkBoundingBox.getActualSouth(), mMapView.getHeight() / 2);
+			mMapView.setCenter(sCentralParkBoundingBox.getCenterWithDateLine());
+			mMapView.getOverlays().add(mNorthPolyline);
+			mMapView.getOverlays().add(mSouthPolyline);
 		} else {
-			mMapView.setScrollableAreaLimitDouble(null);
-			mMapView.invalidate();
+			mMapView.resetScrollableAreaLimitLatitude();
 		}
+		mMapView.invalidate();
+	}
+
+	/**
+	 * @since 6.0.0
+	 */
+	private void setLimitScrollingLongitude(boolean pLimitScrolling) {
+		mMapView.getOverlays().remove(mWestPolyline);
+		mMapView.getOverlays().remove(mEastPolyline);
+		if (pLimitScrolling) {
+			mMapView.setScrollableAreaLimitLongitude(sCentralParkBoundingBox.getLonWest(), sCentralParkBoundingBox.getLonEast(), mMapView.getWidth() / 2);
+			mMapView.setCenter(sCentralParkBoundingBox.getCenterWithDateLine());
+			mMapView.getOverlays().add(mWestPolyline);
+			mMapView.getOverlays().add(mEastPolyline);
+		} else {
+			mMapView.resetScrollableAreaLimitLongitude();
+		}
+		mMapView.invalidate();
 	}
 
 	// ===========================================================
@@ -85,24 +136,28 @@ public class SampleLimitedScrollArea extends BaseSampleFragment {
 
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		menu.add(0, MENU_LIMIT_SCROLLING_ID, Menu.NONE, "Limit scrolling").setCheckable(true);
+		menu.add(0, MENU_LIMIT_SCROLLING_LAT_ID, Menu.NONE, "Latitude: Limit scrolling").setCheckable(true);
+		menu.add(0, MENU_LIMIT_SCROLLING_LNG_ID, Menu.NONE, "Longitude: Limit scrolling").setCheckable(true);
 
 		super.onCreateOptionsMenu(menu, inflater);
 	}
 
 	@Override
 	public void onPrepareOptionsMenu(Menu menu) {
-		MenuItem item = menu.findItem(MENU_LIMIT_SCROLLING_ID);
-		item.setChecked(mMapView.getScrollableAreaLimit() != null);
+		menu.findItem(MENU_LIMIT_SCROLLING_LAT_ID).setChecked(mMapView.isScrollableAreaLimitLatitude());
+		menu.findItem(MENU_LIMIT_SCROLLING_LNG_ID).setChecked(mMapView.isScrollableAreaLimitLongitude());
 		super.onPrepareOptionsMenu(menu);
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		case MENU_LIMIT_SCROLLING_ID:
-			setLimitScrolling(mMapView.getScrollableAreaLimit() == null);
-			return true;
+			case MENU_LIMIT_SCROLLING_LAT_ID:
+				setLimitScrollingLatitude(!mMapView.isScrollableAreaLimitLatitude());
+				return true;
+			case MENU_LIMIT_SCROLLING_LNG_ID:
+				setLimitScrollingLongitude(!mMapView.isScrollableAreaLimitLongitude());
+				return true;
 		}
 		return super.onOptionsItemSelected(item);
 	}

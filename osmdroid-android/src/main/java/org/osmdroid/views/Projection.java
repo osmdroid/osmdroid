@@ -683,17 +683,39 @@ public class Projection implements IProjection {
 	 * or it is smaller and it is centered
 	 * @since 6.0.0
 	 */
+	@Deprecated
 	public void adjustOffsets(final BoundingBox pBoundingBox) {
 		if (pBoundingBox == null) {
 			return;
 		}
-		final long left = getLongPixelXFromLongitude(pBoundingBox.getLonWest());
-		final long right = getLongPixelXFromLongitude(pBoundingBox.getLonEast());
-		final long top = getLongPixelYFromLatitude(pBoundingBox.getActualNorth());
-		final long bottom = getLongPixelYFromLatitude(pBoundingBox.getActualSouth());
-		final long deltaX = checkScrollableOffset(left, right, mMercatorMapSize, mIntrinsicScreenRectProjection.width());
-		final long deltaY = checkScrollableOffset(top, bottom, mMercatorMapSize, mIntrinsicScreenRectProjection.height());
-		adjustOffsets(-deltaX, -deltaY);
+		adjustOffsets(pBoundingBox.getLonWest(), pBoundingBox.getLonEast(), false, 0);
+		adjustOffsets(pBoundingBox.getActualNorth(), pBoundingBox.getActualSouth(), true, 0);
+	}
+
+	/**
+	 * Adjust offsets so that north and south (if latitude, west and east if longitude)
+	 * actually "fit" into the screen, with a tolerance of extraSize pixels.
+	 * Used in order to ensure scroll limits.
+	 * @since 6.0.0
+	 */
+	void adjustOffsets(final double pNorthOrWest, final double pSouthOrEast,
+					   final boolean isLatitude, final int pExtraSize) {
+		final long min;
+		final long max;
+		final long deltaX;
+		final long deltaY;
+		if (isLatitude) {
+			min = getLongPixelYFromLatitude(pNorthOrWest);
+			max = getLongPixelYFromLatitude(pSouthOrEast);
+			deltaX = 0;
+			deltaY = getScrollableOffset(min, max, mMercatorMapSize, mIntrinsicScreenRectProjection.height(), pExtraSize);
+		} else {
+			min = getLongPixelXFromLongitude(pNorthOrWest);
+			max = getLongPixelXFromLongitude(pSouthOrEast);
+			deltaX = getScrollableOffset(min, max, mMercatorMapSize, mIntrinsicScreenRectProjection.width(), pExtraSize);
+			deltaY = 0;
+		}
+		adjustOffsets(deltaX, deltaY);
 	}
 
 	/**
@@ -711,36 +733,49 @@ public class Projection implements IProjection {
 	}
 
 	/**
+	 * @param pPixelMin Pixel position of the limit (left)
+	 * @param pPixelMax Pixel position of the limit (right)
+	 * @param pWorldSize World map size - for modulo adjustments
+	 * @param pScreenSize Screen size
+	 * @param pExtraSize Extra size to consider at each side of the screen
+	 * @return the offset to apply so that the limits are within the screen
 	 * @since 6.0.0
 	 */
-	public long getScrollX() {
-		return mScrollX;
-	}
-
-	/**
-	 * @since 6.0.0
-	 */
-	public long getScrollY() {
-		return mScrollY;
-	}
-
-	/**
-	 * @since 6.0.0
-	 */
-	private long checkScrollableOffset(
-			final long pPixelMin, long pPixelMax, final double pWorldSize, final int pScreenSize) {
+	public static long getScrollableOffset(final long pPixelMin, long pPixelMax,
+										   final double pWorldSize,
+										   final int pScreenSize, final int pExtraSize) {
 		while (pPixelMax - pPixelMin < 0) { // date line + several worlds fix
 			pPixelMax += pWorldSize;
 		}
 
-		if (pPixelMax - pPixelMin < pScreenSize) {
-			return pPixelMax - pScreenSize / 2 - (pPixelMax - pPixelMin) / 2;
-		} else if (pPixelMin >= 0) {
-			return pPixelMin;
-		} else if (pPixelMax <= pScreenSize) {
-			return pPixelMax - pScreenSize;
-		} else {
+		long delta;
+		if (pPixelMax - pPixelMin < pScreenSize - 2 * pExtraSize) {
+			final long half = (pPixelMax - pPixelMin) / 2;
+			if ((delta = pScreenSize / 2 - half - pPixelMin) > 0) {
+				return delta;
+			}
+			if ((delta = pScreenSize / 2 + half - pPixelMax) < 0) {
+				return delta;
+			}
 			return 0;
 		}
+		if ((delta = pExtraSize - pPixelMin) < 0) {
+			return delta;
+		}
+		if ((delta = pScreenSize - pExtraSize - pPixelMax) > 0) {
+			return delta;
+		}
+		return 0;
+	}
+
+	/**
+	 * @since 6.0.0
+	 */
+	boolean setMapScroll(final MapView pMapView) {
+		if (pMapView.getMapScrollX() == mScrollX && pMapView.getMapScrollY() == mScrollY) {
+			return false;
+		}
+		pMapView.setMapScroll(mScrollX, mScrollY);
+		return true;
 	}
 }
