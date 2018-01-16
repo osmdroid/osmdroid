@@ -7,7 +7,6 @@ import android.graphics.Rect;
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.api.IProjection;
 import org.osmdroid.util.BoundingBox;
-import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.GeometryMath;
 import org.osmdroid.util.PointL;
@@ -113,14 +112,6 @@ public class Projection implements IProjection {
 		return mBoundingBoxProjection;
 	}
      
-     @Deprecated
-     public BoundingBoxE6 getBoundingBoxE6() {
-          BoundingBoxE6 x = new BoundingBoxE6(mBoundingBoxProjection.getLatNorth(),
-               mBoundingBoxProjection.getLonEast(), mBoundingBoxProjection.getLatSouth(),
-               mBoundingBoxProjection.getLonWest());
-		return x;
-	}
-
 	public Rect getScreenRect() {
 		return mScreenRectProjection;
 	}
