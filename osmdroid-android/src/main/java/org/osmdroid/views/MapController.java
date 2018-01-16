@@ -15,6 +15,7 @@ import android.view.animation.ScaleAnimation;
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.api.IMapController;
 import org.osmdroid.config.Configuration;
+import org.osmdroid.events.MapListener;
 import org.osmdroid.events.ScrollEvent;
 import org.osmdroid.events.ZoomEvent;
 import org.osmdroid.util.BoundingBox;
@@ -175,8 +176,8 @@ public class MapController implements IMapController, OnFirstLayoutListener {
     @Override
     public void setCenter(final IGeoPoint point) {
         // If no layout, delay this call
-        if (mMapView.mListener != null) {
-            mMapView.mListener.onScroll(new ScrollEvent(mMapView, 0, 0));
+        for (MapListener mapListener: mMapView.mListners) {
+            mapListener.onScroll(new ScrollEvent(mMapView, 0, 0));
         }
         if (!mMapView.isLayoutOccurred()) {
             mReplayController.setCenter(point);
@@ -336,8 +337,8 @@ public class MapController implements IMapController, OnFirstLayoutListener {
             // TODO extend zoom (and return true)
             return false;
         }
-        if (mMapView.mListener != null) {
-            mMapView.mListener.onZoom(new ZoomEvent(mMapView, zoomLevel));
+        for (MapListener mapListener: mMapView.mListners) {
+            mapListener.onZoom(new ZoomEvent(mMapView, zoomLevel));
         }
         mMapView.setMultiTouchScaleInitPoint(xPixel, yPixel);
         mMapView.startAnimation();

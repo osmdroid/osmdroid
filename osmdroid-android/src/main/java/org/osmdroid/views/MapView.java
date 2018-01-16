@@ -1,5 +1,6 @@
 package org.osmdroid.views;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -111,8 +112,6 @@ public class MapView extends ViewGroup implements IMapView,
 	 */
 	private PointF mMultiTouchScaleCurrentPoint;
 
-	//
-	protected MapListener mListener;
 
 	// For rotation
 	private float mapOrientation = 0;
@@ -148,10 +147,18 @@ public class MapView extends ViewGroup implements IMapView,
 	private GeoPoint mCenter;
 	private long mMapScrollX;
 	private long mMapScrollY;
+	protected List<MapListener> mListners = new ArrayList<>();
 
 	private double mStartAnimationZoom;
 
-	public interface OnFirstLayoutListener {
+	public void addMapListener(MapListener mapListener) {
+		this.mListners.add(mapListener);
+	}
+	public void removeMapListener(MapListener mapListener) {
+		this.mListners.remove(mapListener);
+	}
+
+    public interface OnFirstLayoutListener {
 		/**
 		 * this generally means that the map is ready to go
 		 * @param v
@@ -473,9 +480,10 @@ public class MapView extends ViewGroup implements IMapView,
 		}
 
 		// do callback on listener
-		if (newZoomLevel != curZoomLevel && mListener != null) {
+		if (newZoomLevel != curZoomLevel) {
 			final ZoomEvent event = new ZoomEvent(this, newZoomLevel);
-			mListener.onZoom(event);
+			for (MapListener mapListener: mListners)
+				mapListener.onZoom(event);
 		}
 
 		invalidate();
@@ -1120,9 +1128,9 @@ public class MapView extends ViewGroup implements IMapView,
 			myOnLayout(true, getLeft(), getTop(), getRight(), getBottom());
 
 		// do callback on listener
-		if (mListener != null) {
+		for (MapListener mapListener: mListners){
 			final ScrollEvent event = new ScrollEvent(this, x, y);
-			mListener.onScroll(event);
+			mapListener.onScroll(event);
 		}
 	}
 
@@ -1172,6 +1180,7 @@ public class MapView extends ViewGroup implements IMapView,
 	protected void onDetachedFromWindow() {
 		this.mZoomController.setVisible(false);
 		this.onDetach();
+		this.mListners.clear();
 		super.onDetachedFromWindow();
 	}
 
@@ -1265,9 +1274,11 @@ public class MapView extends ViewGroup implements IMapView,
 
 	/*
 	 * Set the MapListener for this view
+	 * @deprecated use addMapListener instead
 	 */
+	@Deprecated
 	public void setMapListener(final MapListener ml) {
-		mListener = ml;
+		this.mListners.add(ml);
 	}
 
 	// ===========================================================
