@@ -60,16 +60,6 @@ public class MapView implements IMapView {
 	}
 
 	@Override
-	public int getLatitudeSpan() {
-		return mMapView.getLatitudeSpan();
-	}
-
-	@Override
-	public int getLongitudeSpan() {
-		return mMapView.getLongitudeSpan();
-	}
-    
-	@Override
 	public IGeoPoint getMapCenter() {
 		return new GeoPoint(mMapView.getMapCenter());
 	}
@@ -85,17 +75,13 @@ public class MapView implements IMapView {
 		mMapView.setBackgroundColor(pColor);
 	}
 
-//     @Override
-     public double getLatitudeSpanDouble() {
+	@Override
+    public double getLatitudeSpanDouble() {
           return mMapView.getLatitudeSpan()/1E6;
      }
 
-   //  @Override
-     public double getLongitudeSpanDouble() {
+	@Override
+    public double getLongitudeSpanDouble() {
           return mMapView.getLongitudeSpan()/1E6;
      }
-
-    
-     
-
 }
