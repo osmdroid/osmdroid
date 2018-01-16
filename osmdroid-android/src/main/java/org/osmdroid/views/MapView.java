@@ -151,12 +151,7 @@ public class MapView extends ViewGroup implements IMapView,
 
 	private double mStartAnimationZoom;
 
-	public void addMapListener(MapListener mapListener) {
-		this.mListners.add(mapListener);
-	}
-	public void removeMapListener(MapListener mapListener) {
-		this.mListners.remove(mapListener);
-	}
+
 
     public interface OnFirstLayoutListener {
 		/**
@@ -984,6 +979,9 @@ public class MapView extends ViewGroup implements IMapView,
 		this.getOverlayManager().onResume();
 	}
 
+	/**
+	 * destroys the map view, all refernces to listeners, all overlays, etc
+	 */
 	public void onDetach() {
 		this.getOverlayManager().onDetach(this);
 		mTileProvider.detach();
@@ -1280,6 +1278,25 @@ public class MapView extends ViewGroup implements IMapView,
 	public void setMapListener(final MapListener ml) {
 		this.mListners.add(ml);
 	}
+
+	/**
+	 * Just like the old setMapListener, except it supports more than one
+	 * @since 6.0.0
+	 * @param mapListener
+	 */
+	public void addMapListener(MapListener mapListener) {
+		this.mListners.add(mapListener);
+	}
+
+	/**
+	 * Removes a map listener
+	 * @since 6.0.0
+	 * @param mapListener
+	 */
+	public void removeMapListener(MapListener mapListener) {
+		this.mListners.remove(mapListener);
+	}
+
 
 	// ===========================================================
 	// Methods
