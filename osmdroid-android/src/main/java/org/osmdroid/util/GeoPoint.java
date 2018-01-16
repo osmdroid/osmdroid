@@ -235,14 +235,6 @@ public class GeoPoint implements IGeoPoint, MathConstants, GeoConstants, Parcela
 	// ===========================================================
 
 	/**
-	 * Use {@link #distanceToAsDouble(IGeoPoint)} instead
-	 */
-	@Deprecated
-	public int distanceTo(final IGeoPoint other) {
-		return (int) (distanceToAsDouble(other));
-	}
-
-	/**
 	 * @see <a href="https://en.wikipedia.org/wiki/Haversine_formula">Haversine formula</a>
 	 * @see <a href="http://www.movable-type.co.uk/scripts/gis-faq-5.1.html">GIS FAQ</a>
 	 * @since 6.0.0

@@ -101,7 +101,7 @@ public class BoundingBox implements Parcelable, Serializable {
 	}
 
 	public double getDiagonalLengthInMeters() {
-		return new GeoPoint(this.mLatNorth, this.mLonWest).distanceTo(new GeoPoint(
+		return new GeoPoint(this.mLatNorth, this.mLonWest).distanceToAsDouble(new GeoPoint(
 				this.mLatSouth, this.mLonEast));
 	}
 
