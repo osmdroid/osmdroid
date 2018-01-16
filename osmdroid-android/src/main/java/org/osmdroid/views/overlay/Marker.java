@@ -131,6 +131,7 @@ public class Marker extends OverlayWithIW {
 	}
 
 	/** Sets the icon for the marker. Can be changed at any time.
+	 * This is used on the map view.
 	 * @param icon if null, the default osmdroid marker is used. 
 	 */
 	public void setIcon(final Drawable icon){
@@ -191,7 +192,12 @@ public class Marker extends OverlayWithIW {
 	public void setRotation(float rotation){
 		mBearing = rotation;
 	}
-	
+
+	/**
+	 *
+	 * @param anchorU 0.0-1.0 precentage of the icon that offsets the logical center from the actual pixel center point
+	 * @param anchorV 0.0-1.0 precentage of the icon that offsets the logical center from the actual pixel center point
+	 */
 	public void setAnchor(float anchorU, float anchorV){
 		mAnchorU = anchorU;
 		mAnchorV= anchorV;
