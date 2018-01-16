@@ -122,7 +122,7 @@ on a button click
         IGeoPoint mapCenter = mMapView.getMapCenter();
         textViewCurrentLocation.setText(df.format(mapCenter.getLatitude())+","+
             df.format(mapCenter.getLongitude())
-            +","+mMapView.getZoomLevel());
+            +","+mMapView.getZoomLevelDouble());
 
     }
 

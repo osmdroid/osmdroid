@@ -56,7 +56,7 @@ public class MapView implements IMapView {
 	 */
 	@Override
 	public double getZoomLevelDouble() {
-		return (double) getZoomLevel();
+		return (double) mMapView.getZoomLevel();
 	}
 
 	@Override
