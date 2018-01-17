@@ -1,5 +1,6 @@
 package org.osmdroid.views;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -32,8 +33,6 @@ import org.osmdroid.views.overlay.DefaultOverlayManager;
 import org.osmdroid.views.overlay.Overlay;
 import org.osmdroid.views.overlay.OverlayManager;
 import org.osmdroid.views.overlay.TilesOverlay;
-import org.osmdroid.views.overlay.ZoomButtonsOverlay;
-import org.osmdroid.views.util.constants.MapViewConstants;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -51,15 +50,18 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Scroller;
+import android.widget.ZoomButtonsController;
 
 /**
- * This is the primary view for osmdroid
+ * This is the primary view for osmdroid. <br><br>
+ * As of version 6.0.0, please respect the android view lifecycle by calling
+ * {@link MapView#onPause()} and {@link MapView#onResume()} respectively
  * 
  * @since the begining
  * @author plusminus on 17:45:56 - 25.09.2008
  * @author and many other contributors
  */
-public class MapView extends ViewGroup implements IMapView, MapViewConstants,
+public class MapView extends ViewGroup implements IMapView,
 		MultiTouchObjectCanvas<Object> {
 
 	/** Current zoom level for map tiles. */
@@ -89,6 +91,10 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 	private final MapController mController;
 
+	private final ZoomButtonsController mZoomController;
+	private boolean mEnableZoomController = false;
+
+
 	private MultiTouchController<Object> mMultiTouchController;
 
 	/**
@@ -106,8 +112,6 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	 */
 	private PointF mMultiTouchScaleCurrentPoint;
 
-	//
-	protected MapListener mListener;
 
 	// For rotation
 	private float mapOrientation = 0;
@@ -143,11 +147,13 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	private GeoPoint mCenter;
 	private long mMapScrollX;
 	private long mMapScrollY;
+	protected List<MapListener> mListners = new ArrayList<>();
 
-	private ZoomButtonsOverlay mZoomButtonsOverlay;
 	private double mStartAnimationZoom;
 
-	public interface OnFirstLayoutListener {
+
+
+    public interface OnFirstLayoutListener {
 		/**
 		 * this generally means that the map is ready to go
 		 * @param v
@@ -177,6 +183,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		if(isInEditMode()){ 	//fix for edit mode in the IDE
 			mTileRequestCompleteHandler=null;
 			mController=null;
+			mZoomController=null;
 			mScroller=null;
 			mGestureDetector=null;
 			return;
@@ -203,6 +210,13 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 		this.mMapOverlay = new TilesOverlay(mTileProvider, context, horizontalMapRepetitionEnabled, verticalMapRepetitionEnabled);
 		mOverlayManager = new DefaultOverlayManager(mMapOverlay);
+
+		if (isInEditMode()) {
+			mZoomController = null;
+		} else {
+			mZoomController = new ZoomButtonsController(this);
+			mZoomController.setOnZoomListener(new MapViewZoomListener());
+		}
 
 		mGestureDetector = new GestureDetector(context, new MapViewGestureDetectorListener());
 		mGestureDetector.setOnDoubleTapListener(new MapViewDoubleClickListener());
@@ -308,6 +322,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		return getProjection().getBoundingBox();
 	}
 
+
 	/**
 	 * Gets the current bounds of the screen in <I>screen coordinates</I>.
 	 */
@@ -391,6 +406,13 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		return mTilesScaledToDpi;
 	}
 
+	/**
+	 * if true, tiles are scaled to the current DPI of the display. This effectively
+	 * makes it easier to read labels, how it may appear pixelated depending on the map
+	 * source.<br>
+	 * if false, tiles are rendered in their real size
+	 * @param tilesScaledToDpi
+	 */
 	public void setTilesScaledToDpi(boolean tilesScaledToDpi) {
 		mTilesScaledToDpi = tilesScaledToDpi;
 		updateTileSizeForDensity(getTileProvider().getTileSource());
@@ -433,7 +455,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 		this.mZoomLevel = newZoomLevel;
 
-		setCenter(centerGeoPoint);
+		setExpectedCenter(centerGeoPoint);
 		this.checkZoomButtons();
 
 		if (isLayoutOccurred()) {
@@ -453,9 +475,10 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		}
 
 		// do callback on listener
-		if (newZoomLevel != curZoomLevel && mListener != null) {
+		if (newZoomLevel != curZoomLevel) {
 			final ZoomEvent event = new ZoomEvent(this, newZoomLevel);
-			mListener.onZoom(event);
+			for (MapListener mapListener: mListners)
+				mapListener.onZoom(event);
 		}
 
 		invalidate();
@@ -613,8 +636,14 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 	/**
 	 * Returns the current center-point position of the map, as a GeoPoint (latitude and longitude).
-	 *
+	 * <br><br>
+	 * Gives you the actual current map center, as the Projection computes it from the middle of
+	 * the screen. Most of the time it's supposed to be approximately the same value (because
+	 * of computing rounding side effects), but in some cases (current zoom gesture or scroll
+	 * limits) the values may differ (typically, when {@link Projection#adjustOffsets} had to fine-tune
+	 * the map center).
 	 * @return A GeoPoint of the map's center-point.
+	 * @see #getExpectedCenter()
 	 */
 	@Override
 	public IGeoPoint getMapCenter() {
@@ -646,7 +675,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	}
 
 	/**
-	 * @since 5.6.6
+	 * @since 6.0.0
 	 */
 	@Deprecated
 	public float getMapScale() {
@@ -683,7 +712,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
     /**
      * Set the map to limit it's scrollable view to the specified BoundingBox. Note this does not
-     * limit zooming so it will be possible for the user to zoom to an area that is larger than the
+     * limit zooming so it will be possible for the user to zoom out to an area that is larger than the
      * limited area.
      *
      * @param boundingBox
@@ -715,7 +744,11 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	}
 
 	/**
-	 * @since 6.0.0
+	 * sets the scroll limit
+	 * * @since 6.0.0
+	 * @param pNorth decimal degrees latitude
+	 * @param pSouth decimal degrees latitude
+	 * @param pExtraPixelHeight in pixels, enables scrolling this many pixels past the bounds
 	 */
 	public void setScrollableAreaLimitLatitude(final double pNorth, final double pSouth,
 											   final int pExtraPixelHeight) {
@@ -726,7 +759,11 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	}
 
 	/**
+	 * sets the scroll limit
 	 * @since 6.0.0
+	 * @param pWest decimal degrees longitude
+	 * @param pEast decimal degrees longitude
+	 * @param pExtraPixelWidth in pixels, enables scrolling this many pixels past the bounds
 	 */
 	public void setScrollableAreaLimitLongitude(final double pWest, final double pEast,
 												final int pExtraPixelWidth) {
@@ -905,6 +942,10 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		resetProjection();
 	}
 
+	/**
+	 * enables you to add a listener for when the map is ready to go.
+	 * @param listener
+	 */
 	public void addOnFirstLayoutListener(OnFirstLayoutListener listener) {
 		// Don't add if we already have a layout
 		if (!isLayoutOccurred())
@@ -919,10 +960,35 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		return mLayoutOccurred;
 	}
 
+	@Override
+	public void onAttachedToWindow(){
+		super.onAttachedToWindow();
+	}
+
+	/**
+	 * activities/fragments using osmdroid should call this to release resources, pause gps, sensors, timers, etc
+	 * @since 6.0.0
+	 */
+	public void onPause(){
+		this.getOverlayManager().onPause();
+	}
+
+	/**
+	 * activities/fragments using osmdroid should call this to release resources, pause gps, sensors, timers, etc
+	 * @since 6.0.0
+	 */
+	public void onResume(){
+		this.getOverlayManager().onResume();
+	}
+
+	/**
+	 * destroys the map view, all refernces to listeners, all overlays, etc
+	 */
 	public void onDetach() {
 		this.getOverlayManager().onDetach(this);
 		mTileProvider.detach();
 		mTileProvider.clearTileCache();
+		mZoomController.setVisible(false);
 
 		//https://github.com/osmdroid/osmdroid/issues/390
 		if (mTileRequestCompleteHandler instanceof SimpleInvalidationHandler) {
@@ -967,6 +1033,9 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 			Log.d(IMapView.LOGTAG,"dispatchTouchEvent(" + event + ")");
 		}
 
+		if (mZoomController.isVisible() && mZoomController.onTouch(this, event)) {
+			return true;
+		}
 
 		// Get rotated event for some touch listeners.
 		MotionEvent rotatedEvent = rotateTouchEvent(event);
@@ -1059,14 +1128,14 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 			myOnLayout(true, getLeft(), getTop(), getRight(), getBottom());
 
 		// do callback on listener
-		if (mListener != null) {
+		for (MapListener mapListener: mListners){
 			final ScrollEvent event = new ScrollEvent(this, x, y);
-			mListener.onScroll(event);
+			mapListener.onScroll(event);
 		}
 	}
 
 	/**
-	 * @since 5.6.6
+	 * @since 6.0.0
 	 */
 	@Override
 	public void scrollBy(int x, int y) {
@@ -1109,7 +1178,9 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 	@Override
 	protected void onDetachedFromWindow() {
+		this.mZoomController.setVisible(false);
 		this.onDetach();
+		this.mListners.clear();
 		super.onDetachedFromWindow();
 	}
 
@@ -1203,86 +1274,46 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 	/*
 	 * Set the MapListener for this view
+	 * @deprecated use addMapListener instead
 	 */
+	@Deprecated
 	public void setMapListener(final MapListener ml) {
-		mListener = ml;
+		this.mListners.add(ml);
 	}
+
+	/**
+	 * Just like the old setMapListener, except it supports more than one
+	 * @since 6.0.0
+	 * @param mapListener
+	 */
+	public void addMapListener(MapListener mapListener) {
+		this.mListners.add(mapListener);
+	}
+
+	/**
+	 * Removes a map listener
+	 * @since 6.0.0
+	 * @param mapListener
+	 */
+	public void removeMapListener(MapListener mapListener) {
+		this.mListners.remove(mapListener);
+	}
+
 
 	// ===========================================================
 	// Methods
 	// ===========================================================
 
 	private void checkZoomButtons() {
-		mZoomButtonsOverlay.setZoomInEnabled(canZoomIn());
-		mZoomButtonsOverlay.setZoomOutEnabled(canZoomOut());
+		this.mZoomController.setZoomInEnabled(canZoomIn());
+		this.mZoomController.setZoomOutEnabled(canZoomOut());
 	}
 
 	public void setBuiltInZoomControls(final boolean on) {
-		setBuiltInZoomControls(on,
-				ZoomButtonsOverlay.POSITION_HORIZONTAL_DEFAULT
-				| ZoomButtonsOverlay.POSITION_VERTICAL_DEFAULT);
+		this.mEnableZoomController = on;
+		this.checkZoomButtons();
 	}
 
-	/**
-	 * @since 6.0.0
-	 * @param pPosition OR'ed value between {@link ZoomButtonsOverlay#POSITION_HORIZONTAL_POSSIBLE}
-	 *                     and {@link ZoomButtonsOverlay#POSITION_VERTICAL_POSSIBLE}
-	 */
-	public void setBuiltInZoomControls(final boolean on, final int pPosition) {
-		if (on) {
-			if (mZoomButtonsOverlay==null) {
-				mZoomButtonsOverlay = new ZoomButtonsOverlay(this);
-				mZoomButtonsOverlay.setEnabled(true);
-				mZoomButtonsOverlay.setPosition(pPosition);
-				this.getOverlayManager().add(mZoomButtonsOverlay);
-
-				checkZoomButtons();
-			} else
-				mZoomButtonsOverlay.setPosition(pPosition);
-		} else {
-			if (mZoomButtonsOverlay!=null) {
-				this.getOverlayManager().remove(mZoomButtonsOverlay);
-				mZoomButtonsOverlay.onDetach(this);
-				mZoomButtonsOverlay = null;
-			}
-		}
-		invalidate();
-	}
-
-	/**
-	 * See https://github.com/osmdroid/osmdroid/issues/825 for more information.
-	 * The default setup should now draw, the tiles overlay, followed by zoom controls, then everything else.
-	 * This will change if the built in zoom controls are turned off, then on again, which will paint the zoom buttons last.
-	 * @since 6.0.0
-	 * @param pLeft Explicit left pixel of the first zoom button
-	 * @param pTop Explicit top pixel of both zoom buttons
-	 */
-	public void setBuiltInZoomControls(final boolean on, final int pLeft, final int pTop) {
-		if (on) {
-			if (mZoomButtonsOverlay==null) {
-				mZoomButtonsOverlay = new ZoomButtonsOverlay(this);
-			}
-			mZoomButtonsOverlay.setEnabled(true);
-			mZoomButtonsOverlay.setLeftTop(pLeft, pTop);
-			this.getOverlayManager().add(mZoomButtonsOverlay);
-			checkZoomButtons();
-
-		} else {
-			if (mZoomButtonsOverlay!=null) {
-				this.getOverlayManager().remove(mZoomButtonsOverlay);
-				mZoomButtonsOverlay.onDetach(this);
-				mZoomButtonsOverlay = null;
-			}
-		}
-		invalidate();
-	}
-
-	/**
-	 * See https://github.com/osmdroid/osmdroid/issues/825 for more information.
-	 * The default setup should now draw, the tiles overlay, followed by zoom controls, then everything else.
-	 * This will change if the built in zoom controls are turned off, then on again, which will paint the zoom buttons last.
-	 * @param on
-	 */
 	public void setMultiTouchControls(final boolean on) {
 		mMultiTouchController = on ? new MultiTouchController<Object>(this, false) : null;
 	}
@@ -1389,17 +1420,19 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 				return true;
 			}
 
+			mZoomController.setVisible(mEnableZoomController);
 			return true;
 		}
 
 		@Override
 		public boolean onFling(final MotionEvent e1, final MotionEvent e2,
 					final float velocityX, final float velocityY) {
-	            	if (!enableFling || pauseFling) {
-	                	// issue 269, if fling occurs during zoom changes, pauseFling is equals to true, so fling is canceled. But need to reactivate fling for next time.
-	                	pauseFling = false;
-	                	return false;
-	            	}
+
+			if (!enableFling || pauseFling) {
+				// issue 269, if fling occurs during zoom changes, pauseFling is equals to true, so fling is canceled. But need to reactivate fling for next time.
+				pauseFling = false;
+				return false;
+			}
 
 			if (MapView.this.getOverlayManager()
 					.onFling(e1, e2, velocityX, velocityY, MapView.this)) {
@@ -1484,6 +1517,21 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 			}
 
 			return false;
+		}
+	}
+
+	private class MapViewZoomListener implements ZoomButtonsController.OnZoomListener {
+		@Override
+		public void onZoom(final boolean zoomIn) {
+			if (zoomIn) {
+				getController().zoomIn();
+			} else {
+				getController().zoomOut();
+			}
+		}
+
+		@Override
+		public void onVisibilityChanged(final boolean visible) {
 		}
 	}
 
@@ -1631,11 +1679,13 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	}
 
 	/**
+	 * Sets the initial center point of the map. This can be set before the map view is 'ready'
+	 * meaning that it can be set and honored with the onFirstLayoutListener
 	 * @since 6.0.0
 	 */
 	@Deprecated
 	public void setInitCenter(final IGeoPoint geoPoint) {
-		setCenter(geoPoint);
+		setExpectedCenter(geoPoint);
 	}
 
 	public long getMapScrollX() {
@@ -1652,16 +1702,26 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	}
 
 	/**
-	 * @since 5.6.6
+	 * Most of the time you'll want to call {@link #getMapCenter()}.
+	 *
+	 * This method gives to the Projection the desired map center, typically set by
+	 * MapView.setExpectedCenter when you want to center a map on a particular point.
+	 * <a href="https://github.com/osmdroid/osmdroid/issues/868">see issue 868</a>
+	 * @since 6.0.0
+	 * @see #getMapCenter()
 	 */
-	public GeoPoint getCenter() {
+	public GeoPoint getExpectedCenter() {
 		return mCenter;
 	}
 
 	/**
-	 * @since 5.6.6
+	 * Should never be used except by the constructor of Projection. It's just a deferred setting of
+	 * the expected next map center computed by the Projection's constructor, with no guarantee
+	 * it will be 100% respected.
+	 * <a href="https://github.com/osmdroid/osmdroid/issues/868">see issue 868</a>
+	 * @since 6.0.0
 	 */
-	public void setCenter(final IGeoPoint pGeoPoint) {
+	public void setExpectedCenter(final IGeoPoint pGeoPoint) {
 		mCenter = (GeoPoint)pGeoPoint;
 		setMapScroll(0, 0);
 		resetProjection();

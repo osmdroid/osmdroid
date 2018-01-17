@@ -115,6 +115,17 @@ public class SampleExtensive extends Activity implements OpenStreetMapConstants 
 	// ===========================================================
 	// Methods from SuperClass/Interfaces
 	// ===========================================================
+	@Override
+	public void onPause(){
+		super.onPause();
+		mMapView.onPause();
+	}
+
+	@Override
+	public void onResume(){
+		super.onResume();
+		mMapView.onResume();
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(final Menu pMenu) {

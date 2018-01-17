@@ -140,13 +140,17 @@ public class MapTileFileArchiveProvider extends MapTileFileStorageProviderBase {
 
 	@Override
 	public void detach() {
+		clearArcives();
+		super.detach();
+	}
+
+	private void clearArcives(){
 		while(!mArchiveFiles.isEmpty()) {
 			IArchiveFile t = mArchiveFiles.get(0);
 			if (t!=null)
-				mArchiveFiles.get(0).close();
+				t.close();
 			mArchiveFiles.remove(0);
 		}
-		super.detach();
 	}
 
 	// ===========================================================
@@ -154,8 +158,7 @@ public class MapTileFileArchiveProvider extends MapTileFileStorageProviderBase {
 	// ===========================================================
 
 	private void findArchiveFiles() {
-
-		mArchiveFiles.clear();
+		clearArcives();
 
 		if (!isSdCardAvailable()) {
 			return;
@@ -200,6 +203,7 @@ public class MapTileFileArchiveProvider extends MapTileFileStorageProviderBase {
 		@Override
 		public Drawable loadTile(final MapTile pTile) {
 
+			Drawable returnValue=null;
 			ITileSource tileSource = mTileSource.get();
 			if (tileSource == null) {
 				return null;
@@ -225,7 +229,7 @@ public class MapTileFileArchiveProvider extends MapTileFileStorageProviderBase {
 						Log.d(IMapView.LOGTAG,"Use tile from archive: " + pTile);
 					}
 					final Drawable drawable = tileSource.getDrawable(inputStream);
-					return drawable;
+					returnValue = drawable;
 				}
 			} catch (final Throwable e) {
 				Log.e(IMapView.LOGTAG,"Error loading tile", e);
@@ -235,7 +239,7 @@ public class MapTileFileArchiveProvider extends MapTileFileStorageProviderBase {
 				}
 			}
 
-			return null;
+			return returnValue;
 		}
 	}
 }

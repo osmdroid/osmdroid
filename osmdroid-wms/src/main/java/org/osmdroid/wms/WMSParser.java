@@ -42,6 +42,13 @@ import javax.xml.parsers.DocumentBuilderFactory;
  */
 
 public class WMSParser {
+
+    /**
+     * note, the input stream remains open after calling this method, closing it is the caller's problem
+     * @param inputStream
+     * @return
+     * @throws Exception
+     */
     public static WMSEndpoint parse(InputStream inputStream) throws Exception {
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 

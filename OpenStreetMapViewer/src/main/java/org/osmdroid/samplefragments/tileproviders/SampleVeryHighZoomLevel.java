@@ -16,7 +16,7 @@ import org.osmdroid.views.overlay.ScaleBarOverlay;
  * A nicer example would require very high zoom level tiles.
  *
  * @author Fabrice Fontaine
- * @since 5.6.6
+ * @since 6.0.0
  */
 public class SampleVeryHighZoomLevel extends BaseSampleFragment {
 
@@ -52,7 +52,7 @@ public class SampleVeryHighZoomLevel extends BaseSampleFragment {
         mMapView.getController().setZoom(29.);
         // cf. https://fr.wikipedia.org/wiki/Point_z%C3%A9ro_des_routes_de_France
         // In English: starting point of all French roads
-        mMapView.setCenter(new GeoPoint(48.85340215825712, 2.348784611094743));
+        mMapView.setExpectedCenter(new GeoPoint(48.85340215825712, 2.348784611094743));
         mMapView.invalidate();
     }
 }

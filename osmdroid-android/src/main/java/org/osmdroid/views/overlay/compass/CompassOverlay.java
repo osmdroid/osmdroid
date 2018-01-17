@@ -45,6 +45,7 @@ public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOr
 	protected Bitmap mCompassRoseBitmap;
 	private final Matrix mCompassMatrix = new Matrix();
 	private boolean mIsCompassEnabled;
+	private boolean wasEnabledOnPause=false;
 
 	/**
 	 * The bearing, in degrees east of north, or NaN if none has been set.
@@ -93,6 +94,21 @@ public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOr
 		mCompassRoseCenterY = mCompassRoseBitmap.getHeight() / 2 - 0.5f;
 
 		setOrientationProvider(orientationProvider);
+	}
+
+	@Override
+	public void onPause(){
+		wasEnabledOnPause = mIsCompassEnabled;
+		this.disableCompass();
+		super.onPause();
+	}
+
+	@Override
+	public void onResume(){
+		super.onResume();
+		if (wasEnabledOnPause) {
+			this.enableCompass();
+		}
 	}
 
 	@Override

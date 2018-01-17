@@ -1,25 +1,24 @@
 // Created by plusminus on 19:06:38 - 25.09.2008
 package org.osmdroid.util;
 
-import static org.osmdroid.util.MyMath.gudermann;
-import static org.osmdroid.util.MyMath.gudermannInverse;
+import android.graphics.PointF;
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import org.osmdroid.api.IGeoPoint;
 
 import java.io.Serializable;
 import java.util.List;
 
-import org.osmdroid.api.IGeoPoint;
-import org.osmdroid.views.util.constants.MapViewConstants;
-
-import android.graphics.PointF;
-import android.os.Parcel;
-import android.os.Parcelable;
+import static org.osmdroid.util.MyMath.gudermann;
+import static org.osmdroid.util.MyMath.gudermannInverse;
 
 /**
  *
  * @author Nicolas Gramlich
  *
  */
-public class BoundingBox implements Parcelable, Serializable, MapViewConstants {
+public class BoundingBox implements Parcelable, Serializable {
 
 	// ===========================================================
 	// Constants

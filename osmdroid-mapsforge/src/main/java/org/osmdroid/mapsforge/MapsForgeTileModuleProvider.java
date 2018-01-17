@@ -17,6 +17,7 @@ import org.osmdroid.tileprovider.tilesource.ITileSource;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 
 /**
  * Adapted from code from here: https://github.com/MKergall/osmbonuspack, which is LGPL
@@ -99,6 +100,11 @@ public class MapsForgeTileModuleProvider extends MapTileFileStorageProviderBase 
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
                 ((BitmapDrawable)image).getBitmap().compress(Bitmap.CompressFormat.PNG, 100, stream);
                 byte[] bitmapdata = stream.toByteArray();
+                try {
+                    stream.close();
+                } catch (IOException e) {
+                    //NO OP
+                }
 
                 if (Configuration.getInstance().isDebugTileProviders()) {
                     Log.d(IMapView.LOGTAG, dbgPrefix +
@@ -106,7 +112,21 @@ public class MapsForgeTileModuleProvider extends MapTileFileStorageProviderBase 
                             " bytes to " + tileSource.getTileRelativeFilenameString(pTile));
                 }
 
-                tilewriter.saveFile(tileSource, pTile, new ByteArrayInputStream(bitmapdata));
+                ByteArrayInputStream bais = null;
+                try {
+                    bais = new ByteArrayInputStream(bitmapdata);
+                    tilewriter.saveFile(tileSource, pTile, bais);
+                } catch (Exception ex) {
+                    Log.w(IMapView.LOGTAG,"forge error storing tile cache",ex);
+                } finally {
+                    if (bais!=null)
+                        try{
+                            bais.close();
+                        }catch (IOException e) {
+                            //NO OP
+                        }
+                }
+
             }
             return image;
         }

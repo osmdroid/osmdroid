@@ -38,11 +38,11 @@ import mil.nga.geopackage.tiles.user.TileDao;
 public class GeoPackageMapTileModuleProvider extends MapTileModuleProviderBase {
 
     //TileRetriever retriever;
-    IFilesystemCache tileWriter = null;
-    GeoPackageManager manager;
+    protected IFilesystemCache tileWriter = null;
+    protected GeoPackageManager manager;
 
-    GeopackageRasterTileSource currentTileSource;
-    Set<GeoPackage> tileSources = new HashSet<>();
+    protected GeopackageRasterTileSource currentTileSource;
+    protected Set<GeoPackage> tileSources = new HashSet<>();
 
     public GeoPackageMapTileModuleProvider(File[] pFile,
                                            final Context context, IFilesystemCache cache) {
@@ -58,7 +58,7 @@ public class GeoPackageMapTileModuleProvider extends MapTileModuleProviderBase {
         // Import database
         for (int i = 0; i < pFile.length; i++) {
             try {
-                boolean imported = manager.importGeoPackage((pFile[i]));
+                manager.importGeoPackage((pFile[i]));
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
@@ -75,8 +75,6 @@ public class GeoPackageMapTileModuleProvider extends MapTileModuleProviderBase {
 
 
     public Drawable getMapTile(MapTile pTile) {
-
-
         Drawable tile = null;
 
         String database = currentTileSource.getDatabase();

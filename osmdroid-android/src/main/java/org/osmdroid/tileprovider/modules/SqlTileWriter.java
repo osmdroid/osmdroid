@@ -45,16 +45,19 @@ import static org.osmdroid.tileprovider.modules.DatabaseFileArchive.TABLE;
 public class SqlTileWriter implements IFilesystemCache {
     public static final String DATABASE_FILENAME = "cache.db";
     public static final String COLUMN_EXPIRES ="expires";
-    /**
-     * disables cache purge of expired tiled on start up
+
+    private static boolean cleanOnStartup=true;
+    /*
+      * disables cache purge of expired tiled on start up
      * if this is set to false, the database will only purge tiles if manually called or if
      * the storage device runs out of space.
      *
      * expired tiles will continue to be overwritten as new versions are downloaded regardless
-     *
-     * @since 5.6
+    @since 6.0.0
      */
-    public static boolean CLEANUP_ON_START=true;
+    public static void setCleanupOnStart(boolean value) {
+        cleanOnStartup=value;
+    }
     protected File db_file;
     protected SQLiteDatabase db;
     protected long lastSizeCheck=0;
@@ -81,7 +84,7 @@ public class SqlTileWriter implements IFilesystemCache {
         if (!hasInited) {
             hasInited = true;
 
-            if (CLEANUP_ON_START) {
+            if (cleanOnStartup) {
                 // do this in the background because it takes a long time
                 final Thread t = new Thread() {
                     @Override

@@ -62,14 +62,14 @@ public class Projection implements IProjection {
 	Projection(MapView mapView) {
 		this(
 				mapView.getZoomLevelDouble(), mapView.getIntrinsicScreenRect(null),
-				mapView.getCenter(),
+				mapView.getExpectedCenter(),
 				mapView.getMapScrollX(), mapView.getMapScrollY(),
 				mapView.getMapOrientation(),
 				mapView.isHorizontalMapRepetitionEnabled(), mapView.isVerticalMapRepetitionEnabled());
 	}
 
 	/**
-	 * @since 5.6.6
+	 * @since 6.0.0
 	 */
 	public Projection(
 			final double pZoomLevel, final Rect pScreenRect,
@@ -95,7 +95,7 @@ public class Projection implements IProjection {
 	}
 
 	/**
-	 * @since 5.6.6
+	 * @since 6.0.0
 	 */
 	public Projection getOffspring(final double pZoomLevel, final Rect pScreenRect) {
 		return new Projection(
@@ -376,7 +376,7 @@ public class Projection implements IProjection {
 	}
 
 	/**
-	 * @since 5.6.6
+	 * @since 6.0.0
 	 */
 	public Rect getPixelFromTile(final int pTileX, final int pTileY, final Rect pReuse) {
 		final Rect out = pReuse != null ? pReuse : new Rect();
@@ -388,7 +388,7 @@ public class Projection implements IProjection {
 	}
 
 	/**
-	 * @since 5.6.6
+	 * @since 6.0.0
 	 */
 	public long getMercatorFromTile(final int pTile) {
 		return TileSystem.getMercatorFromTile(pTile, mTileSize);
@@ -403,7 +403,7 @@ public class Projection implements IProjection {
 	}
 
 	/**
-	 * @since 5.6.6
+	 * @since 6.0.0
 	 */
 	public double getProjectedPowerDifference() {
 		final double zoomDifference = microsoft.mappoint.TileSystem.projectionZoomLevel - getZoomLevel();
@@ -411,7 +411,7 @@ public class Projection implements IProjection {
 	}
 
 	/**
-	 * @since 5.6.6
+	 * @since 6.0.0
 	 */
 	public Point getPixelsFromProjected(final PointL in, final double powerDifference, final Point reuse) {
 		final Point out = reuse != null ? reuse : new Point();
@@ -431,7 +431,7 @@ public class Projection implements IProjection {
     }
 
 	/**
-	 * @since 5.6.6
+	 * @since 6.0.0
 	 * Correction of pixel value.
 	 * Pixel values are identical, modulo mapSize.
 	 * What we explicitly want is either:
@@ -469,14 +469,14 @@ public class Projection implements IProjection {
 	}
 
 	/**
-	 * @since 5.6.6
+	 * @since 6.0.0
 	 */
 	private int getPixelXFromMercator(final long pMercatorX, final boolean pCloser) {
 		return getPixelFromMercator(pMercatorX, pCloser, mOffsetX, mIntrinsicScreenRectProjection.left, mIntrinsicScreenRectProjection.right);
 	}
 
 	/**
-	 * @since 5.6.6
+	 * @since 6.0.0
 	 */
 	private int getPixelYFromMercator(final long pMercatorY, final boolean pCloser) {
 		return getPixelFromMercator(pMercatorY, pCloser, mOffsetY, mIntrinsicScreenRectProjection.top, mIntrinsicScreenRectProjection.bottom);
@@ -497,7 +497,7 @@ public class Projection implements IProjection {
     }
 
     /**
-	 * @since 5.6.6
+	 * @since 6.0.0
 	 */
 	private int getPixelFromMercator(final long pMercator, final boolean pCloser, final long pOffset, final int pScreenLimitFirst, final int pScreenLimitLast) {
 		return TileSystem.truncateToInt(getLongPixelFromMercator(pMercator, pCloser, pOffset, pScreenLimitFirst, pScreenLimitLast));
@@ -515,14 +515,14 @@ public class Projection implements IProjection {
     }
 
 	/**
-	 * @since 5.6.6
+	 * @since 6.0.0
 	 */
 	public int getTileFromMercator(final long pMercator) {
 		return TileSystem.getTileFromMercator(pMercator, mTileSize);
 	}
 
 	/**
-	 * @since 5.6.6
+	 * @since 6.0.0
 	 */
 	public RectL getMercatorViewPort(final RectL pReuse) {
 		final RectL out = pReuse != null ? pReuse : new RectL();
@@ -570,37 +570,37 @@ public class Projection implements IProjection {
 	}
 
 	/**
-	 * @since 5.6.6
+	 * @since 6.0.0
 	 */
-	private int getScreenCenterX() {
+	public int getScreenCenterX() {
 		return (mIntrinsicScreenRectProjection.right + mIntrinsicScreenRectProjection.left) / 2;
 	}
 
 	/**
-	 * @since 5.6.6
+	 * @since 6.0.0
 	 */
-	private int getScreenCenterY() {
+	public int getScreenCenterY() {
 		return (mIntrinsicScreenRectProjection.bottom + mIntrinsicScreenRectProjection.top) / 2;
 	}
 
 	/**
-	 * @since 5.6.6
+	 * @since 6.0.0
 	 */
-	private long getMercatorXFromPixel(final int pPixelX) {
+	public long getMercatorXFromPixel(final int pPixelX) {
 		return pPixelX - mOffsetX;
 	}
 
 	/**
-	 * @since 5.6.6
+	 * @since 6.0.0
 	 */
-	private long getMercatorYFromPixel(final int pPixelY) {
+	public long getMercatorYFromPixel(final int pPixelY) {
 		return pPixelY - mOffsetY;
 	}
 
 	/**
-	 * @since 5.6.6
+	 * @since 6.0.0
 	 */
-	private long getCleanMercator(final long pMercator, final boolean wrapEnabled) {
+	public long getCleanMercator(final long pMercator, final boolean wrapEnabled) {
 		return TileSystem.getCleanMercator(pMercator, mMercatorMapSize, wrapEnabled);
 	}
 
@@ -609,6 +609,14 @@ public class Projection implements IProjection {
 	 */
 	public GeoPoint getCurrentCenter() {
 		return mCurrentCenter;
+	}
+
+	public long getOffsetX() {
+		return mOffsetX;
+	}
+
+	public long getOffsetY() {
+		return mOffsetY;
 	}
 
 	/**
