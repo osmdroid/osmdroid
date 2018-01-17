@@ -487,13 +487,15 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 			return;
 		}
 		nextZoom = Math.min(getMaxZoomLevel(), Math.max(nextZoom, getMinZoomLevel()));
-		if(animated) {
+		final IGeoPoint center = boundingBox.getCenterWithDateLine();
+		if(animated) { // it's best to set the center first, because the animation is not immediate
+			// in a perfect world there would be an animation for both center and zoom level
+			getController().setCenter(center);
 			getController().zoomTo(nextZoom);
-		} else {
+		} else { // it's best to set the zoom first, so that the center is accurate
 			getController().setZoom(nextZoom);
+			getController().setCenter(center);
 		}
-
-		getController().setCenter(boundingBox.getCenterWithDateLine());
 	}
 
 	/**
