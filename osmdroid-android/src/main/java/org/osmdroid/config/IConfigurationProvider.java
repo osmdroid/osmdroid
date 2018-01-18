@@ -133,6 +133,15 @@ public interface IConfigurationProvider {
      */
     short getCacheMapTileCount();
 
+    /**
+     * Initial tile cache size (in memory). The size will be increased as required by calling
+     * {@link LRUMapTileCache#ensureCapacity(int)} The tile cache will always be at least 3x3.
+     * from {@link org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants}
+     * used by MapTileCache
+     *
+     * @param cacheMapTileCount
+     * @see MapTileCache
+     */
     void setCacheMapTileCount(short cacheMapTileCount);
 
     /**
@@ -369,4 +378,19 @@ public interface IConfigurationProvider {
      * @return
      */
     void setMapViewRecyclerFriendly(boolean enabled);
+
+    /**
+     * In memory tile count, used by the tiles overlay
+     * @since 6.0.0
+     * @see org.osmdroid.views.overlay.TilesOverlay
+     * @param value
+     */
+    void setCacheMapTileOvershoot(short value);
+
+    /**
+     * In memory tile count, used by the tiles overlay
+     * @since 6.0.0
+     * @return
+     */
+    short getCacheMapTileOvershoot();
 }

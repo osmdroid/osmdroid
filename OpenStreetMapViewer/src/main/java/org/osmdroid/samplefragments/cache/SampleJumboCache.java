@@ -24,6 +24,10 @@ import java.util.Iterator;
  */
 public class SampleJumboCache  extends BaseSampleFragment {
 
+	public SampleJumboCache(){
+		Configuration.getInstance().setCacheMapTileCount((short)12);
+		Configuration.getInstance().setCacheMapTileOvershoot((short)12);
+	}
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -48,34 +52,13 @@ public class SampleJumboCache  extends BaseSampleFragment {
 	protected void addOverlays() {
 		super.addOverlays();
 
-		Iterator<Overlay> iterator = mMapView.getOverlays().iterator();
-		while(iterator.hasNext()){
-			Overlay next = iterator.next();
-			if (next instanceof TilesOverlay){
-				TilesOverlay x = (TilesOverlay)next;
-				x.setOvershootTileCache(x.getOvershootTileCache() * 2);
-				Toast.makeText(getActivity(), "Tiles overlay cache set to " + x.getOvershootTileCache(), Toast.LENGTH_LONG).show();
-				break;
-			}
-		}
-		//this will set the disk cache size in MB to 1GB , 900MB trim size
-		//Configuration.getInstance().setTileFileSystemCacheTrimBytes(900L * 1024 * 1024);
-		//Configuration.getInstance().setTileFileSystemCacheMaxBytes(1000L * 1024 * 1024);
 	}
 
 	@Override
 	public void onPause(){
 		super.onPause();
-		//OpenStreetMapTileProviderConstants.setCacheSizes(500L, 600L);
-		Iterator<Overlay> iterator = mMapView.getOverlays().iterator();
-		while(iterator.hasNext()){
-			Overlay next = iterator.next();
-			if (next instanceof TilesOverlay){
-				TilesOverlay x = (TilesOverlay)next;
-				x.setOvershootTileCache(x.getOvershootTileCache() / 2);
-				Toast.makeText(getActivity(), "Tiles overlay cache set to " + x.getOvershootTileCache(), Toast.LENGTH_LONG).show();
-				break;
-			}
-		}
+		//reset the defaults
+		Configuration.getInstance().setCacheMapTileCount((short)9);
+		Configuration.getInstance().setCacheMapTileOvershoot((short)0);
 	}
 }
