@@ -254,7 +254,7 @@ class LinearRing{
 		final PointL current = new PointL();
 		final GeoPoint previousGeo = new GeoPoint(0., 0);
 		for (final GeoPoint currentGeo : mOriginalPoints) {
-			pProjection.toProjectedPixels(currentGeo.getLatitude(), currentGeo.getLongitude(), current);
+			pProjection.toProjectedPixels(currentGeo.getLatitude(), currentGeo.getLongitude(), false, current);
 			if (index == 0) {
 				mDistances[index] = 0;
 				minX = maxX = current.x;

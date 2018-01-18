@@ -124,9 +124,24 @@ public class BoundingBox implements Parcelable, Serializable {
 	 * @since 6.0.0
 	 */
 	public double getCenterLongitude() {
-		double longitude = (mLonEast + mLonWest) / 2.0;
-		if (mLonEast < mLonWest) {
+		return getCenterLongitude(mLonWest, mLonEast);
+	}
+
+	/**
+	 * Compute the center of two longitudes
+	 * Taking into account the case when "west is on the right and east is on the left"
+	 * @since 6.0.0
+	 */
+	public static double getCenterLongitude(final double pWest, final double pEast) {
+		double longitude = (pEast + pWest) / 2.0;
+		if (pEast < pWest) {
 			longitude += TileSystem.MaxLongitude;
+		}
+		while (longitude > TileSystem.MaxLongitude) {
+			longitude -= 2 * TileSystem.MaxLongitude;
+		}
+		while (longitude < TileSystem.MinLongitude) {
+			longitude += 2 * TileSystem.MaxLongitude;
 		}
 		return longitude;
 	}

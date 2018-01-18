@@ -250,8 +250,15 @@ public class Projection implements IProjection {
      * @return intermediate value to be stored and passed to toMapPixelsTranslated.
      */
     public PointL toProjectedPixels(final double latitude, final double longitude, final PointL reuse) {
-        return TileSystem.getMercatorFromGeo(latitude, longitude, mProjectedMapSize, reuse, true);
+        return toProjectedPixels(latitude, longitude, true, reuse);
     }
+
+	/**
+	 * @since 6.0.0
+	 */
+	public PointL toProjectedPixels(final double latitude, final double longitude, final boolean pWrapEnabled, final PointL reuse) {
+		return TileSystem.getMercatorFromGeo(latitude, longitude, mProjectedMapSize, reuse, pWrapEnabled);
+	}
 
 	/**
 	 * Performs the second computationally light part of the projection.
