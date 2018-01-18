@@ -4,12 +4,17 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.drawable.Drawable;
 import android.view.MotionEvent;
 
+import org.osmdroid.library.R;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.PointL;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
+import org.osmdroid.views.overlay.infowindow.BasicInfoWindow;
+import org.osmdroid.views.overlay.infowindow.InfoWindow;
+import org.osmdroid.views.overlay.infowindow.MarkerInfoWindow;
 import org.osmdroid.views.overlay.milestones.MilestoneManager;
 import org.osmdroid.views.util.constants.MathConstants;
 
@@ -39,17 +44,21 @@ public class Polyline extends OverlayWithIW {
     private LinearRing mOutline = new LinearRing(mLineDrawer);
 	private String id=null;
 	private List<MilestoneManager> mMilestoneManagers = new ArrayList<>();
-
+	private GeoPoint mLastGeoPoint=null;
+	protected static InfoWindow mDefaultInfoWindow = null;
 	protected OnClickListener mOnClickListener;
 
-	/** Use {@link #Polyline()} instead */
-	@Deprecated
-	public Polyline(Context ctx) {
-		this();
+	public Polyline() {
+		this(null);
 	}
 
-	public Polyline(){
-		super();
+	public Polyline(MapView mapView) {
+
+		if (mapView != null)
+			if (mDefaultInfoWindow == null || mDefaultInfoWindow.getMapView() != mapView) {
+				mDefaultInfoWindow = new BasicInfoWindow(R.layout.bonuspack_bubble, mapView);
+				setInfoWindow(mDefaultInfoWindow);
+			}
 		//default as defined in Google API:
 		this.mPaint.setColor(Color.BLACK);
 		this.mPaint.setStrokeWidth(10.0f);
@@ -205,6 +214,9 @@ public class Polyline extends OverlayWithIW {
 		for (final MilestoneManager milestoneManager : mMilestoneManagers) {
         	milestoneManager.draw(canvas);
 		}
+		if (isInfoWindowOpen()) {
+			showInfoWindow(mLastGeoPoint);
+		}
 	}
 	
 	/** Detection is done is screen coordinates. 
@@ -216,9 +228,20 @@ public class Polyline extends OverlayWithIW {
 		return mOutline.isCloseTo(point, tolerance, mapView.getProjection(), false);
 	}
 
+	/** Set the InfoWindow to be used.
+	 * Default is a MarkerInfoWindow, with the layout named "bonuspack_bubble".
+	 * You can use this method either to use your own layout, or to use your own sub-class of InfoWindow.
+	 * Note that this InfoWindow will receive the Marker object as an input, so it MUST be able to handle Marker attributes.
+	 * If you don't want any InfoWindow to open, you can set it to null. */
+	public void setInfoWindow(InfoWindow infoWindow){
+		if (mInfoWindow!=null && mInfoWindow!=mDefaultInfoWindow )
+			mInfoWindow.onDetach();
+		mInfoWindow = infoWindow;
+	}
+
 	public void showInfoWindow(GeoPoint position){
-		if (mInfoWindow == null)
-			return;
+		if (mInfoWindow != null)
+
 		mInfoWindow.open(this, position, 0, 0);
 	}
 
@@ -262,6 +285,7 @@ public class Polyline extends OverlayWithIW {
 	/** default behaviour when no click listener is set */
 	protected boolean onClickDefault(Polyline polyline, MapView mapView, GeoPoint eventPos) {
 		polyline.showInfoWindow(eventPos);
+		mLastGeoPoint=eventPos;
 		return true;
 	}
 

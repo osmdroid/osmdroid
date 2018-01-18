@@ -127,8 +127,10 @@ public class CustomPaintingSurface extends View {
                 switch (drawingMode) {
                     case Polyline:
                         final int color = Color.BLACK;
-                        Polyline line = new Polyline();
+                        Polyline line = new Polyline(map);
                         line.setPoints(geoPoints);
+                        //example below
+                        /*
                         line.setOnClickListener(new Polyline.OnClickListener() {
                             @Override
                             public boolean onClick(Polyline polyline, MapView mapView, GeoPoint eventPos) {
@@ -136,7 +138,7 @@ public class CustomPaintingSurface extends View {
                                 return false;
                             }
                         });
-
+                        */
                         line.setColor(color);
 
                         if (withArrows) {
@@ -161,7 +163,7 @@ public class CustomPaintingSurface extends View {
                         lastPolygon=null;
                         break;
                     case Polygon:
-                        Polygon polygon = new Polygon();
+                        Polygon polygon = new Polygon(map);
                         polygon.setFillColor(Color.argb(75, 255,0,0));
                         polygon.setPoints(geoPoints);
                         polygon.setTitle("A sample polygon");
