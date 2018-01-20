@@ -241,15 +241,17 @@ public class Polygon extends OverlayWithIW {
 		}
 
 		if (isInfoWindowOpen()) {
-			mInfoWindow.open(this, mLastGeoPoint, 0, 0);
+			showInfoWindow(mLastGeoPoint);
 		}
+
 
 	}
 
 	public void showInfoWindow(GeoPoint position){
-		if (mInfoWindow != null)
-
+		if (mInfoWindow != null) {
+			mLastGeoPoint=position;
 			mInfoWindow.open(this, position, 0, 0);
+		}
 	}
 	
 	/** Important note: this function returns correct results only if the Polygon has been drawn before, 
@@ -277,10 +279,21 @@ public class Polygon extends OverlayWithIW {
 		if (tapped){
 			Projection pj = mapView.getProjection();
 			GeoPoint position = (GeoPoint)pj.fromPixels((int)event.getX(), (int)event.getY());
-			mLastGeoPoint = position;
-			mInfoWindow.open(this, position, 0, 0);
+			position = getInfoWindowAnchorPoint(position);
+			showInfoWindow(position);
 		}
 		return tapped;
+	}
+
+	/**
+	 * returns a point that the info window cartoon bubble will point at.
+	 * default implementation uses the first point of the line.
+	 * @param eventPos
+	 * @return
+	 * @since 6.0.0
+	 */
+	protected GeoPoint getInfoWindowAnchorPoint(GeoPoint eventPos) {
+		return getPoints().get(0);
 	}
 
 	@Override
