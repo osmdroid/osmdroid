@@ -55,12 +55,16 @@ public class MilStdAdapter extends ArrayAdapter<SimpleSymbol> implements Filtera
             values.clear();
             Map<String, SymbolDef> stringSymbolDefMap = SymbolDefTable.getInstance().GetAllSymbolDefs(RendererSettings.getInstance().getSymbologyStandard());
             for (SymbolDef def : stringSymbolDefMap.values()) {
-                values.add(SimpleSymbol.createFrom(def));
+                SimpleSymbol from = SimpleSymbol.createFrom(def);
+                if (from.canDraw())
+                    values.add(SimpleSymbol.createFrom(def));
             }
 
             Map<String, UnitDef> allUnitDefs = UnitDefTable.getInstance().getAllUnitDefs(RendererSettings.getInstance().getSymbologyStandard());
             for (UnitDef def : allUnitDefs.values()) {
-                values.add(SimpleSymbol.createFrom(def));
+                SimpleSymbol from = SimpleSymbol.createFrom(def);
+                if (from.canDraw())
+                    values.add(from);
             }
             Collections.sort(values, this);
         }
@@ -181,8 +185,12 @@ public class MilStdAdapter extends ArrayAdapter<SimpleSymbol> implements Filtera
 
     @Override
     public int compare(SimpleSymbol lhs, SimpleSymbol rhs) {
+        if (lhs==null) return 0;
         if (lhs.getDescription()==null)
             lhs.setDescription("");
+        if (rhs==null) return 0;
+        if (rhs.getDescription()==null)
+            rhs.setDescription("");
         return lhs.getDescription().compareTo(rhs.getDescription());
     }
 

@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
@@ -70,7 +71,7 @@ public class SinglePoints extends SampleGridlines implements View.OnClickListene
     private final int MENU_ADD_VIA_PICKER = MENU_ADD_POINT + 1;
     MilStdIconRenderer mir = null;
     ImageButton painting, panning;
-    //MilStdCustomPaintingSurface paint;
+    MilStdCustomPaintingSurface paint;
     TextView textViewCurrentLocation;
     SimpleSymbol lastSelectedSymbol=null;
     MilStdPointPlottingOverlay plotter = new MilStdPointPlottingOverlay();
@@ -86,6 +87,7 @@ public class SinglePoints extends SampleGridlines implements View.OnClickListene
     RadioButton radio_milstd2525b = null;
     Button addIcon = null;
     Button cancelAddIcon = null;
+    int dpi=0;
 
     public SinglePoints() {
         //init the renderer
@@ -108,8 +110,12 @@ public class SinglePoints extends SampleGridlines implements View.OnClickListene
         panning.setBackgroundColor(Color.BLACK);
         painting = (ImageButton) v.findViewById(R.id.enablePainting);
         painting.setOnClickListener(this);
-       // paint = (MilStdCustomPaintingSurface) v.findViewById(R.id.paintingSurface);
-       // paint.init(mMapView);
+
+        DisplayMetrics metrics = new DisplayMetrics();
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        dpi = metrics.densityDpi;
+        paint = (MilStdCustomPaintingSurface) v.findViewById(R.id.paintingSurface);
+        paint.init(mMapView);
         return v;
     }
 
@@ -314,18 +320,25 @@ public class SinglePoints extends SampleGridlines implements View.OnClickListene
 
                 break;
             case R.id.enablePanning:
-               // paint.setVisibility(View.GONE);
-                panning.setBackgroundColor(Color.BLACK);
-                painting.setBackgroundColor(Color.TRANSPARENT);
+                enablePanning();
+
                 break;
             case R.id.enablePainting:
-               // paint.setVisibility(View.VISIBLE);
-                painting.setBackgroundColor(Color.BLACK);
-                panning.setBackgroundColor(Color.TRANSPARENT);
+                enablePainting();
                 break;
-
-
         }
+    }
+
+    private void enablePanning() {
+        paint.setVisibility(View.GONE);
+        panning.setBackgroundColor(Color.BLACK);
+        painting.setBackgroundColor(Color.TRANSPARENT);
+    }
+
+    private void enablePainting() {
+        paint.setVisibility(View.VISIBLE);
+        painting.setBackgroundColor(Color.BLACK);
+        panning.setBackgroundColor(Color.TRANSPARENT);
     }
 
     @Override
@@ -365,8 +378,24 @@ public class SinglePoints extends SampleGridlines implements View.OnClickListene
 
     @Override
     public void selected(SimpleSymbol def) {
-        plotter.setSymbol(def);
-       // paint.setSymbol(def);
-        Toast.makeText(getActivity(), "Long press to plot!", Toast.LENGTH_SHORT).show();
+        if (def==null) {
+            enablePanning();
+        }
+        if (def.canDraw()) {
+            if (def.getMinPoints()==1) {
+                enablePanning();
+                plotter.setSymbol(def);
+                Toast.makeText(getActivity(), "Long press to plot!", Toast.LENGTH_SHORT).show();
+            }
+            if (def.getMinPoints()>1) {
+                enablePainting();
+                paint.setSymbol(def);
+                Toast.makeText(getActivity(), "Draw on the screen!", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            enablePanning();
+            Toast.makeText(getActivity(), "Symbol cannot be plotted, try another!", Toast.LENGTH_SHORT).show();
+        }
+
     }
 }

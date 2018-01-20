@@ -16,6 +16,7 @@ public class SimpleSymbol {
     private String basicSymbolId = "";
     private String description = "";
     private String hierarchy = "";
+    private boolean canDraw=true;
 
     public String getSymbolCode() {
         return symbolCode;
@@ -34,6 +35,7 @@ public class SimpleSymbol {
         s.setDescription(def.getDescription());
         s.setHierarchy(def.getHierarchy());
         s.setPath(def.getFullPath());
+        s.canDraw=def.getDrawCategory()==UnitDef.DRAW_CATEGORY_POINT;
         return s;
     }
 
@@ -45,6 +47,7 @@ public class SimpleSymbol {
         s.setPath(def.getFullPath());
         s.setMaxPoints(def.getMaxPoints());
         s.setMinPoints(def.getMinPoints());
+        s.canDraw = def.getDrawCategory()!=SymbolDef.DRAW_CATEGORY_DONOTDRAW;
         return s;
     }
 
@@ -97,4 +100,7 @@ public class SimpleSymbol {
         this.path = path;
     }
 
+    public boolean canDraw() {
+        return canDraw;
+    }
 }

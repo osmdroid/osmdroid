@@ -14,6 +14,11 @@ import android.widget.RadioButton;
 
 import org.osmdroid.R;
 
+import armyc2.c2sd.renderer.utilities.ModifiersTG;
+import armyc2.c2sd.renderer.utilities.ModifiersUnits;
+import armyc2.c2sd.renderer.utilities.RendererSettings;
+import armyc2.c2sd.renderer.utilities.SymbolUtilities;
+
 /**
  * created on 1/15/2018.
  *
@@ -40,7 +45,7 @@ public class ListPicker implements View.OnClickListener, AdapterView.OnItemClick
     RadioButton milstd_search_affil_n = null;
     RadioButton milstd_search_affil_u = null;
 
-    String charAffiliation = "-";
+    String charAffiliation = "F";
 
     public void destroy() {
         if (picker != null) {
@@ -130,6 +135,24 @@ public class ListPicker implements View.OnClickListener, AdapterView.OnItemClick
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         SimpleSymbol def = (SimpleSymbol) parent.getItemAtPosition(position);
         if (cb != null) {
+
+            //TODO this is a good place to show another dialog enabling the user to
+            //symbol modifiers and attributes
+            //modifiers are symbol specific
+            //attributes are static and relatively simple
+            if (def.getSymbolCode().startsWith("G") || def.getSymbolCode().startsWith("W")) {
+                if (SymbolUtilities.canSymbolHaveModifier(def.getBasicSymbolId(), ModifiersTG.A_SYMBOL_ICON, RendererSettings.getInstance().getSymbologyStandard())){
+                    //render some text input
+                }
+                //etc
+            } else {
+                if (SymbolUtilities.canSymbolHaveModifier(def.getBasicSymbolId(), ModifiersUnits.A_SYMBOL_ICON, RendererSettings.getInstance().getSymbologyStandard())){
+                    //render some text input
+                }
+                //etc
+            }
+
+
             picker.dismiss();
             String code = def.getBasicSymbolId();
             if (code.charAt(1) == '*') {

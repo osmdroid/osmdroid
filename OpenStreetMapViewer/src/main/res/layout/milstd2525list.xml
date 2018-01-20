@@ -25,6 +25,7 @@
             android:id="@+id/milstd_search_affil_f"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:checked="true"
             android:text="Friendly"/>
         <RadioButton
             android:id="@+id/milstd_search_affil_h"
