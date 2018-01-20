@@ -3,8 +3,10 @@ package org.osmdroid.views.overlay;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.util.Log;
 import android.view.MotionEvent;
 
+import org.osmdroid.api.IMapView;
 import org.osmdroid.library.R;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.PointL;
@@ -232,7 +234,10 @@ public class Polyline extends OverlayWithIW {
      * @return true if the Polyline is close enough to the point.
      */
     public boolean isCloseTo(GeoPoint point, double tolerance, MapView mapView) {
-        return mOutline.isCloseTo(point, tolerance, mapView.getProjection(), false);
+        Log.d(IMapView.LOGTAG, "polyline isCloseTo Entry");
+        boolean val= mOutline.isCloseTo(point, tolerance, mapView.getProjection(), false);
+        Log.d(IMapView.LOGTAG, "polyline isCloseTo exit " + val);
+        return val;
     }
 
     /**
@@ -254,20 +259,21 @@ public class Polyline extends OverlayWithIW {
     }
 
     @Override
-    public boolean onSingleTapConfirmed(final MotionEvent event, final MapView mapView) {
+    public synchronized boolean onSingleTapConfirmed(final MotionEvent event, final MapView mapView) {
+        Log.d(IMapView.LOGTAG, "polyline onSingleTapConfirmed Entry");
         final Projection pj = mapView.getProjection();
         GeoPoint eventPos = (GeoPoint) pj.fromPixels((int) event.getX(), (int) event.getY());
-        double tolerance = mPaint.getStrokeWidth();
-        boolean touched = isCloseTo(eventPos, tolerance, mapView);
-        if (touched) {
-            eventPos = this.getInfoWindowAnchorPoint(eventPos);
+        double tolerance = mPaint.getStrokeWidth()*2;
+        boolean returnValue=false;
+        if (isCloseTo(eventPos, tolerance, mapView)) {
             if (mOnClickListener == null) {
-                return onClickDefault(this, mapView, eventPos);
+                returnValue= onClickDefault(this, mapView, eventPos);
             } else {
-                return mOnClickListener.onClick(this, mapView, eventPos);
+                returnValue= mOnClickListener.onClick(this, mapView, eventPos);
             }
-        } else
-            return touched;
+        }
+        Log.d(IMapView.LOGTAG, "polyline onSingleTapConfirmed Exit");
+        return returnValue;
     }
 
     /**
@@ -304,9 +310,10 @@ public class Polyline extends OverlayWithIW {
     }
 
     /**
-     * default behaviour when no click listener is set
+     * default behaviour when no click listener is set, shows the info window
      */
     protected boolean onClickDefault(Polyline polyline, MapView mapView, GeoPoint eventPos) {
+        eventPos = getInfoWindowAnchorPoint(eventPos);
         mLastGeoPoint = eventPos;
         polyline.showInfoWindow(eventPos);
         return true;

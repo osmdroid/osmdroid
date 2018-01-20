@@ -127,7 +127,7 @@ public class CustomPaintingSurface extends View {
                 switch (drawingMode) {
                     case Polyline:
                         final int color = Color.BLACK;
-                        Polyline line = new Polyline(map);
+                        Polyline line = new Polyline();
                         line.setPoints(geoPoints);
                         //example below
                         /*

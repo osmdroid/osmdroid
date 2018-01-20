@@ -105,7 +105,7 @@ public abstract class InfoWindow {
         }
         if (mCurrentCenter == null)
             render = true;
-        if (mCurrentCenter != null && mMapView != null) {
+        if (!render && mCurrentCenter != null && mMapView != null) {
             IGeoPoint mapCenter = mMapView.getMapCenter();
             if (mapCenter.getLatitude() != mCurrentCenter.getLatitude() ||
                 mapCenter.getLongitude() != mCurrentCenter.getLongitude())

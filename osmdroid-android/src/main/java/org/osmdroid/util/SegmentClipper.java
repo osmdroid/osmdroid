@@ -1,5 +1,9 @@
 package org.osmdroid.util;
 
+import android.util.Log;
+
+import org.osmdroid.api.IMapView;
+
 /**
  * A tool to clip segments
  * @since 6.0.0
@@ -50,13 +54,20 @@ public class SegmentClipper implements PointAccepter{
 
     @Override
     public void add(final long pX, final long pY) {
+        Log.d(IMapView.LOGTAG, "segmentClipper add entry");
         mPoint1.set(pX, pY);
+        Log.d(IMapView.LOGTAG, "segmentClipper add 2");
         if (mFirstPoint) {
+
             mFirstPoint = false;
         } else {
+            Log.d(IMapView.LOGTAG, "segmentClipper add clip");
             clip(mPoint0.x, mPoint0.y, mPoint1.x, mPoint1.y);
+            Log.d(IMapView.LOGTAG, "segmentClipper add clip 2");
         }
+        Log.d(IMapView.LOGTAG, "segmentClipper add 3");
         mPoint0.set(mPoint1);
+        Log.d(IMapView.LOGTAG, "segmentClipper add exit");
     }
 
     @Override
@@ -68,15 +79,21 @@ public class SegmentClipper implements PointAccepter{
      * Clip a segment into the clip area
      */
     public void clip(final long pX0, final long pY0, final long pX1, final long pY1) {
+        Log.d(IMapView.LOGTAG, "segmentClipper clip 1");
         if (!mPathMode) {
             if (isOnTheSameSideOut(pX0, pY0, pX1, pY1)) {
+                Log.d(IMapView.LOGTAG, "segmentClipper clip exit 1");
                 return;
             }
         }
         if (isInClipArea(pX0, pY0)) {
+            Log.d(IMapView.LOGTAG, "segmentClipper clip isInCliparea");
             if (isInClipArea(pX1, pY1)) {
+                Log.d(IMapView.LOGTAG, "segmentClipper clip isInCliparea 2");
                 nextVertex(pX0, pY0);
+                Log.d(IMapView.LOGTAG, "segmentClipper clip isInCliparea 3");
                 nextVertex(pX1, pY1);
+                Log.d(IMapView.LOGTAG, "segmentClipper clip isInCliparea exit 1");
                 return;
             }
             if (intersection(pX0, pY0, pX1, pY1)) {
@@ -85,40 +102,49 @@ public class SegmentClipper implements PointAccepter{
                 if (mPathMode) {
                     nextVertex(clipX(pX1), clipY(pY1));
                 }
+                Log.d(IMapView.LOGTAG, "segmentClipper clip isInCliparea exit 2");
                 return;
             }
             throw new RuntimeException("Cannot find expected mOptimIntersection for " + new RectL(pX0, pY0, pX1, pY1));
         }
         if (isInClipArea(pX1, pY1)) {
+            Log.d(IMapView.LOGTAG, "segmentClipper clip isInCliparea 2");
             if (intersection(pX0, pY0, pX1, pY1)) {
                 if (mPathMode) {
                     nextVertex(clipX(pX0), clipY(pY0));
                 }
                 nextVertex(mOptimIntersection.x, mOptimIntersection.y);
                 nextVertex(pX1, pY1);
+                Log.d(IMapView.LOGTAG, "segmentClipper clip isInCliparea2 exit");
                 return;
             }
             throw new RuntimeException("Cannot find expected mOptimIntersection for " + new RectL(pX0, pY0, pX1, pY1));
         }
+        Log.d(IMapView.LOGTAG, "segmentClipper clip 3");
         // no point is on the screen
         int count = 0;
         if (intersection(pX0, pY0, pX1, pY1, mXMin, mYMin, mXMin, mYMax)) { // x mClipMin segment
             final PointL point = count ++ == 0 ? mOptimIntersection1 : mOptimIntersection2;
             point.set(mOptimIntersection);
         }
+        Log.d(IMapView.LOGTAG, "segmentClipper clip 4");
         if (intersection(pX0, pY0, pX1, pY1, mXMax, mYMin, mXMax, mYMax)) { // x mClipMax segment
             final PointL point = count ++ == 0 ? mOptimIntersection1 : mOptimIntersection2;
             point.set(mOptimIntersection);
         }
+        Log.d(IMapView.LOGTAG, "segmentClipper clip 5");
         if (intersection(pX0, pY0, pX1, pY1, mXMin, mYMin, mXMax, mYMin)) { // y mClipMin segment
             final PointL point = count ++ == 0 ? mOptimIntersection1 : mOptimIntersection2;
             point.set(mOptimIntersection);
         }
+        Log.d(IMapView.LOGTAG, "segmentClipper clip 6");
         if (intersection(pX0, pY0, pX1, pY1, mXMin, mYMax, mXMax, mYMax)) { // y mClipMax segment
             final PointL point = count ++ == 0 ? mOptimIntersection1 : mOptimIntersection2;
             point.set(mOptimIntersection);
         }
+        Log.d(IMapView.LOGTAG, "segmentClipper clip 7");
         if (count == 2) {
+            Log.d(IMapView.LOGTAG, "segmentClipper clip 8");
             final double distance1 = Distance.getSquaredDistanceToPoint(
                     mOptimIntersection1.x, mOptimIntersection1.y, pX0, pY0);
             final double distance2 = Distance.getSquaredDistanceToPoint(
@@ -133,23 +159,28 @@ public class SegmentClipper implements PointAccepter{
             if (mPathMode) {
                 nextVertex(clipX(pX1), clipY(pY1));
             }
+            Log.d(IMapView.LOGTAG, "segmentClipper clip 8 exit");
             return;
         }
         if (count == 1) {
+            Log.d(IMapView.LOGTAG, "segmentClipper clip 9");
             if (mPathMode) {
                 nextVertex(clipX(pX0), clipY(pY0));
                 nextVertex(mOptimIntersection1.x, mOptimIntersection1.y);
                 nextVertex(clipX(pX1), clipY(pY1));
             }
+            Log.d(IMapView.LOGTAG, "segmentClipper clip 9 exit");
             return;
         }
         if (count == 0) {
+            Log.d(IMapView.LOGTAG, "segmentClipper clip 10");
             if (mPathMode) {
                 nextVertex(clipX(pX0), clipY(pY0));
                 final int corner = getClosestCorner(pX0, pY0, pX1, pY1);
                 nextVertex(cornerX[corner], cornerY[corner]);
                 nextVertex(clipX(pX1), clipY(pY1));
             }
+            Log.d(IMapView.LOGTAG, "segmentClipper clip 10 exit");
             return;
         }
         throw new RuntimeException("Impossible mOptimIntersection count (" + count + ")");

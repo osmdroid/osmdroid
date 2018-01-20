@@ -1483,10 +1483,13 @@ public class MapView extends ViewGroup implements IMapView,
 
 		@Override
 		public boolean onSingleTapConfirmed(final MotionEvent e) {
+			Log.d(IMapView.LOGTAG, "MapView onSingleTapConfirmed enter");
 			if (MapView.this.getOverlayManager().onSingleTapConfirmed(e, MapView.this)) {
+				Log.d(IMapView.LOGTAG, "MapView onSingleTapConfirmed exit true");
 				return true;
 			}
 
+			Log.d(IMapView.LOGTAG, "MapView onSingleTapConfirmed exit false");
 			return false;
 		}
 	}

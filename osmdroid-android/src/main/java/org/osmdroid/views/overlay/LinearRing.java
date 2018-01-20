@@ -3,7 +3,9 @@ package org.osmdroid.views.overlay;
 import android.graphics.Path;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.util.Log;
 
+import org.osmdroid.api.IMapView;
 import org.osmdroid.util.Distance;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.LineBuilder;
@@ -289,30 +291,49 @@ class LinearRing{
 	 */
 	private void clipAndStore(final Projection pProjection, final PointL pOffset,
 							  final boolean pClosePath, final boolean pStorePoints) {
+		Log.d(IMapView.LOGTAG, "LinearRing clipAndStore entry ");
 		mPointsForMilestones.clear();
+		Log.d(IMapView.LOGTAG, "LinearRing clipAndStore entry 1");
 		final double powerDifference = pProjection.getProjectedPowerDifference();
+		Log.d(IMapView.LOGTAG, "LinearRing clipAndStore entry 2");
 		final PointL projected = new PointL();
 		final PointL point = new PointL();
 		final PointL first = new PointL();
+		Log.d(IMapView.LOGTAG, "LinearRing clipAndStore entry 3");
 		for (int i = 0 ; i < mProjectedPoints.length ; i += 2) {
+			Log.d(IMapView.LOGTAG, "LinearRing clipAndStore loop 1");
 			projected.set(mProjectedPoints[i], mProjectedPoints[i + 1]);
+			Log.d(IMapView.LOGTAG, "LinearRing clipAndStore loop 2");
 			pProjection.getLongPixelsFromProjected(projected, powerDifference, false, point);
+			Log.d(IMapView.LOGTAG, "LinearRing clipAndStore loop 3");
 			final long x = point.x + pOffset.x;
 			final long y = point.y + pOffset.y;
 			if (pStorePoints) {
+				Log.d(IMapView.LOGTAG, "LinearRing clipAndStore loop 4");
 				mPointsForMilestones.add(x, y);
+				Log.d(IMapView.LOGTAG, "LinearRing clipAndStore loop 5");
 			}
+			Log.d(IMapView.LOGTAG, "LinearRing clipAndStore loop 6");
 			mSegmentClipper.add(x, y);
+			Log.d(IMapView.LOGTAG, "LinearRing clipAndStore loop 7");
 			if (i == 0) {
+				Log.d(IMapView.LOGTAG, "LinearRing clipAndStore loop 8");
 				first.set(x, y);
 			}
+			Log.d(IMapView.LOGTAG, "LinearRing clipAndStore loop 9");
 		}
+		Log.d(IMapView.LOGTAG, "LinearRing clipAndStore entry 4");
 		if (pClosePath) {
+			Log.d(IMapView.LOGTAG, "LinearRing clipAndStore entry 5");
 			mSegmentClipper.add(first.x, first.y);
+			Log.d(IMapView.LOGTAG, "LinearRing clipAndStore entry 6");
 			if (pStorePoints) {
+				Log.d(IMapView.LOGTAG, "LinearRing clipAndStore entry 7");
 				mPointsForMilestones.add(first.x, first.y);
+				Log.d(IMapView.LOGTAG, "LinearRing clipAndStore entry 8");
 			}
 		}
+		Log.d(IMapView.LOGTAG, "LinearRing clipAndStore exit");
 	}
 
 	/**
@@ -342,28 +363,36 @@ class LinearRing{
 	 */
 	boolean isCloseTo(final GeoPoint pPoint, final double tolerance,
 					  final Projection pProjection, final boolean pClosePath) {
+		Log.d(IMapView.LOGTAG, "LinearRing isCloseTo Entry2");
 		if (!mPrecomputed){
 			computeProjectedAndDistances(pProjection);
 			mPrecomputed = true;
 		}
+		Log.d(IMapView.LOGTAG, "LinearRing isCloseTo Entry2 1");
 		final Point pixel = pProjection.toPixels(pPoint, null);
 		final PointL offset = new PointL();
+		Log.d(IMapView.LOGTAG, "LinearRing isCloseTo Entry2 2");
 		getBestOffset(pProjection, offset);
+		Log.d(IMapView.LOGTAG, "LinearRing isCloseTo Entry2 3");
 		clipAndStore(pProjection, offset, pClosePath, true);
+		Log.d(IMapView.LOGTAG, "LinearRing isCloseTo Entry2 4");
 		final double squaredTolerance = tolerance * tolerance;
 		final PointL point0 = new PointL();
 		final PointL point1 = new PointL();
 		boolean first = true;
+		Log.d(IMapView.LOGTAG, "LinearRing isCloseTo Entry2 5");
 		for (final PointL point : mPointsForMilestones) {
 			point1.set(point);
 			if (first) {
 				first = false;
 			} else if (squaredTolerance > Distance.getSquaredDistanceToSegment(
 					pixel.x, pixel.y, point0.x, point0.y, point1.x, point1.y)) {
+				Log.d(IMapView.LOGTAG, "LinearRing isCloseTo Entry2 exit true");
 				return true;
 			}
 			point0.set(point1);
 		}
+		Log.d(IMapView.LOGTAG, "LinearRing isCloseTo Entry2 exit false");
 		return false;
 	}
 
