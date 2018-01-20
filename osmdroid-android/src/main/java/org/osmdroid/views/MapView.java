@@ -24,7 +24,6 @@ import org.osmdroid.tileprovider.tilesource.IStyledTileSource;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.tileprovider.util.SimpleInvalidationHandler;
-import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.GeometryMath;
@@ -296,28 +295,16 @@ public class MapView extends ViewGroup implements IMapView,
 		return mTileRequestCompleteHandler;
 	}
 
-	@Deprecated
 	@Override
-	public int getLatitudeSpan() {
-		return this.getBoundingBoxE6().getLatitudeSpanE6();
-     }
 	public double getLatitudeSpanDouble() {
 		return this.getBoundingBox().getLatitudeSpan();
 	}
 
-	@Deprecated
 	@Override
-	public int getLongitudeSpan() {
-		return this.getBoundingBoxE6().getLongitudeSpanE6();
-     }
 	public double getLongitudeSpanDouble() {
 		return this.getBoundingBox().getLongitudeSpan();
 	}
 
-	@Deprecated
-	public BoundingBoxE6 getBoundingBoxE6() {
-          return getProjection().getBoundingBoxE6();
-     }
 	public BoundingBox getBoundingBox() {
 		return getProjection().getBoundingBox();
 	}
@@ -483,12 +470,6 @@ public class MapView extends ViewGroup implements IMapView,
 
 		invalidate();
 		return this.mZoomLevel;
-	}
-
-	@Deprecated
-	public void zoomToBoundingBox(final BoundingBoxE6 boundingBox) {
-		BoundingBox box = new BoundingBox(boundingBox.getLatNorthE6()/1e6, boundingBox.getLonEastE6()/1e6, boundingBox.getLatSouthE6()/1e6, boundingBox.getLonWestE6()/1e6);
-		zoomToBoundingBox(box, false);
 	}
 
 	/**
@@ -698,16 +679,6 @@ public class MapView extends ViewGroup implements IMapView,
 	 */
 	public void setUseDataConnection(final boolean aMode) {
 		mMapOverlay.setUseDataConnection(aMode);
-	}
-
-	/**
-	 * Use {@link #setScrollableAreaLimitDouble(BoundingBox)} instead
-	 */
-     @Deprecated
-	public void setScrollableAreaLimit(BoundingBoxE6 boundingBox) {
-		 setScrollableAreaLimitDouble(boundingBox == null ? null : new BoundingBox(
-				boundingBox.getLatNorthE6()/1E6, boundingBox.getLonEastE6()/1E6,
-				boundingBox.getLatSouthE6()/1E6, boundingBox.getLonWestE6()/1E6));
 	}
 
     /**

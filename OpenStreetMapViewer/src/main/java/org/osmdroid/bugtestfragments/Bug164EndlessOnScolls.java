@@ -72,7 +72,8 @@ public class Bug164EndlessOnScolls extends BaseSampleFragment implements View.On
         IGeoPoint mapCenter = mMapView.getMapCenter();
         textViewCurrentLocation.setText(df.format(mapCenter.getLatitude())+","+
                 df.format(mapCenter.getLongitude())
-                +","+mMapView.getZoomLevel() +"\nonScroll: " + callsScoll + " onZoom: " + callsZoom);
+                +","+mMapView.getZoomLevelDouble() +"\nonScroll: " + callsScoll + " onZoom: "
+                + callsZoom);
 
     }
 

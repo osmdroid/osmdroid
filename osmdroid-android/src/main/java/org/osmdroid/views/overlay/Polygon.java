@@ -11,7 +11,6 @@ import android.view.MotionEvent;
 
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.util.BoundingBox;
-import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.PointL;
 import org.osmdroid.views.MapView;
@@ -157,19 +156,6 @@ public class Polygon extends OverlayWithIW {
 			circlePoints.add(onCircle);
 		}
 		return circlePoints;
-	}
-	
-	/** Build a list of GeoPoint as a rectangle. 
-	 * @param rectangle defined as a BoundingBox 
-	 * @return the list of 4 GeoPoint */
-	@Deprecated
-	public static ArrayList<IGeoPoint> pointsAsRect(BoundingBoxE6 rectangle){
-		ArrayList<IGeoPoint> points = new ArrayList<IGeoPoint>(4);
-		points.add(new GeoPoint(rectangle.getLatNorthE6(), rectangle.getLonWestE6()));
-		points.add(new GeoPoint(rectangle.getLatNorthE6(), rectangle.getLonEastE6()));
-		points.add(new GeoPoint(rectangle.getLatSouthE6(), rectangle.getLonEastE6()));
-		points.add(new GeoPoint(rectangle.getLatSouthE6(), rectangle.getLonWestE6()));
-		return points;
 	}
 
 	/** Build a list of GeoPoint as a rectangle.
