@@ -82,6 +82,7 @@ public final class TileSystem {
 	}
 
 	/**
+	 * Most likely meters/pixel at the given latitude
 	 * @since 6.0.0
 	 * @see microsoft.mappoint.TileSystem#GroundResolution(double, int)
 	 */

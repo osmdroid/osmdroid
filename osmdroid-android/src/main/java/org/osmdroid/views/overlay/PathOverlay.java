@@ -110,10 +110,10 @@ public class PathOverlay extends Overlay {
 	 */
 	public void addGreatCircle(final GeoPoint startPoint, final GeoPoint endPoint) {
         //	get the great circle path length in meters
-        final int greatCircleLength=startPoint.distanceTo(endPoint);
+        final int greatCircleLength = (int) startPoint.distanceToAsDouble(endPoint);
 
         //	add one point for every 100kms of the great circle path
-        final int numberOfPoints=greatCircleLength/100000;
+        final int numberOfPoints = greatCircleLength/100000;
 
         addGreatCircle(startPoint, endPoint, numberOfPoints);
 	}

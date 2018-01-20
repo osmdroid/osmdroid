@@ -19,7 +19,6 @@ import org.osmdroid.events.MapListener;
 import org.osmdroid.events.ScrollEvent;
 import org.osmdroid.events.ZoomEvent;
 import org.osmdroid.util.BoundingBox;
-import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.views.MapView.OnFirstLayoutListener;
 import org.osmdroid.views.util.MyMath;
 
@@ -81,11 +80,6 @@ public class MapController implements IMapController, OnFirstLayoutListener {
     @Override
     public void onFirstLayout(View v, int left, int top, int right, int bottom) {
         mReplayController.replayCalls();
-    }
-
-    @Deprecated
-    public void zoomToSpan(final BoundingBoxE6 bb) {
-        zoomToSpan(bb.getLatitudeSpanE6(), bb.getLongitudeSpanE6());
     }
 
     @Override

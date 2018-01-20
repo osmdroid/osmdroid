@@ -174,7 +174,7 @@ public class Polyline extends OverlayWithIW {
 				if (i>0){
 					//add potential intermediate points:
 					GeoPoint prev = points.get(i-1);
-					final int greatCircleLength = prev.distanceTo(p);
+					final int greatCircleLength = (int) prev.distanceToAsDouble(p);
 					//add one point for every 100kms of the great circle path
 					final int numberOfPoints = greatCircleLength/100000;
 					addGreatCircle(prev, p, numberOfPoints);
