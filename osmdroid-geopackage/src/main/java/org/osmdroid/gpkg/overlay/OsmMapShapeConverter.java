@@ -726,7 +726,7 @@ public class OsmMapShapeConverter {
         MapView map,
         List<GeoPoint> pts,
         List<List<GeoPoint>> holes, PolygonOptions options) {
-        org.osmdroid.views.overlay.Polygon polygon1 = new org.osmdroid.views.overlay.Polygon();
+        org.osmdroid.views.overlay.Polygon polygon1 = new org.osmdroid.views.overlay.Polygon(map);
         polygon1.setPoints(pts);
         polygon1.getHoles().addAll(holes);
         if (options!=null) {

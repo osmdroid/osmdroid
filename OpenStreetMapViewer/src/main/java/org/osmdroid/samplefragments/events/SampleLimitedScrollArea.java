@@ -42,7 +42,8 @@ public class SampleLimitedScrollArea extends BaseSampleFragment {
 	// ===========================================================
 	// Constructors
 	// ===========================================================
-
+	//note that since we are not providing the mapview as a constructor parameter,
+	//the infowindow bubble will not be available
 	private final Polyline mNorthPolyline = new Polyline();
 	private final Polyline mSouthPolyline = new Polyline();
 	private final Polyline mWestPolyline = new Polyline();

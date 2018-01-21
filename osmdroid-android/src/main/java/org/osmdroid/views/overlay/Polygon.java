@@ -50,6 +50,7 @@ public class Polygon extends OverlayWithIW {
 	private Paint mFillPaint;
 	private Paint mOutlinePaint;
 	private List<MilestoneManager> mMilestoneManagers = new ArrayList<>();
+	private GeoPoint infoWindowLocation=null;
 
 	// ===========================================================
 	// Constructors
@@ -60,11 +61,14 @@ public class Polygon extends OverlayWithIW {
 	}
 
 	public Polygon(MapView mapView) {
-		if (mapView != null)
+		if (mapView != null) {
 			if (mDefaultInfoWindow == null || mDefaultInfoWindow.getMapView() != mapView) {
-				mDefaultInfoWindow = new BasicInfoWindow(R.layout.bonuspack_bubble, mapView);
-				setInfoWindow(mDefaultInfoWindow);
+				{
+					mDefaultInfoWindow = new BasicInfoWindow(R.layout.bonuspack_bubble, mapView);
+				}
+			}
 		}
+		setInfoWindow(mDefaultInfoWindow);
 		mFillPaint = new Paint();
 		mFillPaint.setColor(Color.TRANSPARENT);
 		mFillPaint.setStyle(Paint.Style.FILL);
@@ -129,8 +133,13 @@ public class Polygon extends OverlayWithIW {
 	 * Note that this InfoWindow will receive the Marker object as an input, so it MUST be able to handle Marker attributes.
 	 * If you don't want any InfoWindow to open, you can set it to null. */
 	public void setInfoWindow(InfoWindow infoWindow){
-		if (mInfoWindow!=null && mInfoWindow!=mDefaultInfoWindow )
-			mInfoWindow.onDetach();
+		if (mInfoWindow != null){
+			if (mInfoWindow.getRelatedObject()==this)
+				mInfoWindow.setRelatedObject(null);
+			if (mInfoWindow != mDefaultInfoWindow) {
+				mInfoWindow.onDetach();
+			}
+		}
 		mInfoWindow = infoWindow;
 	}
 
@@ -240,7 +249,7 @@ public class Polygon extends OverlayWithIW {
 			milestoneManager.draw(canvas);
 		}
 
-		if (isInfoWindowOpen()) {
+		if (isInfoWindowOpen() && mInfoWindow!=null && mInfoWindow.getRelatedObject()==this) {
 			showInfoWindow(mLastGeoPoint);
 		}
 
@@ -292,9 +301,21 @@ public class Polygon extends OverlayWithIW {
 	 * @return
 	 * @since 6.0.0
 	 */
-	protected GeoPoint getInfoWindowAnchorPoint(GeoPoint eventPos) {
-		return getPoints().get(0);
+	public GeoPoint getInfoWindowAnchorPoint(GeoPoint eventPos) {
+		if (infoWindowLocation==null)
+			return getPoints().get(0);
+		return infoWindowLocation;
 	}
+
+	/**
+	 * Sets the info window's cartoon bubble point to this location
+	 * @since 6.0.0
+	 * @param location
+	 */
+	public void setInfoWindowLocation(GeoPoint location) {
+		infoWindowLocation=location;
+	}
+
 
 	@Override
 	public void onDetach(MapView mapView) {

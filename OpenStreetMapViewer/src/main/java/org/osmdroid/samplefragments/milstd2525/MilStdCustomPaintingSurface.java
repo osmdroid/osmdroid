@@ -206,7 +206,7 @@ public class MilStdCustomPaintingSurface extends View {
                             ArrayList<ArrayList<Point2D>> polylines = info.getPolylines();
                             if (polylines != null)
                                 for (ArrayList<Point2D> list : polylines) {
-                                    Polygon line = new Polygon();
+                                    Polygon line = new Polygon(map);
                                     List<GeoPoint> geoPoints = new ArrayList<>();
                                     for (Point2D p : list) {
                                         geoPoints.add(new GeoPoint(p.getY(), p.getX()));
@@ -233,7 +233,7 @@ public class MilStdCustomPaintingSurface extends View {
                             ArrayList<ArrayList<Point2D>> polylines = info.getPolylines();
                             if (polylines != null)
                                 for (ArrayList<Point2D> list : polylines) {
-                                    Polyline line = new Polyline();
+                                    Polyline line = new Polyline(map);
                                     List<GeoPoint> geoPoints = new ArrayList<>();
                                     for (Point2D p : list) {
                                         geoPoints.add(new GeoPoint(p.getY(), p.getX()));
@@ -262,7 +262,7 @@ public class MilStdCustomPaintingSurface extends View {
                             ArrayList<ArrayList<Point2D>> polylines = info.getPolylines();
                             if (info.getFillColor() != null) {
                                 for (ArrayList<Point2D> list : polylines) {
-                                    Polygon line = new Polygon();
+                                    Polygon line = new Polygon(map);
                                     List<GeoPoint> geoPoints = new ArrayList<>();
                                     for (Point2D p : list) {
                                         geoPoints.add(new GeoPoint(p.getY(), p.getX()));
@@ -283,7 +283,7 @@ public class MilStdCustomPaintingSurface extends View {
                             } else {
                                 //it's a line
                                 for (ArrayList<Point2D> list : polylines) {
-                                    Polyline line = new Polyline();
+                                    Polyline line = new Polyline(map);
                                     List<GeoPoint> geoPoints = new ArrayList<>();
                                     for (Point2D p : list) {
                                         geoPoints.add(new GeoPoint(p.getY(), p.getX()));
