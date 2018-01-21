@@ -286,6 +286,7 @@ class LinearRing{
 
 	/**
 	 * @since 6.0.0
+	 * 
 	 */
 	private void clipAndStore(final Projection pProjection, final PointL pOffset,
 							  final boolean pClosePath, final boolean pStorePoints,
