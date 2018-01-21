@@ -1414,11 +1414,10 @@ public class MapView extends ViewGroup implements IMapView,
 				mImpossibleFlinging = false;
 				return false;
 			}
-			final double worldSize = TileSystem.MapSize(MapView.this.getZoomLevelDouble());
 			mIsFlinging = true;
 			if (mScroller!=null) {  //fix for edit mode in the IDE
 				mScroller.fling((int) getMapScrollX(), (int) getMapScrollY(), (int) -velocityX,
-						(int) -velocityY, -(int)worldSize, (int)worldSize, -(int)worldSize, (int)worldSize);
+						(int) -velocityY, Integer.MIN_VALUE, Integer.MAX_VALUE, Integer.MIN_VALUE, Integer.MAX_VALUE);
 			}
 			return true;
 		}
