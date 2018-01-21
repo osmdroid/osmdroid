@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:padding="8dp"
+              android:orientation="vertical">
+    <!-- single point -->
+    <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+        <RadioButton
+            android:id="@+id/radio_milstd2525b"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="false"
+            android:text="MIL-STD 2525B"
+            />
+
+        <RadioButton
+            android:id="@+id/radio_milstd2525c"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="MIL-STD 2525C"
+            />
+    </RadioGroup>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Size (pixels)"/>
+
+        <EditText
+            android:id="@+id/symbolSize"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:text="128"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Symbol Code"/>
+
+        <EditText
+            android:id="@+id/symbolCode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:maxLength="15"
+            android:maxLines="1"
+            android:text="SFGP--------US-"
+            />
+    </LinearLayout>
+
+
+
+        <TextView
+            android:id="@+id/canRender"
+            android:layout_width="wrap_content"
+            android:layout_height="18dp"
+            android:textColor="@color/accent"
+            android:text=""/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add to map"
+        android:id="@+id/addIcon"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cancel"
+            android:id="@+id/cancelAddIcon"/>
+
+    </LinearLayout>
+
+    <!-- TODO attributes , fill color, line color, font size, draw label, etc
+        TODO additional modifiers, size status, etc -->
+
+</LinearLayout>
+
+   

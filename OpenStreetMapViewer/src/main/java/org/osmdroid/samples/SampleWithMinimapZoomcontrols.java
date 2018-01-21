@@ -26,7 +26,7 @@ public class SampleWithMinimapZoomcontrols extends Activity {
 	// Fields
 	// ===========================================================
 
-	private MapView mOsmv;
+	private MapView mMapView;
 
 	// ===========================================================
 	// Constructors
@@ -38,24 +38,24 @@ public class SampleWithMinimapZoomcontrols extends Activity {
 
 		final RelativeLayout rl = new RelativeLayout(this);
 
-		this.mOsmv = new MapView(this);
-		this.mOsmv.setTilesScaledToDpi(true);
-		rl.addView(this.mOsmv, new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT,
+		this.mMapView = new MapView(this);
+		this.mMapView.setTilesScaledToDpi(true);
+		rl.addView(this.mMapView, new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT,
 				LayoutParams.FILL_PARENT));
 
-		mOsmv.setBuiltInZoomControls(true);
+		mMapView.setBuiltInZoomControls(true);
 
 		/* MiniMap */
 		{
 			MinimapOverlay miniMapOverlay = new MinimapOverlay(this,
-					mOsmv.getTileRequestCompleteHandler());
-			this.mOsmv.getOverlays().add(miniMapOverlay);
+					mMapView.getTileRequestCompleteHandler());
+			this.mMapView.getOverlays().add(miniMapOverlay);
 		}
 
 		this.setContentView(rl);
 
 		// Default location and zoom level
-		IMapController mapController = mOsmv.getController();
+		IMapController mapController = mMapView.getController();
 		mapController.setZoom(5);
 		GeoPoint startPoint = new GeoPoint(50.936255, 6.957779);
 		mapController.setCenter(startPoint);
@@ -72,7 +72,17 @@ public class SampleWithMinimapZoomcontrols extends Activity {
 	// ===========================================================
 	// Methods
 	// ===========================================================
+	@Override
+	public void onPause(){
+		super.onPause();
+		mMapView.onPause();
+	}
 
+	@Override
+	public void onResume(){
+		super.onResume();
+		mMapView.onResume();
+	}
 	// ===========================================================
 	// Inner and Anonymous Classes
 	// ===========================================================

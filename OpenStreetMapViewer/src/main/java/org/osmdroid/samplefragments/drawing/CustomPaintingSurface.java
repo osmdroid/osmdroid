@@ -11,17 +11,16 @@ import android.graphics.Point;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Toast;
 
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
+import org.osmdroid.views.overlay.Polygon;
+import org.osmdroid.views.overlay.Polyline;
 import org.osmdroid.views.overlay.milestones.MilestoneBitmapDisplayer;
 import org.osmdroid.views.overlay.milestones.MilestoneManager;
 import org.osmdroid.views.overlay.milestones.MilestonePathDisplayer;
 import org.osmdroid.views.overlay.milestones.MilestonePixelDistanceLister;
-import org.osmdroid.views.overlay.Polygon;
-import org.osmdroid.views.overlay.Polyline;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -114,21 +113,24 @@ public class CustomPaintingSurface extends View {
         mPath.reset();
         if (map!=null){
             Projection projection = map.getProjection();
-            List<GeoPoint> geoPoints = new ArrayList<>();
+            ArrayList<GeoPoint> geoPoints = new ArrayList<>();
             final Point unrotatedPoint = new Point();
             for (int i=0; i < pts.size(); i++) {
                 projection.unrotateAndScalePoint(pts.get(i).x, pts.get(i).y, unrotatedPoint);
                 GeoPoint iGeoPoint = (GeoPoint) projection.fromPixels(unrotatedPoint.x, unrotatedPoint.y);
                 geoPoints.add(iGeoPoint);
             }
+            //geoPoints = PointReducer.reduceWithTolerance(geoPoints, 1.0);
             //TODO run the douglas pucker algorithm to reduce the points for performance reasons
             if (geoPoints.size() > 2) {
                 //only plot a line unless there's at least one item
                 switch (drawingMode) {
                     case Polyline:
                         final int color = Color.BLACK;
-                        Polyline line = new Polyline();
+                        Polyline line = new Polyline(map);
                         line.setPoints(geoPoints);
+                        //example below
+                        /*
                         line.setOnClickListener(new Polyline.OnClickListener() {
                             @Override
                             public boolean onClick(Polyline polyline, MapView mapView, GeoPoint eventPos) {
@@ -136,8 +138,9 @@ public class CustomPaintingSurface extends View {
                                 return false;
                             }
                         });
-
+                        */
                         line.setColor(color);
+                        line.setTitle("This is a polyline");
 
                         if (withArrows) {
                             final Paint arrowPaint = new Paint();
@@ -161,7 +164,7 @@ public class CustomPaintingSurface extends View {
                         lastPolygon=null;
                         break;
                     case Polygon:
-                        Polygon polygon = new Polygon();
+                        Polygon polygon = new Polygon(map);
                         polygon.setFillColor(Color.argb(75, 255,0,0));
                         polygon.setPoints(geoPoints);
                         polygon.setTitle("A sample polygon");
@@ -214,6 +217,11 @@ public class CustomPaintingSurface extends View {
                 break;
         }
         return true;
+    }
+
+    public void destroy(){
+        map=null;
+        this.lastPolygon=null;
     }
 
 }

@@ -19,10 +19,6 @@ public interface IMapView {
 	 */
 	double getZoomLevelDouble();
 	double getMaxZoomLevel();
-     @Deprecated
-	int getLatitudeSpan();
-     @Deprecated
-	int getLongitudeSpan();
 	double getLatitudeSpanDouble();
 	double getLongitudeSpanDouble();
 	IGeoPoint getMapCenter();

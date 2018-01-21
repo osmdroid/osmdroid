@@ -20,6 +20,9 @@ import java.util.TreeSet;
  *
  * Reference: https://sites.google.com/site/abudden/android-map-store
  *
+ * Do not reference any android specific code in this class, it is reused in the JRE
+ * Tile Packager
+ *
  * @author A. S. Budden
  * @author Erik Burrows
  *
@@ -575,7 +578,9 @@ public class GEMFFile {
 
 		long dataOffset;
 		int dataLength;
-
+		InputStream returnValue=null;
+		GEMFInputStream stream=null;
+		ByteArrayOutputStream byteBuffer=null;
 		try	{
 
 			// Determine offset to requested tile record in the header
@@ -612,11 +617,9 @@ public class GEMFFile {
 			// Read data block into a byte array
 			pDataFile.seek(dataOffset);
 
-
-
-			GEMFInputStream stream= new GEMFInputStream(mFileNames.get(index), dataOffset, dataLength);
+			stream= new GEMFInputStream(mFileNames.get(index), dataOffset, dataLength);
 			// this dynamically extends to take the bytes you read
-			ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
+			byteBuffer = new ByteArrayOutputStream();
 
 			// this is storage overwritten on each iteration with bytes
 			int bufferSize = 1024;
@@ -633,11 +636,26 @@ public class GEMFFile {
 
 			// and then we can return your byte array.
 			byte[] bits = byteBuffer.toByteArray();
-			return new ByteArrayInputStream(bits);
+			returnValue= new ByteArrayInputStream(bits);
 
 		} catch (final java.io.IOException e) {
-			return null;
+			e.printStackTrace();
+		} finally {
+			if (byteBuffer!=null)
+				try {
+					byteBuffer.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			if (stream!=null)
+				try {
+					stream.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+
 		}
+		return returnValue;
 	}
 
 
