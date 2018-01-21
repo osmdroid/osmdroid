@@ -44,18 +44,24 @@ public class Polyline extends OverlayWithIW {
     private GeoPoint mLastGeoPoint = null;
     protected static InfoWindow mDefaultInfoWindow = null;
     protected OnClickListener mOnClickListener;
+    private GeoPoint infoWindowLocation=null;
+    private float density=1.0f;
 
     public Polyline() {
         this(null);
     }
 
     public Polyline(MapView mapView) {
-
-        if (mapView != null)
+        if (mapView != null) {
             if (mDefaultInfoWindow == null || mDefaultInfoWindow.getMapView() != mapView) {
-                mDefaultInfoWindow = new BasicInfoWindow(R.layout.bonuspack_bubble, mapView);
-                setInfoWindow(mDefaultInfoWindow);
+                {
+                    mDefaultInfoWindow = new BasicInfoWindow(R.layout.bonuspack_bubble, mapView);
+                }
+
             }
+            density = mapView.getContext().getResources().getDisplayMetrics().density;
+        }
+        setInfoWindow(mDefaultInfoWindow);
         //default as defined in Google API:
         this.mPaint.setColor(Color.BLACK);
         this.mPaint.setStrokeWidth(10.0f);
@@ -219,7 +225,7 @@ public class Polyline extends OverlayWithIW {
         for (final MilestoneManager milestoneManager : mMilestoneManagers) {
             milestoneManager.draw(canvas);
         }
-        if (isInfoWindowOpen()) {
+        if (isInfoWindowOpen() && mInfoWindow!=null && mInfoWindow.getRelatedObject()==this) {
             showInfoWindow(mLastGeoPoint);
         }
     }
@@ -243,21 +249,27 @@ public class Polyline extends OverlayWithIW {
      * If you don't want any InfoWindow to open, you can set it to null.
      */
     public void setInfoWindow(InfoWindow infoWindow) {
-        if (mInfoWindow != null && mInfoWindow != mDefaultInfoWindow)
-            mInfoWindow.onDetach();
+        if (mInfoWindow != null){
+            if (mInfoWindow.getRelatedObject()==this)
+                mInfoWindow.setRelatedObject(null);
+            if (mInfoWindow != mDefaultInfoWindow) {
+                mInfoWindow.onDetach();
+            }
+        }
         mInfoWindow = infoWindow;
     }
 
     public void showInfoWindow(GeoPoint position) {
-        if (mInfoWindow != null)
+        if (mInfoWindow != null) {
             mInfoWindow.open(this, position, 0, 0);
+        }
     }
 
     @Override
     public boolean onSingleTapConfirmed(final MotionEvent event, final MapView mapView) {
         final Projection pj = mapView.getProjection();
         GeoPoint eventPos = (GeoPoint) pj.fromPixels((int) event.getX(), (int) event.getY());
-        double tolerance = mPaint.getStrokeWidth();
+        double tolerance = mPaint.getStrokeWidth() * density;
         boolean touched = isCloseTo(eventPos, tolerance, mapView);
         if (touched) {
             eventPos = this.getInfoWindowAnchorPoint(eventPos);
@@ -277,10 +289,20 @@ public class Polyline extends OverlayWithIW {
      * @return
      * @since 6.0.0
      */
-    protected GeoPoint getInfoWindowAnchorPoint(GeoPoint eventPos) {
-        return getPoints().get(0);
+    public GeoPoint getInfoWindowAnchorPoint(GeoPoint eventPos) {
+        if (infoWindowLocation==null)
+            return getPoints().get(0);
+        return infoWindowLocation;
     }
 
+    /**
+     * Sets the info window's cartoon bubble point to this location
+     * @since 6.0.0
+     * @param location
+     */
+    public void setInfoWindowLocation(GeoPoint location) {
+        infoWindowLocation=location;
+    }
     /**
      * @return
      * @since 6.0.0

@@ -40,9 +40,11 @@ public abstract class InfoWindow {
     protected View mView;
     protected boolean mIsVisible;
     protected MapView mMapView;
+    protected Object mRelatedObject;
 
     // this block of variables to used to track the current map state and intelligently render
     // the info window only when needed
+    private IGeoPoint lastPosition=null;
     private float mCurrentMapRotation = 0;
     private double mCurrentMapZoom = 0d;
     private IGeoPoint mCurrentCenter = null;
@@ -70,7 +72,16 @@ public abstract class InfoWindow {
         mView = v;
         mView.setTag(this);
     }
+    /** Allows to link an Object (any Object) to this marker.
+     * This is particularly useful to handle custom InfoWindow. */
+    public void setRelatedObject(Object relatedObject){
+        mRelatedObject = relatedObject;
+    }
 
+    /** @return the related object. */
+    public Object getRelatedObject(){
+        return mRelatedObject;
+    }
     /**
      * may return null if the info window hasn't been attached yet
      *
@@ -116,8 +127,13 @@ public abstract class InfoWindow {
                 render = true;
             }
         }
+        if (!render && (!position.equals(lastPosition))){
+            render = true;
+        }
         if (render) {    //this check prevents looping forever
             close(); //if it was already opened
+            this.mRelatedObject=object;
+            lastPosition = position;
             mCurrentRenderPointX = offsetX;
             mCurrentRenderPointY = offsetY;
             onOpen(object);
