@@ -132,7 +132,7 @@ class LinearRing{
 			getBestOffset(pProjection, offset);
 		}
 		mSegmentClipper.init();
-		clipAndStore(pProjection, offset, true, pStorePoints);
+		clipAndStore(pProjection, offset, true, pStorePoints, mSegmentClipper);
 		mSegmentClipper.end();
 		mPath.close();
 		return offset;
@@ -155,7 +155,7 @@ class LinearRing{
 		final PointL offset = new PointL();
 		getBestOffset(pProjection, offset);
 		mSegmentClipper.init();
-		clipAndStore(pProjection, offset, false, pStorePoints);
+		clipAndStore(pProjection, offset, false, pStorePoints, mSegmentClipper);
 		mSegmentClipper.end();
 	}
 
@@ -288,7 +288,8 @@ class LinearRing{
 	 * @since 6.0.0
 	 */
 	private void clipAndStore(final Projection pProjection, final PointL pOffset,
-							  final boolean pClosePath, final boolean pStorePoints) {
+							  final boolean pClosePath, final boolean pStorePoints,
+							  final SegmentClipper pSegmentClipper) {
 		mPointsForMilestones.clear();
 		final double powerDifference = pProjection.getProjectedPowerDifference();
 		final PointL projected = new PointL();
@@ -302,13 +303,17 @@ class LinearRing{
 			if (pStorePoints) {
 				mPointsForMilestones.add(x, y);
 			}
-			mSegmentClipper.add(x, y);
+			if (pSegmentClipper != null) {
+				pSegmentClipper.add(x, y);
+			}
 			if (i == 0) {
 				first.set(x, y);
 			}
 		}
 		if (pClosePath) {
-			mSegmentClipper.add(first.x, first.y);
+			if (pSegmentClipper != null) {
+				pSegmentClipper.add(first.x, first.y);
+			}
 			if (pStorePoints) {
 				mPointsForMilestones.add(first.x, first.y);
 			}
@@ -349,7 +354,7 @@ class LinearRing{
 		final Point pixel = pProjection.toPixels(pPoint, null);
 		final PointL offset = new PointL();
 		getBestOffset(pProjection, offset);
-		clipAndStore(pProjection, offset, pClosePath, true);
+		clipAndStore(pProjection, offset, pClosePath, true, null);
 		final double squaredTolerance = tolerance * tolerance;
 		final PointL point0 = new PointL();
 		final PointL point1 = new PointL();
