@@ -80,13 +80,21 @@ public class GroundOverlay2 extends Overlay {
              x1 = pj.getLongPixelXFromLongitude(mLonR),
              y1 = pj.getLongPixelYFromLatitude(mLatD);
 
-		float scaleX = (float)(x1 - x0) / mImage.getWidth(),
-		      scaleY = (float)(y1 - y0) / mImage.getHeight();
-        mStretchToFitTransformationMatrix.setScale(scaleX, scaleY);
-        mStretchToFitTransformationMatrix.postTranslate(x0, y0);
+        float widthOnTheMap = x1 - x0,
+              heightOnTheMap = y1 - y0;
+
+		float scaleX = widthOnTheMap / mImage.getWidth(),
+		      scaleY = heightOnTheMap / mImage.getHeight();
+
+        setupScalingThenTranslatingMatrix(scaleX, scaleY, x0, y0);
 
         Paint paint = new Paint();
         paint.setAlpha(255-(int)(mTransparency * 255));
 		canvas.drawBitmap(mImage, mStretchToFitTransformationMatrix, paint);
 	}
+
+    private void setupScalingThenTranslatingMatrix(float scaleX, float scaleY, long x0, long y0) {
+        mStretchToFitTransformationMatrix.setScale(scaleX, scaleY);
+        mStretchToFitTransformationMatrix.postTranslate(x0, y0);
+    }
 }
