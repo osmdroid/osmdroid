@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+                android:padding="8dp"
+              android:layout_height="match_parent">
+
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/milstd_search"
+        android:hint="Keywords"
+
+        />
+    <!-- affiliations -->
+    <RadioGroup
+        android:orientation="horizontal"
+        android:id="@+id/milstd_search_affil"
+        android:layout_below="@id/milstd_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <RadioButton
+            android:id="@+id/milstd_search_affil_f"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="Friendly"/>
+        <RadioButton
+            android:id="@+id/milstd_search_affil_h"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hostile"/>
+        <RadioButton
+            android:id="@+id/milstd_search_affil_n"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Neutral"/>
+        <RadioButton
+            android:id="@+id/milstd_search_affil_u"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Unknown"/>
+
+    </RadioGroup>
+    <ListView
+        android:layout_below="@id/milstd_search_affil"
+        android:layout_width="wrap_content"
+        android:id="@+id/milstd_search_results"
+        android:layout_height="wrap_content">
+
+
+    </ListView>
+
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cancel"
+        android:layout_alignParentBottom="true"
+  android:layout_alignParentRight="true"
+        android:id="@+id/milstd_search_cancel"
+        />
+</RelativeLayout>
