@@ -34,6 +34,7 @@ import org.osmdroid.samplefragments.data.SampleSimpleFastPointOverlay;
 import org.osmdroid.samplefragments.data.SampleSimpleLocation;
 import org.osmdroid.samplefragments.data.SampleWithMinimapItemizedOverlayWithFocus;
 import org.osmdroid.samplefragments.data.SampleWithMinimapItemizedOverlayWithScale;
+import org.osmdroid.samplefragments.data.WeatherGroundOverlaySample;
 import org.osmdroid.samplefragments.drawing.DrawCircle10km;
 import org.osmdroid.samplefragments.drawing.DrawPolygon;
 import org.osmdroid.samplefragments.drawing.DrawPolygonHoles;
@@ -281,6 +282,7 @@ public final class SampleFactory implements ISampleFactory {
         mSamples.add(SampleCacheDelete.class);
         if (Build.VERSION.SDK_INT >= 15)
             mSamples.add(SinglePoints.class);
+        mSamples.add(WeatherGroundOverlaySample.class);
     }
 
     public void addSample(Class<? extends BaseSampleFragment> clz) {
