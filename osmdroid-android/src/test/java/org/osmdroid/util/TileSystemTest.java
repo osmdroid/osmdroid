@@ -6,7 +6,7 @@ import org.junit.Test;
 import java.util.Random;
 
 /**
- * @since 5.6.6
+ * @since 6.0.0
  * @author Fabrice Fontaine
  */
 public class TileSystemTest {
@@ -34,7 +34,7 @@ public class TileSystemTest {
     }
 
     /**
-     * @since 5.6.6
+     * @since 6.0.0
      */
     @Test
     public void testGetLatitudeFromY01() {
@@ -44,7 +44,7 @@ public class TileSystemTest {
     }
 
     /**
-     * @since 5.6.6
+     * @since 6.0.0
      */
     @Test
     public void testLatitude() {
@@ -56,7 +56,7 @@ public class TileSystemTest {
     }
 
     /**
-     * @since 5.6.6
+     * @since 6.0.0
      */
     @Test
     public void testGetLongitudeFromX01() {
@@ -71,7 +71,7 @@ public class TileSystemTest {
     }
 
     /**
-     * @since 5.6.6
+     * @since 6.0.0
      */
     @Test
     public void testLongitude() {
@@ -88,7 +88,7 @@ public class TileSystemTest {
     }
 
     /**
-     * @since 5.6.6
+     * @since 6.0.0
      */
     private void checkLatitude(final double pExpected, final double pActual) {
         Assert.assertEquals(pExpected, pActual, latLongDelta);
@@ -96,7 +96,7 @@ public class TileSystemTest {
     }
 
     /**
-     * @since 5.6.6
+     * @since 6.0.0
      */
     private void checkLongitude(final double pExpected, final double pActual) {
         Assert.assertEquals(pExpected, pActual, latLongDelta);
@@ -104,7 +104,7 @@ public class TileSystemTest {
     }
 
     /**
-     * @since 5.6.6
+     * @since 6.0.0
      */
     private void checkMinMax(final double pActual, final double pMin, final double pMax) {
         Assert.assertTrue(pActual <= pMax);

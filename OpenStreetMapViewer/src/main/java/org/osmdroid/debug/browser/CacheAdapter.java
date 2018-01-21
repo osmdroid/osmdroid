@@ -52,8 +52,10 @@ public class CacheAdapter extends ArrayAdapter {
                 final long expires = select.getLong(select.getColumnIndex(SqlTileWriter.COLUMN_EXPIRES));
                 tile.setExpires(new Date(expires));
             }
+            select.close();
             return tile;
         }
+        select.close();
         return null;
     }
 

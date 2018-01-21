@@ -49,7 +49,7 @@ public class SampleRace extends BaseSampleFragment {
     protected void addOverlays() {
         super.addOverlays();
 
-        Polyline line = new Polyline();
+        Polyline line = new Polyline(mMapView);
         line.setWidth(10f);
         line.setColor(Color.BLUE);
         List<GeoPoint> pts = new ArrayList<>();
