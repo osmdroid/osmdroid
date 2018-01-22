@@ -18,7 +18,8 @@ import org.osmdroid.tileprovider.tilesource.ITileSource;
 
 public class ZipFileArchive implements IArchiveFile {
 
-	protected ZipFile mZipFile;
+	protected ZipFile mZipFile;	
+	private boolean mIgnoreTileSource = false;
 
 	public ZipFileArchive(){}
 
@@ -29,6 +30,14 @@ public class ZipFileArchive implements IArchiveFile {
 	public static ZipFileArchive getZipFileArchive(final File pFile) throws ZipException, IOException {
 		return new ZipFileArchive(new ZipFile(pFile));
 	}
+	
+	/**
+	 * @since 6.0
+	 * If set to true, tiles from this archive will be loaded regardless of their associated tile source name
+	 */
+	public void setIgnoreTileSource(boolean pIgnoreTileSource) {
+		mIgnoreTileSource = pIgnoreTileSource;
+	}
 
 	@Override
 	public void init(File pFile) throws Exception {
@@ -37,17 +46,50 @@ public class ZipFileArchive implements IArchiveFile {
 
 	@Override
 	public InputStream getInputStream(final ITileSource pTileSource, final MapTile pTile) {
-		final String path = pTileSource.getTileRelativeFilenameString(pTile);
 		try {
-			final ZipEntry entry = mZipFile.getEntry(path);
-			if (entry != null) {
-				return mZipFile.getInputStream(entry);
+			if(!mIgnoreTileSource) {
+				final String path = pTileSource.getTileRelativeFilenameString(pTile);
+				final ZipEntry entry = mZipFile.getEntry(path);
+				if (entry != null) {
+					return mZipFile.getInputStream(entry);
+				}
+			} else {
+				// Search all sources in ZIP internal order
+				Enumeration<? extends ZipEntry> entries = mZipFile.entries();
+				while (entries.hasMoreElements()) {
+					ZipEntry nextElement = entries.nextElement();
+					String str=nextElement.getName();
+					if (str.contains("/")) {
+						String path = getTileRelativeFilenameString(pTile, str.split("/")[0]);
+						ZipEntry entry = mZipFile.getEntry(path);
+						if (entry != null) {
+							return mZipFile.getInputStream(entry);
+						}
+					}
+				}
 			}
 		} catch (final IOException e) {
 			Log.w(IMapView.LOGTAG,"Error getting zip stream: " + pTile, e);
 		}
 		return null;
 	}
+	
+	/**
+	 * @since 6.0
+	 * Creating paths for ZIP scanning
+	 */
+    	private String getTileRelativeFilenameString(final MapTile tile, final String pathBase) {
+		final StringBuilder sb = new StringBuilder();
+		sb.append(pathBase);
+		sb.append('/');
+		sb.append(tile.getZoomLevel());
+		sb.append('/');
+		sb.append(tile.getX());
+		sb.append('/');
+		sb.append(tile.getY());
+		sb.append(".png");
+		return sb.toString();
+    	}
 
 	public Set<String> getTileSources(){
 		Set<String> ret = new HashSet<String>();
