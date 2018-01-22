@@ -64,6 +64,7 @@ public class MarkerInfoWindow extends BasicInfoWindow {
 		Drawable image = mMarkerRef.getImage();
 		if (image != null){
 			imageView.setImageDrawable(image); //or setBackgroundDrawable(image)?
+			imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
 			imageView.setVisibility(View.VISIBLE);
 		} else
 			imageView.setVisibility(View.GONE);

@@ -53,7 +53,7 @@ public class SampleMapEventListener extends BaseSampleFragment
         updateInfo();
 
         mMapView.setTileSource(TileSourceFactory.USGS_SAT);
-        mMapView.setMapListener(new MapListener() {
+        mMapView.addMapListener(new MapListener() {
             @Override
             public boolean onScroll(ScrollEvent event) {
                 Log.i(IMapView.LOGTAG, System.currentTimeMillis() + " onScroll " + event.getX() + "," +event.getY() );

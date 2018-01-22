@@ -54,6 +54,7 @@ public class DefaultConfigurationProvider implements IConfigurationProvider {
     protected int animationSpeedDefault =1000;
     protected int animationSpeedShort =500;
     protected boolean mapViewRecycler=true;
+    protected short cacheTileOvershoot=0;
 
     public DefaultConfigurationProvider(){
 
@@ -323,6 +324,7 @@ public class DefaultConfigurationProvider implements IConfigurationProvider {
             setMapViewRecyclerFriendly((boolean)prefs.getBoolean("osmdroid.mapViewRecycler", mapViewRecycler));
             setAnimationSpeedDefault(prefs.getInt("osmdroid.ZoomSpeedDefault", animationSpeedDefault));
             setAnimationSpeedShort(prefs.getInt("osmdroid.animationSpeedShort", animationSpeedShort));
+            setCacheMapTileOvershoot((short)(prefs.getInt("osmdroid.cacheTileOvershoot", cacheTileOvershoot)));
 
             if (prefs.contains("osmdroid.ExpirationOverride")) {
                 expirationOverride = prefs.getLong("osmdroid.ExpirationOverride",-1);
@@ -382,6 +384,7 @@ public class DefaultConfigurationProvider implements IConfigurationProvider {
         edit.putInt("osmdroid.ZoomSpeedDefault", animationSpeedDefault);
         edit.putInt("osmdroid.animationSpeedShort", animationSpeedShort);
         edit.putBoolean("osmdroid.mapViewRecycler", mapViewRecycler);
+        edit.putInt("osmdroid.cacheTileOvershoot", cacheTileOvershoot);
         commit(edit);
     }
 
@@ -484,5 +487,15 @@ public class DefaultConfigurationProvider implements IConfigurationProvider {
     @Override
     public void setMapViewRecyclerFriendly(boolean enabled) {
         this.mapViewRecycler=enabled;
+    }
+
+    @Override
+    public void setCacheMapTileOvershoot(short value) {
+        this.cacheTileOvershoot=value;
+    }
+
+    @Override
+    public short getCacheMapTileOvershoot() {
+        return cacheTileOvershoot;
     }
 }

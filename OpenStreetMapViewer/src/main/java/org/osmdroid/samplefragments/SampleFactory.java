@@ -34,6 +34,7 @@ import org.osmdroid.samplefragments.data.SampleSimpleFastPointOverlay;
 import org.osmdroid.samplefragments.data.SampleSimpleLocation;
 import org.osmdroid.samplefragments.data.SampleWithMinimapItemizedOverlayWithFocus;
 import org.osmdroid.samplefragments.data.SampleWithMinimapItemizedOverlayWithScale;
+import org.osmdroid.samplefragments.data.WeatherGroundOverlaySample;
 import org.osmdroid.samplefragments.drawing.DrawCircle10km;
 import org.osmdroid.samplefragments.drawing.DrawPolygon;
 import org.osmdroid.samplefragments.drawing.DrawPolygonHoles;
@@ -70,6 +71,7 @@ import org.osmdroid.samplefragments.location.SampleFollowMe;
 import org.osmdroid.samplefragments.location.SampleHeadingCompassUp;
 import org.osmdroid.samplefragments.location.SampleMyLocationWithClick;
 import org.osmdroid.samplefragments.location.SampleRotation;
+import org.osmdroid.samplefragments.milstd2525.SinglePoints;
 import org.osmdroid.samplefragments.tileproviders.MapsforgeTileProviderSample;
 import org.osmdroid.samplefragments.tileproviders.OfflinePickerSample;
 import org.osmdroid.samplefragments.tileproviders.SampleAssetsOnly;
@@ -278,6 +280,9 @@ public final class SampleFactory implements ISampleFactory {
         mSamples.add(DrawCircle10km.class);
         mSamples.add(MarkerDrag.class);
         mSamples.add(SampleCacheDelete.class);
+        if (Build.VERSION.SDK_INT >= 15)
+            mSamples.add(SinglePoints.class);
+        mSamples.add(WeatherGroundOverlaySample.class);
     }
 
     public void addSample(Class<? extends BaseSampleFragment> clz) {

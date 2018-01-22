@@ -1,5 +1,6 @@
 package org.osmdroid.views;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -23,7 +24,6 @@ import org.osmdroid.tileprovider.tilesource.IStyledTileSource;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.tileprovider.util.SimpleInvalidationHandler;
-import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.GeometryMath;
@@ -111,8 +111,6 @@ public class MapView extends ViewGroup implements IMapView,
 	 */
 	private PointF mMultiTouchScaleCurrentPoint;
 
-	//
-	protected MapListener mListener;
 
 	// For rotation
 	private float mapOrientation = 0;
@@ -148,10 +146,13 @@ public class MapView extends ViewGroup implements IMapView,
 	private GeoPoint mCenter;
 	private long mMapScrollX;
 	private long mMapScrollY;
+	protected List<MapListener> mListners = new ArrayList<>();
 
 	private double mStartAnimationZoom;
 
-	public interface OnFirstLayoutListener {
+
+
+    public interface OnFirstLayoutListener {
 		/**
 		 * this generally means that the map is ready to go
 		 * @param v
@@ -294,28 +295,16 @@ public class MapView extends ViewGroup implements IMapView,
 		return mTileRequestCompleteHandler;
 	}
 
-	@Deprecated
 	@Override
-	public int getLatitudeSpan() {
-		return this.getBoundingBoxE6().getLatitudeSpanE6();
-     }
 	public double getLatitudeSpanDouble() {
 		return this.getBoundingBox().getLatitudeSpan();
 	}
 
-	@Deprecated
 	@Override
-	public int getLongitudeSpan() {
-		return this.getBoundingBoxE6().getLongitudeSpanE6();
-     }
 	public double getLongitudeSpanDouble() {
 		return this.getBoundingBox().getLongitudeSpan();
 	}
 
-	@Deprecated
-	public BoundingBoxE6 getBoundingBoxE6() {
-          return getProjection().getBoundingBoxE6();
-     }
 	public BoundingBox getBoundingBox() {
 		return getProjection().getBoundingBox();
 	}
@@ -473,19 +462,14 @@ public class MapView extends ViewGroup implements IMapView,
 		}
 
 		// do callback on listener
-		if (newZoomLevel != curZoomLevel && mListener != null) {
+		if (newZoomLevel != curZoomLevel) {
 			final ZoomEvent event = new ZoomEvent(this, newZoomLevel);
-			mListener.onZoom(event);
+			for (MapListener mapListener: mListners)
+				mapListener.onZoom(event);
 		}
 
 		invalidate();
 		return this.mZoomLevel;
-	}
-
-	@Deprecated
-	public void zoomToBoundingBox(final BoundingBoxE6 boundingBox) {
-		BoundingBox box = new BoundingBox(boundingBox.getLatNorthE6()/1e6, boundingBox.getLonEastE6()/1e6, boundingBox.getLatSouthE6()/1e6, boundingBox.getLonWestE6()/1e6);
-		zoomToBoundingBox(box, false);
 	}
 
 	/**
@@ -507,13 +491,15 @@ public class MapView extends ViewGroup implements IMapView,
 			return;
 		}
 		nextZoom = Math.min(getMaxZoomLevel(), Math.max(nextZoom, getMinZoomLevel()));
-		if(animated) {
+		final IGeoPoint center = boundingBox.getCenterWithDateLine();
+		if(animated) { // it's best to set the center first, because the animation is not immediate
+			// in a perfect world there would be an animation for both center and zoom level
+			getController().setCenter(center);
 			getController().zoomTo(nextZoom);
-		} else {
+		} else { // it's best to set the zoom first, so that the center is accurate
 			getController().setZoom(nextZoom);
+			getController().setCenter(center);
 		}
-
-		getController().setCenter(boundingBox.getCenterWithDateLine());
 	}
 
 	/**
@@ -695,16 +681,6 @@ public class MapView extends ViewGroup implements IMapView,
 		mMapOverlay.setUseDataConnection(aMode);
 	}
 
-	/**
-	 * Use {@link #setScrollableAreaLimitDouble(BoundingBox)} instead
-	 */
-     @Deprecated
-	public void setScrollableAreaLimit(BoundingBoxE6 boundingBox) {
-		 setScrollableAreaLimitDouble(boundingBox == null ? null : new BoundingBox(
-				boundingBox.getLatNorthE6()/1E6, boundingBox.getLonEastE6()/1E6,
-				boundingBox.getLatSouthE6()/1E6, boundingBox.getLonWestE6()/1E6));
-	}
-
     /**
      * Set the map to limit it's scrollable view to the specified BoundingBox. Note this does not
      * limit zooming so it will be possible for the user to zoom out to an area that is larger than the
@@ -740,7 +716,7 @@ public class MapView extends ViewGroup implements IMapView,
 
 	/**
 	 * sets the scroll limit
-	 * * @since 6.0.0
+	 * @since 6.0.0
 	 * @param pNorth decimal degrees latitude
 	 * @param pSouth decimal degrees latitude
 	 * @param pExtraPixelHeight in pixels, enables scrolling this many pixels past the bounds
@@ -976,6 +952,9 @@ public class MapView extends ViewGroup implements IMapView,
 		this.getOverlayManager().onResume();
 	}
 
+	/**
+	 * destroys the map view, all refernces to listeners, all overlays, etc
+	 */
 	public void onDetach() {
 		this.getOverlayManager().onDetach(this);
 		mTileProvider.detach();
@@ -1120,9 +1099,9 @@ public class MapView extends ViewGroup implements IMapView,
 			myOnLayout(true, getLeft(), getTop(), getRight(), getBottom());
 
 		// do callback on listener
-		if (mListener != null) {
+		for (MapListener mapListener: mListners){
 			final ScrollEvent event = new ScrollEvent(this, x, y);
-			mListener.onScroll(event);
+			mapListener.onScroll(event);
 		}
 	}
 
@@ -1172,6 +1151,7 @@ public class MapView extends ViewGroup implements IMapView,
 	protected void onDetachedFromWindow() {
 		this.mZoomController.setVisible(false);
 		this.onDetach();
+		this.mListners.clear();
 		super.onDetachedFromWindow();
 	}
 
@@ -1265,10 +1245,31 @@ public class MapView extends ViewGroup implements IMapView,
 
 	/*
 	 * Set the MapListener for this view
+	 * @deprecated use addMapListener instead
 	 */
+	@Deprecated
 	public void setMapListener(final MapListener ml) {
-		mListener = ml;
+		this.mListners.add(ml);
 	}
+
+	/**
+	 * Just like the old setMapListener, except it supports more than one
+	 * @since 6.0.0
+	 * @param mapListener
+	 */
+	public void addMapListener(MapListener mapListener) {
+		this.mListners.add(mapListener);
+	}
+
+	/**
+	 * Removes a map listener
+	 * @since 6.0.0
+	 * @param mapListener
+	 */
+	public void removeMapListener(MapListener mapListener) {
+		this.mListners.remove(mapListener);
+	}
+
 
 	// ===========================================================
 	// Methods
@@ -1413,11 +1414,10 @@ public class MapView extends ViewGroup implements IMapView,
 				mImpossibleFlinging = false;
 				return false;
 			}
-			final double worldSize = TileSystem.MapSize(MapView.this.getZoomLevelDouble());
 			mIsFlinging = true;
 			if (mScroller!=null) {  //fix for edit mode in the IDE
 				mScroller.fling((int) getMapScrollX(), (int) getMapScrollY(), (int) -velocityX,
-						(int) -velocityY, -(int)worldSize, (int)worldSize, -(int)worldSize, (int)worldSize);
+						(int) -velocityY, Integer.MIN_VALUE, Integer.MAX_VALUE, Integer.MIN_VALUE, Integer.MAX_VALUE);
 			}
 			return true;
 		}
@@ -1672,6 +1672,7 @@ public class MapView extends ViewGroup implements IMapView,
 	}
 
 	/**
+	 * Should never be used except by the constructor of Projection.
 	 * Most of the time you'll want to call {@link #getMapCenter()}.
 	 *
 	 * This method gives to the Projection the desired map center, typically set by
@@ -1680,14 +1681,13 @@ public class MapView extends ViewGroup implements IMapView,
 	 * @since 6.0.0
 	 * @see #getMapCenter()
 	 */
-	public GeoPoint getExpectedCenter() {
+	GeoPoint getExpectedCenter() {
 		return mCenter;
 	}
 
 	/**
-	 * Should never be used except by the constructor of Projection. It's just a deferred setting of
-	 * the expected next map center computed by the Projection's constructor, with no guarantee
-	 * it will be 100% respected.
+	 * Deferred setting of the expected next map center computed by the Projection's constructor,
+	 * with no guarantee it will be 100% respected.
 	 * <a href="https://github.com/osmdroid/osmdroid/issues/868">see issue 868</a>
 	 * @since 6.0.0
 	 */

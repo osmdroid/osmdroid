@@ -67,9 +67,6 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 	private int mLoadingBackgroundColor = Color.rgb(216, 208, 208);
 	private int mLoadingLineColor = Color.rgb(200, 192, 192);
 
-	/** For overshooting the tile cache **/
-	private int mOvershootTileCache = 0;
-
 	private boolean horizontalWrapEnabled = true;
 	private boolean verticalWrapEnabled = true;
 
@@ -230,7 +227,7 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 			final int width = mTiles.right - mTiles.left + 1;
 			final int height = mTiles.bottom - mTiles.top + 1;
 			final int numNeeded = height * width;
-			mTileProvider.ensureCapacity(numNeeded + mOvershootTileCache);
+			mTileProvider.ensureCapacity(numNeeded + Configuration.getInstance().getCacheMapTileOvershoot());
 		}
 		@Override
 		public void handleTile(MapTile pTile, int pX, int pY) {
@@ -451,27 +448,6 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 		}
 	}
 
-	/**
-	 * Set this to overshoot the tile cache. By default the TilesOverlay only creates a cache large
-	 * enough to hold the minimum number of tiles necessary to draw to the screen. Setting this
-	 * value will allow you to overshoot the tile cache and allow more tiles to be cached. This
-	 * increases the memory usage, but increases drawing performance.
-	 *
-	 * @param overshootTileCache
-	 *            the number of tiles to overshoot the tile cache by
-	 */
-	public void setOvershootTileCache(int overshootTileCache) {
-		mOvershootTileCache = overshootTileCache;
-	}
-
-	/**
-	 * Get the tile cache overshoot value.
-	 *
-	 * @return the number of tiles to overshoot tile cache
-	 */
-	public int getOvershootTileCache() {
-		return mOvershootTileCache;
-	}
 
 
 	/**

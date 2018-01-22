@@ -27,7 +27,7 @@ public class SampleZoomToBounding extends BaseSampleFragment implements View.OnC
 
     private static final int border = 10;
 
-    private final Polygon polygon = new Polygon();
+    private Polygon polygon;
     Button btnCache;
     @Override
     public String getSampleTitle() {
@@ -40,6 +40,7 @@ public class SampleZoomToBounding extends BaseSampleFragment implements View.OnC
         View root = inflater.inflate(R.layout.sample_cachemgr, container,false);
 
         mMapView = (MapView) root.findViewById(R.id.mapview);
+        polygon = new Polygon(mMapView);
         btnCache = (Button) root.findViewById(R.id.btnCache);
         btnCache.setOnClickListener(this);
         btnCache.setText("Zoom to bounds");
@@ -62,7 +63,7 @@ public class SampleZoomToBounding extends BaseSampleFragment implements View.OnC
                     final double south = getRandomLatitude(TileSystem.MinLatitude);
                     final double north = getRandomLatitude(south);
                     final double west = getRandomLongitude();
-                    final double east = getRandomLongitude();
+                    double east = getRandomLongitude();
                     final BoundingBox boundingBox = new BoundingBox(north, east, south, west);
                     final double zoom = TileSystem.getBoundingBoxZoom(boundingBox, mMapView.getWidth() - 2 * border, mMapView.getHeight() - 2 * border);
                     ok = zoom >= mMapView.getMinZoomLevel() && zoom <= mMapView.getMaxZoomLevel();
@@ -70,10 +71,13 @@ public class SampleZoomToBounding extends BaseSampleFragment implements View.OnC
                         final String text = "with a border of " + border + " the computed zoom is " + zoom + " for box " + boundingBox;
                         Toast.makeText(getActivity(), text, Toast.LENGTH_LONG).show();
                         final List<GeoPoint> points = new ArrayList<>();
-                        points.add(new GeoPoint(north, east));
-                        points.add(new GeoPoint(north, west));
-                        points.add(new GeoPoint(south, west));
-                        points.add(new GeoPoint(south, east));
+                        if (west > east) {
+                            east += 2 * TileSystem.MaxLongitude;
+                        }
+                        addPoints(points, north, west, north, east);
+                        addPoints(points, north, east, south, east);
+                        addPoints(points, south, east, south, west);
+                        addPoints(points, south, west, north, west);
                         polygon.setPoints(points);
                         mMapView.invalidate();
                         mMapView.zoomToBoundingBox(boundingBox, false, border);
@@ -82,6 +86,50 @@ public class SampleZoomToBounding extends BaseSampleFragment implements View.OnC
                 break;
 
         }
+    }
+
+    /**
+     * Add a succession of GeoPoint's, separated by an increment,
+     * taken from the segment between two GeoPoint's
+     * @since 6.0.0
+     */
+    private void addPoints(final List<GeoPoint> pPoints,
+                           final double pBeginLat, final double pBeginLon,
+                           final double pEndLat, final double pEndLon) {
+        final double increment = 10; // in degrees
+        pPoints.add(new GeoPoint(pBeginLat, pBeginLon));
+        double lat = pBeginLat;
+        double lon = pBeginLon;
+        double incLat = pBeginLat == pEndLat ? 0 : pBeginLat < pEndLat ? increment : -increment;
+        double incLon = pBeginLon == pEndLon ? 0 : pBeginLon < pEndLon ? increment : -increment;
+        while (true) {
+            if (incLat != 0) {
+                lat += incLat;
+                if (incLat < 0) {
+                    if (lat < pEndLat) {
+                        break;
+                    }
+                } else {
+                    if (lat > pEndLat) {
+                        break;
+                    }
+                }
+            }
+            if (incLon != 0) {
+                lon += incLon;
+                if (incLon < 0) {
+                    if (lon < pEndLon) {
+                        break;
+                    }
+                } else {
+                    if (lon > pEndLon) {
+                        break;
+                    }
+                }
+            }
+            pPoints.add(new GeoPoint(lat, lon));
+        }
+        pPoints.add(new GeoPoint(pEndLat, pEndLon));
     }
 
     private double getRandomLongitude() {
