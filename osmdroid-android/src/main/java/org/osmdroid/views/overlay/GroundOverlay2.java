@@ -10,7 +10,9 @@ import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
 
 /**
- * A ground overlay is an image that is fixed to 2 corners on a map.
+ * A ground overlay is an image that is fixed to 2 corners on a map using simple scaling
+ * that does not take into consideration the curvature of the Earth.
+ * @since 6.0.0
  * @author pasniak inspired by zkhan's code in Avare
  *
  */
