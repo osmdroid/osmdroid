@@ -716,7 +716,7 @@ public class MapView extends ViewGroup implements IMapView,
 
 	/**
 	 * sets the scroll limit
-	 * * @since 6.0.0
+	 * @since 6.0.0
 	 * @param pNorth decimal degrees latitude
 	 * @param pSouth decimal degrees latitude
 	 * @param pExtraPixelHeight in pixels, enables scrolling this many pixels past the bounds
@@ -1672,6 +1672,7 @@ public class MapView extends ViewGroup implements IMapView,
 	}
 
 	/**
+	 * Should never be used except by the constructor of Projection.
 	 * Most of the time you'll want to call {@link #getMapCenter()}.
 	 *
 	 * This method gives to the Projection the desired map center, typically set by
@@ -1680,14 +1681,13 @@ public class MapView extends ViewGroup implements IMapView,
 	 * @since 6.0.0
 	 * @see #getMapCenter()
 	 */
-	public GeoPoint getExpectedCenter() {
+	GeoPoint getExpectedCenter() {
 		return mCenter;
 	}
 
 	/**
-	 * Should never be used except by the constructor of Projection. It's just a deferred setting of
-	 * the expected next map center computed by the Projection's constructor, with no guarantee
-	 * it will be 100% respected.
+	 * Deferred setting of the expected next map center computed by the Projection's constructor,
+	 * with no guarantee it will be 100% respected.
 	 * <a href="https://github.com/osmdroid/osmdroid/issues/868">see issue 868</a>
 	 * @since 6.0.0
 	 */

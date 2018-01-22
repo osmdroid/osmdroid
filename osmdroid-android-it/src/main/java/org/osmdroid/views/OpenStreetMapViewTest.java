@@ -53,11 +53,16 @@ public class OpenStreetMapViewTest extends ActivityInstrumentationTestCase2<Star
 	@UiThreadTest
 	public void test_toMapPixels_0_0() {
 		final int iterations = 100;
+		final double minZoom = // minimum zoom in order to avoid the world map side effect
+				Math.log(
+						Math.max(mOpenStreetMapView.getWidth(), mOpenStreetMapView.getHeight())
+								/ (double)TileSystem.getTileSize())
+				/ Math.log(2);
 		for (int i = 0 ; i < iterations ; i ++) {
-			checkCenter(null, null);
-			checkCenter(getRandomZoom(), getRandomGeoPoint());
-			checkCenter(getRandomZoom(), null);
+			checkCenter(getRandomZoom(minZoom), getRandomGeoPoint());
+			checkCenter(getRandomZoom(minZoom), null);
 			checkCenter(null, getRandomGeoPoint());
+			checkCenter(null, null);
 		}
 	}
 
@@ -78,8 +83,8 @@ public class OpenStreetMapViewTest extends ActivityInstrumentationTestCase2<Star
 	/**
 	 * @since 6.0.0
 	 */
-	private double getRandomZoom() {
-		return getRandom(0, microsoft.mappoint.TileSystem.getMaximumZoomLevel());
+	private double getRandomZoom(final double pMin) {
+		return getRandom(pMin, microsoft.mappoint.TileSystem.getMaximumZoomLevel());
 	}
 
 	/**
