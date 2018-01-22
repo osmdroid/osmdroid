@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/parent_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
+
+    <org.osmdroid.views.MapView
+        android:id="@+id/mapview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tilesource="Mapnik" />
+
+    <TextView android:id="@+id/textViewCurrentLocation"
+              android:layout_width="fill_parent"
+              android:text="PLACEHOLDER"
+              android:textAlignment="center"
+              android:gravity="center"
+              android:textColor="@android:color/white"
+              android:background="#77000000"
+              android:layout_height="wrap_content"></TextView>
+    <org.osmdroid.samplefragments.milstd2525.MilStdCustomPaintingSurface
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:visibility="gone"
+        android:id="@+id/paintingSurface"/>
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/enablePanning"
+        android:src="@drawable/ic_menu_mylocation"
+        android:layout_marginRight="10dp"
+        android:background="#00ffffff"
+        android:contentDescription="@string/bt_center_map_description"
+        android:cropToPadding="true"
+        android:layout_below="@+id/textViewCurrentLocation"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="10dp"/>
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/enablePainting"
+        android:src="@drawable/paintmode"
+        android:background="#00ffffff"
+        android:contentDescription="@string/bt_follow_me_description"
+        android:cropToPadding="true"
+        android:layout_below="@+id/enablePanning"
+        android:layout_alignLeft="@+id/enablePanning"
+        android:layout_alignStart="@+id/enablePanning"
+        android:layout_marginTop="17dp"/>
+
+</RelativeLayout>

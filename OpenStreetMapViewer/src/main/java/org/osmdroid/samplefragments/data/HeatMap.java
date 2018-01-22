@@ -287,7 +287,7 @@ public class HeatMap extends BaseSampleFragment implements MapListener, Runnable
      * @return
      */
     private Overlay createPolygon(BoundingBox key, Integer value, int redthreshold, int orangethreshold) {
-        Polygon polygon = new Polygon();
+        Polygon polygon = new Polygon(mMapView);
         if (value < orangethreshold)
             polygon.setFillColor(Color.parseColor(alpha + yellow));
         else if (value < redthreshold)

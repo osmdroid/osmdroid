@@ -47,7 +47,7 @@ public class OpenStreetMapViewTest extends ActivityInstrumentationTestCase2<Star
 	}
 
 	/**
-	 * This test will check whether calling setCenter() will position the maps so the location is
+	 * This test will check whether calling setExpectedCenter() will position the maps so the location is
 	 * at the center of the screen.
 	 */
 	@UiThreadTest

@@ -27,7 +27,7 @@ public class SampleZoomToBounding extends BaseSampleFragment implements View.OnC
 
     private static final int border = 10;
 
-    private final Polygon polygon = new Polygon();
+    private Polygon polygon;
     Button btnCache;
     @Override
     public String getSampleTitle() {
@@ -40,6 +40,7 @@ public class SampleZoomToBounding extends BaseSampleFragment implements View.OnC
         View root = inflater.inflate(R.layout.sample_cachemgr, container,false);
 
         mMapView = (MapView) root.findViewById(R.id.mapview);
+        polygon = new Polygon(mMapView);
         btnCache = (Button) root.findViewById(R.id.btnCache);
         btnCache.setOnClickListener(this);
         btnCache.setText("Zoom to bounds");

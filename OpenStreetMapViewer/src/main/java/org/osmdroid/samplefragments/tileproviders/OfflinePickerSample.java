@@ -91,6 +91,13 @@ public class OfflinePickerSample extends BaseSampleFragment implements View.OnCl
         this.mMapView.setUseDataConnection(true);
     }
 
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        if (tileWriter!=null)
+            tileWriter.onDetach();
+    }
+
     /**
      * step 1, users selects files
      */
@@ -128,7 +135,7 @@ public class OfflinePickerSample extends BaseSampleFragment implements View.OnCl
         dialog.show();
     }
 
-
+    IFilesystemCache tileWriter=null;
     /**
      * step two, configure our offline tile provider
      * @param files
@@ -137,8 +144,9 @@ public class OfflinePickerSample extends BaseSampleFragment implements View.OnCl
         if (files == null || files.length == 0)
             return;
         SimpleRegisterReceiver simpleRegisterReceiver = new SimpleRegisterReceiver(getContext());
+        if (tileWriter!=null)
+            tileWriter.onDetach();
 
-        IFilesystemCache tileWriter;
 
         if (Build.VERSION.SDK_INT < 10) {
             tileWriter = new TileWriter();

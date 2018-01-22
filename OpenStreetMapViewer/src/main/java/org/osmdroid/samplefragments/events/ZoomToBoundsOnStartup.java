@@ -15,10 +15,7 @@ import org.osmdroid.events.MapListener;
 import org.osmdroid.events.ScrollEvent;
 import org.osmdroid.events.ZoomEvent;
 import org.osmdroid.samplefragments.BaseSampleFragment;
-import org.osmdroid.tileprovider.MapTile;
-import org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase;
 import org.osmdroid.util.BoundingBox;
-import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.views.MapView;
 
 import static org.osmdroid.samplefragments.events.SampleMapEventListener.df;
@@ -125,7 +122,7 @@ on a button click
         IGeoPoint mapCenter = mMapView.getMapCenter();
         textViewCurrentLocation.setText(df.format(mapCenter.getLatitude())+","+
             df.format(mapCenter.getLongitude())
-            +","+mMapView.getZoomLevel());
+            +","+mMapView.getZoomLevelDouble());
 
     }
 

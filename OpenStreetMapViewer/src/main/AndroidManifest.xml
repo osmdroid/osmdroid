@@ -5,7 +5,7 @@
     android:versionCode="20"
     android:versionName="5.3-SNAPSHOT">
 
-    <uses-sdk tools:overrideLibrary="org.osmdroid.gpkg,mil.nga.geopackage,org.osmdroid.mapsforge,android.support.v13,com.github.angads25.filepicker,android.support.v7.gridlayout"
+    <uses-sdk tools:overrideLibrary="mil.army.missioncommand,armyc2.c2sd.singlepointrenderer,org.osmdroid.gpkg,mil.nga.geopackage,org.osmdroid.mapsforge,android.support.v13,com.github.angads25.filepicker,android.support.v7.gridlayout"
               android:minSdkVersion="8"
               android:targetSdkVersion="23"/>
 
@@ -38,6 +38,8 @@
         android:required="false" />
 
     <application
+        tools:replace="android:allowBackup"
+        android:allowBackup="true"
         android:name=".OsmApplication"
         android:hardwareAccelerated="true"
         android:largeHeap="true"

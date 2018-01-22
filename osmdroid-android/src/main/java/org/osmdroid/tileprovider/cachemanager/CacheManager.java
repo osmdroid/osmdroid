@@ -232,9 +232,12 @@ public class CacheManager {
             Log.e(IMapView.LOGTAG,"Error downloading MapTile: " + tile, e);
         } finally {
             StreamUtils.closeStream(in);
+            if (c!=null)
             try{
                 c.disconnect();
-            } catch (Exception ex){}
+            } catch (Exception ex){
+                Log.d(IMapView.LOGTAG,"Error downloading MapTile: " + tile, ex);
+            }
         }
         return false;
     }

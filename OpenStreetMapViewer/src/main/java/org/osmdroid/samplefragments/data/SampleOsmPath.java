@@ -81,7 +81,7 @@ public class SampleOsmPath extends BaseSampleFragment implements MapListener {
 
 		//mOsmPathOverlay = new OsmPathOverlay(context);
 		//mMapView.getOverlayManager().add(mOsmPathOverlay);
-		Polyline line = new Polyline();
+		Polyline line = new Polyline(mMapView);
 		line.setTitle("Central Park, NYC");
 		line.setSubDescription(Polyline.class.getCanonicalName());
 		line.setWidth(20f);
@@ -123,7 +123,7 @@ public class SampleOsmPath extends BaseSampleFragment implements MapListener {
 
 
 		//here, we create a polygon using polygon class, note that you need 4 points in order to make a rectangle
-		Polygon polygon = new Polygon();
+		Polygon polygon = new Polygon(mMapView);
 		polygon.setTitle("This is a polygon");
 		polygon.setSubDescription(Polygon.class.getCanonicalName());
 		polygon.setFillColor(Color.RED);
@@ -144,7 +144,7 @@ public class SampleOsmPath extends BaseSampleFragment implements MapListener {
 		Marker m = new Marker(mMapView);
 		m.setPosition(new GeoPoint(51.7875, 6.135278));
 		m.setImage(getResources().getDrawable(R.drawable.icon));
-		line = new Polyline();
+		line = new Polyline(mMapView);
 		line.setTitle("TEST");
 		line.setSubDescription(Polyline.class.getCanonicalName());
 		line.setWidth(20f);

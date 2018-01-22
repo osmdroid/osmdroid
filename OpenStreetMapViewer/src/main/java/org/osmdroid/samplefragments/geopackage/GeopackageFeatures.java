@@ -319,7 +319,7 @@ public class GeopackageFeatures extends BaseSampleFragment {
         IGeoPoint mapCenter = mMapView.getMapCenter();
         sb.append(df.format(mapCenter.getLatitude()) + "," +
             df.format(mapCenter.getLongitude())
-            + ",zoom=" + mMapView.getZoomLevel());
+            + ",zoom=" + mMapView.getZoomLevelDouble());
 
         if (currentSource != null) {
             sb.append("\n");

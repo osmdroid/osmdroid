@@ -42,7 +42,8 @@ public class SampleLimitedScrollArea extends BaseSampleFragment {
 	// ===========================================================
 	// Constructors
 	// ===========================================================
-
+	//note that since we are not providing the mapview as a constructor parameter,
+	//the infowindow bubble will not be available
 	private final Polyline mNorthPolyline = new Polyline();
 	private final Polyline mSouthPolyline = new Polyline();
 	private final Polyline mWestPolyline = new Polyline();
@@ -100,7 +101,7 @@ public class SampleLimitedScrollArea extends BaseSampleFragment {
 		mMapView.getOverlays().remove(mSouthPolyline);
 		if (pLimitScrolling) {
 			mMapView.setScrollableAreaLimitLatitude(sCentralParkBoundingBox.getActualNorth(), sCentralParkBoundingBox.getActualSouth(), mMapView.getHeight() / 2);
-			mMapView.setCenter(sCentralParkBoundingBox.getCenterWithDateLine());
+			mMapView.setExpectedCenter(sCentralParkBoundingBox.getCenterWithDateLine());
 			mMapView.getOverlays().add(mNorthPolyline);
 			mMapView.getOverlays().add(mSouthPolyline);
 		} else {
@@ -117,7 +118,7 @@ public class SampleLimitedScrollArea extends BaseSampleFragment {
 		mMapView.getOverlays().remove(mEastPolyline);
 		if (pLimitScrolling) {
 			mMapView.setScrollableAreaLimitLongitude(sCentralParkBoundingBox.getLonWest(), sCentralParkBoundingBox.getLonEast(), mMapView.getWidth() / 2);
-			mMapView.setCenter(sCentralParkBoundingBox.getCenterWithDateLine());
+			mMapView.setExpectedCenter(sCentralParkBoundingBox.getCenterWithDateLine());
 			mMapView.getOverlays().add(mWestPolyline);
 			mMapView.getOverlays().add(mEastPolyline);
 		} else {
@@ -159,6 +160,6 @@ public class SampleLimitedScrollArea extends BaseSampleFragment {
 				setLimitScrollingLongitude(!mMapView.isScrollableAreaLimitLongitude());
 				return true;
 		}
-		return false;
+		return super.onOptionsItemSelected(item);
 	}
 }

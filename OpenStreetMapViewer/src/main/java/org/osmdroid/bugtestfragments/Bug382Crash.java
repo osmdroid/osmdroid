@@ -37,7 +37,7 @@ public class Bug382Crash extends BaseSampleFragment {
         geoPoints.add(new GeoPoint(27.0, 115.0));
 
 
-        polygon = new Polygon();
+        polygon = new Polygon(mMapView);
         polygon.setPoints(geoPoints.subList(0, 3));
         polygon.setFillColor(0x96FF8200);
         polygon.setStrokeColor(Color.RED);
@@ -47,7 +47,7 @@ public class Bug382Crash extends BaseSampleFragment {
         mMapView.getOverlays().add(polygon);
         mMapView.invalidate();
 
-        polyline = new Polyline();
+        polyline = new Polyline(mMapView);
         polyline.setPoints(geoPoints.subList(3, 6));
         polyline.setColor(Color.YELLOW);
         polyline.setWidth(8);
