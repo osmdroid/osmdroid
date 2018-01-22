@@ -309,7 +309,7 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback {
 
 		final long startMs = System.currentTimeMillis();
 		if (Configuration.getInstance().isDebugTileProviders())
-		Log.i(IMapView.LOGTAG,"rescale tile cache from "+ pOldZoomLevel + " to " + pNewZoomLevel);
+			Log.i(IMapView.LOGTAG,"rescale tile cache from "+ pOldZoomLevel + " to " + pNewZoomLevel);
 
 		final PointL topLeftMercator = pProjection.toMercatorPixels(pViewPort.left, pViewPort.top, null);
 		final PointL bottomRightMercator = pProjection.toMercatorPixels(pViewPort.right, pViewPort.bottom,
@@ -324,7 +324,7 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback {
 
 		final long endMs = System.currentTimeMillis();
 		if (Configuration.getInstance().isDebugTileProviders())
-		Log.i(IMapView.LOGTAG,"Finished rescale in " + (endMs - startMs) + "ms");
+			Log.i(IMapView.LOGTAG,"Finished rescale in " + (endMs - startMs) + "ms");
 	}
 
 	private abstract class ScaleTileLooper extends TileLooper {
