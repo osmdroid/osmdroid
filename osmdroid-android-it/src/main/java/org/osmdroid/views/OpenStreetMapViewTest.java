@@ -97,7 +97,7 @@ public class OpenStreetMapViewTest extends ActivityInstrumentationTestCase2<Star
 			mOpenStreetMapView.setZoomLevel(expectedZoom);
 		}
 		if (expectedCenter != null) {
-			mOpenStreetMapView.getController().setCenter(expectedCenter);
+			mOpenStreetMapView.setCenter(expectedCenter);
 		}
 		final Projection projection = mOpenStreetMapView.getProjection();
 		if (expectedZoom != null) {
