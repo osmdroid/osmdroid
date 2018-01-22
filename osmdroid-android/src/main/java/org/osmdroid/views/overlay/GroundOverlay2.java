@@ -69,7 +69,7 @@ public class GroundOverlay2 extends Overlay {
     @Override
     public void draw(Canvas canvas, MapView mapView, boolean shadow)
     {
-		if(null == mImage) {
+		if(null == mImage || shadow) {
 			return;
 		}
 
