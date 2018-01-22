@@ -33,7 +33,7 @@ public class SampleGridlines extends BaseSampleFragment implements MapListener {
         mMapView.getController().setCenter(new GeoPoint(0d,0d));
         mMapView.getController().setZoom(5);
         mMapView.setTilesScaledToDpi(true);
-        mMapView.setMapListener(this);
+        mMapView.addMapListener(this);
         mMapView.getController().setZoom(3);
 
         updateGridlines();

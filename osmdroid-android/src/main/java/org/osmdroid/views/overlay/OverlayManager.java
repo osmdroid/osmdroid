@@ -85,4 +85,14 @@ public interface OverlayManager extends List<Overlay> {
 
     boolean onOptionsItemSelected(MenuItem item, int menuIdOffset, MapView mapView);
 
+    /**
+     * @since 6.0.0
+     */
+    void onPause();
+
+    /**
+     * @since 6.0.0
+     */
+    void onResume();
+
 }

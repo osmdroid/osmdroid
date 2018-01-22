@@ -61,7 +61,7 @@ public class CirclePlottingOverlay extends Overlay {
             pt.setLatitude(-85.05112877980659);
 
         List<GeoPoint> circle = Polygon.pointsAsCircle(pt, distanceKm);
-        Polygon p = new Polygon();
+        Polygon p = new Polygon(mapView);
         p.setPoints(circle);
         p.setTitle("A circle");
         mapView.getOverlayManager().add(p);

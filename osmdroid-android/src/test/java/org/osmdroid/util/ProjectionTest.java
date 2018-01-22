@@ -13,7 +13,7 @@ import org.osmdroid.views.Projection;
 import java.util.Random;
 
 /**
- * @since 5.6.6
+ * @since 6.0.0
  * @author Fabrice Fontaine
  *
  * VERY IMPORTANT NOTICE

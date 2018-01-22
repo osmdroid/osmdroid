@@ -151,7 +151,7 @@ public class WeathForceActivity extends BaseActivity implements LocationListener
         if (mMapView == null)
             return;
         //after the first fix, schedule the task to change the icon
-        //mMapView.getController().setCenter(new GeoPoint(location.getLatitude(), location.getLongitude()));
+        //mMapView.getController().setExpectedCenter(new GeoPoint(location.getLatitude(), location.getLongitude()));
         mMapView.invalidate();
         gpsbearing = location.getBearing();
         gpsspeed = location.getSpeed();

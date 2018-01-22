@@ -10,12 +10,15 @@ import android.graphics.Region;
 import android.view.MotionEvent;
 
 import org.osmdroid.api.IGeoPoint;
+import org.osmdroid.library.R;
 import org.osmdroid.util.BoundingBox;
-import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.PointL;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
+import org.osmdroid.views.overlay.infowindow.BasicInfoWindow;
+import org.osmdroid.views.overlay.infowindow.InfoWindow;
+import org.osmdroid.views.overlay.infowindow.MarkerInfoWindow;
 import org.osmdroid.views.overlay.milestones.MilestoneManager;
 
 import java.util.ArrayList;
@@ -41,24 +44,31 @@ public class Polygon extends OverlayWithIW {
 	private LinearRing mOutline = new LinearRing(mPath);
 	private ArrayList<LinearRing> mHoles = new ArrayList<>();
 	private String id=null;
-
+	private GeoPoint mLastGeoPoint=null;
+	protected static InfoWindow mDefaultInfoWindow = null;
 	/** Paint settings. */
 	private Paint mFillPaint;
 	private Paint mOutlinePaint;
 	private List<MilestoneManager> mMilestoneManagers = new ArrayList<>();
+	private GeoPoint infoWindowLocation=null;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 
-	/** Use {@link #Polygon()} instead */
-	@Deprecated
-	public Polygon(final Context ctx) {
-		this();
+	public Polygon(){
+		this(null);
 	}
 
-	public Polygon() {
-		super();
+	public Polygon(MapView mapView) {
+		if (mapView != null) {
+			if (mDefaultInfoWindow == null || mDefaultInfoWindow.getMapView() != mapView) {
+				{
+					mDefaultInfoWindow = new BasicInfoWindow(R.layout.bonuspack_bubble, mapView);
+				}
+			}
+		}
+		setInfoWindow(mDefaultInfoWindow);
 		mFillPaint = new Paint();
 		mFillPaint.setColor(Color.TRANSPARENT);
 		mFillPaint.setStyle(Paint.Style.FILL);
@@ -117,6 +127,22 @@ public class Polygon extends OverlayWithIW {
 		setEnabled(visible);
 	}
 
+	/** Set the InfoWindow to be used.
+	 * Default is a MarkerInfoWindow, with the layout named "bonuspack_bubble".
+	 * You can use this method either to use your own layout, or to use your own sub-class of InfoWindow.
+	 * Note that this InfoWindow will receive the Marker object as an input, so it MUST be able to handle Marker attributes.
+	 * If you don't want any InfoWindow to open, you can set it to null. */
+	public void setInfoWindow(InfoWindow infoWindow){
+		if (mInfoWindow != null){
+			if (mInfoWindow.getRelatedObject()==this)
+				mInfoWindow.setRelatedObject(null);
+			if (mInfoWindow != mDefaultInfoWindow) {
+				mInfoWindow.onDetach();
+			}
+		}
+		mInfoWindow = infoWindow;
+	}
+
 	/**
 	 * This method will take a copy of the points.
 	 */
@@ -157,19 +183,6 @@ public class Polygon extends OverlayWithIW {
 			circlePoints.add(onCircle);
 		}
 		return circlePoints;
-	}
-	
-	/** Build a list of GeoPoint as a rectangle. 
-	 * @param rectangle defined as a BoundingBox 
-	 * @return the list of 4 GeoPoint */
-	@Deprecated
-	public static ArrayList<IGeoPoint> pointsAsRect(BoundingBoxE6 rectangle){
-		ArrayList<IGeoPoint> points = new ArrayList<IGeoPoint>(4);
-		points.add(new GeoPoint(rectangle.getLatNorthE6(), rectangle.getLonWestE6()));
-		points.add(new GeoPoint(rectangle.getLatNorthE6(), rectangle.getLonEastE6()));
-		points.add(new GeoPoint(rectangle.getLatSouthE6(), rectangle.getLonEastE6()));
-		points.add(new GeoPoint(rectangle.getLatSouthE6(), rectangle.getLonWestE6()));
-		return points;
 	}
 
 	/** Build a list of GeoPoint as a rectangle.
@@ -235,6 +248,19 @@ public class Polygon extends OverlayWithIW {
 		for (final MilestoneManager milestoneManager : mMilestoneManagers) {
 			milestoneManager.draw(canvas);
 		}
+
+		if (isInfoWindowOpen() && mInfoWindow!=null && mInfoWindow.getRelatedObject()==this) {
+			showInfoWindow(mLastGeoPoint);
+		}
+
+
+	}
+
+	public void showInfoWindow(GeoPoint position){
+		if (mInfoWindow != null) {
+			mLastGeoPoint=position;
+			mInfoWindow.open(this, position, 0, 0);
+		}
 	}
 	
 	/** Important note: this function returns correct results only if the Polygon has been drawn before, 
@@ -262,10 +288,34 @@ public class Polygon extends OverlayWithIW {
 		if (tapped){
 			Projection pj = mapView.getProjection();
 			GeoPoint position = (GeoPoint)pj.fromPixels((int)event.getX(), (int)event.getY());
-			mInfoWindow.open(this, position, 0, 0);
+			position = getInfoWindowAnchorPoint(position);
+			showInfoWindow(position);
 		}
 		return tapped;
 	}
+
+	/**
+	 * returns a point that the info window cartoon bubble will point at.
+	 * default implementation uses the first point of the line.
+	 * @param eventPos
+	 * @return
+	 * @since 6.0.0
+	 */
+	public GeoPoint getInfoWindowAnchorPoint(GeoPoint eventPos) {
+		if (infoWindowLocation==null)
+			return getPoints().get(0);
+		return infoWindowLocation;
+	}
+
+	/**
+	 * Sets the info window's cartoon bubble point to this location
+	 * @since 6.0.0
+	 * @param location
+	 */
+	public void setInfoWindowLocation(GeoPoint location) {
+		infoWindowLocation=location;
+	}
+
 
 	@Override
 	public void onDetach(MapView mapView) {

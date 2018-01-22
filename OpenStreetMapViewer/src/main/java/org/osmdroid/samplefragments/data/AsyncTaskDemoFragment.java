@@ -149,7 +149,7 @@ public class AsyncTaskDemoFragment extends BaseSampleFragment {
         // initialized
         if (mCurrentBackgroundMarkerLoaderTask == null) {
             // start background load
-            int zoom = this.mMapView.getZoomLevel();
+            double zoom = this.mMapView.getZoomLevelDouble();
             BoundingBox world = this.mMapView.getBoundingBox();
 
             reloadMarker(world, zoom);
@@ -160,12 +160,12 @@ public class AsyncTaskDemoFragment extends BaseSampleFragment {
     }
 
 	/** called by MapView if zoom or scroll has changed to reload marker for new visible region */
-    private void reloadMarker(BoundingBox latLonArea, int zoom) {
+    private void reloadMarker(BoundingBox latLonArea, double zoom) {
         Log.d(TAG,"reloadMarker " + latLonArea + ", zoom " + zoom);
         this.mCurrentBackgroundMarkerLoaderTask = new BackgroundMarkerLoaderTask();
         this.mCurrentBackgroundMarkerLoaderTask.execute(
                 latLonArea.getLatSouth(), latLonArea.getLatNorth(),
-                latLonArea.getLonEast(), latLonArea.getLonWest(), (double) zoom);
+                latLonArea.getLonEast(), latLonArea.getLonWest(), zoom);
     }
 
 	/** Implements load {@link FolderOverlay} with {@link IconOverlay}s in a Background Task. */

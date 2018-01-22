@@ -12,15 +12,7 @@ import org.osmdroid.util.GeoPoint;
  */
 
 public class LabelledGeoPoint extends GeoPoint {
-    private String mLabel;
-
-    public LabelledGeoPoint(int aLatitudeE6, int aLongitudeE6) {
-        super(aLatitudeE6, aLongitudeE6);
-    }
-
-    public LabelledGeoPoint(int aLatitudeE6, int aLongitudeE6, int aAltitude) {
-        super(aLatitudeE6, aLongitudeE6, aAltitude);
-    }
+    String mLabel;
 
     public LabelledGeoPoint(double aLatitude, double aLongitude) {
         super(aLatitude, aLongitude);

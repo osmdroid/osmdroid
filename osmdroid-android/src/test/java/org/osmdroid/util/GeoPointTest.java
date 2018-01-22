@@ -28,7 +28,7 @@ public class GeoPointTest {
 
 	/**
 	 * Testing that a distance from a point to the same point is 0
-	 * @since 5.6.6
+	 * @since 6.0.0
 	 */
 	@Test
 	public void test_distanceTo_itself() {
@@ -44,7 +44,7 @@ public class GeoPointTest {
 
 	/**
 	 * Testing on Equator with an obvious check formula
-	 * @since 5.6.6
+	 * @since 6.0.0
 	 */
 	@Test
 	public void test_distanceTo_Equator() {
@@ -70,7 +70,7 @@ public class GeoPointTest {
 
 	/**
 	 * Testing more specifically very close GeoPoints
-	 * @since 5.6.6
+	 * @since 6.0.0
 	 */
 	@Test
 	public void test_distanceTo_Equator_Smaller() {
@@ -97,7 +97,7 @@ public class GeoPointTest {
 
 	/**
 	 * Testing on all parallels with a not so obvious check formula
-	 * @since 5.6.6
+	 * @since 6.0.0
 	 */
 	@Test
 	public void test_distanceTo_Parallels() {
@@ -213,7 +213,7 @@ public class GeoPointTest {
 
 
 	/**
-	 * @since 5.6.6
+	 * @since 6.0.0
 	 */
 	private double getCleanLongitudeDiff(final double pLongitude1, final double pLongitude2) {
 		double diff = Math.abs(pLongitude1 - pLongitude2);
@@ -224,14 +224,14 @@ public class GeoPointTest {
 	}
 
 	/**
-	 * @since 5.6.6
+	 * @since 6.0.0
 	 */
 	private double getRandomLongitude() {
 		return TileSystem.getRandomLongitude(random.nextDouble());
 	}
 
 	/**
-	 * @since 5.6.6
+	 * @since 6.0.0
 	 */
 	private double getRandomLatitude() {
 		return TileSystem.getRandomLatitude(random.nextDouble(), TileSystem.MinLatitude);
