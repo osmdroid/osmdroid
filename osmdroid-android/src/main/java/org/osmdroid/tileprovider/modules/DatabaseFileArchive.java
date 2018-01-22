@@ -83,7 +83,6 @@ public class DatabaseFileArchive implements IArchiveFile {
 			Cursor cur;
 			if(!mIgnoreTileSource) {
 				cur = mDatabase.query(TABLE, tile, COLUMN_KEY+" = " + index + " and "+COLUMN_PROVIDER+" = '" + pTileSource.name() + "'", null, null, null, null);
-
 			} else {
 				cur = mDatabase.query(TABLE, tile, COLUMN_KEY+" = " + index, null, null, null, null);
 			}
