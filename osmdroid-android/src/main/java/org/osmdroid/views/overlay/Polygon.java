@@ -288,7 +288,7 @@ public class Polygon extends OverlayWithIW {
 		if (tapped){
 			Projection pj = mapView.getProjection();
 			GeoPoint position = (GeoPoint)pj.fromPixels((int)event.getX(), (int)event.getY());
-			position = getInfoWindowAnchorPoint(position);
+			//position = getInfoWindowAnchorPoint(position);
 			showInfoWindow(position);
 		}
 		return tapped;
