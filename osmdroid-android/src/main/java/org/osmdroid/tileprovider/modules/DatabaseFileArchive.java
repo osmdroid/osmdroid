@@ -42,7 +42,7 @@ public class DatabaseFileArchive implements IArchiveFile {
 		return new DatabaseFileArchive(SQLiteDatabase.openDatabase(pFile.getAbsolutePath(), null, SQLiteDatabase.OPEN_READONLY & SQLiteDatabase.NO_LOCALIZED_COLLATORS));
 
 	}
-	
+
 	/**
 	 * @since 6.0
 	 * If set to true, tiles from this archive will be loaded regardless of their associated tile source name
@@ -79,14 +79,15 @@ public class DatabaseFileArchive implements IArchiveFile {
 			final long y = (long) pTile.getY();
 			final long z = (long) pTile.getZoomLevel();
 			final long index = ((z << z) + x << z) + y;
-			
+
 			Cursor cur;
 			if(!mIgnoreTileSource) {
-				cur = mDatabase.query(TABLE, tile, COLUMN_KEY+" = " + index + " and "+COLUMN_PROVIDER+" = '" + pTileSource.name() + "'", null, null, null, null);
+				cur = mDatabase.query(TABLE, tile, COLUMN_KEY+" = " + index + " and "
+				+ COLUMN_PROVIDER + " = ?", new String[]{pTileSource.name()}, null, null, null);
 			} else {
 				cur = mDatabase.query(TABLE, tile, COLUMN_KEY+" = " + index, null, null, null, null);
 			}
-			
+
 			if(cur.getCount() != 0) {
 				cur.moveToFirst();
 				bits = (cur.getBlob(0));
