@@ -16,6 +16,7 @@ import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.modules.IFilesystemCache;
 import org.osmdroid.tileprovider.modules.MapTileApproximater;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
+import org.osmdroid.util.MapTileList;
 import org.osmdroid.util.PointL;
 import org.osmdroid.util.RectL;
 import org.osmdroid.util.TileLooper;
@@ -481,4 +482,10 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback {
      */
 	public abstract long getQueueSize();
 
+	/**
+	 * @since 6.0.0
+	 */
+	public MapTileList getCacheMapTileList() {
+		return mTileCache.getMapTileList();
+	}
 }
