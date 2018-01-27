@@ -133,6 +133,8 @@ public abstract class BaseSampleFragment extends Fragment {
 
     int MENU_VERTICAL_REPLICATION = 0;
     int MENU_HORIZTONAL_REPLICATION = 0;
+    int MENU_SCALE_TILES = 0;
+
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -143,6 +145,10 @@ public abstract class BaseSampleFragment extends Fragment {
         MENU_LAST_ID++;
         MENU_HORIZTONAL_REPLICATION = MENU_LAST_ID;
         menu.add(0, MENU_HORIZTONAL_REPLICATION, Menu.NONE, "Horizontal Replication").setCheckable(true);
+
+        MENU_LAST_ID++;
+        MENU_SCALE_TILES = MENU_LAST_ID;
+        menu.add(0, MENU_SCALE_TILES, Menu.NONE, "Scale Tiles").setCheckable(true);
         // Put overlay items first
         try {
             mMapView.getOverlayManager().onCreateOptionsMenu(menu, MENU_LAST_ID, mMapView);
@@ -159,6 +165,9 @@ public abstract class BaseSampleFragment extends Fragment {
             item.setChecked(mMapView.isVerticalMapRepetitionEnabled());
             item = menu.findItem(MENU_HORIZTONAL_REPLICATION);
             item.setChecked(mMapView.isHorizontalMapRepetitionEnabled());
+
+            item = menu.findItem(MENU_SCALE_TILES);
+            item.setChecked(mMapView.isTilesScaledToDpi());
             mMapView.getOverlayManager().onPrepareOptionsMenu(menu, MENU_LAST_ID, mMapView);
         } catch (NullPointerException npe) {
             //can happen during CI tests and very rapid fragment switching
@@ -186,6 +195,10 @@ public abstract class BaseSampleFragment extends Fragment {
             return true;
         } else if (item.getItemId() == MENU_VERTICAL_REPLICATION) {
             mMapView.setVerticalMapRepetitionEnabled(!mMapView.isVerticalMapRepetitionEnabled());
+            mMapView.invalidate();
+            return true;
+        } else if (item.getItemId() == MENU_SCALE_TILES) {
+            mMapView.setTilesScaledToDpi(!mMapView.isTilesScaledToDpi());
             mMapView.invalidate();
             return true;
         } else if (mMapView.getOverlayManager().onOptionsItemSelected(item, MENU_LAST_ID, mMapView)) {
