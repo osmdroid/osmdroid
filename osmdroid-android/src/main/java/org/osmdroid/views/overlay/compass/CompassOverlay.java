@@ -46,6 +46,10 @@ public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOr
 	private final Matrix mCompassMatrix = new Matrix();
 	private boolean mIsCompassEnabled;
 	private boolean wasEnabledOnPause=false;
+        /**
+        +1 for conventional compass, -1 for direction indicator
+        */
+        private int mMode = 1;
 
 	/**
 	 * The bearing, in degrees east of north, or NaN if none has been set.
@@ -86,7 +90,10 @@ public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOr
 		mDisplay = windowManager.getDefaultDisplay();
 
 		createCompassFramePicture();
-		createCompassRosePicture();
+                if (mMode>0)
+		  createCompassRosePicture();
+                else
+                  createPointerPicture();
 
 		mCompassFrameCenterX = mCompassFrameBitmap.getWidth() / 2 - 0.5f;
 		mCompassFrameCenterY = mCompassFrameBitmap.getHeight() / 2 - 0.5f;
@@ -195,7 +202,7 @@ public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOr
 		}
 
 		if (isCompassEnabled() && !Float.isNaN(mAzimuth)) {
-			drawCompass(c, mAzimuth + getDisplayOrientation(), mapView.getProjection()
+			drawCompass(c, mMode * (mAzimuth + getDisplayOrientation()), mapView.getProjection()
 					.getScreenRect());
 		}
 	}
@@ -318,6 +325,23 @@ public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOr
 		return mAzimuth;
 	}
 
+        /**
+         * The compass can operate in two modes.
+         * 1. a conventional compass needle pointing north/south (false, default)
+         * 2. a pointer arrow that indicates the device's real world orientation on the map (true)
+         * A different picture is used in each case.
+         */
+        public void setPointerMode(boolean b) {
+          if (b) {
+            mMode = -1;
+            createPointerPicture();
+          }
+          else {
+            mMode = 1;
+            createCompassRosePicture();
+          }
+        }
+
 	// ===========================================================
 	// Inner and Anonymous Classes
 	// ===========================================================
@@ -398,6 +422,9 @@ public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOr
 		drawTriangle(canvas, center, center, mCompassRadius * mScale, 270, outerPaint);
 	}
 
+        /**
+        * A conventional red and black compass needle.
+        */
 	private void createCompassRosePicture() {
 		// Paint design of north triangle (it's common to paint north in red color)
 		final Paint northPaint = new Paint();
@@ -429,7 +456,7 @@ public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOr
 				Config.ARGB_8888);
 		final Canvas canvas = new Canvas(mCompassRoseBitmap);
 
-		// Blue triangle pointing north
+		// Triangle pointing north
 		final Path pathNorth = new Path();
 		pathNorth.moveTo(center, center - (mCompassRadius - 3) * mScale);
 		pathNorth.lineTo(center + 4 * mScale, center);
@@ -438,7 +465,7 @@ public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOr
 		pathNorth.close();
 		canvas.drawPath(pathNorth, northPaint);
 
-		// Red triangle pointing south
+		// Triangle pointing south
 		final Path pathSouth = new Path();
 		pathSouth.moveTo(center, center + (mCompassRadius - 3) * mScale);
 		pathSouth.lineTo(center + 4 * mScale, center);
@@ -450,4 +477,44 @@ public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOr
 		// Draw a little white dot in the middle
 		canvas.drawCircle(center, center, 2, centerPaint);
 	}
+
+        /**
+        * A black pointer arrow.
+        */
+	private void createPointerPicture() {
+		final Paint arrowPaint = new Paint();
+		arrowPaint.setColor(Color.BLACK);
+		arrowPaint.setAntiAlias(true);
+		arrowPaint.setStyle(Style.FILL);
+		arrowPaint.setAlpha(220);
+
+		// Create a little white dot in the middle of the compass rose
+		final Paint centerPaint = new Paint();
+		centerPaint.setColor(Color.WHITE);
+		centerPaint.setAntiAlias(true);
+		centerPaint.setStyle(Style.FILL);
+		centerPaint.setAlpha(220);
+
+		final int picBorderWidthAndHeight = (int) ((mCompassRadius + 5) * 2 * mScale);
+		final int center = picBorderWidthAndHeight / 2;
+
+		if (mCompassRoseBitmap!=null)
+			mCompassRoseBitmap.recycle();
+		mCompassRoseBitmap = Bitmap.createBitmap(picBorderWidthAndHeight, picBorderWidthAndHeight,
+				Config.ARGB_8888);
+		final Canvas canvas = new Canvas(mCompassRoseBitmap);
+
+		// Arrow comprised of 2 triangles
+		final Path pathArrow = new Path();
+		pathArrow.moveTo(center, center - (mCompassRadius - 3) * mScale);
+		pathArrow.lineTo(center + 4 * mScale, center + (mCompassRadius - 3) * mScale);
+		pathArrow.lineTo(center, center + 0.5f * (mCompassRadius - 3) * mScale);
+		pathArrow.lineTo(center - 4 * mScale, center + (mCompassRadius - 3) * mScale);
+		pathArrow.lineTo(center, center - (mCompassRadius - 3) * mScale);
+		pathArrow.close();
+		canvas.drawPath(pathArrow, arrowPaint);
+               
+		// Draw a little white dot in the middle
+		canvas.drawCircle(center, center, 2, centerPaint);
+        }
 }
