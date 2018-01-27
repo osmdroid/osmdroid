@@ -8,7 +8,9 @@ import org.osmdroid.tileprovider.MapTileProviderBase;
 import org.osmdroid.tileprovider.ReusableBitmapDrawable;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
+import org.osmdroid.util.MapTileList;
 import org.osmdroid.util.RectL;
+import org.osmdroid.util.MapTileIndex;
 import org.osmdroid.util.TileLooper;
 import org.osmdroid.util.TileSystem;
 import org.osmdroid.views.MapView;
@@ -171,6 +173,31 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 		mTileProvider.setUseDataConnection(aMode);
 	}
 
+	/**
+	 * Populates the tile provider's memory cache with the list of displayed tiles
+	 * @since 6.0.0
+	 */
+	public void protectDisplayedTilesForCache(final Canvas pCanvas, final MapView pMapView) {
+		if (!setViewPort(pCanvas, pMapView)) {
+			return;
+		}
+		mProjection = getProjection();
+		final MapTileList mapTileList = mTileProvider.getCacheMapTileList();
+		mapTileList.clear();
+		mCacheTileLooper.loop(getProjection().getZoomLevel(), mViewPort, mapTileList);
+	}
+
+	/**
+	 * Get the area we are drawing to
+	 * @since 6.0.0
+	 * @return true if the tiles are to be drawn
+	 */
+	protected boolean setViewPort(final Canvas pCanvas, final MapView pMapView) {
+		setProjection(pMapView.getProjection());
+		getProjection().getMercatorViewPort(mViewPort);
+		return true;
+	}
+
 	@Override
 	public void draw(Canvas c, MapView osmv, boolean shadow) {
 
@@ -182,10 +209,9 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 			return;
 		}
 
-		setProjection(osmv.getProjection());
-
-		// Get the area we are drawing to
-		getProjection().getMercatorViewPort(mViewPort);
+		if (!setViewPort(c, osmv)) {
+			return;
+		}
 
 		// Draw the tiles!
 		drawTiles(c, getProjection(), getProjection().getZoomLevel(), mViewPort);
@@ -268,6 +294,26 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 		}
 	}
 
+	/**
+	 * A simple loop in order to collect all tiles' indices
+	 * @since 6.0.0
+	 */
+	protected class CacheTileLooper extends TileLooper {
+
+		private MapTileList mList;
+
+		public void loop(final double pZoomLevel, final RectL pViewPort, final MapTileList pList) {
+			mList = pList;
+			loop(pZoomLevel, pViewPort);
+		}
+
+		@Override
+		public void handleTile(MapTile pTile, int pX, int pY) {
+			mList.put(MapTileIndex.getTileIndex(pTile));
+		}
+	}
+
+	private final CacheTileLooper mCacheTileLooper = new CacheTileLooper();
 	private final OverlayTileLooper mTileLooper = new OverlayTileLooper();
 	private final Rect mIntersectionRect = new Rect();
 

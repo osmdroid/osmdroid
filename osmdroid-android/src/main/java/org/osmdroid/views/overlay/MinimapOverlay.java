@@ -121,16 +121,10 @@ public class MinimapOverlay extends TilesOverlay {
 			return;
 		}
 
-		final double zoomLevel = osmv.getProjection().getZoomLevel() - getZoomDifference();
-		if (zoomLevel < mTileProvider.getMinimumZoomLevel()) {
+		if (!setViewPort(c, osmv)) {
 			return;
 		}
 
-		final int left = c.getWidth() - getPadding() - getWidth();
-		final int top = c.getHeight() - getPadding() - getHeight();
-		setCanvasRect(new Rect(left, top, left + getWidth(), top + getHeight()));
-		setProjection(osmv.getProjection().getOffspring(zoomLevel, getCanvasRect()));
-		getProjection().getMercatorViewPort(mViewPort);
 		// Draw a solid background where the minimap will be drawn with a 2 pixel inset
 		osmv.getProjection().save(c, false, true);
 		c.drawRect(
@@ -225,5 +219,20 @@ public class MinimapOverlay extends TilesOverlay {
 	private boolean contains(final MotionEvent pEvent) {
 		final Rect canvasRect = getCanvasRect();
 		return canvasRect != null && canvasRect.contains((int) pEvent.getX(), (int) pEvent.getY());
+	}
+
+	@Override
+	protected boolean setViewPort(final Canvas pCanvas, final MapView pMapView) {
+		final double zoomLevel = pMapView.getProjection().getZoomLevel() - getZoomDifference();
+		if (zoomLevel < mTileProvider.getMinimumZoomLevel()) {
+			return false;
+		}
+
+		final int left = pCanvas.getWidth() - getPadding() - getWidth();
+		final int top = pCanvas.getHeight() - getPadding() - getHeight();
+		setCanvasRect(new Rect(left, top, left + getWidth(), top + getHeight()));
+		setProjection(pMapView.getProjection().getOffspring(zoomLevel, getCanvasRect()));
+		getProjection().getMercatorViewPort(mViewPort);
+		return true;
 	}
 }

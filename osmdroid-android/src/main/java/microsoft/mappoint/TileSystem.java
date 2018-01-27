@@ -30,7 +30,7 @@ public final class TileSystem {
 	 * because it gives enough space for y(29bits), x(29bits) and zoom(5bits in order to code 29),
 	 * total: 63 bits used, just small enough for a `long` variable of 4 bytes
 	 */
-	private static final int primaryKeyMaxZoomLevel = 29;
+	public static final int primaryKeyMaxZoomLevel = 29;
 
 	public static final int projectionZoomLevel = primaryKeyMaxZoomLevel + 1;
 

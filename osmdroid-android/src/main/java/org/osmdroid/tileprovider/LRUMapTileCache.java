@@ -11,7 +11,8 @@ import android.os.Build;
 import android.util.Log;
 import org.osmdroid.api.IMapView;
 import org.osmdroid.config.Configuration;
-import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
+import org.osmdroid.util.MapTileList;
+import org.osmdroid.util.MapTileIndex;
 
 public class LRUMapTileCache extends LinkedHashMap<MapTile, Drawable> {
 
@@ -21,12 +22,14 @@ public class LRUMapTileCache extends LinkedHashMap<MapTile, Drawable> {
 
 	private static final long serialVersionUID = -541142277575493335L;
 
+	private final MapTileList mMapTileList;
 	private int mCapacity;
 	private TileRemovedListener mTileRemovedListener;
 
-	public LRUMapTileCache(final int aCapacity) {
+	public LRUMapTileCache(final int aCapacity, final MapTileList pMapTileList) {
 		super(aCapacity + 2, 0.1f, true);
 		mCapacity = aCapacity;
+		mMapTileList = pMapTileList;
 	}
 
 	public void ensureCapacity(final int aCapacity) {
@@ -73,15 +76,17 @@ public class LRUMapTileCache extends LinkedHashMap<MapTile, Drawable> {
 
 	@Override
 	protected boolean removeEldestEntry(final java.util.Map.Entry<MapTile, Drawable> aEldest) {
-		if (size() > mCapacity) {
-			final MapTile eldest = aEldest.getKey();
-			if (Configuration.getInstance().isDebugMode()) {
-                    Log.d(IMapView.LOGTAG,"LRU Remove old tile: " + eldest);
-			}
-			remove(eldest);
-			// don't return true because we've already removed it
+		if (mMapTileList.contains(MapTileIndex.getTileIndex(aEldest.getKey()))) {
+			return false; // don't remove, it's a displayed tile
 		}
-		return false;
+		if (size() <= mCapacity) {
+			return false; // don't remove, we are within the capacity
+		}
+		final MapTile eldest = aEldest.getKey();
+		if (Configuration.getInstance().isDebugMode()) {
+				Log.d(IMapView.LOGTAG,"LRU Remove old tile: " + eldest);
+		}
+		return true; // remove
 	}
 
 	public TileRemovedListener getTileRemovedListener() {

@@ -3,6 +3,7 @@ package org.osmdroid.tileprovider;
 
 import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
+import org.osmdroid.util.MapTileList;
 
 import android.graphics.drawable.Drawable;
 
@@ -22,6 +23,7 @@ public class MapTileCache {
 
 	protected final Object mCachedTilesLockObject = new Object();
 	protected LRUMapTileCache mCachedTiles;
+	private final MapTileList mMapTileList = new MapTileList();
 
 	// ===========================================================
 	// Constructors
@@ -36,7 +38,7 @@ public class MapTileCache {
 	 *            Maximum amount of MapTiles to be hold within.
 	 */
 	public MapTileCache(final int aMaximumCacheSize) {
-		this.mCachedTiles = new LRUMapTileCache(aMaximumCacheSize);
+		this.mCachedTiles = new LRUMapTileCache(aMaximumCacheSize, mMapTileList);
 	}
 
 	// ===========================================================
@@ -61,6 +63,13 @@ public class MapTileCache {
 				this.mCachedTiles.put(aTile, aDrawable);
 			}
 		}
+	}
+
+	/**
+	 * @since 6.0.0
+	 */
+	public MapTileList getMapTileList() {
+		return  mMapTileList;
 	}
 
 	// ===========================================================

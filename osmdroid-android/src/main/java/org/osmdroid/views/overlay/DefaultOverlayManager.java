@@ -120,6 +120,13 @@ public class DefaultOverlayManager extends AbstractList<Overlay> implements Over
     @Override
     public void onDraw(final Canvas c, final MapView pMapView) {
 
+        mTilesOverlay.protectDisplayedTilesForCache(c, pMapView);
+        for (final Overlay overlay : mOverlayList) {
+            if (overlay!=null && overlay.isEnabled() && overlay instanceof TilesOverlay) {
+                ((TilesOverlay) overlay).protectDisplayedTilesForCache(c, pMapView);
+            }
+        }
+
         //always pass false, the shadow parameter will be removed in a later version of osmdroid, this change should result in the on draw being called twice
         if (mTilesOverlay != null && mTilesOverlay.isEnabled()) {
             mTilesOverlay.draw(c, pMapView, false);
