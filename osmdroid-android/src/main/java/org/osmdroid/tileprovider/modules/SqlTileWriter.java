@@ -472,7 +472,7 @@ public class SqlTileWriter implements IFilesystemCache {
             if (tileSourceName == null)
                 mCount = db.rawQuery("select count(*) from " + TABLE, null);
             else
-                mCount = db.rawQuery("select count(*) from " + TABLE + " where " + COLUMN_PROVIDER + "='" + tileSourceName + "'", null);
+                mCount = db.rawQuery("select count(*) from " + TABLE + " where " + COLUMN_PROVIDER + "=?", new String[]{tileSourceName});
             mCount.moveToFirst();
             long count = mCount.getLong(0);
             mCount.close();

@@ -44,6 +44,7 @@ public class MapTileFileArchiveProvider extends MapTileFileStorageProviderBase {
 
 	/** Disable the search of archives if specified in constructor */
 	private final boolean mSpecificArchivesProvided;
+	private final boolean ignoreTileSource;
 
 	// ===========================================================
 	// Constructors
@@ -55,10 +56,24 @@ public class MapTileFileArchiveProvider extends MapTileFileStorageProviderBase {
 	 */
 	public MapTileFileArchiveProvider(final IRegisterReceiver pRegisterReceiver,
 			final ITileSource pTileSource, final IArchiveFile[] pArchives) {
+		this(pRegisterReceiver,pTileSource,pArchives,false);
+	}
+
+	/**
+	 *
+	 * @since 6.0.0
+	 * @param pRegisterReceiver
+	 * @param pTileSource
+	 * @param pArchives
+	 * @param ignoreTileSource if true, tile source is ignored
+	 */
+	public MapTileFileArchiveProvider(final IRegisterReceiver pRegisterReceiver,
+									  final ITileSource pTileSource, final IArchiveFile[] pArchives, final boolean ignoreTileSource) {
 		super(pRegisterReceiver,
 			Configuration.getInstance().getTileFileSystemThreads(),
 			Configuration.getInstance().getTileFileSystemMaxQueueSize());
 
+		this.ignoreTileSource=ignoreTileSource;
 		setTileSource(pTileSource);
 
 		if (pArchives == null) {
@@ -171,6 +186,7 @@ public class MapTileFileArchiveProvider extends MapTileFileStorageProviderBase {
                for (final File file : files) {
                     final IArchiveFile archiveFile = ArchiveFileFactory.getArchiveFile(file);
                     if (archiveFile != null) {
+                   		 archiveFile.setIgnoreTileSource(ignoreTileSource);
                          mArchiveFiles.add(archiveFile);
                     }
                }
