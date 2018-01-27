@@ -47,6 +47,10 @@ public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOr
 	private boolean mIsCompassEnabled;
 	private boolean wasEnabledOnPause=false;
         /**
+        ignore mCompassCenter* and put the compass in the center of the map
+        */
+        private boolean mInCenter=false;
+        /**
         +1 for conventional compass, -1 for direction indicator
         */
         private int mMode = 1;
@@ -130,14 +134,30 @@ public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOr
 
 	private void invalidateCompass() {
 		Rect screenRect = mMapView.getProjection().getScreenRect();
-		final int frameLeft = screenRect.left
-				+ (int) Math.ceil((mCompassCenterX - mCompassFrameCenterX) * mScale);
-		final int frameTop = screenRect.top
-				+ (int) Math.ceil((mCompassCenterY - mCompassFrameCenterY) * mScale);
-		final int frameRight = screenRect.left
-				+ (int) Math.ceil((mCompassCenterX + mCompassFrameCenterX) * mScale);
-		final int frameBottom = screenRect.top
+                int frameLeft;
+                int frameRight;
+                int frameTop;
+                int frameBottom;
+                if (mInCenter) {
+		  frameLeft = screenRect.left
+		        + (int) Math.ceil(screenRect.exactCenterX() - mCompassFrameCenterX*mScale);
+		  frameTop = screenRect.top
+		        + (int) Math.ceil(screenRect.exactCenterY() - mCompassFrameCenterY*mScale);
+		  frameRight = screenRect.left
+		        + (int) Math.ceil(screenRect.exactCenterX() + mCompassFrameCenterX*mScale);
+		  frameBottom = screenRect.top
+		        + (int) Math.ceil(screenRect.exactCenterY() + mCompassFrameCenterY*mScale);
+                }
+                else {
+		  frameLeft = screenRect.left
+		        + (int) Math.ceil((mCompassCenterX - mCompassFrameCenterX) * mScale);
+		  frameTop = screenRect.top
+		        + (int) Math.ceil((mCompassCenterY - mCompassFrameCenterY) * mScale);
+		  frameRight = screenRect.left
+		        + (int) Math.ceil((mCompassCenterX + mCompassFrameCenterX) * mScale);
+		  frameBottom = screenRect.top
 				+ (int) Math.ceil((mCompassCenterY + mCompassFrameCenterY) * mScale);
+                }
 
 		// Expand by 2 to cover stroke width
 		mMapView.postInvalidateMapCoordinates(frameLeft - 2, frameTop - 2, frameRight + 2,
@@ -152,6 +172,13 @@ public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOr
 		mCompassCenterX = x;
 		mCompassCenterY = y;
 	}
+
+        /**
+        Put the compass in the center of the map regardless of the supplied coordinates.
+        */
+	public void setCompassInCenter(boolean b) {
+                mInCenter = b;
+        }
 
 	public IOrientationProvider getOrientationProvider() {
 		return mOrientationProvider;
@@ -170,8 +197,18 @@ public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOr
 
 	protected void drawCompass(final Canvas canvas, final float bearing, final Rect screenRect) {
 		final Projection proj = mMapView.getProjection();
-		final float centerX = mCompassCenterX * mScale;
-		final float centerY = mCompassCenterY * mScale;
+
+		float centerX;
+		float centerY;
+                if (mInCenter) {
+                  final Rect rect=proj.getScreenRect();
+                  centerX = rect.exactCenterX();
+                  centerY = rect.exactCenterY();
+                }
+                else {
+		  centerX = mCompassCenterX * mScale;
+		  centerY = mCompassCenterY * mScale;
+                }
 
 		mCompassMatrix.setTranslate(-mCompassFrameCenterX, -mCompassFrameCenterY);
 		mCompassMatrix.postTranslate(centerX, centerY);
@@ -340,6 +377,10 @@ public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOr
             mMode = 1;
             createCompassRosePicture();
           }
+        }
+
+        public boolean isPointerMode() {
+          return mMode<0;
         }
 
 	// ===========================================================
