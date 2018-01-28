@@ -119,8 +119,9 @@ public class DefaultOverlayManager extends AbstractList<Overlay> implements Over
 
     @Override
     public void onDraw(final Canvas c, final MapView pMapView) {
-
-        mTilesOverlay.protectDisplayedTilesForCache(c, pMapView);
+        //fix for https://github.com/osmdroid/osmdroid/issues/904
+        if (mTilesOverlay!=null)
+            mTilesOverlay.protectDisplayedTilesForCache(c, pMapView);
         for (final Overlay overlay : mOverlayList) {
             if (overlay!=null && overlay.isEnabled() && overlay instanceof TilesOverlay) {
                 ((TilesOverlay) overlay).protectDisplayedTilesForCache(c, pMapView);
