@@ -30,6 +30,7 @@ import org.osmdroid.samplefragments.data.SampleMilitaryIconsItemizedIcons;
 import org.osmdroid.samplefragments.data.SampleMilitaryIconsMarker;
 import org.osmdroid.samplefragments.data.SampleOsmPath;
 import org.osmdroid.samplefragments.data.SampleRace;
+import org.osmdroid.samplefragments.data.SampleShapeFile;
 import org.osmdroid.samplefragments.data.SampleSimpleFastPointOverlay;
 import org.osmdroid.samplefragments.data.SampleSimpleLocation;
 import org.osmdroid.samplefragments.data.SampleWithMinimapItemizedOverlayWithFocus;
@@ -283,6 +284,7 @@ public final class SampleFactory implements ISampleFactory {
         if (Build.VERSION.SDK_INT >= 15)
             mSamples.add(SinglePoints.class);
         mSamples.add(WeatherGroundOverlaySample.class);
+        mSamples.add(SampleShapeFile.class);
     }
 
     public void addSample(Class<? extends BaseSampleFragment> clz) {
