@@ -47,10 +47,6 @@ public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOr
 	private boolean mIsCompassEnabled;
 	private boolean wasEnabledOnPause=false;
         /**
-        ignore mCompassCenter* and put the compass in the center of the map
-        */
-        private boolean mInCenter=false;
-        /**
         +1 for conventional compass, -1 for direction indicator
         */
         private int mMode = 1;
@@ -59,7 +55,12 @@ public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOr
 	 * The bearing, in degrees east of north, or NaN if none has been set.
 	 */
 	private float mAzimuth = Float.NaN;
+        private float mAzimuthOffset = 0.0f;
 
+        /**
+        Ignore mCompassCenter* and put the compass in the center of the map
+        */
+        private boolean mInCenter=false;
 	private float mCompassCenterX = 35.0f;
 	private float mCompassCenterY = 35.0f;
 	private final float mCompassRadius = 20.0f;
@@ -176,8 +177,24 @@ public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOr
         /**
         Put the compass in the center of the map regardless of the supplied coordinates.
         */
-	public void setCompassInCenter(boolean b) {
+        public void setCompassInCenter(boolean b) {
                 mInCenter = b;
+        }
+
+        public boolean isCompassInCenter() {
+               return mInCenter;
+        }
+
+        /**
+        An offset added to the bearing when drawing the compass.
+        eg. to account for local magnetic declination to indicate true north
+        */
+        public void setAzimuthOffset(float f) {
+                mAzimuthOffset = f;
+        }
+
+        public float getAzimuthOffset() {
+               return mAzimuthOffset;
         }
 
 	public IOrientationProvider getOrientationProvider() {
@@ -239,7 +256,7 @@ public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOr
 		}
 
 		if (isCompassEnabled() && !Float.isNaN(mAzimuth)) {
-			drawCompass(c, mMode * (mAzimuth + getDisplayOrientation()), mapView.getProjection()
+			drawCompass(c, mMode * (mAzimuth + mAzimuthOffset + getDisplayOrientation()), mapView.getProjection()
 					.getScreenRect());
 		}
 	}
