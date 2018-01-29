@@ -65,6 +65,8 @@ import org.osmdroid.samplefragments.layouts.SampleFragmentXmlLayout;
 import org.osmdroid.samplefragments.layouts.SampleSplitScreen;
 import org.osmdroid.samplefragments.layouts.ScaleBarOnBottom;
 import org.osmdroid.samplefragments.layouts.StreetAddressFragment;
+import org.osmdroid.samplefragments.location.CompassPointerSample;
+import org.osmdroid.samplefragments.location.CompassRoseSample;
 import org.osmdroid.samplefragments.location.SampleCustomIconDirectedLocationOverlay;
 import org.osmdroid.samplefragments.location.SampleCustomMyLocation;
 import org.osmdroid.samplefragments.location.SampleFollowMe;
@@ -283,6 +285,8 @@ public final class SampleFactory implements ISampleFactory {
         if (Build.VERSION.SDK_INT >= 15)
             mSamples.add(SinglePoints.class);
         mSamples.add(WeatherGroundOverlaySample.class);
+        mSamples.add(CompassPointerSample.class);
+        mSamples.add(CompassRoseSample.class);
     }
 
     public void addSample(Class<? extends BaseSampleFragment> clz) {
