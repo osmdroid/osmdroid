@@ -1,24 +1,18 @@
 package org.osmdroid.tileprovider.modules;
 
-import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 
 import org.osmdroid.api.IMapView;
 import org.osmdroid.config.Configuration;
-import org.osmdroid.tileprovider.ExpirableBitmapDrawable;
 import org.osmdroid.tileprovider.IRegisterReceiver;
-import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.MapTileProviderBase;
-import org.osmdroid.tileprovider.MapTileRequestState;
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 import org.osmdroid.tileprovider.tilesource.BitmapTileSourceBase;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.util.Counters;
-import org.osmdroid.tileprovider.util.StreamUtils;
+import org.osmdroid.util.MapTileIndex;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
@@ -139,15 +133,13 @@ public class MapTileSqlCacheProvider  extends MapTileFileStorageProviderBase{
 
     /**
      * returns true if the given tile for the current map source exists in the cache db
-     * @param pTile
-     * @return
      */
-    public boolean hasTile(final MapTile pTile) {
+    public boolean hasTile(final long pMapTileIndex) {
         ITileSource tileSource = mTileSource.get();
         if (tileSource == null) {
             return false;
         }
-        return mWriter.getExpirationTimestamp(tileSource, pTile) != null;
+        return mWriter.getExpirationTimestamp(tileSource, pMapTileIndex) != null;
     }
 
 
@@ -159,7 +151,7 @@ public class MapTileSqlCacheProvider  extends MapTileFileStorageProviderBase{
     protected class TileLoader extends MapTileModuleProviderBase.TileLoader {
 
         @Override
-        public Drawable loadTile(final MapTile pTile) throws CantContinueException{
+        public Drawable loadTile(final long pMapTileIndex) throws CantContinueException{
 
             ITileSource tileSource = mTileSource.get();
             if (tileSource == null) {
@@ -169,14 +161,14 @@ public class MapTileSqlCacheProvider  extends MapTileFileStorageProviderBase{
             // if there's no sdcard then don't do anything
             if (!isSdCardAvailable()) {
                 if (Configuration.getInstance().isDebugMode()) {
-                    Log.d(IMapView.LOGTAG,"No sdcard - do nothing for tile: " + pTile);
+                    Log.d(IMapView.LOGTAG,"No sdcard - do nothing for tile: " + MapTileIndex.toString(pMapTileIndex));
                 }
                 Counters.fileCacheMiss++;
                 return null;
             }
             if (mWriter!=null) {
                 try {
-                    final Drawable result = mWriter.loadTile(tileSource, pTile);
+                    final Drawable result = mWriter.loadTile(tileSource, pMapTileIndex);
                     if (result == null) {
                         Counters.fileCacheMiss++;
                     } else {
@@ -185,7 +177,7 @@ public class MapTileSqlCacheProvider  extends MapTileFileStorageProviderBase{
                     return result;
                 } catch (final BitmapTileSourceBase.LowMemoryException e) {
                     // low memory so empty the queue
-                    Log.w(IMapView.LOGTAG, "LowMemoryException downloading MapTile: " + pTile + " : " + e);
+                    Log.w(IMapView.LOGTAG, "LowMemoryException downloading MapTile: " + MapTileIndex.toString(pMapTileIndex) + " : " + e);
                     Counters.fileCacheOOM++;
                     throw new MapTileModuleProviderBase.CantContinueException(e);
                 } catch (final Throwable e) {

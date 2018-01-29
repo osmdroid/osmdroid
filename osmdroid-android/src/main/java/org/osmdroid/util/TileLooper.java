@@ -1,7 +1,6 @@
 package org.osmdroid.util;
 
 import android.graphics.Rect;
-import org.osmdroid.tileprovider.MapTile;
 
 /**
  * A class that will loop around all the map tiles in the given viewport.
@@ -37,7 +36,7 @@ public abstract class TileLooper {
 						|| (j >= 0 && j < mapTileUpperBound))) {
 					final int tileX = horizontalWrapEnabled ? MyMath.mod(i, mapTileUpperBound) : i;
 					final int tileY = verticalWrapEnabled ? MyMath.mod(j, mapTileUpperBound) : j;
-					final MapTile tile = new MapTile(mTileZoomLevel, tileX, tileY);
+					final long tile = MapTileIndex.getTileIndex(mTileZoomLevel, tileX, tileY);
 					handleTile(tile, i, j);
 				}
 			}
@@ -48,7 +47,7 @@ public abstract class TileLooper {
 
 	public void initialiseLoop() {}
 
-	public abstract void handleTile(final MapTile pTile, final int pX, final int pY);
+	public abstract void handleTile(final long pMapTileIndex, final int pX, final int pY);
 
 	public void finaliseLoop() {}
 

@@ -6,15 +6,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Enumeration;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
 import org.osmdroid.api.IMapView;
 
-import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
+import org.osmdroid.util.MapTileIndex;
 
 public class ZipFileArchive implements IArchiveFile {
 
@@ -36,15 +35,15 @@ public class ZipFileArchive implements IArchiveFile {
 	}
 
 	@Override
-	public InputStream getInputStream(final ITileSource pTileSource, final MapTile pTile) {
-		final String path = pTileSource.getTileRelativeFilenameString(pTile);
+	public InputStream getInputStream(final ITileSource pTileSource, final long pMapTileIndex) {
+		final String path = pTileSource.getTileRelativeFilenameString(pMapTileIndex);
 		try {
 			final ZipEntry entry = mZipFile.getEntry(path);
 			if (entry != null) {
 				return mZipFile.getInputStream(entry);
 			}
 		} catch (final IOException e) {
-			Log.w(IMapView.LOGTAG,"Error getting zip stream: " + pTile, e);
+			Log.w(IMapView.LOGTAG,"Error getting zip stream: " + MapTileIndex.toString(pMapTileIndex), e);
 		}
 		return null;
 	}

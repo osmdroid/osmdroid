@@ -9,12 +9,11 @@ import android.util.Log;
 
 import org.osmdroid.api.IMapView;
 import org.osmdroid.config.Configuration;
-import org.osmdroid.gpkg.tiles.raster.GeopackageRasterTileSource;
-import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.modules.IFilesystemCache;
 import org.osmdroid.tileprovider.modules.MapTileModuleProviderBase;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.util.BoundingBox;
+import org.osmdroid.util.MapTileIndex;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -74,7 +73,7 @@ public class GeoPackageMapTileModuleProvider extends MapTileModuleProviderBase {
     }
 
 
-    public Drawable getMapTile(MapTile pTile) {
+    public Drawable getMapTile(final long pMapTileIndex) {
         Drawable tile = null;
 
         String database = currentTileSource.getDatabase();
@@ -84,9 +83,9 @@ public class GeoPackageMapTileModuleProvider extends MapTileModuleProviderBase {
         TileDao tileDao = next.getTileDao(table);
         GeoPackageTileRetriever retriever = new GeoPackageTileRetriever(tileDao);
 
-        int zoom = pTile.getZoomLevel();
-        int x = pTile.getX();
-        int y = pTile.getY();
+        int zoom = MapTileIndex.getZoom(pMapTileIndex);
+        int x = MapTileIndex.getX(pMapTileIndex);
+        int y = MapTileIndex.getY(pMapTileIndex);
 
 
         GeoPackageTile geoPackageTile = retriever.getTile(x, y, zoom);
@@ -179,9 +178,9 @@ public class GeoPackageMapTileModuleProvider extends MapTileModuleProviderBase {
     protected class TileLoader extends MapTileModuleProviderBase.TileLoader {
 
         @Override
-        public Drawable loadTile(final MapTile pTile) {
+        public Drawable loadTile(final long pMapTileIndex) {
             try {
-                Drawable mapTile = getMapTile(pTile);
+                Drawable mapTile = getMapTile(pMapTileIndex);
                 return mapTile;
             } catch (final Throwable e) {
                 Log.e(IMapView.LOGTAG, "Error loading tile", e);

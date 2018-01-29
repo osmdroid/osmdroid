@@ -1,7 +1,5 @@
 package org.osmdroid.util;
 
-import org.osmdroid.tileprovider.MapTile;
-
 import microsoft.mappoint.TileSystem;
 
 /**
@@ -17,10 +15,6 @@ public class MapTileIndex {
 
     private static int mMaxZoomLevel = TileSystem.primaryKeyMaxZoomLevel;
     private static int mModulo = 1 << mMaxZoomLevel;
-
-    public static long getTileIndex(final MapTile pMapTile) {
-        return getTileIndex(pMapTile.getZoomLevel(), pMapTile.getX(), pMapTile.getY());
-    }
 
     public static long getTileIndex(final int pZoom, final int pX, final int pY) {
         return (((long)pZoom) << (mMaxZoomLevel * 2))
@@ -38,5 +32,19 @@ public class MapTileIndex {
 
     public static int getY(final long pTileIndex) {
         return (int) (pTileIndex % mModulo);
+    }
+
+    /**
+     * @since 6.0.0
+     */
+    public static String toString(final int pZoom, final int pX, final int pY) {
+        return "/" + pZoom + "/" + pX + "/" + pY;
+    }
+
+    /**
+     * @since 6.0.0
+     */
+    public static String toString(final long pIndex) {
+        return toString(getZoom(pIndex), getX(pIndex), getY(pIndex));
     }
 }

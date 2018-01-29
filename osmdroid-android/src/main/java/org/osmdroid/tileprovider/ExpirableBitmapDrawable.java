@@ -5,7 +5,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 
 /**
- * A {@link BitmapDrawable} for a {@link MapTile} that has a state to indicate its relevancy:
+ * A {@link BitmapDrawable} for a {@link org.osmdroid.util.MapTileIndex} that has a state to indicate its relevancy:
  * up-to-date (not expired yet), expired, scaled (computed during zoom) and not found (default grey tile)
  */
 public class ExpirableBitmapDrawable extends BitmapDrawable {

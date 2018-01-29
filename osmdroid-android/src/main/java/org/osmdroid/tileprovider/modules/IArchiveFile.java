@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.InputStream;
 import java.util.Set;
 
-import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 
 /**
@@ -32,7 +31,7 @@ public interface IArchiveFile {
 	 * @see org.osmdroid.tileprovider.tilesource.TileSourceFactory
 	 * @return the input stream, or null if the archive doesn't contain an entry for the requested tile.
 	 */
-	InputStream getInputStream(ITileSource tileSource, MapTile tile);
+	InputStream getInputStream(final ITileSource tileSource, final long pMapTileIndex);
 
 	/**
 	 * Closes the archive file and releases resources.

@@ -3,7 +3,6 @@ package org.osmdroid.views.overlay;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.library.R;
 import org.osmdroid.tileprovider.BitmapPool;
-import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.MapTileProviderBase;
 import org.osmdroid.tileprovider.ReusableBitmapDrawable;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
@@ -12,7 +11,6 @@ import org.osmdroid.util.MapTileList;
 import org.osmdroid.util.RectL;
 import org.osmdroid.util.MapTileIndex;
 import org.osmdroid.util.TileLooper;
-import org.osmdroid.util.TileSystem;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
 
@@ -23,7 +21,6 @@ import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Paint;
-import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -35,11 +32,11 @@ import android.view.SubMenu;
 import org.osmdroid.api.IMapView;
 
 /**
- * A {@link TilesOverlay} is responsible to display a {@link MapTile}.
+ * A {@link TilesOverlay} is responsible to display a {@link MapTileIndex}.
  *
  * These objects are the principle consumer of map tiles.
  *
- * see {@link MapTile} for an overview of how tiles are acquired by this overlay.
+ * see {@link MapTileIndex} for an overview of how tiles are acquired by this overlay.
  *
  */
 
@@ -256,8 +253,8 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 			mTileProvider.ensureCapacity(numNeeded + Configuration.getInstance().getCacheMapTileOvershoot());
 		}
 		@Override
-		public void handleTile(MapTile pTile, int pX, int pY) {
-			Drawable currentMapTile = mTileProvider.getMapTile(pTile);
+		public void handleTile(final long pMapTileIndex, int pX, int pY) {
+			Drawable currentMapTile = mTileProvider.getMapTile(pMapTileIndex);
 			boolean isReusable = currentMapTile instanceof ReusableBitmapDrawable;
 			final ReusableBitmapDrawable reusableBitmapDrawable =
 					isReusable ? (ReusableBitmapDrawable) currentMapTile : null;
@@ -284,7 +281,7 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 
 			if (Configuration.getInstance().isDebugTileProviders()) {
 				mProjection.getPixelFromTile(pX, pY, mTileRect);
-				mCanvas.drawText(pTile.toString(), mTileRect.left + 1,
+				mCanvas.drawText(MapTileIndex.toString(pMapTileIndex), mTileRect.left + 1,
 						mTileRect.top + mDebugPaint.getTextSize(), mDebugPaint);
 				mCanvas.drawLine(mTileRect.left, mTileRect.top, mTileRect.right, mTileRect.top,
 						mDebugPaint);
@@ -308,8 +305,8 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 		}
 
 		@Override
-		public void handleTile(MapTile pTile, int pX, int pY) {
-			mList.put(MapTileIndex.getTileIndex(pTile));
+		public void handleTile(final long pMapTileIndex, int pX, int pY) {
+			mList.put(pMapTileIndex);
 		}
 	}
 

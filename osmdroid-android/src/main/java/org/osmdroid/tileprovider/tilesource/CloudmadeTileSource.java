@@ -2,8 +2,8 @@ package org.osmdroid.tileprovider.tilesource;
 
 import android.util.Log;
 import org.osmdroid.api.IMapView;
-import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.util.CloudmadeUtil;
+import org.osmdroid.util.MapTileIndex;
 
 public class CloudmadeTileSource extends OnlineTileSourceBase implements IStyledTileSource<Integer> {
 
@@ -26,14 +26,14 @@ public class CloudmadeTileSource extends OnlineTileSourceBase implements IStyled
 	}
 
 	@Override
-	public String getTileURLString(final MapTile pTile) {
+	public String getTileURLString(final long pMapTileIndex) {
 		final String key = CloudmadeUtil.getCloudmadeKey();
 		if (key.length() == 0) {
 			Log.e(IMapView.LOGTAG,"CloudMade key is not set. You should enter it in the manifest and call CloudmadeUtil.retrieveCloudmadeKey()");
 		}
 		final String token = CloudmadeUtil.getCloudmadeToken();
-		return String.format(getBaseUrl(), key, mStyle, getTileSizePixels(), pTile.getZoomLevel(),
-				pTile.getX(), pTile.getY(), mImageFilenameEnding, token);
+		return String.format(getBaseUrl(), key, mStyle, getTileSizePixels(), MapTileIndex.getZoom(pMapTileIndex),
+				MapTileIndex.getX(pMapTileIndex), MapTileIndex.getY(pMapTileIndex), mImageFilenameEnding, token);
 	}
 
 	@Override

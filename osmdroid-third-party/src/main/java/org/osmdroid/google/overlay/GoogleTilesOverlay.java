@@ -1,7 +1,7 @@
 package org.osmdroid.google.overlay;
 
-import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.MapTileProviderBase;
+import org.osmdroid.util.MapTileIndex;
 import org.osmdroid.util.MyMath;
 import org.osmdroid.views.util.Mercator;
 
@@ -119,8 +119,8 @@ public class GoogleTilesOverlay extends Overlay {
 				// Construct a MapTile to request from the tile provider.
 				final int tileY = MyMath.mod(y, mapTileUpperBound);
 				final int tileX = MyMath.mod(x, mapTileUpperBound);
-				final MapTile tile = new MapTile(zoomLevel, tileX, tileY);
-				final Drawable currentMapTile = mTileProvider.getMapTile(tile);
+				final long mapTileIndex = MapTileIndex.getTileIndex(zoomLevel, tileX, tileY);
+				final Drawable currentMapTile = mTileProvider.getMapTile(mapTileIndex);
 				if (currentMapTile != null) {
 					final GeoPoint gp = new GeoPoint(
 							(int) (Mercator.tile2lat(y, zoomLevel) * 1E6),
@@ -132,7 +132,7 @@ public class GoogleTilesOverlay extends Overlay {
 				}
 
 				if (DEBUGMODE) {
-					c.drawText(tile.toString(), mTileRect.left + 1, mTileRect.top + mPaint.getTextSize(), mPaint);
+					c.drawText(MapTileIndex.toString(mapTileIndex), mTileRect.left + 1, mTileRect.top + mPaint.getTextSize(), mPaint);
 					c.drawLine(mTileRect.left, mTileRect.top, mTileRect.right, mTileRect.top, mPaint);
 					c.drawLine(mTileRect.left, mTileRect.top, mTileRect.left, mTileRect.bottom, mPaint);
 				}

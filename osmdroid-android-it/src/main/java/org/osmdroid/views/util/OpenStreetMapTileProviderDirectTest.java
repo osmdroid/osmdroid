@@ -8,18 +8,17 @@
 package org.osmdroid.views.util;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
 
 import org.osmdroid.config.Configuration;
-import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.MapTileProviderBasic;
 import org.osmdroid.tileprovider.MapTileRequestState;
 import org.osmdroid.tileprovider.modules.MapTileModuleProviderBase;
 import org.osmdroid.tileprovider.tilesource.BitmapTileSourceBase;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
+import org.osmdroid.util.MapTileIndex;
 
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
@@ -42,7 +41,7 @@ import junit.framework.Assert;
  */
 public class OpenStreetMapTileProviderDirectTest extends AndroidTestCase {
 
-	MapTileProviderBasic mProvider;
+	private MapTileProviderBasic mProvider;
 
 	@Override
 	protected void setUp() throws Exception {
@@ -59,15 +58,15 @@ public class OpenStreetMapTileProviderDirectTest extends AndroidTestCase {
 	}
 
 	public void test_getMapTile_not_found() {
-		final MapTile tile = new MapTile(2, 3, 4);
+		final long tile = MapTileIndex.getTileIndex(2, 3, 4);
 
 		final Drawable drawable = mProvider.getMapTile(tile);
 
 		assertNull("Expect tile to be null", drawable);
 	}
 
-	public void test_getMapTile_found() throws RemoteException, FileNotFoundException, BitmapTileSourceBase.LowMemoryException, java.io.IOException {
-		final MapTile tile = new MapTile(2, 3, 4);
+	public void test_getMapTile_found() throws RemoteException, BitmapTileSourceBase.LowMemoryException, java.io.IOException {
+		final long tile = MapTileIndex.getTileIndex(2, 3, 4);
 		if (Build.VERSION.SDK_INT >=23)
 			return;
 
@@ -98,7 +97,7 @@ public class OpenStreetMapTileProviderDirectTest extends AndroidTestCase {
 			Assert.fail("unable to write temp tile " + ex);
 		}
 		final MapTileRequestState state = new MapTileRequestState(tile,
-				new MapTileModuleProviderBase[] {}, mProvider);
+				new ArrayList<MapTileModuleProviderBase>(), mProvider);
 		mProvider.mapTileRequestCompleted(state, TileSourceFactory.MAPNIK.getDrawable(path));
 
 		// do the test

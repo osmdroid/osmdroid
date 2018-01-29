@@ -7,13 +7,14 @@
  */
 package org.osmdroid.tileprovider.modules;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 import org.osmdroid.tileprovider.IMapTileProviderCallback;
-import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.MapTileRequestState;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
+import org.osmdroid.util.MapTileIndex;
 
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -25,9 +26,10 @@ import android.test.AndroidTestCase;
  */
 public class MapTileProviderTest extends AndroidTestCase {
 
-	final private List<MapTile> mTiles = new LinkedList<MapTile>();
+	private final List<Long> mTiles = new LinkedList<>();
+	private final List<MapTileModuleProviderBase> mProviders = new ArrayList<>();
 
-	final IMapTileProviderCallback mTileProviderCallback = new IMapTileProviderCallback() {
+	private final IMapTileProviderCallback mTileProviderCallback = new IMapTileProviderCallback() {
 
 		@Override
 		public void mapTileRequestCompleted(final MapTileRequestState aState,
@@ -53,7 +55,7 @@ public class MapTileProviderTest extends AndroidTestCase {
 		}
 	};
 
-	final MapTileModuleProviderBase mTileProvider = new MapTileModuleProviderBase(1, 10) {
+	private final MapTileModuleProviderBase mTileProvider = new MapTileModuleProviderBase(1, 10) {
 
 		@Override
 		protected String getThreadGroupName() {
@@ -64,7 +66,7 @@ public class MapTileProviderTest extends AndroidTestCase {
 		public TileLoader getTileLoader() {
 			return new TileLoader() {
 				@Override
-				public Drawable loadTile(final MapTile pTile)
+				public Drawable loadTile(final long pMapTileIndex)
 						throws CantContinueException {
 					try {
 						Thread.sleep(1000);
@@ -103,10 +105,10 @@ public class MapTileProviderTest extends AndroidTestCase {
 
 	public void test_put_twice() {
 
-		final MapTile tile = new MapTile(1, 1, 1);
+		final long tile = MapTileIndex.getTileIndex(1, 1, 1);
 
 		// request the same tile twice
-		final MapTileRequestState state = new MapTileRequestState(tile, new MapTileDownloader[] {},
+		final MapTileRequestState state = new MapTileRequestState(tile, mProviders,
 				mTileProviderCallback);
 		mTileProvider.loadMapTileAsync(state);
 		mTileProvider.loadMapTileAsync(state);
@@ -117,28 +119,24 @@ public class MapTileProviderTest extends AndroidTestCase {
 
 	/**
 	 * Test that the tiles are loaded in most recently accessed order.
-	 *
-	 * @throws InterruptedException
 	 */
 	public void test_order() throws InterruptedException {
 
-		// final ArrayList<MapTile> tiles = new ArrayList<MapTile>();
-
-		final MapTile tile1 = new MapTile(1, 1, 1);
-		final MapTile tile2 = new MapTile(2, 2, 2);
-		final MapTile tile3 = new MapTile(3, 3, 3);
+		final long tile1 = MapTileIndex.getTileIndex(1, 1, 1);
+		final long tile2 = MapTileIndex.getTileIndex(2, 2, 2);
+		final long tile3 = MapTileIndex.getTileIndex(3, 3, 3);
 
 		// request the three tiles
 		final MapTileRequestState state1 = new MapTileRequestState(tile1,
-				new MapTileModuleProviderBase[] {}, mTileProviderCallback);
+				mProviders, mTileProviderCallback);
 		mTileProvider.loadMapTileAsync(state1);
 		Thread.sleep(100); // give the thread time to run
 		final MapTileRequestState state2 = new MapTileRequestState(tile2,
-				new MapTileModuleProviderBase[] {}, mTileProviderCallback);
+				mProviders, mTileProviderCallback);
 		mTileProvider.loadMapTileAsync(state2);
 		Thread.sleep(100); // give the thread time to run
 		final MapTileRequestState state3 = new MapTileRequestState(tile3,
-				new MapTileModuleProviderBase[] {}, mTileProviderCallback);
+				mProviders, mTileProviderCallback);
 		mTileProvider.loadMapTileAsync(state3);
 
 		// wait up to 10 seconds (because it takes 1 second for each tile + an extra
@@ -155,36 +153,34 @@ public class MapTileProviderTest extends AndroidTestCase {
 		// the tiles should have been loaded in the order 1, 3, 2
 		// because 1 was loaded immediately, 2 was next,
 		// but 3 was requested before 2 started, so it jumped the queue
-		assertEquals("tile1 is first", tile1, mTiles.get(0));
-		assertEquals("tile3 is second", tile3, mTiles.get(1));
-		assertEquals("tile2 is third", tile2, mTiles.get(2));
+		assertEquals("tile1 is first", tile1, (long)mTiles.get(0));
+		assertEquals("tile3 is second", tile3, (long)mTiles.get(1));
+		assertEquals("tile2 is third", tile2, (long)mTiles.get(2));
 	}
 
 	/**
 	 * Test that adding the same tile more than once moves it up the queue.
-	 *
-	 * @throws InterruptedException
 	 */
 	public void test_jump_queue() throws InterruptedException {
-		final MapTile tile1 = new MapTile(1, 1, 1);
-		final MapTile tile2 = new MapTile(2, 2, 2);
-		final MapTile tile3 = new MapTile(3, 3, 3);
+		final long tile1 = MapTileIndex.getTileIndex(1, 1, 1);
+		final long tile2 = MapTileIndex.getTileIndex(2, 2, 2);
+		final long tile3 = MapTileIndex.getTileIndex(3, 3, 3);
 
 		// request tile1, tile2, tile3, then tile2 again
 		final MapTileRequestState state1 = new MapTileRequestState(tile1,
-				new MapTileModuleProviderBase[] {}, mTileProviderCallback);
+				mProviders, mTileProviderCallback);
 		mTileProvider.loadMapTileAsync(state1);
 		Thread.sleep(100); // give the thread time to run
 		final MapTileRequestState state2 = new MapTileRequestState(tile2,
-				new MapTileModuleProviderBase[] {}, mTileProviderCallback);
+				mProviders, mTileProviderCallback);
 		mTileProvider.loadMapTileAsync(state2);
 		Thread.sleep(100); // give the thread time to run
 		final MapTileRequestState state3 = new MapTileRequestState(tile3,
-				new MapTileModuleProviderBase[] {}, mTileProviderCallback);
+				mProviders, mTileProviderCallback);
 		mTileProvider.loadMapTileAsync(state3);
 		Thread.sleep(100); // give the thread time to run
 		final MapTileRequestState state4 = new MapTileRequestState(tile2,
-				new MapTileModuleProviderBase[] {}, mTileProviderCallback);
+				mProviders, mTileProviderCallback);
 		mTileProvider.loadMapTileAsync(state4);
 
 		// wait up to 10 seconds (because it takes 1 second for each tile + an extra
@@ -199,8 +195,8 @@ public class MapTileProviderTest extends AndroidTestCase {
 
 		// the tiles should have been loaded in the order 1, 2, 3
 		// 3 jumped ahead of 2, but then 2 jumped ahead of it again
-		assertEquals("tile1 is first", tile1, mTiles.get(0));
-		assertEquals("tile2 is second", tile2, mTiles.get(1));
-		assertEquals("tile3 is third", tile3, mTiles.get(2));
+		assertEquals("tile1 is first", tile1, (long)mTiles.get(0));
+		assertEquals("tile2 is second", tile2, (long)mTiles.get(1));
+		assertEquals("tile3 is third", tile3, (long)mTiles.get(2));
 	}
 }

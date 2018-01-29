@@ -7,12 +7,12 @@ import android.os.Build;
 import android.util.Log;
 
 import org.osmdroid.api.IMapView;
-import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.MapTileProviderBase;
 import org.osmdroid.tileprovider.modules.IFilesystemCache;
 import org.osmdroid.tileprovider.modules.SqlTileWriter;
 import org.osmdroid.tileprovider.modules.TileWriter;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
+import org.osmdroid.util.MapTileIndex;
 
 import mil.nga.geopackage.tiles.features.FeatureTiles;
 
@@ -41,9 +41,9 @@ public class GeoPackageFeatureTileProvider extends MapTileProviderBase {
 
 
     @Override
-    public Drawable getMapTile(MapTile pTile) {
+    public Drawable getMapTile(final long pMapTileIndex) {
         if (featureTiles != null) {
-            Bitmap tile = featureTiles.drawTile(pTile.getX(), pTile.getY(), pTile.getZoomLevel());
+            Bitmap tile = featureTiles.drawTile(MapTileIndex.getX(pMapTileIndex), MapTileIndex.getY(pMapTileIndex), MapTileIndex.getZoom(pMapTileIndex));
             if (tile != null) {
                 Drawable d = new BitmapDrawable(tile);
                 return d;

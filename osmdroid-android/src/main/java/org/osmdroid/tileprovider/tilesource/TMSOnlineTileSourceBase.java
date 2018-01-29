@@ -1,6 +1,6 @@
 package org.osmdroid.tileprovider.tilesource;
 
-import org.osmdroid.tileprovider.MapTile;
+import org.osmdroid.util.MapTileIndex;
 
 /**
  * created on 12/24/2016.
@@ -24,15 +24,15 @@ public abstract class TMSOnlineTileSourceBase extends OnlineTileSourceBase {
     }
 
     @Override
-    public String getTileRelativeFilenameString(final MapTile tile) {
+    public String getTileRelativeFilenameString(final long pMapTileIndex) {
 
-        int y_tms = (1 << tile.getZoomLevel()) - tile.getY() - 1;
+        int y_tms = (1 << MapTileIndex.getZoom(pMapTileIndex)) - MapTileIndex.getY(pMapTileIndex) - 1;
         final StringBuilder sb = new StringBuilder();
         sb.append(pathBase());
         sb.append('/');
-        sb.append(tile.getZoomLevel());
+        sb.append(MapTileIndex.getZoom(pMapTileIndex));
         sb.append('/');
-        sb.append(tile.getX());
+        sb.append(MapTileIndex.getX(pMapTileIndex));
         sb.append('/');
         sb.append(y_tms);
         sb.append(imageFilenameEnding());

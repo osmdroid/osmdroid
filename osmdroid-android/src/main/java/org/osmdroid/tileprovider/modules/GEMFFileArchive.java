@@ -1,6 +1,5 @@
 package org.osmdroid.tileprovider.modules;
 
-import android.database.Cursor;
 import android.util.Log;
 
 import java.io.File;
@@ -11,9 +10,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.osmdroid.api.IMapView;
-import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.util.GEMFFile;
+import org.osmdroid.util.MapTileIndex;
 
 public class GEMFFileArchive implements IArchiveFile {
 
@@ -21,11 +20,11 @@ public class GEMFFileArchive implements IArchiveFile {
 
 	public GEMFFileArchive(){}
 
-	private GEMFFileArchive(final File pFile) throws FileNotFoundException, IOException {
+	private GEMFFileArchive(final File pFile) throws IOException {
 		mFile = new GEMFFile(pFile);
 	}
 
-	public static GEMFFileArchive getGEMFFileArchive(final File pFile) throws FileNotFoundException, IOException {
+	public static GEMFFileArchive getGEMFFileArchive(final File pFile) throws IOException {
 		return new GEMFFileArchive(pFile);
 	}
 
@@ -35,8 +34,8 @@ public class GEMFFileArchive implements IArchiveFile {
 	}
 
 	@Override
-	public InputStream getInputStream(final ITileSource pTileSource, final MapTile pTile) {
-		return mFile.getInputStream(pTile.getX(), pTile.getY(), pTile.getZoomLevel());
+	public InputStream getInputStream(final ITileSource pTileSource, final long pMapTileIndex) {
+		return mFile.getInputStream(MapTileIndex.getX(pMapTileIndex), MapTileIndex.getY(pMapTileIndex), MapTileIndex.getZoom(pMapTileIndex));
 	}
 
 

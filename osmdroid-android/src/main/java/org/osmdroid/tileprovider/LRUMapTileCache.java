@@ -14,10 +14,10 @@ import org.osmdroid.config.Configuration;
 import org.osmdroid.util.MapTileList;
 import org.osmdroid.util.MapTileIndex;
 
-public class LRUMapTileCache extends LinkedHashMap<MapTile, Drawable> {
+public class LRUMapTileCache extends LinkedHashMap<Long, Drawable> {
 
 	public interface TileRemovedListener {
-		void onTileRemoved(MapTile mapTile);
+		void onTileRemoved(final long pMapTileIndex);
 	}
 
 	private static final long serialVersionUID = -541142277575493335L;
@@ -51,8 +51,8 @@ public class LRUMapTileCache extends LinkedHashMap<MapTile, Drawable> {
 				}
 			}
 		}
-		if (getTileRemovedListener() != null && aKey instanceof MapTile)
-			getTileRemovedListener().onTileRemoved((MapTile) aKey);
+		if (getTileRemovedListener() != null && aKey != null)
+			getTileRemovedListener().onTileRemoved((long) aKey);
 		if (drawable instanceof ReusableBitmapDrawable)
 			BitmapPool.getInstance().returnDrawableToPool((ReusableBitmapDrawable) drawable);
 		return drawable;
@@ -75,16 +75,16 @@ public class LRUMapTileCache extends LinkedHashMap<MapTile, Drawable> {
 	}
 
 	@Override
-	protected boolean removeEldestEntry(final java.util.Map.Entry<MapTile, Drawable> aEldest) {
-		if (mMapTileList.contains(MapTileIndex.getTileIndex(aEldest.getKey()))) {
+	protected boolean removeEldestEntry(final java.util.Map.Entry<Long, Drawable> aEldest) {
+		final long index = aEldest.getKey();
+		if (mMapTileList.contains(index)) {
 			return false; // don't remove, it's a displayed tile
 		}
 		if (size() <= mCapacity) {
 			return false; // don't remove, we are within the capacity
 		}
-		final MapTile eldest = aEldest.getKey();
 		if (Configuration.getInstance().isDebugMode()) {
-				Log.d(IMapView.LOGTAG,"LRU Remove old tile: " + eldest);
+				Log.d(IMapView.LOGTAG,"LRU Remove old tile: " + MapTileIndex.toString(index));
 		}
 		return true; // remove
 	}

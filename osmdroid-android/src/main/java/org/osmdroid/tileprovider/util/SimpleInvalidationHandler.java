@@ -1,6 +1,6 @@
 package org.osmdroid.tileprovider.util;
 
-import org.osmdroid.tileprovider.MapTile;
+import org.osmdroid.tileprovider.MapTileProviderBase;
 
 import android.os.Handler;
 import android.os.Message;
@@ -17,7 +17,7 @@ public class SimpleInvalidationHandler extends Handler {
 	@Override
 	public void handleMessage(final Message msg) {
 		switch (msg.what) {
-		case MapTile.MAPTILE_SUCCESS_ID:
+		case MapTileProviderBase.MAPTILE_SUCCESS_ID:
 			if (mView!=null)
 				mView.invalidate();
 			break;

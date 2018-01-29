@@ -8,11 +8,9 @@ import android.util.Log;
 
 import org.osmdroid.api.IMapView;
 import org.osmdroid.config.Configuration;
-import org.osmdroid.tileprovider.ExpirableBitmapDrawable;
-import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
-import org.osmdroid.tileprovider.util.Counters;
 import org.osmdroid.tileprovider.util.StreamUtils;
+import org.osmdroid.util.MapTileIndex;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
@@ -20,8 +18,6 @@ import java.io.File;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.osmdroid.tileprovider.modules.DatabaseFileArchive.TABLE;
 
 /**
  * An implementation of {@link IFilesystemCache} based on the original TileWriter. It writes tiles to a sqlite database.
@@ -59,10 +55,10 @@ public class SqliteArchiveTileWriter implements IFilesystemCache {
     }
 
     @Override
-    public boolean saveFile(ITileSource pTileSourceInfo, MapTile pTile, InputStream pStream) {
+    public boolean saveFile(final ITileSource pTileSourceInfo, final long pMapTileIndex, final InputStream pStream, final Long pExpirationTime) {
         try {
             ContentValues cv = new ContentValues();
-            final long index = SqlTileWriter.getIndex(pTile);
+            final long index = SqlTileWriter.getIndex(pMapTileIndex);
             cv.put(DatabaseFileArchive.COLUMN_PROVIDER, pTileSourceInfo.name());
             BufferedInputStream bis = new BufferedInputStream(pStream);
 
@@ -77,28 +73,27 @@ public class SqliteArchiveTileWriter implements IFilesystemCache {
             for (int i = 0; i < list.size(); i++) bits[i] = list.get(i);
             cv.put(DatabaseFileArchive.COLUMN_KEY, index);
             cv.put(DatabaseFileArchive.COLUMN_TILE, bits);
-            //this shouldn't happen, but just in case
             db.insert(DatabaseFileArchive.TABLE, null, cv);
             if (Configuration.getInstance().isDebugMode())
-                Log.d(IMapView.LOGTAG, "tile inserted " + pTileSourceInfo.name() + pTile.toString());
+                Log.d(IMapView.LOGTAG, "tile inserted " + pTileSourceInfo.name() + MapTileIndex.toString(pMapTileIndex));
         } catch (Throwable ex) {
-            Log.e(IMapView.LOGTAG, "Unable to store cached tile from " + pTileSourceInfo.name() + " " + pTile.toString(), ex);
+            Log.e(IMapView.LOGTAG, "Unable to store cached tile from " + pTileSourceInfo.name() + " " + MapTileIndex.toString(pMapTileIndex), ex);
         }
         return false;
     }
 
 
     @Override
-    public boolean exists(ITileSource pTileSource, MapTile pTile) {
+    public boolean exists(ITileSource pTileSource, final long pMapTileIndex) {
         try {
-            final long index = SqlTileWriter.getIndex(pTile);
+            final long index = SqlTileWriter.getIndex(pMapTileIndex);
             final Cursor cur = getTileCursor(SqlTileWriter.getPrimaryKeyParameters(index, pTileSource));
 
             final boolean result = (cur.getCount() != 0);
             cur.close();
             return result;
         } catch (Throwable ex) {
-            Log.e(IMapView.LOGTAG, "Unable to store cached tile from " + pTileSource.name() + " " + pTile.toString(), ex);
+            Log.e(IMapView.LOGTAG, "Unable to store cached tile from " + pTileSource.name() + " " + MapTileIndex.toString(pMapTileIndex), ex);
         }
         return false;
     }
@@ -110,13 +105,13 @@ public class SqliteArchiveTileWriter implements IFilesystemCache {
     }
 
     @Override
-    public boolean remove(ITileSource tileSource, MapTile tile) {
+    public boolean remove(final ITileSource tileSource, final long pMapTileIndex) {
         //not supported
         return false;
     }
 
     @Override
-    public Long getExpirationTimestamp(final ITileSource pTileSource, final MapTile pTile) {
+    public Long getExpirationTimestamp(final ITileSource pTileSource, final long pMapTileIndex) {
         return null;
     }
 
@@ -139,15 +134,12 @@ public class SqliteArchiveTileWriter implements IFilesystemCache {
     /**
      *
      * @since 5.6.5
-     * @param pTileSource
-     * @param pTile
-     * @return
      */
     @Override
-    public Drawable loadTile(ITileSource pTileSource, MapTile pTile) throws Exception{
+    public Drawable loadTile(final ITileSource pTileSource, final long pMapTileIndex) throws Exception{
         InputStream inputStream = null;
         try {
-            final long index = SqlTileWriter.getIndex(pTile);
+            final long index = SqlTileWriter.getIndex(pMapTileIndex);
             final Cursor cur = getTileCursor(SqlTileWriter.getPrimaryKeyParameters(index, pTileSource));
             byte[] bits=null;
 
@@ -158,7 +150,7 @@ public class SqliteArchiveTileWriter implements IFilesystemCache {
             cur.close();
             if (bits==null) {
                 if (Configuration.getInstance().isDebugMode()) {
-                    Log.d(IMapView.LOGTAG,"SqlCache - Tile doesn't exist: " +pTileSource.name() + pTile);
+                    Log.d(IMapView.LOGTAG,"SqlCache - Tile doesn't exist: " +pTileSource.name() + MapTileIndex.toString(pMapTileIndex));
                 }
                 return null;
             }

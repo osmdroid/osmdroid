@@ -2,7 +2,6 @@
 package org.osmdroid.tileprovider;
 
 import org.osmdroid.config.Configuration;
-import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 import org.osmdroid.util.MapTileList;
 
 import android.graphics.drawable.Drawable;
@@ -51,16 +50,16 @@ public class MapTileCache {
 		}
 	}
 
-	public Drawable getMapTile(final MapTile aTile) {
+	public Drawable getMapTile(final long pMapTileIndex) {
 		synchronized (mCachedTilesLockObject) {
-			return this.mCachedTiles.get(aTile);
+			return this.mCachedTiles.get(pMapTileIndex);
 		}
 	}
 
-	public void putTile(final MapTile aTile, final Drawable aDrawable) {
+	public void putTile(final long pMapTileIndex, final Drawable aDrawable) {
 		if (aDrawable != null) {
 			synchronized (mCachedTilesLockObject) {
-				this.mCachedTiles.put(aTile, aDrawable);
+				this.mCachedTiles.put(pMapTileIndex, aDrawable);
 			}
 		}
 	}
@@ -80,9 +79,9 @@ public class MapTileCache {
 	// Methods
 	// ===========================================================
 
-	public boolean containsTile(final MapTile aTile) {
+	public boolean containsTile(final long pMapTileIndex) {
 		synchronized (mCachedTilesLockObject) {
-			return this.mCachedTiles.containsKey(aTile);
+			return this.mCachedTiles.containsKey(pMapTileIndex);
 		}
 	}
 
