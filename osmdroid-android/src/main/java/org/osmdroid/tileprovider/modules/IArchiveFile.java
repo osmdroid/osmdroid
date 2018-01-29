@@ -46,4 +46,11 @@ public interface IArchiveFile {
 	 */
 	public Set<String> getTileSources();
 
+
+	/**
+	 * @since 6.0
+	 * If set to true, tiles from this archive will be loaded regardless of their associated tile source name
+	 */
+	public void setIgnoreTileSource(boolean pIgnoreTileSource);
+
 }

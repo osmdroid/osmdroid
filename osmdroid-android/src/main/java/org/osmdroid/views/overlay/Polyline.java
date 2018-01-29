@@ -272,7 +272,7 @@ public class Polyline extends OverlayWithIW {
         double tolerance = mPaint.getStrokeWidth() * density;
         boolean touched = isCloseTo(eventPos, tolerance, mapView);
         if (touched) {
-            eventPos = this.getInfoWindowAnchorPoint(eventPos);
+            //eventPos = this.getInfoWindowAnchorPoint(eventPos);
             if (mOnClickListener == null) {
                 return onClickDefault(this, mapView, eventPos);
             } else {

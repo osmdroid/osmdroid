@@ -50,6 +50,11 @@ public class GEMFFileArchive implements IArchiveFile {
 	}
 
 	@Override
+	public void setIgnoreTileSource(boolean pIgnoreTileSource) {
+
+	}
+
+	@Override
 	public void close() {
 		try {
 			mFile.close();

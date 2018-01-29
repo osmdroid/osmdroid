@@ -215,7 +215,6 @@ public class BingMapTileSource extends QuadTreeTileSource implements IStyledTile
                     final ImageryMetaDataResource imageryData = getMetaData();
                     if (imageryData != null) {
                         mImageryData = imageryData;
-                        TileSystem.setTileSize(getTileSizePixels());
                         updateBaseUrl();
                     }
                 }

@@ -88,6 +88,11 @@ public class MBTilesFileArchive implements IArchiveFile {
 	}
 
 	@Override
+	public void setIgnoreTileSource(boolean pIgnoreTileSource) {
+
+	}
+
+	@Override
 	public void close() {
 		mDatabase.close();
 	}

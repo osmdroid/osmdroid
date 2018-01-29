@@ -18,9 +18,9 @@ import org.osmdroid.util.MapTileIndex;
 public class ZipFileArchive implements IArchiveFile {
 
 	protected ZipFile mZipFile;
-	private boolean mIgnoreTileSource = false;
+    private boolean mIgnoreTileSource = false;
 
-	public ZipFileArchive(){}
+    public ZipFileArchive(){}
 
 	private ZipFileArchive(final ZipFile pZipFile) {
 		mZipFile = pZipFile;
@@ -45,33 +45,33 @@ public class ZipFileArchive implements IArchiveFile {
 
 	@Override
 	public InputStream getInputStream(final ITileSource pTileSource, final long pMapTileIndex) {
-		try {
-			if(!mIgnoreTileSource) {
-				final String path = pTileSource.getTileRelativeFilenameString(pMapTileIndex);
-				final ZipEntry entry = mZipFile.getEntry(path);
-				if (entry != null) {
-					return mZipFile.getInputStream(entry);
-				}
-			} else {
-				// Search all sources in ZIP internal order
-				Enumeration<? extends ZipEntry> entries = mZipFile.entries();
-				while (entries.hasMoreElements()) {
-					ZipEntry nextElement = entries.nextElement();
-					String str=nextElement.getName();
-					if (str.contains("/")) {
-						String path = getTileRelativeFilenameString(pMapTileIndex, str.split("/")[0]);
-						ZipEntry entry = mZipFile.getEntry(path);
-						if (entry != null) {
-							return mZipFile.getInputStream(entry);
-						}
-					}
-				}
-			}
-		} catch (final IOException e) {
-			Log.w(IMapView.LOGTAG,"Error getting zip stream: " + MapTileIndex.toString(pMapTileIndex), e);
-		}
-		return null;
-	}
+        try {
+            if(!mIgnoreTileSource) {
+                final String path = pTileSource.getTileRelativeFilenameString(pMapTileIndex);
+                final ZipEntry entry = mZipFile.getEntry(path);
+                if (entry != null) {
+                    return mZipFile.getInputStream(entry);
+                }
+            } else {
+                // Search all sources in ZIP internal order
+                Enumeration<? extends ZipEntry> entries = mZipFile.entries();
+                while (entries.hasMoreElements()) {
+                    ZipEntry nextElement = entries.nextElement();
+                    String str=nextElement.getName();
+                    if (str.contains("/")) {
+                        String path = getTileRelativeFilenameString(pMapTileIndex, str.split("/")[0]);
+                        ZipEntry entry = mZipFile.getEntry(path);
+                        if (entry != null) {
+                            return mZipFile.getInputStream(entry);
+                        }
+                    }
+                }
+            }
+        } catch (final IOException e) {
+            Log.w(IMapView.LOGTAG,"Error getting zip stream: " + MapTileIndex.toString(pMapTileIndex), e);
+        }
+        return null;
+    }
 
 	/**
 	 * @since 6.0

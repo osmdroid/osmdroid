@@ -30,6 +30,7 @@ public class DatabaseFileArchive implements IArchiveFile {
 	public static final String COLUMN_KEY = "key";
 	static final String[] tile_column = {"tile"};
 	private SQLiteDatabase mDatabase;
+	private boolean mIgnoreTileSource = false;
 
 	public DatabaseFileArchive(){}
 
@@ -40,6 +41,14 @@ public class DatabaseFileArchive implements IArchiveFile {
 	public static DatabaseFileArchive getDatabaseFileArchive(final File pFile) throws SQLiteException {
 		return new DatabaseFileArchive(SQLiteDatabase.openDatabase(pFile.getAbsolutePath(), null, SQLiteDatabase.OPEN_READONLY & SQLiteDatabase.NO_LOCALIZED_COLLATORS));
 
+	}
+
+	/**
+	 * @since 6.0
+	 * If set to true, tiles from this archive will be loaded regardless of their associated tile source name
+	 */
+	public void setIgnoreTileSource(boolean pIgnoreTileSource) {
+		mIgnoreTileSource = pIgnoreTileSource;
 	}
 
 	public Set<String> getTileSources(){
@@ -70,7 +79,14 @@ public class DatabaseFileArchive implements IArchiveFile {
 			final long y = MapTileIndex.getY(pMapTileIndex);
 			final long z = MapTileIndex.getZoom(pMapTileIndex);
 			final long index = ((z << z) + x << z) + y;
-			final Cursor cur = mDatabase.query(TABLE, tile, COLUMN_KEY+" = " + index + " and "+COLUMN_PROVIDER+" = '" + pTileSource.name() + "'", null, null, null, null);
+
+			Cursor cur;
+			if(!mIgnoreTileSource) {
+				cur = mDatabase.query(TABLE, tile, COLUMN_KEY+" = " + index + " and "
+				+ COLUMN_PROVIDER + " = ?", new String[]{pTileSource.name()}, null, null, null);
+			} else {
+				cur = mDatabase.query(TABLE, tile, COLUMN_KEY+" = " + index, null, null, null, null);
+			}
 
 			if(cur.getCount() != 0) {
 				cur.moveToFirst();
