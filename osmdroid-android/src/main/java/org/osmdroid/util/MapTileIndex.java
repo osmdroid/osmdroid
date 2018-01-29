@@ -1,7 +1,5 @@
 package org.osmdroid.util;
 
-import org.osmdroid.tileprovider.MapTile;
-
 import microsoft.mappoint.TileSystem;
 
 /**
