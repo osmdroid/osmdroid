@@ -3,11 +3,11 @@ package org.osmdroid.views.overlay;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.library.R;
 import org.osmdroid.tileprovider.BitmapPool;
+import org.osmdroid.tileprovider.MapTileCache;
 import org.osmdroid.tileprovider.MapTileProviderBase;
 import org.osmdroid.tileprovider.ReusableBitmapDrawable;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
-import org.osmdroid.util.MapTileList;
 import org.osmdroid.util.RectL;
 import org.osmdroid.util.MapTileIndex;
 import org.osmdroid.util.TileLooper;
@@ -179,9 +179,7 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 			return;
 		}
 		mProjection = getProjection();
-		final MapTileList mapTileList = mTileProvider.getCacheMapTileList();
-		mapTileList.clear();
-		mCacheTileLooper.loop(getProjection().getZoomLevel(), mViewPort, mapTileList);
+		mCacheTileLooper.loop(mProjection.getZoomLevel(), mViewPort);
 	}
 
 	/**
@@ -297,16 +295,31 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 	 */
 	protected class CacheTileLooper extends TileLooper {
 
-		private MapTileList mList;
+		/**
+		 * making it `public` and not inaccessible as `protectec`
+		 */
+		@Override
+		public void loop(final double pZoomLevel, final RectL pMercatorViewPort) {
+			super.loop(pZoomLevel, pMercatorViewPort);
+		}
 
-		public void loop(final double pZoomLevel, final RectL pViewPort, final MapTileList pList) {
-			mList = pList;
-			loop(pZoomLevel, pViewPort);
+		@Override
+		public void initialiseLoop() {
+			getTileCache().getMapTileList().clear();
 		}
 
 		@Override
 		public void handleTile(final long pMapTileIndex, int pX, int pY) {
-			mList.put(pMapTileIndex);
+			getTileCache().getMapTileList().put(pMapTileIndex);
+		}
+
+		@Override
+		public void finaliseLoop() {
+			getTileCache().garbageCollection();
+		}
+
+		private MapTileCache getTileCache() {
+			return mTileProvider.getTileCache();
 		}
 	}
 

@@ -14,6 +14,7 @@ import org.osmdroid.config.Configuration;
 import org.osmdroid.util.MapTileList;
 import org.osmdroid.util.MapTileIndex;
 
+@Deprecated
 public class LRUMapTileCache extends LinkedHashMap<Long, Drawable> {
 
 	public interface TileRemovedListener {

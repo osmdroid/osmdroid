@@ -269,6 +269,13 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback {
 	}
 
 	/**
+	 * @since 6.0.0
+	 */
+	public MapTileCache getTileCache() {
+		return mTileCache;
+	}
+
+	/**
 	 * purges the cache of all tiles (default is the in memory cache)
 	 */
 	public void clearTileCache() {
@@ -459,7 +466,7 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback {
 									x * mTileSize_2, y * mTileSize_2,
 									(x + 1) * mTileSize_2, (y + 1) * mTileSize_2);
 							canvas.drawBitmap(oldBitmap, null, mDestRect, null);
-							mTileCache.mCachedTiles.remove(oldTile);
+							mTileCache.remove(oldTile);
 						}
 					}
 				}
@@ -480,11 +487,4 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback {
 	 * @return the number of tile requests currently in the queue
      */
 	public abstract long getQueueSize();
-
-	/**
-	 * @since 6.0.0
-	 */
-	public MapTileList getCacheMapTileList() {
-		return mTileCache.getMapTileList();
-	}
 }

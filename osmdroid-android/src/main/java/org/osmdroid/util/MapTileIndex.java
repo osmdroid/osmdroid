@@ -13,7 +13,7 @@ import microsoft.mappoint.TileSystem;
 
 public class MapTileIndex {
 
-    private static int mMaxZoomLevel = TileSystem.primaryKeyMaxZoomLevel;
+    public static int mMaxZoomLevel = TileSystem.primaryKeyMaxZoomLevel;
     private static int mModulo = 1 << mMaxZoomLevel;
 
     public static long getTileIndex(final int pZoom, final int pX, final int pY) {

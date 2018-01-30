@@ -2,10 +2,13 @@ package org.osmdroid.tileprovider;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import org.osmdroid.config.Configuration;
+import org.osmdroid.tileprovider.modules.ConfigurablePriorityThreadFactory;
 import org.osmdroid.tileprovider.modules.IFilesystemCache;
 import org.osmdroid.tileprovider.modules.MapTileModuleProviderBase;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
@@ -35,9 +38,10 @@ import org.osmdroid.util.MapTileIndex;
  */
 public class MapTileProviderArray extends MapTileProviderBase {
 
-	private final HashMap<Long, MapTileRequestState> mWorking;
+	private final HashSet<Long> mWorking = new HashSet<>();
 	private IRegisterReceiver mRegisterReceiver=null;
 	protected final List<MapTileModuleProviderBase> mTileProviderList;
+	private final ExecutorService mExecutor;
 
 	/**
 	 * Creates an {@link MapTileProviderArray} with no tile providers.
@@ -63,10 +67,11 @@ public class MapTileProviderArray extends MapTileProviderBase {
 			final MapTileModuleProviderBase[] pTileProviderArray) {
 		super(pTileSource);
 
-		mWorking = new HashMap<>();
 		mRegisterReceiver=aRegisterReceiver;
 		mTileProviderList = new ArrayList<>();
 		Collections.addAll(mTileProviderList, pTileProviderArray);
+		mExecutor = Executors.newFixedThreadPool(Configuration.getInstance().getTileFileSystemThreads(),
+				new ConfigurablePriorityThreadFactory(Thread.MAX_PRIORITY, getClass().getName()));
 	}
 
 	@Override
@@ -86,6 +91,7 @@ public class MapTileProviderArray extends MapTileProviderBase {
 			mRegisterReceiver.destroy();
 			mRegisterReceiver = null;
 		}
+		mExecutor.shutdown();
 		super.detach();
 	}
 
@@ -107,7 +113,7 @@ public class MapTileProviderArray extends MapTileProviderBase {
 				return tile; // best we can, considering
 			}
 		}
-		if (mWorking.containsKey(pMapTileIndex)) { // already in progress
+		if (mWorking.contains(pMapTileIndex)) { // already in progress
 			return tile;
 		}
 
@@ -116,23 +122,41 @@ public class MapTileProviderArray extends MapTileProviderBase {
 					+ MapTileIndex.toString(pMapTileIndex));
 		}
 
-		final MapTileRequestState state = new MapTileRequestState(pMapTileIndex, mTileProviderList, this);
+		asyncTileLookup(pMapTileIndex);
+		return tile;
+	}
 
+	/**
+	 * @since 6.0.0
+	 */
+	private void asyncTileLookup(final long pMapTileIndex) {
+		mExecutor.execute(new Runnable() {
+			@Override
+			public void run() {
+				syncTileLookup(pMapTileIndex);
+			}
+		});
+	}
+
+	/**
+	 * @since 6.0.0
+	 */
+	private void syncTileLookup(final long pMapTileIndex) {
 		synchronized (mWorking) {
 			// Check again
-			if (mWorking.containsKey(pMapTileIndex)) {
-				return tile;
+			if (mWorking.contains(pMapTileIndex)) {
+				return;
 			}
-			mWorking.put(pMapTileIndex, state);
+			mWorking.add(pMapTileIndex);
 		}
 
+		final MapTileRequestState state = new MapTileRequestState(pMapTileIndex, mTileProviderList, MapTileProviderArray.this);
 		final MapTileModuleProviderBase provider = findNextAppropriateProvider(state);
 		if (provider != null) {
 			provider.loadMapTileAsync(state);
 		} else {
 			mapTileRequestFailed(state);
 		}
-		return tile;
 	}
 
 	/**
