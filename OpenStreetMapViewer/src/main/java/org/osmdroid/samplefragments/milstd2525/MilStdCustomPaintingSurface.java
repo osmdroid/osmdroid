@@ -7,19 +7,25 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Point;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.MotionEvent;
 import android.view.View;
 
+import org.osmdroid.api.IMapView;
 import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
+import org.osmdroid.util.PointReducer;
 import org.osmdroid.util.TileSystem;
+import org.osmdroid.util.constants.GeoConstants;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
 import org.osmdroid.views.overlay.FolderOverlay;
 import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.Polygon;
 import org.osmdroid.views.overlay.Polyline;
+import org.osmdroid.views.util.constants.MathConstants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,10 +34,7 @@ import armyc2.c2sd.graphics2d.Point2D;
 import armyc2.c2sd.renderer.utilities.Color;
 import armyc2.c2sd.renderer.utilities.MilStdSymbol;
 import armyc2.c2sd.renderer.utilities.ModifiersTG;
-import armyc2.c2sd.renderer.utilities.RendererSettings;
 import armyc2.c2sd.renderer.utilities.ShapeInfo;
-import armyc2.c2sd.renderer.utilities.SymbolDef;
-import armyc2.c2sd.renderer.utilities.SymbolDefTable;
 import sec.web.render.SECWebRenderer;
 
 /**
@@ -67,10 +70,12 @@ public class MilStdCustomPaintingSurface extends View {
 
     transient FolderOverlay lastOverlay = null;
 
-
+    int densityDpi=240;
     public MilStdCustomPaintingSurface(Context context, AttributeSet attrs) {
         super(context, attrs);
         mPath = new Path();
+        DisplayMetrics dm = getResources().getDisplayMetrics();
+        densityDpi = dm.densityDpi;
     }
 
 
@@ -128,18 +133,41 @@ public class MilStdCustomPaintingSurface extends View {
         if (map != null) {
             Projection projection = map.getProjection();
 
-            //TODO run the douglas pucker algorithm to reduce the points for performance reasons
+
             if (symbol != null && symbol.getMinPoints() <= pts.size()) {
 
                 //ok we are going to make a new symbol
                 map.getOverlayManager().remove(lastOverlay);
-                StringBuilder controlPts = new StringBuilder();
+
+                ArrayList<GeoPoint> inputGeoPoints = new ArrayList<>();
                 final Point unrotatedPoint = new Point();
                 for (int i = 0; i < pts.size(); i++) {
                     projection.unrotateAndScalePoint(pts.get(i).x, pts.get(i).y, unrotatedPoint);
                     GeoPoint iGeoPoint = (GeoPoint) projection.fromPixels(unrotatedPoint.x, unrotatedPoint.y);
+                    inputGeoPoints.add(iGeoPoint);
+                }
+
+                Log.d(IMapView.LOGTAG, "point size before " + inputGeoPoints.size());
+                //get the screen bounds
+                BoundingBox boundingBox = map.getBoundingBox();
+                final double latSpanDegrees = boundingBox.getLatitudeSpan();
+                //get the degree difference, divide by dpi
+                double tolerance = latSpanDegrees /densityDpi;
+                //each degree on screen is represented by this many dip
+
+                StringBuilder controlPts = new StringBuilder();
+                //run the douglas pucker algorithm to reduce the points for performance reasons
+                inputGeoPoints = PointReducer.reduceWithTolerance(
+                    inputGeoPoints,
+                    tolerance
+                );
+                Log.d(IMapView.LOGTAG, "point size after " + inputGeoPoints.size());
+
+                for (GeoPoint iGeoPoint : inputGeoPoints) {
                     controlPts.append(iGeoPoint.getLongitude()).append(",").append(iGeoPoint.getLatitude()).append(" ");
                 }
+
+
                 String id = "id";
                 String name = symbol.getSymbolCode();
                 String description = symbol.getDescription();
@@ -147,10 +175,9 @@ public class MilStdCustomPaintingSurface extends View {
 
                 String controlPoints = controlPts.toString();
                 String altitudeMode = "absolute";
-                //FIXME have to get the ground scale
+                //the ground scale
                 double scale = TileSystem.GroundResolution(map.getMapCenter().getLatitude(), map.getZoomLevelDouble());
                 //"lowerLeftX,lowerLeftY,upperRightX,upperRightY."
-                BoundingBox boundingBox = map.getBoundingBox();
                 String bbox = boundingBox.getLonWest() + "," +
                     boundingBox.getLatSouth() + "," +
                     boundingBox.getLonEast() + "," +
@@ -158,10 +185,9 @@ public class MilStdCustomPaintingSurface extends View {
 
 
                 SparseArray<String> modifiers = new SparseArray<String>();
-                SymbolDef symbolDefinition = SymbolDefTable.getInstance().getSymbolDef(symbol.getBasicSymbolId(), RendererSettings.getInstance().getSymbologyStandard());
 
                 if (symbolCode.charAt(0) == 'G') {
-                    //set the echloen to something meaningful
+                    //set the echleon to something meaningful
                     symbolCode = symbolCode.substring(0, 10) + "-F" + symbolCode.substring(12);
                     symbolCode = symbolCode.substring(0, 3) + "P" + symbolCode.substring(4);
                 }
@@ -191,13 +217,11 @@ public class MilStdCustomPaintingSurface extends View {
 
                 int symStd = 0;
 
-
+                //produce the symbol
                 MilStdSymbol flot = SECWebRenderer.RenderMultiPointAsMilStdSymbol(id, name, description, symbolCode, controlPoints, altitudeMode, scale, bbox, modifiers, attributes, symStd);
+
+                //convert the symbol into osmdroid's data structures
                 lastOverlay = new FolderOverlay();
-
-                //ArrayList<Point2D> milStdSymbol.getSymbolShapes.get(index).getPolylines()
-                //* ShapeInfo = milStdSymbol.getModifierShapes.get(index).
-
                 for (int i = 0; i < flot.getSymbolShapes().size(); i++) {
                     ShapeInfo info = flot.getSymbolShapes().get(i);
 
@@ -301,15 +325,15 @@ public class MilStdCustomPaintingSurface extends View {
                         } else {
                             //not a line or a polygon
 
-                            Marker.ENABLE_TEXT_LABELS_WHEN_NO_IMAGE=true;
+                            Marker.ENABLE_TEXT_LABELS_WHEN_NO_IMAGE = true;
                             Marker m = new Marker(map);
                             m.setTextLabelBackgroundColor(Color.WHITE.toInt());
                             m.setTextLabelFontSize(14);
                             m.setTextLabelForegroundColor(Color.BLACK.toInt());
                             m.setTitle(info.getModifierString());
-                            m.setRotation((float)info.getModifierStringAngle());
+                            m.setRotation((float) info.getModifierStringAngle());
                             m.setIcon(null);
-                            m.setPosition(new GeoPoint(info.getModifierStringPosition().getY(),info.getModifierStringPosition().getX()));
+                            m.setPosition(new GeoPoint(info.getModifierStringPosition().getY(), info.getModifierStringPosition().getX()));
                             lastOverlay.getItems().add(m);
                         }
                     }

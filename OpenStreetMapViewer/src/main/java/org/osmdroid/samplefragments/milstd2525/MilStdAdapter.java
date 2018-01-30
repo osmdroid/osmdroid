@@ -3,6 +3,7 @@ package org.osmdroid.samplefragments.milstd2525;
 import android.content.Context;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.util.DisplayMetrics;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,18 +40,20 @@ import armyc2.c2sd.renderer.utilities.UnitDefTable;
 public class MilStdAdapter extends ArrayAdapter<SimpleSymbol> implements Filterable, Comparator<SimpleSymbol> {
     List<SimpleSymbol> values = new ArrayList<>();
 
-    String charAffil="U";
+    String charAffil = "F";
     Context context = null;
+    float density = 240;
 
     public MilStdAdapter(Context context) {
         super(context, R.layout.milstd2525searchitem);
-
+        DisplayMetrics dm = context.getResources().getDisplayMetrics();
+        density = dm.density;
         resetSymbols();
 
         this.context = context;
     }
 
-    private void resetSymbols(){
+    private void resetSymbols() {
         synchronized (values) {
             values.clear();
             Map<String, SymbolDef> stringSymbolDefMap = SymbolDefTable.getInstance().GetAllSymbolDefs(RendererSettings.getInstance().getSymbologyStandard());
@@ -72,8 +75,11 @@ public class MilStdAdapter extends ArrayAdapter<SimpleSymbol> implements Filtera
 
     @Override
     public int getCount() {
-        synchronized (values) {
-            return values.size();
+
+        synchronized (this) {
+            if (values != null)
+                return values.size();
+            return 0;
         }
     }
 
@@ -113,12 +119,12 @@ public class MilStdAdapter extends ArrayAdapter<SimpleSymbol> implements Filtera
             milstd_search_result_hierarchy.setText(def.getHierarchy());
 
         SparseArray<String> attr = new SparseArray<>();
-        attr.put(MilStdAttributes.PixelSize, "128");
+        attr.put(MilStdAttributes.PixelSize, (int)(45 * density )+ "");
         attr.put(MilStdAttributes.DrawAsIcon, "true");
 
         String code = def.getBasicSymbolId();
         if (code.charAt(1) == '*') {
-            code = code.substring(0,1) + charAffil + code.substring(2);
+            code = code.substring(0, 1) + charAffil + code.substring(2);
         }
         //TODO mobility, country code, status, etc
 
@@ -134,68 +140,67 @@ public class MilStdAdapter extends ArrayAdapter<SimpleSymbol> implements Filtera
 
     @Override
     public Filter getFilter() {
-
-        Filter filter = new Filter() {
-
-            @SuppressWarnings("unchecked")
-            @Override
-            protected void publishResults(CharSequence constraint, FilterResults results) {
-
-                values = (ArrayList<SimpleSymbol>) results.values;
-                notifyDataSetChanged();
-
-            }
-
-            @Override
-            protected FilterResults performFiltering(CharSequence constraint) {
-
-                FilterResults results = new FilterResults();
-                ArrayList<SimpleSymbol> filteredArrayNames = new ArrayList<SimpleSymbol>();
-
-                resetSymbols();
-
-                // perform your search here using the searchConstraint String.
-                if (constraint == null || constraint.length() == 0) {
-
-                    results.values = values;
-                    results.count = values.size();
-                } else {
-                    constraint = constraint.toString().toLowerCase();
-                    for (int i = 0; i < values.size(); i++) {
-                        try {
-                            SimpleSymbol dataNames = values.get(i);
-                            if (dataNames != null && dataNames.getDescription() != null && dataNames.getDescription().toLowerCase().contains(constraint)) {
-                                filteredArrayNames.add(dataNames);
-                            }
-                        } catch (Exception ex) {
-                            break;
-                        }
-                    }
-
-                    results.count = filteredArrayNames.size();
-                    results.values = filteredArrayNames;
-                }
-
-                return results;
-            }
-        };
-
         return filter;
     }
 
+    Filter filter = new Filter() {
+
+        @SuppressWarnings("unchecked")
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            // NOTE: this function is *always* called from the UI thread.
+            values = (ArrayList<SimpleSymbol>) results.values;
+            notifyDataSetChanged();
+        }
+
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            // NOTE: this function is *always* called from a background thread, and
+            // not the UI thread.
+            FilterResults results = new FilterResults();
+            ArrayList<SimpleSymbol> filteredArrayNames = new ArrayList<SimpleSymbol>();
+
+            resetSymbols();
+
+            // perform your search here using the searchConstraint String.
+            if (constraint == null || constraint.length() == 0) {
+
+                results.values = values;
+                results.count = values.size();
+            } else {
+                constraint = constraint.toString().toLowerCase();
+                for (int i = 0; i < values.size(); i++) {
+                    try {
+                        SimpleSymbol dataNames = values.get(i);
+                        if (dataNames != null && dataNames.getDescription() != null && dataNames.getDescription().toLowerCase().contains(constraint)) {
+                            filteredArrayNames.add(dataNames);
+                        }
+                    } catch (Exception ex) {
+                        break;
+                    }
+                }
+
+                results.count = filteredArrayNames.size();
+                results.values = filteredArrayNames;
+            }
+
+            return results;
+        }
+    };
+
     @Override
     public int compare(SimpleSymbol lhs, SimpleSymbol rhs) {
-        if (lhs==null) return 0;
-        if (lhs.getDescription()==null)
+        if (lhs == null) return 0;
+        if (lhs.getDescription() == null)
             lhs.setDescription("");
-        if (rhs==null) return 0;
-        if (rhs.getDescription()==null)
+        if (rhs == null) return 0;
+        if (rhs.getDescription() == null)
             rhs.setDescription("");
         return lhs.getDescription().compareTo(rhs.getDescription());
     }
 
     public void update(String charAffiliation) {
-        this.charAffil=charAffiliation;
+        this.charAffil = charAffiliation;
         notifyDataSetChanged();
 
     }
