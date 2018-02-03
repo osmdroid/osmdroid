@@ -78,7 +78,6 @@ public class MapTileProviderArray extends MapTileProviderBase {
 			}
 		}
 
-		mTileCache.clear();
 		synchronized (mWorking) {
 			mWorking.clear();
 		}
