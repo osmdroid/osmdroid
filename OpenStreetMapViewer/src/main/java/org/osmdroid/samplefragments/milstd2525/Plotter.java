@@ -382,7 +382,10 @@ public class Plotter extends SampleGridlines implements View.OnClickListener, Te
             enablePanning();
         }
         if (def.canDraw()) {
-            if (def.getMinPoints()==1) {
+            ModifierPicker picker = new ModifierPicker();
+            picker.show(getActivity(), def);
+
+            if (def.getMaxPoints()==1) {
                 enablePanning();
                 plotter.setSymbol(def);
                 Toast.makeText(getActivity(), "Long press to plot!", Toast.LENGTH_SHORT).show();
