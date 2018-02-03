@@ -67,7 +67,7 @@ public class MilStdPointPlottingOverlay extends Overlay {
                 SparseArray<String> attr = new SparseArray<>();
                 attr.put(MilStdAttributes.PixelSize, size + "");
 
-                ImageInfo ii = MilStdIconRenderer.getInstance().RenderIcon(code, new SparseArray<String>(), attr);
+                ImageInfo ii = MilStdIconRenderer.getInstance().RenderIcon(code, def.getModifiers(), attr);
                 Marker m = new Marker(mapView);
                 m.setPosition(pt);
                 m.setTitle(code);
