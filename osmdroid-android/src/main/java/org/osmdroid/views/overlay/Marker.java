@@ -318,7 +318,7 @@ public class Marker extends OverlayWithIW {
 			return;
 		
 		final Projection pj = mapView.getProjection();
-		
+
 		pj.toPixels(mPosition, mPositionPixels);
 		int width = mIcon.getIntrinsicWidth();
 		int height = mIcon.getIntrinsicHeight();

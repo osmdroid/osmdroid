@@ -1,5 +1,7 @@
 package org.osmdroid.shape;
 
+import android.util.Log;
+
 import org.nocrala.tools.gis.data.esri.shapefile.ShapeFileReader;
 import org.nocrala.tools.gis.data.esri.shapefile.ValidationPreferences;
 import org.nocrala.tools.gis.data.esri.shapefile.header.ShapeFileHeader;
@@ -8,6 +10,9 @@ import org.nocrala.tools.gis.data.esri.shapefile.shape.PointData;
 import org.nocrala.tools.gis.data.esri.shapefile.shape.shapes.MultiPointZShape;
 import org.nocrala.tools.gis.data.esri.shapefile.shape.shapes.PointShape;
 import org.nocrala.tools.gis.data.esri.shapefile.shape.shapes.PolygonShape;
+import org.osmdroid.api.IGeoPoint;
+import org.osmdroid.api.IMapView;
+import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.FolderOverlay;
@@ -39,7 +44,7 @@ public class ShapeConverter {
         ShapeFileReader r = new ShapeFileReader(is, prefs);
 
         ShapeFileHeader h = r.getHeader();
-        System.out.println("The shape type of this files is " + h.getShapeType());
+        //System.out.println("The shape type of this files is " + h.getShapeType());
 
 
         AbstractShape s;
@@ -53,18 +58,12 @@ public class ShapeConverter {
                     folder.add(m);
 
                     break;
-                case MULTIPOINT_Z:
 
-                    MultiPointZShape aMultiPointZ = (MultiPointZShape) s;
-                    // Do something with the MultiPointZ shape...
-                    break;
                 case POLYGON:
 
                     PolygonShape aPolygon = (PolygonShape) s;
 
-                    System.out.println("I read a Polygon with "
-                        + aPolygon.getNumberOfParts() + " parts and "
-                        + aPolygon.getNumberOfPoints() + " points");
+                    //System.out.println("I read a Polygon with "                        + aPolygon.getNumberOfParts() + " parts and "                        + aPolygon.getNumberOfPoints() + " points");
                     Polygon polygon = new Polygon(map);
                     List<List<GeoPoint>> holes = new ArrayList<>();
                     for (int i = 0; i < aPolygon.getNumberOfParts(); i++) {
@@ -81,15 +80,20 @@ public class ShapeConverter {
                         } else {
                             holes.add(pts);
                         }
-                        System.out.println("- part " + i + " has " + points.length
-                            + " points.");
+                        //System.out.println("- part " + i + " has " + points.length + " points.");
                     }
                     polygon.setHoles(holes);
+                    System.out.println("List<GeoPoint> points = new ArrayList<>()");
+                    for (GeoPoint ptss: polygon.getPoints()) {
+                        System.out.println("points.add(new GeoPoint(" + ptss.getLatitude() + "," + ptss.getLongitude() + "));");
+                    }
+
+                    polygon.setSubDescription(BoundingBox.fromGeoPoints(polygon.getPoints()).toString());
                     folder.add(polygon);
 
                     break;
                 default:
-                    System.out.println("Read other type of shape.");
+                    Log.w(IMapView.LOGTAG, s.getShapeType() + " was unhandled!");
             }
         }
         is.close();

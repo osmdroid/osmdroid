@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.Point;
 import android.graphics.RectF;
 import android.graphics.Region;
 import android.view.MotionEvent;
@@ -14,6 +15,7 @@ import org.osmdroid.library.R;
 import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.PointL;
+import org.osmdroid.util.PointReducer;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
 import org.osmdroid.views.overlay.infowindow.BasicInfoWindow;
@@ -43,7 +45,19 @@ public class Polygon extends OverlayWithIW {
 	private final Path mPath = new Path(); //Path drawn is kept for click detection
 	private LinearRing mOutline = new LinearRing(mPath);
 	private ArrayList<LinearRing> mHoles = new ArrayList<>();
+	private ArrayList<GeoPoint> originalPointSet = new ArrayList<>();
+
+	public boolean isAutoReducePoints() {
+		return mAutoReducePoints;
+	}
+
+	public void setAutoReducePoints(boolean mAutoReducePoints) {
+		this.mAutoReducePoints = mAutoReducePoints;
+	}
+
+	private ArrayList<GeoPoint> originalHolesSet = new ArrayList<>();
 	private String id=null;
+	private boolean mAutoReducePoints= true;
 	private GeoPoint mLastGeoPoint=null;
 	protected static InfoWindow mDefaultInfoWindow = null;
 	/** Paint settings. */
@@ -51,6 +65,7 @@ public class Polygon extends OverlayWithIW {
 	private Paint mOutlinePaint;
 	private List<MilestoneManager> mMilestoneManagers = new ArrayList<>();
 	private GeoPoint infoWindowLocation=null;
+	private BoundingBox mBounds=new BoundingBox(90,180,-90,-180);
 
 	// ===========================================================
 	// Constructors
@@ -143,10 +158,16 @@ public class Polygon extends OverlayWithIW {
 		mInfoWindow = infoWindow;
 	}
 
+	@Override
+	public BoundingBox getBounds(){
+		return mBounds;
+	}
+
 	/**
 	 * This method will take a copy of the points.
 	 */
 	public void setPoints(final List<GeoPoint> points) {
+		mBounds = BoundingBox.fromGeoPoints(points);
 		mOutline.setPoints(points);
 	}
 
@@ -221,9 +242,25 @@ public class Polygon extends OverlayWithIW {
 		if (shadow) {
 			return;
 		}
+		//don't bother attempting to draw it unless it's in view
+		if (!mapView.getBoundingBox().overlaps(mBounds))
+			return;
+		float densityDpi = mapView.getContext().getResources().getDisplayMetrics().densityDpi;
 
 		final Projection pj = mapView.getProjection();
 		mPath.rewind();
+
+		if (mAutoReducePoints) {
+
+			BoundingBox boundingBox = mapView.getBoundingBox();
+			final double latSpanDegrees = boundingBox.getLatitudeSpan();
+			//get the degree difference, divide by dpi
+			double tolerance = latSpanDegrees /(densityDpi*2);
+			//each latitude degree on screen is represented by this many dip
+			mOutline.setPoints(PointReducer.reduceWithTolerance(originalPointSet, tolerance));
+		}
+
+
 
 		mOutline.setClipArea(mapView);
 		final PointL offset = mOutline.buildPathPortion(pj, null, mMilestoneManagers.size() > 0);

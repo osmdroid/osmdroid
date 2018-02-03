@@ -192,6 +192,8 @@ public class Polyline extends OverlayWithIW {
         originalPoints.clear();
         originalPoints.addAll(points);
 
+        mBounds =BoundingBox.fromGeoPoints(points);
+
         setPointsInternal(originalPoints);
 
     }

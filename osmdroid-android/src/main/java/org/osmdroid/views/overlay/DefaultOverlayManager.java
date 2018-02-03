@@ -137,7 +137,9 @@ public class DefaultOverlayManager extends AbstractList<Overlay> implements Over
         for (final Overlay overlay : mOverlayList) {
             //#396 fix, null check
             if (overlay!=null && overlay.isEnabled()) {
-                overlay.draw(c, pMapView, false);
+                //don't bother attempting to draw it unless it's in view
+                //TODO if (pMapView.getBoundingBox().overlaps(overlay.getBounds()))
+                    overlay.draw(c, pMapView, false);
             }
         }
         //potential fix for #52 pMapView.invalidate();

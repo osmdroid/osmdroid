@@ -1,9 +1,11 @@
 package org.osmdroid.samplefragments.data;
 
 import android.os.Build;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.github.angads25.filepicker.controller.DialogSelectionListener;
 import com.github.angads25.filepicker.model.DialogConfigs;
@@ -11,20 +13,25 @@ import com.github.angads25.filepicker.model.DialogProperties;
 import com.github.angads25.filepicker.view.FilePickerDialog;
 
 import org.osmdroid.samplefragments.BaseSampleFragment;
+import org.osmdroid.samplefragments.events.SampleMapEventListener;
 import org.osmdroid.shape.ShapeConverter;
 import org.osmdroid.tileprovider.modules.ArchiveFileFactory;
+import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.views.overlay.FolderOverlay;
 
 import java.io.File;
 import java.util.Set;
 
 /**
+ * A simple how to for importing and display an ESRI shape file
  * created on 1/28/2018.
  *
  * @author Alex O'Ree
  */
 
-public class SampleShapeFile extends BaseSampleFragment {
+public class SampleShapeFile extends SampleMapEventListener {
+
+
     @Override
     public String getSampleTitle() {
         return "Shape File Import";
@@ -53,6 +60,12 @@ public class SampleShapeFile extends BaseSampleFragment {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void addOverlays() {
+        super.addOverlays();
+        mMapView.setTileSource(TileSourceFactory.DEFAULT_TILE_SOURCE);
+        mMapView.invalidate();
+    }
     private void showPicker() {
         DialogProperties properties = new DialogProperties();
         properties.selection_mode = DialogConfigs.SINGLE_MODE;
@@ -79,7 +92,8 @@ public class SampleShapeFile extends BaseSampleFragment {
                     FolderOverlay folder = ShapeConverter.convert(mMapView, new File(files[0]));
                     mMapView.getOverlayManager().add(folder);
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    Toast.makeText(getActivity(), "Error importing file: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                    Log.e(TAG, "error importing file from " +files[0], e);
                 }
 
             }
