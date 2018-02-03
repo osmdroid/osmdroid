@@ -1,6 +1,7 @@
 package org.osmdroid.shape;
 
 import org.nocrala.tools.gis.data.esri.shapefile.ShapeFileReader;
+import org.nocrala.tools.gis.data.esri.shapefile.ValidationPreferences;
 import org.nocrala.tools.gis.data.esri.shapefile.header.ShapeFileHeader;
 import org.nocrala.tools.gis.data.esri.shapefile.shape.AbstractShape;
 import org.nocrala.tools.gis.data.esri.shapefile.shape.PointData;
@@ -27,13 +28,15 @@ import java.util.List;
  */
 
 public class ShapeConverter {
-    public static FolderOverlay convert(MapView map, File file) throws Exception {
+
+    public static FolderOverlay convert(MapView map, File file, ValidationPreferences prefs) throws Exception {
         FolderOverlay folder = new FolderOverlay();
 
         FileInputStream is = null;
 
         is = new FileInputStream(file);
-        ShapeFileReader r = new ShapeFileReader(is);
+
+        ShapeFileReader r = new ShapeFileReader(is, prefs);
 
         ShapeFileHeader h = r.getHeader();
         System.out.println("The shape type of this files is " + h.getShapeType());
@@ -91,5 +94,10 @@ public class ShapeConverter {
         }
         is.close();
         return folder;
+    }
+    public static FolderOverlay convert(MapView map, File file) throws Exception {
+        ValidationPreferences pref = new ValidationPreferences();
+        pref.setMaxNumberOfPointsPerShape(200000);
+        return convert(map,file,pref);
     }
 }
