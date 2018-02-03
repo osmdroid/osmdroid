@@ -3,14 +3,11 @@ package org.osmdroid.views.overlay;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 
 import org.osmdroid.library.R;
-import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.PointL;
-import org.osmdroid.util.PointReducer;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
 import org.osmdroid.views.overlay.infowindow.BasicInfoWindow;
@@ -50,11 +47,19 @@ public class Polyline extends OverlayWithIW {
     private GeoPoint infoWindowLocation=null;
     private float density=1.0f;
     private ArrayList<GeoPoint> originalPoints = new ArrayList<>();
-    private boolean mEnablePointReduction=true;
+
+    /**
+     * highly suggested that you provide context, if MapView is not provided or is null
+     * info window popups will not function unless you handle it yourself
+     */
     public Polyline() {
         this(null);
     }
 
+    /**
+     * highly suggested that you provide MapView , if MapView is not provided or is null
+     * info window popups will not function unless you handle it yourself
+     */
     public Polyline(MapView mapView) {
         if (mapView != null) {
             if (mDefaultInfoWindow == null || mDefaultInfoWindow.getMapView() != mapView) {
@@ -171,32 +176,12 @@ public class Polyline extends OverlayWithIW {
     }
 
     /**
-     * Enables automatic point reduction
-     * @since 7.4.0
-     */
-    public void enablePointReduction(boolean value){
-        mEnablePointReduction = value;
-        if (!value) {
-            //restore the original point set
-            setPoints(originalPoints);
-        }
-    }
-
-    /**
      * Set the points.
      * Note that a later change in the original points List will have no effect.
      * To add/remove/change points, you must call setPoints again.
      * If geodesic mode has been set, the long segments will follow the earth "great circle".
      */
     public void setPoints(List<GeoPoint> points) {
-        originalPoints.clear();
-        originalPoints.addAll(points);
-
-        setPointsInternal(originalPoints);
-
-    }
-
-    private void setPointsInternal(ArrayList<GeoPoint> points) {
         clearPath();
         int size = points.size();
         for (int i = 0; i < size; i++) {
@@ -233,19 +218,6 @@ public class Polyline extends OverlayWithIW {
         }
 
         final Projection pj = mapView.getProjection();
-
-        if (mEnablePointReduction) {
-            //get the screen bounds
-            DisplayMetrics dm = mapView.getContext().getResources().getDisplayMetrics();
-            int  densityDpi = dm.densityDpi;
-            BoundingBox boundingBox = mapView.getBoundingBox();
-            final double latSpanDegrees = boundingBox.getLatitudeSpan();
-            //get the degree difference, divide by dpi
-            double tolerance = latSpanDegrees /densityDpi;
-            //each latitude degree on screen is represented by this many dip
-            ArrayList<GeoPoint> points = PointReducer.reduceWithTolerance(originalPoints, tolerance);
-            setPointsInternal(points);
-        }
 
         mLineDrawer.setCanvas(canvas);
         mOutline.setClipArea(mapView);
