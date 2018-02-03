@@ -402,12 +402,19 @@ public class MapView extends ViewGroup implements IMapView,
 	 */
 	public void setTilesScaledToDpi(boolean tilesScaledToDpi) {
 		mTilesScaledToDpi = tilesScaledToDpi;
-		updateTileSizeForDensity(getTileProvider().getTileSource());
+		updateTileSizeForDensity(getTileProvider().getTileSource(), 1f);
+	}
+	/**
+	 * The same as {@link #setTilesScaledToDpi(boolean)} but with triming factor
+	 */
+	public void setTilesScaledToDpi(float trimFactor){
+		mTilesScaledToDpi = true;
+		updateTileSizeForDensity(getTileProvider().getTileSource(), trimFactor);
 	}
 
-	private void updateTileSizeForDensity(final ITileSource aTileSource) {
+	private void updateTileSizeForDensity(final ITileSource aTileSource, float trimFactor) {
 		int tile_size = aTileSource.getTileSizePixels();
-		float density =  getResources().getDisplayMetrics().density * 256 / tile_size ;
+		float density =  getResources().getDisplayMetrics().density * 256 * trimFactor/ tile_size ;
 		int size = (int) ( tile_size * (isTilesScaledToDpi() ? density : 1));
 		if (Configuration.getInstance().isDebugMapView())
 			Log.d(IMapView.LOGTAG, "Scaling tiles to " + size);
