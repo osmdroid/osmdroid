@@ -1,6 +1,6 @@
 package org.osmdroid.samplefragments.data;
 
-import android.os.Build;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -12,14 +12,18 @@ import com.github.angads25.filepicker.model.DialogConfigs;
 import com.github.angads25.filepicker.model.DialogProperties;
 import com.github.angads25.filepicker.view.FilePickerDialog;
 
-import org.osmdroid.samplefragments.BaseSampleFragment;
 import org.osmdroid.samplefragments.events.SampleMapEventListener;
 import org.osmdroid.shape.ShapeConverter;
 import org.osmdroid.tileprovider.modules.ArchiveFileFactory;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
+import org.osmdroid.util.BoundingBox;
+import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.overlay.FolderOverlay;
+import org.osmdroid.views.overlay.Polygon;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -36,11 +40,14 @@ public class SampleShapeFile extends SampleMapEventListener {
     public String getSampleTitle() {
         return "Shape File Import";
     }
-    final int MENU_ADD_SHAPE= Menu.FIRST;
+
+    final int MENU_ADD_SHAPE = Menu.FIRST;
+    final int MENU_ADD_BOUNDS = MENU_ADD_SHAPE + 1;
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         menu.add(0, MENU_ADD_SHAPE, Menu.NONE, "Import a shape file");
+        menu.add(0, MENU_ADD_BOUNDS, Menu.NONE, "Draw bounds");
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -56,6 +63,22 @@ public class SampleShapeFile extends SampleMapEventListener {
             case MENU_ADD_SHAPE:
                 showPicker();
                 return true;
+            case MENU_ADD_BOUNDS:
+                List<GeoPoint> pts = new ArrayList<>();
+                BoundingBox boundingBox = mMapView.getBoundingBox();
+                pts.add(new GeoPoint(boundingBox.getLatNorth(), boundingBox.getLonEast()));
+                pts.add(new GeoPoint(boundingBox.getLatSouth(), boundingBox.getLonEast()));
+                pts.add(new GeoPoint(boundingBox.getLatSouth(), boundingBox.getLonWest()));
+                pts.add(new GeoPoint(boundingBox.getLatNorth(), boundingBox.getLonWest()));
+                pts.add(new GeoPoint(boundingBox.getLatNorth(), boundingBox.getLonEast()));
+                Polygon bounds = new Polygon(mMapView);
+                bounds.setAutoReducePoints(false);
+                bounds.setPoints(pts);
+                bounds.setSubDescription(boundingBox.toString());
+               // bounds.setStrokeColor(Color.RED);
+                mMapView.getOverlayManager().add(bounds);
+                mMapView.invalidate();
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -66,6 +89,7 @@ public class SampleShapeFile extends SampleMapEventListener {
         mMapView.setTileSource(TileSourceFactory.DEFAULT_TILE_SOURCE);
         mMapView.invalidate();
     }
+
     private void showPicker() {
         DialogProperties properties = new DialogProperties();
         properties.selection_mode = DialogConfigs.SINGLE_MODE;
@@ -93,7 +117,7 @@ public class SampleShapeFile extends SampleMapEventListener {
                     mMapView.getOverlayManager().add(folder);
                 } catch (Exception e) {
                     Toast.makeText(getActivity(), "Error importing file: " + e.getMessage(), Toast.LENGTH_LONG).show();
-                    Log.e(TAG, "error importing file from " +files[0], e);
+                    Log.e(TAG, "error importing file from " + files[0], e);
                 }
 
             }

@@ -332,7 +332,8 @@ public class BoundingBox implements Parcelable, Serializable {
 
 		if (mLonEast < mLonWest) {
 			//check longitude bounds with consideration for date line with wrapping
-			lonMatch = (aLongitude >= mLonEast || aLongitude <= mLonWest);
+			lonMatch = aLongitude <= mLonEast && aLongitude >= mLonWest;
+			//lonMatch = (aLongitude >= mLonEast || aLongitude <= mLonWest);
 
 		} else {
 			lonMatch =((aLongitude < this.mLonEast) && (aLongitude > this.mLonWest));
@@ -394,13 +395,83 @@ public class BoundingBox implements Parcelable, Serializable {
 
 	/**
 	 * returns true if there is any overlap from this to the input bounding box
-	 * @param boundingBox
+	 * edges includes of a match
+	 * sensitive to vertical and horiztonal map wrapping
+	 * @param pBoundingBox
 	 * @return
 	 */
-	public boolean overlaps(BoundingBox boundingBox) {
+	public boolean overlaps(BoundingBox pBoundingBox) {
+
+		boolean latMatch=false;
+		boolean lonMatch=false;
+
+		//vertical wrapping detection
+		if (pBoundingBox.mLatSouth <= mLatNorth  &&
+			pBoundingBox.mLatSouth >= mLatSouth )
+			latMatch=true;
+
+
+		//normal case, non overlapping
+		if (mLonWest >= pBoundingBox.mLonWest && mLonWest <= pBoundingBox.mLonEast)
+			lonMatch=true;
+		//normal case, non overlapping
+		if (mLonEast >= pBoundingBox.mLonWest && mLonWest <= pBoundingBox.mLonEast)
+			lonMatch=true;
+
+		//special case for when *this completely surrounds the pBoundbox
+		if (mLonWest<=pBoundingBox.mLonWest &&
+			mLonEast>=pBoundingBox.mLonEast &&
+			mLatNorth>=pBoundingBox.mLatNorth &&
+			mLatSouth<=pBoundingBox.mLatSouth)
+			return true;
+
+		//normal case, non overlapping
+		if (mLatNorth >= pBoundingBox.mLatSouth && mLatNorth <= mLatSouth)
+			latMatch=true;
+		//normal case, non overlapping
+		if (mLatSouth>= pBoundingBox.mLatSouth && mLatSouth <= mLatSouth)
+			latMatch=true;
+
+		if (mLonWest > mLonEast) {
+			//the date line is included in the bounding box
+			//that is completely within this
+			if (mLonWest>= pBoundingBox.mLonEast &&
+				mLonEast<= pBoundingBox.mLonEast) {
+				lonMatch = true;
+				if (pBoundingBox.mLonEast < mLonWest &&
+					pBoundingBox.mLonWest < mLonWest)
+					lonMatch = false;
+
+				if (pBoundingBox.mLonEast > mLonEast &&
+					pBoundingBox.mLonWest > mLonEast )
+					lonMatch = false;
+			}
+			if (mLonWest>= pBoundingBox.mLonEast &&
+				mLonEast>= pBoundingBox.mLonEast) {
+				lonMatch = true;
+
+			}
+		}
+
+		return latMatch && lonMatch;
+	}
+	public boolean overlaps2(BoundingBox boundingBox) {
 		boolean latMatch=false;
 		boolean lonMatch=false;
 		//something wrong here
+
+		if (contains(new GeoPoint(boundingBox.getLatNorth(), boundingBox.getLonEast())))
+			return true;
+		if (contains(new GeoPoint(boundingBox.getLatNorth(), boundingBox.getLonWest())))
+			return true;
+		if (contains(new GeoPoint(boundingBox.getLatSouth(), boundingBox.getLonEast())))
+			return true;
+		if (contains(new GeoPoint(boundingBox.getLatSouth(), boundingBox.getLonWest())))
+			return true;
+		if (boundingBox.mLatSouth <= mLatNorth  &&
+			boundingBox.mLatSouth >= mLatSouth )
+			latMatch=true;
+
 
 
 		if (mLatSouth <= boundingBox.mLatSouth && mLatNorth>= boundingBox.mLatSouth)
@@ -433,6 +504,11 @@ public class BoundingBox implements Parcelable, Serializable {
 		//	mLatSouth <= boundingBox.mLatSouth)
 		//	latMatch=true;
 
+		if (boundingBox.mLonEast >= mLonWest && boundingBox.mLonEast > mLonEast)
+			lonMatch=true;
+		//if (mLonWest <= boundingBox.mLonEast &&
+		//	mLonEast>= boundingBox.mLonEast)
+		//	lonMatch=true;
 
 		if (mLonEast >= boundingBox.mLonEast &&
 			mLonWest <= boundingBox.mLonWest)
@@ -448,6 +524,11 @@ public class BoundingBox implements Parcelable, Serializable {
 		if (mLonEast >= boundingBox.mLonWest &&
 			mLonEast <= boundingBox.mLonEast)
 			lonMatch=true;
+
+		if (mLonWest <= boundingBox.mLonWest &&
+			mLonEast >= boundingBox.mLonWest) {
+			lonMatch=true;
+		}
 
 		//suspect
 		//if (mLonWest <= boundingBox.mLonEast &&

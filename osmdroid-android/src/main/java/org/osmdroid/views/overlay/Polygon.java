@@ -119,7 +119,7 @@ public class Polygon extends OverlayWithIW {
 	 * @return a copy of the list of polygon's vertices. 
 	 */
 	public List<GeoPoint> getPoints(){
-		return mOutline.getPoints();
+		return originalPointSet;
 	}
 
 	public boolean isVisible(){
@@ -168,6 +168,8 @@ public class Polygon extends OverlayWithIW {
 	 */
 	public void setPoints(final List<GeoPoint> points) {
 		mBounds = BoundingBox.fromGeoPoints(points);
+		originalPointSet.clear();
+		originalPointSet.addAll(points);
 		mOutline.setPoints(points);
 	}
 
@@ -245,7 +247,7 @@ public class Polygon extends OverlayWithIW {
 		//don't bother attempting to draw it unless it's in view
 		if (!mapView.getBoundingBox().overlaps(mBounds))
 			return;
-		float densityDpi = mapView.getContext().getResources().getDisplayMetrics().densityDpi;
+		float widthPixels = mapView.getContext().getResources().getDisplayMetrics().widthPixels;
 
 		final Projection pj = mapView.getProjection();
 		mPath.rewind();
@@ -255,7 +257,7 @@ public class Polygon extends OverlayWithIW {
 			BoundingBox boundingBox = mapView.getBoundingBox();
 			final double latSpanDegrees = boundingBox.getLatitudeSpan();
 			//get the degree difference, divide by dpi
-			double tolerance = latSpanDegrees /(densityDpi*2);
+			double tolerance = latSpanDegrees /(widthPixels-(getStrokeWidth()*2));		//degrees per pixel
 			//each latitude degree on screen is represented by this many dip
 			mOutline.setPoints(PointReducer.reduceWithTolerance(originalPointSet, tolerance));
 		}

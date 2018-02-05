@@ -1,8 +1,12 @@
 package org.osmdroid.samplefragments;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -14,14 +18,29 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import org.osmdroid.R;
+import org.osmdroid.constants.OpenStreetMapConstants;
+import org.osmdroid.util.GeoPoint;
+import org.osmdroid.util.TileSystem;
+import org.osmdroid.util.constants.GeoConstants;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.CopyrightOverlay;
+import org.osmdroid.views.overlay.Polygon;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class BaseSampleFragment extends Fragment {
     private static int MENU_LAST_ID = Menu.FIRST; // Always set to last unused id
     public static final String TAG = "osmBaseFrag";
 
+    AlertDialog gotoLocationDialog=null;
     public abstract String getSampleTitle();
 
     // ===========================================================
@@ -122,18 +141,21 @@ public abstract class BaseSampleFragment extends Fragment {
         if (mMapView != null)
             mMapView.onDetach();
         mMapView = null;
+
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         Log.d(TAG, "onDestroy");
-
+        if (gotoLocationDialog!=null)
+            gotoLocationDialog.dismiss();
     }
 
     int MENU_VERTICAL_REPLICATION = 0;
     int MENU_HORIZTONAL_REPLICATION = 0;
     int MENU_SCALE_TILES = 0;
+    int MENU_GOTO = 0;
 
 
     @Override
@@ -149,6 +171,10 @@ public abstract class BaseSampleFragment extends Fragment {
         MENU_LAST_ID++;
         MENU_SCALE_TILES = MENU_LAST_ID;
         menu.add(0, MENU_SCALE_TILES, Menu.NONE, "Scale Tiles").setCheckable(true);
+
+        MENU_LAST_ID++;
+        MENU_GOTO = MENU_LAST_ID;
+        menu.add(0, MENU_GOTO, Menu.NONE, "Go To");
         // Put overlay items first
         try {
             mMapView.getOverlayManager().onCreateOptionsMenu(menu, MENU_LAST_ID, mMapView);
@@ -201,6 +227,54 @@ public abstract class BaseSampleFragment extends Fragment {
             mMapView.setTilesScaledToDpi(!mMapView.isTilesScaledToDpi());
             mMapView.invalidate();
             return true;
+        } else if (item.getItemId()==MENU_GOTO) {
+          //TODO dialog with lat/lon prompt
+            //prompt for input params
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+            View view = View.inflate(getActivity(), R.layout.gotolocation, null);
+
+            final EditText lat = (EditText) view.findViewById(R.id.latlonPicker_latitude);
+            final EditText lon = (EditText) view.findViewById(R.id.latlonPicker_longitude);
+            final Button cancel = (Button) view.findViewById(R.id.latlonPicker_cancel);
+            cancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    gotoLocationDialog.dismiss();
+                }
+            });
+
+            Button ok = (Button) view.findViewById(R.id.latlonPicker_ok);
+            ok.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    gotoLocationDialog.dismiss();
+                    try {
+                        double latd = Double.parseDouble(lat.getText().toString());
+                        if (latd < TileSystem.MinLatitude || latd > TileSystem.MaxLatitude)
+                            throw new Exception();
+                        double lond = Double.parseDouble(lon.getText().toString());
+                        if (lond < TileSystem.MinLongitude || lond > TileSystem.MaxLongitude)
+                            throw new Exception();
+                        GeoPoint pt = new GeoPoint(latd, lond);
+                        mMapView.getController().animateTo(pt);
+                    }catch (Exception ex) {
+                        Toast.makeText(getActivity(), "Invalid input", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+
+            builder.setView(view);
+            builder.setCancelable(true);
+            builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                @Override
+                public void onCancel(DialogInterface dialog) {
+                    gotoLocationDialog.dismiss();
+                }
+            });
+            gotoLocationDialog = builder.create();
+            gotoLocationDialog.show();
+
         } else if (mMapView.getOverlayManager().onOptionsItemSelected(item, MENU_LAST_ID, mMapView)) {
             return true;
         }
@@ -211,7 +285,8 @@ public abstract class BaseSampleFragment extends Fragment {
      * An appropriate place to override and add overlays.
      */
     protected void addOverlays() {
-        //
+
+
     }
 
     public boolean skipOnCiTests() {

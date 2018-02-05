@@ -50,7 +50,7 @@ public class Polyline extends OverlayWithIW {
     private GeoPoint infoWindowLocation=null;
     private float density=1.0f;
     private ArrayList<GeoPoint> originalPoints = new ArrayList<>();
-    private boolean mEnablePointReduction=true;
+    private boolean mEnablePointReduction=false;
     public Polyline() {
         this(null);
     }
@@ -81,6 +81,7 @@ public class Polyline extends OverlayWithIW {
     }
 
     protected void addPoint(final GeoPoint aPoint) {
+        //FIXME this causes issues
         mOutline.addPoint(aPoint);
     }
 
@@ -239,11 +240,11 @@ public class Polyline extends OverlayWithIW {
         if (mEnablePointReduction) {
             //get the screen bounds
             DisplayMetrics dm = mapView.getContext().getResources().getDisplayMetrics();
-            int  densityDpi = dm.densityDpi;
+            float  densityDpi = dm.widthPixels;
             BoundingBox boundingBox = mapView.getBoundingBox();
             final double latSpanDegrees = boundingBox.getLatitudeSpan();
             //get the degree difference, divide by dpi
-            double tolerance = latSpanDegrees /densityDpi;
+            double tolerance = latSpanDegrees /densityDpi;  //degrees per pixel
             //each latitude degree on screen is represented by this many dip
             ArrayList<GeoPoint> points = PointReducer.reduceWithTolerance(originalPoints, tolerance);
             setPointsInternal(points);

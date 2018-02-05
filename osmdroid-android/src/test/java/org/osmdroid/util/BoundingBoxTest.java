@@ -4,9 +4,12 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
- * @since 6.0.0
  * @author Fabrice Fontaine
+ * @since 6.0.0
  */
 
 public class BoundingBoxTest {
@@ -20,7 +23,7 @@ public class BoundingBoxTest {
     }
 
     @Test
-    public void testOverlaps(){
+    public void testOverlaps() {
 
         //  ________________
         //  |      |       |
@@ -33,29 +36,40 @@ public class BoundingBoxTest {
         //test area is notated as &
 
 
-        BoundingBox box = new BoundingBox(1,1,-1,-1);
+
+        //  ________________
+        //  |      |       |
+        //  |     ***   &  |
+        //  |-----*+*------|
+        //  |     ***      |
+        //  |      |       |
+        //  ----------------
+        //box is notated as *
+        //test area is notated as &
+
+        BoundingBox box = new BoundingBox(1, 1, -1, -1);
         Assert.assertTrue(box.overlaps(box));
 
-        BoundingBox farAway = new BoundingBox(45,44, 44, 45);
+        BoundingBox farAway = new BoundingBox(45, 45, 44, 44);
         Assert.assertTrue(farAway.overlaps(farAway));
         Assert.assertFalse(box.overlaps(farAway));
 
-        farAway = new BoundingBox(1,44, 1, 45);
+        farAway = new BoundingBox(1.1, 45, 1, 44);
         Assert.assertTrue(farAway.overlaps(farAway));
         Assert.assertFalse(box.overlaps(farAway));
 
-        farAway = new BoundingBox(2,2, -2, -2);
+        farAway = new BoundingBox(2, 2, -2, -2);
         Assert.assertTrue(farAway.overlaps(farAway));
         Assert.assertTrue(box.overlaps(farAway));
 
         //this is completely within the test box
-        farAway = new BoundingBox(0.5, 0.5, -0.5,-0.5);
+        farAway = new BoundingBox(0.5, 0.5, -0.5, -0.5);
         Assert.assertTrue(farAway.overlaps(farAway));
         Assert.assertTrue(box.overlaps(farAway));
     }
 
     @Test
-    public void testOverlapsWorld(){
+    public void testOverlapsWorld() {
 
         //  ________________
         //  |      |       |
@@ -68,28 +82,28 @@ public class BoundingBoxTest {
         //test area is notated as &
 
 
-        BoundingBox box = new BoundingBox(90,180,-90,-180);
+        BoundingBox box = new BoundingBox(90, 180, -90, -180);
         Assert.assertTrue(box.overlaps(box));
 
-        BoundingBox farAway = new BoundingBox(45,44, 44, 45);
+        BoundingBox farAway = new BoundingBox(45, 44, 44, 45);
         Assert.assertTrue(farAway.overlaps(farAway));
         Assert.assertTrue(box.overlaps(farAway));
 
-        farAway = new BoundingBox(1,44, 1, 45);
+        farAway = new BoundingBox(1, 44, 1, 45);
         Assert.assertTrue(farAway.overlaps(farAway));
         Assert.assertTrue(box.overlaps(farAway));
 
-        farAway = new BoundingBox(2,2, -2, -2);
+        farAway = new BoundingBox(2, 2, -2, -2);
         Assert.assertTrue(farAway.overlaps(farAway));
         Assert.assertTrue(box.overlaps(farAway));
 
         //this is completely within the test box
-        farAway = new BoundingBox(0.5, 0.5, -0.5,-0.5);
+        farAway = new BoundingBox(0.5, 0.5, -0.5, -0.5);
         Assert.assertTrue(box.overlaps(farAway));
     }
 
     @Test
-    public void testOverlapsDateLine(){
+    public void testOverlapsDateLine() {
 
 
         //  ________________
@@ -101,7 +115,7 @@ public class BoundingBoxTest {
         //  ----------------
         //box is notated as *
         //test area is notated as ?
-        BoundingBox box = new BoundingBox(45,-178,-45,178);
+        BoundingBox box = new BoundingBox(45, -178, -45, 178);
         Assert.assertTrue(box.overlaps(box));
 
         //  ________________
@@ -113,9 +127,8 @@ public class BoundingBoxTest {
         //  ----------------
         //box is notated as *
         //test area is notated as ?
-        BoundingBox farAway = new BoundingBox(45,44, 44, 45);
+        BoundingBox farAway = new BoundingBox(45, 44, 44, 45);
         Assert.assertFalse(box.overlaps(farAway));
-
 
 
         //  ________________
@@ -127,7 +140,7 @@ public class BoundingBoxTest {
         //  ----------------
         //box is notated as *
         //test area is notated as ?
-        farAway = new BoundingBox(1,44, 1, 45);
+        farAway = new BoundingBox(1, 44, 1, 45);
         Assert.assertFalse(box.overlaps(farAway));
 
 
@@ -140,19 +153,19 @@ public class BoundingBoxTest {
         //  ----------------
         //box is notated as *
         //test area is notated as ?
-        farAway = new BoundingBox(2,2, -2, -2);
+        farAway = new BoundingBox(2, 2, -2, -2);
         Assert.assertFalse(box.overlaps(farAway));
 
-        farAway = new BoundingBox(0.5, 0.5, -0.5,-0.5);
+        farAway = new BoundingBox(0.5, 0.5, -0.5, -0.5);
         Assert.assertFalse(box.overlaps(farAway));
 
-        farAway = new BoundingBox(1, -179, -1,179);
+        farAway = new BoundingBox(1, -179, -1, 179);
         Assert.assertTrue(box.overlaps(farAway));
     }
 
 
     @Test
-    public void testOverlapsDateLine2(){
+    public void testOverlapsDateLine2() {
 
         //  ________________
         //  |      |       |
@@ -165,12 +178,11 @@ public class BoundingBoxTest {
         //test area is notated as ?
 
 
-        BoundingBox box = new BoundingBox(45,-178,-45,-1);
+        BoundingBox box = new BoundingBox(45, -178, -45, -1);
         Assert.assertTrue(box.overlaps(box));
 
-        BoundingBox farAway = new BoundingBox(45,-74, 44, -72);
+        BoundingBox farAway = new BoundingBox(45, -74, 44, -72);
         Assert.assertFalse(box.overlaps(farAway));
-
 
 
         //  ________________
@@ -184,16 +196,16 @@ public class BoundingBoxTest {
         //test area is notated as ?
 
 
-        box = new BoundingBox(45,0,-45,170);
+        box = new BoundingBox(45, 0, -45, 170);
         Assert.assertTrue(box.overlaps(box));
 
-        farAway = new BoundingBox(40,-74, 38, -72);
+        farAway = new BoundingBox(40, -74, 38, -72);
         Assert.assertTrue(box.overlaps(farAway));
 
-        farAway = new BoundingBox(40,5, 38, 4);
+        farAway = new BoundingBox(40, 5, 38, 4);
         Assert.assertFalse(box.overlaps(farAway));
 
-        farAway = new BoundingBox(-40,5, -42, 4);
+        farAway = new BoundingBox(-40, 5, -42, 4);
         Assert.assertFalse(box.overlaps(farAway));
 
 
@@ -215,8 +227,6 @@ public class BoundingBoxTest {
 
         BoundingBox box = new BoundingBox(1, 1, -1, -1);
         Assert.assertTrue(box.overlaps(box));
-
-
 
 
         //  ________________
@@ -246,7 +256,6 @@ public class BoundingBoxTest {
         //overlap on the western edge of box
         item = new BoundingBox(1, -1, -1, -2);
         Assert.assertTrue(box.overlaps(item));
-
 
 
         //  ________________
@@ -292,56 +301,71 @@ public class BoundingBoxTest {
 
 
         //non overlap on the southern edge of box
-        item = new BoundingBox(-4, 1, -2, -1);
-        Assert.assertFalse(box.overlaps(item));
+        item = new BoundingBox(-2, 1, -4, -1);
+        Assert.assertTrue(box.overlaps(item));
 
 
     }
 
     @Test
-     public void testSouthernBounds1(){
+    public void testSouthernBounds1() {
         //item's southern bounds is just out of view
         BoundingBox view = new BoundingBox(33.29456881383961, -105.6820678709375, 31.99535790385963, -106.67083740234375);
-        BoundingBox item= new BoundingBox(31.9277, -106.441352, 31.686508, -106.49126);
-       // Assert.assertTrue(view.overlaps(item));
+        BoundingBox item = new BoundingBox(31.9277, -106.441352, 31.686508, -106.49126);
+        // Assert.assertTrue(view.overlaps(item));
     }
 
     @Test
-    public void testSouthernBoundsSimple(){
+    public void testSouthernBoundsSimple() {
         //item's southern bounds is just out of view
         BoundingBox view = new BoundingBox(2, 2, -2, -2);
-        BoundingBox item= new BoundingBox(1, 1, 2.1, -1);
+        BoundingBox item = new BoundingBox(1, 1, 2.1, -1);
         Assert.assertTrue(view.overlaps(item));
     }
 
     @Test
-    public void testNorthernBoundsSimple(){
-        //item's southern bounds is just out of view
+    public void testNorthernBoundsSimple() {
+        //item's southern bounds of itemis just out of view
         BoundingBox view = new BoundingBox(2, 2, -2, -2);
-        BoundingBox item= new BoundingBox(2.1, 2, 0, -2);
+
+        BoundingBox item = new BoundingBox(2.1, 2, 0, -2);
         Assert.assertTrue(view.overlaps(item));
+
+
+        item = new BoundingBox(2.1, 2, 1.9, -2);
+        Assert.assertTrue(view.overlaps(item));
+
+        item = new BoundingBox(3.1, 2, 1.999999999, -2);
+        Assert.assertTrue(view.overlaps(item));
+
+        item = new BoundingBox(3.1, 2, 2.0, -2);
+        Assert.assertTrue(view.overlaps(item));
+
+        item = new BoundingBox(3.1, 2, 2.1, -2);
+        Assert.assertFalse(view.overlaps(item));
     }
 
 
-
-
     @Test
-    public void testCorpusChristi(){
-        BoundingBox item= new BoundingBox(27.696581,-97.243682999999,27.688781, -97.253063);
+    public void testCorpusChristi() {
+        BoundingBox item = new BoundingBox(27.696581, -97.243682999999, 27.688781, -97.253063);
 
 
-        BoundingBox shouldWork=  new BoundingBox(27.7254243,-97.2495460,27.640297789,-97.3113441);
+        BoundingBox shouldWork = new BoundingBox(27.72243591897344, -97.24737167358398,
+            27.63730702015522, -97.30916976928711);
         Assert.assertTrue(shouldWork.overlaps(item));
 
-        BoundingBox viewBottom= new BoundingBox(27.86851659514076, -97.21504211425781, 27.698120147680108, -97.33863830566406);
-        Assert.assertTrue(viewBottom.overlaps(item));
-
-        BoundingBox viewTop = new BoundingBox(27.68535219842896, -97.2146987915039, 27.51497038840386, -97.33829498291016);
-        Assert.assertTrue(viewTop.overlaps(item));
-
-        BoundingBox viewRight = new BoundingBox(27.72598151,-97.26957321, 27.64085538,-97.331371);
-        Assert.assertTrue(viewRight.overlaps(item));
-
-
     }
+
+    @Test
+    public void testCorpusChristiViewIsNorth() {
+        BoundingBox item = new BoundingBox(27.696581, -97.243682999999, 27.688781, -97.253063);
+
+        BoundingBox viewTop = new BoundingBox(
+            27.782999124172314, -97.24748611450195,
+            27.697917493482727, -97.30928421020508);
+        Assert.assertTrue(viewTop.overlaps(item));
+    }
+
+
 }
