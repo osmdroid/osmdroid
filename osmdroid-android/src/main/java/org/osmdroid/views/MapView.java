@@ -413,7 +413,7 @@ public class MapView extends ViewGroup implements IMapView,
 	/**
 	 * Setting an additional scale factor both for ScaledToDpi and standard size	 
 	 * > 1.0 enlarges map display, < 1.0 shrinks map display
-	 * @since 6.0.0
+	 * @since 6.1.0
 	 */	 
 	public void setTilesScaleFactor(float pTilesScaleFactor) {
 		mTilesScaleFactor = pTilesScaleFactor;
