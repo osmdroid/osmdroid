@@ -978,7 +978,6 @@ public class MapView extends ViewGroup implements IMapView,
 	public void onDetach() {
 		this.getOverlayManager().onDetach(this);
 		mTileProvider.detach();
-		mTileProvider.clearTileCache();
 		mZoomController.setVisible(false);
 
 		//https://github.com/osmdroid/osmdroid/issues/390
