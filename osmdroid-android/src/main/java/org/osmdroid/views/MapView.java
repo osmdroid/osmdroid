@@ -716,6 +716,11 @@ public class MapView extends ViewGroup implements IMapView,
 
 	/**
 	 * sets the scroll limit
+	 * Example:
+	 *	To block vertical scroll of the view outside north/south poles:
+	 * 	mapView.setScrollableAreaLimitLatitude(TileSystem.MaxLatitude,-TileSystem.MaxLatitude, 0);
+	 * Warning:
+	 * 	Don't use latitude values outside the [-TileSystem.MaxLatitude, TileSystem.MaxLatitude] range, this would cause an ANR.
 	 * @since 6.0.0
 	 * @param pNorth decimal degrees latitude
 	 * @param pSouth decimal degrees latitude
