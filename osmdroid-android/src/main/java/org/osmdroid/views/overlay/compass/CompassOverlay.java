@@ -111,7 +111,9 @@ public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOr
     @Override
     public void onPause() {
         wasEnabledOnPause = mIsCompassEnabled;
-        this.disableCompass();
+        if (mOrientationProvider != null) {
+            mOrientationProvider.stopOrientationProvider();
+        }
         super.onPause();
     }
 
@@ -128,6 +130,7 @@ public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOr
         this.mMapView = null;
         sSmoothPaint = null;
         this.disableCompass();
+        mOrientationProvider = null;
         mCompassFrameBitmap.recycle();
         mCompassRoseBitmap.recycle();
         super.onDetach(mapView);
@@ -345,7 +348,11 @@ public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOr
     }
 
     /**
-     * Disable orientation updates
+     * Disable orientation updates.
+     *
+     * Note the behavior has changed since v6.0.0. This method no longer releases
+     * references to the orientation provider. Instead, that happens in the onDetached
+     * method.
      */
     public void disableCompass() {
         mIsCompassEnabled = false;
@@ -353,7 +360,6 @@ public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOr
         if (mOrientationProvider != null) {
             mOrientationProvider.stopOrientationProvider();
         }
-        mOrientationProvider = null;
 
         // Reset values
         mAzimuth = Float.NaN;
