@@ -1,14 +1,10 @@
 // Created by plusminus on 18:23:13 - 03.10.2008
 package org.osmdroid;
 
-import android.Manifest;
-
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
@@ -16,7 +12,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -26,11 +21,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.osmdroid.config.Configuration;
 import org.osmdroid.debug.CacheAnalyzerActivity;
-import org.osmdroid.debug.browser.CacheBrowserActivity;
+import org.osmdroid.diag.DiagnosticsActivity;
 import org.osmdroid.intro.IntroActivity;
 import org.osmdroid.samples.SampleExtensive;
 import org.osmdroid.samples.SampleWithMinimapItemizedoverlay;
@@ -41,9 +35,6 @@ import org.osmdroid.tileprovider.modules.SqlTileWriter;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
@@ -71,6 +62,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         list.add("Report a bug");
         list.add("Settings");
         list.add("Bug Drivers");
+        list.add("Diagnostics");
         list.add("View the intro again");
         list.add("Licenses");
         if (BuildConfig.VERSION_CODE >= 11)
@@ -121,6 +113,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 this.startActivity(new Intent(this, BugsTestingActivity.class));
                 break;
             case 10:
+                this.startActivity(new Intent(this, DiagnosticsActivity.class));
+                break;
+            case 11:
             {
                 //skip this nonsense
                 SharedPreferences.Editor edit = PreferenceManager.getDefaultSharedPreferences(this).edit();
@@ -132,12 +127,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 finish();
                 break;
             }
-            case 11:{
+            case 12:{
                 Intent i = new Intent(this,LicenseActivity.class);
                 startActivity(i);
                 break;
             }
-            case 12:
+            case 13:
             {
                 if (BuildConfig.VERSION_CODE >= 11){
                     Intent starter = new Intent(this,CacheAnalyzerActivity.class);
