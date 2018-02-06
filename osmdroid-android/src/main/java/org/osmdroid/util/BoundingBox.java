@@ -6,6 +6,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import org.osmdroid.api.IGeoPoint;
+import org.osmdroid.views.MapView;
 
 import java.io.Serializable;
 import java.util.List;
@@ -400,7 +401,13 @@ public class BoundingBox implements Parcelable, Serializable {
 	 * @param pBoundingBox
 	 * @return
 	 */
-	public boolean overlaps(BoundingBox pBoundingBox) {
+	public boolean overlaps(final BoundingBox pBoundingBox, double pZoom) {
+
+		//FIXME this is a total hack but it works around a number of issues related to vertical map
+		//replication and horiztonal replication that can cause polygons to completely disappear when
+		//panning
+	    if (pZoom < 3)
+	        return true;
 
 		boolean latMatch=false;
 		boolean lonMatch=false;
@@ -434,7 +441,15 @@ public class BoundingBox implements Parcelable, Serializable {
 
 		if (mLonWest > mLonEast) {
 			//the date line is included in the bounding box
-			//that is completely within this
+
+			//we want to match lon from the dateline to the eastern bounds of the box
+			//and the dateline to the western bounds of the box
+
+			if (mLonEast<=pBoundingBox.mLonEast && pBoundingBox.mLonWest >= mLonWest)
+				lonMatch=true;
+
+
+
 			if (mLonWest>= pBoundingBox.mLonEast &&
 				mLonEast<= pBoundingBox.mLonEast) {
 				lonMatch = true;
@@ -451,128 +466,27 @@ public class BoundingBox implements Parcelable, Serializable {
 				lonMatch = true;
 
 			}
+			/*
+			//that is completely within this
+			if (mLonWest>= pBoundingBox.mLonEast &&
+				mLonEast<= pBoundingBox.mLonEast) {
+				lonMatch = true;
+				if (pBoundingBox.mLonEast < mLonWest &&
+					pBoundingBox.mLonWest < mLonWest)
+					lonMatch = false;
+
+				if (pBoundingBox.mLonEast > mLonEast &&
+					pBoundingBox.mLonWest > mLonEast )
+					lonMatch = false;
+			}
+			if (mLonWest>= pBoundingBox.mLonEast &&
+				mLonEast>= pBoundingBox.mLonEast) {
+				lonMatch = true;
+
+			}*/
 		}
 
 		return latMatch && lonMatch;
 	}
-	public boolean overlaps2(BoundingBox boundingBox) {
-		boolean latMatch=false;
-		boolean lonMatch=false;
-		//something wrong here
 
-		if (contains(new GeoPoint(boundingBox.getLatNorth(), boundingBox.getLonEast())))
-			return true;
-		if (contains(new GeoPoint(boundingBox.getLatNorth(), boundingBox.getLonWest())))
-			return true;
-		if (contains(new GeoPoint(boundingBox.getLatSouth(), boundingBox.getLonEast())))
-			return true;
-		if (contains(new GeoPoint(boundingBox.getLatSouth(), boundingBox.getLonWest())))
-			return true;
-		if (boundingBox.mLatSouth <= mLatNorth  &&
-			boundingBox.mLatSouth >= mLatSouth )
-			latMatch=true;
-
-
-
-		if (mLatSouth <= boundingBox.mLatSouth && mLatNorth>= boundingBox.mLatSouth)
-			latMatch=true;
-		if (mLatSouth <= boundingBox.mLatNorth && mLatNorth>= boundingBox.mLatNorth)
-			latMatch=true;
-
-		if (mLatNorth >= boundingBox.mLatNorth &&
-			mLatSouth<= boundingBox.mLatSouth)
-			latMatch=true;
-
-		if (mLatNorth >= boundingBox.mLatSouth &&
-			mLatNorth<= boundingBox.mLatNorth)
-			latMatch=true;
-
-		if (mLatNorth >= boundingBox.mLatNorth &&
-			mLatNorth <= boundingBox.mLatSouth)
-			latMatch=true;
-		if (mLatSouth >= boundingBox.mLatSouth &&
-			mLatSouth <= boundingBox.mLatNorth)
-			latMatch=true;
-
-		if (mLatNorth >= boundingBox.mLatSouth &&
-			mLatSouth <= boundingBox.mLatSouth )
-			latMatch=true;
-
-		//item is partially past the north bounds
-		//suspect
-		//if (mLatNorth<= boundingBox.mLatSouth &&
-		//	mLatSouth <= boundingBox.mLatSouth)
-		//	latMatch=true;
-
-		if (boundingBox.mLonEast >= mLonWest && boundingBox.mLonEast > mLonEast)
-			lonMatch=true;
-		//if (mLonWest <= boundingBox.mLonEast &&
-		//	mLonEast>= boundingBox.mLonEast)
-		//	lonMatch=true;
-
-		if (mLonEast >= boundingBox.mLonEast &&
-			mLonWest <= boundingBox.mLonWest)
-			lonMatch=true;
-
-		if (mLonEast >= boundingBox.mLonEast &&
-			mLonEast <= boundingBox.mLonWest)
-			lonMatch=true;
-		if (mLonWest >= boundingBox.mLonWest &&
-			mLonWest <= boundingBox.mLonEast)
-			lonMatch=true;
-
-		if (mLonEast >= boundingBox.mLonWest &&
-			mLonEast <= boundingBox.mLonEast)
-			lonMatch=true;
-
-		if (mLonWest <= boundingBox.mLonWest &&
-			mLonEast >= boundingBox.mLonWest) {
-			lonMatch=true;
-		}
-
-		//suspect
-		//if (mLonWest <= boundingBox.mLonEast &&
-		//	mLonWest <= boundingBox.mLonWest)
-		//	lonMatch=true;
-
-		//date line
-		if (mLonWest > mLonEast) {
-			//the date line is included in the bounding box
-
-
-			//that is completely within this
-			if (mLonWest>= boundingBox.mLonEast &&
-				mLonEast<= boundingBox.mLonEast) {
-				lonMatch = true;
-				if (boundingBox.mLonEast < mLonWest &&
-					boundingBox.mLonWest < mLonWest)
-					lonMatch = false;
-
-				if (boundingBox.mLonEast > mLonEast &&
-					boundingBox.mLonWest > mLonEast )
-					lonMatch = false;
-			}
-			if (mLonWest>= boundingBox.mLonEast &&
-				mLonEast>= boundingBox.mLonEast) {
-				lonMatch = true;
-
-			}
-
-			/*
-			if (mLonEast >= boundingBox.mLonEast &&
-				mLonWest <= boundingBox.mLonWest)
-
-				lonMatch=true;
-
-			if (mLonEast >= boundingBox.mLonEast &&
-				mLonWest <= boundingBox.mLonWest)
-
-				lonMatch=true;
-*/
-
-		}
-
-
-			return latMatch && lonMatch;
-	}
 }

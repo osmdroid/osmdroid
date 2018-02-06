@@ -81,7 +81,8 @@ public class Polyline extends OverlayWithIW {
     }
 
     protected void addPoint(final GeoPoint aPoint) {
-        //FIXME this causes issues
+        //FIXME this causes issues with point reduction
+        //see https://github.com/osmdroid/osmdroid/issues/916
         mOutline.addPoint(aPoint);
     }
 

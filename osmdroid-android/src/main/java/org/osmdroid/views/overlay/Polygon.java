@@ -244,16 +244,22 @@ public class Polygon extends OverlayWithIW {
 		if (shadow) {
 			return;
 		}
-		//don't bother attempting to draw it unless it's in view
-		if (!mapView.getBoundingBox().overlaps(mBounds))
+		//don't bother attempting to draw it unless it's at least partially within the view bounds
+		if (!mapView.getBoundingBox().overlaps(mBounds, mapView.getZoomLevelDouble())) {
+			//if (isInfoWindowOpen())
+			//	closeInfoWindow();
 			return;
+		}
 		float widthPixels = mapView.getContext().getResources().getDisplayMetrics().widthPixels;
 
 		final Projection pj = mapView.getProjection();
 		mPath.rewind();
 
 		if (mAutoReducePoints) {
-
+			//this reduces the number of points based on zoom level
+			//less points = fast drawing
+			//this generally only removes points that are right next to each other or
+			//make no appreciable difference in presentation
 			BoundingBox boundingBox = mapView.getBoundingBox();
 			final double latSpanDegrees = boundingBox.getLatitudeSpan();
 			//get the degree difference, divide by dpi

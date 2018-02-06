@@ -115,6 +115,7 @@ public class SampleShapeFile extends SampleMapEventListener {
                 try {
                     FolderOverlay folder = ShapeConverter.convert(mMapView, new File(files[0]));
                     mMapView.getOverlayManager().add(folder);
+                    mMapView.invalidate();
                 } catch (Exception e) {
                     Toast.makeText(getActivity(), "Error importing file: " + e.getMessage(), Toast.LENGTH_LONG).show();
                     Log.e(TAG, "error importing file from " + files[0], e);

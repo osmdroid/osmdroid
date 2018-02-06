@@ -75,16 +75,17 @@ public class ShapeConverter {
                     case POLYGON:
 
                         PolygonShape aPolygon = (PolygonShape) s;
-                        Polygon polygon = new Polygon(map);
-                        if (metadata != null) {
-                            metadata.setStringCharset(Charset.defaultCharset());
-                            polygon.setSnippet(metadata.toMap().toString());
 
-                           
-                        }
 
-                        List<List<GeoPoint>> holes = new ArrayList<>();
                         for (int i = 0; i < aPolygon.getNumberOfParts(); i++) {
+                            Polygon polygon = new Polygon(map);
+                            if (metadata != null) {
+                                metadata.setStringCharset(Charset.defaultCharset());
+                                polygon.setSnippet(metadata.toMap().toString());
+
+                                if (polygon.getSnippet().contains("AREAID=110489595156"))
+                                    System.out.println();
+                            }
 
                             PointData[] points = aPolygon.getPointsOfPart(i);
                             List<GeoPoint> pts = new ArrayList<>();
@@ -94,24 +95,16 @@ public class ShapeConverter {
                                 pts.add(pt);
                             }
                             pts.add(pts.get(0));    //force the polygon to close
-                            if (i == 0) {
-                                polygon.setPoints(pts);
-                            } else {
-                                holes.add(pts);
-                            }
+
+                            polygon.setPoints(pts);
+                            BoundingBox boundingBox = BoundingBox.fromGeoPoints(polygon.getPoints());
+                            polygon.setSubDescription(boundingBox.toString());
+
+                            folder.add(polygon);
+
 
                         }
-                        polygon.setHoles(holes);
-                        /*System.out.println(polygon.getSubDescription() + polygon.getSnippet());
-                        System.out.println("List<GeoPoint> points = new ArrayList<>();");
-                        for (GeoPoint ptss : polygon.getPoints()) {
-                            System.out.println("points.add(new GeoPoint(" + ptss.getLatitude() + "," + ptss.getLongitude() + "));");
-                        }*/
 
-                        BoundingBox boundingBox = BoundingBox.fromGeoPoints(polygon.getPoints());
-                        polygon.setSubDescription(boundingBox.toString());
-
-                        folder.add(polygon);
 
                         break;
                     default:
