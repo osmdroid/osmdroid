@@ -68,20 +68,9 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback {
 	 * Updated 5.2+
 	 */
 	public void detach(){
-		if (mTileNotFoundImage!=null){
-			// Only recycle if we are running on a project less than 2.3.3 Gingerbread.
-			if (Build.VERSION.SDK_INT < Build.VERSION_CODES.GINGERBREAD) {
-				if (mTileNotFoundImage instanceof BitmapDrawable) {
-					final Bitmap bitmap = ((BitmapDrawable) mTileNotFoundImage).getBitmap();
-					if (bitmap != null) {
-						bitmap.recycle();
-					}
-				}
-			}
-			if (mTileNotFoundImage instanceof ReusableBitmapDrawable)
-				BitmapPool.getInstance().returnDrawableToPool((ReusableBitmapDrawable) mTileNotFoundImage);
-		}
+		BitmapPool.getInstance().asyncRecycle(mTileNotFoundImage);
 		mTileNotFoundImage=null;
+		clearTileCache();
 	}
 
 	/**

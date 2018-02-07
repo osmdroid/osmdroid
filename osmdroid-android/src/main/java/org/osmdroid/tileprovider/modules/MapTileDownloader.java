@@ -291,8 +291,7 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 			// that we might not even be interested in any more
 			pState.getCallback().mapTileRequestCompleted(pState, null);
 			// We want to return the Bitmap to the BitmapPool if applicable
-			if (pDrawable instanceof ReusableBitmapDrawable)
-				BitmapPool.getInstance().returnDrawableToPool((ReusableBitmapDrawable) pDrawable);
+			BitmapPool.getInstance().asyncRecycle(pDrawable);
 		}
 
 	}

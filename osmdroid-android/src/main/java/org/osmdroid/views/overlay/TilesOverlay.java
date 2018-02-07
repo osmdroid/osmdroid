@@ -114,33 +114,9 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 	public void onDetach(final MapView pMapView) {
 		this.mTileProvider.detach();
 		ctx=null;
-		if (mLoadingTile!=null) {
-			// Only recycle if we are running on a project less than 2.3.3 Gingerbread.
-			if (Build.VERSION.SDK_INT < Build.VERSION_CODES.GINGERBREAD) {
-				if (mLoadingTile instanceof BitmapDrawable) {
-					final Bitmap bitmap = ((BitmapDrawable) mLoadingTile).getBitmap();
-					if (bitmap != null) {
-						bitmap.recycle();
-					}
-				}
-			}
-			if (mLoadingTile instanceof ReusableBitmapDrawable)
-				BitmapPool.getInstance().returnDrawableToPool((ReusableBitmapDrawable) mLoadingTile);
-		}
+		BitmapPool.getInstance().asyncRecycle(mLoadingTile);
 		mLoadingTile=null;
-		if (userSelectedLoadingDrawable!=null){
-			// Only recycle if we are running on a project less than 2.3.3 Gingerbread.
-			if (Build.VERSION.SDK_INT < Build.VERSION_CODES.GINGERBREAD) {
-				if (userSelectedLoadingDrawable instanceof BitmapDrawable) {
-					final Bitmap bitmap = ((BitmapDrawable) userSelectedLoadingDrawable).getBitmap();
-					if (bitmap != null) {
-						bitmap.recycle();
-					}
-				}
-			}
-			if (userSelectedLoadingDrawable instanceof ReusableBitmapDrawable)
-				BitmapPool.getInstance().returnDrawableToPool((ReusableBitmapDrawable) userSelectedLoadingDrawable);
-		}
+		BitmapPool.getInstance().asyncRecycle(userSelectedLoadingDrawable);
 		userSelectedLoadingDrawable=null;
 	}
 
@@ -296,7 +272,7 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 	protected class CacheTileLooper extends TileLooper {
 
 		/**
-		 * making it `public` and not inaccessible as `protectec`
+		 * making it `public` and not inaccessible as `protected`
 		 */
 		@Override
 		public void loop(final double pZoomLevel, final RectL pMercatorViewPort) {
@@ -496,12 +472,7 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 	private void clearLoadingTile() {
 		final BitmapDrawable bitmapDrawable = mLoadingTile;
 		mLoadingTile = null;
-		// Only recycle if we are running on a project less than 2.3.3 Gingerbread.
-		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.GINGERBREAD) {
-			if (bitmapDrawable != null) {
-				bitmapDrawable.getBitmap().recycle();
-			}
-		}
+		BitmapPool.getInstance().asyncRecycle(bitmapDrawable);
 	}
 
 

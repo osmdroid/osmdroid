@@ -8,8 +8,22 @@ package org.osmdroid.util;
 
 public class MapTileList {
 
-    private long[] mTileIndices = new long[1];
+    private long[] mTileIndices;
     private int mSize;
+
+    /**
+     * @since 6.0.0
+     */
+    public MapTileList() {
+        this(1);
+    }
+
+    /**
+     * @since 6.0.0
+     */
+    public MapTileList(final int initialCapacity) {
+        mTileIndices = new long[initialCapacity];
+    }
 
     public void clear() {
         mSize = 0;

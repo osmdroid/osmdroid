@@ -84,9 +84,7 @@ public class MapTileProviderArray extends MapTileProviderBase {
 			}
 		}
 
-		mTileCache.clear();
 		mWorking.clear();
-		clearTileCache();
 		if (mRegisterReceiver!=null) {
 			mRegisterReceiver.destroy();
 			mRegisterReceiver = null;

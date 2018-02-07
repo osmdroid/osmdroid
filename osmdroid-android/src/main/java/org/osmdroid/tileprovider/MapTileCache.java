@@ -3,13 +3,9 @@ package org.osmdroid.tileprovider;
 
 import org.osmdroid.util.MapTileList;
 
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 
 import java.util.HashMap;
-import java.util.NoSuchElementException;
 
 /**
  * In memory cache of tiles
@@ -35,8 +31,17 @@ public class MapTileCache {
 
 	private TileRemovedListener mTileRemovedListener;
 	private final HashMap<Long, Drawable> mCachedTiles = new HashMap<>();
+	/**
+	 * Tiles currently displayed
+	 */
 	private final MapTileList mMapTileList = new MapTileList();
+	/**
+	 * Tiles neighbouring the tiles currently displayed (borders, zoom +-1, ...)
+	 */
 	private final MapTileList mAdditionalMapTileList = new MapTileList();
+	/**
+	 * Tiles currently in the cache, without the concurrency side effects
+	 */
 	private final MapTileList mGC = new MapTileList();
 
 	// ===========================================================
@@ -81,18 +86,16 @@ public class MapTileCache {
 		mAdditionalMapTileList.clear();
 		mAdditionalMapTileList.populateFrom(mMapTileList, -1);
 		mAdditionalMapTileList.populateFrom(mMapTileList, 1);
-		mGC.clear();
-		for (final Long index : mCachedTiles.keySet()) {
+		populateSyncCachedTiles(mGC);
+		for (int i = 0; i < mGC.getSize() ; i ++) {
+			final long index = mGC.get(i);
 			if (mMapTileList.contains(index)) {
 				continue;
 			}
 			if (mAdditionalMapTileList.contains(index)) {
 				continue;
 			}
-			mGC.put(index);
-		}
-		for (int i = 0 ; i < mGC.getSize() ; i ++) {
-			mCachedTiles.remove(mGC.get(i));
+			remove(index);
 		}
 	}
 
@@ -123,13 +126,11 @@ public class MapTileCache {
 	 */
 	public void clear() {
 		// remove them all individually so that they get recycled
-		while (!mCachedTiles.isEmpty()) {
-			try {
-				remove(mCachedTiles.keySet().iterator().next());
-			} catch (NoSuchElementException nse) {
-				// as a protection
-				//https://github.com/osmdroid/osmdroid/issues/776
-			}
+		final MapTileList list = new MapTileList(mCachedTiles.size());
+		populateSyncCachedTiles(list);
+		for (int i = 0; i < list.getSize() ; i ++) {
+			final long index = list.get(i);
+			remove(index);
 		}
 
 		// and then clear
@@ -142,19 +143,9 @@ public class MapTileCache {
 	 */
 	public void remove(final long pMapTileIndex) {
 		final Drawable drawable = mCachedTiles.remove(pMapTileIndex);
-		// Only recycle if we are running on a project less than 2.3.3 Gingerbread.
-		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.GINGERBREAD) {
-			if (drawable instanceof BitmapDrawable) {
-				final Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
-				if (bitmap != null) {
-					bitmap.recycle();
-				}
-			}
-		}
 		if (getTileRemovedListener() != null)
 			getTileRemovedListener().onTileRemoved(pMapTileIndex);
-		if (drawable instanceof ReusableBitmapDrawable)
-			BitmapPool.getInstance().returnDrawableToPool((ReusableBitmapDrawable) drawable);
+		BitmapPool.getInstance().asyncRecycle(drawable);
 	}
 
 	/**
@@ -171,5 +162,19 @@ public class MapTileCache {
 	 */
 	public void setTileRemovedListener(TileRemovedListener tileRemovedListener) {
 		mTileRemovedListener = tileRemovedListener;
+	}
+
+	/**
+	 * Just a helper method in order to parse all indices without concurrency side effects
+	 * @since 6.0.0
+	 */
+	private void populateSyncCachedTiles(final MapTileList pList) {
+		synchronized (mCachedTiles) {
+			pList.ensureCapacity(mCachedTiles.size());
+			pList.clear();
+			for (final long index : mCachedTiles.keySet()) {
+				pList.put(index);
+			}
+		}
 	}
 }

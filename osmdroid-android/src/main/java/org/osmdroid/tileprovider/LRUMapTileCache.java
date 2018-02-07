@@ -1,18 +1,15 @@
 package org.osmdroid.tileprovider;
 
-import java.util.LinkedHashMap;
-import java.util.NoSuchElementException;
-
-
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.util.Log;
+
 import org.osmdroid.api.IMapView;
 import org.osmdroid.config.Configuration;
-import org.osmdroid.util.MapTileList;
 import org.osmdroid.util.MapTileIndex;
+import org.osmdroid.util.MapTileList;
+
+import java.util.LinkedHashMap;
+import java.util.NoSuchElementException;
 
 @Deprecated
 public class LRUMapTileCache extends LinkedHashMap<Long, Drawable> {
@@ -43,19 +40,9 @@ public class LRUMapTileCache extends LinkedHashMap<Long, Drawable> {
 	@Override
 	public Drawable remove(final Object aKey) {
 		final Drawable drawable = super.remove(aKey);
-		// Only recycle if we are running on a project less than 2.3.3 Gingerbread.
-		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.GINGERBREAD) {
-			if (drawable instanceof BitmapDrawable) {
-				final Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
-				if (bitmap != null) {
-					bitmap.recycle();
-				}
-			}
-		}
+		BitmapPool.getInstance().asyncRecycle(drawable);
 		if (getTileRemovedListener() != null && aKey != null)
 			getTileRemovedListener().onTileRemoved((long) aKey);
-		if (drawable instanceof ReusableBitmapDrawable)
-			BitmapPool.getInstance().returnDrawableToPool((ReusableBitmapDrawable) drawable);
 		return drawable;
 	}
 
