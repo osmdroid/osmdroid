@@ -34,8 +34,8 @@ public abstract class TileLooper {
 			for (int j = mTiles.top ; j <= mTiles.bottom ; j ++) {
 				if ((horizontalWrapEnabled || (i >= 0 && i < mapTileUpperBound)) && (verticalWrapEnabled
 						|| (j >= 0 && j < mapTileUpperBound))) {
-					final int tileX = horizontalWrapEnabled ? MyMath.mod(i, mapTileUpperBound) : i;
-					final int tileY = verticalWrapEnabled ? MyMath.mod(j, mapTileUpperBound) : j;
+					final int tileX = MyMath.mod(i, mapTileUpperBound);
+					final int tileY = MyMath.mod(j, mapTileUpperBound);
 					final long tile = MapTileIndex.getTileIndex(mTileZoomLevel, tileX, tileY);
 					handleTile(tile, i, j);
 				}

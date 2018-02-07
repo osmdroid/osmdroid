@@ -17,6 +17,7 @@ public class MapTileIndex {
     private static int mModulo = 1 << mMaxZoomLevel;
 
     public static long getTileIndex(final int pZoom, final int pX, final int pY) {
+        checkValues(pZoom, pX, pY);
         return (((long)pZoom) << (mMaxZoomLevel * 2))
                 + (((long)pX) << mMaxZoomLevel)
                 + (long)pY;
@@ -46,5 +47,26 @@ public class MapTileIndex {
      */
     public static String toString(final long pIndex) {
         return toString(getZoom(pIndex), getX(pIndex), getY(pIndex));
+    }
+
+    /**
+     * @since 6.0.0
+     */
+    private static void checkValues(final int pZoom, final int pX, final int pY) {
+        final long max = 1 << pZoom;
+        if (pX < 0 || pX >= max) {
+            throwIllegalValue(pZoom, pX, "X");
+        }
+        if (pY < 0 || pY >= max) {
+            throwIllegalValue(pZoom, pY, "Y");
+        }
+    }
+
+    /**
+     * @since 6.0.0
+     */
+    private static void throwIllegalValue(final int pZoom, final int pValue, final String pTag) {
+        throw new IllegalArgumentException(
+                "MapTileIndex: " + pTag + " (" + pValue + ") is too big for zoom (" + pZoom + ")");
     }
 }

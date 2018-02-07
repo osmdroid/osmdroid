@@ -24,7 +24,6 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -94,10 +93,8 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 					"You must pass a valid tile provider to the tiles overlay.");
 		}
 		this.mTileProvider = aTileProvider;
-		this.horizontalWrapEnabled = horizontalWrapEnabled;
-		this.verticalWrapEnabled = verticalWrapEnabled;
-		this.mTileLooper.setHorizontalWrapEnabled(horizontalWrapEnabled);
-		this.mTileLooper.setVerticalWrapEnabled(verticalWrapEnabled);
+		setHorizontalWrapEnabled(horizontalWrapEnabled);
+		setVerticalWrapEnabled(verticalWrapEnabled);
 	}
 
 	/**
@@ -242,7 +239,7 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 					reusableBitmapDrawable.beginUsingDrawable();
 				}
 				try {
-					if (isReusable && !((ReusableBitmapDrawable) currentMapTile).isBitmapValid()) {
+					if (isReusable && !reusableBitmapDrawable.isBitmapValid()) {
 						currentMapTile = getLoadingTile();
 						isReusable = false;
 					}
@@ -496,7 +493,7 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 	public void setHorizontalWrapEnabled(boolean horizontalWrapEnabled) {
 		this.horizontalWrapEnabled = horizontalWrapEnabled;
 		this.mTileLooper.setHorizontalWrapEnabled(horizontalWrapEnabled);
-
+		this.mCacheTileLooper.setHorizontalWrapEnabled(horizontalWrapEnabled);
 	}
 
 	public boolean isVerticalWrapEnabled() {
@@ -506,6 +503,6 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 	public void setVerticalWrapEnabled(boolean verticalWrapEnabled) {
 		this.verticalWrapEnabled = verticalWrapEnabled;
 		this.mTileLooper.setVerticalWrapEnabled(verticalWrapEnabled);
-
+		this.mCacheTileLooper.setVerticalWrapEnabled(verticalWrapEnabled);
 	}
 }
