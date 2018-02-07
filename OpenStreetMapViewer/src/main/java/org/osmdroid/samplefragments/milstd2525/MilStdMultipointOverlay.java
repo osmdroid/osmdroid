@@ -46,7 +46,7 @@ public class MilStdMultipointOverlay extends Overlay {
     private float mCurrentMapRotation = 0;
     private double mCurrentMapZoom = 0d;
     private IGeoPoint mCurrentCenter = null;
-
+    protected FolderOverlay lastOverlay = null;
     public MilStdMultipointOverlay(SimpleSymbol symbol, ArrayList<GeoPoint> inputs) {
         this.symbol = symbol;
         this.inputGeoPoints = inputs;
@@ -78,7 +78,7 @@ public class MilStdMultipointOverlay extends Overlay {
         //remove the last plotted configuration
 
 
-        Log.d(IMapView.LOGTAG, "point size before " + inputGeoPoints.size());
+        //Log.d(IMapView.LOGTAG, "point size before " + inputGeoPoints.size());
         //get the screen bounds
         BoundingBox boundingBox = map.getBoundingBox();
         final double latSpanDegrees = boundingBox.getLatitudeSpan();
@@ -92,7 +92,7 @@ public class MilStdMultipointOverlay extends Overlay {
             this.inputGeoPoints,
             tolerance
         );
-        Log.d(IMapView.LOGTAG, "point size after " + inputGeoPoints.size());
+        //Log.d(IMapView.LOGTAG, "point size after " + inputGeoPoints.size());
 
         for (GeoPoint iGeoPoint : inputGeoPoints) {
             controlPts.append(iGeoPoint.getLongitude()).append(",").append(iGeoPoint.getLatitude()).append(" ");
@@ -135,7 +135,10 @@ public class MilStdMultipointOverlay extends Overlay {
         MilStdSymbol flot = SECWebRenderer.RenderMultiPointAsMilStdSymbol(id, name, description, symbolCode, controlPoints, altitudeMode, scale, bbox, modifiers, attributes, symStd);
 
         //convert the symbol into osmdroid's data structures
-        FolderOverlay lastOverlay = new FolderOverlay();
+        if (lastOverlay!=null) {
+            lastOverlay.onDetach(map);
+        }
+        lastOverlay = new FolderOverlay();
         for (int i = 0; i < flot.getSymbolShapes().size(); i++) {
             ShapeInfo info = flot.getSymbolShapes().get(i);
 

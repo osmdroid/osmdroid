@@ -958,7 +958,7 @@ public class MapView extends ViewGroup implements IMapView,
 	}
 
 	/**
-	 * destroys the map view, all refernces to listeners, all overlays, etc
+	 * destroys the map view, all references to listeners, all overlays, etc
 	 */
 	public void onDetach() {
 		this.getOverlayManager().onDetach(this);
