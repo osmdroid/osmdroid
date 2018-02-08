@@ -1,61 +1,107 @@
 package org.osmdroid.views.overlay.gridlines;
 
-import android.content.Context;
+import android.graphics.Canvas;
 import android.graphics.Color;
 
 import org.osmdroid.util.BoundingBox;
-import org.osmdroid.views.overlay.FolderOverlay;
-import org.osmdroid.views.overlay.Marker;
-import org.osmdroid.views.overlay.Polyline;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.FolderOverlay;
+import org.osmdroid.views.overlay.Marker;
+import org.osmdroid.views.overlay.Overlay;
+import org.osmdroid.views.overlay.Polyline;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Latitude/Longitude gridline overlay
- *
- * It's not perfect and has issues with osmdroid's global wrap around (where north pole turns into the south pole).
- * There's probably room for more optimizations too, pull requests are welcome.
- *
- * @since 5.2+
- * Created by alex on 12/15/15.
- * @deprecated see {@link LatLonGridlineOverlay2}
- * @see LatLonGridlineOverlay2
+ * created on 2/7/2018.
+ * @since 6.0.0
+ * @author Alex O'Ree
  */
-@Deprecated
-public class LatLonGridlineOverlay {
-    final static DecimalFormat df = new DecimalFormat("#.#####");
-    public static int lineColor = Color.BLACK;
-    public static int fontColor=Color.WHITE;
-    public static short fontSizeDp=24;
-    public static int backgroundColor=Color.BLACK;
-    public static float lineWidth = 1f;
-    //extra debugging options
-    public static boolean DEBUG = false;
-    public static boolean DEBUG2 = false;
 
+public class LatLonGridlineOverlay2 extends Overlay {
+
+    protected DecimalFormat mDecimalFormatter = new DecimalFormat("#.#####");
+    protected int mLineColor = Color.BLACK;
+    protected int mFontColor = Color.WHITE;
+    protected short mFontSizeDp = 24;
+    protected int mFontBackgroundColor = Color.BLACK;
+    protected float mLineWidth = 1f;
     //used to adjust the number of grid lines displayed on screen
-    private static float multiplier = 1f;
+    protected float mMultiplier = 1f;
+    protected FolderOverlay mLastOverlay = null;
 
-    private static void applyMarkerAttributes(Marker m){
-        m.setTextLabelBackgroundColor(backgroundColor);
-        m.setTextLabelFontSize(fontSizeDp);
-        m.setTextLabelForegroundColor(fontColor);
+    public LatLonGridlineOverlay2() {
+
+        mLineColor = Color.BLACK;
+        mFontColor = Color.WHITE;
+        mFontBackgroundColor = Color.BLACK;
+        mLineWidth = 1f;
+        mFontSizeDp = 32;
     }
 
-    public static FolderOverlay getLatLonGrid(Context ctx, MapView mapView) {
+    @Override
+    public void draw(Canvas c, MapView osmv, boolean shadow) {
+        if (shadow) return;
+        if (!isEnabled()) return;
+
+        if (mLastOverlay != null)
+            mLastOverlay.onDetach(osmv);
+        mLastOverlay = getLatLonGrid(osmv);
+        mLastOverlay.draw(c, osmv, shadow);
+    }
+
+    public void setDecimalFormatter(DecimalFormat df) {
+        this.mDecimalFormatter = df;
+    }
+
+    public void setLineColor(int lineColor) {
+        this.mLineColor = lineColor;
+    }
+
+    public void setFontColor(int fontColor) {
+        this.mFontColor = fontColor;
+    }
+
+    public void setFontSizeDp(short fontSizeDp) {
+        this.mFontSizeDp = fontSizeDp;
+    }
+
+    /**
+     * background color for the text labels
+     *
+     * @param backgroundColor
+     */
+    public void setBackgroundColor(int backgroundColor) {
+        this.mFontBackgroundColor = backgroundColor;
+    }
+
+    public void setLineWidth(float lineWidth) {
+        this.mLineWidth = lineWidth;
+    }
+
+    /**
+     * default is 1, larger number = more lines on screen. This comes at a performance penalty though
+     *
+     * @param multiplier
+     */
+    public void setMultiplier(float multiplier) {
+        this.mMultiplier = multiplier;
+    }
+
+    protected void applyMarkerAttributes(Marker m) {
+        m.setEnableTextLabelsWhenNoImage(true);
+        m.setTextLabelBackgroundColor(mFontBackgroundColor);
+        m.setTextLabelFontSize(mFontSizeDp);
+        m.setTextLabelForegroundColor(mFontColor);
+    }
+
+    protected FolderOverlay getLatLonGrid(MapView mapView) {
         BoundingBox box = mapView.getBoundingBox();
         int zoom = mapView.getZoomLevel();
 
-        Marker.ENABLE_TEXT_LABELS_WHEN_NO_IMAGE = true;
-
-
-        if (DEBUG) {
-            System.out.println("######### getLatLonGrid ");
-        }
         FolderOverlay gridlines = new FolderOverlay();
         if (zoom < 2) {
           /*  commented out for performance reasons
@@ -98,15 +144,11 @@ public class LatLonGridlineOverlay {
             double east = box.getLonEast();
             double west = box.getLonWest();
 
-            double north_south_delta = 0d;
-
             if (north < south) {
                 //we're vertically wrapping, abort.
                 return gridlines;
             }
-            if (DEBUG) {
-                System.out.println("N " + north + " S " + south + ", " + north_south_delta);
-            }
+
 
             boolean dateLineVisible = false;
             if (east < 0 && west > 0) {
@@ -114,9 +156,7 @@ public class LatLonGridlineOverlay {
                 dateLineVisible = true;
             }
 
-            if (DEBUG) {
-                System.out.println("delta " + north_south_delta);
-            }
+
             //drop a line every this many degrees
 
             double incrementor = getIncrementor(zoom);
@@ -133,8 +173,8 @@ public class LatLonGridlineOverlay {
 
             for (double i = sn_start_point; i <= sn_stop_point; i = i + incrementor) {
                 Polyline p = new Polyline();
-                p.setWidth(lineWidth);
-                p.setColor(lineColor);
+                p.setWidth(mLineWidth);
+                p.setColor(mLineColor);
                 List<GeoPoint> pts = new ArrayList<GeoPoint>();
 
 
@@ -142,9 +182,7 @@ public class LatLonGridlineOverlay {
                 pts.add(gx);
                 gx = new GeoPoint((double) i, west);
                 pts.add(gx);
-                if (DEBUG) {
-                    System.out.println("drawing NS " + (double) i + "," + east + " to " + (double) i + "," + west + ", zoom " + zoom);
-                }
+
 
                 p.setPoints(pts);
 
@@ -154,9 +192,9 @@ public class LatLonGridlineOverlay {
                 Marker m = new Marker(mapView);
                 applyMarkerAttributes(m);
                 if (i > 0) {
-                    m.setTitle(df.format(i) + "N");
+                    m.setTitle(mDecimalFormatter.format(i) + "N");
                 } else {
-                    m.setTitle(df.format(i) + "S");
+                    m.setTitle(mDecimalFormatter.format(i) + "S");
                 }
                 //must set the icon last
                 m.setIcon(null);
@@ -171,8 +209,8 @@ public class LatLonGridlineOverlay {
 
             for (double i = we_startpoint; i <= ws_stoppoint; i = i + incrementor) {
                 Polyline p = new Polyline();
-                p.setWidth(lineWidth);
-                p.setColor(lineColor);
+                p.setWidth(mLineWidth);
+                p.setColor(mLineColor);
                 List<GeoPoint> pts = new ArrayList<GeoPoint>();
                 GeoPoint gx = new GeoPoint((double) north, i);
                 pts.add(gx);
@@ -180,19 +218,17 @@ public class LatLonGridlineOverlay {
                 pts.add(gx);
                 p.setPoints(pts);
 
-                if (DEBUG) {
-                    System.err.println("drawing EW " + (double) south + "," + i + " to " + (double) north + "," + i + ", zoom " + zoom);
-                }
+
                 gridlines.add(p);
 
 
-                Marker m =  new Marker(mapView);
+                Marker m = new Marker(mapView);
                 applyMarkerAttributes(m);
                 m.setRotation(-90f);
                 if (i > 0) {
-                    m.setTitle(df.format(i) + "E");
+                    m.setTitle(mDecimalFormatter.format(i) + "E");
                 } else {
-                    m.setTitle(df.format(i) + "W");
+                    m.setTitle(mDecimalFormatter.format(i) + "W");
                 }
                 //must set the icon last
                 m.setIcon(null);
@@ -201,33 +237,27 @@ public class LatLonGridlineOverlay {
             }
             if (dateLineVisible) {
 
-                if (DEBUG)
-                    System.out.println("DATELINE zoom " + zoom + " " + we_startpoint + " " + ws_stoppoint);
 
                 //special case to ensure that vertical lines are visible when the date line is visible.
                 //in this case western point is very positive and eastern part is very negative
                 for (double i = we_startpoint; i <= 180; i = i + incrementor) {
                     Polyline p = new Polyline();
-                    p.setWidth(lineWidth);
-                    p.setColor(lineColor);
+                    p.setWidth(mLineWidth);
+                    p.setColor(mLineColor);
                     List<GeoPoint> pts = new ArrayList<GeoPoint>();
                     GeoPoint gx = new GeoPoint((double) north, i);
                     pts.add(gx);
                     gx = new GeoPoint((double) south, i);
                     pts.add(gx);
                     p.setPoints(pts);
-
-                    if (DEBUG2) {
-                        System.out.println("DATELINE drawing NS" + (double) south + "," + i + " to " + (double) north + "," + i + ", zoom " + zoom);
-                    }
 
                     gridlines.add(p);
 
                 }
                 for (double i = -180; i <= ws_stoppoint; i = i + incrementor) {
                     Polyline p = new Polyline();
-                    p.setWidth(lineWidth);
-                    p.setColor(lineColor);
+                    p.setWidth(mLineWidth);
+                    p.setColor(mLineColor);
                     List<GeoPoint> pts = new ArrayList<GeoPoint>();
                     GeoPoint gx = new GeoPoint((double) north, i);
                     pts.add(gx);
@@ -235,19 +265,15 @@ public class LatLonGridlineOverlay {
                     pts.add(gx);
                     p.setPoints(pts);
 
-                    if (DEBUG2) {
-                        System.out.println("DATELINE drawing EW" + (double) south + "," + i + " to " + (double) north + "," + i + ", zoom " + zoom);
-                    }
-
                     gridlines.add(p);
 
-                    Marker m =  new Marker(mapView);
+                    Marker m = new Marker(mapView);
                     applyMarkerAttributes(m);
                     m.setRotation(-90f);
                     if (i > 0) {
-                        m.setTitle(df.format(i) + "E");
+                        m.setTitle(mDecimalFormatter.format(i) + "E");
                     } else {
-                        m.setTitle(df.format(i) + "W");
+                        m.setTitle(mDecimalFormatter.format(i) + "W");
                     }
                     //must set the icon last
                     m.setIcon(null);
@@ -258,14 +284,14 @@ public class LatLonGridlineOverlay {
 
                 for (double i = we_startpoint; i < 180; i = i + incrementor) {
 
-                    Marker m =  new Marker(mapView);
+                    Marker m = new Marker(mapView);
 
                     applyMarkerAttributes(m);
                     m.setRotation(-90f);
                     if (i > 0) {
-                        m.setTitle(df.format(i) + "E");
+                        m.setTitle(mDecimalFormatter.format(i) + "E");
                     } else {
-                        m.setTitle(df.format(i) + "W");
+                        m.setTitle(mDecimalFormatter.format(i) + "W");
                     }
                     //must set the icon last in order for the text label to show
                     m.setIcon(null);
@@ -287,7 +313,7 @@ public class LatLonGridlineOverlay {
      * @param zoom
      * @return
      */
-    private static double[] getStartEndPointsNS(double north, double south, int zoom) {
+    protected double[] getStartEndPointsNS(double north, double south, int zoom) {
         //brute force when zoom is less than 10
         if (zoom < 10) {
             double sn_start_point = Math.floor(south);
@@ -327,16 +353,10 @@ public class LatLonGridlineOverlay {
                 double inc = getIncrementor(xx);
                 while (sn_start_point < south - inc) {
                     sn_start_point += inc;
-                    if (DEBUG) {
-                        System.out.println("south " + sn_start_point);
-                    }
                 }
 
                 while (sn_stop_point > north + inc) {
                     sn_stop_point -= inc;
-                    if (DEBUG) {
-                        System.out.println("north " + sn_stop_point);
-                    }
                 }
             }
 
@@ -353,7 +373,7 @@ public class LatLonGridlineOverlay {
      * @param zoom
      * @return
      */
-    private static double[] getStartEndPointsWE(double west, double east, int zoom) {
+    protected double[] getStartEndPointsWE(double west, double east, int zoom) {
 
         double incrementor = getIncrementor(zoom);
         //brute force when zoom is less than 10
@@ -363,7 +383,6 @@ public class LatLonGridlineOverlay {
             while (x > we_startpoint)
                 x = x - incrementor;
             we_startpoint = x;
-            //System.out.println("WS " + we_startpoint);
             double ws_stoppoint = Math.ceil(east);
             x = -180;
             while (x < ws_stoppoint)
@@ -395,13 +414,8 @@ public class LatLonGridlineOverlay {
 
                 while (west_start_point < west - inc) {
                     west_start_point += inc;
-                    if (DEBUG) {
-                        System.out.println("west " + west_start_point);
-                    }
+
                 }
-            }
-            if (DEBUG) {
-                System.out.println("return EW set as " + west_start_point + " " + easter_stop_point);
             }
             return new double[]{easter_stop_point, west_start_point};
         }
@@ -415,72 +429,58 @@ public class LatLonGridlineOverlay {
      * @param zoom mapview's osm zoom level
      * @return a double indicating the distance in degrees/decimal from which to place the gridlines on screen
      */
-    private static double getIncrementor(int zoom) {
+    protected double getIncrementor(int zoom) {
 
         switch (zoom) {
             case 0:
             case 1:
-                return 30d * multiplier;
+                return 30d * mMultiplier;
             case 2:
-                return 15d * multiplier;
+                return 15d * mMultiplier;
             case 3:
-                return 9d * multiplier;
+                return 9d * mMultiplier;
             case 4:
-                return 6d * multiplier;
+                return 6d * mMultiplier;
             case 5:
-                return 3d * multiplier;
+                return 3d * mMultiplier;
             case 6:
 
-                return 2d * multiplier;
+                return 2d * mMultiplier;
             case 7:
-                return 1d * multiplier;
+                return 1d * mMultiplier;
             case 8:
-                return 0.5d * multiplier;
+                return 0.5d * mMultiplier;
             case 9:
-                return 0.25d * multiplier;
+                return 0.25d * mMultiplier;
           /*  default:
                 return 0.1d * (1/(Math.pow(2, (10-zoom))));*/
             case 10:
-                return 0.1d * multiplier;
+                return 0.1d * mMultiplier;
             case 11:
-                return 0.05d * multiplier;
+                return 0.05d * mMultiplier;
             case 12:
-                return 0.025d * multiplier;
+                return 0.025d * mMultiplier;
             case 13:
-                return 0.0125d * multiplier;
+                return 0.0125d * mMultiplier;
             case 14:
-                return 0.00625d * multiplier;
+                return 0.00625d * mMultiplier;
             case 15:
-                return 0.003125d * multiplier;
+                return 0.003125d * mMultiplier;
             case 16:
-                return 0.0015625 * multiplier;
+                return 0.0015625 * mMultiplier;
             case 17:
-                return 0.00078125 * multiplier;
+                return 0.00078125 * mMultiplier;
             case 18:
-                return 0.000390625 * multiplier;
+                return 0.000390625 * mMultiplier;
             case 19:
-                return 0.0001953125 * multiplier;
+                return 0.0001953125 * mMultiplier;
             case 20:
-                return 0.00009765625 * multiplier;
+                return 0.00009765625 * mMultiplier;
             case 21:
-                return 0.000048828125 * multiplier;
+                return 0.000048828125 * mMultiplier;
             default:
-                return 0.0000244140625 * multiplier;
+                return 0.0000244140625 * mMultiplier;
         }
     }
 
-    /**
-     * resets the settings
-     * @since 5.6.3
-     */
-    public static void setDefaults() {
-
-        lineColor = Color.BLACK;
-        fontColor=Color.WHITE;
-        backgroundColor=Color.BLACK;
-        lineWidth = 1f;
-        fontSizeDp=32;
-        DEBUG=false;
-        DEBUG2=false;
-    }
 }

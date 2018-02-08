@@ -128,6 +128,7 @@ public class MapView extends ViewGroup implements IMapView,
 	private MapTileProviderBase mTileProvider;
 	private Handler mTileRequestCompleteHandler;
 	private boolean mTilesScaledToDpi = false;
+	private float mTilesScaleFactor = 1f;
 
 	final Point mRotateScalePoint = new Point();
 
@@ -404,11 +405,30 @@ public class MapView extends ViewGroup implements IMapView,
 		mTilesScaledToDpi = tilesScaledToDpi;
 		updateTileSizeForDensity(getTileProvider().getTileSource());
 	}
+	
+	public float getTilesScaleFactor() {
+		return mTilesScaleFactor;
+	}
+	
+	/**
+	 * Setting an additional scale factor both for ScaledToDpi and standard size	 
+	 * > 1.0 enlarges map display, < 1.0 shrinks map display
+	 * @since 6.1.0
+	 */	 
+	public void setTilesScaleFactor(float pTilesScaleFactor) {
+		mTilesScaleFactor = pTilesScaleFactor;
+		updateTileSizeForDensity(getTileProvider().getTileSource());
+	}	
+	
+	public void resetTilesScaleFactor() {
+		mTilesScaleFactor = 1f;
+		updateTileSizeForDensity(getTileProvider().getTileSource());
+	}
 
 	private void updateTileSizeForDensity(final ITileSource aTileSource) {
 		int tile_size = aTileSource.getTileSizePixels();
 		float density =  getResources().getDisplayMetrics().density * 256 / tile_size ;
-		int size = (int) ( tile_size * (isTilesScaledToDpi() ? density : 1));
+		int size = (int) ( tile_size * (isTilesScaledToDpi() ? density * mTilesScaleFactor : mTilesScaleFactor));
 		if (Configuration.getInstance().isDebugMapView())
 			Log.d(IMapView.LOGTAG, "Scaling tiles to " + size);
 		TileSystem.setTileSize(size);
@@ -716,6 +736,11 @@ public class MapView extends ViewGroup implements IMapView,
 
 	/**
 	 * sets the scroll limit
+	 * Example:
+	 *	To block vertical scroll of the view outside north/south poles:
+	 * 	mapView.setScrollableAreaLimitLatitude(TileSystem.MaxLatitude,-TileSystem.MaxLatitude, 0);
+	 * Warning:
+	 * 	Don't use latitude values outside the [-TileSystem.MaxLatitude, TileSystem.MaxLatitude] range, this would cause an ANR.
 	 * @since 6.0.0
 	 * @param pNorth decimal degrees latitude
 	 * @param pSouth decimal degrees latitude
@@ -953,12 +978,11 @@ public class MapView extends ViewGroup implements IMapView,
 	}
 
 	/**
-	 * destroys the map view, all refernces to listeners, all overlays, etc
+	 * destroys the map view, all references to listeners, all overlays, etc
 	 */
 	public void onDetach() {
 		this.getOverlayManager().onDetach(this);
 		mTileProvider.detach();
-		mTileProvider.clearTileCache();
 		mZoomController.setVisible(false);
 
 		//https://github.com/osmdroid/osmdroid/issues/390

@@ -46,11 +46,20 @@ public class Polyline extends OverlayWithIW {
     protected OnClickListener mOnClickListener;
     private GeoPoint infoWindowLocation=null;
     private float density=1.0f;
+    private ArrayList<GeoPoint> originalPoints = new ArrayList<>();
 
+    /**
+     * highly suggested that you provide context, if MapView is not provided or is null
+     * info window popups will not function unless you handle it yourself
+     */
     public Polyline() {
         this(null);
     }
 
+    /**
+     * highly suggested that you provide MapView , if MapView is not provided or is null
+     * info window popups will not function unless you handle it yourself
+     */
     public Polyline(MapView mapView) {
         if (mapView != null) {
             if (mDefaultInfoWindow == null || mDefaultInfoWindow.getMapView() != mapView) {

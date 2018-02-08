@@ -76,15 +76,15 @@ public class MapTileProviderArray extends MapTileProviderBase {
 
 	@Override
 	public void detach() {
-
 		synchronized (mTileProviderList) {
 			for (final MapTileModuleProviderBase tileProvider : mTileProviderList) {
 				tileProvider.detach();
 
 			}
 		}
-
-		mWorking.clear();
+		synchronized (mWorking) {
+			mWorking.clear();
+		}
 		if (mRegisterReceiver!=null) {
 			mRegisterReceiver.destroy();
 			mRegisterReceiver = null;

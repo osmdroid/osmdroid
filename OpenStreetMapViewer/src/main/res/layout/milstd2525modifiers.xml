@@ -1,0 +1,1070 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              android:padding="5dp">
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/milstd_modifier_apply"
+        android:text="Apply"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Affiliation"/>
+                <!-- affiliations -->
+                <RadioGroup
+                    android:id="@+id/milstd_search_affil"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/milstd_search"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/milstd_search_affil_f"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        android:text="F"/>
+
+                    <RadioButton
+                        android:id="@+id/milstd_search_affil_h"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="H"/>
+
+                    <RadioButton
+                        android:id="@+id/milstd_search_affil_n"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="N"/>
+
+                    <RadioButton
+                        android:id="@+id/milstd_search_affil_u"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="U"/>
+
+                </RadioGroup>
+
+            </LinearLayout>
+<!-- echelon -->
+
+
+
+            <LinearLayout
+
+                android:id="@+id/milstdspinner1"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Echelon 1"/>
+
+                <Spinner
+                    android:id="@+id/echelon1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/milstdspinner2"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Echelon 2"/>
+
+                <Spinner
+                    android:id="@+id/echelon2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/COUNTRY_CODE" android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Country Code"/>
+
+                <EditText
+                    android:id="@+id/COUNTRY_edit"
+                    android:maxLength="2"
+                    android:maxLines="1"
+                    android:textAllCaps="true"
+                    android:inputType="text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+
+
+            <LinearLayout
+                android:id="@+id/T_UNIQUE_DESIGNATION_1" android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Unique Designation1"/>
+
+                <EditText
+                    android:id="@+id/T_UNIQUE_DESIGNATION_1_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:visibility="gone"
+                android:id="@+id/T1_UNIQUE_DESIGNATION_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Unique Designation2"/>
+
+                <EditText
+                    android:id="@+id/T1_UNIQUE_DESIGNATION_2_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/N_HOSTILE" android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Hostile"/>
+
+                <EditText
+                    android:id="@+id/N_HOSTILE_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/W_DTG_1" android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="DTG"/>
+
+                <EditText
+                    android:id="@+id/W_DTG_1_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="datetime"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/W1_DTG_2" android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="DTG2"/>
+
+                <EditText
+                    android:id="@+id/W1_DTG_2_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="datetime"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/LENGTH" android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="LENGTH"/>
+
+                <EditText
+                    android:id="@+id/LENGTH_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal|number"/>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/RADIUS" android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="RADIUS"/>
+
+                <EditText
+                    android:id="@+id/RADIUS_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal|number"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ANGLE" android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ANGLE"/>
+
+                <EditText
+                    android:id="@+id/ANGLE_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal|number"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/AM_DISTANCE" android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="DISTANCE"/>
+
+                <EditText
+                    android:id="@+id/AM_DISTANCE_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal|number"/>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/X_ALTITUDE_DEPTH" android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Altitude/Depth"/>
+
+                <EditText
+                    android:id="@+id/X_ALTITUDE_DEPTH_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal|number"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/Q_DIRECTION_OF_MOVEMENT" android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Direction of movement"/>
+
+                <EditText
+                    android:id="@+id/Q_DIRECTION_OF_MOVEMENT_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal|number"/>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/AN_AZIMUTH" android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Azimuth"/>
+
+                <EditText
+                    android:id="@+id/AN_AZIMUTH_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal|number"/>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/C_QUANTITY" android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:text="Quantity"/>
+
+                <EditText
+                    android:id="@+id/C_QUANTITY_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal|number"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/H_ADDITIONAL_INFO_1" android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Additional Info 2"/>
+
+                <EditText
+                    android:id="@+id/H_ADDITIONAL_INFO_1_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/H1_ADDITIONAL_INFO_2" android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Additional Info 2"/>
+
+                <EditText
+                    android:id="@+id/H1_ADDITIONAL_INFO_2_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/H2_ADDITIONAL_INFO_3" android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Additional Info 3"/>
+
+                <EditText
+                    android:id="@+id/H2_ADDITIONAL_INFO_3_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/S_OFFSET_INDICATOR" android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Offset Indicator"/>
+
+                <EditText
+                    android:id="@+id/S_OFFSET_INDICATOR_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/V_EQUIP_TYPE" android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Equipment Type"/>
+
+                <EditText
+                    android:id="@+id/V_EQUIP_TYPE_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/D_TASK_FORCE_INDICATOR" android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Task Force"/>
+
+                <EditText
+                    android:id="@+id/D_TASK_FORCE_INDICATOR_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/E_FRAME_SHAPE_MODIFIER" android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Frame Shape"/>
+
+                <EditText
+                    android:id="@+id/E_FRAME_SHAPE_MODIFIER_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/F_REINFORCED_REDUCED" android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Reinforced/Reduced"/>
+
+                <EditText
+                    android:id="@+id/F_REINFORCED_REDUCED_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/G_STAFF_COMMENTS" android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Staff Comments"/>
+
+                <EditText
+                    android:id="@+id/G_STAFF_COMMENTS_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLength="20"
+                    android:maxLines="1"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/J_EVALUATION_RATING" android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Evaluation/Rating"/>
+
+                <EditText
+                    android:id="@+id/J_EVALUATION_RATING_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLength="2"
+                    android:maxLines="1"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/K_COMBAT_EFFECTIVENESS" android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Combat Effectivenss"/>
+
+                <EditText
+                    android:id="@+id/K_COMBAT_EFFECTIVENESS_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLength="2"
+                    android:maxLines="1"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/L_SIGNATURE_EQUIP" android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Signature Equipment"/>
+
+                <EditText
+                    android:id="@+id/L_SIGNATURE_EQUIP_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLength="1"
+                    android:maxLines="1"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/M_HIGHER_FORMATION" android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Higher Formation"/>
+
+                <EditText
+                    android:id="@+id/M_HIGHER_FORMATION_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLength="21"
+                    android:maxLines="1"/>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/P_IFF_SIF" android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="IFF/SIF"/>
+
+                <EditText
+                    android:id="@+id/P_IFF_SIF_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLength="5"
+                    android:maxLines="1"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/R2_SIGNIT_MOBILITY_INDICATOR" android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Signit Mobility Indicator"/>
+
+                <EditText
+                    android:id="@+id/R2_SIGNIT_MOBILITY_INDICATOR_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLength="5"
+                    android:maxLines="1"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/S_HQ_STAFF_OR_OFFSET_INDICATOR" android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="HQ Staff/Offset Indicator"/>
+
+                <EditText
+                    android:id="@+id/S_HQ_STAFF_OR_OFFSET_INDICATOR_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLength="5"
+                    android:maxLines="1"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/Y_LOCATION" android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Location"/>
+
+                <EditText
+                    android:id="@+id/Y_LOCATION_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLength="19"
+                    android:maxLines="1"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/Z_SPEED" android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Speed"/>
+
+                <EditText
+                    android:id="@+id/Z_SPEED_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal|number"
+                    android:maxLength="19"
+                    android:maxLines="1"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/AA_SPECIAL_C2_HQ" android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Special C2/HQ"/>
+
+                <EditText
+                    android:id="@+id/AA_SPECIAL_C2_HQ_edit"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLength="9"
+                    android:maxLines="1"/>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/AB_FEINT_DUMMY_INDICATOR" android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Feint/Dummy Indicator"/>
+
+                <EditText
+                    android:id="@+id/AB_FEINT_DUMMY_INDICATOR_edit"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLength="9"
+                    android:maxLines="1"/>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/AC_INSTALLATION" android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Installation"/>
+
+                <EditText
+                    android:id="@+id/AC_INSTALLATION_edit"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLength="9"
+                    android:maxLines="1"/>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/AD_PLATFORM_TYPE" android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Platform Type"/>
+
+                <EditText
+                    android:id="@+id/AD_PLATFORM_TYPE_edit"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLength="9"
+                    android:maxLines="1"/>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/AE_EQUIPMENT_TEARDOWN_TIME" android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Equpiment Teardown Time"/>
+
+                <EditText
+                    android:id="@+id/AE_EQUIPMENT_TEARDOWN_TIME_edit"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLength="9"
+                    android:maxLines="1"/>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/AF_COMMON_IDENTIFIER" android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Common Identifier"/>
+
+                <EditText
+                    android:id="@+id/AF_COMMON_IDENTIFIER_edit"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLength="9"
+                    android:maxLines="1"/>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/AG_AUX_EQUIP_INDICATOR" android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Equipment Indicator"/>
+
+                <EditText
+                    android:id="@+id/AG_AUX_EQUIP_INDICATOR_edit"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLength="9"
+                    android:maxLines="1"/>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/AH_AREA_OF_UNCERTAINTY" android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Area of Uncertainity"/>
+
+                <EditText
+                    android:id="@+id/AH_AREA_OF_UNCERTAINTY_edit"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLength="9"
+                    android:maxLines="1"/>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/AI_DEAD_RECKONING_TRAILER" android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Dead Rechoning Trailer"/>
+
+                <EditText
+                    android:id="@+id/AI_DEAD_RECKONING_TRAILER_edit"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLength="9"
+                    android:maxLines="1"/>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/AJ_SPEED_LEADER" android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Speed Leader"/>
+
+                <EditText
+                    android:id="@+id/AJ_SPEED_LEADER_edit"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLength="9"
+                    android:maxLines="1"/>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/AK_PAIRING_LINE" android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Pairing Line"/>
+
+                <EditText
+                    android:id="@+id/AK_PAIRING_LINE_edit"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLength="9"
+                    android:maxLines="1"/>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/AL_OPERATIONAL_CONDITION" android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Operational Condition"/>
+
+                <EditText
+                    android:id="@+id/AL_OPERATIONAL_CONDITION_edit"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLength="9"
+                    android:maxLines="1"/>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/AO_ENGAGEMENT_BAR" android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Engagement Bar"/>
+
+                <EditText
+                    android:id="@+id/AO_ENGAGEMENT_BAR_edit"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLength="9"
+                    android:maxLines="1"/>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/SCC_SONAR_CLASSIFICATION_CONFIDENCE" android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Sonar Classification/Confidence"/>
+
+                <EditText
+                    android:id="@+id/SCC_SONAR_CLASSIFICATION_CONFIDENCE_edit"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLength="9"
+                    android:maxLines="1"/>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/CN_CPOF_NAME_LABEL" android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="CPOF Name Label"/>
+
+                <EditText
+                    android:id="@+id/CN_CPOF_NAME_LABEL_edit"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLength="9"
+                    android:maxLines="1"/>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

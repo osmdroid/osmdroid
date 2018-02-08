@@ -44,6 +44,7 @@ public class MapController implements IMapController, OnFirstLayoutListener {
     // Zoom animations
     private ScaleAnimation mZoomInAnimationOld;
     private ScaleAnimation mZoomOutAnimationOld;
+    private double mTargetZoomLevel=0;
 
     private Animator mCurrentAnimator;
 
@@ -353,6 +354,7 @@ public class MapController implements IMapController, OnFirstLayoutListener {
             zoomToAnimator.start();
             return true;
         }
+        mTargetZoomLevel = zoomLevel;
         if (zoomLevel > currentZoomLevel)
             mMapView.startAnimation(mZoomInAnimationOld);
         else
@@ -400,6 +402,7 @@ public class MapController implements IMapController, OnFirstLayoutListener {
             mMapView.clearAnimation();
             mZoomInAnimationOld.reset();
             mZoomOutAnimationOld.reset();
+            setZoom(mTargetZoomLevel);
         }
     }
 
