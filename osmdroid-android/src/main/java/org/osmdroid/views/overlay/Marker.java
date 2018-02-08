@@ -49,9 +49,11 @@ import org.osmdroid.views.overlay.infowindow.MarkerInfoWindow;
  */
 public class Marker extends OverlayWithIW {
 
+
 	/**
-	 * this is an OPT IN feature that was used for kml parsing with osmbonuspack (on a remote branch)
-	 * that set the image icon of a kml marker to a text label if no image url was provided. It's also
+
+	 * this set's the default for all markers
+	 * that sets the image icon of a  marker to a text label if no image url was provided. It's also
 	 * used in a few other cases, such as placing a generic text label on the map
 	 */
 	public static boolean ENABLE_TEXT_LABELS_WHEN_NO_IMAGE=false;
@@ -60,6 +62,11 @@ public class Marker extends OverlayWithIW {
 	protected int mTextLabelBackgroundColor =Color.WHITE;
 	protected int mTextLabelForegroundColor = Color.BLACK;
 	protected int mTextLabelFontSize =24;
+	/**
+	 * enables per Marker instance overrides for this setting
+	 * @since 6.0.0
+	 */
+	protected boolean mEnableTextLabelsWhenNoImage=false;
 
 	/*attributes for standard features:*/
 	protected Drawable mIcon;
@@ -135,7 +142,7 @@ public class Marker extends OverlayWithIW {
 	 * @param icon if null, the default osmdroid marker is used. 
 	 */
 	public void setIcon(final Drawable icon){
-		if (ENABLE_TEXT_LABELS_WHEN_NO_IMAGE && icon==null && this.mTitle!=null && this.mTitle.length() > 0) {
+		if ((ENABLE_TEXT_LABELS_WHEN_NO_IMAGE || mEnableTextLabelsWhenNoImage) && icon==null && this.mTitle!=null && this.mTitle.length() > 0) {
 			Paint background = new Paint();
 			background.setColor(mTextLabelBackgroundColor);
 
@@ -155,7 +162,7 @@ public class Marker extends OverlayWithIW {
 			c.drawText(getTitle(),0,baseline,p);
 
 			mIcon=new BitmapDrawable(resource,image);
-		} else if (!ENABLE_TEXT_LABELS_WHEN_NO_IMAGE && icon!=null) {
+		} else if (!mEnableTextLabelsWhenNoImage && !ENABLE_TEXT_LABELS_WHEN_NO_IMAGE && icon!=null) {
 			this.mIcon = icon;
 		} else if (icon!=null) {
 			mIcon=icon;
@@ -245,7 +252,24 @@ public class Marker extends OverlayWithIW {
 	public void setOnMarkerClickListener(OnMarkerClickListener listener){
 		mOnMarkerClickListener = listener;
 	}
-	
+
+
+	/**
+	 * @since 6.0.0
+	 * @return
+	 */
+	public boolean isEnableTextLabelsWhenNoImage() {
+		return mEnableTextLabelsWhenNoImage;
+	}
+
+	/**
+	 * @since 6.0.0
+	 * @param mEnableTextLabelsWhenNoImage
+	 */
+	public void setEnableTextLabelsWhenNoImage(boolean mEnableTextLabelsWhenNoImage) {
+		this.mEnableTextLabelsWhenNoImage = mEnableTextLabelsWhenNoImage;
+	}
+
 	public void setOnMarkerDragListener(OnMarkerDragListener listener){
 		mOnMarkerDragListener = listener;
 	}

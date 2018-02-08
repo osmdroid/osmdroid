@@ -7,6 +7,9 @@ import android.os.Environment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -59,6 +62,7 @@ public class SampleCacheDownloaderArchive  extends BaseSampleFragment implements
 
     @Override
     public void addOverlays() {
+        super.addOverlays();
 
         mMapView.getController().setZoom(11);
         mMapView.getController().setCenter(new GeoPoint(40.7d, -73.9d));
