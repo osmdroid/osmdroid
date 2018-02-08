@@ -65,6 +65,7 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback {
 	 * Updated 5.2+
 	 */
 	public void detach(){
+		clearTileCache();
 		if (mTileNotFoundImage!=null){
 			// Only recycle if we are running on a project less than 2.3.3 Gingerbread.
 			if (Build.VERSION.SDK_INT < Build.VERSION_CODES.GINGERBREAD) {
