@@ -327,16 +327,16 @@ class LinearRing{
 	 */
 	private void setCloserPoint(final PointL pPrevious, final PointL pNext,
 								final double pWorldSize) {
-		while (Math.abs(pNext.x - pWorldSize - pPrevious.x) < Math.abs(pNext.x - pPrevious.x)) {
+		while (isHorizontalRepeating && Math.abs(pNext.x - pWorldSize - pPrevious.x) < Math.abs(pNext.x - pPrevious.x)) {
 			pNext.x -= pWorldSize;
 		}
-		while (Math.abs(pNext.x + pWorldSize - pPrevious.x) < Math.abs(pNext.x - pPrevious.x)) {
+		while (isHorizontalRepeating && Math.abs(pNext.x + pWorldSize - pPrevious.x) < Math.abs(pNext.x - pPrevious.x)) {
 			pNext.x += pWorldSize;
 		}
-		while (Math.abs(pNext.y - pWorldSize - pPrevious.y) < Math.abs(pNext.y - pPrevious.y)) {
+		while (isVerticalRepeating && Math.abs(pNext.y - pWorldSize - pPrevious.y) < Math.abs(pNext.y - pPrevious.y)) {
 			pNext.y -= pWorldSize;
 		}
-		while (Math.abs(pNext.y + pWorldSize - pPrevious.y) < Math.abs(pNext.y - pPrevious.y)) {
+		while (isVerticalRepeating && Math.abs(pNext.y + pWorldSize - pPrevious.y) < Math.abs(pNext.y - pPrevious.y)) {
 			pNext.y += pWorldSize;
 		}
 	}
