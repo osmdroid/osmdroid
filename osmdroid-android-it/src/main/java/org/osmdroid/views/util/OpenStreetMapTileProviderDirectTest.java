@@ -58,7 +58,7 @@ public class OpenStreetMapTileProviderDirectTest extends AndroidTestCase {
 	}
 
 	public void test_getMapTile_not_found() {
-		final long tile = MapTileIndex.getTileIndex(2, 3, 4);
+		final long tile = MapTileIndex.getTileIndex(29, 0, 0);
 
 		final Drawable drawable = mProvider.getMapTile(tile);
 
@@ -66,7 +66,7 @@ public class OpenStreetMapTileProviderDirectTest extends AndroidTestCase {
 	}
 
 	public void test_getMapTile_found() throws RemoteException, BitmapTileSourceBase.LowMemoryException, java.io.IOException {
-		final long tile = MapTileIndex.getTileIndex(2, 3, 4);
+		final long tile = MapTileIndex.getTileIndex(2, 3, 3);
 		if (Build.VERSION.SDK_INT >=23)
 			return;
 

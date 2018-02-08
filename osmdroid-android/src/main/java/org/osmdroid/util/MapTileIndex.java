@@ -53,6 +53,9 @@ public class MapTileIndex {
      * @since 6.0.0
      */
     private static void checkValues(final int pZoom, final int pX, final int pY) {
+        if (pZoom < 0 || pZoom > mMaxZoomLevel) {
+            throwIllegalValue(pZoom, pZoom, "Zoom");
+        }
         final long max = 1 << pZoom;
         if (pX < 0 || pX >= max) {
             throwIllegalValue(pZoom, pX, "X");
@@ -67,6 +70,6 @@ public class MapTileIndex {
      */
     private static void throwIllegalValue(final int pZoom, final int pValue, final String pTag) {
         throw new IllegalArgumentException(
-                "MapTileIndex: " + pTag + " (" + pValue + ") is too big for zoom (" + pZoom + ")");
+                "MapTileIndex: " + pTag + " (" + pValue + ") is too big (zoom=" + pZoom + ")");
     }
 }
