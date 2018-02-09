@@ -2,7 +2,6 @@ package org.osmdroid.samplefragments.animations;
 
 import android.app.Activity;
 import android.graphics.Color;
-import android.os.Handler;
 import android.util.Log;
 
 import org.osmdroid.events.MapListener;
@@ -12,8 +11,7 @@ import org.osmdroid.samplefragments.BaseSampleFragment;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.overlay.FolderOverlay;
 import org.osmdroid.views.overlay.Marker;
-import org.osmdroid.views.overlay.Overlay;
-import org.osmdroid.views.overlay.gridlines.LatLonGridlineOverlay;
+import org.osmdroid.views.overlay.gridlines.LatLonGridlineOverlay2;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -43,7 +41,6 @@ public class AnimatedMarkerTimer extends BaseSampleFragment implements MapListen
     @Override
     protected void addOverlays() {
         super.addOverlays();
-        LatLonGridlineOverlay.setDefaults();
         mMapView.getController().setCenter(new GeoPoint(0d, 0d));
         mMapView.getController().setZoom(5);
         mMapView.setTilesScaledToDpi(true);
@@ -53,7 +50,12 @@ public class AnimatedMarkerTimer extends BaseSampleFragment implements MapListen
         marker = new Marker(mMapView);
         marker.setPosition(new GeoPoint(45d, -74d));
 
-        updateGridlines();
+        LatLonGridlineOverlay2 grids = new LatLonGridlineOverlay2();
+
+        grids.setBackgroundColor(Color.BLACK);
+        grids.setFontColor(Color.GREEN);
+        grids.setLineColor(Color.GREEN);
+        mMapView.getOverlayManager().add(grids);
 
     }
 
@@ -61,32 +63,14 @@ public class AnimatedMarkerTimer extends BaseSampleFragment implements MapListen
 
     @Override
     public boolean onScroll(ScrollEvent scrollEvent) {
-        updateGridlines();
         return false;
     }
 
     @Override
     public boolean onZoom(ZoomEvent zoomEvent) {
-        updateGridlines();
         return false;
     }
 
-
-    protected void updateGridlines() {
-
-        if (mMapView == null)
-            return; //happens during unit tests with rapid recycling of the fragment
-        if (activeLatLonGrid != null) {
-            mMapView.getOverlayManager().remove(activeLatLonGrid);
-            activeLatLonGrid.onDetach(mMapView);
-        }
-        LatLonGridlineOverlay.backgroundColor = Color.BLACK;
-        LatLonGridlineOverlay.fontColor = Color.GREEN;
-        LatLonGridlineOverlay.lineColor = Color.GREEN;
-        activeLatLonGrid = LatLonGridlineOverlay.getLatLonGrid(getActivity(), mMapView);
-        mMapView.getOverlays().add(activeLatLonGrid);
-
-    }
 
     public void onResume(){
         super.onResume();

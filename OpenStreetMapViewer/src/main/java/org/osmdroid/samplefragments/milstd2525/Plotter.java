@@ -65,7 +65,7 @@ import armyc2.c2sd.renderer.utilities.SymbolUtilities;
  * @author Alex O'Ree
  */
 
-public class SinglePoints extends SampleGridlines implements View.OnClickListener, TextWatcher, ListPicker.Callback {
+public class Plotter extends SampleGridlines implements View.OnClickListener, TextWatcher, ListPicker.Callback {
     public static final DecimalFormat df = new DecimalFormat("#.000000");
     private final int MENU_ADD_POINT = Menu.FIRST;
     private final int MENU_ADD_VIA_PICKER = MENU_ADD_POINT + 1;
@@ -89,7 +89,7 @@ public class SinglePoints extends SampleGridlines implements View.OnClickListene
     Button cancelAddIcon = null;
     int dpi=0;
 
-    public SinglePoints() {
+    public Plotter() {
         //init the renderer
 
         RendererSettings.getInstance().setSymbologyStandard(RendererSettings.Symbology_2525C);
@@ -121,7 +121,7 @@ public class SinglePoints extends SampleGridlines implements View.OnClickListene
 
     @Override
     public String getSampleTitle() {
-        return "Single Point";
+        return "Symbol Plotter";
     }
 
 
@@ -382,7 +382,10 @@ public class SinglePoints extends SampleGridlines implements View.OnClickListene
             enablePanning();
         }
         if (def.canDraw()) {
-            if (def.getMinPoints()==1) {
+            ModifierPicker picker = new ModifierPicker();
+            picker.show(getActivity(), def);
+
+            if (def.getMaxPoints()==1) {
                 enablePanning();
                 plotter.setSymbol(def);
                 Toast.makeText(getActivity(), "Long press to plot!", Toast.LENGTH_SHORT).show();

@@ -2,9 +2,9 @@ package org.osmdroid.samplefragments.data;
 
 import android.graphics.Color;
 
-import org.osmdroid.util.GeoPoint;
+import org.osmdroid.samplefragments.BaseSampleFragment;
 import org.osmdroid.views.overlay.TilesOverlay;
-import org.osmdroid.views.overlay.gridlines.LatLonGridlineOverlay;
+import org.osmdroid.views.overlay.gridlines.LatLonGridlineOverlay2;
 
 /**
  * created on 1/8/2017.
@@ -12,7 +12,7 @@ import org.osmdroid.views.overlay.gridlines.LatLonGridlineOverlay;
  * @author Alex O'Ree
  */
 
-public class Gridlines2 extends SampleGridlines {
+public class Gridlines2 extends BaseSampleFragment {
 
     @Override
     public String getSampleTitle() {
@@ -21,12 +21,14 @@ public class Gridlines2 extends SampleGridlines {
 
     @Override
     protected void addOverlays() {
-       super.addOverlays();
+
         mMapView.getOverlayManager().getTilesOverlay().setColorFilter(TilesOverlay.INVERT_COLORS);
-        LatLonGridlineOverlay.fontSizeDp=14;
-        LatLonGridlineOverlay.fontColor= Color.argb(255,0,255,0);
-        LatLonGridlineOverlay.backgroundColor=Color.BLACK;
-        LatLonGridlineOverlay.lineColor=LatLonGridlineOverlay.fontColor;
-        updateGridlines();
+        LatLonGridlineOverlay2 grids = new LatLonGridlineOverlay2();
+        grids.setBackgroundColor(Color.BLACK);
+        grids.setFontColor(Color.RED);
+        grids.setLineColor(Color.RED);
+        grids.setFontSizeDp((short)14);
+        mMapView.getOverlayManager().add(grids);
+
     }
 }

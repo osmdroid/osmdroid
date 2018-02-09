@@ -108,19 +108,12 @@ public class SampleWithMinimapItemizedOverlayWithScale extends BaseSampleFragmen
 			mMapView.getOverlays().add(mRotationGestureOverlay);
 		}
 
-		/* MiniMap */
-		{
-			//MinimapOverlay miniMapOverlay = new MinimapOverlay(context,
-			//		mMapView.getTileRequestCompleteHandler());
-			//mMapView.getOverlays().add(miniMapOverlay);
-		}
 
 		// Zoom and center on the focused item.
 		mMapView.getController().setZoom(5);
         IGeoPoint geoPoint = iconOverlay.getFocusedItem().getPoint();
 		mMapView.getController().animateTo(geoPoint);
 
-		setHasOptionsMenu(false);
 	}
 
 	// ===========================================================
