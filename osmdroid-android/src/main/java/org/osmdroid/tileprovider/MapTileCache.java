@@ -1,9 +1,12 @@
 // Created by plusminus on 17:58:57 - 25.09.2008
 package org.osmdroid.tileprovider;
 
+import org.osmdroid.api.IMapView;
+import org.osmdroid.config.Configuration;
 import org.osmdroid.util.MapTileList;
 
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 
 import java.util.HashMap;
 
@@ -44,25 +47,34 @@ public class MapTileCache {
 	 */
 	private final MapTileList mGC = new MapTileList();
 
+	private int mCapacity;
+
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 
-	public MapTileCache() {}
+	public MapTileCache() {
+		this(Configuration.getInstance().getCacheMapTileCount());
+	}
 
 	/**
 	 * @param aMaximumCacheSize
 	 *            Maximum amount of MapTiles to be hold within.
 	 */
-	@Deprecated
-	public MapTileCache(final int aMaximumCacheSize) {}
+	public MapTileCache(final int aMaximumCacheSize) {
+		ensureCapacity(aMaximumCacheSize);
+	}
 
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================
 
-	@Deprecated
-	public void ensureCapacity(final int aCapacity) {}
+	public void ensureCapacity(final int pCapacity) {
+		if (mCapacity < pCapacity) {
+			Log.i(IMapView.LOGTAG, "Tile cache increased from " + mCapacity + " to " + pCapacity);
+			mCapacity = pCapacity;
+		}
+	}
 
 	public Drawable getMapTile(final long pMapTileIndex) {
 		synchronized (mCachedTiles) {
@@ -83,6 +95,11 @@ public class MapTileCache {
 	 * @since 6.0.0
 	 */
 	public void garbageCollection() {
+		final int size = mCachedTiles.size();
+		int toBeRemoved = size - mCapacity;
+		if (toBeRemoved <= 0) {
+			return;
+		}
 		mAdditionalMapTileList.clear();
 		mAdditionalMapTileList.populateFrom(mMapTileList, -1);
 		mAdditionalMapTileList.populateFrom(mMapTileList, 1);
@@ -96,6 +113,9 @@ public class MapTileCache {
 				continue;
 			}
 			remove(index);
+			if (-- toBeRemoved == 0) {
+				break;
+			};
 		}
 	}
 
@@ -176,5 +196,12 @@ public class MapTileCache {
 				pList.put(index);
 			}
 		}
+	}
+
+	/**
+	 * @since 6.0.0
+	 */
+	public int getSize() {
+		return mCachedTiles.size();
 	}
 }
