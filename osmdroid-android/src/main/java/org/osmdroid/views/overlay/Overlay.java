@@ -269,10 +269,22 @@ public abstract class Overlay implements OverlayConstants {
 		canvas.restore();
 	}
 
+	/**
+	 * Triggered on application lifecycle changes, assuming the mapview is triggered appropriately
+	 * related issue https://github.com/osmdroid/osmdroid/issues/823
+	 * https://github.com/osmdroid/osmdroid/issues/806
+	 * @since 6.0.0
+	 */
 	public void onPause(){
 
 	}
 
+	/**
+	 * Triggered on application lifecycle changes, assuming the mapview is triggered appropriately
+	 * related issue https://github.com/osmdroid/osmdroid/issues/823
+	 * https://github.com/osmdroid/osmdroid/issues/806
+	 * @since 6.0.0
+	 */
 	public void onResume(){
 
 	}
