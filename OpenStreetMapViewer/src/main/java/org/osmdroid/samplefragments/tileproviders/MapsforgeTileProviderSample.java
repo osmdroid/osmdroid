@@ -44,7 +44,7 @@ public class MapsforgeTileProviderSample extends BaseSampleFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(false);
+        setHasOptionsMenu(false);   //turn off the menu to prevent accidential tile source changes
         Log.d(TAG, "onCreate");
 
         /**

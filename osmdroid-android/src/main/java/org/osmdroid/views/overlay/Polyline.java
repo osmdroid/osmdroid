@@ -51,10 +51,19 @@ public class Polyline extends OverlayWithIW {
     private float density=1.0f;
     private ArrayList<GeoPoint> originalPoints = new ArrayList<>();
     private boolean mEnablePointReduction=false;
+
+    /**
+     * highly suggested that you provide context, if MapView is not provided or is null
+     * info window popups will not function unless you handle it yourself
+     */
     public Polyline() {
         this(null);
     }
 
+    /**
+     * highly suggested that you provide MapView , if MapView is not provided or is null
+     * info window popups will not function unless you handle it yourself
+     */
     public Polyline(MapView mapView) {
         if (mapView != null) {
             if (mDefaultInfoWindow == null || mDefaultInfoWindow.getMapView() != mapView) {
@@ -173,18 +182,6 @@ public class Polyline extends OverlayWithIW {
     }
 
     /**
-     * Enables automatic point reduction
-     * @since 7.4.0
-     */
-    public void enablePointReduction(boolean value){
-        mEnablePointReduction = value;
-        if (!value) {
-            //restore the original point set
-            setPoints(originalPoints);
-        }
-    }
-
-    /**
      * Set the points.
      * Note that a later change in the original points List will have no effect.
      * To add/remove/change points, you must call setPoints again.
@@ -194,7 +191,7 @@ public class Polyline extends OverlayWithIW {
         originalPoints.clear();
         originalPoints.addAll(points);
 
-        mBounds =BoundingBox.fromGeoPoints(points);
+        mBounds = BoundingBox.fromGeoPoints(points);
 
         setPointsInternal(originalPoints);
 
@@ -235,15 +232,21 @@ public class Polyline extends OverlayWithIW {
         if (shadow) {
             return;
         }
+        if (!isEnabled())
+            return;
 
         final Projection pj = mapView.getProjection();
+        final BoundingBox viewPort = mapView.getBoundingBox();
+
+        if (!viewPort.overlaps(getBounds(), mapView.getZoomLevelDouble()))
+            return;
 
         if (mEnablePointReduction) {
             //get the screen bounds
             DisplayMetrics dm = mapView.getContext().getResources().getDisplayMetrics();
             float  densityDpi = dm.widthPixels;
-            BoundingBox boundingBox = mapView.getBoundingBox();
-            final double latSpanDegrees = boundingBox.getLatitudeSpan();
+
+            final double latSpanDegrees = viewPort.getLatitudeSpan();
             //get the degree difference, divide by dpi
             double tolerance = latSpanDegrees /densityDpi;  //degrees per pixel
             //each latitude degree on screen is represented by this many dip

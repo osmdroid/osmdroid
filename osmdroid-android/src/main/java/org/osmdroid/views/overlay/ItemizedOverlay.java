@@ -38,7 +38,7 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends Overlay 
 	// ===========================================================
 	// Fields
 	// ===========================================================
-
+	protected int mDrawnItemsLimit = Integer.MAX_VALUE;
 	protected final Drawable mDefaultMarker;
 	private final ArrayList<Item> mInternalItemList;
 	private boolean[] mInternalItemDisplayedList;
@@ -91,6 +91,18 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends Overlay 
 	}
 
 	// ===========================================================
+	// Getter & Setter
+	// ===========================================================
+
+	public int getDrawnItemsLimit() {
+		return this.mDrawnItemsLimit;
+	}
+
+	public void setDrawnItemsLimit(final int aLimit) {
+		this.mDrawnItemsLimit = aLimit;
+	}
+
+	// ===========================================================
 	// Methods from SuperClass/Interfaces (and supporting methods)
 	// ===========================================================
 
@@ -134,7 +146,8 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends Overlay 
         mPendingFocusChangedEvent = false;
 
         final Projection pj = mapView.getProjection();
-        final int size = this.mInternalItemList.size();
+        final int size = Math.min(this.mInternalItemList.size(), mDrawnItemsLimit);
+
 		if (mInternalItemDisplayedList == null || mInternalItemDisplayedList.length != size) {
 			mInternalItemDisplayedList = new boolean[size];
 		}
@@ -157,7 +170,8 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends Overlay 
 
             pj.toPixels(item.getPoint(), mCurScreenCoords);
 
-			mInternalItemDisplayedList[i] = onDrawItem(canvas,item, mCurScreenCoords, mapView);
+            if (mapView.getBoundingBox().contains(item.getPoint()))
+				mInternalItemDisplayedList[i] = onDrawItem(canvas,item, mCurScreenCoords, mapView);
         }
     }
 

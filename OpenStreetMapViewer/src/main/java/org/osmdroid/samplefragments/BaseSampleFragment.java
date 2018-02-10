@@ -154,6 +154,8 @@ public abstract class BaseSampleFragment extends Fragment {
 
     int MENU_VERTICAL_REPLICATION = 0;
     int MENU_HORIZTONAL_REPLICATION = 0;
+    int MENU_ROTATE_CLOCKWISE = 0;
+    int MENU_ROTATE_COUNTER_CLOCKWISE = 0;
     int MENU_SCALE_TILES = 0;
     int MENU_GOTO = 0;
 
@@ -175,6 +177,14 @@ public abstract class BaseSampleFragment extends Fragment {
         MENU_LAST_ID++;
         MENU_GOTO = MENU_LAST_ID;
         menu.add(0, MENU_GOTO, Menu.NONE, "Go To");
+
+        MENU_LAST_ID++;
+        MENU_ROTATE_CLOCKWISE = MENU_LAST_ID;
+        menu.add(0, MENU_ROTATE_CLOCKWISE, Menu.NONE, "Rotate Clockwise");
+
+        MENU_LAST_ID++;
+        MENU_ROTATE_COUNTER_CLOCKWISE = MENU_LAST_ID;
+        menu.add(0, MENU_ROTATE_COUNTER_CLOCKWISE, Menu.NONE, "Rotate Counter Clockwise");
         // Put overlay items first
         try {
             mMapView.getOverlayManager().onCreateOptionsMenu(menu, MENU_LAST_ID, mMapView);
@@ -226,6 +236,19 @@ public abstract class BaseSampleFragment extends Fragment {
         } else if (item.getItemId() == MENU_SCALE_TILES) {
             mMapView.setTilesScaledToDpi(!mMapView.isTilesScaledToDpi());
             mMapView.invalidate();
+            return true;
+        } else if (item.getItemId() == MENU_ROTATE_CLOCKWISE){
+            float currentRotation = mMapView.getMapOrientation() + 10;
+            if (currentRotation > 360)
+                currentRotation = currentRotation-360;
+            mMapView.setMapOrientation(currentRotation, true);
+
+            return true;
+        } else if (item.getItemId() == MENU_ROTATE_COUNTER_CLOCKWISE){
+            float currentRotation = mMapView.getMapOrientation() - 10;
+            if (currentRotation < 0)
+                currentRotation = 360-currentRotation;
+            mMapView.setMapOrientation(currentRotation, true);
             return true;
         } else if (item.getItemId()==MENU_GOTO) {
           //TODO dialog with lat/lon prompt

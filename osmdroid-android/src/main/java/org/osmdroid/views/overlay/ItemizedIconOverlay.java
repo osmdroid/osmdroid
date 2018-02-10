@@ -16,7 +16,7 @@ public class ItemizedIconOverlay<Item extends OverlayItem> extends ItemizedOverl
 
 	protected List<Item> mItemList;
 	protected OnItemGestureListener<Item> mOnItemGestureListener;
-	private int mDrawnItemsLimit = Integer.MAX_VALUE;
+
 	private final Point mItemPoint = new Point();
 
 	public ItemizedIconOverlay(
@@ -189,17 +189,7 @@ public class ItemizedIconOverlay<Item extends OverlayItem> extends ItemizedOverl
 		return false;
 	}
 
-	// ===========================================================
-	// Getter & Setter
-	// ===========================================================
 
-	public int getDrawnItemsLimit() {
-		return this.mDrawnItemsLimit;
-	}
-
-	public void setDrawnItemsLimit(final int aLimit) {
-		this.mDrawnItemsLimit = aLimit;
-	}
 
 	// ===========================================================
 	// Inner and Anonymous Classes

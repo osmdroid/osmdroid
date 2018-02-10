@@ -7,6 +7,9 @@ import android.os.Environment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -50,7 +53,13 @@ public class SampleCacheDownloaderArchive  extends BaseSampleFragment implements
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.sample_cachemgr, container,false);
-        setHasOptionsMenu(false);//prevent tile source changes
+
+        //prevent the action bar/toolbar menu in order to prevent tile source changes.
+        //if this is enabled, playstore users could actually download large volumes of tiles
+        //from tile sources that do not allow it., causing our app to get banned, which would be
+        //bad
+        setHasOptionsMenu(false);
+
         mMapView = (MapView) root.findViewById(R.id.mapview);
         btnCache = (Button) root.findViewById(R.id.btnCache);
         btnCache.setOnClickListener(this);
@@ -59,6 +68,7 @@ public class SampleCacheDownloaderArchive  extends BaseSampleFragment implements
 
     @Override
     public void addOverlays() {
+        super.addOverlays();
 
         mMapView.getController().setZoom(11);
         mMapView.getController().setCenter(new GeoPoint(40.7d, -73.9d));

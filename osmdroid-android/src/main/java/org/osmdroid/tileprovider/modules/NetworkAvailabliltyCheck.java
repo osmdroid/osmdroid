@@ -69,11 +69,13 @@ public class NetworkAvailabliltyCheck implements INetworkAvailablityCheck {
 		return mobile != null && mobile.isConnected();
 	}
 
+	@Deprecated
 	@Override
 	public boolean getRouteToPathExists(final int hostAddress) {
 		// TODO check for CHANGE_NETWORK_STATE permission
-		return mConnectionManager.requestRouteToHost(ConnectivityManager.TYPE_WIFI, hostAddress)
-			|| mConnectionManager.requestRouteToHost(ConnectivityManager.TYPE_MOBILE, hostAddress);
+		//return mConnectionManager.requestRouteToHost(ConnectivityManager.TYPE_WIFI, hostAddress)
+		//	|| mConnectionManager.requestRouteToHost(ConnectivityManager.TYPE_MOBILE, hostAddress);
+		return true;
 	}
 
 }

@@ -3,6 +3,7 @@ package org.osmdroid.views.overlay.mylocation;
 import org.osmdroid.api.IMapView;
 import org.osmdroid.util.NetworkLocationIgnorer;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.location.Location;
 import android.location.LocationListener;
@@ -29,6 +30,7 @@ public class GpsMyLocationProvider implements IMyLocationProvider, LocationListe
 	public GpsMyLocationProvider(Context context) {
 		mLocationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
 		locationSources.add(LocationManager.GPS_PROVIDER);
+		locationSources.add(LocationManager.NETWORK_PROVIDER);
 	}
 
 	// ===========================================================
@@ -99,25 +101,36 @@ public class GpsMyLocationProvider implements IMyLocationProvider, LocationListe
 	 * distance by calling {@link #setLocationUpdateMinTime} and/or {@link
 	 * #setLocationUpdateMinDistance} before calling this method.
 	 */
+	@SuppressLint("MissingPermission")
 	@Override
 	public boolean startLocationProvider(IMyLocationConsumer myLocationConsumer) {
 		mMyLocationConsumer = myLocationConsumer;
 		boolean result = false;
 		for (final String provider : mLocationManager.getProviders(true)) {
 			if (locationSources.contains(provider)) {
-				result = true;
-				mLocationManager.requestLocationUpdates(provider, mLocationUpdateMinTime,
+
+				try {
+					mLocationManager.requestLocationUpdates(provider, mLocationUpdateMinTime,
 						mLocationUpdateMinDistance, this);
+					result = true;
+				} catch (Throwable ex) {
+					Log.e(IMapView.LOGTAG, "Unable to attach listener for location provider " + provider + " check permissions?", ex);
+				}
 			}
 		}
 		return result;
 	}
 
+	@SuppressLint("MissingPermission")
 	@Override
 	public void stopLocationProvider() {
 		mMyLocationConsumer = null;
 		if(mLocationManager != null){
-			mLocationManager.removeUpdates(this);
+			try {
+				mLocationManager.removeUpdates(this);
+			} catch (Throwable ex) {
+				Log.w(IMapView.LOGTAG, "Unable to deattach location listener", ex);
+			}
 		}
 	}
 

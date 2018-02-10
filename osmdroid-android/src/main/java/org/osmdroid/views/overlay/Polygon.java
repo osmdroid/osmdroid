@@ -244,9 +244,10 @@ public class Polygon extends OverlayWithIW {
 		if (shadow) {
 			return;
 		}
+		BoundingBox viewPort = mapView.getBoundingBox();
 		//don't bother attempting to draw it unless it's at least partially within the view bounds
-		if (!mapView.getBoundingBox().overlaps(mBounds, mapView.getZoomLevelDouble())) {
-			//if (isInfoWindowOpen())
+		if (!viewPort.overlaps(mBounds, mapView.getZoomLevelDouble())) {
+			//if (isInfoWindowOpen())	this causes some issue
 			//	closeInfoWindow();
 			return;
 		}
@@ -260,8 +261,8 @@ public class Polygon extends OverlayWithIW {
 			//less points = fast drawing
 			//this generally only removes points that are right next to each other or
 			//make no appreciable difference in presentation
-			BoundingBox boundingBox = mapView.getBoundingBox();
-			final double latSpanDegrees = boundingBox.getLatitudeSpan();
+
+			final double latSpanDegrees = viewPort.getLatitudeSpan();
 			//get the degree difference, divide by dpi
 			double tolerance = latSpanDegrees /(widthPixels-(getStrokeWidth()*2));		//degrees per pixel
 			//each latitude degree on screen is represented by this many dip
