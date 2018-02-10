@@ -51,7 +51,7 @@ public abstract class Overlay implements OverlayConstants {
 
 	private static final Rect mRect = new Rect();
 	private boolean mEnabled = true;
-	protected BoundingBox mBounds = new BoundingBox(TileSystem.MaxLatitude, TileSystem.MaxLongitude,TileSystem.MinLatitude-90,TileSystem.MinLongitude);
+	protected BoundingBox mBounds = new BoundingBox(TileSystem.MaxLatitude, TileSystem.MaxLongitude,TileSystem.MinLatitude,TileSystem.MinLongitude);
 
 
 	// ===========================================================
