@@ -59,7 +59,7 @@ public class GeoPackageProvider extends MapTileProviderArray implements IMapTile
             if (Build.VERSION.SDK_INT < 10) {
                 tileWriter = new TileWriter();
             } else {
-                tileWriter = new SqlTileWriter();
+                tileWriter = new SqlTileWriter(pContext);
             }
         }
 
@@ -68,7 +68,7 @@ public class GeoPackageProvider extends MapTileProviderArray implements IMapTile
                 pRegisterReceiver, pTileSource);
             mTileProviderList.add(fileSystemProvider);
         } else {
-            final MapTileSqlCacheProvider cachedProvider = new MapTileSqlCacheProvider(pRegisterReceiver, pTileSource);
+            final MapTileSqlCacheProvider cachedProvider = new MapTileSqlCacheProvider(pRegisterReceiver, pTileSource, pContext);
             mTileProviderList.add(cachedProvider);
         }
         geopackage = new GeoPackageMapTileModuleProvider(databases, pContext, tileWriter);

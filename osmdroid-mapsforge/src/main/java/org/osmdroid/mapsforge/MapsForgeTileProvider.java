@@ -44,7 +44,7 @@ public class MapsForgeTileProvider extends MapTileProviderArray {
             if (Build.VERSION.SDK_INT < 10) {
                 tileWriter = new TileWriter();
             } else {
-                tileWriter = new SqlTileWriter();
+                tileWriter = new SqlTileWriter(null);
             }
         }
 

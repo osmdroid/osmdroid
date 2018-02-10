@@ -1,24 +1,19 @@
 package org.osmdroid.tileprovider.modules;
 
-import android.database.Cursor;
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 
 import org.osmdroid.api.IMapView;
 import org.osmdroid.config.Configuration;
-import org.osmdroid.tileprovider.ExpirableBitmapDrawable;
 import org.osmdroid.tileprovider.IRegisterReceiver;
 import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.MapTileProviderBase;
-import org.osmdroid.tileprovider.MapTileRequestState;
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 import org.osmdroid.tileprovider.tilesource.BitmapTileSourceBase;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.util.Counters;
-import org.osmdroid.tileprovider.util.StreamUtils;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
@@ -40,7 +35,8 @@ public class MapTileSqlCacheProvider  extends MapTileFileStorageProviderBase{
 
     private final AtomicReference<ITileSource> mTileSource = new AtomicReference<ITileSource>();
     private SqlTileWriter mWriter;
-    private static final String[] columns = {DatabaseFileArchive.COLUMN_TILE, SqlTileWriter.COLUMN_EXPIRES};
+    private Context mContext = null;
+
 
     // ===========================================================
     // Constructors
@@ -49,7 +45,18 @@ public class MapTileSqlCacheProvider  extends MapTileFileStorageProviderBase{
     @Deprecated
     public MapTileSqlCacheProvider(final IRegisterReceiver pRegisterReceiver,
                                       final ITileSource pTileSource, final long pMaximumCachedFileAge) {
-        this(pRegisterReceiver, pTileSource);
+        this(pRegisterReceiver, pTileSource, null);
+    }
+
+    /**
+     * The tiles may be found on several media. This one works with tiles stored on database.
+     * It and its friends are typically created and controlled by {@link MapTileProviderBase}.
+     * @deprecated see https://github.com/osmdroid/osmdroid/issues/624
+     */
+    @Deprecated
+    public MapTileSqlCacheProvider(final IRegisterReceiver pRegisterReceiver,
+                                   final ITileSource pTileSource) {
+        this(pRegisterReceiver, pTileSource, null);
     }
 
     /**
@@ -57,13 +64,14 @@ public class MapTileSqlCacheProvider  extends MapTileFileStorageProviderBase{
      * It and its friends are typically created and controlled by {@link MapTileProviderBase}.
      */
     public MapTileSqlCacheProvider(final IRegisterReceiver pRegisterReceiver,
-                                      final ITileSource pTileSource) {
+                                      final ITileSource pTileSource, final Context pContext) {
         super(pRegisterReceiver,
                 Configuration.getInstance().getTileFileSystemThreads(),
                 Configuration.getInstance().getTileFileSystemMaxQueueSize());
 
         setTileSource(pTileSource);
-        mWriter = new SqlTileWriter();
+        mWriter = new SqlTileWriter(pContext);
+        mContext = pContext;
     }
 
     // ===========================================================
@@ -116,7 +124,7 @@ public class MapTileSqlCacheProvider  extends MapTileFileStorageProviderBase{
     protected void onMediaUnmounted() {
         if (mWriter!=null)
             mWriter.onDetach();
-        mWriter=new SqlTileWriter();
+        mWriter=new SqlTileWriter(mContext);
     }
 
     @Override
@@ -130,6 +138,7 @@ public class MapTileSqlCacheProvider  extends MapTileFileStorageProviderBase{
         if (mWriter!=null)
             mWriter.onDetach();
         mWriter=null;
+        mContext = null;
         super.detach();
     }
 
