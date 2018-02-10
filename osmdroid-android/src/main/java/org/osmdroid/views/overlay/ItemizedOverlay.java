@@ -170,7 +170,8 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends Overlay 
 
             pj.toPixels(item.getPoint(), mCurScreenCoords);
 
-			mInternalItemDisplayedList[i] = onDrawItem(canvas,item, mCurScreenCoords, mapView);
+            if (mapView.getBoundingBox().contains(item.getPoint()))
+				mInternalItemDisplayedList[i] = onDrawItem(canvas,item, mCurScreenCoords, mapView);
         }
     }
 
