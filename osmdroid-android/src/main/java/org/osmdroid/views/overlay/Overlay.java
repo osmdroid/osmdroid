@@ -4,6 +4,8 @@ package org.osmdroid.views.overlay;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.osmdroid.api.IMapView;
+import org.osmdroid.util.BoundingBox;
+import org.osmdroid.util.TileSystem;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.util.constants.OverlayConstants;
 
@@ -49,6 +51,8 @@ public abstract class Overlay implements OverlayConstants {
 
 	private static final Rect mRect = new Rect();
 	private boolean mEnabled = true;
+	protected BoundingBox mBounds = new BoundingBox(TileSystem.MaxLatitude, TileSystem.MaxLongitude,TileSystem.MinLatitude-90,TileSystem.MinLongitude);
+
 
 	// ===========================================================
 	// Constructors
@@ -65,6 +69,16 @@ public abstract class Overlay implements OverlayConstants {
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================
+
+	/**
+	 * Gets the bounds of the overlay, useful for skipping draw cycles on overlays
+	 * that are not in the current bounding box of the view
+	 * @since 6.0.0
+	 * @return
+	 */
+	public BoundingBox getBounds(){
+		return mBounds;
+	}
 
 	/**
 	 * Sets whether the Overlay is marked to be enabled. This setting does nothing by default, but
