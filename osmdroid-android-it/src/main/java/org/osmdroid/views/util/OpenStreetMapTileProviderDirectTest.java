@@ -60,7 +60,7 @@ public class OpenStreetMapTileProviderDirectTest extends AndroidTestCase {
 	public void test_getMapTile_not_found() {
 		final long tile = MapTileIndex.getTileIndex(29, 0, 0);
 
-		final Drawable drawable = mProvider.getMapTile(tile);
+		final Drawable drawable = mProvider.getMapTile(tile, null);
 
 		assertNull("Expect tile to be null", drawable);
 	}
@@ -101,7 +101,7 @@ public class OpenStreetMapTileProviderDirectTest extends AndroidTestCase {
 		mProvider.mapTileRequestCompleted(state, TileSourceFactory.MAPNIK.getDrawable(path));
 
 		// do the test
-		final Drawable drawable = mProvider.getMapTile(tile);
+		final Drawable drawable = mProvider.getMapTile(tile, null);
 		if (f.exists())
 			f.delete();
 		assertNotNull("Expect tile to be not null from path " + path, drawable);
