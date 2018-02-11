@@ -17,8 +17,10 @@ import org.osmdroid.util.MapTileIndex;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -159,23 +161,19 @@ public class SqlTileWriter implements IFilesystemCache {
             Counters.fileCacheSaveErrors++;
             return false;
         }
+        ByteArrayOutputStream bos = null;
         try {
             ContentValues cv = new ContentValues();
             final long index = getIndex(pMapTileIndex);
             cv.put(DatabaseFileArchive.COLUMN_PROVIDER, pTileSourceInfo.name());
-            BufferedInputStream bis = new BufferedInputStream(pStream);
 
-            List<Byte> list = new ArrayList<Byte>();
-            //ByteArrayBuffer baf = new ByteArrayBuffer(500);
-            int current = 0;
-            while ((current = bis.read()) != -1) {
-                list.add((byte) current);
-            }
+            byte[] buffer = new byte[512];
+            int l;
+            bos = new ByteArrayOutputStream();
+            while( (l = pStream.read(buffer)) != -1 )
+                bos.write(buffer, 0, l);
+            byte[] bits = bos.toByteArray(); // if a variable is required at all
 
-            byte[] bits = new byte[list.size()];
-            for (int i = 0; i < list.size(); i++) {
-                bits[i] = list.get(i);
-            }
             cv.put(DatabaseFileArchive.COLUMN_KEY, index);
             cv.put(DatabaseFileArchive.COLUMN_TILE, bits);
             if (pExpirationTime != null)
@@ -199,6 +197,12 @@ public class SqlTileWriter implements IFilesystemCache {
             //db to be closed during the execution of this method
             Log.e(IMapView.LOGTAG, "Unable to store cached tile from " + pTileSourceInfo.name() + " " + MapTileIndex.toString(pMapTileIndex) + " db is " + (db == null ? "null" : "not null"), ex);
             Counters.fileCacheSaveErrors++;
+        } finally {
+            try {
+                bos.close();
+            } catch (IOException e) {
+
+            }
         }
         return false;
     }
@@ -213,20 +217,26 @@ public class SqlTileWriter implements IFilesystemCache {
             Log.d(IMapView.LOGTAG, "Unable to test for tile exists cached tile from " + pTileSource + " " + MapTileIndex.toString(pMapTileIndex) + ", database not available.");
             return false;
         }
+        boolean returnValue=false;
+        Cursor cur=null;
         try {
             final long index = getIndex(pMapTileIndex);
-            final Cursor cur = getTileCursor(getPrimaryKeyParameters(index, pTileSource), expireQueryColumn);
+            cur = getTileCursor(getPrimaryKeyParameters(index, pTileSource), expireQueryColumn);
 
-            if (cur.getCount() != 0) {
-                cur.close();
-                return true;
-            }
-            cur.close();
+            returnValue =(cur.moveToNext());
+
         } catch (Throwable ex) {
             Log.e(IMapView.LOGTAG, "Unable to store cached tile from " + pTileSource + " " + MapTileIndex.toString(pMapTileIndex), ex);
+        } finally {
+            if (cur!=null)
+                try {
+                    cur.close();
+                }catch (Throwable t) {
+                //ignore
+                }
         }
 
-        return false;
+        return returnValue;
     }
 
     /**
@@ -597,8 +607,7 @@ public class SqlTileWriter implements IFilesystemCache {
             byte[] bits=null;
             long expirationTimestamp=0;
 
-            if(cur.getCount() != 0) {
-                cur.moveToFirst();
+            if (cur.moveToFirst()){
                 bits = cur.getBlob(cur.getColumnIndex(DatabaseFileArchive.COLUMN_TILE));
                 expirationTimestamp = cur.getLong(cur.getColumnIndex(SqlTileWriter.COLUMN_EXPIRES));
             }

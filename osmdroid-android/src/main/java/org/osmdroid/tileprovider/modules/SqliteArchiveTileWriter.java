@@ -14,7 +14,9 @@ import org.osmdroid.util.MapTileIndex;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,21 +58,19 @@ public class SqliteArchiveTileWriter implements IFilesystemCache {
 
     @Override
     public boolean saveFile(final ITileSource pTileSourceInfo, final long pMapTileIndex, final InputStream pStream, final Long pExpirationTime) {
+        ByteArrayOutputStream bos = null;
         try {
             ContentValues cv = new ContentValues();
             final long index = SqlTileWriter.getIndex(pMapTileIndex);
             cv.put(DatabaseFileArchive.COLUMN_PROVIDER, pTileSourceInfo.name());
-            BufferedInputStream bis = new BufferedInputStream(pStream);
 
-            List<Byte> list = new ArrayList<Byte>();
-            //ByteArrayBuffer baf = new ByteArrayBuffer(500);
-            int current = 0;
-            while ((current = bis.read()) != -1) {
-                list.add((byte) current);
-            }
+            byte[] buffer = new byte[512];
+            int l;
+            bos = new ByteArrayOutputStream();
+            while( (l = pStream.read(buffer)) != -1 )
+                bos.write(buffer, 0, l);
+            byte[] bits = bos.toByteArray(); // if a variable is required at all
 
-            byte[] bits = new byte[list.size()];
-            for (int i = 0; i < list.size(); i++) bits[i] = list.get(i);
             cv.put(DatabaseFileArchive.COLUMN_KEY, index);
             cv.put(DatabaseFileArchive.COLUMN_TILE, bits);
             db.insert(DatabaseFileArchive.TABLE, null, cv);
@@ -78,6 +78,12 @@ public class SqliteArchiveTileWriter implements IFilesystemCache {
                 Log.d(IMapView.LOGTAG, "tile inserted " + pTileSourceInfo.name() + MapTileIndex.toString(pMapTileIndex));
         } catch (Throwable ex) {
             Log.e(IMapView.LOGTAG, "Unable to store cached tile from " + pTileSourceInfo.name() + " " + MapTileIndex.toString(pMapTileIndex), ex);
+        }  finally {
+            try {
+                bos.close();
+            } catch (IOException e) {
+
+            }
         }
         return false;
     }
@@ -143,8 +149,7 @@ public class SqliteArchiveTileWriter implements IFilesystemCache {
             final Cursor cur = getTileCursor(SqlTileWriter.getPrimaryKeyParameters(index, pTileSource));
             byte[] bits=null;
 
-            if(cur.getCount() != 0) {
-                cur.moveToFirst();
+            if(cur.moveToFirst()) {
                 bits = cur.getBlob(cur.getColumnIndex(DatabaseFileArchive.COLUMN_TILE));
             }
             cur.close();
