@@ -8,6 +8,7 @@ import org.osmdroid.tileprovider.MapTileProviderBase;
 import org.osmdroid.tileprovider.ReusableBitmapDrawable;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
+import org.osmdroid.util.MapTileList;
 import org.osmdroid.util.RectL;
 import org.osmdroid.util.MapTileIndex;
 import org.osmdroid.util.TileLooper;
@@ -204,6 +205,7 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 		private Canvas mCanvas;
 
 		public OverlayTileLooper() {
+			super();
 		}
 
 		public OverlayTileLooper(boolean horizontalWrapEnabled, boolean verticalWrapEnabled) {
@@ -222,10 +224,11 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 			final int height = mTiles.bottom - mTiles.top + 1;
 			final int numNeeded = height * width;
 			mTileProvider.ensureCapacity(numNeeded + Configuration.getInstance().getCacheMapTileOvershoot());
+			super.initialiseLoop();
 		}
 		@Override
 		public void handleTile(final long pMapTileIndex, int pX, int pY) {
-			Drawable currentMapTile = mTileProvider.getMapTile(pMapTileIndex);
+			Drawable currentMapTile = mTileProvider.getMapTile(pMapTileIndex, this);
 			boolean isReusable = currentMapTile instanceof ReusableBitmapDrawable;
 			final ReusableBitmapDrawable reusableBitmapDrawable =
 					isReusable ? (ReusableBitmapDrawable) currentMapTile : null;
@@ -259,6 +262,23 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 				mCanvas.drawLine(mTileRect.left, mTileRect.top, mTileRect.left, mTileRect.bottom,
 						mDebugPaint);
 			}
+		}
+
+		@Override
+		public void finaliseLoop() {
+			final MapTileList list = getMissedTiles();
+			if (list.getSize() == 0) {
+				return;
+			}
+			final long[] indices = list.toArray();
+			new Thread() {
+				@Override
+				public void run() {
+					for (final long index : indices) {
+						mTileProvider.getMapTileSecondChance(index);
+					}
+				}
+			}.start();
 		}
 	}
 

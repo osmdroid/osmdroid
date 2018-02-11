@@ -91,4 +91,13 @@ public class MapTileList {
             }
         }
     }
+
+    /**
+     * @since 6.0.0
+     */
+    public long[] toArray() {
+        final long[] result = new long[mSize];
+        System.arraycopy(mTileIndices, 0, result, 0, mSize);
+        return result;
+    }
 }

@@ -4,11 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import org.osmdroid.config.Configuration;
-import org.osmdroid.tileprovider.modules.ConfigurablePriorityThreadFactory;
 import org.osmdroid.tileprovider.modules.IFilesystemCache;
 import org.osmdroid.tileprovider.modules.MapTileModuleProviderBase;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
@@ -19,6 +16,7 @@ import android.util.Log;
 import org.osmdroid.api.IMapView;
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 import org.osmdroid.util.MapTileIndex;
+import org.osmdroid.util.TileLooper;
 
 /**
  * This top-level tile provider allows a consumer to provide an array of modular asynchronous tile
@@ -41,7 +39,6 @@ public class MapTileProviderArray extends MapTileProviderBase {
 	private final HashSet<Long> mWorking = new HashSet<>();
 	private IRegisterReceiver mRegisterReceiver=null;
 	protected final List<MapTileModuleProviderBase> mTileProviderList;
-	private final ExecutorService mExecutor;
 
 	/**
 	 * Creates an {@link MapTileProviderArray} with no tile providers.
@@ -70,8 +67,6 @@ public class MapTileProviderArray extends MapTileProviderBase {
 		mRegisterReceiver=aRegisterReceiver;
 		mTileProviderList = new ArrayList<>();
 		Collections.addAll(mTileProviderList, pTileProviderArray);
-		mExecutor = Executors.newFixedThreadPool(Configuration.getInstance().getTileFileSystemThreads(),
-				new ConfigurablePriorityThreadFactory(Thread.MAX_PRIORITY, getClass().getName()));
 	}
 
 	@Override
@@ -89,7 +84,6 @@ public class MapTileProviderArray extends MapTileProviderBase {
 			mRegisterReceiver.destroy();
 			mRegisterReceiver = null;
 		}
-		mExecutor.shutdown();
 		super.detach();
 	}
 
@@ -101,7 +95,7 @@ public class MapTileProviderArray extends MapTileProviderBase {
 	}
 
 	@Override
-	public Drawable getMapTile(final long pMapTileIndex) {
+	public Drawable getMapTile(final long pMapTileIndex, final TileLooper pTileLooper) {
 		final Drawable tile = mTileCache.getMapTile(pMapTileIndex);
 		if (tile != null) {
 			if (ExpirableBitmapDrawable.getState(tile) == ExpirableBitmapDrawable.UP_TO_DATE) {
@@ -120,26 +114,19 @@ public class MapTileProviderArray extends MapTileProviderBase {
 					+ MapTileIndex.toString(pMapTileIndex));
 		}
 
-		asyncTileLookup(pMapTileIndex);
+		if (pTileLooper != null) {
+			pTileLooper.missed(pMapTileIndex);
+		} else {
+			getMapTileSecondChance(pMapTileIndex);
+		}
 		return tile;
 	}
 
 	/**
 	 * @since 6.0.0
 	 */
-	private void asyncTileLookup(final long pMapTileIndex) {
-		mExecutor.execute(new Runnable() {
-			@Override
-			public void run() {
-				syncTileLookup(pMapTileIndex);
-			}
-		});
-	}
-
-	/**
-	 * @since 6.0.0
-	 */
-	private void syncTileLookup(final long pMapTileIndex) {
+	@Override
+	public void getMapTileSecondChance(final long pMapTileIndex) {
 		synchronized (mWorking) {
 			// Check again
 			if (mWorking.contains(pMapTileIndex)) {

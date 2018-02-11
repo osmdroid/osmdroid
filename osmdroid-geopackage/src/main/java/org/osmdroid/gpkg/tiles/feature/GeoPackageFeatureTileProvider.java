@@ -13,6 +13,7 @@ import org.osmdroid.tileprovider.modules.SqlTileWriter;
 import org.osmdroid.tileprovider.modules.TileWriter;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.util.MapTileIndex;
+import org.osmdroid.util.TileLooper;
 
 import mil.nga.geopackage.tiles.features.FeatureTiles;
 
@@ -41,7 +42,7 @@ public class GeoPackageFeatureTileProvider extends MapTileProviderBase {
 
 
     @Override
-    public Drawable getMapTile(final long pMapTileIndex) {
+    public Drawable getMapTile(final long pMapTileIndex, final TileLooper pTileLooper) {
         if (featureTiles != null) {
             Bitmap tile = featureTiles.drawTile(MapTileIndex.getX(pMapTileIndex), MapTileIndex.getY(pMapTileIndex), MapTileIndex.getZoom(pMapTileIndex));
             if (tile != null) {
@@ -55,7 +56,6 @@ public class GeoPackageFeatureTileProvider extends MapTileProviderBase {
 
     @Override
     public int getMinimumZoomLevel() {
-
         return minzoom;
     }
 
@@ -85,4 +85,10 @@ public class GeoPackageFeatureTileProvider extends MapTileProviderBase {
         super.detach();
         featureTiles = null;
     }
+
+    /**
+     * @since 6.0.0
+     */
+    @Override
+    public void getMapTileSecondChance(long pMapTileIndex) {}
 }
