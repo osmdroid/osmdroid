@@ -166,10 +166,23 @@ public class Marker extends OverlayWithIW {
 			this.mIcon = icon;
 		} else if (icon!=null) {
 			mIcon=icon;
-		} else
+		} else {
 			//there's still an edge case here, title label not defined, icon is null and textlabel is enabled
 			mIcon = mDefaultIcon;
+			//set the offset
+			setAnchor(0.5f, 1.0f);
 
+		}
+
+	}
+
+	/**
+	 *
+	 * @since 6.0.0?
+	 * @return
+	 */
+	public Drawable getIcon(){
+		return mIcon;
 	}
 	
 	public GeoPoint getPosition(){
@@ -202,8 +215,8 @@ public class Marker extends OverlayWithIW {
 
 	/**
 	 *
-	 * @param anchorU 0.0-1.0 precentage of the icon that offsets the logical center from the actual pixel center point
-	 * @param anchorV 0.0-1.0 precentage of the icon that offsets the logical center from the actual pixel center point
+	 * @param anchorU WIDTH 0.0-1.0 precentage of the icon that offsets the logical center from the actual pixel center point
+	 * @param anchorV HEIGHT 0.0-1.0 precentage of the icon that offsets the logical center from the actual pixel center point
 	 */
 	public void setAnchor(float anchorU, float anchorV){
 		mAnchorU = anchorU;
