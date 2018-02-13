@@ -69,7 +69,7 @@ public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOr
     protected final float mCompassFrameCenterY;
     protected final float mCompassRoseCenterX;
     protected final float mCompassRoseCenterY;
-
+    protected long mLastRender =0;
     public static final int MENU_COMPASS = getSafeMenuId();
 
     private boolean mOptionsMenuEnabled = true;
@@ -136,7 +136,11 @@ public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOr
         super.onDetach(mapView);
     }
 
+
     private void invalidateCompass() {
+        if (mLastRender +500 > System.currentTimeMillis())
+            return;
+        mLastRender = System.currentTimeMillis();
         Rect screenRect = mMapView.getProjection().getScreenRect();
         int frameLeft;
         int frameRight;
