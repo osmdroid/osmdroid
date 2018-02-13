@@ -228,7 +228,7 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 		}
 		@Override
 		public void handleTile(final long pMapTileIndex, int pX, int pY) {
-			Drawable currentMapTile = mTileProvider.getMapTile(pMapTileIndex, this);
+			Drawable currentMapTile = mTileProvider.getMapTile(pMapTileIndex);
 			boolean isReusable = currentMapTile instanceof ReusableBitmapDrawable;
 			final ReusableBitmapDrawable reusableBitmapDrawable =
 					isReusable ? (ReusableBitmapDrawable) currentMapTile : null;
@@ -265,21 +265,7 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 		}
 
 		@Override
-		public void finaliseLoop() {
-			final MapTileList list = getMissedTiles();
-			if (list.getSize() == 0) {
-				return;
-			}
-			final long[] indices = list.toArray();
-			new Thread() {
-				@Override
-				public void run() {
-					for (final long index : indices) {
-						mTileProvider.getMapTileSecondChance(index);
-					}
-				}
-			}.start();
-		}
+		public void finaliseLoop() {}
 	}
 
 	/**

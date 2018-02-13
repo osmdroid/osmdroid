@@ -16,7 +16,6 @@ import android.util.Log;
 import org.osmdroid.api.IMapView;
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 import org.osmdroid.util.MapTileIndex;
-import org.osmdroid.util.TileLooper;
 
 /**
  * This top-level tile provider allows a consumer to provide an array of modular asynchronous tile
@@ -95,7 +94,7 @@ public class MapTileProviderArray extends MapTileProviderBase {
 	}
 
 	@Override
-	public Drawable getMapTile(final long pMapTileIndex, final TileLooper pTileLooper) {
+	public Drawable getMapTile(final long pMapTileIndex) {
 		final Drawable tile = mTileCache.getMapTile(pMapTileIndex);
 		if (tile != null) {
 			if (ExpirableBitmapDrawable.getState(tile) == ExpirableBitmapDrawable.UP_TO_DATE) {
@@ -114,23 +113,10 @@ public class MapTileProviderArray extends MapTileProviderBase {
 					+ MapTileIndex.toString(pMapTileIndex));
 		}
 
-		if (pTileLooper != null) {
-			pTileLooper.missed(pMapTileIndex);
-		} else {
-			getMapTileSecondChance(pMapTileIndex);
-		}
-		return tile;
-	}
-
-	/**
-	 * @since 6.0.0
-	 */
-	@Override
-	public void getMapTileSecondChance(final long pMapTileIndex) {
 		synchronized (mWorking) {
 			// Check again
 			if (mWorking.contains(pMapTileIndex)) {
-				return;
+				return tile;
 			}
 			mWorking.add(pMapTileIndex);
 		}
@@ -142,6 +128,8 @@ public class MapTileProviderArray extends MapTileProviderBase {
 		} else {
 			mapTileRequestFailed(state);
 		}
+
+		return tile;
 	}
 
 	/**

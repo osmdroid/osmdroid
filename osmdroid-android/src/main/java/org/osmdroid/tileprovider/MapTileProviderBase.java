@@ -59,25 +59,7 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback {
 	 *
 	 * @see ReusableBitmapDrawable
 	 */
-	public abstract Drawable getMapTile(final long pMapTileIndex, final TileLooper pTileLooper);
-
-	/**
-	 * Slower part of {@link #getMapTile(long, TileLooper)}
-	 *
-	 * The typical use to {@link MapTileProviderBase] is through a {@link TileLooper}.
-	 * Getting a tile can be typically described that way:
-	 * first try to find it very fast (inside a memory cache for instance),
-	 * and if it's not found there try to find it in slower places (database, network, ...)
-	 * The idea is to put the initial fast code in getMapTile,
-	 * and the following slow code into getMapTileSecondChance.
-	 * For each tile of the loop, we try with getMapTile.
-	 * If it's not OK, we specify that the tile is "missed".
-	 * And when the loop is over, we'll deal with ALL the missed tiles asynchronously
-	 * using getMapTileSecondChance
-	 *
-	 * @since 6.0.0
-	 */
-	public abstract void getMapTileSecondChance(final long pMapTileIndex);
+	public abstract Drawable getMapTile(final long pMapTileIndex);
 
 	/**
 	 * classes that extend MapTileProviderBase must call this method to prevent memory leaks.
@@ -382,7 +364,7 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback {
 			// If it's found then no need to created scaled version.
 			// If not found (null) them we've initiated a new request for it,
 			// and now we'll create a scaled version until the request completes.
-			final Drawable requestedTile = getMapTile(pMapTileIndex, this);
+			final Drawable requestedTile = getMapTile(pMapTileIndex);
 			if (requestedTile == null) {
 				try {
 					computeTile(pMapTileIndex, pX, pY);

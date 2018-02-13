@@ -11,7 +11,6 @@ public abstract class TileLooper {
 	protected int mTileZoomLevel;
 	private boolean horizontalWrapEnabled = true;
 	private boolean verticalWrapEnabled = true;
-	private final MapTileList mMissedTiles = new MapTileList();
 
 	public TileLooper() {
 		this(false, false);
@@ -46,25 +45,9 @@ public abstract class TileLooper {
 		finaliseLoop();
 	}
 
-	public void initialiseLoop() {
-		mMissedTiles.clear();
-	}
+	public void initialiseLoop() {}
 
 	public abstract void handleTile(final long pMapTileIndex, final int pX, final int pY);
-
-	/**
-	 * @since 6.0.0
-	 */
-	public void missed(final long pMapTileIndex) {
-		mMissedTiles.put(pMapTileIndex);
-	}
-
-	/**
-	 * @since 6.0.0
-	 */
-	protected MapTileList getMissedTiles() {
-		return mMissedTiles;
-	}
 
 	public void finaliseLoop() {}
 
