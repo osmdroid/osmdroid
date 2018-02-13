@@ -120,7 +120,7 @@ public class GoogleTilesOverlay extends Overlay {
 				final int tileY = MyMath.mod(y, mapTileUpperBound);
 				final int tileX = MyMath.mod(x, mapTileUpperBound);
 				final long mapTileIndex = MapTileIndex.getTileIndex(zoomLevel, tileX, tileY);
-				final Drawable currentMapTile = mTileProvider.getMapTile(mapTileIndex, null);
+				final Drawable currentMapTile = mTileProvider.getMapTile(mapTileIndex);
 				if (currentMapTile != null) {
 					final GeoPoint gp = new GeoPoint(
 							(int) (Mercator.tile2lat(y, zoomLevel) * 1E6),
