@@ -5,8 +5,10 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Region;
+import android.os.Build;
 import android.view.MotionEvent;
 
 import org.osmdroid.api.IGeoPoint;
@@ -51,6 +53,9 @@ public class Polygon extends OverlayWithIW {
 	private Paint mOutlinePaint;
 	private List<MilestoneManager> mMilestoneManagers = new ArrayList<>();
 	private GeoPoint infoWindowLocation=null;
+
+	private Rect clipRect;
+	private Path clipPath;
 
 	// ===========================================================
 	// Constructors
@@ -241,6 +246,18 @@ public class Polygon extends OverlayWithIW {
 			hole.buildPathPortion(pj, offset, mMilestoneManagers.size() > 0);
 		}
 		mPath.setFillType(Path.FillType.EVEN_ODD); //for correct support of holes
+
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+			// Clip path to screen rect
+			clipRect = mapView.getProjection().getIntrinsicScreenRect();
+			clipPath = new Path();
+			clipPath.moveTo(clipRect.left, clipRect.top);
+			clipPath.lineTo(clipRect.right, clipRect.top);
+			clipPath.lineTo(clipRect.right, clipRect.bottom);
+			clipPath.lineTo(clipRect.left, clipRect.bottom);
+			clipPath.close();
+			mPath.op(clipPath, Path.Op.INTERSECT);
+		}
 
 		canvas.drawPath(mPath, mFillPaint);
 		canvas.drawPath(mPath, mOutlinePaint);
