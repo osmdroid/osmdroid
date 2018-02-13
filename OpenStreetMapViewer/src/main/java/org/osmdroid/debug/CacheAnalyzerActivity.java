@@ -143,7 +143,7 @@ public class CacheAnalyzerActivity extends Activity implements AdapterView.OnIte
     }
 
     private void purgeCache() {
-        SqlTileWriter sqlTileWriter = new SqlTileWriter();
+        SqlTileWriter sqlTileWriter = new SqlTileWriter(null);
         boolean b = sqlTileWriter.purgeCache();
         sqlTileWriter.onDetach();
         sqlTileWriter = null;

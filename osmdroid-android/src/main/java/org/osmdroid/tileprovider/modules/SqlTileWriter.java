@@ -1,6 +1,7 @@
 package org.osmdroid.tileprovider.modules;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteFullException;
@@ -66,10 +67,28 @@ public class SqlTileWriter implements IFilesystemCache {
      * mean tile size computed on first use.
      * Sizes are quite variable and a significant underestimate will result in too many tiles being purged.
      */
-    long tileSize=0l;
-    static boolean hasInited=false;
+    protected long tileSize=0l;
+    protected static boolean hasInited=false;
+    private NetworkAvailabliltyCheck mOnlineCheck=null;
 
+    /**
+     * See issue https://github.com/osmdroid/osmdroid/issues/624
+     * @deprecated use {@link #SqlTileWriter(Context)}
+     */
+    @Deprecated
     public SqlTileWriter() {
+        this(null);
+    }
+
+    /**
+     * creates a new instance of the sqltilewriter
+     * @param pContext if this is not null, then the {@link NetworkAvailabliltyCheck} will be used to
+     *                 prevent expired tile deletion when offline. see https://github.com/osmdroid/osmdroid/issues/624
+     */
+    public SqlTileWriter(final Context pContext) {
+
+        if (pContext!=null)
+            mOnlineCheck = new NetworkAvailabliltyCheck(pContext);
 
         Configuration.getInstance().getOsmdroidTileCache().mkdirs();
         db_file = new File(Configuration.getInstance().getOsmdroidTileCache().getAbsolutePath() + File.separator + DATABASE_FILENAME);
@@ -81,19 +100,21 @@ public class SqlTileWriter implements IFilesystemCache {
         } catch (Throwable ex) {
             Log.e(IMapView.LOGTAG, "Unable to start the sqlite tile writer. Check external storage availability.", ex);
         }
-        if (!hasInited) {
-            hasInited = true;
+        if (mOnlineCheck!=null && mOnlineCheck.getNetworkAvailable()) {
+            if (!hasInited) {
+                hasInited = true;
 
-            if (cleanOnStartup) {
-                // do this in the background because it takes a long time
-                final Thread t = new Thread() {
-                    @Override
-                    public void run() {
-                        runCleanupOperation();
-                    }
-                };
-                t.setPriority(Thread.MIN_PRIORITY);
-                t.start();
+                if (cleanOnStartup) {
+                    // do this in the background because it takes a long time
+                    final Thread t = new Thread() {
+                        @Override
+                        public void run() {
+                            runCleanupOperation();
+                        }
+                    };
+                    t.setPriority(Thread.MIN_PRIORITY);
+                    t.start();
+                }
             }
         }
     }
@@ -188,10 +209,12 @@ public class SqlTileWriter implements IFilesystemCache {
             db.insert(TABLE, null, cv);
             if (Configuration.getInstance().isDebugMode())
                 Log.d(IMapView.LOGTAG, "tile inserted " + pTileSourceInfo.name() + pTile.toString());
-            if (System.currentTimeMillis() > lastSizeCheck + 300000){
-                lastSizeCheck = System.currentTimeMillis();
-                if (db_file!=null && db_file.length() > Configuration.getInstance().getTileFileSystemCacheMaxBytes()) {
-                    runCleanupOperation();
+            if (mOnlineCheck!=null && mOnlineCheck.getNetworkAvailable()) {
+                if (System.currentTimeMillis() > lastSizeCheck + 300000) {
+                    lastSizeCheck = System.currentTimeMillis();
+                    if (db_file != null && db_file.length() > Configuration.getInstance().getTileFileSystemCacheMaxBytes()) {
+                        runCleanupOperation();
+                    }
                 }
             }
         } catch (SQLiteFullException ex) {

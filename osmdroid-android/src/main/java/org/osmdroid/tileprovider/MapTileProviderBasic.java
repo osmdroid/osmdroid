@@ -77,7 +77,7 @@ public class MapTileProviderBasic extends MapTileProviderArray implements IMapTi
 			if (Build.VERSION.SDK_INT < 10) {
 				tileWriter = new TileWriter();
 			} else {
-				tileWriter = new SqlTileWriter();
+				tileWriter = new SqlTileWriter(pContext);
 			}
 		}
 		final MapTileAssetsProvider assetsProvider = new MapTileAssetsProvider(
@@ -88,7 +88,7 @@ public class MapTileProviderBasic extends MapTileProviderArray implements IMapTi
 		if (Build.VERSION.SDK_INT < 10) {
 			cacheProvider = new MapTileFilesystemProvider(pRegisterReceiver, pTileSource);
 		} else {
-			cacheProvider = new MapTileSqlCacheProvider(pRegisterReceiver, pTileSource);
+			cacheProvider = new MapTileSqlCacheProvider(pRegisterReceiver, pTileSource, pContext);
 		}
 		mTileProviderList.add(cacheProvider);
 

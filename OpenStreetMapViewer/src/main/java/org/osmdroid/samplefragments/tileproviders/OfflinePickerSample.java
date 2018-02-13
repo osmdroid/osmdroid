@@ -151,7 +151,7 @@ public class OfflinePickerSample extends BaseSampleFragment implements View.OnCl
         if (Build.VERSION.SDK_INT < 10) {
             tileWriter = new TileWriter();
         } else {
-            tileWriter = new SqlTileWriter();
+            tileWriter = new SqlTileWriter(getContext());
         }
 
         tileSources.clear();
