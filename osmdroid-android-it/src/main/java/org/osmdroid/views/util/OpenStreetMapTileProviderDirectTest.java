@@ -101,7 +101,7 @@ public class OpenStreetMapTileProviderDirectTest extends AndroidTestCase {
 		mProvider.mapTileRequestCompleted(state, TileSourceFactory.MAPNIK.getDrawable(path));
 
 		// do the test
-		final Drawable drawable = mProvider.getMapTile(tile, null);
+		final Drawable drawable = mProvider.getMapTile(tile);
 		if (f.exists())
 			f.delete();
 		assertNotNull("Expect tile to be not null from path " + path, drawable);
