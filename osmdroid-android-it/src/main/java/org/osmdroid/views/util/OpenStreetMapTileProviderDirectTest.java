@@ -60,7 +60,7 @@ public class OpenStreetMapTileProviderDirectTest extends AndroidTestCase {
 	public void test_getMapTile_not_found() {
 		final long tile = MapTileIndex.getTileIndex(29, 0, 0);
 
-		final Drawable drawable = mProvider.getMapTile(tile, null);
+		final Drawable drawable = mProvider.getMapTile(tile);
 
 		assertNull("Expect tile to be null", drawable);
 	}
