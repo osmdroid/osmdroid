@@ -8,11 +8,6 @@ android {
         applicationId 'org.osmdroid.sample'
 
     }
-    sourceSets {
-        androidTest {
-            java.srcDirs = ['../osmdroid-android-it/src/main/java']
-        }
-    }
 }
 
 
