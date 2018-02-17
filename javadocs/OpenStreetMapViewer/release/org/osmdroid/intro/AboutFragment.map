@@ -1,6 +1,8 @@
 <map id="G" name="G">
-<area shape="rect" id="node1_0" href="./AboutFragment.html" title="org.osmdroid.intro.AboutFragment" alt="" coords="16,113,124,138"/>
-<area shape="rect" id="node1" href="./AboutFragment.html" title="&lt;TABLE&gt;" alt="" coords="5,101,135,149"/>
-<area shape="rect" id="node2_1" href="http://java.sun.com/j2se/1.4.2/docs/api/android/support/v4/app/Fragment.html" title="android.support.v4.app.Fragment" alt="" coords="33,17,107,42"/>
-<area shape="rect" id="node2" href="http://java.sun.com/j2se/1.4.2/docs/api/android/support/v4/app/Fragment.html" title="&lt;TABLE&gt;" alt="" coords="22,5,118,53"/>
+<area shape="rect" id="node1_0" href="./AboutFragment.html" title="org.osmdroid.intro.AboutFragment" alt="" coords="69,118,177,143"/>
+<area shape="rect" id="node1" href="./AboutFragment.html" title="&lt;TABLE&gt;" alt="" coords="58,107,187,155"/>
+<area shape="rect" id="node2_1" href="http://java.sun.com/j2se/1.4.2/docs/api/android/support/v4/app/Fragment.html" title="android.support.v4.app.Fragment" alt="" coords="16,19,91,45"/>
+<area shape="rect" id="node2" href="http://java.sun.com/j2se/1.4.2/docs/api/android/support/v4/app/Fragment.html" title="&lt;TABLE&gt;" alt="" coords="5,8,101,56"/>
+<area shape="rect" id="node3_2" href="http://java.sun.com/j2se/1.4.2/docs/api/android/view/View/OnClickListener.html" title="android.view.View.OnClickListener" alt="" coords="136,11,248,53"/>
+<area shape="rect" id="node3" href="http://java.sun.com/j2se/1.4.2/docs/api/android/view/View/OnClickListener.html" title="&lt;TABLE&gt;" alt="" coords="125,5,259,59"/>
 </map>

@@ -5,8 +5,8 @@
 <area shape="rect" id="node3" href="./MapTileProviderBasic.html" title="&lt;TABLE&gt;" alt="" coords="5,197,171,245"/>
 <area shape="rect" id="node4_2" href="./modules/OfflineTileProvider.html" title="org.osmdroid.tileprovider.modules.OfflineTileProvider" alt="" coords="206,209,327,234"/>
 <area shape="rect" id="node4" href="./modules/OfflineTileProvider.html" title="&lt;TABLE&gt;" alt="" coords="195,197,338,245"/>
-<area shape="rect" id="node5_3" href="../gpkg/GeoPackageProvider.html" title="org.osmdroid.gpkg.GeoPackageProvider" alt="" coords="373,209,513,234"/>
-<area shape="rect" id="node5" href="../gpkg/GeoPackageProvider.html" title="&lt;TABLE&gt;" alt="" coords="362,197,523,245"/>
+<area shape="rect" id="node5_3" href="../gpkg/tiles/raster/GeoPackageProvider.html" title="org.osmdroid.gpkg.tiles.raster.GeoPackageProvider" alt="" coords="373,209,513,234"/>
+<area shape="rect" id="node5" href="../gpkg/tiles/raster/GeoPackageProvider.html" title="&lt;TABLE&gt;" alt="" coords="362,197,523,245"/>
 <area shape="rect" id="node6_4" href="../mapsforge/MapsForgeTileProvider.html" title="org.osmdroid.mapsforge.MapsForgeTileProvider" alt="" coords="558,209,709,234"/>
 <area shape="rect" id="node6" href="../mapsforge/MapsForgeTileProvider.html" title="&lt;TABLE&gt;" alt="" coords="547,197,719,245"/>
 <area shape="rect" id="node2_5" href="./MapTileProviderBase.html" title="org.osmdroid.tileprovider.MapTileProviderBase" alt="" coords="284,17,425,42"/>

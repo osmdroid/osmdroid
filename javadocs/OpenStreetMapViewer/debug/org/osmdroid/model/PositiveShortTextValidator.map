@@ -1,4 +1,6 @@
 <map id="G" name="G">
-<area shape="rect" id="node1_0" href="./PositiveShortTextValidator.html" title="org.osmdroid.model.PositiveShortTextValidator" alt="" coords="16,17,188,42"/>
-<area shape="rect" id="node1" href="./PositiveShortTextValidator.html" title="&lt;TABLE&gt;" alt="" coords="5,5,199,53"/>
+<area shape="rect" id="node1_0" href="./PositiveShortTextValidator.html" title="org.osmdroid.model.PositiveShortTextValidator" alt="" coords="16,118,188,143"/>
+<area shape="rect" id="node1" href="./PositiveShortTextValidator.html" title="&lt;TABLE&gt;" alt="" coords="5,107,199,155"/>
+<area shape="rect" id="node2_1" href="http://java.sun.com/j2se/1.4.2/docs/api/android/text/TextWatcher.html" title="android.text.TextWatcher" alt="" coords="55,11,149,53"/>
+<area shape="rect" id="node2" href="http://java.sun.com/j2se/1.4.2/docs/api/android/text/TextWatcher.html" title="&lt;TABLE&gt;" alt="" coords="45,5,159,59"/>
 </map>

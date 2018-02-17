@@ -18,13 +18,13 @@ document.getElementById(id+'Link').style.display = 'none';
 <body>
 <h1>Lint Report</h1>
 <div class="titleSeparator"></div>
-Check performed at Sat Jul 01 14:47:34 EDT 2017.<br/>
-33 errors and 75 warnings found:<br/><br/>
+Check performed at Sat Feb 17 08:59:49 EST 2018.<br/>
+29 errors and 74 warnings found:<br/><br/>
 <table class="overview">
 <tr><td></td><td class="categoryColumn"><a href="#Correctness">Correctness</a>
 </td></tr>
 <tr>
-<td class="countColumn">5</td><td class="issueColumn"><img border="0" align="top" src="lint-results-debug_files/lint-error.png" alt="Error" />
+<td class="countColumn">3</td><td class="issueColumn"><img border="0" align="top" src="lint-results-debug_files/lint-error.png" alt="Error" />
 <a href="#MissingPermission">MissingPermission: Missing Permissions</a>
 </td></tr>
 <tr>
@@ -36,7 +36,7 @@ Check performed at Sat Jul 01 14:47:34 EDT 2017.<br/>
 <a href="#InlinedApi">InlinedApi: Using inlined constants on older versions</a>
 </td></tr>
 <tr>
-<td class="countColumn">4</td><td class="issueColumn"><img border="0" align="top" src="lint-results-debug_files/lint-error.png" alt="Error" />
+<td class="countColumn">2</td><td class="issueColumn"><img border="0" align="top" src="lint-results-debug_files/lint-error.png" alt="Error" />
 <a href="#NewApi">NewApi: Calling new methods on older versions</a>
 </td></tr>
 <tr>
@@ -44,19 +44,11 @@ Check performed at Sat Jul 01 14:47:34 EDT 2017.<br/>
 <a href="#OldTargetApi">OldTargetApi: Target SDK attribute is not targeting latest version</a>
 </td></tr>
 <tr>
-<td class="countColumn">1</td><td class="issueColumn"><img border="0" align="top" src="lint-results-debug_files/lint-warning.png" alt="Warning" />
-<a href="#SdCardPath">SdCardPath: Hardcoded reference to <code>/sdcard</code></a>
-</td></tr>
-<tr>
-<td class="countColumn">1</td><td class="issueColumn"><img border="0" align="top" src="lint-results-debug_files/lint-error.png" alt="Error" />
-<a href="#WrongCall">WrongCall: Using wrong draw/layout method</a>
-</td></tr>
-<tr>
 <td class="countColumn">4</td><td class="issueColumn"><img border="0" align="top" src="lint-results-debug_files/lint-warning.png" alt="Warning" />
 <a href="#GradleOverrides">GradleOverrides: Value overridden by Gradle build script</a>
 </td></tr>
 <tr>
-<td class="countColumn">1</td><td class="issueColumn"><img border="0" align="top" src="lint-results-debug_files/lint-error.png" alt="Error" />
+<td class="countColumn">2</td><td class="issueColumn"><img border="0" align="top" src="lint-results-debug_files/lint-error.png" alt="Error" />
 <a href="#ParcelCreator">ParcelCreator: Missing Parcelable <code>CREATOR</code> field</a>
 </td></tr>
 <tr>
@@ -130,23 +122,7 @@ Check performed at Sat Jul 01 14:47:34 EDT 2017.<br/>
 <div class="id"><a href="#" title="Return to top">MissingPermission: Missing Permissions</a><div class="issueSeparator"></div>
 </div>
 <div class="warningslist">
-<span class="location"><a href="../../src/main/java/org/osmdroid/views/overlay/mylocation/GpsMyLocationProvider.java">../../src/main/java/org/osmdroid/views/overlay/mylocation/GpsMyLocationProvider.java</a>:109</span>: <span class="message">Call requires permission which may be rejected by user: code should explicitly check to see if permission is available (with <code>checkPermission</code>) or explicitly handle a potential <code>SecurityException</code></span><br /><pre class="errorlines">
-<span class="lineno"> 106</span> 		for (final String provider : mLocationManager.getProviders(true)) {
-<span class="lineno"> 107</span> 			if (locationSources.contains(provider)) {
-<span class="lineno"> 108</span> 				result = true;
-<span class="lineno"> 109</span> 				<span class="errorspan">mLocationManager.requestLocationUpdates(provider, mLocationUpdateMinTime,</span>
-<span class="lineno"> 110</span> 						mLocationUpdateMinDistance, this);
-<span class="lineno"> 111</span> 			}
-</pre>
-<span class="location"><a href="../../src/main/java/org/osmdroid/views/overlay/mylocation/GpsMyLocationProvider.java">../../src/main/java/org/osmdroid/views/overlay/mylocation/GpsMyLocationProvider.java</a>:120</span>: <span class="message">Call requires permission which may be rejected by user: code should explicitly check to see if permission is available (with <code>checkPermission</code>) or explicitly handle a potential <code>SecurityException</code></span><br /><pre class="errorlines">
-<span class="lineno"> 117</span> 	public void stopLocationProvider() {
-<span class="lineno"> 118</span> 		mMyLocationConsumer = null;
-<span class="lineno"> 119</span> 		if(mLocationManager != null){
-<span class="lineno"> 120</span> 			<span class="errorspan">mLocationManager.removeUpdates(this);</span>
-<span class="lineno"> 121</span> 		}
-<span class="lineno"> 122</span> 	}
-</pre>
-<span class="location"><a href="../../src/main/java/org/osmdroid/LocationListenerProxy.java">../../src/main/java/org/osmdroid/LocationListenerProxy.java</a>:24</span>: <span class="message">Call requires permission which may be rejected by user: code should explicitly check to see if permission is available (with <code>checkPermission</code>) or explicitly handle a potential <code>SecurityException</code></span><br /><pre class="errorlines">
+<span class="location"><a href="../../src/main/java/org/osmdroid/LocationListenerProxy.java">../../src/main/java/org/osmdroid/LocationListenerProxy.java</a>:24</span>: <span class="message">Missing permissions required by LocationManager.requestLocationUpdates: android.permission.ACCESS_COARSE_LOCATION or android.permission.ACCESS_FINE_LOCATION</span><br /><pre class="errorlines">
 <span class="lineno">  21</span> 			if (LocationManager.GPS_PROVIDER.equals(provider)
 <span class="lineno">  22</span> 					|| LocationManager.NETWORK_PROVIDER.equals(provider)) {
 <span class="lineno">  23</span> 				result = true;
@@ -154,7 +130,7 @@ Check performed at Sat Jul 01 14:47:34 EDT 2017.<br/>
 <span class="lineno">  25</span> 						this);
 <span class="lineno">  26</span> 			}
 </pre>
-<span class="location"><a href="../../src/main/java/org/osmdroid/LocationListenerProxy.java">../../src/main/java/org/osmdroid/LocationListenerProxy.java</a>:33</span>: <span class="message">Call requires permission which may be rejected by user: code should explicitly check to see if permission is available (with <code>checkPermission</code>) or explicitly handle a potential <code>SecurityException</code></span><br /><pre class="errorlines">
+<span class="location"><a href="../../src/main/java/org/osmdroid/LocationListenerProxy.java">../../src/main/java/org/osmdroid/LocationListenerProxy.java</a>:33</span>: <span class="message">Missing permissions required by LocationManager.removeUpdates: android.permission.ACCESS_COARSE_LOCATION or android.permission.ACCESS_FINE_LOCATION</span><br /><pre class="errorlines">
 <span class="lineno">  30</span> 
 <span class="lineno">  31</span> 	public void stopListening() {
 <span class="lineno">  32</span> 		mListener = null;
@@ -162,13 +138,13 @@ Check performed at Sat Jul 01 14:47:34 EDT 2017.<br/>
 <span class="lineno">  34</span> 	}
 <span class="lineno">  35</span> 
 </pre>
-<span class="location"><a href="../../src/main/java/org/osmdroid/util/LocationUtils.java">../../src/main/java/org/osmdroid/util/LocationUtils.java</a>:50</span>: <span class="message">Call requires permission which may be rejected by user: code should explicitly check to see if permission is available (with <code>checkPermission</code>) or explicitly handle a potential <code>SecurityException</code></span><br /><pre class="errorlines">
-<span class="lineno">  47</span> 		} catch (final IllegalArgumentException e) {
-<span class="lineno">  48</span> 			return null;
-<span class="lineno">  49</span> 		}
-<span class="lineno">  50</span> 		return <span class="errorspan">pLocationManager.getLastKnownLocation(pProvider);</span>
-<span class="lineno">  51</span> 	}
-<span class="lineno">  52</span> 
+<span class="location"><a href="../../src/main/java/org/osmdroid/util/LocationUtils.java">../../src/main/java/org/osmdroid/util/LocationUtils.java</a>:49</span>: <span class="message">Missing permissions required by LocationManager.getLastKnownLocation: android.permission.ACCESS_COARSE_LOCATION or android.permission.ACCESS_FINE_LOCATION</span><br /><pre class="errorlines">
+<span class="lineno">  46</span> 		} catch (final IllegalArgumentException e) {
+<span class="lineno">  47</span> 			return null;
+<span class="lineno">  48</span> 		}
+<span class="lineno">  49</span> 		return <span class="errorspan">pLocationManager.getLastKnownLocation(pProvider);</span>
+<span class="lineno">  50</span> 	}
+<span class="lineno">  51</span> 
 </pre>
 </div>
 <div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-debug_files/lint-run.png" />
@@ -189,21 +165,21 @@ Furthermore, for permissions that are revocable (with targetSdkVersion 23), clie
 <div class="id"><a href="#" title="Return to top">DefaultLocale: Implied default locale in case conversion</a><div class="issueSeparator"></div>
 </div>
 <div class="warningslist">
-<span class="location"><a href="../../src/main/java/org/osmdroid/tileprovider/modules/ArchiveFileFactory.java">../../src/main/java/org/osmdroid/tileprovider/modules/ArchiveFileFactory.java</a>:59</span>: <span class="message">Implicitly using the default locale is a common source of bugs: Use <code>toLowerCase(Locale)</code> instead</span><br /><pre class="errorlines">
-<span class="lineno">  56</span> 				//just to catch any potential out of index errors
-<span class="lineno">  57</span> 			}
-<span class="lineno">  58</span> 		}
-<span class="lineno">  59</span> 		Class&lt;? extends IArchiveFile> aClass = extensionMap.get(extension.<span class="errorspan">toLowerCase());</span>
-<span class="lineno">  60</span> 		if (aClass!=null){
-<span class="lineno">  61</span> 			try {
+<span class="location"><a href="../../src/main/java/org/osmdroid/tileprovider/modules/ArchiveFileFactory.java">../../src/main/java/org/osmdroid/tileprovider/modules/ArchiveFileFactory.java</a>:61</span>: <span class="message">Implicitly using the default locale is a common source of bugs: Use <code>toLowerCase(Locale)</code> instead</span><br /><pre class="errorlines">
+<span class="lineno">  58</span> 				//just to catch any potential out of index errors
+<span class="lineno">  59</span> 			}
+<span class="lineno">  60</span> 		}
+<span class="lineno">  61</span> 		Class&lt;? extends IArchiveFile> aClass = extensionMap.get(extension.<span class="errorspan">toLowerCase());</span>
+<span class="lineno">  62</span> 		if (aClass!=null){
+<span class="lineno">  63</span> 			try {
 </pre>
-<span class="location"><a href="../../src/main/java/org/osmdroid/util/GEMFFile.java">../../src/main/java/org/osmdroid/util/GEMFFile.java</a>:637</span>: <span class="message">Implicitly using the default locale is a common source of bugs: Use <code>String.format(Locale, ...)</code> instead</span><br /><pre class="errorlines">
-<span class="lineno"> 634</span> 
-<span class="lineno"> 635</span> 		@Override
-<span class="lineno"> 636</span> 		public String toString() {
-<span class="lineno"> 637</span> 			return <span class="errorspan">String.format(</span>
-<span class="lineno"> 638</span> 					"GEMF Range: source=%d, zoom=%d, x=%d-%d, y=%d-%d, offset=0x%08X",
-<span class="lineno"> 639</span> 					sourceIndex, zoom, xMin, xMax, yMin, yMax, offset);
+<span class="location"><a href="../../src/main/java/org/osmdroid/util/GEMFFile.java">../../src/main/java/org/osmdroid/util/GEMFFile.java</a>:678</span>: <span class="message">Implicitly using the default locale is a common source of bugs: Use <code>String.format(Locale, ...)</code> instead</span><br /><pre class="errorlines">
+<span class="lineno"> 675</span> 
+<span class="lineno"> 676</span> 		@Override
+<span class="lineno"> 677</span> 		public String toString() {
+<span class="lineno"> 678</span> 			return <span class="errorspan">String.format(</span>
+<span class="lineno"> 679</span> 					"GEMF Range: source=%d, zoom=%d, x=%d-%d, y=%d-%d, offset=0x%08X",
+<span class="lineno"> 680</span> 					sourceIndex, zoom, xMin, xMax, yMin, yMax, offset);
 </pre>
 </div>
 <div class="metadata">Priority: 6 / 10<br/>
@@ -223,21 +199,21 @@ If you want the methods to just perform ASCII replacement, for example to conver
 <div class="id"><a href="#" title="Return to top">InlinedApi: Using inlined constants on older versions</a><div class="issueSeparator"></div>
 </div>
 <div class="warningslist">
-<span class="location"><a href="../../src/main/java/org/osmdroid/views/MapView.java">../../src/main/java/org/osmdroid/views/MapView.java</a>:175</span>: <span class="message">Field requires API level 11 (current min is 8): <code>android.view.View#LAYER_TYPE_SOFTWARE</code></span><br /><pre class="errorlines">
-<span class="lineno"> 172</span> 			return;
-<span class="lineno"> 173</span> 		}
-<span class="lineno"> 174</span> 		if (!hardwareAccelerated &amp;&amp; Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-<span class="lineno"> 175</span> 			this.setLayerType(<span class="errorspan">View.LAYER_TYPE_SOFTWARE, null);</span>
-<span class="lineno"> 176</span> 		}
-<span class="lineno"> 177</span> 		this.mController = new MapController(this);
+<span class="location"><a href="../../src/main/java/org/osmdroid/views/MapView.java">../../src/main/java/org/osmdroid/views/MapView.java</a>:192</span>: <span class="message">Field requires API level 11 (current min is 8): <code>android.view.View#LAYER_TYPE_SOFTWARE</code></span><br /><pre class="errorlines">
+<span class="lineno"> 189</span> 			return;
+<span class="lineno"> 190</span> 		}
+<span class="lineno"> 191</span> 		if (!hardwareAccelerated &amp;&amp; Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+<span class="lineno"> 192</span> 			this.setLayerType(<span class="errorspan">View.LAYER_TYPE_SOFTWARE, null);</span>
+<span class="lineno"> 193</span> 		}
+<span class="lineno"> 194</span> 		this.mController = new MapController(this);
 </pre>
-<span class="location"><a href="../../src/main/java/org/osmdroid/tileprovider/modules/NetworkAvailabliltyCheck.java">../../src/main/java/org/osmdroid/tileprovider/modules/NetworkAvailabliltyCheck.java</a>:45</span>: <span class="message">Field requires API level 13 (current min is 8): <code>android.net.ConnectivityManager#TYPE_ETHERNET</code></span><br /><pre class="errorlines">
-<span class="lineno">  42</span> 		if (networkInfo.isAvailable()) {
+<span class="location"><a href="../../src/main/java/org/osmdroid/tileprovider/modules/NetworkAvailabliltyCheck.java">../../src/main/java/org/osmdroid/tileprovider/modules/NetworkAvailabliltyCheck.java</a>:46</span>: <span class="message">Field requires API level 13 (current min is 8): <code>android.net.ConnectivityManager#TYPE_ETHERNET</code></span><br /><pre class="errorlines">
 <span class="lineno">  43</span> 			return true;
 <span class="lineno">  44</span> 		}
-<span class="lineno">  45</span> 		return mIsX86 &amp;&amp; networkInfo.getType() == <span class="errorspan">ConnectivityManager.TYPE_ETHERNET;</span>
-<span class="lineno">  46</span> 	}
-<span class="lineno">  47</span> 
+<span class="lineno">  45</span> 		if (Build.VERSION.SDK_INT > Build.VERSION_CODES.HONEYCOMB_MR2)
+<span class="lineno">  46</span> 			return mIsX86 &amp;&amp; networkInfo.getType() == <span class="errorspan">ConnectivityManager.TYPE_ETHERNET;</span>
+<span class="lineno">  47</span> 		return false;
+<span class="lineno">  48</span> 	}
 </pre>
 </div>
 <div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ & Eclipse/ADT&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-debug_files/lint-run.png" />
@@ -260,29 +236,13 @@ If your code is <b>deliberately</b> accessing newer APIs, and you have ensured (
 <div class="id"><a href="#" title="Return to top">NewApi: Calling new methods on older versions</a><div class="issueSeparator"></div>
 </div>
 <div class="warningslist">
-<span class="location"><a href="../../src/main/java/org/osmdroid/views/MapController.java">../../src/main/java/org/osmdroid/views/MapController.java</a>:303</span>: <span class="message">Cast from ValueAnimator to Animator requires API level 11 (current min is 8)</span><br /><pre class="errorlines">
-<span class="lineno"> 300</span> 			} else {
-<span class="lineno"> 301</span> 				mMapView.mTargetZoomLevel.set(mMapView.getZoomLevel(false) + 1);
-<span class="lineno"> 302</span> 				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-<span class="lineno"> 303</span> 					<span class="errorspan">mCurrentAnimator = mZoomInAnimation;</span>
-<span class="lineno"> 304</span> 					mZoomInAnimation.start();
-<span class="lineno"> 305</span> 				} else {
-</pre>
-<span class="location"><a href="../../src/main/java/org/osmdroid/views/MapController.java">../../src/main/java/org/osmdroid/views/MapController.java</a>:336</span>: <span class="message">Cast from ValueAnimator to Animator requires API level 11 (current min is 8)</span><br /><pre class="errorlines">
-<span class="lineno"> 333</span> 			} else {
-<span class="lineno"> 334</span> 				mMapView.mTargetZoomLevel.set(mMapView.getZoomLevel(false) - 1);
-<span class="lineno"> 335</span> 				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-<span class="lineno"> 336</span> 					<span class="errorspan">mCurrentAnimator = mZoomOutAnimation;</span>
-<span class="lineno"> 337</span> 					mZoomOutAnimation.start();
-<span class="lineno"> 338</span> 				} else {
-</pre>
-<span class="location"><a href="../../src/main/java/org/osmdroid/views/MapController.java">../../src/main/java/org/osmdroid/views/MapController.java</a>:381</span>: <span class="message">Cast from ValueAnimator to Animator requires API level 11 (current min is 8)</span><br /><pre class="errorlines">
-<span class="lineno"> 378</span> 					zoomToAnimator.addUpdateListener(zoomAnimatorListener);
-<span class="lineno"> 379</span> 					zoomToAnimator.setDuration(ANIMATION_DURATION_SHORT);
-<span class="lineno"> 380</span> 
-<span class="lineno"> 381</span> 					<span class="errorspan">mCurrentAnimator = zoomToAnimator;</span>
-<span class="lineno"> 382</span> 					zoomToAnimator.start();
-<span class="lineno"> 383</span> 				} else {
+<span class="location"><a href="../../src/main/java/org/osmdroid/views/MapController.java">../../src/main/java/org/osmdroid/views/MapController.java</a>:353</span>: <span class="message">Cast from ValueAnimator to Animator requires API level 11 (current min is 8)</span><br /><pre class="errorlines">
+<span class="lineno"> 350</span>                 zoomToAnimator.setDuration(zoomAnimationSpeed);
+<span class="lineno"> 351</span>             }
+<span class="lineno"> 352</span> 
+<span class="lineno"> 353</span>             <span class="errorspan">mCurrentAnimator = zoomToAnimator;</span>
+<span class="lineno"> 354</span>             zoomToAnimator.start();
+<span class="lineno"> 355</span>             return true;
 </pre>
 <span class="location"><a href="../../src/main/java/org/osmdroid/views/overlay/NonAcceleratedOverlay.java">../../src/main/java/org/osmdroid/views/overlay/NonAcceleratedOverlay.java</a>:78</span>: <span class="message">Call requires API level 11 (current min is 8): <code>android.graphics.Canvas#isHardwareAccelerated</code></span><br /><pre class="errorlines">
 <span class="lineno">  75</span> 	public final void draw(Canvas c, MapView osmv, boolean shadow) {
@@ -340,63 +300,12 @@ To fix this issue, set the <code>targetSdkVersion</code> to the highest availabl
 <br/><div class="moreinfo">More info: <a href="http://developer.android.com/reference/android/os/Build.VERSION_CODES.html">http://developer.android.com/reference/android/os/Build.VERSION_CODES.html</a>
 </div><br/>To suppress this error, use the issue id "OldTargetApi" as explained in the <a href="#SuppressInfo">Suppressing Warnings and Errors</a> section.<br/>
 </div>
-<a name="SdCardPath"></a>
-<div class="issue">
-<div class="id"><a href="#" title="Return to top">SdCardPath: Hardcoded reference to <code>/sdcard</code></a><div class="issueSeparator"></div>
-</div>
-<div class="warningslist">
-<span class="location"><a href="../../src/main/java/org/osmdroid/config/DefaultConfigurationProvider.java">../../src/main/java/org/osmdroid/config/DefaultConfigurationProvider.java</a>:295</span>: <span class="message">Do not hardcode "<code>/data/</code>"; use <code>Context.getFilesDir().getPath()</code> instead</span><br /><pre class="errorlines">
-<span class="lineno"> 292</span>             File discoveredCachPath = getOsmdroidTileCache();
-<span class="lineno"> 293</span>             if (!discoveredBestPath.exists() || !StorageUtils.isWritable(discoveredBestPath)) {
-<span class="lineno"> 294</span>                 //this should always be writable...
-<span class="lineno"> 295</span>                 discoveredCachPath=discoveredBestPath=new File(<span class="errorspan">"/data/data/" + ctx.getPackageName() + "/osmdroid/");</span>
-<span class="lineno"> 296</span>                 discoveredCachPath.mkdirs();
-<span class="lineno"> 297</span>             }
-</pre>
-</div>
-<div class="metadata">Priority: 6 / 10<br/>
-Category: Correctness</div>
-Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Hardcoded reference to <code>/sdcard</code></div>
-<div class="explanation">
-Your code should not reference the <code>/sdcard</code> path directly; instead use <code>Environment.getExternalStorageDirectory().getPath()</code>.<br/>
-<br/>
-Similarly, do not reference the <code>/data/data/</code> path directly; it can vary in multi-user scenarios. Instead, use <code>Context.getFilesDir().getPath()</code>.
-</div>
-<br/><div class="moreinfo">More info: <a href="http://developer.android.com/guide/topics/data/data-storage.html#filesExternal">http://developer.android.com/guide/topics/data/data-storage.html#filesExternal</a>
-</div><br/>To suppress this error, use the issue id "SdCardPath" as explained in the <a href="#SuppressInfo">Suppressing Warnings and Errors</a> section.<br/>
-</div>
-<a name="WrongCall"></a>
-<div class="issue">
-<div class="id"><a href="#" title="Return to top">WrongCall: Using wrong draw/layout method</a><div class="issueSeparator"></div>
-</div>
-<div class="warningslist">
-<span class="location"><a href="../../src/main/java/org/osmdroid/views/MapView.java">../../src/main/java/org/osmdroid/views/MapView.java</a>:1062</span>: <span class="message">Suspicious method call; should probably call "<code>layout</code>" rather than "<code>onLayout</code>"</span><br /><pre class="errorlines">
-<span class="lineno">1059</span> 
-<span class="lineno">1060</span> 		// Force a layout, so that children are correctly positioned according to map orientation
-<span class="lineno">1061</span> 		if (getMapOrientation() != 0f)
-<span class="lineno">1062</span> 			<span class="errorspan">onLayout(true, getLeft(), getTop(), getRight(), getBottom());</span>
-<span class="lineno">1063</span> 
-<span class="lineno">1064</span> 		// do callback on listener
-</pre>
-</div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-debug_files/lint-run.png" />
-<br>
-Priority: 6 / 10<br/>
-Category: Correctness</div>
-Severity: <span class="error">Fatal</span><div class="summary">
-Explanation: Using wrong draw/layout method.</div>
-<div class="explanation">
-Custom views typically need to call <code>measure()</code> on their children, not <code>onMeasure</code>. Ditto for onDraw, onLayout, etc.
-</div>
-<br/><div class="moreinfo">More info: </div><br/>To suppress this error, use the issue id "WrongCall" as explained in the <a href="#SuppressInfo">Suppressing Warnings and Errors</a> section.<br/>
-</div>
 <a name="GradleOverrides"></a>
 <div class="issue">
 <div class="id"><a href="#" title="Return to top">GradleOverrides: Value overridden by Gradle build script</a><div class="issueSeparator"></div>
 </div>
 <div class="warningslist">
-<span class="location"><a href="../../src/main/AndroidManifest.xml">../../src/main/AndroidManifest.xml</a>:4</span>: <span class="message">This <code>versionCode</code> value (<code>1</code>) is not used; it is always overridden by the value specified in the Gradle build script (<code>29</code>)</span><br /><pre class="errorlines">
+<span class="location"><a href="../../src/main/AndroidManifest.xml">../../src/main/AndroidManifest.xml</a>:4</span>: <span class="message">This <code>versionCode</code> value (<code>1</code>) is not used; it is always overridden by the value specified in the Gradle build script (<code>30</code>)</span><br /><pre class="errorlines">
 <span class="lineno">   1</span> &lt;?xml version="1.0" encoding="utf-8"?>
 <span class="lineno">   2</span> &lt;manifest xmlns:android="http://schemas.android.com/apk/res/android"
 <span class="lineno">   3</span> 		package="org.osmdroid.library"
@@ -404,7 +313,7 @@ Custom views typically need to call <code>measure()</code> on their children, no
 <span class="lineno">   5</span> 
 <span class="lineno">   6</span> 	&lt;uses-sdk android:minSdkVersion="8" android:targetSdkVersion="23" />
 </pre>
-<span class="location"><a href="../../src/main/AndroidManifest.xml">../../src/main/AndroidManifest.xml</a>:4</span>: <span class="message">This <code>versionName</code> value (<code>5.3-SNAPSHOT</code>) is not used; it is always overridden by the value specified in the Gradle build script (<code>5.6.5</code>)</span><br /><pre class="errorlines">
+<span class="location"><a href="../../src/main/AndroidManifest.xml">../../src/main/AndroidManifest.xml</a>:4</span>: <span class="message">This <code>versionName</code> value (<code>5.3-SNAPSHOT</code>) is not used; it is always overridden by the value specified in the Gradle build script (<code>6.0.0</code>)</span><br /><pre class="errorlines">
 <span class="lineno">   1</span> &lt;?xml version="1.0" encoding="utf-8"?>
 <span class="lineno">   2</span> &lt;manifest xmlns:android="http://schemas.android.com/apk/res/android"
 <span class="lineno">   3</span> 		package="org.osmdroid.library"
@@ -443,13 +352,21 @@ The value of (for example) <code>minSdkVersion</code> is only used if it is not 
 <div class="id"><a href="#" title="Return to top">ParcelCreator: Missing Parcelable <code>CREATOR</code> field</a><div class="issueSeparator"></div>
 </div>
 <div class="warningslist">
-<span class="location"><a href="../../src/main/java/org/osmdroid/views/overlay/simplefastpoint/SimpleFastPointOverlay.java">../../src/main/java/org/osmdroid/views/overlay/simplefastpoint/SimpleFastPointOverlay.java</a>:43</span>: <span class="message">This class implements <code>Parcelable</code> but does not provide a <code>CREATOR</code> field</span><br /><pre class="errorlines">
-<span class="lineno">  40</span>     private int prevNumPointers, numLabels;
-<span class="lineno">  41</span>     private BoundingBox prevBoundingBox = new BoundingBox(0, 0, 0, 0);
-<span class="lineno">  42</span> 
-<span class="lineno">  43</span>     public class <span class="errorspan">LabelledPoint extends Point {</span>
-<span class="lineno">  44</span>         private String mlabel;
-<span class="lineno">  45</span> 
+<span class="location"><a href="../../src/main/java/org/osmdroid/views/overlay/simplefastpoint/SimpleFastPointOverlay.java">../../src/main/java/org/osmdroid/views/overlay/simplefastpoint/SimpleFastPointOverlay.java</a>:54</span>: <span class="message">This class implements <code>Parcelable</code> but does not provide a <code>CREATOR</code> field</span><br /><pre class="errorlines">
+<span class="lineno">  51</span>     /**
+<span class="lineno">  52</span>      * Just a light internal class for storing point data
+<span class="lineno">  53</span>      */
+<span class="lineno">  54</span>     public class <span class="errorspan">StyledLabelledPoint extends Point {</span>
+<span class="lineno">  55</span>         private String mlabel;
+<span class="lineno">  56</span>         private Paint mPointStyle, mTextStyle;
+</pre>
+<span class="location"><a href="../../src/main/java/org/osmdroid/views/overlay/simplefastpoint/StyledLabelledGeoPoint.java">../../src/main/java/org/osmdroid/views/overlay/simplefastpoint/StyledLabelledGeoPoint.java</a>:12</span>: <span class="message">This class implements <code>Parcelable</code> but does not provide a <code>CREATOR</code> field</span><br /><pre class="errorlines">
+<span class="lineno">   9</span>  * Created by miguel on 07-01-2018.
+<span class="lineno">  10</span>  */
+<span class="lineno">  11</span> 
+<span class="lineno">  12</span> public class <span class="errorspan">StyledLabelledGeoPoint extends LabelledGeoPoint {</span>
+<span class="lineno">  13</span>     Paint mPointStyle, mTextStyle;
+<span class="lineno">  14</span> 
 </pre>
 </div>
 <div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-debug_files/lint-run.png" />
@@ -505,13 +422,13 @@ There <b>are</b> cases where you might need to use <code>dp</code>; typically th
 <div class="id"><a href="#" title="Return to top">SwitchIntDef: Missing @IntDef in Switch</a><div class="issueSeparator"></div>
 </div>
 <div class="warningslist">
-<span class="location"><a href="../../src/main/java/org/osmdroid/views/overlay/compass/CompassOverlay.java">../../src/main/java/org/osmdroid/views/overlay/compass/CompassOverlay.java</a>:338</span>: <span class="message">Switch statement on an <code>int</code> with known associated constant missing case <code>ROTATION_0</code></span><br /><pre class="errorlines">
-<span class="lineno"> 335</span> 	}
-<span class="lineno"> 336</span> 
-<span class="lineno"> 337</span> 	private int getDisplayOrientation() {
-<span class="lineno"> 338</span> 		<span class="errorspan">switch (mDisplay.getOrientation()) {</span>
-<span class="lineno"> 339</span> 		case Surface.ROTATION_90:
-<span class="lineno"> 340</span> 			return 90;
+<span class="location"><a href="../../src/main/java/org/osmdroid/views/overlay/compass/CompassOverlay.java">../../src/main/java/org/osmdroid/views/overlay/compass/CompassOverlay.java</a>:449</span>: <span class="message">Switch statement on an <code>int</code> with known associated constant missing case <code>ROTATION_0</code></span><br /><pre class="errorlines">
+<span class="lineno"> 446</span>     }
+<span class="lineno"> 447</span> 
+<span class="lineno"> 448</span>     private int getDisplayOrientation() {
+<span class="lineno"> 449</span>         <span class="errorspan">switch (mDisplay.getOrientation()) {</span>
+<span class="lineno"> 450</span>             case Surface.ROTATION_90:
+<span class="lineno"> 451</span>                 return 90;
 </pre>
 </div>
 <div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-debug_files/lint-run.png" />
@@ -740,69 +657,69 @@ You can tell lint (and other tools) which language is the default language in yo
 <div class="id"><a href="#" title="Return to top">UseValueOf: Should use <code>valueOf</code> instead of <code>new</code></a><div class="issueSeparator"></div>
 </div>
 <div class="warningslist">
-<span class="location"><a href="../../src/main/java/org/osmdroid/util/GEMFFile.java">../../src/main/java/org/osmdroid/util/GEMFFile.java</a>:171</span>: <span class="message">Use <code>Integer.valueOf(xDir.getName())</code> instead</span><br /><pre class="errorlines">
-<span class="lineno"> 168</span> 								0, yFile.getName().indexOf('.'))), yFile);
-<span class="lineno"> 169</span> 					}
-<span class="lineno"> 170</span> 
-<span class="lineno"> 171</span> 					xList.put(<span class="errorspan">new Integer(xDir.getName()), yList);</span>
-<span class="lineno"> 172</span> 				}
-<span class="lineno"> 173</span> 
+<span class="location"><a href="../../src/main/java/org/osmdroid/util/GEMFFile.java">../../src/main/java/org/osmdroid/util/GEMFFile.java</a>:176</span>: <span class="message">Use <code>Integer.valueOf(xDir.getName())</code> instead</span><br /><pre class="errorlines">
+<span class="lineno"> 173</span> 								0, yFile.getName().indexOf('.'))), yFile);
+<span class="lineno"> 174</span> 					}
+<span class="lineno"> 175</span> 
+<span class="lineno"> 176</span> 					xList.put(<span class="errorspan">new Integer(xDir.getName()), yList);</span>
+<span class="lineno"> 177</span> 				}
+<span class="lineno"> 178</span> 
 </pre>
-<span class="location"><a href="../../src/main/java/org/osmdroid/util/GEMFFile.java">../../src/main/java/org/osmdroid/util/GEMFFile.java</a>:185</span>: <span class="message">Use <code>Integer.valueOf(si)</code> instead</span><br /><pre class="errorlines">
-<span class="lineno"> 182</span> 		final LinkedHashMap&lt;Integer, String> indexSource = new LinkedHashMap&lt;Integer, String>();
-<span class="lineno"> 183</span> 		int si = 0;
-<span class="lineno"> 184</span> 		for (final String source: dirIndex.keySet()) {
-<span class="lineno"> 185</span> 			sourceIndex.put(source, <span class="errorspan">new Integer(si));</span>
-<span class="lineno"> 186</span> 			indexSource.put(new Integer(si), source);
-<span class="lineno"> 187</span> 			++si;
+<span class="location"><a href="../../src/main/java/org/osmdroid/util/GEMFFile.java">../../src/main/java/org/osmdroid/util/GEMFFile.java</a>:190</span>: <span class="message">Use <code>Integer.valueOf(si)</code> instead</span><br /><pre class="errorlines">
+<span class="lineno"> 187</span> 		final LinkedHashMap&lt;Integer, String> indexSource = new LinkedHashMap&lt;Integer, String>();
+<span class="lineno"> 188</span> 		int si = 0;
+<span class="lineno"> 189</span> 		for (final String source: dirIndex.keySet()) {
+<span class="lineno"> 190</span> 			sourceIndex.put(source, <span class="errorspan">new Integer(si));</span>
+<span class="lineno"> 191</span> 			indexSource.put(new Integer(si), source);
+<span class="lineno"> 192</span> 			++si;
 </pre>
-<span class="location"><a href="../../src/main/java/org/osmdroid/util/GEMFFile.java">../../src/main/java/org/osmdroid/util/GEMFFile.java</a>:186</span>: <span class="message">Use <code>Integer.valueOf(si)</code> instead</span><br /><pre class="errorlines">
-<span class="lineno"> 183</span> 		int si = 0;
-<span class="lineno"> 184</span> 		for (final String source: dirIndex.keySet()) {
-<span class="lineno"> 185</span> 			sourceIndex.put(source, new Integer(si));
-<span class="lineno"> 186</span> 			indexSource.put(<span class="errorspan">new Integer(si), source);</span>
-<span class="lineno"> 187</span> 			++si;
-<span class="lineno"> 188</span> 		}
+<span class="location"><a href="../../src/main/java/org/osmdroid/util/GEMFFile.java">../../src/main/java/org/osmdroid/util/GEMFFile.java</a>:191</span>: <span class="message">Use <code>Integer.valueOf(si)</code> instead</span><br /><pre class="errorlines">
+<span class="lineno"> 188</span> 		int si = 0;
+<span class="lineno"> 189</span> 		for (final String source: dirIndex.keySet()) {
+<span class="lineno"> 190</span> 			sourceIndex.put(source, new Integer(si));
+<span class="lineno"> 191</span> 			indexSource.put(<span class="errorspan">new Integer(si), source);</span>
+<span class="lineno"> 192</span> 			++si;
+<span class="lineno"> 193</span> 		}
 </pre>
-<span class="location"><a href="../../src/main/java/org/osmdroid/util/GEMFFile.java">../../src/main/java/org/osmdroid/util/GEMFFile.java</a>:230</span>: <span class="message">Use <code>Integer.valueOf(i)</code> instead</span><br /><pre class="errorlines">
-<span class="lineno"> 227</span> 
-<span class="lineno"> 228</span> 					List&lt;Integer> xSet = new ArrayList&lt;Integer>();
-<span class="lineno"> 229</span> 					for(int i = xList.first(); i &lt; xList.last() + 1; ++i) {
-<span class="lineno"> 230</span> 						if (xList.contains(<span class="errorspan">new Integer(i))) {</span>
-<span class="lineno"> 231</span> 							xSet.add(new Integer(i));
-<span class="lineno"> 232</span> 						} else {
+<span class="location"><a href="../../src/main/java/org/osmdroid/util/GEMFFile.java">../../src/main/java/org/osmdroid/util/GEMFFile.java</a>:235</span>: <span class="message">Use <code>Integer.valueOf(i)</code> instead</span><br /><pre class="errorlines">
+<span class="lineno"> 232</span> 
+<span class="lineno"> 233</span> 					List&lt;Integer> xSet = new ArrayList&lt;Integer>();
+<span class="lineno"> 234</span> 					for(int i = xList.first(); i &lt; xList.last() + 1; ++i) {
+<span class="lineno"> 235</span> 						if (xList.contains(<span class="errorspan">new Integer(i))) {</span>
+<span class="lineno"> 236</span> 							xSet.add(new Integer(i));
+<span class="lineno"> 237</span> 						} else {
 </pre>
-<span class="location"><a href="../../src/main/java/org/osmdroid/util/GEMFFile.java">../../src/main/java/org/osmdroid/util/GEMFFile.java</a>:231</span>: <span class="message">Use <code>Integer.valueOf(i)</code> instead</span><br /><pre class="errorlines">
-<span class="lineno"> 228</span> 					List&lt;Integer> xSet = new ArrayList&lt;Integer>();
-<span class="lineno"> 229</span> 					for(int i = xList.first(); i &lt; xList.last() + 1; ++i) {
-<span class="lineno"> 230</span> 						if (xList.contains(new Integer(i))) {
-<span class="lineno"> 231</span> 							xSet.add(<span class="errorspan">new Integer(i));</span>
-<span class="lineno"> 232</span> 						} else {
-<span class="lineno"> 233</span> 							if (xSet.size() > 0) {
+<span class="location"><a href="../../src/main/java/org/osmdroid/util/GEMFFile.java">../../src/main/java/org/osmdroid/util/GEMFFile.java</a>:236</span>: <span class="message">Use <code>Integer.valueOf(i)</code> instead</span><br /><pre class="errorlines">
+<span class="lineno"> 233</span> 					List&lt;Integer> xSet = new ArrayList&lt;Integer>();
+<span class="lineno"> 234</span> 					for(int i = xList.first(); i &lt; xList.last() + 1; ++i) {
+<span class="lineno"> 235</span> 						if (xList.contains(new Integer(i))) {
+<span class="lineno"> 236</span> 							xSet.add(<span class="errorspan">new Integer(i));</span>
+<span class="lineno"> 237</span> 						} else {
+<span class="lineno"> 238</span> 							if (xSet.size() > 0) {
 </pre>
-<span class="location"><a href="../../src/main/java/org/osmdroid/util/GEMFFile.java">../../src/main/java/org/osmdroid/util/GEMFFile.java</a>:258</span>: <span class="message">Use <code>Integer.valueOf(i)</code> instead</span><br /><pre class="errorlines">
-<span class="lineno"> 255</span> 					range.xMax = xList.last();
-<span class="lineno"> 256</span> 
-<span class="lineno"> 257</span> 					for(int i = yList.first(); i &lt; yList.last() + 1; ++i) {
-<span class="lineno"> 258</span> 						if (yList.contains(<span class="errorspan">new Integer(i))) {</span>
-<span class="lineno"> 259</span> 							if (range.yMin == null) {
-<span class="lineno"> 260</span> 								range.yMin = i;
+<span class="location"><a href="../../src/main/java/org/osmdroid/util/GEMFFile.java">../../src/main/java/org/osmdroid/util/GEMFFile.java</a>:263</span>: <span class="message">Use <code>Integer.valueOf(i)</code> instead</span><br /><pre class="errorlines">
+<span class="lineno"> 260</span> 					range.xMax = xList.last();
+<span class="lineno"> 261</span> 
+<span class="lineno"> 262</span> 					for(int i = yList.first(); i &lt; yList.last() + 1; ++i) {
+<span class="lineno"> 263</span> 						if (yList.contains(<span class="errorspan">new Integer(i))) {</span>
+<span class="lineno"> 264</span> 							if (range.yMin == null) {
+<span class="lineno"> 265</span> 								range.yMin = i;
 </pre>
-<span class="location"><a href="../../src/main/java/org/osmdroid/util/GEMFFile.java">../../src/main/java/org/osmdroid/util/GEMFFile.java</a>:480</span>: <span class="message">Use <code>Integer.valueOf(sourceIndex)</code> instead</span><br /><pre class="errorlines">
-<span class="lineno"> 477</span> 			baseFile.read(nameData, 0, sourceNameLength);
-<span class="lineno"> 478</span> 
-<span class="lineno"> 479</span> 			final String sourceName = new String(nameData);
-<span class="lineno"> 480</span> 			mSources.put(<span class="errorspan">new Integer(sourceIndex), sourceName);</span>
-<span class="lineno"> 481</span> 		}
-<span class="lineno"> 482</span> 
+<span class="location"><a href="../../src/main/java/org/osmdroid/util/GEMFFile.java">../../src/main/java/org/osmdroid/util/GEMFFile.java</a>:485</span>: <span class="message">Use <code>Integer.valueOf(sourceIndex)</code> instead</span><br /><pre class="errorlines">
+<span class="lineno"> 482</span> 			baseFile.read(nameData, 0, sourceNameLength);
+<span class="lineno"> 483</span> 
+<span class="lineno"> 484</span> 			final String sourceName = new String(nameData);
+<span class="lineno"> 485</span> 			mSources.put(<span class="errorspan">new Integer(sourceIndex), sourceName);</span>
+<span class="lineno"> 486</span> 		}
+<span class="lineno"> 487</span> 
 </pre>
-<span class="location"><a href="../../src/main/java/org/osmdroid/util/GEMFFile.java">../../src/main/java/org/osmdroid/util/GEMFFile.java</a>:523</span>: <span class="message">Use <code>Integer.valueOf(pSource)</code> instead</span><br /><pre class="errorlines">
-<span class="lineno"> 520</span> 	 * with specified Z/X/Y coordinates will be returned.
-<span class="lineno"> 521</span> 	 */
-<span class="lineno"> 522</span> 	public void selectSource(final int pSource) {
-<span class="lineno"> 523</span> 		if (mSources.containsKey(<span class="errorspan">new Integer(pSource))) {</span>
-<span class="lineno"> 524</span> 			mSourceLimited = true;
-<span class="lineno"> 525</span> 			mCurrentSource = pSource;
+<span class="location"><a href="../../src/main/java/org/osmdroid/util/GEMFFile.java">../../src/main/java/org/osmdroid/util/GEMFFile.java</a>:528</span>: <span class="message">Use <code>Integer.valueOf(pSource)</code> instead</span><br /><pre class="errorlines">
+<span class="lineno"> 525</span> 	 * with specified Z/X/Y coordinates will be returned.
+<span class="lineno"> 526</span> 	 */
+<span class="lineno"> 527</span> 	public void selectSource(final int pSource) {
+<span class="lineno"> 528</span> 		if (mSources.containsKey(<span class="errorspan">new Integer(pSource))) {</span>
+<span class="lineno"> 529</span> 			mSourceLimited = true;
+<span class="lineno"> 530</span> 			mCurrentSource = pSource;
 </pre>
 </div>
 <div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-debug_files/lint-run.png" />

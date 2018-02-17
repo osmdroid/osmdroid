@@ -1,8 +1,6 @@
 <map id="G" name="G">
 <area shape="rect" id="node1_0" href="../api/IProjection.html" title="org.osmdroid.api.IProjection" alt="" coords="16,11,99,53"/>
 <area shape="rect" id="node1" href="../api/IProjection.html" title="&lt;TABLE&gt;" alt="" coords="5,5,109,59"/>
-<area shape="rect" id="node2_1" href="./Projection.html" title="org.osmdroid.views.Projection" alt="" coords="95,118,172,143"/>
-<area shape="rect" id="node2" href="./Projection.html" title="&lt;TABLE&gt;" alt="" coords="84,107,183,155"/>
-<area shape="rect" id="node3_2" href="./util/constants/MapViewConstants.html" title="org.osmdroid.views.util.constants.MapViewConstants" alt="" coords="145,11,277,53"/>
-<area shape="rect" id="node3" href="./util/constants/MapViewConstants.html" title="&lt;TABLE&gt;" alt="" coords="134,5,287,59"/>
+<area shape="rect" id="node2_1" href="./Projection.html" title="org.osmdroid.views.Projection" alt="" coords="19,118,96,143"/>
+<area shape="rect" id="node2" href="./Projection.html" title="&lt;TABLE&gt;" alt="" coords="8,107,107,155"/>
 </map>

@@ -10,213 +10,229 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.tileprovider.modules.ArchiveFileFactory
-	c1677 [label=<<table title="org.osmdroid.tileprovider.modules.ArchiveFileFactory" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ArchiveFileFactory.html">
+	c1929 [label=<<table title="org.osmdroid.tileprovider.modules.ArchiveFileFactory" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ArchiveFileFactory.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> ArchiveFileFactory </td></tr>
 		</table></td></tr>
 		</table>>, URL="./ArchiveFileFactory.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.modules.ConfigurablePriorityThreadFactory
-	c1678 [label=<<table title="org.osmdroid.tileprovider.modules.ConfigurablePriorityThreadFactory" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ConfigurablePriorityThreadFactory.html">
+	c1930 [label=<<table title="org.osmdroid.tileprovider.modules.ConfigurablePriorityThreadFactory" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ConfigurablePriorityThreadFactory.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> ConfigurablePriorityThreadFactory </td></tr>
 		</table></td></tr>
 		</table>>, URL="./ConfigurablePriorityThreadFactory.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.modules.DatabaseFileArchive
-	c1679 [label=<<table title="org.osmdroid.tileprovider.modules.DatabaseFileArchive" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./DatabaseFileArchive.html">
+	c1931 [label=<<table title="org.osmdroid.tileprovider.modules.DatabaseFileArchive" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./DatabaseFileArchive.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> DatabaseFileArchive </td></tr>
 		</table></td></tr>
 		</table>>, URL="./DatabaseFileArchive.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.modules.GEMFFileArchive
-	c1680 [label=<<table title="org.osmdroid.tileprovider.modules.GEMFFileArchive" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./GEMFFileArchive.html">
+	c1932 [label=<<table title="org.osmdroid.tileprovider.modules.GEMFFileArchive" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./GEMFFileArchive.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> GEMFFileArchive </td></tr>
 		</table></td></tr>
 		</table>>, URL="./GEMFFileArchive.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.modules.IArchiveFile
-	c1681 [label=<<table title="org.osmdroid.tileprovider.modules.IArchiveFile" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./IArchiveFile.html">
+	c1933 [label=<<table title="org.osmdroid.tileprovider.modules.IArchiveFile" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./IArchiveFile.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> IArchiveFile </td></tr>
 		</table></td></tr>
 		</table>>, URL="./IArchiveFile.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.modules.IFilesystemCache
-	c1682 [label=<<table title="org.osmdroid.tileprovider.modules.IFilesystemCache" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./IFilesystemCache.html">
+	c1934 [label=<<table title="org.osmdroid.tileprovider.modules.IFilesystemCache" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./IFilesystemCache.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> IFilesystemCache </td></tr>
 		</table></td></tr>
 		</table>>, URL="./IFilesystemCache.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.modules.INetworkAvailablityCheck
-	c1683 [label=<<table title="org.osmdroid.tileprovider.modules.INetworkAvailablityCheck" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./INetworkAvailablityCheck.html">
+	c1935 [label=<<table title="org.osmdroid.tileprovider.modules.INetworkAvailablityCheck" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./INetworkAvailablityCheck.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> INetworkAvailablityCheck </td></tr>
 		</table></td></tr>
 		</table>>, URL="./INetworkAvailablityCheck.html", fontname="arial", fontcolor="black", fontsize=10.0];
+	// org.osmdroid.tileprovider.modules.MapTileApproximater
+	c1936 [label=<<table title="org.osmdroid.tileprovider.modules.MapTileApproximater" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileApproximater.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> MapTileApproximater </td></tr>
+		</table></td></tr>
+		</table>>, URL="./MapTileApproximater.html", fontname="arial", fontcolor="black", fontsize=10.0];
+	// org.osmdroid.tileprovider.modules.MapTileApproximater.TileLoader
+	c1937 [label=<<table title="org.osmdroid.tileprovider.modules.MapTileApproximater.TileLoader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileApproximater.TileLoader.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> TileLoader </td></tr>
+		</table></td></tr>
+		</table>>, URL="./MapTileApproximater.TileLoader.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.modules.MapTileAssetsProvider
-	c1684 [label=<<table title="org.osmdroid.tileprovider.modules.MapTileAssetsProvider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileAssetsProvider.html">
+	c1938 [label=<<table title="org.osmdroid.tileprovider.modules.MapTileAssetsProvider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileAssetsProvider.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MapTileAssetsProvider </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MapTileAssetsProvider.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.modules.MapTileAssetsProvider.TileLoader
-	c1685 [label=<<table title="org.osmdroid.tileprovider.modules.MapTileAssetsProvider.TileLoader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileAssetsProvider.TileLoader.html">
+	c1939 [label=<<table title="org.osmdroid.tileprovider.modules.MapTileAssetsProvider.TileLoader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileAssetsProvider.TileLoader.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> TileLoader </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MapTileAssetsProvider.TileLoader.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.modules.MapTileDownloader
-	c1686 [label=<<table title="org.osmdroid.tileprovider.modules.MapTileDownloader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileDownloader.html">
+	c1940 [label=<<table title="org.osmdroid.tileprovider.modules.MapTileDownloader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileDownloader.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MapTileDownloader </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MapTileDownloader.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.modules.MapTileDownloader.TileLoader
-	c1687 [label=<<table title="org.osmdroid.tileprovider.modules.MapTileDownloader.TileLoader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileDownloader.TileLoader.html">
+	c1941 [label=<<table title="org.osmdroid.tileprovider.modules.MapTileDownloader.TileLoader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileDownloader.TileLoader.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> TileLoader </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MapTileDownloader.TileLoader.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.modules.MapTileFileArchiveProvider
-	c1688 [label=<<table title="org.osmdroid.tileprovider.modules.MapTileFileArchiveProvider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileFileArchiveProvider.html">
+	c1942 [label=<<table title="org.osmdroid.tileprovider.modules.MapTileFileArchiveProvider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileFileArchiveProvider.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MapTileFileArchiveProvider </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MapTileFileArchiveProvider.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.modules.MapTileFileArchiveProvider.TileLoader
-	c1689 [label=<<table title="org.osmdroid.tileprovider.modules.MapTileFileArchiveProvider.TileLoader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileFileArchiveProvider.TileLoader.html">
+	c1943 [label=<<table title="org.osmdroid.tileprovider.modules.MapTileFileArchiveProvider.TileLoader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileFileArchiveProvider.TileLoader.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> TileLoader </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MapTileFileArchiveProvider.TileLoader.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.modules.MapTileFileStorageProviderBase
-	c1690 [label=<<table title="org.osmdroid.tileprovider.modules.MapTileFileStorageProviderBase" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileFileStorageProviderBase.html">
+	c1944 [label=<<table title="org.osmdroid.tileprovider.modules.MapTileFileStorageProviderBase" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileFileStorageProviderBase.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> MapTileFileStorageProviderBase </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./MapTileFileStorageProviderBase.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.modules.MapTileFilesystemProvider
-	c1691 [label=<<table title="org.osmdroid.tileprovider.modules.MapTileFilesystemProvider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileFilesystemProvider.html">
+	c1945 [label=<<table title="org.osmdroid.tileprovider.modules.MapTileFilesystemProvider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileFilesystemProvider.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MapTileFilesystemProvider </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MapTileFilesystemProvider.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.modules.MapTileFilesystemProvider.TileLoader
-	c1692 [label=<<table title="org.osmdroid.tileprovider.modules.MapTileFilesystemProvider.TileLoader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileFilesystemProvider.TileLoader.html">
+	c1946 [label=<<table title="org.osmdroid.tileprovider.modules.MapTileFilesystemProvider.TileLoader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileFilesystemProvider.TileLoader.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> TileLoader </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MapTileFilesystemProvider.TileLoader.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.modules.MapTileModuleProviderBase
-	c1693 [label=<<table title="org.osmdroid.tileprovider.modules.MapTileModuleProviderBase" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileModuleProviderBase.html">
+	c1947 [label=<<table title="org.osmdroid.tileprovider.modules.MapTileModuleProviderBase" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileModuleProviderBase.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> MapTileModuleProviderBase </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./MapTileModuleProviderBase.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.modules.MapTileModuleProviderBase.TileLoader
-	c1694 [label=<<table title="org.osmdroid.tileprovider.modules.MapTileModuleProviderBase.TileLoader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileModuleProviderBase.TileLoader.html">
+	c1948 [label=<<table title="org.osmdroid.tileprovider.modules.MapTileModuleProviderBase.TileLoader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileModuleProviderBase.TileLoader.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> TileLoader </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./MapTileModuleProviderBase.TileLoader.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.modules.MapTileModuleProviderBase.CantContinueException
-	c1695 [label=<<table title="org.osmdroid.tileprovider.modules.MapTileModuleProviderBase.CantContinueException" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileModuleProviderBase.CantContinueException.html">
+	c1949 [label=<<table title="org.osmdroid.tileprovider.modules.MapTileModuleProviderBase.CantContinueException" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileModuleProviderBase.CantContinueException.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> CantContinueException </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MapTileModuleProviderBase.CantContinueException.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.modules.MapTileSqlCacheProvider
-	c1696 [label=<<table title="org.osmdroid.tileprovider.modules.MapTileSqlCacheProvider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileSqlCacheProvider.html">
+	c1950 [label=<<table title="org.osmdroid.tileprovider.modules.MapTileSqlCacheProvider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileSqlCacheProvider.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MapTileSqlCacheProvider </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MapTileSqlCacheProvider.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.modules.MapTileSqlCacheProvider.TileLoader
-	c1697 [label=<<table title="org.osmdroid.tileprovider.modules.MapTileSqlCacheProvider.TileLoader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileSqlCacheProvider.TileLoader.html">
+	c1951 [label=<<table title="org.osmdroid.tileprovider.modules.MapTileSqlCacheProvider.TileLoader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileSqlCacheProvider.TileLoader.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> TileLoader </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MapTileSqlCacheProvider.TileLoader.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.modules.MBTilesFileArchive
-	c1698 [label=<<table title="org.osmdroid.tileprovider.modules.MBTilesFileArchive" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MBTilesFileArchive.html">
+	c1952 [label=<<table title="org.osmdroid.tileprovider.modules.MBTilesFileArchive" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MBTilesFileArchive.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MBTilesFileArchive </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MBTilesFileArchive.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.modules.NetworkAvailabliltyCheck
-	c1699 [label=<<table title="org.osmdroid.tileprovider.modules.NetworkAvailabliltyCheck" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./NetworkAvailabliltyCheck.html">
+	c1953 [label=<<table title="org.osmdroid.tileprovider.modules.NetworkAvailabliltyCheck" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./NetworkAvailabliltyCheck.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> NetworkAvailabliltyCheck </td></tr>
 		</table></td></tr>
 		</table>>, URL="./NetworkAvailabliltyCheck.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.modules.OfflineTileProvider
-	c1700 [label=<<table title="org.osmdroid.tileprovider.modules.OfflineTileProvider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./OfflineTileProvider.html">
+	c1954 [label=<<table title="org.osmdroid.tileprovider.modules.OfflineTileProvider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./OfflineTileProvider.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> OfflineTileProvider </td></tr>
 		</table></td></tr>
 		</table>>, URL="./OfflineTileProvider.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.modules.SqliteArchiveTileWriter
-	c1701 [label=<<table title="org.osmdroid.tileprovider.modules.SqliteArchiveTileWriter" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SqliteArchiveTileWriter.html">
+	c1955 [label=<<table title="org.osmdroid.tileprovider.modules.SqliteArchiveTileWriter" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SqliteArchiveTileWriter.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SqliteArchiveTileWriter </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SqliteArchiveTileWriter.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.modules.SqlTileWriter
-	c1702 [label=<<table title="org.osmdroid.tileprovider.modules.SqlTileWriter" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SqlTileWriter.html">
+	c1956 [label=<<table title="org.osmdroid.tileprovider.modules.SqlTileWriter" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SqlTileWriter.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SqlTileWriter </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SqlTileWriter.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.modules.TileWriter
-	c1703 [label=<<table title="org.osmdroid.tileprovider.modules.TileWriter" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./TileWriter.html">
+	c1957 [label=<<table title="org.osmdroid.tileprovider.modules.TileWriter" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./TileWriter.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> TileWriter </td></tr>
 		</table></td></tr>
 		</table>>, URL="./TileWriter.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.modules.ZipFileArchive
-	c1704 [label=<<table title="org.osmdroid.tileprovider.modules.ZipFileArchive" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ZipFileArchive.html">
+	c1958 [label=<<table title="org.osmdroid.tileprovider.modules.ZipFileArchive" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ZipFileArchive.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> ZipFileArchive </td></tr>
 		</table></td></tr>
 		</table>>, URL="./ZipFileArchive.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.tileprovider.modules.DatabaseFileArchive implements org.osmdroid.tileprovider.modules.IArchiveFile
-	c1681:p -> c1679:p [dir=back,arrowtail=empty,style=dashed];
+	c1933:p -> c1931:p [dir=back,arrowtail=empty,style=dashed];
 	//org.osmdroid.tileprovider.modules.GEMFFileArchive implements org.osmdroid.tileprovider.modules.IArchiveFile
-	c1681:p -> c1680:p [dir=back,arrowtail=empty,style=dashed];
+	c1933:p -> c1932:p [dir=back,arrowtail=empty,style=dashed];
+	//org.osmdroid.tileprovider.modules.MapTileApproximater extends org.osmdroid.tileprovider.modules.MapTileModuleProviderBase
+	c1947:p -> c1936:p [dir=back,arrowtail=empty];
+	//org.osmdroid.tileprovider.modules.MapTileApproximater.TileLoader extends org.osmdroid.tileprovider.modules.MapTileModuleProviderBase.TileLoader
+	c1948:p -> c1937:p [dir=back,arrowtail=empty];
 	//org.osmdroid.tileprovider.modules.MapTileAssetsProvider extends org.osmdroid.tileprovider.modules.MapTileFileStorageProviderBase
-	c1690:p -> c1684:p [dir=back,arrowtail=empty];
+	c1944:p -> c1938:p [dir=back,arrowtail=empty];
 	//org.osmdroid.tileprovider.modules.MapTileAssetsProvider.TileLoader extends org.osmdroid.tileprovider.modules.MapTileModuleProviderBase.TileLoader
-	c1694:p -> c1685:p [dir=back,arrowtail=empty];
+	c1948:p -> c1939:p [dir=back,arrowtail=empty];
 	//org.osmdroid.tileprovider.modules.MapTileDownloader extends org.osmdroid.tileprovider.modules.MapTileModuleProviderBase
-	c1693:p -> c1686:p [dir=back,arrowtail=empty];
+	c1947:p -> c1940:p [dir=back,arrowtail=empty];
 	//org.osmdroid.tileprovider.modules.MapTileDownloader.TileLoader extends org.osmdroid.tileprovider.modules.MapTileModuleProviderBase.TileLoader
-	c1694:p -> c1687:p [dir=back,arrowtail=empty];
+	c1948:p -> c1941:p [dir=back,arrowtail=empty];
 	//org.osmdroid.tileprovider.modules.MapTileFileArchiveProvider extends org.osmdroid.tileprovider.modules.MapTileFileStorageProviderBase
-	c1690:p -> c1688:p [dir=back,arrowtail=empty];
+	c1944:p -> c1942:p [dir=back,arrowtail=empty];
 	//org.osmdroid.tileprovider.modules.MapTileFileArchiveProvider.TileLoader extends org.osmdroid.tileprovider.modules.MapTileModuleProviderBase.TileLoader
-	c1694:p -> c1689:p [dir=back,arrowtail=empty];
+	c1948:p -> c1943:p [dir=back,arrowtail=empty];
 	//org.osmdroid.tileprovider.modules.MapTileFileStorageProviderBase extends org.osmdroid.tileprovider.modules.MapTileModuleProviderBase
-	c1693:p -> c1690:p [dir=back,arrowtail=empty];
+	c1947:p -> c1944:p [dir=back,arrowtail=empty];
 	//org.osmdroid.tileprovider.modules.MapTileFilesystemProvider extends org.osmdroid.tileprovider.modules.MapTileFileStorageProviderBase
-	c1690:p -> c1691:p [dir=back,arrowtail=empty];
+	c1944:p -> c1945:p [dir=back,arrowtail=empty];
 	//org.osmdroid.tileprovider.modules.MapTileFilesystemProvider.TileLoader extends org.osmdroid.tileprovider.modules.MapTileModuleProviderBase.TileLoader
-	c1694:p -> c1692:p [dir=back,arrowtail=empty];
+	c1948:p -> c1946:p [dir=back,arrowtail=empty];
 	//org.osmdroid.tileprovider.modules.MapTileSqlCacheProvider extends org.osmdroid.tileprovider.modules.MapTileFileStorageProviderBase
-	c1690:p -> c1696:p [dir=back,arrowtail=empty];
+	c1944:p -> c1950:p [dir=back,arrowtail=empty];
 	//org.osmdroid.tileprovider.modules.MapTileSqlCacheProvider.TileLoader extends org.osmdroid.tileprovider.modules.MapTileModuleProviderBase.TileLoader
-	c1694:p -> c1697:p [dir=back,arrowtail=empty];
+	c1948:p -> c1951:p [dir=back,arrowtail=empty];
 	//org.osmdroid.tileprovider.modules.MBTilesFileArchive implements org.osmdroid.tileprovider.modules.IArchiveFile
-	c1681:p -> c1698:p [dir=back,arrowtail=empty,style=dashed];
+	c1933:p -> c1952:p [dir=back,arrowtail=empty,style=dashed];
 	//org.osmdroid.tileprovider.modules.NetworkAvailabliltyCheck implements org.osmdroid.tileprovider.modules.INetworkAvailablityCheck
-	c1683:p -> c1699:p [dir=back,arrowtail=empty,style=dashed];
+	c1935:p -> c1953:p [dir=back,arrowtail=empty,style=dashed];
 	//org.osmdroid.tileprovider.modules.SqliteArchiveTileWriter implements org.osmdroid.tileprovider.modules.IFilesystemCache
-	c1682:p -> c1701:p [dir=back,arrowtail=empty,style=dashed];
+	c1934:p -> c1955:p [dir=back,arrowtail=empty,style=dashed];
 	//org.osmdroid.tileprovider.modules.SqlTileWriter implements org.osmdroid.tileprovider.modules.IFilesystemCache
-	c1682:p -> c1702:p [dir=back,arrowtail=empty,style=dashed];
+	c1934:p -> c1956:p [dir=back,arrowtail=empty,style=dashed];
 	//org.osmdroid.tileprovider.modules.TileWriter implements org.osmdroid.tileprovider.modules.IFilesystemCache
-	c1682:p -> c1703:p [dir=back,arrowtail=empty,style=dashed];
+	c1934:p -> c1957:p [dir=back,arrowtail=empty,style=dashed];
 	//org.osmdroid.tileprovider.modules.ZipFileArchive implements org.osmdroid.tileprovider.modules.IArchiveFile
-	c1681:p -> c1704:p [dir=back,arrowtail=empty,style=dashed];
+	c1933:p -> c1958:p [dir=back,arrowtail=empty,style=dashed];
 }
 

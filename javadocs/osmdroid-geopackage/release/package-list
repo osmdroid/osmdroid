@@ -1,1 +1,4 @@
-org.osmdroid.gpkg
+org.osmdroid.gpkg.overlay
+org.osmdroid.gpkg.overlay.features
+org.osmdroid.gpkg.tiles.feature
+org.osmdroid.gpkg.tiles.raster

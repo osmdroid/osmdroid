@@ -1,0 +1,26 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="./ListPicker.html" title="org.osmdroid.samplefragments.milstd2525.ListPicker" alt="" coords="16,19,93,45"/>
+<area shape="rect" id="node1" href="./ListPicker.html" title="&lt;TABLE&gt;" alt="" coords="5,8,104,56"/>
+<area shape="rect" id="node2_1" href="./ListPicker.Callback.html" title="org.osmdroid.samplefragments.milstd2525.ListPicker.Callback" alt="" coords="139,11,221,53"/>
+<area shape="rect" id="node2" href="./ListPicker.Callback.html" title="&lt;TABLE&gt;" alt="" coords="128,5,232,59"/>
+<area shape="rect" id="node8_2" href="./Plotter.html" title="org.osmdroid.samplefragments.milstd2525.Plotter" alt="" coords="151,118,209,143"/>
+<area shape="rect" id="node8" href="./Plotter.html" title="&lt;TABLE&gt;" alt="" coords="141,107,219,155"/>
+<area shape="rect" id="node3_3" href="./MilStdAdapter.html" title="org.osmdroid.samplefragments.milstd2525.MilStdAdapter" alt="" coords="267,19,368,45"/>
+<area shape="rect" id="node3" href="./MilStdAdapter.html" title="&lt;TABLE&gt;" alt="" coords="256,8,379,56"/>
+<area shape="rect" id="node4_4" href="./MilStdCustomPaintingSurface.html" title="org.osmdroid.samplefragments.milstd2525.MilStdCustomPaintingSurface" alt="" coords="413,19,605,45"/>
+<area shape="rect" id="node4" href="./MilStdCustomPaintingSurface.html" title="&lt;TABLE&gt;" alt="" coords="403,8,616,56"/>
+<area shape="rect" id="node5_5" href="./MilStdMultipointOverlay.html" title="org.osmdroid.samplefragments.milstd2525.MilStdMultipointOverlay" alt="" coords="651,19,807,45"/>
+<area shape="rect" id="node5" href="./MilStdMultipointOverlay.html" title="&lt;TABLE&gt;" alt="" coords="641,8,818,56"/>
+<area shape="rect" id="node6_6" href="./MilStdPointPlottingOverlay.html" title="org.osmdroid.samplefragments.milstd2525.MilStdPointPlottingOverlay" alt="" coords="853,19,1027,45"/>
+<area shape="rect" id="node6" href="./MilStdPointPlottingOverlay.html" title="&lt;TABLE&gt;" alt="" coords="843,8,1037,56"/>
+<area shape="rect" id="node7_7" href="./ModifierPicker.html" title="org.osmdroid.samplefragments.milstd2525.ModifierPicker" alt="" coords="1072,19,1173,45"/>
+<area shape="rect" id="node7" href="./ModifierPicker.html" title="&lt;TABLE&gt;" alt="" coords="1061,8,1184,56"/>
+<area shape="rect" id="node9_8" href="./SimpleSymbol.html" title="org.osmdroid.samplefragments.milstd2525.SimpleSymbol" alt="" coords="1219,19,1323,45"/>
+<area shape="rect" id="node9" href="./SimpleSymbol.html" title="&lt;TABLE&gt;" alt="" coords="1208,8,1333,56"/>
+<area shape="rect" id="node10_9" href="./SimpleSymbol.Echelon2.html" title="org.osmdroid.samplefragments.milstd2525.SimpleSymbol.Echelon2" alt="" coords="1368,11,1472,53"/>
+<area shape="rect" id="node10" href="./SimpleSymbol.Echelon2.html" title="&lt;TABLE&gt;" alt="" coords="1357,5,1483,59"/>
+<area shape="rect" id="node11_10" href="./SimpleSymbol.Echelon1.html" title="org.osmdroid.samplefragments.milstd2525.SimpleSymbol.Echelon1" alt="" coords="1517,11,1621,53"/>
+<area shape="rect" id="node11" href="./SimpleSymbol.Echelon1.html" title="&lt;TABLE&gt;" alt="" coords="1507,5,1632,59"/>
+<area shape="rect" id="node12_11" href="./SimpleSymbol.OrderOfBattle.html" title="org.osmdroid.samplefragments.milstd2525.SimpleSymbol.OrderOfBattle" alt="" coords="1667,11,1771,53"/>
+<area shape="rect" id="node12" href="./SimpleSymbol.OrderOfBattle.html" title="&lt;TABLE&gt;" alt="" coords="1656,5,1781,59"/>
+</map>

@@ -1,10 +1,12 @@
 <map id="G" name="G">
-<area shape="rect" id="node1_0" href="./IOverlayMenuProvider.html" title="org.osmdroid.views.overlay.IOverlayMenuProvider" alt="" coords="16,11,160,53"/>
-<area shape="rect" id="node1" href="./IOverlayMenuProvider.html" title="&lt;TABLE&gt;" alt="" coords="5,5,171,59"/>
-<area shape="rect" id="node4_1" href="./TilesOverlay.html" title="org.osmdroid.views.overlay.TilesOverlay" alt="" coords="118,118,207,143"/>
-<area shape="rect" id="node4" href="./TilesOverlay.html" title="&lt;TABLE&gt;" alt="" coords="107,107,218,155"/>
-<area shape="rect" id="node2_2" href="./MinimapOverlay.html" title="org.osmdroid.views.overlay.MinimapOverlay" alt="" coords="107,214,219,239"/>
-<area shape="rect" id="node2" href="./MinimapOverlay.html" title="&lt;TABLE&gt;" alt="" coords="96,203,229,251"/>
-<area shape="rect" id="node3_3" href="./Overlay.html" title="org.osmdroid.views.overlay.Overlay" alt="" coords="206,19,269,45"/>
-<area shape="rect" id="node3" href="./Overlay.html" title="&lt;TABLE&gt;" alt="" coords="195,8,279,56"/>
+<area shape="rect" id="node1_0" href="./IOverlayMenuProvider.html" title="org.osmdroid.views.overlay.IOverlayMenuProvider" alt="" coords="28,11,172,53"/>
+<area shape="rect" id="node1" href="./IOverlayMenuProvider.html" title="&lt;TABLE&gt;" alt="" coords="17,5,183,59"/>
+<area shape="rect" id="node4_1" href="./TilesOverlay.html" title="org.osmdroid.views.overlay.TilesOverlay" alt="" coords="130,118,219,143"/>
+<area shape="rect" id="node4" href="./TilesOverlay.html" title="&lt;TABLE&gt;" alt="" coords="119,107,230,155"/>
+<area shape="rect" id="node2_2" href="./MinimapOverlay.html" title="org.osmdroid.views.overlay.MinimapOverlay" alt="" coords="16,214,128,239"/>
+<area shape="rect" id="node2" href="./MinimapOverlay.html" title="&lt;TABLE&gt;" alt="" coords="5,203,139,251"/>
+<area shape="rect" id="node3_3" href="./Overlay.html" title="org.osmdroid.views.overlay.Overlay" alt="" coords="218,19,281,45"/>
+<area shape="rect" id="node3" href="./Overlay.html" title="&lt;TABLE&gt;" alt="" coords="207,8,291,56"/>
+<area shape="rect" id="node5_4" href="../../gpkg/tiles/feature/GeopackageFeatureTilesOverlay.html" title="org.osmdroid.gpkg.tiles.feature.GeopackageFeatureTilesOverlay" alt="" coords="174,214,381,239"/>
+<area shape="rect" id="node5" href="../../gpkg/tiles/feature/GeopackageFeatureTilesOverlay.html" title="&lt;TABLE&gt;" alt="" coords="163,203,391,251"/>
 </map>

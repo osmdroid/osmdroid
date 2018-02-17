@@ -15,12 +15,14 @@
 <area shape="rect" id="node7" href="./Bug82WinDeath.html" title="&lt;TABLE&gt;" alt="" coords="1023,5,1157,53"/>
 <area shape="rect" id="node8_7" href="./Bug82WinDeath.MapOverlay.html" title="org.osmdroid.bugtestfragments.Bug82WinDeath.MapOverlay" alt="" coords="1193,17,1281,42"/>
 <area shape="rect" id="node8" href="./Bug82WinDeath.MapOverlay.html" title="&lt;TABLE&gt;" alt="" coords="1182,5,1291,53"/>
-<area shape="rect" id="node9_8" href="./BugFactory.html" title="org.osmdroid.bugtestfragments.BugFactory" alt="" coords="1327,17,1413,42"/>
-<area shape="rect" id="node9" href="./BugFactory.html" title="&lt;TABLE&gt;" alt="" coords="1316,5,1424,53"/>
-<area shape="rect" id="node10_9" href="./SampleBug57.html" title="org.osmdroid.bugtestfragments.SampleBug57" alt="" coords="1459,17,1559,42"/>
-<area shape="rect" id="node10" href="./SampleBug57.html" title="&lt;TABLE&gt;" alt="" coords="1448,5,1569,53"/>
-<area shape="rect" id="node11_10" href="./SampleBug57Step2.html" title="org.osmdroid.bugtestfragments.SampleBug57Step2" alt="" coords="1604,17,1739,42"/>
-<area shape="rect" id="node11" href="./SampleBug57Step2.html" title="&lt;TABLE&gt;" alt="" coords="1593,5,1749,53"/>
-<area shape="rect" id="node12_11" href="./WeathForceActivity.html" title="org.osmdroid.bugtestfragments.WeathForceActivity" alt="" coords="1784,17,1916,42"/>
-<area shape="rect" id="node12" href="./WeathForceActivity.html" title="&lt;TABLE&gt;" alt="" coords="1773,5,1927,53"/>
+<area shape="rect" id="node9_8" href="./Bug846InfiniteRedrawLoop.html" title="org.osmdroid.bugtestfragments.Bug846InfiniteRedrawLoop" alt="" coords="1327,17,1499,42"/>
+<area shape="rect" id="node9" href="./Bug846InfiniteRedrawLoop.html" title="&lt;TABLE&gt;" alt="" coords="1316,5,1509,53"/>
+<area shape="rect" id="node10_9" href="./BugFactory.html" title="org.osmdroid.bugtestfragments.BugFactory" alt="" coords="1544,17,1631,42"/>
+<area shape="rect" id="node10" href="./BugFactory.html" title="&lt;TABLE&gt;" alt="" coords="1533,5,1641,53"/>
+<area shape="rect" id="node11_10" href="./SampleBug57.html" title="org.osmdroid.bugtestfragments.SampleBug57" alt="" coords="1676,17,1776,42"/>
+<area shape="rect" id="node11" href="./SampleBug57.html" title="&lt;TABLE&gt;" alt="" coords="1665,5,1787,53"/>
+<area shape="rect" id="node12_11" href="./SampleBug57Step2.html" title="org.osmdroid.bugtestfragments.SampleBug57Step2" alt="" coords="1821,17,1956,42"/>
+<area shape="rect" id="node12" href="./SampleBug57Step2.html" title="&lt;TABLE&gt;" alt="" coords="1811,5,1967,53"/>
+<area shape="rect" id="node13_12" href="./WeathForceActivity.html" title="org.osmdroid.bugtestfragments.WeathForceActivity" alt="" coords="2001,17,2133,42"/>
+<area shape="rect" id="node13" href="./WeathForceActivity.html" title="&lt;TABLE&gt;" alt="" coords="1991,5,2144,53"/>
 </map>

@@ -1,8 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" id="node1_0" href="./MainActivity.html" title="org.osmdroid.forge.app.MainActivity" alt="" coords="16,17,105,42"/>
-<area shape="rect" id="node1" href="./MainActivity.html" title="&lt;TABLE&gt;" alt="" coords="5,5,116,53"/>
-<area shape="rect" id="node2_1" href="./OsmApplication.html" title="org.osmdroid.forge.app.OsmApplication" alt="" coords="151,17,263,42"/>
-<area shape="rect" id="node2" href="./OsmApplication.html" title="&lt;TABLE&gt;" alt="" coords="141,5,274,53"/>
-<area shape="rect" id="node3_2" href="./OsmApplication.OsmUncaughtExceptionHandler.html" title="org.osmdroid.forge.app.OsmApplication.OsmUncaughtExceptionHandler" alt="" coords="309,17,513,42"/>
-<area shape="rect" id="node3" href="./OsmApplication.OsmUncaughtExceptionHandler.html" title="&lt;TABLE&gt;" alt="" coords="299,5,524,53"/>
-</map>

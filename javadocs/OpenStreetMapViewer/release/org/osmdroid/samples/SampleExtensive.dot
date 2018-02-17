@@ -10,27 +10,27 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.constants.OpenStreetMapConstants
-	c13522 [label=<<table title="org.osmdroid.constants.OpenStreetMapConstants" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../constants/OpenStreetMapConstants.html">
+	c30865 [label=<<table title="org.osmdroid.constants.OpenStreetMapConstants" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../constants/OpenStreetMapConstants.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> OpenStreetMapConstants </td></tr>
 		</table></td></tr>
 		</table>>, URL="../constants/OpenStreetMapConstants.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samples.SampleExtensive
-	c13635 [label=<<table title="org.osmdroid.samples.SampleExtensive" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./SampleExtensive.html">
+	c31037 [label=<<table title="org.osmdroid.samples.SampleExtensive" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./SampleExtensive.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleExtensive </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SampleExtensive.html", fontname="arial", fontcolor="black", fontsize=10.0];
-	//org.osmdroid.samples.SampleExtensive extends Activity
-	c13642:p -> c13635:p [dir=back,arrowtail=empty];
+	//org.osmdroid.samples.SampleExtensive extends android.app.Activity
+	c31044:p -> c31037:p [dir=back,arrowtail=empty];
 	//org.osmdroid.samples.SampleExtensive implements org.osmdroid.constants.OpenStreetMapConstants
-	c13522:p -> c13635:p [dir=back,arrowtail=empty,style=dashed];
-	// Activity
-	c13642[label=<<table title="Activity" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api//Activity.html">
+	c30865:p -> c31037:p [dir=back,arrowtail=empty,style=dashed];
+	// android.app.Activity
+	c31044 [label=<<table title="android.app.Activity" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/android/app/Activity.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> Activity </td></tr>
 		</table></td></tr>
-		</table>>, fontname="arial", fontcolor="black", fontsize=10.0];
+		</table>>, URL="http://java.sun.com/j2se/1.4.2/docs/api/android/app/Activity.html", fontname="arial", fontcolor="black", fontsize=10.0];
 }
 

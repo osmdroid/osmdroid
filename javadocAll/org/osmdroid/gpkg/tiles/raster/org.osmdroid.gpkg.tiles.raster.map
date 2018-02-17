@@ -1,0 +1,10 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="./GeoPackageMapTileModuleProvider.html" title="org.osmdroid.gpkg.tiles.raster.GeoPackageMapTileModuleProvider" alt="" coords="16,17,244,42"/>
+<area shape="rect" id="node1" href="./GeoPackageMapTileModuleProvider.html" title="&lt;TABLE&gt;" alt="" coords="5,5,255,53"/>
+<area shape="rect" id="node2_1" href="./GeoPackageMapTileModuleProvider.TileLoader.html" title="org.osmdroid.gpkg.tiles.raster.GeoPackageMapTileModuleProvider.TileLoader" alt="" coords="289,17,368,42"/>
+<area shape="rect" id="node2" href="./GeoPackageMapTileModuleProvider.TileLoader.html" title="&lt;TABLE&gt;" alt="" coords="279,5,379,53"/>
+<area shape="rect" id="node3_2" href="./GeoPackageProvider.html" title="org.osmdroid.gpkg.tiles.raster.GeoPackageProvider" alt="" coords="413,17,553,42"/>
+<area shape="rect" id="node3" href="./GeoPackageProvider.html" title="&lt;TABLE&gt;" alt="" coords="403,5,564,53"/>
+<area shape="rect" id="node4_3" href="./GeopackageRasterTileSource.html" title="org.osmdroid.gpkg.tiles.raster.GeopackageRasterTileSource" alt="" coords="599,17,791,42"/>
+<area shape="rect" id="node4" href="./GeopackageRasterTileSource.html" title="&lt;TABLE&gt;" alt="" coords="589,5,802,53"/>
+</map>

@@ -10,49 +10,49 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.tileprovider.util.StreamUtils
-	c2218 [label=<<table title="org.osmdroid.tileprovider.util.StreamUtils" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./StreamUtils.html">
+	c2986 [label=<<table title="org.osmdroid.tileprovider.util.StreamUtils" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./StreamUtils.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> StreamUtils </td></tr>
 		</table></td></tr>
 		</table>>, URL="./StreamUtils.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.util.CloudmadeUtil
-	c2441 [label=<<table title="org.osmdroid.tileprovider.util.CloudmadeUtil" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./CloudmadeUtil.html">
+	c3271 [label=<<table title="org.osmdroid.tileprovider.util.CloudmadeUtil" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./CloudmadeUtil.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> CloudmadeUtil </td></tr>
 		</table></td></tr>
 		</table>>, URL="./CloudmadeUtil.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.util.Counters
-	c2442 [label=<<table title="org.osmdroid.tileprovider.util.Counters" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Counters.html">
+	c3272 [label=<<table title="org.osmdroid.tileprovider.util.Counters" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Counters.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> Counters </td></tr>
 		</table></td></tr>
 		</table>>, URL="./Counters.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.util.ManifestUtil
-	c2443 [label=<<table title="org.osmdroid.tileprovider.util.ManifestUtil" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ManifestUtil.html">
+	c3273 [label=<<table title="org.osmdroid.tileprovider.util.ManifestUtil" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ManifestUtil.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> ManifestUtil </td></tr>
 		</table></td></tr>
 		</table>>, URL="./ManifestUtil.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.util.SimpleInvalidationHandler
-	c2444 [label=<<table title="org.osmdroid.tileprovider.util.SimpleInvalidationHandler" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SimpleInvalidationHandler.html">
+	c3274 [label=<<table title="org.osmdroid.tileprovider.util.SimpleInvalidationHandler" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SimpleInvalidationHandler.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SimpleInvalidationHandler </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SimpleInvalidationHandler.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.util.SimpleRegisterReceiver
-	c2445 [label=<<table title="org.osmdroid.tileprovider.util.SimpleRegisterReceiver" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SimpleRegisterReceiver.html">
+	c3275 [label=<<table title="org.osmdroid.tileprovider.util.SimpleRegisterReceiver" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SimpleRegisterReceiver.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SimpleRegisterReceiver </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SimpleRegisterReceiver.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.util.StorageUtils
-	c2446 [label=<<table title="org.osmdroid.tileprovider.util.StorageUtils" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./StorageUtils.html">
+	c3276 [label=<<table title="org.osmdroid.tileprovider.util.StorageUtils" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./StorageUtils.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> StorageUtils </td></tr>
 		</table></td></tr>
 		</table>>, URL="./StorageUtils.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.util.StorageUtils.StorageInfo
-	c2447 [label=<<table title="org.osmdroid.tileprovider.util.StorageUtils.StorageInfo" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./StorageUtils.StorageInfo.html">
+	c3277 [label=<<table title="org.osmdroid.tileprovider.util.StorageUtils.StorageInfo" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./StorageUtils.StorageInfo.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> StorageInfo </td></tr>
 		</table></td></tr>

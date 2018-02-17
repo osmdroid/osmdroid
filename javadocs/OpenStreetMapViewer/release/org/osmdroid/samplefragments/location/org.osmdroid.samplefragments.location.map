@@ -1,14 +1,20 @@
 <map id="G" name="G">
-<area shape="rect" id="node1_0" href="./SampleCustomIconDirectedLocationOverlay.html" title="org.osmdroid.samplefragments.location.SampleCustomIconDirectedLocationOverlay" alt="" coords="16,17,288,42"/>
-<area shape="rect" id="node1" href="./SampleCustomIconDirectedLocationOverlay.html" title="&lt;TABLE&gt;" alt="" coords="5,5,299,53"/>
-<area shape="rect" id="node2_1" href="./SampleFollowMe.html" title="org.osmdroid.samplefragments.location.SampleFollowMe" alt="" coords="334,17,453,42"/>
-<area shape="rect" id="node2" href="./SampleFollowMe.html" title="&lt;TABLE&gt;" alt="" coords="323,5,463,53"/>
-<area shape="rect" id="node3_2" href="./SampleHeadingCompassUp.html" title="org.osmdroid.samplefragments.location.SampleHeadingCompassUp" alt="" coords="499,17,680,42"/>
-<area shape="rect" id="node3" href="./SampleHeadingCompassUp.html" title="&lt;TABLE&gt;" alt="" coords="488,5,691,53"/>
-<area shape="rect" id="node4_3" href="./SampleMyLocationWithClick.html" title="org.osmdroid.samplefragments.location.SampleMyLocationWithClick" alt="" coords="725,17,912,42"/>
-<area shape="rect" id="node4" href="./SampleMyLocationWithClick.html" title="&lt;TABLE&gt;" alt="" coords="715,5,923,53"/>
-<area shape="rect" id="node5_4" href="./SampleMyLocationWithClick.MyLocationOverlayWithClick.html" title="org.osmdroid.samplefragments.location.SampleMyLocationWithClick.MyLocationOverlayWithClick" alt="" coords="958,17,1143,42"/>
-<area shape="rect" id="node5" href="./SampleMyLocationWithClick.MyLocationOverlayWithClick.html" title="&lt;TABLE&gt;" alt="" coords="947,5,1154,53"/>
-<area shape="rect" id="node6_5" href="./SampleRotation.html" title="org.osmdroid.samplefragments.location.SampleRotation" alt="" coords="1189,17,1301,42"/>
-<area shape="rect" id="node6" href="./SampleRotation.html" title="&lt;TABLE&gt;" alt="" coords="1179,5,1312,53"/>
+<area shape="rect" id="node1_0" href="./CompassPointerSample.html" title="org.osmdroid.samplefragments.location.CompassPointerSample" alt="" coords="16,17,176,42"/>
+<area shape="rect" id="node1" href="./CompassPointerSample.html" title="&lt;TABLE&gt;" alt="" coords="5,5,187,53"/>
+<area shape="rect" id="node2_1" href="./CompassRoseSample.html" title="org.osmdroid.samplefragments.location.CompassRoseSample" alt="" coords="222,17,370,42"/>
+<area shape="rect" id="node2" href="./CompassRoseSample.html" title="&lt;TABLE&gt;" alt="" coords="211,5,381,53"/>
+<area shape="rect" id="node3_2" href="./SampleCustomIconDirectedLocationOverlay.html" title="org.osmdroid.samplefragments.location.SampleCustomIconDirectedLocationOverlay" alt="" coords="416,17,688,42"/>
+<area shape="rect" id="node3" href="./SampleCustomIconDirectedLocationOverlay.html" title="&lt;TABLE&gt;" alt="" coords="405,5,699,53"/>
+<area shape="rect" id="node4_3" href="./SampleCustomMyLocation.html" title="org.osmdroid.samplefragments.location.SampleCustomMyLocation" alt="" coords="733,17,909,42"/>
+<area shape="rect" id="node4" href="./SampleCustomMyLocation.html" title="&lt;TABLE&gt;" alt="" coords="723,5,920,53"/>
+<area shape="rect" id="node5_4" href="./SampleFollowMe.html" title="org.osmdroid.samplefragments.location.SampleFollowMe" alt="" coords="955,17,1074,42"/>
+<area shape="rect" id="node5" href="./SampleFollowMe.html" title="&lt;TABLE&gt;" alt="" coords="945,5,1085,53"/>
+<area shape="rect" id="node6_5" href="./SampleHeadingCompassUp.html" title="org.osmdroid.samplefragments.location.SampleHeadingCompassUp" alt="" coords="1120,17,1301,42"/>
+<area shape="rect" id="node6" href="./SampleHeadingCompassUp.html" title="&lt;TABLE&gt;" alt="" coords="1109,5,1312,53"/>
+<area shape="rect" id="node7_6" href="./SampleMyLocationWithClick.html" title="org.osmdroid.samplefragments.location.SampleMyLocationWithClick" alt="" coords="1347,17,1533,42"/>
+<area shape="rect" id="node7" href="./SampleMyLocationWithClick.html" title="&lt;TABLE&gt;" alt="" coords="1336,5,1544,53"/>
+<area shape="rect" id="node8_7" href="./SampleMyLocationWithClick.MyLocationOverlayWithClick.html" title="org.osmdroid.samplefragments.location.SampleMyLocationWithClick.MyLocationOverlayWithClick" alt="" coords="1579,17,1765,42"/>
+<area shape="rect" id="node8" href="./SampleMyLocationWithClick.MyLocationOverlayWithClick.html" title="&lt;TABLE&gt;" alt="" coords="1569,5,1775,53"/>
+<area shape="rect" id="node9_8" href="./SampleRotation.html" title="org.osmdroid.samplefragments.location.SampleRotation" alt="" coords="1811,17,1923,42"/>
+<area shape="rect" id="node9" href="./SampleRotation.html" title="&lt;TABLE&gt;" alt="" coords="1800,5,1933,53"/>
 </map>

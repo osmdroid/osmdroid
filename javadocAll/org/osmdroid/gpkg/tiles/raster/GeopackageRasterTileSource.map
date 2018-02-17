@@ -1,0 +1,6 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="../../../tileprovider/tilesource/XYTileSource.html" title="org.osmdroid.tileprovider.tilesource.XYTileSource" alt="" coords="64,17,160,42"/>
+<area shape="rect" id="node1" href="../../../tileprovider/tilesource/XYTileSource.html" title="&lt;TABLE&gt;" alt="" coords="53,5,171,53"/>
+<area shape="rect" id="node2_1" href="./GeopackageRasterTileSource.html" title="org.osmdroid.gpkg.tiles.raster.GeopackageRasterTileSource" alt="" coords="16,113,208,138"/>
+<area shape="rect" id="node2" href="./GeopackageRasterTileSource.html" title="&lt;TABLE&gt;" alt="" coords="5,101,219,149"/>
+</map>

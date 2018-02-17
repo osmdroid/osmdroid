@@ -1,48 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<issues format="4" by="lint 25.2.3">
+<issues format="4" by="lint 26.1.1">
 
     <issue
         id="MissingPermission"
         severity="Error"
-        message="Call requires permission which may be rejected by user: code should explicitly check to see if permission is available (with `checkPermission`) or explicitly handle a potential `SecurityException`"
-        category="Correctness"
-        priority="9"
-        summary="Missing Permissions"
-        explanation="This check scans through your code and libraries and looks at the APIs being used, and checks this against the set of permissions required to access those APIs. If the code using those APIs is called at runtime, then the program will crash.
-
-Furthermore, for permissions that are revocable (with targetSdkVersion 23), client code must also be prepared to handle the calls throwing an exception if the user rejects the request for permission at runtime."
-        errorLine1="    mLocationManager.requestLocationUpdates(provider, mLocationUpdateMinTime,"
-        errorLine2="    ^"
-        quickfix="studio">
-        <location
-            file=".\osmdroid-android\src\main\java\org\osmdroid\views\overlay\mylocation\GpsMyLocationProvider.java"
-            line="109"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="MissingPermission"
-        severity="Error"
-        message="Call requires permission which may be rejected by user: code should explicitly check to see if permission is available (with `checkPermission`) or explicitly handle a potential `SecurityException`"
-        category="Correctness"
-        priority="9"
-        summary="Missing Permissions"
-        explanation="This check scans through your code and libraries and looks at the APIs being used, and checks this against the set of permissions required to access those APIs. If the code using those APIs is called at runtime, then the program will crash.
-
-Furthermore, for permissions that are revocable (with targetSdkVersion 23), client code must also be prepared to handle the calls throwing an exception if the user rejects the request for permission at runtime."
-        errorLine1="   mLocationManager.removeUpdates(this);"
-        errorLine2="   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
-        quickfix="studio">
-        <location
-            file=".\osmdroid-android\src\main\java\org\osmdroid\views\overlay\mylocation\GpsMyLocationProvider.java"
-            line="120"
-            column="4"/>
-    </issue>
-
-    <issue
-        id="MissingPermission"
-        severity="Error"
-        message="Call requires permission which may be rejected by user: code should explicitly check to see if permission is available (with `checkPermission`) or explicitly handle a potential `SecurityException`"
+        message="Missing permissions required by LocationManager.requestLocationUpdates: android.permission.ACCESS_COARSE_LOCATION or android.permission.ACCESS_FINE_LOCATION"
         category="Correctness"
         priority="9"
         summary="Missing Permissions"
@@ -61,7 +23,7 @@ Furthermore, for permissions that are revocable (with targetSdkVersion 23), clie
     <issue
         id="MissingPermission"
         severity="Error"
-        message="Call requires permission which may be rejected by user: code should explicitly check to see if permission is available (with `checkPermission`) or explicitly handle a potential `SecurityException`"
+        message="Missing permissions required by LocationManager.removeUpdates: android.permission.ACCESS_COARSE_LOCATION or android.permission.ACCESS_FINE_LOCATION"
         category="Correctness"
         priority="9"
         summary="Missing Permissions"
@@ -80,7 +42,7 @@ Furthermore, for permissions that are revocable (with targetSdkVersion 23), clie
     <issue
         id="MissingPermission"
         severity="Error"
-        message="Call requires permission which may be rejected by user: code should explicitly check to see if permission is available (with `checkPermission`) or explicitly handle a potential `SecurityException`"
+        message="Missing permissions required by LocationManager.getLastKnownLocation: android.permission.ACCESS_COARSE_LOCATION or android.permission.ACCESS_FINE_LOCATION"
         category="Correctness"
         priority="9"
         summary="Missing Permissions"
@@ -92,7 +54,7 @@ Furthermore, for permissions that are revocable (with targetSdkVersion 23), clie
         quickfix="studio">
         <location
             file=".\osmdroid-android\src\main\java\org\osmdroid\util\LocationUtils.java"
-            line="50"
+            line="49"
             column="10"/>
     </issue>
 
@@ -112,7 +74,7 @@ If you want the methods to just perform ASCII replacement, for example to conver
         errorLine2="                                                                    ~~~~~~~~~~~">
         <location
             file=".\osmdroid-android\src\main\java\org\osmdroid\tileprovider\modules\ArchiveFileFactory.java"
-            line="59"
+            line="61"
             column="69"/>
     </issue>
 
@@ -132,7 +94,7 @@ If you want the methods to just perform ASCII replacement, for example to conver
         errorLine2="          ^">
         <location
             file=".\osmdroid-android\src\main\java\org\osmdroid\util\GEMFFile.java"
-            line="637"
+            line="678"
             column="11"/>
     </issue>
 
@@ -153,7 +115,7 @@ If your code is *deliberately* accessing newer APIs, and you have ensured (e.g. 
         quickfix="studio,adt">
         <location
             file=".\osmdroid-android\src\main\java\org\osmdroid\views\MapView.java"
-            line="175"
+            line="192"
             column="22"/>
     </issue>
 
@@ -169,13 +131,13 @@ If your code is *deliberately* accessing newer APIs, and you have ensured (e.g. 
 If you really want to use this API and don&apos;t need to support older devices just set the `minSdkVersion` in your `build.gradle` or `AndroidManifest.xml` files.
 If your code is *deliberately* accessing newer APIs, and you have ensured (e.g. with conditional execution) that this code will only ever be called on a supported platform, then you can annotate your class or method with the `@TargetApi` annotation specifying the local minimum SDK to apply, such as `@TargetApi(11)`, such that this check considers 11 rather than your manifest file&apos;s minimum SDK as the required API level.
 "
-        errorLine1="  return mIsX86 &amp;&amp; networkInfo.getType() == ConnectivityManager.TYPE_ETHERNET;"
-        errorLine2="                                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+        errorLine1="   return mIsX86 &amp;&amp; networkInfo.getType() == ConnectivityManager.TYPE_ETHERNET;"
+        errorLine2="                                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
         quickfix="studio,adt">
         <location
             file=".\osmdroid-android\src\main\java\org\osmdroid\tileprovider\modules\NetworkAvailabliltyCheck.java"
-            line="45"
-            column="45"/>
+            line="46"
+            column="46"/>
     </issue>
 
     <issue
@@ -194,63 +156,13 @@ If your code is *deliberately* accessing newer APIs, and you have ensured (e.g. 
 If you are deliberately setting `android:` attributes in style definitions, make sure you place this in a `values-vNN` folder in order to avoid running into runtime conflicts on certain devices where manufacturers have added custom attributes whose ids conflict with the new ones on later platforms.
 
 Similarly, you can use tools:targetApi=&quot;11&quot; in an XML file to indicate that the element will only be inflated in an adequate context."
-        errorLine1="     mCurrentAnimator = mZoomInAnimation;"
-        errorLine2="     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+        errorLine1="            mCurrentAnimator = zoomToAnimator;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
         quickfix="studio,adt">
         <location
             file=".\osmdroid-android\src\main\java\org\osmdroid\views\MapController.java"
-            line="303"
-            column="6"/>
-    </issue>
-
-    <issue
-        id="NewApi"
-        severity="Error"
-        message="Cast from ValueAnimator to Animator requires API level 11 (current min is 8)"
-        category="Correctness"
-        priority="6"
-        summary="Calling new methods on older versions"
-        explanation="This check scans through all the Android API calls in the application and warns about any calls that are not available on *all* versions targeted by this application (according to its minimum SDK attribute in the manifest).
-
-If you really want to use this API and don&apos;t need to support older devices just set the `minSdkVersion` in your `build.gradle` or `AndroidManifest.xml` files.
-
-If your code is *deliberately* accessing newer APIs, and you have ensured (e.g. with conditional execution) that this code will only ever be called on a supported platform, then you can annotate your class or method with the `@TargetApi` annotation specifying the local minimum SDK to apply, such as `@TargetApi(11)`, such that this check considers 11 rather than your manifest file&apos;s minimum SDK as the required API level.
-
-If you are deliberately setting `android:` attributes in style definitions, make sure you place this in a `values-vNN` folder in order to avoid running into runtime conflicts on certain devices where manufacturers have added custom attributes whose ids conflict with the new ones on later platforms.
-
-Similarly, you can use tools:targetApi=&quot;11&quot; in an XML file to indicate that the element will only be inflated in an adequate context."
-        errorLine1="     mCurrentAnimator = mZoomOutAnimation;"
-        errorLine2="     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
-        quickfix="studio,adt">
-        <location
-            file=".\osmdroid-android\src\main\java\org\osmdroid\views\MapController.java"
-            line="336"
-            column="6"/>
-    </issue>
-
-    <issue
-        id="NewApi"
-        severity="Error"
-        message="Cast from ValueAnimator to Animator requires API level 11 (current min is 8)"
-        category="Correctness"
-        priority="6"
-        summary="Calling new methods on older versions"
-        explanation="This check scans through all the Android API calls in the application and warns about any calls that are not available on *all* versions targeted by this application (according to its minimum SDK attribute in the manifest).
-
-If you really want to use this API and don&apos;t need to support older devices just set the `minSdkVersion` in your `build.gradle` or `AndroidManifest.xml` files.
-
-If your code is *deliberately* accessing newer APIs, and you have ensured (e.g. with conditional execution) that this code will only ever be called on a supported platform, then you can annotate your class or method with the `@TargetApi` annotation specifying the local minimum SDK to apply, such as `@TargetApi(11)`, such that this check considers 11 rather than your manifest file&apos;s minimum SDK as the required API level.
-
-If you are deliberately setting `android:` attributes in style definitions, make sure you place this in a `values-vNN` folder in order to avoid running into runtime conflicts on certain devices where manufacturers have added custom attributes whose ids conflict with the new ones on later platforms.
-
-Similarly, you can use tools:targetApi=&quot;11&quot; in an XML file to indicate that the element will only be inflated in an adequate context."
-        errorLine1="     mCurrentAnimator = zoomToAnimator;"
-        errorLine2="     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
-        quickfix="studio,adt">
-        <location
-            file=".\osmdroid-android\src\main\java\org\osmdroid\views\MapController.java"
-            line="381"
-            column="6"/>
+            line="353"
+            column="13"/>
     </issue>
 
     <issue
@@ -300,46 +212,9 @@ To fix this issue, set the `targetSdkVersion` to the highest available value. Th
     </issue>
 
     <issue
-        id="SdCardPath"
-        severity="Warning"
-        message="Do not hardcode &quot;`/data/`&quot;; use `Context.getFilesDir().getPath()` instead"
-        category="Correctness"
-        priority="6"
-        summary="Hardcoded reference to `/sdcard`"
-        explanation="Your code should not reference the `/sdcard` path directly; instead use `Environment.getExternalStorageDirectory().getPath()`.
-
-Similarly, do not reference the `/data/data/` path directly; it can vary in multi-user scenarios. Instead, use `Context.getFilesDir().getPath()`."
-        url="http://developer.android.com/guide/topics/data/data-storage.html#filesExternal"
-        urls="http://developer.android.com/guide/topics/data/data-storage.html#filesExternal"
-        errorLine1="                discoveredCachPath=discoveredBestPath=new File(&quot;/data/data/&quot; + ctx.getPackageName() + &quot;/osmdroid/&quot;);"
-        errorLine2="                                                               ~~~~~~~~~~~~~">
-        <location
-            file=".\osmdroid-android\src\main\java\org\osmdroid\config\DefaultConfigurationProvider.java"
-            line="295"
-            column="64"/>
-    </issue>
-
-    <issue
-        id="WrongCall"
-        severity="Fatal"
-        message="Suspicious method call; should probably call &quot;`layout`&quot; rather than &quot;`onLayout`&quot;"
-        category="Correctness"
-        priority="6"
-        summary="Using wrong draw/layout method"
-        explanation="Custom views typically need to call `measure()` on their children, not `onMeasure`. Ditto for onDraw, onLayout, etc."
-        errorLine1="   onLayout(true, getLeft(), getTop(), getRight(), getBottom());"
-        errorLine2="   ~~~~~~~~"
-        quickfix="studio">
-        <location
-            file=".\osmdroid-android\src\main\java\org\osmdroid\views\MapView.java"
-            line="1062"
-            column="4"/>
-    </issue>
-
-    <issue
         id="GradleOverrides"
         severity="Warning"
-        message="This `versionCode` value (`1`) is not used; it is always overridden by the value specified in the Gradle build script (`29`)"
+        message="This `versionCode` value (`1`) is not used; it is always overridden by the value specified in the Gradle build script (`30`)"
         category="Correctness"
         priority="4"
         summary="Value overridden by Gradle build script"
@@ -355,7 +230,7 @@ Similarly, do not reference the `/data/data/` path directly; it can vary in mult
     <issue
         id="GradleOverrides"
         severity="Warning"
-        message="This `versionName` value (`5.3-SNAPSHOT`) is not used; it is always overridden by the value specified in the Gradle build script (`5.6.5`)"
+        message="This `versionName` value (`5.3-SNAPSHOT`) is not used; it is always overridden by the value specified in the Gradle build script (`6.0.0`)"
         category="Correctness"
         priority="4"
         summary="Value overridden by Gradle build script"
@@ -410,13 +285,32 @@ Similarly, do not reference the `/data/data/` path directly; it can vary in mult
         explanation="According to the `Parcelable` interface documentation, &quot;Classes implementing the Parcelable interface must also have a static field called `CREATOR`, which is an object implementing the `Parcelable.Creator` interface.&quot;"
         url="http://developer.android.com/reference/android/os/Parcelable.html"
         urls="http://developer.android.com/reference/android/os/Parcelable.html"
-        errorLine1="    public class LabelledPoint extends Point {"
-        errorLine2="                 ~~~~~~~~~~~~~"
+        errorLine1="    public class StyledLabelledPoint extends Point {"
+        errorLine2="                 ~~~~~~~~~~~~~~~~~~~"
         quickfix="studio">
         <location
             file=".\osmdroid-android\src\main\java\org\osmdroid\views\overlay\simplefastpoint\SimpleFastPointOverlay.java"
-            line="43"
+            line="54"
             column="18"/>
+    </issue>
+
+    <issue
+        id="ParcelCreator"
+        severity="Error"
+        message="This class implements `Parcelable` but does not provide a `CREATOR` field"
+        category="Correctness"
+        priority="3"
+        summary="Missing Parcelable `CREATOR` field"
+        explanation="According to the `Parcelable` interface documentation, &quot;Classes implementing the Parcelable interface must also have a static field called `CREATOR`, which is an object implementing the `Parcelable.Creator` interface.&quot;"
+        url="http://developer.android.com/reference/android/os/Parcelable.html"
+        urls="http://developer.android.com/reference/android/os/Parcelable.html"
+        errorLine1="public class StyledLabelledGeoPoint extends LabelledGeoPoint {"
+        errorLine2="             ~~~~~~~~~~~~~~~~~~~~~~"
+        quickfix="studio">
+        <location
+            file=".\osmdroid-android\src\main\java\org\osmdroid\views\overlay\simplefastpoint\StyledLabelledGeoPoint.java"
+            line="12"
+            column="14"/>
     </issue>
 
     <issue
@@ -469,13 +363,13 @@ There *are* cases where you might need to use `dp`; typically this happens when 
         priority="3"
         summary="Missing @IntDef in Switch"
         explanation="This check warns if a `switch` statement does not explicitly include all the values declared by the typedef `@IntDef` declaration."
-        errorLine1="  switch (mDisplay.getOrientation()) {"
-        errorLine2="  ~~~~~~"
+        errorLine1="        switch (mDisplay.getOrientation()) {"
+        errorLine2="        ~~~~~~"
         quickfix="studio">
         <location
             file=".\osmdroid-android\src\main\java\org\osmdroid\views\overlay\compass\CompassOverlay.java"
-            line="338"
-            column="3"/>
+            line="449"
+            column="9"/>
     </issue>
 
     <issue
@@ -997,7 +891,7 @@ You can tell lint (and other tools) which language is the default language in yo
         quickfix="studio">
         <location
             file=".\osmdroid-android\src\main\java\org\osmdroid\util\GEMFFile.java"
-            line="171"
+            line="176"
             column="16"/>
     </issue>
 
@@ -1014,7 +908,7 @@ You can tell lint (and other tools) which language is the default language in yo
         quickfix="studio">
         <location
             file=".\osmdroid-android\src\main\java\org\osmdroid\util\GEMFFile.java"
-            line="185"
+            line="190"
             column="28"/>
     </issue>
 
@@ -1031,7 +925,7 @@ You can tell lint (and other tools) which language is the default language in yo
         quickfix="studio">
         <location
             file=".\osmdroid-android\src\main\java\org\osmdroid\util\GEMFFile.java"
-            line="186"
+            line="191"
             column="20"/>
     </issue>
 
@@ -1048,7 +942,7 @@ You can tell lint (and other tools) which language is the default language in yo
         quickfix="studio">
         <location
             file=".\osmdroid-android\src\main\java\org\osmdroid\util\GEMFFile.java"
-            line="230"
+            line="235"
             column="26"/>
     </issue>
 
@@ -1065,7 +959,7 @@ You can tell lint (and other tools) which language is the default language in yo
         quickfix="studio">
         <location
             file=".\osmdroid-android\src\main\java\org\osmdroid\util\GEMFFile.java"
-            line="231"
+            line="236"
             column="17"/>
     </issue>
 
@@ -1082,7 +976,7 @@ You can tell lint (and other tools) which language is the default language in yo
         quickfix="studio">
         <location
             file=".\osmdroid-android\src\main\java\org\osmdroid\util\GEMFFile.java"
-            line="258"
+            line="263"
             column="26"/>
     </issue>
 
@@ -1099,7 +993,7 @@ You can tell lint (and other tools) which language is the default language in yo
         quickfix="studio">
         <location
             file=".\osmdroid-android\src\main\java\org\osmdroid\util\GEMFFile.java"
-            line="480"
+            line="485"
             column="17"/>
     </issue>
 
@@ -1116,7 +1010,7 @@ You can tell lint (and other tools) which language is the default language in yo
         quickfix="studio">
         <location
             file=".\osmdroid-android\src\main\java\org\osmdroid\util\GEMFFile.java"
-            line="523"
+            line="528"
             column="28"/>
     </issue>
 

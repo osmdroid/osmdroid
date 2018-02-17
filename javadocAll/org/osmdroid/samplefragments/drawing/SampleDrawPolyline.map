@@ -1,6 +1,12 @@
 <map id="G" name="G">
-<area shape="rect" id="node1_0" href="../BaseSampleFragment.html" title="org.osmdroid.samplefragments.BaseSampleFragment" alt="" coords="16,17,164,42"/>
-<area shape="rect" id="node1" href="../BaseSampleFragment.html" title="&lt;TABLE&gt;" alt="" coords="5,5,175,53"/>
-<area shape="rect" id="node2_1" href="./SampleDrawPolyline.html" title="org.osmdroid.samplefragments.drawing.SampleDrawPolyline" alt="" coords="21,113,159,138"/>
-<area shape="rect" id="node2" href="./SampleDrawPolyline.html" title="&lt;TABLE&gt;" alt="" coords="10,101,170,149"/>
+<area shape="rect" id="node1_0" href="../BaseSampleFragment.html" title="org.osmdroid.samplefragments.BaseSampleFragment" alt="" coords="291,17,439,42"/>
+<area shape="rect" id="node1" href="../BaseSampleFragment.html" title="&lt;TABLE&gt;" alt="" coords="280,5,449,53"/>
+<area shape="rect" id="node3_1" href="./SampleDrawPolyline.html" title="org.osmdroid.samplefragments.drawing.SampleDrawPolyline" alt="" coords="295,113,434,138"/>
+<area shape="rect" id="node3" href="./SampleDrawPolyline.html" title="&lt;TABLE&gt;" alt="" coords="285,101,445,149"/>
+<area shape="rect" id="node2_2" href="./DrawPolylineWithArrows.html" title="org.osmdroid.samplefragments.drawing.DrawPolylineWithArrows" alt="" coords="16,209,177,234"/>
+<area shape="rect" id="node2" href="./DrawPolylineWithArrows.html" title="&lt;TABLE&gt;" alt="" coords="5,197,188,245"/>
+<area shape="rect" id="node4_3" href="./SampleDrawPolylineWithoutVerticalWrapping.html" title="org.osmdroid.samplefragments.drawing.SampleDrawPolylineWithoutVerticalWrapping" alt="" coords="223,209,506,234"/>
+<area shape="rect" id="node4" href="./SampleDrawPolylineWithoutVerticalWrapping.html" title="&lt;TABLE&gt;" alt="" coords="213,197,517,245"/>
+<area shape="rect" id="node5_4" href="./SampleDrawPolylineWithoutWrapping.html" title="org.osmdroid.samplefragments.drawing.SampleDrawPolylineWithoutWrapping" alt="" coords="552,209,791,234"/>
+<area shape="rect" id="node5" href="./SampleDrawPolylineWithoutWrapping.html" title="&lt;TABLE&gt;" alt="" coords="541,197,801,245"/>
 </map>

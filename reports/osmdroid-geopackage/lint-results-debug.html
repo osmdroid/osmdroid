@@ -18,14 +18,20 @@ document.getElementById(id+'Link').style.display = 'none';
 <body>
 <h1>Lint Report</h1>
 <div class="titleSeparator"></div>
-Check performed at Sat Jul 01 14:48:50 EDT 2017.<br/>
-1 errors and 0 warnings found:<br/><br/>
+Check performed at Sat Feb 17 09:00:52 EST 2018.<br/>
+2 errors and 1 warnings found:<br/><br/>
 <table class="overview">
 <tr><td></td><td class="categoryColumn"><a href="#Correctness">Correctness</a>
 </td></tr>
 <tr>
-<td class="countColumn">1</td><td class="issueColumn"><img border="0" align="top" src="lint-results-debug_files/lint-error.png" alt="Error" />
+<td class="countColumn">2</td><td class="issueColumn"><img border="0" align="top" src="lint-results-debug_files/lint-error.png" alt="Error" />
 <a href="#InvalidPackage">InvalidPackage: Package not included in Android</a>
+</td></tr>
+<tr><td></td><td class="categoryColumn"><a href="#Performance">Performance</a>
+</td></tr>
+<tr>
+<td class="countColumn">1</td><td class="issueColumn"><img border="0" align="top" src="lint-results-debug_files/lint-warning.png" alt="Warning" />
+<a href="#UnusedResources">UnusedResources: Unused resources</a>
 </td></tr>
 <tr><td></td><td class="categoryColumn"><a href="#MissingIssues">Disabled Checks (15)</a>
 </td></tr></table>
@@ -38,6 +44,7 @@ Check performed at Sat Jul 01 14:48:50 EDT 2017.<br/>
 <div class="id"><a href="#" title="Return to top">InvalidPackage: Package not included in Android</a><div class="issueSeparator"></div>
 </div>
 <div class="warningslist">
+<span class="location"><a href="../../../../../Users/Dad/.gradle/caches/modules-2/files-2.1/com.j256.ormlite/ormlite-core/5.0/3382b8260646dd334a1b9c1b3d412fcb73d8b21/ormlite-core-5.0.jar">../../../../../Users/Dad/.gradle/caches/modules-2/files-2.1/com.j256.ormlite/ormlite-core/5.0/3382b8260646dd334a1b9c1b3d412fcb73d8b21/ormlite-core-5.0.jar</a></span>: <span class="message">Invalid package reference in library; not included in Android: <code>javax.persistence</code>. Referenced from <code>com.j256.ormlite.misc.JavaxPersistenceImpl</code>.</span><br />
 <span class="location"><a href="../../../../../Users/Dad/.gradle/caches/modules-2/files-2.1/ar.com.hjg/pngj/2.1.0/b9a0d5cca5108431c4068976e795d4d2766dab5b/pngj-2.1.0.jar">../../../../../Users/Dad/.gradle/caches/modules-2/files-2.1/ar.com.hjg/pngj/2.1.0/b9a0d5cca5108431c4068976e795d4d2766dab5b/pngj-2.1.0.jar</a></span>: <span class="message">Invalid package reference in library; not included in Android: <code>java.awt.image</code>. Referenced from <code>ar.com.hjg.pngj.pixels.ImageLineARGBbi</code>.</span><br />
 </div>
 <div class="metadata">Priority: 6 / 10<br/>
@@ -52,6 +59,32 @@ When you create Android projects, the classpath is set up such that you can only
 This check scans through library jars and looks for references to API packages that are not included in Android and flags these. This is only an error if your code calls one of the library classes which wind up referencing the unsupported package.
 </div>
 <br/><div class="moreinfo">More info: </div><br/>To suppress this error, use the issue id "InvalidPackage" as explained in the <a href="#SuppressInfo">Suppressing Warnings and Errors</a> section.<br/>
+</div>
+
+<a name="Performance"></a>
+<div class="category"><a href="#" title="Return to top">Performance</a><div class="categorySeparator"></div>
+</div>
+<a name="UnusedResources"></a>
+<div class="issue">
+<div class="id"><a href="#" title="Return to top">UnusedResources: Unused resources</a><div class="issueSeparator"></div>
+</div>
+<div class="warningslist">
+<span class="location"><a href="../../src/main/res/values/values.xml">../../src/main/res/values/values.xml</a>:3</span>: <span class="message">The resource <code>R.integer.google_play_services_version</code> appears to be unused</span><br /><pre class="errorlines">
+<span class="lineno">   1</span> &lt;?xml version="1.0" encoding="utf-8"?>
+<span class="lineno">   2</span> &lt;resources>
+<span class="lineno">   3</span>     &lt;integer <span class="errorspan">name="google_play_services_version">0&lt;/integer></span>
+<span class="lineno">   4</span> &lt;/resources>
+
+</pre>
+</div>
+<div class="metadata">Priority: 3 / 10<br/>
+Category: Performance</div>
+Severity: <span class="warning">Warning</span><div class="summary">
+Explanation: Unused resources.</div>
+<div class="explanation">
+Unused resources make applications larger and slow down builds.
+</div>
+<br/><div class="moreinfo">More info: </div><br/>To suppress this error, use the issue id "UnusedResources" as explained in the <a href="#SuppressInfo">Suppressing Warnings and Errors</a> section.<br/>
 </div>
 
 <a name="MissingIssues"></a>

@@ -1,8 +1,10 @@
 <map id="G" name="G">
-<area shape="rect" id="node1_0" href="./MapTileDownloader.html" title="org.osmdroid.tileprovider.modules.MapTileDownloader" alt="" coords="16,113,148,138"/>
-<area shape="rect" id="node1" href="./MapTileDownloader.html" title="&lt;TABLE&gt;" alt="" coords="5,101,159,149"/>
-<area shape="rect" id="node2_1" href="./MapTileFileStorageProviderBase.html" title="org.osmdroid.tileprovider.modules.MapTileFileStorageProviderBase" alt="" coords="194,113,402,138"/>
-<area shape="rect" id="node2" href="./MapTileFileStorageProviderBase.html" title="&lt;TABLE&gt;" alt="" coords="183,101,413,149"/>
-<area shape="rect" id="node3_2" href="./MapTileModuleProviderBase.html" title="org.osmdroid.tileprovider.modules.MapTileModuleProviderBase" alt="" coords="99,17,281,42"/>
-<area shape="rect" id="node3" href="./MapTileModuleProviderBase.html" title="&lt;TABLE&gt;" alt="" coords="88,5,292,53"/>
+<area shape="rect" id="node1_0" href="./MapTileApproximater.html" title="org.osmdroid.tileprovider.modules.MapTileApproximater" alt="" coords="16,113,157,138"/>
+<area shape="rect" id="node1" href="./MapTileApproximater.html" title="&lt;TABLE&gt;" alt="" coords="5,101,168,149"/>
+<area shape="rect" id="node2_1" href="./MapTileDownloader.html" title="org.osmdroid.tileprovider.modules.MapTileDownloader" alt="" coords="203,113,335,138"/>
+<area shape="rect" id="node2" href="./MapTileDownloader.html" title="&lt;TABLE&gt;" alt="" coords="193,101,346,149"/>
+<area shape="rect" id="node3_2" href="./MapTileFileStorageProviderBase.html" title="org.osmdroid.tileprovider.modules.MapTileFileStorageProviderBase" alt="" coords="381,113,589,138"/>
+<area shape="rect" id="node3" href="./MapTileFileStorageProviderBase.html" title="&lt;TABLE&gt;" alt="" coords="371,101,600,149"/>
+<area shape="rect" id="node4_3" href="./MapTileModuleProviderBase.html" title="org.osmdroid.tileprovider.modules.MapTileModuleProviderBase" alt="" coords="178,17,361,42"/>
+<area shape="rect" id="node4" href="./MapTileModuleProviderBase.html" title="&lt;TABLE&gt;" alt="" coords="167,5,371,53"/>
 </map>

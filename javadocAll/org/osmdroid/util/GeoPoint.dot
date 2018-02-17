@@ -10,59 +10,59 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.api.IGeoPoint
-	c51242 [label=<<table title="org.osmdroid.api.IGeoPoint" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../api/IGeoPoint.html">
+	c85927 [label=<<table title="org.osmdroid.api.IGeoPoint" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../api/IGeoPoint.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> IGeoPoint </td></tr>
 		</table></td></tr>
 		</table>>, URL="../api/IGeoPoint.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.util.constants.GeoConstants
-	c51332 [label=<<table title="org.osmdroid.util.constants.GeoConstants" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./constants/GeoConstants.html">
+	c86018 [label=<<table title="org.osmdroid.util.constants.GeoConstants" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./constants/GeoConstants.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> GeoConstants </td></tr>
 		</table></td></tr>
 		</table>>, URL="./constants/GeoConstants.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.util.GeoPoint
-	c51335 [label=<<table title="org.osmdroid.util.GeoPoint" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./GeoPoint.html">
+	c86021 [label=<<table title="org.osmdroid.util.GeoPoint" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./GeoPoint.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> GeoPoint </td></tr>
 		</table></td></tr>
 		</table>>, URL="./GeoPoint.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.simplefastpoint.LabelledGeoPoint
-	c51398 [label=<<table title="org.osmdroid.views.overlay.simplefastpoint.LabelledGeoPoint" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../views/overlay/simplefastpoint/LabelledGeoPoint.html">
+	c86109 [label=<<table title="org.osmdroid.views.overlay.simplefastpoint.LabelledGeoPoint" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../views/overlay/simplefastpoint/LabelledGeoPoint.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> LabelledGeoPoint </td></tr>
 		</table></td></tr>
 		</table>>, URL="../views/overlay/simplefastpoint/LabelledGeoPoint.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.util.constants.MathConstants
-	c51411 [label=<<table title="org.osmdroid.views.util.constants.MathConstants" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../views/util/constants/MathConstants.html">
+	c86124 [label=<<table title="org.osmdroid.views.util.constants.MathConstants" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../views/util/constants/MathConstants.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> MathConstants </td></tr>
 		</table></td></tr>
 		</table>>, URL="../views/util/constants/MathConstants.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.util.GeoPoint implements org.osmdroid.api.IGeoPoint
-	c51242:p -> c51335:p [dir=back,arrowtail=empty,style=dashed];
+	c85927:p -> c86021:p [dir=back,arrowtail=empty,style=dashed];
 	//org.osmdroid.util.GeoPoint implements org.osmdroid.views.util.constants.MathConstants
-	c51411:p -> c51335:p [dir=back,arrowtail=empty,style=dashed];
+	c86124:p -> c86021:p [dir=back,arrowtail=empty,style=dashed];
 	//org.osmdroid.util.GeoPoint implements org.osmdroid.util.constants.GeoConstants
-	c51332:p -> c51335:p [dir=back,arrowtail=empty,style=dashed];
+	c86018:p -> c86021:p [dir=back,arrowtail=empty,style=dashed];
 	//org.osmdroid.util.GeoPoint implements java.io.Serializable
-	c51451:p -> c51335:p [dir=back,arrowtail=empty,style=dashed];
+	c86204:p -> c86021:p [dir=back,arrowtail=empty,style=dashed];
 	//org.osmdroid.util.GeoPoint implements java.lang.Cloneable
-	c51452:p -> c51335:p [dir=back,arrowtail=empty,style=dashed];
+	c86205:p -> c86021:p [dir=back,arrowtail=empty,style=dashed];
 	//org.osmdroid.views.overlay.simplefastpoint.LabelledGeoPoint extends org.osmdroid.util.GeoPoint
-	c51335:p -> c51398:p [dir=back,arrowtail=empty];
+	c86021:p -> c86109:p [dir=back,arrowtail=empty];
 	// java.io.Serializable
-	c51451 [label=<<table title="java.io.Serializable" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/java/io/Serializable.html">
+	c86204 [label=<<table title="java.io.Serializable" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/java/io/Serializable.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> Serializable </td></tr>
 		</table></td></tr>
 		</table>>, URL="http://java.sun.com/j2se/1.4.2/docs/api/java/io/Serializable.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// java.lang.Cloneable
-	c51452 [label=<<table title="java.lang.Cloneable" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/java/lang/Cloneable.html">
+	c86205 [label=<<table title="java.lang.Cloneable" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/java/lang/Cloneable.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> Cloneable </td></tr>

@@ -1,0 +1,8 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="../BaseSampleFragment.html" title="org.osmdroid.samplefragments.BaseSampleFragment" alt="" coords="37,17,185,42"/>
+<area shape="rect" id="node1" href="../BaseSampleFragment.html" title="&lt;TABLE&gt;" alt="" coords="27,5,196,53"/>
+<area shape="rect" id="node2_1" href="./PressToPlot.html" title="org.osmdroid.samplefragments.drawing.PressToPlot" alt="" coords="66,113,157,138"/>
+<area shape="rect" id="node2" href="./PressToPlot.html" title="&lt;TABLE&gt;" alt="" coords="55,101,167,149"/>
+<area shape="rect" id="node3_2" href="./PressToPlotWithoutWrapping.html" title="org.osmdroid.samplefragments.drawing.PressToPlotWithoutWrapping" alt="" coords="16,209,207,234"/>
+<area shape="rect" id="node3" href="./PressToPlotWithoutWrapping.html" title="&lt;TABLE&gt;" alt="" coords="5,197,217,245"/>
+</map>

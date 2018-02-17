@@ -1,5 +1,6 @@
 <map id="G" name="G">
 <area shape="rect" id="node1_0" href="./SampleWithTilesOverlay.html" title="org.osmdroid.samples.SampleWithTilesOverlay" alt="" coords="16,113,176,138"/>
 <area shape="rect" id="node1" href="./SampleWithTilesOverlay.html" title="&lt;TABLE&gt;" alt="" coords="5,101,187,149"/>
-<area shape="rect" id="node2_1" href="http://java.sun.com/j2se/1.4.2/docs/api//Activity.html" title="Activity" alt="" coords="65,17,127,42"/>
+<area shape="rect" id="node2_1" href="http://java.sun.com/j2se/1.4.2/docs/api/android/app/Activity.html" title="android.app.Activity" alt="" coords="65,17,127,42"/>
+<area shape="rect" id="node2" href="http://java.sun.com/j2se/1.4.2/docs/api/android/app/Activity.html" title="&lt;TABLE&gt;" alt="" coords="55,5,137,53"/>
 </map>

@@ -10,15 +10,15 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.google.wrapper.MapController
-	c390 [label=<<table title="org.osmdroid.google.wrapper.MapController" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./MapController.html">
+	c393 [label=<<table title="org.osmdroid.google.wrapper.MapController" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./MapController.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MapController </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MapController.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.google.wrapper.MapController implements org.osmdroid.api.IMapController
-	c402:p -> c390:p [dir=back,arrowtail=empty,style=dashed];
+	c405:p -> c393:p [dir=back,arrowtail=empty,style=dashed];
 	// org.osmdroid.api.IMapController
-	c402 [label=<<table title="org.osmdroid.api.IMapController" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/org/osmdroid/api/IMapController.html">
+	c405 [label=<<table title="org.osmdroid.api.IMapController" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/org/osmdroid/api/IMapController.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> IMapController </td></tr>

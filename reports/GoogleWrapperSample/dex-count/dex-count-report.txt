@@ -1,19 +1,19 @@
-Processing .\GoogleWrapperSample\build\outputs\apk\GoogleWrapperSample-5.6.5-debug.apk
-Read in 57806 method IDs and 32990 field IDs
+Processing .\GoogleWrapperSample\build\outputs\apk\GoogleWrapperSample-6.0.0-debug.apk
+Read in 58311 method IDs and 33134 field IDs
 ----------------------------------
 Package details:
 (default) Methods 1 Fields 0
-android Methods 17760 Fields 7562
+android Methods 17757 Fields 7563
 	accessibilityservice Methods 6 Fields 0
 	accounts Methods 5 Fields 3
 	animation Methods 24 Fields 0
-	app Methods 319 Fields 28
+	app Methods 320 Fields 28
 	content Methods 336 Fields 50
 		pm Methods 35 Fields 41
 		res Methods 97 Fields 6
 	database Methods 81 Fields 3
 		sqlite Methods 23 Fields 0
-	graphics Methods 328 Fields 50
+	graphics Methods 326 Fields 50
 		drawable Methods 97 Fields 0
 			shapes Methods 2 Fields 0
 		pdf Methods 3 Fields 0
@@ -24,7 +24,7 @@ android Methods 17760 Fields 7562
 	media Methods 262 Fields 3
 		browse Methods 17 Fields 1
 		session Methods 87 Fields 0
-	net Methods 60 Fields 2
+	net Methods 58 Fields 2
 		http Methods 3 Fields 0
 	os Methods 245 Fields 26
 	preference Methods 1 Fields 0
@@ -92,7 +92,7 @@ android Methods 17760 Fields 7562
 		animation Methods 34 Fields 0
 		inputmethod Methods 2 Fields 0
 	webkit Methods 76 Fields 5
-	widget Methods 548 Fields 10
+	widget Methods 548 Fields 11
 com Methods 36456 Fields 20981
 	google Methods 36456 Fields 20981
 		ads Methods 237 Fields 169
@@ -276,12 +276,12 @@ com Methods 36456 Fields 20981
 			maps Methods 44 Fields 0
 dalvik Methods 2 Fields 0
 	system Methods 2 Fields 0
-java Methods 1094 Fields 52
-	io Methods 152 Fields 2
-	lang Methods 383 Fields 35
+java Methods 1090 Fields 51
+	io Methods 154 Fields 2
+	lang Methods 379 Fields 34
 		annotation Methods 0 Fields 11
 		ref Methods 3 Fields 0
-		reflect Methods 28 Fields 0
+		reflect Methods 27 Fields 0
 	math Methods 9 Fields 1
 	net Methods 46 Fields 0
 	nio Methods 34 Fields 1
@@ -291,9 +291,9 @@ java Methods 1094 Fields 52
 		cert Methods 3 Fields 0
 		spec Methods 2 Fields 0
 	text Methods 11 Fields 0
-	util Methods 428 Fields 13
-		concurrent Methods 112 Fields 7
-			atomic Methods 21 Fields 0
+	util Methods 426 Fields 13
+		concurrent Methods 111 Fields 7
+			atomic Methods 20 Fields 0
 			locks Methods 10 Fields 0
 		regex Methods 11 Fields 0
 		zip Methods 16 Fields 0
@@ -305,9 +305,9 @@ javax Methods 8 Fields 0
 	security Methods 2 Fields 0
 		auth Methods 2 Fields 0
 			x500 Methods 2 Fields 0
-microsoft Methods 15 Fields 7
-	mappoint Methods 15 Fields 7
-org Methods 2465 Fields 4388
+microsoft Methods 15 Fields 9
+	mappoint Methods 15 Fields 9
+org Methods 2977 Fields 4530
 	apache Methods 40 Fields 0
 		http Methods 40 Fields 0
 			client Methods 15 Fields 0
@@ -321,40 +321,41 @@ org Methods 2465 Fields 4388
 	metalev Methods 58 Fields 74
 		multitouch Methods 58 Fields 74
 			controller Methods 58 Fields 74
-	osmdroid Methods 2306 Fields 4313
-		api Methods 84 Fields 15
-		config Methods 96 Fields 23
+	osmdroid Methods 2818 Fields 4455
+		api Methods 94 Fields 15
+		config Methods 113 Fields 27
 		events Methods 23 Fields 12
-		google Methods 255 Fields 1792
+		google Methods 265 Fields 1792
 			overlay Methods 24 Fields 11
 			sample Methods 89 Fields 1752
-			wrapper Methods 142 Fields 29
+			wrapper Methods 152 Fields 29
 				v2 Methods 100 Fields 23
 		library Methods 6 Fields 66
 		thirdparty Methods 18 Fields 1522
-		tileprovider Methods 626 Fields 297
-			cachemanager Methods 87 Fields 20
-			constants Methods 5 Fields 13
-			modules Methods 228 Fields 75
-			tilesource Methods 153 Fields 106
+		tileprovider Methods 711 Fields 320
+			cachemanager Methods 100 Fields 25
+			constants Methods 1 Fields 12
+			modules Methods 282 Fields 84
+			tilesource Methods 156 Fields 106
 				bing Methods 26 Fields 35
 			util Methods 35 Fields 27
-		util Methods 169 Fields 59
-			constants Methods 1 Fields 6
-		views Methods 1017 Fields 523
+		util Methods 296 Fields 92
+			constants Methods 0 Fields 5
+		views Methods 1280 Fields 605
 			drawing Methods 9 Fields 7
-			overlay Methods 771 Fields 413
-				compass Methods 39 Fields 22
+			overlay Methods 959 Fields 491
+				compass Methods 48 Fields 27
 				gestures Methods 19 Fields 12
-				gridlines Methods 8 Fields 9
-				infowindow Methods 25 Fields 13
-				mylocation Methods 77 Fields 55
-				simplefastpoint Methods 80 Fields 51
-			util Methods 14 Fields 18
-				constants Methods 1 Fields 17
+				gridlines Methods 23 Fields 17
+				infowindow Methods 28 Fields 20
+				milestones Methods 52 Fields 28
+				mylocation Methods 79 Fields 56
+				simplefastpoint Methods 105 Fields 53
+			util Methods 13 Fields 8
+				constants Methods 0 Fields 7
 	xmlpull Methods 12 Fields 0
 		v1 Methods 12 Fields 0
-Processed .\GoogleWrapperSample\build\outputs\apk\GoogleWrapperSample-5.6.5-debug.apk
-Read in 57806 method IDs and 32990 field IDs
+Processed .\GoogleWrapperSample\build\outputs\apk\GoogleWrapperSample-6.0.0-debug.apk
+Read in 58311 method IDs and 33134 field IDs
 ----------------------------------
 

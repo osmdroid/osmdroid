@@ -1,8 +1,6 @@
 <map id="G" name="G">
-<area shape="rect" id="node1_0" href="./MapViewConstants.html" title="org.osmdroid.views.util.constants.MapViewConstants" alt="" coords="16,11,148,53"/>
-<area shape="rect" id="node1" href="./MapViewConstants.html" title="&lt;TABLE&gt;" alt="" coords="5,5,159,59"/>
-<area shape="rect" id="node2_1" href="./MathConstants.html" title="org.osmdroid.views.util.constants.MathConstants" alt="" coords="193,11,301,53"/>
-<area shape="rect" id="node2" href="./MathConstants.html" title="&lt;TABLE&gt;" alt="" coords="183,5,312,59"/>
-<area shape="rect" id="node3_2" href="./OverlayConstants.html" title="org.osmdroid.views.util.constants.OverlayConstants" alt="" coords="347,11,468,53"/>
-<area shape="rect" id="node3" href="./OverlayConstants.html" title="&lt;TABLE&gt;" alt="" coords="336,5,479,59"/>
+<area shape="rect" id="node1_0" href="./MathConstants.html" title="org.osmdroid.views.util.constants.MathConstants" alt="" coords="16,11,124,53"/>
+<area shape="rect" id="node1" href="./MathConstants.html" title="&lt;TABLE&gt;" alt="" coords="5,5,135,59"/>
+<area shape="rect" id="node2_1" href="./OverlayConstants.html" title="org.osmdroid.views.util.constants.OverlayConstants" alt="" coords="169,11,291,53"/>
+<area shape="rect" id="node2" href="./OverlayConstants.html" title="&lt;TABLE&gt;" alt="" coords="159,5,301,59"/>
 </map>

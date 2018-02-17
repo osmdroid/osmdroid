@@ -10,15 +10,15 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.tileprovider.util.SimpleInvalidationHandler
-	c140919 [label=<<table title="org.osmdroid.tileprovider.util.SimpleInvalidationHandler" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./SimpleInvalidationHandler.html">
+	c251889 [label=<<table title="org.osmdroid.tileprovider.util.SimpleInvalidationHandler" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./SimpleInvalidationHandler.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SimpleInvalidationHandler </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SimpleInvalidationHandler.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.tileprovider.util.SimpleInvalidationHandler extends Handler
-	c141044:p -> c140919:p [dir=back,arrowtail=empty];
+	c252080:p -> c251889:p [dir=back,arrowtail=empty];
 	// Handler
-	c141044[label=<<table title="Handler" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api//Handler.html">
+	c252080[label=<<table title="Handler" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api//Handler.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> Handler </td></tr>
 		</table></td></tr>

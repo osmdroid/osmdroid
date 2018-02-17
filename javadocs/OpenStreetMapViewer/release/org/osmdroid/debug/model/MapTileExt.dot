@@ -10,18 +10,10 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.debug.model.MapTileExt
-	c9927 [label=<<table title="org.osmdroid.debug.model.MapTileExt" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./MapTileExt.html">
+	c21172 [label=<<table title="org.osmdroid.debug.model.MapTileExt" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./MapTileExt.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MapTileExt </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MapTileExt.html", fontname="arial", fontcolor="black", fontsize=10.0];
-	//org.osmdroid.debug.model.MapTileExt extends org.osmdroid.tileprovider.MapTile
-	c10043:p -> c9927:p [dir=back,arrowtail=empty];
-	// org.osmdroid.tileprovider.MapTile
-	c10043 [label=<<table title="org.osmdroid.tileprovider.MapTile" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/org/osmdroid/tileprovider/MapTile.html">
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> MapTile </td></tr>
-		</table></td></tr>
-		</table>>, URL="http://java.sun.com/j2se/1.4.2/docs/api/org/osmdroid/tileprovider/MapTile.html", fontname="arial", fontcolor="black", fontsize=10.0];
 }
 

@@ -10,19 +10,19 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.api.IPosition
-	c63552 [label=<<table title="org.osmdroid.api.IPosition" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./IPosition.html">
+	c106977 [label=<<table title="org.osmdroid.api.IPosition" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./IPosition.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> IPosition </td></tr>
 		</table></td></tr>
 		</table>>, URL="./IPosition.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.util.Position
-	c63572 [label=<<table title="org.osmdroid.util.Position" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../util/Position.html">
+	c106997 [label=<<table title="org.osmdroid.util.Position" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../util/Position.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> Position </td></tr>
 		</table></td></tr>
 		</table>>, URL="../util/Position.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.util.Position implements org.osmdroid.api.IPosition
-	c63552:p -> c63572:p [dir=back,arrowtail=empty,style=dashed];
+	c106977:p -> c106997:p [dir=back,arrowtail=empty,style=dashed];
 }
 

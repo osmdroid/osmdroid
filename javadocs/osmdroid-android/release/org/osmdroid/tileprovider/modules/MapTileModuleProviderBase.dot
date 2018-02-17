@@ -9,27 +9,35 @@ digraph G {
 	node [fontname="arial",fontsize=10,shape=plaintext];
 	nodesep=0.25;
 	ranksep=0.5;
+	// org.osmdroid.tileprovider.modules.MapTileApproximater
+	c28027 [label=<<table title="org.osmdroid.tileprovider.modules.MapTileApproximater" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileApproximater.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> MapTileApproximater </td></tr>
+		</table></td></tr>
+		</table>>, URL="./MapTileApproximater.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.modules.MapTileDownloader
-	c22289 [label=<<table title="org.osmdroid.tileprovider.modules.MapTileDownloader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileDownloader.html">
+	c28031 [label=<<table title="org.osmdroid.tileprovider.modules.MapTileDownloader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileDownloader.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MapTileDownloader </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MapTileDownloader.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.modules.MapTileFileStorageProviderBase
-	c22293 [label=<<table title="org.osmdroid.tileprovider.modules.MapTileFileStorageProviderBase" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileFileStorageProviderBase.html">
+	c28035 [label=<<table title="org.osmdroid.tileprovider.modules.MapTileFileStorageProviderBase" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileFileStorageProviderBase.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> MapTileFileStorageProviderBase </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./MapTileFileStorageProviderBase.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.modules.MapTileModuleProviderBase
-	c22296 [label=<<table title="org.osmdroid.tileprovider.modules.MapTileModuleProviderBase" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./MapTileModuleProviderBase.html">
+	c28038 [label=<<table title="org.osmdroid.tileprovider.modules.MapTileModuleProviderBase" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./MapTileModuleProviderBase.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> MapTileModuleProviderBase </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./MapTileModuleProviderBase.html", fontname="arial", fontcolor="black", fontsize=10.0];
+	//org.osmdroid.tileprovider.modules.MapTileApproximater extends org.osmdroid.tileprovider.modules.MapTileModuleProviderBase
+	c28038:p -> c28027:p [dir=back,arrowtail=empty];
 	//org.osmdroid.tileprovider.modules.MapTileDownloader extends org.osmdroid.tileprovider.modules.MapTileModuleProviderBase
-	c22296:p -> c22289:p [dir=back,arrowtail=empty];
+	c28038:p -> c28031:p [dir=back,arrowtail=empty];
 	//org.osmdroid.tileprovider.modules.MapTileFileStorageProviderBase extends org.osmdroid.tileprovider.modules.MapTileModuleProviderBase
-	c22296:p -> c22293:p [dir=back,arrowtail=empty];
+	c28038:p -> c28035:p [dir=back,arrowtail=empty];
 }
 

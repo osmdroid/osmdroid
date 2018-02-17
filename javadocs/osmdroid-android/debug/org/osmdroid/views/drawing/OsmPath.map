@@ -1,5 +1,6 @@
 <map id="G" name="G">
 <area shape="rect" id="node1_0" href="./OsmPath.html" title="org.osmdroid.views.drawing.OsmPath" alt="" coords="16,113,91,138"/>
 <area shape="rect" id="node1" href="./OsmPath.html" title="&lt;TABLE&gt;" alt="" coords="5,101,101,149"/>
-<area shape="rect" id="node2_1" href="http://java.sun.com/j2se/1.4.2/docs/api//Path.html" title="Path" alt="" coords="30,17,77,42"/>
+<area shape="rect" id="node2_1" href="http://java.sun.com/j2se/1.4.2/docs/api/android/graphics/Path.html" title="android.graphics.Path" alt="" coords="30,17,77,42"/>
+<area shape="rect" id="node2" href="http://java.sun.com/j2se/1.4.2/docs/api/android/graphics/Path.html" title="&lt;TABLE&gt;" alt="" coords="17,5,89,53"/>
 </map>

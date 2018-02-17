@@ -1,6 +1,4 @@
 <map id="G" name="G">
-<area shape="rect" id="node1_0" href="./constants/MapViewConstants.html" title="org.osmdroid.views.util.constants.MapViewConstants" alt="" coords="16,11,148,53"/>
-<area shape="rect" id="node1" href="./constants/MapViewConstants.html" title="&lt;TABLE&gt;" alt="" coords="5,5,159,59"/>
-<area shape="rect" id="node2_1" href="./Mercator.html" title="org.osmdroid.views.util.Mercator" alt="" coords="47,118,117,143"/>
-<area shape="rect" id="node2" href="./Mercator.html" title="&lt;TABLE&gt;" alt="" coords="36,107,128,155"/>
+<area shape="rect" id="node1_0" href="./Mercator.html" title="org.osmdroid.views.util.Mercator" alt="" coords="16,17,87,42"/>
+<area shape="rect" id="node1" href="./Mercator.html" title="&lt;TABLE&gt;" alt="" coords="5,5,97,53"/>
 </map>

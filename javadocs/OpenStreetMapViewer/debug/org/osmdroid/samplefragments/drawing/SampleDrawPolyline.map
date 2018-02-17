@@ -1,6 +1,14 @@
 <map id="G" name="G">
-<area shape="rect" id="node1_0" href="../BaseSampleFragment.html" title="org.osmdroid.samplefragments.BaseSampleFragment" alt="" coords="16,17,164,42"/>
-<area shape="rect" id="node1" href="../BaseSampleFragment.html" title="&lt;TABLE&gt;" alt="" coords="5,5,175,53"/>
-<area shape="rect" id="node2_1" href="./SampleDrawPolyline.html" title="org.osmdroid.samplefragments.drawing.SampleDrawPolyline" alt="" coords="21,113,159,138"/>
-<area shape="rect" id="node2" href="./SampleDrawPolyline.html" title="&lt;TABLE&gt;" alt="" coords="10,101,170,149"/>
+<area shape="rect" id="node1_0" href="../BaseSampleFragment.html" title="org.osmdroid.samplefragments.BaseSampleFragment" alt="" coords="253,19,401,45"/>
+<area shape="rect" id="node1" href="../BaseSampleFragment.html" title="&lt;TABLE&gt;" alt="" coords="243,8,412,56"/>
+<area shape="rect" id="node3_1" href="./SampleDrawPolyline.html" title="org.osmdroid.samplefragments.drawing.SampleDrawPolyline" alt="" coords="273,118,411,143"/>
+<area shape="rect" id="node3" href="./SampleDrawPolyline.html" title="&lt;TABLE&gt;" alt="" coords="262,107,422,155"/>
+<area shape="rect" id="node2_2" href="./DrawPolylineWithArrows.html" title="org.osmdroid.samplefragments.drawing.DrawPolylineWithArrows" alt="" coords="16,214,177,239"/>
+<area shape="rect" id="node2" href="./DrawPolylineWithArrows.html" title="&lt;TABLE&gt;" alt="" coords="5,203,188,251"/>
+<area shape="rect" id="node4_3" href="./SampleDrawPolylineWithoutVerticalWrapping.html" title="org.osmdroid.samplefragments.drawing.SampleDrawPolylineWithoutVerticalWrapping" alt="" coords="507,214,790,239"/>
+<area shape="rect" id="node4" href="./SampleDrawPolylineWithoutVerticalWrapping.html" title="&lt;TABLE&gt;" alt="" coords="497,203,801,251"/>
+<area shape="rect" id="node5_4" href="./SampleDrawPolylineWithoutWrapping.html" title="org.osmdroid.samplefragments.drawing.SampleDrawPolylineWithoutWrapping" alt="" coords="223,214,461,239"/>
+<area shape="rect" id="node5" href="./SampleDrawPolylineWithoutWrapping.html" title="&lt;TABLE&gt;" alt="" coords="212,203,472,251"/>
+<area shape="rect" id="node6_5" href="http://java.sun.com/j2se/1.4.2/docs/api/android/view/View/OnClickListener.html" title="android.view.View.OnClickListener" alt="" coords="447,11,559,53"/>
+<area shape="rect" id="node6" href="http://java.sun.com/j2se/1.4.2/docs/api/android/view/View/OnClickListener.html" title="&lt;TABLE&gt;" alt="" coords="437,5,570,59"/>
 </map>

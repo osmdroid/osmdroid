@@ -7,6 +7,6 @@
 <area shape="rect" id="node3" href="./MapTileProviderBasic.html" title="&lt;TABLE&gt;" alt="" coords="192,107,357,155"/>
 <area shape="rect" id="node4_3" href="./modules/OfflineTileProvider.html" title="org.osmdroid.tileprovider.modules.OfflineTileProvider" alt="" coords="393,118,514,143"/>
 <area shape="rect" id="node4" href="./modules/OfflineTileProvider.html" title="&lt;TABLE&gt;" alt="" coords="382,107,525,155"/>
-<area shape="rect" id="node5_4" href="../gpkg/GeoPackageProvider.html" title="org.osmdroid.gpkg.GeoPackageProvider" alt="" coords="559,118,699,143"/>
-<area shape="rect" id="node5" href="../gpkg/GeoPackageProvider.html" title="&lt;TABLE&gt;" alt="" coords="549,107,710,155"/>
+<area shape="rect" id="node5_4" href="../gpkg/tiles/raster/GeoPackageProvider.html" title="org.osmdroid.gpkg.tiles.raster.GeoPackageProvider" alt="" coords="559,118,699,143"/>
+<area shape="rect" id="node5" href="../gpkg/tiles/raster/GeoPackageProvider.html" title="&lt;TABLE&gt;" alt="" coords="549,107,710,155"/>
 </map>

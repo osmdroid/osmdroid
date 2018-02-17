@@ -78,9 +78,9 @@
 <br/>
 </p>
 <h2>Metrics</h2>
-<p>11903 lines of code analyzed,
-	in 235 classes, 
-	in 27 packages.</p>
+<p>14174 lines of code analyzed,
+	in 267 classes, 
+	in 28 packages.</p>
 <table width="500" cellpadding="5" cellspacing="2">
 <tr class="tableheader">
 <th align="left">Metric</th>
@@ -89,8 +89,8 @@
 </tr>
 <tr class="tablerow0">
 <td>High Priority Warnings</td>
-<td align="right">20</td>
-<td align="right">1.68</td>
+<td align="right">19</td>
+<td align="right">1.34</td>
 </tr>
 <tr class="tablerow1">
 <td>Medium Priority Warnings</td>
@@ -102,10 +102,10 @@
 <b>Total Warnings</b>
 </td>
 <td align="right">
-<b>20</b>
+<b>19</b>
 </td>
 <td align="right">
-<b>1.68</b>
+<b>1.34</b>
 </td>
 </tr>
 </table>
@@ -120,9 +120,6 @@
 <ul>
 <li>
 <a href="#Warnings_BAD_PRACTICE">Bad practice Warnings</a>
-</li>
-<li>
-<a href="#Warnings_CORRECTNESS">Correctness Warnings</a>
 </li>
 <li>
 <a href="#Warnings_I18N">Internationalization Warnings</a>
@@ -153,50 +150,44 @@
 <td>
 <a href="#Warnings_BAD_PRACTICE">Bad practice Warnings</a>
 </td>
-<td align="right">4</td>
+<td align="right">5</td>
 </tr>
 <tr class="tablerow1">
-<td>
-<a href="#Warnings_CORRECTNESS">Correctness Warnings</a>
-</td>
-<td align="right">1</td>
-</tr>
-<tr class="tablerow0">
 <td>
 <a href="#Warnings_I18N">Internationalization Warnings</a>
 </td>
-<td align="right">8</td>
+<td align="right">7</td>
 </tr>
-<tr class="tablerow1">
+<tr class="tablerow0">
 <td>
 <a href="#Warnings_MALICIOUS_CODE">Malicious code vulnerability Warnings</a>
 </td>
-<td align="right">2</td>
+<td align="right">1</td>
 </tr>
-<tr class="tablerow0">
+<tr class="tablerow1">
 <td>
 <a href="#Warnings_MT_CORRECTNESS">Multithreaded correctness Warnings</a>
 </td>
 <td align="right">1</td>
 </tr>
-<tr class="tablerow1">
+<tr class="tablerow0">
 <td>
 <a href="#Warnings_PERFORMANCE">Performance Warnings</a>
 </td>
 <td align="right">2</td>
 </tr>
-<tr class="tablerow0">
+<tr class="tablerow1">
 <td>
 <a href="#Warnings_STYLE">Dodgy code Warnings</a>
 </td>
-<td align="right">2</td>
+<td align="right">3</td>
 </tr>
-<tr class="tablerow1">
+<tr class="tablerow0">
 <td>
 <b>Total</b>
 </td>
 <td align="right">
-<b>20</b>
+<b>19</b>
 </td>
 </tr>
 </table>
@@ -210,7 +201,7 @@
 <th align="left">Code</th>
 <th align="left">Warning</th>
 </tr>
-<tr class="tablerow1" onclick="toggleRow('N66827');">
+<tr class="tablerow1" onclick="toggleRow('N66700');">
 <td>
 <span class="priority-1">CN</span>
 </td>
@@ -219,12 +210,12 @@
 <tr class="detailrow1">
 <td/>
 <td>
-<p id="N66827" style="display: none;">
+<p id="N66700" style="display: none;">
 <a href="#CN_IMPLEMENTS_CLONE_BUT_NOT_CLONEABLE">Bug type CN_IMPLEMENTS_CLONE_BUT_NOT_CLONEABLE (click for details)</a>
-<br/>In class org.osmdroid.util.BoundingBox<br/>In method org.osmdroid.util.BoundingBox.clone()<br/>At BoundingBox.java:[line 52]</p>
+<br/>In class org.osmdroid.util.BoundingBox<br/>In method org.osmdroid.util.BoundingBox.clone()<br/>At BoundingBox.java:[line 69]</p>
 </td>
 </tr>
-<tr class="tablerow0" onclick="toggleRow('N67019');">
+<tr class="tablerow0" onclick="toggleRow('N66892');">
 <td>
 <span class="priority-1">CN</span>
 </td>
@@ -233,60 +224,51 @@
 <tr class="detailrow0">
 <td/>
 <td>
-<p id="N67019" style="display: none;">
+<p id="N66892" style="display: none;">
 <a href="#CN_IDIOM_NO_SUPER_CALL">Bug type CN_IDIOM_NO_SUPER_CALL (click for details)</a>
 <br/>In class org.osmdroid.util.GeoPoint<br/>In method org.osmdroid.util.GeoPoint.clone()<br/>has subclass org.osmdroid.views.overlay.simplefastpoint.LabelledGeoPoint<br/>At GeoPoint.java:[line 161]</p>
 </td>
 </tr>
-<tr class="tablerow1" onclick="toggleRow('N65856');">
+<tr class="tablerow1" onclick="toggleRow('N67140');">
 <td>
-<span class="priority-1">DE</span>
+<span class="priority-1">CN</span>
 </td>
-<td>org.osmdroid.tileprovider.cachemanager.CacheManager.loadTile(OnlineTileSourceBase, MapTile) might ignore java.lang.Exception</td>
+<td>org.osmdroid.views.overlay.simplefastpoint.LabelledGeoPoint.clone() does not call super.clone()</td>
 </tr>
 <tr class="detailrow1">
 <td/>
 <td>
-<p id="N65856" style="display: none;">
-<a href="#DE_MIGHT_IGNORE">Bug type DE_MIGHT_IGNORE (click for details)</a>
-<br/>In class org.osmdroid.tileprovider.cachemanager.CacheManager<br/>In method org.osmdroid.tileprovider.cachemanager.CacheManager.loadTile(OnlineTileSourceBase, MapTile)<br/>Exception class java.lang.Exception<br/>At CacheManager.java:[line 218]<br/>At CacheManager.java:[line 218]</p>
+<p id="N67140" style="display: none;">
+<a href="#CN_IDIOM_NO_SUPER_CALL">Bug type CN_IDIOM_NO_SUPER_CALL (click for details)</a>
+<br/>In class org.osmdroid.views.overlay.simplefastpoint.LabelledGeoPoint<br/>In method org.osmdroid.views.overlay.simplefastpoint.LabelledGeoPoint.clone()<br/>has subclass org.osmdroid.views.overlay.simplefastpoint.StyledLabelledGeoPoint<br/>At LabelledGeoPoint.java:[line 58]</p>
 </td>
 </tr>
-<tr class="tablerow0" onclick="toggleRow('N65934');">
+<tr class="tablerow0" onclick="toggleRow('N65928');">
 <td>
 <span class="priority-1">DE</span>
 </td>
-<td>org.osmdroid.tileprovider.modules.MapTileDownloader$TileLoader.loadTile(MapTileRequestState) might ignore java.lang.Exception</td>
+<td>org.osmdroid.tileprovider.modules.MapTileDownloader$TileLoader.loadTile(long) might ignore java.lang.Exception</td>
 </tr>
 <tr class="detailrow0">
 <td/>
 <td>
-<p id="N65934" style="display: none;">
+<p id="N65928" style="display: none;">
 <a href="#DE_MIGHT_IGNORE">Bug type DE_MIGHT_IGNORE (click for details)</a>
-<br/>In class org.osmdroid.tileprovider.modules.MapTileDownloader$TileLoader<br/>In method org.osmdroid.tileprovider.modules.MapTileDownloader$TileLoader.loadTile(MapTileRequestState)<br/>Exception class java.lang.Exception<br/>At MapTileDownloader.java:[line 281]<br/>At MapTileDownloader.java:[line 281]</p>
+<br/>In class org.osmdroid.tileprovider.modules.MapTileDownloader$TileLoader<br/>In method org.osmdroid.tileprovider.modules.MapTileDownloader$TileLoader.loadTile(long)<br/>Exception class java.lang.Exception<br/>At MapTileDownloader.java:[line 280]<br/>At MapTileDownloader.java:[line 280]</p>
 </td>
 </tr>
-</table>
-<h2>
-<a name="Warnings_CORRECTNESS">Correctness Warnings</a>
-</h2>
-<table class="warningtable" width="100%" cellspacing="0">
-<tr class="tableheader">
-<th align="left">Code</th>
-<th align="left">Warning</th>
-</tr>
-<tr class="tablerow1" onclick="toggleRow('N67150');">
+<tr class="tablerow1" onclick="toggleRow('N67023');">
 <td>
-<span class="priority-1">RCN</span>
+<span class="priority-1">HE</span>
 </td>
-<td>Nullcheck of boundingBox at line 647 of value previously dereferenced in org.osmdroid.views.MapView.setScrollableAreaLimit(BoundingBoxE6)</td>
+<td>org.osmdroid.util.PointL defines equals and uses Object.hashCode()</td>
 </tr>
 <tr class="detailrow1">
 <td/>
 <td>
-<p id="N67150" style="display: none;">
-<a href="#RCN_REDUNDANT_NULLCHECK_WOULD_HAVE_BEEN_A_NPE">Bug type RCN_REDUNDANT_NULLCHECK_WOULD_HAVE_BEEN_A_NPE (click for details)</a>
-<br/>In class org.osmdroid.views.MapView<br/>In method org.osmdroid.views.MapView.setScrollableAreaLimit(BoundingBoxE6)<br/>Value loaded from boundingBox<br/>At MapView.java:[line 643]<br/>Redundant null check at MapView.java:[line 647]</p>
+<p id="N67023" style="display: none;">
+<a href="#HE_EQUALS_USE_HASHCODE">Bug type HE_EQUALS_USE_HASHCODE (click for details)</a>
+<br/>In class org.osmdroid.util.PointL<br/>In method org.osmdroid.util.PointL.equals(Object)<br/>At PointL.java:[lines 62-69]</p>
 </td>
 </tr>
 </table>
@@ -298,7 +280,7 @@
 <th align="left">Code</th>
 <th align="left">Warning</th>
 </tr>
-<tr class="tablerow1" onclick="toggleRow('N66272');">
+<tr class="tablerow1" onclick="toggleRow('N66214');">
 <td>
 <span class="priority-1">Dm</span>
 </td>
@@ -307,107 +289,93 @@
 <tr class="detailrow1">
 <td/>
 <td>
-<p id="N66272" style="display: none;">
+<p id="N66214" style="display: none;">
 <a href="#DM_DEFAULT_ENCODING">Bug type DM_DEFAULT_ENCODING (click for details)</a>
-<br/>In class org.osmdroid.tileprovider.tilesource.bing.BingMapTileSource<br/>In method org.osmdroid.tileprovider.tilesource.bing.BingMapTileSource.getMetaData()<br/>Called method java.io.ByteArrayOutputStream.toString()<br/>At BingMapTileSource.java:[line 243]</p>
+<br/>In class org.osmdroid.tileprovider.tilesource.bing.BingMapTileSource<br/>In method org.osmdroid.tileprovider.tilesource.bing.BingMapTileSource.getMetaData()<br/>Called method java.io.ByteArrayOutputStream.toString()<br/>At BingMapTileSource.java:[line 258]</p>
 </td>
 </tr>
-<tr class="tablerow0" onclick="toggleRow('N66408');">
-<td>
-<span class="priority-1">Dm</span>
-</td>
-<td>Found reliance on default encoding in org.osmdroid.tileprovider.util.CloudmadeUtil.getCloudmadeToken(): new java.io.InputStreamReader(InputStream)</td>
-</tr>
-<tr class="detailrow0">
-<td/>
-<td>
-<p id="N66408" style="display: none;">
-<a href="#DM_DEFAULT_ENCODING">Bug type DM_DEFAULT_ENCODING (click for details)</a>
-<br/>In class org.osmdroid.tileprovider.util.CloudmadeUtil<br/>In method org.osmdroid.tileprovider.util.CloudmadeUtil.getCloudmadeToken()<br/>Called method new java.io.InputStreamReader(InputStream)<br/>At CloudmadeUtil.java:[line 128]</p>
-</td>
-</tr>
-<tr class="tablerow1" onclick="toggleRow('N66529');">
+<tr class="tablerow0" onclick="toggleRow('N66402');">
 <td>
 <span class="priority-1">Dm</span>
 </td>
 <td>Found reliance on default encoding in org.osmdroid.tileprovider.util.StorageUtils.getAllStorageLocations(): new java.util.Scanner(File)</td>
 </tr>
-<tr class="detailrow1">
+<tr class="detailrow0">
 <td/>
 <td>
-<p id="N66529" style="display: none;">
+<p id="N66402" style="display: none;">
 <a href="#DM_DEFAULT_ENCODING">Bug type DM_DEFAULT_ENCODING (click for details)</a>
-<br/>In class org.osmdroid.tileprovider.util.StorageUtils<br/>In method org.osmdroid.tileprovider.util.StorageUtils.getAllStorageLocations()<br/>Called method new java.util.Scanner(File)<br/>At StorageUtils.java:[line 360]<br/>Another occurrence at StorageUtils.java:[line 381]</p>
+<br/>In class org.osmdroid.tileprovider.util.StorageUtils<br/>In method org.osmdroid.tileprovider.util.StorageUtils.getAllStorageLocations()<br/>Called method new java.util.Scanner(File)<br/>At StorageUtils.java:[line 361]<br/>Another occurrence at StorageUtils.java:[line 389]</p>
 </td>
 </tr>
-<tr class="tablerow0" onclick="toggleRow('N66609');">
+<tr class="tablerow1" onclick="toggleRow('N66482');">
 <td>
 <span class="priority-1">Dm</span>
 </td>
 <td>Found reliance on default encoding in org.osmdroid.tileprovider.util.StorageUtils.getAllStorageLocationsRevised(): new java.util.Scanner(File)</td>
 </tr>
-<tr class="detailrow0">
+<tr class="detailrow1">
 <td/>
 <td>
-<p id="N66609" style="display: none;">
+<p id="N66482" style="display: none;">
 <a href="#DM_DEFAULT_ENCODING">Bug type DM_DEFAULT_ENCODING (click for details)</a>
-<br/>In class org.osmdroid.tileprovider.util.StorageUtils<br/>In method org.osmdroid.tileprovider.util.StorageUtils.getAllStorageLocationsRevised()<br/>Called method new java.util.Scanner(File)<br/>At StorageUtils.java:[line 507]<br/>Another occurrence at StorageUtils.java:[line 528]</p>
+<br/>In class org.osmdroid.tileprovider.util.StorageUtils<br/>In method org.osmdroid.tileprovider.util.StorageUtils.getAllStorageLocationsRevised()<br/>Called method new java.util.Scanner(File)<br/>At StorageUtils.java:[line 523]<br/>Another occurrence at StorageUtils.java:[line 551]</p>
 </td>
 </tr>
-<tr class="tablerow1" onclick="toggleRow('N66689');">
+<tr class="tablerow0" onclick="toggleRow('N66562');">
 <td>
 <span class="priority-1">Dm</span>
 </td>
 <td>Found reliance on default encoding in org.osmdroid.tileprovider.util.StorageUtils.getStorageList(): new java.io.FileReader(String)</td>
 </tr>
-<tr class="detailrow1">
+<tr class="detailrow0">
 <td/>
 <td>
-<p id="N66689" style="display: none;">
+<p id="N66562" style="display: none;">
 <a href="#DM_DEFAULT_ENCODING">Bug type DM_DEFAULT_ENCODING (click for details)</a>
-<br/>In class org.osmdroid.tileprovider.util.StorageUtils<br/>In method org.osmdroid.tileprovider.util.StorageUtils.getStorageList()<br/>Called method new java.io.FileReader(String)<br/>At StorageUtils.java:[line 148]</p>
+<br/>In class org.osmdroid.tileprovider.util.StorageUtils<br/>In method org.osmdroid.tileprovider.util.StorageUtils.getStorageList()<br/>Called method new java.io.FileReader(String)<br/>At StorageUtils.java:[line 149]</p>
 </td>
 </tr>
-<tr class="tablerow0" onclick="toggleRow('N66758');">
+<tr class="tablerow1" onclick="toggleRow('N66631');">
 <td>
 <span class="priority-1">Dm</span>
 </td>
 <td>Found reliance on default encoding in org.osmdroid.tileprovider.util.StorageUtils.isWritable(File): String.getBytes()</td>
 </tr>
-<tr class="detailrow0">
+<tr class="detailrow1">
 <td/>
 <td>
-<p id="N66758" style="display: none;">
+<p id="N66631" style="display: none;">
 <a href="#DM_DEFAULT_ENCODING">Bug type DM_DEFAULT_ENCODING (click for details)</a>
-<br/>In class org.osmdroid.tileprovider.util.StorageUtils<br/>In method org.osmdroid.tileprovider.util.StorageUtils.isWritable(File)<br/>Called method String.getBytes()<br/>At StorageUtils.java:[line 331]</p>
+<br/>In class org.osmdroid.tileprovider.util.StorageUtils<br/>In method org.osmdroid.tileprovider.util.StorageUtils.isWritable(File)<br/>Called method String.getBytes()<br/>At StorageUtils.java:[line 332]</p>
 </td>
 </tr>
-<tr class="tablerow1" onclick="toggleRow('N66881');">
+<tr class="tablerow0" onclick="toggleRow('N66754');">
 <td>
 <span class="priority-1">Dm</span>
 </td>
 <td>Found reliance on default encoding in new org.osmdroid.util.GEMFFile(String, List): String.getBytes()</td>
 </tr>
-<tr class="detailrow1">
+<tr class="detailrow0">
 <td/>
 <td>
-<p id="N66881" style="display: none;">
+<p id="N66754" style="display: none;">
 <a href="#DM_DEFAULT_ENCODING">Bug type DM_DEFAULT_ENCODING (click for details)</a>
-<br/>In class org.osmdroid.util.GEMFFile<br/>In method new org.osmdroid.util.GEMFFile(String, List)<br/>Called method String.getBytes()<br/>At GEMFFile.java:[line 327]</p>
+<br/>In class org.osmdroid.util.GEMFFile<br/>In method new org.osmdroid.util.GEMFFile(String, List)<br/>Called method String.getBytes()<br/>At GEMFFile.java:[line 332]</p>
 </td>
 </tr>
-<tr class="tablerow0" onclick="toggleRow('N66950');">
+<tr class="tablerow1" onclick="toggleRow('N66823');">
 <td>
 <span class="priority-1">Dm</span>
 </td>
 <td>Found reliance on default encoding in org.osmdroid.util.GEMFFile.readHeader(): new String(byte[])</td>
 </tr>
-<tr class="detailrow0">
+<tr class="detailrow1">
 <td/>
 <td>
-<p id="N66950" style="display: none;">
+<p id="N66823" style="display: none;">
 <a href="#DM_DEFAULT_ENCODING">Bug type DM_DEFAULT_ENCODING (click for details)</a>
-<br/>In class org.osmdroid.util.GEMFFile<br/>In method org.osmdroid.util.GEMFFile.readHeader()<br/>Called method new String(byte[])<br/>At GEMFFile.java:[line 479]</p>
+<br/>In class org.osmdroid.util.GEMFFile<br/>In method org.osmdroid.util.GEMFFile.readHeader()<br/>Called method new String(byte[])<br/>At GEMFFile.java:[line 484]</p>
 </td>
 </tr>
 </table>
@@ -419,30 +387,16 @@
 <th align="left">Code</th>
 <th align="left">Warning</th>
 </tr>
-<tr class="tablerow1" onclick="toggleRow('N66012');">
-<td>
-<span class="priority-1">MS</span>
-</td>
-<td>org.osmdroid.tileprovider.modules.SqlTileWriter.CLEANUP_ON_START isn't final but should be</td>
-</tr>
-<tr class="detailrow1">
-<td/>
-<td>
-<p id="N66012" style="display: none;">
-<a href="#MS_SHOULD_BE_FINAL">Bug type MS_SHOULD_BE_FINAL (click for details)</a>
-<br/>In class org.osmdroid.tileprovider.modules.SqlTileWriter<br/>Field org.osmdroid.tileprovider.modules.SqlTileWriter.CLEANUP_ON_START<br/>At SqlTileWriter.java:[line 53]</p>
-</td>
-</tr>
-<tr class="tablerow0" onclick="toggleRow('N66477');">
+<tr class="tablerow1" onclick="toggleRow('N66350');">
 <td>
 <span class="priority-1">MS</span>
 </td>
 <td>org.osmdroid.tileprovider.util.CloudmadeUtil.DEBUGMODE isn't final but should be</td>
 </tr>
-<tr class="detailrow0">
+<tr class="detailrow1">
 <td/>
 <td>
-<p id="N66477" style="display: none;">
+<p id="N66350" style="display: none;">
 <a href="#MS_SHOULD_BE_FINAL">Bug type MS_SHOULD_BE_FINAL (click for details)</a>
 <br/>In class org.osmdroid.tileprovider.util.CloudmadeUtil<br/>Field org.osmdroid.tileprovider.util.CloudmadeUtil.DEBUGMODE<br/>At CloudmadeUtil.java:[line 31]</p>
 </td>
@@ -456,7 +410,7 @@
 <th align="left">Code</th>
 <th align="left">Warning</th>
 </tr>
-<tr class="tablerow1" onclick="toggleRow('N66341');">
+<tr class="tablerow1" onclick="toggleRow('N66283');">
 <td>
 <span class="priority-1">ML</span>
 </td>
@@ -465,9 +419,9 @@
 <tr class="detailrow1">
 <td/>
 <td>
-<p id="N66341" style="display: none;">
+<p id="N66283" style="display: none;">
 <a href="#ML_SYNC_ON_FIELD_TO_GUARD_CHANGING_THAT_FIELD">Bug type ML_SYNC_ON_FIELD_TO_GUARD_CHANGING_THAT_FIELD (click for details)</a>
-<br/>In class org.osmdroid.tileprovider.tilesource.bing.BingMapTileSource<br/>In method org.osmdroid.tileprovider.tilesource.bing.BingMapTileSource.setStyle(String)<br/>Field org.osmdroid.tileprovider.tilesource.bing.BingMapTileSource.mStyle<br/>At BingMapTileSource.java:[line 178]</p>
+<br/>In class org.osmdroid.tileprovider.tilesource.bing.BingMapTileSource<br/>In method org.osmdroid.tileprovider.tilesource.bing.BingMapTileSource.setStyle(String)<br/>Field org.osmdroid.tileprovider.tilesource.bing.BingMapTileSource.mStyle<br/>At BingMapTileSource.java:[line 192]</p>
 </td>
 </tr>
 </table>
@@ -479,7 +433,7 @@
 <th align="left">Code</th>
 <th align="left">Warning</th>
 </tr>
-<tr class="tablerow1" onclick="toggleRow('N66134');">
+<tr class="tablerow1" onclick="toggleRow('N66076');">
 <td>
 <span class="priority-1">Bx</span>
 </td>
@@ -488,12 +442,12 @@
 <tr class="detailrow1">
 <td/>
 <td>
-<p id="N66134" style="display: none;">
+<p id="N66076" style="display: none;">
 <a href="#DM_BOXED_PRIMITIVE_FOR_COMPARE">Bug type DM_BOXED_PRIMITIVE_FOR_COMPARE (click for details)</a>
-<br/>In class org.osmdroid.tileprovider.modules.TileWriter$2<br/>In method org.osmdroid.tileprovider.modules.TileWriter$2.compare(File, File)<br/>Called method Long.compareTo(Long)<br/>Should call Long.compare(long, long) instead<br/>At TileWriter.java:[line 270]</p>
+<br/>In class org.osmdroid.tileprovider.modules.TileWriter$2<br/>In method org.osmdroid.tileprovider.modules.TileWriter$2.compare(File, File)<br/>Called method Long.compareTo(Long)<br/>Should call Long.compare(long, long) instead<br/>At TileWriter.java:[line 283]</p>
 </td>
 </tr>
-<tr class="tablerow0" onclick="toggleRow('N66219');">
+<tr class="tablerow0" onclick="toggleRow('N66161');">
 <td>
 <span class="priority-1">Dm</span>
 </td>
@@ -502,9 +456,9 @@
 <tr class="detailrow0">
 <td/>
 <td>
-<p id="N66219" style="display: none;">
+<p id="N66161" style="display: none;">
 <a href="#DM_GC">Bug type DM_GC (click for details)</a>
-<br/>In class org.osmdroid.tileprovider.tilesource.BitmapTileSourceBase<br/>In method org.osmdroid.tileprovider.tilesource.BitmapTileSourceBase.getDrawable(String)<br/>At BitmapTileSourceBase.java:[line 136]</p>
+<br/>In class org.osmdroid.tileprovider.tilesource.BitmapTileSourceBase<br/>In method org.osmdroid.tileprovider.tilesource.BitmapTileSourceBase.getDrawable(String)<br/>At BitmapTileSourceBase.java:[line 139]</p>
 </td>
 </tr>
 </table>
@@ -516,7 +470,7 @@
 <th align="left">Code</th>
 <th align="left">Warning</th>
 </tr>
-<tr class="tablerow1" onclick="toggleRow('N67086');">
+<tr class="tablerow1" onclick="toggleRow('N66959');">
 <td>
 <span class="priority-1">FE</span>
 </td>
@@ -525,23 +479,37 @@
 <tr class="detailrow1">
 <td/>
 <td>
-<p id="N67086" style="display: none;">
+<p id="N66959" style="display: none;">
 <a href="#FE_FLOATING_POINT_EQUALITY">Bug type FE_FLOATING_POINT_EQUALITY (click for details)</a>
 <br/>In class org.osmdroid.util.GeoPoint<br/>In method org.osmdroid.util.GeoPoint.equals(Object)<br/>At GeoPoint.java:[line 192]<br/>Another occurrence at GeoPoint.java:[line 192]</p>
 </td>
 </tr>
-<tr class="tablerow0" onclick="toggleRow('N66064');">
+<tr class="tablerow0" onclick="toggleRow('N67076');">
 <td>
-<span class="priority-1">RCN</span>
+<span class="priority-1">FE</span>
 </td>
-<td>Redundant nullcheck of org.osmdroid.tileprovider.modules.SqlTileWriter.db, which is known to be non-null in org.osmdroid.tileprovider.modules.SqlTileWriter.remove(ITileSource, MapTile)</td>
+<td>Test for floating point equality in org.osmdroid.util.SegmentIntersection.parallelSideEffect(double, double, double, double, double, double, double, double, PointL)</td>
 </tr>
 <tr class="detailrow0">
 <td/>
 <td>
-<p id="N66064" style="display: none;">
+<p id="N67076" style="display: none;">
+<a href="#FE_FLOATING_POINT_EQUALITY">Bug type FE_FLOATING_POINT_EQUALITY (click for details)</a>
+<br/>In class org.osmdroid.util.SegmentIntersection<br/>In method org.osmdroid.util.SegmentIntersection.parallelSideEffect(double, double, double, double, double, double, double, double, PointL)<br/>At SegmentIntersection.java:[line 61]<br/>Another occurrence at SegmentIntersection.java:[line 66]</p>
+</td>
+</tr>
+<tr class="tablerow1" onclick="toggleRow('N66006');">
+<td>
+<span class="priority-1">RCN</span>
+</td>
+<td>Redundant nullcheck of org.osmdroid.tileprovider.modules.SqlTileWriter.db, which is known to be non-null in org.osmdroid.tileprovider.modules.SqlTileWriter.remove(ITileSource, long)</td>
+</tr>
+<tr class="detailrow1">
+<td/>
+<td>
+<p id="N66006" style="display: none;">
 <a href="#RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE">Bug type RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE (click for details)</a>
-<br/>In class org.osmdroid.tileprovider.modules.SqlTileWriter<br/>In method org.osmdroid.tileprovider.modules.SqlTileWriter.remove(ITileSource, MapTile)<br/>Value loaded from field org.osmdroid.tileprovider.modules.SqlTileWriter.db<br/>Redundant null check at SqlTileWriter.java:[line 451]</p>
+<br/>In class org.osmdroid.tileprovider.modules.SqlTileWriter<br/>In method org.osmdroid.tileprovider.modules.SqlTileWriter.remove(ITileSource, long)<br/>Value loaded from field org.osmdroid.tileprovider.modules.SqlTileWriter.db<br/>Redundant null check at SqlTileWriter.java:[line 453]</p>
 </td>
 </tr>
 </table>
@@ -628,6 +596,25 @@ to use Object.clone(), which always returns an object of the correct type.</p>
     
      
 <h2>
+<a name="HE_EQUALS_USE_HASHCODE">HE_EQUALS_USE_HASHCODE: Class defines equals() and uses Object.hashCode()</a>
+</h2>
+
+  <p> This class overrides <code>equals(Object)</code>, but does not
+  override <code>hashCode()</code>, and inherits the implementation of
+  <code>hashCode()</code> from <code>java.lang.Object</code> (which returns
+  the identity hash code, an arbitrary value assigned to the object
+  by the VM).&nbsp; Therefore, the class is very likely to violate the
+  invariant that equal objects must have equal hashcodes.</p>
+
+<p>If you don't think instances of this class will ever be inserted into a HashMap/HashTable,
+the recommended <code>hashCode</code> implementation to use is:</p>
+<pre>public int hashCode() {
+  assert false : "hashCode not designed";
+  return 42; // any arbitrary constant will do
+  }</pre>
+
+    
+<h2>
 <a name="ML_SYNC_ON_FIELD_TO_GUARD_CHANGING_THAT_FIELD">ML_SYNC_ON_FIELD_TO_GUARD_CHANGING_THAT_FIELD: Synchronization on field in futile attempt to guard that field</a>
 </h2>
 
@@ -660,18 +647,6 @@ could be changed by malicious code or
         by accident from another package.
         The field could be made final to avoid
         this vulnerability.</p>
-
-    
-<h2>
-<a name="RCN_REDUNDANT_NULLCHECK_WOULD_HAVE_BEEN_A_NPE">RCN_REDUNDANT_NULLCHECK_WOULD_HAVE_BEEN_A_NPE: Nullcheck of value previously dereferenced</a>
-</h2>
-
-<p> A value is checked here to see whether it is null, but this value can't
-be null because it was previously dereferenced and if it were null a null pointer
-exception would have occurred at the earlier dereference.
-Essentially, this code and the previous dereference
-disagree as to whether this value is allowed to be null. Either the check is redundant
-or the previous dereference is erroneous.</p>
 
     
 <h2>

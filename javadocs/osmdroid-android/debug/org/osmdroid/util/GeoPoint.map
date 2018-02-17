@@ -1,16 +1,18 @@
 <map id="G" name="G">
 <area shape="rect" id="node1_0" href="../api/IGeoPoint.html" title="org.osmdroid.api.IGeoPoint" alt="" coords="16,11,99,53"/>
 <area shape="rect" id="node1" href="../api/IGeoPoint.html" title="&lt;TABLE&gt;" alt="" coords="5,5,109,59"/>
-<area shape="rect" id="node3_1" href="./GeoPoint.html" title="org.osmdroid.util.GeoPoint" alt="" coords="310,118,383,143"/>
-<area shape="rect" id="node3" href="./GeoPoint.html" title="&lt;TABLE&gt;" alt="" coords="299,107,394,155"/>
+<area shape="rect" id="node3_1" href="./GeoPoint.html" title="org.osmdroid.util.GeoPoint" alt="" coords="381,118,454,143"/>
+<area shape="rect" id="node3" href="./GeoPoint.html" title="&lt;TABLE&gt;" alt="" coords="370,107,465,155"/>
 <area shape="rect" id="node2_2" href="./constants/GeoConstants.html" title="org.osmdroid.util.constants.GeoConstants" alt="" coords="145,11,247,53"/>
 <area shape="rect" id="node2" href="./constants/GeoConstants.html" title="&lt;TABLE&gt;" alt="" coords="134,5,258,59"/>
-<area shape="rect" id="node4_3" href="../views/overlay/simplefastpoint/LabelledGeoPoint.html" title="org.osmdroid.views.overlay.simplefastpoint.LabelledGeoPoint" alt="" coords="286,214,407,239"/>
-<area shape="rect" id="node4" href="../views/overlay/simplefastpoint/LabelledGeoPoint.html" title="&lt;TABLE&gt;" alt="" coords="275,203,418,251"/>
+<area shape="rect" id="node4_3" href="../views/overlay/simplefastpoint/LabelledGeoPoint.html" title="org.osmdroid.views.overlay.simplefastpoint.LabelledGeoPoint" alt="" coords="357,214,478,239"/>
+<area shape="rect" id="node4" href="../views/overlay/simplefastpoint/LabelledGeoPoint.html" title="&lt;TABLE&gt;" alt="" coords="346,203,489,251"/>
 <area shape="rect" id="node5_4" href="../views/util/constants/MathConstants.html" title="org.osmdroid.views.util.constants.MathConstants" alt="" coords="293,11,401,53"/>
 <area shape="rect" id="node5" href="../views/util/constants/MathConstants.html" title="&lt;TABLE&gt;" alt="" coords="282,5,411,59"/>
-<area shape="rect" id="node6_5" href="http://java.sun.com/j2se/1.4.2/docs/api/java/io/Serializable.html" title="java.io.Serializable" alt="" coords="446,11,533,53"/>
-<area shape="rect" id="node6" href="http://java.sun.com/j2se/1.4.2/docs/api/java/io/Serializable.html" title="&lt;TABLE&gt;" alt="" coords="435,5,543,59"/>
-<area shape="rect" id="node7_6" href="http://java.sun.com/j2se/1.4.2/docs/api/java/lang/Cloneable.html" title="java.lang.Cloneable" alt="" coords="579,11,661,53"/>
-<area shape="rect" id="node7" href="http://java.sun.com/j2se/1.4.2/docs/api/java/lang/Cloneable.html" title="&lt;TABLE&gt;" alt="" coords="568,5,672,59"/>
+<area shape="rect" id="node6_5" href="http://java.sun.com/j2se/1.4.2/docs/api/android/os/Parcelable.html" title="android.os.Parcelable" alt="" coords="447,11,529,53"/>
+<area shape="rect" id="node6" href="http://java.sun.com/j2se/1.4.2/docs/api/android/os/Parcelable.html" title="&lt;TABLE&gt;" alt="" coords="436,5,540,59"/>
+<area shape="rect" id="node7_6" href="http://java.sun.com/j2se/1.4.2/docs/api/java/io/Serializable.html" title="java.io.Serializable" alt="" coords="575,11,662,53"/>
+<area shape="rect" id="node7" href="http://java.sun.com/j2se/1.4.2/docs/api/java/io/Serializable.html" title="&lt;TABLE&gt;" alt="" coords="565,5,673,59"/>
+<area shape="rect" id="node8_7" href="http://java.sun.com/j2se/1.4.2/docs/api/java/lang/Cloneable.html" title="java.lang.Cloneable" alt="" coords="708,11,791,53"/>
+<area shape="rect" id="node8" href="http://java.sun.com/j2se/1.4.2/docs/api/java/lang/Cloneable.html" title="&lt;TABLE&gt;" alt="" coords="697,5,801,59"/>
 </map>

@@ -1,10 +1,12 @@
 <map id="G" name="G">
-<area shape="rect" id="node1_0" href="./WeathForceActivity.html" title="org.osmdroid.bugtestfragments.WeathForceActivity" alt="" coords="160,118,292,143"/>
-<area shape="rect" id="node1" href="./WeathForceActivity.html" title="&lt;TABLE&gt;" alt="" coords="149,107,303,155"/>
+<area shape="rect" id="node1_0" href="./WeathForceActivity.html" title="org.osmdroid.bugtestfragments.WeathForceActivity" alt="" coords="232,118,364,143"/>
+<area shape="rect" id="node1" href="./WeathForceActivity.html" title="&lt;TABLE&gt;" alt="" coords="221,107,375,155"/>
 <area shape="rect" id="node2_1" href="../model/BaseActivity.html" title="org.osmdroid.model.BaseActivity" alt="" coords="16,19,108,45"/>
 <area shape="rect" id="node2" href="../model/BaseActivity.html" title="&lt;TABLE&gt;" alt="" coords="5,8,119,56"/>
-<area shape="rect" id="node3_2" href="http://java.sun.com/j2se/1.4.2/docs/api/org/osmdroid/views/overlay/compass/IOrientationConsumer.html" title="org.osmdroid.views.overlay.compass.IOrientationConsumer" alt="" coords="154,11,298,53"/>
-<area shape="rect" id="node3" href="http://java.sun.com/j2se/1.4.2/docs/api/org/osmdroid/views/overlay/compass/IOrientationConsumer.html" title="&lt;TABLE&gt;" alt="" coords="143,5,309,59"/>
-<area shape="rect" id="node4_3" href="http://java.sun.com/j2se/1.4.2/docs/api/org/osmdroid/events/MapEventsReceiver.html" title="org.osmdroid.events.MapEventsReceiver" alt="" coords="344,11,476,53"/>
-<area shape="rect" id="node4" href="http://java.sun.com/j2se/1.4.2/docs/api/org/osmdroid/events/MapEventsReceiver.html" title="&lt;TABLE&gt;" alt="" coords="333,5,487,59"/>
+<area shape="rect" id="node3_2" href="http://java.sun.com/j2se/1.4.2/docs/api/android/location/LocationListener.html" title="android.location.LocationListener" alt="" coords="154,11,269,53"/>
+<area shape="rect" id="node3" href="http://java.sun.com/j2se/1.4.2/docs/api/android/location/LocationListener.html" title="&lt;TABLE&gt;" alt="" coords="143,5,279,59"/>
+<area shape="rect" id="node4_3" href="http://java.sun.com/j2se/1.4.2/docs/api/org/osmdroid/views/overlay/compass/IOrientationConsumer.html" title="org.osmdroid.views.overlay.compass.IOrientationConsumer" alt="" coords="314,11,458,53"/>
+<area shape="rect" id="node4" href="http://java.sun.com/j2se/1.4.2/docs/api/org/osmdroid/views/overlay/compass/IOrientationConsumer.html" title="&lt;TABLE&gt;" alt="" coords="303,5,469,59"/>
+<area shape="rect" id="node5_4" href="http://java.sun.com/j2se/1.4.2/docs/api/org/osmdroid/events/MapEventsReceiver.html" title="org.osmdroid.events.MapEventsReceiver" alt="" coords="504,11,636,53"/>
+<area shape="rect" id="node5" href="http://java.sun.com/j2se/1.4.2/docs/api/org/osmdroid/events/MapEventsReceiver.html" title="&lt;TABLE&gt;" alt="" coords="493,5,647,59"/>
 </map>

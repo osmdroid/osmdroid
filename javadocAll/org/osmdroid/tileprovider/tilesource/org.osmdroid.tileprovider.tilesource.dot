@@ -10,120 +10,120 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.tileprovider.tilesource.BitmapTileSourceBase
-	c15638 [label=<<table title="org.osmdroid.tileprovider.tilesource.BitmapTileSourceBase" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./BitmapTileSourceBase.html">
+	c24046 [label=<<table title="org.osmdroid.tileprovider.tilesource.BitmapTileSourceBase" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./BitmapTileSourceBase.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> BitmapTileSourceBase </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./BitmapTileSourceBase.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.tilesource.BitmapTileSourceBase.LowMemoryException
-	c15639 [label=<<table title="org.osmdroid.tileprovider.tilesource.BitmapTileSourceBase.LowMemoryException" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./BitmapTileSourceBase.LowMemoryException.html">
+	c24047 [label=<<table title="org.osmdroid.tileprovider.tilesource.BitmapTileSourceBase.LowMemoryException" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./BitmapTileSourceBase.LowMemoryException.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> LowMemoryException </td></tr>
 		</table></td></tr>
 		</table>>, URL="./BitmapTileSourceBase.LowMemoryException.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.tilesource.CloudmadeTileSource
-	c15640 [label=<<table title="org.osmdroid.tileprovider.tilesource.CloudmadeTileSource" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./CloudmadeTileSource.html">
+	c24048 [label=<<table title="org.osmdroid.tileprovider.tilesource.CloudmadeTileSource" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./CloudmadeTileSource.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> CloudmadeTileSource </td></tr>
 		</table></td></tr>
 		</table>>, URL="./CloudmadeTileSource.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.tilesource.FileBasedTileSource
-	c15641 [label=<<table title="org.osmdroid.tileprovider.tilesource.FileBasedTileSource" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./FileBasedTileSource.html">
+	c24049 [label=<<table title="org.osmdroid.tileprovider.tilesource.FileBasedTileSource" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./FileBasedTileSource.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> FileBasedTileSource </td></tr>
 		</table></td></tr>
 		</table>>, URL="./FileBasedTileSource.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.tilesource.HEREWeGoTileSource
-	c15642 [label=<<table title="org.osmdroid.tileprovider.tilesource.HEREWeGoTileSource" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./HEREWeGoTileSource.html">
+	c24050 [label=<<table title="org.osmdroid.tileprovider.tilesource.HEREWeGoTileSource" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./HEREWeGoTileSource.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> HEREWeGoTileSource </td></tr>
 		</table></td></tr>
 		</table>>, URL="./HEREWeGoTileSource.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.tilesource.IStyledTileSource<T>
-	c15643 [label=<<table title="org.osmdroid.tileprovider.tilesource.IStyledTileSource" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./IStyledTileSource.html">
+	c24051 [label=<<table title="org.osmdroid.tileprovider.tilesource.IStyledTileSource" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./IStyledTileSource.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> IStyledTileSource&lt;T&gt; </td></tr>
 		</table></td></tr>
 		</table>>, URL="./IStyledTileSource.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.tilesource.ITileSource
-	c15644 [label=<<table title="org.osmdroid.tileprovider.tilesource.ITileSource" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ITileSource.html">
+	c24052 [label=<<table title="org.osmdroid.tileprovider.tilesource.ITileSource" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ITileSource.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> ITileSource </td></tr>
 		</table></td></tr>
 		</table>>, URL="./ITileSource.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.tilesource.MapBoxTileSource
-	c15645 [label=<<table title="org.osmdroid.tileprovider.tilesource.MapBoxTileSource" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapBoxTileSource.html">
+	c24053 [label=<<table title="org.osmdroid.tileprovider.tilesource.MapBoxTileSource" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapBoxTileSource.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MapBoxTileSource </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MapBoxTileSource.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.tilesource.MapQuestTileSource
-	c15646 [label=<<table title="org.osmdroid.tileprovider.tilesource.MapQuestTileSource" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapQuestTileSource.html">
+	c24054 [label=<<table title="org.osmdroid.tileprovider.tilesource.MapQuestTileSource" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapQuestTileSource.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MapQuestTileSource </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MapQuestTileSource.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase
-	c15647 [label=<<table title="org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./OnlineTileSourceBase.html">
+	c24055 [label=<<table title="org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./OnlineTileSourceBase.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> OnlineTileSourceBase </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./OnlineTileSourceBase.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.tilesource.QuadTreeTileSource
-	c15648 [label=<<table title="org.osmdroid.tileprovider.tilesource.QuadTreeTileSource" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./QuadTreeTileSource.html">
+	c24056 [label=<<table title="org.osmdroid.tileprovider.tilesource.QuadTreeTileSource" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./QuadTreeTileSource.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> QuadTreeTileSource </td></tr>
 		</table></td></tr>
 		</table>>, URL="./QuadTreeTileSource.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.tilesource.ThunderforestTileSource
-	c15649 [label=<<table title="org.osmdroid.tileprovider.tilesource.ThunderforestTileSource" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ThunderforestTileSource.html">
+	c24057 [label=<<table title="org.osmdroid.tileprovider.tilesource.ThunderforestTileSource" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ThunderforestTileSource.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> ThunderforestTileSource </td></tr>
 		</table></td></tr>
 		</table>>, URL="./ThunderforestTileSource.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.tilesource.TileSourceFactory
-	c15650 [label=<<table title="org.osmdroid.tileprovider.tilesource.TileSourceFactory" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./TileSourceFactory.html">
+	c24058 [label=<<table title="org.osmdroid.tileprovider.tilesource.TileSourceFactory" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./TileSourceFactory.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> TileSourceFactory </td></tr>
 		</table></td></tr>
 		</table>>, URL="./TileSourceFactory.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.tilesource.TMSOnlineTileSourceBase
-	c15651 [label=<<table title="org.osmdroid.tileprovider.tilesource.TMSOnlineTileSourceBase" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./TMSOnlineTileSourceBase.html">
+	c24059 [label=<<table title="org.osmdroid.tileprovider.tilesource.TMSOnlineTileSourceBase" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./TMSOnlineTileSourceBase.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> TMSOnlineTileSourceBase </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./TMSOnlineTileSourceBase.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.tilesource.XYTileSource
-	c15652 [label=<<table title="org.osmdroid.tileprovider.tilesource.XYTileSource" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./XYTileSource.html">
+	c24060 [label=<<table title="org.osmdroid.tileprovider.tilesource.XYTileSource" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./XYTileSource.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> XYTileSource </td></tr>
 		</table></td></tr>
 		</table>>, URL="./XYTileSource.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.tileprovider.tilesource.BitmapTileSourceBase implements org.osmdroid.tileprovider.tilesource.ITileSource
-	c15644:p -> c15638:p [dir=back,arrowtail=empty,style=dashed];
+	c24052:p -> c24046:p [dir=back,arrowtail=empty,style=dashed];
 	//org.osmdroid.tileprovider.tilesource.CloudmadeTileSource extends org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase
-	c15647:p -> c15640:p [dir=back,arrowtail=empty];
+	c24055:p -> c24048:p [dir=back,arrowtail=empty];
 	//org.osmdroid.tileprovider.tilesource.CloudmadeTileSource implements org.osmdroid.tileprovider.tilesource.IStyledTileSource<T>
-	c15643:p -> c15640:p [dir=back,arrowtail=empty,style=dashed];
+	c24051:p -> c24048:p [dir=back,arrowtail=empty,style=dashed];
 	//org.osmdroid.tileprovider.tilesource.FileBasedTileSource extends org.osmdroid.tileprovider.tilesource.XYTileSource
-	c15652:p -> c15641:p [dir=back,arrowtail=empty];
+	c24060:p -> c24049:p [dir=back,arrowtail=empty];
 	//org.osmdroid.tileprovider.tilesource.HEREWeGoTileSource extends org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase
-	c15647:p -> c15642:p [dir=back,arrowtail=empty];
+	c24055:p -> c24050:p [dir=back,arrowtail=empty];
 	//org.osmdroid.tileprovider.tilesource.MapBoxTileSource extends org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase
-	c15647:p -> c15645:p [dir=back,arrowtail=empty];
+	c24055:p -> c24053:p [dir=back,arrowtail=empty];
 	//org.osmdroid.tileprovider.tilesource.MapQuestTileSource extends org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase
-	c15647:p -> c15646:p [dir=back,arrowtail=empty];
+	c24055:p -> c24054:p [dir=back,arrowtail=empty];
 	//org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase extends org.osmdroid.tileprovider.tilesource.BitmapTileSourceBase
-	c15638:p -> c15647:p [dir=back,arrowtail=empty];
+	c24046:p -> c24055:p [dir=back,arrowtail=empty];
 	//org.osmdroid.tileprovider.tilesource.QuadTreeTileSource extends org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase
-	c15647:p -> c15648:p [dir=back,arrowtail=empty];
+	c24055:p -> c24056:p [dir=back,arrowtail=empty];
 	//org.osmdroid.tileprovider.tilesource.ThunderforestTileSource extends org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase
-	c15647:p -> c15649:p [dir=back,arrowtail=empty];
+	c24055:p -> c24057:p [dir=back,arrowtail=empty];
 	//org.osmdroid.tileprovider.tilesource.TMSOnlineTileSourceBase extends org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase
-	c15647:p -> c15651:p [dir=back,arrowtail=empty];
+	c24055:p -> c24059:p [dir=back,arrowtail=empty];
 	//org.osmdroid.tileprovider.tilesource.XYTileSource extends org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase
-	c15647:p -> c15652:p [dir=back,arrowtail=empty];
+	c24055:p -> c24060:p [dir=back,arrowtail=empty];
 }
 

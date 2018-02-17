@@ -78,9 +78,9 @@
 <br/>
 </p>
 <h2>Metrics</h2>
-<p>596 lines of code analyzed,
-	in 35 classes, 
-	in 3 packages.</p>
+<p>1792 lines of code analyzed,
+	in 57 classes, 
+	in 7 packages.</p>
 <table width="500" cellpadding="5" cellspacing="2">
 <tr class="tableheader">
 <th align="left">Metric</th>
@@ -89,8 +89,8 @@
 </tr>
 <tr class="tablerow0">
 <td>High Priority Warnings</td>
-<td align="right"/>
-<td align="right">0.00</td>
+<td align="right">1</td>
+<td align="right">0.56</td>
 </tr>
 <tr class="tablerow1">
 <td>Medium Priority Warnings</td>
@@ -102,10 +102,10 @@
 <b>Total Warnings</b>
 </td>
 <td align="right">
-<b>0</b>
+<b>1</b>
 </td>
 <td align="right">
-<b>0.00</b>
+<b>0.56</b>
 </td>
 </tr>
 </table>
@@ -119,6 +119,9 @@
 <h2>Contents</h2>
 <ul>
 <li>
+<a href="#Warnings_STYLE">Dodgy code Warnings</a>
+</li>
+<li>
 <a href="#Details">Details</a>
 </li>
 </ul>
@@ -130,18 +133,63 @@
 </tr>
 <tr class="tablerow0">
 <td>
+<a href="#Warnings_STYLE">Dodgy code Warnings</a>
+</td>
+<td align="right">1</td>
+</tr>
+<tr class="tablerow1">
+<td>
 <b>Total</b>
 </td>
 <td align="right">
-<b>0</b>
+<b>1</b>
 </td>
 </tr>
 </table>
 <h1>Warnings</h1>
 <p>Click on a warning row to see full context information.</p>
+<h2>
+<a name="Warnings_STYLE">Dodgy code Warnings</a>
+</h2>
+<table class="warningtable" width="100%" cellspacing="0">
+<tr class="tableheader">
+<th align="left">Code</th>
+<th align="left">Warning</th>
+</tr>
+<tr class="tablerow1" onclick="toggleRow('N65602');">
+<td>
+<span class="priority-1">DLS</span>
+</td>
+<td>Dead store to polylines in org.osmdroid.gpkg.overlay.OsmMapShapeConverter.toPolylines(CompoundCurve)</td>
+</tr>
+<tr class="detailrow1">
+<td/>
+<td>
+<p id="N65602" style="display: none;">
+<a href="#DLS_DEAD_LOCAL_STORE">Bug type DLS_DEAD_LOCAL_STORE (click for details)</a>
+<br/>In class org.osmdroid.gpkg.overlay.OsmMapShapeConverter<br/>In method org.osmdroid.gpkg.overlay.OsmMapShapeConverter.toPolylines(CompoundCurve)<br/>Local variable named polylines<br/>At OsmMapShapeConverter.java:[line 443]</p>
+</td>
+</tr>
+</table>
 <h1>
 <a name="Details">Details</a>
 </h1>
-</body>
+<h2>
+<a name="DLS_DEAD_LOCAL_STORE">DLS_DEAD_LOCAL_STORE: Dead store to local variable</a>
+</h2>
+
+<p>
+This instruction assigns a value to a local variable,
+but the value is not read or used in any subsequent instruction.
+Often, this indicates an error, because the value computed is never
+used.
+</p>
+<p>
+Note that Sun's javac compiler often generates dead stores for
+final local variables.  Because FindBugs is a bytecode-based tool,
+there is no easy way to eliminate these false positives.
+</p>
+
+    </body>
 </html>
 

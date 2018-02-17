@@ -10,53 +10,53 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.samplefragments.location.SampleMyLocationWithClick.MyLocationOverlayWithClick
-	c97106 [label=<<table title="org.osmdroid.samplefragments.location.SampleMyLocationWithClick.MyLocationOverlayWithClick" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../../samplefragments/location/SampleMyLocationWithClick.MyLocationOverlayWithClick.html">
+	c173516 [label=<<table title="org.osmdroid.samplefragments.location.SampleMyLocationWithClick.MyLocationOverlayWithClick" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../../samplefragments/location/SampleMyLocationWithClick.MyLocationOverlayWithClick.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MyLocationOverlayWithClick </td></tr>
 		</table></td></tr>
 		</table>>, URL="../../../samplefragments/location/SampleMyLocationWithClick.MyLocationOverlayWithClick.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.IOverlayMenuProvider
-	c97266 [label=<<table title="org.osmdroid.views.overlay.IOverlayMenuProvider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../IOverlayMenuProvider.html">
+	c173709 [label=<<table title="org.osmdroid.views.overlay.IOverlayMenuProvider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../IOverlayMenuProvider.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> IOverlayMenuProvider </td></tr>
 		</table></td></tr>
 		</table>>, URL="../IOverlayMenuProvider.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.mylocation.IMyLocationConsumer
-	c97282 [label=<<table title="org.osmdroid.views.overlay.mylocation.IMyLocationConsumer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./IMyLocationConsumer.html">
+	c173737 [label=<<table title="org.osmdroid.views.overlay.mylocation.IMyLocationConsumer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./IMyLocationConsumer.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> IMyLocationConsumer </td></tr>
 		</table></td></tr>
 		</table>>, URL="./IMyLocationConsumer.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay
-	c97284 [label=<<table title="org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./MyLocationNewOverlay.html">
+	c173739 [label=<<table title="org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./MyLocationNewOverlay.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MyLocationNewOverlay </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MyLocationNewOverlay.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.Overlay
-	c97287 [label=<<table title="org.osmdroid.views.overlay.Overlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../Overlay.html">
+	c173742 [label=<<table title="org.osmdroid.views.overlay.Overlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../Overlay.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> Overlay </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="../Overlay.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.Overlay.Snappable
-	c97288 [label=<<table title="org.osmdroid.views.overlay.Overlay.Snappable" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../Overlay.Snappable.html">
+	c173743 [label=<<table title="org.osmdroid.views.overlay.Overlay.Snappable" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../Overlay.Snappable.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> Snappable </td></tr>
 		</table></td></tr>
 		</table>>, URL="../Overlay.Snappable.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.samplefragments.location.SampleMyLocationWithClick.MyLocationOverlayWithClick extends org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay
-	c97284:p -> c97106:p [dir=back,arrowtail=empty];
+	c173739:p -> c173516:p [dir=back,arrowtail=empty];
 	//org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay extends org.osmdroid.views.overlay.Overlay
-	c97287:p -> c97284:p [dir=back,arrowtail=empty];
+	c173742:p -> c173739:p [dir=back,arrowtail=empty];
 	//org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay implements org.osmdroid.views.overlay.mylocation.IMyLocationConsumer
-	c97282:p -> c97284:p [dir=back,arrowtail=empty,style=dashed];
+	c173737:p -> c173739:p [dir=back,arrowtail=empty,style=dashed];
 	//org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay implements org.osmdroid.views.overlay.IOverlayMenuProvider
-	c97266:p -> c97284:p [dir=back,arrowtail=empty,style=dashed];
+	c173709:p -> c173739:p [dir=back,arrowtail=empty,style=dashed];
 	//org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay implements org.osmdroid.views.overlay.Overlay.Snappable
-	c97288:p -> c97284:p [dir=back,arrowtail=empty,style=dashed];
+	c173743:p -> c173739:p [dir=back,arrowtail=empty,style=dashed];
 }
 

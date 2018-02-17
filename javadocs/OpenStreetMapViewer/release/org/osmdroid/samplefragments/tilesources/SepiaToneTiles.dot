@@ -10,18 +10,18 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.samplefragments.BaseSampleFragment
-	c19423 [label=<<table title="org.osmdroid.samplefragments.BaseSampleFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../BaseSampleFragment.html">
+	c39807 [label=<<table title="org.osmdroid.samplefragments.BaseSampleFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../BaseSampleFragment.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> BaseSampleFragment </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="../BaseSampleFragment.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.tilesources.SepiaToneTiles
-	c19502 [label=<<table title="org.osmdroid.samplefragments.tilesources.SepiaToneTiles" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./SepiaToneTiles.html">
+	c39933 [label=<<table title="org.osmdroid.samplefragments.tilesources.SepiaToneTiles" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./SepiaToneTiles.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SepiaToneTiles </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SepiaToneTiles.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.samplefragments.tilesources.SepiaToneTiles extends org.osmdroid.samplefragments.BaseSampleFragment
-	c19423:p -> c19502:p [dir=back,arrowtail=empty];
+	c39807:p -> c39933:p [dir=back,arrowtail=empty];
 }
 

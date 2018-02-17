@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<issues format="4" by="lint 25.2.3">
+<issues format="4" by="lint 26.1.1">
 
     <issue
         id="MissingTranslation"
@@ -579,6 +579,29 @@ You can tell lint (and other tools) which language is the default language in yo
     <issue
         id="MissingTranslation"
         severity="Fatal"
+        message="&quot;`cache_delete_area`&quot; is not translated in &quot;de&quot; (German), &quot;it&quot; (Italian)"
+        category="Correctness:Messages"
+        priority="8"
+        summary="Incomplete translation"
+        explanation="If an application has more than one locale, then all the strings declared in one language should also be translated in all other languages.
+
+If the string should *not* be translated, you can add the attribute `translatable=&quot;false&quot;` on the `&lt;string>` element, or you can define all your non-translatable strings in a resource file called `donottranslate.xml`. Or, you can ignore the issue with a `tools:ignore=&quot;MissingTranslation&quot;` attribute.
+
+By default this detector allows regions of a language to just provide a subset of the strings and fall back to the standard language strings. You can require all regions to provide a full translation by setting the environment variable `ANDROID_LINT_COMPLETE_REGIONS`.
+
+You can tell lint (and other tools) which language is the default language in your `res/values/` folder by specifying `tools:locale=&quot;languageCode&quot;` for the root `&lt;resources>` element in your resource file. (The `tools` prefix refers to the namespace declaration `http://schemas.android.com/tools`.)"
+        errorLine1="    &lt;string name=&quot;cache_delete_area&quot;>Delete Area&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~"
+        quickfix="adt">
+        <location
+            file=".\OpenStreetMapViewer\src\main\res\values\strings.xml"
+            line="33"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        severity="Fatal"
         message="&quot;`sdcardstate`&quot; is not translated in &quot;de&quot; (German), &quot;it&quot; (Italian)"
         category="Correctness:Messages"
         priority="8"
@@ -595,7 +618,7 @@ You can tell lint (and other tools) which language is the default language in yo
         quickfix="adt">
         <location
             file=".\OpenStreetMapViewer\src\main\res\values\strings.xml"
-            line="33"
+            line="34"
             column="13"/>
     </issue>
 
@@ -618,7 +641,7 @@ You can tell lint (and other tools) which language is the default language in yo
         quickfix="adt">
         <location
             file=".\OpenStreetMapViewer\src\main\res\values\strings.xml"
-            line="36"
+            line="37"
             column="13"/>
     </issue>
 
@@ -641,7 +664,7 @@ You can tell lint (and other tools) which language is the default language in yo
         quickfix="adt">
         <location
             file=".\OpenStreetMapViewer\src\main\res\values\strings.xml"
-            line="37"
+            line="38"
             column="13"/>
     </issue>
 
@@ -664,7 +687,7 @@ You can tell lint (and other tools) which language is the default language in yo
         quickfix="adt">
         <location
             file=".\OpenStreetMapViewer\src\main\res\values\strings.xml"
-            line="38"
+            line="39"
             column="13"/>
     </issue>
 
@@ -687,7 +710,7 @@ You can tell lint (and other tools) which language is the default language in yo
         quickfix="adt">
         <location
             file=".\OpenStreetMapViewer\src\main\res\values\strings.xml"
-            line="39"
+            line="40"
             column="13"/>
     </issue>
 
@@ -710,7 +733,7 @@ You can tell lint (and other tools) which language is the default language in yo
         quickfix="adt">
         <location
             file=".\OpenStreetMapViewer\src\main\res\values\strings.xml"
-            line="40"
+            line="41"
             column="13"/>
     </issue>
 
@@ -733,7 +756,7 @@ You can tell lint (and other tools) which language is the default language in yo
         quickfix="adt">
         <location
             file=".\OpenStreetMapViewer\src\main\res\values\strings.xml"
-            line="41"
+            line="42"
             column="13"/>
     </issue>
 
@@ -751,12 +774,12 @@ If the string should *not* be translated, you can add the attribute `translatabl
 By default this detector allows regions of a language to just provide a subset of the strings and fall back to the standard language strings. You can require all regions to provide a full translation by setting the environment variable `ANDROID_LINT_COMPLETE_REGIONS`.
 
 You can tell lint (and other tools) which language is the default language in your `res/values/` folder by specifying `tools:locale=&quot;languageCode&quot;` for the root `&lt;resources>` element in your resource file. (The `tools` prefix refers to the namespace declaration `http://schemas.android.com/tools`.)"
-        errorLine1="    &lt;string name=&quot;enable_mapview_hardware_acceleration&quot;>Enable MapView Hardware Acceleration (normally off)&lt;/string>"
+        errorLine1="    &lt;string name=&quot;enable_mapview_hardware_acceleration&quot;>Enable MapView Hardware Acceleration (normally on)&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
         quickfix="adt">
         <location
             file=".\OpenStreetMapViewer\src\main\res\values\strings.xml"
-            line="42"
+            line="43"
             column="13"/>
     </issue>
 
@@ -779,7 +802,7 @@ You can tell lint (and other tools) which language is the default language in yo
         quickfix="adt">
         <location
             file=".\OpenStreetMapViewer\src\main\res\values\strings.xml"
-            line="43"
+            line="44"
             column="13"/>
     </issue>
 
@@ -802,7 +825,7 @@ You can tell lint (and other tools) which language is the default language in yo
         quickfix="adt">
         <location
             file=".\OpenStreetMapViewer\src\main\res\values\strings.xml"
-            line="44"
+            line="45"
             column="13"/>
     </issue>
 
@@ -825,7 +848,7 @@ You can tell lint (and other tools) which language is the default language in yo
         quickfix="adt">
         <location
             file=".\OpenStreetMapViewer\src\main\res\values\strings.xml"
-            line="45"
+            line="46"
             column="13"/>
     </issue>
 
@@ -848,7 +871,7 @@ You can tell lint (and other tools) which language is the default language in yo
         quickfix="adt">
         <location
             file=".\OpenStreetMapViewer\src\main\res\values\strings.xml"
-            line="46"
+            line="47"
             column="13"/>
     </issue>
 
@@ -871,7 +894,7 @@ You can tell lint (and other tools) which language is the default language in yo
         quickfix="adt">
         <location
             file=".\OpenStreetMapViewer\src\main\res\values\strings.xml"
-            line="47"
+            line="48"
             column="13"/>
     </issue>
 
@@ -894,7 +917,7 @@ You can tell lint (and other tools) which language is the default language in yo
         quickfix="adt">
         <location
             file=".\OpenStreetMapViewer\src\main\res\values\strings.xml"
-            line="48"
+            line="49"
             column="13"/>
     </issue>
 
@@ -917,7 +940,7 @@ You can tell lint (and other tools) which language is the default language in yo
         quickfix="adt">
         <location
             file=".\OpenStreetMapViewer\src\main\res\values\strings.xml"
-            line="49"
+            line="50"
             column="13"/>
     </issue>
 
@@ -940,7 +963,7 @@ You can tell lint (and other tools) which language is the default language in yo
         quickfix="adt">
         <location
             file=".\OpenStreetMapViewer\src\main\res\values\strings.xml"
-            line="50"
+            line="51"
             column="13"/>
     </issue>
 
@@ -963,7 +986,7 @@ You can tell lint (and other tools) which language is the default language in yo
         quickfix="adt">
         <location
             file=".\OpenStreetMapViewer\src\main\res\values\strings.xml"
-            line="51"
+            line="52"
             column="13"/>
     </issue>
 
@@ -986,7 +1009,7 @@ You can tell lint (and other tools) which language is the default language in yo
         quickfix="adt">
         <location
             file=".\OpenStreetMapViewer\src\main\res\values\strings.xml"
-            line="52"
+            line="53"
             column="13"/>
     </issue>
 
@@ -1009,7 +1032,7 @@ You can tell lint (and other tools) which language is the default language in yo
         quickfix="adt">
         <location
             file=".\OpenStreetMapViewer\src\main\res\values\strings.xml"
-            line="53"
+            line="54"
             column="13"/>
     </issue>
 
@@ -1032,7 +1055,7 @@ You can tell lint (and other tools) which language is the default language in yo
         quickfix="adt">
         <location
             file=".\OpenStreetMapViewer\src\main\res\values\strings.xml"
-            line="54"
+            line="55"
             column="13"/>
     </issue>
 
@@ -1055,7 +1078,7 @@ You can tell lint (and other tools) which language is the default language in yo
         quickfix="adt">
         <location
             file=".\OpenStreetMapViewer\src\main\res\values\strings.xml"
-            line="55"
+            line="56"
             column="13"/>
     </issue>
 
@@ -1078,7 +1101,7 @@ You can tell lint (and other tools) which language is the default language in yo
         quickfix="adt">
         <location
             file=".\OpenStreetMapViewer\src\main\res\values\strings.xml"
-            line="56"
+            line="57"
             column="13"/>
     </issue>
 
@@ -1101,7 +1124,7 @@ You can tell lint (and other tools) which language is the default language in yo
         quickfix="adt">
         <location
             file=".\OpenStreetMapViewer\src\main\res\values\strings.xml"
-            line="57"
+            line="58"
             column="13"/>
     </issue>
 
@@ -1124,7 +1147,7 @@ You can tell lint (and other tools) which language is the default language in yo
         quickfix="adt">
         <location
             file=".\OpenStreetMapViewer\src\main\res\values\strings.xml"
-            line="58"
+            line="59"
             column="13"/>
     </issue>
 
@@ -1147,7 +1170,7 @@ You can tell lint (and other tools) which language is the default language in yo
         quickfix="adt">
         <location
             file=".\OpenStreetMapViewer\src\main\res\values\strings.xml"
-            line="59"
+            line="60"
             column="13"/>
     </issue>
 
@@ -1170,7 +1193,7 @@ You can tell lint (and other tools) which language is the default language in yo
         quickfix="adt">
         <location
             file=".\OpenStreetMapViewer\src\main\res\values\strings.xml"
-            line="60"
+            line="61"
             column="13"/>
     </issue>
 
@@ -1193,7 +1216,7 @@ You can tell lint (and other tools) which language is the default language in yo
         quickfix="adt">
         <location
             file=".\OpenStreetMapViewer\src\main\res\values\strings.xml"
-            line="61"
+            line="62"
             column="13"/>
     </issue>
 
@@ -1216,7 +1239,7 @@ You can tell lint (and other tools) which language is the default language in yo
         quickfix="adt">
         <location
             file=".\OpenStreetMapViewer\src\main\res\values\strings.xml"
-            line="62"
+            line="63"
             column="13"/>
     </issue>
 
@@ -1239,7 +1262,7 @@ You can tell lint (and other tools) which language is the default language in yo
         quickfix="adt">
         <location
             file=".\OpenStreetMapViewer\src\main\res\values\strings.xml"
-            line="63"
+            line="64"
             column="13"/>
     </issue>
 
@@ -1262,7 +1285,7 @@ You can tell lint (and other tools) which language is the default language in yo
         quickfix="adt">
         <location
             file=".\OpenStreetMapViewer\src\main\res\values\strings.xml"
-            line="64"
+            line="65"
             column="13"/>
     </issue>
 
@@ -1285,7 +1308,7 @@ You can tell lint (and other tools) which language is the default language in yo
         quickfix="adt">
         <location
             file=".\OpenStreetMapViewer\src\main\res\values\strings.xml"
-            line="65"
+            line="66"
             column="13"/>
     </issue>
 
@@ -1308,7 +1331,7 @@ You can tell lint (and other tools) which language is the default language in yo
         quickfix="adt">
         <location
             file=".\OpenStreetMapViewer\src\main\res\values\strings.xml"
-            line="66"
+            line="67"
             column="13"/>
     </issue>
 
@@ -1331,7 +1354,7 @@ You can tell lint (and other tools) which language is the default language in yo
         quickfix="adt">
         <location
             file=".\OpenStreetMapViewer\src\main\res\values\strings.xml"
-            line="67"
+            line="68"
             column="13"/>
     </issue>
 
@@ -1354,7 +1377,7 @@ You can tell lint (and other tools) which language is the default language in yo
         quickfix="adt">
         <location
             file=".\OpenStreetMapViewer\src\main\res\values\strings.xml"
-            line="68"
+            line="69"
             column="13"/>
     </issue>
 
@@ -1377,7 +1400,7 @@ You can tell lint (and other tools) which language is the default language in yo
         quickfix="adt">
         <location
             file=".\OpenStreetMapViewer\src\main\res\values\strings.xml"
-            line="69"
+            line="70"
             column="13"/>
     </issue>
 
@@ -1400,7 +1423,7 @@ You can tell lint (and other tools) which language is the default language in yo
         quickfix="adt">
         <location
             file=".\OpenStreetMapViewer\src\main\res\values\strings.xml"
-            line="70"
+            line="71"
             column="13"/>
     </issue>
 
@@ -1423,7 +1446,7 @@ You can tell lint (and other tools) which language is the default language in yo
         quickfix="adt">
         <location
             file=".\OpenStreetMapViewer\src\main\res\values\strings.xml"
-            line="71"
+            line="72"
             column="13"/>
     </issue>
 
@@ -1446,7 +1469,7 @@ You can tell lint (and other tools) which language is the default language in yo
         quickfix="adt">
         <location
             file=".\OpenStreetMapViewer\src\main\res\values\strings.xml"
-            line="72"
+            line="73"
             column="13"/>
     </issue>
 
@@ -1469,7 +1492,7 @@ You can tell lint (and other tools) which language is the default language in yo
         quickfix="adt">
         <location
             file=".\OpenStreetMapViewer\src\main\res\values\strings.xml"
-            line="73"
+            line="74"
             column="13"/>
     </issue>
 
@@ -1492,7 +1515,7 @@ You can tell lint (and other tools) which language is the default language in yo
         quickfix="adt">
         <location
             file=".\OpenStreetMapViewer\src\main\res\values\strings.xml"
-            line="74"
+            line="75"
             column="13"/>
     </issue>
 
@@ -1515,7 +1538,7 @@ You can tell lint (and other tools) which language is the default language in yo
         quickfix="adt">
         <location
             file=".\OpenStreetMapViewer\src\main\res\values\strings.xml"
-            line="75"
+            line="76"
             column="13"/>
     </issue>
 
@@ -1538,7 +1561,7 @@ You can tell lint (and other tools) which language is the default language in yo
         quickfix="adt">
         <location
             file=".\OpenStreetMapViewer\src\main\res\values\strings.xml"
-            line="76"
+            line="77"
             column="13"/>
     </issue>
 
@@ -1561,7 +1584,7 @@ You can tell lint (and other tools) which language is the default language in yo
         quickfix="adt">
         <location
             file=".\OpenStreetMapViewer\src\main\res\values\strings.xml"
-            line="77"
+            line="78"
             column="13"/>
     </issue>
 
@@ -1584,7 +1607,7 @@ You can tell lint (and other tools) which language is the default language in yo
         quickfix="adt">
         <location
             file=".\OpenStreetMapViewer\src\main\res\values\strings.xml"
-            line="78"
+            line="79"
             column="13"/>
     </issue>
 
@@ -1607,7 +1630,7 @@ You can tell lint (and other tools) which language is the default language in yo
         quickfix="adt">
         <location
             file=".\OpenStreetMapViewer\src\main\res\values\strings.xml"
-            line="79"
+            line="80"
             column="13"/>
     </issue>
 
@@ -1630,7 +1653,7 @@ You can tell lint (and other tools) which language is the default language in yo
         quickfix="adt">
         <location
             file=".\OpenStreetMapViewer\src\main\res\values\strings.xml"
-            line="80"
+            line="81"
             column="13"/>
     </issue>
 
@@ -1653,7 +1676,7 @@ You can tell lint (and other tools) which language is the default language in yo
         quickfix="adt">
         <location
             file=".\OpenStreetMapViewer\src\main\res\values\strings.xml"
-            line="81"
+            line="82"
             column="13"/>
     </issue>
 
@@ -1676,7 +1699,7 @@ You can tell lint (and other tools) which language is the default language in yo
         quickfix="adt">
         <location
             file=".\OpenStreetMapViewer\src\main\res\values\strings.xml"
-            line="82"
+            line="83"
             column="13"/>
     </issue>
 
@@ -1699,7 +1722,7 @@ You can tell lint (and other tools) which language is the default language in yo
         quickfix="adt">
         <location
             file=".\OpenStreetMapViewer\src\main\res\values\strings.xml"
-            line="83"
+            line="84"
             column="13"/>
     </issue>
 
@@ -1722,7 +1745,7 @@ You can tell lint (and other tools) which language is the default language in yo
         quickfix="adt">
         <location
             file=".\OpenStreetMapViewer\src\main\res\values\strings.xml"
-            line="84"
+            line="85"
             column="13"/>
     </issue>
 
@@ -1745,7 +1768,7 @@ You can tell lint (and other tools) which language is the default language in yo
         quickfix="adt">
         <location
             file=".\OpenStreetMapViewer\src\main\res\values\strings.xml"
-            line="85"
+            line="86"
             column="13"/>
     </issue>
 
@@ -1768,7 +1791,7 @@ You can tell lint (and other tools) which language is the default language in yo
         quickfix="adt">
         <location
             file=".\OpenStreetMapViewer\src\main\res\values\strings.xml"
-            line="86"
+            line="87"
             column="13"/>
     </issue>
 
@@ -1791,7 +1814,7 @@ You can tell lint (and other tools) which language is the default language in yo
         quickfix="adt">
         <location
             file=".\OpenStreetMapViewer\src\main\res\values\strings.xml"
-            line="87"
+            line="88"
             column="13"/>
     </issue>
 
@@ -1814,7 +1837,7 @@ You can tell lint (and other tools) which language is the default language in yo
         quickfix="adt">
         <location
             file=".\OpenStreetMapViewer\src\main\res\values\strings.xml"
-            line="88"
+            line="89"
             column="13"/>
     </issue>
 
@@ -1837,7 +1860,7 @@ You can tell lint (and other tools) which language is the default language in yo
         quickfix="adt">
         <location
             file=".\OpenStreetMapViewer\src\main\res\values\strings.xml"
-            line="89"
+            line="90"
             column="13"/>
     </issue>
 
@@ -1860,7 +1883,7 @@ You can tell lint (and other tools) which language is the default language in yo
         quickfix="adt">
         <location
             file=".\OpenStreetMapViewer\src\main\res\values\strings.xml"
-            line="90"
+            line="91"
             column="13"/>
     </issue>
 

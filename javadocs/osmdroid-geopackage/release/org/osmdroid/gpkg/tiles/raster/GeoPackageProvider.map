@@ -1,0 +1,8 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="./GeoPackageProvider.html" title="org.osmdroid.gpkg.tiles.raster.GeoPackageProvider" alt="" coords="115,118,255,143"/>
+<area shape="rect" id="node1" href="./GeoPackageProvider.html" title="&lt;TABLE&gt;" alt="" coords="105,107,266,155"/>
+<area shape="rect" id="node2_1" href="http://java.sun.com/j2se/1.4.2/docs/api/org/osmdroid/tileprovider/MapTileProviderArray.html" title="org.osmdroid.tileprovider.MapTileProviderArray" alt="" coords="16,19,157,45"/>
+<area shape="rect" id="node2" href="http://java.sun.com/j2se/1.4.2/docs/api/org/osmdroid/tileprovider/MapTileProviderArray.html" title="&lt;TABLE&gt;" alt="" coords="5,8,168,56"/>
+<area shape="rect" id="node3_2" href="http://java.sun.com/j2se/1.4.2/docs/api/org/osmdroid/tileprovider/IMapTileProviderCallback.html" title="org.osmdroid.tileprovider.IMapTileProviderCallback" alt="" coords="203,11,367,53"/>
+<area shape="rect" id="node3" href="http://java.sun.com/j2se/1.4.2/docs/api/org/osmdroid/tileprovider/IMapTileProviderCallback.html" title="&lt;TABLE&gt;" alt="" coords="193,5,378,59"/>
+</map>

@@ -10,15 +10,15 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.google.sample.Googlev1WrapperSample
-	c54025 [label=<<table title="org.osmdroid.google.sample.Googlev1WrapperSample" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./Googlev1WrapperSample.html">
+	c93634 [label=<<table title="org.osmdroid.google.sample.Googlev1WrapperSample" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./Googlev1WrapperSample.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> Googlev1WrapperSample </td></tr>
 		</table></td></tr>
 		</table>>, URL="./Googlev1WrapperSample.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.google.sample.Googlev1WrapperSample extends FragmentActivity
-	c54392:p -> c54025:p [dir=back,arrowtail=empty];
+	c94129:p -> c93634:p [dir=back,arrowtail=empty];
 	// FragmentActivity
-	c54392[label=<<table title="FragmentActivity" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api//FragmentActivity.html">
+	c94129[label=<<table title="FragmentActivity" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api//FragmentActivity.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> FragmentActivity </td></tr>
 		</table></td></tr>

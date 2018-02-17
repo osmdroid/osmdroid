@@ -1,0 +1,12 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="../data/SampleGridlines.html" title="org.osmdroid.samplefragments.data.SampleGridlines" alt="" coords="16,19,131,45"/>
+<area shape="rect" id="node1" href="../data/SampleGridlines.html" title="&lt;TABLE&gt;" alt="" coords="5,8,141,56"/>
+<area shape="rect" id="node3_1" href="./Plotter.html" title="org.osmdroid.samplefragments.milstd2525.Plotter" alt="" coords="259,118,317,143"/>
+<area shape="rect" id="node3" href="./Plotter.html" title="&lt;TABLE&gt;" alt="" coords="249,107,327,155"/>
+<area shape="rect" id="node2_2" href="./ListPicker.Callback.html" title="org.osmdroid.samplefragments.milstd2525.ListPicker.Callback" alt="" coords="176,11,259,53"/>
+<area shape="rect" id="node2" href="./ListPicker.Callback.html" title="&lt;TABLE&gt;" alt="" coords="165,5,269,59"/>
+<area shape="rect" id="node4_3" href="http://java.sun.com/j2se/1.4.2/docs/api/android/view/View/OnClickListener.html" title="android.view.View.OnClickListener" alt="" coords="304,11,416,53"/>
+<area shape="rect" id="node4" href="http://java.sun.com/j2se/1.4.2/docs/api/android/view/View/OnClickListener.html" title="&lt;TABLE&gt;" alt="" coords="293,5,427,59"/>
+<area shape="rect" id="node5_4" href="http://java.sun.com/j2se/1.4.2/docs/api/android/text/TextWatcher.html" title="android.text.TextWatcher" alt="" coords="461,11,555,53"/>
+<area shape="rect" id="node5" href="http://java.sun.com/j2se/1.4.2/docs/api/android/text/TextWatcher.html" title="&lt;TABLE&gt;" alt="" coords="451,5,565,59"/>
+</map>

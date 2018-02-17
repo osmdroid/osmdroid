@@ -1,4 +1,6 @@
 <map id="G" name="G">
-<area shape="rect" id="node1_0" href="./SensorEventListenerProxy.html" title="org.osmdroid.SensorEventListenerProxy" alt="" coords="16,17,188,42"/>
-<area shape="rect" id="node1" href="./SensorEventListenerProxy.html" title="&lt;TABLE&gt;" alt="" coords="5,5,199,53"/>
+<area shape="rect" id="node1_0" href="./SensorEventListenerProxy.html" title="org.osmdroid.SensorEventListenerProxy" alt="" coords="16,118,188,143"/>
+<area shape="rect" id="node1" href="./SensorEventListenerProxy.html" title="&lt;TABLE&gt;" alt="" coords="5,107,199,155"/>
+<area shape="rect" id="node2_1" href="http://java.sun.com/j2se/1.4.2/docs/api/android/hardware/SensorEventListener.html" title="android.hardware.SensorEventListener" alt="" coords="33,11,171,53"/>
+<area shape="rect" id="node2" href="http://java.sun.com/j2se/1.4.2/docs/api/android/hardware/SensorEventListener.html" title="&lt;TABLE&gt;" alt="" coords="22,5,182,59"/>
 </map>

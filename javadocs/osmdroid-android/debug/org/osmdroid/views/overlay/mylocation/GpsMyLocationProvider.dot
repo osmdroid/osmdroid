@@ -10,19 +10,28 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider
-	c11462 [label=<<table title="org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./GpsMyLocationProvider.html">
+	c13440 [label=<<table title="org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./GpsMyLocationProvider.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> GpsMyLocationProvider </td></tr>
 		</table></td></tr>
 		</table>>, URL="./GpsMyLocationProvider.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.mylocation.IMyLocationProvider
-	c11464 [label=<<table title="org.osmdroid.views.overlay.mylocation.IMyLocationProvider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./IMyLocationProvider.html">
+	c13442 [label=<<table title="org.osmdroid.views.overlay.mylocation.IMyLocationProvider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./IMyLocationProvider.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> IMyLocationProvider </td></tr>
 		</table></td></tr>
 		</table>>, URL="./IMyLocationProvider.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider implements org.osmdroid.views.overlay.mylocation.IMyLocationProvider
-	c11464:p -> c11462:p [dir=back,arrowtail=empty,style=dashed];
+	c13442:p -> c13440:p [dir=back,arrowtail=empty,style=dashed];
+	//org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider implements android.location.LocationListener
+	c13479:p -> c13440:p [dir=back,arrowtail=empty,style=dashed];
+	// android.location.LocationListener
+	c13479 [label=<<table title="android.location.LocationListener" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/android/location/LocationListener.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
+<tr><td align="center" balign="center"> LocationListener </td></tr>
+		</table></td></tr>
+		</table>>, URL="http://java.sun.com/j2se/1.4.2/docs/api/android/location/LocationListener.html", fontname="arial", fontcolor="black", fontsize=10.0];
 }
 

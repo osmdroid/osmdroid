@@ -1,8 +1,10 @@
 <map id="G" name="G">
-<area shape="rect" id="node1_0" href="./FileBasedTileSource.html" title="org.osmdroid.tileprovider.tilesource.FileBasedTileSource" alt="" coords="21,209,159,234"/>
-<area shape="rect" id="node1" href="./FileBasedTileSource.html" title="&lt;TABLE&gt;" alt="" coords="10,197,170,245"/>
-<area shape="rect" id="node2_1" href="./OnlineTileSourceBase.html" title="org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase" alt="" coords="16,17,164,42"/>
-<area shape="rect" id="node2" href="./OnlineTileSourceBase.html" title="&lt;TABLE&gt;" alt="" coords="5,5,175,53"/>
-<area shape="rect" id="node3_2" href="./XYTileSource.html" title="org.osmdroid.tileprovider.tilesource.XYTileSource" alt="" coords="42,113,138,138"/>
-<area shape="rect" id="node3" href="./XYTileSource.html" title="&lt;TABLE&gt;" alt="" coords="31,101,149,149"/>
+<area shape="rect" id="node1_0" href="./FileBasedTileSource.html" title="org.osmdroid.tileprovider.tilesource.FileBasedTileSource" alt="" coords="16,209,155,234"/>
+<area shape="rect" id="node1" href="./FileBasedTileSource.html" title="&lt;TABLE&gt;" alt="" coords="5,197,165,245"/>
+<area shape="rect" id="node2_1" href="./OnlineTileSourceBase.html" title="org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase" alt="" coords="117,17,265,42"/>
+<area shape="rect" id="node2" href="./OnlineTileSourceBase.html" title="&lt;TABLE&gt;" alt="" coords="106,5,275,53"/>
+<area shape="rect" id="node3_2" href="./XYTileSource.html" title="org.osmdroid.tileprovider.tilesource.XYTileSource" alt="" coords="143,113,239,138"/>
+<area shape="rect" id="node3" href="./XYTileSource.html" title="&lt;TABLE&gt;" alt="" coords="132,101,249,149"/>
+<area shape="rect" id="node4_3" href="../../gpkg/tiles/raster/GeopackageRasterTileSource.html" title="org.osmdroid.gpkg.tiles.raster.GeopackageRasterTileSource" alt="" coords="200,209,392,234"/>
+<area shape="rect" id="node4" href="../../gpkg/tiles/raster/GeopackageRasterTileSource.html" title="&lt;TABLE&gt;" alt="" coords="189,197,403,245"/>
 </map>

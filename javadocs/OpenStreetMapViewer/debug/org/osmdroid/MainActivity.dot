@@ -10,15 +10,24 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.MainActivity
-	c9275 [label=<<table title="org.osmdroid.MainActivity" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./MainActivity.html">
+	c20220 [label=<<table title="org.osmdroid.MainActivity" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./MainActivity.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MainActivity </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MainActivity.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.MainActivity extends android.support.v7.app.AppCompatActivity
-	c9376:p -> c9275:p [dir=back,arrowtail=empty];
+	c20379:p -> c20220:p [dir=back,arrowtail=empty];
+	//org.osmdroid.MainActivity implements android.widget.AdapterView.OnItemClickListener
+	c20380:p -> c20220:p [dir=back,arrowtail=empty,style=dashed];
+	// android.widget.AdapterView.OnItemClickListener
+	c20380 [label=<<table title="android.widget.AdapterView.OnItemClickListener" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/android/widget/AdapterView/OnItemClickListener.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
+<tr><td align="center" balign="center"> OnItemClickListener </td></tr>
+		</table></td></tr>
+		</table>>, URL="http://java.sun.com/j2se/1.4.2/docs/api/android/widget/AdapterView/OnItemClickListener.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// android.support.v7.app.AppCompatActivity
-	c9376 [label=<<table title="android.support.v7.app.AppCompatActivity" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/android/support/v7/app/AppCompatActivity.html">
+	c20379 [label=<<table title="android.support.v7.app.AppCompatActivity" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/android/support/v7/app/AppCompatActivity.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> AppCompatActivity </td></tr>
 		</table></td></tr>

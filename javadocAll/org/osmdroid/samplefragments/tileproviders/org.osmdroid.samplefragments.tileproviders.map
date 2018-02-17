@@ -1,10 +1,16 @@
 <map id="G" name="G">
-<area shape="rect" id="node1_0" href="./GeopackageSample.html" title="org.osmdroid.samplefragments.tileproviders.GeopackageSample" alt="" coords="16,17,152,42"/>
-<area shape="rect" id="node1" href="./GeopackageSample.html" title="&lt;TABLE&gt;" alt="" coords="5,5,163,53"/>
-<area shape="rect" id="node2_1" href="./MapsforgeTileProviderSample.html" title="org.osmdroid.samplefragments.tileproviders.MapsforgeTileProviderSample" alt="" coords="197,17,387,42"/>
-<area shape="rect" id="node2" href="./MapsforgeTileProviderSample.html" title="&lt;TABLE&gt;" alt="" coords="187,5,397,53"/>
+<area shape="rect" id="node1_0" href="./MapsforgeTileProviderSample.html" title="org.osmdroid.samplefragments.tileproviders.MapsforgeTileProviderSample" alt="" coords="16,17,205,42"/>
+<area shape="rect" id="node1" href="./MapsforgeTileProviderSample.html" title="&lt;TABLE&gt;" alt="" coords="5,5,216,53"/>
+<area shape="rect" id="node2_1" href="./OfflinePickerSample.html" title="org.osmdroid.samplefragments.tileproviders.OfflinePickerSample" alt="" coords="251,17,387,42"/>
+<area shape="rect" id="node2" href="./OfflinePickerSample.html" title="&lt;TABLE&gt;" alt="" coords="240,5,397,53"/>
 <area shape="rect" id="node3_2" href="./SampleAssetsOnly.html" title="org.osmdroid.samplefragments.tileproviders.SampleAssetsOnly" alt="" coords="433,17,565,42"/>
 <area shape="rect" id="node3" href="./SampleAssetsOnly.html" title="&lt;TABLE&gt;" alt="" coords="422,5,575,53"/>
-<area shape="rect" id="node4_3" href="./SampleOfflineOnly.html" title="org.osmdroid.samplefragments.tileproviders.SampleOfflineOnly" alt="" coords="610,17,737,42"/>
-<area shape="rect" id="node4" href="./SampleOfflineOnly.html" title="&lt;TABLE&gt;" alt="" coords="599,5,747,53"/>
+<area shape="rect" id="node4_3" href="./SampleAssetsOnlyRepetitionModes.html" title="org.osmdroid.samplefragments.tileproviders.SampleAssetsOnlyRepetitionModes" alt="" coords="610,17,838,42"/>
+<area shape="rect" id="node4" href="./SampleAssetsOnlyRepetitionModes.html" title="&lt;TABLE&gt;" alt="" coords="599,5,849,53"/>
+<area shape="rect" id="node5_4" href="./SampleOfflineGemfOnly.html" title="org.osmdroid.samplefragments.tileproviders.SampleOfflineGemfOnly" alt="" coords="884,17,1041,42"/>
+<area shape="rect" id="node5" href="./SampleOfflineGemfOnly.html" title="&lt;TABLE&gt;" alt="" coords="873,5,1052,53"/>
+<area shape="rect" id="node6_5" href="./SampleOfflineOnly.html" title="org.osmdroid.samplefragments.tileproviders.SampleOfflineOnly" alt="" coords="1087,17,1214,42"/>
+<area shape="rect" id="node6" href="./SampleOfflineOnly.html" title="&lt;TABLE&gt;" alt="" coords="1077,5,1225,53"/>
+<area shape="rect" id="node7_6" href="./SampleVeryHighZoomLevel.html" title="org.osmdroid.samplefragments.tileproviders.SampleVeryHighZoomLevel" alt="" coords="1259,17,1437,42"/>
+<area shape="rect" id="node7" href="./SampleVeryHighZoomLevel.html" title="&lt;TABLE&gt;" alt="" coords="1249,5,1447,53"/>
 </map>

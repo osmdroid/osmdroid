@@ -1,8 +1,10 @@
 <map id="G" name="G">
-<area shape="rect" id="node1_0" href="./IMapTileProviderCallback.html" title="org.osmdroid.tileprovider.IMapTileProviderCallback" alt="" coords="16,11,180,53"/>
-<area shape="rect" id="node1" href="./IMapTileProviderCallback.html" title="&lt;TABLE&gt;" alt="" coords="5,5,191,59"/>
-<area shape="rect" id="node3_1" href="./MapTileProviderBase.html" title="org.osmdroid.tileprovider.MapTileProviderBase" alt="" coords="27,118,169,143"/>
-<area shape="rect" id="node3" href="./MapTileProviderBase.html" title="&lt;TABLE&gt;" alt="" coords="17,107,179,155"/>
-<area shape="rect" id="node2_2" href="./MapTileProviderArray.html" title="org.osmdroid.tileprovider.MapTileProviderArray" alt="" coords="27,214,169,239"/>
-<area shape="rect" id="node2" href="./MapTileProviderArray.html" title="&lt;TABLE&gt;" alt="" coords="17,203,179,251"/>
+<area shape="rect" id="node1_0" href="./IMapTileProviderCallback.html" title="org.osmdroid.tileprovider.IMapTileProviderCallback" alt="" coords="114,11,278,53"/>
+<area shape="rect" id="node1" href="./IMapTileProviderCallback.html" title="&lt;TABLE&gt;" alt="" coords="103,5,289,59"/>
+<area shape="rect" id="node3_1" href="./MapTileProviderBase.html" title="org.osmdroid.tileprovider.MapTileProviderBase" alt="" coords="125,118,267,143"/>
+<area shape="rect" id="node3" href="./MapTileProviderBase.html" title="&lt;TABLE&gt;" alt="" coords="115,107,277,155"/>
+<area shape="rect" id="node2_2" href="./MapTileProviderArray.html" title="org.osmdroid.tileprovider.MapTileProviderArray" alt="" coords="16,214,157,239"/>
+<area shape="rect" id="node2" href="./MapTileProviderArray.html" title="&lt;TABLE&gt;" alt="" coords="5,203,168,251"/>
+<area shape="rect" id="node4_3" href="../gpkg/tiles/feature/GeoPackageFeatureTileProvider.html" title="org.osmdroid.gpkg.tiles.feature.GeoPackageFeatureTileProvider" alt="" coords="203,214,407,239"/>
+<area shape="rect" id="node4" href="../gpkg/tiles/feature/GeoPackageFeatureTileProvider.html" title="&lt;TABLE&gt;" alt="" coords="193,203,418,251"/>
 </map>

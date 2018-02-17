@@ -1,0 +1,14 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="../BaseSampleFragment.html" title="org.osmdroid.samplefragments.BaseSampleFragment" alt="" coords="182,19,330,45"/>
+<area shape="rect" id="node1" href="../BaseSampleFragment.html" title="&lt;TABLE&gt;" alt="" coords="171,8,341,56"/>
+<area shape="rect" id="node2_1" href="./DrawPolygon.html" title="org.osmdroid.samplefragments.drawing.DrawPolygon" alt="" coords="296,118,392,143"/>
+<area shape="rect" id="node2" href="./DrawPolygon.html" title="&lt;TABLE&gt;" alt="" coords="285,107,403,155"/>
+<area shape="rect" id="node3_2" href="./DrawPolygonWithArrows.html" title="org.osmdroid.samplefragments.drawing.DrawPolygonWithArrows" alt="" coords="16,214,179,239"/>
+<area shape="rect" id="node3" href="./DrawPolygonWithArrows.html" title="&lt;TABLE&gt;" alt="" coords="5,203,189,251"/>
+<area shape="rect" id="node4_3" href="./DrawPolygonWithoutVerticalWrapping.html" title="org.osmdroid.samplefragments.drawing.DrawPolygonWithoutVerticalWrapping" alt="" coords="224,214,464,239"/>
+<area shape="rect" id="node4" href="./DrawPolygonWithoutVerticalWrapping.html" title="&lt;TABLE&gt;" alt="" coords="213,203,475,251"/>
+<area shape="rect" id="node5_4" href="./DrawPolygonWithoutWrapping.html" title="org.osmdroid.samplefragments.drawing.DrawPolygonWithoutWrapping" alt="" coords="510,214,706,239"/>
+<area shape="rect" id="node5" href="./DrawPolygonWithoutWrapping.html" title="&lt;TABLE&gt;" alt="" coords="499,203,717,251"/>
+<area shape="rect" id="node6_5" href="http://java.sun.com/j2se/1.4.2/docs/api/android/view/View/OnClickListener.html" title="android.view.View.OnClickListener" alt="" coords="376,11,488,53"/>
+<area shape="rect" id="node6" href="http://java.sun.com/j2se/1.4.2/docs/api/android/view/View/OnClickListener.html" title="&lt;TABLE&gt;" alt="" coords="365,5,499,59"/>
+</map>

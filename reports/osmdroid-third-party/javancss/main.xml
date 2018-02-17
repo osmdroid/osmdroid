@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <javancss>
-  <date>2017-07-01</date>
-  <time>14:50:13</time>
+  <date>2018-02-17</date>
+  <time>09:01:42</time>
   <packages>
     <package>
       <name>org.osmdroid.api</name>
@@ -26,11 +26,11 @@
     <package>
       <name>org.osmdroid.google.wrapper</name>
       <classes>5</classes>
-      <functions>42</functions>
-      <ncss>126</ncss>
-      <javadocs>5</javadocs>
-      <javadoc_lines>40</javadoc_lines>
-      <single_comment_lines>4</single_comment_lines>
+      <functions>52</functions>
+      <ncss>146</ncss>
+      <javadocs>9</javadocs>
+      <javadoc_lines>52</javadoc_lines>
+      <single_comment_lines>2</single_comment_lines>
       <multi_comment_lines>0</multi_comment_lines>
     </package>
     <package>
@@ -65,19 +65,19 @@
     </package>
     <total>
       <classes>22</classes>
-      <functions>201</functions>
-      <ncss>881</ncss>
-      <javadocs>54</javadocs>
-      <javadoc_lines>247</javadoc_lines>
-      <single_comment_lines>34</single_comment_lines>
+      <functions>211</functions>
+      <ncss>901</ncss>
+      <javadocs>58</javadocs>
+      <javadoc_lines>259</javadoc_lines>
+      <single_comment_lines>32</single_comment_lines>
       <multi_comment_lines>11</multi_comment_lines>
     </total>
     <table>
       <tr><td>Packages</td><td>Classes</td><td>Functions</td><td>NCSS</td><td>Javadocs</td><td>per</td></tr>
-      <tr><td>6.00</td><td>22.00</td><td>201.00</td><td>881.00</td><td>54.00</td><td>Project</td></tr>
-      <tr><td></td><td>3.67</td><td>33.50</td><td>146.83</td><td>9.00</td><td>Package</td></tr>
-      <tr><td></td><td></td><td>9.14</td><td>40.05</td><td>2.45</td><td>Class</td></tr>
-      <tr><td></td><td></td><td></td><td>4.38</td><td>0.27</td><td>Function</td></tr>
+      <tr><td>6.00</td><td>22.00</td><td>211.00</td><td>901.00</td><td>58.00</td><td>Project</td></tr>
+      <tr><td></td><td>3.67</td><td>35.17</td><td>150.17</td><td>9.67</td><td>Package</td></tr>
+      <tr><td></td><td></td><td>9.59</td><td>40.95</td><td>2.64</td><td>Class</td></tr>
+      <tr><td></td><td></td><td></td><td>4.27</td><td>0.27</td><td>Function</td></tr>
     </table>
   </packages>
 
@@ -184,22 +184,22 @@
     </object>
     <object>
       <name>org.osmdroid.google.wrapper.MapController</name>
-      <ncss>32</ncss>
-      <functions>15</functions>
+      <ncss>54</ncss>
+      <functions>26</functions>
       <classes>0</classes>
-      <javadocs>1</javadocs>
-      <javadocs_lines>8</javadocs_lines>
+      <javadocs>4</javadocs>
+      <javadocs_lines>17</javadocs_lines>
       <single_comment_lines>1</single_comment_lines>
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <object>
       <name>org.osmdroid.google.wrapper.MapView</name>
-      <ncss>30</ncss>
-      <functions>14</functions>
+      <ncss>28</ncss>
+      <functions>13</functions>
       <classes>0</classes>
-      <javadocs>1</javadocs>
-      <javadocs_lines>8</javadocs_lines>
-      <single_comment_lines>3</single_comment_lines>
+      <javadocs>2</javadocs>
+      <javadocs_lines>11</javadocs_lines>
+      <single_comment_lines>1</single_comment_lines>
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <object>
@@ -303,15 +303,15 @@
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <averages>
-      <ncss>33.05</ncss>
-      <functions>9.14</functions>
+      <ncss>33.95</ncss>
+      <functions>9.59</functions>
       <classes>0.23</classes>
-      <javadocs>2.45</javadocs>
-      <javadocs_lines>11.23</javadocs_lines>
-      <single_comment_lines>1.50</single_comment_lines>
+      <javadocs>2.64</javadocs>
+      <javadocs_lines>11.77</javadocs_lines>
+      <single_comment_lines>1.41</single_comment_lines>
       <implementation_comment_lines>0.27</implementation_comment_lines>
     </averages>
-    <ncss>881.00</ncss>
+    <ncss>901.00</ncss>
   </objects>
 
   <functions>
@@ -766,6 +766,12 @@
       <javadocs>0</javadocs>
     </function>
     <function>
+      <name>org.osmdroid.google.wrapper.MapController.animateTo(int,int)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
       <name>org.osmdroid.google.wrapper.MapController.setCenter(IGeoPoint)</name>
       <ncss>2</ncss>
       <ccn>1</ccn>
@@ -778,13 +784,37 @@
       <javadocs>0</javadocs>
     </function>
     <function>
+      <name>org.osmdroid.google.wrapper.MapController.setZoom(double)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
       <name>org.osmdroid.google.wrapper.MapController.zoomIn()</name>
       <ncss>2</ncss>
       <ccn>1</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
+      <name>org.osmdroid.google.wrapper.MapController.zoomIn(Long)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.google.wrapper.MapController.zoomInFixing(int,int,Long)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
       <name>org.osmdroid.google.wrapper.MapController.zoomInFixing(int,int)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.google.wrapper.MapController.zoomOut(Long)</name>
       <ncss>2</ncss>
       <ccn>1</ccn>
       <javadocs>0</javadocs>
@@ -808,10 +838,46 @@
       <javadocs>0</javadocs>
     </function>
     <function>
+      <name>org.osmdroid.google.wrapper.MapController.zoomTo(double)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.google.wrapper.MapController.zoomTo(int,Long)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.google.wrapper.MapController.zoomToFixing(int,int,int,Long)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.google.wrapper.MapController.zoomTo(double,Long)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
       <name>org.osmdroid.google.wrapper.MapController.zoomToFixing(int,int,int)</name>
       <ncss>2</ncss>
       <ccn>1</ccn>
       <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.google.wrapper.MapController.zoomToFixing(double,int,int,Long)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.google.wrapper.MapController.zoomToFixing(double,int,int)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
     </function>
     <function>
       <name>org.osmdroid.google.wrapper.MapController.zoomToSpan(int,int)</name>
@@ -886,16 +952,10 @@
       <javadocs>0</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.google.wrapper.MapView.getLatitudeSpan()</name>
+      <name>org.osmdroid.google.wrapper.MapView.getZoomLevelDouble()</name>
       <ncss>2</ncss>
       <ccn>1</ccn>
-      <javadocs>0</javadocs>
-    </function>
-    <function>
-      <name>org.osmdroid.google.wrapper.MapView.getLongitudeSpan()</name>
-      <ncss>2</ncss>
-      <ccn>1</ccn>
-      <javadocs>0</javadocs>
+      <javadocs>1</javadocs>
     </function>
     <function>
       <name>org.osmdroid.google.wrapper.MapView.getMapCenter()</name>
@@ -1558,11 +1618,11 @@
       <javadocs>0</javadocs>
     </function>
     <function_averages>
-      <ncss>3.22</ncss>
-      <ccn>1.49</ccn>
-      <javadocs>0.19</javadocs>
+      <ncss>3.17</ncss>
+      <ccn>1.47</ccn>
+      <javadocs>0.20</javadocs>
     </function_averages>
-    <ncss>881.00</ncss>
+    <ncss>901.00</ncss>
   </functions>
 </javancss>
 

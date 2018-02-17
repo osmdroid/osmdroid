@@ -1,0 +1,12 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="./MultiMarker.html" title="org.osmdroid.gpkg.overlay.features.MultiMarker" alt="" coords="16,121,104,146"/>
+<area shape="rect" id="node1" href="./MultiMarker.html" title="&lt;TABLE&gt;" alt="" coords="5,109,115,157"/>
+<area shape="rect" id="node2_1" href="./PolygonHoleMarkers.html" title="org.osmdroid.gpkg.overlay.features.PolygonHoleMarkers" alt="" coords="150,121,290,146"/>
+<area shape="rect" id="node2" href="./PolygonHoleMarkers.html" title="&lt;TABLE&gt;" alt="" coords="139,109,301,157"/>
+<area shape="rect" id="node3_2" href="./PolylineMarkers.html" title="org.osmdroid.gpkg.overlay.features.PolylineMarkers" alt="" coords="336,121,448,146"/>
+<area shape="rect" id="node3" href="./PolylineMarkers.html" title="&lt;TABLE&gt;" alt="" coords="325,109,459,157"/>
+<area shape="rect" id="node4_3" href="./ShapeMarkers.html" title="org.osmdroid.gpkg.overlay.features.ShapeMarkers" alt="" coords="253,11,357,53"/>
+<area shape="rect" id="node4" href="./ShapeMarkers.html" title="&lt;TABLE&gt;" alt="" coords="243,5,368,59"/>
+<area shape="rect" id="node5_4" href="./ShapeWithChildrenMarkers.html" title="org.osmdroid.gpkg.overlay.features.ShapeWithChildrenMarkers" alt="" coords="494,112,671,155"/>
+<area shape="rect" id="node5" href="./ShapeWithChildrenMarkers.html" title="&lt;TABLE&gt;" alt="" coords="483,107,682,160"/>
+</map>

@@ -1,18 +1,20 @@
 <map id="G" name="G">
-<area shape="rect" id="node1_0" href="./SampleAnimatedZoomToLocation.html" title="org.osmdroid.samplefragments.events.SampleAnimatedZoomToLocation" alt="" coords="16,17,229,42"/>
-<area shape="rect" id="node1" href="./SampleAnimatedZoomToLocation.html" title="&lt;TABLE&gt;" alt="" coords="5,5,240,53"/>
-<area shape="rect" id="node2_1" href="./SampleAnimateTo.html" title="org.osmdroid.samplefragments.events.SampleAnimateTo" alt="" coords="275,17,400,42"/>
-<area shape="rect" id="node2" href="./SampleAnimateTo.html" title="&lt;TABLE&gt;" alt="" coords="264,5,411,53"/>
-<area shape="rect" id="node3_2" href="./SampleLimitedScrollArea.html" title="org.osmdroid.samplefragments.events.SampleLimitedScrollArea" alt="" coords="445,17,611,42"/>
-<area shape="rect" id="node3" href="./SampleLimitedScrollArea.html" title="&lt;TABLE&gt;" alt="" coords="435,5,621,53"/>
-<area shape="rect" id="node4_3" href="./SampleLimitedScrollArea.ShadeAreaOverlay.html" title="org.osmdroid.samplefragments.events.SampleLimitedScrollArea.ShadeAreaOverlay" alt="" coords="657,17,783,42"/>
-<area shape="rect" id="node4" href="./SampleLimitedScrollArea.ShadeAreaOverlay.html" title="&lt;TABLE&gt;" alt="" coords="646,5,794,53"/>
-<area shape="rect" id="node5_4" href="./SampleMapBootListener.html" title="org.osmdroid.samplefragments.events.SampleMapBootListener" alt="" coords="829,17,990,42"/>
-<area shape="rect" id="node5" href="./SampleMapBootListener.html" title="&lt;TABLE&gt;" alt="" coords="818,5,1001,53"/>
-<area shape="rect" id="node6_5" href="./SampleMapEventListener.html" title="org.osmdroid.samplefragments.events.SampleMapEventListener" alt="" coords="1035,17,1202,42"/>
-<area shape="rect" id="node6" href="./SampleMapEventListener.html" title="&lt;TABLE&gt;" alt="" coords="1025,5,1213,53"/>
-<area shape="rect" id="node7_6" href="./SampleZoomToBounding.html" title="org.osmdroid.samplefragments.events.SampleZoomToBounding" alt="" coords="1247,17,1411,42"/>
-<area shape="rect" id="node7" href="./SampleZoomToBounding.html" title="&lt;TABLE&gt;" alt="" coords="1237,5,1422,53"/>
-<area shape="rect" id="node8_7" href="./ZoomToBoundsOnStartup.html" title="org.osmdroid.samplefragments.events.ZoomToBoundsOnStartup" alt="" coords="1457,17,1625,42"/>
-<area shape="rect" id="node8" href="./ZoomToBoundsOnStartup.html" title="&lt;TABLE&gt;" alt="" coords="1447,5,1636,53"/>
+<area shape="rect" id="node1_0" href="./MarkerDrag.html" title="org.osmdroid.samplefragments.events.MarkerDrag" alt="" coords="16,17,103,42"/>
+<area shape="rect" id="node1" href="./MarkerDrag.html" title="&lt;TABLE&gt;" alt="" coords="5,5,113,53"/>
+<area shape="rect" id="node2_1" href="./MarkerDrag.OnMarkerDragListenerDrawer.html" title="org.osmdroid.samplefragments.events.MarkerDrag.OnMarkerDragListenerDrawer" alt="" coords="149,17,338,42"/>
+<area shape="rect" id="node2" href="./MarkerDrag.OnMarkerDragListenerDrawer.html" title="&lt;TABLE&gt;" alt="" coords="138,5,349,53"/>
+<area shape="rect" id="node3_2" href="./SampleAnimatedZoomToLocation.html" title="org.osmdroid.samplefragments.events.SampleAnimatedZoomToLocation" alt="" coords="383,17,597,42"/>
+<area shape="rect" id="node3" href="./SampleAnimatedZoomToLocation.html" title="&lt;TABLE&gt;" alt="" coords="373,5,607,53"/>
+<area shape="rect" id="node4_3" href="./SampleAnimateTo.html" title="org.osmdroid.samplefragments.events.SampleAnimateTo" alt="" coords="642,17,767,42"/>
+<area shape="rect" id="node4" href="./SampleAnimateTo.html" title="&lt;TABLE&gt;" alt="" coords="631,5,778,53"/>
+<area shape="rect" id="node5_4" href="./SampleLimitedScrollArea.html" title="org.osmdroid.samplefragments.events.SampleLimitedScrollArea" alt="" coords="813,17,978,42"/>
+<area shape="rect" id="node5" href="./SampleLimitedScrollArea.html" title="&lt;TABLE&gt;" alt="" coords="802,5,989,53"/>
+<area shape="rect" id="node6_5" href="./SampleMapBootListener.html" title="org.osmdroid.samplefragments.events.SampleMapBootListener" alt="" coords="1024,17,1185,42"/>
+<area shape="rect" id="node6" href="./SampleMapBootListener.html" title="&lt;TABLE&gt;" alt="" coords="1013,5,1196,53"/>
+<area shape="rect" id="node7_6" href="./SampleMapEventListener.html" title="org.osmdroid.samplefragments.events.SampleMapEventListener" alt="" coords="1231,17,1397,42"/>
+<area shape="rect" id="node7" href="./SampleMapEventListener.html" title="&lt;TABLE&gt;" alt="" coords="1220,5,1408,53"/>
+<area shape="rect" id="node8_7" href="./SampleZoomToBounding.html" title="org.osmdroid.samplefragments.events.SampleZoomToBounding" alt="" coords="1443,17,1607,42"/>
+<area shape="rect" id="node8" href="./SampleZoomToBounding.html" title="&lt;TABLE&gt;" alt="" coords="1432,5,1617,53"/>
+<area shape="rect" id="node9_8" href="./ZoomToBoundsOnStartup.html" title="org.osmdroid.samplefragments.events.ZoomToBoundsOnStartup" alt="" coords="1653,17,1821,42"/>
+<area shape="rect" id="node9" href="./ZoomToBoundsOnStartup.html" title="&lt;TABLE&gt;" alt="" coords="1642,5,1831,53"/>
 </map>

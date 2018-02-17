@@ -1,0 +1,12 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="../BaseSampleFragment.html" title="org.osmdroid.samplefragments.BaseSampleFragment" alt="" coords="16,19,164,45"/>
+<area shape="rect" id="node1" href="../BaseSampleFragment.html" title="&lt;TABLE&gt;" alt="" coords="5,8,175,56"/>
+<area shape="rect" id="node2_1" href="./SampleCacheDelete.html" title="org.osmdroid.samplefragments.cache.SampleCacheDelete" alt="" coords="292,118,429,143"/>
+<area shape="rect" id="node2" href="./SampleCacheDelete.html" title="&lt;TABLE&gt;" alt="" coords="281,107,440,155"/>
+<area shape="rect" id="node3_2" href="http://java.sun.com/j2se/1.4.2/docs/api/android/view/View/OnClickListener.html" title="android.view.View.OnClickListener" alt="" coords="210,11,322,53"/>
+<area shape="rect" id="node3" href="http://java.sun.com/j2se/1.4.2/docs/api/android/view/View/OnClickListener.html" title="&lt;TABLE&gt;" alt="" coords="199,5,333,59"/>
+<area shape="rect" id="node4_3" href="http://java.sun.com/j2se/1.4.2/docs/api/android/widget/SeekBar/OnSeekBarChangeListener.html" title="android.widget.SeekBar.OnSeekBarChangeListener" alt="" coords="367,11,543,53"/>
+<area shape="rect" id="node4" href="http://java.sun.com/j2se/1.4.2/docs/api/android/widget/SeekBar/OnSeekBarChangeListener.html" title="&lt;TABLE&gt;" alt="" coords="357,5,554,59"/>
+<area shape="rect" id="node5_4" href="http://java.sun.com/j2se/1.4.2/docs/api/android/text/TextWatcher.html" title="android.text.TextWatcher" alt="" coords="589,11,682,53"/>
+<area shape="rect" id="node5" href="http://java.sun.com/j2se/1.4.2/docs/api/android/text/TextWatcher.html" title="&lt;TABLE&gt;" alt="" coords="578,5,693,59"/>
+</map>

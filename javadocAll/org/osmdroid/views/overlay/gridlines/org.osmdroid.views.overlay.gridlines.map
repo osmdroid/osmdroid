@@ -1,4 +1,6 @@
 <map id="G" name="G">
 <area shape="rect" id="node1_0" href="./LatLonGridlineOverlay.html" title="org.osmdroid.views.overlay.gridlines.LatLonGridlineOverlay" alt="" coords="16,17,161,42"/>
 <area shape="rect" id="node1" href="./LatLonGridlineOverlay.html" title="&lt;TABLE&gt;" alt="" coords="5,5,172,53"/>
+<area shape="rect" id="node2_1" href="./LatLonGridlineOverlay2.html" title="org.osmdroid.views.overlay.gridlines.LatLonGridlineOverlay2" alt="" coords="207,17,359,42"/>
+<area shape="rect" id="node2" href="./LatLonGridlineOverlay2.html" title="&lt;TABLE&gt;" alt="" coords="197,5,370,53"/>
 </map>

@@ -1,0 +1,16 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="./DomParserWms111.html" title="org.osmdroid.wms.DomParserWms111" alt="" coords="16,17,152,42"/>
+<area shape="rect" id="node1" href="./DomParserWms111.html" title="&lt;TABLE&gt;" alt="" coords="5,5,163,53"/>
+<area shape="rect" id="node2_1" href="./WMSEndpoint.html" title="org.osmdroid.wms.WMSEndpoint" alt="" coords="197,17,301,42"/>
+<area shape="rect" id="node2" href="./WMSEndpoint.html" title="&lt;TABLE&gt;" alt="" coords="187,5,312,53"/>
+<area shape="rect" id="node3_2" href="./WMSLayer.html" title="org.osmdroid.wms.WMSLayer" alt="" coords="347,17,431,42"/>
+<area shape="rect" id="node3" href="./WMSLayer.html" title="&lt;TABLE&gt;" alt="" coords="337,5,442,53"/>
+<area shape="rect" id="node4_3" href="./WMSParser.html" title="org.osmdroid.wms.WMSParser" alt="" coords="477,17,568,42"/>
+<area shape="rect" id="node4" href="./WMSParser.html" title="&lt;TABLE&gt;" alt="" coords="467,5,579,53"/>
+<area shape="rect" id="node5_4" href="./WMSTileSource.html" title="org.osmdroid.wms.WMSTileSource" alt="" coords="614,17,727,42"/>
+<area shape="rect" id="node5" href="./WMSTileSource.html" title="&lt;TABLE&gt;" alt="" coords="603,5,738,53"/>
+<area shape="rect" id="node6_5" href="./CustomTestRunner.html" title="org.osmdroid.wms.CustomTestRunner" alt="" coords="773,17,904,42"/>
+<area shape="rect" id="node6" href="./CustomTestRunner.html" title="&lt;TABLE&gt;" alt="" coords="763,5,915,53"/>
+<area shape="rect" id="node7_6" href="./ParserTest.html" title="org.osmdroid.wms.ParserTest" alt="" coords="949,17,1032,42"/>
+<area shape="rect" id="node7" href="./ParserTest.html" title="&lt;TABLE&gt;" alt="" coords="939,5,1043,53"/>
+</map>

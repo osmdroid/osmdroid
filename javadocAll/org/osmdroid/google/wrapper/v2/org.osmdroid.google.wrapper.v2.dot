@@ -10,37 +10,37 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.google.wrapper.v2.GeoPoint
-	c22379 [label=<<table title="org.osmdroid.google.wrapper.v2.GeoPoint" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./GeoPoint.html">
+	c35130 [label=<<table title="org.osmdroid.google.wrapper.v2.GeoPoint" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./GeoPoint.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> GeoPoint </td></tr>
 		</table></td></tr>
 		</table>>, URL="./GeoPoint.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.google.wrapper.v2.GoogleV1MapWrapper
-	c22380 [label=<<table title="org.osmdroid.google.wrapper.v2.GoogleV1MapWrapper" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./GoogleV1MapWrapper.html">
+	c35131 [label=<<table title="org.osmdroid.google.wrapper.v2.GoogleV1MapWrapper" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./GoogleV1MapWrapper.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> GoogleV1MapWrapper </td></tr>
 		</table></td></tr>
 		</table>>, URL="./GoogleV1MapWrapper.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.google.wrapper.v2.MapFactory
-	c22381 [label=<<table title="org.osmdroid.google.wrapper.v2.MapFactory" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapFactory.html">
+	c35132 [label=<<table title="org.osmdroid.google.wrapper.v2.MapFactory" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapFactory.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MapFactory </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MapFactory.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.google.wrapper.v2.MapWrapper
-	c22382 [label=<<table title="org.osmdroid.google.wrapper.v2.MapWrapper" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapWrapper.html">
+	c35133 [label=<<table title="org.osmdroid.google.wrapper.v2.MapWrapper" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapWrapper.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MapWrapper </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MapWrapper.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.google.wrapper.v2.OsmdroidMapWrapper
-	c22383 [label=<<table title="org.osmdroid.google.wrapper.v2.OsmdroidMapWrapper" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./OsmdroidMapWrapper.html">
+	c35134 [label=<<table title="org.osmdroid.google.wrapper.v2.OsmdroidMapWrapper" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./OsmdroidMapWrapper.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> OsmdroidMapWrapper </td></tr>
 		</table></td></tr>
 		</table>>, URL="./OsmdroidMapWrapper.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.google.wrapper.v2.Projection
-	c22384 [label=<<table title="org.osmdroid.google.wrapper.v2.Projection" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Projection.html">
+	c35135 [label=<<table title="org.osmdroid.google.wrapper.v2.Projection" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Projection.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> Projection </td></tr>
 		</table></td></tr>

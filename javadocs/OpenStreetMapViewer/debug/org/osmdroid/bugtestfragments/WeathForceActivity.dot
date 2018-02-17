@@ -10,32 +10,41 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.bugtestfragments.WeathForceActivity
-	c20735 [label=<<table title="org.osmdroid.bugtestfragments.WeathForceActivity" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./WeathForceActivity.html">
+	c42673 [label=<<table title="org.osmdroid.bugtestfragments.WeathForceActivity" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./WeathForceActivity.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> WeathForceActivity </td></tr>
 		</table></td></tr>
 		</table>>, URL="./WeathForceActivity.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.model.BaseActivity
-	c20759 [label=<<table title="org.osmdroid.model.BaseActivity" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../model/BaseActivity.html">
+	c42698 [label=<<table title="org.osmdroid.model.BaseActivity" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../model/BaseActivity.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> BaseActivity </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="../model/BaseActivity.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.bugtestfragments.WeathForceActivity extends org.osmdroid.model.BaseActivity
-	c20759:p -> c20735:p [dir=back,arrowtail=empty];
+	c42698:p -> c42673:p [dir=back,arrowtail=empty];
+	//org.osmdroid.bugtestfragments.WeathForceActivity implements android.location.LocationListener
+	c42853:p -> c42673:p [dir=back,arrowtail=empty,style=dashed];
 	//org.osmdroid.bugtestfragments.WeathForceActivity implements org.osmdroid.views.overlay.compass.IOrientationConsumer
-	c20856:p -> c20735:p [dir=back,arrowtail=empty,style=dashed];
+	c42854:p -> c42673:p [dir=back,arrowtail=empty,style=dashed];
 	//org.osmdroid.bugtestfragments.WeathForceActivity implements org.osmdroid.events.MapEventsReceiver
-	c20857:p -> c20735:p [dir=back,arrowtail=empty,style=dashed];
+	c42855:p -> c42673:p [dir=back,arrowtail=empty,style=dashed];
 	// org.osmdroid.views.overlay.compass.IOrientationConsumer
-	c20856 [label=<<table title="org.osmdroid.views.overlay.compass.IOrientationConsumer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/org/osmdroid/views/overlay/compass/IOrientationConsumer.html">
+	c42854 [label=<<table title="org.osmdroid.views.overlay.compass.IOrientationConsumer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/org/osmdroid/views/overlay/compass/IOrientationConsumer.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> IOrientationConsumer </td></tr>
 		</table></td></tr>
 		</table>>, URL="http://java.sun.com/j2se/1.4.2/docs/api/org/osmdroid/views/overlay/compass/IOrientationConsumer.html", fontname="arial", fontcolor="black", fontsize=10.0];
+	// android.location.LocationListener
+	c42853 [label=<<table title="android.location.LocationListener" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/android/location/LocationListener.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
+<tr><td align="center" balign="center"> LocationListener </td></tr>
+		</table></td></tr>
+		</table>>, URL="http://java.sun.com/j2se/1.4.2/docs/api/android/location/LocationListener.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.events.MapEventsReceiver
-	c20857 [label=<<table title="org.osmdroid.events.MapEventsReceiver" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/org/osmdroid/events/MapEventsReceiver.html">
+	c42855 [label=<<table title="org.osmdroid.events.MapEventsReceiver" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/org/osmdroid/events/MapEventsReceiver.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> MapEventsReceiver </td></tr>

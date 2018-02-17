@@ -1,0 +1,6 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="./NasaWms111Source.html" title="org.osmdroid.samplefragments.tilesources.NasaWms111Source" alt="" coords="16,113,159,138"/>
+<area shape="rect" id="node1" href="./NasaWms111Source.html" title="&lt;TABLE&gt;" alt="" coords="5,101,169,149"/>
+<area shape="rect" id="node2_1" href="./SampleWMSSource.html" title="org.osmdroid.samplefragments.tilesources.SampleWMSSource" alt="" coords="19,17,156,42"/>
+<area shape="rect" id="node2" href="./SampleWMSSource.html" title="&lt;TABLE&gt;" alt="" coords="8,5,167,53"/>
+</map>

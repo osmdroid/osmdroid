@@ -10,15 +10,15 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.intro.StorageAdapter
-	c144768 [label=<<table title="org.osmdroid.intro.StorageAdapter" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./StorageAdapter.html">
+	c259561 [label=<<table title="org.osmdroid.intro.StorageAdapter" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./StorageAdapter.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> StorageAdapter </td></tr>
 		</table></td></tr>
 		</table>>, URL="./StorageAdapter.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.intro.StorageAdapter extends ArrayAdapter
-	c145085:p -> c144768:p [dir=back,arrowtail=empty];
+	c260004:p -> c259561:p [dir=back,arrowtail=empty];
 	// ArrayAdapter
-	c145085[label=<<table title="ArrayAdapter" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api//ArrayAdapter.html">
+	c260004[label=<<table title="ArrayAdapter" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api//ArrayAdapter.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> ArrayAdapter </td></tr>
 		</table></td></tr>

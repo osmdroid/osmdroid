@@ -1,8 +1,10 @@
 <map id="G" name="G">
 <area shape="rect" id="node1_0" href="../BaseSampleFragment.html" title="org.osmdroid.samplefragments.BaseSampleFragment" alt="" coords="16,19,164,45"/>
 <area shape="rect" id="node1" href="../BaseSampleFragment.html" title="&lt;TABLE&gt;" alt="" coords="5,8,175,56"/>
-<area shape="rect" id="node2_1" href="./CacheImport.html" title="org.osmdroid.samplefragments.cache.CacheImport" alt="" coords="124,118,216,143"/>
-<area shape="rect" id="node2" href="./CacheImport.html" title="&lt;TABLE&gt;" alt="" coords="113,107,227,155"/>
-<area shape="rect" id="node3_2" href="http://java.sun.com/j2se/1.4.2/docs/api/java/lang/Runnable.html" title="java.lang.Runnable" alt="" coords="210,11,293,53"/>
-<area shape="rect" id="node3" href="http://java.sun.com/j2se/1.4.2/docs/api/java/lang/Runnable.html" title="&lt;TABLE&gt;" alt="" coords="199,5,303,59"/>
+<area shape="rect" id="node2_1" href="./CacheImport.html" title="org.osmdroid.samplefragments.cache.CacheImport" alt="" coords="220,118,312,143"/>
+<area shape="rect" id="node2" href="./CacheImport.html" title="&lt;TABLE&gt;" alt="" coords="209,107,323,155"/>
+<area shape="rect" id="node3_2" href="http://java.sun.com/j2se/1.4.2/docs/api/android/view/View/OnClickListener.html" title="android.view.View.OnClickListener" alt="" coords="210,11,322,53"/>
+<area shape="rect" id="node3" href="http://java.sun.com/j2se/1.4.2/docs/api/android/view/View/OnClickListener.html" title="&lt;TABLE&gt;" alt="" coords="199,5,333,59"/>
+<area shape="rect" id="node4_3" href="http://java.sun.com/j2se/1.4.2/docs/api/java/lang/Runnable.html" title="java.lang.Runnable" alt="" coords="367,11,450,53"/>
+<area shape="rect" id="node4" href="http://java.sun.com/j2se/1.4.2/docs/api/java/lang/Runnable.html" title="&lt;TABLE&gt;" alt="" coords="357,5,461,59"/>
 </map>

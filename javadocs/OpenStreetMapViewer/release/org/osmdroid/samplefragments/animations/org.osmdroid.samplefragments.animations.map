@@ -1,0 +1,24 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="./AnimatedMarkerHandler.html" title="org.osmdroid.samplefragments.animations.AnimatedMarkerHandler" alt="" coords="16,19,175,45"/>
+<area shape="rect" id="node1" href="./AnimatedMarkerHandler.html" title="&lt;TABLE&gt;" alt="" coords="5,8,185,56"/>
+<area shape="rect" id="node2_1" href="./AnimatedMarkerTimer.html" title="org.osmdroid.samplefragments.animations.AnimatedMarkerTimer" alt="" coords="221,19,367,45"/>
+<area shape="rect" id="node2" href="./AnimatedMarkerTimer.html" title="&lt;TABLE&gt;" alt="" coords="210,8,378,56"/>
+<area shape="rect" id="node3_2" href="./AnimatedMarkerTypeEvaluator.html" title="org.osmdroid.samplefragments.animations.AnimatedMarkerTypeEvaluator" alt="" coords="413,19,609,45"/>
+<area shape="rect" id="node3" href="./AnimatedMarkerTypeEvaluator.html" title="&lt;TABLE&gt;" alt="" coords="403,8,620,56"/>
+<area shape="rect" id="node4_3" href="./AnimatedMarkerValueAnimator.html" title="org.osmdroid.samplefragments.animations.AnimatedMarkerValueAnimator" alt="" coords="655,19,855,45"/>
+<area shape="rect" id="node4" href="./AnimatedMarkerValueAnimator.html" title="&lt;TABLE&gt;" alt="" coords="645,8,866,56"/>
+<area shape="rect" id="node5_4" href="./FastZoomSpeedAnimations.html" title="org.osmdroid.samplefragments.animations.FastZoomSpeedAnimations" alt="" coords="901,19,1081,45"/>
+<area shape="rect" id="node5" href="./FastZoomSpeedAnimations.html" title="&lt;TABLE&gt;" alt="" coords="891,8,1092,56"/>
+<area shape="rect" id="node6_5" href="./GeoPointInterpolator.html" title="org.osmdroid.samplefragments.animations.GeoPointInterpolator" alt="" coords="1127,11,1264,53"/>
+<area shape="rect" id="node6" href="./GeoPointInterpolator.html" title="&lt;TABLE&gt;" alt="" coords="1116,5,1275,59"/>
+<area shape="rect" id="node7_6" href="./GeoPointInterpolator.Linear.html" title="org.osmdroid.samplefragments.animations.GeoPointInterpolator.Linear" alt="" coords="1052,118,1107,143"/>
+<area shape="rect" id="node7" href="./GeoPointInterpolator.Linear.html" title="&lt;TABLE&gt;" alt="" coords="1041,107,1117,155"/>
+<area shape="rect" id="node8_7" href="./GeoPointInterpolator.LinearFixed.html" title="org.osmdroid.samplefragments.animations.GeoPointInterpolator.LinearFixed" alt="" coords="1152,118,1239,143"/>
+<area shape="rect" id="node8" href="./GeoPointInterpolator.LinearFixed.html" title="&lt;TABLE&gt;" alt="" coords="1141,107,1249,155"/>
+<area shape="rect" id="node9_8" href="./GeoPointInterpolator.Spherical.html" title="org.osmdroid.samplefragments.animations.GeoPointInterpolator.Spherical" alt="" coords="1284,118,1357,143"/>
+<area shape="rect" id="node9" href="./GeoPointInterpolator.Spherical.html" title="&lt;TABLE&gt;" alt="" coords="1273,107,1368,155"/>
+<area shape="rect" id="node10_9" href="./MarkerAnimation.html" title="org.osmdroid.samplefragments.animations.MarkerAnimation" alt="" coords="1310,19,1427,45"/>
+<area shape="rect" id="node10" href="./MarkerAnimation.html" title="&lt;TABLE&gt;" alt="" coords="1299,8,1438,56"/>
+<area shape="rect" id="node11_10" href="./MinMaxZoomLevel.html" title="org.osmdroid.samplefragments.animations.MinMaxZoomLevel" alt="" coords="1473,19,1600,45"/>
+<area shape="rect" id="node11" href="./MinMaxZoomLevel.html" title="&lt;TABLE&gt;" alt="" coords="1463,8,1611,56"/>
+</map>

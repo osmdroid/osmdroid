@@ -9,50 +9,56 @@ digraph G {
 	node [fontname="arial",fontsize=10,shape=plaintext];
 	nodesep=0.25;
 	ranksep=0.5;
+	// org.osmdroid.samplefragments.events.MarkerDrag
+	c3188 [label=<<table title="org.osmdroid.samplefragments.events.MarkerDrag" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MarkerDrag.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> MarkerDrag </td></tr>
+		</table></td></tr>
+		</table>>, URL="./MarkerDrag.html", fontname="arial", fontcolor="black", fontsize=10.0];
+	// org.osmdroid.samplefragments.events.MarkerDrag.OnMarkerDragListenerDrawer
+	c3189 [label=<<table title="org.osmdroid.samplefragments.events.MarkerDrag.OnMarkerDragListenerDrawer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MarkerDrag.OnMarkerDragListenerDrawer.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> OnMarkerDragListenerDrawer </td></tr>
+		</table></td></tr>
+		</table>>, URL="./MarkerDrag.OnMarkerDragListenerDrawer.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.events.SampleAnimatedZoomToLocation
-	c1932 [label=<<table title="org.osmdroid.samplefragments.events.SampleAnimatedZoomToLocation" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleAnimatedZoomToLocation.html">
+	c3190 [label=<<table title="org.osmdroid.samplefragments.events.SampleAnimatedZoomToLocation" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleAnimatedZoomToLocation.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleAnimatedZoomToLocation </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SampleAnimatedZoomToLocation.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.events.SampleAnimateTo
-	c1933 [label=<<table title="org.osmdroid.samplefragments.events.SampleAnimateTo" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleAnimateTo.html">
+	c3191 [label=<<table title="org.osmdroid.samplefragments.events.SampleAnimateTo" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleAnimateTo.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleAnimateTo </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SampleAnimateTo.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.events.SampleLimitedScrollArea
-	c1934 [label=<<table title="org.osmdroid.samplefragments.events.SampleLimitedScrollArea" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleLimitedScrollArea.html">
+	c3192 [label=<<table title="org.osmdroid.samplefragments.events.SampleLimitedScrollArea" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleLimitedScrollArea.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleLimitedScrollArea </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SampleLimitedScrollArea.html", fontname="arial", fontcolor="black", fontsize=10.0];
-	// org.osmdroid.samplefragments.events.SampleLimitedScrollArea.ShadeAreaOverlay
-	c1935 [label=<<table title="org.osmdroid.samplefragments.events.SampleLimitedScrollArea.ShadeAreaOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleLimitedScrollArea.ShadeAreaOverlay.html">
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> ShadeAreaOverlay </td></tr>
-		</table></td></tr>
-		</table>>, URL="./SampleLimitedScrollArea.ShadeAreaOverlay.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.events.SampleMapBootListener
-	c1936 [label=<<table title="org.osmdroid.samplefragments.events.SampleMapBootListener" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleMapBootListener.html">
+	c3193 [label=<<table title="org.osmdroid.samplefragments.events.SampleMapBootListener" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleMapBootListener.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleMapBootListener </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SampleMapBootListener.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.events.SampleMapEventListener
-	c1937 [label=<<table title="org.osmdroid.samplefragments.events.SampleMapEventListener" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleMapEventListener.html">
+	c3194 [label=<<table title="org.osmdroid.samplefragments.events.SampleMapEventListener" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleMapEventListener.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleMapEventListener </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SampleMapEventListener.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.events.SampleZoomToBounding
-	c1938 [label=<<table title="org.osmdroid.samplefragments.events.SampleZoomToBounding" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleZoomToBounding.html">
+	c3195 [label=<<table title="org.osmdroid.samplefragments.events.SampleZoomToBounding" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleZoomToBounding.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleZoomToBounding </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SampleZoomToBounding.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.events.ZoomToBoundsOnStartup
-	c1939 [label=<<table title="org.osmdroid.samplefragments.events.ZoomToBoundsOnStartup" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ZoomToBoundsOnStartup.html">
+	c3196 [label=<<table title="org.osmdroid.samplefragments.events.ZoomToBoundsOnStartup" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ZoomToBoundsOnStartup.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> ZoomToBoundsOnStartup </td></tr>
 		</table></td></tr>

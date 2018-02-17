@@ -10,18 +10,18 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.samplefragments.BaseSampleFragment
-	c11688 [label=<<table title="org.osmdroid.samplefragments.BaseSampleFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../BaseSampleFragment.html">
+	c27220 [label=<<table title="org.osmdroid.samplefragments.BaseSampleFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../BaseSampleFragment.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> BaseSampleFragment </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="../BaseSampleFragment.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.events.SampleAnimatedZoomToLocation
-	c11715 [label=<<table title="org.osmdroid.samplefragments.events.SampleAnimatedZoomToLocation" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./SampleAnimatedZoomToLocation.html">
+	c27266 [label=<<table title="org.osmdroid.samplefragments.events.SampleAnimatedZoomToLocation" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./SampleAnimatedZoomToLocation.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleAnimatedZoomToLocation </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SampleAnimatedZoomToLocation.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.samplefragments.events.SampleAnimatedZoomToLocation extends org.osmdroid.samplefragments.BaseSampleFragment
-	c11688:p -> c11715:p [dir=back,arrowtail=empty];
+	c27220:p -> c27266:p [dir=back,arrowtail=empty];
 }
 

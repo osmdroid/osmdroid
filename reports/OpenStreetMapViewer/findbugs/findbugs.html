@@ -78,9 +78,9 @@
 <br/>
 </p>
 <h2>Metrics</h2>
-<p>13664 lines of code analyzed,
-	in 343 classes, 
-	in 33 packages.</p>
+<p>18397 lines of code analyzed,
+	in 481 classes, 
+	in 42 packages.</p>
 <table width="500" cellpadding="5" cellspacing="2">
 <tr class="tableheader">
 <th align="left">Metric</th>
@@ -89,8 +89,8 @@
 </tr>
 <tr class="tablerow0">
 <td>High Priority Warnings</td>
-<td align="right">5</td>
-<td align="right">0.37</td>
+<td align="right">7</td>
+<td align="right">0.38</td>
 </tr>
 <tr class="tablerow1">
 <td>Medium Priority Warnings</td>
@@ -102,10 +102,10 @@
 <b>Total Warnings</b>
 </td>
 <td align="right">
-<b>5</b>
+<b>7</b>
 </td>
 <td align="right">
-<b>0.37</b>
+<b>0.38</b>
 </td>
 </tr>
 </table>
@@ -122,7 +122,13 @@
 <a href="#Warnings_BAD_PRACTICE">Bad practice Warnings</a>
 </li>
 <li>
+<a href="#Warnings_CORRECTNESS">Correctness Warnings</a>
+</li>
+<li>
 <a href="#Warnings_I18N">Internationalization Warnings</a>
+</li>
+<li>
+<a href="#Warnings_MALICIOUS_CODE">Malicious code vulnerability Warnings</a>
 </li>
 <li>
 <a href="#Warnings_MT_CORRECTNESS">Multithreaded correctness Warnings</a>
@@ -148,7 +154,19 @@
 </tr>
 <tr class="tablerow1">
 <td>
+<a href="#Warnings_CORRECTNESS">Correctness Warnings</a>
+</td>
+<td align="right">1</td>
+</tr>
+<tr class="tablerow0">
+<td>
 <a href="#Warnings_I18N">Internationalization Warnings</a>
+</td>
+<td align="right">1</td>
+</tr>
+<tr class="tablerow1">
+<td>
+<a href="#Warnings_MALICIOUS_CODE">Malicious code vulnerability Warnings</a>
 </td>
 <td align="right">1</td>
 </tr>
@@ -169,7 +187,7 @@
 <b>Total</b>
 </td>
 <td align="right">
-<b>5</b>
+<b>7</b>
 </td>
 </tr>
 </table>
@@ -183,7 +201,7 @@
 <th align="left">Code</th>
 <th align="left">Warning</th>
 </tr>
-<tr class="tablerow1" onclick="toggleRow('N66027');">
+<tr class="tablerow1" onclick="toggleRow('N66179');">
 <td>
 <span class="priority-1">DE</span>
 </td>
@@ -192,9 +210,32 @@
 <tr class="detailrow1">
 <td/>
 <td>
-<p id="N66027" style="display: none;">
+<p id="N66179" style="display: none;">
 <a href="#DE_MIGHT_IGNORE">Bug type DE_MIGHT_IGNORE (click for details)</a>
 <br/>In class org.osmdroid.samplefragments.location.SampleCustomIconDirectedLocationOverlay<br/>In method org.osmdroid.samplefragments.location.SampleCustomIconDirectedLocationOverlay.onResume()<br/>Exception class java.lang.Exception<br/>At SampleCustomIconDirectedLocationOverlay.java:[line 41]<br/>At SampleCustomIconDirectedLocationOverlay.java:[line 41]</p>
+</td>
+</tr>
+</table>
+<h2>
+<a name="Warnings_CORRECTNESS">Correctness Warnings</a>
+</h2>
+<table class="warningtable" width="100%" cellspacing="0">
+<tr class="tableheader">
+<th align="left">Code</th>
+<th align="left">Warning</th>
+</tr>
+<tr class="tablerow1" onclick="toggleRow('N66324');">
+<td>
+<span class="priority-1">NP</span>
+</td>
+<td>Possible null pointer dereference of def in org.osmdroid.samplefragments.milstd2525.Plotter.selected(SimpleSymbol)</td>
+</tr>
+<tr class="detailrow1">
+<td/>
+<td>
+<p id="N66324" style="display: none;">
+<a href="#NP_NULL_ON_SOME_PATH">Bug type NP_NULL_ON_SOME_PATH (click for details)</a>
+<br/>In class org.osmdroid.samplefragments.milstd2525.Plotter<br/>In method org.osmdroid.samplefragments.milstd2525.Plotter.selected(SimpleSymbol)<br/>Value loaded from def<br/>Dereferenced at Plotter.java:[line 384]<br/>Null value at Plotter.java:[line 381]<br/>Known null at Plotter.java:[line 382]</p>
 </td>
 </tr>
 </table>
@@ -206,7 +247,7 @@
 <th align="left">Code</th>
 <th align="left">Warning</th>
 </tr>
-<tr class="tablerow1" onclick="toggleRow('N65814');">
+<tr class="tablerow1" onclick="toggleRow('N65914');">
 <td>
 <span class="priority-1">Dm</span>
 </td>
@@ -215,9 +256,32 @@
 <tr class="detailrow1">
 <td/>
 <td>
-<p id="N65814" style="display: none;">
+<p id="N65914" style="display: none;">
 <a href="#DM_DEFAULT_ENCODING">Bug type DM_DEFAULT_ENCODING (click for details)</a>
-<br/>In class org.osmdroid.OsmApplication$ErrorFileWriter<br/>In method org.osmdroid.OsmApplication$ErrorFileWriter.send(Context, CrashReportData)<br/>Called method new java.io.FileWriter(File)<br/>At OsmApplication.java:[line 158]</p>
+<br/>In class org.osmdroid.OsmApplication$ErrorFileWriter<br/>In method org.osmdroid.OsmApplication$ErrorFileWriter.send(Context, CrashReportData)<br/>Called method new java.io.FileWriter(File)<br/>At OsmApplication.java:[line 175]</p>
+</td>
+</tr>
+</table>
+<h2>
+<a name="Warnings_MALICIOUS_CODE">Malicious code vulnerability Warnings</a>
+</h2>
+<table class="warningtable" width="100%" cellspacing="0">
+<tr class="tableheader">
+<th align="left">Code</th>
+<th align="left">Warning</th>
+</tr>
+<tr class="tablerow1" onclick="toggleRow('N66050');">
+<td>
+<span class="priority-1">MS</span>
+</td>
+<td>org.osmdroid.samplefragments.layouts.list.dummy.DummyContent.ITEMS is a mutable collection</td>
+</tr>
+<tr class="detailrow1">
+<td/>
+<td>
+<p id="N66050" style="display: none;">
+<a href="#MS_MUTABLE_COLLECTION">Bug type MS_MUTABLE_COLLECTION (click for details)</a>
+<br/>In class org.osmdroid.samplefragments.layouts.list.dummy.DummyContent<br/>Field org.osmdroid.samplefragments.layouts.list.dummy.DummyContent.ITEMS<br/>At DummyContent.java:[line 20]</p>
 </td>
 </tr>
 </table>
@@ -229,7 +293,7 @@
 <th align="left">Code</th>
 <th align="left">Warning</th>
 </tr>
-<tr class="tablerow1" onclick="toggleRow('N65883');">
+<tr class="tablerow1" onclick="toggleRow('N65983');">
 <td>
 <span class="priority-1">ML</span>
 </td>
@@ -238,12 +302,12 @@
 <tr class="detailrow1">
 <td/>
 <td>
-<p id="N65883" style="display: none;">
+<p id="N65983" style="display: none;">
 <a href="#ML_SYNC_ON_FIELD_TO_GUARD_CHANGING_THAT_FIELD">Bug type ML_SYNC_ON_FIELD_TO_GUARD_CHANGING_THAT_FIELD (click for details)</a>
 <br/>In class org.osmdroid.bugtestfragments.WeathForceActivity<br/>In method org.osmdroid.bugtestfragments.WeathForceActivity.onOrientationChanged(float, IOrientationProvider)<br/>Field org.osmdroid.bugtestfragments.WeathForceActivity.trueNorth<br/>At WeathForceActivity.java:[line 207]</p>
 </td>
 </tr>
-<tr class="tablerow0" onclick="toggleRow('N66105');">
+<tr class="tablerow0" onclick="toggleRow('N66257');">
 <td>
 <span class="priority-1">ML</span>
 </td>
@@ -252,9 +316,9 @@
 <tr class="detailrow0">
 <td/>
 <td>
-<p id="N66105" style="display: none;">
+<p id="N66257" style="display: none;">
 <a href="#ML_SYNC_ON_FIELD_TO_GUARD_CHANGING_THAT_FIELD">Bug type ML_SYNC_ON_FIELD_TO_GUARD_CHANGING_THAT_FIELD (click for details)</a>
-<br/>In class org.osmdroid.samplefragments.location.SampleHeadingCompassUp<br/>In method org.osmdroid.samplefragments.location.SampleHeadingCompassUp.onOrientationChanged(float, IOrientationProvider)<br/>Field org.osmdroid.samplefragments.location.SampleHeadingCompassUp.trueNorth<br/>At SampleHeadingCompassUp.java:[line 215]</p>
+<br/>In class org.osmdroid.samplefragments.location.SampleHeadingCompassUp<br/>In method org.osmdroid.samplefragments.location.SampleHeadingCompassUp.onOrientationChanged(float, IOrientationProvider)<br/>Field org.osmdroid.samplefragments.location.SampleHeadingCompassUp.trueNorth<br/>At SampleHeadingCompassUp.java:[line 220]</p>
 </td>
 </tr>
 </table>
@@ -266,7 +330,7 @@
 <th align="left">Code</th>
 <th align="left">Warning</th>
 </tr>
-<tr class="tablerow1" onclick="toggleRow('N65950');">
+<tr class="tablerow1" onclick="toggleRow('N66102');">
 <td>
 <span class="priority-1">Bx</span>
 </td>
@@ -275,9 +339,9 @@
 <tr class="detailrow1">
 <td/>
 <td>
-<p id="N65950" style="display: none;">
+<p id="N66102" style="display: none;">
 <a href="#DM_BOXED_PRIMITIVE_FOR_PARSING">Bug type DM_BOXED_PRIMITIVE_FOR_PARSING (click for details)</a>
-<br/>In class org.osmdroid.samplefragments.layouts.rec.CustomRecycler<br/>In method org.osmdroid.samplefragments.layouts.rec.CustomRecycler.getItemViewType(int)<br/>Called method Integer.intValue()<br/>Should call Integer.parseInt(String) instead<br/>At CustomRecycler.java:[line 135]</p>
+<br/>In class org.osmdroid.samplefragments.layouts.rec.CustomRecycler<br/>In method org.osmdroid.samplefragments.layouts.rec.CustomRecycler.getItemViewType(int)<br/>Called method Integer.intValue()<br/>Should call Integer.parseInt(String) instead<br/>At CustomRecycler.java:[line 139]</p>
 </td>
 </tr>
 </table>
@@ -329,6 +393,28 @@ private Long getNotificationSequenceNumber() {
      return result;
  }
 </pre>
+
+    
+<h2>
+<a name="MS_MUTABLE_COLLECTION">MS_MUTABLE_COLLECTION: Field is a mutable collection</a>
+</h2>
+
+ <p>A mutable collection instance is assigned to a final static field, 
+   thus can be changed by malicious code or by accident from another package.
+   Consider wrapping this field into Collections.unmodifiableSet/List/Map/etc.
+   to avoid this vulnerability.</p>
+
+    
+<h2>
+<a name="NP_NULL_ON_SOME_PATH">NP_NULL_ON_SOME_PATH: Possible null pointer dereference</a>
+</h2>
+
+<p> There is a branch of statement that, <em>if executed,</em>  guarantees that
+a null value will be dereferenced, which
+would generate a <code>NullPointerException</code> when the code is executed.
+Of course, the problem might be that the branch or statement is infeasible and that
+the null pointer exception can't ever be executed; deciding that is beyond the ability of FindBugs.
+</p>
 
     </body>
 </html>

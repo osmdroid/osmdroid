@@ -10,18 +10,18 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.tileprovider.modules.MapTileFileStorageProviderBase
-	c91319 [label=<<table title="org.osmdroid.tileprovider.modules.MapTileFileStorageProviderBase" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../tileprovider/modules/MapTileFileStorageProviderBase.html">
+	c151839 [label=<<table title="org.osmdroid.tileprovider.modules.MapTileFileStorageProviderBase" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../tileprovider/modules/MapTileFileStorageProviderBase.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> MapTileFileStorageProviderBase </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="../tileprovider/modules/MapTileFileStorageProviderBase.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.mapsforge.MapsForgeTileModuleProvider
-	c91453 [label=<<table title="org.osmdroid.mapsforge.MapsForgeTileModuleProvider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./MapsForgeTileModuleProvider.html">
+	c152032 [label=<<table title="org.osmdroid.mapsforge.MapsForgeTileModuleProvider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./MapsForgeTileModuleProvider.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MapsForgeTileModuleProvider </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MapsForgeTileModuleProvider.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.mapsforge.MapsForgeTileModuleProvider extends org.osmdroid.tileprovider.modules.MapTileFileStorageProviderBase
-	c91319:p -> c91453:p [dir=back,arrowtail=empty];
+	c151839:p -> c152032:p [dir=back,arrowtail=empty];
 }
 

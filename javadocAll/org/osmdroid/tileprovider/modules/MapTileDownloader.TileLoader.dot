@@ -10,18 +10,18 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.tileprovider.modules.MapTileDownloader.TileLoader
-	c83237 [label=<<table title="org.osmdroid.tileprovider.modules.MapTileDownloader.TileLoader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./MapTileDownloader.TileLoader.html">
+	c139456 [label=<<table title="org.osmdroid.tileprovider.modules.MapTileDownloader.TileLoader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./MapTileDownloader.TileLoader.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> TileLoader </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MapTileDownloader.TileLoader.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.modules.MapTileModuleProviderBase.TileLoader
-	c83244 [label=<<table title="org.osmdroid.tileprovider.modules.MapTileModuleProviderBase.TileLoader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileModuleProviderBase.TileLoader.html">
+	c139463 [label=<<table title="org.osmdroid.tileprovider.modules.MapTileModuleProviderBase.TileLoader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileModuleProviderBase.TileLoader.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> TileLoader </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./MapTileModuleProviderBase.TileLoader.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.tileprovider.modules.MapTileDownloader.TileLoader extends org.osmdroid.tileprovider.modules.MapTileModuleProviderBase.TileLoader
-	c83244:p -> c83237:p [dir=back,arrowtail=empty];
+	c139463:p -> c139456:p [dir=back,arrowtail=empty];
 }
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<pmd version="5.2.3" timestamp="2017-07-01T14:43:59.250">
+<pmd version="5.2.3" timestamp="2018-02-17T08:55:57.147">
 <file name=".\OSMMapTilePackager\src\main\java\org\osmdroid\mtp\OSMMapTilePackager.java">
 <violation beginline="25" endline="25" begincolumn="21" endcolumn="42" rule="SuspiciousConstantFieldName" ruleset="Naming" package="org.osmdroid.mtp" class="OSMMapTilePackager" variable="FORCE" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.2.3/pmd-java/rules/java/naming.html#SuspiciousConstantFieldName" priority="3">
 The field name indicates a constant but its modifiers do not
@@ -161,8 +161,26 @@ Avoid printStackTrace(); use a logger call instead.
 </violation>
 </file>
 <file name=".\OSMMapTilePackager\src\main\java\org\osmdroid\util\GEMFFile.java">
-<violation beginline="615" endline="615" begincolumn="32" endcolumn="50" rule="UnnecessaryFullyQualifiedName" ruleset="Import Statements" package="org.osmdroid.util" class="GEMFFile" method="getInputStream" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.2.3/pmd-java/rules/java/imports.html#UnnecessaryFullyQualifiedName" priority="4">
+<violation beginline="633" endline="634" begincolumn="33" endcolumn="73" rule="IfStmtsMustUseBraces" ruleset="Braces" package="org.osmdroid.util" class="GEMFFile" method="getInputStream" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.2.3/pmd-java/rules/java/braces.html#IfStmtsMustUseBraces" priority="3">
+Avoid using if statements without curly braces
+</violation>
+<violation beginline="641" endline="641" begincolumn="32" endcolumn="50" rule="UnnecessaryFullyQualifiedName" ruleset="Import Statements" package="org.osmdroid.util" class="GEMFFile" method="getInputStream" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.2.3/pmd-java/rules/java/imports.html#UnnecessaryFullyQualifiedName" priority="4">
 Unnecessary use of fully qualified name 'java.io.IOException' due to existing import 'java.io.IOException'
+</violation>
+<violation beginline="642" endline="642" begincolumn="25" endcolumn="43" rule="AvoidPrintStackTrace" ruleset="Java Logging" package="org.osmdroid.util" class="GEMFFile" method="getInputStream" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.2.3/pmd-java/rules/java/logging-java.html#AvoidPrintStackTrace" priority="3">
+Avoid printStackTrace(); use a logger call instead.
+</violation>
+<violation beginline="644" endline="649" begincolumn="25" endcolumn="33" rule="IfStmtsMustUseBraces" ruleset="Braces" package="org.osmdroid.util" class="GEMFFile" method="getInputStream" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.2.3/pmd-java/rules/java/braces.html#IfStmtsMustUseBraces" priority="3">
+Avoid using if statements without curly braces
+</violation>
+<violation beginline="648" endline="648" begincolumn="41" endcolumn="59" rule="AvoidPrintStackTrace" ruleset="Java Logging" package="org.osmdroid.util" class="GEMFFile" method="getInputStream" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.2.3/pmd-java/rules/java/logging-java.html#AvoidPrintStackTrace" priority="3">
+Avoid printStackTrace(); use a logger call instead.
+</violation>
+<violation beginline="650" endline="655" begincolumn="25" endcolumn="33" rule="IfStmtsMustUseBraces" ruleset="Braces" package="org.osmdroid.util" class="GEMFFile" method="getInputStream" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.2.3/pmd-java/rules/java/braces.html#IfStmtsMustUseBraces" priority="3">
+Avoid using if statements without curly braces
+</violation>
+<violation beginline="654" endline="654" begincolumn="41" endcolumn="59" rule="AvoidPrintStackTrace" ruleset="Java Logging" package="org.osmdroid.util" class="GEMFFile" method="getInputStream" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.2.3/pmd-java/rules/java/logging-java.html#AvoidPrintStackTrace" priority="3">
+Avoid printStackTrace(); use a logger call instead.
 </violation>
 </file>
 </pmd>

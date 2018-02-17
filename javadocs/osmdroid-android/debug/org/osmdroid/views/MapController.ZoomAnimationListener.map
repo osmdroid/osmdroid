@@ -1,4 +1,6 @@
 <map id="G" name="G">
-<area shape="rect" id="node1_0" href="./MapController.ZoomAnimationListener.html" title="org.osmdroid.views.MapController.ZoomAnimationListener" alt="" coords="16,17,172,42"/>
-<area shape="rect" id="node1" href="./MapController.ZoomAnimationListener.html" title="&lt;TABLE&gt;" alt="" coords="5,5,183,53"/>
+<area shape="rect" id="node1_0" href="./MapController.ZoomAnimationListener.html" title="org.osmdroid.views.MapController.ZoomAnimationListener" alt="" coords="16,118,172,143"/>
+<area shape="rect" id="node1" href="./MapController.ZoomAnimationListener.html" title="&lt;TABLE&gt;" alt="" coords="5,107,183,155"/>
+<area shape="rect" id="node2_1" href="http://java.sun.com/j2se/1.4.2/docs/api/android/view/animation/Animation/AnimationListener.html" title="android.view.animation.Animation.AnimationListener" alt="" coords="32,11,156,53"/>
+<area shape="rect" id="node2" href="http://java.sun.com/j2se/1.4.2/docs/api/android/view/animation/Animation/AnimationListener.html" title="&lt;TABLE&gt;" alt="" coords="21,5,167,59"/>
 </map>

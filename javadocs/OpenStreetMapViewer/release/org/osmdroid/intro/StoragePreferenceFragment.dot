@@ -10,18 +10,27 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.intro.StoragePreferenceFragment
-	c20351 [label=<<table title="org.osmdroid.intro.StoragePreferenceFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./StoragePreferenceFragment.html">
+	c41916 [label=<<table title="org.osmdroid.intro.StoragePreferenceFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./StoragePreferenceFragment.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> StoragePreferenceFragment </td></tr>
 		</table></td></tr>
 		</table>>, URL="./StoragePreferenceFragment.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.intro.StoragePreferenceFragment extends android.support.v4.app.Fragment
-	c20453:p -> c20351:p [dir=back,arrowtail=empty];
+	c42076:p -> c41916:p [dir=back,arrowtail=empty];
+	//org.osmdroid.intro.StoragePreferenceFragment implements android.view.View.OnClickListener
+	c42077:p -> c41916:p [dir=back,arrowtail=empty,style=dashed];
 	// android.support.v4.app.Fragment
-	c20453 [label=<<table title="android.support.v4.app.Fragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/android/support/v4/app/Fragment.html">
+	c42076 [label=<<table title="android.support.v4.app.Fragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/android/support/v4/app/Fragment.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> Fragment </td></tr>
 		</table></td></tr>
 		</table>>, URL="http://java.sun.com/j2se/1.4.2/docs/api/android/support/v4/app/Fragment.html", fontname="arial", fontcolor="black", fontsize=10.0];
+	// android.view.View.OnClickListener
+	c42077 [label=<<table title="android.view.View.OnClickListener" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/android/view/View/OnClickListener.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
+<tr><td align="center" balign="center"> OnClickListener </td></tr>
+		</table></td></tr>
+		</table>>, URL="http://java.sun.com/j2se/1.4.2/docs/api/android/view/View/OnClickListener.html", fontname="arial", fontcolor="black", fontsize=10.0];
 }
 

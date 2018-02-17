@@ -1,0 +1,22 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="./MilestoneBitmapDisplayer.html" title="org.osmdroid.views.overlay.milestones.MilestoneBitmapDisplayer" alt="" coords="16,113,187,138"/>
+<area shape="rect" id="node1" href="./MilestoneBitmapDisplayer.html" title="&lt;TABLE&gt;" alt="" coords="5,101,197,149"/>
+<area shape="rect" id="node2_1" href="./MilestoneDisplayer.html" title="org.osmdroid.views.overlay.milestones.MilestoneDisplayer" alt="" coords="141,17,269,42"/>
+<area shape="rect" id="node2" href="./MilestoneDisplayer.html" title="&lt;TABLE&gt;" alt="" coords="131,5,280,53"/>
+<area shape="rect" id="node7_2" href="./MilestonePathDisplayer.html" title="org.osmdroid.views.overlay.milestones.MilestonePathDisplayer" alt="" coords="233,113,389,138"/>
+<area shape="rect" id="node7" href="./MilestonePathDisplayer.html" title="&lt;TABLE&gt;" alt="" coords="222,101,399,149"/>
+<area shape="rect" id="node3_3" href="./MilestoneLister.html" title="org.osmdroid.views.overlay.milestones.MilestoneLister" alt="" coords="797,17,904,42"/>
+<area shape="rect" id="node3" href="./MilestoneLister.html" title="&lt;TABLE&gt;" alt="" coords="787,5,915,53"/>
+<area shape="rect" id="node5_4" href="./MilestoneMeterDistanceLister.html" title="org.osmdroid.views.overlay.milestones.MilestoneMeterDistanceLister" alt="" coords="435,113,627,138"/>
+<area shape="rect" id="node5" href="./MilestoneMeterDistanceLister.html" title="&lt;TABLE&gt;" alt="" coords="424,101,637,149"/>
+<area shape="rect" id="node6_5" href="./MilestoneMiddleLister.html" title="org.osmdroid.views.overlay.milestones.MilestoneMiddleLister" alt="" coords="673,113,818,138"/>
+<area shape="rect" id="node6" href="./MilestoneMiddleLister.html" title="&lt;TABLE&gt;" alt="" coords="662,101,829,149"/>
+<area shape="rect" id="node8_6" href="./MilestonePixelDistanceLister.html" title="org.osmdroid.views.overlay.milestones.MilestonePixelDistanceLister" alt="" coords="863,113,1051,138"/>
+<area shape="rect" id="node8" href="./MilestonePixelDistanceLister.html" title="&lt;TABLE&gt;" alt="" coords="853,101,1062,149"/>
+<area shape="rect" id="node10_7" href="./MilestoneVertexLister.html" title="org.osmdroid.views.overlay.milestones.MilestoneVertexLister" alt="" coords="1097,113,1242,138"/>
+<area shape="rect" id="node10" href="./MilestoneVertexLister.html" title="&lt;TABLE&gt;" alt="" coords="1086,101,1253,149"/>
+<area shape="rect" id="node4_8" href="./MilestoneManager.html" title="org.osmdroid.views.overlay.milestones.MilestoneManager" alt="" coords="949,17,1075,42"/>
+<area shape="rect" id="node4" href="./MilestoneManager.html" title="&lt;TABLE&gt;" alt="" coords="939,5,1085,53"/>
+<area shape="rect" id="node9_9" href="./MilestoneStep.html" title="org.osmdroid.views.overlay.milestones.MilestoneStep" alt="" coords="1121,17,1223,42"/>
+<area shape="rect" id="node9" href="./MilestoneStep.html" title="&lt;TABLE&gt;" alt="" coords="1110,5,1234,53"/>
+</map>

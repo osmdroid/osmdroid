@@ -20,6 +20,7 @@ org.osmdroid.views.overlay.compass
 org.osmdroid.views.overlay.gestures
 org.osmdroid.views.overlay.gridlines
 org.osmdroid.views.overlay.infowindow
+org.osmdroid.views.overlay.milestones
 org.osmdroid.views.overlay.mylocation
 org.osmdroid.views.overlay.simplefastpoint
 org.osmdroid.views.util

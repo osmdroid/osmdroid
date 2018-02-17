@@ -1,13 +1,11 @@
 <map id="G" name="G">
-<area shape="rect" id="node1_0" href="../samplefragments/layouts/CustomMapView.html" title="org.osmdroid.samplefragments.layouts.CustomMapView" alt="" coords="306,214,423,239"/>
-<area shape="rect" id="node1" href="../samplefragments/layouts/CustomMapView.html" title="&lt;TABLE&gt;" alt="" coords="295,203,434,251"/>
+<area shape="rect" id="node1_0" href="../samplefragments/layouts/CustomMapView.html" title="org.osmdroid.samplefragments.layouts.CustomMapView" alt="" coords="230,214,347,239"/>
+<area shape="rect" id="node1" href="../samplefragments/layouts/CustomMapView.html" title="&lt;TABLE&gt;" alt="" coords="219,203,358,251"/>
 <area shape="rect" id="node2_1" href="../../metalev/multitouch/controller/MultiTouchController.MultiTouchObjectCanvas.html" title="org.metalev.multitouch.controller.MultiTouchController.MultiTouchObjectCanvas" alt="" coords="16,11,201,53"/>
 <area shape="rect" id="node2" href="../../metalev/multitouch/controller/MultiTouchController.MultiTouchObjectCanvas.html" title="&lt;TABLE&gt;" alt="" coords="5,5,212,59"/>
-<area shape="rect" id="node4_2" href="./MapView.html" title="org.osmdroid.views.MapView" alt="" coords="329,118,401,143"/>
-<area shape="rect" id="node4" href="./MapView.html" title="&lt;TABLE&gt;" alt="" coords="318,107,411,155"/>
+<area shape="rect" id="node4_2" href="./MapView.html" title="org.osmdroid.views.MapView" alt="" coords="253,118,325,143"/>
+<area shape="rect" id="node4" href="./MapView.html" title="&lt;TABLE&gt;" alt="" coords="242,107,335,155"/>
 <area shape="rect" id="node3_3" href="../api/IMapView.html" title="org.osmdroid.api.IMapView" alt="" coords="247,11,330,53"/>
 <area shape="rect" id="node3" href="../api/IMapView.html" title="&lt;TABLE&gt;" alt="" coords="237,5,341,59"/>
-<area shape="rect" id="node5_4" href="./util/constants/MapViewConstants.html" title="org.osmdroid.views.util.constants.MapViewConstants" alt="" coords="376,11,508,53"/>
-<area shape="rect" id="node5" href="./util/constants/MapViewConstants.html" title="&lt;TABLE&gt;" alt="" coords="365,5,519,59"/>
-<area shape="rect" id="node6_5" href="http://java.sun.com/j2se/1.4.2/docs/api//ViewGroup.html" title="ViewGroup" alt="" coords="554,19,637,45"/>
+<area shape="rect" id="node5_4" href="http://java.sun.com/j2se/1.4.2/docs/api//ViewGroup.html" title="ViewGroup" alt="" coords="375,19,458,45"/>
 </map>

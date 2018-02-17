@@ -10,18 +10,27 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.samplefragments.BaseSampleFragment
-	c21035 [label=<<table title="org.osmdroid.samplefragments.BaseSampleFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../BaseSampleFragment.html">
+	c43300 [label=<<table title="org.osmdroid.samplefragments.BaseSampleFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../BaseSampleFragment.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> BaseSampleFragment </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="../BaseSampleFragment.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.events.ZoomToBoundsOnStartup
-	c21069 [label=<<table title="org.osmdroid.samplefragments.events.ZoomToBoundsOnStartup" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./ZoomToBoundsOnStartup.html">
+	c43352 [label=<<table title="org.osmdroid.samplefragments.events.ZoomToBoundsOnStartup" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./ZoomToBoundsOnStartup.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> ZoomToBoundsOnStartup </td></tr>
 		</table></td></tr>
 		</table>>, URL="./ZoomToBoundsOnStartup.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.samplefragments.events.ZoomToBoundsOnStartup extends org.osmdroid.samplefragments.BaseSampleFragment
-	c21035:p -> c21069:p [dir=back,arrowtail=empty];
+	c43300:p -> c43352:p [dir=back,arrowtail=empty];
+	//org.osmdroid.samplefragments.events.ZoomToBoundsOnStartup implements android.view.View.OnClickListener
+	c43437:p -> c43352:p [dir=back,arrowtail=empty,style=dashed];
+	// android.view.View.OnClickListener
+	c43437 [label=<<table title="android.view.View.OnClickListener" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/android/view/View/OnClickListener.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
+<tr><td align="center" balign="center"> OnClickListener </td></tr>
+		</table></td></tr>
+		</table>>, URL="http://java.sun.com/j2se/1.4.2/docs/api/android/view/View/OnClickListener.html", fontname="arial", fontcolor="black", fontsize=10.0];
 }
 
