@@ -44,7 +44,7 @@ allprojects {
     }
 
     if (project.hasProperty('profile') && project.profile.split(',').contains("ci")) {
-        apply from: "https://raw.githubusercontent.com/gradle-fury/gradle-fury/v1.1.4/gradle/quality.gradle"
+		apply from: "${rootDir}/gradle/quality.gradle"
     }
 
 }
