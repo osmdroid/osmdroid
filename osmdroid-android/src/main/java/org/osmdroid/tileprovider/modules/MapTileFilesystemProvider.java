@@ -4,8 +4,6 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.IRegisterReceiver;
-import org.osmdroid.tileprovider.MapTile;
-import org.osmdroid.tileprovider.MapTileRequestState;
 import org.osmdroid.tileprovider.tilesource.BitmapTileSourceBase;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
@@ -15,6 +13,7 @@ import android.util.Log;
 import org.osmdroid.api.IMapView;
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 import org.osmdroid.tileprovider.util.Counters;
+import org.osmdroid.util.MapTileIndex;
 
 /**
  * Implements a file system cache and provides cached tiles. This functions as a tile provider by
@@ -124,7 +123,7 @@ public class MapTileFilesystemProvider extends MapTileFileStorageProviderBase {
 	protected class TileLoader extends MapTileModuleProviderBase.TileLoader {
 
 		@Override
-		public Drawable loadTile(final MapTile pTile) throws CantContinueException {
+		public Drawable loadTile(final long pMapTileIndex) throws CantContinueException {
 
 			ITileSource tileSource = mTileSource.get();
 			if (tileSource == null) {
@@ -134,13 +133,13 @@ public class MapTileFilesystemProvider extends MapTileFileStorageProviderBase {
 			// if there's no sdcard then don't do anything
 			if (!isSdCardAvailable()) {
 				if (Configuration.getInstance().isDebugMode()) {
-                         Log.d(IMapView.LOGTAG,"No sdcard - do nothing for tile: " + pTile);
+                         Log.d(IMapView.LOGTAG,"No sdcard - do nothing for tile: " + MapTileIndex.toString(pMapTileIndex));
 				}
 				Counters.fileCacheMiss++;
 				return null;
 			}
 			try {
-				final Drawable result = mWriter.loadTile(tileSource, pTile);
+				final Drawable result = mWriter.loadTile(tileSource, pMapTileIndex);
 				if (result == null) {
 					Counters.fileCacheMiss++;
 				} else {
@@ -149,7 +148,7 @@ public class MapTileFilesystemProvider extends MapTileFileStorageProviderBase {
 				return result;
 			} catch (final BitmapTileSourceBase.LowMemoryException e) {
 				// low memory so empty the queue
-				Log.w(IMapView.LOGTAG, "LowMemoryException downloading MapTile: " + pTile + " : " + e);
+				Log.w(IMapView.LOGTAG, "LowMemoryException downloading MapTile: " + MapTileIndex.toString(pMapTileIndex) + " : " + e);
 				Counters.fileCacheOOM++;
 				throw new MapTileModuleProviderBase.CantContinueException(e);
 			} catch (final Throwable e) {

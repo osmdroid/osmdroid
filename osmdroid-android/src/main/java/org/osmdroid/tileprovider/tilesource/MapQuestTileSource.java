@@ -2,8 +2,8 @@ package org.osmdroid.tileprovider.tilesource;
 
 import android.content.Context;
 
-import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.util.ManifestUtil;
+import org.osmdroid.util.MapTileIndex;
 
 /**
  * MapQuest tile source, revised as 2016 July to meet the new way to access tiles, via api key
@@ -113,16 +113,16 @@ public class MapQuestTileSource extends OnlineTileSourceBase
     }
 
     @Override
-    public String getTileURLString(final MapTile aMapTile)
+    public String getTileURLString(final long pMapTileIndex)
     {
         StringBuilder url = new StringBuilder(getBaseUrl());
         url.append(getMapBoxMapId());
         url.append("/");
-        url.append(aMapTile.getZoomLevel());
+        url.append(MapTileIndex.getZoom(pMapTileIndex));
         url.append("/");
-        url.append(aMapTile.getX());
+        url.append(MapTileIndex.getX(pMapTileIndex));
         url.append("/");
-        url.append(aMapTile.getY());
+        url.append(MapTileIndex.getY(pMapTileIndex));
         url.append(".png");
         url.append("?access_token=").append(getAccessToken());
         String res = url.toString();

@@ -1,7 +1,5 @@
 package org.osmdroid.tileprovider.tilesource;
 
-import org.osmdroid.tileprovider.MapTile;
-
 public abstract class OnlineTileSourceBase extends BitmapTileSourceBase {
 
 	private final String mBaseUrls[];
@@ -43,7 +41,7 @@ public abstract class OnlineTileSourceBase extends BitmapTileSourceBase {
 		mBaseUrls = aBaseUrl;
 	}
 
-	public abstract String getTileURLString(MapTile aTile);
+	public abstract String getTileURLString(final long pMapTileIndex);
 
 	/**
 	 * Get the base url, which will be a random one if there are more than one.

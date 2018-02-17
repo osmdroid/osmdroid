@@ -1,11 +1,9 @@
 package org.osmdroid.tileprovider.tilesource;
 
 import android.content.Context;
-import android.util.Log;
 
-import org.osmdroid.api.IMapView;
-import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.util.ManifestUtil;
+import org.osmdroid.util.MapTileIndex;
 
 /**
  * Thunderforest Maps including OpenCycleMap
@@ -74,8 +72,6 @@ public class ThunderforestTileSource  extends OnlineTileSourceBase
 
     /**
      * creates a new Thunderforest tile source, loading the access token and mapid from the manifest
-     * @param ctx
-     * @param map choice of map to use (eg. CYCLE)
      */
     public ThunderforestTileSource(final Context ctx, final int aMap)
     {
@@ -96,14 +92,14 @@ public class ThunderforestTileSource  extends OnlineTileSourceBase
     }
 
     @Override
-    public String getTileURLString(final MapTile aMapTile)
+    public String getTileURLString(final long pMapTileIndex)
     {
         StringBuilder url = new StringBuilder(getBaseUrl().replace("{map}",urlMap[mMap]));
-        url.append(aMapTile.getZoomLevel());
+        url.append(MapTileIndex.getZoom(pMapTileIndex));
         url.append("/");
-        url.append(aMapTile.getX());
+        url.append(MapTileIndex.getX(pMapTileIndex));
         url.append("/");
-        url.append(aMapTile.getY());
+        url.append(MapTileIndex.getY(pMapTileIndex));
         url.append(".png?");
         url.append("apikey=").append(mMapId);
         String res = url.toString();
@@ -114,7 +110,6 @@ public class ThunderforestTileSource  extends OnlineTileSourceBase
 
     /**
      * check if we have a key in the manifest for this provider.
-     * @param ctx
      */
     public static boolean haveMapId(final Context aContext)
     {

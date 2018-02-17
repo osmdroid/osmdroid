@@ -1,23 +1,21 @@
 package org.osmdroid.tileprovider;
 
+import android.graphics.drawable.Drawable;
+import android.util.Log;
+
+import org.osmdroid.api.IMapView;
+import org.osmdroid.config.Configuration;
+import org.osmdroid.util.MapTileIndex;
+import org.osmdroid.util.MapTileList;
+
 import java.util.LinkedHashMap;
 import java.util.NoSuchElementException;
 
-
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.os.Build;
-import android.util.Log;
-import org.osmdroid.api.IMapView;
-import org.osmdroid.config.Configuration;
-import org.osmdroid.util.MapTileList;
-import org.osmdroid.util.MapTileIndex;
-
-public class LRUMapTileCache extends LinkedHashMap<MapTile, Drawable> {
+@Deprecated
+public class LRUMapTileCache extends LinkedHashMap<Long, Drawable> {
 
 	public interface TileRemovedListener {
-		void onTileRemoved(MapTile mapTile);
+		void onTileRemoved(final long pMapTileIndex);
 	}
 
 	private static final long serialVersionUID = -541142277575493335L;
@@ -42,19 +40,9 @@ public class LRUMapTileCache extends LinkedHashMap<MapTile, Drawable> {
 	@Override
 	public Drawable remove(final Object aKey) {
 		final Drawable drawable = super.remove(aKey);
-		// Only recycle if we are running on a project less than 2.3.3 Gingerbread.
-		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.GINGERBREAD) {
-			if (drawable instanceof BitmapDrawable) {
-				final Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
-				if (bitmap != null) {
-					bitmap.recycle();
-				}
-			}
-		}
-		if (getTileRemovedListener() != null && aKey instanceof MapTile)
-			getTileRemovedListener().onTileRemoved((MapTile) aKey);
-		if (drawable instanceof ReusableBitmapDrawable)
-			BitmapPool.getInstance().returnDrawableToPool((ReusableBitmapDrawable) drawable);
+		BitmapPool.getInstance().asyncRecycle(drawable);
+		if (getTileRemovedListener() != null && aKey != null)
+			getTileRemovedListener().onTileRemoved((long) aKey);
 		return drawable;
 	}
 
@@ -75,16 +63,16 @@ public class LRUMapTileCache extends LinkedHashMap<MapTile, Drawable> {
 	}
 
 	@Override
-	protected boolean removeEldestEntry(final java.util.Map.Entry<MapTile, Drawable> aEldest) {
-		if (mMapTileList.contains(MapTileIndex.getTileIndex(aEldest.getKey()))) {
+	protected boolean removeEldestEntry(final java.util.Map.Entry<Long, Drawable> aEldest) {
+		final long index = aEldest.getKey();
+		if (mMapTileList.contains(index)) {
 			return false; // don't remove, it's a displayed tile
 		}
 		if (size() <= mCapacity) {
 			return false; // don't remove, we are within the capacity
 		}
-		final MapTile eldest = aEldest.getKey();
 		if (Configuration.getInstance().isDebugMode()) {
-				Log.d(IMapView.LOGTAG,"LRU Remove old tile: " + eldest);
+				Log.d(IMapView.LOGTAG,"LRU Remove old tile: " + MapTileIndex.toString(index));
 		}
 		return true; // remove
 	}

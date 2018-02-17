@@ -1,22 +1,32 @@
 package org.osmdroid.tileprovider;
 
 import java.util.LinkedList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 
-public class BitmapPool {
-	final LinkedList<Bitmap> mPool = new LinkedList<Bitmap>();
+import org.osmdroid.tileprovider.modules.ConfigurablePriorityThreadFactory;
 
-	private static BitmapPool sInstance;
+public class BitmapPool {
+
+	private final LinkedList<Bitmap> mPool = new LinkedList<>();
+	private final ExecutorService mExecutor = Executors.newFixedThreadPool(1,
+			new ConfigurablePriorityThreadFactory(Thread.MIN_PRIORITY, getClass().getName()));
+
+	//singleton: begin
+	private BitmapPool() {}
+
+	private static final BitmapPool sInstance = new BitmapPool();
 
 	public static BitmapPool getInstance() {
-		if (sInstance == null)
-			sInstance = new BitmapPool();
-
 		return sInstance;
 	}
+	//singleton: end
 
 	public void returnDrawableToPool(ReusableBitmapDrawable drawable) {
 		Bitmap b = drawable.tryRecycle();
@@ -75,6 +85,42 @@ public class BitmapPool {
 				Bitmap bitmap = sInstance.mPool.remove();
 				bitmap.recycle();
 			}
+		}
+	}
+
+	/**
+	 * @since 6.0.0
+	 * The same code was duplicated in many places: now there's a unique entry point and it's async
+	 */
+	public void asyncRecycle(final Drawable pDrawable) {
+		if (pDrawable == null) {
+			return;
+		}
+		mExecutor.execute(new Runnable() {
+			@Override
+			public void run() {
+				syncRecycle(pDrawable);
+			}
+		});
+	}
+
+	/**
+	 * @since 6.0.0
+	 */
+	private void syncRecycle(final Drawable pDrawable) {
+		if (pDrawable == null) {
+			return;
+		}
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.GINGERBREAD) {
+			if (pDrawable instanceof BitmapDrawable) {
+				final Bitmap bitmap = ((BitmapDrawable) pDrawable).getBitmap();
+				if (bitmap != null) {
+					bitmap.recycle();
+				}
+			}
+		}
+		if (pDrawable instanceof ReusableBitmapDrawable) {
+			returnDrawableToPool((ReusableBitmapDrawable) pDrawable);
 		}
 	}
 }

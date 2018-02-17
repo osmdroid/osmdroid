@@ -1,6 +1,6 @@
 package org.osmdroid.tileprovider.tilesource;
 
-import org.osmdroid.tileprovider.MapTile;
+import org.osmdroid.util.MapTileIndex;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -158,15 +158,15 @@ public class TileSourceFactory {
      public static final OnlineTileSourceBase USGS_TOPO = new OnlineTileSourceBase("USGS National Map Topo",  0, 15, 256, "",
                new String[] { "https://basemap.nationalmap.gov/arcgis/rest/services/USGSTopo/MapServer/tile/" },"USGS") {
                @Override
-               public String getTileURLString(MapTile aTile) {
-                    return getBaseUrl() + aTile.getZoomLevel() + "/" + aTile.getY() + "/" + aTile.getX();
+               public String getTileURLString(final long pMapTileIndex) {
+                    return getBaseUrl() + MapTileIndex.getZoom(pMapTileIndex) + "/" + MapTileIndex.getY(pMapTileIndex) + "/" + MapTileIndex.getX(pMapTileIndex);
                }
           };
 	public static final OnlineTileSourceBase USGS_SAT = new OnlineTileSourceBase("USGS National Map Sat", 0, 15, 256, "",
 			new String[]{"https://basemap.nationalmap.gov/arcgis/rest/services/USGSImageryTopo/MapServer/tile/"},"USGS") {
 		@Override
-		public String getTileURLString(MapTile aTile) {
-			return getBaseUrl() + aTile.getZoomLevel() + "/" + aTile.getY() + "/" + aTile.getX();
+		public String getTileURLString(final long pMapTileIndex) {
+			return getBaseUrl() + MapTileIndex.getZoom(pMapTileIndex) + "/" + MapTileIndex.getY(pMapTileIndex) + "/" + MapTileIndex.getX(pMapTileIndex);
 		}
 	};
 

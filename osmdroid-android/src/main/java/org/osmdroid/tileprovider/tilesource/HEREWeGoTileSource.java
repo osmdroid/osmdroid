@@ -2,8 +2,8 @@ package org.osmdroid.tileprovider.tilesource;
 
 import android.content.Context;
 
-import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.util.ManifestUtil;
+import org.osmdroid.util.MapTileIndex;
 
 /**
  * HERE We Go
@@ -75,8 +75,6 @@ public class HEREWeGoTileSource  extends OnlineTileSourceBase
 
     /**
      * creates a new mapbox tile source, using the specified access token and mapbox id
-     * @param mapboxid
-     * @param accesstoken
      * @since 5.1
      */
     public HEREWeGoTileSource(final String herewegoMapId, final String accesstoken, final String appCode)
@@ -150,16 +148,16 @@ public class HEREWeGoTileSource  extends OnlineTileSourceBase
     }
 
     @Override
-    public String getTileURLString(final MapTile aMapTile)
+    public String getTileURLString(final long pMapTileIndex)
     {
         StringBuilder url = new StringBuilder(getBaseUrl().replace("{domain}",domainOverride));
         url.append(getHerewegoMapId());
         url.append("/");
-        url.append(aMapTile.getZoomLevel());
+        url.append(MapTileIndex.getZoom(pMapTileIndex));
         url.append("/");
-        url.append(aMapTile.getX());
+        url.append(MapTileIndex.getX(pMapTileIndex));
         url.append("/");
-        url.append(aMapTile.getY());
+        url.append(MapTileIndex.getY(pMapTileIndex));
         url.append("/").append(getTileSizePixels()).append("/png8?");
         url.append("app_id=").append(getAppId());
         url.append("&app_code=").append(getAppCode());

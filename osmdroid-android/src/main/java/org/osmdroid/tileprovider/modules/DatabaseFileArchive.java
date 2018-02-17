@@ -6,8 +6,8 @@ import android.database.sqlite.SQLiteException;
 import android.util.Log;
 
 import org.osmdroid.api.IMapView;
-import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
+import org.osmdroid.util.MapTileIndex;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -70,14 +70,14 @@ public class DatabaseFileArchive implements IArchiveFile {
 		mDatabase=SQLiteDatabase.openDatabase(pFile.getAbsolutePath(), null, SQLiteDatabase.OPEN_READONLY | SQLiteDatabase.NO_LOCALIZED_COLLATORS);
 	}
 
-	public byte[] getImage(final ITileSource pTileSource, final MapTile pTile) {
+	public byte[] getImage(final ITileSource pTileSource, final long pMapTileIndex) {
 
 		try {
 			byte[] bits=null;
 			final String[] tile = {COLUMN_TILE};
-			final long x = (long) pTile.getX();
-			final long y = (long) pTile.getY();
-			final long z = (long) pTile.getZoomLevel();
+			final long x = MapTileIndex.getX(pMapTileIndex);
+			final long y = MapTileIndex.getY(pMapTileIndex);
+			final long z = MapTileIndex.getZoom(pMapTileIndex);
 			final long index = ((z << z) + x << z) + y;
 
 			Cursor cur;
@@ -97,24 +97,24 @@ public class DatabaseFileArchive implements IArchiveFile {
 				return bits;
 			}
 		} catch(final Throwable e) {
-			Log.w(IMapView.LOGTAG,"Error getting db stream: " + pTile, e);
+			Log.w(IMapView.LOGTAG,"Error getting db stream: " + MapTileIndex.toString(pMapTileIndex), e);
 		}
 
 		return null;
 	}
 
 	@Override
-	public InputStream getInputStream(final ITileSource pTileSource, final MapTile pTile) {
+	public InputStream getInputStream(final ITileSource pTileSource, final long pMapTileIndex) {
 		try {
 			InputStream ret = null;
-			byte[] bits=getImage(pTileSource, pTile);
+			byte[] bits=getImage(pTileSource, pMapTileIndex);
 			if (bits!=null)
 				ret = new ByteArrayInputStream(bits);
 			if(ret != null) {
 				return ret;
 			}
 		} catch(final Throwable e) {
-			Log.w(IMapView.LOGTAG,"Error getting db stream: " + pTile, e);
+			Log.w(IMapView.LOGTAG,"Error getting db stream: " + MapTileIndex.toString(pMapTileIndex), e);
 		}
 		return null;
 	}

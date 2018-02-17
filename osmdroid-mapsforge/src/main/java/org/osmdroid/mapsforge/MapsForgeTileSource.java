@@ -7,15 +7,12 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 
-import org.mapsforge.core.graphics.GraphicFactory;
 import org.mapsforge.core.model.BoundingBox;
 import org.mapsforge.core.model.Tile;
 import org.mapsforge.map.android.graphics.AndroidGraphicFactory;
 import org.mapsforge.map.android.graphics.AndroidTileBitmap;
-import org.mapsforge.map.datastore.MapDataStore;
 import org.mapsforge.map.datastore.MultiMapDataStore;
 import org.mapsforge.map.layer.cache.InMemoryTileCache;
-import org.mapsforge.map.layer.cache.TileCache;
 import org.mapsforge.map.layer.labels.TileBasedLabelStore;
 import org.mapsforge.map.layer.renderer.DatabaseRenderer;
 import org.mapsforge.map.layer.renderer.RendererJob;
@@ -27,8 +24,8 @@ import org.mapsforge.map.rendertheme.InternalRenderTheme;
 import org.mapsforge.map.rendertheme.XmlRenderTheme;
 import org.mapsforge.map.rendertheme.rule.RenderThemeFuture;
 import org.osmdroid.api.IMapView;
-import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.tilesource.BitmapTileSourceBase;
+import org.osmdroid.util.MapTileIndex;
 
 import java.io.File;
 
@@ -178,9 +175,9 @@ public class MapsForgeTileSource extends BitmapTileSourceBase {
 
 
     //The synchronized here is VERY important.  If missing, the mapDatabase read gets corrupted by multiple threads reading the file at once.
-    public synchronized Drawable renderTile(MapTile pTile) {
+    public synchronized Drawable renderTile(final long pMapTileIndex) {
 
-        Tile tile = new Tile(pTile.getX(), pTile.getY(), (byte) pTile.getZoomLevel(), 256);
+        Tile tile = new Tile(MapTileIndex.getX(pMapTileIndex), MapTileIndex.getY(pMapTileIndex), (byte) MapTileIndex.getZoom(pMapTileIndex), 256);
         model.setFixedTileSize(256);
 
         //You could try something like this to load a custom theme
