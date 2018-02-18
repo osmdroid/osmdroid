@@ -128,7 +128,8 @@ public class DefaultOverlayManager extends AbstractList<Overlay> implements Over
             }
         }
 
-        mTilesOverlay.protectDisplayedTilesForCache(c, pMapView);
+        if (mTilesOverlay!=null)
+            mTilesOverlay.protectDisplayedTilesForCache(c, pMapView);
         for (final Overlay overlay : mOverlayList) {
             if (overlay!=null && overlay.isEnabled() && overlay instanceof TilesOverlay) {
                 ((TilesOverlay) overlay).protectDisplayedTilesForCache(c, pMapView);
