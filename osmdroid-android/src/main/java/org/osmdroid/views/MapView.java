@@ -1624,7 +1624,7 @@ public class MapView extends ViewGroup implements IMapView,
 			if (geoPoint != null) {
 				this.geoPoint = geoPoint;
 			} else {
-				this.geoPoint = new GeoPoint(0, 0);
+				this.geoPoint = new GeoPoint(0d, 0d);
 			}
 			this.alignment = alignment;
 			this.offsetX = offsetX;
@@ -1643,7 +1643,7 @@ public class MapView extends ViewGroup implements IMapView,
 		 */
 		public LayoutParams(final Context c, final AttributeSet attrs) {
 			super(c, attrs);
-			this.geoPoint = new GeoPoint(0, 0);
+			this.geoPoint = new GeoPoint(0d, 0d);
 			this.alignment = BOTTOM_CENTER;
 		}
 
