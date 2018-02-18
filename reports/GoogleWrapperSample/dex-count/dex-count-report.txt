@@ -1,4 +1,4 @@
-Processing .\GoogleWrapperSample\build\outputs\apk\GoogleWrapperSample-6.0.0-debug.apk
+Processing .\GoogleWrapperSample\build\outputs\apk\GoogleWrapperSample-6.0.1-debug.apk
 Read in 58311 method IDs and 33134 field IDs
 ----------------------------------
 Package details:
@@ -355,7 +355,7 @@ org Methods 2977 Fields 4530
 				constants Methods 0 Fields 7
 	xmlpull Methods 12 Fields 0
 		v1 Methods 12 Fields 0
-Processed .\GoogleWrapperSample\build\outputs\apk\GoogleWrapperSample-6.0.0-debug.apk
+Processed .\GoogleWrapperSample\build\outputs\apk\GoogleWrapperSample-6.0.1-debug.apk
 Read in 58311 method IDs and 33134 field IDs
 ----------------------------------
 

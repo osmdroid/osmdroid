@@ -8,7 +8,7 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta name="Date-Creation-yyyymmdd" content="20080101"/>
-    <meta name="Date-Revision-yyyymmdd" content="20180217"/>
+    <meta name="Date-Revision-yyyymmdd" content="20180218"/>
     <meta http-equiv="Content-Language" content="en"/>
     <title> osmdroid</title>
     <link rel="stylesheet" href="./css/apache-maven-fluido-1.4.min.css"/>
@@ -65,10 +65,10 @@
             </li>
 
             <li id="publishDate" class="pull-right"><span class="divider">|</span> Last Published:
-                2018-02-17
+                2018-02-18
             </li>
             <li id="projectVersion" class="pull-right">
-                6.0.0
+                6.0.1
             </li>
 
         </ul>
@@ -286,7 +286,7 @@
 <ul>
 <li>The built zoom controls have been removed in favor of a simple overlay based classes with some basic always on screen zoom buttons. There's no API change so you can still use the <code>MapView.setUseBuiltInZoomControls(true/false)</code>. If this doesn't work for you, fork, fix, and pr. The old zoom buttons were actually built into the Android and were memory leak prone and will log some nasty warning messages under certain circumstances.</li>
 </ul>
-<h2>From version 5.6.5 to 6.0.0 (under dev)</h2>
+<h2>From version 5.6.5 to 6.0.0</h2>
 <p>Version 6.0.0 has some major changes. I'd suggest extensive testing with your application(s) before rolling out updates.</p>
 <ul>
 <li>Lifecycle changes. MapView now has a <code>onPause</code> and <code>onResume</code>. These calls are passed on to all overlays classes. In general, this was added to help reduce the amount of boilerplate code that users of osmdroid-android would need to do properly handle start/stopping the compass and gps sensors. This code was all incorporated into those overlays. Bottom line, you can probably delete any code you have in your application related to starting/stopping GPS or Compass overlays and replace it with <code>mapView.onPause()</code> and <code>mapView.onResumse()</code> calls.</li>

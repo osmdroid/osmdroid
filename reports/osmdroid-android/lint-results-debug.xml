@@ -214,7 +214,7 @@ To fix this issue, set the `targetSdkVersion` to the highest available value. Th
     <issue
         id="GradleOverrides"
         severity="Warning"
-        message="This `versionCode` value (`1`) is not used; it is always overridden by the value specified in the Gradle build script (`30`)"
+        message="This `versionCode` value (`1`) is not used; it is always overridden by the value specified in the Gradle build script (`31`)"
         category="Correctness"
         priority="4"
         summary="Value overridden by Gradle build script"
@@ -230,7 +230,7 @@ To fix this issue, set the `targetSdkVersion` to the highest available value. Th
     <issue
         id="GradleOverrides"
         severity="Warning"
-        message="This `versionName` value (`5.3-SNAPSHOT`) is not used; it is always overridden by the value specified in the Gradle build script (`6.0.0`)"
+        message="This `versionName` value (`5.3-SNAPSHOT`) is not used; it is always overridden by the value specified in the Gradle build script (`6.0.1`)"
         category="Correctness"
         priority="4"
         summary="Value overridden by Gradle build script"

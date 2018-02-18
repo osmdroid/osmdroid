@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <javancss>
-  <date>2018-02-17</date>
-  <time>08:59:47</time>
+  <date>2018-02-18</date>
+  <time>15:01:03</time>
   <packages>
     <package>
       <name>microsoft.mappoint</name>
@@ -177,9 +177,9 @@
       <name>org.osmdroid.views.overlay</name>
       <classes>28</classes>
       <functions>480</functions>
-      <ncss>2994</ncss>
-      <javadocs>206</javadocs>
-      <javadoc_lines>1115</javadoc_lines>
+      <ncss>2995</ncss>
+      <javadocs>207</javadocs>
+      <javadoc_lines>1119</javadoc_lines>
       <single_comment_lines>323</single_comment_lines>
       <multi_comment_lines>215</multi_comment_lines>
     </package>
@@ -276,17 +276,17 @@
     <total>
       <classes>181</classes>
       <functions>2028</functions>
-      <ncss>14120</ncss>
-      <javadocs>999</javadocs>
-      <javadoc_lines>5360</javadoc_lines>
+      <ncss>14121</ncss>
+      <javadocs>1000</javadocs>
+      <javadoc_lines>5364</javadoc_lines>
       <single_comment_lines>1476</single_comment_lines>
       <multi_comment_lines>838</multi_comment_lines>
     </total>
     <table>
       <tr><td>Packages</td><td>Classes</td><td>Functions</td><td>NCSS</td><td>Javadocs</td><td>per</td></tr>
-      <tr><td>27.00</td><td>181.00</td><td>2,028.00</td><td>14,120.00</td><td>999.00</td><td>Project</td></tr>
-      <tr><td></td><td>6.70</td><td>75.11</td><td>522.96</td><td>37.00</td><td>Package</td></tr>
-      <tr><td></td><td></td><td>11.20</td><td>78.01</td><td>5.52</td><td>Class</td></tr>
+      <tr><td>27.00</td><td>181.00</td><td>2,028.00</td><td>14,121.00</td><td>1,000.00</td><td>Project</td></tr>
+      <tr><td></td><td>6.70</td><td>75.11</td><td>523.00</td><td>37.04</td><td>Package</td></tr>
+      <tr><td></td><td></td><td>11.20</td><td>78.02</td><td>5.52</td><td>Class</td></tr>
       <tr><td></td><td></td><td></td><td>6.96</td><td>0.49</td><td>Function</td></tr>
     </table>
   </packages>
@@ -1354,7 +1354,7 @@
     </object>
     <object>
       <name>org.osmdroid.views.overlay.DefaultOverlayManager</name>
-      <ncss>175</ncss>
+      <ncss>176</ncss>
       <functions>32</functions>
       <classes>1</classes>
       <javadocs>1</javadocs>
@@ -1377,8 +1377,8 @@
       <ncss>42</ncss>
       <functions>10</functions>
       <classes>0</classes>
-      <javadocs>1</javadocs>
-      <javadocs_lines>7</javadocs_lines>
+      <javadocs>2</javadocs>
+      <javadocs_lines>11</javadocs_lines>
       <single_comment_lines>0</single_comment_lines>
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
@@ -2107,11 +2107,11 @@
       <functions>11.20</functions>
       <classes>0.45</classes>
       <javadocs>5.52</javadocs>
-      <javadocs_lines>29.61</javadocs_lines>
+      <javadocs_lines>29.64</javadocs_lines>
       <single_comment_lines>7.92</single_comment_lines>
       <implementation_comment_lines>3.35</implementation_comment_lines>
     </averages>
-    <ncss>14,120.00</ncss>
+    <ncss>14,121.00</ncss>
   </objects>
 
   <functions>
@@ -10373,8 +10373,8 @@
     </function>
     <function>
       <name>org.osmdroid.views.overlay.DefaultOverlayManager.onDraw(Canvas,MapView)</name>
-      <ncss>15</ncss>
-      <ccn>15</ccn>
+      <ncss>16</ncss>
+      <ccn>16</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
@@ -10621,7 +10621,7 @@
       <name>org.osmdroid.views.overlay.GroundOverlay2.setPosition(GeoPoint,GeoPoint)</name>
       <ncss>5</ncss>
       <ccn>1</ccn>
-      <javadocs>0</javadocs>
+      <javadocs>1</javadocs>
     </function>
     <function>
       <name>org.osmdroid.views.overlay.GroundOverlay2.getBearing()</name>
@@ -15614,7 +15614,7 @@
       <ccn>2.16</ccn>
       <javadocs>0.38</javadocs>
     </function_averages>
-    <ncss>14,120.00</ncss>
+    <ncss>14,121.00</ncss>
   </functions>
 </javancss>
 

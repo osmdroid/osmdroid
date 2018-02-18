@@ -8,7 +8,7 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta name="Date-Creation-yyyymmdd" content="20080101"/>
-    <meta name="Date-Revision-yyyymmdd" content="20180217"/>
+    <meta name="Date-Revision-yyyymmdd" content="20180218"/>
     <meta http-equiv="Content-Language" content="en"/>
     <title> osmdroid</title>
     <link rel="stylesheet" href="./css/apache-maven-fluido-1.4.min.css"/>
@@ -65,10 +65,10 @@
             </li>
 
             <li id="publishDate" class="pull-right"><span class="divider">|</span> Last Published:
-                2018-02-17
+                2018-02-18
             </li>
             <li id="projectVersion" class="pull-right">
-                6.0.0
+                6.0.1
             </li>
 
         </ul>
@@ -332,8 +332,8 @@ dependencies {
     	compile: 'com.google.android.gms:play-services:8.+'
 	compile: 'com.google.android.gms:play-services-maps:8.+'
 	compile: 'com.android.support:support-v4:23+'
-	compile: 'org.osmdroid:osmdroid-android:6.0.0@aar'
-	compile: 'org.osmdroid:osmdroid-third-party:6.0.0@aar'
+	compile: 'org.osmdroid:osmdroid-android:6.0.1@aar'
+	compile: 'org.osmdroid:osmdroid-third-party:6.0.1@aar'
 	compile: 'junit:junit:4.12@jar'
 	compile: 'org.jacoco:org.jacoco.agent:0.7.4.201502262128@jar'
 	compile: 'org.jacoco:org.jacoco.ant:0.7.4.201502262128@jar'
@@ -346,16 +346,16 @@ dependencies {
 	compile: 'org.xerial:sqlite-jdbc:3.7.2@jar'
 //END WARN dependency converage flag!
 
-    	compile: 'org.osmdroid:osmdroid-geopackage:6.0.0@aar'
-	compile: 'org.osmdroid:osmdroid-mapsforge:6.0.0@aar'
-	compile: 'org.osmdroid:osmdroid-wms:6.0.0@aar'
+    	compile: 'com.squareup.leakcanary:leakcanary-android:1.4-beta2@aar'
+	compile: 'org.osmdroid:osmdroid-geopackage:6.0.1@aar'
+	compile: 'org.osmdroid:osmdroid-mapsforge:6.0.1@aar'
+	compile: 'org.osmdroid:osmdroid-wms:6.0.1@aar'
 	compile: 'mil.army.missioncommand:mil-sym-android-renderer:0.1.37@aar'
 	compile: 'com.github.angads25:filepicker:1.1.1@aar'
 	compile: 'com.android.support:design:23.+'
 	compile: 'com.android.support:cardview-v7:23.+'
 	compile: 'com.android.support:recyclerview-v7:23.+'
 	compile: 'ch.acra:acra:4.7.0@aar'
-	compile: 'com.squareup.leakcanary:leakcanary-android:1.4-beta2@aar'
 	compile: 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2@aar'
 	compile: 'mil.nga.geopackage:geopackage-android:2.0.0@aar'
 	compile: 'com.j256.ormlite:ormlite-android:5.0@jar'
@@ -502,13 +502,13 @@ dependencies {
 	&lt;dependency&gt;
 		&lt;groupId&gt;org.osmdroid&lt;/groupId&gt;
 		&lt;artifactId&gt;osmdroid-android&lt;/artifactId&gt;
-		&lt;version&gt;6.0.0&lt;/version&gt;
+		&lt;version&gt;6.0.1&lt;/version&gt;
 		&lt;type&gt;aar&lt;/type&gt;
 	&lt;/dependency&gt;
 	&lt;dependency&gt;
 		&lt;groupId&gt;org.osmdroid&lt;/groupId&gt;
 		&lt;artifactId&gt;osmdroid-third-party&lt;/artifactId&gt;
-		&lt;version&gt;6.0.0&lt;/version&gt;
+		&lt;version&gt;6.0.1&lt;/version&gt;
 		&lt;type&gt;aar&lt;/type&gt;
 	&lt;/dependency&gt;
 	&lt;dependency&gt;
@@ -559,21 +559,27 @@ dependencies {
 &lt;!--END WARN dependency converage flag!--&gt;
 
     	&lt;dependency&gt;
+		&lt;groupId&gt;com.squareup.leakcanary&lt;/groupId&gt;
+		&lt;artifactId&gt;leakcanary-android&lt;/artifactId&gt;
+		&lt;version&gt;1.4-beta2&lt;/version&gt;
+		&lt;type&gt;aar&lt;/type&gt;
+	&lt;/dependency&gt;
+	&lt;dependency&gt;
 		&lt;groupId&gt;org.osmdroid&lt;/groupId&gt;
 		&lt;artifactId&gt;osmdroid-geopackage&lt;/artifactId&gt;
-		&lt;version&gt;6.0.0&lt;/version&gt;
+		&lt;version&gt;6.0.1&lt;/version&gt;
 		&lt;type&gt;aar&lt;/type&gt;
 	&lt;/dependency&gt;
 	&lt;dependency&gt;
 		&lt;groupId&gt;org.osmdroid&lt;/groupId&gt;
 		&lt;artifactId&gt;osmdroid-mapsforge&lt;/artifactId&gt;
-		&lt;version&gt;6.0.0&lt;/version&gt;
+		&lt;version&gt;6.0.1&lt;/version&gt;
 		&lt;type&gt;aar&lt;/type&gt;
 	&lt;/dependency&gt;
 	&lt;dependency&gt;
 		&lt;groupId&gt;org.osmdroid&lt;/groupId&gt;
 		&lt;artifactId&gt;osmdroid-wms&lt;/artifactId&gt;
-		&lt;version&gt;6.0.0&lt;/version&gt;
+		&lt;version&gt;6.0.1&lt;/version&gt;
 		&lt;type&gt;aar&lt;/type&gt;
 	&lt;/dependency&gt;
 	&lt;dependency&gt;
@@ -607,12 +613,6 @@ dependencies {
 		&lt;groupId&gt;ch.acra&lt;/groupId&gt;
 		&lt;artifactId&gt;acra&lt;/artifactId&gt;
 		&lt;version&gt;4.7.0&lt;/version&gt;
-		&lt;type&gt;aar&lt;/type&gt;
-	&lt;/dependency&gt;
-	&lt;dependency&gt;
-		&lt;groupId&gt;com.squareup.leakcanary&lt;/groupId&gt;
-		&lt;artifactId&gt;leakcanary-android&lt;/artifactId&gt;
-		&lt;version&gt;1.4-beta2&lt;/version&gt;
 		&lt;type&gt;aar&lt;/type&gt;
 	&lt;/dependency&gt;
 	&lt;dependency&gt;

@@ -1,4 +1,4 @@
-Processing .\OpenStreetMapViewer\build\outputs\apk\OpenStreetMapViewer-6.0.0-debug.apk
+Processing .\OpenStreetMapViewer\build\outputs\apk\OpenStreetMapViewer-6.0.1-debug.apk
 Read in 43747 method IDs and 23478 field IDs
 ----------------------------------
 Package details:
@@ -400,7 +400,7 @@ sun Methods 2 Fields 0
 	misc Methods 1 Fields 0
 	nio Methods 1 Fields 0
 		ch Methods 1 Fields 0
-Processed .\OpenStreetMapViewer\build\outputs\apk\OpenStreetMapViewer-6.0.0-debug.apk
+Processed .\OpenStreetMapViewer\build\outputs\apk\OpenStreetMapViewer-6.0.1-debug.apk
 Read in 43747 method IDs and 23478 field IDs
 ----------------------------------
 
