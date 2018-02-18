@@ -43,6 +43,10 @@ public class GroundOverlay2 extends Overlay {
 		return mImage;
 	}
 
+	/**
+	 * @param UL upper left
+	 * @param RD lower right
+	 */
 	public void setPosition(GeoPoint UL, GeoPoint RD)
     {
         mLatU = (float)UL.getLatitude();
