@@ -4,9 +4,6 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * @author Fabrice Fontaine
  * @since 6.0.0
@@ -368,21 +365,7 @@ public class BoundingBoxTest {
     }
 
 
-    /**
-     * zoom = 1, with map repetition vertical and horizontal on
-     */
-    @Test
-    public void testDrawSetupLowZoom(){
 
-        BoundingBox view = new BoundingBox(84.60870, -13.7109, 84.60784,76.28906);
-        //in some tests, this was disappearing when panning left (westard)
-        BoundingBox drawing = new BoundingBox(60.9304, -18.28125, -13.23994, -104.0625);
-        Assert.assertTrue(view.overlaps(drawing, 4));
-
-        BoundingBox brokenView = new BoundingBox(84.60870, -28.47656, 84.60784,61.52342);
-        //this should be partially offscreen but still within the view and should still draw.
-        Assert.assertTrue(brokenView.overlaps(drawing, 3));
-    }
 
 
     /**

@@ -31,6 +31,7 @@ import java.util.List;
  * created on 1/28/2018.
  *
  * @author Alex O'Ree
+ * @since 6.1.0
  */
 
 public class ShapeConverter {

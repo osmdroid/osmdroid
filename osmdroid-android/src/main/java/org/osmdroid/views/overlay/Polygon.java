@@ -63,6 +63,7 @@ public class Polygon extends OverlayWithIW {
 	/** Paint settings. */
 	private Paint mFillPaint;
 	private Paint mOutlinePaint;
+	private int mMinmiumZoom = 0;
 	private List<MilestoneManager> mMilestoneManagers = new ArrayList<>();
 	private GeoPoint infoWindowLocation=null;
 	private BoundingBox mBounds=new BoundingBox(90,180,-90,-180);
@@ -98,6 +99,23 @@ public class Polygon extends OverlayWithIW {
 	// Getter & Setter
 	// ===========================================================
 
+	/**
+	 * get the minimum zoom level in which this polygon will render
+	 * @since 6.1.0
+	 */
+	public int getMinmiumDrawZoom() {
+		return mMinmiumZoom;
+	}
+
+	/**
+	 * sets the minimum zoom level in which this polygon will render.
+	 * default is 0 = always draw.
+	 * @param pZoom
+	 * @since 6.1.0
+	 */
+	public void setMinimumDrawZoom(int pZoom){
+		this.mMinmiumZoom = pZoom;
+	}
 	public int getFillColor() {
 		return mFillPaint.getColor();
 	}
@@ -251,6 +269,10 @@ public class Polygon extends OverlayWithIW {
 			//	closeInfoWindow();
 			return;
 		}
+
+		if (mapView.getZoomLevelDouble() < mMinmiumZoom)
+			return;
+
 		float widthPixels = mapView.getContext().getResources().getDisplayMetrics().widthPixels;
 
 		final Projection pj = mapView.getProjection();
