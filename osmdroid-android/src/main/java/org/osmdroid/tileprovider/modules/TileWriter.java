@@ -17,12 +17,11 @@ import org.osmdroid.api.IMapView;
 
 import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.ExpirableBitmapDrawable;
-import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
-import org.osmdroid.tileprovider.tilesource.BitmapTileSourceBase;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.util.Counters;
 import org.osmdroid.tileprovider.util.StreamUtils;
+import org.osmdroid.util.MapTileIndex;
 
 /**
  * An implementation of {@link IFilesystemCache}. It writes tiles to the file system cache. If the
@@ -101,10 +100,10 @@ public class TileWriter implements IFilesystemCache {
 	// ===========================================================
 
 	@Override
-	public boolean saveFile(final ITileSource pTileSource, final MapTile pTile,
-			final InputStream pStream) {
+	public boolean saveFile(final ITileSource pTileSource, final long pMapTileIndex,
+			final InputStream pStream, final Long pExpirationTime) {
 
-		final File file = getFile(pTileSource, pTile);
+		final File file = getFile(pTileSource, pMapTileIndex);
 
 		if (Configuration.getInstance().isDebugTileProviders()){
 			Log.d(IMapView.LOGTAG, "TileWrite " + file.getAbsolutePath());
@@ -146,15 +145,15 @@ public class TileWriter implements IFilesystemCache {
 	}
 
 	@Override
-	public boolean remove(final ITileSource pTileSource, final MapTile pTile) {
-		final File file = getFile(pTileSource, pTile);
+	public boolean remove(final ITileSource pTileSource, final long pMapTileIndex) {
+		final File file = getFile(pTileSource, pMapTileIndex);
 
 		if (file.exists()) {
 			try {
 				return file.delete();
 			}catch (Exception ex){
 				//potential io exception
-				Log.i(IMapView.LOGTAG, "Unable to delete cached tile from " + pTileSource.name() + " " + pTile.toString() , ex);
+				Log.i(IMapView.LOGTAG, "Unable to delete cached tile from " + pTileSource.name() + " " + MapTileIndex.toString(pMapTileIndex) , ex);
 			}
 		}
 		return false;
@@ -163,18 +162,15 @@ public class TileWriter implements IFilesystemCache {
 	/**
 	 *
 	 * @since 5.6.5
-	 * @param pTileSource
-	 * @param pTile
-	 * @return
 	 */
-	public File getFile(final ITileSource pTileSource, final MapTile pTile) {
-		return new File(Configuration.getInstance().getOsmdroidTileCache(), pTileSource.getTileRelativeFilenameString(pTile)
+	public File getFile(final ITileSource pTileSource, final long pMapTileIndex) {
+		return new File(Configuration.getInstance().getOsmdroidTileCache(), pTileSource.getTileRelativeFilenameString(pMapTileIndex)
 				+ OpenStreetMapTileProviderConstants.TILE_PATH_EXTENSION);
 	}
 
 	@Override
-	public boolean exists(final ITileSource pTileSource, final MapTile pTile) {
-		return getFile(pTileSource, pTile).exists();
+	public boolean exists(final ITileSource pTileSource, final long pMapTileIndex) {
+		return getFile(pTileSource, pMapTileIndex).exists();
 	}
 
 	// ===========================================================
@@ -308,15 +304,15 @@ public class TileWriter implements IFilesystemCache {
 	}
 
 	@Override
-	public Long getExpirationTimestamp(final ITileSource pTileSource, final MapTile pTile) {
+	public Long getExpirationTimestamp(final ITileSource pTileSource, final long pMapTileIndex) {
 		return null;
 	}
 
 	@Override
-	public Drawable loadTile(final ITileSource pTileSource, final MapTile pTile) throws Exception{
+	public Drawable loadTile(final ITileSource pTileSource, final long pMapTileIndex) throws Exception{
 		// Check the tile source to see if its file is available and if so, then render the
 		// drawable and return the tile
-		final File file = getFile(pTileSource, pTile);
+		final File file = getFile(pTileSource, pMapTileIndex);
 		if (!file.exists()) {
 			return null;
 		}
@@ -330,7 +326,7 @@ public class TileWriter implements IFilesystemCache {
 
 		if (fileExpired && drawable != null) {
 			if (Configuration.getInstance().isDebugMode()) {
-				Log.d(IMapView.LOGTAG,"Tile expired: " + pTile);
+				Log.d(IMapView.LOGTAG,"Tile expired: " + MapTileIndex.toString(pMapTileIndex));
 			}
 			ExpirableBitmapDrawable.setState(drawable, ExpirableBitmapDrawable.EXPIRED);
 		}

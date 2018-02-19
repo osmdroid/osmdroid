@@ -16,6 +16,7 @@ import android.view.MotionEvent;
 import android.util.TypedValue;
 
 import org.osmdroid.library.R;
+import org.osmdroid.tileprovider.BitmapPool;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
@@ -366,24 +367,9 @@ public class Marker extends OverlayWithIW {
     /** Null out the static references when the MapView is detached to prevent memory leaks. */
 	@Override
 	public void onDetach(MapView mapView) {
-
-		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.GINGERBREAD) {
-			if (mIcon instanceof BitmapDrawable) {
-				final Bitmap bitmap = ((BitmapDrawable) mIcon).getBitmap();
-				if (bitmap != null) {
-					bitmap.recycle();
-				}
-			}
-		}
+		BitmapPool.getInstance().asyncRecycle(mIcon);
 		mIcon=null;
-		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.GINGERBREAD) {
-			if (mImage instanceof BitmapDrawable) {
-				final Bitmap bitmap = ((BitmapDrawable) mImage).getBitmap();
-				if (bitmap != null) {
-					bitmap.recycle();
-				}
-			}
-		}
+		BitmapPool.getInstance().asyncRecycle(mImage);
 		//cleanDefaults();
 		this.mOnMarkerClickListener=null;
 		this.mOnMarkerDragListener=null;

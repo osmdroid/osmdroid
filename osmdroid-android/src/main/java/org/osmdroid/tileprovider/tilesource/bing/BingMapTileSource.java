@@ -5,7 +5,6 @@ import android.util.Log;
 
 import org.osmdroid.api.IMapView;
 import org.osmdroid.config.Configuration;
-import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.tilesource.IStyledTileSource;
 import org.osmdroid.tileprovider.tilesource.QuadTreeTileSource;
 import org.osmdroid.tileprovider.util.ManifestUtil;
@@ -120,11 +119,11 @@ public class BingMapTileSource extends QuadTreeTileSource implements IStyledTile
     }
 
     @Override
-    public String getTileURLString(final MapTile pTile) {
+    public String getTileURLString(final long pMapTileIndex) {
         if (!mImageryData.m_isInitialised) {
             initMetaData();
         }
-        return String.format(mUrl, quadTree(pTile));
+        return String.format(mUrl, quadTree(pMapTileIndex));
     }
 
     /**

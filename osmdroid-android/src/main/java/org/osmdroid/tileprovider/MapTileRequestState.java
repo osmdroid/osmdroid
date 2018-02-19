@@ -1,6 +1,7 @@
 package org.osmdroid.tileprovider;
 
 import org.osmdroid.tileprovider.modules.MapTileModuleProviderBase;
+import org.osmdroid.util.MapTileIndex;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -9,37 +10,40 @@ import java.util.List;
 public class MapTileRequestState {
 
 	private final List<MapTileModuleProviderBase> mProviderQueue;
-	private final MapTile mMapTile;
+	private final long mMapTileIndex;
 	private final IMapTileProviderCallback mCallback;
 	private int index;
 	private MapTileModuleProviderBase mCurrentProvider;
 
 	/**
-	 * @deprecated use {@link MapTileRequestState#MapTileRequestState(MapTile, List, IMapTileProviderCallback)}  instead
+	 * @deprecated use {@link MapTileRequestState#MapTileRequestState(long, List, IMapTileProviderCallback)}  instead
 	 */
 	@Deprecated
-	public MapTileRequestState(final MapTile mapTile,
+	public MapTileRequestState(final long pMapTleIndex,
 							   final MapTileModuleProviderBase[] providers,
 							   final IMapTileProviderCallback callback) {
 		mProviderQueue = new ArrayList<>();
 		Collections.addAll(mProviderQueue, providers);
-		mMapTile = mapTile;
+		mMapTileIndex = pMapTleIndex;
 		mCallback = callback;
 	}
 
 	/**
 	 * @since 6.0
 	 */
-	public MapTileRequestState(final MapTile mapTile,
+	public MapTileRequestState(final long pMapTileIndex,
 							   final List<MapTileModuleProviderBase> providers,
 							   final IMapTileProviderCallback callback) {
 		mProviderQueue = providers;
-		mMapTile = mapTile;
+		mMapTileIndex = pMapTileIndex;
 		mCallback = callback;
 	}
 
-	public MapTile getMapTile() {
-		return mMapTile;
+	/**
+	 * @since 6.0.0
+	 */
+	public long getMapTile() {
+		return mMapTileIndex;
 	}
 
 	public IMapTileProviderCallback getCallback() {

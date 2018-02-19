@@ -9,7 +9,7 @@ package org.osmdroid.api;
  *
  */
 public interface IMapView {
-     public static String LOGTAG="OsmDroid";
+     public final static String LOGTAG="OsmDroid";
 	IMapController getController();
 	IProjection getProjection();
 	@Deprecated

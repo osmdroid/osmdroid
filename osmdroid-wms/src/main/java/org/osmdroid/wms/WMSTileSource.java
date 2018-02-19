@@ -3,9 +3,9 @@ package org.osmdroid.wms;
 import android.util.Log;
 
 import org.osmdroid.api.IMapView;
-import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase;
 import org.osmdroid.util.BoundingBox;
+import org.osmdroid.util.MapTileIndex;
 
 
 /**
@@ -138,7 +138,7 @@ public class WMSTileSource extends OnlineTileSourceBase {
     }
 
     @Override
-    public String getTileURLString(MapTile aTile) {
+    public String getTileURLString(final long pMapTileIndex) {
 
         String baseUrl = getBaseUrl();
         if (forceHttps)
@@ -154,13 +154,13 @@ public class WMSTileSource extends OnlineTileSourceBase {
         sb.append("&bbox=");
         if (srs.equals("EPSG:900913")) {
             //geoserver style
-            double[] bbox = getBoundingBox(aTile.getX(), aTile.getY(), aTile.getZoomLevel());
+            double[] bbox = getBoundingBox(MapTileIndex.getX(pMapTileIndex), MapTileIndex.getY(pMapTileIndex), MapTileIndex.getZoom(pMapTileIndex));
             sb.append(bbox[MINX]).append(",");
             sb.append(bbox[MINY]).append(",");
             sb.append(bbox[MAXX]).append(",");
             sb.append(bbox[MAXY]);
         } else {
-            BoundingBox boundingBox = tile2boundingBox(aTile.getX(), aTile.getY(), aTile.getZoomLevel());
+            BoundingBox boundingBox = tile2boundingBox(MapTileIndex.getX(pMapTileIndex), MapTileIndex.getY(pMapTileIndex), MapTileIndex.getZoom(pMapTileIndex));
             sb.append(boundingBox.getLonWest()).append(",");
             sb.append(boundingBox.getLatSouth()).append(",");
             sb.append(boundingBox.getLonEast()).append(",");

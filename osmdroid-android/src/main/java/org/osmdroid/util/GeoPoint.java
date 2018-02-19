@@ -104,6 +104,7 @@ public class GeoPoint implements IGeoPoint, MathConstants, GeoConstants, Parcela
 		}
 	}
 
+	@Deprecated
 	public static GeoPoint fromIntString(final String s) {
 		final int commaPos1 = s.indexOf(',');
 		final int commaPos2 = s.indexOf(',', commaPos1 + 1);

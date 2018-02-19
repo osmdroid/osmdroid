@@ -1,11 +1,14 @@
 // Created by plusminus on 17:58:57 - 25.09.2008
 package org.osmdroid.tileprovider;
 
+import org.osmdroid.api.IMapView;
 import org.osmdroid.config.Configuration;
-import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 import org.osmdroid.util.MapTileList;
 
 import android.graphics.drawable.Drawable;
+import android.util.Log;
+
+import java.util.HashMap;
 
 /**
  * In memory cache of tiles
@@ -21,9 +24,30 @@ public class MapTileCache {
 	// Fields
 	// ===========================================================
 
-	protected final Object mCachedTilesLockObject = new Object();
-	protected LRUMapTileCache mCachedTiles;
+	/**
+	 * @since 6.0.0
+	 * Was in LRUMapTileCache
+	 */
+	public interface TileRemovedListener {
+		void onTileRemoved(final long pMapTileIndex);
+	}
+
+	private TileRemovedListener mTileRemovedListener;
+	private final HashMap<Long, Drawable> mCachedTiles = new HashMap<>();
+	/**
+	 * Tiles currently displayed
+	 */
 	private final MapTileList mMapTileList = new MapTileList();
+	/**
+	 * Tiles neighbouring the tiles currently displayed (borders, zoom +-1, ...)
+	 */
+	private final MapTileList mAdditionalMapTileList = new MapTileList();
+	/**
+	 * Tiles currently in the cache, without the concurrency side effects
+	 */
+	private final MapTileList mGC = new MapTileList();
+
+	private int mCapacity;
 
 	// ===========================================================
 	// Constructors
@@ -38,30 +62,60 @@ public class MapTileCache {
 	 *            Maximum amount of MapTiles to be hold within.
 	 */
 	public MapTileCache(final int aMaximumCacheSize) {
-		this.mCachedTiles = new LRUMapTileCache(aMaximumCacheSize, mMapTileList);
+		ensureCapacity(aMaximumCacheSize);
 	}
 
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================
 
-	public void ensureCapacity(final int aCapacity) {
-		synchronized (mCachedTilesLockObject) {
-			mCachedTiles.ensureCapacity(aCapacity);
+	public void ensureCapacity(final int pCapacity) {
+		if (mCapacity < pCapacity) {
+			Log.i(IMapView.LOGTAG, "Tile cache increased from " + mCapacity + " to " + pCapacity);
+			mCapacity = pCapacity;
 		}
 	}
 
-	public Drawable getMapTile(final MapTile aTile) {
-		synchronized (mCachedTilesLockObject) {
-			return this.mCachedTiles.get(aTile);
+	public Drawable getMapTile(final long pMapTileIndex) {
+		synchronized (mCachedTiles) {
+			return this.mCachedTiles.get(pMapTileIndex);
 		}
 	}
 
-	public void putTile(final MapTile aTile, final Drawable aDrawable) {
+	public void putTile(final long pMapTileIndex, final Drawable aDrawable) {
 		if (aDrawable != null) {
-			synchronized (mCachedTilesLockObject) {
-				this.mCachedTiles.put(aTile, aDrawable);
+			synchronized (mCachedTiles) {
+				this.mCachedTiles.put(pMapTileIndex, aDrawable);
 			}
+		}
+	}
+
+	/**
+	 * Removes from the memory cache all the tiles that should no longer be there
+	 * @since 6.0.0
+	 */
+	public void garbageCollection() {
+		final int size = mCachedTiles.size();
+		int toBeRemoved = size - mCapacity;
+		if (toBeRemoved <= 0) {
+			return;
+		}
+		mAdditionalMapTileList.clear();
+		mAdditionalMapTileList.populateFrom(mMapTileList, -1);
+		mAdditionalMapTileList.populateFrom(mMapTileList, 1);
+		populateSyncCachedTiles(mGC);
+		for (int i = 0; i < mGC.getSize() ; i ++) {
+			final long index = mGC.get(i);
+			if (mMapTileList.contains(index)) {
+				continue;
+			}
+			if (mAdditionalMapTileList.contains(index)) {
+				continue;
+			}
+			remove(index);
+			if (-- toBeRemoved == 0) {
+				break;
+			};
 		}
 	}
 
@@ -80,19 +134,74 @@ public class MapTileCache {
 	// Methods
 	// ===========================================================
 
-	public boolean containsTile(final MapTile aTile) {
-		synchronized (mCachedTilesLockObject) {
-			return this.mCachedTiles.containsKey(aTile);
+	public boolean containsTile(final long pMapTileIndex) {
+		synchronized (mCachedTiles) {
+			return this.mCachedTiles.containsKey(pMapTileIndex);
 		}
 	}
 
+	/**
+	 * @since 6.0.0
+	 * Was in LRUMapTileCache
+	 */
 	public void clear() {
-		synchronized (mCachedTilesLockObject) {
-			this.mCachedTiles.clear();
+		// remove them all individually so that they get recycled
+		final MapTileList list = new MapTileList(mCachedTiles.size());
+		populateSyncCachedTiles(list);
+		for (int i = 0; i < list.getSize() ; i ++) {
+			final long index = list.get(i);
+			remove(index);
+		}
+
+		// and then clear
+		mCachedTiles.clear();
+	}
+
+	/**
+	 * @since 6.0.0
+	 * Was in LRUMapTileCache
+	 */
+	public void remove(final long pMapTileIndex) {
+		final Drawable drawable = mCachedTiles.remove(pMapTileIndex);
+		if (getTileRemovedListener() != null)
+			getTileRemovedListener().onTileRemoved(pMapTileIndex);
+		BitmapPool.getInstance().asyncRecycle(drawable);
+	}
+
+	/**
+	 * @since 6.0.0
+	 * Was in LRUMapTileCache
+	 */
+	public TileRemovedListener getTileRemovedListener() {
+		return mTileRemovedListener;
+	}
+
+	/**
+	 * @since 6.0.0
+	 * Was in LRUMapTileCache
+	 */
+	public void setTileRemovedListener(TileRemovedListener tileRemovedListener) {
+		mTileRemovedListener = tileRemovedListener;
+	}
+
+	/**
+	 * Just a helper method in order to parse all indices without concurrency side effects
+	 * @since 6.0.0
+	 */
+	private void populateSyncCachedTiles(final MapTileList pList) {
+		synchronized (mCachedTiles) {
+			pList.ensureCapacity(mCachedTiles.size());
+			pList.clear();
+			for (final long index : mCachedTiles.keySet()) {
+				pList.put(index);
+			}
 		}
 	}
 
-	// ===========================================================
-	// Inner and Anonymous Classes
-	// ===========================================================
+	/**
+	 * @since 6.0.0
+	 */
+	public int getSize() {
+		return mCachedTiles.size();
+	}
 }

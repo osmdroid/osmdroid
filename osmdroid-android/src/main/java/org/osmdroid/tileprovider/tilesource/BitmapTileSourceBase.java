@@ -8,9 +8,9 @@ import android.util.Log;
 
 import org.osmdroid.api.IMapView;
 import org.osmdroid.tileprovider.BitmapPool;
-import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.ReusableBitmapDrawable;
 import org.osmdroid.tileprovider.util.Counters;
+import org.osmdroid.util.MapTileIndex;
 
 import java.io.File;
 import java.io.InputStream;
@@ -147,15 +147,15 @@ public abstract class BitmapTileSourceBase implements ITileSource {
 	}
 
 	@Override
-	public String getTileRelativeFilenameString(final MapTile tile) {
+	public String getTileRelativeFilenameString(final long pMapTileIndex) {
 		final StringBuilder sb = new StringBuilder();
 		sb.append(pathBase());
 		sb.append('/');
-		sb.append(tile.getZoomLevel());
+		sb.append(MapTileIndex.getZoom(pMapTileIndex));
 		sb.append('/');
-		sb.append(tile.getX());
+		sb.append(MapTileIndex.getX(pMapTileIndex));
 		sb.append('/');
-		sb.append(tile.getY());
+		sb.append(MapTileIndex.getY(pMapTileIndex));
 		sb.append(imageFilenameEnding());
 		return sb.toString();
 	}

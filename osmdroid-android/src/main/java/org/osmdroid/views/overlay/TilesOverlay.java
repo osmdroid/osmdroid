@@ -3,7 +3,7 @@ package org.osmdroid.views.overlay;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.library.R;
 import org.osmdroid.tileprovider.BitmapPool;
-import org.osmdroid.tileprovider.MapTile;
+import org.osmdroid.tileprovider.MapTileCache;
 import org.osmdroid.tileprovider.MapTileProviderBase;
 import org.osmdroid.tileprovider.ReusableBitmapDrawable;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
@@ -12,7 +12,6 @@ import org.osmdroid.util.MapTileList;
 import org.osmdroid.util.RectL;
 import org.osmdroid.util.MapTileIndex;
 import org.osmdroid.util.TileLooper;
-import org.osmdroid.util.TileSystem;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
 
@@ -23,11 +22,9 @@ import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Paint;
-import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -35,11 +32,11 @@ import android.view.SubMenu;
 import org.osmdroid.api.IMapView;
 
 /**
- * A {@link TilesOverlay} is responsible to display a {@link MapTile}.
+ * A {@link TilesOverlay} is responsible to display a {@link MapTileIndex}.
  *
  * These objects are the principle consumer of map tiles.
  *
- * see {@link MapTile} for an overview of how tiles are acquired by this overlay.
+ * see {@link MapTileIndex} for an overview of how tiles are acquired by this overlay.
  *
  */
 
@@ -97,10 +94,8 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 					"You must pass a valid tile provider to the tiles overlay.");
 		}
 		this.mTileProvider = aTileProvider;
-		this.horizontalWrapEnabled = horizontalWrapEnabled;
-		this.verticalWrapEnabled = verticalWrapEnabled;
-		this.mTileLooper.setHorizontalWrapEnabled(horizontalWrapEnabled);
-		this.mTileLooper.setVerticalWrapEnabled(verticalWrapEnabled);
+		setHorizontalWrapEnabled(horizontalWrapEnabled);
+		setVerticalWrapEnabled(verticalWrapEnabled);
 	}
 
 	/**
@@ -117,33 +112,9 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 	public void onDetach(final MapView pMapView) {
 		this.mTileProvider.detach();
 		ctx=null;
-		if (mLoadingTile!=null) {
-			// Only recycle if we are running on a project less than 2.3.3 Gingerbread.
-			if (Build.VERSION.SDK_INT < Build.VERSION_CODES.GINGERBREAD) {
-				if (mLoadingTile instanceof BitmapDrawable) {
-					final Bitmap bitmap = ((BitmapDrawable) mLoadingTile).getBitmap();
-					if (bitmap != null) {
-						bitmap.recycle();
-					}
-				}
-			}
-			if (mLoadingTile instanceof ReusableBitmapDrawable)
-				BitmapPool.getInstance().returnDrawableToPool((ReusableBitmapDrawable) mLoadingTile);
-		}
+		BitmapPool.getInstance().asyncRecycle(mLoadingTile);
 		mLoadingTile=null;
-		if (userSelectedLoadingDrawable!=null){
-			// Only recycle if we are running on a project less than 2.3.3 Gingerbread.
-			if (Build.VERSION.SDK_INT < Build.VERSION_CODES.GINGERBREAD) {
-				if (userSelectedLoadingDrawable instanceof BitmapDrawable) {
-					final Bitmap bitmap = ((BitmapDrawable) userSelectedLoadingDrawable).getBitmap();
-					if (bitmap != null) {
-						bitmap.recycle();
-					}
-				}
-			}
-			if (userSelectedLoadingDrawable instanceof ReusableBitmapDrawable)
-				BitmapPool.getInstance().returnDrawableToPool((ReusableBitmapDrawable) userSelectedLoadingDrawable);
-		}
+		BitmapPool.getInstance().asyncRecycle(userSelectedLoadingDrawable);
 		userSelectedLoadingDrawable=null;
 	}
 
@@ -182,9 +153,7 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 			return;
 		}
 		mProjection = getProjection();
-		final MapTileList mapTileList = mTileProvider.getCacheMapTileList();
-		mapTileList.clear();
-		mCacheTileLooper.loop(getProjection().getZoomLevel(), mViewPort, mapTileList);
+		mCacheTileLooper.loop(mProjection.getZoomLevel(), mViewPort);
 	}
 
 	/**
@@ -236,6 +205,7 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 		private Canvas mCanvas;
 
 		public OverlayTileLooper() {
+			super();
 		}
 
 		public OverlayTileLooper(boolean horizontalWrapEnabled, boolean verticalWrapEnabled) {
@@ -254,10 +224,11 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 			final int height = mTiles.bottom - mTiles.top + 1;
 			final int numNeeded = height * width;
 			mTileProvider.ensureCapacity(numNeeded + Configuration.getInstance().getCacheMapTileOvershoot());
+			super.initialiseLoop();
 		}
 		@Override
-		public void handleTile(MapTile pTile, int pX, int pY) {
-			Drawable currentMapTile = mTileProvider.getMapTile(pTile);
+		public void handleTile(final long pMapTileIndex, int pX, int pY) {
+			Drawable currentMapTile = mTileProvider.getMapTile(pMapTileIndex);
 			boolean isReusable = currentMapTile instanceof ReusableBitmapDrawable;
 			final ReusableBitmapDrawable reusableBitmapDrawable =
 					isReusable ? (ReusableBitmapDrawable) currentMapTile : null;
@@ -271,7 +242,7 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 					reusableBitmapDrawable.beginUsingDrawable();
 				}
 				try {
-					if (isReusable && !((ReusableBitmapDrawable) currentMapTile).isBitmapValid()) {
+					if (isReusable && !reusableBitmapDrawable.isBitmapValid()) {
 						currentMapTile = getLoadingTile();
 						isReusable = false;
 					}
@@ -284,7 +255,7 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 
 			if (Configuration.getInstance().isDebugTileProviders()) {
 				mProjection.getPixelFromTile(pX, pY, mTileRect);
-				mCanvas.drawText(pTile.toString(), mTileRect.left + 1,
+				mCanvas.drawText(MapTileIndex.toString(pMapTileIndex), mTileRect.left + 1,
 						mTileRect.top + mDebugPaint.getTextSize(), mDebugPaint);
 				mCanvas.drawLine(mTileRect.left, mTileRect.top, mTileRect.right, mTileRect.top,
 						mDebugPaint);
@@ -292,6 +263,9 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 						mDebugPaint);
 			}
 		}
+
+		@Override
+		public void finaliseLoop() {}
 	}
 
 	/**
@@ -300,16 +274,31 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 	 */
 	protected class CacheTileLooper extends TileLooper {
 
-		private MapTileList mList;
-
-		public void loop(final double pZoomLevel, final RectL pViewPort, final MapTileList pList) {
-			mList = pList;
-			loop(pZoomLevel, pViewPort);
+		/**
+		 * making it `public` and not inaccessible as `protected`
+		 */
+		@Override
+		public void loop(final double pZoomLevel, final RectL pMercatorViewPort) {
+			super.loop(pZoomLevel, pMercatorViewPort);
 		}
 
 		@Override
-		public void handleTile(MapTile pTile, int pX, int pY) {
-			mList.put(MapTileIndex.getTileIndex(pTile));
+		public void initialiseLoop() {
+			getTileCache().getMapTileList().clear();
+		}
+
+		@Override
+		public void handleTile(final long pMapTileIndex, int pX, int pY) {
+			getTileCache().getMapTileList().put(pMapTileIndex);
+		}
+
+		@Override
+		public void finaliseLoop() {
+			getTileCache().garbageCollection();
+		}
+
+		private MapTileCache getTileCache() {
+			return mTileProvider.getTileCache();
 		}
 	}
 
@@ -486,12 +475,7 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 	private void clearLoadingTile() {
 		final BitmapDrawable bitmapDrawable = mLoadingTile;
 		mLoadingTile = null;
-		// Only recycle if we are running on a project less than 2.3.3 Gingerbread.
-		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.GINGERBREAD) {
-			if (bitmapDrawable != null) {
-				bitmapDrawable.getBitmap().recycle();
-			}
-		}
+		BitmapPool.getInstance().asyncRecycle(bitmapDrawable);
 	}
 
 
@@ -515,7 +499,7 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 	public void setHorizontalWrapEnabled(boolean horizontalWrapEnabled) {
 		this.horizontalWrapEnabled = horizontalWrapEnabled;
 		this.mTileLooper.setHorizontalWrapEnabled(horizontalWrapEnabled);
-
+		this.mCacheTileLooper.setHorizontalWrapEnabled(horizontalWrapEnabled);
 	}
 
 	public boolean isVerticalWrapEnabled() {
@@ -525,6 +509,6 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 	public void setVerticalWrapEnabled(boolean verticalWrapEnabled) {
 		this.verticalWrapEnabled = verticalWrapEnabled;
 		this.mTileLooper.setVerticalWrapEnabled(verticalWrapEnabled);
-
+		this.mCacheTileLooper.setVerticalWrapEnabled(verticalWrapEnabled);
 	}
 }

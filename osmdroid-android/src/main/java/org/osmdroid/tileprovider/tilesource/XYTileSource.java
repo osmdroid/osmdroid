@@ -1,6 +1,6 @@
 package org.osmdroid.tileprovider.tilesource;
 
-import org.osmdroid.tileprovider.MapTile;
+import org.osmdroid.util.MapTileIndex;
 
 /**
  * An implementation of {@link org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase}
@@ -35,8 +35,8 @@ public class XYTileSource extends OnlineTileSourceBase {
 		return name();
 	}
 	@Override
-	public String getTileURLString(final MapTile aTile) {
-		return getBaseUrl() + aTile.getZoomLevel() + "/" + aTile.getX() + "/" + aTile.getY()
+	public String getTileURLString(final long pMapTileIndex) {
+		return getBaseUrl() + MapTileIndex.getZoom(pMapTileIndex) + "/" + MapTileIndex.getX(pMapTileIndex) + "/" + MapTileIndex.getY(pMapTileIndex)
 				+ mImageFilenameEnding;
 	}
 }

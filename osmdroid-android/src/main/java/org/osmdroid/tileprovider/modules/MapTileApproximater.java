@@ -9,10 +9,10 @@ import android.graphics.drawable.Drawable;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.BitmapPool;
 import org.osmdroid.tileprovider.ExpirableBitmapDrawable;
-import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.ReusableBitmapDrawable;
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
+import org.osmdroid.util.MapTileIndex;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -107,8 +107,8 @@ public class MapTileApproximater extends MapTileModuleProviderBase {
     protected class TileLoader extends MapTileModuleProviderBase.TileLoader {
 
         @Override
-        public Drawable loadTile(final MapTile pMapTile) {
-            final Bitmap bitmap = approximateTileFromLowerZoom(pMapTile);
+        public Drawable loadTile(final long pMapTileIndex) {
+            final Bitmap bitmap = approximateTileFromLowerZoom(pMapTileIndex);
             if (bitmap != null) {
                 final BitmapDrawable drawable = new BitmapDrawable(bitmap);
                 ExpirableBitmapDrawable.setState(drawable, ExpirableBitmapDrawable.SCALED);
@@ -122,12 +122,12 @@ public class MapTileApproximater extends MapTileModuleProviderBase {
      * Approximate a tile from a lower zoom level
      *
      * @since 6.0.0
-     * @param pMapTile Destination tile, for the same place on the planet as the source, but on a higher zoom
+     * @param pMapTileIndex Destination tile, for the same place on the planet as the source, but on a higher zoom
      * @return
      */
-    public Bitmap approximateTileFromLowerZoom(final MapTile pMapTile) {
-        for (int zoomDiff = 1; pMapTile.getZoomLevel() - zoomDiff >= OpenStreetMapTileProviderConstants.MINIMUM_ZOOMLEVEL ; zoomDiff ++) {
-            final Bitmap bitmap = approximateTileFromLowerZoom(pMapTile, zoomDiff);
+    public Bitmap approximateTileFromLowerZoom(final long pMapTileIndex) {
+        for (int zoomDiff = 1; MapTileIndex.getZoom(pMapTileIndex) - zoomDiff >= OpenStreetMapTileProviderConstants.MINIMUM_ZOOMLEVEL ; zoomDiff ++) {
+            final Bitmap bitmap = approximateTileFromLowerZoom(pMapTileIndex, zoomDiff);
             if (bitmap != null) {
                 return bitmap;
             }
@@ -139,13 +139,13 @@ public class MapTileApproximater extends MapTileModuleProviderBase {
      * Approximate a tile from a lower zoom level
      *
      * @since 6.0.0
-     * @param pMapTile Destination tile, for the same place on the planet as the source, but on a higher zoom
+     * @param pMapTileIndex Destination tile, for the same place on the planet as the source, but on a higher zoom
      * @param pZoomDiff Zoom level difference between the destination and the source; strictly positive
      * @return
      */
-    public Bitmap approximateTileFromLowerZoom(final MapTile pMapTile, final int pZoomDiff) {
+    public Bitmap approximateTileFromLowerZoom(final long pMapTileIndex, final int pZoomDiff) {
         for (final MapTileModuleProviderBase provider : mProviders) {
-            final Bitmap bitmap = approximateTileFromLowerZoom(provider, pMapTile, pZoomDiff);
+            final Bitmap bitmap = approximateTileFromLowerZoom(provider, pMapTileIndex, pZoomDiff);
             if (bitmap != null) {
                 return bitmap;
             }
@@ -158,30 +158,32 @@ public class MapTileApproximater extends MapTileModuleProviderBase {
      *
      * @since 6.0.0
      * @param pProvider Source tile provider
-     * @param pMapTile Destination tile, for the same place on the planet as the source, but on a higher zoom
+     * @param pMapTileIndex Destination tile, for the same place on the planet as the source, but on a higher zoom
      * @param pZoomDiff Zoom level difference between the destination and the source; strictly positive
      * @return
      */
     public static Bitmap approximateTileFromLowerZoom(
             final MapTileModuleProviderBase pProvider,
-            final MapTile pMapTile, final int pZoomDiff) {
+            final long pMapTileIndex, final int pZoomDiff) {
         if (pZoomDiff <= 0) {
             return null;
         }
-        final int srcZoomLevel = pMapTile.getZoomLevel() - pZoomDiff;
+        final int srcZoomLevel = MapTileIndex.getZoom(pMapTileIndex) - pZoomDiff;
         if (srcZoomLevel < pProvider.getMinimumZoomLevel()) {
             return null;
         }
         if (srcZoomLevel > pProvider.getMaximumZoomLevel()) {
             return null;
         }
-        final MapTile srcTile = new MapTile(srcZoomLevel, pMapTile.getX() >> pZoomDiff, pMapTile.getY() >> pZoomDiff);
+        final long srcTile = MapTileIndex.getTileIndex(srcZoomLevel,
+                MapTileIndex.getX(pMapTileIndex) >> pZoomDiff,
+                MapTileIndex.getY(pMapTileIndex) >> pZoomDiff);
         try {
             final Drawable srcDrawable = pProvider.getTileLoader().loadTile(srcTile);
             if (!(srcDrawable instanceof BitmapDrawable)) {
                 return null;
             }
-            return approximateTileFromLowerZoom((BitmapDrawable) srcDrawable, pMapTile, pZoomDiff);
+            return approximateTileFromLowerZoom((BitmapDrawable) srcDrawable, pMapTileIndex, pZoomDiff);
         } catch (Exception e) {
             return null;
         }
@@ -192,13 +194,13 @@ public class MapTileApproximater extends MapTileModuleProviderBase {
      *
      * @since 5.6.5
      * @param pSrcDrawable Source tile bitmap
-     * @param pMapTile Destination tile, for the same place on the planet as the source, but on a higher zoom
+     * @param pMapTileIndex Destination tile, for the same place on the planet as the source, but on a higher zoom
      * @param pZoomDiff Zoom level difference between the destination and the source; strictly positive
      * @return
      */
     public static Bitmap approximateTileFromLowerZoom(
             final BitmapDrawable pSrcDrawable,
-            final MapTile pMapTile, final int pZoomDiff) {
+            final long pMapTileIndex, final int pZoomDiff) {
         if (pZoomDiff <= 0) {
             return null;
         }
@@ -218,8 +220,8 @@ public class MapTileApproximater extends MapTileModuleProviderBase {
                 if (srcSize == 0) {
                     success = false;
                 } else {
-                    final int srcX = (pMapTile.getX() % (1 << pZoomDiff)) * srcSize;
-                    final int srcY = (pMapTile.getY() % (1 << pZoomDiff)) * srcSize;
+                    final int srcX = (MapTileIndex.getX(pMapTileIndex) % (1 << pZoomDiff)) * srcSize;
+                    final int srcY = (MapTileIndex.getY(pMapTileIndex) % (1 << pZoomDiff)) * srcSize;
                     final Rect srcRect = new Rect(srcX, srcY, srcX + srcSize, srcY + srcSize);
                     final Rect dstRect = new Rect(0, 0, tileSizePixels, tileSizePixels);
                     canvas.drawBitmap(pSrcDrawable.getBitmap(), srcRect, dstRect, null);

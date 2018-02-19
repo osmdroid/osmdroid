@@ -8,12 +8,11 @@ import android.util.Log;
 import org.osmdroid.api.IMapView;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.IRegisterReceiver;
-import org.osmdroid.tileprovider.MapTile;
-import org.osmdroid.tileprovider.MapTileRequestState;
 import org.osmdroid.tileprovider.modules.IFilesystemCache;
 import org.osmdroid.tileprovider.modules.MapTileFileStorageProviderBase;
 import org.osmdroid.tileprovider.modules.MapTileModuleProviderBase;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
+import org.osmdroid.util.MapTileIndex;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -88,14 +87,14 @@ public class MapsForgeTileModuleProvider extends MapTileFileStorageProviderBase 
     private class TileLoader extends MapTileModuleProviderBase.TileLoader {
 
         @Override
-        public Drawable loadTile(final MapTile pTile) {
+        public Drawable loadTile(final long pMapTileIndex) {
             //TODO find a more efficient want to do this, seems overly complicated
             String dbgPrefix = null;
             if (Configuration.getInstance().isDebugTileProviders()) {
-                dbgPrefix = "MapsForgeTileModuleProvider.TileLoader.loadTile(" + pTile + "): ";
+                dbgPrefix = "MapsForgeTileModuleProvider.TileLoader.loadTile(" + MapTileIndex.toString(pMapTileIndex) + "): ";
                 Log.d(IMapView.LOGTAG,dbgPrefix + "tileSource.renderTile");
             }
-            Drawable image= tileSource.renderTile(pTile);
+            Drawable image= tileSource.renderTile(pMapTileIndex);
             if (image!=null && image instanceof BitmapDrawable) {
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
                 ((BitmapDrawable)image).getBitmap().compress(Bitmap.CompressFormat.PNG, 100, stream);
@@ -109,13 +108,13 @@ public class MapsForgeTileModuleProvider extends MapTileFileStorageProviderBase 
                 if (Configuration.getInstance().isDebugTileProviders()) {
                     Log.d(IMapView.LOGTAG, dbgPrefix +
                             "save tile " + bitmapdata.length +
-                            " bytes to " + tileSource.getTileRelativeFilenameString(pTile));
+                            " bytes to " + tileSource.getTileRelativeFilenameString(pMapTileIndex));
                 }
 
                 ByteArrayInputStream bais = null;
                 try {
                     bais = new ByteArrayInputStream(bitmapdata);
-                    tilewriter.saveFile(tileSource, pTile, bais);
+                    tilewriter.saveFile(tileSource, pMapTileIndex, bais, null);
                 } catch (Exception ex) {
                     Log.w(IMapView.LOGTAG,"forge error storing tile cache",ex);
                 } finally {
