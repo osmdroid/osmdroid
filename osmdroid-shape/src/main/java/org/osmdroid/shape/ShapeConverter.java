@@ -2,8 +2,8 @@ package org.osmdroid.shape;
 
 import android.util.Log;
 
-import net.iryndin.jdbf.core.DbfRecord;
-import net.iryndin.jdbf.reader.DbfReader;
+//FIXME import net.iryndin.jdbf.core.DbfRecord;
+//FIXME import net.iryndin.jdbf.reader.DbfReader;
 
 import org.nocrala.tools.gis.data.esri.shapefile.ShapeFileReader;
 import org.nocrala.tools.gis.data.esri.shapefile.ValidationPreferences;
@@ -40,34 +40,34 @@ public class ShapeConverter {
 
         FileInputStream is = null;
         FileInputStream dbfInputStream = null;
-        DbfReader dbfReader = null;
+        //FIXME DbfReader dbfReader = null;
         ShapeFileReader r = null;
         try {
-            File dbase = new File(file.getParentFile(), file.getName().replace(".shp", ".dbf"));
-            if (dbase.exists()) {
-                dbfInputStream = new FileInputStream(dbase);
-                dbfReader = new DbfReader(dbfInputStream);
-            }
+            //FIXME File dbase = new File(file.getParentFile(), file.getName().replace(".shp", ".dbf"));
+            //FIXME  if (dbase.exists()) {
+            //FIXME     dbfInputStream = new FileInputStream(dbase);
+                //FIXME dbfReader = new DbfReader(dbfInputStream);
+            //FIXME }
             is = new FileInputStream(file);
             r = new ShapeFileReader(is, prefs);
 
 
             AbstractShape s;
             while ((s = r.next()) != null) {
-                DbfRecord metadata = null;
-                if (dbfReader != null)
-                    metadata = dbfReader.read();
+                //FIXME  DbfRecord metadata = null;
+                //FIXME  if (dbfReader != null)
+                //FIXME      metadata = dbfReader.read();
 
                 switch (s.getShapeType()) {
                     case POINT:
                         PointShape aPoint = (PointShape) s;
                         Marker m = new Marker(map);
                         m.setPosition(new GeoPoint(aPoint.getY(), aPoint.getX()));
-                        if (metadata != null) {
-                            metadata.setStringCharset(Charset.defaultCharset());
-                            m.setSnippet(metadata.toMap().toString());
+                        //FIXME  if (metadata != null) {
+                        //FIXME      metadata.setStringCharset(Charset.defaultCharset());
+                        //FIXME      m.setSnippet(metadata.toMap().toString());
 
-                        }
+                        //FIXME }
                         folder.add(m);
 
                         break;
@@ -79,13 +79,10 @@ public class ShapeConverter {
 
                         for (int i = 0; i < aPolygon.getNumberOfParts(); i++) {
                             Polygon polygon = new Polygon(map);
-                            if (metadata != null) {
-                                metadata.setStringCharset(Charset.defaultCharset());
-                                polygon.setSnippet(metadata.toMap().toString());
-
-                                if (polygon.getSnippet().contains("AREAID=110489595156"))
-                                    System.out.println();
-                            }
+                            //FIXME if (metadata != null) {
+                            //FIXME     metadata.setStringCharset(Charset.defaultCharset());
+                            //FIXME     polygon.setSnippet(metadata.toMap().toString());
+                            //FIXME }
 
                             PointData[] points = aPolygon.getPointsOfPart(i);
                             List<GeoPoint> pts = new ArrayList<>();
@@ -118,10 +115,10 @@ public class ShapeConverter {
                 is.close();
             } catch (Exception ex) {
             }
-            try {
-                dbfReader.close();
-            } catch (Exception ex) {
-            }
+            //FIXME try {
+            //FIXME dbfReader.close();
+            //FIXME } catch (Exception ex) {
+            //FIXME }
             try {
                 dbfInputStream.close();
             } catch (Exception ex) {
