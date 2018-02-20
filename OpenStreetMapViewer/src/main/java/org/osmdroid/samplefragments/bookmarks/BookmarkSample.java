@@ -9,6 +9,7 @@ import org.osmdroid.R;
 import org.osmdroid.events.MapEventsReceiver;
 import org.osmdroid.samplefragments.BaseSampleFragment;
 import org.osmdroid.util.GeoPoint;
+import org.osmdroid.util.TileSystem;
 import org.osmdroid.views.overlay.MapEventsOverlay;
 import org.osmdroid.views.overlay.Marker;
 
@@ -30,7 +31,8 @@ public class BookmarkSample extends BaseSampleFragment {
     }
 
 
-    AlertDialog addBookmark=null;
+    AlertDialog addBookmark = null;
+
     @Override
     public void addOverlays() {
         super.addOverlays();
@@ -71,21 +73,38 @@ public class BookmarkSample extends BaseSampleFragment {
                     public void onClick(View v) {
 
 
-                        Marker m = new Marker(mMapView);
-                        m.setId(UUID.randomUUID().toString());
-                        m.setTitle(title.getText().toString());
-                        m.setSubDescription(description.getText().toString());
-                        //TODO validate input
-                        m.setPosition(new GeoPoint(
-                            Double.parseDouble(lat.getText().toString()),
-                            Double.parseDouble(lon.getText().toString())
+                        boolean valid = true;
+                        double latD = 0;
+                        double lonD = 0;
+                        //basic validate input
+                        try {
+                            latD = Double.parseDouble(lat.getText().toString());
+                        } catch (Exception ex) {
+                            valid = false;
+                        }
+                        try {
+                            lonD = Double.parseDouble(lon.getText().toString());
+                        } catch (Exception ex) {
+                            valid = false;
+                        }
 
-                        ));
-                        m.setSnippet(m.getPosition().toDoubleString());
-                        datastore.addBookmark(m);
-                        mMapView.getOverlayManager().add(m);
-                        mMapView.invalidate();
+                        if (latD > TileSystem.MaxLatitude || latD < TileSystem.MinLatitude)
+                            valid = false;
+                        if (lonD > TileSystem.MaxLongitude || lonD < TileSystem.MinLongitude)
+                            valid = false;
 
+                        if (valid) {
+                            Marker m = new Marker(mMapView);
+                            m.setId(UUID.randomUUID().toString());
+                            m.setTitle(title.getText().toString());
+                            m.setSubDescription(description.getText().toString());
+
+                            m.setPosition(new GeoPoint(latD, lonD));
+                            m.setSnippet(m.getPosition().toDoubleString());
+                            datastore.addBookmark(m);
+                            mMapView.getOverlayManager().add(m);
+                            mMapView.invalidate();
+                        }
                         addBookmark.dismiss();
                     }
                 });
@@ -101,7 +120,9 @@ public class BookmarkSample extends BaseSampleFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        datastore.close();
-        addBookmark.dismiss();
+        if (datastore != null)
+            datastore.close();
+        if (addBookmark != null)
+            addBookmark.dismiss();
     }
 }

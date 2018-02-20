@@ -120,6 +120,8 @@ public class Marker extends OverlayWithIW {
 		if (mDefaultIcon == null)
 			mDefaultIcon = resourceProxy.getResources().getDrawable(R.drawable.marker_default);
 		mIcon = mDefaultIcon;
+		//set the offset
+		setAnchor(0.5f, 1.0f);
 		if (mDefaultInfoWindow == null || mDefaultInfoWindow.getMapView() != mapView){
 			//build default bubble, that will be shared between all markers using the default one:
 			/* pre-aar version
@@ -139,6 +141,9 @@ public class Marker extends OverlayWithIW {
 
 	/** Sets the icon for the marker. Can be changed at any time.
 	 * This is used on the map view.
+	 *
+	 * Also use care and appropriately set the anchor point of the image. For the default
+	 * icon, it's the tip of the teardrop, other it will default to the center of the image.
 	 * @param icon if null, the default osmdroid marker is used. 
 	 */
 	public void setIcon(final Drawable icon){
@@ -162,8 +167,12 @@ public class Marker extends OverlayWithIW {
 			c.drawText(getTitle(),0,baseline,p);
 
 			mIcon=new BitmapDrawable(resource,image);
+			//set the offset
+			setAnchor(0.5f, 0.5f);
 		} else if (!mEnableTextLabelsWhenNoImage && !ENABLE_TEXT_LABELS_WHEN_NO_IMAGE && icon!=null) {
 			this.mIcon = icon;
+			//set the offset
+			setAnchor(0.5f, 0.5f);
 		} else if (icon!=null) {
 			mIcon=icon;
 		} else {
