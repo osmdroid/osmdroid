@@ -1,13 +1,6 @@
 // Created by plusminus on 23:18:23 - 02.10.2008
 package org.osmdroid.views.overlay;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.osmdroid.views.MapView;
-import org.osmdroid.views.Projection;
-import org.osmdroid.views.overlay.OverlayItem.HotspotPlace;
-
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
@@ -15,6 +8,11 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.view.MotionEvent;
+import java.util.ArrayList;
+import java.util.List;
+import org.osmdroid.views.MapView;
+import org.osmdroid.views.Projection;
+import org.osmdroid.views.overlay.OverlayItem.HotspotPlace;
 
 /**
  * Draws a list of {@link OverlayItem} as markers to a map. The item with the lowest index is drawn
@@ -52,6 +50,9 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends Overlay 
      private final Matrix mMatrix = new Matrix();
      protected float scaleX=1f;
      protected float scaleY=1f;
+
+	private Rect itemRect = new Rect();
+	private Rect screenRect = new Rect();
 
 	// ===========================================================
 	// Abstract methods
@@ -161,6 +162,10 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends Overlay 
           scaleY = (float) Math.sqrt(mMatrixValues[Matrix.MSCALE_Y]
                * mMatrixValues[Matrix.MSCALE_Y] + mMatrixValues[Matrix.MSKEW_X]
                * mMatrixValues[Matrix.MSKEW_X]);
+
+					mapView.getScreenRect(screenRect);
+
+
 		/* Draw in backward cycle, so the items with the least index are on the front. */
         for (int i = size - 1; i >= 0; i--) {
             final Item item = getItem(i);
@@ -169,8 +174,10 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends Overlay 
             }
 
             pj.toPixels(item.getPoint(), mCurScreenCoords);
+						itemRect.set(mCurScreenCoords.x - item.getWidth(), mCurScreenCoords.y - item.getHeight(),
+									mCurScreenCoords.x + item.getWidth(), mCurScreenCoords.y + item.getHeight());
 
-            if (mapView.getBoundingBox().contains(item.getPoint()))
+					if(Rect.intersects(screenRect, itemRect))
 				mInternalItemDisplayedList[i] = onDrawItem(canvas,item, mCurScreenCoords, mapView);
         }
     }
