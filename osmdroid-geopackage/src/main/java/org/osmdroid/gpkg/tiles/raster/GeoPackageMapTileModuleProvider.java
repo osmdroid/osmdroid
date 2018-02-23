@@ -14,6 +14,7 @@ import org.osmdroid.tileprovider.modules.MapTileModuleProviderBase;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.MapTileIndex;
+import org.osmdroid.util.TileSystem;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -125,7 +126,11 @@ public class GeoPackageMapTileModuleProvider extends MapTileModuleProviderBase {
                 mil.nga.geopackage.BoundingBox boundingBox = tileDao.getBoundingBox();
                 ProjectionTransform transformation = tileDao.getProjection().getTransformation(tileDao.getProjection());
                 boundingBox = transformation.transform(boundingBox);
-                BoundingBox bounds = new BoundingBox(boundingBox.getMaxLatitude(), boundingBox.getMaxLongitude(), boundingBox.getMinLatitude(), boundingBox.getMinLongitude());
+                BoundingBox bounds = new BoundingBox(
+                    TileSystem.MaxLatitude,
+                    TileSystem.MaxLongitude,
+                    TileSystem.MinLatitude,
+                    TileSystem.MinLongitude);
                 srcs.add(new GeopackageRasterTileSource(databases.get(i), tileTables.get(k), (int)tileDao.getMinZoom(), (int)tileDao.getMaxZoom(), bounds));
 
             }
