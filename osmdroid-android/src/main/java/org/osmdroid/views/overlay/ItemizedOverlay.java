@@ -174,6 +174,7 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends Overlay 
             }
 
             pj.toPixels(item.getPoint(), mCurScreenCoords);
+            // Inset rect of item by width and height (independent of anchor)
 						itemRect.set(mCurScreenCoords.x - item.getWidth(), mCurScreenCoords.y - item.getHeight(),
 									mCurScreenCoords.x + item.getWidth(), mCurScreenCoords.y + item.getHeight());
 
