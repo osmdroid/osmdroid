@@ -57,7 +57,7 @@ public class Polygon extends OverlayWithIW {
 
 	private ArrayList<GeoPoint> originalHolesSet = new ArrayList<>();
 	private String id=null;
-	private boolean mAutoReducePoints= true;
+	private boolean mAutoReducePoints= false;
 	private GeoPoint mLastGeoPoint=null;
 	protected static InfoWindow mDefaultInfoWindow = null;
 	/** Paint settings. */
@@ -283,6 +283,9 @@ public class Polygon extends OverlayWithIW {
 			//less points = fast drawing
 			//this generally only removes points that are right next to each other or
 			//make no appreciable difference in presentation
+
+			//possible optimization is to compare the current zoom vs the last zoom level
+			//if it's the same, we can skip reduction since it won't make a difference
 
 			final double latSpanDegrees = viewPort.getLatitudeSpan();
 			//get the degree difference, divide by dpi

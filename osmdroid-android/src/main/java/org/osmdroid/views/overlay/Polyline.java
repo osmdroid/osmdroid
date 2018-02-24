@@ -246,6 +246,9 @@ public class Polyline extends OverlayWithIW {
             DisplayMetrics dm = mapView.getContext().getResources().getDisplayMetrics();
             float  densityDpi = dm.widthPixels;
 
+            //possible optimization is to compare the current zoom vs the last zoom level
+            //if it's the same, we can skip reduction since it won't make a difference
+
             final double latSpanDegrees = viewPort.getLatitudeSpan();
             //get the degree difference, divide by dpi
             double tolerance = latSpanDegrees /densityDpi;  //degrees per pixel
