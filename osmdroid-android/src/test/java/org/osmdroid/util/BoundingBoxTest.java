@@ -79,7 +79,7 @@ public class BoundingBoxTest {
         //test area is notated as &
 
 
-        BoundingBox box = new BoundingBox(90, 180, -90, -180);
+        BoundingBox box = new BoundingBox(TileSystem.MaxLatitude, 180, TileSystem.MinLatitude, -180);
         Assert.assertTrue(box.overlaps(box, 4));
 
         BoundingBox farAway = new BoundingBox(45, 44, 44, 45);
