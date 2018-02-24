@@ -14,6 +14,7 @@ import org.osmdroid.tileprovider.modules.MapTileModuleProviderBase;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.MapTileIndex;
+import org.osmdroid.util.TileSystem;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -25,6 +26,7 @@ import java.util.Set;
 import mil.nga.geopackage.GeoPackage;
 import mil.nga.geopackage.GeoPackageManager;
 import mil.nga.geopackage.factory.GeoPackageFactory;
+import mil.nga.geopackage.projection.ProjectionConstants;
 import mil.nga.geopackage.projection.ProjectionTransform;
 import mil.nga.geopackage.tiles.retriever.GeoPackageTile;
 import mil.nga.geopackage.tiles.retriever.GeoPackageTileRetriever;
@@ -122,12 +124,15 @@ public class GeoPackageMapTileModuleProvider extends MapTileModuleProviderBase {
             List<String> tileTables = open.getTileTables();
             for (int k = 0; k < tileTables.size(); k++) {
                 TileDao tileDao = open.getTileDao(tileTables.get(k));
-                mil.nga.geopackage.BoundingBox boundingBox = tileDao.getBoundingBox();
-                ProjectionTransform transformation = tileDao.getProjection().getTransformation(tileDao.getProjection());
-                boundingBox = transformation.transform(boundingBox);
-                BoundingBox bounds = new BoundingBox(boundingBox.getMaxLatitude(), boundingBox.getMaxLongitude(), boundingBox.getMinLatitude(), boundingBox.getMinLongitude());
-                srcs.add(new GeopackageRasterTileSource(databases.get(i), tileTables.get(k), (int)tileDao.getMinZoom(), (int)tileDao.getMaxZoom(), bounds));
 
+                ProjectionTransform transform = tileDao.getProjection().getTransformation(ProjectionConstants.EPSG_WORLD_GEODETIC_SYSTEM);
+                mil.nga.geopackage.BoundingBox boundingBox = transform.transform(tileDao.getBoundingBox());
+                BoundingBox bounds = new BoundingBox(Math.min(TileSystem.MaxLatitude, boundingBox.getMaxLatitude()),
+                    boundingBox.getMaxLongitude(),
+                    Math.max(TileSystem.MinLatitude, boundingBox.getMinLatitude()),
+                    boundingBox.getMinLongitude());
+
+                srcs.add(new GeopackageRasterTileSource(databases.get(i), tileTables.get(k), (int)tileDao.getMinZoom(), (int)tileDao.getMaxZoom(), bounds));
             }
             open.close();
         }
@@ -148,10 +153,14 @@ public class GeoPackageMapTileModuleProvider extends MapTileModuleProviderBase {
         List<String> tileTables = open.getTileTables();
         for (int k = 0; k < tileTables.size(); k++) {
             TileDao tileDao = open.getTileDao(tileTables.get(k));
-            mil.nga.geopackage.BoundingBox boundingBox = tileDao.getBoundingBox();
-            ProjectionTransform transformation = tileDao.getProjection().getTransformation(tileDao.getProjection());
-            boundingBox = transformation.transform(boundingBox);
-            BoundingBox bounds = new BoundingBox(boundingBox.getMaxLatitude(), boundingBox.getMaxLongitude(), boundingBox.getMinLatitude(), boundingBox.getMinLongitude());
+
+            ProjectionTransform transform = tileDao.getProjection().getTransformation(ProjectionConstants.EPSG_WORLD_GEODETIC_SYSTEM);
+            mil.nga.geopackage.BoundingBox boundingBox = transform.transform(tileDao.getBoundingBox());
+
+            BoundingBox bounds = new BoundingBox(Math.min(TileSystem.MaxLatitude, boundingBox.getMaxLatitude()),
+                boundingBox.getMaxLongitude(),
+                Math.max(TileSystem.MinLatitude, boundingBox.getMinLatitude()),
+                boundingBox.getMinLongitude());
             srcs.add(new GeopackageRasterTileSource(database, tileTables.get(k), (int)tileDao.getMinZoom(), (int)tileDao.getMaxZoom(), bounds));
 
         }
