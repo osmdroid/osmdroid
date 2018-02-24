@@ -3,6 +3,7 @@ package org.osmdroid.wms;
 import android.util.Log;
 
 import org.osmdroid.util.BoundingBox;
+import org.osmdroid.util.TileSystem;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
@@ -176,7 +177,12 @@ public class DomParserWms111 {
             } else if (name.contains("LatLonBoundingBox")) {
                 //TODO need some handling for crs here
                 south = (Double.parseDouble(e.getAttributes().getNamedItem("miny").getNodeValue()));
+                if (south < TileSystem.MinLatitude)
+                    south = TileSystem.MinLatitude;
                 north = (Double.parseDouble(e.getAttributes().getNamedItem("maxy").getNodeValue()));
+
+                if (north > TileSystem.MaxLatitude)
+                    north = TileSystem.MaxLatitude;
                 west = (Double.parseDouble(e.getAttributes().getNamedItem("maxx").getNodeValue()));
                 east = (Double.parseDouble(e.getAttributes().getNamedItem("minx").getNodeValue()));
                 ret.setBbox(new BoundingBox(north, east, south, west));

@@ -10,6 +10,7 @@ import org.osmdroid.samplefragments.animations.AnimatedMarkerTypeEvaluator;
 import org.osmdroid.samplefragments.animations.AnimatedMarkerValueAnimator;
 import org.osmdroid.samplefragments.animations.FastZoomSpeedAnimations;
 import org.osmdroid.samplefragments.animations.MinMaxZoomLevel;
+import org.osmdroid.samplefragments.bookmarks.BookmarkSample;
 import org.osmdroid.samplefragments.cache.CacheImport;
 import org.osmdroid.samplefragments.cache.CachePurge;
 import org.osmdroid.samplefragments.cache.SampleAlternateCacheDir;
@@ -59,6 +60,7 @@ import org.osmdroid.samplefragments.events.ZoomToBoundsOnStartup;
 import org.osmdroid.samplefragments.geopackage.GeopackageFeatureTiles;
 import org.osmdroid.samplefragments.geopackage.GeopackageFeatures;
 import org.osmdroid.samplefragments.geopackage.GeopackageSample;
+import org.osmdroid.samplefragments.layers.LayerManager;
 import org.osmdroid.samplefragments.layouts.MapInAViewPagerFragment;
 import org.osmdroid.samplefragments.layouts.MapInScrollView;
 import org.osmdroid.samplefragments.layouts.RecyclerCardView;
@@ -289,6 +291,8 @@ public final class SampleFactory implements ISampleFactory {
         mSamples.add(SampleShapeFile.class);
         mSamples.add(CompassPointerSample.class);
         mSamples.add(CompassRoseSample.class);
+        mSamples.add(LayerManager.class);
+        mSamples.add(BookmarkSample.class);
     }
 
     public void addSample(Class<? extends BaseSampleFragment> clz) {

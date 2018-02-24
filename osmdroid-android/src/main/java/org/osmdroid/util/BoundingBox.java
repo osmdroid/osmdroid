@@ -56,14 +56,14 @@ public class BoundingBox implements Parcelable, Serializable {
 		//  30 > 0 OK
 		// 30 < 0 not ok
 
-		if (north > 90.0)
-			throw new IllegalArgumentException("north must be less than 90");
-		if (south < -90.0)
-			throw new IllegalArgumentException("north more than -90");
-		if (west < -180)
-			throw new IllegalArgumentException("west must be more than -180");
-		if (east > 180)
-			throw new IllegalArgumentException("east must be less than 180");
+		if (north > TileSystem.MaxLongitude || north < TileSystem.MinLatitude)
+			throw new IllegalArgumentException("north must be less than " +TileSystem.MaxLongitude + " value was " + toString());
+		if (south < TileSystem.MinLatitude || south > TileSystem.MaxLatitude)
+			throw new IllegalArgumentException("south more than " + TileSystem.MinLatitude + " value was " + toString());
+		if (west <	 TileSystem.MinLongitude || west > TileSystem.MaxLongitude)
+			throw new IllegalArgumentException("west must be more than " + TileSystem.MinLongitude + " value was " + toString());
+		if (east > TileSystem.MaxLongitude || east < TileSystem.MinLongitude)
+			throw new IllegalArgumentException("east must be less than " + TileSystem.MaxLongitude + " value was " + toString());
 	}
 
 	public BoundingBox clone(){
