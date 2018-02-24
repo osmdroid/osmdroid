@@ -10,6 +10,7 @@ import org.osmdroid.samplefragments.animations.AnimatedMarkerTypeEvaluator;
 import org.osmdroid.samplefragments.animations.AnimatedMarkerValueAnimator;
 import org.osmdroid.samplefragments.animations.FastZoomSpeedAnimations;
 import org.osmdroid.samplefragments.animations.MinMaxZoomLevel;
+import org.osmdroid.samplefragments.bookmarks.BookmarkSample;
 import org.osmdroid.samplefragments.cache.CacheImport;
 import org.osmdroid.samplefragments.cache.CachePurge;
 import org.osmdroid.samplefragments.cache.SampleAlternateCacheDir;
@@ -289,6 +290,7 @@ public final class SampleFactory implements ISampleFactory {
         mSamples.add(CompassPointerSample.class);
         mSamples.add(CompassRoseSample.class);
         mSamples.add(LayerManager.class);
+        mSamples.add(BookmarkSample.class);
     }
 
     public void addSample(Class<? extends BaseSampleFragment> clz) {
