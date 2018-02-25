@@ -4,11 +4,15 @@ package org.osmdroid.tileprovider;
 import org.osmdroid.api.IMapView;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.util.MapTileList;
+import org.osmdroid.util.MapTileListComputer;
+import org.osmdroid.util.MapTileListZoomComputer;
 
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * In memory cache of tiles
@@ -47,6 +51,8 @@ public class MapTileCache {
 	 */
 	private final MapTileList mGC = new MapTileList();
 
+	private final List<MapTileListComputer> computers = new ArrayList<>();
+
 	private int mCapacity;
 
 	// ===========================================================
@@ -63,6 +69,8 @@ public class MapTileCache {
 	 */
 	public MapTileCache(final int aMaximumCacheSize) {
 		ensureCapacity(aMaximumCacheSize);
+		computers.add(new MapTileListZoomComputer(-1));
+		computers.add(new MapTileListZoomComputer(1));
 	}
 
 	// ===========================================================
@@ -101,8 +109,9 @@ public class MapTileCache {
 			return;
 		}
 		mAdditionalMapTileList.clear();
-		mAdditionalMapTileList.populateFrom(mMapTileList, -1);
-		mAdditionalMapTileList.populateFrom(mMapTileList, 1);
+		for (final MapTileListComputer computer : computers) {
+			computer.computeFromSource(mMapTileList, mAdditionalMapTileList);
+		}
 		populateSyncCachedTiles(mGC);
 		for (int i = 0; i < mGC.getSize() ; i ++) {
 			final long index = mGC.get(i);
