@@ -1,7 +1,6 @@
 package org.osmdroid.util;
 
 import android.graphics.Point;
-import android.graphics.PointF;
 import android.graphics.Rect;
 
 import junit.framework.Assert;
@@ -35,7 +34,6 @@ public class ProjectionTest {
     private static final int mMaxZoomLevel = microsoft.mappoint.TileSystem.getMaximumZoomLevel();
     private static final int mMinimapZoomLevelDifference = 5;
     private static final int mNbIterations = 1000;
-    private static final int mDeltaPixel = 2;
     private static final Rect mScreenRect = new Rect();
     private static final Rect mMiniMapScreenRect = new Rect();
     private static final int mWidth = 600;
@@ -69,7 +67,7 @@ public class ProjectionTest {
                         expectedX -= mapSize;
                     }
                 }
-                Assert.assertEquals(expectedX, pixel.x, mDeltaPixel);
+                Assert.assertEquals(expectedX, pixel.x);
 
                 int expectedY = mHeight / 2;
                 if (mapSize < mHeight) { // side effect for low level, as the computed pixel will be the first from the top
@@ -77,7 +75,7 @@ public class ProjectionTest {
                         expectedY -= mapSize;
                     }
                 }
-                Assert.assertEquals(expectedY, pixel.y, mDeltaPixel);
+                Assert.assertEquals(expectedY, pixel.y);
             }
         }
     }
@@ -100,8 +98,8 @@ public class ProjectionTest {
 
                 projection.fromPixels(centerX, centerY, center);
                 miniMapProjection.toPixels(center, pixel);
-                Assert.assertEquals(miniCenterX, pixel.x, mDeltaPixel);
-                Assert.assertEquals(miniCenterY, pixel.y, mDeltaPixel);
+                Assert.assertEquals(miniCenterX, pixel.x);
+                Assert.assertEquals(miniCenterY, pixel.y);
             }
         }
     }
@@ -111,6 +109,7 @@ public class ProjectionTest {
      */
     @Test
     public void testPixelToGeoToPixel() {
+        final int deltaPixel = 2;
         for (int zoomLevel = mMinZoomLevel; zoomLevel <= mMaxZoomLevel; zoomLevel ++) {
             final double mapSize = TileSystem.MapSize((double)zoomLevel);
             for (int i = 0; i < mNbIterations; i ++) {
@@ -120,15 +119,15 @@ public class ProjectionTest {
                 final Point pixelOut = projection.toPixels(geoPoint, null);
                 if (mapSize < mWidth) { // side effect for low level
                     final int diff = Math.abs(pixelIn.x - pixelOut.x);
-                    Assert.assertTrue(diff <= mDeltaPixel || Math.abs(diff - mapSize) <= mDeltaPixel);
+                    Assert.assertTrue(diff <= deltaPixel || Math.abs(diff - mapSize) <= deltaPixel);
                 } else {
-                    Assert.assertEquals(pixelIn.x, pixelOut.x, mDeltaPixel);
+                    Assert.assertEquals(pixelIn.x, pixelOut.x, deltaPixel);
                 }
                 if (mapSize < mHeight) { // side effect for low level
                     final int diff = Math.abs(pixelIn.y - pixelOut.y);
-                    Assert.assertTrue(diff <= mDeltaPixel || Math.abs(diff - mapSize) <= mDeltaPixel);
+                    Assert.assertTrue(diff <= deltaPixel || Math.abs(diff - mapSize) <= deltaPixel);
                 } else {
-                    Assert.assertEquals(pixelIn.y, pixelOut.y, mDeltaPixel);
+                    Assert.assertEquals(pixelIn.y, pixelOut.y, deltaPixel);
                 }
             }
         }
@@ -267,5 +266,30 @@ public class ProjectionTest {
         return getRandomProjection(
                 pZoomLevel, getRandomGeoPoint(),
                 getRandomOffset(mapSize), getRandomOffset(mapSize));
+    }
+
+    /**
+     * @since 6.0.2
+     * cf. https://github.com/osmdroid/osmdroid/issues/929
+     */
+    @Test
+    public void test_conversionFromPixelsToPixels() {
+        for (int zoomLevel = mMinZoomLevel; zoomLevel <= mMaxZoomLevel; zoomLevel ++) {
+            final Projection projection = new Projection(
+                    zoomLevel,
+                    new Rect(0, 0, 1080, 1536),
+                    new GeoPoint(0.0, 0.0),
+                    0L, 0L,
+                    0,
+                    false, false
+            );
+
+            final Point inputPoint = new Point(0, 0);
+            final GeoPoint geoPoint = (GeoPoint) projection.fromPixels(inputPoint.x, inputPoint.y);
+            final Point outputPoint = projection.toPixels(geoPoint, null);
+
+            Assert.assertEquals(inputPoint.x, outputPoint.x);
+            Assert.assertEquals(inputPoint.y, outputPoint.y);
+        }
     }
 }
