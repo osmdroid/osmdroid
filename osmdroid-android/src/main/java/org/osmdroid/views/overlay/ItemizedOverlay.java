@@ -458,65 +458,70 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends Overlay 
 			hotspot = HotspotPlace.BOTTOM_CENTER;
 		}
 
+		final int state = (mDrawFocusedItem && (mFocusedItem == item) ? OverlayItem.ITEM_STATE_FOCUSED_MASK : 0);
+		final Drawable marker = (item.getMarker(state) == null) ? getDefaultMarker(state) : item.getMarker(state);
+		int itemWidth = marker.getIntrinsicWidth();
+		int itemHeight = marker.getIntrinsicHeight();
+
 		switch (hotspot) {
 			case NONE:
-				out.set(coords.x - item.getWidth() / 2,
-						coords.y - item.getHeight() / 2,
-						coords.x + item.getWidth() / 2,
-						coords.y + item.getHeight() / 2);
+				out.set(coords.x - itemWidth / 2,
+						coords.y - itemHeight / 2,
+						coords.x + itemWidth / 2,
+						coords.y + itemHeight / 2);
 				break;
 			case CENTER:
-				out.set(coords.x - item.getWidth() / 2,
-						coords.y - item.getHeight() / 2,
-						coords.x + item.getWidth() / 2,
-						coords.y + item.getHeight() / 2);
+				out.set(coords.x - itemWidth / 2,
+						coords.y - itemHeight / 2,
+						coords.x + itemWidth / 2,
+						coords.y + itemHeight / 2);
 				break;
 			case BOTTOM_CENTER:
-				out.set(coords.x - item.getWidth() / 2,
-						coords.y - item.getHeight(),
-						coords.x + item.getWidth() / 2,
+				out.set(coords.x - itemWidth / 2,
+						coords.y - itemHeight,
+						coords.x + itemWidth / 2,
 						coords.y);
 				break;
 			case TOP_CENTER:
-				out.set(coords.x - item.getWidth() / 2,
+				out.set(coords.x - itemWidth / 2,
 						coords.y,
-						coords.x + item.getWidth() / 2,
-						coords.y + item.getHeight());
+						coords.x + itemWidth / 2,
+						coords.y + itemHeight);
 				break;
 			case RIGHT_CENTER:
-				out.set(coords.x - item.getWidth(),
-						coords.y - item.getHeight() / 2,
+				out.set(coords.x - itemWidth,
+						coords.y - itemHeight / 2,
 						coords.x ,
-						coords.y + item.getHeight() / 2);
+						coords.y + itemHeight / 2);
 				break;
 			case LEFT_CENTER:
 				out.set(coords.x,
-						coords.y - item.getHeight() / 2,
-						coords.x + item.getWidth(),
-						coords.y + item.getHeight() / 2);
+						coords.y - itemHeight / 2,
+						coords.x + itemWidth,
+						coords.y + itemHeight / 2);
 				break;
 			case UPPER_RIGHT_CORNER:
-				out.set(coords.x - item.getWidth(),
+				out.set(coords.x - itemWidth,
 						coords.y,
 						coords.x ,
-						coords.y + item.getHeight());
+						coords.y + itemHeight);
 				break;
 			case LOWER_RIGHT_CORNER:
-				out.set(coords.x - item.getWidth(),
-						coords.y - item.getHeight(),
+				out.set(coords.x - itemWidth,
+						coords.y - itemHeight,
 						coords.x,
 						coords.y);
 				break;
 			case UPPER_LEFT_CORNER:
 				out.set(coords.x ,
 						coords.y,
-						coords.x + item.getWidth(),
-						coords.y + item.getHeight());
+						coords.x + itemWidth,
+						coords.y + itemHeight);
 				break;
 			case LOWER_LEFT_CORNER:
 				out.set(coords.x ,
-						coords.y - item.getHeight(),
-						coords.x + item.getWidth(),
+						coords.y - itemHeight,
+						coords.x + itemWidth,
 						coords.y);
 				break;
 		}
