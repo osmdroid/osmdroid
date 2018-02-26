@@ -443,6 +443,14 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends Overlay 
 		return marker;
 	}
 
+	/**
+	 * Calculates the screen rect for an item.
+	 * 
+	 * @param item
+	 * @param coords
+	 * @param reuse
+	 * @return
+	 */
 	protected Rect calculateItemRect(Item item, Point coords, Rect reuse) {
 		final Rect out = reuse != null ? reuse : new Rect();
 
