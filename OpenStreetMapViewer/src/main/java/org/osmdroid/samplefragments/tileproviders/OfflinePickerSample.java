@@ -304,8 +304,9 @@ public class OfflinePickerSample extends BaseSampleFragment implements View.OnCl
                             mMapView.zoomToBoundingBox(src.getBoundsOsmdroid(), true);
                         } else if (strName instanceof GeopackageRasterTileSource) {
                             GeopackageRasterTileSource src = (GeopackageRasterTileSource) strName;
-                            mMapView.zoomToBoundingBox(src.getBounds(), true);
+
                             mMapView.getController().setZoom(src.getMinimumZoomLevel());
+                            mMapView.zoomToBoundingBox(src.getBounds(), true);
                         }
 
                         dialog.dismiss();
