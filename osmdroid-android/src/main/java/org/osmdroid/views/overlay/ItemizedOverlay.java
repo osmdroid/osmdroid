@@ -7,7 +7,6 @@ import android.graphics.Matrix;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.MotionEvent;
 import java.util.ArrayList;
 import java.util.List;
@@ -445,7 +444,7 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends Overlay 
 
 	/**
 	 * Calculates the screen rect for an item.
-	 * 
+	 *
 	 * @param item
 	 * @param coords
 	 * @param reuse
