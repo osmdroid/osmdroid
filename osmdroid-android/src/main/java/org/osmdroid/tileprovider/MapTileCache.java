@@ -51,7 +51,7 @@ public class MapTileCache {
 	 */
 	private final MapTileList mGC = new MapTileList();
 
-	private final List<MapTileListComputer> computers = new ArrayList<>();
+	private final List<MapTileListComputer> mComputers = new ArrayList<>();
 
 	private int mCapacity;
 
@@ -69,8 +69,16 @@ public class MapTileCache {
 	 */
 	public MapTileCache(final int aMaximumCacheSize) {
 		ensureCapacity(aMaximumCacheSize);
-		computers.add(new MapTileListZoomComputer(-1));
-		computers.add(new MapTileListZoomComputer(1));
+		// default computers
+		mComputers.add(new MapTileListZoomComputer(-1));
+		mComputers.add(new MapTileListZoomComputer(1));
+	}
+
+	/**
+	 * @since 6.0.2
+	 */
+	public List<MapTileListComputer> getProtectedTileComputers() {
+		return mComputers;
 	}
 
 	// ===========================================================
@@ -109,7 +117,7 @@ public class MapTileCache {
 			return;
 		}
 		mAdditionalMapTileList.clear();
-		for (final MapTileListComputer computer : computers) {
+		for (final MapTileListComputer computer : mComputers) {
 			computer.computeFromSource(mMapTileList, mAdditionalMapTileList);
 		}
 		populateSyncCachedTiles(mGC);
