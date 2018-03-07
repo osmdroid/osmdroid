@@ -41,16 +41,8 @@ public abstract class InfoWindow {
     protected boolean mIsVisible;
     protected MapView mMapView;
     protected Object mRelatedObject;
-
-    // this block of variables to used to track the current map state and intelligently render
-    // the info window only when needed
-    private IGeoPoint lastPosition=null;
-    private float mCurrentMapRotation = 0;
-    private double mCurrentMapZoom = 0d;
-    private IGeoPoint mCurrentCenter = null;
-    private int mCurrentRenderPointX = Integer.MIN_VALUE;
-    private int mCurrentRenderPointY = Integer.MIN_VALUE;
-    // end block
+    private GeoPoint mPosition;
+    private int mOffsetX, mOffsetY;
 
     /**
      * @param layoutResId the id of the view resource.
@@ -110,50 +102,39 @@ public abstract class InfoWindow {
      *                 This allows to offset the view from the object position.
      */
     public void open(Object object, GeoPoint position, int offsetX, int offsetY) {
-        boolean render = false;
-        if (this.mCurrentRenderPointX != offsetX || this.mCurrentRenderPointY != offsetY) {
-            render = true;
-        }
-        if (mCurrentCenter == null)
-            render = true;
-        if (mCurrentCenter != null && mMapView != null) {
-            IGeoPoint mapCenter = mMapView.getMapCenter();
-            if (mapCenter.getLatitude() != mCurrentCenter.getLatitude() ||
-                mapCenter.getLongitude() != mCurrentCenter.getLongitude())
-                render = true;
-            if (mMapView.getZoomLevelDouble() != mCurrentMapZoom)
-                render = true;
-            if (mMapView.getMapOrientation() != mCurrentMapRotation) {
-                render = true;
-            }
-        }
-        if (!render && (!position.equals(lastPosition))){
-            render = true;
-        }
-        if (render) {    //this check prevents looping forever
-            close(); //if it was already opened
-            this.mRelatedObject=object;
-            lastPosition = position;
-            mCurrentRenderPointX = offsetX;
-            mCurrentRenderPointY = offsetY;
-            onOpen(object);
-            MapView.LayoutParams lp = new MapView.LayoutParams(
-                MapView.LayoutParams.WRAP_CONTENT,
-                MapView.LayoutParams.WRAP_CONTENT,
-                position, MapView.LayoutParams.BOTTOM_CENTER,
-                offsetX, offsetY);
+        close(); //if it was already opened
+        mRelatedObject = object;
+        mPosition = position;
+        mOffsetX = offsetX;
+        mOffsetY = offsetY;
+        onOpen(object);
+        MapView.LayoutParams lp = new MapView.LayoutParams(
+            MapView.LayoutParams.WRAP_CONTENT,
+            MapView.LayoutParams.WRAP_CONTENT,
+            mPosition, MapView.LayoutParams.BOTTOM_CENTER,
+            mOffsetX, mOffsetY);
 
-            if (mMapView != null && mView != null) {
-                mCurrentCenter = mMapView.getMapCenter();
-                mCurrentMapZoom = mMapView.getZoomLevelDouble();
-                mCurrentMapRotation = mMapView.getMapOrientation();
-                //mental note, this will cause the mapView to invalidate, causing all views to rerender
-                mMapView.addView(mView, lp);
-                mIsVisible = true;
-            } else {
-                Log.w(IMapView.LOGTAG, "Error trapped, InfoWindow.open mMapView: " + (mMapView == null ? "null" : "ok") + " mView: " + (mView == null ? "null" : "ok"));
-            }
+        if (mMapView != null && mView != null) {
+            mMapView.addView(mView, lp);
+            mIsVisible = true;
+        } else {
+            Log.w(IMapView.LOGTAG, "Error trapped, InfoWindow.open mMapView: " + (mMapView == null ? "null" : "ok") + " mView: " + (mView == null ? "null" : "ok"));
         }
+    }
+
+    /**
+     * refresh the infowindow drawing. Must be called every time the view changes (drag, zoom,...).
+     * Best practice is to call this method in the draw method of its overlay.
+     */
+    public void draw(){
+        if (!mIsVisible)
+            return;
+        MapView.LayoutParams lp = new MapView.LayoutParams(
+                MapView.LayoutParams.WRAP_CONTENT,
+                MapView.LayoutParams.WRAP_CONTENT,
+                mPosition, MapView.LayoutParams.BOTTOM_CENTER,
+                mOffsetX, mOffsetY);
+        mMapView.updateViewLayout(mView, lp);
     }
 
     /**
@@ -165,8 +146,6 @@ public abstract class InfoWindow {
             ((ViewGroup) mView.getParent()).removeView(mView);
             onClose();
         }
-        mCurrentRenderPointX = Integer.MIN_VALUE;
-        mCurrentRenderPointY = Integer.MIN_VALUE;
     }
 
     /**

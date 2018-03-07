@@ -39,36 +39,29 @@ public class Polyline extends OverlayWithIW {
     private final Paint mPaint = new Paint();
     private final LineDrawer mLineDrawer = new LineDrawer(256);
     private LinearRing mOutline = new LinearRing(mLineDrawer);
-    private String id = null;
     private List<MilestoneManager> mMilestoneManagers = new ArrayList<>();
-    private GeoPoint mLastGeoPoint = null;
     protected static InfoWindow mDefaultInfoWindow = null;
     protected OnClickListener mOnClickListener;
-    private GeoPoint infoWindowLocation=null;
-    private float density=1.0f;
+    private GeoPoint mInfoWindowLocation;
+    private float mDensity = 1.0f;
     private ArrayList<GeoPoint> originalPoints = new ArrayList<>();
 
     /**
-     * highly suggested that you provide context, if MapView is not provided or is null
-     * info window popups will not function unless you handle it yourself
+     * If MapView is not provided, infowindow popup will not function unless you set it yourself.
      */
     public Polyline() {
         this(null);
     }
 
     /**
-     * highly suggested that you provide MapView , if MapView is not provided or is null
-     * info window popups will not function unless you handle it yourself
+     * If MapView is null, infowindow popup will not function unless you set it yourself.
      */
     public Polyline(MapView mapView) {
         if (mapView != null) {
             if (mDefaultInfoWindow == null || mDefaultInfoWindow.getMapView() != mapView) {
-                {
-                    mDefaultInfoWindow = new BasicInfoWindow(R.layout.bonuspack_bubble, mapView);
-                }
-
+                mDefaultInfoWindow = new BasicInfoWindow(R.layout.bonuspack_bubble, mapView);
             }
-            density = mapView.getContext().getResources().getDisplayMetrics().density;
+            mDensity = mapView.getContext().getResources().getDisplayMetrics().density;
         }
         setInfoWindow(mDefaultInfoWindow);
         //default as defined in Google API:
@@ -200,6 +193,7 @@ public class Polyline extends OverlayWithIW {
                 addPoint(p);
             }
         }
+        setDefaultInfoWindowLocation();
     }
 
     /**
@@ -235,7 +229,7 @@ public class Polyline extends OverlayWithIW {
             milestoneManager.draw(canvas);
         }
         if (isInfoWindowOpen() && mInfoWindow!=null && mInfoWindow.getRelatedObject()==this) {
-            showInfoWindow(mLastGeoPoint);
+            mInfoWindow.draw();
         }
     }
 
@@ -252,9 +246,8 @@ public class Polyline extends OverlayWithIW {
 
     /**
      * Set the InfoWindow to be used.
-     * Default is a MarkerInfoWindow, with the layout named "bonuspack_bubble".
+     * Default is a BasicInfoWindow, with the layout named "bonuspack_bubble".
      * You can use this method either to use your own layout, or to use your own sub-class of InfoWindow.
-     * Note that this InfoWindow will receive the Marker object as an input, so it MUST be able to handle Marker attributes.
      * If you don't want any InfoWindow to open, you can set it to null.
      */
     public void setInfoWindow(InfoWindow infoWindow) {
@@ -268,17 +261,21 @@ public class Polyline extends OverlayWithIW {
         mInfoWindow = infoWindow;
     }
 
-    public void showInfoWindow(GeoPoint position) {
-        if (mInfoWindow != null) {
-            mInfoWindow.open(this, position, 0, 0);
-        }
+    /**
+     * Show the infowindow, if any. It will be opened either at the latest location, if any,
+     * or to a default location computed by setDefaultInfoWindowLocation method.
+     * Note that you can manually set this location with: setInfoWindowLocation
+     */
+    public void showInfoWindow() {
+        if (mInfoWindow != null && mInfoWindowLocation != null)
+            mInfoWindow.open(this, mInfoWindowLocation, 0, 0);
     }
 
     @Override
     public boolean onSingleTapConfirmed(final MotionEvent event, final MapView mapView) {
         final Projection pj = mapView.getProjection();
         GeoPoint eventPos = (GeoPoint) pj.fromPixels((int) event.getX(), (int) event.getY());
-        double tolerance = mPaint.getStrokeWidth() * density;
+        double tolerance = mPaint.getStrokeWidth() * mDensity;
         boolean touched = isCloseTo(eventPos, tolerance, mapView);
         if (touched) {
             //eventPos = this.getInfoWindowAnchorPoint(eventPos);
@@ -292,40 +289,33 @@ public class Polyline extends OverlayWithIW {
     }
 
     /**
-     * returns a point that the info window cartoon bubble will point at.
-     * default implementation uses the first point of the line.
-     * @param eventPos
-     * @return
+     * @return the geopoint location where the infowindow should point at.
+     * Doesn't matter if the infowindow is currently opened or not.
      * @since 6.0.0
      */
-    public GeoPoint getInfoWindowAnchorPoint(GeoPoint eventPos) {
-        if (infoWindowLocation==null)
-            return getPoints().get(0);
-        return infoWindowLocation;
+    public GeoPoint getInfoWindowLocation() {
+        return mInfoWindowLocation;
+    }
+
+    /** Internal method used to ensure that the infowindow will have a default position in all cases,
+     * so that the user can call showInfoWindow even if no tap occured before.
+     * Currently, set the position on the "middle" point of the polyline.
+     */
+    protected void setDefaultInfoWindowLocation(){
+        int s = mOutline.getPoints().size();
+        if (s > 0)
+            mInfoWindowLocation = mOutline.getPoints().get(s/2);
+        else
+            mInfoWindowLocation = new GeoPoint(0.0, 0.0);
     }
 
     /**
-     * Sets the info window's cartoon bubble point to this location
+     * Sets the info window anchor point to a geopoint location
      * @since 6.0.0
      * @param location
      */
     public void setInfoWindowLocation(GeoPoint location) {
-        infoWindowLocation=location;
-    }
-    /**
-     * @return
-     * @since 6.0.0
-     */
-    public String getId() {
-        return id;
-    }
-
-    /**
-     * @param id
-     * @since 6.0.0
-     */
-    public void setId(String id) {
-        this.id = id;
+        mInfoWindowLocation = location;
     }
 
     //-- Polyline events listener interfaces ------------------------------------
@@ -338,8 +328,8 @@ public class Polyline extends OverlayWithIW {
      * default behaviour when no click listener is set
      */
     protected boolean onClickDefault(Polyline polyline, MapView mapView, GeoPoint eventPos) {
-        mLastGeoPoint = eventPos;
-        polyline.showInfoWindow(eventPos);
+        polyline.setInfoWindowLocation(eventPos);
+        polyline.showInfoWindow();
         return true;
     }
 
@@ -347,6 +337,7 @@ public class Polyline extends OverlayWithIW {
     public void onDetach(MapView mapView) {
         mOutline = null;
         mOnClickListener = null;
+        mMilestoneManagers.clear();
         onDestroy();
     }
 
