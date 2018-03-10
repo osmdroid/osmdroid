@@ -13,6 +13,7 @@ include ':osmdroid-wms'
 //sample apps
 include ':OpenStreetMapViewer'
 include ':GoogleWrapperSample'
+include ':osmdroid-simple-map'
 
 //jdk specific tools and applications
 include ':OSMMapTilePackager'

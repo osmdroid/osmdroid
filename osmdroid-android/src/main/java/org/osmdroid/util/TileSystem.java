@@ -21,8 +21,8 @@ public final class TileSystem {
 	public static final double EarthRadius = GeoConstants.RADIUS_EARTH_METERS;
 	public static final double MinLatitude = -85.05112877980659;
 	public static final double MaxLatitude = 85.05112877980659;
-	public static final double MinLongitude = -180;
-	public static final double MaxLongitude = 180;
+	public static final double MinLongitude = -180d;
+	public static final double MaxLongitude = 180d;
 
 	/** @see microsoft.mappoint.TileSystem#setTileSize(int) */
 	public static void setTileSize(final int tileSize) {

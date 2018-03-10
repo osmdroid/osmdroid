@@ -26,6 +26,7 @@ public abstract class OverlayWithIW extends Overlay {
 	protected String mTitle, mSnippet, mSubDescription;
 	protected InfoWindow mInfoWindow;
 	protected Object mRelatedObject;
+	protected String mId;
 
 	/** Use {@link #OverlayWithIW()} instead */
 	@Deprecated
@@ -36,7 +37,6 @@ public abstract class OverlayWithIW extends Overlay {
 	public OverlayWithIW() {
 		super();
 	}
-
 
 	public void setTitle(String title){
 		mTitle = title;
@@ -72,6 +72,18 @@ public abstract class OverlayWithIW extends Overlay {
 	/** @return the related object. */
 	public Object getRelatedObject(){
 		return mRelatedObject;
+	}
+
+	/** Allows to set a user-defined id. Example: when drawing KML objects, can be the KML id.
+	 * @param id the user-defined id, as a String. Can be null.
+	 */
+	public void setId(final String id) {
+		mId=id;
+	}
+
+	/** @return the user-defined id. */
+	public String getId() {
+		return mId;
 	}
 
 	/** By default, OverlayWithIW has no InfoWindow.

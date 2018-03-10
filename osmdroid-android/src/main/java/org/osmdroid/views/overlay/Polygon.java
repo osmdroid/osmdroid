@@ -43,14 +43,12 @@ public class Polygon extends OverlayWithIW {
 	private final Path mPath = new Path(); //Path drawn is kept for click detection
 	private LinearRing mOutline = new LinearRing(mPath);
 	private ArrayList<LinearRing> mHoles = new ArrayList<>();
-	private String id=null;
-	private GeoPoint mLastGeoPoint=null;
 	protected static InfoWindow mDefaultInfoWindow = null;
 	/** Paint settings. */
 	private Paint mFillPaint;
 	private Paint mOutlinePaint;
 	private List<MilestoneManager> mMilestoneManagers = new ArrayList<>();
-	private GeoPoint infoWindowLocation=null;
+	private GeoPoint mInfoWindowLocation;
 
 	// ===========================================================
 	// Constructors
@@ -63,9 +61,7 @@ public class Polygon extends OverlayWithIW {
 	public Polygon(MapView mapView) {
 		if (mapView != null) {
 			if (mDefaultInfoWindow == null || mDefaultInfoWindow.getMapView() != mapView) {
-				{
-					mDefaultInfoWindow = new BasicInfoWindow(R.layout.bonuspack_bubble, mapView);
-				}
+				mDefaultInfoWindow = new BasicInfoWindow(R.layout.bonuspack_bubble, mapView);
 			}
 		}
 		setInfoWindow(mDefaultInfoWindow);
@@ -128,9 +124,8 @@ public class Polygon extends OverlayWithIW {
 	}
 
 	/** Set the InfoWindow to be used.
-	 * Default is a MarkerInfoWindow, with the layout named "bonuspack_bubble".
+	 * Default is a BasicInfoWindow, with the layout named "bonuspack_bubble".
 	 * You can use this method either to use your own layout, or to use your own sub-class of InfoWindow.
-	 * Note that this InfoWindow will receive the Marker object as an input, so it MUST be able to handle Marker attributes.
 	 * If you don't want any InfoWindow to open, you can set it to null. */
 	public void setInfoWindow(InfoWindow infoWindow){
 		if (mInfoWindow != null){
@@ -148,6 +143,7 @@ public class Polygon extends OverlayWithIW {
 	 */
 	public void setPoints(final List<GeoPoint> points) {
 		mOutline.setPoints(points);
+		setDefaultInfoWindowLocation();
 	}
 
 	public void setHoles(List<? extends List<GeoPoint>> holes){
@@ -250,17 +246,18 @@ public class Polygon extends OverlayWithIW {
 		}
 
 		if (isInfoWindowOpen() && mInfoWindow!=null && mInfoWindow.getRelatedObject()==this) {
-			showInfoWindow(mLastGeoPoint);
+			mInfoWindow.draw();
 		}
-
-
 	}
 
-	public void showInfoWindow(GeoPoint position){
-		if (mInfoWindow != null) {
-			mLastGeoPoint=position;
-			mInfoWindow.open(this, position, 0, 0);
-		}
+	/**
+	 * Show the infowindow, if any. It will be opened either at the latest location, if any,
+	 * or to a default location computed by setDefaultInfoWindowLocation method.
+	 * Note that you can manually set this location with: setInfoWindowLocation
+	 */
+	public void showInfoWindow(){
+		if (mInfoWindow != null && mInfoWindowLocation != null)
+			mInfoWindow.open(this, mInfoWindowLocation, 0, 0);
 	}
 	
 	/** Important note: this function returns correct results only if the Polygon has been drawn before, 
@@ -279,7 +276,14 @@ public class Polygon extends OverlayWithIW {
 				(int) (bounds.right), (int) (bounds.bottom)));
 		return region.contains((int)event.getX(), (int)event.getY());
 	}
-	
+
+	/**
+	 * Default listener for a single tap event on a Polygon:
+	 * set the infowindow at the tapped position, and open the infowindow (if any).
+	 * @param event
+	 * @param mapView
+	 * @return true if tapped
+	 */
 	@Override public boolean onSingleTapConfirmed(final MotionEvent event, final MapView mapView){
 		if (mInfoWindow == null)
 			//no support for tap:
@@ -288,56 +292,50 @@ public class Polygon extends OverlayWithIW {
 		if (tapped){
 			Projection pj = mapView.getProjection();
 			GeoPoint position = (GeoPoint)pj.fromPixels((int)event.getX(), (int)event.getY());
-			//position = getInfoWindowAnchorPoint(position);
-			showInfoWindow(position);
+			setInfoWindowLocation(position);
+			showInfoWindow();
 		}
 		return tapped;
 	}
 
 	/**
-	 * returns a point that the info window cartoon bubble will point at.
-	 * default implementation uses the first point of the line.
-	 * @param eventPos
-	 * @return
+	 * @return the geopoint location where the infowindow should point at.
+	 * Doesn't matter if the infowindow is currently opened or not.
 	 * @since 6.0.0
 	 */
-	public GeoPoint getInfoWindowAnchorPoint(GeoPoint eventPos) {
-		if (infoWindowLocation==null)
-			return getPoints().get(0);
-		return infoWindowLocation;
+	public GeoPoint getInfoWindowLocation() {
+		return mInfoWindowLocation;
+	}
+
+	/** Internal method used to ensure that the infowindow will have a default position in all cases,
+	 * so that the user can call showInfoWindow even if no tap occured before.
+	 * Currently, set the position on the center of the polygon bounding box.
+	 */
+	protected void setDefaultInfoWindowLocation() {
+		int s = mOutline.getPoints().size();
+		if (s == 0){
+			mInfoWindowLocation = new GeoPoint(0.0, 0.0);
+			return;
+		}
+		BoundingBox bb = BoundingBox.fromGeoPoints(mOutline.getPoints());
+		//TODO: as soon as the polygon bounding box will be a class member, don't compute it again here.
+		mInfoWindowLocation = bb.getCenterWithDateLine();
 	}
 
 	/**
-	 * Sets the info window's cartoon bubble point to this location
+	 * Sets the info window anchor point to a geopoint location
 	 * @since 6.0.0
 	 * @param location
 	 */
 	public void setInfoWindowLocation(GeoPoint location) {
-		infoWindowLocation=location;
+		mInfoWindowLocation = location;
 	}
 
-
-	@Override
-	public void onDetach(MapView mapView) {
+	@Override public void onDetach(MapView mapView) {
 		mOutline=null;
 		mHoles.clear();
+		mMilestoneManagers.clear();
 		onDestroy();
-	}
-
-	/**
-	 * @since 6.0.0
-	 * @return
-	 */
-	public String getId() {
-		return id;
-	}
-
-	/**
-	 * @since 6.0.0
-	 * @param id
-	 */
-	public void setId(String id) {
-		this.id = id;
 	}
 
 	/**
