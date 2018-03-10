@@ -11,6 +11,7 @@ import android.graphics.Point;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Toast;
 
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
@@ -184,6 +185,15 @@ public class CustomPaintingSurface extends View {
                             ));
                             polygon.setMilestoneManagers(managers);
                         }
+                        polygon.setOnClickListener(new Polygon.OnClickListener() {
+                            @Override
+                            public boolean onClick(Polygon polygon, MapView mapView, GeoPoint eventPos) {
+                                lastPolygon = polygon;
+                                polygon.onClickDefault(polygon, mapView, eventPos);
+                                Toast.makeText(mapView.getContext(), "polygon with " + polygon.getPoints().size() + "pts was tapped", Toast.LENGTH_LONG).show();
+                                return false;
+                            }
+                        });
                         map.getOverlayManager().add(polygon);
                         lastPolygon=polygon;
                         break;

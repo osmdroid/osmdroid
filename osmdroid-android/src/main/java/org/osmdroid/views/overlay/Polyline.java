@@ -23,10 +23,6 @@ import java.util.List;
  * Mimics the Polyline class from Google Maps Android API v2 as much as possible. Main differences:<br>
  * - Doesn't support Z-Index: drawing order is the order in map overlays<br>
  * - Supports InfoWindow (must be a BasicInfoWindow). <br>
- * <p></p>
- * Mimics the Polyline class from Google Maps Android API v2 as much as possible. Main differences:<br/>
- * - Doesn't support Z-Index: drawing order is the order in map overlays<br/>
- * - Supports InfoWindow (must be a BasicInfoWindow). <br/>
  * <p>
  * <img alt="Class diagram around Marker class" width="686" height="413" src='src='./doc-files/marker-infowindow-classes.png' />
  *
@@ -35,7 +31,6 @@ import java.util.List;
  */
 public class Polyline extends OverlayWithIW {
 
-    private boolean mGeodesic;
     private final Paint mPaint = new Paint();
     private final LineDrawer mLineDrawer = new LineDrawer(256);
     private LinearRing mOutline = new LinearRing(mLineDrawer);
@@ -44,7 +39,7 @@ public class Polyline extends OverlayWithIW {
     protected OnClickListener mOnClickListener;
     private GeoPoint mInfoWindowLocation;
     private float mDensity = 1.0f;
-    private ArrayList<GeoPoint> originalPoints = new ArrayList<>();
+    private ArrayList<GeoPoint> mOriginalPoints = new ArrayList<>();
 
     /**
      * If MapView is not provided, infowindow popup will not function unless you set it yourself.
@@ -70,7 +65,6 @@ public class Polyline extends OverlayWithIW {
         this.mPaint.setStyle(Paint.Style.STROKE);
         mPaint.setAntiAlias(true);
         this.clearPath();
-        mGeodesic = false;
         mLineDrawer.setPaint(mPaint);
     }
 
@@ -78,24 +72,14 @@ public class Polyline extends OverlayWithIW {
         mOutline.clearPath();
     }
 
-    protected void addPoint(final GeoPoint aPoint) {
-        mOutline.addPoint(aPoint);
-    }
-
-    @Deprecated
-    protected void addPoint(final int aLatitudeE6, final int aLongitudeE6) {
-        addPoint(new GeoPoint(aLatitudeE6, aLongitudeE6));
-    }
-
     /**
      * @return a copy of the points.
      */
-    public List<GeoPoint> getPoints() {
-        return mOutline.getPoints();
-    }
-
-    public int getNumberOfPoints() {
-        return getPoints().size();
+    public ArrayList<GeoPoint> getPoints() {
+        ArrayList<GeoPoint> result = new ArrayList(mOriginalPoints.size());
+        for (GeoPoint p:mOriginalPoints)
+            result.add(p);
+        return result;
     }
 
     public int getColor() {
@@ -117,8 +101,16 @@ public class Polyline extends OverlayWithIW {
         return isEnabled();
     }
 
+    /**
+     * Sets whether to draw each segment of the line as a geodesic or not.
+     * Warning: it takes effect only if set before setting the points in the Polyline.
+     */
+    public void setGeodesic(boolean geodesic) {
+        mOutline.setGeodesic(geodesic);
+    }
+
     public boolean isGeodesic() {
-        return mGeodesic;
+        return mOutline.isGeodesic();
     }
 
     public void setColor(int color) {
@@ -137,37 +129,6 @@ public class Polyline extends OverlayWithIW {
         mOnClickListener = listener;
     }
 
-    protected void addGreatCircle(final GeoPoint startPoint, final GeoPoint endPoint, final int numberOfPoints) {
-        //	adapted from page http://compastic.blogspot.co.uk/2011/07/how-to-draw-great-circle-on-map-in.html
-        //	which was adapted from page http://maps.forum.nu/gm_flight_path.html
-
-        // convert to radians
-        final double lat1 = startPoint.getLatitude() * MathConstants.DEG2RAD;
-        final double lon1 = startPoint.getLongitude() * MathConstants.DEG2RAD;
-        final double lat2 = endPoint.getLatitude() * MathConstants.DEG2RAD;
-        final double lon2 = endPoint.getLongitude() * MathConstants.DEG2RAD;
-
-        final double d = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin((lat1 - lat2) / 2), 2) + Math.cos(lat1) * Math.cos(lat2)
-            * Math.pow(Math.sin((lon1 - lon2) / 2), 2)));
-        double bearing = Math.atan2(Math.sin(lon1 - lon2) * Math.cos(lat2),
-            Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(lon1 - lon2))
-            / -MathConstants.DEG2RAD;
-        bearing = bearing < 0 ? 360 + bearing : bearing;
-
-        for (int i = 1; i <= numberOfPoints; i++) {
-            final double f = 1.0 * i / (numberOfPoints + 1);
-            final double A = Math.sin((1 - f) * d) / Math.sin(d);
-            final double B = Math.sin(f * d) / Math.sin(d);
-            final double x = A * Math.cos(lat1) * Math.cos(lon1) + B * Math.cos(lat2) * Math.cos(lon2);
-            final double y = A * Math.cos(lat1) * Math.sin(lon1) + B * Math.cos(lat2) * Math.sin(lon2);
-            final double z = A * Math.sin(lat1) + B * Math.sin(lat2);
-
-            final double latN = Math.atan2(z, Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)));
-            final double lonN = Math.atan2(y, x);
-            addPoint(new GeoPoint(latN * MathConstants.RAD2DEG, lonN * MathConstants.RAD2DEG));
-        }
-    }
-
     /**
      * Set the points.
      * Note that a later change in the original points List will have no effect.
@@ -176,32 +137,12 @@ public class Polyline extends OverlayWithIW {
      */
     public void setPoints(List<GeoPoint> points) {
         clearPath();
-        int size = points.size();
-        for (int i = 0; i < size; i++) {
-            GeoPoint p = points.get(i);
-            if (!mGeodesic) {
-                addPoint(p);
-            } else {
-                if (i > 0) {
-                    //add potential intermediate points:
-                    GeoPoint prev = points.get(i - 1);
-                    final int greatCircleLength = (int) prev.distanceToAsDouble(p);
-                    //add one point for every 100kms of the great circle path
-                    final int numberOfPoints = greatCircleLength / 100000;
-                    addGreatCircle(prev, p, numberOfPoints);
-                }
-                addPoint(p);
-            }
+        mOriginalPoints = new ArrayList<>(points.size());
+        for (GeoPoint p:points) {
+            mOriginalPoints.add(p);
         }
+        mOutline.setPoints(points);
         setDefaultInfoWindowLocation();
-    }
-
-    /**
-     * Sets whether to draw each segment of the line as a geodesic or not.
-     * Warning: it takes effect only if set before setting the points in the Polyline.
-     */
-    public void setGeodesic(boolean geodesic) {
-        mGeodesic = geodesic;
     }
 
     @Override
@@ -278,7 +219,6 @@ public class Polyline extends OverlayWithIW {
         double tolerance = mPaint.getStrokeWidth() * mDensity;
         boolean touched = isCloseTo(eventPos, tolerance, mapView);
         if (touched) {
-            //eventPos = this.getInfoWindowAnchorPoint(eventPos);
             if (mOnClickListener == null) {
                 return onClickDefault(this, mapView, eventPos);
             } else {
@@ -302,15 +242,15 @@ public class Polyline extends OverlayWithIW {
      * Currently, set the position on the "middle" point of the polyline.
      */
     protected void setDefaultInfoWindowLocation(){
-        int s = mOutline.getPoints().size();
+        int s = mOriginalPoints.size();
         if (s > 0)
-            mInfoWindowLocation = mOutline.getPoints().get(s/2);
+            mInfoWindowLocation = mOriginalPoints.get(s/2);
         else
             mInfoWindowLocation = new GeoPoint(0.0, 0.0);
     }
 
     /**
-     * Sets the info window anchor point to a geopoint location
+     * Sets the infowindow anchor point to a geopoint location
      * @since 6.0.0
      * @param location
      */
@@ -327,7 +267,7 @@ public class Polyline extends OverlayWithIW {
     /**
      * default behaviour when no click listener is set
      */
-    protected boolean onClickDefault(Polyline polyline, MapView mapView, GeoPoint eventPos) {
+    public boolean onClickDefault(Polyline polyline, MapView mapView, GeoPoint eventPos) {
         polyline.setInfoWindowLocation(eventPos);
         polyline.showInfoWindow();
         return true;
@@ -338,6 +278,7 @@ public class Polyline extends OverlayWithIW {
         mOutline = null;
         mOnClickListener = null;
         mMilestoneManagers.clear();
+        mOriginalPoints = null;
         onDestroy();
     }
 

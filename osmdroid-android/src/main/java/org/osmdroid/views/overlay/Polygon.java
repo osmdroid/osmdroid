@@ -44,6 +44,7 @@ public class Polygon extends OverlayWithIW {
 	private LinearRing mOutline = new LinearRing(mPath);
 	private ArrayList<LinearRing> mHoles = new ArrayList<>();
 	protected static InfoWindow mDefaultInfoWindow = null;
+	protected OnClickListener mOnClickListener;
 	/** Paint settings. */
 	private Paint mFillPaint;
 	private Paint mOutlinePaint;
@@ -96,10 +97,21 @@ public class Polygon extends OverlayWithIW {
 		return mOutlinePaint;
 	}
 
+	public void setGeodesic(boolean geodesic) {
+		mOutline.setGeodesic(geodesic);
+	}
+
+	public boolean isGeodesic() {
+		return mOutline.isGeodesic();
+	}
+
 	/**
 	 * @return a copy of the list of polygon's vertices. 
 	 */
 	public List<GeoPoint> getPoints(){
+		//TODO This is completely wrong:
+		// - this is not a copy, but a direct handler to the list itself.
+		// - if geodesic, the outline points are not identical to original points.
 		return mOutline.getPoints();
 	}
 
@@ -150,6 +162,7 @@ public class Polygon extends OverlayWithIW {
 		mHoles = new ArrayList<LinearRing>(holes.size());
 		for (List<GeoPoint> sourceHole:holes){
 			LinearRing newHole = new LinearRing(mPath);
+			newHole.setGeodesic(mOutline.isGeodesic());
 			newHole.setPoints(sourceHole);
 			mHoles.add(newHole);
 		}
@@ -163,6 +176,9 @@ public class Polygon extends OverlayWithIW {
 		List<List<GeoPoint>> result = new ArrayList<List<GeoPoint>>(mHoles.size());
 		for (LinearRing hole:mHoles){
 			result.add(hole.getPoints());
+			//TODO: completely wrong:
+			// hole.getPoints() doesn't return a copy but a direct handler to the internal list.
+			// - if geodesic, this is not the same points as the original list.
 		}
 		return result;
 	}
@@ -285,17 +301,17 @@ public class Polygon extends OverlayWithIW {
 	 * @return true if tapped
 	 */
 	@Override public boolean onSingleTapConfirmed(final MotionEvent event, final MapView mapView){
-		if (mInfoWindow == null)
-			//no support for tap:
-			return false;
+		Projection pj = mapView.getProjection();
+		GeoPoint eventPos = (GeoPoint)pj.fromPixels((int)event.getX(), (int)event.getY());
 		boolean tapped = contains(event);
-		if (tapped){
-			Projection pj = mapView.getProjection();
-			GeoPoint position = (GeoPoint)pj.fromPixels((int)event.getX(), (int)event.getY());
-			setInfoWindowLocation(position);
-			showInfoWindow();
-		}
-		return tapped;
+		if (tapped) {
+			if (mOnClickListener == null) {
+				return onClickDefault(this, mapView, eventPos);
+			} else {
+				return mOnClickListener.onClick(this, mapView, eventPos);
+			}
+		} else
+			return tapped;
 	}
 
 	/**
@@ -350,4 +366,24 @@ public class Polygon extends OverlayWithIW {
 			mMilestoneManagers = pMilestoneManagers;
 		}
 	}
+
+	//-- Polygon events listener interfaces ------------------------------------
+
+	public interface OnClickListener {
+		abstract boolean onClick(Polygon polygon, MapView mapView, GeoPoint eventPos);
+	}
+
+	/**
+	 * default behaviour when no click listener is set
+	 */
+	public boolean onClickDefault(Polygon polygon, MapView mapView, GeoPoint eventPos) {
+		polygon.setInfoWindowLocation(eventPos);
+		polygon.showInfoWindow();
+		return true;
+	}
+
+	public void setOnClickListener(OnClickListener listener) {
+		mOnClickListener = listener;
+	}
+
 }
