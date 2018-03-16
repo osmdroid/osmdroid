@@ -1,11 +1,9 @@
 package org.osmdroid.views.overlay;
 
-import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.graphics.Point;
 import android.graphics.RectF;
 import android.graphics.Region;
 import android.view.MotionEvent;
@@ -20,7 +18,6 @@ import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
 import org.osmdroid.views.overlay.infowindow.BasicInfoWindow;
 import org.osmdroid.views.overlay.infowindow.InfoWindow;
-import org.osmdroid.views.overlay.infowindow.MarkerInfoWindow;
 import org.osmdroid.views.overlay.milestones.MilestoneManager;
 
 import java.util.ArrayList;
@@ -63,7 +60,7 @@ public class Polygon extends OverlayWithIW {
 	/** Paint settings. */
 	private Paint mFillPaint;
 	private Paint mOutlinePaint;
-	private int mMinmiumZoom = 0;
+	private int mMinimumZoom = 0;
 	private List<MilestoneManager> mMilestoneManagers = new ArrayList<>();
 	private GeoPoint infoWindowLocation=null;
 	private BoundingBox mBounds=new BoundingBox(90,180,-90,-180);
@@ -104,7 +101,7 @@ public class Polygon extends OverlayWithIW {
 	 * @since 6.1.0
 	 */
 	public int getMinmiumDrawZoom() {
-		return mMinmiumZoom;
+		return mMinimumZoom;
 	}
 
 	/**
@@ -114,7 +111,7 @@ public class Polygon extends OverlayWithIW {
 	 * @since 6.1.0
 	 */
 	public void setMinimumDrawZoom(int pZoom){
-		this.mMinmiumZoom = pZoom;
+		this.mMinimumZoom = pZoom;
 	}
 	public int getFillColor() {
 		return mFillPaint.getColor();
@@ -270,7 +267,7 @@ public class Polygon extends OverlayWithIW {
 			return;
 		}
 
-		if (mapView.getZoomLevelDouble() < mMinmiumZoom)
+		if (mapView.getZoomLevelDouble() < mMinimumZoom)
 			return;
 
 		float widthPixels = mapView.getContext().getResources().getDisplayMetrics().widthPixels;
