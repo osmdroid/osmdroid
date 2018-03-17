@@ -442,14 +442,22 @@ public final class TileSystem {
 	/**
 	 * @since 6.0.0
 	 */
-	public static long ClipToLong(final double value, final double max, boolean wrapEnabled) {
-		long longValue =  MyMath.floorToLong(value - 0.5);
-		return wrapEnabled ? Clip(longValue, 0, MyMath.floorToLong(max - 1)) : longValue;
+	public static long ClipToLong(final double pValue, final double pMax, final boolean pWrapEnabled) {
+		final long longValue =  MyMath.floorToLong(pValue);
+		if (!pWrapEnabled) {
+			return longValue;
+		}
+		if (longValue <= 0) {
+			return 0;
+		}
+		final long longMax = MyMath.floorToLong(pMax - 1);
+		return longValue >= pMax ? longMax : longValue;
 	}
 
 	/**
 	 * @since 6.0.0
 	 */
+	@Deprecated
 	public static long Clip(final long n, final long minValue, final long maxValue) {
 		return Math.min(Math.max(n, minValue), maxValue);
 	}

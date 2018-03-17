@@ -152,6 +152,7 @@ public class MapView extends ViewGroup implements IMapView,
 	private double mStartAnimationZoom;
 
 
+	private boolean mZoomRounding;
 
     public interface OnFirstLayoutListener {
 		/**
@@ -1217,6 +1218,10 @@ public class MapView extends ViewGroup implements IMapView,
 
 	@Override
 	public void selectObject(final Object obj, final PointInfo pt) {
+		if (mZoomRounding) {
+			mZoomLevel = Math.round(mZoomLevel);
+			invalidate();
+		}
 		resetMultiTouchScale();
 	}
 
@@ -1720,5 +1725,12 @@ public class MapView extends ViewGroup implements IMapView,
 		setMapScroll(0, 0);
 		resetProjection();
 		invalidate();
+	}
+
+	/**
+	 * @since 6.0.2
+	 */
+	public void setZoomRounding(final boolean pZoomRounding) {
+		mZoomRounding = pZoomRounding;
 	}
 }

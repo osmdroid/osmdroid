@@ -77,12 +77,12 @@ public class LayerManager extends BaseSampleFragment {
                     mMapView.getController().animateTo(((Marker) overlay).getPosition());
 
                 } else if (overlay instanceof Polygon){
-                    ((Polygon) overlay).showInfoWindow(((Polygon) overlay).getPoints().get(0));
-                    mMapView.getController().animateTo(((Polygon) overlay).getPoints().get(0));
+                    ((Polygon) overlay).showInfoWindow();
+                    mMapView.getController().animateTo(((Polygon) overlay).getInfoWindowLocation());
 
                 } else if (overlay instanceof Polyline){
-                    ((Polyline) overlay).showInfoWindow(((Polyline) overlay).getPoints().get(0));
-                    mMapView.getController().animateTo(((Polyline) overlay).getPoints().get(0));
+                    ((Polyline) overlay).showInfoWindow();
+                    mMapView.getController().animateTo(((Polyline) overlay).getInfoWindowLocation());
 
                 } else {
                     BoundingBox bounds = overlay.getBounds();

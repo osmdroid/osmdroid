@@ -55,6 +55,7 @@ import org.osmdroid.samplefragments.events.SampleAnimatedZoomToLocation;
 import org.osmdroid.samplefragments.events.SampleLimitedScrollArea;
 import org.osmdroid.samplefragments.events.SampleMapBootListener;
 import org.osmdroid.samplefragments.events.SampleMapEventListener;
+import org.osmdroid.samplefragments.events.SampleZoomRounding;
 import org.osmdroid.samplefragments.events.SampleZoomToBounding;
 import org.osmdroid.samplefragments.events.ZoomToBoundsOnStartup;
 import org.osmdroid.samplefragments.geopackage.GeopackageFeatureTiles;
@@ -291,6 +292,7 @@ public final class SampleFactory implements ISampleFactory {
         mSamples.add(SampleShapeFile.class);
         mSamples.add(CompassPointerSample.class);
         mSamples.add(CompassRoseSample.class);
+        mSamples.add(SampleZoomRounding.class);
         mSamples.add(LayerManager.class);
         mSamples.add(BookmarkSample.class);
     }

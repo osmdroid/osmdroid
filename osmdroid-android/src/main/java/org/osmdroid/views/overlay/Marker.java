@@ -80,8 +80,7 @@ public class Marker extends OverlayWithIW {
 	protected boolean mFlat;
 	protected OnMarkerClickListener mOnMarkerClickListener;
 	protected OnMarkerDragListener mOnMarkerDragListener;
-	protected String mId;
-	
+
 	/*attributes for non-standard features:*/
 	protected Drawable mImage;
 	protected boolean mPanToView;
@@ -91,7 +90,7 @@ public class Marker extends OverlayWithIW {
 	protected Point mPositionPixels;
 	protected static MarkerInfoWindow mDefaultInfoWindow = null;
 	protected static Drawable mDefaultIcon = null; //cache for default icon (resourceProxy.getDrawable being slow)
-	protected Resources resource;
+	protected Resources mResources;
 
 	/** Usual values in the (U,V) coordinates system of the icon image */
 	public static final float ANCHOR_CENTER=0.5f, ANCHOR_LEFT=0.0f, ANCHOR_TOP=0.0f, ANCHOR_RIGHT=1.0f, ANCHOR_BOTTOM=1.0f;
@@ -102,7 +101,7 @@ public class Marker extends OverlayWithIW {
 
 	public Marker(MapView mapView, final Context resourceProxy) {
 		super();
-		resource = mapView.getContext().getResources();
+		mResources = mapView.getContext().getResources();
 		mBearing = 0.0f;
 		mAlpha = 1.0f; //opaque
 		mPosition = new GeoPoint(0.0, 0.0);
@@ -125,16 +124,7 @@ public class Marker extends OverlayWithIW {
 		setAnchor(0.5f, 1.0f);
 		if (mDefaultInfoWindow == null || mDefaultInfoWindow.getMapView() != mapView){
 			//build default bubble, that will be shared between all markers using the default one:
-			/* pre-aar version
-			Context context = mapView.getContext();
-			String packageName = context.getPackageName();
-			int defaultLayoutResId = context.getResources().getIdentifier("bonuspack_bubble", "layout", packageName);
-			if (defaultLayoutResId == 0)
-				Log.e(BonusPackHelper.LOG_TAG, "Marker: layout/bonuspack_bubble not found in "+packageName);
-			else
-				mDefaultInfoWindow = new MarkerInfoWindow(defaultLayoutResId, mapView);
-			*/
-			//get the default layout now included in the aar library
+			//(using the default layout included in the aar library)
 			mDefaultInfoWindow = new MarkerInfoWindow(R.layout.bonuspack_bubble, mapView);
 		}
 		setInfoWindow(mDefaultInfoWindow);
@@ -167,7 +157,7 @@ public class Marker extends OverlayWithIW {
 			c.drawPaint(background);
 			c.drawText(getTitle(),0,baseline,p);
 
-			mIcon=new BitmapDrawable(resource,image);
+			mIcon=new BitmapDrawable(mResources,image);
 			//set the offset
 			setAnchor(0.5f, 0.5f);
 		} else if (!mEnableTextLabelsWhenNoImage && !ENABLE_TEXT_LABELS_WHEN_NO_IMAGE && icon!=null) {
@@ -181,9 +171,7 @@ public class Marker extends OverlayWithIW {
 			mIcon = mDefaultIcon;
 			//set the offset
 			setAnchor(0.5f, 1.0f);
-
 		}
-
 	}
 
 	/**
@@ -382,7 +370,8 @@ public class Marker extends OverlayWithIW {
 		float rotationOnScreen = (mFlat ? -mBearing : mapView.getMapOrientation()-mBearing);
 		drawAt(canvas, mIcon, mPositionPixels.x, mPositionPixels.y, false, rotationOnScreen);
 		if (isInfoWindowShown()) {
-			showInfoWindow();
+			//showInfoWindow();
+			mInfoWindow.draw();
 		}
 	}
 
@@ -395,7 +384,7 @@ public class Marker extends OverlayWithIW {
 		//cleanDefaults();
 		this.mOnMarkerClickListener=null;
 		this.mOnMarkerDragListener=null;
-		this.resource=null;
+		this.mResources=null;
 		setRelatedObject(null);
 		if (mInfoWindow!=mDefaultInfoWindow) {
 			if (isInfoWindowShown())
@@ -487,14 +476,6 @@ public class Marker extends OverlayWithIW {
 		if (visible)
 			setAlpha(1f);
 		else setAlpha(0f);
-	}
-
-	public String getId() {
-		return mId;
-	}
-
-	public void setId(final String id) {
-		 mId=id;
 	}
 
 	//-- Marker events listener interfaces ------------------------------------
