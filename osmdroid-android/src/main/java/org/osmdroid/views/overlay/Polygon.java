@@ -43,7 +43,6 @@ public class Polygon extends OverlayWithIW {
 	private LinearRing mOutline = new LinearRing(mPath);
 	private ArrayList<LinearRing> mHoles = new ArrayList<>();
 	private ArrayList<GeoPoint> originalPointSet = new ArrayList<>();
-	private String id=null;
 	private boolean mAutoReducePoints= false;
 	protected static InfoWindow mDefaultInfoWindow = null;
 	protected OnClickListener mOnClickListener;
@@ -421,21 +420,6 @@ public class Polygon extends OverlayWithIW {
 		onDestroy();
 	}
 
-	/**
-	 * @since 6.0.0
-	 * @return
-	 */
-	public String getId() {
-		return id;
-	}
-
-	/**
-	 * @since 6.0.0
-	 * @param id
-	 */
-	public void setId(String id) {
-		this.id = id;
-	}
 
 	/**
 	 * @since 6.0.0

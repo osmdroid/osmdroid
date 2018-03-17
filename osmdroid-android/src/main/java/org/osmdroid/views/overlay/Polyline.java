@@ -140,12 +140,12 @@ public class Polyline extends OverlayWithIW {
      * If geodesic mode has been set, the long segments will follow the earth "great circle".
      */
     public void setPoints(List<GeoPoint> points) {
-        originalPoints.clear();
-        originalPoints.addAll(points);
+        mOriginalPoints.clear();
+        mOriginalPoints.addAll(points);
 
         mBounds = BoundingBox.fromGeoPoints(points);
 
-        setPointsInternal(originalPoints);
+        setPointsInternal(mOriginalPoints);
 
     }
 
@@ -186,7 +186,7 @@ public class Polyline extends OverlayWithIW {
             //get the degree difference, divide by dpi
             double tolerance = latSpanDegrees /densityDpi;  //degrees per pixel
             //each latitude degree on screen is represented by this many dip
-            ArrayList<GeoPoint> points = PointReducer.reduceWithTolerance(originalPoints, tolerance);
+            ArrayList<GeoPoint> points = PointReducer.reduceWithTolerance(mOriginalPoints, tolerance);
             setPointsInternal(points);
         }
 
