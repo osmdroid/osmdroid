@@ -80,6 +80,15 @@ public class Polygon extends OverlayWithIW {
 	// Getter & Setter
 	// ===========================================================
 
+
+	/**
+	 * @since 6.0.2
+	 * @return
+	 */
+	public Paint getFillPaint() {
+		return mFillPaint;
+	}
+
 	public int getFillColor() {
 		return mFillPaint.getColor();
 	}
