@@ -64,12 +64,8 @@ public class Polyline extends OverlayWithIW {
         this.mPaint.setStrokeWidth(10.0f);
         this.mPaint.setStyle(Paint.Style.STROKE);
         mPaint.setAntiAlias(true);
-        this.clearPath();
-        mLineDrawer.setPaint(mPaint);
-    }
-
-    protected void clearPath() {
         mOutline.clearPath();
+        mLineDrawer.setPaint(mPaint);
     }
 
     /**
@@ -132,17 +128,26 @@ public class Polyline extends OverlayWithIW {
     /**
      * Set the points.
      * Note that a later change in the original points List will have no effect.
-     * To add/remove/change points, you must call setPoints again.
+     * To remove/change points, you must call setPoints again.
      * If geodesic mode has been set, the long segments will follow the earth "great circle".
      */
     public void setPoints(List<GeoPoint> points) {
-        clearPath();
+        mOutline.clearPath();
         mOriginalPoints = new ArrayList<>(points.size());
         for (GeoPoint p:points) {
             mOriginalPoints.add(p);
         }
         mOutline.setPoints(points);
         setDefaultInfoWindowLocation();
+    }
+
+    /**
+     * Add the point at the end.
+     * If geodesic mode has been set, the long segments will follow the earth "great circle".
+     */
+    public void addPoint(GeoPoint p){
+        mOriginalPoints.add(p);
+        mOutline.addPoint(p);
     }
 
     @Override

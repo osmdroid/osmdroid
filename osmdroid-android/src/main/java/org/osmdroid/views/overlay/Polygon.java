@@ -81,14 +81,6 @@ public class Polygon extends OverlayWithIW {
 	// ===========================================================
 
 
-	/**
-	 * @since 6.0.2
-	 * @return
-	 */
-	public Paint getFillPaint() {
-		return mFillPaint;
-	}
-
 	public int getFillColor() {
 		return mFillPaint.getColor();
 	}
@@ -106,6 +98,14 @@ public class Polygon extends OverlayWithIW {
 		return mOutlinePaint;
 	}
 
+	/**
+	 * @return the Paint used for the filling. This allows to set advanced Paint settings.
+	 * @since 6.0.2
+	 */
+	public Paint getFillPaint() {
+		return mFillPaint;
+	}
+
 	public void setGeodesic(boolean geodesic) {
 		mOutline.setGeodesic(geodesic);
 	}
@@ -115,7 +115,8 @@ public class Polygon extends OverlayWithIW {
 	}
 
 	/**
-	 * @return a copy of the list of polygon's vertices. 
+	 * @return a copy of the list of polygon's vertices.
+	 * Warning: changes on this list may cause strange results on the polygon display.
 	 */
 	public List<GeoPoint> getPoints(){
 		//TODO This is completely wrong:
@@ -160,11 +161,22 @@ public class Polygon extends OverlayWithIW {
 	}
 
 	/**
-	 * This method will take a copy of the points.
+	 * Set the points of the polygon outline.
+	 * Note that a later change in the original points List will have no effect.
+	 * To remove/change points, you must call setPoints again.
+	 * If geodesic mode has been set, the long segments will follow the earth "great circle".
 	 */
 	public void setPoints(final List<GeoPoint> points) {
 		mOutline.setPoints(points);
 		setDefaultInfoWindowLocation();
+	}
+
+	/**
+	 * Add the point at the end of the polygon outline.
+	 * If geodesic mode has been set, the long segments will follow the earth "great circle".
+	 */
+	public void addPoint(GeoPoint p){
+		mOutline.addPoint(p);
 	}
 
 	public void setHoles(List<? extends List<GeoPoint>> holes){

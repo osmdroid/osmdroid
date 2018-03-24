@@ -83,11 +83,6 @@ class LinearRing{
 		mPointAccepter.init();
 	}
 
-	protected void addPoint(final GeoPoint pGeoPoint) {
-		mOriginalPoints.add(pGeoPoint);
-		//mPrecomputed = false;
-	}
-
 	protected void addGreatCircle(final GeoPoint startPoint, final GeoPoint endPoint, final int numberOfPoints) {
 		//	adapted from page http://compastic.blogspot.co.uk/2011/07/how-to-draw-great-circle-on-map-in.html
 		//	which was adapted from page http://maps.forum.nu/gm_flight_path.html
@@ -100,10 +95,12 @@ class LinearRing{
 
 		final double d = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin((lat1 - lat2) / 2), 2) + Math.cos(lat1) * Math.cos(lat2)
 				* Math.pow(Math.sin((lon1 - lon2) / 2), 2)));
+		/*
 		double bearing = Math.atan2(Math.sin(lon1 - lon2) * Math.cos(lat2),
 				Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(lon1 - lon2))
 				/ -MathConstants.DEG2RAD;
 		bearing = bearing < 0 ? 360 + bearing : bearing;
+		*/
 
 		for (int i = 1; i <= numberOfPoints; i++) {
 			final double f = 1.0 * i / (numberOfPoints + 1);
@@ -115,38 +112,37 @@ class LinearRing{
 
 			final double latN = Math.atan2(z, Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)));
 			final double lonN = Math.atan2(y, x);
-			addPoint(new GeoPoint(latN * MathConstants.RAD2DEG, lonN * MathConstants.RAD2DEG));
+			GeoPoint p = new GeoPoint(latN * MathConstants.RAD2DEG, lonN * MathConstants.RAD2DEG);
+			mOriginalPoints.add(p);
 		}
 	}
 
-	ArrayList<GeoPoint> getPoints(){
+	public void addPoint(final GeoPoint p) {
+		if (mGeodesic && mOriginalPoints.size()>0){
+			//add potential intermediate points:
+			GeoPoint prev = mOriginalPoints.get(mOriginalPoints.size() - 1);
+			final int greatCircleLength = (int) prev.distanceToAsDouble(p);
+			//add one point for every 100kms of the great circle path
+			final int numberOfPoints = greatCircleLength / 100000;
+			addGreatCircle(prev, p, numberOfPoints);
+		}
+		mOriginalPoints.add(p);
+		mPrecomputed = false;
+	}
+
+	public void setPoints(final List<GeoPoint> points) {
+		clearPath();
+		for (GeoPoint p:points) {
+			addPoint(p);
+		}
+	}
+
+	public ArrayList<GeoPoint> getPoints(){
 		return mOriginalPoints;
 	}
 
 	double[] getDistances(){
 		return mDistances;
-	}
-
-	void setPoints(final List<GeoPoint> points) {
-		clearPath();
-		int size = points.size();
-		for (int i = 0; i < size; i++) {
-			GeoPoint p = points.get(i);
-			mOriginalPoints.add(p);
-			if (!mGeodesic) {
-				addPoint(p);
-			} else {
-				if (i > 0) {
-					//add potential intermediate points:
-					GeoPoint prev = points.get(i - 1);
-					final int greatCircleLength = (int) prev.distanceToAsDouble(p);
-					//add one point for every 100kms of the great circle path
-					final int numberOfPoints = greatCircleLength / 100000;
-					addGreatCircle(prev, p, numberOfPoints);
-				}
-				addPoint(p);
-			}
-		}
 	}
 
 	public void setGeodesic(boolean geodesic) {
