@@ -115,31 +115,40 @@ public class SqlTileWriter implements IFilesystemCache {
         db.execSQL("CREATE INDEX IF NOT EXISTS " + COLUMN_EXPIRES_INDEX + " ON " + TABLE + " (" + COLUMN_EXPIRES +");");
 
         long diff = dbLength - Configuration.getInstance().getTileFileSystemCacheTrimBytes();
+        final int limit = 20;
+        final StringBuilder where = new StringBuilder();
+        String sep;
         while(diff > 0) {
             final long now = System.currentTimeMillis();
             final Cursor cur = db.rawQuery(
                     "SELECT " + COLUMN_KEY + ",LENGTH(HEX(" + COLUMN_TILE + "))/2 " +
                     "FROM " + DatabaseFileArchive.TABLE + " " +
                     "WHERE " + COLUMN_EXPIRES + " IS NOT NULL AND " + COLUMN_EXPIRES + " < " + now + " " +
-                    "ORDER BY " + COLUMN_EXPIRES + " DESC " +
-                    "LIMIT 1", null);
+                    "ORDER BY " + COLUMN_EXPIRES + " ASC " +
+                    "LIMIT " + limit, null);
 
-            final long key;
-            final long size;
-            if (cur.moveToFirst()){
-                key = cur.getLong(0);
-                size = cur.getLong(1);
-            } else {
-                key = 0;
-                size = 0;
+            cur.moveToFirst();
+            where.setLength(0);
+            where.append(COLUMN_KEY + " in (");
+            sep = "";
+            while(!cur.isAfterLast()) {
+                final long key = cur.getLong(0);
+                final long size = cur.getLong(1);
+                cur.moveToNext();
+
+                where.append(sep).append(key);
+                sep = ",";
+                diff -= size;
+                if (diff <= 0) { // we already have enough tiles to delete
+                    break;
+                }
             }
             cur.close();
-            if (size <= 0) {
+            if ("".equals(sep)) { // nothing to delete
                 return;
             }
-
-            db.execSQL("DELETE FROM " + TABLE + " WHERE " + COLUMN_KEY + " = " + key);
-            diff -= size;
+            where.append(')');
+            db.delete(TABLE,  where.toString(), null);
         }
     }
 
