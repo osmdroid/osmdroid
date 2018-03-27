@@ -107,12 +107,14 @@ public class SqlTileWriter implements IFilesystemCache {
             return;
         }
 
+        // index creation is run now (regardless of the table size)
+        // therefore potentially on a small table, for better index creation performances
+        db.execSQL("CREATE INDEX IF NOT EXISTS " + COLUMN_EXPIRES_INDEX + " ON " + TABLE + " (" + COLUMN_EXPIRES +");");
+
         final long dbLength = db_file.length();
         if (dbLength <= Configuration.getInstance().getTileFileSystemCacheMaxBytes()) {
             return;
         }
-
-        db.execSQL("CREATE INDEX IF NOT EXISTS " + COLUMN_EXPIRES_INDEX + " ON " + TABLE + " (" + COLUMN_EXPIRES +");");
 
         long diff = dbLength - Configuration.getInstance().getTileFileSystemCacheTrimBytes();
         final int limit = 20;
