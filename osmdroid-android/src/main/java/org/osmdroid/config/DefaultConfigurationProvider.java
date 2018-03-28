@@ -56,6 +56,9 @@ public class DefaultConfigurationProvider implements IConfigurationProvider {
     protected int animationSpeedShort =500;
     protected boolean mapViewRecycler=true;
     protected short cacheTileOvershoot=0;
+    protected long mTileGCFrequencyInMillis = 300000;
+    protected int mTileGCBulkSize = 20;
+    protected long mTileGCBulkPauseInMillis = 500;
 
     public DefaultConfigurationProvider(){
 
@@ -498,5 +501,35 @@ public class DefaultConfigurationProvider implements IConfigurationProvider {
     @Override
     public short getCacheMapTileOvershoot() {
         return cacheTileOvershoot;
+    }
+
+    @Override
+    public long getTileGCFrequencyInMillis() {
+        return mTileGCFrequencyInMillis;
+    }
+
+    @Override
+    public void setTileGCFrequencyInMillis(final long pMillis) {
+        mTileGCFrequencyInMillis = pMillis;
+    }
+
+    @Override
+    public int getTileGCBulkSize() {
+        return mTileGCBulkSize;
+    }
+
+    @Override
+    public void setTileGCBulkSize(final int pSize) {
+        mTileGCBulkSize = pSize;
+    }
+
+    @Override
+    public long getTileGCBulkPauseInMillis() {
+        return mTileGCBulkPauseInMillis;
+    }
+
+    @Override
+    public void setTileGCBulkPauseInMillis(final long pMillis) {
+        mTileGCBulkPauseInMillis = pMillis;
     }
 }

@@ -116,42 +116,11 @@ public class SqlTileWriter implements IFilesystemCache {
             return;
         }
 
-        long diff = dbLength - Configuration.getInstance().getTileFileSystemCacheTrimBytes();
-        final int limit = 20;
-        final StringBuilder where = new StringBuilder();
-        String sep;
-        while(diff > 0) {
-            final long now = System.currentTimeMillis();
-            final Cursor cur = db.rawQuery(
-                    "SELECT " + COLUMN_KEY + ",LENGTH(HEX(" + COLUMN_TILE + "))/2 " +
-                    "FROM " + DatabaseFileArchive.TABLE + " " +
-                    "WHERE " + COLUMN_EXPIRES + " IS NOT NULL AND " + COLUMN_EXPIRES + " < " + now + " " +
-                    "ORDER BY " + COLUMN_EXPIRES + " ASC " +
-                    "LIMIT " + limit, null);
-
-            cur.moveToFirst();
-            where.setLength(0);
-            where.append(COLUMN_KEY + " in (");
-            sep = "";
-            while(!cur.isAfterLast()) {
-                final long key = cur.getLong(0);
-                final long size = cur.getLong(1);
-                cur.moveToNext();
-
-                where.append(sep).append(key);
-                sep = ",";
-                diff -= size;
-                if (diff <= 0) { // we already have enough tiles to delete
-                    break;
-                }
-            }
-            cur.close();
-            if ("".equals(sep)) { // nothing to delete
-                return;
-            }
-            where.append(')');
-            db.delete(TABLE,  where.toString(), null);
-        }
+        runCleanupOperation(
+                dbLength - Configuration.getInstance().getTileFileSystemCacheTrimBytes(),
+                Configuration.getInstance().getTileGCBulkSize(),
+                Configuration.getInstance().getTileGCBulkPauseInMillis(),
+                true);
     }
 
     @Override
@@ -182,7 +151,7 @@ public class SqlTileWriter implements IFilesystemCache {
             db.insert(TABLE, null, cv);
             if (Configuration.getInstance().isDebugMode())
                 Log.d(IMapView.LOGTAG, "tile inserted " + pTileSourceInfo.name() + MapTileIndex.toString(pMapTileIndex));
-            if (System.currentTimeMillis() > lastSizeCheck + 300000){
+            if (System.currentTimeMillis() > lastSizeCheck + Configuration.getInstance().getTileGCFrequencyInMillis()){
                 lastSizeCheck = System.currentTimeMillis();
                 garbageCollector.gc();
             }
@@ -632,6 +601,76 @@ public class SqlTileWriter implements IFilesystemCache {
         } finally {
             if (inputStream != null) {
                 StreamUtils.closeStream(inputStream);
+            }
+        }
+    }
+
+    /**
+     * @since 6.0.2
+     * @param pToBeDeleted Amount of bytes to delete (as tile blob size)
+     * @param pBulkSize Number of tiles to delete in bulk
+     * @param pPauseMillis Pause between bulk actions, in order not to play it not aggressive on the CPU
+     * @param pIncludeUnexpired Should we also delete tiles that are not expired?
+     */
+    public void runCleanupOperation(final long pToBeDeleted, final int pBulkSize,
+                                    final long pPauseMillis, final boolean pIncludeUnexpired) {
+        long diff = pToBeDeleted;
+        final StringBuilder where = new StringBuilder();
+        String sep;
+        boolean first = true;
+        while(diff > 0) {
+            if (first) {
+                first = false;
+            } else {
+                if (pPauseMillis > 0) {
+                    try {
+                        Thread.sleep(pPauseMillis);
+                    } catch (InterruptedException e) {
+                        //
+                    }
+                }
+            }
+            final long now = System.currentTimeMillis();
+            final Cursor cur;
+            try {
+                cur = db.rawQuery(
+                        "SELECT " + COLUMN_KEY + ",LENGTH(HEX(" + COLUMN_TILE + "))/2 " +
+                                "FROM " + DatabaseFileArchive.TABLE + " " +
+                                "WHERE " +
+                                COLUMN_EXPIRES + " IS NOT NULL " +
+                                (pIncludeUnexpired ? "" : "AND " + COLUMN_EXPIRES + " < " + now + " ") +
+                                "ORDER BY " + COLUMN_EXPIRES + " ASC " +
+                                "LIMIT " + pBulkSize, null);
+            } catch(NullPointerException e) {
+                // may be called after onDetach, where db = null
+                return;
+            }
+            cur.moveToFirst();
+            where.setLength(0);
+            where.append(COLUMN_KEY + " in (");
+            sep = "";
+            while(!cur.isAfterLast()) {
+                final long key = cur.getLong(0);
+                final long size = cur.getLong(1);
+                cur.moveToNext();
+
+                where.append(sep).append(key);
+                sep = ",";
+                diff -= size;
+                if (diff <= 0) { // we already have enough tiles to delete
+                    break;
+                }
+            }
+            cur.close();
+            if ("".equals(sep)) { // nothing to delete
+                return;
+            }
+            where.append(')');
+            try {
+                db.delete(TABLE, where.toString(), null);
+            } catch(NullPointerException e) {
+                // may be called after onDetach, where db = null
+                return;
             }
         }
     }

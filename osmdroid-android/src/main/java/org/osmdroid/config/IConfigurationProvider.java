@@ -393,4 +393,37 @@ public interface IConfigurationProvider {
      * @return
      */
     short getCacheMapTileOvershoot();
+
+    /**
+     * Delay between tile garbage collection calls
+     * @since 6.0.2
+     */
+    long getTileGCFrequencyInMillis();
+
+    /**
+     * @since 6.0.2
+     */
+    void setTileGCFrequencyInMillis(final long pMillis);
+
+    /**
+     * Tile garbage collection bulk size
+     * @since 6.0.2
+     */
+    int getTileGCBulkSize();
+
+    /**
+     * @since 6.0.2
+     */
+    void setTileGCBulkSize(final int pSize);
+
+    /**
+     * Pause during tile garbage collection bulk deletions
+     * @since 6.0.2
+     */
+    long getTileGCBulkPauseInMillis();
+
+    /**
+     * @since 6.0.2
+     */
+    void setTileGCBulkPauseInMillis(final long pMillis);
 }
