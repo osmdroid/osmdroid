@@ -402,4 +402,57 @@ class LinearRing{
 		this.isHorizontalRepeating = pMapView.isHorizontalMapRepetitionEnabled();
 		this.isVerticalRepeating = pMapView.isVerticalMapRepetitionEnabled();
 	}
+
+	/**
+	 * @since 6.0.2
+	 */
+	public GeoPoint getCenter(final GeoPoint pReuse) {
+		final GeoPoint out = pReuse != null ? pReuse : new GeoPoint(0., 0);
+		long minX = 0;
+		long maxX = 0;
+		long minY = 0;
+		long maxY = 0;
+		boolean first = true;
+		final PointL previous = new PointL();
+		final PointL current = new PointL();
+		final long projectedMapSize = 1L << 60; // should be accurate enough
+		for (final GeoPoint currentGeo : mOriginalPoints) {
+			TileSystem.getMercatorFromGeo(currentGeo.getLatitude(), currentGeo.getLongitude(), projectedMapSize, current, false);
+			if (first) {
+				first = false;
+				minX = maxX = current.x;
+				minY = maxY = current.y;
+			} else {
+				setCloserPoint(previous, current, projectedMapSize);
+				if (minX > current.x) {
+					minX = current.x;
+				}
+				if (maxX < current.x) {
+					maxX = current.x;
+				}
+				if (minY > current.y) {
+					minY = current.y;
+				}
+				if (maxY < current.y) {
+					maxY = current.y;
+				}
+			}
+			previous.set(current.x, current.y);
+		}
+		long centerX = (minX + maxX) / 2;
+		while (centerX < 0) {
+			centerX += projectedMapSize;
+		}
+		while (centerX >= projectedMapSize) {
+			centerX -= projectedMapSize;
+		}
+		long centerY = (minY + maxY) / 2;
+		while (centerY < 0) {
+			centerY += projectedMapSize;
+		}
+		while (centerY >= projectedMapSize) {
+			centerY -= projectedMapSize;
+		}
+		return TileSystem.getGeoFromMercator(centerX, centerY, projectedMapSize, out, false, false);
+	}
 }
