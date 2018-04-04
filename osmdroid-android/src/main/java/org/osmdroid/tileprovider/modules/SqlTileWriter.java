@@ -14,6 +14,7 @@ import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.util.Counters;
 import org.osmdroid.tileprovider.util.StreamUtils;
 import org.osmdroid.util.MapTileIndex;
+import org.osmdroid.util.GarbageCollector;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
@@ -27,6 +28,7 @@ import java.util.List;
 
 import static org.osmdroid.tileprovider.modules.DatabaseFileArchive.COLUMN_PROVIDER;
 import static org.osmdroid.tileprovider.modules.DatabaseFileArchive.COLUMN_KEY;
+import static org.osmdroid.tileprovider.modules.DatabaseFileArchive.COLUMN_TILE;
 import static org.osmdroid.tileprovider.modules.DatabaseFileArchive.TABLE;
 
 /**
@@ -44,6 +46,7 @@ import static org.osmdroid.tileprovider.modules.DatabaseFileArchive.TABLE;
 public class SqlTileWriter implements IFilesystemCache {
     public static final String DATABASE_FILENAME = "cache.db";
     public static final String COLUMN_EXPIRES ="expires";
+    public static final String COLUMN_EXPIRES_INDEX ="expires_index";
 
     private static boolean cleanOnStartup=true;
     /*
@@ -60,12 +63,13 @@ public class SqlTileWriter implements IFilesystemCache {
     protected File db_file;
     protected SQLiteDatabase db;
     protected long lastSizeCheck=0;
+    private final GarbageCollector garbageCollector = new GarbageCollector(new Runnable() {
+        @Override
+        public void run() {
+            runCleanupOperation();
+        }
+    });
 
-    /**
-     * mean tile size computed on first use.
-     * Sizes are quite variable and a significant underestimate will result in too many tiles being purged.
-     */
-    long tileSize=0l;
     static boolean hasInited=false;
 
     public SqlTileWriter() {
@@ -84,15 +88,7 @@ public class SqlTileWriter implements IFilesystemCache {
             hasInited = true;
 
             if (cleanOnStartup) {
-                // do this in the background because it takes a long time
-                final Thread t = new Thread() {
-                    @Override
-                    public void run() {
-                        runCleanupOperation();
-                    }
-                };
-                t.setPriority(Thread.MIN_PRIORITY);
-                t.start();
+                garbageCollector.gc();
             }
         }
     }
@@ -111,47 +107,20 @@ public class SqlTileWriter implements IFilesystemCache {
             return;
         }
 
-        try {
-            if (db_file.length() > Configuration.getInstance().getTileFileSystemCacheMaxBytes()) {
-                //run the reaper (remove all old expired tiles)
-                //keep if now is < expiration date
-                //delete if now is > expiration date
-                long now = System.currentTimeMillis();
-                //this part will nuke all expired tiles, not super useful if you're offline
-                //int rows = db.delete(TABLE, "expires < ?", new String[]{System.currentTimeMillis() + ""});
-                //Log.d(IMapView.LOGTAG, "Local storage cache purged " + rows + " expired tiles in " + (System.currentTimeMillis() - now) + "ms, cache size is " + db_file.length() + "bytes");
+        // index creation is run now (regardless of the table size)
+        // therefore potentially on a small table, for better index creation performances
+        db.execSQL("CREATE INDEX IF NOT EXISTS " + COLUMN_EXPIRES_INDEX + " ON " + TABLE + " (" + COLUMN_EXPIRES +");");
 
-                //attempt to trim the database
-                //note, i considered adding a looping mechanism here but sqlite can behave differently
-                //i.e. there's no guarantee that the database file size shrinks immediately.
-                Log.i(IMapView.LOGTAG, "Local cache is now " + db_file.length() + " max size is " + Configuration.getInstance().getTileFileSystemCacheMaxBytes());
-                long diff = db_file.length() - Configuration.getInstance().getTileFileSystemCacheTrimBytes();
-                if (tileSize == 0l) {
-                    long count = getRowCount(null);
-                    tileSize = count > 0l ? db_file.length() / count : 4000;
-                    if (Configuration.getInstance().isDebugMode()) {
-                        Log.d(IMapView.LOGTAG, "Number of cached tiles is " + count + ", mean size is " + tileSize);
-                    }
-                }
-                long tilesToKill = diff / tileSize;
-                Log.d(IMapView.LOGTAG, "Local cache purging " + tilesToKill + " tiles.");
-                if (tilesToKill > 0)
-                    try {
-                        db.execSQL("DELETE FROM " + TABLE + " WHERE " + COLUMN_KEY + " in (SELECT " + COLUMN_KEY + " FROM " + TABLE + " ORDER BY " + COLUMN_EXPIRES + " ASC LIMIT " + tilesToKill + ")");
-                    } catch (Throwable t) {
-                        Log.e(IMapView.LOGTAG, "error purging tiles from the tile cache", t);
-                    }
-                Log.d(IMapView.LOGTAG, "purge completed in " + (System.currentTimeMillis() - now) + "ms, cache size is " + db_file.length() + " bytes");
-            }
-        } catch (Exception ex) {
-            if (Configuration.getInstance().isDebugMode()) {
-                Log.d(IMapView.LOGTAG, "SqliteTileWriter init thread crash, db is probably not available", ex);
-            }
+        final long dbLength = db_file.length();
+        if (dbLength <= Configuration.getInstance().getTileFileSystemCacheMaxBytes()) {
+            return;
         }
 
-        if (Configuration.getInstance().isDebugMode()) {
-            Log.d(IMapView.LOGTAG, "Finished init thread");
-        }
+        runCleanupOperation(
+                dbLength - Configuration.getInstance().getTileFileSystemCacheTrimBytes(),
+                Configuration.getInstance().getTileGCBulkSize(),
+                Configuration.getInstance().getTileGCBulkPauseInMillis(),
+                true);
     }
 
     @Override
@@ -182,16 +151,14 @@ public class SqlTileWriter implements IFilesystemCache {
             db.insert(TABLE, null, cv);
             if (Configuration.getInstance().isDebugMode())
                 Log.d(IMapView.LOGTAG, "tile inserted " + pTileSourceInfo.name() + MapTileIndex.toString(pMapTileIndex));
-            if (System.currentTimeMillis() > lastSizeCheck + 300000){
+            if (System.currentTimeMillis() > lastSizeCheck + Configuration.getInstance().getTileGCFrequencyInMillis()){
                 lastSizeCheck = System.currentTimeMillis();
-                if (db_file!=null && db_file.length() > Configuration.getInstance().getTileFileSystemCacheMaxBytes()) {
-                    runCleanupOperation();
-                }
+                garbageCollector.gc();
             }
         } catch (SQLiteFullException ex) {
             //the drive is full! trigger the clean up operation
             //may want to consider reducing the trim size automagically
-            runCleanupOperation();
+            garbageCollector.gc();
         } catch (Throwable ex) {
             //note, although we check for db null state at the beginning of this method, it's possible for the
             //db to be closed during the execution of this method
@@ -634,6 +601,76 @@ public class SqlTileWriter implements IFilesystemCache {
         } finally {
             if (inputStream != null) {
                 StreamUtils.closeStream(inputStream);
+            }
+        }
+    }
+
+    /**
+     * @since 6.0.2
+     * @param pToBeDeleted Amount of bytes to delete (as tile blob size)
+     * @param pBulkSize Number of tiles to delete in bulk
+     * @param pPauseMillis Pause between bulk actions, in order not to play it not aggressive on the CPU
+     * @param pIncludeUnexpired Should we also delete tiles that are not expired?
+     */
+    public void runCleanupOperation(final long pToBeDeleted, final int pBulkSize,
+                                    final long pPauseMillis, final boolean pIncludeUnexpired) {
+        long diff = pToBeDeleted;
+        final StringBuilder where = new StringBuilder();
+        String sep;
+        boolean first = true;
+        while(diff > 0) {
+            if (first) {
+                first = false;
+            } else {
+                if (pPauseMillis > 0) {
+                    try {
+                        Thread.sleep(pPauseMillis);
+                    } catch (InterruptedException e) {
+                        //
+                    }
+                }
+            }
+            final long now = System.currentTimeMillis();
+            final Cursor cur;
+            try {
+                cur = db.rawQuery(
+                        "SELECT " + COLUMN_KEY + ",LENGTH(HEX(" + COLUMN_TILE + "))/2 " +
+                                "FROM " + DatabaseFileArchive.TABLE + " " +
+                                "WHERE " +
+                                COLUMN_EXPIRES + " IS NOT NULL " +
+                                (pIncludeUnexpired ? "" : "AND " + COLUMN_EXPIRES + " < " + now + " ") +
+                                "ORDER BY " + COLUMN_EXPIRES + " ASC " +
+                                "LIMIT " + pBulkSize, null);
+            } catch(NullPointerException e) {
+                // may be called after onDetach, where db = null
+                return;
+            }
+            cur.moveToFirst();
+            where.setLength(0);
+            where.append(COLUMN_KEY + " in (");
+            sep = "";
+            while(!cur.isAfterLast()) {
+                final long key = cur.getLong(0);
+                final long size = cur.getLong(1);
+                cur.moveToNext();
+
+                where.append(sep).append(key);
+                sep = ",";
+                diff -= size;
+                if (diff <= 0) { // we already have enough tiles to delete
+                    break;
+                }
+            }
+            cur.close();
+            if ("".equals(sep)) { // nothing to delete
+                return;
+            }
+            where.append(')');
+            try {
+                db.delete(TABLE, where.toString(), null);
+            } catch(NullPointerException e) {
+                // may be called after onDetach, where db = null
+                return;
             }
         }
     }
