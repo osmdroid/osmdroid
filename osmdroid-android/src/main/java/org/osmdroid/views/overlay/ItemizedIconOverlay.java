@@ -5,7 +5,6 @@ import java.util.List;
 import org.osmdroid.api.IMapView;
 import org.osmdroid.library.R;
 import org.osmdroid.views.MapView;
-import org.osmdroid.views.Projection;
 
 import android.content.Context;
 import android.graphics.Point;
@@ -16,8 +15,6 @@ public class ItemizedIconOverlay<Item extends OverlayItem> extends ItemizedOverl
 
 	protected List<Item> mItemList;
 	protected OnItemGestureListener<Item> mOnItemGestureListener;
-
-	private final Point mItemPoint = new Point();
 
 	public ItemizedIconOverlay(
 			final List<Item> pList,
@@ -165,22 +162,10 @@ public class ItemizedIconOverlay<Item extends OverlayItem> extends ItemizedOverl
 	 */
 	private boolean activateSelectedItems(final MotionEvent event, final MapView mapView,
 			final ActiveItem task) {
-		final Projection pj = mapView.getProjection();
-		final int eventX = (int) event.getX();
-		final int eventY = (int) event.getY();
-
+		final int eventX = Math.round(event.getX());
+		final int eventY = Math.round(event.getY());
 		for (int i = 0; i < this.mItemList.size(); ++i) {
-			final Item item = getItem(i);
-			if (item == null) {
-				continue;
-			}
-
-			final Drawable marker = (item.getMarker(0) == null) ?
-					this.mDefaultMarker : item.getMarker(0);
-
-			pj.toPixels(item.getPoint(), mItemPoint);
-
-			if (hitTest(item, marker, eventX - mItemPoint.x, eventY - mItemPoint.y)) {
+			if (isEventOnItem(getItem(i), eventX, eventY, mapView)) {
 				if (task.run(i)) {
 					return true;
 				}
