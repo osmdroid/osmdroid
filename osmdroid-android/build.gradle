@@ -10,5 +10,5 @@ android {
 
 dependencies {
     testCompile "junit:junit:${project.property('junit.version')}"
+    testCompile "org.robolectric:robolectric:${project.property('robolectric.version')}"
 }
-
