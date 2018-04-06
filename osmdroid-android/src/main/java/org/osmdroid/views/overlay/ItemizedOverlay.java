@@ -1,13 +1,6 @@
 // Created by plusminus on 23:18:23 - 02.10.2008
 package org.osmdroid.views.overlay;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.osmdroid.views.MapView;
-import org.osmdroid.views.Projection;
-import org.osmdroid.views.overlay.OverlayItem.HotspotPlace;
-
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
@@ -15,6 +8,11 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.view.MotionEvent;
+import java.util.ArrayList;
+import java.util.List;
+import org.osmdroid.views.MapView;
+import org.osmdroid.views.Projection;
+import org.osmdroid.views.overlay.OverlayItem.HotspotPlace;
 
 /**
  * Draws a list of {@link OverlayItem} as markers to a map. The item with the lowest index is drawn
@@ -52,6 +50,9 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends Overlay 
      private final Matrix mMatrix = new Matrix();
      protected float scaleX=1f;
      protected float scaleY=1f;
+
+	private Rect itemRect = new Rect();
+	private Rect screenRect = new Rect();
 
 	// ===========================================================
 	// Abstract methods
@@ -161,6 +162,10 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends Overlay 
           scaleY = (float) Math.sqrt(mMatrixValues[Matrix.MSCALE_Y]
                * mMatrixValues[Matrix.MSCALE_Y] + mMatrixValues[Matrix.MSKEW_X]
                * mMatrixValues[Matrix.MSKEW_X]);
+
+					mapView.getScreenRect(screenRect);
+
+
 		/* Draw in backward cycle, so the items with the least index are on the front. */
         for (int i = size - 1; i >= 0; i--) {
             final Item item = getItem(i);
@@ -169,8 +174,9 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends Overlay 
             }
 
             pj.toPixels(item.getPoint(), mCurScreenCoords);
+						calculateItemRect(item, mCurScreenCoords, itemRect);
 
-            if (mapView.getBoundingBox().contains(item.getPoint()))
+					if(Rect.intersects(screenRect, itemRect))
 				mInternalItemDisplayedList[i] = onDrawItem(canvas,item, mCurScreenCoords, mapView);
         }
     }
@@ -434,6 +440,93 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends Overlay 
 		}
 		marker.setBounds(mRect);
 		return marker;
+	}
+
+	/**
+	 * Calculates the screen rect for an item.
+	 *
+	 * @param item
+	 * @param coords
+	 * @param reuse
+	 * @return
+	 */
+	protected Rect calculateItemRect(Item item, Point coords, Rect reuse) {
+		final Rect out = reuse != null ? reuse : new Rect();
+
+		HotspotPlace hotspot = item.getMarkerHotspot();
+		if (hotspot == null) {
+			hotspot = HotspotPlace.BOTTOM_CENTER;
+		}
+
+		final int state = (mDrawFocusedItem && (mFocusedItem == item) ? OverlayItem.ITEM_STATE_FOCUSED_MASK : 0);
+		final Drawable marker = (item.getMarker(state) == null) ? getDefaultMarker(state) : item.getMarker(state);
+		int itemWidth = marker.getIntrinsicWidth();
+		int itemHeight = marker.getIntrinsicHeight();
+
+		switch (hotspot) {
+			case NONE:
+				out.set(coords.x - itemWidth / 2,
+						coords.y - itemHeight / 2,
+						coords.x + itemWidth / 2,
+						coords.y + itemHeight / 2);
+				break;
+			case CENTER:
+				out.set(coords.x - itemWidth / 2,
+						coords.y - itemHeight / 2,
+						coords.x + itemWidth / 2,
+						coords.y + itemHeight / 2);
+				break;
+			case BOTTOM_CENTER:
+				out.set(coords.x - itemWidth / 2,
+						coords.y - itemHeight,
+						coords.x + itemWidth / 2,
+						coords.y);
+				break;
+			case TOP_CENTER:
+				out.set(coords.x - itemWidth / 2,
+						coords.y,
+						coords.x + itemWidth / 2,
+						coords.y + itemHeight);
+				break;
+			case RIGHT_CENTER:
+				out.set(coords.x - itemWidth,
+						coords.y - itemHeight / 2,
+						coords.x ,
+						coords.y + itemHeight / 2);
+				break;
+			case LEFT_CENTER:
+				out.set(coords.x,
+						coords.y - itemHeight / 2,
+						coords.x + itemWidth,
+						coords.y + itemHeight / 2);
+				break;
+			case UPPER_RIGHT_CORNER:
+				out.set(coords.x - itemWidth,
+						coords.y,
+						coords.x ,
+						coords.y + itemHeight);
+				break;
+			case LOWER_RIGHT_CORNER:
+				out.set(coords.x - itemWidth,
+						coords.y - itemHeight,
+						coords.x,
+						coords.y);
+				break;
+			case UPPER_LEFT_CORNER:
+				out.set(coords.x ,
+						coords.y,
+						coords.x + itemWidth,
+						coords.y + itemHeight);
+				break;
+			case LOWER_LEFT_CORNER:
+				out.set(coords.x ,
+						coords.y - itemHeight,
+						coords.x + itemWidth,
+						coords.y);
+				break;
+		}
+
+		return out;
 	}
 
 	public void setOnFocusChangeListener(OnFocusChangeListener l) {
