@@ -806,14 +806,14 @@ public class CacheManager {
     public static class CacheManagerTask extends AsyncTask<Object, Integer, Integer> {
         private final CacheManager mManager;
         private final CacheManagerAction mAction;
-        private final Iterable<Long> mTiles;
+        private final IterableWithSize<Long> mTiles;
         private final int mZoomMin;
         private final int mZoomMax;
         private final ArrayList<CacheManagerCallback> mCallbacks = new ArrayList<>();
 
         private CacheManagerTask(final CacheManager pManager, final CacheManagerAction pAction,
-                                 final Iterable<Long> pTiles,
-                                 final int pZoomMin, final int pZoomMax) {
+                                final IterableWithSize<Long> pTiles,
+                                final int pZoomMin, final int pZoomMax) {
             mManager = pManager;
             mAction = pAction;
             mTiles = pTiles;
@@ -824,7 +824,7 @@ public class CacheManager {
         public CacheManagerTask(final CacheManager pManager, final CacheManagerAction pAction,
                                 final List<Long> pTiles,
                                 final int pZoomMin, final int pZoomMax) {
-            this(pManager, pAction, (Iterable<Long>) pTiles, pZoomMin, pZoomMax);
+            this(pManager, pAction, new ListWrapper<>(pTiles), pZoomMin, pZoomMax);
         }
 
         public CacheManagerTask(final CacheManager pManager,  final CacheManagerAction pAction,
@@ -847,12 +847,7 @@ public class CacheManager {
 
         @Override
         protected void onPreExecute(){
-            int total = 0;
-            if (mTiles instanceof IterableWithSize) {
-                total = ((IterableWithSize) mTiles).size();
-            } else if (mTiles instanceof Collection) {
-                total = ((Collection) mTiles).size();
-            }
+            final int total = mTiles.size();
             for (final CacheManagerCallback callback : mCallbacks) {
                 try {
                     callback.setPossibleTilesInArea(total);
@@ -981,6 +976,24 @@ public class CacheManager {
          * @return true if you want to increment the action counter
          */
         boolean tileAction(final long pMapTileIndex);
+    }
+
+    private static class ListWrapper<T> implements IterableWithSize<T> {
+        private final List<T> list;
+
+        private ListWrapper(List<T> list) {
+            this.list = list;
+        }
+
+        @Override
+        public int size() {
+            return list.size();
+        }
+
+        @Override
+        public Iterator<T> iterator() {
+            return list.iterator();
+        }
     }
 
     interface IterableWithSize<T> extends Iterable<T> {
