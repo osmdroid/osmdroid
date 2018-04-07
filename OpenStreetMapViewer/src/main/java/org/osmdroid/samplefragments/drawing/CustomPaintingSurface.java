@@ -11,12 +11,14 @@ import android.graphics.Point;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Toast;
 
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
 import org.osmdroid.views.overlay.Polygon;
 import org.osmdroid.views.overlay.Polyline;
+import org.osmdroid.views.overlay.infowindow.BasicInfoWindow;
 import org.osmdroid.views.overlay.milestones.MilestoneBitmapDisplayer;
 import org.osmdroid.views.overlay.milestones.MilestoneManager;
 import org.osmdroid.views.overlay.milestones.MilestonePathDisplayer;
@@ -128,7 +130,12 @@ public class CustomPaintingSurface extends View {
                     case Polyline:
                         final int color = Color.BLACK;
                         Polyline line = new Polyline(map);
+                        line.setInfoWindow(
+                                new BasicInfoWindow(org.osmdroid.library.R.layout.bonuspack_bubble, map));
+                        line.setColor(color);
+                        line.setTitle("This is a polyline");
                         line.setPoints(geoPoints);
+                        line.showInfoWindow();
                         //example below
                         /*
                         line.setOnClickListener(new Polyline.OnClickListener() {
@@ -139,8 +146,6 @@ public class CustomPaintingSurface extends View {
                             }
                         });
                         */
-                        line.setColor(color);
-                        line.setTitle("This is a polyline");
 
                         if (withArrows) {
                             final Paint arrowPaint = new Paint();
@@ -165,9 +170,12 @@ public class CustomPaintingSurface extends View {
                         break;
                     case Polygon:
                         Polygon polygon = new Polygon(map);
+                        polygon.setInfoWindow(
+                                new BasicInfoWindow(org.osmdroid.library.R.layout.bonuspack_bubble, map));
                         polygon.setFillColor(Color.argb(75, 255,0,0));
                         polygon.setPoints(geoPoints);
                         polygon.setTitle("A sample polygon");
+                        polygon.showInfoWindow();
                         if (withArrows) {
                             final Bitmap bitmap = BitmapFactory.decodeResource(getResources(), org.osmdroid.library.R.drawable.direction_arrow);
                             final List<MilestoneManager> managers = new ArrayList<>();
@@ -177,6 +185,15 @@ public class CustomPaintingSurface extends View {
                             ));
                             polygon.setMilestoneManagers(managers);
                         }
+                        polygon.setOnClickListener(new Polygon.OnClickListener() {
+                            @Override
+                            public boolean onClick(Polygon polygon, MapView mapView, GeoPoint eventPos) {
+                                lastPolygon = polygon;
+                                polygon.onClickDefault(polygon, mapView, eventPos);
+                                Toast.makeText(mapView.getContext(), "polygon with " + polygon.getPoints().size() + "pts was tapped", Toast.LENGTH_LONG).show();
+                                return false;
+                            }
+                        });
                         map.getOverlayManager().add(polygon);
                         lastPolygon=polygon;
                         break;

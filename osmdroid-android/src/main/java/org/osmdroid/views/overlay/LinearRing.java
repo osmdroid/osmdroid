@@ -15,13 +15,14 @@ import org.osmdroid.util.SegmentClipper;
 import org.osmdroid.util.TileSystem;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
+import org.osmdroid.views.util.constants.MathConstants;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Class holding one ring: the polygon outline, or a hole inside the polygon
- * Used to be an inner class of {@link Polygon}
+ * Used to be an inner class of {@link Polygon} and {@link Polyline}
  * @since 6.0.0
  * @author Fabrice Fontaine
  */
@@ -55,6 +56,7 @@ class LinearRing{
 	private boolean isVerticalRepeating  = true;
 	private final ListPointL mPointsForMilestones = new ListPointL();
 	private final PointAccepter mPointAccepter;
+	private boolean mGeodesic = false;
 
 	/**
 	 * Dedicated to `Path`
@@ -81,12 +83,61 @@ class LinearRing{
 		mPointAccepter.init();
 	}
 
-	void addPoint(final GeoPoint pGeoPoint) {
-		mOriginalPoints.add(pGeoPoint);
+	protected void addGreatCircle(final GeoPoint startPoint, final GeoPoint endPoint, final int numberOfPoints) {
+		//	adapted from page http://compastic.blogspot.co.uk/2011/07/how-to-draw-great-circle-on-map-in.html
+		//	which was adapted from page http://maps.forum.nu/gm_flight_path.html
+
+		// convert to radians
+		final double lat1 = startPoint.getLatitude() * MathConstants.DEG2RAD;
+		final double lon1 = startPoint.getLongitude() * MathConstants.DEG2RAD;
+		final double lat2 = endPoint.getLatitude() * MathConstants.DEG2RAD;
+		final double lon2 = endPoint.getLongitude() * MathConstants.DEG2RAD;
+
+		final double d = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin((lat1 - lat2) / 2), 2) + Math.cos(lat1) * Math.cos(lat2)
+				* Math.pow(Math.sin((lon1 - lon2) / 2), 2)));
+		/*
+		double bearing = Math.atan2(Math.sin(lon1 - lon2) * Math.cos(lat2),
+				Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(lon1 - lon2))
+				/ -MathConstants.DEG2RAD;
+		bearing = bearing < 0 ? 360 + bearing : bearing;
+		*/
+
+		for (int i = 1; i <= numberOfPoints; i++) {
+			final double f = 1.0 * i / (numberOfPoints + 1);
+			final double A = Math.sin((1 - f) * d) / Math.sin(d);
+			final double B = Math.sin(f * d) / Math.sin(d);
+			final double x = A * Math.cos(lat1) * Math.cos(lon1) + B * Math.cos(lat2) * Math.cos(lon2);
+			final double y = A * Math.cos(lat1) * Math.sin(lon1) + B * Math.cos(lat2) * Math.sin(lon2);
+			final double z = A * Math.sin(lat1) + B * Math.sin(lat2);
+
+			final double latN = Math.atan2(z, Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)));
+			final double lonN = Math.atan2(y, x);
+			GeoPoint p = new GeoPoint(latN * MathConstants.RAD2DEG, lonN * MathConstants.RAD2DEG);
+			mOriginalPoints.add(p);
+		}
+	}
+
+	public void addPoint(final GeoPoint p) {
+		if (mGeodesic && mOriginalPoints.size()>0){
+			//add potential intermediate points:
+			GeoPoint prev = mOriginalPoints.get(mOriginalPoints.size() - 1);
+			final int greatCircleLength = (int) prev.distanceToAsDouble(p);
+			//add one point for every 100kms of the great circle path
+			final int numberOfPoints = greatCircleLength / 100000;
+			addGreatCircle(prev, p, numberOfPoints);
+		}
+		mOriginalPoints.add(p);
 		mPrecomputed = false;
 	}
 
-	ArrayList<GeoPoint> getPoints(){
+	public void setPoints(final List<GeoPoint> points) {
+		clearPath();
+		for (GeoPoint p:points) {
+			addPoint(p);
+		}
+	}
+
+	public ArrayList<GeoPoint> getPoints(){
 		return mOriginalPoints;
 	}
 
@@ -94,12 +145,10 @@ class LinearRing{
 		return mDistances;
 	}
 
-	void setPoints(final List<GeoPoint> points) {
-		clearPath();
-		for (final GeoPoint point : points) {
-			addPoint(point);
-		}
+	public void setGeodesic(boolean geodesic) {
+		mGeodesic = geodesic;
 	}
+	public boolean isGeodesic() { return mGeodesic; }
 
 	/**
 	 * Feed the path with the segments corresponding to the GeoPoint pairs

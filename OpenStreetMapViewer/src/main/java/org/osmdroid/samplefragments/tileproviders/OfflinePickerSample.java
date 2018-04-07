@@ -299,13 +299,33 @@ public class OfflinePickerSample extends BaseSampleFragment implements View.OnCl
                         mMapView.setTileSource(strName);//new XYTileSource(strName, 0, 22, 256, "png", new String[0]));
                         //on tile sources that are supported, center the map an area that's within bounds
                         if (strName instanceof MapsForgeTileSource) {
-                            MapsForgeTileSource src = (MapsForgeTileSource) strName;
-                            mMapView.getController().setZoom(src.getMinimumZoomLevel());
-                            mMapView.zoomToBoundingBox(src.getBoundsOsmdroid(), true);
+                            final MapsForgeTileSource src = (MapsForgeTileSource) strName;
+                            mMapView.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    mMapView.getController().setZoom(src.getMinimumZoomLevel());
+                                    mMapView.setMinZoomLevel((double) src.getMinimumZoomLevel());
+                                    mMapView.setMaxZoomLevel((double) src.getMaximumZoomLevel());
+
+                                    mMapView.invalidate();
+                                    mMapView.zoomToBoundingBox(src.getBoundsOsmdroid(), true);
+
+                                }
+                            });
+
+
                         } else if (strName instanceof GeopackageRasterTileSource) {
-                            GeopackageRasterTileSource src = (GeopackageRasterTileSource) strName;
-                            mMapView.zoomToBoundingBox(src.getBounds(), true);
-                            mMapView.getController().setZoom(src.getMinimumZoomLevel());
+                            final GeopackageRasterTileSource src = (GeopackageRasterTileSource) strName;
+                            mMapView.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    mMapView.getController().setZoom(src.getMinimumZoomLevel());
+                                    mMapView.setMinZoomLevel((double) src.getMinimumZoomLevel());
+                                    mMapView.setMaxZoomLevel((double) src.getMaximumZoomLevel());
+                                    mMapView.invalidate();
+                                    mMapView.zoomToBoundingBox(src.getBounds(), true);
+                                }
+                            });
                         }
 
                         dialog.dismiss();
