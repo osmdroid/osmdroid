@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.graphics.Point;
+import android.graphics.Rect;
 import android.os.AsyncTask;
 import android.text.TextUtils;
 import android.util.Log;
@@ -22,6 +23,7 @@ import org.osmdroid.tileprovider.util.Counters;
 import org.osmdroid.tileprovider.util.StreamUtils;
 import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
+import org.osmdroid.util.IterableWithSize;
 import org.osmdroid.util.MapTileIndex;
 import org.osmdroid.util.MyMath;
 import org.osmdroid.util.TileSystem;
@@ -40,6 +42,8 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -267,7 +271,7 @@ public class CacheManager {
      * @return list of tiles, sorted by ascending zoom level
      */
     public static List<Long> getTilesCoverage(final BoundingBox pBB,
-                                                 final int pZoomMin, final int pZoomMax) {
+                                              final int pZoomMin, final int pZoomMax) {
         final List<Long> result = new ArrayList<>();
         for (int zoomLevel = pZoomMin; zoomLevel <= pZoomMax; zoomLevel++) {
             final Collection<Long> resultForZoom = getTilesCoverage(pBB, zoomLevel);
@@ -281,9 +285,115 @@ public class CacheManager {
      * @return list of tiles for that zoom level, without any specific order
      */
     public static Collection<Long> getTilesCoverage(final BoundingBox pBB, final int pZoomLevel){
-        final Set<Long> result = new HashSet<>();
+        final Set<Long> result = new LinkedHashSet<>();
+        for (Long mapTile : getTilesCoverageIterable(pBB, pZoomLevel, pZoomLevel)) {
+            result.add(mapTile);
+        }
+        return result;
+    }
+
+    /**
+     * Iterable returning tiles covered by the bounding box sorted by ascending zoom level
+     * @param pBB the given bounding box
+     * @param pZoomMin the given minimum zoom level
+     * @param pZoomMax the given maximum zoom level
+     * @return the iterable described above
+     */
+    static IterableWithSize<Long> getTilesCoverageIterable(final BoundingBox pBB,
+                                                           final int pZoomMin, final int pZoomMax) {
+        return new IterableWithSize<Long>() {
+            private final Map<Integer, Rect> zoomToTilesMap = new LinkedHashMap<>();
+            private final int size;
+            {
+                int totalSize = 0;
+                for (int zoomLevel = pZoomMin; zoomLevel <= pZoomMax; zoomLevel++) {
+                    Rect tilesRect = getTilesRect(pBB, zoomLevel);
+                    int mapTileUpperBound = 1 << zoomLevel;
+                    int width = (tilesRect.width()) % mapTileUpperBound;
+                    int height = (tilesRect.height()) % mapTileUpperBound;
+                    totalSize += (width * height);
+                    zoomToTilesMap.put(zoomLevel, tilesRect);
+                }
+                size = totalSize;
+            }
+
+            @Override
+            public int size() {
+                return size;
+            }
+
+            @Override
+            public Iterator<Long> iterator() {
+                return new Iterator<Long>() {
+                    private Point currentPoint;
+                    private Point lowerRight;
+                    private Point upperLeft;
+                    private int currentZoom;
+                    private int mapTileUpperBound;
+                    {
+                        init(pZoomMin);
+                    }
+
+                    @Override
+                    public boolean hasNext() {
+                        return currentZoom <= pZoomMax;
+                    }
+
+                    @Override
+                    public Long next() {
+                        // save current point coordinates
+                        int x = MyMath.mod(currentPoint.x, mapTileUpperBound);
+                        int y = MyMath.mod(currentPoint.y, mapTileUpperBound);
+                        int zoomLevel = currentZoom;
+
+                        // now calculate the coordinates of the next point
+                        // if there's still a room for y to go then do so
+                        if (y < lowerRight.y - 1) {
+                            currentPoint.y++;
+                        } else if (x < lowerRight.x - 1) { //otherwise, if there's a room for x to go
+                            // switch to the next "column"
+                            currentPoint.y = upperLeft.y;
+                            currentPoint.x++;
+                        } else { // if the latter conditions fail it means currentPoint is the last one
+                            // for the current zoom. Move to the next zoom.
+                            init(zoomLevel + 1);
+                        }
+
+                        // return the tile index of the current point
+                        return MapTileIndex.getTileIndex(zoomLevel, x, y);
+                    }
+
+                    @Override
+                    public void remove() {
+                        throw new UnsupportedOperationException();
+                    }
+
+                    private void init(int zoomLevel) {
+                        currentZoom = zoomLevel;
+                        mapTileUpperBound = 1 << currentZoom;
+                        Rect tilesRect = zoomToTilesMap.get(currentZoom);
+                        if (tilesRect != null) {
+                            upperLeft = new Point(tilesRect.left, tilesRect.top);
+                            currentPoint = new Point(upperLeft);
+                            lowerRight = new Point(tilesRect.right, tilesRect.bottom);
+                        }
+                    }
+                };
+            }
+        };
+    }
+
+    /**
+     * Retrieve upper left and lower right points(exclusive) corresponding to the tiles coverage for
+     * the selected zoom level.
+     * @param pBB the given bounding box
+     * @param pZoomLevel the given zoom level
+     * @return the {@link Rect} reflecting the tiles coverage
+     */
+    private static Rect getTilesRect(final BoundingBox pBB,
+                                     final int pZoomLevel){
         final int mapTileUpperBound = 1 << pZoomLevel;
-        final Point lowerRight = getMapTileFromCoordinates(
+        Point lowerRight = getMapTileFromCoordinates(
                 pBB.getLatSouth(), pBB.getLonEast(), pZoomLevel);
         final Point upperLeft = getMapTileFromCoordinates(
                 pBB.getLatNorth(), pBB.getLonWest(), pZoomLevel);
@@ -295,14 +405,9 @@ public class CacheManager {
         if (height <= 0) {
             height += mapTileUpperBound;
         }
-        for (int i = 0 ; i < width ; i ++) {
-            for (int j = 0 ; j < height ; j ++) {
-                final int x = MyMath.mod(upperLeft.x + i, mapTileUpperBound);
-                final int y = MyMath.mod(upperLeft.y + j, mapTileUpperBound);
-                result.add(MapTileIndex.getTileIndex(pZoomLevel, x, y));
-            }
-        }
-        return result;
+        lowerRight = new Point(upperLeft.x + width, upperLeft.y + height);
+
+        return new Rect(upperLeft.x, upperLeft.y, lowerRight.x, lowerRight.y);
     }
 
     /**
@@ -406,7 +511,7 @@ public class CacheManager {
      * @return the theoretical number of tiles in the specified area
      */
     public int possibleTilesInArea(final BoundingBox pBB, final int pZoomMin, final int pZoomMax) {
-        return getTilesCoverage(pBB, pZoomMin, pZoomMax).size();
+        return getTilesCoverageIterable(pBB, pZoomMin, pZoomMax).size();
     }
     /**
      * @return the theoretical number of tiles covered by the list of points
@@ -537,12 +642,12 @@ public class CacheManager {
         task.addCallback(getDownloadingDialog(ctx, task));
         return execute(task);
     }
-    
-     /*
-     * verifyCancel decides wether user has to confirm the cancel action via a alert
-     * 
-     * @param state
-     */
+
+    /*
+    * verifyCancel decides wether user has to confirm the cancel action via a alert
+    *
+    * @param state
+    */
     public void setVerifyCancel(boolean state){
         verifyCancel = state;
     }
@@ -684,19 +789,25 @@ public class CacheManager {
     public static class CacheManagerTask extends AsyncTask<Object, Integer, Integer> {
         private final CacheManager mManager;
         private final CacheManagerAction mAction;
-        private final List<Long> mTiles;
+        private final IterableWithSize<Long> mTiles;
         private final int mZoomMin;
         private final int mZoomMax;
         private final ArrayList<CacheManagerCallback> mCallbacks = new ArrayList<>();
 
-        public CacheManagerTask(final CacheManager pManager, final CacheManagerAction pAction,
-                                final List<Long> pTiles,
+        private CacheManagerTask(final CacheManager pManager, final CacheManagerAction pAction,
+                                final IterableWithSize<Long> pTiles,
                                 final int pZoomMin, final int pZoomMax) {
             mManager = pManager;
             mAction = pAction;
             mTiles = pTiles;
             mZoomMin = Math.max(pZoomMin, pManager.mMinZoomLevel);
             mZoomMax = Math.min(pZoomMax, pManager.mMaxZoomLevel);
+        }
+
+        public CacheManagerTask(final CacheManager pManager, final CacheManagerAction pAction,
+                                final List<Long> pTiles,
+                                final int pZoomMin, final int pZoomMax) {
+            this(pManager, pAction, new ListWrapper<>(pTiles), pZoomMin, pZoomMax);
         }
 
         public CacheManagerTask(final CacheManager pManager,  final CacheManagerAction pAction,
@@ -708,7 +819,7 @@ public class CacheManager {
         public CacheManagerTask(final CacheManager pManager,  final CacheManagerAction pAction,
                                 final BoundingBox pBB,
                                 final int pZoomMin, final int pZoomMax) {
-            this(pManager, pAction, getTilesCoverage(pBB, pZoomMin, pZoomMax), pZoomMin, pZoomMax);
+            this(pManager, pAction, getTilesCoverageIterable(pBB, pZoomMin, pZoomMax), pZoomMin, pZoomMax);
         }
 
         public void addCallback(final CacheManagerCallback pCallback) {
@@ -848,6 +959,24 @@ public class CacheManager {
          * @return true if you want to increment the action counter
          */
         boolean tileAction(final long pMapTileIndex);
+    }
+
+    private static class ListWrapper<T> implements IterableWithSize<T> {
+        private final List<T> list;
+
+        private ListWrapper(List<T> list) {
+            this.list = list;
+        }
+
+        @Override
+        public int size() {
+            return list.size();
+        }
+
+        @Override
+        public Iterator<T> iterator() {
+            return list.iterator();
+        }
     }
 
     public CacheManagerAction getDownloadingAction() {
