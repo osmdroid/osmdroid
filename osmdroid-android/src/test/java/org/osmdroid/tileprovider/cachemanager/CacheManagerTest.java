@@ -5,11 +5,13 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.osmdroid.util.BoundingBox;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.annotation.Config;
 
 import java.util.Collection;
 import java.util.Iterator;
 
 @RunWith(RobolectricTestRunner.class)
+@Config(manifest = Config.NONE)
 public class CacheManagerTest {
     /**
      * Make sure {@link org.osmdroid.tileprovider.cachemanager.CacheManager#getTilesCoverageIterable(BoundingBox, int, int)} returns the
@@ -45,12 +47,12 @@ public class CacheManagerTest {
         BoundingBox boundingBox = new BoundingBox(52.95131467958858, 13.6473953271975,
                 52.886830733534954, 13.3473953271975);
         //extract the collection using the current way
-        Collection<Long> allPointsCollection = org.osmdroid.tileprovider.cachemanager.CacheManager.getTilesCoverage(boundingBox, minZoom,
+        Collection<Long> allPointsCollection = CacheManager.getTilesCoverage(boundingBox, minZoom,
                 maxZoom);
         Iterator<Long> allPointsIterator = allPointsCollection.iterator();
 
         //retrieve an iterator for returning points in the "lazy" way
-        org.osmdroid.tileprovider.cachemanager.CacheManager.IterableWithSize iterableWithSize = org.osmdroid.tileprovider.cachemanager.CacheManager.getTilesCoverageIterable(boundingBox,
+        CacheManager.IterableWithSize iterableWithSize = CacheManager.getTilesCoverageIterable(boundingBox,
                 minZoom, maxZoom);
 
         //confirm both iterables contain the same number of elements
