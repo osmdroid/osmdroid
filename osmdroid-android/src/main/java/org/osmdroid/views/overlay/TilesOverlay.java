@@ -8,7 +8,6 @@ import org.osmdroid.tileprovider.MapTileProviderBase;
 import org.osmdroid.tileprovider.ReusableBitmapDrawable;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
-import org.osmdroid.util.MapTileList;
 import org.osmdroid.util.RectL;
 import org.osmdroid.util.MapTileIndex;
 import org.osmdroid.util.TileLooper;
@@ -294,7 +293,7 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 
 		@Override
 		public void finaliseLoop() {
-			getTileCache().garbageCollection();
+			getTileCache().maintenance();
 		}
 
 		private MapTileCache getTileCache() {

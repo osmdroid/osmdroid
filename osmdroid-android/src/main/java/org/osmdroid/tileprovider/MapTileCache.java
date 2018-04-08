@@ -5,7 +5,6 @@ import org.osmdroid.api.IMapView;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.util.MapTileList;
 import org.osmdroid.util.MapTileListComputer;
-import org.osmdroid.util.MapTileListZoomComputer;
 
 import android.graphics.drawable.Drawable;
 import android.util.Log;
@@ -55,6 +54,8 @@ public class MapTileCache {
 
 	private int mCapacity;
 
+	private final MapTilePreCache mPreCache;
+
 	// ===========================================================
 	// Constructors
 	// ===========================================================
@@ -69,9 +70,7 @@ public class MapTileCache {
 	 */
 	public MapTileCache(final int aMaximumCacheSize) {
 		ensureCapacity(aMaximumCacheSize);
-		// default computers
-		mComputers.add(new MapTileListZoomComputer(-1));
-		mComputers.add(new MapTileListZoomComputer(1));
+		mPreCache = new MapTilePreCache(this);
 	}
 
 	/**
@@ -220,5 +219,21 @@ public class MapTileCache {
 	 */
 	public int getSize() {
 		return mCachedTiles.size();
+	}
+
+	/**
+	 * Maintenance operations
+	 * @since 6.0.2
+	 */
+	public void maintenance() {
+		garbageCollection();
+		mPreCache.fill();
+	}
+
+	/**
+	 * @since 6.0.2
+	 */
+	public MapTilePreCache getPreCache() {
+		return mPreCache;
 	}
 }

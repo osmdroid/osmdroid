@@ -18,6 +18,8 @@ import org.osmdroid.tileprovider.modules.TileWriter;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.tileprovider.util.SimpleRegisterReceiver;
+import org.osmdroid.util.MapTileListBorderComputer;
+import org.osmdroid.util.MapTileListZoomComputer;
 
 /**
  * This top-level tile provider implements a basic tile request chain which includes a
@@ -105,6 +107,16 @@ public class MapTileProviderBasic extends MapTileProviderArray implements IMapTi
 		approximationProvider.addProvider(assetsProvider);
 		approximationProvider.addProvider(cacheProvider);
 		approximationProvider.addProvider(archiveProvider);
+
+		// protected-cache-tile computers
+		getTileCache().getProtectedTileComputers().add(new MapTileListZoomComputer(-1));
+		getTileCache().getProtectedTileComputers().add(new MapTileListZoomComputer(1));
+		getTileCache().getProtectedTileComputers().add(new MapTileListBorderComputer(1, false));
+
+		// pre-cache providers
+		getTileCache().getPreCache().addProvider(assetsProvider);
+		getTileCache().getPreCache().addProvider(cacheProvider);
+		getTileCache().getPreCache().addProvider(archiveProvider);
 	}
 
 	@Override
