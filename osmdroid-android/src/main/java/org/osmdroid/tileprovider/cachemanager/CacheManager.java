@@ -995,10 +995,6 @@ public class CacheManager {
         }
     }
 
-    interface IterableWithSize<T> extends Iterable<T> {
-        int size();
-    }
-
     public CacheManagerAction getDownloadingAction() {
         return new CacheManagerAction() {
             @Override

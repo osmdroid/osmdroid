@@ -52,7 +52,7 @@ public class CacheManagerTest {
         Iterator<Long> allPointsIterator = allPointsCollection.iterator();
 
         //retrieve an iterator for returning points in the "lazy" way
-        CacheManager.IterableWithSize iterableWithSize = CacheManager.getTilesCoverageIterable(boundingBox,
+        IterableWithSize iterableWithSize = CacheManager.getTilesCoverageIterable(boundingBox,
                 minZoom, maxZoom);
 
         //confirm both iterables contain the same number of elements
