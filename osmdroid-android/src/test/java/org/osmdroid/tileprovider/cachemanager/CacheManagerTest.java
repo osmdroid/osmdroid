@@ -40,7 +40,7 @@ public class CacheManagerTest {
      */
     @Test
     public void testGetTilesIterableForRangeOfZooms() {
-        verifyGetTilesIterable(3, 6);
+        verifyGetTilesIterable(10, 11);
     }
 
     private void verifyGetTilesIterable(int minZoom, int maxZoom) {

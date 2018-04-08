@@ -6,10 +6,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.graphics.Point;
+import android.graphics.Rect;
 import android.os.AsyncTask;
 import android.text.TextUtils;
 import android.util.Log;
-import android.util.Pair;
 import android.widget.Toast;
 
 import org.osmdroid.api.IMapView;
@@ -318,17 +318,19 @@ public class CacheManager {
     static IterableWithSize<Long> getTilesCoverageIterable(final BoundingBox pBB,
                                                            final int pZoomMin, final int pZoomMax) {
         return new IterableWithSize<Long>() {
-            private final Map<Integer, Pair<Point, Point>> zoomToTilesMap = new LinkedHashMap<>();
-            private int size = 0;
+            private final Map<Integer, Rect> zoomToTilesMap = new LinkedHashMap<>();
+            private final int size;
             {
+                int totalSize = 0;
                 for (int zoomLevel = pZoomMin; zoomLevel <= pZoomMax; zoomLevel++) {
-                    Pair<Point, Point> pair = getTilesRect(pBB, zoomLevel);
-                    int mapTileUpperBound =  1 << zoomLevel;
-                    int width = (pair.second.x - pair.first.x) % mapTileUpperBound;
-                    int height = (pair.second.y - pair.first.y) % mapTileUpperBound;
-                    size += (width * height);
-                    zoomToTilesMap.put(zoomLevel, pair);
+                    Rect tilesRect = getTilesRect(pBB, zoomLevel);
+                    int mapTileUpperBound = 1 << zoomLevel;
+                    int width = (tilesRect.width()) % mapTileUpperBound;
+                    int height = (tilesRect.height()) % mapTileUpperBound;
+                    totalSize += (width * height);
+                    zoomToTilesMap.put(zoomLevel, tilesRect);
                 }
+                size = totalSize;
             }
 
             @Override
@@ -361,19 +363,16 @@ public class CacheManager {
                         int zoomLevel = currentZoom;
 
                         // now calculate the coordinates of the next point
-                        // if right-most x is reached then that's it for the current zoom, move to
-                        // the higher zoom level
-                        if (x >= lowerRight.x - 1) {
-                            init(currentZoom + 1);
-                        } else {
-                            //if the lower-most y is reached then move to upper-most y and shift
-                            // 1 x to the right
-                            if (y >= lowerRight.y - 1) {
-                                currentPoint.y = upperLeft.y;
-                                currentPoint.x++;
-                            } else {//otherwise, check the next y
-                                currentPoint.y++;
-                            }
+                        // if there's still a room for y to go then do so
+                        if (y < lowerRight.y - 1) {
+                            currentPoint.y++;
+                        } else if (x < lowerRight.x - 1) { //otherwise, if there's a room for x to go
+                            // switch to the next "column"
+                            currentPoint.y = upperLeft.y;
+                            currentPoint.x++;
+                        } else { // if the latter conditions fail it means currentPoint is the last one
+                            // for the current zoom. Move to the next zoom.
+                            init(zoomLevel + 1);
                         }
 
                         // return the tile index of the current point
@@ -388,11 +387,11 @@ public class CacheManager {
                     private void init(int zoomLevel) {
                         currentZoom = zoomLevel;
                         mapTileUpperBound = 1 << currentZoom;
-                        Pair<Point, Point> pair = zoomToTilesMap.get(currentZoom);
-                        if (pair != null) {
-                            upperLeft = new Point(pair.first);
-                            currentPoint = new Point(pair.first);
-                            lowerRight = new Point(pair.second);
+                        Rect tilesRect = zoomToTilesMap.get(currentZoom);
+                        if (tilesRect != null) {
+                            upperLeft = new Point(tilesRect.left, tilesRect.top);
+                            currentPoint = new Point(upperLeft);
+                            lowerRight = new Point(tilesRect.right, tilesRect.bottom);
                         }
                     }
                 };
@@ -405,10 +404,10 @@ public class CacheManager {
      * the selected zoom level.
      * @param pBB the given bounding box
      * @param pZoomLevel the given zoom level
-     * @return a pair of upper ;eft and lower right points
+     * @return the {@link Rect} reflecting the tiles coverage
      */
-    private static Pair<Point, Point> getTilesRect(final BoundingBox pBB,
-                                                   final int pZoomLevel){
+    private static Rect getTilesRect(final BoundingBox pBB,
+                                     final int pZoomLevel){
         final int mapTileUpperBound = 1 << pZoomLevel;
         Point lowerRight = getMapTileFromCoordinates(
                 pBB.getLatSouth(), pBB.getLonEast(), pZoomLevel);
@@ -424,7 +423,7 @@ public class CacheManager {
         }
         lowerRight = new Point(upperLeft.x + width, upperLeft.y + height);
 
-        return new Pair<>(upperLeft, lowerRight);
+        return new Rect(upperLeft.x, upperLeft.y, lowerRight.x, lowerRight.y);
     }
 
     /**
