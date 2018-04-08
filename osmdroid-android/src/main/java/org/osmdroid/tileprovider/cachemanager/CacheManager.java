@@ -23,6 +23,7 @@ import org.osmdroid.tileprovider.util.Counters;
 import org.osmdroid.tileprovider.util.StreamUtils;
 import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
+import org.osmdroid.util.IterableWithSize;
 import org.osmdroid.util.MapTileIndex;
 import org.osmdroid.util.MyMath;
 import org.osmdroid.util.TileSystem;

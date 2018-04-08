@@ -6,6 +6,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.osmdroid.util.BoundingBox;
+import org.osmdroid.util.IterableWithSize;
 import org.osmdroid.util.MapTileIndex;
 import org.osmdroid.util.MyMath;
 import org.robolectric.RobolectricTestRunner;
@@ -64,7 +65,7 @@ public class CacheManagerTest {
         Iterator<Long> allPointsIterator = allPointsList.iterator();
 
         //retrieve an iterator for returning points in the "lazy" way
-        IterableWithSize iterableWithSize = CacheManager.getTilesCoverageIterable(boundingBox,
+        IterableWithSize<Long> iterableWithSize = CacheManager.getTilesCoverageIterable(boundingBox,
                 pMinZoom, pMaxZoom);
 
         //confirm both iterables contain the same number of elements
