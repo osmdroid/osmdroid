@@ -1,5 +1,8 @@
 package org.osmdroid.util;
 
+import android.graphics.Canvas;
+import android.graphics.Rect;
+
 /**
  * A {@link android.graphics.Rect} with corners in long type instead of int
  * @since 6.0.0
@@ -103,5 +106,214 @@ public class RectL {
         result = 31 * result + right;
         result = 31 * result + bottom;
         return (int) (result % Integer.MAX_VALUE);
+    }
+
+    /**
+     * Rough computation of the smaller {@link RectL} that contains a rotated {@link RectL}
+     * Emulating {@link Canvas#getClipBounds(Rect)} after a canvas rotation
+     * The code is supposed to be exactly the same as the Rect version, except for int/long
+     * @since 6.0.2
+     */
+    public static RectL getBounds(final RectL pIn,
+                                  final long pCenterX, final long pCenterY, final double pDegrees,
+                                  final RectL pReuse) {
+        final RectL out = pReuse != null ? pReuse : new RectL();
+        if (pDegrees == 0) { // optimization
+            out.top = pIn.top;
+            out.left = pIn.left;
+            out.bottom = pIn.bottom;
+            out.right = pIn.right;
+            return out;
+        }
+        final double radians = pDegrees * Math.PI / 180.;
+        final double cos = Math.cos(radians);
+        final double sin = Math.sin(radians);
+        long inputX;
+        long inputY;
+        long outputX;
+        long outputY;
+        inputX = pIn.left; // corner 1
+        inputY = pIn.top;
+        outputX = getRotatedX(inputX, inputY, pCenterX, pCenterY, cos, sin);
+        outputY = getRotatedY(inputX, inputY, pCenterX, pCenterY, cos, sin);
+        out.top = out.bottom = outputY;
+        out.left = out.right = outputX;
+        inputX = pIn.right; // corner 2
+        inputY = pIn.top;
+        outputX = getRotatedX(inputX, inputY, pCenterX, pCenterY, cos, sin);
+        outputY = getRotatedY(inputX, inputY, pCenterX, pCenterY, cos, sin);
+        if (out.top > outputY) {
+            out.top = outputY;
+        }
+        if (out.bottom < outputY) {
+            out.bottom = outputY;
+        }
+        if (out.left > outputX) {
+            out.left = outputX;
+        }
+        if (out.right < outputX) {
+            out.right = outputX;
+        }
+        inputX = pIn.right; // corner 3
+        inputY = pIn.bottom;
+        outputX = getRotatedX(inputX, inputY, pCenterX, pCenterY, cos, sin);
+        outputY = getRotatedY(inputX, inputY, pCenterX, pCenterY, cos, sin);
+        if (out.top > outputY) {
+            out.top = outputY;
+        }
+        if (out.bottom < outputY) {
+            out.bottom = outputY;
+        }
+        if (out.left > outputX) {
+            out.left = outputX;
+        }
+        if (out.right < outputX) {
+            out.right = outputX;
+        }
+        inputX = pIn.left; // corner 4
+        inputY = pIn.bottom;
+        outputX = getRotatedX(inputX, inputY, pCenterX, pCenterY, cos, sin);
+        outputY = getRotatedY(inputX, inputY, pCenterX, pCenterY, cos, sin);
+        if (out.top > outputY) {
+            out.top = outputY;
+        }
+        if (out.bottom < outputY) {
+            out.bottom = outputY;
+        }
+        if (out.left > outputX) {
+            out.left = outputX;
+        }
+        if (out.right < outputX) {
+            out.right = outputX;
+        }
+        return out;
+    }
+
+    /**
+     * Rough computation of the smaller {@link Rect} that contains a rotated {@link Rect}
+     * Emulating {@link Canvas#getClipBounds(Rect)} after a canvas rotation
+     * The code is supposed to be exactly the same as the RectL version, except for int/long
+     * The code is written to run as fast as possible because it's constantly used when drawing markers
+     * @since 6.0.2
+     */
+    public static Rect getBounds(final Rect pIn,
+                                 final int pCenterX, final int pCenterY, final double pDegrees,
+                                 final Rect pReuse) {
+        final Rect out = pReuse != null ? pReuse : new Rect();
+        if (pDegrees == 0) { // optimization
+            out.top = pIn.top;
+            out.left = pIn.left;
+            out.bottom = pIn.bottom;
+            out.right = pIn.right;
+            return out;
+        }
+        final double radians = pDegrees * Math.PI / 180.;
+        final double cos = Math.cos(radians);
+        final double sin = Math.sin(radians);
+        int inputX;
+        int inputY;
+        int outputX;
+        int outputY;
+        inputX = pIn.left; // corner 1
+        inputY = pIn.top;
+        outputX = (int)getRotatedX(inputX, inputY, pCenterX, pCenterY, cos, sin);
+        outputY = (int)getRotatedY(inputX, inputY, pCenterX, pCenterY, cos, sin);
+        out.top = out.bottom = outputY;
+        out.left = out.right = outputX;
+        inputX = pIn.right; // corner 2
+        inputY = pIn.top;
+        outputX = (int)getRotatedX(inputX, inputY, pCenterX, pCenterY, cos, sin);
+        outputY = (int)getRotatedY(inputX, inputY, pCenterX, pCenterY, cos, sin);
+        if (out.top > outputY) {
+            out.top = outputY;
+        }
+        if (out.bottom < outputY) {
+            out.bottom = outputY;
+        }
+        if (out.left > outputX) {
+            out.left = outputX;
+        }
+        if (out.right < outputX) {
+            out.right = outputX;
+        }
+        inputX = pIn.right; // corner 3
+        inputY = pIn.bottom;
+        outputX = (int)getRotatedX(inputX, inputY, pCenterX, pCenterY, cos, sin);
+        outputY = (int)getRotatedY(inputX, inputY, pCenterX, pCenterY, cos, sin);
+        if (out.top > outputY) {
+            out.top = outputY;
+        }
+        if (out.bottom < outputY) {
+            out.bottom = outputY;
+        }
+        if (out.left > outputX) {
+            out.left = outputX;
+        }
+        if (out.right < outputX) {
+            out.right = outputX;
+        }
+        inputX = pIn.left; // corner 4
+        inputY = pIn.bottom;
+        outputX = (int)getRotatedX(inputX, inputY, pCenterX, pCenterY, cos, sin);
+        outputY = (int)getRotatedY(inputX, inputY, pCenterX, pCenterY, cos, sin);
+        if (out.top > outputY) {
+            out.top = outputY;
+        }
+        if (out.bottom < outputY) {
+            out.bottom = outputY;
+        }
+        if (out.left > outputX) {
+            out.left = outputX;
+        }
+        if (out.right < outputX) {
+            out.right = outputX;
+        }
+        return out;
+    }
+
+    /**
+     * Apply a rotation on a point and get the resulting X
+     * @since 6.0.2
+     */
+    public static long getRotatedX(final long pX, final long pY,
+                                   final double pDegrees, final long pCenterX, final long pCenterY) {
+        if (pDegrees == 0) { // optimization
+            return pX;
+        }
+        final double radians = pDegrees * Math.PI / 180.;
+        return getRotatedX(pX, pY, pCenterX, pCenterY, Math.cos(radians), Math.sin(radians));
+    }
+
+    /**
+     * Apply a rotation on a point and get the resulting Y
+     * @since 6.0.2
+     */
+    public static long getRotatedY(final long pX, final long pY,
+                                   final double pDegrees, final long pCenterX, final long pCenterY) {
+        if (pDegrees == 0) { // optimization
+            return pY;
+        }
+        final double radians = pDegrees * Math.PI / 180.;
+        return getRotatedY(pX, pY, pCenterX, pCenterY, Math.cos(radians), Math.sin(radians));
+    }
+
+    /**
+     * Apply a rotation on a point and get the resulting X
+     * @since 6.0.2
+     */
+    public static long getRotatedX(final long pX, final long pY,
+                                   final long pCenterX, final long pCenterY,
+                                   final double pCos, final double pSin) {
+        return pCenterX + Math.round((pX - pCenterX) * pCos - (pY - pCenterY) * pSin);
+    }
+
+    /**
+     * Apply a rotation on a point and get the resulting Y
+     * @since 6.0.2
+     */
+    public static long getRotatedY(final long pX, final long pY,
+                                   final long pCenterX, final long pCenterY,
+                                   final double pCos, final double pSin) {
+        return pCenterY + Math.round((pX - pCenterX) * pSin + (pY - pCenterY) * pCos);
     }
 }

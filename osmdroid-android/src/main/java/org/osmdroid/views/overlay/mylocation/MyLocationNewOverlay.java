@@ -2,7 +2,6 @@ package org.osmdroid.views.overlay.mylocation;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.Point;
@@ -89,9 +88,6 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 
 	private boolean mOptionsMenuEnabled = true;
 
-	// to avoid allocations during onDraw
-	private final float[] mMatrixValues = new float[9];
-	private Matrix mMatrix = new Matrix();
 	private Rect mMyLocationRect = new Rect();
 	private Rect mMyLocationPreviousRect = new Rect();
 	private boolean wasEnabledOnPause=false;
@@ -165,7 +161,6 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 		this.mMapView = null;
 		this.mMapController = null;
 		mHandler = null;
-		mMatrix = null;
 		mCirclePaint = null;
 		//mPersonBitmap = null;
 		//mDirectionArrowBitmap = null;
@@ -240,27 +235,6 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 			canvas.drawCircle(mMapCoordsTranslated.x, mMapCoordsTranslated.y, radius, mCirclePaint);
 		}
 
-		canvas.getMatrix(mMatrix);
-		mMatrix.getValues(mMatrixValues);
-
-		if (Configuration.getInstance().isDebugMode()) {
-			final float tx = (-mMatrixValues[Matrix.MTRANS_X] + 20)
-					/ mMatrixValues[Matrix.MSCALE_X];
-			final float ty = (-mMatrixValues[Matrix.MTRANS_Y] + 90)
-					/ mMatrixValues[Matrix.MSCALE_Y];
-			canvas.drawText("Lat: " + lastFix.getLatitude(), tx, ty + 5, mPaint);
-			canvas.drawText("Lon: " + lastFix.getLongitude(), tx, ty + 20, mPaint);
-			canvas.drawText("Alt: " + lastFix.getAltitude(), tx, ty + 35, mPaint);
-			canvas.drawText("Acc: " + lastFix.getAccuracy(), tx, ty + 50, mPaint);
-		}
-
-		// Calculate real scale including accounting for rotation
-		float scaleX = (float) Math.sqrt(mMatrixValues[Matrix.MSCALE_X]
-				* mMatrixValues[Matrix.MSCALE_X] + mMatrixValues[Matrix.MSKEW_Y]
-				* mMatrixValues[Matrix.MSKEW_Y]);
-		float scaleY = (float) Math.sqrt(mMatrixValues[Matrix.MSCALE_Y]
-				* mMatrixValues[Matrix.MSCALE_Y] + mMatrixValues[Matrix.MSKEW_X]
-				* mMatrixValues[Matrix.MSKEW_X]);
 		if (lastFix.hasBearing()) {
 			canvas.save();
 			// Rotate the icon if we have a GPS fix, take into account if the map is already rotated
@@ -269,8 +243,6 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 			if (mapRotation >=360.0f)
 				mapRotation=mapRotation-360f;
 			canvas.rotate(mapRotation, mMapCoordsTranslated.x, mMapCoordsTranslated.y);
-			// Counteract any scaling that may be happening so the icon stays the same size
-			canvas.scale(1 / scaleX, 1 / scaleY, mMapCoordsTranslated.x, mMapCoordsTranslated.y);
 			// Draw the bitmap
 			canvas.drawBitmap(mDirectionArrowBitmap, mMapCoordsTranslated.x
 					- mDirectionArrowCenterX, mMapCoordsTranslated.y - mDirectionArrowCenterY,
@@ -281,8 +253,6 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 			// Unrotate the icon if the maps are rotated so the little man stays upright
 			canvas.rotate(-mMapView.getMapOrientation(), mMapCoordsTranslated.x,
 					mMapCoordsTranslated.y);
-			// Counteract any scaling that may be happening so the icon stays the same size
-			canvas.scale(1 / scaleX, 1 / scaleY, mMapCoordsTranslated.x, mMapCoordsTranslated.y);
 			// Draw the bitmap
 			canvas.drawBitmap(mPersonBitmap, mMapCoordsTranslated.x - mPersonHotspot.x,
 					mMapCoordsTranslated.y - mPersonHotspot.y, mPaint);

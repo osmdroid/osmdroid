@@ -18,6 +18,7 @@ import org.osmdroid.views.overlay.ItemizedOverlay;
 import org.osmdroid.views.overlay.MapEventsOverlay;
 import org.osmdroid.views.overlay.MinimapOverlay;
 import org.osmdroid.views.overlay.OverlayItem;
+import org.osmdroid.views.overlay.gestures.RotationGestureOverlay;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -123,6 +124,10 @@ public class SampleWithMinimapItemizedoverlay extends Activity {
 				}
 			};
 			mMapView.getOverlays().add(new MapEventsOverlay(mReceive));
+
+			final RotationGestureOverlay rotationGestureOverlay = new RotationGestureOverlay(mMapView);
+			rotationGestureOverlay.setEnabled(true);
+			mMapView.getOverlays().add(rotationGestureOverlay);
 		}
 
 		this.setContentView(rl);

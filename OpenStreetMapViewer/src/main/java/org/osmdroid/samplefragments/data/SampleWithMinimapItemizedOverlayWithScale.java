@@ -62,7 +62,7 @@ public class SampleWithMinimapItemizedOverlayWithScale extends BaseSampleFragmen
 		{
 			/* Create a static ItemizedOverlay showing some Markers on various cities. */
 			final ArrayList<OverlayItem> items = new ArrayList<>();
-               for (int i=0; i < 500; i++){
+               for (int i=0; i < 5000; i++){
                     double random_lon=(Math.random() * 360) -180;
                     double random_lat = (Math.random() * 180) - 90;
                          items.add(new OverlayItem("A random point", "SampleDescription", new GeoPoint(random_lat,
@@ -108,6 +108,9 @@ public class SampleWithMinimapItemizedOverlayWithScale extends BaseSampleFragmen
 			mMapView.getOverlays().add(mRotationGestureOverlay);
 		}
 
+		final RotationGestureOverlay rotationGestureOverlay = new RotationGestureOverlay(mMapView);
+		rotationGestureOverlay.setEnabled(true);
+		mMapView.getOverlays().add(rotationGestureOverlay);
 
 		// Zoom and center on the focused item.
 		mMapView.getController().setZoom(5);
