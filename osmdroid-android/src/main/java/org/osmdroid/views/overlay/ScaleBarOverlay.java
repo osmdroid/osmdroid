@@ -65,7 +65,7 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 	// Defaults
 	int xOffset = 10;
 	int yOffset = 10;
-	int minZoom = 0;
+	double minZoom = 0;
 
 	UnitsOfMeasure unitsOfMeasure = UnitsOfMeasure.metric;
 
@@ -85,7 +85,7 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 	protected final Rect latitudeBarRect = new Rect();
 	protected final Rect longitudeBarRect = new Rect();
 
-	private int lastZoomLevel = -1;
+	private double lastZoomLevel = -1;
 	private double lastLatitude = 0.0;
 
 	public float xdpi;
@@ -173,7 +173,7 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 	 * @param zoom
 	 *            minimum zoom level
 	 */
-	public void setMinZoom(final int zoom) {
+	public void setMinZoom(final double zoom) {
 		this.minZoom = zoom;
 	}
 
@@ -361,62 +361,57 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 			return;
 		}
 
-		// If map view is animating, don't update, scale will be wrong.
-		if (mapView.isAnimating()) {
+		final double zoomLevel = mapView.getZoomLevelDouble();
+
+		if (zoomLevel < minZoom) {
+			return;
+		}
+		final Projection projection = mapView.getProjection();
+
+		if (projection == null) {
 			return;
 		}
 
-		final int zoomLevel = mapView.getZoomLevel();
-
-		if (zoomLevel >= minZoom) {
-			final Projection projection = mapView.getProjection();
-
-			if (projection == null) {
-				return;
-			}
-
-			int _screenWidth	   = mapView.getWidth();
-			int _screenHeight   = mapView.getHeight();
-			boolean screenSizeChanged = _screenHeight!=screenHeight || _screenWidth != screenWidth;
-			screenHeight = _screenHeight;
-			screenWidth = _screenWidth;
-			final IGeoPoint center = projection.fromPixels(screenWidth / 2, screenHeight / 2, null);
-			if (zoomLevel != lastZoomLevel
-				|| (int) center.getLatitude() != (int) lastLatitude || screenSizeChanged) {
-				lastZoomLevel = zoomLevel;
-				lastLatitude = center.getLatitude();
-				rebuildBarPath(projection);
-			}
-
-			int offsetX = (int) xOffset;
-			int offsetY = (int) yOffset;
-			if (alignBottom) offsetY *=-1;
-			if (alignRight ) offsetX *=-1;
-			if (centred && latitudeBar)
-				offsetX += -latitudeBarRect.width() / 2;
-			if (centred && longitudeBar)
-				offsetY += -longitudeBarRect.height() / 2;
-
-			projection.save(c, false, true);
-			c.translate(offsetX, offsetY);
-
-			if (latitudeBar && bgPaint != null)
-				c.drawRect(latitudeBarRect, bgPaint);
-			if (longitudeBar && bgPaint != null) {
-				// Don't draw on top of latitude background...
-				int offsetTop = latitudeBar ? latitudeBarRect.height() : 0;
-				c.drawRect(longitudeBarRect.left, longitudeBarRect.top + offsetTop,
-						longitudeBarRect.right, longitudeBarRect.bottom, bgPaint);
-			}
-			c.drawPath(barPath, barPaint);
-			if (latitudeBar) {
-				drawLatitudeText(c, projection);
-			}
-			if (longitudeBar) {
-				drawLongitudeText(c, projection);
-			}
-			projection.restore(c, true);
+		int _screenWidth	   = mapView.getWidth();
+		int _screenHeight   = mapView.getHeight();
+		boolean screenSizeChanged = _screenHeight!=screenHeight || _screenWidth != screenWidth;
+		screenHeight = _screenHeight;
+		screenWidth = _screenWidth;
+		final IGeoPoint center = projection.fromPixels(screenWidth / 2, screenHeight / 2, null);
+		if (zoomLevel != lastZoomLevel || center.getLatitude() != lastLatitude || screenSizeChanged) {
+			lastZoomLevel = zoomLevel;
+			lastLatitude = center.getLatitude();
+			rebuildBarPath(projection);
 		}
+
+		int offsetX = xOffset;
+		int offsetY = yOffset;
+		if (alignBottom) offsetY *=-1;
+		if (alignRight ) offsetX *=-1;
+		if (centred && latitudeBar)
+			offsetX += -latitudeBarRect.width() / 2;
+		if (centred && longitudeBar)
+			offsetY += -longitudeBarRect.height() / 2;
+
+		projection.save(c, false, true);
+		c.translate(offsetX, offsetY);
+
+		if (latitudeBar && bgPaint != null)
+			c.drawRect(latitudeBarRect, bgPaint);
+		if (longitudeBar && bgPaint != null) {
+			// Don't draw on top of latitude background...
+			int offsetTop = latitudeBar ? latitudeBarRect.height() : 0;
+			c.drawRect(longitudeBarRect.left, longitudeBarRect.top + offsetTop,
+					longitudeBarRect.right, longitudeBarRect.bottom, bgPaint);
+		}
+		c.drawPath(barPath, barPaint);
+		if (latitudeBar) {
+			drawLatitudeText(c, projection);
+		}
+		if (longitudeBar) {
+			drawLongitudeText(c, projection);
+		}
+		projection.restore(c, true);
 	}
 
 	// ===========================================================
