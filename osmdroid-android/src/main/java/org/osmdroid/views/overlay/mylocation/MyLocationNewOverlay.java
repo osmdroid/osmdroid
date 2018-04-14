@@ -6,7 +6,6 @@ import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.Point;
 import android.graphics.PointF;
-import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
 import android.os.Handler;
@@ -22,6 +21,7 @@ import org.osmdroid.config.Configuration;
 import org.osmdroid.library.R;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.PointL;
+import org.osmdroid.util.RectL;
 import org.osmdroid.util.TileSystem;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
@@ -63,7 +63,7 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 
 	private final LinkedList<Runnable> mRunOnFirstFix = new LinkedList<Runnable>();
 	private final PointL mMapCoordsProjected = new PointL();
-	private final Point mMapCoordsTranslated = new Point();
+	private final PointL mMapCoordsTranslated = new PointL();
 	private Handler mHandler;
 	private Object mHandlerToken = new Object();
 
@@ -88,8 +88,8 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 
 	private boolean mOptionsMenuEnabled = true;
 
-	private Rect mMyLocationRect = new Rect();
-	private Rect mMyLocationPreviousRect = new Rect();
+	private RectL mMyLocationRect = new RectL();
+	private RectL mMyLocationPreviousRect = new RectL();
 	private boolean wasEnabledOnPause=false;
 	// ===========================================================
 	// Constructors
@@ -219,7 +219,7 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 
 	protected void drawMyLocation(final Canvas canvas, final MapView mapView, final Location lastFix) {
 		final Projection pj = mapView.getProjection();
-		pj.getPixelsFromProjected(mMapCoordsProjected, pj.getProjectedPowerDifference(), mMapCoordsTranslated);
+		pj.getLongPixelsFromProjected(mMapCoordsProjected, pj.getProjectedPowerDifference(), true, mMapCoordsTranslated);
 
 		if (mDrawAccuracyEnabled) {
 			final float radius = lastFix.getAccuracy()
@@ -260,13 +260,13 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 		}
 	}
 
-	protected Rect getMyLocationDrawingBounds(double zoomLevel, Location lastFix, Rect reuse) {
+	protected RectL getMyLocationDrawingBounds(double zoomLevel, Location lastFix, RectL reuse) {
 		if (reuse == null)
-			reuse = new Rect();
+			reuse = new RectL();
 
 		final Projection pj = mMapView.getProjection();
 		final double powerDifference = pj.getProjectedPowerDifference();
-		pj.getPixelsFromProjected(mMapCoordsProjected, powerDifference, mMapCoordsTranslated);
+		pj.getLongPixelsFromProjected(mMapCoordsProjected, powerDifference, true, mMapCoordsTranslated);
 
 		// Start with the bitmap bounds
 		if (lastFix.hasBearing()) {
@@ -317,9 +317,9 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 		if (this.mLocation != null) {
 			Projection pj = mMapView.getProjection();
 			final double powerDifference = pj.getProjectedPowerDifference();
-			pj.getPixelsFromProjected(mMapCoordsProjected, powerDifference, mMapCoordsTranslated);
-			snapPoint.x = mMapCoordsTranslated.x;
-			snapPoint.y = mMapCoordsTranslated.y;
+			pj.getLongPixelsFromProjected(mMapCoordsProjected, powerDifference, true, mMapCoordsTranslated);
+			snapPoint.x = TileSystem.truncateToInt(mMapCoordsTranslated.x);
+			snapPoint.y = TileSystem.truncateToInt(mMapCoordsTranslated.y);
 			final double xDiff = x - mMapCoordsTranslated.x;
 			final double yDiff = y - mMapCoordsTranslated.y;
 			boolean snap = xDiff * xDiff + yDiff * yDiff < 64;
@@ -507,10 +507,10 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 				mMyLocationRect.union(mMyLocationPreviousRect);
 			}
 
-			final int left = mMyLocationRect.left;
-			final int top = mMyLocationRect.top;
-			final int right = mMyLocationRect.right;
-			final int bottom = mMyLocationRect.bottom;
+			final int left = TileSystem.truncateToInt(mMyLocationRect.left);
+			final int top = TileSystem.truncateToInt(mMyLocationRect.top);
+			final int right = TileSystem.truncateToInt(mMyLocationRect.right);
+			final int bottom = TileSystem.truncateToInt(mMyLocationRect.bottom);
 
 			// Invalidate the bounds
 			mMapView.invalidateMapCoordinates(left, top, right, bottom);

@@ -206,7 +206,7 @@ public class Projection implements IProjection {
 	}
 
 	/**
-	 * A wrapper for {@link #toProjectedPixels(long, long, PointL)}
+	 * A wrapper for {@link #toProjectedPixels(double, double, PointL)}
 	 */
 	public PointL toProjectedPixels(final GeoPoint geoPoint, final PointL reuse) {
 		return toProjectedPixels(geoPoint.getLatitude(), geoPoint.getLongitude(), reuse);
@@ -214,7 +214,7 @@ public class Projection implements IProjection {
 
 	/**
 	 * Performs only the first computationally heavy part of the projection. Call
-	 * {@link #toPixelsFromProjected(PointL, Point)} to get the final position.
+	 * {@link #getLongPixelsFromProjected(PointL, double, boolean, PointL)} to get the final position.
 	 * 
 	 * @param latituteE6
 	 *            the latitute of the point
@@ -223,14 +223,16 @@ public class Projection implements IProjection {
 	 * @param reuse
 	 *            just pass null if you do not have a PointL to be 'recycled'.
 	 * @return intermediate value to be stored and passed to toMapPixelsTranslated.
+	 * @deprecated Use {@link #toProjectedPixels(double, double, PointL)} instead
 	 */
+	@Deprecated
 	public PointL toProjectedPixels(final long latituteE6, final long longitudeE6, final PointL reuse) {
 		return toProjectedPixels(latituteE6 * 1E-6, longitudeE6 * 1E-6, reuse);
 	}
 
     /**
      * Performs only the first computationally heavy part of the projection. Call
-     * {@link #toPixelsFromProjected(PointL, Point)} to get the final position.
+     * {@link #getLongPixelsFromProjected(PointL, double, boolean, PointL)} to get the final position.
      *
      * @param latitude
      *            the latitute of the point
@@ -255,25 +257,32 @@ public class Projection implements IProjection {
 	 * Performs the second computationally light part of the projection.
 	 * 
 	 * @param in
-	 *            the Point calculated by the {@link #toProjectedPixels(long, long, PointL)}
+	 *            the PointL calculated by the {@link #toProjectedPixels(double, double, PointL)}
 	 * @param reuse
 	 *            just pass null if you do not have a Point to be 'recycled'.
 	 * @return the Point containing the coordinates of the initial GeoPoint passed to the
-	 *         {@link #toProjectedPixels(long, long, PointL)}.
+	 *         {@link #toProjectedPixels(double, double, PointL)}.
+	 * @deprecated Use {@link #getLongPixelsFromProjected(PointL, double, boolean, PointL)} instead
 	 */
 	@Deprecated
 	public Point toPixelsFromProjected(final PointL in, final Point reuse) {
 		final Point out = reuse != null ? reuse : new Point();
 		final double power = getProjectedPowerDifference();
-		out.x = getPixelXFromMercator((long) (in.x / power), true);
-		out.y = getPixelYFromMercator((long) (in.y / power), true);
+		final PointL tmp = new PointL();
+		getLongPixelsFromProjected(in, power, true, tmp);
+		out.x = TileSystem.truncateToInt(tmp.x);
+		out.y = TileSystem.truncateToInt(tmp.y);
 		return out;
 	}
 
+	/**
+	 * @deprecated Use {@link #getLongPixelsFromProjected(PointL, double, boolean, PointL)} instead
+	 */
+	@Deprecated
 	public Point toPixelsFromMercator(final long pMercatorX, final long pMercatorY, final Point reuse) {
 		final Point out = reuse != null ? reuse : new Point();
-		out.x = getPixelXFromMercator(pMercatorX, true);
-		out.y = getPixelYFromMercator(pMercatorY, true);
+		out.x = TileSystem.truncateToInt(getLongPixelXFromMercator(pMercatorX, true));
+		out.y = TileSystem.truncateToInt(getLongPixelYFromMercator(pMercatorY, true));
 		return out;
 	}
 
@@ -371,10 +380,10 @@ public class Projection implements IProjection {
 	 */
 	public Rect getPixelFromTile(final int pTileX, final int pTileY, final Rect pReuse) {
 		final Rect out = pReuse != null ? pReuse : new Rect();
-		out.left = getPixelXFromMercator(getMercatorFromTile(pTileX), false);
-		out.top = getPixelYFromMercator(getMercatorFromTile(pTileY), false);
-		out.right = getPixelXFromMercator(getMercatorFromTile(pTileX + 1), false);
-		out.bottom = getPixelYFromMercator(getMercatorFromTile(pTileY + 1), false);
+		out.left = TileSystem.truncateToInt(getLongPixelXFromMercator(getMercatorFromTile(pTileX), false));
+		out.top = TileSystem.truncateToInt(getLongPixelYFromMercator(getMercatorFromTile(pTileY), false));
+		out.right = TileSystem.truncateToInt(getLongPixelXFromMercator(getMercatorFromTile(pTileX + 1), false));
+		out.bottom = TileSystem.truncateToInt(getLongPixelYFromMercator(getMercatorFromTile(pTileY + 1), false));
 		return out;
 	}
 
@@ -403,11 +412,15 @@ public class Projection implements IProjection {
 
 	/**
 	 * @since 6.0.0
+	 * @deprecated Use {@link #getLongPixelsFromProjected(PointL, double, boolean, PointL)} instead
 	 */
+	@Deprecated
 	public Point getPixelsFromProjected(final PointL in, final double powerDifference, final Point reuse) {
 		final Point out = reuse != null ? reuse : new Point();
-		out.x = getPixelXFromMercator((long) (in.x / powerDifference), true);
-		out.y = getPixelYFromMercator((long) (in.y / powerDifference), true);
+		final PointL tmp = new PointL();
+		getLongPixelsFromProjected(in, powerDifference, true, tmp);
+		out.x = TileSystem.truncateToInt(tmp.x);
+		out.y = TileSystem.truncateToInt(tmp.y);
 		return out;
 	}
 
@@ -459,20 +472,6 @@ public class Projection implements IProjection {
 		return previous;
 	}
 
-	/**
-	 * @since 6.0.0
-	 */
-	private int getPixelXFromMercator(final long pMercatorX, final boolean pCloser) {
-		return getPixelFromMercator(pMercatorX, pCloser, mOffsetX, mIntrinsicScreenRectProjection.left, mIntrinsicScreenRectProjection.right);
-	}
-
-	/**
-	 * @since 6.0.0
-	 */
-	private int getPixelYFromMercator(final long pMercatorY, final boolean pCloser) {
-		return getPixelFromMercator(pMercatorY, pCloser, mOffsetY, mIntrinsicScreenRectProjection.top, mIntrinsicScreenRectProjection.bottom);
-	}
-
     /**
      * @since 6.0.0
      */
@@ -486,13 +485,6 @@ public class Projection implements IProjection {
     private long getLongPixelYFromMercator(final long pMercatorY, final boolean pCloser) {
         return getLongPixelFromMercator(pMercatorY, pCloser, mOffsetY, mIntrinsicScreenRectProjection.top, mIntrinsicScreenRectProjection.bottom);
     }
-
-    /**
-	 * @since 6.0.0
-	 */
-	private int getPixelFromMercator(final long pMercator, final boolean pCloser, final long pOffset, final int pScreenLimitFirst, final int pScreenLimitLast) {
-		return TileSystem.truncateToInt(getLongPixelFromMercator(pMercator, pCloser, pOffset, pScreenLimitFirst, pScreenLimitLast));
-	}
 
 	/**
      * @since 6.0.0
@@ -680,6 +672,7 @@ public class Projection implements IProjection {
 	 * either this bounding box is bigger than the screen and contains it
 	 * or it is smaller and it is centered
 	 * @since 6.0.0
+	 * @deprecated Use {@link #adjustOffsets(double, double, boolean, int)} instead
 	 */
 	@Deprecated
 	public void adjustOffsets(final BoundingBox pBoundingBox) {
