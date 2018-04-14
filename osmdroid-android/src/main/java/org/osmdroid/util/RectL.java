@@ -316,4 +316,40 @@ public class RectL {
                                    final double pCos, final double pSin) {
         return pCenterY + Math.round((pX - pCenterX) * pSin + (pY - pCenterY) * pCos);
     }
+
+    /**
+     * @since 6.0.2
+     */
+    public void offset(final long pDx, final long pDy) {
+        left += pDx;
+        top += pDy;
+        right += pDx;
+        bottom += pDy;
+    }
+
+    /**
+     * @since 6.0.2
+     */
+    public void union(final long pLeft, final long pTop, final long pRight, final long pBottom) {
+        if ((pLeft < pRight) && (pTop < pBottom)) {
+            if ((left < right) && (top < bottom)) {
+                if (left > pLeft) left = pLeft;
+                if (top > pTop) top = pTop;
+                if (right < pRight) right = pRight;
+                if (bottom < pBottom) bottom = pBottom;
+            } else {
+                left = pLeft;
+                top = pTop;
+                right = pRight;
+                bottom = pBottom;
+            }
+        }
+    }
+
+    /**
+     * @since 6.0.2
+     */
+    public void union(final RectL pRect) {
+        union(pRect.left, pRect.top, pRect.right, pRect.bottom);
+    }
 }
