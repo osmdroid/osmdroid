@@ -354,9 +354,8 @@ public class Polygon extends OverlayWithIW {
 			mInfoWindowLocation = new GeoPoint(0.0, 0.0);
 			return;
 		}
-		BoundingBox bb = BoundingBox.fromGeoPoints(mOutline.getPoints());
 		//TODO: as soon as the polygon bounding box will be a class member, don't compute it again here.
-		mInfoWindowLocation = bb.getCenterWithDateLine();
+		mInfoWindowLocation = mOutline.getCenter(null);
 	}
 
 	/**
