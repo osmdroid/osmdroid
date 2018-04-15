@@ -147,8 +147,7 @@ public class SqlTileWriter implements IFilesystemCache {
             cv.put(DatabaseFileArchive.COLUMN_TILE, bits);
             if (pExpirationTime != null)
                 cv.put(COLUMN_EXPIRES, pExpirationTime);
-            db.delete(TABLE, primaryKey, getPrimaryKeyParameters(index, pTileSourceInfo));
-            db.insert(TABLE, null, cv);
+            db.replace(TABLE, null, cv);
             if (Configuration.getInstance().isDebugMode())
                 Log.d(IMapView.LOGTAG, "tile inserted " + pTileSourceInfo.name() + MapTileIndex.toString(pMapTileIndex));
             if (System.currentTimeMillis() > lastSizeCheck + Configuration.getInstance().getTileGCFrequencyInMillis()){
