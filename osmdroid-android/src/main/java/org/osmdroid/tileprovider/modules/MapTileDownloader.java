@@ -56,6 +56,11 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 
 	private final INetworkAvailablityCheck mNetworkAvailablityCheck;
 
+	/**
+	 * @since 6.0.2
+	 */
+	private final TileLoader mTileLoader = new TileLoader();
+
 	// ===========================================================
 	// Constructors
 	// ===========================================================
@@ -116,7 +121,7 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 
 	@Override
 	public TileLoader getTileLoader() {
-		return new TileLoader();
+		return mTileLoader;
 	}
 
 	@Override
@@ -254,10 +259,8 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 
 				return result;
 			} catch (final UnknownHostException e) {
-				// no network connection so empty the queue
 				Log.w(IMapView.LOGTAG,"UnknownHostException downloading MapTile: " + MapTileIndex.toString(pMapTileIndex) + " : " + e);
 				Counters.tileDownloadErrors++;
-				throw new CantContinueException(e);
 			} catch (final LowMemoryException e) {
 				// low memory so empty the queue
 				Counters.countOOM++;
