@@ -45,9 +45,14 @@ public class MapTileProviderArray extends MapTileProviderBase {
 	/**
 	 * @since 6.0.2
 	 */
-	private static final long[] mExponentialBackoffDurationInMillis = new long[] {
-			1000, 2000, 15000, 60000, 120000, 300000
+	private static final long[] mExponentialBackoffDurationInMillisDefault = new long[] {
+			5000, 15000, 60000, 120000, 300000
 	};
+
+	/**
+	 * @since 6.0.2
+	 */
+	private long[] mExponentialBackoffDurationInMillis = mExponentialBackoffDurationInMillisDefault;
 
 	/**
 	 * @since 6.0.2
@@ -315,5 +320,12 @@ public class MapTileProviderArray extends MapTileProviderBase {
 		synchronized (mTileDelays) {
 			mTileDelays.remove(pMapTileIndex);
 		}
+	}
+
+	/**
+	 * @since 6.0.2
+	 */
+	public void setExponentialBackoffDurationInMillis(final long[] pExponentialBackoffDurationInMillis) {
+		mExponentialBackoffDurationInMillis = pExponentialBackoffDurationInMillis;
 	}
 }
