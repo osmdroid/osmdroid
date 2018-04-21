@@ -60,8 +60,9 @@ public class SqlTileWriter implements IFilesystemCache {
     public static void setCleanupOnStart(boolean value) {
         cleanOnStartup=value;
     }
-    protected File db_file;
-    protected SQLiteDatabase db;
+    private static final Object mLock = new Object();
+    protected static File db_file;
+    protected static SQLiteDatabase db;
     protected long lastSizeCheck=0;
     private final GarbageCollector garbageCollector = new GarbageCollector(new Runnable() {
         @Override
@@ -75,15 +76,20 @@ public class SqlTileWriter implements IFilesystemCache {
     public SqlTileWriter() {
 
         Configuration.getInstance().getOsmdroidTileCache().mkdirs();
-        db_file = new File(Configuration.getInstance().getOsmdroidTileCache().getAbsolutePath() + File.separator + DATABASE_FILENAME);
-
-
-        try {
-            db = SQLiteDatabase.openOrCreateDatabase(db_file, null);
-            db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE + " (" + DatabaseFileArchive.COLUMN_KEY + " INTEGER , " + DatabaseFileArchive.COLUMN_PROVIDER + " TEXT, " + DatabaseFileArchive.COLUMN_TILE + " BLOB, " + COLUMN_EXPIRES +" INTEGER, PRIMARY KEY (" + DatabaseFileArchive.COLUMN_KEY + ", " + DatabaseFileArchive.COLUMN_PROVIDER + "));");
-        } catch (Throwable ex) {
-            Log.e(IMapView.LOGTAG, "Unable to start the sqlite tile writer. Check external storage availability.", ex);
+        synchronized (mLock) {
+            if (db_file == null) {
+                db_file = new File(Configuration.getInstance().getOsmdroidTileCache().getAbsolutePath() + File.separator + DATABASE_FILENAME);
+            }
+            if (db == null) {
+                try {
+                    db = SQLiteDatabase.openOrCreateDatabase(db_file, null);
+                    db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE + " (" + DatabaseFileArchive.COLUMN_KEY + " INTEGER , " + DatabaseFileArchive.COLUMN_PROVIDER + " TEXT, " + DatabaseFileArchive.COLUMN_TILE + " BLOB, " + COLUMN_EXPIRES + " INTEGER, PRIMARY KEY (" + DatabaseFileArchive.COLUMN_KEY + ", " + DatabaseFileArchive.COLUMN_PROVIDER + "));");
+                } catch (Throwable ex) {
+                    Log.e(IMapView.LOGTAG, "Unable to start the sqlite tile writer. Check external storage availability.", ex);
+                }
+            }
         }
+
         if (!hasInited) {
             hasInited = true;
 
@@ -215,19 +221,11 @@ public class SqlTileWriter implements IFilesystemCache {
         return exists(pTileSource.name(), pMapTileIndex);
     }
 
+    /**
+     * Now we use only one static instance of database, which should never be closed
+     */
     @Override
-    public void onDetach() {
-        if (db != null && db.isOpen()) {
-            try {
-                db.close();
-                Log.i(IMapView.LOGTAG, "Database detached");
-            } catch (Exception ex) {
-                Log.e(IMapView.LOGTAG, "Database detach failed",ex);
-            }
-        }
-        db = null;
-        db_file = null;
-    }
+    public void onDetach() {}
 
     /**
      * purges and deletes everything from the cache database
