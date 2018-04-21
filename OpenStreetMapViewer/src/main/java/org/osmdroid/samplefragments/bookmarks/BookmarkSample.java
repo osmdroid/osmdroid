@@ -23,7 +23,7 @@ import java.util.UUID;
 
 public class BookmarkSample extends BaseSampleFragment {
 
-    BookmarkDatastore datastore = new BookmarkDatastore();
+    private BookmarkDatastore datastore = null;
 
     @Override
     public String getSampleTitle() {
@@ -36,6 +36,8 @@ public class BookmarkSample extends BaseSampleFragment {
     @Override
     public void addOverlays() {
         super.addOverlays();
+        if (datastore == null)
+            datastore = new BookmarkDatastore();
         //add all our bookmarks to the view
         mMapView.getOverlayManager().addAll(datastore.getBookmarksAsMarkers(mMapView));
 
@@ -122,7 +124,9 @@ public class BookmarkSample extends BaseSampleFragment {
         super.onDestroy();
         if (datastore != null)
             datastore.close();
+        datastore = null;
         if (addBookmark != null)
             addBookmark.dismiss();
+        addBookmark= null;
     }
 }
