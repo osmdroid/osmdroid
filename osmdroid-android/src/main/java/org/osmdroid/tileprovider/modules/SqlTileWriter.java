@@ -3,6 +3,7 @@ package org.osmdroid.tileprovider.modules;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteFullException;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
@@ -62,7 +63,7 @@ public class SqlTileWriter implements IFilesystemCache {
     }
     private static final Object mLock = new Object();
     protected static File db_file;
-    protected static SQLiteDatabase db;
+    protected static SQLiteDatabase mDb;
     protected long lastSizeCheck=0;
     private final GarbageCollector garbageCollector = new GarbageCollector(new Runnable() {
         @Override
@@ -75,20 +76,7 @@ public class SqlTileWriter implements IFilesystemCache {
 
     public SqlTileWriter() {
 
-        Configuration.getInstance().getOsmdroidTileCache().mkdirs();
-        synchronized (mLock) {
-            if (db_file == null) {
-                db_file = new File(Configuration.getInstance().getOsmdroidTileCache().getAbsolutePath() + File.separator + DATABASE_FILENAME);
-            }
-            if (db == null) {
-                try {
-                    db = SQLiteDatabase.openOrCreateDatabase(db_file, null);
-                    db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE + " (" + DatabaseFileArchive.COLUMN_KEY + " INTEGER , " + DatabaseFileArchive.COLUMN_PROVIDER + " TEXT, " + DatabaseFileArchive.COLUMN_TILE + " BLOB, " + COLUMN_EXPIRES + " INTEGER, PRIMARY KEY (" + DatabaseFileArchive.COLUMN_KEY + ", " + DatabaseFileArchive.COLUMN_PROVIDER + "));");
-                } catch (Throwable ex) {
-                    Log.e(IMapView.LOGTAG, "Unable to start the sqlite tile writer. Check external storage availability.", ex);
-                }
-            }
-        }
+        getDb();
 
         if (!hasInited) {
             hasInited = true;
@@ -106,6 +94,7 @@ public class SqlTileWriter implements IFilesystemCache {
      * @since 5.6
      */
     public void runCleanupOperation() {
+        final SQLiteDatabase db = getDb();
         if (db == null) {
             if (Configuration.getInstance().isDebugMode()) {
                 Log.d(IMapView.LOGTAG, "Finished init thread, aborted due to null database reference");
@@ -131,6 +120,7 @@ public class SqlTileWriter implements IFilesystemCache {
 
     @Override
     public boolean saveFile(final ITileSource pTileSourceInfo, final long pMapTileIndex, final InputStream pStream, final Long pExpirationTime) {
+        final SQLiteDatabase db = getDb();
         if (db == null || !db.isOpen()) {
             Log.d(IMapView.LOGTAG, "Unable to store cached tile from " + pTileSourceInfo.name() + " " + MapTileIndex.toString(pMapTileIndex) + ", database not available.");
             Counters.fileCacheSaveErrors++;
@@ -164,11 +154,13 @@ public class SqlTileWriter implements IFilesystemCache {
             //the drive is full! trigger the clean up operation
             //may want to consider reducing the trim size automagically
             garbageCollector.gc();
-        } catch (Throwable ex) {
+            catchException(ex);
+        } catch (Exception ex) {
             //note, although we check for db null state at the beginning of this method, it's possible for the
             //db to be closed during the execution of this method
             Log.e(IMapView.LOGTAG, "Unable to store cached tile from " + pTileSourceInfo.name() + " " + MapTileIndex.toString(pMapTileIndex) + " db is " + (db == null ? "null" : "not null"), ex);
             Counters.fileCacheSaveErrors++;
+            catchException(ex);
         } finally {
             try {
                 bos.close();
@@ -185,6 +177,7 @@ public class SqlTileWriter implements IFilesystemCache {
      * @since 5.6
      */
     public boolean exists(final String pTileSource, final long pMapTileIndex) {
+        final SQLiteDatabase db = getDb();
         if (db == null || !db.isOpen()) {
             Log.d(IMapView.LOGTAG, "Unable to test for tile exists cached tile from " + pTileSource + " " + MapTileIndex.toString(pMapTileIndex) + ", database not available.");
             return false;
@@ -197,13 +190,14 @@ public class SqlTileWriter implements IFilesystemCache {
 
             returnValue =(cur.moveToNext());
 
-        } catch (Throwable ex) {
+        } catch (Exception ex) {
             Log.e(IMapView.LOGTAG, "Unable to store cached tile from " + pTileSource + " " + MapTileIndex.toString(pMapTileIndex), ex);
+            catchException(ex);
         } finally {
             if (cur!=null)
                 try {
                     cur.close();
-                }catch (Throwable t) {
+                }catch (Exception ex) {
                 //ignore
                 }
         }
@@ -234,12 +228,14 @@ public class SqlTileWriter implements IFilesystemCache {
      * @since 5.6
      */
     public boolean purgeCache() {
+        final SQLiteDatabase db = getDb();
         if (db != null && db.isOpen()) {
             try {
                 db.delete(TABLE, null, null);
                 return true;
-            } catch (final Throwable e) {
+            } catch (Exception e) {
                 Log.w(IMapView.LOGTAG, "Error purging the db", e);
+                catchException(e);
             }
         }
         return false;
@@ -252,12 +248,14 @@ public class SqlTileWriter implements IFilesystemCache {
      * @since 5.6.1
      */
     public boolean purgeCache(String mTileSourceName) {
+        final SQLiteDatabase db = getDb();
         if (db != null && db.isOpen()) {
             try {
                 db.delete(TABLE, COLUMN_PROVIDER + " = ?", new String[]{mTileSourceName});
                 return true;
-            } catch (final Throwable e) {
+            } catch (Exception e) {
                 Log.w(IMapView.LOGTAG, "Error purging the db", e);
+                catchException(e);
             }
         }
         return false;
@@ -272,6 +270,7 @@ public class SqlTileWriter implements IFilesystemCache {
      * @return
      */
     public int[] importFromFileCache(boolean removeFromFileSystem) {
+        final SQLiteDatabase db = getDb();
         int[] ret = new int[]{0, 0, 0, 0};
         //inserts
         //insert failures
@@ -342,11 +341,12 @@ public class SqlTileWriter implements IFilesystemCache {
                                                                     }
                                                                 }
 
-                                                            } catch (Throwable ex) {
+                                                            } catch (Exception ex) {
                                                                 //note, although we check for db null state at the beginning of this method, it's possible for the
                                                                 //db to be closed during the execution of this method
                                                                 Log.e(IMapView.LOGTAG, "Unable to store cached tile from " + tileSources[i].getName() + " db is " + (db == null ? "null" : "not null"), ex);
                                                                 ret[1]++;
+                                                                catchException(ex);
                                                             }
                                                         }
                                                     }
@@ -402,6 +402,7 @@ public class SqlTileWriter implements IFilesystemCache {
      */
     @Override
     public boolean remove(final ITileSource pTileSourceInfo, final long pMapTileIndex) {
+        final SQLiteDatabase db = getDb();
         if (db == null) {
             Log.d(IMapView.LOGTAG, "Unable to delete cached tile from " + pTileSourceInfo.name() + " " + MapTileIndex.toString(pMapTileIndex) + ", database not available.");
             Counters.fileCacheSaveErrors++;
@@ -411,11 +412,12 @@ public class SqlTileWriter implements IFilesystemCache {
             final long index = getIndex(pMapTileIndex);
             db.delete(DatabaseFileArchive.TABLE, primaryKey, getPrimaryKeyParameters(index, pTileSourceInfo));
             return true;
-        } catch (Throwable ex) {
+        } catch (Exception ex) {
             //note, although we check for db null state at the beginning of this method, it's possible for the
             //db to be closed during the execution of this method
             Log.e(IMapView.LOGTAG, "Unable to delete cached tile from " + pTileSourceInfo.name() + " " + MapTileIndex.toString(pMapTileIndex) + " db is " + (db == null ? "null" : "not null"), ex);
             Counters.fileCacheSaveErrors++;
+            catchException(ex);
         }
         return false;
     }
@@ -428,6 +430,7 @@ public class SqlTileWriter implements IFilesystemCache {
      * @since 5.6
      */
     public long getRowCount(String tileSourceName) {
+        final SQLiteDatabase db = getDb();
         try {
             Cursor mCount = null;
             if (tileSourceName == null)
@@ -438,8 +441,9 @@ public class SqlTileWriter implements IFilesystemCache {
             long count = mCount.getLong(0);
             mCount.close();
             return count;
-        } catch (Throwable ex) {
+        } catch (Exception ex) {
             Log.e(IMapView.LOGTAG, "Unable to query for row count " + tileSourceName, ex);
+            catchException(ex);
         }
         return 0;
     }
@@ -456,14 +460,16 @@ public class SqlTileWriter implements IFilesystemCache {
     * Returns the expiry time of the tile that expires first.
     */
     public long getFirstExpiry() {
+        final SQLiteDatabase db = getDb();
         try {
             Cursor cursor = db.rawQuery("select min(" + COLUMN_EXPIRES + ") from " + TABLE, null);
             cursor.moveToFirst();
             long time = cursor.getLong(0);
             cursor.close();
             return time;
-        } catch (Throwable ex) {
+        } catch (Exception ex) {
             Log.e(IMapView.LOGTAG, "Unable to query for oldest tile", ex);
+            catchException(ex);
         }
         return 0;
     }
@@ -495,11 +501,12 @@ public class SqlTileWriter implements IFilesystemCache {
         Cursor cursor = null;
         try {
             cursor = getTileCursor(getPrimaryKeyParameters(getIndex(pMapTileIndex), pTileSource), expireQueryColumn);
-            while(cursor.moveToNext()) {
+            if(cursor.moveToNext()) {
                 return cursor.getLong(0);
             }
-        } catch (Throwable t) {
-            Log.e(IMapView.LOGTAG, "error getting expiration date from the tile cache", t);
+        } catch (Exception ex) {
+            Log.e(IMapView.LOGTAG, "error getting expiration date from the tile cache", ex);
+            catchException(ex);
         } finally {
             if (cursor != null) {
                 cursor.close();
@@ -547,6 +554,7 @@ public class SqlTileWriter implements IFilesystemCache {
      * @return
      */
     public Cursor getTileCursor(final String[] pPrimaryKeyParameters, final String[] pColumns) {
+        final SQLiteDatabase db = getDb();
         return db.query(DatabaseFileArchive.TABLE, pColumns, primaryKey, pPrimaryKeyParameters, null, null, null);
     }
 
@@ -615,6 +623,7 @@ public class SqlTileWriter implements IFilesystemCache {
         final StringBuilder where = new StringBuilder();
         String sep;
         boolean first = true;
+        final SQLiteDatabase db = getDb();
         while(diff > 0) {
             if (first) {
                 first = false;
@@ -638,8 +647,8 @@ public class SqlTileWriter implements IFilesystemCache {
                                 (pIncludeUnexpired ? "" : "AND " + COLUMN_EXPIRES + " < " + now + " ") +
                                 "ORDER BY " + COLUMN_EXPIRES + " ASC " +
                                 "LIMIT " + pBulkSize, null);
-            } catch(NullPointerException e) {
-                // may be called after onDetach, where db = null
+            } catch(Exception e) {
+                catchException(e);
                 return;
             }
             cur.moveToFirst();
@@ -665,10 +674,87 @@ public class SqlTileWriter implements IFilesystemCache {
             where.append(')');
             try {
                 db.delete(TABLE, where.toString(), null);
-            } catch(NullPointerException e) {
-                // may be called after onDetach, where db = null
+            } catch(Exception e) {
+                catchException(e);
                 return;
             }
+        }
+    }
+
+    /**
+     * @since 6.0.2
+     */
+    protected SQLiteDatabase getDb() {
+        if (mDb != null) {
+            return mDb;
+        }
+        synchronized (mLock) {
+            Configuration.getInstance().getOsmdroidTileCache().mkdirs();
+            db_file = new File(Configuration.getInstance().getOsmdroidTileCache().getAbsolutePath() + File.separator + DATABASE_FILENAME);
+            if (mDb == null) {
+                try {
+                    mDb = SQLiteDatabase.openOrCreateDatabase(db_file, null);
+                    mDb.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE + " (" + DatabaseFileArchive.COLUMN_KEY + " INTEGER , " + DatabaseFileArchive.COLUMN_PROVIDER + " TEXT, " + DatabaseFileArchive.COLUMN_TILE + " BLOB, " + COLUMN_EXPIRES + " INTEGER, PRIMARY KEY (" + DatabaseFileArchive.COLUMN_KEY + ", " + DatabaseFileArchive.COLUMN_PROVIDER + "));");
+                } catch (Exception ex) {
+                    Log.e(IMapView.LOGTAG, "Unable to start the sqlite tile writer. Check external storage availability.", ex);
+                    catchException(ex);
+                    return null;
+                }
+            }
+        }
+        return mDb;
+    }
+
+    /**
+     * @since 6.0.2
+     */
+    public void refreshDb() {
+        synchronized(mLock) {
+            if (mDb != null) {
+                mDb.close();
+                mDb = null;
+            }
+        }
+    }
+
+    /**
+     * @since 6.0.2
+     */
+    protected void catchException(final Exception pException) {
+        if (pException instanceof SQLiteException) {
+            if (!isFunctionalException((SQLiteException) pException)) {
+                refreshDb();
+            }
+        }
+    }
+
+    /**
+     * @since 6.0.2
+     * @return true if it's a mere functional exception (poor SQL code for instance)
+     * and false if it's something potentially more serious (no more SQLite database for instance)
+     */
+    public static boolean isFunctionalException(final SQLiteException pSQLiteException) {
+        switch(pSQLiteException.getClass().getSimpleName()) {
+            case "SQLiteBindOrColumnIndexOutOfRangeException":
+            case "SQLiteBlobTooBigException":
+            case "SQLiteConstraintException":
+            case "SQLiteDatatypeMismatchException":
+            case "SQLiteFullException":
+            case "SQLiteMisuseException":
+            case "SQLiteTableLockedException":
+                return true;
+            case "SQLiteAbortException":
+            case "SQLiteAccessPermException":
+            case "SQLiteCantOpenDatabaseException":
+            case "SQLiteDatabaseCorruptException":
+            case "SQLiteDatabaseLockedException":
+            case "SQLiteDiskIOException":
+            case "SQLiteDoneException":
+            case "SQLiteOutOfMemoryException":
+            case "SQLiteReadOnlyDatabaseException":
+                return false;
+            default:
+                return false;
         }
     }
 }
