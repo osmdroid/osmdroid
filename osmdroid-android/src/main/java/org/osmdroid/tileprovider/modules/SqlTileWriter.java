@@ -16,6 +16,7 @@ import org.osmdroid.tileprovider.util.Counters;
 import org.osmdroid.tileprovider.util.StreamUtils;
 import org.osmdroid.util.MapTileIndex;
 import org.osmdroid.util.GarbageCollector;
+import org.osmdroid.util.SplashScreenable;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
@@ -44,7 +45,7 @@ import static org.osmdroid.tileprovider.modules.DatabaseFileArchive.TABLE;
  * @author Alex O'Ree
  * @since 5.1
  */
-public class SqlTileWriter implements IFilesystemCache {
+public class SqlTileWriter implements IFilesystemCache, SplashScreenable {
     public static final String DATABASE_FILENAME = "cache.db";
     public static final String COLUMN_EXPIRES ="expires";
     public static final String COLUMN_EXPIRES_INDEX ="expires_index";
@@ -104,7 +105,7 @@ public class SqlTileWriter implements IFilesystemCache {
 
         // index creation is run now (regardless of the table size)
         // therefore potentially on a small table, for better index creation performances
-        db.execSQL("CREATE INDEX IF NOT EXISTS " + COLUMN_EXPIRES_INDEX + " ON " + TABLE + " (" + COLUMN_EXPIRES +");");
+        createIndex(db);
 
         final long dbLength = db_file.length();
         if (dbLength <= Configuration.getInstance().getTileFileSystemCacheMaxBytes()) {
@@ -756,5 +757,21 @@ public class SqlTileWriter implements IFilesystemCache {
             default:
                 return false;
         }
+    }
+
+    /**
+     * @since 6.0.2
+     */
+    private void createIndex(final SQLiteDatabase pDb) {
+        pDb.execSQL("CREATE INDEX IF NOT EXISTS " + COLUMN_EXPIRES_INDEX + " ON " + TABLE + " (" + COLUMN_EXPIRES +");");
+    }
+
+    /**
+     * @since 6.0.2
+     */
+    @Override
+    public void runDuringSplashScreen() {
+        final SQLiteDatabase db = getDb();
+        createIndex(db);
     }
 }
