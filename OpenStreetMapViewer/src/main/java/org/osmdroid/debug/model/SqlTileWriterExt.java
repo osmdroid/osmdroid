@@ -1,6 +1,7 @@
 package org.osmdroid.debug.model;
 
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import org.osmdroid.api.IMapView;
@@ -27,6 +28,7 @@ import static org.osmdroid.tileprovider.modules.DatabaseFileArchive.TABLE;
 public class SqlTileWriterExt extends SqlTileWriter {
 
     public Cursor select(int rows, int offset) {
+        final SQLiteDatabase db = getDb();
         if (db != null)
             return db.rawQuery("select " + COLUMN_KEY + "," + COLUMN_EXPIRES + "," + COLUMN_PROVIDER + " from " + TABLE + " limit ? offset ?", new String[]{rows + "", offset + ""});
         return null;
@@ -38,23 +40,34 @@ public class SqlTileWriterExt extends SqlTileWriter {
      * @return
      */
     public List<SourceCount> getSources() {
+        final SQLiteDatabase db = getDb();
         List<SourceCount> ret = new ArrayList<>();
-        if (db != null) {
-            Cursor cur = db.rawQuery("select distinct (" + COLUMN_PROVIDER + ") from " + TABLE, null);
+        if (db == null) {
+            return ret;
+        }
+        Cursor cur = null;
+        try {
+            cur = db.rawQuery("select " + COLUMN_PROVIDER + ",count(*) from " + TABLE + " group by " + COLUMN_PROVIDER, null);
             while (cur.moveToNext()) {
-                String prov = cur.getString(cur.getColumnIndex(COLUMN_PROVIDER));
+                final String prov = cur.getString(0);
+                final long count = cur.getLong(1);
                 SourceCount c = new SourceCount();
                 c.source = prov;
-                c.rowCount = getRowCount(prov);
+                c.rowCount = count;
                 ret.add(c);
             }
-            cur.close();
+        } catch(Exception e) {
+            catchException(e);
+        } finally {
+            if (cur != null) {
+                cur.close();
+            }
         }
         return ret;
-
     }
 
     public long getRowCountExpired() {
+        final SQLiteDatabase db = getDb();
         long count = 0;
         try {
             Cursor mCount = null;
@@ -64,8 +77,9 @@ public class SqlTileWriterExt extends SqlTileWriter {
                 count = mCount.getLong(0);
             }
             mCount.close();
-        } catch (Throwable ex) {
+        } catch (Exception ex) {
             Log.e(IMapView.LOGTAG, "Unable to query for expired tiles", ex);
+            catchException(ex);
         }
         return count;
     }
