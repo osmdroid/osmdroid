@@ -162,7 +162,7 @@ public class MapTileCache {
 	 */
 	public void clear() {
 		// remove them all individually so that they get recycled
-		final MapTileList list = new MapTileList(mCachedTiles.size());
+		final MapTileList list = new MapTileList();
 		populateSyncCachedTiles(list);
 		for (int i = 0; i < list.getSize() ; i ++) {
 			final long index = list.get(i);

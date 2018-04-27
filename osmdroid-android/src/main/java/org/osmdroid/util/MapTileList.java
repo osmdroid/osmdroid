@@ -11,20 +11,6 @@ public class MapTileList {
     private long[] mTileIndices;
     private int mSize;
 
-    /**
-     * @since 6.0.0
-     */
-    public MapTileList() {
-        this(1);
-    }
-
-    /**
-     * @since 6.0.0
-     */
-    public MapTileList(final int initialCapacity) {
-        mTileIndices = new long[initialCapacity];
-    }
-
     public void clear() {
         mSize = 0;
     }
@@ -68,17 +54,25 @@ public class MapTileList {
     }
 
     public void ensureCapacity(final int pCapacity) {
-        if (mTileIndices.length >= pCapacity) {
+        if (pCapacity == 0) {
+            return;
+        }
+        if (mTileIndices != null && mTileIndices.length >= pCapacity) {
             return;
         }
         synchronized(this) {
             final long[] tmp = new long[pCapacity];
-            System.arraycopy(mTileIndices, 0, tmp, 0, mTileIndices.length);
+            if (mTileIndices != null) {
+                System.arraycopy(mTileIndices, 0, tmp, 0, mTileIndices.length);
+            }
             mTileIndices = tmp;
         }
     }
 
     public boolean contains(final long pTileIndex) {
+        if (mTileIndices == null) {
+            return false;
+        }
         for (int i = 0 ; i < mSize ; i ++) {
             if (mTileIndices[i] == pTileIndex) {
                 return true;
@@ -92,7 +86,9 @@ public class MapTileList {
      */
     public long[] toArray() {
         final long[] result = new long[mSize];
-        System.arraycopy(mTileIndices, 0, result, 0, mSize);
+        if (mTileIndices != null) {
+            System.arraycopy(mTileIndices, 0, result, 0, mSize);
+        }
         return result;
     }
 }
