@@ -1,7 +1,7 @@
 description = 'Simple Map'
 
 apply plugin: 'com.android.application'
-apply from: "https://raw.githubusercontent.com/gradle-fury/gradle-fury/v1.1.4/gradle/android-support.gradle"
+apply from: "${rootDir}/gradle/android-support.gradle"
 
 android {
     defaultConfig {
