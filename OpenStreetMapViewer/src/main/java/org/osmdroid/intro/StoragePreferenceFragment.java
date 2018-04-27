@@ -140,7 +140,7 @@ public class StoragePreferenceFragment extends Fragment implements View.OnClickL
                 //i hate android!
                 for (int i = 0; i < externalFilesDirs.length; i++) {
                     File mount = externalFilesDirs[i];
-                    if (mount.exists() && mount.isDirectory()) {
+                    if (mount != null && mount.exists() && mount.isDirectory()) {
                         boolean writable = StorageUtils.isWritable(mount);
                         if (writable) {
                             boolean alreadyAdded = false;
