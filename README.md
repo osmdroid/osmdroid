@@ -1,16 +1,11 @@
-
-[![Build Status](https://api.travis-ci.org/osmdroid/osmdroid.svg?branch=master)](https://travis-ci.org/osmdroid/osmdroid)
-
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.osmdroid/osmdroid-android/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.osmdroid/osmdroid-android)
-
-[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-osmdroid-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/279)
-
-[![Get it on Google Play](https://play.google.com/intl/en_us/badges/images/badge_new.png)](https://play.google.com/store/apps/details?id=org.osmdroid)
-
-
-# osmdroid
+# osmdroid [![Build Status](https://api.travis-ci.org/osmdroid/osmdroid.svg?branch=master)](https://travis-ci.org/osmdroid/osmdroid) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.osmdroid/osmdroid-android/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.osmdroid/osmdroid-android) [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-osmdroid-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/279)
 
 osmdroid is a (almost) full/free replacement for Android's MapView (v1 API) class. It also includes a modular tile provider system with support for numerous online and offline tile sources and overlay support with built-in overlays for plotting icons, tracking location, and drawing shapes.
+
+<a href="https://f-droid.org/packages/org.osmdroid/">
+<img src="https://f-droid.org/badge/get-it-on.png" alt="Get it on F-Droid" height="90"></a>
+<a href="https://play.google.com/store/apps/details?id=org.osmdroid">
+<img src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png" alt="Get it on F-Droid" height="90"></a>
 
 Current Release: **6.0.1 Feb 18st, 2018**
 Current Development version: 6.0.2-SNAPSHOT
@@ -48,7 +43,6 @@ Be sure to replace `<VERSION>` with the last release version above.
 ```xml
 <platform>8</platform>
 ```
-
 You can also [compile osmdroid from source](https://github.com/osmdroid/osmdroid/wiki/How-to-build-osmdroid-from-source) or [download the dependency directly from OSS](https://oss.sonatype.org/content/groups/public/org/osmdroid/osmdroid-android/) or [download the distribution package](https://github.com/osmdroid/osmdroid/releases)
 
 ## Want the latest and greatest?
