@@ -2,9 +2,7 @@ package org.osmdroid.debug.model;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
-import org.osmdroid.api.IMapView;
 import org.osmdroid.tileprovider.modules.SqlTileWriter;
 
 import java.util.ArrayList;
@@ -67,21 +65,9 @@ public class SqlTileWriterExt extends SqlTileWriter {
     }
 
     public long getRowCountExpired() {
-        final SQLiteDatabase db = getDb();
-        long count = 0;
-        try {
-            Cursor mCount = null;
-
-            mCount = db.rawQuery("select count(*) from " + TABLE + " where " + COLUMN_EXPIRES + " < '" + System.currentTimeMillis() + "'", null);
-            if (mCount.moveToFirst()) {
-                count = mCount.getLong(0);
-            }
-            mCount.close();
-        } catch (Exception ex) {
-            Log.e(IMapView.LOGTAG, "Unable to query for expired tiles", ex);
-            catchException(ex);
-        }
-        return count;
+        return getRowCount(
+        COLUMN_EXPIRES + "<?"
+                , new String[] {String.valueOf(System.currentTimeMillis())});
     }
 
     public static class SourceCount {

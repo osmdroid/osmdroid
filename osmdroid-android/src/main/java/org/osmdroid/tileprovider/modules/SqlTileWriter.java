@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteFullException;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 
@@ -26,6 +27,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import static org.osmdroid.tileprovider.modules.DatabaseFileArchive.COLUMN_PROVIDER;
@@ -96,7 +98,7 @@ public class SqlTileWriter implements IFilesystemCache, SplashScreenable {
      */
     public void runCleanupOperation() {
         final SQLiteDatabase db = getDb();
-        if (db == null) {
+        if (db == null || !db.isOpen()) {
             if (Configuration.getInstance().isDebugMode()) {
                 Log.d(IMapView.LOGTAG, "Finished init thread, aborted due to null database reference");
             }
@@ -178,32 +180,7 @@ public class SqlTileWriter implements IFilesystemCache, SplashScreenable {
      * @since 5.6
      */
     public boolean exists(final String pTileSource, final long pMapTileIndex) {
-        final SQLiteDatabase db = getDb();
-        if (db == null || !db.isOpen()) {
-            Log.d(IMapView.LOGTAG, "Unable to test for tile exists cached tile from " + pTileSource + " " + MapTileIndex.toString(pMapTileIndex) + ", database not available.");
-            return false;
-        }
-        boolean returnValue=false;
-        Cursor cur=null;
-        try {
-            final long index = getIndex(pMapTileIndex);
-            cur = getTileCursor(getPrimaryKeyParameters(index, pTileSource), expireQueryColumn);
-
-            returnValue =(cur.moveToNext());
-
-        } catch (Exception ex) {
-            Log.e(IMapView.LOGTAG, "Unable to store cached tile from " + pTileSource + " " + MapTileIndex.toString(pMapTileIndex), ex);
-            catchException(ex);
-        } finally {
-            if (cur!=null)
-                try {
-                    cur.close();
-                }catch (Exception ex) {
-                //ignore
-                }
-        }
-
-        return returnValue;
+        return 1 == getRowCount(primaryKey, getPrimaryKeyParameters(getIndex(pMapTileIndex), pTileSource));
     }
 
     /**
@@ -404,7 +381,7 @@ public class SqlTileWriter implements IFilesystemCache, SplashScreenable {
     @Override
     public boolean remove(final ITileSource pTileSourceInfo, final long pMapTileIndex) {
         final SQLiteDatabase db = getDb();
-        if (db == null) {
+        if (db == null || !db.isOpen()) {
             Log.d(IMapView.LOGTAG, "Unable to delete cached tile from " + pTileSourceInfo.name() + " " + MapTileIndex.toString(pMapTileIndex) + ", database not available.");
             Counters.fileCacheSaveErrors++;
             return false;
@@ -431,24 +408,57 @@ public class SqlTileWriter implements IFilesystemCache, SplashScreenable {
      * @since 5.6
      */
     public long getRowCount(String tileSourceName) {
-        final SQLiteDatabase db = getDb();
-        try {
-            Cursor mCount = null;
-            if (tileSourceName == null)
-                mCount = db.rawQuery("select count(*) from " + TABLE, null);
-            else
-                mCount = db.rawQuery("select count(*) from " + TABLE + " where " + COLUMN_PROVIDER + "=?", new String[]{tileSourceName});
-            mCount.moveToFirst();
-            long count = mCount.getLong(0);
-            mCount.close();
-            return count;
-        } catch (Exception ex) {
-            Log.e(IMapView.LOGTAG, "Unable to query for row count " + tileSourceName, ex);
-            catchException(ex);
+        if (tileSourceName == null) {
+            return getRowCount(null, null);
         }
-        return 0;
+        return getRowCount(COLUMN_PROVIDER + "=?", new String[] {tileSourceName});
     }
 
+
+    /**
+     * Count cache tiles: helper method
+     * @since 6.0.2
+     * @return the number of tiles, or -1 if a problem occurred
+     */
+    protected long getRowCount(final String pWhereClause, final String[] pWhereClauseArgs) {
+        Cursor cursor = null;
+        try {
+            final SQLiteDatabase db = getDb();
+            if (db == null || !db.isOpen()) {
+                return -1;
+            }
+            cursor = db.rawQuery(
+                    "select count(*) from " + TABLE
+                            + (pWhereClause == null ? "" : " where " + pWhereClause), pWhereClauseArgs);
+            if (cursor.moveToFirst()) {
+                return cursor.getLong(0);
+            }
+        } catch (Exception ex) {
+            catchException(ex);
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return -1;
+    }
+
+    /**
+     * Count cache tiles
+     * @param pTileSourceName the tile source name (possibly null)
+     * @param pZoom the zoom level
+     * @param pInclude a collection of bounding boxes to include (possibly null/empty)
+     * @param pExclude a collection of bounding boxes to exclude (possibly null/empty)
+     * @since 6.0.2
+     * @return the number of corresponding tiles in the cache
+     */
+    public long getRowCount(final String pTileSourceName, final int pZoom,
+                            final Collection<Rect> pInclude, final Collection<Rect> pExclude) {
+        return getRowCount(
+                getWhereClause(pZoom, pInclude, pExclude)
+                        + (pTileSourceName != null ? " and " + COLUMN_PROVIDER + "=?" : "")
+                , pTileSourceName != null ? new String[] {pTileSourceName} : null);
+    }
 
     /**
     * Returns the size of the database file in bytes.
@@ -462,6 +472,9 @@ public class SqlTileWriter implements IFilesystemCache, SplashScreenable {
     */
     public long getFirstExpiry() {
         final SQLiteDatabase db = getDb();
+        if (db == null || !db.isOpen()) {
+            return 0;
+        }
         try {
             Cursor cursor = db.rawQuery("select min(" + COLUMN_EXPIRES + ") from " + TABLE, null);
             cursor.moveToFirst();
@@ -478,13 +491,30 @@ public class SqlTileWriter implements IFilesystemCache, SplashScreenable {
     /**
      *
      * @since 5.6.5
-     * @param pX
-     * @param pY
-     * @param pZ
-     * @return
+     * @see #extractXFromKeyInSQL(int)
+     * @see #extractYFromKeyInSQL(int)
+     * @return a composite key designed as a SQL primary key that includes X, Y and zoom
      */
     public static long getIndex(final long pX, final long pY, final long pZ) {
         return ((pZ << pZ) + pX << pZ) + pY;
+    }
+
+    /**
+     * @since 6.0.2
+     * @see #getIndex(long, long, long)
+     * @return the SQL formula to extract X from the table key for a given zoom level
+     */
+    protected static String extractXFromKeyInSQL(final int pZoom) {
+        return "((" + COLUMN_KEY + ">>" + pZoom + ")%" + (1 << pZoom) + ")";
+    }
+
+    /**
+     * @since 6.0.2
+     * @see #getIndex(long, long, long)
+     * @return the SQL formula to extract Y from the table key for a given zoom level
+     */
+    protected static String extractYFromKeyInSQL(final int pZoom) {
+        return "(" + COLUMN_KEY + "%" + (1 << pZoom) + ")";
     }
 
     /**
@@ -773,5 +803,109 @@ public class SqlTileWriter implements IFilesystemCache, SplashScreenable {
     public void runDuringSplashScreen() {
         final SQLiteDatabase db = getDb();
         createIndex(db);
+    }
+
+    /**
+     * @since 6.0.2
+     * @return the part of a SQL where clause used to restrict the selected tiles to
+     * - a zoom
+     * - a bounding box (possibly null)
+     */
+    protected StringBuilder getWhereClause(final int pZoom, final Rect pRect) {
+        final long maxValueForZoom = -1 + (1 << (pZoom + 1));
+        final long firstIndexForZoom = getIndex(0, 0, pZoom);
+        final long lastIndexForZoom = getIndex(maxValueForZoom, maxValueForZoom, pZoom);
+        final String xForZoom = extractXFromKeyInSQL(pZoom);
+        final String yForZoom = extractYFromKeyInSQL(pZoom);
+
+        final StringBuilder buffer = new StringBuilder();
+        buffer.append('(');
+        buffer.append(COLUMN_KEY).append(" between ")
+                .append(firstIndexForZoom).append(" and ").append(lastIndexForZoom);
+        if (pRect != null) {
+            buffer.append(" and ");
+            if (pRect.left == pRect.right) {
+                buffer.append(xForZoom).append("=").append(pRect.left);
+            } else {
+                buffer.append("(")
+                        .append(xForZoom).append(">=").append(pRect.left)
+                        .append(pRect.left < pRect.right ? " and " : " or ")
+                        .append(xForZoom).append("<=").append(pRect.right)
+                        .append(")");
+            }
+            buffer.append(" and ");
+            if (pRect.top == pRect.bottom) {
+                buffer.append(yForZoom).append("=").append(pRect.top);
+            } else {
+                buffer.append("(")
+                        .append(yForZoom).append(">=").append(pRect.top)
+                        .append(pRect.top < pRect.bottom ? " and " : " or ")
+                        .append(yForZoom).append("<=").append(pRect.bottom)
+                        .append(")");
+            }
+        }
+        buffer.append(')');
+        return buffer;
+    }
+
+    /**
+     * @since 6.0.2
+     * @return the part of a SQL where clause used to restrict the selected tiles to
+     * - a zoom
+     * - a collection of bounding boxes to include (possibly null/empty)
+     * - a collection of bounding boxes to exclude (possibly null/empty)
+     */
+    protected StringBuilder getWhereClause(final int pZoom,
+                                           final Collection<Rect> pInclude,
+                                           final Collection<Rect> pExclude) {
+        final StringBuilder buffer = new StringBuilder();
+        buffer.append('(');
+        buffer.append(getWhereClause(pZoom, null));
+        if (pInclude != null && pInclude.size() > 0) {
+            buffer.append(" and (");
+            String coordinator = "";
+            for (final Rect rect : pInclude) {
+                buffer.append(coordinator).append('(').append(getWhereClause(pZoom, rect)).append(')');
+                coordinator = " or ";
+            }
+            buffer.append(")");
+        }
+        if (pExclude != null && pExclude.size() > 0) {
+            buffer.append(" and not(");
+            String coordinator = "";
+            for (final Rect rect : pExclude) {
+                buffer.append(coordinator).append('(').append(getWhereClause(pZoom, rect)).append(')');
+                coordinator = " or ";
+            }
+            buffer.append(")");
+        }
+        buffer.append(')');
+        return buffer;
+    }
+
+    /**
+     * Delete cache tiles
+     * @since 6.0.2
+     * @param pTileSourceName the tile source name (possibly null)
+     * @param pZoom the zoom level
+     * @param pInclude a collection of bounding boxes to include (possibly null/empty)
+     * @param pExclude a collection of bounding boxes to exclude (possibly null/empty)
+     * @return the number of corresponding tiles deleted from the cache, or -1 if a problem occurred
+     */
+    public long delete(final String pTileSourceName, final int pZoom,
+                       final Collection<Rect> pInclude, final Collection<Rect> pExclude) {
+        try {
+            final SQLiteDatabase db = getDb();
+            if (db == null || !db.isOpen()) {
+                return -1;
+            }
+            return db.delete(TABLE,
+                    getWhereClause(pZoom, pInclude, pExclude)
+                            + (pTileSourceName != null ? " and " + COLUMN_PROVIDER + "=?" : ""),
+                    pTileSourceName != null ? new String[] {pTileSourceName} : null);
+        } catch (Exception ex) {
+            catchException(ex);
+            return 0;
+        }
     }
 }
