@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteFullException;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 
@@ -16,7 +17,6 @@ import org.osmdroid.tileprovider.util.Counters;
 import org.osmdroid.tileprovider.util.StreamUtils;
 import org.osmdroid.util.MapTileIndex;
 import org.osmdroid.util.GarbageCollector;
-import org.osmdroid.util.RectL;
 import org.osmdroid.util.SplashScreenable;
 
 import java.io.BufferedInputStream;
@@ -453,7 +453,7 @@ public class SqlTileWriter implements IFilesystemCache, SplashScreenable {
      * @return the number of corresponding tiles in the cache
      */
     public long getRowCount(final String pTileSourceName, final int pZoom,
-                            final Collection<RectL> pInclude, final Collection<RectL> pExclude) {
+                            final Collection<Rect> pInclude, final Collection<Rect> pExclude) {
         return getRowCount(
                 getWhereClause(pZoom, pInclude, pExclude)
                         + (pTileSourceName != null ? " and " + COLUMN_PROVIDER + "=?" : "")
@@ -811,7 +811,7 @@ public class SqlTileWriter implements IFilesystemCache, SplashScreenable {
      * - a zoom
      * - a bounding box (possibly null)
      */
-    protected StringBuilder getWhereClause(final int pZoom, final RectL pRect) {
+    protected StringBuilder getWhereClause(final int pZoom, final Rect pRect) {
         final long maxValueForZoom = -1 + (1 << (pZoom + 1));
         final long firstIndexForZoom = getIndex(0, 0, pZoom);
         final long lastIndexForZoom = getIndex(maxValueForZoom, maxValueForZoom, pZoom);
@@ -856,15 +856,15 @@ public class SqlTileWriter implements IFilesystemCache, SplashScreenable {
      * - a collection of bounding boxes to exclude (possibly null/empty)
      */
     protected StringBuilder getWhereClause(final int pZoom,
-                                           final Collection<RectL> pInclude,
-                                           final Collection<RectL> pExclude) {
+                                           final Collection<Rect> pInclude,
+                                           final Collection<Rect> pExclude) {
         final StringBuilder buffer = new StringBuilder();
         buffer.append('(');
         buffer.append(getWhereClause(pZoom, null));
         if (pInclude != null && pInclude.size() > 0) {
             buffer.append(" and (");
             String coordinator = "";
-            for (final RectL rect : pInclude) {
+            for (final Rect rect : pInclude) {
                 buffer.append(coordinator).append('(').append(getWhereClause(pZoom, rect)).append(')');
                 coordinator = " or ";
             }
@@ -873,7 +873,7 @@ public class SqlTileWriter implements IFilesystemCache, SplashScreenable {
         if (pExclude != null && pExclude.size() > 0) {
             buffer.append(" and not(");
             String coordinator = "";
-            for (final RectL rect : pExclude) {
+            for (final Rect rect : pExclude) {
                 buffer.append(coordinator).append('(').append(getWhereClause(pZoom, rect)).append(')');
                 coordinator = " or ";
             }
@@ -893,7 +893,7 @@ public class SqlTileWriter implements IFilesystemCache, SplashScreenable {
      * @return the number of corresponding tiles deleted from the cache, or -1 if a problem occurred
      */
     public long delete(final String pTileSourceName, final int pZoom,
-                       final Collection<RectL> pInclude, final Collection<RectL> pExclude) {
+                       final Collection<Rect> pInclude, final Collection<Rect> pExclude) {
         try {
             final SQLiteDatabase db = getDb();
             if (db == null || !db.isOpen()) {
