@@ -325,6 +325,15 @@ public class MapTileProviderArray extends MapTileProviderBase {
 	/**
 	 * @since 6.0.2
 	 */
+	public void clearDelays() {
+		synchronized (mTileDelays) {
+			mTileDelays.clear();
+		}
+	}
+
+	/**
+	 * @since 6.0.2
+	 */
 	public void setExponentialBackoffDurationInMillis(final long[] pExponentialBackoffDurationInMillis) {
 		mExponentialBackoffDurationInMillis = pExponentialBackoffDurationInMillis;
 	}
