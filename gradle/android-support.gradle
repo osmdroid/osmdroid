@@ -63,7 +63,7 @@ afterEvaluate { project ->
                     || (task.name.toLowerCase().startsWith("bundle") && task.name.toLowerCase().contains('release'))
                     || (task.name.toLowerCase().startsWith("package") && task.name.toLowerCase().contains('release'))
                     || (task.name.equals("validateReleaseSigning"))) {
-
+                task.setEnabled(canSign);
                 //disabled temporarily task.setEnabled(canSign);
             }
         }
