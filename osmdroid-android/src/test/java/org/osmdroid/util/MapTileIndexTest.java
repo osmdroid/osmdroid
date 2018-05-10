@@ -6,8 +6,6 @@ import org.junit.Test;
 
 import java.util.Random;
 
-import microsoft.mappoint.TileSystem;
-
 /**
  * Unit tests related to {@link MapTileIndex}
  * @since 6.0.0

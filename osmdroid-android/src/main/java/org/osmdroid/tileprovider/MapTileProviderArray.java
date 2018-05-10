@@ -249,7 +249,7 @@ public class MapTileProviderArray extends MapTileProviderBase {
 
 	@Override
 	public int getMinimumZoomLevel() {
-		int result = microsoft.mappoint.TileSystem.getMaximumZoomLevel();
+		int result = org.osmdroid.util.TileSystem.getMaximumZoomLevel();
 		synchronized (mTileProviderList) {
 			for (final MapTileModuleProviderBase tileProvider : mTileProviderList) {
 				if (tileProvider.getMinimumZoomLevel() < result) {

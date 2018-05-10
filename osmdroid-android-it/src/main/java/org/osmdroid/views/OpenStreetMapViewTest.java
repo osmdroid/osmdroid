@@ -84,7 +84,7 @@ public class OpenStreetMapViewTest extends ActivityInstrumentationTestCase2<Star
 	 * @since 6.0.0
 	 */
 	private double getRandomZoom(final double pMin) {
-		return getRandom(pMin, microsoft.mappoint.TileSystem.getMaximumZoomLevel());
+		return getRandom(pMin, TileSystem.getMaximumZoomLevel());
 	}
 
 	/**

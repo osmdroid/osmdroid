@@ -130,7 +130,7 @@ public class MapTileFileArchiveProvider extends MapTileFileStorageProviderBase {
 	public int getMaximumZoomLevel() {
 		ITileSource tileSource = mTileSource.get();
 		return tileSource != null ? tileSource.getMaximumZoomLevel()
-				: microsoft.mappoint.TileSystem.getMaximumZoomLevel();
+				: org.osmdroid.util.TileSystem.getMaximumZoomLevel();
 	}
 
 	@Override

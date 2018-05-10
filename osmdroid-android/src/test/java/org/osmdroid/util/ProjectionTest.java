@@ -31,7 +31,7 @@ public class ProjectionTest {
 
     private static final Random mRandom = new Random();
     private static final int mMinZoomLevel = 0;
-    private static final int mMaxZoomLevel = microsoft.mappoint.TileSystem.getMaximumZoomLevel();
+    private static final int mMaxZoomLevel = TileSystem.getMaximumZoomLevel();
     private static final int mMinimapZoomLevelDifference = 5;
     private static final int mNbIterations = 1000;
     private static final Rect mScreenRect = new Rect();
