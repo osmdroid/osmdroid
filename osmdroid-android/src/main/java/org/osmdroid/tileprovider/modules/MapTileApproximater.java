@@ -95,7 +95,7 @@ public class MapTileApproximater extends MapTileModuleProviderBase {
 
     @Override
     public int getMaximumZoomLevel() {
-        return microsoft.mappoint.TileSystem.getMaximumZoomLevel();
+        return org.osmdroid.util.TileSystem.getMaximumZoomLevel();
     }
 
     @Deprecated

@@ -141,7 +141,7 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 	public int getMaximumZoomLevel() {
 		OnlineTileSourceBase tileSource = mTileSource.get();
 		return (tileSource != null ? tileSource.getMaximumZoomLevel()
-				: microsoft.mappoint.TileSystem.getMaximumZoomLevel());
+				: org.osmdroid.util.TileSystem.getMaximumZoomLevel());
 	}
 
 	@Override

@@ -35,7 +35,7 @@ public class Projection implements IProjection {
 	 * WARNING: `mProjectedMapSize` MUST NOT be a static member,
 	 * as it depends on {@link TileSystem#getTileSize()}
 	 */
-	public final double mProjectedMapSize = TileSystem.MapSize((double)microsoft.mappoint.TileSystem.projectionZoomLevel);
+	public final double mProjectedMapSize = TileSystem.MapSize((double)TileSystem.projectionZoomLevel);
 	private long mOffsetX;
 	private long mOffsetY;
 	private long mScrollX;
@@ -406,7 +406,7 @@ public class Projection implements IProjection {
 	 * @since 6.0.0
 	 */
 	public double getProjectedPowerDifference() {
-		final double zoomDifference = microsoft.mappoint.TileSystem.projectionZoomLevel - getZoomLevel();
+		final double zoomDifference = TileSystem.projectionZoomLevel - getZoomLevel();
 		return TileSystem.getFactor(zoomDifference);
 	}
 

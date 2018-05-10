@@ -1,7 +1,5 @@
 package org.osmdroid.util;
 
-import microsoft.mappoint.TileSystem;
-
 /**
  * Computes a map tile index as `long` to/from zoom/x/y
  * Algorithm unfortunately different from SqlTileWriter.getIndex for historical reasons.

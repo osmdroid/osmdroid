@@ -18,8 +18,6 @@ import java.net.URL;
 import java.util.Locale;
 import java.util.Map;
 
-import microsoft.mappoint.TileSystem;
-
 /**
  * BingMap tile source used with OSMDroid<br>
  * <p>

@@ -24,14 +24,52 @@ public final class TileSystem {
 	public static final double MinLongitude = -180d;
 	public static final double MaxLongitude = 180d;
 
-	/** @see microsoft.mappoint.TileSystem#setTileSize(int) */
+    /**
+     * @since 6.0.2
+     * Used to be in the `TileSystem` class of another package
+     */
+	private static int mTileSize = 256;
+
+	/**
+	 * The maximum possible zoom for primary key of SQLite table is 29,
+	 * because it gives enough space for y(29bits), x(29bits) and zoom(5bits in order to code 29),
+	 * total: 63 bits used, just small enough for a `long` variable of 4 bytes
+     * @since 6.0.2
+     * Used to be in the `TileSystem` class of another package
+	 */
+	public static final int primaryKeyMaxZoomLevel = 29;
+
+    /**
+     * @since 6.0.2
+     * Used to be in the `TileSystem` class of another package
+     */
+	public static final int projectionZoomLevel = primaryKeyMaxZoomLevel + 1;
+
+	/**
+	 * Maximum Zoom Level - we use Integers to store zoom levels so overflow happens at 2^32 - 1,
+	 * but we also have a tile size that is typically 2^8, so (32-1)-8-1 = 22
+     * @since 6.0.2
+     * Used to be in the `TileSystem` class of another package
+	 */
+	private static int mMaxZoomLevel = primaryKeyMaxZoomLevel;
+
 	public static void setTileSize(final int tileSize) {
-		microsoft.mappoint.TileSystem.setTileSize(tileSize);
+		int pow2 = (int) (0.5 + Math.log(tileSize) / Math.log(2));
+		mMaxZoomLevel = Math.min(primaryKeyMaxZoomLevel, (64 - 1) - pow2 - 1);
+
+		mTileSize = tileSize;
 	}
 
-	/** @see microsoft.mappoint.TileSystem#getTileSize() */
 	public static int getTileSize() {
-		return microsoft.mappoint.TileSystem.getTileSize();
+		return mTileSize;
+	}
+
+    /**
+     * @since 6.0.2
+     * Used to be in the `TileSystem` class of another package
+     */
+	public static int getMaximumZoomLevel() {
+		return mMaxZoomLevel;
 	}
 
 	/**
@@ -48,15 +86,13 @@ public final class TileSystem {
 		return MyMath.floorToInt(pZoomLevel);
 	}
 
-	/** @see microsoft.mappoint.TileSystem#MapSize(int) */
 	@Deprecated
 	public static int MapSize(final int levelOfDetail) {
-		return microsoft.mappoint.TileSystem.MapSize(levelOfDetail);
+		return (int)Math.round(MapSize((double)levelOfDetail));
 	}
 
 	/**
 	 * @since 6.0.0
-	 * @see microsoft.mappoint.TileSystem#MapSize(int)
 	 */
 	public static double MapSize(final double pZoomLevel) {
 		return getTileSize() * getFactor(pZoomLevel);
@@ -69,7 +105,6 @@ public final class TileSystem {
 		return Math.pow(2, pZoomLevel);
 	}
 
-	/** @see microsoft.mappoint.TileSystem#GroundResolution(double, int) */
 	public static double GroundResolution(final double latitude, final int levelOfDetail) {
 		return GroundResolution(latitude, (double)levelOfDetail);
 	}
@@ -84,7 +119,6 @@ public final class TileSystem {
 	/**
 	 * Most likely meters/pixel at the given latitude
 	 * @since 6.0.0
-	 * @see microsoft.mappoint.TileSystem#GroundResolution(double, int)
 	 */
 	public static double GroundResolutionMapSize(double latitude, final double mapSize) {
 		latitude = Clip(latitude, MinLatitude, MaxLatitude);
@@ -92,19 +126,18 @@ public final class TileSystem {
 				/ mapSize;
 	}
 
-	/** @see microsoft.mappoint.TileSystem#MapScale(double, int, int) */
 	public static double MapScale(final double latitude, final int levelOfDetail, final int screenDpi) {
 		return GroundResolution(latitude, levelOfDetail) * screenDpi / 0.0254;
 	}
 
-	/** @see microsoft.mappoint.TileSystem#LatLongToPixelXY(double, double, int, Point) */
 	@Deprecated
 	public static Point LatLongToPixelXY(
 			final double latitude, final double longitude, final int levelOfDetail, final Point reuse) {
-		return microsoft.mappoint.TileSystem.LatLongToPixelXY(
-				wrap(latitude, -90, 90, 180),
-				wrap(longitude, -180, 180, 360),
-				levelOfDetail, reuse);
+		final Point out = (reuse == null ? new Point() : reuse);
+		final int size = MapSize(levelOfDetail);
+		out.x = truncateToInt(getMercatorXFromLongitude(longitude, size, true));
+		out.y = truncateToInt(getMercatorYFromLatitude(latitude, size, true));
+		return out;
 	}
 
 	/**
@@ -136,11 +169,7 @@ public final class TileSystem {
 	@Deprecated
 	public static GeoPoint PixelXYToLatLong(
 			final int pixelX, final int pixelY, final int levelOfDetail, final GeoPoint reuse) {
-		final int mapSize = MapSize(levelOfDetail);
-		return microsoft.mappoint.TileSystem.PixelXYToLatLong(
-				MyMath.floorToInt(wrap(pixelX, 0, mapSize - 1, mapSize)),
-				MyMath.floorToInt(wrap(pixelY, 0, mapSize - 1, mapSize)),
-				levelOfDetail, reuse);
+		return getGeoFromMercator(pixelX, pixelY, MapSize(levelOfDetail), reuse, true, true);
 	}
 
 	/**
@@ -211,7 +240,6 @@ public final class TileSystem {
 
 	/**
 	 * @since 6.0.0
-	 * @see microsoft.mappoint.TileSystem#PixelXYToLatLong(int, int, int, GeoPoint)
 	 * Use {@link TileSystem#getGeoFromMercator(long, long, double, GeoPoint, boolean, boolean)} instead
 	 */
 	@Deprecated public static GeoPoint PixelXYToLatLongMapSize(final int pixelX, final int pixelY,
@@ -224,7 +252,6 @@ public final class TileSystem {
 	 * @since 6.0.0
 	 * Same as {@link #PixelXYToLatLongMapSize(int, int, double, GeoPoint, boolean, boolean) PixelXYToLatLongMapSize}
 	 * but without wrap
-	 * @see microsoft.mappoint.TileSystem#PixelXYToLatLong(int, int, int, GeoPoint)
 	 */
 	public static GeoPoint PixelXYToLatLongMapSizeWithoutWrap(final int pixelX, final int pixelY,
 			final double mapSize, final GeoPoint reuse) {
@@ -240,7 +267,6 @@ public final class TileSystem {
 
 	/**
 	 * @since 6.0.0
-	 * @see microsoft.mappoint.TileSystem#Clip(double, double, double)
 	 */
 	public static double Clip(final double n, final double minValue, final double maxValue) {
 		return Math.min(Math.max(n, minValue), maxValue);
@@ -248,12 +274,11 @@ public final class TileSystem {
 
 	@Deprecated
 	public static Point PixelXYToTileXY(final int pixelX, final int pixelY, final Point reuse) {
-		return microsoft.mappoint.TileSystem.PixelXYToTileXY(pixelX, pixelY, reuse);
+		return PixelXYToTileXY(pixelX, pixelY, getTileSize(), reuse);
 	}
 
 	/**
 	 * @since 6.0.0
-	 * @see microsoft.mappoint.TileSystem#PixelXYToTileXY(int, int, Point)
 	 * Use {@link TileSystem#getTileFromMercator(long, double)} instead
 	 */
 	@Deprecated
@@ -280,12 +305,15 @@ public final class TileSystem {
 
 	@Deprecated
 	public static Point TileXYToPixelXY(final int tileX, final int tileY, final Point reuse) {
-		return microsoft.mappoint.TileSystem.TileXYToPixelXY(tileX, tileY, reuse);
+		final Point out = (reuse == null ? new Point() : reuse);
+		final int size = getTileSize();
+		out.x = truncateToInt(getMercatorFromTile(tileX, size));
+		out.y = truncateToInt(getMercatorFromTile(tileY, size));
+		return out;
 	}
 
 	/**
 	 * @since 6.0.0
-	 * @see microsoft.mappoint.TileSystem#TileXYToPixelXY(int, int, Point)
 	 * Use {@link TileSystem#getMercatorFromTile(int, double)} instead
 	 */
 	@Deprecated
@@ -296,14 +324,62 @@ public final class TileSystem {
 		return out;
 	}
 
-	/** @see microsoft.mappoint.TileSystem#TileXYToQuadKey(int, int, int) */
+	/**
+	 * Use {@link MapTileIndex#getTileIndex(int, int, int)} instead
+	 * Quadkey principles can be found at https://msdn.microsoft.com/en-us/library/bb259689.aspx
+	 * Works only for zoom level >= 1
+	 */
 	public static String TileXYToQuadKey(final int tileX, final int tileY, final int levelOfDetail) {
-		return microsoft.mappoint.TileSystem.TileXYToQuadKey(tileX, tileY, levelOfDetail);
+		final char[] quadKey = new char[levelOfDetail];
+		for (int i = 0 ; i < levelOfDetail;  i++) {
+			char digit = '0';
+			final int mask = 1 << i;
+			if ((tileX & mask) != 0) {
+				digit++;
+			}
+			if ((tileY & mask) != 0) {
+				digit++;
+				digit++;
+			}
+			quadKey[levelOfDetail - i - 1] = digit;
+		}
+		return new String(quadKey);
 	}
 
-	/** @see microsoft.mappoint.TileSystem#QuadKeyToTileXY(String, Point) */
+	/**
+	 * Use {@link MapTileIndex#getX(long)} and {@link MapTileIndex#getY(long)} instead
+	 * Quadkey principles can be found at https://msdn.microsoft.com/en-us/library/bb259689.aspx
+	 */
 	public static Point QuadKeyToTileXY(final String quadKey, final Point reuse) {
-		return microsoft.mappoint.TileSystem.QuadKeyToTileXY(quadKey, reuse);
+		final Point out = reuse == null ? new Point() : reuse;
+		if (quadKey == null || quadKey.length() == 0) {
+			throw new IllegalArgumentException("Invalid QuadKey: " + quadKey);
+		}
+		int tileX = 0;
+		int tileY = 0;
+		final int zoom = quadKey.length();
+		for (int i = 0 ; i < zoom;  i++) {
+			final int value = 1 << i;
+			switch (quadKey.charAt(zoom - i - 1)) {
+				case '0':
+					break;
+				case '1':
+					tileX += value;
+					break;
+				case '2':
+					tileY += value;
+					break;
+				case '3':
+					tileX += value;
+					tileY += value;
+					break;
+				default:
+					throw new IllegalArgumentException("Invalid QuadKey: " + quadKey);
+			}
+		}
+		out.x = tileX;
+		out.y = tileY;
+		return out;
 	}
 
 	/**
