@@ -4,6 +4,7 @@ import android.util.Log;
 
 import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.TileSystem;
+import org.osmdroid.util.TileSystemWebMercator;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
@@ -27,6 +28,8 @@ import java.util.List;
 
 public class DomParserWms111 {
     static final String TAG = "osmdroidwms";
+
+    private static final TileSystem tileSystem = new TileSystemWebMercator();
 
     public static WMSEndpoint parse(Element element) throws Exception {
         //  WMTMSCapabilities ret = new WMTMSCapabilities();
@@ -177,12 +180,12 @@ public class DomParserWms111 {
             } else if (name.contains("LatLonBoundingBox")) {
                 //TODO need some handling for crs here
                 south = (Double.parseDouble(e.getAttributes().getNamedItem("miny").getNodeValue()));
-                if (south < TileSystem.MinLatitude)
-                    south = TileSystem.MinLatitude;
+                if (south < tileSystem.getMinLatitude())
+                    south = tileSystem.getMinLatitude();
                 north = (Double.parseDouble(e.getAttributes().getNamedItem("maxy").getNodeValue()));
 
-                if (north > TileSystem.MaxLatitude)
-                    north = TileSystem.MaxLatitude;
+                if (north > tileSystem.getMaxLatitude())
+                    north = tileSystem.getMaxLatitude();
                 west = (Double.parseDouble(e.getAttributes().getNamedItem("maxx").getNodeValue()));
                 east = (Double.parseDouble(e.getAttributes().getNamedItem("minx").getNodeValue()));
                 ret.setBbox(new BoundingBox(north, east, south, west));

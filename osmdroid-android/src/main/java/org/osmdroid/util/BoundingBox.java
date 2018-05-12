@@ -25,6 +25,7 @@ public class BoundingBox implements Parcelable, Serializable {
 	// ===========================================================
 
 	static final long serialVersionUID = 2L;
+	private static final TileSystem tileSystem = new TileSystemWebMercator();
 
 	// ===========================================================
 	// Fields
@@ -55,14 +56,14 @@ public class BoundingBox implements Parcelable, Serializable {
 		//  30 > 0 OK
 		// 30 < 0 not ok
 
-		if (north > TileSystem.MaxLongitude || north < TileSystem.MinLatitude)
-			throw new IllegalArgumentException("north must be less than " +TileSystem.MaxLongitude + " value was " + toString());
-		if (south < TileSystem.MinLatitude || south > TileSystem.MaxLatitude)
-			throw new IllegalArgumentException("south more than " + TileSystem.MinLatitude + " value was " + toString());
-		if (west <	 TileSystem.MinLongitude || west > TileSystem.MaxLongitude)
-			throw new IllegalArgumentException("west must be more than " + TileSystem.MinLongitude + " value was " + toString());
-		if (east > TileSystem.MaxLongitude || east < TileSystem.MinLongitude)
-			throw new IllegalArgumentException("east must be less than " + TileSystem.MaxLongitude + " value was " + toString());
+		if (north > tileSystem.getMaxLongitude() || north < tileSystem.getMinLatitude())
+			throw new IllegalArgumentException("north must be less than " +tileSystem.getMaxLongitude() + " value was " + toString());
+		if (south < tileSystem.getMinLatitude() || south > tileSystem.getMaxLatitude())
+			throw new IllegalArgumentException("south more than " + tileSystem.getMinLatitude() + " value was " + toString());
+		if (west <	 tileSystem.getMinLongitude() || west > tileSystem.getMaxLongitude())
+			throw new IllegalArgumentException("west must be more than " + tileSystem.getMinLongitude() + " value was " + toString());
+		if (east > tileSystem.getMaxLongitude() || east < tileSystem.getMinLongitude())
+			throw new IllegalArgumentException("east must be less than " + tileSystem.getMaxLongitude() + " value was " + toString());
 	}
 
 	public BoundingBox clone(){
@@ -135,13 +136,13 @@ public class BoundingBox implements Parcelable, Serializable {
 	public static double getCenterLongitude(final double pWest, final double pEast) {
 		double longitude = (pEast + pWest) / 2.0;
 		if (pEast < pWest) {
-			longitude += TileSystem.MaxLongitude;
+			longitude += tileSystem.getMaxLongitude();
 		}
-		while (longitude > TileSystem.MaxLongitude) {
-			longitude -= 2 * TileSystem.MaxLongitude;
+		while (longitude > tileSystem.getMaxLongitude()) {
+			longitude -= 2 * tileSystem.getMaxLongitude();
 		}
-		while (longitude < TileSystem.MinLongitude) {
-			longitude += 2 * TileSystem.MaxLongitude;
+		while (longitude < tileSystem.getMinLongitude()) {
+			longitude += 2 * tileSystem.getMaxLongitude();
 		}
 		return longitude;
 	}

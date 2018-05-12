@@ -10,10 +10,10 @@ import android.widget.Toast;
 
 import org.osmdroid.R;
 import org.osmdroid.samplefragments.BaseSampleFragment;
-import org.osmdroid.tileprovider.cachemanager.CacheManager;
 import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.TileSystem;
+import org.osmdroid.util.TileSystemWebMercator;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Polygon;
 
@@ -26,6 +26,7 @@ import java.util.List;
 public class SampleZoomToBounding extends BaseSampleFragment implements View.OnClickListener {
 
     private static final int border = 10;
+    private static final TileSystem tileSystem = new TileSystemWebMercator();
 
     private Polygon polygon;
     Button btnCache;
@@ -60,19 +61,19 @@ public class SampleZoomToBounding extends BaseSampleFragment implements View.OnC
             case R.id.btnCache:
                 boolean ok = false;
                 while (!ok) {
-                    final double south = getRandomLatitude(TileSystem.MinLatitude);
+                    final double south = getRandomLatitude(mMapView.getTileSystem().getMinLatitude());
                     final double north = getRandomLatitude(south);
                     final double west = getRandomLongitude();
                     double east = getRandomLongitude();
                     final BoundingBox boundingBox = new BoundingBox(north, east, south, west);
-                    final double zoom = TileSystem.getBoundingBoxZoom(boundingBox, mMapView.getWidth() - 2 * border, mMapView.getHeight() - 2 * border);
+                    final double zoom = mMapView.getTileSystem().getBoundingBoxZoom(boundingBox, mMapView.getWidth() - 2 * border, mMapView.getHeight() - 2 * border);
                     ok = zoom >= mMapView.getMinZoomLevel() && zoom <= mMapView.getMaxZoomLevel();
                     if (ok) {
                         final String text = "with a border of " + border + " the computed zoom is " + zoom + " for box " + boundingBox;
                         Toast.makeText(getActivity(), text, Toast.LENGTH_LONG).show();
                         final List<GeoPoint> points = new ArrayList<>();
                         if (west > east) {
-                            east += 2 * TileSystem.MaxLongitude;
+                            east += 2 * tileSystem.getMaxLongitude();
                         }
                         addPoints(points, north, west, north, east);
                         addPoints(points, north, east, south, east);
@@ -133,10 +134,10 @@ public class SampleZoomToBounding extends BaseSampleFragment implements View.OnC
     }
 
     private double getRandomLongitude() {
-        return Math.random() * (TileSystem.MaxLongitude - TileSystem.MinLongitude) + TileSystem.MinLongitude;
+        return tileSystem.getRandomLongitude(Math.random());
     }
 
     private double getRandomLatitude(final double pMinLatitude) {
-        return Math.random() * (TileSystem.MaxLatitude - pMinLatitude) + pMinLatitude;
+        return tileSystem.getRandomLatitude(Math.random(), pMinLatitude);
     }
 }

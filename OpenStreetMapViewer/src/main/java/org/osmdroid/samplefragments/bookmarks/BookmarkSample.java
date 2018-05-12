@@ -9,7 +9,6 @@ import org.osmdroid.R;
 import org.osmdroid.events.MapEventsReceiver;
 import org.osmdroid.samplefragments.BaseSampleFragment;
 import org.osmdroid.util.GeoPoint;
-import org.osmdroid.util.TileSystem;
 import org.osmdroid.views.overlay.MapEventsOverlay;
 import org.osmdroid.views.overlay.Marker;
 
@@ -90,9 +89,9 @@ public class BookmarkSample extends BaseSampleFragment {
                             valid = false;
                         }
 
-                        if (latD > TileSystem.MaxLatitude || latD < TileSystem.MinLatitude)
+                        if (latD > mMapView.getTileSystem().getMaxLatitude() || latD < mMapView.getTileSystem().getMinLatitude())
                             valid = false;
-                        if (lonD > TileSystem.MaxLongitude || lonD < TileSystem.MinLongitude)
+                        if (lonD > mMapView.getTileSystem().getMaxLongitude() || lonD < mMapView.getTileSystem().getMinLongitude())
                             valid = false;
 
                         if (valid) {

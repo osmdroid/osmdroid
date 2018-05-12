@@ -28,6 +28,7 @@ import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.GeometryMath;
 import org.osmdroid.util.TileSystem;
+import org.osmdroid.util.TileSystemWebMercator;
 import org.osmdroid.views.overlay.DefaultOverlayManager;
 import org.osmdroid.views.overlay.Overlay;
 import org.osmdroid.views.overlay.OverlayManager;
@@ -165,6 +166,8 @@ public class MapView extends ViewGroup implements IMapView,
          */
 		void onFirstLayout(View v, int left, int top, int right, int bottom);
 	}
+
+	private TileSystem mTileSystem = new TileSystemWebMercator();
 
 	// ===========================================================
 	// Constructors
@@ -507,7 +510,7 @@ public class MapView extends ViewGroup implements IMapView,
 	 * @since 6.0.0
 	 */
 	public void zoomToBoundingBox(final BoundingBox boundingBox, final boolean animated, final int borderSizeInPixels) {
-		double nextZoom = TileSystem.getBoundingBoxZoom(boundingBox, getWidth() - 2 * borderSizeInPixels, getHeight() - 2 * borderSizeInPixels);
+		double nextZoom = mTileSystem.getBoundingBoxZoom(boundingBox, getWidth() - 2 * borderSizeInPixels, getHeight() - 2 * borderSizeInPixels);
 		if (nextZoom == Double.MIN_VALUE) {
 			return;
 		}
@@ -1732,5 +1735,19 @@ public class MapView extends ViewGroup implements IMapView,
 	 */
 	public void setZoomRounding(final boolean pZoomRounding) {
 		mZoomRounding = pZoomRounding;
+	}
+
+	/**
+	 * @since 6.0.2
+	 */
+	public TileSystem getTileSystem() {
+		return mTileSystem;
+	}
+
+	/**
+	 * @since 6.0.2
+	 */
+	public void setTileSystem(final TileSystem pTileSystem) {
+		mTileSystem = pTileSystem;
 	}
 }

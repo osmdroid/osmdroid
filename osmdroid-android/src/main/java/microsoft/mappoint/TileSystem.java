@@ -1,6 +1,7 @@
 package microsoft.mappoint;
 
 import org.osmdroid.util.GeoPoint;
+import org.osmdroid.util.TileSystemWebMercator;
 
 import android.graphics.Point;
 
@@ -10,6 +11,8 @@ import android.graphics.Point;
  */
 @Deprecated
 public final class TileSystem {
+
+	private static final TileSystemWebMercator tileSystem = new TileSystemWebMercator();
 
 	@Deprecated
 	public static final int primaryKeyMaxZoomLevel = org.osmdroid.util.TileSystem.primaryKeyMaxZoomLevel;
@@ -52,23 +55,23 @@ public final class TileSystem {
 	@Deprecated
 	public static Point LatLongToPixelXY(double latitude, double longitude,
 			final int levelOfDetail, final Point reuse) {
-		return org.osmdroid.util.TileSystem.LatLongToPixelXY(latitude, longitude, levelOfDetail, reuse);
+		return tileSystem.LatLongToPixelXY(latitude, longitude, levelOfDetail, reuse);
 	}
 
 	@Deprecated
 	public static GeoPoint PixelXYToLatLong(final int pixelX, final int pixelY,
 			final int levelOfDetail, final GeoPoint reuse) {
-		return org.osmdroid.util.TileSystem.PixelXYToLatLong(pixelX, pixelY, levelOfDetail, reuse);
+		return tileSystem.PixelXYToLatLong(pixelX, pixelY, levelOfDetail, reuse);
 	}
 
 	@Deprecated
 	public static Point PixelXYToTileXY(final int pixelX, final int pixelY, final Point reuse) {
-		return org.osmdroid.util.TileSystem.PixelXYToTileXY(pixelX, pixelY, reuse);
+		return tileSystem.PixelXYToTileXY(pixelX, pixelY, reuse);
 	}
 
 	@Deprecated
 	public static Point TileXYToPixelXY(final int tileX, final int tileY, final Point reuse) {
-		return org.osmdroid.util.TileSystem.TileXYToPixelXY(tileX, tileY, reuse);
+		return tileSystem.TileXYToPixelXY(tileX, tileY, reuse);
 	}
 
 	@Deprecated

@@ -495,11 +495,11 @@ public class MapController implements IMapController, OnFirstLayoutListener {
         }
 
         private double cleanLongitude(double pLongitude) {
-            while (pLongitude < TileSystem.MinLongitude) {
-                pLongitude += (TileSystem.MaxLongitude - TileSystem.MinLongitude);
+            while (pLongitude < mMapController.mMapView.getTileSystem().getMinLongitude()) {
+                pLongitude += (mMapController.mMapView.getTileSystem().getMaxLongitude() - mMapController.mMapView.getTileSystem().getMinLongitude());
             }
-            while (pLongitude > TileSystem.MaxLongitude) {
-                pLongitude -= (TileSystem.MaxLongitude - TileSystem.MinLongitude);
+            while (pLongitude > mMapController.mMapView.getTileSystem().getMaxLongitude()) {
+                pLongitude -= (mMapController.mMapView.getTileSystem().getMaxLongitude() - mMapController.mMapView.getTileSystem().getMinLongitude());
             }
             return pLongitude;
         }
