@@ -89,9 +89,9 @@ public class BookmarkSample extends BaseSampleFragment {
                             valid = false;
                         }
 
-                        if (latD > mMapView.getTileSystem().getMaxLatitude() || latD < mMapView.getTileSystem().getMinLatitude())
+                        if (!mMapView.getTileSystem().isValidLatitude(latD))
                             valid = false;
-                        if (lonD > mMapView.getTileSystem().getMaxLongitude() || lonD < mMapView.getTileSystem().getMinLongitude())
+                        if (!mMapView.getTileSystem().isValidLongitude(lonD))
                             valid = false;
 
                         if (valid) {

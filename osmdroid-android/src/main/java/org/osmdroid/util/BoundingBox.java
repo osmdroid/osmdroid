@@ -45,6 +45,13 @@ public class BoundingBox implements Parcelable, Serializable {
 	}
 
 	/**
+	 * @since 6.0.2
+	 * In order to avoid longitude and latitude checks that will crash
+	 * in TileSystem configurations with a bounding box that doesn't include [0,0]
+	 */
+	public BoundingBox() {}
+
+	/**
 	 * @since 6.0.0
 	 */
 	public void set(final double north, final double east, final double south, final double west) {
@@ -56,14 +63,14 @@ public class BoundingBox implements Parcelable, Serializable {
 		//  30 > 0 OK
 		// 30 < 0 not ok
 
-		if (north > tileSystem.getMaxLongitude() || north < tileSystem.getMinLatitude())
-			throw new IllegalArgumentException("north must be less than " +tileSystem.getMaxLongitude() + " value was " + toString());
-		if (south < tileSystem.getMinLatitude() || south > tileSystem.getMaxLatitude())
-			throw new IllegalArgumentException("south more than " + tileSystem.getMinLatitude() + " value was " + toString());
-		if (west <	 tileSystem.getMinLongitude() || west > tileSystem.getMaxLongitude())
-			throw new IllegalArgumentException("west must be more than " + tileSystem.getMinLongitude() + " value was " + toString());
-		if (east > tileSystem.getMaxLongitude() || east < tileSystem.getMinLongitude())
-			throw new IllegalArgumentException("east must be less than " + tileSystem.getMaxLongitude() + " value was " + toString());
+		if (!tileSystem.isValidLatitude(north))
+			throw new IllegalArgumentException("north must be in " + tileSystem.toStringLatitudeSpan());
+		if (!tileSystem.isValidLatitude(south))
+			throw new IllegalArgumentException("south must be in " + tileSystem.toStringLatitudeSpan());
+		if (!tileSystem.isValidLongitude(west))
+			throw new IllegalArgumentException("west must be in " + tileSystem.toStringLongitudeSpan());
+		if (!tileSystem.isValidLongitude(east))
+			throw new IllegalArgumentException("east must be in " + tileSystem.toStringLongitudeSpan());
 	}
 
 	public BoundingBox clone(){
@@ -136,15 +143,9 @@ public class BoundingBox implements Parcelable, Serializable {
 	public static double getCenterLongitude(final double pWest, final double pEast) {
 		double longitude = (pEast + pWest) / 2.0;
 		if (pEast < pWest) {
-			longitude += tileSystem.getMaxLongitude();
+			longitude += 180;
 		}
-		while (longitude > tileSystem.getMaxLongitude()) {
-			longitude -= 2 * tileSystem.getMaxLongitude();
-		}
-		while (longitude < tileSystem.getMinLongitude()) {
-			longitude += 2 * tileSystem.getMaxLongitude();
-		}
-		return longitude;
+		return tileSystem.cleanLongitude(longitude);
 	}
 
 	/**

@@ -45,7 +45,7 @@ public class Projection implements IProjection {
 	private final Matrix mUnrotateAndScaleMatrix = new Matrix();
 	private final float[] mRotateScalePoints = new float[2];
 
-	private final BoundingBox mBoundingBoxProjection = new BoundingBox(0, 0,0, 0);
+	private final BoundingBox mBoundingBoxProjection = new BoundingBox();
 	private final double mZoomLevelProjection;
 	private final Rect mScreenRectProjection = new Rect();
 	private final Rect mIntrinsicScreenRectProjection;

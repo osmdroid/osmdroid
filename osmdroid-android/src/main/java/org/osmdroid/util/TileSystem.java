@@ -634,11 +634,73 @@ abstract public class TileSystem {
 		return Math.round(pTile * pTileSize);
 	}
 
+	/**
+	 * @since 6.0.2
+     */
 	abstract public double getMinLatitude();
 
+	/**
+	 * @since 6.0.2
+     */
     abstract public double getMaxLatitude();
 
+	/**
+	 * @since 6.0.2
+     */
     abstract public double getMinLongitude();
 
+	/**
+	 * @since 6.0.2
+     */
     abstract public double getMaxLongitude();
+
+    /**
+     * @since 6.0.2
+     */
+    public double cleanLongitude(final double pLongitude) {
+        double result = pLongitude;
+
+        while (result < -180) {
+            result += 360;
+        }
+        while (result > 180) {
+            result -= 360;
+        }
+        return Clip(result, getMinLongitude(), getMaxLongitude());
+    }
+
+    /**
+     * @since 6.0.2
+     */
+    public double cleanLatitude(final double pLatitude) {
+        return Clip(pLatitude, getMinLatitude(), getMaxLatitude());
+    }
+
+    /**
+     * @since 6.0.2
+     */
+    public boolean isValidLongitude(final double pLongitude) {
+        return pLongitude >= getMinLongitude() && pLongitude <= getMaxLongitude();
+    }
+
+    /**
+     * @since 6.0.2
+     */
+    public boolean isValidLatitude(final double pLatitude) {
+        return pLatitude >= getMinLatitude() && pLatitude <= getMaxLatitude();
+    }
+
+	/**
+	 * @since 6.0.2
+	 */
+	public String toStringLongitudeSpan() {
+		return "[" + getMinLongitude() + "," + getMaxLongitude() + "]";
+	}
+
+	/**
+	 * @since 6.0.2
+	 */
+	public String toStringLatitudeSpan() {
+		return "[" + getMinLatitude() + "," + getMaxLatitude() + "]";
+	}
 }

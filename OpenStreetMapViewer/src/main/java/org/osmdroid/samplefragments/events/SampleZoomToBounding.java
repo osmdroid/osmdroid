@@ -73,7 +73,7 @@ public class SampleZoomToBounding extends BaseSampleFragment implements View.OnC
                         Toast.makeText(getActivity(), text, Toast.LENGTH_LONG).show();
                         final List<GeoPoint> points = new ArrayList<>();
                         if (west > east) {
-                            east += 2 * tileSystem.getMaxLongitude();
+                            east += 360;
                         }
                         addPoints(points, north, west, north, east);
                         addPoints(points, north, east, south, east);
