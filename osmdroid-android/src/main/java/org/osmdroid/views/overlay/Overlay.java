@@ -52,7 +52,7 @@ public abstract class Overlay implements OverlayConstants {
 
 	private static final Rect mRect = new Rect();
 	private boolean mEnabled = true;
-	private static final TileSystem tileSystem = new TileSystemWebMercator(); // used only for the default bounding box
+	private final TileSystem tileSystem = MapView.getTileSystem(); // used only for the default bounding box
 	protected BoundingBox mBounds = new BoundingBox(tileSystem.getMaxLatitude(), tileSystem.getMaxLongitude(),tileSystem.getMinLatitude(),tileSystem.getMinLongitude());
 
 	// ===========================================================

@@ -466,7 +466,7 @@ class LinearRing{
 		final PointL previous = new PointL();
 		final PointL current = new PointL();
 		final long projectedMapSize = 1L << 60; // should be accurate enough
-		final TileSystem tileSystem = new TileSystemWebMercator();
+		final TileSystem tileSystem = MapView.getTileSystem();
 		for (final GeoPoint currentGeo : mOriginalPoints) {
 			tileSystem.getMercatorFromGeo(currentGeo.getLatitude(), currentGeo.getLongitude(), projectedMapSize, current, false);
 			if (first) {

@@ -4,7 +4,6 @@ import android.util.Log;
 
 import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.TileSystem;
-import org.osmdroid.util.TileSystemWebMercator;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
@@ -28,8 +27,6 @@ import java.util.List;
 
 public class DomParserWms111 {
     static final String TAG = "osmdroidwms";
-
-    private static final TileSystem tileSystem = new TileSystemWebMercator();
 
     public static WMSEndpoint parse(Element element) throws Exception {
         //  WMTMSCapabilities ret = new WMTMSCapabilities();
@@ -157,6 +154,7 @@ public class DomParserWms111 {
 
     //e is "Layer"
     private static Collection<? extends WMSLayer> parseLayers(Node element) {
+        final TileSystem tileSystem = org.osmdroid.views.MapView.getTileSystem();
         List<WMSLayer> rets = new ArrayList<>();
         WMSLayer ret = new WMSLayer();
 

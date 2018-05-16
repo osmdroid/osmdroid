@@ -167,7 +167,7 @@ public class MapView extends ViewGroup implements IMapView,
 		void onFirstLayout(View v, int left, int top, int right, int bottom);
 	}
 
-	private TileSystem mTileSystem = new TileSystemWebMercator();
+	private static TileSystem mTileSystem = new TileSystemWebMercator();
 
 	// ===========================================================
 	// Constructors
@@ -1740,14 +1740,14 @@ public class MapView extends ViewGroup implements IMapView,
 	/**
 	 * @since 6.0.2
 	 */
-	public TileSystem getTileSystem() {
+	public static TileSystem getTileSystem() {
 		return mTileSystem;
 	}
 
 	/**
 	 * @since 6.0.2
 	 */
-	public void setTileSystem(final TileSystem pTileSystem) {
+	public static void setTileSystem(final TileSystem pTileSystem) {
 		mTileSystem = pTileSystem;
 	}
 }

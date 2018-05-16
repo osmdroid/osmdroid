@@ -25,7 +25,6 @@ public class BoundingBox implements Parcelable, Serializable {
 	// ===========================================================
 
 	static final long serialVersionUID = 2L;
-	private static final TileSystem tileSystem = new TileSystemWebMercator();
 
 	// ===========================================================
 	// Fields
@@ -63,6 +62,7 @@ public class BoundingBox implements Parcelable, Serializable {
 		//  30 > 0 OK
 		// 30 < 0 not ok
 
+        final TileSystem tileSystem = org.osmdroid.views.MapView.getTileSystem();
 		if (!tileSystem.isValidLatitude(north))
 			throw new IllegalArgumentException("north must be in " + tileSystem.toStringLatitudeSpan());
 		if (!tileSystem.isValidLatitude(south))
@@ -145,7 +145,7 @@ public class BoundingBox implements Parcelable, Serializable {
 		if (pEast < pWest) {
 			longitude += 180;
 		}
-		return tileSystem.cleanLongitude(longitude);
+		return org.osmdroid.views.MapView.getTileSystem().cleanLongitude(longitude);
 	}
 
 	/**

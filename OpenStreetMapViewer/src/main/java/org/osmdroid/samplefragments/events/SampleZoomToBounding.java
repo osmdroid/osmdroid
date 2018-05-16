@@ -13,7 +13,6 @@ import org.osmdroid.samplefragments.BaseSampleFragment;
 import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.TileSystem;
-import org.osmdroid.util.TileSystemWebMercator;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Polygon;
 
@@ -26,7 +25,7 @@ import java.util.List;
 public class SampleZoomToBounding extends BaseSampleFragment implements View.OnClickListener {
 
     private static final int border = 10;
-    private static final TileSystem tileSystem = new TileSystemWebMercator();
+    private final TileSystem tileSystem = MapView.getTileSystem();
 
     private Polygon polygon;
     Button btnCache;

@@ -39,7 +39,7 @@ import mil.nga.geopackage.tiles.user.TileDao;
  */
 public class GeoPackageMapTileModuleProvider extends MapTileModuleProviderBase {
 
-    private static final TileSystem tileSystem = new TileSystemWebMercator();
+    private final TileSystem tileSystem = org.osmdroid.views.MapView.getTileSystem();
 
     //TileRetriever retriever;
     protected IFilesystemCache tileWriter = null;

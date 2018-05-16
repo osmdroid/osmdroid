@@ -6,7 +6,6 @@ import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.PointL;
 import org.osmdroid.util.TileSystem;
-import org.osmdroid.util.TileSystemWebMercator;
 import org.osmdroid.views.Projection;
 
 import android.graphics.Path;
@@ -15,8 +14,6 @@ import android.graphics.PointF;
 import android.graphics.Rect;
 
 public class PathProjection {
-
-	private static final TileSystem tileSystem = new TileSystemWebMercator();
 
 	public static Path toPixels(Projection projection, final List<? extends GeoPoint> in,
 			final Path reuse) {
@@ -32,6 +29,7 @@ public class PathProjection {
 		final Path out = (reuse != null) ? reuse : new Path();
 		out.incReserve(in.size());
 
+	    final TileSystem tileSystem = org.osmdroid.views.MapView.getTileSystem();
 		boolean first = true;
 		for (final GeoPoint gp : in) {
 			final Point underGeopointTileCoords = new Point();
