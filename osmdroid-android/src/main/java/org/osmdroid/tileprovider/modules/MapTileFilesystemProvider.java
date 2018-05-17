@@ -130,14 +130,6 @@ public class MapTileFilesystemProvider extends MapTileFileStorageProviderBase {
 				return null;
 			}
 
-			// if there's no sdcard then don't do anything
-			if (!isSdCardAvailable()) {
-				if (Configuration.getInstance().isDebugMode()) {
-                         Log.d(IMapView.LOGTAG,"No sdcard - do nothing for tile: " + MapTileIndex.toString(pMapTileIndex));
-				}
-				Counters.fileCacheMiss++;
-				return null;
-			}
 			try {
 				final Drawable result = mWriter.loadTile(tileSource, pMapTileIndex);
 				if (result == null) {
