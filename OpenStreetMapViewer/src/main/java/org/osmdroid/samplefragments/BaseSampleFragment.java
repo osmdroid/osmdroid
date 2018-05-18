@@ -80,14 +80,18 @@ public abstract class BaseSampleFragment extends Fragment {
 
 	@Override
 	public void onPause(){
+        if (mMapView != null) {
+            mMapView.onPause();
+        }
 		super.onPause();
-		mMapView.onPause();
 	}
 
 	@Override
 	public void onResume(){
 		super.onResume();
-		mMapView.onResume();
+		if (mMapView != null) {
+            mMapView.onResume();
+        }
 	}
 
     @Override
