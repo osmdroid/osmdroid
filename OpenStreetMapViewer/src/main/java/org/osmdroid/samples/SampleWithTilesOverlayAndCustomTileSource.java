@@ -46,14 +46,15 @@ public class SampleWithTilesOverlayAndCustomTileSource extends Activity {
 		mMapView.setBuiltInZoomControls(true);
 
 		// zoom to the netherlands
-		mMapView.getController().setZoom(7);
-		mMapView.getController().setCenter(new GeoPoint(51500000, 5400000));
+		mMapView.getController().setZoom(7.);
+		mMapView.getController().setCenter(new GeoPoint(51.5, 5.4));
 
 		// Add tiles layer with custom tile source
 		final MapTileProviderBasic tileProvider = new MapTileProviderBasic(getApplicationContext());
 		final ITileSource tileSource = new XYTileSource("FietsRegionaal",  3, 18, 256, ".png",
 				new String[] { "http://overlay.openstreetmap.nl/openfietskaart-rcn/" });
 		tileProvider.setTileSource(tileSource);
+		tileProvider.setTileRequestCompleteHandler(mMapView.getTileRequestCompleteHandler());
 		final TilesOverlay tilesOverlay = new TilesOverlay(tileProvider, this.getBaseContext());
 		tilesOverlay.setLoadingBackgroundColor(Color.TRANSPARENT);
 		mMapView.getOverlays().add(tilesOverlay);
