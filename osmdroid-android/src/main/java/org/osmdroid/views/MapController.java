@@ -431,6 +431,7 @@ public class MapController implements IMapController, OnFirstLayoutListener {
             mZoomOutAnimationOld.reset();
             setZoom(mTargetZoomLevel);
         }
+        mMapView.invalidate();
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
