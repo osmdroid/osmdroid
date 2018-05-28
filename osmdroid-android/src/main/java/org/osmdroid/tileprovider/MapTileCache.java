@@ -178,7 +178,10 @@ public class MapTileCache {
 	 * Was in LRUMapTileCache
 	 */
 	public void remove(final long pMapTileIndex) {
-		final Drawable drawable = mCachedTiles.remove(pMapTileIndex);
+		final Drawable drawable;
+		synchronized (mCachedTiles) {
+			drawable = mCachedTiles.remove(pMapTileIndex);
+		}
 		if (getTileRemovedListener() != null)
 			getTileRemovedListener().onTileRemoved(pMapTileIndex);
 		BitmapPool.getInstance().asyncRecycle(drawable);

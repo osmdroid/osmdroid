@@ -2,6 +2,7 @@ package org.osmdroid.tileprovider;
 
 import android.graphics.Canvas;
 import android.graphics.ColorFilter;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 
 import junit.framework.Assert;
@@ -9,6 +10,9 @@ import junit.framework.Assert;
 import org.junit.Test;
 import org.osmdroid.util.MapTileIndex;
 import org.osmdroid.util.MapTileList;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Unit tests related to {@link MapTileCache}
@@ -111,5 +115,36 @@ public class MapTileCacheTest {
                 return 0;
             }
         };
+    }
+
+    @Test
+    public void testConcurrency() throws InterruptedException {
+        final MapTileCache mapTileCache = new MapTileCache(100);
+        List<Thread> threads = new ArrayList<>();
+        final Drawable dummyDrawable = new ColorDrawable(0x0);
+
+        final int NUM_TILES = 10000;
+        for (int i = 0; i < NUM_TILES; i++) {
+            mapTileCache.putTile(i, dummyDrawable);
+        }
+
+        for (int i = 0; i < 10; i++) {
+            Thread thread = new Thread() {
+                @Override
+                public void run() {
+                    for (int j = 0; j < NUM_TILES; j++) {
+                        mapTileCache.remove(j);
+                    }
+                }
+            };
+            thread.start();
+            threads.add(thread);
+        }
+
+        for (Thread thread : threads)
+            thread.join();
+
+        mapTileCache.clear();
+        Assert.assertEquals(0, mapTileCache.getSize());
     }
 }
