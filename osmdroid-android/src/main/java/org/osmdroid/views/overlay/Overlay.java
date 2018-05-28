@@ -6,6 +6,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.osmdroid.api.IMapView;
 import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.TileSystem;
+import org.osmdroid.util.TileSystemWebMercator;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.util.constants.OverlayConstants;
 
@@ -51,8 +52,8 @@ public abstract class Overlay implements OverlayConstants {
 
 	private static final Rect mRect = new Rect();
 	private boolean mEnabled = true;
-	protected BoundingBox mBounds = new BoundingBox(TileSystem.MaxLatitude, TileSystem.MaxLongitude,TileSystem.MinLatitude,TileSystem.MinLongitude);
-
+	private final TileSystem tileSystem = MapView.getTileSystem(); // used only for the default bounding box
+	protected BoundingBox mBounds = new BoundingBox(tileSystem.getMaxLatitude(), tileSystem.getMaxLongitude(),tileSystem.getMinLatitude(),tileSystem.getMinLongitude());
 
 	// ===========================================================
 	// Constructors

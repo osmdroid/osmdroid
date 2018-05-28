@@ -483,26 +483,17 @@ public class MapController implements IMapController, OnFirstLayoutListener {
                 mMapController.mMapView.setZoomLevel(zoom);
             }
             if (mCenterEnd != null) {
-                final double longitudeStart = cleanLongitude(mCenterStart.getLongitude());
-                final double longitudeEnd = cleanLongitude(mCenterEnd.getLongitude());
-                final double longitude = cleanLongitude(longitudeStart + (longitudeEnd - longitudeStart) * value);
-                final double latitudeStart = mCenterStart.getLatitude();
-                final double latitudeEnd = mCenterEnd.getLatitude();
-                final double latitude = cleanLongitude(latitudeStart + (latitudeEnd - latitudeStart) * value);
+                final TileSystem tileSystem = mMapController.mMapView.getTileSystem();
+                final double longitudeStart = tileSystem.cleanLongitude(mCenterStart.getLongitude());
+                final double longitudeEnd = tileSystem.cleanLongitude(mCenterEnd.getLongitude());
+                final double longitude = tileSystem.cleanLongitude(longitudeStart + (longitudeEnd - longitudeStart) * value);
+                final double latitudeStart = tileSystem.cleanLatitude(mCenterStart.getLatitude());
+                final double latitudeEnd = tileSystem.cleanLatitude(mCenterEnd.getLatitude());
+                final double latitude = tileSystem.cleanLatitude(latitudeStart + (latitudeEnd - latitudeStart) * value);
                 mCenter.setCoords(latitude, longitude);
                 mMapController.mMapView.setExpectedCenter(mCenter);
             }
             mMapController.mMapView.invalidate();
-        }
-
-        private double cleanLongitude(double pLongitude) {
-            while (pLongitude < TileSystem.MinLongitude) {
-                pLongitude += (TileSystem.MaxLongitude - TileSystem.MinLongitude);
-            }
-            while (pLongitude > TileSystem.MaxLongitude) {
-                pLongitude -= (TileSystem.MaxLongitude - TileSystem.MinLongitude);
-            }
-            return pLongitude;
         }
     }
 

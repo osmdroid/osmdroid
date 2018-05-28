@@ -56,8 +56,8 @@ public class SampleAssetsOnlyRepetitionModes extends BaseSampleFragment {
             @Override public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked) {
                     mMapView.setScrollableAreaLimitDouble(new BoundingBox(
-                            TileSystem.MaxLatitude, TileSystem.MaxLongitude,
-                            TileSystem.MinLatitude, TileSystem.MinLongitude));
+                            mMapView.getTileSystem().getMaxLatitude(), mMapView.getTileSystem().getMaxLongitude(),
+                            mMapView.getTileSystem().getMinLatitude(), mMapView.getTileSystem().getMinLongitude()));
                 } else {
                     mMapView.setScrollableAreaLimitDouble(null);
                 }

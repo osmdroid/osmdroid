@@ -15,6 +15,7 @@ import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.MapTileIndex;
 import org.osmdroid.util.TileSystem;
+import org.osmdroid.util.TileSystemWebMercator;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -37,6 +38,8 @@ import mil.nga.geopackage.tiles.user.TileDao;
  * Created by alex on 10/29/15.
  */
 public class GeoPackageMapTileModuleProvider extends MapTileModuleProviderBase {
+
+    private final TileSystem tileSystem = org.osmdroid.views.MapView.getTileSystem();
 
     //TileRetriever retriever;
     protected IFilesystemCache tileWriter = null;
@@ -127,9 +130,9 @@ public class GeoPackageMapTileModuleProvider extends MapTileModuleProviderBase {
 
                 ProjectionTransform transform = tileDao.getProjection().getTransformation(ProjectionConstants.EPSG_WORLD_GEODETIC_SYSTEM);
                 mil.nga.geopackage.BoundingBox boundingBox = transform.transform(tileDao.getBoundingBox());
-                BoundingBox bounds = new BoundingBox(Math.min(TileSystem.MaxLatitude, boundingBox.getMaxLatitude()),
+                BoundingBox bounds = new BoundingBox(Math.min(tileSystem.getMaxLatitude(), boundingBox.getMaxLatitude()),
                     boundingBox.getMaxLongitude(),
-                    Math.max(TileSystem.MinLatitude, boundingBox.getMinLatitude()),
+                    Math.max(tileSystem.getMinLatitude(), boundingBox.getMinLatitude()),
                     boundingBox.getMinLongitude());
 
                 srcs.add(new GeopackageRasterTileSource(databases.get(i), tileTables.get(k), (int)tileDao.getMinZoom(), (int)tileDao.getMaxZoom(), bounds));
@@ -157,9 +160,9 @@ public class GeoPackageMapTileModuleProvider extends MapTileModuleProviderBase {
             ProjectionTransform transform = tileDao.getProjection().getTransformation(ProjectionConstants.EPSG_WORLD_GEODETIC_SYSTEM);
             mil.nga.geopackage.BoundingBox boundingBox = transform.transform(tileDao.getBoundingBox());
 
-            BoundingBox bounds = new BoundingBox(Math.min(TileSystem.MaxLatitude, boundingBox.getMaxLatitude()),
+            BoundingBox bounds = new BoundingBox(Math.min(tileSystem.getMaxLatitude(), boundingBox.getMaxLatitude()),
                 boundingBox.getMaxLongitude(),
-                Math.max(TileSystem.MinLatitude, boundingBox.getMinLatitude()),
+                Math.max(tileSystem.getMinLatitude(), boundingBox.getMinLatitude()),
                 boundingBox.getMinLongitude());
             srcs.add(new GeopackageRasterTileSource(database, tileTables.get(k), (int)tileDao.getMinZoom(), (int)tileDao.getMaxZoom(), bounds));
 

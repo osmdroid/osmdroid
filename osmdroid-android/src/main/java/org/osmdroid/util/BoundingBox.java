@@ -44,6 +44,13 @@ public class BoundingBox implements Parcelable, Serializable {
 	}
 
 	/**
+	 * @since 6.0.2
+	 * In order to avoid longitude and latitude checks that will crash
+	 * in TileSystem configurations with a bounding box that doesn't include [0,0]
+	 */
+	public BoundingBox() {}
+
+	/**
 	 * @since 6.0.0
 	 */
 	public void set(final double north, final double east, final double south, final double west) {
@@ -55,14 +62,15 @@ public class BoundingBox implements Parcelable, Serializable {
 		//  30 > 0 OK
 		// 30 < 0 not ok
 
-		if (north > TileSystem.MaxLongitude || north < TileSystem.MinLatitude)
-			throw new IllegalArgumentException("north must be less than " +TileSystem.MaxLongitude + " value was " + toString());
-		if (south < TileSystem.MinLatitude || south > TileSystem.MaxLatitude)
-			throw new IllegalArgumentException("south more than " + TileSystem.MinLatitude + " value was " + toString());
-		if (west <	 TileSystem.MinLongitude || west > TileSystem.MaxLongitude)
-			throw new IllegalArgumentException("west must be more than " + TileSystem.MinLongitude + " value was " + toString());
-		if (east > TileSystem.MaxLongitude || east < TileSystem.MinLongitude)
-			throw new IllegalArgumentException("east must be less than " + TileSystem.MaxLongitude + " value was " + toString());
+        final TileSystem tileSystem = org.osmdroid.views.MapView.getTileSystem();
+		if (!tileSystem.isValidLatitude(north))
+			throw new IllegalArgumentException("north must be in " + tileSystem.toStringLatitudeSpan());
+		if (!tileSystem.isValidLatitude(south))
+			throw new IllegalArgumentException("south must be in " + tileSystem.toStringLatitudeSpan());
+		if (!tileSystem.isValidLongitude(west))
+			throw new IllegalArgumentException("west must be in " + tileSystem.toStringLongitudeSpan());
+		if (!tileSystem.isValidLongitude(east))
+			throw new IllegalArgumentException("east must be in " + tileSystem.toStringLongitudeSpan());
 	}
 
 	public BoundingBox clone(){
@@ -135,15 +143,9 @@ public class BoundingBox implements Parcelable, Serializable {
 	public static double getCenterLongitude(final double pWest, final double pEast) {
 		double longitude = (pEast + pWest) / 2.0;
 		if (pEast < pWest) {
-			longitude += TileSystem.MaxLongitude;
+			longitude += 180;
 		}
-		while (longitude > TileSystem.MaxLongitude) {
-			longitude -= 2 * TileSystem.MaxLongitude;
-		}
-		while (longitude < TileSystem.MinLongitude) {
-			longitude += 2 * TileSystem.MaxLongitude;
-		}
-		return longitude;
+		return org.osmdroid.views.MapView.getTileSystem().cleanLongitude(longitude);
 	}
 
 	/**

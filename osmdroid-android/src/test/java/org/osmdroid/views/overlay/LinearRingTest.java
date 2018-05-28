@@ -7,6 +7,7 @@ import junit.framework.Assert;
 import org.junit.Test;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.TileSystem;
+import org.osmdroid.util.TileSystemWebMercator;
 
 import java.util.Random;
 
@@ -19,6 +20,7 @@ import java.util.Random;
 public class LinearRingTest {
 
     private final Random mRandom = new Random();
+    private static final TileSystem tileSystem = new TileSystemWebMercator();
 
     @Test
     public void testGetCenter1DLatitudesOnly() {
@@ -78,11 +80,11 @@ public class LinearRingTest {
     }
 
     private int getRandomPositiveLatitude() {
-        return getRandom(0, (int)TileSystem.MaxLatitude);
+        return getRandom(0, (int)tileSystem.getMaxLatitude());
     }
 
     private int getRandomLongitude() {
-        return getRandom(-(int)TileSystem.MaxLongitude, (int)TileSystem.MaxLongitude);
+        return getRandom((int)tileSystem.getMinLongitude(), (int)tileSystem.getMaxLongitude());
     }
 
     private int getRandom(final int min, final int max) {

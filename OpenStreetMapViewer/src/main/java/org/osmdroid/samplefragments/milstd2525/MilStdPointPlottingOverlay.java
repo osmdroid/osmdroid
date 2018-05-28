@@ -54,10 +54,10 @@ public class MilStdPointPlottingOverlay extends Overlay {
             if (pt.getLongitude() > 180)
                 pt.setLongitude(pt.getLongitude() - 360);
             //latitude is a bit harder. see https://en.wikipedia.org/wiki/Mercator_projection
-            if (pt.getLatitude() > TileSystem.MaxLatitude)
-                pt.setLatitude(TileSystem.MaxLatitude);
-            if (pt.getLatitude() < TileSystem.MinLatitude)
-                pt.setLatitude(TileSystem.MinLatitude);
+            if (pt.getLatitude() > mapView.getTileSystem().getMaxLatitude())
+                pt.setLatitude(mapView.getTileSystem().getMaxLatitude());
+            if (pt.getLatitude() < mapView.getTileSystem().getMinLatitude())
+                pt.setLatitude(mapView.getTileSystem().getMinLatitude());
 
             String code = def.getSymbolCode().replace("*", "-");
             //TODO if (!def.isMultiPoint())

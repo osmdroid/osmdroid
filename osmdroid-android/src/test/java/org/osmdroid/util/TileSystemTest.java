@@ -18,20 +18,21 @@ public class TileSystemTest {
     private static final double latLongDelta = 1E-10;
     private static final int mMinZoomLevel = 0;
     private static final int mMaxZoomLevel = TileSystem.getMaximumZoomLevel();
+    private static final TileSystem tileSystem = new TileSystemWebMercator();
 
     @Test
     public void testGetY01FromLatitude() {
-        checkXY01(0, TileSystem.getY01FromLatitude(TileSystem.MaxLatitude, true));
-        checkXY01(.5, TileSystem.getY01FromLatitude(0, true));
-        checkXY01(1, TileSystem.getY01FromLatitude(TileSystem.MinLatitude, true));
+        checkXY01(0, tileSystem.getY01FromLatitude(tileSystem.getMaxLatitude(), true));
+        checkXY01(.5, tileSystem.getY01FromLatitude(0, true));
+        checkXY01(1, tileSystem.getY01FromLatitude(tileSystem.getMinLatitude(), true));
     }
 
     @Test
     public void testGetX01FromLongitude() {
         final int iterations = 10;
         for (int i = 0 ; i <= iterations ; i ++) {
-            final double longitude = TileSystem.MinLongitude + i * (TileSystem.MaxLongitude - TileSystem.MinLongitude) / iterations;
-            checkXY01(((double)i) / iterations, TileSystem.getX01FromLongitude(longitude, true));
+            final double longitude = tileSystem.getMinLongitude() + i * (tileSystem.getMaxLongitude() - tileSystem.getMinLongitude()) / iterations;
+            checkXY01(((double)i) / iterations, tileSystem.getX01FromLongitude(longitude, true));
         }
     }
 
@@ -40,9 +41,9 @@ public class TileSystemTest {
      */
     @Test
     public void testGetLatitudeFromY01() {
-        checkLatitude(TileSystem.MaxLatitude, TileSystem.getLatitudeFromY01(0, true));
-        checkLatitude(0, TileSystem.getLatitudeFromY01(0.5, true));
-        checkLatitude(TileSystem.MinLatitude, TileSystem.getLatitudeFromY01(1, true));
+        checkLatitude(tileSystem.getMaxLatitude(), tileSystem.getLatitudeFromY01(0, true));
+        checkLatitude(0, tileSystem.getLatitudeFromY01(0.5, true));
+        checkLatitude(tileSystem.getMinLatitude(), tileSystem.getLatitudeFromY01(1, true));
     }
 
     /**
@@ -53,7 +54,7 @@ public class TileSystemTest {
         final int iterations = 100;
         for (int i = 0 ; i <= iterations ; i ++) {
             final double latitude = getRandomLatitude();
-            checkLatitude(latitude, TileSystem.getLatitudeFromY01(TileSystem.getY01FromLatitude(latitude, true), true));
+            checkLatitude(latitude, tileSystem.getLatitudeFromY01(tileSystem.getY01FromLatitude(latitude, true), true));
         }
     }
 
@@ -64,12 +65,12 @@ public class TileSystemTest {
     public void testGetLongitudeFromX01() {
         final int iterations = 10;
         for (int i = 0 ; i <= iterations ; i ++) {
-            final double longitude = TileSystem.MinLongitude + i * (TileSystem.MaxLongitude - TileSystem.MinLongitude) / iterations;
-            checkLongitude(longitude, TileSystem.getLongitudeFromX01(((double)i) / iterations, true));
+            final double longitude = tileSystem.getMinLongitude() + i * (tileSystem.getMaxLongitude() - tileSystem.getMinLongitude()) / iterations;
+            checkLongitude(longitude, tileSystem.getLongitudeFromX01(((double)i) / iterations, true));
         }
-        checkLongitude(TileSystem.MinLongitude, TileSystem.getLongitudeFromX01(0, true));
-        checkLongitude(0, TileSystem.getLongitudeFromX01(0.5, true));
-        checkLongitude(TileSystem.MaxLongitude, TileSystem.getLongitudeFromX01(1, true));
+        checkLongitude(tileSystem.getMinLongitude(), tileSystem.getLongitudeFromX01(0, true));
+        checkLongitude(0, tileSystem.getLongitudeFromX01(0.5, true));
+        checkLongitude(tileSystem.getMaxLongitude(), tileSystem.getLongitudeFromX01(1, true));
     }
 
     /**
@@ -80,7 +81,7 @@ public class TileSystemTest {
         final int iterations = 100;
         for (int i = 0 ; i <= iterations ; i ++) {
             final double longitude = getRandomLongitude();
-            checkLongitude(longitude, TileSystem.getLongitudeFromX01(TileSystem.getX01FromLongitude(longitude, true), true));
+            checkLongitude(longitude, tileSystem.getLongitudeFromX01(tileSystem.getX01FromLongitude(longitude, true), true));
         }
     }
 
@@ -92,17 +93,17 @@ public class TileSystemTest {
     /**
      * @since 6.0.0
      */
-    private void checkLatitude(final double pExpected, final double pActual) {
+    protected void checkLatitude(final double pExpected, final double pActual) {
         Assert.assertEquals(pExpected, pActual, latLongDelta);
-        checkMinMax(pActual, TileSystem.MinLatitude, TileSystem.MaxLatitude);
+        checkMinMax(pActual, tileSystem.getMinLatitude(), tileSystem.getMaxLatitude());
     }
 
     /**
      * @since 6.0.0
      */
-    private void checkLongitude(final double pExpected, final double pActual) {
+    protected void checkLongitude(final double pExpected, final double pActual) {
         Assert.assertEquals(pExpected, pActual, latLongDelta);
-        checkMinMax(pActual, TileSystem.MinLongitude, TileSystem.MaxLongitude);
+        checkMinMax(pActual, tileSystem.getMinLongitude(), tileSystem.getMaxLongitude());
     }
 
     /**
@@ -114,7 +115,7 @@ public class TileSystemTest {
     }
 
     @Test
-    public void testGetBoundingBoxZoom() throws Exception{
+    public void testGetBoundingBoxZoom() {
         final int tileSize = 256;
         final int screenWidth = tileSize * 2;
         final int screenHeight = screenWidth * 2;
@@ -127,16 +128,16 @@ public class TileSystemTest {
             final double east = getRandomLongitude();
             final double west = getRandomLongitude();
             final BoundingBox boundingBox = new BoundingBox(north, east, south, west);
-            final double zoom = TileSystem.getBoundingBoxZoom(boundingBox, screenWidth, screenHeight);
+            final double zoom = tileSystem.getBoundingBoxZoom(boundingBox, screenWidth, screenHeight);
             if (zoom == Double.MIN_VALUE) {
                 Assert.assertTrue(north <= south || east == west);
                 continue;
             }
             final double mapSize = TileSystem.MapSize(zoom);
-            final long left = TileSystem.getMercatorXFromLongitude(west, mapSize, true);
-            final long top = TileSystem.getMercatorYFromLatitude(north, mapSize, true);
-            final long right = TileSystem.getMercatorXFromLongitude(east, mapSize, true);
-            final long bottom = TileSystem.getMercatorYFromLatitude(south, mapSize, true);
+            final long left = tileSystem.getMercatorXFromLongitude(west, mapSize, true);
+            final long top = tileSystem.getMercatorYFromLatitude(north, mapSize, true);
+            final long right = tileSystem.getMercatorXFromLongitude(east, mapSize, true);
+            final long bottom = tileSystem.getMercatorYFromLatitude(south, mapSize, true);
             long width = right - left;
             if (east < west) {
                 width += mapSize;
@@ -192,7 +193,7 @@ public class TileSystemTest {
      */
     @Test
     public void test_LatLongToPixelXY() {
-        final PointL point = TileSystem.getMercatorFromGeo(60, 60, TileSystem.MapSize((double)10), null, true);
+        final PointL point = tileSystem.getMercatorFromGeo(60, 60, TileSystem.MapSize((double)10), null, true);
         Assert.assertEquals(174762, point.x);
         Assert.assertEquals(76126, point.y);
     }
@@ -208,7 +209,7 @@ public class TileSystemTest {
         final int levelOfDetail = 8;
         final double delta = 1E-3;
 
-        final GeoPoint point = TileSystem.getGeoFromMercator(pixelX, pixelY, TileSystem.MapSize((double)levelOfDetail), null, true, true);
+        final GeoPoint point = tileSystem.getGeoFromMercator(pixelX, pixelY, TileSystem.MapSize((double)levelOfDetail), null, true, true);
 
         Assert.assertEquals(-179.752807617187, point.getLongitude(), delta);
         Assert.assertEquals(85.0297584051224, point.getLatitude(), delta);
@@ -245,7 +246,7 @@ public class TileSystemTest {
      * Reference values from: http://msdn.microsoft.com/en-us/library/bb259689.aspx
      */
     @Test
-    public void test_QuadKeyToTileXY() { ;
+    public void test_QuadKeyToTileXY() {
         testPoint(0, 1, TileSystem.QuadKeyToTileXY("2", null));
         testPoint(3, 1, TileSystem.QuadKeyToTileXY("13", null));
         testPoint(3, 5, TileSystem.QuadKeyToTileXY("213", null));
@@ -276,11 +277,11 @@ public class TileSystemTest {
     }
 
     private double getRandomLongitude() {
-        return TileSystem.getRandomLongitude(random.nextDouble());
+        return tileSystem.getRandomLongitude(random.nextDouble());
     }
 
     private double getRandomLatitude() {
-        return TileSystem.getRandomLatitude(random.nextDouble(), TileSystem.MinLatitude);
+        return tileSystem.getRandomLatitude(random.nextDouble(), tileSystem.getMinLatitude());
     }
 
     private void checkSize(final long pWidth, final long pHeight, final int pScreenWidth, final int pScreenHeight) {

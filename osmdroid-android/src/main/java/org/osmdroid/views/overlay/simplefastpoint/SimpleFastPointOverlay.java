@@ -46,7 +46,7 @@ public class SimpleFastPointOverlay extends Overlay {
     private int numLabels;
     private BoundingBox startBoundingBox;
     private Projection startProjection;
-    private BoundingBox prevBoundingBox = new BoundingBox(0, 0, 0, 0);
+    private BoundingBox prevBoundingBox = new BoundingBox();
 
     /**
      * Just a light internal class for storing point data

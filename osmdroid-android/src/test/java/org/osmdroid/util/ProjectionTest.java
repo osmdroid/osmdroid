@@ -48,6 +48,7 @@ public class ProjectionTest {
         mMiniMapScreenRect.right = mMiniMapScreenRect.left + mWidth / 4;
         mMiniMapScreenRect.bottom = mMiniMapScreenRect.top + mHeight / 4;
     }
+    private static final TileSystem tileSystem = new TileSystemWebMercator();
 
     /**
      * "If both Projection's scrolls are 0, the geo center is projected to the screen rect center"
@@ -232,11 +233,11 @@ public class ProjectionTest {
     }
 
     private double getRandomLongitude() {
-        return TileSystem.getRandomLongitude(mRandom.nextDouble());
+        return tileSystem.getRandomLongitude(mRandom.nextDouble());
     }
 
     private double getRandomLatitude() {
-        return TileSystem.getRandomLatitude(mRandom.nextDouble(), TileSystem.MinLatitude);
+        return tileSystem.getRandomLatitude(mRandom.nextDouble(), tileSystem.getMinLatitude());
     }
 
     private double getRandom(final double pMin, final double pMax) {
@@ -258,7 +259,8 @@ public class ProjectionTest {
                 pGeoPoint,
                 pOffsetX, pOffsetY,
                 getRandomOrientation(),
-                true, true);
+                true, true,
+                tileSystem);
     }
 
     private Projection getRandomProjection(final double pZoomLevel) {
@@ -281,7 +283,8 @@ public class ProjectionTest {
                     new GeoPoint(0.0, 0.0),
                     0L, 0L,
                     0,
-                    false, false
+                    false, false,
+                    tileSystem
             );
 
             final Point inputPoint = new Point(0, 0);

@@ -18,6 +18,7 @@ import org.osmdroid.StarterMapFragment;
 import org.osmdroid.tileprovider.util.Counters;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.TileSystem;
+import org.osmdroid.util.TileSystemWebMercator;
 
 import java.util.Random;
 
@@ -28,6 +29,8 @@ import java.util.Random;
 public class OpenStreetMapViewTest extends ActivityInstrumentationTestCase2<StarterMapActivity> {
 
 	private static final Random random = new Random();
+
+	private static final TileSystem tileSystem = new TileSystemWebMercator();
 
 	public OpenStreetMapViewTest() {
         super(StarterMapActivity.class);
@@ -70,14 +73,14 @@ public class OpenStreetMapViewTest extends ActivityInstrumentationTestCase2<Star
 	 * @since 6.0.0
 	 */
 	private double getRandomLongitude() {
-		return TileSystem.getRandomLongitude(random.nextDouble());
+		return tileSystem.getRandomLongitude(random.nextDouble());
 	}
 
 	/**
 	 * @since 6.0.0
 	 */
 	private double getRandomLatitude() {
-		return TileSystem.getRandomLatitude(random.nextDouble(), TileSystem.MinLatitude);
+		return tileSystem.getRandomLatitude(random.nextDouble(), tileSystem.getMinLatitude());
 	}
 
 	/**

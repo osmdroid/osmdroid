@@ -129,7 +129,7 @@ public class SampleAnimateTo extends BaseSampleFragment {
         final BoundingBox box = state.getBox();
         final double lat = box.getCenterLatitude();
         final double lon = box.getCenterLongitude();
-        final double zoom = TileSystem.getBoundingBoxZoom(box,
+        final double zoom = mMapView.getTileSystem().getBoundingBoxZoom(box,
                 mMapView.getWidth() - 2 * borderSizeInPixels, mMapView.getHeight() - 2 * borderSizeInPixels);
         ((MapController)mMapView.getController()).animateTo(new GeoPoint(lat, lon), zoom, 2000L);
         Toast.makeText(getActivity(), state.getName(), Toast.LENGTH_SHORT).show();

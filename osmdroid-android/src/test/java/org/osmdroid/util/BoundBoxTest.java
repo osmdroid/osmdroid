@@ -13,6 +13,8 @@ import java.util.List;
 
 public class BoundBoxTest {
 
+    private static final TileSystem tileSystem = new TileSystemWebMercator();
+
     @Test
     public void testBoundingBox() throws Exception{
 
@@ -37,16 +39,16 @@ public class BoundBoxTest {
     public void testBoundingBoxMax() throws Exception{
 
         List<IGeoPoint> partialPolyLine = new ArrayList<>();
-        partialPolyLine.add(new GeoPoint(TileSystem.MaxLatitude,180d));
-        partialPolyLine.add(new GeoPoint(TileSystem.MinLatitude,-180d));
+        partialPolyLine.add(new GeoPoint(tileSystem.getMaxLatitude(),180d));
+        partialPolyLine.add(new GeoPoint(tileSystem.getMinLatitude(),-180d));
 
         BoundingBox fromGeoPoints = BoundingBox.fromGeoPoints(partialPolyLine);
         Assert.assertEquals(fromGeoPoints.getCenter().getLatitude(),0d, 0.000001d);
         Assert.assertEquals(fromGeoPoints.getCenter().getLongitude(),0d, 0.000001d);
 
 
-        Assert.assertEquals(fromGeoPoints.getLatNorth(),TileSystem.MaxLatitude, 0.000001d);
-        Assert.assertEquals(fromGeoPoints.getLatSouth(),TileSystem.MinLatitude, 0.000001d);
+        Assert.assertEquals(fromGeoPoints.getLatNorth(),tileSystem.getMaxLatitude(), 0.000001d);
+        Assert.assertEquals(fromGeoPoints.getLatSouth(),tileSystem.getMinLatitude(), 0.000001d);
         Assert.assertEquals(fromGeoPoints.getLonEast(),180d, 0.000001d);
         Assert.assertEquals(fromGeoPoints.getLonWest(),-180d, 0.000001d);
     }
