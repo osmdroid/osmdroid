@@ -113,4 +113,5 @@ public interface IMapController {
 	void zoomToSpan(int latSpanE6, int lonSpanE6);
 
 	void zoomToSpan(double latSpan, double lonSpan);
+	void animateTo(final IGeoPoint point, final Double pZoom, final Long pSpeed);
 }
