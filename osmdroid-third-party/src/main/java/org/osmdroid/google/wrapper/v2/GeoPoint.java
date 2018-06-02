@@ -2,7 +2,7 @@ package org.osmdroid.google.wrapper.v2;
 
 import com.google.android.gms.maps.model.LatLng;
 import org.osmdroid.api.IGeoPoint;
-
+@Deprecated
 public class GeoPoint implements IGeoPoint {
 
 	private final LatLng mLatLng;

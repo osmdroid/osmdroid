@@ -11,6 +11,7 @@ import org.osmdroid.api.IMapController;
  * @author Neil Boyd
  *
  */
+@Deprecated
 public class MapController implements IMapController {
 
 	private final com.google.android.maps.MapController mController;

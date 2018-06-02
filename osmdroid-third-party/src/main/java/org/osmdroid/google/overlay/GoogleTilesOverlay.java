@@ -26,6 +26,7 @@ import org.osmdroid.thirdparty.Constants;
  * it working.
  *
  */
+@Deprecated
 public class GoogleTilesOverlay extends Overlay {
 
 	private static final boolean DEBUGMODE = false;

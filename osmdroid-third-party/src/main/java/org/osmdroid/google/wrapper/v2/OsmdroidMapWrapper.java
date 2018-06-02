@@ -23,7 +23,7 @@ import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.view.MotionEvent;
-
+@Deprecated
 class OsmdroidMapWrapper implements IMap {
 	private final MapView mMapView;
 	private MyLocationNewOverlay mMyLocationOverlay;
