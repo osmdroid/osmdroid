@@ -139,6 +139,11 @@ public class MapController implements IMapController {
 	}
 
 	@Override
+	public void animateTo(IGeoPoint point, Double pZoom, Long pSpeed) {
+
+	}
+
+	@Override
 	public void scrollBy(int x, int y) {
 		mController.scrollBy(x, y);
 	}
