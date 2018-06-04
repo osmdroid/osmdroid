@@ -98,9 +98,9 @@ public class TileSourceFactory {
 
 	public static final OnlineTileSourceBase MAPNIK = new XYTileSource("Mapnik",
 			0, 19, 256, ".png", new String[] {
-					"http://a.tile.openstreetmap.org/",
-					"http://b.tile.openstreetmap.org/",
-					"http://c.tile.openstreetmap.org/" },"© OpenStreetMap contributors");
+					"https://a.tile.openstreetmap.org/",
+					"https://b.tile.openstreetmap.org/",
+					"https://c.tile.openstreetmap.org/" },"© OpenStreetMap contributors");
 
 	public static final OnlineTileSourceBase PUBLIC_TRANSPORT = new XYTileSource(
 			"OSMPublicTransport", 0, 17, 256, ".png",
