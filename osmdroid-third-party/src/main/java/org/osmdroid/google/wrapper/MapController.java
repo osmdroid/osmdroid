@@ -11,6 +11,7 @@ import org.osmdroid.api.IMapController;
  * @author Neil Boyd
  *
  */
+@Deprecated
 public class MapController implements IMapController {
 
 	private final com.google.android.maps.MapController mController;
@@ -135,6 +136,11 @@ public class MapController implements IMapController {
 //	@Override
 	public void zoomToSpan(final double pLatSpan, final double pLonSpan) {
 		mController.zoomToSpan((int)(pLatSpan*1E6), (int)(pLonSpan*1E6));
+	}
+
+	@Override
+	public void animateTo(IGeoPoint point, Double pZoom, Long pSpeed) {
+
 	}
 
 	@Override

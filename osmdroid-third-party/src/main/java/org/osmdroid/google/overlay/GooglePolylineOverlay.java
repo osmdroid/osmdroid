@@ -13,7 +13,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Point;
-
+@Deprecated
 // based on org.osmdroid.views.overlay.PathOverlay
 public class GooglePolylineOverlay extends Overlay {
 

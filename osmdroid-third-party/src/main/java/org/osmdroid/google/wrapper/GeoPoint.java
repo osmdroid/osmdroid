@@ -10,6 +10,7 @@ import org.osmdroid.api.IGeoPoint;
  * @author Neil Boyd
  *
  */
+@Deprecated
 public class GeoPoint implements IGeoPoint {
 
 	private final com.google.android.maps.GeoPoint mGeoPoint;

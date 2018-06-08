@@ -13,6 +13,7 @@ import android.graphics.Point;
  * @author Neil Boyd
  *
  */
+@Deprecated
 public class Projection implements IProjection {
 
 	private final com.google.android.maps.Projection mProjection;

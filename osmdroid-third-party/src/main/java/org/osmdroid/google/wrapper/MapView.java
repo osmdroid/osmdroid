@@ -16,6 +16,7 @@ import android.util.AttributeSet;
  * @author Neil Boyd
  *
  */
+@Deprecated
 public class MapView implements IMapView {
 
 	private final com.google.android.maps.MapView mMapView;
