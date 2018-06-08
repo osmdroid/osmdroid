@@ -29,7 +29,7 @@ dependencies {
     testCompile "junit:junit:${project.property('junit.version')}"
     compile 'com.android.support:appcompat-v7:23.+'
     //this covers google maps v2 apis
-    compile 'com.google.android.gms:play-services:8.+'
+    //compile 'com.google.android.gms:play-services:8.+'
 
     compile 'com.google.android.gms:play-services-maps:8.+'
 

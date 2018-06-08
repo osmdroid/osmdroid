@@ -24,6 +24,6 @@ dependencies {
     compile project(':osmdroid-android')
     //compile(group: 'org.apache.james', name: 'apache-mime4j', version: '0.6') {}
 
-    compile 'com.google.android.gms:play-services:8.+'
+//    compile 'com.google.android.gms:play-services:8.+'
     compile 'com.google.android.gms:play-services-maps:8.+'
 }
