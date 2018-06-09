@@ -8,7 +8,6 @@ import org.osmdroid.api.IMapView;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.BitmapPool;
 import org.osmdroid.tileprovider.MapTileRequestState;
-import org.osmdroid.tileprovider.ReusableBitmapDrawable;
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 import org.osmdroid.tileprovider.tilesource.BitmapTileSourceBase.LowMemoryException;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
@@ -161,8 +160,20 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 
 	protected class TileLoader extends MapTileModuleProviderBase.TileLoader {
 
-		@Override
-		public Drawable loadTile(final long pMapTileIndex) throws CantContinueException {
+
+		/**
+		 * downloads a tile and follows http redirects
+		 * @param pMapTileIndex
+		 * @param redirectCount
+		 * @param targetUrl
+		 * @return
+		 * @throws CantContinueException
+		 */
+		protected Drawable downloadTile(final long pMapTileIndex, final int redirectCount, final String targetUrl) throws CantContinueException {
+
+			//prevent infinite looping of redirects, rare but very possible for misconfigured servers
+			if (redirectCount>5)
+				return null;
 
 			OnlineTileSourceBase tileSource = mTileSource.get();
 			if (tileSource == null) {
@@ -172,18 +183,13 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 			InputStream in = null;
 			OutputStream out = null;
 			HttpURLConnection c=null;
-
+			ByteArrayInputStream byteStream = null;
+			ByteArrayOutputStream dataStream = null;
 			try {
 
-				if (mNetworkAvailablityCheck != null
-						&& !mNetworkAvailablityCheck.getNetworkAvailable()) {
-					if (Configuration.getInstance().isDebugMode()) {
-						Log.d(IMapView.LOGTAG,"Skipping " + getName() + " due to NetworkAvailabliltyCheck.");
-					}
-					return null;
-				}
 
-				final String tileURLString = tileSource.getTileURLString(pMapTileIndex);
+
+				final String tileURLString = targetUrl;
 
 				if (Configuration.getInstance().isDebugMode()) {
 					Log.d(IMapView.LOGTAG,"Downloading Maptile from url: " + tileURLString);
@@ -193,6 +199,7 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 					return null;
 				}
 
+				//TODO in the future, it may be necessary to allow app's using this library to override the SSL socket factor. It would here somewhere
 				if (Configuration.getInstance().getHttpProxy() != null) {
 					c = (HttpURLConnection) new URL(tileURLString).openConnection(Configuration.getInstance().getHttpProxy());
 				} else {
@@ -204,26 +211,45 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 					c.setRequestProperty(entry.getKey(), entry.getValue());
 				}
 				c.connect();
-                                
+
 
 				// Check to see if we got success
-				
+
 				if (c.getResponseCode() != 200) {
-					Log.w(IMapView.LOGTAG, "Problem downloading MapTile: " + MapTileIndex.toString(pMapTileIndex) + " HTTP response: " + c.getResponseMessage());
-					if (Configuration.getInstance().isDebugMapTileDownloader()) {
-						Log.d(IMapView.LOGTAG, tileURLString);
+
+					switch (c.getResponseCode()) {
+						case 301:
+						case 302:
+						case 307:
+						case 308:
+							//this is a redirect, check the header for a 'Location' header
+							String redirectUrl = c.getHeaderField("Location");
+							if (redirectUrl!=null && redirectUrl.toLowerCase().startsWith("http")) {
+								Log.i(IMapView.LOGTAG, "Http redirect for MapTile: " + MapTileIndex.toString(pMapTileIndex) + " HTTP response: " + c.getResponseMessage() + " to url " + redirectUrl);
+								return downloadTile(pMapTileIndex, redirectCount+1, redirectUrl);
+							}
+							break;
+						default: {
+							Log.w(IMapView.LOGTAG, "Problem downloading MapTile: " + MapTileIndex.toString(pMapTileIndex) + " HTTP response: " + c.getResponseMessage());
+							if (Configuration.getInstance().isDebugMapTileDownloader()) {
+								Log.d(IMapView.LOGTAG, tileURLString);
+							}
+							Counters.tileDownloadErrors++;
+							in = c.getErrorStream(); // in order to have the error stream purged by the finally block
+							return null;
+						}
 					}
-					Counters.tileDownloadErrors++;
-					in = c.getErrorStream(); // in order to have the error stream purged by the finally block
-					return null;
+
+
+
 				}
 				if (Configuration.getInstance().isDebugMapTileDownloader()) {
 					Log.d(IMapView.LOGTAG, tileURLString + " success");
 				}
-				
+
 				in = c.getInputStream();
 
-				final ByteArrayOutputStream dataStream = new ByteArrayOutputStream();
+				dataStream = new ByteArrayOutputStream();
 				out = new BufferedOutputStream(dataStream, StreamUtils.IO_BUFFER_SIZE);
 				//default is 1 week from now
 				//Date dateExpires;
@@ -247,7 +273,7 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 				StreamUtils.copy(in, out);
 				out.flush();
 				final byte[] data = dataStream.toByteArray();
-				final ByteArrayInputStream byteStream = new ByteArrayInputStream(data);
+				byteStream = new ByteArrayInputStream(data);
 
 				// Save the data to the cache
 				//this is the only point in which we insert tiles to the db or local file system.
@@ -257,6 +283,7 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 					byteStream.reset();
 				}
 				final Drawable result = tileSource.getDrawable(byteStream);
+
 
 				return result;
 			} catch (final UnknownHostException e) {
@@ -279,12 +306,42 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 			} finally {
 				StreamUtils.closeStream(in);
 				StreamUtils.closeStream(out);
+				StreamUtils.closeStream(byteStream);
+				StreamUtils.closeStream(dataStream);
 				try{
 					c.disconnect();
 				} catch (Exception ex){}
 			}
 
 			return null;
+		}
+
+		@Override
+		public Drawable loadTile(final long pMapTileIndex) throws CantContinueException {
+
+			OnlineTileSourceBase tileSource = mTileSource.get();
+			if (tileSource == null) {
+				return null;
+			}
+
+
+			if (mNetworkAvailablityCheck != null
+				&& !mNetworkAvailablityCheck.getNetworkAvailable()) {
+				if (Configuration.getInstance().isDebugMode()) {
+					Log.d(IMapView.LOGTAG, "Skipping " + getName() + " due to NetworkAvailabliltyCheck.");
+				}
+				return null;
+			}
+
+			final String tileURLString = tileSource.getTileURLString(pMapTileIndex);
+
+			if (TextUtils.isEmpty(tileURLString)) {
+				return null;	//unlikely but just in case
+			}
+
+			return downloadTile(pMapTileIndex, 0, tileURLString);
+
+
 		}
 
 		@Override
