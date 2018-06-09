@@ -7,8 +7,7 @@
     <org.osmdroid.views.MapView
         android:id="@+id/mapview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tilesource="Mapnik" />
+        android:layout_height="match_parent"/>
 
     <Button android:id="@+id/btnCache"
         android:layout_width="fill_parent"
