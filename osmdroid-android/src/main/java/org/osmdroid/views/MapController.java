@@ -198,14 +198,14 @@ public class MapController implements IMapController, OnFirstLayoutListener {
     @Override
     public void setCenter(final IGeoPoint point) {
         // If no layout, delay this call
-        for (MapListener mapListener: mMapView.mListners) {
-            mapListener.onScroll(new ScrollEvent(mMapView, 0, 0));
-        }
         if (!mMapView.isLayoutOccurred()) {
             mReplayController.setCenter(point);
             return;
         }
         mMapView.setExpectedCenter(point);
+        for (MapListener mapListener: mMapView.mListners) {
+            mapListener.onScroll(new ScrollEvent(mMapView, 0, 0));
+        }
     }
 
     @Override
