@@ -172,7 +172,7 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 		protected Drawable downloadTile(final long pMapTileIndex, final int redirectCount, final String targetUrl) throws CantContinueException {
 
 			//prevent infinite looping of redirects, rare but very possible for misconfigured servers
-			if (redirectCount>5)
+			if (redirectCount>3)
 				return null;
 
 			OnlineTileSourceBase tileSource = mTileSource.get();
@@ -199,7 +199,7 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 					return null;
 				}
 
-				//TODO in the future, it may be necessary to allow app's using this library to override the SSL socket factor. It would here somewhere
+				//TODO in the future, it may be necessary to allow app's using this library to override the SSL socket factory. It would here somewhere
 				if (Configuration.getInstance().getHttpProxy() != null) {
 					c = (HttpURLConnection) new URL(tileURLString).openConnection(Configuration.getInstance().getHttpProxy());
 				} else {
@@ -217,33 +217,35 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 
 				if (c.getResponseCode() != 200) {
 
+
 					switch (c.getResponseCode()) {
 						case 301:
 						case 302:
 						case 307:
 						case 308:
-							//this is a redirect, check the header for a 'Location' header
-							String redirectUrl = c.getHeaderField("Location");
-							if (redirectUrl!=null) {
-								if (redirectUrl.startsWith("/")) {
-									//in this case we need to stitch together a full url
-									URL old = new URL(targetUrl);
-									int port = old.getPort();
-									boolean secure = targetUrl.toLowerCase().startsWith("https://");
-									if (port==-1)
-										if (targetUrl.toLowerCase().startsWith("http://")) {
-											port = 80;
-										}
-										else {
-											port = 443;
-										}
+							if (Configuration.getInstance().isMapTileDownloaderFollowRedirects()) {
+								//this is a redirect, check the header for a 'Location' header
+								String redirectUrl = c.getHeaderField("Location");
+								if (redirectUrl != null) {
+									if (redirectUrl.startsWith("/")) {
+										//in this case we need to stitch together a full url
+										URL old = new URL(targetUrl);
+										int port = old.getPort();
+										boolean secure = targetUrl.toLowerCase().startsWith("https://");
+										if (port == -1)
+											if (targetUrl.toLowerCase().startsWith("http://")) {
+												port = 80;
+											} else {
+												port = 443;
+											}
 
-									redirectUrl = (secure ? "https://" : "http") + old.getHost() + ":" + port + redirectUrl;
+										redirectUrl = (secure ? "https://" : "http") + old.getHost() + ":" + port + redirectUrl;
+									}
+									Log.i(IMapView.LOGTAG, "Http redirect for MapTile: " + MapTileIndex.toString(pMapTileIndex) + " HTTP response: " + c.getResponseMessage() + " to url " + redirectUrl);
+									return downloadTile(pMapTileIndex, redirectCount + 1, redirectUrl);
 								}
-								Log.i(IMapView.LOGTAG, "Http redirect for MapTile: " + MapTileIndex.toString(pMapTileIndex) + " HTTP response: " + c.getResponseMessage() + " to url " + redirectUrl);
-								return downloadTile(pMapTileIndex, redirectCount+1, redirectUrl);
-							}
-							break;
+								break;
+							}	//else follow through the normal path of aborting the download
 						default: {
 							Log.w(IMapView.LOGTAG, "Problem downloading MapTile: " + MapTileIndex.toString(pMapTileIndex) + " HTTP response: " + c.getResponseMessage());
 							if (Configuration.getInstance().isDebugMapTileDownloader()) {

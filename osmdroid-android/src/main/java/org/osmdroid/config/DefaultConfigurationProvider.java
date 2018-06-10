@@ -59,6 +59,7 @@ public class DefaultConfigurationProvider implements IConfigurationProvider {
     protected long mTileGCFrequencyInMillis = 300000;
     protected int mTileGCBulkSize = 20;
     protected long mTileGCBulkPauseInMillis = 500;
+    protected boolean mTileDownloaderFollowRedirects = true;
 
     public DefaultConfigurationProvider(){
 
@@ -329,6 +330,7 @@ public class DefaultConfigurationProvider implements IConfigurationProvider {
             setAnimationSpeedDefault(prefs.getInt("osmdroid.ZoomSpeedDefault", animationSpeedDefault));
             setAnimationSpeedShort(prefs.getInt("osmdroid.animationSpeedShort", animationSpeedShort));
             setCacheMapTileOvershoot((short)(prefs.getInt("osmdroid.cacheTileOvershoot", cacheTileOvershoot)));
+            setMapTileDownloaderFollowRedirects(prefs.getBoolean("osmdroid.TileDownloaderFollowRedirects", mTileDownloaderFollowRedirects));
 
             if (prefs.contains("osmdroid.ExpirationOverride")) {
                 expirationOverride = prefs.getLong("osmdroid.ExpirationOverride",-1);
@@ -373,6 +375,7 @@ public class DefaultConfigurationProvider implements IConfigurationProvider {
         edit.putBoolean("osmdroid.DebugMapView",isDebugMapView());
         edit.putBoolean("osmdroid.DebugTileProvider",isDebugTileProviders());
         edit.putBoolean("osmdroid.HardwareAcceleration", isMapViewHardwareAccelerated());
+        edit.putBoolean("osmdroid.TileDownloaderFollowRedirects", isMapTileDownloaderFollowRedirects());
         edit.putString("osmdroid.userAgentValue", getUserAgentValue());
         save(prefs, edit, mAdditionalHttpRequestProperties, "osmdroid.additionalHttpRequestProperty.");
         edit.putLong("osmdroid.gpsWaitTime",gpsWaitTime);
@@ -531,5 +534,15 @@ public class DefaultConfigurationProvider implements IConfigurationProvider {
     @Override
     public void setTileGCBulkPauseInMillis(final long pMillis) {
         mTileGCBulkPauseInMillis = pMillis;
+    }
+
+    @Override
+    public void setMapTileDownloaderFollowRedirects(boolean value) {
+        mTileDownloaderFollowRedirects = value;
+    }
+
+    @Override
+    public boolean isMapTileDownloaderFollowRedirects() {
+        return mTileDownloaderFollowRedirects;
     }
 }

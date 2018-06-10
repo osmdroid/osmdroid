@@ -426,4 +426,12 @@ public interface IConfigurationProvider {
      * @since 6.0.2
      */
     void setTileGCBulkPauseInMillis(final long pMillis);
+
+    /**
+     * enables/disables tile downloading following redirects. default is true
+     * @since 6.0.2
+     * @param value
+     */
+    void setMapTileDownloaderFollowRedirects(boolean value);
+    boolean isMapTileDownloaderFollowRedirects();
 }
