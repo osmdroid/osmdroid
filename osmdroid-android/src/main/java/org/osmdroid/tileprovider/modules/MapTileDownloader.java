@@ -224,7 +224,22 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 						case 308:
 							//this is a redirect, check the header for a 'Location' header
 							String redirectUrl = c.getHeaderField("Location");
-							if (redirectUrl!=null && redirectUrl.toLowerCase().startsWith("http")) {
+							if (redirectUrl!=null) {
+								if (redirectUrl.startsWith("/")) {
+									//in this case we need to stitch together a full url
+									URL old = new URL(targetUrl);
+									int port = old.getPort();
+									boolean secure = targetUrl.toLowerCase().startsWith("https://");
+									if (port==-1)
+										if (targetUrl.toLowerCase().startsWith("http://")) {
+											port = 80;
+										}
+										else {
+											port = 443;
+										}
+
+									redirectUrl = (secure ? "https://" : "http") + old.getHost() + ":" + port + redirectUrl;
+								}
 								Log.i(IMapView.LOGTAG, "Http redirect for MapTile: " + MapTileIndex.toString(pMapTileIndex) + " HTTP response: " + c.getResponseMessage() + " to url " + redirectUrl);
 								return downloadTile(pMapTileIndex, redirectCount+1, redirectUrl);
 							}
@@ -243,8 +258,12 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 
 
 				}
+				String mime = c.getHeaderField("Content-Type");
 				if (Configuration.getInstance().isDebugMapTileDownloader()) {
-					Log.d(IMapView.LOGTAG, tileURLString + " success");
+					Log.d(IMapView.LOGTAG, tileURLString + " success, mime is " + mime );
+				}
+				if (mime!=null && !mime.toLowerCase().contains("image")) {
+					Log.w(IMapView.LOGTAG, tileURLString + " success, however the mime type does not appear to be an image " + mime );
 				}
 
 				in = c.getInputStream();
