@@ -10,8 +10,8 @@ apply plugin: 'com.android.application'
 apply from: "https://raw.githubusercontent.com/gradle-fury/gradle-fury/v1.1.4/gradle/android-support.gradle"
 
 android {
-    compileSdkVersion 'Google Inc.:Google APIs:23'
-    buildToolsVersion "23.0.3"
+    buildToolsVersion "${project.property('android.buildToolsVersion')}"
+    compileSdkVersion "Google Inc.:Google APIs:${project.property('android.targetSdkVersion')}"
 
     defaultConfig {
         applicationId "org.osmdroid.google.sample"
@@ -27,22 +27,21 @@ android {
 
 dependencies {
     testCompile "junit:junit:${project.property('junit.version')}"
-    compile 'com.android.support:appcompat-v7:23.+'
+
+    compile "com.android.support:appcompat-v7:${project.property('android-support.version')}"
     //this covers google maps v2 apis
     //compile 'com.google.android.gms:play-services:8.+'
 
     compile 'com.google.android.gms:play-services-maps:8.+'
 
-    compile 'com.android.support:support-v4:23+'
-    compile 'com.android.support:appcompat-v7:23.1.1'
+    compile "com.android.support:support-v4:${project.property('android-support.version')}"
+    compile "com.android.support:appcompat-v7:${project.property('android-support.version')}"
     compile project(':osmdroid-android')
     compile project(':osmdroid-third-party')
 
-    androidTestCompile 'com.android.support:support-annotations:23+'
     androidTestCompile 'com.android.support.test:runner:0.4.+'
     androidTestCompile 'com.android.support.test:rules:0.4.+'
-
-
+    androidTestCompile "com.android.support:support-annotations:${project.property('android-support.version')}"
 }
 
 project.gradle.taskGraph.whenReady {
