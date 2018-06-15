@@ -9,7 +9,7 @@ description = 'DEPRECATED osmdroid 3rd party libraries and examples. May use non
 apply plugin: 'com.android.library'
 apply from: "https://raw.githubusercontent.com/gradle-fury/gradle-fury/v1.1.4/gradle/android-support.gradle"
 android {
-    compileSdkVersion "Google Inc.:Google APIs:23"
+    compileSdkVersion 23
     buildToolsVersion "23.0.3"
     defaultConfig {
         minSdkVersion 9
