@@ -51,7 +51,7 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 
 	private final IFilesystemCache mFilesystemCache;
 
-	private final AtomicReference<OnlineTileSourceBase> mTileSource = new AtomicReference<OnlineTileSourceBase>();
+	private final AtomicReference<OnlineTileSourceBase> mTileSource = new AtomicReference<>();
 
 	private final INetworkAvailablityCheck mNetworkAvailablityCheck;
 
@@ -152,6 +152,39 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 			// Otherwise shut down the tile downloader
 			mTileSource.set(null);
 		}
+	}
+
+	/**
+	 * @since 6.0.2
+	 */
+	private long computeExpirationTime(final String pHttpExpiresHeader) {
+		Long httpExpirationTime = null;
+		if (pHttpExpiresHeader != null && pHttpExpiresHeader.length() > 0) {
+			try {
+				final Date dateExpires = Configuration.getInstance().getHttpHeaderDateTimeFormat().parse(pHttpExpiresHeader);
+				httpExpirationTime = dateExpires.getTime();
+			} catch (final Exception ex) {
+				if (Configuration.getInstance().isDebugMapTileDownloader())
+					Log.d(IMapView.LOGTAG, "Unable to parse expiration tag for tile, using default, server returned " + pHttpExpiresHeader, ex);
+			}
+		}
+		return computeExpirationTime(httpExpirationTime);
+	}
+
+	/**
+	 * @since 6.0.2
+	 */
+	protected long computeExpirationTime(final Long pHttpExpiresTime) {
+		final Long override=Configuration.getInstance().getExpirationOverrideDuration();
+		final long now = System.currentTimeMillis();
+		if (override != null) {
+			return now + override;
+		}
+		final long extension = Configuration.getInstance().getExpirationExtendedDuration();
+		if (pHttpExpiresTime != null) {
+			return pHttpExpiresTime + extension;
+		}
+		return now + OpenStreetMapTileProviderConstants.DEFAULT_MAXIMUM_CACHED_FILE_AGE + extension;
 	}
 
 	// ===========================================================
@@ -272,25 +305,8 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 
 				dataStream = new ByteArrayOutputStream();
 				out = new BufferedOutputStream(dataStream, StreamUtils.IO_BUFFER_SIZE);
-				//default is 1 week from now
-				//Date dateExpires;
-				Long override=Configuration.getInstance().getExpirationOverrideDuration();
-				Long expirationTime = null;
-				if (override!=null) {
-					expirationTime = System.currentTimeMillis() + override;
-				} else {
-					expirationTime = System.currentTimeMillis() + OpenStreetMapTileProviderConstants.DEFAULT_MAXIMUM_CACHED_FILE_AGE + Configuration.getInstance().getExpirationExtendedDuration();
-					final String expires = c.getHeaderField(OpenStreetMapTileProviderConstants.HTTP_EXPIRES_HEADER);
-					if (expires != null && expires.length() > 0) {
-						try {
-							final Date dateExpires = Configuration.getInstance().getHttpHeaderDateTimeFormat().parse(expires);
-							expirationTime = dateExpires.getTime() + Configuration.getInstance().getExpirationExtendedDuration();
-						} catch (Exception ex) {
-							if (Configuration.getInstance().isDebugMapTileDownloader())
-								Log.d(IMapView.LOGTAG, "Unable to parse expiration tag for tile, using default, server returned " + expires, ex);
-						}
-					}
-				}
+				final long expirationTime = computeExpirationTime(
+						c.getHeaderField(OpenStreetMapTileProviderConstants.HTTP_EXPIRES_HEADER));
 				StreamUtils.copy(in, out);
 				out.flush();
 				final byte[] data = dataStream.toByteArray();
@@ -303,10 +319,7 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 					mFilesystemCache.saveFile(tileSource, pMapTileIndex, byteStream, expirationTime);
 					byteStream.reset();
 				}
-				final Drawable result = tileSource.getDrawable(byteStream);
-
-
-				return result;
+				return tileSource.getDrawable(byteStream);
 			} catch (final UnknownHostException e) {
 				Log.w(IMapView.LOGTAG,"UnknownHostException downloading MapTile: " + MapTileIndex.toString(pMapTileIndex) + " : " + e);
 				Counters.tileDownloadErrors++;
