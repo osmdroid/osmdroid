@@ -91,6 +91,7 @@ import org.osmdroid.samplefragments.tilesources.SampleCustomLoadingImage;
 import org.osmdroid.samplefragments.tilesources.SampleCustomTileSource;
 import org.osmdroid.samplefragments.tilesources.SampleHereWeGo;
 import org.osmdroid.samplefragments.tilesources.SampleInvertedTiles_NightMode;
+import org.osmdroid.samplefragments.tilesources.SampleLieFi;
 import org.osmdroid.samplefragments.tilesources.SampleMapBox;
 import org.osmdroid.samplefragments.tilesources.SampleMapQuest;
 import org.osmdroid.samplefragments.tilesources.SampleOpenSeaMap;
@@ -293,6 +294,7 @@ public final class SampleFactory implements ISampleFactory {
         mSamples.add(SampleZoomRounding.class);
         mSamples.add(LayerManager.class);
         mSamples.add(BookmarkSample.class);
+        mSamples.add(SampleLieFi.class);
     }
 
     public void addSample(Class<? extends BaseSampleFragment> clz) {

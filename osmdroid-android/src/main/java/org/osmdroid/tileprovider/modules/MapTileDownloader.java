@@ -187,6 +187,15 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 		return now + OpenStreetMapTileProviderConstants.DEFAULT_MAXIMUM_CACHED_FILE_AGE + extension;
 	}
 
+	/**
+	 * @since 6.0.2
+	 * Minimum download duration in millis in order to emulate a lie-fi connectivity
+	 * ALWAYS to be set to 0, except during lie-fi tests
+	 */
+	protected int getLieFiLag() {
+		return 0;
+	}
+
 	// ===========================================================
 	// Inner and Anonymous Classes
 	// ===========================================================
@@ -218,6 +227,7 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 			HttpURLConnection c=null;
 			ByteArrayInputStream byteStream = null;
 			ByteArrayOutputStream dataStream = null;
+			final long start = System.currentTimeMillis();
 			try {
 
 
@@ -318,6 +328,15 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 				if (mFilesystemCache != null) {
 					mFilesystemCache.saveFile(tileSource, pMapTileIndex, byteStream, expirationTime);
 					byteStream.reset();
+				}
+				final long now = System.currentTimeMillis();
+				final long wait = start + getLieFiLag() - now;
+				if (wait > 0) {
+					try {
+						Thread.sleep(wait);
+					} catch(InterruptedException e) {
+						//
+					}
 				}
 				return tileSource.getDrawable(byteStream);
 			} catch (final UnknownHostException e) {
