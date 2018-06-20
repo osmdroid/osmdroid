@@ -1,12 +1,12 @@
 package org.osmdroid.bugtestfragments;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 
 import junit.framework.Assert;
 
@@ -16,7 +16,6 @@ import org.osmdroid.samplefragments.BaseSampleFragment;
 import org.osmdroid.tileprovider.MapTileProviderBasic;
 import org.osmdroid.tileprovider.cachemanager.CacheManager;
 import org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase;
-import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.tileprovider.tilesource.XYTileSource;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
@@ -42,27 +41,27 @@ public class Bug512CacheManagerWp extends BaseSampleFragment implements CacheMan
 
         View root = inflater.inflate(R.layout.sample_cachemgr, container,false);
 
-        mMapView = (MapView) root.findViewById(R.id.mapview);
         btnCache = (Button) root.findViewById(R.id.btnCache);
         btnCache.setOnClickListener(this);
         btnCache.setText("Run job (watch logcat output)");
 
-        OnlineTileSourceBase onlineTileSourceBase = TileSourceFactory.MAPNIK;
-
         // Workaround for failing unit test due to issues with https connections on API < 9
         // https://github.com/osmdroid/osmdroid/issues/1048
         // https://github.com/osmdroid/osmdroid/issues/1051
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.GINGERBREAD) {
-            onlineTileSourceBase = new XYTileSource("Mapnik",
+        // Also works around an issue with some emulator image that do not update their time/date
+        // correctly and stay on 0 unix time. This causes SSLExceptions due to the validity of the
+        // certificates.
+        OnlineTileSourceBase onlineTileSourceBase = new XYTileSource("Mapnik",
                     0, 19, 256, ".png",
                     new String[]{
                             "http://a.tile.openstreetmap.org/",
                             "http://b.tile.openstreetmap.org/",
                             "http://c.tile.openstreetmap.org/"}, "© OpenStreetMap contributors");
-        }
 
-        mMapView.setTileProvider(new MapTileProviderBasic(
+        mMapView = new MapView(getActivity(), new MapTileProviderBasic(
                 getActivity().getApplicationContext(), onlineTileSourceBase));
+
+        ((LinearLayout) root.findViewById(R.id.mapview)).addView(mMapView);
 
         return root;
     }
