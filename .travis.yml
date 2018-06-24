@@ -50,25 +50,25 @@ env:
     
     matrix:
     - API=10 ANDROID_ABI=armeabi-v7a ANDROID_TAG=default
-    #- API=10 ANDROID_ABI=armeabi-v7a ANDROID_TAG=google_apis
-    #- API=14 ANDROID_ABI=armeabi-v7a ANDROID_TAG=default     # emulator consistently times out
-    - API=15 ANDROID_ABI=armeabi-v7a ANDROID_TAG=default
-    #- API=15 ANDROID_ABI=armeabi-v7a ANDROID_TAG=google_apis
-    - API=16 ANDROID_ABI=armeabi-v7a ANDROID_TAG=default
-    - API=17 ANDROID_ABI=armeabi-v7a ANDROID_TAG=default
-    #- API=17 ANDROID_ABI=armeabi-v7a ANDROID_TAG=google_apis
-    - API=18 ANDROID_ABI=armeabi-v7a ANDROID_TAG=default
-    #- API=18 ANDROID_ABI=armeabi-v7a ANDROID_TAG=google_apis
+    #- API=10 ANDROID_ABI=armeabi-v7a ANDROID_TAG=google_apis     # currently not needed
+    #- API=14 ANDROID_ABI=armeabi-v7a ANDROID_TAG=default         # emulator consistently times out
+    #- API=15 ANDROID_ABI=armeabi-v7a ANDROID_TAG=default         # https://github.com/osmdroid/osmdroid/issues/1066
+    #- API=15 ANDROID_ABI=armeabi-v7a ANDROID_TAG=google_apis     # currently not needed
+    #- API=16 ANDROID_ABI=armeabi-v7a ANDROID_TAG=default         # https://github.com/osmdroid/osmdroid/issues/1065
+    #- API=17 ANDROID_ABI=armeabi-v7a ANDROID_TAG=default         # https://github.com/osmdroid/osmdroid/issues/1065
+    #- API=17 ANDROID_ABI=armeabi-v7a ANDROID_TAG=google_apis     # currently not needed
+    #- API=18 ANDROID_ABI=armeabi-v7a ANDROID_TAG=default         # https://github.com/osmdroid/osmdroid/issues/1065
+    #- API=18 ANDROID_ABI=armeabi-v7a ANDROID_TAG=google_apis     # currently not needed
     - API=19 ANDROID_ABI=armeabi-v7a ANDROID_TAG=default
     - API=21 ANDROID_ABI=armeabi-v7a ANDROID_TAG=default
-    #- API=21 ANDROID_ABI=armeabi-v7a ANDROID_TAG=google_apis
-    - API=22 ANDROID_ABI=armeabi-v7a ANDROID_TAG=default
-    #- API=22 ANDROID_ABI=armeabi-v7a ANDROID_TAG=google_apis
-    #- API=23 ANDROID_ABI=armeabi-v7a ANDROID_TAG=default      # sdkmanager --list reports this to be available, but image is not found during build
-    - API=23 ANDROID_ABI=armeabi-v7a ANDROID_TAG=google_apis
-    - API=24 ANDROID_ABI=armeabi-v7a ANDROID_TAG=default
-    #- API=24 ANDROID_ABI=armeabi-v7a ANDROID_TAG=google_apis  # emulator consistently times out
-    #- API=25 ANDROID_ABI=armeabi-v7a ANDROID_TAG=google_apis  # no addons available, so can't be used
+    #- API=21 ANDROID_ABI=armeabi-v7a ANDROID_TAG=google_apis     # currently not needed
+    #- API=22 ANDROID_ABI=armeabi-v7a ANDROID_TAG=default         # com.android.ddmlib.InstallException: Failed to finalize session : INSTALL_FAILED_DEXOPT: Package couldn't be installed in /data/app/org.osmdroid-2: scanPackageLI
+    #- API=22 ANDROID_ABI=armeabi-v7a ANDROID_TAG=google_apis     # currently not needed
+    #- API=23 ANDROID_ABI=armeabi-v7a ANDROID_TAG=default         # sdkmanager --list reports this to be available, but image is not found during build
+    #- API=23 ANDROID_ABI=armeabi-v7a ANDROID_TAG=google_apis     # Unable to install /home/travis/build/cbalster/osmdroid/OpenStreetMapViewer/build/outputs/apk/OpenStreetMapViewer-6.0.2-SNAPSHOT-debug.apk com.android.ddmlib.InstallException: Failed to establish session
+    #- API=24 ANDROID_ABI=armeabi-v7a ANDROID_TAG=default         # "The command "adb shell ls /" failed and exited with 1 during." see line 108
+    #- API=24 ANDROID_ABI=armeabi-v7a ANDROID_TAG=google_apis     # emulator consistently times out
+    #- API=25 ANDROID_ABI=armeabi-v7a ANDROID_TAG=google_apis     # no addons available, so can't be used
 
 before_install:
   # create and start emulators; automatically downloads required platform and - if necessary - the google api addons
