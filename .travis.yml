@@ -18,7 +18,7 @@ android:
     #
     
     - android-23
-    - addon-google_apis-google-23
+    #- addon-google_apis-google-23
     
     # Additional components - currently not required
     #- extra-google-m2repository #contains constraintlayout
@@ -50,20 +50,20 @@ env:
     
     matrix:
     - API=10 ANDROID_ABI=armeabi-v7a ANDROID_TAG=default
-    - API=10 ANDROID_ABI=armeabi-v7a ANDROID_TAG=google_apis
+    #- API=10 ANDROID_ABI=armeabi-v7a ANDROID_TAG=google_apis
     #- API=14 ANDROID_ABI=armeabi-v7a ANDROID_TAG=default     # emulator consistently times out
     - API=15 ANDROID_ABI=armeabi-v7a ANDROID_TAG=default
-    - API=15 ANDROID_ABI=armeabi-v7a ANDROID_TAG=google_apis
+    #- API=15 ANDROID_ABI=armeabi-v7a ANDROID_TAG=google_apis
     - API=16 ANDROID_ABI=armeabi-v7a ANDROID_TAG=default
     - API=17 ANDROID_ABI=armeabi-v7a ANDROID_TAG=default
-    - API=17 ANDROID_ABI=armeabi-v7a ANDROID_TAG=google_apis
+    #- API=17 ANDROID_ABI=armeabi-v7a ANDROID_TAG=google_apis
     - API=18 ANDROID_ABI=armeabi-v7a ANDROID_TAG=default
-    - API=18 ANDROID_ABI=armeabi-v7a ANDROID_TAG=google_apis
+    #- API=18 ANDROID_ABI=armeabi-v7a ANDROID_TAG=google_apis
     - API=19 ANDROID_ABI=armeabi-v7a ANDROID_TAG=default
     - API=21 ANDROID_ABI=armeabi-v7a ANDROID_TAG=default
-    - API=21 ANDROID_ABI=armeabi-v7a ANDROID_TAG=google_apis
+    #- API=21 ANDROID_ABI=armeabi-v7a ANDROID_TAG=google_apis
     - API=22 ANDROID_ABI=armeabi-v7a ANDROID_TAG=default
-    - API=22 ANDROID_ABI=armeabi-v7a ANDROID_TAG=google_apis
+    #- API=22 ANDROID_ABI=armeabi-v7a ANDROID_TAG=google_apis
     #- API=23 ANDROID_ABI=armeabi-v7a ANDROID_TAG=default      # sdkmanager --list reports this to be available, but image is not found during build
     - API=23 ANDROID_ABI=armeabi-v7a ANDROID_TAG=google_apis
     - API=24 ANDROID_ABI=armeabi-v7a ANDROID_TAG=default
