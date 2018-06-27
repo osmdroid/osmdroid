@@ -117,6 +117,9 @@ public class MapTileProviderBasic extends MapTileProviderArray implements IMapTi
 		getTileCache().getPreCache().addProvider(assetsProvider);
 		getTileCache().getPreCache().addProvider(cacheProvider);
 		getTileCache().getPreCache().addProvider(archiveProvider);
+
+		// tiles currently being processed
+		getTileCache().getProtectedTileContainers().add(this);
 	}
 
 	@Override

@@ -15,6 +15,7 @@ import org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase;
 import org.osmdroid.tileprovider.util.Counters;
 import org.osmdroid.tileprovider.util.StreamUtils;
 import org.osmdroid.util.MapTileIndex;
+import org.osmdroid.util.UrlBackoff;
 
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
@@ -59,6 +60,8 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 	 * @since 6.0.2
 	 */
 	private final TileLoader mTileLoader = new TileLoader();
+
+	private final UrlBackoff mUrlBackoff = new UrlBackoff();
 
 	// ===========================================================
 	// Constructors
@@ -187,15 +190,6 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 		return now + OpenStreetMapTileProviderConstants.DEFAULT_MAXIMUM_CACHED_FILE_AGE + extension;
 	}
 
-	/**
-	 * @since 6.0.2
-	 * Minimum download duration in millis in order to emulate a lie-fi connectivity
-	 * ALWAYS to be set to 0, except during lie-fi tests
-	 */
-	protected int getLieFiLag() {
-		return 0;
-	}
-
 	// ===========================================================
 	// Inner and Anonymous Classes
 	// ===========================================================
@@ -227,7 +221,6 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 			HttpURLConnection c=null;
 			ByteArrayInputStream byteStream = null;
 			ByteArrayOutputStream dataStream = null;
-			final long start = System.currentTimeMillis();
 			try {
 
 
@@ -329,15 +322,6 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 					mFilesystemCache.saveFile(tileSource, pMapTileIndex, byteStream, expirationTime);
 					byteStream.reset();
 				}
-				final long now = System.currentTimeMillis();
-				final long wait = start + getLieFiLag() - now;
-				if (wait > 0) {
-					try {
-						Thread.sleep(wait);
-					} catch(InterruptedException e) {
-						//
-					}
-				}
 				return tileSource.getDrawable(byteStream);
 			} catch (final UnknownHostException e) {
 				Log.w(IMapView.LOGTAG,"UnknownHostException downloading MapTile: " + MapTileIndex.toString(pMapTileIndex) + " : " + e);
@@ -392,8 +376,16 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 				return null;	//unlikely but just in case
 			}
 
-			return downloadTile(pMapTileIndex, 0, tileURLString);
-
+			if (mUrlBackoff.shouldWait(tileURLString)) {
+				return null;
+			}
+			final Drawable result = downloadTile(pMapTileIndex, 0, tileURLString);
+			if (result == null) {
+				mUrlBackoff.next(tileURLString);
+			} else {
+				mUrlBackoff.remove(tileURLString);
+			}
+			return result;
 
 		}
 

@@ -3,21 +3,17 @@ package org.osmdroid.tileprovider;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
-import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.modules.IFilesystemCache;
 import org.osmdroid.tileprovider.modules.MapTileModuleProviderBase;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 
-import org.osmdroid.api.IMapView;
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
-import org.osmdroid.util.Delay;
+import org.osmdroid.util.MapTileContainer;
 import org.osmdroid.util.MapTileIndex;
 
 /**
@@ -36,28 +32,17 @@ import org.osmdroid.util.MapTileIndex;
  * @author Marc Kurtz
  *
  */
-public class MapTileProviderArray extends MapTileProviderBase {
+public class MapTileProviderArray extends MapTileProviderBase implements MapTileContainer{
 
-	private final HashSet<Long> mWorking = new HashSet<>();
+	private final Map<Long, Integer> mWorking = new HashMap<>();
 	private IRegisterReceiver mRegisterReceiver=null;
 	protected final List<MapTileModuleProviderBase> mTileProviderList;
 
 	/**
 	 * @since 6.0.2
 	 */
-	private static final long[] mExponentialBackoffDurationInMillisDefault = new long[] {
-			5000, 15000, 60000, 120000, 300000
-	};
-
-	/**
-	 * @since 6.0.2
-	 */
-	private long[] mExponentialBackoffDurationInMillis = mExponentialBackoffDurationInMillisDefault;
-
-	/**
-	 * @since 6.0.2
-	 */
-	private final Map<Long, Delay> mTileDelays = new HashMap<>();
+	private static final int WORKING_STATUS_STARTED = 0;
+	private static final int WORKING_STATUS_FOUND = 1;
 
 	/**
 	 * Creates an {@link MapTileProviderArray} with no tile providers.
@@ -107,6 +92,16 @@ public class MapTileProviderArray extends MapTileProviderBase {
 	}
 
 	/**
+	 * @since 6.0.2
+	 */
+	@Override
+	public boolean contains(long pTileIndex) {
+		synchronized (mWorking) {
+			return mWorking.containsKey(pTileIndex);
+		}
+	}
+
+	/**
 	 * @since 6.0
 	 */
 	protected boolean isDowngradedMode() {
@@ -124,33 +119,16 @@ public class MapTileProviderArray extends MapTileProviderBase {
 				return tile; // best we can, considering
 			}
 		}
-		if (shouldWait(pMapTileIndex)) {
-			return tile; // best we can, considering
-		}
-		if (mWorking.contains(pMapTileIndex)) { // already in progress
-			return tile;
-		}
-
-		if (Configuration.getInstance().isDebugTileProviders()) {
-			Log.d(IMapView.LOGTAG,"MapTileProviderArray.getMapTile() requested but not in cache, trying from async providers: "
-					+ MapTileIndex.toString(pMapTileIndex));
-		}
 
 		synchronized (mWorking) {
-			// Check again
-			if (mWorking.contains(pMapTileIndex)) {
+			if (mWorking.containsKey(pMapTileIndex)) {
 				return tile;
 			}
-			mWorking.add(pMapTileIndex);
+			mWorking.put(pMapTileIndex, WORKING_STATUS_STARTED);
 		}
 
 		final MapTileRequestState state = new MapTileRequestState(pMapTileIndex, mTileProviderList, MapTileProviderArray.this);
-		final MapTileModuleProviderBase provider = findNextAppropriateProvider(state);
-		if (provider != null) {
-			provider.loadMapTileAsync(state);
-		} else {
-			mapTileRequestFailed(state);
-		}
+		runAsyncNextProvider(state);
 
 		return tile;
 	}
@@ -159,49 +137,37 @@ public class MapTileProviderArray extends MapTileProviderBase {
 	 * @since 6.0.0
 	 */
 	private void remove(final long pMapTileIndex) {
-		mWorking.remove(pMapTileIndex);
+		synchronized (mWorking) {
+			mWorking.remove(pMapTileIndex);
+		}
 	}
 
 	@Override
 	public void mapTileRequestCompleted(final MapTileRequestState aState, final Drawable aDrawable) {
-		removeDelay(aState.getMapTile());
-		remove(aState.getMapTile());
 		super.mapTileRequestCompleted(aState, aDrawable);
+		remove(aState.getMapTile());
 	}
 
 	@Override
 	public void mapTileRequestFailed(final MapTileRequestState aState) {
-		final MapTileModuleProviderBase nextProvider = findNextAppropriateProvider(aState);
-		if (nextProvider != null) {
-			nextProvider.loadMapTileAsync(aState);
-		} else {
-			nextDelay(aState.getMapTile());
-			remove(aState.getMapTile());
-			super.mapTileRequestFailed(aState);
-		}
+		runAsyncNextProvider(aState);
 	}
 	
 	@Override
 	public void mapTileRequestFailedExceedsMaxQueueSize(final MapTileRequestState aState) {
-		nextDelay(aState.getMapTile());
-		remove(aState.getMapTile());
 		super.mapTileRequestFailed(aState);
+		remove(aState.getMapTile());
 	}
 
 	@Override
 	public void mapTileRequestExpiredTile(MapTileRequestState aState, Drawable aDrawable) {
-		// Call through to the super first so aState.getCurrentProvider() still contains the proper
-		// provider.
-		nextDelay(aState.getMapTile());
 		super.mapTileRequestExpiredTile(aState, aDrawable);
+		synchronized (mWorking) {
+			mWorking.put(aState.getMapTile(), WORKING_STATUS_FOUND);
+		}
 
 		// Continue through the provider chain
-		final MapTileModuleProviderBase nextProvider = findNextAppropriateProvider(aState);
-		if (nextProvider != null) {
-			nextProvider.loadMapTileAsync(aState);
-		} else {
-			remove(aState.getMapTile());
-		}
+		runAsyncNextProvider(aState);
 	}
 
 	@Override
@@ -211,9 +177,9 @@ public class MapTileProviderArray extends MapTileProviderBase {
 
 	@Override
 	public long getQueueSize() {
-		if (mWorking!=null)
+		synchronized (mWorking) {
 			return mWorking.size();
-		return -1;
+		}
 	}
 
 	/**
@@ -241,6 +207,25 @@ public class MapTileProviderArray extends MapTileProviderBase {
 		} while ((provider != null)
 				&& (providerDoesntExist || providerCantGetDataConnection || providerCantServiceZoomlevel));
 		return provider;
+	}
+
+	/**
+	 * @since 6.0.2
+	 */
+	private void runAsyncNextProvider(final MapTileRequestState pState) {
+		final MapTileModuleProviderBase nextProvider = findNextAppropriateProvider(pState);
+		if (nextProvider != null) {
+			nextProvider.loadMapTileAsync(pState);
+			return;
+		}
+		final int status;
+		synchronized (mWorking) {
+			status = mWorking.get(pState.getMapTile());
+		}
+		if (status == WORKING_STATUS_STARTED) {
+			super.mapTileRequestFailed(pState);
+		}
+		remove(pState.getMapTile());
 	}
 
 	public boolean getProviderExists(final MapTileModuleProviderBase provider) {
@@ -283,58 +268,5 @@ public class MapTileProviderArray extends MapTileProviderBase {
 				clearTileCache();
 			}
 		}
-	}
-
-	/**
-	 * @since 6.0.2
-	 */
-	private boolean shouldWait(final long pMapTileIndex) {
-		final Delay delay;
-		synchronized (mTileDelays) {
-			delay = mTileDelays.get(pMapTileIndex);
-		}
-		return delay != null && delay.shouldWait();
-	}
-
-	/**
-	 * @since 6.0.2
-	 */
-	private void nextDelay(final long pMapTileIndex) {
-		final Delay delay;
-		synchronized (mTileDelays) {
-			delay = mTileDelays.get(pMapTileIndex);
-		}
-		if (delay == null) {
-			synchronized (mTileDelays) {
-				mTileDelays.put(pMapTileIndex, new Delay(mExponentialBackoffDurationInMillis));
-			}
-		} else {
-			delay.next();
-		}
-	}
-
-	/**
-	 * @since 6.0.2
-	 */
-	private void removeDelay(final long pMapTileIndex) {
-		synchronized (mTileDelays) {
-			mTileDelays.remove(pMapTileIndex);
-		}
-	}
-
-	/**
-	 * @since 6.0.2
-	 */
-	public void clearDelays() {
-		synchronized (mTileDelays) {
-			mTileDelays.clear();
-		}
-	}
-
-	/**
-	 * @since 6.0.2
-	 */
-	public void setExponentialBackoffDurationInMillis(final long[] pExponentialBackoffDurationInMillis) {
-		mExponentialBackoffDurationInMillis = pExponentialBackoffDurationInMillis;
 	}
 }

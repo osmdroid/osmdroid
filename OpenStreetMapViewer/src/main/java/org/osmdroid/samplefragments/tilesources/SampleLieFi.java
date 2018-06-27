@@ -1,6 +1,7 @@
 package org.osmdroid.samplefragments.tilesources;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -37,8 +38,8 @@ import org.osmdroid.views.MapView;
 public class SampleLieFi extends BaseSampleFragment {
 
     private final GeoPoint mInitialCenter = new GeoPoint(41.8905495, 12.4924348); // Rome, Italy
-    private final double mInitialZoomLevel = 10;
-    private final int mLieFieLag = 1000; // 1 second
+    private final double mInitialZoomLevel = 5;
+    private final int mLieFieLagInMillis = 1000;
 
     @Override
     public String getSampleTitle() {
@@ -112,14 +113,11 @@ public class SampleLieFi extends BaseSampleFragment {
             approximationProvider.addProvider(cacheProvider);
             approximationProvider.addProvider(archiveProvider);
 
-            final MapTileDownloader downloaderProvider = new MapTileDownloader(pTileSource, tileWriter,
-                    aNetworkAvailablityCheck) {
-                @Override
-                protected int getLieFiLag() {
-                    return mLieFieLag;
-                }
-            };
+            final MapTileDownloader downloaderProvider = new MapTileDownloaderLieFi(pTileSource, tileWriter,
+                    aNetworkAvailablityCheck);
             mTileProviderList.add(downloaderProvider);
+
+            getTileCache().getProtectedTileContainers().add(this);
         }
 
         @Override
@@ -144,6 +142,32 @@ public class SampleLieFi extends BaseSampleFragment {
         protected boolean isDowngradedMode() {
             return (mNetworkAvailabilityCheck != null && !mNetworkAvailabilityCheck.getNetworkAvailable())
                     || !useDataConnection();
+        }
+    }
+
+    private class MapTileDownloaderLieFi extends MapTileDownloader {
+
+        private final MapTileDownloader.TileLoader mTileLoader = new TileLoader();
+
+        MapTileDownloaderLieFi(ITileSource pTileSource, IFilesystemCache pFilesystemCache, INetworkAvailablityCheck pNetworkAvailablityCheck) {
+            super(pTileSource, pFilesystemCache, pNetworkAvailablityCheck);
+        }
+
+        @Override
+        public MapTileDownloader.TileLoader getTileLoader() {
+            return mTileLoader;
+        }
+
+        private class TileLoader extends MapTileDownloader.TileLoader {
+            @Override
+            protected Drawable downloadTile(long pMapTileIndex, int redirectCount, String targetUrl) throws CantContinueException {
+                try {
+                    Thread.sleep(mLieFieLagInMillis);
+                } catch(InterruptedException e) {
+                    //
+                }
+                return super.downloadTile(pMapTileIndex, redirectCount, targetUrl);
+            }
         }
     }
 }
