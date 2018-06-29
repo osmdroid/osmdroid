@@ -218,11 +218,11 @@ public class MapTileProviderArray extends MapTileProviderBase implements MapTile
 			nextProvider.loadMapTileAsync(pState);
 			return;
 		}
-		final int status;
+		final Integer status; // as Integer (and not int) for concurrency reasons
 		synchronized (mWorking) {
 			status = mWorking.get(pState.getMapTile());
 		}
-		if (status == WORKING_STATUS_STARTED) {
+		if (status != null && status == WORKING_STATUS_STARTED) {
 			super.mapTileRequestFailed(pState);
 		}
 		remove(pState.getMapTile());
