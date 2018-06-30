@@ -27,7 +27,7 @@ android {
 
 
 dependencies {
-    compile 'com.android.support:support-v4:23+'
+    compile "com.android.support:support-v4:${project.property('android-support.version')}"
     compile project(':osmdroid-android')
     compile project(':osmdroid-geopackage')
     compile project(':osmdroid-mapsforge')
@@ -37,10 +37,10 @@ dependencies {
 
     compile 'com.github.angads25:filepicker:1.1.1'
 
-    compile 'com.android.support:design:23.+' //needed for UI menuing
-    compile 'com.android.support:cardview-v7:23.+'  //needed for samples only
-    compile 'com.android.support:recyclerview-v7:23.+' //needed for samples only
-    compile 'com.android.support:appcompat-v7:23.+' //needed for UI menuing
+    compile "com.android.support:design:${project.property('android-support.version')}" //needed for UI menuing
+    compile "com.android.support:cardview-v7:${project.property('android-support.version')}"  //needed for samples only
+    compile "com.android.support:recyclerview-v7:${project.property('android-support.version')}" //needed for samples only
+    compile "com.android.support:appcompat-v7:${project.property('android-support.version')}" //needed for UI menuing
     //crash logging
     compile 'ch.acra:acra:4.7.0'
 
@@ -50,9 +50,9 @@ dependencies {
     testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'
 
     //on device testing
-    androidTestCompile 'com.android.support:support-annotations:23+'
     androidTestCompile 'com.android.support.test:runner:0.4.+'
     androidTestCompile 'com.android.support.test:rules:0.4.+'
+    androidTestCompile "com.android.support:support-annotations:${project.property('android-support.version')}"
 }
 
 
