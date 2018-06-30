@@ -102,23 +102,20 @@ public abstract class MapTileModuleProviderBase {
 			@Override
 			protected boolean removeEldestEntry(
 					final Map.Entry<Long, MapTileRequestState> pEldest) {
-				if (size() > pPendingQueueSize) {
-					Long result = null;
-
-					// get the oldest tile that isn't in the mWorking queue
-					Iterator<Long> iterator = mPending.keySet().iterator();
-
-					while (result == null && iterator.hasNext()) {
-						final Long mapTileIndex = iterator.next();
-						if (!mWorking.containsKey(mapTileIndex)) {
-							result = mapTileIndex;
+				if (size() <= pPendingQueueSize) {
+					return false;
+				}
+				// get the oldest tile that isn't in the mWorking queue
+				final Iterator<Long> iterator = mPending.keySet().iterator();
+				while (iterator.hasNext()) {
+					final long mapTileIndex = iterator.next();
+					if (!mWorking.containsKey(mapTileIndex)) {
+						final MapTileRequestState state = mPending.get(mapTileIndex);
+						if (state != null) { // check for concurrency reasons
+							removeTileFromQueues(mapTileIndex);
+							state.getCallback().mapTileRequestFailedExceedsMaxQueueSize(state);
+							return false;
 						}
-					}
-
-					if (result != null) {
-						MapTileRequestState state = mPending.get(result);
-						removeTileFromQueues(result);
-						state.getCallback().mapTileRequestFailedExceedsMaxQueueSize(state);
 					}
 				}
 				return false;

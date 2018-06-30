@@ -6,7 +6,7 @@ package org.osmdroid.util;
  * @author Fabrice Fontaine
  */
 
-public class MapTileList {
+public class MapTileList implements MapTileContainer{
 
     private long[] mTileIndices;
     private int mSize;
@@ -69,6 +69,7 @@ public class MapTileList {
         }
     }
 
+    @Override
     public boolean contains(final long pTileIndex) {
         if (mTileIndices == null) {
             return false;

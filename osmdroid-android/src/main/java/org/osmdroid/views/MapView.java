@@ -1102,18 +1102,22 @@ public class MapView extends ViewGroup implements IMapView,
 
 	@Override
 	public void computeScroll() {
-		if (mScroller!=null)	//fix for edit mode in the IDE
-			if (mScroller.computeScrollOffset()) {
-				if (mScroller.isFinished()) {
-					// One last scrollTo to get to the final destination
-					scrollTo(mScroller.getCurrX(), mScroller.getCurrY());
-					mIsFlinging = false;
-				} else {
-					scrollTo(mScroller.getCurrX(), mScroller.getCurrY());
-				}
-				// Keep on drawing until the animation has finished.
-				postInvalidate();
-			}
+		if (mScroller == null) { //fix for edit mode in the IDE
+			return;
+		}
+		if (!mIsFlinging) {
+			return;
+		}
+		if (!mScroller.computeScrollOffset()) {
+			return;
+		}
+		if (mScroller.isFinished()) {
+			// we deliberately ignore the very last scrollTo, which sometimes provokes map hiccups
+			mIsFlinging = false;
+		} else {
+			scrollTo(mScroller.getCurrX(), mScroller.getCurrY());
+			postInvalidate();
+		}
 	}
 
 	@Override

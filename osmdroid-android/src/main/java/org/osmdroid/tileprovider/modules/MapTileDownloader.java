@@ -15,6 +15,7 @@ import org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase;
 import org.osmdroid.tileprovider.util.Counters;
 import org.osmdroid.tileprovider.util.StreamUtils;
 import org.osmdroid.util.MapTileIndex;
+import org.osmdroid.util.UrlBackoff;
 
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
@@ -59,6 +60,8 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 	 * @since 6.0.2
 	 */
 	private final TileLoader mTileLoader = new TileLoader();
+
+	private final UrlBackoff mUrlBackoff = new UrlBackoff();
 
 	// ===========================================================
 	// Constructors
@@ -373,8 +376,16 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 				return null;	//unlikely but just in case
 			}
 
-			return downloadTile(pMapTileIndex, 0, tileURLString);
-
+			if (mUrlBackoff.shouldWait(tileURLString)) {
+				return null;
+			}
+			final Drawable result = downloadTile(pMapTileIndex, 0, tileURLString);
+			if (result == null) {
+				mUrlBackoff.next(tileURLString);
+			} else {
+				mUrlBackoff.remove(tileURLString);
+			}
+			return result;
 
 		}
 

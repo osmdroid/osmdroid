@@ -3,6 +3,7 @@ package org.osmdroid.tileprovider;
 
 import org.osmdroid.api.IMapView;
 import org.osmdroid.config.Configuration;
+import org.osmdroid.util.MapTileContainer;
 import org.osmdroid.util.MapTileList;
 import org.osmdroid.util.MapTileListComputer;
 
@@ -56,6 +57,11 @@ public class MapTileCache {
 
 	private final MapTilePreCache mPreCache;
 
+	/**
+	 * @since 6.0.2
+	 */
+	private final List<MapTileContainer> mProtectors = new ArrayList<>();
+
 	// ===========================================================
 	// Constructors
 	// ===========================================================
@@ -78,6 +84,13 @@ public class MapTileCache {
 	 */
 	public List<MapTileListComputer> getProtectedTileComputers() {
 		return mComputers;
+	}
+
+	/**
+	 * @since 6.0.2
+	 */
+	public List<MapTileContainer> getProtectedTileContainers() {
+		return mProtectors;
 	}
 
 	// ===========================================================
@@ -122,10 +135,7 @@ public class MapTileCache {
 		populateSyncCachedTiles(mGC);
 		for (int i = 0; i < mGC.getSize() ; i ++) {
 			final long index = mGC.get(i);
-			if (mMapTileList.contains(index)) {
-				continue;
-			}
-			if (mAdditionalMapTileList.contains(index)) {
+			if (shouldKeepTile(index)) {
 				continue;
 			}
 			remove(index);
@@ -133,6 +143,24 @@ public class MapTileCache {
 				break;
 			};
 		}
+	}
+
+	/**
+	 * @since 6.0.2
+	 */
+	private boolean shouldKeepTile(final long pMapTileIndex) {
+		if (mMapTileList.contains(pMapTileIndex)) {
+			return true;
+		}
+		if (mAdditionalMapTileList.contains(pMapTileIndex)) {
+			return true;
+		}
+		for(final MapTileContainer container : mProtectors) {
+			if (container.contains(pMapTileIndex)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**
