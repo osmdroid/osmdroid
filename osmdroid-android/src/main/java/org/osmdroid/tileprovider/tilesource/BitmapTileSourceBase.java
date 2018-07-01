@@ -2,6 +2,7 @@ package org.osmdroid.tileprovider.tilesource;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.util.Log;
@@ -169,6 +170,8 @@ public abstract class BitmapTileSourceBase implements ITileSource {
 			BitmapPool.getInstance().applyReusableOptions(bitmapOptions);
 			final Bitmap bitmap = BitmapFactory.decodeStream(aFileInputStream, null, bitmapOptions);
 			if (bitmap != null) {
+				if (bitmap.getConfig()==null)
+					return new BitmapDrawable(bitmap);
 				return new ReusableBitmapDrawable(bitmap);
 			}
 		} catch (final OutOfMemoryError e) {

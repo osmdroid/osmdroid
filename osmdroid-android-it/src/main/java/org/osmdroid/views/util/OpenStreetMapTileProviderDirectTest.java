@@ -102,7 +102,7 @@ public class OpenStreetMapTileProviderDirectTest extends AndroidTestCase {
 		final Drawable drawable = mProvider.getMapTile(tile);
 		if (f.exists())
 			f.delete();
-		assertNotNull("Expect tile to be not null from path " + path, drawable);
+		assertNotNull("Expect tile to be not null", drawable);
 		assertTrue("Expect instance of BitmapDrawable", drawable instanceof BitmapDrawable);
 		final Bitmap bitmap2 = ((BitmapDrawable) drawable).getBitmap();
 		assertNotNull("Expect tile to be not null", bitmap2);
