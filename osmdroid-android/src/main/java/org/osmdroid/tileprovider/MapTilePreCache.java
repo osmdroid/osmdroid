@@ -2,6 +2,7 @@ package org.osmdroid.tileprovider;
 
 import android.graphics.drawable.Drawable;
 
+import org.osmdroid.tileprovider.modules.CantContinueException;
 import org.osmdroid.tileprovider.modules.MapTileModuleProviderBase;
 import org.osmdroid.util.GarbageCollector;
 import org.osmdroid.util.MapTileList;
@@ -102,7 +103,7 @@ public class MapTilePreCache {
                 }
                 mCache.putTile(pMapTileIndex, drawable);
                 return;
-            } catch (MapTileModuleProviderBase.CantContinueException exception) {
+            } catch (CantContinueException exception) {
                 // just dismiss that lazily: we don't need to be severe here
             }
         }
