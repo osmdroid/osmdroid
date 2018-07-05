@@ -412,8 +412,7 @@ public class Marker extends OverlayWithIW {
 		final Rect screenRect = mapView.getIntrinsicScreenRect(null);
 		int x = -mPositionPixels.x + screenRect.left + (int) event.getX();
 		int y = -mPositionPixels.y + screenRect.top + (int) event.getY();
-		boolean hit = mIcon.getBounds().contains(x, y);
-		return hit;
+		return mIcon != null && mIcon.getBounds().contains(x, y); // "!=null": fix for #1078
 	}
 	
 	@Override public boolean onSingleTapConfirmed(final MotionEvent event, final MapView mapView){
