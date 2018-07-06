@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import org.osmdroid.R;
@@ -39,7 +40,8 @@ public class SampleZoomToBounding extends BaseSampleFragment implements View.OnC
 
         View root = inflater.inflate(R.layout.sample_cachemgr, container,false);
 
-        mMapView = (MapView) root.findViewById(R.id.mapview);
+        mMapView = new MapView(getActivity());
+        ((LinearLayout) root.findViewById(R.id.mapview)).addView(mMapView);
         polygon = new Polygon(mMapView);
         btnCache = (Button) root.findViewById(R.id.btnCache);
         btnCache.setOnClickListener(this);

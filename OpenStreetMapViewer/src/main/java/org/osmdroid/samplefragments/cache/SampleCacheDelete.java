@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -51,7 +52,8 @@ public class SampleCacheDelete extends BaseSampleFragment implements View.OnClic
         //bad
         setHasOptionsMenu(false);
 
-        mMapView = (MapView) root.findViewById(R.id.mapview);
+        mMapView = new MapView(getActivity());
+        ((LinearLayout) root.findViewById(R.id.mapview)).addView(mMapView);
         btnCache = (Button) root.findViewById(R.id.btnCache);
         btnCache.setOnClickListener(this);
         mgr = new CacheManager(mMapView);
