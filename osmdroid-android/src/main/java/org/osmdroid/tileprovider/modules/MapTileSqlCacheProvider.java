@@ -171,7 +171,7 @@ public class MapTileSqlCacheProvider  extends MapTileFileStorageProviderBase{
                     // low memory so empty the queue
                     Log.w(IMapView.LOGTAG, "LowMemoryException downloading MapTile: " + MapTileIndex.toString(pMapTileIndex) + " : " + e);
                     Counters.fileCacheOOM++;
-                    throw new MapTileModuleProviderBase.CantContinueException(e);
+                    throw new CantContinueException(e);
                 } catch (final Throwable e) {
                     Log.e(IMapView.LOGTAG, "Error loading tile", e);
                     return null;
