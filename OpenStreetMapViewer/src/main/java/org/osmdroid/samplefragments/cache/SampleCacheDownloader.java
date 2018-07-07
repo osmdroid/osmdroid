@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.SeekBar;
@@ -52,7 +53,8 @@ public class SampleCacheDownloader extends BaseSampleFragment implements View.On
         setHasOptionsMenu(false);
 
 
-        mMapView = (MapView) root.findViewById(R.id.mapview);
+        mMapView = new MapView(getActivity());
+        ((LinearLayout) root.findViewById(R.id.mapview)).addView(mMapView);
         btnCache = (Button) root.findViewById(R.id.btnCache);
         btnCache.setOnClickListener(this);
         mgr = new CacheManager(mMapView);
