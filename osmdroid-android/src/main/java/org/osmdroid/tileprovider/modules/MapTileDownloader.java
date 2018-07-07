@@ -63,6 +63,8 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 
 	private final UrlBackoff mUrlBackoff = new UrlBackoff();
 
+	private TileDownloader mTileDownloader = new TileDownloader(); // default value
+
 	// ===========================================================
 	// Constructors
 	// ===========================================================
@@ -196,8 +198,6 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 
 	protected class TileLoader extends MapTileModuleProviderBase.TileLoader {
 
-		private final TileDownloader mTileDownloader = new TileDownloader();
-
 		/**
 		 * downloads a tile and follows http redirects
 		 * @param pMapTileIndex
@@ -257,5 +257,12 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 			BitmapPool.getInstance().asyncRecycle(pDrawable);
 		}
 
+	}
+
+	/**
+	 * @since 6.0.2
+	 */
+	public void setTileDownloader(final TileDownloader pTileDownloader) {
+		mTileDownloader = pTileDownloader;
 	}
 }
