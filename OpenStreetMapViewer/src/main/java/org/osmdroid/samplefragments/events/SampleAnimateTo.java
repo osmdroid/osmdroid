@@ -22,7 +22,7 @@ import java.util.TimerTask;
  * extends gridlines to provide visual confirmation
  * Created by alex on 2/22/16.
  */
-public class SampleAnimateTo extends BaseSampleFragment {
+public class SampleAnimateTo extends SampleMapEventListener {
 
     private int mIndex;
     private ScaleBarOverlay mScaleBarOverlay;
@@ -34,6 +34,7 @@ public class SampleAnimateTo extends BaseSampleFragment {
     public String getSampleTitle() {
         return "Animate To";
     }
+
 
     @Override
     public void addOverlays() {

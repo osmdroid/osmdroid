@@ -480,6 +480,7 @@ public class MapController implements IMapController, OnFirstLayoutListener {
             final float value = (Float) valueAnimator.getAnimatedValue();
             if (mZoomEnd != null) {
                 final double zoom = mZoomStart + (mZoomEnd - mZoomStart) * value;
+                //map events listeners are triggered by this call
                 mMapController.mMapView.setZoomLevel(zoom);
             }
             if (mCenterEnd != null) {
