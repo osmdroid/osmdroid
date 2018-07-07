@@ -103,7 +103,8 @@ before_script:
   # output date/time set on emulator for diagnostics
   - adb shell date
   # set the date, needed for certain AVDs
-  - adb shell su root date -u @$(date +%s.%N)
+  - echo adb shell su root date -u @$(date +%s.%N)
+  - echo adb shell su root date -s @$(date +%s.%N)
 
   #setup for maps forge adapter
   #- wget http://download.mapsforge.org/maps/world/world.map
