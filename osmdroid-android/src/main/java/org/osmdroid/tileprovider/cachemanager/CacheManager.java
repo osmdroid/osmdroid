@@ -65,7 +65,7 @@ import java.util.Set;
  */
 public class CacheManager {
 
-    private final TileDownloader mTileDownloader = new TileDownloader();
+    private TileDownloader mTileDownloader = new TileDownloader(); // default value
     protected final ITileSource mTileSource;
     protected final IFilesystemCache mTileWriter;
     protected final int mMinZoomLevel;
@@ -1030,4 +1030,10 @@ public class CacheManager {
         return usedCacheSpace;
     }
 
+    /**
+     * @since 6.0.2
+     */
+    public void setTileDownloader(final TileDownloader pTileDownloader) {
+        mTileDownloader = pTileDownloader;
+    }
 }
