@@ -54,10 +54,10 @@ env:
     #- API=14 ANDROID_ABI=armeabi-v7a ANDROID_TAG=default         # emulator consistently times out
     #- API=15 ANDROID_ABI=armeabi-v7a ANDROID_TAG=default         # https://github.com/osmdroid/osmdroid/issues/1066
     #- API=15 ANDROID_ABI=armeabi-v7a ANDROID_TAG=google_apis     # currently not needed
-    #- API=16 ANDROID_ABI=armeabi-v7a ANDROID_TAG=default         # https://github.com/osmdroid/osmdroid/issues/1065
-    #- API=17 ANDROID_ABI=armeabi-v7a ANDROID_TAG=default         # https://github.com/osmdroid/osmdroid/issues/1065
+    - API=16 ANDROID_ABI=armeabi-v7a ANDROID_TAG=default         # https://github.com/osmdroid/osmdroid/issues/1065
+    - API=17 ANDROID_ABI=armeabi-v7a ANDROID_TAG=default         # https://github.com/osmdroid/osmdroid/issues/1065
     #- API=17 ANDROID_ABI=armeabi-v7a ANDROID_TAG=google_apis     # currently not needed
-    #- API=18 ANDROID_ABI=armeabi-v7a ANDROID_TAG=default         # https://github.com/osmdroid/osmdroid/issues/1065
+    - API=18 ANDROID_ABI=armeabi-v7a ANDROID_TAG=default         # https://github.com/osmdroid/osmdroid/issues/1065
     #- API=18 ANDROID_ABI=armeabi-v7a ANDROID_TAG=google_apis     # currently not needed
     - API=19 ANDROID_ABI=armeabi-v7a ANDROID_TAG=default
     - API=21 ANDROID_ABI=armeabi-v7a ANDROID_TAG=default
