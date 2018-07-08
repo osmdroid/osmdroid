@@ -80,7 +80,10 @@ public class OpenStreetMapTileProviderDirectTest extends AndroidTestCase {
 		File f = new File(path);
 		if (f.exists())
 			f.delete();
-		final Bitmap bitmap1 = Bitmap.createBitmap(60, 30, Config.ARGB_8888);
+		final Bitmap bitmap1 = Bitmap.createBitmap(
+				TileSourceFactory.MAPNIK.getTileSizePixels(),
+				TileSourceFactory.MAPNIK.getTileSizePixels(),
+				Config.ARGB_8888);
 		bitmap1.eraseColor(Color.YELLOW);
 		final Canvas canvas = new Canvas(bitmap1);
 

@@ -9,7 +9,9 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.util.Log;
 
+import org.osmdroid.api.IMapView;
 import org.osmdroid.tileprovider.modules.ConfigurablePriorityThreadFactory;
 
 public class BitmapPool {
@@ -30,20 +32,46 @@ public class BitmapPool {
 
 	public void returnDrawableToPool(ReusableBitmapDrawable drawable) {
 		Bitmap b = drawable.tryRecycle();
-		if (b != null && b.isMutable())
+		if (b != null && !b.isRecycled() && b.isMutable() && b.getConfig() != null) {
 			synchronized (mPool) {
 				mPool.addLast(b);
 			}
+		} else if (b != null) {
+			Log.d(IMapView.LOGTAG, "Rejected bitmap from being added to BitmapPool.");
+		}
 	}
 
+	/**
+	 * @deprecated As of 6.0.2, use
+	 *             {@link #applyReusableOptions(BitmapFactory.Options, int, int)} instead.
+	 */
+	@Deprecated
 	public void applyReusableOptions(final BitmapFactory.Options aBitmapOptions) {
+		// We can not guarantee a bitmap can be reused without knowing the dimensions, so always
+		// return null in inBitmap
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-			aBitmapOptions.inBitmap = obtainBitmapFromPool();
+			aBitmapOptions.inBitmap = null;
 			aBitmapOptions.inSampleSize = 1;
 			aBitmapOptions.inMutable = true;
 		}
 	}
 
+	public void applyReusableOptions(final BitmapFactory.Options aBitmapOptions, final int width, final int height) {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+			// This could be optimized for KK and up, as from there on the only requirement is that
+			// the reused bitmap's allocatedbytes are >= the size of new one. Since the pool is
+			// almost only used for tiles of the same dimensions, the gains will probably be small.
+			aBitmapOptions.inBitmap = obtainSizedBitmapFromPool(width, height);
+			aBitmapOptions.inSampleSize = 1;
+			aBitmapOptions.inMutable = true;
+		}
+	}
+
+	/**
+	 * @deprecated As of 6.0.2, use
+	 *             {@link #obtainSizedBitmapFromPool(int, int)} instead.
+	 */
+	@Deprecated
 	public Bitmap obtainBitmapFromPool() {
 		synchronized (mPool) {
 			if (mPool.isEmpty()) {
@@ -111,7 +139,7 @@ public class BitmapPool {
 		if (pDrawable == null) {
 			return;
 		}
-		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.GINGERBREAD) {
+		if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.GINGERBREAD_MR1) {
 			if (pDrawable instanceof BitmapDrawable) {
 				final Bitmap bitmap = ((BitmapDrawable) pDrawable).getBitmap();
 				if (bitmap != null) {
