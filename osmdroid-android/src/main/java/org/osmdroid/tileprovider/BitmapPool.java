@@ -116,7 +116,7 @@ public class BitmapPool {
 		if (pDrawable == null) {
 			return;
 		}
-		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.GINGERBREAD) {
+		if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.GINGERBREAD_MR1) {
 			if (pDrawable instanceof BitmapDrawable) {
 				final Bitmap bitmap = ((BitmapDrawable) pDrawable).getBitmap();
 				if (bitmap != null) {
