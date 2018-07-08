@@ -9,7 +9,9 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.util.Log;
 
+import org.osmdroid.api.IMapView;
 import org.osmdroid.tileprovider.modules.ConfigurablePriorityThreadFactory;
 
 public class BitmapPool {
@@ -30,10 +32,13 @@ public class BitmapPool {
 
 	public void returnDrawableToPool(ReusableBitmapDrawable drawable) {
 		Bitmap b = drawable.tryRecycle();
-		if (b != null && b.isMutable())
+		if (b != null && !b.isRecycled() && b.isMutable() && b.getConfig() != null) {
 			synchronized (mPool) {
 				mPool.addLast(b);
 			}
+		} else if (b != null) {
+			Log.d(IMapView.LOGTAG, "Rejected bitmap from being added to BitmapPool.");
+		}
 	}
 
 	public void applyReusableOptions(final BitmapFactory.Options aBitmapOptions) {
