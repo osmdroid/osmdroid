@@ -41,14 +41,37 @@ public class BitmapPool {
 		}
 	}
 
+	/**
+	 * @deprecated As of 6.0.2, use
+	 *             {@link #applyReusableOptions(BitmapFactory.Options, int, int)} instead.
+	 */
+	@Deprecated
 	public void applyReusableOptions(final BitmapFactory.Options aBitmapOptions) {
+		// We can not guarantee a bitmap can be reused without knowing the dimensions, so always
+		// return null in inBitmap
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-			aBitmapOptions.inBitmap = obtainBitmapFromPool();
+			aBitmapOptions.inBitmap = null;
 			aBitmapOptions.inSampleSize = 1;
 			aBitmapOptions.inMutable = true;
 		}
 	}
 
+	public void applyReusableOptions(final BitmapFactory.Options aBitmapOptions, final int width, final int height) {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+			// This could be optimized for KK and up, as from there on the only requirement is that
+			// the reused bitmap's allocatedbytes are >= the size of new one. Since the pool is
+			// almost only used for tiles of the same dimensions, the gains will probably be small.
+			aBitmapOptions.inBitmap = obtainSizedBitmapFromPool(width, height);
+			aBitmapOptions.inSampleSize = 1;
+			aBitmapOptions.inMutable = true;
+		}
+	}
+
+	/**
+	 * @deprecated As of 6.0.2, use
+	 *             {@link #obtainSizedBitmapFromPool(int, int)} instead.
+	 */
+	@Deprecated
 	public Bitmap obtainBitmapFromPool() {
 		synchronized (mPool) {
 			if (mPool.isEmpty()) {
