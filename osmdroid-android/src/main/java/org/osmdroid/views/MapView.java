@@ -487,9 +487,9 @@ public class MapView extends ViewGroup implements IMapView,
 
 		// do callback on listener
 		if (newZoomLevel != curZoomLevel) {
-			final ZoomEvent event = new ZoomEvent(this, newZoomLevel);
+			ZoomEvent event = null;
 			for (MapListener mapListener: mListners)
-				mapListener.onZoom(event);
+				mapListener.onZoom(event != null ? event : (event = new ZoomEvent(this, newZoomLevel)));
 		}
 
 		invalidate();
@@ -1131,9 +1131,9 @@ public class MapView extends ViewGroup implements IMapView,
 			myOnLayout(true, getLeft(), getTop(), getRight(), getBottom());
 
 		// do callback on listener
+		ScrollEvent event = null;
 		for (MapListener mapListener: mListners){
-			final ScrollEvent event = new ScrollEvent(this, x, y);
-			mapListener.onScroll(event);
+			mapListener.onScroll(event != null ? event : (event = new ScrollEvent(this, x, y)));
 		}
 	}
 
@@ -1734,8 +1734,9 @@ public class MapView extends ViewGroup implements IMapView,
 		resetProjection();
         final GeoPoint after = getProjection().getCurrentCenter();
         if (!after.equals(before)) {
+        	ScrollEvent event = null;
 			for (MapListener mapListener: mListners) {
-				mapListener.onScroll(new ScrollEvent(this, 0, 0));
+				mapListener.onScroll(event != null ? event : (event = new ScrollEvent(this, 0, 0)));
 			}
 		}
 		invalidate();

@@ -203,8 +203,9 @@ public class MapController implements IMapController, OnFirstLayoutListener {
             return;
         }
         mMapView.setExpectedCenter(point);
+        ScrollEvent event = null;
         for (MapListener mapListener: mMapView.mListners) {
-            mapListener.onScroll(new ScrollEvent(mMapView, 0, 0));
+            mapListener.onScroll(event != null ? event : (event = new ScrollEvent(mMapView, 0, 0)));
         }
     }
 
@@ -359,8 +360,9 @@ public class MapController implements IMapController, OnFirstLayoutListener {
             // TODO extend zoom (and return true)
             return false;
         }
+        ZoomEvent event = null;
         for (MapListener mapListener: mMapView.mListners) {
-            mapListener.onZoom(new ZoomEvent(mMapView, zoomLevel));
+            mapListener.onZoom(event != null ? event : (event = new ZoomEvent(mMapView, zoomLevel)));
         }
         mMapView.setMultiTouchScaleInitPoint(xPixel, yPixel);
         mMapView.startAnimation();
