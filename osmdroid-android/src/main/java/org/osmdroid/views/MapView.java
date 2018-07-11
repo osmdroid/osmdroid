@@ -1728,9 +1728,16 @@ public class MapView extends ViewGroup implements IMapView,
 	 * @since 6.0.0
 	 */
 	public void setExpectedCenter(final IGeoPoint pGeoPoint) {
+	    final GeoPoint before = getProjection().getCurrentCenter();
 		mCenter = (GeoPoint)pGeoPoint;
 		setMapScroll(0, 0);
 		resetProjection();
+        final GeoPoint after = getProjection().getCurrentCenter();
+        if (!after.equals(before)) {
+			for (MapListener mapListener: mListners) {
+				mapListener.onScroll(new ScrollEvent(this, 0, 0));
+			}
+		}
 		invalidate();
 	}
 
