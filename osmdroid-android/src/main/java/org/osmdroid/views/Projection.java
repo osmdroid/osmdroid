@@ -32,6 +32,7 @@ import android.graphics.Canvas;
 public class Projection implements IProjection {
 
 	/**
+	 * Size of the "projected" map: a virtual map with the largest zoom level
 	 * WARNING: `mProjectedMapSize` MUST NOT be a static member,
 	 * as it depends on {@link TileSystem#getTileSize()}
 	 */
@@ -432,6 +433,10 @@ public class Projection implements IProjection {
 
 	/**
      * @since 6.0.0
+	 * @param in Input point: a geo point projected to the map with the largest zoom level (aka "projected" map)
+	 * @param powerDifference Factor between the large "projected" map and the wanted projection zoom level
+	 * @param pCloser "Should we move the resulting point - modulo the map size - so that it's
+	 *                as close to the screen limits as possible?"
      */
     public PointL getLongPixelsFromProjected(final PointL in, final double powerDifference, final boolean pCloser, final PointL reuse) {
         final PointL out = reuse != null ? reuse : new PointL();
