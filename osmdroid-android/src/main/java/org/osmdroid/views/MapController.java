@@ -203,10 +203,6 @@ public class MapController implements IMapController, OnFirstLayoutListener {
             return;
         }
         mMapView.setExpectedCenter(point);
-        ScrollEvent event = null;
-        for (MapListener mapListener: mMapView.mListners) {
-            mapListener.onScroll(event != null ? event : (event = new ScrollEvent(mMapView, 0, 0)));
-        }
     }
 
     @Override
