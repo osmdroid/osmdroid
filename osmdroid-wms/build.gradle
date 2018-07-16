@@ -10,9 +10,9 @@ android {
 dependencies {
 
     compile project(':osmdroid-android')
-    compile 'com.android.support:appcompat-v7:23.1.1'
+    //compile "com.android.support:appcompat-v7:${project.property('android-support.version')}"
 
-    testCompile "org.robolectric:robolectric:3.0"
+    testCompile "org.robolectric:robolectric:3.8"
 
     testCompile 'junit:junit:4.12'
 
