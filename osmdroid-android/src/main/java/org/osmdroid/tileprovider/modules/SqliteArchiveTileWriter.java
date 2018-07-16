@@ -12,14 +12,11 @@ import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.util.StreamUtils;
 import org.osmdroid.util.MapTileIndex;
 
-import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * An implementation of {@link IFilesystemCache} based on the original TileWriter. It writes tiles to a sqlite database.
@@ -34,7 +31,7 @@ import java.util.List;
  */
 public class SqliteArchiveTileWriter implements IFilesystemCache {
     final File db_file;
-    final SQLiteDatabase db;
+    final SQLiteDatabase mDatabase;
     final int questimate = 8000;
     static boolean hasInited = false;
 
@@ -42,13 +39,13 @@ public class SqliteArchiveTileWriter implements IFilesystemCache {
         // do this in the background because it takes a long time
         db_file = new File(outputFile);
         try {
-            db = SQLiteDatabase.openOrCreateDatabase(db_file.getAbsolutePath(), null);
+            mDatabase = SQLiteDatabase.openOrCreateDatabase(db_file.getAbsolutePath(), null);
         } catch (Exception ex) {
             throw new Exception("Trouble creating database file at " + outputFile, ex);
         }
         try {
 
-            db.execSQL("CREATE TABLE IF NOT EXISTS " + DatabaseFileArchive.TABLE + " (" + DatabaseFileArchive.COLUMN_KEY + " INTEGER , " + DatabaseFileArchive.COLUMN_PROVIDER + " TEXT, tile BLOB, PRIMARY KEY (key, provider));");
+            mDatabase.execSQL("CREATE TABLE IF NOT EXISTS " + DatabaseFileArchive.TABLE + " (" + DatabaseFileArchive.COLUMN_KEY + " INTEGER , " + DatabaseFileArchive.COLUMN_PROVIDER + " TEXT, tile BLOB, PRIMARY KEY (key, provider));");
         } catch (Throwable t) {
             t.printStackTrace();
             Log.d(IMapView.LOGTAG, "error setting db schema, it probably exists already", t);
@@ -58,6 +55,12 @@ public class SqliteArchiveTileWriter implements IFilesystemCache {
 
     @Override
     public boolean saveFile(final ITileSource pTileSourceInfo, final long pMapTileIndex, final InputStream pStream, final Long pExpirationTime) {
+
+        if (mDatabase==null || !mDatabase.isOpen()) {
+            Log.d(IMapView.LOGTAG,"Skipping SqlArchiveTileWriter saveFile, database is closed");
+            return false;
+        }
+        boolean returnValue = false;
         ByteArrayOutputStream bos = null;
         try {
             ContentValues cv = new ContentValues();
@@ -73,7 +76,8 @@ public class SqliteArchiveTileWriter implements IFilesystemCache {
 
             cv.put(DatabaseFileArchive.COLUMN_KEY, index);
             cv.put(DatabaseFileArchive.COLUMN_TILE, bits);
-            db.insert(DatabaseFileArchive.TABLE, null, cv);
+            mDatabase.insert(DatabaseFileArchive.TABLE, null, cv);
+            returnValue = true;
             if (Configuration.getInstance().isDebugMode())
                 Log.d(IMapView.LOGTAG, "tile inserted " + pTileSourceInfo.name() + MapTileIndex.toString(pMapTileIndex));
         } catch (Throwable ex) {
@@ -85,7 +89,7 @@ public class SqliteArchiveTileWriter implements IFilesystemCache {
 
             }
         }
-        return false;
+        return returnValue;
     }
 
 
@@ -106,8 +110,8 @@ public class SqliteArchiveTileWriter implements IFilesystemCache {
 
     @Override
     public void onDetach() {
-        if (db != null)
-            db.close();
+        if (mDatabase != null)
+            mDatabase.close();
     }
 
     @Override
@@ -134,7 +138,11 @@ public class SqliteArchiveTileWriter implements IFilesystemCache {
      * @return
      */
     public Cursor getTileCursor(final String[] pPrimaryKeyParameters) {
-        return db.query(DatabaseFileArchive.TABLE, queryColumns, SqlTileWriter.getPrimaryKey(), pPrimaryKeyParameters, null, null, null);
+        if (mDatabase==null || !mDatabase.isOpen()) {
+            Log.w(IMapView.LOGTAG,"Skipping SqlArchiveTileWriter getTileCursor, database is closed");
+            return null;
+        }
+        return mDatabase.query(DatabaseFileArchive.TABLE, queryColumns, SqlTileWriter.getPrimaryKey(), pPrimaryKeyParameters, null, null, null);
     }
 
     /**
@@ -143,10 +151,16 @@ public class SqliteArchiveTileWriter implements IFilesystemCache {
      */
     @Override
     public Drawable loadTile(final ITileSource pTileSource, final long pMapTileIndex) throws Exception{
+        if (mDatabase==null || !mDatabase.isOpen()) {
+            Log.w(IMapView.LOGTAG,"Skipping SqlArchiveTileWriter loadTile, database is closed");
+            return null;
+        }
         InputStream inputStream = null;
         try {
             final long index = SqlTileWriter.getIndex(pMapTileIndex);
             final Cursor cur = getTileCursor(SqlTileWriter.getPrimaryKeyParameters(index, pTileSource));
+            if (cur==null)
+                return null;
             byte[] bits=null;
 
             if(cur.moveToFirst()) {
