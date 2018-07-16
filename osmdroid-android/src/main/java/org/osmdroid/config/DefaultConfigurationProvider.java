@@ -405,9 +405,12 @@ public class DefaultConfigurationProvider implements IConfigurationProvider {
      */
     private static void load(final SharedPreferences pPrefs,
                              final Map<String, String> pMap, final String pPrefix) {
+        //potential fix for #1079   https://github.com/osmdroid/osmdroid/issues/1079
+        if (pPrefix==null || pMap==null) return;
         pMap.clear();
+
         for (final String key : pPrefs.getAll().keySet()) {
-            if (key.startsWith(pPrefix)) {
+            if (key!=null && key.startsWith(pPrefix)) {
                 pMap.put(key.substring(pPrefix.length()), pPrefs.getString(key, null));
             }
         }
