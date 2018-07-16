@@ -390,7 +390,7 @@ public class Polygon extends OverlayWithIW {
 	//-- Polygon events listener interfaces ------------------------------------
 
 	public interface OnClickListener {
-		abstract boolean onClick(Polygon polygon, MapView mapView, GeoPoint eventPos);
+		boolean onClick(Polygon polygon, MapView mapView, GeoPoint eventPos);
 	}
 
 	/**
@@ -402,6 +402,10 @@ public class Polygon extends OverlayWithIW {
 		return true;
 	}
 
+	/**
+	 * @since 6.0.2
+	 * @param listener
+	 */
 	public void setOnClickListener(OnClickListener listener) {
 		mOnClickListener = listener;
 	}
