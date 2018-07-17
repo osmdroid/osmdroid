@@ -18,6 +18,7 @@ android:
     #
     
     - android-23
+    - android-26
     #- addon-google_apis-google-23
     
     # Additional components - currently not required
