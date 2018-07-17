@@ -7,7 +7,6 @@ android:
     - tools
 
     # The BuildTools version used by your project
-    - build-tools-23.0.3
     - build-tools-26.0.0
 
     # The SDK version used to compile your project
@@ -18,7 +17,6 @@ android:
     #       Those are automatically downloaded in "before_install" on a per worker basis.
     #
     
-    - android-23
     - android-26
     #- addon-google_apis-google-23
     
