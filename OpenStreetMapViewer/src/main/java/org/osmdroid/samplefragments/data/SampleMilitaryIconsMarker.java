@@ -139,7 +139,7 @@ public class SampleMilitaryIconsMarker extends BaseSampleFragment {
                }
                m.setSnippet("A random point");
                m.setSubDescription("location: " + random_lat + "," + random_lon);
-               m.setIcon(icons.get(index));
+               m.setDrawableIcon(icons.get(index));
                mMapView.getOverlayManager().add(m);
           }
 

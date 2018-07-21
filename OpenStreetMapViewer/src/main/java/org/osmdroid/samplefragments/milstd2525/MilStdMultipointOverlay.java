@@ -238,15 +238,13 @@ public class MilStdMultipointOverlay extends Overlay {
                     }
                 } else {
                     //not a line or a polygon
-
-                    Marker.ENABLE_TEXT_LABELS_WHEN_NO_IMAGE = true;
                     Marker m = new Marker(map);
                     m.setTextLabelBackgroundColor(Color.WHITE.toInt());
                     m.setTextLabelFontSize(14);
                     m.setTextLabelForegroundColor(Color.BLACK.toInt());
                     m.setTitle(info.getModifierString());
                     m.setRotation((float) info.getModifierStringAngle());
-                    m.setIcon(null);
+                    m.setTitleIcon();
                     m.setPosition(new GeoPoint(info.getModifierStringPosition().getY(), info.getModifierStringPosition().getX()));
                     lastOverlay.getItems().add(m);
                 }

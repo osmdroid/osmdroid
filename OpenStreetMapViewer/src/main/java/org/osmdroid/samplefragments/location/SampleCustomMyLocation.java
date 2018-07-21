@@ -36,7 +36,7 @@ public class SampleCustomMyLocation extends BaseSampleFragment implements Locati
     public void addOverlays() {
         super.addOverlays();
         myLocation = new Marker(mMapView);
-        myLocation.setIcon(getResources().getDrawable(org.osmdroid.R.drawable.icon));
+        myLocation.setDrawableIcon(getResources().getDrawable(org.osmdroid.R.drawable.icon));
         myLocation.setImage(getResources().getDrawable(org.osmdroid.R.drawable.icon));
 
 

@@ -11,7 +11,6 @@ import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.view.MotionEvent;
 import android.util.TypedValue;
 
@@ -57,6 +56,7 @@ public class Marker extends OverlayWithIW {
 	 * that sets the image icon of a  marker to a text label if no image url was provided. It's also
 	 * used in a few other cases, such as placing a generic text label on the map
 	 */
+	@Deprecated
 	public static boolean ENABLE_TEXT_LABELS_WHEN_NO_IMAGE=false;
 
 	/* attributes for text labels, used for osmdroid gridlines */
@@ -67,6 +67,7 @@ public class Marker extends OverlayWithIW {
 	 * enables per Marker instance overrides for this setting
 	 * @since 6.0.0
 	 */
+	@Deprecated
 	protected boolean mEnableTextLabelsWhenNoImage=false;
 
 	/*attributes for standard features:*/
@@ -121,7 +122,7 @@ public class Marker extends OverlayWithIW {
 			mDefaultIcon = resourceProxy.getResources().getDrawable(R.drawable.marker_default);
 		mIcon = mDefaultIcon;
 		//set the offset
-		setAnchor(0.5f, 1.0f);
+		setAnchor(ANCHOR_CENTER, ANCHOR_BOTTOM);
 		if (mDefaultInfoWindow == null || mDefaultInfoWindow.getMapView() != mapView){
 			//build default bubble, that will be shared between all markers using the default one:
 			//(using the default layout included in the aar library)
@@ -135,43 +136,64 @@ public class Marker extends OverlayWithIW {
 	 *
 	 * Also use care and appropriately set the anchor point of the image. For the default
 	 * icon, it's the tip of the teardrop, other it will default to the center of the image.
-	 * @param icon if null, the default osmdroid marker is used. 
+	 * @param icon if null, the default osmdroid marker is used.
+	 * @deprecated Use {@link #setDrawableIcon(Drawable)}, {@link #setTitleIcon()},
+	 * {@link #setTextIcon(String)} or {@link #setDefaultIcon()} instead
 	 */
+	@Deprecated
 	public void setIcon(final Drawable icon){
 		if ((ENABLE_TEXT_LABELS_WHEN_NO_IMAGE || mEnableTextLabelsWhenNoImage) && icon==null && this.mTitle!=null && this.mTitle.length() > 0) {
-			Paint background = new Paint();
-			background.setColor(mTextLabelBackgroundColor);
-
-			Paint p = new Paint();
-			p.setTextSize(mTextLabelFontSize);
-			p.setColor(mTextLabelForegroundColor);
-
-			p.setAntiAlias(true);
-			p.setTypeface(Typeface.DEFAULT_BOLD);
-			p.setTextAlign(Paint.Align.LEFT);
-			int width=(int)(p.measureText(getTitle()) + 0.5f);
-			float baseline=(int)(-p.ascent() + 0.5f);
-			int height=(int) (baseline +p.descent() + 0.5f);
-			Bitmap image = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-			Canvas c = new Canvas(image);
-			c.drawPaint(background);
-			c.drawText(getTitle(),0,baseline,p);
-
-			mIcon=new BitmapDrawable(mResources,image);
-			//set the offset
-			setAnchor(0.5f, 0.5f);
-		} else if (!mEnableTextLabelsWhenNoImage && !ENABLE_TEXT_LABELS_WHEN_NO_IMAGE && icon!=null) {
-			this.mIcon = icon;
-			//set the offset
-			setAnchor(0.5f, 0.5f);
+			setTitleIcon();
 		} else if (icon!=null) {
 			mIcon=icon;
 		} else {
-			//there's still an edge case here, title label not defined, icon is null and textlabel is enabled
-			mIcon = mDefaultIcon;
-			//set the offset
-			setAnchor(0.5f, 1.0f);
+			setDefaultIcon();
 		}
+	}
+
+	/**
+	 * @since 6.1.0
+	 */
+	public void setTitleIcon() {
+		setTextIcon(mTitle);
+	}
+
+	/**
+	 * @since 6.1.0
+	 */
+	public void setTextIcon(final String pText) {
+		final Paint background = new Paint();
+		background.setColor(mTextLabelBackgroundColor);
+		final Paint p = new Paint();
+		p.setTextSize(mTextLabelFontSize);
+		p.setColor(mTextLabelForegroundColor);
+		p.setAntiAlias(true);
+		p.setTypeface(Typeface.DEFAULT_BOLD);
+		p.setTextAlign(Paint.Align.LEFT);
+		final int width = (int) (p.measureText(getTitle()) + 0.5f);
+		final float baseline = (int) (-p.ascent() + 0.5f);
+		final int height = (int) (baseline + p.descent() + 0.5f);
+		final Bitmap image = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+		final Canvas c = new Canvas(image);
+		c.drawPaint(background);
+		c.drawText(getTitle(), 0, baseline, p);
+		mIcon = new BitmapDrawable(mResources, image);
+		setAnchor(ANCHOR_CENTER, ANCHOR_CENTER);
+	}
+
+	/**
+	 * @since 6.1.0
+	 */
+	public void setDrawableIcon(final Drawable pIcon) {
+		mIcon = pIcon;
+	}
+
+	/**
+	 * @since 6.1.0
+	 */
+	public void setDefaultIcon() {
+		mIcon = mDefaultIcon;
+		setAnchor(ANCHOR_CENTER, ANCHOR_BOTTOM);
 	}
 
 	/**
@@ -269,6 +291,7 @@ public class Marker extends OverlayWithIW {
 	 * @since 6.0.0
 	 * @return
 	 */
+	@Deprecated
 	public boolean isEnableTextLabelsWhenNoImage() {
 		return mEnableTextLabelsWhenNoImage;
 	}
@@ -277,6 +300,7 @@ public class Marker extends OverlayWithIW {
 	 * @since 6.0.0
 	 * @param mEnableTextLabelsWhenNoImage
 	 */
+	@Deprecated
 	public void setEnableTextLabelsWhenNoImage(boolean mEnableTextLabelsWhenNoImage) {
 		this.mEnableTextLabelsWhenNoImage = mEnableTextLabelsWhenNoImage;
 	}

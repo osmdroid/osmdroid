@@ -60,7 +60,7 @@ public class IconPlottingOverlay extends Overlay {
 
             Marker m = new Marker(mapView);
             m.setPosition(pt);
-            m.setIcon(markerIcon);
+            m.setDrawableIcon(markerIcon);
             m.setImage(markerIcon);
             m.setTitle("A demo title");
             m.setSubDescription("A demo sub description\n" + pt.getLatitude() + "," + pt.getLongitude());

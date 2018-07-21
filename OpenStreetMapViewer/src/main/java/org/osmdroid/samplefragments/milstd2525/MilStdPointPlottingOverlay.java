@@ -77,7 +77,7 @@ public class MilStdPointPlottingOverlay extends Overlay {
                 if (ii != null && ii.getImage() != null) {
                     BitmapDrawable d = new BitmapDrawable(ii.getImage());
                     m.setImage(d);
-                    m.setIcon(d);
+                    m.setDrawableIcon(d);
 
                     int centerX = ii.getCenterPoint().x;    //pixel center position
                     //calculate what percentage of the center this value is

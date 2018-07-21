@@ -92,7 +92,6 @@ public class LatLonGridlineOverlay2 extends Overlay {
     }
 
     protected void applyMarkerAttributes(Marker m) {
-        m.setEnableTextLabelsWhenNoImage(true);
         m.setTextLabelBackgroundColor(mFontBackgroundColor);
         m.setTextLabelFontSize(mFontSizeDp);
         m.setTextLabelForegroundColor(mFontColor);
@@ -197,7 +196,7 @@ public class LatLonGridlineOverlay2 extends Overlay {
                     m.setTitle(mDecimalFormatter.format(i) + "S");
                 }
                 //must set the icon last
-                m.setIcon(null);
+                m.setTitleIcon();
                 m.setPosition(new GeoPoint(i, west + incrementor));
                 gridlines.add(m);
             }
@@ -231,7 +230,7 @@ public class LatLonGridlineOverlay2 extends Overlay {
                     m.setTitle(mDecimalFormatter.format(i) + "W");
                 }
                 //must set the icon last
-                m.setIcon(null);
+                m.setTitleIcon();
                 m.setPosition(new GeoPoint(south + (incrementor), i));
                 gridlines.add(m);
             }
@@ -276,7 +275,7 @@ public class LatLonGridlineOverlay2 extends Overlay {
                         m.setTitle(mDecimalFormatter.format(i) + "W");
                     }
                     //must set the icon last
-                    m.setIcon(null);
+                    m.setTitleIcon();
                     m.setPosition(new GeoPoint(south + (incrementor), i));
                     gridlines.add(m);
                 }
@@ -294,7 +293,7 @@ public class LatLonGridlineOverlay2 extends Overlay {
                         m.setTitle(mDecimalFormatter.format(i) + "W");
                     }
                     //must set the icon last in order for the text label to show
-                    m.setIcon(null);
+                    m.setTitleIcon();
                     m.setPosition(new GeoPoint(south + (incrementor), i));
                     gridlines.add(m);
                 }

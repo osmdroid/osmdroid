@@ -116,7 +116,7 @@ public class SampleOsmPath extends BaseSampleFragment implements MapListener {
 		marker.setPosition(new GeoPoint(((40.796788-40.768094)/2)+40.768094,
 				((-73.949232- -73.981762)/2) +  -73.981762));
 		marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
-		marker.setIcon(getResources().getDrawable(R.drawable.sfgpuci));
+		marker.setDrawableIcon(getResources().getDrawable(R.drawable.sfgpuci));
 		marker.setTitle("Start point");
 		marker.setDraggable(true);
 		mMapView.getOverlays().add(marker);

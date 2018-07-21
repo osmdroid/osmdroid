@@ -299,7 +299,7 @@ public class Plotter extends SampleGridlines implements View.OnClickListener, Te
                 }
                 Drawable d = new BitmapDrawable(ii.getImage());
                 m.setImage(d);
-                m.setIcon(d);
+                m.setDrawableIcon(d);
                 int centerX = ii.getCenterPoint().x;    //pixel center position
                 //calculate what percentage of the center this value is
                 float realCenterX = (float) centerX / (float) ii.getImage().getWidth();

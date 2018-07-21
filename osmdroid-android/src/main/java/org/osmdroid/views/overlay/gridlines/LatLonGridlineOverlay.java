@@ -50,9 +50,6 @@ public class LatLonGridlineOverlay {
         BoundingBox box = mapView.getBoundingBox();
         int zoom = mapView.getZoomLevel();
 
-        Marker.ENABLE_TEXT_LABELS_WHEN_NO_IMAGE = true;
-
-
         if (DEBUG) {
             System.out.println("######### getLatLonGrid ");
         }
@@ -159,7 +156,7 @@ public class LatLonGridlineOverlay {
                     m.setTitle(df.format(i) + "S");
                 }
                 //must set the icon last
-                m.setIcon(null);
+                m.setTitleIcon();
                 m.setPosition(new GeoPoint(i, west + incrementor));
                 gridlines.add(m);
             }
@@ -195,7 +192,7 @@ public class LatLonGridlineOverlay {
                     m.setTitle(df.format(i) + "W");
                 }
                 //must set the icon last
-                m.setIcon(null);
+                m.setTitleIcon();
                 m.setPosition(new GeoPoint(south + (incrementor), i));
                 gridlines.add(m);
             }
@@ -250,7 +247,7 @@ public class LatLonGridlineOverlay {
                         m.setTitle(df.format(i) + "W");
                     }
                     //must set the icon last
-                    m.setIcon(null);
+                    m.setTitleIcon();
                     m.setPosition(new GeoPoint(south + (incrementor), i));
                     gridlines.add(m);
                 }
@@ -268,7 +265,7 @@ public class LatLonGridlineOverlay {
                         m.setTitle(df.format(i) + "W");
                     }
                     //must set the icon last in order for the text label to show
-                    m.setIcon(null);
+                    m.setTitleIcon();
                     m.setPosition(new GeoPoint(south + (incrementor), i));
                     gridlines.add(m);
                 }
