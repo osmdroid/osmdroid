@@ -137,10 +137,10 @@ public class SampleLieFi extends BaseSampleFragment {
         }
 
         /**
-         * @since 6.0
+         * @since 6.0.3
          */
         @Override
-        protected boolean isDowngradedMode() {
+        protected boolean isDowngradedMode(final long pMapTileIndex) {
             return (mNetworkAvailabilityCheck != null && !mNetworkAvailabilityCheck.getNetworkAvailable())
                     || !useDataConnection();
         }

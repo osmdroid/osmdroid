@@ -103,8 +103,17 @@ public class MapTileProviderArray extends MapTileProviderBase implements MapTile
 
 	/**
 	 * @since 6.0
+	 * @deprecated Not used anymore. Use {@link #isDowngradedMode(long)} instead
 	 */
+	@Deprecated
 	protected boolean isDowngradedMode() {
+		return false;
+	}
+
+	/**
+	 * @since 6.0.3
+	 */
+	protected boolean isDowngradedMode(final long pMapTileIndex) {
 		return false;
 	}
 
@@ -115,7 +124,7 @@ public class MapTileProviderArray extends MapTileProviderBase implements MapTile
 			if (ExpirableBitmapDrawable.getState(tile) == ExpirableBitmapDrawable.UP_TO_DATE) {
 				return tile; // best scenario ever
 			}
-			if (isDowngradedMode()) {
+			if (isDowngradedMode(pMapTileIndex)) {
 				return tile; // best we can, considering
 			}
 		}
