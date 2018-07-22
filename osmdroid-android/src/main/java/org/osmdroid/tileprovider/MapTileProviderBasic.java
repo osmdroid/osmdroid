@@ -11,6 +11,7 @@ import org.osmdroid.tileprovider.modules.MapTileDownloader;
 import org.osmdroid.tileprovider.modules.MapTileFileArchiveProvider;
 import org.osmdroid.tileprovider.modules.MapTileFileStorageProviderBase;
 import org.osmdroid.tileprovider.modules.MapTileFilesystemProvider;
+import org.osmdroid.tileprovider.modules.MapTileModuleProviderBase;
 import org.osmdroid.tileprovider.modules.MapTileSqlCacheProvider;
 import org.osmdroid.tileprovider.modules.NetworkAvailabliltyCheck;
 import org.osmdroid.tileprovider.modules.SqlTileWriter;
@@ -18,6 +19,7 @@ import org.osmdroid.tileprovider.modules.TileWriter;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.tileprovider.util.SimpleRegisterReceiver;
+import org.osmdroid.util.MapTileIndex;
 import org.osmdroid.util.MapTileListBorderComputer;
 import org.osmdroid.util.MapTileListZoomComputer;
 
@@ -138,11 +140,33 @@ public class MapTileProviderBasic extends MapTileProviderArray implements IMapTi
 	}
 
 	/**
-	 * @since 6.0
+	 * @since 6.0.3
 	 */
 	@Override
-	protected boolean isDowngradedMode() {
-		return (mNetworkAvailabilityCheck != null && !mNetworkAvailabilityCheck.getNetworkAvailable())
-				|| !useDataConnection();
+	protected boolean isDowngradedMode(final long pMapTileIndex) {
+		if ((mNetworkAvailabilityCheck != null && !mNetworkAvailabilityCheck.getNetworkAvailable())
+				|| !useDataConnection()) {
+			return true;
+		}
+		int zoomMin = -1;
+		int zoomMax = -1;
+		for(final MapTileModuleProviderBase provider : mTileProviderList) {
+			if (provider.getUsesDataConnection()) {
+				int tmp;
+				tmp = provider.getMinimumZoomLevel();
+				if (zoomMin == -1 || zoomMin > tmp) {
+					zoomMin = tmp;
+				}
+				tmp = provider.getMaximumZoomLevel();
+				if (zoomMax == -1 || zoomMax < tmp) {
+					zoomMax = tmp;
+				}
+			}
+		}
+		if (zoomMin == -1 || zoomMax == -1) {
+			return true;
+		}
+		final int zoom = MapTileIndex.getZoom(pMapTileIndex);
+		return zoom < zoomMin || zoom > zoomMax;
 	}
 }
