@@ -56,7 +56,6 @@ public class Marker extends OverlayWithIW {
 	 * that sets the image icon of a  marker to a text label if no image url was provided. It's also
 	 * used in a few other cases, such as placing a generic text label on the map
 	 */
-	@Deprecated
 	public static boolean ENABLE_TEXT_LABELS_WHEN_NO_IMAGE=false;
 
 	/* attributes for text labels, used for osmdroid gridlines */
@@ -67,7 +66,6 @@ public class Marker extends OverlayWithIW {
 	 * enables per Marker instance overrides for this setting
 	 * @since 6.0.0
 	 */
-	@Deprecated
 	protected boolean mEnableTextLabelsWhenNoImage=false;
 
 	/*attributes for standard features:*/
@@ -133,14 +131,14 @@ public class Marker extends OverlayWithIW {
 
 	/** Sets the icon for the marker. Can be changed at any time.
 	 * This is used on the map view.
-	 *
-	 * Also use care and appropriately set the anchor point of the image. For the default
-	 * icon, it's the tip of the teardrop, other it will default to the center of the image.
+	 * The anchor will be left unchanged; you may need to call {@link #setAnchor(float, float)}
+     * Two exceptions:
+     * - for text icons, the anchor is set to (center, center)
+     * - for the default icon, the anchor is set to the corresponding position (the tip of the teardrop)
+     * Related methods: {@link #setDrawableIcon(Drawable)}, {@link #setTitleIcon()},
+     * {@link #setTextIcon(String)}, {@link #setDefaultIcon()} and {@link #setAnchor(float, float)}
 	 * @param icon if null, the default osmdroid marker is used.
-	 * @deprecated Use {@link #setDrawableIcon(Drawable)}, {@link #setTitleIcon()},
-	 * {@link #setTextIcon(String)} or {@link #setDefaultIcon()} instead
 	 */
-	@Deprecated
 	public void setIcon(final Drawable icon){
 		if ((ENABLE_TEXT_LABELS_WHEN_NO_IMAGE || mEnableTextLabelsWhenNoImage) && icon==null && this.mTitle!=null && this.mTitle.length() > 0) {
 			setTitleIcon();
@@ -291,7 +289,6 @@ public class Marker extends OverlayWithIW {
 	 * @since 6.0.0
 	 * @return
 	 */
-	@Deprecated
 	public boolean isEnableTextLabelsWhenNoImage() {
 		return mEnableTextLabelsWhenNoImage;
 	}
@@ -300,7 +297,6 @@ public class Marker extends OverlayWithIW {
 	 * @since 6.0.0
 	 * @param mEnableTextLabelsWhenNoImage
 	 */
-	@Deprecated
 	public void setEnableTextLabelsWhenNoImage(boolean mEnableTextLabelsWhenNoImage) {
 		this.mEnableTextLabelsWhenNoImage = mEnableTextLabelsWhenNoImage;
 	}
