@@ -190,13 +190,9 @@ public class LatLonGridlineOverlay2 extends Overlay {
 
                 Marker m = new Marker(mapView);
                 applyMarkerAttributes(m);
-                if (i > 0) {
-                    m.setTitle(mDecimalFormatter.format(i) + "N");
-                } else {
-                    m.setTitle(mDecimalFormatter.format(i) + "S");
-                }
-                //must set the icon last
-                m.setTitleIcon();
+                final String title = mDecimalFormatter.format(i) + (i > 0 ? "N" : "S");
+                m.setTitle(title);
+                m.setTextIcon(title);
                 m.setPosition(new GeoPoint(i, west + incrementor));
                 gridlines.add(m);
             }
@@ -224,13 +220,9 @@ public class LatLonGridlineOverlay2 extends Overlay {
                 Marker m = new Marker(mapView);
                 applyMarkerAttributes(m);
                 m.setRotation(-90f);
-                if (i > 0) {
-                    m.setTitle(mDecimalFormatter.format(i) + "E");
-                } else {
-                    m.setTitle(mDecimalFormatter.format(i) + "W");
-                }
-                //must set the icon last
-                m.setTitleIcon();
+                final String title = mDecimalFormatter.format(i) + (i > 0 ? "E" : "W");
+                m.setTitle(title);
+                m.setTextIcon(title);
                 m.setPosition(new GeoPoint(south + (incrementor), i));
                 gridlines.add(m);
             }
@@ -269,13 +261,9 @@ public class LatLonGridlineOverlay2 extends Overlay {
                     Marker m = new Marker(mapView);
                     applyMarkerAttributes(m);
                     m.setRotation(-90f);
-                    if (i > 0) {
-                        m.setTitle(mDecimalFormatter.format(i) + "E");
-                    } else {
-                        m.setTitle(mDecimalFormatter.format(i) + "W");
-                    }
-                    //must set the icon last
-                    m.setTitleIcon();
+                    final String title = mDecimalFormatter.format(i) + (i > 0 ? "E" : "W");
+                    m.setTitle(title);
+                    m.setTextIcon(title);
                     m.setPosition(new GeoPoint(south + (incrementor), i));
                     gridlines.add(m);
                 }
@@ -287,13 +275,9 @@ public class LatLonGridlineOverlay2 extends Overlay {
 
                     applyMarkerAttributes(m);
                     m.setRotation(-90f);
-                    if (i > 0) {
-                        m.setTitle(mDecimalFormatter.format(i) + "E");
-                    } else {
-                        m.setTitle(mDecimalFormatter.format(i) + "W");
-                    }
-                    //must set the icon last in order for the text label to show
-                    m.setTitleIcon();
+                    final String title = mDecimalFormatter.format(i) + (i > 0 ? "E" : "W");
+                    m.setTitle(title);
+                    m.setTextIcon(title);
                     m.setPosition(new GeoPoint(south + (incrementor), i));
                     gridlines.add(m);
                 }

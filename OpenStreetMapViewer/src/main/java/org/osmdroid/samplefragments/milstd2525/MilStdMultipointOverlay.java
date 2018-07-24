@@ -244,7 +244,7 @@ public class MilStdMultipointOverlay extends Overlay {
                     m.setTextLabelForegroundColor(Color.BLACK.toInt());
                     m.setTitle(info.getModifierString());
                     m.setRotation((float) info.getModifierStringAngle());
-                    m.setTitleIcon();
+                    m.setTextIcon(info.getModifierString());
                     m.setPosition(new GeoPoint(info.getModifierStringPosition().getY(), info.getModifierStringPosition().getX()));
                     lastOverlay.getItems().add(m);
                 }

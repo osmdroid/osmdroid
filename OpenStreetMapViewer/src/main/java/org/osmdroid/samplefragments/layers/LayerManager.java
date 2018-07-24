@@ -134,7 +134,7 @@ public class LayerManager extends BaseSampleFragment {
         Marker startMarker = new Marker(mMapView);
         startMarker.setPosition(startPoint);
         startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
-        startMarker.setDrawableIcon(getResources().getDrawable(R.drawable.icon));
+        startMarker.setIcon(getResources().getDrawable(R.drawable.icon));
         startMarker.setTitle("White House");
         startMarker.setSnippet("The White House is the official residence and principal workplace of the President of the United States.");
         startMarker.setSubDescription("1600 Pennsylvania Ave NW, Washington, DC 20500");
@@ -144,7 +144,7 @@ public class LayerManager extends BaseSampleFragment {
         startMarker = new Marker(mMapView);
         startMarker.setPosition(startPoint);
         startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
-        startMarker.setDrawableIcon(getResources().getDrawable(R.drawable.icon));
+        startMarker.setIcon(getResources().getDrawable(R.drawable.icon));
         startMarker.setTitle("Pentagon");
         startMarker.setSnippet("The Pentagon.");
         startMarker.setSubDescription("The Pentagon is the headquarters of the United States Department of Defense.");
@@ -163,7 +163,7 @@ public class LayerManager extends BaseSampleFragment {
         startMarker = new Marker(mMapView);
         startMarker.setPosition(startPoint);
         startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
-        startMarker.setDrawableIcon(getResources().getDrawable(R.drawable.icon));
+        startMarker.setIcon(getResources().getDrawable(R.drawable.icon));
         startMarker.setTitle("Washington Monument");
         startMarker.setSnippet("Washington Monument.");
         startMarker.setSubDescription("Washington Monument.");

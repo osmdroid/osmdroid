@@ -689,7 +689,7 @@ public class OsmMapShapeConverter {
         m.setPosition(latLng);
         if (options!=null) {
             if (options.getIcon()!=null){
-                m.setDrawableIcon(options.getIcon());
+                m.setIcon(options.getIcon());
             }
             m.setAlpha(options.getAlpha());
             m.setTitle(options.getTitle());

@@ -64,7 +64,7 @@ public abstract class IISTrackerBase extends SampleGridlines {
 
         marker = new Marker(mMapView);
         marker.setImage(image);
-        marker.setDrawableIcon(icon);
+        marker.setIcon(icon);
         marker.setTitle("International Space Station");
 
 
@@ -110,7 +110,7 @@ public abstract class IISTrackerBase extends SampleGridlines {
 
                                         marker = new Marker(mMapView);
                                         marker.setImage(image);
-                                        marker.setDrawableIcon(icon);
+                                        marker.setIcon(icon);
                                         marker.setTitle("International Space Station");
                                         marker.setPosition(location);
                                         mMapView.getController().setCenter(location);
