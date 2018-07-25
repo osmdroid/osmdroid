@@ -743,10 +743,10 @@ public class MapView extends ViewGroup implements IMapView,
 	 * Example:
 	 *	To block vertical scroll of the view outside north/south poles:
 	 * 	mapView.setScrollableAreaLimitLatitude(MapView.getTileSystem().getMaxLatitude(),
-	 * 	                                       -MapView.getTileSystem().getMaxLatitude(),
+	 * 	                                       MapView.getTileSystem().getMinLatitude(),
 	 * 	                                       0);
 	 * Warning:
-	 * 	Don't use latitude values outside the [-MapView.getTileSystem().getMaxLatitude(),
+	 * 	Don't use latitude values outside the [MapView.getTileSystem().getMinLatitude(),
 	 * 	MapView.getTileSystem().getMaxLatitude()] range, this would cause an ANR.
 	 * @since 6.0.0
 	 * @param pNorth decimal degrees latitude
