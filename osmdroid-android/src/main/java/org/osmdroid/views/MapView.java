@@ -742,9 +742,12 @@ public class MapView extends ViewGroup implements IMapView,
 	 * sets the scroll limit
 	 * Example:
 	 *	To block vertical scroll of the view outside north/south poles:
-	 * 	mapView.setScrollableAreaLimitLatitude(TileSystem.MaxLatitude,-TileSystem.MaxLatitude, 0);
+	 * 	mapView.setScrollableAreaLimitLatitude(MapView.getTileSystem().getMaxLatitude(),
+	 * 	                                       -MapView.getTileSystem().getMaxLatitude(),
+	 * 	                                       0);
 	 * Warning:
-	 * 	Don't use latitude values outside the [-TileSystem.MaxLatitude, TileSystem.MaxLatitude] range, this would cause an ANR.
+	 * 	Don't use latitude values outside the [-MapView.getTileSystem().getMaxLatitude(),
+	 * 	MapView.getTileSystem().getMaxLatitude()] range, this would cause an ANR.
 	 * @since 6.0.0
 	 * @param pNorth decimal degrees latitude
 	 * @param pSouth decimal degrees latitude
@@ -1355,7 +1358,7 @@ public class MapView extends ViewGroup implements IMapView,
 	}
 
 	/**
-	 * If horizontalMapRepetition is enabled the map repeats in top/bottom direction and scrolling wraps around the
+	 * If verticalMapRepetition is enabled the map repeats in top/bottom direction and scrolling wraps around the
 	 * edges. If disabled the map is only shown once for the vertical direction. Default is true.
 	 * @param verticalMapRepetitionEnabled
 	 * @since 6.0.0
