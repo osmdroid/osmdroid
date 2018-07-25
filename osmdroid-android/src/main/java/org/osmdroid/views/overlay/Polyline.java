@@ -5,15 +5,12 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.view.MotionEvent;
 
-import org.osmdroid.library.R;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.PointL;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
-import org.osmdroid.views.overlay.infowindow.BasicInfoWindow;
 import org.osmdroid.views.overlay.infowindow.InfoWindow;
 import org.osmdroid.views.overlay.milestones.MilestoneManager;
-import org.osmdroid.views.util.constants.MathConstants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +32,6 @@ public class Polyline extends OverlayWithIW {
     private final LineDrawer mLineDrawer = new LineDrawer(256);
     private LinearRing mOutline = new LinearRing(mLineDrawer);
     private List<MilestoneManager> mMilestoneManagers = new ArrayList<>();
-    protected static InfoWindow mDefaultInfoWindow = null;
     protected OnClickListener mOnClickListener;
     private GeoPoint mInfoWindowLocation;
     private float mDensity = 1.0f;
@@ -53,12 +49,9 @@ public class Polyline extends OverlayWithIW {
      */
     public Polyline(MapView mapView) {
         if (mapView != null) {
-            if (mDefaultInfoWindow == null || mDefaultInfoWindow.getMapView() != mapView) {
-                mDefaultInfoWindow = new BasicInfoWindow(R.layout.bonuspack_bubble, mapView);
-            }
+            setInfoWindow(mapView.getRepository().getDefaultPolylineInfoWindow());
             mDensity = mapView.getContext().getResources().getDisplayMetrics().density;
         }
-        setInfoWindow(mDefaultInfoWindow);
         //default as defined in Google API:
         this.mPaint.setColor(Color.BLACK);
         this.mPaint.setStrokeWidth(10.0f);
@@ -200,9 +193,6 @@ public class Polyline extends OverlayWithIW {
         if (mInfoWindow != null){
             if (mInfoWindow.getRelatedObject()==this)
                 mInfoWindow.setRelatedObject(null);
-            if (mInfoWindow != mDefaultInfoWindow) {
-                mInfoWindow.onDetach();
-            }
         }
         mInfoWindow = infoWindow;
     }
