@@ -609,6 +609,14 @@ abstract public class TileSystem {
 	}
 
 	/**
+	 * @since 6.0.3
+	 * @param pRandom01 [0,1]
+	 */
+	public double getRandomLatitude(final double pRandom01) {
+		return getRandomLatitude(pRandom01, getMinLatitude());
+	}
+
+	/**
 	 * @since 6.0.0
 	 */
 	public static int getTileFromMercator(final long pMercator, final double pTileSize) {

@@ -11,13 +11,13 @@ import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.view.MotionEvent;
 import android.util.TypedValue;
 
 import org.osmdroid.library.R;
 import org.osmdroid.tileprovider.BitmapPool;
 import org.osmdroid.util.GeoPoint;
+import org.osmdroid.util.RectL;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
 import org.osmdroid.views.overlay.infowindow.MarkerInfoWindow;
@@ -94,7 +94,14 @@ public class Marker extends OverlayWithIW {
 
 	/** Usual values in the (U,V) coordinates system of the icon image */
 	public static final float ANCHOR_CENTER=0.5f, ANCHOR_LEFT=0.0f, ANCHOR_TOP=0.0f, ANCHOR_RIGHT=1.0f, ANCHOR_BOTTOM=1.0f;
-	
+
+	/**
+	 * @since 6.0.3
+	 */
+	private boolean mDisplayed;
+	private final Rect mRect = new Rect();
+	private final Rect mOrientedMarkerRect = new Rect();
+
 	public Marker(MapView mapView) {
 		this(mapView, (mapView.getContext()));
 	}
@@ -355,16 +362,11 @@ public class Marker extends OverlayWithIW {
 		final Projection pj = mapView.getProjection();
 		
 		pj.toPixels(mPosition, mPositionPixels);
-		int width = mIcon.getIntrinsicWidth();
-		int height = mIcon.getIntrinsicHeight();
-		Rect rect = new Rect(0, 0, width, height);
-		rect.offset(-(int)(mAnchorU*width), -(int)(mAnchorV*height));
-		mIcon.setBounds(rect);
 
 		mIcon.setAlpha((int)(mAlpha*255));
 		
 		float rotationOnScreen = (mFlat ? -mBearing : mapView.getMapOrientation()-mBearing);
-		drawAt(canvas, mIcon, mPositionPixels.x, mPositionPixels.y, false, rotationOnScreen);
+		drawAt(canvas, mPositionPixels.x, mPositionPixels.y, rotationOnScreen);
 		if (isInfoWindowShown()) {
 			//showInfoWindow();
 			mInfoWindow.draw();
@@ -407,12 +409,7 @@ public class Marker extends OverlayWithIW {
 	}
 
 	public boolean hitTest(final MotionEvent event, final MapView mapView){
-		final Projection pj = mapView.getProjection();
-		pj.toPixels(mPosition, mPositionPixels);
-		final Rect screenRect = mapView.getIntrinsicScreenRect(null);
-		int x = -mPositionPixels.x + screenRect.left + (int) event.getX();
-		int y = -mPositionPixels.y + screenRect.top + (int) event.getY();
-		return mIcon != null && mIcon.getBounds().contains(x, y); // "!=null": fix for #1078
+		return mIcon != null && mDisplayed && mOrientedMarkerRect.contains((int)event.getX(), (int)event.getY()); // "!=null": fix for #1078
 	}
 	
 	@Override public boolean onSingleTapConfirmed(final MotionEvent event, final MapView mapView){
@@ -542,4 +539,40 @@ public class Marker extends OverlayWithIW {
 		this.mTextLabelFontSize = mTextLabelFontSize;
 	}
 
+	/**
+	 * @since 6.0.3
+	 */
+	public boolean isDisplayed() {
+		return mDisplayed;
+	}
+
+	/**
+	 * Optimized drawing
+	 * @since 6.0.3
+	 */
+	protected void drawAt(final Canvas pCanvas, final int pX, final int pY, final float pOrientation) {
+		final int markerWidth = mIcon.getIntrinsicWidth();
+		final int markerHeight = mIcon.getIntrinsicHeight();
+		final int offsetX = pX - Math.round(markerWidth * mAnchorU);
+		final int offsetY = pY - Math.round(markerHeight * mAnchorV);
+		mRect.set(offsetX, offsetY, offsetX + markerWidth, offsetY + markerHeight);
+		RectL.getBounds(mRect, pX, pY, pOrientation, mOrientedMarkerRect);
+		mDisplayed = Rect.intersects(mOrientedMarkerRect, pCanvas.getClipBounds());
+		if (!mDisplayed) { // optimization 1: (much faster, depending on the proportions) don't try to display if the Marker is not visible
+			return;
+		}
+		if (pOrientation != 0) { // optimization 2: don't manipulate the Canvas if not needed (about 25% faster) - step 1/2
+			pCanvas.save();
+			pCanvas.rotate(pOrientation, pX, pY);
+		}
+		if (mIcon instanceof BitmapDrawable) { // optimization 3: (about 15% faster)
+			pCanvas.drawBitmap(((BitmapDrawable)mIcon).getBitmap(), offsetX, offsetY, null);
+		} else {
+			mIcon.setBounds(mRect);
+			mIcon.draw(pCanvas);
+		}
+		if (pOrientation != 0) { // optimization 2: step 2/2
+			pCanvas.restore();
+		}
+	}
 }
