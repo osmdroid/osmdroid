@@ -507,23 +507,30 @@ public class MapView extends ViewGroup implements IMapView,
 	}
 
 	/**
-	 * @since 6.0.0
+	 * @since 6.0.3
 	 */
-	public void zoomToBoundingBox(final BoundingBox boundingBox, final boolean animated, final int borderSizeInPixels) {
+	public double zoomToBoundingBox(final BoundingBox boundingBox, final boolean animated, final int borderSizeInPixels,
+								  final double pZoomFallback, final Long animationSpeed) {
 		double nextZoom = mTileSystem.getBoundingBoxZoom(boundingBox, getWidth() - 2 * borderSizeInPixels, getHeight() - 2 * borderSizeInPixels);
 		if (nextZoom == Double.MIN_VALUE) {
-			return;
+			nextZoom = pZoomFallback;
 		}
 		nextZoom = Math.min(getMaxZoomLevel(), Math.max(nextZoom, getMinZoomLevel()));
 		final IGeoPoint center = boundingBox.getCenterWithDateLine();
-		if(animated) { // it's best to set the center first, because the animation is not immediate
-			// in a perfect world there would be an animation for both center and zoom level
-			getController().setCenter(center);
-			getController().zoomTo(nextZoom);
+		if(animated) {
+			getController().animateTo(center, nextZoom, animationSpeed);
 		} else { // it's best to set the zoom first, so that the center is accurate
 			getController().setZoom(nextZoom);
 			getController().setCenter(center);
 		}
+		return nextZoom;
+	}
+
+	/**
+	 * @since 6.0.0
+	 */
+	public void zoomToBoundingBox(final BoundingBox pBoundingBox, final boolean pAnimated, final int pBorderSizeInPixels) {
+		zoomToBoundingBox(pBoundingBox, pAnimated, pBorderSizeInPixels, getMaxZoomLevel(), null);
 	}
 
 	/**
