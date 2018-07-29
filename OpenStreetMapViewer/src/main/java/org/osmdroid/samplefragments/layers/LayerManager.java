@@ -210,6 +210,7 @@ public class LayerManager extends BaseSampleFragment {
         mMapView.getOverlays().add(mEastPolyline);
 
         mMapView.invalidate();
+        Toast.makeText(this.mMapView.getContext(), "Swipe from the right", Toast.LENGTH_LONG).show();
     }
 
     private void updateInfo(){
