@@ -335,14 +335,22 @@ public class Marker extends OverlayWithIW {
 	public void showInfoWindow(){
 		if (mInfoWindow == null)
 			return;
-		int markerWidth = 0, markerHeight = 0;
-		markerWidth = mIcon.getIntrinsicWidth(); 
-		markerHeight = mIcon.getIntrinsicHeight();
-		
-		int offsetX = (int)(mIWAnchorU*markerWidth) - (int)(mAnchorU*markerWidth);
-		int offsetY = (int)(mIWAnchorV*markerHeight) - (int)(mAnchorV*markerHeight);
-		
-		mInfoWindow.open(this, mPosition, offsetX, offsetY);
+		final int markerWidth = mIcon.getIntrinsicWidth();
+		final int markerHeight = mIcon.getIntrinsicHeight();
+		final int offsetX = (int)(markerWidth * (mIWAnchorU - mAnchorU));
+		final int offsetY = (int)(markerHeight * (mIWAnchorV - mAnchorV));
+		if (mBearing == 0) {
+			mInfoWindow.open(this, mPosition, offsetX, offsetY);
+			return;
+		}
+		final int centerX = 0;
+		final int centerY = 0;
+		final double radians = -mBearing * Math.PI / 180.;
+		final double cos = Math.cos(radians);
+		final double sin = Math.sin(radians);
+		final int rotatedX = (int)RectL.getRotatedX(offsetX, offsetY, centerX, centerY, cos, sin);
+		final int rotatedY = (int)RectL.getRotatedY(offsetX, offsetY, centerX, centerY, cos, sin);
+		mInfoWindow.open(this, mPosition, rotatedX, rotatedY);
 	}
 	
 	public boolean isInfoWindowShown(){
