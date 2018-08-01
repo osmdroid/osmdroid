@@ -121,4 +121,9 @@ public interface IMapController {
 	 * @param pSpeed
 	 */
 	void animateTo(final IGeoPoint point, final Double pZoom, final Long pSpeed);
+
+	/**
+	 * @since 6.0.3
+	 */
+	void animateTo(final IGeoPoint point, final Double pZoom, final Long pSpeed, final Float pOrientation);
 }
