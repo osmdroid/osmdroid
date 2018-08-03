@@ -14,11 +14,11 @@ import android.graphics.drawable.Drawable;
 import android.view.MotionEvent;
 import android.util.TypedValue;
 
-import org.osmdroid.library.R;
 import org.osmdroid.tileprovider.BitmapPool;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.RectL;
 import org.osmdroid.views.MapView;
+import org.osmdroid.views.MapViewRepository;
 import org.osmdroid.views.Projection;
 import org.osmdroid.views.overlay.infowindow.MarkerInfoWindow;
 
@@ -74,9 +74,12 @@ public class Marker extends OverlayWithIW {
 
 	/*internals*/
 	protected Point mPositionPixels;
-	protected static MarkerInfoWindow mDefaultInfoWindow = null;
-	protected static Drawable mDefaultIcon = null; //cache for default icon (resourceProxy.getDrawable being slow)
 	protected Resources mResources;
+
+	/**
+	 * @since 6.0.3
+	 */
+	private MapViewRepository mMapViewRepository;
 
 	/** Usual values in the (U,V) coordinates system of the icon image */
 	public static final float ANCHOR_CENTER=0.5f, ANCHOR_LEFT=0.0f, ANCHOR_TOP=0.0f, ANCHOR_RIGHT=1.0f, ANCHOR_BOTTOM=1.0f;
@@ -94,6 +97,7 @@ public class Marker extends OverlayWithIW {
 
 	public Marker(MapView mapView, final Context resourceProxy) {
 		super();
+		mMapViewRepository = mapView.getRepository();
 		mResources = mapView.getContext().getResources();
 		mBearing = 0.0f;
 		mAlpha = 1.0f; //opaque
@@ -110,17 +114,8 @@ public class Marker extends OverlayWithIW {
 		mFlat = false; //billboard
 		mOnMarkerClickListener = null;
 		mOnMarkerDragListener = null;
-		if (mDefaultIcon == null)
-			mDefaultIcon = resourceProxy.getResources().getDrawable(R.drawable.marker_default);
-		mIcon = mDefaultIcon;
-		//set the offset
-		setAnchor(ANCHOR_CENTER, ANCHOR_BOTTOM);
-		if (mDefaultInfoWindow == null || mDefaultInfoWindow.getMapView() != mapView){
-			//build default bubble, that will be shared between all markers using the default one:
-			//(using the default layout included in the aar library)
-			mDefaultInfoWindow = new MarkerInfoWindow(R.layout.bonuspack_bubble, mapView);
-		}
-		setInfoWindow(mDefaultInfoWindow);
+		setDefaultIcon();
+		setInfoWindow(mMapViewRepository.getDefaultMarkerInfoWindow());
 	}
 
 	/** Sets the icon for the marker. Can be changed at any time.
@@ -141,7 +136,15 @@ public class Marker extends OverlayWithIW {
 	}
 
 	/**
-	 * @since 6.1.0
+	 * @since 6.0.3
+	 */
+	public void setDefaultIcon() {
+		mIcon = mMapViewRepository.getDefaultMarkerIcon();
+		setAnchor(ANCHOR_CENTER, ANCHOR_BOTTOM);
+	}
+
+	/**
+	 * @since 6.0.3
 	 */
 	public void setTextIcon(final String pText) {
 		final Paint background = new Paint();
@@ -161,14 +164,6 @@ public class Marker extends OverlayWithIW {
 		c.drawText(pText, 0, baseline, p);
 		mIcon = new BitmapDrawable(mResources, image);
 		setAnchor(ANCHOR_CENTER, ANCHOR_CENTER);
-	}
-
-	/**
-	 * @since 6.0.3
-	 */
-	public void setDefaultIcon() {
-		mIcon = mDefaultIcon;
-		setAnchor(ANCHOR_CENTER, ANCHOR_BOTTOM);
 	}
 
 	/**
@@ -291,8 +286,6 @@ public class Marker extends OverlayWithIW {
 	 * Note that this InfoWindow will receive the Marker object as an input, so it MUST be able to handle Marker attributes. 
 	 * If you don't want any InfoWindow to open, you can set it to null. */
 	public void setInfoWindow(MarkerInfoWindow infoWindow){
-		if (mInfoWindow!=null && mInfoWindow!=mDefaultInfoWindow )
-			mInfoWindow.onDetach();
 		mInfoWindow = infoWindow;
 	}
 
@@ -365,12 +358,11 @@ public class Marker extends OverlayWithIW {
 		this.mOnMarkerDragListener=null;
 		this.mResources=null;
 		setRelatedObject(null);
-		if (mInfoWindow!=mDefaultInfoWindow) {
-			if (isInfoWindowShown())
-				closeInfoWindow();
-		}
+		if (isInfoWindowShown())
+			closeInfoWindow();
 		//	//if we're using the shared info window, this will cause all instances to close
 
+		mMapViewRepository = null;
 		setInfoWindow(null);
 		onDestroy();
 
@@ -384,9 +376,8 @@ public class Marker extends OverlayWithIW {
 	 * Prevent memory leaks and call this when you're done with the map
 	 * reference https://github.com/MKergall/osmbonuspack/pull/210
 	 */
+	@Deprecated
 	public static void cleanDefaults(){
-				mDefaultIcon = null;
-				mDefaultInfoWindow = null;
 	}
 
 	public boolean hitTest(final MotionEvent event, final MapView mapView){

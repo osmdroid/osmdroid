@@ -155,6 +155,11 @@ public class MapView extends ViewGroup implements IMapView,
 
 	private boolean mZoomRounding;
 
+	/**
+	 * @since 6.0.3
+	 */
+	private final MapViewRepository mRepository = new MapViewRepository(this);
+
     public interface OnFirstLayoutListener {
 		/**
 		 * this generally means that the map is ready to go
@@ -1014,6 +1019,7 @@ public class MapView extends ViewGroup implements IMapView,
 		if (mProjection!=null)
 			mProjection.detach();
 		mProjection=null;
+		mRepository.onDetach();
 	}
 
 	@Override
@@ -1778,5 +1784,12 @@ public class MapView extends ViewGroup implements IMapView,
 	 */
 	public static void setTileSystem(final TileSystem pTileSystem) {
 		mTileSystem = pTileSystem;
+	}
+
+	/**
+	 * @since 6.0.3
+	 */
+	public MapViewRepository getRepository() {
+		return mRepository;
 	}
 }

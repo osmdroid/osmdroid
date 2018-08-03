@@ -1,6 +1,5 @@
 package org.osmdroid.views.overlay;
 
-import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -10,15 +9,12 @@ import android.graphics.Region;
 import android.view.MotionEvent;
 
 import org.osmdroid.api.IGeoPoint;
-import org.osmdroid.library.R;
 import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.PointL;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
-import org.osmdroid.views.overlay.infowindow.BasicInfoWindow;
 import org.osmdroid.views.overlay.infowindow.InfoWindow;
-import org.osmdroid.views.overlay.infowindow.MarkerInfoWindow;
 import org.osmdroid.views.overlay.milestones.MilestoneManager;
 
 import java.util.ArrayList;
@@ -43,7 +39,6 @@ public class Polygon extends OverlayWithIW {
 	private final Path mPath = new Path(); //Path drawn is kept for click detection
 	private LinearRing mOutline = new LinearRing(mPath);
 	private ArrayList<LinearRing> mHoles = new ArrayList<>();
-	protected static InfoWindow mDefaultInfoWindow = null;
 	protected OnClickListener mOnClickListener;
 	/** Paint settings. */
 	private Paint mFillPaint;
@@ -61,11 +56,8 @@ public class Polygon extends OverlayWithIW {
 
 	public Polygon(MapView mapView) {
 		if (mapView != null) {
-			if (mDefaultInfoWindow == null || mDefaultInfoWindow.getMapView() != mapView) {
-				mDefaultInfoWindow = new BasicInfoWindow(R.layout.bonuspack_bubble, mapView);
-			}
+			setInfoWindow(mapView.getRepository().getDefaultPolygonInfoWindow());
 		}
-		setInfoWindow(mDefaultInfoWindow);
 		mFillPaint = new Paint();
 		mFillPaint.setColor(Color.TRANSPARENT);
 		mFillPaint.setStyle(Paint.Style.FILL);
@@ -153,9 +145,6 @@ public class Polygon extends OverlayWithIW {
 		if (mInfoWindow != null){
 			if (mInfoWindow.getRelatedObject()==this)
 				mInfoWindow.setRelatedObject(null);
-			if (mInfoWindow != mDefaultInfoWindow) {
-				mInfoWindow.onDetach();
-			}
 		}
 		mInfoWindow = infoWindow;
 	}
