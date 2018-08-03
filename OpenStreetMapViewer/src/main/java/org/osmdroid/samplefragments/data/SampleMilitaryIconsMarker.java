@@ -7,17 +7,15 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.samplefragments.BaseSampleFragment;
 import org.osmdroid.util.GeoPoint;
-import org.osmdroid.views.overlay.ItemizedIconOverlay;
-import org.osmdroid.views.overlay.ItemizedOverlayWithFocus;
+import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
-import org.osmdroid.views.overlay.OverlayItem;
 import org.osmdroid.views.overlay.gestures.RotationGestureOverlay;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * icons generated from https://github.com/missioncommand/mil-sym-java
@@ -42,8 +40,8 @@ public class SampleMilitaryIconsMarker extends BaseSampleFragment {
      // Fields
      // ===========================================================
      private RotationGestureOverlay mRotationGestureOverlay;
-     private OverlayItem overlayItem;
      private List<Drawable> icons = new ArrayList<>(4);
+     private final Random mRandom = new Random();
 
      @Override
      public String getSampleTitle() {
@@ -129,14 +127,11 @@ public class SampleMilitaryIconsMarker extends BaseSampleFragment {
 
      private void addIcons(int count) {
           for (int i = 0; i < count; i++) {
-               double random_lon = (Math.random() * 360) - 180;
-               double random_lat = (Math.random() * 180) - 90;
+               double random_lon = MapView.getTileSystem().getRandomLongitude(mRandom.nextDouble());
+               double random_lat = MapView.getTileSystem().getRandomLatitude(mRandom.nextDouble());
                Marker m = new Marker(mMapView);
                m.setPosition(new GeoPoint(random_lat, random_lon));
-               int index = (int) (Math.random() * (icons.size()));
-               if (index == icons.size()) {
-                    index--;
-               }
+               final int index = mRandom.nextInt(icons.size());
                m.setSnippet("A random point");
                m.setSubDescription("location: " + random_lat + "," + random_lon);
                m.setIcon(icons.get(index));

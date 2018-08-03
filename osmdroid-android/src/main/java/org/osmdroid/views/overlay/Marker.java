@@ -11,14 +11,14 @@ import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.view.MotionEvent;
 import android.util.TypedValue;
 
-import org.osmdroid.library.R;
 import org.osmdroid.tileprovider.BitmapPool;
 import org.osmdroid.util.GeoPoint;
+import org.osmdroid.util.RectL;
 import org.osmdroid.views.MapView;
+import org.osmdroid.views.MapViewRepository;
 import org.osmdroid.views.Projection;
 import org.osmdroid.views.overlay.infowindow.MarkerInfoWindow;
 
@@ -50,24 +50,10 @@ import org.osmdroid.views.overlay.infowindow.MarkerInfoWindow;
  */
 public class Marker extends OverlayWithIW {
 
-
-	/**
-
-	 * this set's the default for all markers
-	 * that sets the image icon of a  marker to a text label if no image url was provided. It's also
-	 * used in a few other cases, such as placing a generic text label on the map
-	 */
-	public static boolean ENABLE_TEXT_LABELS_WHEN_NO_IMAGE=false;
-
 	/* attributes for text labels, used for osmdroid gridlines */
 	protected int mTextLabelBackgroundColor =Color.WHITE;
 	protected int mTextLabelForegroundColor = Color.BLACK;
 	protected int mTextLabelFontSize =24;
-	/**
-	 * enables per Marker instance overrides for this setting
-	 * @since 6.0.0
-	 */
-	protected boolean mEnableTextLabelsWhenNoImage=false;
 
 	/*attributes for standard features:*/
 	protected Drawable mIcon;
@@ -88,19 +74,30 @@ public class Marker extends OverlayWithIW {
 
 	/*internals*/
 	protected Point mPositionPixels;
-	protected static MarkerInfoWindow mDefaultInfoWindow = null;
-	protected static Drawable mDefaultIcon = null; //cache for default icon (resourceProxy.getDrawable being slow)
 	protected Resources mResources;
+
+	/**
+	 * @since 6.0.3
+	 */
+	private MapViewRepository mMapViewRepository;
 
 	/** Usual values in the (U,V) coordinates system of the icon image */
 	public static final float ANCHOR_CENTER=0.5f, ANCHOR_LEFT=0.0f, ANCHOR_TOP=0.0f, ANCHOR_RIGHT=1.0f, ANCHOR_BOTTOM=1.0f;
-	
+
+	/**
+	 * @since 6.0.3
+	 */
+	private boolean mDisplayed;
+	private final Rect mRect = new Rect();
+	private final Rect mOrientedMarkerRect = new Rect();
+
 	public Marker(MapView mapView) {
 		this(mapView, (mapView.getContext()));
 	}
 
 	public Marker(MapView mapView, final Context resourceProxy) {
 		super();
+		mMapViewRepository = mapView.getRepository();
 		mResources = mapView.getContext().getResources();
 		mBearing = 0.0f;
 		mAlpha = 1.0f; //opaque
@@ -117,61 +114,56 @@ public class Marker extends OverlayWithIW {
 		mFlat = false; //billboard
 		mOnMarkerClickListener = null;
 		mOnMarkerDragListener = null;
-		if (mDefaultIcon == null)
-			mDefaultIcon = resourceProxy.getResources().getDrawable(R.drawable.marker_default);
-		mIcon = mDefaultIcon;
-		//set the offset
-		setAnchor(0.5f, 1.0f);
-		if (mDefaultInfoWindow == null || mDefaultInfoWindow.getMapView() != mapView){
-			//build default bubble, that will be shared between all markers using the default one:
-			//(using the default layout included in the aar library)
-			mDefaultInfoWindow = new MarkerInfoWindow(R.layout.bonuspack_bubble, mapView);
-		}
-		setInfoWindow(mDefaultInfoWindow);
+		setDefaultIcon();
+		setInfoWindow(mMapViewRepository.getDefaultMarkerInfoWindow());
 	}
 
 	/** Sets the icon for the marker. Can be changed at any time.
 	 * This is used on the map view.
-	 *
-	 * Also use care and appropriately set the anchor point of the image. For the default
-	 * icon, it's the tip of the teardrop, other it will default to the center of the image.
-	 * @param icon if null, the default osmdroid marker is used. 
+	 * The anchor will be left unchanged; you may need to call {@link #setAnchor(float, float)}
+     * Two exceptions:
+     * - for text icons, the anchor is set to (center, center)
+     * - for the default icon, the anchor is set to the corresponding position (the tip of the teardrop)
+     * Related methods: {@link #setTextIcon(String)}, {@link #setDefaultIcon()} and {@link #setAnchor(float, float)}
+	 * @param icon if null, the default osmdroid marker is used.
 	 */
 	public void setIcon(final Drawable icon){
-		if ((ENABLE_TEXT_LABELS_WHEN_NO_IMAGE || mEnableTextLabelsWhenNoImage) && icon==null && this.mTitle!=null && this.mTitle.length() > 0) {
-			Paint background = new Paint();
-			background.setColor(mTextLabelBackgroundColor);
-
-			Paint p = new Paint();
-			p.setTextSize(mTextLabelFontSize);
-			p.setColor(mTextLabelForegroundColor);
-
-			p.setAntiAlias(true);
-			p.setTypeface(Typeface.DEFAULT_BOLD);
-			p.setTextAlign(Paint.Align.LEFT);
-			int width=(int)(p.measureText(getTitle()) + 0.5f);
-			float baseline=(int)(-p.ascent() + 0.5f);
-			int height=(int) (baseline +p.descent() + 0.5f);
-			Bitmap image = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-			Canvas c = new Canvas(image);
-			c.drawPaint(background);
-			c.drawText(getTitle(),0,baseline,p);
-
-			mIcon=new BitmapDrawable(mResources,image);
-			//set the offset
-			setAnchor(0.5f, 0.5f);
-		} else if (!mEnableTextLabelsWhenNoImage && !ENABLE_TEXT_LABELS_WHEN_NO_IMAGE && icon!=null) {
-			this.mIcon = icon;
-			//set the offset
-			setAnchor(0.5f, 0.5f);
-		} else if (icon!=null) {
+		if (icon!=null) {
 			mIcon=icon;
 		} else {
-			//there's still an edge case here, title label not defined, icon is null and textlabel is enabled
-			mIcon = mDefaultIcon;
-			//set the offset
-			setAnchor(0.5f, 1.0f);
+			setDefaultIcon();
 		}
+	}
+
+	/**
+	 * @since 6.0.3
+	 */
+	public void setDefaultIcon() {
+		mIcon = mMapViewRepository.getDefaultMarkerIcon();
+		setAnchor(ANCHOR_CENTER, ANCHOR_BOTTOM);
+	}
+
+	/**
+	 * @since 6.0.3
+	 */
+	public void setTextIcon(final String pText) {
+		final Paint background = new Paint();
+		background.setColor(mTextLabelBackgroundColor);
+		final Paint p = new Paint();
+		p.setTextSize(mTextLabelFontSize);
+		p.setColor(mTextLabelForegroundColor);
+		p.setAntiAlias(true);
+		p.setTypeface(Typeface.DEFAULT_BOLD);
+		p.setTextAlign(Paint.Align.LEFT);
+		final int width = (int) (p.measureText(pText) + 0.5f);
+		final float baseline = (int) (-p.ascent() + 0.5f);
+		final int height = (int) (baseline + p.descent() + 0.5f);
+		final Bitmap image = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+		final Canvas c = new Canvas(image);
+		c.drawPaint(background);
+		c.drawText(pText, 0, baseline, p);
+		mIcon = new BitmapDrawable(mResources, image);
+		setAnchor(ANCHOR_CENTER, ANCHOR_CENTER);
 	}
 
 	/**
@@ -264,23 +256,6 @@ public class Marker extends OverlayWithIW {
 		mOnMarkerClickListener = listener;
 	}
 
-
-	/**
-	 * @since 6.0.0
-	 * @return
-	 */
-	public boolean isEnableTextLabelsWhenNoImage() {
-		return mEnableTextLabelsWhenNoImage;
-	}
-
-	/**
-	 * @since 6.0.0
-	 * @param mEnableTextLabelsWhenNoImage
-	 */
-	public void setEnableTextLabelsWhenNoImage(boolean mEnableTextLabelsWhenNoImage) {
-		this.mEnableTextLabelsWhenNoImage = mEnableTextLabelsWhenNoImage;
-	}
-
 	public void setOnMarkerDragListener(OnMarkerDragListener listener){
 		mOnMarkerDragListener = listener;
 	}
@@ -311,8 +286,6 @@ public class Marker extends OverlayWithIW {
 	 * Note that this InfoWindow will receive the Marker object as an input, so it MUST be able to handle Marker attributes. 
 	 * If you don't want any InfoWindow to open, you can set it to null. */
 	public void setInfoWindow(MarkerInfoWindow infoWindow){
-		if (mInfoWindow!=null && mInfoWindow!=mDefaultInfoWindow )
-			mInfoWindow.onDetach();
 		mInfoWindow = infoWindow;
 	}
 
@@ -328,14 +301,22 @@ public class Marker extends OverlayWithIW {
 	public void showInfoWindow(){
 		if (mInfoWindow == null)
 			return;
-		int markerWidth = 0, markerHeight = 0;
-		markerWidth = mIcon.getIntrinsicWidth(); 
-		markerHeight = mIcon.getIntrinsicHeight();
-		
-		int offsetX = (int)(mIWAnchorU*markerWidth) - (int)(mAnchorU*markerWidth);
-		int offsetY = (int)(mIWAnchorV*markerHeight) - (int)(mAnchorV*markerHeight);
-		
-		mInfoWindow.open(this, mPosition, offsetX, offsetY);
+		final int markerWidth = mIcon.getIntrinsicWidth();
+		final int markerHeight = mIcon.getIntrinsicHeight();
+		final int offsetX = (int)(markerWidth * (mIWAnchorU - mAnchorU));
+		final int offsetY = (int)(markerHeight * (mIWAnchorV - mAnchorV));
+		if (mBearing == 0) {
+			mInfoWindow.open(this, mPosition, offsetX, offsetY);
+			return;
+		}
+		final int centerX = 0;
+		final int centerY = 0;
+		final double radians = -mBearing * Math.PI / 180.;
+		final double cos = Math.cos(radians);
+		final double sin = Math.sin(radians);
+		final int rotatedX = (int)RectL.getRotatedX(offsetX, offsetY, centerX, centerY, cos, sin);
+		final int rotatedY = (int)RectL.getRotatedY(offsetX, offsetY, centerX, centerY, cos, sin);
+		mInfoWindow.open(this, mPosition, rotatedX, rotatedY);
 	}
 	
 	public boolean isInfoWindowShown(){
@@ -355,16 +336,11 @@ public class Marker extends OverlayWithIW {
 		final Projection pj = mapView.getProjection();
 		
 		pj.toPixels(mPosition, mPositionPixels);
-		int width = mIcon.getIntrinsicWidth();
-		int height = mIcon.getIntrinsicHeight();
-		Rect rect = new Rect(0, 0, width, height);
-		rect.offset(-(int)(mAnchorU*width), -(int)(mAnchorV*height));
-		mIcon.setBounds(rect);
 
 		mIcon.setAlpha((int)(mAlpha*255));
 		
 		float rotationOnScreen = (mFlat ? -mBearing : mapView.getMapOrientation()-mBearing);
-		drawAt(canvas, mIcon, mPositionPixels.x, mPositionPixels.y, false, rotationOnScreen);
+		drawAt(canvas, mPositionPixels.x, mPositionPixels.y, rotationOnScreen);
 		if (isInfoWindowShown()) {
 			//showInfoWindow();
 			mInfoWindow.draw();
@@ -382,12 +358,11 @@ public class Marker extends OverlayWithIW {
 		this.mOnMarkerDragListener=null;
 		this.mResources=null;
 		setRelatedObject(null);
-		if (mInfoWindow!=mDefaultInfoWindow) {
-			if (isInfoWindowShown())
-				closeInfoWindow();
-		}
+		if (isInfoWindowShown())
+			closeInfoWindow();
 		//	//if we're using the shared info window, this will cause all instances to close
 
+		mMapViewRepository = null;
 		setInfoWindow(null);
 		onDestroy();
 
@@ -401,18 +376,12 @@ public class Marker extends OverlayWithIW {
 	 * Prevent memory leaks and call this when you're done with the map
 	 * reference https://github.com/MKergall/osmbonuspack/pull/210
 	 */
+	@Deprecated
 	public static void cleanDefaults(){
-				mDefaultIcon = null;
-				mDefaultInfoWindow = null;
 	}
 
 	public boolean hitTest(final MotionEvent event, final MapView mapView){
-		final Projection pj = mapView.getProjection();
-		pj.toPixels(mPosition, mPositionPixels);
-		final Rect screenRect = mapView.getIntrinsicScreenRect(null);
-		int x = -mPositionPixels.x + screenRect.left + (int) event.getX();
-		int y = -mPositionPixels.y + screenRect.top + (int) event.getY();
-		return mIcon != null && mIcon.getBounds().contains(x, y); // "!=null": fix for #1078
+		return mIcon != null && mDisplayed && mOrientedMarkerRect.contains((int)event.getX(), (int)event.getY()); // "!=null": fix for #1078
 	}
 	
 	@Override public boolean onSingleTapConfirmed(final MotionEvent event, final MapView mapView){
@@ -542,4 +511,40 @@ public class Marker extends OverlayWithIW {
 		this.mTextLabelFontSize = mTextLabelFontSize;
 	}
 
+	/**
+	 * @since 6.0.3
+	 */
+	public boolean isDisplayed() {
+		return mDisplayed;
+	}
+
+	/**
+	 * Optimized drawing
+	 * @since 6.0.3
+	 */
+	protected void drawAt(final Canvas pCanvas, final int pX, final int pY, final float pOrientation) {
+		final int markerWidth = mIcon.getIntrinsicWidth();
+		final int markerHeight = mIcon.getIntrinsicHeight();
+		final int offsetX = pX - Math.round(markerWidth * mAnchorU);
+		final int offsetY = pY - Math.round(markerHeight * mAnchorV);
+		mRect.set(offsetX, offsetY, offsetX + markerWidth, offsetY + markerHeight);
+		RectL.getBounds(mRect, pX, pY, pOrientation, mOrientedMarkerRect);
+		mDisplayed = Rect.intersects(mOrientedMarkerRect, pCanvas.getClipBounds());
+		if (!mDisplayed) { // optimization 1: (much faster, depending on the proportions) don't try to display if the Marker is not visible
+			return;
+		}
+		if (pOrientation != 0) { // optimization 2: don't manipulate the Canvas if not needed (about 25% faster) - step 1/2
+			pCanvas.save();
+			pCanvas.rotate(pOrientation, pX, pY);
+		}
+		if (mIcon instanceof BitmapDrawable) { // optimization 3: (about 15% faster)
+			pCanvas.drawBitmap(((BitmapDrawable)mIcon).getBitmap(), offsetX, offsetY, null);
+		} else {
+			mIcon.setBounds(mRect);
+			mIcon.draw(pCanvas);
+		}
+		if (pOrientation != 0) { // optimization 2: step 2/2
+			pCanvas.restore();
+		}
+	}
 }

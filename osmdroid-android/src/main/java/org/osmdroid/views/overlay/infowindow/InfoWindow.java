@@ -50,6 +50,7 @@ public abstract class InfoWindow {
      */
     public InfoWindow(int layoutResId, MapView mapView) {
         mMapView = mapView;
+        mMapView.getRepository().add(this);
         mIsVisible = false;
         ViewGroup parent = (ViewGroup) mapView.getParent();
         Context context = mapView.getContext();

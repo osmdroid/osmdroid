@@ -155,6 +155,11 @@ public class MapView extends ViewGroup implements IMapView,
 
 	private boolean mZoomRounding;
 
+	/**
+	 * @since 6.0.3
+	 */
+	private final MapViewRepository mRepository = new MapViewRepository(this);
+
     public interface OnFirstLayoutListener {
 		/**
 		 * this generally means that the map is ready to go
@@ -508,17 +513,24 @@ public class MapView extends ViewGroup implements IMapView,
 
 	/**
 	 * @since 6.0.3
+	 * @param pBoundingBox Bounding box we want to zoom to; may be a single {@link GeoPoint}
+	 * @param pAnimated Animation or immediate action?
+	 * @param pBorderSizeInPixels Border size around the bounding box
+	 * @param pMaximumZoom Maximum zoom we want from bounding box computation
+	 * @param pAnimationSpeed Animation duration, in milliseconds
 	 */
-	public double zoomToBoundingBox(final BoundingBox boundingBox, final boolean animated, final int borderSizeInPixels,
-								  final double pZoomFallback, final Long animationSpeed) {
-		double nextZoom = mTileSystem.getBoundingBoxZoom(boundingBox, getWidth() - 2 * borderSizeInPixels, getHeight() - 2 * borderSizeInPixels);
-		if (nextZoom == Double.MIN_VALUE) {
-			nextZoom = pZoomFallback;
+	public double zoomToBoundingBox(final BoundingBox pBoundingBox, final boolean pAnimated,
+									final int pBorderSizeInPixels, final double pMaximumZoom,
+									final Long pAnimationSpeed) {
+		double nextZoom = mTileSystem.getBoundingBoxZoom(pBoundingBox, getWidth() - 2 * pBorderSizeInPixels, getHeight() - 2 * pBorderSizeInPixels);
+		if (nextZoom == Double.MIN_VALUE // e.g. single point bounding box
+				|| nextZoom > pMaximumZoom) { // e.g. tiny bounding box
+			nextZoom = pMaximumZoom;
 		}
 		nextZoom = Math.min(getMaxZoomLevel(), Math.max(nextZoom, getMinZoomLevel()));
-		final IGeoPoint center = boundingBox.getCenterWithDateLine();
-		if(animated) {
-			getController().animateTo(center, nextZoom, animationSpeed);
+		final IGeoPoint center = pBoundingBox.getCenterWithDateLine();
+		if(pAnimated) {
+			getController().animateTo(center, nextZoom, pAnimationSpeed);
 		} else { // it's best to set the zoom first, so that the center is accurate
 			getController().setZoom(nextZoom);
 			getController().setCenter(center);
@@ -1007,6 +1019,7 @@ public class MapView extends ViewGroup implements IMapView,
 		if (mProjection!=null)
 			mProjection.detach();
 		mProjection=null;
+		mRepository.onDetach();
 	}
 
 	@Override
@@ -1771,5 +1784,12 @@ public class MapView extends ViewGroup implements IMapView,
 	 */
 	public static void setTileSystem(final TileSystem pTileSystem) {
 		mTileSystem = pTileSystem;
+	}
+
+	/**
+	 * @since 6.0.3
+	 */
+	public MapViewRepository getRepository() {
+		return mRepository;
 	}
 }

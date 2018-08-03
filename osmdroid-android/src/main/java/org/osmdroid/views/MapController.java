@@ -16,7 +16,6 @@ import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.api.IMapController;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.events.MapListener;
-import org.osmdroid.events.ScrollEvent;
 import org.osmdroid.events.ZoomEvent;
 import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
@@ -131,9 +130,10 @@ public class MapController implements IMapController, OnFirstLayoutListener {
     }
 
     /**
-     * @since 6.0.2
+     * @since 6.0.3
      */
-    public void animateTo(final IGeoPoint point, final Double pZoom, final Long pSpeed) {
+    @Override
+    public void animateTo(final IGeoPoint point, final Double pZoom, final Long pSpeed, final Float pOrientation) {
         // If no layout, delay this call
         if (!mMapView.isLayoutOccurred()) {
             mReplayController.animateTo(point, pZoom, pSpeed);
@@ -142,7 +142,10 @@ public class MapController implements IMapController, OnFirstLayoutListener {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             final IGeoPoint currentCenter = new GeoPoint(mMapView.getProjection().getCurrentCenter());
             final MapAnimatorListener mapAnimatorListener =
-                    new MapAnimatorListener(this, mMapView.getZoomLevelDouble(), pZoom, currentCenter, point);
+                    new MapAnimatorListener(this,
+                            mMapView.getZoomLevelDouble(), pZoom,
+                            currentCenter, point,
+                            mMapView.getMapOrientation(), pOrientation);
             final ValueAnimator mapAnimator = ValueAnimator.ofFloat(0, 1);
             mapAnimator.addListener(mapAnimatorListener);
             mapAnimator.addUpdateListener(mapAnimatorListener);
@@ -156,9 +159,17 @@ public class MapController implements IMapController, OnFirstLayoutListener {
             mapAnimator.start();
             return;
         }
-        // TODO handle the zoom part for the .3% of the population below HONEYCOMB (Feb. 2018)
+        // TODO handle the zoom and orientation parts for the .3% of the population below HONEYCOMB (Feb. 2018)
         Point p = mMapView.getProjection().toPixels(point, null);
         animateTo(p.x, p.y);
+    }
+
+    /**
+     * @since 6.0.2
+     */
+    @Override
+    public void animateTo(final IGeoPoint pPoint, final Double pZoom, final Long pSpeed) {
+        animateTo(pPoint, pZoom, pSpeed, null);
     }
 
     /**
@@ -365,7 +376,10 @@ public class MapController implements IMapController, OnFirstLayoutListener {
 
         float end = (float) Math.pow(2.0, zoomLevel - currentZoomLevel);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            final MapAnimatorListener zoomAnimatorListener = new MapAnimatorListener(this, currentZoomLevel, zoomLevel, null, null);
+            final MapAnimatorListener zoomAnimatorListener = new MapAnimatorListener(this,
+                    currentZoomLevel, zoomLevel,
+                    null, null,
+                    null, null);
             final ValueAnimator zoomToAnimator = ValueAnimator.ofFloat(0, 1);
             zoomToAnimator.addListener(zoomAnimatorListener);
             zoomToAnimator.addUpdateListener(zoomAnimatorListener);
@@ -442,15 +456,20 @@ public class MapController implements IMapController, OnFirstLayoutListener {
         private final Double mZoomEnd;
         private final IGeoPoint mCenterStart;
         private final IGeoPoint mCenterEnd;
+        private final Float mOrientationStart;
+        private final Float mOrientationEnd;
 
         public MapAnimatorListener(final MapController pMapController,
                                    final Double pZoomStart, final Double pZoomEnd,
-                                   final IGeoPoint pCenterStart, final IGeoPoint pCenterEnd) {
+                                   final IGeoPoint pCenterStart, final IGeoPoint pCenterEnd,
+                                   final Float pOrientationStart, final Float pOrientationEnd) {
             mMapController = pMapController;
             mZoomStart = pZoomStart;
             mZoomEnd = pZoomEnd;
             mCenterStart = pCenterStart;
             mCenterEnd = pCenterEnd;
+            mOrientationStart = pOrientationStart;
+            mOrientationEnd = pOrientationEnd;
         }
 
         @Override
@@ -480,6 +499,11 @@ public class MapController implements IMapController, OnFirstLayoutListener {
                 final double zoom = mZoomStart + (mZoomEnd - mZoomStart) * value;
                 //map events listeners are triggered by this call
                 mMapController.mMapView.setZoomLevel(zoom);
+            }
+            if (mOrientationEnd != null) {
+                final double orientation = mOrientationStart + (mOrientationEnd - mOrientationStart) * value;
+                //map events listeners are triggered by this call
+                mMapController.mMapView.setMapOrientation((float)orientation);
             }
             if (mCenterEnd != null) {
                 final TileSystem tileSystem = mMapController.mMapView.getTileSystem();
