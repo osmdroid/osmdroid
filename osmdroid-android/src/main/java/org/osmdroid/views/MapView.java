@@ -512,23 +512,37 @@ public class MapView extends ViewGroup implements IMapView,
 	}
 
 	/**
-	 * @since 6.0.0
+	 * @since 6.0.3
+	 * @param pBoundingBox Bounding box we want to zoom to; may be a single {@link GeoPoint}
+	 * @param pAnimated Animation or immediate action?
+	 * @param pBorderSizeInPixels Border size around the bounding box
+	 * @param pMaximumZoom Maximum zoom we want from bounding box computation
+	 * @param pAnimationSpeed Animation duration, in milliseconds
 	 */
-	public void zoomToBoundingBox(final BoundingBox boundingBox, final boolean animated, final int borderSizeInPixels) {
-		double nextZoom = mTileSystem.getBoundingBoxZoom(boundingBox, getWidth() - 2 * borderSizeInPixels, getHeight() - 2 * borderSizeInPixels);
-		if (nextZoom == Double.MIN_VALUE) {
-			return;
+	public double zoomToBoundingBox(final BoundingBox pBoundingBox, final boolean pAnimated,
+									final int pBorderSizeInPixels, final double pMaximumZoom,
+									final Long pAnimationSpeed) {
+		double nextZoom = mTileSystem.getBoundingBoxZoom(pBoundingBox, getWidth() - 2 * pBorderSizeInPixels, getHeight() - 2 * pBorderSizeInPixels);
+		if (nextZoom == Double.MIN_VALUE // e.g. single point bounding box
+				|| nextZoom > pMaximumZoom) { // e.g. tiny bounding box
+			nextZoom = pMaximumZoom;
 		}
 		nextZoom = Math.min(getMaxZoomLevel(), Math.max(nextZoom, getMinZoomLevel()));
-		final IGeoPoint center = boundingBox.getCenterWithDateLine();
-		if(animated) { // it's best to set the center first, because the animation is not immediate
-			// in a perfect world there would be an animation for both center and zoom level
-			getController().setCenter(center);
-			getController().zoomTo(nextZoom);
+		final IGeoPoint center = pBoundingBox.getCenterWithDateLine();
+		if(pAnimated) {
+			getController().animateTo(center, nextZoom, pAnimationSpeed);
 		} else { // it's best to set the zoom first, so that the center is accurate
 			getController().setZoom(nextZoom);
 			getController().setCenter(center);
 		}
+		return nextZoom;
+	}
+
+	/**
+	 * @since 6.0.0
+	 */
+	public void zoomToBoundingBox(final BoundingBox pBoundingBox, final boolean pAnimated, final int pBorderSizeInPixels) {
+		zoomToBoundingBox(pBoundingBox, pAnimated, pBorderSizeInPixels, getMaxZoomLevel(), null);
 	}
 
 	/**
@@ -747,9 +761,12 @@ public class MapView extends ViewGroup implements IMapView,
 	 * sets the scroll limit
 	 * Example:
 	 *	To block vertical scroll of the view outside north/south poles:
-	 * 	mapView.setScrollableAreaLimitLatitude(TileSystem.MaxLatitude,-TileSystem.MaxLatitude, 0);
+	 * 	mapView.setScrollableAreaLimitLatitude(MapView.getTileSystem().getMaxLatitude(),
+	 * 	                                       MapView.getTileSystem().getMinLatitude(),
+	 * 	                                       0);
 	 * Warning:
-	 * 	Don't use latitude values outside the [-TileSystem.MaxLatitude, TileSystem.MaxLatitude] range, this would cause an ANR.
+	 * 	Don't use latitude values outside the [MapView.getTileSystem().getMinLatitude(),
+	 * 	MapView.getTileSystem().getMaxLatitude()] range, this would cause an ANR.
 	 * @since 6.0.0
 	 * @param pNorth decimal degrees latitude
 	 * @param pSouth decimal degrees latitude
@@ -1361,7 +1378,7 @@ public class MapView extends ViewGroup implements IMapView,
 	}
 
 	/**
-	 * If horizontalMapRepetition is enabled the map repeats in top/bottom direction and scrolling wraps around the
+	 * If verticalMapRepetition is enabled the map repeats in top/bottom direction and scrolling wraps around the
 	 * edges. If disabled the map is only shown once for the vertical direction. Default is true.
 	 * @param verticalMapRepetitionEnabled
 	 * @since 6.0.0
