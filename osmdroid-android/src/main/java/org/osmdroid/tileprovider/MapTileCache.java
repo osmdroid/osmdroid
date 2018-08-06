@@ -62,6 +62,11 @@ public class MapTileCache {
 	 */
 	private final List<MapTileContainer> mProtectors = new ArrayList<>();
 
+	/**
+	 * @since 6.0.3
+	 */
+	private boolean mAutoEnsureCapacity;
+
 	// ===========================================================
 	// Constructors
 	// ===========================================================
@@ -97,11 +102,20 @@ public class MapTileCache {
 	// Getter & Setter
 	// ===========================================================
 
-	public void ensureCapacity(final int pCapacity) {
+	/**
+	 * @since 6.0.3
+	 */
+	public void setAutoEnsureCapacity(final boolean pAutoEnsureCapacity) {
+		mAutoEnsureCapacity = pAutoEnsureCapacity;
+	}
+
+	public boolean ensureCapacity(final int pCapacity) {
 		if (mCapacity < pCapacity) {
 			Log.i(IMapView.LOGTAG, "Tile cache increased from " + mCapacity + " to " + pCapacity);
 			mCapacity = pCapacity;
+			return true;
 		}
+		return false;
 	}
 
 	public Drawable getMapTile(final long pMapTileIndex) {
@@ -132,6 +146,15 @@ public class MapTileCache {
 		for (final MapTileListComputer computer : mComputers) {
 			computer.computeFromSource(mMapTileList, mAdditionalMapTileList);
 		}
+		if (mAutoEnsureCapacity) {
+			final int target = mMapTileList.getSize() + mAdditionalMapTileList.getSize();
+			if (ensureCapacity(target)) {
+				toBeRemoved = size - mCapacity;
+				if (toBeRemoved <= 0) {
+					return;
+				}
+			}
+		}
 		populateSyncCachedTiles(mGC);
 		for (int i = 0; i < mGC.getSize() ; i ++) {
 			final long index = mGC.get(i);
@@ -149,16 +172,17 @@ public class MapTileCache {
 	 * @since 6.0.2
 	 */
 	private boolean shouldKeepTile(final long pMapTileIndex) {
+		// fastest checks first
 		if (mMapTileList.contains(pMapTileIndex)) {
-			return true;
-		}
-		if (mAdditionalMapTileList.contains(pMapTileIndex)) {
 			return true;
 		}
 		for(final MapTileContainer container : mProtectors) {
 			if (container.contains(pMapTileIndex)) {
 				return true;
 			}
+		}
+		if (mAdditionalMapTileList.contains(pMapTileIndex)) {
+			return true;
 		}
 		return false;
 	}

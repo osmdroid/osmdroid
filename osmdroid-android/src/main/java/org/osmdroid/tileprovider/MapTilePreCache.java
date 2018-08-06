@@ -18,7 +18,6 @@ import java.util.List;
  * - pre-cache those bitmaps into memory cache
  * Doing so you get smoother when panning the map or zooming in/out
  * as the bitmaps are already in memory.
- * You don't have to wait during all the provider to memory copy.
  * Cf. <a href="https://github.com/osmdroid/osmdroid/issues/930">#930</a>
  * @author Fabrice Fontaine
  * @since 6.0.2
@@ -52,6 +51,9 @@ public class MapTilePreCache {
      * Compute the latest tile list and try to put each tile bitmap in memory cache
      */
     public void fill() {
+        if (mGC.isRunning()) {
+            return;
+        }
         refresh();
         mGC.gc();
     }
@@ -59,7 +61,7 @@ public class MapTilePreCache {
     /**
      * Refresh the tile list in the synchronized way
      * so that the asynchronous running GC actually get the actual next tile
-     * when caling method {@link #next()}
+     * when calling method {@link #next()}
      */
     private void refresh() {
         synchronized (mTiles) {
