@@ -4,8 +4,10 @@ package org.osmdroid.util;
  * Compute a map tile list from a map tile list source, on another zoom level
  * @since 6.0.2
  * @author Fabrice Fontaine
+ * @deprecated Use {@link MapTileAreaZoomComputer} instead
  */
 
+@Deprecated
 public class MapTileListZoomComputer implements MapTileListComputer {
 
     private final int mZoomDelta;

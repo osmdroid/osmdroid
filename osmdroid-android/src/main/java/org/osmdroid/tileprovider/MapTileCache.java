@@ -3,9 +3,11 @@ package org.osmdroid.tileprovider;
 
 import org.osmdroid.api.IMapView;
 import org.osmdroid.config.Configuration;
+import org.osmdroid.util.MapTileArea;
+import org.osmdroid.util.MapTileAreaComputer;
+import org.osmdroid.util.MapTileAreaList;
 import org.osmdroid.util.MapTileContainer;
 import org.osmdroid.util.MapTileList;
-import org.osmdroid.util.MapTileListComputer;
 
 import android.graphics.drawable.Drawable;
 import android.util.Log;
@@ -41,17 +43,17 @@ public class MapTileCache {
 	/**
 	 * Tiles currently displayed
 	 */
-	private final MapTileList mMapTileList = new MapTileList();
+	private final MapTileArea mMapTileArea = new MapTileArea();
 	/**
 	 * Tiles neighbouring the tiles currently displayed (borders, zoom +-1, ...)
 	 */
-	private final MapTileList mAdditionalMapTileList = new MapTileList();
+	private final MapTileAreaList mAdditionalMapTileList = new MapTileAreaList();
 	/**
 	 * Tiles currently in the cache, without the concurrency side effects
 	 */
 	private final MapTileList mGC = new MapTileList();
 
-	private final List<MapTileListComputer> mComputers = new ArrayList<>();
+	private final List<MapTileAreaComputer> mComputers = new ArrayList<>();
 
 	private int mCapacity;
 
@@ -87,7 +89,7 @@ public class MapTileCache {
 	/**
 	 * @since 6.0.2
 	 */
-	public List<MapTileListComputer> getProtectedTileComputers() {
+	public List<MapTileAreaComputer> getProtectedTileComputers() {
 		return mComputers;
 	}
 
@@ -142,13 +144,12 @@ public class MapTileCache {
 		if (toBeRemoved <= 0) {
 			return;
 		}
-		mAdditionalMapTileList.clear();
-		for (final MapTileListComputer computer : mComputers) {
-			computer.computeFromSource(mMapTileList, mAdditionalMapTileList);
-		}
+
+		refreshAdditionalLists();
+
 		if (mAutoEnsureCapacity) {
-			final int target = mMapTileList.getSize() + mAdditionalMapTileList.getSize();
-			if (ensureCapacity(target)) {
+			long target = mMapTileArea.size() + mAdditionalMapTileList.size();
+			if (ensureCapacity((int)target)) {
 				toBeRemoved = size - mCapacity;
 				if (toBeRemoved <= 0) {
 					return;
@@ -169,11 +170,34 @@ public class MapTileCache {
 	}
 
 	/**
+	 * @since 6.0.3
+	 */
+	private void refreshAdditionalLists() {
+		int index = 0;
+		for (final MapTileAreaComputer computer : mComputers) {
+			final MapTileArea area;
+			if (index < mAdditionalMapTileList.getList().size()) {
+				area = mAdditionalMapTileList.getList().get(index);
+			} else {
+				area = new MapTileArea();
+				mAdditionalMapTileList.getList().add(area);
+			}
+			computer.computeFromSource(mMapTileArea, area);
+			index ++;
+		}
+		while (index < mAdditionalMapTileList.getList().size()) {
+			mAdditionalMapTileList.getList().remove(mAdditionalMapTileList.getList().size() - 1);
+		}
+	}
+
+	/**
 	 * @since 6.0.2
 	 */
 	private boolean shouldKeepTile(final long pMapTileIndex) {
-		// fastest checks first
-		if (mMapTileList.contains(pMapTileIndex)) {
+		if (mMapTileArea.contains(pMapTileIndex)) {
+			return true;
+		}
+		if (mAdditionalMapTileList.contains(pMapTileIndex)) {
 			return true;
 		}
 		for(final MapTileContainer container : mProtectors) {
@@ -181,17 +205,21 @@ public class MapTileCache {
 				return true;
 			}
 		}
-		if (mAdditionalMapTileList.contains(pMapTileIndex)) {
-			return true;
-		}
 		return false;
 	}
 
 	/**
-	 * @since 6.0.0
+	 * @since 6.0.3
 	 */
-	public MapTileList getMapTileList() {
-		return  mMapTileList;
+	public MapTileArea getMapTileArea() {
+		return mMapTileArea;
+	}
+
+	/**
+	 * @since 6.0.3
+	 */
+	public MapTileAreaList getAdditionalMapTileList() {
+		return mAdditionalMapTileList;
 	}
 
 	// ===========================================================

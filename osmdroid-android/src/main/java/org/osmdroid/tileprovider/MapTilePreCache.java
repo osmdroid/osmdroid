@@ -5,10 +5,11 @@ import android.graphics.drawable.Drawable;
 import org.osmdroid.tileprovider.modules.CantContinueException;
 import org.osmdroid.tileprovider.modules.MapTileModuleProviderBase;
 import org.osmdroid.util.GarbageCollector;
-import org.osmdroid.util.MapTileList;
-import org.osmdroid.util.MapTileListComputer;
+import org.osmdroid.util.MapTileArea;
+import org.osmdroid.util.MapTileAreaList;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -26,8 +27,8 @@ import java.util.List;
 public class MapTilePreCache {
 
     private final List<MapTileModuleProviderBase> mProviders = new ArrayList<>(); // cf. MapTileApproximater
-    private final MapTileList mTiles = new MapTileList();
-    private int mTilesIndex;
+    private final MapTileAreaList mTileAreas = new MapTileAreaList();
+    private Iterator<Long> mTileIndices;
     private final MapTileCache mCache;
     private final GarbageCollector mGC = new GarbageCollector(new Runnable() {
         @Override
@@ -64,12 +65,23 @@ public class MapTilePreCache {
      * when calling method {@link #next()}
      */
     private void refresh() {
-        synchronized (mTiles) {
-            mTiles.clear();
-            mTilesIndex = 0;
-            for (final MapTileListComputer computer : mCache.getProtectedTileComputers()) {
-                computer.computeFromSource(mCache.getMapTileList(), mTiles);
+        synchronized (mTileAreas) {
+            int index = 0;
+            for (final MapTileArea area : mCache.getAdditionalMapTileList().getList()) {
+                final MapTileArea copy;
+                if (index < mTileAreas.getList().size()) {
+                    copy = mTileAreas.getList().get(index);
+                } else {
+                    copy = new MapTileArea();
+                    mTileAreas.getList().add(copy);
+                }
+                copy.set(area);
+                index ++;
             }
+            while (index < mTileAreas.getList().size()) {
+                mTileAreas.getList().remove(mTileAreas.getList().size() - 1);
+            }
+            mTileIndices = mTileAreas.iterator();
         }
     }
 
@@ -80,11 +92,11 @@ public class MapTilePreCache {
     private long next() {
         while(true) {
             final long index;
-            synchronized (mTiles) {
-                if (mTilesIndex >= mTiles.getSize()) {
+            synchronized (mTileAreas) {
+                if(!mTileIndices.hasNext()) {
                     return -1;
                 }
-                index = mTiles.get(mTilesIndex++);
+                index = mTileIndices.next();
             }
             final Drawable drawable = mCache.getMapTile(index);
             if (drawable == null) {

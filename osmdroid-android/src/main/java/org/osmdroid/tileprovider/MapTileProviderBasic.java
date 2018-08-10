@@ -20,8 +20,8 @@ import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.tileprovider.util.SimpleRegisterReceiver;
 import org.osmdroid.util.MapTileIndex;
-import org.osmdroid.util.MapTileListBorderComputer;
-import org.osmdroid.util.MapTileListZoomComputer;
+import org.osmdroid.util.MapTileAreaBorderComputer;
+import org.osmdroid.util.MapTileAreaZoomComputer;
 
 /**
  * This top-level tile provider implements a basic tile request chain which includes a
@@ -111,9 +111,9 @@ public class MapTileProviderBasic extends MapTileProviderArray implements IMapTi
 		mTileProviderList.add(downloaderProvider);
 
 		// protected-cache-tile computers
-		getTileCache().getProtectedTileComputers().add(new MapTileListZoomComputer(-1));
-		getTileCache().getProtectedTileComputers().add(new MapTileListZoomComputer(1));
-		getTileCache().getProtectedTileComputers().add(new MapTileListBorderComputer(1, false));
+		getTileCache().getProtectedTileComputers().add(new MapTileAreaZoomComputer(-1));
+		getTileCache().getProtectedTileComputers().add(new MapTileAreaZoomComputer(1));
+		getTileCache().getProtectedTileComputers().add(new MapTileAreaBorderComputer(1));
 		getTileCache().setAutoEnsureCapacity(true);
 
 		// pre-cache providers
