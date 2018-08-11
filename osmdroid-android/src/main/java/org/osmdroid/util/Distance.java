@@ -11,7 +11,7 @@ package org.osmdroid.util;
 public class Distance {
 
     /**
-     * Compute the distance between two points
+     * Square of the distance between two points
      */
     public static double getSquaredDistanceToPoint(
             final double pFromX, final double pFromY, final double pToX, final double pToY) {
@@ -27,11 +27,8 @@ public class Distance {
             final double pFromX, final double pFromY,
             final double pAX, final double pAY, final double pBX, final double pBY
     ) {
-        if (pAX == pBX && pAY == pBY) {
-            return getSquaredDistanceToPoint(pAX, pAY, pFromX, pFromY);
-        }
-        final double cross = crossProduct(pAX, pAY, pBX, pBY, pFromX, pFromY);
-        return cross * cross / getSquaredDistanceToPoint(pAX, pAY, pBX, pBY);
+        return getSquaredDistanceToProjection(pFromX, pFromY, pAX, pAY, pBX, pBY,
+                getProjectionFactorToLine(pFromX, pFromY, pAX, pAY, pBX, pBY));
     }
 
     /**
@@ -41,28 +38,58 @@ public class Distance {
             final double pFromX, final double pFromY,
             final double pAX, final double pAY, final double pBX, final double pBY
     ) {
-        if (pAX == pBX && pAY == pBY) {
-            return getSquaredDistanceToPoint(pAX, pAY, pFromX, pFromY);
-        }
-        double dot = dotProduct(pAX, pAY, pBX, pBY, pFromX, pFromY);
-        if (dot > 0) {
-            return getSquaredDistanceToPoint(pFromX, pFromY, pBX, pBY);
-        }
-        dot = dotProduct(pBX, pBY, pAX, pAY, pFromX, pFromY);
-        if (dot > 0) {
-            return getSquaredDistanceToPoint(pFromX, pFromY, pAX, pAY);
-        }
-        final double cross = crossProduct(pAX, pAY, pBX, pBY, pFromX, pFromY);
-        return cross * cross / getSquaredDistanceToPoint(pAX, pAY, pBX, pBY);
+        return getSquaredDistanceToProjection(pFromX, pFromY, pAX, pAY, pBX, pBY,
+                getProjectionFactorToSegment(pFromX, pFromY, pAX, pAY, pBX, pBY));
     }
 
     /**
-     * Compute the cross product AB x AC
+     * @since 6.0.3
+     * Square of the distance between a point and its projection on line AB
      */
-    private static double crossProduct(
+    public static double getSquaredDistanceToProjection(
+            final double pFromX, final double pFromY,
             final double pAX, final double pAY, final double pBX, final double pBY,
-            final double pCX, final double pCY) {
-        return (pBX - pAX) * (pCY - pAY) - (pBY - pAY) * (pCX - pAX);
+            final double pProjectionFactor
+    ) {
+        final double projectedX = pAX + (pBX - pAX) * pProjectionFactor;
+        final double projectedY = pAY + (pBY - pAY) * pProjectionFactor;
+        return getSquaredDistanceToPoint(pFromX, pFromY, projectedX, projectedY);
+    }
+
+    /**
+     * @since 6.0.3
+     * Projection factor on line AB from a point
+     * @return 0 if projected to A, 1 if projected to B, [0,1] if projected inside segment [A,B],
+     * &lt; 0 or &gt; 1 if projected outside of the segment
+     */
+    public static double getProjectionFactorToLine(
+            final double pFromX, final double pFromY,
+            final double pAX, final double pAY, final double pBX, final double pBY
+    ) {
+        if (pAX == pBX && pAY == pBY) {
+            return 0;
+        }
+        return dotProduct(pAX, pAY, pBX, pBY, pFromX, pFromY)
+                / getSquaredDistanceToPoint(pAX, pAY, pBX, pBY);
+    }
+
+    /**
+     * @since 6.0.3
+     * Projection factor on segment AB from a point
+     * @return [0,1]; 0 if projected to A, 1 if projected to B
+     */
+    public static double getProjectionFactorToSegment(
+            final double pFromX, final double pFromY,
+            final double pAX, final double pAY, final double pBX, final double pBY
+    ) {
+        final double result = getProjectionFactorToLine(pFromX, pFromY, pAX, pAY, pBX, pBY);
+        if (result < 0) {
+            return 0;
+        }
+        if (result > 1) {
+            return 1;
+        }
+        return result;
     }
 
     /**
@@ -71,6 +98,6 @@ public class Distance {
     private static double dotProduct(
             final double pAX, final double pAY, final double pBX, final double pBY,
             final double pCX, final double pCY) {
-        return (pBX - pAX) * (pCX - pBX) + (pBY - pAY) * (pCY - pBY);
+        return (pBX - pAX) * (pCX - pAX) + (pBY - pAY) * (pCY - pAY);
     }
 }

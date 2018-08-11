@@ -398,6 +398,17 @@ class LinearRing{
 	 */
 	boolean isCloseTo(final GeoPoint pPoint, final double tolerance,
 					  final Projection pProjection, final boolean pClosePath) {
+		return getCloseTo(pPoint, tolerance, pProjection, pClosePath) != null;
+	}
+
+	/**
+	 * @since 6.0.3
+	 * Detection is done in screen coordinates.
+	 * @param tolerance in pixels
+	 * @return the first GeoPoint of the Polyline close enough to the point
+	 */
+	GeoPoint getCloseTo(final GeoPoint pPoint, final double tolerance,
+						final Projection pProjection, final boolean pClosePath) {
 		if (!mPrecomputed){
 			computeProjectedAndDistances(pProjection);
 			mPrecomputed = true;
@@ -410,17 +421,30 @@ class LinearRing{
 		final PointL point0 = new PointL();
 		final PointL point1 = new PointL();
 		boolean first = true;
+		int index = 0;
 		for (final PointL point : mPointsForMilestones) {
 			point1.set(point);
 			if (first) {
 				first = false;
-			} else if (squaredTolerance > Distance.getSquaredDistanceToSegment(
-					pixel.x, pixel.y, point0.x, point0.y, point1.x, point1.y)) {
-				return true;
+			} else {
+				final double projectionFactor = Distance.getProjectionFactorToSegment(pixel.x, pixel.y, point0.x, point0.y, point1.x, point1.y);
+				final double squaredDistance = Distance.getSquaredDistanceToProjection(pixel.x, pixel.y, point0.x, point0.y, point1.x, point1.y, projectionFactor);
+				if (squaredTolerance > squaredDistance) {
+                    final long pointAX = mProjectedPoints[2 * (index - 1)];
+                    final long pointAY = mProjectedPoints[2 * (index - 1) + 1];
+                    final long pointBX = mProjectedPoints[2 * index];
+                    final long pointBY = mProjectedPoints[2 * index + 1];
+                    final long projectionX = (long) (pointAX + (pointBX - pointAX) * projectionFactor);
+                    final long projectionY = (long) (pointAY + (pointBY - pointAY) * projectionFactor);
+                    return MapView.getTileSystem().getGeoFromMercator(
+                            projectionX, projectionY, pProjection.mProjectedMapSize,
+                            null, false, false);
+				}
 			}
 			point0.set(point1);
+			index ++;
 		}
-		return false;
+		return null;
 	}
 
 	/**
