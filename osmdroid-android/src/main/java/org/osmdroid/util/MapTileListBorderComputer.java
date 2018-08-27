@@ -4,8 +4,10 @@ package org.osmdroid.util;
  * Compute a map tile list from a map tile list source: its border
  * @since 6.0.2
  * @author Fabrice Fontaine
+ * @deprecated Use {@link MapTileAreaBorderComputer} instead
  */
 
+@Deprecated
 public class MapTileListBorderComputer implements MapTileListComputer {
 
     private final int mBorder;

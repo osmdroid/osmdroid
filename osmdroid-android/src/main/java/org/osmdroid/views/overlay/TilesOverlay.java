@@ -283,16 +283,17 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 
 		@Override
 		public void initialiseLoop() {
-			getTileCache().getMapTileList().clear();
+			// do nothing
 		}
 
 		@Override
 		public void handleTile(final long pMapTileIndex, int pX, int pY) {
-			getTileCache().getMapTileList().put(pMapTileIndex);
+			// do nothing
 		}
 
 		@Override
 		public void finaliseLoop() {
+			getTileCache().getMapTileArea().set(mTileZoomLevel, mTiles);
 			getTileCache().maintenance();
 		}
 

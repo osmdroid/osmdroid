@@ -4,7 +4,6 @@ package org.osmdroid.config;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import org.osmdroid.tileprovider.LRUMapTileCache;
 import org.osmdroid.tileprovider.MapTileCache;
 import org.osmdroid.tileprovider.MapTileProviderBase;
 
@@ -51,7 +50,6 @@ public interface IConfigurationProvider {
 
     /**
      * Typically used to enable additional debugging
-     * from {@link org.osmdroid.views.util.constants.MapViewConstants}
      *
      * @return
      */
@@ -124,7 +122,7 @@ public interface IConfigurationProvider {
 
     /**
      * Initial tile cache size (in memory). The size will be increased as required by calling
-     * {@link LRUMapTileCache#ensureCapacity(int)} The tile cache will always be at least 3x3.
+     * {@link MapTileCache#ensureCapacity(int)} The tile cache will always be at least 3x3.
      * from {@link org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants}
      * used by MapTileCache
      *
@@ -135,7 +133,7 @@ public interface IConfigurationProvider {
 
     /**
      * Initial tile cache size (in memory). The size will be increased as required by calling
-     * {@link LRUMapTileCache#ensureCapacity(int)} The tile cache will always be at least 3x3.
+     * {@link MapTileCache#ensureCapacity(int)} The tile cache will always be at least 3x3.
      * from {@link org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants}
      * used by MapTileCache
      *

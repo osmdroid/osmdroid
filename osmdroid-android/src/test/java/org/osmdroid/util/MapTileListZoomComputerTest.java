@@ -11,8 +11,10 @@ import java.util.Set;
  * Unit tests related to {@link MapTileListZoomComputer}
  * @since 6.0.2
  * @author Fabrice Fontaine
+ * @deprecated Use {@link MapTileAreaZoomComputerTest} instead
  */
 
+@Deprecated
 public class MapTileListZoomComputerTest {
 
     @Test
