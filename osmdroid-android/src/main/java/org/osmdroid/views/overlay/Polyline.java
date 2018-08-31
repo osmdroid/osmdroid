@@ -180,7 +180,19 @@ public class Polyline extends OverlayWithIW {
      * @return true if the Polyline is close enough to the point.
      */
     public boolean isCloseTo(GeoPoint point, double tolerance, MapView mapView) {
-        return mOutline.isCloseTo(point, tolerance, mapView.getProjection(), false);
+        return getCloseTo(point, tolerance, mapView) != null;
+    }
+
+    /**
+     * @since 6.0.3
+     * Detection is done is screen coordinates.
+     *
+     * @param point
+     * @param tolerance in pixels
+     * @return the first GeoPoint of the Polyline close enough to the point
+     */
+    public GeoPoint getCloseTo(GeoPoint point, double tolerance, MapView mapView) {
+        return mOutline.getCloseTo(point, tolerance, mapView.getProjection(), false);
     }
 
     /**
@@ -212,15 +224,15 @@ public class Polyline extends OverlayWithIW {
         final Projection pj = mapView.getProjection();
         GeoPoint eventPos = (GeoPoint) pj.fromPixels((int) event.getX(), (int) event.getY());
         double tolerance = mPaint.getStrokeWidth() * mDensity;
-        boolean touched = isCloseTo(eventPos, tolerance, mapView);
-        if (touched) {
+        final GeoPoint closest = getCloseTo(eventPos, tolerance, mapView);
+        if (closest != null) {
             if (mOnClickListener == null) {
-                return onClickDefault(this, mapView, eventPos);
+                return onClickDefault(this, mapView, closest);
             } else {
-                return mOnClickListener.onClick(this, mapView, eventPos);
+                return mOnClickListener.onClick(this, mapView, closest);
             }
         } else
-            return touched;
+            return false;
     }
 
     /**
