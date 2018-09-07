@@ -24,6 +24,8 @@ import org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase;
 import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.IterableWithSize;
+import org.osmdroid.util.MapTileArea;
+import org.osmdroid.util.MapTileAreaList;
 import org.osmdroid.util.MapTileIndex;
 import org.osmdroid.util.MyMath;
 import org.osmdroid.util.TileSystem;
@@ -35,13 +37,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
-
-;
 
 /**
  * Provides various methods for managing the local filesystem cache of osmdroid tiles: <br>
@@ -111,17 +109,25 @@ public class CacheManager {
         return mPendingTasks.size();
     }
 
+    /**
+     * @deprecated Use {@link TileSystem#getTileXFromLongitude(double, int)} and
+     * {@link TileSystem#getTileYFromLatitude(double, int)} instead
+     */
+    @Deprecated
     public static Point getMapTileFromCoordinates(final double aLat, final double aLon, final int zoom) {
-        final int y = (int) Math.floor((1 - Math.log(Math.tan(aLat * Math.PI / 180) + 1 / Math.cos(aLat * Math.PI / 180)) / Math.PI) / 2 * (1 << zoom));
-        final int x = (int) Math.floor((aLon + 180) / 360 * (1 << zoom));
+        final int y = MapView.getTileSystem().getTileYFromLatitude(aLat, zoom);
+        final int x = MapView.getTileSystem().getTileXFromLongitude(aLon, zoom);
         return new Point(x, y);
     }
 
+    /**
+     * @deprecated Use {@link TileSystem#getLatitudeFromTileY(int, int)} and
+     * {@link TileSystem#getLongitudeFromTileX(int, int)} instead
+     */
+    @Deprecated
     public static GeoPoint getCoordinatesFromMapTile(final int x, final int y, final int zoom) {
-
-        double n = Math.PI - 2 * Math.PI * y / (1 << zoom);
-        final double lat = (180 / Math.PI * Math.atan(0.5 * (Math.exp(n) - Math.exp(-n))));
-        final double lon = (360.0 * x / (1 << zoom)) - 180.0;
+        final double lat = MapView.getTileSystem().getLatitudeFromTileY(y, zoom);
+        final double lon = MapView.getTileSystem().getLongitudeFromTileX(x, zoom);
         return new GeoPoint(lat, lon);
     }
 
@@ -220,86 +226,11 @@ public class CacheManager {
      */
     static IterableWithSize<Long> getTilesCoverageIterable(final BoundingBox pBB,
                                                            final int pZoomMin, final int pZoomMax) {
-        return new IterableWithSize<Long>() {
-            private final Map<Integer, Rect> zoomToTilesMap = new LinkedHashMap<>();
-            private final int size;
-            {
-                int totalSize = 0;
-                for (int zoomLevel = pZoomMin; zoomLevel <= pZoomMax; zoomLevel++) {
-                    Rect tilesRect = getTilesRect(pBB, zoomLevel);
-                    int mapTileUpperBound = 1 << zoomLevel;
-                    int width = (tilesRect.width()) % mapTileUpperBound;
-                    int height = (tilesRect.height()) % mapTileUpperBound;
-                    totalSize += (width * height);
-                    zoomToTilesMap.put(zoomLevel, tilesRect);
-                }
-                size = totalSize;
-            }
-
-            @Override
-            public int size() {
-                return size;
-            }
-
-            @Override
-            public Iterator<Long> iterator() {
-                return new Iterator<Long>() {
-                    private Point currentPoint;
-                    private Point lowerRight;
-                    private Point upperLeft;
-                    private int currentZoom;
-                    private int mapTileUpperBound;
-                    {
-                        init(pZoomMin);
-                    }
-
-                    @Override
-                    public boolean hasNext() {
-                        return currentZoom <= pZoomMax;
-                    }
-
-                    @Override
-                    public Long next() {
-                        // save current point coordinates
-                        int x = MyMath.mod(currentPoint.x, mapTileUpperBound);
-                        int y = MyMath.mod(currentPoint.y, mapTileUpperBound);
-                        int zoomLevel = currentZoom;
-
-                        // now calculate the coordinates of the next point
-                        // if there's still a room for y to go then do so
-                        if (y < lowerRight.y - 1) {
-                            currentPoint.y++;
-                        } else if (x < lowerRight.x - 1) { //otherwise, if there's a room for x to go
-                            // switch to the next "column"
-                            currentPoint.y = upperLeft.y;
-                            currentPoint.x++;
-                        } else { // if the latter conditions fail it means currentPoint is the last one
-                            // for the current zoom. Move to the next zoom.
-                            init(zoomLevel + 1);
-                        }
-
-                        // return the tile index of the current point
-                        return MapTileIndex.getTileIndex(zoomLevel, x, y);
-                    }
-
-                    @Override
-                    public void remove() {
-                        throw new UnsupportedOperationException();
-                    }
-
-                    private void init(int zoomLevel) {
-                        currentZoom = zoomLevel;
-                        mapTileUpperBound = 1 << currentZoom;
-                        Rect tilesRect = zoomToTilesMap.get(currentZoom);
-                        if (tilesRect != null) {
-                            upperLeft = new Point(tilesRect.left, tilesRect.top);
-                            currentPoint = new Point(upperLeft);
-                            lowerRight = new Point(tilesRect.right, tilesRect.bottom);
-                        }
-                    }
-                };
-            }
-        };
+        final MapTileAreaList list = new MapTileAreaList();
+        for (int zoomLevel = pZoomMin; zoomLevel <= pZoomMax; zoomLevel++) {
+            list.getList().add(new MapTileArea().set(zoomLevel, getTilesRect(pBB, zoomLevel)));
+        }
+        return list;
     }
 
     /**
@@ -309,24 +240,22 @@ public class CacheManager {
      * @param pZoomLevel the given zoom level
      * @return the {@link Rect} reflecting the tiles coverage
      */
-    private static Rect getTilesRect(final BoundingBox pBB,
-                                     final int pZoomLevel){
+    public static Rect getTilesRect(final BoundingBox pBB,
+                                    final int pZoomLevel){
         final int mapTileUpperBound = 1 << pZoomLevel;
-        Point lowerRight = getMapTileFromCoordinates(
-                pBB.getLatSouth(), pBB.getLonEast(), pZoomLevel);
-        final Point upperLeft = getMapTileFromCoordinates(
-                pBB.getLatNorth(), pBB.getLonWest(), pZoomLevel);
-        int width = lowerRight.x - upperLeft.x + 1; // handling the modulo
+        final int right = MapView.getTileSystem().getTileXFromLongitude(pBB.getLonEast(), pZoomLevel);
+        final int bottom = MapView.getTileSystem().getTileYFromLatitude(pBB.getLatSouth(), pZoomLevel);
+        final int left = MapView.getTileSystem().getTileXFromLongitude(pBB.getLonWest(), pZoomLevel);
+        final int top = MapView.getTileSystem().getTileYFromLatitude(pBB.getLatNorth(), pZoomLevel);
+        int width = right - left + 1; // handling the modulo
         if (width <= 0) {
             width += mapTileUpperBound;
         }
-        int height = lowerRight.y - upperLeft.y + 1; // handling the modulo
+        int height = bottom - top + 1; // handling the modulo
         if (height <= 0) {
             height += mapTileUpperBound;
         }
-        lowerRight = new Point(upperLeft.x + width, upperLeft.y + height);
-
-        return new Rect(upperLeft.x, upperLeft.y, lowerRight.x, lowerRight.y);
+        return new Rect(left, top, left + width - 1, top + height - 1);
     }
 
     /**
@@ -387,7 +316,9 @@ public class CacheManager {
                         wayPoint.setLatitude(((latRad * 180.0 / Math.PI)));
                         wayPoint.setLongitude(((lonRad * 180.0 / Math.PI)));
 
-                        tile = getMapTileFromCoordinates(wayPoint.getLatitude(), wayPoint.getLongitude(), pZoomLevel);
+                        tile = new Point(
+                            MapView.getTileSystem().getTileXFromLongitude(wayPoint.getLongitude(), pZoomLevel),
+                            MapView.getTileSystem().getTileYFromLatitude(wayPoint.getLatitude(), pZoomLevel));
 
                         if (!tile.equals(prevTile)) {
 //Log.d(Constants.APP_TAG, "New Tile lat " + tile.x + " lon " + tile.y);
@@ -407,7 +338,9 @@ public class CacheManager {
                 }
 
             } else {
-                tile = getMapTileFromCoordinates(geoPoint.getLatitude(), geoPoint.getLongitude(), pZoomLevel);
+                tile = new Point(
+                    MapView.getTileSystem().getTileXFromLongitude(geoPoint.getLongitude(), pZoomLevel),
+                    MapView.getTileSystem().getTileYFromLatitude(geoPoint.getLatitude(), pZoomLevel));
                 prevTile = tile;
 
                 int ofsx = tile.x >= 0 ? 0 : -tile.x;
@@ -981,16 +914,16 @@ public class CacheManager {
      */
 
     public BoundingBox extendedBoundsFromGeoPoints(ArrayList<GeoPoint> geoPoints, int minZoomLevel) {
-        BoundingBox bb = BoundingBox.fromGeoPoints(geoPoints);
-
-        Point mLowerRight = getMapTileFromCoordinates(bb.getLatSouth() , bb.getLonEast() , minZoomLevel);
-        GeoPoint lowerRightPoint = getCoordinatesFromMapTile(mLowerRight.x+1, mLowerRight.y+1, minZoomLevel);
-        Point mUpperLeft = getMapTileFromCoordinates(bb.getLatNorth() , bb.getLonWest(), minZoomLevel);
-        GeoPoint upperLeftPoint = getCoordinatesFromMapTile(mUpperLeft.x-1, mUpperLeft.y-1, minZoomLevel);
-
-        BoundingBox extendedBounds = new BoundingBox(upperLeftPoint.getLatitude(), upperLeftPoint.getLongitude(), lowerRightPoint.getLatitude(), lowerRightPoint.getLongitude());
-
-        return extendedBounds;
+        final BoundingBox bb = BoundingBox.fromGeoPoints(geoPoints);
+        final int right = MapView.getTileSystem().getTileXFromLongitude(bb.getLonEast(), minZoomLevel);
+        final int bottom = MapView.getTileSystem().getTileYFromLatitude(bb.getLatSouth(), minZoomLevel);
+        final int left = MapView.getTileSystem().getTileXFromLongitude(bb.getLonWest(), minZoomLevel);
+        final int top = MapView.getTileSystem().getTileYFromLatitude(bb.getLatNorth(), minZoomLevel);
+        return new BoundingBox(
+                MapView.getTileSystem().getLatitudeFromTileY(top - 1, minZoomLevel),
+                MapView.getTileSystem().getLongitudeFromTileX(right + 1, minZoomLevel),
+                MapView.getTileSystem().getLatitudeFromTileY(bottom + 1, minZoomLevel),
+                MapView.getTileSystem().getLongitudeFromTileX(left - 1, minZoomLevel));
     }
 
     /**

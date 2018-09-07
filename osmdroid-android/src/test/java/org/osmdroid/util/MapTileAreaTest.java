@@ -52,6 +52,20 @@ public class MapTileAreaTest {
     }
 
     @Test
+    public void testCorners() {
+        final MapTileArea area = new MapTileArea();
+        for (int zoom = 0; zoom <= TileSystem.getMaximumZoomLevel(); zoom++) {
+            final int mapTileUpperBound = getMapTileUpperBound(zoom);
+            final int max = mapTileUpperBound - 1;
+            setNewWorld(area, zoom);
+            Assert.assertTrue(area.contains(MapTileIndex.getTileIndex(zoom, 0, 0)));
+            Assert.assertTrue(area.contains(MapTileIndex.getTileIndex(zoom, 0, max)));
+            Assert.assertTrue(area.contains(MapTileIndex.getTileIndex(zoom, max, max)));
+            Assert.assertTrue(area.contains(MapTileIndex.getTileIndex(zoom, max, 0)));
+        }
+    }
+
+    @Test
     public void testNextSize() {
         final Set<Long> set = new HashSet<>();
         final MapTileArea area = new MapTileArea();
