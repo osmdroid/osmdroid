@@ -68,16 +68,16 @@ public class SampleWithMinimapItemizedOverlayWithFocus extends BaseSampleFragmen
 		{
 			/* Create a static ItemizedOverlay showing some Markers on various cities. */
 			final ArrayList<OverlayItem> items = new ArrayList<>();
-			items.add(new OverlayItem("Hannover", "Tiny SampleDescription", new GeoPoint(52370816,
-					9735936))); // Hannover
+			items.add(new OverlayItem("Hannover", "Tiny SampleDescription", new GeoPoint(52.370816,
+					9.735936))); // Hannover
 			items.add(new OverlayItem("Berlin", "This is a relatively short SampleDescription.",
-					new GeoPoint(52518333, 13408333))); // Berlin
+					new GeoPoint(52.518333, 13.408333))); // Berlin
 			items.add(new OverlayItem(
 					"Washington",
 					"This SampleDescription is a pretty long one. Almost as long as a the great wall in china.",
-					new GeoPoint(38895000, -77036667))); // Washington
-			items.add(new OverlayItem("San Francisco", "SampleDescription", new GeoPoint(37779300,
-					-122419200))); // San Francisco
+					new GeoPoint(38.895, -77.036667))); // Washington
+			items.add(new OverlayItem("San Francisco", "SampleDescription", new GeoPoint(37.7793,
+					-122.4192))); // San Francisco
 
 			/* OnTapListener for the Markers, shows a simple Toast. */
 			mMyLocationOverlay = new ItemizedOverlayWithFocus<>(items,
@@ -124,7 +124,7 @@ public class SampleWithMinimapItemizedOverlayWithFocus extends BaseSampleFragmen
 		}
 
 		// Zoom and center on the focused item.
-		mMapView.getController().setZoom(5);
+		mMapView.getController().setZoom(5.);
         IGeoPoint geoPoint = mMyLocationOverlay.getFocusedItem().getPoint();
 		mMapView.getController().animateTo(geoPoint);
 

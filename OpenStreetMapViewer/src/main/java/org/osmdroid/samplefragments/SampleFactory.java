@@ -27,6 +27,8 @@ import org.osmdroid.samplefragments.data.SampleGridlines;
 import org.osmdroid.samplefragments.data.SampleIISTracker;
 import org.osmdroid.samplefragments.data.SampleIISTrackerMotionTrails;
 import org.osmdroid.samplefragments.data.SampleMarker;
+import org.osmdroid.samplefragments.data.SampleItemizedOverlayMultiClick;
+import org.osmdroid.samplefragments.data.SampleMarkerMultiClick;
 import org.osmdroid.samplefragments.data.SampleMilitaryIconsItemizedIcons;
 import org.osmdroid.samplefragments.data.SampleMilitaryIconsMarker;
 import org.osmdroid.samplefragments.data.SampleOsmPath;
@@ -295,6 +297,8 @@ public final class SampleFactory implements ISampleFactory {
         mSamples.add(LayerManager.class);
         mSamples.add(BookmarkSample.class);
         mSamples.add(SampleLieFi.class);
+        mSamples.add(SampleItemizedOverlayMultiClick.class);
+        mSamples.add(SampleMarkerMultiClick.class);
     }
 
     public void addSample(Class<? extends BaseSampleFragment> clz) {
