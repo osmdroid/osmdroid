@@ -100,7 +100,7 @@ public class SampleMarkerMultiClick extends BaseSampleFragment {
 		mMapView.post(new Runnable() {
 			@Override
 			public void run() {
-				mMapView.zoomToBoundingBox(box, true, 50);
+				mMapView.zoomToBoundingBox(box, false, 50);
 			}
 		});
 	}
