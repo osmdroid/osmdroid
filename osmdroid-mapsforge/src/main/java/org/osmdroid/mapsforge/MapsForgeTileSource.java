@@ -12,14 +12,11 @@ import org.mapsforge.core.model.Tile;
 import org.mapsforge.map.android.graphics.AndroidGraphicFactory;
 import org.mapsforge.map.android.graphics.AndroidTileBitmap;
 import org.mapsforge.map.datastore.MultiMapDataStore;
-import org.mapsforge.map.layer.cache.InMemoryTileCache;
-import org.mapsforge.map.layer.labels.TileBasedLabelStore;
-import org.mapsforge.map.layer.renderer.DatabaseRenderer;
+import org.mapsforge.map.layer.renderer.DirectRenderer;
 import org.mapsforge.map.layer.renderer.RendererJob;
 import org.mapsforge.map.layer.hills.HillsRenderConfig;
 import org.mapsforge.map.model.DisplayModel;
 import org.mapsforge.map.reader.MapFile;
-import org.mapsforge.map.reader.ReadBuffer;
 import org.mapsforge.map.rendertheme.InternalRenderTheme;
 import org.mapsforge.map.rendertheme.XmlRenderTheme;
 import org.mapsforge.map.rendertheme.rule.RenderThemeFuture;
@@ -46,7 +43,7 @@ public class MapsForgeTileSource extends BitmapTileSourceBase {
     private final float scale = DisplayModel.getDefaultUserScaleFactor();
     private RenderThemeFuture theme = null;
     private XmlRenderTheme mXmlRenderTheme = null;
-    private DatabaseRenderer renderer;
+    private DirectRenderer renderer;
     private HillsRenderConfig hillsRenderConfig;
 
     private MultiMapDataStore mapDatabase;
@@ -81,9 +78,11 @@ public class MapsForgeTileSource extends BitmapTileSourceBase {
         //renderer = new DatabaseRenderer(mapDatabase, AndroidGraphicFactory.INSTANCE, tileCache,
         //        new TileBasedLabelStore(tileCache.getCapacityFirstLevel()), true, true);
         // mapsforge0.8.0
-        InMemoryTileCache tileCache = new InMemoryTileCache(2);
-        renderer = new DatabaseRenderer(mapDatabase, AndroidGraphicFactory.INSTANCE, tileCache,
-                new TileBasedLabelStore(tileCache.getCapacityFirstLevel()), true, true, hillsRenderConfig);
+        //InMemoryTileCache tileCache = new InMemoryTileCache(2);
+        //renderer = new DatabaseRenderer(mapDatabase, AndroidGraphicFactory.INSTANCE, tileCache,
+        //        new TileBasedLabelStore(tileCache.getCapacityFirstLevel()), true, true, hillsRenderConfig);
+        // mapsforge0.10.1
+        renderer = new DirectRenderer(mapDatabase, AndroidGraphicFactory.INSTANCE, true, hillsRenderConfig);
 
         minZoom = MIN_ZOOM;
         maxZoom = renderer.getZoomLevelMax();
@@ -208,9 +207,6 @@ public class MapsForgeTileSource extends BitmapTileSourceBase {
 
     public static void createInstance(Application app) {
         AndroidGraphicFactory.createInstance(app);
-
-        // see https://github.com/mapsforge/mapsforge/issues/868
-        ReadBuffer.setMaximumBufferSize(6500000);
     }
 
 

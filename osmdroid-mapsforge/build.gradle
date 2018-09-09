@@ -13,9 +13,9 @@ dependencies {
     testCompile "junit:junit:${project.property('junit.version')}"
 
     //Mapsforge rendering and database support, which is LGPL
-    compile 'org.mapsforge:mapsforge-map-android:0.8.0'
-    compile 'org.mapsforge:mapsforge-map:0.8.0'
-    compile 'org.mapsforge:mapsforge-themes:0.8.0'
+    compile 'org.mapsforge:mapsforge-map-android:master-SNAPSHOT' // TODO put the latest version number when available, something like 0.10.1
+    compile 'org.mapsforge:mapsforge-map:master-SNAPSHOT' // TODO put the latest version number when available, something like 0.10.1
+    compile 'org.mapsforge:mapsforge-themes:master-SNAPSHOT' // TODO put the latest version number when available, something like 0.10.1
 
     //osmdroid which is ASF licensed
     compile project(':osmdroid-android')
