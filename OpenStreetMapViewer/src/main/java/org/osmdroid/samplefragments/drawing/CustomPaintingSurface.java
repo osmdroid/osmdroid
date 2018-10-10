@@ -136,6 +136,7 @@ public class CustomPaintingSurface extends View {
                         line.setTitle("This is a polyline");
                         line.setPoints(geoPoints);
                         line.showInfoWindow();
+                        line.getPaint().setStrokeCap(Paint.Cap.ROUND);
                         //example below
                         /*
                         line.setOnClickListener(new Polyline.OnClickListener() {

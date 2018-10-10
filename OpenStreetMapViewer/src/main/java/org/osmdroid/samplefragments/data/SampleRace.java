@@ -14,6 +14,7 @@ import android.os.Build;
 import android.os.Bundle;
 
 import org.osmdroid.samplefragments.BaseSampleFragment;
+import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.overlay.LineDrawer;
 import org.osmdroid.views.overlay.milestones.MilestoneBitmapDisplayer;
@@ -48,6 +49,11 @@ public class SampleRace extends BaseSampleFragment {
     private double mAnimatedMetersSoFar;
     private boolean mAnimationEnded;
 
+    /**
+     * @since 6.0.3
+     */
+    private final List<GeoPoint> mGeoPoints = getGeoPoints();
+
     @Override
     public String getSampleTitle() {
         return TITLE;
@@ -55,8 +61,13 @@ public class SampleRace extends BaseSampleFragment {
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-        mMapView.getController().setZoom(13.2);
-        mMapView.getController().setCenter(new GeoPoint(48.85792514768071,2.342640914879439));
+        mMapView.post(new Runnable() {
+            @Override
+            public void run() {
+                final BoundingBox boundingBox = BoundingBox.fromGeoPoints(mGeoPoints);
+                mMapView.zoomToBoundingBox(boundingBox, false, 30);
+            }
+        });
 
         super.onActivityCreated(savedInstanceState);
     }
@@ -68,7 +79,8 @@ public class SampleRace extends BaseSampleFragment {
         final Polyline line = new Polyline(mMapView);
         line.setColor(COLOR_POLYLINE_STATIC);
         line.setWidth(LINE_WIDTH_BIG);
-        line.setPoints(getGeoPoints());
+        line.setPoints(mGeoPoints);
+        line.getPaint().setStrokeCap(Paint.Cap.ROUND);
         final List<MilestoneManager> managers = new ArrayList<>();
         final MilestoneMeterDistanceSliceLister slicerForPath = new MilestoneMeterDistanceSliceLister();
         final Bitmap bitmap = BitmapFactory.decodeResource(getResources(), org.osmdroid.library.R.drawable.next);
@@ -122,6 +134,7 @@ public class SampleRace extends BaseSampleFragment {
         paint.setStyle(Paint.Style.STROKE);
         paint.setAntiAlias(true);
         paint.setColor(pColor);
+        paint.setStrokeCap(Paint.Cap.ROUND);
         return paint;
     }
 
