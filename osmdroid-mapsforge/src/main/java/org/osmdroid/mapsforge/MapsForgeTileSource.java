@@ -1,8 +1,6 @@
 package org.osmdroid.mapsforge;
 
 import android.app.Application;
-import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
@@ -199,10 +197,7 @@ public class MapsForgeTileSource extends BitmapTileSourceBase {
         } catch (Exception ex) {
             Log.d(IMapView.LOGTAG, "###################### Mapsforge tile generation failed", ex);
         }
-        //Make the bad tile easy to spot
-        Bitmap bitmap = Bitmap.createBitmap(TILE_SIZE_PIXELS, TILE_SIZE_PIXELS, Bitmap.Config.RGB_565);
-        bitmap.eraseColor(Color.YELLOW);
-        return new BitmapDrawable(bitmap);
+        return null;
     }
 
     public static void createInstance(Application app) {
@@ -217,5 +212,14 @@ public class MapsForgeTileSource extends BitmapTileSourceBase {
         if (mapDatabase!=null)
             mapDatabase.close();
         mapDatabase=null;
+    }
+
+    /**
+     * @since 6.0.3
+     */
+    public void addTileRefresher(DirectRenderer.TileRefresher pDirectTileRefresher) {
+        if (pDirectTileRefresher != null) {
+            renderer.addTileRefresher(pDirectTileRefresher);
+        }
     }
 }

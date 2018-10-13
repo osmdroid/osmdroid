@@ -475,4 +475,17 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback {
 	 * @return the number of tile requests currently in the queue
      */
 	public abstract long getQueueSize();
+
+	/**
+	 * Expire a tile that is in the memory cache
+	 * Typical use is for mapsforge, where the contents of the tile can evolve,
+	 * depending on the neighboring tiles that have been displayed so far.
+	 * @since 6.0.3
+	 */
+	public void expireInMemoryCache(final long pMapTileIndex) {
+		final Drawable drawable = mTileCache.getMapTile(pMapTileIndex);
+		if (drawable != null) {
+			ExpirableBitmapDrawable.setState(drawable, ExpirableBitmapDrawable.EXPIRED);
+		}
+	}
 }

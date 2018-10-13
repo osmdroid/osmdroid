@@ -3,6 +3,8 @@ package org.osmdroid.mapsforge;
 
 import android.os.Build;
 
+import org.mapsforge.core.model.Tile;
+import org.mapsforge.map.layer.renderer.DirectRenderer;
 import org.osmdroid.tileprovider.IRegisterReceiver;
 import org.osmdroid.tileprovider.MapTileProviderArray;
 import org.osmdroid.tileprovider.modules.IFilesystemCache;
@@ -10,6 +12,7 @@ import org.osmdroid.tileprovider.modules.MapTileFileArchiveProvider;
 import org.osmdroid.tileprovider.modules.MapTileFilesystemProvider;
 import org.osmdroid.tileprovider.modules.SqlTileWriter;
 import org.osmdroid.tileprovider.modules.TileWriter;
+import org.osmdroid.util.MapTileIndex;
 
 /**
  * This lets you hook up multiple MapsForge files, it will render to the screen the first
@@ -58,6 +61,14 @@ public class MapsForgeTileProvider extends MapTileProviderArray {
         // is defined by the superclass.
         mTileProviderList.add(moduleProvider);
 
+        // In mapsforge the tiles bitmap may need to be refreshed according to neighboring tiles' labels
+        pTileSource.addTileRefresher(new DirectRenderer.TileRefresher() {
+            @Override
+            public void refresh(final Tile pTile) {
+                final long index = MapTileIndex.getTileIndex(pTile.zoomLevel, pTile.tileX, pTile.tileY);
+                expireInMemoryCache(index);
+            }
+        });
     }
 
 
