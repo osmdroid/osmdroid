@@ -301,4 +301,12 @@ public class Polyline extends OverlayWithIW {
             mMilestoneManagers = pMilestoneManagers;
         }
     }
+
+    /**
+     * @since 6.0.3
+     * @return aggregate distance (in meters)
+     */
+    public double getDistance() {
+        return mOutline.getDistance();
+    }
 }

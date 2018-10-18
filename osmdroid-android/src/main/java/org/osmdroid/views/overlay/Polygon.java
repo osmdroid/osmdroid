@@ -399,4 +399,11 @@ public class Polygon extends OverlayWithIW {
 		mOnClickListener = listener;
 	}
 
+	/**
+	 * @since 6.0.3
+	 * @return aggregate distance (in meters)
+	 */
+	public double getDistance() {
+		return mOutline.getDistance();
+	}
 }
