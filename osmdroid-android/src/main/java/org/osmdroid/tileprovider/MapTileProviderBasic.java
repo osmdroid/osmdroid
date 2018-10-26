@@ -54,8 +54,7 @@ public class MapTileProviderBasic extends MapTileProviderArray implements IMapTi
 	 * Creates a {@link MapTileProviderBasic}.
 	 */
 	public MapTileProviderBasic(final Context pContext, final ITileSource pTileSource) {
-		this(new SimpleRegisterReceiver(pContext), new NetworkAvailabliltyCheck(pContext),
-				pTileSource, pContext,null);
+		this(pContext, pTileSource, null);
 	}
 
 	/**
@@ -88,12 +87,8 @@ public class MapTileProviderBasic extends MapTileProviderArray implements IMapTi
 				pRegisterReceiver, pContext.getAssets(), pTileSource);
 		mTileProviderList.add(assetsProvider);
 
-		final MapTileFileStorageProviderBase cacheProvider;
-		if (Build.VERSION.SDK_INT < 10) {
-			cacheProvider = new MapTileFilesystemProvider(pRegisterReceiver, pTileSource);
-		} else {
-			cacheProvider = new MapTileSqlCacheProvider(pRegisterReceiver, pTileSource);
-		}
+		final MapTileFileStorageProviderBase cacheProvider =
+				getMapTileFileStorageProviderBase(pRegisterReceiver, pTileSource, tileWriter);
 		mTileProviderList.add(cacheProvider);
 
 		final MapTileFileArchiveProvider archiveProvider = new MapTileFileArchiveProvider(
@@ -169,5 +164,20 @@ public class MapTileProviderBasic extends MapTileProviderArray implements IMapTi
 		}
 		final int zoom = MapTileIndex.getZoom(pMapTileIndex);
 		return zoom < zoomMin || zoom > zoomMax;
+	}
+
+	/**
+	 * @since 6.0.3
+	 * cf. https://github.com/osmdroid/osmdroid/issues/1172
+	 */
+	public static MapTileFileStorageProviderBase getMapTileFileStorageProviderBase(
+			final IRegisterReceiver pRegisterReceiver,
+			final ITileSource pTileSource,
+			final IFilesystemCache pTileWriter
+	) {
+		if (pTileWriter instanceof TileWriter) {
+			return new MapTileFilesystemProvider(pRegisterReceiver, pTileSource);
+		}
+		return new MapTileSqlCacheProvider(pRegisterReceiver, pTileSource);
 	}
 }
