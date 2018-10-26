@@ -34,6 +34,11 @@ public class OpenStreetMapTileProviderConstants {
 	public static final String HTTP_EXPIRES_HEADER = "Expires";
 
 	/**
+	 * @since 6.0.3
+	 */
+	public static final String HTTP_CACHECONTROL_HEADER = "Cache-Control";
+
+	/**
 	 * this is the default and expected http header for Expires, date time format that is used
 	 * for more http servers. Can be overridden via Configuration
 	 * @since 5.1
