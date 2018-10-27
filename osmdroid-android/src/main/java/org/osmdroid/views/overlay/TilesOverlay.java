@@ -356,7 +356,7 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 	@Override
 	public boolean onCreateOptionsMenu(final Menu pMenu, final int pMenuIdOffset,
 			final MapView pMapView) {
-		final SubMenu mapMenu = pMenu.addSubMenu(0, MENU_MAP_MODE + pMenuIdOffset, Menu.NONE,
+		final SubMenu mapMenu = pMenu.addSubMenu(0, Menu.NONE, Menu.NONE,
 				R.string.map_mode).setIcon(R.drawable.ic_menu_mapmode);
 
 		for (int a = 0; a < TileSourceFactory.getTileSources().size(); a++) {

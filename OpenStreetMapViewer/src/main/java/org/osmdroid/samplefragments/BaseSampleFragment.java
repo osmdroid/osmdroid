@@ -225,7 +225,7 @@ public abstract class BaseSampleFragment extends Fragment {
         } else if (item.getItemId() == MENU_ROTATE_COUNTER_CLOCKWISE){
             float currentRotation = mMapView.getMapOrientation() - 10;
             if (currentRotation < 0)
-                currentRotation = 360-currentRotation;
+                currentRotation = currentRotation + 360;
             mMapView.setMapOrientation(currentRotation, true);
             return true;
         } else if (mMapView.getOverlayManager().onOptionsItemSelected(item, MENU_LAST_ID, mMapView)) {
