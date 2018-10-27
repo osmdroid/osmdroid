@@ -16,7 +16,6 @@ import android.os.Bundle;
 import org.osmdroid.samplefragments.BaseSampleFragment;
 import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
-import org.osmdroid.views.overlay.LineDrawer;
 import org.osmdroid.views.overlay.milestones.MilestoneBitmapDisplayer;
 import org.osmdroid.views.overlay.milestones.MilestoneDisplayer;
 import org.osmdroid.views.overlay.milestones.MilestoneLister;
@@ -24,7 +23,7 @@ import org.osmdroid.views.overlay.milestones.MilestoneManager;
 import org.osmdroid.views.overlay.milestones.MilestoneMeterDistanceLister;
 import org.osmdroid.views.overlay.milestones.MilestoneMeterDistanceSliceLister;
 import org.osmdroid.views.overlay.milestones.MilestonePathDisplayer;
-import org.osmdroid.views.overlay.milestones.MilestoneStep;
+import org.osmdroid.views.overlay.milestones.MilestoneLineDisplayer;
 import org.osmdroid.views.overlay.milestones.MilestoneVertexLister;
 import org.osmdroid.views.overlay.Polyline;
 
@@ -213,47 +212,7 @@ public class SampleRace extends BaseSampleFragment {
      */
     private MilestoneManager getAnimatedPathManager(final MilestoneLister pMilestoneLister) {
         final Paint slicePaint = getStrokePaint(COLOR_POLYLINE_ANIMATED, LINE_WIDTH_BIG);
-        return new MilestoneManager(
-                pMilestoneLister,
-                new MilestoneDisplayer(0, false) {
-                    private boolean mFirst;
-                    private LineDrawer mLineDrawer = new LineDrawer(256) {
-                        @Override
-                        public void flush() {
-                            super.flush();
-                            mFirst = true;
-                        }
-                    };
-
-                    @Override
-                    public void drawBegin(Canvas pCanvas) {
-                        mLineDrawer.init();
-                        mLineDrawer.setCanvas(pCanvas);
-                        mLineDrawer.setPaint(slicePaint);
-                        mFirst = true;
-                    }
-
-                    @Override
-                    public void draw(Canvas pCanvas, MilestoneStep pStep) {
-                        if (mFirst) {
-                            mFirst = false;
-                        } else {
-                            mLineDrawer.add(pStep.getX(), pStep.getY());
-                        }
-                        mLineDrawer.add(pStep.getX(), pStep.getY());
-                    }
-
-                    @Override
-                    public void drawEnd(Canvas pCanvas) {
-                        mLineDrawer.end();
-                    }
-
-                    @Override
-                    protected void draw(final Canvas pCanvas, final Object pParameter) {
-                        // do nothing as we override the draw method that calls this one
-                    }
-                }
-        );
+        return new MilestoneManager(pMilestoneLister, new MilestoneLineDisplayer(slicePaint));
     }
 
     /**

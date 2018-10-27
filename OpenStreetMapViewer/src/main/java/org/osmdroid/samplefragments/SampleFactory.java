@@ -52,6 +52,7 @@ import org.osmdroid.samplefragments.drawing.SampleDrawPolylineWithoutVerticalWra
 import org.osmdroid.samplefragments.drawing.SampleDrawPolylineWithoutWrapping;
 import org.osmdroid.samplefragments.events.MarkerDrag;
 import org.osmdroid.samplefragments.events.SampleAnimateTo;
+import org.osmdroid.samplefragments.data.SampleMilestonesNonRepetitive;
 import org.osmdroid.samplefragments.events.SampleAnimatedZoomToLocation;
 import org.osmdroid.samplefragments.events.SampleLimitedScrollArea;
 import org.osmdroid.samplefragments.events.SampleMapBootListener;
@@ -299,6 +300,7 @@ public final class SampleFactory implements ISampleFactory {
         mSamples.add(SampleLieFi.class);
         mSamples.add(SampleItemizedOverlayMultiClick.class);
         mSamples.add(SampleMarkerMultiClick.class);
+        mSamples.add(SampleMilestonesNonRepetitive.class);
     }
 
     public void addSample(Class<? extends BaseSampleFragment> clz) {
