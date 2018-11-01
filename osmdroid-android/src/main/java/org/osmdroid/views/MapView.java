@@ -1748,12 +1748,12 @@ public class MapView extends ViewGroup implements IMapView,
 	 * Deferred setting of the expected next map center computed by the Projection's constructor,
 	 * with no guarantee it will be 100% respected.
 	 * <a href="https://github.com/osmdroid/osmdroid/issues/868">see issue 868</a>
-	 * @since 6.0.0
+	 * @since 6.0.3
 	 */
-	public void setExpectedCenter(final IGeoPoint pGeoPoint) {
+	public void setExpectedCenter(final IGeoPoint pGeoPoint, final long pOffsetX, final long pOffsetY) {
 	    final GeoPoint before = getProjection().getCurrentCenter();
 		mCenter = (GeoPoint)pGeoPoint;
-		setMapScroll(0, 0);
+		setMapScroll(-pOffsetX, -pOffsetY);
 		resetProjection();
         final GeoPoint after = getProjection().getCurrentCenter();
         if (!after.equals(before)) {
@@ -1763,6 +1763,13 @@ public class MapView extends ViewGroup implements IMapView,
 			}
 		}
 		invalidate();
+	}
+
+	/**
+	 * @since 6.0.0
+	 */
+	public void setExpectedCenter(final IGeoPoint pGeoPoint) {
+		setExpectedCenter(pGeoPoint, 0, 0);
 	}
 
 	/**
