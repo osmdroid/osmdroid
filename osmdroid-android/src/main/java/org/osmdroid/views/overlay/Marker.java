@@ -36,10 +36,6 @@ import org.osmdroid.views.overlay.infowindow.MarkerInfoWindow;
  * - Opening a Marker InfoWindow automatically close others only if it's the same InfoWindow shared between Markers. <br>
  * - Events listeners are set per marker, not per map. <br>
  * 
- * TODO: <br>
- * Impact of marker rotation on hitTest<br>
- * When map is rotated, when panning the map, bug on the InfoWindow positioning (osmdroid issue #524)<br/>
- *
  * <img alt="Class diagram around Marker class" width="686" height="413" src='src='./doc-files/marker-infowindow-classes.png' />
  *
  * @see MarkerInfoWindow
@@ -90,6 +86,7 @@ public class Marker extends OverlayWithIW {
 	private boolean mDisplayed;
 	private final Rect mRect = new Rect();
 	private final Rect mOrientedMarkerRect = new Rect();
+	private Paint mPaint;
 
 	public Marker(MapView mapView) {
 		this(mapView, (mapView.getContext()));
@@ -337,8 +334,6 @@ public class Marker extends OverlayWithIW {
 		
 		pj.toPixels(mPosition, mPositionPixels);
 
-		mIcon.setAlpha((int)(mAlpha*255));
-		
 		float rotationOnScreen = (mFlat ? -mBearing : -mapView.getMapOrientation()-mBearing);
 		drawAt(canvas, mPositionPixels.x, mPositionPixels.y, rotationOnScreen);
 		if (isInfoWindowShown()) {
@@ -533,13 +528,27 @@ public class Marker extends OverlayWithIW {
 		if (!mDisplayed) { // optimization 1: (much faster, depending on the proportions) don't try to display if the Marker is not visible
 			return;
 		}
+		if (mAlpha == 0) {
+			return;
+		}
 		if (pOrientation != 0) { // optimization 2: don't manipulate the Canvas if not needed (about 25% faster) - step 1/2
 			pCanvas.save();
 			pCanvas.rotate(pOrientation, pX, pY);
 		}
 		if (mIcon instanceof BitmapDrawable) { // optimization 3: (about 15% faster)
-			pCanvas.drawBitmap(((BitmapDrawable)mIcon).getBitmap(), offsetX, offsetY, null);
+			final Paint paint;
+			if (mAlpha == 1) {
+				paint = null;
+			} else {
+				if (mPaint == null) {
+					mPaint = new Paint();
+				}
+				mPaint.setAlpha((int)(mAlpha * 255));
+				paint = mPaint;
+			}
+			pCanvas.drawBitmap(((BitmapDrawable) mIcon).getBitmap(), offsetX, offsetY, paint);
 		} else {
+			mIcon.setAlpha((int)(mAlpha*255));
 			mIcon.setBounds(mRect);
 			mIcon.draw(pCanvas);
 		}
