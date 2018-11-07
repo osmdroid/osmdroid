@@ -50,7 +50,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Scroller;
-import android.widget.ZoomButtonsController;
 
 /**
  * This is the primary view for osmdroid. <br><br>
@@ -91,8 +90,7 @@ public class MapView extends ViewGroup implements IMapView,
 
 	private final MapController mController;
 
-	private final ZoomButtonsController mZoomController;
-	private boolean mEnableZoomController = false;
+	private final CustomZoomButtonsController mZoomController;
 
 
 	private MultiTouchController<Object> mMultiTouchController;
@@ -189,6 +187,7 @@ public class MapView extends ViewGroup implements IMapView,
 					  MapTileProviderBase tileProvider,
 					  final Handler tileRequestCompleteHandler, final AttributeSet attrs, boolean hardwareAccelerated) {
 		super(context, attrs);
+		setWillNotDraw(false); // in order to use onDraw instead of dispatchDraw; better for "invalidate"
 		if(isInEditMode()){ 	//fix for edit mode in the IDE
 			mTileRequestCompleteHandler=null;
 			mController=null;
@@ -220,12 +219,8 @@ public class MapView extends ViewGroup implements IMapView,
 		this.mMapOverlay = new TilesOverlay(mTileProvider, context, horizontalMapRepetitionEnabled, verticalMapRepetitionEnabled);
 		mOverlayManager = new DefaultOverlayManager(mMapOverlay);
 
-		if (isInEditMode()) {
-			mZoomController = null;
-		} else {
-			mZoomController = new ZoomButtonsController(this);
-			mZoomController.setOnZoomListener(new MapViewZoomListener());
-		}
+		mZoomController = new CustomZoomButtonsController(this);
+		mZoomController.setOnZoomListener(new MapViewZoomListener());
 
 		mGestureDetector = new GestureDetector(context, new MapViewGestureDetectorListener());
 		mGestureDetector.setOnDoubleTapListener(new MapViewDoubleClickListener());
@@ -238,8 +233,7 @@ public class MapView extends ViewGroup implements IMapView,
 		if (Configuration.getInstance().isMapViewRecyclerFriendly())
 		if (Build.VERSION.SDK_INT >= 16)
 			this.setHasTransientState(true);
-
-		setBuiltInZoomControls(true);
+		mZoomController.setVisibility(CustomZoomButtonsController.Visibility.SHOW_AND_FADEOUT);
 	}
 
 	/**
@@ -671,9 +665,15 @@ public class MapView extends ViewGroup implements IMapView,
 	 */
 	@Override
 	public IGeoPoint getMapCenter() {
-		return getProjection().fromPixels(getWidth() / 2, getHeight() / 2, null, false);
+		return getMapCenter(null);
 	}
 
+	/**
+	 * @since 6.0.3
+	 */
+	public IGeoPoint getMapCenter(GeoPoint pReuse) {
+		return getProjection().fromPixels(getWidth() / 2, getHeight() / 2, pReuse, false);
+	}
 
 	/**
 	 * rotates the map to the desired heading
@@ -1009,7 +1009,9 @@ public class MapView extends ViewGroup implements IMapView,
 	public void onDetach() {
 		this.getOverlayManager().onDetach(this);
 		mTileProvider.detach();
-		mZoomController.setVisible(false);
+		if (mZoomController != null) {
+			mZoomController.onDetach();
+		}
 
 		//https://github.com/osmdroid/osmdroid/issues/390
 		if (mTileRequestCompleteHandler instanceof SimpleInvalidationHandler) {
@@ -1053,10 +1055,6 @@ public class MapView extends ViewGroup implements IMapView,
 
 		if (Configuration.getInstance().isDebugMapView()) {
 			Log.d(IMapView.LOGTAG,"dispatchTouchEvent(" + event + ")");
-		}
-
-		if (mZoomController.isVisible() && mZoomController.onTouch(this, event)) {
-			return true;
 		}
 
 		// Get rotated event for some touch listeners.
@@ -1175,7 +1173,7 @@ public class MapView extends ViewGroup implements IMapView,
 	}
 
 	@Override
-	protected void dispatchDraw(final Canvas c) {
+	public void onDraw(final Canvas c) {
 		final long startMs = System.currentTimeMillis();
 
 		// Reset the projection
@@ -1191,7 +1189,9 @@ public class MapView extends ViewGroup implements IMapView,
 			this.getOverlayManager().onDraw(c, this);
 			// Restore the canvas matrix
 			getProjection().restore(c, false);
-			super.dispatchDraw(c);
+			if (mZoomController != null) {
+				mZoomController.draw(c);
+			}
 		}catch (Exception ex){
 			//for edit mode
 			Log.e(IMapView.LOGTAG, "error dispatchDraw, probably in edit mode", ex);
@@ -1204,7 +1204,9 @@ public class MapView extends ViewGroup implements IMapView,
 
 	@Override
 	protected void onDetachedFromWindow() {
-		this.mZoomController.setVisible(false);
+		if (mZoomController != null) {
+			mZoomController.onDetach();
+		}
 		this.onDetach();
 		this.mListners.clear();
 		super.onDetachedFromWindow();
@@ -1339,9 +1341,14 @@ public class MapView extends ViewGroup implements IMapView,
 		this.mZoomController.setZoomOutEnabled(canZoomOut());
 	}
 
+	/**
+	 * @deprecated Use {@link #getZoomController().setVisibility()} instead
+	 */
+	@Deprecated
 	public void setBuiltInZoomControls(final boolean on) {
-		this.mEnableZoomController = on;
-		this.checkZoomButtons();
+		getZoomController().setVisibility(
+				on ? CustomZoomButtonsController.Visibility.SHOW_AND_FADEOUT
+						: CustomZoomButtonsController.Visibility.NEVER);
 	}
 
 	public void setMultiTouchControls(final boolean on) {
@@ -1450,7 +1457,9 @@ public class MapView extends ViewGroup implements IMapView,
 				return true;
 			}
 
-			mZoomController.setVisible(mEnableZoomController);
+			if (mZoomController != null) {
+				mZoomController.activate();
+			}
 			return true;
 		}
 
@@ -1484,6 +1493,9 @@ public class MapView extends ViewGroup implements IMapView,
 		@Override
 		public void onLongPress(final MotionEvent e) {
 			if (mMultiTouchController != null && mMultiTouchController.isPinching()) {
+				return;
+			}
+			if (mZoomController != null && mZoomController.onLongPress(e)) {
 				return;
 			}
 			MapView.this.getOverlayManager().onLongPress(e, MapView.this);
@@ -1541,6 +1553,9 @@ public class MapView extends ViewGroup implements IMapView,
 
 		@Override
 		public boolean onSingleTapConfirmed(final MotionEvent e) {
+			if (mZoomController != null && mZoomController.onSingleTapConfirmed(e)) {
+				return true;
+			}
 			if (MapView.this.getOverlayManager().onSingleTapConfirmed(e, MapView.this)) {
 				return true;
 			}
@@ -1549,7 +1564,7 @@ public class MapView extends ViewGroup implements IMapView,
 		}
 	}
 
-	private class MapViewZoomListener implements ZoomButtonsController.OnZoomListener {
+	private class MapViewZoomListener implements CustomZoomButtonsController.OnZoomListener {
 		@Override
 		public void onZoom(final boolean zoomIn) {
 			if (zoomIn) {
@@ -1798,5 +1813,12 @@ public class MapView extends ViewGroup implements IMapView,
 	 */
 	public MapViewRepository getRepository() {
 		return mRepository;
+	}
+
+	/**
+	 * @since 6.1.0
+	 */
+	public CustomZoomButtonsController getZoomController() {
+		return mZoomController;
 	}
 }
