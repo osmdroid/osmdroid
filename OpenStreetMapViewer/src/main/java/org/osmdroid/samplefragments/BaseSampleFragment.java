@@ -113,7 +113,6 @@ public abstract class BaseSampleFragment extends Fragment {
                 copyrightOverlay.setOffset(0, (int) (55 * dm.density));
 
 			mMapView.getOverlays().add(copyrightOverlay);
-			mMapView.setBuiltInZoomControls(true);
 			mMapView.setMultiTouchControls(true);
 			mMapView.setTilesScaledToDpi(true);
 		}
