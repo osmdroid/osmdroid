@@ -491,6 +491,7 @@ public class MapView extends ViewGroup implements IMapView,
 				mapListener.onZoom(event != null ? event : (event = new ZoomEvent(this, newZoomLevel)));
 		}
 
+		requestLayout(); // Allows any views fixed to a Location in the MapView to adjust
 		invalidate();
 		return this.mZoomLevel;
 	}
@@ -690,6 +691,7 @@ public class MapView extends ViewGroup implements IMapView,
 	public void setMapOrientation(final float degrees, final boolean forceRedraw) {
 		mapOrientation = degrees % 360.0f;
 		if (forceRedraw) {
+			requestLayout(); // Allows any views fixed to a Location in the MapView to adjust
 			invalidate();
 		}
 	}
@@ -1262,6 +1264,7 @@ public class MapView extends ViewGroup implements IMapView,
 			final PointInfo aTouchPoint) {
 		setMultiTouchScaleCurrentPoint(aNewObjPosAndScale.getXOff(), aNewObjPosAndScale.getYOff());
 		setMultiTouchScale(aNewObjPosAndScale.getScale());
+		requestLayout(); // Allows any views fixed to a Location in the MapView to adjust
 		invalidate();
 		return true;
 	}
@@ -1743,6 +1746,7 @@ public class MapView extends ViewGroup implements IMapView,
 	void setMapScroll(final long pMapScrollX, final long pMapScrollY) {
 		mMapScrollX = pMapScrollX;
 		mMapScrollY = pMapScrollY;
+		requestLayout(); // Allows any views fixed to a Location in the MapView to adjust
 	}
 
 	/**
