@@ -73,6 +73,19 @@ public class MapTileAreaZoomComputerTest {
         }
     }
 
+    /**
+     * @since 6.1.0
+     */
+    @Test
+    public void testBugANRSideEffect() {
+        final MapTileArea source = new MapTileArea();
+        final MapTileArea dest = new MapTileArea();
+        source.set(0, 0, 0, 1, 1);
+        final MapTileAreaZoomComputer computer = new MapTileAreaZoomComputer(-1);
+        computer.computeFromSource(source, dest);
+        Assert.assertEquals(0, dest.getWidth());
+    }
+
     private int getMapTileUpperBound(final int pZoom) {
         return 1 << pZoom;
     }

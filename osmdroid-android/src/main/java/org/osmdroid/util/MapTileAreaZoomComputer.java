@@ -24,7 +24,7 @@ public class MapTileAreaZoomComputer implements MapTileAreaComputer {
         final int sourceZoom = pSource.getZoom();
         int destZoom = sourceZoom + mZoomDelta;
         if (destZoom < 0 || destZoom > MapTileIndex.mMaxZoomLevel) {
-            out.set(-1, 0, 0, 0, 0);
+            out.reset();
             return out;
         }
         if (mZoomDelta <= 0) {
