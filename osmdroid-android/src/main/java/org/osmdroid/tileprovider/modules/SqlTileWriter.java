@@ -146,7 +146,7 @@ public class SqlTileWriter implements IFilesystemCache, SplashScreenable {
             cv.put(DatabaseFileArchive.COLUMN_TILE, bits);
             if (pExpirationTime != null)
                 cv.put(COLUMN_EXPIRES, pExpirationTime);
-            db.replace(TABLE, null, cv);
+            db.replaceOrThrow(TABLE, null, cv);
             if (Configuration.getInstance().isDebugMode())
                 Log.d(IMapView.LOGTAG, "tile inserted " + pTileSourceInfo.name() + MapTileIndex.toString(pMapTileIndex));
             if (System.currentTimeMillis() > lastSizeCheck + Configuration.getInstance().getTileGCFrequencyInMillis()){
@@ -156,6 +156,7 @@ public class SqlTileWriter implements IFilesystemCache, SplashScreenable {
         } catch (SQLiteFullException ex) {
             //the drive is full! trigger the clean up operation
             //may want to consider reducing the trim size automagically
+            Log.e(IMapView.LOGTAG, "SQLiteFullException while saving tile.", ex);
             garbageCollector.gc();
             catchException(ex);
         } catch (Exception ex) {
@@ -705,6 +706,9 @@ public class SqlTileWriter implements IFilesystemCache, SplashScreenable {
             where.append(')');
             try {
                 db.delete(TABLE, where.toString(), null);
+            } catch (SQLiteFullException e){
+                Log.e(IMapView.LOGTAG, "SQLiteFullException while cleanup.", e);
+                catchException(e);
             } catch(Exception e) {
                 catchException(e);
                 return;
