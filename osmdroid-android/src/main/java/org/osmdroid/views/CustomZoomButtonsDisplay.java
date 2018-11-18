@@ -5,7 +5,10 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
+import android.graphics.drawable.BitmapDrawable;
 import android.view.MotionEvent;
+
+import org.osmdroid.library.R;
 
 /**
  * @since 6.1.0
@@ -24,20 +27,17 @@ public class CustomZoomButtonsDisplay {
 	private Bitmap mZoomOutBitmapDisabled;
 	private Paint mAlphaPaint;
 	private int mBitmapSize;
-	private float mBitmapStrokeWidth;
-	private int mBitmapSegmentSize;
 	private HorizontalPosition mHorizontalPosition;
 	private VerticalPosition mVerticalPosition;
 	private boolean mHorizontalOrVertical;
-	private int mMargin;
-	private int mPadding;
+	private float mMargin; // as fraction of the bitmap size
+	private float mPadding; // as fraction of the bitmap size
 
 	public CustomZoomButtonsDisplay(final MapView pMapView) {
 		mMapView = pMapView;
 		// default values
 		setPositions(true, HorizontalPosition.CENTER, VerticalPosition.BOTTOM);
-		setDrawingSizes(50, 5, 20);
-		setMarginPadding(25, 16);
+		setMarginPadding(.5f, .5f);
 	}
 
 	public void setPositions(
@@ -48,13 +48,7 @@ public class CustomZoomButtonsDisplay {
 		mVerticalPosition = pVerticalPosition;
 	}
 
-	public void setDrawingSizes(final int pSize, final float pStrokeWidth, final int pSegmentSize) {
-		mBitmapSize = pSize;
-		mBitmapStrokeWidth = pStrokeWidth;
-		mBitmapSegmentSize = pSegmentSize;
-	}
-
-	public void setMarginPadding(final int pMargin, final int pPadding) {
+	public void setMarginPadding(final float pMargin, final float pPadding) {
 		mMargin = pMargin;
 		mPadding = pPadding;
 	}
@@ -65,30 +59,26 @@ public class CustomZoomButtonsDisplay {
 		mZoomInBitmapDisabled = pInDisabled;
 		mZoomOutBitmapEnabled = pOutEnabled;
 		mZoomOutBitmapDisabled = pOutDisabled;
+		mBitmapSize = mZoomInBitmapEnabled.getWidth();
 	}
 
 	protected Bitmap getZoomBitmap(final boolean pInOrOut, final boolean pEnabled) {
+	    final Bitmap icon = getIcon(pInOrOut);
+        mBitmapSize = icon.getWidth();
 		final Bitmap bitmap = Bitmap.createBitmap(mBitmapSize, mBitmapSize, Bitmap.Config.ARGB_8888);
 		final Canvas canvas = new Canvas(bitmap);
 		final Paint backgroundPaint = new Paint();
 		backgroundPaint.setColor(pEnabled ? Color.WHITE : Color.LTGRAY);
 		backgroundPaint.setStyle(Paint.Style.FILL);
-		final Paint segmentPaint = new Paint();
-		segmentPaint.setColor(Color.BLACK);
-		segmentPaint.setStyle(Paint.Style.STROKE);
-		segmentPaint.setStrokeWidth(mBitmapStrokeWidth);
-		final int half = (mBitmapSize - mBitmapSegmentSize) / 2;
 		canvas.drawRect(0, 0, mBitmapSize - 1, mBitmapSize - 1, backgroundPaint);
-		canvas.drawLine(
-				half, mBitmapSize / 2,
-				half + mBitmapSegmentSize, mBitmapSize / 2, segmentPaint);
-		if (pInOrOut) {
-			canvas.drawLine(
-					mBitmapSize / 2, half,
-					mBitmapSize / 2, half + mBitmapSegmentSize, segmentPaint);
-		}
+		canvas.drawBitmap(icon, 0, 0, null);
 		return bitmap;
 	}
+
+	protected Bitmap getIcon(final boolean pInOrOut) {
+	    final int resourceId = pInOrOut ? R.drawable.sharp_add_black_36 : R.drawable.sharp_remove_black_36;
+        return ((BitmapDrawable)mMapView.getResources().getDrawable(resourceId)).getBitmap();
+    }
 
 	public void draw(final Canvas pCanvas, final float pAlpha01,
 					 final boolean pZoomInEnabled, final boolean pZoomOutEnabled) {
@@ -117,46 +107,52 @@ public class CustomZoomButtonsDisplay {
 				paint);
 	}
 
-	private int getTopLeft(final boolean pInOrOut, final boolean pXOrY) {
-		final int topLeft;
+	private float getTopLeft(final boolean pInOrOut, final boolean pXOrY) {
+		final float topLeft;
 		if (pXOrY) {
-			topLeft = getLeftForZoomIn(mMapView.getWidth());
-			if (pInOrOut) {
+			topLeft = getFirstLeft(mMapView.getWidth());
+			if (!mHorizontalOrVertical) { // vertical: same left
 				return topLeft;
 			}
-			return mHorizontalOrVertical ? topLeft + mBitmapSize + mPadding : topLeft;
+			if (!pInOrOut) { // horizontal: zoom out first
+				return topLeft;
+			}
+			return topLeft + mBitmapSize + mPadding * mBitmapSize;
 		}
-		topLeft = getTopForZoomIn(mMapView.getHeight());
-		if (pInOrOut) {
+		topLeft = getFirstTop(mMapView.getHeight());
+		if (mHorizontalOrVertical) { // horizontal: same top
 			return topLeft;
 		}
-		return mHorizontalOrVertical ? topLeft : topLeft + mBitmapSize + mPadding;
+		if (pInOrOut) { // vertical: zoom in first
+			return topLeft;
+		}
+		return topLeft + mBitmapSize + mPadding * mBitmapSize;
 	}
 
-	public int getLeftForZoomIn(final int pMapViewWidth) {
+	private float getFirstLeft(final int pMapViewWidth) {
 		switch(mHorizontalPosition) {
 			case LEFT:
-				return mMargin;
+				return mMargin * mBitmapSize;
 			case RIGHT:
-				return pMapViewWidth - mMargin - mBitmapSize
-						- (mHorizontalOrVertical ? mPadding + mBitmapSize : 0);
+				return pMapViewWidth - mMargin * mBitmapSize - mBitmapSize
+						- (mHorizontalOrVertical ? mPadding * mBitmapSize + mBitmapSize : 0);
 			case CENTER:
 				return pMapViewWidth / 2
-						- (mHorizontalOrVertical ? mPadding / 2 + mBitmapSize : mBitmapSize / 2);
+						- (mHorizontalOrVertical ? mPadding * mBitmapSize / 2 + mBitmapSize : mBitmapSize / 2);
 		}
 		throw new IllegalArgumentException();
 	}
 
-	public int getTopForZoomIn(final int pMapViewHeight) {
+	private float getFirstTop(final int pMapViewHeight) {
 		switch(mVerticalPosition) {
 			case TOP:
-				return mMargin;
+				return mMargin * mBitmapSize;
 			case BOTTOM:
-				return pMapViewHeight - mMargin - mBitmapSize
-						- (mHorizontalOrVertical ? 0 : mPadding + mBitmapSize);
+				return pMapViewHeight - mMargin * mBitmapSize - mBitmapSize
+						- (mHorizontalOrVertical ? 0 : mPadding * mBitmapSize + mBitmapSize);
 			case CENTER:
 				return pMapViewHeight / 2
-						- (mHorizontalOrVertical ? mBitmapSize / 2 : mPadding / 2 + mBitmapSize);
+						- (mHorizontalOrVertical ? mBitmapSize / 2 : mPadding * mBitmapSize / 2 + mBitmapSize);
 		}
 		throw new IllegalArgumentException();
 	}
@@ -192,7 +188,7 @@ public class CustomZoomButtonsDisplay {
 	}
 
 	private boolean isTouched(final boolean pInOrOut, final boolean pXOrY, final float pEvent) {
-		final int topLeft = getTopLeft(pInOrOut, pXOrY);
+		final float topLeft = getTopLeft(pInOrOut, pXOrY);
 		return pEvent >= topLeft && pEvent <= topLeft + mBitmapSize;
 	}
 }
