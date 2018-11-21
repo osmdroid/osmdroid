@@ -17,6 +17,7 @@ android:
     #       Those are automatically downloaded in "before_install" on a per worker basis.
     #
     
+    - android-26
     - android-23
     #- addon-google_apis-google-23
     
