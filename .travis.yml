@@ -18,7 +18,6 @@ android:
     #
     
     - android-26
-    - android-23
     #- addon-google_apis-google-23
     
     # Additional components - currently not required
@@ -50,7 +49,7 @@ env:
     #       so running API25 and up emulators is not possible right now.
     
     matrix:
-    - API=10 ANDROID_ABI=armeabi-v7a ANDROID_TAG=default
+    #- API=10 ANDROID_ABI=armeabi-v7a ANDROID_TAG=default
     #- API=10 ANDROID_ABI=armeabi-v7a ANDROID_TAG=google_apis     # currently no google apis needed
     #- API=14 ANDROID_ABI=armeabi-v7a ANDROID_TAG=default         # emulator consistently times out
     #- API=15 ANDROID_ABI=armeabi-v7a ANDROID_TAG=default         # https://github.com/osmdroid/osmdroid/issues/1066

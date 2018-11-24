@@ -6,7 +6,7 @@ apply from: "https://raw.githubusercontent.com/gradle-fury/gradle-fury/v1.1.4/gr
 android {
     defaultConfig {
         applicationId 'org.osmdroid.sample'
-
+        minSdkVersion Integer.parseInt(project.property('android-minSdkForSupportLib.version'))
     }
 }
 

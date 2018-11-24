@@ -7,6 +7,8 @@ android {
     defaultConfig {
         applicationId 'org.osmdroid'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        minSdkVersion Integer.parseInt(project.property('android-minSdkForSupportLib.version'))
     }
     testOptions {
         unitTests.all {
