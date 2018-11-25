@@ -328,6 +328,11 @@ public class ItemizedOverlayWithFocus<Item extends OverlayItem> extends Itemized
 				- (lines.length + 1) * DESCRIPTION_LINE_HEIGHT /* +1 because of the title. */
 				- 2 * DESCRIPTION_BOX_PADDING;
 
+		if (osmv.getMapOrientation() != 0) {
+			c.save();
+			c.rotate(-osmv.getMapOrientation(), mFocusedScreenCoords.x, mFocusedScreenCoords.y);
+		}
+
 		/* Twice draw a RoundRect, once in black with 1px as a small border. */
 		this.mMarkerBackgroundPaint.setColor(Color.BLACK);
 		c.drawRoundRect(new RectF(descBoxLeft - 1, descBoxTop - 1, descBoxRight + 1,
@@ -355,7 +360,11 @@ public class ItemizedOverlayWithFocus<Item extends OverlayItem> extends Itemized
 		/*
 		 * Finally draw the marker base. This is done in the end to make it look better.
 		 */
-		Overlay.drawAt(c, markerFocusedBase, mFocusedScreenCoords.x, mFocusedScreenCoords.y, false, osmv.getMapOrientation());
+		Overlay.drawAt(c, markerFocusedBase, mFocusedScreenCoords.x, mFocusedScreenCoords.y, false, 0);
+
+		if (osmv.getMapOrientation() != 0) {
+			c.restore();
+		}
 	}
 
 	@Override
