@@ -34,10 +34,7 @@ android {
     }
 }
 
-
 dependencies {
-    compile "com.android.support:support-v4:${project.property('android-support.version')}"
+    compile "com.android.support:appcompat-v7:${project.property('android-support.version')}"
     compile project(':osmdroid-android')
-
 }
-
