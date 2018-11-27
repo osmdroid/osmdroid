@@ -28,20 +28,11 @@ afterEvaluate { project ->
 
 android {
     defaultConfig {
-        minSdkVersion Integer.parseInt(project.property('android-minSdkForSupportLib.version'))
+        minSdkVersion Integer.parseInt(project.property('android.minSdkVersion'))
     }
 }
 
-
 dependencies {
-
     compile project(':osmdroid-android')
-    compile "com.android.support:appcompat-v7:${project.property('android-support.version')}"
-
-    testCompile "org.robolectric:robolectric:${project.property('robolectric.version')}"
-
     testCompile "junit:junit:${project.property('junit.version')}"
-
-
-
 }
