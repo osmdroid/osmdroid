@@ -55,4 +55,3 @@ dependencies {
     compile 'ar.com.hjg:pngj:2.1.0'
     compile 'mil.nga:tiff:2.0.0'
 }
-

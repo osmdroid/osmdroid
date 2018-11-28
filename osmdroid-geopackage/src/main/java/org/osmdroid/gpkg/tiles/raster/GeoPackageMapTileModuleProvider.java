@@ -15,7 +15,6 @@ import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.MapTileIndex;
 import org.osmdroid.util.TileSystem;
-import org.osmdroid.util.TileSystemWebMercator;
 
 import java.io.File;
 import java.util.ArrayList;
