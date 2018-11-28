@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        Toolbar myToolbar = findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
         // Generate a ListView with Sample Maps
         final ArrayList<String> list = new ArrayList<>();
@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         if (BuildConfig.VERSION_CODE >= 11)
             list.add("Cache Analyzer");
 
-        ListView lv = (ListView) findViewById(R.id.activitylist);
+        ListView lv = findViewById(R.id.activitylist);
         ArrayAdapter adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, list);
 
         lv.setAdapter(adapter);
@@ -230,7 +230,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         long cacheSize = updateStoragePrefreneces(this);
         //cache management ends here
 
-        TextView tv = (TextView) findViewById(R.id.sdcardstate_value);
+        TextView tv = findViewById(R.id.sdcardstate_value);
         final String state = Environment.getExternalStorageState();
 
         boolean mSdCardAvailable = Environment.MEDIA_MOUNTED.equals(state);
@@ -240,10 +240,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             tv.setTypeface(null, Typeface.BOLD);
         }
 
-        tv = (TextView) findViewById(R.id.version_text);
+        tv = findViewById(R.id.version_text);
         tv.setText(BuildConfig.VERSION_NAME + " " + BuildConfig.BUILD_TYPE);
 
-        tv = (TextView) findViewById(R.id.mainstorageInfo);
+        tv = findViewById(R.id.mainstorageInfo);
         tv.setText(Configuration.getInstance().getOsmdroidTileCache().getAbsolutePath() + "\n" +
             "Cache size: " + Formatter.formatFileSize(this,cacheSize));
     }

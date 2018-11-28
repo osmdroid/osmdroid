@@ -26,11 +26,11 @@ public class LicenseActivity extends Activity implements AdapterView.OnItemSelec
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_license);
-        Spinner spinner = (Spinner) findViewById(R.id.license_module_spinner);
+        Spinner spinner = findViewById(R.id.license_module_spinner);
         ArrayAdapter<String> array = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, values);
         array.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(array);
-        license = (TextView) findViewById(R.id.license_body);
+        license = findViewById(R.id.license_body);
         spinner.setOnItemSelectedListener(this);
     }
 

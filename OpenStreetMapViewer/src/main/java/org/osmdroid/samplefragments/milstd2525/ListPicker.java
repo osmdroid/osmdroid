@@ -68,23 +68,23 @@ public class ListPicker implements View.OnClickListener, AdapterView.OnItemClick
 
         View view = View.inflate(activity, R.layout.milstd2525list, null);
 
-        milstd_search_affil_f = (RadioButton) view.findViewById(R.id.milstd_search_affil_f);
-        milstd_search_affil_h = (RadioButton) view.findViewById(R.id.milstd_search_affil_h);
-        milstd_search_affil_n = (RadioButton) view.findViewById(R.id.milstd_search_affil_n);
-        milstd_search_affil_u = (RadioButton) view.findViewById(R.id.milstd_search_affil_u);
+        milstd_search_affil_f = view.findViewById(R.id.milstd_search_affil_f);
+        milstd_search_affil_h = view.findViewById(R.id.milstd_search_affil_h);
+        milstd_search_affil_n = view.findViewById(R.id.milstd_search_affil_n);
+        milstd_search_affil_u = view.findViewById(R.id.milstd_search_affil_u);
 
         milstd_search_affil_f.setOnClickListener(this);
         milstd_search_affil_h.setOnClickListener(this);
         milstd_search_affil_n.setOnClickListener(this);
         milstd_search_affil_u.setOnClickListener(this);
 
-        milstd_search = (EditText) view.findViewById(R.id.milstd_search);
+        milstd_search = view.findViewById(R.id.milstd_search);
         milstd_search.addTextChangedListener(this);
-        milstd_search_results = (ListView) view.findViewById(R.id.milstd_search_results);
+        milstd_search_results = view.findViewById(R.id.milstd_search_results);
         milstd_search_results.setAdapter(new MilStdAdapter(activity));
         milstd_search_results.setOnItemClickListener(this);
 
-        milstd_search_cancel = (Button) view.findViewById(R.id.milstd_search_cancel);
+        milstd_search_cancel = view.findViewById(R.id.milstd_search_cancel);
         milstd_search_cancel.setOnClickListener(this);
 
 

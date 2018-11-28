@@ -26,7 +26,7 @@ public class WebviewFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.map_viewpager_webview, null);
-        webview = (WebView) v.findViewById(R.id.webview1);
+        webview = v.findViewById(R.id.webview1);
         return v;
     }
 

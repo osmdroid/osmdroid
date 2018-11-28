@@ -53,18 +53,18 @@ public class StoragePreferenceFragment extends Fragment implements View.OnClickL
         View v = inflater.inflate(R.layout.intro_storage, container, false);
 
         Configuration.getInstance().load(getContext(), PreferenceManager.getDefaultSharedPreferences(getContext()));
-        textViewCacheDirectory = (TextView) v.findViewById(R.id.textViewCacheDirectory);
+        textViewCacheDirectory = v.findViewById(R.id.textViewCacheDirectory);
         textViewCacheDirectory.setText(Configuration.getInstance().getOsmdroidTileCache().toString());
 
-        buttonSetCache = (Button) v.findViewById(R.id.buttonSetCache);
-        buttonManualCacheEntry = (Button) v.findViewById(R.id.buttonManualCacheEntry);
+        buttonSetCache = v.findViewById(R.id.buttonSetCache);
+        buttonManualCacheEntry = v.findViewById(R.id.buttonManualCacheEntry);
         buttonSetCache.setOnClickListener(this);
         buttonManualCacheEntry.setOnClickListener(this);
         textViewCacheDirectory.setText(Configuration.getInstance().getOsmdroidTileCache().toString());
-        textViewCacheMaxSize = (TextView) v.findViewById(R.id.textViewCacheMaxSize);
-        textViewCacheFreeSpace = (TextView) v.findViewById(R.id.textViewCacheFreeSpace);
-        textViewCacheCurrentSize = (TextView) v.findViewById(R.id.textViewCacheCurrentSize);
-        textViewCacheTrimSize = (TextView) v.findViewById(R.id.textViewCacheTrimSize);
+        textViewCacheMaxSize = v.findViewById(R.id.textViewCacheMaxSize);
+        textViewCacheFreeSpace = v.findViewById(R.id.textViewCacheFreeSpace);
+        textViewCacheCurrentSize = v.findViewById(R.id.textViewCacheCurrentSize);
+        textViewCacheTrimSize = v.findViewById(R.id.textViewCacheTrimSize);
         return v;
     }
 

@@ -44,7 +44,7 @@ public class SampleFollowMe extends BaseSampleFragment implements LocationListen
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.sample_followme, null);
-        mMapView = (MapView) v.findViewById(org.osmdroid.R.id.mapview);
+        mMapView = v.findViewById(R.id.mapview);
 
         return v;
 
@@ -83,7 +83,7 @@ public class SampleFollowMe extends BaseSampleFragment implements LocationListen
         mLocationOverlay.setOptionsMenuEnabled(true);
         mCompassOverlay.enableCompass();
 
-        btCenterMap = (ImageButton) view.findViewById(R.id.ic_center_map);
+        btCenterMap = view.findViewById(R.id.ic_center_map);
 
         btCenterMap.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,7 +96,7 @@ public class SampleFollowMe extends BaseSampleFragment implements LocationListen
             }
         });
 
-        btFollowMe = (ImageButton) view.findViewById(R.id.ic_follow_me);
+        btFollowMe = view.findViewById(R.id.ic_follow_me);
 
         btFollowMe.setOnClickListener(new View.OnClickListener() {
             @Override

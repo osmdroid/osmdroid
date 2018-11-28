@@ -41,7 +41,7 @@ public class Bug512CacheManagerWp extends BaseSampleFragment implements CacheMan
 
         View root = inflater.inflate(R.layout.sample_cachemgr, container,false);
 
-        btnCache = (Button) root.findViewById(R.id.btnCache);
+        btnCache = root.findViewById(R.id.btnCache);
         btnCache.setOnClickListener(this);
         btnCache.setText("Run job (watch logcat output)");
 

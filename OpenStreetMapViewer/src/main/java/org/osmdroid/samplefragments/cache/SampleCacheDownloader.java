@@ -55,7 +55,7 @@ public class SampleCacheDownloader extends BaseSampleFragment implements View.On
 
         mMapView = new MapView(getActivity());
         ((LinearLayout) root.findViewById(R.id.mapview)).addView(mMapView);
-        btnCache = (Button) root.findViewById(R.id.btnCache);
+        btnCache = root.findViewById(R.id.btnCache);
         btnCache.setOnClickListener(this);
         mgr = new CacheManager(mMapView);
         return root;
@@ -131,31 +131,31 @@ public class SampleCacheDownloader extends BaseSampleFragment implements View.On
         View view = View.inflate(getActivity(), R.layout.sample_cachemgr_input, null);
 
         BoundingBox boundingBox = mMapView.getBoundingBox();
-        zoom_max=(SeekBar) view.findViewById(R.id.slider_zoom_max);
+        zoom_max= view.findViewById(R.id.slider_zoom_max);
         zoom_max.setMax((int) mMapView.getMaxZoomLevel());
         zoom_max.setOnSeekBarChangeListener(SampleCacheDownloader.this);
 
 
-        zoom_min=(SeekBar) view.findViewById(R.id.slider_zoom_min);
+        zoom_min= view.findViewById(R.id.slider_zoom_min);
         zoom_min.setMax((int) mMapView.getMaxZoomLevel());
         zoom_min.setProgress((int) mMapView.getMinZoomLevel());
         zoom_min.setOnSeekBarChangeListener(SampleCacheDownloader.this);
-        cache_east= (EditText) view.findViewById(R.id.cache_east);
+        cache_east= view.findViewById(R.id.cache_east);
         cache_east.setText(boundingBox.getLonEast() +"");
-        cache_north= (EditText) view.findViewById(R.id.cache_north);
+        cache_north= view.findViewById(R.id.cache_north);
         cache_north.setText(boundingBox.getLatNorth() +"");
-        cache_south= (EditText) view.findViewById(R.id.cache_south);
+        cache_south= view.findViewById(R.id.cache_south);
         cache_south.setText(boundingBox.getLatSouth()  +"");
-        cache_west= (EditText) view.findViewById(R.id.cache_west);
+        cache_west= view.findViewById(R.id.cache_west);
         cache_west.setText(boundingBox.getLonWest()  +"");
-        cache_estimate = (TextView) view.findViewById(R.id.cache_estimate);
+        cache_estimate = view.findViewById(R.id.cache_estimate);
 
         //change listeners for both validation and to trigger the download estimation
-        cache_east.addTextChangedListener((TextWatcher) this);
-        cache_north.addTextChangedListener((TextWatcher) this);
-        cache_south.addTextChangedListener((TextWatcher) this);
-        cache_west.addTextChangedListener((TextWatcher) this);
-        executeJob= (Button) view.findViewById(R.id.executeJob);
+        cache_east.addTextChangedListener(this);
+        cache_north.addTextChangedListener(this);
+        cache_south.addTextChangedListener(this);
+        cache_west.addTextChangedListener(this);
+        executeJob= view.findViewById(R.id.executeJob);
         executeJob.setOnClickListener(this);
         builder.setView(view);
         builder.setCancelable(true);

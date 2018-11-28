@@ -40,7 +40,7 @@ public class CacheImport extends BaseSampleFragment implements View.OnClickListe
 
         mMapView = new MapView(getActivity());
         ((LinearLayout) root.findViewById(R.id.mapview)).addView(mMapView);
-        btnCache = (Button) root.findViewById(R.id.btnCache);
+        btnCache = root.findViewById(R.id.btnCache);
         btnCache.setOnClickListener(this);
         btnCache.setText("Cache Filesystem Import");
 

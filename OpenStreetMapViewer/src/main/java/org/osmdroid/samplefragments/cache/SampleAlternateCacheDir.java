@@ -6,17 +6,14 @@
 package org.osmdroid.samplefragments.cache;
 
 import android.os.Bundle;
-import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.osmdroid.config.Configuration;
 import org.osmdroid.samplefragments.BaseSampleFragment;
 import org.osmdroid.tileprovider.util.StorageUtils;
 import org.osmdroid.views.MapView;
 
-import java.io.File;
 import java.util.List;
 
 /**
@@ -56,7 +53,7 @@ public class SampleAlternateCacheDir extends BaseSampleFragment {
 
         View v = inflater.inflate(org.osmdroid.R.layout.activity_starter_mapview, null);
 
-        mMapView = (MapView) v.findViewById(org.osmdroid.R.id.mapview);
+        mMapView = v.findViewById(org.osmdroid.R.id.mapview);
 
         return v;
     }

@@ -5,8 +5,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.view.ViewGroup;
 
-import org.osmdroid.R;
-
 /**
  * Created by alex on 10/22/16.
  */

@@ -33,7 +33,7 @@ public class SampleBug57 extends BaseSampleFragment implements View.OnClickListe
 
         mMapView = new MapView(getActivity());
         ((LinearLayout) root.findViewById(R.id.mapview)).addView(mMapView);
-        Button btn = (Button) root.findViewById(R.id.btnCache);
+        Button btn = root.findViewById(R.id.btnCache);
         btn.setOnClickListener(this);
         btn.setText("To Step 2");
         return root;

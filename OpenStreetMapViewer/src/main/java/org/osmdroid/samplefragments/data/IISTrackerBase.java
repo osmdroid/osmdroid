@@ -9,7 +9,6 @@ import android.util.Log;
 
 import org.json.JSONObject;
 import org.osmdroid.R;
-import org.osmdroid.samplefragments.BaseSampleFragment;
 import org.osmdroid.samplefragments.data.utils.JSONParser;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.overlay.Marker;
