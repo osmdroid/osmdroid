@@ -171,12 +171,29 @@ public class BoundingBox implements Parcelable, Serializable {
 		return this.mLonWest;
 	}
 
+        /**
+         * Determines the height of the bounding box.
+         * @return latitude span in degrees
+         */
 	public double getLatitudeSpan() {
 		return Math.abs(this.mLatNorth - this.mLatSouth);
 	}
 
+	/** @deprecated use {@link #getLongitudeSpanWithDateLine()} */
+	@Deprecated
 	public double getLongitudeSpan() {
 		return Math.abs(this.mLonEast - this.mLonWest);
+	}
+
+	/**
+	 * Determines the width of the bounding box.
+	 * @return longitude span in degrees
+	 */
+	public double getLongitudeSpanWithDateLine() {
+	    if (mLonEast > mLonWest)
+	        return mLonEast - mLonWest;
+	    else
+	        return mLonEast - mLonWest + 360;
 	}
 
 	/**
@@ -224,15 +241,29 @@ public class BoundingBox implements Parcelable, Serializable {
 		return new GeoPoint(tileSystem.cleanLatitude(lat), tileSystem.cleanLongitude(lon));
 	}
 
-	public BoundingBox increaseByScale(final float pBoundingboxPaddingRelativeScale) {
-		final GeoPoint pCenter = this.getCenter();
-		final double mLatSpanPadded_2 = (this.getLatitudeSpan() * pBoundingboxPaddingRelativeScale) / 2.0;
-		final double mLonSpanPadded_2 = (this.getLongitudeSpan() * pBoundingboxPaddingRelativeScale) / 2.0;
-
-		return new BoundingBox(pCenter.getLatitude() + mLatSpanPadded_2,
-				pCenter.getLongitude() + mLonSpanPadded_2, pCenter.getLatitude()
-						- mLatSpanPadded_2, pCenter.getLongitude() - mLonSpanPadded_2);
-	}
+    /**
+     * Scale this bounding box by a given factor.
+     * 
+     * @param pBoundingboxPaddingRelativeScale
+     *            scale factor
+     * @return scaled bounding box
+     */
+    public BoundingBox increaseByScale(final float pBoundingboxPaddingRelativeScale) {
+        if (pBoundingboxPaddingRelativeScale <= 0)
+            throw new IllegalArgumentException("pBoundingboxPaddingRelativeScale must be positive");
+        final TileSystem tileSystem = org.osmdroid.views.MapView.getTileSystem();
+        // out-of-bounds latitude will be clipped
+        final double latCenter = getCenterLatitude();
+        final double latSpanHalf = getLatitudeSpan() / 2 * pBoundingboxPaddingRelativeScale;
+        final double latNorth = tileSystem.cleanLatitude(latCenter + latSpanHalf);
+        final double latSouth = tileSystem.cleanLatitude(latCenter - latSpanHalf);
+        // out-of-bounds longitude will be wrapped around
+        final double lonCenter = getCenterLongitude();
+        final double lonSpanHalf = getLongitudeSpanWithDateLine() / 2 * pBoundingboxPaddingRelativeScale;
+        final double latEast = tileSystem.cleanLongitude(lonCenter + lonSpanHalf);
+        final double latWest = tileSystem.cleanLongitude(lonCenter - lonSpanHalf);
+        return new BoundingBox(latNorth, latEast, latSouth, latWest);
+    }
 
 	// ===========================================================
 	// Methods from SuperClass/Interfaces
