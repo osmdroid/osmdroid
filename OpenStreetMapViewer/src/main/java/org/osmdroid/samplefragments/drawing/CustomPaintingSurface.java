@@ -178,7 +178,7 @@ public class CustomPaintingSurface extends View {
                         polygon.setTitle("A sample polygon");
                         polygon.showInfoWindow();
                         if (withArrows) {
-                            final Bitmap bitmap = BitmapFactory.decodeResource(getResources(), org.osmdroid.library.R.drawable.direction_arrow);
+                            final Bitmap bitmap = BitmapFactory.decodeResource(getResources(), org.osmdroid.library.R.drawable.round_navigation_white_48);
                             final List<MilestoneManager> managers = new ArrayList<>();
                             managers.add(new MilestoneManager(
                                     new MilestonePixelDistanceLister(20, 200),
