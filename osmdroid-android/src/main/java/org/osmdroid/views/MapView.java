@@ -1539,8 +1539,10 @@ public class MapView extends ViewGroup implements IMapView,
 				return true;
 			}
 
-			// final IGeoPoint center = getProjection().fromPixels((int) e.getX(), (int) e.getY(),
-			// null);
+			if (mZoomController != null && mZoomController.onSingleTapConfirmed(e)) {
+				return true;
+			}
+
 			getProjection().rotateAndScalePoint((int) e.getX(), (int) e.getY(), mRotateScalePoint);
 			return getController().zoomInFixing(mRotateScalePoint.x, mRotateScalePoint.y);
 		}
