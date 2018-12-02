@@ -188,14 +188,14 @@ public class CustomZoomButtonsController {
 		if (checkJustActivated()) {
 			return false;
 		}
-		if (mZoomInEnabled && mDisplay.isTouchedRotated(pMotionEvent, true)) {
-			if (mListener != null) {
+		if (mDisplay.isTouchedRotated(pMotionEvent, true)) {
+			if (mZoomInEnabled && mListener != null) {
 				mListener.onZoom(true);
 			}
 			return true;
 		}
-		if (mZoomOutEnabled && mDisplay.isTouchedRotated(pMotionEvent, false)) {
-			if (mListener != null) {
+		if (mDisplay.isTouchedRotated(pMotionEvent, false)) {
+			if (mZoomOutEnabled && mListener != null) {
 				mListener.onZoom(false);
 			}
 			return true;
