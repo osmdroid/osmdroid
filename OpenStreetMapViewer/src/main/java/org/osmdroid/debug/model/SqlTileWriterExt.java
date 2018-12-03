@@ -10,6 +10,7 @@ import java.util.List;
 
 import static org.osmdroid.tileprovider.modules.DatabaseFileArchive.COLUMN_KEY;
 import static org.osmdroid.tileprovider.modules.DatabaseFileArchive.COLUMN_PROVIDER;
+import static org.osmdroid.tileprovider.modules.DatabaseFileArchive.COLUMN_TILE;
 import static org.osmdroid.tileprovider.modules.DatabaseFileArchive.TABLE;
 
 /**
@@ -45,13 +46,23 @@ public class SqlTileWriterExt extends SqlTileWriter {
         }
         Cursor cur = null;
         try {
-            cur = db.rawQuery("select " + COLUMN_PROVIDER + ",count(*) from " + TABLE + " group by " + COLUMN_PROVIDER, null);
+            cur = db.rawQuery(
+                    "select "
+                            + COLUMN_PROVIDER
+                            + ",count(*) "
+                            + ",min(length(" + COLUMN_TILE + ")) "
+                            + ",max(length(" + COLUMN_TILE + ")) "
+                            + ",sum(length(" + COLUMN_TILE + ")) "
+                    + "from " + TABLE + " "
+                    + "group by " + COLUMN_PROVIDER, null);
             while (cur.moveToNext()) {
-                final String prov = cur.getString(0);
-                final long count = cur.getLong(1);
-                SourceCount c = new SourceCount();
-                c.source = prov;
-                c.rowCount = count;
+                final SourceCount c = new SourceCount();
+                c.source = cur.getString(0);
+                c.rowCount = cur.getLong(1);
+                c.sizeMin = cur.getLong(2);
+                c.sizeMax = cur.getLong(3);
+                c.sizeTotal = cur.getLong(4);
+                c.sizeAvg = c.sizeTotal / c.rowCount;
                 ret.add(c);
             }
         } catch(Exception e) {
@@ -73,6 +84,10 @@ public class SqlTileWriterExt extends SqlTileWriter {
     public static class SourceCount {
         public long rowCount = 0;
         public String source = null;
+        public long sizeTotal = 0;
+        public long sizeMin = 0;
+        public long sizeMax = 0;
+        public long sizeAvg = 0;
     }
 
 }
