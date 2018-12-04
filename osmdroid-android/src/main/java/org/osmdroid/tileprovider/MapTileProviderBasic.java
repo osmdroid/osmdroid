@@ -109,7 +109,7 @@ public class MapTileProviderBasic extends MapTileProviderArray implements IMapTi
 		getTileCache().getProtectedTileComputers().add(new MapTileAreaZoomComputer(-1));
 		getTileCache().getProtectedTileComputers().add(new MapTileAreaZoomComputer(1));
 		getTileCache().getProtectedTileComputers().add(new MapTileAreaBorderComputer(1));
-		getTileCache().setAutoEnsureCapacity(true);
+		getTileCache().setAutoEnsureCapacity(false);
 		getTileCache().setStressedMemory(false);
 
 		// pre-cache providers

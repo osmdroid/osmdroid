@@ -604,24 +604,33 @@ public class SqlTileWriter implements IFilesystemCache, SplashScreenable {
 
     @Override
     public Drawable loadTile(final ITileSource pTileSource, final long pMapTileIndex) throws Exception{
-        InputStream inputStream = null;
+        byte[] bits = null;
+        long expirationTimestamp = 0;
+        Cursor cur = null;
         try {
             final long index = getIndex(pMapTileIndex);
-            final Cursor cur = getTileCursor(getPrimaryKeyParameters(index, pTileSource), queryColumns);
-            byte[] bits=null;
-            long expirationTimestamp=0;
-
+            cur = getTileCursor(getPrimaryKeyParameters(index, pTileSource), queryColumns);
             if (cur.moveToFirst()){
-                bits = cur.getBlob(cur.getColumnIndex(DatabaseFileArchive.COLUMN_TILE));
-                expirationTimestamp = cur.getLong(cur.getColumnIndex(SqlTileWriter.COLUMN_EXPIRES));
+                bits = cur.getBlob(0);
+                expirationTimestamp = cur.getLong(1);
             }
-            cur.close();
             if (bits==null) {
                 if (Configuration.getInstance().isDebugMode()) {
                     Log.d(IMapView.LOGTAG,"SqlCache - Tile doesn't exist: " +pTileSource.name() + MapTileIndex.toString(pMapTileIndex));
                 }
                 return null;
             }
+        } catch(Exception ex) {
+            catchException(ex);
+            throw ex;
+        } finally {
+            if (cur != null) {
+                cur.close();
+            }
+        }
+
+        InputStream inputStream = null;
+        try {
             inputStream = new ByteArrayInputStream(bits);
             final Drawable drawable = pTileSource.getDrawable(inputStream);
             // Check to see if file has expired
