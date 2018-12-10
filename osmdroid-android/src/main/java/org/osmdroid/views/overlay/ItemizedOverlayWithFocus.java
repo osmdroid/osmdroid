@@ -360,7 +360,10 @@ public class ItemizedOverlayWithFocus<Item extends OverlayItem> extends Itemized
 		/*
 		 * Finally draw the marker base. This is done in the end to make it look better.
 		 */
-		Overlay.drawAt(c, markerFocusedBase, mFocusedScreenCoords.x, mFocusedScreenCoords.y, false, 0);
+		markerFocusedBase.setBounds(mRect);
+        markerFocusedBase.draw(c);
+        mRect.offset(-mFocusedScreenCoords.x, -mFocusedScreenCoords.y);
+        markerFocusedBase.setBounds(mRect);
 
 		if (osmv.getMapOrientation() != 0) {
 			c.restore();
