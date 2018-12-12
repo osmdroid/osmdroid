@@ -3,7 +3,6 @@ package org.osmdroid.views.overlay;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.library.R;
 import org.osmdroid.tileprovider.BitmapPool;
-import org.osmdroid.tileprovider.MapTileCache;
 import org.osmdroid.tileprovider.MapTileProviderBase;
 import org.osmdroid.tileprovider.ReusableBitmapDrawable;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
@@ -11,6 +10,7 @@ import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.RectL;
 import org.osmdroid.util.MapTileIndex;
 import org.osmdroid.util.TileLooper;
+import org.osmdroid.util.TileSystem;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
 
@@ -80,6 +80,11 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 	 * provides a night mode like affect by inverting the map tile colors
 	 */
 	public final static ColorFilter INVERT_COLORS = new ColorMatrixColorFilter(negate);
+
+	/**
+	 * @since 6.1.0
+	 */
+	private final Rect mProtectedTiles = new Rect(); // optimization
 
 	public TilesOverlay(final MapTileProviderBase aTileProvider, final Context aContext) {
 		this(aTileProvider, aContext, true, true);
@@ -151,8 +156,10 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 		if (!setViewPort(pCanvas, pMapView)) {
 			return;
 		}
-		mProjection = getProjection();
-		mCacheTileLooper.loop(mProjection.getZoomLevel(), mViewPort);
+		TileSystem.getTileFromMercator(mViewPort, TileSystem.getTileSize(mProjection.getZoomLevel()), mProtectedTiles);
+		final int tileZoomLevel = TileSystem.getInputTileZoomLevel(mProjection.getZoomLevel());
+		mTileProvider.getTileCache().getMapTileArea().set(tileZoomLevel, mProtectedTiles);
+		mTileProvider.getTileCache().maintenance();
 	}
 
 	/**
@@ -267,42 +274,6 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 		public void finaliseLoop() {}
 	}
 
-	/**
-	 * A simple loop in order to collect all tiles' indices
-	 * @since 6.0.0
-	 */
-	protected class CacheTileLooper extends TileLooper {
-
-		/**
-		 * making it `public` and not inaccessible as `protected`
-		 */
-		@Override
-		public void loop(final double pZoomLevel, final RectL pMercatorViewPort) {
-			super.loop(pZoomLevel, pMercatorViewPort);
-		}
-
-		@Override
-		public void initialiseLoop() {
-			// do nothing
-		}
-
-		@Override
-		public void handleTile(final long pMapTileIndex, int pX, int pY) {
-			// do nothing
-		}
-
-		@Override
-		public void finaliseLoop() {
-			getTileCache().getMapTileArea().set(mTileZoomLevel, mTiles);
-			getTileCache().maintenance();
-		}
-
-		private MapTileCache getTileCache() {
-			return mTileProvider.getTileCache();
-		}
-	}
-
-	private final CacheTileLooper mCacheTileLooper = new CacheTileLooper();
 	private final OverlayTileLooper mTileLooper = new OverlayTileLooper();
 	private final Rect mIntersectionRect = new Rect();
 
@@ -499,7 +470,6 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 	public void setHorizontalWrapEnabled(boolean horizontalWrapEnabled) {
 		this.horizontalWrapEnabled = horizontalWrapEnabled;
 		this.mTileLooper.setHorizontalWrapEnabled(horizontalWrapEnabled);
-		this.mCacheTileLooper.setHorizontalWrapEnabled(horizontalWrapEnabled);
 	}
 
 	public boolean isVerticalWrapEnabled() {
@@ -509,6 +479,5 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 	public void setVerticalWrapEnabled(boolean verticalWrapEnabled) {
 		this.verticalWrapEnabled = verticalWrapEnabled;
 		this.mTileLooper.setVerticalWrapEnabled(verticalWrapEnabled);
-		this.mCacheTileLooper.setVerticalWrapEnabled(verticalWrapEnabled);
 	}
 }

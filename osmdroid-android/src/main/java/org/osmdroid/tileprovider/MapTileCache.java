@@ -281,7 +281,7 @@ public class MapTileCache {
 	 * @since 6.0.0
 	 * Was in LRUMapTileCache
 	 */
-	public void remove(final long pMapTileIndex) {
+	protected void remove(final long pMapTileIndex) {
 		final Drawable drawable;
 		synchronized (mCachedTiles) {
 			drawable = mCachedTiles.remove(pMapTileIndex);
