@@ -7,35 +7,15 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Point;
 import android.util.AttributeSet;
-import android.util.DisplayMetrics;
-import android.util.Log;
-import android.util.SparseArray;
 import android.view.MotionEvent;
 import android.view.View;
 
-import org.osmdroid.api.IMapView;
-import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
-import org.osmdroid.util.PointReducer;
-import org.osmdroid.util.TileSystem;
-import org.osmdroid.util.constants.GeoConstants;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
-import org.osmdroid.views.overlay.FolderOverlay;
-import org.osmdroid.views.overlay.Marker;
-import org.osmdroid.views.overlay.Polygon;
-import org.osmdroid.views.overlay.Polyline;
-import org.osmdroid.views.util.constants.MathConstants;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import armyc2.c2sd.graphics2d.Point2D;
-import armyc2.c2sd.renderer.utilities.Color;
-import armyc2.c2sd.renderer.utilities.MilStdSymbol;
-import armyc2.c2sd.renderer.utilities.ModifiersTG;
-import armyc2.c2sd.renderer.utilities.ShapeInfo;
-import sec.web.render.SECWebRenderer;
 
 /**
  * A very simple borrowed from Android's "Finger Page" example, modified to generate polylines that

@@ -2,7 +2,6 @@ package org.osmdroid.tileprovider;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.os.Build;
 import android.test.AndroidTestCase;
 

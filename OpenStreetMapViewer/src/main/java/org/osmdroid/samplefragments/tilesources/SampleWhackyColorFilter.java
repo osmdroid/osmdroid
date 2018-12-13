@@ -5,8 +5,6 @@ import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 
 import org.osmdroid.samplefragments.BaseSampleFragment;
-import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
-import org.osmdroid.views.overlay.TilesOverlay;
 
 /**
  * Created by alex on 12/24/15.

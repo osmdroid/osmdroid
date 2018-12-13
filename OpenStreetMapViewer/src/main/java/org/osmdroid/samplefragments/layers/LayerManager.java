@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,7 +24,6 @@ import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.Overlay;
-import org.osmdroid.views.overlay.OverlayWithIW;
 import org.osmdroid.views.overlay.Polygon;
 import org.osmdroid.views.overlay.Polyline;
 
@@ -56,13 +54,13 @@ public class LayerManager extends BaseSampleFragment {
 
         View root = inflater.inflate(R.layout.layermanage_drawer, container,false);
 
-        mMapView = (MapView) root.findViewById(R.id.mapview);
-        textViewCurrentLocation = (TextView) root.findViewById(R.id.textViewCurrentLocation);
+        mMapView = root.findViewById(R.id.mapview);
+        textViewCurrentLocation = root.findViewById(R.id.textViewCurrentLocation);
 
 
         mPlanetTitles = new String[] {"Layer 1", "Layer 2"};
-        mDrawerLayout = (DrawerLayout)  root.findViewById(R.id.drawer_layout);
-        mDrawerList = (ListView)  root.findViewById(R.id.left_drawer);
+        mDrawerLayout = root.findViewById(R.id.drawer_layout);
+        mDrawerList = root.findViewById(R.id.left_drawer);
         final OverlayAdapter adapter = new OverlayAdapter(getContext(),mMapView.getOverlayManager());
         // Set the adapter for the list view
         mDrawerList.setAdapter(adapter);

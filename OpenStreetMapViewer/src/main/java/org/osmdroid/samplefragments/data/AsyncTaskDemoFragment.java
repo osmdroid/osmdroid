@@ -303,8 +303,9 @@ public class AsyncTaskDemoFragment extends BaseSampleFragment {
     }
 
     @Override
-    public void onDestroyView(){
+    public void onDestroyView() {
         // called i.e. for screen rotation
+        super.onDestroyView();
         if (mCurrentBackgroundMarkerLoaderTask != null) {
             // make shure that running {@link BackgroundMarkerLoaderTask} does not try to
             // update destroyed gui when finished

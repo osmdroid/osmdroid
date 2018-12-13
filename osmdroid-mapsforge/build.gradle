@@ -27,14 +27,13 @@ afterEvaluate { project ->
 }
 
 android {
-
     defaultConfig {
+        // mapsforge 0.8.0 has minSdk 10
         minSdkVersion 10
     }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile "junit:junit:${project.property('junit.version')}"
 
     //Mapsforge rendering and database support, which is LGPL

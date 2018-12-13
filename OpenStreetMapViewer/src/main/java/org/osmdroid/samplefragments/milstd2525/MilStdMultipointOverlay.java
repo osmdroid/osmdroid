@@ -2,11 +2,9 @@ package org.osmdroid.samplefragments.milstd2525;
 
 import android.graphics.Canvas;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.util.SparseArray;
 
 import org.osmdroid.api.IGeoPoint;
-import org.osmdroid.api.IMapView;
 import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.PointReducer;

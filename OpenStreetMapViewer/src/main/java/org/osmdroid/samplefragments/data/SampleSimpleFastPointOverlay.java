@@ -2,15 +2,10 @@ package org.osmdroid.samplefragments.data;
 
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Toast;
 
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.samplefragments.BaseSampleFragment;
-import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.simplefastpoint.LabelledGeoPoint;
 import org.osmdroid.views.overlay.simplefastpoint.SimpleFastPointOverlay;
 import org.osmdroid.views.overlay.simplefastpoint.SimpleFastPointOverlayOptions;
@@ -19,8 +14,6 @@ import org.osmdroid.views.overlay.simplefastpoint.StyledLabelledGeoPoint;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * Example of SimpleFastPointOverlay

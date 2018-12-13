@@ -4,9 +4,7 @@ import android.os.Environment;
 import android.support.design.widget.Snackbar;
 import android.widget.Toast;
 
-import org.osmdroid.R;
 import org.osmdroid.samplefragments.BaseSampleFragment;
-import org.osmdroid.tileprovider.modules.ArchiveFileFactory;
 import org.osmdroid.tileprovider.modules.IArchiveFile;
 import org.osmdroid.tileprovider.modules.OfflineTileProvider;
 import org.osmdroid.tileprovider.tilesource.FileBasedTileSource;

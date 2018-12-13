@@ -1,13 +1,9 @@
 package org.osmdroid.intro;
 
-import android.Manifest;
-import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.view.View;
@@ -48,16 +44,16 @@ public class IntroActivity extends FragmentActivity implements View.OnClickListe
 
 
         setContentView(R.layout.intro_frame);
-        introviewpager = (ViewPager)findViewById(R.id.introviewpager);
+        introviewpager = findViewById(R.id.introviewpager);
         adapter = new IntroSliderAdapter(getSupportFragmentManager());
         introviewpager.setAdapter(adapter);
         introviewpager.addOnPageChangeListener(this);
-        introProgressBar = (ProgressBar)findViewById(R.id.introProgressBar);
+        introProgressBar = findViewById(R.id.introProgressBar);
         introProgressBar.setMax(adapter.getCount()-1);
         introProgressBar.setProgress(0);
 
-        next = (Button) findViewById(R.id.introNext);
-        prev = (Button) findViewById(R.id.introPrev);
+        next = findViewById(R.id.introNext);
+        prev = findViewById(R.id.introPrev);
         next.setOnClickListener(this);
         prev.setOnClickListener(this);
 

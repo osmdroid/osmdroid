@@ -178,7 +178,7 @@ public class OSMMapTilePackager {
 
      public interface ProgressNotification {
 
-          public void updateProgress(String msg);
+          void updateProgress(String msg);
      }
 
      public static void execute(final String pServerURL, final String pDestinationFile,

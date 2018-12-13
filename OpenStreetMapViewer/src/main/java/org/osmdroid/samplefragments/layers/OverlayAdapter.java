@@ -9,8 +9,6 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import org.osmdroid.R;
-import org.osmdroid.views.overlay.ItemizedOverlay;
-import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.Overlay;
 import org.osmdroid.views.overlay.OverlayManager;
 import org.osmdroid.views.overlay.OverlayWithIW;
@@ -60,7 +58,7 @@ public class OverlayAdapter extends ArrayAdapter {
         LayoutInflater inflater = (LayoutInflater) context
             .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View rowView = inflater.inflate(R.layout.drawer_list_item, parent, false);
-        TextView view = (TextView) rowView.findViewById(R.id.itemText);
+        TextView view = rowView.findViewById(R.id.itemText);
 
         Overlay overlay = getItem(position);
         if (overlay!=null) {
