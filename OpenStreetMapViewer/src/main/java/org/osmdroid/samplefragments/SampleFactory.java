@@ -97,6 +97,8 @@ import org.osmdroid.samplefragments.tilesources.SampleInvertedTiles_NightMode;
 import org.osmdroid.samplefragments.tilesources.SampleLieFi;
 import org.osmdroid.samplefragments.tilesources.SampleMapBox;
 import org.osmdroid.samplefragments.tilesources.SampleMapQuest;
+import org.osmdroid.samplefragments.tilesources.SampleOfflineFirst;
+import org.osmdroid.samplefragments.tilesources.SampleOfflineSecond;
 import org.osmdroid.samplefragments.tilesources.SampleOpenSeaMap;
 import org.osmdroid.samplefragments.tilesources.SampleWMSSource;
 import org.osmdroid.samplefragments.tilesources.SampleWhackyColorFilter;
@@ -301,6 +303,8 @@ public final class SampleFactory implements ISampleFactory {
         mSamples.add(SampleItemizedOverlayMultiClick.class);
         mSamples.add(SampleMarkerMultiClick.class);
         mSamples.add(SampleMilestonesNonRepetitive.class);
+        mSamples.add(SampleOfflineFirst.class);
+        mSamples.add(SampleOfflineSecond.class);
     }
 
     public void addSample(Class<? extends BaseSampleFragment> clz) {

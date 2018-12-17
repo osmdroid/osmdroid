@@ -44,6 +44,12 @@ public class MapTileProviderBasic extends MapTileProviderArray implements IMapTi
 	private final INetworkAvailablityCheck mNetworkAvailabilityCheck;
 
 	/**
+	 * @since 6.1.0
+	 */
+	private final MapTileDownloader mDownloaderProvider;
+	private final MapTileApproximater mApproximationProvider;
+
+	/**
 	 * Creates a {@link MapTileProviderBasic}.
 	 */
 	public MapTileProviderBasic(final Context pContext) {
@@ -95,19 +101,17 @@ public class MapTileProviderBasic extends MapTileProviderArray implements IMapTi
 				pRegisterReceiver, pTileSource);
 		mTileProviderList.add(archiveProvider);
 
-		final MapTileApproximater approximationProvider = new MapTileApproximater();
-		mTileProviderList.add(approximationProvider);
-		approximationProvider.addProvider(assetsProvider);
-		approximationProvider.addProvider(cacheProvider);
-		approximationProvider.addProvider(archiveProvider);
+		mApproximationProvider = new MapTileApproximater();
+		mTileProviderList.add(mApproximationProvider);
+		mApproximationProvider.addProvider(assetsProvider);
+		mApproximationProvider.addProvider(cacheProvider);
+		mApproximationProvider.addProvider(archiveProvider);
 
-		final MapTileDownloader downloaderProvider = new MapTileDownloader(pTileSource, tileWriter,
-				aNetworkAvailablityCheck);
-		mTileProviderList.add(downloaderProvider);
+		mDownloaderProvider = new MapTileDownloader(pTileSource, tileWriter, aNetworkAvailablityCheck);
+		mTileProviderList.add(mDownloaderProvider);
 
 		// protected-cache-tile computers
 		getTileCache().getProtectedTileComputers().add(new MapTileAreaZoomComputer(-1));
-		getTileCache().getProtectedTileComputers().add(new MapTileAreaZoomComputer(1));
 		getTileCache().getProtectedTileComputers().add(new MapTileAreaBorderComputer(1));
 		getTileCache().setAutoEnsureCapacity(false);
 		getTileCache().setStressedMemory(false);
@@ -119,6 +123,8 @@ public class MapTileProviderBasic extends MapTileProviderArray implements IMapTi
 
 		// tiles currently being processed
 		getTileCache().getProtectedTileContainers().add(this);
+
+		setOfflineFirst(true);
 	}
 
 	@Override
@@ -180,5 +186,36 @@ public class MapTileProviderBasic extends MapTileProviderArray implements IMapTi
 			return new MapTileFilesystemProvider(pRegisterReceiver, pTileSource);
 		}
 		return new MapTileSqlCacheProvider(pRegisterReceiver, pTileSource);
+	}
+
+	/**
+	 * @since 6.1.0
+	 * @return true if possible and done
+	 */
+	public boolean setOfflineFirst(final boolean pOfflineFirst) {
+		int downloaderIndex = -1;
+		int approximationIndex = -1;
+		int i = 0;
+		for(final MapTileModuleProviderBase provider : mTileProviderList) {
+			if (downloaderIndex == -1 && provider == mDownloaderProvider) {
+				downloaderIndex = i;
+			}
+			if (approximationIndex == -1 && mApproximationProvider.equals(provider)) {
+				approximationIndex = i;
+			}
+			i++;
+		}
+		if (downloaderIndex == -1 || approximationIndex == -1) {
+			return false;
+		}
+		if (approximationIndex < downloaderIndex && pOfflineFirst) {
+			return true;
+		}
+		if (approximationIndex > downloaderIndex && !pOfflineFirst) {
+			return true;
+		}
+		mTileProviderList.set(downloaderIndex, mApproximationProvider);
+		mTileProviderList.set(approximationIndex, mDownloaderProvider);
+		return true;
 	}
 }
