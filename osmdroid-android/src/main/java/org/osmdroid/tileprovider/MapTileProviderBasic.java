@@ -200,7 +200,7 @@ public class MapTileProviderBasic extends MapTileProviderArray implements IMapTi
 			if (downloaderIndex == -1 && provider == mDownloaderProvider) {
 				downloaderIndex = i;
 			}
-			if (approximationIndex == -1 && mApproximationProvider.equals(provider)) {
+			if (approximationIndex == -1 && provider == mApproximationProvider) {
 				approximationIndex = i;
 			}
 			i++;
