@@ -34,10 +34,13 @@ public class MapViewRepository {
     }
 
     public void onDetach() {
-        for(final InfoWindow infoWindow : mInfoWindowList) {
-            infoWindow.onDetach();
+        synchronized (mInfoWindowList) {
+            for (final InfoWindow infoWindow : mInfoWindowList) {
+                infoWindow.onDetach();
+            }
+            mInfoWindowList.clear();
         }
-        mInfoWindowList.clear();
+
         mMapView = null;
         mDefaultMarkerInfoWindow = null;
         mDefaultPolylineInfoWindow = null;
