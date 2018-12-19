@@ -80,17 +80,19 @@ public class BookmarkDatastore {
     public void addBookmark(Marker bookmark) {
         addBookmark(bookmark.getId(), bookmark.getPosition().getLatitude(), bookmark.getPosition().getLongitude(), bookmark.getTitle(), bookmark.getSubDescription());
     }
+
+
     public void removeBookmark(Marker bookmark) {
         removeBookmark(bookmark.getId());
     }
-    public void removeBookmark(String id) {
-        //TODO
 
+
+    public void removeBookmark(String id) {
         mDatabase.delete(TABLE, COLUMN_ID, new String[]{COLUMN_ID});
     }
-    public void addBookmark(String id, double lat, double lon, String title, String description) {
-        //TODO
 
+
+    public void addBookmark(String id, double lat, double lon, String title, String description) {
 
         ContentValues cv = new ContentValues();
         if (id==null || id.length()==0)

@@ -5,7 +5,9 @@ import android.content.Context;
 import android.os.Build;
 import android.os.Environment;
 import android.os.StrictMode;
+import android.support.multidex.MultiDex;
 import android.util.Log;
+import android.support.multidex.MultiDexApplication;
 
 import com.squareup.leakcanary.LeakCanary;
 
@@ -33,7 +35,7 @@ import java.io.PrintWriter;
  */
 
 @ReportsCrashes(formUri = "")
-public class OsmApplication extends Application {
+public class OsmApplication extends MultiDexApplication {
 
     @Override
     public void onCreate() {
@@ -108,7 +110,7 @@ public class OsmApplication extends Application {
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
-
+        MultiDex.install(this);
 
         try {
             // Initialise ACRA

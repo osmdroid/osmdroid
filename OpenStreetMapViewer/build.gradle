@@ -33,6 +33,7 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         minSdkVersion Integer.parseInt(project.property('android-minSdkForSupportLib.version'))
+        multiDexEnabled = true
     }
     testOptions {
         unitTests.all {
@@ -61,11 +62,18 @@ dependencies {
 
     compile 'mil.army.missioncommand:mil-sym-android-renderer:0.1.37'
 
+    //used for various demos for picking offline tile archives
     compile 'com.github.angads25:filepicker:1.1.1'
 
+    //used for bookmark demo
+    compile group: 'com.opencsv', name: 'opencsv', version: '4.4'
+
+    //usual android stuff
     compile "com.android.support:design:${project.property('android-support.version')}" //needed for UI menuing
     compile "com.android.support:cardview-v7:${project.property('android-support.version')}"  //needed for samples only
     compile "com.android.support:recyclerview-v7:${project.property('android-support.version')}" //needed for samples only
+    compile      'com.android.support:multidex:1.0.3'
+
     compile "com.android.support:appcompat-v7:${project.property('android-support.version')}" //needed for UI menuing
     //crash logging
     compile 'ch.acra:acra:4.7.0'
