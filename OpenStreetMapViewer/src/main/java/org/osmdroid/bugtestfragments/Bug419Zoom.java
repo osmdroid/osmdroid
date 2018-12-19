@@ -33,7 +33,7 @@ public class Bug419Zoom extends BaseSampleFragment implements View.OnClickListen
 
         mMapView = new MapView(getActivity());
         ((LinearLayout) root.findViewById(R.id.mapview)).addView(mMapView);
-        btnCache = (Button) root.findViewById(R.id.btnCache);
+        btnCache = root.findViewById(R.id.btnCache);
         btnCache.setOnClickListener(this);
         btnCache.setText("Zoom Test");
         return root;

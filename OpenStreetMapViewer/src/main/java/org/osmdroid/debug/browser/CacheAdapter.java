@@ -69,9 +69,9 @@ public class CacheAdapter extends ArrayAdapter {
         MapTileExt p = (MapTileExt) getItem(position);
         if (p != null) {
             // Find fields to populate in inflated template
-            TextView source = (TextView) convertView.findViewById(R.id.tvSource);
-            TextView key = (TextView) convertView.findViewById(R.id.tvDbKey);
-            TextView expires = (TextView) convertView.findViewById(R.id.tvExpires);
+            TextView source = convertView.findViewById(R.id.tvSource);
+            TextView key = convertView.findViewById(R.id.tvDbKey);
+            TextView expires = convertView.findViewById(R.id.tvExpires);
 
             source.setText(p.source);
             key.setText(p.key + "");

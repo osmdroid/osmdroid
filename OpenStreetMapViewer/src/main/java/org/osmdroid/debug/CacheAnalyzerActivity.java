@@ -41,7 +41,7 @@ public class CacheAnalyzerActivity extends Activity implements AdapterView.OnIte
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cache_analyzer);
-        cacheStats = (TextView) findViewById(R.id.cacheStats);
+        cacheStats = findViewById(R.id.cacheStats);
 
         final ArrayList<String> list = new ArrayList<>();
         list.add("Browse the cache");
@@ -49,7 +49,7 @@ public class CacheAnalyzerActivity extends Activity implements AdapterView.OnIte
         list.add("Purge a specific tile source");
         list.add("See the debug counters");
 
-        ListView lv = (ListView) findViewById(R.id.statslist);
+        ListView lv = findViewById(R.id.statslist);
         ArrayAdapter adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, list);
 
         lv.setAdapter(adapter);
@@ -179,7 +179,7 @@ public class CacheAnalyzerActivity extends Activity implements AdapterView.OnIte
             @Override
             public void run() {
                 try {
-                    TextView tv = (TextView) findViewById(R.id.cacheStats);
+                    TextView tv = findViewById(R.id.cacheStats);
 
                     if (tv != null) {
                         tv.setText(sb.toString());

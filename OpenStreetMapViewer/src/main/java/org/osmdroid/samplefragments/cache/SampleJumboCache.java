@@ -6,15 +6,9 @@
 package org.osmdroid.samplefragments.cache;
 
 import android.os.Bundle;
-import android.widget.Toast;
 
 import org.osmdroid.config.Configuration;
 import org.osmdroid.samplefragments.BaseSampleFragment;
-import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
-import org.osmdroid.views.overlay.Overlay;
-import org.osmdroid.views.overlay.TilesOverlay;
-
-import java.util.Iterator;
 
 /**
  * An example on increasing the in memory tile cache. This is NOT the disk cache!

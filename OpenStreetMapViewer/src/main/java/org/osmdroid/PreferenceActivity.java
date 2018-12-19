@@ -72,60 +72,60 @@ public class PreferenceActivity extends AppCompatActivity implements View.OnClic
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_prefs);
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        Toolbar myToolbar = findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
 
-        checkBoxDebugTileProvider = (CheckBox) findViewById(R.id.checkBoxDebugTileProvider);
-        checkBoxDebugMode = (CheckBox) findViewById(R.id.checkBoxDebugMode);
-        checkBoxHardwareAcceleration = (CheckBox) findViewById(R.id.checkBoxHardwareAcceleration);
-        checkBoxDebugDownloading = (CheckBox) findViewById(R.id.checkBoxDebugDownloading);
-        checkBoxMapViewDebug = (CheckBox) findViewById(R.id.checkBoxMapViewDebug);
+        checkBoxDebugTileProvider = findViewById(R.id.checkBoxDebugTileProvider);
+        checkBoxDebugMode = findViewById(R.id.checkBoxDebugMode);
+        checkBoxHardwareAcceleration = findViewById(R.id.checkBoxHardwareAcceleration);
+        checkBoxDebugDownloading = findViewById(R.id.checkBoxDebugDownloading);
+        checkBoxMapViewDebug = findViewById(R.id.checkBoxMapViewDebug);
         checkBoxDebugTileProvider.setOnClickListener(this);
         checkBoxDebugMode.setOnClickListener(this);
         checkBoxHardwareAcceleration.setOnClickListener(this);
         checkBoxMapViewDebug.setOnClickListener(this);
 
-        textViewCacheDirectory = (TextView) findViewById(R.id.textViewCacheDirectory);
-        textViewBaseDirectory = (TextView) findViewById(R.id.textViewBaseDirectory);
-        buttonPurgeCache = (Button) findViewById(R.id.buttonPurgeCache);
-        httpUserAgent = (EditText) findViewById(R.id.httpUserAgent);
-        tileDownloadThreads = (EditText) findViewById(R.id.tileDownloadThreads);
+        textViewCacheDirectory = findViewById(R.id.textViewCacheDirectory);
+        textViewBaseDirectory = findViewById(R.id.textViewBaseDirectory);
+        buttonPurgeCache = findViewById(R.id.buttonPurgeCache);
+        httpUserAgent = findViewById(R.id.httpUserAgent);
+        tileDownloadThreads = findViewById(R.id.tileDownloadThreads);
         tileDownloadThreads.addTextChangedListener(new PositiveShortTextValidator(tileDownloadThreads));
-        tileDownloadMaxQueueSize = (EditText) findViewById(R.id.tileDownloadMaxQueueSize);
+        tileDownloadMaxQueueSize = findViewById(R.id.tileDownloadMaxQueueSize);
         tileDownloadMaxQueueSize.addTextChangedListener(new PositiveShortTextValidator(tileDownloadMaxQueueSize));
-        cacheMapTileCount = (EditText) findViewById(R.id.cacheMapTileCount);
+        cacheMapTileCount = findViewById(R.id.cacheMapTileCount);
         cacheMapTileCount.addTextChangedListener(new PositiveShortTextValidator(cacheMapTileCount));
-        tileFileSystemThreads = (EditText) findViewById(R.id.tileFileSystemThreads);
+        tileFileSystemThreads = findViewById(R.id.tileFileSystemThreads);
         tileFileSystemThreads.addTextChangedListener(new PositiveShortTextValidator(tileFileSystemThreads));
-        tileFileSystemMaxQueueSize = (EditText) findViewById(R.id.tileFileSystemMaxQueueSize);
+        tileFileSystemMaxQueueSize = findViewById(R.id.tileFileSystemMaxQueueSize);
         tileFileSystemMaxQueueSize.addTextChangedListener(new PositiveShortTextValidator(tileFileSystemMaxQueueSize));
-        gpsWaitTime = (EditText) findViewById(R.id.gpsWaitTime);
+        gpsWaitTime = findViewById(R.id.gpsWaitTime);
         gpsWaitTime.addTextChangedListener(new PositiveLongTextValidator(gpsWaitTime,1));
-        additionalExpirationTime = (EditText) findViewById(R.id.additionalExpirationTime);
+        additionalExpirationTime = findViewById(R.id.additionalExpirationTime);
         additionalExpirationTime .addTextChangedListener(new PositiveLongTextValidator(additionalExpirationTime,0));
 
-        cacheMaxSize = (EditText) findViewById(R.id.cacheMaxSize);
-        cacheTrimSize = (EditText) findViewById(R.id.cacheTrimSize);
+        cacheMaxSize = findViewById(R.id.cacheMaxSize);
+        cacheTrimSize = findViewById(R.id.cacheTrimSize);
         cacheMaxSize.addTextChangedListener(new PositiveLongTextValidator(cacheMaxSize,0));
         cacheTrimSize.addTextChangedListener(new PositiveLongTextValidator(cacheTrimSize,0));
 
-        overrideExpirationTime = (EditText) findViewById(R.id.overrideExpirationTime);
-        zoomSpeedDefault = (EditText) findViewById(R.id.zoomSpeedDefault);
+        overrideExpirationTime = findViewById(R.id.overrideExpirationTime);
+        zoomSpeedDefault = findViewById(R.id.zoomSpeedDefault);
         zoomSpeedDefault.addTextChangedListener(new PositiveLongTextValidator(zoomSpeedDefault,1));
-        zoomSpeedShort = (EditText) findViewById(R.id.zoomSpeedShort);
+        zoomSpeedShort = findViewById(R.id.zoomSpeedShort);
         zoomSpeedShort.addTextChangedListener(new PositiveLongTextValidator(zoomSpeedShort,1));
 
 
-        buttonSetBase = (Button) findViewById(R.id.buttonSetBase);
+        buttonSetBase = findViewById(R.id.buttonSetBase);
         buttonSetBase.setOnClickListener(this);
-        buttonSetCache = (Button) findViewById(R.id.buttonSetCache);
-        buttonManualCacheEntry = (Button) findViewById(R.id.buttonManualCacheEntry);
+        buttonSetCache = findViewById(R.id.buttonSetCache);
+        buttonManualCacheEntry = findViewById(R.id.buttonManualCacheEntry);
         buttonSetCache.setOnClickListener(this);
-        buttonManualBaseEntry = (Button) findViewById(R.id.buttonManualBaseEntry);
+        buttonManualBaseEntry = findViewById(R.id.buttonManualBaseEntry);
         buttonManualBaseEntry.setOnClickListener(this);
         buttonManualCacheEntry.setOnClickListener(this);
         buttonPurgeCache.setOnClickListener(this);
-        buttonReset = (Button) findViewById(R.id.buttonReset);
+        buttonReset = findViewById(R.id.buttonReset);
         buttonReset.setOnClickListener(this);
 
         findViewById(R.id.baseDirTitle).setOnClickListener(this);
@@ -414,7 +414,7 @@ public class PreferenceActivity extends AppCompatActivity implements View.OnClic
                     tv.setText(item.path + File.separator + "osmdroid" + File.separator + postfix);
                 } catch (Exception ex) {
                     ex.printStackTrace();
-                    Toast.makeText(PreferenceActivity.this, "Invalid entry: " + ex.getMessage(), Toast.LENGTH_LONG);
+                    Toast.makeText(PreferenceActivity.this, "Invalid entry: " + ex.getMessage(), Toast.LENGTH_LONG).show();
                 }
 
             }

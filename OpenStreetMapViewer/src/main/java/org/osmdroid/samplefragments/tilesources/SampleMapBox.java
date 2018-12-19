@@ -2,7 +2,6 @@ package org.osmdroid.samplefragments.tilesources;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -58,10 +57,10 @@ public class SampleMapBox   extends BaseSampleFragment {
         // set prompts.xml to alertdialog builder
         alertDialogBuilder.setView(promptsView);
 
-        final EditText userInputBoxId = (EditText) promptsView
+        final EditText userInputBoxId = promptsView
                 .findViewById(R.id.editTextDialogUserInputMapboxId);
 
-        final EditText userInputToken = (EditText) promptsView
+        final EditText userInputToken = promptsView
                 .findViewById(R.id.editTextDialogUserInputMapboxAccessToken);
 
         // set dialog message

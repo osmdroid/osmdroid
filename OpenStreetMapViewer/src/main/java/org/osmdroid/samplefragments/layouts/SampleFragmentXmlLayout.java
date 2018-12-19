@@ -30,7 +30,7 @@ public class SampleFragmentXmlLayout extends BaseSampleFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View v = inflater.inflate(org.osmdroid.R.layout.activity_starter_mapview, null);
-		mMapView = (MapView) v.findViewById(org.osmdroid.R.id.mapview);
+		mMapView = v.findViewById(org.osmdroid.R.id.mapview);
 		return v;
 	}
 

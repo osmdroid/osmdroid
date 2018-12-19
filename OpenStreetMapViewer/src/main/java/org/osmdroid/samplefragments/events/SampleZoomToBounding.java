@@ -43,7 +43,7 @@ public class SampleZoomToBounding extends BaseSampleFragment implements View.OnC
         mMapView = new MapView(getActivity());
         ((LinearLayout) root.findViewById(R.id.mapview)).addView(mMapView);
         polygon = new Polygon(mMapView);
-        btnCache = (Button) root.findViewById(R.id.btnCache);
+        btnCache = root.findViewById(R.id.btnCache);
         btnCache.setOnClickListener(this);
         btnCache.setText("Zoom to bounds");
 

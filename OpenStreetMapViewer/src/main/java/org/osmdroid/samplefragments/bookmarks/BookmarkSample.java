@@ -116,12 +116,12 @@ public class BookmarkSample extends BaseSampleFragment implements LocationListen
 
         View view = View.inflate(getContext(), R.layout.bookmark_add_dialog, null);
         builder.setView(view);
-        final EditText lat = (EditText) view.findViewById(R.id.bookmark_lat);
+                final EditText lat = view.findViewById(R.id.bookmark_lat);
         lat.setText(p.getLatitude() + "");
-        final EditText lon = (EditText) view.findViewById(R.id.bookmark_lon);
+                final EditText lon = view.findViewById(R.id.bookmark_lon);
         lon.setText(p.getLongitude() + "");
-        final EditText title = (EditText) view.findViewById(R.id.bookmark_title);
-        final EditText description = (EditText) view.findViewById(R.id.bookmark_description);
+                final EditText title = view.findViewById(R.id.bookmark_title);
+                final EditText description = view.findViewById(R.id.bookmark_description);
 
         view.findViewById(R.id.bookmark_cancel).setOnClickListener(new View.OnClickListener() {
             @Override

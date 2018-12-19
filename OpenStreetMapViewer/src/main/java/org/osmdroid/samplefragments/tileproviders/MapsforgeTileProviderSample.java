@@ -20,6 +20,7 @@ import java.io.File;
 import java.io.FileFilter;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -180,9 +181,7 @@ public class MapsforgeTileProviderSample extends BaseSampleFragment {
             }
         });
         if (files != null) {
-            for (int i = 0; i < files.length; i++) {
-                ret.add(files[i]);
-            }
+            Collections.addAll(ret, files);
         }
         return ret;
     }

@@ -297,7 +297,7 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback {
 	public void rescaleCache(final Projection pProjection, final double pNewZoomLevel,
 			final double pOldZoomLevel, final Rect pViewPort) {
 
-		if (pNewZoomLevel == pOldZoomLevel) {
+		if (TileSystem.getInputTileZoomLevel(pNewZoomLevel) == TileSystem.getInputTileZoomLevel(pOldZoomLevel)) {
 			return;
 		}
 
@@ -454,7 +454,6 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback {
 									x * mTileSize_2, y * mTileSize_2,
 									(x + 1) * mTileSize_2, (y + 1) * mTileSize_2);
 							canvas.drawBitmap(oldBitmap, null, mDestRect, null);
-							mTileCache.remove(oldTile);
 						}
 					}
 				}

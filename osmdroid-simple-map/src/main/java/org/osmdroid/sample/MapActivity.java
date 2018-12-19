@@ -1,6 +1,6 @@
 package org.osmdroid.sample;
 
-import android.app.Activity;
+import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 
@@ -15,31 +15,36 @@ import org.osmdroid.views.MapView;
  * @author Alex O'Ree
  */
 
-public class MapActivity extends Activity {
-    MapView mapView=null;
+public class MapActivity extends AppCompatActivity {
+    private MapView mapView = null;
+
     @Override
     public void onCreate(Bundle savedInstance){
         super.onCreate(savedInstance);
-        Configuration.getInstance().load(getApplicationContext(), PreferenceManager.getDefaultSharedPreferences(getApplicationContext()));
+        Configuration.getInstance().load(getApplicationContext(),
+                PreferenceManager.getDefaultSharedPreferences(getApplicationContext()));
         //TODO check permissions
         setContentView(R.layout.activity_main);
-        mapView = (MapView) findViewById(R.id.mapView);
+        mapView = findViewById(R.id.mapView);
     }
-
 
     @Override
     public void onResume(){
         super.onResume();
-        Configuration.getInstance().load(getApplicationContext(), PreferenceManager.getDefaultSharedPreferences(getApplicationContext()));
-        if (mapView!=null)
-        mapView.onResume();
+        Configuration.getInstance().load(getApplicationContext(),
+                PreferenceManager.getDefaultSharedPreferences(getApplicationContext()));
+        if (mapView!=null) {
+            mapView.onResume();
+        }
     }
 
     @Override
     public void onPause(){
         super.onPause();
-        Configuration.getInstance().save(getApplicationContext(), PreferenceManager.getDefaultSharedPreferences(getApplicationContext()));
-        if (mapView!=null)
-        mapView.onPause();
+        Configuration.getInstance().save(getApplicationContext(),
+                PreferenceManager.getDefaultSharedPreferences(getApplicationContext()));
+        if (mapView!=null) {
+            mapView.onPause();
+        }
     }
 }

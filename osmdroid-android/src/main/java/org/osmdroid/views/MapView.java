@@ -172,6 +172,11 @@ public class MapView extends ViewGroup implements IMapView,
 
 	private static TileSystem mTileSystem = new TileSystemWebMercator();
 
+	/**
+	 * @since 6.1.0
+	 */
+	private final Rect mRescaleScreenRect = new Rect(); // optimization
+
 	// ===========================================================
 	// Constructors
 	// ===========================================================
@@ -480,7 +485,7 @@ public class MapView extends ViewGroup implements IMapView,
 				getController().animateTo(geoPoint);
 			}
 
-			mTileProvider.rescaleCache(pj, newZoomLevel, curZoomLevel, getScreenRect(null));
+			mTileProvider.rescaleCache(pj, newZoomLevel, curZoomLevel, getScreenRect(mRescaleScreenRect));
 			pauseFling = true;	// issue 269, pause fling during zoom changes
 		}
 
