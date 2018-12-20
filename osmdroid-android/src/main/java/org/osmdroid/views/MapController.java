@@ -155,6 +155,9 @@ public class MapController implements IMapController, OnFirstLayoutListener {
                 mapAnimator.setDuration(pSpeed);
             }
 
+            if (mCurrentAnimator != null) {
+                mCurrentAnimator.end();
+            }
             mCurrentAnimator = mapAnimator;
             mapAnimator.start();
             return;
