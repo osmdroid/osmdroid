@@ -241,13 +241,15 @@ public class MapController implements IMapController, OnFirstLayoutListener {
                 stopPanning();
         }
 
-        // We ignore the jumpToTarget for zoom levels since it doesn't make sense to stop
-        // the animation in the middle. Maybe we could have it cancel the zoom operation and jump
-        // back to original zoom level?
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             final Animator currentAnimator = this.mCurrentAnimator;
             if (mMapView.mIsAnimating.get()) {
-                currentAnimator.end();
+                if (jumpToTarget) {
+                    currentAnimator.end();
+                }
+                else {
+                    currentAnimator.cancel();
+                }
             }
         } else {
             if (mMapView.mIsAnimating.get()) {
@@ -487,7 +489,7 @@ public class MapController implements IMapController, OnFirstLayoutListener {
 
         @Override
         public void onAnimationCancel(Animator animator) {
-            //noOp
+            mMapController.onAnimationEnd();
         }
 
         @Override

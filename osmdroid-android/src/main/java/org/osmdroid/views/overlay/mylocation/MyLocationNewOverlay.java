@@ -298,13 +298,10 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 
 	@Override
 	public boolean onTouchEvent(final MotionEvent event, final MapView mapView) {
-		if (event.getAction() == MotionEvent.ACTION_DOWN) {
-			if (enableAutoStop) {
-				mMapController.stopAnimation(false);
-				this.disableFollowLocation();
-			} else {
-				return true;//prevent the pan
-			}
+		if (event.getAction() == MotionEvent.ACTION_DOWN && enableAutoStop) {
+			this.disableFollowLocation();
+		} else if (event.getAction() == MotionEvent.ACTION_MOVE && isFollowLocationEnabled()) {
+			return true;  // prevent the pan
 		}
 
 		return super.onTouchEvent(event, mapView);
@@ -407,6 +404,7 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 	 * Disables "follow" functionality.
 	 */
 	public void disableFollowLocation() {
+		mMapController.stopAnimation(false);
 		mIsFollowing = false;
 	}
 
