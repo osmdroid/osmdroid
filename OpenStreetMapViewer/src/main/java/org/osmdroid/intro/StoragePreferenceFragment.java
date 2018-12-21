@@ -77,15 +77,13 @@ public class StoragePreferenceFragment extends Fragment implements View.OnClickL
         textViewCacheMaxSize.setText(readableFileSize(Configuration.getInstance().getTileFileSystemCacheMaxBytes()));
         textViewCacheTrimSize.setText(readableFileSize(Configuration.getInstance().getTileFileSystemCacheTrimBytes()));
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
-            textViewCacheFreeSpace.setText(readableFileSize(Configuration.getInstance().getOsmdroidTileCache().getFreeSpace()));
-        } else textViewCacheFreeSpace.setText("");
+        textViewCacheFreeSpace.setText(readableFileSize(Configuration.getInstance().getOsmdroidTileCache().getFreeSpace()));
         File dbFile = new File(Configuration.getInstance().getOsmdroidTileCache().getAbsolutePath() + File.separator + SqlTileWriter.DATABASE_FILENAME);
-        if (Build.VERSION.SDK_INT >= 9 && dbFile.exists()) {
+        if (dbFile.exists()) {
             textViewCacheCurrentSize.setText(readableFileSize(dbFile.length()));
-        } else textViewCacheCurrentSize.setText("");
-
-
+        } else {
+            textViewCacheCurrentSize.setText("");
+        }
     }
 
     public void updateStorage(Context ctx) {
@@ -180,14 +178,13 @@ public class StoragePreferenceFragment extends Fragment implements View.OnClickL
                 textViewCacheMaxSize.setText(readableFileSize(Configuration.getInstance().getTileFileSystemCacheMaxBytes()));
                 textViewCacheTrimSize.setText(readableFileSize(Configuration.getInstance().getTileFileSystemCacheTrimBytes()));
 
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
-                    textViewCacheFreeSpace.setText(readableFileSize(Configuration.getInstance().getOsmdroidTileCache().getFreeSpace()));
-                } else textViewCacheFreeSpace.setText("");
+                textViewCacheFreeSpace.setText(readableFileSize(Configuration.getInstance().getOsmdroidTileCache().getFreeSpace()));
                 File dbFile = new File(Configuration.getInstance().getOsmdroidTileCache().getAbsolutePath() + File.separator + SqlTileWriter.DATABASE_FILENAME);
-                if (Build.VERSION.SDK_INT >= 9 && dbFile.exists()) {
+                if (dbFile.exists()) {
                     textViewCacheCurrentSize.setText(readableFileSize(dbFile.length()));
-                } else textViewCacheCurrentSize.setText("");
-
+                } else {
+                    textViewCacheCurrentSize.setText("");
+                }
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -249,14 +246,13 @@ public class StoragePreferenceFragment extends Fragment implements View.OnClickL
                     textViewCacheMaxSize.setText(readableFileSize(Configuration.getInstance().getTileFileSystemCacheMaxBytes()));
                     textViewCacheTrimSize.setText(readableFileSize(Configuration.getInstance().getTileFileSystemCacheTrimBytes()));
 
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
-                        textViewCacheFreeSpace.setText(readableFileSize(Configuration.getInstance().getOsmdroidTileCache().getFreeSpace()));
-                    } else textViewCacheFreeSpace.setText("");
+                    textViewCacheFreeSpace.setText(readableFileSize(Configuration.getInstance().getOsmdroidTileCache().getFreeSpace()));
                     File dbFile = new File(Configuration.getInstance().getOsmdroidTileCache().getAbsolutePath() + File.separator + SqlTileWriter.DATABASE_FILENAME);
-                    if (Build.VERSION.SDK_INT >= 9 && dbFile.exists()) {
+                    if (dbFile.exists()) {
                         textViewCacheCurrentSize.setText(readableFileSize(dbFile.length()));
-                    } else textViewCacheCurrentSize.setText("");
-
+                    } else {
+                        textViewCacheCurrentSize.setText("");
+                    }
                 }
             }
         });

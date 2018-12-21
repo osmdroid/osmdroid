@@ -106,7 +106,6 @@ public class OfflinePickerSample extends BaseSampleFragment implements View.OnCl
         properties.selection_mode = DialogConfigs.MULTI_MODE;
         properties.selection_type = DialogConfigs.FILE_SELECT;
         properties.root = new File(DialogConfigs.DEFAULT_DIR);
-        ;//(Configuration.getInstance().getOsmdroidBasePath());
         properties.error_dir = new File(DialogConfigs.DEFAULT_DIR);
         properties.offset = new File(DialogConfigs.DEFAULT_DIR);
 
@@ -114,9 +113,7 @@ public class OfflinePickerSample extends BaseSampleFragment implements View.OnCl
         //api check
         if (Build.VERSION.SDK_INT >= 14)
             registeredExtensions.add("gpkg");
-        if (Build.VERSION.SDK_INT >= 10)
-            registeredExtensions.add("map");
-
+        registeredExtensions.add("map");
 
         String[] ret = new String[registeredExtensions.size()];
         ret = registeredExtensions.toArray(ret);

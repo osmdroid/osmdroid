@@ -85,11 +85,7 @@ public class SampleLieFi extends BaseSampleFragment {
             if (cacheWriter != null) {
                 tileWriter = cacheWriter;
             } else {
-                if (Build.VERSION.SDK_INT < 10) {
-                    tileWriter = new TileWriter();
-                } else {
-                    tileWriter = new SqlTileWriter();
-                }
+                tileWriter = new SqlTileWriter();
             }
             final MapTileAssetsProvider assetsProvider = new MapTileAssetsProvider(
                     pRegisterReceiver, pContext.getAssets(), pTileSource);

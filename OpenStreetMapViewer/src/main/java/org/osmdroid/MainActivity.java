@@ -216,7 +216,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
 
         File dbFile = new File(Configuration.getInstance().getOsmdroidTileCache().getAbsolutePath() + File.separator + SqlTileWriter.DATABASE_FILENAME);
-        if (Build.VERSION.SDK_INT >= 9 && dbFile.exists()) {
+        if (dbFile.exists()) {
             return dbFile.length();
         }
         return -1;

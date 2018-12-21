@@ -23,12 +23,10 @@ public class SampleTester extends BaseSampleFragment implements MapView.OnFirstL
     protected void addOverlays() {
         //sorry for the spaghetti code this is to filter out the compass on api 8
         //Note: the compass overlay causes issues on API 8 devices. See https://github.com/osmdroid/osmdroid/issues/218
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.FROYO) {
-            mCompassOverlay = new CompassOverlay(getContext(), new InternalCompassOrientationProvider(getContext()),
-                    mMapView);
-            mCompassOverlay.enableCompass();
-            mMapView.getOverlays().add(this.mCompassOverlay);
-        }
+        mCompassOverlay = new CompassOverlay(getContext(), new InternalCompassOrientationProvider(getContext()),
+                mMapView);
+        mCompassOverlay.enableCompass();
+        mMapView.getOverlays().add(this.mCompassOverlay);
     }
 
     private CompassOverlay mCompassOverlay = null;

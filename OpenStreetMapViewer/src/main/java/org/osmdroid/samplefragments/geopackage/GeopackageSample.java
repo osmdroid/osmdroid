@@ -71,32 +71,30 @@ public class GeopackageSample extends BaseSampleFragment {
         View root = inflater.inflate(R.layout.map_with_locationbox, container, false);
         mMapView = root.findViewById(R.id.mapview);
 
-        if (Build.VERSION.SDK_INT >= 12) {
-            mMapView.setOnGenericMotionListener(new View.OnGenericMotionListener() {
-                /**
-                 * mouse wheel zooming ftw
-                 * http://stackoverflow.com/questions/11024809/how-can-my-view-respond-to-a-mousewheel
-                 * @param v
-                 * @param event
-                 * @return
-                 */
-                @Override
-                public boolean onGenericMotion(View v, MotionEvent event) {
-                    if (0 != (event.getSource() & InputDevice.SOURCE_CLASS_POINTER)) {
-                        switch (event.getAction()) {
-                            case MotionEvent.ACTION_SCROLL:
-                                if (event.getAxisValue(MotionEvent.AXIS_VSCROLL) < 0.0f)
-                                    mMapView.getController().zoomOut();
-                                else {
-                                    mMapView.getController().zoomIn();
-                                }
-                                return true;
-                        }
+        mMapView.setOnGenericMotionListener(new View.OnGenericMotionListener() {
+            /**
+             * mouse wheel zooming ftw
+             * http://stackoverflow.com/questions/11024809/how-can-my-view-respond-to-a-mousewheel
+             * @param v
+             * @param event
+             * @return
+             */
+            @Override
+            public boolean onGenericMotion(View v, MotionEvent event) {
+                if (0 != (event.getSource() & InputDevice.SOURCE_CLASS_POINTER)) {
+                    switch (event.getAction()) {
+                        case MotionEvent.ACTION_SCROLL:
+                            if (event.getAxisValue(MotionEvent.AXIS_VSCROLL) < 0.0f)
+                                mMapView.getController().zoomOut();
+                            else {
+                                mMapView.getController().zoomIn();
+                            }
+                            return true;
                     }
-                    return false;
                 }
-            });
-        }
+                return false;
+            }
+        });
 
         textViewCurrentLocation = root.findViewById(R.id.textViewCurrentLocation);
         return root;
