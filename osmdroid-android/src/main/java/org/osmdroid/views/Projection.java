@@ -723,7 +723,7 @@ public class Projection implements IProjection {
 	/**
 	 * @since 6.0.0
 	 */
-	private void adjustOffsets(final long pDeltaX, final long pDeltaY) {
+	void adjustOffsets(final long pDeltaX, final long pDeltaY) {
 		if (pDeltaX == 0 && pDeltaY == 0) {
 			return;
 		}
