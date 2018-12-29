@@ -528,7 +528,28 @@ public class MapView extends ViewGroup implements IMapView,
 			nextZoom = pMaximumZoom;
 		}
 		nextZoom = Math.min(getMaxZoomLevel(), Math.max(nextZoom, getMinZoomLevel()));
-		final IGeoPoint center = pBoundingBox.getCenterWithDateLine();
+		final GeoPoint center = pBoundingBox.getCenterWithDateLine();
+
+		// fine-tuning the latitude, cf. https://github.com/osmdroid/osmdroid/issues/1239
+		final Projection projection = new Projection(
+				nextZoom, getIntrinsicScreenRect(null),
+				center,
+				0, 0,
+				getMapOrientation(),
+				isHorizontalMapRepetitionEnabled(), isVerticalMapRepetitionEnabled(),
+				getTileSystem());
+		final Point point = new Point();
+		final double longitude = pBoundingBox.getCenterLongitude();
+		projection.toPixels(new GeoPoint(pBoundingBox.getActualNorth(), longitude), point);
+		final int north = point.y;
+		projection.toPixels(new GeoPoint(pBoundingBox.getActualSouth(), longitude), point);
+		final int south = point.y;
+		final int offset = ((getHeight() - south) - north) / 2;
+		if (offset != 0) {
+			projection.adjustOffsets(0, offset);
+			projection.fromPixels(getWidth() / 2, getHeight() / 2, center);
+		}
+
 		if(pAnimated) {
 			getController().animateTo(center, nextZoom, pAnimationSpeed);
 		} else { // it's best to set the zoom first, so that the center is accurate
