@@ -1854,4 +1854,11 @@ public class MapView extends ViewGroup implements IMapView,
 	public CustomZoomButtonsController getZoomController() {
 		return mZoomController;
 	}
+
+	/**
+	 * @since 6.1.0
+	 */
+	public TilesOverlay getMapOverlay() {
+		return mMapOverlay;
+	}
 }
