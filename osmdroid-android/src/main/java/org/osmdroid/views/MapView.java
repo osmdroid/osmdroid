@@ -226,6 +226,7 @@ public class MapView extends ViewGroup implements IMapView,
 
 		mZoomController = new CustomZoomButtonsController(this);
 		mZoomController.setOnZoomListener(new MapViewZoomListener());
+		checkZoomButtons();
 
 		mGestureDetector = new GestureDetector(context, new MapViewGestureDetectorListener());
 		mGestureDetector.setOnDoubleTapListener(new MapViewDoubleClickListener());
