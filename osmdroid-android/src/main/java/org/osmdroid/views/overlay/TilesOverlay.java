@@ -5,6 +5,7 @@ import org.osmdroid.library.R;
 import org.osmdroid.tileprovider.BitmapPool;
 import org.osmdroid.tileprovider.MapTileProviderBase;
 import org.osmdroid.tileprovider.ReusableBitmapDrawable;
+import org.osmdroid.tileprovider.TileStates;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.RectL;
@@ -85,6 +86,11 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 	 * @since 6.1.0
 	 */
 	private final Rect mProtectedTiles = new Rect(); // optimization
+
+	/**
+	 * @since 6.1.0
+	 */
+	private final TileStates mTileStates = new TileStates();
 
 	public TilesOverlay(final MapTileProviderBase aTileProvider, final Context aContext) {
 		this(aTileProvider, aContext, true, true);
@@ -230,11 +236,13 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 			final int height = mTiles.bottom - mTiles.top + 1;
 			final int numNeeded = height * width;
 			mTileProvider.ensureCapacity(numNeeded + Configuration.getInstance().getCacheMapTileOvershoot());
+			mTileStates.initialiseLoop();
 			super.initialiseLoop();
 		}
 		@Override
 		public void handleTile(final long pMapTileIndex, int pX, int pY) {
 			Drawable currentMapTile = mTileProvider.getMapTile(pMapTileIndex);
+			mTileStates.handleTile(currentMapTile);
 			boolean isReusable = currentMapTile instanceof ReusableBitmapDrawable;
 			final ReusableBitmapDrawable reusableBitmapDrawable =
 					isReusable ? (ReusableBitmapDrawable) currentMapTile : null;
@@ -271,7 +279,9 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 		}
 
 		@Override
-		public void finaliseLoop() {}
+		public void finaliseLoop() {
+			mTileStates.finaliseLoop();
+		}
 	}
 
 	private final OverlayTileLooper mTileLooper = new OverlayTileLooper();
@@ -479,5 +489,12 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 	public void setVerticalWrapEnabled(boolean verticalWrapEnabled) {
 		this.verticalWrapEnabled = verticalWrapEnabled;
 		this.mTileLooper.setVerticalWrapEnabled(verticalWrapEnabled);
+	}
+
+    /**
+     * @since 6.1.0
+     */
+	public TileStates getTileStates() {
+		return mTileStates;
 	}
 }
