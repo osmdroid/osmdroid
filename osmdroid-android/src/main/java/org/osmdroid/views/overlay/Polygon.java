@@ -238,16 +238,11 @@ public class Polygon extends OverlayWithIW {
 		return points;
 	}
 	
-	@Override public void draw(Canvas canvas, MapView mapView, boolean shadow) {
+	@Override public void draw(Canvas canvas, Projection pj) {
 
-		if (shadow) {
-			return;
-		}
-
-		final Projection pj = mapView.getProjection();
 		mPath.rewind();
 
-		mOutline.setClipArea(mapView);
+		mOutline.setClipArea(pj);
 		final PointL offset = mOutline.buildPathPortion(pj, null, mMilestoneManagers.size() > 0);
 		for (final MilestoneManager milestoneManager : mMilestoneManagers) {
 			milestoneManager.init();
@@ -259,7 +254,7 @@ public class Polygon extends OverlayWithIW {
 		}
 
 		for (LinearRing hole:mHoles){
-			hole.setClipArea(mapView);
+			hole.setClipArea(pj);
 			hole.buildPathPortion(pj, offset, mMilestoneManagers.size() > 0);
 		}
 		mPath.setFillType(Path.FillType.EVEN_ODD); //for correct support of holes

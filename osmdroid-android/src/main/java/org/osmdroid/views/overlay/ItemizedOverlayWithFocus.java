@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.osmdroid.library.R;
 import org.osmdroid.views.MapView;
+import org.osmdroid.views.Projection;
 import org.osmdroid.views.overlay.OverlayItem.HotspotPlace;
 
 import android.content.Context;
@@ -228,13 +229,9 @@ public class ItemizedOverlayWithFocus<Item extends OverlayItem> extends Itemized
 	private final Rect mRect = new Rect();
 
 	@Override
-	public void draw(final Canvas c, final MapView osmv, final boolean shadow) {
+	public void draw(final Canvas c, final Projection pProjection) {
 
-		super.draw(c, osmv, shadow);
-
-		if (shadow) {
-			return;
-		}
+		super.draw(c, pProjection);
 
 		if (this.mFocusedItemIndex == NOT_SET) {
 			return;
@@ -251,7 +248,7 @@ public class ItemizedOverlayWithFocus<Item extends OverlayItem> extends Itemized
 		}
 
 		/* Calculate and set the bounds of the marker. */
-		osmv.getProjection().toPixels(focusedItem.getPoint(), mFocusedScreenCoords);
+		pProjection.toPixels(focusedItem.getPoint(), mFocusedScreenCoords);
 
 		markerFocusedBase.copyBounds(mRect);
 		mRect.offset(mFocusedScreenCoords.x, mFocusedScreenCoords.y);
@@ -328,9 +325,9 @@ public class ItemizedOverlayWithFocus<Item extends OverlayItem> extends Itemized
 				- (lines.length + 1) * DESCRIPTION_LINE_HEIGHT /* +1 because of the title. */
 				- 2 * DESCRIPTION_BOX_PADDING;
 
-		if (osmv.getMapOrientation() != 0) {
+		if (pProjection.getOrientation() != 0) {
 			c.save();
-			c.rotate(-osmv.getMapOrientation(), mFocusedScreenCoords.x, mFocusedScreenCoords.y);
+			c.rotate(-pProjection.getOrientation(), mFocusedScreenCoords.x, mFocusedScreenCoords.y);
 		}
 
 		/* Twice draw a RoundRect, once in black with 1px as a small border. */
@@ -365,7 +362,7 @@ public class ItemizedOverlayWithFocus<Item extends OverlayItem> extends Itemized
         mRect.offset(-mFocusedScreenCoords.x, -mFocusedScreenCoords.y);
         markerFocusedBase.setBounds(mRect);
 
-		if (osmv.getMapOrientation() != 0) {
+		if (pProjection.getOrientation() != 0) {
 			c.restore();
 		}
 	}

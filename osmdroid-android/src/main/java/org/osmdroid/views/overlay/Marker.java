@@ -324,17 +324,13 @@ public class Marker extends OverlayWithIW {
 			return super.isInfoWindowOpen();
 	}
 	
-	@Override public void draw(Canvas canvas, MapView mapView, boolean shadow) {
-		if (shadow)
-			return;
+	@Override public void draw(Canvas canvas, Projection pj) {
 		if (mIcon == null)
 			return;
 		
-		final Projection pj = mapView.getProjection();
-		
 		pj.toPixels(mPosition, mPositionPixels);
 
-		float rotationOnScreen = (mFlat ? -mBearing : -mapView.getMapOrientation()-mBearing);
+		float rotationOnScreen = (mFlat ? -mBearing : -pj.getOrientation()-mBearing);
 		drawAt(canvas, mPositionPixels.x, mPositionPixels.y, rotationOnScreen);
 		if (isInfoWindowShown()) {
 			//showInfoWindow();

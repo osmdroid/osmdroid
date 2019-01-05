@@ -3,7 +3,6 @@ package org.osmdroid.views.overlay;
 import org.osmdroid.tileprovider.MapTileProviderBase;
 import org.osmdroid.tileprovider.MapTileProviderBasic;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
-import org.osmdroid.util.TileSystem;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
 
@@ -12,9 +11,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
-import android.graphics.Point;
 import android.graphics.Rect;
-import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.view.MotionEvent;
 
@@ -116,23 +113,19 @@ public class MinimapOverlay extends TilesOverlay {
 	}
 
 	@Override
-	public void draw(Canvas c, MapView osmv, boolean shadow) {
-		if (shadow) {
-			return;
-		}
-
-		if (!setViewPort(c, osmv)) {
+	public void draw(Canvas c, Projection pProjection) {
+		if (!setViewPort(c, pProjection)) {
 			return;
 		}
 
 		// Draw a solid background where the minimap will be drawn with a 2 pixel inset
-		osmv.getProjection().save(c, false, true);
+		pProjection.save(c, false, true);
 		c.drawRect(
 				getCanvasRect().left - 2, getCanvasRect().top - 2,
 				getCanvasRect().right + 2, getCanvasRect().bottom + 2, mPaint);
 
 		super.drawTiles(c, getProjection(), getProjection().getZoomLevel(), mViewPort);
-		osmv.getProjection().restore(c, true);
+		pProjection.restore(c, true);
 	}
 
 	@Override
@@ -222,8 +215,8 @@ public class MinimapOverlay extends TilesOverlay {
 	}
 
 	@Override
-	protected boolean setViewPort(final Canvas pCanvas, final MapView pMapView) {
-		final double zoomLevel = pMapView.getProjection().getZoomLevel() - getZoomDifference();
+	protected boolean setViewPort(final Canvas pCanvas, final Projection pProjection) {
+		final double zoomLevel = pProjection.getZoomLevel() - getZoomDifference();
 		if (zoomLevel < mTileProvider.getMinimumZoomLevel()) {
 			return false;
 		}
@@ -231,7 +224,7 @@ public class MinimapOverlay extends TilesOverlay {
 		final int left = pCanvas.getWidth() - getPadding() - getWidth();
 		final int top = pCanvas.getHeight() - getPadding() - getHeight();
 		setCanvasRect(new Rect(left, top, left + getWidth(), top + getHeight()));
-		setProjection(pMapView.getProjection().getOffspring(zoomLevel, getCanvasRect()));
+		setProjection(pProjection.getOffspring(zoomLevel, getCanvasRect()));
 		getProjection().getMercatorViewPort(mViewPort);
 		return true;
 	}

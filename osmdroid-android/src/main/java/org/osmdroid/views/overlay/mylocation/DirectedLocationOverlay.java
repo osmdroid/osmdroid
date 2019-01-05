@@ -122,14 +122,8 @@ public class DirectedLocationOverlay extends Overlay {
 	}
 
 	@Override
-	public void draw(final Canvas c, final MapView osmv, final boolean shadow) {
-
-		if (shadow) {
-			return;
-		}
-
+	public void draw(final Canvas c, final Projection pj) {
 		if (this.mLocation != null) {
-			final Projection pj = osmv.getProjection();
 			pj.toPixels(this.mLocation, screenCoords);
 
 			if (this.mShowAccuracy && this.mAccuracy > 10) {

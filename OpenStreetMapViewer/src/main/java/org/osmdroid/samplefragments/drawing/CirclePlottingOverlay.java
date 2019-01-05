@@ -1,6 +1,5 @@
 package org.osmdroid.samplefragments.drawing;
 
-import android.graphics.Canvas;
 import android.util.Log;
 import android.view.MotionEvent;
 
@@ -26,11 +25,6 @@ public class CirclePlottingOverlay extends Overlay {
     public CirclePlottingOverlay(float distanceKm) {
         super();
         this.distanceKm = distanceKm;
-    }
-
-    @Override
-    public void draw(Canvas c, MapView osmv, boolean shadow) {
-
     }
 
     @Override

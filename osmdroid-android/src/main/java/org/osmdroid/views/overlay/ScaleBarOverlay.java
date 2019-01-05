@@ -356,24 +356,16 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 	// ===========================================================
 
 	@Override
-	public void draw(Canvas c, MapView mapView, boolean shadow) {
-		if (shadow) {
-			return;
-		}
+	public void draw(Canvas c, Projection projection) {
 
-		final double zoomLevel = mapView.getZoomLevelDouble();
+		final double zoomLevel = projection.getZoomLevel();
 
 		if (zoomLevel < minZoom) {
 			return;
 		}
-		final Projection projection = mapView.getProjection();
-
-		if (projection == null) {
-			return;
-		}
-
-		int _screenWidth	   = mapView.getWidth();
-		int _screenHeight   = mapView.getHeight();
+		final Rect rect = projection.getIntrinsicScreenRect();
+		int _screenWidth = rect.width();
+		int _screenHeight = rect.height();
 		boolean screenSizeChanged = _screenHeight!=screenHeight || _screenWidth != screenWidth;
 		screenHeight = _screenHeight;
 		screenWidth = _screenWidth;

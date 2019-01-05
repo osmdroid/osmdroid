@@ -6,8 +6,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.osmdroid.api.IMapView;
 import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.TileSystem;
-import org.osmdroid.util.TileSystemWebMercator;
 import org.osmdroid.views.MapView;
+import org.osmdroid.views.Projection;
 import org.osmdroid.views.util.constants.OverlayConstants;
 
 import android.content.Context;
@@ -131,8 +131,22 @@ public abstract class Overlay implements OverlayConstants {
 	 * should check isEnabled() before calling draw(). By default, draws nothing.
 	 *
 	 * changed for 5.6 to be public see https://github.com/osmdroid/osmdroid/issues/466
+	 * @deprecated Use {@link #draw(Canvas, Projection)} instead
 	 */
-	public abstract void draw(final Canvas c, final MapView osmv, final boolean shadow);
+	@Deprecated
+	public void draw(final Canvas pCanvas, final MapView pMapView, final boolean pShadow) {
+		if (pShadow) {
+			return;
+		}
+		draw(pCanvas, pMapView.getProjection());
+	}
+
+	/**
+	 * @since 6.1.0
+	 */
+	public void draw(final Canvas pCanvas, final Projection pProjection) {
+		// display nothing by default
+	}
 
 	// ===========================================================
 	// Methods

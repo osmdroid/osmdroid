@@ -6,7 +6,6 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 
 import org.osmdroid.util.GeoPoint;
-import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
 
 /**
@@ -73,13 +72,11 @@ public class GroundOverlay2 extends Overlay {
 	
 
     @Override
-    public void draw(Canvas canvas, MapView mapView, boolean shadow)
+    public void draw(Canvas canvas, Projection pj)
     {
-		if(null == mImage || shadow) {
+		if(null == mImage) {
 			return;
 		}
-
-        final Projection pj = mapView.getProjection();
 
         long x0 = pj.getLongPixelXFromLongitude(mLonL),
              y0 = pj.getLongPixelYFromLatitude(mLatU),

@@ -158,8 +158,8 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 	 * Populates the tile provider's memory cache with the list of displayed tiles
 	 * @since 6.0.0
 	 */
-	public void protectDisplayedTilesForCache(final Canvas pCanvas, final MapView pMapView) {
-		if (!setViewPort(pCanvas, pMapView)) {
+	public void protectDisplayedTilesForCache(final Canvas pCanvas, final Projection pProjection) {
+		if (!setViewPort(pCanvas, pProjection)) {
 			return;
 		}
 		TileSystem.getTileFromMercator(mViewPort, TileSystem.getTileSize(mProjection.getZoomLevel()), mProtectedTiles);
@@ -173,24 +173,20 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 	 * @since 6.0.0
 	 * @return true if the tiles are to be drawn
 	 */
-	protected boolean setViewPort(final Canvas pCanvas, final MapView pMapView) {
-		setProjection(pMapView.getProjection());
+	protected boolean setViewPort(final Canvas pCanvas, final Projection pProjection) {
+		setProjection(pProjection);
 		getProjection().getMercatorViewPort(mViewPort);
 		return true;
 	}
 
 	@Override
-	public void draw(Canvas c, MapView osmv, boolean shadow) {
+	public void draw(Canvas c, Projection pProjection) {
 
 		if (Configuration.getInstance().isDebugTileProviders()) {
-               Log.d(IMapView.LOGTAG,"onDraw(" + shadow + ")");
+               Log.d(IMapView.LOGTAG,"onDraw");
 		}
 
-		if (shadow) {
-			return;
-		}
-
-		if (!setViewPort(c, osmv)) {
+		if (!setViewPort(c, pProjection)) {
 			return;
 		}
 
@@ -311,16 +307,19 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 			currentMapTile.draw(c);
 			return;
 		}
+		// Check to see if the drawing area intersects with the minimap area
+		if (!mIntersectionRect.setIntersect(c.getClipBounds(), canvasRect)) {
+			return;
+		}
 		// Save the current clipping bounds
 		c.save();
-		// Check to see if the drawing area intersects with the minimap area
-		if (mIntersectionRect.setIntersect(c.getClipBounds(), canvasRect)) {
-			// If so, then clip that area
-			c.clipRect(mIntersectionRect);
 
-			// Draw the tile, which will be appropriately clipped
-			currentMapTile.draw(c);
-		}
+		// Clip that area
+		c.clipRect(mIntersectionRect);
+
+		// Draw the tile, which will be appropriately clipped
+		currentMapTile.draw(c);
+
 		c.restore();
 	}
 
