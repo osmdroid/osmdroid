@@ -212,14 +212,13 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 		mPersonHotspot.set(x, y);
 	}
 
-	protected void drawMyLocation(final Canvas canvas, final MapView mapView, final Location lastFix) {
-		final Projection pj = mapView.getProjection();
+	protected void drawMyLocation(final Canvas canvas, final Projection pj, final Location lastFix) {
 		pj.toPixels(mGeoPoint, mDrawPixel);
 
 		if (mDrawAccuracyEnabled) {
 			final float radius = lastFix.getAccuracy()
 					/ (float) TileSystem.GroundResolution(lastFix.getLatitude(),
-							mapView.getZoomLevelDouble());
+							pj.getZoomLevel());
 
 			mCirclePaint.setAlpha(50);
 			mCirclePaint.setStyle(Style.FILL);
@@ -233,7 +232,7 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 		if (lastFix.hasBearing()) {
 			canvas.save();
 			// Rotate the icon if we have a GPS fix, take into account if the map is already rotated
-			float mapRotation=mapView.getMapOrientation();
+			float mapRotation;
 			mapRotation=lastFix.getBearing();
 			if (mapRotation >=360.0f)
 				mapRotation=mapRotation-360f;
@@ -260,12 +259,9 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 	// ===========================================================
 
 	@Override
-	public void draw(Canvas c, MapView mapView, boolean shadow) {
-		if (shadow)
-			return;
-
+	public void draw(Canvas c, Projection pProjection) {
 		if (mLocation != null && isMyLocationEnabled()) {
-			drawMyLocation(c, mapView, mLocation);
+			drawMyLocation(c, pProjection, mLocation);
 		}
 	}
 

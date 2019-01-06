@@ -1,6 +1,5 @@
 package org.osmdroid.samplefragments.milstd2525;
 
-import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.util.SparseArray;
 import android.view.MotionEvent;
@@ -35,11 +34,6 @@ public class MilStdPointPlottingOverlay extends Overlay {
 
     public void setSymbol(SimpleSymbol def) {
         this.def = def;
-    }
-
-    @Override
-    public void draw(Canvas c, MapView osmv, boolean shadow) {
-
     }
 
     @Override

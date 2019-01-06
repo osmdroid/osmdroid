@@ -3,6 +3,7 @@ package org.osmdroid.views.overlay;
 import java.util.List;
 
 import org.osmdroid.views.MapView;
+import org.osmdroid.views.Projection;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -67,10 +68,8 @@ public class FolderOverlay extends Overlay {
 	}
 
 	@SuppressLint("WrongCall")
-	@Override public void draw(Canvas canvas, MapView osm, boolean shadow) {
-		if (shadow)
-			return;
-		mOverlayManager.onDraw(canvas, osm);
+	@Override public void draw(final Canvas pCanvas, final Projection pProjection) {
+		mOverlayManager.onDraw(pCanvas, pProjection);
 	}
 
 	@Override public boolean onSingleTapUp(MotionEvent e, MapView mapView){

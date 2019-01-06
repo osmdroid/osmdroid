@@ -75,9 +75,8 @@ public class SimpleLocationOverlay extends Overlay {
 		//this.PERSON_ICON.recycle();
 	}
 	@Override
-	public void draw(final Canvas c, final MapView osmv, final boolean shadow) {
-		if (!shadow && this.mLocation != null) {
-			final Projection pj = osmv.getProjection();
+	public void draw(final Canvas c, final Projection pj) {
+		if (this.mLocation != null) {
 			pj.toPixels(this.mLocation, screenCoords);
 
 			c.drawBitmap(PERSON_ICON, screenCoords.x - PERSON_HOTSPOT.x, screenCoords.y

@@ -12,7 +12,7 @@ import android.widget.TextView;
 import org.osmdroid.R;
 import org.osmdroid.samplefragments.BaseSampleFragment;
 import org.osmdroid.tileprovider.TileStates;
-import org.osmdroid.views.MapView;
+import org.osmdroid.views.Projection;
 import org.osmdroid.views.overlay.Overlay;
 
 /**
@@ -50,7 +50,7 @@ public class SampleTileStates extends BaseSampleFragment {
         final Bitmap ko = ((BitmapDrawable)getResources().getDrawable(R.drawable.twotone_warning_black_36)).getBitmap();
         mMapView.getOverlayManager().add(new Overlay() {
             @Override
-            public void draw(Canvas c, MapView osmv, boolean shadow) {
+            public void draw(Canvas c, Projection projection) {
                 final Bitmap bitmap = mOk ? ok : ko;
                 c.drawBitmap(bitmap, c.getWidth() / 2 - bitmap.getWidth() / 2, c.getHeight() / 2 - bitmap.getHeight() / 2, null);
             }

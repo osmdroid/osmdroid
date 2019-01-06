@@ -436,10 +436,11 @@ class LinearRing{
 	 * @since 6.0.0
 	 * Mandatory use before clipping.
 	 */
-	public void setClipArea(final MapView pMapView) {
+	public void setClipArea(final Projection pProjection) {
 		final double border = .1;
-		final int halfWidth = pMapView.getWidth() / 2;
-		final int halfHeight = pMapView.getHeight() / 2;
+		final Rect rect = pProjection.getIntrinsicScreenRect();
+		final int halfWidth = rect.width() / 2;
+		final int halfHeight = rect.height() / 2;
 		// People less lazy than me would do more refined computations for width and height
 		// that include the map orientation: the covered area would be smaller but still big enough
 		// Now we use the circle which contains the `MapView`'s 4 corners
@@ -450,8 +451,8 @@ class LinearRing{
 				halfWidth + scaledRadius, halfHeight + scaledRadius
 		);
 		// TODO: Not sure if this is the correct approach 
-		this.isHorizontalRepeating = pMapView.isHorizontalMapRepetitionEnabled();
-		this.isVerticalRepeating = pMapView.isVerticalMapRepetitionEnabled();
+		this.isHorizontalRepeating = pProjection.isHorizontalWrapEnabled();
+		this.isVerticalRepeating = pProjection.isVerticalWrapEnabled();
 	}
 
 	/**

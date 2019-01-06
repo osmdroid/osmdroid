@@ -144,16 +144,10 @@ public class Polyline extends OverlayWithIW {
     }
 
     @Override
-    public void draw(final Canvas canvas, final MapView mapView, final boolean shadow) {
-
-        if (shadow) {
-            return;
-        }
-
-        final Projection pj = mapView.getProjection();
+    public void draw(final Canvas canvas, final Projection pj) {
 
         mLineDrawer.setCanvas(canvas);
-        mOutline.setClipArea(mapView);
+        mOutline.setClipArea(pj);
         mOutline.buildLinePortion(pj, mMilestoneManagers.size() > 0);
         for (final MilestoneManager milestoneManager : mMilestoneManagers) {
             milestoneManager.init();

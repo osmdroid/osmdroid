@@ -8,6 +8,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.osmdroid.api.IMapView;
 import org.osmdroid.views.MapView;
+import org.osmdroid.views.Projection;
 import org.osmdroid.views.overlay.Overlay.Snappable;
 
 import android.graphics.Canvas;
@@ -31,7 +32,7 @@ public class DefaultOverlayManager extends AbstractList<Overlay> implements Over
 
     public DefaultOverlayManager(final TilesOverlay tilesOverlay) {
         setTilesOverlay(tilesOverlay);
-        mOverlayList = new CopyOnWriteArrayList<Overlay>();
+        mOverlayList = new CopyOnWriteArrayList<>();
     }
 
     @Override
@@ -119,25 +120,33 @@ public class DefaultOverlayManager extends AbstractList<Overlay> implements Over
 
     @Override
     public void onDraw(final Canvas c, final MapView pMapView) {
+        onDraw(c, pMapView.getProjection());
+    }
+
+    /**
+     * @since 6.1.0
+     */
+    @Override
+    public void onDraw(final Canvas c, final Projection pProjection) {
         //fix for https://github.com/osmdroid/osmdroid/issues/904
         if (mTilesOverlay!=null)
-            mTilesOverlay.protectDisplayedTilesForCache(c, pMapView);
+            mTilesOverlay.protectDisplayedTilesForCache(c, pProjection);
         for (final Overlay overlay : mOverlayList) {
             if (overlay!=null && overlay.isEnabled() && overlay instanceof TilesOverlay) {
-                ((TilesOverlay) overlay).protectDisplayedTilesForCache(c, pMapView);
+                ((TilesOverlay) overlay).protectDisplayedTilesForCache(c, pProjection);
             }
         }
 
         //always pass false, the shadow parameter will be removed in a later version of osmdroid, this change should result in the on draw being called twice
         if (mTilesOverlay != null && mTilesOverlay.isEnabled()) {
-            mTilesOverlay.draw(c, pMapView, false);
+            mTilesOverlay.draw(c, pProjection);
         }
 
         //always pass false, the shadow parameter will be removed in a later version of osmdroid, this change should result in the on draw being called twice
         for (final Overlay overlay : mOverlayList) {
             //#396 fix, null check
             if (overlay!=null && overlay.isEnabled()) {
-                overlay.draw(c, pMapView, false);
+                overlay.draw(c, pProjection);
             }
         }
         //potential fix for #52 pMapView.invalidate();

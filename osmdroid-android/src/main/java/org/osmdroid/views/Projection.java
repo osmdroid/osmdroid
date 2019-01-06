@@ -780,4 +780,25 @@ public class Projection implements IProjection {
 		pMapView.setMapScroll(mScrollX, mScrollY);
 		return true;
 	}
+
+	/**
+	 * @since 6.1.0
+	 */
+	public boolean isHorizontalWrapEnabled() {
+		return horizontalWrapEnabled;
+	}
+
+	/**
+	 * @since 6.1.0
+	 */
+	public boolean isVerticalWrapEnabled() {
+		return verticalWrapEnabled;
+	}
+
+	/**
+	 * @since 6.1.0
+	 */
+	public float getOrientation() {
+		return mOrientation;
+	}
 }

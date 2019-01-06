@@ -8,7 +8,6 @@ import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.PointL;
 import org.osmdroid.util.RectL;
-import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
 
 import android.content.Context;
@@ -16,7 +15,6 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Point;
-import android.graphics.Rect;
 
 /**
  * 
@@ -200,19 +198,13 @@ public class PathOverlay extends Overlay {
 	 * Should be fine up to 10K points.
 	 */
 	@Override
-	public void draw(final Canvas canvas, final MapView mapView, final boolean shadow) {
-
-		if (shadow) {
-			return;
-		}
+	public void draw(final Canvas canvas, final Projection pj) {
 
 		final int size = this.mPoints.size();
 		if (size < 2) {
 			// nothing to paint
 			return;
 		}
-
-		final Projection pj = mapView.getProjection();
 
 		// precompute new points to the intermediate projection.
 		while (this.mPointsPrecomputed < size) {

@@ -1,6 +1,5 @@
 package org.osmdroid.samplefragments.drawing;
 
-import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.view.MotionEvent;
 
@@ -26,11 +25,6 @@ public class IconPlottingOverlay extends Overlay {
     public IconPlottingOverlay(Drawable m) {
         super();
         markerIcon = m;
-
-    }
-
-    @Override
-    public void draw(Canvas c, MapView osmv, boolean shadow) {
 
     }
 
