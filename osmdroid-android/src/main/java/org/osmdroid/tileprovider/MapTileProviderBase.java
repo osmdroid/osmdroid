@@ -22,7 +22,9 @@ import org.osmdroid.util.TileLooper;
 import org.osmdroid.util.TileSystem;
 import org.osmdroid.views.Projection;
 
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 
 /**
  * This is an abstract class. The tile provider is responsible for:
@@ -44,7 +46,7 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback {
 	public static final int MAPTILE_FAIL_ID = MAPTILE_SUCCESS_ID + 1;
 
 	protected final MapTileCache mTileCache;
-	protected Handler mTileRequestCompleteHandler;
+	private final Collection<Handler> mTileRequestCompleteHandlers = new LinkedHashSet<>();
 	protected boolean mUseDataConnection = true;
 	protected Drawable mTileNotFoundImage = null;
 
@@ -119,7 +121,7 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback {
 	public MapTileProviderBase(final ITileSource pTileSource,
 			final Handler pDownloadFinishedListener) {
 		mTileCache = this.createTileCache();
-		mTileRequestCompleteHandler = pDownloadFinishedListener;
+		mTileRequestCompleteHandlers.add(pDownloadFinishedListener);
 		mTileSource = pTileSource;
 	}
 
@@ -150,8 +152,10 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback {
 		putTileIntoCache(pState.getMapTile(), pDrawable, ExpirableBitmapDrawable.UP_TO_DATE);
 
 		// tell our caller we've finished and it should update its view
-		if (mTileRequestCompleteHandler != null) {
-			mTileRequestCompleteHandler.sendEmptyMessage(MAPTILE_SUCCESS_ID);
+		for (final Handler handler : mTileRequestCompleteHandlers) {
+			if (handler != null) {
+				handler.sendEmptyMessage(MAPTILE_SUCCESS_ID);
+			}
 		}
 
 		if (Configuration.getInstance().isDebugTileProviders()) {
@@ -171,12 +175,16 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback {
 
 		if (mTileNotFoundImage!=null) {
 			putTileIntoCache(pState.getMapTile(), mTileNotFoundImage, ExpirableBitmapDrawable.NOT_FOUND);
-			if (mTileRequestCompleteHandler != null) {
-				mTileRequestCompleteHandler.sendEmptyMessage(MAPTILE_SUCCESS_ID);
+			for (final Handler handler : mTileRequestCompleteHandlers) {
+				if (handler != null) {
+					handler.sendEmptyMessage(MAPTILE_SUCCESS_ID);
+				}
 			}
 		} else {
-			if (mTileRequestCompleteHandler != null) {
-				mTileRequestCompleteHandler.sendEmptyMessage(MAPTILE_FAIL_ID);
+			for (final Handler handler : mTileRequestCompleteHandlers) {
+				if (handler != null) {
+					handler.sendEmptyMessage(MAPTILE_FAIL_ID);
+				}
 			}
 		}
 		if (Configuration.getInstance().isDebugTileProviders()) {
@@ -211,8 +219,10 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback {
 		putTileIntoCache(pState.getMapTile(), pDrawable, ExpirableBitmapDrawable.getState(pDrawable));
 
 		// tell our caller we've finished and it should update its view
-		if (mTileRequestCompleteHandler != null) {
-			mTileRequestCompleteHandler.sendEmptyMessage(MAPTILE_SUCCESS_ID);
+		for (final Handler handler : mTileRequestCompleteHandlers) {
+			if (handler != null) {
+				handler.sendEmptyMessage(MAPTILE_SUCCESS_ID);
+			}
 		}
 
 		if (Configuration.getInstance().isDebugTileProviders()) {
@@ -247,8 +257,20 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback {
 		putTileIntoCache(pState.getMapTile(), pDrawable, ExpirableBitmapDrawable.EXPIRED);
 	}
 
+	/**
+	 * @deprecated Use {@link #getTileRequestCompleteHandlers()} instead
+	 */
+	@Deprecated
 	public void setTileRequestCompleteHandler(final Handler handler) {
-		mTileRequestCompleteHandler = handler;
+		mTileRequestCompleteHandlers.clear();
+		mTileRequestCompleteHandlers.add(handler);
+	}
+
+	/**
+	 * @since 6.1.0
+	 */
+	public Collection<Handler> getTileRequestCompleteHandlers() {
+		return mTileRequestCompleteHandlers;
 	}
 
 	public void ensureCapacity(final int pCapacity) {

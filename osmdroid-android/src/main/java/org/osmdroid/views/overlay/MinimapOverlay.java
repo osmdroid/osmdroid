@@ -52,7 +52,7 @@ public class MinimapOverlay extends TilesOverlay {
 		super(pTileProvider, pContext);
 		setZoomDifference(pZoomDifference);
 
-		mTileProvider.setTileRequestCompleteHandler(pTileRequestCompleteHandler);
+		mTileProvider.getTileRequestCompleteHandlers().add(pTileRequestCompleteHandler);
 
 		// Don't draw loading lines in the minimap
 		setLoadingLineColor(getLoadingBackgroundColor());

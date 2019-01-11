@@ -4,6 +4,9 @@ import android.graphics.drawable.Drawable;
 
 import org.osmdroid.views.overlay.TilesOverlay;
 
+import java.util.Collection;
+import java.util.LinkedHashSet;
+
 /**
  * To be used by some kind of {@link TilesOverlay}, in order to get a count of the tiles, by state
  * @since 6.1.0
@@ -11,7 +14,7 @@ import org.osmdroid.views.overlay.TilesOverlay;
  */
 public class TileStates {
 
-    private Runnable mRunAfter;
+    private Collection<Runnable> mRunAfters = new LinkedHashSet<>();
     private boolean mDone;
     private int mTotal;
     private int mUpToDate;
@@ -19,8 +22,8 @@ public class TileStates {
     private int mScaled;
     private int mNotFound;
 
-    public void setRunAfter(final Runnable pRunAfter) {
-        mRunAfter = pRunAfter;
+    public Collection<Runnable> getRunAfters() {
+        return mRunAfters;
     }
 
     public void initialiseLoop() {
@@ -34,8 +37,10 @@ public class TileStates {
 
     public void finaliseLoop() {
         mDone = true;
-        if (mRunAfter != null) {
-            mRunAfter.run();
+        for (final Runnable runnable : mRunAfters) {
+            if (runnable != null) {
+                runnable.run();
+            }
         }
     }
 

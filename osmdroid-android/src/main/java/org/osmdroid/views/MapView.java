@@ -218,7 +218,7 @@ public class MapView extends ViewGroup implements IMapView,
 				? new SimpleInvalidationHandler(this)
 				: tileRequestCompleteHandler;
 		mTileProvider = tileProvider;
-		mTileProvider.setTileRequestCompleteHandler(mTileRequestCompleteHandler);
+		mTileProvider.getTileRequestCompleteHandlers().add(mTileRequestCompleteHandler);
 		updateTileSizeForDensity(mTileProvider.getTileSource());
 
 		this.mMapOverlay = new TilesOverlay(mTileProvider, context, horizontalMapRepetitionEnabled, verticalMapRepetitionEnabled);
@@ -1745,7 +1745,7 @@ public class MapView extends ViewGroup implements IMapView,
 		this.mTileProvider.detach();
 		mTileProvider.clearTileCache();
 		this.mTileProvider=base;
-		mTileProvider.setTileRequestCompleteHandler(mTileRequestCompleteHandler);
+		mTileProvider.getTileRequestCompleteHandlers().add(mTileRequestCompleteHandler);
 		updateTileSizeForDensity(mTileProvider.getTileSource());
 
 		this.mMapOverlay = new TilesOverlay(mTileProvider, this.getContext(), horizontalMapRepetitionEnabled, verticalMapRepetitionEnabled);

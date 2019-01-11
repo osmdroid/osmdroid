@@ -4,6 +4,7 @@ import org.osmdroid.tileprovider.MapTileProviderBasic;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.XYTileSource;
 import org.osmdroid.util.GeoPoint;
+import org.osmdroid.views.CustomZoomButtonsController;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.TilesOverlay;
 
@@ -43,7 +44,7 @@ public class SampleWithTilesOverlayAndCustomTileSource extends Activity {
 		mMapView.setTilesScaledToDpi(true);
 		rl.addView(mMapView, new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT,
 				LayoutParams.FILL_PARENT));
-		mMapView.setBuiltInZoomControls(true);
+		mMapView.getZoomController().setVisibility(CustomZoomButtonsController.Visibility.SHOW_AND_FADEOUT);
 
 		// zoom to the netherlands
 		mMapView.getController().setZoom(7.);
@@ -54,7 +55,7 @@ public class SampleWithTilesOverlayAndCustomTileSource extends Activity {
 		final ITileSource tileSource = new XYTileSource("FietsRegionaal",  3, 18, 256, ".png",
 				new String[] { "http://overlay.openstreetmap.nl/openfietskaart-rcn/" });
 		tileProvider.setTileSource(tileSource);
-		tileProvider.setTileRequestCompleteHandler(mMapView.getTileRequestCompleteHandler());
+		tileProvider.getTileRequestCompleteHandlers().add(mMapView.getTileRequestCompleteHandler());
 		final TilesOverlay tilesOverlay = new TilesOverlay(tileProvider, this.getBaseContext());
 		tilesOverlay.setLoadingBackgroundColor(Color.TRANSPARENT);
 		mMapView.getOverlays().add(tilesOverlay);

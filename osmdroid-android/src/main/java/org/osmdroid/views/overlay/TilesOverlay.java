@@ -12,6 +12,7 @@ import org.osmdroid.util.RectL;
 import org.osmdroid.util.MapTileIndex;
 import org.osmdroid.util.TileLooper;
 import org.osmdroid.util.TileSystem;
+import org.osmdroid.views.drawing.MapSnapshot;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
 
@@ -29,7 +30,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
+import android.widget.Toast;
+
 import org.osmdroid.api.IMapView;
+
+import java.io.File;
 
 /**
  * A {@link TilesOverlay} is responsible to display a {@link MapTileIndex}.
@@ -47,6 +52,11 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 	public static final int MENU_TILE_SOURCE_STARTING_ID = getSafeMenuIdSequence(TileSourceFactory
 			.getTileSources().size());
 	public static final int MENU_OFFLINE = getSafeMenuId();
+	/**
+	 * @since 6.1.0
+	 */
+	public static final int MENU_SNAPSHOT = getSafeMenuId();
+	public static final int MENU_STATES = getSafeMenuId();
 
 	private Context ctx;
 	/** Current tile source */
@@ -239,6 +249,9 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 		public void handleTile(final long pMapTileIndex, int pX, int pY) {
 			Drawable currentMapTile = mTileProvider.getMapTile(pMapTileIndex);
 			mTileStates.handleTile(currentMapTile);
+			if (mCanvas == null) { // in case we just want to have the tiles downloaded, not displayed
+				return;
+			}
 			boolean isReusable = currentMapTile instanceof ReusableBitmapDrawable;
 			final ReusableBitmapDrawable reusableBitmapDrawable =
 					isReusable ? (ReusableBitmapDrawable) currentMapTile : null;
@@ -352,6 +365,8 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 							: R.string.set_mode_online);
 			final Drawable icon = ctx.getResources().getDrawable(R.drawable.ic_menu_offline);
 			pMenu.add(0, MENU_OFFLINE + pMenuIdOffset, Menu.NONE, title).setIcon(icon);
+			pMenu.add(0, MENU_SNAPSHOT + pMenuIdOffset, Menu.NONE, R.string.snapshot);
+			pMenu.add(0, MENU_STATES + pMenuIdOffset, Menu.NONE, R.string.states);
 		}
 		return true;
 	}
@@ -386,6 +401,23 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 		} else if (menuId == MENU_OFFLINE) {
 			final boolean useDataConnection = !pMapView.useDataConnection();
 			pMapView.setUseDataConnection(useDataConnection);
+			return true;
+		} else if (menuId == MENU_STATES) {
+			Toast.makeText(pMapView.getContext(), mTileStates.toString(), Toast.LENGTH_SHORT).show();
+			return true;
+		} else if (menuId == MENU_SNAPSHOT) {
+			final MapSnapshot mapSnapshot = new MapSnapshot(new MapSnapshot.MapSnapshotable() {
+				@Override
+				public void callback(final MapSnapshot pMapSketch) {
+					if (pMapSketch.getStatus() != MapSnapshot.Status.CANVAS_OK) {
+						return;
+					}
+					final File file = new File(Configuration.getInstance().getOsmdroidBasePath(), "snapshot.png");
+					pMapSketch.save(file);
+					pMapSketch.onDetach();
+				}
+			}, MapSnapshot.INCLUDE_FLAG_UPTODATE, pMapView);
+			new Thread(mapSnapshot).start();
 			return true;
 		} else {
 			return false;
