@@ -10,7 +10,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Rect;
-import android.os.Build;
 import android.os.Bundle;
 
 import org.osmdroid.samplefragments.BaseSampleFragment;

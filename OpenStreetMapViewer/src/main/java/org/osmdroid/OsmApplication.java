@@ -1,8 +1,6 @@
 package org.osmdroid;
 
-import android.app.Application;
 import android.content.Context;
-import android.os.Build;
 import android.os.Environment;
 import android.os.StrictMode;
 import android.support.multidex.MultiDex;

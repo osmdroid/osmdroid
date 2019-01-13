@@ -1,6 +1,5 @@
 package org.osmdroid.samplefragments;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;

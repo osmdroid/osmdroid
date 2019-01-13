@@ -10,7 +10,6 @@ import android.widget.TextView;
 import org.osmdroid.R;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.samplefragments.BaseSampleFragment;
-import org.osmdroid.views.MapView;
 
 /**
  * How to override animation speeds for zoom in/out<br>

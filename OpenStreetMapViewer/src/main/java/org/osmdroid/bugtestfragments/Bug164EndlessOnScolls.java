@@ -15,7 +15,6 @@ import org.osmdroid.events.ScrollEvent;
 import org.osmdroid.events.ZoomEvent;
 import org.osmdroid.samplefragments.BaseSampleFragment;
 import org.osmdroid.util.GeoPoint;
-import org.osmdroid.views.MapView;
 
 import static org.osmdroid.samplefragments.events.SampleMapEventListener.df;
 

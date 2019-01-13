@@ -1,7 +1,6 @@
 package org.osmdroid.samplefragments.geopackage;
 
 import android.content.DialogInterface;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.InputDevice;
@@ -24,7 +23,6 @@ import org.osmdroid.gpkg.tiles.raster.GeopackageRasterTileSource;
 import org.osmdroid.samplefragments.BaseSampleFragment;
 import org.osmdroid.tileprovider.tilesource.XYTileSource;
 import org.osmdroid.tileprovider.util.StorageUtils;
-import org.osmdroid.views.MapView;
 
 import java.io.File;
 import java.io.FileFilter;

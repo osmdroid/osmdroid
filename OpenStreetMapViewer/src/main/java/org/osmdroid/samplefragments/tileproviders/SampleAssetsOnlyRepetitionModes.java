@@ -9,7 +9,6 @@ import android.widget.CompoundButton;
 import org.osmdroid.R;
 import org.osmdroid.samplefragments.BaseSampleFragment;
 import org.osmdroid.util.BoundingBox;
-import org.osmdroid.views.MapView;
 
 /**
  * test for showing the map for different repetition modes
