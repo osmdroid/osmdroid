@@ -110,7 +110,6 @@ public class MapSnapshot implements Runnable{
         mTilesOverlay.setVerticalWrapEnabled(mProjection.isVerticalWrapEnabled());
         mHandler = new MapSnapshotHandler(this);
         mTileProvider.getTileRequestCompleteHandlers().add(mHandler);
-        final TileStates tileStates = mTilesOverlay.getTileStates();
     }
 
     @Override

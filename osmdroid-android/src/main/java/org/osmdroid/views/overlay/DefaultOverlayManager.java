@@ -120,7 +120,7 @@ public class DefaultOverlayManager extends AbstractList<Overlay> implements Over
 
     @Override
     public void onDraw(final Canvas c, final MapView pMapView) {
-        onDraw(c, pMapView.getProjection());
+        onDrawHelper(c, pMapView, pMapView.getProjection());
     }
 
     /**
@@ -128,6 +128,15 @@ public class DefaultOverlayManager extends AbstractList<Overlay> implements Over
      */
     @Override
     public void onDraw(final Canvas c, final Projection pProjection) {
+        onDrawHelper(c, null, pProjection);
+    }
+
+    /**
+     * @since 6.1.0
+     * @param pMapView may be null
+     * @param pProjection may NOT be null
+     */
+    private void onDrawHelper(final Canvas c, final MapView pMapView, final Projection pProjection) {
         //fix for https://github.com/osmdroid/osmdroid/issues/904
         if (mTilesOverlay!=null)
             mTilesOverlay.protectDisplayedTilesForCache(c, pProjection);
@@ -139,18 +148,25 @@ public class DefaultOverlayManager extends AbstractList<Overlay> implements Over
 
         //always pass false, the shadow parameter will be removed in a later version of osmdroid, this change should result in the on draw being called twice
         if (mTilesOverlay != null && mTilesOverlay.isEnabled()) {
-            mTilesOverlay.draw(c, pProjection);
+            if (pMapView != null) {
+                mTilesOverlay.draw(c, pMapView, false);
+            } else {
+                mTilesOverlay.draw(c, pProjection);
+            }
         }
 
         //always pass false, the shadow parameter will be removed in a later version of osmdroid, this change should result in the on draw being called twice
         for (final Overlay overlay : mOverlayList) {
             //#396 fix, null check
             if (overlay!=null && overlay.isEnabled()) {
-                overlay.draw(c, pProjection);
+                if (pMapView != null) {
+                    overlay.draw(c, pMapView, false);
+                } else {
+                    overlay.draw(c, pProjection);
+                }
             }
         }
         //potential fix for #52 pMapView.invalidate();
-
     }
 
     @Override
