@@ -82,6 +82,45 @@ public class MyMath implements MathConstants {
 		return result - 1;
 	}
 
+	/**
+	 * @since 6.1.0
+	 * @param pStart start angle
+	 * @param pEnd end angle
+	 * @param pClockwise if null, get the smallest difference (in absolute value)
+	 *                      if true, go clockwise
+	 *                      if false, go anticlockwise
+	 */
+	public static double getAngleDifference(double pStart, double pEnd, final Boolean pClockwise) {
+		final double difference = cleanPositiveAngle(pEnd - pStart);
+		if (pClockwise != null) {
+			if (pClockwise) {
+				return difference;
+			} else {
+				return difference - 360;
+			}
+		}
+		if (difference < 180) {
+			return difference;
+		}
+		return difference - 360;
+	}
+
+
+	/**
+	 * @since 6.1.0
+	 * @param pAngle angle in degree
+	 * @return the same angle in [0,360[
+	 */
+	public static double cleanPositiveAngle(double pAngle) {
+		while (pAngle < 0) {
+			pAngle += 360;
+		}
+		while (pAngle >= 360) {
+			pAngle -= 360;
+		}
+		return pAngle;
+	}
+
 	// ===========================================================
 	// Inner and Anonymous Classes
 	// ===========================================================
