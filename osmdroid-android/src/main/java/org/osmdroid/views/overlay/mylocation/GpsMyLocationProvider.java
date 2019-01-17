@@ -155,7 +155,7 @@ public class GpsMyLocationProvider implements IMyLocationProvider, LocationListe
 	@Override
 	public void onLocationChanged(final Location location) {
 		if (mIgnorer==null) {
-			Log.w(IMapView.LOGTAG, "GpsMyLocation proivider, mIgnore is null, unexpected. Location update will be ignored");
+			Log.w(IMapView.LOGTAG, "GpsMyLocation provider, mIgnore is null, unexpected. Location update will be ignored");
 			return;
 		}
 		if (location==null || location.getProvider()==null)
