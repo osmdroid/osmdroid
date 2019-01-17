@@ -2,13 +2,11 @@ package org.osmdroid.views.drawing;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Rect;
 import android.os.Looper;
 
-import org.osmdroid.api.IGeoPoint;
+import org.osmdroid.tileprovider.ExpirableBitmapDrawable;
 import org.osmdroid.tileprovider.MapTileProviderBase;
 import org.osmdroid.tileprovider.TileStates;
-import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.RectL;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
@@ -39,6 +37,15 @@ public class MapSnapshot implements Runnable{
         CANVAS_OK
     }
 
+    /**
+     * The INCLUDE_FLAGs let you precise the tiles you accept in your snapshot,
+     * depending on their states.
+     * For instance, if your flag includes INCLUDE_FLAG_SCALED, that means that you accept
+     * scaled tiles in your output.
+     * If your flag equals INCLUDE_FLAG_UPTODATE, that means that you accept only up-to-date tiles,
+     * and implicitly that you may have to wait, and need background downloads.
+     * Cf. {@link ExpirableBitmapDrawable}
+     */
     public static final int INCLUDE_FLAG_UPTODATE   = 1;
     public static final int INCLUDE_FLAG_EXPIRED    = 2;
     public static final int INCLUDE_FLAG_SCALED     = 4;
@@ -58,8 +65,6 @@ public class MapSnapshot implements Runnable{
     }
 
     private final RectL mViewPort = new RectL();
-    private final int mWidth;
-    private final int mHeight;
     private final int mIncludeFlags;
     private Projection mProjection;
     private MapSnapshotHandler mHandler;
@@ -76,10 +81,7 @@ public class MapSnapshot implements Runnable{
         this(pMapSnapshotable, pIncludeFlags,
                 pMapView.getTileProvider(),
                 pMapView.getOverlays(),
-                pMapView.getWidth(), pMapView.getHeight(),
-                pMapView.getZoomLevelDouble(), pMapView.getMapCenter(),
-                pMapView.getMapOrientation(),
-                pMapView.isHorizontalMapRepetitionEnabled(), pMapView.isVerticalMapRepetitionEnabled()
+                pMapView.getProjection()
         );
     }
 
@@ -87,23 +89,12 @@ public class MapSnapshot implements Runnable{
                        final int pIncludeFlags,
                        final MapTileProviderBase pTileProvider,
                        final List<Overlay> pOverlays,
-                       final int pWidth, final int pHeight,
-                       final double pZoomLevel, final IGeoPoint pCenter,
-                       final float pOrientation,
-                       final boolean pIsHorizontalWrapEnabled, final boolean pIsVerticalWrapEnabled) {
+                       final Projection pProjection) {
         mMapSnapshotable = pMapSnapshotable;
         mIncludeFlags = pIncludeFlags;
         mTileProvider = pTileProvider;
         mOverlays = pOverlays;
-        mWidth = pWidth;
-        mHeight = pHeight;
-        mProjection = new Projection(pZoomLevel
-                , new Rect(0, 0, mWidth, mHeight)
-                , new GeoPoint(pCenter)
-                , 0, 0, pOrientation,
-                pIsHorizontalWrapEnabled, pIsVerticalWrapEnabled,
-                MapView.getTileSystem()
-        );
+        mProjection = pProjection;
         mProjection.getMercatorViewPort(mViewPort);
         mTilesOverlay = new TilesOverlay(mTileProvider, null);
         mTilesOverlay.setHorizontalWrapEnabled(mProjection.isHorizontalWrapEnabled());
@@ -143,7 +134,7 @@ public class MapSnapshot implements Runnable{
     }
 
     private void draw() {
-        mBitmap = Bitmap.createBitmap(mWidth, mHeight, Bitmap.Config.ARGB_8888);
+        mBitmap = Bitmap.createBitmap(mProjection.getWidth(), mProjection.getHeight(), Bitmap.Config.ARGB_8888);
         final Canvas canvas = new Canvas(mBitmap);
         mProjection.save(canvas, true, false);
         mTilesOverlay.drawTiles(canvas, mProjection, mProjection.getZoomLevel(), mViewPort);

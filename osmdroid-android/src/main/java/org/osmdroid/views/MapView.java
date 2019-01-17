@@ -533,12 +533,10 @@ public class MapView extends ViewGroup implements IMapView,
 
 		// fine-tuning the latitude, cf. https://github.com/osmdroid/osmdroid/issues/1239
 		final Projection projection = new Projection(
-				nextZoom, getIntrinsicScreenRect(null),
+				nextZoom, getWidth(), getHeight(),
 				center,
-				0, 0,
 				getMapOrientation(),
-				isHorizontalMapRepetitionEnabled(), isVerticalMapRepetitionEnabled(),
-				getTileSystem());
+				isHorizontalMapRepetitionEnabled(), isVerticalMapRepetitionEnabled());
 		final Point point = new Point();
 		final double longitude = pBoundingBox.getCenterLongitude();
 		projection.toPixels(new GeoPoint(pBoundingBox.getActualNorth(), longitude), point);
