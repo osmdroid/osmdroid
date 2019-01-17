@@ -136,7 +136,6 @@ public class MyMath implements MathConstants {
 		return difference - 360;
 	}
 
-
 	/**
 	 * @since 6.1.0
 	 * @param pAngle angle in degree
