@@ -72,6 +72,14 @@ public class FolderOverlay extends Overlay {
 		mOverlayManager.onDraw(pCanvas, pProjection);
 	}
 
+	@SuppressLint("WrongCall")
+	@Override public void draw(final Canvas pCanvas, final MapView pMapView, final boolean pShadow) {
+		if (pShadow) {
+			return;
+		}
+		mOverlayManager.onDraw(pCanvas, pMapView);
+	}
+
 	@Override public boolean onSingleTapUp(MotionEvent e, MapView mapView){
 		if (isEnabled())
 			return mOverlayManager.onSingleTapUp(e, mapView);

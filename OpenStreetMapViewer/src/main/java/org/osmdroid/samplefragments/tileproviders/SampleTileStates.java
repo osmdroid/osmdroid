@@ -55,7 +55,7 @@ public class SampleTileStates extends BaseSampleFragment {
                 c.drawBitmap(bitmap, c.getWidth() / 2 - bitmap.getWidth() / 2, c.getHeight() / 2 - bitmap.getHeight() / 2, null);
             }
         });
-        mMapView.getMapOverlay().getTileStates().setRunAfter(new Runnable() {
+        mMapView.getMapOverlay().getTileStates().getRunAfters().add(new Runnable() {
             @Override
             public void run() {
                 mTextView.setText(mTileStates.toString());

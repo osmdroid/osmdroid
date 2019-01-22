@@ -100,6 +100,23 @@ public class Projection implements IProjection {
 	}
 
 	/**
+	 * @since 6.1.0
+	 */
+	public Projection(
+			final double pZoomLevel, final int pWidth, final int pHeight,
+			final GeoPoint pCenter,
+			final float pOrientation,
+			final boolean pHorizontalWrapEnabled, final boolean pVerticalWrapEnabled) {
+		this(
+				pZoomLevel, new Rect(0, 0, pWidth, pHeight),
+				pCenter,
+				0, 0,
+				pOrientation,
+				pHorizontalWrapEnabled, pVerticalWrapEnabled,
+				MapView.getTileSystem());
+	}
+
+	/**
 	 * @since 6.0.0
 	 */
 	public Projection getOffspring(final double pZoomLevel, final Rect pScreenRect) {
@@ -800,5 +817,19 @@ public class Projection implements IProjection {
 	 */
 	public float getOrientation() {
 		return mOrientation;
+	}
+
+	/**
+	 * @since 6.1.0
+	 */
+	public int getWidth() {
+		return mIntrinsicScreenRectProjection.width();
+	}
+
+	/**
+	 * @since 6.1.0
+	 */
+	public int getHeight() {
+		return mIntrinsicScreenRectProjection.height();
 	}
 }

@@ -6,10 +6,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.api.IMapView;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.util.GeoPoint;
+import org.osmdroid.views.drawing.MapSnapshot;
 import org.osmdroid.views.MapView;
 
 import java.util.ArrayList;
@@ -130,12 +130,19 @@ public abstract class InfoWindow {
     public void draw(){
         if (!mIsVisible)
             return;
-        MapView.LayoutParams lp = new MapView.LayoutParams(
-                MapView.LayoutParams.WRAP_CONTENT,
-                MapView.LayoutParams.WRAP_CONTENT,
-                mPosition, MapView.LayoutParams.BOTTOM_CENTER,
-                mOffsetX, mOffsetY);
-        mMapView.updateViewLayout(mView, lp);
+        try {
+            MapView.LayoutParams lp = new MapView.LayoutParams(
+                    MapView.LayoutParams.WRAP_CONTENT,
+                    MapView.LayoutParams.WRAP_CONTENT,
+                    mPosition, MapView.LayoutParams.BOTTOM_CENTER,
+                    mOffsetX, mOffsetY);
+            mMapView.updateViewLayout(mView, lp); // supposed to work only on the UI Thread
+        } catch(Exception e) {
+            if (MapSnapshot.isUIThread()) {
+                throw e;
+            }
+            // in order to avoid a CalledFromWrongThreadException crash
+        }
     }
 
     /**

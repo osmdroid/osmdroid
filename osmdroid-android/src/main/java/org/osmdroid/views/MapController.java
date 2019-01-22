@@ -21,7 +21,7 @@ import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.TileSystem;
 import org.osmdroid.views.MapView.OnFirstLayoutListener;
-import org.osmdroid.views.util.MyMath;
+import org.osmdroid.util.MyMath;
 
 import java.util.LinkedList;
 

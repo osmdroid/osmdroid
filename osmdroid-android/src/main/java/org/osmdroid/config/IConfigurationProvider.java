@@ -80,7 +80,7 @@ public interface IConfigurationProvider {
 
     /**
      * must be set before the mapview is created or inflated from a layout.
-     * If you're only using single point icons, then youc an probably get away with setting this to true
+     * If you're only using single point icons, then you can probably get away with setting this to true
      * otherwise (using polylines, paths, polygons) set it to false.
      * <p>
      * default is false
@@ -88,7 +88,6 @@ public interface IConfigurationProvider {
      * @param mapViewHardwareAccelerated
      * @see org.osmdroid.views.overlay.Polygon
      * @see org.osmdroid.views.overlay.Polyline
-     * @see org.osmdroid.views.drawing.OsmPath
      */
     void setMapViewHardwareAccelerated(boolean mapViewHardwareAccelerated);
 

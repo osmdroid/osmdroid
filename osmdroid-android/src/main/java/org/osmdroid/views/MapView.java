@@ -218,7 +218,7 @@ public class MapView extends ViewGroup implements IMapView,
 				? new SimpleInvalidationHandler(this)
 				: tileRequestCompleteHandler;
 		mTileProvider = tileProvider;
-		mTileProvider.setTileRequestCompleteHandler(mTileRequestCompleteHandler);
+		mTileProvider.getTileRequestCompleteHandlers().add(mTileRequestCompleteHandler);
 		updateTileSizeForDensity(mTileProvider.getTileSource());
 
 		this.mMapOverlay = new TilesOverlay(mTileProvider, context, horizontalMapRepetitionEnabled, verticalMapRepetitionEnabled);
@@ -533,12 +533,10 @@ public class MapView extends ViewGroup implements IMapView,
 
 		// fine-tuning the latitude, cf. https://github.com/osmdroid/osmdroid/issues/1239
 		final Projection projection = new Projection(
-				nextZoom, getIntrinsicScreenRect(null),
+				nextZoom, getWidth(), getHeight(),
 				center,
-				0, 0,
 				getMapOrientation(),
-				isHorizontalMapRepetitionEnabled(), isVerticalMapRepetitionEnabled(),
-				getTileSystem());
+				isHorizontalMapRepetitionEnabled(), isVerticalMapRepetitionEnabled());
 		final Point point = new Point();
 		final double longitude = pBoundingBox.getCenterLongitude();
 		projection.toPixels(new GeoPoint(pBoundingBox.getActualNorth(), longitude), point);
@@ -1745,7 +1743,7 @@ public class MapView extends ViewGroup implements IMapView,
 		this.mTileProvider.detach();
 		mTileProvider.clearTileCache();
 		this.mTileProvider=base;
-		mTileProvider.setTileRequestCompleteHandler(mTileRequestCompleteHandler);
+		mTileProvider.getTileRequestCompleteHandlers().add(mTileRequestCompleteHandler);
 		updateTileSizeForDensity(mTileProvider.getTileSource());
 
 		this.mMapOverlay = new TilesOverlay(mTileProvider, this.getContext(), horizontalMapRepetitionEnabled, verticalMapRepetitionEnabled);

@@ -84,6 +84,37 @@ public class MyMath implements MathConstants {
 
 	/**
 	 * @since 6.1.0
+	 * Moved from another MyMath (org.osmdroid.views.util)
+	 *
+	 * Calculates i.e. the increase of zoomlevel needed when the visible latitude needs to be bigger
+	 * by <code>factor</code>.
+	 *
+	 * Assert.assertEquals(1, getNextSquareNumberAbove(1.1f)); Assert.assertEquals(2,
+	 * getNextSquareNumberAbove(2.1f)); Assert.assertEquals(2, getNextSquareNumberAbove(3.9f));
+	 * Assert.assertEquals(3, getNextSquareNumberAbove(4.1f)); Assert.assertEquals(3,
+	 * getNextSquareNumberAbove(7.9f)); Assert.assertEquals(4, getNextSquareNumberAbove(8.1f));
+	 * Assert.assertEquals(5, getNextSquareNumberAbove(16.1f));
+	 *
+	 * Assert.assertEquals(-1, - getNextSquareNumberAbove(1 / 0.4f) + 1); Assert.assertEquals(-2, -
+	 * getNextSquareNumberAbove(1 / 0.24f) + 1);
+	 *
+	 */
+	public static int getNextSquareNumberAbove(final float factor) {
+		int out = 0;
+		int cur = 1;
+		int i = 1;
+		while (true) {
+			if (cur > factor)
+				return out;
+
+			out = i;
+			cur *= 2;
+			i++;
+		}
+	}
+
+	/**
+	 * @since 6.1.0
 	 * @param pStart start angle
 	 * @param pEnd end angle
 	 * @param pClockwise if null, get the smallest difference (in absolute value)
@@ -104,7 +135,6 @@ public class MyMath implements MathConstants {
 		}
 		return difference - 360;
 	}
-
 
 	/**
 	 * @since 6.1.0

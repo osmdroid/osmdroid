@@ -10,6 +10,7 @@ import android.view.MotionEvent;
 import org.osmdroid.api.IMapView;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
+import org.osmdroid.views.drawing.MapSnapshot;
 
 import java.util.List;
 
@@ -45,9 +46,8 @@ public interface OverlayManager extends List<Overlay> {
     Iterable<Overlay> overlaysReversed();
 
     /**
-     * @deprecated Use {@link #onDraw(Canvas, Projection)} instead
+     * If possible, use {@link #onDraw(Canvas, Projection)} instead (cf. {@link MapSnapshot}
      */
-    @Deprecated
     void onDraw(Canvas c, MapView pMapView);
 
     /**
