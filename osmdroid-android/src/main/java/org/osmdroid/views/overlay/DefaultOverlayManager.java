@@ -88,9 +88,24 @@ public class DefaultOverlayManager extends AbstractList<Overlay> implements Over
     @Override
     public Iterable<Overlay> overlaysReversed() {
         return new Iterable<Overlay>() {
+
+            /**
+             * @since 6.1.0
+             */
+            private ListIterator<Overlay> bulletProofReverseListIterator() {
+                while(true) {
+                    try {
+                        return mOverlayList.listIterator(mOverlayList.size());
+                    } catch(final IndexOutOfBoundsException e) {
+                        // thread-concurrency fix - in case an item is removed in a very inappropriate time
+                        // cf. https://github.com/osmdroid/osmdroid/issues/1260
+                    }
+                }
+            }
+
             @Override
             public Iterator<Overlay> iterator() {
-                final ListIterator<Overlay> i = mOverlayList.listIterator(mOverlayList.size());
+                final ListIterator<Overlay> i = bulletProofReverseListIterator();
 
                 return new Iterator<Overlay>() {
                     @Override
