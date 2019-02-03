@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 
 import org.osmdroid.R;
 import org.osmdroid.samplefragments.BaseSampleFragment;
-import org.osmdroid.views.MapView;
 
 /**
  * created on 1/3/2017.

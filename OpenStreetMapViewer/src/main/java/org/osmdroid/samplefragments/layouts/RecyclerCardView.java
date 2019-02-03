@@ -12,7 +12,6 @@ import org.osmdroid.samplefragments.BaseSampleFragment;
 import org.osmdroid.samplefragments.layouts.rec.ConstructorInfoData;
 import org.osmdroid.samplefragments.layouts.rec.CustomRecycler;
 import org.osmdroid.samplefragments.layouts.rec.Info;
-import org.osmdroid.views.MapView;
 
 import java.util.ArrayList;
 

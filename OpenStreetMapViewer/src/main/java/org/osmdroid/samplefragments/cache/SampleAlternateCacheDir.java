@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 
 import org.osmdroid.samplefragments.BaseSampleFragment;
 import org.osmdroid.tileprovider.util.StorageUtils;
-import org.osmdroid.views.MapView;
 
 import java.util.List;
 

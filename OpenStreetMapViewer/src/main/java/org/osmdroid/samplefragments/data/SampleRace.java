@@ -10,7 +10,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Rect;
-import android.os.Build;
 import android.os.Bundle;
 
 import org.osmdroid.samplefragments.BaseSampleFragment;
@@ -91,27 +90,25 @@ public class SampleRace extends BaseSampleFragment {
         managers.add(getStartManager(bitmap));
         line.setMilestoneManagers(managers);
         mMapView.getOverlayManager().add(line);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            final ValueAnimator percentageCompletion = ValueAnimator.ofFloat(0, 10000); // 10 kilometers
-            percentageCompletion.setDuration(5000); // 5 seconds
-            percentageCompletion.setStartDelay(1000); // 1 second
-            percentageCompletion.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                @Override
-                public void onAnimationUpdate(ValueAnimator animation) {
-                    mAnimatedMetersSoFar = (float)animation.getAnimatedValue();
-                    slicerForPath.setMeterDistanceSlice(0, mAnimatedMetersSoFar);
-                    slicerForIcon.setMeterDistanceSlice(mAnimatedMetersSoFar, mAnimatedMetersSoFar);
-                    mMapView.invalidate();
-                }
-            });
-            percentageCompletion.addListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mAnimationEnded = true;
-                }
-            });
-            percentageCompletion.start();
-        }
+        final ValueAnimator percentageCompletion = ValueAnimator.ofFloat(0, 10000); // 10 kilometers
+        percentageCompletion.setDuration(5000); // 5 seconds
+        percentageCompletion.setStartDelay(1000); // 1 second
+        percentageCompletion.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                mAnimatedMetersSoFar = (float)animation.getAnimatedValue();
+                slicerForPath.setMeterDistanceSlice(0, mAnimatedMetersSoFar);
+                slicerForIcon.setMeterDistanceSlice(mAnimatedMetersSoFar, mAnimatedMetersSoFar);
+                mMapView.invalidate();
+            }
+        });
+        percentageCompletion.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                mAnimationEnded = true;
+            }
+        });
+        percentageCompletion.start();
     }
 
     /**

@@ -2,7 +2,6 @@ package org.osmdroid.samplefragments.layouts;
 
 
 import org.osmdroid.samplefragments.BaseSampleFragment;
-import org.osmdroid.views.MapView;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

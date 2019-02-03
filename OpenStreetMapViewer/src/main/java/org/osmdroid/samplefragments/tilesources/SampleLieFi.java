@@ -2,7 +2,6 @@ package org.osmdroid.samplefragments.tilesources;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,7 +22,6 @@ import org.osmdroid.tileprovider.modules.MapTileFileArchiveProvider;
 import org.osmdroid.tileprovider.modules.MapTileFileStorageProviderBase;
 import org.osmdroid.tileprovider.modules.NetworkAvailabliltyCheck;
 import org.osmdroid.tileprovider.modules.SqlTileWriter;
-import org.osmdroid.tileprovider.modules.TileWriter;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.tileprovider.util.SimpleRegisterReceiver;
@@ -85,11 +83,7 @@ public class SampleLieFi extends BaseSampleFragment {
             if (cacheWriter != null) {
                 tileWriter = cacheWriter;
             } else {
-                if (Build.VERSION.SDK_INT < 10) {
-                    tileWriter = new TileWriter();
-                } else {
-                    tileWriter = new SqlTileWriter();
-                }
+                tileWriter = new SqlTileWriter();
             }
             final MapTileAssetsProvider assetsProvider = new MapTileAssetsProvider(
                     pRegisterReceiver, pContext.getAssets(), pTileSource);

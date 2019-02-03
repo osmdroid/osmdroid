@@ -10,12 +10,13 @@
         android:layout_height="match_parent"
         tilesource="Mapnik" />
 
-    <TextView android:id="@+id/textViewCurrentLocation"
+    <TextView
+        android:id="@+id/textViewCurrentLocation"
         android:layout_width="fill_parent"
         android:text="PLACEHOLDER"
         android:textAlignment="center"
         android:gravity="center"
-        android:layout_height="wrap_content"></TextView>
+        android:layout_height="wrap_content" />
     <Button android:id="@+id/animateTo" android:text="Random"
         android:layout_below="@+id/textViewCurrentLocation"
         android:layout_width="wrap_content"

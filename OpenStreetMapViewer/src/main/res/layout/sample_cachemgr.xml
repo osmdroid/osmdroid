@@ -10,9 +10,10 @@
         android:layout_height="match_parent"
         android:orientation="horizontal" />
 
-    <Button android:id="@+id/btnCache"
+    <Button
+        android:id="@+id/btnCache"
         android:layout_width="fill_parent"
         android:text="Cache Manager"
-        android:layout_height="wrap_content"></Button>
+        android:layout_height="wrap_content" />
 
 </RelativeLayout>

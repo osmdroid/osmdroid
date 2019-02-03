@@ -1,8 +1,6 @@
 package org.osmdroid;
 
-import android.app.Application;
 import android.content.Context;
-import android.os.Build;
 import android.os.Environment;
 import android.os.StrictMode;
 import android.support.multidex.MultiDex;
@@ -40,7 +38,7 @@ public class OsmApplication extends MultiDexApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-        if (BuildConfig.DEBUG && Build.VERSION.SDK_INT >=11) {
+        if (BuildConfig.DEBUG) {
             StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
                 .detectDiskReads()
                 .detectDiskWrites()

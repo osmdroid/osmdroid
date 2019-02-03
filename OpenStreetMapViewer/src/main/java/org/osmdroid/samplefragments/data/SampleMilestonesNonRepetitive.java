@@ -7,7 +7,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.os.Build;
 
 import org.osmdroid.R;
 import org.osmdroid.data.DataCountry;
@@ -130,35 +129,33 @@ public class SampleMilestonesNonRepetitive extends SampleMapEventListener {
         polyline.setMilestoneManagers(managers);
 
         mMapView.getOverlayManager().add(polyline);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            final float distance = (float)polyline.getDistance();
-            final float fraction = 1f / 10; // fraction of the polyline to be displayed
-            final ValueAnimator percentageCompletion = ValueAnimator.ofFloat(0, distance);
-            percentageCompletion.setDuration(5000); // 5 seconds
-            percentageCompletion.setStartDelay(500); // .5 second
-            percentageCompletion.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                @Override
-                public void onAnimationUpdate(ValueAnimator animation) {
-                    mAnimatedMetersSoFar = (float)animation.getAnimatedValue();
-                    if (mAnimatedMetersSoFar < distance * fraction) {
-                        slicerForPath.setMeterDistanceSlice(0, mAnimatedMetersSoFar);
-                    } else if (mAnimatedMetersSoFar > distance * (1 - fraction)) {
-                        slicerForPath.setMeterDistanceSlice(mAnimatedMetersSoFar - (distance - mAnimatedMetersSoFar), mAnimatedMetersSoFar);
-                    } else {
-                        slicerForPath.setMeterDistanceSlice(mAnimatedMetersSoFar - distance * fraction, mAnimatedMetersSoFar);
-                    }
-                    mMapView.invalidate();
+        final float distance = (float)polyline.getDistance();
+        final float fraction = 1f / 10; // fraction of the polyline to be displayed
+        final ValueAnimator percentageCompletion = ValueAnimator.ofFloat(0, distance);
+        percentageCompletion.setDuration(5000); // 5 seconds
+        percentageCompletion.setStartDelay(500); // .5 second
+        percentageCompletion.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                mAnimatedMetersSoFar = (float)animation.getAnimatedValue();
+                if (mAnimatedMetersSoFar < distance * fraction) {
+                    slicerForPath.setMeterDistanceSlice(0, mAnimatedMetersSoFar);
+                } else if (mAnimatedMetersSoFar > distance * (1 - fraction)) {
+                    slicerForPath.setMeterDistanceSlice(mAnimatedMetersSoFar - (distance - mAnimatedMetersSoFar), mAnimatedMetersSoFar);
+                } else {
+                    slicerForPath.setMeterDistanceSlice(mAnimatedMetersSoFar - distance * fraction, mAnimatedMetersSoFar);
                 }
-            });
-            percentageCompletion.addListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mAnimationEnded = true;
-                    mMapView.invalidate();
-                }
-            });
-            percentageCompletion.start();
-        }
+                mMapView.invalidate();
+            }
+        });
+        percentageCompletion.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                mAnimationEnded = true;
+                mMapView.invalidate();
+            }
+        });
+        percentageCompletion.start();
 
         mMapView.post(new Runnable() {
             @Override

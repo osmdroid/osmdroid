@@ -230,7 +230,6 @@ public final class SampleFactory implements ISampleFactory {
         //48
         mSamples.add(SampleDrawPolyline.class);
         //49
-        if (Build.VERSION.SDK_INT >= 9)
         mSamples.add(RecyclerCardView.class);
         //50
         mSamples.add(ScaleBarOnBottom.class);
@@ -259,17 +258,13 @@ public final class SampleFactory implements ISampleFactory {
         //mSamples.add(NasaWms111Source.class);
         //mSamples.add(NasaWms130Source.class);
         //mSamples.add(NasaWmsSrs.class);
-        if (Build.VERSION.SDK_INT  >= Build.VERSION_CODES.GINGERBREAD )
-            mSamples.add(AnimatedMarkerHandler.class);
+        mSamples.add(AnimatedMarkerHandler.class);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH)
             mSamples.add(AnimatedMarkerTypeEvaluator.class);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR1)
-            mSamples.add(AnimatedMarkerValueAnimator.class);
+        mSamples.add(AnimatedMarkerValueAnimator.class);
 
-        if (Build.VERSION.SDK_INT >= 10)
-            mSamples.add(MapsforgeTileProviderSample.class);
-        if (Build.VERSION.SDK_INT >= 9)
-            mSamples.add(OfflinePickerSample.class);
+        mSamples.add(MapsforgeTileProviderSample.class);
+        mSamples.add(OfflinePickerSample.class);
         //59
         if (Build.VERSION.SDK_INT >= 14) {
             mSamples.add(GeopackageSample.class);
@@ -286,8 +281,7 @@ public final class SampleFactory implements ISampleFactory {
         mSamples.add(DrawPolylineWithArrows.class);
         mSamples.add(DrawPolygonWithArrows.class);
 
-        if (Build.VERSION.SDK_INT >= 9)
-            mSamples.add(StreetAddressFragment.class);  //map in a list view
+        mSamples.add(StreetAddressFragment.class);  //map in a list view
 
         mSamples.add(SampleCustomMyLocation.class);
         mSamples.add(DrawCircle10km.class);
