@@ -41,8 +41,6 @@ public class SampleMilitaryIconsItemizedIcons extends BaseSampleFragment {
      // Fields
      // ===========================================================
      private ItemizedOverlayWithFocus<OverlayItem> itemOverlay;
-     private RotationGestureOverlay mRotationGestureOverlay;
-     private OverlayItem overlayItem;
      private List<Drawable> icons = new ArrayList<>(4);
 
      @Override
@@ -86,7 +84,7 @@ public class SampleMilitaryIconsItemizedIcons extends BaseSampleFragment {
                                          context,
                                          "Item '" + item.getTitle() + "' (index=" + index
                                                  + ") got long pressed", Toast.LENGTH_LONG).show();
-                                 return false;
+                                 return true;
                             }
                        }, context);
                itemOverlay.setFocusItemsOnTap(true);
@@ -97,6 +95,7 @@ public class SampleMilitaryIconsItemizedIcons extends BaseSampleFragment {
 
                mMapView.getOverlays().add(itemOverlay);
 
+               final RotationGestureOverlay mRotationGestureOverlay;
                mRotationGestureOverlay = new RotationGestureOverlay(mMapView);
                mRotationGestureOverlay.setEnabled(false);
                mMapView.getOverlays().add(mRotationGestureOverlay);
@@ -110,7 +109,7 @@ public class SampleMilitaryIconsItemizedIcons extends BaseSampleFragment {
           }
 
           // Zoom and center on the focused item.
-          mMapView.getController().setZoom(3);
+          mMapView.getController().setZoom(3.);
           IGeoPoint geoPoint = itemOverlay.getFocusedItem().getPoint();
           mMapView.getController().animateTo(geoPoint);
 
@@ -170,6 +169,7 @@ public class SampleMilitaryIconsItemizedIcons extends BaseSampleFragment {
           for (int i = 0; i < count; i++) {
                double random_lon = (Math.random() * 360) - 180;
                double random_lat = (Math.random() * 180) - 90;
+               final OverlayItem overlayItem;
                overlayItem = new OverlayItem("A random point", "SampleDescription", new GeoPoint(random_lat,
                        random_lon));
                int index = (int) (Math.random() * (icons.size()));
