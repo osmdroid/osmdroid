@@ -41,9 +41,6 @@ public class SampleWithMinimapItemizedOverlayWithFocus extends BaseSampleFragmen
 	// Fields
 	// ===========================================================
 
-	private ItemizedOverlayWithFocus<OverlayItem> mMyLocationOverlay;
-	private RotationGestureOverlay mRotationGestureOverlay;
-
 	@Override
 	public String getSampleTitle() {
 		return TITLE;
@@ -65,6 +62,7 @@ public class SampleWithMinimapItemizedOverlayWithFocus extends BaseSampleFragmen
 		final Context context = getActivity();
 
 		/* Itemized Overlay */
+		final ItemizedOverlayWithFocus<OverlayItem> mMyLocationOverlay;
 		{
 			/* Create a static ItemizedOverlay showing some Markers on various cities. */
 			final ArrayList<OverlayItem> items = new ArrayList<>();
@@ -97,7 +95,7 @@ public class SampleWithMinimapItemizedOverlayWithFocus extends BaseSampleFragmen
 									context,
 									"Item '" + item.getTitle() + "' (index=" + index
 											+ ") got long pressed", Toast.LENGTH_LONG).show();
-							return false;
+							return true;
 						}
 					}, context);
 			mMyLocationOverlay.setFocusItemsOnTap(true);
@@ -111,6 +109,7 @@ public class SampleWithMinimapItemizedOverlayWithFocus extends BaseSampleFragmen
 
 			mMapView.getOverlays().add(mMyLocationOverlay);
 
+			final RotationGestureOverlay mRotationGestureOverlay;
 			mRotationGestureOverlay = new RotationGestureOverlay(mMapView);
 			mRotationGestureOverlay.setEnabled(false);
 			mMapView.getOverlays().add(mRotationGestureOverlay);
