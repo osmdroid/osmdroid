@@ -177,6 +177,12 @@ public class MapView extends ViewGroup implements IMapView,
 	 */
 	private final Rect mRescaleScreenRect = new Rect(); // optimization
 
+	/**
+	 * @since 6.1.0
+	 * cf. https://github.com/osmdroid/osmdroid/issues/1247
+	 */
+	private boolean mDestroyModeOnDetach = true;
+
 	// ===========================================================
 	// Constructors
 	// ===========================================================
@@ -1049,6 +1055,7 @@ public class MapView extends ViewGroup implements IMapView,
 			mProjection.detach();
 		mProjection=null;
 		mRepository.onDetach();
+		mListners.clear();
 	}
 
 	@Override
@@ -1231,11 +1238,9 @@ public class MapView extends ViewGroup implements IMapView,
 
 	@Override
 	protected void onDetachedFromWindow() {
-		if (mZoomController != null) {
-			mZoomController.onDetach();
+		if (mDestroyModeOnDetach) {
+			onDetach();
 		}
-		this.onDetach();
-		this.mListners.clear();
 		super.onDetachedFromWindow();
 	}
 
@@ -1858,5 +1863,12 @@ public class MapView extends ViewGroup implements IMapView,
 	 */
 	public TilesOverlay getMapOverlay() {
 		return mMapOverlay;
+	}
+
+	/**
+	 * @since 6.1.0
+	 */
+	public void setDestroyMode(final boolean pOnDetach) {
+		mDestroyModeOnDetach = pOnDetach;
 	}
 }
