@@ -208,9 +208,6 @@ public class MapsForgeTileSource extends BitmapTileSourceBase {
 
     public static void createInstance(Application app) {
         AndroidGraphicFactory.createInstance(app);
-
-        // see https://github.com/mapsforge/mapsforge/issues/868
-        ReadBuffer.setMaximumBufferSize(6500000);
     }
 
 
