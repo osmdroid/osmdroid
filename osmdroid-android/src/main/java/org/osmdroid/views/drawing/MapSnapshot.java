@@ -74,6 +74,7 @@ public class MapSnapshot implements Runnable{
     private List<Overlay> mOverlays;
     private Status mStatus = Status.NOTHING;
     private Bitmap mBitmap;
+    private boolean mIsDetached;
 
     public MapSnapshot(final MapSnapshotable pMapSnapshotable,
                        final int pIncludeFlags,
@@ -122,8 +123,10 @@ public class MapSnapshot implements Runnable{
     }
 
     public void onDetach() {
+        mIsDetached = true;
         mProjection = null;
         mTileProvider.getTileRequestCompleteHandlers().remove(mHandler);
+        mTileProvider.detach();
         mTileProvider = null;
         mHandler.destroy();
         mHandler = null;
@@ -181,14 +184,23 @@ public class MapSnapshot implements Runnable{
                     return;
                 }
                 mStatus = Status.PAINTING;
+                if (mIsDetached) {
+                    return;
+                }
                 draw();
                 mStatus = Status.CANVAS_OK;
-                mMapSnapshotable.callback(MapSnapshot.this);
+                final MapSnapshotable mapSnapshotable = mMapSnapshotable;
+                if (mapSnapshotable != null) {
+                    mapSnapshotable.callback(MapSnapshot.this);
+                }
             }
         } while(refreshCheckEnd());
     }
 
     synchronized private boolean refreshCheckStart() {
+        if (mIsDetached) {
+            return false;
+        }
         if (mAlreadyFinished) {
             return false;
         }
@@ -204,6 +216,9 @@ public class MapSnapshot implements Runnable{
     }
 
     synchronized private boolean refreshCheckEnd() {
+        if (mIsDetached) {
+            return false;
+        }
         if (mAlreadyFinished) {
             return false;
         }
