@@ -100,7 +100,7 @@ public class TileSourceFactory {
 			0, 19, 256, ".png", new String[] {
 					"https://a.tile.openstreetmap.org/",
 					"https://b.tile.openstreetmap.org/",
-					"https://c.tile.openstreetmap.org/" },"© OpenStreetMap contributors");
+					"https://c.tile.openstreetmap.org/" },"© OpenStreetMap contributors", 2);
 
 	public static final OnlineTileSourceBase PUBLIC_TRANSPORT = new XYTileSource(
 			"OSMPublicTransport", 0, 17, 256, ".png",
