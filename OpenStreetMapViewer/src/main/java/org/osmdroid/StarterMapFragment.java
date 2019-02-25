@@ -27,6 +27,7 @@ import org.osmdroid.samplefragments.SampleFactory;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
+import org.osmdroid.views.CustomZoomButtonsController;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.CopyrightOverlay;
 import org.osmdroid.views.overlay.MinimapOverlay;
@@ -82,6 +83,7 @@ public class StarterMapFragment extends Fragment implements OpenStreetMapConstan
         //Note! we are programmatically construction the map view
         //be sure to handle application lifecycle correct (see note in on pause)
         mMapView = new MapView(inflater.getContext());
+        mMapView.setDestroyMode(false);
 
         mMapView.setOnGenericMotionListener(new View.OnGenericMotionListener() {
             /**
@@ -170,7 +172,7 @@ public class StarterMapFragment extends Fragment implements OpenStreetMapConstan
 
 
         //built in zoom controls
-        mMapView.setBuiltInZoomControls(true);
+        mMapView.getZoomController().setVisibility(CustomZoomButtonsController.Visibility.SHOW_AND_FADEOUT);
 
         //needed for pinch zooms
         mMapView.setMultiTouchControls(true);
@@ -218,7 +220,7 @@ public class StarterMapFragment extends Fragment implements OpenStreetMapConstan
             edit.putBoolean(PREFS_SHOW_COMPASS, mCompassOverlay.isCompassEnabled());
             this.mCompassOverlay.disableCompass();
         }
-        edit.commit();
+        edit.apply();
 
         mMapView.onPause();
         super.onPause();
