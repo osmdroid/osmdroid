@@ -26,6 +26,7 @@ import org.osmdroid.samplefragments.data.HeatMap;
 import org.osmdroid.samplefragments.data.SampleGridlines;
 import org.osmdroid.samplefragments.data.SampleIISTracker;
 import org.osmdroid.samplefragments.data.SampleIISTrackerMotionTrails;
+import org.osmdroid.samplefragments.data.SampleMapSnapshot;
 import org.osmdroid.samplefragments.data.SampleMarker;
 import org.osmdroid.samplefragments.data.SampleItemizedOverlayMultiClick;
 import org.osmdroid.samplefragments.data.SampleMarkerMultiClick;
@@ -303,6 +304,7 @@ public final class SampleFactory implements ISampleFactory {
         mSamples.add(SampleOfflineSecond.class);
         mSamples.add(SampleTileStates.class);
         mSamples.add(SampleAnimateToWithOrientation.class);
+        mSamples.add(SampleMapSnapshot.class);
     }
 
     public void addSample(Class<? extends BaseSampleFragment> clz) {

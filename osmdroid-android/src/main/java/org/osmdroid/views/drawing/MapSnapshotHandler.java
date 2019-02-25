@@ -24,7 +24,10 @@ public class MapSnapshotHandler  extends Handler {
     public void handleMessage(final Message msg) {
         switch (msg.what) {
             case MapTileProviderBase.MAPTILE_SUCCESS_ID:
-                mMapSnapshot.refreshASAP();
+                final MapSnapshot mapSnapshot = mMapSnapshot;
+                if (mapSnapshot != null) { // in case it was destroyed just before
+                    mapSnapshot.refreshASAP();
+                }
                 break;
         }
     }
