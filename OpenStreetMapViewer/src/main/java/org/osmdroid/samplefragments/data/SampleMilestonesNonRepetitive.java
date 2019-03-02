@@ -85,7 +85,7 @@ public class SampleMilestonesNonRepetitive extends SampleMapEventListener {
         }
         final BoundingBox boundingBox = BoundingBox.fromGeoPoints(capitals);
         polyline.setPoints(capitals);
-        polyline.setColor(Color.TRANSPARENT);
+        polyline.getOutlinePaint().setColor(Color.TRANSPARENT);
         final List<MilestoneManager> managers = new ArrayList<>();
         final MilestoneMeterDistanceSliceLister slicerForPath = new MilestoneMeterDistanceSliceLister();
         managers.add(getAnimatedPathManager(slicerForPath));

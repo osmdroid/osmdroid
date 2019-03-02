@@ -39,9 +39,9 @@ public class Bug382Crash extends BaseSampleFragment {
 
         polygon = new Polygon(mMapView);
         polygon.setPoints(geoPoints.subList(0, 3));
-        polygon.setFillColor(0x96FF8200);
-        polygon.setStrokeColor(Color.RED);
-        polygon.setStrokeWidth(4);
+        polygon.getFillPaint().setColor(0x96FF8200);
+        polygon.getOutlinePaint().setColor(Color.RED);
+        polygon.getOutlinePaint().setStrokeWidth(4);
         polygon.setInfoWindow(new BasicInfoWindow(R.layout.bonuspack_bubble, mMapView));
         polygon.setTitle("Polygon tapped!");
         mMapView.getOverlays().add(polygon);
@@ -49,8 +49,8 @@ public class Bug382Crash extends BaseSampleFragment {
 
         polyline = new Polyline(mMapView);
         polyline.setPoints(geoPoints.subList(3, 6));
-        polyline.setColor(Color.YELLOW);
-        polyline.setWidth(8);
+        polyline.getOutlinePaint().setColor(Color.YELLOW);
+        polyline.getOutlinePaint().setStrokeWidth(8);
         polyline.setInfoWindow(new BasicInfoWindow(R.layout.bonuspack_bubble, mMapView));
         polyline.setTitle("Polyline tapped!");
         mMapView.getOverlays().add(polyline);

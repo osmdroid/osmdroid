@@ -36,6 +36,7 @@ import org.osmdroid.samplefragments.data.SampleOsmPath;
 import org.osmdroid.samplefragments.data.SampleRace;
 import org.osmdroid.samplefragments.data.SampleSimpleFastPointOverlay;
 import org.osmdroid.samplefragments.data.SampleSimpleLocation;
+import org.osmdroid.samplefragments.drawing.SampleDrawPolylineAsPath;
 import org.osmdroid.samplefragments.events.SampleAnimateToWithOrientation;
 import org.osmdroid.samplefragments.tileproviders.SampleTileStates;
 import org.osmdroid.samplefragments.data.SampleWithMinimapItemizedOverlayWithFocus;
@@ -230,6 +231,7 @@ public final class SampleFactory implements ISampleFactory {
         mSamples.add(SampleMyLocationWithClick.class);
         //48
         mSamples.add(SampleDrawPolyline.class);
+        mSamples.add(SampleDrawPolylineAsPath.class);
         //49
         mSamples.add(RecyclerCardView.class);
         //50
