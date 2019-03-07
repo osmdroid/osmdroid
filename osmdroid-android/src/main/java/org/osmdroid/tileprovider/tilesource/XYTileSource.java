@@ -10,15 +10,15 @@ public class XYTileSource extends OnlineTileSourceBase {
 	public XYTileSource(final String aName, final int aZoomMinLevel,
 			final int aZoomMaxLevel, final int aTileSizePixels, final String aImageFilenameEnding,
 			final String[] aBaseUrl) {
-		this(aName, aZoomMinLevel, aZoomMaxLevel, aTileSizePixels,
-				aImageFilenameEnding, aBaseUrl,null);
+		super(aName, aZoomMinLevel, aZoomMaxLevel, aTileSizePixels,
+				aImageFilenameEnding, aBaseUrl);
 	}
 
 	public XYTileSource(final String aName, final int aZoomMinLevel,
 						final int aZoomMaxLevel, final int aTileSizePixels, final String aImageFilenameEnding,
 						final String[] aBaseUrl, final String copyright) {
-		this(aName, aZoomMinLevel, aZoomMaxLevel, aTileSizePixels,
-			aImageFilenameEnding, aBaseUrl, copyright, 0);
+		super(aName, aZoomMinLevel, aZoomMaxLevel, aTileSizePixels,
+				aImageFilenameEnding, aBaseUrl, copyright);
 	}
 
 	/**
@@ -27,9 +27,10 @@ public class XYTileSource extends OnlineTileSourceBase {
 	 */
 	public XYTileSource(final String aName, final int aZoomMinLevel,
 						final int aZoomMaxLevel, final int aTileSizePixels, final String aImageFilenameEnding,
-						final String[] aBaseUrl, final String copyright, final int pMaxConcurrent) {
+						final String[] aBaseUrl, final String copyright,
+						final TileSourcePolicy pTileSourcePolicy) {
 		super(aName, aZoomMinLevel, aZoomMaxLevel, aTileSizePixels,
-				aImageFilenameEnding, aBaseUrl,copyright, pMaxConcurrent);
+				aImageFilenameEnding, aBaseUrl,copyright, pTileSourcePolicy);
 	}
 
 	@Override

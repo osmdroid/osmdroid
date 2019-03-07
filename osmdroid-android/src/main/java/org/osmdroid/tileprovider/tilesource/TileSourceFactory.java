@@ -100,7 +100,8 @@ public class TileSourceFactory {
 			0, 19, 256, ".png", new String[] {
 					"https://a.tile.openstreetmap.org/",
 					"https://b.tile.openstreetmap.org/",
-					"https://c.tile.openstreetmap.org/" },"© OpenStreetMap contributors", 2);
+					"https://c.tile.openstreetmap.org/" },"© OpenStreetMap contributors",
+			new TileSourcePolicy(2, false, false));
 	// max concurrent thread number is 2 (cf. https://operations.osmfoundation.org/policies/tiles/)
 
 	public static final OnlineTileSourceBase PUBLIC_TRANSPORT = new XYTileSource(

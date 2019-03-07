@@ -29,6 +29,7 @@ import static org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConst
  */
 public class DefaultConfigurationProvider implements IConfigurationProvider {
 
+    public static final String DEFAULT_USER_AGENT = "osmdroid";
 
     protected long gpsWaitTime =20000;
     protected boolean debugMode= false;
@@ -36,7 +37,7 @@ public class DefaultConfigurationProvider implements IConfigurationProvider {
     protected boolean debugTileProviders = false;
     protected boolean debugMapTileDownloader=false;
     protected boolean isMapViewHardwareAccelerated=true;
-    protected String userAgentValue="osmdroid";
+    protected String userAgentValue=DEFAULT_USER_AGENT;
     protected String userAgentHttpHeader = "User-Agent";
     private final Map<String, String> mAdditionalHttpRequestProperties = new HashMap<>();
     protected short cacheMapTileCount = 9;

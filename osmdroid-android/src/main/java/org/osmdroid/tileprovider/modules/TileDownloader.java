@@ -49,6 +49,11 @@ public class TileDownloader {
             return null;
         }
 
+        final String userAgent = Configuration.getInstance().getUserAgentValue();
+        if (!pTileSource.getTileSourcePolicy().acceptsUserAgent(userAgent)) {
+            Log.e(IMapView.LOGTAG,"Please configure a relevant user agent; current value is: " + userAgent);
+            return null;
+        }
         InputStream in = null;
         OutputStream out = null;
         HttpURLConnection c=null;
@@ -72,7 +77,7 @@ public class TileDownloader {
                 c = (HttpURLConnection) new URL(tileURLString).openConnection();
             }
             c.setUseCaches(true);
-            c.setRequestProperty(Configuration.getInstance().getUserAgentHttpHeader(),Configuration.getInstance().getUserAgentValue());
+            c.setRequestProperty(Configuration.getInstance().getUserAgentHttpHeader(), userAgent);
             for (final Map.Entry<String, String> entry : Configuration.getInstance().getAdditionalHttpRequestProperties().entrySet()) {
                 c.setRequestProperty(entry.getKey(), entry.getValue());
             }
