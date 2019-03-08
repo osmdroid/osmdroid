@@ -101,7 +101,12 @@ public class TileSourceFactory {
 					"https://a.tile.openstreetmap.org/",
 					"https://b.tile.openstreetmap.org/",
 					"https://c.tile.openstreetmap.org/" },"© OpenStreetMap contributors",
-			new TileSourcePolicy(2, false, false));
+			new TileSourcePolicy(2,
+					TileSourcePolicy.FLAG_NO_BULK
+					| TileSourcePolicy.FLAG_NO_PREVENTIVE
+					| TileSourcePolicy.FLAG_USER_AGENT_MEANINGFUL
+					| TileSourcePolicy.FLAG_USER_AGENT_NORMALIZED
+			));
 	// max concurrent thread number is 2 (cf. https://operations.osmfoundation.org/policies/tiles/)
 
 	public static final OnlineTileSourceBase PUBLIC_TRANSPORT = new XYTileSource(

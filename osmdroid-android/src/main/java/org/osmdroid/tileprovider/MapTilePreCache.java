@@ -3,7 +3,10 @@ package org.osmdroid.tileprovider;
 import android.graphics.drawable.Drawable;
 
 import org.osmdroid.tileprovider.modules.CantContinueException;
+import org.osmdroid.tileprovider.modules.MapTileDownloader;
 import org.osmdroid.tileprovider.modules.MapTileModuleProviderBase;
+import org.osmdroid.tileprovider.tilesource.ITileSource;
+import org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase;
 import org.osmdroid.util.GarbageCollector;
 import org.osmdroid.util.MapTileArea;
 import org.osmdroid.util.MapTileAreaList;
@@ -111,6 +114,14 @@ public class MapTilePreCache {
     private void search(final long pMapTileIndex) {
         for (final MapTileModuleProviderBase provider : mProviders) {
             try {
+                if (provider instanceof MapTileDownloader) {
+                    final ITileSource tileSource = ((MapTileDownloader) provider).getTileSource();
+                    if (tileSource instanceof OnlineTileSourceBase) {
+                        if (!((OnlineTileSourceBase)tileSource).getTileSourcePolicy().acceptsPreventive()) {
+                            continue;
+                        }
+                    }
+                }
                 final Drawable drawable = provider.getTileLoader().loadTile(pMapTileIndex);
                 if (drawable == null) {
                     continue;

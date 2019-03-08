@@ -49,7 +49,13 @@ public class TileDownloader {
             return null;
         }
 
-        final String userAgent = Configuration.getInstance().getUserAgentValue();
+        String userAgent = null;
+        if (pTileSource.getTileSourcePolicy().normalizesUserAgent()) {
+            userAgent = Configuration.getInstance().getNormalizedUserAgent();
+        }
+        if (userAgent == null) {
+            userAgent = Configuration.getInstance().getUserAgentValue();
+        }
         if (!pTileSource.getTileSourcePolicy().acceptsUserAgent(userAgent)) {
             Log.e(IMapView.LOGTAG,"Please configure a relevant user agent; current value is: " + userAgent);
             return null;
