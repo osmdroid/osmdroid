@@ -138,15 +138,15 @@ public class TileSourceFactory {
 
 	public static final OnlineTileSourceBase FIETS_OVERLAY_NL = new XYTileSource("Fiets",
 			3, 18, 256, ".png",
-			new String[] { "http://overlay.openstreetmap.nl/openfietskaart-overlay/" },"© OpenStreetMap contributors");
+			new String[] { "https://overlay.openstreetmap.nl/openfietskaart-overlay/" },"© OpenStreetMap contributors");
 
 	public static final OnlineTileSourceBase BASE_OVERLAY_NL = new XYTileSource("BaseNL",
 			0, 18, 256, ".png",
-			new String[] { "http://overlay.openstreetmap.nl/basemap/" });
+			new String[] { "https://overlay.openstreetmap.nl/basemap/" });
 
 	public static final OnlineTileSourceBase ROADS_OVERLAY_NL = new XYTileSource("RoadsNL",
 			0, 18, 256, ".png",
-			new String[] { "http://overlay.openstreetmap.nl/roads/" },"© OpenStreetMap contributors");
+			new String[] { "https://overlay.openstreetmap.nl/roads/" },"© OpenStreetMap contributors");
      
      public static final OnlineTileSourceBase HIKEBIKEMAP = new XYTileSource("HikeBikeMap",
 			 0, 18, 256, ".png",
@@ -159,7 +159,7 @@ public class TileSourceFactory {
 	 * @sunce 5.6.2
 	 */
 	public static final OnlineTileSourceBase OPEN_SEAMAP = new XYTileSource("OpenSeaMap",
-			3,18,256,".png", new String[] { "http://tiles.openseamap.org/seamark/"}, "OpenSeaMap");
+			3,18,256,".png", new String[] { "https://tiles.openseamap.org/seamark/"}, "OpenSeaMap");
 
      
      public static final OnlineTileSourceBase USGS_TOPO = new OnlineTileSourceBase("USGS National Map Topo",  0, 15, 256, "",
@@ -183,29 +183,31 @@ public class TileSourceFactory {
 	 * @since 5.6.2
 	 */
 	public static final OnlineTileSourceBase ChartbundleWAC = new XYTileSource("ChartbundleWAC", 4, 12, 256, ".png?type=google",
-		new String[]{"http://wms.chartbundle.com/tms/v1.0/wac/"}, "chartbundle.com");
+		new String[]{"https://wms.chartbundle.com/tms/v1.0/wac/"}, "chartbundle.com");
 
 	/**
 	 * Chart Bundle US Aeronautical Charts Enroute High
 	 * @since 5.6.2
 	 */
 	public static final OnlineTileSourceBase ChartbundleENRH = new XYTileSource("ChartbundleENRH", 4, 12, 256, ".png?type=google",
-		new String[]{"http://wms.chartbundle.com/tms/v1.0/enrh/", "chartbundle.com"});
+		new String[]{"https://wms.chartbundle.com/tms/v1.0/enrh/", "chartbundle.com"});
 	/**
 	 * Chart Bundle US Aeronautical Charts Enroute Low
 	 * @since 5.6.2
 	 */
 	public static final OnlineTileSourceBase ChartbundleENRL = new XYTileSource("ChartbundleENRL", 4, 12, 256, ".png?type=google",
-		new String[]{"http://wms.chartbundle.com/tms/v1.0/enrl/", "chartbundle.com"});
+		new String[]{"https://wms.chartbundle.com/tms/v1.0/enrl/", "chartbundle.com"});
 
 	/**
 	 * Open Topo Maps https://opentopomap.org
 	 * @since 5.6.2
 	 */
-	public static final OnlineTileSourceBase OpenTopo= new XYTileSource("OpenTopoMap", 0, 19, 256, ".png",
-		new String[]{"https://opentopomap.org/"}, "Kartendaten: © OpenStreetMap-Mitwirkende, SRTM | Kartendarstellung: © OpenTopoMap (CC-BY-SA)");
-
-
+	public static final OnlineTileSourceBase OpenTopo= new XYTileSource("OpenTopoMap", 0, 17, 256, ".png",
+			new String[]{
+					"https://a.tile.opentopomap.org/",
+					"https://b.tile.opentopomap.org/",
+					"https://c.tile.opentopomap.org/"},
+			"Kartendaten: © OpenStreetMap-Mitwirkende, SRTM | Kartendarstellung: © OpenTopoMap (CC-BY-SA)");
 
 	private static List<ITileSource> mTileSources;
 	static {
