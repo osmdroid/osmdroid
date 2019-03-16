@@ -62,7 +62,7 @@ public class SampleCacheDownloaderArchive  extends BaseSampleFragment implements
         setHasOptionsMenu(false);
 
         mMapView = new MapView(getActivity());
-        mMapView.setTileSource(TileSourceFactory.HIKEBIKEMAP);
+        mMapView.setTileSource(TileSourceFactory.USGS_SAT);
         ((LinearLayout) root.findViewById(R.id.mapview)).addView(mMapView);
         btnCache = root.findViewById(R.id.btnCache);
         btnCache.setOnClickListener(this);
