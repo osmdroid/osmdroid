@@ -10,79 +10,79 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.views.overlay.simplefastpoint.LabelledGeoPoint
-	c5356 [label=<<table title="org.osmdroid.views.overlay.simplefastpoint.LabelledGeoPoint" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./LabelledGeoPoint.html">
+	c5742 [label=<<table title="org.osmdroid.views.overlay.simplefastpoint.LabelledGeoPoint" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./LabelledGeoPoint.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> LabelledGeoPoint </td></tr>
 		</table></td></tr>
 		</table>>, URL="./LabelledGeoPoint.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.simplefastpoint.SimpleFastPointOverlay
-	c5357 [label=<<table title="org.osmdroid.views.overlay.simplefastpoint.SimpleFastPointOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SimpleFastPointOverlay.html">
+	c5743 [label=<<table title="org.osmdroid.views.overlay.simplefastpoint.SimpleFastPointOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SimpleFastPointOverlay.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SimpleFastPointOverlay </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SimpleFastPointOverlay.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.simplefastpoint.SimpleFastPointOverlay.StyledLabelledPoint
-	c5358 [label=<<table title="org.osmdroid.views.overlay.simplefastpoint.SimpleFastPointOverlay.StyledLabelledPoint" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SimpleFastPointOverlay.StyledLabelledPoint.html">
+	c5744 [label=<<table title="org.osmdroid.views.overlay.simplefastpoint.SimpleFastPointOverlay.StyledLabelledPoint" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SimpleFastPointOverlay.StyledLabelledPoint.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> StyledLabelledPoint </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SimpleFastPointOverlay.StyledLabelledPoint.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.simplefastpoint.SimpleFastPointOverlay.PointAdapter
-	c5359 [label=<<table title="org.osmdroid.views.overlay.simplefastpoint.SimpleFastPointOverlay.PointAdapter" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SimpleFastPointOverlay.PointAdapter.html">
+	c5745 [label=<<table title="org.osmdroid.views.overlay.simplefastpoint.SimpleFastPointOverlay.PointAdapter" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SimpleFastPointOverlay.PointAdapter.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> PointAdapter </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SimpleFastPointOverlay.PointAdapter.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.simplefastpoint.SimpleFastPointOverlay.OnClickListener
-	c5360 [label=<<table title="org.osmdroid.views.overlay.simplefastpoint.SimpleFastPointOverlay.OnClickListener" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SimpleFastPointOverlay.OnClickListener.html">
+	c5746 [label=<<table title="org.osmdroid.views.overlay.simplefastpoint.SimpleFastPointOverlay.OnClickListener" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SimpleFastPointOverlay.OnClickListener.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> OnClickListener </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SimpleFastPointOverlay.OnClickListener.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.simplefastpoint.SimpleFastPointOverlayOptions
-	c5361 [label=<<table title="org.osmdroid.views.overlay.simplefastpoint.SimpleFastPointOverlayOptions" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SimpleFastPointOverlayOptions.html">
+	c5747 [label=<<table title="org.osmdroid.views.overlay.simplefastpoint.SimpleFastPointOverlayOptions" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SimpleFastPointOverlayOptions.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SimpleFastPointOverlayOptions </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SimpleFastPointOverlayOptions.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.simplefastpoint.SimpleFastPointOverlayOptions.RenderingAlgorithm
-	c5362 [label=<<table title="org.osmdroid.views.overlay.simplefastpoint.SimpleFastPointOverlayOptions.RenderingAlgorithm" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SimpleFastPointOverlayOptions.RenderingAlgorithm.html">
+	c5748 [label=<<table title="org.osmdroid.views.overlay.simplefastpoint.SimpleFastPointOverlayOptions.RenderingAlgorithm" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SimpleFastPointOverlayOptions.RenderingAlgorithm.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;enumeration&#187; </td></tr>
 <tr><td align="center" balign="center"> RenderingAlgorithm </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SimpleFastPointOverlayOptions.RenderingAlgorithm.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.simplefastpoint.SimpleFastPointOverlayOptions.Shape
-	c5363 [label=<<table title="org.osmdroid.views.overlay.simplefastpoint.SimpleFastPointOverlayOptions.Shape" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SimpleFastPointOverlayOptions.Shape.html">
+	c5749 [label=<<table title="org.osmdroid.views.overlay.simplefastpoint.SimpleFastPointOverlayOptions.Shape" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SimpleFastPointOverlayOptions.Shape.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;enumeration&#187; </td></tr>
 <tr><td align="center" balign="center"> Shape </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SimpleFastPointOverlayOptions.Shape.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.simplefastpoint.SimpleFastPointOverlayOptions.LabelPolicy
-	c5364 [label=<<table title="org.osmdroid.views.overlay.simplefastpoint.SimpleFastPointOverlayOptions.LabelPolicy" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SimpleFastPointOverlayOptions.LabelPolicy.html">
+	c5750 [label=<<table title="org.osmdroid.views.overlay.simplefastpoint.SimpleFastPointOverlayOptions.LabelPolicy" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SimpleFastPointOverlayOptions.LabelPolicy.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;enumeration&#187; </td></tr>
 <tr><td align="center" balign="center"> LabelPolicy </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SimpleFastPointOverlayOptions.LabelPolicy.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.simplefastpoint.SimplePointTheme
-	c5365 [label=<<table title="org.osmdroid.views.overlay.simplefastpoint.SimplePointTheme" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SimplePointTheme.html">
+	c5751 [label=<<table title="org.osmdroid.views.overlay.simplefastpoint.SimplePointTheme" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SimplePointTheme.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SimplePointTheme </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SimplePointTheme.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.simplefastpoint.StyledLabelledGeoPoint
-	c5366 [label=<<table title="org.osmdroid.views.overlay.simplefastpoint.StyledLabelledGeoPoint" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./StyledLabelledGeoPoint.html">
+	c5752 [label=<<table title="org.osmdroid.views.overlay.simplefastpoint.StyledLabelledGeoPoint" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./StyledLabelledGeoPoint.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> StyledLabelledGeoPoint </td></tr>
 		</table></td></tr>
 		</table>>, URL="./StyledLabelledGeoPoint.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.views.overlay.simplefastpoint.SimplePointTheme implements org.osmdroid.views.overlay.simplefastpoint.SimpleFastPointOverlay.PointAdapter
-	c5359:p -> c5365:p [dir=back,arrowtail=empty,style=dashed];
+	c5745:p -> c5751:p [dir=back,arrowtail=empty,style=dashed];
 	//org.osmdroid.views.overlay.simplefastpoint.StyledLabelledGeoPoint extends org.osmdroid.views.overlay.simplefastpoint.LabelledGeoPoint
-	c5356:p -> c5366:p [dir=back,arrowtail=empty];
+	c5742:p -> c5752:p [dir=back,arrowtail=empty];
 }
 

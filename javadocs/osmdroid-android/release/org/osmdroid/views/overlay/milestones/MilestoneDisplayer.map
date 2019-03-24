@@ -1,8 +1,10 @@
 <map id="G" name="G">
 <area shape="rect" id="node1_0" href="./MilestoneBitmapDisplayer.html" title="org.osmdroid.views.overlay.milestones.MilestoneBitmapDisplayer" alt="" coords="16,113,187,138"/>
 <area shape="rect" id="node1" href="./MilestoneBitmapDisplayer.html" title="&lt;TABLE&gt;" alt="" coords="5,101,197,149"/>
-<area shape="rect" id="node2_1" href="./MilestoneDisplayer.html" title="org.osmdroid.views.overlay.milestones.MilestoneDisplayer" alt="" coords="141,17,269,42"/>
-<area shape="rect" id="node2" href="./MilestoneDisplayer.html" title="&lt;TABLE&gt;" alt="" coords="131,5,280,53"/>
-<area shape="rect" id="node3_2" href="./MilestonePathDisplayer.html" title="org.osmdroid.views.overlay.milestones.MilestonePathDisplayer" alt="" coords="233,113,389,138"/>
-<area shape="rect" id="node3" href="./MilestonePathDisplayer.html" title="&lt;TABLE&gt;" alt="" coords="222,101,399,149"/>
+<area shape="rect" id="node2_1" href="./MilestoneDisplayer.html" title="org.osmdroid.views.overlay.milestones.MilestoneDisplayer" alt="" coords="245,17,373,42"/>
+<area shape="rect" id="node2" href="./MilestoneDisplayer.html" title="&lt;TABLE&gt;" alt="" coords="235,5,384,53"/>
+<area shape="rect" id="node3_2" href="./MilestoneLineDisplayer.html" title="org.osmdroid.views.overlay.milestones.MilestoneLineDisplayer" alt="" coords="233,113,386,138"/>
+<area shape="rect" id="node3" href="./MilestoneLineDisplayer.html" title="&lt;TABLE&gt;" alt="" coords="222,101,397,149"/>
+<area shape="rect" id="node4_3" href="./MilestonePathDisplayer.html" title="org.osmdroid.views.overlay.milestones.MilestonePathDisplayer" alt="" coords="431,113,587,138"/>
+<area shape="rect" id="node4" href="./MilestonePathDisplayer.html" title="&lt;TABLE&gt;" alt="" coords="421,101,598,149"/>
 </map>

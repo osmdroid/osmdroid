@@ -10,108 +10,101 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.tileprovider.BitmapPool
-	c22104 [label=<<table title="org.osmdroid.tileprovider.BitmapPool" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./BitmapPool.html">
+	c23791 [label=<<table title="org.osmdroid.tileprovider.BitmapPool" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./BitmapPool.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> BitmapPool </td></tr>
 		</table></td></tr>
 		</table>>, URL="./BitmapPool.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.ExpirableBitmapDrawable
-	c22111 [label=<<table title="org.osmdroid.tileprovider.ExpirableBitmapDrawable" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ExpirableBitmapDrawable.html">
+	c23798 [label=<<table title="org.osmdroid.tileprovider.ExpirableBitmapDrawable" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ExpirableBitmapDrawable.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> ExpirableBitmapDrawable </td></tr>
 		</table></td></tr>
 		</table>>, URL="./ExpirableBitmapDrawable.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.IMapTileProviderCallback
-	c22112 [label=<<table title="org.osmdroid.tileprovider.IMapTileProviderCallback" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./IMapTileProviderCallback.html">
+	c23799 [label=<<table title="org.osmdroid.tileprovider.IMapTileProviderCallback" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./IMapTileProviderCallback.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> IMapTileProviderCallback </td></tr>
 		</table></td></tr>
 		</table>>, URL="./IMapTileProviderCallback.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.IRegisterReceiver
-	c22113 [label=<<table title="org.osmdroid.tileprovider.IRegisterReceiver" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./IRegisterReceiver.html">
+	c23800 [label=<<table title="org.osmdroid.tileprovider.IRegisterReceiver" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./IRegisterReceiver.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> IRegisterReceiver </td></tr>
 		</table></td></tr>
 		</table>>, URL="./IRegisterReceiver.html", fontname="arial", fontcolor="black", fontsize=10.0];
-	// org.osmdroid.tileprovider.LRUMapTileCache
-	c22114 [label=<<table title="org.osmdroid.tileprovider.LRUMapTileCache" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./LRUMapTileCache.html">
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> LRUMapTileCache </td></tr>
-		</table></td></tr>
-		</table>>, URL="./LRUMapTileCache.html", fontname="arial", fontcolor="black", fontsize=10.0];
-	// org.osmdroid.tileprovider.LRUMapTileCache.TileRemovedListener
-	c22115 [label=<<table title="org.osmdroid.tileprovider.LRUMapTileCache.TileRemovedListener" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./LRUMapTileCache.TileRemovedListener.html">
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
-<tr><td align="center" balign="center"> TileRemovedListener </td></tr>
-		</table></td></tr>
-		</table>>, URL="./LRUMapTileCache.TileRemovedListener.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.MapTileCache
-	c22116 [label=<<table title="org.osmdroid.tileprovider.MapTileCache" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileCache.html">
+	c23801 [label=<<table title="org.osmdroid.tileprovider.MapTileCache" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileCache.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MapTileCache </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MapTileCache.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.MapTileCache.TileRemovedListener
-	c22117 [label=<<table title="org.osmdroid.tileprovider.MapTileCache.TileRemovedListener" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileCache.TileRemovedListener.html">
+	c23802 [label=<<table title="org.osmdroid.tileprovider.MapTileCache.TileRemovedListener" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileCache.TileRemovedListener.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> TileRemovedListener </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MapTileCache.TileRemovedListener.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.MapTilePreCache
-	c22118 [label=<<table title="org.osmdroid.tileprovider.MapTilePreCache" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTilePreCache.html">
+	c23803 [label=<<table title="org.osmdroid.tileprovider.MapTilePreCache" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTilePreCache.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MapTilePreCache </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MapTilePreCache.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.MapTileProviderArray
-	c22119 [label=<<table title="org.osmdroid.tileprovider.MapTileProviderArray" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileProviderArray.html">
+	c23804 [label=<<table title="org.osmdroid.tileprovider.MapTileProviderArray" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileProviderArray.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MapTileProviderArray </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MapTileProviderArray.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.MapTileProviderBase
-	c22120 [label=<<table title="org.osmdroid.tileprovider.MapTileProviderBase" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileProviderBase.html">
+	c23805 [label=<<table title="org.osmdroid.tileprovider.MapTileProviderBase" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileProviderBase.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> MapTileProviderBase </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./MapTileProviderBase.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.MapTileProviderBasic
-	c22121 [label=<<table title="org.osmdroid.tileprovider.MapTileProviderBasic" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileProviderBasic.html">
+	c23806 [label=<<table title="org.osmdroid.tileprovider.MapTileProviderBasic" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileProviderBasic.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MapTileProviderBasic </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MapTileProviderBasic.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.MapTileRequestState
-	c22122 [label=<<table title="org.osmdroid.tileprovider.MapTileRequestState" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileRequestState.html">
+	c23807 [label=<<table title="org.osmdroid.tileprovider.MapTileRequestState" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileRequestState.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MapTileRequestState </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MapTileRequestState.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.ReusableBitmapDrawable
-	c22154 [label=<<table title="org.osmdroid.tileprovider.ReusableBitmapDrawable" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ReusableBitmapDrawable.html">
+	c23839 [label=<<table title="org.osmdroid.tileprovider.ReusableBitmapDrawable" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ReusableBitmapDrawable.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> ReusableBitmapDrawable </td></tr>
 		</table></td></tr>
 		</table>>, URL="./ReusableBitmapDrawable.html", fontname="arial", fontcolor="black", fontsize=10.0];
+	// org.osmdroid.tileprovider.TileStates
+	c23860 [label=<<table title="org.osmdroid.tileprovider.TileStates" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./TileStates.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> TileStates </td></tr>
+		</table></td></tr>
+		</table>>, URL="./TileStates.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.MapTileCacheTest
-	c22306 [label=<<table title="org.osmdroid.tileprovider.MapTileCacheTest" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileCacheTest.html">
+	c24009 [label=<<table title="org.osmdroid.tileprovider.MapTileCacheTest" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileCacheTest.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MapTileCacheTest </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MapTileCacheTest.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.tileprovider.MapTileProviderArray extends org.osmdroid.tileprovider.MapTileProviderBase
-	c22120:p -> c22119:p [dir=back,arrowtail=empty];
+	c23805:p -> c23804:p [dir=back,arrowtail=empty];
 	//org.osmdroid.tileprovider.MapTileProviderBase implements org.osmdroid.tileprovider.IMapTileProviderCallback
-	c22112:p -> c22120:p [dir=back,arrowtail=empty,style=dashed];
+	c23799:p -> c23805:p [dir=back,arrowtail=empty,style=dashed];
 	//org.osmdroid.tileprovider.MapTileProviderBasic extends org.osmdroid.tileprovider.MapTileProviderArray
-	c22119:p -> c22121:p [dir=back,arrowtail=empty];
+	c23804:p -> c23806:p [dir=back,arrowtail=empty];
 	//org.osmdroid.tileprovider.MapTileProviderBasic implements org.osmdroid.tileprovider.IMapTileProviderCallback
-	c22112:p -> c22121:p [dir=back,arrowtail=empty,style=dashed];
+	c23799:p -> c23806:p [dir=back,arrowtail=empty,style=dashed];
 	//org.osmdroid.tileprovider.ReusableBitmapDrawable extends org.osmdroid.tileprovider.ExpirableBitmapDrawable
-	c22111:p -> c22154:p [dir=back,arrowtail=empty];
+	c23798:p -> c23839:p [dir=back,arrowtail=empty];
 }
 

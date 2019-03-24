@@ -10,26 +10,34 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.views.overlay.milestones.MilestoneBitmapDisplayer
-	c164490 [label=<<table title="org.osmdroid.views.overlay.milestones.MilestoneBitmapDisplayer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MilestoneBitmapDisplayer.html">
+	c187759 [label=<<table title="org.osmdroid.views.overlay.milestones.MilestoneBitmapDisplayer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MilestoneBitmapDisplayer.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MilestoneBitmapDisplayer </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MilestoneBitmapDisplayer.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.milestones.MilestoneDisplayer
-	c164491 [label=<<table title="org.osmdroid.views.overlay.milestones.MilestoneDisplayer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./MilestoneDisplayer.html">
+	c187760 [label=<<table title="org.osmdroid.views.overlay.milestones.MilestoneDisplayer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./MilestoneDisplayer.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> MilestoneDisplayer </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./MilestoneDisplayer.html", fontname="arial", fontcolor="black", fontsize=10.0];
+	// org.osmdroid.views.overlay.milestones.MilestoneLineDisplayer
+	c187761 [label=<<table title="org.osmdroid.views.overlay.milestones.MilestoneLineDisplayer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MilestoneLineDisplayer.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> MilestoneLineDisplayer </td></tr>
+		</table></td></tr>
+		</table>>, URL="./MilestoneLineDisplayer.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.milestones.MilestonePathDisplayer
-	c164497 [label=<<table title="org.osmdroid.views.overlay.milestones.MilestonePathDisplayer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MilestonePathDisplayer.html">
+	c187767 [label=<<table title="org.osmdroid.views.overlay.milestones.MilestonePathDisplayer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MilestonePathDisplayer.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MilestonePathDisplayer </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MilestonePathDisplayer.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.views.overlay.milestones.MilestoneBitmapDisplayer extends org.osmdroid.views.overlay.milestones.MilestoneDisplayer
-	c164491:p -> c164490:p [dir=back,arrowtail=empty];
+	c187760:p -> c187759:p [dir=back,arrowtail=empty];
+	//org.osmdroid.views.overlay.milestones.MilestoneLineDisplayer extends org.osmdroid.views.overlay.milestones.MilestoneDisplayer
+	c187760:p -> c187761:p [dir=back,arrowtail=empty];
 	//org.osmdroid.views.overlay.milestones.MilestonePathDisplayer extends org.osmdroid.views.overlay.milestones.MilestoneDisplayer
-	c164491:p -> c164497:p [dir=back,arrowtail=empty];
+	c187760:p -> c187767:p [dir=back,arrowtail=empty];
 }
 

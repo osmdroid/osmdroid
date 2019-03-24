@@ -9,14 +9,40 @@ digraph G {
 	node [fontname="arial",fontsize=10,shape=plaintext];
 	nodesep=0.25;
 	ranksep=0.5;
+	// org.osmdroid.views.drawing.MapSnapshot
+	c3743 [label=<<table title="org.osmdroid.views.drawing.MapSnapshot" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapSnapshot.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> MapSnapshot </td></tr>
+		</table></td></tr>
+		</table>>, URL="./MapSnapshot.html", fontname="arial", fontcolor="black", fontsize=10.0];
+	// org.osmdroid.views.drawing.MapSnapshot.MapSnapshotable
+	c3744 [label=<<table title="org.osmdroid.views.drawing.MapSnapshot.MapSnapshotable" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapSnapshot.MapSnapshotable.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
+<tr><td align="center" balign="center"> MapSnapshotable </td></tr>
+		</table></td></tr>
+		</table>>, URL="./MapSnapshot.MapSnapshotable.html", fontname="arial", fontcolor="black", fontsize=10.0];
+	// org.osmdroid.views.drawing.MapSnapshot.Status
+	c3745 [label=<<table title="org.osmdroid.views.drawing.MapSnapshot.Status" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapSnapshot.Status.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> &#171;enumeration&#187; </td></tr>
+<tr><td align="center" balign="center"> Status </td></tr>
+		</table></td></tr>
+		</table>>, URL="./MapSnapshot.Status.html", fontname="arial", fontcolor="black", fontsize=10.0];
+	// org.osmdroid.views.drawing.MapSnapshotHandler
+	c3746 [label=<<table title="org.osmdroid.views.drawing.MapSnapshotHandler" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapSnapshotHandler.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> MapSnapshotHandler </td></tr>
+		</table></td></tr>
+		</table>>, URL="./MapSnapshotHandler.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.drawing.OsmBitmapShader
-	c3267 [label=<<table title="org.osmdroid.views.drawing.OsmBitmapShader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./OsmBitmapShader.html">
+	c3747 [label=<<table title="org.osmdroid.views.drawing.OsmBitmapShader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./OsmBitmapShader.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> OsmBitmapShader </td></tr>
 		</table></td></tr>
 		</table>>, URL="./OsmBitmapShader.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.drawing.OsmPath
-	c3268 [label=<<table title="org.osmdroid.views.drawing.OsmPath" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./OsmPath.html">
+	c3748 [label=<<table title="org.osmdroid.views.drawing.OsmPath" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./OsmPath.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> OsmPath </td></tr>
 		</table></td></tr>

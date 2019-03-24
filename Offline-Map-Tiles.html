@@ -8,7 +8,7 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta name="Date-Creation-yyyymmdd" content="20080101"/>
-    <meta name="Date-Revision-yyyymmdd" content="20180716"/>
+    <meta name="Date-Revision-yyyymmdd" content="20190324"/>
     <meta http-equiv="Content-Language" content="en"/>
     <title> osmdroid</title>
     <link rel="stylesheet" href="./css/apache-maven-fluido-1.4.min.css"/>
@@ -65,10 +65,10 @@
             </li>
 
             <li id="publishDate" class="pull-right"><span class="divider">|</span> Last Published:
-                2018-07-16
+                2019-03-24
             </li>
             <li id="projectVersion" class="pull-right">
-                6.0.2
+                6.1.0
             </li>
 
         </ul>
@@ -281,7 +281,7 @@
 
         <div id="bodyColumn" class="span10">
             <a name="topOfPage"></a>
-            <p>This document has the definitive guide for using osmdroid without a network connection.</p>
+            <p>This document is the definitive guide for using osmdroid without a network connection.</p>
 <h1>What are the supported storage formats?</h1>
 <p>osmdroid provides out of the box support for several different types of offline map tile caches.</p>
 <ul>
@@ -289,6 +289,7 @@
 <li>osmdroid ZIP</li>
 <li>MBTiles</li>
 <li>GEMF</li>
+<li><a href="Mapsforge">Mapsforge</a></li>
 <li>GeoPackage (still under development)</li>
 </ul>
 <h1>How can I create an offline storage archive?</h1>
@@ -355,8 +356,6 @@
 <h3>Gotchas</h3>
 <p>MOBAC imposes a limit on the number of tiles to download in one shot. This can be overcome by altering the source code.</p>
 <p>MOBAC, especially with huge tile sets, can be a memory hog. It's algorithms from at least 1.8 to at least the 1.9.x releases caches as much as possible in memory until it hits the JVM ceiling, then does batch inserts into sqlite. While this is the way to make SQLite inserts as fast as possible, it can lead to stability issues with MOBAC.</p>
-<h2>OSMBonusPack</h2>
-<p><a href="https://github.com/MKergall/osmbonuspack">OSMBonusPack</a> is an addon Android library for osmdroid that has the ability to download and cache map tiles on device. See the <a href="https://github.com/MKergall/osmbonuspack/blob/master/OSMBonusPack/src/main/java/org/osmdroid/bonuspack/cachemanager/CacheManager.java">CacheManager</a></p>
 <h1>What legal things do I need to know?</h1>
 <p>Many map sources have disclaimers and legal statements that specifically state to NOT cache and rehost their map imagery. Some may have wording to disallows you to use their map imagery offline or to download large portions of the world.  Make sure you read the fine print! osmdroid takes no responsibility for map imagery misuse. That's between you and the imagery owner.</p>
 <h1>Can you support tile archive format <code>x</code>?</h1>

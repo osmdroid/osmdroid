@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <javancss>
-  <date>2018-07-16</date>
-  <time>16:37:53</time>
+  <date>2019-03-24</date>
+  <time>09:29:29</time>
   <packages>
     <package>
       <name>.</name>
@@ -17,7 +17,7 @@
       <name>org.osmdroid.gpkg.overlay</name>
       <classes>1</classes>
       <functions>27</functions>
-      <ncss>365</ncss>
+      <ncss>361</ncss>
       <javadocs>26</javadocs>
       <javadoc_lines>171</javadoc_lines>
       <single_comment_lines>4</single_comment_lines>
@@ -27,7 +27,7 @@
       <name>org.osmdroid.gpkg.overlay.features</name>
       <classes>20</classes>
       <functions>156</functions>
-      <ncss>638</ncss>
+      <ncss>624</ncss>
       <javadocs>104</javadocs>
       <javadoc_lines>526</javadoc_lines>
       <single_comment_lines>17</single_comment_lines>
@@ -47,7 +47,7 @@
       <name>org.osmdroid.gpkg.tiles.raster</name>
       <classes>3</classes>
       <functions>26</functions>
-      <ncss>229</ncss>
+      <ncss>222</ncss>
       <javadocs>5</javadocs>
       <javadoc_lines>26</javadoc_lines>
       <single_comment_lines>13</single_comment_lines>
@@ -56,7 +56,7 @@
     <total>
       <classes>26</classes>
       <functions>222</functions>
-      <ncss>1346</ncss>
+      <ncss>1321</ncss>
       <javadocs>137</javadocs>
       <javadoc_lines>733</javadoc_lines>
       <single_comment_lines>42</single_comment_lines>
@@ -64,10 +64,10 @@
     </total>
     <table>
       <tr><td>Packages</td><td>Classes</td><td>Functions</td><td>NCSS</td><td>Javadocs</td><td>per</td></tr>
-      <tr><td>5.00</td><td>26.00</td><td>222.00</td><td>1,346.00</td><td>137.00</td><td>Project</td></tr>
-      <tr><td></td><td>5.20</td><td>44.40</td><td>269.20</td><td>27.40</td><td>Package</td></tr>
-      <tr><td></td><td></td><td>8.54</td><td>51.77</td><td>5.27</td><td>Class</td></tr>
-      <tr><td></td><td></td><td></td><td>6.06</td><td>0.62</td><td>Function</td></tr>
+      <tr><td>5.00</td><td>26.00</td><td>222.00</td><td>1,321.00</td><td>137.00</td><td>Project</td></tr>
+      <tr><td></td><td>5.20</td><td>44.40</td><td>264.20</td><td>27.40</td><td>Package</td></tr>
+      <tr><td></td><td></td><td>8.54</td><td>50.81</td><td>5.27</td><td>Class</td></tr>
+      <tr><td></td><td></td><td></td><td>5.95</td><td>0.62</td><td>Function</td></tr>
     </table>
   </packages>
 
@@ -314,7 +314,7 @@
     </object>
     <object>
       <name>org.osmdroid.gpkg.tiles.raster.GeoPackageProvider</name>
-      <ncss>49</ncss>
+      <ncss>44</ncss>
       <functions>7</functions>
       <classes>0</classes>
       <javadocs>1</javadocs>
@@ -333,7 +333,7 @@
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <averages>
-      <ncss>43.85</ncss>
+      <ncss>43.65</ncss>
       <functions>8.54</functions>
       <classes>0.04</classes>
       <javadocs>5.27</javadocs>
@@ -341,7 +341,7 @@
       <single_comment_lines>1.62</single_comment_lines>
       <implementation_comment_lines>11.35</implementation_comment_lines>
     </averages>
-    <ncss>1,346.00</ncss>
+    <ncss>1,321.00</ncss>
   </objects>
 
   <functions>
@@ -1607,8 +1607,8 @@
     </function>
     <function>
       <name>org.osmdroid.gpkg.tiles.raster.GeoPackageProvider.GeoPackageProvider(IRegisterReceiver,INetworkAvailablityCheck,ITileSource,Context,IFilesystemCache,File[])</name>
-      <ncss>18</ncss>
-      <ccn>4</ccn>
+      <ncss>13</ncss>
+      <ccn>3</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
@@ -1684,11 +1684,11 @@
       <javadocs>0</javadocs>
     </function>
     <function_averages>
-      <ncss>4.70</ncss>
-      <ccn>1.82</ccn>
+      <ncss>4.67</ncss>
+      <ccn>1.81</ccn>
       <javadocs>0.51</javadocs>
     </function_averages>
-    <ncss>1,346.00</ncss>
+    <ncss>1,321.00</ncss>
   </functions>
 </javancss>
 

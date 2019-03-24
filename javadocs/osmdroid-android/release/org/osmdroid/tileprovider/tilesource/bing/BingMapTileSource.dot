@@ -10,27 +10,27 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.tileprovider.tilesource.bing.BingMapTileSource
-	c6590 [label=<<table title="org.osmdroid.tileprovider.tilesource.bing.BingMapTileSource" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./BingMapTileSource.html">
+	c7052 [label=<<table title="org.osmdroid.tileprovider.tilesource.bing.BingMapTileSource" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./BingMapTileSource.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> BingMapTileSource </td></tr>
 		</table></td></tr>
 		</table>>, URL="./BingMapTileSource.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.tilesource.IStyledTileSource<T>
-	c6598 [label=<<table title="org.osmdroid.tileprovider.tilesource.IStyledTileSource" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../IStyledTileSource.html">
+	c7060 [label=<<table title="org.osmdroid.tileprovider.tilesource.IStyledTileSource" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../IStyledTileSource.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> IStyledTileSource&lt;T&gt; </td></tr>
 		</table></td></tr>
 		</table>>, URL="../IStyledTileSource.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.tilesource.QuadTreeTileSource
-	c6603 [label=<<table title="org.osmdroid.tileprovider.tilesource.QuadTreeTileSource" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../QuadTreeTileSource.html">
+	c7065 [label=<<table title="org.osmdroid.tileprovider.tilesource.QuadTreeTileSource" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../QuadTreeTileSource.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> QuadTreeTileSource </td></tr>
 		</table></td></tr>
 		</table>>, URL="../QuadTreeTileSource.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.tileprovider.tilesource.bing.BingMapTileSource extends org.osmdroid.tileprovider.tilesource.QuadTreeTileSource
-	c6603:p -> c6590:p [dir=back,arrowtail=empty];
+	c7065:p -> c7052:p [dir=back,arrowtail=empty];
 	//org.osmdroid.tileprovider.tilesource.bing.BingMapTileSource implements org.osmdroid.tileprovider.tilesource.IStyledTileSource<T>
-	c6598:p -> c6590:p [dir=back,arrowtail=empty,style=dashed];
+	c7060:p -> c7052:p [dir=back,arrowtail=empty,style=dashed];
 }
 

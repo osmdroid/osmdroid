@@ -8,7 +8,7 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta name="Date-Creation-yyyymmdd" content="20080101"/>
-    <meta name="Date-Revision-yyyymmdd" content="20180716"/>
+    <meta name="Date-Revision-yyyymmdd" content="20190324"/>
     <meta http-equiv="Content-Language" content="en"/>
     <title> osmdroid</title>
     <link rel="stylesheet" href="./css/apache-maven-fluido-1.4.min.css"/>
@@ -65,10 +65,10 @@
             </li>
 
             <li id="publishDate" class="pull-right"><span class="divider">|</span> Last Published:
-                2018-07-16
+                2019-03-24
             </li>
             <li id="projectVersion" class="pull-right">
-                6.0.2
+                6.1.0
             </li>
 
         </ul>
@@ -287,9 +287,9 @@
 <img src="https://f-droid.org/badge/get-it-on.png" alt="Get it on F-Droid" height="90"></a>
 <a href="https://play.google.com/store/apps/details?id=org.osmdroid">
 <img src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png" alt="Get it on F-Droid" height="90"></a>
-<p>Current Release: <strong>6.0.2 July 16st, 2018</strong>
-Current Development version: 6.0.3-SNAPSHOT
-Next Release Version (planned): 6.0.3 (or possibly 6.1.0)</p>
+<p>Current Release: <strong>6.0.3 Nov 24st, 2018</strong></p>
+<p>Current Development version: 6.1.0-SNAPSHOT</p>
+<p>Next Release Version (planned): 6.1.0</p>
 <p>Note: check your calendar, it may take up to a few days for all global mirrors to update.</p>
 <p>Please read the <a href="https://github.com/osmdroid/osmdroid/wiki">osmdroid wiki</a> for  tutorials on integration.</p>
 <p><strong>Gradle dependency</strong></p>
@@ -315,7 +315,7 @@ dependencies {
 </code></pre>
 <p>You can also <a href="https://github.com/osmdroid/osmdroid/wiki/How-to-build-osmdroid-from-source">compile osmdroid from source</a> or <a href="https://oss.sonatype.org/content/groups/public/org/osmdroid/osmdroid-android/">download the dependency directly from OSS</a> or <a href="https://github.com/osmdroid/osmdroid/releases">download the distribution package</a></p>
 <h2>Want the latest and greatest?</h2>
-<p>We are currently working on a major update for osmdroid.
+<p>We periodically publish snapshots to maven central.
 If you're interesting in trying it out, using the following:</p>
 <pre><code class="language-groovy">repositories {
     mavenCentral()
@@ -325,13 +325,13 @@ If you're interesting in trying it out, using the following:</p>
     }
 }
 dependencies {
-    compile 'org.osmdroid:osmdroid-android:6.0.0-SNAPSHOT'
+    compile 'org.osmdroid:osmdroid-android:&lt;VERSION&gt;-SNAPSHOT:debug@aar'
 }
 </code></pre>
 <p>Use at your own risk though, it may not be stable or may have bugs or performance issues.
 If you run across any, please report them.</p>
 <p>In case gradle doesn't resolve it, it can be download manually here:
-<a href="https://oss.sonatype.org/service/local/repositories/snapshots/content/org/osmdroid/osmdroid-android/6.0.0-SNAPSHOT/osmdroid-android-6.0.0-SNAPSHOT.aar">https://oss.sonatype.org/service/local/repositories/snapshots/content/org/osmdroid/osmdroid-android/6.0.0-SNAPSHOT/osmdroid-android-6.0.0-SNAPSHOT.aar</a></p>
+<a href="https://oss.sonatype.org/service/local/repositories/snapshots/content/org/osmdroid/osmdroid-android/">https://oss.sonatype.org/service/local/repositories/snapshots/content/org/osmdroid/osmdroid-android/</a><VERSION>-SNAPSHOT/osmdroid-android-<VERSION>-SNAPSHOT.aar</p>
 <p>Side note: gradle's cached dependencies and doesn't really handle snapshot very well.
 To force gradle to update snapshots on every build, try adding this to your root <code>build.gradle</code> file.</p>
 <pre><code class="language-groovy">allprojects  {

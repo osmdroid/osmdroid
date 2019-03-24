@@ -10,42 +10,42 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.tileprovider.modules.MapTileApproximater
-	c148956 [label=<<table title="org.osmdroid.tileprovider.modules.MapTileApproximater" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileApproximater.html">
+	c171028 [label=<<table title="org.osmdroid.tileprovider.modules.MapTileApproximater" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileApproximater.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MapTileApproximater </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MapTileApproximater.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.modules.MapTileDownloader
-	c148960 [label=<<table title="org.osmdroid.tileprovider.modules.MapTileDownloader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileDownloader.html">
+	c171032 [label=<<table title="org.osmdroid.tileprovider.modules.MapTileDownloader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileDownloader.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MapTileDownloader </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MapTileDownloader.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.modules.MapTileFileStorageProviderBase
-	c148964 [label=<<table title="org.osmdroid.tileprovider.modules.MapTileFileStorageProviderBase" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileFileStorageProviderBase.html">
+	c171036 [label=<<table title="org.osmdroid.tileprovider.modules.MapTileFileStorageProviderBase" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileFileStorageProviderBase.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> MapTileFileStorageProviderBase </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./MapTileFileStorageProviderBase.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.modules.MapTileModuleProviderBase
-	c148967 [label=<<table title="org.osmdroid.tileprovider.modules.MapTileModuleProviderBase" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./MapTileModuleProviderBase.html">
+	c171039 [label=<<table title="org.osmdroid.tileprovider.modules.MapTileModuleProviderBase" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./MapTileModuleProviderBase.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> MapTileModuleProviderBase </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./MapTileModuleProviderBase.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.gpkg.tiles.raster.GeoPackageMapTileModuleProvider
-	c149173 [label=<<table title="org.osmdroid.gpkg.tiles.raster.GeoPackageMapTileModuleProvider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../gpkg/tiles/raster/GeoPackageMapTileModuleProvider.html">
+	c171271 [label=<<table title="org.osmdroid.gpkg.tiles.raster.GeoPackageMapTileModuleProvider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../gpkg/tiles/raster/GeoPackageMapTileModuleProvider.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> GeoPackageMapTileModuleProvider </td></tr>
 		</table></td></tr>
 		</table>>, URL="../../gpkg/tiles/raster/GeoPackageMapTileModuleProvider.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.tileprovider.modules.MapTileApproximater extends org.osmdroid.tileprovider.modules.MapTileModuleProviderBase
-	c148967:p -> c148956:p [dir=back,arrowtail=empty];
+	c171039:p -> c171028:p [dir=back,arrowtail=empty];
 	//org.osmdroid.tileprovider.modules.MapTileDownloader extends org.osmdroid.tileprovider.modules.MapTileModuleProviderBase
-	c148967:p -> c148960:p [dir=back,arrowtail=empty];
+	c171039:p -> c171032:p [dir=back,arrowtail=empty];
 	//org.osmdroid.tileprovider.modules.MapTileFileStorageProviderBase extends org.osmdroid.tileprovider.modules.MapTileModuleProviderBase
-	c148967:p -> c148964:p [dir=back,arrowtail=empty];
+	c171039:p -> c171036:p [dir=back,arrowtail=empty];
 	//org.osmdroid.gpkg.tiles.raster.GeoPackageMapTileModuleProvider extends org.osmdroid.tileprovider.modules.MapTileModuleProviderBase
-	c148967:p -> c149173:p [dir=back,arrowtail=empty];
+	c171039:p -> c171271:p [dir=back,arrowtail=empty];
 }
 

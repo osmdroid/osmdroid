@@ -8,7 +8,6 @@
 <error line="166" severity="warning" message="Line is longer than 100 characters (found 286)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
 <error line="166" column="26" severity="warning" message="More than 7 parameters (found 11)." source="com.puppycrawl.tools.checkstyle.checks.sizes.ParameterNumberCheck"/>
 <error line="172" severity="warning" message="Line is longer than 100 characters (found 146)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="181" column="11" severity="warning" message="Redundant &apos;public&apos; modifier." source="com.puppycrawl.tools.checkstyle.checks.modifier.RedundantModifierCheck"/>
 <error line="184" column="6" severity="warning" message="Fields and methods should be before inner classes." source="com.puppycrawl.tools.checkstyle.checks.design.InnerTypeLastCheck"/>
 <error line="184" column="25" severity="warning" message="More than 7 parameters (found 12)." source="com.puppycrawl.tools.checkstyle.checks.sizes.ParameterNumberCheck"/>
 <error line="189" column="25" severity="warning" message="&apos;!=&apos; is not preceded with whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>

@@ -10,36 +10,36 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.bugtestfragments.WeathForceActivity
-	c278968 [label=<<table title="org.osmdroid.bugtestfragments.WeathForceActivity" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./WeathForceActivity.html">
+	c320616 [label=<<table title="org.osmdroid.bugtestfragments.WeathForceActivity" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./WeathForceActivity.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> WeathForceActivity </td></tr>
 		</table></td></tr>
 		</table>>, URL="./WeathForceActivity.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.model.BaseActivity
-	c278995 [label=<<table title="org.osmdroid.model.BaseActivity" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../model/BaseActivity.html">
+	c320646 [label=<<table title="org.osmdroid.model.BaseActivity" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../model/BaseActivity.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> BaseActivity </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="../model/BaseActivity.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.events.MapEventsReceiver
-	c279170 [label=<<table title="org.osmdroid.events.MapEventsReceiver" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../events/MapEventsReceiver.html">
+	c320833 [label=<<table title="org.osmdroid.events.MapEventsReceiver" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../events/MapEventsReceiver.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> MapEventsReceiver </td></tr>
 		</table></td></tr>
 		</table>>, URL="../events/MapEventsReceiver.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.compass.IOrientationConsumer
-	c279294 [label=<<table title="org.osmdroid.views.overlay.compass.IOrientationConsumer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../views/overlay/compass/IOrientationConsumer.html">
+	c320974 [label=<<table title="org.osmdroid.views.overlay.compass.IOrientationConsumer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../views/overlay/compass/IOrientationConsumer.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> IOrientationConsumer </td></tr>
 		</table></td></tr>
 		</table>>, URL="../views/overlay/compass/IOrientationConsumer.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.bugtestfragments.WeathForceActivity extends org.osmdroid.model.BaseActivity
-	c278995:p -> c278968:p [dir=back,arrowtail=empty];
+	c320646:p -> c320616:p [dir=back,arrowtail=empty];
 	//org.osmdroid.bugtestfragments.WeathForceActivity implements org.osmdroid.views.overlay.compass.IOrientationConsumer
-	c279294:p -> c278968:p [dir=back,arrowtail=empty,style=dashed];
+	c320974:p -> c320616:p [dir=back,arrowtail=empty,style=dashed];
 	//org.osmdroid.bugtestfragments.WeathForceActivity implements org.osmdroid.events.MapEventsReceiver
-	c279170:p -> c278968:p [dir=back,arrowtail=empty,style=dashed];
+	c320833:p -> c320616:p [dir=back,arrowtail=empty,style=dashed];
 }
 

@@ -10,18 +10,18 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.samplefragments.layouts.CustomMapView
-	c63310 [label=<<table title="org.osmdroid.samplefragments.layouts.CustomMapView" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./CustomMapView.html">
+	c68146 [label=<<table title="org.osmdroid.samplefragments.layouts.CustomMapView" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./CustomMapView.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> CustomMapView </td></tr>
 		</table></td></tr>
 		</table>>, URL="./CustomMapView.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.MapView
-	c63524 [label=<<table title="org.osmdroid.views.MapView" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../views/MapView.html">
+	c68380 [label=<<table title="org.osmdroid.views.MapView" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../views/MapView.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MapView </td></tr>
 		</table></td></tr>
 		</table>>, URL="../../views/MapView.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.samplefragments.layouts.CustomMapView extends org.osmdroid.views.MapView
-	c63524:p -> c63310:p [dir=back,arrowtail=empty];
+	c68380:p -> c68146:p [dir=back,arrowtail=empty];
 }
 

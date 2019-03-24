@@ -10,77 +10,77 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.samplefragments.animations.AnimatedMarkerHandler
-	c2258 [label=<<table title="org.osmdroid.samplefragments.animations.AnimatedMarkerHandler" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./AnimatedMarkerHandler.html">
+	c2426 [label=<<table title="org.osmdroid.samplefragments.animations.AnimatedMarkerHandler" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./AnimatedMarkerHandler.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> AnimatedMarkerHandler </td></tr>
 		</table></td></tr>
 		</table>>, URL="./AnimatedMarkerHandler.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.animations.AnimatedMarkerTimer
-	c2259 [label=<<table title="org.osmdroid.samplefragments.animations.AnimatedMarkerTimer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./AnimatedMarkerTimer.html">
+	c2427 [label=<<table title="org.osmdroid.samplefragments.animations.AnimatedMarkerTimer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./AnimatedMarkerTimer.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> AnimatedMarkerTimer </td></tr>
 		</table></td></tr>
 		</table>>, URL="./AnimatedMarkerTimer.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.animations.AnimatedMarkerTypeEvaluator
-	c2260 [label=<<table title="org.osmdroid.samplefragments.animations.AnimatedMarkerTypeEvaluator" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./AnimatedMarkerTypeEvaluator.html">
+	c2428 [label=<<table title="org.osmdroid.samplefragments.animations.AnimatedMarkerTypeEvaluator" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./AnimatedMarkerTypeEvaluator.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> AnimatedMarkerTypeEvaluator </td></tr>
 		</table></td></tr>
 		</table>>, URL="./AnimatedMarkerTypeEvaluator.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.animations.AnimatedMarkerValueAnimator
-	c2261 [label=<<table title="org.osmdroid.samplefragments.animations.AnimatedMarkerValueAnimator" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./AnimatedMarkerValueAnimator.html">
+	c2429 [label=<<table title="org.osmdroid.samplefragments.animations.AnimatedMarkerValueAnimator" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./AnimatedMarkerValueAnimator.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> AnimatedMarkerValueAnimator </td></tr>
 		</table></td></tr>
 		</table>>, URL="./AnimatedMarkerValueAnimator.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.animations.FastZoomSpeedAnimations
-	c2262 [label=<<table title="org.osmdroid.samplefragments.animations.FastZoomSpeedAnimations" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./FastZoomSpeedAnimations.html">
+	c2430 [label=<<table title="org.osmdroid.samplefragments.animations.FastZoomSpeedAnimations" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./FastZoomSpeedAnimations.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> FastZoomSpeedAnimations </td></tr>
 		</table></td></tr>
 		</table>>, URL="./FastZoomSpeedAnimations.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.animations.GeoPointInterpolator
-	c2263 [label=<<table title="org.osmdroid.samplefragments.animations.GeoPointInterpolator" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./GeoPointInterpolator.html">
+	c2431 [label=<<table title="org.osmdroid.samplefragments.animations.GeoPointInterpolator" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./GeoPointInterpolator.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> GeoPointInterpolator </td></tr>
 		</table></td></tr>
 		</table>>, URL="./GeoPointInterpolator.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.animations.GeoPointInterpolator.Linear
-	c2264 [label=<<table title="org.osmdroid.samplefragments.animations.GeoPointInterpolator.Linear" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./GeoPointInterpolator.Linear.html">
+	c2432 [label=<<table title="org.osmdroid.samplefragments.animations.GeoPointInterpolator.Linear" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./GeoPointInterpolator.Linear.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> Linear </td></tr>
 		</table></td></tr>
 		</table>>, URL="./GeoPointInterpolator.Linear.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.animations.GeoPointInterpolator.LinearFixed
-	c2265 [label=<<table title="org.osmdroid.samplefragments.animations.GeoPointInterpolator.LinearFixed" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./GeoPointInterpolator.LinearFixed.html">
+	c2433 [label=<<table title="org.osmdroid.samplefragments.animations.GeoPointInterpolator.LinearFixed" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./GeoPointInterpolator.LinearFixed.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> LinearFixed </td></tr>
 		</table></td></tr>
 		</table>>, URL="./GeoPointInterpolator.LinearFixed.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.animations.GeoPointInterpolator.Spherical
-	c2266 [label=<<table title="org.osmdroid.samplefragments.animations.GeoPointInterpolator.Spherical" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./GeoPointInterpolator.Spherical.html">
+	c2434 [label=<<table title="org.osmdroid.samplefragments.animations.GeoPointInterpolator.Spherical" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./GeoPointInterpolator.Spherical.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> Spherical </td></tr>
 		</table></td></tr>
 		</table>>, URL="./GeoPointInterpolator.Spherical.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.animations.MarkerAnimation
-	c2267 [label=<<table title="org.osmdroid.samplefragments.animations.MarkerAnimation" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MarkerAnimation.html">
+	c2435 [label=<<table title="org.osmdroid.samplefragments.animations.MarkerAnimation" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MarkerAnimation.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MarkerAnimation </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MarkerAnimation.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.animations.MinMaxZoomLevel
-	c2268 [label=<<table title="org.osmdroid.samplefragments.animations.MinMaxZoomLevel" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MinMaxZoomLevel.html">
+	c2436 [label=<<table title="org.osmdroid.samplefragments.animations.MinMaxZoomLevel" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MinMaxZoomLevel.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MinMaxZoomLevel </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MinMaxZoomLevel.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.samplefragments.animations.GeoPointInterpolator.Linear implements org.osmdroid.samplefragments.animations.GeoPointInterpolator
-	c2263:p -> c2264:p [dir=back,arrowtail=empty,style=dashed];
+	c2431:p -> c2432:p [dir=back,arrowtail=empty,style=dashed];
 	//org.osmdroid.samplefragments.animations.GeoPointInterpolator.LinearFixed implements org.osmdroid.samplefragments.animations.GeoPointInterpolator
-	c2263:p -> c2265:p [dir=back,arrowtail=empty,style=dashed];
+	c2431:p -> c2433:p [dir=back,arrowtail=empty,style=dashed];
 	//org.osmdroid.samplefragments.animations.GeoPointInterpolator.Spherical implements org.osmdroid.samplefragments.animations.GeoPointInterpolator
-	c2263:p -> c2266:p [dir=back,arrowtail=empty,style=dashed];
+	c2431:p -> c2434:p [dir=back,arrowtail=empty,style=dashed];
 }
 

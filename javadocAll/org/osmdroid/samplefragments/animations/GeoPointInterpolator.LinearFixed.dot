@@ -10,19 +10,19 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.samplefragments.animations.GeoPointInterpolator
-	c91588 [label=<<table title="org.osmdroid.samplefragments.animations.GeoPointInterpolator" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./GeoPointInterpolator.html">
+	c103396 [label=<<table title="org.osmdroid.samplefragments.animations.GeoPointInterpolator" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./GeoPointInterpolator.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> GeoPointInterpolator </td></tr>
 		</table></td></tr>
 		</table>>, URL="./GeoPointInterpolator.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.animations.GeoPointInterpolator.LinearFixed
-	c91590 [label=<<table title="org.osmdroid.samplefragments.animations.GeoPointInterpolator.LinearFixed" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./GeoPointInterpolator.LinearFixed.html">
+	c103398 [label=<<table title="org.osmdroid.samplefragments.animations.GeoPointInterpolator.LinearFixed" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./GeoPointInterpolator.LinearFixed.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> LinearFixed </td></tr>
 		</table></td></tr>
 		</table>>, URL="./GeoPointInterpolator.LinearFixed.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.samplefragments.animations.GeoPointInterpolator.LinearFixed implements org.osmdroid.samplefragments.animations.GeoPointInterpolator
-	c91588:p -> c91590:p [dir=back,arrowtail=empty,style=dashed];
+	c103396:p -> c103398:p [dir=back,arrowtail=empty,style=dashed];
 }
 

@@ -8,7 +8,7 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta name="Date-Creation-yyyymmdd" content="20080101"/>
-    <meta name="Date-Revision-yyyymmdd" content="20180716"/>
+    <meta name="Date-Revision-yyyymmdd" content="20190324"/>
     <meta http-equiv="Content-Language" content="en"/>
     <title> osmdroid</title>
     <link rel="stylesheet" href="./css/apache-maven-fluido-1.4.min.css"/>
@@ -65,10 +65,10 @@
             </li>
 
             <li id="publishDate" class="pull-right"><span class="divider">|</span> Last Published:
-                2018-07-16
+                2019-03-24
             </li>
             <li id="projectVersion" class="pull-right">
-                6.0.2
+                6.1.0
             </li>
 
         </ul>
@@ -282,7 +282,53 @@
         <div id="bodyColumn" class="span10">
             <a name="topOfPage"></a>
             <h1>FAQ</h1>
-<h2>Map tiles dont seem to load in my application</h2>
+<h2>I cannot see the map tiles (default tile provider: MAPNIK)</h2>
+<p>It can be because for some reason the user agent isn't set properly.</p>
+<p>OSM / MAPNIK demand the user agent to have a meaningful value - like, the package name of your app.
+By default, the user agent is supposedly <em>initialized</em> to <code>context.getPackageName()</code> (cf. <a href="https://github.com/osmdroid/osmdroid/blob/master/osmdroid-android/src/main/java/org/osmdroid/config/DefaultConfigurationProvider.java#L311"><code>DefaultConfigurationProvider</code></a>).</p>
+<p>If you skipped some steps in the tutorial, perhaps your user agent is not correctly set, which will cause the rejection by OSM of your tile download requests and therefore an empty map.</p>
+<p>The solution is to give a correct value to your user agent:</p>
+<pre><code class="language-java">Configuration.getInstance().setUserAgentValue(context.getPackageName());
+</code></pre>
+<h2>I cannot see the map tiles on my Android 9+</h2>
+<p>It might be because in Android 9+, http (and not httpS) URLs are not permitted by default, and some tile providers don't have https URLs.
+You therefore have to whitelist the URLs of the tile providers you're using.</p>
+<p>Create a file named <code>network_security_config.xml</code> in <code>res/xml</code>, and configure here the sites to be whitelisted:</p>
+<pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;network-security-config&gt;
+    &lt;domain-config cleartextTrafficPermitted=&quot;true&quot;&gt;
+        &lt;domain includeSubdomains=&quot;true&quot;&gt;openptmap.org&lt;/domain&gt;
+    &lt;/domain-config&gt;
+&lt;/network-security-config&gt;
+</code></pre>
+<p>In <code>AndroidManifest.xml</code>, add a reference to the new <code>network_security_config.xml</code> file:</p>
+<pre><code class="language-xml">&lt;application
+        android:icon=&quot;@drawable/icon&quot;
+        android:networkSecurityConfig=&quot;@xml/network_security_config&quot;
+...
+	/&gt;
+</code></pre>
+<h2>I try to set the zoom and center of my <code>MapView</code> in <code>Activity.onCreate</code> or <code>Fragment.onCreateView</code> but it doesn't seem to work</h2>
+<p>At this stage of the lifecycle, the <code>MapView</code> is not 100% initialized yet; it may not even have a width or a height.
+The correct way is to use the <code>View.post</code> syntax:</p>
+<pre><code class="language-java">@Override
+public void onCreate(Bundle savedInstanceState) {
+	super.onCreate(savedInstanceState);
+
+// ...
+	mMapView = (MapView) findViewById(R.id.map);
+
+	mMapView.post(
+		new Runnable() {
+			@Override
+			public void run() {
+				mMapView.zoomToBoundingBox(new BoundingBox(48, -2, 46, 5), false);
+			}
+		}
+	);
+}
+</code></pre>
+<h2>Map tiles don't seem to load in my application</h2>
 <p>Update: as of v5.6 this should never be an issue. On the first load of the app with osmdroid, the largest writable partition is auto selected (even with permission denial) so the caching of tiles that were downloaded should function in all conditions. That said, you, as the app developer, would probably want to give your users the option to put the cache elsewhere. See the [Update Guide] for more details and the sample app.</p>
 <p>Make sure your AndroidManifest.xml file has the android.permission.INTERNET permission. See Prerequisites.</p>
 <p>Aug 2016 - someone managed to get the default user agent used by osmdroid banned from Open Street Maps tile servers. This can also be a reason for tiles failing to load (usually with an access denied, bad request or other similar HTTP error message). To fix, set your user agent to something unique for your app. The User Agent is set via <code>org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants</code> class.</p>

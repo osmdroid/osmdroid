@@ -10,18 +10,18 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.samplefragments.drawing.DrawPolygon
-	c77705 [label=<<table title="org.osmdroid.samplefragments.drawing.DrawPolygon" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./DrawPolygon.html">
+	c88456 [label=<<table title="org.osmdroid.samplefragments.drawing.DrawPolygon" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./DrawPolygon.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> DrawPolygon </td></tr>
 		</table></td></tr>
 		</table>>, URL="./DrawPolygon.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.drawing.DrawPolygonWithoutWrapping
-	c77709 [label=<<table title="org.osmdroid.samplefragments.drawing.DrawPolygonWithoutWrapping" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./DrawPolygonWithoutWrapping.html">
+	c88460 [label=<<table title="org.osmdroid.samplefragments.drawing.DrawPolygonWithoutWrapping" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./DrawPolygonWithoutWrapping.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> DrawPolygonWithoutWrapping </td></tr>
 		</table></td></tr>
 		</table>>, URL="./DrawPolygonWithoutWrapping.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.samplefragments.drawing.DrawPolygonWithoutWrapping extends org.osmdroid.samplefragments.drawing.DrawPolygon
-	c77705:p -> c77709:p [dir=back,arrowtail=empty];
+	c88456:p -> c88460:p [dir=back,arrowtail=empty];
 }
 

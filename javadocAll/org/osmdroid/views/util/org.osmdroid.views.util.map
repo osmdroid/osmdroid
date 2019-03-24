@@ -1,8 +1,6 @@
 <map id="G" name="G">
-<area shape="rect" id="node1_0" href="./Mercator.html" title="org.osmdroid.views.util.Mercator" alt="" coords="16,17,87,42"/>
-<area shape="rect" id="node1" href="./Mercator.html" title="&lt;TABLE&gt;" alt="" coords="5,5,97,53"/>
-<area shape="rect" id="node2_1" href="./MyMath.html" title="org.osmdroid.views.util.MyMath" alt="" coords="133,17,199,42"/>
-<area shape="rect" id="node2" href="./MyMath.html" title="&lt;TABLE&gt;" alt="" coords="122,5,210,53"/>
-<area shape="rect" id="node3_2" href="./PathProjection.html" title="org.osmdroid.views.util.PathProjection" alt="" coords="245,17,349,42"/>
-<area shape="rect" id="node3" href="./PathProjection.html" title="&lt;TABLE&gt;" alt="" coords="234,5,359,53"/>
+<area shape="rect" id="node1_0" href="./MyMath.html" title="org.osmdroid.views.util.MyMath" alt="" coords="16,17,83,42"/>
+<area shape="rect" id="node1" href="./MyMath.html" title="&lt;TABLE&gt;" alt="" coords="5,5,93,53"/>
+<area shape="rect" id="node2_1" href="./PathProjection.html" title="org.osmdroid.views.util.PathProjection" alt="" coords="128,17,232,42"/>
+<area shape="rect" id="node2" href="./PathProjection.html" title="&lt;TABLE&gt;" alt="" coords="117,5,243,53"/>
 </map>

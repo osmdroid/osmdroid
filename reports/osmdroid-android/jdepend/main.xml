@@ -211,7 +211,7 @@
                 <TotalClasses>4</TotalClasses>
                 <ConcreteClasses>0</ConcreteClasses>
                 <AbstractClasses>4</AbstractClasses>
-                <Ca>15</Ca>
+                <Ca>14</Ca>
                 <Ce>2</Ce>
                 <A>1</A>
                 <I>0.12</I>
@@ -257,7 +257,6 @@
                 <Package>org.osmdroid.views.overlay.infowindow</Package>
                 <Package>org.osmdroid.views.overlay.mylocation</Package>
                 <Package>org.osmdroid.views.overlay.simplefastpoint</Package>
-                <Package>org.osmdroid.views.util</Package>
             </UsedBy>
         </Package>
 
@@ -266,10 +265,10 @@
                 <TotalClasses>3</TotalClasses>
                 <ConcreteClasses>2</ConcreteClasses>
                 <AbstractClasses>1</AbstractClasses>
-                <Ca>10</Ca>
-                <Ce>12</Ce>
+                <Ca>11</Ca>
+                <Ce>13</Ce>
                 <A>0.33</A>
-                <I>0.55</I>
+                <I>0.54</I>
                 <D>0.12</D>
                 <V>1</V>
             </Stats>
@@ -291,6 +290,7 @@
 
             <DependsUpon>
                 <Package>android.content</Package>
+                <Package>android.content.pm</Package>
                 <Package>android.os</Package>
                 <Package>android.util</Package>
                 <Package>java.io</Package>
@@ -308,6 +308,7 @@
                 <Package>org.osmdroid.tileprovider</Package>
                 <Package>org.osmdroid.tileprovider.cachemanager</Package>
                 <Package>org.osmdroid.tileprovider.modules</Package>
+                <Package>org.osmdroid.tileprovider.tilesource</Package>
                 <Package>org.osmdroid.tileprovider.tilesource.bing</Package>
                 <Package>org.osmdroid.tileprovider.util</Package>
                 <Package>org.osmdroid.util</Package>
@@ -381,11 +382,11 @@
                 <TotalClasses>7</TotalClasses>
                 <ConcreteClasses>7</ConcreteClasses>
                 <AbstractClasses>0</AbstractClasses>
-                <Ca>3</Ca>
+                <Ca>4</Ca>
                 <Ce>1</Ce>
                 <A>0</A>
-                <I>0.25</I>
-                <D>0.75</D>
+                <I>0.2</I>
+                <D>0.8</D>
                 <V>1</V>
             </Stats>
 
@@ -421,6 +422,7 @@
             </DependsUpon>
 
             <UsedBy>
+                <Package>org.osmdroid.views</Package>
                 <Package>org.osmdroid.views.overlay</Package>
                 <Package>org.osmdroid.views.overlay.compass</Package>
                 <Package>org.osmdroid.views.overlay.mylocation</Package>
@@ -429,14 +431,14 @@
 
         <Package name="org.osmdroid.tileprovider">
             <Stats>
-                <TotalClasses>20</TotalClasses>
+                <TotalClasses>19</TotalClasses>
                 <ConcreteClasses>14</ConcreteClasses>
-                <AbstractClasses>6</AbstractClasses>
-                <Ca>6</Ca>
+                <AbstractClasses>5</AbstractClasses>
+                <Ca>7</Ca>
                 <Ce>16</Ce>
-                <A>0.3</A>
-                <I>0.73</I>
-                <D>0.03</D>
+                <A>0.26</A>
+                <I>0.7</I>
+                <D>0.04</D>
                 <V>1</V>
             </Stats>
 
@@ -446,9 +448,6 @@
                 </Class>
                 <Class sourceFile="IRegisterReceiver.java">
                     org.osmdroid.tileprovider.IRegisterReceiver
-                </Class>
-                <Class sourceFile="LRUMapTileCache.java">
-                    org.osmdroid.tileprovider.LRUMapTileCache$TileRemovedListener
                 </Class>
                 <Class sourceFile="MapTileCache.java">
                     org.osmdroid.tileprovider.MapTileCache$TileRemovedListener
@@ -470,9 +469,6 @@
                 </Class>
                 <Class sourceFile="ExpirableBitmapDrawable.java">
                     org.osmdroid.tileprovider.ExpirableBitmapDrawable
-                </Class>
-                <Class sourceFile="LRUMapTileCache.java">
-                    org.osmdroid.tileprovider.LRUMapTileCache
                 </Class>
                 <Class sourceFile="MapTileCache.java">
                     org.osmdroid.tileprovider.MapTileCache
@@ -504,6 +500,9 @@
                 <Class sourceFile="ReusableBitmapDrawable.java">
                     org.osmdroid.tileprovider.ReusableBitmapDrawable
                 </Class>
+                <Class sourceFile="TileStates.java">
+                    org.osmdroid.tileprovider.TileStates
+                </Class>
             </ConcreteClasses>
 
             <DependsUpon>
@@ -531,20 +530,21 @@
                 <Package>org.osmdroid.tileprovider.tilesource</Package>
                 <Package>org.osmdroid.tileprovider.util</Package>
                 <Package>org.osmdroid.views</Package>
+                <Package>org.osmdroid.views.drawing</Package>
                 <Package>org.osmdroid.views.overlay</Package>
             </UsedBy>
         </Package>
 
         <Package name="org.osmdroid.tileprovider.cachemanager">
             <Stats>
-                <TotalClasses>16</TotalClasses>
-                <ConcreteClasses>13</ConcreteClasses>
+                <TotalClasses>14</TotalClasses>
+                <ConcreteClasses>11</ConcreteClasses>
                 <AbstractClasses>3</AbstractClasses>
                 <Ca>0</Ca>
                 <Ce>19</Ce>
-                <A>0.19</A>
+                <A>0.21</A>
                 <I>1</I>
-                <D>0.19</D>
+                <D>0.21</D>
                 <V>1</V>
             </Stats>
 
@@ -568,9 +568,6 @@
                     org.osmdroid.tileprovider.cachemanager.CacheManager$1
                 </Class>
                 <Class sourceFile="CacheManager.java">
-                    org.osmdroid.tileprovider.cachemanager.CacheManager$1$1
-                </Class>
-                <Class sourceFile="CacheManager.java">
                     org.osmdroid.tileprovider.cachemanager.CacheManager$2
                 </Class>
                 <Class sourceFile="CacheManager.java">
@@ -578,9 +575,6 @@
                 </Class>
                 <Class sourceFile="CacheManager.java">
                     org.osmdroid.tileprovider.cachemanager.CacheManager$4
-                </Class>
-                <Class sourceFile="CacheManager.java">
-                    org.osmdroid.tileprovider.cachemanager.CacheManager$5
                 </Class>
                 <Class sourceFile="CacheManager.java">
                     org.osmdroid.tileprovider.cachemanager.CacheManager$CacheManagerDialog$1
@@ -833,13 +827,13 @@
 
         <Package name="org.osmdroid.tileprovider.tilesource">
             <Stats>
-                <TotalClasses>17</TotalClasses>
-                <ConcreteClasses>12</ConcreteClasses>
+                <TotalClasses>19</TotalClasses>
+                <ConcreteClasses>14</ConcreteClasses>
                 <AbstractClasses>5</AbstractClasses>
                 <Ca>6</Ca>
-                <Ce>12</Ce>
-                <A>0.29</A>
-                <I>0.67</I>
+                <Ce>14</Ce>
+                <A>0.26</A>
+                <I>0.7</I>
                 <D>0.04</D>
                 <V>1</V>
             </Stats>
@@ -896,6 +890,12 @@
                 <Class sourceFile="TileSourceFactory.java">
                     org.osmdroid.tileprovider.tilesource.TileSourceFactory$2
                 </Class>
+                <Class sourceFile="TileSourcePolicy.java">
+                    org.osmdroid.tileprovider.tilesource.TileSourcePolicy
+                </Class>
+                <Class sourceFile="TileSourcePolicyException.java">
+                    org.osmdroid.tileprovider.tilesource.TileSourcePolicyException
+                </Class>
                 <Class sourceFile="XYTileSource.java">
                     org.osmdroid.tileprovider.tilesource.XYTileSource
                 </Class>
@@ -910,7 +910,9 @@
                 <Package>java.io</Package>
                 <Package>java.lang</Package>
                 <Package>java.util</Package>
+                <Package>java.util.concurrent</Package>
                 <Package>org.osmdroid.api</Package>
+                <Package>org.osmdroid.config</Package>
                 <Package>org.osmdroid.tileprovider</Package>
                 <Package>org.osmdroid.tileprovider.util</Package>
                 <Package>org.osmdroid.util</Package>
@@ -1044,14 +1046,14 @@
 
         <Package name="org.osmdroid.util">
             <Stats>
-                <TotalClasses>39</TotalClasses>
-                <ConcreteClasses>31</ConcreteClasses>
-                <AbstractClasses>8</AbstractClasses>
+                <TotalClasses>46</TotalClasses>
+                <ConcreteClasses>37</ConcreteClasses>
+                <AbstractClasses>9</AbstractClasses>
                 <Ca>14</Ca>
                 <Ce>13</Ce>
-                <A>0.21</A>
+                <A>0.2</A>
                 <I>0.48</I>
-                <D>0.31</D>
+                <D>0.32</D>
                 <V>1</V>
             </Stats>
 
@@ -1061,6 +1063,9 @@
                 </Class>
                 <Class sourceFile="LineBuilder.java">
                     org.osmdroid.util.LineBuilder
+                </Class>
+                <Class sourceFile="MapTileAreaComputer.java">
+                    org.osmdroid.util.MapTileAreaComputer
                 </Class>
                 <Class sourceFile="MapTileContainer.java">
                     org.osmdroid.util.MapTileContainer
@@ -1133,6 +1138,24 @@
                 </Class>
                 <Class sourceFile="LocationUtils.java">
                     org.osmdroid.util.LocationUtils
+                </Class>
+                <Class sourceFile="MapTileArea.java">
+                    org.osmdroid.util.MapTileArea
+                </Class>
+                <Class sourceFile="MapTileArea.java">
+                    org.osmdroid.util.MapTileArea$1
+                </Class>
+                <Class sourceFile="MapTileAreaBorderComputer.java">
+                    org.osmdroid.util.MapTileAreaBorderComputer
+                </Class>
+                <Class sourceFile="MapTileAreaList.java">
+                    org.osmdroid.util.MapTileAreaList
+                </Class>
+                <Class sourceFile="MapTileAreaList.java">
+                    org.osmdroid.util.MapTileAreaList$1
+                </Class>
+                <Class sourceFile="MapTileAreaZoomComputer.java">
+                    org.osmdroid.util.MapTileAreaZoomComputer
                 </Class>
                 <Class sourceFile="MapTileIndex.java">
                     org.osmdroid.util.MapTileIndex
@@ -1247,24 +1270,57 @@
 
         <Package name="org.osmdroid.views">
             <Stats>
-                <TotalClasses>15</TotalClasses>
-                <ConcreteClasses>14</ConcreteClasses>
-                <AbstractClasses>1</AbstractClasses>
+                <TotalClasses>27</TotalClasses>
+                <ConcreteClasses>25</ConcreteClasses>
+                <AbstractClasses>2</AbstractClasses>
                 <Ca>13</Ca>
-                <Ce>23</Ce>
+                <Ce>25</Ce>
                 <A>0.07</A>
-                <I>0.64</I>
-                <D>0.29</D>
+                <I>0.66</I>
+                <D>0.27</D>
                 <V>1</V>
             </Stats>
 
             <AbstractClasses>
+                <Class sourceFile="CustomZoomButtonsController.java">
+                    org.osmdroid.views.CustomZoomButtonsController$OnZoomListener
+                </Class>
                 <Class sourceFile="MapView.java">
                     org.osmdroid.views.MapView$OnFirstLayoutListener
                 </Class>
             </AbstractClasses>
 
             <ConcreteClasses>
+                <Class sourceFile="CustomZoomButtonsController.java">
+                    org.osmdroid.views.CustomZoomButtonsController
+                </Class>
+                <Class sourceFile="CustomZoomButtonsController.java">
+                    org.osmdroid.views.CustomZoomButtonsController$1
+                </Class>
+                <Class sourceFile="CustomZoomButtonsController.java">
+                    org.osmdroid.views.CustomZoomButtonsController$2
+                </Class>
+                <Class sourceFile="CustomZoomButtonsController.java">
+                    org.osmdroid.views.CustomZoomButtonsController$3
+                </Class>
+                <Class sourceFile="CustomZoomButtonsController.java">
+                    org.osmdroid.views.CustomZoomButtonsController$4
+                </Class>
+                <Class sourceFile="CustomZoomButtonsController.java">
+                    org.osmdroid.views.CustomZoomButtonsController$Visibility
+                </Class>
+                <Class sourceFile="CustomZoomButtonsDisplay.java">
+                    org.osmdroid.views.CustomZoomButtonsDisplay
+                </Class>
+                <Class sourceFile="CustomZoomButtonsDisplay.java">
+                    org.osmdroid.views.CustomZoomButtonsDisplay$1
+                </Class>
+                <Class sourceFile="CustomZoomButtonsDisplay.java">
+                    org.osmdroid.views.CustomZoomButtonsDisplay$HorizontalPosition
+                </Class>
+                <Class sourceFile="CustomZoomButtonsDisplay.java">
+                    org.osmdroid.views.CustomZoomButtonsDisplay$VerticalPosition
+                </Class>
                 <Class sourceFile="MapController.java">
                     org.osmdroid.views.MapController
                 </Class>
@@ -1304,6 +1360,9 @@
                 <Class sourceFile="MapView.java">
                     org.osmdroid.views.MapView$MapViewZoomListener
                 </Class>
+                <Class sourceFile="MapViewRepository.java">
+                    org.osmdroid.views.MapViewRepository
+                </Class>
                 <Class sourceFile="Projection.java">
                     org.osmdroid.views.Projection
                 </Class>
@@ -1314,6 +1373,7 @@
                 <Package>android.content</Package>
                 <Package>android.content.res</Package>
                 <Package>android.graphics</Package>
+                <Package>android.graphics.drawable</Package>
                 <Package>android.os</Package>
                 <Package>android.util</Package>
                 <Package>android.view</Package>
@@ -1326,13 +1386,14 @@
                 <Package>org.osmdroid.api</Package>
                 <Package>org.osmdroid.config</Package>
                 <Package>org.osmdroid.events</Package>
+                <Package>org.osmdroid.library</Package>
                 <Package>org.osmdroid.tileprovider</Package>
                 <Package>org.osmdroid.tileprovider.modules</Package>
                 <Package>org.osmdroid.tileprovider.tilesource</Package>
                 <Package>org.osmdroid.tileprovider.util</Package>
                 <Package>org.osmdroid.util</Package>
                 <Package>org.osmdroid.views.overlay</Package>
-                <Package>org.osmdroid.views.util</Package>
+                <Package>org.osmdroid.views.overlay.infowindow</Package>
             </DependsUpon>
 
             <UsedBy>
@@ -1354,21 +1415,33 @@
 
         <Package name="org.osmdroid.views.drawing">
             <Stats>
-                <TotalClasses>2</TotalClasses>
-                <ConcreteClasses>2</ConcreteClasses>
-                <AbstractClasses>0</AbstractClasses>
-                <Ca>0</Ca>
-                <Ce>3</Ce>
-                <A>0</A>
-                <I>1</I>
-                <D>0</D>
+                <TotalClasses>6</TotalClasses>
+                <ConcreteClasses>5</ConcreteClasses>
+                <AbstractClasses>1</AbstractClasses>
+                <Ca>2</Ca>
+                <Ce>9</Ce>
+                <A>0.17</A>
+                <I>0.82</I>
+                <D>0.02</D>
                 <V>1</V>
             </Stats>
 
             <AbstractClasses>
+                <Class sourceFile="MapSnapshot.java">
+                    org.osmdroid.views.drawing.MapSnapshot$MapSnapshotable
+                </Class>
             </AbstractClasses>
 
             <ConcreteClasses>
+                <Class sourceFile="MapSnapshot.java">
+                    org.osmdroid.views.drawing.MapSnapshot
+                </Class>
+                <Class sourceFile="MapSnapshot.java">
+                    org.osmdroid.views.drawing.MapSnapshot$Status
+                </Class>
+                <Class sourceFile="MapSnapshotHandler.java">
+                    org.osmdroid.views.drawing.MapSnapshotHandler
+                </Class>
                 <Class sourceFile="OsmBitmapShader.java">
                     org.osmdroid.views.drawing.OsmBitmapShader
                 </Class>
@@ -1379,11 +1452,19 @@
 
             <DependsUpon>
                 <Package>android.graphics</Package>
+                <Package>android.os</Package>
+                <Package>java.io</Package>
+                <Package>java.lang</Package>
+                <Package>java.util</Package>
+                <Package>org.osmdroid.tileprovider</Package>
                 <Package>org.osmdroid.util</Package>
                 <Package>org.osmdroid.views</Package>
+                <Package>org.osmdroid.views.overlay</Package>
             </DependsUpon>
 
             <UsedBy>
+                <Package>org.osmdroid.views.overlay</Package>
+                <Package>org.osmdroid.views.overlay.infowindow</Package>
             </UsedBy>
         </Package>
 
@@ -1392,11 +1473,11 @@
                 <TotalClasses>50</TotalClasses>
                 <ConcreteClasses>34</ConcreteClasses>
                 <AbstractClasses>16</AbstractClasses>
-                <Ca>7</Ca>
-                <Ce>26</Ce>
+                <Ca>9</Ca>
+                <Ce>28</Ce>
                 <A>0.32</A>
-                <I>0.79</I>
-                <D>0.11</D>
+                <I>0.76</I>
+                <D>0.08</D>
                 <V>1</V>
             </Stats>
 
@@ -1549,7 +1630,7 @@
                     org.osmdroid.views.overlay.TilesOverlay
                 </Class>
                 <Class sourceFile="TilesOverlay.java">
-                    org.osmdroid.views.overlay.TilesOverlay$CacheTileLooper
+                    org.osmdroid.views.overlay.TilesOverlay$1
                 </Class>
                 <Class sourceFile="TilesOverlay.java">
                     org.osmdroid.views.overlay.TilesOverlay$OverlayTileLooper
@@ -1566,6 +1647,7 @@
                 <Package>android.util</Package>
                 <Package>android.view</Package>
                 <Package>android.widget</Package>
+                <Package>java.io</Package>
                 <Package>java.lang</Package>
                 <Package>java.lang.reflect</Package>
                 <Package>java.util</Package>
@@ -1580,6 +1662,7 @@
                 <Package>org.osmdroid.util</Package>
                 <Package>org.osmdroid.util.constants</Package>
                 <Package>org.osmdroid.views</Package>
+                <Package>org.osmdroid.views.drawing</Package>
                 <Package>org.osmdroid.views.overlay.infowindow</Package>
                 <Package>org.osmdroid.views.overlay.milestones</Package>
                 <Package>org.osmdroid.views.util.constants</Package>
@@ -1587,10 +1670,12 @@
 
             <UsedBy>
                 <Package>org.osmdroid.views</Package>
+                <Package>org.osmdroid.views.drawing</Package>
                 <Package>org.osmdroid.views.overlay.compass</Package>
                 <Package>org.osmdroid.views.overlay.gestures</Package>
                 <Package>org.osmdroid.views.overlay.gridlines</Package>
                 <Package>org.osmdroid.views.overlay.infowindow</Package>
+                <Package>org.osmdroid.views.overlay.milestones</Package>
                 <Package>org.osmdroid.views.overlay.mylocation</Package>
                 <Package>org.osmdroid.views.overlay.simplefastpoint</Package>
             </UsedBy>
@@ -1650,7 +1735,7 @@
                 <ConcreteClasses>2</ConcreteClasses>
                 <AbstractClasses>1</AbstractClasses>
                 <Ca>0</Ca>
-                <Ce>7</Ce>
+                <Ce>6</Ce>
                 <A>0.33</A>
                 <I>1</I>
                 <D>0.33</D>
@@ -1675,7 +1760,6 @@
             <DependsUpon>
                 <Package>android</Package>
                 <Package>android.content</Package>
-                <Package>android.graphics</Package>
                 <Package>android.view</Package>
                 <Package>java.lang</Package>
                 <Package>org.osmdroid.views</Package>
@@ -1732,11 +1816,11 @@
                 <TotalClasses>4</TotalClasses>
                 <ConcreteClasses>3</ConcreteClasses>
                 <AbstractClasses>1</AbstractClasses>
-                <Ca>1</Ca>
-                <Ce>14</Ce>
+                <Ca>2</Ca>
+                <Ce>15</Ce>
                 <A>0.25</A>
-                <I>0.93</I>
-                <D>0.18</D>
+                <I>0.88</I>
+                <D>0.13</D>
                 <V>1</V>
             </Stats>
 
@@ -1772,23 +1856,25 @@
                 <Package>org.osmdroid.config</Package>
                 <Package>org.osmdroid.util</Package>
                 <Package>org.osmdroid.views</Package>
+                <Package>org.osmdroid.views.drawing</Package>
                 <Package>org.osmdroid.views.overlay</Package>
             </DependsUpon>
 
             <UsedBy>
+                <Package>org.osmdroid.views</Package>
                 <Package>org.osmdroid.views.overlay</Package>
             </UsedBy>
         </Package>
 
         <Package name="org.osmdroid.views.overlay.milestones">
             <Stats>
-                <TotalClasses>12</TotalClasses>
-                <ConcreteClasses>10</ConcreteClasses>
+                <TotalClasses>14</TotalClasses>
+                <ConcreteClasses>12</ConcreteClasses>
                 <AbstractClasses>2</AbstractClasses>
                 <Ca>1</Ca>
-                <Ce>5</Ce>
-                <A>0.17</A>
-                <I>0.83</I>
+                <Ce>6</Ce>
+                <A>0.14</A>
+                <I>0.86</I>
                 <D>0</D>
                 <V>1</V>
             </Stats>
@@ -1805,6 +1891,12 @@
             <ConcreteClasses>
                 <Class sourceFile="MilestoneBitmapDisplayer.java">
                     org.osmdroid.views.overlay.milestones.MilestoneBitmapDisplayer
+                </Class>
+                <Class sourceFile="MilestoneLineDisplayer.java">
+                    org.osmdroid.views.overlay.milestones.MilestoneLineDisplayer
+                </Class>
+                <Class sourceFile="MilestoneLineDisplayer.java">
+                    org.osmdroid.views.overlay.milestones.MilestoneLineDisplayer$1
                 </Class>
                 <Class sourceFile="MilestoneManager.java">
                     org.osmdroid.views.overlay.milestones.MilestoneManager
@@ -1840,6 +1932,7 @@
                 <Package>java.lang</Package>
                 <Package>java.util</Package>
                 <Package>org.osmdroid.util</Package>
+                <Package>org.osmdroid.views.overlay</Package>
                 <Package>org.osmdroid.views.util.constants</Package>
             </DependsUpon>
 
@@ -1988,14 +2081,14 @@
 
         <Package name="org.osmdroid.views.util">
             <Stats>
-                <TotalClasses>3</TotalClasses>
-                <ConcreteClasses>3</ConcreteClasses>
+                <TotalClasses>2</TotalClasses>
+                <ConcreteClasses>2</ConcreteClasses>
                 <AbstractClasses>0</AbstractClasses>
-                <Ca>1</Ca>
-                <Ce>6</Ce>
+                <Ca>0</Ca>
+                <Ce>5</Ce>
                 <A>0</A>
-                <I>0.86</I>
-                <D>0.14</D>
+                <I>1</I>
+                <D>0</D>
                 <V>1</V>
             </Stats>
 
@@ -2003,9 +2096,6 @@
             </AbstractClasses>
 
             <ConcreteClasses>
-                <Class sourceFile="Mercator.java">
-                    org.osmdroid.views.util.Mercator
-                </Class>
                 <Class sourceFile="MyMath.java">
                     org.osmdroid.views.util.MyMath
                 </Class>
@@ -2018,13 +2108,11 @@
                 <Package>android.graphics</Package>
                 <Package>java.lang</Package>
                 <Package>java.util</Package>
-                <Package>org.osmdroid.api</Package>
                 <Package>org.osmdroid.util</Package>
                 <Package>org.osmdroid.views</Package>
             </DependsUpon>
 
             <UsedBy>
-                <Package>org.osmdroid.views</Package>
             </UsedBy>
         </Package>
 
@@ -2086,9 +2174,10 @@
         </Package>
 
         <Package Name="org.osmdroid.tileprovider.cachemanager">
-            <Package>org.osmdroid.util</Package>
-            <Package>org.osmdroid.views</Package>
-            <Package>org.osmdroid.util</Package>
+            <Package>org.osmdroid.tileprovider.tilesource</Package>
+            <Package>org.osmdroid.tileprovider</Package>
+            <Package>org.osmdroid.tileprovider.modules</Package>
+            <Package>org.osmdroid.tileprovider.tilesource</Package>
         </Package>
 
         <Package Name="org.osmdroid.tileprovider.modules">
@@ -2165,9 +2254,10 @@
         </Package>
 
         <Package Name="org.osmdroid.views.overlay.milestones">
-            <Package>org.osmdroid.util</Package>
+            <Package>org.osmdroid.views.overlay</Package>
             <Package>org.osmdroid.views</Package>
             <Package>org.osmdroid.util</Package>
+            <Package>org.osmdroid.views</Package>
         </Package>
 
         <Package Name="org.osmdroid.views.overlay.mylocation">

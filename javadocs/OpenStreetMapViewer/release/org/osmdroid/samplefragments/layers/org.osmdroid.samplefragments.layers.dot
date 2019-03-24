@@ -10,13 +10,13 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.samplefragments.layers.LayerManager
-	c4137 [label=<<table title="org.osmdroid.samplefragments.layers.LayerManager" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./LayerManager.html">
+	c4448 [label=<<table title="org.osmdroid.samplefragments.layers.LayerManager" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./LayerManager.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> LayerManager </td></tr>
 		</table></td></tr>
 		</table>>, URL="./LayerManager.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.layers.OverlayAdapter
-	c4138 [label=<<table title="org.osmdroid.samplefragments.layers.OverlayAdapter" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./OverlayAdapter.html">
+	c4449 [label=<<table title="org.osmdroid.samplefragments.layers.OverlayAdapter" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./OverlayAdapter.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> OverlayAdapter </td></tr>
 		</table></td></tr>

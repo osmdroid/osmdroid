@@ -10,23 +10,23 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.tileprovider.ExpirableBitmapDrawable
-	c80824 [label=<<table title="org.osmdroid.tileprovider.ExpirableBitmapDrawable" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./ExpirableBitmapDrawable.html">
+	c91808 [label=<<table title="org.osmdroid.tileprovider.ExpirableBitmapDrawable" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./ExpirableBitmapDrawable.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> ExpirableBitmapDrawable </td></tr>
 		</table></td></tr>
 		</table>>, URL="./ExpirableBitmapDrawable.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.ReusableBitmapDrawable
-	c80867 [label=<<table title="org.osmdroid.tileprovider.ReusableBitmapDrawable" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ReusableBitmapDrawable.html">
+	c91849 [label=<<table title="org.osmdroid.tileprovider.ReusableBitmapDrawable" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ReusableBitmapDrawable.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> ReusableBitmapDrawable </td></tr>
 		</table></td></tr>
 		</table>>, URL="./ReusableBitmapDrawable.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.tileprovider.ExpirableBitmapDrawable extends BitmapDrawable
-	c81078:p -> c80824:p [dir=back,arrowtail=empty];
+	c92085:p -> c91808:p [dir=back,arrowtail=empty];
 	//org.osmdroid.tileprovider.ReusableBitmapDrawable extends org.osmdroid.tileprovider.ExpirableBitmapDrawable
-	c80824:p -> c80867:p [dir=back,arrowtail=empty];
+	c91808:p -> c91849:p [dir=back,arrowtail=empty];
 	// BitmapDrawable
-	c81078[label=<<table title="BitmapDrawable" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api//BitmapDrawable.html">
+	c92085[label=<<table title="BitmapDrawable" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api//BitmapDrawable.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> BitmapDrawable </td></tr>
 		</table></td></tr>

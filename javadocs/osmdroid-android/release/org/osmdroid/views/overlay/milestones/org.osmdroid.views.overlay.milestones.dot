@@ -10,84 +10,92 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.views.overlay.milestones.MilestoneBitmapDisplayer
-	c4875 [label=<<table title="org.osmdroid.views.overlay.milestones.MilestoneBitmapDisplayer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MilestoneBitmapDisplayer.html">
+	c5228 [label=<<table title="org.osmdroid.views.overlay.milestones.MilestoneBitmapDisplayer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MilestoneBitmapDisplayer.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MilestoneBitmapDisplayer </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MilestoneBitmapDisplayer.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.milestones.MilestoneDisplayer
-	c4876 [label=<<table title="org.osmdroid.views.overlay.milestones.MilestoneDisplayer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MilestoneDisplayer.html">
+	c5229 [label=<<table title="org.osmdroid.views.overlay.milestones.MilestoneDisplayer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MilestoneDisplayer.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> MilestoneDisplayer </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./MilestoneDisplayer.html", fontname="arial", fontcolor="black", fontsize=10.0];
+	// org.osmdroid.views.overlay.milestones.MilestoneLineDisplayer
+	c5230 [label=<<table title="org.osmdroid.views.overlay.milestones.MilestoneLineDisplayer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MilestoneLineDisplayer.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> MilestoneLineDisplayer </td></tr>
+		</table></td></tr>
+		</table>>, URL="./MilestoneLineDisplayer.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.milestones.MilestoneLister
-	c4877 [label=<<table title="org.osmdroid.views.overlay.milestones.MilestoneLister" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MilestoneLister.html">
+	c5231 [label=<<table title="org.osmdroid.views.overlay.milestones.MilestoneLister" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MilestoneLister.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> MilestoneLister </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./MilestoneLister.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.milestones.MilestoneManager
-	c4878 [label=<<table title="org.osmdroid.views.overlay.milestones.MilestoneManager" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MilestoneManager.html">
+	c5232 [label=<<table title="org.osmdroid.views.overlay.milestones.MilestoneManager" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MilestoneManager.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MilestoneManager </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MilestoneManager.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.milestones.MilestoneMeterDistanceLister
-	c4879 [label=<<table title="org.osmdroid.views.overlay.milestones.MilestoneMeterDistanceLister" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MilestoneMeterDistanceLister.html">
+	c5233 [label=<<table title="org.osmdroid.views.overlay.milestones.MilestoneMeterDistanceLister" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MilestoneMeterDistanceLister.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MilestoneMeterDistanceLister </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MilestoneMeterDistanceLister.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.milestones.MilestoneMeterDistanceSliceLister
-	c4880 [label=<<table title="org.osmdroid.views.overlay.milestones.MilestoneMeterDistanceSliceLister" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MilestoneMeterDistanceSliceLister.html">
+	c5234 [label=<<table title="org.osmdroid.views.overlay.milestones.MilestoneMeterDistanceSliceLister" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MilestoneMeterDistanceSliceLister.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MilestoneMeterDistanceSliceLister </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MilestoneMeterDistanceSliceLister.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.milestones.MilestoneMiddleLister
-	c4881 [label=<<table title="org.osmdroid.views.overlay.milestones.MilestoneMiddleLister" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MilestoneMiddleLister.html">
+	c5235 [label=<<table title="org.osmdroid.views.overlay.milestones.MilestoneMiddleLister" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MilestoneMiddleLister.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MilestoneMiddleLister </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MilestoneMiddleLister.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.milestones.MilestonePathDisplayer
-	c4882 [label=<<table title="org.osmdroid.views.overlay.milestones.MilestonePathDisplayer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MilestonePathDisplayer.html">
+	c5236 [label=<<table title="org.osmdroid.views.overlay.milestones.MilestonePathDisplayer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MilestonePathDisplayer.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MilestonePathDisplayer </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MilestonePathDisplayer.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.milestones.MilestonePixelDistanceLister
-	c4883 [label=<<table title="org.osmdroid.views.overlay.milestones.MilestonePixelDistanceLister" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MilestonePixelDistanceLister.html">
+	c5237 [label=<<table title="org.osmdroid.views.overlay.milestones.MilestonePixelDistanceLister" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MilestonePixelDistanceLister.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MilestonePixelDistanceLister </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MilestonePixelDistanceLister.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.milestones.MilestoneStep
-	c4884 [label=<<table title="org.osmdroid.views.overlay.milestones.MilestoneStep" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MilestoneStep.html">
+	c5238 [label=<<table title="org.osmdroid.views.overlay.milestones.MilestoneStep" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MilestoneStep.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MilestoneStep </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MilestoneStep.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.milestones.MilestoneVertexLister
-	c4885 [label=<<table title="org.osmdroid.views.overlay.milestones.MilestoneVertexLister" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MilestoneVertexLister.html">
+	c5239 [label=<<table title="org.osmdroid.views.overlay.milestones.MilestoneVertexLister" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MilestoneVertexLister.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MilestoneVertexLister </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MilestoneVertexLister.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.views.overlay.milestones.MilestoneBitmapDisplayer extends org.osmdroid.views.overlay.milestones.MilestoneDisplayer
-	c4876:p -> c4875:p [dir=back,arrowtail=empty];
+	c5229:p -> c5228:p [dir=back,arrowtail=empty];
+	//org.osmdroid.views.overlay.milestones.MilestoneLineDisplayer extends org.osmdroid.views.overlay.milestones.MilestoneDisplayer
+	c5229:p -> c5230:p [dir=back,arrowtail=empty];
 	//org.osmdroid.views.overlay.milestones.MilestoneMeterDistanceLister extends org.osmdroid.views.overlay.milestones.MilestoneLister
-	c4877:p -> c4879:p [dir=back,arrowtail=empty];
+	c5231:p -> c5233:p [dir=back,arrowtail=empty];
 	//org.osmdroid.views.overlay.milestones.MilestoneMeterDistanceSliceLister extends org.osmdroid.views.overlay.milestones.MilestoneLister
-	c4877:p -> c4880:p [dir=back,arrowtail=empty];
+	c5231:p -> c5234:p [dir=back,arrowtail=empty];
 	//org.osmdroid.views.overlay.milestones.MilestoneMiddleLister extends org.osmdroid.views.overlay.milestones.MilestoneLister
-	c4877:p -> c4881:p [dir=back,arrowtail=empty];
+	c5231:p -> c5235:p [dir=back,arrowtail=empty];
 	//org.osmdroid.views.overlay.milestones.MilestonePathDisplayer extends org.osmdroid.views.overlay.milestones.MilestoneDisplayer
-	c4876:p -> c4882:p [dir=back,arrowtail=empty];
+	c5229:p -> c5236:p [dir=back,arrowtail=empty];
 	//org.osmdroid.views.overlay.milestones.MilestonePixelDistanceLister extends org.osmdroid.views.overlay.milestones.MilestoneLister
-	c4877:p -> c4883:p [dir=back,arrowtail=empty];
+	c5231:p -> c5237:p [dir=back,arrowtail=empty];
 	//org.osmdroid.views.overlay.milestones.MilestoneVertexLister extends org.osmdroid.views.overlay.milestones.MilestoneLister
-	c4877:p -> c4885:p [dir=back,arrowtail=empty];
+	c5231:p -> c5239:p [dir=back,arrowtail=empty];
 }
 

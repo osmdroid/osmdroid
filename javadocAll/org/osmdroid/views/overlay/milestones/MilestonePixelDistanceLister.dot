@@ -10,18 +10,18 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.views.overlay.milestones.MilestoneLister
-	c168468 [label=<<table title="org.osmdroid.views.overlay.milestones.MilestoneLister" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MilestoneLister.html">
+	c192577 [label=<<table title="org.osmdroid.views.overlay.milestones.MilestoneLister" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MilestoneLister.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> MilestoneLister </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./MilestoneLister.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.milestones.MilestonePixelDistanceLister
-	c168474 [label=<<table title="org.osmdroid.views.overlay.milestones.MilestonePixelDistanceLister" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./MilestonePixelDistanceLister.html">
+	c192583 [label=<<table title="org.osmdroid.views.overlay.milestones.MilestonePixelDistanceLister" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./MilestonePixelDistanceLister.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MilestonePixelDistanceLister </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MilestonePixelDistanceLister.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.views.overlay.milestones.MilestonePixelDistanceLister extends org.osmdroid.views.overlay.milestones.MilestoneLister
-	c168468:p -> c168474:p [dir=back,arrowtail=empty];
+	c192577:p -> c192583:p [dir=back,arrowtail=empty];
 }
 

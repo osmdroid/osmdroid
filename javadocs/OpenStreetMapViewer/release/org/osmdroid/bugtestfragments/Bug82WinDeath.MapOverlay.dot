@@ -10,15 +10,15 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.bugtestfragments.Bug82WinDeath.MapOverlay
-	c10320 [label=<<table title="org.osmdroid.bugtestfragments.Bug82WinDeath.MapOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./Bug82WinDeath.MapOverlay.html">
+	c11087 [label=<<table title="org.osmdroid.bugtestfragments.Bug82WinDeath.MapOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./Bug82WinDeath.MapOverlay.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MapOverlay </td></tr>
 		</table></td></tr>
 		</table>>, URL="./Bug82WinDeath.MapOverlay.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.bugtestfragments.Bug82WinDeath.MapOverlay extends org.osmdroid.views.overlay.Overlay
-	c10514:p -> c10320:p [dir=back,arrowtail=empty];
+	c11296:p -> c11087:p [dir=back,arrowtail=empty];
 	// org.osmdroid.views.overlay.Overlay
-	c10514 [label=<<table title="org.osmdroid.views.overlay.Overlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/org/osmdroid/views/overlay/Overlay.html">
+	c11296 [label=<<table title="org.osmdroid.views.overlay.Overlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/org/osmdroid/views/overlay/Overlay.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> Overlay </font></td></tr>
 		</table></td></tr>

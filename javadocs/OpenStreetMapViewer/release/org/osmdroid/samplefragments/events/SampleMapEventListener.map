@@ -1,8 +1,10 @@
 <map id="G" name="G">
-<area shape="rect" id="node1_0" href="../BaseSampleFragment.html" title="org.osmdroid.samplefragments.BaseSampleFragment" alt="" coords="25,17,173,42"/>
-<area shape="rect" id="node1" href="../BaseSampleFragment.html" title="&lt;TABLE&gt;" alt="" coords="15,5,184,53"/>
-<area shape="rect" id="node3_1" href="./SampleMapEventListener.html" title="org.osmdroid.samplefragments.events.SampleMapEventListener" alt="" coords="16,113,183,138"/>
-<area shape="rect" id="node3" href="./SampleMapEventListener.html" title="&lt;TABLE&gt;" alt="" coords="5,101,193,149"/>
-<area shape="rect" id="node2_2" href="./SampleAnimateTo.html" title="org.osmdroid.samplefragments.events.SampleAnimateTo" alt="" coords="37,209,162,234"/>
-<area shape="rect" id="node2" href="./SampleAnimateTo.html" title="&lt;TABLE&gt;" alt="" coords="26,197,173,245"/>
+<area shape="rect" id="node1_0" href="../BaseSampleFragment.html" title="org.osmdroid.samplefragments.BaseSampleFragment" alt="" coords="150,17,298,42"/>
+<area shape="rect" id="node1" href="../BaseSampleFragment.html" title="&lt;TABLE&gt;" alt="" coords="139,5,309,53"/>
+<area shape="rect" id="node4_1" href="./SampleMapEventListener.html" title="org.osmdroid.samplefragments.events.SampleMapEventListener" alt="" coords="141,113,307,138"/>
+<area shape="rect" id="node4" href="./SampleMapEventListener.html" title="&lt;TABLE&gt;" alt="" coords="130,101,318,149"/>
+<area shape="rect" id="node2_2" href="../data/SampleMilestonesNonRepetitive.html" title="org.osmdroid.samplefragments.data.SampleMilestonesNonRepetitive" alt="" coords="16,209,221,234"/>
+<area shape="rect" id="node2" href="../data/SampleMilestonesNonRepetitive.html" title="&lt;TABLE&gt;" alt="" coords="5,197,232,245"/>
+<area shape="rect" id="node3_3" href="./SampleAnimateTo.html" title="org.osmdroid.samplefragments.events.SampleAnimateTo" alt="" coords="267,209,392,234"/>
+<area shape="rect" id="node3" href="./SampleAnimateTo.html" title="&lt;TABLE&gt;" alt="" coords="256,197,403,245"/>
 </map>

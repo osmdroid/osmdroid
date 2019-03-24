@@ -8,7 +8,7 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta name="Date-Creation-yyyymmdd" content="20080101"/>
-    <meta name="Date-Revision-yyyymmdd" content="20180716"/>
+    <meta name="Date-Revision-yyyymmdd" content="20190324"/>
     <meta http-equiv="Content-Language" content="en"/>
     <title> osmdroid</title>
     <link rel="stylesheet" href="./css/apache-maven-fluido-1.4.min.css"/>
@@ -65,10 +65,10 @@
             </li>
 
             <li id="publishDate" class="pull-right"><span class="divider">|</span> Last Published:
-                2018-07-16
+                2019-03-24
             </li>
             <li id="projectVersion" class="pull-right">
-                6.0.2
+                6.1.0
             </li>
 
         </ul>
@@ -291,12 +291,12 @@
 </thead>
 <tbody>
 <tr><td>Modules:</td><td>10</td></tr>
-<tr><td>Number of dependencies (NOD):</td><td>57</td></tr>
-<tr><td>Number of unique artifacts (NOA):</td><td>60</td></tr>
-<tr><td>Number of version-conflicting artifacts (NOC):</td><td>6</td></tr>
+<tr><td>Number of dependencies (NOD):</td><td>60</td></tr>
+<tr><td>Number of unique artifacts (NOA):</td><td>64</td></tr>
+<tr><td>Number of version-conflicting artifacts (NOC):</td><td>8</td></tr>
 <tr><td>Number of SNAPSHOT artifacts (NOS):</td><td>0</td></tr>
 <tr><td>Number of Wildcard artifacts (NOWC):</td><td>2</td></tr>
-<tr><td>Convergence (NOD/NOA):</td><td>95%</td></tr>
+<tr><td>Convergence (NOD/NOA):</td><td>93%</td></tr>
 <tr><td>Ready for release (100 % convergence and no SNAPSHOTS):</td><td><strong>Error</strong><br>You do not have 100 % convergence.</td></tr>
 </tbody>
 </table>
@@ -312,8 +312,8 @@ dependencies {
 
 
 //WARN dependency converage flag! Currently used by the modules: [root buildscript, osmdroid-server-jdk]
-	compile: 'org.apache.commons:commons-lang3:3.1@jar'
 	compile: 'org.apache.commons:commons-lang3:3.4@jar'
+	compile: 'org.apache.commons:commons-lang3:3.6@jar'
 //END WARN dependency converage flag!
 
     	compile: 'commons-io:commons-io:2.5'
@@ -329,26 +329,35 @@ dependencies {
 //END WARN dependency converage flag!
 
     	compile: 'junit:junit:4.12@jar'
+	compile: 'com.android.support:multidex-instrumentation:1.0.1@aar'
 	compile: 'com.android.support.test:runner:0.4.+'
 	compile: 'com.android.support.test:rules:0.4.+'
-	compile: 'com.android.support:support-annotations:23.1.1@jar'
-	compile: 'com.squareup.leakcanary:leakcanary-android:1.4-beta2@aar'
-	compile: 'com.android.support:support-v4:23.1.1@aar'
-	compile: 'org.osmdroid:osmdroid-android:6.0.2@aar'
-	compile: 'org.osmdroid:osmdroid-geopackage:6.0.2@aar'
-	compile: 'org.osmdroid:osmdroid-mapsforge:6.0.2@aar'
-	compile: 'org.osmdroid:osmdroid-wms:6.0.2@aar'
+
+
+//WARN dependency converage flag! Currently used by the modules: [OpenStreetMapViewer]
+	compile: 'com.android.support:multidex:1.0.3@aar'
+	compile: 'com.android.support:multidex:1.0.1@aar'
+//END WARN dependency converage flag!
+
+    	compile: 'com.android.support:support-annotations:26.1.0@jar'
+	compile: 'com.squareup.leakcanary:leakcanary-android:1.4@aar'
+	compile: 'com.android.support:support-v4:26.1.0@aar'
+	compile: 'org.osmdroid:osmdroid-android:6.1.0@aar'
+	compile: 'org.osmdroid:osmdroid-geopackage:6.1.0@aar'
+	compile: 'org.osmdroid:osmdroid-mapsforge:6.1.0@aar'
+	compile: 'org.osmdroid:osmdroid-wms:6.1.0@aar'
 	compile: 'mil.army.missioncommand:mil-sym-android-renderer:0.1.37@aar'
 	compile: 'com.github.angads25:filepicker:1.1.1@aar'
-	compile: 'com.android.support:design:23.1.1@aar'
-	compile: 'com.android.support:cardview-v7:23.1.1@aar'
-	compile: 'com.android.support:recyclerview-v7:23.1.1@aar'
-	compile: 'com.android.support:appcompat-v7:23.1.1@aar'
+	compile: 'com.opencsv:opencsv:4.4@jar'
+	compile: 'com.android.support:design:26.1.0@aar'
+	compile: 'com.android.support:cardview-v7:26.1.0@aar'
+	compile: 'com.android.support:recyclerview-v7:26.1.0@aar'
+	compile: 'com.android.support:appcompat-v7:26.1.0@aar'
 	compile: 'ch.acra:acra:4.7.0@aar'
-	compile: 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2@aar'
-	compile: 'org.jacoco:org.jacoco.agent:0.7.4.201502262128@jar'
-	compile: 'org.jacoco:org.jacoco.ant:0.7.4.201502262128@jar'
-	compile: 'org.robolectric:robolectric:3.0@jar'
+	compile: 'com.squareup.leakcanary:leakcanary-android-no-op:1.4@aar'
+	compile: 'org.jacoco:org.jacoco.agent:0.7.5.201505241946@jar'
+	compile: 'org.jacoco:org.jacoco.ant:0.7.5.201505241946@jar'
+	compile: 'org.robolectric:robolectric:3.8@jar'
 	compile: 'mil.nga.geopackage:geopackage-android:2.0.1@aar'
 	compile: 'com.j256.ormlite:ormlite-android:5.0@jar'
 	compile: 'mil.nga.geopackage:geopackage-core:2.0.1@jar'
@@ -360,16 +369,16 @@ dependencies {
 	compile: 'mil.nga:tiff:2.0.0@jar'
 //END WARN dependency converage flag!
 
-    	compile: 'org.mapsforge:mapsforge-map-android:0.8.0@jar'
-	compile: 'org.mapsforge:mapsforge-map:0.8.0@jar'
-	compile: 'org.mapsforge:mapsforge-themes:0.8.0@jar'
+    	compile: 'org.mapsforge:mapsforge-map-android:0.10.0@jar'
+	compile: 'org.mapsforge:mapsforge-map:0.10.0@jar'
+	compile: 'org.mapsforge:mapsforge-themes:0.10.0@jar'
 	compile: 'javax.servlet:servlet-api:2.5@jar'
 	compile: 'commons-configuration:commons-configuration:1.9@jar'
-	compile: 'commons-collections:commons-collections:3.2@jar'
+	compile: 'commons-collections:commons-collections:3.2.1@jar'
 	compile: 'org.apache.cxf:cxf-bundle-jaxrs:2.7.5@jar'
 	compile: 'org.springframework:spring-test:3.2.2.RELEASE@jar'
 	compile: 'org.springframework:spring-context:3.2.2.RELEASE@jar'
-	compile: 'commons-codec:commons-codec:1.3@jar'
+	compile: 'commons-codec:commons-codec:1.11@jar'
 	compile: 'org.apache.cxf:cxf-rt-rs-extension-providers:2.7.5@jar'
 	compile: 'javax.servlet.jsp:jsp-api:2.1@jar'
 	compile: 'org.glassfish.jersey.containers:jersey-container-servlet:2.5.1@jar'
@@ -378,7 +387,7 @@ dependencies {
 	compile: 'org.apache.cxf:cxf-rt-transports-http-jetty:2.7.6@jar'
 	compile: 'org.slf4j:slf4j-jdk14:1.7.10@jar'
 	compile: 'org.codehaus.jettison:jettison:1.3.4@jar'
-	compile: 'com.fasterxml.jackson.core:jackson-databind:2.5.1@jar'
+	compile: 'com.fasterxml.jackson.core:jackson-databind:2.8.11@jar'
 }
 </code></pre>
 <h2>Maven Dependencies, composite</h2>
@@ -417,13 +426,13 @@ dependencies {
 	&lt;dependency&gt;
 		&lt;groupId&gt;org.apache.commons&lt;/groupId&gt;
 		&lt;artifactId&gt;commons-lang3&lt;/artifactId&gt;
-		&lt;version&gt;3.1&lt;/version&gt;
+		&lt;version&gt;3.4&lt;/version&gt;
 		&lt;type&gt;jar&lt;/type&gt;
 	&lt;/dependency&gt;
 	&lt;dependency&gt;
 		&lt;groupId&gt;org.apache.commons&lt;/groupId&gt;
 		&lt;artifactId&gt;commons-lang3&lt;/artifactId&gt;
-		&lt;version&gt;3.4&lt;/version&gt;
+		&lt;version&gt;3.6&lt;/version&gt;
 		&lt;type&gt;jar&lt;/type&gt;
 	&lt;/dependency&gt;
 &lt;!--END WARN dependency converage flag!--&gt;
@@ -479,6 +488,12 @@ dependencies {
 		&lt;type&gt;jar&lt;/type&gt;
 	&lt;/dependency&gt;
 	&lt;dependency&gt;
+		&lt;groupId&gt;com.android.support&lt;/groupId&gt;
+		&lt;artifactId&gt;multidex-instrumentation&lt;/artifactId&gt;
+		&lt;version&gt;1.0.1&lt;/version&gt;
+		&lt;type&gt;aar&lt;/type&gt;
+	&lt;/dependency&gt;
+	&lt;dependency&gt;
 		&lt;groupId&gt;com.android.support.test&lt;/groupId&gt;
 		&lt;artifactId&gt;runner&lt;/artifactId&gt;
 		&lt;version&gt;[0.4,)&lt;/version&gt;
@@ -488,46 +503,63 @@ dependencies {
 		&lt;artifactId&gt;rules&lt;/artifactId&gt;
 		&lt;version&gt;[0.4,)&lt;/version&gt;
 	&lt;/dependency&gt;
+
+
+&lt;!--WARN dependency converage flag! Currently used by the modules: [OpenStreetMapViewer]--&gt;
 	&lt;dependency&gt;
 		&lt;groupId&gt;com.android.support&lt;/groupId&gt;
+		&lt;artifactId&gt;multidex&lt;/artifactId&gt;
+		&lt;version&gt;1.0.3&lt;/version&gt;
+		&lt;type&gt;aar&lt;/type&gt;
+	&lt;/dependency&gt;
+	&lt;dependency&gt;
+		&lt;groupId&gt;com.android.support&lt;/groupId&gt;
+		&lt;artifactId&gt;multidex&lt;/artifactId&gt;
+		&lt;version&gt;1.0.1&lt;/version&gt;
+		&lt;type&gt;aar&lt;/type&gt;
+	&lt;/dependency&gt;
+&lt;!--END WARN dependency converage flag!--&gt;
+
+    	&lt;dependency&gt;
+		&lt;groupId&gt;com.android.support&lt;/groupId&gt;
 		&lt;artifactId&gt;support-annotations&lt;/artifactId&gt;
-		&lt;version&gt;23.1.1&lt;/version&gt;
+		&lt;version&gt;26.1.0&lt;/version&gt;
 		&lt;type&gt;jar&lt;/type&gt;
 	&lt;/dependency&gt;
 	&lt;dependency&gt;
 		&lt;groupId&gt;com.squareup.leakcanary&lt;/groupId&gt;
 		&lt;artifactId&gt;leakcanary-android&lt;/artifactId&gt;
-		&lt;version&gt;1.4-beta2&lt;/version&gt;
+		&lt;version&gt;1.4&lt;/version&gt;
 		&lt;type&gt;aar&lt;/type&gt;
 	&lt;/dependency&gt;
 	&lt;dependency&gt;
 		&lt;groupId&gt;com.android.support&lt;/groupId&gt;
 		&lt;artifactId&gt;support-v4&lt;/artifactId&gt;
-		&lt;version&gt;23.1.1&lt;/version&gt;
+		&lt;version&gt;26.1.0&lt;/version&gt;
 		&lt;type&gt;aar&lt;/type&gt;
 	&lt;/dependency&gt;
 	&lt;dependency&gt;
 		&lt;groupId&gt;org.osmdroid&lt;/groupId&gt;
 		&lt;artifactId&gt;osmdroid-android&lt;/artifactId&gt;
-		&lt;version&gt;6.0.2&lt;/version&gt;
+		&lt;version&gt;6.1.0&lt;/version&gt;
 		&lt;type&gt;aar&lt;/type&gt;
 	&lt;/dependency&gt;
 	&lt;dependency&gt;
 		&lt;groupId&gt;org.osmdroid&lt;/groupId&gt;
 		&lt;artifactId&gt;osmdroid-geopackage&lt;/artifactId&gt;
-		&lt;version&gt;6.0.2&lt;/version&gt;
+		&lt;version&gt;6.1.0&lt;/version&gt;
 		&lt;type&gt;aar&lt;/type&gt;
 	&lt;/dependency&gt;
 	&lt;dependency&gt;
 		&lt;groupId&gt;org.osmdroid&lt;/groupId&gt;
 		&lt;artifactId&gt;osmdroid-mapsforge&lt;/artifactId&gt;
-		&lt;version&gt;6.0.2&lt;/version&gt;
+		&lt;version&gt;6.1.0&lt;/version&gt;
 		&lt;type&gt;aar&lt;/type&gt;
 	&lt;/dependency&gt;
 	&lt;dependency&gt;
 		&lt;groupId&gt;org.osmdroid&lt;/groupId&gt;
 		&lt;artifactId&gt;osmdroid-wms&lt;/artifactId&gt;
-		&lt;version&gt;6.0.2&lt;/version&gt;
+		&lt;version&gt;6.1.0&lt;/version&gt;
 		&lt;type&gt;aar&lt;/type&gt;
 	&lt;/dependency&gt;
 	&lt;dependency&gt;
@@ -543,27 +575,33 @@ dependencies {
 		&lt;type&gt;aar&lt;/type&gt;
 	&lt;/dependency&gt;
 	&lt;dependency&gt;
+		&lt;groupId&gt;com.opencsv&lt;/groupId&gt;
+		&lt;artifactId&gt;opencsv&lt;/artifactId&gt;
+		&lt;version&gt;4.4&lt;/version&gt;
+		&lt;type&gt;jar&lt;/type&gt;
+	&lt;/dependency&gt;
+	&lt;dependency&gt;
 		&lt;groupId&gt;com.android.support&lt;/groupId&gt;
 		&lt;artifactId&gt;design&lt;/artifactId&gt;
-		&lt;version&gt;23.1.1&lt;/version&gt;
+		&lt;version&gt;26.1.0&lt;/version&gt;
 		&lt;type&gt;aar&lt;/type&gt;
 	&lt;/dependency&gt;
 	&lt;dependency&gt;
 		&lt;groupId&gt;com.android.support&lt;/groupId&gt;
 		&lt;artifactId&gt;cardview-v7&lt;/artifactId&gt;
-		&lt;version&gt;23.1.1&lt;/version&gt;
+		&lt;version&gt;26.1.0&lt;/version&gt;
 		&lt;type&gt;aar&lt;/type&gt;
 	&lt;/dependency&gt;
 	&lt;dependency&gt;
 		&lt;groupId&gt;com.android.support&lt;/groupId&gt;
 		&lt;artifactId&gt;recyclerview-v7&lt;/artifactId&gt;
-		&lt;version&gt;23.1.1&lt;/version&gt;
+		&lt;version&gt;26.1.0&lt;/version&gt;
 		&lt;type&gt;aar&lt;/type&gt;
 	&lt;/dependency&gt;
 	&lt;dependency&gt;
 		&lt;groupId&gt;com.android.support&lt;/groupId&gt;
 		&lt;artifactId&gt;appcompat-v7&lt;/artifactId&gt;
-		&lt;version&gt;23.1.1&lt;/version&gt;
+		&lt;version&gt;26.1.0&lt;/version&gt;
 		&lt;type&gt;aar&lt;/type&gt;
 	&lt;/dependency&gt;
 	&lt;dependency&gt;
@@ -575,25 +613,25 @@ dependencies {
 	&lt;dependency&gt;
 		&lt;groupId&gt;com.squareup.leakcanary&lt;/groupId&gt;
 		&lt;artifactId&gt;leakcanary-android-no-op&lt;/artifactId&gt;
-		&lt;version&gt;1.4-beta2&lt;/version&gt;
+		&lt;version&gt;1.4&lt;/version&gt;
 		&lt;type&gt;aar&lt;/type&gt;
 	&lt;/dependency&gt;
 	&lt;dependency&gt;
 		&lt;groupId&gt;org.jacoco&lt;/groupId&gt;
 		&lt;artifactId&gt;org.jacoco.agent&lt;/artifactId&gt;
-		&lt;version&gt;0.7.4.201502262128&lt;/version&gt;
+		&lt;version&gt;0.7.5.201505241946&lt;/version&gt;
 		&lt;type&gt;jar&lt;/type&gt;
 	&lt;/dependency&gt;
 	&lt;dependency&gt;
 		&lt;groupId&gt;org.jacoco&lt;/groupId&gt;
 		&lt;artifactId&gt;org.jacoco.ant&lt;/artifactId&gt;
-		&lt;version&gt;0.7.4.201502262128&lt;/version&gt;
+		&lt;version&gt;0.7.5.201505241946&lt;/version&gt;
 		&lt;type&gt;jar&lt;/type&gt;
 	&lt;/dependency&gt;
 	&lt;dependency&gt;
 		&lt;groupId&gt;org.robolectric&lt;/groupId&gt;
 		&lt;artifactId&gt;robolectric&lt;/artifactId&gt;
-		&lt;version&gt;3.0&lt;/version&gt;
+		&lt;version&gt;3.8&lt;/version&gt;
 		&lt;type&gt;jar&lt;/type&gt;
 	&lt;/dependency&gt;
 	&lt;dependency&gt;
@@ -640,19 +678,19 @@ dependencies {
     	&lt;dependency&gt;
 		&lt;groupId&gt;org.mapsforge&lt;/groupId&gt;
 		&lt;artifactId&gt;mapsforge-map-android&lt;/artifactId&gt;
-		&lt;version&gt;0.8.0&lt;/version&gt;
+		&lt;version&gt;0.10.0&lt;/version&gt;
 		&lt;type&gt;jar&lt;/type&gt;
 	&lt;/dependency&gt;
 	&lt;dependency&gt;
 		&lt;groupId&gt;org.mapsforge&lt;/groupId&gt;
 		&lt;artifactId&gt;mapsforge-map&lt;/artifactId&gt;
-		&lt;version&gt;0.8.0&lt;/version&gt;
+		&lt;version&gt;0.10.0&lt;/version&gt;
 		&lt;type&gt;jar&lt;/type&gt;
 	&lt;/dependency&gt;
 	&lt;dependency&gt;
 		&lt;groupId&gt;org.mapsforge&lt;/groupId&gt;
 		&lt;artifactId&gt;mapsforge-themes&lt;/artifactId&gt;
-		&lt;version&gt;0.8.0&lt;/version&gt;
+		&lt;version&gt;0.10.0&lt;/version&gt;
 		&lt;type&gt;jar&lt;/type&gt;
 	&lt;/dependency&gt;
 	&lt;dependency&gt;
@@ -670,7 +708,7 @@ dependencies {
 	&lt;dependency&gt;
 		&lt;groupId&gt;commons-collections&lt;/groupId&gt;
 		&lt;artifactId&gt;commons-collections&lt;/artifactId&gt;
-		&lt;version&gt;3.2&lt;/version&gt;
+		&lt;version&gt;3.2.1&lt;/version&gt;
 		&lt;type&gt;jar&lt;/type&gt;
 	&lt;/dependency&gt;
 	&lt;dependency&gt;
@@ -694,7 +732,7 @@ dependencies {
 	&lt;dependency&gt;
 		&lt;groupId&gt;commons-codec&lt;/groupId&gt;
 		&lt;artifactId&gt;commons-codec&lt;/artifactId&gt;
-		&lt;version&gt;1.3&lt;/version&gt;
+		&lt;version&gt;1.11&lt;/version&gt;
 		&lt;type&gt;jar&lt;/type&gt;
 	&lt;/dependency&gt;
 	&lt;dependency&gt;
@@ -748,7 +786,7 @@ dependencies {
 	&lt;dependency&gt;
 		&lt;groupId&gt;com.fasterxml.jackson.core&lt;/groupId&gt;
 		&lt;artifactId&gt;jackson-databind&lt;/artifactId&gt;
-		&lt;version&gt;2.5.1&lt;/version&gt;
+		&lt;version&gt;2.8.11&lt;/version&gt;
 		&lt;type&gt;jar&lt;/type&gt;
 	&lt;/dependency&gt;
 &lt;/dependencies&gt;

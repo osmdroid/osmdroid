@@ -10,15 +10,15 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.samples.SampleWithTilesOverlayAndCustomTileSource
-	c243855 [label=<<table title="org.osmdroid.samples.SampleWithTilesOverlayAndCustomTileSource" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./SampleWithTilesOverlayAndCustomTileSource.html">
+	c280679 [label=<<table title="org.osmdroid.samples.SampleWithTilesOverlayAndCustomTileSource" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./SampleWithTilesOverlayAndCustomTileSource.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleWithTilesOverlayAndCustomTileSource </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SampleWithTilesOverlayAndCustomTileSource.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.samples.SampleWithTilesOverlayAndCustomTileSource extends Activity
-	c244139:p -> c243855:p [dir=back,arrowtail=empty];
+	c280986:p -> c280679:p [dir=back,arrowtail=empty];
 	// Activity
-	c244139[label=<<table title="Activity" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api//Activity.html">
+	c280986[label=<<table title="Activity" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api//Activity.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> Activity </td></tr>
 		</table></td></tr>

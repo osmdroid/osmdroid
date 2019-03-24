@@ -10,27 +10,27 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.tileprovider.IMapTileProviderCallback
-	c89775 [label=<<table title="org.osmdroid.tileprovider.IMapTileProviderCallback" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../../tileprovider/IMapTileProviderCallback.html">
+	c101443 [label=<<table title="org.osmdroid.tileprovider.IMapTileProviderCallback" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../../tileprovider/IMapTileProviderCallback.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> IMapTileProviderCallback </td></tr>
 		</table></td></tr>
 		</table>>, URL="../../../tileprovider/IMapTileProviderCallback.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.MapTileProviderArray
-	c89782 [label=<<table title="org.osmdroid.tileprovider.MapTileProviderArray" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../../tileprovider/MapTileProviderArray.html">
+	c101448 [label=<<table title="org.osmdroid.tileprovider.MapTileProviderArray" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../../tileprovider/MapTileProviderArray.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MapTileProviderArray </td></tr>
 		</table></td></tr>
 		</table>>, URL="../../../tileprovider/MapTileProviderArray.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.gpkg.tiles.raster.GeoPackageProvider
-	c90013 [label=<<table title="org.osmdroid.gpkg.tiles.raster.GeoPackageProvider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./GeoPackageProvider.html">
+	c101705 [label=<<table title="org.osmdroid.gpkg.tiles.raster.GeoPackageProvider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./GeoPackageProvider.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> GeoPackageProvider </td></tr>
 		</table></td></tr>
 		</table>>, URL="./GeoPackageProvider.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.gpkg.tiles.raster.GeoPackageProvider extends org.osmdroid.tileprovider.MapTileProviderArray
-	c89782:p -> c90013:p [dir=back,arrowtail=empty];
+	c101448:p -> c101705:p [dir=back,arrowtail=empty];
 	//org.osmdroid.gpkg.tiles.raster.GeoPackageProvider implements org.osmdroid.tileprovider.IMapTileProviderCallback
-	c89775:p -> c90013:p [dir=back,arrowtail=empty,style=dashed];
+	c101443:p -> c101705:p [dir=back,arrowtail=empty,style=dashed];
 }
 

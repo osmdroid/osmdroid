@@ -10,19 +10,19 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.util.PointAccepter
-	c36464 [label=<<table title="org.osmdroid.util.PointAccepter" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../../util/PointAccepter.html">
+	c42421 [label=<<table title="org.osmdroid.util.PointAccepter" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../../util/PointAccepter.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> PointAccepter </td></tr>
 		</table></td></tr>
 		</table>>, URL="../../../util/PointAccepter.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.milestones.MilestoneManager
-	c36518 [label=<<table title="org.osmdroid.views.overlay.milestones.MilestoneManager" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./MilestoneManager.html">
+	c42487 [label=<<table title="org.osmdroid.views.overlay.milestones.MilestoneManager" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./MilestoneManager.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MilestoneManager </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MilestoneManager.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.views.overlay.milestones.MilestoneManager implements org.osmdroid.util.PointAccepter
-	c36464:p -> c36518:p [dir=back,arrowtail=empty,style=dashed];
+	c42421:p -> c42487:p [dir=back,arrowtail=empty,style=dashed];
 }
 

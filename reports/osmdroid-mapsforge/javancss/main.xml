@@ -1,33 +1,33 @@
 <?xml version="1.0"?>
 <javancss>
-  <date>2018-07-16</date>
-  <time>16:38:10</time>
+  <date>2019-03-24</date>
+  <time>09:29:45</time>
   <packages>
     <package>
       <name>org.osmdroid.mapsforge</name>
       <classes>3</classes>
       <functions>19</functions>
-      <ncss>195</ncss>
+      <ncss>191</ncss>
       <javadocs>9</javadocs>
       <javadoc_lines>79</javadoc_lines>
-      <single_comment_lines>34</single_comment_lines>
+      <single_comment_lines>33</single_comment_lines>
       <multi_comment_lines>4</multi_comment_lines>
     </package>
     <total>
       <classes>3</classes>
       <functions>19</functions>
-      <ncss>195</ncss>
+      <ncss>191</ncss>
       <javadocs>9</javadocs>
       <javadoc_lines>79</javadoc_lines>
-      <single_comment_lines>34</single_comment_lines>
+      <single_comment_lines>33</single_comment_lines>
       <multi_comment_lines>4</multi_comment_lines>
     </total>
     <table>
       <tr><td>Packages</td><td>Classes</td><td>Functions</td><td>NCSS</td><td>Javadocs</td><td>per</td></tr>
-      <tr><td>1.00</td><td>3.00</td><td>19.00</td><td>195.00</td><td>9.00</td><td>Project</td></tr>
-      <tr><td></td><td>3.00</td><td>19.00</td><td>195.00</td><td>9.00</td><td>Package</td></tr>
-      <tr><td></td><td></td><td>6.33</td><td>65.00</td><td>3.00</td><td>Class</td></tr>
-      <tr><td></td><td></td><td></td><td>10.26</td><td>0.47</td><td>Function</td></tr>
+      <tr><td>1.00</td><td>3.00</td><td>19.00</td><td>191.00</td><td>9.00</td><td>Project</td></tr>
+      <tr><td></td><td>3.00</td><td>19.00</td><td>191.00</td><td>9.00</td><td>Package</td></tr>
+      <tr><td></td><td></td><td>6.33</td><td>63.67</td><td>3.00</td><td>Class</td></tr>
+      <tr><td></td><td></td><td></td><td>10.05</td><td>0.47</td><td>Function</td></tr>
     </table>
   </packages>
 
@@ -44,7 +44,7 @@
     </object>
     <object>
       <name>org.osmdroid.mapsforge.MapsForgeTileProvider</name>
-      <ncss>22</ncss>
+      <ncss>19</ncss>
       <functions>2</functions>
       <classes>0</classes>
       <javadocs>2</javadocs>
@@ -54,24 +54,24 @@
     </object>
     <object>
       <name>org.osmdroid.mapsforge.MapsForgeTileSource</name>
-      <ncss>73</ncss>
+      <ncss>72</ncss>
       <functions>9</functions>
       <classes>0</classes>
       <javadocs>5</javadocs>
       <javadocs_lines>54</javadocs_lines>
-      <single_comment_lines>24</single_comment_lines>
+      <single_comment_lines>23</single_comment_lines>
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <averages>
-      <ncss>47.33</ncss>
+      <ncss>46.00</ncss>
       <functions>6.33</functions>
       <classes>0.33</classes>
       <javadocs>3.00</javadocs>
       <javadocs_lines>26.33</javadocs_lines>
-      <single_comment_lines>11.00</single_comment_lines>
+      <single_comment_lines>10.67</single_comment_lines>
       <implementation_comment_lines>0.00</implementation_comment_lines>
     </averages>
-    <ncss>195.00</ncss>
+    <ncss>191.00</ncss>
   </objects>
 
   <functions>
@@ -131,8 +131,8 @@
     </function>
     <function>
       <name>org.osmdroid.mapsforge.MapsForgeTileProvider.MapsForgeTileProvider(IRegisterReceiver,MapsForgeTileSource,IFilesystemCache)</name>
-      <ncss>15</ncss>
-      <ccn>3</ccn>
+      <ncss>12</ncss>
+      <ccn>2</ccn>
       <javadocs>1</javadocs>
     </function>
     <function>
@@ -185,7 +185,7 @@
     </function>
     <function>
       <name>org.osmdroid.mapsforge.MapsForgeTileSource.createInstance(Application)</name>
-      <ncss>3</ncss>
+      <ncss>2</ncss>
       <ccn>1</ccn>
       <javadocs>0</javadocs>
     </function>
@@ -196,11 +196,11 @@
       <javadocs>0</javadocs>
     </function>
     <function_averages>
-      <ncss>6.25</ncss>
-      <ccn>2.20</ccn>
+      <ncss>6.05</ncss>
+      <ccn>2.15</ccn>
       <javadocs>0.30</javadocs>
     </function_averages>
-    <ncss>195.00</ncss>
+    <ncss>191.00</ncss>
   </functions>
 </javancss>
 

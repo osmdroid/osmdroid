@@ -10,13 +10,13 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.LocationListenerProxy
-	c914 [label=<<table title="org.osmdroid.LocationListenerProxy" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./LocationListenerProxy.html">
+	c978 [label=<<table title="org.osmdroid.LocationListenerProxy" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./LocationListenerProxy.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> LocationListenerProxy </td></tr>
 		</table></td></tr>
 		</table>>, URL="./LocationListenerProxy.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.SensorEventListenerProxy
-	c915 [label=<<table title="org.osmdroid.SensorEventListenerProxy" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SensorEventListenerProxy.html">
+	c979 [label=<<table title="org.osmdroid.SensorEventListenerProxy" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SensorEventListenerProxy.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SensorEventListenerProxy </td></tr>
 		</table></td></tr>

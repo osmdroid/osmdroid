@@ -23,10 +23,14 @@
 <area shape="rect" id="node11" href="./QuadTreeTileSource.html" title="&lt;TABLE&gt;" alt="" coords="755,304,913,352"/>
 <area shape="rect" id="node12_11" href="./ThunderforestTileSource.html" title="org.osmdroid.tileprovider.tilesource.ThunderforestTileSource" alt="" coords="948,315,1107,341"/>
 <area shape="rect" id="node12" href="./ThunderforestTileSource.html" title="&lt;TABLE&gt;" alt="" coords="937,304,1117,352"/>
-<area shape="rect" id="node14_12" href="./TMSOnlineTileSourceBase.html" title="org.osmdroid.tileprovider.tilesource.TMSOnlineTileSourceBase" alt="" coords="1153,315,1329,341"/>
-<area shape="rect" id="node14" href="./TMSOnlineTileSourceBase.html" title="&lt;TABLE&gt;" alt="" coords="1142,304,1339,352"/>
-<area shape="rect" id="node15_13" href="./XYTileSource.html" title="org.osmdroid.tileprovider.tilesource.XYTileSource" alt="" coords="1374,315,1470,341"/>
-<area shape="rect" id="node15" href="./XYTileSource.html" title="&lt;TABLE&gt;" alt="" coords="1363,304,1481,352"/>
+<area shape="rect" id="node16_12" href="./TMSOnlineTileSourceBase.html" title="org.osmdroid.tileprovider.tilesource.TMSOnlineTileSourceBase" alt="" coords="1153,315,1329,341"/>
+<area shape="rect" id="node16" href="./TMSOnlineTileSourceBase.html" title="&lt;TABLE&gt;" alt="" coords="1142,304,1339,352"/>
+<area shape="rect" id="node17_13" href="./XYTileSource.html" title="org.osmdroid.tileprovider.tilesource.XYTileSource" alt="" coords="1374,315,1470,341"/>
+<area shape="rect" id="node17" href="./XYTileSource.html" title="&lt;TABLE&gt;" alt="" coords="1363,304,1481,352"/>
 <area shape="rect" id="node13_14" href="./TileSourceFactory.html" title="org.osmdroid.tileprovider.tilesource.TileSourceFactory" alt="" coords="1023,19,1147,45"/>
 <area shape="rect" id="node13" href="./TileSourceFactory.html" title="&lt;TABLE&gt;" alt="" coords="1012,8,1157,56"/>
+<area shape="rect" id="node14_15" href="./TileSourcePolicy.html" title="org.osmdroid.tileprovider.tilesource.TileSourcePolicy" alt="" coords="1192,19,1308,45"/>
+<area shape="rect" id="node14" href="./TileSourcePolicy.html" title="&lt;TABLE&gt;" alt="" coords="1181,8,1319,56"/>
+<area shape="rect" id="node15_16" href="./TileSourcePolicyException.html" title="org.osmdroid.tileprovider.tilesource.TileSourcePolicyException" alt="" coords="1353,19,1528,45"/>
+<area shape="rect" id="node15" href="./TileSourcePolicyException.html" title="&lt;TABLE&gt;" alt="" coords="1343,8,1539,56"/>
 </map>

@@ -10,7 +10,7 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.sample.MapActivity
-	c34782 [label=<<table title="org.osmdroid.sample.MapActivity" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapActivity.html">
+	c37443 [label=<<table title="org.osmdroid.sample.MapActivity" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapActivity.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MapActivity </td></tr>
 		</table></td></tr>

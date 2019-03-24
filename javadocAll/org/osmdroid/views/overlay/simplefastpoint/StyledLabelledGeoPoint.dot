@@ -10,18 +10,18 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.views.overlay.simplefastpoint.LabelledGeoPoint
-	c267428 [label=<<table title="org.osmdroid.views.overlay.simplefastpoint.LabelledGeoPoint" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./LabelledGeoPoint.html">
+	c306056 [label=<<table title="org.osmdroid.views.overlay.simplefastpoint.LabelledGeoPoint" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./LabelledGeoPoint.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> LabelledGeoPoint </td></tr>
 		</table></td></tr>
 		</table>>, URL="./LabelledGeoPoint.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.simplefastpoint.StyledLabelledGeoPoint
-	c267438 [label=<<table title="org.osmdroid.views.overlay.simplefastpoint.StyledLabelledGeoPoint" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./StyledLabelledGeoPoint.html">
+	c306066 [label=<<table title="org.osmdroid.views.overlay.simplefastpoint.StyledLabelledGeoPoint" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./StyledLabelledGeoPoint.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> StyledLabelledGeoPoint </td></tr>
 		</table></td></tr>
 		</table>>, URL="./StyledLabelledGeoPoint.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.views.overlay.simplefastpoint.StyledLabelledGeoPoint extends org.osmdroid.views.overlay.simplefastpoint.LabelledGeoPoint
-	c267428:p -> c267438:p [dir=back,arrowtail=empty];
+	c306056:p -> c306066:p [dir=back,arrowtail=empty];
 }
 

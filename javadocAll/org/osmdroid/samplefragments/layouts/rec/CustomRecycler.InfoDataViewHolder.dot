@@ -10,18 +10,18 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.samplefragments.layouts.rec.CustomRecycler.ViewHolder
-	c65313 [label=<<table title="org.osmdroid.samplefragments.layouts.rec.CustomRecycler.ViewHolder" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./CustomRecycler.ViewHolder.html">
+	c70301 [label=<<table title="org.osmdroid.samplefragments.layouts.rec.CustomRecycler.ViewHolder" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./CustomRecycler.ViewHolder.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> ViewHolder </td></tr>
 		</table></td></tr>
 		</table>>, URL="./CustomRecycler.ViewHolder.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.layouts.rec.CustomRecycler.InfoDataViewHolder
-	c65315 [label=<<table title="org.osmdroid.samplefragments.layouts.rec.CustomRecycler.InfoDataViewHolder" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./CustomRecycler.InfoDataViewHolder.html">
+	c70303 [label=<<table title="org.osmdroid.samplefragments.layouts.rec.CustomRecycler.InfoDataViewHolder" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./CustomRecycler.InfoDataViewHolder.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> InfoDataViewHolder </td></tr>
 		</table></td></tr>
 		</table>>, URL="./CustomRecycler.InfoDataViewHolder.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.samplefragments.layouts.rec.CustomRecycler.InfoDataViewHolder extends org.osmdroid.samplefragments.layouts.rec.CustomRecycler.ViewHolder
-	c65313:p -> c65315:p [dir=back,arrowtail=empty];
+	c70301:p -> c70303:p [dir=back,arrowtail=empty];
 }
 

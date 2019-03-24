@@ -2,60 +2,20 @@
 <issues format="4" by="lint 26.1.1">
 
     <issue
-        id="MissingPermission"
-        severity="Error"
-        message="Missing permissions required by LocationManager.requestLocationUpdates: android.permission.ACCESS_COARSE_LOCATION or android.permission.ACCESS_FINE_LOCATION"
+        id="CommitPrefEdits"
+        severity="Warning"
+        message="`SharedPreferences.edit()` without a corresponding `commit()` or `apply()` call"
         category="Correctness"
-        priority="9"
-        summary="Missing Permissions"
-        explanation="This check scans through your code and libraries and looks at the APIs being used, and checks this against the set of permissions required to access those APIs. If the code using those APIs is called at runtime, then the program will crash.
-
-Furthermore, for permissions that are revocable (with targetSdkVersion 23), client code must also be prepared to handle the calls throwing an exception if the user rejects the request for permission at runtime."
-        errorLine1="    mLocationManager.requestLocationUpdates(provider, pUpdateTime, pUpdateDistance,"
-        errorLine2="    ^"
+        priority="6"
+        summary="Missing `commit()` on `SharedPreference` editor"
+        explanation="After calling `edit()` on a `SharedPreference`, you must call `commit()` or `apply()` on the editor to save the results."
+        errorLine1="  mPreferenceEditor = pref.edit();"
+        errorLine2="                      ~~~~~~~~~~~"
         quickfix="studio">
         <location
-            file=".\osmdroid-android\src\main\java\org\osmdroid\LocationListenerProxy.java"
-            line="24"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="MissingPermission"
-        severity="Error"
-        message="Missing permissions required by LocationManager.removeUpdates: android.permission.ACCESS_COARSE_LOCATION or android.permission.ACCESS_FINE_LOCATION"
-        category="Correctness"
-        priority="9"
-        summary="Missing Permissions"
-        explanation="This check scans through your code and libraries and looks at the APIs being used, and checks this against the set of permissions required to access those APIs. If the code using those APIs is called at runtime, then the program will crash.
-
-Furthermore, for permissions that are revocable (with targetSdkVersion 23), client code must also be prepared to handle the calls throwing an exception if the user rejects the request for permission at runtime."
-        errorLine1="  mLocationManager.removeUpdates(this);"
-        errorLine2="  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
-        quickfix="studio">
-        <location
-            file=".\osmdroid-android\src\main\java\org\osmdroid\LocationListenerProxy.java"
-            line="33"
-            column="3"/>
-    </issue>
-
-    <issue
-        id="MissingPermission"
-        severity="Error"
-        message="Missing permissions required by LocationManager.getLastKnownLocation: android.permission.ACCESS_COARSE_LOCATION or android.permission.ACCESS_FINE_LOCATION"
-        category="Correctness"
-        priority="9"
-        summary="Missing Permissions"
-        explanation="This check scans through your code and libraries and looks at the APIs being used, and checks this against the set of permissions required to access those APIs. If the code using those APIs is called at runtime, then the program will crash.
-
-Furthermore, for permissions that are revocable (with targetSdkVersion 23), client code must also be prepared to handle the calls throwing an exception if the user rejects the request for permission at runtime."
-        errorLine1="  return pLocationManager.getLastKnownLocation(pProvider);"
-        errorLine2="         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
-        quickfix="studio">
-        <location
-            file=".\osmdroid-android\src\main\java\org\osmdroid\util\LocationUtils.java"
-            line="49"
-            column="10"/>
+            file=".\osmdroid-android\src\main\java\org\osmdroid\tileprovider\util\CloudmadeUtil.java"
+            line="63"
+            column="23"/>
     </issue>
 
     <issue
@@ -114,7 +74,7 @@ If you want the methods to just perform ASCII replacement, for example to conver
         errorLine2="                                                               ~~~~~~~~~~~">
         <location
             file=".\osmdroid-android\src\main\java\org\osmdroid\tileprovider\modules\TileDownloader.java"
-            line="100"
+            line="111"
             column="64"/>
     </issue>
 
@@ -134,7 +94,7 @@ If you want the methods to just perform ASCII replacement, for example to conver
         errorLine2="                                                      ~~~~~~~~~~~">
         <location
             file=".\osmdroid-android\src\main\java\org\osmdroid\tileprovider\modules\TileDownloader.java"
-            line="102"
+            line="113"
             column="55"/>
     </issue>
 
@@ -154,56 +114,64 @@ If you want the methods to just perform ASCII replacement, for example to conver
         errorLine2="                                    ~~~~~~~~~~~">
         <location
             file=".\osmdroid-android\src\main\java\org\osmdroid\tileprovider\modules\TileDownloader.java"
-            line="133"
+            line="144"
             column="37"/>
     </issue>
 
     <issue
-        id="InlinedApi"
-        severity="Warning"
-        message="Field requires API level 11 (current min is 8): `android.view.View#LAYER_TYPE_SOFTWARE`"
+        id="NewApi"
+        severity="Error"
+        message="Class requires API level 11 (current min is 8): `android.animation.ValueAnimator.AnimatorUpdateListener`"
         category="Correctness"
         priority="6"
-        summary="Using inlined constants on older versions"
-        explanation="This check scans through all the Android API field references in the application and flags certain constants, such as static final integers and Strings, which were introduced in later versions. These will actually be copied into the class files rather than being referenced, which means that the value is available even when running on older devices. In some cases that&apos;s fine, and in other cases it can result in a runtime crash or incorrect behavior. It depends on the context, so consider the code carefully and device whether it&apos;s safe and can be suppressed or whether the code needs tbe guarded.
+        summary="Calling new methods on older versions"
+        explanation="This check scans through all the Android API calls in the application and warns about any calls that are not available on *all* versions targeted by this application (according to its minimum SDK attribute in the manifest).
 
 If you really want to use this API and don&apos;t need to support older devices just set the `minSdkVersion` in your `build.gradle` or `AndroidManifest.xml` files.
+
 If your code is *deliberately* accessing newer APIs, and you have ensured (e.g. with conditional execution) that this code will only ever be called on a supported platform, then you can annotate your class or method with the `@TargetApi` annotation specifying the local minimum SDK to apply, such as `@TargetApi(11)`, such that this check considers 11 rather than your manifest file&apos;s minimum SDK as the required API level.
-"
-        errorLine1="   this.setLayerType(View.LAYER_TYPE_SOFTWARE, null);"
-        errorLine2="                     ~~~~~~~~~~~~~~~~~~~~~~~~"
+
+If you are deliberately setting `android:` attributes in style definitions, make sure you place this in a `values-vNN` folder in order to avoid running into runtime conflicts on certain devices where manufacturers have added custom attributes whose ids conflict with the new ones on later platforms.
+
+Similarly, you can use tools:targetApi=&quot;11&quot; in an XML file to indicate that the element will only be inflated in an adequate context."
+        errorLine1="                    new ValueAnimator.AnimatorUpdateListener() {"
+        errorLine2="                                      ~~~~~~~~~~~~~~~~~~~~~~"
         quickfix="studio,adt">
         <location
-            file=".\osmdroid-android\src\main\java\org\osmdroid\views\MapView.java"
-            line="196"
-            column="22"/>
+            file=".\osmdroid-android\src\main\java\org\osmdroid\views\CustomZoomButtonsController.java"
+            line="42"
+            column="39"/>
     </issue>
 
     <issue
-        id="InlinedApi"
-        severity="Warning"
-        message="Field requires API level 13 (current min is 8): `android.net.ConnectivityManager#TYPE_ETHERNET`"
+        id="NewApi"
+        severity="Error"
+        message="Call requires API level 11 (current min is 8): `android.animation.ValueAnimator#cancel`"
         category="Correctness"
         priority="6"
-        summary="Using inlined constants on older versions"
-        explanation="This check scans through all the Android API field references in the application and flags certain constants, such as static final integers and Strings, which were introduced in later versions. These will actually be copied into the class files rather than being referenced, which means that the value is available even when running on older devices. In some cases that&apos;s fine, and in other cases it can result in a runtime crash or incorrect behavior. It depends on the context, so consider the code carefully and device whether it&apos;s safe and can be suppressed or whether the code needs tbe guarded.
+        summary="Calling new methods on older versions"
+        explanation="This check scans through all the Android API calls in the application and warns about any calls that are not available on *all* versions targeted by this application (according to its minimum SDK attribute in the manifest).
 
 If you really want to use this API and don&apos;t need to support older devices just set the `minSdkVersion` in your `build.gradle` or `AndroidManifest.xml` files.
+
 If your code is *deliberately* accessing newer APIs, and you have ensured (e.g. with conditional execution) that this code will only ever be called on a supported platform, then you can annotate your class or method with the `@TargetApi` annotation specifying the local minimum SDK to apply, such as `@TargetApi(11)`, such that this check considers 11 rather than your manifest file&apos;s minimum SDK as the required API level.
-"
-        errorLine1="   return mIsX86 &amp;&amp; networkInfo.getType() == ConnectivityManager.TYPE_ETHERNET;"
-        errorLine2="                                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+
+If you are deliberately setting `android:` attributes in style definitions, make sure you place this in a `values-vNN` folder in order to avoid running into runtime conflicts on certain devices where manufacturers have added custom attributes whose ids conflict with the new ones on later platforms.
+
+Similarly, you can use tools:targetApi=&quot;11&quot; in an XML file to indicate that the element will only be inflated in an adequate context."
+        errorLine1="                          mFadeOutAnimation.cancel();"
+        errorLine2="                                            ~~~~~~"
         quickfix="studio,adt">
         <location
-            file=".\osmdroid-android\src\main\java\org\osmdroid\tileprovider\modules\NetworkAvailabliltyCheck.java"
+            file=".\osmdroid-android\src\main\java\org\osmdroid\views\CustomZoomButtonsController.java"
             line="46"
-            column="46"/>
+            column="45"/>
     </issue>
 
     <issue
         id="NewApi"
         severity="Error"
-        message="Cast from ValueAnimator to Animator requires API level 11 (current min is 8)"
+        message="Call requires API level 11 (current min is 8): `android.animation.ValueAnimator#getAnimatedValue`"
         category="Correctness"
         priority="6"
         summary="Calling new methods on older versions"
@@ -216,19 +184,19 @@ If your code is *deliberately* accessing newer APIs, and you have ensured (e.g. 
 If you are deliberately setting `android:` attributes in style definitions, make sure you place this in a `values-vNN` folder in order to avoid running into runtime conflicts on certain devices where manufacturers have added custom attributes whose ids conflict with the new ones on later platforms.
 
 Similarly, you can use tools:targetApi=&quot;11&quot; in an XML file to indicate that the element will only be inflated in an adequate context."
-        errorLine1="            mCurrentAnimator = mapAnimator;"
-        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+        errorLine1="                            mAlpha01 = 1 - (float) valueAnimator.getAnimatedValue();"
+        errorLine2="                                                                 ~~~~~~~~~~~~~~~~"
         quickfix="studio,adt">
         <location
-            file=".\osmdroid-android\src\main\java\org\osmdroid\views\MapController.java"
-            line="155"
-            column="13"/>
+            file=".\osmdroid-android\src\main\java\org\osmdroid\views\CustomZoomButtonsController.java"
+            line="49"
+            column="66"/>
     </issue>
 
     <issue
         id="NewApi"
         severity="Error"
-        message="Cast from ValueAnimator to Animator requires API level 11 (current min is 8)"
+        message="Call requires API level 11 (current min is 8): `android.animation.ValueAnimator#start`"
         category="Correctness"
         priority="6"
         summary="Calling new methods on older versions"
@@ -241,13 +209,13 @@ If your code is *deliberately* accessing newer APIs, and you have ensured (e.g. 
 If you are deliberately setting `android:` attributes in style definitions, make sure you place this in a `values-vNN` folder in order to avoid running into runtime conflicts on certain devices where manufacturers have added custom attributes whose ids conflict with the new ones on later platforms.
 
 Similarly, you can use tools:targetApi=&quot;11&quot; in an XML file to indicate that the element will only be inflated in an adequate context."
-        errorLine1="            mCurrentAnimator = zoomToAnimator;"
-        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+        errorLine1="                    mFadeOutAnimation.start();"
+        errorLine2="                                      ~~~~~"
         quickfix="studio,adt">
         <location
-            file=".\osmdroid-android\src\main\java\org\osmdroid\views\MapController.java"
-            line="378"
-            column="13"/>
+            file=".\osmdroid-android\src\main\java\org\osmdroid\views\CustomZoomButtonsController.java"
+            line="127"
+            column="39"/>
     </issue>
 
     <issue
@@ -273,129 +241,6 @@ Similarly, you can use tools:targetApi=&quot;11&quot; in an XML file to indicate
             file=".\osmdroid-android\src\main\java\org\osmdroid\views\overlay\NonAcceleratedOverlay.java"
             line="78"
             column="55"/>
-    </issue>
-
-    <issue
-        id="OldTargetApi"
-        severity="Warning"
-        message="Not targeting the latest versions of Android; compatibility modes apply. Consider testing and updating this version. Consult the `android.os.Build.VERSION_CODES` javadoc for details."
-        category="Correctness"
-        priority="6"
-        summary="Target SDK attribute is not targeting latest version"
-        explanation="When your application runs on a version of Android that is more recent than your `targetSdkVersion` specifies that it has been tested with, various compatibility modes kick in. This ensures that your application continues to work, but it may look out of place. For example, if the `targetSdkVersion` is less than 14, your app may get an option button in the UI.
-
-To fix this issue, set the `targetSdkVersion` to the highest available value. Then test your app to make sure everything works correctly. You may want to consult the compatibility notes to see what changes apply to each version you are adding support for: http://developer.android.com/reference/android/os/Build.VERSION_CODES.html"
-        url="http://developer.android.com/reference/android/os/Build.VERSION_CODES.html"
-        urls="http://developer.android.com/reference/android/os/Build.VERSION_CODES.html"
-        errorLine1=" &lt;uses-sdk android:minSdkVersion=&quot;8&quot; android:targetSdkVersion=&quot;23&quot; />"
-        errorLine2="                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
-        quickfix="studio">
-        <location
-            file=".\osmdroid-android\src\main\AndroidManifest.xml"
-            line="6"
-            column="38"/>
-    </issue>
-
-    <issue
-        id="GradleOverrides"
-        severity="Warning"
-        message="This `versionCode` value (`1`) is not used; it is always overridden by the value specified in the Gradle build script (`32`)"
-        category="Correctness"
-        priority="4"
-        summary="Value overridden by Gradle build script"
-        explanation="The value of (for example) `minSdkVersion` is only used if it is not specified in the `build.gradle` build scripts. When specified in the Gradle build scripts, the manifest value is ignored and can be misleading, so should be removed to avoid ambiguity."
-        errorLine1="  android:versionCode=&quot;1&quot; android:versionName=&quot;5.3-SNAPSHOT&quot;>"
-        errorLine2="  ~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file=".\osmdroid-android\src\main\AndroidManifest.xml"
-            line="4"
-            column="3"/>
-    </issue>
-
-    <issue
-        id="GradleOverrides"
-        severity="Warning"
-        message="This `versionName` value (`5.3-SNAPSHOT`) is not used; it is always overridden by the value specified in the Gradle build script (`6.0.2`)"
-        category="Correctness"
-        priority="4"
-        summary="Value overridden by Gradle build script"
-        explanation="The value of (for example) `minSdkVersion` is only used if it is not specified in the `build.gradle` build scripts. When specified in the Gradle build scripts, the manifest value is ignored and can be misleading, so should be removed to avoid ambiguity."
-        errorLine1="  android:versionCode=&quot;1&quot; android:versionName=&quot;5.3-SNAPSHOT&quot;>"
-        errorLine2="                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file=".\osmdroid-android\src\main\AndroidManifest.xml"
-            line="4"
-            column="27"/>
-    </issue>
-
-    <issue
-        id="GradleOverrides"
-        severity="Warning"
-        message="This `minSdkVersion` value (`8`) is not used; it is always overridden by the value specified in the Gradle build script (`8`)"
-        category="Correctness"
-        priority="4"
-        summary="Value overridden by Gradle build script"
-        explanation="The value of (for example) `minSdkVersion` is only used if it is not specified in the `build.gradle` build scripts. When specified in the Gradle build scripts, the manifest value is ignored and can be misleading, so should be removed to avoid ambiguity."
-        errorLine1=" &lt;uses-sdk android:minSdkVersion=&quot;8&quot; android:targetSdkVersion=&quot;23&quot; />"
-        errorLine2="           ~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file=".\osmdroid-android\src\main\AndroidManifest.xml"
-            line="6"
-            column="12"/>
-    </issue>
-
-    <issue
-        id="GradleOverrides"
-        severity="Warning"
-        message="This `targetSdkVersion` value (`23`) is not used; it is always overridden by the value specified in the Gradle build script (`23`)"
-        category="Correctness"
-        priority="4"
-        summary="Value overridden by Gradle build script"
-        explanation="The value of (for example) `minSdkVersion` is only used if it is not specified in the `build.gradle` build scripts. When specified in the Gradle build scripts, the manifest value is ignored and can be misleading, so should be removed to avoid ambiguity."
-        errorLine1=" &lt;uses-sdk android:minSdkVersion=&quot;8&quot; android:targetSdkVersion=&quot;23&quot; />"
-        errorLine2="                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file=".\osmdroid-android\src\main\AndroidManifest.xml"
-            line="6"
-            column="38"/>
-    </issue>
-
-    <issue
-        id="ParcelCreator"
-        severity="Error"
-        message="This class implements `Parcelable` but does not provide a `CREATOR` field"
-        category="Correctness"
-        priority="3"
-        summary="Missing Parcelable `CREATOR` field"
-        explanation="According to the `Parcelable` interface documentation, &quot;Classes implementing the Parcelable interface must also have a static field called `CREATOR`, which is an object implementing the `Parcelable.Creator` interface.&quot;"
-        url="http://developer.android.com/reference/android/os/Parcelable.html"
-        urls="http://developer.android.com/reference/android/os/Parcelable.html"
-        errorLine1="    public class StyledLabelledPoint extends Point {"
-        errorLine2="                 ~~~~~~~~~~~~~~~~~~~"
-        quickfix="studio">
-        <location
-            file=".\osmdroid-android\src\main\java\org\osmdroid\views\overlay\simplefastpoint\SimpleFastPointOverlay.java"
-            line="54"
-            column="18"/>
-    </issue>
-
-    <issue
-        id="ParcelCreator"
-        severity="Error"
-        message="This class implements `Parcelable` but does not provide a `CREATOR` field"
-        category="Correctness"
-        priority="3"
-        summary="Missing Parcelable `CREATOR` field"
-        explanation="According to the `Parcelable` interface documentation, &quot;Classes implementing the Parcelable interface must also have a static field called `CREATOR`, which is an object implementing the `Parcelable.Creator` interface.&quot;"
-        url="http://developer.android.com/reference/android/os/Parcelable.html"
-        urls="http://developer.android.com/reference/android/os/Parcelable.html"
-        errorLine1="public class StyledLabelledGeoPoint extends LabelledGeoPoint {"
-        errorLine2="             ~~~~~~~~~~~~~~~~~~~~~~"
-        quickfix="studio">
-        <location
-            file=".\osmdroid-android\src\main\java\org\osmdroid\views\overlay\simplefastpoint\StyledLabelledGeoPoint.java"
-            line="12"
-            column="14"/>
     </issue>
 
     <issue
@@ -438,23 +283,6 @@ There *are* cases where you might need to use `dp`; typically this happens when 
             file=".\osmdroid-android\src\main\res\layout\bonuspack_bubble.xml"
             line="47"
             column="4"/>
-    </issue>
-
-    <issue
-        id="SwitchIntDef"
-        severity="Warning"
-        message="Switch statement on an `int` with known associated constant missing case `ROTATION_0`"
-        category="Correctness"
-        priority="3"
-        summary="Missing @IntDef in Switch"
-        explanation="This check warns if a `switch` statement does not explicitly include all the values declared by the typedef `@IntDef` declaration."
-        errorLine1="        switch (mDisplay.getOrientation()) {"
-        errorLine2="        ~~~~~~"
-        quickfix="studio">
-        <location
-            file=".\osmdroid-android\src\main\java\org\osmdroid\views\overlay\compass\CompassOverlay.java"
-            line="449"
-            column="9"/>
     </issue>
 
     <issue
@@ -575,6 +403,52 @@ You can tell lint (and other tools) which language is the default language in yo
     <issue
         id="MissingTranslation"
         severity="Fatal"
+        message="&quot;`snapshot`&quot; is not translated in &quot;de&quot; (German), &quot;it&quot; (Italian)"
+        category="Correctness:Messages"
+        priority="8"
+        summary="Incomplete translation"
+        explanation="If an application has more than one locale, then all the strings declared in one language should also be translated in all other languages.
+
+If the string should *not* be translated, you can add the attribute `translatable=&quot;false&quot;` on the `&lt;string>` element, or you can define all your non-translatable strings in a resource file called `donottranslate.xml`. Or, you can ignore the issue with a `tools:ignore=&quot;MissingTranslation&quot;` attribute.
+
+By default this detector allows regions of a language to just provide a subset of the strings and fall back to the standard language strings. You can require all regions to provide a full translation by setting the environment variable `ANDROID_LINT_COMPLETE_REGIONS`.
+
+You can tell lint (and other tools) which language is the default language in your `res/values/` folder by specifying `tools:locale=&quot;languageCode&quot;` for the root `&lt;resources>` element in your resource file. (The `tools` prefix refers to the namespace declaration `http://schemas.android.com/tools`.)"
+        errorLine1="    &lt;string name=&quot;snapshot&quot;>Snapshot&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~"
+        quickfix="adt">
+        <location
+            file=".\osmdroid-android\src\main\res\values\strings.xml"
+            line="17"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        severity="Fatal"
+        message="&quot;`states`&quot; is not translated in &quot;de&quot; (German), &quot;it&quot; (Italian)"
+        category="Correctness:Messages"
+        priority="8"
+        summary="Incomplete translation"
+        explanation="If an application has more than one locale, then all the strings declared in one language should also be translated in all other languages.
+
+If the string should *not* be translated, you can add the attribute `translatable=&quot;false&quot;` on the `&lt;string>` element, or you can define all your non-translatable strings in a resource file called `donottranslate.xml`. Or, you can ignore the issue with a `tools:ignore=&quot;MissingTranslation&quot;` attribute.
+
+By default this detector allows regions of a language to just provide a subset of the strings and fall back to the standard language strings. You can require all regions to provide a full translation by setting the environment variable `ANDROID_LINT_COMPLETE_REGIONS`.
+
+You can tell lint (and other tools) which language is the default language in your `res/values/` folder by specifying `tools:locale=&quot;languageCode&quot;` for the root `&lt;resources>` element in your resource file. (The `tools` prefix refers to the namespace declaration `http://schemas.android.com/tools`.)"
+        errorLine1="    &lt;string name=&quot;states&quot;>States&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~"
+        quickfix="adt">
+        <location
+            file=".\osmdroid-android\src\main\res\values\strings.xml"
+            line="18"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        severity="Fatal"
         message="&quot;`set_mode_show_me`&quot; is not translated in &quot;de&quot; (German), &quot;it&quot; (Italian)"
         category="Correctness:Messages"
         priority="8"
@@ -591,7 +465,7 @@ You can tell lint (and other tools) which language is the default language in yo
         quickfix="adt">
         <location
             file=".\osmdroid-android\src\main\res\values\strings.xml"
-            line="18"
+            line="20"
             column="13"/>
     </issue>
 
@@ -614,7 +488,7 @@ You can tell lint (and other tools) which language is the default language in yo
         quickfix="adt">
         <location
             file=".\osmdroid-android\src\main\res\values\strings.xml"
-            line="19"
+            line="21"
             column="13"/>
     </issue>
 
@@ -637,7 +511,7 @@ You can tell lint (and other tools) which language is the default language in yo
         quickfix="adt">
         <location
             file=".\osmdroid-android\src\main\res\values\strings.xml"
-            line="21"
+            line="23"
             column="13"/>
     </issue>
 
@@ -660,7 +534,7 @@ You can tell lint (and other tools) which language is the default language in yo
         quickfix="adt">
         <location
             file=".\osmdroid-android\src\main\res\values\strings.xml"
-            line="22"
+            line="24"
             column="13"/>
     </issue>
 
@@ -683,7 +557,7 @@ You can tell lint (and other tools) which language is the default language in yo
         quickfix="adt">
         <location
             file=".\osmdroid-android\src\main\res\values\strings.xml"
-            line="23"
+            line="25"
             column="13"/>
     </issue>
 
@@ -706,7 +580,7 @@ You can tell lint (and other tools) which language is the default language in yo
         quickfix="adt">
         <location
             file=".\osmdroid-android\src\main\res\values\strings.xml"
-            line="24"
+            line="26"
             column="13"/>
     </issue>
 
@@ -729,7 +603,7 @@ You can tell lint (and other tools) which language is the default language in yo
         quickfix="adt">
         <location
             file=".\osmdroid-android\src\main\res\values\strings.xml"
-            line="25"
+            line="27"
             column="13"/>
     </issue>
 
@@ -752,7 +626,7 @@ You can tell lint (and other tools) which language is the default language in yo
         quickfix="adt">
         <location
             file=".\osmdroid-android\src\main\res\values\strings.xml"
-            line="27"
+            line="29"
             column="13"/>
     </issue>
 
@@ -961,6 +835,24 @@ You can tell lint (and other tools) which language is the default language in yo
             file=".\osmdroid-android\src\main\res\values\tile_sources.xml"
             line="15"
             column="13"/>
+    </issue>
+
+    <issue
+        id="HardwareIds"
+        severity="Warning"
+        message="Using `getString` to get device identifiers is not recommended."
+        category="Security"
+        priority="6"
+        summary="Hardware Id Usage"
+        explanation="Using device identifiers is not recommended other than for high value fraud prevention and advanced telephony use-cases. For advertising use-cases, use `AdvertisingIdClient$Info#getId` and for analytics, use `InstanceId#getId`."
+        url="https://developer.android.com/training/articles/user-data-ids.html"
+        urls="https://developer.android.com/training/articles/user-data-ids.html"
+        errorLine1="  mAndroidId = Settings.Secure.getString(aContext.getContentResolver(), Settings.Secure.ANDROID_ID);"
+        errorLine2="               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file=".\osmdroid-android\src\main\java\org\osmdroid\tileprovider\util\CloudmadeUtil.java"
+            line="56"
+            column="16"/>
     </issue>
 
     <issue
@@ -1326,7 +1218,7 @@ Of course it&apos;s possible that your custom drawable is translucent and you wa
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file=".\osmdroid-android\src\main\res\values\strings.xml"
-            line="18"
+            line="20"
             column="13"/>
     </issue>
 
@@ -1342,7 +1234,7 @@ Of course it&apos;s possible that your custom drawable is translucent and you wa
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file=".\osmdroid-android\src\main\res\values\strings.xml"
-            line="19"
+            line="21"
             column="13"/>
     </issue>
 
@@ -1637,20 +1529,6 @@ Of course it&apos;s possible that your custom drawable is translucent and you wa
     <issue
         id="IconLocation"
         severity="Warning"
-        message="Found bitmap drawable `res/drawable/direction_arrow.png` in densityless folder"
-        category="Usability:Icons"
-        priority="5"
-        summary="Image defined in density-independent drawable folder"
-        explanation="The res/drawable folder is intended for density-independent graphics such as shapes defined in XML. For bitmaps, move it to `drawable-mdpi` and consider providing higher and lower resolution versions in `drawable-ldpi`, `drawable-hdpi` and `drawable-xhdpi`. If the icon *really* is density independent (for example a solid color) you can place it in `drawable-nodpi`."
-        url="http://developer.android.com/guide/practices/screens_support.html"
-        urls="http://developer.android.com/guide/practices/screens_support.html">
-        <location
-            file=".\osmdroid-android\src\main\res\drawable\direction_arrow.png"/>
-    </issue>
-
-    <issue
-        id="IconLocation"
-        severity="Warning"
         message="Found bitmap drawable `res/drawable/ic_menu_compass.png` in densityless folder"
         category="Usability:Icons"
         priority="5"
@@ -1707,34 +1585,6 @@ Of course it&apos;s possible that your custom drawable is translucent and you wa
     <issue
         id="IconLocation"
         severity="Warning"
-        message="Found bitmap drawable `res/drawable/marker_default.png` in densityless folder"
-        category="Usability:Icons"
-        priority="5"
-        summary="Image defined in density-independent drawable folder"
-        explanation="The res/drawable folder is intended for density-independent graphics such as shapes defined in XML. For bitmaps, move it to `drawable-mdpi` and consider providing higher and lower resolution versions in `drawable-ldpi`, `drawable-hdpi` and `drawable-xhdpi`. If the icon *really* is density independent (for example a solid color) you can place it in `drawable-nodpi`."
-        url="http://developer.android.com/guide/practices/screens_support.html"
-        urls="http://developer.android.com/guide/practices/screens_support.html">
-        <location
-            file=".\osmdroid-android\src\main\res\drawable\marker_default.png"/>
-    </issue>
-
-    <issue
-        id="IconLocation"
-        severity="Warning"
-        message="Found bitmap drawable `res/drawable/marker_default_focused_base.png` in densityless folder"
-        category="Usability:Icons"
-        priority="5"
-        summary="Image defined in density-independent drawable folder"
-        explanation="The res/drawable folder is intended for density-independent graphics such as shapes defined in XML. For bitmaps, move it to `drawable-mdpi` and consider providing higher and lower resolution versions in `drawable-ldpi`, `drawable-hdpi` and `drawable-xhdpi`. If the icon *really* is density independent (for example a solid color) you can place it in `drawable-nodpi`."
-        url="http://developer.android.com/guide/practices/screens_support.html"
-        urls="http://developer.android.com/guide/practices/screens_support.html">
-        <location
-            file=".\osmdroid-android\src\main\res\drawable\marker_default_focused_base.png"/>
-    </issue>
-
-    <issue
-        id="IconLocation"
-        severity="Warning"
         message="Found bitmap drawable `res/drawable/moreinfo_arrow.png` in densityless folder"
         category="Usability:Icons"
         priority="5"
@@ -1786,20 +1636,6 @@ Of course it&apos;s possible that your custom drawable is translucent and you wa
         urls="http://developer.android.com/guide/practices/screens_support.html">
         <location
             file=".\osmdroid-android\src\main\res\drawable\next.png"/>
-    </issue>
-
-    <issue
-        id="IconLocation"
-        severity="Warning"
-        message="Found bitmap drawable `res/drawable/person.png` in densityless folder"
-        category="Usability:Icons"
-        priority="5"
-        summary="Image defined in density-independent drawable folder"
-        explanation="The res/drawable folder is intended for density-independent graphics such as shapes defined in XML. For bitmaps, move it to `drawable-mdpi` and consider providing higher and lower resolution versions in `drawable-ldpi`, `drawable-hdpi` and `drawable-xhdpi`. If the icon *really* is density independent (for example a solid color) you can place it in `drawable-nodpi`."
-        url="http://developer.android.com/guide/practices/screens_support.html"
-        urls="http://developer.android.com/guide/practices/screens_support.html">
-        <location
-            file=".\osmdroid-android\src\main\res\drawable\person.png"/>
     </issue>
 
     <issue
@@ -1894,7 +1730,7 @@ Note that for text fields, you should not set both the `hint` and the `contentDe
 
 * The application cannot be translated to other languages by just adding new translations for existing string resources.
 
-In Android Studio and Eclipse there are quickfixes to automatically extract this hardcoded string into a resource lookup."
+There are quickfixes to automatically extract this hardcoded string into a resource lookup."
         errorLine1="    android:text=&quot;Title&quot; />"
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~"
         quickfix="adt">
@@ -1917,7 +1753,7 @@ In Android Studio and Eclipse there are quickfixes to automatically extract this
 
 * The application cannot be translated to other languages by just adding new translations for existing string resources.
 
-In Android Studio and Eclipse there are quickfixes to automatically extract this hardcoded string into a resource lookup."
+There are quickfixes to automatically extract this hardcoded string into a resource lookup."
         errorLine1="   android:text=&quot;Description&quot; />"
         errorLine2="   ~~~~~~~~~~~~~~~~~~~~~~~~~~"
         quickfix="adt">
@@ -1940,7 +1776,7 @@ In Android Studio and Eclipse there are quickfixes to automatically extract this
 
 * The application cannot be translated to other languages by just adding new translations for existing string resources.
 
-In Android Studio and Eclipse there are quickfixes to automatically extract this hardcoded string into a resource lookup."
+There are quickfixes to automatically extract this hardcoded string into a resource lookup."
         errorLine1="   android:text=&quot;Address&quot;"
         errorLine2="   ~~~~~~~~~~~~~~~~~~~~~~"
         quickfix="adt">

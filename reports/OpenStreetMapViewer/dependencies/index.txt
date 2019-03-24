@@ -3,29 +3,59 @@
 Project :OpenStreetMapViewer - OpenMap in the Play Store, the example app for using osmdroid
 ------------------------------------------------------------
 
+_debugAndroidTestAnnotationProcessor - ## Internal use, do not manually configure ##
+No dependencies
+
 _debugAndroidTestApk - ## Internal use, do not manually configure ##
++--- com.android.support:multidex-instrumentation:1.0.1
+|    \--- com.android.support:multidex:1.0.1 -> 1.0.3
 +--- com.android.support.test:runner:0.4.+ -> 0.4.1
 |    +--- com.android.support.test:exposed-instrumentation-api-publish:0.4.1
-|    +--- com.android.support:support-annotations:23.0.1 -> 23.1.1
+|    +--- com.android.support:support-annotations:23.0.1 -> 26.1.0
 |    \--- junit:junit:4.12
 |         \--- org.hamcrest:hamcrest-core:1.3
 +--- com.android.support.test:rules:0.4.+ -> 0.4.1
 |    \--- com.android.support.test:runner:0.4.1 (*)
-\--- com.android.support:support-annotations:23.1.1
++--- com.android.support:multidex:1.0.3
+\--- com.android.support:support-annotations:26.1.0
 
 _debugAndroidTestCompile - ## Internal use, do not manually configure ##
++--- com.android.support:multidex-instrumentation:1.0.1
+|    \--- com.android.support:multidex:1.0.1 -> 1.0.3
 +--- com.android.support.test:runner:0.4.+ -> 0.4.1
 |    +--- com.android.support.test:exposed-instrumentation-api-publish:0.4.1
-|    +--- com.android.support:support-annotations:23.0.1 -> 23.1.1
+|    +--- com.android.support:support-annotations:23.0.1 -> 26.1.0
 |    \--- junit:junit:4.12
 |         \--- org.hamcrest:hamcrest-core:1.3
 +--- com.android.support.test:rules:0.4.+ -> 0.4.1
 |    \--- com.android.support.test:runner:0.4.1 (*)
-\--- com.android.support:support-annotations:23.1.1
++--- com.android.support:multidex:1.0.3
+\--- com.android.support:support-annotations:26.1.0
+
+_debugAnnotationProcessor - ## Internal use, do not manually configure ##
+No dependencies
 
 _debugApk - ## Internal use, do not manually configure ##
-+--- com.android.support:support-v4:23.1.1
-|    \--- com.android.support:support-annotations:23.1.1
++--- com.android.support:multidex:1.0.1 -> 1.0.3
++--- com.android.support:support-v4:26.1.0
+|    +--- com.android.support:support-compat:26.1.0
+|    |    +--- com.android.support:support-annotations:26.1.0
+|    |    \--- android.arch.lifecycle:runtime:1.0.0
+|    |         +--- android.arch.lifecycle:common:1.0.0
+|    |         \--- android.arch.core:common:1.0.0
+|    +--- com.android.support:support-media-compat:26.1.0
+|    |    +--- com.android.support:support-annotations:26.1.0
+|    |    \--- com.android.support:support-compat:26.1.0 (*)
+|    +--- com.android.support:support-core-utils:26.1.0
+|    |    +--- com.android.support:support-annotations:26.1.0
+|    |    \--- com.android.support:support-compat:26.1.0 (*)
+|    +--- com.android.support:support-core-ui:26.1.0
+|    |    +--- com.android.support:support-annotations:26.1.0
+|    |    \--- com.android.support:support-compat:26.1.0 (*)
+|    \--- com.android.support:support-fragment:26.1.0
+|         +--- com.android.support:support-compat:26.1.0 (*)
+|         +--- com.android.support:support-core-ui:26.1.0 (*)
+|         \--- com.android.support:support-core-utils:26.1.0 (*)
 +--- project :osmdroid-android
 +--- project :osmdroid-geopackage
 |    +--- project :osmdroid-android
@@ -44,41 +74,79 @@ _debugApk - ## Internal use, do not manually configure ##
 |    +--- mil.nga:tiff:1.0.3 -> 2.0.0
 |    \--- mil.nga:tiff:2.0.0
 +--- project :osmdroid-mapsforge
-|    +--- org.mapsforge:mapsforge-map-android:0.8.0
-|    |    +--- org.mapsforge:mapsforge-map-reader:0.8.0
-|    |    |    \--- org.mapsforge:mapsforge-map:0.8.0
-|    |    |         +--- org.mapsforge:mapsforge-core:0.8.0
+|    +--- org.mapsforge:mapsforge-map-android:0.10.0
+|    |    +--- org.mapsforge:mapsforge-map-reader:0.10.0
+|    |    |    \--- org.mapsforge:mapsforge-map:0.10.0
+|    |    |         +--- org.mapsforge:mapsforge-core:0.10.0
 |    |    |         \--- net.sf.kxml:kxml2:2.3.0
-|    |    \--- com.caverock:androidsvg:1.2.2-beta-1
-|    +--- org.mapsforge:mapsforge-map:0.8.0 (*)
-|    +--- org.mapsforge:mapsforge-themes:0.8.0
-|    |    \--- org.mapsforge:mapsforge-map:0.8.0 (*)
+|    |    \--- com.caverock:androidsvg:1.3
+|    +--- org.mapsforge:mapsforge-map:0.10.0 (*)
+|    +--- org.mapsforge:mapsforge-themes:0.10.0
+|    |    \--- org.mapsforge:mapsforge-map:0.10.0 (*)
 |    \--- project :osmdroid-android
 +--- project :osmdroid-wms
-|    +--- project :osmdroid-android
-|    \--- com.android.support:appcompat-v7:23.1.1
-|         \--- com.android.support:support-v4:23.1.1 (*)
+|    \--- project :osmdroid-android
 +--- mil.army.missioncommand:mil-sym-android-renderer:0.1.37
 +--- com.github.angads25:filepicker:1.1.1
-+--- com.android.support:design:23.1.1
-|    +--- com.android.support:appcompat-v7:23.1.1 (*)
-|    +--- com.android.support:recyclerview-v7:23.1.1
-|    |    +--- com.android.support:support-annotations:23.1.1
-|    |    \--- com.android.support:support-v4:23.1.1 (*)
-|    \--- com.android.support:support-v4:23.1.1 (*)
-+--- com.android.support:cardview-v7:23.1.1
-+--- com.android.support:recyclerview-v7:23.1.1 (*)
-+--- com.android.support:appcompat-v7:23.1.1 (*)
++--- com.opencsv:opencsv:4.4
+|    +--- org.apache.commons:commons-lang3:3.8.1
+|    +--- org.apache.commons:commons-text:1.3
+|    |    \--- org.apache.commons:commons-lang3:3.7 -> 3.8.1
+|    +--- commons-beanutils:commons-beanutils:1.9.3
+|    |    +--- commons-logging:commons-logging:1.2
+|    |    \--- commons-collections:commons-collections:3.2.2
+|    \--- org.apache.commons:commons-collections4:4.2
++--- com.android.support:design:26.1.0
+|    +--- com.android.support:support-v4:26.1.0 (*)
+|    +--- com.android.support:appcompat-v7:26.1.0
+|    |    +--- com.android.support:support-annotations:26.1.0
+|    |    +--- com.android.support:support-v4:26.1.0 (*)
+|    |    +--- com.android.support:support-vector-drawable:26.1.0
+|    |    |    +--- com.android.support:support-annotations:26.1.0
+|    |    |    \--- com.android.support:support-compat:26.1.0 (*)
+|    |    \--- com.android.support:animated-vector-drawable:26.1.0
+|    |         +--- com.android.support:support-vector-drawable:26.1.0 (*)
+|    |         \--- com.android.support:support-core-ui:26.1.0 (*)
+|    +--- com.android.support:recyclerview-v7:26.1.0
+|    |    +--- com.android.support:support-annotations:26.1.0
+|    |    +--- com.android.support:support-compat:26.1.0 (*)
+|    |    \--- com.android.support:support-core-ui:26.1.0 (*)
+|    \--- com.android.support:transition:26.1.0
+|         +--- com.android.support:support-annotations:26.1.0
+|         \--- com.android.support:support-v4:26.1.0 (*)
++--- com.android.support:cardview-v7:26.1.0
+|    \--- com.android.support:support-annotations:26.1.0
++--- com.android.support:recyclerview-v7:26.1.0 (*)
++--- com.android.support:multidex:1.0.3
++--- com.android.support:appcompat-v7:26.1.0 (*)
 +--- ch.acra:acra:4.7.0
-|    \--- com.android.support:support-v4:23.0.1 -> 23.1.1 (*)
-\--- com.squareup.leakcanary:leakcanary-android:1.4-beta2
-     \--- com.squareup.leakcanary:leakcanary-analyzer:1.4-beta2
-          +--- com.squareup.leakcanary:leakcanary-watcher:1.4-beta2
-          \--- com.squareup.haha:haha:2.0.2
+|    \--- com.android.support:support-v4:23.0.1 -> 26.1.0 (*)
+\--- com.squareup.leakcanary:leakcanary-android:1.4
+     \--- com.squareup.leakcanary:leakcanary-analyzer:1.4
+          +--- com.squareup.haha:haha:2.0.3
+          \--- com.squareup.leakcanary:leakcanary-watcher:1.4
 
 _debugCompile - ## Internal use, do not manually configure ##
-+--- com.android.support:support-v4:23.1.1
-|    \--- com.android.support:support-annotations:23.1.1
++--- com.android.support:multidex:1.0.1 -> 1.0.3
++--- com.android.support:support-v4:26.1.0
+|    +--- com.android.support:support-compat:26.1.0
+|    |    +--- com.android.support:support-annotations:26.1.0
+|    |    \--- android.arch.lifecycle:runtime:1.0.0
+|    |         +--- android.arch.lifecycle:common:1.0.0
+|    |         \--- android.arch.core:common:1.0.0
+|    +--- com.android.support:support-media-compat:26.1.0
+|    |    +--- com.android.support:support-annotations:26.1.0
+|    |    \--- com.android.support:support-compat:26.1.0 (*)
+|    +--- com.android.support:support-core-utils:26.1.0
+|    |    +--- com.android.support:support-annotations:26.1.0
+|    |    \--- com.android.support:support-compat:26.1.0 (*)
+|    +--- com.android.support:support-core-ui:26.1.0
+|    |    +--- com.android.support:support-annotations:26.1.0
+|    |    \--- com.android.support:support-compat:26.1.0 (*)
+|    \--- com.android.support:support-fragment:26.1.0
+|         +--- com.android.support:support-compat:26.1.0 (*)
+|         +--- com.android.support:support-core-ui:26.1.0 (*)
+|         \--- com.android.support:support-core-utils:26.1.0 (*)
 +--- project :osmdroid-android
 +--- project :osmdroid-geopackage
 |    +--- project :osmdroid-android
@@ -97,47 +165,91 @@ _debugCompile - ## Internal use, do not manually configure ##
 |    +--- mil.nga:tiff:1.0.3 -> 2.0.0
 |    \--- mil.nga:tiff:2.0.0
 +--- project :osmdroid-mapsforge
-|    +--- org.mapsforge:mapsforge-map-android:0.8.0
-|    |    +--- org.mapsforge:mapsforge-map-reader:0.8.0
-|    |    |    \--- org.mapsforge:mapsforge-map:0.8.0
-|    |    |         +--- org.mapsforge:mapsforge-core:0.8.0
+|    +--- org.mapsforge:mapsforge-map-android:0.10.0
+|    |    +--- org.mapsforge:mapsforge-map-reader:0.10.0
+|    |    |    \--- org.mapsforge:mapsforge-map:0.10.0
+|    |    |         +--- org.mapsforge:mapsforge-core:0.10.0
 |    |    |         \--- net.sf.kxml:kxml2:2.3.0
-|    |    \--- com.caverock:androidsvg:1.2.2-beta-1
-|    +--- org.mapsforge:mapsforge-map:0.8.0 (*)
-|    +--- org.mapsforge:mapsforge-themes:0.8.0
-|    |    \--- org.mapsforge:mapsforge-map:0.8.0 (*)
+|    |    \--- com.caverock:androidsvg:1.3
+|    +--- org.mapsforge:mapsforge-map:0.10.0 (*)
+|    +--- org.mapsforge:mapsforge-themes:0.10.0
+|    |    \--- org.mapsforge:mapsforge-map:0.10.0 (*)
 |    \--- project :osmdroid-android
 +--- project :osmdroid-wms
-|    +--- project :osmdroid-android
-|    \--- com.android.support:appcompat-v7:23.1.1
-|         \--- com.android.support:support-v4:23.1.1 (*)
+|    \--- project :osmdroid-android
 +--- mil.army.missioncommand:mil-sym-android-renderer:0.1.37
 +--- com.github.angads25:filepicker:1.1.1
-+--- com.android.support:design:23.1.1
-|    +--- com.android.support:appcompat-v7:23.1.1 (*)
-|    +--- com.android.support:recyclerview-v7:23.1.1
-|    |    +--- com.android.support:support-annotations:23.1.1
-|    |    \--- com.android.support:support-v4:23.1.1 (*)
-|    \--- com.android.support:support-v4:23.1.1 (*)
-+--- com.android.support:cardview-v7:23.1.1
-+--- com.android.support:recyclerview-v7:23.1.1 (*)
-+--- com.android.support:appcompat-v7:23.1.1 (*)
++--- com.opencsv:opencsv:4.4
+|    +--- org.apache.commons:commons-lang3:3.8.1
+|    +--- org.apache.commons:commons-text:1.3
+|    |    \--- org.apache.commons:commons-lang3:3.7 -> 3.8.1
+|    +--- commons-beanutils:commons-beanutils:1.9.3
+|    |    +--- commons-logging:commons-logging:1.2
+|    |    \--- commons-collections:commons-collections:3.2.2
+|    \--- org.apache.commons:commons-collections4:4.2
++--- com.android.support:design:26.1.0
+|    +--- com.android.support:support-v4:26.1.0 (*)
+|    +--- com.android.support:appcompat-v7:26.1.0
+|    |    +--- com.android.support:support-annotations:26.1.0
+|    |    +--- com.android.support:support-v4:26.1.0 (*)
+|    |    +--- com.android.support:support-vector-drawable:26.1.0
+|    |    |    +--- com.android.support:support-annotations:26.1.0
+|    |    |    \--- com.android.support:support-compat:26.1.0 (*)
+|    |    \--- com.android.support:animated-vector-drawable:26.1.0
+|    |         +--- com.android.support:support-vector-drawable:26.1.0 (*)
+|    |         \--- com.android.support:support-core-ui:26.1.0 (*)
+|    +--- com.android.support:recyclerview-v7:26.1.0
+|    |    +--- com.android.support:support-annotations:26.1.0
+|    |    +--- com.android.support:support-compat:26.1.0 (*)
+|    |    \--- com.android.support:support-core-ui:26.1.0 (*)
+|    \--- com.android.support:transition:26.1.0
+|         +--- com.android.support:support-annotations:26.1.0
+|         \--- com.android.support:support-v4:26.1.0 (*)
++--- com.android.support:cardview-v7:26.1.0
+|    \--- com.android.support:support-annotations:26.1.0
++--- com.android.support:recyclerview-v7:26.1.0 (*)
++--- com.android.support:multidex:1.0.3
++--- com.android.support:appcompat-v7:26.1.0 (*)
 +--- ch.acra:acra:4.7.0
-|    \--- com.android.support:support-v4:23.0.1 -> 23.1.1 (*)
-\--- com.squareup.leakcanary:leakcanary-android:1.4-beta2
-     \--- com.squareup.leakcanary:leakcanary-analyzer:1.4-beta2
-          +--- com.squareup.leakcanary:leakcanary-watcher:1.4-beta2
-          \--- com.squareup.haha:haha:2.0.2
+|    \--- com.android.support:support-v4:23.0.1 -> 26.1.0 (*)
+\--- com.squareup.leakcanary:leakcanary-android:1.4
+     \--- com.squareup.leakcanary:leakcanary-analyzer:1.4
+          +--- com.squareup.haha:haha:2.0.3
+          \--- com.squareup.leakcanary:leakcanary-watcher:1.4
+
+_debugUnitTestAnnotationProcessor - ## Internal use, do not manually configure ##
+No dependencies
 
 _debugUnitTestApk - ## Internal use, do not manually configure ##
-\--- com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2
+\--- com.squareup.leakcanary:leakcanary-android-no-op:1.4
 
 _debugUnitTestCompile - ## Internal use, do not manually configure ##
-\--- com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2
+\--- com.squareup.leakcanary:leakcanary-android-no-op:1.4
+
+_releaseAnnotationProcessor - ## Internal use, do not manually configure ##
+No dependencies
 
 _releaseApk - ## Internal use, do not manually configure ##
-+--- com.android.support:support-v4:23.1.1
-|    \--- com.android.support:support-annotations:23.1.1
++--- com.android.support:multidex:1.0.1 -> 1.0.3
++--- com.android.support:support-v4:26.1.0
+|    +--- com.android.support:support-compat:26.1.0
+|    |    +--- com.android.support:support-annotations:26.1.0
+|    |    \--- android.arch.lifecycle:runtime:1.0.0
+|    |         +--- android.arch.lifecycle:common:1.0.0
+|    |         \--- android.arch.core:common:1.0.0
+|    +--- com.android.support:support-media-compat:26.1.0
+|    |    +--- com.android.support:support-annotations:26.1.0
+|    |    \--- com.android.support:support-compat:26.1.0 (*)
+|    +--- com.android.support:support-core-utils:26.1.0
+|    |    +--- com.android.support:support-annotations:26.1.0
+|    |    \--- com.android.support:support-compat:26.1.0 (*)
+|    +--- com.android.support:support-core-ui:26.1.0
+|    |    +--- com.android.support:support-annotations:26.1.0
+|    |    \--- com.android.support:support-compat:26.1.0 (*)
+|    \--- com.android.support:support-fragment:26.1.0
+|         +--- com.android.support:support-compat:26.1.0 (*)
+|         +--- com.android.support:support-core-ui:26.1.0 (*)
+|         \--- com.android.support:support-core-utils:26.1.0 (*)
 +--- project :osmdroid-android
 +--- project :osmdroid-geopackage
 |    +--- project :osmdroid-android
@@ -156,38 +268,76 @@ _releaseApk - ## Internal use, do not manually configure ##
 |    +--- mil.nga:tiff:1.0.3 -> 2.0.0
 |    \--- mil.nga:tiff:2.0.0
 +--- project :osmdroid-mapsforge
-|    +--- org.mapsforge:mapsforge-map-android:0.8.0
-|    |    +--- org.mapsforge:mapsforge-map-reader:0.8.0
-|    |    |    \--- org.mapsforge:mapsforge-map:0.8.0
-|    |    |         +--- org.mapsforge:mapsforge-core:0.8.0
+|    +--- org.mapsforge:mapsforge-map-android:0.10.0
+|    |    +--- org.mapsforge:mapsforge-map-reader:0.10.0
+|    |    |    \--- org.mapsforge:mapsforge-map:0.10.0
+|    |    |         +--- org.mapsforge:mapsforge-core:0.10.0
 |    |    |         \--- net.sf.kxml:kxml2:2.3.0
-|    |    \--- com.caverock:androidsvg:1.2.2-beta-1
-|    +--- org.mapsforge:mapsforge-map:0.8.0 (*)
-|    +--- org.mapsforge:mapsforge-themes:0.8.0
-|    |    \--- org.mapsforge:mapsforge-map:0.8.0 (*)
+|    |    \--- com.caverock:androidsvg:1.3
+|    +--- org.mapsforge:mapsforge-map:0.10.0 (*)
+|    +--- org.mapsforge:mapsforge-themes:0.10.0
+|    |    \--- org.mapsforge:mapsforge-map:0.10.0 (*)
 |    \--- project :osmdroid-android
 +--- project :osmdroid-wms
-|    +--- project :osmdroid-android
-|    \--- com.android.support:appcompat-v7:23.1.1
-|         \--- com.android.support:support-v4:23.1.1 (*)
+|    \--- project :osmdroid-android
 +--- mil.army.missioncommand:mil-sym-android-renderer:0.1.37
 +--- com.github.angads25:filepicker:1.1.1
-+--- com.android.support:design:23.1.1
-|    +--- com.android.support:appcompat-v7:23.1.1 (*)
-|    +--- com.android.support:recyclerview-v7:23.1.1
-|    |    +--- com.android.support:support-annotations:23.1.1
-|    |    \--- com.android.support:support-v4:23.1.1 (*)
-|    \--- com.android.support:support-v4:23.1.1 (*)
-+--- com.android.support:cardview-v7:23.1.1
-+--- com.android.support:recyclerview-v7:23.1.1 (*)
-+--- com.android.support:appcompat-v7:23.1.1 (*)
++--- com.opencsv:opencsv:4.4
+|    +--- org.apache.commons:commons-lang3:3.8.1
+|    +--- org.apache.commons:commons-text:1.3
+|    |    \--- org.apache.commons:commons-lang3:3.7 -> 3.8.1
+|    +--- commons-beanutils:commons-beanutils:1.9.3
+|    |    +--- commons-logging:commons-logging:1.2
+|    |    \--- commons-collections:commons-collections:3.2.2
+|    \--- org.apache.commons:commons-collections4:4.2
++--- com.android.support:design:26.1.0
+|    +--- com.android.support:support-v4:26.1.0 (*)
+|    +--- com.android.support:appcompat-v7:26.1.0
+|    |    +--- com.android.support:support-annotations:26.1.0
+|    |    +--- com.android.support:support-v4:26.1.0 (*)
+|    |    +--- com.android.support:support-vector-drawable:26.1.0
+|    |    |    +--- com.android.support:support-annotations:26.1.0
+|    |    |    \--- com.android.support:support-compat:26.1.0 (*)
+|    |    \--- com.android.support:animated-vector-drawable:26.1.0
+|    |         +--- com.android.support:support-vector-drawable:26.1.0 (*)
+|    |         \--- com.android.support:support-core-ui:26.1.0 (*)
+|    +--- com.android.support:recyclerview-v7:26.1.0
+|    |    +--- com.android.support:support-annotations:26.1.0
+|    |    +--- com.android.support:support-compat:26.1.0 (*)
+|    |    \--- com.android.support:support-core-ui:26.1.0 (*)
+|    \--- com.android.support:transition:26.1.0
+|         +--- com.android.support:support-annotations:26.1.0
+|         \--- com.android.support:support-v4:26.1.0 (*)
++--- com.android.support:cardview-v7:26.1.0
+|    \--- com.android.support:support-annotations:26.1.0
++--- com.android.support:recyclerview-v7:26.1.0 (*)
++--- com.android.support:multidex:1.0.3
++--- com.android.support:appcompat-v7:26.1.0 (*)
 +--- ch.acra:acra:4.7.0
-|    \--- com.android.support:support-v4:23.0.1 -> 23.1.1 (*)
-\--- com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2
+|    \--- com.android.support:support-v4:23.0.1 -> 26.1.0 (*)
+\--- com.squareup.leakcanary:leakcanary-android-no-op:1.4
 
 _releaseCompile - ## Internal use, do not manually configure ##
-+--- com.android.support:support-v4:23.1.1
-|    \--- com.android.support:support-annotations:23.1.1
++--- com.android.support:multidex:1.0.1 -> 1.0.3
++--- com.android.support:support-v4:26.1.0
+|    +--- com.android.support:support-compat:26.1.0
+|    |    +--- com.android.support:support-annotations:26.1.0
+|    |    \--- android.arch.lifecycle:runtime:1.0.0
+|    |         +--- android.arch.lifecycle:common:1.0.0
+|    |         \--- android.arch.core:common:1.0.0
+|    +--- com.android.support:support-media-compat:26.1.0
+|    |    +--- com.android.support:support-annotations:26.1.0
+|    |    \--- com.android.support:support-compat:26.1.0 (*)
+|    +--- com.android.support:support-core-utils:26.1.0
+|    |    +--- com.android.support:support-annotations:26.1.0
+|    |    \--- com.android.support:support-compat:26.1.0 (*)
+|    +--- com.android.support:support-core-ui:26.1.0
+|    |    +--- com.android.support:support-annotations:26.1.0
+|    |    \--- com.android.support:support-compat:26.1.0 (*)
+|    \--- com.android.support:support-fragment:26.1.0
+|         +--- com.android.support:support-compat:26.1.0 (*)
+|         +--- com.android.support:support-core-ui:26.1.0 (*)
+|         \--- com.android.support:support-core-utils:26.1.0 (*)
 +--- project :osmdroid-android
 +--- project :osmdroid-geopackage
 |    +--- project :osmdroid-android
@@ -206,52 +356,78 @@ _releaseCompile - ## Internal use, do not manually configure ##
 |    +--- mil.nga:tiff:1.0.3 -> 2.0.0
 |    \--- mil.nga:tiff:2.0.0
 +--- project :osmdroid-mapsforge
-|    +--- org.mapsforge:mapsforge-map-android:0.8.0
-|    |    +--- org.mapsforge:mapsforge-map-reader:0.8.0
-|    |    |    \--- org.mapsforge:mapsforge-map:0.8.0
-|    |    |         +--- org.mapsforge:mapsforge-core:0.8.0
+|    +--- org.mapsforge:mapsforge-map-android:0.10.0
+|    |    +--- org.mapsforge:mapsforge-map-reader:0.10.0
+|    |    |    \--- org.mapsforge:mapsforge-map:0.10.0
+|    |    |         +--- org.mapsforge:mapsforge-core:0.10.0
 |    |    |         \--- net.sf.kxml:kxml2:2.3.0
-|    |    \--- com.caverock:androidsvg:1.2.2-beta-1
-|    +--- org.mapsforge:mapsforge-map:0.8.0 (*)
-|    +--- org.mapsforge:mapsforge-themes:0.8.0
-|    |    \--- org.mapsforge:mapsforge-map:0.8.0 (*)
+|    |    \--- com.caverock:androidsvg:1.3
+|    +--- org.mapsforge:mapsforge-map:0.10.0 (*)
+|    +--- org.mapsforge:mapsforge-themes:0.10.0
+|    |    \--- org.mapsforge:mapsforge-map:0.10.0 (*)
 |    \--- project :osmdroid-android
 +--- project :osmdroid-wms
-|    +--- project :osmdroid-android
-|    \--- com.android.support:appcompat-v7:23.1.1
-|         \--- com.android.support:support-v4:23.1.1 (*)
+|    \--- project :osmdroid-android
 +--- mil.army.missioncommand:mil-sym-android-renderer:0.1.37
 +--- com.github.angads25:filepicker:1.1.1
-+--- com.android.support:design:23.1.1
-|    +--- com.android.support:appcompat-v7:23.1.1 (*)
-|    +--- com.android.support:recyclerview-v7:23.1.1
-|    |    +--- com.android.support:support-annotations:23.1.1
-|    |    \--- com.android.support:support-v4:23.1.1 (*)
-|    \--- com.android.support:support-v4:23.1.1 (*)
-+--- com.android.support:cardview-v7:23.1.1
-+--- com.android.support:recyclerview-v7:23.1.1 (*)
-+--- com.android.support:appcompat-v7:23.1.1 (*)
++--- com.opencsv:opencsv:4.4
+|    +--- org.apache.commons:commons-lang3:3.8.1
+|    +--- org.apache.commons:commons-text:1.3
+|    |    \--- org.apache.commons:commons-lang3:3.7 -> 3.8.1
+|    +--- commons-beanutils:commons-beanutils:1.9.3
+|    |    +--- commons-logging:commons-logging:1.2
+|    |    \--- commons-collections:commons-collections:3.2.2
+|    \--- org.apache.commons:commons-collections4:4.2
++--- com.android.support:design:26.1.0
+|    +--- com.android.support:support-v4:26.1.0 (*)
+|    +--- com.android.support:appcompat-v7:26.1.0
+|    |    +--- com.android.support:support-annotations:26.1.0
+|    |    +--- com.android.support:support-v4:26.1.0 (*)
+|    |    +--- com.android.support:support-vector-drawable:26.1.0
+|    |    |    +--- com.android.support:support-annotations:26.1.0
+|    |    |    \--- com.android.support:support-compat:26.1.0 (*)
+|    |    \--- com.android.support:animated-vector-drawable:26.1.0
+|    |         +--- com.android.support:support-vector-drawable:26.1.0 (*)
+|    |         \--- com.android.support:support-core-ui:26.1.0 (*)
+|    +--- com.android.support:recyclerview-v7:26.1.0
+|    |    +--- com.android.support:support-annotations:26.1.0
+|    |    +--- com.android.support:support-compat:26.1.0 (*)
+|    |    \--- com.android.support:support-core-ui:26.1.0 (*)
+|    \--- com.android.support:transition:26.1.0
+|         +--- com.android.support:support-annotations:26.1.0
+|         \--- com.android.support:support-v4:26.1.0 (*)
++--- com.android.support:cardview-v7:26.1.0
+|    \--- com.android.support:support-annotations:26.1.0
++--- com.android.support:recyclerview-v7:26.1.0 (*)
++--- com.android.support:multidex:1.0.3
++--- com.android.support:appcompat-v7:26.1.0 (*)
 +--- ch.acra:acra:4.7.0
-|    \--- com.android.support:support-v4:23.0.1 -> 23.1.1 (*)
-\--- com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2
+|    \--- com.android.support:support-v4:23.0.1 -> 26.1.0 (*)
+\--- com.squareup.leakcanary:leakcanary-android-no-op:1.4
+
+_releaseUnitTestAnnotationProcessor - ## Internal use, do not manually configure ##
+No dependencies
 
 _releaseUnitTestApk - ## Internal use, do not manually configure ##
-\--- com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2
+\--- com.squareup.leakcanary:leakcanary-android-no-op:1.4
 
 _releaseUnitTestCompile - ## Internal use, do not manually configure ##
-\--- com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2
+\--- com.squareup.leakcanary:leakcanary-android-no-op:1.4
 
 androidJacocoAgent - The Jacoco agent to use to get coverage data.
-\--- org.jacoco:org.jacoco.agent:0.7.4.201502262128
+\--- org.jacoco:org.jacoco.agent:0.7.5.201505241946
 
 androidJacocoAnt - The Jacoco ant tasks to use to get execute Gradle tasks.
-\--- org.jacoco:org.jacoco.ant:0.7.4.201502262128
-     +--- org.jacoco:org.jacoco.core:0.7.4.201502262128
+\--- org.jacoco:org.jacoco.ant:0.7.5.201505241946
+     +--- org.jacoco:org.jacoco.core:0.7.5.201505241946
      |    \--- org.ow2.asm:asm-debug-all:5.0.1
-     +--- org.jacoco:org.jacoco.report:0.7.4.201502262128
-     |    +--- org.jacoco:org.jacoco.core:0.7.4.201502262128 (*)
+     +--- org.jacoco:org.jacoco.report:0.7.5.201505241946
+     |    +--- org.jacoco:org.jacoco.core:0.7.5.201505241946 (*)
      |    \--- org.ow2.asm:asm-debug-all:5.0.1
-     \--- org.jacoco:org.jacoco.agent:0.7.4.201502262128
+     \--- org.jacoco:org.jacoco.agent:0.7.5.201505241946
+
+androidTestAnnotationProcessor - Classpath for the annotation processor for 'androidTest'.
+No dependencies
 
 androidTestApk - Classpath packaged with the compiled 'androidTest' classes.
 No dependencies
@@ -259,17 +435,21 @@ No dependencies
 androidTestCompile - Classpath for compiling the androidTest sources.
 +--- com.android.support.test:runner:0.4.+ -> 0.4.1
 |    +--- com.android.support.test:exposed-instrumentation-api-publish:0.4.1
-|    +--- com.android.support:support-annotations:23.0.1 -> 23.1.1
+|    +--- com.android.support:support-annotations:23.0.1 -> 26.1.0
 |    \--- junit:junit:4.12
 |         \--- org.hamcrest:hamcrest-core:1.3
 +--- com.android.support.test:rules:0.4.+ -> 0.4.1
 |    \--- com.android.support.test:runner:0.4.1 (*)
-\--- com.android.support:support-annotations:23.1.1
++--- com.android.support:multidex:1.0.3
+\--- com.android.support:support-annotations:26.1.0
 
 androidTestProvided - Classpath for only compiling the androidTest sources.
 No dependencies
 
 androidTestWearApp - Link to a wear app to embed for object 'androidTest'.
+No dependencies
+
+annotationProcessor - Classpath for the annotation processor for 'main'.
 No dependencies
 
 apk - Classpath packaged with the compiled 'main' classes.
@@ -286,8 +466,25 @@ checkstyle - The Checkstyle libraries to be used for this project.
      \--- com.google.guava:guava-jdk5:14.0.1
 
 compile - Classpath for compiling the main sources.
-+--- com.android.support:support-v4:23.1.1
-|    \--- com.android.support:support-annotations:23.1.1
++--- com.android.support:support-v4:26.1.0
+|    +--- com.android.support:support-compat:26.1.0
+|    |    +--- com.android.support:support-annotations:26.1.0
+|    |    \--- android.arch.lifecycle:runtime:1.0.0
+|    |         +--- android.arch.lifecycle:common:1.0.0
+|    |         \--- android.arch.core:common:1.0.0
+|    +--- com.android.support:support-media-compat:26.1.0
+|    |    +--- com.android.support:support-annotations:26.1.0
+|    |    \--- com.android.support:support-compat:26.1.0 (*)
+|    +--- com.android.support:support-core-utils:26.1.0
+|    |    +--- com.android.support:support-annotations:26.1.0
+|    |    \--- com.android.support:support-compat:26.1.0 (*)
+|    +--- com.android.support:support-core-ui:26.1.0
+|    |    +--- com.android.support:support-annotations:26.1.0
+|    |    \--- com.android.support:support-compat:26.1.0 (*)
+|    \--- com.android.support:support-fragment:26.1.0
+|         +--- com.android.support:support-compat:26.1.0 (*)
+|         +--- com.android.support:support-core-ui:26.1.0 (*)
+|         \--- com.android.support:support-core-utils:26.1.0 (*)
 +--- project :osmdroid-android
 +--- project :osmdroid-geopackage
 |    +--- project :osmdroid-android
@@ -306,40 +503,77 @@ compile - Classpath for compiling the main sources.
 |    +--- mil.nga:tiff:1.0.3 -> 2.0.0
 |    \--- mil.nga:tiff:2.0.0
 +--- project :osmdroid-mapsforge
-|    +--- org.mapsforge:mapsforge-map-android:0.8.0
-|    |    +--- org.mapsforge:mapsforge-map-reader:0.8.0
-|    |    |    \--- org.mapsforge:mapsforge-map:0.8.0
-|    |    |         +--- org.mapsforge:mapsforge-core:0.8.0
+|    +--- org.mapsforge:mapsforge-map-android:0.10.0
+|    |    +--- org.mapsforge:mapsforge-map-reader:0.10.0
+|    |    |    \--- org.mapsforge:mapsforge-map:0.10.0
+|    |    |         +--- org.mapsforge:mapsforge-core:0.10.0
 |    |    |         \--- net.sf.kxml:kxml2:2.3.0
-|    |    \--- com.caverock:androidsvg:1.2.2-beta-1
-|    +--- org.mapsforge:mapsforge-map:0.8.0 (*)
-|    +--- org.mapsforge:mapsforge-themes:0.8.0
-|    |    \--- org.mapsforge:mapsforge-map:0.8.0 (*)
+|    |    \--- com.caverock:androidsvg:1.3
+|    +--- org.mapsforge:mapsforge-map:0.10.0 (*)
+|    +--- org.mapsforge:mapsforge-themes:0.10.0
+|    |    \--- org.mapsforge:mapsforge-map:0.10.0 (*)
 |    \--- project :osmdroid-android
 +--- project :osmdroid-wms
-|    +--- project :osmdroid-android
-|    \--- com.android.support:appcompat-v7:23.1.1
-|         \--- com.android.support:support-v4:23.1.1 (*)
+|    \--- project :osmdroid-android
 +--- mil.army.missioncommand:mil-sym-android-renderer:0.1.37
 +--- com.github.angads25:filepicker:1.1.1
-+--- com.android.support:design:23.1.1
-|    +--- com.android.support:appcompat-v7:23.1.1 (*)
-|    +--- com.android.support:recyclerview-v7:23.1.1
-|    |    +--- com.android.support:support-annotations:23.1.1
-|    |    \--- com.android.support:support-v4:23.1.1 (*)
-|    \--- com.android.support:support-v4:23.1.1 (*)
-+--- com.android.support:cardview-v7:23.1.1
-+--- com.android.support:recyclerview-v7:23.1.1 (*)
-+--- com.android.support:appcompat-v7:23.1.1 (*)
++--- com.opencsv:opencsv:4.4
+|    +--- org.apache.commons:commons-lang3:3.8.1
+|    +--- org.apache.commons:commons-text:1.3
+|    |    \--- org.apache.commons:commons-lang3:3.7 -> 3.8.1
+|    +--- commons-beanutils:commons-beanutils:1.9.3
+|    |    +--- commons-logging:commons-logging:1.2
+|    |    \--- commons-collections:commons-collections:3.2.2
+|    \--- org.apache.commons:commons-collections4:4.2
++--- com.android.support:design:26.1.0
+|    +--- com.android.support:support-v4:26.1.0 (*)
+|    +--- com.android.support:appcompat-v7:26.1.0
+|    |    +--- com.android.support:support-annotations:26.1.0
+|    |    +--- com.android.support:support-v4:26.1.0 (*)
+|    |    +--- com.android.support:support-vector-drawable:26.1.0
+|    |    |    +--- com.android.support:support-annotations:26.1.0
+|    |    |    \--- com.android.support:support-compat:26.1.0 (*)
+|    |    \--- com.android.support:animated-vector-drawable:26.1.0
+|    |         +--- com.android.support:support-vector-drawable:26.1.0 (*)
+|    |         \--- com.android.support:support-core-ui:26.1.0 (*)
+|    +--- com.android.support:recyclerview-v7:26.1.0
+|    |    +--- com.android.support:support-annotations:26.1.0
+|    |    +--- com.android.support:support-compat:26.1.0 (*)
+|    |    \--- com.android.support:support-core-ui:26.1.0 (*)
+|    \--- com.android.support:transition:26.1.0
+|         +--- com.android.support:support-annotations:26.1.0
+|         \--- com.android.support:support-v4:26.1.0 (*)
++--- com.android.support:cardview-v7:26.1.0
+|    \--- com.android.support:support-annotations:26.1.0
++--- com.android.support:recyclerview-v7:26.1.0 (*)
++--- com.android.support:multidex:1.0.3
++--- com.android.support:appcompat-v7:26.1.0 (*)
 \--- ch.acra:acra:4.7.0
-     \--- com.android.support:support-v4:23.0.1 -> 23.1.1 (*)
+     \--- com.android.support:support-v4:23.0.1 -> 26.1.0 (*)
 
 debug - Published Configuration for Variant debug
 No dependencies
 
 debug-classes - Published classes configuration for Variant debug
-+--- com.android.support:support-v4:23.1.1
-|    \--- com.android.support:support-annotations:23.1.1
++--- com.android.support:support-v4:26.1.0
+|    +--- com.android.support:support-compat:26.1.0
+|    |    +--- com.android.support:support-annotations:26.1.0
+|    |    \--- android.arch.lifecycle:runtime:1.0.0
+|    |         +--- android.arch.lifecycle:common:1.0.0
+|    |         \--- android.arch.core:common:1.0.0
+|    +--- com.android.support:support-media-compat:26.1.0
+|    |    +--- com.android.support:support-annotations:26.1.0
+|    |    \--- com.android.support:support-compat:26.1.0 (*)
+|    +--- com.android.support:support-core-utils:26.1.0
+|    |    +--- com.android.support:support-annotations:26.1.0
+|    |    \--- com.android.support:support-compat:26.1.0 (*)
+|    +--- com.android.support:support-core-ui:26.1.0
+|    |    +--- com.android.support:support-annotations:26.1.0
+|    |    \--- com.android.support:support-compat:26.1.0 (*)
+|    \--- com.android.support:support-fragment:26.1.0
+|         +--- com.android.support:support-compat:26.1.0 (*)
+|         +--- com.android.support:support-core-ui:26.1.0 (*)
+|         \--- com.android.support:support-core-utils:26.1.0 (*)
 +--- project :osmdroid-android
 +--- project :osmdroid-geopackage
 |    +--- project :osmdroid-android
@@ -358,37 +592,60 @@ debug-classes - Published classes configuration for Variant debug
 |    +--- mil.nga:tiff:1.0.3 -> 2.0.0
 |    \--- mil.nga:tiff:2.0.0
 +--- project :osmdroid-mapsforge
-|    +--- org.mapsforge:mapsforge-map-android:0.8.0
-|    |    +--- org.mapsforge:mapsforge-map-reader:0.8.0
-|    |    |    \--- org.mapsforge:mapsforge-map:0.8.0
-|    |    |         +--- org.mapsforge:mapsforge-core:0.8.0
+|    +--- org.mapsforge:mapsforge-map-android:0.10.0
+|    |    +--- org.mapsforge:mapsforge-map-reader:0.10.0
+|    |    |    \--- org.mapsforge:mapsforge-map:0.10.0
+|    |    |         +--- org.mapsforge:mapsforge-core:0.10.0
 |    |    |         \--- net.sf.kxml:kxml2:2.3.0
-|    |    \--- com.caverock:androidsvg:1.2.2-beta-1
-|    +--- org.mapsforge:mapsforge-map:0.8.0 (*)
-|    +--- org.mapsforge:mapsforge-themes:0.8.0
-|    |    \--- org.mapsforge:mapsforge-map:0.8.0 (*)
+|    |    \--- com.caverock:androidsvg:1.3
+|    +--- org.mapsforge:mapsforge-map:0.10.0 (*)
+|    +--- org.mapsforge:mapsforge-themes:0.10.0
+|    |    \--- org.mapsforge:mapsforge-map:0.10.0 (*)
 |    \--- project :osmdroid-android
 +--- project :osmdroid-wms
-|    +--- project :osmdroid-android
-|    \--- com.android.support:appcompat-v7:23.1.1
-|         \--- com.android.support:support-v4:23.1.1 (*)
+|    \--- project :osmdroid-android
 +--- mil.army.missioncommand:mil-sym-android-renderer:0.1.37
 +--- com.github.angads25:filepicker:1.1.1
-+--- com.android.support:design:23.1.1
-|    +--- com.android.support:appcompat-v7:23.1.1 (*)
-|    +--- com.android.support:recyclerview-v7:23.1.1
-|    |    +--- com.android.support:support-annotations:23.1.1
-|    |    \--- com.android.support:support-v4:23.1.1 (*)
-|    \--- com.android.support:support-v4:23.1.1 (*)
-+--- com.android.support:cardview-v7:23.1.1
-+--- com.android.support:recyclerview-v7:23.1.1 (*)
-+--- com.android.support:appcompat-v7:23.1.1 (*)
++--- com.opencsv:opencsv:4.4
+|    +--- org.apache.commons:commons-lang3:3.8.1
+|    +--- org.apache.commons:commons-text:1.3
+|    |    \--- org.apache.commons:commons-lang3:3.7 -> 3.8.1
+|    +--- commons-beanutils:commons-beanutils:1.9.3
+|    |    +--- commons-logging:commons-logging:1.2
+|    |    \--- commons-collections:commons-collections:3.2.2
+|    \--- org.apache.commons:commons-collections4:4.2
++--- com.android.support:design:26.1.0
+|    +--- com.android.support:support-v4:26.1.0 (*)
+|    +--- com.android.support:appcompat-v7:26.1.0
+|    |    +--- com.android.support:support-annotations:26.1.0
+|    |    +--- com.android.support:support-v4:26.1.0 (*)
+|    |    +--- com.android.support:support-vector-drawable:26.1.0
+|    |    |    +--- com.android.support:support-annotations:26.1.0
+|    |    |    \--- com.android.support:support-compat:26.1.0 (*)
+|    |    \--- com.android.support:animated-vector-drawable:26.1.0
+|    |         +--- com.android.support:support-vector-drawable:26.1.0 (*)
+|    |         \--- com.android.support:support-core-ui:26.1.0 (*)
+|    +--- com.android.support:recyclerview-v7:26.1.0
+|    |    +--- com.android.support:support-annotations:26.1.0
+|    |    +--- com.android.support:support-compat:26.1.0 (*)
+|    |    \--- com.android.support:support-core-ui:26.1.0 (*)
+|    \--- com.android.support:transition:26.1.0
+|         +--- com.android.support:support-annotations:26.1.0
+|         \--- com.android.support:support-v4:26.1.0 (*)
++--- com.android.support:cardview-v7:26.1.0
+|    \--- com.android.support:support-annotations:26.1.0
++--- com.android.support:recyclerview-v7:26.1.0 (*)
++--- com.android.support:multidex:1.0.3
++--- com.android.support:appcompat-v7:26.1.0 (*)
 +--- ch.acra:acra:4.7.0
-|    \--- com.android.support:support-v4:23.0.1 -> 23.1.1 (*)
-\--- com.squareup.leakcanary:leakcanary-android:1.4-beta2
-     \--- com.squareup.leakcanary:leakcanary-analyzer:1.4-beta2
-          +--- com.squareup.leakcanary:leakcanary-watcher:1.4-beta2
-          \--- com.squareup.haha:haha:2.0.2
+|    \--- com.android.support:support-v4:23.0.1 -> 26.1.0 (*)
+\--- com.squareup.leakcanary:leakcanary-android:1.4
+     \--- com.squareup.leakcanary:leakcanary-analyzer:1.4
+          +--- com.squareup.haha:haha:2.0.3
+          \--- com.squareup.leakcanary:leakcanary-watcher:1.4
+
+debug-manifest - Published manifest configuration for Variant debug
+No dependencies
 
 debug-mapping - Published mapping configuration for Variant debug
 No dependencies
@@ -396,14 +653,17 @@ No dependencies
 debug-metadata - Published APKs metadata for Variant debug
 No dependencies
 
+debugAnnotationProcessor - Classpath for the annotation processor for 'debug'.
+No dependencies
+
 debugApk - Classpath packaged with the compiled 'debug' classes.
 No dependencies
 
 debugCompile - Classpath for compiling the debug sources.
-\--- com.squareup.leakcanary:leakcanary-android:1.4-beta2
-     \--- com.squareup.leakcanary:leakcanary-analyzer:1.4-beta2
-          +--- com.squareup.leakcanary:leakcanary-watcher:1.4-beta2
-          \--- com.squareup.haha:haha:2.0.2
+\--- com.squareup.leakcanary:leakcanary-android:1.4
+     \--- com.squareup.leakcanary:leakcanary-analyzer:1.4
+          +--- com.squareup.haha:haha:2.0.3
+          \--- com.squareup.leakcanary:leakcanary-watcher:1.4
 
 debugProvided - Classpath for only compiling the debug sources.
 No dependencies
@@ -473,8 +733,25 @@ release - Published Configuration for Variant release
 No dependencies
 
 release-classes - Published classes configuration for Variant release
-+--- com.android.support:support-v4:23.1.1
-|    \--- com.android.support:support-annotations:23.1.1
++--- com.android.support:support-v4:26.1.0
+|    +--- com.android.support:support-compat:26.1.0
+|    |    +--- com.android.support:support-annotations:26.1.0
+|    |    \--- android.arch.lifecycle:runtime:1.0.0
+|    |         +--- android.arch.lifecycle:common:1.0.0
+|    |         \--- android.arch.core:common:1.0.0
+|    +--- com.android.support:support-media-compat:26.1.0
+|    |    +--- com.android.support:support-annotations:26.1.0
+|    |    \--- com.android.support:support-compat:26.1.0 (*)
+|    +--- com.android.support:support-core-utils:26.1.0
+|    |    +--- com.android.support:support-annotations:26.1.0
+|    |    \--- com.android.support:support-compat:26.1.0 (*)
+|    +--- com.android.support:support-core-ui:26.1.0
+|    |    +--- com.android.support:support-annotations:26.1.0
+|    |    \--- com.android.support:support-compat:26.1.0 (*)
+|    \--- com.android.support:support-fragment:26.1.0
+|         +--- com.android.support:support-compat:26.1.0 (*)
+|         +--- com.android.support:support-core-ui:26.1.0 (*)
+|         \--- com.android.support:support-core-utils:26.1.0 (*)
 +--- project :osmdroid-android
 +--- project :osmdroid-geopackage
 |    +--- project :osmdroid-android
@@ -493,34 +770,57 @@ release-classes - Published classes configuration for Variant release
 |    +--- mil.nga:tiff:1.0.3 -> 2.0.0
 |    \--- mil.nga:tiff:2.0.0
 +--- project :osmdroid-mapsforge
-|    +--- org.mapsforge:mapsforge-map-android:0.8.0
-|    |    +--- org.mapsforge:mapsforge-map-reader:0.8.0
-|    |    |    \--- org.mapsforge:mapsforge-map:0.8.0
-|    |    |         +--- org.mapsforge:mapsforge-core:0.8.0
+|    +--- org.mapsforge:mapsforge-map-android:0.10.0
+|    |    +--- org.mapsforge:mapsforge-map-reader:0.10.0
+|    |    |    \--- org.mapsforge:mapsforge-map:0.10.0
+|    |    |         +--- org.mapsforge:mapsforge-core:0.10.0
 |    |    |         \--- net.sf.kxml:kxml2:2.3.0
-|    |    \--- com.caverock:androidsvg:1.2.2-beta-1
-|    +--- org.mapsforge:mapsforge-map:0.8.0 (*)
-|    +--- org.mapsforge:mapsforge-themes:0.8.0
-|    |    \--- org.mapsforge:mapsforge-map:0.8.0 (*)
+|    |    \--- com.caverock:androidsvg:1.3
+|    +--- org.mapsforge:mapsforge-map:0.10.0 (*)
+|    +--- org.mapsforge:mapsforge-themes:0.10.0
+|    |    \--- org.mapsforge:mapsforge-map:0.10.0 (*)
 |    \--- project :osmdroid-android
 +--- project :osmdroid-wms
-|    +--- project :osmdroid-android
-|    \--- com.android.support:appcompat-v7:23.1.1
-|         \--- com.android.support:support-v4:23.1.1 (*)
+|    \--- project :osmdroid-android
 +--- mil.army.missioncommand:mil-sym-android-renderer:0.1.37
 +--- com.github.angads25:filepicker:1.1.1
-+--- com.android.support:design:23.1.1
-|    +--- com.android.support:appcompat-v7:23.1.1 (*)
-|    +--- com.android.support:recyclerview-v7:23.1.1
-|    |    +--- com.android.support:support-annotations:23.1.1
-|    |    \--- com.android.support:support-v4:23.1.1 (*)
-|    \--- com.android.support:support-v4:23.1.1 (*)
-+--- com.android.support:cardview-v7:23.1.1
-+--- com.android.support:recyclerview-v7:23.1.1 (*)
-+--- com.android.support:appcompat-v7:23.1.1 (*)
++--- com.opencsv:opencsv:4.4
+|    +--- org.apache.commons:commons-lang3:3.8.1
+|    +--- org.apache.commons:commons-text:1.3
+|    |    \--- org.apache.commons:commons-lang3:3.7 -> 3.8.1
+|    +--- commons-beanutils:commons-beanutils:1.9.3
+|    |    +--- commons-logging:commons-logging:1.2
+|    |    \--- commons-collections:commons-collections:3.2.2
+|    \--- org.apache.commons:commons-collections4:4.2
++--- com.android.support:design:26.1.0
+|    +--- com.android.support:support-v4:26.1.0 (*)
+|    +--- com.android.support:appcompat-v7:26.1.0
+|    |    +--- com.android.support:support-annotations:26.1.0
+|    |    +--- com.android.support:support-v4:26.1.0 (*)
+|    |    +--- com.android.support:support-vector-drawable:26.1.0
+|    |    |    +--- com.android.support:support-annotations:26.1.0
+|    |    |    \--- com.android.support:support-compat:26.1.0 (*)
+|    |    \--- com.android.support:animated-vector-drawable:26.1.0
+|    |         +--- com.android.support:support-vector-drawable:26.1.0 (*)
+|    |         \--- com.android.support:support-core-ui:26.1.0 (*)
+|    +--- com.android.support:recyclerview-v7:26.1.0
+|    |    +--- com.android.support:support-annotations:26.1.0
+|    |    +--- com.android.support:support-compat:26.1.0 (*)
+|    |    \--- com.android.support:support-core-ui:26.1.0 (*)
+|    \--- com.android.support:transition:26.1.0
+|         +--- com.android.support:support-annotations:26.1.0
+|         \--- com.android.support:support-v4:26.1.0 (*)
++--- com.android.support:cardview-v7:26.1.0
+|    \--- com.android.support:support-annotations:26.1.0
++--- com.android.support:recyclerview-v7:26.1.0 (*)
++--- com.android.support:multidex:1.0.3
++--- com.android.support:appcompat-v7:26.1.0 (*)
 +--- ch.acra:acra:4.7.0
-|    \--- com.android.support:support-v4:23.0.1 -> 23.1.1 (*)
-\--- com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2
+|    \--- com.android.support:support-v4:23.0.1 -> 26.1.0 (*)
+\--- com.squareup.leakcanary:leakcanary-android-no-op:1.4
+
+release-manifest - Published manifest configuration for Variant release
+No dependencies
 
 release-mapping - Published mapping configuration for Variant release
 No dependencies
@@ -528,11 +828,14 @@ No dependencies
 release-metadata - Published APKs metadata for Variant release
 No dependencies
 
+releaseAnnotationProcessor - Classpath for the annotation processor for 'release'.
+No dependencies
+
 releaseApk - Classpath packaged with the compiled 'release' classes.
 No dependencies
 
 releaseCompile - Classpath for compiling the release sources.
-\--- com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2
+\--- com.squareup.leakcanary:leakcanary-android-no-op:1.4
 
 releaseProvided - Classpath for only compiling the release sources.
 No dependencies
@@ -540,11 +843,17 @@ No dependencies
 releaseWearApp - Link to a wear app to embed for object 'release'.
 No dependencies
 
+testAnnotationProcessor - Classpath for the annotation processor for 'test'.
+No dependencies
+
 testApk - Classpath packaged with the compiled 'test' classes.
 No dependencies
 
 testCompile - Classpath for compiling the test sources.
-\--- com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2
+\--- com.squareup.leakcanary:leakcanary-android-no-op:1.4
+
+testDebugAnnotationProcessor - Classpath for the annotation processor for 'testDebug'.
+No dependencies
 
 testDebugApk - Classpath packaged with the compiled 'testDebug' classes.
 No dependencies
@@ -559,6 +868,9 @@ testDebugWearApp - Link to a wear app to embed for object 'testDebug'.
 No dependencies
 
 testProvided - Classpath for only compiling the test sources.
+No dependencies
+
+testReleaseAnnotationProcessor - Classpath for the annotation processor for 'testRelease'.
 No dependencies
 
 testReleaseApk - Classpath packaged with the compiled 'testRelease' classes.

@@ -10,20 +10,20 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.mtp.OSMMapTilePackager
-	c996 [label=<<table title="org.osmdroid.mtp.OSMMapTilePackager" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./OSMMapTilePackager.html">
+	c1072 [label=<<table title="org.osmdroid.mtp.OSMMapTilePackager" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./OSMMapTilePackager.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> OSMMapTilePackager </td></tr>
 		</table></td></tr>
 		</table>>, URL="./OSMMapTilePackager.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.mtp.OSMMapTilePackager.ProgressNotification
-	c997 [label=<<table title="org.osmdroid.mtp.OSMMapTilePackager.ProgressNotification" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./OSMMapTilePackager.ProgressNotification.html">
+	c1073 [label=<<table title="org.osmdroid.mtp.OSMMapTilePackager.ProgressNotification" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./OSMMapTilePackager.ProgressNotification.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> ProgressNotification </td></tr>
 		</table></td></tr>
 		</table>>, URL="./OSMMapTilePackager.ProgressNotification.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.mtp.TilePackagerTest
-	c1008 [label=<<table title="org.osmdroid.mtp.TilePackagerTest" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./TilePackagerTest.html">
+	c1084 [label=<<table title="org.osmdroid.mtp.TilePackagerTest" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./TilePackagerTest.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> TilePackagerTest </td></tr>
 		</table></td></tr>

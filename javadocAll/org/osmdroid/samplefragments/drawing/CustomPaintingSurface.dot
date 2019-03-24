@@ -10,15 +10,15 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.samplefragments.drawing.CustomPaintingSurface
-	c63777 [label=<<table title="org.osmdroid.samplefragments.drawing.CustomPaintingSurface" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./CustomPaintingSurface.html">
+	c68650 [label=<<table title="org.osmdroid.samplefragments.drawing.CustomPaintingSurface" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./CustomPaintingSurface.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> CustomPaintingSurface </td></tr>
 		</table></td></tr>
 		</table>>, URL="./CustomPaintingSurface.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.samplefragments.drawing.CustomPaintingSurface extends View
-	c64170:p -> c63777:p [dir=back,arrowtail=empty];
+	c69071:p -> c68650:p [dir=back,arrowtail=empty];
 	// View
-	c64170[label=<<table title="View" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api//View.html">
+	c69071[label=<<table title="View" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api//View.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> View </td></tr>
 		</table></td></tr>

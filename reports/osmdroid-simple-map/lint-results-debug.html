@@ -3,7 +3,183 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Lint Report</title>
 <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Roboto" />
-<link rel="stylesheet" type="text/css" href="lint-results-debug_files/hololike.css" />
+<style>
+body {
+    max-width: 800px;
+    background-color: #000000;
+    background: -webkit-gradient(linear, left top, right bottom, from(#000000), to(#272d33));
+    background: -moz-linear-gradient(left top, #000000, #272d33);
+    color: #f3f3f3;
+    font-family: 'Roboto', Sans-Serif;
+}
+.issue {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 5px 0px 5px 5px;
+}
+.id {
+    font-size: 14pt;
+    color: #bebebe;
+    margin: 5px 0px 5px 0px;
+}
+.category {
+    font-size: 18pt;
+    color: #bebebe;
+    margin: 10px 0px 5px 0px;
+}
+.explanation {
+    margin-top: 10px;
+}
+.explanation b {
+    color: #ffbbbb;
+}
+.explanation code {
+    color: #bebebe;
+    font-family: 'Roboto', Sans-Serif;
+}
+pre {
+    background-color: #282828;
+    margin: 5px 0px 5px 5px;
+    padding: 5px 5px 5px 0px;
+    overflow: hidden;
+}
+.lineno {
+    color: #4f4f4f;
+}
+.embedimage {
+    max-width: 200px;
+    max-height: 200px;
+}
+th { font-weight: normal; }
+table { border: none; }
+.metadata {
+}
+.location {
+    color: #bebebe;
+}
+.message { }
+.errorspan { color: #33b5e5; }
+.errorline { color: #33b5e5; }
+.warningslist { margin-bottom: 20px; }
+.overview {
+    padding: 10pt;
+    width: 100%;
+    overflow: auto;
+    border-collapse:collapse;
+}
+.overview tr {
+    border-top: solid 1px #39393a;
+    border-bottom: solid 1px #39393a;
+}
+.countColumn {
+    text-align: right;
+    padding-right: 20px;
+}
+.issueColumn {
+   padding-left: 16px;
+}
+.categoryColumn {
+   position: relative;
+   left: -50px;
+   padding-top: 20px;
+   padding-bottom: 5px;
+}
+.titleSeparator {
+    background-color: #33b5e5;
+    height: 3px;
+    margin-bottom: 10px;
+}
+.categorySeparator {
+    background-color: #33b5e5;
+    height: 3px;
+    margin-bottom: 10px;
+}
+.issueSeparator {
+    background-color: #39393a;
+    height: 2px;
+    margin-bottom: 10px;
+}
+.location a:link {
+    text-decoration: none;
+    color: #bebebe;
+}
+.location a:hover {
+    text-decoration: underline;
+    color: #f3f3f3;
+}
+a:link {
+    text-decoration: none;
+    color: #f3f3f3;
+}
+a:visited {
+    text-decoration: none;
+    color: #bebebe;
+}
+a:hover {
+    text-decoration: underline;
+    color: #f3f3f3;
+}
+a:active {
+    text-decoration: underline;
+    color: #f3f3f3;
+}
+.moreinfo a:link {
+    text-decoration: underline;
+    color: #33b5e5;
+}
+.moreinfo a:visited {
+    text-decoration: underline;
+    color: #33b5e5;
+}
+.issue a:link {
+    text-decoration: underline;
+}
+.issue a:visited {
+    text-decoration: underline;
+}
+.id a:link {
+    text-decoration: none;
+    color: #bebebe;
+}
+.id a:visited {
+    text-decoration: none;
+    color: #bebebe;
+}
+.id a:hover {
+    text-decoration: underline;
+    color: #f3f3f3;
+}
+.id a:active {
+    text-decoration: underline;
+    color: #bebebe;
+}
+.category a:link {
+    text-decoration: none;
+    color: #bebebe;
+}
+.category a:visited {
+    text-decoration: none;
+    color: #bebebe;
+}
+.category a:hover {
+    text-decoration: underline;
+    color: #f3f3f3;
+}
+.category a:active {
+    text-decoration: underline;
+    color: #bebebe;
+}
+button {
+    color: #ffffff;
+    background-color: #353535;
+    border-left: none;
+    border-right: none;
+    border-bottom: none;
+    border-top: solid 1px #5b5b5b;
+    font-family: 'Roboto', Sans-Serif;
+    font-size: 12pt;
+}
+</style>
 <script language="javascript" type="text/javascript"> 
 <!--
 function reveal(id) {
@@ -18,106 +194,18 @@ document.getElementById(id+'Link').style.display = 'none';
 <body>
 <h1>Lint Report</h1>
 <div class="titleSeparator"></div>
-Check performed at Mon Jul 16 16:38:43 EDT 2018.<br/>
-0 errors and 4 warnings found:<br/><br/>
+Check performed at Sun Mar 24 09:30:39 EDT 2019.<br/>
+0 errors and 1 warnings found:<br/><br/>
 <table class="overview">
-<tr><td></td><td class="categoryColumn"><a href="#Correctness">Correctness</a>
-</td></tr>
-<tr>
-<td class="countColumn">1</td><td class="issueColumn"><img border="0" align="top" src="lint-results-debug_files/lint-warning.png" alt="Warning" />
-<a href="#GradleDependency">GradleDependency: Obsolete Gradle Dependency</a>
-</td></tr>
-<tr><td></td><td class="categoryColumn"><a href="#Security">Security</a>
-</td></tr>
-<tr>
-<td class="countColumn">1</td><td class="issueColumn"><img border="0" align="top" src="lint-results-debug_files/lint-warning.png" alt="Warning" />
-<a href="#AllowBackup">AllowBackup: AllowBackup/FullBackupContent Problems</a>
-</td></tr>
 <tr><td></td><td class="categoryColumn"><a href="#Usability:Icons">Usability:Icons</a>
 </td></tr>
 <tr>
-<td class="countColumn">1</td><td class="issueColumn"><img border="0" align="top" src="lint-results-debug_files/lint-warning.png" alt="Warning" />
+<td class="countColumn">1</td><td class="issueColumn"><img border="0" align="top" width="16" height="15" alt="Warning" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAPCAQAAABHeoekAAAA3klEQVR42nWPsWoCQRCGVyJiF9tAsNImbcDKR/ABBEurYCsBsfQRQiAPYGPyAAnYWQULS9MErNU2Vsr/ObMX7g6O+xd2/5n5dmY3hFQEBVVpuCsVT/yoUl6u4XotBz4E4qR2YYyH6ugEWY8comR/t+tvPPJtSLPYvhvvTswtbdCmCOwjMHXAzjP9kB/ByB7nejbgy43WVPF3WNG+p9+kzkozdhGAQdZh7BlHdGTL3z98pp6Um7okKdvHNuIzWk+9xN+yINOcHps0OnAfuOOoHJH3pmHghhYP2VJcaXx7BaKz9YB2HVrDAAAAAElFTkSuQmCC"/>
 <a href="#IconLocation">IconLocation: Image defined in density-independent drawable folder</a>
 </td></tr>
-<tr><td></td><td class="categoryColumn"><a href="#Usability">Usability</a>
-</td></tr>
-<tr>
-<td class="countColumn">1</td><td class="issueColumn"><img border="0" align="top" src="lint-results-debug_files/lint-warning.png" alt="Warning" />
-<a href="#GoogleAppIndexingWarning">GoogleAppIndexingWarning: Missing support for Google App Indexing</a>
-</td></tr>
-<tr><td></td><td class="categoryColumn"><a href="#MissingIssues">Disabled Checks (15)</a>
+<tr><td></td><td class="categoryColumn"><a href="#MissingIssues">Disabled Checks (16)</a>
 </td></tr></table>
 <br/>
-<a name="Correctness"></a>
-<div class="category"><a href="#" title="Return to top">Correctness</a><div class="categorySeparator"></div>
-</div>
-<a name="GradleDependency"></a>
-<div class="issue">
-<div class="id"><a href="#" title="Return to top">GradleDependency: Obsolete Gradle Dependency</a><div class="issueSeparator"></div>
-</div>
-<div class="warningslist">
-<span class="location"><a href="../../build.gradle">../../build.gradle</a>:15</span>: <span class="message">A newer version of com.android.support:support-v4 than 23.1.1 is available: 25.3.1</span><br /><pre class="errorlines">
-<span class="lineno">  12</span> 
-<span class="lineno">  13</span> 
-<span class="lineno">  14</span> dependencies {
-<span class="lineno">  15</span>     <span class="errorspan">compile "com.android.support:support-v4:${project.property('android-support.version')}"</span>
-<span class="lineno">  16</span>     compile project(':osmdroid-android')
-<span class="lineno">  17</span> 
-</pre>
-</div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-debug_files/lint-run.png" />
-<br>
-Priority: 4 / 10<br/>
-Category: Correctness</div>
-Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Obsolete Gradle Dependency.</div>
-<div class="explanation">
-This detector looks for usages of libraries where the version you are using is not the current stable release. Using older versions is fine, and there are cases where you deliberately want to stick with an older version. However, you may simply not be aware that a more recent version is available, and that is what this lint check helps find.
-</div>
-<br/><div class="moreinfo">More info: </div><br/>To suppress this error, use the issue id "GradleDependency" as explained in the <a href="#SuppressInfo">Suppressing Warnings and Errors</a> section.<br/>
-</div>
-
-<a name="Security"></a>
-<div class="category"><a href="#" title="Return to top">Security</a><div class="categorySeparator"></div>
-</div>
-<a name="AllowBackup"></a>
-<div class="issue">
-<div class="id"><a href="#" title="Return to top">AllowBackup: AllowBackup/FullBackupContent Problems</a><div class="issueSeparator"></div>
-</div>
-<div class="warningslist">
-<span class="location"><a href="../../src/main/AndroidManifest.xml">../../src/main/AndroidManifest.xml</a>:13</span>: <span class="message">On SDK version 23 and up, your app data will be automatically backed up and restored on app install. Consider adding the attribute <code>android:fullBackupContent</code> to specify an <code>@xml</code> resource which configures which files to backup. More info: https://developer.android.com/preview/backup/index.html</span><br /><pre class="errorlines">
-<span class="lineno">  10</span>     &lt;uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-<span class="lineno">  11</span>     &lt;uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-<span class="lineno">  12</span>     &lt;uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-<span class="lineno">  13</span>     <span class="errorspan">&lt;application</span>
-<span class="lineno">  14</span>         android:allowBackup="true"
-<span class="lineno">  15</span>         android:icon="@drawable/icon"
-</pre>
-</div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ & Eclipse/ADT&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-debug_files/lint-run.png" />
-<br>
-Priority: 3 / 10<br/>
-Category: Security</div>
-Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: AllowBackup/FullBackupContent Problems.</div>
-<div class="explanation">
-The <code>allowBackup</code> attribute determines if an application's data can be backed up and restored. It is documented at <a href="http://developer.android.com/reference/android/R.attr.html#allowBackup">http://developer.android.com/reference/android/R.attr.html#allowBackup</a><br/>
-<br/>
-By default, this flag is set to <code>true</code>. When this flag is set to <code>true</code>, application data can be backed up and restored by the user using <code>adb backup</code> and <code>adb restore</code>.<br/>
-<br/>
-This may have security consequences for an application. <code>adb backup</code> allows users who have enabled USB debugging to copy application data off of the device. Once backed up, all application data can be read by the user. <code>adb restore</code> allows creation of application data from a source specified by the user. Following a restore, applications should not assume that the data, file permissions, and directory permissions were created by the application itself.<br/>
-<br/>
-Setting <code>allowBackup="false"</code> opts an application out of both backup and restore.<br/>
-<br/>
-To fix this warning, decide whether your application should support backup, and explicitly set <code>android:allowBackup=(true|false)"</code>.<br/>
-<br/>
-If not set to false, and if targeting API 23 or later, lint will also warn that you should set <code>android:fullBackupContent</code> to configure auto backup.
-</div>
-<br/><div class="moreinfo">More info: <ul><li><a href="https://developer.android.com/preview/backup/index.html">https://developer.android.com/preview/backup/index.html</a>
-<li><a href="http://developer.android.com/reference/android/R.attr.html#allowBackup">http://developer.android.com/reference/android/R.attr.html#allowBackup</a>
-</ul></div><br/>To suppress this error, use the issue id "AllowBackup" as explained in the <a href="#SuppressInfo">Suppressing Warnings and Errors</a> section.<br/>
-</div>
-
 <a name="Usability:Icons"></a>
 <div class="category"><a href="#" title="Return to top">Usability:Icons</a><div class="categorySeparator"></div>
 </div>
@@ -137,36 +225,6 @@ The res/drawable folder is intended for density-independent graphics such as sha
 </div>
 <br/><div class="moreinfo">More info: <a href="http://developer.android.com/guide/practices/screens_support.html">http://developer.android.com/guide/practices/screens_support.html</a>
 </div><br/>To suppress this error, use the issue id "IconLocation" as explained in the <a href="#SuppressInfo">Suppressing Warnings and Errors</a> section.<br/>
-</div>
-
-<a name="Usability"></a>
-<div class="category"><a href="#" title="Return to top">Usability</a><div class="categorySeparator"></div>
-</div>
-<a name="GoogleAppIndexingWarning"></a>
-<div class="issue">
-<div class="id"><a href="#" title="Return to top">GoogleAppIndexingWarning: Missing support for Google App Indexing</a><div class="issueSeparator"></div>
-</div>
-<div class="warningslist">
-<span class="location"><a href="../../src/main/AndroidManifest.xml">../../src/main/AndroidManifest.xml</a>:13</span>: <span class="message">App is not indexable by Google Search; consider adding at least one Activity with an ACTION-VIEW intent-filler. See issue explanation for more details.</span><br /><pre class="errorlines">
-<span class="lineno">  10</span>     &lt;uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-<span class="lineno">  11</span>     &lt;uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-<span class="lineno">  12</span>     &lt;uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-<span class="lineno">  13</span>     <span class="errorspan">&lt;application</span>
-<span class="lineno">  14</span>         android:allowBackup="true"
-<span class="lineno">  15</span>         android:icon="@drawable/icon"
-</pre>
-</div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-debug_files/lint-run.png" />
-<br>
-Priority: 5 / 10<br/>
-Category: Usability</div>
-Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Missing support for Google App Indexing.</div>
-<div class="explanation">
-Adds URLs to get your app into the Google index, to get installs and traffic to your app from Google Search.
-</div>
-<br/><div class="moreinfo">More info: <a href="https://g.co/AppIndexing/AndroidStudio">https://g.co/AppIndexing/AndroidStudio</a>
-</div><br/>To suppress this error, use the issue id "GoogleAppIndexingWarning" as explained in the <a href="#SuppressInfo">Suppressing Warnings and Errors</a> section.<br/>
 </div>
 
 <a name="MissingIssues"></a>
@@ -257,8 +315,7 @@ Accessing a field within the class that defines a getter for that field is at le
 <div class="issue">
 <div class="id">GoogleAppIndexingApiWarning<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-debug_files/lint-run.png" />
-<br>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ<br>
 Disabled By: Default<br/>
 Priority: 5 / 10<br/>
 Category: Usability</div>
@@ -305,8 +362,7 @@ If you <b>really</b> intend for the logging to be present in release mode, you c
 <div class="issue">
 <div class="id">MangledCRLF<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Eclipse/ADT&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-debug_files/lint-run.png" />
-<br>
+<div class="metadata">Note: This issue has an associated quickfix operation in Eclipse/ADT<br>
 Disabled By: Default<br/>
 Priority: 2 / 10<br/>
 Category: Correctness</div>
@@ -319,6 +375,21 @@ This detector looks for invalid line endings with repeated carriage return chara
 </div>
 <br/><div class="moreinfo">More info: <a href="https://bugs.eclipse.org/bugs/show_bug.cgi?id=375421">https://bugs.eclipse.org/bugs/show_bug.cgi?id=375421</a>
 </div><br/>To suppress this error, use the issue id "MangledCRLF" as explained in the <a href="#SuppressInfo">Suppressing Warnings and Errors</a> section.<br/>
+</div>
+<a name="MissingRegistered"></a>
+<div class="issue">
+<div class="id">MissingRegistered<div class="issueSeparator"></div>
+</div>
+<div class="metadata">Disabled By: Default<br/>
+Priority: 8 / 10<br/>
+Category: Correctness</div>
+Severity: <span class="error">Error</span><div class="summary">
+Explanation: Missing registered class.</div>
+<div class="explanation">
+If a class is referenced in the manifest or in a layout file, it must also exist in the project (or in one of the libraries included by the project. This check helps uncover typos in registration names, or attempts to rename or move classes without updating the manifest file properly.
+</div>
+<br/><div class="moreinfo">More info: <a href="http://developer.android.com/guide/topics/manifest/manifest-intro.html">http://developer.android.com/guide/topics/manifest/manifest-intro.html</a>
+</div><br/>To suppress this error, use the issue id "MissingRegistered" as explained in the <a href="#SuppressInfo">Suppressing Warnings and Errors</a> section.<br/>
 </div>
 <a name="NegativeMargin"></a>
 <div class="issue">
@@ -338,8 +409,7 @@ Margin values should be positive. Negative values are generally a sign that you 
 <div class="issue">
 <div class="id">NewerVersionAvailable<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-debug_files/lint-run.png" />
-<br>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ<br>
 Disabled By: Default<br/>
 Priority: 4 / 10<br/>
 Category: Correctness</div>
@@ -354,8 +424,7 @@ This detector checks with a central repository to see if there are newer version
 <div class="issue">
 <div class="id">SelectableText<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-debug_files/lint-run.png" />
-<br>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ<br>
 Disabled By: Default<br/>
 Priority: 7 / 10<br/>
 Category: Usability</div>
@@ -372,8 +441,7 @@ This lint check looks for TextViews which are likely to be displaying data: view
 <div class="issue">
 <div class="id">StopShip<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-debug_files/lint-run.png" />
-<br>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ<br>
 Disabled By: Default<br/>
 Priority: 10 / 10<br/>
 Category: Correctness</div>
@@ -388,8 +456,7 @@ Using the comment <code>// STOPSHIP</code> can be used to flag code that is inco
 <div class="issue">
 <div class="id">TypographyQuotes<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ & Eclipse/ADT&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-debug_files/lint-run.png" />
-<br>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ & Eclipse/ADT<br>
 Disabled By: Default<br/>
 Priority: 5 / 10<br/>
 Category: Usability:Typography</div>

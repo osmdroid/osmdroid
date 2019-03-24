@@ -1,5 +1,5 @@
 <map id="G" name="G">
-<area shape="rect" id="node1_0" href="./OsmApplication.html" title="org.osmdroid.OsmApplication" alt="" coords="16,113,128,138"/>
-<area shape="rect" id="node1" href="./OsmApplication.html" title="&lt;TABLE&gt;" alt="" coords="5,101,139,149"/>
-<area shape="rect" id="node2_1" href="http://java.sun.com/j2se/1.4.2/docs/api//Application.html" title="Application" alt="" coords="30,17,114,42"/>
+<area shape="rect" id="node1_0" href="./OsmApplication.html" title="org.osmdroid.OsmApplication" alt="" coords="27,113,139,138"/>
+<area shape="rect" id="node1" href="./OsmApplication.html" title="&lt;TABLE&gt;" alt="" coords="17,101,150,149"/>
+<area shape="rect" id="node2_1" href="http://java.sun.com/j2se/1.4.2/docs/api//MultiDexApplication.html" title="MultiDexApplication" alt="" coords="16,17,151,42"/>
 </map>

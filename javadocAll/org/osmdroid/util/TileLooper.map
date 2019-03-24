@@ -1,8 +1,6 @@
 <map id="G" name="G">
-<area shape="rect" id="node1_0" href="./TileLooper.html" title="org.osmdroid.util.TileLooper" alt="" coords="118,17,198,42"/>
-<area shape="rect" id="node1" href="./TileLooper.html" title="&lt;TABLE&gt;" alt="" coords="107,5,209,53"/>
+<area shape="rect" id="node1_0" href="./TileLooper.html" title="org.osmdroid.util.TileLooper" alt="" coords="37,17,117,42"/>
+<area shape="rect" id="node1" href="./TileLooper.html" title="&lt;TABLE&gt;" alt="" coords="26,5,127,53"/>
 <area shape="rect" id="node2_1" href="../views/overlay/TilesOverlay.OverlayTileLooper.html" title="org.osmdroid.views.overlay.TilesOverlay.OverlayTileLooper" alt="" coords="16,113,137,138"/>
 <area shape="rect" id="node2" href="../views/overlay/TilesOverlay.OverlayTileLooper.html" title="&lt;TABLE&gt;" alt="" coords="5,101,148,149"/>
-<area shape="rect" id="node3_2" href="../views/overlay/TilesOverlay.CacheTileLooper.html" title="org.osmdroid.views.overlay.TilesOverlay.CacheTileLooper" alt="" coords="183,113,299,138"/>
-<area shape="rect" id="node3" href="../views/overlay/TilesOverlay.CacheTileLooper.html" title="&lt;TABLE&gt;" alt="" coords="172,101,309,149"/>
 </map>

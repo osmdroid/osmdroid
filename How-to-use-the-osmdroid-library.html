@@ -8,7 +8,7 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta name="Date-Creation-yyyymmdd" content="20080101"/>
-    <meta name="Date-Revision-yyyymmdd" content="20180716"/>
+    <meta name="Date-Revision-yyyymmdd" content="20190324"/>
     <meta http-equiv="Content-Language" content="en"/>
     <title> osmdroid</title>
     <link rel="stylesheet" href="./css/apache-maven-fluido-1.4.min.css"/>
@@ -65,10 +65,10 @@
             </li>
 
             <li id="publishDate" class="pull-right"><span class="divider">|</span> Last Published:
-                2018-07-16
+                2019-03-24
             </li>
             <li id="projectVersion" class="pull-right">
-                6.0.2
+                6.1.0
             </li>
 
         </ul>
@@ -374,7 +374,7 @@ public class MainActivity extends Activity {
 </code></pre>
 <p>We can move the map on a default view point. For this, we need access to the map controller:</p>
 <pre><code class="language-java">        IMapController mapController = map.getController();
-        mapController.setZoom(9);
+        mapController.setZoom(9.5);
         GeoPoint startPoint = new GeoPoint(48.8583, 2.2944);
         mapController.setCenter(startPoint);
 </code></pre>
@@ -511,7 +511,7 @@ ItemizedOverlayWithFocus&lt;OverlayItem&gt; mOverlay = new ItemizedOverlayWithFo
 	public boolean onItemLongPress(final int index, final OverlayItem item) {
 		return false;
 	}
-});
+}, context);
 mOverlay.setFocusItemsOnTap(true);
 
 mMapView.getOverlays().add(mOverlay);

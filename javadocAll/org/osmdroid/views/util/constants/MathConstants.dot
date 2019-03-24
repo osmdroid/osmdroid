@@ -10,27 +10,27 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.util.GeoPoint
-	c160943 [label=<<table title="org.osmdroid.util.GeoPoint" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../../util/GeoPoint.html">
+	c184465 [label=<<table title="org.osmdroid.util.GeoPoint" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../../util/GeoPoint.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> GeoPoint </td></tr>
 		</table></td></tr>
 		</table>>, URL="../../../util/GeoPoint.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.util.MyMath
-	c160954 [label=<<table title="org.osmdroid.util.MyMath" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../../util/MyMath.html">
+	c184481 [label=<<table title="org.osmdroid.util.MyMath" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../../util/MyMath.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MyMath </td></tr>
 		</table></td></tr>
 		</table>>, URL="../../../util/MyMath.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.util.constants.MathConstants
-	c161056 [label=<<table title="org.osmdroid.views.util.constants.MathConstants" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./MathConstants.html">
+	c184594 [label=<<table title="org.osmdroid.views.util.constants.MathConstants" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./MathConstants.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> MathConstants </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MathConstants.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.util.GeoPoint implements org.osmdroid.views.util.constants.MathConstants
-	c161056:p -> c160943:p [dir=back,arrowtail=empty,style=dashed];
+	c184594:p -> c184465:p [dir=back,arrowtail=empty,style=dashed];
 	//org.osmdroid.util.MyMath implements org.osmdroid.views.util.constants.MathConstants
-	c161056:p -> c160954:p [dir=back,arrowtail=empty,style=dashed];
+	c184594:p -> c184481:p [dir=back,arrowtail=empty,style=dashed];
 }
 

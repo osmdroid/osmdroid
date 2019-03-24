@@ -77,10 +77,10 @@
 <area shape="rect" id="node37" href="./ScaleBarOverlay.UnitsOfMeasure.html" title="&lt;TABLE&gt;" alt="" coords="4590,5,4723,59"/>
 <area shape="rect" id="node39_38" href="./TilesOverlay.OverlayTileLooper.html" title="org.osmdroid.views.overlay.TilesOverlay.OverlayTileLooper" alt="" coords="4759,19,4880,45"/>
 <area shape="rect" id="node39" href="./TilesOverlay.OverlayTileLooper.html" title="&lt;TABLE&gt;" alt="" coords="4748,8,4891,56"/>
-<area shape="rect" id="node40_39" href="./TilesOverlay.CacheTileLooper.html" title="org.osmdroid.views.overlay.TilesOverlay.CacheTileLooper" alt="" coords="4925,19,5041,45"/>
-<area shape="rect" id="node40" href="./TilesOverlay.CacheTileLooper.html" title="&lt;TABLE&gt;" alt="" coords="4915,8,5052,56"/>
-<area shape="rect" id="node41_40" href="./LinearRingTest.html" title="org.osmdroid.views.overlay.LinearRingTest" alt="" coords="5087,19,5192,45"/>
-<area shape="rect" id="node41" href="./LinearRingTest.html" title="&lt;TABLE&gt;" alt="" coords="5076,8,5203,56"/>
-<area shape="rect" id="node42_41" href="./MilestoneListerTest.html" title="org.osmdroid.views.overlay.MilestoneListerTest" alt="" coords="5237,19,5369,45"/>
-<area shape="rect" id="node42" href="./MilestoneListerTest.html" title="&lt;TABLE&gt;" alt="" coords="5227,8,5380,56"/>
+<area shape="rect" id="node40_39" href="./DefaultOverlayManagerTest.html" title="org.osmdroid.views.overlay.DefaultOverlayManagerTest" alt="" coords="4925,19,5103,45"/>
+<area shape="rect" id="node40" href="./DefaultOverlayManagerTest.html" title="&lt;TABLE&gt;" alt="" coords="4915,8,5113,56"/>
+<area shape="rect" id="node41_40" href="./LinearRingTest.html" title="org.osmdroid.views.overlay.LinearRingTest" alt="" coords="5148,19,5253,45"/>
+<area shape="rect" id="node41" href="./LinearRingTest.html" title="&lt;TABLE&gt;" alt="" coords="5137,8,5264,56"/>
+<area shape="rect" id="node42_41" href="./MilestoneListerTest.html" title="org.osmdroid.views.overlay.MilestoneListerTest" alt="" coords="5299,19,5431,45"/>
+<area shape="rect" id="node42" href="./MilestoneListerTest.html" title="&lt;TABLE&gt;" alt="" coords="5288,8,5441,56"/>
 </map>

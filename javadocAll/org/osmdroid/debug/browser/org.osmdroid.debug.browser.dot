@@ -10,13 +10,13 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.debug.browser.CacheAdapter
-	c5499 [label=<<table title="org.osmdroid.debug.browser.CacheAdapter" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./CacheAdapter.html">
+	c5920 [label=<<table title="org.osmdroid.debug.browser.CacheAdapter" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./CacheAdapter.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> CacheAdapter </td></tr>
 		</table></td></tr>
 		</table>>, URL="./CacheAdapter.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.debug.browser.CacheBrowserActivity
-	c5500 [label=<<table title="org.osmdroid.debug.browser.CacheBrowserActivity" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./CacheBrowserActivity.html">
+	c5921 [label=<<table title="org.osmdroid.debug.browser.CacheBrowserActivity" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./CacheBrowserActivity.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> CacheBrowserActivity </td></tr>
 		</table></td></tr>

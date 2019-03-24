@@ -1,33 +1,33 @@
 <?xml version="1.0"?>
 <javancss>
-  <date>2018-07-16</date>
-  <time>16:38:59</time>
+  <date>2019-03-24</date>
+  <time>09:30:49</time>
   <packages>
     <package>
       <name>org.osmdroid.wms</name>
-      <classes>7</classes>
-      <functions>52</functions>
-      <ncss>491</ncss>
-      <javadocs>9</javadocs>
-      <javadoc_lines>94</javadoc_lines>
-      <single_comment_lines>38</single_comment_lines>
+      <classes>6</classes>
+      <functions>50</functions>
+      <ncss>472</ncss>
+      <javadocs>7</javadocs>
+      <javadoc_lines>84</javadoc_lines>
+      <single_comment_lines>37</single_comment_lines>
       <multi_comment_lines>0</multi_comment_lines>
     </package>
     <total>
-      <classes>7</classes>
-      <functions>52</functions>
-      <ncss>491</ncss>
-      <javadocs>9</javadocs>
-      <javadoc_lines>94</javadoc_lines>
-      <single_comment_lines>38</single_comment_lines>
+      <classes>6</classes>
+      <functions>50</functions>
+      <ncss>472</ncss>
+      <javadocs>7</javadocs>
+      <javadoc_lines>84</javadoc_lines>
+      <single_comment_lines>37</single_comment_lines>
       <multi_comment_lines>0</multi_comment_lines>
     </total>
     <table>
       <tr><td>Packages</td><td>Classes</td><td>Functions</td><td>NCSS</td><td>Javadocs</td><td>per</td></tr>
-      <tr><td>1.00</td><td>7.00</td><td>52.00</td><td>491.00</td><td>9.00</td><td>Project</td></tr>
-      <tr><td></td><td>7.00</td><td>52.00</td><td>491.00</td><td>9.00</td><td>Package</td></tr>
-      <tr><td></td><td></td><td>7.43</td><td>70.14</td><td>1.29</td><td>Class</td></tr>
-      <tr><td></td><td></td><td></td><td>9.44</td><td>0.17</td><td>Function</td></tr>
+      <tr><td>1.00</td><td>6.00</td><td>50.00</td><td>472.00</td><td>7.00</td><td>Project</td></tr>
+      <tr><td></td><td>6.00</td><td>50.00</td><td>472.00</td><td>7.00</td><td>Package</td></tr>
+      <tr><td></td><td></td><td>8.33</td><td>78.67</td><td>1.17</td><td>Class</td></tr>
+      <tr><td></td><td></td><td></td><td>9.44</td><td>0.14</td><td>Function</td></tr>
     </table>
   </packages>
 
@@ -83,35 +83,25 @@
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <object>
-      <name>org.osmdroid.wms.CustomTestRunner</name>
-      <ncss>10</ncss>
-      <functions>2</functions>
-      <classes>1</classes>
-      <javadocs>2</javadocs>
-      <javadocs_lines>10</javadocs_lines>
-      <single_comment_lines>0</single_comment_lines>
-      <implementation_comment_lines>0</implementation_comment_lines>
-    </object>
-    <object>
       <name>org.osmdroid.wms.ParserTest</name>
       <ncss>88</ncss>
       <functions>8</functions>
       <classes>0</classes>
       <javadocs>0</javadocs>
       <javadocs_lines>0</javadocs_lines>
-      <single_comment_lines>3</single_comment_lines>
+      <single_comment_lines>2</single_comment_lines>
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <averages>
-      <ncss>62.86</ncss>
-      <functions>7.43</functions>
-      <classes>0.29</classes>
-      <javadocs>1.29</javadocs>
-      <javadocs_lines>13.43</javadocs_lines>
-      <single_comment_lines>5.43</single_comment_lines>
+      <ncss>71.67</ncss>
+      <functions>8.33</functions>
+      <classes>0.17</classes>
+      <javadocs>1.17</javadocs>
+      <javadocs_lines>14.00</javadocs_lines>
+      <single_comment_lines>6.17</single_comment_lines>
       <implementation_comment_lines>0.00</implementation_comment_lines>
     </averages>
-    <ncss>491.00</ncss>
+    <ncss>472.00</ncss>
   </objects>
 
   <functions>
@@ -374,24 +364,6 @@
       <javadocs>0</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.wms.CustomTestRunner.CustomTestRunner(Class)</name>
-      <ncss>2</ncss>
-      <ccn>1</ccn>
-      <javadocs>1</javadocs>
-    </function>
-    <function>
-      <name>org.osmdroid.wms.CustomTestRunner.AndroidManifest$1.getTargetSdkVersion()</name>
-      <ncss>2</ncss>
-      <ccn>1</ccn>
-      <javadocs>0</javadocs>
-    </function>
-    <function>
-      <name>org.osmdroid.wms.CustomTestRunner.getAppManifest(Config)</name>
-      <ncss>7</ncss>
-      <ccn>1</ccn>
-      <javadocs>0</javadocs>
-    </function>
-    <function>
       <name>org.osmdroid.wms.ParserTest.testParserGeoserver()</name>
       <ncss>10</ncss>
       <ccn>2</ccn>
@@ -440,11 +412,11 @@
       <javadocs>0</javadocs>
     </function>
     <function_averages>
-      <ncss>7.59</ncss>
-      <ccn>2.50</ccn>
-      <javadocs>0.06</javadocs>
+      <ncss>7.82</ncss>
+      <ccn>2.59</ccn>
+      <javadocs>0.04</javadocs>
     </function_averages>
-    <ncss>491.00</ncss>
+    <ncss>472.00</ncss>
   </functions>
 </javancss>
 

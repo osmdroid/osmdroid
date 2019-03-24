@@ -1,22 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <issues format="4" by="lint 26.1.1">
 
-    <issue
-        id="GradleDependency"
-        severity="Warning"
-        message="A newer version of com.android.support:appcompat-v7 than 23.1.1 is available: 25.3.1"
-        category="Correctness"
-        priority="4"
-        summary="Obsolete Gradle Dependency"
-        explanation="This detector looks for usages of libraries where the version you are using is not the current stable release. Using older versions is fine, and there are cases where you deliberately want to stick with an older version. However, you may simply not be aware that a more recent version is available, and that is what this lint check helps find."
-        errorLine1="    compile &apos;com.android.support:appcompat-v7:23.1.1&apos;"
-        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
-        quickfix="studio">
-        <location
-            file=".\osmdroid-wms\build.gradle"
-            line="13"
-            column="5"/>
-    </issue>
-
 </issues>
 

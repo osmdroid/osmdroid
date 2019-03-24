@@ -3,7 +3,183 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Lint Report</title>
 <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Roboto" />
-<link rel="stylesheet" type="text/css" href="lint-results-debug_files/hololike.css" />
+<style>
+body {
+    max-width: 800px;
+    background-color: #000000;
+    background: -webkit-gradient(linear, left top, right bottom, from(#000000), to(#272d33));
+    background: -moz-linear-gradient(left top, #000000, #272d33);
+    color: #f3f3f3;
+    font-family: 'Roboto', Sans-Serif;
+}
+.issue {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 5px 0px 5px 5px;
+}
+.id {
+    font-size: 14pt;
+    color: #bebebe;
+    margin: 5px 0px 5px 0px;
+}
+.category {
+    font-size: 18pt;
+    color: #bebebe;
+    margin: 10px 0px 5px 0px;
+}
+.explanation {
+    margin-top: 10px;
+}
+.explanation b {
+    color: #ffbbbb;
+}
+.explanation code {
+    color: #bebebe;
+    font-family: 'Roboto', Sans-Serif;
+}
+pre {
+    background-color: #282828;
+    margin: 5px 0px 5px 5px;
+    padding: 5px 5px 5px 0px;
+    overflow: hidden;
+}
+.lineno {
+    color: #4f4f4f;
+}
+.embedimage {
+    max-width: 200px;
+    max-height: 200px;
+}
+th { font-weight: normal; }
+table { border: none; }
+.metadata {
+}
+.location {
+    color: #bebebe;
+}
+.message { }
+.errorspan { color: #33b5e5; }
+.errorline { color: #33b5e5; }
+.warningslist { margin-bottom: 20px; }
+.overview {
+    padding: 10pt;
+    width: 100%;
+    overflow: auto;
+    border-collapse:collapse;
+}
+.overview tr {
+    border-top: solid 1px #39393a;
+    border-bottom: solid 1px #39393a;
+}
+.countColumn {
+    text-align: right;
+    padding-right: 20px;
+}
+.issueColumn {
+   padding-left: 16px;
+}
+.categoryColumn {
+   position: relative;
+   left: -50px;
+   padding-top: 20px;
+   padding-bottom: 5px;
+}
+.titleSeparator {
+    background-color: #33b5e5;
+    height: 3px;
+    margin-bottom: 10px;
+}
+.categorySeparator {
+    background-color: #33b5e5;
+    height: 3px;
+    margin-bottom: 10px;
+}
+.issueSeparator {
+    background-color: #39393a;
+    height: 2px;
+    margin-bottom: 10px;
+}
+.location a:link {
+    text-decoration: none;
+    color: #bebebe;
+}
+.location a:hover {
+    text-decoration: underline;
+    color: #f3f3f3;
+}
+a:link {
+    text-decoration: none;
+    color: #f3f3f3;
+}
+a:visited {
+    text-decoration: none;
+    color: #bebebe;
+}
+a:hover {
+    text-decoration: underline;
+    color: #f3f3f3;
+}
+a:active {
+    text-decoration: underline;
+    color: #f3f3f3;
+}
+.moreinfo a:link {
+    text-decoration: underline;
+    color: #33b5e5;
+}
+.moreinfo a:visited {
+    text-decoration: underline;
+    color: #33b5e5;
+}
+.issue a:link {
+    text-decoration: underline;
+}
+.issue a:visited {
+    text-decoration: underline;
+}
+.id a:link {
+    text-decoration: none;
+    color: #bebebe;
+}
+.id a:visited {
+    text-decoration: none;
+    color: #bebebe;
+}
+.id a:hover {
+    text-decoration: underline;
+    color: #f3f3f3;
+}
+.id a:active {
+    text-decoration: underline;
+    color: #bebebe;
+}
+.category a:link {
+    text-decoration: none;
+    color: #bebebe;
+}
+.category a:visited {
+    text-decoration: none;
+    color: #bebebe;
+}
+.category a:hover {
+    text-decoration: underline;
+    color: #f3f3f3;
+}
+.category a:active {
+    text-decoration: underline;
+    color: #bebebe;
+}
+button {
+    color: #ffffff;
+    background-color: #353535;
+    border-left: none;
+    border-right: none;
+    border-bottom: none;
+    border-top: solid 1px #5b5b5b;
+    font-family: 'Roboto', Sans-Serif;
+    font-size: 12pt;
+}
+</style>
 <script language="javascript" type="text/javascript"> 
 <!--
 function reveal(id) {
@@ -18,22 +194,22 @@ document.getElementById(id+'Link').style.display = 'none';
 <body>
 <h1>Lint Report</h1>
 <div class="titleSeparator"></div>
-Check performed at Mon Jul 16 16:37:54 EDT 2018.<br/>
+Check performed at Sun Mar 24 09:29:30 EDT 2019.<br/>
 2 errors and 1 warnings found:<br/><br/>
 <table class="overview">
 <tr><td></td><td class="categoryColumn"><a href="#Correctness">Correctness</a>
 </td></tr>
 <tr>
-<td class="countColumn">2</td><td class="issueColumn"><img border="0" align="top" src="lint-results-debug_files/lint-error.png" alt="Error" />
+<td class="countColumn">2</td><td class="issueColumn"><img border="0" align="top" width="15" height="15" alt="Error" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAYAAAA71pVKAAAB00lEQVR42nWTS0hbQRiF587MzkUXooi6UHAjhNKNSkGhCDXxkZhUIwWhBLoRsQpi3bXmIboSV2aliI+WKqLUtqsuSxclrhRBUMnVmIpa2oIkQon+zhlr9F7jwOEw/znfLO6dYcy2Arys6AUv6x7klTNh4ViFY485u2+N8Uc8yB1DH0Vt6ki2UkZ20LkS/Eh6CXPk6FnAKVHNJ3nViind9E/6tTKto3TxaU379Qw5euhn4QXxOGzKFjqT7Vmlwx8IC357jh76GvzC64pj4mn6VLbRbf0Nvdcw3J6hr7gS9o3XDxwIN/0RPot+h95pGG7P0AfH1oVz6UR4ya5foXkNw3Pl4Ngub/p6yD1k13FoTsPwXDk4ti89SwnuJrtigYiGY4FhypWDY2aeb0CJ4rzZou9GPc0Y1drtGfrgWLzweUm8uPNsx2ikrHgjHT6LUOrzD/rpDpIlU0JfcaX6d8UfdoW38/20ZbiuxF10MHL1tRNvp2/mSuihn70kZl2/MJ+8Xtkq8NOm4VRqoIUKLy0Hx2mx3PN/5iTk6KFvuaJmyxux3zE8tFPTm9p84KMNdcAGa9COvZqnkaN37wNJvpooSvZFexIvx2b3OkdX4dgne6N3XtUl5wqoyBY2uZQAAAAASUVORK5CYII=" />
 <a href="#InvalidPackage">InvalidPackage: Package not included in Android</a>
 </td></tr>
 <tr><td></td><td class="categoryColumn"><a href="#Performance">Performance</a>
 </td></tr>
 <tr>
-<td class="countColumn">1</td><td class="issueColumn"><img border="0" align="top" src="lint-results-debug_files/lint-warning.png" alt="Warning" />
+<td class="countColumn">1</td><td class="issueColumn"><img border="0" align="top" width="16" height="15" alt="Warning" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAPCAQAAABHeoekAAAA3klEQVR42nWPsWoCQRCGVyJiF9tAsNImbcDKR/ABBEurYCsBsfQRQiAPYGPyAAnYWQULS9MErNU2Vsr/ObMX7g6O+xd2/5n5dmY3hFQEBVVpuCsVT/yoUl6u4XotBz4E4qR2YYyH6ugEWY8comR/t+tvPPJtSLPYvhvvTswtbdCmCOwjMHXAzjP9kB/ByB7nejbgy43WVPF3WNG+p9+kzkozdhGAQdZh7BlHdGTL3z98pp6Um7okKdvHNuIzWk+9xN+yINOcHps0OnAfuOOoHJH3pmHghhYP2VJcaXx7BaKz9YB2HVrDAAAAAElFTkSuQmCC"/>
 <a href="#UnusedResources">UnusedResources: Unused resources</a>
 </td></tr>
-<tr><td></td><td class="categoryColumn"><a href="#MissingIssues">Disabled Checks (15)</a>
+<tr><td></td><td class="categoryColumn"><a href="#MissingIssues">Disabled Checks (16)</a>
 </td></tr></table>
 <br/>
 <a name="Correctness"></a>
@@ -175,8 +351,7 @@ Accessing a field within the class that defines a getter for that field is at le
 <div class="issue">
 <div class="id">GoogleAppIndexingApiWarning<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-debug_files/lint-run.png" />
-<br>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ<br>
 Disabled By: Default<br/>
 Priority: 5 / 10<br/>
 Category: Usability</div>
@@ -223,8 +398,7 @@ If you <b>really</b> intend for the logging to be present in release mode, you c
 <div class="issue">
 <div class="id">MangledCRLF<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Eclipse/ADT&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-debug_files/lint-run.png" />
-<br>
+<div class="metadata">Note: This issue has an associated quickfix operation in Eclipse/ADT<br>
 Disabled By: Default<br/>
 Priority: 2 / 10<br/>
 Category: Correctness</div>
@@ -237,6 +411,21 @@ This detector looks for invalid line endings with repeated carriage return chara
 </div>
 <br/><div class="moreinfo">More info: <a href="https://bugs.eclipse.org/bugs/show_bug.cgi?id=375421">https://bugs.eclipse.org/bugs/show_bug.cgi?id=375421</a>
 </div><br/>To suppress this error, use the issue id "MangledCRLF" as explained in the <a href="#SuppressInfo">Suppressing Warnings and Errors</a> section.<br/>
+</div>
+<a name="MissingRegistered"></a>
+<div class="issue">
+<div class="id">MissingRegistered<div class="issueSeparator"></div>
+</div>
+<div class="metadata">Disabled By: Default<br/>
+Priority: 8 / 10<br/>
+Category: Correctness</div>
+Severity: <span class="error">Error</span><div class="summary">
+Explanation: Missing registered class.</div>
+<div class="explanation">
+If a class is referenced in the manifest or in a layout file, it must also exist in the project (or in one of the libraries included by the project. This check helps uncover typos in registration names, or attempts to rename or move classes without updating the manifest file properly.
+</div>
+<br/><div class="moreinfo">More info: <a href="http://developer.android.com/guide/topics/manifest/manifest-intro.html">http://developer.android.com/guide/topics/manifest/manifest-intro.html</a>
+</div><br/>To suppress this error, use the issue id "MissingRegistered" as explained in the <a href="#SuppressInfo">Suppressing Warnings and Errors</a> section.<br/>
 </div>
 <a name="NegativeMargin"></a>
 <div class="issue">
@@ -256,8 +445,7 @@ Margin values should be positive. Negative values are generally a sign that you 
 <div class="issue">
 <div class="id">NewerVersionAvailable<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-debug_files/lint-run.png" />
-<br>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ<br>
 Disabled By: Default<br/>
 Priority: 4 / 10<br/>
 Category: Correctness</div>
@@ -272,8 +460,7 @@ This detector checks with a central repository to see if there are newer version
 <div class="issue">
 <div class="id">SelectableText<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-debug_files/lint-run.png" />
-<br>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ<br>
 Disabled By: Default<br/>
 Priority: 7 / 10<br/>
 Category: Usability</div>
@@ -290,8 +477,7 @@ This lint check looks for TextViews which are likely to be displaying data: view
 <div class="issue">
 <div class="id">StopShip<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-debug_files/lint-run.png" />
-<br>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ<br>
 Disabled By: Default<br/>
 Priority: 10 / 10<br/>
 Category: Correctness</div>
@@ -306,8 +492,7 @@ Using the comment <code>// STOPSHIP</code> can be used to flag code that is inco
 <div class="issue">
 <div class="id">TypographyQuotes<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ & Eclipse/ADT&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-debug_files/lint-run.png" />
-<br>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ & Eclipse/ADT<br>
 Disabled By: Default<br/>
 Priority: 5 / 10<br/>
 Category: Usability:Typography</div>

@@ -10,44 +10,44 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.tileprovider.cachemanager.CacheManager
-	c22602 [label=<<table title="org.osmdroid.tileprovider.cachemanager.CacheManager" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./CacheManager.html">
+	c24327 [label=<<table title="org.osmdroid.tileprovider.cachemanager.CacheManager" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./CacheManager.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> CacheManager </td></tr>
 		</table></td></tr>
 		</table>>, URL="./CacheManager.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerCallback
-	c22603 [label=<<table title="org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerCallback" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./CacheManager.CacheManagerCallback.html">
+	c24328 [label=<<table title="org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerCallback" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./CacheManager.CacheManagerCallback.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> CacheManagerCallback </td></tr>
 		</table></td></tr>
 		</table>>, URL="./CacheManager.CacheManagerCallback.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerDialog
-	c22604 [label=<<table title="org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerDialog" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./CacheManager.CacheManagerDialog.html">
+	c24329 [label=<<table title="org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerDialog" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./CacheManager.CacheManagerDialog.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> CacheManagerDialog </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./CacheManager.CacheManagerDialog.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerTask
-	c22605 [label=<<table title="org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerTask" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./CacheManager.CacheManagerTask.html">
+	c24330 [label=<<table title="org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerTask" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./CacheManager.CacheManagerTask.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> CacheManagerTask </td></tr>
 		</table></td></tr>
 		</table>>, URL="./CacheManager.CacheManagerTask.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerAction
-	c22606 [label=<<table title="org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerAction" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./CacheManager.CacheManagerAction.html">
+	c24331 [label=<<table title="org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerAction" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./CacheManager.CacheManagerAction.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> CacheManagerAction </td></tr>
 		</table></td></tr>
 		</table>>, URL="./CacheManager.CacheManagerAction.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.cachemanager.CacheManagerTest
-	c22802 [label=<<table title="org.osmdroid.tileprovider.cachemanager.CacheManagerTest" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./CacheManagerTest.html">
+	c24543 [label=<<table title="org.osmdroid.tileprovider.cachemanager.CacheManagerTest" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./CacheManagerTest.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> CacheManagerTest </td></tr>
 		</table></td></tr>
 		</table>>, URL="./CacheManagerTest.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerDialog implements org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerCallback
-	c22603:p -> c22604:p [dir=back,arrowtail=empty,style=dashed];
+	c24328:p -> c24329:p [dir=back,arrowtail=empty,style=dashed];
 }
 

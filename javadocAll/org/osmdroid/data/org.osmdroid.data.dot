@@ -9,17 +9,39 @@ digraph G {
 	node [fontname="arial",fontsize=10,shape=plaintext];
 	nodesep=0.25;
 	ranksep=0.5;
+	// org.osmdroid.data.DataCountry
+	c5380 [label=<<table title="org.osmdroid.data.DataCountry" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./DataCountry.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> DataCountry </td></tr>
+		</table></td></tr>
+		</table>>, URL="./DataCountry.html", fontname="arial", fontcolor="black", fontsize=10.0];
+	// org.osmdroid.data.DataCountryLoader
+	c5381 [label=<<table title="org.osmdroid.data.DataCountryLoader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./DataCountryLoader.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> DataCountryLoader </td></tr>
+		</table></td></tr>
+		</table>>, URL="./DataCountryLoader.html", fontname="arial", fontcolor="black", fontsize=10.0];
+	// org.osmdroid.data.DataLoader<T>
+	c5382 [label=<<table title="org.osmdroid.data.DataLoader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./DataLoader.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"><font face="arial italic"> DataLoader&lt;T&gt; </font></td></tr>
+		</table></td></tr>
+		</table>>, URL="./DataLoader.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.data.DataRegion
-	c5000 [label=<<table title="org.osmdroid.data.DataRegion" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./DataRegion.html">
+	c5383 [label=<<table title="org.osmdroid.data.DataRegion" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./DataRegion.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> DataRegion </td></tr>
 		</table></td></tr>
 		</table>>, URL="./DataRegion.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.data.DataRegionLoader
-	c5001 [label=<<table title="org.osmdroid.data.DataRegionLoader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./DataRegionLoader.html">
+	c5384 [label=<<table title="org.osmdroid.data.DataRegionLoader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./DataRegionLoader.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> DataRegionLoader </td></tr>
 		</table></td></tr>
 		</table>>, URL="./DataRegionLoader.html", fontname="arial", fontcolor="black", fontsize=10.0];
+	//org.osmdroid.data.DataCountryLoader extends org.osmdroid.data.DataLoader<org.osmdroid.data.DataCountry>
+	c5382:p -> c5381:p [dir=back,arrowtail=empty];
+	//org.osmdroid.data.DataRegionLoader extends org.osmdroid.data.DataLoader<org.osmdroid.data.DataRegion>
+	c5382:p -> c5384:p [dir=back,arrowtail=empty];
 }
 

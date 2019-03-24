@@ -8,7 +8,7 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta name="Date-Creation-yyyymmdd" content="20080101"/>
-    <meta name="Date-Revision-yyyymmdd" content="20180716"/>
+    <meta name="Date-Revision-yyyymmdd" content="20190324"/>
     <meta http-equiv="Content-Language" content="en"/>
     <title> osmdroid</title>
     <link rel="stylesheet" href="./css/apache-maven-fluido-1.4.min.css"/>
@@ -65,10 +65,10 @@
             </li>
 
             <li id="publishDate" class="pull-right"><span class="divider">|</span> Last Published:
-                2018-07-16
+                2019-03-24
             </li>
             <li id="projectVersion" class="pull-right">
-                6.0.2
+                6.1.0
             </li>
 
         </ul>
@@ -330,8 +330,13 @@ mMapView.setTileProvider(forge);
 //since we have no idea what will be on the
 //user's device and what geographic area it is, this will attempt to center the map
 //on whatever the map data provides
-mMapView.getController().setZoom(fromFiles.getMinimumZoomLevel());
-mMapView.zoomToBoundingBox(fromFiles.getBoundsOsmdroid(), true);
+mMapView.post(
+        new Runnable() {
+            @Override
+            public void run() {
+                mMapView.zoomToBoundingBox(fromFiles.getBoundsOsmdroid(), false);
+            }
+        });
 </code></pre>
 <h3>Lifecycle/resource management issues</h3>
 <ul>

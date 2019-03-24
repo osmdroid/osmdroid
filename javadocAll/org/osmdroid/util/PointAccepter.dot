@@ -10,51 +10,51 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.util.LineBuilder
-	c198233 [label=<<table title="org.osmdroid.util.LineBuilder" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./LineBuilder.html">
+	c225140 [label=<<table title="org.osmdroid.util.LineBuilder" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./LineBuilder.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> LineBuilder </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./LineBuilder.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.util.PathBuilder
-	c198244 [label=<<table title="org.osmdroid.util.PathBuilder" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./PathBuilder.html">
+	c225156 [label=<<table title="org.osmdroid.util.PathBuilder" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./PathBuilder.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> PathBuilder </td></tr>
 		</table></td></tr>
 		</table>>, URL="./PathBuilder.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.util.PointAccepter
-	c198245 [label=<<table title="org.osmdroid.util.PointAccepter" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./PointAccepter.html">
+	c225157 [label=<<table title="org.osmdroid.util.PointAccepter" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./PointAccepter.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> PointAccepter </td></tr>
 		</table></td></tr>
 		</table>>, URL="./PointAccepter.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.util.SegmentClipper
-	c198249 [label=<<table title="org.osmdroid.util.SegmentClipper" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SegmentClipper.html">
+	c225161 [label=<<table title="org.osmdroid.util.SegmentClipper" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SegmentClipper.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SegmentClipper </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SegmentClipper.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.milestones.MilestoneLister
-	c198298 [label=<<table title="org.osmdroid.views.overlay.milestones.MilestoneLister" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../views/overlay/milestones/MilestoneLister.html">
+	c225222 [label=<<table title="org.osmdroid.views.overlay.milestones.MilestoneLister" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../views/overlay/milestones/MilestoneLister.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> MilestoneLister </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="../views/overlay/milestones/MilestoneLister.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.milestones.MilestoneManager
-	c198299 [label=<<table title="org.osmdroid.views.overlay.milestones.MilestoneManager" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../views/overlay/milestones/MilestoneManager.html">
+	c225223 [label=<<table title="org.osmdroid.views.overlay.milestones.MilestoneManager" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../views/overlay/milestones/MilestoneManager.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MilestoneManager </td></tr>
 		</table></td></tr>
 		</table>>, URL="../views/overlay/milestones/MilestoneManager.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.util.LineBuilder implements org.osmdroid.util.PointAccepter
-	c198245:p -> c198233:p [dir=back,arrowtail=empty,style=dashed];
+	c225157:p -> c225140:p [dir=back,arrowtail=empty,style=dashed];
 	//org.osmdroid.util.PathBuilder implements org.osmdroid.util.PointAccepter
-	c198245:p -> c198244:p [dir=back,arrowtail=empty,style=dashed];
+	c225157:p -> c225156:p [dir=back,arrowtail=empty,style=dashed];
 	//org.osmdroid.util.SegmentClipper implements org.osmdroid.util.PointAccepter
-	c198245:p -> c198249:p [dir=back,arrowtail=empty,style=dashed];
+	c225157:p -> c225161:p [dir=back,arrowtail=empty,style=dashed];
 	//org.osmdroid.views.overlay.milestones.MilestoneLister implements org.osmdroid.util.PointAccepter
-	c198245:p -> c198298:p [dir=back,arrowtail=empty,style=dashed];
+	c225157:p -> c225222:p [dir=back,arrowtail=empty,style=dashed];
 	//org.osmdroid.views.overlay.milestones.MilestoneManager implements org.osmdroid.util.PointAccepter
-	c198245:p -> c198299:p [dir=back,arrowtail=empty,style=dashed];
+	c225157:p -> c225223:p [dir=back,arrowtail=empty,style=dashed];
 }
 

@@ -3,7 +3,183 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Lint Report</title>
 <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Roboto" />
-<link rel="stylesheet" type="text/css" href="lint-results-release-fatal_files/hololike.css" />
+<style>
+body {
+    max-width: 800px;
+    background-color: #000000;
+    background: -webkit-gradient(linear, left top, right bottom, from(#000000), to(#272d33));
+    background: -moz-linear-gradient(left top, #000000, #272d33);
+    color: #f3f3f3;
+    font-family: 'Roboto', Sans-Serif;
+}
+.issue {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 5px 0px 5px 5px;
+}
+.id {
+    font-size: 14pt;
+    color: #bebebe;
+    margin: 5px 0px 5px 0px;
+}
+.category {
+    font-size: 18pt;
+    color: #bebebe;
+    margin: 10px 0px 5px 0px;
+}
+.explanation {
+    margin-top: 10px;
+}
+.explanation b {
+    color: #ffbbbb;
+}
+.explanation code {
+    color: #bebebe;
+    font-family: 'Roboto', Sans-Serif;
+}
+pre {
+    background-color: #282828;
+    margin: 5px 0px 5px 5px;
+    padding: 5px 5px 5px 0px;
+    overflow: hidden;
+}
+.lineno {
+    color: #4f4f4f;
+}
+.embedimage {
+    max-width: 200px;
+    max-height: 200px;
+}
+th { font-weight: normal; }
+table { border: none; }
+.metadata {
+}
+.location {
+    color: #bebebe;
+}
+.message { }
+.errorspan { color: #33b5e5; }
+.errorline { color: #33b5e5; }
+.warningslist { margin-bottom: 20px; }
+.overview {
+    padding: 10pt;
+    width: 100%;
+    overflow: auto;
+    border-collapse:collapse;
+}
+.overview tr {
+    border-top: solid 1px #39393a;
+    border-bottom: solid 1px #39393a;
+}
+.countColumn {
+    text-align: right;
+    padding-right: 20px;
+}
+.issueColumn {
+   padding-left: 16px;
+}
+.categoryColumn {
+   position: relative;
+   left: -50px;
+   padding-top: 20px;
+   padding-bottom: 5px;
+}
+.titleSeparator {
+    background-color: #33b5e5;
+    height: 3px;
+    margin-bottom: 10px;
+}
+.categorySeparator {
+    background-color: #33b5e5;
+    height: 3px;
+    margin-bottom: 10px;
+}
+.issueSeparator {
+    background-color: #39393a;
+    height: 2px;
+    margin-bottom: 10px;
+}
+.location a:link {
+    text-decoration: none;
+    color: #bebebe;
+}
+.location a:hover {
+    text-decoration: underline;
+    color: #f3f3f3;
+}
+a:link {
+    text-decoration: none;
+    color: #f3f3f3;
+}
+a:visited {
+    text-decoration: none;
+    color: #bebebe;
+}
+a:hover {
+    text-decoration: underline;
+    color: #f3f3f3;
+}
+a:active {
+    text-decoration: underline;
+    color: #f3f3f3;
+}
+.moreinfo a:link {
+    text-decoration: underline;
+    color: #33b5e5;
+}
+.moreinfo a:visited {
+    text-decoration: underline;
+    color: #33b5e5;
+}
+.issue a:link {
+    text-decoration: underline;
+}
+.issue a:visited {
+    text-decoration: underline;
+}
+.id a:link {
+    text-decoration: none;
+    color: #bebebe;
+}
+.id a:visited {
+    text-decoration: none;
+    color: #bebebe;
+}
+.id a:hover {
+    text-decoration: underline;
+    color: #f3f3f3;
+}
+.id a:active {
+    text-decoration: underline;
+    color: #bebebe;
+}
+.category a:link {
+    text-decoration: none;
+    color: #bebebe;
+}
+.category a:visited {
+    text-decoration: none;
+    color: #bebebe;
+}
+.category a:hover {
+    text-decoration: underline;
+    color: #f3f3f3;
+}
+.category a:active {
+    text-decoration: underline;
+    color: #bebebe;
+}
+button {
+    color: #ffffff;
+    background-color: #353535;
+    border-left: none;
+    border-right: none;
+    border-bottom: none;
+    border-top: solid 1px #5b5b5b;
+    font-family: 'Roboto', Sans-Serif;
+    font-size: 12pt;
+}
+</style>
 <script language="javascript" type="text/javascript"> 
 <!--
 function reveal(id) {
@@ -18,16 +194,16 @@ document.getElementById(id+'Link').style.display = 'none';
 <body>
 <h1>Lint Report</h1>
 <div class="titleSeparator"></div>
-Check performed at Mon Jul 16 16:33:52 EDT 2018.<br/>
-82 errors and 0 warnings found:<br/><br/>
+Check performed at Sun Mar 24 09:23:24 EDT 2019.<br/>
+75 errors and 0 warnings found:<br/><br/>
 <table class="overview">
 <tr><td></td><td class="categoryColumn"><a href="#Correctness:Messages">Correctness:Messages</a>
 </td></tr>
 <tr>
-<td class="countColumn">82</td><td class="issueColumn"><img border="0" align="top" src="lint-results-release-fatal_files/lint-error.png" alt="Error" />
+<td class="countColumn">75</td><td class="issueColumn"><img border="0" align="top" width="15" height="15" alt="Error" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAYAAAA71pVKAAAB00lEQVR42nWTS0hbQRiF587MzkUXooi6UHAjhNKNSkGhCDXxkZhUIwWhBLoRsQpi3bXmIboSV2aliI+WKqLUtqsuSxclrhRBUMnVmIpa2oIkQon+zhlr9F7jwOEw/znfLO6dYcy2Arys6AUv6x7klTNh4ViFY485u2+N8Uc8yB1DH0Vt6ki2UkZ20LkS/Eh6CXPk6FnAKVHNJ3nViind9E/6tTKto3TxaU379Qw5euhn4QXxOGzKFjqT7Vmlwx8IC357jh76GvzC64pj4mn6VLbRbf0Nvdcw3J6hr7gS9o3XDxwIN/0RPot+h95pGG7P0AfH1oVz6UR4ya5foXkNw3Pl4Ngub/p6yD1k13FoTsPwXDk4ti89SwnuJrtigYiGY4FhypWDY2aeb0CJ4rzZou9GPc0Y1drtGfrgWLzweUm8uPNsx2ikrHgjHT6LUOrzD/rpDpIlU0JfcaX6d8UfdoW38/20ZbiuxF10MHL1tRNvp2/mSuihn70kZl2/MJ+8Xtkq8NOm4VRqoIUKLy0Hx2mx3PN/5iTk6KFvuaJmyxux3zE8tFPTm9p84KMNdcAGa9COvZqnkaN37wNJvpooSvZFexIvx2b3OkdX4dgne6N3XtUl5wqoyBY2uZQAAAAASUVORK5CYII=" />
 <a href="#MissingTranslation">MissingTranslation: Incomplete translation</a>
 </td></tr>
-<tr><td></td><td class="categoryColumn"><a href="#MissingIssues">Disabled Checks (215)</a>
+<tr><td></td><td class="categoryColumn"><a href="#MissingIssues">Disabled Checks (224)</a>
 </td></tr></table>
 <br/>
 <a name="Correctness:Messages"></a>
@@ -38,63 +214,6 @@ Check performed at Mon Jul 16 16:33:52 EDT 2018.<br/>
 <div class="id"><a href="#" title="Return to top">MissingTranslation: Incomplete translation</a><div class="issueSeparator"></div>
 </div>
 <div class="warningslist">
-<span class="location"><a href="../../src/main/res/values/oss_licenses.xml">../../src/main/res/values/oss_licenses.xml</a>:3</span>: <span class="message">"<code>license_osmdroid</code>" is not translated in "de" (German), "it" (Italian)</span><br /><pre class="errorlines">
-<span class="lineno">   1</span> &lt;?xml version="1.0" encoding="utf-8"?>
-<span class="lineno">   2</span> &lt;resources>
-<span class="lineno">   3</span>     &lt;string <span class="errorspan">name="license_osmdroid"></span>
-<span class="lineno">   4</span> https://github.com/osmdroid/osmdroid\n
-<span class="lineno">   5</span>                                 Apache License\n
-</pre>
-<span class="location"><a href="../../src/main/res/values/oss_licenses.xml">../../src/main/res/values/oss_licenses.xml</a>:208</span>: <span class="message">"<code>license_geopackage</code>" is not translated in "de" (German), "it" (Italian)</span><br /><pre class="errorlines">
-<span class="lineno"> 205</span>    limitations under the License.\n
-<span class="lineno"> 206</span> &lt;/string>
-<span class="lineno"> 207</span> 
-<span class="lineno"> 208</span>     &lt;string <span class="errorspan">name="license_geopackage">\n</span>
-<span class="lineno"> 209</span>         https://github.com/ngageoint/geopackage-android\n
-<span class="lineno"> 210</span>         The MIT License (MIT)\n
-</pre>
-<span class="location"><a href="../../src/main/res/values/oss_licenses.xml">../../src/main/res/values/oss_licenses.xml</a>:233</span>: <span class="message">"<code>license_mapsforge</code>" is not translated in "de" (German), "it" (Italian)</span><br /><pre class="errorlines">
-<span class="lineno"> 230</span> SOFTWARE.\n
-<span class="lineno"> 231</span> &lt;/string>
-<span class="lineno"> 232</span> 
-<span class="lineno"> 233</span>     &lt;string <span class="errorspan">name="license_mapsforge">\n</span>
-<span class="lineno"> 234</span>                            GNU LESSER GENERAL PUBLIC LICENSE\n
-<span class="lineno"> 235</span>                        Version 3, 29 June 2007\n
-</pre>
-<span class="location"><a href="../../src/main/res/values/oss_licenses.xml">../../src/main/res/values/oss_licenses.xml</a>:401</span>: <span class="message">"<code>license_acra</code>" is not translated in "de" (German), "it" (Italian)</span><br /><pre class="errorlines">
-<span class="lineno"> 398</span> Library.\n
-<span class="lineno"> 399</span>     &lt;/string>
-<span class="lineno"> 400</span> 
-<span class="lineno"> 401</span>     &lt;string <span class="errorspan">name="license_acra"></span>
-<span class="lineno"> 402</span> https://github.com/ACRA/acra\n
-<span class="lineno"> 403</span> \n
-</pre>
-<span class="location"><a href="../../src/main/res/values/oss_licenses.xml">../../src/main/res/values/oss_licenses.xml</a>:607</span>: <span class="message">"<code>license_leakcanary</code>" is not translated in "de" (German), "it" (Italian)</span><br /><pre class="errorlines">
-<span class="lineno"> 604</span>    limitations under the License.\n
-<span class="lineno"> 605</span>     &lt;/string>
-<span class="lineno"> 606</span> 
-<span class="lineno"> 607</span>     &lt;string <span class="errorspan">name="license_leakcanary"></span>
-<span class="lineno"> 608</span>         https://github.com/square/leakcanary/blob/master/LICENSE.txt\n
-<span class="lineno"> 609</span> \n
-</pre>
-<button id="MissingTranslationDivLink" onclick="reveal('MissingTranslationDiv');" />+ 77 More Occurrences...</button>
-<div id="MissingTranslationDiv" style="display: none">
-<span class="location"><a href="../../src/main/res/values/oss_licenses.xml">../../src/main/res/values/oss_licenses.xml</a>:813</span>: <span class="message">"<code>license_ormlite</code>" is not translated in "de" (German), "it" (Italian)</span><br /><pre class="errorlines">
-<span class="lineno"> 810</span>    limitations under the License.\n
-<span class="lineno"> 811</span>     &lt;/string>\n
-<span class="lineno"> 812</span>     \n
-<span class="lineno"> 813</span>     &lt;string <span class="errorspan">name="license_ormlite"></span>
-<span class="lineno"> 814</span> dependency of geopackage-android\n
-<span class="lineno"> 815</span> ISC License\n
-</pre>
-<span class="location"><a href="../../src/main/res/values/oss_licenses.xml">../../src/main/res/values/oss_licenses.xml</a>:829</span>: <span class="message">"<code>license_pngj</code>" is not translated in "de" (German), "it" (Italian)</span><br /><pre class="errorlines">
-<span class="lineno"> 826</span> The author may be contacted via http://ormlite.com/\n
-<span class="lineno"> 827</span>     &lt;/string>
-<span class="lineno"> 828</span>     \n
-<span class="lineno"> 829</span>     &lt;string <span class="errorspan">name="license_pngj"></span>
-<span class="lineno"> 830</span> dependency of geopackage-android\n
-<span class="lineno"> 831</span> https://github.com/leonbloy/pngj/\n
-</pre>
 <span class="location"><a href="../../src/main/res/values/strings.xml">../../src/main/res/values/strings.xml</a>:8</span>: <span class="message">"<code>offline</code>" is not translated in "de" (German), "it" (Italian)</span><br /><pre class="errorlines">
 <span class="lineno">   5</span>     &lt;string name="unknown">Unknown&lt;/string>
 <span class="lineno">   6</span>     &lt;string name="map_mode">Map Source&lt;/string>
@@ -135,6 +254,8 @@ Check performed at Mon Jul 16 16:33:52 EDT 2018.<br/>
 <span class="lineno">  17</span> 
 <span class="lineno">  18</span>     &lt;string name="set_mode_show_me">showing and tracking my current location&lt;/string>
 </pre>
+<button id="MissingTranslationDivLink" onclick="reveal('MissingTranslationDiv');" />+ 70 More Occurrences...</button>
+<div id="MissingTranslationDiv" style="display: none">
 <span class="location"><a href="../../src/main/res/values/strings.xml">../../src/main/res/values/strings.xml</a>:18</span>: <span class="message">"<code>set_mode_show_me</code>" is not translated in "de" (German), "it" (Italian)</span><br /><pre class="errorlines">
 <span class="lineno">  15</span>     &lt;string name="set_mode_offline">Set to offline mode&lt;/string>
 <span class="lineno">  16</span>     &lt;string name="set_mode_online">Set to online mode&lt;/string>
@@ -697,8 +818,7 @@ Check performed at Mon Jul 16 16:33:52 EDT 2018.<br/>
 </pre>
 </div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Eclipse/ADT&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
-<br>
+<div class="metadata">Note: This issue has an associated quickfix operation in Eclipse/ADT<br>
 Priority: 8 / 10<br/>
 Category: Correctness:Messages</div>
 Severity: <span class="error">Fatal</span><div class="summary">
@@ -782,8 +902,7 @@ This check looks for use of HostnameVerifier implementations whose <code>verify<
 <div class="issue">
 <div class="id">AllowBackup<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ & Eclipse/ADT&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
-<br>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ & Eclipse/ADT<br>
 Disabled By: Project lint.xml file<br/>
 Priority: 3 / 10<br/>
 Category: Security</div>
@@ -802,7 +921,7 @@ To fix this warning, decide whether your application should support backup, and 
 <br/>
 If not set to false, and if targeting API 23 or later, lint will also warn that you should set <code>android:fullBackupContent</code> to configure auto backup.
 </div>
-<br/><div class="moreinfo">More info: <ul><li><a href="https://developer.android.com/preview/backup/index.html">https://developer.android.com/preview/backup/index.html</a>
+<br/><div class="moreinfo">More info: <ul><li><a href="https://developer.android.com/training/backup/autosyncapi.html">https://developer.android.com/training/backup/autosyncapi.html</a>
 <li><a href="http://developer.android.com/reference/android/R.attr.html#allowBackup">http://developer.android.com/reference/android/R.attr.html#allowBackup</a>
 </ul></div><br/>To suppress this error, use the issue id "AllowBackup" as explained in the <a href="#SuppressInfo">Suppressing Warnings and Errors</a> section.<br/>
 </div>
@@ -810,8 +929,7 @@ If not set to false, and if targeting API 23 or later, lint will also warn that 
 <div class="issue">
 <div class="id">AlwaysShowAction<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
-<br>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ<br>
 Disabled By: Project lint.xml file<br/>
 Priority: 3 / 10<br/>
 Category: Usability</div>
@@ -831,8 +949,7 @@ This check looks for menu XML files that contain more than two <code>always</cod
 <div class="issue">
 <div class="id">AppCompatMethod<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
-<br>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ<br>
 Disabled By: Project lint.xml file<br/>
 Priority: 6 / 10<br/>
 Category: Correctness</div>
@@ -909,6 +1026,20 @@ For example, you can replace <code>assert speed > 0</code> with <code>if (BuildC
 <br/><div class="moreinfo">More info: <a href="https://code.google.com/p/android/issues/detail?id=65183">https://code.google.com/p/android/issues/detail?id=65183</a>
 </div><br/>To suppress this error, use the issue id "Assert" as explained in the <a href="#SuppressInfo">Suppressing Warnings and Errors</a> section.<br/>
 </div>
+<a name="AuthLeak"></a>
+<div class="issue">
+<div class="id">AuthLeak<div class="issueSeparator"></div>
+</div>
+<div class="metadata">Disabled By: Project lint.xml file<br/>
+Priority: 6 / 10<br/>
+Category: Security</div>
+Severity: <span class="warning">Warning</span><div class="summary">
+Explanation: Code might contain an auth leak.</div>
+<div class="explanation">
+Strings in java apps can be discovered by decompiling apps, this lint check looks for code which looks like it may contain an url with a username and password
+</div>
+<br/><div class="moreinfo">More info: </div><br/>To suppress this error, use the issue id "AuthLeak" as explained in the <a href="#SuppressInfo">Suppressing Warnings and Errors</a> section.<br/>
+</div>
 <a name="BackButton"></a>
 <div class="issue">
 <div class="id">BackButton<div class="issueSeparator"></div>
@@ -940,6 +1071,27 @@ Explanation: Insecure HostnameVerifier.</div>
 This check looks for implementations of <code>HostnameVerifier</code> whose <code>verify</code> method always returns true (thus trusting any hostname) which could result in insecure network traffic caused by trusting arbitrary hostnames in TLS/SSL certificates presented by peers.
 </div>
 <br/><div class="moreinfo">More info: </div><br/>To suppress this error, use the issue id "BadHostnameVerifier" as explained in the <a href="#SuppressInfo">Suppressing Warnings and Errors</a> section.<br/>
+</div>
+<a name="BatteryLife"></a>
+<div class="issue">
+<div class="id">BatteryLife<div class="issueSeparator"></div>
+</div>
+<div class="metadata">Disabled By: Project lint.xml file<br/>
+Priority: 5 / 10<br/>
+Category: Correctness</div>
+Severity: <span class="warning">Warning</span><div class="summary">
+Explanation: Battery Life Issues.</div>
+<div class="explanation">
+This issue flags code that either<br/>
+* negatively affects battery life, or<br/>
+* uses APIs that have recently changed behavior to prevent background tasks from consuming memory and battery excessively.<br/>
+<br/>
+Generally, you should be using <code>JobScheduler</code> or <code>GcmNetworkManager</code> instead.<br/>
+<br/>
+For more details on how to update your code, please seehttp://developer.android.com/preview/features/background-optimization.html
+</div>
+<br/><div class="moreinfo">More info: <a href="http://developer.android.com/preview/features/background-optimization.html">http://developer.android.com/preview/features/background-optimization.html</a>
+</div><br/>To suppress this error, use the issue id "BatteryLife" as explained in the <a href="#SuppressInfo">Suppressing Warnings and Errors</a> section.<br/>
 </div>
 <a name="ButtonCase"></a>
 <div class="issue">
@@ -993,8 +1145,7 @@ Button bars typically use a borderless style for the buttons. Set the <code>styl
 <div class="issue">
 <div class="id">CheckResult<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
-<br>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ<br>
 Disabled By: Project lint.xml file<br/>
 Priority: 6 / 10<br/>
 Category: Correctness</div>
@@ -1023,8 +1174,7 @@ If a <code>View</code> that overrides <code>onTouchEvent</code> or uses an <code
 <div class="issue">
 <div class="id">CommitPrefEdits<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
-<br>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ<br>
 Disabled By: Project lint.xml file<br/>
 Priority: 6 / 10<br/>
 Category: Correctness</div>
@@ -1053,8 +1203,7 @@ After creating a <code>FragmentTransaction</code>, you typically need to commit 
 <div class="issue">
 <div class="id">ContentDescription<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ & Eclipse/ADT&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
-<br>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ & Eclipse/ADT<br>
 Disabled By: Project lint.xml file<br/>
 Priority: 3 / 10<br/>
 Category: Accessibility</div>
@@ -1172,8 +1321,7 @@ to your <code>&lt;receiver></code>.
 <div class="issue">
 <div class="id">DisableBaselineAlignment<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ & Eclipse/ADT&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
-<br>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ & Eclipse/ADT<br>
 Disabled By: Project lint.xml file<br/>
 Priority: 3 / 10<br/>
 Category: Performance</div>
@@ -1305,8 +1453,7 @@ Exported receivers (receivers which either set <code>exported=true</code> or con
 <div class="issue">
 <div class="id">ExportedService<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ & Eclipse/ADT&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
-<br>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ & Eclipse/ADT<br>
 Disabled By: Project lint.xml file<br/>
 Priority: 5 / 10<br/>
 Category: Security</div>
@@ -1396,8 +1543,7 @@ The <code>.gif</code> file format is discouraged. Consider using <code>.png</cod
 <div class="issue">
 <div class="id">GoogleAppIndexingApiWarning<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
-<br>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ<br>
 Disabled By: Default<br/>
 Priority: 5 / 10<br/>
 Category: Usability</div>
@@ -1413,8 +1559,7 @@ Adds URLs to get your app into the Google index, to get installs and traffic to 
 <div class="issue">
 <div class="id">GoogleAppIndexingUrlError<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
-<br>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ<br>
 Disabled By: Project lint.xml file<br/>
 Priority: 5 / 10<br/>
 Category: Usability</div>
@@ -1430,8 +1575,7 @@ Ensure the URL is supported by your app, to get installs and traffic to your app
 <div class="issue">
 <div class="id">GoogleAppIndexingWarning<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
-<br>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ<br>
 Disabled By: Project lint.xml file<br/>
 Priority: 5 / 10<br/>
 Category: Usability</div>
@@ -1447,8 +1591,7 @@ Adds URLs to get your app into the Google index, to get installs and traffic to 
 <div class="issue">
 <div class="id">GradleCompatible<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
-<br>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ<br>
 Disabled By: Project lint.xml file<br/>
 Priority: 8 / 10<br/>
 Category: Correctness</div>
@@ -1463,8 +1606,7 @@ There are some combinations of libraries, or tools and libraries, that are incom
 <div class="issue">
 <div class="id">GradleDependency<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
-<br>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ<br>
 Disabled By: Project lint.xml file<br/>
 Priority: 4 / 10<br/>
 Category: Correctness</div>
@@ -1479,8 +1621,7 @@ This detector looks for usages of libraries where the version you are using is n
 <div class="issue">
 <div class="id">GradleDeprecated<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
-<br>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ<br>
 Disabled By: Project lint.xml file<br/>
 Priority: 6 / 10<br/>
 Category: Correctness</div>
@@ -1495,8 +1636,7 @@ This detector looks for deprecated Gradle constructs which currently work but wi
 <div class="issue">
 <div class="id">GradleDynamicVersion<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
-<br>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ<br>
 Disabled By: Project lint.xml file<br/>
 Priority: 4 / 10<br/>
 Category: Correctness</div>
@@ -1611,8 +1751,7 @@ Since this Handler is declared as an inner class, it may prevent the outer class
 <div class="issue">
 <div class="id">HardcodedText<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Eclipse/ADT&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
-<br>
+<div class="metadata">Note: This issue has an associated quickfix operation in Eclipse/ADT<br>
 Disabled By: Project lint.xml file<br/>
 Priority: 5 / 10<br/>
 Category: Internationalization</div>
@@ -1625,9 +1764,24 @@ Hardcoding text attributes directly in layout files is bad for several reasons:<
 <br/>
 * The application cannot be translated to other languages by just adding new translations for existing string resources.<br/>
 <br/>
-In Android Studio and Eclipse there are quickfixes to automatically extract this hardcoded string into a resource lookup.
+There are quickfixes to automatically extract this hardcoded string into a resource lookup.
 </div>
 <br/><div class="moreinfo">More info: </div><br/>To suppress this error, use the issue id "HardcodedText" as explained in the <a href="#SuppressInfo">Suppressing Warnings and Errors</a> section.<br/>
+</div>
+<a name="HardwareIds"></a>
+<div class="issue">
+<div class="id">HardwareIds<div class="issueSeparator"></div>
+</div>
+<div class="metadata">Disabled By: Project lint.xml file<br/>
+Priority: 6 / 10<br/>
+Category: Security</div>
+Severity: <span class="warning">Warning</span><div class="summary">
+Explanation: Hardware Id Usage.</div>
+<div class="explanation">
+Using device identifiers is not recommended other than for high value fraud prevention and advanced telephony use-cases. For advertising use-cases, use <code>AdvertisingIdClient$Info#getId</code> and for analytics, use <code>InstanceId#getId</code>.
+</div>
+<br/><div class="moreinfo">More info: <a href="https://developer.android.com/training/articles/user-data-ids.html">https://developer.android.com/training/articles/user-data-ids.html</a>
+</div><br/>To suppress this error, use the issue id "HardwareIds" as explained in the <a href="#SuppressInfo">Suppressing Warnings and Errors</a> section.<br/>
 </div>
 <a name="IconColors"></a>
 <div class="issue">
@@ -1874,8 +2028,7 @@ While it should work in principle, unfortunately many devices do not report the 
 <div class="issue">
 <div class="id">IncludeLayoutParam<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
-<br>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ<br>
 Disabled By: Project lint.xml file<br/>
 Priority: 5 / 10<br/>
 Category: Correctness</div>
@@ -1927,8 +2080,7 @@ There <b>are</b> cases where this is intentional. For example, you may have a de
 <div class="issue">
 <div class="id">InefficientWeight<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ & Eclipse/ADT&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
-<br>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ & Eclipse/ADT<br>
 Disabled By: Project lint.xml file<br/>
 Priority: 3 / 10<br/>
 Category: Performance</div>
@@ -1958,8 +2110,7 @@ When inflating a layout, avoid passing in null as the parent view, since otherwi
 <div class="issue">
 <div class="id">InlinedApi<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ & Eclipse/ADT&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
-<br>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ & Eclipse/ADT<br>
 Disabled By: Project lint.xml file<br/>
 Priority: 6 / 10<br/>
 Category: Correctness</div>
@@ -1978,8 +2129,7 @@ If your code is <b>deliberately</b> accessing newer APIs, and you have ensured (
 <div class="issue">
 <div class="id">InnerclassSeparator<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
-<br>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ<br>
 Disabled By: Project lint.xml file<br/>
 Priority: 3 / 10<br/>
 Category: Correctness</div>
@@ -2034,8 +2184,7 @@ Similarly, note that to use 3 letter region codes, you have to use a special BCP
 <div class="issue">
 <div class="id">InvalidUsesTagAttribute<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
-<br>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ<br>
 Disabled By: Project lint.xml file<br/>
 Priority: 6 / 10<br/>
 Category: Correctness</div>
@@ -2161,8 +2310,7 @@ Log tags are only allowed to be at most 23 tag characters long.
 <div class="issue">
 <div class="id">MangledCRLF<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Eclipse/ADT&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
-<br>
+<div class="metadata">Note: This issue has an associated quickfix operation in Eclipse/ADT<br>
 Disabled By: Default<br/>
 Priority: 2 / 10<br/>
 Category: Correctness</div>
@@ -2194,8 +2342,7 @@ The &lt;application> tag should appear after the elements which declare which ve
 <div class="issue">
 <div class="id">MenuTitle<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
-<br>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ<br>
 Disabled By: Project lint.xml file<br/>
 Priority: 5 / 10<br/>
 Category: Usability</div>
@@ -2232,8 +2379,7 @@ If a <code>&lt;FrameLayout></code> is the root of a layout and does not provide 
 <div class="issue">
 <div class="id">MipmapIcons<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
-<br>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ<br>
 Disabled By: Project lint.xml file<br/>
 Priority: 5 / 10<br/>
 Category: Usability:Icons</div>
@@ -2253,8 +2399,7 @@ In Android Studio this lint warning has a quickfix to perform this automatically
 <div class="issue">
 <div class="id">MissingApplicationIcon<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
-<br>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ<br>
 Disabled By: Project lint.xml file<br/>
 Priority: 5 / 10<br/>
 Category: Usability:Icons</div>
@@ -2266,12 +2411,25 @@ You should set an icon for the application as whole because there is no default.
 <br/><div class="moreinfo">More info: <a href="http://developer.android.com/tools/publishing/preparing.html#publishing-configure">http://developer.android.com/tools/publishing/preparing.html#publishing-configure</a>
 </div><br/>To suppress this error, use the issue id "MissingApplicationIcon" as explained in the <a href="#SuppressInfo">Suppressing Warnings and Errors</a> section.<br/>
 </div>
+<a name="MissingConstraints"></a>
+<div class="issue">
+<div class="id">MissingConstraints<div class="issueSeparator"></div>
+</div>
+<div class="metadata">Disabled By: Project lint.xml file<br/>
+Priority: 6 / 10<br/>
+Category: Correctness</div>
+Severity: <span class="error">Error</span><div class="summary">
+Explanation: Missing Constraints in ConstraintLayout.</div>
+<div class="explanation">
+The layout editor allows you to place widgets anywhere on the canvas, and it records the current position with designtime attributes (such as <code>layout_editor_absoluteX</code>.) These attributes are <b>not</b> applied at runtime, so if you push your layout on a device, the widgets may appear in a different location than shown in the editor. To fix this, make sure a widget has both horizontal and vertical constraints by dragging from the edge connections.
+</div>
+<br/><div class="moreinfo">More info: </div><br/>To suppress this error, use the issue id "MissingConstraints" as explained in the <a href="#SuppressInfo">Suppressing Warnings and Errors</a> section.<br/>
+</div>
 <a name="MissingId"></a>
 <div class="issue">
 <div class="id">MissingId<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ & Eclipse/ADT&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
-<br>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ & Eclipse/ADT<br>
 Disabled By: Project lint.xml file<br/>
 Priority: 5 / 10<br/>
 Category: Correctness</div>
@@ -2328,8 +2486,7 @@ An application intended to run on TV devices must declare a launcher activity fo
 <div class="issue">
 <div class="id">MissingLeanbackSupport<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
-<br>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ<br>
 Disabled By: Project lint.xml file<br/>
 Priority: 6 / 10<br/>
 Category: Correctness</div>
@@ -2383,8 +2540,7 @@ To support voice searches on Android Auto, in addition to adding an <code>intent
 <div class="issue">
 <div class="id">MissingPermission<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
-<br>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ<br>
 Disabled By: Project lint.xml file<br/>
 Priority: 9 / 10<br/>
 Category: Correctness</div>
@@ -2401,8 +2557,7 @@ Furthermore, for permissions that are revocable (with targetSdkVersion 23), clie
 <div class="issue">
 <div class="id">MissingPrefix<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ & Eclipse/ADT&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
-<br>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ & Eclipse/ADT<br>
 Disabled By: Project lint.xml file<br/>
 Priority: 6 / 10<br/>
 Category: Correctness</div>
@@ -2438,7 +2593,7 @@ For example, an English translation must provide a string for <code>quantity="on
 <div class="issue">
 <div class="id">MissingRegistered<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Disabled By: Project lint.xml file<br/>
+<div class="metadata">Disabled By: Default<br/>
 Priority: 8 / 10<br/>
 Category: Correctness</div>
 Severity: <span class="error">Error</span><div class="summary">
@@ -2467,8 +2622,7 @@ Some methods, such as <code>View#onDetachedFromWindow</code>, require that you a
 <div class="issue">
 <div class="id">MissingTvBanner<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
-<br>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ<br>
 Disabled By: Project lint.xml file<br/>
 Priority: 5 / 10<br/>
 Category: Correctness</div>
@@ -2544,8 +2698,7 @@ Layout weights require a widget to be measured twice. When a LinearLayout with n
 <div class="issue">
 <div class="id">NewApi<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ & Eclipse/ADT&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
-<br>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ & Eclipse/ADT<br>
 Disabled By: Project lint.xml file<br/>
 Priority: 6 / 10<br/>
 Category: Correctness</div>
@@ -2568,8 +2721,7 @@ Similarly, you can use tools:targetApi="11" in an XML file to indicate that the 
 <div class="issue">
 <div class="id">NewerVersionAvailable<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
-<br>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ<br>
 Disabled By: Default<br/>
 Priority: 4 / 10<br/>
 Category: Correctness</div>
@@ -2584,8 +2736,7 @@ This detector checks with a central repository to see if there are newer version
 <div class="issue">
 <div class="id">NotInterpolated<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
-<br>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ<br>
 Disabled By: Project lint.xml file<br/>
 Priority: 8 / 10<br/>
 Category: Correctness</div>
@@ -2601,8 +2752,7 @@ To insert the value of a variable, you can use <code>${variable}</code> inside a
 <div class="issue">
 <div class="id">ObsoleteLayoutParam<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ & Eclipse/ADT&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
-<br>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ & Eclipse/ADT<br>
 Disabled By: Project lint.xml file<br/>
 Priority: 6 / 10<br/>
 Category: Performance</div>
@@ -2617,8 +2767,7 @@ The given layout_param is not defined for the given layout, meaning it has no ef
 <div class="issue">
 <div class="id">OldTargetApi<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
-<br>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ<br>
 Disabled By: Project lint.xml file<br/>
 Priority: 6 / 10<br/>
 Category: Correctness</div>
@@ -2652,8 +2801,7 @@ Must be a string value, using '\;' to escape characters such as '\n' or '\uxxxx'
 <div class="issue">
 <div class="id">Orientation<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
-<br>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ<br>
 Disabled By: Project lint.xml file<br/>
 Priority: 2 / 10<br/>
 Category: Correctness</div>
@@ -2691,8 +2839,7 @@ Of course it's possible that your custom drawable is translucent and you want it
 <div class="issue">
 <div class="id">Override<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
-<br>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ<br>
 Disabled By: Project lint.xml file<br/>
 Priority: 6 / 10<br/>
 Category: Correctness</div>
@@ -2727,8 +2874,7 @@ Improper validation of app signatures could lead to issues where a malicious app
 <div class="issue">
 <div class="id">ParcelClassLoader<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
-<br>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ<br>
 Disabled By: Project lint.xml file<br/>
 Priority: 3 / 10<br/>
 Category: Correctness</div>
@@ -2746,8 +2892,7 @@ If you are writing your own classes into the <code>Parcel</code> (not just SDK c
 <div class="issue">
 <div class="id">ParcelCreator<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
-<br>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ<br>
 Disabled By: Project lint.xml file<br/>
 Priority: 3 / 10<br/>
 Category: Correctness</div>
@@ -2759,12 +2904,25 @@ According to the <code>Parcelable</code> interface documentation, "Classes imple
 <br/><div class="moreinfo">More info: <a href="http://developer.android.com/reference/android/os/Parcelable.html">http://developer.android.com/reference/android/os/Parcelable.html</a>
 </div><br/>To suppress this error, use the issue id "ParcelCreator" as explained in the <a href="#SuppressInfo">Suppressing Warnings and Errors</a> section.<br/>
 </div>
+<a name="PendingBindings"></a>
+<div class="issue">
+<div class="id">PendingBindings<div class="issueSeparator"></div>
+</div>
+<div class="metadata">Disabled By: Project lint.xml file<br/>
+Priority: 8 / 10<br/>
+Category: Correctness</div>
+Severity: <span class="error">Error</span><div class="summary">
+Explanation: Missing Pending Bindings.</div>
+<div class="explanation">
+When using a <code>ViewDataBinding</code> in a <code>onBindViewHolder</code> method, you <b>must</b> call <code>executePendingBindings()</code> before the method exits; otherwise the data binding runtime will update the UI in the next animation frame causing a delayed update and potential jumps if the item resizes.
+</div>
+<br/><div class="moreinfo">More info: </div><br/>To suppress this error, use the issue id "PendingBindings" as explained in the <a href="#SuppressInfo">Suppressing Warnings and Errors</a> section.<br/>
+</div>
 <a name="PermissionImpliesUnsupportedHardware"></a>
 <div class="issue">
 <div class="id">PermissionImpliesUnsupportedHardware<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
-<br>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ<br>
 Disabled By: Project lint.xml file<br/>
 Priority: 3 / 10<br/>
 Category: Correctness</div>
@@ -2845,8 +3003,7 @@ To migrate your project to the new setup, create a new <code>proguard-project.tx
 <div class="issue">
 <div class="id">PropertyEscape<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
-<br>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ<br>
 Disabled By: Project lint.xml file<br/>
 Priority: 6 / 10<br/>
 Category: Correctness</div>
@@ -2875,8 +3032,7 @@ Permissions with the protection level signature or signatureOrSystem are only gr
 <div class="issue">
 <div class="id">PxUsage<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ & Eclipse/ADT&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
-<br>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ & Eclipse/ADT<br>
 Disabled By: Project lint.xml file<br/>
 Priority: 2 / 10<br/>
 Category: Correctness</div>
@@ -2923,7 +3079,7 @@ Many resources, such as TypedArrays, VelocityTrackers, etc., should be recycled 
 <div class="metadata">Disabled By: Project lint.xml file<br/>
 Priority: 8 / 10<br/>
 Category: Correctness</div>
-Severity: <span class="warning">Warning</span><div class="summary">
+Severity: <span class="error">Error</span><div class="summary">
 Explanation: RecyclerView Problems.</div>
 <div class="explanation">
 <code>RecyclerView</code> will <b>not</b> call <code>onBindViewHolder</code> again when the position of the item changes in the data set unless the item itself is invalidated or the new position cannot be determined.<br/>
@@ -2999,8 +3155,7 @@ Methods that take a color in the form of an integer should be passed an RGB trip
 <div class="issue">
 <div class="id">RtlCompat<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
-<br>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ<br>
 Disabled By: Project lint.xml file<br/>
 Priority: 6 / 10<br/>
 Category: Internationalization:Bidirectional Text</div>
@@ -3128,8 +3283,7 @@ ScrollViews can only have one child widget. If you want more children, wrap them
 <div class="issue">
 <div class="id">ScrollViewSize<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ & Eclipse/ADT&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
-<br>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ & Eclipse/ADT<br>
 Disabled By: Project lint.xml file<br/>
 Priority: 7 / 10<br/>
 Category: Correctness</div>
@@ -3176,8 +3330,7 @@ Specifying a fixed seed will cause the instance to return a predictable sequence
 <div class="issue">
 <div class="id">SelectableText<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
-<br>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ<br>
 Disabled By: Default<br/>
 Priority: 7 / 10<br/>
 Category: Usability</div>
@@ -3299,8 +3452,7 @@ Explanation: Toast created but not shown.</div>
 <div class="issue">
 <div class="id">SignatureOrSystemPermissions<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
-<br>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ<br>
 Disabled By: Project lint.xml file<br/>
 Priority: 5 / 10<br/>
 Category: Security</div>
@@ -3346,8 +3498,7 @@ Avoid using sizes smaller than 12sp.
 <div class="issue">
 <div class="id">SpUsage<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
-<br>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ<br>
 Disabled By: Project lint.xml file<br/>
 Priority: 3 / 10<br/>
 Category: Correctness</div>
@@ -3375,12 +3526,25 @@ In a selector, only the last child in the state list should omit a state qualifi
 </div>
 <br/><div class="moreinfo">More info: </div><br/>To suppress this error, use the issue id "StateListReachable" as explained in the <a href="#SuppressInfo">Suppressing Warnings and Errors</a> section.<br/>
 </div>
+<a name="StaticFieldLeak"></a>
+<div class="issue">
+<div class="id">StaticFieldLeak<div class="issueSeparator"></div>
+</div>
+<div class="metadata">Disabled By: Project lint.xml file<br/>
+Priority: 6 / 10<br/>
+Category: Performance</div>
+Severity: <span class="warning">Warning</span><div class="summary">
+Explanation: Static Field Leaks.</div>
+<div class="explanation">
+A static field will leak contexts.
+</div>
+<br/><div class="moreinfo">More info: </div><br/>To suppress this error, use the issue id "StaticFieldLeak" as explained in the <a href="#SuppressInfo">Suppressing Warnings and Errors</a> section.<br/>
+</div>
 <a name="StopShip"></a>
 <div class="issue">
 <div class="id">StopShip<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
-<br>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ<br>
 Disabled By: Default<br/>
 Priority: 10 / 10<br/>
 Category: Correctness</div>
@@ -3447,8 +3611,7 @@ This lint check ensures the following:<br/>
 <div class="issue">
 <div class="id">StringShouldBeInt<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
-<br>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ<br>
 Disabled By: Project lint.xml file<br/>
 Priority: 8 / 10<br/>
 Category: Correctness</div>
@@ -3460,6 +3623,20 @@ The properties <code>compileSdkVersion</code>, <code>minSdkVersion</code> and <c
 However, you can not use a number as a string (e.g. "19" instead of 19); that will result in a platform not found error message at build/sync time.
 </div>
 <br/><div class="moreinfo">More info: </div><br/>To suppress this error, use the issue id "StringShouldBeInt" as explained in the <a href="#SuppressInfo">Suppressing Warnings and Errors</a> section.<br/>
+</div>
+<a name="SupportAnnotationUsage"></a>
+<div class="issue">
+<div class="id">SupportAnnotationUsage<div class="issueSeparator"></div>
+</div>
+<div class="metadata">Disabled By: Project lint.xml file<br/>
+Priority: 2 / 10<br/>
+Category: Correctness</div>
+Severity: <span class="error">Error</span><div class="summary">
+Explanation: Incorrect support annotation usage.</div>
+<div class="explanation">
+This lint check makes sure that the support annotations (such as <code>@IntDef</code> and <code>@ColorInt</code>) are used correctly. For example, it's an error to specify an <code>@IntRange</code> where the <code>from</code> value is higher than the <code>to</code> value.
+</div>
+<br/><div class="moreinfo">More info: </div><br/>To suppress this error, use the issue id "SupportAnnotationUsage" as explained in the <a href="#SuppressInfo">Suppressing Warnings and Errors</a> section.<br/>
 </div>
 <a name="Suspicious0dp"></a>
 <div class="issue">
@@ -3497,8 +3674,7 @@ Once the import is there you might get a lot of "confusing" error messages becau
 <div class="issue">
 <div class="id">SwitchIntDef<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
-<br>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ<br>
 Disabled By: Project lint.xml file<br/>
 Priority: 3 / 10<br/>
 Category: Correctness</div>
@@ -3513,8 +3689,7 @@ This check warns if a <code>switch</code> statement does not explicitly include 
 <div class="issue">
 <div class="id">TextFields<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ & Eclipse/ADT&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
-<br>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ & Eclipse/ADT<br>
 Disabled By: Project lint.xml file<br/>
 Priority: 5 / 10<br/>
 Category: Usability</div>
@@ -3612,8 +3787,7 @@ This check looks for X509TrustManager implementations whose <code>checkServerTru
 <div class="issue">
 <div class="id">TypographyDashes<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ & Eclipse/ADT&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
-<br>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ & Eclipse/ADT<br>
 Disabled By: Project lint.xml file<br/>
 Priority: 5 / 10<br/>
 Category: Usability:Typography</div>
@@ -3629,8 +3803,7 @@ The "n dash" (&#8211;, &amp;#8211;) and the "m dash" (&#8212;, &amp;#8212;) char
 <div class="issue">
 <div class="id">TypographyEllipsis<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ & Eclipse/ADT&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
-<br>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ & Eclipse/ADT<br>
 Disabled By: Project lint.xml file<br/>
 Priority: 5 / 10<br/>
 Category: Usability:Typography</div>
@@ -3646,8 +3819,7 @@ You can replace the string "..." with a dedicated ellipsis character, ellipsis c
 <div class="issue">
 <div class="id">TypographyFractions<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ & Eclipse/ADT&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
-<br>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ & Eclipse/ADT<br>
 Disabled By: Project lint.xml file<br/>
 Priority: 5 / 10<br/>
 Category: Usability:Typography</div>
@@ -3663,8 +3835,7 @@ You can replace certain strings, such as 1/2, and 1/4, with dedicated characters
 <div class="issue">
 <div class="id">TypographyOther<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ & Eclipse/ADT&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
-<br>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ & Eclipse/ADT<br>
 Disabled By: Project lint.xml file<br/>
 Priority: 3 / 10<br/>
 Category: Usability:Typography</div>
@@ -3679,8 +3850,7 @@ This check looks for miscellaneous typographical problems and offers replacement
 <div class="issue">
 <div class="id">TypographyQuotes<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ & Eclipse/ADT&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
-<br>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ & Eclipse/ADT<br>
 Disabled By: Default<br/>
 Priority: 5 / 10<br/>
 Category: Usability:Typography</div>
@@ -3700,8 +3870,7 @@ Note that you should never use grave accents and apostrophes to quote, `like thi
 <div class="issue">
 <div class="id">Typos<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ & Eclipse/ADT&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
-<br>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ & Eclipse/ADT<br>
 Disabled By: Project lint.xml file<br/>
 Priority: 7 / 10<br/>
 Category: Correctness:Messages</div>
@@ -3818,8 +3987,7 @@ BroadcastReceivers that declare an intent-filter for a protected-broadcast actio
 <div class="issue">
 <div class="id">UnsupportedTvHardware<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
-<br>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ<br>
 Disabled By: Project lint.xml file<br/>
 Priority: 6 / 10<br/>
 Category: Correctness</div>
@@ -3835,8 +4003,7 @@ The &lt;uses-feature> element should not require this unsupported TV hardware fe
 <div class="issue">
 <div class="id">UnusedAttribute<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
-<br>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ<br>
 Disabled By: Project lint.xml file<br/>
 Priority: 6 / 10<br/>
 Category: Correctness</div>
@@ -3931,8 +4098,7 @@ For compatibility with earlier devices, you should only use 3-letter language an
 <div class="issue">
 <div class="id">UseCheckPermission<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
-<br>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ<br>
 Disabled By: Project lint.xml file<br/>
 Priority: 6 / 10<br/>
 Category: Security</div>
@@ -3947,8 +4113,7 @@ You normally want to use the result of checking a permission; these methods retu
 <div class="issue">
 <div class="id">UseCompoundDrawables<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Eclipse/ADT&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
-<br>
+<div class="metadata">Note: This issue has an associated quickfix operation in Eclipse/ADT<br>
 Disabled By: Project lint.xml file<br/>
 Priority: 6 / 10<br/>
 Category: Performance</div>
@@ -3985,8 +4150,7 @@ If you need to construct a <code>HashMap</code> because you need to call an API 
 <div class="issue">
 <div class="id">UseValueOf<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
-<br>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ<br>
 Disabled By: Project lint.xml file<br/>
 Priority: 4 / 10<br/>
 Category: Performance</div>
@@ -4001,8 +4165,7 @@ You should not call the constructor for wrapper classes directly, such as`new In
 <div class="issue">
 <div class="id">UselessLeaf<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ & Eclipse/ADT&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
-<br>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ & Eclipse/ADT<br>
 Disabled By: Project lint.xml file<br/>
 Priority: 2 / 10<br/>
 Category: Performance</div>
@@ -4017,8 +4180,7 @@ A layout that has no children or no background can often be removed (since it is
 <div class="issue">
 <div class="id">UselessParent<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Eclipse/ADT&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
-<br>
+<div class="metadata">Note: This issue has an associated quickfix operation in Eclipse/ADT<br>
 Disabled By: Project lint.xml file<br/>
 Priority: 2 / 10<br/>
 Category: Performance</div>
@@ -4048,8 +4210,7 @@ The manifest should contain a <code>&lt;uses-sdk></code> element which defines t
 <div class="issue">
 <div class="id">UsingHttp<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
-<br>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ<br>
 Disabled By: Project lint.xml file<br/>
 Priority: 6 / 10<br/>
 Category: Security</div>
@@ -4059,6 +4220,21 @@ Explanation: Using HTTP instead of HTTPS.</div>
 The Gradle Wrapper is available both via HTTP and HTTPS. HTTPS is more secure since it protects against man-in-the-middle attacks etc. Older projects created in Android Studio used HTTP but we now default to HTTPS and recommend upgrading existing projects.
 </div>
 <br/><div class="moreinfo">More info: </div><br/>To suppress this error, use the issue id "UsingHttp" as explained in the <a href="#SuppressInfo">Suppressing Warnings and Errors</a> section.<br/>
+</div>
+<a name="VectorDrawableCompat"></a>
+<div class="issue">
+<div class="id">VectorDrawableCompat<div class="issueSeparator"></div>
+</div>
+<div class="metadata">Disabled By: Project lint.xml file<br/>
+Priority: 5 / 10<br/>
+Category: Correctness</div>
+Severity: <span class="error">Error</span><div class="summary">
+Explanation: Using VectorDrawableCompat.</div>
+<div class="explanation">
+To use VectorDrawableCompat, you need to make two modifications to your project. First, set <code>android.defaultConfig.vectorDrawables.useSupportLibrary = true</code> in your <code>build.gradle</code> file, and second, use <code>app:srcCompat</code> instead of <code>android:src</code> to refer to vector drawables.
+</div>
+<br/><div class="moreinfo">More info: <a href="http://chris.banes.me/2016/02/25/appcompat-vector/#enabling-the-flag">http://chris.banes.me/2016/02/25/appcompat-vector/#enabling-the-flag</a>
+</div><br/>To suppress this error, use the issue id "VectorDrawableCompat" as explained in the <a href="#SuppressInfo">Suppressing Warnings and Errors</a> section.<br/>
 </div>
 <a name="VectorRaster"></a>
 <div class="issue">
@@ -4086,7 +4262,7 @@ Category: Usability</div>
 Severity: <span class="warning">Warning</span><div class="summary">
 Explanation: Missing View constructors for XML inflation.</div>
 <div class="explanation">
-Some layout tools (such as the Android layout editor for Studio &amp; Eclipse) needs to find a constructor with one of the following signatures:<br/>
+Some layout tools (such as the Android layout editor) need to find a constructor with one of the following signatures:<br/>
 * <code>View(Context context)</code><br/>
 * <code>View(Context context, AttributeSet attrs)</code><br/>
 * <code>View(Context context, AttributeSet attrs, int defStyle)</code><br/>
@@ -4123,6 +4299,21 @@ Explanation: Tagged object leaks.</div>
 Prior to Android 4.0, the implementation of <code>View.setTag(int, Object)</code> would store the objects in a static map, where the values were strongly referenced. This means that if the object contains any references pointing back to the context, the context (which points to pretty much everything else) will leak. If you pass a view, the view provides a reference to the context that created it. Similarly, view holders typically contain a view, and cursors are sometimes also associated with views.
 </div>
 <br/><div class="moreinfo">More info: </div><br/>To suppress this error, use the issue id "ViewTag" as explained in the <a href="#SuppressInfo">Suppressing Warnings and Errors</a> section.<br/>
+</div>
+<a name="VulnerableCordovaVersion"></a>
+<div class="issue">
+<div class="id">VulnerableCordovaVersion<div class="issueSeparator"></div>
+</div>
+<div class="metadata">Disabled By: Project lint.xml file<br/>
+Priority: 9 / 10<br/>
+Category: Security</div>
+Severity: <span class="warning">Warning</span><div class="summary">
+Explanation: Vulnerable Cordova Version.</div>
+<div class="explanation">
+The version of Cordova used in the app is vulnerable to security issues. Please update to the latest Apache Cordova version.
+</div>
+<br/><div class="moreinfo">More info: <a href="https://cordova.apache.org/announcements/2015/11/20/security.html">https://cordova.apache.org/announcements/2015/11/20/security.html</a>
+</div><br/>To suppress this error, use the issue id "VulnerableCordovaVersion" as explained in the <a href="#SuppressInfo">Suppressing Warnings and Errors</a> section.<br/>
 </div>
 <a name="Wakelock"></a>
 <div class="issue">

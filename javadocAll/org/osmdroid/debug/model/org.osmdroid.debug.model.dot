@@ -10,19 +10,19 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.debug.model.MapTileExt
-	c6496 [label=<<table title="org.osmdroid.debug.model.MapTileExt" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileExt.html">
+	c6993 [label=<<table title="org.osmdroid.debug.model.MapTileExt" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileExt.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MapTileExt </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MapTileExt.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.debug.model.SqlTileWriterExt
-	c6497 [label=<<table title="org.osmdroid.debug.model.SqlTileWriterExt" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SqlTileWriterExt.html">
+	c6994 [label=<<table title="org.osmdroid.debug.model.SqlTileWriterExt" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SqlTileWriterExt.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SqlTileWriterExt </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SqlTileWriterExt.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.debug.model.SqlTileWriterExt.SourceCount
-	c6498 [label=<<table title="org.osmdroid.debug.model.SqlTileWriterExt.SourceCount" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SqlTileWriterExt.SourceCount.html">
+	c6995 [label=<<table title="org.osmdroid.debug.model.SqlTileWriterExt.SourceCount" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SqlTileWriterExt.SourceCount.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SourceCount </td></tr>
 		</table></td></tr>

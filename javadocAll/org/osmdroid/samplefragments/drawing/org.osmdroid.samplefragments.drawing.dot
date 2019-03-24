@@ -10,115 +10,115 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.samplefragments.drawing.CirclePlottingOverlay
-	c12031 [label=<<table title="org.osmdroid.samplefragments.drawing.CirclePlottingOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./CirclePlottingOverlay.html">
+	c12953 [label=<<table title="org.osmdroid.samplefragments.drawing.CirclePlottingOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./CirclePlottingOverlay.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> CirclePlottingOverlay </td></tr>
 		</table></td></tr>
 		</table>>, URL="./CirclePlottingOverlay.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.drawing.CustomPaintingSurface
-	c12032 [label=<<table title="org.osmdroid.samplefragments.drawing.CustomPaintingSurface" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./CustomPaintingSurface.html">
+	c12954 [label=<<table title="org.osmdroid.samplefragments.drawing.CustomPaintingSurface" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./CustomPaintingSurface.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> CustomPaintingSurface </td></tr>
 		</table></td></tr>
 		</table>>, URL="./CustomPaintingSurface.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.drawing.CustomPaintingSurface.Mode
-	c12033 [label=<<table title="org.osmdroid.samplefragments.drawing.CustomPaintingSurface.Mode" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./CustomPaintingSurface.Mode.html">
+	c12955 [label=<<table title="org.osmdroid.samplefragments.drawing.CustomPaintingSurface.Mode" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./CustomPaintingSurface.Mode.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;enumeration&#187; </td></tr>
 <tr><td align="center" balign="center"> Mode </td></tr>
 		</table></td></tr>
 		</table>>, URL="./CustomPaintingSurface.Mode.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.drawing.DrawCircle10km
-	c12034 [label=<<table title="org.osmdroid.samplefragments.drawing.DrawCircle10km" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./DrawCircle10km.html">
+	c12956 [label=<<table title="org.osmdroid.samplefragments.drawing.DrawCircle10km" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./DrawCircle10km.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> DrawCircle10km </td></tr>
 		</table></td></tr>
 		</table>>, URL="./DrawCircle10km.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.drawing.DrawPolygon
-	c12035 [label=<<table title="org.osmdroid.samplefragments.drawing.DrawPolygon" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./DrawPolygon.html">
+	c12957 [label=<<table title="org.osmdroid.samplefragments.drawing.DrawPolygon" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./DrawPolygon.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> DrawPolygon </td></tr>
 		</table></td></tr>
 		</table>>, URL="./DrawPolygon.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.drawing.DrawPolygonHoles
-	c12036 [label=<<table title="org.osmdroid.samplefragments.drawing.DrawPolygonHoles" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./DrawPolygonHoles.html">
+	c12958 [label=<<table title="org.osmdroid.samplefragments.drawing.DrawPolygonHoles" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./DrawPolygonHoles.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> DrawPolygonHoles </td></tr>
 		</table></td></tr>
 		</table>>, URL="./DrawPolygonHoles.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.drawing.DrawPolygonWithArrows
-	c12037 [label=<<table title="org.osmdroid.samplefragments.drawing.DrawPolygonWithArrows" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./DrawPolygonWithArrows.html">
+	c12959 [label=<<table title="org.osmdroid.samplefragments.drawing.DrawPolygonWithArrows" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./DrawPolygonWithArrows.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> DrawPolygonWithArrows </td></tr>
 		</table></td></tr>
 		</table>>, URL="./DrawPolygonWithArrows.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.drawing.DrawPolygonWithoutVerticalWrapping
-	c12038 [label=<<table title="org.osmdroid.samplefragments.drawing.DrawPolygonWithoutVerticalWrapping" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./DrawPolygonWithoutVerticalWrapping.html">
+	c12960 [label=<<table title="org.osmdroid.samplefragments.drawing.DrawPolygonWithoutVerticalWrapping" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./DrawPolygonWithoutVerticalWrapping.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> DrawPolygonWithoutVerticalWrapping </td></tr>
 		</table></td></tr>
 		</table>>, URL="./DrawPolygonWithoutVerticalWrapping.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.drawing.DrawPolygonWithoutWrapping
-	c12039 [label=<<table title="org.osmdroid.samplefragments.drawing.DrawPolygonWithoutWrapping" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./DrawPolygonWithoutWrapping.html">
+	c12961 [label=<<table title="org.osmdroid.samplefragments.drawing.DrawPolygonWithoutWrapping" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./DrawPolygonWithoutWrapping.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> DrawPolygonWithoutWrapping </td></tr>
 		</table></td></tr>
 		</table>>, URL="./DrawPolygonWithoutWrapping.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.drawing.DrawPolylineWithArrows
-	c12040 [label=<<table title="org.osmdroid.samplefragments.drawing.DrawPolylineWithArrows" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./DrawPolylineWithArrows.html">
+	c12962 [label=<<table title="org.osmdroid.samplefragments.drawing.DrawPolylineWithArrows" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./DrawPolylineWithArrows.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> DrawPolylineWithArrows </td></tr>
 		</table></td></tr>
 		</table>>, URL="./DrawPolylineWithArrows.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.drawing.IconPlottingOverlay
-	c12041 [label=<<table title="org.osmdroid.samplefragments.drawing.IconPlottingOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./IconPlottingOverlay.html">
+	c12963 [label=<<table title="org.osmdroid.samplefragments.drawing.IconPlottingOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./IconPlottingOverlay.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> IconPlottingOverlay </td></tr>
 		</table></td></tr>
 		</table>>, URL="./IconPlottingOverlay.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.drawing.PressToPlot
-	c12042 [label=<<table title="org.osmdroid.samplefragments.drawing.PressToPlot" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./PressToPlot.html">
+	c12964 [label=<<table title="org.osmdroid.samplefragments.drawing.PressToPlot" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./PressToPlot.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> PressToPlot </td></tr>
 		</table></td></tr>
 		</table>>, URL="./PressToPlot.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.drawing.PressToPlotWithoutWrapping
-	c12043 [label=<<table title="org.osmdroid.samplefragments.drawing.PressToPlotWithoutWrapping" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./PressToPlotWithoutWrapping.html">
+	c12965 [label=<<table title="org.osmdroid.samplefragments.drawing.PressToPlotWithoutWrapping" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./PressToPlotWithoutWrapping.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> PressToPlotWithoutWrapping </td></tr>
 		</table></td></tr>
 		</table>>, URL="./PressToPlotWithoutWrapping.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.drawing.SampleDrawPolyline
-	c12044 [label=<<table title="org.osmdroid.samplefragments.drawing.SampleDrawPolyline" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleDrawPolyline.html">
+	c12966 [label=<<table title="org.osmdroid.samplefragments.drawing.SampleDrawPolyline" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleDrawPolyline.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleDrawPolyline </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SampleDrawPolyline.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.drawing.SampleDrawPolylineWithoutVerticalWrapping
-	c12045 [label=<<table title="org.osmdroid.samplefragments.drawing.SampleDrawPolylineWithoutVerticalWrapping" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleDrawPolylineWithoutVerticalWrapping.html">
+	c12967 [label=<<table title="org.osmdroid.samplefragments.drawing.SampleDrawPolylineWithoutVerticalWrapping" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleDrawPolylineWithoutVerticalWrapping.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleDrawPolylineWithoutVerticalWrapping </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SampleDrawPolylineWithoutVerticalWrapping.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.drawing.SampleDrawPolylineWithoutWrapping
-	c12046 [label=<<table title="org.osmdroid.samplefragments.drawing.SampleDrawPolylineWithoutWrapping" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleDrawPolylineWithoutWrapping.html">
+	c12968 [label=<<table title="org.osmdroid.samplefragments.drawing.SampleDrawPolylineWithoutWrapping" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleDrawPolylineWithoutWrapping.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleDrawPolylineWithoutWrapping </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SampleDrawPolylineWithoutWrapping.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.samplefragments.drawing.DrawPolygonWithArrows extends org.osmdroid.samplefragments.drawing.DrawPolygon
-	c12035:p -> c12037:p [dir=back,arrowtail=empty];
+	c12957:p -> c12959:p [dir=back,arrowtail=empty];
 	//org.osmdroid.samplefragments.drawing.DrawPolygonWithoutVerticalWrapping extends org.osmdroid.samplefragments.drawing.DrawPolygon
-	c12035:p -> c12038:p [dir=back,arrowtail=empty];
+	c12957:p -> c12960:p [dir=back,arrowtail=empty];
 	//org.osmdroid.samplefragments.drawing.DrawPolygonWithoutWrapping extends org.osmdroid.samplefragments.drawing.DrawPolygon
-	c12035:p -> c12039:p [dir=back,arrowtail=empty];
+	c12957:p -> c12961:p [dir=back,arrowtail=empty];
 	//org.osmdroid.samplefragments.drawing.DrawPolylineWithArrows extends org.osmdroid.samplefragments.drawing.SampleDrawPolyline
-	c12044:p -> c12040:p [dir=back,arrowtail=empty];
+	c12966:p -> c12962:p [dir=back,arrowtail=empty];
 	//org.osmdroid.samplefragments.drawing.PressToPlotWithoutWrapping extends org.osmdroid.samplefragments.drawing.PressToPlot
-	c12042:p -> c12043:p [dir=back,arrowtail=empty];
+	c12964:p -> c12965:p [dir=back,arrowtail=empty];
 	//org.osmdroid.samplefragments.drawing.SampleDrawPolylineWithoutVerticalWrapping extends org.osmdroid.samplefragments.drawing.SampleDrawPolyline
-	c12044:p -> c12045:p [dir=back,arrowtail=empty];
+	c12966:p -> c12967:p [dir=back,arrowtail=empty];
 	//org.osmdroid.samplefragments.drawing.SampleDrawPolylineWithoutWrapping extends org.osmdroid.samplefragments.drawing.SampleDrawPolyline
-	c12044:p -> c12046:p [dir=back,arrowtail=empty];
+	c12966:p -> c12968:p [dir=back,arrowtail=empty];
 }
 

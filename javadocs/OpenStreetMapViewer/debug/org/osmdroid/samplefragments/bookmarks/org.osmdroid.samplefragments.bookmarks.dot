@@ -10,13 +10,13 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.samplefragments.bookmarks.BookmarkDatastore
-	c2672 [label=<<table title="org.osmdroid.samplefragments.bookmarks.BookmarkDatastore" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./BookmarkDatastore.html">
+	c2870 [label=<<table title="org.osmdroid.samplefragments.bookmarks.BookmarkDatastore" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./BookmarkDatastore.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> BookmarkDatastore </td></tr>
 		</table></td></tr>
 		</table>>, URL="./BookmarkDatastore.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.bookmarks.BookmarkSample
-	c2673 [label=<<table title="org.osmdroid.samplefragments.bookmarks.BookmarkSample" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./BookmarkSample.html">
+	c2871 [label=<<table title="org.osmdroid.samplefragments.bookmarks.BookmarkSample" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./BookmarkSample.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> BookmarkSample </td></tr>
 		</table></td></tr>

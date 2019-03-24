@@ -1,6 +1,8 @@
 <map id="G" name="G">
-<area shape="rect" id="node1_0" href="../BaseSampleFragment.html" title="org.osmdroid.samplefragments.BaseSampleFragment" alt="" coords="16,17,164,42"/>
-<area shape="rect" id="node1" href="../BaseSampleFragment.html" title="&lt;TABLE&gt;" alt="" coords="5,5,175,53"/>
-<area shape="rect" id="node2_1" href="./BookmarkSample.html" title="org.osmdroid.samplefragments.bookmarks.BookmarkSample" alt="" coords="29,113,151,138"/>
-<area shape="rect" id="node2" href="./BookmarkSample.html" title="&lt;TABLE&gt;" alt="" coords="18,101,162,149"/>
+<area shape="rect" id="node1_0" href="../BaseSampleFragment.html" title="org.osmdroid.samplefragments.BaseSampleFragment" alt="" coords="16,19,164,45"/>
+<area shape="rect" id="node1" href="../BaseSampleFragment.html" title="&lt;TABLE&gt;" alt="" coords="5,8,175,56"/>
+<area shape="rect" id="node2_1" href="./BookmarkSample.html" title="org.osmdroid.samplefragments.bookmarks.BookmarkSample" alt="" coords="117,118,239,143"/>
+<area shape="rect" id="node2" href="./BookmarkSample.html" title="&lt;TABLE&gt;" alt="" coords="106,107,250,155"/>
+<area shape="rect" id="node3_2" href="http://java.sun.com/j2se/1.4.2/docs/api/android/location/LocationListener.html" title="android.location.LocationListener" alt="" coords="210,11,325,53"/>
+<area shape="rect" id="node3" href="http://java.sun.com/j2se/1.4.2/docs/api/android/location/LocationListener.html" title="&lt;TABLE&gt;" alt="" coords="199,5,335,59"/>
 </map>

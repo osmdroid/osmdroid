@@ -10,7 +10,7 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.gpkg.overlay.features.MultiLatLng
-	c171522 [label=<<table title="org.osmdroid.gpkg.overlay.features.MultiLatLng" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./MultiLatLng.html">
+	c195865 [label=<<table title="org.osmdroid.gpkg.overlay.features.MultiLatLng" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./MultiLatLng.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MultiLatLng </td></tr>
 		</table></td></tr>

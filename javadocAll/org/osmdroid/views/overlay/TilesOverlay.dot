@@ -10,43 +10,43 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.views.overlay.IOverlayMenuProvider
-	c274339 [label=<<table title="org.osmdroid.views.overlay.IOverlayMenuProvider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./IOverlayMenuProvider.html">
+	c316174 [label=<<table title="org.osmdroid.views.overlay.IOverlayMenuProvider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./IOverlayMenuProvider.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> IOverlayMenuProvider </td></tr>
 		</table></td></tr>
 		</table>>, URL="./IOverlayMenuProvider.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.MinimapOverlay
-	c274365 [label=<<table title="org.osmdroid.views.overlay.MinimapOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MinimapOverlay.html">
+	c316201 [label=<<table title="org.osmdroid.views.overlay.MinimapOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MinimapOverlay.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MinimapOverlay </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MinimapOverlay.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.Overlay
-	c274373 [label=<<table title="org.osmdroid.views.overlay.Overlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Overlay.html">
+	c316209 [label=<<table title="org.osmdroid.views.overlay.Overlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Overlay.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> Overlay </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./Overlay.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.TilesOverlay
-	c274398 [label=<<table title="org.osmdroid.views.overlay.TilesOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./TilesOverlay.html">
+	c316234 [label=<<table title="org.osmdroid.views.overlay.TilesOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./TilesOverlay.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> TilesOverlay </td></tr>
 		</table></td></tr>
 		</table>>, URL="./TilesOverlay.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.gpkg.tiles.feature.GeopackageFeatureTilesOverlay
-	c274449 [label=<<table title="org.osmdroid.gpkg.tiles.feature.GeopackageFeatureTilesOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../gpkg/tiles/feature/GeopackageFeatureTilesOverlay.html">
+	c316291 [label=<<table title="org.osmdroid.gpkg.tiles.feature.GeopackageFeatureTilesOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../gpkg/tiles/feature/GeopackageFeatureTilesOverlay.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> GeopackageFeatureTilesOverlay </td></tr>
 		</table></td></tr>
 		</table>>, URL="../../gpkg/tiles/feature/GeopackageFeatureTilesOverlay.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.views.overlay.MinimapOverlay extends org.osmdroid.views.overlay.TilesOverlay
-	c274398:p -> c274365:p [dir=back,arrowtail=empty];
+	c316234:p -> c316201:p [dir=back,arrowtail=empty];
 	//org.osmdroid.views.overlay.TilesOverlay extends org.osmdroid.views.overlay.Overlay
-	c274373:p -> c274398:p [dir=back,arrowtail=empty];
+	c316209:p -> c316234:p [dir=back,arrowtail=empty];
 	//org.osmdroid.views.overlay.TilesOverlay implements org.osmdroid.views.overlay.IOverlayMenuProvider
-	c274339:p -> c274398:p [dir=back,arrowtail=empty,style=dashed];
+	c316174:p -> c316234:p [dir=back,arrowtail=empty,style=dashed];
 	//org.osmdroid.gpkg.tiles.feature.GeopackageFeatureTilesOverlay extends org.osmdroid.views.overlay.TilesOverlay
-	c274398:p -> c274449:p [dir=back,arrowtail=empty];
+	c316234:p -> c316291:p [dir=back,arrowtail=empty];
 }
 

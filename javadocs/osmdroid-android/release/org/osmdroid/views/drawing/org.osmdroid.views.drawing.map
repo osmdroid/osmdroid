@@ -1,6 +1,14 @@
 <map id="G" name="G">
-<area shape="rect" id="node1_0" href="./OsmBitmapShader.html" title="org.osmdroid.views.drawing.OsmBitmapShader" alt="" coords="16,17,145,42"/>
-<area shape="rect" id="node1" href="./OsmBitmapShader.html" title="&lt;TABLE&gt;" alt="" coords="5,5,156,53"/>
-<area shape="rect" id="node2_1" href="./OsmPath.html" title="org.osmdroid.views.drawing.OsmPath" alt="" coords="191,17,266,42"/>
-<area shape="rect" id="node2" href="./OsmPath.html" title="&lt;TABLE&gt;" alt="" coords="181,5,277,53"/>
+<area shape="rect" id="node1_0" href="./MapSnapshot.html" title="org.osmdroid.views.drawing.MapSnapshot" alt="" coords="16,19,116,45"/>
+<area shape="rect" id="node1" href="./MapSnapshot.html" title="&lt;TABLE&gt;" alt="" coords="5,8,127,56"/>
+<area shape="rect" id="node2_1" href="./MapSnapshot.MapSnapshotable.html" title="org.osmdroid.views.drawing.MapSnapshot.MapSnapshotable" alt="" coords="161,11,285,53"/>
+<area shape="rect" id="node2" href="./MapSnapshot.MapSnapshotable.html" title="&lt;TABLE&gt;" alt="" coords="151,5,296,59"/>
+<area shape="rect" id="node3_2" href="./MapSnapshot.Status.html" title="org.osmdroid.views.drawing.MapSnapshot.Status" alt="" coords="331,11,435,53"/>
+<area shape="rect" id="node3" href="./MapSnapshot.Status.html" title="&lt;TABLE&gt;" alt="" coords="321,5,446,59"/>
+<area shape="rect" id="node4_3" href="./MapSnapshotHandler.html" title="org.osmdroid.views.drawing.MapSnapshotHandler" alt="" coords="481,19,625,45"/>
+<area shape="rect" id="node4" href="./MapSnapshotHandler.html" title="&lt;TABLE&gt;" alt="" coords="470,8,635,56"/>
+<area shape="rect" id="node5_4" href="./OsmBitmapShader.html" title="org.osmdroid.views.drawing.OsmBitmapShader" alt="" coords="671,19,800,45"/>
+<area shape="rect" id="node5" href="./OsmBitmapShader.html" title="&lt;TABLE&gt;" alt="" coords="660,8,811,56"/>
+<area shape="rect" id="node6_5" href="./OsmPath.html" title="org.osmdroid.views.drawing.OsmPath" alt="" coords="846,19,921,45"/>
+<area shape="rect" id="node6" href="./OsmPath.html" title="&lt;TABLE&gt;" alt="" coords="835,8,931,56"/>
 </map>

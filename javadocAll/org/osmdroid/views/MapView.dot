@@ -10,41 +10,41 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.samplefragments.layouts.CustomMapView
-	c153301 [label=<<table title="org.osmdroid.samplefragments.layouts.CustomMapView" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../samplefragments/layouts/CustomMapView.html">
+	c175713 [label=<<table title="org.osmdroid.samplefragments.layouts.CustomMapView" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../samplefragments/layouts/CustomMapView.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> CustomMapView </td></tr>
 		</table></td></tr>
 		</table>>, URL="../samplefragments/layouts/CustomMapView.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.metalev.multitouch.controller.MultiTouchController.MultiTouchObjectCanvas<T>
-	c153386 [label=<<table title="org.metalev.multitouch.controller.MultiTouchController.MultiTouchObjectCanvas" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../metalev/multitouch/controller/MultiTouchController.MultiTouchObjectCanvas.html">
+	c175802 [label=<<table title="org.metalev.multitouch.controller.MultiTouchController.MultiTouchObjectCanvas" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../metalev/multitouch/controller/MultiTouchController.MultiTouchObjectCanvas.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> MultiTouchObjectCanvas&lt;T&gt; </td></tr>
 		</table></td></tr>
 		</table>>, URL="../../metalev/multitouch/controller/MultiTouchController.MultiTouchObjectCanvas.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.api.IMapView
-	c153389 [label=<<table title="org.osmdroid.api.IMapView" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../api/IMapView.html">
+	c175805 [label=<<table title="org.osmdroid.api.IMapView" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../api/IMapView.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> IMapView </td></tr>
 		</table></td></tr>
 		</table>>, URL="../api/IMapView.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.MapView
-	c153515 [label=<<table title="org.osmdroid.views.MapView" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./MapView.html">
+	c175947 [label=<<table title="org.osmdroid.views.MapView" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./MapView.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MapView </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MapView.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.samplefragments.layouts.CustomMapView extends org.osmdroid.views.MapView
-	c153515:p -> c153301:p [dir=back,arrowtail=empty];
+	c175947:p -> c175713:p [dir=back,arrowtail=empty];
 	//org.osmdroid.views.MapView extends ViewGroup
-	c153664:p -> c153515:p [dir=back,arrowtail=empty];
+	c176103:p -> c175947:p [dir=back,arrowtail=empty];
 	//org.osmdroid.views.MapView implements org.osmdroid.api.IMapView
-	c153389:p -> c153515:p [dir=back,arrowtail=empty,style=dashed];
+	c175805:p -> c175947:p [dir=back,arrowtail=empty,style=dashed];
 	//org.osmdroid.views.MapView implements org.metalev.multitouch.controller.MultiTouchController.MultiTouchObjectCanvas<T>
-	c153386:p -> c153515:p [dir=back,arrowtail=empty,style=dashed];
+	c175802:p -> c175947:p [dir=back,arrowtail=empty,style=dashed];
 	// ViewGroup
-	c153664[label=<<table title="ViewGroup" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api//ViewGroup.html">
+	c176103[label=<<table title="ViewGroup" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api//ViewGroup.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> ViewGroup </td></tr>
 		</table></td></tr>

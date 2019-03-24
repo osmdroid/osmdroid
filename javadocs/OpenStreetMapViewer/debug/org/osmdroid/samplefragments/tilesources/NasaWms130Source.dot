@@ -10,18 +10,18 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.samplefragments.tilesources.NasaWms130Source
-	c26846 [label=<<table title="org.osmdroid.samplefragments.tilesources.NasaWms130Source" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./NasaWms130Source.html">
+	c29488 [label=<<table title="org.osmdroid.samplefragments.tilesources.NasaWms130Source" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./NasaWms130Source.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> NasaWms130Source </td></tr>
 		</table></td></tr>
 		</table>>, URL="./NasaWms130Source.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.tilesources.SampleWMSSource
-	c26860 [label=<<table title="org.osmdroid.samplefragments.tilesources.SampleWMSSource" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleWMSSource.html">
+	c29505 [label=<<table title="org.osmdroid.samplefragments.tilesources.SampleWMSSource" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleWMSSource.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleWMSSource </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SampleWMSSource.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.samplefragments.tilesources.NasaWms130Source extends org.osmdroid.samplefragments.tilesources.SampleWMSSource
-	c26860:p -> c26846:p [dir=back,arrowtail=empty];
+	c29505:p -> c29488:p [dir=back,arrowtail=empty];
 }
 

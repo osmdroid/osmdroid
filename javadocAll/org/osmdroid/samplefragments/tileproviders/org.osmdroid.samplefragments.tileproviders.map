@@ -11,6 +11,8 @@
 <area shape="rect" id="node5" href="./SampleOfflineGemfOnly.html" title="&lt;TABLE&gt;" alt="" coords="873,5,1052,53"/>
 <area shape="rect" id="node6_5" href="./SampleOfflineOnly.html" title="org.osmdroid.samplefragments.tileproviders.SampleOfflineOnly" alt="" coords="1087,17,1214,42"/>
 <area shape="rect" id="node6" href="./SampleOfflineOnly.html" title="&lt;TABLE&gt;" alt="" coords="1077,5,1225,53"/>
-<area shape="rect" id="node7_6" href="./SampleVeryHighZoomLevel.html" title="org.osmdroid.samplefragments.tileproviders.SampleVeryHighZoomLevel" alt="" coords="1259,17,1437,42"/>
-<area shape="rect" id="node7" href="./SampleVeryHighZoomLevel.html" title="&lt;TABLE&gt;" alt="" coords="1249,5,1447,53"/>
+<area shape="rect" id="node7_6" href="./SampleTileStates.html" title="org.osmdroid.samplefragments.tileproviders.SampleTileStates" alt="" coords="1259,17,1381,42"/>
+<area shape="rect" id="node7" href="./SampleTileStates.html" title="&lt;TABLE&gt;" alt="" coords="1249,5,1391,53"/>
+<area shape="rect" id="node8_7" href="./SampleVeryHighZoomLevel.html" title="org.osmdroid.samplefragments.tileproviders.SampleVeryHighZoomLevel" alt="" coords="1426,17,1603,42"/>
+<area shape="rect" id="node8" href="./SampleVeryHighZoomLevel.html" title="&lt;TABLE&gt;" alt="" coords="1415,5,1614,53"/>
 </map>

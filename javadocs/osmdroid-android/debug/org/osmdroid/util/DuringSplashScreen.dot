@@ -10,19 +10,19 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.util.DuringSplashScreen
-	c12454 [label=<<table title="org.osmdroid.util.DuringSplashScreen" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./DuringSplashScreen.html">
+	c14775 [label=<<table title="org.osmdroid.util.DuringSplashScreen" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./DuringSplashScreen.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> DuringSplashScreen </td></tr>
 		</table></td></tr>
 		</table>>, URL="./DuringSplashScreen.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.util.SplashScreenable
-	c12479 [label=<<table title="org.osmdroid.util.SplashScreenable" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SplashScreenable.html">
+	c14805 [label=<<table title="org.osmdroid.util.SplashScreenable" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SplashScreenable.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> SplashScreenable </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SplashScreenable.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.util.DuringSplashScreen implements org.osmdroid.util.SplashScreenable
-	c12479:p -> c12454:p [dir=back,arrowtail=empty,style=dashed];
+	c14805:p -> c14775:p [dir=back,arrowtail=empty,style=dashed];
 }
 

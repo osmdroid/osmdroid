@@ -10,18 +10,18 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.samplefragments.BaseSampleFragment
-	c43855 [label=<<table title="org.osmdroid.samplefragments.BaseSampleFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../BaseSampleFragment.html">
+	c47201 [label=<<table title="org.osmdroid.samplefragments.BaseSampleFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../BaseSampleFragment.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> BaseSampleFragment </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="../BaseSampleFragment.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.bookmarks.BookmarkSample
-	c43857 [label=<<table title="org.osmdroid.samplefragments.bookmarks.BookmarkSample" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./BookmarkSample.html">
+	c47203 [label=<<table title="org.osmdroid.samplefragments.bookmarks.BookmarkSample" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./BookmarkSample.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> BookmarkSample </td></tr>
 		</table></td></tr>
 		</table>>, URL="./BookmarkSample.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.samplefragments.bookmarks.BookmarkSample extends org.osmdroid.samplefragments.BaseSampleFragment
-	c43855:p -> c43857:p [dir=back,arrowtail=empty];
+	c47201:p -> c47203:p [dir=back,arrowtail=empty];
 }
 
