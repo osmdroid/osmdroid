@@ -705,7 +705,7 @@ Similarly, you can use tools:targetApi=&quot;11&quot; in an XML file to indicate
         quickfix="studio,adt">
         <location
             file=".\OpenStreetMapViewer\src\main\java\org\osmdroid\samplefragments\animations\AnimatedMarkerTypeEvaluator.java"
-            line="69"
+            line="71"
             column="58"/>
     </issue>
 
@@ -730,7 +730,7 @@ Similarly, you can use tools:targetApi=&quot;11&quot; in an XML file to indicate
         quickfix="studio,adt">
         <location
             file=".\OpenStreetMapViewer\src\main\java\org\osmdroid\samplefragments\animations\AnimatedMarkerTypeEvaluator.java"
-            line="70"
+            line="72"
             column="35"/>
     </issue>
 
@@ -755,7 +755,7 @@ Similarly, you can use tools:targetApi=&quot;11&quot; in an XML file to indicate
         quickfix="studio,adt">
         <location
             file=".\OpenStreetMapViewer\src\main\java\org\osmdroid\samplefragments\animations\AnimatedMarkerValueAnimator.java"
-            line="69"
+            line="71"
             column="58"/>
     </issue>
 
@@ -780,7 +780,7 @@ Similarly, you can use tools:targetApi=&quot;11&quot; in an XML file to indicate
         quickfix="studio,adt">
         <location
             file=".\OpenStreetMapViewer\src\main\java\org\osmdroid\samplefragments\animations\AnimatedMarkerValueAnimator.java"
-            line="70"
+            line="72"
             column="35"/>
     </issue>
 
@@ -1062,6 +1062,106 @@ Similarly, you can use tools:targetApi=&quot;11&quot; in an XML file to indicate
     <issue
         id="NewApi"
         severity="Error"
+        message="Class requires API level 11 (current min is 8): `android.animation.ValueAnimator.AnimatorUpdateListener`"
+        category="Correctness"
+        priority="6"
+        summary="Calling new methods on older versions"
+        explanation="This check scans through all the Android API calls in the application and warns about any calls that are not available on *all* versions targeted by this application (according to its minimum SDK attribute in the manifest).
+
+If you really want to use this API and don&apos;t need to support older devices just set the `minSdkVersion` in your `build.gradle` or `AndroidManifest.xml` files.
+
+If your code is *deliberately* accessing newer APIs, and you have ensured (e.g. with conditional execution) that this code will only ever be called on a supported platform, then you can annotate your class or method with the `@TargetApi` annotation specifying the local minimum SDK to apply, such as `@TargetApi(11)`, such that this check considers 11 rather than your manifest file&apos;s minimum SDK as the required API level.
+
+If you are deliberately setting `android:` attributes in style definitions, make sure you place this in a `values-vNN` folder in order to avoid running into runtime conflicts on certain devices where manufacturers have added custom attributes whose ids conflict with the new ones on later platforms.
+
+Similarly, you can use tools:targetApi=&quot;11&quot; in an XML file to indicate that the element will only be inflated in an adequate context."
+        errorLine1="            percentageCompletion.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {"
+        errorLine2="                                                                     ~~~~~~~~~~~~~~~~~~~~~~"
+        quickfix="studio,adt">
+        <location
+            file=".\OpenStreetMapViewer\src\main\java\org\osmdroid\samplefragments\data\SampleRace.java"
+            line="87"
+            column="70"/>
+    </issue>
+
+    <issue
+        id="NewApi"
+        severity="Error"
+        message="Call requires API level 11 (current min is 8): `android.animation.ValueAnimator#getAnimatedValue`"
+        category="Correctness"
+        priority="6"
+        summary="Calling new methods on older versions"
+        explanation="This check scans through all the Android API calls in the application and warns about any calls that are not available on *all* versions targeted by this application (according to its minimum SDK attribute in the manifest).
+
+If you really want to use this API and don&apos;t need to support older devices just set the `minSdkVersion` in your `build.gradle` or `AndroidManifest.xml` files.
+
+If your code is *deliberately* accessing newer APIs, and you have ensured (e.g. with conditional execution) that this code will only ever be called on a supported platform, then you can annotate your class or method with the `@TargetApi` annotation specifying the local minimum SDK to apply, such as `@TargetApi(11)`, such that this check considers 11 rather than your manifest file&apos;s minimum SDK as the required API level.
+
+If you are deliberately setting `android:` attributes in style definitions, make sure you place this in a `values-vNN` folder in order to avoid running into runtime conflicts on certain devices where manufacturers have added custom attributes whose ids conflict with the new ones on later platforms.
+
+Similarly, you can use tools:targetApi=&quot;11&quot; in an XML file to indicate that the element will only be inflated in an adequate context."
+        errorLine1="                    mAnimatedMetersSoFar = (float)animation.getAnimatedValue();"
+        errorLine2="                                                            ~~~~~~~~~~~~~~~~"
+        quickfix="studio,adt">
+        <location
+            file=".\OpenStreetMapViewer\src\main\java\org\osmdroid\samplefragments\data\SampleRace.java"
+            line="90"
+            column="61"/>
+    </issue>
+
+    <issue
+        id="NewApi"
+        severity="Error"
+        message="Call requires API level 11 (current min is 8): `new android.animation.AnimatorListenerAdapter`"
+        category="Correctness"
+        priority="6"
+        summary="Calling new methods on older versions"
+        explanation="This check scans through all the Android API calls in the application and warns about any calls that are not available on *all* versions targeted by this application (according to its minimum SDK attribute in the manifest).
+
+If you really want to use this API and don&apos;t need to support older devices just set the `minSdkVersion` in your `build.gradle` or `AndroidManifest.xml` files.
+
+If your code is *deliberately* accessing newer APIs, and you have ensured (e.g. with conditional execution) that this code will only ever be called on a supported platform, then you can annotate your class or method with the `@TargetApi` annotation specifying the local minimum SDK to apply, such as `@TargetApi(11)`, such that this check considers 11 rather than your manifest file&apos;s minimum SDK as the required API level.
+
+If you are deliberately setting `android:` attributes in style definitions, make sure you place this in a `values-vNN` folder in order to avoid running into runtime conflicts on certain devices where manufacturers have added custom attributes whose ids conflict with the new ones on later platforms.
+
+Similarly, you can use tools:targetApi=&quot;11&quot; in an XML file to indicate that the element will only be inflated in an adequate context."
+        errorLine1="            percentageCompletion.addListener(new AnimatorListenerAdapter() {"
+        errorLine2="                                                 ~~~~~~~~~~~~~~~~~~~~~~~"
+        quickfix="studio,adt">
+        <location
+            file=".\OpenStreetMapViewer\src\main\java\org\osmdroid\samplefragments\data\SampleRace.java"
+            line="96"
+            column="50"/>
+    </issue>
+
+    <issue
+        id="NewApi"
+        severity="Error"
+        message="Class requires API level 11 (current min is 8): `android.animation.AnimatorListenerAdapter`"
+        category="Correctness"
+        priority="6"
+        summary="Calling new methods on older versions"
+        explanation="This check scans through all the Android API calls in the application and warns about any calls that are not available on *all* versions targeted by this application (according to its minimum SDK attribute in the manifest).
+
+If you really want to use this API and don&apos;t need to support older devices just set the `minSdkVersion` in your `build.gradle` or `AndroidManifest.xml` files.
+
+If your code is *deliberately* accessing newer APIs, and you have ensured (e.g. with conditional execution) that this code will only ever be called on a supported platform, then you can annotate your class or method with the `@TargetApi` annotation specifying the local minimum SDK to apply, such as `@TargetApi(11)`, such that this check considers 11 rather than your manifest file&apos;s minimum SDK as the required API level.
+
+If you are deliberately setting `android:` attributes in style definitions, make sure you place this in a `values-vNN` folder in order to avoid running into runtime conflicts on certain devices where manufacturers have added custom attributes whose ids conflict with the new ones on later platforms.
+
+Similarly, you can use tools:targetApi=&quot;11&quot; in an XML file to indicate that the element will only be inflated in an adequate context."
+        errorLine1="            percentageCompletion.addListener(new AnimatorListenerAdapter() {"
+        errorLine2="                                                 ~~~~~~~~~~~~~~~~~~~~~~~"
+        quickfix="studio,adt">
+        <location
+            file=".\OpenStreetMapViewer\src\main\java\org\osmdroid\samplefragments\data\SampleRace.java"
+            line="96"
+            column="50"/>
+    </issue>
+
+    <issue
+        id="NewApi"
+        severity="Error"
         message="Class requires API level 12 (current min is 8): `android.view.View.OnGenericMotionListener`"
         category="Correctness"
         priority="6"
@@ -1324,6 +1424,27 @@ Note: This check does not only apply to attributes. For example, some tags can b
             file=".\OpenStreetMapViewer\src\main\res\layout\activity_prefs.xml"
             line="14"
             column="9"/>
+    </issue>
+
+    <issue
+        id="UnusedAttribute"
+        severity="Warning"
+        message="Attribute `textAlignment` is only used in API level 17 and higher (current min is 8)"
+        category="Correctness"
+        priority="6"
+        summary="Attribute unused on older versions"
+        explanation="This check finds attributes set in XML files that were introduced in a version newer than the oldest version targeted by your application (with the `minSdkVersion` attribute).
+
+This is not an error; the application will simply ignore the attribute. However, if the attribute is important to the appearance of functionality of your application, you should consider finding an alternative way to achieve the same result with only available attributes, and then you can optionally create a copy of the layout in a layout-vNN folder which will be used on API NN or higher where you can take advantage of the newer attribute.
+
+Note: This check does not only apply to attributes. For example, some tags can be unused too, such as the new `&lt;tag>` element in layouts introduced in API 21."
+        errorLine1="            android:textAlignment=&quot;center&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+        quickfix="studio">
+        <location
+            file=".\OpenStreetMapViewer\src\main\res\layout\layermanage_drawer.xml"
+            line="25"
+            column="13"/>
     </issue>
 
     <issue
@@ -1863,68 +1984,17 @@ Note: This check does not only apply to attributes. For example, some tags can b
     <issue
         id="GradleDependency"
         severity="Warning"
-        message="A newer version of com.android.support:support-v4 than 23.+ is available: 25.3.1"
+        message="A newer version of com.android.support:support-v4 than 23.1.1 is available: 25.3.1"
         category="Correctness"
         priority="4"
         summary="Obsolete Gradle Dependency"
         explanation="This detector looks for usages of libraries where the version you are using is not the current stable release. Using older versions is fine, and there are cases where you deliberately want to stick with an older version. However, you may simply not be aware that a more recent version is available, and that is what this lint check helps find."
-        errorLine1="    compile &apos;com.android.support:support-v4:23+&apos;"
-        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+        errorLine1="    compile &quot;com.android.support:support-v4:${project.property(&apos;android-support.version&apos;)}&quot;"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
         quickfix="studio">
         <location
             file=".\OpenStreetMapViewer\build.gradle"
             line="30"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="GradleDependency"
-        severity="Warning"
-        message="A newer version of com.android.support:support-annotations than 23.+ is available: 25.3.1"
-        category="Correctness"
-        priority="4"
-        summary="Obsolete Gradle Dependency"
-        explanation="This detector looks for usages of libraries where the version you are using is not the current stable release. Using older versions is fine, and there are cases where you deliberately want to stick with an older version. However, you may simply not be aware that a more recent version is available, and that is what this lint check helps find."
-        errorLine1="    androidTestCompile &apos;com.android.support:support-annotations:23+&apos;"
-        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
-        quickfix="studio">
-        <location
-            file=".\OpenStreetMapViewer\build.gradle"
-            line="52"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="GradleDynamicVersion"
-        severity="Warning"
-        message="Avoid using + in version numbers; can lead to unpredictable and unrepeatable builds (com.android.support:support-v4:23+)"
-        category="Correctness"
-        priority="4"
-        summary="Gradle Dynamic Version"
-        explanation="Using `+` in dependencies lets you automatically pick up the latest available version rather than a specific, named version. However, this is not recommended; your builds are not repeatable; you may have tested with a slightly different version than what the build server used. (Using a dynamic version as the major version number is more problematic than using it in the minor version position.)"
-        errorLine1="    compile &apos;com.android.support:support-v4:23+&apos;"
-        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
-        quickfix="studio">
-        <location
-            file=".\OpenStreetMapViewer\build.gradle"
-            line="30"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="GradleDynamicVersion"
-        severity="Warning"
-        message="Avoid using + in version numbers; can lead to unpredictable and unrepeatable builds (com.android.support:support-annotations:23+)"
-        category="Correctness"
-        priority="4"
-        summary="Gradle Dynamic Version"
-        explanation="Using `+` in dependencies lets you automatically pick up the latest available version rather than a specific, named version. However, this is not recommended; your builds are not repeatable; you may have tested with a slightly different version than what the build server used. (Using a dynamic version as the major version number is more problematic than using it in the minor version position.)"
-        errorLine1="    androidTestCompile &apos;com.android.support:support-annotations:23+&apos;"
-        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
-        quickfix="studio">
-        <location
-            file=".\OpenStreetMapViewer\build.gradle"
-            line="52"
             column="5"/>
     </issue>
 
@@ -1965,7 +2035,7 @@ Note: This check does not only apply to attributes. For example, some tags can b
     <issue
         id="GradleOverrides"
         severity="Warning"
-        message="This `versionCode` value (`20`) is not used; it is always overridden by the value specified in the Gradle build script (`31`)"
+        message="This `versionCode` value (`20`) is not used; it is always overridden by the value specified in the Gradle build script (`32`)"
         category="Correctness"
         priority="4"
         summary="Value overridden by Gradle build script"
@@ -1981,7 +2051,7 @@ Note: This check does not only apply to attributes. For example, some tags can b
     <issue
         id="GradleOverrides"
         severity="Warning"
-        message="This `versionName` value (`5.3-SNAPSHOT`) is not used; it is always overridden by the value specified in the Gradle build script (`6.0.1`)"
+        message="This `versionName` value (`5.3-SNAPSHOT`) is not used; it is always overridden by the value specified in the Gradle build script (`6.0.2`)"
         category="Correctness"
         priority="4"
         summary="Value overridden by Gradle build script"
@@ -4618,7 +4688,7 @@ Some methods allocate memory on your behalf (such as `Bitmap.create`), and these
         errorLine2="                  ~~~~~~~~~~~~~~~~~~~">
         <location
             file=".\OpenStreetMapViewer\src\main\java\org\osmdroid\samplefragments\drawing\CustomPaintingSurface.java"
-            line="77"
+            line="79"
             column="19"/>
     </issue>
 
@@ -4638,7 +4708,7 @@ Some methods allocate memory on your behalf (such as `Bitmap.create`), and these
         errorLine2="                 ~~~~~~~~~~~">
         <location
             file=".\OpenStreetMapViewer\src\main\java\org\osmdroid\samplefragments\drawing\CustomPaintingSurface.java"
-            line="78"
+            line="80"
             column="18"/>
     </issue>
 
@@ -4735,6 +4805,24 @@ There&apos;s a lint quickfix to perform this conversion in the Eclipse plugin."
         <location
             file=".\OpenStreetMapViewer\src\main\java\org\osmdroid\samplefragments\milstd2525\MilStdAdapter.java"
             line="105"
+            column="24"/>
+    </issue>
+
+    <issue
+        id="ViewHolder"
+        severity="Warning"
+        message="Unconditional layout inflation from view adapter: Should use View Holder pattern (use recycled view passed into this method as the second parameter) for smoother scrolling"
+        category="Performance"
+        priority="5"
+        summary="View Holder Candidates"
+        explanation="When implementing a view Adapter, you should avoid unconditionally inflating a new layout; if an available item is passed in for reuse, you should try to use that one instead. This helps make for example ListView scrolling much smoother."
+        url="http://developer.android.com/training/improving-layouts/smooth-scrolling.html#ViewHolder"
+        urls="http://developer.android.com/training/improving-layouts/smooth-scrolling.html#ViewHolder"
+        errorLine1="        View rowView = inflater.inflate(R.layout.drawer_list_item, parent, false);"
+        errorLine2="                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file=".\OpenStreetMapViewer\src\main\java\org\osmdroid\samplefragments\layers\OverlayAdapter.java"
+            line="62"
             column="24"/>
     </issue>
 
@@ -4920,6 +5008,23 @@ There&apos;s a lint quickfix to perform this conversion in the Eclipse plugin."
         quickfix="adt">
         <location
             file=".\OpenStreetMapViewer\src\main\res\layout\activity_diag.xml"
+            line="7"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="UselessParent"
+        severity="Warning"
+        message="This `ScrollView` layout or its `LinearLayout` parent is useless"
+        category="Performance"
+        priority="2"
+        summary="Useless parent layout"
+        explanation="A layout with children that has no siblings, is not a scrollview or a root layout, and does not have a background, can be removed and have its children moved directly into the parent for a flatter and more efficient layout hierarchy."
+        errorLine1="    &lt;ScrollView"
+        errorLine2="    ^"
+        quickfix="adt">
+        <location
+            file=".\OpenStreetMapViewer\src\main\res\layout\bookmark_add_dialog.xml"
             line="7"
             column="5"/>
     </issue>
@@ -5442,6 +5547,28 @@ The maximum view count defaults to 80 but can be configured with the environment
         urls="http://developer.android.com/guide/practices/screens_support.html">
         <location
             file=".\OpenStreetMapViewer\src\main\res\drawable\zoom_out.png"/>
+    </issue>
+
+    <issue
+        id="ButtonOrder"
+        severity="Warning"
+        message="Layout uses the wrong button order for API >= 14: Create a `layout-v14/bookmark_add_dialog.xml` file with opposite order: OK button should be on the right (was &quot;OK | Cancel&quot;, should be &quot;Cancel | OK&quot;)"
+        category="Usability"
+        priority="8"
+        summary="Button order"
+        explanation="According to the Android Design Guide,
+
+&quot;Action buttons are typically Cancel and/or OK, with OK indicating the preferred or most likely action. However, if the options consist of specific actions such as Close or Wait rather than a confirmation or cancellation of the action described in the content, then all the buttons should be active verbs. As a rule, the dismissive action of a dialog is always on the left whereas the affirmative actions are on the right.&quot;
+
+This check looks for button bars and buttons which look like cancel buttons, and makes sure that these are on the left."
+        url="http://developer.android.com/design/building-blocks/dialogs.html"
+        urls="http://developer.android.com/design/building-blocks/dialogs.html"
+        errorLine1="                &lt;Button"
+        errorLine2="                ^">
+        <location
+            file=".\OpenStreetMapViewer\src\main\res\layout\bookmark_add_dialog.xml"
+            line="82"
+            column="17"/>
     </issue>
 
     <issue
@@ -6520,7 +6647,7 @@ If you really want to keep the text field generic, you can suppress this warning
         errorLine2="                   ~~~~~~~~~~~~">
         <location
             file=".\OpenStreetMapViewer\src\main\java\org\osmdroid\samplefragments\drawing\CustomPaintingSurface.java"
-            line="201"
+            line="218"
             column="20"/>
     </issue>
 
@@ -6762,7 +6889,7 @@ Note that for text fields, you should not set both the `hint` and the `contentDe
         errorLine2="                         ~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file=".\OpenStreetMapViewer\src\main\java\org\osmdroid\samplefragments\animations\AnimatedMarkerHandler.java"
-            line="40"
+            line="42"
             column="26"/>
     </issue>
 
@@ -6783,7 +6910,7 @@ Note that for text fields, you should not set both the `hint` and the `contentDe
         errorLine2="                         ~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file=".\OpenStreetMapViewer\src\main\java\org\osmdroid\samplefragments\animations\AnimatedMarkerTypeEvaluator.java"
-            line="41"
+            line="43"
             column="26"/>
     </issue>
 
@@ -6804,8 +6931,50 @@ Note that for text fields, you should not set both the `hint` and the `contentDe
         errorLine2="                         ~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file=".\OpenStreetMapViewer\src\main\java\org\osmdroid\samplefragments\animations\AnimatedMarkerValueAnimator.java"
-            line="41"
+            line="43"
             column="26"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        severity="Warning"
+        message="Do not concatenate text displayed with `setText`. Use resource string with placeholders."
+        category="Internationalization"
+        priority="6"
+        summary="TextView Internationalization"
+        explanation="When calling `TextView#setText`
+* Never call `Number#toString()` to format numbers; it will not handle fraction separators and locale-specific digits properly. Consider using `String#format` with proper format specifications (`%d` or `%f`) instead.
+* Do not pass a string literal (e.g. &quot;Hello&quot;) to display text. Hardcoded text can not be properly translated to other languages. Consider using Android resource strings instead.
+* Do not build messages by concatenating text chunks. Such messages can not be properly translated."
+        url="http://developer.android.com/guide/topics/resources/localization.html"
+        urls="http://developer.android.com/guide/topics/resources/localization.html"
+        errorLine1="                lat.setText(p.getLatitude() + &quot;&quot;);"
+        errorLine2="                            ~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file=".\OpenStreetMapViewer\src\main\java\org\osmdroid\samplefragments\bookmarks\BookmarkSample.java"
+            line="60"
+            column="29"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        severity="Warning"
+        message="Do not concatenate text displayed with `setText`. Use resource string with placeholders."
+        category="Internationalization"
+        priority="6"
+        summary="TextView Internationalization"
+        explanation="When calling `TextView#setText`
+* Never call `Number#toString()` to format numbers; it will not handle fraction separators and locale-specific digits properly. Consider using `String#format` with proper format specifications (`%d` or `%f`) instead.
+* Do not pass a string literal (e.g. &quot;Hello&quot;) to display text. Hardcoded text can not be properly translated to other languages. Consider using Android resource strings instead.
+* Do not build messages by concatenating text chunks. Such messages can not be properly translated."
+        url="http://developer.android.com/guide/topics/resources/localization.html"
+        urls="http://developer.android.com/guide/topics/resources/localization.html"
+        errorLine1="                lon.setText(p.getLongitude() + &quot;&quot;);"
+        errorLine2="                            ~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file=".\OpenStreetMapViewer\src\main\java\org\osmdroid\samplefragments\bookmarks\BookmarkSample.java"
+            line="62"
+            column="29"/>
     </issue>
 
     <issue
@@ -6867,7 +7036,7 @@ Note that for text fields, you should not set both the `hint` and the `contentDe
         errorLine2="                         ~~~~~~~~~~~">
         <location
             file=".\OpenStreetMapViewer\src\main\java\org\osmdroid\bugtestfragments\Bug419Zoom.java"
-            line="36"
+            line="38"
             column="26"/>
     </issue>
 
@@ -6888,7 +7057,7 @@ Note that for text fields, you should not set both the `hint` and the `contentDe
         errorLine2="                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file=".\OpenStreetMapViewer\src\main\java\org\osmdroid\bugtestfragments\Bug512CacheManagerWp.java"
-            line="45"
+            line="46"
             column="26"/>
     </issue>
 
@@ -7014,7 +7183,7 @@ Note that for text fields, you should not set both the `hint` and the `contentDe
         errorLine2="                         ~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file=".\OpenStreetMapViewer\src\main\java\org\osmdroid\samplefragments\cache\CacheImport.java"
-            line="43"
+            line="45"
             column="26"/>
     </issue>
 
@@ -7035,7 +7204,7 @@ Note that for text fields, you should not set both the `hint` and the `contentDe
         errorLine2="                         ~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file=".\OpenStreetMapViewer\src\main\java\org\osmdroid\samplefragments\cache\CachePurge.java"
-            line="35"
+            line="37"
             column="26"/>
     </issue>
 
@@ -7184,6 +7353,48 @@ Note that for text fields, you should not set both the `hint` and the `contentDe
             file=".\OpenStreetMapViewer\src\main\java\org\osmdroid\samplefragments\animations\FastZoomSpeedAnimations.java"
             line="49"
             column="41"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        severity="Warning"
+        message="Do not concatenate text displayed with `setText`. Use resource string with placeholders."
+        category="Internationalization"
+        priority="6"
+        summary="TextView Internationalization"
+        explanation="When calling `TextView#setText`
+* Never call `Number#toString()` to format numbers; it will not handle fraction separators and locale-specific digits properly. Consider using `String#format` with proper format specifications (`%d` or `%f`) instead.
+* Do not pass a string literal (e.g. &quot;Hello&quot;) to display text. Hardcoded text can not be properly translated to other languages. Consider using Android resource strings instead.
+* Do not build messages by concatenating text chunks. Such messages can not be properly translated."
+        url="http://developer.android.com/guide/topics/resources/localization.html"
+        urls="http://developer.android.com/guide/topics/resources/localization.html"
+        errorLine1="        textViewCurrentLocation.setText(df.format(mapCenter.getLatitude())+&quot;,&quot;+"
+        errorLine2="                                        ^">
+        <location
+            file=".\OpenStreetMapViewer\src\main\java\org\osmdroid\samplefragments\layers\LayerManager.java"
+            line="217"
+            column="41"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        severity="Warning"
+        message="String literal in `setText` can not be translated. Use Android resources instead."
+        category="Internationalization"
+        priority="6"
+        summary="TextView Internationalization"
+        explanation="When calling `TextView#setText`
+* Never call `Number#toString()` to format numbers; it will not handle fraction separators and locale-specific digits properly. Consider using `String#format` with proper format specifications (`%d` or `%f`) instead.
+* Do not pass a string literal (e.g. &quot;Hello&quot;) to display text. Hardcoded text can not be properly translated to other languages. Consider using Android resource strings instead.
+* Do not build messages by concatenating text chunks. Such messages can not be properly translated."
+        url="http://developer.android.com/guide/topics/resources/localization.html"
+        urls="http://developer.android.com/guide/topics/resources/localization.html"
+        errorLine1="            +&quot;,zoom=&quot;+mMapView.getZoomLevelDouble());"
+        errorLine2="             ~~~~~~~~">
+        <location
+            file=".\OpenStreetMapViewer\src\main\java\org\osmdroid\samplefragments\layers\LayerManager.java"
+            line="219"
+            column="14"/>
     </issue>
 
     <issue
@@ -7749,7 +7960,7 @@ Note that for text fields, you should not set both the `hint` and the `contentDe
         errorLine2="                    ~~~~~~~~~~~">
         <location
             file=".\OpenStreetMapViewer\src\main\java\org\osmdroid\bugtestfragments\SampleBug57.java"
-            line="36"
+            line="38"
             column="21"/>
     </issue>
 
@@ -7770,7 +7981,7 @@ Note that for text fields, you should not set both the `hint` and the `contentDe
         errorLine2="                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file=".\OpenStreetMapViewer\src\main\java\org\osmdroid\samplefragments\cache\SampleCacheDelete.java"
-            line="141"
+            line="143"
             column="28"/>
     </issue>
 
@@ -7791,7 +8002,7 @@ Note that for text fields, you should not set both the `hint` and the `contentDe
         errorLine2="                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file=".\OpenStreetMapViewer\src\main\java\org\osmdroid\samplefragments\cache\SampleCacheDelete.java"
-            line="143"
+            line="145"
             column="29"/>
     </issue>
 
@@ -7812,7 +8023,7 @@ Note that for text fields, you should not set both the `hint` and the `contentDe
         errorLine2="                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file=".\OpenStreetMapViewer\src\main\java\org\osmdroid\samplefragments\cache\SampleCacheDelete.java"
-            line="145"
+            line="147"
             column="29"/>
     </issue>
 
@@ -7833,7 +8044,7 @@ Note that for text fields, you should not set both the `hint` and the `contentDe
         errorLine2="                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file=".\OpenStreetMapViewer\src\main\java\org\osmdroid\samplefragments\cache\SampleCacheDelete.java"
-            line="147"
+            line="149"
             column="28"/>
     </issue>
 
@@ -7854,7 +8065,7 @@ Note that for text fields, you should not set both the `hint` and the `contentDe
         errorLine2="                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file=".\OpenStreetMapViewer\src\main\java\org\osmdroid\samplefragments\cache\SampleCacheDownloader.java"
-            line="142"
+            line="144"
             column="28"/>
     </issue>
 
@@ -7875,7 +8086,7 @@ Note that for text fields, you should not set both the `hint` and the `contentDe
         errorLine2="                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file=".\OpenStreetMapViewer\src\main\java\org\osmdroid\samplefragments\cache\SampleCacheDownloader.java"
-            line="144"
+            line="146"
             column="29"/>
     </issue>
 
@@ -7896,7 +8107,7 @@ Note that for text fields, you should not set both the `hint` and the `contentDe
         errorLine2="                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file=".\OpenStreetMapViewer\src\main\java\org\osmdroid\samplefragments\cache\SampleCacheDownloader.java"
-            line="146"
+            line="148"
             column="29"/>
     </issue>
 
@@ -7917,7 +8128,7 @@ Note that for text fields, you should not set both the `hint` and the `contentDe
         errorLine2="                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file=".\OpenStreetMapViewer\src\main\java\org\osmdroid\samplefragments\cache\SampleCacheDownloader.java"
-            line="148"
+            line="150"
             column="28"/>
     </issue>
 
@@ -7938,7 +8149,7 @@ Note that for text fields, you should not set both the `hint` and the `contentDe
         errorLine2="                                       ~~~~~~~~~~~~~~~~~~~~">
         <location
             file=".\OpenStreetMapViewer\src\main\java\org\osmdroid\samplefragments\cache\SampleCacheDownloader.java"
-            line="201"
+            line="203"
             column="40"/>
     </issue>
 
@@ -7959,7 +8170,7 @@ Note that for text fields, you should not set both the `hint` and the `contentDe
         errorLine2="                                                   ~~~~~~~~">
         <location
             file=".\OpenStreetMapViewer\src\main\java\org\osmdroid\samplefragments\cache\SampleCacheDownloader.java"
-            line="201"
+            line="203"
             column="52"/>
     </issue>
 
@@ -7980,7 +8191,7 @@ Note that for text fields, you should not set both the `hint` and the `contentDe
         errorLine2="                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file=".\OpenStreetMapViewer\src\main\java\org\osmdroid\samplefragments\cache\SampleCacheDownloaderArchive.java"
-            line="154"
+            line="156"
             column="28"/>
     </issue>
 
@@ -8001,7 +8212,7 @@ Note that for text fields, you should not set both the `hint` and the `contentDe
         errorLine2="                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file=".\OpenStreetMapViewer\src\main\java\org\osmdroid\samplefragments\cache\SampleCacheDownloaderArchive.java"
-            line="156"
+            line="158"
             column="29"/>
     </issue>
 
@@ -8022,7 +8233,7 @@ Note that for text fields, you should not set both the `hint` and the `contentDe
         errorLine2="                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file=".\OpenStreetMapViewer\src\main\java\org\osmdroid\samplefragments\cache\SampleCacheDownloaderArchive.java"
-            line="158"
+            line="160"
             column="29"/>
     </issue>
 
@@ -8043,7 +8254,7 @@ Note that for text fields, you should not set both the `hint` and the `contentDe
         errorLine2="                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file=".\OpenStreetMapViewer\src\main\java\org\osmdroid\samplefragments\cache\SampleCacheDownloaderArchive.java"
-            line="160"
+            line="162"
             column="28"/>
     </issue>
 
@@ -8064,7 +8275,7 @@ Note that for text fields, you should not set both the `hint` and the `contentDe
         errorLine2="                                       ~~~~~~~~~~~~~~~~~~~~">
         <location
             file=".\OpenStreetMapViewer\src\main\java\org\osmdroid\samplefragments\cache\SampleCacheDownloaderArchive.java"
-            line="223"
+            line="225"
             column="40"/>
     </issue>
 
@@ -8085,7 +8296,7 @@ Note that for text fields, you should not set both the `hint` and the `contentDe
         errorLine2="                                                   ~~~~~~~~">
         <location
             file=".\OpenStreetMapViewer\src\main\java\org\osmdroid\samplefragments\cache\SampleCacheDownloaderArchive.java"
-            line="223"
+            line="225"
             column="52"/>
     </issue>
 
@@ -8106,7 +8317,7 @@ Note that for text fields, you should not set both the `hint` and the `contentDe
         errorLine2="                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file=".\OpenStreetMapViewer\src\main\java\org\osmdroid\samplefragments\cache\SampleCacheDownloaderCustomUI.java"
-            line="150"
+            line="152"
             column="28"/>
     </issue>
 
@@ -8127,7 +8338,7 @@ Note that for text fields, you should not set both the `hint` and the `contentDe
         errorLine2="                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file=".\OpenStreetMapViewer\src\main\java\org\osmdroid\samplefragments\cache\SampleCacheDownloaderCustomUI.java"
-            line="152"
+            line="154"
             column="29"/>
     </issue>
 
@@ -8148,7 +8359,7 @@ Note that for text fields, you should not set both the `hint` and the `contentDe
         errorLine2="                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file=".\OpenStreetMapViewer\src\main\java\org\osmdroid\samplefragments\cache\SampleCacheDownloaderCustomUI.java"
-            line="154"
+            line="156"
             column="29"/>
     </issue>
 
@@ -8169,7 +8380,7 @@ Note that for text fields, you should not set both the `hint` and the `contentDe
         errorLine2="                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file=".\OpenStreetMapViewer\src\main\java\org\osmdroid\samplefragments\cache\SampleCacheDownloaderCustomUI.java"
-            line="156"
+            line="158"
             column="28"/>
     </issue>
 
@@ -8190,7 +8401,7 @@ Note that for text fields, you should not set both the `hint` and the `contentDe
         errorLine2="                                       ~~~~~~~~~~~~~~~~~~~~">
         <location
             file=".\OpenStreetMapViewer\src\main\java\org\osmdroid\samplefragments\cache\SampleCacheDownloaderCustomUI.java"
-            line="209"
+            line="211"
             column="40"/>
     </issue>
 
@@ -8211,7 +8422,7 @@ Note that for text fields, you should not set both the `hint` and the `contentDe
         errorLine2="                                                   ~~~~~~~~">
         <location
             file=".\OpenStreetMapViewer\src\main\java\org\osmdroid\samplefragments\cache\SampleCacheDownloaderCustomUI.java"
-            line="209"
+            line="211"
             column="52"/>
     </issue>
 
@@ -8421,7 +8632,7 @@ Note that for text fields, you should not set both the `hint` and the `contentDe
         errorLine2="                         ~~~~~~~~~~~~~~~~">
         <location
             file=".\OpenStreetMapViewer\src\main\java\org\osmdroid\samplefragments\events\SampleZoomToBounding.java"
-            line="46"
+            line="48"
             column="26"/>
     </issue>
 
@@ -8896,6 +9107,190 @@ In Android Studio and Eclipse there are quickfixes to automatically extract this
             file=".\OpenStreetMapViewer\src\main\res\layout\activity_prefs.xml"
             line="327"
             column="17"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        severity="Warning"
+        message="[I18N] Hardcoded string &quot;Latitude&quot;, should use `@string` resource"
+        category="Internationalization"
+        priority="5"
+        summary="Hardcoded text"
+        explanation="Hardcoding text attributes directly in layout files is bad for several reasons:
+
+* When creating configuration variations (for example for landscape or portrait)you have to repeat the actual text (and keep it up to date when making changes)
+
+* The application cannot be translated to other languages by just adding new translations for existing string resources.
+
+In Android Studio and Eclipse there are quickfixes to automatically extract this hardcoded string into a resource lookup."
+        errorLine1="                        android:text=&quot;Latitude&quot;"
+        errorLine2="                        ~~~~~~~~~~~~~~~~~~~~~~~"
+        quickfix="adt">
+        <location
+            file=".\OpenStreetMapViewer\src\main\res\layout\bookmark_add_dialog.xml"
+            line="19"
+            column="25"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        severity="Warning"
+        message="[I18N] Hardcoded string &quot;Longitude&quot;, should use `@string` resource"
+        category="Internationalization"
+        priority="5"
+        summary="Hardcoded text"
+        explanation="Hardcoding text attributes directly in layout files is bad for several reasons:
+
+* When creating configuration variations (for example for landscape or portrait)you have to repeat the actual text (and keep it up to date when making changes)
+
+* The application cannot be translated to other languages by just adding new translations for existing string resources.
+
+In Android Studio and Eclipse there are quickfixes to automatically extract this hardcoded string into a resource lookup."
+        errorLine1="                    android:text=&quot;Longitude&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~"
+        quickfix="adt">
+        <location
+            file=".\OpenStreetMapViewer\src\main\res\layout\bookmark_add_dialog.xml"
+            line="35"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        severity="Warning"
+        message="[I18N] Hardcoded string &quot;Title&quot;, should use `@string` resource"
+        category="Internationalization"
+        priority="5"
+        summary="Hardcoded text"
+        explanation="Hardcoding text attributes directly in layout files is bad for several reasons:
+
+* When creating configuration variations (for example for landscape or portrait)you have to repeat the actual text (and keep it up to date when making changes)
+
+* The application cannot be translated to other languages by just adding new translations for existing string resources.
+
+In Android Studio and Eclipse there are quickfixes to automatically extract this hardcoded string into a resource lookup."
+        errorLine1="                    android:text=&quot;Title&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~"
+        quickfix="adt">
+        <location
+            file=".\OpenStreetMapViewer\src\main\res\layout\bookmark_add_dialog.xml"
+            line="51"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        severity="Warning"
+        message="[I18N] Hardcoded string &quot;Title&quot;, should use `@string` resource"
+        category="Internationalization"
+        priority="5"
+        summary="Hardcoded text"
+        explanation="Hardcoding text attributes directly in layout files is bad for several reasons:
+
+* When creating configuration variations (for example for landscape or portrait)you have to repeat the actual text (and keep it up to date when making changes)
+
+* The application cannot be translated to other languages by just adding new translations for existing string resources.
+
+In Android Studio and Eclipse there are quickfixes to automatically extract this hardcoded string into a resource lookup."
+        errorLine1="                    android:hint=&quot;Title&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~"
+        quickfix="adt">
+        <location
+            file=".\OpenStreetMapViewer\src\main\res\layout\bookmark_add_dialog.xml"
+            line="57"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        severity="Warning"
+        message="[I18N] Hardcoded string &quot;Description&quot;, should use `@string` resource"
+        category="Internationalization"
+        priority="5"
+        summary="Hardcoded text"
+        explanation="Hardcoding text attributes directly in layout files is bad for several reasons:
+
+* When creating configuration variations (for example for landscape or portrait)you have to repeat the actual text (and keep it up to date when making changes)
+
+* The application cannot be translated to other languages by just adding new translations for existing string resources.
+
+In Android Studio and Eclipse there are quickfixes to automatically extract this hardcoded string into a resource lookup."
+        errorLine1="                    android:text=&quot;Description&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~"
+        quickfix="adt">
+        <location
+            file=".\OpenStreetMapViewer\src\main\res\layout\bookmark_add_dialog.xml"
+            line="68"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        severity="Warning"
+        message="[I18N] Hardcoded string &quot;Description&quot;, should use `@string` resource"
+        category="Internationalization"
+        priority="5"
+        summary="Hardcoded text"
+        explanation="Hardcoding text attributes directly in layout files is bad for several reasons:
+
+* When creating configuration variations (for example for landscape or portrait)you have to repeat the actual text (and keep it up to date when making changes)
+
+* The application cannot be translated to other languages by just adding new translations for existing string resources.
+
+In Android Studio and Eclipse there are quickfixes to automatically extract this hardcoded string into a resource lookup."
+        errorLine1="                    android:hint=&quot;Description&quot;"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~"
+        quickfix="adt">
+        <location
+            file=".\OpenStreetMapViewer\src\main\res\layout\bookmark_add_dialog.xml"
+            line="74"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        severity="Warning"
+        message="[I18N] Hardcoded string &quot;OK&quot;, should use `@string` resource"
+        category="Internationalization"
+        priority="5"
+        summary="Hardcoded text"
+        explanation="Hardcoding text attributes directly in layout files is bad for several reasons:
+
+* When creating configuration variations (for example for landscape or portrait)you have to repeat the actual text (and keep it up to date when making changes)
+
+* The application cannot be translated to other languages by just adding new translations for existing string resources.
+
+In Android Studio and Eclipse there are quickfixes to automatically extract this hardcoded string into a resource lookup."
+        errorLine1="                    android:text=&quot;OK&quot;/>"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~"
+        quickfix="adt">
+        <location
+            file=".\OpenStreetMapViewer\src\main\res\layout\bookmark_add_dialog.xml"
+            line="86"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        severity="Warning"
+        message="[I18N] Hardcoded string &quot;Cancel&quot;, should use `@string` resource"
+        category="Internationalization"
+        priority="5"
+        summary="Hardcoded text"
+        explanation="Hardcoding text attributes directly in layout files is bad for several reasons:
+
+* When creating configuration variations (for example for landscape or portrait)you have to repeat the actual text (and keep it up to date when making changes)
+
+* The application cannot be translated to other languages by just adding new translations for existing string resources.
+
+In Android Studio and Eclipse there are quickfixes to automatically extract this hardcoded string into a resource lookup."
+        errorLine1="                    android:text=&quot;Cancel&quot;/>"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~"
+        quickfix="adt">
+        <location
+            file=".\OpenStreetMapViewer\src\main\res\layout\bookmark_add_dialog.xml"
+            line="92"
+            column="21"/>
     </issue>
 
     <issue
@@ -9815,6 +10210,29 @@ In Android Studio and Eclipse there are quickfixes to automatically extract this
         <location
             file=".\OpenStreetMapViewer\src\main\res\layout\item_cache.xml"
             line="64"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        severity="Warning"
+        message="[I18N] Hardcoded string &quot;PLACEHOLDER&quot;, should use `@string` resource"
+        category="Internationalization"
+        priority="5"
+        summary="Hardcoded text"
+        explanation="Hardcoding text attributes directly in layout files is bad for several reasons:
+
+* When creating configuration variations (for example for landscape or portrait)you have to repeat the actual text (and keep it up to date when making changes)
+
+* The application cannot be translated to other languages by just adding new translations for existing string resources.
+
+In Android Studio and Eclipse there are quickfixes to automatically extract this hardcoded string into a resource lookup."
+        errorLine1="            android:text=&quot;PLACEHOLDER&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~"
+        quickfix="adt">
+        <location
+            file=".\OpenStreetMapViewer\src\main\res\layout\layermanage_drawer.xml"
+            line="24"
             column="13"/>
     </issue>
 

@@ -10,19 +10,19 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.tileprovider.tilesource.bing.BingMapTileSource
-	c23548 [label=<<table title="org.osmdroid.tileprovider.tilesource.bing.BingMapTileSource" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./BingMapTileSource.html">
+	c24143 [label=<<table title="org.osmdroid.tileprovider.tilesource.bing.BingMapTileSource" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./BingMapTileSource.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> BingMapTileSource </td></tr>
 		</table></td></tr>
 		</table>>, URL="./BingMapTileSource.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.tilesource.bing.ImageryMetaData
-	c23549 [label=<<table title="org.osmdroid.tileprovider.tilesource.bing.ImageryMetaData" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ImageryMetaData.html">
+	c24144 [label=<<table title="org.osmdroid.tileprovider.tilesource.bing.ImageryMetaData" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ImageryMetaData.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> ImageryMetaData </td></tr>
 		</table></td></tr>
 		</table>>, URL="./ImageryMetaData.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.tilesource.bing.ImageryMetaDataResource
-	c23550 [label=<<table title="org.osmdroid.tileprovider.tilesource.bing.ImageryMetaDataResource" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ImageryMetaDataResource.html">
+	c24145 [label=<<table title="org.osmdroid.tileprovider.tilesource.bing.ImageryMetaDataResource" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ImageryMetaDataResource.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> ImageryMetaDataResource </td></tr>
 		</table></td></tr>

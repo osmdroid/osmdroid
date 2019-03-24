@@ -8,7 +8,7 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta name="Date-Creation-yyyymmdd" content="20080101"/>
-    <meta name="Date-Revision-yyyymmdd" content="20180218"/>
+    <meta name="Date-Revision-yyyymmdd" content="20180716"/>
     <meta http-equiv="Content-Language" content="en"/>
     <title> osmdroid</title>
     <link rel="stylesheet" href="./css/apache-maven-fluido-1.4.min.css"/>
@@ -65,10 +65,10 @@
             </li>
 
             <li id="publishDate" class="pull-right"><span class="divider">|</span> Last Published:
-                2018-02-18
+                2018-07-16
             </li>
             <li id="projectVersion" class="pull-right">
-                6.0.1
+                6.0.2
             </li>
 
         </ul>
@@ -309,7 +309,7 @@ osmdroid requires the following dangerous permissions:<br />
 See <a href="https://github.com/osmdroid/osmdroid/blob/master/OpenStreetMapViewer/src/main/java/org/osmdroid/MainActivity.java#L83">OpenStreetMapViewer's implementation</a>
 or <a href="https://developer.android.com/training/permissions/requesting.html">Google Documentation on Permissions</a></p>
 <h2>Layout</h2>
-<p>Create a &quot;src/main/res/layouts/main.xml&quot; layout like this one. With Android Studio, it probably created one already called. The default is &quot;src/main/res/layouts/activity_main.xml&quot;:</p>
+<p>Create a &quot;src/main/res/layouts/main.xml&quot; layout like this one. With Android Studio, it probably created one already. The default is called &quot;src/main/res/layouts/activity_main.xml&quot;:</p>
 <pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
 &lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
         android:orientation=&quot;vertical&quot; 
@@ -475,9 +475,11 @@ mMapView.setMultiTouchControls(true);
 mMapView.getOverlays().add(this.mRotationGestureOverlay);
 </code></pre>
 <h2>How to add Map Scale bar overlay</h2>
-<pre><code class="language-java">mScaleBarOverlay = new ScaleBarOverlay(context);
+<pre><code class="language-java">final Context context = this.getActivity();
+final DisplayMetrics dm = context.getResources().getDisplayMetrics();
+mScaleBarOverlay = new ScaleBarOverlay(mMapView);
 mScaleBarOverlay.setCentred(true);
-//play around with these values to get the location on screen in the right place for your applicatio
+//play around with these values to get the location on screen in the right place for your application
 mScaleBarOverlay.setScaleBarOffset(dm.widthPixels / 2, 10);
 mMapView.getOverlays().add(this.mScaleBarOverlay);
 </code></pre>

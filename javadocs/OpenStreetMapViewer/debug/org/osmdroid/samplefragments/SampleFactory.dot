@@ -10,19 +10,19 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.ISampleFactory
-	c31080 [label=<<table title="org.osmdroid.ISampleFactory" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../ISampleFactory.html">
+	c34181 [label=<<table title="org.osmdroid.ISampleFactory" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../ISampleFactory.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> ISampleFactory </td></tr>
 		</table></td></tr>
 		</table>>, URL="../ISampleFactory.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.SampleFactory
-	c31203 [label=<<table title="org.osmdroid.samplefragments.SampleFactory" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./SampleFactory.html">
+	c34309 [label=<<table title="org.osmdroid.samplefragments.SampleFactory" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./SampleFactory.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleFactory </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SampleFactory.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.samplefragments.SampleFactory implements org.osmdroid.ISampleFactory
-	c31080:p -> c31203:p [dir=back,arrowtail=empty,style=dashed];
+	c34181:p -> c34309:p [dir=back,arrowtail=empty,style=dashed];
 }
 

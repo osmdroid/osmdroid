@@ -10,19 +10,19 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.bugtestfragments.BugFactory
-	c50076 [label=<<table title="org.osmdroid.bugtestfragments.BugFactory" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./BugFactory.html">
+	c50269 [label=<<table title="org.osmdroid.bugtestfragments.BugFactory" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./BugFactory.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> BugFactory </td></tr>
 		</table></td></tr>
 		</table>>, URL="./BugFactory.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.ISampleFactory
-	c50101 [label=<<table title="org.osmdroid.ISampleFactory" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../ISampleFactory.html">
+	c50296 [label=<<table title="org.osmdroid.ISampleFactory" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../ISampleFactory.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> ISampleFactory </td></tr>
 		</table></td></tr>
 		</table>>, URL="../ISampleFactory.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.bugtestfragments.BugFactory implements org.osmdroid.ISampleFactory
-	c50101:p -> c50076:p [dir=back,arrowtail=empty,style=dashed];
+	c50296:p -> c50269:p [dir=back,arrowtail=empty,style=dashed];
 }
 

@@ -10,18 +10,18 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.tileprovider.modules.MapTileApproximater
-	c135491 [label=<<table title="org.osmdroid.tileprovider.modules.MapTileApproximater" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./MapTileApproximater.html">
+	c136531 [label=<<table title="org.osmdroid.tileprovider.modules.MapTileApproximater" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./MapTileApproximater.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MapTileApproximater </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MapTileApproximater.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.modules.MapTileModuleProviderBase
-	c135502 [label=<<table title="org.osmdroid.tileprovider.modules.MapTileModuleProviderBase" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileModuleProviderBase.html">
+	c136542 [label=<<table title="org.osmdroid.tileprovider.modules.MapTileModuleProviderBase" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileModuleProviderBase.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> MapTileModuleProviderBase </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./MapTileModuleProviderBase.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.tileprovider.modules.MapTileApproximater extends org.osmdroid.tileprovider.modules.MapTileModuleProviderBase
-	c135502:p -> c135491:p [dir=back,arrowtail=empty];
+	c136542:p -> c136531:p [dir=back,arrowtail=empty];
 }
 

@@ -10,13 +10,13 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.views.drawing.OsmBitmapShader
-	c3269 [label=<<table title="org.osmdroid.views.drawing.OsmBitmapShader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./OsmBitmapShader.html">
+	c3267 [label=<<table title="org.osmdroid.views.drawing.OsmBitmapShader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./OsmBitmapShader.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> OsmBitmapShader </td></tr>
 		</table></td></tr>
 		</table>>, URL="./OsmBitmapShader.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.drawing.OsmPath
-	c3270 [label=<<table title="org.osmdroid.views.drawing.OsmPath" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./OsmPath.html">
+	c3268 [label=<<table title="org.osmdroid.views.drawing.OsmPath" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./OsmPath.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> OsmPath </td></tr>
 		</table></td></tr>

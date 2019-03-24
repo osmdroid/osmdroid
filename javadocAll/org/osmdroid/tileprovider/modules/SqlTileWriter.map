@@ -1,8 +1,10 @@
 <map id="G" name="G">
-<area shape="rect" id="node1_0" href="../../debug/model/SqlTileWriterExt.html" title="org.osmdroid.debug.model.SqlTileWriterExt" alt="" coords="21,214,135,239"/>
-<area shape="rect" id="node1" href="../../debug/model/SqlTileWriterExt.html" title="&lt;TABLE&gt;" alt="" coords="11,203,145,251"/>
+<area shape="rect" id="node1_0" href="../../debug/model/SqlTileWriterExt.html" title="org.osmdroid.debug.model.SqlTileWriterExt" alt="" coords="105,214,219,239"/>
+<area shape="rect" id="node1" href="../../debug/model/SqlTileWriterExt.html" title="&lt;TABLE&gt;" alt="" coords="95,203,229,251"/>
 <area shape="rect" id="node2_1" href="./IFilesystemCache.html" title="org.osmdroid.tileprovider.modules.IFilesystemCache" alt="" coords="16,11,140,53"/>
 <area shape="rect" id="node2" href="./IFilesystemCache.html" title="&lt;TABLE&gt;" alt="" coords="5,5,151,59"/>
-<area shape="rect" id="node3_2" href="./SqlTileWriter.html" title="org.osmdroid.tileprovider.modules.SqlTileWriter" alt="" coords="31,118,125,143"/>
-<area shape="rect" id="node3" href="./SqlTileWriter.html" title="&lt;TABLE&gt;" alt="" coords="21,107,135,155"/>
+<area shape="rect" id="node3_2" href="./SqlTileWriter.html" title="org.osmdroid.tileprovider.modules.SqlTileWriter" alt="" coords="115,118,209,143"/>
+<area shape="rect" id="node3" href="./SqlTileWriter.html" title="&lt;TABLE&gt;" alt="" coords="105,107,219,155"/>
+<area shape="rect" id="node4_3" href="../../util/SplashScreenable.html" title="org.osmdroid.util.SplashScreenable" alt="" coords="185,11,309,53"/>
+<area shape="rect" id="node4" href="../../util/SplashScreenable.html" title="&lt;TABLE&gt;" alt="" coords="175,5,320,59"/>
 </map>

@@ -10,7 +10,7 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.mtp.adt.OSMTileInfo
-	c500 [label=<<table title="org.osmdroid.mtp.adt.OSMTileInfo" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./OSMTileInfo.html">
+	c0 [label=<<table title="org.osmdroid.mtp.adt.OSMTileInfo" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./OSMTileInfo.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> OSMTileInfo </td></tr>
 		</table></td></tr>

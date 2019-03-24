@@ -5,85 +5,85 @@ Project :osmdroid-geopackage - Geopackage support for osmdroid
 
 _debugAndroidTestApk - ## Internal use, do not manually configure ##
 +--- project :osmdroid-android
-+--- mil.nga.geopackage:geopackage-android:2.0.0
++--- mil.nga.geopackage:geopackage-android:2.0.1
 |    +--- com.j256.ormlite:ormlite-android:5.0
 |    |    \--- com.j256.ormlite:ormlite-core:5.0
-|    +--- mil.nga.geopackage:geopackage-core:2.0.0
+|    +--- mil.nga.geopackage:geopackage-core:2.0.1
 |    |    +--- com.j256.ormlite:ormlite-core:5.0
-|    |    +--- mil.nga:wkb:1.0.4
+|    |    +--- mil.nga:wkb:1.0.5
 |    |    \--- org.osgeo:proj4j:0.1.0
 |    +--- ar.com.hjg:pngj:2.1.0
 |    \--- mil.nga:tiff:2.0.0
 +--- com.j256.ormlite:ormlite-android:5.0 (*)
-+--- mil.nga.geopackage:geopackage-core:2.0.0 (*)
++--- mil.nga.geopackage:geopackage-core:2.0.1 (*)
 +--- ar.com.hjg:pngj:2.1.0
 +--- mil.nga:tiff:1.0.3 -> 2.0.0
 \--- mil.nga:tiff:2.0.0
 
 _debugAndroidTestCompile - ## Internal use, do not manually configure ##
 +--- project :osmdroid-android
-+--- mil.nga.geopackage:geopackage-android:2.0.0
++--- mil.nga.geopackage:geopackage-android:2.0.1
 |    +--- com.j256.ormlite:ormlite-android:5.0
 |    |    \--- com.j256.ormlite:ormlite-core:5.0
-|    +--- mil.nga.geopackage:geopackage-core:2.0.0
+|    +--- mil.nga.geopackage:geopackage-core:2.0.1
 |    |    +--- com.j256.ormlite:ormlite-core:5.0
-|    |    +--- mil.nga:wkb:1.0.4
+|    |    +--- mil.nga:wkb:1.0.5
 |    |    \--- org.osgeo:proj4j:0.1.0
 |    +--- ar.com.hjg:pngj:2.1.0
 |    \--- mil.nga:tiff:2.0.0
 +--- com.j256.ormlite:ormlite-android:5.0 (*)
-+--- mil.nga.geopackage:geopackage-core:2.0.0 (*)
++--- mil.nga.geopackage:geopackage-core:2.0.1 (*)
 +--- ar.com.hjg:pngj:2.1.0
 +--- mil.nga:tiff:1.0.3 -> 2.0.0
 \--- mil.nga:tiff:2.0.0
 
 _debugCompile - ## Internal use, do not manually configure ##
 +--- project :osmdroid-android
-+--- mil.nga.geopackage:geopackage-android:2.0.0
++--- mil.nga.geopackage:geopackage-android:2.0.1
 |    +--- com.j256.ormlite:ormlite-android:5.0
 |    |    \--- com.j256.ormlite:ormlite-core:5.0
-|    +--- mil.nga.geopackage:geopackage-core:2.0.0
+|    +--- mil.nga.geopackage:geopackage-core:2.0.1
 |    |    +--- com.j256.ormlite:ormlite-core:5.0
-|    |    +--- mil.nga:wkb:1.0.4
+|    |    +--- mil.nga:wkb:1.0.5
 |    |    \--- org.osgeo:proj4j:0.1.0
 |    +--- ar.com.hjg:pngj:2.1.0
 |    \--- mil.nga:tiff:2.0.0
 +--- com.j256.ormlite:ormlite-android:5.0 (*)
-+--- mil.nga.geopackage:geopackage-core:2.0.0 (*)
++--- mil.nga.geopackage:geopackage-core:2.0.1 (*)
 +--- ar.com.hjg:pngj:2.1.0
 +--- mil.nga:tiff:1.0.3 -> 2.0.0
 \--- mil.nga:tiff:2.0.0
 
 _debugPublish - ## Internal use, do not manually configure ##
 +--- project :osmdroid-android
-+--- mil.nga.geopackage:geopackage-android:2.0.0
++--- mil.nga.geopackage:geopackage-android:2.0.1
 |    +--- com.j256.ormlite:ormlite-android:5.0
 |    |    \--- com.j256.ormlite:ormlite-core:5.0
-|    +--- mil.nga.geopackage:geopackage-core:2.0.0
+|    +--- mil.nga.geopackage:geopackage-core:2.0.1
 |    |    +--- com.j256.ormlite:ormlite-core:5.0
-|    |    +--- mil.nga:wkb:1.0.4
+|    |    +--- mil.nga:wkb:1.0.5
 |    |    \--- org.osgeo:proj4j:0.1.0
 |    +--- ar.com.hjg:pngj:2.1.0
 |    \--- mil.nga:tiff:2.0.0
 +--- com.j256.ormlite:ormlite-android:5.0 (*)
-+--- mil.nga.geopackage:geopackage-core:2.0.0 (*)
++--- mil.nga.geopackage:geopackage-core:2.0.1 (*)
 +--- ar.com.hjg:pngj:2.1.0
 +--- mil.nga:tiff:1.0.3 -> 2.0.0
 \--- mil.nga:tiff:2.0.0
 
 _debugUnitTestApk - ## Internal use, do not manually configure ##
 +--- project :osmdroid-android
-+--- mil.nga.geopackage:geopackage-android:2.0.0
++--- mil.nga.geopackage:geopackage-android:2.0.1
 |    +--- com.j256.ormlite:ormlite-android:5.0
 |    |    \--- com.j256.ormlite:ormlite-core:5.0
-|    +--- mil.nga.geopackage:geopackage-core:2.0.0
+|    +--- mil.nga.geopackage:geopackage-core:2.0.1
 |    |    +--- com.j256.ormlite:ormlite-core:5.0
-|    |    +--- mil.nga:wkb:1.0.4
+|    |    +--- mil.nga:wkb:1.0.5
 |    |    \--- org.osgeo:proj4j:0.1.0
 |    +--- ar.com.hjg:pngj:2.1.0
 |    \--- mil.nga:tiff:2.0.0
 +--- com.j256.ormlite:ormlite-android:5.0 (*)
-+--- mil.nga.geopackage:geopackage-core:2.0.0 (*)
++--- mil.nga.geopackage:geopackage-core:2.0.1 (*)
 +--- ar.com.hjg:pngj:2.1.0
 +--- mil.nga:tiff:1.0.3 -> 2.0.0
 +--- mil.nga:tiff:2.0.0
@@ -92,17 +92,17 @@ _debugUnitTestApk - ## Internal use, do not manually configure ##
 
 _debugUnitTestCompile - ## Internal use, do not manually configure ##
 +--- project :osmdroid-android
-+--- mil.nga.geopackage:geopackage-android:2.0.0
++--- mil.nga.geopackage:geopackage-android:2.0.1
 |    +--- com.j256.ormlite:ormlite-android:5.0
 |    |    \--- com.j256.ormlite:ormlite-core:5.0
-|    +--- mil.nga.geopackage:geopackage-core:2.0.0
+|    +--- mil.nga.geopackage:geopackage-core:2.0.1
 |    |    +--- com.j256.ormlite:ormlite-core:5.0
-|    |    +--- mil.nga:wkb:1.0.4
+|    |    +--- mil.nga:wkb:1.0.5
 |    |    \--- org.osgeo:proj4j:0.1.0
 |    +--- ar.com.hjg:pngj:2.1.0
 |    \--- mil.nga:tiff:2.0.0
 +--- com.j256.ormlite:ormlite-android:5.0 (*)
-+--- mil.nga.geopackage:geopackage-core:2.0.0 (*)
++--- mil.nga.geopackage:geopackage-core:2.0.1 (*)
 +--- ar.com.hjg:pngj:2.1.0
 +--- mil.nga:tiff:1.0.3 -> 2.0.0
 +--- mil.nga:tiff:2.0.0
@@ -111,51 +111,51 @@ _debugUnitTestCompile - ## Internal use, do not manually configure ##
 
 _releaseCompile - ## Internal use, do not manually configure ##
 +--- project :osmdroid-android
-+--- mil.nga.geopackage:geopackage-android:2.0.0
++--- mil.nga.geopackage:geopackage-android:2.0.1
 |    +--- com.j256.ormlite:ormlite-android:5.0
 |    |    \--- com.j256.ormlite:ormlite-core:5.0
-|    +--- mil.nga.geopackage:geopackage-core:2.0.0
+|    +--- mil.nga.geopackage:geopackage-core:2.0.1
 |    |    +--- com.j256.ormlite:ormlite-core:5.0
-|    |    +--- mil.nga:wkb:1.0.4
+|    |    +--- mil.nga:wkb:1.0.5
 |    |    \--- org.osgeo:proj4j:0.1.0
 |    +--- ar.com.hjg:pngj:2.1.0
 |    \--- mil.nga:tiff:2.0.0
 +--- com.j256.ormlite:ormlite-android:5.0 (*)
-+--- mil.nga.geopackage:geopackage-core:2.0.0 (*)
++--- mil.nga.geopackage:geopackage-core:2.0.1 (*)
 +--- ar.com.hjg:pngj:2.1.0
 +--- mil.nga:tiff:1.0.3 -> 2.0.0
 \--- mil.nga:tiff:2.0.0
 
 _releasePublish - ## Internal use, do not manually configure ##
 +--- project :osmdroid-android
-+--- mil.nga.geopackage:geopackage-android:2.0.0
++--- mil.nga.geopackage:geopackage-android:2.0.1
 |    +--- com.j256.ormlite:ormlite-android:5.0
 |    |    \--- com.j256.ormlite:ormlite-core:5.0
-|    +--- mil.nga.geopackage:geopackage-core:2.0.0
+|    +--- mil.nga.geopackage:geopackage-core:2.0.1
 |    |    +--- com.j256.ormlite:ormlite-core:5.0
-|    |    +--- mil.nga:wkb:1.0.4
+|    |    +--- mil.nga:wkb:1.0.5
 |    |    \--- org.osgeo:proj4j:0.1.0
 |    +--- ar.com.hjg:pngj:2.1.0
 |    \--- mil.nga:tiff:2.0.0
 +--- com.j256.ormlite:ormlite-android:5.0 (*)
-+--- mil.nga.geopackage:geopackage-core:2.0.0 (*)
++--- mil.nga.geopackage:geopackage-core:2.0.1 (*)
 +--- ar.com.hjg:pngj:2.1.0
 +--- mil.nga:tiff:1.0.3 -> 2.0.0
 \--- mil.nga:tiff:2.0.0
 
 _releaseUnitTestApk - ## Internal use, do not manually configure ##
 +--- project :osmdroid-android
-+--- mil.nga.geopackage:geopackage-android:2.0.0
++--- mil.nga.geopackage:geopackage-android:2.0.1
 |    +--- com.j256.ormlite:ormlite-android:5.0
 |    |    \--- com.j256.ormlite:ormlite-core:5.0
-|    +--- mil.nga.geopackage:geopackage-core:2.0.0
+|    +--- mil.nga.geopackage:geopackage-core:2.0.1
 |    |    +--- com.j256.ormlite:ormlite-core:5.0
-|    |    +--- mil.nga:wkb:1.0.4
+|    |    +--- mil.nga:wkb:1.0.5
 |    |    \--- org.osgeo:proj4j:0.1.0
 |    +--- ar.com.hjg:pngj:2.1.0
 |    \--- mil.nga:tiff:2.0.0
 +--- com.j256.ormlite:ormlite-android:5.0 (*)
-+--- mil.nga.geopackage:geopackage-core:2.0.0 (*)
++--- mil.nga.geopackage:geopackage-core:2.0.1 (*)
 +--- ar.com.hjg:pngj:2.1.0
 +--- mil.nga:tiff:1.0.3 -> 2.0.0
 +--- mil.nga:tiff:2.0.0
@@ -164,17 +164,17 @@ _releaseUnitTestApk - ## Internal use, do not manually configure ##
 
 _releaseUnitTestCompile - ## Internal use, do not manually configure ##
 +--- project :osmdroid-android
-+--- mil.nga.geopackage:geopackage-android:2.0.0
++--- mil.nga.geopackage:geopackage-android:2.0.1
 |    +--- com.j256.ormlite:ormlite-android:5.0
 |    |    \--- com.j256.ormlite:ormlite-core:5.0
-|    +--- mil.nga.geopackage:geopackage-core:2.0.0
+|    +--- mil.nga.geopackage:geopackage-core:2.0.1
 |    |    +--- com.j256.ormlite:ormlite-core:5.0
-|    |    +--- mil.nga:wkb:1.0.4
+|    |    +--- mil.nga:wkb:1.0.5
 |    |    \--- org.osgeo:proj4j:0.1.0
 |    +--- ar.com.hjg:pngj:2.1.0
 |    \--- mil.nga:tiff:2.0.0
 +--- com.j256.ormlite:ormlite-android:5.0 (*)
-+--- mil.nga.geopackage:geopackage-core:2.0.0 (*)
++--- mil.nga.geopackage:geopackage-core:2.0.1 (*)
 +--- ar.com.hjg:pngj:2.1.0
 +--- mil.nga:tiff:1.0.3 -> 2.0.0
 +--- mil.nga:tiff:2.0.0
@@ -217,51 +217,51 @@ checkstyle - The Checkstyle libraries to be used for this project.
 
 compile - Classpath for compiling the main sources.
 +--- project :osmdroid-android
-+--- mil.nga.geopackage:geopackage-android:2.0.0
++--- mil.nga.geopackage:geopackage-android:2.0.1
 |    +--- com.j256.ormlite:ormlite-android:5.0
 |    |    \--- com.j256.ormlite:ormlite-core:5.0
-|    +--- mil.nga.geopackage:geopackage-core:2.0.0
+|    +--- mil.nga.geopackage:geopackage-core:2.0.1
 |    |    +--- com.j256.ormlite:ormlite-core:5.0
-|    |    +--- mil.nga:wkb:1.0.4
+|    |    +--- mil.nga:wkb:1.0.5
 |    |    \--- org.osgeo:proj4j:0.1.0
 |    +--- ar.com.hjg:pngj:2.1.0
 |    \--- mil.nga:tiff:2.0.0
 +--- com.j256.ormlite:ormlite-android:5.0 (*)
-+--- mil.nga.geopackage:geopackage-core:2.0.0 (*)
++--- mil.nga.geopackage:geopackage-core:2.0.1 (*)
 +--- ar.com.hjg:pngj:2.1.0
 +--- mil.nga:tiff:1.0.3 -> 2.0.0
 \--- mil.nga:tiff:2.0.0
 
 debug - Published Configuration for Variant debug
 +--- project :osmdroid-android
-+--- mil.nga.geopackage:geopackage-android:2.0.0
++--- mil.nga.geopackage:geopackage-android:2.0.1
 |    +--- com.j256.ormlite:ormlite-android:5.0
 |    |    \--- com.j256.ormlite:ormlite-core:5.0
-|    +--- mil.nga.geopackage:geopackage-core:2.0.0
+|    +--- mil.nga.geopackage:geopackage-core:2.0.1
 |    |    +--- com.j256.ormlite:ormlite-core:5.0
-|    |    +--- mil.nga:wkb:1.0.4
+|    |    +--- mil.nga:wkb:1.0.5
 |    |    \--- org.osgeo:proj4j:0.1.0
 |    +--- ar.com.hjg:pngj:2.1.0
 |    \--- mil.nga:tiff:2.0.0
 +--- com.j256.ormlite:ormlite-android:5.0 (*)
-+--- mil.nga.geopackage:geopackage-core:2.0.0 (*)
++--- mil.nga.geopackage:geopackage-core:2.0.1 (*)
 +--- ar.com.hjg:pngj:2.1.0
 +--- mil.nga:tiff:1.0.3 -> 2.0.0
 \--- mil.nga:tiff:2.0.0
 
 debug-classes - Published classes configuration for Variant debug
 +--- project :osmdroid-android
-+--- mil.nga.geopackage:geopackage-android:2.0.0
++--- mil.nga.geopackage:geopackage-android:2.0.1
 |    +--- com.j256.ormlite:ormlite-android:5.0
 |    |    \--- com.j256.ormlite:ormlite-core:5.0
-|    +--- mil.nga.geopackage:geopackage-core:2.0.0
+|    +--- mil.nga.geopackage:geopackage-core:2.0.1
 |    |    +--- com.j256.ormlite:ormlite-core:5.0
-|    |    +--- mil.nga:wkb:1.0.4
+|    |    +--- mil.nga:wkb:1.0.5
 |    |    \--- org.osgeo:proj4j:0.1.0
 |    +--- ar.com.hjg:pngj:2.1.0
 |    \--- mil.nga:tiff:2.0.0
 +--- com.j256.ormlite:ormlite-android:5.0 (*)
-+--- mil.nga.geopackage:geopackage-core:2.0.0 (*)
++--- mil.nga.geopackage:geopackage-core:2.0.1 (*)
 +--- ar.com.hjg:pngj:2.1.0
 +--- mil.nga:tiff:1.0.3 -> 2.0.0
 \--- mil.nga:tiff:2.0.0
@@ -286,17 +286,17 @@ No dependencies
 
 default - Configuration for default artifacts.
 +--- project :osmdroid-android
-+--- mil.nga.geopackage:geopackage-android:2.0.0
++--- mil.nga.geopackage:geopackage-android:2.0.1
 |    +--- com.j256.ormlite:ormlite-android:5.0
 |    |    \--- com.j256.ormlite:ormlite-core:5.0
-|    +--- mil.nga.geopackage:geopackage-core:2.0.0
+|    +--- mil.nga.geopackage:geopackage-core:2.0.1
 |    |    +--- com.j256.ormlite:ormlite-core:5.0
-|    |    +--- mil.nga:wkb:1.0.4
+|    |    +--- mil.nga:wkb:1.0.5
 |    |    \--- org.osgeo:proj4j:0.1.0
 |    +--- ar.com.hjg:pngj:2.1.0
 |    \--- mil.nga:tiff:2.0.0
 +--- com.j256.ormlite:ormlite-android:5.0 (*)
-+--- mil.nga.geopackage:geopackage-core:2.0.0 (*)
++--- mil.nga.geopackage:geopackage-core:2.0.1 (*)
 +--- ar.com.hjg:pngj:2.1.0
 +--- mil.nga:tiff:1.0.3 -> 2.0.0
 \--- mil.nga:tiff:2.0.0
@@ -361,34 +361,34 @@ No dependencies
 
 release - Published Configuration for Variant release
 +--- project :osmdroid-android
-+--- mil.nga.geopackage:geopackage-android:2.0.0
++--- mil.nga.geopackage:geopackage-android:2.0.1
 |    +--- com.j256.ormlite:ormlite-android:5.0
 |    |    \--- com.j256.ormlite:ormlite-core:5.0
-|    +--- mil.nga.geopackage:geopackage-core:2.0.0
+|    +--- mil.nga.geopackage:geopackage-core:2.0.1
 |    |    +--- com.j256.ormlite:ormlite-core:5.0
-|    |    +--- mil.nga:wkb:1.0.4
+|    |    +--- mil.nga:wkb:1.0.5
 |    |    \--- org.osgeo:proj4j:0.1.0
 |    +--- ar.com.hjg:pngj:2.1.0
 |    \--- mil.nga:tiff:2.0.0
 +--- com.j256.ormlite:ormlite-android:5.0 (*)
-+--- mil.nga.geopackage:geopackage-core:2.0.0 (*)
++--- mil.nga.geopackage:geopackage-core:2.0.1 (*)
 +--- ar.com.hjg:pngj:2.1.0
 +--- mil.nga:tiff:1.0.3 -> 2.0.0
 \--- mil.nga:tiff:2.0.0
 
 release-classes - Published classes configuration for Variant release
 +--- project :osmdroid-android
-+--- mil.nga.geopackage:geopackage-android:2.0.0
++--- mil.nga.geopackage:geopackage-android:2.0.1
 |    +--- com.j256.ormlite:ormlite-android:5.0
 |    |    \--- com.j256.ormlite:ormlite-core:5.0
-|    +--- mil.nga.geopackage:geopackage-core:2.0.0
+|    +--- mil.nga.geopackage:geopackage-core:2.0.1
 |    |    +--- com.j256.ormlite:ormlite-core:5.0
-|    |    +--- mil.nga:wkb:1.0.4
+|    |    +--- mil.nga:wkb:1.0.5
 |    |    \--- org.osgeo:proj4j:0.1.0
 |    +--- ar.com.hjg:pngj:2.1.0
 |    \--- mil.nga:tiff:2.0.0
 +--- com.j256.ormlite:ormlite-android:5.0 (*)
-+--- mil.nga.geopackage:geopackage-core:2.0.0 (*)
++--- mil.nga.geopackage:geopackage-core:2.0.1 (*)
 +--- ar.com.hjg:pngj:2.1.0
 +--- mil.nga:tiff:1.0.3 -> 2.0.0
 \--- mil.nga:tiff:2.0.0

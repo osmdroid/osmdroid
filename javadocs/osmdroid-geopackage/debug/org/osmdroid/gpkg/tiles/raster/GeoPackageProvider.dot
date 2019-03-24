@@ -16,17 +16,17 @@ digraph G {
 		</table></td></tr>
 		</table>>, URL="./GeoPackageProvider.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.gpkg.tiles.raster.GeoPackageProvider extends org.osmdroid.tileprovider.MapTileProviderArray
-	c254:p -> c252:p [dir=back,arrowtail=empty];
+	c255:p -> c252:p [dir=back,arrowtail=empty];
 	//org.osmdroid.gpkg.tiles.raster.GeoPackageProvider implements org.osmdroid.tileprovider.IMapTileProviderCallback
-	c255:p -> c252:p [dir=back,arrowtail=empty,style=dashed];
+	c256:p -> c252:p [dir=back,arrowtail=empty,style=dashed];
 	// org.osmdroid.tileprovider.MapTileProviderArray
-	c254 [label=<<table title="org.osmdroid.tileprovider.MapTileProviderArray" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/org/osmdroid/tileprovider/MapTileProviderArray.html">
+	c255 [label=<<table title="org.osmdroid.tileprovider.MapTileProviderArray" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/org/osmdroid/tileprovider/MapTileProviderArray.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MapTileProviderArray </td></tr>
 		</table></td></tr>
 		</table>>, URL="http://java.sun.com/j2se/1.4.2/docs/api/org/osmdroid/tileprovider/MapTileProviderArray.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.IMapTileProviderCallback
-	c255 [label=<<table title="org.osmdroid.tileprovider.IMapTileProviderCallback" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/org/osmdroid/tileprovider/IMapTileProviderCallback.html">
+	c256 [label=<<table title="org.osmdroid.tileprovider.IMapTileProviderCallback" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/org/osmdroid/tileprovider/IMapTileProviderCallback.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> IMapTileProviderCallback </td></tr>

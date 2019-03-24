@@ -10,18 +10,18 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.samplefragments.BaseSampleFragment
-	c206607 [label=<<table title="org.osmdroid.samplefragments.BaseSampleFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../BaseSampleFragment.html">
+	c209417 [label=<<table title="org.osmdroid.samplefragments.BaseSampleFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../BaseSampleFragment.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> BaseSampleFragment </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="../BaseSampleFragment.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.layouts.RecyclerCardView
-	c206680 [label=<<table title="org.osmdroid.samplefragments.layouts.RecyclerCardView" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./RecyclerCardView.html">
+	c209495 [label=<<table title="org.osmdroid.samplefragments.layouts.RecyclerCardView" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./RecyclerCardView.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> RecyclerCardView </td></tr>
 		</table></td></tr>
 		</table>>, URL="./RecyclerCardView.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.samplefragments.layouts.RecyclerCardView extends org.osmdroid.samplefragments.BaseSampleFragment
-	c206607:p -> c206680:p [dir=back,arrowtail=empty];
+	c209417:p -> c209495:p [dir=back,arrowtail=empty];
 }
 

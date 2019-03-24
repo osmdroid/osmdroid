@@ -1,6 +1,7 @@
 org.osmdroid
 org.osmdroid.bugtestfragments
 org.osmdroid.constants
+org.osmdroid.data
 org.osmdroid.debug
 org.osmdroid.debug.browser
 org.osmdroid.debug.model
@@ -10,12 +11,14 @@ org.osmdroid.intro
 org.osmdroid.model
 org.osmdroid.samplefragments
 org.osmdroid.samplefragments.animations
+org.osmdroid.samplefragments.bookmarks
 org.osmdroid.samplefragments.cache
 org.osmdroid.samplefragments.data
 org.osmdroid.samplefragments.data.utils
 org.osmdroid.samplefragments.drawing
 org.osmdroid.samplefragments.events
 org.osmdroid.samplefragments.geopackage
+org.osmdroid.samplefragments.layers
 org.osmdroid.samplefragments.layouts
 org.osmdroid.samplefragments.layouts.list
 org.osmdroid.samplefragments.layouts.list.dummy

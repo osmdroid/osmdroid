@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<issues format="4" by="lint 26.1.1">
+
+    <issue
+        id="DefaultLocale"
+        severity="Warning"
+        message="Implicitly using the default locale is a common source of bugs: Use `toLowerCase(Locale)` instead"
+        category="Correctness"
+        priority="6"
+        summary="Implied default locale in case conversion"
+        explanation="Calling `String#toLowerCase()` or `#toUpperCase()` *without specifying an explicit locale* is a common source of bugs. The reason for that is that those methods will use the current locale on the user&apos;s device, and even though the code appears to work correctly when you are developing the app, it will fail in some locales. For example, in the Turkish locale, the uppercase replacement for `i` is *not* `I`.
+
+If you want the methods to just perform ASCII replacement, for example to convert an enum name, call `String#toUpperCase(Locale.US)` instead. If you really want to use the current locale, call `String#toUpperCase(Locale.getDefault())` instead."
+        url="http://developer.android.com/reference/java/util/Locale.html#default_locale"
+        urls="http://developer.android.com/reference/java/util/Locale.html#default_locale"
+        errorLine1="    String txt = orig.toLowerCase();"
+        errorLine2="                      ~~~~~~~~~~~">
+        <location
+            file=".\osmdroid-shape\src\main\java\org\nocrala\tools\gis\data\esri\shapefile\util\HexaUtil.java"
+            line="7"
+            column="23"/>
+    </issue>
+
+    <issue
+        id="NewApi"
+        severity="Error"
+        message="Call requires API level 9 (current min is 8): `java.util.Arrays#copyOfRange`"
+        category="Correctness"
+        priority="6"
+        summary="Calling new methods on older versions"
+        explanation="This check scans through all the Android API calls in the application and warns about any calls that are not available on *all* versions targeted by this application (according to its minimum SDK attribute in the manifest).
+
+If you really want to use this API and don&apos;t need to support older devices just set the `minSdkVersion` in your `build.gradle` or `AndroidManifest.xml` files.
+
+If your code is *deliberately* accessing newer APIs, and you have ensured (e.g. with conditional execution) that this code will only ever be called on a supported platform, then you can annotate your class or method with the `@TargetApi` annotation specifying the local minimum SDK to apply, such as `@TargetApi(11)`, such that this check considers 11 rather than your manifest file&apos;s minimum SDK as the required API level.
+
+If you are deliberately setting `android:` attributes in style definitions, make sure you place this in a `values-vNN` folder in order to avoid running into runtime conflicts on certain devices where manufacturers have added custom attributes whose ids conflict with the new ones on later platforms.
+
+Similarly, you can use tools:targetApi=&quot;11&quot; in an XML file to indicate that the element will only be inflated in an adequate context."
+        errorLine1="    return Arrays.copyOfRange(this.m, from, to);"
+        errorLine2="                  ~~~~~~~~~~~"
+        quickfix="studio,adt">
+        <location
+            file=".\osmdroid-shape\src\main\java\org\nocrala\tools\gis\data\esri\shapefile\shape\shapes\AbstractPolyMShape.java"
+            line="72"
+            column="19"/>
+    </issue>
+
+    <issue
+        id="NewApi"
+        severity="Error"
+        message="Call requires API level 9 (current min is 8): `java.util.Arrays#copyOfRange`"
+        category="Correctness"
+        priority="6"
+        summary="Calling new methods on older versions"
+        explanation="This check scans through all the Android API calls in the application and warns about any calls that are not available on *all* versions targeted by this application (according to its minimum SDK attribute in the manifest).
+
+If you really want to use this API and don&apos;t need to support older devices just set the `minSdkVersion` in your `build.gradle` or `AndroidManifest.xml` files.
+
+If your code is *deliberately* accessing newer APIs, and you have ensured (e.g. with conditional execution) that this code will only ever be called on a supported platform, then you can annotate your class or method with the `@TargetApi` annotation specifying the local minimum SDK to apply, such as `@TargetApi(11)`, such that this check considers 11 rather than your manifest file&apos;s minimum SDK as the required API level.
+
+If you are deliberately setting `android:` attributes in style definitions, make sure you place this in a `values-vNN` folder in order to avoid running into runtime conflicts on certain devices where manufacturers have added custom attributes whose ids conflict with the new ones on later platforms.
+
+Similarly, you can use tools:targetApi=&quot;11&quot; in an XML file to indicate that the element will only be inflated in an adequate context."
+        errorLine1="    return Arrays.copyOfRange(this.points, from, to);"
+        errorLine2="                  ~~~~~~~~~~~"
+        quickfix="studio,adt">
+        <location
+            file=".\osmdroid-shape\src\main\java\org\nocrala\tools\gis\data\esri\shapefile\shape\shapes\AbstractPolyShape.java"
+            line="114"
+            column="19"/>
+    </issue>
+
+    <issue
+        id="NewApi"
+        severity="Error"
+        message="Call requires API level 9 (current min is 8): `java.util.Arrays#copyOfRange`"
+        category="Correctness"
+        priority="6"
+        summary="Calling new methods on older versions"
+        explanation="This check scans through all the Android API calls in the application and warns about any calls that are not available on *all* versions targeted by this application (according to its minimum SDK attribute in the manifest).
+
+If you really want to use this API and don&apos;t need to support older devices just set the `minSdkVersion` in your `build.gradle` or `AndroidManifest.xml` files.
+
+If your code is *deliberately* accessing newer APIs, and you have ensured (e.g. with conditional execution) that this code will only ever be called on a supported platform, then you can annotate your class or method with the `@TargetApi` annotation specifying the local minimum SDK to apply, such as `@TargetApi(11)`, such that this check considers 11 rather than your manifest file&apos;s minimum SDK as the required API level.
+
+If you are deliberately setting `android:` attributes in style definitions, make sure you place this in a `values-vNN` folder in order to avoid running into runtime conflicts on certain devices where manufacturers have added custom attributes whose ids conflict with the new ones on later platforms.
+
+Similarly, you can use tools:targetApi=&quot;11&quot; in an XML file to indicate that the element will only be inflated in an adequate context."
+        errorLine1="    return Arrays.copyOfRange(this.measures, from, to);"
+        errorLine2="                  ~~~~~~~~~~~"
+        quickfix="studio,adt">
+        <location
+            file=".\osmdroid-shape\src\main\java\org\nocrala\tools\gis\data\esri\shapefile\shape\shapes\AbstractPolyZShape.java"
+            line="85"
+            column="19"/>
+    </issue>
+
+    <issue
+        id="NewApi"
+        severity="Error"
+        message="Call requires API level 9 (current min is 8): `java.util.Arrays#copyOfRange`"
+        category="Correctness"
+        priority="6"
+        summary="Calling new methods on older versions"
+        explanation="This check scans through all the Android API calls in the application and warns about any calls that are not available on *all* versions targeted by this application (according to its minimum SDK attribute in the manifest).
+
+If you really want to use this API and don&apos;t need to support older devices just set the `minSdkVersion` in your `build.gradle` or `AndroidManifest.xml` files.
+
+If your code is *deliberately* accessing newer APIs, and you have ensured (e.g. with conditional execution) that this code will only ever be called on a supported platform, then you can annotate your class or method with the `@TargetApi` annotation specifying the local minimum SDK to apply, such as `@TargetApi(11)`, such that this check considers 11 rather than your manifest file&apos;s minimum SDK as the required API level.
+
+If you are deliberately setting `android:` attributes in style definitions, make sure you place this in a `values-vNN` folder in order to avoid running into runtime conflicts on certain devices where manufacturers have added custom attributes whose ids conflict with the new ones on later platforms.
+
+Similarly, you can use tools:targetApi=&quot;11&quot; in an XML file to indicate that the element will only be inflated in an adequate context."
+        errorLine1="    return Arrays.copyOfRange(this.z, from, to);"
+        errorLine2="                  ~~~~~~~~~~~"
+        quickfix="studio,adt">
+        <location
+            file=".\osmdroid-shape\src\main\java\org\nocrala\tools\gis\data\esri\shapefile\shape\shapes\AbstractPolyZShape.java"
+            line="109"
+            column="19"/>
+    </issue>
+
+    <issue
+        id="NewApi"
+        severity="Error"
+        message="Call requires API level 9 (current min is 8): `java.util.Arrays#copyOfRange`"
+        category="Correctness"
+        priority="6"
+        summary="Calling new methods on older versions"
+        explanation="This check scans through all the Android API calls in the application and warns about any calls that are not available on *all* versions targeted by this application (according to its minimum SDK attribute in the manifest).
+
+If you really want to use this API and don&apos;t need to support older devices just set the `minSdkVersion` in your `build.gradle` or `AndroidManifest.xml` files.
+
+If your code is *deliberately* accessing newer APIs, and you have ensured (e.g. with conditional execution) that this code will only ever be called on a supported platform, then you can annotate your class or method with the `@TargetApi` annotation specifying the local minimum SDK to apply, such as `@TargetApi(11)`, such that this check considers 11 rather than your manifest file&apos;s minimum SDK as the required API level.
+
+If you are deliberately setting `android:` attributes in style definitions, make sure you place this in a `values-vNN` folder in order to avoid running into runtime conflicts on certain devices where manufacturers have added custom attributes whose ids conflict with the new ones on later platforms.
+
+Similarly, you can use tools:targetApi=&quot;11&quot; in an XML file to indicate that the element will only be inflated in an adequate context."
+        errorLine1="    return Arrays.copyOfRange(this.points, from, to);"
+        errorLine2="                  ~~~~~~~~~~~"
+        quickfix="studio,adt">
+        <location
+            file=".\osmdroid-shape\src\main\java\org\nocrala\tools\gis\data\esri\shapefile\shape\shapes\MultiPatchShape.java"
+            line="178"
+            column="19"/>
+    </issue>
+
+    <issue
+        id="NewApi"
+        severity="Error"
+        message="Call requires API level 9 (current min is 8): `java.util.Arrays#copyOfRange`"
+        category="Correctness"
+        priority="6"
+        summary="Calling new methods on older versions"
+        explanation="This check scans through all the Android API calls in the application and warns about any calls that are not available on *all* versions targeted by this application (according to its minimum SDK attribute in the manifest).
+
+If you really want to use this API and don&apos;t need to support older devices just set the `minSdkVersion` in your `build.gradle` or `AndroidManifest.xml` files.
+
+If your code is *deliberately* accessing newer APIs, and you have ensured (e.g. with conditional execution) that this code will only ever be called on a supported platform, then you can annotate your class or method with the `@TargetApi` annotation specifying the local minimum SDK to apply, such as `@TargetApi(11)`, such that this check considers 11 rather than your manifest file&apos;s minimum SDK as the required API level.
+
+If you are deliberately setting `android:` attributes in style definitions, make sure you place this in a `values-vNN` folder in order to avoid running into runtime conflicts on certain devices where manufacturers have added custom attributes whose ids conflict with the new ones on later platforms.
+
+Similarly, you can use tools:targetApi=&quot;11&quot; in an XML file to indicate that the element will only be inflated in an adequate context."
+        errorLine1="    return Arrays.copyOfRange(this.m, from, to);"
+        errorLine2="                  ~~~~~~~~~~~"
+        quickfix="studio,adt">
+        <location
+            file=".\osmdroid-shape\src\main\java\org\nocrala\tools\gis\data\esri\shapefile\shape\shapes\MultiPatchShape.java"
+            line="202"
+            column="19"/>
+    </issue>
+
+    <issue
+        id="NewApi"
+        severity="Error"
+        message="Call requires API level 9 (current min is 8): `java.util.Arrays#copyOfRange`"
+        category="Correctness"
+        priority="6"
+        summary="Calling new methods on older versions"
+        explanation="This check scans through all the Android API calls in the application and warns about any calls that are not available on *all* versions targeted by this application (according to its minimum SDK attribute in the manifest).
+
+If you really want to use this API and don&apos;t need to support older devices just set the `minSdkVersion` in your `build.gradle` or `AndroidManifest.xml` files.
+
+If your code is *deliberately* accessing newer APIs, and you have ensured (e.g. with conditional execution) that this code will only ever be called on a supported platform, then you can annotate your class or method with the `@TargetApi` annotation specifying the local minimum SDK to apply, such as `@TargetApi(11)`, such that this check considers 11 rather than your manifest file&apos;s minimum SDK as the required API level.
+
+If you are deliberately setting `android:` attributes in style definitions, make sure you place this in a `values-vNN` folder in order to avoid running into runtime conflicts on certain devices where manufacturers have added custom attributes whose ids conflict with the new ones on later platforms.
+
+Similarly, you can use tools:targetApi=&quot;11&quot; in an XML file to indicate that the element will only be inflated in an adequate context."
+        errorLine1="    return Arrays.copyOfRange(this.z, from, to);"
+        errorLine2="                  ~~~~~~~~~~~"
+        quickfix="studio,adt">
+        <location
+            file=".\osmdroid-shape\src\main\java\org\nocrala\tools\gis\data\esri\shapefile\shape\shapes\MultiPatchShape.java"
+            line="226"
+            column="19"/>
+    </issue>
+
+</issues>
+

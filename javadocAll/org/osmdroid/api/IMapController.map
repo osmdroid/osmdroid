@@ -1,8 +1,6 @@
 <map id="G" name="G">
-<area shape="rect" id="node1_0" href="./IMapController.html" title="org.osmdroid.api.IMapController" alt="" coords="87,11,189,53"/>
-<area shape="rect" id="node1" href="./IMapController.html" title="&lt;TABLE&gt;" alt="" coords="76,5,200,59"/>
-<area shape="rect" id="node2_1" href="../views/MapController.html" title="org.osmdroid.views.MapController" alt="" coords="16,118,116,143"/>
-<area shape="rect" id="node2" href="../views/MapController.html" title="&lt;TABLE&gt;" alt="" coords="5,107,127,155"/>
-<area shape="rect" id="node3_2" href="../google/wrapper/MapController.html" title="org.osmdroid.google.wrapper.MapController" alt="" coords="161,118,261,143"/>
-<area shape="rect" id="node3" href="../google/wrapper/MapController.html" title="&lt;TABLE&gt;" alt="" coords="151,107,272,155"/>
+<area shape="rect" id="node1_0" href="./IMapController.html" title="org.osmdroid.api.IMapController" alt="" coords="16,11,119,53"/>
+<area shape="rect" id="node1" href="./IMapController.html" title="&lt;TABLE&gt;" alt="" coords="5,5,129,59"/>
+<area shape="rect" id="node2_1" href="../views/MapController.html" title="org.osmdroid.views.MapController" alt="" coords="17,118,117,143"/>
+<area shape="rect" id="node2" href="../views/MapController.html" title="&lt;TABLE&gt;" alt="" coords="7,107,128,155"/>
 </map>

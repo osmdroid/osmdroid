@@ -10,18 +10,18 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.tileprovider.modules.MapTileModuleProviderBase
-	c84494 [label=<<table title="org.osmdroid.tileprovider.modules.MapTileModuleProviderBase" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../../tileprovider/modules/MapTileModuleProviderBase.html">
+	c88811 [label=<<table title="org.osmdroid.tileprovider.modules.MapTileModuleProviderBase" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../../tileprovider/modules/MapTileModuleProviderBase.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> MapTileModuleProviderBase </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="../../../tileprovider/modules/MapTileModuleProviderBase.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.gpkg.tiles.raster.GeoPackageMapTileModuleProvider
-	c84680 [label=<<table title="org.osmdroid.gpkg.tiles.raster.GeoPackageMapTileModuleProvider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./GeoPackageMapTileModuleProvider.html">
+	c89017 [label=<<table title="org.osmdroid.gpkg.tiles.raster.GeoPackageMapTileModuleProvider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./GeoPackageMapTileModuleProvider.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> GeoPackageMapTileModuleProvider </td></tr>
 		</table></td></tr>
 		</table>>, URL="./GeoPackageMapTileModuleProvider.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.gpkg.tiles.raster.GeoPackageMapTileModuleProvider extends org.osmdroid.tileprovider.modules.MapTileModuleProviderBase
-	c84494:p -> c84680:p [dir=back,arrowtail=empty];
+	c88811:p -> c89017:p [dir=back,arrowtail=empty];
 }
 

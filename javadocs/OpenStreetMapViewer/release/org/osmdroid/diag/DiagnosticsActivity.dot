@@ -10,41 +10,41 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.diag.DiagnosticsActivity
-	c13039 [label=<<table title="org.osmdroid.diag.DiagnosticsActivity" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./DiagnosticsActivity.html">
+	c14989 [label=<<table title="org.osmdroid.diag.DiagnosticsActivity" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./DiagnosticsActivity.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> DiagnosticsActivity </td></tr>
 		</table></td></tr>
 		</table>>, URL="./DiagnosticsActivity.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.diag.DiagnosticsActivity extends android.app.Activity
-	c13208:p -> c13039:p [dir=back,arrowtail=empty];
+	c15164:p -> c14989:p [dir=back,arrowtail=empty];
 	//org.osmdroid.diag.DiagnosticsActivity implements android.view.View.OnClickListener
-	c13209:p -> c13039:p [dir=back,arrowtail=empty,style=dashed];
+	c15165:p -> c14989:p [dir=back,arrowtail=empty,style=dashed];
 	//org.osmdroid.diag.DiagnosticsActivity implements android.location.LocationListener
-	c13210:p -> c13039:p [dir=back,arrowtail=empty,style=dashed];
+	c15166:p -> c14989:p [dir=back,arrowtail=empty,style=dashed];
 	//org.osmdroid.diag.DiagnosticsActivity implements android.location.GpsStatus.Listener
-	c13211:p -> c13039:p [dir=back,arrowtail=empty,style=dashed];
+	c15167:p -> c14989:p [dir=back,arrowtail=empty,style=dashed];
 	// android.location.LocationListener
-	c13210 [label=<<table title="android.location.LocationListener" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/android/location/LocationListener.html">
+	c15166 [label=<<table title="android.location.LocationListener" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/android/location/LocationListener.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> LocationListener </td></tr>
 		</table></td></tr>
 		</table>>, URL="http://java.sun.com/j2se/1.4.2/docs/api/android/location/LocationListener.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// android.app.Activity
-	c13208 [label=<<table title="android.app.Activity" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/android/app/Activity.html">
+	c15164 [label=<<table title="android.app.Activity" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/android/app/Activity.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> Activity </td></tr>
 		</table></td></tr>
 		</table>>, URL="http://java.sun.com/j2se/1.4.2/docs/api/android/app/Activity.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// android.location.GpsStatus.Listener
-	c13211 [label=<<table title="android.location.GpsStatus.Listener" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/android/location/GpsStatus/Listener.html">
+	c15167 [label=<<table title="android.location.GpsStatus.Listener" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/android/location/GpsStatus/Listener.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> Listener </td></tr>
 		</table></td></tr>
 		</table>>, URL="http://java.sun.com/j2se/1.4.2/docs/api/android/location/GpsStatus/Listener.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// android.view.View.OnClickListener
-	c13209 [label=<<table title="android.view.View.OnClickListener" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/android/view/View/OnClickListener.html">
+	c15165 [label=<<table title="android.view.View.OnClickListener" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/android/view/View/OnClickListener.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> OnClickListener </td></tr>

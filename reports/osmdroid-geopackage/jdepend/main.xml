@@ -162,49 +162,13 @@
             <error>No stats available: package referenced, but not analyzed.</error>
         </Package>
 
-        <Package name="microsoft.mappoint">
-            <Stats>
-                <TotalClasses>1</TotalClasses>
-                <ConcreteClasses>1</ConcreteClasses>
-                <AbstractClasses>0</AbstractClasses>
-                <Ca>4</Ca>
-                <Ce>3</Ce>
-                <A>0</A>
-                <I>0.43</I>
-                <D>0.57</D>
-                <V>1</V>
-            </Stats>
-
-            <AbstractClasses>
-            </AbstractClasses>
-
-            <ConcreteClasses>
-                <Class sourceFile="TileSystem.java">
-                    microsoft.mappoint.TileSystem
-                </Class>
-            </ConcreteClasses>
-
-            <DependsUpon>
-                <Package>android.graphics</Package>
-                <Package>java.lang</Package>
-                <Package>org.osmdroid.util</Package>
-            </DependsUpon>
-
-            <UsedBy>
-                <Package>org.osmdroid.tileprovider</Package>
-                <Package>org.osmdroid.tileprovider.modules</Package>
-                <Package>org.osmdroid.util</Package>
-                <Package>org.osmdroid.views</Package>
-            </UsedBy>
-        </Package>
-
         <Package name="mil.nga.geopackage">
             <Stats>
                 <TotalClasses>17</TotalClasses>
                 <ConcreteClasses>15</ConcreteClasses>
                 <AbstractClasses>2</AbstractClasses>
-                <Ca>18</Ca>
-                <Ce>14</Ce>
+                <Ca>19</Ca>
+                <Ce>15</Ce>
                 <A>0.12</A>
                 <I>0.44</I>
                 <D>0.44</D>
@@ -278,6 +242,7 @@
                 <Package>java.util</Package>
                 <Package>mil.nga.geopackage.attributes</Package>
                 <Package>mil.nga.geopackage.core.contents</Package>
+                <Package>mil.nga.geopackage.db</Package>
                 <Package>mil.nga.geopackage.features.columns</Package>
                 <Package>mil.nga.geopackage.features.user</Package>
                 <Package>mil.nga.geopackage.io</Package>
@@ -289,7 +254,8 @@
                 <Package>mil.nga.geopackage.attributes</Package>
                 <Package>mil.nga.geopackage.db</Package>
                 <Package>mil.nga.geopackage.db.metadata</Package>
-                <Package>mil.nga.geopackage.extension.elevation</Package>
+                <Package>mil.nga.geopackage.extension</Package>
+                <Package>mil.nga.geopackage.extension.coverage</Package>
                 <Package>mil.nga.geopackage.extension.index</Package>
                 <Package>mil.nga.geopackage.extension.link</Package>
                 <Package>mil.nga.geopackage.factory</Package>
@@ -379,11 +345,11 @@
                 <TotalClasses>4</TotalClasses>
                 <ConcreteClasses>4</ConcreteClasses>
                 <AbstractClasses>0</AbstractClasses>
-                <Ca>8</Ca>
+                <Ca>10</Ca>
                 <Ce>19</Ce>
                 <A>0</A>
-                <I>0.7</I>
-                <D>0.3</D>
+                <I>0.66</I>
+                <D>0.34</D>
                 <V>1</V>
             </Stats>
 
@@ -428,8 +394,10 @@
             </DependsUpon>
 
             <UsedBy>
+                <Package>mil.nga.geopackage</Package>
                 <Package>mil.nga.geopackage.attributes</Package>
                 <Package>mil.nga.geopackage.db.metadata</Package>
+                <Package>mil.nga.geopackage.extension</Package>
                 <Package>mil.nga.geopackage.extension.index</Package>
                 <Package>mil.nga.geopackage.factory</Package>
                 <Package>mil.nga.geopackage.features.index</Package>
@@ -496,13 +464,46 @@
             </UsedBy>
         </Package>
 
-        <Package name="mil.nga.geopackage.extension.elevation">
+        <Package name="mil.nga.geopackage.extension">
+            <Stats>
+                <TotalClasses>1</TotalClasses>
+                <ConcreteClasses>1</ConcreteClasses>
+                <AbstractClasses>0</AbstractClasses>
+                <Ca>1</Ca>
+                <Ce>3</Ce>
+                <A>0</A>
+                <I>0.75</I>
+                <D>0.25</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="RTreeIndexExtension.java">
+                    mil.nga.geopackage.extension.RTreeIndexExtension
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>java.lang</Package>
+                <Package>mil.nga.geopackage</Package>
+                <Package>mil.nga.geopackage.db</Package>
+            </DependsUpon>
+
+            <UsedBy>
+                <Package>mil.nga.geopackage.factory</Package>
+            </UsedBy>
+        </Package>
+
+        <Package name="mil.nga.geopackage.extension.coverage">
             <Stats>
                 <TotalClasses>7</TotalClasses>
                 <ConcreteClasses>6</ConcreteClasses>
                 <AbstractClasses>1</AbstractClasses>
                 <Ca>0</Ca>
-                <Ce>13</Ce>
+                <Ce>15</Ce>
                 <A>0.14</A>
                 <I>1</I>
                 <D>0.14</D>
@@ -510,29 +511,29 @@
             </Stats>
 
             <AbstractClasses>
-                <Class sourceFile="ElevationTilesCommon.java">
-                    mil.nga.geopackage.extension.elevation.ElevationTilesCommon
+                <Class sourceFile="CoverageData.java">
+                    mil.nga.geopackage.extension.coverage.CoverageData
                 </Class>
             </AbstractClasses>
 
             <ConcreteClasses>
-                <Class sourceFile="ElevationPngImage.java">
-                    mil.nga.geopackage.extension.elevation.ElevationPngImage
+                <Class sourceFile="CoverageData.java">
+                    mil.nga.geopackage.extension.coverage.CoverageData$1
                 </Class>
-                <Class sourceFile="ElevationTiffImage.java">
-                    mil.nga.geopackage.extension.elevation.ElevationTiffImage
+                <Class sourceFile="CoverageDataPng.java">
+                    mil.nga.geopackage.extension.coverage.CoverageDataPng
                 </Class>
-                <Class sourceFile="ElevationTileMatrixResults.java">
-                    mil.nga.geopackage.extension.elevation.ElevationTileMatrixResults
+                <Class sourceFile="CoverageDataPngImage.java">
+                    mil.nga.geopackage.extension.coverage.CoverageDataPngImage
                 </Class>
-                <Class sourceFile="ElevationTilesCommon.java">
-                    mil.nga.geopackage.extension.elevation.ElevationTilesCommon$1
+                <Class sourceFile="CoverageDataTiff.java">
+                    mil.nga.geopackage.extension.coverage.CoverageDataTiff
                 </Class>
-                <Class sourceFile="ElevationTilesPng.java">
-                    mil.nga.geopackage.extension.elevation.ElevationTilesPng
+                <Class sourceFile="CoverageDataTiffImage.java">
+                    mil.nga.geopackage.extension.coverage.CoverageDataTiffImage
                 </Class>
-                <Class sourceFile="ElevationTilesTiff.java">
-                    mil.nga.geopackage.extension.elevation.ElevationTilesTiff
+                <Class sourceFile="CoverageDataTileMatrixResults.java">
+                    mil.nga.geopackage.extension.coverage.CoverageDataTileMatrixResults
                 </Class>
             </ConcreteClasses>
 
@@ -542,11 +543,13 @@
                 <Package>ar.com.hjg.pngj</Package>
                 <Package>java.io</Package>
                 <Package>java.lang</Package>
+                <Package>java.sql</Package>
                 <Package>java.util</Package>
                 <Package>mil.nga.geopackage</Package>
                 <Package>mil.nga.geopackage.projection</Package>
                 <Package>mil.nga.geopackage.tiles</Package>
                 <Package>mil.nga.geopackage.tiles.matrix</Package>
+                <Package>mil.nga.geopackage.tiles.matrixset</Package>
                 <Package>mil.nga.geopackage.tiles.user</Package>
                 <Package>mil.nga.tiff</Package>
                 <Package>mil.nga.tiff.util</Package>
@@ -639,7 +642,7 @@
                 <ConcreteClasses>8</ConcreteClasses>
                 <AbstractClasses>1</AbstractClasses>
                 <Ca>2</Ca>
-                <Ce>26</Ce>
+                <Ce>27</Ce>
                 <A>0.11</A>
                 <I>0.93</I>
                 <D>0.04</D>
@@ -698,6 +701,7 @@
                 <Package>mil.nga.geopackage.core.srs</Package>
                 <Package>mil.nga.geopackage.db</Package>
                 <Package>mil.nga.geopackage.db.metadata</Package>
+                <Package>mil.nga.geopackage.extension</Package>
                 <Package>mil.nga.geopackage.features.columns</Package>
                 <Package>mil.nga.geopackage.features.user</Package>
                 <Package>mil.nga.geopackage.io</Package>
@@ -966,7 +970,7 @@
             </DependsUpon>
 
             <UsedBy>
-                <Package>mil.nga.geopackage.extension.elevation</Package>
+                <Package>mil.nga.geopackage.extension.coverage</Package>
                 <Package>mil.nga.geopackage.tiles.features</Package>
                 <Package>mil.nga.geopackage.tiles.retriever</Package>
                 <Package>mil.nga.geopackage.tiles.user</Package>
@@ -1241,7 +1245,7 @@
 
             <UsedBy>
                 <Package>mil.nga.geopackage</Package>
-                <Package>mil.nga.geopackage.extension.elevation</Package>
+                <Package>mil.nga.geopackage.extension.coverage</Package>
                 <Package>mil.nga.geopackage.factory</Package>
                 <Package>mil.nga.geopackage.tiles</Package>
                 <Package>mil.nga.geopackage.tiles.retriever</Package>
@@ -1868,7 +1872,7 @@
                 <ConcreteClasses>4</ConcreteClasses>
                 <AbstractClasses>0</AbstractClasses>
                 <Ca>0</Ca>
-                <Ce>20</Ce>
+                <Ce>21</Ce>
                 <A>0</A>
                 <I>1</I>
                 <D>0</D>
@@ -1914,6 +1918,7 @@
                 <Package>org.osmdroid.tileprovider.tilesource</Package>
                 <Package>org.osmdroid.tileprovider.util</Package>
                 <Package>org.osmdroid.util</Package>
+                <Package>org.osmdroid.views</Package>
             </DependsUpon>
 
             <UsedBy>
@@ -1970,14 +1975,14 @@
 
         <Package name="org.osmdroid.tileprovider">
             <Stats>
-                <TotalClasses>18</TotalClasses>
-                <ConcreteClasses>12</ConcreteClasses>
+                <TotalClasses>20</TotalClasses>
+                <ConcreteClasses>14</ConcreteClasses>
                 <AbstractClasses>6</AbstractClasses>
                 <Ca>8</Ca>
-                <Ce>17</Ce>
-                <A>0.33</A>
-                <I>0.68</I>
-                <D>0.01</D>
+                <Ce>16</Ce>
+                <A>0.3</A>
+                <I>0.67</I>
+                <D>0.03</D>
                 <V>1</V>
             </Stats>
 
@@ -2018,6 +2023,12 @@
                 <Class sourceFile="MapTileCache.java">
                     org.osmdroid.tileprovider.MapTileCache
                 </Class>
+                <Class sourceFile="MapTilePreCache.java">
+                    org.osmdroid.tileprovider.MapTilePreCache
+                </Class>
+                <Class sourceFile="MapTilePreCache.java">
+                    org.osmdroid.tileprovider.MapTilePreCache$1
+                </Class>
                 <Class sourceFile="MapTileProviderArray.java">
                     org.osmdroid.tileprovider.MapTileProviderArray
                 </Class>
@@ -2050,7 +2061,6 @@
                 <Package>java.lang</Package>
                 <Package>java.util</Package>
                 <Package>java.util.concurrent</Package>
-                <Package>microsoft.mappoint</Package>
                 <Package>org.osmdroid.api</Package>
                 <Package>org.osmdroid.config</Package>
                 <Package>org.osmdroid.tileprovider.constants</Package>
@@ -2075,14 +2085,14 @@
 
         <Package name="org.osmdroid.tileprovider.cachemanager">
             <Stats>
-                <TotalClasses>13</TotalClasses>
-                <ConcreteClasses>10</ConcreteClasses>
+                <TotalClasses>16</TotalClasses>
+                <ConcreteClasses>13</ConcreteClasses>
                 <AbstractClasses>3</AbstractClasses>
                 <Ca>0</Ca>
-                <Ce>22</Ce>
-                <A>0.23</A>
+                <Ce>19</Ce>
+                <A>0.19</A>
                 <I>1</I>
-                <D>0.23</D>
+                <D>0.19</D>
                 <V>1</V>
             </Stats>
 
@@ -2106,6 +2116,9 @@
                     org.osmdroid.tileprovider.cachemanager.CacheManager$1
                 </Class>
                 <Class sourceFile="CacheManager.java">
+                    org.osmdroid.tileprovider.cachemanager.CacheManager$1$1
+                </Class>
+                <Class sourceFile="CacheManager.java">
                     org.osmdroid.tileprovider.cachemanager.CacheManager$2
                 </Class>
                 <Class sourceFile="CacheManager.java">
@@ -2113,6 +2126,9 @@
                 </Class>
                 <Class sourceFile="CacheManager.java">
                     org.osmdroid.tileprovider.cachemanager.CacheManager$4
+                </Class>
+                <Class sourceFile="CacheManager.java">
+                    org.osmdroid.tileprovider.cachemanager.CacheManager$5
                 </Class>
                 <Class sourceFile="CacheManager.java">
                     org.osmdroid.tileprovider.cachemanager.CacheManager$CacheManagerDialog$1
@@ -2129,20 +2145,21 @@
                 <Class sourceFile="CacheManager.java">
                     org.osmdroid.tileprovider.cachemanager.CacheManager$CacheManagerTask
                 </Class>
+                <Class sourceFile="CacheManager.java">
+                    org.osmdroid.tileprovider.cachemanager.CacheManager$ListWrapper
+                </Class>
             </ConcreteClasses>
 
             <DependsUpon>
                 <Package>android.app</Package>
                 <Package>android.content</Package>
                 <Package>android.graphics</Package>
+                <Package>android.graphics.drawable</Package>
                 <Package>android.os</Package>
-                <Package>android.text</Package>
                 <Package>android.util</Package>
                 <Package>android.widget</Package>
                 <Package>java.io</Package>
                 <Package>java.lang</Package>
-                <Package>java.net</Package>
-                <Package>java.text</Package>
                 <Package>java.util</Package>
                 <Package>org.osmdroid.api</Package>
                 <Package>org.osmdroid.config</Package>
@@ -2150,7 +2167,6 @@
                 <Package>org.osmdroid.tileprovider.constants</Package>
                 <Package>org.osmdroid.tileprovider.modules</Package>
                 <Package>org.osmdroid.tileprovider.tilesource</Package>
-                <Package>org.osmdroid.tileprovider.util</Package>
                 <Package>org.osmdroid.util</Package>
                 <Package>org.osmdroid.util.constants</Package>
                 <Package>org.osmdroid.views</Package>
@@ -2196,14 +2212,14 @@
 
         <Package name="org.osmdroid.tileprovider.modules">
             <Stats>
-                <TotalClasses>36</TotalClasses>
-                <ConcreteClasses>30</ConcreteClasses>
+                <TotalClasses>37</TotalClasses>
+                <ConcreteClasses>31</ConcreteClasses>
                 <AbstractClasses>6</AbstractClasses>
-                <Ca>6</Ca>
-                <Ce>28</Ce>
-                <A>0.17</A>
-                <I>0.82</I>
-                <D>0.01</D>
+                <Ca>7</Ca>
+                <Ce>27</Ce>
+                <A>0.16</A>
+                <I>0.79</I>
+                <D>0.04</D>
                 <V>1</V>
             </Stats>
 
@@ -2231,6 +2247,9 @@
             <ConcreteClasses>
                 <Class sourceFile="ArchiveFileFactory.java">
                     org.osmdroid.tileprovider.modules.ArchiveFileFactory
+                </Class>
+                <Class sourceFile="CantContinueException.java">
+                    org.osmdroid.tileprovider.modules.CantContinueException
                 </Class>
                 <Class sourceFile="ConfigurablePriorityThreadFactory.java">
                     org.osmdroid.tileprovider.modules.ConfigurablePriorityThreadFactory
@@ -2283,9 +2302,6 @@
                 <Class sourceFile="MapTileModuleProviderBase.java">
                     org.osmdroid.tileprovider.modules.MapTileModuleProviderBase$1
                 </Class>
-                <Class sourceFile="MapTileModuleProviderBase.java">
-                    org.osmdroid.tileprovider.modules.MapTileModuleProviderBase$CantContinueException
-                </Class>
                 <Class sourceFile="MapTileSqlCacheProvider.java">
                     org.osmdroid.tileprovider.modules.MapTileSqlCacheProvider
                 </Class>
@@ -2306,6 +2322,9 @@
                 </Class>
                 <Class sourceFile="SqliteArchiveTileWriter.java">
                     org.osmdroid.tileprovider.modules.SqliteArchiveTileWriter
+                </Class>
+                <Class sourceFile="TileDownloader.java">
+                    org.osmdroid.tileprovider.modules.TileDownloader
                 </Class>
                 <Class sourceFile="TileWriter.java">
                     org.osmdroid.tileprovider.modules.TileWriter
@@ -2342,7 +2361,6 @@
                 <Package>java.util.concurrent</Package>
                 <Package>java.util.concurrent.atomic</Package>
                 <Package>java.util.zip</Package>
-                <Package>microsoft.mappoint</Package>
                 <Package>org.osmdroid.api</Package>
                 <Package>org.osmdroid.config</Package>
                 <Package>org.osmdroid.tileprovider</Package>
@@ -2358,6 +2376,7 @@
                 <Package>org.osmdroid.gpkg.tiles.raster</Package>
                 <Package>org.osmdroid.tileprovider</Package>
                 <Package>org.osmdroid.tileprovider.cachemanager</Package>
+                <Package>org.osmdroid.util</Package>
                 <Package>org.osmdroid.views</Package>
             </UsedBy>
         </Package>
@@ -2510,11 +2529,11 @@
                 <TotalClasses>8</TotalClasses>
                 <ConcreteClasses>8</ConcreteClasses>
                 <AbstractClasses>0</AbstractClasses>
-                <Ca>8</Ca>
+                <Ca>7</Ca>
                 <Ce>14</Ce>
                 <A>0</A>
-                <I>0.64</I>
-                <D>0.36</D>
+                <I>0.67</I>
+                <D>0.33</D>
                 <V>1</V>
             </Stats>
 
@@ -2569,7 +2588,6 @@
                 <Package>org.osmdroid.config</Package>
                 <Package>org.osmdroid.gpkg.tiles.raster</Package>
                 <Package>org.osmdroid.tileprovider</Package>
-                <Package>org.osmdroid.tileprovider.cachemanager</Package>
                 <Package>org.osmdroid.tileprovider.modules</Package>
                 <Package>org.osmdroid.tileprovider.tilesource</Package>
                 <Package>org.osmdroid.tileprovider.tilesource.bing</Package>
@@ -2579,26 +2597,41 @@
 
         <Package name="org.osmdroid.util">
             <Stats>
-                <TotalClasses>27</TotalClasses>
-                <ConcreteClasses>24</ConcreteClasses>
-                <AbstractClasses>3</AbstractClasses>
-                <Ca>19</Ca>
-                <Ce>11</Ce>
-                <A>0.11</A>
-                <I>0.37</I>
-                <D>0.52</D>
+                <TotalClasses>39</TotalClasses>
+                <ConcreteClasses>31</ConcreteClasses>
+                <AbstractClasses>8</AbstractClasses>
+                <Ca>18</Ca>
+                <Ce>13</Ce>
+                <A>0.21</A>
+                <I>0.42</I>
+                <D>0.38</D>
                 <V>1</V>
             </Stats>
 
             <AbstractClasses>
+                <Class sourceFile="IterableWithSize.java">
+                    org.osmdroid.util.IterableWithSize
+                </Class>
                 <Class sourceFile="LineBuilder.java">
                     org.osmdroid.util.LineBuilder
+                </Class>
+                <Class sourceFile="MapTileContainer.java">
+                    org.osmdroid.util.MapTileContainer
+                </Class>
+                <Class sourceFile="MapTileListComputer.java">
+                    org.osmdroid.util.MapTileListComputer
                 </Class>
                 <Class sourceFile="PointAccepter.java">
                     org.osmdroid.util.PointAccepter
                 </Class>
+                <Class sourceFile="SplashScreenable.java">
+                    org.osmdroid.util.SplashScreenable
+                </Class>
                 <Class sourceFile="TileLooper.java">
                     org.osmdroid.util.TileLooper
+                </Class>
+                <Class sourceFile="TileSystem.java">
+                    org.osmdroid.util.TileSystem
                 </Class>
             </AbstractClasses>
 
@@ -2609,8 +2642,14 @@
                 <Class sourceFile="BoundingBox.java">
                     org.osmdroid.util.BoundingBox$1
                 </Class>
+                <Class sourceFile="Delay.java">
+                    org.osmdroid.util.Delay
+                </Class>
                 <Class sourceFile="Distance.java">
                     org.osmdroid.util.Distance
+                </Class>
+                <Class sourceFile="DuringSplashScreen.java">
+                    org.osmdroid.util.DuringSplashScreen
                 </Class>
                 <Class sourceFile="GEMFFile.java">
                     org.osmdroid.util.GEMFFile
@@ -2623,6 +2662,12 @@
                 </Class>
                 <Class sourceFile="GEMFFile.java">
                     org.osmdroid.util.GEMFFile$GEMFRange
+                </Class>
+                <Class sourceFile="GarbageCollector.java">
+                    org.osmdroid.util.GarbageCollector
+                </Class>
+                <Class sourceFile="GarbageCollector.java">
+                    org.osmdroid.util.GarbageCollector$1
                 </Class>
                 <Class sourceFile="GeoPoint.java">
                     org.osmdroid.util.GeoPoint
@@ -2648,6 +2693,12 @@
                 <Class sourceFile="MapTileList.java">
                     org.osmdroid.util.MapTileList
                 </Class>
+                <Class sourceFile="MapTileListBorderComputer.java">
+                    org.osmdroid.util.MapTileListBorderComputer
+                </Class>
+                <Class sourceFile="MapTileListZoomComputer.java">
+                    org.osmdroid.util.MapTileListZoomComputer
+                </Class>
                 <Class sourceFile="MyMath.java">
                     org.osmdroid.util.MyMath
                 </Class>
@@ -2672,8 +2723,11 @@
                 <Class sourceFile="SegmentIntersection.java">
                     org.osmdroid.util.SegmentIntersection
                 </Class>
-                <Class sourceFile="TileSystem.java">
-                    org.osmdroid.util.TileSystem
+                <Class sourceFile="TileSystemWebMercator.java">
+                    org.osmdroid.util.TileSystemWebMercator
+                </Class>
+                <Class sourceFile="UrlBackoff.java">
+                    org.osmdroid.util.UrlBackoff
                 </Class>
             </ConcreteClasses>
 
@@ -2684,15 +2738,16 @@
                 <Package>java.io</Package>
                 <Package>java.lang</Package>
                 <Package>java.util</Package>
-                <Package>microsoft.mappoint</Package>
+                <Package>java.util.concurrent.atomic</Package>
                 <Package>org.osmdroid.api</Package>
                 <Package>org.osmdroid.config</Package>
+                <Package>org.osmdroid.tileprovider.modules</Package>
                 <Package>org.osmdroid.util.constants</Package>
+                <Package>org.osmdroid.views</Package>
                 <Package>org.osmdroid.views.util.constants</Package>
             </DependsUpon>
 
             <UsedBy>
-                <Package>microsoft.mappoint</Package>
                 <Package>org.osmdroid.events</Package>
                 <Package>org.osmdroid.gpkg.overlay</Package>
                 <Package>org.osmdroid.gpkg.overlay.features</Package>
@@ -2752,11 +2807,11 @@
                 <TotalClasses>15</TotalClasses>
                 <ConcreteClasses>14</ConcreteClasses>
                 <AbstractClasses>1</AbstractClasses>
-                <Ca>14</Ca>
-                <Ce>24</Ce>
+                <Ca>16</Ca>
+                <Ce>23</Ce>
                 <A>0.07</A>
-                <I>0.63</I>
-                <D>0.3</D>
+                <I>0.59</I>
+                <D>0.34</D>
                 <V>1</V>
             </Stats>
 
@@ -2774,6 +2829,9 @@
                     org.osmdroid.views.MapController$1
                 </Class>
                 <Class sourceFile="MapController.java">
+                    org.osmdroid.views.MapController$MapAnimatorListener
+                </Class>
+                <Class sourceFile="MapController.java">
                     org.osmdroid.views.MapController$ReplayController
                 </Class>
                 <Class sourceFile="MapController.java">
@@ -2784,9 +2842,6 @@
                 </Class>
                 <Class sourceFile="MapController.java">
                     org.osmdroid.views.MapController$ZoomAnimationListener
-                </Class>
-                <Class sourceFile="MapController.java">
-                    org.osmdroid.views.MapController$ZoomAnimatorListener
                 </Class>
                 <Class sourceFile="MapView.java">
                     org.osmdroid.views.MapView
@@ -2824,7 +2879,6 @@
                 <Package>java.lang</Package>
                 <Package>java.util</Package>
                 <Package>java.util.concurrent.atomic</Package>
-                <Package>microsoft.mappoint</Package>
                 <Package>org.metalev.multitouch.controller</Package>
                 <Package>org.osmdroid.api</Package>
                 <Package>org.osmdroid.config</Package>
@@ -2842,8 +2896,10 @@
                 <Package>org.osmdroid.events</Package>
                 <Package>org.osmdroid.gpkg.overlay</Package>
                 <Package>org.osmdroid.gpkg.tiles.feature</Package>
+                <Package>org.osmdroid.gpkg.tiles.raster</Package>
                 <Package>org.osmdroid.tileprovider</Package>
                 <Package>org.osmdroid.tileprovider.cachemanager</Package>
+                <Package>org.osmdroid.util</Package>
                 <Package>org.osmdroid.views.drawing</Package>
                 <Package>org.osmdroid.views.overlay</Package>
                 <Package>org.osmdroid.views.overlay.compass</Package>
@@ -2893,14 +2949,14 @@
 
         <Package name="org.osmdroid.views.overlay">
             <Stats>
-                <TotalClasses>49</TotalClasses>
+                <TotalClasses>50</TotalClasses>
                 <ConcreteClasses>34</ConcreteClasses>
-                <AbstractClasses>15</AbstractClasses>
+                <AbstractClasses>16</AbstractClasses>
                 <Ca>10</Ca>
                 <Ce>26</Ce>
-                <A>0.31</A>
+                <A>0.32</A>
                 <I>0.72</I>
-                <D>0.03</D>
+                <D>0.04</D>
                 <V>1</V>
             </Stats>
 
@@ -2946,6 +3002,9 @@
                 </Class>
                 <Class sourceFile="OverlayWithIW.java">
                     org.osmdroid.views.overlay.OverlayWithIW
+                </Class>
+                <Class sourceFile="Polygon.java">
+                    org.osmdroid.views.overlay.Polygon$OnClickListener
                 </Class>
                 <Class sourceFile="Polyline.java">
                     org.osmdroid.views.overlay.Polyline$OnClickListener
@@ -3287,14 +3346,14 @@
 
         <Package name="org.osmdroid.views.overlay.milestones">
             <Stats>
-                <TotalClasses>10</TotalClasses>
-                <ConcreteClasses>8</ConcreteClasses>
+                <TotalClasses>12</TotalClasses>
+                <ConcreteClasses>10</ConcreteClasses>
                 <AbstractClasses>2</AbstractClasses>
                 <Ca>1</Ca>
                 <Ce>5</Ce>
-                <A>0.2</A>
+                <A>0.17</A>
                 <I>0.83</I>
-                <D>0.03</D>
+                <D>0</D>
                 <V>1</V>
             </Stats>
 
@@ -3316,6 +3375,12 @@
                 </Class>
                 <Class sourceFile="MilestoneMeterDistanceLister.java">
                     org.osmdroid.views.overlay.milestones.MilestoneMeterDistanceLister
+                </Class>
+                <Class sourceFile="MilestoneMeterDistanceSliceLister.java">
+                    org.osmdroid.views.overlay.milestones.MilestoneMeterDistanceSliceLister
+                </Class>
+                <Class sourceFile="MilestoneMeterDistanceSliceLister.java">
+                    org.osmdroid.views.overlay.milestones.MilestoneMeterDistanceSliceLister$Step
                 </Class>
                 <Class sourceFile="MilestoneMiddleLister.java">
                     org.osmdroid.views.overlay.milestones.MilestoneMiddleLister
@@ -3565,25 +3630,15 @@
     </Packages>
 
     <Cycles>
-        <Package Name="microsoft.mappoint">
-            <Package>org.osmdroid.util</Package>
-            <Package>org.osmdroid.config</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
-            <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
-        </Package>
-
         <Package Name="mil.nga.geopackage">
             <Package>mil.nga.geopackage.features.user</Package>
             <Package>mil.nga.geopackage.user</Package>
-            <Package>mil.nga.geopackage.db</Package>
-            <Package>mil.nga.geopackage.features.user</Package>
+            <Package>mil.nga.geopackage</Package>
         </Package>
 
         <Package Name="mil.nga.geopackage.attributes">
             <Package>mil.nga.geopackage.user</Package>
-            <Package>mil.nga.geopackage.db</Package>
+            <Package>mil.nga.geopackage</Package>
             <Package>mil.nga.geopackage.features.user</Package>
             <Package>mil.nga.geopackage.user</Package>
         </Package>
@@ -3591,28 +3646,37 @@
         <Package Name="mil.nga.geopackage.db">
             <Package>mil.nga.geopackage.features.user</Package>
             <Package>mil.nga.geopackage.user</Package>
-            <Package>mil.nga.geopackage.db</Package>
+            <Package>mil.nga.geopackage</Package>
+            <Package>mil.nga.geopackage.features.user</Package>
         </Package>
 
         <Package Name="mil.nga.geopackage.db.metadata">
             <Package>mil.nga.geopackage.db</Package>
             <Package>mil.nga.geopackage.features.user</Package>
             <Package>mil.nga.geopackage.user</Package>
-            <Package>mil.nga.geopackage.db</Package>
+            <Package>mil.nga.geopackage</Package>
+            <Package>mil.nga.geopackage.features.user</Package>
         </Package>
 
-        <Package Name="mil.nga.geopackage.extension.elevation">
-            <Package>mil.nga.geopackage.tiles.user</Package>
-            <Package>mil.nga.geopackage.user</Package>
+        <Package Name="mil.nga.geopackage.extension">
             <Package>mil.nga.geopackage.db</Package>
             <Package>mil.nga.geopackage.features.user</Package>
             <Package>mil.nga.geopackage.user</Package>
+            <Package>mil.nga.geopackage</Package>
+            <Package>mil.nga.geopackage.features.user</Package>
+        </Package>
+
+        <Package Name="mil.nga.geopackage.extension.coverage">
+            <Package>mil.nga.geopackage</Package>
+            <Package>mil.nga.geopackage.features.user</Package>
+            <Package>mil.nga.geopackage.user</Package>
+            <Package>mil.nga.geopackage</Package>
         </Package>
 
         <Package Name="mil.nga.geopackage.extension.index">
             <Package>mil.nga.geopackage.features.user</Package>
             <Package>mil.nga.geopackage.user</Package>
-            <Package>mil.nga.geopackage.db</Package>
+            <Package>mil.nga.geopackage</Package>
             <Package>mil.nga.geopackage.features.user</Package>
         </Package>
 
@@ -3620,28 +3684,27 @@
             <Package>mil.nga.geopackage</Package>
             <Package>mil.nga.geopackage.features.user</Package>
             <Package>mil.nga.geopackage.user</Package>
-            <Package>mil.nga.geopackage.db</Package>
-            <Package>mil.nga.geopackage.features.user</Package>
+            <Package>mil.nga.geopackage</Package>
         </Package>
 
         <Package Name="mil.nga.geopackage.factory">
-            <Package>mil.nga.geopackage</Package>
             <Package>mil.nga.geopackage.features.user</Package>
             <Package>mil.nga.geopackage.user</Package>
-            <Package>mil.nga.geopackage.db</Package>
+            <Package>mil.nga.geopackage</Package>
             <Package>mil.nga.geopackage.features.user</Package>
         </Package>
 
         <Package Name="mil.nga.geopackage.features.index">
+            <Package>mil.nga.geopackage.extension.index</Package>
             <Package>mil.nga.geopackage.features.user</Package>
             <Package>mil.nga.geopackage.user</Package>
-            <Package>mil.nga.geopackage.db</Package>
+            <Package>mil.nga.geopackage</Package>
             <Package>mil.nga.geopackage.features.user</Package>
         </Package>
 
         <Package Name="mil.nga.geopackage.features.user">
             <Package>mil.nga.geopackage.user</Package>
-            <Package>mil.nga.geopackage.db</Package>
+            <Package>mil.nga.geopackage</Package>
             <Package>mil.nga.geopackage.features.user</Package>
         </Package>
 
@@ -3649,41 +3712,40 @@
             <Package>mil.nga.geopackage</Package>
             <Package>mil.nga.geopackage.features.user</Package>
             <Package>mil.nga.geopackage.user</Package>
-            <Package>mil.nga.geopackage.db</Package>
-            <Package>mil.nga.geopackage.features.user</Package>
+            <Package>mil.nga.geopackage</Package>
         </Package>
 
         <Package Name="mil.nga.geopackage.tiles.features">
             <Package>mil.nga.geopackage.features.user</Package>
             <Package>mil.nga.geopackage.user</Package>
-            <Package>mil.nga.geopackage.db</Package>
+            <Package>mil.nga.geopackage</Package>
             <Package>mil.nga.geopackage.features.user</Package>
         </Package>
 
         <Package Name="mil.nga.geopackage.tiles.features.custom">
             <Package>mil.nga.geopackage.features.user</Package>
             <Package>mil.nga.geopackage.user</Package>
-            <Package>mil.nga.geopackage.db</Package>
+            <Package>mil.nga.geopackage</Package>
             <Package>mil.nga.geopackage.features.user</Package>
         </Package>
 
         <Package Name="mil.nga.geopackage.tiles.retriever">
             <Package>mil.nga.geopackage.tiles.user</Package>
             <Package>mil.nga.geopackage.user</Package>
-            <Package>mil.nga.geopackage.db</Package>
+            <Package>mil.nga.geopackage</Package>
             <Package>mil.nga.geopackage.features.user</Package>
             <Package>mil.nga.geopackage.user</Package>
         </Package>
 
         <Package Name="mil.nga.geopackage.tiles.user">
             <Package>mil.nga.geopackage.user</Package>
-            <Package>mil.nga.geopackage.db</Package>
+            <Package>mil.nga.geopackage</Package>
             <Package>mil.nga.geopackage.features.user</Package>
             <Package>mil.nga.geopackage.user</Package>
         </Package>
 
         <Package Name="mil.nga.geopackage.user">
-            <Package>mil.nga.geopackage.db</Package>
+            <Package>mil.nga.geopackage</Package>
             <Package>mil.nga.geopackage.features.user</Package>
             <Package>mil.nga.geopackage.user</Package>
         </Package>
@@ -3697,30 +3759,20 @@
 
         <Package Name="org.osmdroid.events">
             <Package>org.osmdroid.util</Package>
-            <Package>org.osmdroid.config</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
-            <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
+            <Package>org.osmdroid.views</Package>
+            <Package>org.osmdroid.util</Package>
         </Package>
 
         <Package Name="org.osmdroid.gpkg.overlay">
             <Package>org.osmdroid.views</Package>
             <Package>org.osmdroid.util</Package>
-            <Package>org.osmdroid.config</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
-            <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
+            <Package>org.osmdroid.views</Package>
         </Package>
 
         <Package Name="org.osmdroid.gpkg.overlay.features">
             <Package>org.osmdroid.util</Package>
-            <Package>org.osmdroid.config</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
-            <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
+            <Package>org.osmdroid.views</Package>
+            <Package>org.osmdroid.util</Package>
         </Package>
 
         <Package Name="org.osmdroid.gpkg.tiles.feature">
@@ -3744,10 +3796,9 @@
         </Package>
 
         <Package Name="org.osmdroid.tileprovider.cachemanager">
-            <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
-            <Package>org.osmdroid.tileprovider.tilesource</Package>
+            <Package>org.osmdroid.util</Package>
+            <Package>org.osmdroid.views</Package>
+            <Package>org.osmdroid.util</Package>
         </Package>
 
         <Package Name="org.osmdroid.tileprovider.modules">
@@ -3778,117 +3829,73 @@
         </Package>
 
         <Package Name="org.osmdroid.util">
-            <Package>org.osmdroid.config</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
-            <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
+            <Package>org.osmdroid.views</Package>
+            <Package>org.osmdroid.util</Package>
         </Package>
 
         <Package Name="org.osmdroid.views">
             <Package>org.osmdroid.util</Package>
-            <Package>org.osmdroid.config</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
-            <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
+            <Package>org.osmdroid.views</Package>
         </Package>
 
         <Package Name="org.osmdroid.views.drawing">
             <Package>org.osmdroid.views</Package>
             <Package>org.osmdroid.util</Package>
-            <Package>org.osmdroid.config</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
-            <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
+            <Package>org.osmdroid.views</Package>
         </Package>
 
         <Package Name="org.osmdroid.views.overlay">
             <Package>org.osmdroid.views</Package>
             <Package>org.osmdroid.util</Package>
-            <Package>org.osmdroid.config</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
-            <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
+            <Package>org.osmdroid.views</Package>
         </Package>
 
         <Package Name="org.osmdroid.views.overlay.compass">
             <Package>org.osmdroid.views</Package>
             <Package>org.osmdroid.util</Package>
-            <Package>org.osmdroid.config</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
-            <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
+            <Package>org.osmdroid.views</Package>
         </Package>
 
         <Package Name="org.osmdroid.views.overlay.gestures">
             <Package>org.osmdroid.views</Package>
             <Package>org.osmdroid.util</Package>
-            <Package>org.osmdroid.config</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
-            <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
+            <Package>org.osmdroid.views</Package>
         </Package>
 
         <Package Name="org.osmdroid.views.overlay.gridlines">
             <Package>org.osmdroid.views</Package>
             <Package>org.osmdroid.util</Package>
-            <Package>org.osmdroid.config</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
-            <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
+            <Package>org.osmdroid.views</Package>
         </Package>
 
         <Package Name="org.osmdroid.views.overlay.infowindow">
             <Package>org.osmdroid.views</Package>
             <Package>org.osmdroid.util</Package>
-            <Package>org.osmdroid.config</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
-            <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
+            <Package>org.osmdroid.views</Package>
         </Package>
 
         <Package Name="org.osmdroid.views.overlay.milestones">
             <Package>org.osmdroid.util</Package>
-            <Package>org.osmdroid.config</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
-            <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
+            <Package>org.osmdroid.views</Package>
+            <Package>org.osmdroid.util</Package>
         </Package>
 
         <Package Name="org.osmdroid.views.overlay.mylocation">
             <Package>org.osmdroid.views</Package>
             <Package>org.osmdroid.util</Package>
-            <Package>org.osmdroid.config</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
-            <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
+            <Package>org.osmdroid.views</Package>
         </Package>
 
         <Package Name="org.osmdroid.views.overlay.simplefastpoint">
             <Package>org.osmdroid.util</Package>
-            <Package>org.osmdroid.config</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
-            <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
+            <Package>org.osmdroid.views</Package>
+            <Package>org.osmdroid.util</Package>
         </Package>
 
         <Package Name="org.osmdroid.views.util">
             <Package>org.osmdroid.util</Package>
-            <Package>org.osmdroid.config</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
-            <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
+            <Package>org.osmdroid.views</Package>
+            <Package>org.osmdroid.util</Package>
         </Package>
 
     </Cycles>

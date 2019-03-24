@@ -10,15 +10,15 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.intro.AboutFragment
-	c36249 [label=<<table title="org.osmdroid.intro.AboutFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./AboutFragment.html">
+	c35392 [label=<<table title="org.osmdroid.intro.AboutFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./AboutFragment.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> AboutFragment </td></tr>
 		</table></td></tr>
 		</table>>, URL="./AboutFragment.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.intro.AboutFragment extends Fragment
-	c37164:p -> c36249:p [dir=back,arrowtail=empty];
+	c36316:p -> c35392:p [dir=back,arrowtail=empty];
 	// Fragment
-	c37164[label=<<table title="Fragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api//Fragment.html">
+	c36316[label=<<table title="Fragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api//Fragment.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> Fragment </td></tr>
 		</table></td></tr>

@@ -99,6 +99,66 @@ If you want the methods to just perform ASCII replacement, for example to conver
     </issue>
 
     <issue
+        id="DefaultLocale"
+        severity="Warning"
+        message="Implicitly using the default locale is a common source of bugs: Use `toLowerCase(Locale)` instead"
+        category="Correctness"
+        priority="6"
+        summary="Implied default locale in case conversion"
+        explanation="Calling `String#toLowerCase()` or `#toUpperCase()` *without specifying an explicit locale* is a common source of bugs. The reason for that is that those methods will use the current locale on the user&apos;s device, and even though the code appears to work correctly when you are developing the app, it will fail in some locales. For example, in the Turkish locale, the uppercase replacement for `i` is *not* `I`.
+
+If you want the methods to just perform ASCII replacement, for example to convert an enum name, call `String#toUpperCase(Locale.US)` instead. If you really want to use the current locale, call `String#toUpperCase(Locale.getDefault())` instead."
+        url="http://developer.android.com/reference/java/util/Locale.html#default_locale"
+        urls="http://developer.android.com/reference/java/util/Locale.html#default_locale"
+        errorLine1="                                    boolean secure = targetUrl.toLowerCase().startsWith(&quot;https://&quot;);"
+        errorLine2="                                                               ~~~~~~~~~~~">
+        <location
+            file=".\osmdroid-android\src\main\java\org\osmdroid\tileprovider\modules\TileDownloader.java"
+            line="100"
+            column="64"/>
+    </issue>
+
+    <issue
+        id="DefaultLocale"
+        severity="Warning"
+        message="Implicitly using the default locale is a common source of bugs: Use `toLowerCase(Locale)` instead"
+        category="Correctness"
+        priority="6"
+        summary="Implied default locale in case conversion"
+        explanation="Calling `String#toLowerCase()` or `#toUpperCase()` *without specifying an explicit locale* is a common source of bugs. The reason for that is that those methods will use the current locale on the user&apos;s device, and even though the code appears to work correctly when you are developing the app, it will fail in some locales. For example, in the Turkish locale, the uppercase replacement for `i` is *not* `I`.
+
+If you want the methods to just perform ASCII replacement, for example to convert an enum name, call `String#toUpperCase(Locale.US)` instead. If you really want to use the current locale, call `String#toUpperCase(Locale.getDefault())` instead."
+        url="http://developer.android.com/reference/java/util/Locale.html#default_locale"
+        urls="http://developer.android.com/reference/java/util/Locale.html#default_locale"
+        errorLine1="                                        if (targetUrl.toLowerCase().startsWith(&quot;http://&quot;)) {"
+        errorLine2="                                                      ~~~~~~~~~~~">
+        <location
+            file=".\osmdroid-android\src\main\java\org\osmdroid\tileprovider\modules\TileDownloader.java"
+            line="102"
+            column="55"/>
+    </issue>
+
+    <issue
+        id="DefaultLocale"
+        severity="Warning"
+        message="Implicitly using the default locale is a common source of bugs: Use `toLowerCase(Locale)` instead"
+        category="Correctness"
+        priority="6"
+        summary="Implied default locale in case conversion"
+        explanation="Calling `String#toLowerCase()` or `#toUpperCase()` *without specifying an explicit locale* is a common source of bugs. The reason for that is that those methods will use the current locale on the user&apos;s device, and even though the code appears to work correctly when you are developing the app, it will fail in some locales. For example, in the Turkish locale, the uppercase replacement for `i` is *not* `I`.
+
+If you want the methods to just perform ASCII replacement, for example to convert an enum name, call `String#toUpperCase(Locale.US)` instead. If you really want to use the current locale, call `String#toUpperCase(Locale.getDefault())` instead."
+        url="http://developer.android.com/reference/java/util/Locale.html#default_locale"
+        urls="http://developer.android.com/reference/java/util/Locale.html#default_locale"
+        errorLine1="            if (mime!=null &amp;&amp; !mime.toLowerCase().contains(&quot;image&quot;)) {"
+        errorLine2="                                    ~~~~~~~~~~~">
+        <location
+            file=".\osmdroid-android\src\main\java\org\osmdroid\tileprovider\modules\TileDownloader.java"
+            line="133"
+            column="37"/>
+    </issue>
+
+    <issue
         id="InlinedApi"
         severity="Warning"
         message="Field requires API level 11 (current min is 8): `android.view.View#LAYER_TYPE_SOFTWARE`"
@@ -115,7 +175,7 @@ If your code is *deliberately* accessing newer APIs, and you have ensured (e.g. 
         quickfix="studio,adt">
         <location
             file=".\osmdroid-android\src\main\java\org\osmdroid\views\MapView.java"
-            line="192"
+            line="196"
             column="22"/>
     </issue>
 
@@ -156,12 +216,37 @@ If your code is *deliberately* accessing newer APIs, and you have ensured (e.g. 
 If you are deliberately setting `android:` attributes in style definitions, make sure you place this in a `values-vNN` folder in order to avoid running into runtime conflicts on certain devices where manufacturers have added custom attributes whose ids conflict with the new ones on later platforms.
 
 Similarly, you can use tools:targetApi=&quot;11&quot; in an XML file to indicate that the element will only be inflated in an adequate context."
+        errorLine1="            mCurrentAnimator = mapAnimator;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+        quickfix="studio,adt">
+        <location
+            file=".\osmdroid-android\src\main\java\org\osmdroid\views\MapController.java"
+            line="155"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="NewApi"
+        severity="Error"
+        message="Cast from ValueAnimator to Animator requires API level 11 (current min is 8)"
+        category="Correctness"
+        priority="6"
+        summary="Calling new methods on older versions"
+        explanation="This check scans through all the Android API calls in the application and warns about any calls that are not available on *all* versions targeted by this application (according to its minimum SDK attribute in the manifest).
+
+If you really want to use this API and don&apos;t need to support older devices just set the `minSdkVersion` in your `build.gradle` or `AndroidManifest.xml` files.
+
+If your code is *deliberately* accessing newer APIs, and you have ensured (e.g. with conditional execution) that this code will only ever be called on a supported platform, then you can annotate your class or method with the `@TargetApi` annotation specifying the local minimum SDK to apply, such as `@TargetApi(11)`, such that this check considers 11 rather than your manifest file&apos;s minimum SDK as the required API level.
+
+If you are deliberately setting `android:` attributes in style definitions, make sure you place this in a `values-vNN` folder in order to avoid running into runtime conflicts on certain devices where manufacturers have added custom attributes whose ids conflict with the new ones on later platforms.
+
+Similarly, you can use tools:targetApi=&quot;11&quot; in an XML file to indicate that the element will only be inflated in an adequate context."
         errorLine1="            mCurrentAnimator = zoomToAnimator;"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
         quickfix="studio,adt">
         <location
             file=".\osmdroid-android\src\main\java\org\osmdroid\views\MapController.java"
-            line="353"
+            line="378"
             column="13"/>
     </issue>
 
@@ -214,7 +299,7 @@ To fix this issue, set the `targetSdkVersion` to the highest available value. Th
     <issue
         id="GradleOverrides"
         severity="Warning"
-        message="This `versionCode` value (`1`) is not used; it is always overridden by the value specified in the Gradle build script (`31`)"
+        message="This `versionCode` value (`1`) is not used; it is always overridden by the value specified in the Gradle build script (`32`)"
         category="Correctness"
         priority="4"
         summary="Value overridden by Gradle build script"
@@ -230,7 +315,7 @@ To fix this issue, set the `targetSdkVersion` to the highest available value. Th
     <issue
         id="GradleOverrides"
         severity="Warning"
-        message="This `versionName` value (`5.3-SNAPSHOT`) is not used; it is always overridden by the value specified in the Gradle build script (`6.0.1`)"
+        message="This `versionName` value (`5.3-SNAPSHOT`) is not used; it is always overridden by the value specified in the Gradle build script (`6.0.2`)"
         category="Correctness"
         priority="4"
         summary="Value overridden by Gradle build script"

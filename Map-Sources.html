@@ -8,7 +8,7 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta name="Date-Creation-yyyymmdd" content="20080101"/>
-    <meta name="Date-Revision-yyyymmdd" content="20180218"/>
+    <meta name="Date-Revision-yyyymmdd" content="20180716"/>
     <meta http-equiv="Content-Language" content="en"/>
     <title> osmdroid</title>
     <link rel="stylesheet" href="./css/apache-maven-fluido-1.4.min.css"/>
@@ -65,10 +65,10 @@
             </li>
 
             <li id="publishDate" class="pull-right"><span class="divider">|</span> Last Published:
-                2018-02-18
+                2018-07-16
             </li>
             <li id="projectVersion" class="pull-right">
-                6.0.1
+                6.0.2
             </li>
 
         </ul>
@@ -284,14 +284,14 @@
             <h1>Map Sources</h1>
 <p>This document is all about Map Sources, Tile loading, caching, offline setups and more</p>
 <h1>Map Projections</h1>
-<p>What map projection does osmdroid use and or support? There are tons of map projections out there. The important part to know is that osmdroid is based on Open Street Maps, which currently uses the EPSG:3857 projection.</p>
+<p>What map projection does osmdroid use and or support? There are tons of map projections out there. The important part to know is that osmdroid is based on OpenStreetMap, which currently uses the EPSG:3857 projection.</p>
 <p>It is possible to support different projections with osmdroid, but you'll either need to preprocess the imagery (convert it) or use a WMS based product like <a href="http://geoserver.org/">http://geoserver.org/</a> in conjunction with MOBAC to prepare offline tile packages. It may also be possible to add WMS support to osmdroid.</p>
-<p>Related source material from Open Street Maps
-<a href="http://wiki.openstreetmap.org/wiki/Perl/Projected_version_of_an_OSM_extract">http://wiki.openstreetmap.org/wiki/Perl/Projected_version_of_an_OSM_extract</a></p>
+<p>Related source material from OpenStreetMap
+<a href="https://wiki.openstreetmap.org/wiki/A_projected_version_of_an_OSM_extract">https://wiki.openstreetmap.org/wiki/A_projected_version_of_an_OSM_extract</a></p>
 <h1>What map tile numbering system does osmdroid support?</h1>
 <ul>
 <li>
-<p>ZXY - osmdroid is based on Open Street Maps, which uses something called the &quot;Slippy Map Format&quot;. It's the same format used by many of the common map providers. Most online tile sources use the Zoom/X/Y URL format where X and Y are integer coordinates based on dividing the entire map into quadrants. This is the natively supported format for osmdroid.</p>
+<p>ZXY - osmdroid is based on OpenStreetMap, which uses something called the &quot;Slippy Map Format&quot;. It's the same format used by many of the common map providers. Most online tile sources use the Zoom/X/Y URL format where X and Y are integer coordinates based on dividing the entire map into quadrants. This is the natively supported format for osmdroid.</p>
 </li>
 <li>
 <p>ZYX - Some map tile servers, such as some ESRI based products, use the Zoom/Y/X URL format. Since it's trivial to convert to ZXY, support for this format is easy to setup on osmdroid. We currently have at least one map source that uses this mechanism (see USGS maps).</p>
@@ -341,6 +341,15 @@ final MapTileProviderArray tileProviderArray = new MapTileProviderArray(
 mMapView = new MapView(context, 256, new DefaultResourceProxyImpl(context), tileProviderArray);
 </code></pre>
 <h2>Using a different Tile Source</h2>
+<p>Here's an example to display the &quot;Humanitarian&quot; tiles as seen at OpenStreetMap.org:</p>
+<pre><code class="language-java">// Create a custom tile source
+final ITileSource tileSource = new XYTileSource( &quot;HOT&quot;, 1, 20, 256, &quot;.png&quot;,
+         new String[] {
+               &quot;http://a.tile.openstreetmap.fr/&quot;,
+	       &quot;http://b.tile.openstreetmap.fr/&quot;,
+	       &quot;http://c.tile.openstreetmap.fr/&quot; },&quot;© OpenStreetMap contributors&quot;);
+        mMapView.setTileSource(tileSource);
+</code></pre>
 <p>osmdroid comes with a bunch of tile sources preprogrammed for sources available on the internet. Some require API keys or additional information due to usage restrictions, developers accounts, pay schemes, etc. The following example will show you how to switch tile sources at runtime.</p>
 <p>To set to USGS satellite:</p>
 <pre><code>mMapView.setTileSource(TileSourceFactory.USGS_SAT);
@@ -359,13 +368,26 @@ mMapView = new MapView(context, 256, new DefaultResourceProxyImpl(context), tile
                }
           });
 </code></pre>
-<p>osmdroid version &gt;= 5</p>
+<p>osmdroid version &gt;= 5 and &lt; 6</p>
 <pre><code>mMapView.setTileSource(new OnlineTileSourceBase(&quot;USGS Topo&quot;, 0, 18, 256, &quot;&quot;, 
                new String[] { &quot;http://basemap.nationalmap.gov/ArcGIS/rest/services/USGSTopo/MapServer/tile/&quot; }) {
                @Override
                public String getTileURLString(MapTile aTile) {
                     return getBaseUrl() + aTile.getZoomLevel() + &quot;/&quot; + aTile.getY() + &quot;/&quot; + aTile.getX()
 				+ mImageFilenameEnding;
+               }
+          });
+</code></pre>
+<p>osmdroid version &gt;= 6</p>
+<pre><code>mMapView.setTileSource(new OnlineTileSourceBase(&quot;USGS Topo&quot;, 0, 18, 256, &quot;&quot;, 
+               new String[] { &quot;http://basemap.nationalmap.gov/ArcGIS/rest/services/USGSTopo/MapServer/tile/&quot; }) {
+               @Override
+               public String getTileURLString(long pMapTileIndex) {
+                    return getBaseUrl()
+                           + MapTileIndex.getZoom(pMapTileIndex)
+                           + &quot;/&quot; + MapTileIndex.getY(pMapTileIndex)
+                           + &quot;/&quot; + MapTileIndex.getX(pMapTileIndex)
+                           + mImageFilenameEnding;
                }
           });
 </code></pre>
@@ -390,7 +412,7 @@ OpenStreetMapTileProviderConstants.setCacheSizes(1000L, 900L);
 <h1>Online Map Sources (out of the box)</h1>
 <p>osmdroid comes with a few map sources preconfigured for you to use. Usage access rules vary based on the source. Make sure you read the fine print for each</p>
 <p><strong>For the most up to date information, see <a href="https://github.com/osmdroid/osmdroid/blob/master/osmdroid-android/src/main/java/org/osmdroid/tileprovider/tilesource/TileSourceFactory.java">TileSourceFactory</a></strong></p>
-<h2>Mapnik (aka Open Street Maps)</h2>
+<h2>Mapnik (aka OpenStreetMap's &quot;standard&quot; style, more commonly called &quot;OSM Carto&quot;)</h2>
 <p>Required Java dependencies</p>
 <ul>
 <li>osmdroid-android</li>
@@ -432,7 +454,7 @@ Under manifest/application</p>
 &lt;meta-data android:name=&quot;HEREWEGO_APPID&quot; android:value=&quot;YOUR TOKEN&quot; /&gt;
 &lt;meta-data android:name=&quot;HEREWEGO_APPCODE&quot; android:value=&quot;YOUR TOKEN&quot; /&gt;
 </code></pre>
-<h2>Cloud made</h2>
+<h2>Cloudmade</h2>
 <p>Required Java dependencies</p>
 <ul>
 <li>osmdroid-android</li>
@@ -446,7 +468,7 @@ Under manifest/application</p>
 final ITileSource tileSource = TileSourceFactory.CLOUDMADESTANDARDTILES;
 mMapView.setTileSource(tileSource);
 </code></pre>
-<h2>Map Box</h2>
+<h2>Mapbox</h2>
 <p>Note: This was updated with v5.3</p>
 <p>Required Java dependencies</p>
 <ul>

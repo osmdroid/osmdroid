@@ -10,18 +10,18 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.views.overlay.MinimapOverlay
-	c34034 [label=<<table title="org.osmdroid.views.overlay.MinimapOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./MinimapOverlay.html">
+	c38318 [label=<<table title="org.osmdroid.views.overlay.MinimapOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./MinimapOverlay.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MinimapOverlay </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MinimapOverlay.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.TilesOverlay
-	c34066 [label=<<table title="org.osmdroid.views.overlay.TilesOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./TilesOverlay.html">
+	c38351 [label=<<table title="org.osmdroid.views.overlay.TilesOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./TilesOverlay.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> TilesOverlay </td></tr>
 		</table></td></tr>
 		</table>>, URL="./TilesOverlay.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.views.overlay.MinimapOverlay extends org.osmdroid.views.overlay.TilesOverlay
-	c34066:p -> c34034:p [dir=back,arrowtail=empty];
+	c38351:p -> c38318:p [dir=back,arrowtail=empty];
 }
 

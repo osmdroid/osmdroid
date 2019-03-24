@@ -10,26 +10,26 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.samplefragments.models.MyMapItem
-	c190368 [label=<<table title="org.osmdroid.samplefragments.models.MyMapItem" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../samplefragments/models/MyMapItem.html">
+	c192620 [label=<<table title="org.osmdroid.samplefragments.models.MyMapItem" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../samplefragments/models/MyMapItem.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MyMapItem </td></tr>
 		</table></td></tr>
 		</table>>, URL="../../samplefragments/models/MyMapItem.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.models.SampleOverlayItem
-	c190370 [label=<<table title="org.osmdroid.samplefragments.models.SampleOverlayItem" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../samplefragments/models/SampleOverlayItem.html">
+	c192622 [label=<<table title="org.osmdroid.samplefragments.models.SampleOverlayItem" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../samplefragments/models/SampleOverlayItem.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleOverlayItem </td></tr>
 		</table></td></tr>
 		</table>>, URL="../../samplefragments/models/SampleOverlayItem.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.OverlayItem
-	c190582 [label=<<table title="org.osmdroid.views.overlay.OverlayItem" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./OverlayItem.html">
+	c192848 [label=<<table title="org.osmdroid.views.overlay.OverlayItem" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./OverlayItem.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> OverlayItem </td></tr>
 		</table></td></tr>
 		</table>>, URL="./OverlayItem.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.samplefragments.models.MyMapItem extends org.osmdroid.views.overlay.OverlayItem
-	c190582:p -> c190368:p [dir=back,arrowtail=empty];
+	c192848:p -> c192620:p [dir=back,arrowtail=empty];
 	//org.osmdroid.samplefragments.models.SampleOverlayItem extends org.osmdroid.views.overlay.OverlayItem
-	c190582:p -> c190370:p [dir=back,arrowtail=empty];
+	c192848:p -> c192622:p [dir=back,arrowtail=empty];
 }
 

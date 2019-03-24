@@ -10,19 +10,19 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerCallback
-	c7820 [label=<<table title="org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerCallback" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./CacheManager.CacheManagerCallback.html">
+	c8113 [label=<<table title="org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerCallback" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./CacheManager.CacheManagerCallback.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> CacheManagerCallback </td></tr>
 		</table></td></tr>
 		</table>>, URL="./CacheManager.CacheManagerCallback.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerDialog
-	c7821 [label=<<table title="org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerDialog" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./CacheManager.CacheManagerDialog.html">
+	c8114 [label=<<table title="org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerDialog" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./CacheManager.CacheManagerDialog.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> CacheManagerDialog </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./CacheManager.CacheManagerDialog.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerDialog implements org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerCallback
-	c7820:p -> c7821:p [dir=back,arrowtail=empty,style=dashed];
+	c8113:p -> c8114:p [dir=back,arrowtail=empty,style=dashed];
 }
 

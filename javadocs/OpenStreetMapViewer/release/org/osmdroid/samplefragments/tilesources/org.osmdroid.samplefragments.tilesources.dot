@@ -10,112 +10,118 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.samplefragments.tilesources.NasaWms111Source
-	c5378 [label=<<table title="org.osmdroid.samplefragments.tilesources.NasaWms111Source" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./NasaWms111Source.html">
+	c6204 [label=<<table title="org.osmdroid.samplefragments.tilesources.NasaWms111Source" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./NasaWms111Source.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> NasaWms111Source </td></tr>
 		</table></td></tr>
 		</table>>, URL="./NasaWms111Source.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.tilesources.NasaWms130Source
-	c5379 [label=<<table title="org.osmdroid.samplefragments.tilesources.NasaWms130Source" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./NasaWms130Source.html">
+	c6205 [label=<<table title="org.osmdroid.samplefragments.tilesources.NasaWms130Source" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./NasaWms130Source.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> NasaWms130Source </td></tr>
 		</table></td></tr>
 		</table>>, URL="./NasaWms130Source.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.tilesources.NasaWmsSrs
-	c5380 [label=<<table title="org.osmdroid.samplefragments.tilesources.NasaWmsSrs" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./NasaWmsSrs.html">
+	c6206 [label=<<table title="org.osmdroid.samplefragments.tilesources.NasaWmsSrs" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./NasaWmsSrs.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> NasaWmsSrs </td></tr>
 		</table></td></tr>
 		</table>>, URL="./NasaWmsSrs.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.tilesources.SampleBingHybrid
-	c5381 [label=<<table title="org.osmdroid.samplefragments.tilesources.SampleBingHybrid" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleBingHybrid.html">
+	c6207 [label=<<table title="org.osmdroid.samplefragments.tilesources.SampleBingHybrid" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleBingHybrid.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleBingHybrid </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SampleBingHybrid.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.tilesources.SampleBingRoad
-	c5382 [label=<<table title="org.osmdroid.samplefragments.tilesources.SampleBingRoad" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleBingRoad.html">
+	c6208 [label=<<table title="org.osmdroid.samplefragments.tilesources.SampleBingRoad" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleBingRoad.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleBingRoad </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SampleBingRoad.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.tilesources.SampleCopyrightOverlay
-	c5383 [label=<<table title="org.osmdroid.samplefragments.tilesources.SampleCopyrightOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleCopyrightOverlay.html">
+	c6209 [label=<<table title="org.osmdroid.samplefragments.tilesources.SampleCopyrightOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleCopyrightOverlay.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleCopyrightOverlay </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SampleCopyrightOverlay.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.tilesources.SampleCustomLoadingImage
-	c5384 [label=<<table title="org.osmdroid.samplefragments.tilesources.SampleCustomLoadingImage" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleCustomLoadingImage.html">
+	c6210 [label=<<table title="org.osmdroid.samplefragments.tilesources.SampleCustomLoadingImage" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleCustomLoadingImage.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleCustomLoadingImage </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SampleCustomLoadingImage.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.tilesources.SampleCustomTileSource
-	c5385 [label=<<table title="org.osmdroid.samplefragments.tilesources.SampleCustomTileSource" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleCustomTileSource.html">
+	c6211 [label=<<table title="org.osmdroid.samplefragments.tilesources.SampleCustomTileSource" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleCustomTileSource.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleCustomTileSource </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SampleCustomTileSource.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.tilesources.SampleHereWeGo
-	c5386 [label=<<table title="org.osmdroid.samplefragments.tilesources.SampleHereWeGo" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleHereWeGo.html">
+	c6212 [label=<<table title="org.osmdroid.samplefragments.tilesources.SampleHereWeGo" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleHereWeGo.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleHereWeGo </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SampleHereWeGo.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.tilesources.SampleInvertedTiles_NightMode
-	c5387 [label=<<table title="org.osmdroid.samplefragments.tilesources.SampleInvertedTiles_NightMode" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleInvertedTiles_NightMode.html">
+	c6213 [label=<<table title="org.osmdroid.samplefragments.tilesources.SampleInvertedTiles_NightMode" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleInvertedTiles_NightMode.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleInvertedTiles_NightMode </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SampleInvertedTiles_NightMode.html", fontname="arial", fontcolor="black", fontsize=10.0];
+	// org.osmdroid.samplefragments.tilesources.SampleLieFi
+	c6214 [label=<<table title="org.osmdroid.samplefragments.tilesources.SampleLieFi" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleLieFi.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> SampleLieFi </td></tr>
+		</table></td></tr>
+		</table>>, URL="./SampleLieFi.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.tilesources.SampleMapBox
-	c5388 [label=<<table title="org.osmdroid.samplefragments.tilesources.SampleMapBox" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleMapBox.html">
+	c6215 [label=<<table title="org.osmdroid.samplefragments.tilesources.SampleMapBox" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleMapBox.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleMapBox </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SampleMapBox.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.tilesources.SampleMapQuest
-	c5389 [label=<<table title="org.osmdroid.samplefragments.tilesources.SampleMapQuest" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleMapQuest.html">
+	c6216 [label=<<table title="org.osmdroid.samplefragments.tilesources.SampleMapQuest" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleMapQuest.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleMapQuest </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SampleMapQuest.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.tilesources.SampleOpenSeaMap
-	c5390 [label=<<table title="org.osmdroid.samplefragments.tilesources.SampleOpenSeaMap" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleOpenSeaMap.html">
+	c6217 [label=<<table title="org.osmdroid.samplefragments.tilesources.SampleOpenSeaMap" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleOpenSeaMap.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleOpenSeaMap </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SampleOpenSeaMap.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.tilesources.SampleWhackyColorFilter
-	c5391 [label=<<table title="org.osmdroid.samplefragments.tilesources.SampleWhackyColorFilter" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleWhackyColorFilter.html">
+	c6218 [label=<<table title="org.osmdroid.samplefragments.tilesources.SampleWhackyColorFilter" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleWhackyColorFilter.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleWhackyColorFilter </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SampleWhackyColorFilter.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.tilesources.SampleWMSSource
-	c5392 [label=<<table title="org.osmdroid.samplefragments.tilesources.SampleWMSSource" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleWMSSource.html">
+	c6219 [label=<<table title="org.osmdroid.samplefragments.tilesources.SampleWMSSource" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleWMSSource.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleWMSSource </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SampleWMSSource.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.tilesources.SepiaToneTiles
-	c5393 [label=<<table title="org.osmdroid.samplefragments.tilesources.SepiaToneTiles" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SepiaToneTiles.html">
+	c6220 [label=<<table title="org.osmdroid.samplefragments.tilesources.SepiaToneTiles" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SepiaToneTiles.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SepiaToneTiles </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SepiaToneTiles.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.tilesources.USGSTileSource
-	c5394 [label=<<table title="org.osmdroid.samplefragments.tilesources.USGSTileSource" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./USGSTileSource.html">
+	c6221 [label=<<table title="org.osmdroid.samplefragments.tilesources.USGSTileSource" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./USGSTileSource.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> USGSTileSource </td></tr>
 		</table></td></tr>
 		</table>>, URL="./USGSTileSource.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.samplefragments.tilesources.NasaWms111Source extends org.osmdroid.samplefragments.tilesources.SampleWMSSource
-	c5392:p -> c5378:p [dir=back,arrowtail=empty];
+	c6219:p -> c6204:p [dir=back,arrowtail=empty];
 	//org.osmdroid.samplefragments.tilesources.NasaWms130Source extends org.osmdroid.samplefragments.tilesources.SampleWMSSource
-	c5392:p -> c5379:p [dir=back,arrowtail=empty];
+	c6219:p -> c6205:p [dir=back,arrowtail=empty];
 	//org.osmdroid.samplefragments.tilesources.NasaWmsSrs extends org.osmdroid.samplefragments.tilesources.SampleWMSSource
-	c5392:p -> c5380:p [dir=back,arrowtail=empty];
+	c6219:p -> c6206:p [dir=back,arrowtail=empty];
 }
 

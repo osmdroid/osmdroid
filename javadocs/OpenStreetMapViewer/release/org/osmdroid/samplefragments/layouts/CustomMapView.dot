@@ -10,15 +10,15 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.samplefragments.layouts.CustomMapView
-	c11573 [label=<<table title="org.osmdroid.samplefragments.layouts.CustomMapView" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./CustomMapView.html">
+	c13062 [label=<<table title="org.osmdroid.samplefragments.layouts.CustomMapView" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./CustomMapView.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> CustomMapView </td></tr>
 		</table></td></tr>
 		</table>>, URL="./CustomMapView.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.samplefragments.layouts.CustomMapView extends org.osmdroid.views.MapView
-	c11657:p -> c11573:p [dir=back,arrowtail=empty];
+	c13147:p -> c13062:p [dir=back,arrowtail=empty];
 	// org.osmdroid.views.MapView
-	c11657 [label=<<table title="org.osmdroid.views.MapView" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/org/osmdroid/views/MapView.html">
+	c13147 [label=<<table title="org.osmdroid.views.MapView" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/org/osmdroid/views/MapView.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MapView </td></tr>
 		</table></td></tr>

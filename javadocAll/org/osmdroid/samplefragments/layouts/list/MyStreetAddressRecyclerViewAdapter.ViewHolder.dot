@@ -10,15 +10,15 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.samplefragments.layouts.list.MyStreetAddressRecyclerViewAdapter.ViewHolder
-	c175968 [label=<<table title="org.osmdroid.samplefragments.layouts.list.MyStreetAddressRecyclerViewAdapter.ViewHolder" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./MyStreetAddressRecyclerViewAdapter.ViewHolder.html">
+	c178658 [label=<<table title="org.osmdroid.samplefragments.layouts.list.MyStreetAddressRecyclerViewAdapter.ViewHolder" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./MyStreetAddressRecyclerViewAdapter.ViewHolder.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> ViewHolder </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MyStreetAddressRecyclerViewAdapter.ViewHolder.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.samplefragments.layouts.list.MyStreetAddressRecyclerViewAdapter.ViewHolder extends RecyclerView.ViewHolder
-	c176327:p -> c175968:p [dir=back,arrowtail=empty];
+	c179017:p -> c178658:p [dir=back,arrowtail=empty];
 	// RecyclerView.ViewHolder
-	c176327[label=<<table title="RecyclerView.ViewHolder" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/RecyclerView/ViewHolder.html">
+	c179017[label=<<table title="RecyclerView.ViewHolder" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/RecyclerView/ViewHolder.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> RecyclerView.ViewHolder </td></tr>
 		</table></td></tr>

@@ -10,18 +10,18 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.samplefragments.BaseSampleFragment
-	c216013 [label=<<table title="org.osmdroid.samplefragments.BaseSampleFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../BaseSampleFragment.html">
+	c218861 [label=<<table title="org.osmdroid.samplefragments.BaseSampleFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../BaseSampleFragment.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> BaseSampleFragment </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="../BaseSampleFragment.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.location.SampleCustomIconDirectedLocationOverlay
-	c216093 [label=<<table title="org.osmdroid.samplefragments.location.SampleCustomIconDirectedLocationOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./SampleCustomIconDirectedLocationOverlay.html">
+	c218946 [label=<<table title="org.osmdroid.samplefragments.location.SampleCustomIconDirectedLocationOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./SampleCustomIconDirectedLocationOverlay.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleCustomIconDirectedLocationOverlay </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SampleCustomIconDirectedLocationOverlay.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.samplefragments.location.SampleCustomIconDirectedLocationOverlay extends org.osmdroid.samplefragments.BaseSampleFragment
-	c216013:p -> c216093:p [dir=back,arrowtail=empty];
+	c218861:p -> c218946:p [dir=back,arrowtail=empty];
 }
 

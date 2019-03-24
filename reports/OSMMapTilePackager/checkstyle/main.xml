@@ -11,35 +11,37 @@
 <error line="181" column="11" severity="warning" message="Redundant &apos;public&apos; modifier." source="com.puppycrawl.tools.checkstyle.checks.modifier.RedundantModifierCheck"/>
 <error line="184" column="6" severity="warning" message="Fields and methods should be before inner classes." source="com.puppycrawl.tools.checkstyle.checks.design.InnerTypeLastCheck"/>
 <error line="184" column="25" severity="warning" message="More than 7 parameters (found 12)." source="com.puppycrawl.tools.checkstyle.checks.sizes.ParameterNumberCheck"/>
-<error line="189" severity="warning" message="Line is longer than 100 characters (found 151)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="211" severity="warning" message="Line is longer than 100 characters (found 228)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="211" column="6" severity="warning" message="Fields and methods should be before inner classes." source="com.puppycrawl.tools.checkstyle.checks.design.InnerTypeLastCheck"/>
-<error line="211" column="26" severity="warning" message="More than 7 parameters (found 8)." source="com.puppycrawl.tools.checkstyle.checks.sizes.ParameterNumberCheck"/>
-<error line="213" severity="warning" message="Line is longer than 100 characters (found 132)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="217" severity="warning" message="Line is longer than 100 characters (found 106)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="222" severity="warning" message="Line is longer than 100 characters (found 134)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="226" column="6" severity="warning" message="Fields and methods should be before inner classes." source="com.puppycrawl.tools.checkstyle.checks.design.InnerTypeLastCheck"/>
-<error line="253" severity="warning" message="Line is longer than 100 characters (found 101)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="253" column="6" severity="warning" message="Fields and methods should be before inner classes." source="com.puppycrawl.tools.checkstyle.checks.design.InnerTypeLastCheck"/>
-<error line="255" severity="warning" message="Line is longer than 100 characters (found 116)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="265" column="6" severity="warning" message="Fields and methods should be before inner classes." source="com.puppycrawl.tools.checkstyle.checks.design.InnerTypeLastCheck"/>
-<error line="275" column="6" severity="warning" message="Fields and methods should be before inner classes." source="com.puppycrawl.tools.checkstyle.checks.design.InnerTypeLastCheck"/>
-<error line="285" column="6" severity="warning" message="Fields and methods should be before inner classes." source="com.puppycrawl.tools.checkstyle.checks.design.InnerTypeLastCheck"/>
-<error line="286" severity="warning" message="&apos;if&apos; construct must use &apos;{}&apos;s." source="com.puppycrawl.tools.checkstyle.checks.blocks.NeedBracesCheck"/>
-<error line="295" severity="warning" message="Line is longer than 100 characters (found 112)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="295" column="6" severity="warning" message="Fields and methods should be before inner classes." source="com.puppycrawl.tools.checkstyle.checks.design.InnerTypeLastCheck"/>
-<error line="295" column="6" severity="warning" message="Method length is 41 lines (max allowed is 40)." source="com.puppycrawl.tools.checkstyle.checks.sizes.MethodLengthCheck"/>
-<error line="295" column="26" severity="warning" message="More than 7 parameters (found 11)." source="com.puppycrawl.tools.checkstyle.checks.sizes.ParameterNumberCheck"/>
-<error line="297" severity="warning" message="Line is longer than 100 characters (found 121)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="318" severity="warning" message="Line is longer than 100 characters (found 106)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="339" severity="warning" message="Line is longer than 100 characters (found 162)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="339" column="6" severity="warning" message="Fields and methods should be before inner classes." source="com.puppycrawl.tools.checkstyle.checks.design.InnerTypeLastCheck"/>
-<error line="354" severity="warning" message="Line is longer than 100 characters (found 172)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="354" column="6" severity="warning" message="Fields and methods should be before inner classes." source="com.puppycrawl.tools.checkstyle.checks.design.InnerTypeLastCheck"/>
-<error line="356" severity="warning" message="Line is longer than 100 characters (found 115)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="362" column="6" severity="warning" message="Fields and methods should be before inner classes." source="com.puppycrawl.tools.checkstyle.checks.design.InnerTypeLastCheck"/>
-<error line="371" column="39" severity="warning" message="Must have at least one statement." source="com.puppycrawl.tools.checkstyle.checks.blocks.EmptyBlockCheck"/>
-<error line="372" column="29" severity="warning" message="&apos;}&apos; should be on a new line." source="com.puppycrawl.tools.checkstyle.checks.blocks.RightCurlyCheck"/>
+<error line="189" column="25" severity="warning" message="&apos;!=&apos; is not preceded with whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
+<error line="189" column="27" severity="warning" message="&apos;!=&apos; is not followed by whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
+<error line="190" severity="warning" message="Line is longer than 100 characters (found 154)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="215" severity="warning" message="Line is longer than 100 characters (found 228)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="215" column="6" severity="warning" message="Fields and methods should be before inner classes." source="com.puppycrawl.tools.checkstyle.checks.design.InnerTypeLastCheck"/>
+<error line="215" column="26" severity="warning" message="More than 7 parameters (found 8)." source="com.puppycrawl.tools.checkstyle.checks.sizes.ParameterNumberCheck"/>
+<error line="217" severity="warning" message="Line is longer than 100 characters (found 132)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="221" severity="warning" message="Line is longer than 100 characters (found 106)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="226" severity="warning" message="Line is longer than 100 characters (found 134)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="230" column="6" severity="warning" message="Fields and methods should be before inner classes." source="com.puppycrawl.tools.checkstyle.checks.design.InnerTypeLastCheck"/>
+<error line="257" severity="warning" message="Line is longer than 100 characters (found 101)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="257" column="6" severity="warning" message="Fields and methods should be before inner classes." source="com.puppycrawl.tools.checkstyle.checks.design.InnerTypeLastCheck"/>
+<error line="259" severity="warning" message="Line is longer than 100 characters (found 116)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="269" column="6" severity="warning" message="Fields and methods should be before inner classes." source="com.puppycrawl.tools.checkstyle.checks.design.InnerTypeLastCheck"/>
+<error line="279" column="6" severity="warning" message="Fields and methods should be before inner classes." source="com.puppycrawl.tools.checkstyle.checks.design.InnerTypeLastCheck"/>
+<error line="289" column="6" severity="warning" message="Fields and methods should be before inner classes." source="com.puppycrawl.tools.checkstyle.checks.design.InnerTypeLastCheck"/>
+<error line="290" severity="warning" message="&apos;if&apos; construct must use &apos;{}&apos;s." source="com.puppycrawl.tools.checkstyle.checks.blocks.NeedBracesCheck"/>
+<error line="299" severity="warning" message="Line is longer than 100 characters (found 112)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="299" column="6" severity="warning" message="Fields and methods should be before inner classes." source="com.puppycrawl.tools.checkstyle.checks.design.InnerTypeLastCheck"/>
+<error line="299" column="6" severity="warning" message="Method length is 41 lines (max allowed is 40)." source="com.puppycrawl.tools.checkstyle.checks.sizes.MethodLengthCheck"/>
+<error line="299" column="26" severity="warning" message="More than 7 parameters (found 11)." source="com.puppycrawl.tools.checkstyle.checks.sizes.ParameterNumberCheck"/>
+<error line="301" severity="warning" message="Line is longer than 100 characters (found 121)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="322" severity="warning" message="Line is longer than 100 characters (found 106)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="343" severity="warning" message="Line is longer than 100 characters (found 162)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="343" column="6" severity="warning" message="Fields and methods should be before inner classes." source="com.puppycrawl.tools.checkstyle.checks.design.InnerTypeLastCheck"/>
+<error line="358" severity="warning" message="Line is longer than 100 characters (found 172)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="358" column="6" severity="warning" message="Fields and methods should be before inner classes." source="com.puppycrawl.tools.checkstyle.checks.design.InnerTypeLastCheck"/>
+<error line="360" severity="warning" message="Line is longer than 100 characters (found 115)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="366" column="6" severity="warning" message="Fields and methods should be before inner classes." source="com.puppycrawl.tools.checkstyle.checks.design.InnerTypeLastCheck"/>
+<error line="375" column="39" severity="warning" message="Must have at least one statement." source="com.puppycrawl.tools.checkstyle.checks.blocks.EmptyBlockCheck"/>
+<error line="376" column="29" severity="warning" message="&apos;}&apos; should be on a new line." source="com.puppycrawl.tools.checkstyle.checks.blocks.RightCurlyCheck"/>
 </file>
 <file name=".\OSMMapTilePackager\src\main\java\org\osmdroid\mtp\adt\OSMTileInfo.java">
 <error line="14" severity="warning" message="Line is longer than 100 characters (found 106)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>

@@ -1,13 +1,13 @@
 <?xml version="1.0"?>
 <javancss>
-  <date>2018-02-18</date>
-  <time>15:03:40</time>
+  <date>2018-07-16</date>
+  <time>16:38:59</time>
   <packages>
     <package>
       <name>org.osmdroid.wms</name>
       <classes>7</classes>
       <functions>52</functions>
-      <ncss>485</ncss>
+      <ncss>491</ncss>
       <javadocs>9</javadocs>
       <javadoc_lines>94</javadoc_lines>
       <single_comment_lines>38</single_comment_lines>
@@ -16,7 +16,7 @@
     <total>
       <classes>7</classes>
       <functions>52</functions>
-      <ncss>485</ncss>
+      <ncss>491</ncss>
       <javadocs>9</javadocs>
       <javadoc_lines>94</javadoc_lines>
       <single_comment_lines>38</single_comment_lines>
@@ -24,17 +24,17 @@
     </total>
     <table>
       <tr><td>Packages</td><td>Classes</td><td>Functions</td><td>NCSS</td><td>Javadocs</td><td>per</td></tr>
-      <tr><td>1.00</td><td>7.00</td><td>52.00</td><td>485.00</td><td>9.00</td><td>Project</td></tr>
-      <tr><td></td><td>7.00</td><td>52.00</td><td>485.00</td><td>9.00</td><td>Package</td></tr>
-      <tr><td></td><td></td><td>7.43</td><td>69.29</td><td>1.29</td><td>Class</td></tr>
-      <tr><td></td><td></td><td></td><td>9.33</td><td>0.17</td><td>Function</td></tr>
+      <tr><td>1.00</td><td>7.00</td><td>52.00</td><td>491.00</td><td>9.00</td><td>Project</td></tr>
+      <tr><td></td><td>7.00</td><td>52.00</td><td>491.00</td><td>9.00</td><td>Package</td></tr>
+      <tr><td></td><td></td><td>7.43</td><td>70.14</td><td>1.29</td><td>Class</td></tr>
+      <tr><td></td><td></td><td></td><td>9.44</td><td>0.17</td><td>Function</td></tr>
     </table>
   </packages>
 
   <objects>
     <object>
       <name>org.osmdroid.wms.DomParserWms111</name>
-      <ncss>167</ncss>
+      <ncss>172</ncss>
       <functions>5</functions>
       <classes>0</classes>
       <javadocs>1</javadocs>
@@ -103,7 +103,7 @@
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <averages>
-      <ncss>62.14</ncss>
+      <ncss>62.86</ncss>
       <functions>7.43</functions>
       <classes>0.29</classes>
       <javadocs>1.29</javadocs>
@@ -111,7 +111,7 @@
       <single_comment_lines>5.43</single_comment_lines>
       <implementation_comment_lines>0.00</implementation_comment_lines>
     </averages>
-    <ncss>485.00</ncss>
+    <ncss>491.00</ncss>
   </objects>
 
   <functions>
@@ -135,8 +135,8 @@
     </function>
     <function>
       <name>org.osmdroid.wms.DomParserWms111.parseLayers(Node)</name>
-      <ncss>76</ncss>
-      <ccn>26</ccn>
+      <ncss>81</ncss>
+      <ccn>28</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
@@ -440,11 +440,11 @@
       <javadocs>0</javadocs>
     </function>
     <function_averages>
-      <ncss>7.50</ncss>
-      <ccn>2.46</ccn>
+      <ncss>7.59</ncss>
+      <ccn>2.50</ccn>
       <javadocs>0.06</javadocs>
     </function_averages>
-    <ncss>485.00</ncss>
+    <ncss>491.00</ncss>
   </functions>
 </javancss>
 

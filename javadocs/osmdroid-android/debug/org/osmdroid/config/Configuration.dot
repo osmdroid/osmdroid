@@ -10,7 +10,7 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.config.Configuration
-	c9488 [label=<<table title="org.osmdroid.config.Configuration" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./Configuration.html">
+	c10118 [label=<<table title="org.osmdroid.config.Configuration" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./Configuration.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> Configuration </td></tr>
 		</table></td></tr>

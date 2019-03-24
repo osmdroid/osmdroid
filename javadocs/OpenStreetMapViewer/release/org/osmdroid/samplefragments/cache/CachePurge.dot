@@ -10,32 +10,32 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.samplefragments.BaseSampleFragment
-	c10549 [label=<<table title="org.osmdroid.samplefragments.BaseSampleFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../BaseSampleFragment.html">
+	c11993 [label=<<table title="org.osmdroid.samplefragments.BaseSampleFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../BaseSampleFragment.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> BaseSampleFragment </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="../BaseSampleFragment.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.cache.CachePurge
-	c10551 [label=<<table title="org.osmdroid.samplefragments.cache.CachePurge" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./CachePurge.html">
+	c11997 [label=<<table title="org.osmdroid.samplefragments.cache.CachePurge" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./CachePurge.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> CachePurge </td></tr>
 		</table></td></tr>
 		</table>>, URL="./CachePurge.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.samplefragments.cache.CachePurge extends org.osmdroid.samplefragments.BaseSampleFragment
-	c10549:p -> c10551:p [dir=back,arrowtail=empty];
+	c11993:p -> c11997:p [dir=back,arrowtail=empty];
 	//org.osmdroid.samplefragments.cache.CachePurge implements android.view.View.OnClickListener
-	c10686:p -> c10551:p [dir=back,arrowtail=empty,style=dashed];
+	c12136:p -> c11997:p [dir=back,arrowtail=empty,style=dashed];
 	//org.osmdroid.samplefragments.cache.CachePurge implements java.lang.Runnable
-	c10687:p -> c10551:p [dir=back,arrowtail=empty,style=dashed];
+	c12137:p -> c11997:p [dir=back,arrowtail=empty,style=dashed];
 	// java.lang.Runnable
-	c10687 [label=<<table title="java.lang.Runnable" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/java/lang/Runnable.html">
+	c12137 [label=<<table title="java.lang.Runnable" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/java/lang/Runnable.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> Runnable </td></tr>
 		</table></td></tr>
 		</table>>, URL="http://java.sun.com/j2se/1.4.2/docs/api/java/lang/Runnable.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// android.view.View.OnClickListener
-	c10686 [label=<<table title="android.view.View.OnClickListener" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/android/view/View/OnClickListener.html">
+	c12136 [label=<<table title="android.view.View.OnClickListener" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/android/view/View/OnClickListener.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> OnClickListener </td></tr>

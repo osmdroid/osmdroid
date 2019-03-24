@@ -152,32 +152,35 @@
 <error line="91" severity="warning" message="Line is longer than 100 characters (found 117)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
 </file>
 <file name=".\osmdroid-geopackage\src\main\java\org\osmdroid\gpkg\tiles\raster\GeoPackageMapTileModuleProvider.java">
-<error line="49" severity="warning" message="Line is longer than 100 characters (found 131)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="96" column="33" severity="warning" message="&apos;256&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
-<error line="97" column="32" severity="warning" message="&apos;256&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
-<error line="97" column="36" severity="warning" message="&apos;;&apos; is not followed by whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAfterCheck"/>
-<error line="126" severity="warning" message="Line is longer than 100 characters (found 120)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="128" severity="warning" message="Line is longer than 100 characters (found 175)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="129" severity="warning" message="Line is longer than 100 characters (found 156)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="129" column="99" severity="warning" message="&apos;cast&apos; is not followed by whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAfterCheck"/>
-<error line="129" column="126" severity="warning" message="&apos;cast&apos; is not followed by whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAfterCheck"/>
-<error line="152" severity="warning" message="Line is longer than 100 characters (found 116)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="154" severity="warning" message="Line is longer than 100 characters (found 171)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="155" severity="warning" message="Line is longer than 100 characters (found 144)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="155" column="87" severity="warning" message="&apos;cast&apos; is not followed by whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAfterCheck"/>
-<error line="155" column="114" severity="warning" message="&apos;cast&apos; is not followed by whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAfterCheck"/>
-<error line="187" column="23" severity="warning" message="Must have at least one statement." source="com.puppycrawl.tools.checkstyle.checks.blocks.EmptyBlockCheck"/>
-<error line="194" column="5" severity="warning" message="Fields and methods should be before inner classes." source="com.puppycrawl.tools.checkstyle.checks.design.InnerTypeLastCheck"/>
-<error line="199" column="5" severity="warning" message="Fields and methods should be before inner classes." source="com.puppycrawl.tools.checkstyle.checks.design.InnerTypeLastCheck"/>
-<error line="204" column="5" severity="warning" message="Fields and methods should be before inner classes." source="com.puppycrawl.tools.checkstyle.checks.design.InnerTypeLastCheck"/>
-<error line="209" column="5" severity="warning" message="Fields and methods should be before inner classes." source="com.puppycrawl.tools.checkstyle.checks.design.InnerTypeLastCheck"/>
-<error line="214" column="5" severity="warning" message="Fields and methods should be before inner classes." source="com.puppycrawl.tools.checkstyle.checks.design.InnerTypeLastCheck"/>
-<error line="216" severity="warning" message="&apos;if&apos; construct must use &apos;{}&apos;s." source="com.puppycrawl.tools.checkstyle.checks.blocks.NeedBracesCheck"/>
+<error line="18" column="8" severity="warning" message="Unused import - org.osmdroid.util.TileSystemWebMercator." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
+<error line="54" severity="warning" message="Line is longer than 100 characters (found 131)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="101" column="33" severity="warning" message="&apos;256&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
+<error line="102" column="32" severity="warning" message="&apos;256&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
+<error line="102" column="36" severity="warning" message="&apos;;&apos; is not followed by whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAfterCheck"/>
+<error line="131" severity="warning" message="Line is longer than 100 characters (found 138)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="132" severity="warning" message="Line is longer than 100 characters (found 107)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="133" severity="warning" message="Line is longer than 100 characters (found 121)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="138" severity="warning" message="Line is longer than 100 characters (found 156)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="138" column="99" severity="warning" message="&apos;cast&apos; is not followed by whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAfterCheck"/>
+<error line="138" column="126" severity="warning" message="&apos;cast&apos; is not followed by whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAfterCheck"/>
+<error line="160" severity="warning" message="Line is longer than 100 characters (found 134)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="161" severity="warning" message="Line is longer than 100 characters (found 103)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="163" severity="warning" message="Line is longer than 100 characters (found 117)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="167" severity="warning" message="Line is longer than 100 characters (found 144)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="167" column="87" severity="warning" message="&apos;cast&apos; is not followed by whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAfterCheck"/>
+<error line="167" column="114" severity="warning" message="&apos;cast&apos; is not followed by whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAfterCheck"/>
+<error line="199" column="23" severity="warning" message="Must have at least one statement." source="com.puppycrawl.tools.checkstyle.checks.blocks.EmptyBlockCheck"/>
+<error line="206" column="5" severity="warning" message="Fields and methods should be before inner classes." source="com.puppycrawl.tools.checkstyle.checks.design.InnerTypeLastCheck"/>
+<error line="211" column="5" severity="warning" message="Fields and methods should be before inner classes." source="com.puppycrawl.tools.checkstyle.checks.design.InnerTypeLastCheck"/>
+<error line="216" column="5" severity="warning" message="Fields and methods should be before inner classes." source="com.puppycrawl.tools.checkstyle.checks.design.InnerTypeLastCheck"/>
 <error line="221" column="5" severity="warning" message="Fields and methods should be before inner classes." source="com.puppycrawl.tools.checkstyle.checks.design.InnerTypeLastCheck"/>
-<error line="223" severity="warning" message="&apos;if&apos; construct must use &apos;{}&apos;s." source="com.puppycrawl.tools.checkstyle.checks.blocks.NeedBracesCheck"/>
-<error line="225" column="16" severity="warning" message="&apos;22&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
-<error line="228" column="5" severity="warning" message="Fields and methods should be before inner classes." source="com.puppycrawl.tools.checkstyle.checks.design.InnerTypeLastCheck"/>
-<error line="230" severity="warning" message="&apos;if&apos; construct must use &apos;{}&apos;s." source="com.puppycrawl.tools.checkstyle.checks.blocks.NeedBracesCheck"/>
+<error line="226" column="5" severity="warning" message="Fields and methods should be before inner classes." source="com.puppycrawl.tools.checkstyle.checks.design.InnerTypeLastCheck"/>
+<error line="228" severity="warning" message="&apos;if&apos; construct must use &apos;{}&apos;s." source="com.puppycrawl.tools.checkstyle.checks.blocks.NeedBracesCheck"/>
+<error line="233" column="5" severity="warning" message="Fields and methods should be before inner classes." source="com.puppycrawl.tools.checkstyle.checks.design.InnerTypeLastCheck"/>
+<error line="235" severity="warning" message="&apos;if&apos; construct must use &apos;{}&apos;s." source="com.puppycrawl.tools.checkstyle.checks.blocks.NeedBracesCheck"/>
+<error line="237" column="16" severity="warning" message="&apos;22&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
+<error line="240" column="5" severity="warning" message="Fields and methods should be before inner classes." source="com.puppycrawl.tools.checkstyle.checks.design.InnerTypeLastCheck"/>
+<error line="242" severity="warning" message="&apos;if&apos; construct must use &apos;{}&apos;s." source="com.puppycrawl.tools.checkstyle.checks.blocks.NeedBracesCheck"/>
 </file>
 <file name=".\osmdroid-geopackage\src\main\java\org\osmdroid\gpkg\tiles\raster\GeoPackageProvider.java">
 <error line="49" severity="warning" message="Line is longer than 100 characters (found 117)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>

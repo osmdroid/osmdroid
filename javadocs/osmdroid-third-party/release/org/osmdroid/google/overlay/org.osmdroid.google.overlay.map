@@ -1,8 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" id="node1_0" href="./GoogleItemizedOverlay.html" title="org.osmdroid.google.overlay.GoogleItemizedOverlay" alt="" coords="16,17,168,42"/>
-<area shape="rect" id="node1" href="./GoogleItemizedOverlay.html" title="&lt;TABLE&gt;" alt="" coords="5,5,179,53"/>
-<area shape="rect" id="node2_1" href="./GooglePolylineOverlay.html" title="org.osmdroid.google.overlay.GooglePolylineOverlay" alt="" coords="213,17,363,42"/>
-<area shape="rect" id="node2" href="./GooglePolylineOverlay.html" title="&lt;TABLE&gt;" alt="" coords="203,5,373,53"/>
-<area shape="rect" id="node3_2" href="./GoogleTilesOverlay.html" title="org.osmdroid.google.overlay.GoogleTilesOverlay" alt="" coords="408,17,539,42"/>
-<area shape="rect" id="node3" href="./GoogleTilesOverlay.html" title="&lt;TABLE&gt;" alt="" coords="397,5,549,53"/>
-</map>

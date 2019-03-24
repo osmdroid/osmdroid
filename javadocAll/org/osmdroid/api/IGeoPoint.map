@@ -1,10 +1,6 @@
 <map id="G" name="G">
-<area shape="rect" id="node1_0" href="./IGeoPoint.html" title="org.osmdroid.api.IGeoPoint" alt="" coords="130,11,213,53"/>
-<area shape="rect" id="node1" href="./IGeoPoint.html" title="&lt;TABLE&gt;" alt="" coords="119,5,223,59"/>
-<area shape="rect" id="node2_1" href="../util/GeoPoint.html" title="org.osmdroid.util.GeoPoint" alt="" coords="16,118,89,143"/>
-<area shape="rect" id="node2" href="../util/GeoPoint.html" title="&lt;TABLE&gt;" alt="" coords="5,107,100,155"/>
-<area shape="rect" id="node3_2" href="../google/wrapper/GeoPoint.html" title="org.osmdroid.google.wrapper.GeoPoint" alt="" coords="135,118,208,143"/>
-<area shape="rect" id="node3" href="../google/wrapper/GeoPoint.html" title="&lt;TABLE&gt;" alt="" coords="124,107,219,155"/>
-<area shape="rect" id="node4_3" href="../google/wrapper/v2/GeoPoint.html" title="org.osmdroid.google.wrapper.v2.GeoPoint" alt="" coords="253,118,327,143"/>
-<area shape="rect" id="node4" href="../google/wrapper/v2/GeoPoint.html" title="&lt;TABLE&gt;" alt="" coords="243,107,337,155"/>
+<area shape="rect" id="node1_0" href="./IGeoPoint.html" title="org.osmdroid.api.IGeoPoint" alt="" coords="16,11,99,53"/>
+<area shape="rect" id="node1" href="./IGeoPoint.html" title="&lt;TABLE&gt;" alt="" coords="5,5,109,59"/>
+<area shape="rect" id="node2_1" href="../util/GeoPoint.html" title="org.osmdroid.util.GeoPoint" alt="" coords="21,118,94,143"/>
+<area shape="rect" id="node2" href="../util/GeoPoint.html" title="&lt;TABLE&gt;" alt="" coords="10,107,105,155"/>
 </map>

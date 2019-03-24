@@ -10,23 +10,23 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.debug.CacheAnalyzerActivity
-	c51570 [label=<<table title="org.osmdroid.debug.CacheAnalyzerActivity" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./CacheAnalyzerActivity.html">
+	c51771 [label=<<table title="org.osmdroid.debug.CacheAnalyzerActivity" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./CacheAnalyzerActivity.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> CacheAnalyzerActivity </td></tr>
 		</table></td></tr>
 		</table>>, URL="./CacheAnalyzerActivity.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.debug.CacheAnalyzerActivity extends Activity
-	c52028:p -> c51570:p [dir=back,arrowtail=empty];
+	c52234:p -> c51771:p [dir=back,arrowtail=empty];
 	//org.osmdroid.debug.CacheAnalyzerActivity implements java.lang.Runnable
-	c52029:p -> c51570:p [dir=back,arrowtail=empty,style=dashed];
+	c52235:p -> c51771:p [dir=back,arrowtail=empty,style=dashed];
 	// Activity
-	c52028[label=<<table title="Activity" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api//Activity.html">
+	c52234[label=<<table title="Activity" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api//Activity.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> Activity </td></tr>
 		</table></td></tr>
 		</table>>, fontname="arial", fontcolor="black", fontsize=10.0];
 	// java.lang.Runnable
-	c52029 [label=<<table title="java.lang.Runnable" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/java/lang/Runnable.html">
+	c52235 [label=<<table title="java.lang.Runnable" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/java/lang/Runnable.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> Runnable </td></tr>

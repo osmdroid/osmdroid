@@ -10,15 +10,15 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.views.drawing.OsmBitmapShader
-	c36714 [label=<<table title="org.osmdroid.views.drawing.OsmBitmapShader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./OsmBitmapShader.html">
+	c41179 [label=<<table title="org.osmdroid.views.drawing.OsmBitmapShader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./OsmBitmapShader.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> OsmBitmapShader </td></tr>
 		</table></td></tr>
 		</table>>, URL="./OsmBitmapShader.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.views.drawing.OsmBitmapShader extends android.graphics.BitmapShader
-	c36806:p -> c36714:p [dir=back,arrowtail=empty];
+	c41273:p -> c41179:p [dir=back,arrowtail=empty];
 	// android.graphics.BitmapShader
-	c36806 [label=<<table title="android.graphics.BitmapShader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/android/graphics/BitmapShader.html">
+	c41273 [label=<<table title="android.graphics.BitmapShader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/android/graphics/BitmapShader.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> BitmapShader </td></tr>
 		</table></td></tr>

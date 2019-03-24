@@ -1,18 +1,8 @@
 <?xml version="1.0"?>
 <javancss>
-  <date>2018-02-18</date>
-  <time>15:01:03</time>
+  <date>2018-07-16</date>
+  <time>16:35:59</time>
   <packages>
-    <package>
-      <name>microsoft.mappoint</name>
-      <classes>1</classes>
-      <functions>13</functions>
-      <ncss>97</ncss>
-      <javadocs>11</javadocs>
-      <javadoc_lines>115</javadoc_lines>
-      <single_comment_lines>0</single_comment_lines>
-      <multi_comment_lines>16</multi_comment_lines>
-    </package>
     <package>
       <name>org.metalev.multitouch.controller</name>
       <classes>1</classes>
@@ -36,21 +26,21 @@
     <package>
       <name>org.osmdroid.api</name>
       <classes>4</classes>
-      <functions>43</functions>
-      <ncss>54</ncss>
-      <javadocs>21</javadocs>
-      <javadoc_lines>113</javadoc_lines>
+      <functions>44</functions>
+      <ncss>55</ncss>
+      <javadocs>22</javadocs>
+      <javadoc_lines>119</javadoc_lines>
       <single_comment_lines>2</single_comment_lines>
       <multi_comment_lines>3</multi_comment_lines>
     </package>
     <package>
       <name>org.osmdroid.config</name>
       <classes>3</classes>
-      <functions>112</functions>
-      <ncss>322</ncss>
-      <javadocs>44</javadocs>
-      <javadoc_lines>324</javadoc_lines>
-      <single_comment_lines>20</single_comment_lines>
+      <functions>128</functions>
+      <ncss>354</ncss>
+      <javadocs>51</javadocs>
+      <javadoc_lines>350</javadoc_lines>
+      <single_comment_lines>21</single_comment_lines>
       <multi_comment_lines>0</multi_comment_lines>
     </package>
     <package>
@@ -58,29 +48,29 @@
       <classes>7</classes>
       <functions>20</functions>
       <ncss>91</ncss>
-      <javadocs>3</javadocs>
-      <javadoc_lines>14</javadoc_lines>
+      <javadocs>7</javadocs>
+      <javadoc_lines>42</javadoc_lines>
       <single_comment_lines>7</single_comment_lines>
-      <multi_comment_lines>76</multi_comment_lines>
+      <multi_comment_lines>73</multi_comment_lines>
     </package>
     <package>
       <name>org.osmdroid.tileprovider</name>
-      <classes>12</classes>
-      <functions>110</functions>
-      <ncss>741</ncss>
-      <javadocs>58</javadocs>
-      <javadoc_lines>307</javadoc_lines>
-      <single_comment_lines>65</single_comment_lines>
-      <multi_comment_lines>19</multi_comment_lines>
+      <classes>13</classes>
+      <functions>125</functions>
+      <ncss>857</ncss>
+      <javadocs>72</javadocs>
+      <javadoc_lines>364</javadoc_lines>
+      <single_comment_lines>72</single_comment_lines>
+      <multi_comment_lines>25</multi_comment_lines>
     </package>
     <package>
       <name>org.osmdroid.tileprovider.cachemanager</name>
-      <classes>1</classes>
-      <functions>41</functions>
-      <ncss>452</ncss>
-      <javadocs>37</javadocs>
-      <javadoc_lines>204</javadoc_lines>
-      <single_comment_lines>12</single_comment_lines>
+      <classes>2</classes>
+      <functions>49</functions>
+      <ncss>515</ncss>
+      <javadocs>44</javadocs>
+      <javadoc_lines>243</javadoc_lines>
+      <single_comment_lines>23</single_comment_lines>
       <multi_comment_lines>12</multi_comment_lines>
     </package>
     <package>
@@ -95,13 +85,13 @@
     </package>
     <package>
       <name>org.osmdroid.tileprovider.modules</name>
-      <classes>22</classes>
-      <functions>210</functions>
-      <ncss>1725</ncss>
-      <javadocs>88</javadocs>
-      <javadoc_lines>514</javadoc_lines>
-      <single_comment_lines>209</single_comment_lines>
-      <multi_comment_lines>30</multi_comment_lines>
+      <classes>24</classes>
+      <functions>231</functions>
+      <ncss>1944</ncss>
+      <javadocs>108</javadocs>
+      <javadoc_lines>617</javadoc_lines>
+      <single_comment_lines>206</single_comment_lines>
+      <multi_comment_lines>28</multi_comment_lines>
     </package>
     <package>
       <name>org.osmdroid.tileprovider.tilesource</name>
@@ -117,7 +107,7 @@
       <name>org.osmdroid.tileprovider.tilesource.bing</name>
       <classes>3</classes>
       <functions>20</functions>
-      <ncss>215</ncss>
+      <ncss>214</ncss>
       <javadocs>16</javadocs>
       <javadoc_lines>92</javadoc_lines>
       <single_comment_lines>14</single_comment_lines>
@@ -135,13 +125,13 @@
     </package>
     <package>
       <name>org.osmdroid.util</name>
-      <classes>32</classes>
-      <functions>320</functions>
-      <ncss>2154</ncss>
-      <javadocs>157</javadocs>
-      <javadoc_lines>705</javadoc_lines>
-      <single_comment_lines>220</single_comment_lines>
-      <multi_comment_lines>91</multi_comment_lines>
+      <classes>48</classes>
+      <functions>413</functions>
+      <ncss>2978</ncss>
+      <javadocs>205</javadocs>
+      <javadoc_lines>929</javadoc_lines>
+      <single_comment_lines>234</single_comment_lines>
+      <multi_comment_lines>124</multi_comment_lines>
     </package>
     <package>
       <name>org.osmdroid.util.constants</name>
@@ -156,12 +146,12 @@
     <package>
       <name>org.osmdroid.views</name>
       <classes>3</classes>
-      <functions>217</functions>
-      <ncss>1307</ncss>
-      <javadocs>125</javadocs>
-      <javadoc_lines>625</javadoc_lines>
-      <single_comment_lines>104</single_comment_lines>
-      <multi_comment_lines>66</multi_comment_lines>
+      <functions>218</functions>
+      <ncss>1372</ncss>
+      <javadocs>128</javadocs>
+      <javadoc_lines>642</javadoc_lines>
+      <single_comment_lines>105</single_comment_lines>
+      <multi_comment_lines>67</multi_comment_lines>
     </package>
     <package>
       <name>org.osmdroid.views.drawing</name>
@@ -175,13 +165,13 @@
     </package>
     <package>
       <name>org.osmdroid.views.overlay</name>
-      <classes>28</classes>
-      <functions>480</functions>
-      <ncss>2995</ncss>
-      <javadocs>207</javadocs>
-      <javadoc_lines>1119</javadoc_lines>
-      <single_comment_lines>323</single_comment_lines>
-      <multi_comment_lines>215</multi_comment_lines>
+      <classes>29</classes>
+      <functions>494</functions>
+      <ncss>3146</ncss>
+      <javadocs>221</javadocs>
+      <javadoc_lines>1184</javadoc_lines>
+      <single_comment_lines>338</single_comment_lines>
+      <multi_comment_lines>201</multi_comment_lines>
     </package>
     <package>
       <name>org.osmdroid.views.overlay.compass</name>
@@ -216,31 +206,31 @@
     <package>
       <name>org.osmdroid.views.overlay.infowindow</name>
       <classes>3</classes>
-      <functions>22</functions>
-      <ncss>198</ncss>
-      <javadocs>15</javadocs>
-      <javadoc_lines>105</javadoc_lines>
-      <single_comment_lines>18</single_comment_lines>
+      <functions>23</functions>
+      <ncss>178</ncss>
+      <javadocs>16</javadocs>
+      <javadoc_lines>109</javadoc_lines>
+      <single_comment_lines>13</single_comment_lines>
       <multi_comment_lines>29</multi_comment_lines>
     </package>
     <package>
       <name>org.osmdroid.views.overlay.milestones</name>
-      <classes>10</classes>
-      <functions>41</functions>
-      <ncss>224</ncss>
-      <javadocs>12</javadocs>
-      <javadoc_lines>56</javadoc_lines>
-      <single_comment_lines>3</single_comment_lines>
+      <classes>11</classes>
+      <functions>46</functions>
+      <ncss>281</ncss>
+      <javadocs>15</javadocs>
+      <javadoc_lines>67</javadoc_lines>
+      <single_comment_lines>7</single_comment_lines>
       <multi_comment_lines>12</multi_comment_lines>
     </package>
     <package>
       <name>org.osmdroid.views.overlay.mylocation</name>
       <classes>6</classes>
-      <functions>74</functions>
-      <ncss>509</ncss>
+      <functions>73</functions>
+      <ncss>455</ncss>
       <javadocs>27</javadocs>
       <javadoc_lines>128</javadoc_lines>
-      <single_comment_lines>108</single_comment_lines>
+      <single_comment_lines>95</single_comment_lines>
       <multi_comment_lines>14</multi_comment_lines>
     </package>
     <package>
@@ -257,7 +247,7 @@
       <name>org.osmdroid.views.util</name>
       <classes>3</classes>
       <functions>12</functions>
-      <ncss>90</ncss>
+      <ncss>91</ncss>
       <javadocs>10</javadocs>
       <javadoc_lines>78</javadoc_lines>
       <single_comment_lines>46</single_comment_lines>
@@ -274,34 +264,24 @@
       <multi_comment_lines>0</multi_comment_lines>
     </package>
     <total>
-      <classes>181</classes>
-      <functions>2028</functions>
-      <ncss>14121</ncss>
-      <javadocs>1000</javadocs>
-      <javadoc_lines>5364</javadoc_lines>
-      <single_comment_lines>1476</single_comment_lines>
-      <multi_comment_lines>838</multi_comment_lines>
+      <classes>202</classes>
+      <functions>2189</functions>
+      <ncss>15478</ncss>
+      <javadocs>1111</javadocs>
+      <javadoc_lines>5829</javadoc_lines>
+      <single_comment_lines>1508</single_comment_lines>
+      <multi_comment_lines>843</multi_comment_lines>
     </total>
     <table>
       <tr><td>Packages</td><td>Classes</td><td>Functions</td><td>NCSS</td><td>Javadocs</td><td>per</td></tr>
-      <tr><td>27.00</td><td>181.00</td><td>2,028.00</td><td>14,121.00</td><td>1,000.00</td><td>Project</td></tr>
-      <tr><td></td><td>6.70</td><td>75.11</td><td>523.00</td><td>37.04</td><td>Package</td></tr>
-      <tr><td></td><td></td><td>11.20</td><td>78.02</td><td>5.52</td><td>Class</td></tr>
-      <tr><td></td><td></td><td></td><td>6.96</td><td>0.49</td><td>Function</td></tr>
+      <tr><td>26.00</td><td>202.00</td><td>2,189.00</td><td>15,478.00</td><td>1,111.00</td><td>Project</td></tr>
+      <tr><td></td><td>7.77</td><td>84.19</td><td>595.31</td><td>42.73</td><td>Package</td></tr>
+      <tr><td></td><td></td><td>10.84</td><td>76.62</td><td>5.50</td><td>Class</td></tr>
+      <tr><td></td><td></td><td></td><td>7.07</td><td>0.51</td><td>Function</td></tr>
     </table>
   </packages>
 
   <objects>
-    <object>
-      <name>microsoft.mappoint.TileSystem</name>
-      <ncss>94</ncss>
-      <functions>13</functions>
-      <classes>0</classes>
-      <javadocs>11</javadocs>
-      <javadocs_lines>115</javadocs_lines>
-      <single_comment_lines>0</single_comment_lines>
-      <implementation_comment_lines>9</implementation_comment_lines>
-    </object>
     <object>
       <name>org.metalev.multitouch.controller.MultiTouchController</name>
       <ncss>363</ncss>
@@ -344,11 +324,11 @@
     </object>
     <object>
       <name>org.osmdroid.api.IMapController</name>
-      <ncss>26</ncss>
-      <functions>25</functions>
+      <ncss>27</ncss>
+      <functions>26</functions>
       <classes>0</classes>
-      <javadocs>12</javadocs>
-      <javadocs_lines>63</javadocs_lines>
+      <javadocs>13</javadocs>
+      <javadocs_lines>69</javadocs_lines>
       <single_comment_lines>0</single_comment_lines>
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
@@ -384,21 +364,21 @@
     </object>
     <object>
       <name>org.osmdroid.config.DefaultConfigurationProvider</name>
-      <ncss>234</ncss>
-      <functions>57</functions>
+      <ncss>258</ncss>
+      <functions>65</functions>
       <classes>0</classes>
       <javadocs>4</javadocs>
       <javadocs_lines>30</javadocs_lines>
-      <single_comment_lines>20</single_comment_lines>
+      <single_comment_lines>21</single_comment_lines>
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <object>
       <name>org.osmdroid.config.IConfigurationProvider</name>
-      <ncss>54</ncss>
-      <functions>53</functions>
+      <ncss>62</ncss>
+      <functions>61</functions>
       <classes>0</classes>
-      <javadocs>37</javadocs>
-      <javadocs_lines>273</javadocs_lines>
+      <javadocs>44</javadocs>
+      <javadocs_lines>299</javadocs_lines>
       <single_comment_lines>0</single_comment_lines>
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
@@ -457,10 +437,10 @@
       <ncss>16</ncss>
       <functions>5</functions>
       <classes>0</classes>
-      <javadocs>0</javadocs>
-      <javadocs_lines>0</javadocs_lines>
+      <javadocs>4</javadocs>
+      <javadocs_lines>28</javadocs_lines>
       <single_comment_lines>0</single_comment_lines>
-      <implementation_comment_lines>9</implementation_comment_lines>
+      <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <object>
       <name>org.osmdroid.events.ZoomEvent</name>
@@ -474,12 +454,12 @@
     </object>
     <object>
       <name>org.osmdroid.tileprovider.BitmapPool</name>
-      <ncss>62</ncss>
-      <functions>9</functions>
+      <ncss>70</ncss>
+      <functions>10</functions>
       <classes>1</classes>
-      <javadocs>2</javadocs>
-      <javadocs_lines>7</javadocs_lines>
-      <single_comment_lines>4</single_comment_lines>
+      <javadocs>4</javadocs>
+      <javadocs_lines>15</javadocs_lines>
+      <single_comment_lines>9</single_comment_lines>
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <object>
@@ -524,23 +504,33 @@
     </object>
     <object>
       <name>org.osmdroid.tileprovider.MapTileCache</name>
-      <ncss>71</ncss>
-      <functions>14</functions>
+      <ncss>93</ncss>
+      <functions>19</functions>
       <classes>1</classes>
-      <javadocs>10</javadocs>
-      <javadocs_lines>39</javadocs_lines>
+      <javadocs>15</javadocs>
+      <javadocs_lines>55</javadocs_lines>
       <single_comment_lines>20</single_comment_lines>
-      <implementation_comment_lines>13</implementation_comment_lines>
+      <implementation_comment_lines>16</implementation_comment_lines>
+    </object>
+    <object>
+      <name>org.osmdroid.tileprovider.MapTilePreCache</name>
+      <ncss>41</ncss>
+      <functions>6</functions>
+      <classes>1</classes>
+      <javadocs>5</javadocs>
+      <javadocs_lines>27</javadocs_lines>
+      <single_comment_lines>2</single_comment_lines>
+      <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <object>
       <name>org.osmdroid.tileprovider.MapTileProviderArray</name>
-      <ncss>106</ncss>
-      <functions>17</functions>
+      <ncss>107</ncss>
+      <functions>19</functions>
       <classes>0</classes>
-      <javadocs>6</javadocs>
-      <javadocs_lines>40</javadocs_lines>
-      <single_comment_lines>12</single_comment_lines>
-      <implementation_comment_lines>0</implementation_comment_lines>
+      <javadocs>8</javadocs>
+      <javadocs_lines>46</javadocs_lines>
+      <single_comment_lines>9</single_comment_lines>
+      <implementation_comment_lines>3</implementation_comment_lines>
     </object>
     <object>
       <name>org.osmdroid.tileprovider.MapTileProviderBase</name>
@@ -554,12 +544,12 @@
     </object>
     <object>
       <name>org.osmdroid.tileprovider.MapTileProviderBasic</name>
-      <ncss>45</ncss>
+      <ncss>52</ncss>
       <functions>7</functions>
       <classes>0</classes>
       <javadocs>6</javadocs>
       <javadocs_lines>30</javadocs_lines>
-      <single_comment_lines>2</single_comment_lines>
+      <single_comment_lines>5</single_comment_lines>
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <object>
@@ -584,12 +574,12 @@
     </object>
     <object>
       <name>org.osmdroid.tileprovider.cachemanager.CacheManager</name>
-      <ncss>410</ncss>
-      <functions>41</functions>
-      <classes>8</classes>
-      <javadocs>37</javadocs>
-      <javadocs_lines>204</javadocs_lines>
-      <single_comment_lines>12</single_comment_lines>
+      <ncss>424</ncss>
+      <functions>44</functions>
+      <classes>10</classes>
+      <javadocs>40</javadocs>
+      <javadocs_lines>221</javadocs_lines>
+      <single_comment_lines>17</single_comment_lines>
       <implementation_comment_lines>12</implementation_comment_lines>
     </object>
     <object>
@@ -613,6 +603,16 @@
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <object>
+      <name>org.osmdroid.tileprovider.modules.CantContinueException</name>
+      <ncss>6</ncss>
+      <functions>2</functions>
+      <classes>0</classes>
+      <javadocs>1</javadocs>
+      <javadocs_lines>8</javadocs_lines>
+      <single_comment_lines>0</single_comment_lines>
+      <implementation_comment_lines>0</implementation_comment_lines>
+    </object>
+    <object>
       <name>org.osmdroid.tileprovider.modules.ConfigurablePriorityThreadFactory</name>
       <ncss>12</ncss>
       <functions>2</functions>
@@ -624,7 +624,7 @@
     </object>
     <object>
       <name>org.osmdroid.tileprovider.modules.DatabaseFileArchive</name>
-      <ncss>61</ncss>
+      <ncss>65</ncss>
       <functions>10</functions>
       <classes>0</classes>
       <javadocs>2</javadocs>
@@ -704,62 +704,62 @@
     </object>
     <object>
       <name>org.osmdroid.tileprovider.modules.MapTileDownloader</name>
-      <ncss>126</ncss>
-      <functions>13</functions>
+      <ncss>89</ncss>
+      <functions>16</functions>
       <classes>1</classes>
-      <javadocs>1</javadocs>
-      <javadocs_lines>9</javadocs_lines>
-      <single_comment_lines>31</single_comment_lines>
-      <implementation_comment_lines>0</implementation_comment_lines>
+      <javadocs>5</javadocs>
+      <javadocs_lines>26</javadocs_lines>
+      <single_comment_lines>26</single_comment_lines>
+      <implementation_comment_lines>3</implementation_comment_lines>
     </object>
     <object>
       <name>org.osmdroid.tileprovider.modules.MapTileFileArchiveProvider</name>
-      <ncss>97</ncss>
+      <ncss>91</ncss>
       <functions>16</functions>
       <classes>1</classes>
       <javadocs>3</javadocs>
       <javadocs_lines>20</javadocs_lines>
-      <single_comment_lines>23</single_comment_lines>
+      <single_comment_lines>22</single_comment_lines>
       <implementation_comment_lines>1</implementation_comment_lines>
     </object>
     <object>
       <name>org.osmdroid.tileprovider.modules.MapTileFileStorageProviderBase</name>
-      <ncss>36</ncss>
-      <functions>6</functions>
+      <ncss>27</ncss>
+      <functions>4</functions>
       <classes>1</classes>
-      <javadocs>2</javadocs>
-      <javadocs_lines>5</javadocs_lines>
+      <javadocs>1</javadocs>
+      <javadocs_lines>4</javadocs_lines>
       <single_comment_lines>2</single_comment_lines>
-      <implementation_comment_lines>1</implementation_comment_lines>
+      <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <object>
       <name>org.osmdroid.tileprovider.modules.MapTileFilesystemProvider</name>
-      <ncss>52</ncss>
+      <ncss>47</ncss>
       <functions>11</functions>
       <classes>1</classes>
       <javadocs>2</javadocs>
       <javadocs_lines>14</javadocs_lines>
-      <single_comment_lines>20</single_comment_lines>
+      <single_comment_lines>19</single_comment_lines>
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <object>
       <name>org.osmdroid.tileprovider.modules.MapTileModuleProviderBase</name>
-      <ncss>135</ncss>
+      <ncss>129</ncss>
       <functions>12</functions>
-      <classes>3</classes>
-      <javadocs>15</javadocs>
-      <javadocs_lines>75</javadocs_lines>
-      <single_comment_lines>10</single_comment_lines>
+      <classes>2</classes>
+      <javadocs>14</javadocs>
+      <javadocs_lines>71</javadocs_lines>
+      <single_comment_lines>11</single_comment_lines>
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <object>
       <name>org.osmdroid.tileprovider.modules.MapTileSqlCacheProvider</name>
-      <ncss>68</ncss>
+      <ncss>63</ncss>
       <functions>13</functions>
       <classes>1</classes>
       <javadocs>3</javadocs>
       <javadocs_lines>14</javadocs_lines>
-      <single_comment_lines>23</single_comment_lines>
+      <single_comment_lines>22</single_comment_lines>
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <object>
@@ -784,23 +784,33 @@
     </object>
     <object>
       <name>org.osmdroid.tileprovider.modules.SqlTileWriter</name>
-      <ncss>285</ncss>
-      <functions>22</functions>
+      <ncss>410</ncss>
+      <functions>36</functions>
       <classes>1</classes>
-      <javadocs>16</javadocs>
-      <javadocs_lines>101</javadocs_lines>
-      <single_comment_lines>31</single_comment_lines>
-      <implementation_comment_lines>23</implementation_comment_lines>
+      <javadocs>31</javadocs>
+      <javadocs_lines>176</javadocs_lines>
+      <single_comment_lines>25</single_comment_lines>
+      <implementation_comment_lines>19</implementation_comment_lines>
     </object>
     <object>
       <name>org.osmdroid.tileprovider.modules.SqliteArchiveTileWriter</name>
-      <ncss>72</ncss>
+      <ncss>85</ncss>
       <functions>8</functions>
       <classes>0</classes>
       <javadocs>3</javadocs>
       <javadocs_lines>21</javadocs_lines>
       <single_comment_lines>4</single_comment_lines>
       <implementation_comment_lines>4</implementation_comment_lines>
+    </object>
+    <object>
+      <name>org.osmdroid.tileprovider.modules.TileDownloader</name>
+      <ncss>113</ncss>
+      <functions>4</functions>
+      <classes>0</classes>
+      <javadocs>2</javadocs>
+      <javadocs_lines>8</javadocs_lines>
+      <single_comment_lines>10</single_comment_lines>
+      <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <object>
       <name>org.osmdroid.tileprovider.modules.TileWriter</name>
@@ -1064,13 +1074,23 @@
     </object>
     <object>
       <name>org.osmdroid.util.BoundingBox</name>
-      <ncss>146</ncss>
-      <functions>33</functions>
+      <ncss>144</ncss>
+      <functions>34</functions>
       <classes>1</classes>
-      <javadocs>11</javadocs>
-      <javadocs_lines>43</javadocs_lines>
+      <javadocs>12</javadocs>
+      <javadocs_lines>48</javadocs_lines>
       <single_comment_lines>27</single_comment_lines>
       <implementation_comment_lines>4</implementation_comment_lines>
+    </object>
+    <object>
+      <name>org.osmdroid.util.Delay</name>
+      <ncss>28</ncss>
+      <functions>5</functions>
+      <classes>0</classes>
+      <javadocs>1</javadocs>
+      <javadocs_lines>4</javadocs_lines>
+      <single_comment_lines>0</single_comment_lines>
+      <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <object>
       <name>org.osmdroid.util.Distance</name>
@@ -1083,6 +1103,16 @@
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <object>
+      <name>org.osmdroid.util.DuringSplashScreen</name>
+      <ncss>4</ncss>
+      <functions>1</functions>
+      <classes>0</classes>
+      <javadocs>1</javadocs>
+      <javadocs_lines>5</javadocs_lines>
+      <single_comment_lines>0</single_comment_lines>
+      <implementation_comment_lines>0</implementation_comment_lines>
+    </object>
+    <object>
       <name>org.osmdroid.util.GEMFFile</name>
       <ncss>308</ncss>
       <functions>12</functions>
@@ -1091,6 +1121,16 @@
       <javadocs_lines>12</javadocs_lines>
       <single_comment_lines>68</single_comment_lines>
       <implementation_comment_lines>71</implementation_comment_lines>
+    </object>
+    <object>
+      <name>org.osmdroid.util.GarbageCollector</name>
+      <ncss>18</ncss>
+      <functions>3</functions>
+      <classes>1</classes>
+      <javadocs>1</javadocs>
+      <javadocs_lines>8</javadocs_lines>
+      <single_comment_lines>0</single_comment_lines>
+      <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <object>
       <name>org.osmdroid.util.GeoPoint</name>
@@ -1109,6 +1149,16 @@
       <classes>0</classes>
       <javadocs>1</javadocs>
       <javadocs_lines>5</javadocs_lines>
+      <single_comment_lines>0</single_comment_lines>
+      <implementation_comment_lines>0</implementation_comment_lines>
+    </object>
+    <object>
+      <name>org.osmdroid.util.IterableWithSize</name>
+      <ncss>2</ncss>
+      <functions>1</functions>
+      <classes>0</classes>
+      <javadocs>0</javadocs>
+      <javadocs_lines>0</javadocs_lines>
       <single_comment_lines>0</single_comment_lines>
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
@@ -1143,6 +1193,16 @@
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <object>
+      <name>org.osmdroid.util.MapTileContainer</name>
+      <ncss>2</ncss>
+      <functions>1</functions>
+      <classes>0</classes>
+      <javadocs>1</javadocs>
+      <javadocs_lines>4</javadocs_lines>
+      <single_comment_lines>0</single_comment_lines>
+      <implementation_comment_lines>0</implementation_comment_lines>
+    </object>
+    <object>
       <name>org.osmdroid.util.MapTileIndex</name>
       <ncss>26</ncss>
       <functions>8</functions>
@@ -1154,11 +1214,41 @@
     </object>
     <object>
       <name>org.osmdroid.util.MapTileList</name>
-      <ncss>50</ncss>
-      <functions>10</functions>
+      <ncss>47</ncss>
+      <functions>9</functions>
       <classes>0</classes>
-      <javadocs>5</javadocs>
-      <javadocs_lines>19</javadocs_lines>
+      <javadocs>4</javadocs>
+      <javadocs_lines>14</javadocs_lines>
+      <single_comment_lines>0</single_comment_lines>
+      <implementation_comment_lines>0</implementation_comment_lines>
+    </object>
+    <object>
+      <name>org.osmdroid.util.MapTileListBorderComputer</name>
+      <ncss>37</ncss>
+      <functions>4</functions>
+      <classes>0</classes>
+      <javadocs>1</javadocs>
+      <javadocs_lines>5</javadocs_lines>
+      <single_comment_lines>0</single_comment_lines>
+      <implementation_comment_lines>0</implementation_comment_lines>
+    </object>
+    <object>
+      <name>org.osmdroid.util.MapTileListComputer</name>
+      <ncss>2</ncss>
+      <functions>1</functions>
+      <classes>0</classes>
+      <javadocs>1</javadocs>
+      <javadocs_lines>5</javadocs_lines>
+      <single_comment_lines>0</single_comment_lines>
+      <implementation_comment_lines>0</implementation_comment_lines>
+    </object>
+    <object>
+      <name>org.osmdroid.util.MapTileListZoomComputer</name>
+      <ncss>26</ncss>
+      <functions>3</functions>
+      <classes>0</classes>
+      <javadocs>1</javadocs>
+      <javadocs_lines>5</javadocs_lines>
       <single_comment_lines>0</single_comment_lines>
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
@@ -1224,12 +1314,12 @@
     </object>
     <object>
       <name>org.osmdroid.util.RectL</name>
-      <ncss>59</ncss>
-      <functions>14</functions>
+      <ncss>212</ncss>
+      <functions>23</functions>
       <classes>0</classes>
-      <javadocs>3</javadocs>
-      <javadocs_lines>14</javadocs_lines>
-      <single_comment_lines>0</single_comment_lines>
+      <javadocs>12</javadocs>
+      <javadocs_lines>52</javadocs_lines>
+      <single_comment_lines>12</single_comment_lines>
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <object>
@@ -1253,6 +1343,16 @@
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <object>
+      <name>org.osmdroid.util.SplashScreenable</name>
+      <ncss>2</ncss>
+      <functions>1</functions>
+      <classes>0</classes>
+      <javadocs>1</javadocs>
+      <javadocs_lines>16</javadocs_lines>
+      <single_comment_lines>0</single_comment_lines>
+      <implementation_comment_lines>0</implementation_comment_lines>
+    </object>
+    <object>
       <name>org.osmdroid.util.TileLooper</name>
       <ncss>34</ncss>
       <functions>10</functions>
@@ -1264,12 +1364,32 @@
     </object>
     <object>
       <name>org.osmdroid.util.TileSystem</name>
-      <ncss>175</ncss>
-      <functions>52</functions>
+      <ncss>251</ncss>
+      <functions>65</functions>
       <classes>0</classes>
-      <javadocs>51</javadocs>
-      <javadocs_lines>203</javadocs_lines>
-      <single_comment_lines>2</single_comment_lines>
+      <javadocs>56</javadocs>
+      <javadocs_lines>231</javadocs_lines>
+      <single_comment_lines>0</single_comment_lines>
+      <implementation_comment_lines>33</implementation_comment_lines>
+    </object>
+    <object>
+      <name>org.osmdroid.util.TileSystemWebMercator</name>
+      <ncss>22</ncss>
+      <functions>8</functions>
+      <classes>0</classes>
+      <javadocs>1</javadocs>
+      <javadocs_lines>4</javadocs_lines>
+      <single_comment_lines>0</single_comment_lines>
+      <implementation_comment_lines>0</implementation_comment_lines>
+    </object>
+    <object>
+      <name>org.osmdroid.util.UrlBackoff</name>
+      <ncss>27</ncss>
+      <functions>5</functions>
+      <classes>0</classes>
+      <javadocs>1</javadocs>
+      <javadocs_lines>4</javadocs_lines>
+      <single_comment_lines>0</single_comment_lines>
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <object>
@@ -1284,33 +1404,33 @@
     </object>
     <object>
       <name>org.osmdroid.views.MapController</name>
-      <ncss>234</ncss>
-      <functions>29</functions>
+      <ncss>276</ncss>
+      <functions>30</functions>
       <classes>4</classes>
-      <javadocs>12</javadocs>
-      <javadocs_lines>47</javadocs_lines>
-      <single_comment_lines>34</single_comment_lines>
+      <javadocs>14</javadocs>
+      <javadocs_lines>53</javadocs_lines>
+      <single_comment_lines>36</single_comment_lines>
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <object>
       <name>org.osmdroid.views.MapView</name>
-      <ncss>682</ncss>
-      <functions>123</functions>
+      <ncss>702</ncss>
+      <functions>126</functions>
       <classes>5</classes>
-      <javadocs>62</javadocs>
-      <javadocs_lines>340</javadocs_lines>
-      <single_comment_lines>59</single_comment_lines>
+      <javadocs>65</javadocs>
+      <javadocs_lines>349</javadocs_lines>
+      <single_comment_lines>58</single_comment_lines>
       <implementation_comment_lines>57</implementation_comment_lines>
     </object>
     <object>
       <name>org.osmdroid.views.Projection</name>
       <ncss>306</ncss>
-      <functions>65</functions>
+      <functions>62</functions>
       <classes>0</classes>
-      <javadocs>51</javadocs>
-      <javadocs_lines>238</javadocs_lines>
+      <javadocs>49</javadocs>
+      <javadocs_lines>240</javadocs_lines>
       <single_comment_lines>10</single_comment_lines>
-      <implementation_comment_lines>4</implementation_comment_lines>
+      <implementation_comment_lines>5</implementation_comment_lines>
     </object>
     <object>
       <name>org.osmdroid.views.drawing.OsmBitmapShader</name>
@@ -1404,7 +1524,7 @@
     </object>
     <object>
       <name>org.osmdroid.views.overlay.ItemizedIconOverlay</name>
-      <ncss>86</ncss>
+      <ncss>79</ncss>
       <functions>19</functions>
       <classes>4</classes>
       <javadocs>2</javadocs>
@@ -1414,13 +1534,13 @@
     </object>
     <object>
       <name>org.osmdroid.views.overlay.ItemizedOverlay</name>
-      <ncss>162</ncss>
-      <functions>21</functions>
+      <ncss>212</ncss>
+      <functions>23</functions>
       <classes>1</classes>
-      <javadocs>15</javadocs>
-      <javadocs_lines>101</javadocs_lines>
-      <single_comment_lines>24</single_comment_lines>
-      <implementation_comment_lines>33</implementation_comment_lines>
+      <javadocs>17</javadocs>
+      <javadocs_lines>112</javadocs_lines>
+      <single_comment_lines>25</single_comment_lines>
+      <implementation_comment_lines>22</implementation_comment_lines>
     </object>
     <object>
       <name>org.osmdroid.views.overlay.ItemizedOverlayControlView</name>
@@ -1454,13 +1574,13 @@
     </object>
     <object>
       <name>org.osmdroid.views.overlay.LinearRing</name>
-      <ncss>203</ncss>
-      <functions>19</functions>
+      <ncss>269</ncss>
+      <functions>23</functions>
       <classes>0</classes>
-      <javadocs>14</javadocs>
-      <javadocs_lines>65</javadocs_lines>
-      <single_comment_lines>6</single_comment_lines>
-      <implementation_comment_lines>16</implementation_comment_lines>
+      <javadocs>15</javadocs>
+      <javadocs_lines>68</javadocs_lines>
+      <single_comment_lines>12</single_comment_lines>
+      <implementation_comment_lines>22</implementation_comment_lines>
     </object>
     <object>
       <name>org.osmdroid.views.overlay.MapEventsOverlay</name>
@@ -1475,12 +1595,12 @@
     <object>
       <name>org.osmdroid.views.overlay.Marker</name>
       <ncss>260</ncss>
-      <functions>46</functions>
+      <functions>45</functions>
       <classes>2</classes>
-      <javadocs>24</javadocs>
-      <javadocs_lines>111</javadocs_lines>
-      <single_comment_lines>10</single_comment_lines>
-      <implementation_comment_lines>20</implementation_comment_lines>
+      <javadocs>25</javadocs>
+      <javadocs_lines>119</javadocs_lines>
+      <single_comment_lines>16</single_comment_lines>
+      <implementation_comment_lines>11</implementation_comment_lines>
     </object>
     <object>
       <name>org.osmdroid.views.overlay.MinimapOverlay</name>
@@ -1504,12 +1624,12 @@
     </object>
     <object>
       <name>org.osmdroid.views.overlay.Overlay</name>
-      <ncss>59</ncss>
+      <ncss>60</ncss>
       <functions>25</functions>
       <classes>1</classes>
       <javadocs>25</javadocs>
       <javadocs_lines>154</javadocs_lines>
-      <single_comment_lines>22</single_comment_lines>
+      <single_comment_lines>23</single_comment_lines>
       <implementation_comment_lines>7</implementation_comment_lines>
     </object>
     <object>
@@ -1544,11 +1664,11 @@
     </object>
     <object>
       <name>org.osmdroid.views.overlay.OverlayWithIW</name>
-      <ncss>39</ncss>
-      <functions>15</functions>
+      <ncss>44</ncss>
+      <functions>17</functions>
       <classes>0</classes>
-      <javadocs>6</javadocs>
-      <javadocs_lines>26</javadocs_lines>
+      <javadocs>8</javadocs>
+      <javadocs_lines>30</javadocs_lines>
       <single_comment_lines>1</single_comment_lines>
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
@@ -1564,32 +1684,32 @@
     </object>
     <object>
       <name>org.osmdroid.views.overlay.Polygon</name>
-      <ncss>154</ncss>
-      <functions>29</functions>
-      <classes>0</classes>
-      <javadocs>15</javadocs>
-      <javadocs_lines>73</javadocs_lines>
-      <single_comment_lines>12</single_comment_lines>
+      <ncss>173</ncss>
+      <functions>34</functions>
+      <classes>1</classes>
+      <javadocs>20</javadocs>
+      <javadocs_lines>97</javadocs_lines>
+      <single_comment_lines>18</single_comment_lines>
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <object>
       <name>org.osmdroid.views.overlay.Polyline</name>
-      <ncss>157</ncss>
-      <functions>31</functions>
+      <ncss>128</ncss>
+      <functions>26</functions>
       <classes>1</classes>
-      <javadocs>15</javadocs>
-      <javadocs_lines>79</javadocs_lines>
-      <single_comment_lines>8</single_comment_lines>
+      <javadocs>16</javadocs>
+      <javadocs_lines>75</javadocs_lines>
+      <single_comment_lines>2</single_comment_lines>
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <object>
       <name>org.osmdroid.views.overlay.ScaleBarOverlay</name>
-      <ncss>344</ncss>
+      <ncss>343</ncss>
       <functions>29</functions>
       <classes>1</classes>
       <javadocs>18</javadocs>
       <javadocs_lines>103</javadocs_lines>
-      <single_comment_lines>66</single_comment_lines>
+      <single_comment_lines>65</single_comment_lines>
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <object>
@@ -1694,12 +1814,12 @@
     </object>
     <object>
       <name>org.osmdroid.views.overlay.infowindow.InfoWindow</name>
-      <ncss>97</ncss>
-      <functions>14</functions>
+      <ncss>77</ncss>
+      <functions>15</functions>
       <classes>0</classes>
-      <javadocs>11</javadocs>
-      <javadocs_lines>64</javadocs_lines>
-      <single_comment_lines>7</single_comment_lines>
+      <javadocs>12</javadocs>
+      <javadocs_lines>68</javadocs_lines>
+      <single_comment_lines>2</single_comment_lines>
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <object>
@@ -1724,11 +1844,11 @@
     </object>
     <object>
       <name>org.osmdroid.views.overlay.milestones.MilestoneDisplayer</name>
-      <ncss>14</ncss>
-      <functions>3</functions>
+      <ncss>16</ncss>
+      <functions>5</functions>
       <classes>0</classes>
-      <javadocs>2</javadocs>
-      <javadocs_lines>8</javadocs_lines>
+      <javadocs>4</javadocs>
+      <javadocs_lines>14</javadocs_lines>
       <single_comment_lines>0</single_comment_lines>
       <implementation_comment_lines>12</implementation_comment_lines>
     </object>
@@ -1744,7 +1864,7 @@
     </object>
     <object>
       <name>org.osmdroid.views.overlay.milestones.MilestoneManager</name>
-      <ncss>17</ncss>
+      <ncss>19</ncss>
       <functions>6</functions>
       <classes>0</classes>
       <javadocs>1</javadocs>
@@ -1760,6 +1880,16 @@
       <javadocs>1</javadocs>
       <javadocs_lines>5</javadocs_lines>
       <single_comment_lines>0</single_comment_lines>
+      <implementation_comment_lines>0</implementation_comment_lines>
+    </object>
+    <object>
+      <name>org.osmdroid.views.overlay.milestones.MilestoneMeterDistanceSliceLister</name>
+      <ncss>50</ncss>
+      <functions>3</functions>
+      <classes>1</classes>
+      <javadocs>1</javadocs>
+      <javadocs_lines>5</javadocs_lines>
+      <single_comment_lines>4</single_comment_lines>
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <object>
@@ -1854,12 +1984,12 @@
     </object>
     <object>
       <name>org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay</name>
-      <ncss>277</ncss>
-      <functions>37</functions>
+      <ncss>226</ncss>
+      <functions>36</functions>
       <classes>1</classes>
       <javadocs>13</javadocs>
       <javadocs_lines>68</javadocs_lines>
-      <single_comment_lines>51</single_comment_lines>
+      <single_comment_lines>38</single_comment_lines>
       <implementation_comment_lines>7</implementation_comment_lines>
     </object>
     <object>
@@ -1944,7 +2074,7 @@
     </object>
     <object>
       <name>org.osmdroid.views.util.PathProjection</name>
-      <ncss>40</ncss>
+      <ncss>41</ncss>
       <functions>2</functions>
       <classes>0</classes>
       <javadocs>0</javadocs>
@@ -1974,17 +2104,27 @@
     </object>
     <object>
       <name>org.osmdroid.tileprovider.MapTileCacheTest</name>
-      <ncss>51</ncss>
-      <functions>3</functions>
-      <classes>1</classes>
+      <ncss>69</ncss>
+      <functions>4</functions>
+      <classes>2</classes>
       <javadocs>1</javadocs>
       <javadocs_lines>5</javadocs_lines>
       <single_comment_lines>8</single_comment_lines>
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <object>
+      <name>org.osmdroid.tileprovider.cachemanager.CacheManagerTest</name>
+      <ncss>34</ncss>
+      <functions>5</functions>
+      <classes>0</classes>
+      <javadocs>4</javadocs>
+      <javadocs_lines>22</javadocs_lines>
+      <single_comment_lines>6</single_comment_lines>
+      <implementation_comment_lines>0</implementation_comment_lines>
+    </object>
+    <object>
       <name>org.osmdroid.util.BoundBoxTest</name>
-      <ncss>37</ncss>
+      <ncss>38</ncss>
       <functions>3</functions>
       <classes>0</classes>
       <javadocs>1</javadocs>
@@ -2003,6 +2143,16 @@
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <object>
+      <name>org.osmdroid.util.DelayTest</name>
+      <ncss>29</ncss>
+      <functions>4</functions>
+      <classes>0</classes>
+      <javadocs>1</javadocs>
+      <javadocs_lines>4</javadocs_lines>
+      <single_comment_lines>1</single_comment_lines>
+      <implementation_comment_lines>0</implementation_comment_lines>
+    </object>
+    <object>
       <name>org.osmdroid.util.DistanceTest</name>
       <ncss>31</ncss>
       <functions>3</functions>
@@ -2013,8 +2163,18 @@
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <object>
+      <name>org.osmdroid.util.GarbageCollectorTest</name>
+      <ncss>55</ncss>
+      <functions>6</functions>
+      <classes>1</classes>
+      <javadocs>1</javadocs>
+      <javadocs_lines>4</javadocs_lines>
+      <single_comment_lines>1</single_comment_lines>
+      <implementation_comment_lines>0</implementation_comment_lines>
+    </object>
+    <object>
       <name>org.osmdroid.util.GeoPointTest</name>
-      <ncss>118</ncss>
+      <ncss>119</ncss>
       <functions>19</functions>
       <classes>0</classes>
       <javadocs>7</javadocs>
@@ -2043,9 +2203,29 @@
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <object>
+      <name>org.osmdroid.util.MapTileListBorderComputerTest</name>
+      <ncss>64</ncss>
+      <functions>8</functions>
+      <classes>0</classes>
+      <javadocs>4</javadocs>
+      <javadocs_lines>14</javadocs_lines>
+      <single_comment_lines>0</single_comment_lines>
+      <implementation_comment_lines>0</implementation_comment_lines>
+    </object>
+    <object>
       <name>org.osmdroid.util.MapTileListTest</name>
-      <ncss>74</ncss>
+      <ncss>67</ncss>
       <functions>5</functions>
+      <classes>0</classes>
+      <javadocs>4</javadocs>
+      <javadocs_lines>14</javadocs_lines>
+      <single_comment_lines>1</single_comment_lines>
+      <implementation_comment_lines>0</implementation_comment_lines>
+    </object>
+    <object>
+      <name>org.osmdroid.util.MapTileListZoomComputerTest</name>
+      <ncss>56</ncss>
+      <functions>3</functions>
       <classes>0</classes>
       <javadocs>1</javadocs>
       <javadocs_lines>5</javadocs_lines>
@@ -2054,12 +2234,22 @@
     </object>
     <object>
       <name>org.osmdroid.util.ProjectionTest</name>
-      <ncss>142</ncss>
-      <functions>16</functions>
+      <ncss>151</ncss>
+      <functions>17</functions>
       <classes>0</classes>
-      <javadocs>7</javadocs>
-      <javadocs_lines>33</javadocs_lines>
+      <javadocs>8</javadocs>
+      <javadocs_lines>37</javadocs_lines>
       <single_comment_lines>11</single_comment_lines>
+      <implementation_comment_lines>0</implementation_comment_lines>
+    </object>
+    <object>
+      <name>org.osmdroid.util.RectLTest</name>
+      <ncss>134</ncss>
+      <functions>11</functions>
+      <classes>0</classes>
+      <javadocs>8</javadocs>
+      <javadocs_lines>39</javadocs_lines>
+      <single_comment_lines>1</single_comment_lines>
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <object>
@@ -2084,12 +2274,22 @@
     </object>
     <object>
       <name>org.osmdroid.util.TileSystemTest</name>
-      <ncss>98</ncss>
-      <functions>17</functions>
+      <ncss>150</ncss>
+      <functions>22</functions>
       <classes>0</classes>
-      <javadocs>11</javadocs>
-      <javadocs_lines>40</javadocs_lines>
+      <javadocs>16</javadocs>
+      <javadocs_lines>59</javadocs_lines>
       <single_comment_lines>0</single_comment_lines>
+      <implementation_comment_lines>0</implementation_comment_lines>
+    </object>
+    <object>
+      <name>org.osmdroid.views.overlay.LinearRingTest</name>
+      <ncss>38</ncss>
+      <functions>7</functions>
+      <classes>0</classes>
+      <javadocs>2</javadocs>
+      <javadocs_lines>19</javadocs_lines>
+      <single_comment_lines>2</single_comment_lines>
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <object>
@@ -2103,96 +2303,18 @@
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <averages>
-      <ncss>70.12</ncss>
-      <functions>11.20</functions>
-      <classes>0.45</classes>
-      <javadocs>5.52</javadocs>
-      <javadocs_lines>29.64</javadocs_lines>
-      <single_comment_lines>7.92</single_comment_lines>
-      <implementation_comment_lines>3.35</implementation_comment_lines>
+      <ncss>69.03</ncss>
+      <functions>10.84</functions>
+      <classes>0.44</classes>
+      <javadocs>5.50</javadocs>
+      <javadocs_lines>28.86</javadocs_lines>
+      <single_comment_lines>7.26</single_comment_lines>
+      <implementation_comment_lines>3.03</implementation_comment_lines>
     </averages>
-    <ncss>14,121.00</ncss>
+    <ncss>15,478.00</ncss>
   </objects>
 
   <functions>
-    <function>
-      <name>microsoft.mappoint.TileSystem.setTileSize(int)</name>
-      <ncss>4</ncss>
-      <ccn>1</ccn>
-      <javadocs>0</javadocs>
-    </function>
-    <function>
-      <name>microsoft.mappoint.TileSystem.getTileSize()</name>
-      <ncss>2</ncss>
-      <ccn>1</ccn>
-      <javadocs>0</javadocs>
-    </function>
-    <function>
-      <name>microsoft.mappoint.TileSystem.getMaximumZoomLevel()</name>
-      <ncss>2</ncss>
-      <ccn>1</ccn>
-      <javadocs>0</javadocs>
-    </function>
-    <function>
-      <name>microsoft.mappoint.TileSystem.Clip(double,double,double)</name>
-      <ncss>2</ncss>
-      <ccn>1</ccn>
-      <javadocs>1</javadocs>
-    </function>
-    <function>
-      <name>microsoft.mappoint.TileSystem.MapSize(int)</name>
-      <ncss>2</ncss>
-      <ccn>2</ccn>
-      <javadocs>1</javadocs>
-    </function>
-    <function>
-      <name>microsoft.mappoint.TileSystem.GroundResolution(double,int)</name>
-      <ncss>3</ncss>
-      <ccn>1</ccn>
-      <javadocs>1</javadocs>
-    </function>
-    <function>
-      <name>microsoft.mappoint.TileSystem.MapScale(double,int,int)</name>
-      <ncss>2</ncss>
-      <ccn>1</ccn>
-      <javadocs>1</javadocs>
-    </function>
-    <function>
-      <name>microsoft.mappoint.TileSystem.LatLongToPixelXY(double,double,int,Point)</name>
-      <ncss>11</ncss>
-      <ccn>2</ccn>
-      <javadocs>1</javadocs>
-    </function>
-    <function>
-      <name>microsoft.mappoint.TileSystem.PixelXYToLatLong(int,int,int,GeoPoint)</name>
-      <ncss>10</ncss>
-      <ccn>2</ccn>
-      <javadocs>1</javadocs>
-    </function>
-    <function>
-      <name>microsoft.mappoint.TileSystem.PixelXYToTileXY(int,int,Point)</name>
-      <ncss>5</ncss>
-      <ccn>2</ccn>
-      <javadocs>1</javadocs>
-    </function>
-    <function>
-      <name>microsoft.mappoint.TileSystem.TileXYToPixelXY(int,int,Point)</name>
-      <ncss>5</ncss>
-      <ccn>2</ccn>
-      <javadocs>1</javadocs>
-    </function>
-    <function>
-      <name>microsoft.mappoint.TileSystem.TileXYToQuadKey(int,int,int)</name>
-      <ncss>12</ncss>
-      <ccn>4</ccn>
-      <javadocs>1</javadocs>
-    </function>
-    <function>
-      <name>microsoft.mappoint.TileSystem.QuadKeyToTileXY(String,Point)</name>
-      <ncss>24</ncss>
-      <ccn>8</ccn>
-      <javadocs>1</javadocs>
-    </function>
     <function>
       <name>org.metalev.multitouch.controller.MultiTouchController.extractCurrPtInfo()</name>
       <ncss>7</ncss>
@@ -2704,6 +2826,12 @@
       <javadocs>0</javadocs>
     </function>
     <function>
+      <name>org.osmdroid.api.IMapController.animateTo(IGeoPoint,Double,Long)</name>
+      <ncss>1</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
       <name>org.osmdroid.api.IMapView.getController()</name>
       <ncss>1</ncss>
       <ccn>1</ccn>
@@ -3041,20 +3169,20 @@
     </function>
     <function>
       <name>org.osmdroid.config.DefaultConfigurationProvider.load(Context,SharedPreferences)</name>
-      <ncss>49</ncss>
+      <ncss>50</ncss>
       <ccn>10</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
       <name>org.osmdroid.config.DefaultConfigurationProvider.save(Context,SharedPreferences)</name>
-      <ncss>25</ncss>
+      <ncss>26</ncss>
       <ccn>2</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
       <name>org.osmdroid.config.DefaultConfigurationProvider.load(SharedPreferences,String,String)</name>
-      <ncss>5</ncss>
-      <ccn>3</ccn>
+      <ncss>7</ncss>
+      <ccn>7</ccn>
       <javadocs>1</javadocs>
     </function>
     <function>
@@ -3137,6 +3265,54 @@
     </function>
     <function>
       <name>org.osmdroid.config.DefaultConfigurationProvider.getCacheMapTileOvershoot()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.config.DefaultConfigurationProvider.getTileGCFrequencyInMillis()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.config.DefaultConfigurationProvider.setTileGCFrequencyInMillis(long)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.config.DefaultConfigurationProvider.getTileGCBulkSize()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.config.DefaultConfigurationProvider.setTileGCBulkSize(int)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.config.DefaultConfigurationProvider.getTileGCBulkPauseInMillis()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.config.DefaultConfigurationProvider.setTileGCBulkPauseInMillis(long)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.config.DefaultConfigurationProvider.setMapTileDownloaderFollowRedirects(boolean)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.config.DefaultConfigurationProvider.isMapTileDownloaderFollowRedirects()</name>
       <ncss>2</ncss>
       <ccn>1</ccn>
       <javadocs>0</javadocs>
@@ -3460,6 +3636,54 @@
       <javadocs>1</javadocs>
     </function>
     <function>
+      <name>org.osmdroid.config.IConfigurationProvider.getTileGCFrequencyInMillis()</name>
+      <ncss>1</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.config.IConfigurationProvider.setTileGCFrequencyInMillis(long)</name>
+      <ncss>1</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.config.IConfigurationProvider.getTileGCBulkSize()</name>
+      <ncss>1</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.config.IConfigurationProvider.setTileGCBulkSize(int)</name>
+      <ncss>1</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.config.IConfigurationProvider.getTileGCBulkPauseInMillis()</name>
+      <ncss>1</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.config.IConfigurationProvider.setTileGCBulkPauseInMillis(long)</name>
+      <ncss>1</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.config.IConfigurationProvider.setMapTileDownloaderFollowRedirects(boolean)</name>
+      <ncss>1</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.config.IConfigurationProvider.isMapTileDownloaderFollowRedirects()</name>
+      <ncss>1</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
       <name>org.osmdroid.events.DelayedMapListener.DelayedMapListener(MapListener,long)</name>
       <ncss>5</ncss>
       <ccn>1</ccn>
@@ -3541,25 +3765,25 @@
       <name>org.osmdroid.events.ScrollEvent.ScrollEvent(MapView,int,int)</name>
       <ncss>4</ncss>
       <ccn>1</ccn>
-      <javadocs>0</javadocs>
+      <javadocs>1</javadocs>
     </function>
     <function>
       <name>org.osmdroid.events.ScrollEvent.getSource()</name>
       <ncss>2</ncss>
       <ccn>1</ccn>
-      <javadocs>0</javadocs>
+      <javadocs>1</javadocs>
     </function>
     <function>
       <name>org.osmdroid.events.ScrollEvent.getX()</name>
       <ncss>2</ncss>
       <ccn>1</ccn>
-      <javadocs>0</javadocs>
+      <javadocs>1</javadocs>
     </function>
     <function>
       <name>org.osmdroid.events.ScrollEvent.getY()</name>
       <ncss>2</ncss>
       <ccn>1</ccn>
-      <javadocs>0</javadocs>
+      <javadocs>1</javadocs>
     </function>
     <function>
       <name>org.osmdroid.events.ScrollEvent.toString()</name>
@@ -3605,12 +3829,18 @@
     </function>
     <function>
       <name>org.osmdroid.tileprovider.BitmapPool.returnDrawableToPool(ReusableBitmapDrawable)</name>
-      <ncss>5</ncss>
-      <ccn>3</ccn>
+      <ncss>8</ncss>
+      <ccn>6</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
       <name>org.osmdroid.tileprovider.BitmapPool.applyReusableOptions(BitmapFactory.Options)</name>
+      <ncss>5</ncss>
+      <ccn>2</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.tileprovider.BitmapPool.applyReusableOptions(BitmapFactory.Options,int,int)</name>
       <ncss>5</ncss>
       <ccn>2</ccn>
       <javadocs>0</javadocs>
@@ -3619,7 +3849,7 @@
       <name>org.osmdroid.tileprovider.BitmapPool.obtainBitmapFromPool()</name>
       <ncss>10</ncss>
       <ccn>5</ccn>
-      <javadocs>0</javadocs>
+      <javadocs>1</javadocs>
     </function>
     <function>
       <name>org.osmdroid.tileprovider.BitmapPool.obtainSizedBitmapFromPool(int,int)</name>
@@ -3809,6 +4039,18 @@
     </function>
     <function>
       <name>org.osmdroid.tileprovider.MapTileCache.MapTileCache(int)</name>
+      <ncss>3</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.tileprovider.MapTileCache.getProtectedTileComputers()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.tileprovider.MapTileCache.getProtectedTileContainers()</name>
       <ncss>2</ncss>
       <ccn>1</ccn>
       <javadocs>1</javadocs>
@@ -3833,8 +4075,14 @@
     </function>
     <function>
       <name>org.osmdroid.tileprovider.MapTileCache.garbageCollection()</name>
-      <ncss>18</ncss>
+      <ncss>16</ncss>
       <ccn>7</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.tileprovider.MapTileCache.shouldKeepTile(long)</name>
+      <ncss>9</ncss>
+      <ccn>8</ccn>
       <javadocs>1</javadocs>
     </function>
     <function>
@@ -3857,7 +4105,7 @@
     </function>
     <function>
       <name>org.osmdroid.tileprovider.MapTileCache.remove(long)</name>
-      <ncss>5</ncss>
+      <ncss>7</ncss>
       <ccn>2</ccn>
       <javadocs>1</javadocs>
     </function>
@@ -3886,6 +4134,60 @@
       <javadocs>1</javadocs>
     </function>
     <function>
+      <name>org.osmdroid.tileprovider.MapTileCache.maintenance()</name>
+      <ncss>3</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.tileprovider.MapTileCache.getPreCache()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.tileprovider.MapTilePreCache.Runnable$1.run()</name>
+      <ncss>4</ncss>
+      <ccn>2</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.tileprovider.MapTilePreCache.MapTilePreCache(MapTileCache)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.tileprovider.MapTilePreCache.addProvider(MapTileModuleProviderBase)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.tileprovider.MapTilePreCache.fill()</name>
+      <ncss>3</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.tileprovider.MapTilePreCache.refresh()</name>
+      <ncss>6</ncss>
+      <ccn>2</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.tileprovider.MapTilePreCache.next()</name>
+      <ncss>10</ncss>
+      <ccn>5</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.tileprovider.MapTilePreCache.search(long)</name>
+      <ncss>8</ncss>
+      <ccn>4</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
       <name>org.osmdroid.tileprovider.MapTileProviderArray.MapTileProviderArray(ITileSource,IRegisterReceiver)</name>
       <ncss>2</ncss>
       <ccn>1</ccn>
@@ -3904,6 +4206,12 @@
       <javadocs>0</javadocs>
     </function>
     <function>
+      <name>org.osmdroid.tileprovider.MapTileProviderArray.contains(long)</name>
+      <ncss>3</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
       <name>org.osmdroid.tileprovider.MapTileProviderArray.isDowngradedMode()</name>
       <ncss>2</ncss>
       <ccn>1</ccn>
@@ -3911,13 +4219,13 @@
     </function>
     <function>
       <name>org.osmdroid.tileprovider.MapTileProviderArray.getMapTile(long)</name>
-      <ncss>22</ncss>
-      <ccn>12</ccn>
+      <ncss>14</ncss>
+      <ccn>8</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
       <name>org.osmdroid.tileprovider.MapTileProviderArray.remove(long)</name>
-      <ncss>2</ncss>
+      <ncss>3</ncss>
       <ccn>1</ccn>
       <javadocs>1</javadocs>
     </function>
@@ -3929,8 +4237,8 @@
     </function>
     <function>
       <name>org.osmdroid.tileprovider.MapTileProviderArray.mapTileRequestFailed(MapTileRequestState)</name>
-      <ncss>7</ncss>
-      <ccn>2</ccn>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
@@ -3941,8 +4249,8 @@
     </function>
     <function>
       <name>org.osmdroid.tileprovider.MapTileProviderArray.mapTileRequestExpiredTile(MapTileRequestState,Drawable)</name>
-      <ncss>7</ncss>
-      <ccn>2</ccn>
+      <ncss>5</ncss>
+      <ccn>1</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
@@ -3953,14 +4261,20 @@
     </function>
     <function>
       <name>org.osmdroid.tileprovider.MapTileProviderArray.getQueueSize()</name>
-      <ncss>4</ncss>
-      <ccn>3</ccn>
+      <ncss>3</ncss>
+      <ccn>1</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
       <name>org.osmdroid.tileprovider.MapTileProviderArray.findNextAppropriateProvider(MapTileRequestState)</name>
       <ncss>11</ncss>
       <ccn>8</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.tileprovider.MapTileProviderArray.runAsyncNextProvider(MapTileRequestState)</name>
+      <ncss>11</ncss>
+      <ccn>5</ccn>
       <javadocs>1</javadocs>
     </function>
     <function>
@@ -4205,7 +4519,7 @@
     </function>
     <function>
       <name>org.osmdroid.tileprovider.MapTileProviderBasic.MapTileProviderBasic(IRegisterReceiver,INetworkAvailablityCheck,ITileSource,Context,IFilesystemCache)</name>
-      <ncss>27</ncss>
+      <ncss>34</ncss>
       <ccn>4</ccn>
       <javadocs>1</javadocs>
     </function>
@@ -4355,8 +4669,8 @@
     </function>
     <function>
       <name>org.osmdroid.tileprovider.cachemanager.CacheManager.forceLoadTile(OnlineTileSourceBase,long)</name>
-      <ncss>54</ncss>
-      <ccn>20</ccn>
+      <ncss>5</ncss>
+      <ccn>3</ccn>
       <javadocs>1</javadocs>
     </function>
     <function>
@@ -4385,8 +4699,56 @@
     </function>
     <function>
       <name>org.osmdroid.tileprovider.cachemanager.CacheManager.getTilesCoverage(BoundingBox,int)</name>
-      <ncss>17</ncss>
-      <ccn>5</ccn>
+      <ncss>5</ncss>
+      <ccn>2</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.tileprovider.cachemanager.CacheManager.IterableWithSize$1.size()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.tileprovider.cachemanager.CacheManager.IterableWithSize$1.Iterator$1.hasNext()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.tileprovider.cachemanager.CacheManager.IterableWithSize$1.Iterator$1.next()</name>
+      <ncss>13</ncss>
+      <ccn>3</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.tileprovider.cachemanager.CacheManager.IterableWithSize$1.Iterator$1.remove()</name>
+      <ncss>2</ncss>
+      <ccn>2</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.tileprovider.cachemanager.CacheManager.IterableWithSize$1.Iterator$1.init(int)</name>
+      <ncss>8</ncss>
+      <ccn>2</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.tileprovider.cachemanager.CacheManager.IterableWithSize$1.iterator()</name>
+      <ncss>34</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.tileprovider.cachemanager.CacheManager.getTilesCoverageIterable(BoundingBox,int,int)</name>
+      <ncss>50</ncss>
+      <ccn>2</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.tileprovider.cachemanager.CacheManager.getTilesRect(BoundingBox,int)</name>
+      <ncss>12</ncss>
+      <ccn>3</ccn>
       <javadocs>1</javadocs>
     </function>
     <function>
@@ -4594,6 +4956,12 @@
       <javadocs>0</javadocs>
     </function>
     <function>
+      <name>org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerTask.CacheManagerTask(CacheManager,CacheManagerAction,Long,int,int)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
       <name>org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerTask.CacheManagerTask(CacheManager,CacheManagerAction,GeoPoint,int,int)</name>
       <ncss>2</ncss>
       <ccn>1</ccn>
@@ -4702,6 +5070,24 @@
       <javadocs>1</javadocs>
     </function>
     <function>
+      <name>org.osmdroid.tileprovider.cachemanager.CacheManager.ListWrapper.ListWrapper(T)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.tileprovider.cachemanager.CacheManager.ListWrapper.size()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.tileprovider.cachemanager.CacheManager.ListWrapper.iterator()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
       <name>org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerAction$1.preCheck()</name>
       <ncss>6</ncss>
       <ccn>3</ccn>
@@ -4792,6 +5178,12 @@
       <javadocs>1</javadocs>
     </function>
     <function>
+      <name>org.osmdroid.tileprovider.cachemanager.CacheManager.setTileDownloader(TileDownloader)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
       <name>org.osmdroid.tileprovider.modules.ArchiveFileFactory.isFileExtensionRegistered(String)</name>
       <ncss>2</ncss>
       <ccn>1</ccn>
@@ -4814,6 +5206,18 @@
       <ncss>4</ncss>
       <ccn>1</ccn>
       <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.tileprovider.modules.CantContinueException.CantContinueException(String)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.tileprovider.modules.CantContinueException.CantContinueException(Throwable)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
     </function>
     <function>
       <name>org.osmdroid.tileprovider.modules.ConfigurablePriorityThreadFactory.ConfigurablePriorityThreadFactory(int,String)</name>
@@ -4865,8 +5269,8 @@
     </function>
     <function>
       <name>org.osmdroid.tileprovider.modules.DatabaseFileArchive.getImage(ITileSource,long)</name>
-      <ncss>21</ncss>
-      <ccn>6</ccn>
+      <ncss>25</ncss>
+      <ccn>10</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
@@ -5344,9 +5748,27 @@
       <javadocs>0</javadocs>
     </function>
     <function>
+      <name>org.osmdroid.tileprovider.modules.MapTileDownloader.computeExpirationTime(String)</name>
+      <ncss>9</ncss>
+      <ccn>5</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.tileprovider.modules.MapTileDownloader.computeExpirationTime(Long)</name>
+      <ncss>9</ncss>
+      <ccn>5</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.tileprovider.modules.MapTileDownloader.TileLoader.downloadTile(long,int,String)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
       <name>org.osmdroid.tileprovider.modules.MapTileDownloader.TileLoader.loadTile(long)</name>
-      <ncss>81</ncss>
-      <ccn>31</ccn>
+      <ncss>19</ncss>
+      <ccn>12</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
@@ -5354,6 +5776,12 @@
       <ncss>4</ncss>
       <ccn>1</ccn>
       <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.tileprovider.modules.MapTileDownloader.setTileDownloader(TileDownloader)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
     </function>
     <function>
       <name>org.osmdroid.tileprovider.modules.MapTileFileArchiveProvider.MapTileFileArchiveProvider(IRegisterReceiver,ITileSource,IArchiveFile[])</name>
@@ -5441,8 +5869,8 @@
     </function>
     <function>
       <name>org.osmdroid.tileprovider.modules.MapTileFileArchiveProvider.findArchiveFiles()</name>
-      <ncss>12</ncss>
-      <ccn>6</ccn>
+      <ncss>10</ncss>
+      <ccn>4</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
@@ -5453,27 +5881,15 @@
     </function>
     <function>
       <name>org.osmdroid.tileprovider.modules.MapTileFileArchiveProvider.TileLoader.loadTile(long)</name>
-      <ncss>24</ncss>
-      <ccn>11</ccn>
+      <ncss>20</ncss>
+      <ccn>8</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
       <name>org.osmdroid.tileprovider.modules.MapTileFileStorageProviderBase.MapTileFileStorageProviderBase(IRegisterReceiver,int,int)</name>
-      <ncss>10</ncss>
+      <ncss>9</ncss>
       <ccn>1</ccn>
       <javadocs>0</javadocs>
-    </function>
-    <function>
-      <name>org.osmdroid.tileprovider.modules.MapTileFileStorageProviderBase.checkSdCard()</name>
-      <ncss>4</ncss>
-      <ccn>1</ccn>
-      <javadocs>0</javadocs>
-    </function>
-    <function>
-      <name>org.osmdroid.tileprovider.modules.MapTileFileStorageProviderBase.isSdCardAvailable()</name>
-      <ncss>2</ncss>
-      <ccn>1</ccn>
-      <javadocs>1</javadocs>
     </function>
     <function>
       <name>org.osmdroid.tileprovider.modules.MapTileFileStorageProviderBase.detach()</name>
@@ -5495,7 +5911,7 @@
     </function>
     <function>
       <name>org.osmdroid.tileprovider.modules.MapTileFileStorageProviderBase.MyBroadcastReceiver.onReceive(Context,Intent)</name>
-      <ncss>8</ncss>
+      <ncss>7</ncss>
       <ccn>3</ccn>
       <javadocs>0</javadocs>
     </function>
@@ -5567,8 +5983,8 @@
     </function>
     <function>
       <name>org.osmdroid.tileprovider.modules.MapTileFilesystemProvider.TileLoader.loadTile(long)</name>
-      <ncss>22</ncss>
-      <ccn>11</ccn>
+      <ncss>17</ncss>
+      <ccn>8</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
@@ -5616,7 +6032,7 @@
     <function>
       <name>org.osmdroid.tileprovider.modules.MapTileModuleProviderBase.LinkedHashMap$1.removeEldestEntry(MapTileRequestState)</name>
       <ncss>13</ncss>
-      <ccn>6</ccn>
+      <ccn>7</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
@@ -5710,18 +6126,6 @@
       <javadocs>1</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.tileprovider.modules.MapTileModuleProviderBase.CantContinueException.CantContinueException(String)</name>
-      <ncss>2</ncss>
-      <ccn>1</ccn>
-      <javadocs>0</javadocs>
-    </function>
-    <function>
-      <name>org.osmdroid.tileprovider.modules.MapTileModuleProviderBase.CantContinueException.CantContinueException(Throwable)</name>
-      <ncss>2</ncss>
-      <ccn>1</ccn>
-      <javadocs>0</javadocs>
-    </function>
-    <function>
       <name>org.osmdroid.tileprovider.modules.MapTileSqlCacheProvider.MapTileSqlCacheProvider(IRegisterReceiver,ITileSource,long)</name>
       <ncss>2</ncss>
       <ccn>1</ccn>
@@ -5801,8 +6205,8 @@
     </function>
     <function>
       <name>org.osmdroid.tileprovider.modules.MapTileSqlCacheProvider.TileLoader.loadTile(long)</name>
-      <ncss>26</ncss>
-      <ccn>13</ccn>
+      <ncss>21</ncss>
+      <ccn>10</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
@@ -5860,33 +6264,33 @@
       <javadocs>0</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.tileprovider.modules.SqlTileWriter.Thread$1.run()</name>
+      <name>org.osmdroid.tileprovider.modules.SqlTileWriter.Runnable$1.run()</name>
       <ncss>2</ncss>
       <ccn>1</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
       <name>org.osmdroid.tileprovider.modules.SqlTileWriter.SqlTileWriter()</name>
-      <ncss>15</ncss>
-      <ccn>4</ccn>
+      <ncss>6</ncss>
+      <ccn>3</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
       <name>org.osmdroid.tileprovider.modules.SqlTileWriter.runCleanupOperation()</name>
-      <ncss>26</ncss>
-      <ccn>13</ccn>
+      <ncss>11</ncss>
+      <ccn>7</ccn>
       <javadocs>1</javadocs>
     </function>
     <function>
       <name>org.osmdroid.tileprovider.modules.SqlTileWriter.saveFile(ITileSource,long,InputStream,Long)</name>
-      <ncss>36</ncss>
-      <ccn>14</ccn>
+      <ncss>37</ncss>
+      <ccn>12</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
       <name>org.osmdroid.tileprovider.modules.SqlTileWriter.exists(String,long)</name>
-      <ncss>16</ncss>
-      <ccn>7</ccn>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
       <javadocs>1</javadocs>
     </function>
     <function>
@@ -5897,38 +6301,50 @@
     </function>
     <function>
       <name>org.osmdroid.tileprovider.modules.SqlTileWriter.onDetach()</name>
-      <ncss>8</ncss>
-      <ccn>4</ccn>
-      <javadocs>0</javadocs>
+      <ncss>1</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
     </function>
     <function>
       <name>org.osmdroid.tileprovider.modules.SqlTileWriter.purgeCache()</name>
-      <ncss>7</ncss>
+      <ncss>9</ncss>
       <ccn>5</ccn>
       <javadocs>1</javadocs>
     </function>
     <function>
       <name>org.osmdroid.tileprovider.modules.SqlTileWriter.purgeCache(String)</name>
-      <ncss>7</ncss>
+      <ncss>9</ncss>
       <ccn>5</ccn>
       <javadocs>1</javadocs>
     </function>
     <function>
       <name>org.osmdroid.tileprovider.modules.SqlTileWriter.importFromFileCache(boolean)</name>
-      <ncss>69</ncss>
+      <ncss>71</ncss>
       <ccn>33</ccn>
       <javadocs>1</javadocs>
     </function>
     <function>
       <name>org.osmdroid.tileprovider.modules.SqlTileWriter.remove(ITileSource,long)</name>
-      <ncss>12</ncss>
-      <ccn>6</ccn>
+      <ncss>14</ncss>
+      <ccn>7</ccn>
       <javadocs>1</javadocs>
     </function>
     <function>
       <name>org.osmdroid.tileprovider.modules.SqlTileWriter.getRowCount(String)</name>
-      <ncss>13</ncss>
-      <ccn>4</ccn>
+      <ncss>4</ncss>
+      <ccn>3</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.tileprovider.modules.SqlTileWriter.getRowCount(String,String[])</name>
+      <ncss>14</ncss>
+      <ccn>9</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.tileprovider.modules.SqlTileWriter.getRowCount(String,int,Rect,Rect)</name>
+      <ncss>2</ncss>
+      <ccn>3</ccn>
       <javadocs>1</javadocs>
     </function>
     <function>
@@ -5939,12 +6355,24 @@
     </function>
     <function>
       <name>org.osmdroid.tileprovider.modules.SqlTileWriter.getFirstExpiry()</name>
-      <ncss>9</ncss>
-      <ccn>3</ccn>
+      <ncss>13</ncss>
+      <ccn>6</ccn>
       <javadocs>1</javadocs>
     </function>
     <function>
       <name>org.osmdroid.tileprovider.modules.SqlTileWriter.getIndex(long,long,long)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.tileprovider.modules.SqlTileWriter.extractXFromKeyInSQL(int)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.tileprovider.modules.SqlTileWriter.extractYFromKeyInSQL(int)</name>
       <ncss>2</ncss>
       <ccn>1</ccn>
       <javadocs>1</javadocs>
@@ -5957,7 +6385,7 @@
     </function>
     <function>
       <name>org.osmdroid.tileprovider.modules.SqlTileWriter.getExpirationTimestamp(ITileSource,long)</name>
-      <ncss>11</ncss>
+      <ncss>12</ncss>
       <ccn>5</ccn>
       <javadocs>0</javadocs>
     </function>
@@ -5981,7 +6409,7 @@
     </function>
     <function>
       <name>org.osmdroid.tileprovider.modules.SqlTileWriter.getTileCursor(String[],String[])</name>
-      <ncss>2</ncss>
+      <ncss>3</ncss>
       <ccn>1</ccn>
       <javadocs>1</javadocs>
     </function>
@@ -5992,6 +6420,66 @@
       <javadocs>0</javadocs>
     </function>
     <function>
+      <name>org.osmdroid.tileprovider.modules.SqlTileWriter.runCleanupOperation(long,int,long,boolean)</name>
+      <ncss>40</ncss>
+      <ccn>13</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.tileprovider.modules.SqlTileWriter.getDb()</name>
+      <ncss>14</ncss>
+      <ccn>6</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.tileprovider.modules.SqlTileWriter.refreshDb()</name>
+      <ncss>5</ncss>
+      <ccn>2</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.tileprovider.modules.SqlTileWriter.catchException(Exception)</name>
+      <ncss>4</ncss>
+      <ccn>3</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.tileprovider.modules.SqlTileWriter.isFunctionalException(SQLiteException)</name>
+      <ncss>22</ncss>
+      <ccn>19</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.tileprovider.modules.SqlTileWriter.createIndex(SQLiteDatabase)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.tileprovider.modules.SqlTileWriter.runDuringSplashScreen()</name>
+      <ncss>3</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.tileprovider.modules.SqlTileWriter.getWhereClause(int,Rect)</name>
+      <ncss>22</ncss>
+      <ccn>6</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.tileprovider.modules.SqlTileWriter.getWhereClause(int,Rect,Rect)</name>
+      <ncss>20</ncss>
+      <ccn>7</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.tileprovider.modules.SqlTileWriter.delete(String,int,Rect,Rect)</name>
+      <ncss>8</ncss>
+      <ccn>8</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
       <name>org.osmdroid.tileprovider.modules.SqliteArchiveTileWriter.SqliteArchiveTileWriter(String)</name>
       <ncss>9</ncss>
       <ccn>4</ccn>
@@ -5999,8 +6487,8 @@
     </function>
     <function>
       <name>org.osmdroid.tileprovider.modules.SqliteArchiveTileWriter.saveFile(ITileSource,long,InputStream,Long)</name>
-      <ncss>22</ncss>
-      <ccn>5</ccn>
+      <ncss>27</ncss>
+      <ccn>8</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
@@ -6029,15 +6517,39 @@
     </function>
     <function>
       <name>org.osmdroid.tileprovider.modules.SqliteArchiveTileWriter.getTileCursor(String[])</name>
-      <ncss>2</ncss>
-      <ccn>1</ccn>
+      <ncss>5</ncss>
+      <ccn>4</ccn>
       <javadocs>1</javadocs>
     </function>
     <function>
       <name>org.osmdroid.tileprovider.modules.SqliteArchiveTileWriter.loadTile(ITileSource,long)</name>
-      <ncss>17</ncss>
-      <ccn>7</ccn>
+      <ncss>22</ncss>
+      <ccn>12</ccn>
       <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.tileprovider.modules.TileDownloader.downloadTile(long,IFilesystemCache,OnlineTileSourceBase)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.tileprovider.modules.TileDownloader.downloadTile(long,int,String,IFilesystemCache,OnlineTileSourceBase)</name>
+      <ncss>92</ncss>
+      <ccn>34</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.tileprovider.modules.TileDownloader.computeExpirationTime(String)</name>
+      <ncss>9</ncss>
+      <ccn>5</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.tileprovider.modules.TileDownloader.computeExpirationTime(Long)</name>
+      <ncss>9</ncss>
+      <ccn>5</ccn>
+      <javadocs>0</javadocs>
     </function>
     <function>
       <name>org.osmdroid.tileprovider.modules.TileWriter.Thread$1.run()</name>
@@ -7114,8 +7626,14 @@
       <javadocs>0</javadocs>
     </function>
     <function>
+      <name>org.osmdroid.util.BoundingBox.BoundingBox()</name>
+      <ncss>1</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
       <name>org.osmdroid.util.BoundingBox.set(double,double,double,double)</name>
-      <ncss>13</ncss>
+      <ncss>14</ncss>
       <ccn>9</ccn>
       <javadocs>1</javadocs>
     </function>
@@ -7175,8 +7693,8 @@
     </function>
     <function>
       <name>org.osmdroid.util.BoundingBox.getCenterLongitude(double,double)</name>
-      <ncss>9</ncss>
-      <ccn>4</ccn>
+      <ncss>5</ncss>
+      <ccn>2</ccn>
       <javadocs>1</javadocs>
     </function>
     <function>
@@ -7318,6 +7836,36 @@
       <javadocs>0</javadocs>
     </function>
     <function>
+      <name>org.osmdroid.util.Delay.Delay(long)</name>
+      <ncss>4</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.Delay.Delay(next[])</name>
+      <ncss>5</ncss>
+      <ccn>4</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.Delay.next()</name>
+      <ncss>10</ncss>
+      <ccn>3</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.Delay.shouldWait()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.Delay.now()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
       <name>org.osmdroid.util.Distance.getSquaredDistanceToPoint(double,double,double,double)</name>
       <ncss>4</ncss>
       <ccn>1</ccn>
@@ -7346,6 +7894,12 @@
       <ncss>2</ncss>
       <ccn>1</ccn>
       <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.DuringSplashScreen.runDuringSplashScreen()</name>
+      <ncss>3</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
     </function>
     <function>
       <name>org.osmdroid.util.GEMFFile.GEMFFile(File)</name>
@@ -7463,6 +8017,30 @@
     </function>
     <function>
       <name>org.osmdroid.util.GEMFFile.GEMFInputStream.skip(long)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.GarbageCollector.GarbageCollector(Runnable)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.GarbageCollector.Runnable$1.run()</name>
+      <ncss>4</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.GarbageCollector.gc()</name>
+      <ncss>11</ncss>
+      <ccn>3</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.GarbageCollector.isRunning()</name>
       <ncss>2</ncss>
       <ccn>1</ccn>
       <javadocs>0</javadocs>
@@ -7702,6 +8280,12 @@
       <javadocs>0</javadocs>
     </function>
     <function>
+      <name>org.osmdroid.util.IterableWithSize.size()</name>
+      <ncss>1</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
       <name>org.osmdroid.util.LineBuilder.LineBuilder(int)</name>
       <ncss>2</ncss>
       <ccn>1</ccn>
@@ -7816,6 +8400,12 @@
       <javadocs>0</javadocs>
     </function>
     <function>
+      <name>org.osmdroid.util.MapTileContainer.contains(long)</name>
+      <ncss>1</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
       <name>org.osmdroid.util.MapTileIndex.getTileIndex(int,int,int)</name>
       <ncss>3</ncss>
       <ccn>1</ccn>
@@ -7864,18 +8454,6 @@
       <javadocs>1</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.util.MapTileList.MapTileList()</name>
-      <ncss>2</ncss>
-      <ccn>1</ccn>
-      <javadocs>1</javadocs>
-    </function>
-    <function>
-      <name>org.osmdroid.util.MapTileList.MapTileList(int)</name>
-      <ncss>2</ncss>
-      <ccn>1</ccn>
-      <javadocs>1</javadocs>
-    </function>
-    <function>
       <name>org.osmdroid.util.MapTileList.clear()</name>
       <ncss>2</ncss>
       <ccn>1</ccn>
@@ -7900,28 +8478,82 @@
       <javadocs>0</javadocs>
     </function>
     <function>
+      <name>org.osmdroid.util.MapTileList.put(int,int,int,int,int)</name>
+      <ncss>10</ncss>
+      <ccn>5</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.MapTileList.put(int)</name>
+      <ncss>3</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
       <name>org.osmdroid.util.MapTileList.ensureCapacity(int)</name>
-      <ncss>7</ncss>
-      <ccn>3</ccn>
+      <ncss>10</ncss>
+      <ccn>7</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
       <name>org.osmdroid.util.MapTileList.contains(long)</name>
-      <ncss>5</ncss>
-      <ccn>4</ccn>
+      <ncss>7</ncss>
+      <ccn>6</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.util.MapTileList.populateFrom(MapTileList,int)</name>
-      <ncss>18</ncss>
-      <ccn>7</ccn>
+      <name>org.osmdroid.util.MapTileList.toArray()</name>
+      <ncss>5</ncss>
+      <ccn>2</ccn>
       <javadocs>1</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.util.MapTileList.toArray()</name>
-      <ncss>4</ncss>
+      <name>org.osmdroid.util.MapTileListBorderComputer.MapTileListBorderComputer(int,boolean)</name>
+      <ncss>3</ncss>
       <ccn>1</ccn>
-      <javadocs>1</javadocs>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.MapTileListBorderComputer.getBorder()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.MapTileListBorderComputer.isIncludeAll()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.MapTileListBorderComputer.computeFromSource(MapTileList,MapTileList)</name>
+      <ncss>27</ncss>
+      <ccn>12</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.MapTileListComputer.computeFromSource(MapTileList,MapTileList)</name>
+      <ncss>1</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.MapTileListZoomComputer.MapTileListZoomComputer(int)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.MapTileListZoomComputer.getZoomDelta()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.MapTileListZoomComputer.computeFromSource(MapTileList,MapTileList)</name>
+      <ncss>20</ncss>
+      <ccn>8</ccn>
+      <javadocs>0</javadocs>
     </function>
     <function>
       <name>org.osmdroid.util.MyMath.MyMath()</name>
@@ -8158,6 +8790,60 @@
       <javadocs>0</javadocs>
     </function>
     <function>
+      <name>org.osmdroid.util.RectL.getBounds(RectL,long,long,double,RectL)</name>
+      <ncss>58</ncss>
+      <ccn>16</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.RectL.getBounds(Rect,int,int,double,Rect)</name>
+      <ncss>58</ncss>
+      <ccn>16</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.RectL.getRotatedX(long,long,double,long,long)</name>
+      <ncss>5</ncss>
+      <ccn>3</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.RectL.getRotatedY(long,long,double,long,long)</name>
+      <ncss>5</ncss>
+      <ccn>3</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.RectL.getRotatedX(long,long,long,long,double,double)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.RectL.getRotatedY(long,long,long,long,double,double)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.RectL.offset(long,long)</name>
+      <ncss>5</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.RectL.union(long,long,long,long)</name>
+      <ncss>16</ncss>
+      <ccn>9</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.RectL.union(RectL)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
       <name>org.osmdroid.util.SegmentClipper.set(long,long,long,long,PointAccepter,boolean)</name>
       <ncss>11</ncss>
       <ccn>1</ccn>
@@ -8290,6 +8976,12 @@
       <javadocs>0</javadocs>
     </function>
     <function>
+      <name>org.osmdroid.util.SplashScreenable.runDuringSplashScreen()</name>
+      <ncss>1</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
       <name>org.osmdroid.util.TileLooper.TileLooper()</name>
       <ncss>2</ncss>
       <ccn>1</ccn>
@@ -8351,12 +9043,18 @@
     </function>
     <function>
       <name>org.osmdroid.util.TileSystem.setTileSize(int)</name>
-      <ncss>2</ncss>
+      <ncss>4</ncss>
       <ccn>1</ccn>
-      <javadocs>1</javadocs>
+      <javadocs>0</javadocs>
     </function>
     <function>
       <name>org.osmdroid.util.TileSystem.getTileSize()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.TileSystem.getMaximumZoomLevel()</name>
       <ncss>2</ncss>
       <ccn>1</ccn>
       <javadocs>1</javadocs>
@@ -8377,7 +9075,7 @@
       <name>org.osmdroid.util.TileSystem.MapSize(int)</name>
       <ncss>2</ncss>
       <ccn>1</ccn>
-      <javadocs>1</javadocs>
+      <javadocs>0</javadocs>
     </function>
     <function>
       <name>org.osmdroid.util.TileSystem.MapSize(double)</name>
@@ -8395,7 +9093,7 @@
       <name>org.osmdroid.util.TileSystem.GroundResolution(double,int)</name>
       <ncss>2</ncss>
       <ccn>1</ccn>
-      <javadocs>1</javadocs>
+      <javadocs>0</javadocs>
     </function>
     <function>
       <name>org.osmdroid.util.TileSystem.GroundResolution(double,double)</name>
@@ -8413,13 +9111,13 @@
       <name>org.osmdroid.util.TileSystem.MapScale(double,int,int)</name>
       <ncss>2</ncss>
       <ccn>1</ccn>
-      <javadocs>1</javadocs>
+      <javadocs>0</javadocs>
     </function>
     <function>
       <name>org.osmdroid.util.TileSystem.LatLongToPixelXY(double,double,int,Point)</name>
-      <ncss>2</ncss>
-      <ccn>1</ccn>
-      <javadocs>1</javadocs>
+      <ncss>6</ncss>
+      <ccn>2</ccn>
+      <javadocs>0</javadocs>
     </function>
     <function>
       <name>org.osmdroid.util.TileSystem.LatLongToPixelXY(double,double,double,PointL)</name>
@@ -8435,7 +9133,7 @@
     </function>
     <function>
       <name>org.osmdroid.util.TileSystem.PixelXYToLatLong(int,int,int,GeoPoint)</name>
-      <ncss>3</ncss>
+      <ncss>2</ncss>
       <ccn>1</ccn>
       <javadocs>1</javadocs>
     </function>
@@ -8453,25 +9151,25 @@
     </function>
     <function>
       <name>org.osmdroid.util.TileSystem.getX01FromLongitude(double,boolean)</name>
-      <ncss>3</ncss>
-      <ccn>2</ccn>
-      <javadocs>1</javadocs>
-    </function>
-    <function>
-      <name>org.osmdroid.util.TileSystem.getY01FromLatitude(double,boolean)</name>
-      <ncss>5</ncss>
+      <ncss>4</ncss>
       <ccn>3</ccn>
       <javadocs>1</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.util.TileSystem.getX01FromLongitudeWithoutWrap(double)</name>
-      <ncss>2</ncss>
+      <name>org.osmdroid.util.TileSystem.getY01FromLatitude(double,boolean)</name>
+      <ncss>4</ncss>
+      <ccn>3</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.TileSystem.getX01FromLongitude(double)</name>
+      <ncss>1</ncss>
       <ccn>1</ccn>
       <javadocs>1</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.util.TileSystem.getY01FromLatitudeWithoutWrap(double)</name>
-      <ncss>3</ncss>
+      <name>org.osmdroid.util.TileSystem.getY01FromLatitude(double)</name>
+      <ncss>1</ncss>
       <ccn>1</ccn>
       <javadocs>1</javadocs>
     </function>
@@ -8513,8 +9211,8 @@
     </function>
     <function>
       <name>org.osmdroid.util.TileSystem.TileXYToPixelXY(int,int,Point)</name>
-      <ncss>2</ncss>
-      <ccn>1</ccn>
+      <ncss>6</ncss>
+      <ccn>2</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
@@ -8525,14 +9223,14 @@
     </function>
     <function>
       <name>org.osmdroid.util.TileSystem.TileXYToQuadKey(int,int,int)</name>
-      <ncss>2</ncss>
-      <ccn>1</ccn>
+      <ncss>12</ncss>
+      <ccn>4</ccn>
       <javadocs>1</javadocs>
     </function>
     <function>
       <name>org.osmdroid.util.TileSystem.QuadKeyToTileXY(String,Point)</name>
-      <ncss>2</ncss>
-      <ccn>1</ccn>
+      <ncss>27</ncss>
+      <ccn>11</ccn>
       <javadocs>1</javadocs>
     </function>
     <function>
@@ -8580,14 +9278,26 @@
     <function>
       <name>org.osmdroid.util.TileSystem.getLatitudeFromY01(double,boolean)</name>
       <ncss>3</ncss>
-      <ccn>2</ccn>
+      <ccn>3</ccn>
       <javadocs>1</javadocs>
     </function>
     <function>
+      <name>org.osmdroid.util.TileSystem.getLatitudeFromY01(double)</name>
+      <ncss>1</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
       <name>org.osmdroid.util.TileSystem.getLongitudeFromX01(double,boolean)</name>
-      <ncss>2</ncss>
-      <ccn>2</ccn>
+      <ncss>3</ncss>
+      <ccn>3</ccn>
       <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.TileSystem.getLongitudeFromX01(double)</name>
+      <ncss>1</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
     </function>
     <function>
       <name>org.osmdroid.util.TileSystem.getCleanMercator(long,double,boolean)</name>
@@ -8597,8 +9307,8 @@
     </function>
     <function>
       <name>org.osmdroid.util.TileSystem.ClipToLong(double,double,boolean)</name>
-      <ncss>3</ncss>
-      <ccn>2</ccn>
+      <ncss>8</ncss>
+      <ccn>6</ccn>
       <javadocs>1</javadocs>
     </function>
     <function>
@@ -8662,6 +9372,144 @@
       <javadocs>1</javadocs>
     </function>
     <function>
+      <name>org.osmdroid.util.TileSystem.getMinLatitude()</name>
+      <ncss>1</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.TileSystem.getMaxLatitude()</name>
+      <ncss>1</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.TileSystem.getMinLongitude()</name>
+      <ncss>1</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.TileSystem.getMaxLongitude()</name>
+      <ncss>1</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.TileSystem.cleanLongitude(double)</name>
+      <ncss>7</ncss>
+      <ccn>3</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.TileSystem.cleanLatitude(double)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.TileSystem.isValidLongitude(double)</name>
+      <ncss>2</ncss>
+      <ccn>2</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.TileSystem.isValidLatitude(double)</name>
+      <ncss>2</ncss>
+      <ccn>2</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.TileSystem.toStringLongitudeSpan()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.TileSystem.toStringLatitudeSpan()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.TileSystemWebMercator.getX01FromLongitude(double)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.TileSystemWebMercator.getY01FromLatitude(double)</name>
+      <ncss>3</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.TileSystemWebMercator.getLongitudeFromX01(double)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.TileSystemWebMercator.getLatitudeFromY01(double)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.TileSystemWebMercator.getMinLatitude()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.TileSystemWebMercator.getMaxLatitude()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.TileSystemWebMercator.getMinLongitude()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.TileSystemWebMercator.getMaxLongitude()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.UrlBackoff.next(String)</name>
+      <ncss>10</ncss>
+      <ccn>2</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.UrlBackoff.remove(String)</name>
+      <ncss>3</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.UrlBackoff.shouldWait(String)</name>
+      <ncss>5</ncss>
+      <ccn>2</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.UrlBackoff.clear()</name>
+      <ncss>3</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.UrlBackoff.setExponentialBackoffDurationInMillis(mDelays.clear[])</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
       <name>org.osmdroid.views.MapController.MapController(MapView)</name>
       <ncss>13</ncss>
       <ccn>3</ccn>
@@ -8687,8 +9535,14 @@
     </function>
     <function>
       <name>org.osmdroid.views.MapController.animateTo(IGeoPoint)</name>
-      <ncss>6</ncss>
-      <ccn>3</ccn>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.MapController.animateTo(IGeoPoint,Double,Long)</name>
+      <ncss>19</ncss>
+      <ccn>6</ccn>
       <javadocs>1</javadocs>
     </function>
     <function>
@@ -8705,8 +9559,8 @@
     </function>
     <function>
       <name>org.osmdroid.views.MapController.setCenter(IGeoPoint)</name>
-      <ncss>7</ncss>
-      <ccn>4</ccn>
+      <ncss>5</ncss>
+      <ccn>3</ccn>
       <javadocs>1</javadocs>
     </function>
     <function>
@@ -8807,8 +9661,8 @@
     </function>
     <function>
       <name>org.osmdroid.views.MapController.zoomToFixing(double,int,int,Long)</name>
-      <ncss>39</ncss>
-      <ccn>16</ccn>
+      <ncss>40</ncss>
+      <ccn>17</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
@@ -8831,44 +9685,44 @@
     </function>
     <function>
       <name>org.osmdroid.views.MapController.onAnimationEnd()</name>
-      <ncss>10</ncss>
+      <ncss>11</ncss>
       <ccn>2</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.views.MapController.ZoomAnimatorListener.ZoomAnimatorListener(MapController)</name>
+      <name>org.osmdroid.views.MapController.MapAnimatorListener.MapAnimatorListener(MapController,Double,Double,IGeoPoint,IGeoPoint)</name>
+      <ncss>6</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.MapController.MapAnimatorListener.onAnimationStart(Animator)</name>
       <ncss>2</ncss>
       <ccn>1</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.views.MapController.ZoomAnimatorListener.onAnimationStart(Animator)</name>
+      <name>org.osmdroid.views.MapController.MapAnimatorListener.onAnimationEnd(Animator)</name>
       <ncss>2</ncss>
       <ccn>1</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.views.MapController.ZoomAnimatorListener.onAnimationEnd(Animator)</name>
-      <ncss>2</ncss>
-      <ccn>1</ccn>
-      <javadocs>0</javadocs>
-    </function>
-    <function>
-      <name>org.osmdroid.views.MapController.ZoomAnimatorListener.onAnimationCancel(Animator)</name>
+      <name>org.osmdroid.views.MapController.MapAnimatorListener.onAnimationCancel(Animator)</name>
       <ncss>1</ncss>
       <ccn>1</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.views.MapController.ZoomAnimatorListener.onAnimationRepeat(Animator)</name>
+      <name>org.osmdroid.views.MapController.MapAnimatorListener.onAnimationRepeat(Animator)</name>
       <ncss>1</ncss>
       <ccn>1</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.views.MapController.ZoomAnimatorListener.onAnimationUpdate(ValueAnimator)</name>
-      <ncss>3</ncss>
-      <ccn>1</ccn>
+      <name>org.osmdroid.views.MapController.MapAnimatorListener.onAnimationUpdate(ValueAnimator)</name>
+      <ncss>16</ncss>
+      <ccn>3</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
@@ -8896,7 +9750,7 @@
       <javadocs>0</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.views.MapController.ReplayController.animateTo(IGeoPoint)</name>
+      <name>org.osmdroid.views.MapController.ReplayController.animateTo(IGeoPoint,Double,Long)</name>
       <ncss>2</ncss>
       <ccn>1</ccn>
       <javadocs>0</javadocs>
@@ -8933,9 +9787,15 @@
     </function>
     <function>
       <name>org.osmdroid.views.MapController.ReplayController.ReplayClass.ReplayClass(ReplayType,Point,IGeoPoint)</name>
-      <ncss>5</ncss>
+      <ncss>2</ncss>
       <ccn>1</ccn>
       <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.MapController.ReplayController.ReplayClass.ReplayClass(ReplayType,Point,IGeoPoint,Double,Long)</name>
+      <ncss>6</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
     </function>
     <function>
       <name>org.osmdroid.views.MapView.OnFirstLayoutListener.onFirstLayout(View,int,int,int,int)</name>
@@ -9132,7 +9992,7 @@
     <function>
       <name>org.osmdroid.views.MapView.setZoomLevel(double)</name>
       <ncss>26</ncss>
-      <ccn>7</ccn>
+      <ccn>8</ccn>
       <javadocs>1</javadocs>
     </function>
     <function>
@@ -9467,14 +10327,14 @@
     </function>
     <function>
       <name>org.osmdroid.views.MapView.computeScroll()</name>
-      <ncss>9</ncss>
-      <ccn>4</ccn>
+      <ncss>12</ncss>
+      <ccn>8</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
       <name>org.osmdroid.views.MapView.scrollTo(int,int)</name>
       <ncss>9</ncss>
-      <ccn>3</ccn>
+      <ccn>4</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
@@ -9521,8 +10381,8 @@
     </function>
     <function>
       <name>org.osmdroid.views.MapView.selectObject(Object,PointInfo)</name>
-      <ncss>2</ncss>
-      <ccn>1</ccn>
+      <ncss>5</ncss>
+      <ccn>2</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
@@ -9761,7 +10621,25 @@
     </function>
     <function>
       <name>org.osmdroid.views.MapView.setExpectedCenter(IGeoPoint)</name>
-      <ncss>5</ncss>
+      <ncss>11</ncss>
+      <ccn>4</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.MapView.setZoomRounding(boolean)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.MapView.getTileSystem()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.MapView.setTileSystem(TileSystem)</name>
+      <ncss>2</ncss>
       <ccn>1</ccn>
       <javadocs>1</javadocs>
     </function>
@@ -9772,8 +10650,8 @@
       <javadocs>0</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.views.Projection.Projection(double,Rect,GeoPoint,long,long,float,boolean,boolean)</name>
-      <ncss>16</ncss>
+      <name>org.osmdroid.views.Projection.Projection(double,Rect,GeoPoint,long,long,float,boolean,boolean,TileSystem)</name>
+      <ncss>17</ncss>
       <ccn>2</ccn>
       <javadocs>1</javadocs>
     </function>
@@ -9887,7 +10765,7 @@
     </function>
     <function>
       <name>org.osmdroid.views.Projection.toPixelsFromProjected(PointL,Point)</name>
-      <ncss>6</ncss>
+      <ncss>8</ncss>
       <ccn>2</ccn>
       <javadocs>1</javadocs>
     </function>
@@ -9895,7 +10773,7 @@
       <name>org.osmdroid.views.Projection.toPixelsFromMercator(long,long,Point)</name>
       <ncss>5</ncss>
       <ccn>2</ccn>
-      <javadocs>0</javadocs>
+      <javadocs>1</javadocs>
     </function>
     <function>
       <name>org.osmdroid.views.Projection.toMercatorPixels(int,int,PointL)</name>
@@ -9989,7 +10867,7 @@
     </function>
     <function>
       <name>org.osmdroid.views.Projection.getPixelsFromProjected(PointL,double,Point)</name>
-      <ncss>5</ncss>
+      <ncss>7</ncss>
       <ccn>2</ccn>
       <javadocs>1</javadocs>
     </function>
@@ -10006,18 +10884,6 @@
       <javadocs>1</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.views.Projection.getPixelXFromMercator(long,boolean)</name>
-      <ncss>2</ncss>
-      <ccn>1</ccn>
-      <javadocs>1</javadocs>
-    </function>
-    <function>
-      <name>org.osmdroid.views.Projection.getPixelYFromMercator(long,boolean)</name>
-      <ncss>2</ncss>
-      <ccn>1</ccn>
-      <javadocs>1</javadocs>
-    </function>
-    <function>
       <name>org.osmdroid.views.Projection.getLongPixelXFromMercator(long,boolean)</name>
       <ncss>2</ncss>
       <ccn>1</ccn>
@@ -10025,12 +10891,6 @@
     </function>
     <function>
       <name>org.osmdroid.views.Projection.getLongPixelYFromMercator(long,boolean)</name>
-      <ncss>2</ncss>
-      <ccn>1</ccn>
-      <javadocs>1</javadocs>
-    </function>
-    <function>
-      <name>org.osmdroid.views.Projection.getPixelFromMercator(long,boolean,long,int,int)</name>
       <ncss>2</ncss>
       <ccn>1</ccn>
       <javadocs>1</javadocs>
@@ -10853,8 +11713,8 @@
     </function>
     <function>
       <name>org.osmdroid.views.overlay.ItemizedIconOverlay.activateSelectedItems(MotionEvent,MapView,ActiveItem)</name>
-      <ncss>14</ncss>
-      <ccn>7</ccn>
+      <ncss>8</ncss>
+      <ccn>5</ccn>
       <javadocs>1</javadocs>
     </function>
     <function>
@@ -10919,8 +11779,8 @@
     </function>
     <function>
       <name>org.osmdroid.views.overlay.ItemizedOverlay.draw(Canvas,MapView,boolean)</name>
-      <ncss>21</ncss>
-      <ccn>10</ccn>
+      <ncss>17</ncss>
+      <ccn>9</ccn>
       <javadocs>1</javadocs>
     </function>
     <function>
@@ -10937,8 +11797,8 @@
     </function>
     <function>
       <name>org.osmdroid.views.overlay.ItemizedOverlay.onDrawItem(Canvas,Item,Point,MapView)</name>
-      <ncss>18</ncss>
-      <ccn>5</ccn>
+      <ncss>20</ncss>
+      <ccn>7</ccn>
       <javadocs>1</javadocs>
     </function>
     <function>
@@ -10961,8 +11821,8 @@
     </function>
     <function>
       <name>org.osmdroid.views.overlay.ItemizedOverlay.onSingleTapConfirmed(MotionEvent,MapView)</name>
-      <ncss>16</ncss>
-      <ccn>9</ccn>
+      <ncss>9</ncss>
+      <ccn>5</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
@@ -10991,8 +11851,14 @@
     </function>
     <function>
       <name>org.osmdroid.views.overlay.ItemizedOverlay.boundToHotspot(Drawable,HotspotPlace)</name>
-      <ncss>39</ncss>
-      <ccn>12</ccn>
+      <ncss>45</ncss>
+      <ccn>22</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.ItemizedOverlay.calculateItemRect(Item,Point,Rect)</name>
+      <ncss>41</ncss>
+      <ccn>16</ccn>
       <javadocs>1</javadocs>
     </function>
     <function>
@@ -11006,6 +11872,12 @@
       <ncss>1</ncss>
       <ccn>1</ccn>
       <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.ItemizedOverlay.isEventOnItem(Item,int,int,MapView)</name>
+      <ncss>13</ncss>
+      <ccn>6</ccn>
+      <javadocs>1</javadocs>
     </function>
     <function>
       <name>org.osmdroid.views.overlay.ItemizedOverlayControlView.ItemizedOverlayControlView(Context,AttributeSet)</name>
@@ -11260,9 +12132,21 @@
       <javadocs>0</javadocs>
     </function>
     <function>
+      <name>org.osmdroid.views.overlay.LinearRing.addGreatCircle(GeoPoint,GeoPoint,int)</name>
+      <ncss>17</ncss>
+      <ccn>2</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
       <name>org.osmdroid.views.overlay.LinearRing.addPoint(GeoPoint)</name>
-      <ncss>3</ncss>
-      <ccn>1</ccn>
+      <ncss>8</ncss>
+      <ccn>3</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.LinearRing.setPoints(GeoPoint)</name>
+      <ncss>4</ncss>
+      <ccn>2</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
@@ -11278,9 +12162,15 @@
       <javadocs>0</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.views.overlay.LinearRing.setPoints(GeoPoint)</name>
-      <ncss>4</ncss>
-      <ccn>2</ccn>
+      <name>org.osmdroid.views.overlay.LinearRing.setGeodesic(boolean)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.LinearRing.isGeodesic()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
@@ -11356,6 +12246,12 @@
       <javadocs>1</javadocs>
     </function>
     <function>
+      <name>org.osmdroid.views.overlay.LinearRing.getCenter(GeoPoint)</name>
+      <ncss>39</ncss>
+      <ccn>12</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
       <name>org.osmdroid.views.overlay.MapEventsOverlay.MapEventsOverlay(Context,MapEventsReceiver)</name>
       <ncss>2</ncss>
       <ccn>1</ccn>
@@ -11393,14 +12289,20 @@
     </function>
     <function>
       <name>org.osmdroid.views.overlay.Marker.Marker(MapView,Context)</name>
-      <ncss>24</ncss>
+      <ncss>25</ncss>
       <ccn>4</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
       <name>org.osmdroid.views.overlay.Marker.setIcon(Drawable)</name>
-      <ncss>26</ncss>
+      <ncss>29</ncss>
       <ccn>10</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.Marker.getIcon()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
       <javadocs>1</javadocs>
     </function>
     <function>
@@ -11573,8 +12475,8 @@
     </function>
     <function>
       <name>org.osmdroid.views.overlay.Marker.hitTest(MotionEvent,MapView)</name>
-      <ncss>8</ncss>
-      <ccn>1</ccn>
+      <ncss>7</ncss>
+      <ccn>2</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
@@ -11605,18 +12507,6 @@
       <name>org.osmdroid.views.overlay.Marker.setVisible(boolean)</name>
       <ncss>5</ncss>
       <ccn>2</ccn>
-      <javadocs>0</javadocs>
-    </function>
-    <function>
-      <name>org.osmdroid.views.overlay.Marker.getId()</name>
-      <ncss>2</ncss>
-      <ccn>1</ccn>
-      <javadocs>0</javadocs>
-    </function>
-    <function>
-      <name>org.osmdroid.views.overlay.Marker.setId(String)</name>
-      <ncss>2</ncss>
-      <ccn>1</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
@@ -12334,6 +13224,18 @@
       <javadocs>1</javadocs>
     </function>
     <function>
+      <name>org.osmdroid.views.overlay.OverlayWithIW.setId(String)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.OverlayWithIW.getId()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
       <name>org.osmdroid.views.overlay.OverlayWithIW.setInfoWindow(InfoWindow)</name>
       <ncss>2</ncss>
       <ccn>1</ccn>
@@ -12502,6 +13404,24 @@
       <javadocs>1</javadocs>
     </function>
     <function>
+      <name>org.osmdroid.views.overlay.Polygon.getFillPaint()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.Polygon.setGeodesic(boolean)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.Polygon.isGeodesic()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
       <name>org.osmdroid.views.overlay.Polygon.getPoints()</name>
       <ncss>2</ncss>
       <ccn>1</ccn>
@@ -12545,13 +13465,19 @@
     </function>
     <function>
       <name>org.osmdroid.views.overlay.Polygon.setPoints(GeoPoint)</name>
+      <ncss>3</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.Polygon.addPoint(GeoPoint)</name>
       <ncss>2</ncss>
       <ccn>1</ccn>
       <javadocs>1</javadocs>
     </function>
     <function>
       <name>org.osmdroid.views.overlay.Polygon.setHoles(GeoPoint)</name>
-      <ncss>6</ncss>
+      <ncss>7</ncss>
       <ccn>2</ccn>
       <javadocs>0</javadocs>
     </function>
@@ -12586,10 +13512,10 @@
       <javadocs>0</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.views.overlay.Polygon.showInfoWindow(GeoPoint)</name>
-      <ncss>4</ncss>
-      <ccn>2</ccn>
-      <javadocs>0</javadocs>
+      <name>org.osmdroid.views.overlay.Polygon.showInfoWindow()</name>
+      <ncss>3</ncss>
+      <ccn>3</ccn>
+      <javadocs>1</javadocs>
     </function>
     <function>
       <name>org.osmdroid.views.overlay.Polygon.contains(MotionEvent)</name>
@@ -12599,13 +13525,19 @@
     </function>
     <function>
       <name>org.osmdroid.views.overlay.Polygon.onSingleTapConfirmed(MotionEvent,MapView)</name>
-      <ncss>9</ncss>
-      <ccn>4</ccn>
-      <javadocs>0</javadocs>
+      <ncss>11</ncss>
+      <ccn>5</ccn>
+      <javadocs>1</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.views.overlay.Polygon.getInfoWindowAnchorPoint(GeoPoint)</name>
-      <ncss>4</ncss>
+      <name>org.osmdroid.views.overlay.Polygon.getInfoWindowLocation()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.Polygon.setDefaultInfoWindowLocation()</name>
+      <ncss>6</ncss>
       <ccn>3</ccn>
       <javadocs>1</javadocs>
     </function>
@@ -12617,26 +13549,32 @@
     </function>
     <function>
       <name>org.osmdroid.views.overlay.Polygon.onDetach(MapView)</name>
-      <ncss>4</ncss>
+      <ncss>5</ncss>
       <ccn>1</ccn>
       <javadocs>0</javadocs>
-    </function>
-    <function>
-      <name>org.osmdroid.views.overlay.Polygon.getId()</name>
-      <ncss>2</ncss>
-      <ccn>1</ccn>
-      <javadocs>1</javadocs>
-    </function>
-    <function>
-      <name>org.osmdroid.views.overlay.Polygon.setId(String)</name>
-      <ncss>2</ncss>
-      <ccn>1</ccn>
-      <javadocs>1</javadocs>
     </function>
     <function>
       <name>org.osmdroid.views.overlay.Polygon.setMilestoneManagers(MilestoneManager)</name>
       <ncss>6</ncss>
       <ccn>3</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.Polygon.OnClickListener.onClick(Polygon,MapView,GeoPoint)</name>
+      <ncss>1</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.Polygon.onClickDefault(Polygon,MapView,GeoPoint)</name>
+      <ncss>4</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.Polygon.setOnClickListener(OnClickListener)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
       <javadocs>1</javadocs>
     </function>
     <function>
@@ -12647,39 +13585,15 @@
     </function>
     <function>
       <name>org.osmdroid.views.overlay.Polyline.Polyline(MapView)</name>
-      <ncss>13</ncss>
+      <ncss>12</ncss>
       <ccn>4</ccn>
       <javadocs>1</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.views.overlay.Polyline.clearPath()</name>
-      <ncss>2</ncss>
-      <ccn>1</ccn>
-      <javadocs>0</javadocs>
-    </function>
-    <function>
-      <name>org.osmdroid.views.overlay.Polyline.addPoint(GeoPoint)</name>
-      <ncss>2</ncss>
-      <ccn>1</ccn>
-      <javadocs>0</javadocs>
-    </function>
-    <function>
-      <name>org.osmdroid.views.overlay.Polyline.addPoint(int,int)</name>
-      <ncss>2</ncss>
-      <ccn>1</ccn>
-      <javadocs>0</javadocs>
-    </function>
-    <function>
       <name>org.osmdroid.views.overlay.Polyline.getPoints()</name>
-      <ncss>2</ncss>
-      <ccn>1</ccn>
+      <ncss>5</ncss>
+      <ccn>2</ccn>
       <javadocs>1</javadocs>
-    </function>
-    <function>
-      <name>org.osmdroid.views.overlay.Polyline.getNumberOfPoints()</name>
-      <ncss>2</ncss>
-      <ccn>1</ccn>
-      <javadocs>0</javadocs>
     </function>
     <function>
       <name>org.osmdroid.views.overlay.Polyline.getColor()</name>
@@ -12704,6 +13618,12 @@
       <ncss>2</ncss>
       <ccn>1</ccn>
       <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.Polyline.setGeodesic(boolean)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
     </function>
     <function>
       <name>org.osmdroid.views.overlay.Polyline.isGeodesic()</name>
@@ -12736,20 +13656,14 @@
       <javadocs>0</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.views.overlay.Polyline.addGreatCircle(GeoPoint,GeoPoint,int)</name>
-      <ncss>18</ncss>
-      <ccn>3</ccn>
-      <javadocs>0</javadocs>
-    </function>
-    <function>
       <name>org.osmdroid.views.overlay.Polyline.setPoints(GeoPoint)</name>
-      <ncss>14</ncss>
-      <ccn>4</ccn>
+      <ncss>7</ncss>
+      <ccn>2</ccn>
       <javadocs>1</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.views.overlay.Polyline.setGeodesic(boolean)</name>
-      <ncss>2</ncss>
+      <name>org.osmdroid.views.overlay.Polyline.addPoint(GeoPoint)</name>
+      <ncss>3</ncss>
       <ccn>1</ccn>
       <javadocs>1</javadocs>
     </function>
@@ -12772,10 +13686,10 @@
       <javadocs>1</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.views.overlay.Polyline.showInfoWindow(GeoPoint)</name>
+      <name>org.osmdroid.views.overlay.Polyline.showInfoWindow()</name>
       <ncss>3</ncss>
-      <ccn>2</ccn>
-      <javadocs>0</javadocs>
+      <ccn>3</ccn>
+      <javadocs>1</javadocs>
     </function>
     <function>
       <name>org.osmdroid.views.overlay.Polyline.onSingleTapConfirmed(MotionEvent,MapView)</name>
@@ -12784,25 +13698,19 @@
       <javadocs>0</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.views.overlay.Polyline.getInfoWindowAnchorPoint(GeoPoint)</name>
-      <ncss>4</ncss>
-      <ccn>3</ccn>
+      <name>org.osmdroid.views.overlay.Polyline.getInfoWindowLocation()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.Polyline.setDefaultInfoWindowLocation()</name>
+      <ncss>6</ncss>
+      <ccn>2</ccn>
       <javadocs>1</javadocs>
     </function>
     <function>
       <name>org.osmdroid.views.overlay.Polyline.setInfoWindowLocation(GeoPoint)</name>
-      <ncss>2</ncss>
-      <ccn>1</ccn>
-      <javadocs>1</javadocs>
-    </function>
-    <function>
-      <name>org.osmdroid.views.overlay.Polyline.getId()</name>
-      <ncss>2</ncss>
-      <ccn>1</ccn>
-      <javadocs>1</javadocs>
-    </function>
-    <function>
-      <name>org.osmdroid.views.overlay.Polyline.setId(String)</name>
       <ncss>2</ncss>
       <ccn>1</ccn>
       <javadocs>1</javadocs>
@@ -12821,7 +13729,7 @@
     </function>
     <function>
       <name>org.osmdroid.views.overlay.Polyline.onDetach(MapView)</name>
-      <ncss>4</ncss>
+      <ncss>6</ncss>
       <ccn>1</ccn>
       <javadocs>0</javadocs>
     </function>
@@ -12838,7 +13746,7 @@
       <javadocs>0</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.views.overlay.ScaleBarOverlay.setMinZoom(int)</name>
+      <name>org.osmdroid.views.overlay.ScaleBarOverlay.setMinZoom(double)</name>
       <ncss>2</ncss>
       <ccn>1</ccn>
       <javadocs>1</javadocs>
@@ -12947,8 +13855,8 @@
     </function>
     <function>
       <name>org.osmdroid.views.overlay.ScaleBarOverlay.draw(Canvas,MapView,boolean)</name>
-      <ncss>43</ncss>
-      <ccn>25</ccn>
+      <ncss>42</ncss>
+      <ccn>24</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
@@ -13823,13 +14731,19 @@
     </function>
     <function>
       <name>org.osmdroid.views.overlay.infowindow.InfoWindow.open(Object,GeoPoint,int,int)</name>
-      <ncss>32</ncss>
-      <ccn>17</ccn>
+      <ncss>13</ncss>
+      <ccn>5</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.infowindow.InfoWindow.draw()</name>
+      <ncss>5</ncss>
+      <ccn>3</ccn>
       <javadocs>1</javadocs>
     </function>
     <function>
       <name>org.osmdroid.views.overlay.infowindow.InfoWindow.close()</name>
-      <ncss>7</ncss>
+      <ncss>5</ncss>
       <ccn>2</ccn>
       <javadocs>1</javadocs>
     </function>
@@ -13924,6 +14838,18 @@
       <javadocs>1</javadocs>
     </function>
     <function>
+      <name>org.osmdroid.views.overlay.milestones.MilestoneDisplayer.drawBegin(Canvas)</name>
+      <ncss>1</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.milestones.MilestoneDisplayer.drawEnd(Canvas)</name>
+      <ncss>1</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
       <name>org.osmdroid.views.overlay.milestones.MilestoneLister.getMilestones()</name>
       <ncss>2</ncss>
       <ccn>1</ccn>
@@ -13985,7 +14911,7 @@
     </function>
     <function>
       <name>org.osmdroid.views.overlay.milestones.MilestoneManager.draw(Canvas)</name>
-      <ncss>3</ncss>
+      <ncss>5</ncss>
       <ccn>2</ccn>
       <javadocs>0</javadocs>
     </function>
@@ -14029,6 +14955,24 @@
       <name>org.osmdroid.views.overlay.milestones.MilestoneMeterDistanceLister.add(long,long,long,long)</name>
       <ncss>21</ncss>
       <ccn>6</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.milestones.MilestoneMeterDistanceSliceLister.setMeterDistanceSlice(double,double)</name>
+      <ncss>3</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.milestones.MilestoneMeterDistanceSliceLister.init()</name>
+      <ncss>5</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.milestones.MilestoneMeterDistanceSliceLister.add(long,long,long,long)</name>
+      <ncss>35</ncss>
+      <ccn>13</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
@@ -14351,7 +15295,7 @@
     </function>
     <function>
       <name>org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay.onDetach(MapView)</name>
-      <ncss>15</ncss>
+      <ncss>13</ncss>
       <ccn>2</ccn>
       <javadocs>0</javadocs>
     </function>
@@ -14387,14 +15331,8 @@
     </function>
     <function>
       <name>org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay.drawMyLocation(Canvas,MapView,Location)</name>
-      <ncss>38</ncss>
-      <ccn>5</ccn>
-      <javadocs>0</javadocs>
-    </function>
-    <function>
-      <name>org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay.getMyLocationDrawingBounds(double,Location,Rect)</name>
-      <ncss>19</ncss>
-      <ccn>5</ccn>
+      <ncss>25</ncss>
+      <ccn>4</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
@@ -14405,7 +15343,7 @@
     </function>
     <function>
       <name>org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay.onSnapToItem(int,int,Point,IMapView)</name>
-      <ncss>15</ncss>
+      <ncss>14</ncss>
       <ccn>4</ccn>
       <javadocs>0</javadocs>
     </function>
@@ -14501,8 +15439,8 @@
     </function>
     <function>
       <name>org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay.setLocation(Location)</name>
-      <ncss>19</ncss>
-      <ccn>4</ccn>
+      <ncss>7</ncss>
+      <ccn>2</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
@@ -15065,7 +16003,7 @@
     </function>
     <function>
       <name>org.osmdroid.views.util.PathProjection.toPixels(Projection,GeoPoint,Path,boolean)</name>
-      <ncss>37</ncss>
+      <ncss>38</ncss>
       <ccn>8</ccn>
       <javadocs>0</javadocs>
     </function>
@@ -15112,6 +16050,48 @@
       <javadocs>0</javadocs>
     </function>
     <function>
+      <name>org.osmdroid.tileprovider.MapTileCacheTest.Thread$1.run()</name>
+      <ncss>3</ncss>
+      <ccn>2</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.tileprovider.MapTileCacheTest.testConcurrency()</name>
+      <ncss>18</ncss>
+      <ccn>4</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.tileprovider.cachemanager.CacheManagerTest.testGetTilesIterableForBigMapTileUpperBound()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.tileprovider.cachemanager.CacheManagerTest.testGetTilesIterableForSmallMapTileUpperBound()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.tileprovider.cachemanager.CacheManagerTest.testGetTilesIterableForRangeOfZooms()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.tileprovider.cachemanager.CacheManagerTest.verifyGetTilesIterable(int,int)</name>
+      <ncss>10</ncss>
+      <ccn>3</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.tileprovider.cachemanager.CacheManagerTest.getTilesCoverage(BoundingBox,int)</name>
+      <ncss>17</ncss>
+      <ccn>5</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
       <name>org.osmdroid.util.BoundBoxTest.testBoundingBox()</name>
       <ncss>14</ncss>
       <ccn>1</ccn>
@@ -15136,6 +16116,30 @@
       <javadocs>0</javadocs>
     </function>
     <function>
+      <name>org.osmdroid.util.DelayTest.testDelayOne()</name>
+      <ncss>7</ncss>
+      <ccn>2</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.DelayTest.testDelayMulti()</name>
+      <ncss>13</ncss>
+      <ccn>3</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.DelayTest.check(Delay,long)</name>
+      <ncss>5</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.DelayTest.sleep(long)</name>
+      <ncss>3</ncss>
+      <ccn>2</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
       <name>org.osmdroid.util.DistanceTest.test_getSquareDistanceToPoint()</name>
       <ncss>9</ncss>
       <ccn>1</ccn>
@@ -15151,6 +16155,48 @@
       <name>org.osmdroid.util.DistanceTest.test_getSquareDistanceToLine()</name>
       <ncss>10</ncss>
       <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.GarbageCollectorTest.testInit()</name>
+      <ncss>5</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.GarbageCollectorTest.testFirst()</name>
+      <ncss>10</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.GarbageCollectorTest.testSecond()</name>
+      <ncss>17</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.GarbageCollectorTest.testMulti()</name>
+      <ncss>13</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.GarbageCollectorTest.Runnable$1.run()</name>
+      <ncss>3</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.GarbageCollectorTest.getAction()</name>
+      <ncss>5</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.GarbageCollectorTest.sleep(long)</name>
+      <ncss>3</ncss>
+      <ccn>2</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
@@ -15310,31 +16356,97 @@
       <javadocs>0</javadocs>
     </function>
     <function>
+      <name>org.osmdroid.util.MapTileListBorderComputerTest.testOnePointModuloInclude()</name>
+      <ncss>13</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.MapTileListBorderComputerTest.testOnePointModulo()</name>
+      <ncss>14</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.MapTileListBorderComputerTest.testTwoContiguousPointsModuloInclude()</name>
+      <ncss>15</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.MapTileListBorderComputerTest.check(MapTileList,Long,int)</name>
+      <ncss>4</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.MapTileListBorderComputerTest.checkEquals(MapTileList,Long)</name>
+      <ncss>4</ncss>
+      <ccn>2</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.MapTileListBorderComputerTest.checkUnique(MapTileList)</name>
+      <ncss>4</ncss>
+      <ccn>2</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.MapTileListBorderComputerTest.checkZoom(MapTileList,int)</name>
+      <ncss>4</ncss>
+      <ccn>2</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.MapTileListBorderComputerTest.add(Long,int,int,int,int)</name>
+      <ncss>5</ncss>
+      <ccn>3</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
       <name>org.osmdroid.util.MapTileListTest.testGetPut()</name>
       <ncss>14</ncss>
       <ccn>4</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.util.MapTileListTest.check(Long,int,int,int,int,int)</name>
-      <ncss>5</ncss>
-      <ccn>3</ccn>
-      <javadocs>0</javadocs>
-    </function>
-    <function>
-      <name>org.osmdroid.util.MapTileListTest.check(expectedY[],MapTileList)</name>
+      <name>org.osmdroid.util.MapTileListTest.check(list[],MapTileList)</name>
       <ncss>4</ncss>
       <ccn>2</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.util.MapTileListTest.testPopulateFrom()</name>
-      <ncss>46</ncss>
+      <name>org.osmdroid.util.MapTileListTest.testPutBoundingBox()</name>
+      <ncss>22</ncss>
+      <ccn>5</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.MapTileListTest.testPutZoom()</name>
+      <ncss>21</ncss>
+      <ccn>5</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.MapTileListTest.testEmpty()</name>
+      <ncss>4</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.MapTileListZoomComputerTest.testComputeFromSource()</name>
+      <ncss>47</ncss>
       <ccn>7</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.util.MapTileListTest.populateSet(Long,MapTileList)</name>
+      <name>org.osmdroid.util.MapTileListZoomComputerTest.check(Long,int,int,int,int,int)</name>
+      <ncss>5</ncss>
+      <ccn>3</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.MapTileListZoomComputerTest.populateSet(Long,MapTileList)</name>
       <ncss>3</ncss>
       <ccn>2</ccn>
       <javadocs>0</javadocs>
@@ -15353,7 +16465,7 @@
     </function>
     <function>
       <name>org.osmdroid.util.ProjectionTest.testPixelToGeoToPixel()</name>
-      <ncss>18</ncss>
+      <ncss>19</ncss>
       <ccn>7</ccn>
       <javadocs>1</javadocs>
     </function>
@@ -15432,6 +16544,78 @@
     <function>
       <name>org.osmdroid.util.ProjectionTest.getRandomProjection(double)</name>
       <ncss>3</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.ProjectionTest.test_conversionFromPixelsToPixels()</name>
+      <ncss>8</ncss>
+      <ccn>2</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.RectLTest.testGetRotatedCenter()</name>
+      <ncss>7</ncss>
+      <ccn>2</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.RectLTest.testGetRotated0()</name>
+      <ncss>9</ncss>
+      <ccn>2</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.RectLTest.testGetRotated90()</name>
+      <ncss>9</ncss>
+      <ccn>2</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.RectLTest.testGetRotated180()</name>
+      <ncss>9</ncss>
+      <ccn>2</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.RectLTest.testGetRotated270()</name>
+      <ncss>9</ncss>
+      <ccn>2</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.RectLTest.testGetBounds0()</name>
+      <ncss>16</ncss>
+      <ccn>2</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.RectLTest.testGetBounds180()</name>
+      <ncss>20</ncss>
+      <ccn>2</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.RectLTest.testGetBoundsSamplesRectL()</name>
+      <ncss>21</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.RectLTest.testGetBoundsSamplesRect()</name>
+      <ncss>26</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.RectLTest.getRandomCoordinate()</name>
+      <ncss>2</ncss>
+      <ccn>2</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.RectLTest.getRandomAngle()</name>
+      <ncss>2</ncss>
       <ccn>1</ccn>
       <javadocs>0</javadocs>
     </function>
@@ -15586,6 +16770,36 @@
       <javadocs>1</javadocs>
     </function>
     <function>
+      <name>org.osmdroid.util.TileSystemTest.test_LatLongToPixelXY()</name>
+      <ncss>4</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.TileSystemTest.test_PixelXYToLatLong()</name>
+      <ncss>8</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.TileSystemTest.test_TileXYToQuadKey()</name>
+      <ncss>18</ncss>
+      <ccn>2</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.TileSystemTest.test_QuadKeyToTileXY()</name>
+      <ncss>18</ncss>
+      <ccn>2</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.TileSystemTest.testPoint(int,int,Point)</name>
+      <ncss>3</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
       <name>org.osmdroid.util.TileSystemTest.getRandomLongitude()</name>
       <ncss>2</ncss>
       <ccn>1</ccn>
@@ -15604,17 +16818,59 @@
       <javadocs>0</javadocs>
     </function>
     <function>
+      <name>org.osmdroid.views.overlay.LinearRingTest.testGetCenter1DLatitudesOnly()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.LinearRingTest.testGetCenter1DLongitudesOnly()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.LinearRingTest.testGetCenter2D()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.LinearRingTest.testGetCenter(boolean,boolean)</name>
+      <ncss>23</ncss>
+      <ccn>7</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.LinearRingTest.getRandomPositiveLatitude()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.LinearRingTest.getRandomLongitude()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.LinearRingTest.getRandom(int,int)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
       <name>org.osmdroid.views.overlay.MilestoneListerTest.test_orientation()</name>
       <ncss>7</ncss>
       <ccn>1</ccn>
       <javadocs>0</javadocs>
     </function>
     <function_averages>
-      <ncss>5.15</ncss>
-      <ccn>2.16</ccn>
-      <javadocs>0.38</javadocs>
+      <ncss>5.29</ncss>
+      <ccn>2.19</ccn>
+      <javadocs>0.39</javadocs>
     </function_averages>
-    <ncss>14,121.00</ncss>
+    <ncss>15,478.00</ncss>
   </functions>
 </javancss>
 

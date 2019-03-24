@@ -10,7 +10,7 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.mtp.download.DownloadManager
-	c71850 [label=<<table title="org.osmdroid.mtp.download.DownloadManager" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./DownloadManager.html">
+	c74617 [label=<<table title="org.osmdroid.mtp.download.DownloadManager" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./DownloadManager.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> DownloadManager </td></tr>
 		</table></td></tr>

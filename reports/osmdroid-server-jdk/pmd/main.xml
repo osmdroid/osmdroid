@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<pmd version="5.2.3" timestamp="2018-02-18T15:02:49.144">
+<pmd version="5.2.3" timestamp="2018-07-16T16:38:26.386">
 <file name=".\osmdroid-server-jdk\src\main\java\org\osmdroid\server\jdk\TileFetcher.java">
 <violation beginline="75" endline="75" begincolumn="21" endcolumn="38" rule="SystemPrintln" ruleset="Java Logging" package="org.osmdroid.server.jdk" class="TileFetcher" method="initDatabases" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.2.3/pmd-java/rules/java/logging-java.html#SystemPrintln" priority="2">
 System.out.println is used

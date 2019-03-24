@@ -10,33 +10,33 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.metalev.multitouch.controller.MultiTouchController.MultiTouchObjectCanvas<T>
-	c29877 [label=<<table title="org.metalev.multitouch.controller.MultiTouchController.MultiTouchObjectCanvas" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../metalev/multitouch/controller/MultiTouchController.MultiTouchObjectCanvas.html">
+	c33657 [label=<<table title="org.metalev.multitouch.controller.MultiTouchController.MultiTouchObjectCanvas" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../metalev/multitouch/controller/MultiTouchController.MultiTouchObjectCanvas.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> MultiTouchObjectCanvas&lt;T&gt; </td></tr>
 		</table></td></tr>
 		</table>>, URL="../../metalev/multitouch/controller/MultiTouchController.MultiTouchObjectCanvas.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.api.IMapView
-	c29880 [label=<<table title="org.osmdroid.api.IMapView" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../api/IMapView.html">
+	c33660 [label=<<table title="org.osmdroid.api.IMapView" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../api/IMapView.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> IMapView </td></tr>
 		</table></td></tr>
 		</table>>, URL="../api/IMapView.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.MapView
-	c29996 [label=<<table title="org.osmdroid.views.MapView" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./MapView.html">
+	c33789 [label=<<table title="org.osmdroid.views.MapView" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./MapView.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MapView </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MapView.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.views.MapView extends android.view.ViewGroup
-	c30083:p -> c29996:p [dir=back,arrowtail=empty];
+	c33878:p -> c33789:p [dir=back,arrowtail=empty];
 	//org.osmdroid.views.MapView implements org.osmdroid.api.IMapView
-	c29880:p -> c29996:p [dir=back,arrowtail=empty,style=dashed];
+	c33660:p -> c33789:p [dir=back,arrowtail=empty,style=dashed];
 	//org.osmdroid.views.MapView implements org.metalev.multitouch.controller.MultiTouchController.MultiTouchObjectCanvas<T>
-	c29877:p -> c29996:p [dir=back,arrowtail=empty,style=dashed];
+	c33657:p -> c33789:p [dir=back,arrowtail=empty,style=dashed];
 	// android.view.ViewGroup
-	c30083 [label=<<table title="android.view.ViewGroup" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/android/view/ViewGroup.html">
+	c33878 [label=<<table title="android.view.ViewGroup" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/android/view/ViewGroup.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> ViewGroup </font></td></tr>
 		</table></td></tr>

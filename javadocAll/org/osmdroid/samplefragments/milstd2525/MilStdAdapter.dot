@@ -10,17 +10,17 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.samplefragments.milstd2525.MilStdAdapter
-	c159162 [label=<<table title="org.osmdroid.samplefragments.milstd2525.MilStdAdapter" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./MilStdAdapter.html">
+	c161785 [label=<<table title="org.osmdroid.samplefragments.milstd2525.MilStdAdapter" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./MilStdAdapter.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MilStdAdapter </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MilStdAdapter.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.samplefragments.milstd2525.MilStdAdapter extends <any>
-	c159492:p -> c159162:p [dir=back,arrowtail=empty];
+	c162115:p -> c161785:p [dir=back,arrowtail=empty];
 	//org.osmdroid.samplefragments.milstd2525.MilStdAdapter implements java.util.Comparator<T>
-	c159493:p -> c159162:p [dir=back,arrowtail=empty,style=dashed];
+	c162116:p -> c161785:p [dir=back,arrowtail=empty,style=dashed];
 	// java.util.Comparator<T>
-	c159493 [label=<<table title="java.util.Comparator" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/java/util/Comparator.html">
+	c162116 [label=<<table title="java.util.Comparator" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/java/util/Comparator.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> Comparator&lt;T&gt; </td></tr>

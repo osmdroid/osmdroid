@@ -10,112 +10,112 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.samplefragments.data.AsyncTaskDemoFragment
-	c2575 [label=<<table title="org.osmdroid.samplefragments.data.AsyncTaskDemoFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./AsyncTaskDemoFragment.html">
+	c3085 [label=<<table title="org.osmdroid.samplefragments.data.AsyncTaskDemoFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./AsyncTaskDemoFragment.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> AsyncTaskDemoFragment </td></tr>
 		</table></td></tr>
 		</table>>, URL="./AsyncTaskDemoFragment.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.data.Gridlines2
-	c2576 [label=<<table title="org.osmdroid.samplefragments.data.Gridlines2" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Gridlines2.html">
+	c3086 [label=<<table title="org.osmdroid.samplefragments.data.Gridlines2" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Gridlines2.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> Gridlines2 </td></tr>
 		</table></td></tr>
 		</table>>, URL="./Gridlines2.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.data.HeatMap
-	c2577 [label=<<table title="org.osmdroid.samplefragments.data.HeatMap" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./HeatMap.html">
+	c3087 [label=<<table title="org.osmdroid.samplefragments.data.HeatMap" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./HeatMap.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> HeatMap </td></tr>
 		</table></td></tr>
 		</table>>, URL="./HeatMap.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.data.IISTrackerBase
-	c2578 [label=<<table title="org.osmdroid.samplefragments.data.IISTrackerBase" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./IISTrackerBase.html">
+	c3088 [label=<<table title="org.osmdroid.samplefragments.data.IISTrackerBase" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./IISTrackerBase.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> IISTrackerBase </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./IISTrackerBase.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.data.SampleGridlines
-	c2579 [label=<<table title="org.osmdroid.samplefragments.data.SampleGridlines" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleGridlines.html">
+	c3089 [label=<<table title="org.osmdroid.samplefragments.data.SampleGridlines" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleGridlines.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleGridlines </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SampleGridlines.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.data.SampleIISTracker
-	c2580 [label=<<table title="org.osmdroid.samplefragments.data.SampleIISTracker" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleIISTracker.html">
+	c3090 [label=<<table title="org.osmdroid.samplefragments.data.SampleIISTracker" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleIISTracker.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleIISTracker </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SampleIISTracker.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.data.SampleIISTrackerMotionTrails
-	c2581 [label=<<table title="org.osmdroid.samplefragments.data.SampleIISTrackerMotionTrails" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleIISTrackerMotionTrails.html">
+	c3091 [label=<<table title="org.osmdroid.samplefragments.data.SampleIISTrackerMotionTrails" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleIISTrackerMotionTrails.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleIISTrackerMotionTrails </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SampleIISTrackerMotionTrails.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.data.SampleMarker
-	c2582 [label=<<table title="org.osmdroid.samplefragments.data.SampleMarker" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleMarker.html">
+	c3092 [label=<<table title="org.osmdroid.samplefragments.data.SampleMarker" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleMarker.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleMarker </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SampleMarker.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.data.SampleMilitaryIconsItemizedIcons
-	c2583 [label=<<table title="org.osmdroid.samplefragments.data.SampleMilitaryIconsItemizedIcons" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleMilitaryIconsItemizedIcons.html">
+	c3093 [label=<<table title="org.osmdroid.samplefragments.data.SampleMilitaryIconsItemizedIcons" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleMilitaryIconsItemizedIcons.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleMilitaryIconsItemizedIcons </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SampleMilitaryIconsItemizedIcons.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.data.SampleMilitaryIconsMarker
-	c2584 [label=<<table title="org.osmdroid.samplefragments.data.SampleMilitaryIconsMarker" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleMilitaryIconsMarker.html">
+	c3094 [label=<<table title="org.osmdroid.samplefragments.data.SampleMilitaryIconsMarker" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleMilitaryIconsMarker.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleMilitaryIconsMarker </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SampleMilitaryIconsMarker.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.data.SampleOsmPath
-	c2585 [label=<<table title="org.osmdroid.samplefragments.data.SampleOsmPath" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleOsmPath.html">
+	c3095 [label=<<table title="org.osmdroid.samplefragments.data.SampleOsmPath" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleOsmPath.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleOsmPath </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SampleOsmPath.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.data.SampleRace
-	c2586 [label=<<table title="org.osmdroid.samplefragments.data.SampleRace" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleRace.html">
+	c3096 [label=<<table title="org.osmdroid.samplefragments.data.SampleRace" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleRace.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleRace </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SampleRace.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.data.SampleSimpleFastPointOverlay
-	c2587 [label=<<table title="org.osmdroid.samplefragments.data.SampleSimpleFastPointOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleSimpleFastPointOverlay.html">
+	c3097 [label=<<table title="org.osmdroid.samplefragments.data.SampleSimpleFastPointOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleSimpleFastPointOverlay.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleSimpleFastPointOverlay </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SampleSimpleFastPointOverlay.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.data.SampleSimpleLocation
-	c2588 [label=<<table title="org.osmdroid.samplefragments.data.SampleSimpleLocation" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleSimpleLocation.html">
+	c3098 [label=<<table title="org.osmdroid.samplefragments.data.SampleSimpleLocation" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleSimpleLocation.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleSimpleLocation </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SampleSimpleLocation.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.data.SampleWithMinimapItemizedOverlayWithFocus
-	c2589 [label=<<table title="org.osmdroid.samplefragments.data.SampleWithMinimapItemizedOverlayWithFocus" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleWithMinimapItemizedOverlayWithFocus.html">
+	c3099 [label=<<table title="org.osmdroid.samplefragments.data.SampleWithMinimapItemizedOverlayWithFocus" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleWithMinimapItemizedOverlayWithFocus.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleWithMinimapItemizedOverlayWithFocus </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SampleWithMinimapItemizedOverlayWithFocus.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.data.SampleWithMinimapItemizedOverlayWithScale
-	c2590 [label=<<table title="org.osmdroid.samplefragments.data.SampleWithMinimapItemizedOverlayWithScale" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleWithMinimapItemizedOverlayWithScale.html">
+	c3100 [label=<<table title="org.osmdroid.samplefragments.data.SampleWithMinimapItemizedOverlayWithScale" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleWithMinimapItemizedOverlayWithScale.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleWithMinimapItemizedOverlayWithScale </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SampleWithMinimapItemizedOverlayWithScale.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.data.WeatherGroundOverlaySample
-	c2592 [label=<<table title="org.osmdroid.samplefragments.data.WeatherGroundOverlaySample" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./WeatherGroundOverlaySample.html">
+	c3102 [label=<<table title="org.osmdroid.samplefragments.data.WeatherGroundOverlaySample" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./WeatherGroundOverlaySample.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> WeatherGroundOverlaySample </td></tr>
 		</table></td></tr>
 		</table>>, URL="./WeatherGroundOverlaySample.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.samplefragments.data.IISTrackerBase extends org.osmdroid.samplefragments.data.SampleGridlines
-	c2579:p -> c2578:p [dir=back,arrowtail=empty];
+	c3089:p -> c3088:p [dir=back,arrowtail=empty];
 	//org.osmdroid.samplefragments.data.SampleIISTracker extends org.osmdroid.samplefragments.data.IISTrackerBase
-	c2578:p -> c2580:p [dir=back,arrowtail=empty];
+	c3088:p -> c3090:p [dir=back,arrowtail=empty];
 	//org.osmdroid.samplefragments.data.SampleIISTrackerMotionTrails extends org.osmdroid.samplefragments.data.IISTrackerBase
-	c2578:p -> c2581:p [dir=back,arrowtail=empty];
+	c3088:p -> c3091:p [dir=back,arrowtail=empty];
 }
 

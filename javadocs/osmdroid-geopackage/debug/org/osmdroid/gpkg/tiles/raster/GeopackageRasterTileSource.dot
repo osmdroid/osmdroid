@@ -10,15 +10,15 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.gpkg.tiles.raster.GeopackageRasterTileSource
-	c312 [label=<<table title="org.osmdroid.gpkg.tiles.raster.GeopackageRasterTileSource" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./GeopackageRasterTileSource.html">
+	c313 [label=<<table title="org.osmdroid.gpkg.tiles.raster.GeopackageRasterTileSource" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./GeopackageRasterTileSource.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> GeopackageRasterTileSource </td></tr>
 		</table></td></tr>
 		</table>>, URL="./GeopackageRasterTileSource.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.gpkg.tiles.raster.GeopackageRasterTileSource extends org.osmdroid.tileprovider.tilesource.XYTileSource
-	c314:p -> c312:p [dir=back,arrowtail=empty];
+	c315:p -> c313:p [dir=back,arrowtail=empty];
 	// org.osmdroid.tileprovider.tilesource.XYTileSource
-	c314 [label=<<table title="org.osmdroid.tileprovider.tilesource.XYTileSource" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/org/osmdroid/tileprovider/tilesource/XYTileSource.html">
+	c315 [label=<<table title="org.osmdroid.tileprovider.tilesource.XYTileSource" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/org/osmdroid/tileprovider/tilesource/XYTileSource.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> XYTileSource </td></tr>
 		</table></td></tr>

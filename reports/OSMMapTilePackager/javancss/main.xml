@@ -1,13 +1,13 @@
 <?xml version="1.0"?>
 <javancss>
-  <date>2018-02-18</date>
-  <time>14:56:57</time>
+  <date>2018-07-16</date>
+  <time>16:31:21</time>
   <packages>
     <package>
       <name>org.osmdroid.mtp</name>
       <classes>2</classes>
       <functions>17</functions>
-      <ncss>247</ncss>
+      <ncss>250</ncss>
       <javadocs>2</javadocs>
       <javadoc_lines>18</javadoc_lines>
       <single_comment_lines>22</single_comment_lines>
@@ -76,7 +76,7 @@
     <total>
       <classes>13</classes>
       <functions>59</functions>
-      <ncss>1291</ncss>
+      <ncss>1294</ncss>
       <javadocs>11</javadocs>
       <javadoc_lines>76</javadoc_lines>
       <single_comment_lines>299</single_comment_lines>
@@ -84,17 +84,17 @@
     </total>
     <table>
       <tr><td>Packages</td><td>Classes</td><td>Functions</td><td>NCSS</td><td>Javadocs</td><td>per</td></tr>
-      <tr><td>7.00</td><td>13.00</td><td>59.00</td><td>1,291.00</td><td>11.00</td><td>Project</td></tr>
-      <tr><td></td><td>1.86</td><td>8.43</td><td>184.43</td><td>1.57</td><td>Package</td></tr>
-      <tr><td></td><td></td><td>4.54</td><td>99.31</td><td>0.85</td><td>Class</td></tr>
-      <tr><td></td><td></td><td></td><td>21.88</td><td>0.19</td><td>Function</td></tr>
+      <tr><td>7.00</td><td>13.00</td><td>59.00</td><td>1,294.00</td><td>11.00</td><td>Project</td></tr>
+      <tr><td></td><td>1.86</td><td>8.43</td><td>184.86</td><td>1.57</td><td>Package</td></tr>
+      <tr><td></td><td></td><td>4.54</td><td>99.54</td><td>0.85</td><td>Class</td></tr>
+      <tr><td></td><td></td><td></td><td>21.93</td><td>0.19</td><td>Function</td></tr>
     </table>
   </packages>
 
   <objects>
     <object>
       <name>org.osmdroid.mtp.OSMMapTilePackager</name>
-      <ncss>214</ncss>
+      <ncss>217</ncss>
       <functions>13</functions>
       <classes>1</classes>
       <javadocs>1</javadocs>
@@ -223,7 +223,7 @@
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <averages>
-      <ncss>90.69</ncss>
+      <ncss>90.92</ncss>
       <functions>4.54</functions>
       <classes>0.92</classes>
       <javadocs>0.85</javadocs>
@@ -231,7 +231,7 @@
       <single_comment_lines>22.23</single_comment_lines>
       <implementation_comment_lines>6.23</implementation_comment_lines>
     </averages>
-    <ncss>1,291.00</ncss>
+    <ncss>1,294.00</ncss>
   </objects>
 
   <functions>
@@ -255,8 +255,8 @@
     </function>
     <function>
       <name>org.osmdroid.mtp.OSMMapTilePackager.execute(String,String,String,int,String,int,int,double,double,double,double,ProgressNotification)</name>
-      <ncss>17</ncss>
-      <ccn>5</ccn>
+      <ncss>20</ncss>
+      <ccn>6</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
@@ -722,11 +722,11 @@
       <javadocs>0</javadocs>
     </function>
     <function_averages>
-      <ncss>14.28</ncss>
-      <ccn>3.22</ccn>
+      <ncss>14.32</ncss>
+      <ccn>3.23</ccn>
       <javadocs>0.10</javadocs>
     </function_averages>
-    <ncss>1,291.00</ncss>
+    <ncss>1,294.00</ncss>
   </functions>
 </javancss>
 

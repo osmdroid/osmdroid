@@ -1,0 +1,10 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="../BaseSampleFragment.html" title="org.osmdroid.samplefragments.BaseSampleFragment" alt="" coords="94,17,242,42"/>
+<area shape="rect" id="node1" href="../BaseSampleFragment.html" title="&lt;TABLE&gt;" alt="" coords="83,5,253,53"/>
+<area shape="rect" id="node3_1" href="./SampleOfflinePriority.html" title="org.osmdroid.samplefragments.tilesources.SampleOfflinePriority" alt="" coords="97,113,239,138"/>
+<area shape="rect" id="node3" href="./SampleOfflinePriority.html" title="&lt;TABLE&gt;" alt="" coords="87,101,249,149"/>
+<area shape="rect" id="node2_2" href="./SampleOfflineFirst.html" title="org.osmdroid.samplefragments.tilesources.SampleOfflineFirst" alt="" coords="16,209,141,234"/>
+<area shape="rect" id="node2" href="./SampleOfflineFirst.html" title="&lt;TABLE&gt;" alt="" coords="5,197,152,245"/>
+<area shape="rect" id="node4_3" href="./SampleOfflineSecond.html" title="org.osmdroid.samplefragments.tilesources.SampleOfflineSecond" alt="" coords="187,209,331,234"/>
+<area shape="rect" id="node4" href="./SampleOfflineSecond.html" title="&lt;TABLE&gt;" alt="" coords="176,197,341,245"/>
+</map>

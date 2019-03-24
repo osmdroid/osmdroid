@@ -10,7 +10,7 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.tileprovider.cachemanager.CacheManager
-	c53257 [label=<<table title="org.osmdroid.tileprovider.cachemanager.CacheManager" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./CacheManager.html">
+	c53469 [label=<<table title="org.osmdroid.tileprovider.cachemanager.CacheManager" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./CacheManager.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> CacheManager </td></tr>
 		</table></td></tr>

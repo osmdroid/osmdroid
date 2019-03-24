@@ -1,4 +1,10 @@
 <map id="G" name="G">
-<area shape="rect" id="node1_0" href="./IntroActivity.html" title="org.osmdroid.intro.IntroActivity" alt="" coords="16,17,103,42"/>
-<area shape="rect" id="node1" href="./IntroActivity.html" title="&lt;TABLE&gt;" alt="" coords="5,5,113,53"/>
+<area shape="rect" id="node1_0" href="./IntroActivity.html" title="org.osmdroid.intro.IntroActivity" alt="" coords="191,118,277,143"/>
+<area shape="rect" id="node1" href="./IntroActivity.html" title="&lt;TABLE&gt;" alt="" coords="180,107,288,155"/>
+<area shape="rect" id="node2_1" href="http://java.sun.com/j2se/1.4.2/docs/api/android/support/v4/app/FragmentActivity.html" title="android.support.v4.app.FragmentActivity" alt="" coords="16,19,132,45"/>
+<area shape="rect" id="node2" href="http://java.sun.com/j2se/1.4.2/docs/api/android/support/v4/app/FragmentActivity.html" title="&lt;TABLE&gt;" alt="" coords="5,8,143,56"/>
+<area shape="rect" id="node3_2" href="http://java.sun.com/j2se/1.4.2/docs/api/android/view/View/OnClickListener.html" title="android.view.View.OnClickListener" alt="" coords="178,11,290,53"/>
+<area shape="rect" id="node3" href="http://java.sun.com/j2se/1.4.2/docs/api/android/view/View/OnClickListener.html" title="&lt;TABLE&gt;" alt="" coords="167,5,301,59"/>
+<area shape="rect" id="node4_3" href="http://java.sun.com/j2se/1.4.2/docs/api/android/support/v4/view/ViewPager/OnPageChangeListener.html" title="android.support.v4.view.ViewPager.OnPageChangeListener" alt="" coords="336,11,492,53"/>
+<area shape="rect" id="node4" href="http://java.sun.com/j2se/1.4.2/docs/api/android/support/v4/view/ViewPager/OnPageChangeListener.html" title="&lt;TABLE&gt;" alt="" coords="325,5,503,59"/>
 </map>

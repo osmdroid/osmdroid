@@ -1,10 +1,12 @@
 <map id="G" name="G">
-<area shape="rect" id="node1_0" href="./MapTileProviderArray.html" title="org.osmdroid.tileprovider.MapTileProviderArray" alt="" coords="107,113,248,138"/>
-<area shape="rect" id="node1" href="./MapTileProviderArray.html" title="&lt;TABLE&gt;" alt="" coords="96,101,259,149"/>
-<area shape="rect" id="node3_1" href="./MapTileProviderBasic.html" title="org.osmdroid.tileprovider.MapTileProviderBasic" alt="" coords="16,209,160,234"/>
-<area shape="rect" id="node3" href="./MapTileProviderBasic.html" title="&lt;TABLE&gt;" alt="" coords="5,197,171,245"/>
-<area shape="rect" id="node4_2" href="./modules/OfflineTileProvider.html" title="org.osmdroid.tileprovider.modules.OfflineTileProvider" alt="" coords="206,209,327,234"/>
-<area shape="rect" id="node4" href="./modules/OfflineTileProvider.html" title="&lt;TABLE&gt;" alt="" coords="195,197,338,245"/>
-<area shape="rect" id="node2_3" href="./MapTileProviderBase.html" title="org.osmdroid.tileprovider.MapTileProviderBase" alt="" coords="107,17,248,42"/>
-<area shape="rect" id="node2" href="./MapTileProviderBase.html" title="&lt;TABLE&gt;" alt="" coords="96,5,259,53"/>
+<area shape="rect" id="node1_0" href="./MapTileProviderArray.html" title="org.osmdroid.tileprovider.MapTileProviderArray" alt="" coords="107,118,248,143"/>
+<area shape="rect" id="node1" href="./MapTileProviderArray.html" title="&lt;TABLE&gt;" alt="" coords="96,107,259,155"/>
+<area shape="rect" id="node3_1" href="./MapTileProviderBasic.html" title="org.osmdroid.tileprovider.MapTileProviderBasic" alt="" coords="16,214,160,239"/>
+<area shape="rect" id="node3" href="./MapTileProviderBasic.html" title="&lt;TABLE&gt;" alt="" coords="5,203,171,251"/>
+<area shape="rect" id="node4_2" href="./modules/OfflineTileProvider.html" title="org.osmdroid.tileprovider.modules.OfflineTileProvider" alt="" coords="206,214,327,239"/>
+<area shape="rect" id="node4" href="./modules/OfflineTileProvider.html" title="&lt;TABLE&gt;" alt="" coords="195,203,338,251"/>
+<area shape="rect" id="node2_3" href="./MapTileProviderBase.html" title="org.osmdroid.tileprovider.MapTileProviderBase" alt="" coords="19,19,160,45"/>
+<area shape="rect" id="node2" href="./MapTileProviderBase.html" title="&lt;TABLE&gt;" alt="" coords="8,8,171,56"/>
+<area shape="rect" id="node5_4" href="../util/MapTileContainer.html" title="org.osmdroid.util.MapTileContainer" alt="" coords="205,11,325,53"/>
+<area shape="rect" id="node5" href="../util/MapTileContainer.html" title="&lt;TABLE&gt;" alt="" coords="195,5,336,59"/>
 </map>

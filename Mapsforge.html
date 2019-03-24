@@ -8,7 +8,7 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta name="Date-Creation-yyyymmdd" content="20080101"/>
-    <meta name="Date-Revision-yyyymmdd" content="20180218"/>
+    <meta name="Date-Revision-yyyymmdd" content="20180716"/>
     <meta http-equiv="Content-Language" content="en"/>
     <title> osmdroid</title>
     <link rel="stylesheet" href="./css/apache-maven-fluido-1.4.min.css"/>
@@ -65,10 +65,10 @@
             </li>
 
             <li id="publishDate" class="pull-right"><span class="divider">|</span> Last Published:
-                2018-02-18
+                2018-07-16
             </li>
             <li id="projectVersion" class="pull-right">
-                6.0.1
+                6.0.2
             </li>
 
         </ul>
@@ -293,17 +293,28 @@
 <h2>How to Use</h2>
 <h3>Adding the dependency</h3>
 <p>This is pretty basic. The maps forge adapter is published to Maven Central as an Android Archive (.aar) file. Add the following under <code>dependencies</code> in your <code>gradle.build</code> file.</p>
-<p><code>compile &quot;org.osmdroid:osmdroid-mapsforge:&lt;VERSION&gt;&quot;</code></p>
+<p><code>compile &quot;org.osmdroid:osmdroid-mapsforge:&lt;VERSION&gt;@aar&quot;</code></p>
+<p>(currently <VERSION>=6.0.1)</p>
+<p>You will also have to add the following dependencies:</p>
+<pre><code>compile 'org.mapsforge:mapsforge-map-android:&lt;MapsForge VERSION&gt;'
+compile 'org.mapsforge:mapsforge-map:&lt;MapsForge VERSION&gt;'
+compile 'org.mapsforge:mapsforge-themes:&lt;MapsForge VERSION&gt;'
+</code></pre>
+<p>(currently <MapsForge VERSION>=0.8.0)</p>
 <p>The minimum API level required by MapsForge is API 10.</p>
 <h3>Code setup</h3>
 <pre><code class="language-java">
+//super important to configure some of the mapsforge settings first in your activity onCreate:
+MapsForgeTileSource.createInstance(this.getApplication());
+
+//
 File[] maps = null;  //TODO scan/prompt for map files (.map)
 
-//null is ok here, uses the default rendering theme if it's not set
-XmlRenderTheme theme = null;
+XmlRenderTheme theme = null; //null is ok here, uses the default rendering theme if it's not set
 try {
 //this file should be picked up by the mapsforge dependencies
 	theme = new AssetsRenderTheme(getContext().getApplicationContext(), &quot;renderthemes/&quot;, &quot;rendertheme-v4.xml&quot;);
+	//alternative: theme = new ExternalRenderTheme(userDefinedRenderingFile);
 } catch (Exception ex) {
 	ex.printStackTrace();
 }

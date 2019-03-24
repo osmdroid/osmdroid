@@ -18,8 +18,8 @@ document.getElementById(id+'Link').style.display = 'none';
 <body>
 <h1>Lint Report</h1>
 <div class="titleSeparator"></div>
-Check performed at Sun Feb 18 15:01:05 EST 2018.<br/>
-29 errors and 74 warnings found:<br/><br/>
+Check performed at Mon Jul 16 16:36:02 EDT 2018.<br/>
+30 errors and 77 warnings found:<br/><br/>
 <table class="overview">
 <tr><td></td><td class="categoryColumn"><a href="#Correctness">Correctness</a>
 </td></tr>
@@ -28,7 +28,7 @@ Check performed at Sun Feb 18 15:01:05 EST 2018.<br/>
 <a href="#MissingPermission">MissingPermission: Missing Permissions</a>
 </td></tr>
 <tr>
-<td class="countColumn">2</td><td class="issueColumn"><img border="0" align="top" src="lint-results-debug_files/lint-warning.png" alt="Warning" />
+<td class="countColumn">5</td><td class="issueColumn"><img border="0" align="top" src="lint-results-debug_files/lint-warning.png" alt="Warning" />
 <a href="#DefaultLocale">DefaultLocale: Implied default locale in case conversion</a>
 </td></tr>
 <tr>
@@ -36,7 +36,7 @@ Check performed at Sun Feb 18 15:01:05 EST 2018.<br/>
 <a href="#InlinedApi">InlinedApi: Using inlined constants on older versions</a>
 </td></tr>
 <tr>
-<td class="countColumn">2</td><td class="issueColumn"><img border="0" align="top" src="lint-results-debug_files/lint-error.png" alt="Error" />
+<td class="countColumn">3</td><td class="issueColumn"><img border="0" align="top" src="lint-results-debug_files/lint-error.png" alt="Error" />
 <a href="#NewApi">NewApi: Calling new methods on older versions</a>
 </td></tr>
 <tr>
@@ -181,6 +181,30 @@ Furthermore, for permissions that are revocable (with targetSdkVersion 23), clie
 <span class="lineno"> 679</span> 					"GEMF Range: source=%d, zoom=%d, x=%d-%d, y=%d-%d, offset=0x%08X",
 <span class="lineno"> 680</span> 					sourceIndex, zoom, xMin, xMax, yMin, yMax, offset);
 </pre>
+<span class="location"><a href="../../src/main/java/org/osmdroid/tileprovider/modules/TileDownloader.java">../../src/main/java/org/osmdroid/tileprovider/modules/TileDownloader.java</a>:100</span>: <span class="message">Implicitly using the default locale is a common source of bugs: Use <code>toLowerCase(Locale)</code> instead</span><br /><pre class="errorlines">
+<span class="lineno">  97</span>                                     //in this case we need to stitch together a full url
+<span class="lineno">  98</span>                                     URL old = new URL(targetUrl);
+<span class="lineno">  99</span>                                     int port = old.getPort();
+<span class="lineno"> 100</span>                                     boolean secure = targetUrl.<span class="errorspan">toLowerCase().startsWith("https://");</span>
+<span class="lineno"> 101</span>                                     if (port == -1)
+<span class="lineno"> 102</span>                                         if (targetUrl.toLowerCase().startsWith("http://")) {
+</pre>
+<span class="location"><a href="../../src/main/java/org/osmdroid/tileprovider/modules/TileDownloader.java">../../src/main/java/org/osmdroid/tileprovider/modules/TileDownloader.java</a>:102</span>: <span class="message">Implicitly using the default locale is a common source of bugs: Use <code>toLowerCase(Locale)</code> instead</span><br /><pre class="errorlines">
+<span class="lineno">  99</span>                                     int port = old.getPort();
+<span class="lineno"> 100</span>                                     boolean secure = targetUrl.toLowerCase().startsWith("https://");
+<span class="lineno"> 101</span>                                     if (port == -1)
+<span class="lineno"> 102</span>                                         if (targetUrl.<span class="errorspan">toLowerCase().startsWith("http://")) {</span>
+<span class="lineno"> 103</span>                                             port = 80;
+<span class="lineno"> 104</span>                                         } else {
+</pre>
+<span class="location"><a href="../../src/main/java/org/osmdroid/tileprovider/modules/TileDownloader.java">../../src/main/java/org/osmdroid/tileprovider/modules/TileDownloader.java</a>:133</span>: <span class="message">Implicitly using the default locale is a common source of bugs: Use <code>toLowerCase(Locale)</code> instead</span><br /><pre class="errorlines">
+<span class="lineno"> 130</span>             if (Configuration.getInstance().isDebugMapTileDownloader()) {
+<span class="lineno"> 131</span>                 Log.d(IMapView.LOGTAG, tileURLString + " success, mime is " + mime );
+<span class="lineno"> 132</span>             }
+<span class="lineno"> 133</span>             if (mime!=null &amp;&amp; !mime.<span class="errorspan">toLowerCase().contains("image")) {</span>
+<span class="lineno"> 134</span>                 Log.w(IMapView.LOGTAG, tileURLString + " success, however the mime type does not appear to be an image " + mime );
+<span class="lineno"> 135</span>             }
+</pre>
 </div>
 <div class="metadata">Priority: 6 / 10<br/>
 Category: Correctness</div>
@@ -199,13 +223,13 @@ If you want the methods to just perform ASCII replacement, for example to conver
 <div class="id"><a href="#" title="Return to top">InlinedApi: Using inlined constants on older versions</a><div class="issueSeparator"></div>
 </div>
 <div class="warningslist">
-<span class="location"><a href="../../src/main/java/org/osmdroid/views/MapView.java">../../src/main/java/org/osmdroid/views/MapView.java</a>:192</span>: <span class="message">Field requires API level 11 (current min is 8): <code>android.view.View#LAYER_TYPE_SOFTWARE</code></span><br /><pre class="errorlines">
-<span class="lineno"> 189</span> 			return;
-<span class="lineno"> 190</span> 		}
-<span class="lineno"> 191</span> 		if (!hardwareAccelerated &amp;&amp; Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-<span class="lineno"> 192</span> 			this.setLayerType(<span class="errorspan">View.LAYER_TYPE_SOFTWARE, null);</span>
-<span class="lineno"> 193</span> 		}
-<span class="lineno"> 194</span> 		this.mController = new MapController(this);
+<span class="location"><a href="../../src/main/java/org/osmdroid/views/MapView.java">../../src/main/java/org/osmdroid/views/MapView.java</a>:196</span>: <span class="message">Field requires API level 11 (current min is 8): <code>android.view.View#LAYER_TYPE_SOFTWARE</code></span><br /><pre class="errorlines">
+<span class="lineno"> 193</span> 			return;
+<span class="lineno"> 194</span> 		}
+<span class="lineno"> 195</span> 		if (!hardwareAccelerated &amp;&amp; Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+<span class="lineno"> 196</span> 			this.setLayerType(<span class="errorspan">View.LAYER_TYPE_SOFTWARE, null);</span>
+<span class="lineno"> 197</span> 		}
+<span class="lineno"> 198</span> 		this.mController = new MapController(this);
 </pre>
 <span class="location"><a href="../../src/main/java/org/osmdroid/tileprovider/modules/NetworkAvailabliltyCheck.java">../../src/main/java/org/osmdroid/tileprovider/modules/NetworkAvailabliltyCheck.java</a>:46</span>: <span class="message">Field requires API level 13 (current min is 8): <code>android.net.ConnectivityManager#TYPE_ETHERNET</code></span><br /><pre class="errorlines">
 <span class="lineno">  43</span> 			return true;
@@ -236,13 +260,21 @@ If your code is <b>deliberately</b> accessing newer APIs, and you have ensured (
 <div class="id"><a href="#" title="Return to top">NewApi: Calling new methods on older versions</a><div class="issueSeparator"></div>
 </div>
 <div class="warningslist">
-<span class="location"><a href="../../src/main/java/org/osmdroid/views/MapController.java">../../src/main/java/org/osmdroid/views/MapController.java</a>:353</span>: <span class="message">Cast from ValueAnimator to Animator requires API level 11 (current min is 8)</span><br /><pre class="errorlines">
-<span class="lineno"> 350</span>                 zoomToAnimator.setDuration(zoomAnimationSpeed);
-<span class="lineno"> 351</span>             }
-<span class="lineno"> 352</span> 
-<span class="lineno"> 353</span>             <span class="errorspan">mCurrentAnimator = zoomToAnimator;</span>
-<span class="lineno"> 354</span>             zoomToAnimator.start();
-<span class="lineno"> 355</span>             return true;
+<span class="location"><a href="../../src/main/java/org/osmdroid/views/MapController.java">../../src/main/java/org/osmdroid/views/MapController.java</a>:155</span>: <span class="message">Cast from ValueAnimator to Animator requires API level 11 (current min is 8)</span><br /><pre class="errorlines">
+<span class="lineno"> 152</span>                 mapAnimator.setDuration(pSpeed);
+<span class="lineno"> 153</span>             }
+<span class="lineno"> 154</span> 
+<span class="lineno"> 155</span>             <span class="errorspan">mCurrentAnimator = mapAnimator;</span>
+<span class="lineno"> 156</span>             mapAnimator.start();
+<span class="lineno"> 157</span>             return;
+</pre>
+<span class="location"><a href="../../src/main/java/org/osmdroid/views/MapController.java">../../src/main/java/org/osmdroid/views/MapController.java</a>:378</span>: <span class="message">Cast from ValueAnimator to Animator requires API level 11 (current min is 8)</span><br /><pre class="errorlines">
+<span class="lineno"> 375</span>                 zoomToAnimator.setDuration(zoomAnimationSpeed);
+<span class="lineno"> 376</span>             }
+<span class="lineno"> 377</span> 
+<span class="lineno"> 378</span>             <span class="errorspan">mCurrentAnimator = zoomToAnimator;</span>
+<span class="lineno"> 379</span>             zoomToAnimator.start();
+<span class="lineno"> 380</span>             return true;
 </pre>
 <span class="location"><a href="../../src/main/java/org/osmdroid/views/overlay/NonAcceleratedOverlay.java">../../src/main/java/org/osmdroid/views/overlay/NonAcceleratedOverlay.java</a>:78</span>: <span class="message">Call requires API level 11 (current min is 8): <code>android.graphics.Canvas#isHardwareAccelerated</code></span><br /><pre class="errorlines">
 <span class="lineno">  75</span> 	public final void draw(Canvas c, MapView osmv, boolean shadow) {
@@ -305,7 +337,7 @@ To fix this issue, set the <code>targetSdkVersion</code> to the highest availabl
 <div class="id"><a href="#" title="Return to top">GradleOverrides: Value overridden by Gradle build script</a><div class="issueSeparator"></div>
 </div>
 <div class="warningslist">
-<span class="location"><a href="../../src/main/AndroidManifest.xml">../../src/main/AndroidManifest.xml</a>:4</span>: <span class="message">This <code>versionCode</code> value (<code>1</code>) is not used; it is always overridden by the value specified in the Gradle build script (<code>31</code>)</span><br /><pre class="errorlines">
+<span class="location"><a href="../../src/main/AndroidManifest.xml">../../src/main/AndroidManifest.xml</a>:4</span>: <span class="message">This <code>versionCode</code> value (<code>1</code>) is not used; it is always overridden by the value specified in the Gradle build script (<code>32</code>)</span><br /><pre class="errorlines">
 <span class="lineno">   1</span> &lt;?xml version="1.0" encoding="utf-8"?>
 <span class="lineno">   2</span> &lt;manifest xmlns:android="http://schemas.android.com/apk/res/android"
 <span class="lineno">   3</span> 		package="org.osmdroid.library"
@@ -313,7 +345,7 @@ To fix this issue, set the <code>targetSdkVersion</code> to the highest availabl
 <span class="lineno">   5</span> 
 <span class="lineno">   6</span> 	&lt;uses-sdk android:minSdkVersion="8" android:targetSdkVersion="23" />
 </pre>
-<span class="location"><a href="../../src/main/AndroidManifest.xml">../../src/main/AndroidManifest.xml</a>:4</span>: <span class="message">This <code>versionName</code> value (<code>5.3-SNAPSHOT</code>) is not used; it is always overridden by the value specified in the Gradle build script (<code>6.0.1</code>)</span><br /><pre class="errorlines">
+<span class="location"><a href="../../src/main/AndroidManifest.xml">../../src/main/AndroidManifest.xml</a>:4</span>: <span class="message">This <code>versionName</code> value (<code>5.3-SNAPSHOT</code>) is not used; it is always overridden by the value specified in the Gradle build script (<code>6.0.2</code>)</span><br /><pre class="errorlines">
 <span class="lineno">   1</span> &lt;?xml version="1.0" encoding="utf-8"?>
 <span class="lineno">   2</span> &lt;manifest xmlns:android="http://schemas.android.com/apk/res/android"
 <span class="lineno">   3</span> 		package="org.osmdroid.library"

@@ -10,18 +10,18 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.bugtestfragments.Bug445Caching
-	c8168 [label=<<table title="org.osmdroid.bugtestfragments.Bug445Caching" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./Bug445Caching.html">
+	c9510 [label=<<table title="org.osmdroid.bugtestfragments.Bug445Caching" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./Bug445Caching.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> Bug445Caching </td></tr>
 		</table></td></tr>
 		</table>>, URL="./Bug445Caching.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.BaseSampleFragment
-	c8220 [label=<<table title="org.osmdroid.samplefragments.BaseSampleFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../samplefragments/BaseSampleFragment.html">
+	c9564 [label=<<table title="org.osmdroid.samplefragments.BaseSampleFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../samplefragments/BaseSampleFragment.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> BaseSampleFragment </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="../samplefragments/BaseSampleFragment.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.bugtestfragments.Bug445Caching extends org.osmdroid.samplefragments.BaseSampleFragment
-	c8220:p -> c8168:p [dir=back,arrowtail=empty];
+	c9564:p -> c9510:p [dir=back,arrowtail=empty];
 }
 

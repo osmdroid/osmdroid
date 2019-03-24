@@ -8,7 +8,7 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta name="Date-Creation-yyyymmdd" content="20080101"/>
-    <meta name="Date-Revision-yyyymmdd" content="20180218"/>
+    <meta name="Date-Revision-yyyymmdd" content="20180716"/>
     <meta http-equiv="Content-Language" content="en"/>
     <title> osmdroid</title>
     <link rel="stylesheet" href="./css/apache-maven-fluido-1.4.min.css"/>
@@ -65,10 +65,10 @@
             </li>
 
             <li id="publishDate" class="pull-right"><span class="divider">|</span> Last Published:
-                2018-02-18
+                2018-07-16
             </li>
             <li id="projectVersion" class="pull-right">
-                6.0.1
+                6.0.2
             </li>
 
         </ul>
@@ -339,6 +339,16 @@
 <li>Pull in the osmdroid example application's drawable files into your own application.</li>
 </ol>
 <p>This process is detailed here <a href="How-to-use-the-osmdroid-library#create-a-custom-resource-proxy">How-to-use-the-osmdroid-library#create-a-custom-resource-proxy</a></p>
+<h2>I've added a MyNewLocationOverlay to the map and nothing happens</h2>
+<p>This gets asked a lot. Here's the most common reasons for it not to work</p>
+<ul>
+<li>Does your device have GPS?</li>
+<li>Does your device have GPS service enabled?</li>
+<li>osmdroid only adds the GPS location service by default (in certain versions), you may need to add the Network Location server to the list of sensors that the overlay queries for.</li>
+<li>Are you outside and have a GPS signal?</li>
+<li>Do you have permissions granted in the manifest? (mandatory)</li>
+<li>If targeting API23+, have you asked the user for runtime permissions? (also mandatory)</li>
+</ul>
 
 
         </div>

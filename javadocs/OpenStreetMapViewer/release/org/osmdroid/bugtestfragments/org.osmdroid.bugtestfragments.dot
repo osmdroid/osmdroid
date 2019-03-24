@@ -10,79 +10,79 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.bugtestfragments.Bug164EndlessOnScolls
-	c194 [label=<<table title="org.osmdroid.bugtestfragments.Bug164EndlessOnScolls" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Bug164EndlessOnScolls.html">
+	c202 [label=<<table title="org.osmdroid.bugtestfragments.Bug164EndlessOnScolls" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Bug164EndlessOnScolls.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> Bug164EndlessOnScolls </td></tr>
 		</table></td></tr>
 		</table>>, URL="./Bug164EndlessOnScolls.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.bugtestfragments.Bug382Crash
-	c195 [label=<<table title="org.osmdroid.bugtestfragments.Bug382Crash" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Bug382Crash.html">
+	c203 [label=<<table title="org.osmdroid.bugtestfragments.Bug382Crash" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Bug382Crash.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> Bug382Crash </td></tr>
 		</table></td></tr>
 		</table>>, URL="./Bug382Crash.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.bugtestfragments.Bug419Zoom
-	c196 [label=<<table title="org.osmdroid.bugtestfragments.Bug419Zoom" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Bug419Zoom.html">
+	c204 [label=<<table title="org.osmdroid.bugtestfragments.Bug419Zoom" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Bug419Zoom.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> Bug419Zoom </td></tr>
 		</table></td></tr>
 		</table>>, URL="./Bug419Zoom.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.bugtestfragments.Bug445Caching
-	c197 [label=<<table title="org.osmdroid.bugtestfragments.Bug445Caching" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Bug445Caching.html">
+	c205 [label=<<table title="org.osmdroid.bugtestfragments.Bug445Caching" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Bug445Caching.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> Bug445Caching </td></tr>
 		</table></td></tr>
 		</table>>, URL="./Bug445Caching.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.bugtestfragments.Bug512CacheManagerWp
-	c198 [label=<<table title="org.osmdroid.bugtestfragments.Bug512CacheManagerWp" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Bug512CacheManagerWp.html">
+	c206 [label=<<table title="org.osmdroid.bugtestfragments.Bug512CacheManagerWp" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Bug512CacheManagerWp.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> Bug512CacheManagerWp </td></tr>
 		</table></td></tr>
 		</table>>, URL="./Bug512CacheManagerWp.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.bugtestfragments.Bug512Marker
-	c199 [label=<<table title="org.osmdroid.bugtestfragments.Bug512Marker" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Bug512Marker.html">
+	c207 [label=<<table title="org.osmdroid.bugtestfragments.Bug512Marker" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Bug512Marker.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> Bug512Marker </td></tr>
 		</table></td></tr>
 		</table>>, URL="./Bug512Marker.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.bugtestfragments.Bug82WinDeath
-	c200 [label=<<table title="org.osmdroid.bugtestfragments.Bug82WinDeath" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Bug82WinDeath.html">
+	c208 [label=<<table title="org.osmdroid.bugtestfragments.Bug82WinDeath" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Bug82WinDeath.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> Bug82WinDeath </td></tr>
 		</table></td></tr>
 		</table>>, URL="./Bug82WinDeath.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.bugtestfragments.Bug82WinDeath.MapOverlay
-	c201 [label=<<table title="org.osmdroid.bugtestfragments.Bug82WinDeath.MapOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Bug82WinDeath.MapOverlay.html">
+	c209 [label=<<table title="org.osmdroid.bugtestfragments.Bug82WinDeath.MapOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Bug82WinDeath.MapOverlay.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MapOverlay </td></tr>
 		</table></td></tr>
 		</table>>, URL="./Bug82WinDeath.MapOverlay.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.bugtestfragments.Bug846InfiniteRedrawLoop
-	c202 [label=<<table title="org.osmdroid.bugtestfragments.Bug846InfiniteRedrawLoop" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Bug846InfiniteRedrawLoop.html">
+	c210 [label=<<table title="org.osmdroid.bugtestfragments.Bug846InfiniteRedrawLoop" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Bug846InfiniteRedrawLoop.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> Bug846InfiniteRedrawLoop </td></tr>
 		</table></td></tr>
 		</table>>, URL="./Bug846InfiniteRedrawLoop.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.bugtestfragments.BugFactory
-	c203 [label=<<table title="org.osmdroid.bugtestfragments.BugFactory" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./BugFactory.html">
+	c211 [label=<<table title="org.osmdroid.bugtestfragments.BugFactory" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./BugFactory.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> BugFactory </td></tr>
 		</table></td></tr>
 		</table>>, URL="./BugFactory.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.bugtestfragments.SampleBug57
-	c204 [label=<<table title="org.osmdroid.bugtestfragments.SampleBug57" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleBug57.html">
+	c212 [label=<<table title="org.osmdroid.bugtestfragments.SampleBug57" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleBug57.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleBug57 </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SampleBug57.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.bugtestfragments.SampleBug57Step2
-	c205 [label=<<table title="org.osmdroid.bugtestfragments.SampleBug57Step2" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleBug57Step2.html">
+	c213 [label=<<table title="org.osmdroid.bugtestfragments.SampleBug57Step2" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleBug57Step2.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleBug57Step2 </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SampleBug57Step2.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.bugtestfragments.WeathForceActivity
-	c206 [label=<<table title="org.osmdroid.bugtestfragments.WeathForceActivity" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./WeathForceActivity.html">
+	c214 [label=<<table title="org.osmdroid.bugtestfragments.WeathForceActivity" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./WeathForceActivity.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> WeathForceActivity </td></tr>
 		</table></td></tr>

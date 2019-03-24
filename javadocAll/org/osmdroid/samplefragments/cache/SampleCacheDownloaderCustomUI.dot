@@ -10,27 +10,27 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.samplefragments.BaseSampleFragment
-	c215023 [label=<<table title="org.osmdroid.samplefragments.BaseSampleFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../BaseSampleFragment.html">
+	c217867 [label=<<table title="org.osmdroid.samplefragments.BaseSampleFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../BaseSampleFragment.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> BaseSampleFragment </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="../BaseSampleFragment.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.cache.SampleCacheDownloaderCustomUI
-	c215030 [label=<<table title="org.osmdroid.samplefragments.cache.SampleCacheDownloaderCustomUI" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./SampleCacheDownloaderCustomUI.html">
+	c217876 [label=<<table title="org.osmdroid.samplefragments.cache.SampleCacheDownloaderCustomUI" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./SampleCacheDownloaderCustomUI.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleCacheDownloaderCustomUI </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SampleCacheDownloaderCustomUI.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerCallback
-	c215183 [label=<<table title="org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerCallback" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../tileprovider/cachemanager/CacheManager.CacheManagerCallback.html">
+	c218032 [label=<<table title="org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerCallback" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../tileprovider/cachemanager/CacheManager.CacheManagerCallback.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> CacheManagerCallback </td></tr>
 		</table></td></tr>
 		</table>>, URL="../../tileprovider/cachemanager/CacheManager.CacheManagerCallback.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.samplefragments.cache.SampleCacheDownloaderCustomUI extends org.osmdroid.samplefragments.BaseSampleFragment
-	c215023:p -> c215030:p [dir=back,arrowtail=empty];
+	c217867:p -> c217876:p [dir=back,arrowtail=empty];
 	//org.osmdroid.samplefragments.cache.SampleCacheDownloaderCustomUI implements org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerCallback
-	c215183:p -> c215030:p [dir=back,arrowtail=empty,style=dashed];
+	c218032:p -> c217876:p [dir=back,arrowtail=empty,style=dashed];
 }
 

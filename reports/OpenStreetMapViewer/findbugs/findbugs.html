@@ -78,9 +78,9 @@
 <br/>
 </p>
 <h2>Metrics</h2>
-<p>18397 lines of code analyzed,
-	in 481 classes, 
-	in 42 packages.</p>
+<p>19070 lines of code analyzed,
+	in 509 classes, 
+	in 45 packages.</p>
 <table width="500" cellpadding="5" cellspacing="2">
 <tr class="tableheader">
 <th align="left">Metric</th>
@@ -89,8 +89,8 @@
 </tr>
 <tr class="tablerow0">
 <td>High Priority Warnings</td>
-<td align="right">7</td>
-<td align="right">0.38</td>
+<td align="right">8</td>
+<td align="right">0.42</td>
 </tr>
 <tr class="tablerow1">
 <td>Medium Priority Warnings</td>
@@ -102,10 +102,10 @@
 <b>Total Warnings</b>
 </td>
 <td align="right">
-<b>7</b>
+<b>8</b>
 </td>
 <td align="right">
-<b>0.38</b>
+<b>0.42</b>
 </td>
 </tr>
 </table>
@@ -156,7 +156,7 @@
 <td>
 <a href="#Warnings_CORRECTNESS">Correctness Warnings</a>
 </td>
-<td align="right">1</td>
+<td align="right">2</td>
 </tr>
 <tr class="tablerow0">
 <td>
@@ -187,7 +187,7 @@
 <b>Total</b>
 </td>
 <td align="right">
-<b>7</b>
+<b>8</b>
 </td>
 </tr>
 </table>
@@ -201,7 +201,7 @@
 <th align="left">Code</th>
 <th align="left">Warning</th>
 </tr>
-<tr class="tablerow1" onclick="toggleRow('N66179');">
+<tr class="tablerow1" onclick="toggleRow('N66275');">
 <td>
 <span class="priority-1">DE</span>
 </td>
@@ -210,7 +210,7 @@
 <tr class="detailrow1">
 <td/>
 <td>
-<p id="N66179" style="display: none;">
+<p id="N66275" style="display: none;">
 <a href="#DE_MIGHT_IGNORE">Bug type DE_MIGHT_IGNORE (click for details)</a>
 <br/>In class org.osmdroid.samplefragments.location.SampleCustomIconDirectedLocationOverlay<br/>In method org.osmdroid.samplefragments.location.SampleCustomIconDirectedLocationOverlay.onResume()<br/>Exception class java.lang.Exception<br/>At SampleCustomIconDirectedLocationOverlay.java:[line 41]<br/>At SampleCustomIconDirectedLocationOverlay.java:[line 41]</p>
 </td>
@@ -224,7 +224,7 @@
 <th align="left">Code</th>
 <th align="left">Warning</th>
 </tr>
-<tr class="tablerow1" onclick="toggleRow('N66324');">
+<tr class="tablerow1" onclick="toggleRow('N66420');">
 <td>
 <span class="priority-1">NP</span>
 </td>
@@ -233,9 +233,23 @@
 <tr class="detailrow1">
 <td/>
 <td>
-<p id="N66324" style="display: none;">
+<p id="N66420" style="display: none;">
 <a href="#NP_NULL_ON_SOME_PATH">Bug type NP_NULL_ON_SOME_PATH (click for details)</a>
 <br/>In class org.osmdroid.samplefragments.milstd2525.Plotter<br/>In method org.osmdroid.samplefragments.milstd2525.Plotter.selected(SimpleSymbol)<br/>Value loaded from def<br/>Dereferenced at Plotter.java:[line 384]<br/>Null value at Plotter.java:[line 381]<br/>Known null at Plotter.java:[line 382]</p>
+</td>
+</tr>
+<tr class="tablerow0" onclick="toggleRow('N66066');">
+<td>
+<span class="priority-1">RCN</span>
+</td>
+<td>Nullcheck of OverlayAdapter.manager at line 37 of value previously dereferenced in org.osmdroid.samplefragments.layers.OverlayAdapter.getCount()</td>
+</tr>
+<tr class="detailrow0">
+<td/>
+<td>
+<p id="N66066" style="display: none;">
+<a href="#RCN_REDUNDANT_NULLCHECK_WOULD_HAVE_BEEN_A_NPE">Bug type RCN_REDUNDANT_NULLCHECK_WOULD_HAVE_BEEN_A_NPE (click for details)</a>
+<br/>In class org.osmdroid.samplefragments.layers.OverlayAdapter<br/>In method org.osmdroid.samplefragments.layers.OverlayAdapter.getCount()<br/>Value loaded from field org.osmdroid.samplefragments.layers.OverlayAdapter.manager<br/>At OverlayAdapter.java:[line 36]<br/>Redundant null check at OverlayAdapter.java:[line 37]</p>
 </td>
 </tr>
 </table>
@@ -247,7 +261,7 @@
 <th align="left">Code</th>
 <th align="left">Warning</th>
 </tr>
-<tr class="tablerow1" onclick="toggleRow('N65914');">
+<tr class="tablerow1" onclick="toggleRow('N65930');">
 <td>
 <span class="priority-1">Dm</span>
 </td>
@@ -256,7 +270,7 @@
 <tr class="detailrow1">
 <td/>
 <td>
-<p id="N65914" style="display: none;">
+<p id="N65930" style="display: none;">
 <a href="#DM_DEFAULT_ENCODING">Bug type DM_DEFAULT_ENCODING (click for details)</a>
 <br/>In class org.osmdroid.OsmApplication$ErrorFileWriter<br/>In method org.osmdroid.OsmApplication$ErrorFileWriter.send(Context, CrashReportData)<br/>Called method new java.io.FileWriter(File)<br/>At OsmApplication.java:[line 175]</p>
 </td>
@@ -270,7 +284,7 @@
 <th align="left">Code</th>
 <th align="left">Warning</th>
 </tr>
-<tr class="tablerow1" onclick="toggleRow('N66050');">
+<tr class="tablerow1" onclick="toggleRow('N66146');">
 <td>
 <span class="priority-1">MS</span>
 </td>
@@ -279,7 +293,7 @@
 <tr class="detailrow1">
 <td/>
 <td>
-<p id="N66050" style="display: none;">
+<p id="N66146" style="display: none;">
 <a href="#MS_MUTABLE_COLLECTION">Bug type MS_MUTABLE_COLLECTION (click for details)</a>
 <br/>In class org.osmdroid.samplefragments.layouts.list.dummy.DummyContent<br/>Field org.osmdroid.samplefragments.layouts.list.dummy.DummyContent.ITEMS<br/>At DummyContent.java:[line 20]</p>
 </td>
@@ -293,7 +307,7 @@
 <th align="left">Code</th>
 <th align="left">Warning</th>
 </tr>
-<tr class="tablerow1" onclick="toggleRow('N65983');">
+<tr class="tablerow1" onclick="toggleRow('N65999');">
 <td>
 <span class="priority-1">ML</span>
 </td>
@@ -302,12 +316,12 @@
 <tr class="detailrow1">
 <td/>
 <td>
-<p id="N65983" style="display: none;">
+<p id="N65999" style="display: none;">
 <a href="#ML_SYNC_ON_FIELD_TO_GUARD_CHANGING_THAT_FIELD">Bug type ML_SYNC_ON_FIELD_TO_GUARD_CHANGING_THAT_FIELD (click for details)</a>
 <br/>In class org.osmdroid.bugtestfragments.WeathForceActivity<br/>In method org.osmdroid.bugtestfragments.WeathForceActivity.onOrientationChanged(float, IOrientationProvider)<br/>Field org.osmdroid.bugtestfragments.WeathForceActivity.trueNorth<br/>At WeathForceActivity.java:[line 207]</p>
 </td>
 </tr>
-<tr class="tablerow0" onclick="toggleRow('N66257');">
+<tr class="tablerow0" onclick="toggleRow('N66353');">
 <td>
 <span class="priority-1">ML</span>
 </td>
@@ -316,7 +330,7 @@
 <tr class="detailrow0">
 <td/>
 <td>
-<p id="N66257" style="display: none;">
+<p id="N66353" style="display: none;">
 <a href="#ML_SYNC_ON_FIELD_TO_GUARD_CHANGING_THAT_FIELD">Bug type ML_SYNC_ON_FIELD_TO_GUARD_CHANGING_THAT_FIELD (click for details)</a>
 <br/>In class org.osmdroid.samplefragments.location.SampleHeadingCompassUp<br/>In method org.osmdroid.samplefragments.location.SampleHeadingCompassUp.onOrientationChanged(float, IOrientationProvider)<br/>Field org.osmdroid.samplefragments.location.SampleHeadingCompassUp.trueNorth<br/>At SampleHeadingCompassUp.java:[line 220]</p>
 </td>
@@ -330,7 +344,7 @@
 <th align="left">Code</th>
 <th align="left">Warning</th>
 </tr>
-<tr class="tablerow1" onclick="toggleRow('N66102');">
+<tr class="tablerow1" onclick="toggleRow('N66198');">
 <td>
 <span class="priority-1">Bx</span>
 </td>
@@ -339,7 +353,7 @@
 <tr class="detailrow1">
 <td/>
 <td>
-<p id="N66102" style="display: none;">
+<p id="N66198" style="display: none;">
 <a href="#DM_BOXED_PRIMITIVE_FOR_PARSING">Bug type DM_BOXED_PRIMITIVE_FOR_PARSING (click for details)</a>
 <br/>In class org.osmdroid.samplefragments.layouts.rec.CustomRecycler<br/>In method org.osmdroid.samplefragments.layouts.rec.CustomRecycler.getItemViewType(int)<br/>Called method Integer.intValue()<br/>Should call Integer.parseInt(String) instead<br/>At CustomRecycler.java:[line 139]</p>
 </td>
@@ -415,6 +429,18 @@ would generate a <code>NullPointerException</code> when the code is executed.
 Of course, the problem might be that the branch or statement is infeasible and that
 the null pointer exception can't ever be executed; deciding that is beyond the ability of FindBugs.
 </p>
+
+    
+<h2>
+<a name="RCN_REDUNDANT_NULLCHECK_WOULD_HAVE_BEEN_A_NPE">RCN_REDUNDANT_NULLCHECK_WOULD_HAVE_BEEN_A_NPE: Nullcheck of value previously dereferenced</a>
+</h2>
+
+<p> A value is checked here to see whether it is null, but this value can't
+be null because it was previously dereferenced and if it were null a null pointer
+exception would have occurred at the earlier dereference.
+Essentially, this code and the previous dereference
+disagree as to whether this value is allowed to be null. Either the check is redundant
+or the previous dereference is erroneous.</p>
 
     </body>
 </html>

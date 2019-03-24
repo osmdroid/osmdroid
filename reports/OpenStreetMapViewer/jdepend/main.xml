@@ -74,10 +74,6 @@
             <error>No stats available: package referenced, but not analyzed.</error>
         </Package>
 
-        <Package name="android.media.browse">
-            <error>No stats available: package referenced, but not analyzed.</error>
-        </Package>
-
         <Package name="android.media.session">
             <error>No stats available: package referenced, but not analyzed.</error>
         </Package>
@@ -103,10 +99,6 @@
         </Package>
 
         <Package name="android.provider">
-            <error>No stats available: package referenced, but not analyzed.</error>
-        </Package>
-
-        <Package name="android.service.media">
             <error>No stats available: package referenced, but not analyzed.</error>
         </Package>
 
@@ -294,14 +286,14 @@
 
         <Package name="android.support.design.widget">
             <Stats>
-                <TotalClasses>160</TotalClasses>
-                <ConcreteClasses>126</ConcreteClasses>
-                <AbstractClasses>34</AbstractClasses>
+                <TotalClasses>144</TotalClasses>
+                <ConcreteClasses>112</ConcreteClasses>
+                <AbstractClasses>32</AbstractClasses>
                 <Ca>2</Ca>
-                <Ce>37</Ce>
-                <A>0.21</A>
-                <I>0.95</I>
-                <D>0.16</D>
+                <Ce>33</Ce>
+                <A>0.22</A>
+                <I>0.94</I>
+                <D>0.17</D>
                 <V>1</V>
             </Stats>
 
@@ -314,12 +306,6 @@
                 </Class>
                 <Class sourceFile="AppBarLayout.java">
                     android.support.design.widget.AppBarLayout$OnOffsetChangedListener
-                </Class>
-                <Class sourceFile="BottomSheetBehavior.java">
-                    android.support.design.widget.BottomSheetBehavior$BottomSheetCallback
-                </Class>
-                <Class sourceFile="BottomSheetBehavior.java">
-                    android.support.design.widget.BottomSheetBehavior$State
                 </Class>
                 <Class sourceFile="CoordinatorLayout.java">
                     android.support.design.widget.CoordinatorLayout$Behavior
@@ -441,33 +427,6 @@
                 <Class sourceFile="AppBarLayout.java">
                     android.support.design.widget.AppBarLayout$ScrollingViewBehavior
                 </Class>
-                <Class sourceFile="BottomSheetBehavior.java">
-                    android.support.design.widget.BottomSheetBehavior
-                </Class>
-                <Class sourceFile="BottomSheetBehavior.java">
-                    android.support.design.widget.BottomSheetBehavior$1
-                </Class>
-                <Class sourceFile="BottomSheetBehavior.java">
-                    android.support.design.widget.BottomSheetBehavior$SavedState
-                </Class>
-                <Class sourceFile="BottomSheetBehavior.java">
-                    android.support.design.widget.BottomSheetBehavior$SavedState$1
-                </Class>
-                <Class sourceFile="BottomSheetBehavior.java">
-                    android.support.design.widget.BottomSheetBehavior$SettleRunnable
-                </Class>
-                <Class sourceFile="BottomSheetDialog.java">
-                    android.support.design.widget.BottomSheetDialog
-                </Class>
-                <Class sourceFile="BottomSheetDialog.java">
-                    android.support.design.widget.BottomSheetDialog$1
-                </Class>
-                <Class sourceFile="BottomSheetDialog.java">
-                    android.support.design.widget.BottomSheetDialog$2
-                </Class>
-                <Class sourceFile="BottomSheetDialogFragment.java">
-                    android.support.design.widget.BottomSheetDialogFragment
-                </Class>
                 <Class sourceFile="CircularBorderDrawable.java">
                     android.support.design.widget.CircularBorderDrawable
                 </Class>
@@ -522,9 +481,6 @@
                 <Class sourceFile="CoordinatorLayoutInsetsHelperLollipop.java">
                     android.support.design.widget.CoordinatorLayoutInsetsHelperLollipop
                 </Class>
-                <Class sourceFile="DrawableUtils.java">
-                    android.support.design.widget.DrawableUtils
-                </Class>
                 <Class sourceFile="FloatingActionButton.java">
                     android.support.design.widget.FloatingActionButton
                 </Class>
@@ -532,13 +488,13 @@
                     android.support.design.widget.FloatingActionButton$1
                 </Class>
                 <Class sourceFile="FloatingActionButton.java">
+                    android.support.design.widget.FloatingActionButton$2
+                </Class>
+                <Class sourceFile="FloatingActionButton.java">
                     android.support.design.widget.FloatingActionButton$Behavior
                 </Class>
                 <Class sourceFile="FloatingActionButton.java">
                     android.support.design.widget.FloatingActionButton$Behavior$1
-                </Class>
-                <Class sourceFile="FloatingActionButton.java">
-                    android.support.design.widget.FloatingActionButton$ShadowDelegateImpl
                 </Class>
                 <Class sourceFile="FloatingActionButtonEclairMr1.java">
                     android.support.design.widget.FloatingActionButtonEclairMr1
@@ -555,14 +511,14 @@
                 <Class sourceFile="FloatingActionButtonEclairMr1.java">
                     android.support.design.widget.FloatingActionButtonEclairMr1$ResetElevationAnimation
                 </Class>
-                <Class sourceFile="FloatingActionButtonIcs.java">
-                    android.support.design.widget.FloatingActionButtonIcs
+                <Class sourceFile="FloatingActionButtonHoneycombMr1.java">
+                    android.support.design.widget.FloatingActionButtonHoneycombMr1
                 </Class>
-                <Class sourceFile="FloatingActionButtonIcs.java">
-                    android.support.design.widget.FloatingActionButtonIcs$1
+                <Class sourceFile="FloatingActionButtonHoneycombMr1.java">
+                    android.support.design.widget.FloatingActionButtonHoneycombMr1$1
                 </Class>
-                <Class sourceFile="FloatingActionButtonIcs.java">
-                    android.support.design.widget.FloatingActionButtonIcs$2
+                <Class sourceFile="FloatingActionButtonHoneycombMr1.java">
+                    android.support.design.widget.FloatingActionButtonHoneycombMr1$2
                 </Class>
                 <Class sourceFile="FloatingActionButtonImpl.java">
                     android.support.design.widget.FloatingActionButtonImpl$1
@@ -660,9 +616,6 @@
                 <Class sourceFile="SwipeDismissBehavior.java">
                     android.support.design.widget.SwipeDismissBehavior$SettleRunnable
                 </Class>
-                <Class sourceFile="TabItem.java">
-                    android.support.design.widget.TabItem
-                </Class>
                 <Class sourceFile="TabLayout.java">
                     android.support.design.widget.TabLayout
                 </Class>
@@ -670,7 +623,7 @@
                     android.support.design.widget.TabLayout$1
                 </Class>
                 <Class sourceFile="TabLayout.java">
-                    android.support.design.widget.TabLayout$PagerAdapterObserver
+                    android.support.design.widget.TabLayout$2
                 </Class>
                 <Class sourceFile="TabLayout.java">
                     android.support.design.widget.TabLayout$SlidingTabStrip
@@ -693,9 +646,6 @@
                 <Class sourceFile="TabLayout.java">
                     android.support.design.widget.TabLayout$ViewPagerOnTabSelectedListener
                 </Class>
-                <Class sourceFile="TextInputEditText.java">
-                    android.support.design.widget.TextInputEditText
-                </Class>
                 <Class sourceFile="TextInputLayout.java">
                     android.support.design.widget.TextInputLayout
                 </Class>
@@ -710,12 +660,6 @@
                 </Class>
                 <Class sourceFile="TextInputLayout.java">
                     android.support.design.widget.TextInputLayout$4
-                </Class>
-                <Class sourceFile="TextInputLayout.java">
-                    android.support.design.widget.TextInputLayout$SavedState
-                </Class>
-                <Class sourceFile="TextInputLayout.java">
-                    android.support.design.widget.TextInputLayout$SavedState$1
                 </Class>
                 <Class sourceFile="TextInputLayout.java">
                     android.support.design.widget.TextInputLayout$TextInputAccessibilityDelegate
@@ -793,10 +737,8 @@
 
             <DependsUpon>
                 <Package>android.animation</Package>
-                <Package>android.app</Package>
                 <Package>android.content</Package>
                 <Package>android.content.res</Package>
-                <Package>android.database</Package>
                 <Package>android.graphics</Package>
                 <Package>android.graphics.drawable</Package>
                 <Package>android.os</Package>
@@ -807,7 +749,6 @@
                 <Package>android.support.v4.graphics.drawable</Package>
                 <Package>android.support.v4.os</Package>
                 <Package>android.support.v4.text</Package>
-                <Package>android.support.v4.util</Package>
                 <Package>android.support.v4.view</Package>
                 <Package>android.support.v4.view.accessibility</Package>
                 <Package>android.support.v4.view.animation</Package>
@@ -822,7 +763,6 @@
                 <Package>android.view</Package>
                 <Package>android.view.accessibility</Package>
                 <Package>android.view.animation</Package>
-                <Package>android.view.inputmethod</Package>
                 <Package>android.widget</Package>
                 <Package>java.lang</Package>
                 <Package>java.lang.annotation</Package>
@@ -834,140 +774,6 @@
             <UsedBy>
                 <Package>org.osmdroid.intro</Package>
                 <Package>org.osmdroid.samplefragments.tileproviders</Package>
-            </UsedBy>
-        </Package>
-
-        <Package name="android.support.graphics.drawable">
-            <Stats>
-                <TotalClasses>21</TotalClasses>
-                <ConcreteClasses>20</ConcreteClasses>
-                <AbstractClasses>1</AbstractClasses>
-                <Ca>1</Ca>
-                <Ce>14</Ce>
-                <A>0.05</A>
-                <I>0.93</I>
-                <D>0.02</D>
-                <V>1</V>
-            </Stats>
-
-            <AbstractClasses>
-                <Class sourceFile="VectorDrawableCommon.java">
-                    android.support.graphics.drawable.VectorDrawableCommon
-                </Class>
-            </AbstractClasses>
-
-            <ConcreteClasses>
-                <Class sourceFile="AndroidResources.java">
-                    android.support.graphics.drawable.AndroidResources
-                </Class>
-                <Class sourceFile="AnimatedVectorDrawableCompat.java">
-                    android.support.graphics.drawable.AnimatedVectorDrawableCompat
-                </Class>
-                <Class sourceFile="AnimatedVectorDrawableCompat.java">
-                    android.support.graphics.drawable.AnimatedVectorDrawableCompat$1
-                </Class>
-                <Class sourceFile="AnimatedVectorDrawableCompat.java">
-                    android.support.graphics.drawable.AnimatedVectorDrawableCompat$AnimatedVectorDrawableCompatState
-                </Class>
-                <Class sourceFile="AnimatedVectorDrawableCompat.java">
-                    android.support.graphics.drawable.AnimatedVectorDrawableCompat$AnimatedVectorDrawableDelegateState
-                </Class>
-                <Class sourceFile="BuildConfig.java">
-                    android.support.graphics.drawable.BuildConfig
-                </Class>
-                <Class sourceFile="PathParser.java">
-                    android.support.graphics.drawable.PathParser
-                </Class>
-                <Class sourceFile="PathParser.java">
-                    android.support.graphics.drawable.PathParser$1
-                </Class>
-                <Class sourceFile="PathParser.java">
-                    android.support.graphics.drawable.PathParser$ExtractFloatResult
-                </Class>
-                <Class sourceFile="PathParser.java">
-                    android.support.graphics.drawable.PathParser$PathDataNode
-                </Class>
-                <Class sourceFile="TypedArrayUtils.java">
-                    android.support.graphics.drawable.TypedArrayUtils
-                </Class>
-                <Class sourceFile="VectorDrawableCompat.java">
-                    android.support.graphics.drawable.VectorDrawableCompat
-                </Class>
-                <Class sourceFile="VectorDrawableCompat.java">
-                    android.support.graphics.drawable.VectorDrawableCompat$1
-                </Class>
-                <Class sourceFile="VectorDrawableCompat.java">
-                    android.support.graphics.drawable.VectorDrawableCompat$VClipPath
-                </Class>
-                <Class sourceFile="VectorDrawableCompat.java">
-                    android.support.graphics.drawable.VectorDrawableCompat$VFullPath
-                </Class>
-                <Class sourceFile="VectorDrawableCompat.java">
-                    android.support.graphics.drawable.VectorDrawableCompat$VGroup
-                </Class>
-                <Class sourceFile="VectorDrawableCompat.java">
-                    android.support.graphics.drawable.VectorDrawableCompat$VPath
-                </Class>
-                <Class sourceFile="VectorDrawableCompat.java">
-                    android.support.graphics.drawable.VectorDrawableCompat$VPathRenderer
-                </Class>
-                <Class sourceFile="VectorDrawableCompat.java">
-                    android.support.graphics.drawable.VectorDrawableCompat$VectorDrawableCompatState
-                </Class>
-                <Class sourceFile="VectorDrawableCompat.java">
-                    android.support.graphics.drawable.VectorDrawableCompat$VectorDrawableDelegateState
-                </Class>
-            </ConcreteClasses>
-
-            <DependsUpon>
-                <Package>android.animation</Package>
-                <Package>android.content</Package>
-                <Package>android.content.res</Package>
-                <Package>android.graphics</Package>
-                <Package>android.graphics.drawable</Package>
-                <Package>android.os</Package>
-                <Package>android.support.v4.content.res</Package>
-                <Package>android.support.v4.graphics.drawable</Package>
-                <Package>android.support.v4.util</Package>
-                <Package>android.util</Package>
-                <Package>java.io</Package>
-                <Package>java.lang</Package>
-                <Package>java.util</Package>
-                <Package>org.xmlpull.v1</Package>
-            </DependsUpon>
-
-            <UsedBy>
-                <Package>android.support.v7.widget</Package>
-            </UsedBy>
-        </Package>
-
-        <Package name="android.support.graphics.drawable.animated">
-            <Stats>
-                <TotalClasses>1</TotalClasses>
-                <ConcreteClasses>1</ConcreteClasses>
-                <AbstractClasses>0</AbstractClasses>
-                <Ca>0</Ca>
-                <Ce>1</Ce>
-                <A>0</A>
-                <I>1</I>
-                <D>0</D>
-                <V>1</V>
-            </Stats>
-
-            <AbstractClasses>
-            </AbstractClasses>
-
-            <ConcreteClasses>
-                <Class sourceFile="BuildConfig.java">
-                    android.support.graphics.drawable.animated.BuildConfig
-                </Class>
-            </ConcreteClasses>
-
-            <DependsUpon>
-                <Package>java.lang</Package>
-            </DependsUpon>
-
-            <UsedBy>
             </UsedBy>
         </Package>
 
@@ -1055,17 +861,20 @@
         <Package name="android.support.v4.animation">
             <Stats>
                 <TotalClasses>12</TotalClasses>
-                <ConcreteClasses>8</ConcreteClasses>
-                <AbstractClasses>4</AbstractClasses>
+                <ConcreteClasses>7</ConcreteClasses>
+                <AbstractClasses>5</AbstractClasses>
                 <Ca>2</Ca>
                 <Ce>5</Ce>
-                <A>0.33</A>
+                <A>0.42</A>
                 <I>0.71</I>
-                <D>0.05</D>
+                <D>0.13</D>
                 <V>1</V>
             </Stats>
 
             <AbstractClasses>
+                <Class sourceFile="AnimatorCompatHelper.java">
+                    android.support.v4.animation.AnimatorCompatHelper
+                </Class>
                 <Class sourceFile="AnimatorListenerCompat.java">
                     android.support.v4.animation.AnimatorListenerCompat
                 </Class>
@@ -1081,9 +890,6 @@
             </AbstractClasses>
 
             <ConcreteClasses>
-                <Class sourceFile="AnimatorCompatHelper.java">
-                    android.support.v4.animation.AnimatorCompatHelper
-                </Class>
                 <Class sourceFile="DonutAnimatorCompatProvider.java">
                     android.support.v4.animation.DonutAnimatorCompatProvider
                 </Class>
@@ -1123,14 +929,14 @@
 
         <Package name="android.support.v4.app">
             <Stats>
-                <TotalClasses>210</TotalClasses>
-                <ConcreteClasses>167</ConcreteClasses>
-                <AbstractClasses>43</AbstractClasses>
-                <Ca>18</Ca>
+                <TotalClasses>208</TotalClasses>
+                <ConcreteClasses>166</ConcreteClasses>
+                <AbstractClasses>42</AbstractClasses>
+                <Ca>17</Ca>
                 <Ce>25</Ce>
                 <A>0.2</A>
-                <I>0.58</I>
-                <D>0.21</D>
+                <I>0.6</I>
+                <D>0.2</D>
                 <V>1</V>
             </Stats>
 
@@ -1155,9 +961,6 @@
                 </Class>
                 <Class sourceFile="BaseFragmentActivityDonut.java">
                     android.support.v4.app.BaseFragmentActivityDonut
-                </Class>
-                <Class sourceFile="BaseFragmentActivityEclair.java">
-                    android.support.v4.app.BaseFragmentActivityEclair
                 </Class>
                 <Class sourceFile="BaseFragmentActivityHoneycomb.java">
                     android.support.v4.app.BaseFragmentActivityHoneycomb
@@ -1341,9 +1144,6 @@
                 </Class>
                 <Class sourceFile="ActivityOptionsCompatJB.java">
                     android.support.v4.app.ActivityOptionsCompatJB
-                </Class>
-                <Class sourceFile="AppLaunchChecker.java">
-                    android.support.v4.app.AppLaunchChecker
                 </Class>
                 <Class sourceFile="AppOpsManagerCompat.java">
                     android.support.v4.app.AppOpsManagerCompat
@@ -1800,7 +1600,6 @@
 
             <UsedBy>
                 <Package>android.support.v4.content</Package>
-                <Package>android.support.v4.media</Package>
                 <Package>android.support.v7.app</Package>
                 <Package>org.acra</Package>
                 <Package>org.osmdroid</Package>
@@ -2073,11 +1872,11 @@
                 <TotalClasses>5</TotalClasses>
                 <ConcreteClasses>5</ConcreteClasses>
                 <AbstractClasses>0</AbstractClasses>
-                <Ca>1</Ca>
+                <Ca>0</Ca>
                 <Ce>4</Ce>
                 <A>0</A>
-                <I>0.8</I>
-                <D>0.2</D>
+                <I>1</I>
+                <D>0</D>
                 <V>1</V>
             </Stats>
 
@@ -2110,7 +1909,6 @@
             </DependsUpon>
 
             <UsedBy>
-                <Package>android.support.graphics.drawable</Package>
             </UsedBy>
         </Package>
 
@@ -2209,14 +2007,14 @@
 
         <Package name="android.support.v4.graphics.drawable">
             <Stats>
-                <TotalClasses>33</TotalClasses>
-                <ConcreteClasses>28</ConcreteClasses>
-                <AbstractClasses>5</AbstractClasses>
-                <Ca>6</Ca>
-                <Ce>12</Ce>
-                <A>0.15</A>
-                <I>0.67</I>
-                <D>0.18</D>
+                <TotalClasses>25</TotalClasses>
+                <ConcreteClasses>22</ConcreteClasses>
+                <AbstractClasses>3</AbstractClasses>
+                <Ca>5</Ca>
+                <Ce>11</Ce>
+                <A>0.12</A>
+                <I>0.69</I>
+                <D>0.19</D>
                 <V>1</V>
             </Stats>
 
@@ -2227,14 +2025,8 @@
                 <Class sourceFile="DrawableWrapper.java">
                     android.support.v4.graphics.drawable.DrawableWrapper
                 </Class>
-                <Class sourceFile="DrawableWrapperDonut.java">
-                    android.support.v4.graphics.drawable.DrawableWrapperDonut$DrawableWrapperState
-                </Class>
                 <Class sourceFile="RoundedBitmapDrawable.java">
                     android.support.v4.graphics.drawable.RoundedBitmapDrawable
-                </Class>
-                <Class sourceFile="TintAwareDrawable.java">
-                    android.support.v4.graphics.drawable.TintAwareDrawable
                 </Class>
             </AbstractClasses>
 
@@ -2244,9 +2036,6 @@
                 </Class>
                 <Class sourceFile="DrawableCompat.java">
                     android.support.v4.graphics.drawable.DrawableCompat$BaseDrawableImpl
-                </Class>
-                <Class sourceFile="DrawableCompat.java">
-                    android.support.v4.graphics.drawable.DrawableCompat$EclairDrawableImpl
                 </Class>
                 <Class sourceFile="DrawableCompat.java">
                     android.support.v4.graphics.drawable.DrawableCompat$HoneycombDrawableImpl
@@ -2261,16 +2050,19 @@
                     android.support.v4.graphics.drawable.DrawableCompat$LollipopDrawableImpl
                 </Class>
                 <Class sourceFile="DrawableCompat.java">
+                    android.support.v4.graphics.drawable.DrawableCompat$LollipopMr1DrawableImpl
+                </Class>
+                <Class sourceFile="DrawableCompat.java">
                     android.support.v4.graphics.drawable.DrawableCompat$MDrawableImpl
+                </Class>
+                <Class sourceFile="DrawableCompatApi22.java">
+                    android.support.v4.graphics.drawable.DrawableCompatApi22
                 </Class>
                 <Class sourceFile="DrawableCompatApi23.java">
                     android.support.v4.graphics.drawable.DrawableCompatApi23
                 </Class>
                 <Class sourceFile="DrawableCompatBase.java">
                     android.support.v4.graphics.drawable.DrawableCompatBase
-                </Class>
-                <Class sourceFile="DrawableCompatEclair.java">
-                    android.support.v4.graphics.drawable.DrawableCompatEclair
                 </Class>
                 <Class sourceFile="DrawableCompatHoneycomb.java">
                     android.support.v4.graphics.drawable.DrawableCompatHoneycomb
@@ -2287,32 +2079,14 @@
                 <Class sourceFile="DrawableWrapperDonut.java">
                     android.support.v4.graphics.drawable.DrawableWrapperDonut
                 </Class>
-                <Class sourceFile="DrawableWrapperDonut.java">
-                    android.support.v4.graphics.drawable.DrawableWrapperDonut$DrawableWrapperStateDonut
-                </Class>
-                <Class sourceFile="DrawableWrapperEclair.java">
-                    android.support.v4.graphics.drawable.DrawableWrapperEclair
-                </Class>
-                <Class sourceFile="DrawableWrapperEclair.java">
-                    android.support.v4.graphics.drawable.DrawableWrapperEclair$DrawableWrapperStateEclair
-                </Class>
                 <Class sourceFile="DrawableWrapperHoneycomb.java">
                     android.support.v4.graphics.drawable.DrawableWrapperHoneycomb
-                </Class>
-                <Class sourceFile="DrawableWrapperHoneycomb.java">
-                    android.support.v4.graphics.drawable.DrawableWrapperHoneycomb$DrawableWrapperStateHoneycomb
                 </Class>
                 <Class sourceFile="DrawableWrapperKitKat.java">
                     android.support.v4.graphics.drawable.DrawableWrapperKitKat
                 </Class>
-                <Class sourceFile="DrawableWrapperKitKat.java">
-                    android.support.v4.graphics.drawable.DrawableWrapperKitKat$DrawableWrapperStateKitKat
-                </Class>
                 <Class sourceFile="DrawableWrapperLollipop.java">
                     android.support.v4.graphics.drawable.DrawableWrapperLollipop
-                </Class>
-                <Class sourceFile="DrawableWrapperLollipop.java">
-                    android.support.v4.graphics.drawable.DrawableWrapperLollipop$DrawableWrapperStateLollipop
                 </Class>
                 <Class sourceFile="RoundedBitmapDrawable21.java">
                     android.support.v4.graphics.drawable.RoundedBitmapDrawable21
@@ -2337,13 +2111,11 @@
                 <Package>java.io</Package>
                 <Package>java.lang</Package>
                 <Package>java.lang.reflect</Package>
-                <Package>org.xmlpull.v1</Package>
             </DependsUpon>
 
             <UsedBy>
                 <Package>android.support.design.internal</Package>
                 <Package>android.support.design.widget</Package>
-                <Package>android.support.graphics.drawable</Package>
                 <Package>android.support.v4.widget</Package>
                 <Package>android.support.v7.graphics.drawable</Package>
                 <Package>android.support.v7.widget</Package>
@@ -2509,32 +2281,32 @@
 
         <Package name="android.support.v4.media">
             <Stats>
-                <TotalClasses>127</TotalClasses>
-                <ConcreteClasses>97</ConcreteClasses>
-                <AbstractClasses>30</AbstractClasses>
+                <TotalClasses>81</TotalClasses>
+                <ConcreteClasses>60</ConcreteClasses>
+                <AbstractClasses>21</AbstractClasses>
                 <Ca>1</Ca>
-                <Ce>24</Ce>
-                <A>0.24</A>
-                <I>0.96</I>
-                <D>0.2</D>
+                <Ce>19</Ce>
+                <A>0.26</A>
+                <I>0.95</I>
+                <D>0.21</D>
                 <V>1</V>
             </Stats>
 
             <AbstractClasses>
-                <Class sourceFile="IMediaBrowserServiceAdapterApi21.java">
-                    android.support.v4.media.IMediaBrowserServiceAdapterApi21$Stub
+                <Class sourceFile="IMediaBrowserServiceCompat.java">
+                    android.support.v4.media.IMediaBrowserServiceCompat
                 </Class>
-                <Class sourceFile="MediaBrowserCompat.java">
-                    android.support.v4.media.MediaBrowserCompat$ConnectionCallback$ConnectionCallbackInternal
+                <Class sourceFile="IMediaBrowserServiceCompat.java">
+                    android.support.v4.media.IMediaBrowserServiceCompat$Stub
+                </Class>
+                <Class sourceFile="IMediaBrowserServiceCompatCallbacks.java">
+                    android.support.v4.media.IMediaBrowserServiceCompatCallbacks
+                </Class>
+                <Class sourceFile="IMediaBrowserServiceCompatCallbacks.java">
+                    android.support.v4.media.IMediaBrowserServiceCompatCallbacks$Stub
                 </Class>
                 <Class sourceFile="MediaBrowserCompat.java">
                     android.support.v4.media.MediaBrowserCompat$ItemCallback
-                </Class>
-                <Class sourceFile="MediaBrowserCompat.java">
-                    android.support.v4.media.MediaBrowserCompat$MediaBrowserImpl
-                </Class>
-                <Class sourceFile="MediaBrowserCompat.java">
-                    android.support.v4.media.MediaBrowserCompat$MediaBrowserServiceCallbackImpl
                 </Class>
                 <Class sourceFile="MediaBrowserCompat.java">
                     android.support.v4.media.MediaBrowserCompat$MediaItem$Flags
@@ -2542,35 +2314,8 @@
                 <Class sourceFile="MediaBrowserCompat.java">
                     android.support.v4.media.MediaBrowserCompat$SubscriptionCallback
                 </Class>
-                <Class sourceFile="MediaBrowserCompatApi21.java">
-                    android.support.v4.media.MediaBrowserCompatApi21$ConnectionCallback
-                </Class>
-                <Class sourceFile="MediaBrowserCompatApi21.java">
-                    android.support.v4.media.MediaBrowserCompatApi21$SubscriptionCallback
-                </Class>
-                <Class sourceFile="MediaBrowserCompatApi23.java">
-                    android.support.v4.media.MediaBrowserCompatApi23$ItemCallback
-                </Class>
                 <Class sourceFile="MediaBrowserServiceCompat.java">
                     android.support.v4.media.MediaBrowserServiceCompat
-                </Class>
-                <Class sourceFile="MediaBrowserServiceCompat.java">
-                    android.support.v4.media.MediaBrowserServiceCompat$MediaBrowserServiceImpl
-                </Class>
-                <Class sourceFile="MediaBrowserServiceCompat.java">
-                    android.support.v4.media.MediaBrowserServiceCompat$ServiceCallbacks
-                </Class>
-                <Class sourceFile="MediaBrowserServiceCompatApi21.java">
-                    android.support.v4.media.MediaBrowserServiceCompatApi21$ServiceCallbacks
-                </Class>
-                <Class sourceFile="MediaBrowserServiceCompatApi21.java">
-                    android.support.v4.media.MediaBrowserServiceCompatApi21$ServiceImplApi21
-                </Class>
-                <Class sourceFile="MediaBrowserServiceCompatApi23.java">
-                    android.support.v4.media.MediaBrowserServiceCompatApi23$ItemCallback
-                </Class>
-                <Class sourceFile="MediaBrowserServiceCompatApi23.java">
-                    android.support.v4.media.MediaBrowserServiceCompatApi23$ServiceImplApi23
                 </Class>
                 <Class sourceFile="MediaMetadataCompat.java">
                     android.support.v4.media.MediaMetadataCompat$BitmapKey
@@ -2614,14 +2359,11 @@
             </AbstractClasses>
 
             <ConcreteClasses>
-                <Class sourceFile="IMediaBrowserServiceAdapterApi21.java">
-                    android.support.v4.media.IMediaBrowserServiceAdapterApi21
+                <Class sourceFile="IMediaBrowserServiceCompat.java">
+                    android.support.v4.media.IMediaBrowserServiceCompat$Stub$Proxy
                 </Class>
-                <Class sourceFile="IMediaBrowserServiceCallbacksAdapterApi21.java">
-                    android.support.v4.media.IMediaBrowserServiceCallbacksAdapterApi21
-                </Class>
-                <Class sourceFile="IMediaBrowserServiceCallbacksAdapterApi21.java">
-                    android.support.v4.media.IMediaBrowserServiceCallbacksAdapterApi21$Stub
+                <Class sourceFile="IMediaBrowserServiceCompatCallbacks.java">
+                    android.support.v4.media.IMediaBrowserServiceCompatCallbacks$Stub$Proxy
                 </Class>
                 <Class sourceFile="MediaBrowserCompat.java">
                     android.support.v4.media.MediaBrowserCompat
@@ -2630,34 +2372,7 @@
                     android.support.v4.media.MediaBrowserCompat$1
                 </Class>
                 <Class sourceFile="MediaBrowserCompat.java">
-                    android.support.v4.media.MediaBrowserCompat$CallbackHandler
-                </Class>
-                <Class sourceFile="MediaBrowserCompat.java">
                     android.support.v4.media.MediaBrowserCompat$ConnectionCallback
-                </Class>
-                <Class sourceFile="MediaBrowserCompat.java">
-                    android.support.v4.media.MediaBrowserCompat$ConnectionCallback$StubApi21
-                </Class>
-                <Class sourceFile="MediaBrowserCompat.java">
-                    android.support.v4.media.MediaBrowserCompat$ItemCallback$StubApi23
-                </Class>
-                <Class sourceFile="MediaBrowserCompat.java">
-                    android.support.v4.media.MediaBrowserCompat$ItemReceiver
-                </Class>
-                <Class sourceFile="MediaBrowserCompat.java">
-                    android.support.v4.media.MediaBrowserCompat$MediaBrowserImplApi21
-                </Class>
-                <Class sourceFile="MediaBrowserCompat.java">
-                    android.support.v4.media.MediaBrowserCompat$MediaBrowserImplApi21$1
-                </Class>
-                <Class sourceFile="MediaBrowserCompat.java">
-                    android.support.v4.media.MediaBrowserCompat$MediaBrowserImplApi21$2
-                </Class>
-                <Class sourceFile="MediaBrowserCompat.java">
-                    android.support.v4.media.MediaBrowserCompat$MediaBrowserImplApi21$3
-                </Class>
-                <Class sourceFile="MediaBrowserCompat.java">
-                    android.support.v4.media.MediaBrowserCompat$MediaBrowserImplApi23
                 </Class>
                 <Class sourceFile="MediaBrowserCompat.java">
                     android.support.v4.media.MediaBrowserCompat$MediaBrowserImplBase
@@ -2672,52 +2387,31 @@
                     android.support.v4.media.MediaBrowserCompat$MediaBrowserImplBase$3
                 </Class>
                 <Class sourceFile="MediaBrowserCompat.java">
+                    android.support.v4.media.MediaBrowserCompat$MediaBrowserImplBase$4
+                </Class>
+                <Class sourceFile="MediaBrowserCompat.java">
+                    android.support.v4.media.MediaBrowserCompat$MediaBrowserImplBase$5
+                </Class>
+                <Class sourceFile="MediaBrowserCompat.java">
+                    android.support.v4.media.MediaBrowserCompat$MediaBrowserImplBase$6
+                </Class>
+                <Class sourceFile="MediaBrowserCompat.java">
+                    android.support.v4.media.MediaBrowserCompat$MediaBrowserImplBase$7
+                </Class>
+                <Class sourceFile="MediaBrowserCompat.java">
                     android.support.v4.media.MediaBrowserCompat$MediaBrowserImplBase$MediaServiceConnection
                 </Class>
                 <Class sourceFile="MediaBrowserCompat.java">
-                    android.support.v4.media.MediaBrowserCompat$MediaBrowserImplBase$MediaServiceConnection$1
+                    android.support.v4.media.MediaBrowserCompat$MediaBrowserImplBase$ServiceCallbacks
                 </Class>
                 <Class sourceFile="MediaBrowserCompat.java">
-                    android.support.v4.media.MediaBrowserCompat$MediaBrowserImplBase$MediaServiceConnection$2
+                    android.support.v4.media.MediaBrowserCompat$MediaBrowserImplBase$Subscription
                 </Class>
                 <Class sourceFile="MediaBrowserCompat.java">
                     android.support.v4.media.MediaBrowserCompat$MediaItem
                 </Class>
                 <Class sourceFile="MediaBrowserCompat.java">
                     android.support.v4.media.MediaBrowserCompat$MediaItem$1
-                </Class>
-                <Class sourceFile="MediaBrowserCompat.java">
-                    android.support.v4.media.MediaBrowserCompat$ServiceBinderWrapper
-                </Class>
-                <Class sourceFile="MediaBrowserCompat.java">
-                    android.support.v4.media.MediaBrowserCompat$Subscription
-                </Class>
-                <Class sourceFile="MediaBrowserCompat.java">
-                    android.support.v4.media.MediaBrowserCompat$SubscriptionCallbackApi21
-                </Class>
-                <Class sourceFile="MediaBrowserCompat.java">
-                    android.support.v4.media.MediaBrowserCompat$SubscriptionCallbackApi21$StubApi21
-                </Class>
-                <Class sourceFile="MediaBrowserCompatApi21.java">
-                    android.support.v4.media.MediaBrowserCompatApi21
-                </Class>
-                <Class sourceFile="MediaBrowserCompatApi21.java">
-                    android.support.v4.media.MediaBrowserCompatApi21$ConnectionCallbackProxy
-                </Class>
-                <Class sourceFile="MediaBrowserCompatApi21.java">
-                    android.support.v4.media.MediaBrowserCompatApi21$SubscriptionCallbackProxy
-                </Class>
-                <Class sourceFile="MediaBrowserCompatApi23.java">
-                    android.support.v4.media.MediaBrowserCompatApi23
-                </Class>
-                <Class sourceFile="MediaBrowserCompatApi23.java">
-                    android.support.v4.media.MediaBrowserCompatApi23$ItemCallbackProxy
-                </Class>
-                <Class sourceFile="MediaBrowserCompatUtils.java">
-                    android.support.v4.media.MediaBrowserCompatUtils
-                </Class>
-                <Class sourceFile="MediaBrowserProtocol.java">
-                    android.support.v4.media.MediaBrowserProtocol
                 </Class>
                 <Class sourceFile="MediaBrowserServiceCompat.java">
                     android.support.v4.media.MediaBrowserServiceCompat$1
@@ -2738,82 +2432,25 @@
                     android.support.v4.media.MediaBrowserServiceCompat$ConnectionRecord
                 </Class>
                 <Class sourceFile="MediaBrowserServiceCompat.java">
-                    android.support.v4.media.MediaBrowserServiceCompat$MediaBrowserServiceImplApi21
-                </Class>
-                <Class sourceFile="MediaBrowserServiceCompat.java">
-                    android.support.v4.media.MediaBrowserServiceCompat$MediaBrowserServiceImplApi23
-                </Class>
-                <Class sourceFile="MediaBrowserServiceCompat.java">
-                    android.support.v4.media.MediaBrowserServiceCompat$MediaBrowserServiceImplBase
-                </Class>
-                <Class sourceFile="MediaBrowserServiceCompat.java">
                     android.support.v4.media.MediaBrowserServiceCompat$Result
                 </Class>
                 <Class sourceFile="MediaBrowserServiceCompat.java">
-                    android.support.v4.media.MediaBrowserServiceCompat$ServiceCallbacksApi21
+                    android.support.v4.media.MediaBrowserServiceCompat$ServiceBinder
                 </Class>
                 <Class sourceFile="MediaBrowserServiceCompat.java">
-                    android.support.v4.media.MediaBrowserServiceCompat$ServiceCallbacksCompat
+                    android.support.v4.media.MediaBrowserServiceCompat$ServiceBinder$1
                 </Class>
                 <Class sourceFile="MediaBrowserServiceCompat.java">
-                    android.support.v4.media.MediaBrowserServiceCompat$ServiceHandler
+                    android.support.v4.media.MediaBrowserServiceCompat$ServiceBinder$2
                 </Class>
                 <Class sourceFile="MediaBrowserServiceCompat.java">
-                    android.support.v4.media.MediaBrowserServiceCompat$ServiceImpl
+                    android.support.v4.media.MediaBrowserServiceCompat$ServiceBinder$3
                 </Class>
                 <Class sourceFile="MediaBrowserServiceCompat.java">
-                    android.support.v4.media.MediaBrowserServiceCompat$ServiceImpl$1
+                    android.support.v4.media.MediaBrowserServiceCompat$ServiceBinder$4
                 </Class>
                 <Class sourceFile="MediaBrowserServiceCompat.java">
-                    android.support.v4.media.MediaBrowserServiceCompat$ServiceImpl$2
-                </Class>
-                <Class sourceFile="MediaBrowserServiceCompat.java">
-                    android.support.v4.media.MediaBrowserServiceCompat$ServiceImpl$3
-                </Class>
-                <Class sourceFile="MediaBrowserServiceCompat.java">
-                    android.support.v4.media.MediaBrowserServiceCompat$ServiceImpl$4
-                </Class>
-                <Class sourceFile="MediaBrowserServiceCompat.java">
-                    android.support.v4.media.MediaBrowserServiceCompat$ServiceImpl$5
-                </Class>
-                <Class sourceFile="MediaBrowserServiceCompat.java">
-                    android.support.v4.media.MediaBrowserServiceCompat$ServiceImpl$6
-                </Class>
-                <Class sourceFile="MediaBrowserServiceCompat.java">
-                    android.support.v4.media.MediaBrowserServiceCompat$ServiceImpl$7
-                </Class>
-                <Class sourceFile="MediaBrowserServiceCompat.java">
-                    android.support.v4.media.MediaBrowserServiceCompat$ServiceImplApi21
-                </Class>
-                <Class sourceFile="MediaBrowserServiceCompat.java">
-                    android.support.v4.media.MediaBrowserServiceCompat$ServiceImplApi23
-                </Class>
-                <Class sourceFile="MediaBrowserServiceCompat.java">
-                    android.support.v4.media.MediaBrowserServiceCompat$ServiceImplApi23$1
-                </Class>
-                <Class sourceFile="MediaBrowserServiceCompatApi21.java">
-                    android.support.v4.media.MediaBrowserServiceCompatApi21
-                </Class>
-                <Class sourceFile="MediaBrowserServiceCompatApi21.java">
-                    android.support.v4.media.MediaBrowserServiceCompatApi21$MediaBrowserServiceAdaptorApi21
-                </Class>
-                <Class sourceFile="MediaBrowserServiceCompatApi21.java">
-                    android.support.v4.media.MediaBrowserServiceCompatApi21$MediaBrowserServiceAdaptorApi21$ServiceBinderProxyApi21
-                </Class>
-                <Class sourceFile="MediaBrowserServiceCompatApi21.java">
-                    android.support.v4.media.MediaBrowserServiceCompatApi21$ServiceCallbacksApi21
-                </Class>
-                <Class sourceFile="MediaBrowserServiceCompatApi23.java">
-                    android.support.v4.media.MediaBrowserServiceCompatApi23
-                </Class>
-                <Class sourceFile="MediaBrowserServiceCompatApi23.java">
-                    android.support.v4.media.MediaBrowserServiceCompatApi23$MediaBrowserServiceAdaptorApi23
-                </Class>
-                <Class sourceFile="MediaBrowserServiceCompatApi23.java">
-                    android.support.v4.media.MediaBrowserServiceCompatApi23$MediaBrowserServiceAdaptorApi23$ServiceBinderProxyApi23
-                </Class>
-                <Class sourceFile="MediaBrowserServiceCompatApi23.java">
-                    android.support.v4.media.MediaBrowserServiceCompatApi23$MediaBrowserServiceAdaptorApi23$ServiceBinderProxyApi23$1
+                    android.support.v4.media.MediaBrowserServiceCompat$ServiceBinder$5
                 </Class>
                 <Class sourceFile="MediaDescriptionCompat.java">
                     android.support.v4.media.MediaDescriptionCompat
@@ -2850,9 +2487,6 @@
                 </Class>
                 <Class sourceFile="MediaMetadataCompatApi21.java">
                     android.support.v4.media.MediaMetadataCompatApi21$Builder
-                </Class>
-                <Class sourceFile="ParceledListSliceAdapterApi21.java">
-                    android.support.v4.media.ParceledListSliceAdapterApi21
                 </Class>
                 <Class sourceFile="RatingCompat.java">
                     android.support.v4.media.RatingCompat
@@ -2913,12 +2547,8 @@
                 <Package>android.content.pm</Package>
                 <Package>android.graphics</Package>
                 <Package>android.media</Package>
-                <Package>android.media.browse</Package>
-                <Package>android.media.session</Package>
                 <Package>android.net</Package>
                 <Package>android.os</Package>
-                <Package>android.service.media</Package>
-                <Package>android.support.v4.app</Package>
                 <Package>android.support.v4.media.session</Package>
                 <Package>android.support.v4.os</Package>
                 <Package>android.support.v4.util</Package>
@@ -2930,7 +2560,6 @@
                 <Package>java.lang</Package>
                 <Package>java.lang.annotation</Package>
                 <Package>java.lang.ref</Package>
-                <Package>java.lang.reflect</Package>
                 <Package>java.util</Package>
             </DependsUpon>
 
@@ -2939,16 +2568,112 @@
             </UsedBy>
         </Package>
 
+        <Package name="android.support.v4.media.routing">
+            <Stats>
+                <TotalClasses>20</TotalClasses>
+                <ConcreteClasses>17</ConcreteClasses>
+                <AbstractClasses>3</AbstractClasses>
+                <Ca>0</Ca>
+                <Ce>10</Ce>
+                <A>0.15</A>
+                <I>1</I>
+                <D>0.15</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+                <Class sourceFile="MediaRouterJellybean.java">
+                    android.support.v4.media.routing.MediaRouterJellybean$Callback
+                </Class>
+                <Class sourceFile="MediaRouterJellybean.java">
+                    android.support.v4.media.routing.MediaRouterJellybean$VolumeCallback
+                </Class>
+                <Class sourceFile="MediaRouterJellybeanMr1.java">
+                    android.support.v4.media.routing.MediaRouterJellybeanMr1$Callback
+                </Class>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="MediaRouterJellybean.java">
+                    android.support.v4.media.routing.MediaRouterJellybean
+                </Class>
+                <Class sourceFile="MediaRouterJellybean.java">
+                    android.support.v4.media.routing.MediaRouterJellybean$CallbackProxy
+                </Class>
+                <Class sourceFile="MediaRouterJellybean.java">
+                    android.support.v4.media.routing.MediaRouterJellybean$GetDefaultRouteWorkaround
+                </Class>
+                <Class sourceFile="MediaRouterJellybean.java">
+                    android.support.v4.media.routing.MediaRouterJellybean$RouteCategory
+                </Class>
+                <Class sourceFile="MediaRouterJellybean.java">
+                    android.support.v4.media.routing.MediaRouterJellybean$RouteGroup
+                </Class>
+                <Class sourceFile="MediaRouterJellybean.java">
+                    android.support.v4.media.routing.MediaRouterJellybean$RouteInfo
+                </Class>
+                <Class sourceFile="MediaRouterJellybean.java">
+                    android.support.v4.media.routing.MediaRouterJellybean$SelectRouteWorkaround
+                </Class>
+                <Class sourceFile="MediaRouterJellybean.java">
+                    android.support.v4.media.routing.MediaRouterJellybean$UserRouteInfo
+                </Class>
+                <Class sourceFile="MediaRouterJellybean.java">
+                    android.support.v4.media.routing.MediaRouterJellybean$VolumeCallbackProxy
+                </Class>
+                <Class sourceFile="MediaRouterJellybeanMr1.java">
+                    android.support.v4.media.routing.MediaRouterJellybeanMr1
+                </Class>
+                <Class sourceFile="MediaRouterJellybeanMr1.java">
+                    android.support.v4.media.routing.MediaRouterJellybeanMr1$ActiveScanWorkaround
+                </Class>
+                <Class sourceFile="MediaRouterJellybeanMr1.java">
+                    android.support.v4.media.routing.MediaRouterJellybeanMr1$CallbackProxy
+                </Class>
+                <Class sourceFile="MediaRouterJellybeanMr1.java">
+                    android.support.v4.media.routing.MediaRouterJellybeanMr1$IsConnectingWorkaround
+                </Class>
+                <Class sourceFile="MediaRouterJellybeanMr1.java">
+                    android.support.v4.media.routing.MediaRouterJellybeanMr1$RouteInfo
+                </Class>
+                <Class sourceFile="MediaRouterJellybeanMr2.java">
+                    android.support.v4.media.routing.MediaRouterJellybeanMr2
+                </Class>
+                <Class sourceFile="MediaRouterJellybeanMr2.java">
+                    android.support.v4.media.routing.MediaRouterJellybeanMr2$RouteInfo
+                </Class>
+                <Class sourceFile="MediaRouterJellybeanMr2.java">
+                    android.support.v4.media.routing.MediaRouterJellybeanMr2$UserRouteInfo
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>android.content</Package>
+                <Package>android.graphics.drawable</Package>
+                <Package>android.hardware.display</Package>
+                <Package>android.media</Package>
+                <Package>android.os</Package>
+                <Package>android.util</Package>
+                <Package>android.view</Package>
+                <Package>java.lang</Package>
+                <Package>java.lang.reflect</Package>
+                <Package>java.util</Package>
+            </DependsUpon>
+
+            <UsedBy>
+            </UsedBy>
+        </Package>
+
         <Package name="android.support.v4.media.session">
             <Stats>
-                <TotalClasses>79</TotalClasses>
+                <TotalClasses>78</TotalClasses>
                 <ConcreteClasses>61</ConcreteClasses>
-                <AbstractClasses>18</AbstractClasses>
+                <AbstractClasses>17</AbstractClasses>
                 <Ca>3</Ca>
                 <Ce>15</Ce>
-                <A>0.23</A>
+                <A>0.22</A>
                 <I>0.83</I>
-                <D>0.06</D>
+                <D>0.05</D>
                 <V>1</V>
             </Stats>
 
@@ -2989,11 +2714,8 @@
                 <Class sourceFile="MediaSessionCompat.java">
                     android.support.v4.media.session.MediaSessionCompat$SessionFlags
                 </Class>
-                <Class sourceFile="MediaSessionCompatApi18.java">
-                    android.support.v4.media.session.MediaSessionCompatApi18$Callback
-                </Class>
-                <Class sourceFile="MediaSessionCompatApi19.java">
-                    android.support.v4.media.session.MediaSessionCompatApi19$Callback
+                <Class sourceFile="MediaSessionCompatApi14.java">
+                    android.support.v4.media.session.MediaSessionCompatApi14$Callback
                 </Class>
                 <Class sourceFile="MediaSessionCompatApi21.java">
                     android.support.v4.media.session.MediaSessionCompatApi21$Callback
@@ -3701,11 +3423,11 @@
                 <TotalClasses>24</TotalClasses>
                 <ConcreteClasses>22</ConcreteClasses>
                 <AbstractClasses>2</AbstractClasses>
-                <Ca>10</Ca>
+                <Ca>8</Ca>
                 <Ce>5</Ce>
                 <A>0.08</A>
-                <I>0.33</I>
-                <D>0.58</D>
+                <I>0.38</I>
+                <D>0.53</D>
                 <V>1</V>
             </Stats>
 
@@ -3796,8 +3518,6 @@
             </DependsUpon>
 
             <UsedBy>
-                <Package>android.support.design.widget</Package>
-                <Package>android.support.graphics.drawable</Package>
                 <Package>android.support.v4.app</Package>
                 <Package>android.support.v4.content</Package>
                 <Package>android.support.v4.media</Package>
@@ -3811,8 +3531,8 @@
 
         <Package name="android.support.v4.view">
             <Stats>
-                <TotalClasses>199</TotalClasses>
-                <ConcreteClasses>162</ConcreteClasses>
+                <TotalClasses>198</TotalClasses>
+                <ConcreteClasses>161</ConcreteClasses>
                 <AbstractClasses>37</AbstractClasses>
                 <Ca>14</Ca>
                 <Ce>23</Ce>
@@ -4307,9 +4027,6 @@
                     android.support.v4.view.ViewPager$3
                 </Class>
                 <Class sourceFile="ViewPager.java">
-                    android.support.v4.view.ViewPager$4
-                </Class>
-                <Class sourceFile="ViewPager.java">
                     android.support.v4.view.ViewPager$ItemInfo
                 </Class>
                 <Class sourceFile="ViewPager.java">
@@ -4773,14 +4490,14 @@
 
         <Package name="android.support.v4.widget">
             <Stats>
-                <TotalClasses>155</TotalClasses>
-                <ConcreteClasses>125</ConcreteClasses>
+                <TotalClasses>150</TotalClasses>
+                <ConcreteClasses>120</ConcreteClasses>
                 <AbstractClasses>30</AbstractClasses>
-                <Ca>6</Ca>
+                <Ca>7</Ca>
                 <Ce>23</Ce>
-                <A>0.19</A>
-                <I>0.79</I>
-                <D>0.01</D>
+                <A>0.2</A>
+                <I>0.77</I>
+                <D>0.03</D>
                 <V>1</V>
             </Stats>
 
@@ -5010,15 +4727,6 @@
                 <Class sourceFile="ListViewAutoScrollHelper.java">
                     android.support.v4.widget.ListViewAutoScrollHelper
                 </Class>
-                <Class sourceFile="ListViewCompat.java">
-                    android.support.v4.widget.ListViewCompat
-                </Class>
-                <Class sourceFile="ListViewCompatDonut.java">
-                    android.support.v4.widget.ListViewCompatDonut
-                </Class>
-                <Class sourceFile="ListViewCompatKitKat.java">
-                    android.support.v4.widget.ListViewCompatKitKat
-                </Class>
                 <Class sourceFile="MaterialProgressDrawable.java">
                     android.support.v4.widget.MaterialProgressDrawable
                 </Class>
@@ -5215,9 +4923,6 @@
                     android.support.v4.widget.TextViewCompat
                 </Class>
                 <Class sourceFile="TextViewCompat.java">
-                    android.support.v4.widget.TextViewCompat$Api23TextViewCompatImpl
-                </Class>
-                <Class sourceFile="TextViewCompat.java">
                     android.support.v4.widget.TextViewCompat$BaseTextViewCompatImpl
                 </Class>
                 <Class sourceFile="TextViewCompat.java">
@@ -5228,9 +4933,6 @@
                 </Class>
                 <Class sourceFile="TextViewCompat.java">
                     android.support.v4.widget.TextViewCompat$JbTextViewCompatImpl
-                </Class>
-                <Class sourceFile="TextViewCompatApi23.java">
-                    android.support.v4.widget.TextViewCompatApi23
                 </Class>
                 <Class sourceFile="TextViewCompatDonut.java">
                     android.support.v4.widget.TextViewCompatDonut
@@ -5288,19 +4990,20 @@
                 <Package>android.support.v4.view</Package>
                 <Package>android.support.v7.app</Package>
                 <Package>android.support.v7.widget</Package>
+                <Package>org.osmdroid.samplefragments.layers</Package>
             </UsedBy>
         </Package>
 
         <Package name="android.support.v7.app">
             <Stats>
-                <TotalClasses>97</TotalClasses>
+                <TotalClasses>96</TotalClasses>
                 <ConcreteClasses>82</ConcreteClasses>
-                <AbstractClasses>15</AbstractClasses>
+                <AbstractClasses>14</AbstractClasses>
                 <Ca>4</Ca>
                 <Ce>34</Ce>
                 <A>0.15</A>
                 <I>0.89</I>
-                <D>0.05</D>
+                <D>0.04</D>
                 <V>1</V>
             </Stats>
 
@@ -5343,9 +5046,6 @@
                 </Class>
                 <Class sourceFile="AppCompatDelegate.java">
                     android.support.v7.app.AppCompatDelegate
-                </Class>
-                <Class sourceFile="AppCompatDelegate.java">
-                    android.support.v7.app.AppCompatDelegate$NightMode
                 </Class>
                 <Class sourceFile="AppCompatDelegateImplBase.java">
                     android.support.v7.app.AppCompatDelegateImplBase
@@ -5771,14 +5471,14 @@
 
         <Package name="android.support.v7.graphics.drawable">
             <Stats>
-                <TotalClasses>3</TotalClasses>
-                <ConcreteClasses>2</ConcreteClasses>
+                <TotalClasses>4</TotalClasses>
+                <ConcreteClasses>3</ConcreteClasses>
                 <AbstractClasses>1</AbstractClasses>
                 <Ca>3</Ca>
-                <Ce>8</Ce>
-                <A>0.33</A>
-                <I>0.73</I>
-                <D>0.06</D>
+                <Ce>9</Ce>
+                <A>0.25</A>
+                <I>0.75</I>
+                <D>0</D>
                 <V>1</V>
             </Stats>
 
@@ -5789,6 +5489,9 @@
             </AbstractClasses>
 
             <ConcreteClasses>
+                <Class sourceFile="DrawableUtils.java">
+                    android.support.v7.graphics.drawable.DrawableUtils
+                </Class>
                 <Class sourceFile="DrawableWrapper.java">
                     android.support.v7.graphics.drawable.DrawableWrapper
                 </Class>
@@ -5802,6 +5505,7 @@
                 <Package>android.content.res</Package>
                 <Package>android.graphics</Package>
                 <Package>android.graphics.drawable</Package>
+                <Package>android.os</Package>
                 <Package>android.support.v4.graphics.drawable</Package>
                 <Package>android.support.v7.appcompat</Package>
                 <Package>java.lang</Package>
@@ -6277,11 +5981,11 @@
 
         <Package name="android.support.v7.widget">
             <Stats>
-                <TotalClasses>284</TotalClasses>
-                <ConcreteClasses>231</ConcreteClasses>
+                <TotalClasses>279</TotalClasses>
+                <ConcreteClasses>226</ConcreteClasses>
                 <AbstractClasses>53</AbstractClasses>
                 <Ca>11</Ca>
-                <Ce>48</Ce>
+                <Ce>47</Ce>
                 <A>0.19</A>
                 <I>0.81</I>
                 <D>0</D>
@@ -6605,16 +6309,7 @@
                     android.support.v7.widget.AppCompatDrawableManager
                 </Class>
                 <Class sourceFile="AppCompatDrawableManager.java">
-                    android.support.v7.widget.AppCompatDrawableManager$1
-                </Class>
-                <Class sourceFile="AppCompatDrawableManager.java">
-                    android.support.v7.widget.AppCompatDrawableManager$AvdcInflateDelegate
-                </Class>
-                <Class sourceFile="AppCompatDrawableManager.java">
                     android.support.v7.widget.AppCompatDrawableManager$ColorFilterLruCache
-                </Class>
-                <Class sourceFile="AppCompatDrawableManager.java">
-                    android.support.v7.widget.AppCompatDrawableManager$VdcInflateDelegate
                 </Class>
                 <Class sourceFile="AppCompatEditText.java">
                     android.support.v7.widget.AppCompatEditText
@@ -6687,9 +6382,6 @@
                 </Class>
                 <Class sourceFile="CardView.java">
                     android.support.v7.widget.CardView
-                </Class>
-                <Class sourceFile="CardView.java">
-                    android.support.v7.widget.CardView$1
                 </Class>
                 <Class sourceFile="CardViewApi21.java">
                     android.support.v7.widget.CardViewApi21
@@ -7010,12 +6702,6 @@
                     android.support.v7.widget.SearchView$AutoCompleteTextViewReflector
                 </Class>
                 <Class sourceFile="SearchView.java">
-                    android.support.v7.widget.SearchView$SavedState
-                </Class>
-                <Class sourceFile="SearchView.java">
-                    android.support.v7.widget.SearchView$SavedState$1
-                </Class>
-                <Class sourceFile="SearchView.java">
                     android.support.v7.widget.SearchView$SearchAutoComplete
                 </Class>
                 <Class sourceFile="ShareActionProvider.java">
@@ -7087,11 +6773,17 @@
                 <Class sourceFile="TintContextWrapper.java">
                     android.support.v7.widget.TintContextWrapper
                 </Class>
+                <Class sourceFile="TintContextWrapper.java">
+                    android.support.v7.widget.TintContextWrapper$TintResources
+                </Class>
                 <Class sourceFile="TintInfo.java">
                     android.support.v7.widget.TintInfo
                 </Class>
-                <Class sourceFile="TintResources.java">
-                    android.support.v7.widget.TintResources
+                <Class sourceFile="TintManager.java">
+                    android.support.v7.widget.TintManager
+                </Class>
+                <Class sourceFile="TintManager.java">
+                    android.support.v7.widget.TintManager$ColorFilterLruCache
                 </Class>
                 <Class sourceFile="TintTypedArray.java">
                     android.support.v7.widget.TintTypedArray
@@ -7129,9 +6821,6 @@
                 <Class sourceFile="ToolbarWidgetWrapper.java">
                     android.support.v7.widget.ToolbarWidgetWrapper$2
                 </Class>
-                <Class sourceFile="VectorEnabledTintResources.java">
-                    android.support.v7.widget.VectorEnabledTintResources
-                </Class>
                 <Class sourceFile="ViewInfoStore.java">
                     android.support.v7.widget.ViewInfoStore
                 </Class>
@@ -7157,7 +6846,6 @@
                 <Package>android.graphics.drawable.shapes</Package>
                 <Package>android.net</Package>
                 <Package>android.os</Package>
-                <Package>android.support.graphics.drawable</Package>
                 <Package>android.support.v4.animation</Package>
                 <Package>android.support.v4.content</Package>
                 <Package>android.support.v4.graphics</Package>
@@ -8863,51 +8551,15 @@
             <error>No stats available: package referenced, but not analyzed.</error>
         </Package>
 
-        <Package name="microsoft.mappoint">
-            <Stats>
-                <TotalClasses>1</TotalClasses>
-                <ConcreteClasses>1</ConcreteClasses>
-                <AbstractClasses>0</AbstractClasses>
-                <Ca>4</Ca>
-                <Ce>3</Ce>
-                <A>0</A>
-                <I>0.43</I>
-                <D>0.57</D>
-                <V>1</V>
-            </Stats>
-
-            <AbstractClasses>
-            </AbstractClasses>
-
-            <ConcreteClasses>
-                <Class sourceFile="TileSystem.java">
-                    microsoft.mappoint.TileSystem
-                </Class>
-            </ConcreteClasses>
-
-            <DependsUpon>
-                <Package>android.graphics</Package>
-                <Package>java.lang</Package>
-                <Package>org.osmdroid.util</Package>
-            </DependsUpon>
-
-            <UsedBy>
-                <Package>org.osmdroid.tileprovider</Package>
-                <Package>org.osmdroid.tileprovider.modules</Package>
-                <Package>org.osmdroid.util</Package>
-                <Package>org.osmdroid.views</Package>
-            </UsedBy>
-        </Package>
-
         <Package name="mil.nga.geopackage">
             <Stats>
                 <TotalClasses>17</TotalClasses>
                 <ConcreteClasses>15</ConcreteClasses>
                 <AbstractClasses>2</AbstractClasses>
-                <Ca>20</Ca>
-                <Ce>14</Ce>
+                <Ca>21</Ca>
+                <Ce>15</Ce>
                 <A>0.12</A>
-                <I>0.41</I>
+                <I>0.42</I>
                 <D>0.47</D>
                 <V>1</V>
             </Stats>
@@ -8979,6 +8631,7 @@
                 <Package>java.util</Package>
                 <Package>mil.nga.geopackage.attributes</Package>
                 <Package>mil.nga.geopackage.core.contents</Package>
+                <Package>mil.nga.geopackage.db</Package>
                 <Package>mil.nga.geopackage.features.columns</Package>
                 <Package>mil.nga.geopackage.features.user</Package>
                 <Package>mil.nga.geopackage.io</Package>
@@ -8990,7 +8643,8 @@
                 <Package>mil.nga.geopackage.attributes</Package>
                 <Package>mil.nga.geopackage.db</Package>
                 <Package>mil.nga.geopackage.db.metadata</Package>
-                <Package>mil.nga.geopackage.extension.elevation</Package>
+                <Package>mil.nga.geopackage.extension</Package>
+                <Package>mil.nga.geopackage.extension.coverage</Package>
                 <Package>mil.nga.geopackage.extension.index</Package>
                 <Package>mil.nga.geopackage.extension.link</Package>
                 <Package>mil.nga.geopackage.factory</Package>
@@ -9082,11 +8736,11 @@
                 <TotalClasses>4</TotalClasses>
                 <ConcreteClasses>4</ConcreteClasses>
                 <AbstractClasses>0</AbstractClasses>
-                <Ca>8</Ca>
+                <Ca>10</Ca>
                 <Ce>19</Ce>
                 <A>0</A>
-                <I>0.7</I>
-                <D>0.3</D>
+                <I>0.66</I>
+                <D>0.34</D>
                 <V>1</V>
             </Stats>
 
@@ -9131,8 +8785,10 @@
             </DependsUpon>
 
             <UsedBy>
+                <Package>mil.nga.geopackage</Package>
                 <Package>mil.nga.geopackage.attributes</Package>
                 <Package>mil.nga.geopackage.db.metadata</Package>
+                <Package>mil.nga.geopackage.extension</Package>
                 <Package>mil.nga.geopackage.extension.index</Package>
                 <Package>mil.nga.geopackage.factory</Package>
                 <Package>mil.nga.geopackage.features.index</Package>
@@ -9199,13 +8855,46 @@
             </UsedBy>
         </Package>
 
-        <Package name="mil.nga.geopackage.extension.elevation">
+        <Package name="mil.nga.geopackage.extension">
+            <Stats>
+                <TotalClasses>1</TotalClasses>
+                <ConcreteClasses>1</ConcreteClasses>
+                <AbstractClasses>0</AbstractClasses>
+                <Ca>1</Ca>
+                <Ce>3</Ce>
+                <A>0</A>
+                <I>0.75</I>
+                <D>0.25</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="RTreeIndexExtension.java">
+                    mil.nga.geopackage.extension.RTreeIndexExtension
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>java.lang</Package>
+                <Package>mil.nga.geopackage</Package>
+                <Package>mil.nga.geopackage.db</Package>
+            </DependsUpon>
+
+            <UsedBy>
+                <Package>mil.nga.geopackage.factory</Package>
+            </UsedBy>
+        </Package>
+
+        <Package name="mil.nga.geopackage.extension.coverage">
             <Stats>
                 <TotalClasses>7</TotalClasses>
                 <ConcreteClasses>6</ConcreteClasses>
                 <AbstractClasses>1</AbstractClasses>
                 <Ca>0</Ca>
-                <Ce>13</Ce>
+                <Ce>15</Ce>
                 <A>0.14</A>
                 <I>1</I>
                 <D>0.14</D>
@@ -9213,29 +8902,29 @@
             </Stats>
 
             <AbstractClasses>
-                <Class sourceFile="ElevationTilesCommon.java">
-                    mil.nga.geopackage.extension.elevation.ElevationTilesCommon
+                <Class sourceFile="CoverageData.java">
+                    mil.nga.geopackage.extension.coverage.CoverageData
                 </Class>
             </AbstractClasses>
 
             <ConcreteClasses>
-                <Class sourceFile="ElevationPngImage.java">
-                    mil.nga.geopackage.extension.elevation.ElevationPngImage
+                <Class sourceFile="CoverageData.java">
+                    mil.nga.geopackage.extension.coverage.CoverageData$1
                 </Class>
-                <Class sourceFile="ElevationTiffImage.java">
-                    mil.nga.geopackage.extension.elevation.ElevationTiffImage
+                <Class sourceFile="CoverageDataPng.java">
+                    mil.nga.geopackage.extension.coverage.CoverageDataPng
                 </Class>
-                <Class sourceFile="ElevationTileMatrixResults.java">
-                    mil.nga.geopackage.extension.elevation.ElevationTileMatrixResults
+                <Class sourceFile="CoverageDataPngImage.java">
+                    mil.nga.geopackage.extension.coverage.CoverageDataPngImage
                 </Class>
-                <Class sourceFile="ElevationTilesCommon.java">
-                    mil.nga.geopackage.extension.elevation.ElevationTilesCommon$1
+                <Class sourceFile="CoverageDataTiff.java">
+                    mil.nga.geopackage.extension.coverage.CoverageDataTiff
                 </Class>
-                <Class sourceFile="ElevationTilesPng.java">
-                    mil.nga.geopackage.extension.elevation.ElevationTilesPng
+                <Class sourceFile="CoverageDataTiffImage.java">
+                    mil.nga.geopackage.extension.coverage.CoverageDataTiffImage
                 </Class>
-                <Class sourceFile="ElevationTilesTiff.java">
-                    mil.nga.geopackage.extension.elevation.ElevationTilesTiff
+                <Class sourceFile="CoverageDataTileMatrixResults.java">
+                    mil.nga.geopackage.extension.coverage.CoverageDataTileMatrixResults
                 </Class>
             </ConcreteClasses>
 
@@ -9245,11 +8934,13 @@
                 <Package>ar.com.hjg.pngj</Package>
                 <Package>java.io</Package>
                 <Package>java.lang</Package>
+                <Package>java.sql</Package>
                 <Package>java.util</Package>
                 <Package>mil.nga.geopackage</Package>
                 <Package>mil.nga.geopackage.projection</Package>
                 <Package>mil.nga.geopackage.tiles</Package>
                 <Package>mil.nga.geopackage.tiles.matrix</Package>
+                <Package>mil.nga.geopackage.tiles.matrixset</Package>
                 <Package>mil.nga.geopackage.tiles.user</Package>
                 <Package>mil.nga.tiff</Package>
                 <Package>mil.nga.tiff.util</Package>
@@ -9342,7 +9033,7 @@
                 <ConcreteClasses>8</ConcreteClasses>
                 <AbstractClasses>1</AbstractClasses>
                 <Ca>4</Ca>
-                <Ce>26</Ce>
+                <Ce>27</Ce>
                 <A>0.11</A>
                 <I>0.87</I>
                 <D>0.02</D>
@@ -9401,6 +9092,7 @@
                 <Package>mil.nga.geopackage.core.srs</Package>
                 <Package>mil.nga.geopackage.db</Package>
                 <Package>mil.nga.geopackage.db.metadata</Package>
+                <Package>mil.nga.geopackage.extension</Package>
                 <Package>mil.nga.geopackage.features.columns</Package>
                 <Package>mil.nga.geopackage.features.user</Package>
                 <Package>mil.nga.geopackage.io</Package>
@@ -9672,7 +9364,7 @@
             </DependsUpon>
 
             <UsedBy>
-                <Package>mil.nga.geopackage.extension.elevation</Package>
+                <Package>mil.nga.geopackage.extension.coverage</Package>
                 <Package>mil.nga.geopackage.tiles.features</Package>
                 <Package>mil.nga.geopackage.tiles.retriever</Package>
                 <Package>mil.nga.geopackage.tiles.user</Package>
@@ -9947,7 +9639,7 @@
 
             <UsedBy>
                 <Package>mil.nga.geopackage</Package>
-                <Package>mil.nga.geopackage.extension.elevation</Package>
+                <Package>mil.nga.geopackage.extension.coverage</Package>
                 <Package>mil.nga.geopackage.factory</Package>
                 <Package>mil.nga.geopackage.tiles</Package>
                 <Package>mil.nga.geopackage.tiles.retriever</Package>
@@ -10741,11 +10433,11 @@
                 <TotalClasses>45</TotalClasses>
                 <ConcreteClasses>44</ConcreteClasses>
                 <AbstractClasses>1</AbstractClasses>
-                <Ca>22</Ca>
+                <Ca>24</Ca>
                 <Ce>47</Ce>
                 <A>0.02</A>
-                <I>0.68</I>
-                <D>0.3</D>
+                <I>0.66</I>
+                <D>0.32</D>
                 <V>1</V>
             </Stats>
 
@@ -10948,11 +10640,13 @@
                 <Package>org.osmdroid.intro</Package>
                 <Package>org.osmdroid.samplefragments</Package>
                 <Package>org.osmdroid.samplefragments.animations</Package>
+                <Package>org.osmdroid.samplefragments.bookmarks</Package>
                 <Package>org.osmdroid.samplefragments.cache</Package>
                 <Package>org.osmdroid.samplefragments.data</Package>
                 <Package>org.osmdroid.samplefragments.drawing</Package>
                 <Package>org.osmdroid.samplefragments.events</Package>
                 <Package>org.osmdroid.samplefragments.geopackage</Package>
+                <Package>org.osmdroid.samplefragments.layers</Package>
                 <Package>org.osmdroid.samplefragments.layouts</Package>
                 <Package>org.osmdroid.samplefragments.layouts.list</Package>
                 <Package>org.osmdroid.samplefragments.layouts.pager</Package>
@@ -10971,7 +10665,7 @@
                 <TotalClasses>4</TotalClasses>
                 <ConcreteClasses>0</ConcreteClasses>
                 <AbstractClasses>4</AbstractClasses>
-                <Ca>39</Ca>
+                <Ca>40</Ca>
                 <Ce>2</Ce>
                 <A>1</A>
                 <I>0.05</I>
@@ -11006,7 +10700,6 @@
                 <Package>org.osmdroid</Package>
                 <Package>org.osmdroid.bugtestfragments</Package>
                 <Package>org.osmdroid.config</Package>
-                <Package>org.osmdroid.debug.model</Package>
                 <Package>org.osmdroid.events</Package>
                 <Package>org.osmdroid.gpkg.overlay</Package>
                 <Package>org.osmdroid.gpkg.overlay.features</Package>
@@ -11015,11 +10708,13 @@
                 <Package>org.osmdroid.mapsforge</Package>
                 <Package>org.osmdroid.samplefragments</Package>
                 <Package>org.osmdroid.samplefragments.animations</Package>
+                <Package>org.osmdroid.samplefragments.bookmarks</Package>
                 <Package>org.osmdroid.samplefragments.cache</Package>
                 <Package>org.osmdroid.samplefragments.data</Package>
                 <Package>org.osmdroid.samplefragments.drawing</Package>
                 <Package>org.osmdroid.samplefragments.events</Package>
                 <Package>org.osmdroid.samplefragments.geopackage</Package>
+                <Package>org.osmdroid.samplefragments.layers</Package>
                 <Package>org.osmdroid.samplefragments.layouts</Package>
                 <Package>org.osmdroid.samplefragments.layouts.rec</Package>
                 <Package>org.osmdroid.samplefragments.location</Package>
@@ -11199,11 +10894,11 @@
                 <TotalClasses>3</TotalClasses>
                 <ConcreteClasses>2</ConcreteClasses>
                 <AbstractClasses>1</AbstractClasses>
-                <Ca>20</Ca>
+                <Ca>21</Ca>
                 <Ce>12</Ce>
                 <A>0.33</A>
-                <I>0.38</I>
-                <D>0.29</D>
+                <I>0.36</I>
+                <D>0.3</D>
                 <V>1</V>
             </Stats>
 
@@ -11244,6 +10939,7 @@
                 <Package>org.osmdroid.intro</Package>
                 <Package>org.osmdroid.mapsforge</Package>
                 <Package>org.osmdroid.samplefragments.animations</Package>
+                <Package>org.osmdroid.samplefragments.bookmarks</Package>
                 <Package>org.osmdroid.samplefragments.cache</Package>
                 <Package>org.osmdroid.samplefragments.drawing</Package>
                 <Package>org.osmdroid.samplefragments.geopackage</Package>
@@ -11290,6 +10986,46 @@
             <UsedBy>
                 <Package>org.osmdroid</Package>
                 <Package>org.osmdroid.samples</Package>
+            </UsedBy>
+        </Package>
+
+        <Package name="org.osmdroid.data">
+            <Stats>
+                <TotalClasses>2</TotalClasses>
+                <ConcreteClasses>2</ConcreteClasses>
+                <AbstractClasses>0</AbstractClasses>
+                <Ca>1</Ca>
+                <Ce>7</Ce>
+                <A>0</A>
+                <I>0.88</I>
+                <D>0.12</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="DataRegion.java">
+                    org.osmdroid.data.DataRegion
+                </Class>
+                <Class sourceFile="DataRegionLoader.java">
+                    org.osmdroid.data.DataRegionLoader
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>android.content</Package>
+                <Package>android.content.res</Package>
+                <Package>java.io</Package>
+                <Package>java.lang</Package>
+                <Package>java.util</Package>
+                <Package>org.json</Package>
+                <Package>org.osmdroid.util</Package>
+            </DependsUpon>
+
+            <UsedBy>
+                <Package>org.osmdroid.samplefragments.events</Package>
             </UsedBy>
         </Package>
 
@@ -11396,10 +11132,10 @@
                 <ConcreteClasses>3</ConcreteClasses>
                 <AbstractClasses>0</AbstractClasses>
                 <Ca>2</Ca>
-                <Ce>7</Ce>
+                <Ce>5</Ce>
                 <A>0</A>
-                <I>0.78</I>
-                <D>0.22</D>
+                <I>0.71</I>
+                <D>0.29</D>
                 <V>1</V>
             </Stats>
 
@@ -11421,10 +11157,8 @@
             <DependsUpon>
                 <Package>android.database</Package>
                 <Package>android.database.sqlite</Package>
-                <Package>android.util</Package>
                 <Package>java.lang</Package>
                 <Package>java.util</Package>
-                <Package>org.osmdroid.api</Package>
                 <Package>org.osmdroid.tileprovider.modules</Package>
             </DependsUpon>
 
@@ -11530,11 +11264,11 @@
                 <TotalClasses>8</TotalClasses>
                 <ConcreteClasses>4</ConcreteClasses>
                 <AbstractClasses>4</AbstractClasses>
-                <Ca>11</Ca>
+                <Ca>13</Ca>
                 <Ce>6</Ce>
                 <A>0.5</A>
-                <I>0.35</I>
-                <D>0.15</D>
+                <I>0.32</I>
+                <D>0.18</D>
                 <V>1</V>
             </Stats>
 
@@ -11580,10 +11314,12 @@
             <UsedBy>
                 <Package>org.osmdroid.bugtestfragments</Package>
                 <Package>org.osmdroid.samplefragments.animations</Package>
+                <Package>org.osmdroid.samplefragments.bookmarks</Package>
                 <Package>org.osmdroid.samplefragments.data</Package>
                 <Package>org.osmdroid.samplefragments.drawing</Package>
                 <Package>org.osmdroid.samplefragments.events</Package>
                 <Package>org.osmdroid.samplefragments.geopackage</Package>
+                <Package>org.osmdroid.samplefragments.layers</Package>
                 <Package>org.osmdroid.samplefragments.layouts</Package>
                 <Package>org.osmdroid.samplefragments.milstd2525</Package>
                 <Package>org.osmdroid.samples</Package>
@@ -11854,7 +11590,7 @@
                 <ConcreteClasses>4</ConcreteClasses>
                 <AbstractClasses>0</AbstractClasses>
                 <Ca>2</Ca>
-                <Ce>20</Ce>
+                <Ce>21</Ce>
                 <A>0</A>
                 <I>0.91</I>
                 <D>0.09</D>
@@ -11900,6 +11636,7 @@
                 <Package>org.osmdroid.tileprovider.tilesource</Package>
                 <Package>org.osmdroid.tileprovider.util</Package>
                 <Package>org.osmdroid.util</Package>
+                <Package>org.osmdroid.views</Package>
             </DependsUpon>
 
             <UsedBy>
@@ -12186,11 +11923,11 @@
                 <TotalClasses>5</TotalClasses>
                 <ConcreteClasses>4</ConcreteClasses>
                 <AbstractClasses>1</AbstractClasses>
-                <Ca>14</Ca>
-                <Ce>25</Ce>
+                <Ca>16</Ca>
+                <Ce>27</Ce>
                 <A>0.2</A>
-                <I>0.64</I>
-                <D>0.16</D>
+                <I>0.63</I>
+                <D>0.17</D>
                 <V>1</V>
             </Stats>
 
@@ -12227,11 +11964,13 @@
                 <Package>org.osmdroid</Package>
                 <Package>org.osmdroid.api</Package>
                 <Package>org.osmdroid.samplefragments.animations</Package>
+                <Package>org.osmdroid.samplefragments.bookmarks</Package>
                 <Package>org.osmdroid.samplefragments.cache</Package>
                 <Package>org.osmdroid.samplefragments.data</Package>
                 <Package>org.osmdroid.samplefragments.drawing</Package>
                 <Package>org.osmdroid.samplefragments.events</Package>
                 <Package>org.osmdroid.samplefragments.geopackage</Package>
+                <Package>org.osmdroid.samplefragments.layers</Package>
                 <Package>org.osmdroid.samplefragments.layouts</Package>
                 <Package>org.osmdroid.samplefragments.location</Package>
                 <Package>org.osmdroid.samplefragments.milstd2525</Package>
@@ -12247,11 +11986,13 @@
                 <Package>org.osmdroid</Package>
                 <Package>org.osmdroid.bugtestfragments</Package>
                 <Package>org.osmdroid.samplefragments.animations</Package>
+                <Package>org.osmdroid.samplefragments.bookmarks</Package>
                 <Package>org.osmdroid.samplefragments.cache</Package>
                 <Package>org.osmdroid.samplefragments.data</Package>
                 <Package>org.osmdroid.samplefragments.drawing</Package>
                 <Package>org.osmdroid.samplefragments.events</Package>
                 <Package>org.osmdroid.samplefragments.geopackage</Package>
+                <Package>org.osmdroid.samplefragments.layers</Package>
                 <Package>org.osmdroid.samplefragments.layouts</Package>
                 <Package>org.osmdroid.samplefragments.layouts.pager</Package>
                 <Package>org.osmdroid.samplefragments.location</Package>
@@ -12348,6 +12089,66 @@
                 <Package>org.osmdroid.views</Package>
                 <Package>org.osmdroid.views.overlay</Package>
                 <Package>org.osmdroid.views.overlay.gridlines</Package>
+            </DependsUpon>
+
+            <UsedBy>
+                <Package>org.osmdroid.samplefragments</Package>
+            </UsedBy>
+        </Package>
+
+        <Package name="org.osmdroid.samplefragments.bookmarks">
+            <Stats>
+                <TotalClasses>5</TotalClasses>
+                <ConcreteClasses>5</ConcreteClasses>
+                <AbstractClasses>0</AbstractClasses>
+                <Ca>1</Ca>
+                <Ce>18</Ce>
+                <A>0</A>
+                <I>0.95</I>
+                <D>0.05</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="BookmarkDatastore.java">
+                    org.osmdroid.samplefragments.bookmarks.BookmarkDatastore
+                </Class>
+                <Class sourceFile="BookmarkSample.java">
+                    org.osmdroid.samplefragments.bookmarks.BookmarkSample
+                </Class>
+                <Class sourceFile="BookmarkSample.java">
+                    org.osmdroid.samplefragments.bookmarks.BookmarkSample$1
+                </Class>
+                <Class sourceFile="BookmarkSample.java">
+                    org.osmdroid.samplefragments.bookmarks.BookmarkSample$1$1
+                </Class>
+                <Class sourceFile="BookmarkSample.java">
+                    org.osmdroid.samplefragments.bookmarks.BookmarkSample$1$2
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>android.app</Package>
+                <Package>android.content</Package>
+                <Package>android.database</Package>
+                <Package>android.database.sqlite</Package>
+                <Package>android.util</Package>
+                <Package>android.view</Package>
+                <Package>android.widget</Package>
+                <Package>java.io</Package>
+                <Package>java.lang</Package>
+                <Package>java.util</Package>
+                <Package>org.osmdroid</Package>
+                <Package>org.osmdroid.api</Package>
+                <Package>org.osmdroid.config</Package>
+                <Package>org.osmdroid.events</Package>
+                <Package>org.osmdroid.samplefragments</Package>
+                <Package>org.osmdroid.util</Package>
+                <Package>org.osmdroid.views</Package>
+                <Package>org.osmdroid.views.overlay</Package>
             </DependsUpon>
 
             <UsedBy>
@@ -12514,14 +12315,14 @@
 
         <Package name="org.osmdroid.samplefragments.data">
             <Stats>
-                <TotalClasses>38</TotalClasses>
-                <ConcreteClasses>37</ConcreteClasses>
+                <TotalClasses>42</TotalClasses>
+                <ConcreteClasses>41</ConcreteClasses>
                 <AbstractClasses>1</AbstractClasses>
-                <Ca>4</Ca>
-                <Ce>35</Ce>
-                <A>0.03</A>
-                <I>0.9</I>
-                <D>0.08</D>
+                <Ca>3</Ca>
+                <Ce>36</Ce>
+                <A>0.02</A>
+                <I>0.92</I>
+                <D>0.05</D>
                 <V>1</V>
             </Stats>
 
@@ -12613,6 +12414,18 @@
                 <Class sourceFile="SampleRace.java">
                     org.osmdroid.samplefragments.data.SampleRace$3
                 </Class>
+                <Class sourceFile="SampleRace.java">
+                    org.osmdroid.samplefragments.data.SampleRace$4
+                </Class>
+                <Class sourceFile="SampleRace.java">
+                    org.osmdroid.samplefragments.data.SampleRace$5
+                </Class>
+                <Class sourceFile="SampleRace.java">
+                    org.osmdroid.samplefragments.data.SampleRace$5$1
+                </Class>
+                <Class sourceFile="SampleRace.java">
+                    org.osmdroid.samplefragments.data.SampleRace$6
+                </Class>
                 <Class sourceFile="SampleSimpleFastPointOverlay.java">
                     org.osmdroid.samplefragments.data.SampleSimpleFastPointOverlay
                 </Class>
@@ -12646,6 +12459,7 @@
             </ConcreteClasses>
 
             <DependsUpon>
+                <Package>android.animation</Package>
                 <Package>android.app</Package>
                 <Package>android.content</Package>
                 <Package>android.content.res</Package>
@@ -12685,7 +12499,6 @@
 
             <UsedBy>
                 <Package>org.osmdroid.samplefragments</Package>
-                <Package>org.osmdroid.samplefragments.events</Package>
                 <Package>org.osmdroid.samplefragments.milstd2525</Package>
                 <Package>org.osmdroid.samplefragments.tilesources</Package>
             </UsedBy>
@@ -12728,11 +12541,11 @@
 
         <Package name="org.osmdroid.samplefragments.drawing">
             <Stats>
-                <TotalClasses>22</TotalClasses>
-                <ConcreteClasses>22</ConcreteClasses>
+                <TotalClasses>23</TotalClasses>
+                <ConcreteClasses>23</ConcreteClasses>
                 <AbstractClasses>0</AbstractClasses>
                 <Ca>1</Ca>
-                <Ce>23</Ce>
+                <Ce>24</Ce>
                 <A>0</A>
                 <I>0.96</I>
                 <D>0.04</D>
@@ -12751,6 +12564,9 @@
                 </Class>
                 <Class sourceFile="CustomPaintingSurface.java">
                     org.osmdroid.samplefragments.drawing.CustomPaintingSurface$1
+                </Class>
+                <Class sourceFile="CustomPaintingSurface.java">
+                    org.osmdroid.samplefragments.drawing.CustomPaintingSurface$2
                 </Class>
                 <Class sourceFile="CustomPaintingSurface.java">
                     org.osmdroid.samplefragments.drawing.CustomPaintingSurface$Mode
@@ -12834,6 +12650,7 @@
                 <Package>org.osmdroid.views</Package>
                 <Package>org.osmdroid.views.overlay</Package>
                 <Package>org.osmdroid.views.overlay.gestures</Package>
+                <Package>org.osmdroid.views.overlay.infowindow</Package>
                 <Package>org.osmdroid.views.overlay.milestones</Package>
             </DependsUpon>
 
@@ -12844,11 +12661,11 @@
 
         <Package name="org.osmdroid.samplefragments.events">
             <Stats>
-                <TotalClasses>17</TotalClasses>
-                <ConcreteClasses>17</ConcreteClasses>
+                <TotalClasses>19</TotalClasses>
+                <ConcreteClasses>19</ConcreteClasses>
                 <AbstractClasses>0</AbstractClasses>
                 <Ca>4</Ca>
-                <Ce>22</Ce>
+                <Ce>23</Ce>
                 <A>0</A>
                 <I>0.85</I>
                 <D>0.15</D>
@@ -12874,6 +12691,9 @@
                 <Class sourceFile="SampleAnimateTo.java">
                     org.osmdroid.samplefragments.events.SampleAnimateTo$2
                 </Class>
+                <Class sourceFile="SampleAnimateTo.java">
+                    org.osmdroid.samplefragments.events.SampleAnimateTo$3
+                </Class>
                 <Class sourceFile="SampleAnimatedZoomToLocation.java">
                     org.osmdroid.samplefragments.events.SampleAnimatedZoomToLocation
                 </Class>
@@ -12898,6 +12718,9 @@
                 <Class sourceFile="SampleMapEventListener.java">
                     org.osmdroid.samplefragments.events.SampleMapEventListener$1
                 </Class>
+                <Class sourceFile="SampleZoomRounding.java">
+                    org.osmdroid.samplefragments.events.SampleZoomRounding
+                </Class>
                 <Class sourceFile="SampleZoomToBounding.java">
                     org.osmdroid.samplefragments.events.SampleZoomToBounding
                 </Class>
@@ -12914,6 +12737,7 @@
 
             <DependsUpon>
                 <Package>android.content</Package>
+                <Package>android.content.res</Package>
                 <Package>android.graphics</Package>
                 <Package>android.location</Package>
                 <Package>android.os</Package>
@@ -12926,9 +12750,9 @@
                 <Package>java.util</Package>
                 <Package>org.osmdroid</Package>
                 <Package>org.osmdroid.api</Package>
+                <Package>org.osmdroid.data</Package>
                 <Package>org.osmdroid.events</Package>
                 <Package>org.osmdroid.samplefragments</Package>
-                <Package>org.osmdroid.samplefragments.data</Package>
                 <Package>org.osmdroid.tileprovider.tilesource</Package>
                 <Package>org.osmdroid.util</Package>
                 <Package>org.osmdroid.views</Package>
@@ -13038,6 +12862,72 @@
                 <Package>org.osmdroid.tileprovider</Package>
                 <Package>org.osmdroid.tileprovider.tilesource</Package>
                 <Package>org.osmdroid.tileprovider.util</Package>
+                <Package>org.osmdroid.views</Package>
+                <Package>org.osmdroid.views.overlay</Package>
+            </DependsUpon>
+
+            <UsedBy>
+                <Package>org.osmdroid.samplefragments</Package>
+            </UsedBy>
+        </Package>
+
+        <Package name="org.osmdroid.samplefragments.layers">
+            <Stats>
+                <TotalClasses>7</TotalClasses>
+                <ConcreteClasses>7</ConcreteClasses>
+                <AbstractClasses>0</AbstractClasses>
+                <Ca>1</Ca>
+                <Ce>18</Ce>
+                <A>0</A>
+                <I>0.95</I>
+                <D>0.05</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="LayerManager.java">
+                    org.osmdroid.samplefragments.layers.LayerManager
+                </Class>
+                <Class sourceFile="LayerManager.java">
+                    org.osmdroid.samplefragments.layers.LayerManager$1
+                </Class>
+                <Class sourceFile="LayerManager.java">
+                    org.osmdroid.samplefragments.layers.LayerManager$2
+                </Class>
+                <Class sourceFile="LayerManager.java">
+                    org.osmdroid.samplefragments.layers.LayerManager$3
+                </Class>
+                <Class sourceFile="LayerManager.java">
+                    org.osmdroid.samplefragments.layers.LayerManager$4
+                </Class>
+                <Class sourceFile="LayerManager.java">
+                    org.osmdroid.samplefragments.layers.LayerManager$5
+                </Class>
+                <Class sourceFile="OverlayAdapter.java">
+                    org.osmdroid.samplefragments.layers.OverlayAdapter
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>android.content</Package>
+                <Package>android.content.res</Package>
+                <Package>android.os</Package>
+                <Package>android.support.v4.widget</Package>
+                <Package>android.util</Package>
+                <Package>android.view</Package>
+                <Package>android.widget</Package>
+                <Package>java.lang</Package>
+                <Package>java.text</Package>
+                <Package>java.util</Package>
+                <Package>org.osmdroid</Package>
+                <Package>org.osmdroid.api</Package>
+                <Package>org.osmdroid.events</Package>
+                <Package>org.osmdroid.samplefragments</Package>
+                <Package>org.osmdroid.tileprovider.tilesource</Package>
+                <Package>org.osmdroid.util</Package>
                 <Package>org.osmdroid.views</Package>
                 <Package>org.osmdroid.views.overlay</Package>
             </DependsUpon>
@@ -13225,10 +13115,10 @@
                 <ConcreteClasses>4</ConcreteClasses>
                 <AbstractClasses>0</AbstractClasses>
                 <Ca>1</Ca>
-                <Ce>8</Ce>
+                <Ce>9</Ce>
                 <A>0</A>
-                <I>0.89</I>
-                <D>0.11</D>
+                <I>0.9</I>
+                <D>0.1</D>
                 <V>1</V>
             </Stats>
 
@@ -13255,6 +13145,7 @@
                 <Package>android.support.v4.app</Package>
                 <Package>android.view</Package>
                 <Package>android.webkit</Package>
+                <Package>android.widget</Package>
                 <Package>java.lang</Package>
                 <Package>org.osmdroid</Package>
                 <Package>org.osmdroid.samplefragments</Package>
@@ -13573,8 +13464,8 @@
 
         <Package name="org.osmdroid.samplefragments.tileproviders">
             <Stats>
-                <TotalClasses>16</TotalClasses>
-                <ConcreteClasses>16</ConcreteClasses>
+                <TotalClasses>18</TotalClasses>
+                <ConcreteClasses>18</ConcreteClasses>
                 <AbstractClasses>0</AbstractClasses>
                 <Ca>1</Ca>
                 <Ce>34</Ce>
@@ -13611,6 +13502,12 @@
                 </Class>
                 <Class sourceFile="OfflinePickerSample.java">
                     org.osmdroid.samplefragments.tileproviders.OfflinePickerSample$3$1
+                </Class>
+                <Class sourceFile="OfflinePickerSample.java">
+                    org.osmdroid.samplefragments.tileproviders.OfflinePickerSample$3$1$1
+                </Class>
+                <Class sourceFile="OfflinePickerSample.java">
+                    org.osmdroid.samplefragments.tileproviders.OfflinePickerSample$3$1$2
                 </Class>
                 <Class sourceFile="SampleAssetsOnly.java">
                     org.osmdroid.samplefragments.tileproviders.SampleAssetsOnly
@@ -13682,14 +13579,14 @@
 
         <Package name="org.osmdroid.samplefragments.tilesources">
             <Stats>
-                <TotalClasses>29</TotalClasses>
-                <ConcreteClasses>29</ConcreteClasses>
+                <TotalClasses>34</TotalClasses>
+                <ConcreteClasses>34</ConcreteClasses>
                 <AbstractClasses>0</AbstractClasses>
                 <Ca>1</Ca>
-                <Ce>25</Ce>
+                <Ce>28</Ce>
                 <A>0</A>
-                <I>0.96</I>
-                <D>0.04</D>
+                <I>0.97</I>
+                <D>0.03</D>
                 <V>1</V>
             </Stats>
 
@@ -13732,6 +13629,21 @@
                 </Class>
                 <Class sourceFile="SampleInvertedTiles_NightMode.java">
                     org.osmdroid.samplefragments.tilesources.SampleInvertedTiles_NightMode
+                </Class>
+                <Class sourceFile="SampleLieFi.java">
+                    org.osmdroid.samplefragments.tilesources.SampleLieFi
+                </Class>
+                <Class sourceFile="SampleLieFi.java">
+                    org.osmdroid.samplefragments.tilesources.SampleLieFi$1
+                </Class>
+                <Class sourceFile="SampleLieFi.java">
+                    org.osmdroid.samplefragments.tilesources.SampleLieFi$MapTileDownloaderLieFi
+                </Class>
+                <Class sourceFile="SampleLieFi.java">
+                    org.osmdroid.samplefragments.tilesources.SampleLieFi$MapTileDownloaderLieFi$TileLoader
+                </Class>
+                <Class sourceFile="SampleLieFi.java">
+                    org.osmdroid.samplefragments.tilesources.SampleLieFi$MapTileProviderLieFi
                 </Class>
                 <Class sourceFile="SampleMapBox.java">
                     org.osmdroid.samplefragments.tilesources.SampleMapBox
@@ -13792,6 +13704,7 @@
                 <Package>android.content</Package>
                 <Package>android.content.res</Package>
                 <Package>android.graphics</Package>
+                <Package>android.graphics.drawable</Package>
                 <Package>android.os</Package>
                 <Package>android.support.v4.app</Package>
                 <Package>android.util</Package>
@@ -13806,8 +13719,10 @@
                 <Package>org.osmdroid.samplefragments</Package>
                 <Package>org.osmdroid.samplefragments.data</Package>
                 <Package>org.osmdroid.tileprovider</Package>
+                <Package>org.osmdroid.tileprovider.modules</Package>
                 <Package>org.osmdroid.tileprovider.tilesource</Package>
                 <Package>org.osmdroid.tileprovider.tilesource.bing</Package>
+                <Package>org.osmdroid.tileprovider.util</Package>
                 <Package>org.osmdroid.util</Package>
                 <Package>org.osmdroid.views</Package>
                 <Package>org.osmdroid.views.overlay</Package>
@@ -13875,7 +13790,7 @@
                 <ConcreteClasses>7</ConcreteClasses>
                 <AbstractClasses>0</AbstractClasses>
                 <Ca>1</Ca>
-                <Ce>20</Ce>
+                <Ce>21</Ce>
                 <A>0</A>
                 <I>0.95</I>
                 <D>0.05</D>
@@ -13929,6 +13844,7 @@
                 <Package>org.osmdroid.util</Package>
                 <Package>org.osmdroid.views</Package>
                 <Package>org.osmdroid.views.overlay</Package>
+                <Package>org.osmdroid.views.overlay.gestures</Package>
                 <Package>org.osmdroid.views.overlay.mylocation</Package>
             </DependsUpon>
 
@@ -13939,14 +13855,14 @@
 
         <Package name="org.osmdroid.tileprovider">
             <Stats>
-                <TotalClasses>18</TotalClasses>
-                <ConcreteClasses>12</ConcreteClasses>
+                <TotalClasses>20</TotalClasses>
+                <ConcreteClasses>14</ConcreteClasses>
                 <AbstractClasses>6</AbstractClasses>
                 <Ca>18</Ca>
-                <Ce>17</Ce>
-                <A>0.33</A>
-                <I>0.49</I>
-                <D>0.18</D>
+                <Ce>16</Ce>
+                <A>0.3</A>
+                <I>0.47</I>
+                <D>0.23</D>
                 <V>1</V>
             </Stats>
 
@@ -13987,6 +13903,12 @@
                 <Class sourceFile="MapTileCache.java">
                     org.osmdroid.tileprovider.MapTileCache
                 </Class>
+                <Class sourceFile="MapTilePreCache.java">
+                    org.osmdroid.tileprovider.MapTilePreCache
+                </Class>
+                <Class sourceFile="MapTilePreCache.java">
+                    org.osmdroid.tileprovider.MapTilePreCache$1
+                </Class>
                 <Class sourceFile="MapTileProviderArray.java">
                     org.osmdroid.tileprovider.MapTileProviderArray
                 </Class>
@@ -14019,7 +13941,6 @@
                 <Package>java.lang</Package>
                 <Package>java.util</Package>
                 <Package>java.util.concurrent</Package>
-                <Package>microsoft.mappoint</Package>
                 <Package>org.osmdroid.api</Package>
                 <Package>org.osmdroid.config</Package>
                 <Package>org.osmdroid.tileprovider.constants</Package>
@@ -14054,14 +13975,14 @@
 
         <Package name="org.osmdroid.tileprovider.cachemanager">
             <Stats>
-                <TotalClasses>13</TotalClasses>
-                <ConcreteClasses>10</ConcreteClasses>
+                <TotalClasses>16</TotalClasses>
+                <ConcreteClasses>13</ConcreteClasses>
                 <AbstractClasses>3</AbstractClasses>
                 <Ca>2</Ca>
-                <Ce>22</Ce>
-                <A>0.23</A>
-                <I>0.92</I>
-                <D>0.15</D>
+                <Ce>19</Ce>
+                <A>0.19</A>
+                <I>0.9</I>
+                <D>0.09</D>
                 <V>1</V>
             </Stats>
 
@@ -14085,6 +14006,9 @@
                     org.osmdroid.tileprovider.cachemanager.CacheManager$1
                 </Class>
                 <Class sourceFile="CacheManager.java">
+                    org.osmdroid.tileprovider.cachemanager.CacheManager$1$1
+                </Class>
+                <Class sourceFile="CacheManager.java">
                     org.osmdroid.tileprovider.cachemanager.CacheManager$2
                 </Class>
                 <Class sourceFile="CacheManager.java">
@@ -14092,6 +14016,9 @@
                 </Class>
                 <Class sourceFile="CacheManager.java">
                     org.osmdroid.tileprovider.cachemanager.CacheManager$4
+                </Class>
+                <Class sourceFile="CacheManager.java">
+                    org.osmdroid.tileprovider.cachemanager.CacheManager$5
                 </Class>
                 <Class sourceFile="CacheManager.java">
                     org.osmdroid.tileprovider.cachemanager.CacheManager$CacheManagerDialog$1
@@ -14108,20 +14035,21 @@
                 <Class sourceFile="CacheManager.java">
                     org.osmdroid.tileprovider.cachemanager.CacheManager$CacheManagerTask
                 </Class>
+                <Class sourceFile="CacheManager.java">
+                    org.osmdroid.tileprovider.cachemanager.CacheManager$ListWrapper
+                </Class>
             </ConcreteClasses>
 
             <DependsUpon>
                 <Package>android.app</Package>
                 <Package>android.content</Package>
                 <Package>android.graphics</Package>
+                <Package>android.graphics.drawable</Package>
                 <Package>android.os</Package>
-                <Package>android.text</Package>
                 <Package>android.util</Package>
                 <Package>android.widget</Package>
                 <Package>java.io</Package>
                 <Package>java.lang</Package>
-                <Package>java.net</Package>
-                <Package>java.text</Package>
                 <Package>java.util</Package>
                 <Package>org.osmdroid.api</Package>
                 <Package>org.osmdroid.config</Package>
@@ -14129,7 +14057,6 @@
                 <Package>org.osmdroid.tileprovider.constants</Package>
                 <Package>org.osmdroid.tileprovider.modules</Package>
                 <Package>org.osmdroid.tileprovider.tilesource</Package>
-                <Package>org.osmdroid.tileprovider.util</Package>
                 <Package>org.osmdroid.util</Package>
                 <Package>org.osmdroid.util.constants</Package>
                 <Package>org.osmdroid.views</Package>
@@ -14177,14 +14104,14 @@
 
         <Package name="org.osmdroid.tileprovider.modules">
             <Stats>
-                <TotalClasses>36</TotalClasses>
-                <ConcreteClasses>30</ConcreteClasses>
+                <TotalClasses>37</TotalClasses>
+                <ConcreteClasses>31</ConcreteClasses>
                 <AbstractClasses>6</AbstractClasses>
-                <Ca>15</Ca>
-                <Ce>28</Ce>
-                <A>0.17</A>
-                <I>0.65</I>
-                <D>0.18</D>
+                <Ca>17</Ca>
+                <Ce>27</Ce>
+                <A>0.16</A>
+                <I>0.61</I>
+                <D>0.22</D>
                 <V>1</V>
             </Stats>
 
@@ -14212,6 +14139,9 @@
             <ConcreteClasses>
                 <Class sourceFile="ArchiveFileFactory.java">
                     org.osmdroid.tileprovider.modules.ArchiveFileFactory
+                </Class>
+                <Class sourceFile="CantContinueException.java">
+                    org.osmdroid.tileprovider.modules.CantContinueException
                 </Class>
                 <Class sourceFile="ConfigurablePriorityThreadFactory.java">
                     org.osmdroid.tileprovider.modules.ConfigurablePriorityThreadFactory
@@ -14264,9 +14194,6 @@
                 <Class sourceFile="MapTileModuleProviderBase.java">
                     org.osmdroid.tileprovider.modules.MapTileModuleProviderBase$1
                 </Class>
-                <Class sourceFile="MapTileModuleProviderBase.java">
-                    org.osmdroid.tileprovider.modules.MapTileModuleProviderBase$CantContinueException
-                </Class>
                 <Class sourceFile="MapTileSqlCacheProvider.java">
                     org.osmdroid.tileprovider.modules.MapTileSqlCacheProvider
                 </Class>
@@ -14287,6 +14214,9 @@
                 </Class>
                 <Class sourceFile="SqliteArchiveTileWriter.java">
                     org.osmdroid.tileprovider.modules.SqliteArchiveTileWriter
+                </Class>
+                <Class sourceFile="TileDownloader.java">
+                    org.osmdroid.tileprovider.modules.TileDownloader
                 </Class>
                 <Class sourceFile="TileWriter.java">
                     org.osmdroid.tileprovider.modules.TileWriter
@@ -14323,7 +14253,6 @@
                 <Package>java.util.concurrent</Package>
                 <Package>java.util.concurrent.atomic</Package>
                 <Package>java.util.zip</Package>
-                <Package>microsoft.mappoint</Package>
                 <Package>org.osmdroid.api</Package>
                 <Package>org.osmdroid.config</Package>
                 <Package>org.osmdroid.tileprovider</Package>
@@ -14346,8 +14275,10 @@
                 <Package>org.osmdroid.mapsforge</Package>
                 <Package>org.osmdroid.samplefragments.cache</Package>
                 <Package>org.osmdroid.samplefragments.tileproviders</Package>
+                <Package>org.osmdroid.samplefragments.tilesources</Package>
                 <Package>org.osmdroid.tileprovider</Package>
                 <Package>org.osmdroid.tileprovider.cachemanager</Package>
+                <Package>org.osmdroid.util</Package>
                 <Package>org.osmdroid.views</Package>
             </UsedBy>
         </Package>
@@ -14357,11 +14288,11 @@
                 <TotalClasses>17</TotalClasses>
                 <ConcreteClasses>12</ConcreteClasses>
                 <AbstractClasses>5</AbstractClasses>
-                <Ca>20</Ca>
+                <Ca>21</Ca>
                 <Ce>12</Ce>
                 <A>0.29</A>
-                <I>0.38</I>
-                <D>0.33</D>
+                <I>0.36</I>
+                <D>0.34</D>
                 <V>1</V>
             </Stats>
 
@@ -14447,6 +14378,7 @@
                 <Package>org.osmdroid.samplefragments.data</Package>
                 <Package>org.osmdroid.samplefragments.events</Package>
                 <Package>org.osmdroid.samplefragments.geopackage</Package>
+                <Package>org.osmdroid.samplefragments.layers</Package>
                 <Package>org.osmdroid.samplefragments.layouts</Package>
                 <Package>org.osmdroid.samplefragments.tileproviders</Package>
                 <Package>org.osmdroid.samplefragments.tilesources</Package>
@@ -14579,8 +14511,8 @@
                 <Package>org.osmdroid.samplefragments.cache</Package>
                 <Package>org.osmdroid.samplefragments.geopackage</Package>
                 <Package>org.osmdroid.samplefragments.tileproviders</Package>
+                <Package>org.osmdroid.samplefragments.tilesources</Package>
                 <Package>org.osmdroid.tileprovider</Package>
-                <Package>org.osmdroid.tileprovider.cachemanager</Package>
                 <Package>org.osmdroid.tileprovider.modules</Package>
                 <Package>org.osmdroid.tileprovider.tilesource</Package>
                 <Package>org.osmdroid.tileprovider.tilesource.bing</Package>
@@ -14590,26 +14522,41 @@
 
         <Package name="org.osmdroid.util">
             <Stats>
-                <TotalClasses>27</TotalClasses>
-                <ConcreteClasses>24</ConcreteClasses>
-                <AbstractClasses>3</AbstractClasses>
-                <Ca>37</Ca>
-                <Ce>11</Ce>
-                <A>0.11</A>
-                <I>0.23</I>
-                <D>0.66</D>
+                <TotalClasses>39</TotalClasses>
+                <ConcreteClasses>31</ConcreteClasses>
+                <AbstractClasses>8</AbstractClasses>
+                <Ca>39</Ca>
+                <Ce>13</Ce>
+                <A>0.21</A>
+                <I>0.25</I>
+                <D>0.54</D>
                 <V>1</V>
             </Stats>
 
             <AbstractClasses>
+                <Class sourceFile="IterableWithSize.java">
+                    org.osmdroid.util.IterableWithSize
+                </Class>
                 <Class sourceFile="LineBuilder.java">
                     org.osmdroid.util.LineBuilder
+                </Class>
+                <Class sourceFile="MapTileContainer.java">
+                    org.osmdroid.util.MapTileContainer
+                </Class>
+                <Class sourceFile="MapTileListComputer.java">
+                    org.osmdroid.util.MapTileListComputer
                 </Class>
                 <Class sourceFile="PointAccepter.java">
                     org.osmdroid.util.PointAccepter
                 </Class>
+                <Class sourceFile="SplashScreenable.java">
+                    org.osmdroid.util.SplashScreenable
+                </Class>
                 <Class sourceFile="TileLooper.java">
                     org.osmdroid.util.TileLooper
+                </Class>
+                <Class sourceFile="TileSystem.java">
+                    org.osmdroid.util.TileSystem
                 </Class>
             </AbstractClasses>
 
@@ -14620,8 +14567,14 @@
                 <Class sourceFile="BoundingBox.java">
                     org.osmdroid.util.BoundingBox$1
                 </Class>
+                <Class sourceFile="Delay.java">
+                    org.osmdroid.util.Delay
+                </Class>
                 <Class sourceFile="Distance.java">
                     org.osmdroid.util.Distance
+                </Class>
+                <Class sourceFile="DuringSplashScreen.java">
+                    org.osmdroid.util.DuringSplashScreen
                 </Class>
                 <Class sourceFile="GEMFFile.java">
                     org.osmdroid.util.GEMFFile
@@ -14634,6 +14587,12 @@
                 </Class>
                 <Class sourceFile="GEMFFile.java">
                     org.osmdroid.util.GEMFFile$GEMFRange
+                </Class>
+                <Class sourceFile="GarbageCollector.java">
+                    org.osmdroid.util.GarbageCollector
+                </Class>
+                <Class sourceFile="GarbageCollector.java">
+                    org.osmdroid.util.GarbageCollector$1
                 </Class>
                 <Class sourceFile="GeoPoint.java">
                     org.osmdroid.util.GeoPoint
@@ -14659,6 +14618,12 @@
                 <Class sourceFile="MapTileList.java">
                     org.osmdroid.util.MapTileList
                 </Class>
+                <Class sourceFile="MapTileListBorderComputer.java">
+                    org.osmdroid.util.MapTileListBorderComputer
+                </Class>
+                <Class sourceFile="MapTileListZoomComputer.java">
+                    org.osmdroid.util.MapTileListZoomComputer
+                </Class>
                 <Class sourceFile="MyMath.java">
                     org.osmdroid.util.MyMath
                 </Class>
@@ -14683,8 +14648,11 @@
                 <Class sourceFile="SegmentIntersection.java">
                     org.osmdroid.util.SegmentIntersection
                 </Class>
-                <Class sourceFile="TileSystem.java">
-                    org.osmdroid.util.TileSystem
+                <Class sourceFile="TileSystemWebMercator.java">
+                    org.osmdroid.util.TileSystemWebMercator
+                </Class>
+                <Class sourceFile="UrlBackoff.java">
+                    org.osmdroid.util.UrlBackoff
                 </Class>
             </ConcreteClasses>
 
@@ -14695,17 +14663,19 @@
                 <Package>java.io</Package>
                 <Package>java.lang</Package>
                 <Package>java.util</Package>
-                <Package>microsoft.mappoint</Package>
+                <Package>java.util.concurrent.atomic</Package>
                 <Package>org.osmdroid.api</Package>
                 <Package>org.osmdroid.config</Package>
+                <Package>org.osmdroid.tileprovider.modules</Package>
                 <Package>org.osmdroid.util.constants</Package>
+                <Package>org.osmdroid.views</Package>
                 <Package>org.osmdroid.views.util.constants</Package>
             </DependsUpon>
 
             <UsedBy>
-                <Package>microsoft.mappoint</Package>
                 <Package>org.osmdroid</Package>
                 <Package>org.osmdroid.bugtestfragments</Package>
+                <Package>org.osmdroid.data</Package>
                 <Package>org.osmdroid.events</Package>
                 <Package>org.osmdroid.gpkg.overlay</Package>
                 <Package>org.osmdroid.gpkg.overlay.features</Package>
@@ -14714,10 +14684,12 @@
                 <Package>org.osmdroid.mapsforge</Package>
                 <Package>org.osmdroid.samplefragments</Package>
                 <Package>org.osmdroid.samplefragments.animations</Package>
+                <Package>org.osmdroid.samplefragments.bookmarks</Package>
                 <Package>org.osmdroid.samplefragments.cache</Package>
                 <Package>org.osmdroid.samplefragments.data</Package>
                 <Package>org.osmdroid.samplefragments.drawing</Package>
                 <Package>org.osmdroid.samplefragments.events</Package>
+                <Package>org.osmdroid.samplefragments.layers</Package>
                 <Package>org.osmdroid.samplefragments.layouts</Package>
                 <Package>org.osmdroid.samplefragments.layouts.rec</Package>
                 <Package>org.osmdroid.samplefragments.location</Package>
@@ -14781,11 +14753,11 @@
                 <TotalClasses>15</TotalClasses>
                 <ConcreteClasses>14</ConcreteClasses>
                 <AbstractClasses>1</AbstractClasses>
-                <Ca>32</Ca>
-                <Ce>24</Ce>
+                <Ca>37</Ca>
+                <Ce>23</Ce>
                 <A>0.07</A>
-                <I>0.43</I>
-                <D>0.5</D>
+                <I>0.38</I>
+                <D>0.55</D>
                 <V>1</V>
             </Stats>
 
@@ -14803,6 +14775,9 @@
                     org.osmdroid.views.MapController$1
                 </Class>
                 <Class sourceFile="MapController.java">
+                    org.osmdroid.views.MapController$MapAnimatorListener
+                </Class>
+                <Class sourceFile="MapController.java">
                     org.osmdroid.views.MapController$ReplayController
                 </Class>
                 <Class sourceFile="MapController.java">
@@ -14813,9 +14788,6 @@
                 </Class>
                 <Class sourceFile="MapController.java">
                     org.osmdroid.views.MapController$ZoomAnimationListener
-                </Class>
-                <Class sourceFile="MapController.java">
-                    org.osmdroid.views.MapController$ZoomAnimatorListener
                 </Class>
                 <Class sourceFile="MapView.java">
                     org.osmdroid.views.MapView
@@ -14853,7 +14825,6 @@
                 <Package>java.lang</Package>
                 <Package>java.util</Package>
                 <Package>java.util.concurrent.atomic</Package>
-                <Package>microsoft.mappoint</Package>
                 <Package>org.metalev.multitouch.controller</Package>
                 <Package>org.osmdroid.api</Package>
                 <Package>org.osmdroid.config</Package>
@@ -14873,13 +14844,16 @@
                 <Package>org.osmdroid.events</Package>
                 <Package>org.osmdroid.gpkg.overlay</Package>
                 <Package>org.osmdroid.gpkg.tiles.feature</Package>
+                <Package>org.osmdroid.gpkg.tiles.raster</Package>
                 <Package>org.osmdroid.samplefragments</Package>
                 <Package>org.osmdroid.samplefragments.animations</Package>
+                <Package>org.osmdroid.samplefragments.bookmarks</Package>
                 <Package>org.osmdroid.samplefragments.cache</Package>
                 <Package>org.osmdroid.samplefragments.data</Package>
                 <Package>org.osmdroid.samplefragments.drawing</Package>
                 <Package>org.osmdroid.samplefragments.events</Package>
                 <Package>org.osmdroid.samplefragments.geopackage</Package>
+                <Package>org.osmdroid.samplefragments.layers</Package>
                 <Package>org.osmdroid.samplefragments.layouts</Package>
                 <Package>org.osmdroid.samplefragments.layouts.pager</Package>
                 <Package>org.osmdroid.samplefragments.layouts.rec</Package>
@@ -14891,6 +14865,7 @@
                 <Package>org.osmdroid.samples</Package>
                 <Package>org.osmdroid.tileprovider</Package>
                 <Package>org.osmdroid.tileprovider.cachemanager</Package>
+                <Package>org.osmdroid.util</Package>
                 <Package>org.osmdroid.views.drawing</Package>
                 <Package>org.osmdroid.views.overlay</Package>
                 <Package>org.osmdroid.views.overlay.compass</Package>
@@ -14900,6 +14875,7 @@
                 <Package>org.osmdroid.views.overlay.mylocation</Package>
                 <Package>org.osmdroid.views.overlay.simplefastpoint</Package>
                 <Package>org.osmdroid.views.util</Package>
+                <Package>org.osmdroid.wms</Package>
             </UsedBy>
         </Package>
 
@@ -14940,14 +14916,14 @@
 
         <Package name="org.osmdroid.views.overlay">
             <Stats>
-                <TotalClasses>49</TotalClasses>
+                <TotalClasses>50</TotalClasses>
                 <ConcreteClasses>34</ConcreteClasses>
-                <AbstractClasses>15</AbstractClasses>
-                <Ca>25</Ca>
+                <AbstractClasses>16</AbstractClasses>
+                <Ca>27</Ca>
                 <Ce>26</Ce>
-                <A>0.31</A>
-                <I>0.51</I>
-                <D>0.18</D>
+                <A>0.32</A>
+                <I>0.49</I>
+                <D>0.19</D>
                 <V>1</V>
             </Stats>
 
@@ -14993,6 +14969,9 @@
                 </Class>
                 <Class sourceFile="OverlayWithIW.java">
                     org.osmdroid.views.overlay.OverlayWithIW
+                </Class>
+                <Class sourceFile="Polygon.java">
+                    org.osmdroid.views.overlay.Polygon$OnClickListener
                 </Class>
                 <Class sourceFile="Polyline.java">
                     org.osmdroid.views.overlay.Polyline$OnClickListener
@@ -15141,10 +15120,12 @@
                 <Package>org.osmdroid.gpkg.tiles.feature</Package>
                 <Package>org.osmdroid.samplefragments</Package>
                 <Package>org.osmdroid.samplefragments.animations</Package>
+                <Package>org.osmdroid.samplefragments.bookmarks</Package>
                 <Package>org.osmdroid.samplefragments.data</Package>
                 <Package>org.osmdroid.samplefragments.drawing</Package>
                 <Package>org.osmdroid.samplefragments.events</Package>
                 <Package>org.osmdroid.samplefragments.geopackage</Package>
+                <Package>org.osmdroid.samplefragments.layers</Package>
                 <Package>org.osmdroid.samplefragments.layouts</Package>
                 <Package>org.osmdroid.samplefragments.location</Package>
                 <Package>org.osmdroid.samplefragments.milstd2525</Package>
@@ -15219,11 +15200,11 @@
                 <TotalClasses>3</TotalClasses>
                 <ConcreteClasses>2</ConcreteClasses>
                 <AbstractClasses>1</AbstractClasses>
-                <Ca>5</Ca>
+                <Ca>6</Ca>
                 <Ce>7</Ce>
                 <A>0.33</A>
-                <I>0.58</I>
-                <D>0.08</D>
+                <I>0.54</I>
+                <D>0.13</D>
                 <V>1</V>
             </Stats>
 
@@ -15258,6 +15239,7 @@
                 <Package>org.osmdroid.samplefragments.drawing</Package>
                 <Package>org.osmdroid.samplefragments.events</Package>
                 <Package>org.osmdroid.samplefragments.location</Package>
+                <Package>org.osmdroid.samples</Package>
             </UsedBy>
         </Package>
 
@@ -15309,11 +15291,11 @@
                 <TotalClasses>4</TotalClasses>
                 <ConcreteClasses>3</ConcreteClasses>
                 <AbstractClasses>1</AbstractClasses>
-                <Ca>4</Ca>
+                <Ca>5</Ca>
                 <Ce>14</Ce>
                 <A>0.25</A>
-                <I>0.78</I>
-                <D>0.03</D>
+                <I>0.74</I>
+                <D>0.01</D>
                 <V>1</V>
             </Stats>
 
@@ -15356,20 +15338,21 @@
                 <Package>org.osmdroid.bugtestfragments</Package>
                 <Package>org.osmdroid.gpkg.overlay</Package>
                 <Package>org.osmdroid.samplefragments.data</Package>
+                <Package>org.osmdroid.samplefragments.drawing</Package>
                 <Package>org.osmdroid.views.overlay</Package>
             </UsedBy>
         </Package>
 
         <Package name="org.osmdroid.views.overlay.milestones">
             <Stats>
-                <TotalClasses>10</TotalClasses>
-                <ConcreteClasses>8</ConcreteClasses>
+                <TotalClasses>12</TotalClasses>
+                <ConcreteClasses>10</ConcreteClasses>
                 <AbstractClasses>2</AbstractClasses>
                 <Ca>3</Ca>
                 <Ce>5</Ce>
-                <A>0.2</A>
+                <A>0.17</A>
                 <I>0.62</I>
-                <D>0.18</D>
+                <D>0.21</D>
                 <V>1</V>
             </Stats>
 
@@ -15391,6 +15374,12 @@
                 </Class>
                 <Class sourceFile="MilestoneMeterDistanceLister.java">
                     org.osmdroid.views.overlay.milestones.MilestoneMeterDistanceLister
+                </Class>
+                <Class sourceFile="MilestoneMeterDistanceSliceLister.java">
+                    org.osmdroid.views.overlay.milestones.MilestoneMeterDistanceSliceLister
+                </Class>
+                <Class sourceFile="MilestoneMeterDistanceSliceLister.java">
+                    org.osmdroid.views.overlay.milestones.MilestoneMeterDistanceSliceLister$Step
                 </Class>
                 <Class sourceFile="MilestoneMiddleLister.java">
                     org.osmdroid.views.overlay.milestones.MilestoneMiddleLister
@@ -15653,10 +15642,10 @@
                 <ConcreteClasses>20</ConcreteClasses>
                 <AbstractClasses>0</AbstractClasses>
                 <Ca>1</Ca>
-                <Ce>10</Ce>
+                <Ce>11</Ce>
                 <A>0</A>
-                <I>0.91</I>
-                <D>0.09</D>
+                <I>0.92</I>
+                <D>0.08</D>
                 <V>1</V>
             </Stats>
 
@@ -15735,6 +15724,7 @@
                 <Package>org.osmdroid.api</Package>
                 <Package>org.osmdroid.tileprovider.tilesource</Package>
                 <Package>org.osmdroid.util</Package>
+                <Package>org.osmdroid.views</Package>
                 <Package>org.w3c.dom</Package>
                 <Package>org.xml.sax</Package>
             </DependsUpon>
@@ -16270,22 +16260,14 @@
 
     <Cycles>
         <Package Name="android.support.design.internal">
-            <Package>android.support.v7.view.menu</Package>
-            <Package>android.support.v4.content</Package>
-            <Package>android.support.v4.app</Package>
+            <Package>android.support.v7.widget</Package>
+            <Package>android.support.v4.graphics.drawable</Package>
             <Package>android.support.v4.view</Package>
             <Package>android.support.v4.widget</Package>
             <Package>android.support.v4.view</Package>
         </Package>
 
         <Package Name="android.support.design.widget">
-            <Package>android.support.v4.view</Package>
-            <Package>android.support.v4.widget</Package>
-            <Package>android.support.v4.view</Package>
-        </Package>
-
-        <Package Name="android.support.graphics.drawable">
-            <Package>android.support.v4.graphics.drawable</Package>
             <Package>android.support.v4.view</Package>
             <Package>android.support.v4.widget</Package>
             <Package>android.support.v4.view</Package>
@@ -16337,7 +16319,6 @@
         </Package>
 
         <Package Name="android.support.v7.app">
-            <Package>android.support.v7.widget</Package>
             <Package>android.support.v4.view</Package>
             <Package>android.support.v4.widget</Package>
             <Package>android.support.v4.view</Package>
@@ -16366,14 +16347,15 @@
         </Package>
 
         <Package Name="android.support.v7.view.menu">
-            <Package>android.support.v4.content</Package>
-            <Package>android.support.v4.app</Package>
+            <Package>android.support.v7.widget</Package>
+            <Package>android.support.v4.graphics.drawable</Package>
             <Package>android.support.v4.view</Package>
             <Package>android.support.v4.widget</Package>
             <Package>android.support.v4.view</Package>
         </Package>
 
         <Package Name="android.support.v7.widget">
+            <Package>android.support.v4.graphics.drawable</Package>
             <Package>android.support.v4.view</Package>
             <Package>android.support.v4.widget</Package>
             <Package>android.support.v4.view</Package>
@@ -16438,25 +16420,15 @@
             <Package>com.squareup.leakcanary.internal</Package>
         </Package>
 
-        <Package Name="microsoft.mappoint">
-            <Package>org.osmdroid.util</Package>
-            <Package>org.osmdroid.config</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
-            <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
-        </Package>
-
         <Package Name="mil.nga.geopackage">
             <Package>mil.nga.geopackage.features.user</Package>
             <Package>mil.nga.geopackage.user</Package>
-            <Package>mil.nga.geopackage.db</Package>
-            <Package>mil.nga.geopackage.features.user</Package>
+            <Package>mil.nga.geopackage</Package>
         </Package>
 
         <Package Name="mil.nga.geopackage.attributes">
             <Package>mil.nga.geopackage.user</Package>
-            <Package>mil.nga.geopackage.db</Package>
+            <Package>mil.nga.geopackage</Package>
             <Package>mil.nga.geopackage.features.user</Package>
             <Package>mil.nga.geopackage.user</Package>
         </Package>
@@ -16464,28 +16436,37 @@
         <Package Name="mil.nga.geopackage.db">
             <Package>mil.nga.geopackage.features.user</Package>
             <Package>mil.nga.geopackage.user</Package>
-            <Package>mil.nga.geopackage.db</Package>
+            <Package>mil.nga.geopackage</Package>
+            <Package>mil.nga.geopackage.features.user</Package>
         </Package>
 
         <Package Name="mil.nga.geopackage.db.metadata">
             <Package>mil.nga.geopackage.db</Package>
             <Package>mil.nga.geopackage.features.user</Package>
             <Package>mil.nga.geopackage.user</Package>
-            <Package>mil.nga.geopackage.db</Package>
+            <Package>mil.nga.geopackage</Package>
+            <Package>mil.nga.geopackage.features.user</Package>
         </Package>
 
-        <Package Name="mil.nga.geopackage.extension.elevation">
-            <Package>mil.nga.geopackage.tiles.user</Package>
-            <Package>mil.nga.geopackage.user</Package>
+        <Package Name="mil.nga.geopackage.extension">
             <Package>mil.nga.geopackage.db</Package>
             <Package>mil.nga.geopackage.features.user</Package>
             <Package>mil.nga.geopackage.user</Package>
+            <Package>mil.nga.geopackage</Package>
+            <Package>mil.nga.geopackage.features.user</Package>
+        </Package>
+
+        <Package Name="mil.nga.geopackage.extension.coverage">
+            <Package>mil.nga.geopackage</Package>
+            <Package>mil.nga.geopackage.features.user</Package>
+            <Package>mil.nga.geopackage.user</Package>
+            <Package>mil.nga.geopackage</Package>
         </Package>
 
         <Package Name="mil.nga.geopackage.extension.index">
             <Package>mil.nga.geopackage.features.user</Package>
             <Package>mil.nga.geopackage.user</Package>
-            <Package>mil.nga.geopackage.db</Package>
+            <Package>mil.nga.geopackage</Package>
             <Package>mil.nga.geopackage.features.user</Package>
         </Package>
 
@@ -16493,28 +16474,27 @@
             <Package>mil.nga.geopackage</Package>
             <Package>mil.nga.geopackage.features.user</Package>
             <Package>mil.nga.geopackage.user</Package>
-            <Package>mil.nga.geopackage.db</Package>
-            <Package>mil.nga.geopackage.features.user</Package>
+            <Package>mil.nga.geopackage</Package>
         </Package>
 
         <Package Name="mil.nga.geopackage.factory">
-            <Package>mil.nga.geopackage</Package>
             <Package>mil.nga.geopackage.features.user</Package>
             <Package>mil.nga.geopackage.user</Package>
-            <Package>mil.nga.geopackage.db</Package>
+            <Package>mil.nga.geopackage</Package>
             <Package>mil.nga.geopackage.features.user</Package>
         </Package>
 
         <Package Name="mil.nga.geopackage.features.index">
+            <Package>mil.nga.geopackage.extension.index</Package>
             <Package>mil.nga.geopackage.features.user</Package>
             <Package>mil.nga.geopackage.user</Package>
-            <Package>mil.nga.geopackage.db</Package>
+            <Package>mil.nga.geopackage</Package>
             <Package>mil.nga.geopackage.features.user</Package>
         </Package>
 
         <Package Name="mil.nga.geopackage.features.user">
             <Package>mil.nga.geopackage.user</Package>
-            <Package>mil.nga.geopackage.db</Package>
+            <Package>mil.nga.geopackage</Package>
             <Package>mil.nga.geopackage.features.user</Package>
         </Package>
 
@@ -16522,41 +16502,40 @@
             <Package>mil.nga.geopackage</Package>
             <Package>mil.nga.geopackage.features.user</Package>
             <Package>mil.nga.geopackage.user</Package>
-            <Package>mil.nga.geopackage.db</Package>
-            <Package>mil.nga.geopackage.features.user</Package>
+            <Package>mil.nga.geopackage</Package>
         </Package>
 
         <Package Name="mil.nga.geopackage.tiles.features">
             <Package>mil.nga.geopackage.features.user</Package>
             <Package>mil.nga.geopackage.user</Package>
-            <Package>mil.nga.geopackage.db</Package>
+            <Package>mil.nga.geopackage</Package>
             <Package>mil.nga.geopackage.features.user</Package>
         </Package>
 
         <Package Name="mil.nga.geopackage.tiles.features.custom">
             <Package>mil.nga.geopackage.features.user</Package>
             <Package>mil.nga.geopackage.user</Package>
-            <Package>mil.nga.geopackage.db</Package>
+            <Package>mil.nga.geopackage</Package>
             <Package>mil.nga.geopackage.features.user</Package>
         </Package>
 
         <Package Name="mil.nga.geopackage.tiles.retriever">
             <Package>mil.nga.geopackage.tiles.user</Package>
             <Package>mil.nga.geopackage.user</Package>
-            <Package>mil.nga.geopackage.db</Package>
+            <Package>mil.nga.geopackage</Package>
             <Package>mil.nga.geopackage.features.user</Package>
             <Package>mil.nga.geopackage.user</Package>
         </Package>
 
         <Package Name="mil.nga.geopackage.tiles.user">
             <Package>mil.nga.geopackage.user</Package>
-            <Package>mil.nga.geopackage.db</Package>
+            <Package>mil.nga.geopackage</Package>
             <Package>mil.nga.geopackage.features.user</Package>
             <Package>mil.nga.geopackage.user</Package>
         </Package>
 
         <Package Name="mil.nga.geopackage.user">
-            <Package>mil.nga.geopackage.db</Package>
+            <Package>mil.nga.geopackage</Package>
             <Package>mil.nga.geopackage.features.user</Package>
             <Package>mil.nga.geopackage.user</Package>
         </Package>
@@ -16595,22 +16574,14 @@
             <Package>org.osmdroid.samplefragments</Package>
             <Package>org.osmdroid.views</Package>
             <Package>org.osmdroid.util</Package>
-            <Package>org.osmdroid.config</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
-            <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
+            <Package>org.osmdroid.views</Package>
         </Package>
 
         <Package Name="org.osmdroid.bugtestfragments">
             <Package>org.osmdroid.samplefragments</Package>
             <Package>org.osmdroid.views</Package>
             <Package>org.osmdroid.util</Package>
-            <Package>org.osmdroid.config</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
-            <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
+            <Package>org.osmdroid.views</Package>
         </Package>
 
         <Package Name="org.osmdroid.config">
@@ -16618,6 +16589,12 @@
             <Package>org.osmdroid.tileprovider.tilesource</Package>
             <Package>org.osmdroid.tileprovider</Package>
             <Package>org.osmdroid.tileprovider.modules</Package>
+        </Package>
+
+        <Package Name="org.osmdroid.data">
+            <Package>org.osmdroid.util</Package>
+            <Package>org.osmdroid.views</Package>
+            <Package>org.osmdroid.util</Package>
         </Package>
 
         <Package Name="org.osmdroid.debug">
@@ -16634,11 +16611,7 @@
             <Package>org.osmdroid.samplefragments</Package>
             <Package>org.osmdroid.views</Package>
             <Package>org.osmdroid.util</Package>
-            <Package>org.osmdroid.config</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
-            <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
+            <Package>org.osmdroid.views</Package>
         </Package>
 
         <Package Name="org.osmdroid.debug.model">
@@ -16654,39 +16627,25 @@
             <Package>org.osmdroid.samplefragments</Package>
             <Package>org.osmdroid.views</Package>
             <Package>org.osmdroid.util</Package>
-            <Package>org.osmdroid.config</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
-            <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
+            <Package>org.osmdroid.views</Package>
         </Package>
 
         <Package Name="org.osmdroid.events">
             <Package>org.osmdroid.util</Package>
-            <Package>org.osmdroid.config</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
-            <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
+            <Package>org.osmdroid.views</Package>
+            <Package>org.osmdroid.util</Package>
         </Package>
 
         <Package Name="org.osmdroid.gpkg.overlay">
             <Package>org.osmdroid.views</Package>
             <Package>org.osmdroid.util</Package>
-            <Package>org.osmdroid.config</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
-            <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
+            <Package>org.osmdroid.views</Package>
         </Package>
 
         <Package Name="org.osmdroid.gpkg.overlay.features">
             <Package>org.osmdroid.util</Package>
-            <Package>org.osmdroid.config</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
-            <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
+            <Package>org.osmdroid.views</Package>
+            <Package>org.osmdroid.util</Package>
         </Package>
 
         <Package Name="org.osmdroid.gpkg.tiles.feature">
@@ -16709,11 +16668,7 @@
             <Package>org.osmdroid.samplefragments</Package>
             <Package>org.osmdroid.views</Package>
             <Package>org.osmdroid.util</Package>
-            <Package>org.osmdroid.config</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
-            <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
+            <Package>org.osmdroid.views</Package>
         </Package>
 
         <Package Name="org.osmdroid.mapsforge">
@@ -16726,11 +16681,7 @@
         <Package Name="org.osmdroid.samplefragments">
             <Package>org.osmdroid.views</Package>
             <Package>org.osmdroid.util</Package>
-            <Package>org.osmdroid.config</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
-            <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
+            <Package>org.osmdroid.views</Package>
         </Package>
 
         <Package Name="org.osmdroid.samplefragments.animations">
@@ -16739,11 +16690,13 @@
             <Package>org.osmdroid.samplefragments</Package>
             <Package>org.osmdroid.views</Package>
             <Package>org.osmdroid.util</Package>
-            <Package>org.osmdroid.config</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
-            <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
+            <Package>org.osmdroid.views</Package>
+        </Package>
+
+        <Package Name="org.osmdroid.samplefragments.bookmarks">
+            <Package>org.osmdroid.views</Package>
+            <Package>org.osmdroid.util</Package>
+            <Package>org.osmdroid.views</Package>
         </Package>
 
         <Package Name="org.osmdroid.samplefragments.cache">
@@ -16752,61 +16705,44 @@
             <Package>org.osmdroid.samplefragments</Package>
             <Package>org.osmdroid.views</Package>
             <Package>org.osmdroid.util</Package>
-            <Package>org.osmdroid.config</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
-            <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
+            <Package>org.osmdroid.views</Package>
         </Package>
 
         <Package Name="org.osmdroid.samplefragments.data">
             <Package>org.osmdroid.events</Package>
             <Package>org.osmdroid.util</Package>
-            <Package>org.osmdroid.config</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
-            <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
+            <Package>org.osmdroid.views</Package>
+            <Package>org.osmdroid.util</Package>
         </Package>
 
         <Package Name="org.osmdroid.samplefragments.drawing">
             <Package>org.osmdroid.views</Package>
             <Package>org.osmdroid.util</Package>
-            <Package>org.osmdroid.config</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
-            <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
+            <Package>org.osmdroid.views</Package>
         </Package>
 
         <Package Name="org.osmdroid.samplefragments.events">
             <Package>org.osmdroid.views</Package>
             <Package>org.osmdroid.util</Package>
-            <Package>org.osmdroid.config</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
-            <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
+            <Package>org.osmdroid.views</Package>
         </Package>
 
         <Package Name="org.osmdroid.samplefragments.geopackage">
             <Package>org.osmdroid.views</Package>
             <Package>org.osmdroid.util</Package>
-            <Package>org.osmdroid.config</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
-            <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
+            <Package>org.osmdroid.views</Package>
+        </Package>
+
+        <Package Name="org.osmdroid.samplefragments.layers">
+            <Package>org.osmdroid.views</Package>
+            <Package>org.osmdroid.util</Package>
+            <Package>org.osmdroid.views</Package>
         </Package>
 
         <Package Name="org.osmdroid.samplefragments.layouts">
             <Package>org.osmdroid.views</Package>
             <Package>org.osmdroid.util</Package>
-            <Package>org.osmdroid.config</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
-            <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
+            <Package>org.osmdroid.views</Package>
         </Package>
 
         <Package Name="org.osmdroid.samplefragments.layouts.list">
@@ -16815,11 +16751,7 @@
             <Package>org.osmdroid.samplefragments</Package>
             <Package>org.osmdroid.views</Package>
             <Package>org.osmdroid.util</Package>
-            <Package>org.osmdroid.config</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
-            <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
+            <Package>org.osmdroid.views</Package>
         </Package>
 
         <Package Name="org.osmdroid.samplefragments.layouts.pager">
@@ -16828,11 +16760,7 @@
             <Package>org.osmdroid.samplefragments</Package>
             <Package>org.osmdroid.views</Package>
             <Package>org.osmdroid.util</Package>
-            <Package>org.osmdroid.config</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
-            <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
+            <Package>org.osmdroid.views</Package>
         </Package>
 
         <Package Name="org.osmdroid.samplefragments.layouts.rec">
@@ -16841,21 +16769,13 @@
             <Package>org.osmdroid.samplefragments</Package>
             <Package>org.osmdroid.views</Package>
             <Package>org.osmdroid.util</Package>
-            <Package>org.osmdroid.config</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
-            <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
+            <Package>org.osmdroid.views</Package>
         </Package>
 
         <Package Name="org.osmdroid.samplefragments.location">
             <Package>org.osmdroid.views</Package>
             <Package>org.osmdroid.util</Package>
-            <Package>org.osmdroid.config</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
-            <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
+            <Package>org.osmdroid.views</Package>
         </Package>
 
         <Package Name="org.osmdroid.samplefragments.milstd2525">
@@ -16864,32 +16784,20 @@
             <Package>org.osmdroid.samplefragments</Package>
             <Package>org.osmdroid.views</Package>
             <Package>org.osmdroid.util</Package>
-            <Package>org.osmdroid.config</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
-            <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
+            <Package>org.osmdroid.views</Package>
         </Package>
 
         <Package Name="org.osmdroid.samplefragments.models">
             <Package>org.osmdroid.views.overlay</Package>
             <Package>org.osmdroid.views</Package>
             <Package>org.osmdroid.util</Package>
-            <Package>org.osmdroid.config</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
-            <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
+            <Package>org.osmdroid.views</Package>
         </Package>
 
         <Package Name="org.osmdroid.samplefragments.tileproviders">
             <Package>org.osmdroid.views</Package>
             <Package>org.osmdroid.util</Package>
-            <Package>org.osmdroid.config</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
-            <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
+            <Package>org.osmdroid.views</Package>
         </Package>
 
         <Package Name="org.osmdroid.samplefragments.tilesources">
@@ -16906,21 +16814,13 @@
             <Package>org.osmdroid.samplefragments</Package>
             <Package>org.osmdroid.views</Package>
             <Package>org.osmdroid.util</Package>
-            <Package>org.osmdroid.config</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
-            <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
+            <Package>org.osmdroid.views</Package>
         </Package>
 
         <Package Name="org.osmdroid.samples">
             <Package>org.osmdroid.views</Package>
             <Package>org.osmdroid.util</Package>
-            <Package>org.osmdroid.config</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
-            <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
+            <Package>org.osmdroid.views</Package>
         </Package>
 
         <Package Name="org.osmdroid.tileprovider">
@@ -16930,10 +16830,9 @@
         </Package>
 
         <Package Name="org.osmdroid.tileprovider.cachemanager">
-            <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
-            <Package>org.osmdroid.tileprovider.tilesource</Package>
+            <Package>org.osmdroid.util</Package>
+            <Package>org.osmdroid.views</Package>
+            <Package>org.osmdroid.util</Package>
         </Package>
 
         <Package Name="org.osmdroid.tileprovider.modules">
@@ -16964,126 +16863,79 @@
         </Package>
 
         <Package Name="org.osmdroid.util">
-            <Package>org.osmdroid.config</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
-            <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
+            <Package>org.osmdroid.views</Package>
+            <Package>org.osmdroid.util</Package>
         </Package>
 
         <Package Name="org.osmdroid.views">
             <Package>org.osmdroid.util</Package>
-            <Package>org.osmdroid.config</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
-            <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
+            <Package>org.osmdroid.views</Package>
         </Package>
 
         <Package Name="org.osmdroid.views.drawing">
             <Package>org.osmdroid.views</Package>
             <Package>org.osmdroid.util</Package>
-            <Package>org.osmdroid.config</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
-            <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
+            <Package>org.osmdroid.views</Package>
         </Package>
 
         <Package Name="org.osmdroid.views.overlay">
             <Package>org.osmdroid.views</Package>
             <Package>org.osmdroid.util</Package>
-            <Package>org.osmdroid.config</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
-            <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
+            <Package>org.osmdroid.views</Package>
         </Package>
 
         <Package Name="org.osmdroid.views.overlay.compass">
             <Package>org.osmdroid.views</Package>
             <Package>org.osmdroid.util</Package>
-            <Package>org.osmdroid.config</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
-            <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
+            <Package>org.osmdroid.views</Package>
         </Package>
 
         <Package Name="org.osmdroid.views.overlay.gestures">
             <Package>org.osmdroid.views</Package>
             <Package>org.osmdroid.util</Package>
-            <Package>org.osmdroid.config</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
-            <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
+            <Package>org.osmdroid.views</Package>
         </Package>
 
         <Package Name="org.osmdroid.views.overlay.gridlines">
             <Package>org.osmdroid.views</Package>
             <Package>org.osmdroid.util</Package>
-            <Package>org.osmdroid.config</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
-            <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
+            <Package>org.osmdroid.views</Package>
         </Package>
 
         <Package Name="org.osmdroid.views.overlay.infowindow">
             <Package>org.osmdroid.views</Package>
             <Package>org.osmdroid.util</Package>
-            <Package>org.osmdroid.config</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
-            <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
+            <Package>org.osmdroid.views</Package>
         </Package>
 
         <Package Name="org.osmdroid.views.overlay.milestones">
             <Package>org.osmdroid.util</Package>
-            <Package>org.osmdroid.config</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
-            <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
+            <Package>org.osmdroid.views</Package>
+            <Package>org.osmdroid.util</Package>
         </Package>
 
         <Package Name="org.osmdroid.views.overlay.mylocation">
             <Package>org.osmdroid.views</Package>
             <Package>org.osmdroid.util</Package>
-            <Package>org.osmdroid.config</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
-            <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
+            <Package>org.osmdroid.views</Package>
         </Package>
 
         <Package Name="org.osmdroid.views.overlay.simplefastpoint">
             <Package>org.osmdroid.util</Package>
-            <Package>org.osmdroid.config</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
-            <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
+            <Package>org.osmdroid.views</Package>
+            <Package>org.osmdroid.util</Package>
         </Package>
 
         <Package Name="org.osmdroid.views.util">
             <Package>org.osmdroid.util</Package>
-            <Package>org.osmdroid.config</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
-            <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
+            <Package>org.osmdroid.views</Package>
+            <Package>org.osmdroid.util</Package>
         </Package>
 
         <Package Name="org.osmdroid.wms">
+            <Package>org.osmdroid.views</Package>
             <Package>org.osmdroid.util</Package>
-            <Package>org.osmdroid.config</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
-            <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider</Package>
-            <Package>org.osmdroid.tileprovider.modules</Package>
+            <Package>org.osmdroid.views</Package>
         </Package>
 
         <Package Name="sec.geo">

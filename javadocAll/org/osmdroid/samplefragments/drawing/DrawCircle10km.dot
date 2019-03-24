@@ -10,18 +10,18 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.samplefragments.BaseSampleFragment
-	c72415 [label=<<table title="org.osmdroid.samplefragments.BaseSampleFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../BaseSampleFragment.html">
+	c75186 [label=<<table title="org.osmdroid.samplefragments.BaseSampleFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../BaseSampleFragment.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> BaseSampleFragment </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="../BaseSampleFragment.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.drawing.DrawCircle10km
-	c72446 [label=<<table title="org.osmdroid.samplefragments.drawing.DrawCircle10km" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./DrawCircle10km.html">
+	c75219 [label=<<table title="org.osmdroid.samplefragments.drawing.DrawCircle10km" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./DrawCircle10km.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> DrawCircle10km </td></tr>
 		</table></td></tr>
 		</table>>, URL="./DrawCircle10km.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.samplefragments.drawing.DrawCircle10km extends org.osmdroid.samplefragments.BaseSampleFragment
-	c72415:p -> c72446:p [dir=back,arrowtail=empty];
+	c75186:p -> c75219:p [dir=back,arrowtail=empty];
 }
 

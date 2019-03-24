@@ -10,15 +10,15 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.bugtestfragments.SampleBug57Step2
-	c212998 [label=<<table title="org.osmdroid.bugtestfragments.SampleBug57Step2" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./SampleBug57Step2.html">
+	c215832 [label=<<table title="org.osmdroid.bugtestfragments.SampleBug57Step2" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./SampleBug57Step2.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleBug57Step2 </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SampleBug57Step2.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.bugtestfragments.SampleBug57Step2 extends Fragment
-	c213461:p -> c212998:p [dir=back,arrowtail=empty];
+	c216302:p -> c215832:p [dir=back,arrowtail=empty];
 	// Fragment
-	c213461[label=<<table title="Fragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api//Fragment.html">
+	c216302[label=<<table title="Fragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api//Fragment.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> Fragment </td></tr>
 		</table></td></tr>

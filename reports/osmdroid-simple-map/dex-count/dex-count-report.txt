@@ -1,0 +1,123 @@
+Processing .\osmdroid-simple-map\build\outputs\apk\osmdroid-simple-map-6.0.2-debug.apk
+Read in 14033 method IDs and 4150 field IDs
+----------------------------------
+Package details:
+(default) Methods 1 Fields 0
+android Methods 10800 Fields 2807
+	accessibilityservice Methods 6 Fields 0
+	animation Methods 17 Fields 0
+	app Methods 173 Fields 23
+	content Methods 179 Fields 16
+		pm Methods 11 Fields 15
+		res Methods 41 Fields 1
+	database Methods 38 Fields 0
+		sqlite Methods 12 Fields 0
+	graphics Methods 228 Fields 31
+		drawable Methods 52 Fields 0
+			shapes Methods 1 Fields 0
+		pdf Methods 3 Fields 0
+	hardware Methods 20 Fields 2
+		display Methods 3 Fields 0
+		fingerprint Methods 11 Fields 0
+	location Methods 17 Fields 0
+	media Methods 214 Fields 1
+		session Methods 87 Fields 0
+	net Methods 24 Fields 1
+	os Methods 146 Fields 8
+	preference Methods 1 Fields 0
+	print Methods 23 Fields 3
+		pdf Methods 5 Fields 0
+	provider Methods 9 Fields 0
+	speech Methods 6 Fields 0
+		tts Methods 6 Fields 0
+	support Methods 8718 Fields 2701
+		annotation Methods 20 Fields 0
+		v4 Methods 8698 Fields 2701
+			accessibilityservice Methods 41 Fields 13
+			animation Methods 62 Fields 17
+			app Methods 1599 Fields 762
+			content Methods 293 Fields 110
+				pm Methods 1 Fields 1
+				res Methods 20 Fields 0
+			database Methods 3 Fields 0
+			graphics Methods 231 Fields 37
+				drawable Methods 192 Fields 34
+			hardware Methods 85 Fields 16
+				display Methods 19 Fields 4
+				fingerprint Methods 66 Fields 12
+			internal Methods 11 Fields 9
+				view Methods 11 Fields 9
+			media Methods 1382 Fields 531
+				routing Methods 96 Fields 18
+				session Methods 830 Fields 270
+			net Methods 64 Fields 5
+			os Methods 68 Fields 19
+			print Methods 84 Fields 49
+			provider Methods 96 Fields 9
+			speech Methods 14 Fields 5
+				tts Methods 14 Fields 5
+			text Methods 103 Fields 55
+			util Methods 283 Fields 74
+			view Methods 2908 Fields 499
+				accessibility Methods 1116 Fields 112
+				animation Methods 29 Fields 8
+			widget Methods 1370 Fields 485
+	text Methods 9 Fields 2
+		method Methods 2 Fields 0
+	transition Methods 17 Fields 0
+	util Methods 25 Fields 6
+	view Methods 714 Fields 8
+		accessibility Methods 211 Fields 0
+		animation Methods 33 Fields 0
+	webkit Methods 3 Fields 0
+	widget Methods 213 Fields 5
+java Methods 508 Fields 19
+	io Methods 89 Fields 2
+	lang Methods 204 Fields 14
+		annotation Methods 0 Fields 10
+		ref Methods 2 Fields 0
+		reflect Methods 12 Fields 0
+	net Methods 18 Fields 0
+	nio Methods 1 Fields 0
+	text Methods 4 Fields 0
+	util Methods 192 Fields 3
+		concurrent Methods 36 Fields 1
+			atomic Methods 12 Fields 0
+		zip Methods 7 Fields 0
+org Methods 2723 Fields 1324
+	json Methods 8 Fields 0
+	metalev Methods 58 Fields 74
+		multitouch Methods 58 Fields 74
+			controller Methods 58 Fields 74
+	osmdroid Methods 2657 Fields 1250
+		api Methods 44 Fields 1
+		config Methods 129 Fields 31
+		events Methods 23 Fields 12
+		library Methods 6 Fields 66
+		sample Methods 7 Fields 1
+		simplemap Methods 8 Fields 69
+		tileprovider Methods 769 Fields 347
+			cachemanager Methods 119 Fields 38
+			constants Methods 1 Fields 12
+			modules Methods 302 Fields 87
+			tilesource Methods 156 Fields 106
+				bing Methods 26 Fields 35
+			util Methods 35 Fields 27
+		util Methods 353 Fields 107
+			constants Methods 0 Fields 5
+		views Methods 1306 Fields 612
+			drawing Methods 9 Fields 7
+			overlay Methods 979 Fields 488
+				compass Methods 48 Fields 27
+				gestures Methods 19 Fields 12
+				gridlines Methods 23 Fields 17
+				infowindow Methods 29 Fields 17
+				milestones Methods 66 Fields 37
+				mylocation Methods 78 Fields 52
+				simplefastpoint Methods 105 Fields 53
+			util Methods 13 Fields 8
+				constants Methods 0 Fields 7
+Processed .\osmdroid-simple-map\build\outputs\apk\osmdroid-simple-map-6.0.2-debug.apk
+Read in 14033 method IDs and 4150 field IDs
+----------------------------------
+

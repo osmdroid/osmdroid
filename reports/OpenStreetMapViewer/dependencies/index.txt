@@ -4,42 +4,42 @@ Project :OpenStreetMapViewer - OpenMap in the Play Store, the example app for us
 ------------------------------------------------------------
 
 _debugAndroidTestApk - ## Internal use, do not manually configure ##
-+--- com.android.support:support-annotations:23+ -> 23.4.0
 +--- com.android.support.test:runner:0.4.+ -> 0.4.1
 |    +--- com.android.support.test:exposed-instrumentation-api-publish:0.4.1
-|    +--- com.android.support:support-annotations:23.0.1 -> 23.4.0
+|    +--- com.android.support:support-annotations:23.0.1 -> 23.1.1
 |    \--- junit:junit:4.12
 |         \--- org.hamcrest:hamcrest-core:1.3
-\--- com.android.support.test:rules:0.4.+ -> 0.4.1
-     \--- com.android.support.test:runner:0.4.1 (*)
++--- com.android.support.test:rules:0.4.+ -> 0.4.1
+|    \--- com.android.support.test:runner:0.4.1 (*)
+\--- com.android.support:support-annotations:23.1.1
 
 _debugAndroidTestCompile - ## Internal use, do not manually configure ##
-+--- com.android.support:support-annotations:23+ -> 23.4.0
 +--- com.android.support.test:runner:0.4.+ -> 0.4.1
 |    +--- com.android.support.test:exposed-instrumentation-api-publish:0.4.1
-|    +--- com.android.support:support-annotations:23.0.1 -> 23.4.0
+|    +--- com.android.support:support-annotations:23.0.1 -> 23.1.1
 |    \--- junit:junit:4.12
 |         \--- org.hamcrest:hamcrest-core:1.3
-\--- com.android.support.test:rules:0.4.+ -> 0.4.1
-     \--- com.android.support.test:runner:0.4.1 (*)
++--- com.android.support.test:rules:0.4.+ -> 0.4.1
+|    \--- com.android.support.test:runner:0.4.1 (*)
+\--- com.android.support:support-annotations:23.1.1
 
 _debugApk - ## Internal use, do not manually configure ##
-+--- com.android.support:support-v4:23+ -> 23.4.0
-|    \--- com.android.support:support-annotations:23.4.0
++--- com.android.support:support-v4:23.1.1
+|    \--- com.android.support:support-annotations:23.1.1
 +--- project :osmdroid-android
 +--- project :osmdroid-geopackage
 |    +--- project :osmdroid-android
-|    +--- mil.nga.geopackage:geopackage-android:2.0.0
+|    +--- mil.nga.geopackage:geopackage-android:2.0.1
 |    |    +--- com.j256.ormlite:ormlite-android:5.0
 |    |    |    \--- com.j256.ormlite:ormlite-core:5.0
-|    |    +--- mil.nga.geopackage:geopackage-core:2.0.0
+|    |    +--- mil.nga.geopackage:geopackage-core:2.0.1
 |    |    |    +--- com.j256.ormlite:ormlite-core:5.0
-|    |    |    +--- mil.nga:wkb:1.0.4
+|    |    |    +--- mil.nga:wkb:1.0.5
 |    |    |    \--- org.osgeo:proj4j:0.1.0
 |    |    +--- ar.com.hjg:pngj:2.1.0
 |    |    \--- mil.nga:tiff:2.0.0
 |    +--- com.j256.ormlite:ormlite-android:5.0 (*)
-|    +--- mil.nga.geopackage:geopackage-core:2.0.0 (*)
+|    +--- mil.nga.geopackage:geopackage-core:2.0.1 (*)
 |    +--- ar.com.hjg:pngj:2.1.0
 |    +--- mil.nga:tiff:1.0.3 -> 2.0.0
 |    \--- mil.nga:tiff:2.0.0
@@ -56,46 +56,43 @@ _debugApk - ## Internal use, do not manually configure ##
 |    \--- project :osmdroid-android
 +--- project :osmdroid-wms
 |    +--- project :osmdroid-android
-|    \--- com.android.support:appcompat-v7:23.1.1 -> 23.4.0
-|         +--- com.android.support:animated-vector-drawable:23.4.0
-|         |    \--- com.android.support:support-vector-drawable:23.4.0
-|         |         \--- com.android.support:support-v4:23.4.0 (*)
-|         +--- com.android.support:support-v4:23.4.0 (*)
-|         \--- com.android.support:support-vector-drawable:23.4.0 (*)
+|    \--- com.android.support:appcompat-v7:23.1.1
+|         \--- com.android.support:support-v4:23.1.1 (*)
 +--- mil.army.missioncommand:mil-sym-android-renderer:0.1.37
 +--- com.github.angads25:filepicker:1.1.1
-+--- com.android.support:design:23.+ -> 23.4.0
-|    +--- com.android.support:recyclerview-v7:23.4.0
-|    |    +--- com.android.support:support-annotations:23.4.0
-|    |    \--- com.android.support:support-v4:23.4.0 (*)
-|    +--- com.android.support:appcompat-v7:23.4.0 (*)
-|    \--- com.android.support:support-v4:23.4.0 (*)
-+--- com.android.support:cardview-v7:23.+ -> 23.4.0
-+--- com.android.support:recyclerview-v7:23.+ -> 23.4.0 (*)
++--- com.android.support:design:23.1.1
+|    +--- com.android.support:appcompat-v7:23.1.1 (*)
+|    +--- com.android.support:recyclerview-v7:23.1.1
+|    |    +--- com.android.support:support-annotations:23.1.1
+|    |    \--- com.android.support:support-v4:23.1.1 (*)
+|    \--- com.android.support:support-v4:23.1.1 (*)
++--- com.android.support:cardview-v7:23.1.1
++--- com.android.support:recyclerview-v7:23.1.1 (*)
++--- com.android.support:appcompat-v7:23.1.1 (*)
 +--- ch.acra:acra:4.7.0
-|    \--- com.android.support:support-v4:23.0.1 -> 23.4.0 (*)
+|    \--- com.android.support:support-v4:23.0.1 -> 23.1.1 (*)
 \--- com.squareup.leakcanary:leakcanary-android:1.4-beta2
      \--- com.squareup.leakcanary:leakcanary-analyzer:1.4-beta2
           +--- com.squareup.leakcanary:leakcanary-watcher:1.4-beta2
           \--- com.squareup.haha:haha:2.0.2
 
 _debugCompile - ## Internal use, do not manually configure ##
-+--- com.android.support:support-v4:23+ -> 23.4.0
-|    \--- com.android.support:support-annotations:23.4.0
++--- com.android.support:support-v4:23.1.1
+|    \--- com.android.support:support-annotations:23.1.1
 +--- project :osmdroid-android
 +--- project :osmdroid-geopackage
 |    +--- project :osmdroid-android
-|    +--- mil.nga.geopackage:geopackage-android:2.0.0
+|    +--- mil.nga.geopackage:geopackage-android:2.0.1
 |    |    +--- com.j256.ormlite:ormlite-android:5.0
 |    |    |    \--- com.j256.ormlite:ormlite-core:5.0
-|    |    +--- mil.nga.geopackage:geopackage-core:2.0.0
+|    |    +--- mil.nga.geopackage:geopackage-core:2.0.1
 |    |    |    +--- com.j256.ormlite:ormlite-core:5.0
-|    |    |    +--- mil.nga:wkb:1.0.4
+|    |    |    +--- mil.nga:wkb:1.0.5
 |    |    |    \--- org.osgeo:proj4j:0.1.0
 |    |    +--- ar.com.hjg:pngj:2.1.0
 |    |    \--- mil.nga:tiff:2.0.0
 |    +--- com.j256.ormlite:ormlite-android:5.0 (*)
-|    +--- mil.nga.geopackage:geopackage-core:2.0.0 (*)
+|    +--- mil.nga.geopackage:geopackage-core:2.0.1 (*)
 |    +--- ar.com.hjg:pngj:2.1.0
 |    +--- mil.nga:tiff:1.0.3 -> 2.0.0
 |    \--- mil.nga:tiff:2.0.0
@@ -112,24 +109,21 @@ _debugCompile - ## Internal use, do not manually configure ##
 |    \--- project :osmdroid-android
 +--- project :osmdroid-wms
 |    +--- project :osmdroid-android
-|    \--- com.android.support:appcompat-v7:23.1.1 -> 23.4.0
-|         +--- com.android.support:animated-vector-drawable:23.4.0
-|         |    \--- com.android.support:support-vector-drawable:23.4.0
-|         |         \--- com.android.support:support-v4:23.4.0 (*)
-|         +--- com.android.support:support-v4:23.4.0 (*)
-|         \--- com.android.support:support-vector-drawable:23.4.0 (*)
+|    \--- com.android.support:appcompat-v7:23.1.1
+|         \--- com.android.support:support-v4:23.1.1 (*)
 +--- mil.army.missioncommand:mil-sym-android-renderer:0.1.37
 +--- com.github.angads25:filepicker:1.1.1
-+--- com.android.support:design:23.+ -> 23.4.0
-|    +--- com.android.support:recyclerview-v7:23.4.0
-|    |    +--- com.android.support:support-annotations:23.4.0
-|    |    \--- com.android.support:support-v4:23.4.0 (*)
-|    +--- com.android.support:appcompat-v7:23.4.0 (*)
-|    \--- com.android.support:support-v4:23.4.0 (*)
-+--- com.android.support:cardview-v7:23.+ -> 23.4.0
-+--- com.android.support:recyclerview-v7:23.+ -> 23.4.0 (*)
++--- com.android.support:design:23.1.1
+|    +--- com.android.support:appcompat-v7:23.1.1 (*)
+|    +--- com.android.support:recyclerview-v7:23.1.1
+|    |    +--- com.android.support:support-annotations:23.1.1
+|    |    \--- com.android.support:support-v4:23.1.1 (*)
+|    \--- com.android.support:support-v4:23.1.1 (*)
++--- com.android.support:cardview-v7:23.1.1
++--- com.android.support:recyclerview-v7:23.1.1 (*)
++--- com.android.support:appcompat-v7:23.1.1 (*)
 +--- ch.acra:acra:4.7.0
-|    \--- com.android.support:support-v4:23.0.1 -> 23.4.0 (*)
+|    \--- com.android.support:support-v4:23.0.1 -> 23.1.1 (*)
 \--- com.squareup.leakcanary:leakcanary-android:1.4-beta2
      \--- com.squareup.leakcanary:leakcanary-analyzer:1.4-beta2
           +--- com.squareup.leakcanary:leakcanary-watcher:1.4-beta2
@@ -142,22 +136,22 @@ _debugUnitTestCompile - ## Internal use, do not manually configure ##
 \--- com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2
 
 _releaseApk - ## Internal use, do not manually configure ##
-+--- com.android.support:support-v4:23+ -> 23.4.0
-|    \--- com.android.support:support-annotations:23.4.0
++--- com.android.support:support-v4:23.1.1
+|    \--- com.android.support:support-annotations:23.1.1
 +--- project :osmdroid-android
 +--- project :osmdroid-geopackage
 |    +--- project :osmdroid-android
-|    +--- mil.nga.geopackage:geopackage-android:2.0.0
+|    +--- mil.nga.geopackage:geopackage-android:2.0.1
 |    |    +--- com.j256.ormlite:ormlite-android:5.0
 |    |    |    \--- com.j256.ormlite:ormlite-core:5.0
-|    |    +--- mil.nga.geopackage:geopackage-core:2.0.0
+|    |    +--- mil.nga.geopackage:geopackage-core:2.0.1
 |    |    |    +--- com.j256.ormlite:ormlite-core:5.0
-|    |    |    +--- mil.nga:wkb:1.0.4
+|    |    |    +--- mil.nga:wkb:1.0.5
 |    |    |    \--- org.osgeo:proj4j:0.1.0
 |    |    +--- ar.com.hjg:pngj:2.1.0
 |    |    \--- mil.nga:tiff:2.0.0
 |    +--- com.j256.ormlite:ormlite-android:5.0 (*)
-|    +--- mil.nga.geopackage:geopackage-core:2.0.0 (*)
+|    +--- mil.nga.geopackage:geopackage-core:2.0.1 (*)
 |    +--- ar.com.hjg:pngj:2.1.0
 |    +--- mil.nga:tiff:1.0.3 -> 2.0.0
 |    \--- mil.nga:tiff:2.0.0
@@ -174,43 +168,40 @@ _releaseApk - ## Internal use, do not manually configure ##
 |    \--- project :osmdroid-android
 +--- project :osmdroid-wms
 |    +--- project :osmdroid-android
-|    \--- com.android.support:appcompat-v7:23.1.1 -> 23.4.0
-|         +--- com.android.support:animated-vector-drawable:23.4.0
-|         |    \--- com.android.support:support-vector-drawable:23.4.0
-|         |         \--- com.android.support:support-v4:23.4.0 (*)
-|         +--- com.android.support:support-v4:23.4.0 (*)
-|         \--- com.android.support:support-vector-drawable:23.4.0 (*)
+|    \--- com.android.support:appcompat-v7:23.1.1
+|         \--- com.android.support:support-v4:23.1.1 (*)
 +--- mil.army.missioncommand:mil-sym-android-renderer:0.1.37
 +--- com.github.angads25:filepicker:1.1.1
-+--- com.android.support:design:23.+ -> 23.4.0
-|    +--- com.android.support:recyclerview-v7:23.4.0
-|    |    +--- com.android.support:support-annotations:23.4.0
-|    |    \--- com.android.support:support-v4:23.4.0 (*)
-|    +--- com.android.support:appcompat-v7:23.4.0 (*)
-|    \--- com.android.support:support-v4:23.4.0 (*)
-+--- com.android.support:cardview-v7:23.+ -> 23.4.0
-+--- com.android.support:recyclerview-v7:23.+ -> 23.4.0 (*)
++--- com.android.support:design:23.1.1
+|    +--- com.android.support:appcompat-v7:23.1.1 (*)
+|    +--- com.android.support:recyclerview-v7:23.1.1
+|    |    +--- com.android.support:support-annotations:23.1.1
+|    |    \--- com.android.support:support-v4:23.1.1 (*)
+|    \--- com.android.support:support-v4:23.1.1 (*)
++--- com.android.support:cardview-v7:23.1.1
++--- com.android.support:recyclerview-v7:23.1.1 (*)
++--- com.android.support:appcompat-v7:23.1.1 (*)
 +--- ch.acra:acra:4.7.0
-|    \--- com.android.support:support-v4:23.0.1 -> 23.4.0 (*)
+|    \--- com.android.support:support-v4:23.0.1 -> 23.1.1 (*)
 \--- com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2
 
 _releaseCompile - ## Internal use, do not manually configure ##
-+--- com.android.support:support-v4:23+ -> 23.4.0
-|    \--- com.android.support:support-annotations:23.4.0
++--- com.android.support:support-v4:23.1.1
+|    \--- com.android.support:support-annotations:23.1.1
 +--- project :osmdroid-android
 +--- project :osmdroid-geopackage
 |    +--- project :osmdroid-android
-|    +--- mil.nga.geopackage:geopackage-android:2.0.0
+|    +--- mil.nga.geopackage:geopackage-android:2.0.1
 |    |    +--- com.j256.ormlite:ormlite-android:5.0
 |    |    |    \--- com.j256.ormlite:ormlite-core:5.0
-|    |    +--- mil.nga.geopackage:geopackage-core:2.0.0
+|    |    +--- mil.nga.geopackage:geopackage-core:2.0.1
 |    |    |    +--- com.j256.ormlite:ormlite-core:5.0
-|    |    |    +--- mil.nga:wkb:1.0.4
+|    |    |    +--- mil.nga:wkb:1.0.5
 |    |    |    \--- org.osgeo:proj4j:0.1.0
 |    |    +--- ar.com.hjg:pngj:2.1.0
 |    |    \--- mil.nga:tiff:2.0.0
 |    +--- com.j256.ormlite:ormlite-android:5.0 (*)
-|    +--- mil.nga.geopackage:geopackage-core:2.0.0 (*)
+|    +--- mil.nga.geopackage:geopackage-core:2.0.1 (*)
 |    +--- ar.com.hjg:pngj:2.1.0
 |    +--- mil.nga:tiff:1.0.3 -> 2.0.0
 |    \--- mil.nga:tiff:2.0.0
@@ -227,24 +218,21 @@ _releaseCompile - ## Internal use, do not manually configure ##
 |    \--- project :osmdroid-android
 +--- project :osmdroid-wms
 |    +--- project :osmdroid-android
-|    \--- com.android.support:appcompat-v7:23.1.1 -> 23.4.0
-|         +--- com.android.support:animated-vector-drawable:23.4.0
-|         |    \--- com.android.support:support-vector-drawable:23.4.0
-|         |         \--- com.android.support:support-v4:23.4.0 (*)
-|         +--- com.android.support:support-v4:23.4.0 (*)
-|         \--- com.android.support:support-vector-drawable:23.4.0 (*)
+|    \--- com.android.support:appcompat-v7:23.1.1
+|         \--- com.android.support:support-v4:23.1.1 (*)
 +--- mil.army.missioncommand:mil-sym-android-renderer:0.1.37
 +--- com.github.angads25:filepicker:1.1.1
-+--- com.android.support:design:23.+ -> 23.4.0
-|    +--- com.android.support:recyclerview-v7:23.4.0
-|    |    +--- com.android.support:support-annotations:23.4.0
-|    |    \--- com.android.support:support-v4:23.4.0 (*)
-|    +--- com.android.support:appcompat-v7:23.4.0 (*)
-|    \--- com.android.support:support-v4:23.4.0 (*)
-+--- com.android.support:cardview-v7:23.+ -> 23.4.0
-+--- com.android.support:recyclerview-v7:23.+ -> 23.4.0 (*)
++--- com.android.support:design:23.1.1
+|    +--- com.android.support:appcompat-v7:23.1.1 (*)
+|    +--- com.android.support:recyclerview-v7:23.1.1
+|    |    +--- com.android.support:support-annotations:23.1.1
+|    |    \--- com.android.support:support-v4:23.1.1 (*)
+|    \--- com.android.support:support-v4:23.1.1 (*)
++--- com.android.support:cardview-v7:23.1.1
++--- com.android.support:recyclerview-v7:23.1.1 (*)
++--- com.android.support:appcompat-v7:23.1.1 (*)
 +--- ch.acra:acra:4.7.0
-|    \--- com.android.support:support-v4:23.0.1 -> 23.4.0 (*)
+|    \--- com.android.support:support-v4:23.0.1 -> 23.1.1 (*)
 \--- com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2
 
 _releaseUnitTestApk - ## Internal use, do not manually configure ##
@@ -269,14 +257,14 @@ androidTestApk - Classpath packaged with the compiled 'androidTest' classes.
 No dependencies
 
 androidTestCompile - Classpath for compiling the androidTest sources.
-+--- com.android.support:support-annotations:23+ -> 23.4.0
 +--- com.android.support.test:runner:0.4.+ -> 0.4.1
 |    +--- com.android.support.test:exposed-instrumentation-api-publish:0.4.1
-|    +--- com.android.support:support-annotations:23.0.1 -> 23.4.0
+|    +--- com.android.support:support-annotations:23.0.1 -> 23.1.1
 |    \--- junit:junit:4.12
 |         \--- org.hamcrest:hamcrest-core:1.3
-\--- com.android.support.test:rules:0.4.+ -> 0.4.1
-     \--- com.android.support.test:runner:0.4.1 (*)
++--- com.android.support.test:rules:0.4.+ -> 0.4.1
+|    \--- com.android.support.test:runner:0.4.1 (*)
+\--- com.android.support:support-annotations:23.1.1
 
 androidTestProvided - Classpath for only compiling the androidTest sources.
 No dependencies
@@ -298,22 +286,22 @@ checkstyle - The Checkstyle libraries to be used for this project.
      \--- com.google.guava:guava-jdk5:14.0.1
 
 compile - Classpath for compiling the main sources.
-+--- com.android.support:support-v4:23+ -> 23.4.0
-|    \--- com.android.support:support-annotations:23.4.0
++--- com.android.support:support-v4:23.1.1
+|    \--- com.android.support:support-annotations:23.1.1
 +--- project :osmdroid-android
 +--- project :osmdroid-geopackage
 |    +--- project :osmdroid-android
-|    +--- mil.nga.geopackage:geopackage-android:2.0.0
+|    +--- mil.nga.geopackage:geopackage-android:2.0.1
 |    |    +--- com.j256.ormlite:ormlite-android:5.0
 |    |    |    \--- com.j256.ormlite:ormlite-core:5.0
-|    |    +--- mil.nga.geopackage:geopackage-core:2.0.0
+|    |    +--- mil.nga.geopackage:geopackage-core:2.0.1
 |    |    |    +--- com.j256.ormlite:ormlite-core:5.0
-|    |    |    +--- mil.nga:wkb:1.0.4
+|    |    |    +--- mil.nga:wkb:1.0.5
 |    |    |    \--- org.osgeo:proj4j:0.1.0
 |    |    +--- ar.com.hjg:pngj:2.1.0
 |    |    \--- mil.nga:tiff:2.0.0
 |    +--- com.j256.ormlite:ormlite-android:5.0 (*)
-|    +--- mil.nga.geopackage:geopackage-core:2.0.0 (*)
+|    +--- mil.nga.geopackage:geopackage-core:2.0.1 (*)
 |    +--- ar.com.hjg:pngj:2.1.0
 |    +--- mil.nga:tiff:1.0.3 -> 2.0.0
 |    \--- mil.nga:tiff:2.0.0
@@ -330,45 +318,42 @@ compile - Classpath for compiling the main sources.
 |    \--- project :osmdroid-android
 +--- project :osmdroid-wms
 |    +--- project :osmdroid-android
-|    \--- com.android.support:appcompat-v7:23.1.1 -> 23.4.0
-|         +--- com.android.support:animated-vector-drawable:23.4.0
-|         |    \--- com.android.support:support-vector-drawable:23.4.0
-|         |         \--- com.android.support:support-v4:23.4.0 (*)
-|         +--- com.android.support:support-v4:23.4.0 (*)
-|         \--- com.android.support:support-vector-drawable:23.4.0 (*)
+|    \--- com.android.support:appcompat-v7:23.1.1
+|         \--- com.android.support:support-v4:23.1.1 (*)
 +--- mil.army.missioncommand:mil-sym-android-renderer:0.1.37
 +--- com.github.angads25:filepicker:1.1.1
-+--- com.android.support:design:23.+ -> 23.4.0
-|    +--- com.android.support:recyclerview-v7:23.4.0
-|    |    +--- com.android.support:support-annotations:23.4.0
-|    |    \--- com.android.support:support-v4:23.4.0 (*)
-|    +--- com.android.support:appcompat-v7:23.4.0 (*)
-|    \--- com.android.support:support-v4:23.4.0 (*)
-+--- com.android.support:cardview-v7:23.+ -> 23.4.0
-+--- com.android.support:recyclerview-v7:23.+ -> 23.4.0 (*)
++--- com.android.support:design:23.1.1
+|    +--- com.android.support:appcompat-v7:23.1.1 (*)
+|    +--- com.android.support:recyclerview-v7:23.1.1
+|    |    +--- com.android.support:support-annotations:23.1.1
+|    |    \--- com.android.support:support-v4:23.1.1 (*)
+|    \--- com.android.support:support-v4:23.1.1 (*)
++--- com.android.support:cardview-v7:23.1.1
++--- com.android.support:recyclerview-v7:23.1.1 (*)
++--- com.android.support:appcompat-v7:23.1.1 (*)
 \--- ch.acra:acra:4.7.0
-     \--- com.android.support:support-v4:23.0.1 -> 23.4.0 (*)
+     \--- com.android.support:support-v4:23.0.1 -> 23.1.1 (*)
 
 debug - Published Configuration for Variant debug
 No dependencies
 
 debug-classes - Published classes configuration for Variant debug
-+--- com.android.support:support-v4:23+ -> 23.4.0
-|    \--- com.android.support:support-annotations:23.4.0
++--- com.android.support:support-v4:23.1.1
+|    \--- com.android.support:support-annotations:23.1.1
 +--- project :osmdroid-android
 +--- project :osmdroid-geopackage
 |    +--- project :osmdroid-android
-|    +--- mil.nga.geopackage:geopackage-android:2.0.0
+|    +--- mil.nga.geopackage:geopackage-android:2.0.1
 |    |    +--- com.j256.ormlite:ormlite-android:5.0
 |    |    |    \--- com.j256.ormlite:ormlite-core:5.0
-|    |    +--- mil.nga.geopackage:geopackage-core:2.0.0
+|    |    +--- mil.nga.geopackage:geopackage-core:2.0.1
 |    |    |    +--- com.j256.ormlite:ormlite-core:5.0
-|    |    |    +--- mil.nga:wkb:1.0.4
+|    |    |    +--- mil.nga:wkb:1.0.5
 |    |    |    \--- org.osgeo:proj4j:0.1.0
 |    |    +--- ar.com.hjg:pngj:2.1.0
 |    |    \--- mil.nga:tiff:2.0.0
 |    +--- com.j256.ormlite:ormlite-android:5.0 (*)
-|    +--- mil.nga.geopackage:geopackage-core:2.0.0 (*)
+|    +--- mil.nga.geopackage:geopackage-core:2.0.1 (*)
 |    +--- ar.com.hjg:pngj:2.1.0
 |    +--- mil.nga:tiff:1.0.3 -> 2.0.0
 |    \--- mil.nga:tiff:2.0.0
@@ -385,24 +370,21 @@ debug-classes - Published classes configuration for Variant debug
 |    \--- project :osmdroid-android
 +--- project :osmdroid-wms
 |    +--- project :osmdroid-android
-|    \--- com.android.support:appcompat-v7:23.1.1 -> 23.4.0
-|         +--- com.android.support:animated-vector-drawable:23.4.0
-|         |    \--- com.android.support:support-vector-drawable:23.4.0
-|         |         \--- com.android.support:support-v4:23.4.0 (*)
-|         +--- com.android.support:support-v4:23.4.0 (*)
-|         \--- com.android.support:support-vector-drawable:23.4.0 (*)
+|    \--- com.android.support:appcompat-v7:23.1.1
+|         \--- com.android.support:support-v4:23.1.1 (*)
 +--- mil.army.missioncommand:mil-sym-android-renderer:0.1.37
 +--- com.github.angads25:filepicker:1.1.1
-+--- com.android.support:design:23.+ -> 23.4.0
-|    +--- com.android.support:recyclerview-v7:23.4.0
-|    |    +--- com.android.support:support-annotations:23.4.0
-|    |    \--- com.android.support:support-v4:23.4.0 (*)
-|    +--- com.android.support:appcompat-v7:23.4.0 (*)
-|    \--- com.android.support:support-v4:23.4.0 (*)
-+--- com.android.support:cardview-v7:23.+ -> 23.4.0
-+--- com.android.support:recyclerview-v7:23.+ -> 23.4.0 (*)
++--- com.android.support:design:23.1.1
+|    +--- com.android.support:appcompat-v7:23.1.1 (*)
+|    +--- com.android.support:recyclerview-v7:23.1.1
+|    |    +--- com.android.support:support-annotations:23.1.1
+|    |    \--- com.android.support:support-v4:23.1.1 (*)
+|    \--- com.android.support:support-v4:23.1.1 (*)
++--- com.android.support:cardview-v7:23.1.1
++--- com.android.support:recyclerview-v7:23.1.1 (*)
++--- com.android.support:appcompat-v7:23.1.1 (*)
 +--- ch.acra:acra:4.7.0
-|    \--- com.android.support:support-v4:23.0.1 -> 23.4.0 (*)
+|    \--- com.android.support:support-v4:23.0.1 -> 23.1.1 (*)
 \--- com.squareup.leakcanary:leakcanary-android:1.4-beta2
      \--- com.squareup.leakcanary:leakcanary-analyzer:1.4-beta2
           +--- com.squareup.leakcanary:leakcanary-watcher:1.4-beta2
@@ -491,22 +473,22 @@ release - Published Configuration for Variant release
 No dependencies
 
 release-classes - Published classes configuration for Variant release
-+--- com.android.support:support-v4:23+ -> 23.4.0
-|    \--- com.android.support:support-annotations:23.4.0
++--- com.android.support:support-v4:23.1.1
+|    \--- com.android.support:support-annotations:23.1.1
 +--- project :osmdroid-android
 +--- project :osmdroid-geopackage
 |    +--- project :osmdroid-android
-|    +--- mil.nga.geopackage:geopackage-android:2.0.0
+|    +--- mil.nga.geopackage:geopackage-android:2.0.1
 |    |    +--- com.j256.ormlite:ormlite-android:5.0
 |    |    |    \--- com.j256.ormlite:ormlite-core:5.0
-|    |    +--- mil.nga.geopackage:geopackage-core:2.0.0
+|    |    +--- mil.nga.geopackage:geopackage-core:2.0.1
 |    |    |    +--- com.j256.ormlite:ormlite-core:5.0
-|    |    |    +--- mil.nga:wkb:1.0.4
+|    |    |    +--- mil.nga:wkb:1.0.5
 |    |    |    \--- org.osgeo:proj4j:0.1.0
 |    |    +--- ar.com.hjg:pngj:2.1.0
 |    |    \--- mil.nga:tiff:2.0.0
 |    +--- com.j256.ormlite:ormlite-android:5.0 (*)
-|    +--- mil.nga.geopackage:geopackage-core:2.0.0 (*)
+|    +--- mil.nga.geopackage:geopackage-core:2.0.1 (*)
 |    +--- ar.com.hjg:pngj:2.1.0
 |    +--- mil.nga:tiff:1.0.3 -> 2.0.0
 |    \--- mil.nga:tiff:2.0.0
@@ -523,24 +505,21 @@ release-classes - Published classes configuration for Variant release
 |    \--- project :osmdroid-android
 +--- project :osmdroid-wms
 |    +--- project :osmdroid-android
-|    \--- com.android.support:appcompat-v7:23.1.1 -> 23.4.0
-|         +--- com.android.support:animated-vector-drawable:23.4.0
-|         |    \--- com.android.support:support-vector-drawable:23.4.0
-|         |         \--- com.android.support:support-v4:23.4.0 (*)
-|         +--- com.android.support:support-v4:23.4.0 (*)
-|         \--- com.android.support:support-vector-drawable:23.4.0 (*)
+|    \--- com.android.support:appcompat-v7:23.1.1
+|         \--- com.android.support:support-v4:23.1.1 (*)
 +--- mil.army.missioncommand:mil-sym-android-renderer:0.1.37
 +--- com.github.angads25:filepicker:1.1.1
-+--- com.android.support:design:23.+ -> 23.4.0
-|    +--- com.android.support:recyclerview-v7:23.4.0
-|    |    +--- com.android.support:support-annotations:23.4.0
-|    |    \--- com.android.support:support-v4:23.4.0 (*)
-|    +--- com.android.support:appcompat-v7:23.4.0 (*)
-|    \--- com.android.support:support-v4:23.4.0 (*)
-+--- com.android.support:cardview-v7:23.+ -> 23.4.0
-+--- com.android.support:recyclerview-v7:23.+ -> 23.4.0 (*)
++--- com.android.support:design:23.1.1
+|    +--- com.android.support:appcompat-v7:23.1.1 (*)
+|    +--- com.android.support:recyclerview-v7:23.1.1
+|    |    +--- com.android.support:support-annotations:23.1.1
+|    |    \--- com.android.support:support-v4:23.1.1 (*)
+|    \--- com.android.support:support-v4:23.1.1 (*)
++--- com.android.support:cardview-v7:23.1.1
++--- com.android.support:recyclerview-v7:23.1.1 (*)
++--- com.android.support:appcompat-v7:23.1.1 (*)
 +--- ch.acra:acra:4.7.0
-|    \--- com.android.support:support-v4:23.0.1 -> 23.4.0 (*)
+|    \--- com.android.support:support-v4:23.0.1 -> 23.1.1 (*)
 \--- com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2
 
 release-mapping - Published mapping configuration for Variant release

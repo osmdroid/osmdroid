@@ -10,40 +10,40 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.samplefragments.BaseSampleFragment
-	c26253 [label=<<table title="org.osmdroid.samplefragments.BaseSampleFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../BaseSampleFragment.html">
+	c29154 [label=<<table title="org.osmdroid.samplefragments.BaseSampleFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../BaseSampleFragment.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> BaseSampleFragment </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="../BaseSampleFragment.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.drawing.PressToPlot
-	c26292 [label=<<table title="org.osmdroid.samplefragments.drawing.PressToPlot" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./PressToPlot.html">
+	c29195 [label=<<table title="org.osmdroid.samplefragments.drawing.PressToPlot" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./PressToPlot.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> PressToPlot </td></tr>
 		</table></td></tr>
 		</table>>, URL="./PressToPlot.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.drawing.PressToPlotWithoutWrapping
-	c26293 [label=<<table title="org.osmdroid.samplefragments.drawing.PressToPlotWithoutWrapping" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./PressToPlotWithoutWrapping.html">
+	c29196 [label=<<table title="org.osmdroid.samplefragments.drawing.PressToPlotWithoutWrapping" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./PressToPlotWithoutWrapping.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> PressToPlotWithoutWrapping </td></tr>
 		</table></td></tr>
 		</table>>, URL="./PressToPlotWithoutWrapping.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.samplefragments.drawing.PressToPlot extends org.osmdroid.samplefragments.BaseSampleFragment
-	c26253:p -> c26292:p [dir=back,arrowtail=empty];
+	c29154:p -> c29195:p [dir=back,arrowtail=empty];
 	//org.osmdroid.samplefragments.drawing.PressToPlot implements android.view.View.OnClickListener
-	c26390:p -> c26292:p [dir=back,arrowtail=empty,style=dashed];
+	c29297:p -> c29195:p [dir=back,arrowtail=empty,style=dashed];
 	//org.osmdroid.samplefragments.drawing.PressToPlot implements android.view.View.OnLongClickListener
-	c26391:p -> c26292:p [dir=back,arrowtail=empty,style=dashed];
+	c29298:p -> c29195:p [dir=back,arrowtail=empty,style=dashed];
 	//org.osmdroid.samplefragments.drawing.PressToPlotWithoutWrapping extends org.osmdroid.samplefragments.drawing.PressToPlot
-	c26292:p -> c26293:p [dir=back,arrowtail=empty];
+	c29195:p -> c29196:p [dir=back,arrowtail=empty];
 	// android.view.View.OnLongClickListener
-	c26391 [label=<<table title="android.view.View.OnLongClickListener" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/android/view/View/OnLongClickListener.html">
+	c29298 [label=<<table title="android.view.View.OnLongClickListener" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/android/view/View/OnLongClickListener.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> OnLongClickListener </td></tr>
 		</table></td></tr>
 		</table>>, URL="http://java.sun.com/j2se/1.4.2/docs/api/android/view/View/OnLongClickListener.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// android.view.View.OnClickListener
-	c26390 [label=<<table title="android.view.View.OnClickListener" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/android/view/View/OnClickListener.html">
+	c29297 [label=<<table title="android.view.View.OnClickListener" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/android/view/View/OnClickListener.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> OnClickListener </td></tr>

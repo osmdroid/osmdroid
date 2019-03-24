@@ -10,18 +10,18 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.samplefragments.BaseSampleFragment
-	c29358 [label=<<table title="org.osmdroid.samplefragments.BaseSampleFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../BaseSampleFragment.html">
+	c32387 [label=<<table title="org.osmdroid.samplefragments.BaseSampleFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../BaseSampleFragment.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> BaseSampleFragment </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="../BaseSampleFragment.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.tilesources.SampleCopyrightOverlay
-	c29474 [label=<<table title="org.osmdroid.samplefragments.tilesources.SampleCopyrightOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./SampleCopyrightOverlay.html">
+	c32508 [label=<<table title="org.osmdroid.samplefragments.tilesources.SampleCopyrightOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./SampleCopyrightOverlay.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleCopyrightOverlay </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SampleCopyrightOverlay.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.samplefragments.tilesources.SampleCopyrightOverlay extends org.osmdroid.samplefragments.BaseSampleFragment
-	c29358:p -> c29474:p [dir=back,arrowtail=empty];
+	c32387:p -> c32508:p [dir=back,arrowtail=empty];
 }
 

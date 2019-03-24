@@ -7,18 +7,4 @@
 <area shape="rect" id="node3" href="./IMapView.html" title="&lt;TABLE&gt;" alt="" coords="283,5,387,59"/>
 <area shape="rect" id="node4_3" href="./IProjection.html" title="org.osmdroid.api.IProjection" alt="" coords="421,11,504,53"/>
 <area shape="rect" id="node4" href="./IProjection.html" title="&lt;TABLE&gt;" alt="" coords="411,5,515,59"/>
-<area shape="rect" id="node5_4" href="./IMap.html" title="org.osmdroid.api.IMap" alt="" coords="549,11,632,53"/>
-<area shape="rect" id="node5" href="./IMap.html" title="&lt;TABLE&gt;" alt="" coords="539,5,643,59"/>
-<area shape="rect" id="node6_5" href="./IMyLocationOverlay.html" title="org.osmdroid.api.IMyLocationOverlay" alt="" coords="678,11,810,53"/>
-<area shape="rect" id="node6" href="./IMyLocationOverlay.html" title="&lt;TABLE&gt;" alt="" coords="667,5,821,59"/>
-<area shape="rect" id="node7_6" href="./IPosition.html" title="org.osmdroid.api.IPosition" alt="" coords="856,11,939,53"/>
-<area shape="rect" id="node7" href="./IPosition.html" title="&lt;TABLE&gt;" alt="" coords="845,5,949,59"/>
-<area shape="rect" id="node8_7" href="./Marker.html" title="org.osmdroid.api.Marker" alt="" coords="985,19,1045,45"/>
-<area shape="rect" id="node8" href="./Marker.html" title="&lt;TABLE&gt;" alt="" coords="974,8,1055,56"/>
-<area shape="rect" id="node9_8" href="./Marker.Anchor.html" title="org.osmdroid.api.Marker.Anchor" alt="" coords="1091,11,1195,53"/>
-<area shape="rect" id="node9" href="./Marker.Anchor.html" title="&lt;TABLE&gt;" alt="" coords="1080,5,1205,59"/>
-<area shape="rect" id="node10_9" href="./OnCameraChangeListener.html" title="org.osmdroid.api.OnCameraChangeListener" alt="" coords="1241,11,1413,53"/>
-<area shape="rect" id="node10" href="./OnCameraChangeListener.html" title="&lt;TABLE&gt;" alt="" coords="1230,5,1423,59"/>
-<area shape="rect" id="node11_10" href="./Polyline.html" title="org.osmdroid.api.Polyline" alt="" coords="1458,19,1523,45"/>
-<area shape="rect" id="node11" href="./Polyline.html" title="&lt;TABLE&gt;" alt="" coords="1447,8,1534,56"/>
 </map>

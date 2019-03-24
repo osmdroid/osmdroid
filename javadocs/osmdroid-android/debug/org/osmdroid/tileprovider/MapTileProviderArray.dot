@@ -10,34 +10,43 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.tileprovider.MapTileProviderArray
-	c28648 [label=<<table title="org.osmdroid.tileprovider.MapTileProviderArray" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./MapTileProviderArray.html">
+	c32345 [label=<<table title="org.osmdroid.tileprovider.MapTileProviderArray" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./MapTileProviderArray.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MapTileProviderArray </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MapTileProviderArray.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.MapTileProviderBase
-	c28649 [label=<<table title="org.osmdroid.tileprovider.MapTileProviderBase" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileProviderBase.html">
+	c32346 [label=<<table title="org.osmdroid.tileprovider.MapTileProviderBase" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileProviderBase.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> MapTileProviderBase </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./MapTileProviderBase.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.MapTileProviderBasic
-	c28650 [label=<<table title="org.osmdroid.tileprovider.MapTileProviderBasic" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileProviderBasic.html">
+	c32347 [label=<<table title="org.osmdroid.tileprovider.MapTileProviderBasic" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileProviderBasic.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MapTileProviderBasic </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MapTileProviderBasic.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.modules.OfflineTileProvider
-	c28677 [label=<<table title="org.osmdroid.tileprovider.modules.OfflineTileProvider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./modules/OfflineTileProvider.html">
+	c32374 [label=<<table title="org.osmdroid.tileprovider.modules.OfflineTileProvider" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./modules/OfflineTileProvider.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> OfflineTileProvider </td></tr>
 		</table></td></tr>
 		</table>>, URL="./modules/OfflineTileProvider.html", fontname="arial", fontcolor="black", fontsize=10.0];
+	// org.osmdroid.util.MapTileContainer
+	c32421 [label=<<table title="org.osmdroid.util.MapTileContainer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../util/MapTileContainer.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
+<tr><td align="center" balign="center"> MapTileContainer </td></tr>
+		</table></td></tr>
+		</table>>, URL="../util/MapTileContainer.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.tileprovider.MapTileProviderArray extends org.osmdroid.tileprovider.MapTileProviderBase
-	c28649:p -> c28648:p [dir=back,arrowtail=empty];
+	c32346:p -> c32345:p [dir=back,arrowtail=empty];
+	//org.osmdroid.tileprovider.MapTileProviderArray implements org.osmdroid.util.MapTileContainer
+	c32421:p -> c32345:p [dir=back,arrowtail=empty,style=dashed];
 	//org.osmdroid.tileprovider.MapTileProviderBasic extends org.osmdroid.tileprovider.MapTileProviderArray
-	c28648:p -> c28650:p [dir=back,arrowtail=empty];
+	c32345:p -> c32347:p [dir=back,arrowtail=empty];
 	//org.osmdroid.tileprovider.modules.OfflineTileProvider extends org.osmdroid.tileprovider.MapTileProviderArray
-	c28648:p -> c28677:p [dir=back,arrowtail=empty];
+	c32345:p -> c32374:p [dir=back,arrowtail=empty];
 }
 
