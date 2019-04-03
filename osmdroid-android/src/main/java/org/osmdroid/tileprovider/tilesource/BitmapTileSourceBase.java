@@ -109,11 +109,20 @@ public abstract class BitmapTileSourceBase implements ITileSource {
 	public Drawable getDrawable(final String aFilePath) throws LowMemoryException {
 		//Log.d(IMapView.LOGTAG, aFilePath + " attempting to load bitmap");
 		try {
+			// We need to determine the real tile size first..
+			// Otherwise, if mTileSizePixel is not correct, we will never be able to reuse bitmaps
+			// from the pool, as we request them with mTileSizePixels, while they are stored with
+			// their real size
+			BitmapFactory.Options optSize = new BitmapFactory.Options();
+			optSize.inJustDecodeBounds = true;
+			BitmapFactory.decodeFile(aFilePath, optSize);
+			int realSize = optSize.outHeight;
+
 			// default implementation will load the file as a bitmap and create
 			// a BitmapDrawable from it
 			BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
 			BitmapPool.getInstance().applyReusableOptions(
-					bitmapOptions, mTileSizePixels, mTileSizePixels);
+					bitmapOptions, realSize, realSize);
 			final Bitmap bitmap;
 			//fix for API 15 see https://github.com/osmdroid/osmdroid/issues/227
 			if (Build.VERSION.SDK_INT == Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1)
@@ -164,11 +173,22 @@ public abstract class BitmapTileSourceBase implements ITileSource {
 	@Override
 	public Drawable getDrawable(final InputStream aFileInputStream) throws LowMemoryException {
 		try {
+			// We need to determine the real tile size first..
+			// Otherwise, if mTileSizePixel is not correct, we will never be able to reuse bitmaps
+			// from the pool, as we request them with mTileSizePixels, while they are stored with
+			// their real size
+			aFileInputStream.mark(1024 * 1024);
+			BitmapFactory.Options optSize = new BitmapFactory.Options();
+			optSize.inJustDecodeBounds = true;
+			BitmapFactory.decodeStream(aFileInputStream, null, optSize);
+			int realSize = optSize.outHeight;
+			aFileInputStream.reset();
+
 			// default implementation will load the file as a bitmap and create
 			// a BitmapDrawable from it
 			BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
 			BitmapPool.getInstance().applyReusableOptions(
-					bitmapOptions, mTileSizePixels, mTileSizePixels);
+					bitmapOptions, realSize, realSize);
 			final Bitmap bitmap = BitmapFactory.decodeStream(aFileInputStream, null, bitmapOptions);
 			if (bitmap != null) {
 				return new ReusableBitmapDrawable(bitmap);
