@@ -18,10 +18,12 @@ import org.osmdroid.config.Configuration;
 import org.osmdroid.events.MapListener;
 import org.osmdroid.events.ZoomEvent;
 import org.osmdroid.util.BoundingBox;
+import org.osmdroid.util.Distance;
 import org.osmdroid.util.GeoPoint;
+import org.osmdroid.util.MyMath;
 import org.osmdroid.util.TileSystem;
 import org.osmdroid.views.MapView.OnFirstLayoutListener;
-import org.osmdroid.util.MyMath;
+import org.osmdroid.views.util.constants.MathConstants;
 
 import java.util.LinkedList;
 
@@ -483,8 +485,8 @@ public class MapController implements IMapController, OnFirstLayoutListener {
         private final IGeoPoint mCenterEnd;
         private final Float mOrientationStart;
         private final Float mOrientationSpan;
-        private final int mOffsetX;
-        private final int mOffsetY;
+        private final double mOffsetRadius;
+        private final double mOffsetAngle;
 
         public MapAnimatorListener(final MapController pMapController,
                                    final Double pZoomStart, final Double pZoomEnd,
@@ -497,8 +499,8 @@ public class MapController implements IMapController, OnFirstLayoutListener {
             mZoomEnd = pZoomEnd;
             mCenterStart = pCenterStart;
             mCenterEnd = pCenterEnd;
-            mOffsetX = pOffsetX;
-            mOffsetY = pOffsetY;
+            mOffsetRadius = Math.sqrt(Distance.getSquaredDistanceToPoint(pOffsetX, pOffsetY, 0, 0));
+            mOffsetAngle = MyMath.getOrientation(pOffsetX, pOffsetY, 0, 0);
             if (pOrientationEnd == null) {
                 mOrientationStart = null;
                 mOrientationSpan = null;
@@ -536,10 +538,13 @@ public class MapController implements IMapController, OnFirstLayoutListener {
                 //map events listeners are triggered by this call
                 mMapController.mMapView.setZoomLevel(zoom);
             }
+            final float orientation;
             if (mOrientationSpan != null) {
-                final float orientation = mOrientationStart + mOrientationSpan * value;
+                orientation = mOrientationStart + mOrientationSpan * value;
                 //map events listeners are triggered by this call
                 mMapController.mMapView.setMapOrientation(orientation);
+            } else {
+                orientation = mMapController.mMapView.getMapOrientation();
             }
             if (mCenterEnd != null) {
                 final TileSystem tileSystem = MapView.getTileSystem();
@@ -550,7 +555,16 @@ public class MapController implements IMapController, OnFirstLayoutListener {
                 final double latitudeEnd = tileSystem.cleanLatitude(mCenterEnd.getLatitude());
                 final double latitude = tileSystem.cleanLatitude(latitudeStart + (latitudeEnd - latitudeStart) * value);
                 mCenter.setCoords(latitude, longitude);
-                mMapController.mMapView.setExpectedCenter(mCenter, (long)(mOffsetX * value), (long)(mOffsetY * value));
+                final double disorientedOffsetX;
+                final double disorientedOffsetY;
+                if (mOffsetRadius == 0) {
+                    disorientedOffsetX = disorientedOffsetY = 0;
+                } else {
+                    final double compositeAngle = mOffsetAngle - orientation;
+                    disorientedOffsetX = mOffsetRadius * Math.cos(MathConstants.DEG2RAD * compositeAngle);
+                    disorientedOffsetY = mOffsetRadius * Math.sin(MathConstants.DEG2RAD * compositeAngle);
+                }
+                mMapController.mMapView.setExpectedCenter(mCenter, (long)(-disorientedOffsetX * value), (long)(-disorientedOffsetY * value));
             }
             mMapController.mMapView.invalidate();
         }

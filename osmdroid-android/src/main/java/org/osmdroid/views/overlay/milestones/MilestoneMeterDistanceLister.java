@@ -1,6 +1,7 @@
 package org.osmdroid.views.overlay.milestones;
 
 import org.osmdroid.util.Distance;
+import org.osmdroid.util.MyMath;
 import org.osmdroid.views.util.constants.MathConstants;
 
 /**
@@ -72,7 +73,7 @@ public class MilestoneMeterDistanceLister extends MilestoneLister{
         }
         final double pixelDistance = Math.sqrt(Distance.getSquaredDistanceToPoint(x0, y0, x1, y1));
         final double metersToPixels = pixelDistance / currentDistance;
-        final double orientation = getOrientation(x0, y0, x1, y1);
+        final double orientation = MyMath.getOrientation(x0, y0, x1, y1);
         double x = x0;
         double y = y0;
         while(true) {

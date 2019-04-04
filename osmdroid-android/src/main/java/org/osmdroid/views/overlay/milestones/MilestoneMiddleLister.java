@@ -1,6 +1,7 @@
 package org.osmdroid.views.overlay.milestones;
 
 import org.osmdroid.util.Distance;
+import org.osmdroid.util.MyMath;
 
 /**
  * Listing all the vertices' middle, provided that there are enough pixels between them
@@ -24,7 +25,7 @@ public class MilestoneMiddleLister extends MilestoneLister{
 
         final long centerX = (x0 + x1) / 2;
         final long centerY = (y0 + y1) / 2;
-        final double orientation = getOrientation(x0, y0, x1, y1);
+        final double orientation = MyMath.getOrientation(x0, y0, x1, y1);
         add(new MilestoneStep(centerX, centerY, orientation));
     }
 }

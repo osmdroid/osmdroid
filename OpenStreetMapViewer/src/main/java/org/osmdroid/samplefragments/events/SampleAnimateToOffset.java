@@ -61,9 +61,11 @@ public class SampleAnimateToOffset extends SampleMapEventListener {
 
             @Override
             public void draw(Canvas pCanvas, Projection pProjection) {
+                mMapView.getProjection().save(pCanvas, false, true);
                 final float centerX = pCanvas.getWidth() / 2f;
                 final float centerY = pCanvas.getHeight() / 2f;
                 pCanvas.drawLine(centerX, centerY, centerX + mOffsetX, centerY + mOffsetY, mPaint);
+                mMapView.getProjection().restore(pCanvas, true);
             }
         });
 
