@@ -87,3 +87,4 @@ public class SampleWithTilesOverlayAndCustomTileSource extends Activity {
 	// Inner and Anonymous Classes
 	// ===========================================================
 }
+

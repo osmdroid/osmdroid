@@ -318,3 +318,4 @@ public class StarterMapFragment extends Fragment implements OpenStreetMapConstan
     // return this.mMapView.onTrackballEvent(event);
     // }
 }
+

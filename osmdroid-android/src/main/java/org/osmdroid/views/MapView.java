@@ -1894,3 +1894,4 @@ public class MapView extends ViewGroup implements IMapView,
 		mDestroyModeOnDetach = pOnDetach;
 	}
 }
+
