@@ -102,11 +102,6 @@ public class CacheManager {
         mTileWriter = pWriter;
         mMinZoomLevel = pMinZoomLevel;
         mMaxZoomLevel = pMaxZoomLevel;
-        if (pTileSource instanceof OnlineTileSourceBase) {
-            if (!((OnlineTileSourceBase) pTileSource).getTileSourcePolicy().acceptsBulkDownload()) {
-                throw new TileSourcePolicyException("This online tile source doesn't support bulk download");
-            }
-        }
     }
 
     /**
@@ -844,6 +839,9 @@ public class CacheManager {
             @Override
             public boolean preCheck() {
                 if (mTileSource instanceof OnlineTileSourceBase) {
+                    if (!((OnlineTileSourceBase) mTileSource).getTileSourcePolicy().acceptsBulkDownload()) {
+                        throw new TileSourcePolicyException("This online tile source doesn't support bulk download");
+                    }
                     return true;
                 } else {
                     Log.e(IMapView.LOGTAG, "TileSource is not an online tile source");
