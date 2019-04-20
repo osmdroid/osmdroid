@@ -283,7 +283,12 @@ public class ItemizedOverlayWithFocus<Item extends OverlayItem> extends Itemized
 
 			final float charwidth = widths[i];
 
-			if (curLineWidth + charwidth > DESCRIPTION_MAXWIDTH) {
+			if (itemDescription.charAt(i) == '\n') {
+				sb.append(itemDescription.subSequence(lastStop, i));
+				lastStop = i;
+				maxWidth = Math.max(maxWidth, curLineWidth);
+				curLineWidth = 0;
+			} else if (curLineWidth + charwidth > DESCRIPTION_MAXWIDTH) {
 				if (lastStop == lastwhitespace) {
 					i--;
 				} else {
