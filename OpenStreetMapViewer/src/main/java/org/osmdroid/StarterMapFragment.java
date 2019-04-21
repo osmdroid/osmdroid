@@ -27,7 +27,6 @@ import org.osmdroid.samplefragments.SampleFactory;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
-import org.osmdroid.views.CustomZoomButtonsController;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.CopyrightOverlay;
 import org.osmdroid.views.overlay.MinimapOverlay;
@@ -170,9 +169,6 @@ public class StarterMapFragment extends Fragment implements OpenStreetMapConstan
         mRotationGestureOverlay.setEnabled(true);
         mMapView.getOverlays().add(this.mRotationGestureOverlay);
 
-
-        //built in zoom controls
-        mMapView.getZoomController().setVisibility(CustomZoomButtonsController.Visibility.SHOW_AND_FADEOUT);
 
         //needed for pinch zooms
         mMapView.setMultiTouchControls(true);
@@ -322,3 +318,4 @@ public class StarterMapFragment extends Fragment implements OpenStreetMapConstan
     // return this.mMapView.onTrackballEvent(event);
     // }
 }
+
