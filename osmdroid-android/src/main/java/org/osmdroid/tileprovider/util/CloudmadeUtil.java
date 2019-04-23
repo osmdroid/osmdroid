@@ -104,7 +104,7 @@ public class CloudmadeUtil  {
 			synchronized (mToken) {
 				// check again because it may have been set while we were blocking
 				if (mToken.length() == 0) {
-					final String url = "http://auth.cloudmade.com/token/" + mKey + "?userid=" + mAndroidId;
+					final String url = "https://auth.cloudmade.com/token/" + mKey + "?userid=" + mAndroidId;
 
 					HttpURLConnection urlConnection=null;
 					BufferedReader br=null;
