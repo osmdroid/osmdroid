@@ -62,9 +62,13 @@ public abstract class OnlineTileSourceBase extends BitmapTileSourceBase {
 
 	/**
 	 * Get the base url, which will be a random one if there are more than one.
+	 * <br>
+	 *     Updated around 6.1.1, if base url list is null or empty, empty string is returned
 	 */
 	public String getBaseUrl() {
-		return mBaseUrls[random.nextInt(mBaseUrls.length)];
+		if (mBaseUrls!=null && mBaseUrls.length > 0)
+			return mBaseUrls[random.nextInt(mBaseUrls.length)];
+		return "";
 	}
 
 	/**
