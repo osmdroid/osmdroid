@@ -688,6 +688,9 @@ public class Projection implements IProjection {
 		if (pPixel == null) {
 			return;
 		}
+		if (pGeoPoint == null) {
+			return;
+		}
 		final Point unRotatedExpectedPixel = unrotateAndScalePoint((int)pPixel.x, (int)pPixel.y, null);
 		final Point unRotatedActualPixel = toPixels(pGeoPoint, null);
 		final long deltaX = unRotatedExpectedPixel.x - unRotatedActualPixel.x;

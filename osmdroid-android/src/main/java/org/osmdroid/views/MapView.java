@@ -365,19 +365,20 @@ public class MapView extends ViewGroup implements IMapView,
 	@Override
 	public Projection getProjection() {
 		if (mProjection == null) {
-			mProjection = new Projection(this);
-			mProjection.adjustOffsets(mMultiTouchScaleGeoPoint, mMultiTouchScaleCurrentPoint);
+			Projection localCopy = new Projection(this);
+			mProjection = localCopy;
+			localCopy.adjustOffsets(mMultiTouchScaleGeoPoint, mMultiTouchScaleCurrentPoint);
 			if (mScrollableAreaLimitLatitude) {
-				mProjection.adjustOffsets(
+				localCopy.adjustOffsets(
 						mScrollableAreaLimitNorth, mScrollableAreaLimitSouth, true,
 						mScrollableAreaLimitExtraPixelHeight);
 			}
 			if (mScrollableAreaLimitLongitude) {
-				mProjection.adjustOffsets(
+				localCopy.adjustOffsets(
 						mScrollableAreaLimitWest, mScrollableAreaLimitEast, false,
 						mScrollableAreaLimitExtraPixelWidth);
 			}
-			mImpossibleFlinging = mProjection.setMapScroll(this);
+			mImpossibleFlinging = localCopy.setMapScroll(this);
 		}
 		return mProjection;
 	}
