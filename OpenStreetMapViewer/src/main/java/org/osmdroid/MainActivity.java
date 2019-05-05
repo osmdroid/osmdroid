@@ -64,15 +64,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         list.add("Diagnostics");
         list.add("View the intro again");
         list.add("Licenses");
-        if (BuildConfig.VERSION_CODE >= 11)
-            list.add("Cache Analyzer");
+        list.add("Cache Analyzer");
 
         ListView lv = findViewById(R.id.activitylist);
         ArrayAdapter adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, list);
 
         lv.setAdapter(adapter);
         lv.setOnItemClickListener(this);
-
     }
 
     @Override
@@ -133,15 +131,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             }
             case 13:
             {
-                if (BuildConfig.VERSION_CODE >= 11){
-                    Intent starter = new Intent(this,CacheAnalyzerActivity.class);
-                    startActivity(starter );
-                    break;
-                }
+                Intent starter = new Intent(this,CacheAnalyzerActivity.class);
+                startActivity(starter );
+                break;
             }
         }
     }
-
 
     public void onResume(){
         super.onResume();
@@ -191,9 +186,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         builder.setMessage("Sorry, it looks like we crashed at some point, would you mind sending us the" +
             "crash log?").setPositiveButton("Yes", dialogClickListener)
             .setNegativeButton("No", dialogClickListener).show();
-
-
-
     }
 
     /**
@@ -246,6 +238,4 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         tv.setText(Configuration.getInstance().getOsmdroidTileCache().getAbsolutePath() + "\n" +
             "Cache size: " + Formatter.formatFileSize(this,cacheSize));
     }
-
-
 }
