@@ -7,8 +7,9 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 
 import org.osmdroid.views.MapView;
@@ -19,7 +20,7 @@ import org.osmdroid.views.MapView;
  * @author Manuel Stahl
  *
  */
-public class StarterMapActivity extends FragmentActivity {
+public class StarterMapActivity extends AppCompatActivity {
     private static final String MAP_FRAGMENT_TAG = "org.osmdroid.MAP_FRAGMENT_TAG";
 
     /**
@@ -49,16 +50,30 @@ public class StarterMapActivity extends FragmentActivity {
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.setContentView(org.osmdroid.R.layout.activity_starter_main);
+
+        Toolbar toolbar = findViewById(R.id.my_toolbar);
+        setSupportActionBar(toolbar);
+
+        //noinspection ConstantConditions
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         MainActivity.updateStoragePreferences(this);    //needed for unit tests
 
         registerReceiver(networkReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
 
-        this.setContentView(org.osmdroid.R.layout.activity_starter_main);
         FragmentManager fm = this.getSupportFragmentManager();
 		if (fm.findFragmentByTag(MAP_FRAGMENT_TAG) == null) {
 			starterMapFragment = StarterMapFragment.newInstance();
 			fm.beginTransaction().add(org.osmdroid.R.id.map_container, starterMapFragment, MAP_FRAGMENT_TAG).commit();
 		}
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 
     /**
@@ -104,5 +119,4 @@ public class StarterMapActivity extends FragmentActivity {
         unregisterReceiver(networkReceiver);
         super.onDestroy();
     }
-
 }
