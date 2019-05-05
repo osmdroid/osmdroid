@@ -7,23 +7,18 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.util.DisplayMetrics;
 import android.view.InputDevice;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MenuItem.OnMenuItemClickListener;
 import android.view.MotionEvent;
-import android.view.SubMenu;
 import android.view.View;
 import android.view.ViewGroup;
 
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.constants.OpenStreetMapConstants;
-import org.osmdroid.samplefragments.BaseSampleFragment;
-import org.osmdroid.samplefragments.SampleFactory;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
@@ -50,9 +45,7 @@ public class StarterMapFragment extends Fragment implements OpenStreetMapConstan
 
     private static final int DIALOG_ABOUT_ID = 1;
 
-    private static final int MENU_SAMPLES = Menu.FIRST + 1;
-    private static final int MENU_ABOUT = MENU_SAMPLES + 1;
-
+    private static final int MENU_ABOUT = Menu.FIRST + 1;
     private static final int MENU_LAST_ID = MENU_ABOUT + 1; // Always set to last unused id
 
     // ===========================================================
@@ -252,33 +245,11 @@ public class StarterMapFragment extends Fragment implements OpenStreetMapConstan
         // Put overlay items first
         mMapView.getOverlayManager().onCreateOptionsMenu(menu, MENU_LAST_ID, mMapView);
 
-        // Put samples next
-        SubMenu samplesSubMenu = menu.addSubMenu(0, MENU_SAMPLES, Menu.NONE, org.osmdroid.R.string.samples)
-            .setIcon(android.R.drawable.ic_menu_gallery);
-        ISampleFactory sampleFactory = SampleFactory.getInstance();
-        for (int a = 0; a < sampleFactory.count(); a++) {
-            final BaseSampleFragment f = sampleFactory.getSample(a);
-            samplesSubMenu.add(f.getSampleTitle()).setOnMenuItemClickListener(
-                new OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        startSampleFragment(f);
-                        return true;
-                    }
-                });
-        }
-
         // Put "About" menu item last
         menu.add(0, MENU_ABOUT, Menu.CATEGORY_SECONDARY, org.osmdroid.R.string.about).setIcon(
             android.R.drawable.ic_menu_info_details);
 
         super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    protected void startSampleFragment(Fragment fragment) {
-        FragmentManager fm = getFragmentManager();
-        fm.beginTransaction().hide(this).add(android.R.id.content, fragment, "SampleFragment")
-            .addToBackStack(null).commit();
     }
 
     @Override
