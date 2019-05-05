@@ -147,7 +147,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private void checkForCrashLogs() {
         //look for osmdroid crash logs
         File root = Environment.getExternalStorageDirectory();
-        String pathToMyAttachedFile = "/osmdroid/crash.lgo";
+        String pathToMyAttachedFile = "/osmdroid/crash.log";
         final File file = new File(root, pathToMyAttachedFile);
         if (!file.exists() || !file.canRead()) {
             return;
