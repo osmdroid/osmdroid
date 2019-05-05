@@ -194,7 +194,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
      * @param ctx
      * @return current cache size in bytes
      */
-    public static long updateStoragePrefreneces(Context ctx){
+    public static long updateStoragePreferences(Context ctx){
 
         //loads the osmdroid config from the shared preferences object.
         //if this is the first time launching this app, all settings are set defaults with one exception,
@@ -218,7 +218,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
      */
     private void updateStorageInfo(){
 
-        long cacheSize = updateStoragePrefreneces(this);
+        long cacheSize = updateStoragePreferences(this);
         //cache management ends here
 
         TextView tv = findViewById(R.id.sdcardstate_value);

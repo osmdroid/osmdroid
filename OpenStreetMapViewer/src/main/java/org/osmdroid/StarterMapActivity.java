@@ -49,7 +49,7 @@ public class StarterMapActivity extends FragmentActivity {
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        MainActivity.updateStoragePrefreneces(this);    //needed for unit tests
+        MainActivity.updateStoragePreferences(this);    //needed for unit tests
 
         registerReceiver(networkReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
 

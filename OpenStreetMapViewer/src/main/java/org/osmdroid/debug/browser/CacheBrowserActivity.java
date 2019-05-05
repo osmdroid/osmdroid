@@ -40,7 +40,7 @@ public class CacheBrowserActivity extends Activity {
         lv.setAdapter(adapter);
 
         ((TextView) findViewById(R.id.rows)).setText(cache.getRowCount(null) + "");
-        ((TextView) findViewById(R.id.size)).setText(StorageAdapter.readableFileSize(MainActivity.updateStoragePrefreneces(this)));
+        ((TextView) findViewById(R.id.size)).setText(StorageAdapter.readableFileSize(MainActivity.updateStoragePreferences(this)));
         ((TextView) findViewById(R.id.date)).setText("Now " + FileDateUtil.getModifiedDate(System.currentTimeMillis()));
     }
 

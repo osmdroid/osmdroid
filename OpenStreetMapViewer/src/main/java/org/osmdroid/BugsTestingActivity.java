@@ -26,7 +26,7 @@ public class BugsTestingActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        MainActivity.updateStoragePrefreneces(this);    //needed for unit tests
+        MainActivity.updateStoragePreferences(this);    //needed for unit tests
         setContentView(R.layout.activity_extra_samples);
 
         Toolbar myToolbar = findViewById(R.id.my_toolbar);
