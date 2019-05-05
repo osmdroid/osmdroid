@@ -14,6 +14,8 @@ import android.location.LocationManager;
 import android.location.LocationProvider;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
 
@@ -30,13 +32,24 @@ import java.util.List;
  * @author Alex O'Ree
  */
 
-public class DiagnosticsActivity extends Activity implements View.OnClickListener, LocationListener, GpsStatus.Listener {
+public class DiagnosticsActivity extends AppCompatActivity
+        implements View.OnClickListener, LocationListener, GpsStatus.Listener {
     TextView output = null;
+    LocationManager lm = null;
+    Location currentLocation = null;
+    GpsStatus gpsStatus = null;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_diag);
+
+        Toolbar toolbar = findViewById(R.id.my_toolbar);
+        setSupportActionBar(toolbar);
+
+        //noinspection ConstantConditions
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         findViewById(R.id.diag_location).setOnClickListener(this);
         findViewById(R.id.diag_orientation).setOnClickListener(this);
@@ -44,6 +57,12 @@ public class DiagnosticsActivity extends Activity implements View.OnClickListene
         findViewById(R.id.diag_permissions).setOnClickListener(this);
         findViewById(R.id.diag_storage).setOnClickListener(this);
         output = findViewById(R.id.diag_output);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 
     @Override
@@ -67,10 +86,6 @@ public class DiagnosticsActivity extends Activity implements View.OnClickListene
         }
     }
 
-    LocationManager lm = null;
-    Location currentLocation = null;
-    GpsStatus gpsStatus = null;
-
     public void onResume() {
         super.onResume();
         lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -91,7 +106,6 @@ public class DiagnosticsActivity extends Activity implements View.OnClickListene
         } catch (SecurityException e) {
         } catch (RuntimeException r) {
         }
-
     }
 
     private void probeStorage() {
@@ -153,7 +167,6 @@ public class DiagnosticsActivity extends Activity implements View.OnClickListene
         output.setText(sb.toString());
     }
 
-
     private void probeLocation() {
         StringBuilder sb = new StringBuilder();
 
@@ -172,12 +185,10 @@ public class DiagnosticsActivity extends Activity implements View.OnClickListene
             //gpsStatus.
         }
         output.setText(sb.toString());
-
     }
 
     @Override
     public void onLocationChanged(Location location) {
-
         this.currentLocation = location;
     }
 
@@ -209,10 +220,7 @@ public class DiagnosticsActivity extends Activity implements View.OnClickListene
                 break;
             case GpsStatus.GPS_EVENT_FIRST_FIX:
                 // Do something.
-
-
                 break;
         }
-
     }
 }
