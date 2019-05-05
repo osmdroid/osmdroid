@@ -32,6 +32,10 @@ public class BugsTestingActivity extends AppCompatActivity {
         Toolbar myToolbar = findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
 
+        //noinspection ConstantConditions
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         FragmentManager fm = this.getSupportFragmentManager();
         if (fm.findFragmentByTag(SAMPLES_FRAGMENT_TAG) == null) {
             List<IBaseActivity> extras = new ArrayList<>() ;
@@ -41,6 +45,11 @@ public class BugsTestingActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
 
     @Override
     public void onDestroy(){

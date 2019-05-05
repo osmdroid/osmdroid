@@ -1,21 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/my_toolbar"
+        style="@style/ToolbarStyle"
+        />
 
     <LinearLayout
+        android:layout_below="@id/my_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="22dp"
+            android:textSize="22sp"
             android:text="Open source licenses"
             />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -23,20 +30,23 @@
             />
 
         <Spinner
-            android:textSize="22dp"
+            android:textSize="22sp"
             android:id="@+id/license_module_spinner"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-        </Spinner>
-        <TextView
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-           android:id="@+id/license_body"
-
-
             />
 
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/license_body"
+                />
+
+        </ScrollView>
     </LinearLayout>
-</ScrollView>
+</RelativeLayout>

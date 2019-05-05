@@ -180,7 +180,7 @@ public abstract class BaseSampleFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getTitle().toString().equals("Run Tests")) {
+        if (item.getTitle() != null && item.getTitle().toString().equals("Run Tests")) {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
