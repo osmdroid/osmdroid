@@ -35,17 +35,15 @@ public class StarterMapActivity extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             try {
-                starterMapFragment.getMapView().invalidate();
+                starterMapFragment.invalidateMapView();
             } catch(NullPointerException e) {
                 // lazy handling of an improbable NPE
             }
         }
     };
 
-    private StarterMapFragment starterMapFragment=null;
-    // ===========================================================
-    // Constructors
-    // ===========================================================
+    private StarterMapFragment starterMapFragment;
+
     /** Called when the activity is first created. */
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -77,16 +75,6 @@ public class StarterMapActivity extends AppCompatActivity {
     }
 
     /**
-     * used by unit tests only, may return null
-     * @return
-     */
-    public MapView getMapView(){
-        if (starterMapFragment !=null)
-            return starterMapFragment.getMapView();
-        return null;
-    }
-
-    /**
      * small example of keyboard events on the mapview
      * page up = zoom out
      * page down = zoom in
@@ -96,16 +84,12 @@ public class StarterMapActivity extends AppCompatActivity {
      */
     @Override
     public boolean onKeyUp (int keyCode, KeyEvent event){
-
-        MapView mMapView = getMapView();
-        if (mMapView==null)
-            return super.onKeyUp(keyCode,event);
         switch (keyCode) {
             case KeyEvent.KEYCODE_PAGE_DOWN:
-                mMapView.getController().zoomIn();
+                starterMapFragment.zoomIn();
                 return true;
             case KeyEvent.KEYCODE_PAGE_UP:
-                mMapView.getController().zoomOut();
+                starterMapFragment.zoomOut();
                 return true;
         }
         return super.onKeyUp(keyCode,event);

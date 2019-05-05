@@ -83,6 +83,7 @@ public class StarterMapFragment extends Fragment implements OpenStreetMapConstan
         //be sure to handle application lifecycle correct (see note in on pause)
         mMapView = new MapView(inflater.getContext());
         mMapView.setDestroyMode(false);
+        mMapView.setTag("mapView"); // needed for OpenStreetMapViewTest
 
         mMapView.setOnGenericMotionListener(new View.OnGenericMotionListener() {
             /**
@@ -309,13 +310,20 @@ public class StarterMapFragment extends Fragment implements OpenStreetMapConstan
         return super.onOptionsItemSelected(item);
     }
 
-    public MapView getMapView() {
-        return mMapView;
+    public void zoomIn() {
+        mMapView.getController().zoomIn();
+    }
+
+    public void zoomOut() {
+        mMapView.getController().zoomOut();
     }
 
     // @Override
     // public boolean onTrackballEvent(final MotionEvent event) {
     // return this.mMapView.onTrackballEvent(event);
     // }
+    public void invalidateMapView() {
+        mMapView.invalidate();
+    }
 }
 
