@@ -18,7 +18,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.osmdroid.api.IGeoPoint;
-import org.osmdroid.constants.OpenStreetMapConstants;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
@@ -38,12 +37,17 @@ import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
  * @author Marc Kurtz
  * @author Manuel Stahl
  */
-public class StarterMapFragment extends Fragment implements OpenStreetMapConstants {
+public class StarterMapFragment extends Fragment {
     // ===========================================================
     // Constants
     // ===========================================================
 
-    private static final int DIALOG_ABOUT_ID = 1;
+    private static final String PREFS_NAME = "org.andnav.osm.prefs";
+    private static final String PREFS_TILE_SOURCE = "tilesource";
+    private static final String PREFS_LATITUDE_STRING = "latitudeString";
+    private static final String PREFS_LONGITUDE_STRING = "longitudeString";
+    private static final String PREFS_ORIENTATION = "orientation";
+    private static final String PREFS_ZOOM_LEVEL_DOUBLE = "zoomLevelDouble";
 
     private static final int MENU_ABOUT = Menu.FIRST + 1;
     private static final int MENU_LAST_ID = MENU_ABOUT + 1; // Always set to last unused id
@@ -170,25 +174,16 @@ public class StarterMapFragment extends Fragment implements OpenStreetMapConstan
         //scales tiles to the current screen's DPI, helps with readability of labels
         mMapView.setTilesScaledToDpi(true);
 
-
-
         //the rest of this is restoring the last map location the user looked at
-        final float zoomLevel = mPrefs.getFloat(PREFS_ZOOM_LEVEL_DOUBLE, mPrefs.getInt(PREFS_ZOOM_LEVEL, 1));
+        final float zoomLevel = mPrefs.getFloat(PREFS_ZOOM_LEVEL_DOUBLE, 1);
         mMapView.getController().setZoom(zoomLevel);
         final float orientation = mPrefs.getFloat(PREFS_ORIENTATION, 0);
         mMapView.setMapOrientation(orientation, false);
-        final String latitudeString = mPrefs.getString(PREFS_LATITUDE_STRING, null);
-        final String longitudeString = mPrefs.getString(PREFS_LONGITUDE_STRING, null);
-        if (latitudeString == null || longitudeString == null) { // case handled for historical reasons only
-            final int scrollX = mPrefs.getInt(PREFS_SCROLL_X, 0);
-            final int scrollY = mPrefs.getInt(PREFS_SCROLL_Y, 0);
-            mMapView.scrollTo(scrollX, scrollY);
-        } else {
-            final double latitude = Double.valueOf(latitudeString);
-            final double longitude = Double.valueOf(longitudeString);
-            mMapView.setExpectedCenter(new GeoPoint(latitude, longitude));
-        }
-
+        final String latitudeString = mPrefs.getString(PREFS_LATITUDE_STRING, "1.0");
+        final String longitudeString = mPrefs.getString(PREFS_LONGITUDE_STRING, "1.0");
+        final double latitude = Double.valueOf(latitudeString);
+        final double longitude = Double.valueOf(longitudeString);
+        mMapView.setExpectedCenter(new GeoPoint(latitude, longitude));
 
         setHasOptionsMenu(true);
     }
@@ -202,15 +197,7 @@ public class StarterMapFragment extends Fragment implements OpenStreetMapConstan
         edit.putString(PREFS_LATITUDE_STRING, String.valueOf(mMapView.getMapCenter().getLatitude()));
         edit.putString(PREFS_LONGITUDE_STRING, String.valueOf(mMapView.getMapCenter().getLongitude()));
         edit.putFloat(PREFS_ZOOM_LEVEL_DOUBLE, (float) mMapView.getZoomLevelDouble());
-        edit.putBoolean(PREFS_SHOW_LOCATION, mLocationOverlay.isMyLocationEnabled());
-
-        //sorry for the spaghetti code this is to filter out the compass on api 8
-        //Note: the compass overlay causes issues on API 8 devices. See https://github.com/osmdroid/osmdroid/issues/218
-        if (mCompassOverlay != null) {
-            edit.putBoolean(PREFS_SHOW_COMPASS, mCompassOverlay.isCompassEnabled());
-            this.mCompassOverlay.disableCompass();
-        }
-        edit.apply();
+        edit.commit();
 
         mMapView.onPause();
         super.onPause();

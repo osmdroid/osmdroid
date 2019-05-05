@@ -10,7 +10,6 @@ import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 
 import org.osmdroid.api.IMapController;
-import org.osmdroid.constants.OpenStreetMapConstants;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
@@ -24,7 +23,7 @@ import org.osmdroid.views.overlay.mylocation.SimpleLocationOverlay;
  * @author Nicolas Gramlich
  *
  */
-public class SampleExtensive extends Activity implements OpenStreetMapConstants {
+public class SampleExtensive extends Activity {
 	// ===========================================================
 	// Constants
 	// ===========================================================
