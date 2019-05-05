@@ -167,6 +167,7 @@ public class CustomZoomButtonsController {
 			synchronized (mThreadSync) {
 				if (mThread == null || mThread.getState() == Thread.State.TERMINATED) {
 					mThread = new Thread(mRunnable);
+					mThread.setName(this.getClass().getName() + "#active");
 					mThread.start();
 				}
 			}

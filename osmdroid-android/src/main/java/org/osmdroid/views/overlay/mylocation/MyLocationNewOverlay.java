@@ -425,7 +425,9 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 					setLocation(location);
 
 					for (final Runnable runnable : mRunOnFirstFix) {
-						new Thread(runnable).start();
+						Thread t = new Thread(runnable);
+						t.setName(this.getClass().getName() + "#onLocationChanged");
+						t.start();
 					}
 					mRunOnFirstFix.clear();
 				}
@@ -515,7 +517,9 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 	 */
 	public boolean runOnFirstFix(final Runnable runnable) {
 		if (mMyLocationProvider != null && mLocation != null) {
-			new Thread(runnable).start();
+			Thread t = new Thread(runnable);
+			t.setName(this.getClass().getName() + "#runOnFirstFix");
+			t.start();
 			return true;
 		} else {
 			mRunOnFirstFix.addLast(runnable);

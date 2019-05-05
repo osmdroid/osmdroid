@@ -417,7 +417,9 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 					pMapSketch.onDetach();
 				}
 			}, MapSnapshot.INCLUDE_FLAG_UPTODATE, pMapView);
-			new Thread(mapSnapshot).start();
+			Thread t = new Thread(mapSnapshot);
+			t.setName("TilesOverlaySnapShotThread");
+			t.start();
 			return true;
 		} else {
 			return false;
