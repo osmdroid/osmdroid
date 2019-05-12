@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         list.add("OSMDroid Sample Map (Start Here)");
         list.add("Sample with ItemizedOverlay");
         list.add("Sample with TilesOverlay");
-        list.add("Sample with tiles overlay and secondary tile overlay");
+        list.add("Sample with TilesOverlay and custom TileSource");
         list.add("More Samples");
 
         list.add("Report a Bug");
