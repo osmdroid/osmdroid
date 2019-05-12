@@ -48,17 +48,17 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         setSupportActionBar(myToolbar);
         // Generate a ListView with Sample Maps
         final ArrayList<String> list = new ArrayList<>();
-        list.add("OSMDroid Sample map (Start Here)");
-        list.add("Sample with tiles overlay");
+        list.add("OSMDroid Sample Map (Start Here)");
         list.add("Sample with ItemizedOverlay");
+        list.add("Sample with TilesOverlay");
         list.add("Sample with tiles overlay and secondary tile overlay");
         list.add("More Samples");
 
-        list.add("Report a bug");
+        list.add("Report a Bug");
         list.add("Settings");
         list.add("Bug Drivers");
         list.add("Diagnostics");
-        list.add("View the intro again");
+        list.add("View the Intro again");
         list.add("Licenses");
         list.add("Cache Analyzer");
 
