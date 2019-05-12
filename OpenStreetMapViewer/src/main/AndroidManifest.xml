@@ -147,15 +147,6 @@
         </activity>
 
         <activity
-            android:name=".samples.SampleWithMinimapZoomcontrols"
-            android:label="OSMapView with MiniMap &amp; Zoom">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity
             android:name=".samples.SampleWithTilesOverlay"
             android:label="OSMapView with Tiles Overlay">
             <intent-filter>
