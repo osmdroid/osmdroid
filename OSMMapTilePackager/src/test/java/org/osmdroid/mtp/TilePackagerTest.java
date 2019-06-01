@@ -35,7 +35,7 @@ public class TilePackagerTest {
         OSMMapTilePackager.main(new String[]{
 
                 "-force",
-                "-u", "http://b.tile.openstreetmap.org/%d/%d/%d.png",
+                "-u", "https://b.tile.openstreetmap.org/%d/%d/%d.png",
                 "-t", "Mapnik",
                 "-d", outputFile,
                 "-zmax", "2",
