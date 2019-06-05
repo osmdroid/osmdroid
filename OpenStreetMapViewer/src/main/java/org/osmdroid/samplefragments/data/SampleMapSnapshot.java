@@ -144,7 +144,7 @@ public class SampleMapSnapshot extends BaseSampleFragment {
                     });
                 }
             }, MapSnapshot.INCLUDE_FLAG_UPTODATE, mapTileProvider, mOverlays,
-                    new Projection(zoom, mMapSize, mMapSize, pDataRegion.getBox().getCenterWithDateLine(), 0, true, true));
+                    new Projection(zoom, mMapSize, mMapSize, pDataRegion.getBox().getCenterWithDateLine(), 0, true, true, 0, 0));
             mMapSnapshots.put(key, mapSnapshot);
             new Thread(mapSnapshot).start(); // TODO use AsyncTask, Executors instead?
         }
