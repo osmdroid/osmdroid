@@ -1,5 +1,25 @@
 package org.osmdroid.views.overlay;
 
+import java.lang.reflect.Field;
+import java.util.Locale;
+
+import org.osmdroid.api.IGeoPoint;
+import org.osmdroid.library.R;
+import org.osmdroid.util.GeoPoint;
+import org.osmdroid.util.constants.GeoConstants;
+import org.osmdroid.views.MapView;
+import org.osmdroid.views.Projection;
+
+import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Paint.Style;
+import android.graphics.Path;
+import android.graphics.Rect;
+import android.util.DisplayMetrics;
+import android.view.WindowManager;
+
 /**
  * ScaleBarOverlay.java
  *
@@ -29,26 +49,6 @@ package org.osmdroid.views.overlay;
  * 2. Scale bar to precise displayed scale text after rounding.
  *
  */
-
-import java.lang.reflect.Field;
-import java.util.Locale;
-
-import org.osmdroid.api.IGeoPoint;
-import org.osmdroid.library.R;
-import org.osmdroid.util.GeoPoint;
-import org.osmdroid.util.constants.GeoConstants;
-import org.osmdroid.views.MapView;
-import org.osmdroid.views.Projection;
-
-import android.content.Context;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Paint.Style;
-import android.graphics.Path;
-import android.graphics.Rect;
-import android.util.DisplayMetrics;
-import android.view.WindowManager;
 
 public class ScaleBarOverlay extends Overlay implements GeoConstants {
 
@@ -101,14 +101,41 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 	private boolean adjustLength = false;
 	private float maxLength;
 
+	/**
+	 * @since 6.1.0
+	 */
+	private int mMapWidth;
+
+	/**
+	 * @since 6.1.0
+	 */
+	private int mMapHeight;
+
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 
 	public ScaleBarOverlay(final MapView mapView) {
+		this(mapView, mapView.getContext(), 0, 0);
+	}
+
+	/**
+	 * @since 6.1.0
+	 */
+	public ScaleBarOverlay(final Context pContext, final int pMapWidth, final int pMapHeight) {
+		this(null, pContext, pMapWidth, pMapHeight);
+	}
+
+	/**
+	 * @since 6.1.0
+	 */
+	private ScaleBarOverlay(final MapView pMapView, final Context pContext, final int pMapWidth, final int pMapHeight) {
 		super();
-		this.mMapView = mapView;
-		this.context = mapView.getContext();
+		mMapView = pMapView;
+		context = pContext;
+		mMapWidth = pMapWidth;
+		mMapHeight = pMapHeight;
+
 		final DisplayMetrics dm = context.getResources().getDisplayMetrics();
 
 		this.barPaint = new Paint();
@@ -145,7 +172,7 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 			// If the screen is rotated, flip the x and y dpi values
 			WindowManager windowManager = (WindowManager) this.context
 					.getSystemService(Context.WINDOW_SERVICE);
-			if (windowManager.getDefaultDisplay().getOrientation() > 0) {
+			if (windowManager != null && windowManager.getDefaultDisplay().getOrientation() > 0) {
 				this.xdpi = (float) (this.screenWidth / 3.75);
 				this.ydpi = (float) (this.screenHeight / 2.1);
 			} else {
@@ -356,24 +383,16 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 	// ===========================================================
 
 	@Override
-	public void draw(Canvas c, MapView mapView, boolean shadow) {
-		if (shadow) {
-			return;
-		}
+	public void draw(Canvas c, Projection projection) {
 
-		final double zoomLevel = mapView.getZoomLevelDouble();
+		final double zoomLevel = projection.getZoomLevel();
 
 		if (zoomLevel < minZoom) {
 			return;
 		}
-		final Projection projection = mapView.getProjection();
-
-		if (projection == null) {
-			return;
-		}
-
-		int _screenWidth	   = mapView.getWidth();
-		int _screenHeight   = mapView.getHeight();
+		final Rect rect = projection.getIntrinsicScreenRect();
+		int _screenWidth = rect.width();
+		int _screenHeight = rect.height();
 		boolean screenSizeChanged = _screenHeight!=screenHeight || _screenWidth != screenWidth;
 		screenHeight = _screenHeight;
 		screenWidth = _screenWidth;
@@ -551,14 +570,14 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 		if (alignBottom) {
 			xTextSpacing *= -1;
 			xTextHeight  *= -1;
-			barOriginY   = mMapView.getHeight();
+			barOriginY   = getMapHeight();
 			barToY       = barOriginY -yBarLengthPixels;
 		}
 				
 		if (alignRight) {
 			yTextSpacing *= -1;
 			yTextHeight  *= -1;		
-			barOriginX   = mMapView.getWidth();
+			barOriginX   = getMapWidth();
 			barToX       = barOriginX -xBarLengthPixels;    
 		}
 		
@@ -690,6 +709,18 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 	private String getScaleString(final int pStringResId, final String pFormat, final double pValue) {
 		return context.getResources().getString(pStringResId, String.format(Locale.getDefault(), pFormat, pValue));
 	}
+
+	/**
+	 * @since 6.1.0
+	 */
+	private int getMapWidth() {
+		return mMapView != null ? mMapView.getWidth() : mMapWidth;
+	}
+
+	/**
+	 * @since 6.1.0
+	 */
+	private int getMapHeight() {
+		return mMapView != null ? mMapView.getHeight() : mMapHeight;
+	}
 }
-
-

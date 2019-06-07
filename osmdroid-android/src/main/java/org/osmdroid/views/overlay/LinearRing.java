@@ -13,7 +13,6 @@ import org.osmdroid.util.PointAccepter;
 import org.osmdroid.util.PointL;
 import org.osmdroid.util.SegmentClipper;
 import org.osmdroid.util.TileSystem;
-import org.osmdroid.util.TileSystemWebMercator;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
 import org.osmdroid.views.util.constants.MathConstants;
@@ -52,7 +51,8 @@ class LinearRing{
 	private final PointL mProjectedCenter = new PointL();
 	private final SegmentClipper mSegmentClipper = new SegmentClipper();
 	private final Path mPath;
-	private boolean mPrecomputed;
+    private boolean mProjectedPrecomputed;
+    private boolean mDistancesPrecomputed;
 	private boolean isHorizontalRepeating = true;
 	private boolean isVerticalRepeating  = true;
 	private final ListPointL mPointsForMilestones = new ListPointL();
@@ -80,7 +80,8 @@ class LinearRing{
 		mOriginalPoints.clear();
 		mProjectedPoints = null;
 		mDistances = null;
-		mPrecomputed = false;
+        mProjectedPrecomputed = false;
+        mDistancesPrecomputed = false;
 		mPointAccepter.init();
 	}
 
@@ -128,7 +129,8 @@ class LinearRing{
 			addGreatCircle(prev, p, numberOfPoints);
 		}
 		mOriginalPoints.add(p);
-		mPrecomputed = false;
+        mProjectedPrecomputed = false;
+        mDistancesPrecomputed = false;
 	}
 
 	public void setPoints(final List<GeoPoint> points) {
@@ -143,7 +145,19 @@ class LinearRing{
 	}
 
 	double[] getDistances(){
+        computeDistances();
 		return mDistances;
+	}
+
+	/**
+	 * @since 6.0.3
+	 */
+	public double getDistance(){
+		double result = 0;
+		for (final double distance : getDistances()) {
+			result += distance;
+		}
+		return result;
 	}
 
 	public void setGeodesic(boolean geodesic) {
@@ -170,10 +184,8 @@ class LinearRing{
 		if (size < 2) { // nothing to paint
 			return pOffset;
 		}
-		if (!mPrecomputed){
-			computeProjectedAndDistances(pProjection);
-			mPrecomputed = true;
-		}
+        computeProjected(pProjection);
+        computeDistances();
 		final PointL offset;
 		if (pOffset != null) {
 			offset = pOffset;
@@ -198,10 +210,8 @@ class LinearRing{
 		if (size < 2) { // nothing to paint
 			return;
 		}
-		if (!mPrecomputed){
-			computeProjectedAndDistances(pProjection);
-			mPrecomputed = true;
-		}
+        computeProjected(pProjection);
+        computeDistances();
 		final PointL offset = new PointL();
 		getBestOffset(pProjection, offset);
 		mSegmentClipper.init();
@@ -288,52 +298,6 @@ class LinearRing{
 		return i - 1;
 	}
 
-	private void computeProjectedAndDistances(final Projection pProjection) {
-		if (mProjectedPoints == null || mProjectedPoints.length != mOriginalPoints.size() * 2) {
-			mProjectedPoints = new long[mOriginalPoints.size() * 2];
-		}
-		if (mDistances == null || mDistances.length != mOriginalPoints.size()) {
-			mDistances = new double[mOriginalPoints.size()];
-		}
-		long minX = 0;
-		long maxX = 0;
-		long minY = 0;
-		long maxY = 0;
-		int index = 0;
-		final PointL previous = new PointL();
-		final PointL current = new PointL();
-		final GeoPoint previousGeo = new GeoPoint(0., 0);
-		for (final GeoPoint currentGeo : mOriginalPoints) {
-			pProjection.toProjectedPixels(currentGeo.getLatitude(), currentGeo.getLongitude(), false, current);
-			if (index == 0) {
-				mDistances[index] = 0;
-				minX = maxX = current.x;
-				minY = maxY = current.y;
-			} else {
-				mDistances[index] = currentGeo.distanceToAsDouble(previousGeo);
-				setCloserPoint(previous, current, pProjection.mProjectedMapSize);
-				if (minX > current.x) {
-					minX = current.x;
-				}
-				if (maxX < current.x) {
-					maxX = current.x;
-				}
-				if (minY > current.y) {
-					minY = current.y;
-				}
-				if (maxY < current.y) {
-					maxY = current.y;
-				}
-			}
-			mProjectedPoints[2 * index] = current.x;
-			mProjectedPoints[2 * index + 1] = current.y;
-			previousGeo.setCoords(currentGeo.getLatitude(), currentGeo.getLongitude());
-			previous.set(current.x, current.y);
-			index ++;
-		}
-		mProjectedCenter.set((minX + maxX) / 2, (minY + maxY) / 2);
-	}
-
 	/**
 	 * @since 6.0.0
 	 * 
@@ -409,10 +373,7 @@ class LinearRing{
 	 */
 	GeoPoint getCloseTo(final GeoPoint pPoint, final double tolerance,
 						final Projection pProjection, final boolean pClosePath) {
-		if (!mPrecomputed){
-			computeProjectedAndDistances(pProjection);
-			mPrecomputed = true;
-		}
+		computeProjected(pProjection);
 		final Point pixel = pProjection.toPixels(pPoint, null);
 		final PointL offset = new PointL();
 		getBestOffset(pProjection, offset);
@@ -475,10 +436,11 @@ class LinearRing{
 	 * @since 6.0.0
 	 * Mandatory use before clipping.
 	 */
-	public void setClipArea(final MapView pMapView) {
+	public void setClipArea(final Projection pProjection) {
 		final double border = .1;
-		final int halfWidth = pMapView.getWidth() / 2;
-		final int halfHeight = pMapView.getHeight() / 2;
+		final Rect rect = pProjection.getIntrinsicScreenRect();
+		final int halfWidth = rect.width() / 2;
+		final int halfHeight = rect.height() / 2;
 		// People less lazy than me would do more refined computations for width and height
 		// that include the map orientation: the covered area would be smaller but still big enough
 		// Now we use the circle which contains the `MapView`'s 4 corners
@@ -489,8 +451,8 @@ class LinearRing{
 				halfWidth + scaledRadius, halfHeight + scaledRadius
 		);
 		// TODO: Not sure if this is the correct approach 
-		this.isHorizontalRepeating = pMapView.isHorizontalMapRepetitionEnabled();
-		this.isVerticalRepeating = pMapView.isVerticalMapRepetitionEnabled();
+		this.isHorizontalRepeating = pProjection.isHorizontalWrapEnabled();
+		this.isVerticalRepeating = pProjection.isVerticalWrapEnabled();
 	}
 
 	/**
@@ -545,5 +507,77 @@ class LinearRing{
 			centerY -= projectedMapSize;
 		}
 		return tileSystem.getGeoFromMercator(centerX, centerY, projectedMapSize, out, false, false);
+	}
+
+	/**
+	 * @since 6.0.3
+	 * Code comes from now gone method computeProjectedAndDistances
+	 */
+	private void computeProjected(final Projection pProjection) {
+		if (mProjectedPrecomputed) {
+			return;
+		}
+		mProjectedPrecomputed = true;
+		if (mProjectedPoints == null || mProjectedPoints.length != mOriginalPoints.size() * 2) {
+			mProjectedPoints = new long[mOriginalPoints.size() * 2];
+		}
+		long minX = 0;
+		long maxX = 0;
+		long minY = 0;
+		long maxY = 0;
+		int index = 0;
+		final PointL previous = new PointL();
+		final PointL current = new PointL();
+		for (final GeoPoint currentGeo : mOriginalPoints) {
+			pProjection.toProjectedPixels(currentGeo.getLatitude(), currentGeo.getLongitude(), false, current);
+			if (index == 0) {
+				minX = maxX = current.x;
+				minY = maxY = current.y;
+			} else {
+				setCloserPoint(previous, current, pProjection.mProjectedMapSize);
+				if (minX > current.x) {
+					minX = current.x;
+				}
+				if (maxX < current.x) {
+					maxX = current.x;
+				}
+				if (minY > current.y) {
+					minY = current.y;
+				}
+				if (maxY < current.y) {
+					maxY = current.y;
+				}
+			}
+			mProjectedPoints[2 * index] = current.x;
+			mProjectedPoints[2 * index + 1] = current.y;
+			previous.set(current.x, current.y);
+			index ++;
+		}
+		mProjectedCenter.set((minX + maxX) / 2, (minY + maxY) / 2);
+	}
+
+	/**
+	 * @since 6.0.3
+	 * Code comes from now gone method computeProjectedAndDistances
+	 */
+	private void computeDistances() {
+		if (mDistancesPrecomputed) {
+			return;
+		}
+		mDistancesPrecomputed = true;
+		if (mDistances == null || mDistances.length != mOriginalPoints.size()) {
+			mDistances = new double[mOriginalPoints.size()];
+		}
+		int index = 0;
+		final GeoPoint previousGeo = new GeoPoint(0., 0);
+		for (final GeoPoint currentGeo : mOriginalPoints) {
+			if (index == 0) {
+				mDistances[index] = 0;
+			} else {
+				mDistances[index] = currentGeo.distanceToAsDouble(previousGeo);
+			}
+			previousGeo.setCoords(currentGeo.getLatitude(), currentGeo.getLongitude());
+			index ++;
+		}
 	}
 }

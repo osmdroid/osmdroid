@@ -29,7 +29,29 @@ public class SampleZoomToBounding extends BaseSampleFragment implements View.OnC
     private final TileSystem tileSystem = MapView.getTileSystem();
 
     private Polygon polygon;
-    Button btnCache;
+
+    /**
+     * @since 6.1.0
+     * south, north
+     */
+    private final double[] mSampleLatitudes = new double[] {0, 85, -85, 0};
+
+    /**
+     * @since 6.1.0
+     */
+    private int mSampleLatitudeIndex;
+
+    /**
+     * @since 6.1.0
+     * west, east
+     */
+    private final double[] mSampleLongitudes = new double[] {0, 10, 0, 10};
+
+    /**
+     * @since 6.1.0
+     */
+    private int mSampleLongitudeIndex;
+
     @Override
     public String getSampleTitle() {
         return "Zoom to Bounding Box";
@@ -43,7 +65,7 @@ public class SampleZoomToBounding extends BaseSampleFragment implements View.OnC
         mMapView = new MapView(getActivity());
         ((LinearLayout) root.findViewById(R.id.mapview)).addView(mMapView);
         polygon = new Polygon(mMapView);
-        btnCache = (Button) root.findViewById(R.id.btnCache);
+        final Button btnCache = root.findViewById(R.id.btnCache);
         btnCache.setOnClickListener(this);
         btnCache.setText("Zoom to bounds");
 
@@ -62,12 +84,12 @@ public class SampleZoomToBounding extends BaseSampleFragment implements View.OnC
             case R.id.btnCache:
                 boolean ok = false;
                 while (!ok) {
-                    final double south = getRandomLatitude(mMapView.getTileSystem().getMinLatitude());
+                    final double south = getRandomLatitude(tileSystem.getMinLatitude());
                     final double north = getRandomLatitude(south);
                     final double west = getRandomLongitude();
                     double east = getRandomLongitude();
                     final BoundingBox boundingBox = new BoundingBox(north, east, south, west);
-                    final double zoom = mMapView.getTileSystem().getBoundingBoxZoom(boundingBox, mMapView.getWidth() - 2 * border, mMapView.getHeight() - 2 * border);
+                    final double zoom = tileSystem.getBoundingBoxZoom(boundingBox, mMapView.getWidth() - 2 * border, mMapView.getHeight() - 2 * border);
                     ok = zoom >= mMapView.getMinZoomLevel() && zoom <= mMapView.getMaxZoomLevel();
                     if (ok) {
                         final String text = "with a border of " + border + " the computed zoom is " + zoom + " for box " + boundingBox;
@@ -82,7 +104,7 @@ public class SampleZoomToBounding extends BaseSampleFragment implements View.OnC
                         addPoints(points, south, west, north, west);
                         polygon.setPoints(points);
                         mMapView.invalidate();
-                        mMapView.zoomToBoundingBox(boundingBox, false, border);
+                        mMapView.zoomToBoundingBox(boundingBox, true, border);
                     }
                 }
                 break;
@@ -135,10 +157,16 @@ public class SampleZoomToBounding extends BaseSampleFragment implements View.OnC
     }
 
     private double getRandomLongitude() {
+        if (mSampleLongitudeIndex < mSampleLongitudes.length) {
+            return mSampleLongitudes[mSampleLongitudeIndex ++];
+        }
         return tileSystem.getRandomLongitude(Math.random());
     }
 
     private double getRandomLatitude(final double pMinLatitude) {
+        if (mSampleLatitudeIndex < mSampleLatitudes.length) {
+            return mSampleLatitudes[mSampleLatitudeIndex ++];
+        }
         return tileSystem.getRandomLatitude(Math.random(), pMinLatitude);
     }
 }

@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.osmdroid.library.R;
 import org.osmdroid.views.MapView;
+import org.osmdroid.views.Projection;
 import org.osmdroid.views.overlay.OverlayItem.HotspotPlace;
 
 import android.content.Context;
@@ -228,13 +229,9 @@ public class ItemizedOverlayWithFocus<Item extends OverlayItem> extends Itemized
 	private final Rect mRect = new Rect();
 
 	@Override
-	public void draw(final Canvas c, final MapView osmv, final boolean shadow) {
+	public void draw(final Canvas c, final Projection pProjection) {
 
-		super.draw(c, osmv, shadow);
-
-		if (shadow) {
-			return;
-		}
+		super.draw(c, pProjection);
 
 		if (this.mFocusedItemIndex == NOT_SET) {
 			return;
@@ -251,7 +248,7 @@ public class ItemizedOverlayWithFocus<Item extends OverlayItem> extends Itemized
 		}
 
 		/* Calculate and set the bounds of the marker. */
-		osmv.getProjection().toPixels(focusedItem.getPoint(), mFocusedScreenCoords);
+		pProjection.toPixels(focusedItem.getPoint(), mFocusedScreenCoords);
 
 		markerFocusedBase.copyBounds(mRect);
 		mRect.offset(mFocusedScreenCoords.x, mFocusedScreenCoords.y);
@@ -286,10 +283,16 @@ public class ItemizedOverlayWithFocus<Item extends OverlayItem> extends Itemized
 
 			final float charwidth = widths[i];
 
-			if (curLineWidth + charwidth > DESCRIPTION_MAXWIDTH) {
-				if (lastStop == lastwhitespace) {
-					i--;
-				} else {
+			if (itemDescription.charAt(i) == '\n') {
+				sb.append(itemDescription.subSequence(lastStop, i + 1));
+				lastStop = i + 1;
+				maxWidth = Math.max(maxWidth, curLineWidth);
+				curLineWidth = 0;
+				lastwhitespace = lastStop;
+				continue;
+			} else if (curLineWidth + charwidth > DESCRIPTION_MAXWIDTH) {
+				boolean noSpace = lastStop == lastwhitespace;
+				if (!noSpace) {
 					i = lastwhitespace;
 				}
 
@@ -299,6 +302,11 @@ public class ItemizedOverlayWithFocus<Item extends OverlayItem> extends Itemized
 				lastStop = i;
 				maxWidth = Math.max(maxWidth, curLineWidth);
 				curLineWidth = 0;
+				lastwhitespace = lastStop;
+				if (noSpace) {
+					i--;
+					continue;
+				}
 			}
 
 			curLineWidth += charwidth;
@@ -328,6 +336,11 @@ public class ItemizedOverlayWithFocus<Item extends OverlayItem> extends Itemized
 				- (lines.length + 1) * DESCRIPTION_LINE_HEIGHT /* +1 because of the title. */
 				- 2 * DESCRIPTION_BOX_PADDING;
 
+		if (pProjection.getOrientation() != 0) {
+			c.save();
+			c.rotate(-pProjection.getOrientation(), mFocusedScreenCoords.x, mFocusedScreenCoords.y);
+		}
+
 		/* Twice draw a RoundRect, once in black with 1px as a small border. */
 		this.mMarkerBackgroundPaint.setColor(Color.BLACK);
 		c.drawRoundRect(new RectF(descBoxLeft - 1, descBoxTop - 1, descBoxRight + 1,
@@ -355,7 +368,14 @@ public class ItemizedOverlayWithFocus<Item extends OverlayItem> extends Itemized
 		/*
 		 * Finally draw the marker base. This is done in the end to make it look better.
 		 */
-		Overlay.drawAt(c, markerFocusedBase, mFocusedScreenCoords.x, mFocusedScreenCoords.y, false, osmv.getMapOrientation());
+		markerFocusedBase.setBounds(mRect);
+        markerFocusedBase.draw(c);
+        mRect.offset(-mFocusedScreenCoords.x, -mFocusedScreenCoords.y);
+        markerFocusedBase.setBounds(mRect);
+
+		if (pProjection.getOrientation() != 0) {
+			c.restore();
+		}
 	}
 
 	@Override

@@ -25,7 +25,7 @@ public class ExtraSamplesActivity extends AppCompatActivity {
         MainActivity.updateStoragePrefreneces(this);    //needed for unit tests
         setContentView(R.layout.activity_extra_samples);
 
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        Toolbar myToolbar = findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
 
         FragmentManager fm = this.getSupportFragmentManager();

@@ -47,15 +47,11 @@ public class IconOverlay extends Overlay {
      * Draw the icon.
      */
     @Override
-    public void draw(Canvas canvas, MapView mapView, boolean shadow) {
-        if (shadow)
-            return;
+    public void draw(Canvas canvas, Projection pj) {
         if (mIcon == null)
             return;
         if (mPosition == null)
             return;
-
-        final Projection pj = mapView.getProjection();
 
         pj.toPixels(mPosition, mPositionPixels);
         int width = mIcon.getIntrinsicWidth();
@@ -66,7 +62,7 @@ public class IconOverlay extends Overlay {
 
         mIcon.setAlpha((int) (mAlpha * 255));
 
-        float rotationOnScreen = (mFlat ? -mBearing : mapView.getMapOrientation()-mBearing);
+        float rotationOnScreen = (mFlat ? -mBearing : pj.getOrientation()-mBearing);
         drawAt(canvas, mIcon, mPositionPixels.x, mPositionPixels.y, false, rotationOnScreen);
     }
 

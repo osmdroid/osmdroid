@@ -115,82 +115,82 @@ public class ModifierPicker implements View.OnClickListener, TextWatcher {
 
         View view = View.inflate(activity, R.layout.milstd2525modifiers, null);
 
-        milstd_modifier_apply = (Button) view.findViewById(R.id.milstd_modifier_apply );
+        milstd_modifier_apply = view.findViewById(R.id.milstd_modifier_apply );
         milstd_modifier_apply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 applyModifiers();
             }
         });
-        milstd_search_affil_f = (RadioButton) view.findViewById(R.id.milstd_search_affil_f);
-        milstd_search_affil_h = (RadioButton) view.findViewById(R.id.milstd_search_affil_h);
-        milstd_search_affil_n = (RadioButton) view.findViewById(R.id.milstd_search_affil_n);
-        milstd_search_affil_u = (RadioButton) view.findViewById(R.id.milstd_search_affil_u);
+        milstd_search_affil_f = view.findViewById(R.id.milstd_search_affil_f);
+        milstd_search_affil_h = view.findViewById(R.id.milstd_search_affil_h);
+        milstd_search_affil_n = view.findViewById(R.id.milstd_search_affil_n);
+        milstd_search_affil_u = view.findViewById(R.id.milstd_search_affil_u);
 
-        COUNTRY_CODE_edit = (EditText) view.findViewById(R.id.COUNTRY_edit);
-        AM_DISTANCE_edit = (EditText) view.findViewById(R.id.AM_DISTANCE_edit);
-        AN_AZIMUTH_edit = (EditText) view.findViewById(R.id.AN_AZIMUTH_edit);
-        ANGLE_edit = (EditText) view.findViewById(R.id.ANGLE_edit);
-        C_QUANTITY_edit = (EditText) view.findViewById(R.id.C_QUANTITY_edit);
-        H_ADDITIONAL_INFO_1_edit = (EditText) view.findViewById(R.id.H_ADDITIONAL_INFO_1_edit);
-        H1_ADDITIONAL_INFO_2_edit = (EditText) view.findViewById(R.id.H1_ADDITIONAL_INFO_2_edit);
-        H2_ADDITIONAL_INFO_3_edit = (EditText) view.findViewById(R.id.H2_ADDITIONAL_INFO_3_edit);
-        LENGTH_edit = (EditText) view.findViewById(R.id.LENGTH_edit);
-        N_HOSTILE_edit = (EditText) view.findViewById(R.id.N_HOSTILE_edit);
-        RADIUS_edit = (EditText) view.findViewById(R.id.RADIUS_edit);
-        Q_DIRECTION_OF_MOVEMENT_edit = (EditText) view.findViewById(R.id.Q_DIRECTION_OF_MOVEMENT_edit);
-        S_OFFSET_INDICATOR_edit = (EditText) view.findViewById(R.id.S_OFFSET_INDICATOR_edit);
-        V_EQUIP_TYPE_edit = (EditText) view.findViewById(R.id.V_EQUIP_TYPE_edit);
-        W1_DTG_2_edit = (EditText) view.findViewById(R.id.W1_DTG_2_edit);
-        W_DTG_1_edit = (EditText) view.findViewById(R.id.W_DTG_1_edit);
-        T1_UNIQUE_DESIGNATION_2_edit = (EditText) view.findViewById(R.id.T1_UNIQUE_DESIGNATION_2_edit);
-        T_UNIQUE_DESIGNATION_1_edit = (EditText) view.findViewById(R.id.T_UNIQUE_DESIGNATION_1_edit);
-
-
-        D_TASK_FORCE_INDICATOR_edit = (EditText) view.findViewById(R.id.D_TASK_FORCE_INDICATOR_edit);
-        E_FRAME_SHAPE_MODIFIER_edit = (EditText) view.findViewById(R.id.E_FRAME_SHAPE_MODIFIER_edit);
-        F_REINFORCED_REDUCED_edit = (EditText) view.findViewById(R.id.F_REINFORCED_REDUCED_edit);
-        G_STAFF_COMMENTS_edit = (EditText) view.findViewById(R.id.G_STAFF_COMMENTS_edit);
-        J_EVALUATION_RATING_edit = (EditText) view.findViewById(R.id.J_EVALUATION_RATING_edit);
-        K_COMBAT_EFFECTIVENESS_edit = (EditText) view.findViewById(R.id.K_COMBAT_EFFECTIVENESS_edit);
-        L_SIGNATURE_EQUIP_edit = (EditText) view.findViewById(R.id.L_SIGNATURE_EQUIP_edit);
+        COUNTRY_CODE_edit = view.findViewById(R.id.COUNTRY_edit);
+        AM_DISTANCE_edit = view.findViewById(R.id.AM_DISTANCE_edit);
+        AN_AZIMUTH_edit = view.findViewById(R.id.AN_AZIMUTH_edit);
+        ANGLE_edit = view.findViewById(R.id.ANGLE_edit);
+        C_QUANTITY_edit = view.findViewById(R.id.C_QUANTITY_edit);
+        H_ADDITIONAL_INFO_1_edit = view.findViewById(R.id.H_ADDITIONAL_INFO_1_edit);
+        H1_ADDITIONAL_INFO_2_edit = view.findViewById(R.id.H1_ADDITIONAL_INFO_2_edit);
+        H2_ADDITIONAL_INFO_3_edit = view.findViewById(R.id.H2_ADDITIONAL_INFO_3_edit);
+        LENGTH_edit = view.findViewById(R.id.LENGTH_edit);
+        N_HOSTILE_edit = view.findViewById(R.id.N_HOSTILE_edit);
+        RADIUS_edit = view.findViewById(R.id.RADIUS_edit);
+        Q_DIRECTION_OF_MOVEMENT_edit = view.findViewById(R.id.Q_DIRECTION_OF_MOVEMENT_edit);
+        S_OFFSET_INDICATOR_edit = view.findViewById(R.id.S_OFFSET_INDICATOR_edit);
+        V_EQUIP_TYPE_edit = view.findViewById(R.id.V_EQUIP_TYPE_edit);
+        W1_DTG_2_edit = view.findViewById(R.id.W1_DTG_2_edit);
+        W_DTG_1_edit = view.findViewById(R.id.W_DTG_1_edit);
+        T1_UNIQUE_DESIGNATION_2_edit = view.findViewById(R.id.T1_UNIQUE_DESIGNATION_2_edit);
+        T_UNIQUE_DESIGNATION_1_edit = view.findViewById(R.id.T_UNIQUE_DESIGNATION_1_edit);
 
 
-        M_HIGHER_FORMATION_edit = (EditText) view.findViewById(R.id.M_HIGHER_FORMATION_edit);
-        N_HOSTILE_edit = (EditText) view.findViewById(R.id.N_HOSTILE_edit);
-        P_IFF_SIF_edit = (EditText) view.findViewById(R.id.P_IFF_SIF_edit);
-        Q_DIRECTION_OF_MOVEMENT_edit = (EditText) view.findViewById(R.id.Q_DIRECTION_OF_MOVEMENT_edit);
-        R2_SIGNIT_MOBILITY_INDICATOR_edit = (EditText) view.findViewById(R.id.R2_SIGNIT_MOBILITY_INDICATOR_edit);
-        T1_UNIQUE_DESIGNATION_2_edit = (EditText) view.findViewById(R.id.T1_UNIQUE_DESIGNATION_2_edit);
-        T_UNIQUE_DESIGNATION_1_edit = (EditText) view.findViewById(R.id.T_UNIQUE_DESIGNATION_1_edit);
-        V_EQUIP_TYPE_edit = (EditText) view.findViewById(R.id.V_EQUIP_TYPE_edit);
-        X_ALTITUDE_DEPTH_edit = (EditText) view.findViewById(R.id.X_ALTITUDE_DEPTH_edit);
-        Z_SPEED_edit = (EditText) view.findViewById(R.id.Z_SPEED_edit);
-        AA_SPECIAL_C2_HQ_edit = (EditText) view.findViewById(R.id.AA_SPECIAL_C2_HQ_edit);
-        AB_FEINT_DUMMY_INDICATOR_edit = (EditText) view.findViewById(R.id.AB_FEINT_DUMMY_INDICATOR_edit);
-        AC_INSTALLATION_edit = (EditText) view.findViewById(R.id.AC_INSTALLATION_edit);
-        AD_PLATFORM_TYPE_edit = (EditText) view.findViewById(R.id.AD_PLATFORM_TYPE_edit);
-        AE_EQUIPMENT_TEARDOWN_TIME_edit = (EditText) view.findViewById(R.id.AE_EQUIPMENT_TEARDOWN_TIME_edit);
-        AF_COMMON_IDENTIFIER_edit = (EditText) view.findViewById(R.id.AF_COMMON_IDENTIFIER_edit);
-        AG_AUX_EQUIP_INDICATOR_edit = (EditText) view.findViewById(R.id.AG_AUX_EQUIP_INDICATOR_edit);
-        AH_AREA_OF_UNCERTAINTY_edit = (EditText) view.findViewById(R.id.AH_AREA_OF_UNCERTAINTY_edit);
-        AI_DEAD_RECKONING_TRAILER_edit = (EditText) view.findViewById(R.id.AI_DEAD_RECKONING_TRAILER_edit);
-        AJ_SPEED_LEADER_edit = (EditText) view.findViewById(R.id.AJ_SPEED_LEADER_edit);
-        AK_PAIRING_LINE_edit = (EditText) view.findViewById(R.id.AK_PAIRING_LINE_edit);
-        AL_OPERATIONAL_CONDITION_edit = (EditText) view.findViewById(R.id.AL_OPERATIONAL_CONDITION_edit);
-        AO_ENGAGEMENT_BAR_edit = (EditText) view.findViewById(R.id.AO_ENGAGEMENT_BAR_edit);
+        D_TASK_FORCE_INDICATOR_edit = view.findViewById(R.id.D_TASK_FORCE_INDICATOR_edit);
+        E_FRAME_SHAPE_MODIFIER_edit = view.findViewById(R.id.E_FRAME_SHAPE_MODIFIER_edit);
+        F_REINFORCED_REDUCED_edit = view.findViewById(R.id.F_REINFORCED_REDUCED_edit);
+        G_STAFF_COMMENTS_edit = view.findViewById(R.id.G_STAFF_COMMENTS_edit);
+        J_EVALUATION_RATING_edit = view.findViewById(R.id.J_EVALUATION_RATING_edit);
+        K_COMBAT_EFFECTIVENESS_edit = view.findViewById(R.id.K_COMBAT_EFFECTIVENESS_edit);
+        L_SIGNATURE_EQUIP_edit = view.findViewById(R.id.L_SIGNATURE_EQUIP_edit);
 
 
-        SCC_SONAR_CLASSIFICATION_CONFIDENCE_edit = (EditText) view.findViewById(R.id.SCC_SONAR_CLASSIFICATION_CONFIDENCE_edit);
+        M_HIGHER_FORMATION_edit = view.findViewById(R.id.M_HIGHER_FORMATION_edit);
+        N_HOSTILE_edit = view.findViewById(R.id.N_HOSTILE_edit);
+        P_IFF_SIF_edit = view.findViewById(R.id.P_IFF_SIF_edit);
+        Q_DIRECTION_OF_MOVEMENT_edit = view.findViewById(R.id.Q_DIRECTION_OF_MOVEMENT_edit);
+        R2_SIGNIT_MOBILITY_INDICATOR_edit = view.findViewById(R.id.R2_SIGNIT_MOBILITY_INDICATOR_edit);
+        T1_UNIQUE_DESIGNATION_2_edit = view.findViewById(R.id.T1_UNIQUE_DESIGNATION_2_edit);
+        T_UNIQUE_DESIGNATION_1_edit = view.findViewById(R.id.T_UNIQUE_DESIGNATION_1_edit);
+        V_EQUIP_TYPE_edit = view.findViewById(R.id.V_EQUIP_TYPE_edit);
+        X_ALTITUDE_DEPTH_edit = view.findViewById(R.id.X_ALTITUDE_DEPTH_edit);
+        Z_SPEED_edit = view.findViewById(R.id.Z_SPEED_edit);
+        AA_SPECIAL_C2_HQ_edit = view.findViewById(R.id.AA_SPECIAL_C2_HQ_edit);
+        AB_FEINT_DUMMY_INDICATOR_edit = view.findViewById(R.id.AB_FEINT_DUMMY_INDICATOR_edit);
+        AC_INSTALLATION_edit = view.findViewById(R.id.AC_INSTALLATION_edit);
+        AD_PLATFORM_TYPE_edit = view.findViewById(R.id.AD_PLATFORM_TYPE_edit);
+        AE_EQUIPMENT_TEARDOWN_TIME_edit = view.findViewById(R.id.AE_EQUIPMENT_TEARDOWN_TIME_edit);
+        AF_COMMON_IDENTIFIER_edit = view.findViewById(R.id.AF_COMMON_IDENTIFIER_edit);
+        AG_AUX_EQUIP_INDICATOR_edit = view.findViewById(R.id.AG_AUX_EQUIP_INDICATOR_edit);
+        AH_AREA_OF_UNCERTAINTY_edit = view.findViewById(R.id.AH_AREA_OF_UNCERTAINTY_edit);
+        AI_DEAD_RECKONING_TRAILER_edit = view.findViewById(R.id.AI_DEAD_RECKONING_TRAILER_edit);
+        AJ_SPEED_LEADER_edit = view.findViewById(R.id.AJ_SPEED_LEADER_edit);
+        AK_PAIRING_LINE_edit = view.findViewById(R.id.AK_PAIRING_LINE_edit);
+        AL_OPERATIONAL_CONDITION_edit = view.findViewById(R.id.AL_OPERATIONAL_CONDITION_edit);
+        AO_ENGAGEMENT_BAR_edit = view.findViewById(R.id.AO_ENGAGEMENT_BAR_edit);
 
 
-        CN_CPOF_NAME_LABEL_edit = (EditText) view.findViewById(R.id.CN_CPOF_NAME_LABEL_edit);
+        SCC_SONAR_CLASSIFICATION_CONFIDENCE_edit = view.findViewById(R.id.SCC_SONAR_CLASSIFICATION_CONFIDENCE_edit);
+
+
+        CN_CPOF_NAME_LABEL_edit = view.findViewById(R.id.CN_CPOF_NAME_LABEL_edit);
         //TODO set spinner adapters for echelons
 
-        echelon1 = (Spinner) view.findViewById(R.id.echelon1);
+        echelon1 = view.findViewById(R.id.echelon1);
         echelon1.setAdapter(new ArrayAdapter<SimpleSymbol.Echelon1>(activity, android.R.layout.simple_spinner_item, SimpleSymbol.Echelon1.values()));
 
-        echelon2 = (Spinner) view.findViewById(R.id.echelon2);
+        echelon2 = view.findViewById(R.id.echelon2);
         echelon2.setAdapter(new ArrayAdapter<SimpleSymbol.Echelon2>(activity, android.R.layout.simple_spinner_item, SimpleSymbol.Echelon2.values()));
         String baseCode = symbol.getBasicSymbolId();
 

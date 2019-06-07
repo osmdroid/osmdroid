@@ -43,7 +43,7 @@ public class DiagnosticsActivity extends Activity implements View.OnClickListene
         findViewById(R.id.diag_gps).setOnClickListener(this);
         findViewById(R.id.diag_permissions).setOnClickListener(this);
         findViewById(R.id.diag_storage).setOnClickListener(this);
-        output = (TextView) findViewById(R.id.diag_output);
+        output = findViewById(R.id.diag_output);
     }
 
     @Override

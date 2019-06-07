@@ -31,9 +31,6 @@ package org.osmdroid.gpkg.overlay.features;
 
 import android.graphics.drawable.Drawable;
 
-import org.osmdroid.api.IGeoPoint;
-import org.osmdroid.util.GeoPoint;
-
 /**
  * created on 8/19/2017.
  *

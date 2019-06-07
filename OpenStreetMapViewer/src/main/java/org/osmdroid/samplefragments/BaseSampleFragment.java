@@ -1,7 +1,6 @@
 package org.osmdroid.samplefragments;
 
 import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.DisplayMetrics;
@@ -44,35 +43,30 @@ public abstract class BaseSampleFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mMapView = new MapView(inflater.getContext());
-        if (Build.VERSION.SDK_INT >= 12) {
-            mMapView.setOnGenericMotionListener(new View.OnGenericMotionListener() {
-                /**
-                 * mouse wheel zooming ftw
-                 * http://stackoverflow.com/questions/11024809/how-can-my-view-respond-to-a-mousewheel
-                 * @param v
-                 * @param event
-                 * @return
-                 */
-                @Override
-                public boolean onGenericMotion(View v, MotionEvent event) {
-                    if (Build.VERSION.SDK_INT < 12) {
-                        return false;
+        mMapView.setOnGenericMotionListener(new View.OnGenericMotionListener() {
+            /**
+             * mouse wheel zooming ftw
+             * http://stackoverflow.com/questions/11024809/how-can-my-view-respond-to-a-mousewheel
+             * @param v
+             * @param event
+             * @return
+             */
+            @Override
+            public boolean onGenericMotion(View v, MotionEvent event) {
+                if (0 != (event.getSource() & InputDevice.SOURCE_CLASS_POINTER)) {
+                    switch (event.getAction()) {
+                        case MotionEvent.ACTION_SCROLL:
+                            if (event.getAxisValue(MotionEvent.AXIS_VSCROLL) < 0.0f)
+                                mMapView.getController().zoomOut();
+                            else {
+                                mMapView.getController().zoomIn();
+                            }
+                            return true;
                     }
-                    if (0 != (event.getSource() & InputDevice.SOURCE_CLASS_POINTER)) {
-                        switch (event.getAction()) {
-                            case MotionEvent.ACTION_SCROLL:
-                                if (event.getAxisValue(MotionEvent.AXIS_VSCROLL) < 0.0f)
-                                    mMapView.getController().zoomOut();
-                                else {
-                                    mMapView.getController().zoomIn();
-                                }
-                                return true;
-                        }
-                    }
-                    return false;
                 }
-            });
-        }
+                return false;
+            }
+        });
         Log.d(TAG, "onCreateView");
         return mMapView;
     }
@@ -107,13 +101,8 @@ public abstract class BaseSampleFragment extends Fragment {
 
             CopyrightOverlay copyrightOverlay = new CopyrightOverlay(getActivity());
             copyrightOverlay.setTextSize(10);
-            //i hate this very much, but it seems as if certain versions of android and/or
-            //device types handle screen offsets differently
-            if (Build.VERSION.SDK_INT <= 10)
-                copyrightOverlay.setOffset(0, (int) (55 * dm.density));
 
-			mMapView.getOverlays().add(copyrightOverlay);
-			mMapView.setBuiltInZoomControls(true);
+            mMapView.getOverlays().add(copyrightOverlay);
 			mMapView.setMultiTouchControls(true);
 			mMapView.setTilesScaledToDpi(true);
 		}
@@ -225,7 +214,7 @@ public abstract class BaseSampleFragment extends Fragment {
         } else if (item.getItemId() == MENU_ROTATE_COUNTER_CLOCKWISE){
             float currentRotation = mMapView.getMapOrientation() - 10;
             if (currentRotation < 0)
-                currentRotation = 360-currentRotation;
+                currentRotation = currentRotation + 360;
             mMapView.setMapOrientation(currentRotation, true);
             return true;
         } else if (mMapView.getOverlayManager().onOptionsItemSelected(item, MENU_LAST_ID, mMapView)) {

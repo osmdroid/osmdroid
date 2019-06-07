@@ -13,24 +13,24 @@ public interface OpenStreetMapConstants {
 	// Final Fields
 	// ===========================================================
 
-	public static final String PREFS_NAME = "org.andnav.osm.prefs";
-	public static final String PREFS_TILE_SOURCE = "tilesource";
+	String PREFS_NAME = "org.andnav.osm.prefs";
+	String PREFS_TILE_SOURCE = "tilesource";
 	@Deprecated
-	public static final String PREFS_SCROLL_X = "scrollX";
+	String PREFS_SCROLL_X = "scrollX";
 	@Deprecated
-	public static final String PREFS_SCROLL_Y = "scrollY";
+	String PREFS_SCROLL_Y = "scrollY";
 	/**
 	 * as String because we cannot use double in Preferences, only float
 	 * and float is not accurate enough
 	 */
-	public static final String PREFS_LATITUDE_STRING = "latitudeString";
-	public static final String PREFS_LONGITUDE_STRING = "longitudeString";
-	public static final String PREFS_ORIENTATION = "orientation";
+	String PREFS_LATITUDE_STRING = "latitudeString";
+	String PREFS_LONGITUDE_STRING = "longitudeString";
+	String PREFS_ORIENTATION = "orientation";
 	@Deprecated
-	public static final String PREFS_ZOOM_LEVEL = "zoomLevel";
-	public static final String PREFS_ZOOM_LEVEL_DOUBLE = "zoomLevelDouble";
-	public static final String PREFS_SHOW_LOCATION = "showLocation";
-	public static final String PREFS_SHOW_COMPASS = "showCompass";
+	String PREFS_ZOOM_LEVEL = "zoomLevel";
+	String PREFS_ZOOM_LEVEL_DOUBLE = "zoomLevelDouble";
+	String PREFS_SHOW_LOCATION = "showLocation";
+	String PREFS_SHOW_COMPASS = "showCompass";
 
 	// ===========================================================
 	// Methods

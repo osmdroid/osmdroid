@@ -21,7 +21,7 @@ import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.TileSystem;
 import org.osmdroid.views.MapView.OnFirstLayoutListener;
-import org.osmdroid.views.util.MyMath;
+import org.osmdroid.util.MyMath;
 
 import java.util.LinkedList;
 
@@ -134,9 +134,17 @@ public class MapController implements IMapController, OnFirstLayoutListener {
      */
     @Override
     public void animateTo(final IGeoPoint point, final Double pZoom, final Long pSpeed, final Float pOrientation) {
+        animateTo(point, pZoom, pSpeed, pOrientation, null);
+    }
+
+    /**
+     * @since 6.1.0
+     */
+    @Override
+    public void animateTo(final IGeoPoint point, final Double pZoom, final Long pSpeed, final Float pOrientation, final Boolean pClockwise) {
         // If no layout, delay this call
         if (!mMapView.isLayoutOccurred()) {
-            mReplayController.animateTo(point, pZoom, pSpeed);
+            mReplayController.animateTo(point, pZoom, pSpeed, pOrientation, pClockwise);
             return;
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
@@ -145,7 +153,7 @@ public class MapController implements IMapController, OnFirstLayoutListener {
                     new MapAnimatorListener(this,
                             mMapView.getZoomLevelDouble(), pZoom,
                             currentCenter, point,
-                            mMapView.getMapOrientation(), pOrientation);
+                            mMapView.getMapOrientation(), pOrientation, pClockwise);
             final ValueAnimator mapAnimator = ValueAnimator.ofFloat(0, 1);
             mapAnimator.addListener(mapAnimatorListener);
             mapAnimator.addUpdateListener(mapAnimatorListener);
@@ -155,6 +163,9 @@ public class MapController implements IMapController, OnFirstLayoutListener {
                 mapAnimator.setDuration(pSpeed);
             }
 
+            if (mCurrentAnimator != null) {
+                mCurrentAnimator.end();
+            }
             mCurrentAnimator = mapAnimator;
             mapAnimator.start();
             return;
@@ -238,13 +249,15 @@ public class MapController implements IMapController, OnFirstLayoutListener {
                 stopPanning();
         }
 
-        // We ignore the jumpToTarget for zoom levels since it doesn't make sense to stop
-        // the animation in the middle. Maybe we could have it cancel the zoom operation and jump
-        // back to original zoom level?
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             final Animator currentAnimator = this.mCurrentAnimator;
             if (mMapView.mIsAnimating.get()) {
-                currentAnimator.end();
+                if (jumpToTarget) {
+                    currentAnimator.end();
+                }
+                else {
+                    currentAnimator.cancel();
+                }
             }
         } else {
             if (mMapView.mIsAnimating.get()) {
@@ -379,7 +392,7 @@ public class MapController implements IMapController, OnFirstLayoutListener {
             final MapAnimatorListener zoomAnimatorListener = new MapAnimatorListener(this,
                     currentZoomLevel, zoomLevel,
                     null, null,
-                    null, null);
+                    null, null, null);
             final ValueAnimator zoomToAnimator = ValueAnimator.ofFloat(0, 1);
             zoomToAnimator.addListener(zoomAnimatorListener);
             zoomToAnimator.addUpdateListener(zoomAnimatorListener);
@@ -457,19 +470,25 @@ public class MapController implements IMapController, OnFirstLayoutListener {
         private final IGeoPoint mCenterStart;
         private final IGeoPoint mCenterEnd;
         private final Float mOrientationStart;
-        private final Float mOrientationEnd;
+        private final Float mOrientationSpan;
 
         public MapAnimatorListener(final MapController pMapController,
                                    final Double pZoomStart, final Double pZoomEnd,
                                    final IGeoPoint pCenterStart, final IGeoPoint pCenterEnd,
-                                   final Float pOrientationStart, final Float pOrientationEnd) {
+                                   final Float pOrientationStart, final Float pOrientationEnd,
+                                   final Boolean pClockwise) {
             mMapController = pMapController;
             mZoomStart = pZoomStart;
             mZoomEnd = pZoomEnd;
             mCenterStart = pCenterStart;
             mCenterEnd = pCenterEnd;
-            mOrientationStart = pOrientationStart;
-            mOrientationEnd = pOrientationEnd;
+            if (pOrientationEnd == null) {
+                mOrientationStart = null;
+                mOrientationSpan = null;
+            } else {
+                mOrientationStart = pOrientationStart;
+                mOrientationSpan = (float)org.osmdroid.util.MyMath.getAngleDifference(mOrientationStart, pOrientationEnd, pClockwise);
+            }
         }
 
         @Override
@@ -484,7 +503,7 @@ public class MapController implements IMapController, OnFirstLayoutListener {
 
         @Override
         public void onAnimationCancel(Animator animator) {
-            //noOp
+            mMapController.onAnimationEnd();
         }
 
         @Override
@@ -500,10 +519,10 @@ public class MapController implements IMapController, OnFirstLayoutListener {
                 //map events listeners are triggered by this call
                 mMapController.mMapView.setZoomLevel(zoom);
             }
-            if (mOrientationEnd != null) {
-                final double orientation = mOrientationStart + (mOrientationEnd - mOrientationStart) * value;
+            if (mOrientationSpan != null) {
+                final float orientation = mOrientationStart + mOrientationSpan * value;
                 //map events listeners are triggered by this call
-                mMapController.mMapView.setMapOrientation((float)orientation);
+                mMapController.mMapView.setMapOrientation(orientation);
             }
             if (mCenterEnd != null) {
                 final TileSystem tileSystem = mMapController.mMapView.getTileSystem();
@@ -553,8 +572,10 @@ public class MapController implements IMapController, OnFirstLayoutListener {
     private class ReplayController {
         private LinkedList<ReplayClass> mReplayList = new LinkedList<ReplayClass>();
 
-        public void animateTo(IGeoPoint geoPoint, Double pZoom, Long pSpeed) {
-            mReplayList.add(new ReplayClass(ReplayType.AnimateToGeoPoint, null, geoPoint, pZoom, pSpeed));
+        public void animateTo(IGeoPoint geoPoint,
+                              Double pZoom, Long pSpeed, Float pOrientation, Boolean pClockwise) {
+            mReplayList.add(new ReplayClass(ReplayType.AnimateToGeoPoint, null, geoPoint,
+                    pZoom, pSpeed, pOrientation, pClockwise));
         }
 
         public void animateTo(int x, int y) {
@@ -579,7 +600,7 @@ public class MapController implements IMapController, OnFirstLayoutListener {
                 switch (replay.mReplayType) {
                     case AnimateToGeoPoint:
                         if (replay.mGeoPoint != null)
-                            MapController.this.animateTo(replay.mGeoPoint, replay.mZoom, replay.mSpeed);
+                            MapController.this.animateTo(replay.mGeoPoint, replay.mZoom, replay.mSpeed, replay.mOrientation, replay.mClockwise);
                         break;
                     case AnimateToPoint:
                         if (replay.mPoint != null)
@@ -604,20 +625,25 @@ public class MapController implements IMapController, OnFirstLayoutListener {
             private IGeoPoint mGeoPoint;
             private final Long mSpeed;
             private final Double mZoom;
+            private final Float mOrientation;
+            private final Boolean mClockwise;
 
             public ReplayClass(ReplayType mReplayType, Point mPoint, IGeoPoint mGeoPoint) {
-                this(mReplayType, mPoint, mGeoPoint, null, null);
+                this(mReplayType, mPoint, mGeoPoint, null, null, null, null);
             }
 
             /**
              * @since 6.0.2
              */
-            public ReplayClass(ReplayType pReplayType, Point pPoint, IGeoPoint pGeoPoint, Double pZoom, Long pSpeed) {
+            public ReplayClass(ReplayType pReplayType, Point pPoint, IGeoPoint pGeoPoint,
+                               Double pZoom, Long pSpeed, Float pOrientation, Boolean pClockwise) {
                 mReplayType = pReplayType;
                 mPoint = pPoint;
                 mGeoPoint = pGeoPoint;
                 mSpeed = pSpeed;
                 mZoom = pZoom;
+                mOrientation = pOrientation;
+                mClockwise = pClockwise;
             }
         }
     }

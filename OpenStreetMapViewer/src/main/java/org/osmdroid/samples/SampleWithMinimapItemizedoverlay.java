@@ -87,7 +87,7 @@ public class SampleWithMinimapItemizedoverlay extends Activity {
 									SampleWithMinimapItemizedoverlay.this,
 									"Item '" + item.getTitle() + "' (index=" + index
 											+ ") got long pressed", Toast.LENGTH_LONG).show();
-							return false;
+							return true;
 						}
 					}, getApplicationContext());
 			this.mMapView.getOverlays().add(this.mMyLocationOverlay);
@@ -134,7 +134,7 @@ public class SampleWithMinimapItemizedoverlay extends Activity {
 
 		// Default location and zoom level
 		IMapController mapController = mMapView.getController();
-		mapController.setZoom(5);
+		mapController.setZoom(5.);
 		GeoPoint startPoint = new GeoPoint(50.936255, 6.957779);
 		mapController.setCenter(startPoint);
 	}

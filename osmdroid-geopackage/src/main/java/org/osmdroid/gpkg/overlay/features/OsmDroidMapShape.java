@@ -31,15 +31,8 @@
 package org.osmdroid.gpkg.overlay.features;
 
 
-import org.osmdroid.util.GeoPoint;
-import org.osmdroid.views.overlay.Marker;
-import org.osmdroid.views.overlay.Polygon;
-import org.osmdroid.views.overlay.Polyline;
-
 import java.util.List;
 
-import mil.nga.geopackage.BoundingBox;
-import mil.nga.geopackage.projection.ProjectionConstants;
 import mil.nga.wkb.geom.GeometryType;
 
 /**

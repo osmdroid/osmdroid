@@ -69,6 +69,11 @@ public class MapTileCache {
 	 */
 	private boolean mAutoEnsureCapacity;
 
+	/**
+	 * @since 6.0.4
+	 */
+	private boolean mStressedMemory;
+
 	// ===========================================================
 	// Constructors
 	// ===========================================================
@@ -111,6 +116,19 @@ public class MapTileCache {
 		mAutoEnsureCapacity = pAutoEnsureCapacity;
 	}
 
+	/**
+	 * @since 6.0.4
+	 * When true, all the tiles in the cache that eventually don't belong here are removed asap.
+	 * When false, we will still remove tiles that do not belong in the cache anymore,
+	 * but not necessarily all of them: only the amount we need in order to fit the cache size.
+	 * Should be set to true when you have small memory and big tiles in order to
+	 * avoid OutOfMemoryException.
+	 * Should be set to false for better performances.
+	 */
+	public void setStressedMemory(final boolean pStressedMemory) {
+		mStressedMemory = pStressedMemory;
+	}
+
 	public boolean ensureCapacity(final int pCapacity) {
 		if (mCapacity < pCapacity) {
 			Log.i(IMapView.LOGTAG, "Tile cache increased from " + mCapacity + " to " + pCapacity);
@@ -139,20 +157,26 @@ public class MapTileCache {
 	 * @since 6.0.0
 	 */
 	public void garbageCollection() {
+		// number of tiles to remove from cache
+		int toBeRemoved = Integer.MAX_VALUE; // MAX_VALUE for stressed memory case
 		final int size = mCachedTiles.size();
-		int toBeRemoved = size - mCapacity;
-		if (toBeRemoved <= 0) {
-			return;
+		if (!mStressedMemory) {
+			toBeRemoved = size - mCapacity;
+			if (toBeRemoved <= 0) {
+				return;
+			}
 		}
 
 		refreshAdditionalLists();
 
 		if (mAutoEnsureCapacity) {
-			long target = mMapTileArea.size() + mAdditionalMapTileList.size();
-			if (ensureCapacity((int)target)) {
-				toBeRemoved = size - mCapacity;
-				if (toBeRemoved <= 0) {
-					return;
+			final int target = mMapTileArea.size() + mAdditionalMapTileList.size();
+			if (ensureCapacity(target)) {
+				if (!mStressedMemory) {
+					toBeRemoved = size - mCapacity;
+					if (toBeRemoved <= 0) {
+						return;
+					}
 				}
 			}
 		}
@@ -257,7 +281,7 @@ public class MapTileCache {
 	 * @since 6.0.0
 	 * Was in LRUMapTileCache
 	 */
-	public void remove(final long pMapTileIndex) {
+	protected void remove(final long pMapTileIndex) {
 		final Drawable drawable;
 		synchronized (mCachedTiles) {
 			drawable = mCachedTiles.remove(pMapTileIndex);

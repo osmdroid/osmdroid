@@ -6,8 +6,8 @@ package org.osmdroid.util;
  */
 public class TileSystemWebMercator extends TileSystem{
 
-    private static final double MinLatitude = -85.05112877980659;
-    private static final double MaxLatitude = 85.05112877980659;
+    private static final double MinLatitude = -85.05112877980658;
+    private static final double MaxLatitude = 85.05112877980658;
     private static final double MinLongitude = -180;
     private static final double MaxLongitude = 180;
 

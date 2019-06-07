@@ -15,7 +15,6 @@ import org.osmdroid.events.ScrollEvent;
 import org.osmdroid.events.ZoomEvent;
 import org.osmdroid.samplefragments.BaseSampleFragment;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
-import org.osmdroid.views.MapView;
 
 import java.text.DecimalFormat;
 
@@ -38,8 +37,8 @@ public class SampleMapEventListener extends BaseSampleFragment
 
         View root = inflater.inflate(R.layout.map_with_locationbox, container,false);
 
-        mMapView = (MapView) root.findViewById(R.id.mapview);
-        textViewCurrentLocation = (TextView) root.findViewById(R.id.textViewCurrentLocation);
+        mMapView = root.findViewById(R.id.mapview);
+        textViewCurrentLocation = root.findViewById(R.id.textViewCurrentLocation);
         return root;
     }
 

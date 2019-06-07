@@ -1,12 +1,10 @@
 // Created by plusminus on 00:23:14 - 03.10.2008
 package org.osmdroid;
 
-import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -84,51 +82,37 @@ public class StarterMapFragment extends Fragment implements OpenStreetMapConstan
         //Note! we are programmatically construction the map view
         //be sure to handle application lifecycle correct (see note in on pause)
         mMapView = new MapView(inflater.getContext());
-        // Call this method to turn off hardware acceleration at the View level but only if you run into problems ( please report them too!)
-        // setHardwareAccelerationOff();
-        //update, no longer needed, the mapView is hardware acceleration on by default now
+        mMapView.setDestroyMode(false);
 
-        if (Build.VERSION.SDK_INT >= 12) {
-            mMapView.setOnGenericMotionListener(new View.OnGenericMotionListener() {
-                /**
-                 * mouse wheel zooming ftw
-                 * http://stackoverflow.com/questions/11024809/how-can-my-view-respond-to-a-mousewheel
-                 * @param v
-                 * @param event
-                 * @return
-                 */
-                @Override
-                public boolean onGenericMotion(View v, MotionEvent event) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD
-                        && 0 != (event.getSource() & InputDevice.SOURCE_CLASS_POINTER)) {
-                        switch (event.getAction()) {
-                            case MotionEvent.ACTION_SCROLL:
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR1
-                                    && event.getAxisValue(MotionEvent.AXIS_VSCROLL) < 0.0f)
-                                    mMapView.getController().zoomOut();
-                                else {
-                                    //this part just centers the map on the current mouse location before the zoom action occurs
-                                    IGeoPoint iGeoPoint = mMapView.getProjection().fromPixels((int) event.getX(), (int) event.getY());
-                                    mMapView.getController().animateTo(iGeoPoint);
-                                    mMapView.getController().zoomIn();
-                                }
-                                return true;
-                        }
+        mMapView.setOnGenericMotionListener(new View.OnGenericMotionListener() {
+            /**
+             * mouse wheel zooming ftw
+             * http://stackoverflow.com/questions/11024809/how-can-my-view-respond-to-a-mousewheel
+             * @param v
+             * @param event
+             * @return
+             */
+            @Override
+            public boolean onGenericMotion(View v, MotionEvent event) {
+                if (0 != (event.getSource() & InputDevice.SOURCE_CLASS_POINTER)) {
+                    switch (event.getAction()) {
+                        case MotionEvent.ACTION_SCROLL:
+                            if (event.getAxisValue(MotionEvent.AXIS_VSCROLL) < 0.0f)
+                                mMapView.getController().zoomOut();
+                            else {
+                                //this part just centers the map on the current mouse location before the zoom action occurs
+                                IGeoPoint iGeoPoint = mMapView.getProjection().fromPixels((int) event.getX(), (int) event.getY());
+                                mMapView.getController().animateTo(iGeoPoint);
+                                mMapView.getController().zoomIn();
+                            }
+                            return true;
                     }
-                    return false;
                 }
-            });
-        }
+                return false;
+            }
+        });
         return mMapView;
     }
-
-     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-     private void setHardwareAccelerationOff() {
-          // Turn off hardware acceleration here, or in manifest
-          if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-               mMapView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-          }
-     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -136,7 +120,6 @@ public class StarterMapFragment extends Fragment implements OpenStreetMapConstan
 
         final Context context = this.getActivity();
         final DisplayMetrics dm = context.getResources().getDisplayMetrics();
-        // mResourceProxy = new ResourceProxyImpl(getActivity().getApplicationContext());
 
         mPrefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
 
@@ -161,22 +144,16 @@ public class StarterMapFragment extends Fragment implements OpenStreetMapConstan
         mCopyrightOverlay = new CopyrightOverlay(context);
         //i hate this very much, but it seems as if certain versions of android and/or
         //device types handle screen offsets differently
-        if (Build.VERSION.SDK_INT <= 10)
-            mCopyrightOverlay.setOffset(0, (int) (55 * dm.density));
         mMapView.getOverlays().add(this.mCopyrightOverlay);
 
 
 
 
         //On screen compass
-        //sorry for the spaghetti code this is to filter out the compass on api 8
-        //Note: the compass overlay causes issues on API 8 devices. See https://github.com/osmdroid/osmdroid/issues/218
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.FROYO) {
-            mCompassOverlay = new CompassOverlay(context, new InternalCompassOrientationProvider(context),
-                mMapView);
-            mCompassOverlay.enableCompass();
-            mMapView.getOverlays().add(this.mCompassOverlay);
-        }
+        mCompassOverlay = new CompassOverlay(context, new InternalCompassOrientationProvider(context),
+            mMapView);
+        mCompassOverlay.enableCompass();
+        mMapView.getOverlays().add(this.mCompassOverlay);
 
 
         //map scale
@@ -192,9 +169,6 @@ public class StarterMapFragment extends Fragment implements OpenStreetMapConstan
         mRotationGestureOverlay.setEnabled(true);
         mMapView.getOverlays().add(this.mRotationGestureOverlay);
 
-
-        //built in zoom controls
-        mMapView.setBuiltInZoomControls(true);
 
         //needed for pinch zooms
         mMapView.setMultiTouchControls(true);
@@ -242,7 +216,7 @@ public class StarterMapFragment extends Fragment implements OpenStreetMapConstan
             edit.putBoolean(PREFS_SHOW_COMPASS, mCompassOverlay.isCompassEnabled());
             this.mCompassOverlay.disableCompass();
         }
-        edit.commit();
+        edit.apply();
 
         mMapView.onPause();
         super.onPause();
@@ -344,3 +318,4 @@ public class StarterMapFragment extends Fragment implements OpenStreetMapConstan
     // return this.mMapView.onTrackballEvent(event);
     // }
 }
+

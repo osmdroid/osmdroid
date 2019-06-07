@@ -7,12 +7,18 @@ import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.PointL;
 import org.osmdroid.util.TileSystem;
 import org.osmdroid.views.Projection;
+import org.osmdroid.views.overlay.Polygon;
+import org.osmdroid.views.overlay.Polyline;
 
 import android.graphics.Path;
 import android.graphics.Point;
 import android.graphics.PointF;
 import android.graphics.Rect;
 
+/**
+ * @deprecated Use {@link Polyline} or {@link Polygon} instead
+ */
+@Deprecated
 public class PathProjection {
 
 	public static Path toPixels(Projection projection, final List<? extends GeoPoint> in,

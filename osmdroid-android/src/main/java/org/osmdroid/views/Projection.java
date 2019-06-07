@@ -100,6 +100,23 @@ public class Projection implements IProjection {
 	}
 
 	/**
+	 * @since 6.1.0
+	 */
+	public Projection(
+			final double pZoomLevel, final int pWidth, final int pHeight,
+			final GeoPoint pCenter,
+			final float pOrientation,
+			final boolean pHorizontalWrapEnabled, final boolean pVerticalWrapEnabled) {
+		this(
+				pZoomLevel, new Rect(0, 0, pWidth, pHeight),
+				pCenter,
+				0, 0,
+				pOrientation,
+				pHorizontalWrapEnabled, pVerticalWrapEnabled,
+				MapView.getTileSystem());
+	}
+
+	/**
 	 * @since 6.0.0
 	 */
 	public Projection getOffspring(final double pZoomLevel, final Rect pScreenRect) {
@@ -642,10 +659,24 @@ public class Projection implements IProjection {
 				(mIntrinsicScreenRectProjection.left + mIntrinsicScreenRectProjection.right) / 2,
 				(mIntrinsicScreenRectProjection.top + mIntrinsicScreenRectProjection.bottom) / 2,
 				mCurrentCenter);
-		final IGeoPoint neGeoPoint = fromPixels(
+		IGeoPoint neGeoPoint = fromPixels(
 				mIntrinsicScreenRectProjection.right, mIntrinsicScreenRectProjection.top, null, true);
-		final IGeoPoint swGeoPoint = fromPixels(
+		final TileSystem tileSystem = org.osmdroid.views.MapView.getTileSystem();
+		if (neGeoPoint.getLatitude() > tileSystem.getMaxLatitude()) {
+			neGeoPoint = new GeoPoint(tileSystem.getMaxLatitude(), neGeoPoint.getLongitude());
+		}
+		if (neGeoPoint.getLatitude() < tileSystem.getMinLatitude()) {
+			neGeoPoint = new GeoPoint(tileSystem.getMinLatitude(), neGeoPoint.getLongitude());
+		}
+		IGeoPoint swGeoPoint = fromPixels(
 				mIntrinsicScreenRectProjection.left, mIntrinsicScreenRectProjection.bottom, null, true);
+		if (swGeoPoint.getLatitude() > tileSystem.getMaxLatitude()) {
+			swGeoPoint = new GeoPoint(tileSystem.getMaxLatitude(), swGeoPoint.getLongitude());
+		}
+		if (swGeoPoint.getLatitude() < tileSystem.getMinLatitude()) {
+			swGeoPoint = new GeoPoint(tileSystem.getMinLatitude(), swGeoPoint.getLongitude());
+		}
+		
 		mBoundingBoxProjection.set(
 				neGeoPoint.getLatitude(), neGeoPoint.getLongitude(),
 				swGeoPoint.getLatitude(), swGeoPoint.getLongitude());
@@ -669,6 +700,9 @@ public class Projection implements IProjection {
 	 */
 	public void adjustOffsets(final IGeoPoint pGeoPoint, final PointF pPixel) {
 		if (pPixel == null) {
+			return;
+		}
+		if (pGeoPoint == null) {
 			return;
 		}
 		final Point unRotatedExpectedPixel = unrotateAndScalePoint((int)pPixel.x, (int)pPixel.y, null);
@@ -723,7 +757,7 @@ public class Projection implements IProjection {
 	/**
 	 * @since 6.0.0
 	 */
-	private void adjustOffsets(final long pDeltaX, final long pDeltaY) {
+	void adjustOffsets(final long pDeltaX, final long pDeltaY) {
 		if (pDeltaX == 0 && pDeltaY == 0) {
 			return;
 		}
@@ -779,5 +813,40 @@ public class Projection implements IProjection {
 		}
 		pMapView.setMapScroll(mScrollX, mScrollY);
 		return true;
+	}
+
+	/**
+	 * @since 6.1.0
+	 */
+	public boolean isHorizontalWrapEnabled() {
+		return horizontalWrapEnabled;
+	}
+
+	/**
+	 * @since 6.1.0
+	 */
+	public boolean isVerticalWrapEnabled() {
+		return verticalWrapEnabled;
+	}
+
+	/**
+	 * @since 6.1.0
+	 */
+	public float getOrientation() {
+		return mOrientation;
+	}
+
+	/**
+	 * @since 6.1.0
+	 */
+	public int getWidth() {
+		return mIntrinsicScreenRectProjection.width();
+	}
+
+	/**
+	 * @since 6.1.0
+	 */
+	public int getHeight() {
+		return mIntrinsicScreenRectProjection.height();
 	}
 }

@@ -122,45 +122,30 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends Overlay 
 	 * null, the default marker is used.<br>
 	 * <br>
 	 * The focused item is always drawn last, which puts it visually on top of the other items.<br>
-	 *
-	 * @param canvas
-	 *            the Canvas upon which to draw. Note that this may already have a transformation
-	 *            applied, so be sure to leave it the way you found it
-	 * @param mapView
-	 *            the MapView that requested the draw. Use MapView.getProjection() to convert
-	 *            between on-screen pixels and latitude/longitude pairs
-	 * @param shadow
-	 *            if true, draw the shadow layer. If false, draw the overlay contents.
 	 */
 	@Override
-    public void draw(Canvas canvas, MapView mapView, boolean shadow) {
+	public void draw(final Canvas canvas, final Projection pj) {
+		if (mPendingFocusChangedEvent && mOnFocusChangeListener != null)
+			mOnFocusChangeListener.onFocusChanged(this, mFocusedItem);
+		mPendingFocusChangedEvent = false;
 
-        if (shadow) {
-            return;
-        }
-
-        if (mPendingFocusChangedEvent && mOnFocusChangeListener != null)
-            mOnFocusChangeListener.onFocusChanged(this, mFocusedItem);
-        mPendingFocusChangedEvent = false;
-
-        final Projection pj = mapView.getProjection();
-        final int size = Math.min(this.mInternalItemList.size(), mDrawnItemsLimit);
+		final int size = Math.min(this.mInternalItemList.size(), mDrawnItemsLimit);
 
 		if (mInternalItemDisplayedList == null || mInternalItemDisplayedList.length != size) {
 			mInternalItemDisplayedList = new boolean[size];
 		}
 
 		/* Draw in backward cycle, so the items with the least index are on the front. */
-        for (int i = size - 1; i >= 0; i--) {
-            final Item item = getItem(i);
-            if (item == null) {
-                continue;
-            }
+		for (int i = size - 1; i >= 0; i--) {
+			final Item item = getItem(i);
+			if (item == null) {
+				continue;
+			}
 
             pj.toPixels(item.getPoint(), mCurScreenCoords);
-						calculateItemRect(item, mCurScreenCoords, itemRect);
+			calculateItemRect(item, mCurScreenCoords, itemRect);
 
-			mInternalItemDisplayedList[i] = onDrawItem(canvas,item, mCurScreenCoords, mapView);
+			mInternalItemDisplayedList[i] = onDrawItem(canvas,item, mCurScreenCoords, pj);
         }
     }
 
@@ -206,11 +191,11 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends Overlay 
 	 * @param item
 	 *            the item to be drawn
 	 * @param curScreenCoords
-	 * @param mapView
+	 * @param pProjection
 	 * @return true if the item was actually drawn
 	 */
 	protected boolean onDrawItem(final Canvas canvas, final Item item, final Point curScreenCoords,
-			final MapView mapView) {
+			final Projection pProjection) {
 
 		
 
@@ -227,16 +212,16 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends Overlay 
 
 		marker.copyBounds(mRect);
 		mRect.offset(x, y);
-		RectL.getBounds(mRect, x, y, mapView.getMapOrientation(), mOrientedMarkerRect);
+		RectL.getBounds(mRect, x, y, pProjection.getOrientation(), mOrientedMarkerRect);
 		final boolean displayed = Rect.intersects(mOrientedMarkerRect, canvas.getClipBounds());
 		if (displayed) {
-			if (mapView.getMapOrientation() != 0) { // optimization: step 1/2
+			if (pProjection.getOrientation() != 0) { // optimization: step 1/2
 				canvas.save();
-				canvas.rotate(-mapView.getMapOrientation(), x, y);
+				canvas.rotate(-pProjection.getOrientation(), x, y);
 			}
 			marker.setBounds(mRect);
 			marker.draw(canvas);
-			if (mapView.getMapOrientation() != 0) { // optimization: step 2/2
+			if (pProjection.getOrientation() != 0) { // optimization: step 2/2
 				canvas.restore();
 			}
 		}

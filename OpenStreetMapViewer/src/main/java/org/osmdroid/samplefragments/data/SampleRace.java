@@ -10,12 +10,11 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Rect;
-import android.os.Build;
 import android.os.Bundle;
 
 import org.osmdroid.samplefragments.BaseSampleFragment;
+import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
-import org.osmdroid.views.overlay.LineDrawer;
 import org.osmdroid.views.overlay.milestones.MilestoneBitmapDisplayer;
 import org.osmdroid.views.overlay.milestones.MilestoneDisplayer;
 import org.osmdroid.views.overlay.milestones.MilestoneLister;
@@ -23,7 +22,7 @@ import org.osmdroid.views.overlay.milestones.MilestoneManager;
 import org.osmdroid.views.overlay.milestones.MilestoneMeterDistanceLister;
 import org.osmdroid.views.overlay.milestones.MilestoneMeterDistanceSliceLister;
 import org.osmdroid.views.overlay.milestones.MilestonePathDisplayer;
-import org.osmdroid.views.overlay.milestones.MilestoneStep;
+import org.osmdroid.views.overlay.milestones.MilestoneLineDisplayer;
 import org.osmdroid.views.overlay.milestones.MilestoneVertexLister;
 import org.osmdroid.views.overlay.Polyline;
 
@@ -48,6 +47,11 @@ public class SampleRace extends BaseSampleFragment {
     private double mAnimatedMetersSoFar;
     private boolean mAnimationEnded;
 
+    /**
+     * @since 6.0.3
+     */
+    private final List<GeoPoint> mGeoPoints = getGeoPoints();
+
     @Override
     public String getSampleTitle() {
         return TITLE;
@@ -55,8 +59,13 @@ public class SampleRace extends BaseSampleFragment {
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-        mMapView.getController().setZoom(13.2);
-        mMapView.getController().setCenter(new GeoPoint(48.85792514768071,2.342640914879439));
+        mMapView.post(new Runnable() {
+            @Override
+            public void run() {
+                final BoundingBox boundingBox = BoundingBox.fromGeoPoints(mGeoPoints);
+                mMapView.zoomToBoundingBox(boundingBox, false, 30);
+            }
+        });
 
         super.onActivityCreated(savedInstanceState);
     }
@@ -68,7 +77,8 @@ public class SampleRace extends BaseSampleFragment {
         final Polyline line = new Polyline(mMapView);
         line.setColor(COLOR_POLYLINE_STATIC);
         line.setWidth(LINE_WIDTH_BIG);
-        line.setPoints(getGeoPoints());
+        line.setPoints(mGeoPoints);
+        line.getPaint().setStrokeCap(Paint.Cap.ROUND);
         final List<MilestoneManager> managers = new ArrayList<>();
         final MilestoneMeterDistanceSliceLister slicerForPath = new MilestoneMeterDistanceSliceLister();
         final Bitmap bitmap = BitmapFactory.decodeResource(getResources(), org.osmdroid.library.R.drawable.next);
@@ -80,27 +90,25 @@ public class SampleRace extends BaseSampleFragment {
         managers.add(getStartManager(bitmap));
         line.setMilestoneManagers(managers);
         mMapView.getOverlayManager().add(line);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            final ValueAnimator percentageCompletion = ValueAnimator.ofFloat(0, 10000); // 10 kilometers
-            percentageCompletion.setDuration(5000); // 5 seconds
-            percentageCompletion.setStartDelay(1000); // 1 second
-            percentageCompletion.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                @Override
-                public void onAnimationUpdate(ValueAnimator animation) {
-                    mAnimatedMetersSoFar = (float)animation.getAnimatedValue();
-                    slicerForPath.setMeterDistanceSlice(0, mAnimatedMetersSoFar);
-                    slicerForIcon.setMeterDistanceSlice(mAnimatedMetersSoFar, mAnimatedMetersSoFar);
-                    mMapView.invalidate();
-                }
-            });
-            percentageCompletion.addListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mAnimationEnded = true;
-                }
-            });
-            percentageCompletion.start();
-        }
+        final ValueAnimator percentageCompletion = ValueAnimator.ofFloat(0, 10000); // 10 kilometers
+        percentageCompletion.setDuration(5000); // 5 seconds
+        percentageCompletion.setStartDelay(1000); // 1 second
+        percentageCompletion.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                mAnimatedMetersSoFar = (float)animation.getAnimatedValue();
+                slicerForPath.setMeterDistanceSlice(0, mAnimatedMetersSoFar);
+                slicerForIcon.setMeterDistanceSlice(mAnimatedMetersSoFar, mAnimatedMetersSoFar);
+                mMapView.invalidate();
+            }
+        });
+        percentageCompletion.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                mAnimationEnded = true;
+            }
+        });
+        percentageCompletion.start();
     }
 
     /**
@@ -122,6 +130,7 @@ public class SampleRace extends BaseSampleFragment {
         paint.setStyle(Paint.Style.STROKE);
         paint.setAntiAlias(true);
         paint.setColor(pColor);
+        paint.setStrokeCap(Paint.Cap.ROUND);
         return paint;
     }
 
@@ -200,47 +209,7 @@ public class SampleRace extends BaseSampleFragment {
      */
     private MilestoneManager getAnimatedPathManager(final MilestoneLister pMilestoneLister) {
         final Paint slicePaint = getStrokePaint(COLOR_POLYLINE_ANIMATED, LINE_WIDTH_BIG);
-        return new MilestoneManager(
-                pMilestoneLister,
-                new MilestoneDisplayer(0, false) {
-                    private boolean mFirst;
-                    private LineDrawer mLineDrawer = new LineDrawer(256) {
-                        @Override
-                        public void flush() {
-                            super.flush();
-                            mFirst = true;
-                        }
-                    };
-
-                    @Override
-                    public void drawBegin(Canvas pCanvas) {
-                        mLineDrawer.init();
-                        mLineDrawer.setCanvas(pCanvas);
-                        mLineDrawer.setPaint(slicePaint);
-                        mFirst = true;
-                    }
-
-                    @Override
-                    public void draw(Canvas pCanvas, MilestoneStep pStep) {
-                        if (mFirst) {
-                            mFirst = false;
-                        } else {
-                            mLineDrawer.add(pStep.getX(), pStep.getY());
-                        }
-                        mLineDrawer.add(pStep.getX(), pStep.getY());
-                    }
-
-                    @Override
-                    public void drawEnd(Canvas pCanvas) {
-                        mLineDrawer.end();
-                    }
-
-                    @Override
-                    protected void draw(final Canvas pCanvas, final Object pParameter) {
-                        // do nothing as we override the draw method that calls this one
-                    }
-                }
-        );
+        return new MilestoneManager(pMilestoneLister, new MilestoneLineDisplayer(slicePaint));
     }
 
     /**

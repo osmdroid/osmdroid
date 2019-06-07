@@ -255,13 +255,9 @@ public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOr
     // ===========================================================
 
     @Override
-    public void draw(Canvas c, MapView mapView, boolean shadow) {
-        if (shadow) {
-            return;
-        }
-
+    public void draw(Canvas c, Projection pProjection) {
         if (isCompassEnabled() && !Float.isNaN(mAzimuth)) {
-            drawCompass(c, mMode * (mAzimuth + mAzimuthOffset + getDisplayOrientation()), mapView.getProjection()
+            drawCompass(c, mMode * (mAzimuth + mAzimuthOffset + getDisplayOrientation()), pProjection
                 .getScreenRect());
         }
     }

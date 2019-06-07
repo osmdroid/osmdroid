@@ -44,7 +44,7 @@
             <name lang="es" value="Transporte público"/>
             <name lang="fr" value="Transport public"/>
             <cat id="public_transport"/>
-            <cat id="rail"></cat>
+            <cat id="rail" />
         </layer>
 
         <layer id="food">

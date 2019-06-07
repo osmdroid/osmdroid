@@ -1,11 +1,13 @@
 package org.osmdroid.samplefragments.location;
 
+import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.widget.Toast;
 
 import org.osmdroid.samplefragments.BaseSampleFragment;
+import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
-import org.osmdroid.views.overlay.Overlay;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
 /**
@@ -21,21 +23,41 @@ public class SampleMyLocationWithClick extends BaseSampleFragment {
     }
 
     @Override
-    public void addOverlays(){
+    public void addOverlays() {
         super.addOverlays();
 
-        MyLocationOverlayWithClick overlay = new MyLocationOverlayWithClick(mMapView);
+        final MyLocationOverlayWithClick overlay = new MyLocationOverlayWithClick(mMapView);
         overlay.enableFollowLocation();
         overlay.enableMyLocation();
+        overlay.runOnFirstFix(new Runnable() {
+            @Override
+            public void run() {
+                Log.i(TAG, "I was ran on the first fix");
+                FragmentActivity activity = SampleMyLocationWithClick.this.getActivity();
+                if (activity != null)
+                    activity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            GeoPoint myLocation = overlay.getMyLocation();
+                            if (myLocation != null)
+                                Toast.makeText(SampleMyLocationWithClick.this.getContext(), "GPS fix acquired at " + myLocation.toDoubleString(), Toast.LENGTH_LONG).show();
+                            else
+                                Toast.makeText(SampleMyLocationWithClick.this.getContext(), "GPS fix acquired (null)", Toast.LENGTH_LONG).show();
+                        }
+                    });
+
+            }
+        });
         mMapView.getOverlayManager().add(overlay);
 
     }
 
-    public static class MyLocationOverlayWithClick extends MyLocationNewOverlay{
+    public static class MyLocationOverlayWithClick extends MyLocationNewOverlay {
 
         public MyLocationOverlayWithClick(MapView mapView) {
             super(mapView);
         }
+
         @Override
         public boolean onSingleTapConfirmed(MotionEvent e, MapView map) {
             if (getLastFix() != null)

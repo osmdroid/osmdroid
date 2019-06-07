@@ -107,7 +107,7 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 
 
 		setDirectionArrow(((BitmapDrawable)mapView.getContext().getResources().getDrawable(R.drawable.person)).getBitmap(),
-				((BitmapDrawable)mapView.getContext().getResources().getDrawable(R.drawable.direction_arrow)).getBitmap());
+				((BitmapDrawable)mapView.getContext().getResources().getDrawable(R.drawable.round_navigation_white_48)).getBitmap());
 
 		// Calculate position of person icon's feet, scaled to screen density
 		mPersonHotspot = new PointF(24.0f * mScale + 0.5f, 39.0f * mScale + 0.5f);
@@ -212,14 +212,13 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 		mPersonHotspot.set(x, y);
 	}
 
-	protected void drawMyLocation(final Canvas canvas, final MapView mapView, final Location lastFix) {
-		final Projection pj = mapView.getProjection();
+	protected void drawMyLocation(final Canvas canvas, final Projection pj, final Location lastFix) {
 		pj.toPixels(mGeoPoint, mDrawPixel);
 
 		if (mDrawAccuracyEnabled) {
 			final float radius = lastFix.getAccuracy()
 					/ (float) TileSystem.GroundResolution(lastFix.getLatitude(),
-							mapView.getZoomLevelDouble());
+							pj.getZoomLevel());
 
 			mCirclePaint.setAlpha(50);
 			mCirclePaint.setStyle(Style.FILL);
@@ -233,7 +232,7 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 		if (lastFix.hasBearing()) {
 			canvas.save();
 			// Rotate the icon if we have a GPS fix, take into account if the map is already rotated
-			float mapRotation=mapView.getMapOrientation();
+			float mapRotation;
 			mapRotation=lastFix.getBearing();
 			if (mapRotation >=360.0f)
 				mapRotation=mapRotation-360f;
@@ -260,12 +259,9 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 	// ===========================================================
 
 	@Override
-	public void draw(Canvas c, MapView mapView, boolean shadow) {
-		if (shadow)
-			return;
-
+	public void draw(Canvas c, Projection pProjection) {
 		if (mLocation != null && isMyLocationEnabled()) {
-			drawMyLocation(c, mapView, mLocation);
+			drawMyLocation(c, pProjection, mLocation);
 		}
 	}
 
@@ -298,11 +294,10 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 
 	@Override
 	public boolean onTouchEvent(final MotionEvent event, final MapView mapView) {
-		if (event.getAction() == MotionEvent.ACTION_MOVE) {
-			if (enableAutoStop)
-				this.disableFollowLocation();
-			else
-				return true;//prevent the pan
+		if (event.getAction() == MotionEvent.ACTION_DOWN && enableAutoStop) {
+			this.disableFollowLocation();
+		} else if (event.getAction() == MotionEvent.ACTION_MOVE && isFollowLocationEnabled()) {
+			return true;  // prevent the pan
 		}
 
 		return super.onTouchEvent(event, mapView);
@@ -405,6 +400,7 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 	 * Disables "follow" functionality.
 	 */
 	public void disableFollowLocation() {
+		mMapController.stopAnimation(false);
 		mIsFollowing = false;
 	}
 
@@ -429,7 +425,9 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 					setLocation(location);
 
 					for (final Runnable runnable : mRunOnFirstFix) {
-						new Thread(runnable).start();
+						Thread t = new Thread(runnable);
+						t.setName(this.getClass().getName() + "#onLocationChanged");
+						t.start();
 					}
 					mRunOnFirstFix.clear();
 				}
@@ -519,7 +517,9 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 	 */
 	public boolean runOnFirstFix(final Runnable runnable) {
 		if (mMyLocationProvider != null && mLocation != null) {
-			new Thread(runnable).start();
+			Thread t = new Thread(runnable);
+			t.setName(this.getClass().getName() + "#runOnFirstFix");
+			t.start();
 			return true;
 		} else {
 			mRunOnFirstFix.addLast(runnable);

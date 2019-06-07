@@ -30,13 +30,6 @@
 
 package org.osmdroid.gpkg.overlay.features;
 
-import org.osmdroid.api.IGeoPoint;
-import org.osmdroid.util.GeoPoint;
-import org.osmdroid.views.overlay.Polyline;
-
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * created on 8/19/2017.
  *

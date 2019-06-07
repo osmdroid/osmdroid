@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import org.junit.Assert;
 import org.osmdroid.debug.CacheAnalyzerActivity;
-import org.osmdroid.debug.browser.CacheBrowserActivity;
 import org.osmdroid.tileprovider.util.Counters;
 
 public class CacheAnalyzerTest extends ActivityInstrumentationTestCase2<CacheAnalyzerActivity> {
@@ -33,7 +32,7 @@ public class CacheAnalyzerTest extends ActivityInstrumentationTestCase2<CacheAna
         runTestOnUiThread(new Runnable() {
             @Override
             public void run() {
-                TextView cacheStats = (TextView)activity.findViewById(org.osmdroid.R.id.cacheStats);
+                TextView cacheStats = activity.findViewById(org.osmdroid.R.id.cacheStats);
 
                 String txt=cacheStats.getText().toString();
                 Assert.assertNotEquals(txt, activity.getString(org.osmdroid.R.string.loading_stats));

@@ -10,8 +10,6 @@ import android.widget.EditText;
 
 import org.osmdroid.R;
 import org.osmdroid.samplefragments.data.SampleGridlines;
-import org.osmdroid.util.BoundingBox;
-import org.osmdroid.util.GeoPoint;
 import org.osmdroid.wms.WMSEndpoint;
 import org.osmdroid.wms.WMSLayer;
 import org.osmdroid.wms.WMSParser;

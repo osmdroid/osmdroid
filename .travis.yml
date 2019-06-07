@@ -7,7 +7,7 @@ android:
     - tools
 
     # The BuildTools version used by your project
-    - build-tools-23.0.3
+    - build-tools-26.0.3
 
     # The SDK version used to compile your project
     # 
@@ -17,7 +17,7 @@ android:
     #       Those are automatically downloaded in "before_install" on a per worker basis.
     #
     
-    - android-23
+    - android-26
     #- addon-google_apis-google-23
     
     # Additional components - currently not required
@@ -49,7 +49,7 @@ env:
     #       so running API25 and up emulators is not possible right now.
     
     matrix:
-    - API=10 ANDROID_ABI=armeabi-v7a ANDROID_TAG=default
+    #- API=10 ANDROID_ABI=armeabi-v7a ANDROID_TAG=default
     #- API=10 ANDROID_ABI=armeabi-v7a ANDROID_TAG=google_apis     # currently no google apis needed
     #- API=14 ANDROID_ABI=armeabi-v7a ANDROID_TAG=default         # emulator consistently times out
     #- API=15 ANDROID_ABI=armeabi-v7a ANDROID_TAG=default         # https://github.com/osmdroid/osmdroid/issues/1066
@@ -97,7 +97,7 @@ before_script:
   #- cd ..
   #- cd ..
 
-  - android-wait-for-emulator
+  - travis_wait 60 android-wait-for-emulator
   - adb shell input keyevent 82 &
   
   # output date/time set on emulator for diagnostics

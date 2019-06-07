@@ -5,7 +5,6 @@ import org.osmdroid.views.overlay.IOverlayMenuProvider;
 import org.osmdroid.views.overlay.Overlay;
 
 import android.content.Context;
-import android.graphics.Canvas;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -33,11 +32,6 @@ public class RotationGestureOverlay extends Overlay implements
         super();
         mMapView = mapView;
         mRotationDetector = new RotationGestureDetector(this);
-    }
-
-    @Override
-	public void draw(Canvas c, MapView osmv, boolean shadow) {
-        // No drawing necessary
     }
 
     @Override

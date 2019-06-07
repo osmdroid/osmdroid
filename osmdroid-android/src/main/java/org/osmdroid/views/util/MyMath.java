@@ -4,8 +4,10 @@ package org.osmdroid.views.util;
 /**
  * 
  * @author Nicolas Gramlich
- * 
+ *
+ * @deprecated Use {@link org.osmdroid.util.MyMath} instead
  */
+@Deprecated
 public class MyMath {
 	// ===========================================================
 	// Constants
@@ -52,19 +54,11 @@ public class MyMath {
 	 * 
 	 * @param factor
 	 * @return
+	 * @deprecated Use {@link org.osmdroid.util.MyMath#getNextSquareNumberAbove(float)} instead
 	 */
+	@Deprecated
 	public static int getNextSquareNumberAbove(final float factor) {
-		int out = 0;
-		int cur = 1;
-		int i = 1;
-		while (true) {
-			if (cur > factor)
-				return out;
-
-			out = i;
-			cur *= 2;
-			i++;
-		}
+		return org.osmdroid.util.MyMath.getNextSquareNumberAbove(factor);
 	}
 
 	// ===========================================================

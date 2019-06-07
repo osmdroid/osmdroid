@@ -9,8 +9,6 @@ package org.osmdroid.test;
 
 import android.test.ActivityInstrumentationTestCase2;
 
-import org.junit.Assert;
-import org.osmdroid.MainActivity;
 import org.osmdroid.debug.browser.CacheBrowserActivity;
 import org.osmdroid.tileprovider.util.Counters;
 

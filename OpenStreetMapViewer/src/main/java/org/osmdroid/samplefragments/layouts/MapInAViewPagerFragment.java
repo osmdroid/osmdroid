@@ -36,7 +36,7 @@ public class MapInAViewPagerFragment extends BaseSampleFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.map_viewpager, null);
-        mPager = (ViewPager) v.findViewById(R.id.pager);
+        mPager = v.findViewById(R.id.pager);
         mPagerAdapter = new MapSliderAdapter(getActivity().getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
         return v;

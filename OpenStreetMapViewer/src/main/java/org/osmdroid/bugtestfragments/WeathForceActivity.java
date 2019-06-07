@@ -64,7 +64,7 @@ public class WeathForceActivity extends BaseActivity implements LocationListener
         //as the app id.
         Configuration.getInstance().setUserAgentValue(getPackageName());
 
-        mMapView = (MapView) findViewById(R.id.mapview);
+        mMapView = findViewById(R.id.mapview);
         mMapView.setTileSource(TileSourceFactory.MAPNIK);
 
 
@@ -136,8 +136,8 @@ public class WeathForceActivity extends BaseActivity implements LocationListener
 
                 return;
             }
-            lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, (LocationListener) this);
-            lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, (LocationListener) this);
+            lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+            lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
         } catch (Exception ex) {
         }
         compass = new InternalCompassOrientationProvider(this);
@@ -236,7 +236,7 @@ public class WeathForceActivity extends BaseActivity implements LocationListener
                     if (this!=null ) {
                         Log.i(TAG
                                 , "GPS Speed: " + gpsspeed + "m/s  GPS Bearing: " + gpsbearing +
-                                "\nDevice Orientation: " + (int) deviceOrientation + "  Compass heading: " + (int) orientationToMagneticNorth + "\n" +
+                                "\nDevice Orientation: " + deviceOrientation + "  Compass heading: " + (int) orientationToMagneticNorth + "\n" +
                                 "True north: " + trueNorth.intValue() + " Map Orientation: " + (int) mMapView.getMapOrientation());
                     }
                 }

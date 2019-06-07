@@ -22,7 +22,7 @@ public class MapBoxTileSource extends OnlineTileSourceBase
     private static final String ACCESS_TOKEN = "MAPBOX_ACCESS_TOKEN";
 
 	private static final String[] mapBoxBaseUrl = new String[]{
-			"http://api.tiles.mapbox.com/v4/"};
+			"https://api.mapbox.com/v4/"};
 
 	private String mapBoxMapId = "";
      private String accessToken;

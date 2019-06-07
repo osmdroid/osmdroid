@@ -9,26 +9,11 @@ import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.BitmapPool;
 import org.osmdroid.tileprovider.MapTileRequestState;
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
-import org.osmdroid.tileprovider.tilesource.BitmapTileSourceBase.LowMemoryException;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase;
-import org.osmdroid.tileprovider.util.Counters;
-import org.osmdroid.tileprovider.util.StreamUtils;
-import org.osmdroid.util.MapTileIndex;
 import org.osmdroid.util.UrlBackoff;
 
-import java.io.BufferedOutputStream;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.UnknownHostException;
 import java.util.Date;
-import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
@@ -200,14 +185,22 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 
 		/**
 		 * downloads a tile and follows http redirects
-		 * @param pMapTileIndex
-		 * @param redirectCount
-		 * @param targetUrl
-		 * @return
-		 * @throws CantContinueException
 		 */
 		protected Drawable downloadTile(final long pMapTileIndex, final int redirectCount, final String targetUrl) throws CantContinueException {
-			return mTileDownloader.downloadTile(pMapTileIndex, redirectCount, targetUrl, mFilesystemCache, mTileSource.get());
+			final OnlineTileSourceBase tileSource = mTileSource.get();
+			if (tileSource == null) {
+				return null;
+			}
+			try {
+				tileSource.acquire();
+			} catch(final InterruptedException e) {
+				return null;
+			}
+			try {
+				return mTileDownloader.downloadTile(pMapTileIndex, redirectCount, targetUrl, mFilesystemCache, tileSource);
+			} finally {
+				tileSource.release();
+			}
 		}
 
 		@Override
