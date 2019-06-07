@@ -79,7 +79,7 @@ public class MapsForgeTileSource extends BitmapTileSourceBase {
         //InMemoryTileCache tileCache = new InMemoryTileCache(2);
         //renderer = new DatabaseRenderer(mapDatabase, AndroidGraphicFactory.INSTANCE, tileCache,
         //        new TileBasedLabelStore(tileCache.getCapacityFirstLevel()), true, true, hillsRenderConfig);
-        // mapsforge0.10.1
+        // mapsforge0.11.0
         renderer = new DirectRenderer(mapDatabase, AndroidGraphicFactory.INSTANCE, true, hillsRenderConfig);
 
         minZoom = MIN_ZOOM;
