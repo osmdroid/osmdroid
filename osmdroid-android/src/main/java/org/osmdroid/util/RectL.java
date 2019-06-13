@@ -352,4 +352,18 @@ public class RectL {
     public void union(final RectL pRect) {
         union(pRect.left, pRect.top, pRect.right, pRect.bottom);
     }
+
+    /**
+     * @since 6.1.1
+     */
+    public long centerX() {
+        return (left + right) / 2;
+    }
+
+    /**
+     * @since 6.1.1
+     */
+    public long centerY() {
+        return (top + bottom) / 2;
+    }
 }
