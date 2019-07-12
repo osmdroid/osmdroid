@@ -440,7 +440,7 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 		mGeoPoint.setCoords(mLocation.getLatitude(), mLocation.getLongitude());
 		if (mIsFollowing) {
 			mMapController.animateTo(mGeoPoint);
-		} else {
+		} else if ( mMapView != null ) {
 			mMapView.postInvalidate();
 		}
 	}
