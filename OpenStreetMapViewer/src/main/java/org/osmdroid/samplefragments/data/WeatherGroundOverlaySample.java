@@ -12,7 +12,7 @@ import android.widget.Toast;
 import org.osmdroid.samplefragments.BaseSampleFragment;
 import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
-import org.osmdroid.views.overlay.GroundOverlay2;
+import org.osmdroid.views.overlay.GroundOverlay;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -40,7 +40,7 @@ public class WeatherGroundOverlaySample extends BaseSampleFragment implements Ru
     private final GeoPoint mSouthWest = new GeoPoint( 21.0, -66.5);
 
     private ConnectivityManager cm;
-    private GroundOverlay2 mOverlay;
+    private GroundOverlay mOverlay;
 
     @Override
     public String getSampleTitle() {
@@ -51,7 +51,7 @@ public class WeatherGroundOverlaySample extends BaseSampleFragment implements Ru
     public void addOverlays(){
         super.addOverlays();
 
-        mOverlay = new GroundOverlay2();
+        mOverlay = new GroundOverlay();
         mOverlay.setTransparency(0.5f);
         mOverlay.setPosition(mNorthEast, mSouthWest);
         mMapView.getOverlayManager().add(mOverlay);

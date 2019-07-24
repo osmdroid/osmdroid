@@ -1,6 +1,9 @@
 package org.osmdroid.views.overlay;
 
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Matrix;
+import android.graphics.Paint;
 
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.Projection;
@@ -11,8 +14,61 @@ import org.osmdroid.views.Projection;
  * @author Fabrice Fontaine
  * Triggered by issue 1361 (https://github.com/osmdroid/osmdroid/issues/1361)
  * Inspired by {@link GroundOverlay2}
+ * @deprecated Use {@link GroundOverlay} instead
  */
-public class GroundOverlay4 extends AbstractGroundOverlay {
+@Deprecated
+public class GroundOverlay4 extends Overlay {
+
+    private final Paint mPaint = new Paint();
+    private Matrix mMatrix = new Matrix();
+
+    protected float mBearing;
+    protected float mTransparency;
+    private Bitmap mImage;
+
+    public GroundOverlay4() {
+        super();
+        mBearing = 0.0f;
+        setTransparency(0.0f);
+    }
+
+    protected Paint getPaint() {
+        return mPaint;
+    }
+
+    protected Matrix getMatrix() {
+        return mMatrix;
+    }
+
+    public Bitmap getImage() {
+        return mImage;
+    }
+
+    public float getBearing(){
+        return mBearing;
+    }
+
+    public void setBearing(final float pBearing){
+        mBearing = pBearing;
+    }
+
+    public void setTransparency(final float pTransparency){
+        mTransparency = pTransparency;
+        mPaint.setAlpha(255-(int)(mTransparency * 255));
+    }
+
+    public float getTransparency(){
+        return mTransparency;
+    }
+
+    @Override
+    public void draw(final Canvas pCanvas, final Projection pProjection) {
+        if(mImage == null) {
+            return;
+        }
+        computeMatrix(pProjection);
+        pCanvas.drawBitmap(getImage(), getMatrix(), getPaint());
+    }
 
     private final float[] mMatrixSrc = new float[8];
     private final float[] mMatrixDst = new float[8];
@@ -22,12 +78,8 @@ public class GroundOverlay4 extends AbstractGroundOverlay {
     private GeoPoint mBottomRight;
     private GeoPoint mBottomLeft;
 
-    public GroundOverlay4() {
-        super();
-    }
-
     public void setImage(final Bitmap pImage){
-        super.setImage(pImage);
+        mImage = pImage;
         if (getImage() == null) {
             return;
         }
@@ -51,7 +103,6 @@ public class GroundOverlay4 extends AbstractGroundOverlay {
         mBottomLeft = new GeoPoint(pBottomLeft);
     }
 
-    @Override
     protected void computeMatrix(final Projection pProjection) {
         final long topLeftCornerX = pProjection.getLongPixelXFromLongitude(mTopLeft.getLongitude());
         final long topLeftCornerY = pProjection.getLongPixelYFromLatitude(mTopLeft.getLatitude());
