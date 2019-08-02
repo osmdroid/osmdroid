@@ -32,6 +32,12 @@ public class ImageryMetaData {
 
 		/// response code should be 200 and authorization should be valid (valid BingMap key)
 		final JSONObject jsonResult = new JSONObject(a_jsonContent);
+		if (jsonResult==null){
+			throw new Exception("failed to parse json result, message was "+a_jsonContent);
+		}
+		if (jsonResult.length()==0)
+			throw new Exception("failed to parse json result, message was "+a_jsonContent);
+
 		final int statusCode = jsonResult.getInt(STATUS_CODE);
 		if(statusCode!=200) {
 			throw new Exception("Status code = "+statusCode);

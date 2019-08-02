@@ -121,6 +121,9 @@ public class BingMapTileSource extends QuadTreeTileSource implements IStyledTile
         if (!mImageryData.m_isInitialised) {
             initMetaData();
         }
+        if (!mImageryData.m_isInitialised) {
+            return "";
+        }
         return String.format(mUrl, quadTree(pMapTileIndex));
     }
 
