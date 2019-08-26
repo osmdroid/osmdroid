@@ -38,6 +38,7 @@ import org.osmdroid.samplefragments.data.SampleSimpleFastPointOverlay;
 import org.osmdroid.samplefragments.data.SampleSimpleLocation;
 import org.osmdroid.samplefragments.data.SampleSpeechBalloon;
 import org.osmdroid.samplefragments.events.SampleAnimateToWithOrientation;
+import org.osmdroid.samplefragments.events.SampleSnappable;
 import org.osmdroid.samplefragments.tileproviders.SampleTileStates;
 import org.osmdroid.samplefragments.data.SampleWithMinimapItemizedOverlayWithFocus;
 import org.osmdroid.samplefragments.data.SampleWithMinimapItemizedOverlayWithScale;
@@ -307,6 +308,7 @@ public final class SampleFactory implements ISampleFactory {
         mSamples.add(SampleAnimateToWithOrientation.class);
         mSamples.add(SampleMapSnapshot.class);
         mSamples.add(SampleSpeechBalloon.class);
+        mSamples.add(SampleSnappable.class);
     }
 
     public void addSample(Class<? extends BaseSampleFragment> clz) {

@@ -40,7 +40,7 @@ allprojects {
         mavenCentral()
         mavenLocal()
         maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
-        maven { url "http://repo.maven.apache.org/maven2" }
+        maven { url "https://repo.maven.apache.org/maven2" }
         maven {
             url 'https://maven.google.com/'
             name 'Google'
