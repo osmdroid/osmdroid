@@ -65,6 +65,22 @@ public class GroundOverlay extends Overlay {
         return mTransparency;
     }
 
+    public GeoPoint getTopLeft() {
+        return mTopLeft;
+    }
+
+    public GeoPoint getTopRight() {
+        return mTopRight;
+    }
+
+    public GeoPoint getBottomRight() {
+        return mBottomRight;
+    }
+
+    public GeoPoint getBottomLeft() {
+        return mBottomLeft;
+    }
+
     @Override
     public void draw(final Canvas pCanvas, final Projection pProjection) {
         if(mImage == null) {
