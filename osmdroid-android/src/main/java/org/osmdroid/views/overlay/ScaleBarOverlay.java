@@ -666,30 +666,30 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 		default:
 		case metric:
 			if (meters >= 1000 * 5) {
-                return getScaleString(R.string.format_distance_kilometers, "%.0f", meters / 1000);
+                return getConvertedScaleString(meters, UnitOfMeasure.kilometer, "%.0f");
 			} else if (meters >= 1000 / 5) {
-				return getScaleString(R.string.format_distance_kilometers, "%.1f", meters / 1000);
+				return getConvertedScaleString(meters, UnitOfMeasure.kilometer, "%.1f");
 			} else if (meters >= 20){
-                return getScaleString(R.string.format_distance_meters, "%.0f", meters);
+                return getConvertedScaleString(meters, UnitOfMeasure.meter, "%.0f");
 			} else {
-				return getScaleString(R.string.format_distance_meters, "%.2f", meters);
+				return getConvertedScaleString(meters, UnitOfMeasure.meter, "%.2f");
 			}
 		case imperial:
 			if (meters >= METERS_PER_STATUTE_MILE * 5) {
-				return getScaleString(R.string.format_distance_miles, "%.0f", meters / METERS_PER_STATUTE_MILE);
+				return getConvertedScaleString(meters, UnitOfMeasure.statuteMile, "%.0f");
 
 			} else if (meters >= METERS_PER_STATUTE_MILE / 5) {
-				return getScaleString(R.string.format_distance_miles, "%.1f", meters / METERS_PER_STATUTE_MILE);
+				return getConvertedScaleString(meters, UnitOfMeasure.statuteMile, "%.1f");
 			} else {
-				return getScaleString(R.string.format_distance_feet, "%.0f", meters * FEET_PER_METER);
+				return getConvertedScaleString(meters, UnitOfMeasure.foot, "%.0f");
 			}
 		case nautical:
 			if (meters >= METERS_PER_NAUTICAL_MILE * 5) {
-				return getScaleString(R.string.format_distance_nautical_miles, "%.0f", meters / METERS_PER_NAUTICAL_MILE);
+				return getConvertedScaleString(meters, UnitOfMeasure.nauticalMile, "%.0f");
 			} else if (meters >= METERS_PER_NAUTICAL_MILE / 5) {
-				return getScaleString(R.string.format_distance_nautical_miles, "%.1f", meters / METERS_PER_NAUTICAL_MILE);
+				return getConvertedScaleString(meters, UnitOfMeasure.nauticalMile, "%.1f");
 			} else {
-				return getScaleString(R.string.format_distance_feet, "%.0f", meters * FEET_PER_METER);
+				return getConvertedScaleString(meters, UnitOfMeasure.foot, "%.0f");
 			}
 		}
 	}
@@ -706,8 +706,25 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 	/**
 	 * @since 6.0.0
 	 */
-	private String getScaleString(final int pStringResId, final String pFormat, final double pValue) {
-		return context.getResources().getString(pStringResId, String.format(Locale.getDefault(), pFormat, pValue));
+	private String getConvertedScaleString(final double pMeters,
+										   final GeoConstants.UnitOfMeasure pConversion,
+										   final String pFormat) {
+		return getScaleString(
+				context,
+				String.format(Locale.getDefault(), pFormat,
+						pMeters / pConversion.getConversionFactorToMeters()),
+				pConversion);
+	}
+
+	/**
+	 * @since 6.1.1
+	 */
+	public static String getScaleString(final Context pContext,
+										final String pValue,
+										final GeoConstants.UnitOfMeasure pUnitOfMeasure) {
+		return pContext.getString(
+				R.string.format_distance_value_unit,
+				pValue, pContext.getString(pUnitOfMeasure.getStringResId()));
 	}
 
 	/**

@@ -28,4 +28,12 @@
 
     <string name="compass">Compass</string>
 
+    <string name="format_distance_only_meter">m</string>
+    <string name="format_distance_only_kilometer">km</string>
+    <string name="format_distance_only_mile">mi</string>
+    <string name="format_distance_only_nautical_mile">nm</string>
+    <string name="format_distance_only_foot">ft</string>
+
+    <string name="format_distance_value_unit">%1$s %2$s</string>
+
 </resources>
