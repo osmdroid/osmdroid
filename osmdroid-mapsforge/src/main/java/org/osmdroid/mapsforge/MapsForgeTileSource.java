@@ -7,6 +7,7 @@ import android.util.Log;
 
 import org.mapsforge.core.model.BoundingBox;
 import org.mapsforge.core.model.Tile;
+import org.mapsforge.core.util.LatLongUtils;
 import org.mapsforge.map.android.graphics.AndroidGraphicFactory;
 import org.mapsforge.map.android.graphics.AndroidTileBitmap;
 import org.mapsforge.map.datastore.MultiMapDataStore;
@@ -103,8 +104,10 @@ public class MapsForgeTileSource extends BitmapTileSourceBase {
 
     public org.osmdroid.util.BoundingBox getBoundsOsmdroid(){
         BoundingBox boundingBox = mapDatabase.boundingBox();
-        org.osmdroid.util.BoundingBox bounds = new org.osmdroid.util.BoundingBox(boundingBox.maxLatitude, boundingBox.maxLongitude,
-            boundingBox.minLatitude, boundingBox.minLongitude);
+        double latNorth= Math.min(LatLongUtils.LATITUDE_MAX,boundingBox.maxLatitude);
+        double latSouth= Math.max(LatLongUtils.LATITUDE_MIN,boundingBox.minLatitude);
+        org.osmdroid.util.BoundingBox bounds = new org.osmdroid.util.BoundingBox(latNorth, boundingBox.maxLongitude,
+            latSouth, boundingBox.minLongitude);
         return bounds;
     }
 
