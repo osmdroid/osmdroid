@@ -186,6 +186,14 @@ public class MapView extends ViewGroup implements IMapView,
 	 */
 	private boolean mDestroyModeOnDetach = true;
 
+	/**
+	 * @since 6.1.1
+	 * The map center used to be projected into the screen center.
+	 * Now we have a possible offset from the screen center; default offset is [0, 0].
+	 */
+	private int mMapCenterOffsetX;
+	private int mMapCenterOffsetY;
+
 	// ===========================================================
 	// Constructors
 	// ===========================================================
@@ -553,7 +561,8 @@ public class MapView extends ViewGroup implements IMapView,
 				nextZoom, getWidth(), getHeight(),
 				center,
 				getMapOrientation(),
-				isHorizontalMapRepetitionEnabled(), isVerticalMapRepetitionEnabled());
+				isHorizontalMapRepetitionEnabled(), isVerticalMapRepetitionEnabled(),
+				getMapCenterOffsetX(), getMapCenterOffsetY());
 		final Point point = new Point();
 		final double longitude = pBoundingBox.getCenterLongitude();
 		projection.toPixels(new GeoPoint(pBoundingBox.getActualNorth(), longitude), point);
@@ -1893,6 +1902,28 @@ public class MapView extends ViewGroup implements IMapView,
 	 */
 	public void setDestroyMode(final boolean pOnDetach) {
 		mDestroyModeOnDetach = pOnDetach;
+	}
+
+	/**
+	 * @since 6.1.1
+	 */
+	public int getMapCenterOffsetX() {
+		return mMapCenterOffsetX;
+	}
+
+	/**
+	 * @since 6.1.1
+	 */
+	public int getMapCenterOffsetY() {
+		return mMapCenterOffsetY;
+	}
+
+	/**
+	 * @since 6.1.1
+	 */
+	public void setMapCenterOffset(final int pMapCenterOffsetX, final int pMapCenterOffsetY) {
+		mMapCenterOffsetX = pMapCenterOffsetX;
+		mMapCenterOffsetY = pMapCenterOffsetY;
 	}
 }
 
