@@ -431,4 +431,9 @@ public interface IConfigurationProvider {
      */
     void setMapTileDownloaderFollowRedirects(boolean value);
     boolean isMapTileDownloaderFollowRedirects();
+
+    /**
+     * @since 6.1.0
+     */
+    String getNormalizedUserAgent();
 }

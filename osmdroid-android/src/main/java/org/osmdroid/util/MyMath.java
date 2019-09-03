@@ -151,6 +151,24 @@ public class MyMath implements MathConstants {
 		return pAngle;
 	}
 
+	/**
+	 * @since 6.1.1
+	 * Computes the angle of a vector
+	 */
+	public static double computeAngle(final long pX1, final long pY1, final long pX2, final long pY2) {
+		return Math.atan2(pY2 - pY1, pX2 - pX1);
+	}
+
+	/**
+	 * @since 6.1.1
+	 * Computes the point of a circle from its center, its radius and the angle
+	 */
+	public static void computeCirclePoint(final long pCenterX, final long pCenterY, final double pRadius,
+										  final double pAngle, final PointL pOutput) {
+		pOutput.x = pCenterX + (long) (pRadius * Math.cos(pAngle));
+		pOutput.y = pCenterY + (long) (pRadius * Math.sin(pAngle));
+	}
+
 	// ===========================================================
 	// Inner and Anonymous Classes
 	// ===========================================================

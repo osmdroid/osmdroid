@@ -260,7 +260,8 @@ public class ProjectionTest {
                 pOffsetX, pOffsetY,
                 getRandomOrientation(),
                 true, true,
-                tileSystem);
+                tileSystem
+                , 0, 0);
     }
 
     private Projection getRandomProjection(final double pZoomLevel) {
@@ -284,7 +285,8 @@ public class ProjectionTest {
                     0L, 0L,
                     0,
                     false, false,
-                    tileSystem
+                    tileSystem,
+                    0, 0
             );
 
             final Point inputPoint = new Point(0, 0);

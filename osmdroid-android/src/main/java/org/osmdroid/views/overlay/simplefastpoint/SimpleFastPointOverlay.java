@@ -27,8 +27,7 @@ import java.util.List;
  * MAXIMUM_OPTIMIZATION: for >10k points, only recalculates the grid on touch up, hence much faster.
  *     Performs well for 100k points.
  *
- * TODO: support for rotated maps!
- * TODO: a quadtree index would improve rendering speed!
+  * TODO: a quadtree index would improve rendering speed!
  * TODO: an alternative to the CIRCLE shape, cause this is slow to render
  * Created by Miguel Porto on 25-10-2016.
  */
@@ -301,7 +300,7 @@ public class SimpleFastPointOverlay extends Overlay {
                                 , mPointList.isLabelled() && showLabels, slp.mlabel
                                 , (mPointList.isStyled() && slp.mPointStyle != null) ? slp.mPointStyle : mStyle.mPointStyle
                                 , (mPointList.isStyled() && (textStyle = slp.mTextStyle) != null)
-                                        ? textStyle : mStyle.mTextStyle);
+                                        ? textStyle : mStyle.mTextStyle, mapView);
                     }
                     break;
 
@@ -341,7 +340,7 @@ public class SimpleFastPointOverlay extends Overlay {
                                     , (mPointList.isStyled() && ((StyledLabelledGeoPoint) pt1).getPointStyle() != null)
                                             ? ((StyledLabelledGeoPoint) pt1).getPointStyle() : mStyle.mPointStyle
                                     , (mPointList.isStyled() && (textStyle = ((StyledLabelledGeoPoint) pt1).getTextStyle()) != null)
-                                            ? textStyle : mStyle.mTextStyle);
+                                            ? textStyle : mStyle.mTextStyle, mapView);
                         }
                     }
                     break;
@@ -366,7 +365,7 @@ public class SimpleFastPointOverlay extends Overlay {
                                     , (mPointList.isStyled() && ((StyledLabelledGeoPoint) pt1).getPointStyle() != null)
                                             ? ((StyledLabelledGeoPoint) pt1).getPointStyle() : mStyle.mPointStyle
                                     , (mPointList.isStyled() && (textStyle = ((StyledLabelledGeoPoint) pt1).getTextStyle()) != null)
-                                            ? textStyle : mStyle.mTextStyle);
+                                            ? textStyle : mStyle.mTextStyle, mapView);
                         }
                     }
                     break;
@@ -389,7 +388,9 @@ public class SimpleFastPointOverlay extends Overlay {
         }
     }
 
-    protected void drawPointAt(Canvas canvas, float x, float y, boolean showLabel, String label, Paint pointStyle, Paint textStyle) {
+    protected void drawPointAt(Canvas canvas, float x, float y, boolean showLabel, String label, Paint pointStyle, Paint textStyle, MapView pMapView) {
+        canvas.save();
+        canvas.rotate(-pMapView.getMapOrientation(), x, y);
         if(mStyle.mSymbol == SimpleFastPointOverlayOptions.Shape.CIRCLE)
             canvas.drawCircle(x, y, mStyle.mCircleRadius, pointStyle);
         else
@@ -399,6 +400,6 @@ public class SimpleFastPointOverlay extends Overlay {
 
         if(showLabel && label != null)
             canvas.drawText(label, x, y - mStyle.mCircleRadius - 5, textStyle);
-
+        canvas.restore();
     }
 }

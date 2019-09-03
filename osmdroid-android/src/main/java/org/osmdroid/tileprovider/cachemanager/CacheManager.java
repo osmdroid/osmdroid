@@ -21,6 +21,7 @@ import org.osmdroid.tileprovider.modules.IFilesystemCache;
 import org.osmdroid.tileprovider.modules.TileDownloader;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase;
+import org.osmdroid.tileprovider.tilesource.TileSourcePolicyException;
 import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.IterableWithSize;
@@ -71,11 +72,11 @@ public class CacheManager {
     protected Set<CacheManagerTask> mPendingTasks = new HashSet<>();
     protected boolean verifyCancel = true;
 
-    public CacheManager(final MapView mapView) {
+    public CacheManager(final MapView mapView) throws TileSourcePolicyException {
         this(mapView, mapView.getTileProvider().getTileWriter());
     }
 
-    public CacheManager(final MapView mapView, IFilesystemCache writer) {
+    public CacheManager(final MapView mapView, IFilesystemCache writer) throws TileSourcePolicyException {
         this(mapView.getTileProvider(), writer, (int) mapView.getMinZoomLevel(), (int) mapView.getMaxZoomLevel());
     }
 
@@ -85,7 +86,8 @@ public class CacheManager {
      */
     public CacheManager(final MapTileProviderBase pTileProvider,
                         final IFilesystemCache pWriter,
-                        final int pMinZoomLevel, final int pMaxZoomLevel) {
+                        final int pMinZoomLevel, final int pMaxZoomLevel)
+            throws TileSourcePolicyException{
         this(pTileProvider.getTileSource(), pWriter, pMinZoomLevel, pMaxZoomLevel);
     }
 
@@ -94,7 +96,8 @@ public class CacheManager {
      */
     public CacheManager(final ITileSource pTileSource,
                         final IFilesystemCache pWriter,
-                        final int pMinZoomLevel, final int pMaxZoomLevel) {
+                        final int pMinZoomLevel, final int pMaxZoomLevel)
+            throws TileSourcePolicyException{
         mTileSource = pTileSource;
         mTileWriter = pWriter;
         mMinZoomLevel = pMinZoomLevel;
@@ -836,6 +839,9 @@ public class CacheManager {
             @Override
             public boolean preCheck() {
                 if (mTileSource instanceof OnlineTileSourceBase) {
+                    if (!((OnlineTileSourceBase) mTileSource).getTileSourcePolicy().acceptsBulkDownload()) {
+                        throw new TileSourcePolicyException("This online tile source doesn't support bulk download");
+                    }
                     return true;
                 } else {
                     Log.e(IMapView.LOGTAG, "TileSource is not an online tile source");

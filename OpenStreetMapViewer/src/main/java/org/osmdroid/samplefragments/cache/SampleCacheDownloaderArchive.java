@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,8 @@ import org.osmdroid.R;
 import org.osmdroid.samplefragments.BaseSampleFragment;
 import org.osmdroid.tileprovider.cachemanager.CacheManager;
 import org.osmdroid.tileprovider.modules.SqliteArchiveTileWriter;
+import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
+import org.osmdroid.tileprovider.tilesource.TileSourcePolicyException;
 import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
@@ -59,6 +62,7 @@ public class SampleCacheDownloaderArchive  extends BaseSampleFragment implements
         setHasOptionsMenu(false);
 
         mMapView = new MapView(getActivity());
+        mMapView.setTileSource(TileSourceFactory.USGS_SAT);
         ((LinearLayout) root.findViewById(R.id.mapview)).addView(mMapView);
         btnCache = root.findViewById(R.id.btnCache);
         btnCache.setOnClickListener(this);
@@ -107,7 +111,13 @@ public class SampleCacheDownloaderArchive  extends BaseSampleFragment implements
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which){
                             case 0:
-                                mgr = new CacheManager(mMapView);
+                                try {
+                                    mgr = new CacheManager(mMapView);
+                                } catch(TileSourcePolicyException e) {
+                                    Log.e(TAG, e.getMessage());
+                                    dialog.dismiss();
+                                    return;
+                                }
                                 showCurrentCacheInfo();
                                 break;
                             case 1:
@@ -209,10 +219,21 @@ public class SampleCacheDownloaderArchive  extends BaseSampleFragment implements
                 if (startJob) {
                     String outputName = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "osmdroid" + File.separator + cache_output.getText().toString();
                     writer=new SqliteArchiveTileWriter(outputName);
-                    mgr = new CacheManager(mMapView, writer);
+                    try {
+                        mgr = new CacheManager(mMapView, writer);
+                    } catch (TileSourcePolicyException ex) {
+                        Log.e(TAG, ex.getMessage());
+                        return;
+                    }
                 } else {
-                    if (mgr==null)
-                        mgr = new CacheManager(mMapView);
+                    if (mgr==null) {
+                        try {
+                            mgr = new CacheManager(mMapView);
+                        } catch (TileSourcePolicyException ex) {
+                            Log.e(TAG, ex.getMessage());
+                            return;
+                        }
+                    }
                 }
                 int zoommin = zoom_min.getProgress();
                 int zoommax = zoom_max.getProgress();

@@ -1,14 +1,20 @@
 package org.osmdroid.samplefragments.data;
 
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
+import android.util.DisplayMetrics;
 import android.widget.Toast;
 
 import org.osmdroid.R;
 import org.osmdroid.samplefragments.BaseSampleFragment;
 import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
+import org.osmdroid.util.constants.GeoConstants;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
+import org.osmdroid.views.overlay.ScaleBarOverlay;
+import org.osmdroid.views.overlay.ScaleDiskOverlay;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,10 +39,66 @@ public class SampleMarker extends BaseSampleFragment {
     public void addOverlays(){
         super.addOverlays();
 
+        final GeoPoint whiteHouse = new GeoPoint(38.8977, -77.0365);
+        final GeoPoint pentagon = new GeoPoint(38.8719, -77.0563);
+        final GeoPoint washington = new GeoPoint(38.8895, -77.0353);
+
+        final DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
+
+        final ScaleDiskOverlay scaleDiskOverlayWhiteHouse = new ScaleDiskOverlay(getContext(), whiteHouse, 2000, GeoConstants.UnitOfMeasure.foot);
+        final Paint circlePaint = new Paint();
+        circlePaint.setColor(Color.rgb(128, 128, 128));
+        circlePaint.setStyle(Paint.Style.STROKE);
+        circlePaint.setStrokeWidth(2);
+        scaleDiskOverlayWhiteHouse.setCirclePaint2(circlePaint);
+        final Paint diskPaint = new Paint();
+        diskPaint.setColor(Color.argb(128, 128, 128, 128));
+        diskPaint.setStyle(Paint.Style.FILL_AND_STROKE);
+        scaleDiskOverlayWhiteHouse.setCirclePaint1(diskPaint);
+        final Paint textPaint = new Paint();
+        textPaint.setAntiAlias(true);
+        textPaint.setColor(Color.BLACK);
+        textPaint.setTextSize(10 * displayMetrics.density);
+        scaleDiskOverlayWhiteHouse.setTextPaint(textPaint);
+        scaleDiskOverlayWhiteHouse.setLabelOffsetBottom((int) (-2 * displayMetrics.density));
+        scaleDiskOverlayWhiteHouse.setLabelOffsetTop((int) (2 * displayMetrics.density));
+        scaleDiskOverlayWhiteHouse.setLabelOffsetLeft((int) (2 * displayMetrics.density));
+        scaleDiskOverlayWhiteHouse.setLabelOffsetRight((int) (-2 * displayMetrics.density));
+        scaleDiskOverlayWhiteHouse.setDisplaySizeMin(100);
+        scaleDiskOverlayWhiteHouse.setDisplaySizeMax(800);
+        mMapView.getOverlays().add(scaleDiskOverlayWhiteHouse);
+
+        final ScaleDiskOverlay scaleDiskOverlayPentagon = new ScaleDiskOverlay(getContext(), pentagon, 1, GeoConstants.UnitOfMeasure.statuteMile);
+        final Paint diskPaint2 = new Paint();
+        diskPaint2.setColor(Color.argb(32, 255, 0, 0));
+        diskPaint2.setStyle(Paint.Style.FILL);
+        scaleDiskOverlayPentagon.setCirclePaint1(diskPaint2);
+        final Paint textPaint2 = new Paint();
+        textPaint2.setAntiAlias(true);
+        textPaint2.setColor(Color.RED);
+        textPaint2.setTextSize(20 * displayMetrics.density);
+        scaleDiskOverlayPentagon.setTextPaint(textPaint2);
+        scaleDiskOverlayPentagon.setLabelOffsetTop((int) (2 * displayMetrics.density));
+        scaleDiskOverlayPentagon.setDisplaySizeMin(100);
+        scaleDiskOverlayPentagon.setDisplaySizeMax(800);
+        mMapView.getOverlays().add(scaleDiskOverlayPentagon);
+
+        final ScaleDiskOverlay scaleDiskOverlayWashington = new ScaleDiskOverlay(getContext(), washington, 2000, GeoConstants.UnitOfMeasure.foot);
+        final Paint circlePaint2 = new Paint();
+        circlePaint2.setColor(Color.CYAN);
+        circlePaint2.setStyle(Paint.Style.STROKE);
+        circlePaint2.setStrokeWidth(2);
+        scaleDiskOverlayWashington.setCirclePaint2(circlePaint2);
+        scaleDiskOverlayWashington.setDisplaySizeMin(100);
+        scaleDiskOverlayWashington.setDisplaySizeMax(800);
+        mMapView.getOverlays().add(scaleDiskOverlayWashington);
+
+        mMapView.getOverlays().add(new ScaleBarOverlay(mMapView));
+
         final List<GeoPoint> points = new ArrayList<>();
         final Drawable drawable = getResources().getDrawable(R.drawable.marker_default);
 
-        GeoPoint startPoint = new GeoPoint(38.8977, -77.0365);  //white house
+        GeoPoint startPoint = new GeoPoint(whiteHouse);
         points.add(startPoint);
         Marker startMarker = new Marker(mMapView);
         startMarker.setPosition(startPoint);
@@ -47,7 +109,7 @@ public class SampleMarker extends BaseSampleFragment {
         startMarker.setSubDescription("1600 Pennsylvania Ave NW, Washington, DC 20500");
         mMapView.getOverlays().add(startMarker);
 
-        startPoint = new GeoPoint(38.8719, -77.0563);
+        startPoint = new GeoPoint(pentagon);
         points.add(startPoint);
         startMarker = new Marker(mMapView);
         startMarker.setPosition(startPoint);
@@ -65,9 +127,7 @@ public class SampleMarker extends BaseSampleFragment {
         });
         mMapView.getOverlays().add(startMarker);
 
-
-
-        startPoint = new GeoPoint(38.8895, -77.0353);
+        startPoint = new GeoPoint(washington);
         points.add(startPoint);
         startMarker = new Marker(mMapView);
         startMarker.setPosition(startPoint);

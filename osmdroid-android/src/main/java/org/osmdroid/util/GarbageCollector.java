@@ -34,6 +34,7 @@ public class GarbageCollector {
                 }
             }
         });
+        thread.setName("GarbageCollector");
         thread.setPriority(Thread.MIN_PRIORITY);
         thread.start();
         return true;

@@ -19,6 +19,7 @@ import android.widget.Toast;
 import org.osmdroid.R;
 import org.osmdroid.samplefragments.BaseSampleFragment;
 import org.osmdroid.tileprovider.cachemanager.CacheManager;
+import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.BoundingBox;
 import org.osmdroid.views.MapView;
 
@@ -54,6 +55,7 @@ public class SampleCacheDownloaderCustomUI extends BaseSampleFragment implements
         setHasOptionsMenu(false);
 
         mMapView = new MapView(getActivity());
+        mMapView.setTileSource(TileSourceFactory.USGS_SAT);
         ((LinearLayout) root.findViewById(R.id.mapview)).addView(mMapView);
         btnCache = root.findViewById(R.id.btnCache);
         btnCache.setOnClickListener(this);

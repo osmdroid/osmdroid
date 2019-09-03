@@ -13,34 +13,70 @@ import org.osmdroid.views.Projection;
  * that does not take into consideration the curvature of the Earth.
  * @since 6.0.0
  * @author pasniak inspired by zkhan's code in Avare
- *
+ * @deprecated Use {@link GroundOverlay} instead
  */
-@SuppressWarnings("WeakerAccess")
+@Deprecated
 public class GroundOverlay2 extends Overlay {
+
+	private final Paint mPaint = new Paint();
+	private Matrix mMatrix = new Matrix();
+
+	protected float mBearing;
+	protected float mTransparency;
+	private Bitmap mImage;
+
+	public GroundOverlay2() {
+		super();
+		mBearing = 0.0f;
+		setTransparency(0.0f);
+	}
+
+	protected Paint getPaint() {
+		return mPaint;
+	}
+
+	protected Matrix getMatrix() {
+		return mMatrix;
+	}
+
+	public Bitmap getImage() {
+		return mImage;
+	}
+
+	public float getBearing(){
+		return mBearing;
+	}
+
+	public void setBearing(final float pBearing){
+		mBearing = pBearing;
+	}
+
+	public void setTransparency(final float pTransparency){
+		mTransparency = pTransparency;
+		mPaint.setAlpha(255-(int)(mTransparency * 255));
+	}
+
+	public float getTransparency(){
+		return mTransparency;
+	}
+
+	public void setImage(final Bitmap pImage){
+		mImage = pImage;
+	}
+
+	@Override
+	public void draw(final Canvas pCanvas, final Projection pProjection) {
+		if(mImage == null) {
+			return;
+		}
+		computeMatrix(pProjection);
+		pCanvas.drawBitmap(getImage(), getMatrix(), getPaint());
+	}
 
     private float   mLonL,
                     mLatU,
                     mLonR,
                     mLatD;
-    protected Bitmap mImage;
-	protected float mBearing;
-	protected float mTransparency;
-    private Matrix mStretchToFitTransformationMatrix;
-
-	public GroundOverlay2() {
-		super();
-		mBearing = 0.0f;
-		mTransparency = 0.0f;
-        mStretchToFitTransformationMatrix = new Matrix();
-	}
-
-	public void setImage(Bitmap image){
-		mImage = image;
-	}
-
-	public Bitmap getImage(){
-		return mImage;
-	}
 
 	/**
 	 * @param UL upper left
@@ -54,50 +90,19 @@ public class GroundOverlay2 extends Overlay {
         mLonR = (float)RD.getLongitude();
 	}
 
-	public float getBearing(){
-		return mBearing;
+	protected void computeMatrix(final Projection pProjection) {
+		long x0 = pProjection.getLongPixelXFromLongitude(mLonL),
+				y0 = pProjection.getLongPixelYFromLatitude(mLatU),
+				x1 = pProjection.getLongPixelXFromLongitude(mLonR),
+				y1 = pProjection.getLongPixelYFromLatitude(mLatD);
+
+		float widthOnTheMap = x1 - x0,
+				heightOnTheMap = y1 - y0;
+
+		float scaleX = widthOnTheMap / getImage().getWidth(),
+				scaleY = heightOnTheMap / getImage().getHeight();
+
+		getMatrix().setScale(scaleX, scaleY);
+		getMatrix().postTranslate(x0, y0);
 	}
-	
-	public void setBearing(float bearing){
-		mBearing = bearing;
-	}
-	
-	public void setTransparency(float transparency){
-		mTransparency = transparency;
-	}
-	
-	public float getTransparency(){
-		return mTransparency;
-	}
-	
-
-    @Override
-    public void draw(Canvas canvas, Projection pj)
-    {
-		if(null == mImage) {
-			return;
-		}
-
-        long x0 = pj.getLongPixelXFromLongitude(mLonL),
-             y0 = pj.getLongPixelYFromLatitude(mLatU),
-             x1 = pj.getLongPixelXFromLongitude(mLonR),
-             y1 = pj.getLongPixelYFromLatitude(mLatD);
-
-        float widthOnTheMap = x1 - x0,
-              heightOnTheMap = y1 - y0;
-
-		float scaleX = widthOnTheMap / mImage.getWidth(),
-		      scaleY = heightOnTheMap / mImage.getHeight();
-
-        setupScalingThenTranslatingMatrix(scaleX, scaleY, x0, y0);
-
-        Paint paint = new Paint();
-        paint.setAlpha(255-(int)(mTransparency * 255));
-		canvas.drawBitmap(mImage, mStretchToFitTransformationMatrix, paint);
-	}
-
-    private void setupScalingThenTranslatingMatrix(float scaleX, float scaleY, long x0, long y0) {
-        mStretchToFitTransformationMatrix.setScale(scaleX, scaleY);
-        mStretchToFitTransformationMatrix.postTranslate(x0, y0);
-    }
 }

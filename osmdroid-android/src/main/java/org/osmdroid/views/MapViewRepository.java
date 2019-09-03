@@ -1,5 +1,6 @@
 package org.osmdroid.views;
 
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 
 import org.osmdroid.library.R;
@@ -69,9 +70,20 @@ public class MapViewRepository {
         return mDefaultPolygonInfoWindow;
     }
 
+    /**
+     * note: it's possible for this to return null during certain lifecycle events. Such as
+     * invoke this method after {@link #onDetach()} has been called
+     * @return
+     */
     public Drawable getDefaultMarkerIcon() {
         if (mDefaultMarkerIcon == null) {
-            mDefaultMarkerIcon = mMapView.getContext().getResources().getDrawable(R.drawable.marker_default);
+            if (mMapView!=null) {
+                Context context = mMapView.getContext();
+                if (context!=null) {
+                    mDefaultMarkerIcon = context.getResources().getDrawable(R.drawable.marker_default);
+                }
+            }
+
         }
         return mDefaultMarkerIcon;
     }

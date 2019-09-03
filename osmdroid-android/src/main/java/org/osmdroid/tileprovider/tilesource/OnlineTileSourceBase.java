@@ -5,7 +5,16 @@ import java.util.concurrent.Semaphore;
 public abstract class OnlineTileSourceBase extends BitmapTileSourceBase {
 
 	private final String mBaseUrls[];
+
+	/**
+	 * @since 6.1.0
+	 */
 	private final Semaphore mSemaphore;
+
+	/**
+	 * @since 6.1.0
+	 */
+	private final TileSourcePolicy mTileSourcePolicy;
 
 	public OnlineTileSourceBase(final String aName,
 			final int aZoomMinLevel, final int aZoomMaxLevel, final int aTileSizePixels,
@@ -20,7 +29,7 @@ public abstract class OnlineTileSourceBase extends BitmapTileSourceBase {
 								final int aZoomMinLevel, final int aZoomMaxLevel, final int aTileSizePixels,
 								final String aImageFilenameEnding, final String[] aBaseUrl, String copyyright) {
 		this(aName, aZoomMinLevel, aZoomMaxLevel, aTileSizePixels,
-				aImageFilenameEnding, aBaseUrl, copyyright, 0);
+				aImageFilenameEnding, aBaseUrl, copyyright, new TileSourcePolicy());
 	}
 
 	/**
@@ -32,17 +41,18 @@ public abstract class OnlineTileSourceBase extends BitmapTileSourceBase {
 	 * @param pImageFilenameEnding the file name extension used when constructing the filename
 	 * @param pBaseUrl the base url(s) of the tile server used when constructing the url to download the tiles
 	 * @param pCopyright the source copyright
-	 * @param pMaxConcurrent the maximum number of concurrent downloads
+	 * @param pTileSourcePolicy tile source policy
 	 */
 	public OnlineTileSourceBase(final String pName,
 								final int pZoomMinLevel, final int pZoomMaxLevel, final int pTileSizePixels,
 								final String pImageFilenameEnding, final String[] pBaseUrl, final String pCopyright,
-								final int pMaxConcurrent) {
+								final TileSourcePolicy pTileSourcePolicy) {
 		super(pName, pZoomMinLevel, pZoomMaxLevel, pTileSizePixels,
 				pImageFilenameEnding, pCopyright);
 		mBaseUrls = pBaseUrl;
-		if (pMaxConcurrent > 0) {
-			mSemaphore = new Semaphore(pMaxConcurrent, true);
+		mTileSourcePolicy = pTileSourcePolicy;
+		if (mTileSourcePolicy.getMaxConcurrent() > 0) {
+			mSemaphore = new Semaphore(mTileSourcePolicy.getMaxConcurrent(), true);
 		} else {
 			mSemaphore = null;
 		}
@@ -52,9 +62,13 @@ public abstract class OnlineTileSourceBase extends BitmapTileSourceBase {
 
 	/**
 	 * Get the base url, which will be a random one if there are more than one.
+	 * <br>
+	 *     Updated around 6.1.1, if base url list is null or empty, empty string is returned
 	 */
 	public String getBaseUrl() {
-		return mBaseUrls[random.nextInt(mBaseUrls.length)];
+		if (mBaseUrls!=null && mBaseUrls.length > 0)
+			return mBaseUrls[random.nextInt(mBaseUrls.length)];
+		return "";
 	}
 
 	/**
@@ -75,5 +89,12 @@ public abstract class OnlineTileSourceBase extends BitmapTileSourceBase {
 			return;
 		}
 		mSemaphore.release();
+	}
+
+	/**
+	 * @since 6.1.0
+	 */
+	public TileSourcePolicy getTileSourcePolicy() {
+		return mTileSourcePolicy;
 	}
 }
