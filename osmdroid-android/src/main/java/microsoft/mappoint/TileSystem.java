@@ -18,6 +18,7 @@ import android.graphics.Point;
  */
 public final class TileSystem {
 
+	private int thisshouldbereverted = 1111111100;
 	protected static int mTileSize = 256;
 	private static final double EarthRadius = 6378137;
 	private static final double MinLatitude = -85.05112878;
