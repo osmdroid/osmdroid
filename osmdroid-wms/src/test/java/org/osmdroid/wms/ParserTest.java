@@ -3,9 +3,6 @@ package org.osmdroid.wms;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.robolectric.RobolectricGradleTestRunner;
-import org.robolectric.annotation.Config;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -13,9 +10,6 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-@RunWith(RobolectricGradleTestRunner.class)
-@Config(constants = BuildConfig.class
-    , sdk = 21)
 public class ParserTest{
 
     @Test
@@ -34,7 +28,6 @@ public class ParserTest{
         verify(cap);
         Assert.assertTrue(cap.getLayers().size()==22);
         Assert.assertEquals("1.1.1", cap.getWmsVersion());
-
     }
 
     @Ignore //only ignored to support offline builds
@@ -50,7 +43,6 @@ public class ParserTest{
 
         verify(cap);
         Assert.assertTrue(cap.getLayers().size()>=1);
-
     }
 
     private void verify(WMSEndpoint cap) {
@@ -62,7 +54,6 @@ public class ParserTest{
             Assert.assertNotNull(wmsLayer.getName() + wmsLayer.getDescription() + wmsLayer.getTitle(), wmsLayer.getName());
 //            Assert.assertNotNull(wmsLayer.getName() + wmsLayer.getDescription() + wmsLayer.getTitle(), wmsLayer.getDescription());
             Assert.assertNotNull(wmsLayer.getName() + wmsLayer.getDescription() + wmsLayer.getTitle(), wmsLayer.getTitle());
-
         }
     }
 
@@ -81,7 +72,6 @@ public class ParserTest{
         Assert.assertTrue(cap.getLayers().size()==1);
         Assert.assertEquals("1.3.0", cap.getWmsVersion());
         Assert.assertFalse(cap.getLayers().get(0).getStyles().isEmpty());
-
     }
 
     @Test
@@ -101,7 +91,6 @@ public class ParserTest{
         Assert.assertEquals("1.3.0", cap.getWmsVersion());
     }
 
-
     @Test
     public void testNASA111File() throws Exception {
 
@@ -118,7 +107,6 @@ public class ParserTest{
         Assert.assertTrue(cap.getLayers().size()==129);
         Assert.assertEquals("1.1.1", cap.getWmsVersion());
     }
-
 
     @Test
     public void testNASA130File() throws Exception {
@@ -137,7 +125,6 @@ public class ParserTest{
         Assert.assertTrue(cap.getLayers().size()==129);
         Assert.assertEquals("1.3.0", cap.getWmsVersion());
     }
-
 
     @Test
     public void testNASA130SRSFile() throws Exception {
@@ -161,11 +148,6 @@ public class ParserTest{
                 Assert.assertEquals(1024, wmsLayer.getPixelSize());
                 Assert.assertTrue( wmsLayer.getSrs().contains("EPSG:4326"));
             }
-
         }
-
-        //
     }
-
-
 }

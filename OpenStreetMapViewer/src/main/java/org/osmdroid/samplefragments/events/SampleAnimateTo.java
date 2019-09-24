@@ -60,7 +60,7 @@ public class SampleAnimateTo extends SampleMapEventListener {
         mList.add(new DataRegion("dummy4", "Manhattan - box", manhattanBoundingBox));
 
         try {
-            mList.addAll(new DataRegionLoader(getActivity(), R.raw.data_region_usstates).getList());
+            mList.addAll(new DataRegionLoader(getActivity(), R.raw.data_region_usstates).getList().values());
         } catch(Exception e) {
             throw new IllegalArgumentException(e);
         }

@@ -1,7 +1,6 @@
 package org.osmdroid.samplefragments.data;
 
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 
 import org.osmdroid.R;
 import org.osmdroid.samplefragments.BaseSampleFragment;

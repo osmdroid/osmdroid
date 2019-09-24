@@ -32,6 +32,7 @@ import android.util.DisplayMetrics;
 
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.views.MapView;
+import org.osmdroid.views.Projection;
 
 
 /**
@@ -55,6 +56,7 @@ public class CopyrightOverlay extends Overlay {
     protected boolean alignBottom = true;
     protected boolean alignRight = false;
     final DisplayMetrics dm;
+    private String mCopyrightNotice;
     // Constructor
 
     public CopyrightOverlay(Context context) {
@@ -104,11 +106,16 @@ public class CopyrightOverlay extends Overlay {
 
     @Override
     public void draw(Canvas canvas, MapView map, boolean shadow) {
-        if (shadow) return;
+        setCopyrightNotice(map.getTileProvider().getTileSource().getCopyrightNotice());
+        draw(canvas, map.getProjection());
+    }
 
-
-        if (map.getTileProvider().getTileSource().getCopyrightNotice() == null ||
-            map.getTileProvider().getTileSource().getCopyrightNotice().length() == 0)
+    /**
+     * @since 6.1.0
+     */
+    @Override
+    public void draw(final Canvas canvas, final Projection pProjection) {
+        if (mCopyrightNotice == null || mCopyrightNotice.length() == 0)
             return;
 
         int width = canvas.getWidth();
@@ -131,8 +138,15 @@ public class CopyrightOverlay extends Overlay {
             y = paint.getTextSize() + yOffset;
 
         // Draw the text
-        map.getProjection().save(canvas, false, false);
-        canvas.drawText(map.getTileProvider().getTileSource().getCopyrightNotice(), x, y, paint);
-        map.getProjection().restore(canvas, false);
+        pProjection.save(canvas, false, false);
+        canvas.drawText(mCopyrightNotice, x, y, paint);
+        pProjection.restore(canvas, false);
+    }
+
+    /**
+     * @since 6.1.0
+     */
+    public void setCopyrightNotice(final String pCopyrightNotice) {
+        mCopyrightNotice = pCopyrightNotice;
     }
 }

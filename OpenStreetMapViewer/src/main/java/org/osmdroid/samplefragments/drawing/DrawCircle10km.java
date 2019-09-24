@@ -15,7 +15,6 @@ import org.osmdroid.events.MapListener;
 import org.osmdroid.events.ScrollEvent;
 import org.osmdroid.events.ZoomEvent;
 import org.osmdroid.samplefragments.BaseSampleFragment;
-import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.gestures.RotationGestureOverlay;
 
 import static org.osmdroid.samplefragments.events.SampleMapEventListener.df;
@@ -42,12 +41,12 @@ public class DrawCircle10km extends BaseSampleFragment implements View.OnClickLi
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.layout_drawlines, null);
-        btnRotateLeft = (ImageButton) v.findViewById(R.id.btnRotateLeft);
-        btnRotateRight = (ImageButton) v.findViewById(R.id.btnRotateRight);
+        btnRotateLeft = v.findViewById(R.id.btnRotateLeft);
+        btnRotateRight = v.findViewById(R.id.btnRotateRight);
         btnRotateRight.setOnClickListener(this);
         btnRotateLeft.setOnClickListener(this);
-        textViewCurrentLocation = (TextView) v.findViewById(R.id.textViewCurrentLocation);
-        mMapView = (MapView) v.findViewById(org.osmdroid.R.id.mapview);
+        textViewCurrentLocation = v.findViewById(R.id.textViewCurrentLocation);
+        mMapView = v.findViewById(R.id.mapview);
         mMapView.setMapListener(new MapListener() {
             @Override
             public boolean onScroll(ScrollEvent event) {
@@ -70,10 +69,10 @@ public class DrawCircle10km extends BaseSampleFragment implements View.OnClickLi
         mMapView.setMultiTouchControls(true);
         mMapView.getOverlayManager().add(mRotationGestureOverlay);
         mMapView.setOnLongClickListener(this);
-        panning = (ImageButton) v.findViewById(R.id.enablePanning);
+        panning = v.findViewById(R.id.enablePanning);
         panning.setVisibility(View.GONE);
 
-        painting = (ImageButton) v.findViewById(R.id.enablePainting);
+        painting = v.findViewById(R.id.enablePainting);
         painting.setVisibility(View.GONE);
 
 

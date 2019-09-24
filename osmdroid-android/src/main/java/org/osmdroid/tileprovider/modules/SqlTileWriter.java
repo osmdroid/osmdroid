@@ -146,7 +146,7 @@ public class SqlTileWriter implements IFilesystemCache, SplashScreenable {
             cv.put(DatabaseFileArchive.COLUMN_TILE, bits);
             if (pExpirationTime != null)
                 cv.put(COLUMN_EXPIRES, pExpirationTime);
-            db.replace(TABLE, null, cv);
+            db.replaceOrThrow(TABLE, null, cv);
             if (Configuration.getInstance().isDebugMode())
                 Log.d(IMapView.LOGTAG, "tile inserted " + pTileSourceInfo.name() + MapTileIndex.toString(pMapTileIndex));
             if (System.currentTimeMillis() > lastSizeCheck + Configuration.getInstance().getTileGCFrequencyInMillis()){
@@ -156,6 +156,7 @@ public class SqlTileWriter implements IFilesystemCache, SplashScreenable {
         } catch (SQLiteFullException ex) {
             //the drive is full! trigger the clean up operation
             //may want to consider reducing the trim size automagically
+            Log.e(IMapView.LOGTAG, "SQLiteFullException while saving tile.", ex);
             garbageCollector.gc();
             catchException(ex);
         } catch (Exception ex) {
@@ -603,24 +604,33 @@ public class SqlTileWriter implements IFilesystemCache, SplashScreenable {
 
     @Override
     public Drawable loadTile(final ITileSource pTileSource, final long pMapTileIndex) throws Exception{
-        InputStream inputStream = null;
+        byte[] bits = null;
+        long expirationTimestamp = 0;
+        Cursor cur = null;
         try {
             final long index = getIndex(pMapTileIndex);
-            final Cursor cur = getTileCursor(getPrimaryKeyParameters(index, pTileSource), queryColumns);
-            byte[] bits=null;
-            long expirationTimestamp=0;
-
+            cur = getTileCursor(getPrimaryKeyParameters(index, pTileSource), queryColumns);
             if (cur.moveToFirst()){
-                bits = cur.getBlob(cur.getColumnIndex(DatabaseFileArchive.COLUMN_TILE));
-                expirationTimestamp = cur.getLong(cur.getColumnIndex(SqlTileWriter.COLUMN_EXPIRES));
+                bits = cur.getBlob(0);
+                expirationTimestamp = cur.getLong(1);
             }
-            cur.close();
             if (bits==null) {
                 if (Configuration.getInstance().isDebugMode()) {
                     Log.d(IMapView.LOGTAG,"SqlCache - Tile doesn't exist: " +pTileSource.name() + MapTileIndex.toString(pMapTileIndex));
                 }
                 return null;
             }
+        } catch(Exception ex) {
+            catchException(ex);
+            throw ex;
+        } finally {
+            if (cur != null) {
+                cur.close();
+            }
+        }
+
+        InputStream inputStream = null;
+        try {
             inputStream = new ByteArrayInputStream(bits);
             final Drawable drawable = pTileSource.getDrawable(inputStream);
             // Check to see if file has expired
@@ -705,6 +715,9 @@ public class SqlTileWriter implements IFilesystemCache, SplashScreenable {
             where.append(')');
             try {
                 db.delete(TABLE, where.toString(), null);
+            } catch (SQLiteFullException e){
+                Log.e(IMapView.LOGTAG, "SQLiteFullException while cleanup.", e);
+                catchException(e);
             } catch(Exception e) {
                 catchException(e);
                 return;

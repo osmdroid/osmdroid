@@ -7,27 +7,30 @@ import org.osmdroid.util.MapTileIndex;
  */
 public class XYTileSource extends OnlineTileSourceBase {
 
-	/**
-	 *
-	 * @param aName this is used for caching purposes, make sure it is consistent and unique
-	 * @param aZoomMinLevel
-	 * @param aZoomMaxLevel
-	 * @param aTileSizePixels
-	 * @param aImageFilenameEnding
-	 * @param aBaseUrl
-	 */
 	public XYTileSource(final String aName, final int aZoomMinLevel,
 			final int aZoomMaxLevel, final int aTileSizePixels, final String aImageFilenameEnding,
 			final String[] aBaseUrl) {
-		this(aName, aZoomMinLevel, aZoomMaxLevel, aTileSizePixels,
-				aImageFilenameEnding, aBaseUrl,null);
+		super(aName, aZoomMinLevel, aZoomMaxLevel, aTileSizePixels,
+				aImageFilenameEnding, aBaseUrl);
 	}
 
 	public XYTileSource(final String aName, final int aZoomMinLevel,
 						final int aZoomMaxLevel, final int aTileSizePixels, final String aImageFilenameEnding,
 						final String[] aBaseUrl, final String copyright) {
 		super(aName, aZoomMinLevel, aZoomMaxLevel, aTileSizePixels,
-			aImageFilenameEnding, aBaseUrl,copyright);
+				aImageFilenameEnding, aBaseUrl, copyright);
+	}
+
+	/**
+	 * @since 6.1.0
+	 * @param aName this is used for caching purposes, make sure it is consistent and unique
+	 */
+	public XYTileSource(final String aName, final int aZoomMinLevel,
+						final int aZoomMaxLevel, final int aTileSizePixels, final String aImageFilenameEnding,
+						final String[] aBaseUrl, final String copyright,
+						final TileSourcePolicy pTileSourcePolicy) {
+		super(aName, aZoomMinLevel, aZoomMaxLevel, aTileSizePixels,
+				aImageFilenameEnding, aBaseUrl,copyright, pTileSourcePolicy);
 	}
 
 	@Override

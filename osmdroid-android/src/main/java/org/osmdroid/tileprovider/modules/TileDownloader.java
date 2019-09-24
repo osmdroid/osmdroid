@@ -49,6 +49,17 @@ public class TileDownloader {
             return null;
         }
 
+        String userAgent = null;
+        if (pTileSource.getTileSourcePolicy().normalizesUserAgent()) {
+            userAgent = Configuration.getInstance().getNormalizedUserAgent();
+        }
+        if (userAgent == null) {
+            userAgent = Configuration.getInstance().getUserAgentValue();
+        }
+        if (!pTileSource.getTileSourcePolicy().acceptsUserAgent(userAgent)) {
+            Log.e(IMapView.LOGTAG,"Please configure a relevant user agent; current value is: " + userAgent);
+            return null;
+        }
         InputStream in = null;
         OutputStream out = null;
         HttpURLConnection c=null;
@@ -72,7 +83,7 @@ public class TileDownloader {
                 c = (HttpURLConnection) new URL(tileURLString).openConnection();
             }
             c.setUseCaches(true);
-            c.setRequestProperty(Configuration.getInstance().getUserAgentHttpHeader(),Configuration.getInstance().getUserAgentValue());
+            c.setRequestProperty(Configuration.getInstance().getUserAgentHttpHeader(), userAgent);
             for (final Map.Entry<String, String> entry : Configuration.getInstance().getAdditionalHttpRequestProperties().entrySet()) {
                 c.setRequestProperty(entry.getKey(), entry.getValue());
             }
@@ -139,7 +150,9 @@ public class TileDownloader {
             dataStream = new ByteArrayOutputStream();
             out = new BufferedOutputStream(dataStream, StreamUtils.IO_BUFFER_SIZE);
             final long expirationTime = computeExpirationTime(
-                    c.getHeaderField(OpenStreetMapTileProviderConstants.HTTP_EXPIRES_HEADER));
+                    c.getHeaderField(OpenStreetMapTileProviderConstants.HTTP_EXPIRES_HEADER),
+                    c.getHeaderField(OpenStreetMapTileProviderConstants.HTTP_CACHECONTROL_HEADER),
+                    System.currentTimeMillis());
             StreamUtils.copy(in, out);
             out.flush();
             final byte[] data = dataStream.toByteArray();
@@ -183,30 +196,69 @@ public class TileDownloader {
         return null;
     }
 
-    private long computeExpirationTime(final String pHttpExpiresHeader) {
-        Long httpExpirationTime = null;
+    /**
+     * @since 6.0.3
+     * @return the Epoch timestamp corresponding to the http header (in milliseconds), or null
+     */
+    public Long getHttpExpiresTime(final String pHttpExpiresHeader) {
         if (pHttpExpiresHeader != null && pHttpExpiresHeader.length() > 0) {
             try {
                 final Date dateExpires = Configuration.getInstance().getHttpHeaderDateTimeFormat().parse(pHttpExpiresHeader);
-                httpExpirationTime = dateExpires.getTime();
+                return dateExpires.getTime();
             } catch (final Exception ex) {
                 if (Configuration.getInstance().isDebugMapTileDownloader())
-                    Log.d(IMapView.LOGTAG, "Unable to parse expiration tag for tile, using default, server returned " + pHttpExpiresHeader, ex);
+                    Log.d(IMapView.LOGTAG, "Unable to parse expiration tag for tile, server returned " + pHttpExpiresHeader, ex);
             }
         }
-        return computeExpirationTime(httpExpirationTime);
+        return null;
     }
 
-    protected long computeExpirationTime(final Long pHttpExpiresTime) {
+    /**
+     * @since 6.0.3
+     * @return the max-age corresponding to the http header (in seconds), or null
+     */
+    public Long getHttpCacheControlDuration(final String pHttpCacheControlHeader) {
+        if (pHttpCacheControlHeader != null && pHttpCacheControlHeader.length() > 0) {
+            try {
+                final String[] parts = pHttpCacheControlHeader.split(", ");
+                final String maxAge = "max-age=";
+                for (final String part : parts) {
+                    final int pos = part.indexOf(maxAge);
+                    if (pos == 0) {
+                        final String durationString = part.substring(maxAge.length());
+                        return Long.valueOf(durationString);
+                    }
+                }
+            } catch (final Exception ex) {
+                if (Configuration.getInstance().isDebugMapTileDownloader())
+                    Log.d(IMapView.LOGTAG,
+                            "Unable to parse cache control tag for tile, server returned " + pHttpCacheControlHeader, ex);
+            }
+        }
+        return null;
+    }
+
+    /**
+     * @since 6.0.3
+     * @return the expiration time (as Epoch timestamp in milliseconds)
+     */
+    public long computeExpirationTime(final String pHttpExpiresHeader, final String pHttpCacheControlHeader, final long pNow) {
         final Long override=Configuration.getInstance().getExpirationOverrideDuration();
-        final long now = System.currentTimeMillis();
         if (override != null) {
-            return now + override;
+            return pNow + override;
         }
+
         final long extension = Configuration.getInstance().getExpirationExtendedDuration();
-        if (pHttpExpiresTime != null) {
-            return pHttpExpiresTime + extension;
+        final Long cacheControlDuration = getHttpCacheControlDuration(pHttpCacheControlHeader);
+        if (cacheControlDuration != null) {
+            return pNow + cacheControlDuration * 1000 + extension;
         }
-        return now + OpenStreetMapTileProviderConstants.DEFAULT_MAXIMUM_CACHED_FILE_AGE + extension;
+
+        final Long httpExpiresTime = getHttpExpiresTime(pHttpExpiresHeader);
+        if (httpExpiresTime != null) {
+            return httpExpiresTime + extension;
+        }
+
+        return pNow + OpenStreetMapTileProviderConstants.DEFAULT_MAXIMUM_CACHED_FILE_AGE + extension;
     }
 }

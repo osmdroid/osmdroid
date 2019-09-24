@@ -43,7 +43,6 @@ public class SampleWithTilesOverlayAndCustomTileSource extends Activity {
 		mMapView.setTilesScaledToDpi(true);
 		rl.addView(mMapView, new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT,
 				LayoutParams.FILL_PARENT));
-		mMapView.setBuiltInZoomControls(true);
 
 		// zoom to the netherlands
 		mMapView.getController().setZoom(7.);
@@ -54,7 +53,7 @@ public class SampleWithTilesOverlayAndCustomTileSource extends Activity {
 		final ITileSource tileSource = new XYTileSource("FietsRegionaal",  3, 18, 256, ".png",
 				new String[] { "http://overlay.openstreetmap.nl/openfietskaart-rcn/" });
 		tileProvider.setTileSource(tileSource);
-		tileProvider.setTileRequestCompleteHandler(mMapView.getTileRequestCompleteHandler());
+		tileProvider.getTileRequestCompleteHandlers().add(mMapView.getTileRequestCompleteHandler());
 		final TilesOverlay tilesOverlay = new TilesOverlay(tileProvider, this.getBaseContext());
 		tilesOverlay.setLoadingBackgroundColor(Color.TRANSPARENT);
 		mMapView.getOverlays().add(tilesOverlay);
@@ -88,3 +87,4 @@ public class SampleWithTilesOverlayAndCustomTileSource extends Activity {
 	// Inner and Anonymous Classes
 	// ===========================================================
 }
+

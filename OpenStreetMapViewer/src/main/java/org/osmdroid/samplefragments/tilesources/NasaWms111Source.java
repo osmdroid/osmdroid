@@ -22,7 +22,6 @@ public class NasaWms111Source extends SampleWMSSource {
         return "NASA WMS 1.1.1";
     }
     protected String getDefaultUrl(){
-        https://svs.gsfc.nasa.gov/cgi-bin/wms?version=1.1.1&service=WMS&request=GetCapabilities
         return "https://neo.sci.gsfc.nasa.gov/wms/wms?version=1.1.1&service=WMS&request=GetCapabilities";
     }
 

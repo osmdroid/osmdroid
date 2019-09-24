@@ -44,6 +44,12 @@ public class MapTileProviderBasic extends MapTileProviderArray implements IMapTi
 	private final INetworkAvailablityCheck mNetworkAvailabilityCheck;
 
 	/**
+	 * @since 6.1.0
+	 */
+	private final MapTileDownloader mDownloaderProvider;
+	private final MapTileApproximater mApproximationProvider;
+
+	/**
 	 * Creates a {@link MapTileProviderBasic}.
 	 */
 	public MapTileProviderBasic(final Context pContext) {
@@ -54,8 +60,7 @@ public class MapTileProviderBasic extends MapTileProviderArray implements IMapTi
 	 * Creates a {@link MapTileProviderBasic}.
 	 */
 	public MapTileProviderBasic(final Context pContext, final ITileSource pTileSource) {
-		this(new SimpleRegisterReceiver(pContext), new NetworkAvailabliltyCheck(pContext),
-				pTileSource, pContext,null);
+		this(pContext, pTileSource, null);
 	}
 
 	/**
@@ -88,41 +93,39 @@ public class MapTileProviderBasic extends MapTileProviderArray implements IMapTi
 				pRegisterReceiver, pContext.getAssets(), pTileSource);
 		mTileProviderList.add(assetsProvider);
 
-		final MapTileFileStorageProviderBase cacheProvider;
-		if (Build.VERSION.SDK_INT < 10) {
-			cacheProvider = new MapTileFilesystemProvider(pRegisterReceiver, pTileSource);
-		} else {
-			cacheProvider = new MapTileSqlCacheProvider(pRegisterReceiver, pTileSource);
-		}
+		final MapTileFileStorageProviderBase cacheProvider =
+				getMapTileFileStorageProviderBase(pRegisterReceiver, pTileSource, tileWriter);
 		mTileProviderList.add(cacheProvider);
 
 		final MapTileFileArchiveProvider archiveProvider = new MapTileFileArchiveProvider(
 				pRegisterReceiver, pTileSource);
 		mTileProviderList.add(archiveProvider);
 
-		final MapTileApproximater approximationProvider = new MapTileApproximater();
-		mTileProviderList.add(approximationProvider);
-		approximationProvider.addProvider(assetsProvider);
-		approximationProvider.addProvider(cacheProvider);
-		approximationProvider.addProvider(archiveProvider);
+		mApproximationProvider = new MapTileApproximater();
+		mTileProviderList.add(mApproximationProvider);
+		mApproximationProvider.addProvider(assetsProvider);
+		mApproximationProvider.addProvider(cacheProvider);
+		mApproximationProvider.addProvider(archiveProvider);
 
-		final MapTileDownloader downloaderProvider = new MapTileDownloader(pTileSource, tileWriter,
-				aNetworkAvailablityCheck);
-		mTileProviderList.add(downloaderProvider);
+		mDownloaderProvider = new MapTileDownloader(pTileSource, tileWriter, aNetworkAvailablityCheck);
+		mTileProviderList.add(mDownloaderProvider);
 
 		// protected-cache-tile computers
 		getTileCache().getProtectedTileComputers().add(new MapTileAreaZoomComputer(-1));
-		getTileCache().getProtectedTileComputers().add(new MapTileAreaZoomComputer(1));
 		getTileCache().getProtectedTileComputers().add(new MapTileAreaBorderComputer(1));
-		getTileCache().setAutoEnsureCapacity(true);
+		getTileCache().setAutoEnsureCapacity(false);
+		getTileCache().setStressedMemory(false);
 
 		// pre-cache providers
 		getTileCache().getPreCache().addProvider(assetsProvider);
 		getTileCache().getPreCache().addProvider(cacheProvider);
 		getTileCache().getPreCache().addProvider(archiveProvider);
+		getTileCache().getPreCache().addProvider(mDownloaderProvider);
 
 		// tiles currently being processed
 		getTileCache().getProtectedTileContainers().add(this);
+
+		setOfflineFirst(true);
 	}
 
 	@Override
@@ -169,5 +172,51 @@ public class MapTileProviderBasic extends MapTileProviderArray implements IMapTi
 		}
 		final int zoom = MapTileIndex.getZoom(pMapTileIndex);
 		return zoom < zoomMin || zoom > zoomMax;
+	}
+
+	/**
+	 * @since 6.0.3
+	 * cf. https://github.com/osmdroid/osmdroid/issues/1172
+	 */
+	public static MapTileFileStorageProviderBase getMapTileFileStorageProviderBase(
+			final IRegisterReceiver pRegisterReceiver,
+			final ITileSource pTileSource,
+			final IFilesystemCache pTileWriter
+	) {
+		if (pTileWriter instanceof TileWriter) {
+			return new MapTileFilesystemProvider(pRegisterReceiver, pTileSource);
+		}
+		return new MapTileSqlCacheProvider(pRegisterReceiver, pTileSource);
+	}
+
+	/**
+	 * @since 6.1.0
+	 * @return true if possible and done
+	 */
+	public boolean setOfflineFirst(final boolean pOfflineFirst) {
+		int downloaderIndex = -1;
+		int approximationIndex = -1;
+		int i = 0;
+		for(final MapTileModuleProviderBase provider : mTileProviderList) {
+			if (downloaderIndex == -1 && provider == mDownloaderProvider) {
+				downloaderIndex = i;
+			}
+			if (approximationIndex == -1 && provider == mApproximationProvider) {
+				approximationIndex = i;
+			}
+			i++;
+		}
+		if (downloaderIndex == -1 || approximationIndex == -1) {
+			return false;
+		}
+		if (approximationIndex < downloaderIndex && pOfflineFirst) {
+			return true;
+		}
+		if (approximationIndex > downloaderIndex && !pOfflineFirst) {
+			return true;
+		}
+		mTileProviderList.set(downloaderIndex, mApproximationProvider);
+		mTileProviderList.set(approximationIndex, mDownloaderProvider);
+		return true;
 	}
 }

@@ -10,7 +10,6 @@ import org.osmdroid.R;
 import org.osmdroid.debug.model.SqlTileWriterExt;
 import org.osmdroid.debug.util.FileDateUtil;
 import org.osmdroid.intro.StorageAdapter;
-import org.osmdroid.tileprovider.util.StorageUtils;
 
 /**
  * A simple view for browsing the osmdroid tile cache database
@@ -37,7 +36,7 @@ public class CacheBrowserActivity extends Activity {
         cache = new SqlTileWriterExt();
         CacheAdapter adapter = new CacheAdapter(this, cache);
 
-        ListView lv = (ListView) findViewById(R.id.cacheListView);
+        ListView lv = findViewById(R.id.cacheListView);
         lv.setAdapter(adapter);
 
         ((TextView) findViewById(R.id.rows)).setText(cache.getRowCount(null) + "");

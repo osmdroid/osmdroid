@@ -34,7 +34,7 @@ public class SampleMarker extends BaseSampleFragment {
         super.addOverlays();
 
         final List<GeoPoint> points = new ArrayList<>();
-        final Drawable drawable = getResources().getDrawable(R.drawable.icon);
+        final Drawable drawable = getResources().getDrawable(R.drawable.marker_default);
 
         GeoPoint startPoint = new GeoPoint(38.8977, -77.0365);  //white house
         points.add(startPoint);

@@ -72,6 +72,7 @@ public class TileWriter implements IFilesystemCache {
 					}
 				}
 			};
+			initThread.setName("TileWriter#init");
 			initThread.setPriority(Thread.MIN_PRIORITY);
 			initThread.start();
 		}

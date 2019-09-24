@@ -33,12 +33,10 @@ import org.osmdroid.tileprovider.modules.MapTileAssetsProvider;
 import org.osmdroid.tileprovider.modules.MapTileFileArchiveProvider;
 import org.osmdroid.tileprovider.modules.MapTileModuleProviderBase;
 import org.osmdroid.tileprovider.modules.SqlTileWriter;
-import org.osmdroid.tileprovider.modules.TileWriter;
 import org.osmdroid.tileprovider.tilesource.FileBasedTileSource;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.tileprovider.util.SimpleRegisterReceiver;
-import org.osmdroid.views.MapView;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -74,12 +72,12 @@ public class OfflinePickerSample extends BaseSampleFragment implements View.OnCl
 
         View root = inflater.inflate(R.layout.sample_map_two_button, container, false);
 
-        mMapView = (MapView) root.findViewById(R.id.mapview);
-        btnArchives = (Button) root.findViewById(R.id.button1);
+        mMapView = root.findViewById(R.id.mapview);
+        btnArchives = root.findViewById(R.id.button1);
         btnArchives.setOnClickListener(this);
         btnArchives.setText("Pick Files");
 
-        btnSource = (Button) root.findViewById(R.id.button2);
+        btnSource = root.findViewById(R.id.button2);
         btnSource.setOnClickListener(this);
         btnSource.setText("Pick Tile Source");
         return root;
@@ -106,7 +104,6 @@ public class OfflinePickerSample extends BaseSampleFragment implements View.OnCl
         properties.selection_mode = DialogConfigs.MULTI_MODE;
         properties.selection_type = DialogConfigs.FILE_SELECT;
         properties.root = new File(DialogConfigs.DEFAULT_DIR);
-        ;//(Configuration.getInstance().getOsmdroidBasePath());
         properties.error_dir = new File(DialogConfigs.DEFAULT_DIR);
         properties.offset = new File(DialogConfigs.DEFAULT_DIR);
 
@@ -114,9 +111,7 @@ public class OfflinePickerSample extends BaseSampleFragment implements View.OnCl
         //api check
         if (Build.VERSION.SDK_INT >= 14)
             registeredExtensions.add("gpkg");
-        if (Build.VERSION.SDK_INT >= 10)
-            registeredExtensions.add("map");
-
+        registeredExtensions.add("map");
 
         String[] ret = new String[registeredExtensions.size()];
         ret = registeredExtensions.toArray(ret);
@@ -147,12 +142,7 @@ public class OfflinePickerSample extends BaseSampleFragment implements View.OnCl
         if (tileWriter!=null)
             tileWriter.onDetach();
 
-
-        if (Build.VERSION.SDK_INT < 10) {
-            tileWriter = new TileWriter();
-        } else {
-            tileWriter = new SqlTileWriter();
-        }
+        tileWriter = new SqlTileWriter();
 
         tileSources.clear();
         List<MapTileModuleProviderBase> providers = new ArrayList<>();
@@ -196,26 +186,24 @@ public class OfflinePickerSample extends BaseSampleFragment implements View.OnCl
             File[] maps = new File[geopackages.size()];
             maps = geopackages.toArray(maps);
 
-            if (Build.VERSION.SDK_INT > 10) {
-                GeoPackageManager manager = GeoPackageFactory.getManager(getContext());
+            GeoPackageManager manager = GeoPackageFactory.getManager(getContext());
 
-                // Import database
-                for (File f : maps) {
-                    try {
-                        boolean imported = manager.importGeoPackage(f);
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
-                    }
+            // Import database
+            for (File f : maps) {
+                try {
+                    boolean imported = manager.importGeoPackage(f);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
                 }
-
-                provider = new GeoPackageProvider(maps, getContext());
-                geopackage = provider.geoPackageMapTileModuleProvider();
-                providers.add(geopackage);
-                List<GeopackageRasterTileSource> geotileSources = new ArrayList<>();
-                geotileSources.addAll( geopackage.getTileSources());
-                tileSources.addAll(geotileSources);
-                //TODO add feature tiles here too
             }
+
+            provider = new GeoPackageProvider(maps, getContext());
+            geopackage = provider.geoPackageMapTileModuleProvider();
+            providers.add(geopackage);
+            List<GeopackageRasterTileSource> geotileSources = new ArrayList<>();
+            geotileSources.addAll( geopackage.getTileSources());
+            tileSources.addAll(geotileSources);
+            //TODO add feature tiles here too
         }
 
         MapsForgeTileModuleProvider moduleProvider=null;

@@ -10,17 +10,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
-import android.widget.ListView;
 import android.widget.Toast;
 
-import org.osmdroid.BugsTestingActivity;
 import org.osmdroid.ExtraSamplesActivity;
 import org.osmdroid.ISampleFactory;
 import org.osmdroid.R;
-import org.osmdroid.model.BaseActivity;
 import org.osmdroid.model.IBaseActivity;
 import org.osmdroid.samplefragments.BaseSampleFragment;
-import org.osmdroid.views.overlay.Polygon;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -108,7 +104,7 @@ public class SamplesMenuFragment extends Fragment {
 
 
         // get the listview
-        expListView = (ExpandableListView) root.findViewById(R.id.lvExp);
+        expListView = root.findViewById(R.id.lvExp);
 
         // Listview on child click listener
         expListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {

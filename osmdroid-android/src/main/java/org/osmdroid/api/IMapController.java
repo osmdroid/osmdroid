@@ -126,4 +126,9 @@ public interface IMapController {
 	 * @since 6.0.3
 	 */
 	void animateTo(final IGeoPoint point, final Double pZoom, final Long pSpeed, final Float pOrientation);
+
+	/**
+	 * @since 6.1.0
+	 */
+	void animateTo(final IGeoPoint point, final Double pZoom, final Long pSpeed, final Float pOrientation, final Boolean pClockwise);
 }

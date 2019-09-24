@@ -1,7 +1,6 @@
 package org.osmdroid.intro;
 
 import android.content.Context;
-import android.database.Cursor;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,15 +8,9 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import org.osmdroid.R;
-import org.osmdroid.debug.model.MapTileExt;
-import org.osmdroid.debug.util.FileDateUtil;
-import org.osmdroid.debug.util.HumanTime;
-import org.osmdroid.tileprovider.modules.DatabaseFileArchive;
-import org.osmdroid.tileprovider.modules.SqlTileWriter;
 import org.osmdroid.tileprovider.util.StorageUtils;
 
 import java.text.DecimalFormat;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -59,9 +52,9 @@ public class StorageAdapter extends ArrayAdapter {
 
         if (info != null) {
             // Find fields to populate in inflated template
-            TextView drive = (TextView) convertView.findViewById(R.id.storageName);
-            TextView frespace= (TextView) convertView.findViewById(R.id.storageFreespace);
-            TextView path= (TextView) convertView.findViewById(R.id.storagePath);
+            TextView drive = convertView.findViewById(R.id.storageName);
+            TextView frespace= convertView.findViewById(R.id.storageFreespace);
+            TextView path= convertView.findViewById(R.id.storagePath);
             drive.setText(info.getDisplayName());
             frespace.setText("Free space: " + readableFileSize(info.freeSpace));
             path.setText(info.path);

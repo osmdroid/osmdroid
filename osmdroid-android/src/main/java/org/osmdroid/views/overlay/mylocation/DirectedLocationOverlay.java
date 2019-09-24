@@ -57,7 +57,7 @@ public class DirectedLocationOverlay extends Overlay {
 	public DirectedLocationOverlay(final Context ctx) {
 		super();
 
-		BitmapDrawable d=(BitmapDrawable)ctx.getResources().getDrawable(R.drawable.direction_arrow);
+		BitmapDrawable d=(BitmapDrawable)ctx.getResources().getDrawable(R.drawable.round_navigation_white_48);
 
 		setDirectionArrow(d.getBitmap());
 
@@ -122,14 +122,8 @@ public class DirectedLocationOverlay extends Overlay {
 	}
 
 	@Override
-	public void draw(final Canvas c, final MapView osmv, final boolean shadow) {
-
-		if (shadow) {
-			return;
-		}
-
+	public void draw(final Canvas c, final Projection pj) {
 		if (this.mLocation != null) {
-			final Projection pj = osmv.getProjection();
 			pj.toPixels(this.mLocation, screenCoords);
 
 			if (this.mShowAccuracy && this.mAccuracy > 10) {

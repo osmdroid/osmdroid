@@ -16,7 +16,6 @@ import org.osmdroid.events.MapListener;
 import org.osmdroid.events.ScrollEvent;
 import org.osmdroid.events.ZoomEvent;
 import org.osmdroid.samplefragments.BaseSampleFragment;
-import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.gestures.RotationGestureOverlay;
 
 import static org.osmdroid.samplefragments.events.SampleMapEventListener.df;
@@ -43,13 +42,13 @@ public class SampleDrawPolyline extends BaseSampleFragment implements View.OnCli
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.layout_drawlines, null);
-        btnRotateLeft = (ImageButton) v.findViewById(R.id.btnRotateLeft);
-        btnRotateRight = (ImageButton) v.findViewById(R.id.btnRotateRight);
+        btnRotateLeft = v.findViewById(R.id.btnRotateLeft);
+        btnRotateRight = v.findViewById(R.id.btnRotateRight);
         btnRotateRight.setOnClickListener(this);
         btnRotateLeft.setOnClickListener(this);
-        textViewCurrentLocation = (TextView) v.findViewById(R.id.textViewCurrentLocation);
+        textViewCurrentLocation = v.findViewById(R.id.textViewCurrentLocation);
 
-        mMapView = (MapView) v.findViewById(org.osmdroid.R.id.mapview);
+        mMapView = v.findViewById(R.id.mapview);
         RotationGestureOverlay mRotationGestureOverlay = new RotationGestureOverlay(mMapView);
         mRotationGestureOverlay.setEnabled(true);
         mMapView.setMultiTouchControls(true);
@@ -70,12 +69,12 @@ public class SampleDrawPolyline extends BaseSampleFragment implements View.OnCli
             }
         });
         mMapView.getOverlayManager().add(mRotationGestureOverlay);
-        panning = (ImageButton) v.findViewById(R.id.enablePanning);
+        panning = v.findViewById(R.id.enablePanning);
         panning.setOnClickListener(this);
         panning.setBackgroundColor(Color.BLACK);
-        painting = (ImageButton) v.findViewById(R.id.enablePainting);
+        painting = v.findViewById(R.id.enablePainting);
         painting.setOnClickListener(this);
-        paint = (CustomPaintingSurface) v.findViewById(R.id.paintingSurface);
+        paint = v.findViewById(R.id.paintingSurface);
         paint.init(mMapView);
         paint.setMode(CustomPaintingSurface.Mode.Polyline);
         return v;

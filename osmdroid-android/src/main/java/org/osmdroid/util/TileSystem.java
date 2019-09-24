@@ -711,4 +711,46 @@ abstract public class TileSystem {
 	public String toStringLatitudeSpan() {
 		return "[" + getMinLatitude() + "," + getMaxLatitude() + "]";
 	}
+
+	/**
+	 * @since 6.0.3
+	 */
+	public int getTileXFromLongitude(final double pLongitude, final int pZoom) {
+		return clipTile((int) Math.floor(getX01FromLongitude(pLongitude) * (1 << pZoom)), pZoom);
+	}
+
+	/**
+	 * @since 6.0.3
+	 */
+	public int getTileYFromLatitude(final double pLatitude, final int pZoom) {
+		return clipTile((int) Math.floor(getY01FromLatitude(pLatitude) * (1 << pZoom)), pZoom);
+	}
+
+	/**
+	 * @since 6.0.3
+	 */
+	public double getLatitudeFromTileY(final int pY, final int pZoom) {
+		return getLatitudeFromY01(((double)clipTile(pY, pZoom)) / (1 << pZoom));
+	}
+
+	/**
+	 * @since 6.0.3
+	 */
+	public double getLongitudeFromTileX(final int pX, final int pZoom) {
+		return getLongitudeFromX01(((double)clipTile(pX, pZoom)) / (1 << pZoom));
+	}
+
+	/**
+	 * @since 6.0.3
+	 */
+	private int clipTile(final int pTile, final int pZoom) {
+		if (pTile < 0) {
+			return 0;
+		}
+		final int max = 1 << pZoom;
+		if (pTile >= max) {
+			return max - 1;
+		}
+		return pTile;
+	}
 }

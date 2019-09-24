@@ -41,7 +41,7 @@ public class CacheAnalyzerActivity extends Activity implements AdapterView.OnIte
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cache_analyzer);
-        cacheStats = (TextView) findViewById(R.id.cacheStats);
+        cacheStats = findViewById(R.id.cacheStats);
 
         final ArrayList<String> list = new ArrayList<>();
         list.add("Browse the cache");
@@ -49,7 +49,7 @@ public class CacheAnalyzerActivity extends Activity implements AdapterView.OnIte
         list.add("Purge a specific tile source");
         list.add("See the debug counters");
 
-        ListView lv = (ListView) findViewById(R.id.statslist);
+        ListView lv = findViewById(R.id.statslist);
         ArrayAdapter adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, list);
 
         lv.setAdapter(adapter);
@@ -161,8 +161,14 @@ public class CacheAnalyzerActivity extends Activity implements AdapterView.OnIte
         final StringBuilder sb = new StringBuilder("Source: tile count\n");
         if (sources.isEmpty())
             sb.append("None");
-        for (int i = 0; i < sources.size(); i++) {
-            sb.append(sources.get(i).source + ": " + sources.get(i).rowCount + "\n");
+        for (final SqlTileWriterExt.SourceCount sourceCount : sources) {
+            sb.append("Source ").append(sourceCount.source);
+            sb.append(": count=").append(sourceCount.rowCount);
+            sb.append("; minsize=").append(sourceCount.sizeMin);
+            sb.append("; maxsize=").append(sourceCount.sizeMax);
+            sb.append("; totalsize=").append(sourceCount.sizeTotal);
+            sb.append("; avgsize=").append(sourceCount.sizeAvg);
+            sb.append("\n");
         }
         long expired = 0;
         if (cache!=null)
@@ -173,7 +179,7 @@ public class CacheAnalyzerActivity extends Activity implements AdapterView.OnIte
             @Override
             public void run() {
                 try {
-                    TextView tv = (TextView) findViewById(R.id.cacheStats);
+                    TextView tv = findViewById(R.id.cacheStats);
 
                     if (tv != null) {
                         tv.setText(sb.toString());

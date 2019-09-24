@@ -1,11 +1,11 @@
 package org.osmdroid;
 
-import android.app.Application;
 import android.content.Context;
-import android.os.Build;
 import android.os.Environment;
 import android.os.StrictMode;
+import android.support.multidex.MultiDex;
 import android.util.Log;
+import android.support.multidex.MultiDexApplication;
 
 import com.squareup.leakcanary.LeakCanary;
 
@@ -33,12 +33,12 @@ import java.io.PrintWriter;
  */
 
 @ReportsCrashes(formUri = "")
-public class OsmApplication extends Application {
+public class OsmApplication extends MultiDexApplication {
 
     @Override
     public void onCreate() {
         super.onCreate();
-        if (BuildConfig.DEBUG && Build.VERSION.SDK_INT >=11) {
+        if (BuildConfig.DEBUG) {
             StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
                 .detectDiskReads()
                 .detectDiskWrites()
@@ -108,7 +108,7 @@ public class OsmApplication extends Application {
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
-
+        MultiDex.install(this);
 
         try {
             // Initialise ACRA

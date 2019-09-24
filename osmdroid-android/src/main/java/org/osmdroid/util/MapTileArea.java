@@ -151,4 +151,12 @@ public class MapTileArea implements MapTileContainer, IterableWithSize<Long>{
         }
         return Math.min(mMapTileUpperBound, pBottomRight - pTopLeft + 1);
     }
+
+    @Override
+    public String toString() {
+        if (mWidth == 0) {
+            return "MapTileArea:empty";
+        }
+        return "MapTileArea:zoom=" + mZoom + ",left=" + mLeft + ",top=" + mTop + ",width=" + mWidth + ",height=" + mHeight;
+    }
 }

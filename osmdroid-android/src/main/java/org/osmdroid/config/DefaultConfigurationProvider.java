@@ -2,6 +2,8 @@ package org.osmdroid.config;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.util.Log;
 
@@ -29,6 +31,7 @@ import static org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConst
  */
 public class DefaultConfigurationProvider implements IConfigurationProvider {
 
+    public static final String DEFAULT_USER_AGENT = "osmdroid";
 
     protected long gpsWaitTime =20000;
     protected boolean debugMode= false;
@@ -36,7 +39,7 @@ public class DefaultConfigurationProvider implements IConfigurationProvider {
     protected boolean debugTileProviders = false;
     protected boolean debugMapTileDownloader=false;
     protected boolean isMapViewHardwareAccelerated=true;
-    protected String userAgentValue="osmdroid";
+    protected String userAgentValue=DEFAULT_USER_AGENT;
     protected String userAgentHttpHeader = "User-Agent";
     private final Map<String, String> mAdditionalHttpRequestProperties = new HashMap<>();
     protected short cacheMapTileCount = 9;
@@ -60,6 +63,11 @@ public class DefaultConfigurationProvider implements IConfigurationProvider {
     protected int mTileGCBulkSize = 20;
     protected long mTileGCBulkPauseInMillis = 500;
     protected boolean mTileDownloaderFollowRedirects = true;
+
+    /**
+     * @since 6.1.0
+     */
+    private String mNormalizedUserAgent;
 
     public DefaultConfigurationProvider(){
 
@@ -287,6 +295,8 @@ public class DefaultConfigurationProvider implements IConfigurationProvider {
     //</editor-fold>
     @Override
     public void load(Context ctx, SharedPreferences prefs) {
+        mNormalizedUserAgent = computeNormalizedUserAgent(ctx);
+
         //cache management starts here
 
         //check to see if the shared preferences is set for the tile cache
@@ -547,5 +557,30 @@ public class DefaultConfigurationProvider implements IConfigurationProvider {
     @Override
     public boolean isMapTileDownloaderFollowRedirects() {
         return mTileDownloaderFollowRedirects;
+    }
+
+    /**
+     * @since 6.1.0
+     */
+    @Override
+    public String getNormalizedUserAgent() {
+        return mNormalizedUserAgent;
+    }
+
+    /**
+     * @since 6.1.0
+     */
+    private String computeNormalizedUserAgent(final Context pContext) {
+        if (pContext == null) {
+            return null;
+        }
+        final String packageName = pContext.getPackageName();
+        try {
+            final PackageInfo packageInfo = pContext.getPackageManager().getPackageInfo(packageName, PackageManager.GET_META_DATA);
+            final int version = packageInfo.versionCode;
+            return packageName + "/" + version;
+        } catch (PackageManager.NameNotFoundException e1) {
+            return packageName;
+        }
     }
 }

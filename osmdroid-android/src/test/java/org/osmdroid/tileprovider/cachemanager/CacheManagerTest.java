@@ -1,6 +1,6 @@
 package org.osmdroid.tileprovider.cachemanager;
 
-import android.graphics.Point;
+import android.graphics.Rect;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -9,6 +9,8 @@ import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.IterableWithSize;
 import org.osmdroid.util.MapTileIndex;
 import org.osmdroid.util.MyMath;
+import org.osmdroid.util.TileSystem;
+import org.osmdroid.views.MapView;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
@@ -17,13 +19,15 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
-
-import static org.osmdroid.tileprovider.cachemanager.CacheManager.getMapTileFromCoordinates;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(manifest = Config.NONE)
 public class CacheManagerTest {
+
+    private final Random mRandom = new Random();
+
     /**
      * Make sure {@link org.osmdroid.tileprovider.cachemanager.CacheManager#getTilesCoverageIterable(BoundingBox, int, int)} returns the
      * same size and elements as the {@link org.osmdroid.tileprovider.cachemanager.CacheManager#getTilesCoverage(BoundingBox, int, int)}
@@ -86,25 +90,50 @@ public class CacheManagerTest {
     private static Collection<Long> getTilesCoverage(final BoundingBox pBB, final int pZoomLevel){
         final Set<Long> result = new LinkedHashSet<>();
         final int mapTileUpperBound = 1 << pZoomLevel;
-        final Point lowerRight = getMapTileFromCoordinates(
-                pBB.getLatSouth(), pBB.getLonEast(), pZoomLevel);
-        final Point upperLeft = getMapTileFromCoordinates(
-                pBB.getLatNorth(), pBB.getLonWest(), pZoomLevel);
-        int width = lowerRight.x - upperLeft.x + 1; // handling the modulo
-        if (width <= 0) {
-            width += mapTileUpperBound;
-        }
-        int height = lowerRight.y - upperLeft.y + 1; // handling the modulo
-        if (height <= 0) {
-            height += mapTileUpperBound;
-        }
-        for (int i = 0 ; i < width ; i ++) {
-            for (int j = 0 ; j < height ; j ++) {
-                final int x = MyMath.mod(upperLeft.x + i, mapTileUpperBound);
-                final int y = MyMath.mod(upperLeft.y + j, mapTileUpperBound);
+        final Rect rect = CacheManager.getTilesRect(pBB, pZoomLevel);
+        for (int j = rect.top ; j <= rect.bottom ; j ++) {
+            for (int i = rect.left ; i <= rect.right ; i ++) { // x incrementing first for the test
+                final int x = MyMath.mod(i, mapTileUpperBound);
+                final int y = MyMath.mod(j, mapTileUpperBound);
                 result.add(MapTileIndex.getTileIndex(pZoomLevel, x, y));
             }
         }
         return result;
+    }
+
+    /**
+     * @since 6.0.3
+     */
+    @Test
+    public void testGetTilesRectSingleTile() {
+        final TileSystem tileSystem = MapView.getTileSystem();
+        final BoundingBox box = new BoundingBox();
+        for (int zoom = 0 ; zoom <= TileSystem.getMaximumZoomLevel() ; zoom ++) {
+            final double longitude = tileSystem.getRandomLongitude(mRandom.nextDouble());
+            final double latitude = tileSystem.getRandomLatitude(mRandom.nextDouble());
+            box.set(latitude, longitude, latitude, longitude); // single point
+            final Rect rect = CacheManager.getTilesRect(box, zoom);
+            Assert.assertEquals(rect.left, rect.right); // single tile expected
+            Assert.assertEquals(rect.top, rect.bottom); // single tile expected
+        }
+    }
+
+    /**
+     * @since 6.0.3
+     */
+    @Test
+    public void testGetTilesRectWholeWorld() {
+        final TileSystem tileSystem = MapView.getTileSystem();
+        final BoundingBox box = new BoundingBox( // whole world
+                tileSystem.getMaxLatitude(), tileSystem.getMaxLongitude(),
+                tileSystem.getMinLatitude(), tileSystem.getMinLongitude());
+        for (int zoom = 0 ; zoom <= TileSystem.getMaximumZoomLevel() ; zoom ++) {
+            final Rect rect = CacheManager.getTilesRect(box, zoom);
+            Assert.assertEquals(0, rect.left);
+            Assert.assertEquals(0, rect.top);
+            final int maxSize = -1 + (1 << zoom);
+            Assert.assertEquals(maxSize, rect.bottom);
+            Assert.assertEquals(maxSize, rect.right);
+        }
     }
 }

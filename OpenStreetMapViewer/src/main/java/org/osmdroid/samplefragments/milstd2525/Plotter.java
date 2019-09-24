@@ -34,7 +34,6 @@ import org.osmdroid.events.ScrollEvent;
 import org.osmdroid.events.ZoomEvent;
 import org.osmdroid.samplefragments.data.SampleGridlines;
 import org.osmdroid.util.GeoPoint;
-import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
 
 import java.text.DecimalFormat;
@@ -103,18 +102,18 @@ public class Plotter extends SampleGridlines implements View.OnClickListener, Te
 
         View v = inflater.inflate(R.layout.map_with_location_milstd, container,false);
 
-        mMapView = (MapView) v.findViewById(R.id.mapview);
-        textViewCurrentLocation = (TextView) v.findViewById(R.id.textViewCurrentLocation);
-        panning = (ImageButton) v.findViewById(R.id.enablePanning);
+        mMapView = v.findViewById(R.id.mapview);
+        textViewCurrentLocation = v.findViewById(R.id.textViewCurrentLocation);
+        panning = v.findViewById(R.id.enablePanning);
         panning.setOnClickListener(this);
         panning.setBackgroundColor(Color.BLACK);
-        painting = (ImageButton) v.findViewById(R.id.enablePainting);
+        painting = v.findViewById(R.id.enablePainting);
         painting.setOnClickListener(this);
 
         DisplayMetrics metrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
         dpi = metrics.densityDpi;
-        paint = (MilStdCustomPaintingSurface) v.findViewById(R.id.paintingSurface);
+        paint = v.findViewById(R.id.paintingSurface);
         paint.init(mMapView);
         return v;
     }
@@ -207,19 +206,19 @@ public class Plotter extends SampleGridlines implements View.OnClickListener, Te
         View view = View.inflate(getActivity(), R.layout.milstd2525single, null);
 
 
-        canRender = (TextView) view.findViewById(R.id.canRender);
-        symbolCode = (EditText) view.findViewById(R.id.symbolCode);
+        canRender = view.findViewById(R.id.canRender);
+        symbolCode = view.findViewById(R.id.symbolCode);
         symbolCode.addTextChangedListener(this);
-        symbolSize = (EditText) view.findViewById(R.id.symbolSize);
-        radio_milstd2525c = (RadioButton) view.findViewById(R.id.radio_milstd2525c);
-        radio_milstd2525b = (RadioButton) view.findViewById(R.id.radio_milstd2525b);
+        symbolSize = view.findViewById(R.id.symbolSize);
+        radio_milstd2525c = view.findViewById(R.id.radio_milstd2525c);
+        radio_milstd2525b = view.findViewById(R.id.radio_milstd2525b);
         radio_milstd2525b.setOnClickListener(this);
         radio_milstd2525c.setOnClickListener(this);
-        addIcon = (Button) view.findViewById(R.id.addIcon);
+        addIcon = view.findViewById(R.id.addIcon);
         addIcon.setOnClickListener(this);
         addIcon.setEnabled(false);
 
-        cancelAddIcon = (Button) view.findViewById(R.id.cancelAddIcon);
+        cancelAddIcon = view.findViewById(R.id.cancelAddIcon);
         cancelAddIcon.setOnClickListener(this);
 
 

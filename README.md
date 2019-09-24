@@ -7,9 +7,11 @@ osmdroid is a (almost) full/free replacement for Android's MapView (v1 API) clas
 <a href="https://play.google.com/store/apps/details?id=org.osmdroid">
 <img src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png" alt="Get it on F-Droid" height="90"></a>
 
-Current Release: **6.0.2 July 16st, 2018**
-Current Development version: 6.0.3-SNAPSHOT
-Next Release Version (planned): 6.0.3 (or possibly 6.1.0)
+Current Release: **6.1.0 Mar 24st, 2019**
+
+Current Development version: 6.1.1-SNAPSHOT
+
+Next Release Version (planned): 6.1.1
 
 Note: check your calendar, it may take up to a few days for all global mirrors to update.
 
@@ -47,7 +49,7 @@ You can also [compile osmdroid from source](https://github.com/osmdroid/osmdroid
 
 ## Want the latest and greatest?
 
-We are currently working on a major update for osmdroid.
+We periodically publish snapshots to maven central. 
 If you're interesting in trying it out, using the following:
 
 ```groovy
@@ -59,7 +61,7 @@ repositories {
     }
 }
 dependencies {
-    compile 'org.osmdroid:osmdroid-android:6.0.0-SNAPSHOT'
+    compile 'org.osmdroid:osmdroid-android:<VERSION>-SNAPSHOT:debug@aar'
 }
 ```
 
@@ -67,7 +69,7 @@ Use at your own risk though, it may not be stable or may have bugs or performanc
 If you run across any, please report them.
 
 In case gradle doesn't resolve it, it can be download manually here:
-https://oss.sonatype.org/service/local/repositories/snapshots/content/org/osmdroid/osmdroid-android/6.0.0-SNAPSHOT/osmdroid-android-6.0.0-SNAPSHOT.aar
+https://oss.sonatype.org/service/local/repositories/snapshots/content/org/osmdroid/osmdroid-android/<VERSION>-SNAPSHOT/osmdroid-android-<VERSION>-SNAPSHOT.aar
 
 Side note: gradle's cached dependencies and doesn't really handle snapshot very well.
 To force gradle to update snapshots on every build, try adding this to your root `build.gradle` file.

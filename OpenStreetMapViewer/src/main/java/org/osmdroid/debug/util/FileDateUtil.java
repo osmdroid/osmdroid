@@ -4,7 +4,6 @@ import android.annotation.TargetApi;
 import android.os.Build;
 import android.text.format.DateFormat;
 
-import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
