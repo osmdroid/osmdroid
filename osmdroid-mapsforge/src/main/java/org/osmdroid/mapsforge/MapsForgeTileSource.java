@@ -21,6 +21,7 @@ import org.mapsforge.map.rendertheme.rule.RenderThemeFuture;
 import org.osmdroid.api.IMapView;
 import org.osmdroid.tileprovider.tilesource.BitmapTileSourceBase;
 import org.osmdroid.util.MapTileIndex;
+import org.osmdroid.views.MapView;
 
 import java.io.File;
 
@@ -103,9 +104,11 @@ public class MapsForgeTileSource extends BitmapTileSourceBase {
 
     public org.osmdroid.util.BoundingBox getBoundsOsmdroid(){
         BoundingBox boundingBox = mapDatabase.boundingBox();
-        org.osmdroid.util.BoundingBox bounds = new org.osmdroid.util.BoundingBox(boundingBox.maxLatitude, boundingBox.maxLongitude,
-            boundingBox.minLatitude, boundingBox.minLongitude);
-        return bounds;
+        final double latNorth= Math.min(MapView.getTileSystem().getMaxLatitude(),boundingBox.maxLatitude);
+        final double latSouth= Math.max(MapView.getTileSystem().getMinLatitude(),boundingBox.minLatitude);
+        return new org.osmdroid.util.BoundingBox(
+                latNorth, boundingBox.maxLongitude,
+                latSouth, boundingBox.minLongitude);
     }
 
     /**
