@@ -69,9 +69,9 @@ public class SampleZoomToBounding extends BaseSampleFragment implements View.OnC
         btnCache.setOnClickListener(this);
         btnCache.setText("Zoom to bounds");
 
-        polygon.setStrokeColor(Color.parseColor("#990000FF"));
-        polygon.setStrokeWidth(2);
-        polygon.setFillColor(Color.parseColor("#330000FF"));
+        polygon.getOutlinePaint().setColor(Color.parseColor("#990000FF"));
+        polygon.getOutlinePaint().setStrokeWidth(2);
+        polygon.getFillPaint().setColor(Color.parseColor("#330000FF"));
         mMapView.getOverlays().add(polygon);
 
         return root;

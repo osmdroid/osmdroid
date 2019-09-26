@@ -60,11 +60,15 @@ class LinearRing{
 	private boolean mGeodesic = false;
 
 	/**
+	 * @since 6.1.0
+	 */
+	private final boolean mClosed;
+
+	/**
 	 * Dedicated to `Path`
 	 */
 	public LinearRing(final Path pPath) {
-		mPath = pPath;
-		mPointAccepter = new PathBuilder(pPath);
+		this(pPath, true);
 	}
 
 	/**
@@ -74,6 +78,16 @@ class LinearRing{
 	public LinearRing(final LineBuilder pLineBuilder) {
 		mPath = null;
 		mPointAccepter = pLineBuilder;
+		mClosed = false;
+	}
+
+	/**
+	 * @since 6.1.0
+	 */
+	public LinearRing(final Path pPath, final boolean pClosed) {
+		mPath = pPath;
+		mPointAccepter = new PathBuilder(pPath);
+		mClosed = pClosed;
 	}
 
 	void clearPath() {
@@ -194,9 +208,11 @@ class LinearRing{
 			getBestOffset(pProjection, offset);
 		}
 		mSegmentClipper.init();
-		clipAndStore(pProjection, offset, true, pStorePoints, mSegmentClipper);
+		clipAndStore(pProjection, offset, mClosed, pStorePoints, mSegmentClipper);
 		mSegmentClipper.end();
-		mPath.close();
+		if (mClosed) {
+		    mPath.close();
+        }
 		return offset;
 	}
 

@@ -209,9 +209,9 @@ public class OsmMapShapeConverter {
         Polyline line = new Polyline();
         if (polylineOptions!=null) {
             line.setTitle(polylineOptions.getTitle());
-            line.setColor(polylineOptions.getColor());
+            line.getOutlinePaint().setColor(polylineOptions.getColor());
             line.setGeodesic(polylineOptions.isGeodesic());
-            line.setWidth(polylineOptions.getWidth());
+            line.getOutlinePaint().setStrokeWidth(polylineOptions.getWidth());
             line.setSubDescription(polygonOptions.getSubtitle());
         }
 
@@ -274,9 +274,9 @@ public class OsmMapShapeConverter {
         newPoloygon.setHoles(holes);
 
         if (polygonOptions!=null){
-            newPoloygon.setFillColor(polygonOptions.getFillColor());
-            newPoloygon.setStrokeColor(polygonOptions.getStrokeColor());
-            newPoloygon.setStrokeWidth(polygonOptions.getStrokeWidth());
+            newPoloygon.getFillPaint().setColor(polygonOptions.getFillColor());
+            newPoloygon.getOutlinePaint().setColor(polygonOptions.getStrokeColor());
+            newPoloygon.getOutlinePaint().setStrokeWidth(polygonOptions.getStrokeWidth());
             newPoloygon.setTitle(polygonOptions.getTitle());
         }
 
@@ -726,10 +726,10 @@ public class OsmMapShapeConverter {
         polygon1.setPoints(pts);
         polygon1.getHoles().addAll(holes);
         if (options!=null) {
-            polygon1.setFillColor(options.getFillColor());
+            polygon1.getFillPaint().setColor(options.getFillColor());
             polygon1.setTitle(options.getTitle());
-            polygon1.setStrokeColor(options.getStrokeColor());
-            polygon1.setStrokeWidth(options.getStrokeWidth());
+            polygon1.getOutlinePaint().setColor(options.getStrokeColor());
+            polygon1.getOutlinePaint().setStrokeWidth(options.getStrokeWidth());
             polygon1.setSubDescription(options.getSubtitle());
             polygon1.setInfoWindow(new BasicInfoWindow(R.layout.bonuspack_bubble, map));
 
@@ -753,10 +753,10 @@ public class OsmMapShapeConverter {
         org.osmdroid.views.overlay.Polygon polygon, PolygonOptions options) {
 
         if (options!=null) {
-            polygon.setFillColor(options.getFillColor());
+            polygon.getFillPaint().setColor(options.getFillColor());
             polygon.setTitle(options.getTitle());
-            polygon.setStrokeColor(options.getStrokeColor());
-            polygon.setStrokeWidth(options.getStrokeWidth());
+            polygon.getOutlinePaint().setColor(options.getStrokeColor());
+            polygon.getOutlinePaint().setStrokeWidth(options.getStrokeWidth());
             polygon.setSubDescription(options.getSubtitle());
             polygon.setInfoWindow(new BasicInfoWindow(R.layout.bonuspack_bubble, map));
 

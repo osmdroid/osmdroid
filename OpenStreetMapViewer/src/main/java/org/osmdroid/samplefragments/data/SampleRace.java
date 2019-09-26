@@ -75,10 +75,10 @@ public class SampleRace extends BaseSampleFragment {
         super.addOverlays();
 
         final Polyline line = new Polyline(mMapView);
-        line.setColor(COLOR_POLYLINE_STATIC);
-        line.setWidth(LINE_WIDTH_BIG);
+        line.getOutlinePaint().setColor(COLOR_POLYLINE_STATIC);
+        line.getOutlinePaint().setStrokeWidth(LINE_WIDTH_BIG);
         line.setPoints(mGeoPoints);
-        line.getPaint().setStrokeCap(Paint.Cap.ROUND);
+        line.getOutlinePaint().setStrokeCap(Paint.Cap.ROUND);
         final List<MilestoneManager> managers = new ArrayList<>();
         final MilestoneMeterDistanceSliceLister slicerForPath = new MilestoneMeterDistanceSliceLister();
         final Bitmap bitmap = BitmapFactory.decodeResource(getResources(), org.osmdroid.library.R.drawable.next);
