@@ -26,6 +26,8 @@ public class Polyline extends PolyOverlayWithIW {
 
     protected OnClickListener mOnClickListener;
 
+    private float mDensityMultiplier = 1.0f;
+
     /**
      * If MapView is not provided, infowindow popup will not function unless you set it yourself.
      */
@@ -110,6 +112,10 @@ public class Polyline extends PolyOverlayWithIW {
         mOnClickListener = listener;
     }
 
+    public void setDensityMultiplier(float multiplier) {
+        mDensityMultiplier = multiplier;
+    }
+
     /**
      * Set the points.
      * Note that a later change in the original points List will have no effect.
@@ -162,7 +168,7 @@ public class Polyline extends PolyOverlayWithIW {
     public boolean onSingleTapConfirmed(final MotionEvent event, final MapView mapView) {
         final Projection pj = mapView.getProjection();
         GeoPoint eventPos = (GeoPoint) pj.fromPixels((int) event.getX(), (int) event.getY());
-        double tolerance = mOutlinePaint.getStrokeWidth() * mDensity;
+        double tolerance = mOutlinePaint.getStrokeWidth() * mDensity * mDensityMultiplier;
         final GeoPoint closest = getCloseTo(eventPos, tolerance, mapView);
         if (closest != null) {
             if (mOnClickListener == null) {
