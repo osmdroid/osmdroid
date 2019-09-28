@@ -72,7 +72,7 @@ env:
     #- API=24 ANDROID_ABI=armeabi-v7a ANDROID_TAG=google_apis     # emulator consistently times out
     #- API=25 ANDROID_ABI=armeabi-v7a ANDROID_TAG=google_apis     # no addons available, so can't be used
 
-install:
+script:
   # run build while emulator is starting up
   - ./gradlew -version
   - ./gradlew clean build
