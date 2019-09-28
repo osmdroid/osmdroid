@@ -79,7 +79,7 @@ public class HEREWeGoTileSource  extends OnlineTileSourceBase
      */
     public HEREWeGoTileSource(final String herewegoMapId, final String accesstoken, final String appCode)
     {
-        super("herewego"+herewegoMapId, 1, 20, 256, ".png", mapBoxBaseUrl,"© 1987 - 2017 HERE. All rights reserved.");
+        super("herewego"+herewegoMapId, 1, 20, 256, ".png", mapBoxBaseUrl,"© 1987 - 2019 HERE. All rights reserved.");
         this.appId =accesstoken;
         this.herewegoMapId =herewegoMapId;
         this.appCode = appCode;
