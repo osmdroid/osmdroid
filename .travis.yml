@@ -85,7 +85,7 @@ before_install:
 install:
   # run build while emulator is starting up
   - ./gradlew -version
-  - ./gradlew clean assemble assembleAndroidTest
+  - ./gradlew clean build
 
 # mvn sdk deploy
 before_script:
