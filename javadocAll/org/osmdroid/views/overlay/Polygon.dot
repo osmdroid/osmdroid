@@ -9,19 +9,19 @@ digraph G {
 	node [fontname="arial",fontsize=10,shape=plaintext];
 	nodesep=0.25;
 	ranksep=0.5;
-	// org.osmdroid.views.overlay.OverlayWithIW
-	c226850 [label=<<table title="org.osmdroid.views.overlay.OverlayWithIW" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./OverlayWithIW.html">
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"><font face="arial italic"> OverlayWithIW </font></td></tr>
-		</table></td></tr>
-		</table>>, URL="./OverlayWithIW.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.Polygon
-	c226852 [label=<<table title="org.osmdroid.views.overlay.Polygon" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./Polygon.html">
+	c235529 [label=<<table title="org.osmdroid.views.overlay.Polygon" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./Polygon.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> Polygon </td></tr>
 		</table></td></tr>
 		</table>>, URL="./Polygon.html", fontname="arial", fontcolor="black", fontsize=10.0];
-	//org.osmdroid.views.overlay.Polygon extends org.osmdroid.views.overlay.OverlayWithIW
-	c226850:p -> c226852:p [dir=back,arrowtail=empty];
+	// org.osmdroid.views.overlay.PolyOverlayWithIW
+	c235533 [label=<<table title="org.osmdroid.views.overlay.PolyOverlayWithIW" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./PolyOverlayWithIW.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"><font face="arial italic"> PolyOverlayWithIW </font></td></tr>
+		</table></td></tr>
+		</table>>, URL="./PolyOverlayWithIW.html", fontname="arial", fontcolor="black", fontsize=10.0];
+	//org.osmdroid.views.overlay.Polygon extends org.osmdroid.views.overlay.PolyOverlayWithIW
+	c235533:p -> c235529:p [dir=back,arrowtail=empty];
 }
 

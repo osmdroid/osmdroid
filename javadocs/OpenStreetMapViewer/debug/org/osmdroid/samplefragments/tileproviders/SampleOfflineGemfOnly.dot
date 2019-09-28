@@ -10,18 +10,18 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.samplefragments.BaseSampleFragment
-	c44099 [label=<<table title="org.osmdroid.samplefragments.BaseSampleFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../BaseSampleFragment.html">
+	c45984 [label=<<table title="org.osmdroid.samplefragments.BaseSampleFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../BaseSampleFragment.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> BaseSampleFragment </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="../BaseSampleFragment.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.tileproviders.SampleOfflineGemfOnly
-	c44220 [label=<<table title="org.osmdroid.samplefragments.tileproviders.SampleOfflineGemfOnly" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./SampleOfflineGemfOnly.html">
+	c46110 [label=<<table title="org.osmdroid.samplefragments.tileproviders.SampleOfflineGemfOnly" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./SampleOfflineGemfOnly.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleOfflineGemfOnly </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SampleOfflineGemfOnly.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.samplefragments.tileproviders.SampleOfflineGemfOnly extends org.osmdroid.samplefragments.BaseSampleFragment
-	c44099:p -> c44220:p [dir=back,arrowtail=empty];
+	c45984:p -> c46110:p [dir=back,arrowtail=empty];
 }
 

@@ -10,23 +10,23 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.samplefragments.BaseSampleFragment
-	c321199 [label=<<table title="org.osmdroid.samplefragments.BaseSampleFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../BaseSampleFragment.html">
+	c337286 [label=<<table title="org.osmdroid.samplefragments.BaseSampleFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../BaseSampleFragment.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> BaseSampleFragment </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="../BaseSampleFragment.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.data.WeatherGroundOverlaySample
-	c321235 [label=<<table title="org.osmdroid.samplefragments.data.WeatherGroundOverlaySample" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./WeatherGroundOverlaySample.html">
+	c337323 [label=<<table title="org.osmdroid.samplefragments.data.WeatherGroundOverlaySample" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./WeatherGroundOverlaySample.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> WeatherGroundOverlaySample </td></tr>
 		</table></td></tr>
 		</table>>, URL="./WeatherGroundOverlaySample.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.samplefragments.data.WeatherGroundOverlaySample extends org.osmdroid.samplefragments.BaseSampleFragment
-	c321199:p -> c321235:p [dir=back,arrowtail=empty];
+	c337286:p -> c337323:p [dir=back,arrowtail=empty];
 	//org.osmdroid.samplefragments.data.WeatherGroundOverlaySample implements java.lang.Runnable
-	c321658:p -> c321235:p [dir=back,arrowtail=empty,style=dashed];
+	c337758:p -> c337323:p [dir=back,arrowtail=empty,style=dashed];
 	// java.lang.Runnable
-	c321658 [label=<<table title="java.lang.Runnable" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/java/lang/Runnable.html">
+	c337758 [label=<<table title="java.lang.Runnable" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/java/lang/Runnable.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> Runnable </td></tr>

@@ -10,26 +10,26 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.samplefragments.BaseSampleFragment
-	c233440 [label=<<table title="org.osmdroid.samplefragments.BaseSampleFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../BaseSampleFragment.html">
+	c242290 [label=<<table title="org.osmdroid.samplefragments.BaseSampleFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../BaseSampleFragment.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> BaseSampleFragment </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="../BaseSampleFragment.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.drawing.PressToPlot
-	c233488 [label=<<table title="org.osmdroid.samplefragments.drawing.PressToPlot" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./PressToPlot.html">
+	c242339 [label=<<table title="org.osmdroid.samplefragments.drawing.PressToPlot" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./PressToPlot.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> PressToPlot </td></tr>
 		</table></td></tr>
 		</table>>, URL="./PressToPlot.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.drawing.PressToPlotWithoutWrapping
-	c233489 [label=<<table title="org.osmdroid.samplefragments.drawing.PressToPlotWithoutWrapping" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./PressToPlotWithoutWrapping.html">
+	c242340 [label=<<table title="org.osmdroid.samplefragments.drawing.PressToPlotWithoutWrapping" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./PressToPlotWithoutWrapping.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> PressToPlotWithoutWrapping </td></tr>
 		</table></td></tr>
 		</table>>, URL="./PressToPlotWithoutWrapping.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.samplefragments.drawing.PressToPlot extends org.osmdroid.samplefragments.BaseSampleFragment
-	c233440:p -> c233488:p [dir=back,arrowtail=empty];
+	c242290:p -> c242339:p [dir=back,arrowtail=empty];
 	//org.osmdroid.samplefragments.drawing.PressToPlotWithoutWrapping extends org.osmdroid.samplefragments.drawing.PressToPlot
-	c233488:p -> c233489:p [dir=back,arrowtail=empty];
+	c242339:p -> c242340:p [dir=back,arrowtail=empty];
 }
 

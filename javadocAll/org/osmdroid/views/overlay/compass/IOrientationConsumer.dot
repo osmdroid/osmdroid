@@ -10,35 +10,35 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.bugtestfragments.WeathForceActivity
-	c118338 [label=<<table title="org.osmdroid.bugtestfragments.WeathForceActivity" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../../bugtestfragments/WeathForceActivity.html">
+	c123629 [label=<<table title="org.osmdroid.bugtestfragments.WeathForceActivity" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../../bugtestfragments/WeathForceActivity.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> WeathForceActivity </td></tr>
 		</table></td></tr>
 		</table>>, URL="../../../bugtestfragments/WeathForceActivity.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.location.SampleHeadingCompassUp
-	c118482 [label=<<table title="org.osmdroid.samplefragments.location.SampleHeadingCompassUp" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../../samplefragments/location/SampleHeadingCompassUp.html">
+	c123778 [label=<<table title="org.osmdroid.samplefragments.location.SampleHeadingCompassUp" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../../samplefragments/location/SampleHeadingCompassUp.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleHeadingCompassUp </td></tr>
 		</table></td></tr>
 		</table>>, URL="../../../samplefragments/location/SampleHeadingCompassUp.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.compass.CompassOverlay
-	c118694 [label=<<table title="org.osmdroid.views.overlay.compass.CompassOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./CompassOverlay.html">
+	c123992 [label=<<table title="org.osmdroid.views.overlay.compass.CompassOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./CompassOverlay.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> CompassOverlay </td></tr>
 		</table></td></tr>
 		</table>>, URL="./CompassOverlay.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.compass.IOrientationConsumer
-	c118696 [label=<<table title="org.osmdroid.views.overlay.compass.IOrientationConsumer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./IOrientationConsumer.html">
+	c123994 [label=<<table title="org.osmdroid.views.overlay.compass.IOrientationConsumer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./IOrientationConsumer.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> IOrientationConsumer </td></tr>
 		</table></td></tr>
 		</table>>, URL="./IOrientationConsumer.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.bugtestfragments.WeathForceActivity implements org.osmdroid.views.overlay.compass.IOrientationConsumer
-	c118696:p -> c118338:p [dir=back,arrowtail=empty,style=dashed];
+	c123994:p -> c123629:p [dir=back,arrowtail=empty,style=dashed];
 	//org.osmdroid.samplefragments.location.SampleHeadingCompassUp implements org.osmdroid.views.overlay.compass.IOrientationConsumer
-	c118696:p -> c118482:p [dir=back,arrowtail=empty,style=dashed];
+	c123994:p -> c123778:p [dir=back,arrowtail=empty,style=dashed];
 	//org.osmdroid.views.overlay.compass.CompassOverlay implements org.osmdroid.views.overlay.compass.IOrientationConsumer
-	c118696:p -> c118694:p [dir=back,arrowtail=empty,style=dashed];
+	c123994:p -> c123992:p [dir=back,arrowtail=empty,style=dashed];
 }
 

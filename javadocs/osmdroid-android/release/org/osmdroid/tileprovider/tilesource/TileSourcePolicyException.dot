@@ -10,15 +10,15 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.tileprovider.tilesource.TileSourcePolicyException
-	c61349 [label=<<table title="org.osmdroid.tileprovider.tilesource.TileSourcePolicyException" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./TileSourcePolicyException.html">
+	c64863 [label=<<table title="org.osmdroid.tileprovider.tilesource.TileSourcePolicyException" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./TileSourcePolicyException.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> TileSourcePolicyException </td></tr>
 		</table></td></tr>
 		</table>>, URL="./TileSourcePolicyException.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.tileprovider.tilesource.TileSourcePolicyException extends java.lang.RuntimeException
-	c61503:p -> c61349:p [dir=back,arrowtail=empty];
+	c65024:p -> c64863:p [dir=back,arrowtail=empty];
 	// java.lang.RuntimeException
-	c61503 [label=<<table title="java.lang.RuntimeException" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/java/lang/RuntimeException.html">
+	c65024 [label=<<table title="java.lang.RuntimeException" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/java/lang/RuntimeException.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> RuntimeException </td></tr>
 		</table></td></tr>

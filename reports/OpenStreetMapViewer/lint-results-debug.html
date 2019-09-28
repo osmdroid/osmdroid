@@ -194,7 +194,7 @@ document.getElementById(id+'Link').style.display = 'none';
 <body>
 <h1>Lint Report</h1>
 <div class="titleSeparator"></div>
-Check performed at Sun Mar 24 09:25:44 EDT 2019.<br/>
+Check performed at Fri Sep 27 19:02:46 EDT 2019.<br/>
 76 errors and 500 warnings found:<br/><br/>
 <table class="overview">
 <tr><td></td><td class="categoryColumn"><a href="#Correctness">Correctness</a>
@@ -2008,21 +2008,21 @@ If not set to false, and if targeting API 23 or later, lint will also warn that 
 <div class="id"><a href="#" title="Return to top">DrawAllocation: Memory allocations within drawing code</a><div class="issueSeparator"></div>
 </div>
 <div class="warningslist">
-<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/drawing/CustomPaintingSurface.java">../../src/main/java/org/osmdroid/samplefragments/drawing/CustomPaintingSurface.java</a>:79</span>: <span class="message">Avoid object allocations during draw/layout operations (preallocate and reuse instead)</span><br /><pre class="errorlines">
-<span class="lineno">  76</span>     @Override
-<span class="lineno">  77</span>     protected void onDraw(Canvas canvas) {
-<span class="lineno">  78</span> 
-<span class="lineno">  79</span>         mCanvas = <span class="errorspan">new Canvas(mBitmap);</span>
-<span class="lineno">  80</span>         mPaint = new Paint();
-<span class="lineno">  81</span>         mPaint.setAntiAlias(true);
-</pre>
 <span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/drawing/CustomPaintingSurface.java">../../src/main/java/org/osmdroid/samplefragments/drawing/CustomPaintingSurface.java</a>:80</span>: <span class="message">Avoid object allocations during draw/layout operations (preallocate and reuse instead)</span><br /><pre class="errorlines">
-<span class="lineno">  77</span>     protected void onDraw(Canvas canvas) {
-<span class="lineno">  78</span> 
-<span class="lineno">  79</span>         mCanvas = new Canvas(mBitmap);
-<span class="lineno">  80</span>         mPaint = <span class="errorspan">new Paint();</span>
-<span class="lineno">  81</span>         mPaint.setAntiAlias(true);
-<span class="lineno">  82</span>         mPaint.setDither(true);
+<span class="lineno">  77</span>     @Override
+<span class="lineno">  78</span>     protected void onDraw(Canvas canvas) {
+<span class="lineno">  79</span> 
+<span class="lineno">  80</span>         mCanvas = <span class="errorspan">new Canvas(mBitmap);</span>
+<span class="lineno">  81</span>         mPaint = new Paint();
+<span class="lineno">  82</span>         mPaint.setAntiAlias(true);
+</pre>
+<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/drawing/CustomPaintingSurface.java">../../src/main/java/org/osmdroid/samplefragments/drawing/CustomPaintingSurface.java</a>:81</span>: <span class="message">Avoid object allocations during draw/layout operations (preallocate and reuse instead)</span><br /><pre class="errorlines">
+<span class="lineno">  78</span>     protected void onDraw(Canvas canvas) {
+<span class="lineno">  79</span> 
+<span class="lineno">  80</span>         mCanvas = new Canvas(mBitmap);
+<span class="lineno">  81</span>         mPaint = <span class="errorspan">new Paint();</span>
+<span class="lineno">  82</span>         mPaint.setAntiAlias(true);
+<span class="lineno">  83</span>         mPaint.setDither(true);
 </pre>
 <span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/milstd2525/MilStdCustomPaintingSurface.java">../../src/main/java/org/osmdroid/samplefragments/milstd2525/MilStdCustomPaintingSurface.java</a>:64</span>: <span class="message">Avoid object allocations during draw/layout operations (preallocate and reuse instead)</span><br /><pre class="errorlines">
 <span class="lineno">  61</span>     @Override
@@ -2978,13 +2978,13 @@ If you really want to keep the text field generic, you can suppress this warning
 <div class="id"><a href="#" title="Return to top">ClickableViewAccessibility: Accessibility in Custom Views</a><div class="issueSeparator"></div>
 </div>
 <div class="warningslist">
-<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/drawing/CustomPaintingSurface.java">../../src/main/java/org/osmdroid/samplefragments/drawing/CustomPaintingSurface.java</a>:219</span>: <span class="message">Custom view <code>org/osmdroid/samplefragments/drawing/CustomPaintingSurface</code> overrides <code>onTouchEvent</code> but not <code>performClick</code></span><br /><pre class="errorlines">
-<span class="lineno"> 216</span>     }
-<span class="lineno"> 217</span> 
-<span class="lineno"> 218</span>     @Override
-<span class="lineno"> 219</span>     public boolean <span class="errorspan">onTouchEvent(MotionEvent event) {</span>
-<span class="lineno"> 220</span>         float x = event.getX();
-<span class="lineno"> 221</span>         float y = event.getY();
+<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/drawing/CustomPaintingSurface.java">../../src/main/java/org/osmdroid/samplefragments/drawing/CustomPaintingSurface.java</a>:222</span>: <span class="message">Custom view <code>org/osmdroid/samplefragments/drawing/CustomPaintingSurface</code> overrides <code>onTouchEvent</code> but not <code>performClick</code></span><br /><pre class="errorlines">
+<span class="lineno"> 219</span>     }
+<span class="lineno"> 220</span> 
+<span class="lineno"> 221</span>     @Override
+<span class="lineno"> 222</span>     public boolean <span class="errorspan">onTouchEvent(MotionEvent event) {</span>
+<span class="lineno"> 223</span>         float x = event.getX();
+<span class="lineno"> 224</span>         float y = event.getY();
 </pre>
 <span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/layouts/MapInScrollView.java">../../src/main/java/org/osmdroid/samplefragments/layouts/MapInScrollView.java</a>:35</span>: <span class="message"><code>org/osmdroid/samplefragments/layouts/MapInScrollView$1#onTouch</code> should call <code>View#performClick</code> when a click is detected</span><br /><pre class="errorlines">
 <span class="lineno">  32</span>         mMapView.setOnTouchListener(new View.OnTouchListener() {
@@ -3796,7 +3796,7 @@ Note that for text fields, you should not set both the <code>hint</code> and the
 <span class="lineno">  69</span>         btnCache.setOnClickListener(this);
 <span class="lineno">  70</span>         btnCache.setText(<span class="errorspan">"Zoom to bounds");</span>
 <span class="lineno">  71</span> 
-<span class="lineno">  72</span>         polygon.setStrokeColor(Color.parseColor("#990000FF"));
+<span class="lineno">  72</span>         polygon.getOutlinePaint().setColor(Color.parseColor("#990000FF"));
 </pre>
 <span class="location"><a href="../../src/main/java/org/osmdroid/intro/StorageAdapter.java">../../src/main/java/org/osmdroid/intro/StorageAdapter.java</a>:59</span>: <span class="message">Do not concatenate text displayed with <code>setText</code>. Use resource string with placeholders.</span><br /><pre class="errorlines">
 <span class="lineno">  56</span>             TextView frespace= convertView.findViewById(R.id.storageFreespace);

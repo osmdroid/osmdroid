@@ -10,15 +10,15 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.OsmApplication
-	c212553 [label=<<table title="org.osmdroid.OsmApplication" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./OsmApplication.html">
+	c220308 [label=<<table title="org.osmdroid.OsmApplication" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./OsmApplication.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> OsmApplication </td></tr>
 		</table></td></tr>
 		</table>>, URL="./OsmApplication.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.OsmApplication extends MultiDexApplication
-	c213026:p -> c212553:p [dir=back,arrowtail=empty];
+	c220794:p -> c220308:p [dir=back,arrowtail=empty];
 	// MultiDexApplication
-	c213026[label=<<table title="MultiDexApplication" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api//MultiDexApplication.html">
+	c220794[label=<<table title="MultiDexApplication" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api//MultiDexApplication.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MultiDexApplication </td></tr>
 		</table></td></tr>

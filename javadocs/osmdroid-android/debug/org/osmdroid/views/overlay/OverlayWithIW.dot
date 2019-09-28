@@ -10,42 +10,34 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.views.overlay.Marker
-	c49684 [label=<<table title="org.osmdroid.views.overlay.Marker" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Marker.html">
+	c51871 [label=<<table title="org.osmdroid.views.overlay.Marker" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Marker.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> Marker </td></tr>
 		</table></td></tr>
 		</table>>, URL="./Marker.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.Overlay
-	c49707 [label=<<table title="org.osmdroid.views.overlay.Overlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Overlay.html">
+	c51894 [label=<<table title="org.osmdroid.views.overlay.Overlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Overlay.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> Overlay </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./Overlay.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.OverlayWithIW
-	c49713 [label=<<table title="org.osmdroid.views.overlay.OverlayWithIW" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./OverlayWithIW.html">
+	c51900 [label=<<table title="org.osmdroid.views.overlay.OverlayWithIW" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./OverlayWithIW.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> OverlayWithIW </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./OverlayWithIW.html", fontname="arial", fontcolor="black", fontsize=10.0];
-	// org.osmdroid.views.overlay.Polygon
-	c49715 [label=<<table title="org.osmdroid.views.overlay.Polygon" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Polygon.html">
+	// org.osmdroid.views.overlay.PolyOverlayWithIW
+	c51906 [label=<<table title="org.osmdroid.views.overlay.PolyOverlayWithIW" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./PolyOverlayWithIW.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> Polygon </td></tr>
+<tr><td align="center" balign="center"><font face="arial italic"> PolyOverlayWithIW </font></td></tr>
 		</table></td></tr>
-		</table>>, URL="./Polygon.html", fontname="arial", fontcolor="black", fontsize=10.0];
-	// org.osmdroid.views.overlay.Polyline
-	c49717 [label=<<table title="org.osmdroid.views.overlay.Polyline" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Polyline.html">
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"> Polyline </td></tr>
-		</table></td></tr>
-		</table>>, URL="./Polyline.html", fontname="arial", fontcolor="black", fontsize=10.0];
+		</table>>, URL="./PolyOverlayWithIW.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.views.overlay.Marker extends org.osmdroid.views.overlay.OverlayWithIW
-	c49713:p -> c49684:p [dir=back,arrowtail=empty];
+	c51900:p -> c51871:p [dir=back,arrowtail=empty];
 	//org.osmdroid.views.overlay.OverlayWithIW extends org.osmdroid.views.overlay.Overlay
-	c49707:p -> c49713:p [dir=back,arrowtail=empty];
-	//org.osmdroid.views.overlay.Polygon extends org.osmdroid.views.overlay.OverlayWithIW
-	c49713:p -> c49715:p [dir=back,arrowtail=empty];
-	//org.osmdroid.views.overlay.Polyline extends org.osmdroid.views.overlay.OverlayWithIW
-	c49713:p -> c49717:p [dir=back,arrowtail=empty];
+	c51894:p -> c51900:p [dir=back,arrowtail=empty];
+	//org.osmdroid.views.overlay.PolyOverlayWithIW extends org.osmdroid.views.overlay.OverlayWithIW
+	c51900:p -> c51906:p [dir=back,arrowtail=empty];
 }
 

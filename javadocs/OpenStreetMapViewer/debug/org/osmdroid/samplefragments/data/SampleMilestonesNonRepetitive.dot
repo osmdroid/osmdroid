@@ -10,18 +10,18 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.samplefragments.data.SampleMilestonesNonRepetitive
-	c42826 [label=<<table title="org.osmdroid.samplefragments.data.SampleMilestonesNonRepetitive" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./SampleMilestonesNonRepetitive.html">
+	c44675 [label=<<table title="org.osmdroid.samplefragments.data.SampleMilestonesNonRepetitive" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./SampleMilestonesNonRepetitive.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleMilestonesNonRepetitive </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SampleMilestonesNonRepetitive.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.events.SampleMapEventListener
-	c42860 [label=<<table title="org.osmdroid.samplefragments.events.SampleMapEventListener" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../events/SampleMapEventListener.html">
+	c44712 [label=<<table title="org.osmdroid.samplefragments.events.SampleMapEventListener" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../events/SampleMapEventListener.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleMapEventListener </td></tr>
 		</table></td></tr>
 		</table>>, URL="../events/SampleMapEventListener.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.samplefragments.data.SampleMilestonesNonRepetitive extends org.osmdroid.samplefragments.events.SampleMapEventListener
-	c42860:p -> c42826:p [dir=back,arrowtail=empty];
+	c44712:p -> c44675:p [dir=back,arrowtail=empty];
 }
 

@@ -10,18 +10,18 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.samplefragments.animations.AnimatedMarkerValueAnimator
-	c40763 [label=<<table title="org.osmdroid.samplefragments.animations.AnimatedMarkerValueAnimator" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./AnimatedMarkerValueAnimator.html">
+	c41828 [label=<<table title="org.osmdroid.samplefragments.animations.AnimatedMarkerValueAnimator" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./AnimatedMarkerValueAnimator.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> AnimatedMarkerValueAnimator </td></tr>
 		</table></td></tr>
 		</table>>, URL="./AnimatedMarkerValueAnimator.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.BaseSampleFragment
-	c40771 [label=<<table title="org.osmdroid.samplefragments.BaseSampleFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../BaseSampleFragment.html">
+	c41836 [label=<<table title="org.osmdroid.samplefragments.BaseSampleFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../BaseSampleFragment.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> BaseSampleFragment </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="../BaseSampleFragment.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.samplefragments.animations.AnimatedMarkerValueAnimator extends org.osmdroid.samplefragments.BaseSampleFragment
-	c40771:p -> c40763:p [dir=back,arrowtail=empty];
+	c41836:p -> c41828:p [dir=back,arrowtail=empty];
 }
 

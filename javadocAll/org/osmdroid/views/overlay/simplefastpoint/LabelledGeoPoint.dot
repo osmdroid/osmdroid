@@ -10,26 +10,26 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.util.GeoPoint
-	c133094 [label=<<table title="org.osmdroid.util.GeoPoint" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../../util/GeoPoint.html">
+	c138769 [label=<<table title="org.osmdroid.util.GeoPoint" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../../util/GeoPoint.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> GeoPoint </td></tr>
 		</table></td></tr>
 		</table>>, URL="../../../util/GeoPoint.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.simplefastpoint.LabelledGeoPoint
-	c133209 [label=<<table title="org.osmdroid.views.overlay.simplefastpoint.LabelledGeoPoint" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./LabelledGeoPoint.html">
+	c138889 [label=<<table title="org.osmdroid.views.overlay.simplefastpoint.LabelledGeoPoint" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./LabelledGeoPoint.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> LabelledGeoPoint </td></tr>
 		</table></td></tr>
 		</table>>, URL="./LabelledGeoPoint.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.simplefastpoint.StyledLabelledGeoPoint
-	c133219 [label=<<table title="org.osmdroid.views.overlay.simplefastpoint.StyledLabelledGeoPoint" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./StyledLabelledGeoPoint.html">
+	c138899 [label=<<table title="org.osmdroid.views.overlay.simplefastpoint.StyledLabelledGeoPoint" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./StyledLabelledGeoPoint.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> StyledLabelledGeoPoint </td></tr>
 		</table></td></tr>
 		</table>>, URL="./StyledLabelledGeoPoint.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.views.overlay.simplefastpoint.LabelledGeoPoint extends org.osmdroid.util.GeoPoint
-	c133094:p -> c133209:p [dir=back,arrowtail=empty];
+	c138769:p -> c138889:p [dir=back,arrowtail=empty];
 	//org.osmdroid.views.overlay.simplefastpoint.StyledLabelledGeoPoint extends org.osmdroid.views.overlay.simplefastpoint.LabelledGeoPoint
-	c133209:p -> c133219:p [dir=back,arrowtail=empty];
+	c138889:p -> c138899:p [dir=back,arrowtail=empty];
 }
 

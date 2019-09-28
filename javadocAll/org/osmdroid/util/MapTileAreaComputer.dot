@@ -10,27 +10,27 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.util.MapTileAreaBorderComputer
-	c155578 [label=<<table title="org.osmdroid.util.MapTileAreaBorderComputer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileAreaBorderComputer.html">
+	c161841 [label=<<table title="org.osmdroid.util.MapTileAreaBorderComputer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileAreaBorderComputer.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MapTileAreaBorderComputer </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MapTileAreaBorderComputer.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.util.MapTileAreaComputer
-	c155579 [label=<<table title="org.osmdroid.util.MapTileAreaComputer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./MapTileAreaComputer.html">
+	c161842 [label=<<table title="org.osmdroid.util.MapTileAreaComputer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./MapTileAreaComputer.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> MapTileAreaComputer </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MapTileAreaComputer.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.util.MapTileAreaZoomComputer
-	c155581 [label=<<table title="org.osmdroid.util.MapTileAreaZoomComputer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileAreaZoomComputer.html">
+	c161844 [label=<<table title="org.osmdroid.util.MapTileAreaZoomComputer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileAreaZoomComputer.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MapTileAreaZoomComputer </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MapTileAreaZoomComputer.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.util.MapTileAreaBorderComputer implements org.osmdroid.util.MapTileAreaComputer
-	c155579:p -> c155578:p [dir=back,arrowtail=empty,style=dashed];
+	c161842:p -> c161841:p [dir=back,arrowtail=empty,style=dashed];
 	//org.osmdroid.util.MapTileAreaZoomComputer implements org.osmdroid.util.MapTileAreaComputer
-	c155579:p -> c155581:p [dir=back,arrowtail=empty,style=dashed];
+	c161842:p -> c161844:p [dir=back,arrowtail=empty,style=dashed];
 }
 

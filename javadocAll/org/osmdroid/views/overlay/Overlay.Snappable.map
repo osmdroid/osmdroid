@@ -1,8 +1,10 @@
 <map id="G" name="G">
-<area shape="rect" id="node1_0" href="./ItemizedOverlay.html" title="org.osmdroid.views.overlay.ItemizedOverlay" alt="" coords="16,118,292,143"/>
-<area shape="rect" id="node1" href="./ItemizedOverlay.html" title="&lt;TABLE&gt;" alt="" coords="5,107,303,155"/>
-<area shape="rect" id="node2_1" href="./mylocation/MyLocationNewOverlay.html" title="org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay" alt="" coords="338,118,493,143"/>
-<area shape="rect" id="node2" href="./mylocation/MyLocationNewOverlay.html" title="&lt;TABLE&gt;" alt="" coords="327,107,503,155"/>
-<area shape="rect" id="node3_2" href="./Overlay.Snappable.html" title="org.osmdroid.views.overlay.Overlay.Snappable" alt="" coords="243,11,326,53"/>
-<area shape="rect" id="node3" href="./Overlay.Snappable.html" title="&lt;TABLE&gt;" alt="" coords="233,5,337,59"/>
+<area shape="rect" id="node1_0" href="../../samplefragments/events/SampleSnappable.MyOverlay.html" title="org.osmdroid.samplefragments.events.SampleSnappable.MyOverlay" alt="" coords="16,118,96,143"/>
+<area shape="rect" id="node1" href="../../samplefragments/events/SampleSnappable.MyOverlay.html" title="&lt;TABLE&gt;" alt="" coords="5,107,107,155"/>
+<area shape="rect" id="node2_1" href="./ItemizedOverlay.html" title="org.osmdroid.views.overlay.ItemizedOverlay" alt="" coords="142,118,418,143"/>
+<area shape="rect" id="node2" href="./ItemizedOverlay.html" title="&lt;TABLE&gt;" alt="" coords="131,107,429,155"/>
+<area shape="rect" id="node3_2" href="./mylocation/MyLocationNewOverlay.html" title="org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay" alt="" coords="464,118,619,143"/>
+<area shape="rect" id="node3" href="./mylocation/MyLocationNewOverlay.html" title="&lt;TABLE&gt;" alt="" coords="453,107,629,155"/>
+<area shape="rect" id="node4_3" href="./Overlay.Snappable.html" title="org.osmdroid.views.overlay.Overlay.Snappable" alt="" coords="239,11,321,53"/>
+<area shape="rect" id="node4" href="./Overlay.Snappable.html" title="&lt;TABLE&gt;" alt="" coords="228,5,332,59"/>
 </map>

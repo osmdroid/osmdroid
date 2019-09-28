@@ -10,18 +10,18 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.bugtestfragments.Bug846InfiniteRedrawLoop
-	c11306 [label=<<table title="org.osmdroid.bugtestfragments.Bug846InfiniteRedrawLoop" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./Bug846InfiniteRedrawLoop.html">
+	c11842 [label=<<table title="org.osmdroid.bugtestfragments.Bug846InfiniteRedrawLoop" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./Bug846InfiniteRedrawLoop.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> Bug846InfiniteRedrawLoop </td></tr>
 		</table></td></tr>
 		</table>>, URL="./Bug846InfiniteRedrawLoop.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.BaseSampleFragment
-	c11358 [label=<<table title="org.osmdroid.samplefragments.BaseSampleFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../samplefragments/BaseSampleFragment.html">
+	c11894 [label=<<table title="org.osmdroid.samplefragments.BaseSampleFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../samplefragments/BaseSampleFragment.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> BaseSampleFragment </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="../samplefragments/BaseSampleFragment.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.bugtestfragments.Bug846InfiniteRedrawLoop extends org.osmdroid.samplefragments.BaseSampleFragment
-	c11358:p -> c11306:p [dir=back,arrowtail=empty];
+	c11894:p -> c11842:p [dir=back,arrowtail=empty];
 }
 

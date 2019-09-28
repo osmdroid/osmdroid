@@ -1,13 +1,13 @@
 <?xml version="1.0"?>
 <javancss>
-  <date>2019-03-24</date>
-  <time>09:21:36</time>
+  <date>2019-09-27</date>
+  <time>18:59:52</time>
   <packages>
     <package>
       <name>org.osmdroid.mtp</name>
       <classes>2</classes>
       <functions>17</functions>
-      <ncss>250</ncss>
+      <ncss>251</ncss>
       <javadocs>2</javadocs>
       <javadoc_lines>18</javadoc_lines>
       <single_comment_lines>22</single_comment_lines>
@@ -76,7 +76,7 @@
     <total>
       <classes>13</classes>
       <functions>59</functions>
-      <ncss>1294</ncss>
+      <ncss>1295</ncss>
       <javadocs>11</javadocs>
       <javadoc_lines>76</javadoc_lines>
       <single_comment_lines>299</single_comment_lines>
@@ -84,10 +84,10 @@
     </total>
     <table>
       <tr><td>Packages</td><td>Classes</td><td>Functions</td><td>NCSS</td><td>Javadocs</td><td>per</td></tr>
-      <tr><td>7.00</td><td>13.00</td><td>59.00</td><td>1,294.00</td><td>11.00</td><td>Project</td></tr>
-      <tr><td></td><td>1.86</td><td>8.43</td><td>184.86</td><td>1.57</td><td>Package</td></tr>
-      <tr><td></td><td></td><td>4.54</td><td>99.54</td><td>0.85</td><td>Class</td></tr>
-      <tr><td></td><td></td><td></td><td>21.93</td><td>0.19</td><td>Function</td></tr>
+      <tr><td>7.00</td><td>13.00</td><td>59.00</td><td>1,295.00</td><td>11.00</td><td>Project</td></tr>
+      <tr><td></td><td>1.86</td><td>8.43</td><td>185.00</td><td>1.57</td><td>Package</td></tr>
+      <tr><td></td><td></td><td>4.54</td><td>99.62</td><td>0.85</td><td>Class</td></tr>
+      <tr><td></td><td></td><td></td><td>21.95</td><td>0.19</td><td>Function</td></tr>
     </table>
   </packages>
 
@@ -231,7 +231,7 @@
       <single_comment_lines>22.23</single_comment_lines>
       <implementation_comment_lines>6.23</implementation_comment_lines>
     </averages>
-    <ncss>1,294.00</ncss>
+    <ncss>1,295.00</ncss>
   </objects>
 
   <functions>
@@ -726,7 +726,7 @@
       <ccn>3.23</ccn>
       <javadocs>0.10</javadocs>
     </function_averages>
-    <ncss>1,294.00</ncss>
+    <ncss>1,295.00</ncss>
   </functions>
 </javancss>
 

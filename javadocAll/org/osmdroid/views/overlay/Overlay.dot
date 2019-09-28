@@ -10,203 +10,243 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.bugtestfragments.Bug82WinDeath.MapOverlay
-	c216798 [label=<<table title="org.osmdroid.bugtestfragments.Bug82WinDeath.MapOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../bugtestfragments/Bug82WinDeath.MapOverlay.html">
+	c224665 [label=<<table title="org.osmdroid.bugtestfragments.Bug82WinDeath.MapOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../bugtestfragments/Bug82WinDeath.MapOverlay.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MapOverlay </td></tr>
 		</table></td></tr>
 		</table>>, URL="../../bugtestfragments/Bug82WinDeath.MapOverlay.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.drawing.CirclePlottingOverlay
-	c216888 [label=<<table title="org.osmdroid.samplefragments.drawing.CirclePlottingOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../samplefragments/drawing/CirclePlottingOverlay.html">
+	c224756 [label=<<table title="org.osmdroid.samplefragments.drawing.CirclePlottingOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../samplefragments/drawing/CirclePlottingOverlay.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> CirclePlottingOverlay </td></tr>
 		</table></td></tr>
 		</table>>, URL="../../samplefragments/drawing/CirclePlottingOverlay.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.drawing.IconPlottingOverlay
-	c216898 [label=<<table title="org.osmdroid.samplefragments.drawing.IconPlottingOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../samplefragments/drawing/IconPlottingOverlay.html">
+	c224766 [label=<<table title="org.osmdroid.samplefragments.drawing.IconPlottingOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../samplefragments/drawing/IconPlottingOverlay.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> IconPlottingOverlay </td></tr>
 		</table></td></tr>
 		</table>>, URL="../../samplefragments/drawing/IconPlottingOverlay.html", fontname="arial", fontcolor="black", fontsize=10.0];
+	// org.osmdroid.samplefragments.events.SampleSnappable.MyOverlay
+	c224783 [label=<<table title="org.osmdroid.samplefragments.events.SampleSnappable.MyOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../samplefragments/events/SampleSnappable.MyOverlay.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> MyOverlay </td></tr>
+		</table></td></tr>
+		</table>>, URL="../../samplefragments/events/SampleSnappable.MyOverlay.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.milstd2525.MilStdMultipointOverlay
-	c216955 [label=<<table title="org.osmdroid.samplefragments.milstd2525.MilStdMultipointOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../samplefragments/milstd2525/MilStdMultipointOverlay.html">
+	c224827 [label=<<table title="org.osmdroid.samplefragments.milstd2525.MilStdMultipointOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../samplefragments/milstd2525/MilStdMultipointOverlay.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MilStdMultipointOverlay </td></tr>
 		</table></td></tr>
 		</table>>, URL="../../samplefragments/milstd2525/MilStdMultipointOverlay.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.milstd2525.MilStdPointPlottingOverlay
-	c216956 [label=<<table title="org.osmdroid.samplefragments.milstd2525.MilStdPointPlottingOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../samplefragments/milstd2525/MilStdPointPlottingOverlay.html">
+	c224828 [label=<<table title="org.osmdroid.samplefragments.milstd2525.MilStdPointPlottingOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../samplefragments/milstd2525/MilStdPointPlottingOverlay.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MilStdPointPlottingOverlay </td></tr>
 		</table></td></tr>
 		</table>>, URL="../../samplefragments/milstd2525/MilStdPointPlottingOverlay.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.compass.CompassOverlay
-	c217159 [label=<<table title="org.osmdroid.views.overlay.compass.CompassOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./compass/CompassOverlay.html">
+	c225033 [label=<<table title="org.osmdroid.views.overlay.compass.CompassOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./compass/CompassOverlay.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> CompassOverlay </td></tr>
 		</table></td></tr>
 		</table>>, URL="./compass/CompassOverlay.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.CopyrightOverlay
-	c217163 [label=<<table title="org.osmdroid.views.overlay.CopyrightOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./CopyrightOverlay.html">
+	c225037 [label=<<table title="org.osmdroid.views.overlay.CopyrightOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./CopyrightOverlay.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> CopyrightOverlay </td></tr>
 		</table></td></tr>
 		</table>>, URL="./CopyrightOverlay.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.FolderOverlay
-	c217165 [label=<<table title="org.osmdroid.views.overlay.FolderOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./FolderOverlay.html">
+	c225039 [label=<<table title="org.osmdroid.views.overlay.FolderOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./FolderOverlay.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> FolderOverlay </td></tr>
 		</table></td></tr>
 		</table>>, URL="./FolderOverlay.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.gestures.RotationGestureOverlay
-	c217168 [label=<<table title="org.osmdroid.views.overlay.gestures.RotationGestureOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./gestures/RotationGestureOverlay.html">
+	c225042 [label=<<table title="org.osmdroid.views.overlay.gestures.RotationGestureOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./gestures/RotationGestureOverlay.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> RotationGestureOverlay </td></tr>
 		</table></td></tr>
 		</table>>, URL="./gestures/RotationGestureOverlay.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.gridlines.LatLonGridlineOverlay2
-	c217170 [label=<<table title="org.osmdroid.views.overlay.gridlines.LatLonGridlineOverlay2" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./gridlines/LatLonGridlineOverlay2.html">
+	c225044 [label=<<table title="org.osmdroid.views.overlay.gridlines.LatLonGridlineOverlay2" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./gridlines/LatLonGridlineOverlay2.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> LatLonGridlineOverlay2 </td></tr>
 		</table></td></tr>
 		</table>>, URL="./gridlines/LatLonGridlineOverlay2.html", fontname="arial", fontcolor="black", fontsize=10.0];
+	// org.osmdroid.views.overlay.GroundOverlay
+	c225045 [label=<<table title="org.osmdroid.views.overlay.GroundOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./GroundOverlay.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> GroundOverlay </td></tr>
+		</table></td></tr>
+		</table>>, URL="./GroundOverlay.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.GroundOverlay2
-	c217171 [label=<<table title="org.osmdroid.views.overlay.GroundOverlay2" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./GroundOverlay2.html">
+	c225046 [label=<<table title="org.osmdroid.views.overlay.GroundOverlay2" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./GroundOverlay2.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> GroundOverlay2 </td></tr>
 		</table></td></tr>
 		</table>>, URL="./GroundOverlay2.html", fontname="arial", fontcolor="black", fontsize=10.0];
+	// org.osmdroid.views.overlay.GroundOverlay4
+	c225047 [label=<<table title="org.osmdroid.views.overlay.GroundOverlay4" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./GroundOverlay4.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> GroundOverlay4 </td></tr>
+		</table></td></tr>
+		</table>>, URL="./GroundOverlay4.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.IconOverlay
-	c217172 [label=<<table title="org.osmdroid.views.overlay.IconOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./IconOverlay.html">
+	c225048 [label=<<table title="org.osmdroid.views.overlay.IconOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./IconOverlay.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> IconOverlay </td></tr>
 		</table></td></tr>
 		</table>>, URL="./IconOverlay.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.ItemizedOverlay<Item extends org.osmdroid.views.overlay.OverlayItem>
-	c217180 [label=<<table title="org.osmdroid.views.overlay.ItemizedOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ItemizedOverlay.html">
+	c225056 [label=<<table title="org.osmdroid.views.overlay.ItemizedOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ItemizedOverlay.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> ItemizedOverlay&lt;Item extends OverlayItem&gt; </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./ItemizedOverlay.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.MapEventsOverlay
-	c217187 [label=<<table title="org.osmdroid.views.overlay.MapEventsOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapEventsOverlay.html">
+	c225063 [label=<<table title="org.osmdroid.views.overlay.MapEventsOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapEventsOverlay.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MapEventsOverlay </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MapEventsOverlay.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.mylocation.DirectedLocationOverlay
-	c217204 [label=<<table title="org.osmdroid.views.overlay.mylocation.DirectedLocationOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./mylocation/DirectedLocationOverlay.html">
+	c225080 [label=<<table title="org.osmdroid.views.overlay.mylocation.DirectedLocationOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./mylocation/DirectedLocationOverlay.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> DirectedLocationOverlay </td></tr>
 		</table></td></tr>
 		</table>>, URL="./mylocation/DirectedLocationOverlay.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay
-	c217208 [label=<<table title="org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./mylocation/MyLocationNewOverlay.html">
+	c225084 [label=<<table title="org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./mylocation/MyLocationNewOverlay.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MyLocationNewOverlay </td></tr>
 		</table></td></tr>
 		</table>>, URL="./mylocation/MyLocationNewOverlay.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.mylocation.SimpleLocationOverlay
-	c217209 [label=<<table title="org.osmdroid.views.overlay.mylocation.SimpleLocationOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./mylocation/SimpleLocationOverlay.html">
+	c225085 [label=<<table title="org.osmdroid.views.overlay.mylocation.SimpleLocationOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./mylocation/SimpleLocationOverlay.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SimpleLocationOverlay </td></tr>
 		</table></td></tr>
 		</table>>, URL="./mylocation/SimpleLocationOverlay.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.NonAcceleratedOverlay
-	c217210 [label=<<table title="org.osmdroid.views.overlay.NonAcceleratedOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./NonAcceleratedOverlay.html">
+	c225086 [label=<<table title="org.osmdroid.views.overlay.NonAcceleratedOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./NonAcceleratedOverlay.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> NonAcceleratedOverlay </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./NonAcceleratedOverlay.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.Overlay
-	c217211 [label=<<table title="org.osmdroid.views.overlay.Overlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./Overlay.html">
+	c225087 [label=<<table title="org.osmdroid.views.overlay.Overlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./Overlay.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> Overlay </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./Overlay.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.OverlayWithIW
-	c217217 [label=<<table title="org.osmdroid.views.overlay.OverlayWithIW" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./OverlayWithIW.html">
+	c225093 [label=<<table title="org.osmdroid.views.overlay.OverlayWithIW" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./OverlayWithIW.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> OverlayWithIW </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./OverlayWithIW.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.PathOverlay
-	c217218 [label=<<table title="org.osmdroid.views.overlay.PathOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./PathOverlay.html">
+	c225094 [label=<<table title="org.osmdroid.views.overlay.PathOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./PathOverlay.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> PathOverlay </td></tr>
 		</table></td></tr>
 		</table>>, URL="./PathOverlay.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.ScaleBarOverlay
-	c217223 [label=<<table title="org.osmdroid.views.overlay.ScaleBarOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ScaleBarOverlay.html">
+	c225100 [label=<<table title="org.osmdroid.views.overlay.ScaleBarOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ScaleBarOverlay.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> ScaleBarOverlay </td></tr>
 		</table></td></tr>
 		</table>>, URL="./ScaleBarOverlay.html", fontname="arial", fontcolor="black", fontsize=10.0];
+	// org.osmdroid.views.overlay.ScaleDiskOverlay
+	c225102 [label=<<table title="org.osmdroid.views.overlay.ScaleDiskOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ScaleDiskOverlay.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> ScaleDiskOverlay </td></tr>
+		</table></td></tr>
+		</table>>, URL="./ScaleDiskOverlay.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.simplefastpoint.SimpleFastPointOverlay
-	c217226 [label=<<table title="org.osmdroid.views.overlay.simplefastpoint.SimpleFastPointOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./simplefastpoint/SimpleFastPointOverlay.html">
+	c225104 [label=<<table title="org.osmdroid.views.overlay.simplefastpoint.SimpleFastPointOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./simplefastpoint/SimpleFastPointOverlay.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SimpleFastPointOverlay </td></tr>
 		</table></td></tr>
 		</table>>, URL="./simplefastpoint/SimpleFastPointOverlay.html", fontname="arial", fontcolor="black", fontsize=10.0];
+	// org.osmdroid.views.overlay.SpeechBalloonOverlay
+	c225114 [label=<<table title="org.osmdroid.views.overlay.SpeechBalloonOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SpeechBalloonOverlay.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> SpeechBalloonOverlay </td></tr>
+		</table></td></tr>
+		</table>>, URL="./SpeechBalloonOverlay.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.TilesOverlay
-	c217236 [label=<<table title="org.osmdroid.views.overlay.TilesOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./TilesOverlay.html">
+	c225115 [label=<<table title="org.osmdroid.views.overlay.TilesOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./TilesOverlay.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> TilesOverlay </td></tr>
 		</table></td></tr>
 		</table>>, URL="./TilesOverlay.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.util.constants.OverlayConstants
-	c217240 [label=<<table title="org.osmdroid.views.util.constants.OverlayConstants" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../util/constants/OverlayConstants.html">
+	c225119 [label=<<table title="org.osmdroid.views.util.constants.OverlayConstants" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../util/constants/OverlayConstants.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> OverlayConstants </td></tr>
 		</table></td></tr>
 		</table>>, URL="../util/constants/OverlayConstants.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.bugtestfragments.Bug82WinDeath.MapOverlay extends org.osmdroid.views.overlay.Overlay
-	c217211:p -> c216798:p [dir=back,arrowtail=empty];
+	c225087:p -> c224665:p [dir=back,arrowtail=empty];
 	//org.osmdroid.samplefragments.drawing.CirclePlottingOverlay extends org.osmdroid.views.overlay.Overlay
-	c217211:p -> c216888:p [dir=back,arrowtail=empty];
+	c225087:p -> c224756:p [dir=back,arrowtail=empty];
 	//org.osmdroid.samplefragments.drawing.IconPlottingOverlay extends org.osmdroid.views.overlay.Overlay
-	c217211:p -> c216898:p [dir=back,arrowtail=empty];
+	c225087:p -> c224766:p [dir=back,arrowtail=empty];
+	//org.osmdroid.samplefragments.events.SampleSnappable.MyOverlay extends org.osmdroid.views.overlay.Overlay
+	c225087:p -> c224783:p [dir=back,arrowtail=empty];
 	//org.osmdroid.samplefragments.milstd2525.MilStdMultipointOverlay extends org.osmdroid.views.overlay.Overlay
-	c217211:p -> c216955:p [dir=back,arrowtail=empty];
+	c225087:p -> c224827:p [dir=back,arrowtail=empty];
 	//org.osmdroid.samplefragments.milstd2525.MilStdPointPlottingOverlay extends org.osmdroid.views.overlay.Overlay
-	c217211:p -> c216956:p [dir=back,arrowtail=empty];
+	c225087:p -> c224828:p [dir=back,arrowtail=empty];
 	//org.osmdroid.views.overlay.compass.CompassOverlay extends org.osmdroid.views.overlay.Overlay
-	c217211:p -> c217159:p [dir=back,arrowtail=empty];
+	c225087:p -> c225033:p [dir=back,arrowtail=empty];
 	//org.osmdroid.views.overlay.CopyrightOverlay extends org.osmdroid.views.overlay.Overlay
-	c217211:p -> c217163:p [dir=back,arrowtail=empty];
+	c225087:p -> c225037:p [dir=back,arrowtail=empty];
 	//org.osmdroid.views.overlay.FolderOverlay extends org.osmdroid.views.overlay.Overlay
-	c217211:p -> c217165:p [dir=back,arrowtail=empty];
+	c225087:p -> c225039:p [dir=back,arrowtail=empty];
 	//org.osmdroid.views.overlay.gestures.RotationGestureOverlay extends org.osmdroid.views.overlay.Overlay
-	c217211:p -> c217168:p [dir=back,arrowtail=empty];
+	c225087:p -> c225042:p [dir=back,arrowtail=empty];
 	//org.osmdroid.views.overlay.gridlines.LatLonGridlineOverlay2 extends org.osmdroid.views.overlay.Overlay
-	c217211:p -> c217170:p [dir=back,arrowtail=empty];
+	c225087:p -> c225044:p [dir=back,arrowtail=empty];
+	//org.osmdroid.views.overlay.GroundOverlay extends org.osmdroid.views.overlay.Overlay
+	c225087:p -> c225045:p [dir=back,arrowtail=empty];
 	//org.osmdroid.views.overlay.GroundOverlay2 extends org.osmdroid.views.overlay.Overlay
-	c217211:p -> c217171:p [dir=back,arrowtail=empty];
+	c225087:p -> c225046:p [dir=back,arrowtail=empty];
+	//org.osmdroid.views.overlay.GroundOverlay4 extends org.osmdroid.views.overlay.Overlay
+	c225087:p -> c225047:p [dir=back,arrowtail=empty];
 	//org.osmdroid.views.overlay.IconOverlay extends org.osmdroid.views.overlay.Overlay
-	c217211:p -> c217172:p [dir=back,arrowtail=empty];
+	c225087:p -> c225048:p [dir=back,arrowtail=empty];
 	//org.osmdroid.views.overlay.ItemizedOverlay<Item extends org.osmdroid.views.overlay.OverlayItem> extends org.osmdroid.views.overlay.Overlay
-	c217211:p -> c217180:p [dir=back,arrowtail=empty];
+	c225087:p -> c225056:p [dir=back,arrowtail=empty];
 	//org.osmdroid.views.overlay.MapEventsOverlay extends org.osmdroid.views.overlay.Overlay
-	c217211:p -> c217187:p [dir=back,arrowtail=empty];
+	c225087:p -> c225063:p [dir=back,arrowtail=empty];
 	//org.osmdroid.views.overlay.mylocation.DirectedLocationOverlay extends org.osmdroid.views.overlay.Overlay
-	c217211:p -> c217204:p [dir=back,arrowtail=empty];
+	c225087:p -> c225080:p [dir=back,arrowtail=empty];
 	//org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay extends org.osmdroid.views.overlay.Overlay
-	c217211:p -> c217208:p [dir=back,arrowtail=empty];
+	c225087:p -> c225084:p [dir=back,arrowtail=empty];
 	//org.osmdroid.views.overlay.mylocation.SimpleLocationOverlay extends org.osmdroid.views.overlay.Overlay
-	c217211:p -> c217209:p [dir=back,arrowtail=empty];
+	c225087:p -> c225085:p [dir=back,arrowtail=empty];
 	//org.osmdroid.views.overlay.NonAcceleratedOverlay extends org.osmdroid.views.overlay.Overlay
-	c217211:p -> c217210:p [dir=back,arrowtail=empty];
+	c225087:p -> c225086:p [dir=back,arrowtail=empty];
 	//org.osmdroid.views.overlay.Overlay implements org.osmdroid.views.util.constants.OverlayConstants
-	c217240:p -> c217211:p [dir=back,arrowtail=empty,style=dashed];
+	c225119:p -> c225087:p [dir=back,arrowtail=empty,style=dashed];
 	//org.osmdroid.views.overlay.OverlayWithIW extends org.osmdroid.views.overlay.Overlay
-	c217211:p -> c217217:p [dir=back,arrowtail=empty];
+	c225087:p -> c225093:p [dir=back,arrowtail=empty];
 	//org.osmdroid.views.overlay.PathOverlay extends org.osmdroid.views.overlay.Overlay
-	c217211:p -> c217218:p [dir=back,arrowtail=empty];
+	c225087:p -> c225094:p [dir=back,arrowtail=empty];
 	//org.osmdroid.views.overlay.ScaleBarOverlay extends org.osmdroid.views.overlay.Overlay
-	c217211:p -> c217223:p [dir=back,arrowtail=empty];
+	c225087:p -> c225100:p [dir=back,arrowtail=empty];
+	//org.osmdroid.views.overlay.ScaleDiskOverlay extends org.osmdroid.views.overlay.Overlay
+	c225087:p -> c225102:p [dir=back,arrowtail=empty];
 	//org.osmdroid.views.overlay.simplefastpoint.SimpleFastPointOverlay extends org.osmdroid.views.overlay.Overlay
-	c217211:p -> c217226:p [dir=back,arrowtail=empty];
+	c225087:p -> c225104:p [dir=back,arrowtail=empty];
+	//org.osmdroid.views.overlay.SpeechBalloonOverlay extends org.osmdroid.views.overlay.Overlay
+	c225087:p -> c225114:p [dir=back,arrowtail=empty];
 	//org.osmdroid.views.overlay.TilesOverlay extends org.osmdroid.views.overlay.Overlay
-	c217211:p -> c217236:p [dir=back,arrowtail=empty];
+	c225087:p -> c225115:p [dir=back,arrowtail=empty];
 }
 

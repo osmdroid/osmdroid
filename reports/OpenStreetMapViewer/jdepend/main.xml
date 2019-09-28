@@ -24527,14 +24527,14 @@
 
         <Package name="org.mapsforge.core.util">
             <Stats>
-                <TotalClasses>7</TotalClasses>
-                <ConcreteClasses>7</ConcreteClasses>
+                <TotalClasses>8</TotalClasses>
+                <ConcreteClasses>8</ConcreteClasses>
                 <AbstractClasses>0</AbstractClasses>
-                <Ca>20</Ca>
+                <Ca>21</Ca>
                 <Ce>5</Ce>
                 <A>0</A>
-                <I>0.2</I>
-                <D>0.8</D>
+                <I>0.19</I>
+                <D>0.81</D>
                 <V>1</V>
             </Stats>
 
@@ -24557,6 +24557,9 @@
                 <Class sourceFile="Parameters.java">
                     org.mapsforge.core.util.Parameters
                 </Class>
+                <Class sourceFile="Parameters.java">
+                    org.mapsforge.core.util.Parameters$ParentTilesRendering
+                </Class>
                 <Class sourceFile="Utils.java">
                     org.mapsforge.core.util.Utils
                 </Class>
@@ -24578,6 +24581,7 @@
                 <Package>org.mapsforge.map.android.graphics</Package>
                 <Package>org.mapsforge.map.android.rendertheme</Package>
                 <Package>org.mapsforge.map.controller</Package>
+                <Package>org.mapsforge.map.layer</Package>
                 <Package>org.mapsforge.map.layer.cache</Package>
                 <Package>org.mapsforge.map.layer.debug</Package>
                 <Package>org.mapsforge.map.layer.download</Package>
@@ -25118,10 +25122,10 @@
                 <ConcreteClasses>4</ConcreteClasses>
                 <AbstractClasses>3</AbstractClasses>
                 <Ca>13</Ca>
-                <Ce>10</Ce>
+                <Ce>11</Ce>
                 <A>0.43</A>
-                <I>0.43</I>
-                <D>0.14</D>
+                <I>0.46</I>
+                <D>0.11</D>
                 <V>1</V>
             </Stats>
 
@@ -25158,6 +25162,7 @@
                 <Package>java.util.concurrent</Package>
                 <Package>org.mapsforge.core.graphics</Package>
                 <Package>org.mapsforge.core.model</Package>
+                <Package>org.mapsforge.core.util</Package>
                 <Package>org.mapsforge.map.layer.cache</Package>
                 <Package>org.mapsforge.map.layer.queue</Package>
                 <Package>org.mapsforge.map.model</Package>
@@ -25187,11 +25192,11 @@
                 <TotalClasses>10</TotalClasses>
                 <ConcreteClasses>9</ConcreteClasses>
                 <AbstractClasses>1</AbstractClasses>
-                <Ca>7</Ca>
+                <Ca>6</Ca>
                 <Ce>10</Ce>
                 <A>0.1</A>
-                <I>0.59</I>
-                <D>0.31</D>
+                <I>0.62</I>
+                <D>0.27</D>
                 <V>1</V>
             </Stats>
 
@@ -25251,7 +25256,6 @@
                 <Package>org.mapsforge.map.layer.download</Package>
                 <Package>org.mapsforge.map.layer.renderer</Package>
                 <Package>org.mapsforge.map.layer.tilestore</Package>
-                <Package>org.osmdroid.mapsforge</Package>
             </UsedBy>
         </Package>
 
@@ -25508,11 +25512,11 @@
                 <TotalClasses>6</TotalClasses>
                 <ConcreteClasses>5</ConcreteClasses>
                 <AbstractClasses>1</AbstractClasses>
-                <Ca>3</Ca>
+                <Ca>2</Ca>
                 <Ce>14</Ce>
                 <A>0.17</A>
-                <I>0.82</I>
-                <D>0.01</D>
+                <I>0.88</I>
+                <D>0.04</D>
                 <V>1</V>
             </Stats>
 
@@ -25560,7 +25564,6 @@
             <UsedBy>
                 <Package>org.mapsforge.map.android.view</Package>
                 <Package>org.mapsforge.map.layer.renderer</Package>
-                <Package>org.osmdroid.mapsforge</Package>
             </UsedBy>
         </Package>
 
@@ -25673,18 +25676,21 @@
 
         <Package name="org.mapsforge.map.layer.renderer">
             <Stats>
-                <TotalClasses>18</TotalClasses>
-                <ConcreteClasses>17</ConcreteClasses>
-                <AbstractClasses>1</AbstractClasses>
+                <TotalClasses>20</TotalClasses>
+                <ConcreteClasses>18</ConcreteClasses>
+                <AbstractClasses>2</AbstractClasses>
                 <Ca>7</Ca>
                 <Ce>20</Ce>
-                <A>0.06</A>
+                <A>0.1</A>
                 <I>0.74</I>
-                <D>0.2</D>
+                <D>0.16</D>
                 <V>1</V>
             </Stats>
 
             <AbstractClasses>
+                <Class sourceFile="DirectRenderer.java">
+                    org.mapsforge.map.layer.renderer.DirectRenderer$TileRefresher
+                </Class>
                 <Class sourceFile="ShapeContainer.java">
                     org.mapsforge.map.layer.renderer.ShapeContainer
                 </Class>
@@ -25702,6 +25708,9 @@
                 </Class>
                 <Class sourceFile="DatabaseRenderer.java">
                     org.mapsforge.map.layer.renderer.DatabaseRenderer
+                </Class>
+                <Class sourceFile="DirectRenderer.java">
+                    org.mapsforge.map.layer.renderer.DirectRenderer
                 </Class>
                 <Class sourceFile="GeometryUtils.java">
                     org.mapsforge.map.layer.renderer.GeometryUtils
@@ -26073,10 +26082,10 @@
                 <ConcreteClasses>7</ConcreteClasses>
                 <AbstractClasses>4</AbstractClasses>
                 <Ca>9</Ca>
-                <Ce>13</Ce>
+                <Ce>14</Ce>
                 <A>0.36</A>
-                <I>0.59</I>
-                <D>0.05</D>
+                <I>0.61</I>
+                <D>0.03</D>
                 <V>1</V>
             </Stats>
 
@@ -26131,6 +26140,7 @@
                 <Package>org.mapsforge.map.datastore</Package>
                 <Package>org.mapsforge.map.layer.renderer</Package>
                 <Package>org.mapsforge.map.model</Package>
+                <Package>org.mapsforge.map.rendertheme.renderinstruction</Package>
                 <Package>org.mapsforge.map.rendertheme.rule</Package>
                 <Package>org.xmlpull.v1</Package>
             </DependsUpon>
@@ -26153,11 +26163,11 @@
                 <TotalClasses>12</TotalClasses>
                 <ConcreteClasses>11</ConcreteClasses>
                 <AbstractClasses>1</AbstractClasses>
-                <Ca>1</Ca>
+                <Ca>2</Ca>
                 <Ce>14</Ce>
                 <A>0.08</A>
-                <I>0.93</I>
-                <D>0.02</D>
+                <I>0.88</I>
+                <D>0.04</D>
                 <V>1</V>
             </Stats>
 
@@ -26221,6 +26231,7 @@
             </DependsUpon>
 
             <UsedBy>
+                <Package>org.mapsforge.map.rendertheme</Package>
                 <Package>org.mapsforge.map.rendertheme.rule</Package>
             </UsedBy>
         </Package>
@@ -27577,8 +27588,8 @@
 
         <Package name="org.osmdroid.bugtestfragments">
             <Stats>
-                <TotalClasses>30</TotalClasses>
-                <ConcreteClasses>30</ConcreteClasses>
+                <TotalClasses>32</TotalClasses>
+                <ConcreteClasses>32</ConcreteClasses>
                 <AbstractClasses>0</AbstractClasses>
                 <Ca>1</Ca>
                 <Ce>32</Ce>
@@ -27592,6 +27603,12 @@
             </AbstractClasses>
 
             <ConcreteClasses>
+                <Class sourceFile="Bug1322.java">
+                    org.osmdroid.bugtestfragments.Bug1322
+                </Class>
+                <Class sourceFile="Bug1322.java">
+                    org.osmdroid.bugtestfragments.Bug1322$1
+                </Class>
                 <Class sourceFile="Bug164EndlessOnScolls.java">
                     org.osmdroid.bugtestfragments.Bug164EndlessOnScolls
                 </Class>
@@ -28240,10 +28257,10 @@
                 <ConcreteClasses>2</ConcreteClasses>
                 <AbstractClasses>0</AbstractClasses>
                 <Ca>2</Ca>
-                <Ce>13</Ce>
+                <Ce>14</Ce>
                 <A>0</A>
-                <I>0.87</I>
-                <D>0.13</D>
+                <I>0.88</I>
+                <D>0.12</D>
                 <V>1</V>
             </Stats>
 
@@ -28260,6 +28277,7 @@
             </ConcreteClasses>
 
             <DependsUpon>
+                <Package>android.graphics</Package>
                 <Package>android.util</Package>
                 <Package>java.lang</Package>
                 <Package>java.util</Package>
@@ -28590,11 +28608,11 @@
                 <TotalClasses>6</TotalClasses>
                 <ConcreteClasses>6</ConcreteClasses>
                 <AbstractClasses>0</AbstractClasses>
-                <Ca>7</Ca>
+                <Ca>8</Ca>
                 <Ce>1</Ce>
                 <A>0</A>
-                <I>0.12</I>
-                <D>0.88</D>
+                <I>0.11</I>
+                <D>0.89</D>
                 <V>1</V>
             </Stats>
 
@@ -28630,6 +28648,7 @@
                 <Package>org.osmdroid.samplefragments.data</Package>
                 <Package>org.osmdroid.samplefragments.drawing</Package>
                 <Package>org.osmdroid.samples</Package>
+                <Package>org.osmdroid.util.constants</Package>
                 <Package>org.osmdroid.views</Package>
                 <Package>org.osmdroid.views.overlay</Package>
                 <Package>org.osmdroid.views.overlay.compass</Package>
@@ -28639,11 +28658,11 @@
 
         <Package name="org.osmdroid.mapsforge">
             <Stats>
-                <TotalClasses>11</TotalClasses>
-                <ConcreteClasses>11</ConcreteClasses>
+                <TotalClasses>12</TotalClasses>
+                <ConcreteClasses>12</ConcreteClasses>
                 <AbstractClasses>0</AbstractClasses>
                 <Ca>1</Ca>
-                <Ce>24</Ce>
+                <Ce>23</Ce>
                 <A>0</A>
                 <I>0.96</I>
                 <D>0.04</D>
@@ -28668,6 +28687,9 @@
                 </Class>
                 <Class sourceFile="MapsForgeTileProvider.java">
                     org.osmdroid.mapsforge.MapsForgeTileProvider
+                </Class>
+                <Class sourceFile="MapsForgeTileProvider.java">
+                    org.osmdroid.mapsforge.MapsForgeTileProvider$1
                 </Class>
                 <Class sourceFile="MapsForgeTileSource.java">
                     org.osmdroid.mapsforge.MapsForgeTileSource
@@ -28700,9 +28722,7 @@
                 <Package>org.mapsforge.core.model</Package>
                 <Package>org.mapsforge.map.android.graphics</Package>
                 <Package>org.mapsforge.map.datastore</Package>
-                <Package>org.mapsforge.map.layer.cache</Package>
                 <Package>org.mapsforge.map.layer.hills</Package>
-                <Package>org.mapsforge.map.layer.labels</Package>
                 <Package>org.mapsforge.map.layer.renderer</Package>
                 <Package>org.mapsforge.map.model</Package>
                 <Package>org.mapsforge.map.reader</Package>
@@ -28714,6 +28734,7 @@
                 <Package>org.osmdroid.tileprovider.modules</Package>
                 <Package>org.osmdroid.tileprovider.tilesource</Package>
                 <Package>org.osmdroid.util</Package>
+                <Package>org.osmdroid.views</Package>
             </DependsUpon>
 
             <UsedBy>
@@ -29199,12 +29220,12 @@
 
         <Package name="org.osmdroid.samplefragments.data">
             <Stats>
-                <TotalClasses>65</TotalClasses>
-                <ConcreteClasses>64</ConcreteClasses>
+                <TotalClasses>71</TotalClasses>
+                <ConcreteClasses>70</ConcreteClasses>
                 <AbstractClasses>1</AbstractClasses>
                 <Ca>3</Ca>
-                <Ce>41</Ce>
-                <A>0.02</A>
+                <Ce>42</Ce>
+                <A>0.01</A>
                 <I>0.93</I>
                 <D>0.05</D>
                 <V>1</V>
@@ -29391,6 +29412,21 @@
                 <Class sourceFile="SampleSimpleLocation.java">
                     org.osmdroid.samplefragments.data.SampleSimpleLocation
                 </Class>
+                <Class sourceFile="SampleSpeechBalloon.java">
+                    org.osmdroid.samplefragments.data.SampleSpeechBalloon
+                </Class>
+                <Class sourceFile="SampleSpeechBalloon.java">
+                    org.osmdroid.samplefragments.data.SampleSpeechBalloon$1
+                </Class>
+                <Class sourceFile="SampleSpeechBalloon.java">
+                    org.osmdroid.samplefragments.data.SampleSpeechBalloon$2
+                </Class>
+                <Class sourceFile="SampleSpeechBalloon.java">
+                    org.osmdroid.samplefragments.data.SampleSpeechBalloon$3
+                </Class>
+                <Class sourceFile="SampleSpeechBalloon.java">
+                    org.osmdroid.samplefragments.data.SampleSpeechBalloon$POI
+                </Class>
                 <Class sourceFile="SampleWithMinimapItemizedOverlayWithFocus.java">
                     org.osmdroid.samplefragments.data.SampleWithMinimapItemizedOverlayWithFocus
                 </Class>
@@ -29408,6 +29444,9 @@
                 </Class>
                 <Class sourceFile="WeatherGroundOverlaySample.java">
                     org.osmdroid.samplefragments.data.WeatherGroundOverlaySample$1
+                </Class>
+                <Class sourceFile="WeatherGroundOverlaySample.java">
+                    org.osmdroid.samplefragments.data.WeatherGroundOverlaySample$2
                 </Class>
             </ConcreteClasses>
 
@@ -29444,6 +29483,7 @@
                 <Package>org.osmdroid.tileprovider</Package>
                 <Package>org.osmdroid.tileprovider.tilesource</Package>
                 <Package>org.osmdroid.util</Package>
+                <Package>org.osmdroid.util.constants</Package>
                 <Package>org.osmdroid.views</Package>
                 <Package>org.osmdroid.views.drawing</Package>
                 <Package>org.osmdroid.views.overlay</Package>
@@ -29499,8 +29539,8 @@
 
         <Package name="org.osmdroid.samplefragments.drawing">
             <Stats>
-                <TotalClasses>23</TotalClasses>
-                <ConcreteClasses>23</ConcreteClasses>
+                <TotalClasses>24</TotalClasses>
+                <ConcreteClasses>24</ConcreteClasses>
                 <AbstractClasses>0</AbstractClasses>
                 <Ca>1</Ca>
                 <Ce>24</Ce>
@@ -29577,6 +29617,9 @@
                 <Class sourceFile="SampleDrawPolyline.java">
                     org.osmdroid.samplefragments.drawing.SampleDrawPolyline$1
                 </Class>
+                <Class sourceFile="SampleDrawPolylineAsPath.java">
+                    org.osmdroid.samplefragments.drawing.SampleDrawPolylineAsPath
+                </Class>
                 <Class sourceFile="SampleDrawPolylineWithoutVerticalWrapping.java">
                     org.osmdroid.samplefragments.drawing.SampleDrawPolylineWithoutVerticalWrapping
                 </Class>
@@ -29619,14 +29662,14 @@
 
         <Package name="org.osmdroid.samplefragments.events">
             <Stats>
-                <TotalClasses>20</TotalClasses>
-                <ConcreteClasses>20</ConcreteClasses>
+                <TotalClasses>28</TotalClasses>
+                <ConcreteClasses>28</ConcreteClasses>
                 <AbstractClasses>0</AbstractClasses>
                 <Ca>5</Ca>
-                <Ce>23</Ce>
+                <Ce>24</Ce>
                 <A>0</A>
-                <I>0.82</I>
-                <D>0.18</D>
+                <I>0.83</I>
+                <D>0.17</D>
                 <V>1</V>
             </Stats>
 
@@ -29673,11 +29716,35 @@
                 <Class sourceFile="SampleMapBootListener.java">
                     org.osmdroid.samplefragments.events.SampleMapBootListener
                 </Class>
+                <Class sourceFile="SampleMapCenterOffset.java">
+                    org.osmdroid.samplefragments.events.SampleMapCenterOffset
+                </Class>
+                <Class sourceFile="SampleMapCenterOffset.java">
+                    org.osmdroid.samplefragments.events.SampleMapCenterOffset$1
+                </Class>
+                <Class sourceFile="SampleMapCenterOffset.java">
+                    org.osmdroid.samplefragments.events.SampleMapCenterOffset$2
+                </Class>
+                <Class sourceFile="SampleMapCenterOffset.java">
+                    org.osmdroid.samplefragments.events.SampleMapCenterOffset$3
+                </Class>
+                <Class sourceFile="SampleMapCenterOffset.java">
+                    org.osmdroid.samplefragments.events.SampleMapCenterOffset$4
+                </Class>
                 <Class sourceFile="SampleMapEventListener.java">
                     org.osmdroid.samplefragments.events.SampleMapEventListener
                 </Class>
                 <Class sourceFile="SampleMapEventListener.java">
                     org.osmdroid.samplefragments.events.SampleMapEventListener$1
+                </Class>
+                <Class sourceFile="SampleSnappable.java">
+                    org.osmdroid.samplefragments.events.SampleSnappable
+                </Class>
+                <Class sourceFile="SampleSnappable.java">
+                    org.osmdroid.samplefragments.events.SampleSnappable$1
+                </Class>
+                <Class sourceFile="SampleSnappable.java">
+                    org.osmdroid.samplefragments.events.SampleSnappable$MyOverlay
                 </Class>
                 <Class sourceFile="SampleZoomRounding.java">
                     org.osmdroid.samplefragments.events.SampleZoomRounding
@@ -29700,6 +29767,7 @@
                 <Package>android.content</Package>
                 <Package>android.content.res</Package>
                 <Package>android.graphics</Package>
+                <Package>android.graphics.drawable</Package>
                 <Package>android.location</Package>
                 <Package>android.os</Package>
                 <Package>android.support.v4.app</Package>
@@ -30176,8 +30244,8 @@
 
         <Package name="org.osmdroid.samplefragments.location">
             <Stats>
-                <TotalClasses>14</TotalClasses>
-                <ConcreteClasses>14</ConcreteClasses>
+                <TotalClasses>16</TotalClasses>
+                <ConcreteClasses>16</ConcreteClasses>
                 <AbstractClasses>0</AbstractClasses>
                 <Ca>1</Ca>
                 <Ce>24</Ce>
@@ -30226,6 +30294,12 @@
                 </Class>
                 <Class sourceFile="SampleMyLocationWithClick.java">
                     org.osmdroid.samplefragments.location.SampleMyLocationWithClick
+                </Class>
+                <Class sourceFile="SampleMyLocationWithClick.java">
+                    org.osmdroid.samplefragments.location.SampleMyLocationWithClick$1
+                </Class>
+                <Class sourceFile="SampleMyLocationWithClick.java">
+                    org.osmdroid.samplefragments.location.SampleMyLocationWithClick$1$1
                 </Class>
                 <Class sourceFile="SampleMyLocationWithClick.java">
                     org.osmdroid.samplefragments.location.SampleMyLocationWithClick$MyLocationOverlayWithClick
@@ -31508,14 +31582,14 @@
 
         <Package name="org.osmdroid.util">
             <Stats>
-                <TotalClasses>46</TotalClasses>
-                <ConcreteClasses>37</ConcreteClasses>
+                <TotalClasses>47</TotalClasses>
+                <ConcreteClasses>38</ConcreteClasses>
                 <AbstractClasses>9</AbstractClasses>
                 <Ca>39</Ca>
                 <Ce>13</Ce>
-                <A>0.2</A>
+                <A>0.19</A>
                 <I>0.25</I>
-                <D>0.55</D>
+                <D>0.56</D>
                 <V>1</V>
             </Stats>
 
@@ -31655,6 +31729,9 @@
                 <Class sourceFile="SegmentIntersection.java">
                     org.osmdroid.util.SegmentIntersection
                 </Class>
+                <Class sourceFile="SpeechBalloonHelper.java">
+                    org.osmdroid.util.SpeechBalloonHelper
+                </Class>
                 <Class sourceFile="TileSystemWebMercator.java">
                     org.osmdroid.util.TileSystemWebMercator
                 </Class>
@@ -31724,14 +31801,14 @@
 
         <Package name="org.osmdroid.util.constants">
             <Stats>
-                <TotalClasses>1</TotalClasses>
-                <ConcreteClasses>0</ConcreteClasses>
+                <TotalClasses>2</TotalClasses>
+                <ConcreteClasses>1</ConcreteClasses>
                 <AbstractClasses>1</AbstractClasses>
-                <Ca>3</Ca>
-                <Ce>1</Ce>
-                <A>1</A>
-                <I>0.25</I>
-                <D>0.25</D>
+                <Ca>4</Ca>
+                <Ce>2</Ce>
+                <A>0.5</A>
+                <I>0.33</I>
+                <D>0.17</D>
                 <V>1</V>
             </Stats>
 
@@ -31742,13 +31819,18 @@
             </AbstractClasses>
 
             <ConcreteClasses>
+                <Class sourceFile="GeoConstants.java">
+                    org.osmdroid.util.constants.GeoConstants$UnitOfMeasure
+                </Class>
             </ConcreteClasses>
 
             <DependsUpon>
                 <Package>java.lang</Package>
+                <Package>org.osmdroid.library</Package>
             </DependsUpon>
 
             <UsedBy>
+                <Package>org.osmdroid.samplefragments.data</Package>
                 <Package>org.osmdroid.tileprovider.cachemanager</Package>
                 <Package>org.osmdroid.util</Package>
                 <Package>org.osmdroid.views.overlay</Package>
@@ -31760,11 +31842,11 @@
                 <TotalClasses>27</TotalClasses>
                 <ConcreteClasses>25</ConcreteClasses>
                 <AbstractClasses>2</AbstractClasses>
-                <Ca>37</Ca>
+                <Ca>38</Ca>
                 <Ce>25</Ce>
                 <A>0.07</A>
                 <I>0.4</I>
-                <D>0.52</D>
+                <D>0.53</D>
                 <V>1</V>
             </Stats>
 
@@ -31890,6 +31972,7 @@
                 <Package>org.osmdroid.gpkg.overlay</Package>
                 <Package>org.osmdroid.gpkg.tiles.feature</Package>
                 <Package>org.osmdroid.gpkg.tiles.raster</Package>
+                <Package>org.osmdroid.mapsforge</Package>
                 <Package>org.osmdroid.samplefragments</Package>
                 <Package>org.osmdroid.samplefragments.animations</Package>
                 <Package>org.osmdroid.samplefragments.bookmarks</Package>
@@ -31982,14 +32065,14 @@
 
         <Package name="org.osmdroid.views.overlay">
             <Stats>
-                <TotalClasses>50</TotalClasses>
-                <ConcreteClasses>34</ConcreteClasses>
-                <AbstractClasses>16</AbstractClasses>
+                <TotalClasses>55</TotalClasses>
+                <ConcreteClasses>38</ConcreteClasses>
+                <AbstractClasses>17</AbstractClasses>
                 <Ca>29</Ca>
                 <Ce>28</Ce>
-                <A>0.32</A>
+                <A>0.31</A>
                 <I>0.49</I>
-                <D>0.19</D>
+                <D>0.2</D>
                 <V>1</V>
             </Stats>
 
@@ -32036,6 +32119,9 @@
                 <Class sourceFile="OverlayWithIW.java">
                     org.osmdroid.views.overlay.OverlayWithIW
                 </Class>
+                <Class sourceFile="PolyOverlayWithIW.java">
+                    org.osmdroid.views.overlay.PolyOverlayWithIW
+                </Class>
                 <Class sourceFile="Polygon.java">
                     org.osmdroid.views.overlay.Polygon$OnClickListener
                 </Class>
@@ -32060,8 +32146,14 @@
                 <Class sourceFile="FolderOverlay.java">
                     org.osmdroid.views.overlay.FolderOverlay
                 </Class>
+                <Class sourceFile="GroundOverlay.java">
+                    org.osmdroid.views.overlay.GroundOverlay
+                </Class>
                 <Class sourceFile="GroundOverlay2.java">
                     org.osmdroid.views.overlay.GroundOverlay2
+                </Class>
+                <Class sourceFile="GroundOverlay4.java">
+                    org.osmdroid.views.overlay.GroundOverlay4
                 </Class>
                 <Class sourceFile="IconOverlay.java">
                     org.osmdroid.views.overlay.IconOverlay
@@ -32137,6 +32229,12 @@
                 </Class>
                 <Class sourceFile="ScaleBarOverlay.java">
                     org.osmdroid.views.overlay.ScaleBarOverlay$UnitsOfMeasure
+                </Class>
+                <Class sourceFile="ScaleDiskOverlay.java">
+                    org.osmdroid.views.overlay.ScaleDiskOverlay
+                </Class>
+                <Class sourceFile="SpeechBalloonOverlay.java">
+                    org.osmdroid.views.overlay.SpeechBalloonOverlay
                 </Class>
                 <Class sourceFile="TilesOverlay.java">
                     org.osmdroid.views.overlay.TilesOverlay
@@ -34372,6 +34470,7 @@
         </Package>
 
         <Package Name="org.mapsforge.map.android.graphics">
+            <Package>org.mapsforge.core.graphics</Package>
             <Package>org.mapsforge.core.model</Package>
             <Package>org.mapsforge.core.util</Package>
             <Package>org.mapsforge.core.model</Package>
@@ -34379,7 +34478,6 @@
 
         <Package Name="org.mapsforge.map.android.input">
             <Package>org.mapsforge.map.android.view</Package>
-            <Package>org.mapsforge.map.view</Package>
             <Package>org.mapsforge.core.model</Package>
             <Package>org.mapsforge.core.util</Package>
             <Package>org.mapsforge.core.model</Package>
@@ -34393,27 +34491,25 @@
 
         <Package Name="org.mapsforge.map.android.rendertheme">
             <Package>org.mapsforge.map.rendertheme</Package>
-            <Package>org.mapsforge.map.datastore</Package>
-            <Package>org.mapsforge.core.model</Package>
             <Package>org.mapsforge.core.util</Package>
             <Package>org.mapsforge.core.model</Package>
+            <Package>org.mapsforge.core.util</Package>
         </Package>
 
         <Package Name="org.mapsforge.map.android.util">
-            <Package>org.mapsforge.map.datastore</Package>
             <Package>org.mapsforge.core.model</Package>
             <Package>org.mapsforge.core.util</Package>
             <Package>org.mapsforge.core.model</Package>
         </Package>
 
         <Package Name="org.mapsforge.map.android.view">
-            <Package>org.mapsforge.map.view</Package>
             <Package>org.mapsforge.core.model</Package>
             <Package>org.mapsforge.core.util</Package>
             <Package>org.mapsforge.core.model</Package>
         </Package>
 
         <Package Name="org.mapsforge.map.controller">
+            <Package>org.mapsforge.map.layer</Package>
             <Package>org.mapsforge.core.model</Package>
             <Package>org.mapsforge.core.util</Package>
             <Package>org.mapsforge.core.model</Package>
@@ -34426,13 +34522,13 @@
         </Package>
 
         <Package Name="org.mapsforge.map.layer">
-            <Package>org.mapsforge.map.model</Package>
-            <Package>org.mapsforge.core.util</Package>
             <Package>org.mapsforge.core.model</Package>
             <Package>org.mapsforge.core.util</Package>
+            <Package>org.mapsforge.core.model</Package>
         </Package>
 
         <Package Name="org.mapsforge.map.layer.cache">
+            <Package>org.mapsforge.core.graphics</Package>
             <Package>org.mapsforge.core.model</Package>
             <Package>org.mapsforge.core.util</Package>
             <Package>org.mapsforge.core.model</Package>
@@ -34476,10 +34572,9 @@
         </Package>
 
         <Package Name="org.mapsforge.map.layer.queue">
-            <Package>org.mapsforge.map.model</Package>
-            <Package>org.mapsforge.core.util</Package>
             <Package>org.mapsforge.core.model</Package>
             <Package>org.mapsforge.core.util</Package>
+            <Package>org.mapsforge.core.model</Package>
         </Package>
 
         <Package Name="org.mapsforge.map.layer.renderer">
@@ -34501,7 +34596,6 @@
         </Package>
 
         <Package Name="org.mapsforge.map.reader">
-            <Package>org.mapsforge.map.reader.header</Package>
             <Package>org.mapsforge.core.model</Package>
             <Package>org.mapsforge.core.util</Package>
             <Package>org.mapsforge.core.model</Package>
@@ -34514,10 +34608,9 @@
         </Package>
 
         <Package Name="org.mapsforge.map.rendertheme">
-            <Package>org.mapsforge.map.datastore</Package>
-            <Package>org.mapsforge.core.model</Package>
             <Package>org.mapsforge.core.util</Package>
             <Package>org.mapsforge.core.model</Package>
+            <Package>org.mapsforge.core.util</Package>
         </Package>
 
         <Package Name="org.mapsforge.map.rendertheme.renderinstruction">
@@ -34602,14 +34695,14 @@
 
         <Package Name="org.osmdroid">
             <Package>org.osmdroid.bugtestfragments</Package>
-            <Package>org.osmdroid.samplefragments</Package>
+            <Package>org.osmdroid.views.overlay</Package>
             <Package>org.osmdroid.views</Package>
             <Package>org.osmdroid.util</Package>
             <Package>org.osmdroid.views</Package>
         </Package>
 
         <Package Name="org.osmdroid.bugtestfragments">
-            <Package>org.osmdroid.samplefragments</Package>
+            <Package>org.osmdroid.views.overlay</Package>
             <Package>org.osmdroid.views</Package>
             <Package>org.osmdroid.util</Package>
             <Package>org.osmdroid.views</Package>
@@ -34639,7 +34732,7 @@
         <Package Name="org.osmdroid.debug.browser">
             <Package>org.osmdroid</Package>
             <Package>org.osmdroid.bugtestfragments</Package>
-            <Package>org.osmdroid.samplefragments</Package>
+            <Package>org.osmdroid.views.overlay</Package>
             <Package>org.osmdroid.views</Package>
             <Package>org.osmdroid.util</Package>
             <Package>org.osmdroid.views</Package>
@@ -34655,7 +34748,7 @@
         <Package Name="org.osmdroid.diag">
             <Package>org.osmdroid</Package>
             <Package>org.osmdroid.bugtestfragments</Package>
-            <Package>org.osmdroid.samplefragments</Package>
+            <Package>org.osmdroid.views.overlay</Package>
             <Package>org.osmdroid.views</Package>
             <Package>org.osmdroid.util</Package>
             <Package>org.osmdroid.views</Package>
@@ -34696,7 +34789,7 @@
         <Package Name="org.osmdroid.intro">
             <Package>org.osmdroid</Package>
             <Package>org.osmdroid.bugtestfragments</Package>
-            <Package>org.osmdroid.samplefragments</Package>
+            <Package>org.osmdroid.views.overlay</Package>
             <Package>org.osmdroid.views</Package>
             <Package>org.osmdroid.util</Package>
             <Package>org.osmdroid.views</Package>
@@ -34718,7 +34811,7 @@
         <Package Name="org.osmdroid.samplefragments.animations">
             <Package>org.osmdroid</Package>
             <Package>org.osmdroid.bugtestfragments</Package>
-            <Package>org.osmdroid.samplefragments</Package>
+            <Package>org.osmdroid.views.overlay</Package>
             <Package>org.osmdroid.views</Package>
             <Package>org.osmdroid.util</Package>
             <Package>org.osmdroid.views</Package>
@@ -34733,7 +34826,7 @@
         <Package Name="org.osmdroid.samplefragments.cache">
             <Package>org.osmdroid</Package>
             <Package>org.osmdroid.bugtestfragments</Package>
-            <Package>org.osmdroid.samplefragments</Package>
+            <Package>org.osmdroid.views.overlay</Package>
             <Package>org.osmdroid.views</Package>
             <Package>org.osmdroid.util</Package>
             <Package>org.osmdroid.views</Package>
@@ -34779,7 +34872,7 @@
         <Package Name="org.osmdroid.samplefragments.layouts.list">
             <Package>org.osmdroid</Package>
             <Package>org.osmdroid.bugtestfragments</Package>
-            <Package>org.osmdroid.samplefragments</Package>
+            <Package>org.osmdroid.views.overlay</Package>
             <Package>org.osmdroid.views</Package>
             <Package>org.osmdroid.util</Package>
             <Package>org.osmdroid.views</Package>
@@ -34788,7 +34881,7 @@
         <Package Name="org.osmdroid.samplefragments.layouts.pager">
             <Package>org.osmdroid</Package>
             <Package>org.osmdroid.bugtestfragments</Package>
-            <Package>org.osmdroid.samplefragments</Package>
+            <Package>org.osmdroid.views.overlay</Package>
             <Package>org.osmdroid.views</Package>
             <Package>org.osmdroid.util</Package>
             <Package>org.osmdroid.views</Package>
@@ -34797,7 +34890,7 @@
         <Package Name="org.osmdroid.samplefragments.layouts.rec">
             <Package>org.osmdroid</Package>
             <Package>org.osmdroid.bugtestfragments</Package>
-            <Package>org.osmdroid.samplefragments</Package>
+            <Package>org.osmdroid.views.overlay</Package>
             <Package>org.osmdroid.views</Package>
             <Package>org.osmdroid.util</Package>
             <Package>org.osmdroid.views</Package>
@@ -34812,7 +34905,7 @@
         <Package Name="org.osmdroid.samplefragments.milstd2525">
             <Package>org.osmdroid</Package>
             <Package>org.osmdroid.bugtestfragments</Package>
-            <Package>org.osmdroid.samplefragments</Package>
+            <Package>org.osmdroid.views.overlay</Package>
             <Package>org.osmdroid.views</Package>
             <Package>org.osmdroid.util</Package>
             <Package>org.osmdroid.views</Package>
@@ -34842,7 +34935,7 @@
         <Package Name="org.osmdroid.samplefragments.ui">
             <Package>org.osmdroid</Package>
             <Package>org.osmdroid.bugtestfragments</Package>
-            <Package>org.osmdroid.samplefragments</Package>
+            <Package>org.osmdroid.views.overlay</Package>
             <Package>org.osmdroid.views</Package>
             <Package>org.osmdroid.util</Package>
             <Package>org.osmdroid.views</Package>

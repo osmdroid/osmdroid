@@ -10,266 +10,272 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.util.BoundingBox
-	c2978 [label=<<table title="org.osmdroid.util.BoundingBox" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./BoundingBox.html">
+	c3062 [label=<<table title="org.osmdroid.util.BoundingBox" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./BoundingBox.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> BoundingBox </td></tr>
 		</table></td></tr>
 		</table>>, URL="./BoundingBox.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.util.Delay
-	c2980 [label=<<table title="org.osmdroid.util.Delay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Delay.html">
+	c3065 [label=<<table title="org.osmdroid.util.Delay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Delay.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> Delay </td></tr>
 		</table></td></tr>
 		</table>>, URL="./Delay.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.util.Distance
-	c2981 [label=<<table title="org.osmdroid.util.Distance" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Distance.html">
+	c3066 [label=<<table title="org.osmdroid.util.Distance" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Distance.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> Distance </td></tr>
 		</table></td></tr>
 		</table>>, URL="./Distance.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.util.DuringSplashScreen
-	c2982 [label=<<table title="org.osmdroid.util.DuringSplashScreen" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./DuringSplashScreen.html">
+	c3067 [label=<<table title="org.osmdroid.util.DuringSplashScreen" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./DuringSplashScreen.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> DuringSplashScreen </td></tr>
 		</table></td></tr>
 		</table>>, URL="./DuringSplashScreen.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.util.GarbageCollector
-	c2983 [label=<<table title="org.osmdroid.util.GarbageCollector" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./GarbageCollector.html">
+	c3068 [label=<<table title="org.osmdroid.util.GarbageCollector" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./GarbageCollector.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> GarbageCollector </td></tr>
 		</table></td></tr>
 		</table>>, URL="./GarbageCollector.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.util.GEMFFile
-	c2984 [label=<<table title="org.osmdroid.util.GEMFFile" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./GEMFFile.html">
+	c3069 [label=<<table title="org.osmdroid.util.GEMFFile" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./GEMFFile.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> GEMFFile </td></tr>
 		</table></td></tr>
 		</table>>, URL="./GEMFFile.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.util.GEMFFile.GEMFInputStream
-	c2985 [label=<<table title="org.osmdroid.util.GEMFFile.GEMFInputStream" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./GEMFFile.GEMFInputStream.html">
+	c3070 [label=<<table title="org.osmdroid.util.GEMFFile.GEMFInputStream" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./GEMFFile.GEMFInputStream.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> GEMFInputStream </td></tr>
 		</table></td></tr>
 		</table>>, URL="./GEMFFile.GEMFInputStream.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.util.GeometryMath
-	c2986 [label=<<table title="org.osmdroid.util.GeometryMath" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./GeometryMath.html">
+	c3071 [label=<<table title="org.osmdroid.util.GeometryMath" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./GeometryMath.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> GeometryMath </td></tr>
 		</table></td></tr>
 		</table>>, URL="./GeometryMath.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.util.GeoPoint
-	c2987 [label=<<table title="org.osmdroid.util.GeoPoint" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./GeoPoint.html">
+	c3072 [label=<<table title="org.osmdroid.util.GeoPoint" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./GeoPoint.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> GeoPoint </td></tr>
 		</table></td></tr>
 		</table>>, URL="./GeoPoint.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.util.IterableWithSize<T>
-	c2988 [label=<<table title="org.osmdroid.util.IterableWithSize" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./IterableWithSize.html">
+	c3073 [label=<<table title="org.osmdroid.util.IterableWithSize" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./IterableWithSize.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> IterableWithSize&lt;T&gt; </td></tr>
 		</table></td></tr>
 		</table>>, URL="./IterableWithSize.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.util.LineBuilder
-	c2989 [label=<<table title="org.osmdroid.util.LineBuilder" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./LineBuilder.html">
+	c3074 [label=<<table title="org.osmdroid.util.LineBuilder" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./LineBuilder.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> LineBuilder </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./LineBuilder.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.util.ListPointL
-	c2990 [label=<<table title="org.osmdroid.util.ListPointL" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ListPointL.html">
+	c3075 [label=<<table title="org.osmdroid.util.ListPointL" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ListPointL.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> ListPointL </td></tr>
 		</table></td></tr>
 		</table>>, URL="./ListPointL.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.util.LocationUtils
-	c2991 [label=<<table title="org.osmdroid.util.LocationUtils" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./LocationUtils.html">
+	c3076 [label=<<table title="org.osmdroid.util.LocationUtils" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./LocationUtils.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> LocationUtils </td></tr>
 		</table></td></tr>
 		</table>>, URL="./LocationUtils.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.util.MapTileArea
-	c2992 [label=<<table title="org.osmdroid.util.MapTileArea" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileArea.html">
+	c3077 [label=<<table title="org.osmdroid.util.MapTileArea" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileArea.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MapTileArea </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MapTileArea.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.util.MapTileAreaBorderComputer
-	c2993 [label=<<table title="org.osmdroid.util.MapTileAreaBorderComputer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileAreaBorderComputer.html">
+	c3078 [label=<<table title="org.osmdroid.util.MapTileAreaBorderComputer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileAreaBorderComputer.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MapTileAreaBorderComputer </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MapTileAreaBorderComputer.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.util.MapTileAreaComputer
-	c2994 [label=<<table title="org.osmdroid.util.MapTileAreaComputer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileAreaComputer.html">
+	c3079 [label=<<table title="org.osmdroid.util.MapTileAreaComputer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileAreaComputer.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> MapTileAreaComputer </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MapTileAreaComputer.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.util.MapTileAreaList
-	c2995 [label=<<table title="org.osmdroid.util.MapTileAreaList" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileAreaList.html">
+	c3080 [label=<<table title="org.osmdroid.util.MapTileAreaList" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileAreaList.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MapTileAreaList </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MapTileAreaList.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.util.MapTileAreaZoomComputer
-	c2996 [label=<<table title="org.osmdroid.util.MapTileAreaZoomComputer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileAreaZoomComputer.html">
+	c3081 [label=<<table title="org.osmdroid.util.MapTileAreaZoomComputer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileAreaZoomComputer.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MapTileAreaZoomComputer </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MapTileAreaZoomComputer.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.util.MapTileContainer
-	c2997 [label=<<table title="org.osmdroid.util.MapTileContainer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileContainer.html">
+	c3082 [label=<<table title="org.osmdroid.util.MapTileContainer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileContainer.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> MapTileContainer </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MapTileContainer.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.util.MapTileIndex
-	c2998 [label=<<table title="org.osmdroid.util.MapTileIndex" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileIndex.html">
+	c3083 [label=<<table title="org.osmdroid.util.MapTileIndex" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileIndex.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MapTileIndex </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MapTileIndex.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.util.MapTileList
-	c2999 [label=<<table title="org.osmdroid.util.MapTileList" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileList.html">
+	c3084 [label=<<table title="org.osmdroid.util.MapTileList" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileList.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MapTileList </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MapTileList.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.util.MapTileListBorderComputer
-	c3000 [label=<<table title="org.osmdroid.util.MapTileListBorderComputer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileListBorderComputer.html">
+	c3085 [label=<<table title="org.osmdroid.util.MapTileListBorderComputer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileListBorderComputer.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MapTileListBorderComputer </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MapTileListBorderComputer.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.util.MapTileListComputer
-	c3001 [label=<<table title="org.osmdroid.util.MapTileListComputer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileListComputer.html">
+	c3086 [label=<<table title="org.osmdroid.util.MapTileListComputer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileListComputer.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> MapTileListComputer </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MapTileListComputer.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.util.MapTileListZoomComputer
-	c3002 [label=<<table title="org.osmdroid.util.MapTileListZoomComputer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileListZoomComputer.html">
+	c3087 [label=<<table title="org.osmdroid.util.MapTileListZoomComputer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileListZoomComputer.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MapTileListZoomComputer </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MapTileListZoomComputer.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.util.MyMath
-	c3003 [label=<<table title="org.osmdroid.util.MyMath" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MyMath.html">
+	c3088 [label=<<table title="org.osmdroid.util.MyMath" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MyMath.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MyMath </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MyMath.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.util.NetworkLocationIgnorer
-	c3004 [label=<<table title="org.osmdroid.util.NetworkLocationIgnorer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./NetworkLocationIgnorer.html">
+	c3089 [label=<<table title="org.osmdroid.util.NetworkLocationIgnorer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./NetworkLocationIgnorer.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> NetworkLocationIgnorer </td></tr>
 		</table></td></tr>
 		</table>>, URL="./NetworkLocationIgnorer.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.util.PathBuilder
-	c3005 [label=<<table title="org.osmdroid.util.PathBuilder" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./PathBuilder.html">
+	c3090 [label=<<table title="org.osmdroid.util.PathBuilder" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./PathBuilder.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> PathBuilder </td></tr>
 		</table></td></tr>
 		</table>>, URL="./PathBuilder.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.util.PointAccepter
-	c3006 [label=<<table title="org.osmdroid.util.PointAccepter" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./PointAccepter.html">
+	c3091 [label=<<table title="org.osmdroid.util.PointAccepter" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./PointAccepter.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> PointAccepter </td></tr>
 		</table></td></tr>
 		</table>>, URL="./PointAccepter.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.util.PointL
-	c3007 [label=<<table title="org.osmdroid.util.PointL" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./PointL.html">
+	c3092 [label=<<table title="org.osmdroid.util.PointL" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./PointL.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> PointL </td></tr>
 		</table></td></tr>
 		</table>>, URL="./PointL.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.util.PointReducer
-	c3008 [label=<<table title="org.osmdroid.util.PointReducer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./PointReducer.html">
+	c3093 [label=<<table title="org.osmdroid.util.PointReducer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./PointReducer.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> PointReducer </td></tr>
 		</table></td></tr>
 		</table>>, URL="./PointReducer.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.util.RectL
-	c3009 [label=<<table title="org.osmdroid.util.RectL" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RectL.html">
+	c3094 [label=<<table title="org.osmdroid.util.RectL" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./RectL.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> RectL </td></tr>
 		</table></td></tr>
 		</table>>, URL="./RectL.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.util.SegmentClipper
-	c3010 [label=<<table title="org.osmdroid.util.SegmentClipper" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SegmentClipper.html">
+	c3095 [label=<<table title="org.osmdroid.util.SegmentClipper" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SegmentClipper.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SegmentClipper </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SegmentClipper.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.util.SegmentIntersection
-	c3011 [label=<<table title="org.osmdroid.util.SegmentIntersection" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SegmentIntersection.html">
+	c3096 [label=<<table title="org.osmdroid.util.SegmentIntersection" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SegmentIntersection.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SegmentIntersection </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SegmentIntersection.html", fontname="arial", fontcolor="black", fontsize=10.0];
+	// org.osmdroid.util.SpeechBalloonHelper
+	c3097 [label=<<table title="org.osmdroid.util.SpeechBalloonHelper" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SpeechBalloonHelper.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> SpeechBalloonHelper </td></tr>
+		</table></td></tr>
+		</table>>, URL="./SpeechBalloonHelper.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.util.SplashScreenable
-	c3012 [label=<<table title="org.osmdroid.util.SplashScreenable" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SplashScreenable.html">
+	c3098 [label=<<table title="org.osmdroid.util.SplashScreenable" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SplashScreenable.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> SplashScreenable </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SplashScreenable.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.util.TileLooper
-	c3013 [label=<<table title="org.osmdroid.util.TileLooper" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./TileLooper.html">
+	c3099 [label=<<table title="org.osmdroid.util.TileLooper" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./TileLooper.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> TileLooper </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./TileLooper.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.util.TileSystem
-	c3014 [label=<<table title="org.osmdroid.util.TileSystem" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./TileSystem.html">
+	c3100 [label=<<table title="org.osmdroid.util.TileSystem" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./TileSystem.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> TileSystem </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./TileSystem.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.util.TileSystemWebMercator
-	c3015 [label=<<table title="org.osmdroid.util.TileSystemWebMercator" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./TileSystemWebMercator.html">
+	c3101 [label=<<table title="org.osmdroid.util.TileSystemWebMercator" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./TileSystemWebMercator.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> TileSystemWebMercator </td></tr>
 		</table></td></tr>
 		</table>>, URL="./TileSystemWebMercator.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.util.UrlBackoff
-	c3016 [label=<<table title="org.osmdroid.util.UrlBackoff" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./UrlBackoff.html">
+	c3102 [label=<<table title="org.osmdroid.util.UrlBackoff" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./UrlBackoff.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> UrlBackoff </td></tr>
 		</table></td></tr>
 		</table>>, URL="./UrlBackoff.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.util.DuringSplashScreen implements org.osmdroid.util.SplashScreenable
-	c3012:p -> c2982:p [dir=back,arrowtail=empty,style=dashed];
+	c3098:p -> c3067:p [dir=back,arrowtail=empty,style=dashed];
 	//org.osmdroid.util.LineBuilder implements org.osmdroid.util.PointAccepter
-	c3006:p -> c2989:p [dir=back,arrowtail=empty,style=dashed];
+	c3091:p -> c3074:p [dir=back,arrowtail=empty,style=dashed];
 	//org.osmdroid.util.MapTileArea implements org.osmdroid.util.MapTileContainer
-	c2997:p -> c2992:p [dir=back,arrowtail=empty,style=dashed];
+	c3082:p -> c3077:p [dir=back,arrowtail=empty,style=dashed];
 	//org.osmdroid.util.MapTileArea implements org.osmdroid.util.IterableWithSize<T>
-	c2988:p -> c2992:p [dir=back,arrowtail=empty,style=dashed];
+	c3073:p -> c3077:p [dir=back,arrowtail=empty,style=dashed];
 	//org.osmdroid.util.MapTileAreaBorderComputer implements org.osmdroid.util.MapTileAreaComputer
-	c2994:p -> c2993:p [dir=back,arrowtail=empty,style=dashed];
+	c3079:p -> c3078:p [dir=back,arrowtail=empty,style=dashed];
 	//org.osmdroid.util.MapTileAreaList implements org.osmdroid.util.MapTileContainer
-	c2997:p -> c2995:p [dir=back,arrowtail=empty,style=dashed];
+	c3082:p -> c3080:p [dir=back,arrowtail=empty,style=dashed];
 	//org.osmdroid.util.MapTileAreaList implements org.osmdroid.util.IterableWithSize<T>
-	c2988:p -> c2995:p [dir=back,arrowtail=empty,style=dashed];
+	c3073:p -> c3080:p [dir=back,arrowtail=empty,style=dashed];
 	//org.osmdroid.util.MapTileAreaZoomComputer implements org.osmdroid.util.MapTileAreaComputer
-	c2994:p -> c2996:p [dir=back,arrowtail=empty,style=dashed];
+	c3079:p -> c3081:p [dir=back,arrowtail=empty,style=dashed];
 	//org.osmdroid.util.MapTileList implements org.osmdroid.util.MapTileContainer
-	c2997:p -> c2999:p [dir=back,arrowtail=empty,style=dashed];
+	c3082:p -> c3084:p [dir=back,arrowtail=empty,style=dashed];
 	//org.osmdroid.util.MapTileListBorderComputer implements org.osmdroid.util.MapTileListComputer
-	c3001:p -> c3000:p [dir=back,arrowtail=empty,style=dashed];
+	c3086:p -> c3085:p [dir=back,arrowtail=empty,style=dashed];
 	//org.osmdroid.util.MapTileListZoomComputer implements org.osmdroid.util.MapTileListComputer
-	c3001:p -> c3002:p [dir=back,arrowtail=empty,style=dashed];
+	c3086:p -> c3087:p [dir=back,arrowtail=empty,style=dashed];
 	//org.osmdroid.util.PathBuilder implements org.osmdroid.util.PointAccepter
-	c3006:p -> c3005:p [dir=back,arrowtail=empty,style=dashed];
+	c3091:p -> c3090:p [dir=back,arrowtail=empty,style=dashed];
 	//org.osmdroid.util.SegmentClipper implements org.osmdroid.util.PointAccepter
-	c3006:p -> c3010:p [dir=back,arrowtail=empty,style=dashed];
+	c3091:p -> c3095:p [dir=back,arrowtail=empty,style=dashed];
 	//org.osmdroid.util.TileSystemWebMercator extends org.osmdroid.util.TileSystem
-	c3014:p -> c3015:p [dir=back,arrowtail=empty];
+	c3100:p -> c3101:p [dir=back,arrowtail=empty];
 }
 

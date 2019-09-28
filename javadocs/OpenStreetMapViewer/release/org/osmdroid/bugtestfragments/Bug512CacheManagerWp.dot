@@ -10,32 +10,32 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.bugtestfragments.Bug512CacheManagerWp
-	c10434 [label=<<table title="org.osmdroid.bugtestfragments.Bug512CacheManagerWp" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./Bug512CacheManagerWp.html">
+	c10946 [label=<<table title="org.osmdroid.bugtestfragments.Bug512CacheManagerWp" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./Bug512CacheManagerWp.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> Bug512CacheManagerWp </td></tr>
 		</table></td></tr>
 		</table>>, URL="./Bug512CacheManagerWp.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.BaseSampleFragment
-	c10490 [label=<<table title="org.osmdroid.samplefragments.BaseSampleFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../samplefragments/BaseSampleFragment.html">
+	c11002 [label=<<table title="org.osmdroid.samplefragments.BaseSampleFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../samplefragments/BaseSampleFragment.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> BaseSampleFragment </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="../samplefragments/BaseSampleFragment.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.bugtestfragments.Bug512CacheManagerWp extends org.osmdroid.samplefragments.BaseSampleFragment
-	c10490:p -> c10434:p [dir=back,arrowtail=empty];
+	c11002:p -> c10946:p [dir=back,arrowtail=empty];
 	//org.osmdroid.bugtestfragments.Bug512CacheManagerWp implements org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerCallback
-	c10645:p -> c10434:p [dir=back,arrowtail=empty,style=dashed];
+	c11162:p -> c10946:p [dir=back,arrowtail=empty,style=dashed];
 	//org.osmdroid.bugtestfragments.Bug512CacheManagerWp implements android.view.View.OnClickListener
-	c10646:p -> c10434:p [dir=back,arrowtail=empty,style=dashed];
+	c11163:p -> c10946:p [dir=back,arrowtail=empty,style=dashed];
 	// org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerCallback
-	c10645 [label=<<table title="org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerCallback" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/org/osmdroid/tileprovider/cachemanager/CacheManager/CacheManagerCallback.html">
+	c11162 [label=<<table title="org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerCallback" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/org/osmdroid/tileprovider/cachemanager/CacheManager/CacheManagerCallback.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> CacheManagerCallback </td></tr>
 		</table></td></tr>
 		</table>>, URL="http://java.sun.com/j2se/1.4.2/docs/api/org/osmdroid/tileprovider/cachemanager/CacheManager/CacheManagerCallback.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// android.view.View.OnClickListener
-	c10646 [label=<<table title="android.view.View.OnClickListener" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/android/view/View/OnClickListener.html">
+	c11163 [label=<<table title="android.view.View.OnClickListener" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/android/view/View/OnClickListener.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> OnClickListener </td></tr>

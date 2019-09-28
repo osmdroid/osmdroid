@@ -10,7 +10,7 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.util.GarbageCollector
-	c98307 [label=<<table title="org.osmdroid.util.GarbageCollector" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./GarbageCollector.html">
+	c101425 [label=<<table title="org.osmdroid.util.GarbageCollector" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./GarbageCollector.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> GarbageCollector </td></tr>
 		</table></td></tr>

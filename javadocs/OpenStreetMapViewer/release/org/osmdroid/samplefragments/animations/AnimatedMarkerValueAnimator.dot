@@ -10,23 +10,23 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.samplefragments.animations.AnimatedMarkerValueAnimator
-	c8310 [label=<<table title="org.osmdroid.samplefragments.animations.AnimatedMarkerValueAnimator" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./AnimatedMarkerValueAnimator.html">
+	c8540 [label=<<table title="org.osmdroid.samplefragments.animations.AnimatedMarkerValueAnimator" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./AnimatedMarkerValueAnimator.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> AnimatedMarkerValueAnimator </td></tr>
 		</table></td></tr>
 		</table>>, URL="./AnimatedMarkerValueAnimator.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.BaseSampleFragment
-	c8318 [label=<<table title="org.osmdroid.samplefragments.BaseSampleFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../BaseSampleFragment.html">
+	c8548 [label=<<table title="org.osmdroid.samplefragments.BaseSampleFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../BaseSampleFragment.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> BaseSampleFragment </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="../BaseSampleFragment.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.samplefragments.animations.AnimatedMarkerValueAnimator extends org.osmdroid.samplefragments.BaseSampleFragment
-	c8318:p -> c8310:p [dir=back,arrowtail=empty];
+	c8548:p -> c8540:p [dir=back,arrowtail=empty];
 	//org.osmdroid.samplefragments.animations.AnimatedMarkerValueAnimator implements android.view.View.OnClickListener
-	c8473:p -> c8310:p [dir=back,arrowtail=empty,style=dashed];
+	c8708:p -> c8540:p [dir=back,arrowtail=empty,style=dashed];
 	// android.view.View.OnClickListener
-	c8473 [label=<<table title="android.view.View.OnClickListener" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/android/view/View/OnClickListener.html">
+	c8708 [label=<<table title="android.view.View.OnClickListener" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/android/view/View/OnClickListener.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> OnClickListener </td></tr>

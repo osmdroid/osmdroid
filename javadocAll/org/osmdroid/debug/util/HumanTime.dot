@@ -10,33 +10,33 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.debug.util.HumanTime
-	c110859 [label=<<table title="org.osmdroid.debug.util.HumanTime" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./HumanTime.html">
+	c115954 [label=<<table title="org.osmdroid.debug.util.HumanTime" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./HumanTime.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> HumanTime </td></tr>
 		</table></td></tr>
 		</table>>, URL="./HumanTime.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.debug.util.HumanTime implements java.io.Externalizable
-	c111352:p -> c110859:p [dir=back,arrowtail=empty,style=dashed];
+	c116460:p -> c115954:p [dir=back,arrowtail=empty,style=dashed];
 	//org.osmdroid.debug.util.HumanTime implements java.lang.Comparable<T>
-	c111353:p -> c110859:p [dir=back,arrowtail=empty,style=dashed];
+	c116461:p -> c115954:p [dir=back,arrowtail=empty,style=dashed];
 	//org.osmdroid.debug.util.HumanTime implements java.lang.Cloneable
-	c111354:p -> c110859:p [dir=back,arrowtail=empty,style=dashed];
+	c116462:p -> c115954:p [dir=back,arrowtail=empty,style=dashed];
 	// java.io.Externalizable
-	c111352 [label=<<table title="java.io.Externalizable" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/java/io/Externalizable.html">
+	c116460 [label=<<table title="java.io.Externalizable" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/java/io/Externalizable.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> Externalizable </td></tr>
 		</table></td></tr>
 		</table>>, URL="http://java.sun.com/j2se/1.4.2/docs/api/java/io/Externalizable.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// java.lang.Comparable<T>
-	c111353 [label=<<table title="java.lang.Comparable" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/java/lang/Comparable.html">
+	c116461 [label=<<table title="java.lang.Comparable" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/java/lang/Comparable.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> Comparable&lt;T&gt; </td></tr>
 		</table></td></tr>
 		</table>>, URL="http://java.sun.com/j2se/1.4.2/docs/api/java/lang/Comparable.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// java.lang.Cloneable
-	c111354 [label=<<table title="java.lang.Cloneable" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/java/lang/Cloneable.html">
+	c116462 [label=<<table title="java.lang.Cloneable" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/java/lang/Cloneable.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> Cloneable </td></tr>

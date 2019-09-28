@@ -10,18 +10,18 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase
-	c320365 [label=<<table title="org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../tileprovider/tilesource/OnlineTileSourceBase.html">
+	c336429 [label=<<table title="org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../tileprovider/tilesource/OnlineTileSourceBase.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> OnlineTileSourceBase </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="../tileprovider/tilesource/OnlineTileSourceBase.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.wms.WMSTileSource
-	c320586 [label=<<table title="org.osmdroid.wms.WMSTileSource" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./WMSTileSource.html">
+	c336658 [label=<<table title="org.osmdroid.wms.WMSTileSource" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./WMSTileSource.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> WMSTileSource </td></tr>
 		</table></td></tr>
 		</table>>, URL="./WMSTileSource.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.wms.WMSTileSource extends org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase
-	c320365:p -> c320586:p [dir=back,arrowtail=empty];
+	c336429:p -> c336658:p [dir=back,arrowtail=empty];
 }
 

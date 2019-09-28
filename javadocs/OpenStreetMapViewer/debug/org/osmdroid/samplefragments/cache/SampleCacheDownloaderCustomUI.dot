@@ -10,50 +10,50 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.samplefragments.BaseSampleFragment
-	c35437 [label=<<table title="org.osmdroid.samplefragments.BaseSampleFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../BaseSampleFragment.html">
+	c36639 [label=<<table title="org.osmdroid.samplefragments.BaseSampleFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../BaseSampleFragment.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> BaseSampleFragment </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="../BaseSampleFragment.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.cache.SampleCacheDownloaderCustomUI
-	c35446 [label=<<table title="org.osmdroid.samplefragments.cache.SampleCacheDownloaderCustomUI" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./SampleCacheDownloaderCustomUI.html">
+	c36648 [label=<<table title="org.osmdroid.samplefragments.cache.SampleCacheDownloaderCustomUI" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./SampleCacheDownloaderCustomUI.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleCacheDownloaderCustomUI </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SampleCacheDownloaderCustomUI.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.samplefragments.cache.SampleCacheDownloaderCustomUI extends org.osmdroid.samplefragments.BaseSampleFragment
-	c35437:p -> c35446:p [dir=back,arrowtail=empty];
+	c36639:p -> c36648:p [dir=back,arrowtail=empty];
 	//org.osmdroid.samplefragments.cache.SampleCacheDownloaderCustomUI implements android.view.View.OnClickListener
-	c35592:p -> c35446:p [dir=back,arrowtail=empty,style=dashed];
+	c36799:p -> c36648:p [dir=back,arrowtail=empty,style=dashed];
 	//org.osmdroid.samplefragments.cache.SampleCacheDownloaderCustomUI implements android.widget.SeekBar.OnSeekBarChangeListener
-	c35593:p -> c35446:p [dir=back,arrowtail=empty,style=dashed];
+	c36800:p -> c36648:p [dir=back,arrowtail=empty,style=dashed];
 	//org.osmdroid.samplefragments.cache.SampleCacheDownloaderCustomUI implements android.text.TextWatcher
-	c35594:p -> c35446:p [dir=back,arrowtail=empty,style=dashed];
+	c36801:p -> c36648:p [dir=back,arrowtail=empty,style=dashed];
 	//org.osmdroid.samplefragments.cache.SampleCacheDownloaderCustomUI implements org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerCallback
-	c35595:p -> c35446:p [dir=back,arrowtail=empty,style=dashed];
+	c36802:p -> c36648:p [dir=back,arrowtail=empty,style=dashed];
 	// android.widget.SeekBar.OnSeekBarChangeListener
-	c35593 [label=<<table title="android.widget.SeekBar.OnSeekBarChangeListener" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/android/widget/SeekBar/OnSeekBarChangeListener.html">
+	c36800 [label=<<table title="android.widget.SeekBar.OnSeekBarChangeListener" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/android/widget/SeekBar/OnSeekBarChangeListener.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> OnSeekBarChangeListener </td></tr>
 		</table></td></tr>
 		</table>>, URL="http://java.sun.com/j2se/1.4.2/docs/api/android/widget/SeekBar/OnSeekBarChangeListener.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// android.text.TextWatcher
-	c35594 [label=<<table title="android.text.TextWatcher" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/android/text/TextWatcher.html">
+	c36801 [label=<<table title="android.text.TextWatcher" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/android/text/TextWatcher.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> TextWatcher </td></tr>
 		</table></td></tr>
 		</table>>, URL="http://java.sun.com/j2se/1.4.2/docs/api/android/text/TextWatcher.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerCallback
-	c35595 [label=<<table title="org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerCallback" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/org/osmdroid/tileprovider/cachemanager/CacheManager/CacheManagerCallback.html">
+	c36802 [label=<<table title="org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerCallback" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/org/osmdroid/tileprovider/cachemanager/CacheManager/CacheManagerCallback.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> CacheManagerCallback </td></tr>
 		</table></td></tr>
 		</table>>, URL="http://java.sun.com/j2se/1.4.2/docs/api/org/osmdroid/tileprovider/cachemanager/CacheManager/CacheManagerCallback.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// android.view.View.OnClickListener
-	c35592 [label=<<table title="android.view.View.OnClickListener" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/android/view/View/OnClickListener.html">
+	c36799 [label=<<table title="android.view.View.OnClickListener" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/android/view/View/OnClickListener.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> OnClickListener </td></tr>

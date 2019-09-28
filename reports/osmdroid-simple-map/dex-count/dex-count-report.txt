@@ -1,9 +1,9 @@
-Processing .\osmdroid-simple-map\build\outputs\apk\osmdroid-simple-map-6.1.0-debug.apk
-Read in 19983 method IDs and 10933 field IDs
+Processing .\osmdroid-simple-map\build\outputs\apk\osmdroid-simple-map-6.1.1-debug.apk
+Read in 20072 method IDs and 11034 field IDs
 ----------------------------------
 Package details:
 (default) Methods 1 Fields 0
-android Methods 16367 Fields 7925
+android Methods 16374 Fields 7925
 	accessibilityservice Methods 7 Fields 0
 	animation Methods 67 Fields 0
 	app Methods 269 Fields 24
@@ -17,7 +17,7 @@ android Methods 16367 Fields 7925
 		res Methods 100 Fields 10
 	database Methods 43 Fields 0
 		sqlite Methods 12 Fields 0
-	graphics Methods 333 Fields 47
+	graphics Methods 334 Fields 47
 		drawable Methods 107 Fields 0
 			shapes Methods 3 Fields 0
 		pdf Methods 3 Fields 0
@@ -93,14 +93,14 @@ android Methods 16367 Fields 7925
 		util Methods 10 Fields 1
 	transition Methods 18 Fields 0
 	util Methods 50 Fields 12
-	view Methods 954 Fields 29
+	view Methods 955 Fields 29
 		accessibility Methods 237 Fields 8
 		animation Methods 43 Fields 0
 		inputmethod Methods 3 Fields 0
 	webkit Methods 4 Fields 0
-	widget Methods 547 Fields 12
-java Methods 655 Fields 26
-	io Methods 97 Fields 2
+	widget Methods 552 Fields 12
+java Methods 657 Fields 26
+	io Methods 99 Fields 2
 	lang Methods 271 Fields 17
 		annotation Methods 0 Fields 11
 		ref Methods 2 Fields 0
@@ -116,30 +116,30 @@ java Methods 655 Fields 26
 			locks Methods 6 Fields 0
 		regex Methods 6 Fields 0
 		zip Methods 7 Fields 0
-org Methods 2959 Fields 2982
+org Methods 3039 Fields 3083
 	json Methods 8 Fields 0
 	metalev Methods 58 Fields 74
 		multitouch Methods 58 Fields 74
 			controller Methods 58 Fields 74
-	osmdroid Methods 2878 Fields 2908
+	osmdroid Methods 2958 Fields 3009
 		api Methods 46 Fields 1
 		config Methods 132 Fields 33
 		events Methods 23 Fields 12
-		library Methods 6 Fields 70
+		library Methods 6 Fields 76
 		sample Methods 7 Fields 1
-		simplemap Methods 16 Fields 1602
-		tileprovider Methods 781 Fields 352
+		simplemap Methods 16 Fields 1608
+		tileprovider Methods 782 Fields 352
 			cachemanager Methods 108 Fields 27
 			constants Methods 1 Fields 13
 			modules Methods 303 Fields 87
 			tilesource Methods 170 Fields 114
 				bing Methods 26 Fields 35
 			util Methods 35 Fields 27
-		util Methods 413 Fields 121
-			constants Methods 0 Fields 5
-		views Methods 1442 Fields 712
+		util Methods 430 Fields 138
+			constants Methods 7 Fields 13
+		views Methods 1504 Fields 784
 			drawing Methods 34 Fields 33
-			overlay Methods 1004 Fields 504
+			overlay Methods 1062 Fields 570
 				compass Methods 48 Fields 27
 				gestures Methods 18 Fields 12
 				gridlines Methods 23 Fields 17
@@ -151,15 +151,15 @@ org Methods 2959 Fields 2982
 				constants Methods 0 Fields 7
 	xmlpull Methods 15 Fields 0
 		v1 Methods 15 Fields 0
-Processed .\osmdroid-simple-map\build\outputs\apk\osmdroid-simple-map-6.1.0-debug.apk
-Read in 19983 method IDs and 10933 field IDs
+Processed .\osmdroid-simple-map\build\outputs\apk\osmdroid-simple-map-6.1.1-debug.apk
+Read in 20072 method IDs and 11034 field IDs
 ----------------------------------
-Processing .\osmdroid-simple-map\build\outputs\apk\osmdroid-simple-map-6.1.0-release.apk
-Read in 19981 method IDs and 10933 field IDs
+Processing .\osmdroid-simple-map\build\outputs\apk\osmdroid-simple-map-6.1.1-release.apk
+Read in 20070 method IDs and 11034 field IDs
 ----------------------------------
 Package details:
 (default) Methods 1 Fields 0
-android Methods 16367 Fields 7925
+android Methods 16374 Fields 7925
 	accessibilityservice Methods 7 Fields 0
 	animation Methods 67 Fields 0
 	app Methods 269 Fields 24
@@ -173,7 +173,7 @@ android Methods 16367 Fields 7925
 		res Methods 100 Fields 10
 	database Methods 43 Fields 0
 		sqlite Methods 12 Fields 0
-	graphics Methods 333 Fields 47
+	graphics Methods 334 Fields 47
 		drawable Methods 107 Fields 0
 			shapes Methods 3 Fields 0
 		pdf Methods 3 Fields 0
@@ -249,14 +249,14 @@ android Methods 16367 Fields 7925
 		util Methods 10 Fields 1
 	transition Methods 18 Fields 0
 	util Methods 50 Fields 12
-	view Methods 954 Fields 29
+	view Methods 955 Fields 29
 		accessibility Methods 237 Fields 8
 		animation Methods 43 Fields 0
 		inputmethod Methods 3 Fields 0
 	webkit Methods 4 Fields 0
-	widget Methods 547 Fields 12
-java Methods 654 Fields 26
-	io Methods 97 Fields 2
+	widget Methods 552 Fields 12
+java Methods 656 Fields 26
+	io Methods 99 Fields 2
 	lang Methods 270 Fields 17
 		annotation Methods 0 Fields 11
 		ref Methods 2 Fields 0
@@ -272,30 +272,30 @@ java Methods 654 Fields 26
 			locks Methods 6 Fields 0
 		regex Methods 6 Fields 0
 		zip Methods 7 Fields 0
-org Methods 2958 Fields 2982
+org Methods 3038 Fields 3083
 	json Methods 8 Fields 0
 	metalev Methods 58 Fields 74
 		multitouch Methods 58 Fields 74
 			controller Methods 58 Fields 74
-	osmdroid Methods 2877 Fields 2908
+	osmdroid Methods 2957 Fields 3009
 		api Methods 46 Fields 1
 		config Methods 132 Fields 33
 		events Methods 23 Fields 12
-		library Methods 6 Fields 70
+		library Methods 6 Fields 76
 		sample Methods 7 Fields 1
-		simplemap Methods 15 Fields 1602
-		tileprovider Methods 781 Fields 352
+		simplemap Methods 15 Fields 1608
+		tileprovider Methods 782 Fields 352
 			cachemanager Methods 108 Fields 27
 			constants Methods 1 Fields 13
 			modules Methods 303 Fields 87
 			tilesource Methods 170 Fields 114
 				bing Methods 26 Fields 35
 			util Methods 35 Fields 27
-		util Methods 413 Fields 121
-			constants Methods 0 Fields 5
-		views Methods 1442 Fields 712
+		util Methods 430 Fields 138
+			constants Methods 7 Fields 13
+		views Methods 1504 Fields 784
 			drawing Methods 34 Fields 33
-			overlay Methods 1004 Fields 504
+			overlay Methods 1062 Fields 570
 				compass Methods 48 Fields 27
 				gestures Methods 18 Fields 12
 				gridlines Methods 23 Fields 17
@@ -307,7 +307,7 @@ org Methods 2958 Fields 2982
 				constants Methods 0 Fields 7
 	xmlpull Methods 15 Fields 0
 		v1 Methods 15 Fields 0
-Processed .\osmdroid-simple-map\build\outputs\apk\osmdroid-simple-map-6.1.0-release.apk
-Read in 19981 method IDs and 10933 field IDs
+Processed .\osmdroid-simple-map\build\outputs\apk\osmdroid-simple-map-6.1.1-release.apk
+Read in 20070 method IDs and 11034 field IDs
 ----------------------------------
 

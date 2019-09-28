@@ -10,31 +10,31 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.samplefragments.layouts.rec.CustomRecycler.ViewHolder
-	c71371 [label=<<table title="org.osmdroid.samplefragments.layouts.rec.CustomRecycler.ViewHolder" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./CustomRecycler.ViewHolder.html">
+	c73788 [label=<<table title="org.osmdroid.samplefragments.layouts.rec.CustomRecycler.ViewHolder" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./CustomRecycler.ViewHolder.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> ViewHolder </td></tr>
 		</table></td></tr>
 		</table>>, URL="./CustomRecycler.ViewHolder.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.layouts.rec.CustomRecycler.MapViewHolder
-	c71372 [label=<<table title="org.osmdroid.samplefragments.layouts.rec.CustomRecycler.MapViewHolder" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./CustomRecycler.MapViewHolder.html">
+	c73789 [label=<<table title="org.osmdroid.samplefragments.layouts.rec.CustomRecycler.MapViewHolder" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./CustomRecycler.MapViewHolder.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MapViewHolder </td></tr>
 		</table></td></tr>
 		</table>>, URL="./CustomRecycler.MapViewHolder.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.layouts.rec.CustomRecycler.InfoDataViewHolder
-	c71373 [label=<<table title="org.osmdroid.samplefragments.layouts.rec.CustomRecycler.InfoDataViewHolder" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./CustomRecycler.InfoDataViewHolder.html">
+	c73790 [label=<<table title="org.osmdroid.samplefragments.layouts.rec.CustomRecycler.InfoDataViewHolder" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./CustomRecycler.InfoDataViewHolder.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> InfoDataViewHolder </td></tr>
 		</table></td></tr>
 		</table>>, URL="./CustomRecycler.InfoDataViewHolder.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.samplefragments.layouts.rec.CustomRecycler.ViewHolder extends RecyclerView.ViewHolder
-	c71748:p -> c71371:p [dir=back,arrowtail=empty];
+	c74173:p -> c73788:p [dir=back,arrowtail=empty];
 	//org.osmdroid.samplefragments.layouts.rec.CustomRecycler.MapViewHolder extends org.osmdroid.samplefragments.layouts.rec.CustomRecycler.ViewHolder
-	c71371:p -> c71372:p [dir=back,arrowtail=empty];
+	c73788:p -> c73789:p [dir=back,arrowtail=empty];
 	//org.osmdroid.samplefragments.layouts.rec.CustomRecycler.InfoDataViewHolder extends org.osmdroid.samplefragments.layouts.rec.CustomRecycler.ViewHolder
-	c71371:p -> c71373:p [dir=back,arrowtail=empty];
+	c73788:p -> c73790:p [dir=back,arrowtail=empty];
 	// RecyclerView.ViewHolder
-	c71748[label=<<table title="RecyclerView.ViewHolder" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/RecyclerView/ViewHolder.html">
+	c74173[label=<<table title="RecyclerView.ViewHolder" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/RecyclerView/ViewHolder.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> RecyclerView.ViewHolder </td></tr>
 		</table></td></tr>

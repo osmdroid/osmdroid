@@ -10,37 +10,37 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.wms.DomParserWms111
-	c37979 [label=<<table title="org.osmdroid.wms.DomParserWms111" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./DomParserWms111.html">
+	c38973 [label=<<table title="org.osmdroid.wms.DomParserWms111" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./DomParserWms111.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> DomParserWms111 </td></tr>
 		</table></td></tr>
 		</table>>, URL="./DomParserWms111.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.wms.WMSEndpoint
-	c37980 [label=<<table title="org.osmdroid.wms.WMSEndpoint" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./WMSEndpoint.html">
+	c38974 [label=<<table title="org.osmdroid.wms.WMSEndpoint" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./WMSEndpoint.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> WMSEndpoint </td></tr>
 		</table></td></tr>
 		</table>>, URL="./WMSEndpoint.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.wms.WMSLayer
-	c37981 [label=<<table title="org.osmdroid.wms.WMSLayer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./WMSLayer.html">
+	c38975 [label=<<table title="org.osmdroid.wms.WMSLayer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./WMSLayer.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> WMSLayer </td></tr>
 		</table></td></tr>
 		</table>>, URL="./WMSLayer.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.wms.WMSParser
-	c37982 [label=<<table title="org.osmdroid.wms.WMSParser" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./WMSParser.html">
+	c38976 [label=<<table title="org.osmdroid.wms.WMSParser" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./WMSParser.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> WMSParser </td></tr>
 		</table></td></tr>
 		</table>>, URL="./WMSParser.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.wms.WMSTileSource
-	c37983 [label=<<table title="org.osmdroid.wms.WMSTileSource" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./WMSTileSource.html">
+	c38977 [label=<<table title="org.osmdroid.wms.WMSTileSource" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./WMSTileSource.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> WMSTileSource </td></tr>
 		</table></td></tr>
 		</table>>, URL="./WMSTileSource.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.wms.ParserTest
-	c37984 [label=<<table title="org.osmdroid.wms.ParserTest" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ParserTest.html">
+	c38978 [label=<<table title="org.osmdroid.wms.ParserTest" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ParserTest.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> ParserTest </td></tr>
 		</table></td></tr>

@@ -10,18 +10,18 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.samplefragments.BaseSampleFragment
-	c266079 [label=<<table title="org.osmdroid.samplefragments.BaseSampleFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../BaseSampleFragment.html">
+	c276881 [label=<<table title="org.osmdroid.samplefragments.BaseSampleFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../BaseSampleFragment.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> BaseSampleFragment </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="../BaseSampleFragment.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.data.SampleMilitaryIconsMarker
-	c266107 [label=<<table title="org.osmdroid.samplefragments.data.SampleMilitaryIconsMarker" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./SampleMilitaryIconsMarker.html">
+	c276909 [label=<<table title="org.osmdroid.samplefragments.data.SampleMilitaryIconsMarker" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./SampleMilitaryIconsMarker.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleMilitaryIconsMarker </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SampleMilitaryIconsMarker.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.samplefragments.data.SampleMilitaryIconsMarker extends org.osmdroid.samplefragments.BaseSampleFragment
-	c266079:p -> c266107:p [dir=back,arrowtail=empty];
+	c276881:p -> c276909:p [dir=back,arrowtail=empty];
 }
 

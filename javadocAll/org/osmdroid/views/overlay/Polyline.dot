@@ -9,19 +9,19 @@ digraph G {
 	node [fontname="arial",fontsize=10,shape=plaintext];
 	nodesep=0.25;
 	ranksep=0.5;
-	// org.osmdroid.views.overlay.OverlayWithIW
-	c230060 [label=<<table title="org.osmdroid.views.overlay.OverlayWithIW" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./OverlayWithIW.html">
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"><font face="arial italic"> OverlayWithIW </font></td></tr>
-		</table></td></tr>
-		</table>>, URL="./OverlayWithIW.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.Polyline
-	c230064 [label=<<table title="org.osmdroid.views.overlay.Polyline" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./Polyline.html">
+	c238825 [label=<<table title="org.osmdroid.views.overlay.Polyline" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./Polyline.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> Polyline </td></tr>
 		</table></td></tr>
 		</table>>, URL="./Polyline.html", fontname="arial", fontcolor="black", fontsize=10.0];
-	//org.osmdroid.views.overlay.Polyline extends org.osmdroid.views.overlay.OverlayWithIW
-	c230060:p -> c230064:p [dir=back,arrowtail=empty];
+	// org.osmdroid.views.overlay.PolyOverlayWithIW
+	c238827 [label=<<table title="org.osmdroid.views.overlay.PolyOverlayWithIW" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./PolyOverlayWithIW.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"><font face="arial italic"> PolyOverlayWithIW </font></td></tr>
+		</table></td></tr>
+		</table>>, URL="./PolyOverlayWithIW.html", fontname="arial", fontcolor="black", fontsize=10.0];
+	//org.osmdroid.views.overlay.Polyline extends org.osmdroid.views.overlay.PolyOverlayWithIW
+	c238827:p -> c238825:p [dir=back,arrowtail=empty];
 }
 

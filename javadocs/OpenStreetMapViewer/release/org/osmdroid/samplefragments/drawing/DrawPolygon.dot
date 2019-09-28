@@ -10,47 +10,47 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.samplefragments.BaseSampleFragment
-	c17222 [label=<<table title="org.osmdroid.samplefragments.BaseSampleFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../BaseSampleFragment.html">
+	c17920 [label=<<table title="org.osmdroid.samplefragments.BaseSampleFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../BaseSampleFragment.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> BaseSampleFragment </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="../BaseSampleFragment.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.drawing.DrawPolygon
-	c17263 [label=<<table title="org.osmdroid.samplefragments.drawing.DrawPolygon" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./DrawPolygon.html">
+	c17962 [label=<<table title="org.osmdroid.samplefragments.drawing.DrawPolygon" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./DrawPolygon.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> DrawPolygon </td></tr>
 		</table></td></tr>
 		</table>>, URL="./DrawPolygon.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.drawing.DrawPolygonWithArrows
-	c17265 [label=<<table title="org.osmdroid.samplefragments.drawing.DrawPolygonWithArrows" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./DrawPolygonWithArrows.html">
+	c17964 [label=<<table title="org.osmdroid.samplefragments.drawing.DrawPolygonWithArrows" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./DrawPolygonWithArrows.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> DrawPolygonWithArrows </td></tr>
 		</table></td></tr>
 		</table>>, URL="./DrawPolygonWithArrows.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.drawing.DrawPolygonWithoutVerticalWrapping
-	c17266 [label=<<table title="org.osmdroid.samplefragments.drawing.DrawPolygonWithoutVerticalWrapping" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./DrawPolygonWithoutVerticalWrapping.html">
+	c17965 [label=<<table title="org.osmdroid.samplefragments.drawing.DrawPolygonWithoutVerticalWrapping" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./DrawPolygonWithoutVerticalWrapping.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> DrawPolygonWithoutVerticalWrapping </td></tr>
 		</table></td></tr>
 		</table>>, URL="./DrawPolygonWithoutVerticalWrapping.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.drawing.DrawPolygonWithoutWrapping
-	c17267 [label=<<table title="org.osmdroid.samplefragments.drawing.DrawPolygonWithoutWrapping" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./DrawPolygonWithoutWrapping.html">
+	c17966 [label=<<table title="org.osmdroid.samplefragments.drawing.DrawPolygonWithoutWrapping" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./DrawPolygonWithoutWrapping.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> DrawPolygonWithoutWrapping </td></tr>
 		</table></td></tr>
 		</table>>, URL="./DrawPolygonWithoutWrapping.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.samplefragments.drawing.DrawPolygon extends org.osmdroid.samplefragments.BaseSampleFragment
-	c17222:p -> c17263:p [dir=back,arrowtail=empty];
+	c17920:p -> c17962:p [dir=back,arrowtail=empty];
 	//org.osmdroid.samplefragments.drawing.DrawPolygon implements android.view.View.OnClickListener
-	c17377:p -> c17263:p [dir=back,arrowtail=empty,style=dashed];
+	c18080:p -> c17962:p [dir=back,arrowtail=empty,style=dashed];
 	//org.osmdroid.samplefragments.drawing.DrawPolygonWithArrows extends org.osmdroid.samplefragments.drawing.DrawPolygon
-	c17263:p -> c17265:p [dir=back,arrowtail=empty];
+	c17962:p -> c17964:p [dir=back,arrowtail=empty];
 	//org.osmdroid.samplefragments.drawing.DrawPolygonWithoutVerticalWrapping extends org.osmdroid.samplefragments.drawing.DrawPolygon
-	c17263:p -> c17266:p [dir=back,arrowtail=empty];
+	c17962:p -> c17965:p [dir=back,arrowtail=empty];
 	//org.osmdroid.samplefragments.drawing.DrawPolygonWithoutWrapping extends org.osmdroid.samplefragments.drawing.DrawPolygon
-	c17263:p -> c17267:p [dir=back,arrowtail=empty];
+	c17962:p -> c17966:p [dir=back,arrowtail=empty];
 	// android.view.View.OnClickListener
-	c17377 [label=<<table title="android.view.View.OnClickListener" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/android/view/View/OnClickListener.html">
+	c18080 [label=<<table title="android.view.View.OnClickListener" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/android/view/View/OnClickListener.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> OnClickListener </td></tr>

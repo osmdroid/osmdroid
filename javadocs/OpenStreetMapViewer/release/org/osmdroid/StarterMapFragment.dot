@@ -10,24 +10,24 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.constants.OpenStreetMapConstants
-	c52060 [label=<<table title="org.osmdroid.constants.OpenStreetMapConstants" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./constants/OpenStreetMapConstants.html">
+	c54835 [label=<<table title="org.osmdroid.constants.OpenStreetMapConstants" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./constants/OpenStreetMapConstants.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> OpenStreetMapConstants </td></tr>
 		</table></td></tr>
 		</table>>, URL="./constants/OpenStreetMapConstants.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.StarterMapFragment
-	c52261 [label=<<table title="org.osmdroid.StarterMapFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./StarterMapFragment.html">
+	c55041 [label=<<table title="org.osmdroid.StarterMapFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./StarterMapFragment.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> StarterMapFragment </td></tr>
 		</table></td></tr>
 		</table>>, URL="./StarterMapFragment.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.StarterMapFragment extends android.support.v4.app.Fragment
-	c52262:p -> c52261:p [dir=back,arrowtail=empty];
+	c55042:p -> c55041:p [dir=back,arrowtail=empty];
 	//org.osmdroid.StarterMapFragment implements org.osmdroid.constants.OpenStreetMapConstants
-	c52060:p -> c52261:p [dir=back,arrowtail=empty,style=dashed];
+	c54835:p -> c55041:p [dir=back,arrowtail=empty,style=dashed];
 	// android.support.v4.app.Fragment
-	c52262 [label=<<table title="android.support.v4.app.Fragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/android/support/v4/app/Fragment.html">
+	c55042 [label=<<table title="android.support.v4.app.Fragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/android/support/v4/app/Fragment.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> Fragment </td></tr>
 		</table></td></tr>

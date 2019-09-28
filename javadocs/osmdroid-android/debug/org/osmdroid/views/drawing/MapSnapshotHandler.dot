@@ -10,15 +10,15 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.views.drawing.MapSnapshotHandler
-	c31157 [label=<<table title="org.osmdroid.views.drawing.MapSnapshotHandler" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./MapSnapshotHandler.html">
+	c32803 [label=<<table title="org.osmdroid.views.drawing.MapSnapshotHandler" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./MapSnapshotHandler.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MapSnapshotHandler </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MapSnapshotHandler.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.views.drawing.MapSnapshotHandler extends android.os.Handler
-	c31251:p -> c31157:p [dir=back,arrowtail=empty];
+	c32902:p -> c32803:p [dir=back,arrowtail=empty];
 	// android.os.Handler
-	c31251 [label=<<table title="android.os.Handler" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/android/os/Handler.html">
+	c32902 [label=<<table title="android.os.Handler" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/android/os/Handler.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> Handler </td></tr>
 		</table></td></tr>

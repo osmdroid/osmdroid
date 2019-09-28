@@ -10,11 +10,18 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.util.constants.GeoConstants
-	c3219 [label=<<table title="org.osmdroid.util.constants.GeoConstants" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./GeoConstants.html">
+	c3310 [label=<<table title="org.osmdroid.util.constants.GeoConstants" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./GeoConstants.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> GeoConstants </td></tr>
 		</table></td></tr>
 		</table>>, URL="./GeoConstants.html", fontname="arial", fontcolor="black", fontsize=10.0];
+	// org.osmdroid.util.constants.GeoConstants.UnitOfMeasure
+	c3311 [label=<<table title="org.osmdroid.util.constants.GeoConstants.UnitOfMeasure" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./GeoConstants.UnitOfMeasure.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> &#171;enumeration&#187; </td></tr>
+<tr><td align="center" balign="center"> UnitOfMeasure </td></tr>
+		</table></td></tr>
+		</table>>, URL="./GeoConstants.UnitOfMeasure.html", fontname="arial", fontcolor="black", fontsize=10.0];
 }
 

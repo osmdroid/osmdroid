@@ -3532,7 +3532,7 @@ Some methods allocate memory on your behalf (such as `Bitmap.create`), and these
         errorLine2="                  ~~~~~~~~~~~~~~~~~~~">
         <location
             file=".\OpenStreetMapViewer\src\main\java\org\osmdroid\samplefragments\drawing\CustomPaintingSurface.java"
-            line="79"
+            line="80"
             column="19"/>
     </issue>
 
@@ -3552,7 +3552,7 @@ Some methods allocate memory on your behalf (such as `Bitmap.create`), and these
         errorLine2="                 ~~~~~~~~~~~">
         <location
             file=".\OpenStreetMapViewer\src\main\java\org\osmdroid\samplefragments\drawing\CustomPaintingSurface.java"
-            line="80"
+            line="81"
             column="18"/>
     </issue>
 
@@ -5532,7 +5532,7 @@ If you really want to keep the text field generic, you can suppress this warning
         errorLine2="                   ~~~~~~~~~~~~">
         <location
             file=".\OpenStreetMapViewer\src\main\java\org\osmdroid\samplefragments\drawing\CustomPaintingSurface.java"
-            line="219"
+            line="222"
             column="20"/>
     </issue>
 

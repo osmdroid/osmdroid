@@ -1678,7 +1678,7 @@
                 <ConcreteClasses>2</ConcreteClasses>
                 <AbstractClasses>0</AbstractClasses>
                 <Ca>1</Ca>
-                <Ce>13</Ce>
+                <Ce>14</Ce>
                 <A>0</A>
                 <I>0.93</I>
                 <D>0.07</D>
@@ -1698,6 +1698,7 @@
             </ConcreteClasses>
 
             <DependsUpon>
+                <Package>android.graphics</Package>
                 <Package>android.util</Package>
                 <Package>java.lang</Package>
                 <Package>java.util</Package>
@@ -1931,11 +1932,11 @@
                 <TotalClasses>6</TotalClasses>
                 <ConcreteClasses>6</ConcreteClasses>
                 <AbstractClasses>0</AbstractClasses>
-                <Ca>4</Ca>
+                <Ca>5</Ca>
                 <Ce>1</Ce>
                 <A>0</A>
-                <I>0.2</I>
-                <D>0.8</D>
+                <I>0.17</I>
+                <D>0.83</D>
                 <V>1</V>
             </Stats>
 
@@ -1968,6 +1969,7 @@
             </DependsUpon>
 
             <UsedBy>
+                <Package>org.osmdroid.util.constants</Package>
                 <Package>org.osmdroid.views</Package>
                 <Package>org.osmdroid.views.overlay</Package>
                 <Package>org.osmdroid.views.overlay.compass</Package>
@@ -2599,14 +2601,14 @@
 
         <Package name="org.osmdroid.util">
             <Stats>
-                <TotalClasses>46</TotalClasses>
-                <ConcreteClasses>37</ConcreteClasses>
+                <TotalClasses>47</TotalClasses>
+                <ConcreteClasses>38</ConcreteClasses>
                 <AbstractClasses>9</AbstractClasses>
                 <Ca>18</Ca>
                 <Ce>13</Ce>
-                <A>0.2</A>
+                <A>0.19</A>
                 <I>0.42</I>
-                <D>0.38</D>
+                <D>0.39</D>
                 <V>1</V>
             </Stats>
 
@@ -2746,6 +2748,9 @@
                 <Class sourceFile="SegmentIntersection.java">
                     org.osmdroid.util.SegmentIntersection
                 </Class>
+                <Class sourceFile="SpeechBalloonHelper.java">
+                    org.osmdroid.util.SpeechBalloonHelper
+                </Class>
                 <Class sourceFile="TileSystemWebMercator.java">
                     org.osmdroid.util.TileSystemWebMercator
                 </Class>
@@ -2794,14 +2799,14 @@
 
         <Package name="org.osmdroid.util.constants">
             <Stats>
-                <TotalClasses>1</TotalClasses>
-                <ConcreteClasses>0</ConcreteClasses>
+                <TotalClasses>2</TotalClasses>
+                <ConcreteClasses>1</ConcreteClasses>
                 <AbstractClasses>1</AbstractClasses>
                 <Ca>3</Ca>
-                <Ce>1</Ce>
-                <A>1</A>
-                <I>0.25</I>
-                <D>0.25</D>
+                <Ce>2</Ce>
+                <A>0.5</A>
+                <I>0.4</I>
+                <D>0.1</D>
                 <V>1</V>
             </Stats>
 
@@ -2812,10 +2817,14 @@
             </AbstractClasses>
 
             <ConcreteClasses>
+                <Class sourceFile="GeoConstants.java">
+                    org.osmdroid.util.constants.GeoConstants$UnitOfMeasure
+                </Class>
             </ConcreteClasses>
 
             <DependsUpon>
                 <Package>java.lang</Package>
+                <Package>org.osmdroid.library</Package>
             </DependsUpon>
 
             <UsedBy>
@@ -3030,14 +3039,14 @@
 
         <Package name="org.osmdroid.views.overlay">
             <Stats>
-                <TotalClasses>50</TotalClasses>
-                <ConcreteClasses>34</ConcreteClasses>
-                <AbstractClasses>16</AbstractClasses>
+                <TotalClasses>55</TotalClasses>
+                <ConcreteClasses>38</ConcreteClasses>
+                <AbstractClasses>17</AbstractClasses>
                 <Ca>12</Ca>
                 <Ce>28</Ce>
-                <A>0.32</A>
+                <A>0.31</A>
                 <I>0.7</I>
-                <D>0.02</D>
+                <D>0.01</D>
                 <V>1</V>
             </Stats>
 
@@ -3084,6 +3093,9 @@
                 <Class sourceFile="OverlayWithIW.java">
                     org.osmdroid.views.overlay.OverlayWithIW
                 </Class>
+                <Class sourceFile="PolyOverlayWithIW.java">
+                    org.osmdroid.views.overlay.PolyOverlayWithIW
+                </Class>
                 <Class sourceFile="Polygon.java">
                     org.osmdroid.views.overlay.Polygon$OnClickListener
                 </Class>
@@ -3108,8 +3120,14 @@
                 <Class sourceFile="FolderOverlay.java">
                     org.osmdroid.views.overlay.FolderOverlay
                 </Class>
+                <Class sourceFile="GroundOverlay.java">
+                    org.osmdroid.views.overlay.GroundOverlay
+                </Class>
                 <Class sourceFile="GroundOverlay2.java">
                     org.osmdroid.views.overlay.GroundOverlay2
+                </Class>
+                <Class sourceFile="GroundOverlay4.java">
+                    org.osmdroid.views.overlay.GroundOverlay4
                 </Class>
                 <Class sourceFile="IconOverlay.java">
                     org.osmdroid.views.overlay.IconOverlay
@@ -3185,6 +3203,12 @@
                 </Class>
                 <Class sourceFile="ScaleBarOverlay.java">
                     org.osmdroid.views.overlay.ScaleBarOverlay$UnitsOfMeasure
+                </Class>
+                <Class sourceFile="ScaleDiskOverlay.java">
+                    org.osmdroid.views.overlay.ScaleDiskOverlay
+                </Class>
+                <Class sourceFile="SpeechBalloonOverlay.java">
+                    org.osmdroid.views.overlay.SpeechBalloonOverlay
                 </Class>
                 <Class sourceFile="TilesOverlay.java">
                     org.osmdroid.views.overlay.TilesOverlay

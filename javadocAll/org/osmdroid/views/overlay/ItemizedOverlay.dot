@@ -10,43 +10,43 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.samplefragments.models.SampleItemizedOverlay
-	c129201 [label=<<table title="org.osmdroid.samplefragments.models.SampleItemizedOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../samplefragments/models/SampleItemizedOverlay.html">
+	c134777 [label=<<table title="org.osmdroid.samplefragments.models.SampleItemizedOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../samplefragments/models/SampleItemizedOverlay.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleItemizedOverlay </td></tr>
 		</table></td></tr>
 		</table>>, URL="../../samplefragments/models/SampleItemizedOverlay.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.ItemizedIconOverlay<Item extends org.osmdroid.views.overlay.OverlayItem>
-	c129414 [label=<<table title="org.osmdroid.views.overlay.ItemizedIconOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ItemizedIconOverlay.html">
+	c134994 [label=<<table title="org.osmdroid.views.overlay.ItemizedIconOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ItemizedIconOverlay.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> ItemizedIconOverlay&lt;Item extends OverlayItem&gt; </td></tr>
 		</table></td></tr>
 		</table>>, URL="./ItemizedIconOverlay.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.ItemizedOverlay<Item extends org.osmdroid.views.overlay.OverlayItem>
-	c129417 [label=<<table title="org.osmdroid.views.overlay.ItemizedOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./ItemizedOverlay.html">
+	c134997 [label=<<table title="org.osmdroid.views.overlay.ItemizedOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./ItemizedOverlay.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> ItemizedOverlay&lt;Item extends OverlayItem&gt; </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./ItemizedOverlay.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.Overlay
-	c129448 [label=<<table title="org.osmdroid.views.overlay.Overlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Overlay.html">
+	c135028 [label=<<table title="org.osmdroid.views.overlay.Overlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Overlay.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> Overlay </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./Overlay.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.Overlay.Snappable
-	c129449 [label=<<table title="org.osmdroid.views.overlay.Overlay.Snappable" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Overlay.Snappable.html">
+	c135029 [label=<<table title="org.osmdroid.views.overlay.Overlay.Snappable" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Overlay.Snappable.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> Snappable </td></tr>
 		</table></td></tr>
 		</table>>, URL="./Overlay.Snappable.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.samplefragments.models.SampleItemizedOverlay extends org.osmdroid.views.overlay.ItemizedOverlay<org.osmdroid.samplefragments.models.SampleOverlayItem>
-	c129417:p -> c129201:p [dir=back,arrowtail=empty];
+	c134997:p -> c134777:p [dir=back,arrowtail=empty];
 	//org.osmdroid.views.overlay.ItemizedIconOverlay<Item extends org.osmdroid.views.overlay.OverlayItem> extends org.osmdroid.views.overlay.ItemizedOverlay<Item>
-	c129417:p -> c129414:p [dir=back,arrowtail=empty];
+	c134997:p -> c134994:p [dir=back,arrowtail=empty];
 	//org.osmdroid.views.overlay.ItemizedOverlay<Item extends org.osmdroid.views.overlay.OverlayItem> extends org.osmdroid.views.overlay.Overlay
-	c129448:p -> c129417:p [dir=back,arrowtail=empty];
+	c135028:p -> c134997:p [dir=back,arrowtail=empty];
 	//org.osmdroid.views.overlay.ItemizedOverlay<Item extends org.osmdroid.views.overlay.OverlayItem> implements org.osmdroid.views.overlay.Overlay.Snappable
-	c129449:p -> c129417:p [dir=back,arrowtail=empty,style=dashed];
+	c135029:p -> c134997:p [dir=back,arrowtail=empty,style=dashed];
 }
 

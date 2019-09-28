@@ -10,32 +10,32 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.samplefragments.milstd2525.MilStdAdapter
-	c27292 [label=<<table title="org.osmdroid.samplefragments.milstd2525.MilStdAdapter" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./MilStdAdapter.html">
+	c28271 [label=<<table title="org.osmdroid.samplefragments.milstd2525.MilStdAdapter" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./MilStdAdapter.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MilStdAdapter </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MilStdAdapter.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.samplefragments.milstd2525.MilStdAdapter extends android.widget.ArrayAdapter<org.osmdroid.samplefragments.milstd2525.SimpleSymbol>
-	c27345:p -> c27292:p [dir=back,arrowtail=empty];
+	c28324:p -> c28271:p [dir=back,arrowtail=empty];
 	//org.osmdroid.samplefragments.milstd2525.MilStdAdapter implements android.widget.Filterable
-	c27346:p -> c27292:p [dir=back,arrowtail=empty,style=dashed];
+	c28325:p -> c28271:p [dir=back,arrowtail=empty,style=dashed];
 	//org.osmdroid.samplefragments.milstd2525.MilStdAdapter implements java.util.Comparator<T>
-	c27347:p -> c27292:p [dir=back,arrowtail=empty,style=dashed];
+	c28326:p -> c28271:p [dir=back,arrowtail=empty,style=dashed];
 	// android.widget.ArrayAdapter<T>
-	c27345 [label=<<table title="android.widget.ArrayAdapter" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/android/widget/ArrayAdapter.html">
+	c28324 [label=<<table title="android.widget.ArrayAdapter" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/android/widget/ArrayAdapter.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> ArrayAdapter&lt;T&gt; </td></tr>
 		</table></td></tr>
 		</table>>, URL="http://java.sun.com/j2se/1.4.2/docs/api/android/widget/ArrayAdapter.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// android.widget.Filterable
-	c27346 [label=<<table title="android.widget.Filterable" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/android/widget/Filterable.html">
+	c28325 [label=<<table title="android.widget.Filterable" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/android/widget/Filterable.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> Filterable </td></tr>
 		</table></td></tr>
 		</table>>, URL="http://java.sun.com/j2se/1.4.2/docs/api/android/widget/Filterable.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// java.util.Comparator<T>
-	c27347 [label=<<table title="java.util.Comparator" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/java/util/Comparator.html">
+	c28326 [label=<<table title="java.util.Comparator" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/java/util/Comparator.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> Comparator&lt;T&gt; </td></tr>

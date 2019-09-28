@@ -10,19 +10,19 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.samplefragments.animations.GeoPointInterpolator
-	c103931 [label=<<table title="org.osmdroid.samplefragments.animations.GeoPointInterpolator" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./GeoPointInterpolator.html">
+	c107746 [label=<<table title="org.osmdroid.samplefragments.animations.GeoPointInterpolator" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./GeoPointInterpolator.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> GeoPointInterpolator </td></tr>
 		</table></td></tr>
 		</table>>, URL="./GeoPointInterpolator.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.animations.GeoPointInterpolator.Spherical
-	c103934 [label=<<table title="org.osmdroid.samplefragments.animations.GeoPointInterpolator.Spherical" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./GeoPointInterpolator.Spherical.html">
+	c107749 [label=<<table title="org.osmdroid.samplefragments.animations.GeoPointInterpolator.Spherical" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./GeoPointInterpolator.Spherical.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> Spherical </td></tr>
 		</table></td></tr>
 		</table>>, URL="./GeoPointInterpolator.Spherical.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.samplefragments.animations.GeoPointInterpolator.Spherical implements org.osmdroid.samplefragments.animations.GeoPointInterpolator
-	c103931:p -> c103934:p [dir=back,arrowtail=empty,style=dashed];
+	c107746:p -> c107749:p [dir=back,arrowtail=empty,style=dashed];
 }
 

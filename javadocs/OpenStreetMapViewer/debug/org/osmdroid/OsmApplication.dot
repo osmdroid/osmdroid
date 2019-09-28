@@ -10,15 +10,15 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.OsmApplication
-	c30213 [label=<<table title="org.osmdroid.OsmApplication" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./OsmApplication.html">
+	c31271 [label=<<table title="org.osmdroid.OsmApplication" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./OsmApplication.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> OsmApplication </td></tr>
 		</table></td></tr>
 		</table>>, URL="./OsmApplication.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.OsmApplication extends android.support.multidex.MultiDexApplication
-	c30383:p -> c30213:p [dir=back,arrowtail=empty];
+	c31446:p -> c31271:p [dir=back,arrowtail=empty];
 	// android.support.multidex.MultiDexApplication
-	c30383 [label=<<table title="android.support.multidex.MultiDexApplication" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/android/support/multidex/MultiDexApplication.html">
+	c31446 [label=<<table title="android.support.multidex.MultiDexApplication" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/android/support/multidex/MultiDexApplication.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MultiDexApplication </td></tr>
 		</table></td></tr>

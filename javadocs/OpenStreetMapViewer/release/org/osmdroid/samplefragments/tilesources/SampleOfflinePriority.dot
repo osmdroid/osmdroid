@@ -10,34 +10,34 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.samplefragments.BaseSampleFragment
-	c44531 [label=<<table title="org.osmdroid.samplefragments.BaseSampleFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../BaseSampleFragment.html">
+	c46428 [label=<<table title="org.osmdroid.samplefragments.BaseSampleFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../BaseSampleFragment.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> BaseSampleFragment </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="../BaseSampleFragment.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.tilesources.SampleOfflineFirst
-	c44669 [label=<<table title="org.osmdroid.samplefragments.tilesources.SampleOfflineFirst" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleOfflineFirst.html">
+	c46571 [label=<<table title="org.osmdroid.samplefragments.tilesources.SampleOfflineFirst" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleOfflineFirst.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleOfflineFirst </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SampleOfflineFirst.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.tilesources.SampleOfflinePriority
-	c44670 [label=<<table title="org.osmdroid.samplefragments.tilesources.SampleOfflinePriority" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./SampleOfflinePriority.html">
+	c46572 [label=<<table title="org.osmdroid.samplefragments.tilesources.SampleOfflinePriority" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./SampleOfflinePriority.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> SampleOfflinePriority </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./SampleOfflinePriority.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.tilesources.SampleOfflineSecond
-	c44671 [label=<<table title="org.osmdroid.samplefragments.tilesources.SampleOfflineSecond" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleOfflineSecond.html">
+	c46573 [label=<<table title="org.osmdroid.samplefragments.tilesources.SampleOfflineSecond" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleOfflineSecond.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleOfflineSecond </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SampleOfflineSecond.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.samplefragments.tilesources.SampleOfflineFirst extends org.osmdroid.samplefragments.tilesources.SampleOfflinePriority
-	c44670:p -> c44669:p [dir=back,arrowtail=empty];
+	c46572:p -> c46571:p [dir=back,arrowtail=empty];
 	//org.osmdroid.samplefragments.tilesources.SampleOfflinePriority extends org.osmdroid.samplefragments.BaseSampleFragment
-	c44531:p -> c44670:p [dir=back,arrowtail=empty];
+	c46428:p -> c46572:p [dir=back,arrowtail=empty];
 	//org.osmdroid.samplefragments.tilesources.SampleOfflineSecond extends org.osmdroid.samplefragments.tilesources.SampleOfflinePriority
-	c44670:p -> c44671:p [dir=back,arrowtail=empty];
+	c46572:p -> c46573:p [dir=back,arrowtail=empty];
 }
 

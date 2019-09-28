@@ -1,6 +1,6 @@
 <map id="G" name="G">
-<area shape="rect" id="node1_0" href="./OverlayWithIW.html" title="org.osmdroid.views.overlay.OverlayWithIW" alt="" coords="16,17,123,42"/>
-<area shape="rect" id="node1" href="./OverlayWithIW.html" title="&lt;TABLE&gt;" alt="" coords="5,5,133,53"/>
-<area shape="rect" id="node2_1" href="./Polygon.html" title="org.osmdroid.views.overlay.Polygon" alt="" coords="36,113,103,138"/>
-<area shape="rect" id="node2" href="./Polygon.html" title="&lt;TABLE&gt;" alt="" coords="25,101,113,149"/>
+<area shape="rect" id="node1_0" href="./Polygon.html" title="org.osmdroid.views.overlay.Polygon" alt="" coords="49,113,115,138"/>
+<area shape="rect" id="node1" href="./Polygon.html" title="&lt;TABLE&gt;" alt="" coords="38,101,126,149"/>
+<area shape="rect" id="node2_1" href="./PolyOverlayWithIW.html" title="org.osmdroid.views.overlay.PolyOverlayWithIW" alt="" coords="16,17,148,42"/>
+<area shape="rect" id="node2" href="./PolyOverlayWithIW.html" title="&lt;TABLE&gt;" alt="" coords="5,5,159,53"/>
 </map>

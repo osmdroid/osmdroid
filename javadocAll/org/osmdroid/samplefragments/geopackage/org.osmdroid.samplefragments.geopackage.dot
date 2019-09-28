@@ -10,19 +10,19 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.samplefragments.geopackage.GeopackageFeatures
-	c14050 [label=<<table title="org.osmdroid.samplefragments.geopackage.GeopackageFeatures" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./GeopackageFeatures.html">
+	c14420 [label=<<table title="org.osmdroid.samplefragments.geopackage.GeopackageFeatures" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./GeopackageFeatures.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> GeopackageFeatures </td></tr>
 		</table></td></tr>
 		</table>>, URL="./GeopackageFeatures.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.geopackage.GeopackageFeatureTiles
-	c14051 [label=<<table title="org.osmdroid.samplefragments.geopackage.GeopackageFeatureTiles" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./GeopackageFeatureTiles.html">
+	c14421 [label=<<table title="org.osmdroid.samplefragments.geopackage.GeopackageFeatureTiles" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./GeopackageFeatureTiles.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> GeopackageFeatureTiles </td></tr>
 		</table></td></tr>
 		</table>>, URL="./GeopackageFeatureTiles.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.geopackage.GeopackageSample
-	c14052 [label=<<table title="org.osmdroid.samplefragments.geopackage.GeopackageSample" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./GeopackageSample.html">
+	c14422 [label=<<table title="org.osmdroid.samplefragments.geopackage.GeopackageSample" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./GeopackageSample.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> GeopackageSample </td></tr>
 		</table></td></tr>

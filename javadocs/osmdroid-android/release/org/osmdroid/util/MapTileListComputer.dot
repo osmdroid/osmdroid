@@ -10,27 +10,27 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.util.MapTileListBorderComputer
-	c36652 [label=<<table title="org.osmdroid.util.MapTileListBorderComputer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileListBorderComputer.html">
+	c38458 [label=<<table title="org.osmdroid.util.MapTileListBorderComputer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileListBorderComputer.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MapTileListBorderComputer </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MapTileListBorderComputer.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.util.MapTileListComputer
-	c36653 [label=<<table title="org.osmdroid.util.MapTileListComputer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./MapTileListComputer.html">
+	c38459 [label=<<table title="org.osmdroid.util.MapTileListComputer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./MapTileListComputer.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> MapTileListComputer </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MapTileListComputer.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.util.MapTileListZoomComputer
-	c36654 [label=<<table title="org.osmdroid.util.MapTileListZoomComputer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileListZoomComputer.html">
+	c38460 [label=<<table title="org.osmdroid.util.MapTileListZoomComputer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./MapTileListZoomComputer.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MapTileListZoomComputer </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MapTileListZoomComputer.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.util.MapTileListBorderComputer implements org.osmdroid.util.MapTileListComputer
-	c36653:p -> c36652:p [dir=back,arrowtail=empty,style=dashed];
+	c38459:p -> c38458:p [dir=back,arrowtail=empty,style=dashed];
 	//org.osmdroid.util.MapTileListZoomComputer implements org.osmdroid.util.MapTileListComputer
-	c36653:p -> c36654:p [dir=back,arrowtail=empty,style=dashed];
+	c38459:p -> c38460:p [dir=back,arrowtail=empty,style=dashed];
 }
 

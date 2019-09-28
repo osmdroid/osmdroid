@@ -10,18 +10,18 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.samplefragments.tilesources.SampleOfflineFirst
-	c267822 [label=<<table title="org.osmdroid.samplefragments.tilesources.SampleOfflineFirst" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./SampleOfflineFirst.html">
+	c278671 [label=<<table title="org.osmdroid.samplefragments.tilesources.SampleOfflineFirst" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./SampleOfflineFirst.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleOfflineFirst </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SampleOfflineFirst.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.tilesources.SampleOfflinePriority
-	c267823 [label=<<table title="org.osmdroid.samplefragments.tilesources.SampleOfflinePriority" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleOfflinePriority.html">
+	c278672 [label=<<table title="org.osmdroid.samplefragments.tilesources.SampleOfflinePriority" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleOfflinePriority.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> SampleOfflinePriority </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./SampleOfflinePriority.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.samplefragments.tilesources.SampleOfflineFirst extends org.osmdroid.samplefragments.tilesources.SampleOfflinePriority
-	c267823:p -> c267822:p [dir=back,arrowtail=empty];
+	c278672:p -> c278671:p [dir=back,arrowtail=empty];
 }
 

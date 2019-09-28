@@ -10,18 +10,18 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.tileprovider.modules.MapTileModuleProviderBase.TileLoader
-	c100937 [label=<<table title="org.osmdroid.tileprovider.modules.MapTileModuleProviderBase.TileLoader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../../tileprovider/modules/MapTileModuleProviderBase.TileLoader.html">
+	c104673 [label=<<table title="org.osmdroid.tileprovider.modules.MapTileModuleProviderBase.TileLoader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../../tileprovider/modules/MapTileModuleProviderBase.TileLoader.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> TileLoader </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="../../../tileprovider/modules/MapTileModuleProviderBase.TileLoader.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.gpkg.tiles.raster.GeoPackageMapTileModuleProvider.TileLoader
-	c101169 [label=<<table title="org.osmdroid.gpkg.tiles.raster.GeoPackageMapTileModuleProvider.TileLoader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./GeoPackageMapTileModuleProvider.TileLoader.html">
+	c104913 [label=<<table title="org.osmdroid.gpkg.tiles.raster.GeoPackageMapTileModuleProvider.TileLoader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./GeoPackageMapTileModuleProvider.TileLoader.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> TileLoader </td></tr>
 		</table></td></tr>
 		</table>>, URL="./GeoPackageMapTileModuleProvider.TileLoader.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.gpkg.tiles.raster.GeoPackageMapTileModuleProvider.TileLoader extends org.osmdroid.tileprovider.modules.MapTileModuleProviderBase.TileLoader
-	c100937:p -> c101169:p [dir=back,arrowtail=empty];
+	c104673:p -> c104913:p [dir=back,arrowtail=empty];
 }
 

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <javancss>
-  <date>2019-03-24</date>
-  <time>09:25:33</time>
+  <date>2019-09-27</date>
+  <time>19:02:37</time>
   <packages>
     <package>
       <name>.</name>
@@ -17,21 +17,21 @@
       <name>org.osmdroid</name>
       <classes>9</classes>
       <functions>44</functions>
-      <ncss>902</ncss>
+      <ncss>900</ncss>
       <javadocs>19</javadocs>
       <javadoc_lines>95</javadoc_lines>
-      <single_comment_lines>87</single_comment_lines>
+      <single_comment_lines>86</single_comment_lines>
       <multi_comment_lines>8</multi_comment_lines>
     </package>
     <package>
       <name>org.osmdroid.bugtestfragments</name>
-      <classes>12</classes>
-      <functions>64</functions>
-      <ncss>652</ncss>
-      <javadocs>20</javadocs>
-      <javadoc_lines>76</javadoc_lines>
+      <classes>13</classes>
+      <functions>68</functions>
+      <ncss>701</ncss>
+      <javadocs>21</javadocs>
+      <javadoc_lines>81</javadoc_lines>
       <single_comment_lines>32</single_comment_lines>
-      <multi_comment_lines>0</multi_comment_lines>
+      <multi_comment_lines>57</multi_comment_lines>
     </package>
     <package>
       <name>org.osmdroid.constants</name>
@@ -127,7 +127,7 @@
       <name>org.osmdroid.samplefragments</name>
       <classes>3</classes>
       <functions>26</functions>
-      <ncss>413</ncss>
+      <ncss>421</ncss>
       <javadocs>5</javadocs>
       <javadoc_lines>20</javadoc_lines>
       <single_comment_lines>82</single_comment_lines>
@@ -165,11 +165,11 @@
     </package>
     <package>
       <name>org.osmdroid.samplefragments.data</name>
-      <classes>21</classes>
-      <functions>107</functions>
-      <ncss>1795</ncss>
-      <javadocs>44</javadocs>
-      <javadoc_lines>261</javadoc_lines>
+      <classes>22</classes>
+      <functions>109</functions>
+      <ncss>1992</ncss>
+      <javadocs>45</javadocs>
+      <javadoc_lines>266</javadoc_lines>
       <single_comment_lines>287</single_comment_lines>
       <multi_comment_lines>30</multi_comment_lines>
     </package>
@@ -185,22 +185,22 @@
     </package>
     <package>
       <name>org.osmdroid.samplefragments.drawing</name>
-      <classes>15</classes>
-      <functions>50</functions>
-      <ncss>693</ncss>
-      <javadocs>15</javadocs>
-      <javadoc_lines>100</javadoc_lines>
+      <classes>16</classes>
+      <functions>52</functions>
+      <ncss>707</ncss>
+      <javadocs>16</javadocs>
+      <javadoc_lines>104</javadoc_lines>
       <single_comment_lines>16</single_comment_lines>
       <multi_comment_lines>25</multi_comment_lines>
     </package>
     <package>
       <name>org.osmdroid.samplefragments.events</name>
-      <classes>10</classes>
-      <functions>46</functions>
-      <ncss>520</ncss>
-      <javadocs>16</javadocs>
-      <javadoc_lines>73</javadoc_lines>
-      <single_comment_lines>35</single_comment_lines>
+      <classes>12</classes>
+      <functions>55</functions>
+      <ncss>622</ncss>
+      <javadocs>18</javadocs>
+      <javadoc_lines>81</javadoc_lines>
+      <single_comment_lines>42</single_comment_lines>
       <multi_comment_lines>55</multi_comment_lines>
     </package>
     <package>
@@ -277,7 +277,7 @@
       <name>org.osmdroid.samplefragments.location</name>
       <classes>8</classes>
       <functions>49</functions>
-      <ncss>486</ncss>
+      <ncss>501</ncss>
       <javadocs>8</javadocs>
       <javadoc_lines>40</javadoc_lines>
       <single_comment_lines>28</single_comment_lines>
@@ -337,27 +337,27 @@
       <name>org.osmdroid.samples</name>
       <classes>5</classes>
       <functions>20</functions>
-      <ncss>285</ncss>
+      <ncss>283</ncss>
       <javadocs>10</javadocs>
       <javadoc_lines>30</javadoc_lines>
       <single_comment_lines>137</single_comment_lines>
       <multi_comment_lines>13</multi_comment_lines>
     </package>
     <total>
-      <classes>194</classes>
-      <functions>994</functions>
-      <ncss>12564</ncss>
-      <javadocs>302</javadocs>
-      <javadoc_lines>1675</javadoc_lines>
-      <single_comment_lines>1182</single_comment_lines>
-      <multi_comment_lines>285</multi_comment_lines>
+      <classes>199</classes>
+      <functions>1011</functions>
+      <ncss>12945</ncss>
+      <javadocs>307</javadocs>
+      <javadoc_lines>1697</javadoc_lines>
+      <single_comment_lines>1188</single_comment_lines>
+      <multi_comment_lines>342</multi_comment_lines>
     </total>
     <table>
       <tr><td>Packages</td><td>Classes</td><td>Functions</td><td>NCSS</td><td>Javadocs</td><td>per</td></tr>
-      <tr><td>34.00</td><td>194.00</td><td>994.00</td><td>12,564.00</td><td>302.00</td><td>Project</td></tr>
-      <tr><td></td><td>5.71</td><td>29.24</td><td>369.53</td><td>8.88</td><td>Package</td></tr>
-      <tr><td></td><td></td><td>5.12</td><td>64.76</td><td>1.56</td><td>Class</td></tr>
-      <tr><td></td><td></td><td></td><td>12.64</td><td>0.30</td><td>Function</td></tr>
+      <tr><td>34.00</td><td>199.00</td><td>1,011.00</td><td>12,945.00</td><td>307.00</td><td>Project</td></tr>
+      <tr><td></td><td>5.85</td><td>29.74</td><td>380.74</td><td>9.03</td><td>Package</td></tr>
+      <tr><td></td><td></td><td>5.08</td><td>65.05</td><td>1.54</td><td>Class</td></tr>
+      <tr><td></td><td></td><td></td><td>12.80</td><td>0.30</td><td>Function</td></tr>
     </table>
   </packages>
 
@@ -444,13 +444,23 @@
     </object>
     <object>
       <name>org.osmdroid.StarterMapFragment</name>
-      <ncss>131</ncss>
+      <ncss>130</ncss>
       <functions>12</functions>
       <classes>3</classes>
       <javadocs>2</javadocs>
       <javadocs_lines>13</javadocs_lines>
-      <single_comment_lines>37</single_comment_lines>
+      <single_comment_lines>36</single_comment_lines>
       <implementation_comment_lines>0</implementation_comment_lines>
+    </object>
+    <object>
+      <name>org.osmdroid.bugtestfragments.Bug1322</name>
+      <ncss>34</ncss>
+      <functions>4</functions>
+      <classes>1</classes>
+      <javadocs>1</javadocs>
+      <javadocs_lines>5</javadocs_lines>
+      <single_comment_lines>0</single_comment_lines>
+      <implementation_comment_lines>57</implementation_comment_lines>
     </object>
     <object>
       <name>org.osmdroid.bugtestfragments.Bug164EndlessOnScolls</name>
@@ -854,7 +864,7 @@
     </object>
     <object>
       <name>org.osmdroid.samplefragments.SampleFactory</name>
-      <ncss>124</ncss>
+      <ncss>128</ncss>
       <functions>5</functions>
       <classes>0</classes>
       <javadocs>1</javadocs>
@@ -1154,12 +1164,12 @@
     </object>
     <object>
       <name>org.osmdroid.samplefragments.data.SampleMarker</name>
-      <ncss>51</ncss>
+      <ncss>101</ncss>
       <functions>2</functions>
       <classes>3</classes>
       <javadocs>1</javadocs>
       <javadocs_lines>9</javadocs_lines>
-      <single_comment_lines>3</single_comment_lines>
+      <single_comment_lines>2</single_comment_lines>
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <object>
@@ -1243,6 +1253,16 @@
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <object>
+      <name>org.osmdroid.samplefragments.data.SampleSpeechBalloon</name>
+      <ncss>116</ncss>
+      <functions>5</functions>
+      <classes>4</classes>
+      <javadocs>1</javadocs>
+      <javadocs_lines>5</javadocs_lines>
+      <single_comment_lines>0</single_comment_lines>
+      <implementation_comment_lines>0</implementation_comment_lines>
+    </object>
+    <object>
       <name>org.osmdroid.samplefragments.data.SampleWithMinimapItemizedOverlayWithFocus</name>
       <ncss>61</ncss>
       <functions>6</functions>
@@ -1264,12 +1284,12 @@
     </object>
     <object>
       <name>org.osmdroid.samplefragments.data.WeatherGroundOverlaySample</name>
-      <ncss>45</ncss>
-      <functions>6</functions>
-      <classes>1</classes>
+      <ncss>51</ncss>
+      <functions>3</functions>
+      <classes>2</classes>
       <javadocs>1</javadocs>
       <javadocs_lines>11</javadocs_lines>
-      <single_comment_lines>0</single_comment_lines>
+      <single_comment_lines>1</single_comment_lines>
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <object>
@@ -1294,7 +1314,7 @@
     </object>
     <object>
       <name>org.osmdroid.samplefragments.drawing.CustomPaintingSurface</name>
-      <ncss>137</ncss>
+      <ncss>139</ncss>
       <functions>10</functions>
       <classes>2</classes>
       <javadocs>1</javadocs>
@@ -1413,6 +1433,16 @@
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <object>
+      <name>org.osmdroid.samplefragments.drawing.SampleDrawPolylineAsPath</name>
+      <ncss>7</ncss>
+      <functions>2</functions>
+      <classes>0</classes>
+      <javadocs>1</javadocs>
+      <javadocs_lines>4</javadocs_lines>
+      <single_comment_lines>0</single_comment_lines>
+      <implementation_comment_lines>0</implementation_comment_lines>
+    </object>
+    <object>
       <name>org.osmdroid.samplefragments.drawing.SampleDrawPolylineWithoutVerticalWrapping</name>
       <ncss>7</ncss>
       <functions>2</functions>
@@ -1493,12 +1523,32 @@
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <object>
+      <name>org.osmdroid.samplefragments.events.SampleMapCenterOffset</name>
+      <ncss>65</ncss>
+      <functions>7</functions>
+      <classes>4</classes>
+      <javadocs>1</javadocs>
+      <javadocs_lines>4</javadocs_lines>
+      <single_comment_lines>6</single_comment_lines>
+      <implementation_comment_lines>0</implementation_comment_lines>
+    </object>
+    <object>
       <name>org.osmdroid.samplefragments.events.SampleMapEventListener</name>
       <ncss>26</ncss>
       <functions>4</functions>
       <classes>1</classes>
       <javadocs>1</javadocs>
       <javadocs_lines>5</javadocs_lines>
+      <single_comment_lines>1</single_comment_lines>
+      <implementation_comment_lines>0</implementation_comment_lines>
+    </object>
+    <object>
+      <name>org.osmdroid.samplefragments.events.SampleSnappable</name>
+      <ncss>16</ncss>
+      <functions>2</functions>
+      <classes>2</classes>
+      <javadocs>1</javadocs>
+      <javadocs_lines>4</javadocs_lines>
       <single_comment_lines>1</single_comment_lines>
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
@@ -1814,9 +1864,9 @@
     </object>
     <object>
       <name>org.osmdroid.samplefragments.location.SampleMyLocationWithClick</name>
-      <ncss>16</ncss>
+      <ncss>28</ncss>
       <functions>2</functions>
-      <classes>1</classes>
+      <classes>2</classes>
       <javadocs>1</javadocs>
       <javadocs_lines>5</javadocs_lines>
       <single_comment_lines>0</single_comment_lines>
@@ -2294,7 +2344,7 @@
     </object>
     <object>
       <name>org.osmdroid.samples.SampleWithTilesOverlayAndCustomTileSource</name>
-      <ncss>25</ncss>
+      <ncss>24</ncss>
       <functions>3</functions>
       <classes>0</classes>
       <javadocs>2</javadocs>
@@ -2303,15 +2353,15 @@
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <averages>
-      <ncss>52.06</ncss>
-      <functions>5.12</functions>
-      <classes>1.04</classes>
-      <javadocs>1.56</javadocs>
-      <javadocs_lines>8.63</javadocs_lines>
-      <single_comment_lines>6.05</single_comment_lines>
-      <implementation_comment_lines>1.09</implementation_comment_lines>
+      <ncss>52.31</ncss>
+      <functions>5.08</functions>
+      <classes>1.08</classes>
+      <javadocs>1.54</javadocs>
+      <javadocs_lines>8.53</javadocs_lines>
+      <single_comment_lines>5.93</single_comment_lines>
+      <implementation_comment_lines>1.35</implementation_comment_lines>
     </averages>
-    <ncss>12,564.00</ncss>
+    <ncss>12,945.00</ncss>
   </objects>
 
   <functions>
@@ -2629,7 +2679,7 @@
     </function>
     <function>
       <name>org.osmdroid.StarterMapFragment.onActivityCreated(Bundle)</name>
-      <ncss>42</ncss>
+      <ncss>41</ncss>
       <ccn>3</ccn>
       <javadocs>0</javadocs>
     </function>
@@ -2689,6 +2739,42 @@
     </function>
     <function>
       <name>org.osmdroid.StarterMapFragment.getMapView()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.bugtestfragments.Bug1322.getSampleTitle()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.bugtestfragments.Bug1322.message(OverlayItem)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.bugtestfragments.Bug1322.ItemizedIconOverlay.OnItemGestureListener$1.onItemSingleTapUp(int,OverlayItem)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.bugtestfragments.Bug1322.ItemizedIconOverlay.OnItemGestureListener$1.onItemLongPress(int,OverlayItem)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.bugtestfragments.Bug1322.addOverlays()</name>
+      <ncss>19</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.bugtestfragments.Bug1322.skipOnCiTests()</name>
       <ncss>2</ncss>
       <ccn>1</ccn>
       <javadocs>0</javadocs>
@@ -4201,7 +4287,7 @@
     </function>
     <function>
       <name>org.osmdroid.samplefragments.SampleFactory.SampleFactory()</name>
-      <ncss>106</ncss>
+      <ncss>110</ncss>
       <ccn>4</ccn>
       <javadocs>0</javadocs>
     </function>
@@ -5911,7 +5997,7 @@
     </function>
     <function>
       <name>org.osmdroid.samplefragments.data.SampleMarker.addOverlays()</name>
-      <ncss>48</ncss>
+      <ncss>98</ncss>
       <ccn>1</ccn>
       <javadocs>0</javadocs>
     </function>
@@ -6342,6 +6428,72 @@
       <javadocs>0</javadocs>
     </function>
     <function>
+      <name>org.osmdroid.samplefragments.data.SampleSpeechBalloon.getSampleTitle()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.data.SampleSpeechBalloon.Runnable$1.run()</name>
+      <ncss>3</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.data.SampleSpeechBalloon.addOverlays()</name>
+      <ncss>57</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.data.SampleSpeechBalloon.Runnable$1.run()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.data.SampleSpeechBalloon.TimerTask$1.run()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.data.SampleSpeechBalloon.displayNext()</name>
+      <ncss>11</ncss>
+      <ccn>3</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.data.SampleSpeechBalloon.add(POI)</name>
+      <ncss>3</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.data.SampleSpeechBalloon.addToDisplay(POI)</name>
+      <ncss>18</ncss>
+      <ccn>2</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.data.SampleSpeechBalloon.POI.POI(String,GeoPoint,boolean,int,int)</name>
+      <ncss>6</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.data.SampleSpeechBalloon.POI.POI(String,GeoPoint,int,int)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.data.SampleSpeechBalloon.POI.POI(String,GeoPoint)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
       <name>org.osmdroid.samplefragments.data.SampleWithMinimapItemizedOverlayWithFocus.getSampleTitle()</name>
       <ncss>2</ncss>
       <ccn>1</ccn>
@@ -6438,39 +6590,27 @@
       <javadocs>0</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.samplefragments.data.WeatherGroundOverlaySample.addOverlays()</name>
+      <name>org.osmdroid.samplefragments.data.WeatherGroundOverlaySample.Runnable$1.run()</name>
       <ncss>5</ncss>
       <ccn>1</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.samplefragments.data.WeatherGroundOverlaySample.onResume()</name>
-      <ncss>3</ncss>
-      <ccn>1</ccn>
-      <javadocs>0</javadocs>
-    </function>
-    <function>
-      <name>org.osmdroid.samplefragments.data.WeatherGroundOverlaySample.onPause()</name>
-      <ncss>4</ncss>
-      <ccn>2</ccn>
-      <javadocs>0</javadocs>
-    </function>
-    <function>
-      <name>org.osmdroid.samplefragments.data.WeatherGroundOverlaySample.onDestroyView()</name>
-      <ncss>2</ncss>
+      <name>org.osmdroid.samplefragments.data.WeatherGroundOverlaySample.addOverlays()</name>
+      <ncss>15</ncss>
       <ccn>1</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
       <name>org.osmdroid.samplefragments.data.WeatherGroundOverlaySample.Runnable$1.run()</name>
-      <ncss>2</ncss>
+      <ncss>3</ncss>
       <ccn>1</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
       <name>org.osmdroid.samplefragments.data.WeatherGroundOverlaySample.run()</name>
-      <ncss>25</ncss>
-      <ccn>7</ccn>
+      <ncss>28</ncss>
+      <ccn>8</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
@@ -6547,8 +6687,8 @@
     </function>
     <function>
       <name>org.osmdroid.samplefragments.drawing.CustomPaintingSurface.touch_up()</name>
-      <ncss>69</ncss>
-      <ccn>10</ccn>
+      <ncss>71</ncss>
+      <ccn>12</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
@@ -6828,6 +6968,18 @@
       <javadocs>0</javadocs>
     </function>
     <function>
+      <name>org.osmdroid.samplefragments.drawing.SampleDrawPolylineAsPath.getSampleTitle()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.drawing.SampleDrawPolylineAsPath.onCreateView(LayoutInflater,ViewGroup,Bundle)</name>
+      <ncss>4</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
       <name>org.osmdroid.samplefragments.drawing.SampleDrawPolylineWithoutVerticalWrapping.getSampleTitle()</name>
       <ncss>2</ncss>
       <ccn>1</ccn>
@@ -7086,6 +7238,72 @@
       <javadocs>0</javadocs>
     </function>
     <function>
+      <name>org.osmdroid.samplefragments.events.SampleMapCenterOffset.getSampleTitle()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.events.SampleMapCenterOffset.Overlay$1.draw(Canvas,Projection)</name>
+      <ncss>6</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.events.SampleMapCenterOffset.Runnable$1.run()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.events.SampleMapCenterOffset.addOverlays()</name>
+      <ncss>25</ncss>
+      <ccn>2</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.events.SampleMapCenterOffset.TimerTask$1.run()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.events.SampleMapCenterOffset.onResume()</name>
+      <ncss>8</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.events.SampleMapCenterOffset.onPause()</name>
+      <ncss>6</ncss>
+      <ccn>2</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.events.SampleMapCenterOffset.Runnable$1.run()</name>
+      <ncss>4</ncss>
+      <ccn>4</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.events.SampleMapCenterOffset.runTask()</name>
+      <ncss>10</ncss>
+      <ccn>5</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.events.SampleMapCenterOffset.show()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.events.SampleMapCenterOffset.show(int)</name>
+      <ncss>4</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
       <name>org.osmdroid.samplefragments.events.SampleMapEventListener.getSampleTitle()</name>
       <ncss>2</ncss>
       <ccn>1</ccn>
@@ -7118,6 +7336,30 @@
     <function>
       <name>org.osmdroid.samplefragments.events.SampleMapEventListener.updateInfo()</name>
       <ncss>3</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.events.SampleSnappable.getSampleTitle()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.events.SampleSnappable.MyOverlay.onSnapToItem(int,int,Point,IMapView)</name>
+      <ncss>4</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.events.SampleSnappable.Runnable$1.run()</name>
+      <ncss>3</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.events.SampleSnappable.addOverlays()</name>
+      <ncss>7</ncss>
       <ccn>1</ccn>
       <javadocs>0</javadocs>
     </function>
@@ -8358,8 +8600,20 @@
       <javadocs>0</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.samplefragments.location.SampleMyLocationWithClick.addOverlays()</name>
+      <name>org.osmdroid.samplefragments.location.SampleMyLocationWithClick.Runnable$1.Runnable$1.run()</name>
       <ncss>6</ncss>
+      <ccn>2</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.location.SampleMyLocationWithClick.Runnable$1.run()</name>
+      <ncss>11</ncss>
+      <ccn>2</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.location.SampleMyLocationWithClick.addOverlays()</name>
+      <ncss>18</ncss>
       <ccn>1</ccn>
       <javadocs>0</javadocs>
     </function>
@@ -10063,7 +10317,7 @@
     </function>
     <function>
       <name>org.osmdroid.samples.SampleWithTilesOverlayAndCustomTileSource.onCreate(Bundle)</name>
-      <ncss>17</ncss>
+      <ncss>16</ncss>
       <ccn>1</ccn>
       <javadocs>1</javadocs>
     </function>
@@ -10080,11 +10334,11 @@
       <javadocs>0</javadocs>
     </function>
     <function_averages>
-      <ncss>8.18</ncss>
-      <ccn>2.11</ccn>
+      <ncss>8.21</ncss>
+      <ccn>2.10</ccn>
       <javadocs>0.09</javadocs>
     </function_averages>
-    <ncss>12,564.00</ncss>
+    <ncss>12,945.00</ncss>
   </functions>
 </javancss>
 

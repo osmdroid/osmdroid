@@ -1,12 +1,10 @@
 <map id="G" name="G">
 <area shape="rect" id="node1_0" href="./Marker.html" title="org.osmdroid.views.overlay.Marker" alt="" coords="16,209,76,234"/>
 <area shape="rect" id="node1" href="./Marker.html" title="&lt;TABLE&gt;" alt="" coords="5,197,87,245"/>
-<area shape="rect" id="node2_1" href="./Overlay.html" title="org.osmdroid.views.overlay.Overlay" alt="" coords="124,17,187,42"/>
-<area shape="rect" id="node2" href="./Overlay.html" title="&lt;TABLE&gt;" alt="" coords="113,5,197,53"/>
-<area shape="rect" id="node3_2" href="./OverlayWithIW.html" title="org.osmdroid.views.overlay.OverlayWithIW" alt="" coords="102,113,209,138"/>
-<area shape="rect" id="node3" href="./OverlayWithIW.html" title="&lt;TABLE&gt;" alt="" coords="91,101,219,149"/>
-<area shape="rect" id="node4_3" href="./Polygon.html" title="org.osmdroid.views.overlay.Polygon" alt="" coords="122,209,189,234"/>
-<area shape="rect" id="node4" href="./Polygon.html" title="&lt;TABLE&gt;" alt="" coords="111,197,199,245"/>
-<area shape="rect" id="node5_4" href="./Polyline.html" title="org.osmdroid.views.overlay.Polyline" alt="" coords="235,209,300,234"/>
-<area shape="rect" id="node5" href="./Polyline.html" title="&lt;TABLE&gt;" alt="" coords="224,197,311,245"/>
+<area shape="rect" id="node2_1" href="./Overlay.html" title="org.osmdroid.views.overlay.Overlay" alt="" coords="85,17,148,42"/>
+<area shape="rect" id="node2" href="./Overlay.html" title="&lt;TABLE&gt;" alt="" coords="75,5,159,53"/>
+<area shape="rect" id="node3_2" href="./OverlayWithIW.html" title="org.osmdroid.views.overlay.OverlayWithIW" alt="" coords="63,113,170,138"/>
+<area shape="rect" id="node3" href="./OverlayWithIW.html" title="&lt;TABLE&gt;" alt="" coords="53,101,181,149"/>
+<area shape="rect" id="node4_3" href="./PolyOverlayWithIW.html" title="org.osmdroid.views.overlay.PolyOverlayWithIW" alt="" coords="121,209,253,234"/>
+<area shape="rect" id="node4" href="./PolyOverlayWithIW.html" title="&lt;TABLE&gt;" alt="" coords="111,197,264,245"/>
 </map>

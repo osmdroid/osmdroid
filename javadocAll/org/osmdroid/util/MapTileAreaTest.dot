@@ -10,7 +10,7 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.util.MapTileAreaTest
-	c157322 [label=<<table title="org.osmdroid.util.MapTileAreaTest" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./MapTileAreaTest.html">
+	c163633 [label=<<table title="org.osmdroid.util.MapTileAreaTest" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./MapTileAreaTest.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MapTileAreaTest </td></tr>
 		</table></td></tr>

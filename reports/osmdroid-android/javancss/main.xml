@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <javancss>
-  <date>2019-03-24</date>
-  <time>09:27:33</time>
+  <date>2019-09-27</date>
+  <time>19:04:33</time>
   <packages>
     <package>
       <name>org.metalev.multitouch.controller</name>
@@ -56,10 +56,10 @@
     <package>
       <name>org.osmdroid.tileprovider</name>
       <classes>13</classes>
-      <functions>137</functions>
-      <ncss>971</ncss>
-      <javadocs>82</javadocs>
-      <javadoc_lines>410</javadoc_lines>
+      <functions>138</functions>
+      <ncss>975</ncss>
+      <javadocs>83</javadocs>
+      <javadoc_lines>416</javadoc_lines>
       <single_comment_lines>67</single_comment_lines>
       <multi_comment_lines>28</multi_comment_lines>
     </package>
@@ -67,7 +67,7 @@
       <name>org.osmdroid.tileprovider.cachemanager</name>
       <classes>2</classes>
       <functions>51</functions>
-      <ncss>489</ncss>
+      <ncss>488</ncss>
       <javadocs>48</javadocs>
       <javadoc_lines>257</javadoc_lines>
       <single_comment_lines>18</single_comment_lines>
@@ -87,7 +87,7 @@
       <name>org.osmdroid.tileprovider.modules</name>
       <classes>25</classes>
       <functions>236</functions>
-      <ncss>2016</ncss>
+      <ncss>2017</ncss>
       <javadocs>112</javadocs>
       <javadoc_lines>628</javadoc_lines>
       <single_comment_lines>208</single_comment_lines>
@@ -97,10 +97,10 @@
       <name>org.osmdroid.tileprovider.tilesource</name>
       <classes>16</classes>
       <functions>112</functions>
-      <ncss>558</ncss>
+      <ncss>570</ncss>
       <javadocs>59</javadocs>
-      <javadoc_lines>332</javadoc_lines>
-      <single_comment_lines>39</single_comment_lines>
+      <javadoc_lines>334</javadoc_lines>
+      <single_comment_lines>47</single_comment_lines>
       <multi_comment_lines>48</multi_comment_lines>
     </package>
     <package>
@@ -125,11 +125,11 @@
     </package>
     <package>
       <name>org.osmdroid.util</name>
-      <classes>59</classes>
-      <functions>490</functions>
-      <ncss>3555</ncss>
-      <javadocs>237</javadocs>
-      <javadoc_lines>1084</javadoc_lines>
+      <classes>61</classes>
+      <functions>502</functions>
+      <ncss>3673</ncss>
+      <javadocs>245</javadocs>
+      <javadoc_lines>1119</javadoc_lines>
       <single_comment_lines>254</single_comment_lines>
       <multi_comment_lines>120</multi_comment_lines>
     </package>
@@ -137,21 +137,21 @@
       <name>org.osmdroid.util.constants</name>
       <classes>1</classes>
       <functions>0</functions>
-      <ncss>7</ncss>
+      <ncss>16</ncss>
       <javadocs>0</javadocs>
       <javadoc_lines>0</javadoc_lines>
       <single_comment_lines>11</single_comment_lines>
-      <multi_comment_lines>0</multi_comment_lines>
+      <multi_comment_lines>3</multi_comment_lines>
     </package>
     <package>
       <name>org.osmdroid.views</name>
       <classes>6</classes>
-      <functions>272</functions>
-      <ncss>1748</ncss>
-      <javadocs>147</javadocs>
-      <javadoc_lines>716</javadoc_lines>
+      <functions>275</functions>
+      <ncss>1793</ncss>
+      <javadocs>151</javadocs>
+      <javadoc_lines>737</javadoc_lines>
       <single_comment_lines>115</single_comment_lines>
-      <multi_comment_lines>73</multi_comment_lines>
+      <multi_comment_lines>79</multi_comment_lines>
     </package>
     <package>
       <name>org.osmdroid.views.drawing</name>
@@ -165,13 +165,13 @@
     </package>
     <package>
       <name>org.osmdroid.views.overlay</name>
-      <classes>30</classes>
-      <functions>515</functions>
-      <ncss>3315</ncss>
-      <javadocs>246</javadocs>
-      <javadoc_lines>1307</javadoc_lines>
-      <single_comment_lines>348</single_comment_lines>
-      <multi_comment_lines>166</multi_comment_lines>
+      <classes>35</classes>
+      <functions>569</functions>
+      <ncss>3725</ncss>
+      <javadocs>267</javadocs>
+      <javadoc_lines>1381</javadoc_lines>
+      <single_comment_lines>358</single_comment_lines>
+      <multi_comment_lines>173</multi_comment_lines>
     </package>
     <package>
       <name>org.osmdroid.views.overlay.compass</name>
@@ -227,7 +227,7 @@
       <name>org.osmdroid.views.overlay.mylocation</name>
       <classes>6</classes>
       <functions>73</functions>
-      <ncss>449</ncss>
+      <ncss>454</ncss>
       <javadocs>27</javadocs>
       <javadoc_lines>128</javadoc_lines>
       <single_comment_lines>95</single_comment_lines>
@@ -264,20 +264,20 @@
       <multi_comment_lines>0</multi_comment_lines>
     </package>
     <total>
-      <classes>222</classes>
-      <functions>2399</functions>
-      <ncss>17029</ncss>
-      <javadocs>1220</javadocs>
-      <javadoc_lines>6279</javadoc_lines>
-      <single_comment_lines>1515</single_comment_lines>
-      <multi_comment_lines>849</multi_comment_lines>
+      <classes>229</classes>
+      <functions>2469</functions>
+      <ncss>17632</ncss>
+      <javadocs>1254</javadocs>
+      <javadoc_lines>6417</javadoc_lines>
+      <single_comment_lines>1533</single_comment_lines>
+      <multi_comment_lines>865</multi_comment_lines>
     </total>
     <table>
       <tr><td>Packages</td><td>Classes</td><td>Functions</td><td>NCSS</td><td>Javadocs</td><td>per</td></tr>
-      <tr><td>26.00</td><td>222.00</td><td>2,399.00</td><td>17,029.00</td><td>1,220.00</td><td>Project</td></tr>
-      <tr><td></td><td>8.54</td><td>92.27</td><td>654.96</td><td>46.92</td><td>Package</td></tr>
-      <tr><td></td><td></td><td>10.81</td><td>76.71</td><td>5.50</td><td>Class</td></tr>
-      <tr><td></td><td></td><td></td><td>7.10</td><td>0.51</td><td>Function</td></tr>
+      <tr><td>26.00</td><td>229.00</td><td>2,469.00</td><td>17,632.00</td><td>1,254.00</td><td>Project</td></tr>
+      <tr><td></td><td>8.81</td><td>94.96</td><td>678.15</td><td>48.23</td><td>Package</td></tr>
+      <tr><td></td><td></td><td>10.78</td><td>77.00</td><td>5.48</td><td>Class</td></tr>
+      <tr><td></td><td></td><td></td><td>7.14</td><td>0.51</td><td>Function</td></tr>
     </table>
   </packages>
 
@@ -524,11 +524,11 @@
     </object>
     <object>
       <name>org.osmdroid.tileprovider.MapTileProviderBase</name>
-      <ncss>178</ncss>
-      <functions>26</functions>
+      <ncss>182</ncss>
+      <functions>27</functions>
       <classes>3</classes>
-      <javadocs>24</javadocs>
-      <javadocs_lines>135</javadocs_lines>
+      <javadocs>25</javadocs>
+      <javadocs_lines>141</javadocs_lines>
       <single_comment_lines>10</single_comment_lines>
       <implementation_comment_lines>3</implementation_comment_lines>
     </object>
@@ -574,7 +574,7 @@
     </object>
     <object>
       <name>org.osmdroid.tileprovider.cachemanager.CacheManager</name>
-      <ncss>381</ncss>
+      <ncss>380</ncss>
       <functions>44</functions>
       <classes>9</classes>
       <javadocs>42</javadocs>
@@ -814,7 +814,7 @@
     </object>
     <object>
       <name>org.osmdroid.tileprovider.modules.TileWriter</name>
-      <ncss>132</ncss>
+      <ncss>133</ncss>
       <functions>15</functions>
       <classes>2</classes>
       <javadocs>5</javadocs>
@@ -834,12 +834,12 @@
     </object>
     <object>
       <name>org.osmdroid.tileprovider.tilesource.BitmapTileSourceBase</name>
-      <ncss>96</ncss>
+      <ncss>106</ncss>
       <functions>14</functions>
       <classes>1</classes>
       <javadocs>2</javadocs>
       <javadocs_lines>16</javadocs_lines>
-      <single_comment_lines>8</single_comment_lines>
+      <single_comment_lines>16</single_comment_lines>
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <object>
@@ -914,11 +914,11 @@
     </object>
     <object>
       <name>org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase</name>
-      <ncss>29</ncss>
+      <ncss>31</ncss>
       <functions>8</functions>
       <classes>0</classes>
       <javadocs>5</javadocs>
-      <javadocs_lines>23</javadocs_lines>
+      <javadocs_lines>25</javadocs_lines>
       <single_comment_lines>0</single_comment_lines>
       <implementation_comment_lines>6</implementation_comment_lines>
     </object>
@@ -1144,7 +1144,7 @@
     </object>
     <object>
       <name>org.osmdroid.util.GarbageCollector</name>
-      <ncss>18</ncss>
+      <ncss>19</ncss>
       <functions>3</functions>
       <classes>1</classes>
       <javadocs>1</javadocs>
@@ -1324,11 +1324,11 @@
     </object>
     <object>
       <name>org.osmdroid.util.MyMath</name>
-      <ncss>48</ncss>
-      <functions>9</functions>
+      <ncss>53</ncss>
+      <functions>11</functions>
       <classes>0</classes>
-      <javadocs>7</javadocs>
-      <javadocs_lines>47</javadocs_lines>
+      <javadocs>9</javadocs>
+      <javadocs_lines>55</javadocs_lines>
       <single_comment_lines>21</single_comment_lines>
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
@@ -1384,11 +1384,11 @@
     </object>
     <object>
       <name>org.osmdroid.util.RectL</name>
-      <ncss>212</ncss>
-      <functions>23</functions>
+      <ncss>216</ncss>
+      <functions>25</functions>
       <classes>0</classes>
-      <javadocs>12</javadocs>
-      <javadocs_lines>52</javadocs_lines>
+      <javadocs>14</javadocs>
+      <javadocs_lines>58</javadocs_lines>
       <single_comment_lines>12</single_comment_lines>
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
@@ -1410,6 +1410,16 @@
       <javadocs>6</javadocs>
       <javadocs_lines>33</javadocs_lines>
       <single_comment_lines>7</single_comment_lines>
+      <implementation_comment_lines>0</implementation_comment_lines>
+    </object>
+    <object>
+      <name>org.osmdroid.util.SpeechBalloonHelper</name>
+      <ncss>39</ncss>
+      <functions>5</functions>
+      <classes>0</classes>
+      <javadocs>2</javadocs>
+      <javadocs_lines>13</javadocs_lines>
+      <single_comment_lines>0</single_comment_lines>
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <object>
@@ -1464,17 +1474,17 @@
     </object>
     <object>
       <name>org.osmdroid.util.constants.GeoConstants</name>
-      <ncss>6</ncss>
+      <ncss>14</ncss>
       <functions>0</functions>
-      <classes>0</classes>
+      <classes>1</classes>
       <javadocs>0</javadocs>
       <javadocs_lines>0</javadocs_lines>
       <single_comment_lines>10</single_comment_lines>
-      <implementation_comment_lines>0</implementation_comment_lines>
+      <implementation_comment_lines>3</implementation_comment_lines>
     </object>
     <object>
       <name>org.osmdroid.views.CustomZoomButtonsController</name>
-      <ncss>134</ncss>
+      <ncss>135</ncss>
       <functions>18</functions>
       <classes>5</classes>
       <javadocs>1</javadocs>
@@ -1504,33 +1514,33 @@
     </object>
     <object>
       <name>org.osmdroid.views.MapView</name>
-      <ncss>739</ncss>
-      <functions>133</functions>
+      <ncss>763</ncss>
+      <functions>136</functions>
       <classes>5</classes>
-      <javadocs>73</javadocs>
-      <javadocs_lines>385</javadocs_lines>
-      <single_comment_lines>63</single_comment_lines>
-      <implementation_comment_lines>63</implementation_comment_lines>
+      <javadocs>76</javadocs>
+      <javadocs_lines>401</javadocs_lines>
+      <single_comment_lines>62</single_comment_lines>
+      <implementation_comment_lines>66</implementation_comment_lines>
     </object>
     <object>
       <name>org.osmdroid.views.MapViewRepository</name>
-      <ncss>37</ncss>
+      <ncss>40</ncss>
       <functions>7</functions>
       <classes>0</classes>
-      <javadocs>1</javadocs>
-      <javadocs_lines>6</javadocs_lines>
+      <javadocs>2</javadocs>
+      <javadocs_lines>11</javadocs_lines>
       <single_comment_lines>0</single_comment_lines>
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <object>
       <name>org.osmdroid.views.Projection</name>
-      <ncss>318</ncss>
+      <ncss>333</ncss>
       <functions>68</functions>
       <classes>0</classes>
       <javadocs>55</javadocs>
       <javadocs_lines>258</javadocs_lines>
-      <single_comment_lines>10</single_comment_lines>
-      <implementation_comment_lines>5</implementation_comment_lines>
+      <single_comment_lines>11</single_comment_lines>
+      <implementation_comment_lines>8</implementation_comment_lines>
     </object>
     <object>
       <name>org.osmdroid.views.drawing.MapSnapshot</name>
@@ -1613,12 +1623,32 @@
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <object>
+      <name>org.osmdroid.views.overlay.GroundOverlay</name>
+      <ncss>101</ncss>
+      <functions>15</functions>
+      <classes>0</classes>
+      <javadocs>1</javadocs>
+      <javadocs_lines>8</javadocs_lines>
+      <single_comment_lines>4</single_comment_lines>
+      <implementation_comment_lines>0</implementation_comment_lines>
+    </object>
+    <object>
       <name>org.osmdroid.views.overlay.GroundOverlay2</name>
-      <ncss>41</ncss>
-      <functions>10</functions>
+      <ncss>44</ncss>
+      <functions>12</functions>
       <classes>0</classes>
       <javadocs>2</javadocs>
       <javadocs_lines>11</javadocs_lines>
+      <single_comment_lines>0</single_comment_lines>
+      <implementation_comment_lines>0</implementation_comment_lines>
+    </object>
+    <object>
+      <name>org.osmdroid.views.overlay.GroundOverlay4</name>
+      <ncss>73</ncss>
+      <functions>12</functions>
+      <classes>0</classes>
+      <javadocs>1</javadocs>
+      <javadocs_lines>8</javadocs_lines>
       <single_comment_lines>0</single_comment_lines>
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
@@ -1674,7 +1704,7 @@
     </object>
     <object>
       <name>org.osmdroid.views.overlay.ItemizedOverlayWithFocus</name>
-      <ncss>159</ncss>
+      <ncss>170</ncss>
       <functions>21</functions>
       <classes>0</classes>
       <javadocs>7</javadocs>
@@ -1694,13 +1724,13 @@
     </object>
     <object>
       <name>org.osmdroid.views.overlay.LinearRing</name>
-      <ncss>311</ncss>
-      <functions>26</functions>
+      <ncss>317</ncss>
+      <functions>27</functions>
       <classes>0</classes>
-      <javadocs>19</javadocs>
-      <javadocs_lines>85</javadocs_lines>
+      <javadocs>20</javadocs>
+      <javadocs_lines>88</javadocs_lines>
       <single_comment_lines>13</single_comment_lines>
-      <implementation_comment_lines>22</implementation_comment_lines>
+      <implementation_comment_lines>25</implementation_comment_lines>
     </object>
     <object>
       <name>org.osmdroid.views.overlay.MapEventsOverlay</name>
@@ -1803,38 +1833,68 @@
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <object>
+      <name>org.osmdroid.views.overlay.PolyOverlayWithIW</name>
+      <ncss>110</ncss>
+      <functions>18</functions>
+      <classes>0</classes>
+      <javadocs>10</javadocs>
+      <javadocs_lines>40</javadocs_lines>
+      <single_comment_lines>3</single_comment_lines>
+      <implementation_comment_lines>0</implementation_comment_lines>
+    </object>
+    <object>
       <name>org.osmdroid.views.overlay.Polygon</name>
-      <ncss>167</ncss>
-      <functions>35</functions>
+      <ncss>100</ncss>
+      <functions>22</functions>
       <classes>1</classes>
-      <javadocs>21</javadocs>
-      <javadocs_lines>101</javadocs_lines>
-      <single_comment_lines>18</single_comment_lines>
+      <javadocs>19</javadocs>
+      <javadocs_lines>87</javadocs_lines>
+      <single_comment_lines>16</single_comment_lines>
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <object>
       <name>org.osmdroid.views.overlay.Polyline</name>
-      <ncss>124</ncss>
-      <functions>28</functions>
+      <ncss>66</ncss>
+      <functions>18</functions>
       <classes>1</classes>
-      <javadocs>18</javadocs>
-      <javadocs_lines>87</javadocs_lines>
-      <single_comment_lines>2</single_comment_lines>
-      <implementation_comment_lines>0</implementation_comment_lines>
+      <javadocs>16</javadocs>
+      <javadocs_lines>74</javadocs_lines>
+      <single_comment_lines>1</single_comment_lines>
+      <implementation_comment_lines>4</implementation_comment_lines>
     </object>
     <object>
       <name>org.osmdroid.views.overlay.ScaleBarOverlay</name>
-      <ncss>351</ncss>
-      <functions>33</functions>
+      <ncss>353</ncss>
+      <functions>34</functions>
       <classes>1</classes>
-      <javadocs>23</javadocs>
-      <javadocs_lines>150</javadocs_lines>
+      <javadocs>24</javadocs>
+      <javadocs_lines>153</javadocs_lines>
       <single_comment_lines>65</single_comment_lines>
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <object>
+      <name>org.osmdroid.views.overlay.ScaleDiskOverlay</name>
+      <ncss>76</ncss>
+      <functions>15</functions>
+      <classes>0</classes>
+      <javadocs>10</javadocs>
+      <javadocs_lines>34</javadocs_lines>
+      <single_comment_lines>0</single_comment_lines>
+      <implementation_comment_lines>0</implementation_comment_lines>
+    </object>
+    <object>
+      <name>org.osmdroid.views.overlay.SpeechBalloonOverlay</name>
+      <ncss>111</ncss>
+      <functions>13</functions>
+      <classes>0</classes>
+      <javadocs>1</javadocs>
+      <javadocs_lines>5</javadocs_lines>
+      <single_comment_lines>6</single_comment_lines>
+      <implementation_comment_lines>0</implementation_comment_lines>
+    </object>
+    <object>
       <name>org.osmdroid.views.overlay.TilesOverlay</name>
-      <ncss>241</ncss>
+      <ncss>243</ncss>
       <functions>34</functions>
       <classes>2</classes>
       <javadocs>11</javadocs>
@@ -2114,7 +2174,7 @@
     </object>
     <object>
       <name>org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay</name>
-      <ncss>224</ncss>
+      <ncss>229</ncss>
       <functions>36</functions>
       <classes>1</classes>
       <javadocs>13</javadocs>
@@ -2404,11 +2464,11 @@
     </object>
     <object>
       <name>org.osmdroid.util.MyMathTest</name>
-      <ncss>15</ncss>
-      <functions>1</functions>
+      <ncss>44</ncss>
+      <functions>3</functions>
       <classes>0</classes>
-      <javadocs>1</javadocs>
-      <javadocs_lines>4</javadocs_lines>
+      <javadocs>2</javadocs>
+      <javadocs_lines>7</javadocs_lines>
       <single_comment_lines>0</single_comment_lines>
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
@@ -2450,6 +2510,16 @@
       <javadocs>1</javadocs>
       <javadocs_lines>4</javadocs_lines>
       <single_comment_lines>7</single_comment_lines>
+      <implementation_comment_lines>0</implementation_comment_lines>
+    </object>
+    <object>
+      <name>org.osmdroid.util.SpeechBalloonHelperTest</name>
+      <ncss>35</ncss>
+      <functions>1</functions>
+      <classes>0</classes>
+      <javadocs>1</javadocs>
+      <javadocs_lines>5</javadocs_lines>
+      <single_comment_lines>0</single_comment_lines>
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <object>
@@ -2503,15 +2573,15 @@
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <averages>
-      <ncss>69.39</ncss>
-      <functions>10.81</functions>
-      <classes>0.46</classes>
-      <javadocs>5.50</javadocs>
-      <javadocs_lines>28.28</javadocs_lines>
-      <single_comment_lines>6.64</single_comment_lines>
-      <implementation_comment_lines>2.92</implementation_comment_lines>
+      <ncss>69.69</ncss>
+      <functions>10.78</functions>
+      <classes>0.45</classes>
+      <javadocs>5.48</javadocs>
+      <javadocs_lines>28.02</javadocs_lines>
+      <single_comment_lines>6.52</single_comment_lines>
+      <implementation_comment_lines>2.90</implementation_comment_lines>
     </averages>
-    <ncss>17,029.00</ncss>
+    <ncss>17,632.00</ncss>
   </objects>
 
   <functions>
@@ -4718,6 +4788,12 @@
       <javadocs>1</javadocs>
     </function>
     <function>
+      <name>org.osmdroid.tileprovider.MapTileProviderBase.expireInMemoryCache(long)</name>
+      <ncss>4</ncss>
+      <ccn>2</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
       <name>org.osmdroid.tileprovider.MapTileProviderBasic.MapTileProviderBasic(Context)</name>
       <ncss>2</ncss>
       <ccn>1</ccn>
@@ -4929,8 +5005,8 @@
     </function>
     <function>
       <name>org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManager(ITileSource,IFilesystemCache,int,int)</name>
-      <ncss>8</ncss>
-      <ccn>4</ccn>
+      <ncss>5</ncss>
+      <ccn>1</ccn>
       <javadocs>1</javadocs>
     </function>
     <function>
@@ -5349,8 +5425,8 @@
     </function>
     <function>
       <name>org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerAction$1.preCheck()</name>
-      <ncss>6</ncss>
-      <ccn>3</ccn>
+      <ncss>8</ncss>
+      <ccn>5</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
@@ -5367,7 +5443,7 @@
     </function>
     <function>
       <name>org.osmdroid.tileprovider.cachemanager.CacheManager.getDownloadingAction()</name>
-      <ncss>12</ncss>
+      <ncss>14</ncss>
       <ccn>1</ccn>
       <javadocs>0</javadocs>
     </function>
@@ -6825,7 +6901,7 @@
     </function>
     <function>
       <name>org.osmdroid.tileprovider.modules.TileWriter.TileWriter()</name>
-      <ncss>13</ncss>
+      <ncss>14</ncss>
       <ccn>2</ccn>
       <javadocs>0</javadocs>
     </function>
@@ -7041,7 +7117,7 @@
     </function>
     <function>
       <name>org.osmdroid.tileprovider.tilesource.BitmapTileSourceBase.getDrawable(String)</name>
-      <ncss>28</ncss>
+      <ncss>32</ncss>
       <ccn>9</ccn>
       <javadocs>0</javadocs>
     </function>
@@ -7053,7 +7129,7 @@
     </function>
     <function>
       <name>org.osmdroid.tileprovider.tilesource.BitmapTileSourceBase.getDrawable(InputStream)</name>
-      <ncss>13</ncss>
+      <ncss>19</ncss>
       <ccn>6</ccn>
       <javadocs>0</javadocs>
     </function>
@@ -7461,8 +7537,8 @@
     </function>
     <function>
       <name>org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase.getBaseUrl()</name>
-      <ncss>2</ncss>
-      <ccn>1</ccn>
+      <ncss>4</ncss>
+      <ccn>4</ccn>
       <javadocs>1</javadocs>
     </function>
     <function>
@@ -8403,7 +8479,7 @@
     </function>
     <function>
       <name>org.osmdroid.util.GarbageCollector.gc()</name>
-      <ncss>11</ncss>
+      <ncss>12</ncss>
       <ccn>3</ccn>
       <javadocs>0</javadocs>
     </function>
@@ -9194,6 +9270,18 @@
       <javadocs>1</javadocs>
     </function>
     <function>
+      <name>org.osmdroid.util.MyMath.computeAngle(long,long,long,long)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.MyMath.computeCirclePoint(long,long,double,double,PointL)</name>
+      <ncss>3</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
       <name>org.osmdroid.util.NetworkLocationIgnorer.shouldIgnore(String,long)</name>
       <ncss>7</ncss>
       <ccn>4</ccn>
@@ -9446,6 +9534,18 @@
       <javadocs>1</javadocs>
     </function>
     <function>
+      <name>org.osmdroid.util.RectL.centerX()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.RectL.centerY()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
       <name>org.osmdroid.util.SegmentClipper.set(long,long,long,long,PointAccepter,boolean)</name>
       <ncss>11</ncss>
       <ccn>1</ccn>
@@ -9575,6 +9675,36 @@
       <name>org.osmdroid.util.SegmentIntersection.divisionByZeroSideEffectY(double,double,double,double,double,double,double,double,PointL)</name>
       <ncss>8</ncss>
       <ccn>5</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.SpeechBalloonHelper.compute(RectL,PointL,double,PointL,PointL)</name>
+      <ncss>13</ncss>
+      <ccn>5</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.SpeechBalloonHelper.checkIntersection(PointL)</name>
+      <ncss>10</ncss>
+      <ccn>14</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.SpeechBalloonHelper.checkIntersectionX(long,PointL)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.SpeechBalloonHelper.checkIntersectionY(long,PointL)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.SpeechBalloonHelper.computeCirclePoint(PointL,double,double,boolean)</name>
+      <ncss>2</ncss>
+      <ccn>2</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
@@ -10148,6 +10278,24 @@
       <javadocs>0</javadocs>
     </function>
     <function>
+      <name>org.osmdroid.util.constants.GeoConstants.UnitOfMeasure.UnitOfMeasure(double,int)</name>
+      <ncss>3</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.constants.GeoConstants.UnitOfMeasure.getConversionFactorToMeters()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.constants.GeoConstants.UnitOfMeasure.getStringResId()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
       <name>org.osmdroid.views.CustomZoomButtonsController.ValueAnimator.AnimatorUpdateListener$1.onAnimationUpdate(ValueAnimator)</name>
       <ncss>6</ncss>
       <ccn>3</ccn>
@@ -10239,7 +10387,7 @@
     </function>
     <function>
       <name>org.osmdroid.views.CustomZoomButtonsController.activate()</name>
-      <ncss>19</ncss>
+      <ncss>20</ncss>
       <ccn>10</ccn>
       <javadocs>0</javadocs>
     </function>
@@ -10683,8 +10831,8 @@
     </function>
     <function>
       <name>org.osmdroid.views.MapView.MapView(Context,MapTileProviderBase,Handler,AttributeSet,boolean)</name>
-      <ncss>32</ncss>
-      <ccn>10</ccn>
+      <ncss>37</ncss>
+      <ccn>11</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
@@ -10785,7 +10933,7 @@
     </function>
     <function>
       <name>org.osmdroid.views.MapView.getProjection()</name>
-      <ncss>10</ncss>
+      <ncss>11</ncss>
       <ccn>4</ccn>
       <javadocs>1</javadocs>
     </function>
@@ -11169,7 +11317,7 @@
     </function>
     <function>
       <name>org.osmdroid.views.MapView.onDetach()</name>
-      <ncss>13</ncss>
+      <ncss>14</ncss>
       <ccn>4</ccn>
       <javadocs>1</javadocs>
     </function>
@@ -11193,8 +11341,8 @@
     </function>
     <function>
       <name>org.osmdroid.views.MapView.dispatchTouchEvent(MotionEvent)</name>
-      <ncss>27</ncss>
-      <ccn>16</ccn>
+      <ncss>29</ncss>
+      <ccn>19</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
@@ -11234,8 +11382,8 @@
       <javadocs>0</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.views.MapView.onDraw(Canvas)</name>
-      <ncss>13</ncss>
+      <name>org.osmdroid.views.MapView.dispatchDraw(Canvas)</name>
+      <ncss>14</ncss>
       <ccn>4</ccn>
       <javadocs>0</javadocs>
     </function>
@@ -11331,8 +11479,8 @@
     </function>
     <function>
       <name>org.osmdroid.views.MapView.setBuiltInZoomControls(boolean)</name>
-      <ncss>2</ncss>
-      <ccn>2</ccn>
+      <ncss>3</ncss>
+      <ccn>1</ccn>
       <javadocs>1</javadocs>
     </function>
     <function>
@@ -11385,7 +11533,7 @@
     </function>
     <function>
       <name>org.osmdroid.views.MapView.MapViewGestureDetectorListener.onDown(MotionEvent)</name>
-      <ncss>10</ncss>
+      <ncss>11</ncss>
       <ccn>6</ccn>
       <javadocs>0</javadocs>
     </function>
@@ -11541,7 +11689,7 @@
     </function>
     <function>
       <name>org.osmdroid.views.MapView.getZoomController()</name>
-      <ncss>2</ncss>
+      <ncss>3</ncss>
       <ccn>1</ccn>
       <javadocs>1</javadocs>
     </function>
@@ -11554,6 +11702,24 @@
     <function>
       <name>org.osmdroid.views.MapView.setDestroyMode(boolean)</name>
       <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.MapView.getMapCenterOffsetX()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.MapView.getMapCenterOffsetY()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.MapView.setMapCenterOffset(int,int)</name>
+      <ncss>3</ncss>
       <ccn>1</ccn>
       <javadocs>1</javadocs>
     </function>
@@ -11595,9 +11761,9 @@
     </function>
     <function>
       <name>org.osmdroid.views.MapViewRepository.getDefaultMarkerIcon()</name>
-      <ncss>4</ncss>
-      <ccn>2</ccn>
-      <javadocs>0</javadocs>
+      <ncss>7</ncss>
+      <ccn>4</ccn>
+      <javadocs>1</javadocs>
     </function>
     <function>
       <name>org.osmdroid.views.Projection.Projection(MapView)</name>
@@ -11606,13 +11772,13 @@
       <javadocs>0</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.views.Projection.Projection(double,Rect,GeoPoint,long,long,float,boolean,boolean,TileSystem)</name>
-      <ncss>17</ncss>
+      <name>org.osmdroid.views.Projection.Projection(double,Rect,GeoPoint,long,long,float,boolean,boolean,TileSystem,int,int)</name>
+      <ncss>19</ncss>
       <ccn>2</ccn>
       <javadocs>1</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.views.Projection.Projection(double,int,int,GeoPoint,float,boolean,boolean)</name>
+      <name>org.osmdroid.views.Projection.Projection(double,int,int,GeoPoint,float,boolean,boolean,int,int)</name>
       <ncss>2</ncss>
       <ccn>1</ccn>
       <javadocs>1</javadocs>
@@ -11937,14 +12103,14 @@
     </function>
     <function>
       <name>org.osmdroid.views.Projection.refresh()</name>
-      <ncss>12</ncss>
-      <ccn>3</ccn>
+      <ncss>21</ncss>
+      <ccn>7</ccn>
       <javadocs>1</javadocs>
     </function>
     <function>
       <name>org.osmdroid.views.Projection.adjustOffsets(IGeoPoint,PointF)</name>
-      <ncss>8</ncss>
-      <ccn>3</ccn>
+      <ncss>10</ncss>
+      <ccn>5</ccn>
       <javadocs>1</javadocs>
     </function>
     <function>
@@ -12608,13 +12774,109 @@
       <javadocs>0</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.views.overlay.GroundOverlay2.GroundOverlay2()</name>
-      <ncss>5</ncss>
+      <name>org.osmdroid.views.overlay.GroundOverlay.GroundOverlay()</name>
+      <ncss>4</ncss>
       <ccn>1</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.views.overlay.GroundOverlay2.setImage(Bitmap)</name>
+      <name>org.osmdroid.views.overlay.GroundOverlay.setImage(Bitmap)</name>
+      <ncss>3</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.GroundOverlay.getImage()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.GroundOverlay.setBearing(float)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.GroundOverlay.getBearing()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.GroundOverlay.setTransparency(float)</name>
+      <ncss>3</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.GroundOverlay.getTransparency()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.GroundOverlay.getTopLeft()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.GroundOverlay.getTopRight()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.GroundOverlay.getBottomRight()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.GroundOverlay.getBottomLeft()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.GroundOverlay.draw(Canvas,Projection)</name>
+      <ncss>5</ncss>
+      <ccn>3</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.GroundOverlay.setPosition(GeoPoint,GeoPoint,GeoPoint,GeoPoint)</name>
+      <ncss>6</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.GroundOverlay.setPosition(GeoPoint,GeoPoint)</name>
+      <ncss>8</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.GroundOverlay.computeMatrix(Projection)</name>
+      <ncss>44</ncss>
+      <ccn>5</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.GroundOverlay2.GroundOverlay2()</name>
+      <ncss>4</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.GroundOverlay2.getPaint()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.GroundOverlay2.getMatrix()</name>
       <ncss>2</ncss>
       <ccn>1</ccn>
       <javadocs>0</javadocs>
@@ -12624,12 +12886,6 @@
       <ncss>2</ncss>
       <ccn>1</ccn>
       <javadocs>0</javadocs>
-    </function>
-    <function>
-      <name>org.osmdroid.views.overlay.GroundOverlay2.setPosition(GeoPoint,GeoPoint)</name>
-      <ncss>5</ncss>
-      <ccn>1</ccn>
-      <javadocs>1</javadocs>
     </function>
     <function>
       <name>org.osmdroid.views.overlay.GroundOverlay2.getBearing()</name>
@@ -12645,7 +12901,7 @@
     </function>
     <function>
       <name>org.osmdroid.views.overlay.GroundOverlay2.setTransparency(float)</name>
-      <ncss>2</ncss>
+      <ncss>3</ncss>
       <ccn>1</ccn>
       <javadocs>0</javadocs>
     </function>
@@ -12656,14 +12912,98 @@
       <javadocs>0</javadocs>
     </function>
     <function>
+      <name>org.osmdroid.views.overlay.GroundOverlay2.setImage(Bitmap)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
       <name>org.osmdroid.views.overlay.GroundOverlay2.draw(Canvas,Projection)</name>
-      <ncss>10</ncss>
+      <ncss>5</ncss>
       <ccn>3</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.views.overlay.GroundOverlay2.setupScalingThenTranslatingMatrix(float,float,long,long)</name>
+      <name>org.osmdroid.views.overlay.GroundOverlay2.setPosition(GeoPoint,GeoPoint)</name>
+      <ncss>5</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.GroundOverlay2.computeMatrix(Projection)</name>
+      <ncss>6</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.GroundOverlay4.GroundOverlay4()</name>
+      <ncss>4</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.GroundOverlay4.getPaint()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.GroundOverlay4.getMatrix()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.GroundOverlay4.getImage()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.GroundOverlay4.getBearing()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.GroundOverlay4.setBearing(float)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.GroundOverlay4.setTransparency(float)</name>
       <ncss>3</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.GroundOverlay4.getTransparency()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.GroundOverlay4.draw(Canvas,Projection)</name>
+      <ncss>5</ncss>
+      <ccn>3</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.GroundOverlay4.setImage(Bitmap)</name>
+      <ncss>14</ncss>
+      <ccn>3</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.GroundOverlay4.setPosition(GeoPoint,GeoPoint,GeoPoint,GeoPoint)</name>
+      <ncss>5</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.GroundOverlay4.computeMatrix(Projection)</name>
+      <ncss>18</ncss>
       <ccn>1</ccn>
       <javadocs>0</javadocs>
     </function>
@@ -13227,8 +13567,8 @@
     </function>
     <function>
       <name>org.osmdroid.views.overlay.ItemizedOverlayWithFocus.draw(Canvas,Projection)</name>
-      <ncss>70</ncss>
-      <ccn>16</ccn>
+      <ncss>81</ncss>
+      <ccn>18</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
@@ -13263,13 +13603,19 @@
     </function>
     <function>
       <name>org.osmdroid.views.overlay.LinearRing.LinearRing(Path)</name>
-      <ncss>3</ncss>
+      <ncss>2</ncss>
       <ccn>1</ccn>
       <javadocs>1</javadocs>
     </function>
     <function>
       <name>org.osmdroid.views.overlay.LinearRing.LinearRing(LineBuilder)</name>
-      <ncss>3</ncss>
+      <ncss>4</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.LinearRing.LinearRing(Path,boolean)</name>
+      <ncss>4</ncss>
       <ccn>1</ccn>
       <javadocs>1</javadocs>
     </function>
@@ -13329,8 +13675,8 @@
     </function>
     <function>
       <name>org.osmdroid.views.overlay.LinearRing.buildPathPortion(Projection,PointL,boolean)</name>
-      <ncss>17</ncss>
-      <ccn>4</ccn>
+      <ncss>18</ncss>
+      <ccn>5</ccn>
       <javadocs>1</javadocs>
     </function>
     <function>
@@ -14552,6 +14898,114 @@
       <javadocs>1</javadocs>
     </function>
     <function>
+      <name>org.osmdroid.views.overlay.PolyOverlayWithIW.PolyOverlayWithIW(MapView,boolean,boolean)</name>
+      <ncss>14</ncss>
+      <ccn>3</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.PolyOverlayWithIW.setVisible(boolean)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.PolyOverlayWithIW.isVisible()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.PolyOverlayWithIW.getOutlinePaint()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.PolyOverlayWithIW.getFillPaint()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.PolyOverlayWithIW.setGeodesic(boolean)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.PolyOverlayWithIW.isGeodesic()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.PolyOverlayWithIW.setInfoWindow(InfoWindow)</name>
+      <ncss>5</ncss>
+      <ccn>3</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.PolyOverlayWithIW.showInfoWindow()</name>
+      <ncss>3</ncss>
+      <ccn>3</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.PolyOverlayWithIW.setInfoWindowLocation(GeoPoint)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.PolyOverlayWithIW.getInfoWindowLocation()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.PolyOverlayWithIW.setMilestoneManagers(MilestoneManager)</name>
+      <ncss>6</ncss>
+      <ccn>3</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.PolyOverlayWithIW.getDistance()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.PolyOverlayWithIW.setDefaultInfoWindowLocation()</name>
+      <ncss>6</ncss>
+      <ccn>3</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.PolyOverlayWithIW.draw(Canvas,Projection)</name>
+      <ncss>5</ncss>
+      <ccn>2</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.PolyOverlayWithIW.drawWithPath(Canvas,Projection)</name>
+      <ncss>22</ncss>
+      <ccn>10</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.PolyOverlayWithIW.drawWithLines(Canvas,Projection)</name>
+      <ncss>14</ncss>
+      <ccn>7</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.PolyOverlayWithIW.onDetach(MapView)</name>
+      <ncss>6</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
       <name>org.osmdroid.views.overlay.Polygon.Polygon()</name>
       <ncss>2</ncss>
       <ccn>1</ccn>
@@ -14559,30 +15013,24 @@
     </function>
     <function>
       <name>org.osmdroid.views.overlay.Polygon.Polygon(MapView)</name>
-      <ncss>11</ncss>
-      <ccn>2</ccn>
+      <ncss>9</ncss>
+      <ccn>1</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
       <name>org.osmdroid.views.overlay.Polygon.getFillColor()</name>
       <ncss>2</ncss>
       <ccn>1</ccn>
-      <javadocs>0</javadocs>
+      <javadocs>1</javadocs>
     </function>
     <function>
       <name>org.osmdroid.views.overlay.Polygon.getStrokeColor()</name>
       <ncss>2</ncss>
       <ccn>1</ccn>
-      <javadocs>0</javadocs>
+      <javadocs>1</javadocs>
     </function>
     <function>
       <name>org.osmdroid.views.overlay.Polygon.getStrokeWidth()</name>
-      <ncss>2</ncss>
-      <ccn>1</ccn>
-      <javadocs>0</javadocs>
-    </function>
-    <function>
-      <name>org.osmdroid.views.overlay.Polygon.getOutlinePaint()</name>
       <ncss>2</ncss>
       <ccn>1</ccn>
       <javadocs>1</javadocs>
@@ -14594,57 +15042,27 @@
       <javadocs>1</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.views.overlay.Polygon.setGeodesic(boolean)</name>
-      <ncss>2</ncss>
-      <ccn>1</ccn>
-      <javadocs>0</javadocs>
-    </function>
-    <function>
-      <name>org.osmdroid.views.overlay.Polygon.isGeodesic()</name>
-      <ncss>2</ncss>
-      <ccn>1</ccn>
-      <javadocs>0</javadocs>
-    </function>
-    <function>
       <name>org.osmdroid.views.overlay.Polygon.getPoints()</name>
       <ncss>2</ncss>
       <ccn>1</ccn>
       <javadocs>1</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.views.overlay.Polygon.isVisible()</name>
-      <ncss>2</ncss>
-      <ccn>1</ccn>
-      <javadocs>0</javadocs>
-    </function>
-    <function>
       <name>org.osmdroid.views.overlay.Polygon.setFillColor(int)</name>
       <ncss>2</ncss>
       <ccn>1</ccn>
-      <javadocs>0</javadocs>
+      <javadocs>1</javadocs>
     </function>
     <function>
       <name>org.osmdroid.views.overlay.Polygon.setStrokeColor(int)</name>
       <ncss>2</ncss>
       <ccn>1</ccn>
-      <javadocs>0</javadocs>
+      <javadocs>1</javadocs>
     </function>
     <function>
       <name>org.osmdroid.views.overlay.Polygon.setStrokeWidth(float)</name>
       <ncss>2</ncss>
       <ccn>1</ccn>
-      <javadocs>0</javadocs>
-    </function>
-    <function>
-      <name>org.osmdroid.views.overlay.Polygon.setVisible(boolean)</name>
-      <ncss>2</ncss>
-      <ccn>1</ccn>
-      <javadocs>0</javadocs>
-    </function>
-    <function>
-      <name>org.osmdroid.views.overlay.Polygon.setInfoWindow(InfoWindow)</name>
-      <ncss>5</ncss>
-      <ccn>3</ccn>
       <javadocs>1</javadocs>
     </function>
     <function>
@@ -14690,18 +15108,6 @@
       <javadocs>1</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.views.overlay.Polygon.draw(Canvas,Projection)</name>
-      <ncss>20</ncss>
-      <ccn>8</ccn>
-      <javadocs>0</javadocs>
-    </function>
-    <function>
-      <name>org.osmdroid.views.overlay.Polygon.showInfoWindow()</name>
-      <ncss>3</ncss>
-      <ccn>3</ccn>
-      <javadocs>1</javadocs>
-    </function>
-    <function>
       <name>org.osmdroid.views.overlay.Polygon.contains(MotionEvent)</name>
       <ncss>8</ncss>
       <ccn>3</ccn>
@@ -14714,34 +15120,10 @@
       <javadocs>1</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.views.overlay.Polygon.getInfoWindowLocation()</name>
-      <ncss>2</ncss>
-      <ccn>1</ccn>
-      <javadocs>1</javadocs>
-    </function>
-    <function>
-      <name>org.osmdroid.views.overlay.Polygon.setDefaultInfoWindowLocation()</name>
-      <ncss>6</ncss>
-      <ccn>3</ccn>
-      <javadocs>1</javadocs>
-    </function>
-    <function>
-      <name>org.osmdroid.views.overlay.Polygon.setInfoWindowLocation(GeoPoint)</name>
-      <ncss>2</ncss>
-      <ccn>1</ccn>
-      <javadocs>1</javadocs>
-    </function>
-    <function>
       <name>org.osmdroid.views.overlay.Polygon.onDetach(MapView)</name>
-      <ncss>5</ncss>
+      <ncss>3</ncss>
       <ccn>1</ccn>
       <javadocs>0</javadocs>
-    </function>
-    <function>
-      <name>org.osmdroid.views.overlay.Polygon.setMilestoneManagers(MilestoneManager)</name>
-      <ncss>6</ncss>
-      <ccn>3</ccn>
-      <javadocs>1</javadocs>
     </function>
     <function>
       <name>org.osmdroid.views.overlay.Polygon.OnClickListener.onClick(Polygon,MapView,GeoPoint)</name>
@@ -14762,12 +15144,6 @@
       <javadocs>1</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.views.overlay.Polygon.getDistance()</name>
-      <ncss>2</ncss>
-      <ccn>1</ccn>
-      <javadocs>1</javadocs>
-    </function>
-    <function>
       <name>org.osmdroid.views.overlay.Polyline.Polyline()</name>
       <ncss>2</ncss>
       <ccn>1</ccn>
@@ -14775,8 +15151,14 @@
     </function>
     <function>
       <name>org.osmdroid.views.overlay.Polyline.Polyline(MapView)</name>
-      <ncss>10</ncss>
-      <ccn>2</ccn>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.Polyline.Polyline(MapView,boolean)</name>
+      <ncss>6</ncss>
+      <ccn>1</ccn>
       <javadocs>1</javadocs>
     </function>
     <function>
@@ -14789,13 +15171,13 @@
       <name>org.osmdroid.views.overlay.Polyline.getColor()</name>
       <ncss>2</ncss>
       <ccn>1</ccn>
-      <javadocs>0</javadocs>
+      <javadocs>1</javadocs>
     </function>
     <function>
       <name>org.osmdroid.views.overlay.Polyline.getWidth()</name>
       <ncss>2</ncss>
       <ccn>1</ccn>
-      <javadocs>0</javadocs>
+      <javadocs>1</javadocs>
     </function>
     <function>
       <name>org.osmdroid.views.overlay.Polyline.getPaint()</name>
@@ -14804,40 +15186,16 @@
       <javadocs>1</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.views.overlay.Polyline.isVisible()</name>
-      <ncss>2</ncss>
-      <ccn>1</ccn>
-      <javadocs>0</javadocs>
-    </function>
-    <function>
-      <name>org.osmdroid.views.overlay.Polyline.setGeodesic(boolean)</name>
+      <name>org.osmdroid.views.overlay.Polyline.setColor(int)</name>
       <ncss>2</ncss>
       <ccn>1</ccn>
       <javadocs>1</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.views.overlay.Polyline.isGeodesic()</name>
-      <ncss>2</ncss>
-      <ccn>1</ccn>
-      <javadocs>0</javadocs>
-    </function>
-    <function>
-      <name>org.osmdroid.views.overlay.Polyline.setColor(int)</name>
-      <ncss>2</ncss>
-      <ccn>1</ccn>
-      <javadocs>0</javadocs>
-    </function>
-    <function>
       <name>org.osmdroid.views.overlay.Polyline.setWidth(float)</name>
       <ncss>2</ncss>
       <ccn>1</ccn>
-      <javadocs>0</javadocs>
-    </function>
-    <function>
-      <name>org.osmdroid.views.overlay.Polyline.setVisible(boolean)</name>
-      <ncss>2</ncss>
-      <ccn>1</ccn>
-      <javadocs>0</javadocs>
+      <javadocs>1</javadocs>
     </function>
     <function>
       <name>org.osmdroid.views.overlay.Polyline.setOnClickListener(OnClickListener)</name>
@@ -14858,12 +15216,6 @@
       <javadocs>1</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.views.overlay.Polyline.draw(Canvas,Projection)</name>
-      <ncss>14</ncss>
-      <ccn>7</ccn>
-      <javadocs>0</javadocs>
-    </function>
-    <function>
       <name>org.osmdroid.views.overlay.Polyline.isCloseTo(GeoPoint,double,MapView)</name>
       <ncss>2</ncss>
       <ccn>1</ccn>
@@ -14876,40 +15228,10 @@
       <javadocs>1</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.views.overlay.Polyline.setInfoWindow(InfoWindow)</name>
-      <ncss>5</ncss>
-      <ccn>3</ccn>
-      <javadocs>1</javadocs>
-    </function>
-    <function>
-      <name>org.osmdroid.views.overlay.Polyline.showInfoWindow()</name>
-      <ncss>3</ncss>
-      <ccn>3</ccn>
-      <javadocs>1</javadocs>
-    </function>
-    <function>
       <name>org.osmdroid.views.overlay.Polyline.onSingleTapConfirmed(MotionEvent,MapView)</name>
       <ncss>12</ncss>
       <ccn>5</ccn>
       <javadocs>0</javadocs>
-    </function>
-    <function>
-      <name>org.osmdroid.views.overlay.Polyline.getInfoWindowLocation()</name>
-      <ncss>2</ncss>
-      <ccn>1</ccn>
-      <javadocs>1</javadocs>
-    </function>
-    <function>
-      <name>org.osmdroid.views.overlay.Polyline.setDefaultInfoWindowLocation()</name>
-      <ncss>6</ncss>
-      <ccn>2</ccn>
-      <javadocs>1</javadocs>
-    </function>
-    <function>
-      <name>org.osmdroid.views.overlay.Polyline.setInfoWindowLocation(GeoPoint)</name>
-      <ncss>2</ncss>
-      <ccn>1</ccn>
-      <javadocs>1</javadocs>
     </function>
     <function>
       <name>org.osmdroid.views.overlay.Polyline.OnClickListener.onClick(Polyline,MapView,GeoPoint)</name>
@@ -14925,15 +15247,9 @@
     </function>
     <function>
       <name>org.osmdroid.views.overlay.Polyline.onDetach(MapView)</name>
-      <ncss>6</ncss>
+      <ncss>3</ncss>
       <ccn>1</ccn>
       <javadocs>0</javadocs>
-    </function>
-    <function>
-      <name>org.osmdroid.views.overlay.Polyline.setMilestoneManagers(MilestoneManager)</name>
-      <ncss>6</ncss>
-      <ccn>3</ccn>
-      <javadocs>1</javadocs>
     </function>
     <function>
       <name>org.osmdroid.views.overlay.Polyline.getDistance()</name>
@@ -15122,7 +15438,13 @@
       <javadocs>0</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.views.overlay.ScaleBarOverlay.getScaleString(int,String,double)</name>
+      <name>org.osmdroid.views.overlay.ScaleBarOverlay.getConvertedScaleString(double,GeoConstants.UnitOfMeasure,String)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.ScaleBarOverlay.getScaleString(Context,String,GeoConstants.UnitOfMeasure)</name>
       <ncss>2</ncss>
       <ccn>1</ccn>
       <javadocs>1</javadocs>
@@ -15138,6 +15460,174 @@
       <ncss>2</ncss>
       <ccn>2</ccn>
       <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.ScaleDiskOverlay.ScaleDiskOverlay(Context,GeoPoint,int,GeoConstants.UnitOfMeasure)</name>
+      <ncss>4</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.ScaleDiskOverlay.setCirclePaint1(Paint)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.ScaleDiskOverlay.setCirclePaint2(Paint)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.ScaleDiskOverlay.setTextPaint(Paint)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.ScaleDiskOverlay.setLabelOffsetTop(Integer)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.ScaleDiskOverlay.setLabelOffsetBottom(Integer)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.ScaleDiskOverlay.setLabelOffsetLeft(Integer)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.ScaleDiskOverlay.setLabelOffsetRight(Integer)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.ScaleDiskOverlay.setDisplaySizeMin(int)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.ScaleDiskOverlay.setDisplaySizeMax(int)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.ScaleDiskOverlay.draw(Canvas,Projection)</name>
+      <ncss>31</ncss>
+      <ccn>14</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.ScaleDiskOverlay.getOffsetX()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.ScaleDiskOverlay.getOffsetY()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.ScaleDiskOverlay.getOffsetX(int)</name>
+      <ncss>2</ncss>
+      <ccn>2</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.ScaleDiskOverlay.getOffsetY(int)</name>
+      <ncss>2</ncss>
+      <ccn>2</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.SpeechBalloonOverlay.setTitle(String)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.SpeechBalloonOverlay.setGeoPoint(GeoPoint)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.SpeechBalloonOverlay.setBackground(Paint)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.SpeechBalloonOverlay.setForeground(Paint)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.SpeechBalloonOverlay.setDragBackground(Paint)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.SpeechBalloonOverlay.setDragForeground(Paint)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.SpeechBalloonOverlay.setMargin(int)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.SpeechBalloonOverlay.setRadius(long)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.SpeechBalloonOverlay.setOffset(int,int)</name>
+      <ncss>3</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.SpeechBalloonOverlay.draw(Canvas,Projection)</name>
+      <ncss>35</ncss>
+      <ccn>13</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.SpeechBalloonOverlay.onLongPress(MotionEvent,MapView)</name>
+      <ncss>11</ncss>
+      <ccn>3</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.SpeechBalloonOverlay.onTouchEvent(MotionEvent,MapView)</name>
+      <ncss>19</ncss>
+      <ccn>7</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.views.overlay.SpeechBalloonOverlay.hitTest(MotionEvent,MapView)</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
     </function>
     <function>
       <name>org.osmdroid.views.overlay.TilesOverlay.TilesOverlay(MapTileProviderBase,Context)</name>
@@ -15309,7 +15799,7 @@
     </function>
     <function>
       <name>org.osmdroid.views.overlay.TilesOverlay.onOptionsItemSelected(MenuItem,int,MapView)</name>
-      <ncss>27</ncss>
+      <ncss>29</ncss>
       <ccn>10</ccn>
       <javadocs>0</javadocs>
     </function>
@@ -16695,20 +17185,20 @@
     </function>
     <function>
       <name>org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay.Runnable$1.run()</name>
-      <ncss>5</ncss>
+      <ncss>7</ncss>
       <ccn>2</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
       <name>org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay.onLocationChanged(Location,IMyLocationProvider)</name>
-      <ncss>8</ncss>
+      <ncss>10</ncss>
       <ccn>3</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
       <name>org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay.setLocation(Location)</name>
-      <ncss>7</ncss>
-      <ccn>2</ccn>
+      <ncss>8</ncss>
+      <ccn>3</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
@@ -16743,7 +17233,7 @@
     </function>
     <function>
       <name>org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay.runOnFirstFix(Runnable)</name>
-      <ncss>7</ncss>
+      <ncss>9</ncss>
       <ccn>4</ccn>
       <javadocs>1</javadocs>
     </function>
@@ -17900,6 +18390,18 @@
       <javadocs>0</javadocs>
     </function>
     <function>
+      <name>org.osmdroid.util.MyMathTest.testComputeAngle()</name>
+      <ncss>11</ncss>
+      <ccn>1</ccn>
+      <javadocs>1</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.MyMathTest.testComputeCirclePoint()</name>
+      <ncss>18</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
       <name>org.osmdroid.util.ProjectionTest.testCenteredGeoPoint()</name>
       <ncss>17</ncss>
       <ccn>7</ccn>
@@ -18131,6 +18633,12 @@
       <name>org.osmdroid.util.SegmentIntersectionTest.test_intersectionHelper(RectL,RectL,PointL)</name>
       <ncss>9</ncss>
       <ccn>2</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.util.SpeechBalloonHelperTest.testCompute()</name>
+      <ncss>34</ncss>
+      <ccn>1</ccn>
       <javadocs>0</javadocs>
     </function>
     <function>
@@ -18470,11 +18978,11 @@
       <javadocs>0</javadocs>
     </function>
     <function_averages>
-      <ncss>5.34</ncss>
-      <ccn>2.22</ccn>
+      <ncss>5.37</ncss>
+      <ccn>2.21</ccn>
       <javadocs>0.39</javadocs>
     </function_averages>
-    <ncss>17,029.00</ncss>
+    <ncss>17,632.00</ncss>
   </functions>
 </javancss>
 

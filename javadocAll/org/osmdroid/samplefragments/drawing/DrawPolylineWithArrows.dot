@@ -10,18 +10,18 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.samplefragments.drawing.DrawPolylineWithArrows
-	c88996 [label=<<table title="org.osmdroid.samplefragments.drawing.DrawPolylineWithArrows" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./DrawPolylineWithArrows.html">
+	c91871 [label=<<table title="org.osmdroid.samplefragments.drawing.DrawPolylineWithArrows" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./DrawPolylineWithArrows.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> DrawPolylineWithArrows </td></tr>
 		</table></td></tr>
 		</table>>, URL="./DrawPolylineWithArrows.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.drawing.SampleDrawPolyline
-	c89000 [label=<<table title="org.osmdroid.samplefragments.drawing.SampleDrawPolyline" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleDrawPolyline.html">
+	c91875 [label=<<table title="org.osmdroid.samplefragments.drawing.SampleDrawPolyline" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleDrawPolyline.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleDrawPolyline </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SampleDrawPolyline.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.samplefragments.drawing.DrawPolylineWithArrows extends org.osmdroid.samplefragments.drawing.SampleDrawPolyline
-	c89000:p -> c88996:p [dir=back,arrowtail=empty];
+	c91875:p -> c91871:p [dir=back,arrowtail=empty];
 }
 

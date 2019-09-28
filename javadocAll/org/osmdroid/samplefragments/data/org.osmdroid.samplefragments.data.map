@@ -41,10 +41,12 @@
 <area shape="rect" id="node20" href="./SampleSimpleFastPointOverlay.html" title="&lt;TABLE&gt;" alt="" coords="2888,5,3112,53"/>
 <area shape="rect" id="node21_20" href="./SampleSimpleLocation.html" title="org.osmdroid.samplefragments.data.SampleSimpleLocation" alt="" coords="3147,17,3299,42"/>
 <area shape="rect" id="node21" href="./SampleSimpleLocation.html" title="&lt;TABLE&gt;" alt="" coords="3136,5,3309,53"/>
-<area shape="rect" id="node22_21" href="./SampleWithMinimapItemizedOverlayWithFocus.html" title="org.osmdroid.samplefragments.data.SampleWithMinimapItemizedOverlayWithFocus" alt="" coords="3345,17,3639,42"/>
-<area shape="rect" id="node22" href="./SampleWithMinimapItemizedOverlayWithFocus.html" title="&lt;TABLE&gt;" alt="" coords="3334,5,3650,53"/>
-<area shape="rect" id="node23_22" href="./SampleWithMinimapItemizedOverlayWithScale.html" title="org.osmdroid.samplefragments.data.SampleWithMinimapItemizedOverlayWithScale" alt="" coords="3685,17,3977,42"/>
-<area shape="rect" id="node23" href="./SampleWithMinimapItemizedOverlayWithScale.html" title="&lt;TABLE&gt;" alt="" coords="3674,5,3987,53"/>
-<area shape="rect" id="node24_23" href="./WeatherGroundOverlaySample.html" title="org.osmdroid.samplefragments.data.WeatherGroundOverlaySample" alt="" coords="4023,17,4220,42"/>
-<area shape="rect" id="node24" href="./WeatherGroundOverlaySample.html" title="&lt;TABLE&gt;" alt="" coords="4012,5,4231,53"/>
+<area shape="rect" id="node22_21" href="./SampleSpeechBalloon.html" title="org.osmdroid.samplefragments.data.SampleSpeechBalloon" alt="" coords="3345,17,3495,42"/>
+<area shape="rect" id="node22" href="./SampleSpeechBalloon.html" title="&lt;TABLE&gt;" alt="" coords="3334,5,3506,53"/>
+<area shape="rect" id="node23_22" href="./SampleWithMinimapItemizedOverlayWithFocus.html" title="org.osmdroid.samplefragments.data.SampleWithMinimapItemizedOverlayWithFocus" alt="" coords="3541,17,3835,42"/>
+<area shape="rect" id="node23" href="./SampleWithMinimapItemizedOverlayWithFocus.html" title="&lt;TABLE&gt;" alt="" coords="3530,5,3846,53"/>
+<area shape="rect" id="node24_23" href="./SampleWithMinimapItemizedOverlayWithScale.html" title="org.osmdroid.samplefragments.data.SampleWithMinimapItemizedOverlayWithScale" alt="" coords="3881,17,4173,42"/>
+<area shape="rect" id="node24" href="./SampleWithMinimapItemizedOverlayWithScale.html" title="&lt;TABLE&gt;" alt="" coords="3870,5,4183,53"/>
+<area shape="rect" id="node25_24" href="./WeatherGroundOverlaySample.html" title="org.osmdroid.samplefragments.data.WeatherGroundOverlaySample" alt="" coords="4219,17,4416,42"/>
+<area shape="rect" id="node25" href="./WeatherGroundOverlaySample.html" title="&lt;TABLE&gt;" alt="" coords="4208,5,4427,53"/>
 </map>

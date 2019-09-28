@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <javancss>
-  <date>2019-03-24</date>
-  <time>09:30:00</time>
+  <date>2019-09-27</date>
+  <time>19:07:17</time>
   <packages>
     <package>
       <name>org.osmdroid.server.jdk</name>

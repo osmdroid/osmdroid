@@ -10,19 +10,19 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.api.IMapController
-	c115336 [label=<<table title="org.osmdroid.api.IMapController" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./IMapController.html">
+	c120548 [label=<<table title="org.osmdroid.api.IMapController" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./IMapController.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> IMapController </td></tr>
 		</table></td></tr>
 		</table>>, URL="./IMapController.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.MapController
-	c115477 [label=<<table title="org.osmdroid.views.MapController" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../views/MapController.html">
+	c120691 [label=<<table title="org.osmdroid.views.MapController" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../views/MapController.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MapController </td></tr>
 		</table></td></tr>
 		</table>>, URL="../views/MapController.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.views.MapController implements org.osmdroid.api.IMapController
-	c115336:p -> c115477:p [dir=back,arrowtail=empty,style=dashed];
+	c120548:p -> c120691:p [dir=back,arrowtail=empty,style=dashed];
 }
 

@@ -10,13 +10,13 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.samplefragments.layouts.list.dummy.DummyContent
-	c15661 [label=<<table title="org.osmdroid.samplefragments.layouts.list.dummy.DummyContent" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./DummyContent.html">
+	c16073 [label=<<table title="org.osmdroid.samplefragments.layouts.list.dummy.DummyContent" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./DummyContent.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> DummyContent </td></tr>
 		</table></td></tr>
 		</table>>, URL="./DummyContent.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.layouts.list.dummy.DummyContent.DummyItem
-	c15662 [label=<<table title="org.osmdroid.samplefragments.layouts.list.dummy.DummyContent.DummyItem" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./DummyContent.DummyItem.html">
+	c16074 [label=<<table title="org.osmdroid.samplefragments.layouts.list.dummy.DummyContent.DummyItem" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./DummyContent.DummyItem.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> DummyItem </td></tr>
 		</table></td></tr>

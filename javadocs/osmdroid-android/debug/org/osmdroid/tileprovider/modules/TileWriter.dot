@@ -10,19 +10,19 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.tileprovider.modules.IFilesystemCache
-	c62267 [label=<<table title="org.osmdroid.tileprovider.modules.IFilesystemCache" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./IFilesystemCache.html">
+	c65809 [label=<<table title="org.osmdroid.tileprovider.modules.IFilesystemCache" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./IFilesystemCache.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> IFilesystemCache </td></tr>
 		</table></td></tr>
 		</table>>, URL="./IFilesystemCache.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.tileprovider.modules.TileWriter
-	c62290 [label=<<table title="org.osmdroid.tileprovider.modules.TileWriter" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./TileWriter.html">
+	c65832 [label=<<table title="org.osmdroid.tileprovider.modules.TileWriter" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./TileWriter.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> TileWriter </td></tr>
 		</table></td></tr>
 		</table>>, URL="./TileWriter.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.tileprovider.modules.TileWriter implements org.osmdroid.tileprovider.modules.IFilesystemCache
-	c62267:p -> c62290:p [dir=back,arrowtail=empty,style=dashed];
+	c65809:p -> c65832:p [dir=back,arrowtail=empty,style=dashed];
 }
 

@@ -10,12 +10,12 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.samplefragments.data.SampleMapSnapshot.MyAdapter
-	c262889 [label=<<table title="org.osmdroid.samplefragments.data.SampleMapSnapshot.MyAdapter" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./SampleMapSnapshot.MyAdapter.html">
+	c273607 [label=<<table title="org.osmdroid.samplefragments.data.SampleMapSnapshot.MyAdapter" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./SampleMapSnapshot.MyAdapter.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MyAdapter </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SampleMapSnapshot.MyAdapter.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.samplefragments.data.SampleMapSnapshot.MyAdapter extends <any>
-	c263326:p -> c262889:p [dir=back,arrowtail=empty];
+	c274057:p -> c273607:p [dir=back,arrowtail=empty];
 }
 

@@ -10,34 +10,42 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.samplefragments.BaseSampleFragment
-	c261262 [label=<<table title="org.osmdroid.samplefragments.BaseSampleFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../BaseSampleFragment.html">
+	c271938 [label=<<table title="org.osmdroid.samplefragments.BaseSampleFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../BaseSampleFragment.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> BaseSampleFragment </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="../BaseSampleFragment.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.data.SampleMilestonesNonRepetitive
-	c261288 [label=<<table title="org.osmdroid.samplefragments.data.SampleMilestonesNonRepetitive" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../data/SampleMilestonesNonRepetitive.html">
+	c271964 [label=<<table title="org.osmdroid.samplefragments.data.SampleMilestonesNonRepetitive" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../data/SampleMilestonesNonRepetitive.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleMilestonesNonRepetitive </td></tr>
 		</table></td></tr>
 		</table>>, URL="../data/SampleMilestonesNonRepetitive.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.events.SampleAnimateTo
-	c261318 [label=<<table title="org.osmdroid.samplefragments.events.SampleAnimateTo" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleAnimateTo.html">
+	c271996 [label=<<table title="org.osmdroid.samplefragments.events.SampleAnimateTo" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleAnimateTo.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleAnimateTo </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SampleAnimateTo.html", fontname="arial", fontcolor="black", fontsize=10.0];
+	// org.osmdroid.samplefragments.events.SampleMapCenterOffset
+	c272000 [label=<<table title="org.osmdroid.samplefragments.events.SampleMapCenterOffset" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleMapCenterOffset.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+<tr><td align="center" balign="center"> SampleMapCenterOffset </td></tr>
+		</table></td></tr>
+		</table>>, URL="./SampleMapCenterOffset.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.events.SampleMapEventListener
-	c261322 [label=<<table title="org.osmdroid.samplefragments.events.SampleMapEventListener" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./SampleMapEventListener.html">
+	c272001 [label=<<table title="org.osmdroid.samplefragments.events.SampleMapEventListener" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./SampleMapEventListener.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleMapEventListener </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SampleMapEventListener.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.samplefragments.data.SampleMilestonesNonRepetitive extends org.osmdroid.samplefragments.events.SampleMapEventListener
-	c261322:p -> c261288:p [dir=back,arrowtail=empty];
+	c272001:p -> c271964:p [dir=back,arrowtail=empty];
 	//org.osmdroid.samplefragments.events.SampleAnimateTo extends org.osmdroid.samplefragments.events.SampleMapEventListener
-	c261322:p -> c261318:p [dir=back,arrowtail=empty];
+	c272001:p -> c271996:p [dir=back,arrowtail=empty];
+	//org.osmdroid.samplefragments.events.SampleMapCenterOffset extends org.osmdroid.samplefragments.events.SampleMapEventListener
+	c272001:p -> c272000:p [dir=back,arrowtail=empty];
 	//org.osmdroid.samplefragments.events.SampleMapEventListener extends org.osmdroid.samplefragments.BaseSampleFragment
-	c261262:p -> c261322:p [dir=back,arrowtail=empty];
+	c271938:p -> c272001:p [dir=back,arrowtail=empty];
 }
 
