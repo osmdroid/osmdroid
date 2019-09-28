@@ -1,4 +1,4 @@
-language: android
+language: java
 jdk: openjdk8
 android:
   components:
