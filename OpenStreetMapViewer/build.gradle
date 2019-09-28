@@ -3,10 +3,37 @@ description = 'OpenMap in the Play Store, the example app for using osmdroid'
 apply plugin: 'com.android.application'
 apply from: "https://raw.githubusercontent.com/gradle-fury/gradle-fury/v1.1.4/gradle/android-support.gradle"
 
+// Attention! HACK!
+// In https://raw.githubusercontent.com/gradle-fury/gradle-fury/v1.1.4/gradle/android-support.gradle
+// we have a hack to prevent builds from failing due to missing signing config. This is done by
+// removing the signing task from the build if no keystore/pass is provided.
+//
+// At some point the signing task has been renamed from "validateReleaseSigning" to
+// "validateSigningRelease", thus obviously breaking the build again.
+//
+// The following is just a copy of the relevant code from android-support.gradle adapted to the new
+// name. This should be cleaned up in the future!
+afterEvaluate { project ->
+    tasks.each { task ->
+        if (isAndroidApplication) {
+            if ((task.name.toLowerCase().startsWith("assemble") && task.name.toLowerCase().contains('release'))
+                    || (task.name.toLowerCase().startsWith("bundle") && task.name.toLowerCase().contains('release'))
+                    || (task.name.toLowerCase().startsWith("package") && task.name.toLowerCase().contains('release'))
+                    || (task.name.equals("validateSigningRelease"))) {
+
+                task.setEnabled(canSign)
+            }
+        }
+    }
+}
+
 android {
     defaultConfig {
         applicationId 'org.osmdroid'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        minSdkVersion Integer.parseInt(project.property('android-minSdkForSupportLib.version'))
+        multiDexEnabled = true
     }
     testOptions {
         unitTests.all {
@@ -27,7 +54,7 @@ android {
 
 
 dependencies {
-    compile 'com.android.support:support-v4:23+'
+    compile "com.android.support:support-v4:${project.property('android-support.version')}"
     compile project(':osmdroid-android')
     compile project(':osmdroid-geopackage')
     compile project(':osmdroid-mapsforge')
@@ -36,24 +63,32 @@ dependencies {
 
     compile 'mil.army.missioncommand:mil-sym-android-renderer:0.1.37'
 
+    //used for various demos for picking offline tile archives
     compile 'com.github.angads25:filepicker:1.1.1'
 
-    compile 'com.android.support:design:23.+' //needed for UI menuing
-    compile 'com.android.support:cardview-v7:23.+'  //needed for samples only
-    compile 'com.android.support:recyclerview-v7:23.+' //needed for samples only
-    compile 'com.android.support:appcompat-v7:23.+' //needed for UI menuing
+    //used for bookmark demo
+    compile group: 'com.opencsv', name: 'opencsv', version: '4.4'
+
+    //usual android stuff
+    compile "com.android.support:design:${project.property('android-support.version')}" //needed for UI menuing
+    compile "com.android.support:cardview-v7:${project.property('android-support.version')}"  //needed for samples only
+    compile "com.android.support:recyclerview-v7:${project.property('android-support.version')}" //needed for samples only
+    compile      'com.android.support:multidex:1.0.3'
+
+    compile "com.android.support:appcompat-v7:${project.property('android-support.version')}" //needed for UI menuing
     //crash logging
     compile 'ch.acra:acra:4.7.0'
 
     //memory leak testing
-    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.4-beta2'
-    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'
-    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'
+    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.6.3'
+    debugCompile 'com.squareup.leakcanary:leakcanary-support-fragment:1.6.3'
+    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.3'
 
     //on device testing
-    androidTestCompile 'com.android.support:support-annotations:23+'
     androidTestCompile 'com.android.support.test:runner:0.4.+'
     androidTestCompile 'com.android.support.test:rules:0.4.+'
+    androidTestCompile 'com.android.support:multidex:1.0.3'
+    androidTestCompile "com.android.support:support-annotations:${project.property('android-support.version')}"
 }
 
 

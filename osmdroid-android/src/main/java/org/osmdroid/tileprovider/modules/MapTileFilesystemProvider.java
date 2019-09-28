@@ -108,7 +108,7 @@ public class MapTileFilesystemProvider extends MapTileFileStorageProviderBase {
 	public int getMaximumZoomLevel() {
 		ITileSource tileSource = mTileSource.get();
 		return tileSource != null ? tileSource.getMaximumZoomLevel()
-				: microsoft.mappoint.TileSystem.getMaximumZoomLevel();
+				: org.osmdroid.util.TileSystem.getMaximumZoomLevel();
 	}
 
 	@Override
@@ -130,14 +130,6 @@ public class MapTileFilesystemProvider extends MapTileFileStorageProviderBase {
 				return null;
 			}
 
-			// if there's no sdcard then don't do anything
-			if (!isSdCardAvailable()) {
-				if (Configuration.getInstance().isDebugMode()) {
-                         Log.d(IMapView.LOGTAG,"No sdcard - do nothing for tile: " + MapTileIndex.toString(pMapTileIndex));
-				}
-				Counters.fileCacheMiss++;
-				return null;
-			}
 			try {
 				final Drawable result = mWriter.loadTile(tileSource, pMapTileIndex);
 				if (result == null) {
@@ -150,7 +142,7 @@ public class MapTileFilesystemProvider extends MapTileFileStorageProviderBase {
 				// low memory so empty the queue
 				Log.w(IMapView.LOGTAG, "LowMemoryException downloading MapTile: " + MapTileIndex.toString(pMapTileIndex) + " : " + e);
 				Counters.fileCacheOOM++;
-				throw new MapTileModuleProviderBase.CantContinueException(e);
+				throw new CantContinueException(e);
 			} catch (final Throwable e) {
 				Log.e(IMapView.LOGTAG, "Error loading tile", e);
 				return null;

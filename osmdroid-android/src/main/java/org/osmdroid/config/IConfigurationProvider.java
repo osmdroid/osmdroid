@@ -4,7 +4,6 @@ package org.osmdroid.config;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import org.osmdroid.tileprovider.LRUMapTileCache;
 import org.osmdroid.tileprovider.MapTileCache;
 import org.osmdroid.tileprovider.MapTileProviderBase;
 
@@ -51,7 +50,6 @@ public interface IConfigurationProvider {
 
     /**
      * Typically used to enable additional debugging
-     * from {@link org.osmdroid.views.util.constants.MapViewConstants}
      *
      * @return
      */
@@ -82,7 +80,7 @@ public interface IConfigurationProvider {
 
     /**
      * must be set before the mapview is created or inflated from a layout.
-     * If you're only using single point icons, then youc an probably get away with setting this to true
+     * If you're only using single point icons, then you can probably get away with setting this to true
      * otherwise (using polylines, paths, polygons) set it to false.
      * <p>
      * default is false
@@ -90,7 +88,6 @@ public interface IConfigurationProvider {
      * @param mapViewHardwareAccelerated
      * @see org.osmdroid.views.overlay.Polygon
      * @see org.osmdroid.views.overlay.Polyline
-     * @see org.osmdroid.views.drawing.OsmPath
      */
     void setMapViewHardwareAccelerated(boolean mapViewHardwareAccelerated);
 
@@ -124,7 +121,7 @@ public interface IConfigurationProvider {
 
     /**
      * Initial tile cache size (in memory). The size will be increased as required by calling
-     * {@link LRUMapTileCache#ensureCapacity(int)} The tile cache will always be at least 3x3.
+     * {@link MapTileCache#ensureCapacity(int)} The tile cache will always be at least 3x3.
      * from {@link org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants}
      * used by MapTileCache
      *
@@ -135,7 +132,7 @@ public interface IConfigurationProvider {
 
     /**
      * Initial tile cache size (in memory). The size will be increased as required by calling
-     * {@link LRUMapTileCache#ensureCapacity(int)} The tile cache will always be at least 3x3.
+     * {@link MapTileCache#ensureCapacity(int)} The tile cache will always be at least 3x3.
      * from {@link org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants}
      * used by MapTileCache
      *
@@ -393,4 +390,50 @@ public interface IConfigurationProvider {
      * @return
      */
     short getCacheMapTileOvershoot();
+
+    /**
+     * Delay between tile garbage collection calls
+     * @since 6.0.2
+     */
+    long getTileGCFrequencyInMillis();
+
+    /**
+     * @since 6.0.2
+     */
+    void setTileGCFrequencyInMillis(final long pMillis);
+
+    /**
+     * Tile garbage collection bulk size
+     * @since 6.0.2
+     */
+    int getTileGCBulkSize();
+
+    /**
+     * @since 6.0.2
+     */
+    void setTileGCBulkSize(final int pSize);
+
+    /**
+     * Pause during tile garbage collection bulk deletions
+     * @since 6.0.2
+     */
+    long getTileGCBulkPauseInMillis();
+
+    /**
+     * @since 6.0.2
+     */
+    void setTileGCBulkPauseInMillis(final long pMillis);
+
+    /**
+     * enables/disables tile downloading following redirects. default is true
+     * @since 6.0.2
+     * @param value
+     */
+    void setMapTileDownloaderFollowRedirects(boolean value);
+    boolean isMapTileDownloaderFollowRedirects();
+
+    /**
+     * @since 6.1.0
+     */
+    String getNormalizedUserAgent();
 }

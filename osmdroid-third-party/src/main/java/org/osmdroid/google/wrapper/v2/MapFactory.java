@@ -12,7 +12,7 @@ import android.app.ActivityManager;
 import android.content.Context;
 import android.content.pm.ConfigurationInfo;
 import android.content.pm.PackageManager;
-
+@Deprecated
 public class MapFactory {
 
 	private MapFactory() {

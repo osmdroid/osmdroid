@@ -10,6 +10,7 @@ import android.os.Bundle;
  * @author Neil Boyd
  *
  */
+@Deprecated
 public interface IMyLocationOverlay {
 
 	boolean enableMyLocation();

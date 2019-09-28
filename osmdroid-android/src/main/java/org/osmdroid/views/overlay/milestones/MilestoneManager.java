@@ -20,9 +20,11 @@ public class MilestoneManager implements PointAccepter{
     }
 
     public void draw(final Canvas pCanvas) {
+        mDisplayer.drawBegin(pCanvas);
         for (final MilestoneStep step : mLister.getMilestones()) {
             mDisplayer.draw(pCanvas, step);
         }
+        mDisplayer.drawEnd(pCanvas);
     }
 
     @Override

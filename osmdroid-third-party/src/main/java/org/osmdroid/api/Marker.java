@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 /**
  * this is only used by the Google Wrapper/3rd party library
  */
+@Deprecated
 public class Marker {
 
 	public enum Anchor {

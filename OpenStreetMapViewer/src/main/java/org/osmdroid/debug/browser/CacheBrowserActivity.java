@@ -1,7 +1,8 @@
 package org.osmdroid.debug.browser;
 
-import android.app.Activity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -10,7 +11,6 @@ import org.osmdroid.R;
 import org.osmdroid.debug.model.SqlTileWriterExt;
 import org.osmdroid.debug.util.FileDateUtil;
 import org.osmdroid.intro.StorageAdapter;
-import org.osmdroid.tileprovider.util.StorageUtils;
 
 /**
  * A simple view for browsing the osmdroid tile cache database
@@ -21,7 +21,7 @@ import org.osmdroid.tileprovider.util.StorageUtils;
  * @since 5.6.2
  */
 
-public class CacheBrowserActivity extends Activity {
+public class CacheBrowserActivity extends AppCompatActivity {
     SqlTileWriterExt cache = null;
 
     @Override
@@ -29,6 +29,18 @@ public class CacheBrowserActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cache_browser);
 
+        Toolbar toolbar = findViewById(R.id.my_toolbar);
+        setSupportActionBar(toolbar);
+
+        //noinspection ConstantConditions
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 
     public void onResume() {
@@ -37,11 +49,11 @@ public class CacheBrowserActivity extends Activity {
         cache = new SqlTileWriterExt();
         CacheAdapter adapter = new CacheAdapter(this, cache);
 
-        ListView lv = (ListView) findViewById(R.id.cacheListView);
+        ListView lv = findViewById(R.id.cacheListView);
         lv.setAdapter(adapter);
 
         ((TextView) findViewById(R.id.rows)).setText(cache.getRowCount(null) + "");
-        ((TextView) findViewById(R.id.size)).setText(StorageAdapter.readableFileSize(MainActivity.updateStoragePrefreneces(this)));
+        ((TextView) findViewById(R.id.size)).setText(StorageAdapter.readableFileSize(MainActivity.updateStoragePreferences(this)));
         ((TextView) findViewById(R.id.date)).setText("Now " + FileDateUtil.getModifiedDate(System.currentTimeMillis()));
     }
 

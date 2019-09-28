@@ -4,15 +4,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <org.osmdroid.views.MapView
+    <LinearLayout
         android:id="@+id/mapview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tilesource="Mapnik" />
+        android:orientation="horizontal" />
 
-    <Button android:id="@+id/btnCache"
+    <Button
+        android:id="@+id/btnCache"
         android:layout_width="fill_parent"
         android:text="Cache Manager"
-        android:layout_height="wrap_content"></Button>
+        android:layout_height="wrap_content" />
 
 </RelativeLayout>

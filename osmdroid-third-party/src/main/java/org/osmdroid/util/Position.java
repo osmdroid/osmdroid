@@ -5,6 +5,7 @@ import org.osmdroid.api.IPosition;
 /**
  * this is only used in the Google Wrapper sample and will move to osmdroid-3rd party
  */
+@Deprecated
 public class Position implements IPosition {
 	private final double mLatitude;
 	private final double mLongitude;

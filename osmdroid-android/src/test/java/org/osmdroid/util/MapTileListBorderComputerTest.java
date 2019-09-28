@@ -11,8 +11,10 @@ import java.util.Set;
  * Unit tests related to {@link MapTileListBorderComputer}
  * @since 6.0.2
  * @author Fabrice Fontaine
+ * @deprecated Use {@link MapTileAreaBorderComputerTest} instead
  */
 
+@Deprecated
 public class MapTileListBorderComputerTest {
 
     /**

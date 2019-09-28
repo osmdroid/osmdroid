@@ -2,20 +2,37 @@ description = 'OSMdroid Android WMS Client'
 apply plugin: 'com.android.library'
 apply from: "https://raw.githubusercontent.com/gradle-fury/gradle-fury/v1.1.4/gradle/android-support.gradle"
 
-android {
+// Attention! HACK!
+// In https://raw.githubusercontent.com/gradle-fury/gradle-fury/v1.1.4/gradle/android-support.gradle
+// we have a hack to prevent builds from failing due to missing signing config. This is done by
+// removing the signing task from the build if no keystore/pass is provided.
+//
+// At some point the signing task has been renamed from "validateReleaseSigning" to
+// "validateSigningRelease", thus obviously breaking the build again.
+//
+// The following is just a copy of the relevant code from android-support.gradle adapted to the new
+// name. This should be cleaned up in the future!
+afterEvaluate { project ->
+    tasks.each { task ->
+        if (isAndroidApplication) {
+            if ((task.name.toLowerCase().startsWith("assemble") && task.name.toLowerCase().contains('release'))
+                    || (task.name.toLowerCase().startsWith("bundle") && task.name.toLowerCase().contains('release'))
+                    || (task.name.toLowerCase().startsWith("package") && task.name.toLowerCase().contains('release'))
+                    || (task.name.equals("validateSigningRelease"))) {
 
+                task.setEnabled(canSign)
+            }
+        }
+    }
 }
 
+android {
+    defaultConfig {
+        minSdkVersion Integer.parseInt(project.property('android.minSdkVersion'))
+    }
+}
 
 dependencies {
-
     compile project(':osmdroid-android')
-    compile 'com.android.support:appcompat-v7:23.1.1'
-
-    testCompile "org.robolectric:robolectric:3.0"
-
-    testCompile 'junit:junit:4.12'
-
-
-
+    testCompile "junit:junit:${project.property('junit.version')}"
 }

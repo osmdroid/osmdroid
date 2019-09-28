@@ -6,14 +6,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.Environment;
-import android.util.Log;
-import org.osmdroid.api.IMapView;
 
 public abstract class MapTileFileStorageProviderBase extends MapTileModuleProviderBase {
-
-	/** whether the sdcard is mounted read/write */
-	static private boolean mSdCardAvailable = true;
 
 	private final IRegisterReceiver mRegisterReceiver;
 	private MyBroadcastReceiver mBroadcastReceiver;
@@ -21,8 +15,6 @@ public abstract class MapTileFileStorageProviderBase extends MapTileModuleProvid
 	public MapTileFileStorageProviderBase(final IRegisterReceiver pRegisterReceiver,
 			final int pThreadPoolSize, final int pPendingQueueSize) {
 		super(pThreadPoolSize, pPendingQueueSize);
-
-		checkSdCard();
 
 		mRegisterReceiver = pRegisterReceiver;
 		mBroadcastReceiver = new MyBroadcastReceiver();
@@ -32,17 +24,6 @@ public abstract class MapTileFileStorageProviderBase extends MapTileModuleProvid
 		mediaFilter.addAction(Intent.ACTION_MEDIA_UNMOUNTED);
 		mediaFilter.addDataScheme("file");
 		pRegisterReceiver.registerReceiver(mBroadcastReceiver, mediaFilter);
-	}
-
-	private void checkSdCard() {
-		final String state = Environment.getExternalStorageState();
-          Log.i(IMapView.LOGTAG,"sdcard state: " + state);
-		mSdCardAvailable = Environment.MEDIA_MOUNTED.equals(state);
-	}
-
-	/** whether the sdcard is mounted read/write */
-	public static boolean isSdCardAvailable() {
-		return mSdCardAvailable;
 	}
 
 	@Override
@@ -72,8 +53,6 @@ public abstract class MapTileFileStorageProviderBase extends MapTileModuleProvid
 		public void onReceive(final Context aContext, final Intent aIntent) {
 
 			final String action = aIntent.getAction();
-
-			checkSdCard();
 
 			if (Intent.ACTION_MEDIA_MOUNTED.equals(action)) {
 				onMediaMounted();

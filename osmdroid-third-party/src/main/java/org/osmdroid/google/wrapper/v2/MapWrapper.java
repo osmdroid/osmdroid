@@ -21,7 +21,7 @@ import org.osmdroid.api.OnCameraChangeListener;
 import org.osmdroid.api.Polyline;
 
 import android.text.TextUtils;
-
+@Deprecated
 class MapWrapper implements IMap {
 
 	private GoogleMap mGoogleMap;

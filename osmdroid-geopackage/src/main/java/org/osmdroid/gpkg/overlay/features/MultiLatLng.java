@@ -29,7 +29,6 @@
  */
 package org.osmdroid.gpkg.overlay.features;
 
-import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.util.GeoPoint;
 
 import java.util.ArrayList;

@@ -71,6 +71,14 @@ public class GeoPoint implements IGeoPoint, MathConstants, GeoConstants, Parcela
 		this.mAltitude = aGeopoint.mAltitude;
 	}
 
+	/**
+	 * @since 6.0.3
+	 */
+	public GeoPoint(final IGeoPoint pGeopoint) {
+		this.mLatitude = pGeopoint.getLatitude();
+		this.mLongitude = pGeopoint.getLongitude();
+	}
+
 	public static GeoPoint fromDoubleString(final String s, final char spacer) {
 		final int spacerPos1 = s.indexOf(spacer);
 		final int spacerPos2 = s.indexOf(spacer, spacerPos1 + 1);

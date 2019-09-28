@@ -6,7 +6,7 @@ import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.api.IProjection;
 
 import android.graphics.Point;
-
+@Deprecated
 public class Projection implements IProjection {
 
 	private final com.google.android.gms.maps.Projection mProjection;

@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import junit.framework.Assert;
 
 import org.osmdroid.R;
 import org.osmdroid.samplefragments.BaseSampleFragment;
@@ -36,7 +35,7 @@ public class MapInAViewPagerFragment extends BaseSampleFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.map_viewpager, null);
-        mPager = (ViewPager) v.findViewById(R.id.pager);
+        mPager = v.findViewById(R.id.pager);
         mPagerAdapter = new MapSliderAdapter(getActivity().getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
         return v;
@@ -80,7 +79,7 @@ public class MapInAViewPagerFragment extends BaseSampleFragment {
             }
         }
         if (act==null)
-            Assert.fail("fragment was never attached to an activity");
+            throw new RuntimeException("fragment was never attached to an activity");
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {

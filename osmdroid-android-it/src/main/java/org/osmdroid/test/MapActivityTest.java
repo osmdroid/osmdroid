@@ -7,10 +7,8 @@
  */
 package org.osmdroid.test;
 
-import org.osmdroid.MainActivity;
 import org.osmdroid.StarterMapActivity;
 import org.osmdroid.tileprovider.util.Counters;
-import org.osmdroid.views.MapView;
 
 import android.test.ActivityInstrumentationTestCase2;
 

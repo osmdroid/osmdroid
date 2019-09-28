@@ -3,7 +3,6 @@ package org.osmdroid.intro;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
@@ -53,18 +52,18 @@ public class StoragePreferenceFragment extends Fragment implements View.OnClickL
         View v = inflater.inflate(R.layout.intro_storage, container, false);
 
         Configuration.getInstance().load(getContext(), PreferenceManager.getDefaultSharedPreferences(getContext()));
-        textViewCacheDirectory = (TextView) v.findViewById(R.id.textViewCacheDirectory);
+        textViewCacheDirectory = v.findViewById(R.id.textViewCacheDirectory);
         textViewCacheDirectory.setText(Configuration.getInstance().getOsmdroidTileCache().toString());
 
-        buttonSetCache = (Button) v.findViewById(R.id.buttonSetCache);
-        buttonManualCacheEntry = (Button) v.findViewById(R.id.buttonManualCacheEntry);
+        buttonSetCache = v.findViewById(R.id.buttonSetCache);
+        buttonManualCacheEntry = v.findViewById(R.id.buttonManualCacheEntry);
         buttonSetCache.setOnClickListener(this);
         buttonManualCacheEntry.setOnClickListener(this);
         textViewCacheDirectory.setText(Configuration.getInstance().getOsmdroidTileCache().toString());
-        textViewCacheMaxSize = (TextView) v.findViewById(R.id.textViewCacheMaxSize);
-        textViewCacheFreeSpace = (TextView) v.findViewById(R.id.textViewCacheFreeSpace);
-        textViewCacheCurrentSize = (TextView) v.findViewById(R.id.textViewCacheCurrentSize);
-        textViewCacheTrimSize = (TextView) v.findViewById(R.id.textViewCacheTrimSize);
+        textViewCacheMaxSize = v.findViewById(R.id.textViewCacheMaxSize);
+        textViewCacheFreeSpace = v.findViewById(R.id.textViewCacheFreeSpace);
+        textViewCacheCurrentSize = v.findViewById(R.id.textViewCacheCurrentSize);
+        textViewCacheTrimSize = v.findViewById(R.id.textViewCacheTrimSize);
         return v;
     }
 
@@ -77,15 +76,13 @@ public class StoragePreferenceFragment extends Fragment implements View.OnClickL
         textViewCacheMaxSize.setText(readableFileSize(Configuration.getInstance().getTileFileSystemCacheMaxBytes()));
         textViewCacheTrimSize.setText(readableFileSize(Configuration.getInstance().getTileFileSystemCacheTrimBytes()));
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
-            textViewCacheFreeSpace.setText(readableFileSize(Configuration.getInstance().getOsmdroidTileCache().getFreeSpace()));
-        } else textViewCacheFreeSpace.setText("");
+        textViewCacheFreeSpace.setText(readableFileSize(Configuration.getInstance().getOsmdroidTileCache().getFreeSpace()));
         File dbFile = new File(Configuration.getInstance().getOsmdroidTileCache().getAbsolutePath() + File.separator + SqlTileWriter.DATABASE_FILENAME);
-        if (Build.VERSION.SDK_INT >= 9 && dbFile.exists()) {
+        if (dbFile.exists()) {
             textViewCacheCurrentSize.setText(readableFileSize(dbFile.length()));
-        } else textViewCacheCurrentSize.setText("");
-
-
+        } else {
+            textViewCacheCurrentSize.setText("");
+        }
     }
 
     public void updateStorage(Context ctx) {
@@ -140,7 +137,7 @@ public class StoragePreferenceFragment extends Fragment implements View.OnClickL
                 //i hate android!
                 for (int i = 0; i < externalFilesDirs.length; i++) {
                     File mount = externalFilesDirs[i];
-                    if (mount.exists() && mount.isDirectory()) {
+                    if (mount != null && mount.exists() && mount.isDirectory()) {
                         boolean writable = StorageUtils.isWritable(mount);
                         if (writable) {
                             boolean alreadyAdded = false;
@@ -180,14 +177,13 @@ public class StoragePreferenceFragment extends Fragment implements View.OnClickL
                 textViewCacheMaxSize.setText(readableFileSize(Configuration.getInstance().getTileFileSystemCacheMaxBytes()));
                 textViewCacheTrimSize.setText(readableFileSize(Configuration.getInstance().getTileFileSystemCacheTrimBytes()));
 
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
-                    textViewCacheFreeSpace.setText(readableFileSize(Configuration.getInstance().getOsmdroidTileCache().getFreeSpace()));
-                } else textViewCacheFreeSpace.setText("");
+                textViewCacheFreeSpace.setText(readableFileSize(Configuration.getInstance().getOsmdroidTileCache().getFreeSpace()));
                 File dbFile = new File(Configuration.getInstance().getOsmdroidTileCache().getAbsolutePath() + File.separator + SqlTileWriter.DATABASE_FILENAME);
-                if (Build.VERSION.SDK_INT >= 9 && dbFile.exists()) {
+                if (dbFile.exists()) {
                     textViewCacheCurrentSize.setText(readableFileSize(dbFile.length()));
-                } else textViewCacheCurrentSize.setText("");
-
+                } else {
+                    textViewCacheCurrentSize.setText("");
+                }
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -249,14 +245,13 @@ public class StoragePreferenceFragment extends Fragment implements View.OnClickL
                     textViewCacheMaxSize.setText(readableFileSize(Configuration.getInstance().getTileFileSystemCacheMaxBytes()));
                     textViewCacheTrimSize.setText(readableFileSize(Configuration.getInstance().getTileFileSystemCacheTrimBytes()));
 
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
-                        textViewCacheFreeSpace.setText(readableFileSize(Configuration.getInstance().getOsmdroidTileCache().getFreeSpace()));
-                    } else textViewCacheFreeSpace.setText("");
+                    textViewCacheFreeSpace.setText(readableFileSize(Configuration.getInstance().getOsmdroidTileCache().getFreeSpace()));
                     File dbFile = new File(Configuration.getInstance().getOsmdroidTileCache().getAbsolutePath() + File.separator + SqlTileWriter.DATABASE_FILENAME);
-                    if (Build.VERSION.SDK_INT >= 9 && dbFile.exists()) {
+                    if (dbFile.exists()) {
                         textViewCacheCurrentSize.setText(readableFileSize(dbFile.length()));
-                    } else textViewCacheCurrentSize.setText("");
-
+                    } else {
+                        textViewCacheCurrentSize.setText("");
+                    }
                 }
             }
         });

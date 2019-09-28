@@ -22,11 +22,15 @@ public class ExtraSamplesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        MainActivity.updateStoragePrefreneces(this);    //needed for unit tests
+        MainActivity.updateStoragePreferences(this);    //needed for unit tests
         setContentView(R.layout.activity_extra_samples);
 
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        Toolbar myToolbar = findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
+
+        //noinspection ConstantConditions
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         FragmentManager fm = this.getSupportFragmentManager();
         if (fm.findFragmentByTag(SAMPLES_FRAGMENT_TAG) == null) {
@@ -35,6 +39,11 @@ public class ExtraSamplesActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
 
     @Override
     public void onDestroy(){

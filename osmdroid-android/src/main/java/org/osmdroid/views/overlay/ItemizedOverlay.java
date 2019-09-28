@@ -1,20 +1,18 @@
 // Created by plusminus on 23:18:23 - 02.10.2008
 package org.osmdroid.views.overlay;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.osmdroid.views.MapView;
-import org.osmdroid.views.Projection;
-import org.osmdroid.views.overlay.OverlayItem.HotspotPlace;
-
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Matrix;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.view.MotionEvent;
+import java.util.ArrayList;
+import java.util.List;
+import org.osmdroid.util.RectL;
+import org.osmdroid.views.MapView;
+import org.osmdroid.views.Projection;
+import org.osmdroid.views.overlay.OverlayItem.HotspotPlace;
 
 /**
  * Draws a list of {@link OverlayItem} as markers to a map. The item with the lowest index is drawn
@@ -43,15 +41,15 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends Overlay 
 	private final ArrayList<Item> mInternalItemList;
 	private boolean[] mInternalItemDisplayedList;
 	private final Rect mRect = new Rect();
+	private final Rect mOrientedMarkerRect = new Rect();
 	private final Point mCurScreenCoords = new Point();
 	protected boolean mDrawFocusedItem = true;
 	private Item mFocusedItem;
 	private boolean mPendingFocusChangedEvent = false;
 	private OnFocusChangeListener mOnFocusChangeListener;
-     private final float[] mMatrixValues = new float[9];
-     private final Matrix mMatrix = new Matrix();
-     protected float scaleX=1f;
-     protected float scaleY=1f;
+
+	private Rect itemRect = new Rect();
+	private Rect screenRect = new Rect();
 
 	// ===========================================================
 	// Abstract methods
@@ -124,54 +122,30 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends Overlay 
 	 * null, the default marker is used.<br>
 	 * <br>
 	 * The focused item is always drawn last, which puts it visually on top of the other items.<br>
-	 *
-	 * @param canvas
-	 *            the Canvas upon which to draw. Note that this may already have a transformation
-	 *            applied, so be sure to leave it the way you found it
-	 * @param mapView
-	 *            the MapView that requested the draw. Use MapView.getProjection() to convert
-	 *            between on-screen pixels and latitude/longitude pairs
-	 * @param shadow
-	 *            if true, draw the shadow layer. If false, draw the overlay contents.
 	 */
 	@Override
-    public void draw(Canvas canvas, MapView mapView, boolean shadow) {
+	public void draw(final Canvas canvas, final Projection pj) {
+		if (mPendingFocusChangedEvent && mOnFocusChangeListener != null)
+			mOnFocusChangeListener.onFocusChanged(this, mFocusedItem);
+		mPendingFocusChangedEvent = false;
 
-        if (shadow) {
-            return;
-        }
-
-        if (mPendingFocusChangedEvent && mOnFocusChangeListener != null)
-            mOnFocusChangeListener.onFocusChanged(this, mFocusedItem);
-        mPendingFocusChangedEvent = false;
-
-        final Projection pj = mapView.getProjection();
-        final int size = Math.min(this.mInternalItemList.size(), mDrawnItemsLimit);
+		final int size = Math.min(this.mInternalItemList.size(), mDrawnItemsLimit);
 
 		if (mInternalItemDisplayedList == null || mInternalItemDisplayedList.length != size) {
 			mInternalItemDisplayedList = new boolean[size];
 		}
 
-          canvas.getMatrix(mMatrix);
-          mMatrix.getValues(mMatrixValues);
-
-          scaleX = (float) Math.sqrt(mMatrixValues[Matrix.MSCALE_X]
-               * mMatrixValues[Matrix.MSCALE_X] + mMatrixValues[Matrix.MSKEW_Y]
-               * mMatrixValues[Matrix.MSKEW_Y]);
-          scaleY = (float) Math.sqrt(mMatrixValues[Matrix.MSCALE_Y]
-               * mMatrixValues[Matrix.MSCALE_Y] + mMatrixValues[Matrix.MSKEW_X]
-               * mMatrixValues[Matrix.MSKEW_X]);
 		/* Draw in backward cycle, so the items with the least index are on the front. */
-        for (int i = size - 1; i >= 0; i--) {
-            final Item item = getItem(i);
-            if (item == null) {
-                continue;
-            }
+		for (int i = size - 1; i >= 0; i--) {
+			final Item item = getItem(i);
+			if (item == null) {
+				continue;
+			}
 
             pj.toPixels(item.getPoint(), mCurScreenCoords);
+			calculateItemRect(item, mCurScreenCoords, itemRect);
 
-            if (mapView.getBoundingBox().contains(item.getPoint()))
-				mInternalItemDisplayedList[i] = onDrawItem(canvas,item, mCurScreenCoords, mapView);
+			mInternalItemDisplayedList[i] = onDrawItem(canvas,item, mCurScreenCoords, pj);
         }
     }
 
@@ -217,11 +191,11 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends Overlay 
 	 * @param item
 	 *            the item to be drawn
 	 * @param curScreenCoords
-	 * @param mapView
+	 * @param pProjection
 	 * @return true if the item was actually drawn
 	 */
 	protected boolean onDrawItem(final Canvas canvas, final Item item, final Point curScreenCoords,
-			final MapView mapView) {
+			final Projection pProjection) {
 
 		
 
@@ -236,29 +210,23 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends Overlay 
 		int x = mCurScreenCoords.x;
 		int y = mCurScreenCoords.y;
 
-		canvas.save();
-		canvas.rotate(-mapView.getMapOrientation(), x, y);
 		marker.copyBounds(mRect);
-		marker.setBounds(mRect.left + x, mRect.top + y, mRect.right + x, mRect.bottom + y);
-		canvas.scale(1 / scaleX, 1 / scaleY, x, y);
-		final boolean displayed = Rect.intersects(marker.getBounds(), canvas.getClipBounds());
+		mRect.offset(x, y);
+		RectL.getBounds(mRect, x, y, pProjection.getOrientation(), mOrientedMarkerRect);
+		final boolean displayed = Rect.intersects(mOrientedMarkerRect, canvas.getClipBounds());
 		if (displayed) {
+			if (pProjection.getOrientation() != 0) { // optimization: step 1/2
+				canvas.save();
+				canvas.rotate(-pProjection.getOrientation(), x, y);
+			}
+			marker.setBounds(mRect);
 			marker.draw(canvas);
+			if (pProjection.getOrientation() != 0) { // optimization: step 2/2
+				canvas.restore();
+			}
 		}
-		marker.setBounds(mRect);
-		canvas.restore();
+
 		return displayed;
-		/*
-		final int state = (mDrawFocusedItem && (mFocusedItem == item) ? OverlayItem.ITEM_STATE_FOCUSED_MASK
-				: 0);
-		final Drawable marker = (item.getMarker(state) == null) ? getDefaultMarker(state) : item
-				.getMarker(state);
-		final HotspotPlace hotspot = item.getMarkerHotspot();
-
-		boundToHotspot(marker, hotspot);
-
-		// draw it
-		Overlay.drawAt(canvas, marker, curScreenCoords.x, curScreenCoords.y, false, aMapOrientation);*/
 	}
 
 	/**
@@ -310,26 +278,11 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends Overlay 
 
 	@Override
 	public boolean onSingleTapConfirmed(MotionEvent e, MapView mapView) {
-		final Projection pj = mapView.getProjection();
-		final Rect screenRect = pj.getIntrinsicScreenRect();
 		final int size = this.size();
-
+		final int eventX = Math.round(e.getX());
+		final int eventY = Math.round(e.getY());
 		for (int i = 0; i < size; i++) {
-			final Item item = getItem(i);
-			if (item == null) {
-				continue;
-			}
-
-			pj.toPixels(item.getPoint(), mCurScreenCoords);
-
-			final int state = (mDrawFocusedItem && (mFocusedItem == item) ?
-					OverlayItem.ITEM_STATE_FOCUSED_MASK : 0);
-			final Drawable marker = (item.getMarker(state) == null) ?
-					getDefaultMarker(state) : item.getMarker(state);
-			boundToHotspot(marker, item.getMarkerHotspot());
-			if (hitTest(item, marker, -mCurScreenCoords.x + screenRect.left + (int) e.getX(),
-					-mCurScreenCoords.y + screenRect.top + (int) e.getY())) {
-				// We have a hit, do we get a response from onTap?
+			if (isEventOnItem(getItem(i), eventX, eventY, mapView)) {
 				if (onTap(i)) {
 					// We got a response so consume the event
 					return true;
@@ -390,50 +343,141 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends Overlay 
 	 *            the hotspot for the drawable
 	 * @return the same drawable that was passed in.
 	 */
-	protected synchronized Drawable boundToHotspot(final Drawable marker, HotspotPlace hotspot) {
+	protected Drawable boundToHotspot(final Drawable marker, HotspotPlace hotspot) {
+		if (hotspot == null) {
+			hotspot = HotspotPlace.BOTTOM_CENTER;
+		}
 		final int markerWidth = marker.getIntrinsicWidth();
 		final int markerHeight = marker.getIntrinsicHeight();
+		final int offsetX;
+		final int offsetY;
+		switch(hotspot) {
+			default:
+			case NONE:
+			case LEFT_CENTER:
+			case UPPER_LEFT_CORNER:
+			case LOWER_LEFT_CORNER:
+				offsetX = 0;
+				break;
+			case CENTER:
+			case BOTTOM_CENTER:
+			case TOP_CENTER:
+				offsetX = -markerWidth / 2;
+				break;
+			case RIGHT_CENTER:
+			case UPPER_RIGHT_CORNER:
+			case LOWER_RIGHT_CORNER:
+				offsetX = -markerWidth;
+				break;
+		}
+		switch (hotspot) {
+			default:
+			case NONE:
+			case TOP_CENTER:
+			case UPPER_LEFT_CORNER:
+			case UPPER_RIGHT_CORNER:
+				offsetY = 0;
+				break;
+			case CENTER:
+			case RIGHT_CENTER:
+			case LEFT_CENTER:
+				offsetY = -markerHeight / 2;
+				break;
+			case BOTTOM_CENTER:
+			case LOWER_RIGHT_CORNER:
+			case LOWER_LEFT_CORNER:
+				offsetY = -markerHeight;
+				break;
+		}
+		marker.setBounds(offsetX, offsetY, offsetX + markerWidth, offsetY + markerHeight);
+		return marker;
+	}
 
-		mRect.set(0, 0, 0 + markerWidth, 0 + markerHeight);
+	/**
+	 * Calculates the screen rect for an item.
+	 *
+	 * @param item
+	 * @param coords
+	 * @param reuse
+	 * @return
+	 */
+	protected Rect calculateItemRect(Item item, Point coords, Rect reuse) {
+		final Rect out = reuse != null ? reuse : new Rect();
 
+		HotspotPlace hotspot = item.getMarkerHotspot();
 		if (hotspot == null) {
 			hotspot = HotspotPlace.BOTTOM_CENTER;
 		}
 
+		final int state = (mDrawFocusedItem && (mFocusedItem == item) ? OverlayItem.ITEM_STATE_FOCUSED_MASK : 0);
+		final Drawable marker = (item.getMarker(state) == null) ? getDefaultMarker(state) : item.getMarker(state);
+		int itemWidth = marker.getIntrinsicWidth();
+		int itemHeight = marker.getIntrinsicHeight();
+
 		switch (hotspot) {
-		default:
-		case NONE:
-			break;
-		case CENTER:
-			mRect.offset(-markerWidth / 2, -markerHeight / 2);
-			break;
-		case BOTTOM_CENTER:
-			mRect.offset(-markerWidth / 2, -markerHeight);
-			break;
-		case TOP_CENTER:
-			mRect.offset(-markerWidth / 2, 0);
-			break;
-		case RIGHT_CENTER:
-			mRect.offset(-markerWidth, -markerHeight / 2);
-			break;
-		case LEFT_CENTER:
-			mRect.offset(0, -markerHeight / 2);
-			break;
-		case UPPER_RIGHT_CORNER:
-			mRect.offset(-markerWidth, 0);
-			break;
-		case LOWER_RIGHT_CORNER:
-			mRect.offset(-markerWidth, -markerHeight);
-			break;
-		case UPPER_LEFT_CORNER:
-			mRect.offset(0, 0);
-			break;
-		case LOWER_LEFT_CORNER:
-			mRect.offset(0, -markerHeight);
-			break;
+			case NONE:
+				out.set(coords.x - itemWidth / 2,
+						coords.y - itemHeight / 2,
+						coords.x + itemWidth / 2,
+						coords.y + itemHeight / 2);
+				break;
+			case CENTER:
+				out.set(coords.x - itemWidth / 2,
+						coords.y - itemHeight / 2,
+						coords.x + itemWidth / 2,
+						coords.y + itemHeight / 2);
+				break;
+			case BOTTOM_CENTER:
+				out.set(coords.x - itemWidth / 2,
+						coords.y - itemHeight,
+						coords.x + itemWidth / 2,
+						coords.y);
+				break;
+			case TOP_CENTER:
+				out.set(coords.x - itemWidth / 2,
+						coords.y,
+						coords.x + itemWidth / 2,
+						coords.y + itemHeight);
+				break;
+			case RIGHT_CENTER:
+				out.set(coords.x - itemWidth,
+						coords.y - itemHeight / 2,
+						coords.x ,
+						coords.y + itemHeight / 2);
+				break;
+			case LEFT_CENTER:
+				out.set(coords.x,
+						coords.y - itemHeight / 2,
+						coords.x + itemWidth,
+						coords.y + itemHeight / 2);
+				break;
+			case UPPER_RIGHT_CORNER:
+				out.set(coords.x - itemWidth,
+						coords.y,
+						coords.x ,
+						coords.y + itemHeight);
+				break;
+			case LOWER_RIGHT_CORNER:
+				out.set(coords.x - itemWidth,
+						coords.y - itemHeight,
+						coords.x,
+						coords.y);
+				break;
+			case UPPER_LEFT_CORNER:
+				out.set(coords.x ,
+						coords.y,
+						coords.x + itemWidth,
+						coords.y + itemHeight);
+				break;
+			case LOWER_LEFT_CORNER:
+				out.set(coords.x ,
+						coords.y - itemHeight,
+						coords.x + itemWidth,
+						coords.y);
+				break;
 		}
-		marker.setBounds(mRect);
-		return marker;
+
+		return out;
 	}
 
 	public void setOnFocusChangeListener(OnFocusChangeListener l) {
@@ -442,5 +486,25 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends Overlay 
 
 	public static interface OnFocusChangeListener {
 		void onFocusChanged(ItemizedOverlay<?> overlay, OverlayItem newFocus);
+	}
+
+	/**
+	 * @since 6.0.2
+	 */
+	protected boolean isEventOnItem(final Item pItem, final int pEventX, final int pEventY, final MapView pMapView) {
+		if (pItem == null) {
+			return false;
+		}
+		pMapView.getProjection().toPixels(pItem.getPoint(), mCurScreenCoords);
+		final int state = (mDrawFocusedItem && (mFocusedItem == pItem) ? OverlayItem.ITEM_STATE_FOCUSED_MASK : 0);
+		Drawable marker = pItem.getMarker(state);
+		if (marker == null) {
+			marker = getDefaultMarker(state);
+		}
+		boundToHotspot(marker, pItem.getMarkerHotspot());
+		marker.copyBounds(mRect);
+		mRect.offset(mCurScreenCoords.x, mCurScreenCoords.y);
+		RectL.getBounds(mRect, mCurScreenCoords.x, mCurScreenCoords.y, -pMapView.getMapOrientation(), mOrientedMarkerRect);
+		return mOrientedMarkerRect.contains(pEventX, pEventY);
 	}
 }

@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import org.osmdroid.R;
@@ -37,8 +38,9 @@ public class CacheImport extends BaseSampleFragment implements View.OnClickListe
 
         View root = inflater.inflate(R.layout.sample_cachemgr, container,false);
 
-        mMapView = (MapView) root.findViewById(R.id.mapview);
-        btnCache = (Button) root.findViewById(R.id.btnCache);
+        mMapView = new MapView(getActivity());
+        ((LinearLayout) root.findViewById(R.id.mapview)).addView(mMapView);
+        btnCache = root.findViewById(R.id.btnCache);
         btnCache.setOnClickListener(this);
         btnCache.setText("Cache Filesystem Import");
 

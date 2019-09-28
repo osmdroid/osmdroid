@@ -14,6 +14,8 @@
 
     <string name="set_mode_offline">Set to offline mode</string>
     <string name="set_mode_online">Set to online mode</string>
+    <string name="snapshot">Snapshot</string>
+    <string name="states">States</string>
 
     <string name="set_mode_show_me">showing and tracking my current location</string>
     <string name="set_mode_hide_me">hiding my current location</string>
@@ -25,5 +27,13 @@
     <string name="format_distance_feet">%s ft</string>
 
     <string name="compass">Compass</string>
+
+    <string name="format_distance_only_meter">m</string>
+    <string name="format_distance_only_kilometer">km</string>
+    <string name="format_distance_only_mile">mi</string>
+    <string name="format_distance_only_nautical_mile">nm</string>
+    <string name="format_distance_only_foot">ft</string>
+
+    <string name="format_distance_value_unit">%1$s %2$s</string>
 
 </resources>

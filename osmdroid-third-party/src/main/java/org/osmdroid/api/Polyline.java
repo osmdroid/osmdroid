@@ -9,6 +9,7 @@ import android.graphics.Color;
 /**
  * only used for the Google maps wrapper/3rd party library
  */
+@Deprecated
 public class Polyline {
 
 	public Polyline() {

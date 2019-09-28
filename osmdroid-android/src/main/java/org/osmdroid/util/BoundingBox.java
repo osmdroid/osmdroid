@@ -15,9 +15,8 @@ import static org.osmdroid.util.MyMath.gudermann;
 import static org.osmdroid.util.MyMath.gudermannInverse;
 
 /**
- *
  * @author Nicolas Gramlich
- *
+ * @author Andreas Schildbach
  */
 public class BoundingBox implements Parcelable, Serializable {
 
@@ -45,6 +44,13 @@ public class BoundingBox implements Parcelable, Serializable {
 	}
 
 	/**
+	 * @since 6.0.2
+	 * In order to avoid longitude and latitude checks that will crash
+	 * in TileSystem configurations with a bounding box that doesn't include [0,0]
+	 */
+	public BoundingBox() {}
+
+	/**
 	 * @since 6.0.0
 	 */
 	public void set(final double north, final double east, final double south, final double west) {
@@ -56,14 +62,15 @@ public class BoundingBox implements Parcelable, Serializable {
 		//  30 > 0 OK
 		// 30 < 0 not ok
 
-		if (north > TileSystem.MaxLongitude || north < TileSystem.MinLatitude)
-			throw new IllegalArgumentException("north must be less than " +TileSystem.MaxLongitude + " value was " + toString());
-		if (south < TileSystem.MinLatitude || south > TileSystem.MaxLatitude)
-			throw new IllegalArgumentException("south more than " + TileSystem.MinLatitude + " value was " + toString());
-		if (west <	 TileSystem.MinLongitude || west > TileSystem.MaxLongitude)
-			throw new IllegalArgumentException("west must be more than " + TileSystem.MinLongitude + " value was " + toString());
-		if (east > TileSystem.MaxLongitude || east < TileSystem.MinLongitude)
-			throw new IllegalArgumentException("east must be less than " + TileSystem.MaxLongitude + " value was " + toString());
+        final TileSystem tileSystem = org.osmdroid.views.MapView.getTileSystem();
+		if (!tileSystem.isValidLatitude(north))
+			throw new IllegalArgumentException("north must be in " + tileSystem.toStringLatitudeSpan());
+		if (!tileSystem.isValidLatitude(south))
+			throw new IllegalArgumentException("south must be in " + tileSystem.toStringLatitudeSpan());
+		if (!tileSystem.isValidLongitude(west))
+			throw new IllegalArgumentException("west must be in " + tileSystem.toStringLongitudeSpan());
+		if (!tileSystem.isValidLongitude(east))
+			throw new IllegalArgumentException("east must be in " + tileSystem.toStringLongitudeSpan());
 	}
 
 	public BoundingBox clone(){
@@ -136,15 +143,10 @@ public class BoundingBox implements Parcelable, Serializable {
 	public static double getCenterLongitude(final double pWest, final double pEast) {
 		double longitude = (pEast + pWest) / 2.0;
 		if (pEast < pWest) {
-			longitude += TileSystem.MaxLongitude;
+			// center is on the other side of earth
+			longitude += 180;
 		}
-		while (longitude > TileSystem.MaxLongitude) {
-			longitude -= 2 * TileSystem.MaxLongitude;
-		}
-		while (longitude < TileSystem.MinLongitude) {
-			longitude += 2 * TileSystem.MaxLongitude;
-		}
-		return longitude;
+		return org.osmdroid.views.MapView.getTileSystem().cleanLongitude(longitude);
 	}
 
 	/**
@@ -169,10 +171,16 @@ public class BoundingBox implements Parcelable, Serializable {
 		return this.mLonWest;
 	}
 
+        /**
+         * Determines the height of the bounding box.
+         * @return latitude span in degrees
+         */
 	public double getLatitudeSpan() {
 		return Math.abs(this.mLatNorth - this.mLatSouth);
 	}
 
+	/** @deprecated use {@link #getLongitudeSpanWithDateLine()} */
+	@Deprecated
 	public double getLongitudeSpan() {
 		return Math.abs(this.mLonEast - this.mLonWest);
 	}
@@ -191,6 +199,17 @@ public class BoundingBox implements Parcelable, Serializable {
 
 	public void setLonWest(double mLonWest) {
 		this.mLonWest = mLonWest;
+	}
+
+	/**
+	 * Determines the width of the bounding box.
+	 * @return longitude span in degrees
+	 */
+	public double getLongitudeSpanWithDateLine() {
+	    if (mLonEast > mLonWest)
+	        return mLonEast - mLonWest;
+	    else
+	        return mLonEast - mLonWest + 360;
 	}
 
 	/**
@@ -223,58 +242,45 @@ public class BoundingBox implements Parcelable, Serializable {
 
 	public GeoPoint getGeoPointOfRelativePositionWithLinearInterpolation(final float relX,
 			final float relY) {
-
-		double lat = this.mLatNorth - (this.getLatitudeSpan() * relY);
-
-        double lon = this.mLonWest + (this.getLongitudeSpan() * relX);
-
-		/* Bring into bounds. */
-		while (lat > 90.5)
-			lat -= 90.5;
-		while (lat < -90.5)
-			lat += 90.5;
-
-		/* Bring into bounds. */
-		while (lon > 180.0)
-			lon -= 180.0;
-		while (lon < -180.0)
-			lon += 180.0;
-
-		return new GeoPoint(lat, lon);
+	        final TileSystem tileSystem = MapView.getTileSystem();
+		final double lat = this.mLatNorth - (this.getLatitudeSpan() * relY);
+		final double lon = this.mLonWest + (this.getLongitudeSpan() * relX);
+		return new GeoPoint(tileSystem.cleanLatitude(lat), tileSystem.cleanLongitude(lon));
 	}
 
 	public GeoPoint getGeoPointOfRelativePositionWithExactGudermannInterpolation(final float relX,
 			final float relY) {
-
+	        final TileSystem tileSystem = MapView.getTileSystem();
 		final double gudNorth = gudermannInverse(this.mLatNorth);
 		final double gudSouth = gudermannInverse(this.mLatSouth);
-		double lat = gudermann((gudSouth + (1 - relY) * (gudNorth - gudSouth)));
-		double lon = this.mLonWest + (this.getLongitudeSpan() * relX);
-
-		/* Bring into bounds. */
-		while (lat > 90.500000)
-			lat -= 90.500000;
-		while (lat < -90.500000)
-			lat += 90.500000;
-
-		/* Bring into bounds. */
-		while (lon > 180.000000)
-			lon -= 180.000000;
-		while (lon < -180.000000)
-			lon += 180.000000;
-
-		return new GeoPoint(lat, lon);
+		final double lat = gudermann((gudSouth + (1 - relY) * (gudNorth - gudSouth)));
+		final double lon = this.mLonWest + (this.getLongitudeSpan() * relX);
+		return new GeoPoint(tileSystem.cleanLatitude(lat), tileSystem.cleanLongitude(lon));
 	}
 
-	public BoundingBox increaseByScale(final float pBoundingboxPaddingRelativeScale) {
-		final GeoPoint pCenter = this.getCenter();
-		final double mLatSpanPadded_2 = (this.getLatitudeSpan() * pBoundingboxPaddingRelativeScale) / 2.0;
-		final double mLonSpanPadded_2 = (this.getLongitudeSpan() * pBoundingboxPaddingRelativeScale) / 2.0;
-
-		return new BoundingBox(pCenter.getLatitude() + mLatSpanPadded_2,
-				pCenter.getLongitude() + mLonSpanPadded_2, pCenter.getLatitude()
-						- mLatSpanPadded_2, pCenter.getLongitude() - mLonSpanPadded_2);
-	}
+    /**
+     * Scale this bounding box by a given factor.
+     * 
+     * @param pBoundingboxPaddingRelativeScale
+     *            scale factor
+     * @return scaled bounding box
+     */
+    public BoundingBox increaseByScale(final float pBoundingboxPaddingRelativeScale) {
+        if (pBoundingboxPaddingRelativeScale <= 0)
+            throw new IllegalArgumentException("pBoundingboxPaddingRelativeScale must be positive");
+        final TileSystem tileSystem = org.osmdroid.views.MapView.getTileSystem();
+        // out-of-bounds latitude will be clipped
+        final double latCenter = getCenterLatitude();
+        final double latSpanHalf = getLatitudeSpan() / 2 * pBoundingboxPaddingRelativeScale;
+        final double latNorth = tileSystem.cleanLatitude(latCenter + latSpanHalf);
+        final double latSouth = tileSystem.cleanLatitude(latCenter - latSpanHalf);
+        // out-of-bounds longitude will be wrapped around
+        final double lonCenter = getCenterLongitude();
+        final double lonSpanHalf = getLongitudeSpanWithDateLine() / 2 * pBoundingboxPaddingRelativeScale;
+        final double latEast = tileSystem.cleanLongitude(lonCenter + lonSpanHalf);
+        final double latWest = tileSystem.cleanLongitude(lonCenter - lonSpanHalf);
+        return new BoundingBox(latNorth, latEast, latSouth, latWest);
+    }
 
 	// ===========================================================
 	// Methods from SuperClass/Interfaces

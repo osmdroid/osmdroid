@@ -1,5 +1,25 @@
 package org.osmdroid.views.overlay;
 
+import java.lang.reflect.Field;
+import java.util.Locale;
+
+import org.osmdroid.api.IGeoPoint;
+import org.osmdroid.library.R;
+import org.osmdroid.util.GeoPoint;
+import org.osmdroid.util.constants.GeoConstants;
+import org.osmdroid.views.MapView;
+import org.osmdroid.views.Projection;
+
+import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Paint.Style;
+import android.graphics.Path;
+import android.graphics.Rect;
+import android.util.DisplayMetrics;
+import android.view.WindowManager;
+
 /**
  * ScaleBarOverlay.java
  *
@@ -30,26 +50,6 @@ package org.osmdroid.views.overlay;
  *
  */
 
-import java.lang.reflect.Field;
-import java.util.Locale;
-
-import org.osmdroid.api.IGeoPoint;
-import org.osmdroid.library.R;
-import org.osmdroid.util.GeoPoint;
-import org.osmdroid.util.constants.GeoConstants;
-import org.osmdroid.views.MapView;
-import org.osmdroid.views.Projection;
-
-import android.content.Context;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Paint.Style;
-import android.graphics.Path;
-import android.graphics.Rect;
-import android.util.DisplayMetrics;
-import android.view.WindowManager;
-
 public class ScaleBarOverlay extends Overlay implements GeoConstants {
 
 	// ===========================================================
@@ -65,7 +65,7 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 	// Defaults
 	int xOffset = 10;
 	int yOffset = 10;
-	int minZoom = 0;
+	double minZoom = 0;
 
 	UnitsOfMeasure unitsOfMeasure = UnitsOfMeasure.metric;
 
@@ -85,7 +85,7 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 	protected final Rect latitudeBarRect = new Rect();
 	protected final Rect longitudeBarRect = new Rect();
 
-	private int lastZoomLevel = -1;
+	private double lastZoomLevel = -1;
 	private double lastLatitude = 0.0;
 
 	public float xdpi;
@@ -101,14 +101,41 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 	private boolean adjustLength = false;
 	private float maxLength;
 
+	/**
+	 * @since 6.1.0
+	 */
+	private int mMapWidth;
+
+	/**
+	 * @since 6.1.0
+	 */
+	private int mMapHeight;
+
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 
 	public ScaleBarOverlay(final MapView mapView) {
+		this(mapView, mapView.getContext(), 0, 0);
+	}
+
+	/**
+	 * @since 6.1.0
+	 */
+	public ScaleBarOverlay(final Context pContext, final int pMapWidth, final int pMapHeight) {
+		this(null, pContext, pMapWidth, pMapHeight);
+	}
+
+	/**
+	 * @since 6.1.0
+	 */
+	private ScaleBarOverlay(final MapView pMapView, final Context pContext, final int pMapWidth, final int pMapHeight) {
 		super();
-		this.mMapView = mapView;
-		this.context = mapView.getContext();
+		mMapView = pMapView;
+		context = pContext;
+		mMapWidth = pMapWidth;
+		mMapHeight = pMapHeight;
+
 		final DisplayMetrics dm = context.getResources().getDisplayMetrics();
 
 		this.barPaint = new Paint();
@@ -145,7 +172,7 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 			// If the screen is rotated, flip the x and y dpi values
 			WindowManager windowManager = (WindowManager) this.context
 					.getSystemService(Context.WINDOW_SERVICE);
-			if (windowManager.getDefaultDisplay().getOrientation() > 0) {
+			if (windowManager != null && windowManager.getDefaultDisplay().getOrientation() > 0) {
 				this.xdpi = (float) (this.screenWidth / 3.75);
 				this.ydpi = (float) (this.screenHeight / 2.1);
 			} else {
@@ -173,7 +200,7 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 	 * @param zoom
 	 *            minimum zoom level
 	 */
-	public void setMinZoom(final int zoom) {
+	public void setMinZoom(final double zoom) {
 		this.minZoom = zoom;
 	}
 
@@ -356,67 +383,54 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 	// ===========================================================
 
 	@Override
-	public void draw(Canvas c, MapView mapView, boolean shadow) {
-		if (shadow) {
+	public void draw(Canvas c, Projection projection) {
+
+		final double zoomLevel = projection.getZoomLevel();
+
+		if (zoomLevel < minZoom) {
 			return;
 		}
-
-		// If map view is animating, don't update, scale will be wrong.
-		if (mapView.isAnimating()) {
-			return;
+		final Rect rect = projection.getIntrinsicScreenRect();
+		int _screenWidth = rect.width();
+		int _screenHeight = rect.height();
+		boolean screenSizeChanged = _screenHeight!=screenHeight || _screenWidth != screenWidth;
+		screenHeight = _screenHeight;
+		screenWidth = _screenWidth;
+		final IGeoPoint center = projection.fromPixels(screenWidth / 2, screenHeight / 2, null);
+		if (zoomLevel != lastZoomLevel || center.getLatitude() != lastLatitude || screenSizeChanged) {
+			lastZoomLevel = zoomLevel;
+			lastLatitude = center.getLatitude();
+			rebuildBarPath(projection);
 		}
 
-		final int zoomLevel = mapView.getZoomLevel();
+		int offsetX = xOffset;
+		int offsetY = yOffset;
+		if (alignBottom) offsetY *=-1;
+		if (alignRight ) offsetX *=-1;
+		if (centred && latitudeBar)
+			offsetX += -latitudeBarRect.width() / 2;
+		if (centred && longitudeBar)
+			offsetY += -longitudeBarRect.height() / 2;
 
-		if (zoomLevel >= minZoom) {
-			final Projection projection = mapView.getProjection();
+		projection.save(c, false, true);
+		c.translate(offsetX, offsetY);
 
-			if (projection == null) {
-				return;
-			}
-
-			int _screenWidth	   = mapView.getWidth();
-			int _screenHeight   = mapView.getHeight();
-			boolean screenSizeChanged = _screenHeight!=screenHeight || _screenWidth != screenWidth;
-			screenHeight = _screenHeight;
-			screenWidth = _screenWidth;
-			final IGeoPoint center = projection.fromPixels(screenWidth / 2, screenHeight / 2, null);
-			if (zoomLevel != lastZoomLevel
-				|| (int) center.getLatitude() != (int) lastLatitude || screenSizeChanged) {
-				lastZoomLevel = zoomLevel;
-				lastLatitude = center.getLatitude();
-				rebuildBarPath(projection);
-			}
-
-			int offsetX = (int) xOffset;
-			int offsetY = (int) yOffset;
-			if (alignBottom) offsetY *=-1;
-			if (alignRight ) offsetX *=-1;
-			if (centred && latitudeBar)
-				offsetX += -latitudeBarRect.width() / 2;
-			if (centred && longitudeBar)
-				offsetY += -longitudeBarRect.height() / 2;
-
-			projection.save(c, false, true);
-			c.translate(offsetX, offsetY);
-
-			if (latitudeBar && bgPaint != null)
-				c.drawRect(latitudeBarRect, bgPaint);
-			if (longitudeBar && bgPaint != null) {
-				// Don't draw on top of latitude background...
-				int offsetTop = latitudeBar ? latitudeBarRect.height() : 0;
-				c.drawRect(longitudeBarRect.left, longitudeBarRect.top + offsetTop,
-						longitudeBarRect.right, longitudeBarRect.bottom, bgPaint);
-			}
-			c.drawPath(barPath, barPaint);
-			if (latitudeBar) {
-				drawLatitudeText(c, projection);
-			}
-			if (longitudeBar) {
-				drawLongitudeText(c, projection);
-			}
-			projection.restore(c, true);
+		if (latitudeBar && bgPaint != null)
+			c.drawRect(latitudeBarRect, bgPaint);
+		if (longitudeBar && bgPaint != null) {
+			// Don't draw on top of latitude background...
+			int offsetTop = latitudeBar ? latitudeBarRect.height() : 0;
+			c.drawRect(longitudeBarRect.left, longitudeBarRect.top + offsetTop,
+					longitudeBarRect.right, longitudeBarRect.bottom, bgPaint);
 		}
+		c.drawPath(barPath, barPaint);
+		if (latitudeBar) {
+			drawLatitudeText(c, projection);
+		}
+		if (longitudeBar) {
+			drawLongitudeText(c, projection);
+		}
+		projection.restore(c, true);
 	}
 
 	// ===========================================================
@@ -556,14 +570,14 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 		if (alignBottom) {
 			xTextSpacing *= -1;
 			xTextHeight  *= -1;
-			barOriginY   = mMapView.getHeight();
+			barOriginY   = getMapHeight();
 			barToY       = barOriginY -yBarLengthPixels;
 		}
 				
 		if (alignRight) {
 			yTextSpacing *= -1;
 			yTextHeight  *= -1;		
-			barOriginX   = mMapView.getWidth();
+			barOriginX   = getMapWidth();
 			barToX       = barOriginX -xBarLengthPixels;    
 		}
 		
@@ -652,30 +666,30 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 		default:
 		case metric:
 			if (meters >= 1000 * 5) {
-                return getScaleString(R.string.format_distance_kilometers, "%.0f", meters / 1000);
+                return getConvertedScaleString(meters, UnitOfMeasure.kilometer, "%.0f");
 			} else if (meters >= 1000 / 5) {
-				return getScaleString(R.string.format_distance_kilometers, "%.1f", meters / 1000);
+				return getConvertedScaleString(meters, UnitOfMeasure.kilometer, "%.1f");
 			} else if (meters >= 20){
-                return getScaleString(R.string.format_distance_meters, "%.0f", meters);
+                return getConvertedScaleString(meters, UnitOfMeasure.meter, "%.0f");
 			} else {
-				return getScaleString(R.string.format_distance_meters, "%.2f", meters);
+				return getConvertedScaleString(meters, UnitOfMeasure.meter, "%.2f");
 			}
 		case imperial:
 			if (meters >= METERS_PER_STATUTE_MILE * 5) {
-				return getScaleString(R.string.format_distance_miles, "%.0f", meters / METERS_PER_STATUTE_MILE);
+				return getConvertedScaleString(meters, UnitOfMeasure.statuteMile, "%.0f");
 
 			} else if (meters >= METERS_PER_STATUTE_MILE / 5) {
-				return getScaleString(R.string.format_distance_miles, "%.1f", meters / METERS_PER_STATUTE_MILE);
+				return getConvertedScaleString(meters, UnitOfMeasure.statuteMile, "%.1f");
 			} else {
-				return getScaleString(R.string.format_distance_feet, "%.0f", meters * FEET_PER_METER);
+				return getConvertedScaleString(meters, UnitOfMeasure.foot, "%.0f");
 			}
 		case nautical:
 			if (meters >= METERS_PER_NAUTICAL_MILE * 5) {
-				return getScaleString(R.string.format_distance_nautical_miles, "%.0f", meters / METERS_PER_NAUTICAL_MILE);
+				return getConvertedScaleString(meters, UnitOfMeasure.nauticalMile, "%.0f");
 			} else if (meters >= METERS_PER_NAUTICAL_MILE / 5) {
-				return getScaleString(R.string.format_distance_nautical_miles, "%.1f", meters / METERS_PER_NAUTICAL_MILE);
+				return getConvertedScaleString(meters, UnitOfMeasure.nauticalMile, "%.1f");
 			} else {
-				return getScaleString(R.string.format_distance_feet, "%.0f", meters * FEET_PER_METER);
+				return getConvertedScaleString(meters, UnitOfMeasure.foot, "%.0f");
 			}
 		}
 	}
@@ -692,9 +706,38 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 	/**
 	 * @since 6.0.0
 	 */
-	private String getScaleString(final int pStringResId, final String pFormat, final double pValue) {
-		return context.getResources().getString(pStringResId, String.format(Locale.getDefault(), pFormat, pValue));
+	private String getConvertedScaleString(final double pMeters,
+										   final GeoConstants.UnitOfMeasure pConversion,
+										   final String pFormat) {
+		return getScaleString(
+				context,
+				String.format(Locale.getDefault(), pFormat,
+						pMeters / pConversion.getConversionFactorToMeters()),
+				pConversion);
+	}
+
+	/**
+	 * @since 6.1.1
+	 */
+	public static String getScaleString(final Context pContext,
+										final String pValue,
+										final GeoConstants.UnitOfMeasure pUnitOfMeasure) {
+		return pContext.getString(
+				R.string.format_distance_value_unit,
+				pValue, pContext.getString(pUnitOfMeasure.getStringResId()));
+	}
+
+	/**
+	 * @since 6.1.0
+	 */
+	private int getMapWidth() {
+		return mMapView != null ? mMapView.getWidth() : mMapWidth;
+	}
+
+	/**
+	 * @since 6.1.0
+	 */
+	private int getMapHeight() {
+		return mMapView != null ? mMapView.getHeight() : mMapHeight;
 	}
 }
-
-

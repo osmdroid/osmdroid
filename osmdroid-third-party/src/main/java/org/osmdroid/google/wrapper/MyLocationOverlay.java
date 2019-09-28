@@ -14,6 +14,7 @@ import com.google.android.maps.MapView;
  * @author Neil Boyd
  *
  */
+@Deprecated
 public class MyLocationOverlay
 extends com.google.android.maps.MyLocationOverlay
 implements IMyLocationOverlay {

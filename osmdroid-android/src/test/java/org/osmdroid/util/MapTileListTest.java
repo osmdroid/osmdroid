@@ -101,4 +101,15 @@ public class MapTileListTest {
             }
         }
     }
+
+    /**
+     * @since 6.0.2
+     */
+    @Test
+    public void testEmpty() {
+        final MapTileList list = new MapTileList();
+        Assert.assertEquals(0, list.getSize());
+        // we don't care about 1234 but about a possible side-effect NPE
+        Assert.assertFalse(list.contains(1234));
+    }
 }

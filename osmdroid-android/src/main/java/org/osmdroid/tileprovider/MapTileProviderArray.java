@@ -2,19 +2,18 @@ package org.osmdroid.tileprovider;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.modules.IFilesystemCache;
 import org.osmdroid.tileprovider.modules.MapTileModuleProviderBase;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 
-import org.osmdroid.api.IMapView;
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
+import org.osmdroid.util.MapTileContainer;
 import org.osmdroid.util.MapTileIndex;
 
 /**
@@ -33,11 +32,17 @@ import org.osmdroid.util.MapTileIndex;
  * @author Marc Kurtz
  *
  */
-public class MapTileProviderArray extends MapTileProviderBase {
+public class MapTileProviderArray extends MapTileProviderBase implements MapTileContainer{
 
-	private final HashSet<Long> mWorking = new HashSet<>();
+	private final Map<Long, Integer> mWorking = new HashMap<>();
 	private IRegisterReceiver mRegisterReceiver=null;
 	protected final List<MapTileModuleProviderBase> mTileProviderList;
+
+	/**
+	 * @since 6.0.2
+	 */
+	private static final int WORKING_STATUS_STARTED = 0;
+	private static final int WORKING_STATUS_FOUND = 1;
 
 	/**
 	 * Creates an {@link MapTileProviderArray} with no tile providers.
@@ -87,9 +92,28 @@ public class MapTileProviderArray extends MapTileProviderBase {
 	}
 
 	/**
-	 * @since 6.0
+	 * @since 6.0.2
 	 */
+	@Override
+	public boolean contains(long pTileIndex) {
+		synchronized (mWorking) {
+			return mWorking.containsKey(pTileIndex);
+		}
+	}
+
+	/**
+	 * @since 6.0
+	 * @deprecated Not used anymore. Use {@link #isDowngradedMode(long)} instead
+	 */
+	@Deprecated
 	protected boolean isDowngradedMode() {
+		return false;
+	}
+
+	/**
+	 * @since 6.0.3
+	 */
+	protected boolean isDowngradedMode(final long pMapTileIndex) {
 		return false;
 	}
 
@@ -100,34 +124,20 @@ public class MapTileProviderArray extends MapTileProviderBase {
 			if (ExpirableBitmapDrawable.getState(tile) == ExpirableBitmapDrawable.UP_TO_DATE) {
 				return tile; // best scenario ever
 			}
-			if (isDowngradedMode()) {
+			if (isDowngradedMode(pMapTileIndex)) {
 				return tile; // best we can, considering
 			}
 		}
-		if (mWorking.contains(pMapTileIndex)) { // already in progress
-			return tile;
-		}
-
-		if (Configuration.getInstance().isDebugTileProviders()) {
-			Log.d(IMapView.LOGTAG,"MapTileProviderArray.getMapTile() requested but not in cache, trying from async providers: "
-					+ MapTileIndex.toString(pMapTileIndex));
-		}
 
 		synchronized (mWorking) {
-			// Check again
-			if (mWorking.contains(pMapTileIndex)) {
+			if (mWorking.containsKey(pMapTileIndex)) {
 				return tile;
 			}
-			mWorking.add(pMapTileIndex);
+			mWorking.put(pMapTileIndex, WORKING_STATUS_STARTED);
 		}
 
 		final MapTileRequestState state = new MapTileRequestState(pMapTileIndex, mTileProviderList, MapTileProviderArray.this);
-		final MapTileModuleProviderBase provider = findNextAppropriateProvider(state);
-		if (provider != null) {
-			provider.loadMapTileAsync(state);
-		} else {
-			mapTileRequestFailed(state);
-		}
+		runAsyncNextProvider(state);
 
 		return tile;
 	}
@@ -136,45 +146,37 @@ public class MapTileProviderArray extends MapTileProviderBase {
 	 * @since 6.0.0
 	 */
 	private void remove(final long pMapTileIndex) {
-		mWorking.remove(pMapTileIndex);
+		synchronized (mWorking) {
+			mWorking.remove(pMapTileIndex);
+		}
 	}
 
 	@Override
 	public void mapTileRequestCompleted(final MapTileRequestState aState, final Drawable aDrawable) {
-		remove(aState.getMapTile());
 		super.mapTileRequestCompleted(aState, aDrawable);
+		remove(aState.getMapTile());
 	}
 
 	@Override
 	public void mapTileRequestFailed(final MapTileRequestState aState) {
-		final MapTileModuleProviderBase nextProvider = findNextAppropriateProvider(aState);
-		if (nextProvider != null) {
-			nextProvider.loadMapTileAsync(aState);
-		} else {
-			remove(aState.getMapTile());
-			super.mapTileRequestFailed(aState);
-		}
+		runAsyncNextProvider(aState);
 	}
 	
 	@Override
 	public void mapTileRequestFailedExceedsMaxQueueSize(final MapTileRequestState aState) {
-		remove(aState.getMapTile());
 		super.mapTileRequestFailed(aState);
+		remove(aState.getMapTile());
 	}
 
 	@Override
 	public void mapTileRequestExpiredTile(MapTileRequestState aState, Drawable aDrawable) {
-		// Call through to the super first so aState.getCurrentProvider() still contains the proper
-		// provider.
 		super.mapTileRequestExpiredTile(aState, aDrawable);
+		synchronized (mWorking) {
+			mWorking.put(aState.getMapTile(), WORKING_STATUS_FOUND);
+		}
 
 		// Continue through the provider chain
-		final MapTileModuleProviderBase nextProvider = findNextAppropriateProvider(aState);
-		if (nextProvider != null) {
-			nextProvider.loadMapTileAsync(aState);
-		} else {
-			remove(aState.getMapTile());
-		}
+		runAsyncNextProvider(aState);
 	}
 
 	@Override
@@ -184,9 +186,9 @@ public class MapTileProviderArray extends MapTileProviderBase {
 
 	@Override
 	public long getQueueSize() {
-		if (mWorking!=null)
+		synchronized (mWorking) {
 			return mWorking.size();
-		return -1;
+		}
 	}
 
 	/**
@@ -216,13 +218,32 @@ public class MapTileProviderArray extends MapTileProviderBase {
 		return provider;
 	}
 
+	/**
+	 * @since 6.0.2
+	 */
+	private void runAsyncNextProvider(final MapTileRequestState pState) {
+		final MapTileModuleProviderBase nextProvider = findNextAppropriateProvider(pState);
+		if (nextProvider != null) {
+			nextProvider.loadMapTileAsync(pState);
+			return;
+		}
+		final Integer status; // as Integer (and not int) for concurrency reasons
+		synchronized (mWorking) {
+			status = mWorking.get(pState.getMapTile());
+		}
+		if (status != null && status == WORKING_STATUS_STARTED) {
+			super.mapTileRequestFailed(pState);
+		}
+		remove(pState.getMapTile());
+	}
+
 	public boolean getProviderExists(final MapTileModuleProviderBase provider) {
 		return mTileProviderList.contains(provider);
 	}
 
 	@Override
 	public int getMinimumZoomLevel() {
-		int result = microsoft.mappoint.TileSystem.getMaximumZoomLevel();
+		int result = org.osmdroid.util.TileSystem.getMaximumZoomLevel();
 		synchronized (mTileProviderList) {
 			for (final MapTileModuleProviderBase tileProvider : mTileProviderList) {
 				if (tileProvider.getMinimumZoomLevel() < result) {

@@ -1,20 +1,20 @@
 package org.osmdroid.bugtestfragments;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-
-import junit.framework.Assert;
+import android.widget.LinearLayout;
 
 import org.osmdroid.R;
 import org.osmdroid.api.IMapView;
-import org.osmdroid.constants.OpenStreetMapConstants;
 import org.osmdroid.samplefragments.BaseSampleFragment;
+import org.osmdroid.tileprovider.MapTileProviderBasic;
 import org.osmdroid.tileprovider.cachemanager.CacheManager;
+import org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase;
+import org.osmdroid.tileprovider.tilesource.XYTileSource;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 
@@ -39,10 +39,27 @@ public class Bug512CacheManagerWp extends BaseSampleFragment implements CacheMan
 
         View root = inflater.inflate(R.layout.sample_cachemgr, container,false);
 
-        mMapView = (MapView) root.findViewById(R.id.mapview);
-        btnCache = (Button) root.findViewById(R.id.btnCache);
+        btnCache = root.findViewById(R.id.btnCache);
         btnCache.setOnClickListener(this);
         btnCache.setText("Run job (watch logcat output)");
+
+        // Workaround for failing unit test due to issues with https connections on API < 9
+        // https://github.com/osmdroid/osmdroid/issues/1048
+        // https://github.com/osmdroid/osmdroid/issues/1051
+        // Also works around an issue with some emulator image that do not update their time/date
+        // correctly and stay on 0 unix time. This causes SSLExceptions due to the validity of the
+        // certificates.
+        OnlineTileSourceBase onlineTileSourceBase = new XYTileSource("Mapnik",
+                    0, 19, 256, ".png",
+                    new String[]{
+                            "http://a.tile.openstreetmap.org/",
+                            "http://b.tile.openstreetmap.org/",
+                            "http://c.tile.openstreetmap.org/"}, "© OpenStreetMap contributors");
+
+        mMapView = new MapView(getActivity(), new MapTileProviderBasic(
+                getActivity().getApplicationContext(), onlineTileSourceBase));
+
+        ((LinearLayout) root.findViewById(R.id.mapview)).addView(mMapView);
 
         return root;
     }
@@ -81,7 +98,7 @@ public class Bug512CacheManagerWp extends BaseSampleFragment implements CacheMan
                 //test passed
                 return;
             } else {
-                Assert.fail("Failure occurred during the test, there were " + errors);
+                throw new RuntimeException("Failure occurred during the test, there were " + errors);
             }
         }
 

@@ -8,6 +8,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.osmdroid.api.IMapView;
 import org.osmdroid.views.MapView;
+import org.osmdroid.views.Projection;
 import org.osmdroid.views.overlay.Overlay.Snappable;
 
 import android.graphics.Canvas;
@@ -31,7 +32,7 @@ public class DefaultOverlayManager extends AbstractList<Overlay> implements Over
 
     public DefaultOverlayManager(final TilesOverlay tilesOverlay) {
         setTilesOverlay(tilesOverlay);
-        mOverlayList = new CopyOnWriteArrayList<Overlay>();
+        mOverlayList = new CopyOnWriteArrayList<>();
     }
 
     @Override
@@ -87,9 +88,24 @@ public class DefaultOverlayManager extends AbstractList<Overlay> implements Over
     @Override
     public Iterable<Overlay> overlaysReversed() {
         return new Iterable<Overlay>() {
+
+            /**
+             * @since 6.1.0
+             */
+            private ListIterator<Overlay> bulletProofReverseListIterator() {
+                while(true) {
+                    try {
+                        return mOverlayList.listIterator(mOverlayList.size());
+                    } catch(final IndexOutOfBoundsException e) {
+                        // thread-concurrency fix - in case an item is removed in a very inappropriate time
+                        // cf. https://github.com/osmdroid/osmdroid/issues/1260
+                    }
+                }
+            }
+
             @Override
             public Iterator<Overlay> iterator() {
-                final ListIterator<Overlay> i = mOverlayList.listIterator(mOverlayList.size());
+                final ListIterator<Overlay> i = bulletProofReverseListIterator();
 
                 return new Iterator<Overlay>() {
                     @Override
@@ -119,39 +135,55 @@ public class DefaultOverlayManager extends AbstractList<Overlay> implements Over
 
     @Override
     public void onDraw(final Canvas c, final MapView pMapView) {
-        //fix for https://github.com/osmdroid/osmdroid/issues/904
-        if (mTilesOverlay!=null)
-            mTilesOverlay.protectDisplayedTilesForCache(c, pMapView);
-        for (final Overlay overlay : mOverlayList) {
-            if (overlay!=null && overlay.isEnabled() && overlay instanceof TilesOverlay) {
-                ((TilesOverlay) overlay).protectDisplayedTilesForCache(c, pMapView);
+        onDrawHelper(c, pMapView, pMapView.getProjection());
             }
+
+    /**
+     * @since 6.1.0
+     */
+    @Override
+    public void onDraw(final Canvas c, final Projection pProjection) {
+        onDrawHelper(c, null, pProjection);
         }
 
+    /**
+     * @since 6.1.0
+     * @param pMapView may be null
+     * @param pProjection may NOT be null
+     */
+    private void onDrawHelper(final Canvas c, final MapView pMapView, final Projection pProjection) {
+        //fix for https://github.com/osmdroid/osmdroid/issues/904
         if (mTilesOverlay!=null)
-            mTilesOverlay.protectDisplayedTilesForCache(c, pMapView);
+            mTilesOverlay.protectDisplayedTilesForCache(c, pProjection);
         for (final Overlay overlay : mOverlayList) {
             if (overlay!=null && overlay.isEnabled() && overlay instanceof TilesOverlay) {
-                ((TilesOverlay) overlay).protectDisplayedTilesForCache(c, pMapView);
+                ((TilesOverlay) overlay).protectDisplayedTilesForCache(c, pProjection);
             }
         }
 
         //always pass false, the shadow parameter will be removed in a later version of osmdroid, this change should result in the on draw being called twice
         if (mTilesOverlay != null && mTilesOverlay.isEnabled()) {
+            if (pMapView != null) {
             mTilesOverlay.draw(c, pMapView, false);
+            } else {
+                mTilesOverlay.draw(c, pProjection);
+        }
         }
 
         //always pass false, the shadow parameter will be removed in a later version of osmdroid, this change should result in the on draw being called twice
         for (final Overlay overlay : mOverlayList) {
             //#396 fix, null check
             if (overlay!=null && overlay.isEnabled()) {
+                if (pMapView != null) {
                 //don't bother attempting to draw it unless it's in view
                 //TODO if (pMapView.getBoundingBox().overlaps(overlay.getBounds()))
                     overlay.draw(c, pMapView, false);
+                } else {
+                    overlay.draw(c, pProjection);
             }
         }
+        }
         //potential fix for #52 pMapView.invalidate();
-
     }
 
     @Override

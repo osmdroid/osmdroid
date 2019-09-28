@@ -154,6 +154,7 @@ public class DomParserWms111 {
 
     //e is "Layer"
     private static Collection<? extends WMSLayer> parseLayers(Node element) {
+        final TileSystem tileSystem = org.osmdroid.views.MapView.getTileSystem();
         List<WMSLayer> rets = new ArrayList<>();
         WMSLayer ret = new WMSLayer();
 
@@ -177,12 +178,12 @@ public class DomParserWms111 {
             } else if (name.contains("LatLonBoundingBox")) {
                 //TODO need some handling for crs here
                 south = (Double.parseDouble(e.getAttributes().getNamedItem("miny").getNodeValue()));
-                if (south < TileSystem.MinLatitude)
-                    south = TileSystem.MinLatitude;
+                if (south < tileSystem.getMinLatitude())
+                    south = tileSystem.getMinLatitude();
                 north = (Double.parseDouble(e.getAttributes().getNamedItem("maxy").getNodeValue()));
 
-                if (north > TileSystem.MaxLatitude)
-                    north = TileSystem.MaxLatitude;
+                if (north > tileSystem.getMaxLatitude())
+                    north = tileSystem.getMaxLatitude();
                 west = (Double.parseDouble(e.getAttributes().getNamedItem("maxx").getNodeValue()));
                 east = (Double.parseDouble(e.getAttributes().getNamedItem("minx").getNodeValue()));
                 ret.setBbox(new BoundingBox(north, east, south, west));

@@ -18,6 +18,7 @@ import org.osmdroid.StarterMapFragment;
 import org.osmdroid.tileprovider.util.Counters;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.TileSystem;
+import org.osmdroid.util.TileSystemWebMercator;
 
 import java.util.Random;
 
@@ -29,6 +30,8 @@ public class OpenStreetMapViewTest extends ActivityInstrumentationTestCase2<Star
 
 	private static final Random random = new Random();
 
+	private static final TileSystem tileSystem = new TileSystemWebMercator();
+
 	public OpenStreetMapViewTest() {
         super(StarterMapActivity.class);
 		Counters.reset();
@@ -39,9 +42,8 @@ public class OpenStreetMapViewTest extends ActivityInstrumentationTestCase2<Star
 	@Override
 	protected void setUp() throws Exception {
 
-		FragmentManager fm = getActivity().getSupportFragmentManager();
-		StarterMapFragment fragment = (StarterMapFragment)fm.findFragmentById(R.id.map_container);
-		mOpenStreetMapView = fragment.getMapView();
+		mOpenStreetMapView =
+				getActivity().findViewById(R.id.map_container).findViewWithTag("mapView");
 
 		super.setUp();
 	}
@@ -70,21 +72,21 @@ public class OpenStreetMapViewTest extends ActivityInstrumentationTestCase2<Star
 	 * @since 6.0.0
 	 */
 	private double getRandomLongitude() {
-		return TileSystem.getRandomLongitude(random.nextDouble());
+		return tileSystem.getRandomLongitude(random.nextDouble());
 	}
 
 	/**
 	 * @since 6.0.0
 	 */
 	private double getRandomLatitude() {
-		return TileSystem.getRandomLatitude(random.nextDouble(), TileSystem.MinLatitude);
+		return tileSystem.getRandomLatitude(random.nextDouble(), tileSystem.getMinLatitude());
 	}
 
 	/**
 	 * @since 6.0.0
 	 */
 	private double getRandomZoom(final double pMin) {
-		return getRandom(pMin, microsoft.mappoint.TileSystem.getMaximumZoomLevel());
+		return getRandom(pMin, TileSystem.getMaximumZoomLevel());
 	}
 
 	/**

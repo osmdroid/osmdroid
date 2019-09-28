@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteException;
 import android.util.Log;
 
 import org.osmdroid.api.IMapView;
+import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.util.MapTileIndex;
 
@@ -72,6 +73,11 @@ public class DatabaseFileArchive implements IArchiveFile {
 
 	public byte[] getImage(final ITileSource pTileSource, final long pMapTileIndex) {
 
+		if (mDatabase==null || !mDatabase.isOpen()) {
+			if (Configuration.getInstance().isDebugTileProviders())
+				Log.d(IMapView.LOGTAG,"Skipping DatabaseFileArchive lookup, database is closed");
+			return null;
+		}
 		try {
 			byte[] bits=null;
 			final String[] tile = {COLUMN_TILE};

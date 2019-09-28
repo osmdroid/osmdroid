@@ -6,14 +6,13 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,6 +21,8 @@ import org.osmdroid.R;
 import org.osmdroid.samplefragments.BaseSampleFragment;
 import org.osmdroid.tileprovider.cachemanager.CacheManager;
 import org.osmdroid.tileprovider.modules.SqliteArchiveTileWriter;
+import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
+import org.osmdroid.tileprovider.tilesource.TileSourcePolicyException;
 import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
@@ -60,8 +61,10 @@ public class SampleCacheDownloaderArchive  extends BaseSampleFragment implements
         //bad
         setHasOptionsMenu(false);
 
-        mMapView = (MapView) root.findViewById(R.id.mapview);
-        btnCache = (Button) root.findViewById(R.id.btnCache);
+        mMapView = new MapView(getActivity());
+        mMapView.setTileSource(TileSourceFactory.USGS_SAT);
+        ((LinearLayout) root.findViewById(R.id.mapview)).addView(mMapView);
+        btnCache = root.findViewById(R.id.btnCache);
         btnCache.setOnClickListener(this);
         return root;
     }
@@ -108,7 +111,13 @@ public class SampleCacheDownloaderArchive  extends BaseSampleFragment implements
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which){
                             case 0:
-                                mgr = new CacheManager(mMapView);
+                                try {
+                                    mgr = new CacheManager(mMapView);
+                                } catch(TileSourcePolicyException e) {
+                                    Log.e(TAG, e.getMessage());
+                                    dialog.dismiss();
+                                    return;
+                                }
                                 showCurrentCacheInfo();
                                 break;
                             case 1:
@@ -141,32 +150,32 @@ public class SampleCacheDownloaderArchive  extends BaseSampleFragment implements
         view.findViewById(R.id.cache_archival_section).setVisibility(View.VISIBLE);
 
         BoundingBox boundingBox = mMapView.getBoundingBox();
-        zoom_max=(SeekBar) view.findViewById(R.id.slider_zoom_max);
+        zoom_max= view.findViewById(R.id.slider_zoom_max);
         zoom_max.setMax((int) mMapView.getMaxZoomLevel());
         zoom_max.setOnSeekBarChangeListener(SampleCacheDownloaderArchive.this);
 
 
-        zoom_min=(SeekBar) view.findViewById(R.id.slider_zoom_min);
+        zoom_min= view.findViewById(R.id.slider_zoom_min);
         zoom_min.setMax((int) mMapView.getMaxZoomLevel());
         zoom_min.setProgress((int) mMapView.getMinZoomLevel());
         zoom_min.setOnSeekBarChangeListener(SampleCacheDownloaderArchive.this);
-        cache_east= (EditText) view.findViewById(R.id.cache_east);
+        cache_east= view.findViewById(R.id.cache_east);
         cache_east.setText(boundingBox.getLonEast() +"");
-        cache_north= (EditText) view.findViewById(R.id.cache_north);
+        cache_north= view.findViewById(R.id.cache_north);
         cache_north.setText(boundingBox.getLatNorth()  +"");
-        cache_south= (EditText) view.findViewById(R.id.cache_south);
+        cache_south= view.findViewById(R.id.cache_south);
         cache_south.setText(boundingBox.getLatSouth()  +"");
-        cache_west= (EditText) view.findViewById(R.id.cache_west);
+        cache_west= view.findViewById(R.id.cache_west);
         cache_west.setText(boundingBox.getLonWest()  +"");
-        cache_estimate = (TextView) view.findViewById(R.id.cache_estimate);
-        cache_output=(EditText) view.findViewById(R.id.cache_output);
+        cache_estimate = view.findViewById(R.id.cache_estimate);
+        cache_output= view.findViewById(R.id.cache_output);
 
         //change listeners for both validation and to trigger the download estimation
-        cache_east.addTextChangedListener((TextWatcher) this);
-        cache_north.addTextChangedListener((TextWatcher) this);
-        cache_south.addTextChangedListener((TextWatcher) this);
-        cache_west.addTextChangedListener((TextWatcher) this);
-        executeJob= (Button) view.findViewById(R.id.executeJob);
+        cache_east.addTextChangedListener(this);
+        cache_north.addTextChangedListener(this);
+        cache_south.addTextChangedListener(this);
+        cache_west.addTextChangedListener(this);
+        executeJob= view.findViewById(R.id.executeJob);
         executeJob.setOnClickListener(this);
         builder.setView(view);
         builder.setCancelable(true);
@@ -210,10 +219,21 @@ public class SampleCacheDownloaderArchive  extends BaseSampleFragment implements
                 if (startJob) {
                     String outputName = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "osmdroid" + File.separator + cache_output.getText().toString();
                     writer=new SqliteArchiveTileWriter(outputName);
-                    mgr = new CacheManager(mMapView, writer);
+                    try {
+                        mgr = new CacheManager(mMapView, writer);
+                    } catch (TileSourcePolicyException ex) {
+                        Log.e(TAG, ex.getMessage());
+                        return;
+                    }
                 } else {
-                    if (mgr==null)
-                        mgr = new CacheManager(mMapView);
+                    if (mgr==null) {
+                        try {
+                            mgr = new CacheManager(mMapView);
+                        } catch (TileSourcePolicyException ex) {
+                            Log.e(TAG, ex.getMessage());
+                            return;
+                        }
+                    }
                 }
                 int zoommin = zoom_min.getProgress();
                 int zoommax = zoom_max.getProgress();

@@ -92,7 +92,6 @@ public class LatLonGridlineOverlay2 extends Overlay {
     }
 
     protected void applyMarkerAttributes(Marker m) {
-        m.setEnableTextLabelsWhenNoImage(true);
         m.setTextLabelBackgroundColor(mFontBackgroundColor);
         m.setTextLabelFontSize(mFontSizeDp);
         m.setTextLabelForegroundColor(mFontColor);
@@ -173,8 +172,8 @@ public class LatLonGridlineOverlay2 extends Overlay {
 
             for (double i = sn_start_point; i <= sn_stop_point; i = i + incrementor) {
                 Polyline p = new Polyline();
-                p.setWidth(mLineWidth);
-                p.setColor(mLineColor);
+                p.getOutlinePaint().setStrokeWidth(mLineWidth);
+                p.getOutlinePaint().setColor(mLineColor);
                 List<GeoPoint> pts = new ArrayList<GeoPoint>();
 
 
@@ -191,13 +190,9 @@ public class LatLonGridlineOverlay2 extends Overlay {
 
                 Marker m = new Marker(mapView);
                 applyMarkerAttributes(m);
-                if (i > 0) {
-                    m.setTitle(mDecimalFormatter.format(i) + "N");
-                } else {
-                    m.setTitle(mDecimalFormatter.format(i) + "S");
-                }
-                //must set the icon last
-                m.setIcon(null);
+                final String title = mDecimalFormatter.format(i) + (i > 0 ? "N" : "S");
+                m.setTitle(title);
+                m.setTextIcon(title);
                 m.setPosition(new GeoPoint(i, west + incrementor));
                 gridlines.add(m);
             }
@@ -209,8 +204,8 @@ public class LatLonGridlineOverlay2 extends Overlay {
 
             for (double i = we_startpoint; i <= ws_stoppoint; i = i + incrementor) {
                 Polyline p = new Polyline();
-                p.setWidth(mLineWidth);
-                p.setColor(mLineColor);
+                p.getOutlinePaint().setStrokeWidth(mLineWidth);
+                p.getOutlinePaint().setColor(mLineColor);
                 List<GeoPoint> pts = new ArrayList<GeoPoint>();
                 GeoPoint gx = new GeoPoint((double) north, i);
                 pts.add(gx);
@@ -225,13 +220,9 @@ public class LatLonGridlineOverlay2 extends Overlay {
                 Marker m = new Marker(mapView);
                 applyMarkerAttributes(m);
                 m.setRotation(-90f);
-                if (i > 0) {
-                    m.setTitle(mDecimalFormatter.format(i) + "E");
-                } else {
-                    m.setTitle(mDecimalFormatter.format(i) + "W");
-                }
-                //must set the icon last
-                m.setIcon(null);
+                final String title = mDecimalFormatter.format(i) + (i > 0 ? "E" : "W");
+                m.setTitle(title);
+                m.setTextIcon(title);
                 m.setPosition(new GeoPoint(south + (incrementor), i));
                 gridlines.add(m);
             }
@@ -242,8 +233,8 @@ public class LatLonGridlineOverlay2 extends Overlay {
                 //in this case western point is very positive and eastern part is very negative
                 for (double i = we_startpoint; i <= 180; i = i + incrementor) {
                     Polyline p = new Polyline();
-                    p.setWidth(mLineWidth);
-                    p.setColor(mLineColor);
+                    p.getOutlinePaint().setStrokeWidth(mLineWidth);
+                    p.getOutlinePaint().setColor(mLineColor);
                     List<GeoPoint> pts = new ArrayList<GeoPoint>();
                     GeoPoint gx = new GeoPoint((double) north, i);
                     pts.add(gx);
@@ -256,8 +247,8 @@ public class LatLonGridlineOverlay2 extends Overlay {
                 }
                 for (double i = -180; i <= ws_stoppoint; i = i + incrementor) {
                     Polyline p = new Polyline();
-                    p.setWidth(mLineWidth);
-                    p.setColor(mLineColor);
+                    p.getOutlinePaint().setStrokeWidth(mLineWidth);
+                    p.getOutlinePaint().setColor(mLineColor);
                     List<GeoPoint> pts = new ArrayList<GeoPoint>();
                     GeoPoint gx = new GeoPoint((double) north, i);
                     pts.add(gx);
@@ -270,13 +261,9 @@ public class LatLonGridlineOverlay2 extends Overlay {
                     Marker m = new Marker(mapView);
                     applyMarkerAttributes(m);
                     m.setRotation(-90f);
-                    if (i > 0) {
-                        m.setTitle(mDecimalFormatter.format(i) + "E");
-                    } else {
-                        m.setTitle(mDecimalFormatter.format(i) + "W");
-                    }
-                    //must set the icon last
-                    m.setIcon(null);
+                    final String title = mDecimalFormatter.format(i) + (i > 0 ? "E" : "W");
+                    m.setTitle(title);
+                    m.setTextIcon(title);
                     m.setPosition(new GeoPoint(south + (incrementor), i));
                     gridlines.add(m);
                 }
@@ -288,13 +275,9 @@ public class LatLonGridlineOverlay2 extends Overlay {
 
                     applyMarkerAttributes(m);
                     m.setRotation(-90f);
-                    if (i > 0) {
-                        m.setTitle(mDecimalFormatter.format(i) + "E");
-                    } else {
-                        m.setTitle(mDecimalFormatter.format(i) + "W");
-                    }
-                    //must set the icon last in order for the text label to show
-                    m.setIcon(null);
+                    final String title = mDecimalFormatter.format(i) + (i > 0 ? "E" : "W");
+                    m.setTitle(title);
+                    m.setTextIcon(title);
                     m.setPosition(new GeoPoint(south + (incrementor), i));
                     gridlines.add(m);
                 }

@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import org.osmdroid.R;
 import org.osmdroid.samplefragments.BaseSampleFragment;
-import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.ScaleBarOverlay;
 import org.osmdroid.views.overlay.gestures.RotationGestureOverlay;
 
@@ -32,12 +31,12 @@ public class SampleRotation extends BaseSampleFragment implements View.OnClickLi
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.map_with_locationbox_controls, null);
-        mMapView = (MapView) root.findViewById(org.osmdroid.R.id.mapview);
-        btnRotateLeft = (ImageButton) root.findViewById(R.id.btnRotateLeft);
+        mMapView = root.findViewById(R.id.mapview);
+        btnRotateLeft = root.findViewById(R.id.btnRotateLeft);
         btnRotateLeft.setOnClickListener(this);
-        btnRotateRight = (ImageButton) root.findViewById(R.id.btnRotateRight);
+        btnRotateRight = root.findViewById(R.id.btnRotateRight);
         btnRotateRight.setOnClickListener(this);
-        textViewCurrentLocation = (TextView) root.findViewById(R.id.textViewCurrentLocation);
+        textViewCurrentLocation = root.findViewById(R.id.textViewCurrentLocation);
         textViewCurrentLocation.setText("0.0");
         return root;
 

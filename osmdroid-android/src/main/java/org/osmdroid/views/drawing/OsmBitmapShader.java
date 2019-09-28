@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapShader;
 import android.graphics.Matrix;
 
+@Deprecated
 public class OsmBitmapShader extends BitmapShader {
 	private static final PointL sPoint = new PointL();
 

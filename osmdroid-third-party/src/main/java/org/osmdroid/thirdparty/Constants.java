@@ -9,6 +9,7 @@ package org.osmdroid.thirdparty;
  *
  * @author alex
  */
+@Deprecated
 public class Constants {
      public static String LOGTAG="OsmDroid3rdParty";
 }

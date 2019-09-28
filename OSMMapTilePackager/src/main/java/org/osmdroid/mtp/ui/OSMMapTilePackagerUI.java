@@ -41,7 +41,7 @@ public class OSMMapTilePackagerUI extends JFrame {
      private final JLabel lblTempFolder = new JLabel("Temp-Folder (and tile source name):");
      private final JTextField txtTempFolder = new JTextField();
      private final JButton cmdTempFolderBrowse = new JButton("Browse");
-     private final JTextField txtURL = new JTextField("http://b.tile.openstreetmap.org/%d/%d/%d.png");
+     private final JTextField txtURL = new JTextField("https://b.tile.openstreetmap.org/%d/%d/%d.png");
      private final JButton cmdURLTest = new JButton("Test");
 
      private final JButton cmdExecute = new JButton("Execute");

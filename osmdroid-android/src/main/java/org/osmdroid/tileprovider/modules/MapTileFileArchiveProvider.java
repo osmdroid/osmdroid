@@ -130,7 +130,7 @@ public class MapTileFileArchiveProvider extends MapTileFileStorageProviderBase {
 	public int getMaximumZoomLevel() {
 		ITileSource tileSource = mTileSource.get();
 		return tileSource != null ? tileSource.getMaximumZoomLevel()
-				: microsoft.mappoint.TileSystem.getMaximumZoomLevel();
+				: org.osmdroid.util.TileSystem.getMaximumZoomLevel();
 	}
 
 	@Override
@@ -173,10 +173,6 @@ public class MapTileFileArchiveProvider extends MapTileFileStorageProviderBase {
 
 	private void findArchiveFiles() {
 		clearArcives();
-
-		if (!isSdCardAvailable()) {
-			return;
-		}
 
           // path should be optionally configurable
           File cachePaths = Configuration.getInstance().getOsmdroidBasePath();
@@ -221,14 +217,6 @@ public class MapTileFileArchiveProvider extends MapTileFileStorageProviderBase {
 			Drawable returnValue=null;
 			ITileSource tileSource = mTileSource.get();
 			if (tileSource == null) {
-				return null;
-			}
-
-			// if there's no sdcard then don't do anything
-			if (!isSdCardAvailable()) {
-				if (Configuration.getInstance().isDebugMode()) {
-					Log.d(IMapView.LOGTAG,"No sdcard - do nothing for tile: " + MapTileIndex.toString(pMapTileIndex));
-				}
 				return null;
 			}
 

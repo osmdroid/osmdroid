@@ -29,7 +29,6 @@ import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.os.Environment;
 import android.os.RemoteException;
 import android.test.AndroidTestCase;
 
@@ -70,9 +69,8 @@ public class OpenStreetMapTileProviderDirectTest extends AndroidTestCase {
 		if (Build.VERSION.SDK_INT >=23)
 			return;
 
-		//this can fail if storage permissions isn't available.
 		// create a bitmap, draw something on it, write it to a file and put it in the cache
-		String path = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "osmdroid" + File.separator;
+		String path = getContext().getFilesDir().getAbsolutePath() + File.separator + "osmdroid" + File.separator;
 
 		File temp= new File(path);
 		if (!temp.exists())
@@ -82,7 +80,10 @@ public class OpenStreetMapTileProviderDirectTest extends AndroidTestCase {
 		File f = new File(path);
 		if (f.exists())
 			f.delete();
-		final Bitmap bitmap1 = Bitmap.createBitmap(60, 30, Config.ARGB_8888);
+		final Bitmap bitmap1 = Bitmap.createBitmap(
+				TileSourceFactory.MAPNIK.getTileSizePixels(),
+				TileSourceFactory.MAPNIK.getTileSizePixels(),
+				Config.ARGB_8888);
 		bitmap1.eraseColor(Color.YELLOW);
 		final Canvas canvas = new Canvas(bitmap1);
 
@@ -90,7 +91,7 @@ public class OpenStreetMapTileProviderDirectTest extends AndroidTestCase {
 		try {
 			f.createNewFile();
 			final FileOutputStream fos = new FileOutputStream(path);
-			bitmap1.compress(CompressFormat.JPEG, 100, fos);
+			bitmap1.compress(CompressFormat.PNG, 100, fos);
 			fos.close();
 		}catch (Exception ex){
 			ex.printStackTrace();

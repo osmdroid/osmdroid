@@ -6,7 +6,6 @@ import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
 
 import android.content.Context;
-import android.graphics.Canvas;
 import android.view.MotionEvent;
 
 /**
@@ -34,10 +33,6 @@ public class MapEventsOverlay extends Overlay {
 		mReceiver = receiver;
     }
 
-	@Override public void draw(Canvas c, MapView osmv, boolean shadow) {
-		//Nothing to draw
-	}
-	
 	@Override public boolean onSingleTapConfirmed(MotionEvent e, MapView mapView){
 		Projection proj = mapView.getProjection();
 		GeoPoint p = (GeoPoint)proj.fromPixels((int)e.getX(), (int)e.getY());

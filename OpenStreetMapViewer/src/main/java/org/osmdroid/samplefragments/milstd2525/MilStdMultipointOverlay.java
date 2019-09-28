@@ -2,11 +2,9 @@ package org.osmdroid.samplefragments.milstd2525;
 
 import android.graphics.Canvas;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.util.SparseArray;
 
 import org.osmdroid.api.IGeoPoint;
-import org.osmdroid.api.IMapView;
 import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.PointReducer;
@@ -154,10 +152,10 @@ public class MilStdMultipointOverlay extends Overlay {
                             }
                             line.setPoints(geoPoints);
                             if (info.getLineColor() != null)
-                                line.setStrokeColor(info.getLineColor().toInt());
+                                line.getOutlinePaint().setColor(info.getLineColor().toInt());
                             if (info.getFillColor() != null)
-                                line.setFillColor(info.getFillColor().toInt());
-                            line.setStrokeWidth(flot.getLineWidth());
+                                line.getFillPaint().setColor(info.getFillColor().toInt());
+                            line.getOutlinePaint().setStrokeWidth(flot.getLineWidth());
                             line.setId(id);
                             line.setTitle(name);
                             line.setSubDescription(description);
@@ -178,11 +176,11 @@ public class MilStdMultipointOverlay extends Overlay {
                             }
                             line.setPoints(geoPoints);
                             if (info.getLineColor() != null)
-                                line.setColor(info.getLineColor().toInt());
+                                line.getOutlinePaint().setColor(info.getLineColor().toInt());
                             line.setGeodesic(true);
                             line.setId(id);
                             line.setTitle(name);
-                            line.setWidth(flot.getLineWidth());
+                            line.getOutlinePaint().setStrokeWidth(flot.getLineWidth());
                             line.setSubDescription(description);
                             line.setSnippet(symbolCode);
                             line.setVisible(true);
@@ -207,12 +205,12 @@ public class MilStdMultipointOverlay extends Overlay {
                             }
                             line.setPoints(geoPoints);
                             if (info.getLineColor() != null)
-                                line.setStrokeColor(info.getLineColor().toInt());
+                                line.getOutlinePaint().setColor(info.getLineColor().toInt());
                             if (info.getFillColor() != null)
-                                line.setFillColor(info.getFillColor().toInt());
+                                line.getFillPaint().setColor(info.getFillColor().toInt());
                             line.setId(id);
                             line.setTitle(name);
-                            line.setStrokeWidth(flot.getLineWidth());
+                            line.getOutlinePaint().setStrokeWidth(flot.getLineWidth());
                             line.setSubDescription(description);
                             line.setSnippet(symbolCode);
                             line.setVisible(true);
@@ -227,9 +225,9 @@ public class MilStdMultipointOverlay extends Overlay {
                                 geoPoints.add(new GeoPoint(p.getY(), p.getX()));
                             }
                             line.setPoints(geoPoints);
-                            line.setWidth(flot.getLineWidth());
+                            line.getOutlinePaint().setStrokeWidth(flot.getLineWidth());
                             if (info.getLineColor() != null)
-                                line.setColor(info.getLineColor().toInt());
+                                line.getOutlinePaint().setColor(info.getLineColor().toInt());
                             line.setGeodesic(true);
                             line.setVisible(true);
                             lastOverlay.getItems().add(line);
@@ -238,15 +236,13 @@ public class MilStdMultipointOverlay extends Overlay {
                     }
                 } else {
                     //not a line or a polygon
-
-                    Marker.ENABLE_TEXT_LABELS_WHEN_NO_IMAGE = true;
                     Marker m = new Marker(map);
                     m.setTextLabelBackgroundColor(Color.WHITE.toInt());
                     m.setTextLabelFontSize(14);
                     m.setTextLabelForegroundColor(Color.BLACK.toInt());
                     m.setTitle(info.getModifierString());
                     m.setRotation((float) info.getModifierStringAngle());
-                    m.setIcon(null);
+                    m.setTextIcon(info.getModifierString());
                     m.setPosition(new GeoPoint(info.getModifierStringPosition().getY(), info.getModifierStringPosition().getX()));
                     lastOverlay.getItems().add(m);
                 }

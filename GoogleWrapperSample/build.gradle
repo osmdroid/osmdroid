@@ -1,11 +1,17 @@
-description = 'Example application for 3rd party utilities, including the Google wrapper sample, Bing map sources, etc'
+/*
+
+    NOTICE, this module is deprecated and is scheduled to be removed in a future version of osmdroid
+    2 June 2018
+
+ */
+description = 'DEPRECATED Example application for 3rd party utilities, including the Google wrapper sample, Bing map sources, etc'
 
 apply plugin: 'com.android.application'
 apply from: "https://raw.githubusercontent.com/gradle-fury/gradle-fury/v1.1.4/gradle/android-support.gradle"
 
 android {
-    compileSdkVersion 'Google Inc.:Google APIs:23'
-    buildToolsVersion "23.0.3"
+    buildToolsVersion "${project.property('android.buildToolsVersion')}"
+    compileSdkVersion "Google Inc.:Google APIs:${project.property('android.targetSdkVersion')}"
 
     defaultConfig {
         applicationId "org.osmdroid.google.sample"
@@ -21,40 +27,39 @@ android {
 
 dependencies {
     testCompile "junit:junit:${project.property('junit.version')}"
-    compile 'com.android.support:appcompat-v7:23.+'
+
+    compile "com.android.support:appcompat-v7:${project.property('android-support.version')}"
     //this covers google maps v2 apis
-    compile 'com.google.android.gms:play-services:8.+'
+    //compile 'com.google.android.gms:play-services:8.+'
 
     compile 'com.google.android.gms:play-services-maps:8.+'
 
-    compile 'com.android.support:support-v4:23+'
-    compile 'com.android.support:appcompat-v7:23.1.1'
+    compile "com.android.support:support-v4:${project.property('android-support.version')}"
+    compile "com.android.support:appcompat-v7:${project.property('android-support.version')}"
     compile project(':osmdroid-android')
     compile project(':osmdroid-third-party')
 
-    androidTestCompile 'com.android.support:support-annotations:23+'
     androidTestCompile 'com.android.support.test:runner:0.4.+'
     androidTestCompile 'com.android.support.test:rules:0.4.+'
-
-
+    androidTestCompile "com.android.support:support-annotations:${project.property('android-support.version')}"
 }
 
 project.gradle.taskGraph.whenReady {
     //this is just for Travis CI builds, since this package needs at least api 9 with google apis
-    //ignore the following build targets 1,2,3,7, 12
-    if (System.getenv("API")!=null) {
-        String apistring = System.getenv("API");
-        if (apistring.contains("g")) {
-            int api = Integer.parseInt(System.getenv("API").replace("g", "").trim());
+    if (System.getenv("API") != null && System.getenv("ANDROID_TAG") != null) {
+        String apistring = System.getenv("API")
+        String tag = System.getenv("ANDROID_TAG")
+        if (tag.contains("google_apis")) {
+            int api = Integer.parseInt(apistring.trim())
             if (api < 9) {
-                println "Skipping GoogleWrapperSample instrumentation test since the API level doesn't match this project"
-                installDebug { actions = []; }
-                connectedDebugAndroidTest { actions = []; }
+                println "Skipping GoogleWrapperSample instrumentation test since system image API level is < 9"
+                installDebug { actions = [] }
+                connectedDebugAndroidTest { actions = [] }
             }
         } else {
-            println "Skipping GoogleWrapperSample instrumentation test since the API level doesn't match this project"
-            installDebug { actions = []; }
-            connectedDebugAndroidTest { actions = []; }
+            println "Skipping GoogleWrapperSample instrumentation test since system image doesn't have google APIs"
+            installDebug { actions = [] }
+            connectedDebugAndroidTest { actions = [] }
         }
     }
 

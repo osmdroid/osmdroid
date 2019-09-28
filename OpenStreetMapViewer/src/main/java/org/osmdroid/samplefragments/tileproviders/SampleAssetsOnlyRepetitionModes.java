@@ -9,8 +9,6 @@ import android.widget.CompoundButton;
 import org.osmdroid.R;
 import org.osmdroid.samplefragments.BaseSampleFragment;
 import org.osmdroid.util.BoundingBox;
-import org.osmdroid.util.TileSystem;
-import org.osmdroid.views.MapView;
 
 /**
  * test for showing the map for different repetition modes
@@ -31,10 +29,10 @@ public class SampleAssetsOnlyRepetitionModes extends BaseSampleFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.layout_wrapping, null);
-        horizontalCb = (CheckBox) v.findViewById(R.id.horizontalRepetitionCb);
-        verticalCb = (CheckBox) v.findViewById(R.id.verticalRepetitionCb);
-        limitBoundsCb = (CheckBox) v.findViewById(R.id.limitBoundsCb);
-        mMapView = (MapView) v.findViewById(org.osmdroid.R.id.mapview);
+        horizontalCb = v.findViewById(R.id.horizontalRepetitionCb);
+        verticalCb = v.findViewById(R.id.verticalRepetitionCb);
+        limitBoundsCb = v.findViewById(R.id.limitBoundsCb);
+        mMapView = v.findViewById(R.id.mapview);
 
         horizontalCb.setChecked(true);
         verticalCb.setChecked(true);
@@ -56,8 +54,8 @@ public class SampleAssetsOnlyRepetitionModes extends BaseSampleFragment {
             @Override public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked) {
                     mMapView.setScrollableAreaLimitDouble(new BoundingBox(
-                            TileSystem.MaxLatitude, TileSystem.MaxLongitude,
-                            TileSystem.MinLatitude, TileSystem.MinLongitude));
+                            mMapView.getTileSystem().getMaxLatitude(), mMapView.getTileSystem().getMaxLongitude(),
+                            mMapView.getTileSystem().getMinLatitude(), mMapView.getTileSystem().getMinLongitude()));
                 } else {
                     mMapView.setScrollableAreaLimitDouble(null);
                 }

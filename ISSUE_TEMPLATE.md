@@ -25,5 +25,5 @@ All
 
 ### Version of osmdroid the issue relates to:
 
-5.6.5
+6.0.2
 

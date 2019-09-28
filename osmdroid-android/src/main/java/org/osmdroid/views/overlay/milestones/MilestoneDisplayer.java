@@ -44,4 +44,14 @@ public abstract class MilestoneDisplayer {
      * Draw on pixel (0,0) with no rotation
      */
     protected abstract void draw(final Canvas pCanvas, final Object pParameter);
+
+    /**
+     * @since 6.0.2
+     */
+    public void drawBegin(final Canvas pCanvas) {}
+
+    /**
+     * @since 6.0.2
+     */
+    public void drawEnd(final Canvas pCanvas) {}
 }

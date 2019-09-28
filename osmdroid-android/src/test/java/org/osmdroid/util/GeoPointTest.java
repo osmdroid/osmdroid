@@ -26,6 +26,8 @@ public class GeoPointTest {
 
 	private static Random random = new Random();
 
+	private static final TileSystem tileSystem = new TileSystemWebMercator();
+
 	/**
 	 * Testing that a distance from a point to the same point is 0
 	 * @since 6.0.0
@@ -217,8 +219,8 @@ public class GeoPointTest {
 	 */
 	private double getCleanLongitudeDiff(final double pLongitude1, final double pLongitude2) {
 		double diff = Math.abs(pLongitude1 - pLongitude2);
-		if (diff > TileSystem.MaxLongitude) {
-			diff = TileSystem.MaxLongitude - TileSystem.MinLongitude - diff;
+		if (diff > tileSystem.getMaxLongitude()) {
+			diff = tileSystem.getMaxLongitude() - tileSystem.getMinLongitude() - diff;
 		}
 		return diff;
 	}
@@ -227,13 +229,13 @@ public class GeoPointTest {
 	 * @since 6.0.0
 	 */
 	private double getRandomLongitude() {
-		return TileSystem.getRandomLongitude(random.nextDouble());
+		return tileSystem.getRandomLongitude(random.nextDouble());
 	}
 
 	/**
 	 * @since 6.0.0
 	 */
 	private double getRandomLatitude() {
-		return TileSystem.getRandomLatitude(random.nextDouble(), TileSystem.MinLatitude);
+		return tileSystem.getRandomLatitude(random.nextDouble(), tileSystem.getMinLatitude());
 	}
 }

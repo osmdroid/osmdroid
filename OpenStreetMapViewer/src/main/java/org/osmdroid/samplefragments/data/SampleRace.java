@@ -1,5 +1,8 @@
 package org.osmdroid.samplefragments.data;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ValueAnimator;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -10,12 +13,16 @@ import android.graphics.Rect;
 import android.os.Bundle;
 
 import org.osmdroid.samplefragments.BaseSampleFragment;
+import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.overlay.milestones.MilestoneBitmapDisplayer;
 import org.osmdroid.views.overlay.milestones.MilestoneDisplayer;
+import org.osmdroid.views.overlay.milestones.MilestoneLister;
 import org.osmdroid.views.overlay.milestones.MilestoneManager;
 import org.osmdroid.views.overlay.milestones.MilestoneMeterDistanceLister;
+import org.osmdroid.views.overlay.milestones.MilestoneMeterDistanceSliceLister;
 import org.osmdroid.views.overlay.milestones.MilestonePathDisplayer;
+import org.osmdroid.views.overlay.milestones.MilestoneLineDisplayer;
 import org.osmdroid.views.overlay.milestones.MilestoneVertexLister;
 import org.osmdroid.views.overlay.Polyline;
 
@@ -31,6 +38,20 @@ public class SampleRace extends BaseSampleFragment {
 
     public static final String TITLE = "10K race in Paris";
 
+    private static final float LINE_WIDTH_BIG = 12;
+    private static final float TEXT_SIZE = 20;
+    private static final int COLOR_POLYLINE_STATIC = Color.BLUE;
+    private static final int COLOR_POLYLINE_ANIMATED = Color.GREEN;
+    private static final int COLOR_BACKGROUND = Color.WHITE;
+
+    private double mAnimatedMetersSoFar;
+    private boolean mAnimationEnded;
+
+    /**
+     * @since 6.0.3
+     */
+    private final List<GeoPoint> mGeoPoints = getGeoPoints();
+
     @Override
     public String getSampleTitle() {
         return TITLE;
@@ -38,9 +59,13 @@ public class SampleRace extends BaseSampleFragment {
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-
-        mMapView.getController().setZoom(13.2);
-        mMapView.getController().setCenter(new GeoPoint(48.85792514768071,2.342640914879439));
+        mMapView.post(new Runnable() {
+            @Override
+            public void run() {
+                final BoundingBox boundingBox = BoundingBox.fromGeoPoints(mGeoPoints);
+                mMapView.zoomToBoundingBox(boundingBox, false, 30);
+            }
+        });
 
         super.onActivityCreated(savedInstanceState);
     }
@@ -49,10 +74,183 @@ public class SampleRace extends BaseSampleFragment {
     protected void addOverlays() {
         super.addOverlays();
 
-        Polyline line = new Polyline(mMapView);
-        line.setWidth(10f);
-        line.setColor(Color.BLUE);
-        List<GeoPoint> pts = new ArrayList<>();
+        final Polyline line = new Polyline(mMapView);
+        line.getOutlinePaint().setColor(COLOR_POLYLINE_STATIC);
+        line.getOutlinePaint().setStrokeWidth(LINE_WIDTH_BIG);
+        line.setPoints(mGeoPoints);
+        line.getOutlinePaint().setStrokeCap(Paint.Cap.ROUND);
+        final List<MilestoneManager> managers = new ArrayList<>();
+        final MilestoneMeterDistanceSliceLister slicerForPath = new MilestoneMeterDistanceSliceLister();
+        final Bitmap bitmap = BitmapFactory.decodeResource(getResources(), org.osmdroid.library.R.drawable.next);
+        final MilestoneMeterDistanceSliceLister slicerForIcon = new MilestoneMeterDistanceSliceLister();
+        managers.add(getAnimatedPathManager(slicerForPath));
+        managers.add(getAnimatedIconManager(slicerForIcon, bitmap));
+        managers.add(getHalfKilometerManager());
+        managers.add(getKilometerManager());
+        managers.add(getStartManager(bitmap));
+        line.setMilestoneManagers(managers);
+        mMapView.getOverlayManager().add(line);
+        final ValueAnimator percentageCompletion = ValueAnimator.ofFloat(0, 10000); // 10 kilometers
+        percentageCompletion.setDuration(5000); // 5 seconds
+        percentageCompletion.setStartDelay(1000); // 1 second
+        percentageCompletion.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                mAnimatedMetersSoFar = (float)animation.getAnimatedValue();
+                slicerForPath.setMeterDistanceSlice(0, mAnimatedMetersSoFar);
+                slicerForIcon.setMeterDistanceSlice(mAnimatedMetersSoFar, mAnimatedMetersSoFar);
+                mMapView.invalidate();
+            }
+        });
+        percentageCompletion.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                mAnimationEnded = true;
+            }
+        });
+        percentageCompletion.start();
+    }
+
+    /**
+     * @since 6.0.2
+     */
+    private Paint getFillPaint(final int pColor) {
+        final Paint paint = new Paint();
+        paint.setColor(pColor);
+        paint.setStyle(Paint.Style.FILL_AND_STROKE);
+        return paint;
+    }
+
+    /**
+     * @since 6.0.2
+     */
+    private Paint getStrokePaint(final int pColor, final float pWidth) {
+        final Paint paint = new Paint();
+        paint.setStrokeWidth(pWidth);
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setAntiAlias(true);
+        paint.setColor(pColor);
+        paint.setStrokeCap(Paint.Cap.ROUND);
+        return paint;
+    }
+
+    /**
+     * @since 6.0.2
+     */
+    private Paint getTextPaint(final int pColor) {
+        final Paint paint = new Paint();
+        paint.setColor(pColor);
+        paint.setTextSize(TEXT_SIZE);
+        paint.setAntiAlias(true);
+        return paint;
+    }
+
+    /**
+     * Kilometer milestones
+     * @since 6.0.2
+     */
+    private MilestoneManager getKilometerManager() {
+        final float backgroundRadius = 20;
+        final Paint backgroundPaint1 = getFillPaint(COLOR_BACKGROUND);
+        final Paint backgroundPaint2 = getFillPaint(COLOR_POLYLINE_ANIMATED);
+        final Paint textPaint1 = getTextPaint(COLOR_POLYLINE_STATIC);
+        final Paint textPaint2 = getTextPaint(COLOR_BACKGROUND);
+        final Paint borderPaint = getStrokePaint(COLOR_BACKGROUND, 2);
+        return new MilestoneManager(
+                new MilestoneMeterDistanceLister(1000),
+                new MilestoneDisplayer(0, false) {
+                    @Override
+                    protected void draw(final Canvas pCanvas, final Object pParameter) {
+                        final double meters = (double)pParameter;
+                        final int kilometers = (int)Math.round(meters / 1000);
+                        final boolean checked = meters < mAnimatedMetersSoFar || (kilometers == 10 && mAnimationEnded);
+                        final Paint textPaint = checked ? textPaint2 : textPaint1;
+                        final Paint backgroundPaint = checked ? backgroundPaint2 : backgroundPaint1;
+                        final String text = "" + kilometers + "K";
+                        final Rect rect = new Rect();
+                        textPaint1.getTextBounds(text, 0, text.length(), rect);
+                        pCanvas.drawCircle(0, 0, backgroundRadius, backgroundPaint);
+                        pCanvas.drawText(text, -rect.left - rect.width() / 2, rect.height() / 2 - rect.bottom, textPaint);
+                        pCanvas.drawCircle(0, 0, backgroundRadius + 1, borderPaint);
+                    }
+                }
+        );
+    }
+
+    /**
+     * Half-kilometer milestones
+     * @since 6.0.2
+     */
+    private MilestoneManager getHalfKilometerManager() {
+        final Path arrowPath = new Path(); // a simple arrow towards the right
+        arrowPath.moveTo(-5, -5);
+        arrowPath.lineTo(5, 0);
+        arrowPath.lineTo(-5, 5);
+        arrowPath.close();
+        final Paint backgroundPaint = getFillPaint(COLOR_BACKGROUND);
+        return new MilestoneManager( // display an arrow at 500m every 1km
+                new MilestoneMeterDistanceLister(500),
+                new MilestonePathDisplayer(0, true, arrowPath, backgroundPaint) {
+                    @Override
+                    protected void draw(final Canvas pCanvas, final Object pParameter) {
+                        final int halfKilometers = (int)Math.round(((double)pParameter / 500));
+                        if (halfKilometers % 2 == 0) {
+                            return;
+                        }
+                        super.draw(pCanvas, pParameter);
+                    }
+                }
+        );
+    }
+
+    /**
+     * Animated path
+     * @since 6.0.2
+     */
+    private MilestoneManager getAnimatedPathManager(final MilestoneLister pMilestoneLister) {
+        final Paint slicePaint = getStrokePaint(COLOR_POLYLINE_ANIMATED, LINE_WIDTH_BIG);
+        return new MilestoneManager(pMilestoneLister, new MilestoneLineDisplayer(slicePaint));
+    }
+
+    /**
+     * Animated icon
+     * @since 6.0.2
+     */
+    private MilestoneManager getAnimatedIconManager(final MilestoneLister pMilestoneLister,
+                                                    final Bitmap pBitmap) {
+        return new MilestoneManager(
+                pMilestoneLister,
+                new MilestoneBitmapDisplayer(0, true, pBitmap,
+                        pBitmap.getWidth() / 2, pBitmap.getHeight() / 2)
+        );
+    }
+
+    /**
+     * Starting point
+     * @since 6.0.2
+     */
+    private MilestoneManager getStartManager(final Bitmap pBitmap) {
+        return new MilestoneManager(
+                new MilestoneVertexLister(),
+                new MilestoneBitmapDisplayer(0, true,
+                        pBitmap, pBitmap.getWidth() / 2, pBitmap.getHeight() / 2) {
+                    @Override
+                    protected void draw(final Canvas pCanvas, final Object pParameter) {
+                        if (0 != (int)pParameter) { // we only draw the start
+                            return;
+                        }
+                        super.draw(pCanvas, pParameter);
+                    }
+                }
+        );
+    }
+
+    /**
+     * @since 6.0.2
+     * TODO get a real list of geo points instead of this lousy manual list
+     */
+    private List<GeoPoint> getGeoPoints() {
+        final List<GeoPoint> pts = new ArrayList<>();
         pts.add(new GeoPoint(48.85546563875735,2.359844067173981)); // saint paul
         pts.add(new GeoPoint(48.85737826660179,2.351524365470226)); // hôtel de ville
         pts.add(new GeoPoint(48.86253652215784,2.3354870181106264)); // louvre 1
@@ -97,74 +295,6 @@ public class SampleRace extends BaseSampleFragment {
         pts.add(new GeoPoint(48.852639573503986,2.3594411333991445)); // quai des célestins 3
         pts.add(new GeoPoint(48.85244769344759,2.3598755748636506)); // quai des célestins 4
         pts.add(new GeoPoint(48.85215399805951,2.360375480110463)); // quai des célestins 5
-        line.setPoints(pts);
-        final List<MilestoneManager> managers = new ArrayList<>();
-        final Paint backgroundPaint = new Paint();
-        backgroundPaint.setStrokeWidth(5.0f);
-        backgroundPaint.setColor(Color.WHITE);
-        backgroundPaint.setStyle(Paint.Style.FILL_AND_STROKE);
-        backgroundPaint.setAntiAlias(false);
-        final float backgroundRadius = 20;
-        final Paint textPaint = new Paint();
-        textPaint.setColor(Color.BLUE);
-        textPaint.setStrokeWidth(1.5f);
-        textPaint.setStyle(Paint.Style.STROKE);
-        textPaint.setTextSize(20);
-        textPaint.setAntiAlias(true);
-        final Paint finishPaint = new Paint();
-        finishPaint.setColor(Color.RED);
-        finishPaint.setStrokeWidth(2f);
-        finishPaint.setStyle(Paint.Style.STROKE);
-        finishPaint.setAntiAlias(true);
-        final Path arrowPath = new Path(); // a simple arrow towards the right
-        arrowPath.moveTo(-5, -5);
-        arrowPath.lineTo(5, 0);
-        arrowPath.lineTo(-5, 5);
-        arrowPath.close();
-        managers.add(new MilestoneManager( // display an arrow at 500m every 1km
-                new MilestoneMeterDistanceLister(500),
-                new MilestonePathDisplayer(0, true, arrowPath, backgroundPaint) {
-                    @Override
-                    protected void draw(final Canvas pCanvas, final Object pParameter) {
-                        final int halfKilometers = (int)Math.round(((double)pParameter / 500));
-                        if (halfKilometers % 2 == 0) {
-                            return;
-                        }
-                        super.draw(pCanvas, pParameter);
-                    }
-                }
-        ));
-        managers.add(new MilestoneManager( // display the kilometers
-                new MilestoneMeterDistanceLister(1000),
-                new MilestoneDisplayer(0, false) {
-                    @Override
-                    protected void draw(final Canvas pCanvas, final Object pParameter) {
-                        final int kilometers = (int)Math.round(((double)pParameter / 1000));
-                        final String text = "" + kilometers + "K";
-                        final Rect rect = new Rect();
-                        textPaint.getTextBounds(text, 0, text.length(), rect);
-                        pCanvas.drawCircle(0, 0, backgroundRadius, backgroundPaint);
-                        pCanvas.drawText(text, -rect.left - rect.width() / 2, rect.height() / 2 - rect.bottom, textPaint);
-                        if (kilometers == 10) {
-                            pCanvas.drawCircle(0, 0, backgroundRadius + 1, finishPaint);
-                        }
-                    }
-                }
-        ));
-        final Bitmap bitmap = BitmapFactory.decodeResource(getResources(), org.osmdroid.library.R.drawable.next);
-        managers.add(new MilestoneManager( // display the start
-                new MilestoneVertexLister(),
-                new MilestoneBitmapDisplayer(0, true, bitmap, bitmap.getWidth() / 2, bitmap.getHeight() / 2) {
-                    @Override
-                    protected void draw(final Canvas pCanvas, final Object pParameter) {
-                        if (0 != (int)pParameter) { // we only draw the start
-                            return;
-                        }
-                        super.draw(pCanvas, pParameter);
-                    }
-                }
-        ));
-        line.setMilestoneManagers(managers);
-        mMapView.getOverlayManager().add(line);
+        return pts;
     }
 }

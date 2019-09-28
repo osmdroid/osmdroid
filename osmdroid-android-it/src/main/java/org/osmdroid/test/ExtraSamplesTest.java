@@ -22,7 +22,6 @@ import org.osmdroid.OsmApplication;
 import org.osmdroid.bugtestfragments.BugFactory;
 import org.osmdroid.samplefragments.*;
 import org.osmdroid.samplefragments.ui.SamplesMenuFragment;
-import org.osmdroid.samplefragments.ui.SamplesMenuFragment;
 import org.osmdroid.tileprovider.util.Counters;
 
 import java.util.Random;

@@ -1,12 +1,10 @@
 package org.osmdroid.samplefragments.milstd2525;
 
-import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.util.SparseArray;
 import android.view.MotionEvent;
 
 import org.osmdroid.util.GeoPoint;
-import org.osmdroid.util.TileSystem;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.Overlay;
@@ -39,11 +37,6 @@ public class MilStdPointPlottingOverlay extends Overlay {
     }
 
     @Override
-    public void draw(Canvas c, MapView osmv, boolean shadow) {
-
-    }
-
-    @Override
     public boolean onLongPress(final MotionEvent e, final MapView mapView) {
         if (def != null) {
             GeoPoint pt = (GeoPoint) mapView.getProjection().fromPixels((int) e.getX(), (int) e.getY(), null);
@@ -54,10 +47,10 @@ public class MilStdPointPlottingOverlay extends Overlay {
             if (pt.getLongitude() > 180)
                 pt.setLongitude(pt.getLongitude() - 360);
             //latitude is a bit harder. see https://en.wikipedia.org/wiki/Mercator_projection
-            if (pt.getLatitude() > TileSystem.MaxLatitude)
-                pt.setLatitude(TileSystem.MaxLatitude);
-            if (pt.getLatitude() < TileSystem.MinLatitude)
-                pt.setLatitude(TileSystem.MinLatitude);
+            if (pt.getLatitude() > mapView.getTileSystem().getMaxLatitude())
+                pt.setLatitude(mapView.getTileSystem().getMaxLatitude());
+            if (pt.getLatitude() < mapView.getTileSystem().getMinLatitude())
+                pt.setLatitude(mapView.getTileSystem().getMinLatitude());
 
             String code = def.getSymbolCode().replace("*", "-");
             //TODO if (!def.isMultiPoint())

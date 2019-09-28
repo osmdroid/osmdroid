@@ -178,7 +178,7 @@ public class OSMMapTilePackager {
 
      public interface ProgressNotification {
 
-          public void updateProgress(String msg);
+          void updateProgress(String msg);
      }
 
      public static void execute(final String pServerURL, final String pDestinationFile,
@@ -186,7 +186,11 @@ public class OSMMapTilePackager {
           final int pMinZoom, final int pMaxZoom, final double pNorth, final double pSouth,
           final double pEast, final double pWest, final ProgressNotification callbackNotification) {
           System.out.println("---------------------------");
-          runDownloading(pServerURL, pTempFolder, pThreadCount, pFileAppendix, pMinZoom, pMaxZoom, pNorth, pSouth, pEast, pWest, callbackNotification);
+          if (pServerURL!=null) {
+		     runDownloading(pServerURL, pTempFolder, pThreadCount, pFileAppendix, pMinZoom, pMaxZoom, pNorth, pSouth, pEast, pWest, callbackNotification);
+	     } else {
+               System.out.println("using temporary directory content");
+	     }
           System.out.println("---------------------------");
           if (callbackNotification != null) {
                callbackNotification.updateProgress("Download complete, creating archive");

@@ -102,23 +102,20 @@ public abstract class MapTileModuleProviderBase {
 			@Override
 			protected boolean removeEldestEntry(
 					final Map.Entry<Long, MapTileRequestState> pEldest) {
-				if (size() > pPendingQueueSize) {
-					Long result = null;
-
-					// get the oldest tile that isn't in the mWorking queue
-					Iterator<Long> iterator = mPending.keySet().iterator();
-
-					while (result == null && iterator.hasNext()) {
-						final Long mapTileIndex = iterator.next();
-						if (!mWorking.containsKey(mapTileIndex)) {
-							result = mapTileIndex;
+				if (size() <= pPendingQueueSize) {
+					return false;
+				}
+				// get the oldest tile that isn't in the mWorking queue
+				final Iterator<Long> iterator = mPending.keySet().iterator();
+				while (iterator.hasNext()) {
+					final long mapTileIndex = iterator.next();
+					if (!mWorking.containsKey(mapTileIndex)) {
+						final MapTileRequestState state = mPending.get(mapTileIndex);
+						if (state != null) { // check for concurrency reasons
+							removeTileFromQueues(mapTileIndex);
+							state.getCallback().mapTileRequestFailedExceedsMaxQueueSize(state);
+							return false;
 						}
-					}
-
-					if (result != null) {
-						MapTileRequestState state = mPending.get(result);
-						removeTileFromQueues(result);
-						state.getCallback().mapTileRequestFailedExceedsMaxQueueSize(state);
 					}
 				}
 				return false;
@@ -332,22 +329,6 @@ public abstract class MapTileModuleProviderBase {
 			}
 
 			onTileLoaderShutdown();
-		}
-	}
-
-	/**
-	 * Thrown by a tile provider module in TileLoader.loadTile() to signal that it can no longer
-	 * function properly. This will typically clear the pending queue.
-	 */
-	public class CantContinueException extends Exception {
-		private static final long serialVersionUID = 146526524087765133L;
-
-		public CantContinueException(final String pDetailMessage) {
-			super(pDetailMessage);
-		}
-
-		public CantContinueException(final Throwable pThrowable) {
-			super(pThrowable);
 		}
 	}
 }

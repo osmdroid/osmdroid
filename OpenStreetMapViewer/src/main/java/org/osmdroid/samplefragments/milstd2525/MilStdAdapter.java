@@ -103,10 +103,10 @@ public class MilStdAdapter extends ArrayAdapter<SimpleSymbol> implements Filtera
         LayoutInflater inflater = (LayoutInflater) context
             .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View rowView = inflater.inflate(R.layout.milstd2525searchitem, parent, false);
-        ImageView milstd_search_result_preview = (ImageView) rowView.findViewById(R.id.milstd_search_result_preview);
-        TextView milstd_search_result_title = (TextView) rowView.findViewById(R.id.milstd_search_result_title);
-        TextView milstd_search_result_hierarchy = (TextView) rowView.findViewById(R.id.milstd_search_result_hierarchy);
-        TextView milstd_search_result_description = (TextView) rowView.findViewById(R.id.milstd_search_result_description);
+        ImageView milstd_search_result_preview = rowView.findViewById(R.id.milstd_search_result_preview);
+        TextView milstd_search_result_title = rowView.findViewById(R.id.milstd_search_result_title);
+        TextView milstd_search_result_hierarchy = rowView.findViewById(R.id.milstd_search_result_hierarchy);
+        TextView milstd_search_result_description = rowView.findViewById(R.id.milstd_search_result_description);
 
         SimpleSymbol def = getItem(position);
 

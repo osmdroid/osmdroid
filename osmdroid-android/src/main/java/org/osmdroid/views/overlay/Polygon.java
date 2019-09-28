@@ -1,6 +1,8 @@
 package org.osmdroid.views.overlay;
 
+
 import android.graphics.Canvas;
+
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
@@ -9,14 +11,14 @@ import android.graphics.Region;
 import android.view.MotionEvent;
 
 import org.osmdroid.api.IGeoPoint;
-import org.osmdroid.library.R;
 import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
+
 import org.osmdroid.util.PointL;
 import org.osmdroid.util.PointReducer;
+import org.osmdroid.util.TileSystemWebMercator;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
-import org.osmdroid.views.overlay.infowindow.BasicInfoWindow;
 import org.osmdroid.views.overlay.infowindow.InfoWindow;
 import org.osmdroid.views.overlay.milestones.MilestoneManager;
 
@@ -37,7 +39,7 @@ import java.util.List;
  * @author M.Kergall: transformation from PathOverlay to Polygon
  * @see <a href="http://developer.android.com/reference/com/google/android/gms/maps/model/Polygon.html">Google Maps Polygon</a>
  */
-public class Polygon extends OverlayWithIW {
+public class Polygon extends PolyOverlayWithIW {
 
 	private final Path mPath = new Path(); //Path drawn is kept for click detection
 	private LinearRing mOutline = new LinearRing(mPath);
@@ -52,7 +54,9 @@ public class Polygon extends OverlayWithIW {
 	private int mMinimumZoom = 0;
 	private List<MilestoneManager> mMilestoneManagers = new ArrayList<>();
 	private GeoPoint mInfoWindowLocation;
-	private BoundingBox mBounds=new BoundingBox(90,180,-90,-180);
+	private BoundingBox mBounds=new BoundingBox(TileSystemWebMercator.MaxLatitude
+		,TileSystemWebMercator.MaxLongitude,
+		TileSystemWebMercator.MinLatitude,TileSystemWebMercator.MinLongitude);
 
 	// ===========================================================
 	// Constructors
@@ -63,16 +67,11 @@ public class Polygon extends OverlayWithIW {
 	}
 
 	public Polygon(MapView mapView) {
-		if (mapView != null) {
-			if (mDefaultInfoWindow == null || mDefaultInfoWindow.getMapView() != mapView) {
-				mDefaultInfoWindow = new BasicInfoWindow(R.layout.bonuspack_bubble, mapView);
-			}
-		}
-		setInfoWindow(mDefaultInfoWindow);
+		super(mapView, true, true);
 		mFillPaint = new Paint();
 		mFillPaint.setColor(Color.TRANSPARENT);
 		mFillPaint.setStyle(Paint.Style.FILL);
-		mOutlinePaint = new Paint();
+		mOutlinePaint=new Paint();
 		mOutlinePaint.setColor(Color.BLACK);
 		mOutlinePaint.setStrokeWidth(10.0f);
 		mOutlinePaint.setStyle(Paint.Style.STROKE);
@@ -108,33 +107,42 @@ public class Polygon extends OverlayWithIW {
 	public void setMinimumDrawZoom(int pZoom){
 		this.mMinimumZoom = pZoom;
 	}
+
+	/**
+	 * @deprecated Use {@link #getFillPaint()} instead
+	 */
+	@Deprecated
 	public int getFillColor() {
 		return mFillPaint.getColor();
 	}
 
+	/**
+	 * @deprecated Use {@link #getOutlinePaint()} instead
+	 */
+	@Deprecated
 	public int getStrokeColor() {
 		return mOutlinePaint.getColor();
 	}
 
+	/**
+	 * @deprecated Use {@link #getOutlinePaint()} instead
+	 */
+	@Deprecated
 	public float getStrokeWidth() {
 		return mOutlinePaint.getStrokeWidth();
 	}
 
-	/** @return the Paint used for the outline. This allows to set advanced Paint settings. */
-	public Paint getOutlinePaint(){
-		return mOutlinePaint;
-	}
-
-	public void setGeodesic(boolean geodesic) {
-		mOutline.setGeodesic(geodesic);
-	}
-
-	public boolean isGeodesic() {
-		return mOutline.isGeodesic();
+	/**
+	 * @return the Paint used for the filling. This allows to set advanced Paint settings.
+	 * @since 6.0.2
+	 */
+	public Paint getFillPaint() {
+		return super.getFillPaint(); // public instead of protected
 	}
 
 	/**
-	 * @return a copy of the list of polygon's vertices. 
+	 * @return a copy of the list of polygon's vertices.
+	 * Warning: changes on this list may cause strange results on the polygon display.
 	 */
 	public List<GeoPoint> getPoints(){
 		//TODO This is completely wrong:
@@ -143,21 +151,30 @@ public class Polygon extends OverlayWithIW {
 		return originalPointSet;
 	}
 
-	public boolean isVisible(){
-		return isEnabled();
-	}
-
+	/**
+	 * @deprecated Use {@link #getFillPaint()} instead
+	 */
+	@Deprecated
 	public void setFillColor(final int fillColor) {
 		mFillPaint.setColor(fillColor);
 	}
 
+	/**
+	 * @deprecated Use {@link #getOutlinePaint()} instead
+	 */
+	@Deprecated
 	public void setStrokeColor(final int color) {
 		mOutlinePaint.setColor(color);
 	}
 
+	/**
+	 * @deprecated Use {@link #getOutlinePaint()} instead
+	 */
+	@Deprecated
 	public void setStrokeWidth(final float width) {
 		mOutlinePaint.setStrokeWidth(width);
 	}
+
 
 	public void setVisible(boolean visible){
 		setEnabled(visible);
@@ -184,7 +201,10 @@ public class Polygon extends OverlayWithIW {
 	}
 
 	/**
-	 * This method will take a copy of the points.
+	 * Set the points of the polygon outline.
+	 * Note that a later change in the original points List will have no effect.
+	 * To remove/change points, you must call setPoints again.
+	 * If geodesic mode has been set, the long segments will follow the earth "great circle".
 	 */
 	public void setPoints(final List<GeoPoint> points) {
 		mBounds = BoundingBox.fromGeoPoints(points);
@@ -192,6 +212,14 @@ public class Polygon extends OverlayWithIW {
 		originalPointSet.addAll(points);
 		mOutline.setPoints(points);
 		setDefaultInfoWindowLocation();
+	}
+
+	/**
+	 * Add the point at the end of the polygon outline.
+	 * If geodesic mode has been set, the long segments will follow the earth "great circle".
+	 */
+	public void addPoint(GeoPoint p){
+		mOutline.addPoint(p);
 	}
 
 	public void setHoles(List<? extends List<GeoPoint>> holes){
@@ -303,7 +331,7 @@ public class Polygon extends OverlayWithIW {
 
 
 
-		mOutline.setClipArea(mapView);
+		mOutline.setClipArea(pj);
 		final PointL offset = mOutline.buildPathPortion(pj, null, mMilestoneManagers.size() > 0);
 		for (final MilestoneManager milestoneManager : mMilestoneManagers) {
 			milestoneManager.init();
@@ -315,7 +343,7 @@ public class Polygon extends OverlayWithIW {
 		}
 
 		for (LinearRing hole:mHoles){
-			hole.setClipArea(mapView);
+			hole.setClipArea(pj);
 			hole.buildPathPortion(pj, offset, mMilestoneManagers.size() > 0);
 		}
 		mPath.setFillType(Path.FillType.EVEN_ODD); //for correct support of holes
@@ -343,6 +371,9 @@ public class Polygon extends OverlayWithIW {
 	}
 	
 	/** Important note: this function returns correct results only if the Polygon has been drawn before, 
+=======
+	/** Important note: this function returns correct results only if the Polygon has been drawn before,
+>>>>>>> master
 	 * and if the MapView positioning has not changed. 
 	 * @param event
 	 * @return true if the Polygon contains the event position. 
@@ -380,44 +411,12 @@ public class Polygon extends OverlayWithIW {
 			return tapped;
 	}
 
-	/**
-	 * @return the geopoint location where the infowindow should point at.
-	 * Doesn't matter if the infowindow is currently opened or not.
-	 * @since 6.0.0
-	 */
-	public GeoPoint getInfoWindowLocation() {
-		return mInfoWindowLocation;
-	}
-
-	/** Internal method used to ensure that the infowindow will have a default position in all cases,
-	 * so that the user can call showInfoWindow even if no tap occured before.
-	 * Currently, set the position on the center of the polygon bounding box.
-	 */
-	protected void setDefaultInfoWindowLocation() {
-		int s = mOutline.getPoints().size();
-		if (s == 0){
-			mInfoWindowLocation = new GeoPoint(0.0, 0.0);
-			return;
-		}
-		BoundingBox bb = BoundingBox.fromGeoPoints(mOutline.getPoints());
-		//TODO: as soon as the polygon bounding box will be a class member, don't compute it again here.
-		mInfoWindowLocation = bb.getCenterWithDateLine();
-	}
-
-	/**
-	 * Sets the info window anchor point to a geopoint location
-	 * @since 6.0.0
-	 * @param location
-	 */
-	public void setInfoWindowLocation(GeoPoint location) {
-		mInfoWindowLocation = location;
-	}
-
 	@Override public void onDetach(MapView mapView) {
 		mOutline=null;
 		mHoles.clear();
 		mMilestoneManagers.clear();
 		onDestroy();
+		super.onDetach(mapView);
 	}
 
 
@@ -432,12 +431,14 @@ public class Polygon extends OverlayWithIW {
 		} else {
 			mMilestoneManagers = pMilestoneManagers;
 		}
+		//super.onDetach();
+		mOnClickListener = null;
 	}
 
 	//-- Polygon events listener interfaces ------------------------------------
 
 	public interface OnClickListener {
-		abstract boolean onClick(Polygon polygon, MapView mapView, GeoPoint eventPos);
+		boolean onClick(Polygon polygon, MapView mapView, GeoPoint eventPos);
 	}
 
 	/**
@@ -449,8 +450,11 @@ public class Polygon extends OverlayWithIW {
 		return true;
 	}
 
+	/**
+	 * @since 6.0.2
+	 * @param listener
+	 */
 	public void setOnClickListener(OnClickListener listener) {
 		mOnClickListener = listener;
 	}
-
 }

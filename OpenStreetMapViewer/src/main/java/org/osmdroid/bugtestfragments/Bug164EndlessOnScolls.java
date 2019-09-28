@@ -15,7 +15,6 @@ import org.osmdroid.events.ScrollEvent;
 import org.osmdroid.events.ZoomEvent;
 import org.osmdroid.samplefragments.BaseSampleFragment;
 import org.osmdroid.util.GeoPoint;
-import org.osmdroid.views.MapView;
 
 import static org.osmdroid.samplefragments.events.SampleMapEventListener.df;
 
@@ -35,9 +34,9 @@ public class Bug164EndlessOnScolls extends BaseSampleFragment implements View.On
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.map_with_locationbox164, container,false);
-        mMapView = (MapView) root.findViewById(R.id.mapview);
-        textViewCurrentLocation = (TextView) root.findViewById(R.id.textViewCurrentLocation);
-        animateTo = (Button)root.findViewById(R.id.animateTo);
+        mMapView = root.findViewById(R.id.mapview);
+        textViewCurrentLocation = root.findViewById(R.id.textViewCurrentLocation);
+        animateTo = root.findViewById(R.id.animateTo);
         animateTo.setOnClickListener(this);
         Log.d(TAG, "onCreateView");
         return root;

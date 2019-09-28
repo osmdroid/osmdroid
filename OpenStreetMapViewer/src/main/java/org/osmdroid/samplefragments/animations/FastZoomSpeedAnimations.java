@@ -10,7 +10,6 @@ import android.widget.TextView;
 import org.osmdroid.R;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.samplefragments.BaseSampleFragment;
-import org.osmdroid.views.MapView;
 
 /**
  * How to override animation speeds for zoom in/out<br>
@@ -44,13 +43,13 @@ public class FastZoomSpeedAnimations extends BaseSampleFragment implements View.
 
         View root = inflater.inflate(R.layout.map_with_locationbox_controls, container,false);
 
-        mMapView = (MapView) root.findViewById(R.id.mapview);
-        TextView textViewCurrentLocation = (TextView) root.findViewById(R.id.textViewCurrentLocation);
+        mMapView = root.findViewById(R.id.mapview);
+        TextView textViewCurrentLocation = root.findViewById(R.id.textViewCurrentLocation);
         textViewCurrentLocation.setText("Animation Speed Test");
-        ImageButton btn = (ImageButton) root.findViewById(R.id.btnRotateLeft);
+        ImageButton btn = root.findViewById(R.id.btnRotateLeft);
         btn.setOnClickListener(this);
 
-        btn = (ImageButton) root.findViewById(R.id.btnRotateRight);
+        btn = root.findViewById(R.id.btnRotateRight);
         btn.setOnClickListener(this);
         return root;
     }
