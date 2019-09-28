@@ -4,9 +4,15 @@
               android:layout_height="match_parent"
               android:orientation="vertical">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/my_toolbar"
+        style="@style/ToolbarStyle"/>
+
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="16dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -46,9 +52,8 @@
             <TextView
                 android:id="@+id/diag_output"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                />
+                android:layout_height="wrap_content"/>
+
         </LinearLayout>
     </ScrollView>
-
 </LinearLayout>

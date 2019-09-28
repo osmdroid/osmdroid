@@ -25,9 +25,7 @@ import org.osmdroid.config.Configuration;
 import org.osmdroid.debug.CacheAnalyzerActivity;
 import org.osmdroid.diag.DiagnosticsActivity;
 import org.osmdroid.intro.IntroActivity;
-import org.osmdroid.samples.SampleExtensive;
 import org.osmdroid.samples.SampleWithMinimapItemizedoverlay;
-import org.osmdroid.samples.SampleWithMinimapZoomcontrols;
 import org.osmdroid.samples.SampleWithTilesOverlay;
 import org.osmdroid.samples.SampleWithTilesOverlayAndCustomTileSource;
 import org.osmdroid.tileprovider.modules.SqlTileWriter;
@@ -50,29 +48,25 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         setSupportActionBar(myToolbar);
         // Generate a ListView with Sample Maps
         final ArrayList<String> list = new ArrayList<>();
-        list.add("OSMDroid Sample map (Start Here)");
-        list.add("OSMapView with Minimap, ZoomControls, Animations, Scale Bar and MyLocationOverlay");
-        list.add("OSMapView with ItemizedOverlay");
-        list.add("OSMapView with Minimap and ZoomControls");
-        list.add("Sample with tiles overlay");
-        list.add("Sample with tiles overlay and secondary tile overlay");
+        list.add("OSMDroid Sample Map (Start Here)");
+        list.add("Sample with ItemizedOverlay");
+        list.add("Sample with TilesOverlay");
+        list.add("Sample with TilesOverlay and custom TileSource");
         list.add("More Samples");
 
-        list.add("Report a bug");
+        list.add("Report a Bug");
         list.add("Settings");
         list.add("Bug Drivers");
         list.add("Diagnostics");
-        list.add("View the intro again");
+        list.add("View the Intro again");
         list.add("Licenses");
-        if (BuildConfig.VERSION_CODE >= 11)
-            list.add("Cache Analyzer");
+        list.add("Cache Analyzer");
 
         ListView lv = findViewById(R.id.activitylist);
         ArrayAdapter adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, list);
 
         lv.setAdapter(adapter);
         lv.setOnItemClickListener(this);
-
     }
 
     @Override
@@ -82,39 +76,33 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 this.startActivity(new Intent(this, StarterMapActivity.class));
                 break;
             case 1:
-                this.startActivity(new Intent(this, SampleExtensive.class));
-                break;
-            case 2:
                 this.startActivity(new Intent(this, SampleWithMinimapItemizedoverlay.class));
                 break;
-            case 3:
-                this.startActivity(new Intent(this, SampleWithMinimapZoomcontrols.class));
-                break;
-            case 4:
+            case 2:
                 this.startActivity(new Intent(this, SampleWithTilesOverlay.class));
                 break;
-            case 5:
+            case 3:
                 this.startActivity(new Intent(this, SampleWithTilesOverlayAndCustomTileSource.class));
                 break;
-            case 6:
+            case 4:
                 this.startActivity(new Intent(this, ExtraSamplesActivity.class));
                 break;
-            case 7:
+            case 5:
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/osmdroid/osmdroid/issues/new"));
                 startActivity(browserIntent);
                 break;
-            case 8:{
+            case 6:{
                 Intent i = new Intent(this,PreferenceActivity.class);
                 startActivity(i);
             }
                 break;
-            case 9:
+            case 7:
                 this.startActivity(new Intent(this, BugsTestingActivity.class));
                 break;
-            case 10:
+            case 8:
                 this.startActivity(new Intent(this, DiagnosticsActivity.class));
                 break;
-            case 11:
+            case 9:
             {
                 //skip this nonsense
                 SharedPreferences.Editor edit = PreferenceManager.getDefaultSharedPreferences(this).edit();
@@ -126,22 +114,17 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 finish();
                 break;
             }
-            case 12:{
+            case 10:{
                 Intent i = new Intent(this,LicenseActivity.class);
                 startActivity(i);
                 break;
             }
-            case 13:
-            {
-                if (BuildConfig.VERSION_CODE >= 11){
-                    Intent starter = new Intent(this,CacheAnalyzerActivity.class);
-                    startActivity(starter );
-                    break;
-                }
-            }
+            case 11:
+                Intent starter = new Intent(this,CacheAnalyzerActivity.class);
+                startActivity(starter );
+                break;
         }
     }
-
 
     public void onResume(){
         super.onResume();
@@ -152,7 +135,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private void checkForCrashLogs() {
         //look for osmdroid crash logs
         File root = Environment.getExternalStorageDirectory();
-        String pathToMyAttachedFile = "/osmdroid/crash.lgo";
+        String pathToMyAttachedFile = "/osmdroid/crash.log";
         final File file = new File(root, pathToMyAttachedFile);
         if (!file.exists() || !file.canRead()) {
             return;
@@ -191,9 +174,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         builder.setMessage("Sorry, it looks like we crashed at some point, would you mind sending us the" +
             "crash log?").setPositiveButton("Yes", dialogClickListener)
             .setNegativeButton("No", dialogClickListener).show();
-
-
-
     }
 
     /**
@@ -202,7 +182,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
      * @param ctx
      * @return current cache size in bytes
      */
-    public static long updateStoragePrefreneces(Context ctx){
+    public static long updateStoragePreferences(Context ctx){
 
         //loads the osmdroid config from the shared preferences object.
         //if this is the first time launching this app, all settings are set defaults with one exception,
@@ -226,7 +206,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
      */
     private void updateStorageInfo(){
 
-        long cacheSize = updateStoragePrefreneces(this);
+        long cacheSize = updateStoragePreferences(this);
         //cache management ends here
 
         TextView tv = findViewById(R.id.sdcardstate_value);
@@ -246,6 +226,4 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         tv.setText(Configuration.getInstance().getOsmdroidTileCache().getAbsolutePath() + "\n" +
             "Cache size: " + Formatter.formatFileSize(this,cacheSize));
     }
-
-
 }

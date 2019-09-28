@@ -79,9 +79,9 @@ dependencies {
     compile 'ch.acra:acra:4.7.0'
 
     //memory leak testing
-    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.4'
-    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4'
-    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4'
+    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.6.3'
+    debugCompile 'com.squareup.leakcanary:leakcanary-support-fragment:1.6.3'
+    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.3'
 
     //on device testing
     androidTestCompile 'com.android.support.test:runner:0.4.+'

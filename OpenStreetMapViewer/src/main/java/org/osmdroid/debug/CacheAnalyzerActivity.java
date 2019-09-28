@@ -1,10 +1,11 @@
 package org.osmdroid.debug;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -32,7 +33,8 @@ import java.util.List;
  * @since 5.6.2
  */
 
-public class CacheAnalyzerActivity extends Activity implements AdapterView.OnItemClickListener, Runnable {
+public class CacheAnalyzerActivity extends AppCompatActivity
+        implements AdapterView.OnItemClickListener, Runnable {
     SqlTileWriterExt cache = null;
     TextView cacheStats;
     AlertDialog show = null;
@@ -41,6 +43,14 @@ public class CacheAnalyzerActivity extends Activity implements AdapterView.OnIte
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cache_analyzer);
+
+        Toolbar toolbar = findViewById(R.id.my_toolbar);
+        setSupportActionBar(toolbar);
+
+        //noinspection ConstantConditions
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         cacheStats = findViewById(R.id.cacheStats);
 
         final ArrayList<String> list = new ArrayList<>();
@@ -54,8 +64,12 @@ public class CacheAnalyzerActivity extends Activity implements AdapterView.OnIte
 
         lv.setAdapter(adapter);
         lv.setOnItemClickListener(this);
+    }
 
-
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 
     public void onResume() {
@@ -108,7 +122,6 @@ public class CacheAnalyzerActivity extends Activity implements AdapterView.OnIte
     }
 
     private void purgeTileSource() {
-
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Tile Source");
 
@@ -117,7 +130,6 @@ public class CacheAnalyzerActivity extends Activity implements AdapterView.OnIte
         for (int i = 0; i < sources.size(); i++) {
             arrayAdapter.add(sources.get(i).source);
         }
-
 
         builder.setAdapter(arrayAdapter, new DialogInterface.OnClickListener() {
             @Override
@@ -189,7 +201,5 @@ public class CacheAnalyzerActivity extends Activity implements AdapterView.OnIte
                 }
             }
         });
-
-
     }
 }
