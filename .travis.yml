@@ -75,4 +75,4 @@ env:
 script:
   # run build while emulator is starting up
   - ./gradlew -version
-  - ./gradlew clean build
+  - ./gradlew clean install -Pprofile=ci
