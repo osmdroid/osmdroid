@@ -37,9 +37,7 @@ public class RotationGestureOverlay extends Overlay implements
     @Override
     public boolean onTouchEvent(MotionEvent event, MapView mapView)
     {
-        if (this.isEnabled()) {
-            mRotationDetector.onTouch(event);
-        }
+        mRotationDetector.onTouch(event);
         return super.onTouchEvent(event, mapView);
     }
     long timeLastSet=0L;
@@ -113,5 +111,11 @@ public class RotationGestureOverlay extends Overlay implements
     public void setOptionsMenuEnabled(boolean enabled)
     {
         mOptionsMenuEnabled = enabled;
+    }
+
+    @Override
+    public void setEnabled(final boolean pEnabled) {
+        mRotationDetector.setEnabled(pEnabled);
+        super.setEnabled(pEnabled);
     }
 }

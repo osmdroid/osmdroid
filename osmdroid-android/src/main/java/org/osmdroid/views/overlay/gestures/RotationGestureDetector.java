@@ -21,11 +21,12 @@ public class RotationGestureDetector {
 	 * See <a href="https://github.com/osmdroid/osmdroid/issues/628">https://github.com/osmdroid/osmdroid/issues/628</a>
 	 */
 	public interface RotationListener {
-		public void onRotate(float deltaAngle);
+		void onRotate(float deltaAngle);
 	}
 
 	protected float mRotation;
 	private RotationListener mListener;
+	private boolean mEnabled = true;
 
 	public RotationGestureDetector(RotationListener listener) {
 		mListener = listener;
@@ -48,8 +49,22 @@ public class RotationGestureDetector {
 
 		float rotation = rotation(e);
 		float delta = rotation - mRotation;
-		mRotation += delta;
-		mListener.onRotate(delta);
+
+		//we have to allow detector to capture and store the new rotation to avoid UI jump when
+		//user enables the overlay again
+		if (mEnabled) {
+			mRotation += delta;
+			mListener.onRotate(delta);
+		} else {
+			mRotation = rotation;
+		}
 	}
 
+	public void setEnabled(final boolean pEnabled) {
+		this.mEnabled = pEnabled;
+	}
+
+	public boolean isEnabled() {
+		return this.mEnabled;
+	}
 }
