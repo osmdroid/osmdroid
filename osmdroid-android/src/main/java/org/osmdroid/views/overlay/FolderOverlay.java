@@ -1,14 +1,16 @@
 package org.osmdroid.views.overlay;
 
-import java.util.List;
-
-import org.osmdroid.views.MapView;
-import org.osmdroid.views.Projection;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.view.MotionEvent;
+
+import org.osmdroid.api.IGeoPoint;
+import org.osmdroid.util.BoundingBox;
+import org.osmdroid.views.MapView;
+import org.osmdroid.views.Projection;
+
+import java.util.List;
 
 /**
  * A {@link org.osmdroid.views.overlay.FolderOverlay} is just a group of other {@link org.osmdroid.views.overlay.Overlay}s.
@@ -60,11 +62,34 @@ public class FolderOverlay extends Overlay {
 	}
 	
 	public boolean add(Overlay item){
-		return mOverlayManager.add(item);
+
+		boolean b= mOverlayManager.add(item);
+		if(b) recalculateBounds();
+		return b;
 	}
-	
+
+	private void recalculateBounds() {
+		double minLat = Double.MAX_VALUE;
+		double minLon = Double.MAX_VALUE;
+		double maxLat = -Double.MAX_VALUE;
+		double maxLon = -Double.MAX_VALUE;
+		for (final Overlay gp : mOverlayManager) {
+			BoundingBox box=gp.getBounds();
+
+
+			minLat = Math.min(minLat, box.getLatSouth());
+			minLon = Math.min(minLon,  box.getLonWest());
+			maxLat = Math.max(maxLat,  box.getLatNorth());
+			maxLon = Math.max(maxLon, box.getLonEast());
+		}
+
+		mBounds= new BoundingBox(maxLat, maxLon, minLat, minLon);
+	}
+
 	public boolean remove(Overlay item){
-		return mOverlayManager.remove(item);
+		boolean  b= mOverlayManager.remove(item);
+		if(b) recalculateBounds();
+		return b;
 	}
 
 	@SuppressLint("WrongCall")

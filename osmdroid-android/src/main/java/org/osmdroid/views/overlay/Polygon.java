@@ -134,6 +134,7 @@ public class Polygon extends PolyOverlayWithIW {
 	public void setPoints(final List<GeoPoint> points) {
 		mOutline.setPoints(points);
 		setDefaultInfoWindowLocation();
+		mBounds= BoundingBox.fromGeoPointsSafe(points);
 	}
 
 	/**

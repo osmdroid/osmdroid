@@ -39,6 +39,13 @@ public class BoundingBox implements Parcelable, Serializable {
 	// Constructors
 	// ===========================================================
 
+	/**
+	 *
+	 * @param north
+	 * @param east
+	 * @param south
+	 * @param west
+	 */
 	public BoundingBox(final double north, final double east, final double south, final double west) {
 		set(north, east, south, west);
 	}
@@ -495,4 +502,16 @@ public class BoundingBox implements Parcelable, Serializable {
 		return latMatch && lonMatch;
 	}
 
+	public static BoundingBox fromGeoPointsSafe(List<GeoPoint> points) {
+		try{
+			return fromGeoPoints(points);
+		}catch(IllegalArgumentException e){
+			final TileSystem tileSystem = org.osmdroid.views.MapView.getTileSystem();
+			return new BoundingBox(tileSystem.getMaxLatitude(),
+				tileSystem.getMaxLongitude(),
+				tileSystem.getMinLatitude(),
+				tileSystem.getMinLongitude()
+				);
+		}
+	}
 }

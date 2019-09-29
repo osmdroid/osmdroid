@@ -19,6 +19,7 @@ import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.overlay.FolderOverlay;
+import org.osmdroid.views.overlay.Overlay;
 import org.osmdroid.views.overlay.Polygon;
 
 import java.io.File;
@@ -112,8 +113,8 @@ public class SampleShapeFile extends SampleMapEventListener {
             public void onSelectedFilePaths(String[] files) {
                 //files is the array of the paths of files selected by the Application User.
                 try {
-                    FolderOverlay folder = ShapeConverter.convert(mMapView, new File(files[0]));
-                    mMapView.getOverlayManager().add(folder);
+                    List<Overlay>  folder = ShapeConverter.convert(mMapView, new File(files[0]));
+                    mMapView.getOverlayManager().addAll(folder);
                     mMapView.invalidate();
                 } catch (Exception e) {
                     Toast.makeText(getActivity(), "Error importing file: " + e.getMessage(), Toast.LENGTH_LONG).show();

@@ -19,6 +19,7 @@ import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.FolderOverlay;
 import org.osmdroid.views.overlay.Marker;
+import org.osmdroid.views.overlay.Overlay;
 import org.osmdroid.views.overlay.Polygon;
 import org.osmdroid.views.overlay.Polyline;
 
@@ -39,8 +40,8 @@ import java.util.List;
 
 public class ShapeConverter {
 
-    public static FolderOverlay convert(MapView map, File file, ValidationPreferences prefs) throws Exception {
-        FolderOverlay folder = new FolderOverlay();
+    public static List<Overlay> convert(MapView map, File file, ValidationPreferences prefs) throws Exception {
+        List<Overlay> folder=new ArrayList<>();
 
         FileInputStream is = null;
         FileInputStream dbfInputStream = null;
@@ -184,7 +185,7 @@ public class ShapeConverter {
         return snippet;
     }
 
-    public static FolderOverlay convert(MapView map, File file) throws Exception {
+    public static List<Overlay>  convert(MapView map, File file) throws Exception {
         ValidationPreferences pref = new ValidationPreferences();
         pref.setMaxNumberOfPointsPerShape(200000);
         return convert(map, file, pref);

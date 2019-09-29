@@ -15,6 +15,7 @@ import android.view.MotionEvent;
 import android.util.TypedValue;
 
 import org.osmdroid.tileprovider.BitmapPool;
+import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.RectL;
 import org.osmdroid.views.MapView;
@@ -186,6 +187,7 @@ public class Marker extends OverlayWithIW {
 			closeInfoWindow();
 			showInfoWindow();
 		}
+		mBounds=new BoundingBox(position.getLatitude(),position.getLongitude(),position.getLatitude(),position.getLongitude());
 	}
 
 	public float getRotation(){

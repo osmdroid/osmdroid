@@ -1,16 +1,5 @@
 package org.osmdroid.views.overlay;
 
-import java.util.AbstractList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.concurrent.CopyOnWriteArrayList;
-
-import org.osmdroid.api.IMapView;
-import org.osmdroid.views.MapView;
-import org.osmdroid.views.Projection;
-import org.osmdroid.views.overlay.Overlay.Snappable;
-
 import android.graphics.Canvas;
 import android.graphics.Point;
 import android.util.Log;
@@ -19,10 +8,22 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 
+import org.osmdroid.api.IMapView;
+import org.osmdroid.views.MapView;
+import org.osmdroid.views.Projection;
+import org.osmdroid.views.overlay.Overlay.Snappable;
+
+import java.util.AbstractList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.concurrent.CopyOnWriteArrayList;
+
 /**
  * https://github.com/osmdroid/osmdroid/issues/154
- * @since 5.0.0
+ *
  * @author dozd
+ * @since 5.0.0
  */
 public class DefaultOverlayManager extends AbstractList<Overlay> implements OverlayManager {
 
@@ -47,10 +48,10 @@ public class DefaultOverlayManager extends AbstractList<Overlay> implements Over
 
     @Override
     public void add(final int pIndex, final Overlay pElement) {
-        if (pElement==null){
+        if (pElement == null) {
             //#396 fix, null check
             Exception ex = new Exception();
-            Log.e(IMapView.LOGTAG, "Attempt to add a null overlay to the collection. This is probably a bug and should be reported!",ex);
+            Log.e(IMapView.LOGTAG, "Attempt to add a null overlay to the collection. This is probably a bug and should be reported!", ex);
         } else {
             mOverlayList.add(pIndex, pElement);
         }
@@ -64,9 +65,9 @@ public class DefaultOverlayManager extends AbstractList<Overlay> implements Over
     @Override
     public Overlay set(final int pIndex, final Overlay pElement) {
         //#396 fix, null check
-        if (pElement==null){
+        if (pElement == null) {
             Exception ex = new Exception();
-            Log.e(IMapView.LOGTAG, "Attempt to set a null overlay to the collection. This is probably a bug and should be reported!",ex);
+            Log.e(IMapView.LOGTAG, "Attempt to set a null overlay to the collection. This is probably a bug and should be reported!", ex);
             return null;
         } else {
             Overlay overlay = mOverlayList.set(pIndex, pElement);
@@ -93,10 +94,10 @@ public class DefaultOverlayManager extends AbstractList<Overlay> implements Over
              * @since 6.1.0
              */
             private ListIterator<Overlay> bulletProofReverseListIterator() {
-                while(true) {
+                while (true) {
                     try {
                         return mOverlayList.listIterator(mOverlayList.size());
-                    } catch(final IndexOutOfBoundsException e) {
+                    } catch (final IndexOutOfBoundsException e) {
                         // thread-concurrency fix - in case an item is removed in a very inappropriate time
                         // cf. https://github.com/osmdroid/osmdroid/issues/1260
                     }
@@ -136,7 +137,7 @@ public class DefaultOverlayManager extends AbstractList<Overlay> implements Over
     @Override
     public void onDraw(final Canvas c, final MapView pMapView) {
         onDrawHelper(c, pMapView, pMapView.getProjection());
-            }
+    }
 
     /**
      * @since 6.1.0
@@ -144,19 +145,19 @@ public class DefaultOverlayManager extends AbstractList<Overlay> implements Over
     @Override
     public void onDraw(final Canvas c, final Projection pProjection) {
         onDrawHelper(c, null, pProjection);
-        }
+    }
 
     /**
-     * @since 6.1.0
-     * @param pMapView may be null
+     * @param pMapView    may be null
      * @param pProjection may NOT be null
+     * @since 6.1.0
      */
     private void onDrawHelper(final Canvas c, final MapView pMapView, final Projection pProjection) {
         //fix for https://github.com/osmdroid/osmdroid/issues/904
-        if (mTilesOverlay!=null)
+        if (mTilesOverlay != null)
             mTilesOverlay.protectDisplayedTilesForCache(c, pProjection);
         for (final Overlay overlay : mOverlayList) {
-            if (overlay!=null && overlay.isEnabled() && overlay instanceof TilesOverlay) {
+            if (overlay != null && overlay.isEnabled() && overlay instanceof TilesOverlay) {
                 ((TilesOverlay) overlay).protectDisplayedTilesForCache(c, pProjection);
             }
         }
@@ -164,24 +165,24 @@ public class DefaultOverlayManager extends AbstractList<Overlay> implements Over
         //always pass false, the shadow parameter will be removed in a later version of osmdroid, this change should result in the on draw being called twice
         if (mTilesOverlay != null && mTilesOverlay.isEnabled()) {
             if (pMapView != null) {
-            mTilesOverlay.draw(c, pMapView, false);
+                mTilesOverlay.draw(c, pMapView, false);
             } else {
                 mTilesOverlay.draw(c, pProjection);
-        }
+            }
         }
 
         //always pass false, the shadow parameter will be removed in a later version of osmdroid, this change should result in the on draw being called twice
         for (final Overlay overlay : mOverlayList) {
             //#396 fix, null check
-            if (overlay!=null && overlay.isEnabled()) {
+            if (overlay != null && overlay.isEnabled()) {
                 if (pMapView != null) {
-                //don't bother attempting to draw it unless it's in view
-                //TODO if (pMapView.getBoundingBox().overlaps(overlay.getBounds()))
-                    overlay.draw(c, pMapView, false);
+                    //don't bother attempting to draw it unless it's in view
+                    if (pMapView.getBoundingBox().overlaps(overlay.getBounds(), pMapView.getZoomLevelDouble()))
+                        overlay.draw(c, pMapView, false);
                 } else {
                     overlay.draw(c, pProjection);
+                }
             }
-        }
         }
         //potential fix for #52 pMapView.invalidate();
     }
@@ -277,7 +278,7 @@ public class DefaultOverlayManager extends AbstractList<Overlay> implements Over
         return false;
     }
 
-	/* GestureDetector.OnDoubleTapListener */
+    /* GestureDetector.OnDoubleTapListener */
 
     @Override
     public boolean onDoubleTap(final MotionEvent e, final MapView pMapView) {
@@ -312,7 +313,7 @@ public class DefaultOverlayManager extends AbstractList<Overlay> implements Over
         return false;
     }
 
-	/* OnGestureListener */
+    /* OnGestureListener */
 
     @Override
     public boolean onDown(final MotionEvent pEvent, final MapView pMapView) {
@@ -384,7 +385,7 @@ public class DefaultOverlayManager extends AbstractList<Overlay> implements Over
     public void setOptionsMenusEnabled(final boolean pEnabled) {
         for (final Overlay overlay : mOverlayList) {
             if ((overlay instanceof IOverlayMenuProvider)
-                    && ((IOverlayMenuProvider) overlay).isOptionsMenuEnabled()) {
+                && ((IOverlayMenuProvider) overlay).isOptionsMenuEnabled()) {
                 ((IOverlayMenuProvider) overlay).setOptionsMenuEnabled(pEnabled);
             }
         }
@@ -433,15 +434,15 @@ public class DefaultOverlayManager extends AbstractList<Overlay> implements Over
             if (overlay instanceof IOverlayMenuProvider) {
                 final IOverlayMenuProvider overlayMenuProvider = (IOverlayMenuProvider) overlay;
                 if (overlayMenuProvider.isOptionsMenuEnabled() &&
-                        overlayMenuProvider.onOptionsItemSelected(item, menuIdOffset, mapView)) {
+                    overlayMenuProvider.onOptionsItemSelected(item, menuIdOffset, mapView)) {
                     return true;
                 }
             }
         }
 
         if (mTilesOverlay != null &&
-                mTilesOverlay.isOptionsMenuEnabled() &&
-                mTilesOverlay.onOptionsItemSelected(item, menuIdOffset, mapView)) {
+            mTilesOverlay.isOptionsMenuEnabled() &&
+            mTilesOverlay.onOptionsItemSelected(item, menuIdOffset, mapView)) {
             return true;
         }
 

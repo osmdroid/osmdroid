@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.view.MotionEvent;
 
+import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
@@ -138,6 +139,7 @@ public class Polyline extends PolyOverlayWithIW {
         }
         mOutline.setPoints(points);
         setDefaultInfoWindowLocation();
+        mBounds= BoundingBox.fromGeoPointsSafe(points);
 
     }
 
