@@ -162,6 +162,7 @@ public class MyMath implements MathConstants {
 	/**
 	 * @since 6.1.1
 	 * Computes the point of a circle from its center, its radius and the angle
+	 * @param pAngle clockwise angle, in radian, value 0 being 3 o'clock
 	 */
 	public static void computeCirclePoint(final long pCenterX, final long pCenterY, final double pRadius,
 										  final double pAngle, final PointL pOutput) {
