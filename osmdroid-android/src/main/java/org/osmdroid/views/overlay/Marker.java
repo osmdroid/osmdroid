@@ -330,10 +330,6 @@ public class Marker extends OverlayWithIW {
 		if (!isEnabled())
 			return;
 
-		//TODO bounds check?
-		
-
-
 		pj.toPixels(mPosition, mPositionPixels);
 
 		float rotationOnScreen = (mFlat ? -mBearing : -pj.getOrientation()-mBearing);

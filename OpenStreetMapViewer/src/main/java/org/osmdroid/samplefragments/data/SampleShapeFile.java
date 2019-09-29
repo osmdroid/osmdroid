@@ -72,7 +72,6 @@ public class SampleShapeFile extends SampleMapEventListener {
                 pts.add(new GeoPoint(boundingBox.getLatNorth(), boundingBox.getLonWest()));
                 pts.add(new GeoPoint(boundingBox.getLatNorth(), boundingBox.getLonEast()));
                 Polygon bounds = new Polygon(mMapView);
-                bounds.setAutoReducePoints(false);
                 bounds.setPoints(pts);
                 bounds.setSubDescription(boundingBox.toString());
                // bounds.setStrokeColor(Color.RED);

@@ -1,11 +1,8 @@
 package org.osmdroid.views.overlay;
 
 
-import android.graphics.Canvas;
-
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Path;
 import android.graphics.RectF;
 import android.graphics.Region;
 import android.view.MotionEvent;
@@ -13,14 +10,8 @@ import android.view.MotionEvent;
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
-
-import org.osmdroid.util.PointL;
-import org.osmdroid.util.PointReducer;
-import org.osmdroid.util.TileSystemWebMercator;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
-import org.osmdroid.views.overlay.infowindow.InfoWindow;
-import org.osmdroid.views.overlay.milestones.MilestoneManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,22 +32,8 @@ import java.util.List;
  */
 public class Polygon extends PolyOverlayWithIW {
 
-	private final Path mPath = new Path(); //Path drawn is kept for click detection
-	private LinearRing mOutline = new LinearRing(mPath);
-	private ArrayList<LinearRing> mHoles = new ArrayList<>();
-	private ArrayList<GeoPoint> originalPointSet = new ArrayList<>();
-	private boolean mAutoReducePoints= false;
-	protected static InfoWindow mDefaultInfoWindow = null;
 	protected OnClickListener mOnClickListener;
-	/** Paint settings. */
-	private Paint mFillPaint;
-	private Paint mOutlinePaint;
-	private int mMinimumZoom = 0;
-	private List<MilestoneManager> mMilestoneManagers = new ArrayList<>();
-	private GeoPoint mInfoWindowLocation;
-	private BoundingBox mBounds=new BoundingBox(TileSystemWebMercator.MaxLatitude
-		,TileSystemWebMercator.MaxLongitude,
-		TileSystemWebMercator.MinLatitude,TileSystemWebMercator.MinLongitude);
+
 
 	// ===========================================================
 	// Constructors
@@ -71,7 +48,6 @@ public class Polygon extends PolyOverlayWithIW {
 		mFillPaint = new Paint();
 		mFillPaint.setColor(Color.TRANSPARENT);
 		mFillPaint.setStyle(Paint.Style.FILL);
-		mOutlinePaint=new Paint();
 		mOutlinePaint.setColor(Color.BLACK);
 		mOutlinePaint.setStrokeWidth(10.0f);
 		mOutlinePaint.setStyle(Paint.Style.STROKE);
@@ -81,32 +57,6 @@ public class Polygon extends PolyOverlayWithIW {
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================
-
-	public boolean isAutoReducePoints() {
-		return mAutoReducePoints;
-	}
-
-	public void setAutoReducePoints(boolean mAutoReducePoints) {
-		this.mAutoReducePoints = mAutoReducePoints;
-	}
-
-	/**
-	 * get the minimum zoom level in which this polygon will render
-	 * @since 6.1.0
-	 */
-	public int getMinmiumDrawZoom() {
-		return mMinimumZoom;
-	}
-
-	/**
-	 * sets the minimum zoom level in which this polygon will render.
-	 * default is 0 = always draw.
-	 * @param pZoom
-	 * @since 6.1.0
-	 */
-	public void setMinimumDrawZoom(int pZoom){
-		this.mMinimumZoom = pZoom;
-	}
 
 	/**
 	 * @deprecated Use {@link #getFillPaint()} instead
@@ -148,7 +98,7 @@ public class Polygon extends PolyOverlayWithIW {
 		//TODO This is completely wrong:
 		// - this is not a copy, but a direct handler to the list itself.
 		// - if geodesic, the outline points are not identical to original points.
-		return originalPointSet;
+		return mOutline.getPoints();
 	}
 
 	/**
@@ -175,31 +125,6 @@ public class Polygon extends PolyOverlayWithIW {
 		mOutlinePaint.setStrokeWidth(width);
 	}
 
-
-	public void setVisible(boolean visible){
-		setEnabled(visible);
-	}
-
-	/** Set the InfoWindow to be used.
-	 * Default is a BasicInfoWindow, with the layout named "bonuspack_bubble".
-	 * You can use this method either to use your own layout, or to use your own sub-class of InfoWindow.
-	 * If you don't want any InfoWindow to open, you can set it to null. */
-	public void setInfoWindow(InfoWindow infoWindow){
-		if (mInfoWindow != null){
-			if (mInfoWindow.getRelatedObject()==this)
-				mInfoWindow.setRelatedObject(null);
-			if (mInfoWindow != mDefaultInfoWindow) {
-				mInfoWindow.onDetach();
-			}
-		}
-		mInfoWindow = infoWindow;
-	}
-
-	@Override
-	public BoundingBox getBounds(){
-		return mBounds;
-	}
-
 	/**
 	 * Set the points of the polygon outline.
 	 * Note that a later change in the original points List will have no effect.
@@ -207,9 +132,6 @@ public class Polygon extends PolyOverlayWithIW {
 	 * If geodesic mode has been set, the long segments will follow the earth "great circle".
 	 */
 	public void setPoints(final List<GeoPoint> points) {
-		mBounds = BoundingBox.fromGeoPoints(points);
-		originalPointSet.clear();
-		originalPointSet.addAll(points);
 		mOutline.setPoints(points);
 		setDefaultInfoWindowLocation();
 	}
@@ -221,6 +143,7 @@ public class Polygon extends PolyOverlayWithIW {
 	public void addPoint(GeoPoint p){
 		mOutline.addPoint(p);
 	}
+
 
 	public void setHoles(List<? extends List<GeoPoint>> holes){
 		mHoles = new ArrayList<LinearRing>(holes.size());
@@ -292,88 +215,10 @@ public class Polygon extends PolyOverlayWithIW {
 		return points;
 	}
 	
-	@Override public void draw(Canvas canvas, MapView mapView, boolean shadow) {
-
-		if (shadow) {
-			return;
-		}
-		BoundingBox viewPort = mapView.getBoundingBox();
-		//don't bother attempting to draw it unless it's at least partially within the view bounds
-		if (!viewPort.overlaps(mBounds, mapView.getZoomLevelDouble())) {
-			//if (isInfoWindowOpen())	this causes some issue
-			//	closeInfoWindow();
-			return;
-		}
-
-		if (mapView.getZoomLevelDouble() < mMinimumZoom)
-			return;
-
-		float widthPixels = mapView.getContext().getResources().getDisplayMetrics().widthPixels;
-
-		final Projection pj = mapView.getProjection();
-		mPath.rewind();
-
-		if (mAutoReducePoints) {
-			//this reduces the number of points based on zoom level
-			//less points = fast drawing
-			//this generally only removes points that are right next to each other or
-			//make no appreciable difference in presentation
-
-			//possible optimization is to compare the current zoom vs the last zoom level
-			//if it's the same, we can skip reduction since it won't make a difference
-
-			final double latSpanDegrees = viewPort.getLatitudeSpan();
-			//get the degree difference, divide by dpi
-			double tolerance = latSpanDegrees /(widthPixels-(getStrokeWidth()*2));		//degrees per pixel
-			//each latitude degree on screen is represented by this many dip
-			mOutline.setPoints(PointReducer.reduceWithTolerance(originalPointSet, tolerance));
-		}
 
 
-
-		mOutline.setClipArea(pj);
-		final PointL offset = mOutline.buildPathPortion(pj, null, mMilestoneManagers.size() > 0);
-		for (final MilestoneManager milestoneManager : mMilestoneManagers) {
-			milestoneManager.init();
-			milestoneManager.setDistances(mOutline.getDistances());
-			for (final PointL point : mOutline.getPointsForMilestones()) {
-				milestoneManager.add(point.x, point.y);
-			}
-			milestoneManager.end();
-		}
-
-		for (LinearRing hole:mHoles){
-			hole.setClipArea(pj);
-			hole.buildPathPortion(pj, offset, mMilestoneManagers.size() > 0);
-		}
-		mPath.setFillType(Path.FillType.EVEN_ODD); //for correct support of holes
-
-		canvas.drawPath(mPath, mFillPaint);
-		canvas.drawPath(mPath, mOutlinePaint);
-
-		for (final MilestoneManager milestoneManager : mMilestoneManagers) {
-			milestoneManager.draw(canvas);
-		}
-
-		if (isInfoWindowOpen() && mInfoWindow!=null && mInfoWindow.getRelatedObject()==this) {
-			mInfoWindow.draw();
-		}
-	}
-
-	/**
-	 * Show the infowindow, if any. It will be opened either at the latest location, if any,
-	 * or to a default location computed by setDefaultInfoWindowLocation method.
-	 * Note that you can manually set this location with: setInfoWindowLocation
-	 */
-	public void showInfoWindow(){
-		if (mInfoWindow != null && mInfoWindowLocation != null)
-			mInfoWindow.open(this, mInfoWindowLocation, 0, 0);
-	}
-	
-	/** Important note: this function returns correct results only if the Polygon has been drawn before, 
-=======
 	/** Important note: this function returns correct results only if the Polygon has been drawn before,
->>>>>>> master
+
 	 * and if the MapView positioning has not changed. 
 	 * @param event
 	 * @return true if the Polygon contains the event position. 
@@ -412,28 +257,11 @@ public class Polygon extends PolyOverlayWithIW {
 	}
 
 	@Override public void onDetach(MapView mapView) {
-		mOutline=null;
-		mHoles.clear();
-		mMilestoneManagers.clear();
-		onDestroy();
 		super.onDetach(mapView);
+		mOnClickListener=null;
 	}
 
 
-	/**
-	 * @since 6.0.0
-	 */
-	public void setMilestoneManagers(final List<MilestoneManager> pMilestoneManagers) {
-		if (pMilestoneManagers == null) {
-			if (mMilestoneManagers.size() > 0) {
-				mMilestoneManagers.clear();
-			}
-		} else {
-			mMilestoneManagers = pMilestoneManagers;
-		}
-		//super.onDetach();
-		mOnClickListener = null;
-	}
 
 	//-- Polygon events listener interfaces ------------------------------------
 
