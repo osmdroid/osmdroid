@@ -14,8 +14,6 @@ import org.osmdroid.views.overlay.SpeechBalloonOverlay;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * Demo around the new {@link SpeechBalloonOverlay} feature
@@ -23,6 +21,12 @@ import java.util.TimerTask;
  * @author Fabrice Fontaine
  */
 public class SampleSpeechBalloon extends BaseSampleFragment {
+
+    private final List<GeoPoint> mGeoPoints = new ArrayList<>();
+    private final Paint mBackground = new Paint();
+    private final Paint mForeground = new Paint();
+    private final Paint mDragBackground = new Paint();
+    private final Paint mDragForeground = new Paint();
 
     @Override
     public String getSampleTitle() {
@@ -93,43 +97,13 @@ public class SampleSpeechBalloon extends BaseSampleFragment {
             @Override
             public void run() {
                 mMapView.zoomToBoundingBox(boundingBox, false, 50);
-                displayNext();
             }
         });
     }
-
-    private int mIndex;
-
-    private void displayNext() {
-        if (mIndex >= mPOIs.size()) {
-            return;
-        }
-        addToDisplay(mPOIs.get(mIndex ++));
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                mMapView.invalidate();
-            }
-        });
-        final Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                displayNext();
-            }
-        }, 350);
-    }
-
-    private final List<GeoPoint> mGeoPoints = new ArrayList<>();
-    private final List<POI> mPOIs = new ArrayList<>();
-    private final Paint mBackground = new Paint();
-    private final Paint mForeground = new Paint();
-    private final Paint mDragBackground = new Paint();
-    private final Paint mDragForeground = new Paint();
 
     private void add(final POI pPOI) {
         mGeoPoints.add(pPOI.mGeoPoint);
-        mPOIs.add(pPOI);
+        addToDisplay(pPOI);
     }
 
     private void addToDisplay(final POI pPOI) {
