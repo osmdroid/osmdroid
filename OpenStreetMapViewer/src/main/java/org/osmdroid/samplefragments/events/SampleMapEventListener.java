@@ -70,7 +70,7 @@ public class SampleMapEventListener extends BaseSampleFragment
         IGeoPoint mapCenter = mMapView.getMapCenter();
         textViewCurrentLocation.setText(df.format(mapCenter.getLatitude())+","+
                 df.format(mapCenter.getLongitude())
-                +",zoom="+mMapView.getZoomLevelDouble());
+                +",zoom="+mMapView.getZoomLevelDouble() + "\nBounds: " + mMapView.getBoundingBox().toString());
 
     }
 }

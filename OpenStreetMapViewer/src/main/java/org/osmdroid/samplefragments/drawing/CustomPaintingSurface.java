@@ -13,6 +13,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
+import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
@@ -123,8 +124,7 @@ public class CustomPaintingSurface extends View {
                 GeoPoint iGeoPoint = (GeoPoint) projection.fromPixels(unrotatedPoint.x, unrotatedPoint.y);
                 geoPoints.add(iGeoPoint);
             }
-            //geoPoints = PointReducer.reduceWithTolerance(geoPoints, 1.0);
-            //TODO run the douglas pucker algorithm to reduce the points for performance reasons
+
             if (geoPoints.size() > 2) {
                 //only plot a line unless there's at least one item
                 switch (drawingMode) {
@@ -169,6 +169,7 @@ public class CustomPaintingSurface extends View {
                             ));
                             line.setMilestoneManagers(managers);
                         }
+                        line.setSubDescription(BoundingBox.fromGeoPoints(line.getPoints()).toString());
                         map.getOverlayManager().add(line);
                         lastPolygon=null;
                         break;
@@ -198,6 +199,7 @@ public class CustomPaintingSurface extends View {
                                 return false;
                             }
                         });
+                        //polygon.setSubDescription(BoundingBox.fromGeoPoints(polygon.getPoints()).toString());
                         map.getOverlayManager().add(polygon);
                         lastPolygon=polygon;
                         break;

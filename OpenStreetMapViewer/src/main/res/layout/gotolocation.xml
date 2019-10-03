@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent" android:orientation="horizontal"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:text="Latitude"/>
+        <EditText
+            android:hint="0.0"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal|numberSigned"
+            android:id="@+id/latlonPicker_latitude"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent" android:orientation="horizontal"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:text="Longitude"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="0.0"
+            android:inputType="numberDecimal|numberSigned"
+            android:id="@+id/latlonPicker_longitude"/>
+    </LinearLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:id="@+id/latlonPicker_ok" android:text="Go"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:id="@+id/latlonPicker_cancel" android:text="Cancel"/>
+
+</LinearLayout>

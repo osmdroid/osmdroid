@@ -1,5 +1,6 @@
 package org.osmdroid.views.overlay;
 
+
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
@@ -32,6 +33,7 @@ import java.util.List;
 public class Polygon extends PolyOverlayWithIW {
 
 	protected OnClickListener mOnClickListener;
+
 
 	// ===========================================================
 	// Constructors
@@ -132,6 +134,7 @@ public class Polygon extends PolyOverlayWithIW {
 	public void setPoints(final List<GeoPoint> points) {
 		mOutline.setPoints(points);
 		setDefaultInfoWindowLocation();
+		mBounds= BoundingBox.fromGeoPointsSafe(points);
 	}
 
 	/**
@@ -141,6 +144,7 @@ public class Polygon extends PolyOverlayWithIW {
 	public void addPoint(GeoPoint p){
 		mOutline.addPoint(p);
 	}
+
 
 	public void setHoles(List<? extends List<GeoPoint>> holes){
 		mHoles = new ArrayList<LinearRing>(holes.size());
@@ -212,7 +216,10 @@ public class Polygon extends PolyOverlayWithIW {
 		return points;
 	}
 	
+
+
 	/** Important note: this function returns correct results only if the Polygon has been drawn before,
+
 	 * and if the MapView positioning has not changed. 
 	 * @param event
 	 * @return true if the Polygon contains the event position. 
@@ -252,8 +259,10 @@ public class Polygon extends PolyOverlayWithIW {
 
 	@Override public void onDetach(MapView mapView) {
 		super.onDetach(mapView);
-		mOnClickListener = null;
+		mOnClickListener=null;
 	}
+
+
 
 	//-- Polygon events listener interfaces ------------------------------------
 

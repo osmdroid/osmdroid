@@ -59,6 +59,7 @@ dependencies {
     compile project(':osmdroid-geopackage')
     compile project(':osmdroid-mapsforge')
     compile project(':osmdroid-wms')
+    compile project(':osmdroid-shape')
 
     compile 'mil.army.missioncommand:mil-sym-android-renderer:0.1.37'
 

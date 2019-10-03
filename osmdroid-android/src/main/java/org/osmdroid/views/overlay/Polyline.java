@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.view.MotionEvent;
 
+import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
@@ -26,7 +27,14 @@ public class Polyline extends PolyOverlayWithIW {
 
     protected OnClickListener mOnClickListener;
 
+    private GeoPoint mInfoWindowLocation;
+    private float mDensity = 1.0f;
+    private ArrayList<GeoPoint> mOriginalPoints = new ArrayList<>();
+    private boolean mEnablePointReduction=false;
+
+
     private float mDensityMultiplier = 1.0f;
+
 
     /**
      * If MapView is not provided, infowindow popup will not function unless you set it yourself.
@@ -123,6 +131,7 @@ public class Polyline extends PolyOverlayWithIW {
      * If geodesic mode has been set, the long segments will follow the earth "great circle".
      */
     public void setPoints(List<GeoPoint> points) {
+
         mOutline.clearPath();
         mOriginalPoints = new ArrayList<>(points.size());
         for (GeoPoint p:points) {
@@ -130,15 +139,8 @@ public class Polyline extends PolyOverlayWithIW {
         }
         mOutline.setPoints(points);
         setDefaultInfoWindowLocation();
-    }
+        mBounds= BoundingBox.fromGeoPointsSafe(points);
 
-    /**
-     * Add the point at the end.
-     * If geodesic mode has been set, the long segments will follow the earth "great circle".
-     */
-    public void addPoint(GeoPoint p){
-        mOriginalPoints.add(p);
-        mOutline.addPoint(p);
     }
 
     /**

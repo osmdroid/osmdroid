@@ -34,6 +34,7 @@ import org.osmdroid.samplefragments.data.SampleMilitaryIconsItemizedIcons;
 import org.osmdroid.samplefragments.data.SampleMilitaryIconsMarker;
 import org.osmdroid.samplefragments.data.SampleOsmPath;
 import org.osmdroid.samplefragments.data.SampleRace;
+import org.osmdroid.samplefragments.data.SampleShapeFile;
 import org.osmdroid.samplefragments.data.SampleSimpleFastPointOverlay;
 import org.osmdroid.samplefragments.data.SampleSimpleLocation;
 import org.osmdroid.samplefragments.drawing.SampleDrawPolylineAsPath;
@@ -296,6 +297,7 @@ public final class SampleFactory implements ISampleFactory {
         if (Build.VERSION.SDK_INT >= 15)
             mSamples.add(Plotter.class);
         mSamples.add(WeatherGroundOverlaySample.class);
+        mSamples.add(SampleShapeFile.class);
         mSamples.add(CompassPointerSample.class);
         mSamples.add(CompassRoseSample.class);
         mSamples.add(SampleZoomRounding.class);
