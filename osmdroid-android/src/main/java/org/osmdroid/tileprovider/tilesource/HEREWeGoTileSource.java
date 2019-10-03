@@ -27,6 +27,7 @@ public class HEREWeGoTileSource  extends OnlineTileSourceBase
     //<meta-data android:name="HEREWEGO_DOMAIN_OVERRIDE" android:value="aerial.maps.cit.api.here.com" />
     private static final String HEREWEGO_DOMAIN_OVERRIDE = "HEREWEGO_OVERRIDE";
 
+    private static final String COPYRIGHT="© 1987 - 2019 HERE. All rights reserved.";
     private static final String[] mapBoxBaseUrl = new String[]{
             "http://1.{domain}/maptile/2.1/maptile/newest/",
             "http://2.{domain}/maptile/2.1/maptile/newest/",
@@ -44,7 +45,7 @@ public class HEREWeGoTileSource  extends OnlineTileSourceBase
      */
     public HEREWeGoTileSource()
     {
-        super("herewego", 1, 20, 256, ".png", mapBoxBaseUrl, "© 1987 - 2017 HERE. All rights reserved.");
+        super("herewego", 1, 20, 256, ".png", mapBoxBaseUrl, COPYRIGHT);
     }
 
     /**
@@ -54,7 +55,7 @@ public class HEREWeGoTileSource  extends OnlineTileSourceBase
      */
     public HEREWeGoTileSource(final Context ctx)
     {
-        super("herewego", 1, 20, 256, ".png", mapBoxBaseUrl,"© 1987 - 2017 HERE. All rights reserved.");
+        super("herewego", 1, 20, 256, ".png", mapBoxBaseUrl,COPYRIGHT);
         retrieveAppId(ctx);
         retrieveMapBoxMapId(ctx);
         retrieveAppCode(ctx);
@@ -79,7 +80,7 @@ public class HEREWeGoTileSource  extends OnlineTileSourceBase
      */
     public HEREWeGoTileSource(final String herewegoMapId, final String accesstoken, final String appCode)
     {
-        super("herewego"+herewegoMapId, 1, 20, 256, ".png", mapBoxBaseUrl,"© 1987 - 2019 HERE. All rights reserved.");
+        super("herewego"+herewegoMapId, 1, 20, 256, ".png", mapBoxBaseUrl,COPYRIGHT);
         this.appId =accesstoken;
         this.herewegoMapId =herewegoMapId;
         this.appCode = appCode;
@@ -96,7 +97,7 @@ public class HEREWeGoTileSource  extends OnlineTileSourceBase
      */
     public HEREWeGoTileSource(String name, int zoomMinLevel, int zoomMaxLevel, int tileSizePixels, String imageFilenameEnding)
     {
-        super(name, zoomMinLevel, zoomMaxLevel, tileSizePixels, imageFilenameEnding, mapBoxBaseUrl,"© 1987 - 2017 HERE. All rights reserved.");
+        super(name, zoomMinLevel, zoomMaxLevel, tileSizePixels, imageFilenameEnding, mapBoxBaseUrl,COPYRIGHT);
     }
 
     /**
