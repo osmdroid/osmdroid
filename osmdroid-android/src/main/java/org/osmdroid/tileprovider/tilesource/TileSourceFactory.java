@@ -109,6 +109,7 @@ public class TileSourceFactory {
 			));
 	// max concurrent thread number is 2 (cf. https://operations.osmfoundation.org/policies/tiles/)
 
+	//they do not have ssl setup as of oct 2019
 	public static final OnlineTileSourceBase PUBLIC_TRANSPORT = new XYTileSource(
 			"OSMPublicTransport", 0, 17, 256, ".png",
 			new String[] { "http://openptmap.org/tiles/" },"© OpenStreetMap contributors");
@@ -150,9 +151,9 @@ public class TileSourceFactory {
      
      public static final OnlineTileSourceBase HIKEBIKEMAP = new XYTileSource("HikeBikeMap",
 			 0, 18, 256, ".png",
-			new String[] { "http://a.tiles.wmflabs.org/hikebike/",
-                    "http://b.tiles.wmflabs.org/hikebike/",
-                    "http://c.tiles.wmflabs.org/hikebike/"  });
+			new String[] { "https://a.tiles.wmflabs.org/hikebike/",
+                    "https://b.tiles.wmflabs.org/hikebike/",
+                    "https://c.tiles.wmflabs.org/hikebike/"  });
 
 	/**
 	 * This is actually another tile overlay
