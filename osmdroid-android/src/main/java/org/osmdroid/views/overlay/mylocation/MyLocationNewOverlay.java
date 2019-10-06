@@ -26,7 +26,6 @@ import org.osmdroid.views.Projection;
 import org.osmdroid.views.overlay.IOverlayMenuProvider;
 import org.osmdroid.views.overlay.Overlay;
 import org.osmdroid.views.overlay.Overlay.Snappable;
-import org.osmdroid.views.CustomZoomButtonsController;
 
 import java.util.LinkedList;
 
@@ -296,10 +295,7 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 	@Override
 	public boolean onTouchEvent(final MotionEvent event, final MapView mapView) {
 		if (event.getAction() == MotionEvent.ACTION_DOWN && enableAutoStop) {
-      CustomZoomButtonsController zoomController = mapView.getZoomController();
-      if ( zoomController != null && !zoomController.isHandling(event) ) {
-        this.disableFollowLocation();
-      }
+      this.disableFollowLocation();
 		} else if (event.getAction() == MotionEvent.ACTION_MOVE && isFollowLocationEnabled()) {
 			return true;  // prevent the pan
 		}

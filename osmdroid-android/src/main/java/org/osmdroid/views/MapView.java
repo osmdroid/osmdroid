@@ -1119,6 +1119,10 @@ public class MapView extends ViewGroup implements IMapView,
 		// Get rotated event for some touch listeners.
 		MotionEvent rotatedEvent = rotateTouchEvent(event);
 
+    if ( mZoomController != null && mZoomController.onSingleTapConfirmed(rotatedEvent)) {
+      return true;
+    }
+
 		try {
 			if (super.dispatchTouchEvent(event)) {
 				if (Configuration.getInstance().isDebugMapView()) {
@@ -1619,13 +1623,9 @@ public class MapView extends ViewGroup implements IMapView,
 
 		@Override
 		public boolean onSingleTapConfirmed(final MotionEvent e) {
-			if (mZoomController != null && mZoomController.onSingleTapConfirmed(e)) {
-				return true;
-			}
 			if (MapView.this.getOverlayManager().onSingleTapConfirmed(e, MapView.this)) {
 				return true;
 			}
-
 			return false;
 		}
 	}
