@@ -182,11 +182,14 @@ public class CustomZoomButtonsController {
 		return false;
 	}
 
+  public boolean isHandling(final MotionEvent pMotionEvent) {
+		if (mAlpha01 == 0) return false;
+    return mDisplay.isTouchedRotated(pMotionEvent, true)
+        || mDisplay.isTouchedRotated(pMotionEvent, false);
+  }
+
 	private boolean isTouched(final MotionEvent pMotionEvent) {
-		if (mAlpha01 == 0) {
-			return false;
-		}
-		if (checkJustActivated()) {
+		if (mAlpha01 == 0 || checkJustActivated() ) {
 			return false;
 		}
 		if (mDisplay.isTouchedRotated(pMotionEvent, true)) {
