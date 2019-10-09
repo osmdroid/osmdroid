@@ -122,7 +122,7 @@ public class MapTilePreCache {
                         }
                     }
                 }
-                final Drawable drawable = provider.getTileLoader().loadTile(pMapTileIndex);
+                final Drawable drawable = provider.getTileLoader().loadTileIfReachable(pMapTileIndex);
                 if (drawable == null) {
                     continue;
                 }
