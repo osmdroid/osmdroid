@@ -137,8 +137,8 @@ public class CustomZoomButtonsDisplay {
 				return pMapViewWidth - mMargin * mBitmapSize - mBitmapSize
 						- (mHorizontalOrVertical ? mPadding * mBitmapSize + mBitmapSize : 0);
 			case CENTER:
-				return pMapViewWidth / 2
-						- (mHorizontalOrVertical ? mPadding * mBitmapSize / 2 + mBitmapSize : mBitmapSize / 2);
+				return pMapViewWidth / 2f
+						- (mHorizontalOrVertical ? mPadding * mBitmapSize / 2 + mBitmapSize : mBitmapSize / 2f);
 		}
 		throw new IllegalArgumentException();
 	}
@@ -151,8 +151,8 @@ public class CustomZoomButtonsDisplay {
 				return pMapViewHeight - mMargin * mBitmapSize - mBitmapSize
 						- (mHorizontalOrVertical ? 0 : mPadding * mBitmapSize + mBitmapSize);
 			case CENTER:
-				return pMapViewHeight / 2
-						- (mHorizontalOrVertical ? mBitmapSize / 2 : mPadding * mBitmapSize / 2 + mBitmapSize);
+				return pMapViewHeight / 2f
+						- (mHorizontalOrVertical ? mBitmapSize / 2f : mPadding * mBitmapSize / 2 + mBitmapSize);
 		}
 		throw new IllegalArgumentException();
 	}
@@ -172,6 +172,7 @@ public class CustomZoomButtonsDisplay {
 		return pEnabled ? mZoomOutBitmapEnabled : mZoomOutBitmapDisabled;
 	}
 
+	@Deprecated
 	public boolean isTouchedRotated(final MotionEvent pMotionEvent, final boolean pInOrOut) {
 		if (mMapView.getMapOrientation() == 0) {
 			mUnrotatedPoint.set((int) pMotionEvent.getX(), (int) pMotionEvent.getY());
@@ -180,6 +181,13 @@ public class CustomZoomButtonsDisplay {
 					(int) pMotionEvent.getX(), (int) pMotionEvent.getY(), mUnrotatedPoint);
 		}
 		return isTouched(mUnrotatedPoint.x, mUnrotatedPoint.y, pInOrOut);
+	}
+
+	/**
+	 * @since 6.1.3
+	 */
+	public boolean isTouched(final MotionEvent pMotionEvent, final boolean pInOrOut) {
+		return isTouched((int) pMotionEvent.getX(), (int) pMotionEvent.getY(), pInOrOut);
 	}
 
 	private boolean isTouched(final int pEventX, final int pEventY, final boolean pInOrOut) {

@@ -182,20 +182,20 @@ public class CustomZoomButtonsController {
 		return false;
 	}
 
-	private boolean isTouched(final MotionEvent pMotionEvent) {
+	public boolean isTouched(final MotionEvent pMotionEvent) {
 		if (mAlpha01 == 0) {
 			return false;
 		}
 		if (checkJustActivated()) {
 			return false;
 		}
-		if (mDisplay.isTouchedRotated(pMotionEvent, true)) {
+		if (mDisplay.isTouched(pMotionEvent, true)) {
 			if (mZoomInEnabled && mListener != null) {
 				mListener.onZoom(true);
 			}
 			return true;
 		}
-		if (mDisplay.isTouchedRotated(pMotionEvent, false)) {
+		if (mDisplay.isTouched(pMotionEvent, false)) {
 			if (mZoomOutEnabled && mListener != null) {
 				mListener.onZoom(false);
 			}
@@ -210,10 +210,12 @@ public class CustomZoomButtonsController {
 		void onZoom(boolean b);
 	}
 
+	@Deprecated
 	public boolean onSingleTapConfirmed(final MotionEvent pMotionEvent) {
 		return isTouched(pMotionEvent);
 	}
 
+	@Deprecated
 	public boolean onLongPress(final MotionEvent pMotionEvent) {
 		return isTouched(pMotionEvent);
 	}

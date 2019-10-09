@@ -53,7 +53,6 @@ public class SampleSplitScreen extends BaseSampleFragment implements MapListener
         mMapView2.setTileSource(new MapBoxTileSource(getContext()));
         mMapView2.setMapListener(this);
 
-        mMapView2.setBuiltInZoomControls(true);
         mMapView2.setMultiTouchControls(true);
         mMapView2.setTilesScaledToDpi(true);
     }

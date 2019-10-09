@@ -113,7 +113,6 @@ public class CustomRecycler extends RecyclerView.Adapter<CustomRecycler.ViewHold
 
             Info dat = data.get(position);
             MapViewHolder Indicador = (MapViewHolder) viewHolder;
-            Indicador.mapaShow.setBuiltInZoomControls(true);
             Indicador.mapaShow.setMultiTouchControls(true);
             Indicador.mapaShow.setClickable(false);
 

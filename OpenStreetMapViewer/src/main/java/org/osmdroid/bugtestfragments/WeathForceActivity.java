@@ -95,7 +95,6 @@ public class WeathForceActivity extends BaseActivity implements LocationListener
         mLocationOverlay.enableFollowLocation();
         mLocationOverlay.enableMyLocation();
         this.mMapView.getOverlayManager().add(mLocationOverlay);
-        mMapView.setBuiltInZoomControls(true);
         mMapView.setMultiTouchControls(true);
         mMapView.setTilesScaledToDpi(true);
     }
