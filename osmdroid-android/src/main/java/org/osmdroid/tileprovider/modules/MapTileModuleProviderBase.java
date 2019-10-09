@@ -72,6 +72,14 @@ public abstract class MapTileModuleProviderBase {
 	public abstract int getMaximumZoomLevel();
 
 	/**
+	 * @since 6.1.3
+	 */
+	public boolean isTileReachable(final long pMapTileIndex) {
+		final int zoom = MapTileIndex.getZoom(pMapTileIndex);
+		return zoom >= getMinimumZoomLevel() && zoom <= getMaximumZoomLevel();
+	}
+
+	/**
 	 * Sets the tile source for this tile provider.
 	 *
 	 * @param tileSource
@@ -184,7 +192,8 @@ public abstract class MapTileModuleProviderBase {
 	public abstract class TileLoader implements Runnable {
 
 		/**
-		 * Load the requested tile.
+		 * Actual load of the requested tile.
+		 * Do implement this method, but call {@link #loadTileIfReachable(long)} instead
 		 *
 		 * @since 6.0.0
 		 * @return the tile if it was loaded successfully, or null if failed to
@@ -194,10 +203,21 @@ public abstract class MapTileModuleProviderBase {
 		public abstract Drawable loadTile(final long pMapTileIndex)
 				throws CantContinueException;
 
+		/**
+		 * @since 6.1.3
+		 */
+		public Drawable loadTileIfReachable(final long pMapTileIndex)
+				throws CantContinueException {
+			if (!isTileReachable(pMapTileIndex)) {
+				return null;
+			}
+			return loadTile(pMapTileIndex);
+		}
+
 		@Deprecated
 		protected Drawable loadTile(MapTileRequestState pState)
 				throws CantContinueException {
-			return loadTile(pState.getMapTile());
+			return loadTileIfReachable(pState.getMapTile());
 		}
 
 		protected void onTileLoaderInit() {
@@ -309,7 +329,7 @@ public abstract class MapTileModuleProviderBase {
 				}
 				try {
 					result = null;
-					result = loadTile(state.getMapTile());
+					result = loadTileIfReachable(state.getMapTile());
 				} catch (final CantContinueException e) {
 					Log.i(IMapView.LOGTAG,"Tile loader can't continue: " + MapTileIndex.toString(state.getMapTile()), e);
 					clearQueue();

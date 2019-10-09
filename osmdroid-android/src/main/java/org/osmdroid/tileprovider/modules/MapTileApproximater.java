@@ -180,7 +180,7 @@ public class MapTileApproximater extends MapTileModuleProviderBase {
                 MapTileIndex.getX(pMapTileIndex) >> pZoomDiff,
                 MapTileIndex.getY(pMapTileIndex) >> pZoomDiff);
         try {
-            final Drawable srcDrawable = pProvider.getTileLoader().loadTile(srcTile);
+            final Drawable srcDrawable = pProvider.getTileLoader().loadTileIfReachable(srcTile);
             if (!(srcDrawable instanceof BitmapDrawable)) {
                 return null;
             }

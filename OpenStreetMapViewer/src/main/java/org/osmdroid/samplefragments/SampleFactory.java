@@ -94,6 +94,7 @@ import org.osmdroid.samplefragments.tileproviders.SampleAssetsOnly;
 import org.osmdroid.samplefragments.tileproviders.SampleAssetsOnlyRepetitionModes;
 import org.osmdroid.samplefragments.tileproviders.SampleOfflineGemfOnly;
 import org.osmdroid.samplefragments.tileproviders.SampleOfflineOnly;
+import org.osmdroid.samplefragments.tileproviders.SampleUnreachableOnlineTiles;
 import org.osmdroid.samplefragments.tileproviders.SampleVeryHighZoomLevel;
 import org.osmdroid.samplefragments.tilesources.SampleBingHybrid;
 import org.osmdroid.samplefragments.tilesources.SampleBingRoad;
@@ -315,6 +316,7 @@ public final class SampleFactory implements ISampleFactory {
         mSamples.add(SampleSpeechBalloon.class);
         mSamples.add(SampleMapCenterOffset.class);
         mSamples.add(SampleSnappable.class);
+        mSamples.add(SampleUnreachableOnlineTiles.class);
     }
 
     public void addSample(Class<? extends BaseSampleFragment> clz) {
