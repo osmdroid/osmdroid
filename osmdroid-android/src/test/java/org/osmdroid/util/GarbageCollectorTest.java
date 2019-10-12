@@ -13,6 +13,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class GarbageCollectorTest {
 
+    /**
+     * @since 6.1.3
+     */
+    private static final long ACTION_MILLISECONDS = 500;
+
     private final AtomicInteger mCount = new AtomicInteger(0);
 
     @Test
@@ -30,10 +35,10 @@ public class GarbageCollectorTest {
         mCount.set(0);
 
         garbageCollector.gc();
-        sleep(100);
+        sleepFactor(.5);
         Assert.assertEquals(1, mCount.get());
         Assert.assertTrue(garbageCollector.isRunning());
-        sleep(500);
+        sleepFactor(2);
         Assert.assertFalse(garbageCollector.isRunning());
         Assert.assertEquals(1, mCount.get());
     }
@@ -44,18 +49,18 @@ public class GarbageCollectorTest {
         mCount.set(0);
 
         garbageCollector.gc();
-        sleep(100);
+        sleepFactor(.5);
         Assert.assertEquals(1, mCount.get());
         Assert.assertTrue(garbageCollector.isRunning());
-        sleep(500);
+        sleepFactor(2);
         Assert.assertFalse(garbageCollector.isRunning());
         Assert.assertEquals(1, mCount.get());
 
         garbageCollector.gc();
-        sleep(100);
+        sleepFactor(.5);
         Assert.assertEquals(2, mCount.get());
         Assert.assertTrue(garbageCollector.isRunning());
-        sleep(500);
+        sleepFactor(2);
         Assert.assertFalse(garbageCollector.isRunning());
         Assert.assertEquals(2, mCount.get());
     }
@@ -69,10 +74,10 @@ public class GarbageCollectorTest {
         garbageCollector.gc();
         garbageCollector.gc();
         garbageCollector.gc();
-        sleep(100);
+        sleepFactor(.5);
         Assert.assertEquals(1, mCount.get());
         Assert.assertTrue(garbageCollector.isRunning());
-        sleep(500);
+        sleepFactor(2);
         Assert.assertFalse(garbageCollector.isRunning());
         Assert.assertEquals(1, mCount.get());
     }
@@ -82,7 +87,7 @@ public class GarbageCollectorTest {
             @Override
             public void run() {
                 mCount.incrementAndGet();
-                sleep(500);
+                sleepFactor(1);
             }
         };
     }
@@ -93,5 +98,12 @@ public class GarbageCollectorTest {
         } catch(InterruptedException e) {
             //
         }
+    }
+
+    /**
+     * @since 6.1.3
+     */
+    private void sleepFactor(final double pFactor) {
+        sleep(Math.round(ACTION_MILLISECONDS * pFactor));
     }
 }
