@@ -32,6 +32,10 @@ public class CustomZoomButtonsDisplay {
 	private boolean mHorizontalOrVertical;
 	private float mMargin; // as fraction of the bitmap size
 	private float mPadding; // as fraction of the bitmap size
+	private int mPaddingLeft = 0; // in pixels
+	private int mPaddingTop = 0; // in pixels
+	private int mPaddingRight = 0; // in pixels
+	private int mPaddingBottom = 0;	// in pixels
 
 	public CustomZoomButtonsDisplay(final MapView pMapView) {
 		mMapView = pMapView;
@@ -51,6 +55,14 @@ public class CustomZoomButtonsDisplay {
 	public void setMarginPadding(final float pMargin, final float pPadding) {
 		mMargin = pMargin;
 		mPadding = pPadding;
+	}
+
+	/** sets the padding in pixels */
+	public void setPadding(final int left, final int top, final int right, final int bottom) {
+		mPaddingLeft = left;
+		mPaddingTop = top;
+		mPaddingRight = right;
+		mPaddingBottom = bottom;
 	}
 
 	public void setBitmaps(final Bitmap pInEnabled, final Bitmap pInDisabled,
@@ -132,10 +144,11 @@ public class CustomZoomButtonsDisplay {
 	private float getFirstLeft(final int pMapViewWidth) {
 		switch(mHorizontalPosition) {
 			case LEFT:
-				return mMargin * mBitmapSize;
+				return mMargin * mBitmapSize + mPaddingLeft;
 			case RIGHT:
 				return pMapViewWidth - mMargin * mBitmapSize - mBitmapSize
-						- (mHorizontalOrVertical ? mPadding * mBitmapSize + mBitmapSize : 0);
+						- (mHorizontalOrVertical ? mPadding * mBitmapSize + mBitmapSize : 0)
+						- mPaddingRight;
 			case CENTER:
 				return pMapViewWidth / 2
 						- (mHorizontalOrVertical ? mPadding * mBitmapSize / 2 + mBitmapSize : mBitmapSize / 2);
@@ -146,10 +159,11 @@ public class CustomZoomButtonsDisplay {
 	private float getFirstTop(final int pMapViewHeight) {
 		switch(mVerticalPosition) {
 			case TOP:
-				return mMargin * mBitmapSize;
+				return mMargin * mBitmapSize + mPaddingTop;
 			case BOTTOM:
 				return pMapViewHeight - mMargin * mBitmapSize - mBitmapSize
-						- (mHorizontalOrVertical ? 0 : mPadding * mBitmapSize + mBitmapSize);
+						- (mHorizontalOrVertical ? 0 : mPadding * mBitmapSize + mBitmapSize)
+						- mPaddingBottom;
 			case CENTER:
 				return pMapViewHeight / 2
 						- (mHorizontalOrVertical ? mBitmapSize / 2 : mPadding * mBitmapSize / 2 + mBitmapSize);
