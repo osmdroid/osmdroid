@@ -69,7 +69,6 @@ public class AsyncTaskDemoFragment extends BaseSampleFragment {
             }
         }, DEFAULT_INACTIVITY_DELAY_IN_MILLISECS));
 
-        mMapView.setBuiltInZoomControls(true);
         mMapView.setMultiTouchControls(true);
         mMapView.setTilesScaledToDpi(true);
 
