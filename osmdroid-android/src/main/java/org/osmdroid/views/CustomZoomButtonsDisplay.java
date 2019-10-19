@@ -32,6 +32,14 @@ public class CustomZoomButtonsDisplay {
 	private boolean mHorizontalOrVertical;
 	private float mMargin; // as fraction of the bitmap size
 	private float mPadding; // as fraction of the bitmap size
+	private int mAdditionalPixelMarginLeft = 0; // additional left margin in pixels
+	private int mAdditionalPixelMarginTop = 0; // additional top margin in pixels
+	private int mAdditionalPixelMarginRight = 0; // additional right margin in pixels
+	private int mAdditionalPixelMarginBottom = 0;	// additional bottom margin in pixels
+	private int mPixelMarginLeft = 0; // calculated left margin in pixels
+	private int mPixelMarginTop = 0; // calculated top margin in pixels
+	private int mPixelMarginRight = 0; // calculated right margin in pixels
+	private int mPixelMarginBottom = 0;	// calculated bottom margin in pixels
 
 	public CustomZoomButtonsDisplay(final MapView pMapView) {
 		mMapView = pMapView;
@@ -48,9 +56,34 @@ public class CustomZoomButtonsDisplay {
 		mVerticalPosition = pVerticalPosition;
 	}
 
+	/**
+	 * sets margin and padding as fraction of the bitmap width
+	 */
 	public void setMarginPadding(final float pMargin, final float pPadding) {
 		mMargin = pMargin;
 		mPadding = pPadding;
+		refreshPixelMargins();
+	}
+
+	/**
+	 * sets additional margin in pixels
+	 * @since 6.1.3
+	 * */
+	public void setAdditionalPixelMargins(final int pLeft, final int pTop, final int pRight, final int pBottom) {
+		mAdditionalPixelMarginLeft = pLeft;
+		mAdditionalPixelMarginTop = pTop;
+		mAdditionalPixelMarginRight = pRight;
+		mAdditionalPixelMarginBottom = pBottom;
+		refreshPixelMargins();
+	}
+
+	private void refreshPixelMargins()
+	{
+		final int bitmapFractionMarginInPixels = Math.round(mMargin * mBitmapSize);
+		mPixelMarginLeft = bitmapFractionMarginInPixels + mAdditionalPixelMarginLeft;
+		mPixelMarginTop = bitmapFractionMarginInPixels + mAdditionalPixelMarginTop;
+		mPixelMarginRight = bitmapFractionMarginInPixels + mAdditionalPixelMarginRight;
+		mPixelMarginBottom = bitmapFractionMarginInPixels + mAdditionalPixelMarginBottom;
 	}
 
 	public void setBitmaps(final Bitmap pInEnabled, final Bitmap pInDisabled,
@@ -60,11 +93,13 @@ public class CustomZoomButtonsDisplay {
 		mZoomOutBitmapEnabled = pOutEnabled;
 		mZoomOutBitmapDisabled = pOutDisabled;
 		mBitmapSize = mZoomInBitmapEnabled.getWidth();
+		refreshPixelMargins();
 	}
 
 	protected Bitmap getZoomBitmap(final boolean pInOrOut, final boolean pEnabled) {
-	    final Bitmap icon = getIcon(pInOrOut);
-        mBitmapSize = icon.getWidth();
+    final Bitmap icon = getIcon(pInOrOut);
+    mBitmapSize = icon.getWidth();
+    refreshPixelMargins();
 		final Bitmap bitmap = Bitmap.createBitmap(mBitmapSize, mBitmapSize, Bitmap.Config.ARGB_8888);
 		final Canvas canvas = new Canvas(bitmap);
 		final Paint backgroundPaint = new Paint();
@@ -132,9 +167,9 @@ public class CustomZoomButtonsDisplay {
 	private float getFirstLeft(final int pMapViewWidth) {
 		switch(mHorizontalPosition) {
 			case LEFT:
-				return mMargin * mBitmapSize;
+				return mPixelMarginLeft;
 			case RIGHT:
-				return pMapViewWidth - mMargin * mBitmapSize - mBitmapSize
+				return pMapViewWidth - mPixelMarginRight - mBitmapSize
 						- (mHorizontalOrVertical ? mPadding * mBitmapSize + mBitmapSize : 0);
 			case CENTER:
 				return pMapViewWidth / 2
@@ -146,9 +181,9 @@ public class CustomZoomButtonsDisplay {
 	private float getFirstTop(final int pMapViewHeight) {
 		switch(mVerticalPosition) {
 			case TOP:
-				return mMargin * mBitmapSize;
+				return mPixelMarginTop;
 			case BOTTOM:
-				return pMapViewHeight - mMargin * mBitmapSize - mBitmapSize
+				return pMapViewHeight - mPixelMarginBottom - mBitmapSize
 						- (mHorizontalOrVertical ? 0 : mPadding * mBitmapSize + mBitmapSize);
 			case CENTER:
 				return pMapViewHeight / 2
