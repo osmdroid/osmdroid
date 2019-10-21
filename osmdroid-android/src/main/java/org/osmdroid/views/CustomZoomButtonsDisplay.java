@@ -32,14 +32,14 @@ public class CustomZoomButtonsDisplay {
 	private boolean mHorizontalOrVertical;
 	private float mMargin; // as fraction of the bitmap size
 	private float mPadding; // as fraction of the bitmap size
-	private int mAdditionalPixelMarginLeft = 0; // additional left margin in pixels
-	private int mAdditionalPixelMarginTop = 0; // additional top margin in pixels
-	private int mAdditionalPixelMarginRight = 0; // additional right margin in pixels
-	private int mAdditionalPixelMarginBottom = 0;	// additional bottom margin in pixels
-	private int mPixelMarginLeft = 0; // calculated left margin in pixels
-	private int mPixelMarginTop = 0; // calculated top margin in pixels
-	private int mPixelMarginRight = 0; // calculated right margin in pixels
-	private int mPixelMarginBottom = 0;	// calculated bottom margin in pixels
+	private float mAdditionalPixelMarginLeft; // additional left margin in pixels
+	private float mAdditionalPixelMarginTop; // additional top margin in pixels
+	private float mAdditionalPixelMarginRight; // additional right margin in pixels
+	private float mAdditionalPixelMarginBottom;	// additional bottom margin in pixels
+	private float mPixelMarginLeft; // calculated overall left margin in pixels
+	private float mPixelMarginTop; // calculated overall top margin in pixels
+	private float mPixelMarginRight; // calculated overall right margin in pixels
+	private float mPixelMarginBottom;	// calculated overall bottom margin in pixels
 
 	public CustomZoomButtonsDisplay(final MapView pMapView) {
 		mMapView = pMapView;
@@ -69,7 +69,7 @@ public class CustomZoomButtonsDisplay {
 	 * sets additional margin in pixels
 	 * @since 6.1.3
 	 * */
-	public void setAdditionalPixelMargins(final int pLeft, final int pTop, final int pRight, final int pBottom) {
+	public void setAdditionalPixelMargins(final float pLeft, final float pTop, final float pRight, final float pBottom) {
 		mAdditionalPixelMarginLeft = pLeft;
 		mAdditionalPixelMarginTop = pTop;
 		mAdditionalPixelMarginRight = pRight;
@@ -77,9 +77,13 @@ public class CustomZoomButtonsDisplay {
 		refreshPixelMargins();
 	}
 
+	/**
+	 * calculate overall margins in pixels
+	 * @since 6.1.3
+	 */
 	private void refreshPixelMargins()
 	{
-		final int bitmapFractionMarginInPixels = Math.round(mMargin * mBitmapSize);
+		final float bitmapFractionMarginInPixels = mMargin * mBitmapSize;
 		mPixelMarginLeft = bitmapFractionMarginInPixels + mAdditionalPixelMarginLeft;
 		mPixelMarginTop = bitmapFractionMarginInPixels + mAdditionalPixelMarginTop;
 		mPixelMarginRight = bitmapFractionMarginInPixels + mAdditionalPixelMarginRight;
