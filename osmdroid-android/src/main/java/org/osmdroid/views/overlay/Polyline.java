@@ -144,6 +144,15 @@ public class Polyline extends PolyOverlayWithIW {
     }
 
     /**
+     * Add the point at the end.
+     * If geodesic mode has been set, the long segments will follow the earth "great circle".
+     */
+    public void addPoint(GeoPoint p){
+        mOriginalPoints.add(p);
+        mOutline.addPoint(p);
+    }
+
+    /**
      * Detection is done is screen coordinates.
      *
      * @param point
