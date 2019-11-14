@@ -70,7 +70,6 @@ public class SampleFollowMe extends BaseSampleFragment implements LocationListen
 
         mMapView.getController().setZoom(15);
         mMapView.setTilesScaledToDpi(true);
-        mMapView.setBuiltInZoomControls(true);
         mMapView.setMultiTouchControls(true);
         mMapView.setFlingEnabled(true);
         mMapView.getOverlays().add(this.mLocationOverlay);

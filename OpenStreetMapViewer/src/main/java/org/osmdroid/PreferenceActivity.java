@@ -75,6 +75,10 @@ public class PreferenceActivity extends AppCompatActivity implements View.OnClic
         Toolbar myToolbar = findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
 
+        //noinspection ConstantConditions
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         checkBoxDebugTileProvider = findViewById(R.id.checkBoxDebugTileProvider);
         checkBoxDebugMode = findViewById(R.id.checkBoxDebugMode);
         checkBoxHardwareAcceleration = findViewById(R.id.checkBoxHardwareAcceleration);
@@ -130,6 +134,12 @@ public class PreferenceActivity extends AppCompatActivity implements View.OnClic
 
         findViewById(R.id.baseDirTitle).setOnClickListener(this);
 
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 
     @Override

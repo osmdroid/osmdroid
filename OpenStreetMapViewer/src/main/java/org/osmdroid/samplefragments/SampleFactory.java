@@ -34,8 +34,10 @@ import org.osmdroid.samplefragments.data.SampleMilitaryIconsItemizedIcons;
 import org.osmdroid.samplefragments.data.SampleMilitaryIconsMarker;
 import org.osmdroid.samplefragments.data.SampleOsmPath;
 import org.osmdroid.samplefragments.data.SampleRace;
+import org.osmdroid.samplefragments.data.SampleShapeFile;
 import org.osmdroid.samplefragments.data.SampleSimpleFastPointOverlay;
 import org.osmdroid.samplefragments.data.SampleSimpleLocation;
+import org.osmdroid.samplefragments.drawing.SampleDrawPolylineAsPath;
 import org.osmdroid.samplefragments.data.SampleSpeechBalloon;
 import org.osmdroid.samplefragments.events.SampleAnimateToWithOrientation;
 import org.osmdroid.samplefragments.events.SampleMapCenterOffset;
@@ -92,6 +94,7 @@ import org.osmdroid.samplefragments.tileproviders.SampleAssetsOnly;
 import org.osmdroid.samplefragments.tileproviders.SampleAssetsOnlyRepetitionModes;
 import org.osmdroid.samplefragments.tileproviders.SampleOfflineGemfOnly;
 import org.osmdroid.samplefragments.tileproviders.SampleOfflineOnly;
+import org.osmdroid.samplefragments.tileproviders.SampleUnreachableOnlineTiles;
 import org.osmdroid.samplefragments.tileproviders.SampleVeryHighZoomLevel;
 import org.osmdroid.samplefragments.tilesources.SampleBingHybrid;
 import org.osmdroid.samplefragments.tilesources.SampleBingRoad;
@@ -233,6 +236,7 @@ public final class SampleFactory implements ISampleFactory {
         mSamples.add(SampleMyLocationWithClick.class);
         //48
         mSamples.add(SampleDrawPolyline.class);
+        mSamples.add(SampleDrawPolylineAsPath.class);
         //49
         mSamples.add(RecyclerCardView.class);
         //50
@@ -294,6 +298,7 @@ public final class SampleFactory implements ISampleFactory {
         if (Build.VERSION.SDK_INT >= 15)
             mSamples.add(Plotter.class);
         mSamples.add(WeatherGroundOverlaySample.class);
+        mSamples.add(SampleShapeFile.class);
         mSamples.add(CompassPointerSample.class);
         mSamples.add(CompassRoseSample.class);
         mSamples.add(SampleZoomRounding.class);
@@ -311,6 +316,7 @@ public final class SampleFactory implements ISampleFactory {
         mSamples.add(SampleSpeechBalloon.class);
         mSamples.add(SampleMapCenterOffset.class);
         mSamples.add(SampleSnappable.class);
+        mSamples.add(SampleUnreachableOnlineTiles.class);
     }
 
     public void addSample(Class<? extends BaseSampleFragment> clz) {

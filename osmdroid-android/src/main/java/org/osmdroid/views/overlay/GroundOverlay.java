@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 
+import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.Projection;
 
@@ -97,6 +98,9 @@ public class GroundOverlay extends Overlay {
         mTopRight = new GeoPoint(pTopRight);
         mBottomRight = new GeoPoint(pBottomRight);
         mBottomLeft = new GeoPoint(pBottomLeft);
+        mBounds= new BoundingBox(pTopLeft.getLatitude(),pTopRight.getLongitude(),
+            pBottomRight.getLatitude(),pTopLeft.getLongitude()
+            );
     }
 
     public void setPosition(final GeoPoint pTopLeft, final GeoPoint pBottomRight) {
@@ -107,6 +111,9 @@ public class GroundOverlay extends Overlay {
         mTopRight = null;
         mBottomRight = new GeoPoint(pBottomRight);
         mBottomLeft = null;
+        mBounds= new BoundingBox(pTopLeft.getLatitude(),pBottomRight.getLongitude(),
+            pBottomRight.getLatitude(),pTopLeft.getLongitude()
+        );
     }
 
     // TODO check if performance-wise it would make sense to use the mMatrix.setPolyToPoly option

@@ -172,8 +172,8 @@ public class LatLonGridlineOverlay2 extends Overlay {
 
             for (double i = sn_start_point; i <= sn_stop_point; i = i + incrementor) {
                 Polyline p = new Polyline();
-                p.setWidth(mLineWidth);
-                p.setColor(mLineColor);
+                p.getOutlinePaint().setStrokeWidth(mLineWidth);
+                p.getOutlinePaint().setColor(mLineColor);
                 List<GeoPoint> pts = new ArrayList<GeoPoint>();
 
 
@@ -204,8 +204,8 @@ public class LatLonGridlineOverlay2 extends Overlay {
 
             for (double i = we_startpoint; i <= ws_stoppoint; i = i + incrementor) {
                 Polyline p = new Polyline();
-                p.setWidth(mLineWidth);
-                p.setColor(mLineColor);
+                p.getOutlinePaint().setStrokeWidth(mLineWidth);
+                p.getOutlinePaint().setColor(mLineColor);
                 List<GeoPoint> pts = new ArrayList<GeoPoint>();
                 GeoPoint gx = new GeoPoint((double) north, i);
                 pts.add(gx);
@@ -233,8 +233,8 @@ public class LatLonGridlineOverlay2 extends Overlay {
                 //in this case western point is very positive and eastern part is very negative
                 for (double i = we_startpoint; i <= 180; i = i + incrementor) {
                     Polyline p = new Polyline();
-                    p.setWidth(mLineWidth);
-                    p.setColor(mLineColor);
+                    p.getOutlinePaint().setStrokeWidth(mLineWidth);
+                    p.getOutlinePaint().setColor(mLineColor);
                     List<GeoPoint> pts = new ArrayList<GeoPoint>();
                     GeoPoint gx = new GeoPoint((double) north, i);
                     pts.add(gx);
@@ -247,8 +247,8 @@ public class LatLonGridlineOverlay2 extends Overlay {
                 }
                 for (double i = -180; i <= ws_stoppoint; i = i + incrementor) {
                     Polyline p = new Polyline();
-                    p.setWidth(mLineWidth);
-                    p.setColor(mLineColor);
+                    p.getOutlinePaint().setStrokeWidth(mLineWidth);
+                    p.getOutlinePaint().setColor(mLineColor);
                     List<GeoPoint> pts = new ArrayList<GeoPoint>();
                     GeoPoint gx = new GeoPoint((double) north, i);
                     pts.add(gx);

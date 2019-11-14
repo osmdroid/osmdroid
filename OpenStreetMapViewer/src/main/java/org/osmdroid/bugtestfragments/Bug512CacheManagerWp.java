@@ -8,8 +8,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
-import junit.framework.Assert;
-
 import org.osmdroid.R;
 import org.osmdroid.api.IMapView;
 import org.osmdroid.samplefragments.BaseSampleFragment;
@@ -100,7 +98,7 @@ public class Bug512CacheManagerWp extends BaseSampleFragment implements CacheMan
                 //test passed
                 return;
             } else {
-                Assert.fail("Failure occurred during the test, there were " + errors);
+                throw new RuntimeException("Failure occurred during the test, there were " + errors);
             }
         }
 

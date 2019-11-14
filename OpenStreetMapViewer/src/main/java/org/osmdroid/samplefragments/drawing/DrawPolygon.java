@@ -76,6 +76,7 @@ public class DrawPolygon extends BaseSampleFragment implements View.OnClickListe
         paint = v.findViewById(R.id.paintingSurface);
         paint.init(mMapView);
         paint.setMode(CustomPaintingSurface.Mode.Polygon);
+        updateInfo();
         return v;
 
     }
@@ -84,7 +85,7 @@ public class DrawPolygon extends BaseSampleFragment implements View.OnClickListe
         IGeoPoint mapCenter = mMapView.getMapCenter();
         textViewCurrentLocation.setText(df.format(mapCenter.getLatitude()) + "," +
             df.format(mapCenter.getLongitude())
-            + ",zoom=" + mMapView.getZoomLevelDouble() + ",angle=" + mMapView.getMapOrientation());
+            + ",zoom=" + mMapView.getZoomLevelDouble() + ",angle=" + mMapView.getMapOrientation() + "\nBounds: " + mMapView.getBoundingBox().toString());
 
     }
 

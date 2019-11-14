@@ -8,6 +8,7 @@ include ':osmdroid-android'
 include ':osmdroid-mapsforge'
 include ':osmdroid-geopackage'
 include ':osmdroid-wms'
+include ':osmdroid-shape'
 
 //sample apps
 include ':OpenStreetMapViewer'

@@ -7,23 +7,17 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.util.DisplayMetrics;
 import android.view.InputDevice;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MenuItem.OnMenuItemClickListener;
 import android.view.MotionEvent;
-import android.view.SubMenu;
 import android.view.View;
 import android.view.ViewGroup;
 
 import org.osmdroid.api.IGeoPoint;
-import org.osmdroid.constants.OpenStreetMapConstants;
-import org.osmdroid.samplefragments.BaseSampleFragment;
-import org.osmdroid.samplefragments.SampleFactory;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
@@ -43,16 +37,19 @@ import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
  * @author Marc Kurtz
  * @author Manuel Stahl
  */
-public class StarterMapFragment extends Fragment implements OpenStreetMapConstants {
+public class StarterMapFragment extends Fragment {
     // ===========================================================
     // Constants
     // ===========================================================
 
-    private static final int DIALOG_ABOUT_ID = 1;
+    private static final String PREFS_NAME = "org.andnav.osm.prefs";
+    private static final String PREFS_TILE_SOURCE = "tilesource";
+    private static final String PREFS_LATITUDE_STRING = "latitudeString";
+    private static final String PREFS_LONGITUDE_STRING = "longitudeString";
+    private static final String PREFS_ORIENTATION = "orientation";
+    private static final String PREFS_ZOOM_LEVEL_DOUBLE = "zoomLevelDouble";
 
-    private static final int MENU_SAMPLES = Menu.FIRST + 1;
-    private static final int MENU_ABOUT = MENU_SAMPLES + 1;
-
+    private static final int MENU_ABOUT = Menu.FIRST + 1;
     private static final int MENU_LAST_ID = MENU_ABOUT + 1; // Always set to last unused id
 
     // ===========================================================
@@ -83,6 +80,7 @@ public class StarterMapFragment extends Fragment implements OpenStreetMapConstan
         //be sure to handle application lifecycle correct (see note in on pause)
         mMapView = new MapView(inflater.getContext());
         mMapView.setDestroyMode(false);
+        mMapView.setTag("mapView"); // needed for OpenStreetMapViewTest
 
         mMapView.setOnGenericMotionListener(new View.OnGenericMotionListener() {
             /**
@@ -176,25 +174,16 @@ public class StarterMapFragment extends Fragment implements OpenStreetMapConstan
         //scales tiles to the current screen's DPI, helps with readability of labels
         mMapView.setTilesScaledToDpi(true);
 
-
-
         //the rest of this is restoring the last map location the user looked at
-        final float zoomLevel = mPrefs.getFloat(PREFS_ZOOM_LEVEL_DOUBLE, mPrefs.getInt(PREFS_ZOOM_LEVEL, 1));
+        final float zoomLevel = mPrefs.getFloat(PREFS_ZOOM_LEVEL_DOUBLE, 1);
         mMapView.getController().setZoom(zoomLevel);
         final float orientation = mPrefs.getFloat(PREFS_ORIENTATION, 0);
         mMapView.setMapOrientation(orientation, false);
-        final String latitudeString = mPrefs.getString(PREFS_LATITUDE_STRING, null);
-        final String longitudeString = mPrefs.getString(PREFS_LONGITUDE_STRING, null);
-        if (latitudeString == null || longitudeString == null) { // case handled for historical reasons only
-            final int scrollX = mPrefs.getInt(PREFS_SCROLL_X, 0);
-            final int scrollY = mPrefs.getInt(PREFS_SCROLL_Y, 0);
-            mMapView.scrollTo(scrollX, scrollY);
-        } else {
-            final double latitude = Double.valueOf(latitudeString);
-            final double longitude = Double.valueOf(longitudeString);
-            mMapView.setExpectedCenter(new GeoPoint(latitude, longitude));
-        }
-
+        final String latitudeString = mPrefs.getString(PREFS_LATITUDE_STRING, "1.0");
+        final String longitudeString = mPrefs.getString(PREFS_LONGITUDE_STRING, "1.0");
+        final double latitude = Double.valueOf(latitudeString);
+        final double longitude = Double.valueOf(longitudeString);
+        mMapView.setExpectedCenter(new GeoPoint(latitude, longitude));
 
         setHasOptionsMenu(true);
     }
@@ -208,15 +197,7 @@ public class StarterMapFragment extends Fragment implements OpenStreetMapConstan
         edit.putString(PREFS_LATITUDE_STRING, String.valueOf(mMapView.getMapCenter().getLatitude()));
         edit.putString(PREFS_LONGITUDE_STRING, String.valueOf(mMapView.getMapCenter().getLongitude()));
         edit.putFloat(PREFS_ZOOM_LEVEL_DOUBLE, (float) mMapView.getZoomLevelDouble());
-        edit.putBoolean(PREFS_SHOW_LOCATION, mLocationOverlay.isMyLocationEnabled());
-
-        //sorry for the spaghetti code this is to filter out the compass on api 8
-        //Note: the compass overlay causes issues on API 8 devices. See https://github.com/osmdroid/osmdroid/issues/218
-        if (mCompassOverlay != null) {
-            edit.putBoolean(PREFS_SHOW_COMPASS, mCompassOverlay.isCompassEnabled());
-            this.mCompassOverlay.disableCompass();
-        }
-        edit.apply();
+        edit.commit();
 
         mMapView.onPause();
         super.onPause();
@@ -251,33 +232,11 @@ public class StarterMapFragment extends Fragment implements OpenStreetMapConstan
         // Put overlay items first
         mMapView.getOverlayManager().onCreateOptionsMenu(menu, MENU_LAST_ID, mMapView);
 
-        // Put samples next
-        SubMenu samplesSubMenu = menu.addSubMenu(0, MENU_SAMPLES, Menu.NONE, org.osmdroid.R.string.samples)
-            .setIcon(android.R.drawable.ic_menu_gallery);
-        ISampleFactory sampleFactory = SampleFactory.getInstance();
-        for (int a = 0; a < sampleFactory.count(); a++) {
-            final BaseSampleFragment f = sampleFactory.getSample(a);
-            samplesSubMenu.add(f.getSampleTitle()).setOnMenuItemClickListener(
-                new OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        startSampleFragment(f);
-                        return true;
-                    }
-                });
-        }
-
         // Put "About" menu item last
         menu.add(0, MENU_ABOUT, Menu.CATEGORY_SECONDARY, org.osmdroid.R.string.about).setIcon(
             android.R.drawable.ic_menu_info_details);
 
         super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    protected void startSampleFragment(Fragment fragment) {
-        FragmentManager fm = getFragmentManager();
-        fm.beginTransaction().hide(this).add(android.R.id.content, fragment, "SampleFragment")
-            .addToBackStack(null).commit();
     }
 
     @Override
@@ -309,13 +268,20 @@ public class StarterMapFragment extends Fragment implements OpenStreetMapConstan
         return super.onOptionsItemSelected(item);
     }
 
-    public MapView getMapView() {
-        return mMapView;
+    public void zoomIn() {
+        mMapView.getController().zoomIn();
+    }
+
+    public void zoomOut() {
+        mMapView.getController().zoomOut();
     }
 
     // @Override
     // public boolean onTrackballEvent(final MotionEvent event) {
     // return this.mMapView.onTrackballEvent(event);
     // }
+    public void invalidateMapView() {
+        mMapView.invalidate();
+    }
 }
 

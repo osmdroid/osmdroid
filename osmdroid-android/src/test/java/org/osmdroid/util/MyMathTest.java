@@ -63,14 +63,14 @@ public class MyMathTest {
 
         MyMath.computeCirclePoint(0, 0, radius, Math.PI / 2, output);
         Assert.assertEquals(0, output.x);
-        Assert.assertEquals(-radius, output.y);
+        Assert.assertEquals(-radius, -output.y);
 
         MyMath.computeCirclePoint(0, 0, radius, -Math.PI / 2, output);
         Assert.assertEquals(0, output.x);
-        Assert.assertEquals(radius, output.y);
+        Assert.assertEquals(radius, -output.y);
 
         MyMath.computeCirclePoint(0, 0, radius, Math.PI / 4, output);
         Assert.assertEquals((long)(radius * Math.sqrt(2) / 2), output.x);
-        Assert.assertEquals((long)(-radius * Math.sqrt(2) / 2), output.y);
+        Assert.assertEquals((long)(-radius * Math.sqrt(2) / 2), -output.y);
     }
 }

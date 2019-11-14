@@ -54,6 +54,11 @@ public class OsmApplication extends MultiDexApplication {
         }
 
         try {
+            if (LeakCanary.isInAnalyzerProcess(this)) {
+                // This process is dedicated to LeakCanary for heap analysis.
+                // You should not init your app in this process.
+                return;
+            }
             LeakCanary.install(this);
         } catch (Throwable ex) {
 
@@ -119,8 +124,6 @@ public class OsmApplication extends MultiDexApplication {
             //this can happen on androidx86 getExternalStorageDir is not writable or if there is a
             //permissions issue
         }
-
-
     }
 
     public static class OsmUncaughtExceptionHandler implements Thread.UncaughtExceptionHandler {

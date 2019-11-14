@@ -45,8 +45,8 @@ public class MarkerDrag extends BaseSampleFragment {
         OnMarkerDragListenerDrawer() {
             mTrace = new ArrayList<GeoPoint>(100);
             mPolyline = new Polyline(mMapView);
-            mPolyline.setColor(0xAA0000FF);
-            mPolyline.setWidth(2.0f);
+            mPolyline.getOutlinePaint().setColor(0xAA0000FF);
+            mPolyline.getOutlinePaint().setStrokeWidth(2.0f);
             mPolyline.setGeodesic(true);
             mMapView.getOverlays().add(mPolyline);
         }

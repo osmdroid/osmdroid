@@ -1,0 +1,17 @@
+description = 'Shapefile support for osmdroid'
+
+apply plugin: 'com.android.library'
+apply from: "https://raw.githubusercontent.com/gradle-fury/gradle-fury/v1.1.4/gradle/android-support.gradle"
+
+android {
+
+}
+
+dependencies {
+   
+    testCompile 'junit:junit:4.12'
+    compile project(':osmdroid-android')
+    compile 'com.github.spyhunter99:jdbf:2.2.0'
+
+}
+

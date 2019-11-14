@@ -63,7 +63,6 @@ public class SampleHeadingCompassUp extends BaseSampleFragment implements Locati
         overlay.setEnableAutoStop(false);
         overlay.enableFollowLocation();
         overlay.enableMyLocation();
-        mMapView.setBuiltInZoomControls(true);
         this.mMapView.getOverlayManager().add(overlay);
     }
 

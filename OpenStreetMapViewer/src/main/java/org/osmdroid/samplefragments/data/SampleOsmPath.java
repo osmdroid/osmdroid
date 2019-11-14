@@ -81,7 +81,7 @@ public class SampleOsmPath extends BaseSampleFragment implements MapListener {
 		Polyline line = new Polyline(mMapView);
 		line.setTitle("Central Park, NYC");
 		line.setSubDescription(Polyline.class.getCanonicalName());
-		line.setWidth(20f);
+		line.getOutlinePaint().setStrokeWidth(20f);
 		List<GeoPoint> pts = new ArrayList<>();
 		//here, we create a polygon, note that you need 5 points in order to make a closed polygon (rectangle)
 
@@ -123,9 +123,9 @@ public class SampleOsmPath extends BaseSampleFragment implements MapListener {
 		Polygon polygon = new Polygon(mMapView);
 		polygon.setTitle("This is a polygon");
 		polygon.setSubDescription(Polygon.class.getCanonicalName());
-		polygon.setFillColor(Color.RED);
+		polygon.getFillPaint().setColor(Color.RED);
 		polygon.setVisible(true);
-		polygon.setStrokeColor(Color.BLACK);
+		polygon.getOutlinePaint().setColor(Color.BLACK);
 		polygon.setInfoWindow(new BasicInfoWindow(R.layout.bonuspack_bubble, mMapView));
 
 
@@ -144,7 +144,7 @@ public class SampleOsmPath extends BaseSampleFragment implements MapListener {
 		line = new Polyline(mMapView);
 		line.setTitle("TEST");
 		line.setSubDescription(Polyline.class.getCanonicalName());
-		line.setWidth(20f);
+		line.getOutlinePaint().setStrokeWidth(20f);
 		pts = new ArrayList<>();
 		//here, we create a polygon, note that you need 5 points in order to make a closed polygon (rectangle)
 

@@ -42,9 +42,8 @@ public class OpenStreetMapViewTest extends ActivityInstrumentationTestCase2<Star
 	@Override
 	protected void setUp() throws Exception {
 
-		FragmentManager fm = getActivity().getSupportFragmentManager();
-		StarterMapFragment fragment = (StarterMapFragment)fm.findFragmentById(R.id.map_container);
-		mOpenStreetMapView = fragment.getMapView();
+		mOpenStreetMapView =
+				getActivity().findViewById(R.id.map_container).findViewWithTag("mapView");
 
 		super.setUp();
 	}

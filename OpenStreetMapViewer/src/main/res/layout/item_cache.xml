@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp">
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Tile Source"
-            android:textAppearance="?android:attr/textAppearanceLarge"/>
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"/>
 
         <TextView
             android:id="@+id/tvSource"
@@ -22,7 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:text="MAPNIK"
-            android:textAppearance="?android:attr/textAppearanceMedium"/>
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"/>
     </LinearLayout>
 
     <LinearLayout
@@ -34,7 +35,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Key"
-            android:textAppearance="?android:attr/textAppearanceLarge"/>
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"/>
 
         <TextView
             android:id="@+id/tvDbKey"
@@ -42,7 +43,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:text="23434"
-            android:textAppearance="?android:attr/textAppearanceMedium"/>
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"/>
     </LinearLayout>
 
     <LinearLayout
@@ -54,7 +55,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Expires At"
-            android:textAppearance="?android:attr/textAppearanceLarge"/>
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"/>
 
         <TextView
             android:id="@+id/tvExpires"
@@ -62,7 +63,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:text="(date) (time delta)"
-            android:textAppearance="?android:attr/textAppearanceMedium"/>
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"/>
     </LinearLayout>
 
 </LinearLayout>

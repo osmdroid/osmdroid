@@ -39,6 +39,13 @@ public class BoundingBox implements Parcelable, Serializable {
 	// Constructors
 	// ===========================================================
 
+	/**
+	 *
+	 * @param north
+	 * @param east
+	 * @param south
+	 * @param west
+	 */
 	public BoundingBox(final double north, final double east, final double south, final double west) {
 		set(north, east, south, west);
 	}
@@ -185,6 +192,22 @@ public class BoundingBox implements Parcelable, Serializable {
 		return Math.abs(this.mLonEast - this.mLonWest);
 	}
 
+	public void setLatNorth(double mLatNorth) {
+		this.mLatNorth = mLatNorth;
+	}
+
+	public void setLatSouth(double mLatSouth) {
+		this.mLatSouth = mLatSouth;
+	}
+
+	public void setLonEast(double mLonEast) {
+		this.mLonEast = mLonEast;
+	}
+
+	public void setLonWest(double mLonWest) {
+		this.mLonWest = mLonWest;
+	}
+
 	/**
 	 * Determines the width of the bounding box.
 	 * @return longitude span in degrees
@@ -198,6 +221,7 @@ public class BoundingBox implements Parcelable, Serializable {
 
 	/**
 	 *
+
 	 * @param aLatitude
 	 * @param aLongitude
 	 * @param reuse
@@ -308,8 +332,28 @@ public class BoundingBox implements Parcelable, Serializable {
 	}
 
 	public boolean contains(final double aLatitude, final double aLongitude) {
-		return ((aLatitude < this.mLatNorth) && (aLatitude > this.mLatSouth))
-				&& ((aLongitude < this.mLonEast) && (aLongitude > this.mLonWest));
+		boolean latMatch = false;
+		boolean lonMatch = false;
+		//FIXME there's still issues when there's multiple wrap arounds
+		if (mLatNorth < mLatSouth) {
+			//either more than one world/wrapping or the bounding box is wrongish
+			latMatch=true;
+		} else {
+			//normal case
+			latMatch = ((aLatitude < this.mLatNorth) && (aLatitude > this.mLatSouth));
+		}
+
+
+		if (mLonEast < mLonWest) {
+			//check longitude bounds with consideration for date line with wrapping
+			lonMatch = aLongitude <= mLonEast && aLongitude >= mLonWest;
+			//lonMatch = (aLongitude >= mLonEast || aLongitude <= mLonWest);
+
+		} else {
+			lonMatch =((aLongitude < this.mLonEast) && (aLongitude > this.mLonWest));
+		}
+
+		return latMatch && lonMatch;
 	}
 
 	// ===========================================================
@@ -362,4 +406,112 @@ public class BoundingBox implements Parcelable, Serializable {
      public int getLongitudeSpanE6() {
           return (int)(getLongitudeSpan() * 1E6);
      }
+
+	/**
+	 * returns true if there is any overlap from this to the input bounding box
+	 * edges includes of a match
+	 * sensitive to vertical and horiztonal map wrapping
+	 * @param pBoundingBox
+	 * @return
+	 */
+	public boolean overlaps(final BoundingBox pBoundingBox, double pZoom) {
+
+		//FIXME this is a total hack but it works around a number of issues related to vertical map
+		//replication and horiztonal replication that can cause polygons to completely disappear when
+		//panning
+	    if (pZoom < 3)
+	        return true;
+
+		boolean latMatch=false;
+		boolean lonMatch=false;
+
+		//vertical wrapping detection
+		if (pBoundingBox.mLatSouth <= mLatNorth  &&
+			pBoundingBox.mLatSouth >= mLatSouth )
+			latMatch=true;
+
+
+		//normal case, non overlapping
+		if (mLonWest >= pBoundingBox.mLonWest && mLonWest <= pBoundingBox.mLonEast)
+			lonMatch=true;
+		//normal case, non overlapping
+		if (mLonEast >= pBoundingBox.mLonWest && mLonWest <= pBoundingBox.mLonEast)
+			lonMatch=true;
+
+		//special case for when *this completely surrounds the pBoundbox
+		if (mLonWest<=pBoundingBox.mLonWest &&
+			mLonEast>=pBoundingBox.mLonEast &&
+			mLatNorth>=pBoundingBox.mLatNorth &&
+			mLatSouth<=pBoundingBox.mLatSouth)
+			return true;
+
+		//normal case, non overlapping
+		if (mLatNorth >= pBoundingBox.mLatSouth && mLatNorth <= mLatSouth)
+			latMatch=true;
+		//normal case, non overlapping
+		if (mLatSouth>= pBoundingBox.mLatSouth && mLatSouth <= mLatSouth)
+			latMatch=true;
+
+		if (mLonWest > mLonEast) {
+			//the date line is included in the bounding box
+
+			//we want to match lon from the dateline to the eastern bounds of the box
+			//and the dateline to the western bounds of the box
+
+			if (mLonEast<=pBoundingBox.mLonEast && pBoundingBox.mLonWest >= mLonWest)
+				lonMatch=true;
+
+
+
+			if (mLonWest>= pBoundingBox.mLonEast &&
+				mLonEast<= pBoundingBox.mLonEast) {
+				lonMatch = true;
+				if (pBoundingBox.mLonEast < mLonWest &&
+					pBoundingBox.mLonWest < mLonWest)
+					lonMatch = false;
+
+				if (pBoundingBox.mLonEast > mLonEast &&
+					pBoundingBox.mLonWest > mLonEast )
+					lonMatch = false;
+			}
+			if (mLonWest>= pBoundingBox.mLonEast &&
+				mLonEast>= pBoundingBox.mLonEast) {
+				lonMatch = true;
+
+			}
+			/*
+			//that is completely within this
+			if (mLonWest>= pBoundingBox.mLonEast &&
+				mLonEast<= pBoundingBox.mLonEast) {
+				lonMatch = true;
+				if (pBoundingBox.mLonEast < mLonWest &&
+					pBoundingBox.mLonWest < mLonWest)
+					lonMatch = false;
+
+				if (pBoundingBox.mLonEast > mLonEast &&
+					pBoundingBox.mLonWest > mLonEast )
+					lonMatch = false;
+			}
+			if (mLonWest>= pBoundingBox.mLonEast &&
+				mLonEast>= pBoundingBox.mLonEast) {
+				lonMatch = true;
+
+			}*/
+		}
+
+		return latMatch && lonMatch;
+	}
+
+	public static BoundingBox fromGeoPointsSafe(List<GeoPoint> points) {
+		try{
+			return fromGeoPoints(points);
+		}catch(IllegalArgumentException e){
+			final TileSystem tileSystem = org.osmdroid.views.MapView.getTileSystem();
+			return new BoundingBox(tileSystem.getMaxLatitude(),
+				tileSystem.getMaxLongitude(),
+				tileSystem.getMinLatitude(),
+				tileSystem.getMinLongitude()
+				);
+		}
+	}
 }
