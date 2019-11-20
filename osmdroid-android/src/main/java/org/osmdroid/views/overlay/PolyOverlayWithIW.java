@@ -8,6 +8,7 @@ import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.PointL;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
+import org.osmdroid.views.overlay.advancedpolyline.PolylineStyle;
 import org.osmdroid.views.overlay.infowindow.InfoWindow;
 import org.osmdroid.views.overlay.milestones.MilestoneManager;
 
@@ -50,6 +51,14 @@ public abstract class PolyOverlayWithIW extends OverlayWithIW {
 			////mOutline.clearPath();
 			mLineDrawer.setPaint(mOutlinePaint);
 		}
+	}
+
+	/**
+	 * Pass style down to LineDrawer class.
+	 * @param pStyle color mapping style
+	 */
+	public void setStyle(final PolylineStyle pStyle) {
+		mLineDrawer.setPolylineStyle(pStyle);
 	}
 
 	public void setVisible(boolean visible){
@@ -174,7 +183,7 @@ public abstract class PolyOverlayWithIW extends OverlayWithIW {
 			milestoneManager.init();
 			milestoneManager.setDistances(mOutline.getDistances());
 			for (final PointL point : mOutline.getPointsForMilestones()) {
-				milestoneManager.add(point.x, point.y);
+				milestoneManager.add(point.x, point.y, 0);
 			}
 			milestoneManager.end();
 		}
@@ -209,7 +218,7 @@ public abstract class PolyOverlayWithIW extends OverlayWithIW {
 			milestoneManager.init();
 			milestoneManager.setDistances(mOutline.getDistances());
 			for (final PointL point : mOutline.getPointsForMilestones()) {
-				milestoneManager.add(point.x, point.y);
+				milestoneManager.add(point.x, point.y, 0);
 			}
 			milestoneManager.end();
 		}
