@@ -20,7 +20,7 @@ public class ColorMappingVariationLuminance extends ColorMappingVariation {
         luminanceStart = ColorHelper.constrain(luminanceStart, 0.0f, 1.0f);
         luminanceEnd = ColorHelper.constrain(luminanceEnd, 0.0f, 1.0f);
 
-        // do clipping for hue and luminance
+        // do clipping for hue and saturation
         mHue = ColorHelper.constrain(hue, 0.0f, 360.0f);
         mSaturation = ColorHelper.constrain(saturation, 0.0f, 1.0f);
 
