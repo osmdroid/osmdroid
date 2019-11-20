@@ -44,9 +44,9 @@ public class MilestoneLineDisplayer extends MilestoneDisplayer{
         if (mFirst) {
             mFirst = false;
         } else {
-            mLineDrawer.add(pStep.getX(), pStep.getY());
+            mLineDrawer.add(pStep.getX(), pStep.getY(), 0);
         }
-        mLineDrawer.add(pStep.getX(), pStep.getY());
+        mLineDrawer.add(pStep.getX(), pStep.getY(), 0);
     }
 
     @Override

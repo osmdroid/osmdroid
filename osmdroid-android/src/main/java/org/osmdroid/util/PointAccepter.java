@@ -8,6 +8,6 @@ package org.osmdroid.util;
 public interface PointAccepter {
 
     void init();
-    void add(final long pX, final long pY);
+    void add(final long pX, final long pY, int index);
     void end();
 }

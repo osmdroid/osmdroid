@@ -39,7 +39,7 @@ public abstract class MilestoneLister implements PointAccepter{
     }
 
     @Override
-    public void add(final long pX, final long pY) {
+    public void add(final long pX, final long pY, int index) {
         if (mFirst) {
             mFirst = false;
             mLatestPoint.set(pX, pY);

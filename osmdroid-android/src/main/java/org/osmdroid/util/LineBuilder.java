@@ -8,10 +8,12 @@ package org.osmdroid.util;
 public abstract class LineBuilder implements PointAccepter {
 
     private final float[] mLines;
+    private final int[] mLinesIndex;
     private int mIndex;
 
     public LineBuilder(final int pMaxSize) {
         mLines = new float[pMaxSize];
+        mLinesIndex = new int[pMaxSize];
     }
 
     @Override
@@ -20,12 +22,22 @@ public abstract class LineBuilder implements PointAccepter {
     }
 
     @Override
-    public void add(final long pX, final long pY) {
+    public void add(final long pX, final long pY, int index) {
+
+        // check for multiple of four
+        if(mIndex % 4 == 0) {
+            mLinesIndex[mIndex / 4] = (index / 2) - 1;
+        }
+
         mLines[mIndex ++] = pX;
         mLines[mIndex ++] = pY;
         if (mIndex >= mLines.length) {
             innerFlush();
         }
+    }
+
+    public int[] getColorIndexes() {
+        return  mLinesIndex;
     }
 
     @Override

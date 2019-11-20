@@ -335,7 +335,7 @@ class LinearRing{
 				mPointsForMilestones.add(x, y);
 			}
 			if (pSegmentClipper != null) {
-				pSegmentClipper.add(x, y);
+				pSegmentClipper.add(x, y, i);
 			}
 			if (i == 0) {
 				first.set(x, y);
@@ -343,7 +343,7 @@ class LinearRing{
 		}
 		if (pClosePath) {
 			if (pSegmentClipper != null) {
-				pSegmentClipper.add(first.x, first.y);
+				pSegmentClipper.add(first.x, first.y, 0);
 			}
 			if (pStorePoints) {
 				mPointsForMilestones.add(first.x, first.y);
