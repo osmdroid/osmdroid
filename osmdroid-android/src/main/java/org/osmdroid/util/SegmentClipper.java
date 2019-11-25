@@ -49,7 +49,7 @@ public class SegmentClipper implements PointAccepter{
     }
 
     @Override
-    public void add(final long pX, final long pY, int index) {
+    public void add(final long pX, final long pY, final int index) {
         mPoint1.set(pX, pY);
         if (mFirstPoint) {
             mFirstPoint = false;

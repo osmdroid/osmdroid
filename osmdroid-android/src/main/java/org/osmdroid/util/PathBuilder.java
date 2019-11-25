@@ -23,7 +23,7 @@ public class PathBuilder implements PointAccepter{
     }
 
     @Override
-    public void add(final long pX, final long pY, int index) {
+    public void add(final long pX, final long pY, final int index) {
         if (mFirst) {
             mFirst = false;
             mPath.moveTo(pX, pY);
