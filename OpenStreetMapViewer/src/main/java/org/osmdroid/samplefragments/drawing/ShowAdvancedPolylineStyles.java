@@ -12,6 +12,7 @@ import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Polyline;
 import org.osmdroid.views.overlay.advancedpolyline.ColorMapping;
 import org.osmdroid.views.overlay.advancedpolyline.ColorMappingRanges;
+import org.osmdroid.views.overlay.advancedpolyline.ColorMappingVariationHue;
 import org.osmdroid.views.overlay.advancedpolyline.PolylineStyle;
 import org.osmdroid.views.overlay.infowindow.InfoWindow;
 
@@ -137,12 +138,29 @@ public class ShowAdvancedPolylineStyles extends BaseSampleFragment {
         mColorRanges.put(7.5f, Color.YELLOW);
         mColorRanges.put(10.0f, Color.GREEN);
         mListExamples.add(new AdvancedPolylineExample("Tram", "Ranges polyline with border showing a tram ride between airport and main train station.\n\nBorders: 5 m/s RED, 7.5 m/s YELLOW, 10.0 m/s GREEN.",
-                new ColorMappingRanges(mColorRanges), false, true, Color.BLACK, mExampleTramPoints, mExampleTramScalar));
+                new ColorMappingRanges(mColorRanges), false, true, Color.BLACK, mExampleTramPoints, mExampleTramScalars));
 
+        // Hue example
+        mListExamples.add(new AdvancedPolylineExample("Flight", "Hue variation polyline for speed of plane from Paris to Philadelphia.\n\nHue from 0.0f to 120.0f for speed range 0 km/h to 1000 km/h.",
+                new ColorMappingVariationHue(0.0f, 1000.0f, 0.0f, 120.0f, 1.0f, 0.5f), false, true, Color.BLACK, mExampleFlightPoints, mExampleFlightScalars));
     }
 
     // Below follows hardcoded polyline data (points and scalars) for examples.
     // Data was taken from various sources (self recorded or free online data sources).
+
+    /*
+    ArrayList<GeoPoint> mExamplePoints = new ArrayList<>(
+            Arrays.asList(
+
+            )
+    );
+
+    ArrayList<Float> mExampleScalars = new ArrayList<>(
+            Arrays.asList(
+            )
+    );
+    */
+
     ArrayList<GeoPoint> mExampleTramPoints = new ArrayList<>(
             Arrays.asList(
                     new GeoPoint(53.052895, 8.786615),
@@ -466,7 +484,7 @@ public class ShowAdvancedPolylineStyles extends BaseSampleFragment {
             )
     );
 
-    ArrayList<Float> mExampleTramScalar = new ArrayList<>(
+    ArrayList<Float> mExampleTramScalars = new ArrayList<>(
             Arrays.asList(
                     0f,
                     0f,
@@ -789,4 +807,219 @@ public class ShowAdvancedPolylineStyles extends BaseSampleFragment {
                     2.83f
             )
     );
+
+    ArrayList<GeoPoint> mExampleFlightPoints = new ArrayList<>(
+            Arrays.asList(
+                    new GeoPoint(49.0234, 2.5665), new GeoPoint(49.0284, 2.6576), new GeoPoint(49.0296, 2.6800), new GeoPoint(49.0313, 2.7133), new GeoPoint(49.0385, 2.7392),
+                    new GeoPoint(49.0585, 2.7537), new GeoPoint(49.0799, 2.7485), new GeoPoint(49.1097, 2.7290), new GeoPoint(49.1487, 2.7071), new GeoPoint(49.1891, 2.6856),
+                    new GeoPoint(49.2294, 2.6644), new GeoPoint(49.2684, 2.6437), new GeoPoint(49.3163, 2.6185), new GeoPoint(49.3646, 2.5932), new GeoPoint(49.4129, 2.5676),
+                    new GeoPoint(49.4628, 2.5409), new GeoPoint(49.5351, 2.4889), new GeoPoint(49.5854, 2.4517), new GeoPoint(49.6374, 2.4132), new GeoPoint(49.6871, 2.3762),
+                    new GeoPoint(49.7372, 2.3387), new GeoPoint(49.7888, 2.3001), new GeoPoint(49.8451, 2.2578), new GeoPoint(49.8978, 2.2182), new GeoPoint(49.9499, 2.1789),
+                    new GeoPoint(49.9902, 2.1484), new GeoPoint(50.0203, 2.1208), new GeoPoint(50.0835, 2.0493), new GeoPoint(50.1090, 2.0205), new GeoPoint(50.1761, 1.9442),
+                    new GeoPoint(50.2246, 1.8889), new GeoPoint(50.2718, 1.8350), new GeoPoint(50.3061, 1.7956), new GeoPoint(50.3726, 1.7191), new GeoPoint(50.4156, 1.6696),
+                    new GeoPoint(50.4762, 1.5994), new GeoPoint(50.5227, 1.5455), new GeoPoint(50.5692, 1.4913), new GeoPoint(50.6162, 1.4366), new GeoPoint(50.6655, 1.3790),
+                    new GeoPoint(50.7128, 1.3236), new GeoPoint(50.7638, 1.2637), new GeoPoint(50.8136, 1.2053), new GeoPoint(50.8411, 1.1742), new GeoPoint(50.8901, 1.1261),
+                    new GeoPoint(50.9456, 1.0741), new GeoPoint(50.9967, 1.0258), new GeoPoint(51.0526, 0.9740), new GeoPoint(51.0938, 0.9361), new GeoPoint(51.1293, 0.9031),
+                    new GeoPoint(51.1708, 0.8639), new GeoPoint(51.2408, 0.7967), new GeoPoint(51.2786, 0.7604), new GeoPoint(51.3235, 0.7171), new GeoPoint(51.3754, 0.6669),
+                    new GeoPoint(51.4133, 0.6293), new GeoPoint(51.4922, 0.5478), new GeoPoint(51.5270, 0.5089), new GeoPoint(51.5713, 0.4513), new GeoPoint(51.6122, 0.3974),
+                    new GeoPoint(51.6629, 0.3304), new GeoPoint(51.7133, 0.2635), new GeoPoint(51.7402, 0.2278), new GeoPoint(51.7895, 0.1619), new GeoPoint(51.8482, 0.0834),
+                    new GeoPoint(51.8828, 0.0357), new GeoPoint(51.9232, -0.0156), new GeoPoint(51.9634, -0.0651), new GeoPoint(52.0133, -0.1274), new GeoPoint(52.0648, -0.1920),
+                    new GeoPoint(52.1157, -0.2557), new GeoPoint(52.1664, -0.3195), new GeoPoint(52.2175, -0.3840), new GeoPoint(52.2697, -0.4501), new GeoPoint(52.3210, -0.5153),
+                    new GeoPoint(52.3746, -0.5836), new GeoPoint(52.4256, -0.6486), new GeoPoint(52.4871, -0.7277), new GeoPoint(52.5325, -0.7860), new GeoPoint(52.5677, -0.8315),
+                    new GeoPoint(52.5958, -0.8677), new GeoPoint(52.6279, -0.9092), new GeoPoint(52.6796, -0.9763), new GeoPoint(52.7214, -1.0276), new GeoPoint(52.7515, -1.0621),
+                    new GeoPoint(52.8052, -1.1241), new GeoPoint(52.8745, -1.2052), new GeoPoint(52.9237, -1.2628), new GeoPoint(52.9785, -1.3277), new GeoPoint(53.0327, -1.3927),
+                    new GeoPoint(53.0860, -1.4566), new GeoPoint(53.1239, -1.5019), new GeoPoint(53.1773, -1.5654), new GeoPoint(53.2126, -1.6073), new GeoPoint(53.2684, -1.6737),
+                    new GeoPoint(53.3215, -1.7376), new GeoPoint(53.3734, -1.8001), new GeoPoint(53.4237, -1.8613), new GeoPoint(53.4574, -1.9025), new GeoPoint(53.4914, -1.9507),
+                    new GeoPoint(53.5194, -2.0101), new GeoPoint(53.5363, -2.0644), new GeoPoint(53.5613, -2.1627), new GeoPoint(53.5740, -2.2137), new GeoPoint(53.5989, -2.3141),
+                    new GeoPoint(53.6178, -2.3906), new GeoPoint(53.6497, -2.5202), new GeoPoint(53.6757, -2.6264), new GeoPoint(53.7004, -2.7274), new GeoPoint(53.7249, -2.8284),
+                    new GeoPoint(53.7498, -2.9315), new GeoPoint(53.7703, -3.0170), new GeoPoint(53.7889, -3.0947), new GeoPoint(53.8081, -3.1753), new GeoPoint(53.8295, -3.2651),
+                    new GeoPoint(53.8439, -3.3258), new GeoPoint(53.8619, -3.4021), new GeoPoint(53.8804, -3.4811), new GeoPoint(53.9083, -3.6004), new GeoPoint(53.9327, -3.7048),
+                    new GeoPoint(53.9460, -3.7612), new GeoPoint(53.9668, -3.8345), new GeoPoint(53.9890, -3.9008), new GeoPoint(54.0191, -3.9827), new GeoPoint(54.0625, -4.1109),
+                    new GeoPoint(54.0806, -4.1644), new GeoPoint(54.1005, -4.2236), new GeoPoint(54.1275, -4.3041), new GeoPoint(54.1626, -4.4092), new GeoPoint(54.1970, -4.5125),
+                    new GeoPoint(54.2188, -4.5783), new GeoPoint(54.2592, -4.7006), new GeoPoint(54.2926, -4.8020), new GeoPoint(54.3264, -4.9052), new GeoPoint(54.3591, -5.0054),
+                    new GeoPoint(54.3922, -5.1071), new GeoPoint(54.4253, -5.2099), new GeoPoint(54.4552, -5.3026), new GeoPoint(54.4872, -5.4025), new GeoPoint(54.5093, -5.4717),
+                    new GeoPoint(54.5513, -5.6033), new GeoPoint(54.5773, -5.6853), new GeoPoint(54.6003, -5.7581), new GeoPoint(54.6427, -5.8930), new GeoPoint(54.6752, -5.9965),
+                    new GeoPoint(54.7071, -6.0991), new GeoPoint(54.7392, -6.2026), new GeoPoint(54.7717, -6.3077), new GeoPoint(54.8029, -6.4091), new GeoPoint(54.8238, -6.4771),
+                    new GeoPoint(54.8429, -6.5398), new GeoPoint(54.8676, -6.6210), new GeoPoint(54.8882, -6.6885), new GeoPoint(54.9109, -6.7633), new GeoPoint(54.9309, -6.8295),
+                    new GeoPoint(54.9593, -6.9241), new GeoPoint(54.9918, -7.0325), new GeoPoint(55.0157, -7.1128), new GeoPoint(55.0463, -7.2155), new GeoPoint(55.0792, -7.3266),
+                    new GeoPoint(55.1104, -7.4326), new GeoPoint(55.1407, -7.5356), new GeoPoint(55.1717, -7.6417), new GeoPoint(55.1924, -7.7130), new GeoPoint(55.2191, -7.8051),
+                    new GeoPoint(55.2493, -7.9096), new GeoPoint(55.2681, -7.9749), new GeoPoint(55.2848, -8.0334), new GeoPoint(55.3151, -8.1390), new GeoPoint(55.3594, -8.2949),
+                    new GeoPoint(55.3888, -8.3988), new GeoPoint(55.4192, -8.5070), new GeoPoint(55.4487, -8.6123), new GeoPoint(55.4793, -8.7222), new GeoPoint(55.5114, -8.8376),
+                    new GeoPoint(55.5420, -8.9485), new GeoPoint(55.5716, -9.0564), new GeoPoint(55.5878, -9.1153), new GeoPoint(55.6165, -9.2204), new GeoPoint(55.6462, -9.3293),
+                    new GeoPoint(55.6713, -9.4225), new GeoPoint(55.7112, -9.5712), new GeoPoint(55.7401, -9.6790), new GeoPoint(55.7684, -9.7853), new GeoPoint(55.7965, -9.8916),
+                    new GeoPoint(55.8249, -9.9994), new GeoPoint(55.8531, -10.1067), new GeoPoint(55.8892, -10.2451), new GeoPoint(55.9223, -10.3728), new GeoPoint(55.9457, -10.4632),
+                    new GeoPoint(55.9746, -10.5757), new GeoPoint(56.0080, -10.7065), new GeoPoint(56.0310, -10.7972), new GeoPoint(56.0678, -10.9424), new GeoPoint(56.0957, -11.0534),
+                    new GeoPoint(56.1227, -11.1614), new GeoPoint(56.1511, -11.2754), new GeoPoint(56.1775, -11.3818), new GeoPoint(56.2050, -11.4932), new GeoPoint(56.2426, -11.6463),
+                    new GeoPoint(56.2692, -11.7560), new GeoPoint(56.2954, -11.8641), new GeoPoint(56.3215, -11.9724), new GeoPoint(56.3478, -12.0820), new GeoPoint(56.3736, -12.1900),
+                    new GeoPoint(56.4001, -12.3019), new GeoPoint(56.4261, -12.4122), new GeoPoint(56.4577, -12.5462), new GeoPoint(56.5009, -12.7317), new GeoPoint(56.5428, -12.9130),
+                    new GeoPoint(56.5675, -13.0205), new GeoPoint(56.5924, -13.1294), new GeoPoint(56.6178, -13.2411), new GeoPoint(56.6430, -13.3528), new GeoPoint(56.6679, -13.4633),
+                    new GeoPoint(56.6926, -13.5736), new GeoPoint(56.7170, -13.6833), new GeoPoint(56.7421, -13.7964), new GeoPoint(56.7667, -13.9080), new GeoPoint(56.7906, -14.0174),
+                    new GeoPoint(56.8152, -14.1304), new GeoPoint(56.8569, -14.3227), new GeoPoint(58.0000, -20.0000), new GeoPoint(58.0013, -29.9677), new GeoPoint(57.9879, -30.2920),
+                    new GeoPoint(57.9001, -30.9161), new GeoPoint(57.8496, -31.2222), new GeoPoint(57.7965, -31.5378), new GeoPoint(57.7450, -31.8388), new GeoPoint(57.6910, -32.1492),
+                    new GeoPoint(57.6356, -32.4621), new GeoPoint(57.5795, -32.7740), new GeoPoint(57.5238, -33.0781), new GeoPoint(57.4668, -33.3847), new GeoPoint(57.4090, -33.6903),
+                    new GeoPoint(57.3518, -33.9882), new GeoPoint(57.2926, -34.2919), new GeoPoint(57.2313, -34.6013), new GeoPoint(57.1686, -34.9131), new GeoPoint(57.1085, -35.2071),
+                    new GeoPoint(57.0512, -35.4835), new GeoPoint(56.9828, -35.8088), new GeoPoint(56.9228, -36.0900), new GeoPoint(56.8557, -36.3999), new GeoPoint(56.7929, -36.6857),
+                    new GeoPoint(56.7258, -36.9869), new GeoPoint(56.6580, -37.2870), new GeoPoint(56.5909, -37.5795), new GeoPoint(56.5217, -37.8775), new GeoPoint(56.4518, -38.1744),
+                    new GeoPoint(56.3850, -38.4541), new GeoPoint(56.3152, -38.7424), new GeoPoint(56.2487, -39.0138), new GeoPoint(56.1697, -39.3318), new GeoPoint(56.1003, -39.6074),
+                    new GeoPoint(56.0255, -39.9009), new GeoPoint(55.9516, -40.1870), new GeoPoint(55.8213, -40.7520), new GeoPoint(55.7465, -41.0397), new GeoPoint(55.6755, -41.3092),
+                    new GeoPoint(55.5941, -41.6153), new GeoPoint(55.4554, -42.1880), new GeoPoint(55.3808, -42.4677), new GeoPoint(55.3072, -42.7402), new GeoPoint(55.2339, -43.0086),
+                    new GeoPoint(55.1557, -43.2913), new GeoPoint(55.0803, -43.5607), new GeoPoint(55.0069, -43.8199), new GeoPoint(54.9234, -44.1116), new GeoPoint(54.8453, -44.3809),
+                    new GeoPoint(54.7658, -44.6522), new GeoPoint(54.6857, -44.9224), new GeoPoint(54.6058, -45.1885), new GeoPoint(54.5226, -45.4625), new GeoPoint(54.4462, -45.7117),
+                    new GeoPoint(54.3628, -45.9806), new GeoPoint(54.2760, -46.2572), new GeoPoint(54.1951, -46.5122), new GeoPoint(54.1137, -46.7662), new GeoPoint(54.0280, -47.0308),
+                    new GeoPoint(53.9427, -47.2914), new GeoPoint(53.8548, -47.5567), new GeoPoint(53.7654, -47.8238), new GeoPoint(53.6793, -48.0783), new GeoPoint(53.5927, -48.3318),
+                    new GeoPoint(53.5016, -48.5956), new GeoPoint(53.4169, -48.8385), new GeoPoint(53.3287, -49.0889), new GeoPoint(53.2370, -49.3465), new GeoPoint(53.1507, -49.5864),
+                    new GeoPoint(53.0569, -49.8447), new GeoPoint(52.9716, -50.0770), new GeoPoint(53.0500, -49.7833), new GeoPoint(52.9833, -49.9833), new GeoPoint(52.9333, -50.1833),
+                    new GeoPoint(52.7333, -50.9500), new GeoPoint(52.6500, -51.3333), new GeoPoint(52.6000, -51.5167), new GeoPoint(52.5500, -51.7167), new GeoPoint(52.5000, -51.9333),
+                    new GeoPoint(52.4500, -52.1333), new GeoPoint(52.3833, -52.3000), new GeoPoint(52.3333, -52.4833), new GeoPoint(52.2833, -52.6833), new GeoPoint(52.2500, -52.8833),
+                    new GeoPoint(52.2000, -53.0667), new GeoPoint(52.1333, -53.2667), new GeoPoint(52.1195, -53.3943), new GeoPoint(52.0670, -53.5419), new GeoPoint(52.0241, -53.6618),
+                    new GeoPoint(51.9740, -53.8010), new GeoPoint(51.9412, -53.8916), new GeoPoint(51.9102, -53.9768), new GeoPoint(51.8774, -54.0669), new GeoPoint(51.8326, -54.1896),
+                    new GeoPoint(51.8007, -54.2767), new GeoPoint(51.7687, -54.3635), new GeoPoint(51.7000, -54.4833), new GeoPoint(51.6333, -54.6500), new GeoPoint(51.5864, -54.8523),
+                    new GeoPoint(51.5524, -54.9426), new GeoPoint(51.4667, -55.0667), new GeoPoint(51.4333, -55.1667), new GeoPoint(51.3667, -55.3500), new GeoPoint(51.3323, -55.5188),
+                    new GeoPoint(51.2801, -55.6536), new GeoPoint(51.2470, -55.7385), new GeoPoint(51.2019, -55.8540), new GeoPoint(51.1472, -55.9936), new GeoPoint(51.0798, -56.1643),
+                    new GeoPoint(50.9882, -56.3945), new GeoPoint(50.8880, -56.6441), new GeoPoint(50.8431, -56.7549), new GeoPoint(50.8092, -56.8387), new GeoPoint(50.7691, -56.9372),
+                    new GeoPoint(50.7090, -57.0840), new GeoPoint(50.6749, -57.1670), new GeoPoint(50.6412, -57.2486), new GeoPoint(50.6068, -57.3319), new GeoPoint(50.5726, -57.4143),
+                    new GeoPoint(50.5385, -57.4964), new GeoPoint(50.5036, -57.5802), new GeoPoint(50.4689, -57.6628), new GeoPoint(50.4259, -57.7653), new GeoPoint(50.3911, -57.8478),
+                    new GeoPoint(50.3562, -57.9304), new GeoPoint(50.3211, -58.0132), new GeoPoint(50.2860, -58.0956), new GeoPoint(50.2513, -58.1771), new GeoPoint(50.2160, -58.2594),
+                    new GeoPoint(50.1814, -58.3399), new GeoPoint(50.1460, -58.4220), new GeoPoint(50.1119, -58.5007), new GeoPoint(50.0762, -58.5832), new GeoPoint(50.0413, -58.6634),
+                    new GeoPoint(50.0030, -58.7511), new GeoPoint(49.9677, -58.8319), new GeoPoint(49.9331, -58.9108), new GeoPoint(49.8850, -59.0201), new GeoPoint(49.8317, -59.1405),
+                    new GeoPoint(49.7963, -59.2201), new GeoPoint(49.7613, -59.2986), new GeoPoint(49.7259, -59.3779), new GeoPoint(49.6908, -59.4562), new GeoPoint(49.6544, -59.5371),
+                    new GeoPoint(49.6189, -59.6159), new GeoPoint(49.5800, -59.7019), new GeoPoint(49.5444, -59.7803), new GeoPoint(49.5082, -59.8597), new GeoPoint(49.4673, -59.9494),
+                    new GeoPoint(49.4085, -60.0775), new GeoPoint(49.3698, -60.1616), new GeoPoint(49.3188, -60.2721), new GeoPoint(49.2831, -60.3490), new GeoPoint(49.2480, -60.4247),
+                    new GeoPoint(49.2121, -60.5016), new GeoPoint(49.1766, -60.5775), new GeoPoint(49.1412, -60.6531), new GeoPoint(49.1057, -60.7285), new GeoPoint(49.0707, -60.8027),
+                    new GeoPoint(49.0350, -60.8780), new GeoPoint(48.9998, -60.9524), new GeoPoint(48.9643, -61.0271), new GeoPoint(48.9287, -61.1018), new GeoPoint(48.8927, -61.1769),
+                    new GeoPoint(48.8574, -61.2505), new GeoPoint(48.8206, -61.3274), new GeoPoint(48.7849, -61.4014), new GeoPoint(48.7493, -61.4751), new GeoPoint(48.7137, -61.5482),
+                    new GeoPoint(48.6782, -61.6212), new GeoPoint(48.6435, -61.6925), new GeoPoint(48.6083, -61.7645), new GeoPoint(48.5608, -61.8612), new GeoPoint(48.5233, -61.9376),
+                    new GeoPoint(48.4880, -62.0091), new GeoPoint(48.4532, -62.0795), new GeoPoint(48.4180, -62.1506), new GeoPoint(48.3831, -62.2205), new GeoPoint(48.3481, -62.2908),
+                    new GeoPoint(48.3135, -62.3599), new GeoPoint(48.2778, -62.4313), new GeoPoint(48.2423, -62.5020), new GeoPoint(48.2056, -62.5749), new GeoPoint(48.1695, -62.6464),
+                    new GeoPoint(48.1341, -62.7163), new GeoPoint(48.0915, -62.7999), new GeoPoint(48.0566, -62.8686), new GeoPoint(48.0205, -62.9393), new GeoPoint(47.9853, -63.0082),
+                    new GeoPoint(47.9504, -63.0762), new GeoPoint(47.9142, -63.1465), new GeoPoint(47.8787, -63.2155), new GeoPoint(47.8430, -63.2844), new GeoPoint(47.8083, -63.3515),
+                    new GeoPoint(47.7724, -63.4206), new GeoPoint(47.7345, -63.4933), new GeoPoint(47.6995, -63.5605), new GeoPoint(47.6637, -63.6288), new GeoPoint(47.6275, -63.6979),
+                    new GeoPoint(47.5902, -63.7689), new GeoPoint(47.5537, -63.8379), new GeoPoint(47.5161, -63.9090), new GeoPoint(47.4763, -63.9842), new GeoPoint(47.4318, -64.0680),
+                    new GeoPoint(47.3935, -64.1397), new GeoPoint(47.3581, -64.2060), new GeoPoint(47.3167, -64.2832), new GeoPoint(47.2799, -64.3516), new GeoPoint(47.2435, -64.4191),
+                    new GeoPoint(47.2063, -64.4880), new GeoPoint(47.1702, -64.5548), new GeoPoint(47.1348, -64.6199), new GeoPoint(47.0981, -64.6874), new GeoPoint(47.0625, -64.7524),
+                    new GeoPoint(47.0264, -64.8186), new GeoPoint(46.9911, -64.8831), new GeoPoint(46.9557, -64.9475), new GeoPoint(46.9190, -65.0143), new GeoPoint(46.8847, -65.0764),
+                    new GeoPoint(46.8488, -65.1412), new GeoPoint(46.8109, -65.2095), new GeoPoint(46.7733, -65.2771), new GeoPoint(46.7325, -65.3504), new GeoPoint(46.6956, -65.4164),
+                    new GeoPoint(46.6591, -65.4815), new GeoPoint(46.6218, -65.5481), new GeoPoint(46.5850, -65.6135), new GeoPoint(46.5480, -65.6791), new GeoPoint(46.5102, -65.7460),
+                    new GeoPoint(46.4728, -65.8119), new GeoPoint(46.4350, -65.8784), new GeoPoint(46.3978, -65.9437), new GeoPoint(46.3597, -66.0104), new GeoPoint(46.3237, -66.0733),
+                    new GeoPoint(46.2865, -66.1382), new GeoPoint(46.2504, -66.2008), new GeoPoint(46.2116, -66.2683), new GeoPoint(46.1752, -66.3311), new GeoPoint(46.1368, -66.3975),
+                    new GeoPoint(46.1007, -66.4596), new GeoPoint(46.0633, -66.5240), new GeoPoint(46.0261, -66.5879), new GeoPoint(45.9895, -66.6504), new GeoPoint(45.9541, -66.7109),
+                    new GeoPoint(45.9186, -66.7713), new GeoPoint(45.8787, -66.8392), new GeoPoint(45.8391, -66.9062), new GeoPoint(45.8020, -66.9690), new GeoPoint(45.7664, -67.0289),
+                    new GeoPoint(45.7304, -67.0897), new GeoPoint(45.6949, -67.1493), new GeoPoint(45.6599, -67.2078), new GeoPoint(45.6215, -67.2723), new GeoPoint(45.5866, -67.3305),
+                    new GeoPoint(45.5468, -67.3969), new GeoPoint(45.5074, -67.4622), new GeoPoint(45.4719, -67.5212), new GeoPoint(45.4353, -67.5817), new GeoPoint(45.3973, -67.6444),
+                    new GeoPoint(45.3587, -67.6999), new GeoPoint(45.3157, -67.7489), new GeoPoint(45.2702, -67.7893), new GeoPoint(45.2193, -67.8271), new GeoPoint(45.1690, -67.8642),
+                    new GeoPoint(45.1191, -67.9007), new GeoPoint(45.0683, -67.9377), new GeoPoint(45.0176, -67.9747), new GeoPoint(44.9676, -68.0110), new GeoPoint(44.9157, -68.0486),
+                    new GeoPoint(44.8652, -68.0851), new GeoPoint(44.8147, -68.1217), new GeoPoint(44.7634, -68.1586), new GeoPoint(44.7115, -68.1960), new GeoPoint(44.6582, -68.2343),
+                    new GeoPoint(44.6072, -68.2708), new GeoPoint(44.5537, -68.3091), new GeoPoint(44.5020, -68.3460), new GeoPoint(44.4504, -68.3827), new GeoPoint(44.3987, -68.4194),
+                    new GeoPoint(44.3459, -68.4569), new GeoPoint(44.2943, -68.4933), new GeoPoint(44.2396, -68.5320), new GeoPoint(44.1878, -68.5686), new GeoPoint(44.1352, -68.6054),
+                    new GeoPoint(44.0830, -68.6421), new GeoPoint(44.0310, -68.6785), new GeoPoint(43.9789, -68.7150), new GeoPoint(43.9290, -68.7498), new GeoPoint(43.8740, -68.7882),
+                    new GeoPoint(43.8204, -68.8254), new GeoPoint(43.7701, -68.8602), new GeoPoint(43.7157, -68.8979), new GeoPoint(43.6644, -68.9333), new GeoPoint(43.6110, -68.9701),
+                    new GeoPoint(43.5567, -69.0075), new GeoPoint(43.5063, -69.0421), new GeoPoint(43.4521, -69.0793), new GeoPoint(43.4004, -69.1148), new GeoPoint(43.3481, -69.1506),
+                    new GeoPoint(43.3162, -69.1723), new GeoPoint(43.2594, -69.2110), new GeoPoint(43.2060, -69.2472), new GeoPoint(43.1507, -69.2847), new GeoPoint(43.0973, -69.3209),
+                    new GeoPoint(43.0434, -69.3573), new GeoPoint(42.9887, -69.3942), new GeoPoint(42.9350, -69.4304), new GeoPoint(42.8843, -69.4646), new GeoPoint(42.8282, -69.5021),
+                    new GeoPoint(42.7725, -69.5392), new GeoPoint(42.7195, -69.5746), new GeoPoint(42.6697, -69.6078), new GeoPoint(42.6153, -69.6440), new GeoPoint(42.5632, -69.6786),
+                    new GeoPoint(42.5143, -69.7110), new GeoPoint(42.4588, -69.7478), new GeoPoint(42.4097, -69.7802), new GeoPoint(42.3575, -69.8147), new GeoPoint(42.3075, -69.8475),
+                    new GeoPoint(42.2686, -69.8731), new GeoPoint(42.2190, -69.9056), new GeoPoint(42.1922, -69.9231), new GeoPoint(42.1535, -69.9484), new GeoPoint(42.1007, -69.9829),
+                    new GeoPoint(42.0702, -70.0042), new GeoPoint(42.0230, -70.0460), new GeoPoint(41.9638, -70.1164), new GeoPoint(41.9476, -70.1402), new GeoPoint(41.9109, -70.1940),
+                    new GeoPoint(41.8894, -70.2254), new GeoPoint(41.8715, -70.2527), new GeoPoint(41.8559, -70.2797), new GeoPoint(41.8339, -70.3214), new GeoPoint(41.8026, -70.3781),
+                    new GeoPoint(41.7842, -70.4109), new GeoPoint(41.7638, -70.4466), new GeoPoint(41.7328, -70.5010), new GeoPoint(41.6928, -70.5707), new GeoPoint(41.6688, -70.6124),
+                    new GeoPoint(41.6266, -70.6857), new GeoPoint(41.6031, -70.7264), new GeoPoint(41.5706, -70.7827), new GeoPoint(41.5373, -70.8402), new GeoPoint(41.5016, -70.9017),
+                    new GeoPoint(41.4700, -70.9561), new GeoPoint(41.4363, -71.0139), new GeoPoint(41.4026, -71.0718), new GeoPoint(41.3704, -71.1270), new GeoPoint(41.3386, -71.1813),
+                    new GeoPoint(41.3047, -71.2391), new GeoPoint(41.2712, -71.2962), new GeoPoint(41.2381, -71.3526), new GeoPoint(41.2064, -71.4063), new GeoPoint(41.1741, -71.4610),
+                    new GeoPoint(41.1415, -71.5162), new GeoPoint(41.1101, -71.5689), new GeoPoint(41.0787, -71.6221), new GeoPoint(41.0445, -71.6796), new GeoPoint(41.0132, -71.7322),
+                    new GeoPoint(40.9710, -71.8029), new GeoPoint(40.9423, -71.8508), new GeoPoint(40.9104, -71.9041), new GeoPoint(40.8847, -71.9471), new GeoPoint(40.8660, -71.9781),
+                    new GeoPoint(40.8400, -72.0215), new GeoPoint(40.8044, -72.0805), new GeoPoint(40.7711, -72.1356), new GeoPoint(40.7429, -72.1823), new GeoPoint(40.7102, -72.2363),
+                    new GeoPoint(40.6799, -72.2862), new GeoPoint(40.6486, -72.3379), new GeoPoint(40.6181, -72.3881), new GeoPoint(40.5875, -72.4383), new GeoPoint(40.5567, -72.4888),
+                    new GeoPoint(40.5239, -72.5425), new GeoPoint(40.4951, -72.5893), new GeoPoint(40.4624, -72.6426), new GeoPoint(40.4311, -72.6935), new GeoPoint(40.4003, -72.7434),
+                    new GeoPoint(40.3703, -72.7922), new GeoPoint(40.3382, -72.8441), new GeoPoint(40.3073, -72.8942), new GeoPoint(40.2851, -72.9299), new GeoPoint(40.2555, -72.9778),
+                    new GeoPoint(40.2221, -73.0314), new GeoPoint(40.1938, -73.0768), new GeoPoint(40.1595, -73.1322), new GeoPoint(40.1298, -73.1798), new GeoPoint(40.0951, -73.2357),
+                    new GeoPoint(40.0745, -73.2686), new GeoPoint(40.0410, -73.3222), new GeoPoint(40.0074, -73.3758), new GeoPoint(39.9749, -73.4276), new GeoPoint(39.9440, -73.4767),
+                    new GeoPoint(39.9171, -73.5195), new GeoPoint(39.8871, -73.5671), new GeoPoint(39.8628, -73.6056), new GeoPoint(39.8397, -73.6422), new GeoPoint(39.8177, -73.6772),
+                    new GeoPoint(39.7874, -73.7250), new GeoPoint(39.7711, -73.7506), new GeoPoint(39.7504, -73.7833), new GeoPoint(39.7150, -73.8389), new GeoPoint(39.6721, -73.9063),
+                    new GeoPoint(39.6423, -73.9530), new GeoPoint(39.6137, -73.9977), new GeoPoint(39.5869, -74.0396), new GeoPoint(39.5589, -74.0833), new GeoPoint(39.5329, -74.1243),
+                    new GeoPoint(39.5227, -74.1570), new GeoPoint(39.5229, -74.1932), new GeoPoint(39.5252, -74.2373), new GeoPoint(39.5269, -74.3026), new GeoPoint(39.5276, -74.3445),
+                    new GeoPoint(39.5285, -74.3898), new GeoPoint(39.5294, -74.4334), new GeoPoint(39.5298, -74.4598), new GeoPoint(39.5305, -74.5010), new GeoPoint(39.5313, -74.5437),
+                    new GeoPoint(39.5320, -74.5865), new GeoPoint(39.5328, -74.6305), new GeoPoint(39.5379, -74.6544), new GeoPoint(39.5563, -74.6885), new GeoPoint(39.5689, -74.7112),
+                    new GeoPoint(39.5805, -74.7319), new GeoPoint(39.6019, -74.7696), new GeoPoint(39.6213, -74.8041), new GeoPoint(39.6344, -74.8259), new GeoPoint(39.6497, -74.8392),
+                    new GeoPoint(39.6725, -74.8511), new GeoPoint(39.7076, -74.8693), new GeoPoint(39.7411, -74.8864), new GeoPoint(39.7622, -74.8971), new GeoPoint(39.7843, -74.9087),
+                    new GeoPoint(39.8059, -74.9209), new GeoPoint(39.8311, -74.9351), new GeoPoint(39.8566, -74.9495), new GeoPoint(39.8815, -74.9631), new GeoPoint(39.8935, -74.9702),
+                    new GeoPoint(39.9004, -74.9825), new GeoPoint(39.9064, -75.0051), new GeoPoint(39.9082, -75.0186), new GeoPoint(39.9074, -75.0351), new GeoPoint(39.9052, -75.0511),
+                    new GeoPoint(39.9007, -75.0740), new GeoPoint(39.8983, -75.0863), new GeoPoint(39.8952, -75.1021), new GeoPoint(39.8924, -75.1163), new GeoPoint(39.8882, -75.1376),
+                    new GeoPoint(39.8859, -75.1493), new GeoPoint(39.8834, -75.1617), new GeoPoint(39.8807, -75.1751), new GeoPoint(39.8785, -75.1860), new GeoPoint(39.8760, -75.1986),
+                    new GeoPoint(39.8740, -75.2095), new GeoPoint(39.8715, -75.2219), new GeoPoint(39.8693, -75.2327), new GeoPoint(39.8669, -75.2449)
+            )
+    );
+
+    ArrayList<Float> mExampleFlightScalars = new ArrayList<>(
+            Arrays.asList(
+                    322.0f, 328.0f, 332.0f, 372.0f, 441.0f, 496.0f, 528.0f, 549.0f, 546.0f, 563.0f,
+                    555.0f, 612.0f, 666.0f, 689.0f, 698.0f, 729.0f, 750.0f, 760.0f, 739.0f, 747.0f,
+                    764.0f, 777.0f, 790.0f, 806.0f, 813.0f, 819.0f, 811.0f, 816.0f, 819.0f, 813.0f,
+                    797.0f, 790.0f, 784.0f, 771.0f, 764.0f, 776.0f, 774.0f, 777.0f, 790.0f, 806.0f,
+                    822.0f, 834.0f, 827.0f, 830.0f, 840.0f, 845.0f, 847.0f, 850.0f, 850.0f, 850.0f,
+                    858.0f, 863.0f, 863.0f, 869.0f, 867.0f, 867.0f, 874.0f, 875.0f, 872.0f, 867.0f,
+                    861.0f, 861.0f, 858.0f, 859.0f, 858.0f, 861.0f, 867.0f, 864.0f, 864.0f, 869.0f,
+                    869.0f, 869.0f, 874.0f, 880.0f, 882.0f, 880.0f, 884.0f, 882.0f, 884.0f, 882.0f,
+                    882.0f, 880.0f, 877.0f, 880.0f, 882.0f, 880.0f, 880.0f, 877.0f, 882.0f, 880.0f,
+                    882.0f, 880.0f, 875.0f, 877.0f, 877.0f, 880.0f, 882.0f, 885.0f, 887.0f, 884.0f,
+                    882.0f, 875.0f, 877.0f, 877.0f, 877.0f, 877.0f, 877.0f, 877.0f, 880.0f, 882.0f,
+                    885.0f, 885.0f, 888.0f, 892.0f, 892.0f, 893.0f, 893.0f, 893.0f, 892.0f, 893.0f,
+                    892.0f, 892.0f, 892.0f, 893.0f, 895.0f, 895.0f, 896.0f, 898.0f, 900.0f, 901.0f,
+                    904.0f, 906.0f, 908.0f, 909.0f, 909.0f, 911.0f, 909.0f, 908.0f, 906.0f, 904.0f,
+                    900.0f, 900.0f, 898.0f, 900.0f, 900.0f, 904.0f, 906.0f, 911.0f, 911.0f, 912.0f,
+                    912.0f, 911.0f, 908.0f, 908.0f, 909.0f, 909.0f, 904.0f, 901.0f, 898.0f, 900.0f,
+                    900.0f, 898.0f, 900.0f, 900.0f, 900.0f, 904.0f, 906.0f, 906.0f, 908.0f, 906.0f,
+                    908.0f, 909.0f, 911.0f, 911.0f, 914.0f, 912.0f, 911.0f, 911.0f, 911.0f, 909.0f,
+                    908.0f, 904.0f, 898.0f, 892.0f, 893.0f, 882.0f, 884.0f, 880.0f, 882.0f, 884.0f,
+                    882.0f, 880.0f, 877.0f, 880.0f, 880.0f, 880.0f, 880.0f, 880.0f, 877.0f, 880.0f,
+                    880.0f, 882.0f, 880.0f, 880.0f, 877.0f, 877.0f, 880.0f, 875.0f, 874.0f, 872.0f,
+                    872.0f, 874.0f, 874.0f, 874.0f, 874.0f, 875.0f, 877.0f, 877.0f, 875.0f, 875.0f,
+                    874.0f, 875.0f, 821.0f, 821.0f, 821.0f, 821.0f, 821.0f, 821.0f, 821.0f, 821.0f,
+                    821.0f, 821.0f, 821.0f, 821.0f, 821.0f, 821.0f, 821.0f, 821.0f, 821.0f, 821.0f,
+                    821.0f, 821.0f, 821.0f, 821.0f, 821.0f, 821.0f, 821.0f, 821.0f, 821.0f, 821.0f,
+                    821.0f, 821.0f, 821.0f, 821.0f, 821.0f, 821.0f, 821.0f, 821.0f, 821.0f, 821.0f,
+                    821.0f, 821.0f, 821.0f, 821.0f, 821.0f, 821.0f, 821.0f, 821.0f, 821.0f, 821.0f,
+                    821.0f, 821.0f, 821.0f, 821.0f, 821.0f, 821.0f, 821.0f, 821.0f, 821.0f, 821.0f,
+                    821.0f, 821.0f, 821.0f, 821.0f, 821.0f, 821.0f, 821.0f, 821.0f, 821.0f, 821.0f,
+                    821.0f, 821.0f, 834.0f, 834.0f, 851.0f, 851.0f, 851.0f, 851.0f, 851.0f, 851.0f,
+                    851.0f, 851.0f, 851.0f, 851.0f, 851.0f, 851.0f, 851.0f, 848.0f, 848.0f, 827.0f,
+                    827.0f, 826.0f, 834.0f, 840.0f, 835.0f, 835.0f, 835.0f, 834.0f, 834.0f, 845.0f,
+                    845.0f, 851.0f, 834.0f, 834.0f, 837.0f, 837.0f, 837.0f, 837.0f, 838.0f, 835.0f,
+                    830.0f, 830.0f, 830.0f, 830.0f, 827.0f, 830.0f, 832.0f, 834.0f, 837.0f, 837.0f,
+                    840.0f, 845.0f, 847.0f, 848.0f, 848.0f, 848.0f, 847.0f, 845.0f, 840.0f, 838.0f,
+                    837.0f, 834.0f, 834.0f, 835.0f, 834.0f, 832.0f, 827.0f, 826.0f, 827.0f, 832.0f,
+                    832.0f, 832.0f, 832.0f, 832.0f, 834.0f, 835.0f, 834.0f, 832.0f, 827.0f, 824.0f,
+                    822.0f, 821.0f, 822.0f, 821.0f, 819.0f, 814.0f, 814.0f, 813.0f, 811.0f, 808.0f,
+                    808.0f, 808.0f, 810.0f, 810.0f, 808.0f, 806.0f, 806.0f, 808.0f, 806.0f, 800.0f,
+                    795.0f, 790.0f, 789.0f, 787.0f, 787.0f, 787.0f, 785.0f, 779.0f, 779.0f, 779.0f,
+                    782.0f, 785.0f, 784.0f, 784.0f, 784.0f, 784.0f, 784.0f, 782.0f, 777.0f, 779.0f,
+                    776.0f, 777.0f, 776.0f, 777.0f, 779.0f, 782.0f, 782.0f, 784.0f, 785.0f, 787.0f,
+                    789.0f, 793.0f, 795.0f, 793.0f, 795.0f, 797.0f, 798.0f, 795.0f, 797.0f, 789.0f,
+                    782.0f, 776.0f, 769.0f, 769.0f, 764.0f, 764.0f, 764.0f, 761.0f, 764.0f, 764.0f,
+                    764.0f, 764.0f, 769.0f, 772.0f, 774.0f, 776.0f, 782.0f, 784.0f, 784.0f, 785.0f,
+                    782.0f, 779.0f, 784.0f, 779.0f, 776.0f, 779.0f, 784.0f, 784.0f, 779.0f, 769.0f,
+                    764.0f, 764.0f, 750.0f, 740.0f, 740.0f, 737.0f, 740.0f, 740.0f, 745.0f, 748.0f,
+                    742.0f, 739.0f, 737.0f, 735.0f, 737.0f, 732.0f, 729.0f, 735.0f, 735.0f, 737.0f,
+                    745.0f, 750.0f, 756.0f, 756.0f, 753.0f, 756.0f, 758.0f, 761.0f, 763.0f, 763.0f,
+                    764.0f, 766.0f, 769.0f, 772.0f, 777.0f, 779.0f, 782.0f, 779.0f, 779.0f, 784.0f,
+                    785.0f, 785.0f, 785.0f, 784.0f, 779.0f, 777.0f, 777.0f, 777.0f, 779.0f, 782.0f,
+                    784.0f, 784.0f, 785.0f, 787.0f, 789.0f, 787.0f, 785.0f, 782.0f, 777.0f, 790.0f,
+                    795.0f, 793.0f, 790.0f, 790.0f, 790.0f, 793.0f, 798.0f, 800.0f, 801.0f, 808.0f,
+                    797.0f, 779.0f, 777.0f, 764.0f, 756.0f, 760.0f, 753.0f, 758.0f, 756.0f, 753.0f,
+                    753.0f, 753.0f, 753.0f, 752.0f, 752.0f, 737.0f, 719.0f, 692.0f, 687.0f, 689.0f,
+                    687.0f, 679.0f, 678.0f, 668.0f, 673.0f, 674.0f, 679.0f, 687.0f, 695.0f, 698.0f,
+                    705.0f, 713.0f, 726.0f, 737.0f, 735.0f, 727.0f, 721.0f, 724.0f, 719.0f, 715.0f,
+                    715.0f, 711.0f, 710.0f, 695.0f, 689.0f, 689.0f, 689.0f, 690.0f, 690.0f, 686.0f,
+                    686.0f, 687.0f, 686.0f, 686.0f, 686.0f, 689.0f, 690.0f, 689.0f, 692.0f, 678.0f,
+                    665.0f, 661.0f, 660.0f, 661.0f, 661.0f, 661.0f, 663.0f, 665.0f, 663.0f, 661.0f,
+                    661.0f, 661.0f, 663.0f, 663.0f, 665.0f, 663.0f, 661.0f, 663.0f, 663.0f, 663.0f,
+                    661.0f, 663.0f, 663.0f, 665.0f, 663.0f, 650.0f, 629.0f, 623.0f, 626.0f, 631.0f,
+                    649.0f, 644.0f, 639.0f, 626.0f, 610.0f, 600.0f, 594.0f, 589.0f, 578.0f, 583.0f,
+                    586.0f, 566.0f, 544.0f, 518.0f, 489.0f, 452.0f, 431.0f, 438.0f, 444.0f, 447.0f,
+                    447.0f, 447.0f, 463.0f, 476.0f, 475.0f, 476.0f, 476.0f, 472.0f, 480.0f, 507.0f,
+                    509.0f, 492.0f, 475.0f, 454.0f, 454.0f, 431.0f, 402.0f, 364.0f, 330.0f, 299.0f,
+                    262.0f, 256.0f, 256.0f, 257.0f, 256.0f, 241.0f, 237.0f, 237.0f, 233.0f, 235.0f,
+                    238.0f, 243.0f, 243.0f, 238.0f, 233.0f, 235.0f, 232.0f, 232.0f, 229.0f
+            )
+    );
+
 }
