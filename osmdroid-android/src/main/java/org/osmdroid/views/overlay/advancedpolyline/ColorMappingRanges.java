@@ -14,21 +14,21 @@ public class ColorMappingRanges extends ColorMapping {
      * Using a sorted map to define borders of ranges.
      * Borders are sorted from low to high.
      */
-    private SortedMap<Float, Integer> mColorRanges = new TreeMap<>();
+    private SortedMap<Float, Integer> mColorRanges;
 
     /**
      * Constructor
      * @param colorArray
      */
-    public ColorMappingRanges(SortedMap<Float, Integer> colorArray) {
+    public ColorMappingRanges(final SortedMap<Float, Integer> colorArray) {
         mColorRanges = colorArray;
     }
 
     /**
      * Add a point.
-     * @param scalar
+     * @param scalar for point
      */
-    public void addPoint(float scalar) {
+    public void addPoint(final float scalar) {
         int lastArrayIndexFromLoop = 0;
         // iterate over array and sort point in
         for (Map.Entry<Float, Integer> entry : mColorRanges.entrySet()) {

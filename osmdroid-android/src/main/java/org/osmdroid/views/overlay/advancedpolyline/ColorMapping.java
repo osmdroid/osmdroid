@@ -20,11 +20,11 @@ public abstract class ColorMapping {
 
     /**
      * Get the color for the current index.
-     * Function will return white if index is out of range.
-     * @param index
+     * Function will return gray if index is out of range.
+     * @param index of line point
      * @return color value
      */
-    public Integer getColorForIndex(int index) {
+    public Integer getColorForIndex(final int index) {
         if(index <= mColorPerPoint.size() - 1) {
             return mColorPerPoint.get(index);
         } else {
@@ -39,13 +39,13 @@ public abstract class ColorMapping {
      * The scalar is used to set the line style from this point to the next.
      * @param scalar point scalar
      */
-    public abstract void addPoint(float scalar);
+    public abstract void addPoint(final float scalar);
 
     /**
      * Function to set a list of scalars at once. Clears old data.
      * @param scalarArray
      */
-    public void setPoints(ArrayList<Float> scalarArray) {
+    public void setPoints(final ArrayList<Float> scalarArray) {
         // clear old data
         mScalarPerPoint.clear();
         mColorPerPoint.clear();
@@ -65,7 +65,7 @@ public abstract class ColorMapping {
      * @param y1 screen y coordinate end
      * @return LinearGradient in TileMode clamp
      */
-    public Shader createShader(int index, float x0, float y0, float x1, float y1) {
+    public Shader createShader(final int index, final float x0, final float y0, final float x1, final float y1) {
 
         int startColor = mColorPerPoint.get(index);
         int endColor = mColorPerPoint.get(index + 1);

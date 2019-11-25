@@ -1,18 +1,28 @@
 package org.osmdroid.views.overlay.advancedpolyline;
 
-import java.util.ArrayList;
-
 /**
  * Color mapping for hue variation.
  * @author Matthias Dittmer
  */
 public class ColorMappingVariationHue extends ColorMappingVariation {
 
+    /**
+     * Fixed HSL values.
+     */
     private float mSaturation;
     private float mLuminance;
 
-    public ColorMappingVariationHue(float scalarStart, float scalarEnd,
-        float hueStart, float hueEnd, float saturation, float luminance) {
+    /**
+     * Constructor
+     * @param scalarStart start of scalar
+     * @param scalarEnd end of scalar
+     * @param hueStart hue start value
+     * @param hueEnd hue end value
+     * @param saturation fixed saturation value
+     * @param luminance fixed luminance value
+     */
+    public ColorMappingVariationHue(final float scalarStart, final float scalarEnd,
+        float hueStart, float hueEnd, final float saturation, final float luminance) {
 
         // do basic clipping for hue value
         // please note: end can be lower than start for inverse mapping
@@ -26,7 +36,11 @@ public class ColorMappingVariationHue extends ColorMappingVariation {
         super.init(scalarStart, scalarEnd, hueStart, hueEnd);
     }
 
-    public void addPoint(float scalar) {
+    /**
+     * Add a point.
+     * @param scalar point scalar
+     */
+    public void addPoint(final float scalar) {
         // create mapped hue value
         super.addToLists(scalar, mapScalar(scalar), mSaturation, mLuminance);
     }

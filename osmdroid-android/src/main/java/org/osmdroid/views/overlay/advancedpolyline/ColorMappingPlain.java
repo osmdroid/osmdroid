@@ -19,7 +19,7 @@ public class ColorMappingPlain extends ColorMapping {
      * Constructor
      * @param color
      */
-    public ColorMappingPlain(Integer color) {
+    public ColorMappingPlain(final Integer color) {
         mColorPlain = color;
     }
 
@@ -27,7 +27,7 @@ public class ColorMappingPlain extends ColorMapping {
      * Add a point.
      * @param scalar
      */
-    public void addPoint(float scalar) {
+    public void addPoint(final float scalar) {
         mScalarPerPoint.add(scalar);
         mColorPerPoint.add(mColorPlain);
     }

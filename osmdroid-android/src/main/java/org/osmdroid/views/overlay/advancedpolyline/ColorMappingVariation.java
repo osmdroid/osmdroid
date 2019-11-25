@@ -14,17 +14,16 @@ public abstract class ColorMappingVariation extends ColorMapping{
     private float mScalarStart;
     private float mScalarEnd;
     private float mSlope;
-    private float mOrdinate;
 
     /**
      * Init function will be called from sub classes.
-     * @param scalarStart
-     * @param scalarEnd
-     * @param start
-     * @param end
+     * @param scalarStart start of scalar
+     * @param scalarEnd end of scalar
+     * @param start start of one HSL value
+     * @param end end of one HSL value
      */
-    public void init(float scalarStart, float scalarEnd,
-         float start, float end) {
+    public void init(final float scalarStart, final float scalarEnd,
+         final float start, final float end) {
 
         mScalarStart = scalarStart;
         mScalarEnd = scalarEnd;
@@ -40,7 +39,7 @@ public abstract class ColorMappingVariation extends ColorMapping{
      * @param scalar
      * @return
      */
-    public float mapScalar(float scalar) {
+    public float mapScalar(final float scalar) {
         if(scalar >= mScalarEnd) {
             return mEnd;
         } else if(scalar <= mScalarStart) {
@@ -59,7 +58,7 @@ public abstract class ColorMappingVariation extends ColorMapping{
      * @param s saturation
      * @param l luminance
      */
-    public void addToLists(float scalar, float h, float s, float l) {
+    public void addToLists(final float scalar, final float h, final float s, final float l) {
         float[] hsl = new float[] {h, s, l};
         mColorPerPoint.add(ColorHelper.HSLToColor(hsl));
         mScalarPerPoint.add(scalar);

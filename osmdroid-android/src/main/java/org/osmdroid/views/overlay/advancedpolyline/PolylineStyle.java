@@ -18,10 +18,10 @@ public class PolylineStyle {
 
     /**
      * Constructor
-     * @param mapping
-     * @param useGradient
+     * @param mapping color mapping
+     * @param useGradient flag to use linear gradient for line segments
      */
-    public PolylineStyle(ColorMapping mapping, boolean useGradient) {
+    public PolylineStyle(final ColorMapping mapping, final boolean useGradient) {
         mColorMapping = mapping;
         mUseGradient = useGradient;
     }
@@ -31,7 +31,7 @@ public class PolylineStyle {
      * @param width this is the full width of the line. Should not be less than line itself (!).
      * @param color of the border.
      */
-    public void setBorder(float width, int color) {
+    public void setBorder(final float width, final int color) {
         // create the default border style once
         mPaintBorder = new Paint();
         mPaintBorder.setStyle(Paint.Style.STROKE);
@@ -63,7 +63,7 @@ public class PolylineStyle {
      * Set a color mapping style.
      * @param mapping provide a color mapping (plain, cycle, ranges, variation)
      */
-    public void setStyle(ColorMapping mapping) {
+    public void setStyle(final ColorMapping mapping) {
         mColorMapping = mapping;
     }
 
@@ -79,7 +79,7 @@ public class PolylineStyle {
      * Do not call this function directly as library user.
      * @param scalar point scalar
      */
-    public void addScalar(float scalar) {
+    public void addScalar(final float scalar) {
         mColorMapping.addPoint(scalar);
     }
 
@@ -87,7 +87,7 @@ public class PolylineStyle {
      * Do not call this function directly as library user.
      * @param scalarArray array of scalars for points.
      */
-    public void setScalars(ArrayList<Float> scalarArray) {
+    public void setScalars(final ArrayList<Float> scalarArray) {
         mColorMapping.setPoints(scalarArray);
     }
 
@@ -101,10 +101,13 @@ public class PolylineStyle {
 
     /**
      * Modify paint object for current line.
-     * @param paint
-     * @return
+     * @param index point index
+     * @param colorIndexes indexes for current line segment
+     * @param lines x and y coordinate array
+     * @param paint provided paint object will be modified for current line segment
+     * @return modified paint object
      */
-    public Paint getPaintForLine(int index, int[] colorIndexes, float[] lines, Paint paint) {
+    public Paint getPaintForLine(final int index, final int[] colorIndexes, final float[] lines, final Paint paint) {
 
         // set rounded style
         paint.setStrokeJoin(Paint.Join.ROUND);

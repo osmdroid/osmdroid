@@ -4,7 +4,7 @@ import android.graphics.Color;
 
 /**
  * Class with color helper functions.
- * Please note the functions where copied over from:
+ * Please note the functions were copied over from:
  * https://developer.android.com/reference/android/support/v4/graphics/ColorUtils (old support lib)
  * https://developer.android.com/reference/kotlin/androidx/core/graphics/ColorUtils (new Androidx lib)
  * Maybe include one lib directly.

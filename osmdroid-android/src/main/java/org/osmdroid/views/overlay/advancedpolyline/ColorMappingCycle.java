@@ -17,7 +17,7 @@ public class ColorMappingCycle extends ColorMapping {
      * Constructor
      * @param colorArray array holding the colors
      */
-    public ColorMappingCycle(ArrayList<Integer> colorArray) {
+    public ColorMappingCycle(final ArrayList<Integer> colorArray) {
         mColorArray = colorArray;
     }
 
@@ -25,7 +25,7 @@ public class ColorMappingCycle extends ColorMapping {
      * Add a point.
      * @param scalar
      */
-    public void addPoint(float scalar) {
+    public void addPoint(final float scalar) {
         mScalarPerPoint.add(scalar);
         mColorPerPoint.add(mColorArray.get(mScalarPerPoint.size() % mColorArray.size()));
     }
