@@ -13,18 +13,19 @@ import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Polyline;
 import org.osmdroid.views.overlay.advancedpolyline.ColorMapping;
+import org.osmdroid.views.overlay.advancedpolyline.ColorMappingCycle;
 import org.osmdroid.views.overlay.advancedpolyline.ColorMappingPlain;
 import org.osmdroid.views.overlay.advancedpolyline.ColorMappingRanges;
 import org.osmdroid.views.overlay.advancedpolyline.ColorMappingVariationHue;
+import org.osmdroid.views.overlay.advancedpolyline.ColorMappingVariationLuminance;
+import org.osmdroid.views.overlay.advancedpolyline.ColorMappingVariationSaturation;
 import org.osmdroid.views.overlay.advancedpolyline.PolylineStyle;
 import org.osmdroid.views.overlay.infowindow.InfoWindow;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.io.StringWriter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
@@ -152,6 +153,14 @@ public class ShowAdvancedPolylineStyles extends BaseSampleFragment {
         mListExamples.add(new AdvancedPolylineExample("Sailing", "Plain colored polyline showing a sailing track from Sicily to Sardinia.",
                 new ColorMappingPlain(Color.WHITE), false, true, Color.BLACK, getPoints("sailing"), getScalars("sailing")));
 
+        // Cycle example
+        ArrayList<Integer> mColors = new ArrayList<>();
+        mColors.add( Color.GREEN);
+        mColors.add( Color.WHITE);
+        mColors.add(Color.RED);
+        mListExamples.add(new AdvancedPolylineExample("Coast", "Cycle polyline showing border of Italy coast line.\n\nColor cycle: GREEN, WHITE, RED.",
+                new ColorMappingCycle(mColors), false, true, Color.BLACK, getPoints("border_coast_italy"), getScalars("border_coast_italy")));
+
         // Ranges example
         SortedMap<Float, Integer> mColorRanges = new TreeMap<>();
         mColorRanges.put(5.0f, Color.RED);
@@ -163,6 +172,14 @@ public class ShowAdvancedPolylineStyles extends BaseSampleFragment {
         // Hue example
         mListExamples.add(new AdvancedPolylineExample("Flight", "Hue variation polyline for speed of plane from Paris to Philadelphia.\n\nHue from 0.0f to 120.0f for speed range 0 km/h to 1000 km/h.",
                 new ColorMappingVariationHue(0.0f, 1000.0f, 0.0f, 120.0f, 1.0f, 0.5f), false, true, Color.BLACK, getPoints("flight_paris_phil"), getScalars("flight_paris_phil")));
+
+        // Saturation example
+        mListExamples.add(new AdvancedPolylineExample("Flight", "Saturation variation polyline for speed of plane from Frankfurt to Bangkok.\n\nSaturation from 0.0f to 1.0f for speed range 0 km/h to 1100 km/h.",
+                new ColorMappingVariationSaturation(0.0f, 1100.0f, 0.0f, 1.0f, 160.0f, 0.5f), false, true, Color.BLACK, getPoints("flight_fra_bkk"), getScalars("flight_fra_bkk")));
+
+        // Luminance example
+        mListExamples.add(new AdvancedPolylineExample("Hiking", "Luminance variation polyline for height of hiking track in Nepal Himalayas.\n\nLuminance from 0.0f to 1.0f for height range 1800 m to 6000 m.",
+                new ColorMappingVariationLuminance(1800.0f, 6000.0f, 0.0f, 1.0f, 0.0f, 0.0f), false, true, Color.BLACK, getPoints("nepal_himalayas"), getScalars("nepal_himalayas")));
     }
 
     private void loadJSONDataFromAssets() {
