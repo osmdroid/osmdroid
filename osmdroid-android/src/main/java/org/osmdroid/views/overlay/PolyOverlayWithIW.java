@@ -34,6 +34,11 @@ public abstract class PolyOverlayWithIW extends OverlayWithIW {
 	protected float mDensity = 1.0f;
 	protected List<GeoPoint> mOriginalPoints = new ArrayList<>();
 
+	/**
+	 * Save style, if no style set variable is null
+	 */
+	private PolylineStyle mStyle = null;
+
 	protected PolyOverlayWithIW(final MapView pMapView, final boolean pUsePath, final boolean pClosePath) {
 		super();
 		if (pMapView != null) {
@@ -59,6 +64,15 @@ public abstract class PolyOverlayWithIW extends OverlayWithIW {
 	 */
 	public void setStyle(final PolylineStyle pStyle) {
 		mLineDrawer.setPolylineStyle(pStyle);
+		mStyle = pStyle;
+	}
+
+	/**
+	 * Unset style locally and in LineDrawer class
+	 */
+	public void unsetStyle() {
+		mLineDrawer.setPolylineStyle(null);
+		mStyle = null;
 	}
 
 	public void setVisible(boolean visible){
@@ -170,7 +184,21 @@ public abstract class PolyOverlayWithIW extends OverlayWithIW {
 		if (mPath != null) {
 			drawWithPath(pCanvas, pProjection);
 		} else {
-			drawWithLines(pCanvas, pProjection);
+			// check for set style
+			if(mStyle == null) {
+				// no style set, do the normal call
+				drawWithLines(pCanvas, pProjection);
+			} else {
+				// check for border
+				if(mStyle.getPaintBorder() != null) {
+					// do the line draw call for the border line
+					mLineDrawer.setBorderMode(true);
+					drawWithLines(pCanvas, pProjection);
+				}
+				// do the line draw call for the actual line
+				mLineDrawer.setBorderMode(false);
+				drawWithLines(pCanvas, pProjection);
+			}
 		}
 	}
 

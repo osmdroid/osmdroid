@@ -93,6 +93,7 @@ public class Polyline extends PolyOverlayWithIW {
      */
     public void unsetStyle() {
         mPolylineStyle = null;
+        super.unsetStyle();
     }
 
     /**
