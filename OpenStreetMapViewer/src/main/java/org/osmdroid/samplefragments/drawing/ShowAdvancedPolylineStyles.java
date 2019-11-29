@@ -159,7 +159,7 @@ public class ShowAdvancedPolylineStyles extends BaseSampleFragment {
         mColors.add( Color.WHITE);
         mColors.add(Color.RED);
         mListExamples.add(new AdvancedPolylineExample("Coast", "Cycle polyline showing border of Italy coast line.\n\nColor cycle: GREEN, WHITE, RED.",
-                new ColorMappingCycle(mColors), false, true, Color.BLACK, getPoints("border_coast_italy"), getScalars("border_coast_italy")));
+                new ColorMappingCycle(mColors), true, true, Color.BLACK, getPoints("border_coast_italy"), getScalars("border_coast_italy")));
 
         // Ranges example
         SortedMap<Float, Integer> mColorRanges = new TreeMap<>();
