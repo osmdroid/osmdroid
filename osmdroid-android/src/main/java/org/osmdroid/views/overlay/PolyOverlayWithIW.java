@@ -184,21 +184,7 @@ public abstract class PolyOverlayWithIW extends OverlayWithIW {
 		if (mPath != null) {
 			drawWithPath(pCanvas, pProjection);
 		} else {
-			// check for set style
-			if(mStyle == null) {
-				// no style set, do the normal call
-				drawWithLines(pCanvas, pProjection);
-			} else {
-				// check for border
-				if(mStyle.getPaintBorder() != null) {
-					// do the line draw call for the border line
-					mLineDrawer.setBorderMode(true);
-					drawWithLines(pCanvas, pProjection);
-				}
-				// do the line draw call for the actual line
-				mLineDrawer.setBorderMode(false);
-				drawWithLines(pCanvas, pProjection);
-			}
+			drawWithLines(pCanvas, pProjection);
 		}
 	}
 
@@ -241,7 +227,23 @@ public abstract class PolyOverlayWithIW extends OverlayWithIW {
 	private void drawWithLines(final Canvas pCanvas, final Projection pProjection) {
 		mLineDrawer.setCanvas(pCanvas);
 		mOutline.setClipArea(pProjection);
-		mOutline.buildLinePortion(pProjection, mMilestoneManagers.size() > 0);
+
+		// check for set style
+		if(mStyle == null) {
+			// no style set, do the normal call
+			mOutline.buildLinePortion(pProjection, mMilestoneManagers.size() > 0);
+		} else {
+			// check for border
+			if(mStyle.getPaintBorder() != null) {
+				// do the line draw call for the border line
+				mLineDrawer.setBorderMode(true);
+				mOutline.buildLinePortion(pProjection, mMilestoneManagers.size() > 0);
+			}
+			// do the line draw call for the actual line
+			mLineDrawer.setBorderMode(false);
+			mOutline.buildLinePortion(pProjection, mMilestoneManagers.size() > 0);
+		}
+
 		for (final MilestoneManager milestoneManager : mMilestoneManagers) {
 			milestoneManager.init();
 			milestoneManager.setDistances(mOutline.getDistances());
