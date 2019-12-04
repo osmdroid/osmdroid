@@ -35,9 +35,9 @@ public abstract class PolyOverlayWithIW extends OverlayWithIW {
 	protected List<GeoPoint> mOriginalPoints = new ArrayList<>();
 
 	/**
-	 * Save style, if no style set variable is null
+	 * Current advanced polyline style, if no style set variable is null
 	 */
-	private PolylineStyle mStyle = null;
+	protected PolylineStyle mStyle = null;
 
 	protected PolyOverlayWithIW(final MapView pMapView, final boolean pUsePath, final boolean pClosePath) {
 		super();
@@ -68,11 +68,11 @@ public abstract class PolyOverlayWithIW extends OverlayWithIW {
 	}
 
 	/**
-	 * Unset style locally and in LineDrawer class
+	 * Get current style.
+	 * @return current polyline style
 	 */
-	public void unsetStyle() {
-		mLineDrawer.setPolylineStyle(null);
-		mStyle = null;
+	public final PolylineStyle getStyle() {
+		return mStyle;
 	}
 
 	public void setVisible(boolean visible){

@@ -36,9 +36,6 @@ public class Polyline extends PolyOverlayWithIW {
 
     private float mDensityMultiplier = 1.0f;
 
-    private PolylineStyle mPolylineStyle = null;
-
-
     /**
      * If MapView is not provided, infowindow popup will not function unless you set it yourself.
      */
@@ -71,11 +68,9 @@ public class Polyline extends PolyOverlayWithIW {
 
     /**
      * Set a style. You have to call this function before adding points.
-     * @param pStyle provided color mapping style
+     * @param pStyle provided color mapping style. If you provide null style will be unset
      */
     public void setStyle(final PolylineStyle pStyle) {
-        // set local variable
-        mPolylineStyle = pStyle;
         // set style in super class for LineDrawer
         super.setStyle(pStyle);
 
@@ -83,25 +78,9 @@ public class Polyline extends PolyOverlayWithIW {
         if(mOutline.getPoints().size() > 0) {
             for (GeoPoint p : mOutline.getPoints()) {
                 // just add scalars with value 0.0f
-                mPolylineStyle.addScalar(0.0f);
+                mStyle.addScalar(0.0f);
             }
         }
-    }
-
-    /**
-     * Unset the polyline style.
-     */
-    public void unsetStyle() {
-        mPolylineStyle = null;
-        super.unsetStyle();
-    }
-
-    /**
-     * Get current style.
-     * @return current polyline style
-     */
-    public final PolylineStyle getStyle() {
-        return mPolylineStyle;
     }
 
     /**
@@ -188,8 +167,8 @@ public class Polyline extends PolyOverlayWithIW {
      */
     public void setPoints(List<GeoPoint> points, ArrayList<Float> scalars) {
         setPoints(points);
-        if(mPolylineStyle != null) {
-            mPolylineStyle.setScalars(scalars);
+        if(mStyle != null) {
+            mStyle.setScalars(scalars);
         }
     }
 
@@ -209,8 +188,8 @@ public class Polyline extends PolyOverlayWithIW {
      */
     public void addPoint(GeoPoint p, float scalar){
         addPoint(p);
-        if(mPolylineStyle != null) {
-            mPolylineStyle.addScalar(scalar);
+        if(mStyle != null) {
+            mStyle.addScalar(scalar);
         }
     }
 
