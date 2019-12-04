@@ -236,11 +236,11 @@ public abstract class PolyOverlayWithIW extends OverlayWithIW {
 			// check for border
 			if(mStyle.getPaintBorder() != null) {
 				// do the line draw call for the border line
-				mLineDrawer.setBorderMode(true);
+				mLineDrawer.setBorderPaint(mStyle.getPaintBorder());
 				mOutline.buildLinePortion(pProjection, mMilestoneManagers.size() > 0);
 			}
 			// do the line draw call for the actual line
-			mLineDrawer.setBorderMode(false);
+			mLineDrawer.setBorderPaint(null);
 			mOutline.buildLinePortion(pProjection, mMilestoneManagers.size() > 0);
 		}
 
