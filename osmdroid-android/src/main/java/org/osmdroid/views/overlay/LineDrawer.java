@@ -45,40 +45,35 @@ public class LineDrawer extends LineBuilder{
 
     @Override
     public void flush() {
-        if (getSize() >= 4) {
-
-            // check for advanced styling
-            if(mPolylineStyle != null) {
-
-                // check for border mode
-                if(mBorderMode) {
-                    // check for border and border mode enabled
-                    if (mPolylineStyle.getPaintBorder() != null) {
-                        // first draw a complete line for the border
-                        mCanvas.drawLines(getLines(), 0, getSize(), mPolylineStyle.getPaintBorder());
-                    }
-                } else {
-                    // border mode is not active, draw the normal line
-
-                    // check for color mode
-                    if (mPolylineStyle.isMonochromatic()) {
-                        // plain color can be drawn with one call, a set gradient as no effect
-                        mCanvas.drawLines(getLines(), 0, getSize(),
-                                mPolylineStyle.getPaintForLine(0, getColorIndexes(), getLines(), mPaint));
-                    } else {
-                        // draw line segment by segment
-                        for (int i = 0; i < getSize() / 4; i++) {
-                            // draw one line segment
-                            mCanvas.drawLines(getLines(), i * 4, 4,
-                                    mPolylineStyle.getPaintForLine(i, getColorIndexes(), getLines(), mPaint));
-
-                        }
+        if(getSize() < 4) {
+            // nothing to draw, just return
+            return;
+        }
+        // check for advanced styling
+        if(mPolylineStyle != null) {
+            // check for border and border mode enabled
+            if(mBorderMode && mPolylineStyle.getPaintBorder() != null) {
+                // draw the complete polyline for the border
+                mCanvas.drawLines(getLines(), 0, getSize(), mPolylineStyle.getPaintBorder());
+                return;
+            }
+            if(!mBorderMode) {
+                if (mPolylineStyle.isMonochromatic()) {
+                    // plain color can be drawn with one call, a set gradient as no effect
+                    mCanvas.drawLines(getLines(), 0, getSize(),
+                            mPolylineStyle.getPaintForLine(0, getColorIndexes(), getLines(), mPaint));
+                    return;
+                }
+                // draw color mapping line segment by segment
+                for (int i = 0; i < getSize() / 4; i++) {
+                    mCanvas.drawLines(getLines(), i * 4, 4,
+                        mPolylineStyle.getPaintForLine(i, getColorIndexes(), getLines(), mPaint));
                     }
                 }
-            } else {
-                // classic draw call without style
-                mCanvas.drawLines(getLines(), 0, getSize(), mPaint);
+                return;
             }
-        }
+
+        // classic draw call without any style
+        mCanvas.drawLines(getLines(), 0, getSize(), mPaint);
     }
 }
