@@ -61,9 +61,8 @@ public class LineDrawer extends LineBuilder{
                     // border mode is not active, draw the normal line
 
                     // check for color mode
-                    if (mPolylineStyle.getStyle().getClass() == ColorMappingPlain.class) {
-                        // plain color can be drawn with one call
-                        // a set gradient as no effect
+                    if (mPolylineStyle.isMonochromatic()) {
+                        // plain color can be drawn with one call, a set gradient as no effect
                         mCanvas.drawLines(getLines(), 0, getSize(),
                                 mPolylineStyle.getPaintForLine(0, getColorIndexes(), getLines(), mPaint));
                     } else {

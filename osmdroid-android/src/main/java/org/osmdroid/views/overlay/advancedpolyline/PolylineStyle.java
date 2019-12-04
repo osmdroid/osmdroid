@@ -76,6 +76,14 @@ public class PolylineStyle {
     }
 
     /**
+     * Check if mapping is monochromatic.
+     * @return if mapping is monochromatic (only true for plain color mapping for now).
+     */
+    public boolean isMonochromatic() {
+        return (mColorMapping.getClass() == ColorMappingPlain.class);
+    }
+
+    /**
      * Do not call this function directly as library user.
      * @param scalar point scalar
      */
