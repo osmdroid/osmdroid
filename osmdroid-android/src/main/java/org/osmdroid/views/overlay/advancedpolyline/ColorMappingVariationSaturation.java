@@ -43,6 +43,7 @@ public class ColorMappingVariationSaturation extends ColorMappingVariation{
      * Add a point.
      * @param scalar point scalar
      */
+    @Override
     public void addPoint(float scalar) {
         // create mapped saturation value
         super.addToLists(scalar, mHue, mapScalar(scalar), mLuminance);

@@ -40,6 +40,7 @@ public class ColorMappingVariationHue extends ColorMappingVariation {
      * Add a point.
      * @param scalar point scalar
      */
+    @Override
     public void addPoint(final float scalar) {
         // create mapped hue value
         super.addToLists(scalar, mapScalar(scalar), mSaturation, mLuminance);

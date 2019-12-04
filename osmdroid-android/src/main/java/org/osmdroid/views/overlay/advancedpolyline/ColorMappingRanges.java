@@ -28,6 +28,7 @@ public class ColorMappingRanges extends ColorMapping {
      * Add a point.
      * @param scalar for point
      */
+    @Override
     public void addPoint(final float scalar) {
         int lastArrayIndexFromLoop = 0;
         // iterate over array and sort point in

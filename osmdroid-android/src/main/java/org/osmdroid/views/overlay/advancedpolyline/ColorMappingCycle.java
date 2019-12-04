@@ -25,6 +25,7 @@ public class ColorMappingCycle extends ColorMapping {
      * Add a point.
      * @param scalar
      */
+    @Override
     public void addPoint(final float scalar) {
         mScalarPerPoint.add(scalar);
         mColorPerPoint.add(mColorArray.get(mScalarPerPoint.size() % mColorArray.size()));
