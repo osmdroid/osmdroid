@@ -54,7 +54,8 @@ public abstract class PolyOverlayWithIW extends OverlayWithIW {
 			mLineDrawer = new LineDrawer(256);
 			mOutline = new LinearRing(mLineDrawer);
 			////mOutline.clearPath();
-			mLineDrawer.setPaint(mOutlinePaint);
+			// paint is now set right before draw call
+			//mLineDrawer.setPaint(mOutlinePaint);
 		}
 	}
 
@@ -63,7 +64,6 @@ public abstract class PolyOverlayWithIW extends OverlayWithIW {
 	 * @param pStyle color mapping style
 	 */
 	public void setStyle(final PolylineStyle pStyle) {
-		mLineDrawer.setPolylineStyle(pStyle);
 		mStyle = pStyle;
 	}
 
@@ -231,16 +231,27 @@ public abstract class PolyOverlayWithIW extends OverlayWithIW {
 		// check for set style
 		if(mStyle == null) {
 			// no style set, do the normal call
+			ArrayList<UniquePaintList> pList = new ArrayList<>();
+			pList.add(new UniquePaintList(mOutlinePaint, true, null));
+			mLineDrawer.setPaintList(pList);
 			mOutline.buildLinePortion(pProjection, mMilestoneManagers.size() > 0);
 		} else {
 			// check for border
 			if(mStyle.getPaintBorder() != null) {
 				// do the line draw call for the border line
-				mLineDrawer.setBorderPaint(mStyle.getPaintBorder());
+				ArrayList<UniquePaintList> pList = new ArrayList<>();
+				pList.add(new UniquePaintList(mStyle.getPaintBorder(), true, mStyle));
+				mLineDrawer.setPaintList(pList);
 				mOutline.buildLinePortion(pProjection, mMilestoneManagers.size() > 0);
 			}
 			// do the line draw call for the actual line
-			mLineDrawer.setBorderPaint(null);
+			ArrayList<UniquePaintList> pList = new ArrayList<>();
+			if(mStyle.isMonochromatic()) {
+				pList.add(new UniquePaintList(mStyle.getPaintForLine(0, null, null, mOutlinePaint), true, mStyle));
+			} else {
+				pList.add(new UniquePaintList(mOutlinePaint, false, mStyle));
+			}
+			mLineDrawer.setPaintList(pList);
 			mOutline.buildLinePortion(pProjection, mMilestoneManagers.size() > 0);
 		}
 

@@ -7,6 +7,9 @@ import org.osmdroid.util.LineBuilder;
 import org.osmdroid.views.overlay.advancedpolyline.ColorMappingPlain;
 import org.osmdroid.views.overlay.advancedpolyline.PolylineStyle;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Fabrice on 04/01/2018.
  * @since 6.0.0
@@ -15,28 +18,23 @@ import org.osmdroid.views.overlay.advancedpolyline.PolylineStyle;
 public class LineDrawer extends LineBuilder{
 
     private Canvas mCanvas;
-    private Paint mPaint;
-    private Paint mBorderPaint;
-    private PolylineStyle mPolylineStyle = null;
+    /**
+     * A list holding all Paints to draw in the list order over each other.
+     * Normal case is only one item in list.
+     */
+    private List<UniquePaintList> mPaintLists;
 
     public LineDrawer(int pMaxSize) {
         super(pMaxSize);
-    }
-
-    public void setPolylineStyle(final PolylineStyle pStyle) {
-        mPolylineStyle = pStyle;
+        mPaintLists = new ArrayList<>();
     }
 
     public void setCanvas(final Canvas pCanvas) {
         mCanvas = pCanvas;
     }
 
-    public void setPaint(final Paint pPaint) {
-        mPaint = pPaint;
-    }
-
-    public void setBorderPaint(final Paint pBorderPaint) {
-        mBorderPaint = pBorderPaint;
+    public void setPaintList(final ArrayList<UniquePaintList> pArray) {
+        mPaintLists = pArray;
     }
 
     @Override
@@ -45,30 +43,20 @@ public class LineDrawer extends LineBuilder{
             // nothing to draw, just return
             return;
         }
-        // check for advanced styling
-        if(mPolylineStyle != null) {
-            // check for border and border mode enabled
-            if(mBorderPaint != null) {
-                // draw the complete polyline for the border
-                mCanvas.drawLines(getLines(), 0, getSize(), mBorderPaint);
-                return;
-            }
+        //  iterate over all paint list items
+        for(PaintList item: mPaintLists) {
             // check for monochromatic
-            if (mPolylineStyle.isMonochromatic()) {
-                // plain color can be drawn with one call, a set gradient as no effect
-                mCanvas.drawLines(getLines(), 0, getSize(),
-                        mPolylineStyle.getPaintForLine(0, getColorIndexes(), getLines(), mPaint));
-                return;
-            }
-            // draw color mapping line segment by segment
-            for (int i = 0; i < getSize() / 4; i++) {
-                mCanvas.drawLines(getLines(), i * 4, 4,
-                    mPolylineStyle.getPaintForLine(i, getColorIndexes(), getLines(), mPaint));
+            if(item.isMonochromatic()) {
+                // draw complete line with one paint
+                mCanvas.drawLines(getLines(), 0, getSize(), item.getPaint(0));
+            } else {
+                // set references to color indexes and lines before loop
+                item.setReferencesForAdvancedStyling(getColorIndexes(), getLines());
+                // draw color mapping line segment by segment
+                for (int i = 0; i < getSize() / 4; i++) {
+                    mCanvas.drawLines(getLines(), i * 4, 4, item.getPaint(i));
                 }
-            return;
+            }
         }
-
-        // classic draw call without any style
-        mCanvas.drawLines(getLines(), 0, getSize(), mPaint);
     }
 }

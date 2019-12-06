@@ -109,6 +109,7 @@ public class PolylineStyle {
 
     /**
      * Modify paint object for current line.
+     * Special case: if colorIndexes and lines are null color index 0 is returned.
      * @param index point index
      * @param colorIndexes indexes for current line segment
      * @param lines x and y coordinate array
@@ -121,8 +122,12 @@ public class PolylineStyle {
         paint.setStrokeJoin(Paint.Join.ROUND);
         paint.setStrokeCap(Paint.Cap.ROUND);
 
+        // special case for monochromatic lines
+        if(colorIndexes == null && lines == null) {
+            paint.setShader(null);
+            paint.setColor(mColorMapping.getColorForIndex(0));
         // check for enabled gradient (has no effect for plain color)
-        if(mUseGradient && !(mColorMapping.getClass() == ColorMappingPlain.class)) {
+        } else if(mUseGradient && !(mColorMapping.getClass() == ColorMappingPlain.class)) {
             paint.setShader(mColorMapping.createShader(colorIndexes[index],
                 lines[index * 4], lines[index * 4 + 1], lines[index * 4 + 2], lines[index * 4 + 3]));
         } else {

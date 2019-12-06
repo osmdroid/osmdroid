@@ -4,6 +4,9 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 
 import org.osmdroid.views.overlay.LineDrawer;
+import org.osmdroid.views.overlay.UniquePaintList;
+
+import java.util.ArrayList;
 
 /**
  * Display lines between milestone steps
@@ -25,7 +28,9 @@ public class MilestoneLineDisplayer extends MilestoneDisplayer{
 
     public MilestoneLineDisplayer(final Paint pPaint) {
         super(0, false);
-        mLineDrawer.setPaint(pPaint);
+        ArrayList<UniquePaintList> pList = new ArrayList<>();
+        pList.add(new UniquePaintList(pPaint, true, null));
+        mLineDrawer.setPaintList(pList);
     }
 
     @Override
