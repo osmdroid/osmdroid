@@ -32,7 +32,7 @@ public final class BugFactory implements ISampleFactory {
                 Bug512Marker.class,
                 Bug512CacheManagerWp.class,
             Bug846InfiniteRedrawLoop.class,
-            Bug1322.class,
+            Bug1322.class,Issue1444.class
         };
     }
 
