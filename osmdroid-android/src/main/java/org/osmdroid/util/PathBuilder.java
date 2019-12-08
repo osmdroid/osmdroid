@@ -7,7 +7,7 @@ import android.graphics.Path;
  * @since 6.0.0
  */
 
-public class PathBuilder implements PointAccepter{
+public class PathBuilder implements PointAccepterWithParam{
 
     private final Path mPath;
     private final PointL mLatestPoint = new PointL();
@@ -23,7 +23,7 @@ public class PathBuilder implements PointAccepter{
     }
 
     @Override
-    public void add(final long pX, final long pY, final int index) {
+    public void add(final long pX, final long pY) {
         if (mFirst) {
             mFirst = false;
             mPath.moveTo(pX, pY);
@@ -36,4 +36,9 @@ public class PathBuilder implements PointAccepter{
 
     @Override
     public void end() {}
+
+    @Override
+    public void add(long pX, long pY, int index) {
+
+    }
 }

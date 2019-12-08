@@ -197,7 +197,7 @@ public abstract class PolyOverlayWithIW extends OverlayWithIW {
 			milestoneManager.init();
 			milestoneManager.setDistances(mOutline.getDistances());
 			for (final PointL point : mOutline.getPointsForMilestones()) {
-				milestoneManager.add(point.x, point.y, 0);
+				milestoneManager.add(point.x, point.y);
 			}
 			milestoneManager.end();
 		}
@@ -259,7 +259,7 @@ public abstract class PolyOverlayWithIW extends OverlayWithIW {
 			milestoneManager.init();
 			milestoneManager.setDistances(mOutline.getDistances());
 			for (final PointL point : mOutline.getPointsForMilestones()) {
-				milestoneManager.add(point.x, point.y, 0);
+				milestoneManager.add(point.x, point.y);
 			}
 			milestoneManager.end();
 		}

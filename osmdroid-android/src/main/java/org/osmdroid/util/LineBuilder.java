@@ -5,7 +5,7 @@ package org.osmdroid.util;
  * @since 6.0.0
  */
 
-public abstract class LineBuilder implements PointAccepter {
+public abstract class LineBuilder implements PointAccepterWithParam {
 
     private final float[] mLines;
     private final int[] mColorIndexes ;
@@ -19,6 +19,11 @@ public abstract class LineBuilder implements PointAccepter {
     @Override
     public void init() {
         mIndex = 0;
+    }
+
+    @Override
+    public void add(long pX, long pY) {
+
     }
 
     @Override

@@ -6,7 +6,7 @@ package org.osmdroid.util;
  * @author Fabrice Fontaine
  */
 
-public class SegmentClipper implements PointAccepter{
+public class SegmentClipper implements PointAccepterWithParam{
 
     // for optimization reasons: avoiding to create objects all the time
     private final PointL mOptimIntersection = new PointL();
@@ -17,7 +17,7 @@ public class SegmentClipper implements PointAccepter{
     private long mYMin;
     private long mXMax;
     private long mYMax;
-    private PointAccepter mPointAccepter;
+    private PointAccepterWithParam mPointAccepter;
     private final long[] cornerX = new long[4];
     private final long[] cornerY = new long[4];
     private final PointL mPoint0 = new PointL();
@@ -29,7 +29,7 @@ public class SegmentClipper implements PointAccepter{
     private boolean mPathMode;
 
     public void set(final long pXMin, final long pYMin, final long pXMax, final long pYMax,
-                    final PointAccepter pPointAccepter, final boolean pPathMode) {
+                    final PointAccepterWithParam pPointAccepter, final boolean pPathMode) {
         mXMin = pXMin;
         mYMin = pYMin;
         mXMax = pXMax;
@@ -46,6 +46,11 @@ public class SegmentClipper implements PointAccepter{
     public void init() {
         mFirstPoint = true;
         mPointAccepter.init();
+    }
+
+    @Override
+    public void add(long pX, long pY) {
+
     }
 
     @Override

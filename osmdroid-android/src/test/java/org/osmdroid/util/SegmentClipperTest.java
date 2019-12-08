@@ -18,7 +18,12 @@ public class SegmentClipperTest {
 	public void test_clip_with_path() {
 		final List<PointL> points = new ArrayList<>();
 
-		final PointAccepter clippable = new PointAccepter() {
+		final PointAccepterWithParam clippable = new PointAccepterWithParam() {
+
+			@Override
+			public void add(long pX, long pY, int index) {
+				points.add(new PointL(pX, pY));
+			}
 
 			@Override
 			public void init() {
@@ -26,7 +31,7 @@ public class SegmentClipperTest {
 			}
 
 			@Override
-			public void add(long pX, long pY, int index) {
+			public void add(long pX, long pY) {
 				points.add(new PointL(pX, pY));
 			}
 
@@ -88,11 +93,16 @@ public class SegmentClipperTest {
 	public void test_clip_without_path() {
 		final List<PointL> points = new ArrayList<>();
 
-		final PointAccepter clippable = new PointAccepter() {
+		final PointAccepterWithParam clippable = new PointAccepterWithParam() {
 
 			@Override
 			public void init() {
 				points.clear();
+			}
+
+			@Override
+			public void add(long pX, long pY) {
+				points.add(new PointL(pX, pY));
 			}
 
 			@Override

@@ -33,8 +33,8 @@ public class MilestoneManager implements PointAccepter{
     }
 
     @Override
-    public void add(final long pX, final long pY, final int index) {
-        mLister.add(pX, pY, index);
+    public void add(final long pX, final long pY) {
+        mLister.add(pX, pY);
     }
 
     @Override
