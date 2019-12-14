@@ -18,6 +18,13 @@ import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.util.TypedValue;
 
+/**
+ * @deprecated see {@link Marker}
+ * it is generally recommended to use the  {@link Marker} class instead of this.
+ * While it does work and is usually maintained, the Marker class as a lot more capabilities
+ * @param <Item>
+ */
+@Deprecated
 public class ItemizedOverlayWithFocus<Item extends OverlayItem> extends ItemizedIconOverlay<Item> {
 
 	// ===========================================================
