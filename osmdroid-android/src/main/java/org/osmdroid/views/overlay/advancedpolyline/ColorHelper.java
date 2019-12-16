@@ -14,13 +14,12 @@ public class ColorHelper {
 
     /**
      * Convert HSL to color value.
-     * @param hsl float array for HSL value
+     * @param h float h value form HSL color
+     * @param s float s value form HSL color
+     * @param l float l value form HSL color
      * @return int color value
      */
-    public static int HSLToColor(float[] hsl) {
-        final float h = hsl[0];
-        final float s = hsl[1];
-        final float l = hsl[2];
+    public static int HSLToColor(float h, float s, float l) {
 
         final float c = (1f - Math.abs(2 * l - 1f)) * s;
         final float m = l - 0.5f * c;
@@ -72,11 +71,11 @@ public class ColorHelper {
     }
 
     /**
-     * Constriant int value.
+     * Constrain int value.
      * @param amount input value
      * @param low lower bound
      * @param high upper bound
-     * @return
+     * @return constrained value
      */
     private static int constrain(int amount, int low, int high) {
         return amount < low ? low : (amount > high ? high : amount);
@@ -87,7 +86,7 @@ public class ColorHelper {
      * @param amount input value
      * @param low lower bound
      * @param high upper bound
-     * @return
+     * @return constrained value
      */
     public static float constrain(float amount, float low, float high) {
         return amount < low ? low : (amount > high ? high : amount);

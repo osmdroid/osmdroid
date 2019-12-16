@@ -60,7 +60,7 @@ public abstract class ColorMappingVariation extends ColorMapping{
      */
     public void addToLists(final float scalar, final float h, final float s, final float l) {
         float[] hsl = new float[] {h, s, l};
-        mColorPerPoint.add(ColorHelper.HSLToColor(hsl));
+        mColorPerPoint.add(ColorHelper.HSLToColor(h, s, l));
         mScalarPerPoint.add(scalar);
     }
 }
