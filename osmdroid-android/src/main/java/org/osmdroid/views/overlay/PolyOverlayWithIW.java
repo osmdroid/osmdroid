@@ -8,7 +8,6 @@ import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.PointL;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
-import org.osmdroid.views.overlay.advancedpolyline.PolylineStyle;
 import org.osmdroid.views.overlay.infowindow.InfoWindow;
 import org.osmdroid.views.overlay.milestones.MilestoneManager;
 
@@ -24,8 +23,9 @@ public abstract class PolyOverlayWithIW extends OverlayWithIW {
 
 	protected LinearRing mOutline;
 	protected List<LinearRing> mHoles = new ArrayList<>();
-	protected final Paint mOutlinePaint = new Paint();
+	protected Paint mOutlinePaint = new Paint();
 	protected Paint mFillPaint;
+	private final List<PaintList> mOutlinePaintLists = new ArrayList<>();
 	private List<MilestoneManager> mMilestoneManagers = new ArrayList<>();
 	private GeoPoint mInfoWindowLocation;
 
@@ -33,11 +33,6 @@ public abstract class PolyOverlayWithIW extends OverlayWithIW {
 	protected final Path mPath;
 	protected float mDensity = 1.0f;
 	protected List<GeoPoint> mOriginalPoints = new ArrayList<>();
-
-	/**
-	 * Current advanced polyline style, if no style set variable is null
-	 */
-	protected PolylineStyle mStyle = null;
 
 	protected PolyOverlayWithIW(final MapView pMapView, final boolean pUsePath, final boolean pClosePath) {
 		super();
@@ -54,25 +49,8 @@ public abstract class PolyOverlayWithIW extends OverlayWithIW {
 			mLineDrawer = new LineDrawer(256);
 			mOutline = new LinearRing(mLineDrawer);
 			////mOutline.clearPath();
-			// paint is now set right before draw call
-			//mLineDrawer.setPaint(mOutlinePaint);
+			mLineDrawer.setPaint(mOutlinePaint);
 		}
-	}
-
-	/**
-	 * Pass style down to LineDrawer class.
-	 * @param pStyle color mapping style
-	 */
-	public void setStyle(final PolylineStyle pStyle) {
-		mStyle = pStyle;
-	}
-
-	/**
-	 * Get current style.
-	 * @return current polyline style
-	 */
-	public final PolylineStyle getStyle() {
-		return mStyle;
 	}
 
 	public void setVisible(boolean visible){
@@ -87,7 +65,19 @@ public abstract class PolyOverlayWithIW extends OverlayWithIW {
 	 * @return the Paint used for the outline. This allows to set advanced Paint settings.
 	 */
 	public Paint getOutlinePaint(){
+		mIsPaintOrPaintList = true;
 		return mOutlinePaint;
+	}
+
+	private boolean mIsPaintOrPaintList = true;
+
+	/**
+	 * assuming if someone uses this method, someone wants to use List<PaintList>
+	 *     instead of mere Paint
+	 */
+	public List<PaintList> getOutlinePaintLists(){
+		mIsPaintOrPaintList = false;
+		return mOutlinePaintLists;
 	}
 
 	/**
@@ -227,34 +217,18 @@ public abstract class PolyOverlayWithIW extends OverlayWithIW {
 	private void drawWithLines(final Canvas pCanvas, final Projection pProjection) {
 		mLineDrawer.setCanvas(pCanvas);
 		mOutline.setClipArea(pProjection);
-
-		// check for set style
-		if(mStyle == null) {
-			// no style set, do the normal call
-			ArrayList<UniquePaintList> pList = new ArrayList<>();
-			pList.add(new UniquePaintList(mOutlinePaint, true, null));
-			mLineDrawer.setPaintList(pList);
-			mOutline.buildLinePortion(pProjection, mMilestoneManagers.size() > 0);
+		boolean storePoints = mMilestoneManagers.size() > 0;
+		if (mIsPaintOrPaintList) {
+			final Paint paint = getOutlinePaint();
+			mLineDrawer.setPaint(paint);
+			mOutline.buildLinePortion(pProjection, storePoints);
 		} else {
-			// check for border
-			if(mStyle.getPaintBorder() != null) {
-				// do the line draw call for the border line
-				ArrayList<UniquePaintList> pList = new ArrayList<>();
-				pList.add(new UniquePaintList(mStyle.getPaintBorder(), true, mStyle));
-				mLineDrawer.setPaintList(pList);
-				mOutline.buildLinePortion(pProjection, mMilestoneManagers.size() > 0);
+			for (final PaintList paintList : getOutlinePaintLists()) {
+				mLineDrawer.setPaint(paintList);
+				mOutline.buildLinePortion(pProjection, storePoints);
+				storePoints = false;
 			}
-			// do the line draw call for the actual line
-			ArrayList<UniquePaintList> pList = new ArrayList<>();
-			if(mStyle.isMonochromatic()) {
-				pList.add(new UniquePaintList(mStyle.getPaintForLine(0, null, null, mOutlinePaint), true, mStyle));
-			} else {
-				pList.add(new UniquePaintList(mOutlinePaint, false, mStyle));
-			}
-			mLineDrawer.setPaintList(pList);
-			mOutline.buildLinePortion(pProjection, mMilestoneManagers.size() > 0);
 		}
-
 		for (final MilestoneManager milestoneManager : mMilestoneManagers) {
 			milestoneManager.init();
 			milestoneManager.setDistances(mOutline.getDistances());

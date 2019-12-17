@@ -1,7 +1,5 @@
 package org.osmdroid.views.overlay.advancedpolyline;
 
-import java.util.ArrayList;
-
 /**
  * Color mapping for luminance variation.
  * @author Matthias Dittmer
@@ -23,9 +21,9 @@ public class ColorMappingVariationLuminance extends ColorMappingVariation {
      * @param hue fixed hue value
      * @param saturation fixed saturation value
      */
-    public ColorMappingVariationLuminance(final float scalarStart, final float scalarEnd,
-                                           float luminanceStart, float luminanceEnd,
-                                           final float hue, final float saturation) {
+    public ColorMappingVariationLuminance(
+            final float scalarStart, final float scalarEnd, float luminanceStart, float luminanceEnd,
+            final float hue, final float saturation) {
 
         // do basic clipping for luminance value
         // please note: end can be lower than start for inverse mapping
@@ -36,16 +34,21 @@ public class ColorMappingVariationLuminance extends ColorMappingVariation {
         mHue = ColorHelper.constrain(hue, 0.0f, 360.0f);
         mSaturation = ColorHelper.constrain(saturation, 0.0f, 1.0f);
 
-        super.init(scalarStart, scalarEnd, luminanceStart, luminanceEnd);
+        init(scalarStart, scalarEnd, luminanceStart, luminanceEnd);
     }
 
-    /**
-     * Add a points.
-     * @param scalar point scalar
-     */
     @Override
-    public void addPoint(final float scalar) {
-        // create mapped luminance value
-        super.addToLists(scalar, mHue, mSaturation, mapScalar(scalar));
+    protected float getHue(final float pScalar) {
+        return mHue;
+    }
+
+    @Override
+    protected float getSaturation(final float pScalar) {
+        return mSaturation;
+    }
+
+    @Override
+    protected float getLuminance(float pScalar) {
+        return mapScalar(pScalar);
     }
 }

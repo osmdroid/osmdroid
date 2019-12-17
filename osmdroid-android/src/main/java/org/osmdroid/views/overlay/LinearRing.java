@@ -6,11 +6,11 @@ import android.graphics.Rect;
 
 import org.osmdroid.util.Distance;
 import org.osmdroid.util.GeoPoint;
+import org.osmdroid.util.IntegerAccepter;
 import org.osmdroid.util.LineBuilder;
 import org.osmdroid.util.ListPointL;
 import org.osmdroid.util.PathBuilder;
 import org.osmdroid.util.PointAccepter;
-import org.osmdroid.util.PointAccepterWithParam;
 import org.osmdroid.util.PointL;
 import org.osmdroid.util.SegmentClipper;
 import org.osmdroid.util.TileSystem;
@@ -57,7 +57,8 @@ class LinearRing{
 	private boolean isHorizontalRepeating = true;
 	private boolean isVerticalRepeating  = true;
 	private final ListPointL mPointsForMilestones = new ListPointL();
-	private final PointAccepterWithParam mPointAccepter;
+	private final PointAccepter mPointAccepter;
+	private final IntegerAccepter mIntegerAccepter;
 	private boolean mGeodesic = false;
 
 	/**
@@ -79,6 +80,10 @@ class LinearRing{
 	public LinearRing(final LineBuilder pLineBuilder) {
 		mPath = null;
 		mPointAccepter = pLineBuilder;
+		mIntegerAccepter = new IntegerAccepter(pLineBuilder.getLines().length / 2);
+		if (pLineBuilder instanceof LineDrawer) {
+			((LineDrawer) pLineBuilder).setIntegerAccepter(mIntegerAccepter);
+		}
 		mClosed = false;
 	}
 
@@ -88,6 +93,7 @@ class LinearRing{
 	public LinearRing(final Path pPath, final boolean pClosed) {
 		mPath = pPath;
 		mPointAccepter = new PathBuilder(pPath);
+		mIntegerAccepter = null;
 		mClosed = pClosed;
 	}
 
@@ -336,7 +342,7 @@ class LinearRing{
 				mPointsForMilestones.add(x, y);
 			}
 			if (pSegmentClipper != null) {
-				pSegmentClipper.add(x, y, i);
+				pSegmentClipper.add(x, y);
 			}
 			if (i == 0) {
 				first.set(x, y);
@@ -344,7 +350,7 @@ class LinearRing{
 		}
 		if (pClosePath) {
 			if (pSegmentClipper != null) {
-				pSegmentClipper.add(first.x, first.y, 0);
+				pSegmentClipper.add(first.x, first.y);
 			}
 			if (pStorePoints) {
 				mPointsForMilestones.add(first.x, first.y);
@@ -446,7 +452,7 @@ class LinearRing{
 	 * Mandatory use before clipping.
 	 */
 	public void setClipArea(final long pXMin, final long pYMin, final long pXMax, final long pYMax) {
-		mSegmentClipper.set(pXMin, pYMin, pXMax, pYMax, mPointAccepter, mPath != null);
+		mSegmentClipper.set(pXMin, pYMin, pXMax, pYMax, mPointAccepter, mIntegerAccepter, mPath != null);
 	}
 
 	/**

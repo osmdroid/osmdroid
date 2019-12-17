@@ -5,15 +5,13 @@ package org.osmdroid.util;
  * @since 6.0.0
  */
 
-public abstract class LineBuilder implements PointAccepterWithParam {
+public abstract class LineBuilder implements PointAccepter {
 
     private final float[] mLines;
-    private final int[] mColorIndexes ;
     private int mIndex;
 
     public LineBuilder(final int pMaxSize) {
         mLines = new float[pMaxSize];
-        mColorIndexes  = new int[pMaxSize];
     }
 
     @Override
@@ -22,27 +20,12 @@ public abstract class LineBuilder implements PointAccepterWithParam {
     }
 
     @Override
-    public void add(long pX, long pY) {
-
-    }
-
-    @Override
-    public void add(final long pX, final long pY, final int index) {
-
-        // check for multiple of four
-        if(mIndex % 4 == 0) {
-            mColorIndexes [mIndex / 4] = (index / 2) - 1;
-        }
-
+    public void add(final long pX, final long pY) {
         mLines[mIndex ++] = pX;
         mLines[mIndex ++] = pY;
         if (mIndex >= mLines.length) {
             innerFlush();
         }
-    }
-
-    public int[] getColorIndexes() {
-        return  mColorIndexes ;
     }
 
     @Override

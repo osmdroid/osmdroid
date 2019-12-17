@@ -7,7 +7,6 @@ import android.graphics.Paint;
  * @author Matthias Dittmer
  */
 public interface PaintList {
-    Paint getPaint(final int pIndex);
-    void setReferencesForAdvancedStyling(final int[] pColorIndexes, final float[] pLines);
-    boolean isMonochromatic();
+    Paint getPaint();
+    Paint getPaint(final int pIndex, final float pX0, final float pY0, final float pX1, final float pY1);
 }

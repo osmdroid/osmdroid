@@ -21,8 +21,9 @@ public class ColorMappingVariationHue extends ColorMappingVariation {
      * @param saturation fixed saturation value
      * @param luminance fixed luminance value
      */
-    public ColorMappingVariationHue(final float scalarStart, final float scalarEnd,
-        float hueStart, float hueEnd, final float saturation, final float luminance) {
+    public ColorMappingVariationHue(
+            final float scalarStart, final float scalarEnd, float hueStart, float hueEnd,
+            final float saturation, final float luminance) {
 
         // do basic clipping for hue value
         // please note: end can be lower than start for inverse mapping
@@ -33,16 +34,21 @@ public class ColorMappingVariationHue extends ColorMappingVariation {
         mSaturation = ColorHelper.constrain(saturation, 0.0f, 1.0f);
         mLuminance = ColorHelper.constrain(luminance, 0.0f, 1.0f);
 
-        super.init(scalarStart, scalarEnd, hueStart, hueEnd);
+        init(scalarStart, scalarEnd, hueStart, hueEnd);
     }
 
-    /**
-     * Add a point.
-     * @param scalar point scalar
-     */
     @Override
-    public void addPoint(final float scalar) {
-        // create mapped hue value
-        super.addToLists(scalar, mapScalar(scalar), mSaturation, mLuminance);
+    protected float getHue(final float pScalar) {
+        return mapScalar(pScalar);
+    }
+
+    @Override
+    protected float getSaturation(final float pScalar) {
+        return mSaturation;
+    }
+
+    @Override
+    protected float getLuminance(final float pScalar) {
+        return mLuminance;
     }
 }

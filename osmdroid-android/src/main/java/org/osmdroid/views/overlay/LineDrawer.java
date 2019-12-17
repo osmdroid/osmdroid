@@ -3,12 +3,9 @@ package org.osmdroid.views.overlay;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 
+import org.osmdroid.util.IntegerAccepter;
 import org.osmdroid.util.LineBuilder;
-import org.osmdroid.views.overlay.advancedpolyline.ColorMappingPlain;
-import org.osmdroid.views.overlay.advancedpolyline.PolylineStyle;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.osmdroid.views.overlay.advancedpolyline.MonochromaticPaintList;
 
 /**
  * Created by Fabrice on 04/01/2018.
@@ -17,46 +14,58 @@ import java.util.List;
 
 public class LineDrawer extends LineBuilder{
 
+    private IntegerAccepter mIntegerAccepter;
     private Canvas mCanvas;
-    /**
-     * A list holding all Paints to draw in the list order over each other.
-     * Normal case is only one item in list.
-     */
-    private List<UniquePaintList> mPaintLists;
+    private PaintList mPaintList;
 
     public LineDrawer(int pMaxSize) {
         super(pMaxSize);
-        mPaintLists = new ArrayList<>();
     }
 
     public void setCanvas(final Canvas pCanvas) {
         mCanvas = pCanvas;
     }
 
-    public void setPaintList(final ArrayList<UniquePaintList> pArray) {
-        mPaintLists = pArray;
+    public void setPaint(final Paint pPaint) {
+        setPaint(new MonochromaticPaintList(pPaint));
+    }
+
+    public void setPaint(final PaintList pPaintList) {
+        mPaintList = pPaintList;
+    }
+
+    public void setIntegerAccepter(final IntegerAccepter pIntegerAccepter) {
+        mIntegerAccepter = pIntegerAccepter;
     }
 
     @Override
     public void flush() {
         if(getSize() < 4) {
-            // nothing to draw, just return
+            additionalFlush();
             return;
         }
-        //  iterate over all paint list items
-        for(PaintList item: mPaintLists) {
-            // check for monochromatic
-            if(item.isMonochromatic()) {
-                // draw complete line with one paint
-                mCanvas.drawLines(getLines(), 0, getSize(), item.getPaint(0));
-            } else {
-                // set references to color indexes and lines before loop
-                item.setReferencesForAdvancedStyling(getColorIndexes(), getLines());
-                // draw color mapping line segment by segment
-                for (int i = 0; i < getSize() / 4; i++) {
-                    mCanvas.drawLines(getLines(), i * 4, 4, item.getPaint(i));
-                }
-            }
+        final float[] lines = getLines();
+        final Paint paint = mPaintList.getPaint();
+        if (paint != null) { // monochromatic: that's enough
+            mCanvas.drawLines(lines, 0, getSize(), paint);
+            additionalFlush();
+            return;
+        }
+        final int size = getSize();
+        for (int i = 0; i < size ; i += 4) {
+            final float x0 = lines[i];
+            final float y0 = lines[i + 1];
+            final float x1 = lines[i + 2];
+            final float y1 = lines[i + 3];
+            final int segmentIndex = mIntegerAccepter.getValue(i / 2);
+            mCanvas.drawLine(x0, y0, x1, y1, mPaintList.getPaint(segmentIndex, x0, y0, x1, y1));
+        }
+        additionalFlush();
+    }
+
+    private void additionalFlush() {
+        if (mIntegerAccepter != null) {
+            mIntegerAccepter.flush();
         }
     }
 }

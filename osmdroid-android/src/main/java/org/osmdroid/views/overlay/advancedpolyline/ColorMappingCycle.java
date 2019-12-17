@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * Color mapping to cycle through an array of colors.
  * @author Matthias Dittmer
  */
-public class ColorMappingCycle extends ColorMapping {
+public class ColorMappingCycle implements ColorMapping {
 
     /**
      * Color array
@@ -21,13 +21,8 @@ public class ColorMappingCycle extends ColorMapping {
         mColorArray = colorArray;
     }
 
-    /**
-     * Add a point.
-     * @param scalar
-     */
     @Override
-    public void addPoint(final float scalar) {
-        mScalarPerPoint.add(scalar);
-        mColorPerPoint.add(mColorArray.get(mScalarPerPoint.size() % mColorArray.size()));
+    public int getColorForIndex(int pSegmentIndex) {
+        return mColorArray.get(pSegmentIndex % mColorArray.size());
     }
 }

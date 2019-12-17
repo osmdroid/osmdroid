@@ -4,7 +4,7 @@ package org.osmdroid.views.overlay.advancedpolyline;
  * Abstract base class for color variation mappings.
  * @author Matthias Dittmer
  */
-public abstract class ColorMappingVariation extends ColorMapping{
+public abstract class ColorMappingVariation extends ColorMappingForScalar{
 
     /**
      * All mapping variables.
@@ -22,8 +22,8 @@ public abstract class ColorMappingVariation extends ColorMapping{
      * @param start start of one HSL value
      * @param end end of one HSL value
      */
-    public void init(final float scalarStart, final float scalarEnd,
-         final float start, final float end) {
+    protected void init(final float scalarStart, final float scalarEnd,
+                        final float start, final float end) {
 
         mScalarStart = scalarStart;
         mScalarEnd = scalarEnd;
@@ -34,12 +34,19 @@ public abstract class ColorMappingVariation extends ColorMapping{
         mSlope = (mEnd - mStart) / (mScalarEnd - mScalarStart);
     }
 
+    @Override
+    protected int computeColor(final float pScalar) {
+        return ColorHelper.HSLToColor(getHue(pScalar), getSaturation(pScalar), getLuminance(pScalar));
+    }
+
+    protected abstract float getHue(final float pScalar);
+    protected abstract float getSaturation(final float pScalar);
+    protected abstract float getLuminance(final float pScalar);
+
     /**
      * Map a scalar with clipping on lower and upper bound.
-     * @param scalar
-     * @return
      */
-    public float mapScalar(final float scalar) {
+    protected float mapScalar(float scalar) {
         if(scalar >= mScalarEnd) {
             return mEnd;
         } else if(scalar <= mScalarStart) {
@@ -49,18 +56,5 @@ public abstract class ColorMappingVariation extends ColorMapping{
             // do a linear mapping
             return scalar * mSlope + mStart;
         }
-    }
-
-    /**
-     * Adds scalar to both lists.
-     * @param scalar point scalar
-     * @param h hue
-     * @param s saturation
-     * @param l luminance
-     */
-    public void addToLists(final float scalar, final float h, final float s, final float l) {
-        float[] hsl = new float[] {h, s, l};
-        mColorPerPoint.add(ColorHelper.HSLToColor(h, s, l));
-        mScalarPerPoint.add(scalar);
     }
 }

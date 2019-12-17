@@ -2,13 +2,12 @@ package org.osmdroid.views.overlay.advancedpolyline;
 
 import java.util.Map;
 import java.util.SortedMap;
-import java.util.TreeMap;
 
 /**
  * Color mapping to map ranges to specific colors.
  * @author Matthias Dittmer
  */
-public class ColorMappingRanges extends ColorMapping {
+public class ColorMappingRanges extends ColorMappingForScalar {
 
     /**
      * Using a sorted map to define borders of ranges.
@@ -16,35 +15,26 @@ public class ColorMappingRanges extends ColorMapping {
      */
     private SortedMap<Float, Integer> mColorRanges;
 
-    /**
-     * Constructor
-     * @param colorArray
-     */
     public ColorMappingRanges(final SortedMap<Float, Integer> colorArray) {
         mColorRanges = colorArray;
     }
 
-    /**
-     * Add a point.
-     * @param scalar for point
-     */
     @Override
-    public void addPoint(final float scalar) {
+    protected int computeColor(final float pScalar) {
         int lastArrayIndexFromLoop = 0;
         // iterate over array and sort point in
         for (Map.Entry<Float, Integer> entry : mColorRanges.entrySet()) {
 
-            if(scalar < entry.getKey()) {
-                mColorPerPoint.add(entry.getValue());
-                // leave loop
-                break;
+            if(pScalar < entry.getKey()) {
+                return entry.getValue();
             }
             lastArrayIndexFromLoop++;
 
         }
         // assign last color if scalar is above highest border
         if(lastArrayIndexFromLoop == mColorRanges.size()) {
-            mColorPerPoint.add(mColorRanges.get(mColorRanges.lastKey()));
+            return mColorRanges.get(mColorRanges.lastKey());
         }
+        return 0;
     }
 }

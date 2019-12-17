@@ -8,7 +8,6 @@ import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
-import org.osmdroid.views.overlay.advancedpolyline.PolylineStyle;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +34,7 @@ public class Polyline extends PolyOverlayWithIW {
 
 
     private float mDensityMultiplier = 1.0f;
+
 
     /**
      * If MapView is not provided, infowindow popup will not function unless you set it yourself.
@@ -64,23 +64,6 @@ public class Polyline extends PolyOverlayWithIW {
         mOutlinePaint.setStrokeWidth(10.0f);
         mOutlinePaint.setStyle(Paint.Style.STROKE);
         mOutlinePaint.setAntiAlias(true);
-    }
-
-    /**
-     * Set a style. You have to call this function before adding points.
-     * @param pStyle provided color mapping style. If you provide null style will be unset
-     */
-    public void setStyle(final PolylineStyle pStyle) {
-        // set style in super class for LineDrawer
-        super.setStyle(pStyle);
-
-        // check if polyline already has points
-        if(mOutline.getPoints().size() > 0) {
-            for (GeoPoint p : mOutline.getPoints()) {
-                // just add scalars with value 0.0f
-                mStyle.addScalar(0.0f);
-            }
-        }
     }
 
     /**
@@ -161,36 +144,12 @@ public class Polyline extends PolyOverlayWithIW {
     }
 
     /**
-     * Set points with a scalar.
-     * @param points list of points
-     * @param scalars separate list of scalars
-     */
-    public void setPoints(List<GeoPoint> points, ArrayList<Float> scalars) {
-        setPoints(points);
-        if(mStyle != null) {
-            mStyle.setScalars(scalars);
-        }
-    }
-
-    /**
      * Add the point at the end.
      * If geodesic mode has been set, the long segments will follow the earth "great circle".
      */
     public void addPoint(GeoPoint p){
         mOriginalPoints.add(p);
         mOutline.addPoint(p);
-    }
-
-    /**
-     * Add a point with a scalar.
-     * @param p point
-     * @param scalar separate scalar
-     */
-    public void addPoint(GeoPoint p, float scalar){
-        addPoint(p);
-        if(mStyle != null) {
-            mStyle.addScalar(scalar);
-        }
     }
 
     /**

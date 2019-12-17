@@ -6,7 +6,7 @@ package org.osmdroid.util;
  * @author Fabrice Fontaine
  */
 
-public class SegmentClipper implements PointAccepterWithParam{
+public class SegmentClipper implements PointAccepter{
 
     // for optimization reasons: avoiding to create objects all the time
     private final PointL mOptimIntersection = new PointL();
@@ -17,7 +17,8 @@ public class SegmentClipper implements PointAccepterWithParam{
     private long mYMin;
     private long mXMax;
     private long mYMax;
-    private PointAccepterWithParam mPointAccepter;
+    private PointAccepter mPointAccepter;
+    private IntegerAccepter mIntegerAccepter;
     private final long[] cornerX = new long[4];
     private final long[] cornerY = new long[4];
     private final PointL mPoint0 = new PointL();
@@ -28,8 +29,10 @@ public class SegmentClipper implements PointAccepterWithParam{
      */
     private boolean mPathMode;
 
+    private int mCurrentSegmentIndex;
+
     public void set(final long pXMin, final long pYMin, final long pXMax, final long pYMax,
-                    final PointAccepterWithParam pPointAccepter, final boolean pPathMode) {
+                    final PointAccepter pPointAccepter, final IntegerAccepter pIntegerAccepter, final boolean pPathMode) {
         mXMin = pXMin;
         mYMin = pYMin;
         mXMax = pXMax;
@@ -39,40 +42,49 @@ public class SegmentClipper implements PointAccepterWithParam{
         cornerY[0] = cornerY[2] = mYMin;
         cornerY[1] = cornerY[3] = mYMax;
         mPointAccepter = pPointAccepter;
+        mIntegerAccepter = pIntegerAccepter;
         mPathMode = pPathMode;
+    }
+
+    public void set(final long pXMin, final long pYMin, final long pXMax, final long pYMax,
+                    final PointAccepter pPointAccepter, final boolean pPathMode) {
+        set(pXMin, pYMin, pXMax, pYMax, pPointAccepter, null, pPathMode);
     }
 
     @Override
     public void init() {
         mFirstPoint = true;
+        if (mIntegerAccepter != null) {
+            mIntegerAccepter.init();
+        }
         mPointAccepter.init();
     }
 
     @Override
-    public void add(long pX, long pY) {
-
-    }
-
-    @Override
-    public void add(final long pX, final long pY, final int index) {
+    public void add(final long pX, final long pY) {
         mPoint1.set(pX, pY);
         if (mFirstPoint) {
             mFirstPoint = false;
+            mCurrentSegmentIndex = 0;
         } else {
-            clip(mPoint0.x, mPoint0.y, mPoint1.x, mPoint1.y, index);
+            clip(mPoint0.x, mPoint0.y, mPoint1.x, mPoint1.y);
+            mCurrentSegmentIndex ++;
         }
         mPoint0.set(mPoint1);
     }
 
     @Override
     public void end() {
+        if (mIntegerAccepter != null) {
+            mIntegerAccepter.end();
+        }
         mPointAccepter.end();
     }
 
     /**
      * Clip a segment into the clip area
      */
-    public void clip(final long pX0, final long pY0, final long pX1, final long pY1, int index) {
+    public void clip(final long pX0, final long pY0, final long pX1, final long pY1) {
         if (!mPathMode) {
             if (isOnTheSameSideOut(pX0, pY0, pX1, pY1)) {
                 return;
@@ -80,15 +92,15 @@ public class SegmentClipper implements PointAccepterWithParam{
         }
         if (isInClipArea(pX0, pY0)) {
             if (isInClipArea(pX1, pY1)) {
-                nextVertex(pX0, pY0, index);
-                nextVertex(pX1, pY1, index);
+                nextVertex(pX0, pY0);
+                nextVertex(pX1, pY1);
                 return;
             }
             if (intersection(pX0, pY0, pX1, pY1)) {
-                nextVertex(pX0, pY0, index);
-                nextVertex(mOptimIntersection.x, mOptimIntersection.y, index);
+                nextVertex(pX0, pY0);
+                nextVertex(mOptimIntersection.x, mOptimIntersection.y);
                 if (mPathMode) {
-                    nextVertex(clipX(pX1), clipY(pY1), index);
+                    nextVertex(clipX(pX1), clipY(pY1));
                 }
                 return;
             }
@@ -97,10 +109,10 @@ public class SegmentClipper implements PointAccepterWithParam{
         if (isInClipArea(pX1, pY1)) {
             if (intersection(pX0, pY0, pX1, pY1)) {
                 if (mPathMode) {
-                    nextVertex(clipX(pX0), clipY(pY0), index);
+                    nextVertex(clipX(pX0), clipY(pY0));
                 }
-                nextVertex(mOptimIntersection.x, mOptimIntersection.y, index);
-                nextVertex(pX1, pY1, index);
+                nextVertex(mOptimIntersection.x, mOptimIntersection.y);
+                nextVertex(pX1, pY1);
                 return;
             }
             throw new RuntimeException("Cannot find expected mOptimIntersection for " + new RectL(pX0, pY0, pX1, pY1));
@@ -131,29 +143,29 @@ public class SegmentClipper implements PointAccepterWithParam{
             final PointL start = distance1 < distance2 ? mOptimIntersection1 : mOptimIntersection2;
             final PointL end =  distance1 < distance2 ? mOptimIntersection2 : mOptimIntersection1;
             if (mPathMode) {
-                nextVertex(clipX(pX0), clipY(pY0), index);
+                nextVertex(clipX(pX0), clipY(pY0));
             }
-            nextVertex(start.x, start.y, index);
-            nextVertex(end.x, end.y, index);
+            nextVertex(start.x, start.y);
+            nextVertex(end.x, end.y);
             if (mPathMode) {
-                nextVertex(clipX(pX1), clipY(pY1), index);
+                nextVertex(clipX(pX1), clipY(pY1));
             }
             return;
         }
         if (count == 1) {
             if (mPathMode) {
-                nextVertex(clipX(pX0), clipY(pY0), index);
-                nextVertex(mOptimIntersection1.x, mOptimIntersection1.y, index);
-                nextVertex(clipX(pX1), clipY(pY1), index);
+                nextVertex(clipX(pX0), clipY(pY0));
+                nextVertex(mOptimIntersection1.x, mOptimIntersection1.y);
+                nextVertex(clipX(pX1), clipY(pY1));
             }
             return;
         }
         if (count == 0) {
             if (mPathMode) {
-                nextVertex(clipX(pX0), clipY(pY0), index);
+                nextVertex(clipX(pX0), clipY(pY0));
                 final int corner = getClosestCorner(pX0, pY0, pX1, pY1);
-                nextVertex(cornerX[corner], cornerY[corner], index);
-                nextVertex(clipX(pX1), clipY(pY1), index);
+                nextVertex(cornerX[corner], cornerY[corner]);
+                nextVertex(clipX(pX1), clipY(pY1));
             }
             return;
         }
@@ -182,8 +194,11 @@ public class SegmentClipper implements PointAccepterWithParam{
         return clip(pY, mYMin, mYMax);
     }
 
-    private void nextVertex(final long pX, final long pY, int index) {
-        mPointAccepter.add(pX, pY, index);
+    private void nextVertex(final long pX, final long pY) {
+        if (mIntegerAccepter != null) {
+            mIntegerAccepter.add(mCurrentSegmentIndex);
+        }
+        mPointAccepter.add(pX, pY);
     }
 
     /**
