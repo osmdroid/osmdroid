@@ -75,16 +75,24 @@ class LinearRing{
 
 	/**
 	 * Dedicated to lines
-	 * @since 6.0.0
+	 * @since 6.2.0
 	 */
-	public LinearRing(final LineBuilder pLineBuilder) {
+	public LinearRing(final LineBuilder pLineBuilder, final boolean pClosePath) {
 		mPath = null;
 		mPointAccepter = pLineBuilder;
 		mIntegerAccepter = new IntegerAccepter(pLineBuilder.getLines().length / 2);
 		if (pLineBuilder instanceof LineDrawer) {
 			((LineDrawer) pLineBuilder).setIntegerAccepter(mIntegerAccepter);
 		}
-		mClosed = false;
+		mClosed = pClosePath;
+	}
+
+	/**
+	 * Dedicated to lines
+	 * @since 6.0.0
+	 */
+	public LinearRing(final LineBuilder pLineBuilder) {
+		this(pLineBuilder, false);
 	}
 
 	/**
@@ -238,7 +246,7 @@ class LinearRing{
 		final PointL offset = new PointL();
 		getBestOffset(pProjection, offset);
 		mSegmentClipper.init();
-		clipAndStore(pProjection, offset, false, pStorePoints, mSegmentClipper);
+		clipAndStore(pProjection, offset, mClosed, pStorePoints, mSegmentClipper);
 		mSegmentClipper.end();
 	}
 

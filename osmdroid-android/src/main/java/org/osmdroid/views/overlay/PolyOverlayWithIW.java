@@ -47,7 +47,7 @@ public abstract class PolyOverlayWithIW extends OverlayWithIW {
 		} else {
 			mPath = null;
 			mLineDrawer = new LineDrawer(256);
-			mOutline = new LinearRing(mLineDrawer);
+			mOutline = new LinearRing(mLineDrawer, pClosePath);
 			////mOutline.clearPath();
 			mLineDrawer.setPaint(mOutlinePaint);
 		}

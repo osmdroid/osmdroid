@@ -15,7 +15,7 @@ public class PolychromaticPaintList implements PaintList {
 
     private final Paint mPaint;
     private final ColorMapping mColorMapping;
-    private boolean mUseGradient;
+    private final boolean mUseGradient;
 
     /**
      * @param pPaint Basis Paint
@@ -36,13 +36,16 @@ public class PolychromaticPaintList implements PaintList {
     @Override
     public Paint getPaint(final int pIndex, final float pX0, final float pY0, final float pX1, final float pY1) {
         final int startColor = mColorMapping.getColorForIndex(pIndex);
-        final int endColor = mColorMapping.getColorForIndex(pIndex + 1);
-        if (mUseGradient && startColor != endColor) {
-            final Shader shader = new LinearGradient(pX0, pY0, pX1, pY1, startColor, endColor, Shader.TileMode.CLAMP);
-            mPaint.setShader(shader);
-        } else {
-            mPaint.setColor(startColor);
+        if (mUseGradient) {
+            final int endColor = mColorMapping.getColorForIndex(pIndex + 1);
+            if (startColor != endColor) {
+                final Shader shader = new LinearGradient(pX0, pY0, pX1, pY1, startColor, endColor, Shader.TileMode.CLAMP);
+                mPaint.setShader(shader);
+                return mPaint;
+            }
+            mPaint.setShader(null);
         }
+        mPaint.setColor(startColor);
         return mPaint;
     }
 }
