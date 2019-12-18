@@ -394,7 +394,7 @@ public class Marker extends OverlayWithIW {
 	public void moveToEventPosition(final MotionEvent event, final MapView mapView){
 	    float offsetY = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_MM, mDragOffsetY, mapView.getContext().getResources().getDisplayMetrics());
 		final Projection pj = mapView.getProjection();
-		mPosition = (GeoPoint) pj.fromPixels((int)event.getX(), (int)(event.getY()-offsetY));
+		setPosition((GeoPoint) pj.fromPixels((int)event.getX(), (int)(event.getY()-offsetY)));
 		mapView.invalidate();
 	}
 	
