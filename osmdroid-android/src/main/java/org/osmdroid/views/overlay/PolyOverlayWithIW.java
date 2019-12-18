@@ -23,8 +23,9 @@ public abstract class PolyOverlayWithIW extends OverlayWithIW {
 
 	protected LinearRing mOutline;
 	protected List<LinearRing> mHoles = new ArrayList<>();
-	protected final Paint mOutlinePaint = new Paint();
+	protected Paint mOutlinePaint = new Paint();
 	protected Paint mFillPaint;
+	private final List<PaintList> mOutlinePaintLists = new ArrayList<>();
 	private List<MilestoneManager> mMilestoneManagers = new ArrayList<>();
 	private GeoPoint mInfoWindowLocation;
 
@@ -32,6 +33,11 @@ public abstract class PolyOverlayWithIW extends OverlayWithIW {
 	protected final Path mPath;
 	protected float mDensity = 1.0f;
 	protected List<GeoPoint> mOriginalPoints = new ArrayList<>();
+
+	/**
+	 * @since 6.2.0
+	 */
+	private boolean mIsPaintOrPaintList = true;
 
 	protected PolyOverlayWithIW(final MapView pMapView, final boolean pUsePath, final boolean pClosePath) {
 		super();
@@ -46,7 +52,7 @@ public abstract class PolyOverlayWithIW extends OverlayWithIW {
 		} else {
 			mPath = null;
 			mLineDrawer = new LineDrawer(256);
-			mOutline = new LinearRing(mLineDrawer);
+			mOutline = new LinearRing(mLineDrawer, pClosePath);
 			////mOutline.clearPath();
 			mLineDrawer.setPaint(mOutlinePaint);
 		}
@@ -64,7 +70,17 @@ public abstract class PolyOverlayWithIW extends OverlayWithIW {
 	 * @return the Paint used for the outline. This allows to set advanced Paint settings.
 	 */
 	public Paint getOutlinePaint(){
+		mIsPaintOrPaintList = true;
 		return mOutlinePaint;
+	}
+
+	/**
+	 * assuming if someone uses this method, someone wants to use List<PaintList>
+	 *     instead of mere Paint
+	 */
+	public List<PaintList> getOutlinePaintLists(){
+		mIsPaintOrPaintList = false;
+		return mOutlinePaintLists;
 	}
 
 	/**
@@ -204,7 +220,18 @@ public abstract class PolyOverlayWithIW extends OverlayWithIW {
 	private void drawWithLines(final Canvas pCanvas, final Projection pProjection) {
 		mLineDrawer.setCanvas(pCanvas);
 		mOutline.setClipArea(pProjection);
-		mOutline.buildLinePortion(pProjection, mMilestoneManagers.size() > 0);
+		boolean storePoints = mMilestoneManagers.size() > 0;
+		if (mIsPaintOrPaintList) {
+			final Paint paint = getOutlinePaint();
+			mLineDrawer.setPaint(paint);
+			mOutline.buildLinePortion(pProjection, storePoints);
+		} else {
+			for (final PaintList paintList : getOutlinePaintLists()) {
+				mLineDrawer.setPaint(paintList);
+				mOutline.buildLinePortion(pProjection, storePoints);
+				storePoints = false;
+			}
+		}
 		for (final MilestoneManager milestoneManager : mMilestoneManagers) {
 			milestoneManager.init();
 			milestoneManager.setDistances(mOutline.getDistances());

@@ -6,6 +6,7 @@ import android.graphics.Rect;
 
 import org.osmdroid.util.Distance;
 import org.osmdroid.util.GeoPoint;
+import org.osmdroid.util.IntegerAccepter;
 import org.osmdroid.util.LineBuilder;
 import org.osmdroid.util.ListPointL;
 import org.osmdroid.util.PathBuilder;
@@ -57,6 +58,7 @@ class LinearRing{
 	private boolean isVerticalRepeating  = true;
 	private final ListPointL mPointsForMilestones = new ListPointL();
 	private final PointAccepter mPointAccepter;
+	private final IntegerAccepter mIntegerAccepter;
 	private boolean mGeodesic = false;
 
 	/**
@@ -73,12 +75,26 @@ class LinearRing{
 
 	/**
 	 * Dedicated to lines
+	 * @since 6.2.0
+	 */
+	public LinearRing(final LineBuilder pLineBuilder, final boolean pClosePath) {
+		mPath = null;
+		mPointAccepter = pLineBuilder;
+		if (pLineBuilder instanceof LineDrawer) {
+			mIntegerAccepter = new IntegerAccepter(pLineBuilder.getLines().length / 2);
+			((LineDrawer) pLineBuilder).setIntegerAccepter(mIntegerAccepter);
+		} else {
+			mIntegerAccepter = null;
+		}
+		mClosed = pClosePath;
+	}
+
+	/**
+	 * Dedicated to lines
 	 * @since 6.0.0
 	 */
 	public LinearRing(final LineBuilder pLineBuilder) {
-		mPath = null;
-		mPointAccepter = pLineBuilder;
-		mClosed = false;
+		this(pLineBuilder, false);
 	}
 
 	/**
@@ -87,6 +103,7 @@ class LinearRing{
 	public LinearRing(final Path pPath, final boolean pClosed) {
 		mPath = pPath;
 		mPointAccepter = new PathBuilder(pPath);
+		mIntegerAccepter = null;
 		mClosed = pClosed;
 	}
 
@@ -231,7 +248,7 @@ class LinearRing{
 		final PointL offset = new PointL();
 		getBestOffset(pProjection, offset);
 		mSegmentClipper.init();
-		clipAndStore(pProjection, offset, false, pStorePoints, mSegmentClipper);
+		clipAndStore(pProjection, offset, mClosed, pStorePoints, mSegmentClipper);
 		mSegmentClipper.end();
 	}
 
@@ -445,7 +462,7 @@ class LinearRing{
 	 * Mandatory use before clipping.
 	 */
 	public void setClipArea(final long pXMin, final long pYMin, final long pXMax, final long pYMax) {
-		mSegmentClipper.set(pXMin, pYMin, pXMax, pYMax, mPointAccepter, mPath != null);
+		mSegmentClipper.set(pXMin, pYMin, pXMax, pYMax, mPointAccepter, mIntegerAccepter, mPath != null);
 	}
 
 	/**

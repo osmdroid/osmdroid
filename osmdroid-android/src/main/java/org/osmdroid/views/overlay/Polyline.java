@@ -51,6 +51,18 @@ public class Polyline extends PolyOverlayWithIW {
     }
 
     /**
+     * @since 6.2.0
+     */
+    public Polyline(final MapView pMapView, final boolean pUsePath, final boolean pClosePath) {
+        super(pMapView, pUsePath, pClosePath);
+        //default as defined in Google API:
+        mOutlinePaint.setColor(Color.BLACK);
+        mOutlinePaint.setStrokeWidth(10.0f);
+        mOutlinePaint.setStyle(Paint.Style.STROKE);
+        mOutlinePaint.setAntiAlias(true);
+    }
+
+    /**
      * @since 6.1.0
      * @param pUsePath true if you want the drawing to use Path instead of Canvas.drawLines
      *                 Not recommended in all cases, given the performances.
@@ -58,12 +70,7 @@ public class Polyline extends PolyOverlayWithIW {
      *                 cf. https://github.com/osmdroid/osmdroid/issues/1280
      */
     public Polyline(final MapView pMapView, final boolean pUsePath) {
-        super(pMapView, pUsePath, false);
-        //default as defined in Google API:
-        mOutlinePaint.setColor(Color.BLACK);
-        mOutlinePaint.setStrokeWidth(10.0f);
-        mOutlinePaint.setStyle(Paint.Style.STROKE);
-        mOutlinePaint.setAntiAlias(true);
+        this(pMapView, pUsePath, false);
     }
 
     /**
