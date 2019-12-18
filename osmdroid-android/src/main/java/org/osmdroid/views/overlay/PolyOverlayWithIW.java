@@ -34,6 +34,11 @@ public abstract class PolyOverlayWithIW extends OverlayWithIW {
 	protected float mDensity = 1.0f;
 	protected List<GeoPoint> mOriginalPoints = new ArrayList<>();
 
+	/**
+	 * @since 6.2.0
+	 */
+	private boolean mIsPaintOrPaintList = true;
+
 	protected PolyOverlayWithIW(final MapView pMapView, final boolean pUsePath, final boolean pClosePath) {
 		super();
 		if (pMapView != null) {
@@ -68,8 +73,6 @@ public abstract class PolyOverlayWithIW extends OverlayWithIW {
 		mIsPaintOrPaintList = true;
 		return mOutlinePaint;
 	}
-
-	private boolean mIsPaintOrPaintList = true;
 
 	/**
 	 * assuming if someone uses this method, someone wants to use List<PaintList>

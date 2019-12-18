@@ -80,9 +80,11 @@ class LinearRing{
 	public LinearRing(final LineBuilder pLineBuilder, final boolean pClosePath) {
 		mPath = null;
 		mPointAccepter = pLineBuilder;
-		mIntegerAccepter = new IntegerAccepter(pLineBuilder.getLines().length / 2);
 		if (pLineBuilder instanceof LineDrawer) {
+			mIntegerAccepter = new IntegerAccepter(pLineBuilder.getLines().length / 2);
 			((LineDrawer) pLineBuilder).setIntegerAccepter(mIntegerAccepter);
+		} else {
+			mIntegerAccepter = null;
 		}
 		mClosed = pClosePath;
 	}
