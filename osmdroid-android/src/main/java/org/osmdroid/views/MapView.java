@@ -1530,8 +1530,14 @@ public class MapView extends ViewGroup implements IMapView,
 			}
 			mIsFlinging = true;
 			if (mScroller!=null) {  //fix for edit mode in the IDE
-				mScroller.fling((int) getMapScrollX(), (int) getMapScrollY(), (int) -velocityX,
-						(int) -velocityY, Integer.MIN_VALUE, Integer.MAX_VALUE, Integer.MIN_VALUE, Integer.MAX_VALUE);
+        Point v;
+        if (Build.VERSION.SDK_INT >= 28) {
+          v = getProjection().unrotateAndScalePoint((int)velocityX, (int)velocityY, null);
+        } else {
+          v = new Point((int)velocityX, (int)velocityY);
+        }
+				mScroller.fling((int) getMapScrollX(), (int) getMapScrollY(), -v.x, - v.y,
+            Integer.MIN_VALUE, Integer.MAX_VALUE, Integer.MIN_VALUE, Integer.MAX_VALUE);
 			}
 			return true;
 		}
