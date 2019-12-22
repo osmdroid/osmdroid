@@ -3,7 +3,9 @@ package org.osmdroid.views.overlay;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.Point;
 
+import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.PointL;
 import org.osmdroid.views.MapView;
@@ -32,12 +34,21 @@ public abstract class PolyOverlayWithIW extends OverlayWithIW {
 	private final LineDrawer mLineDrawer;
 	protected final Path mPath;
 	protected float mDensity = 1.0f;
-	protected List<GeoPoint> mOriginalPoints = new ArrayList<>();
 
 	/**
 	 * @since 6.2.0
 	 */
 	private boolean mIsPaintOrPaintList = true;
+
+    /**
+     * @since 6.2.0
+     */
+	private int mDowngradeMaximumPixelSize;
+	private boolean mDowngradeDisplay;
+	private final Point mDowngradeTopLeft = new Point();
+	private final Point mDowngradeBottomRight = new Point();
+	private final PointL mDowngradeCenter = new PointL();
+	private final PointL mDowngradeOffset = new PointL();
 
 	protected PolyOverlayWithIW(final MapView pMapView, final boolean pUsePath, final boolean pClosePath) {
 		super();
@@ -168,12 +179,23 @@ public abstract class PolyOverlayWithIW extends OverlayWithIW {
 			mInfoWindowLocation = new GeoPoint(0.0, 0.0);
 			return;
 		}
-		//TODO: as soon as the polygon bounding box will be a class member, don't compute it again here.
-		mInfoWindowLocation = mOutline.getCenter(null);
+		if (mInfoWindowLocation == null) {
+			mInfoWindowLocation = new GeoPoint(0., 0);
+		}
+		mOutline.getCenter(mInfoWindowLocation);
 	}
 
 	@Override
 	public void draw(final Canvas pCanvas, final Projection pProjection) {
+		if (mDowngradeMaximumPixelSize > 0) {
+			if (!isWorthDisplaying(pProjection, mDowngradeMaximumPixelSize)) {
+				if (mDowngradeDisplay) {
+					displayDowngrade(pCanvas, pProjection);
+				}
+				return;
+			}
+		}
+
 		if (mPath != null) {
 			drawWithPath(pCanvas, pProjection);
 		} else {
@@ -251,10 +273,147 @@ public abstract class PolyOverlayWithIW extends OverlayWithIW {
 
 	@Override
 	public void onDetach(MapView mapView) {
+		mOutline.clear();
 		mOutline = null;
 		mHoles.clear();
 		mMilestoneManagers.clear();
-		mOriginalPoints = null;
 		onDestroy();
+	}
+
+	/**
+	 * @since 6.2.0
+	 */
+    @Override
+    public BoundingBox getBounds() {
+    	return mOutline.getBoundingBox();
+    }
+
+	/**
+	 * @since 6.2.0
+	 * Used to be in {@link Polygon} and {@link Polyline}
+	 * Set the points of the outline.
+	 * Note that a later change in the original points List will have no effect.
+	 * To remove/change points, you must call setPoints again.
+	 * If geodesic mode has been set, the long segments will follow the earth "great circle".
+	 */
+	public void setPoints(final List<GeoPoint> points) {
+		mOutline.setPoints(points);
+		setDefaultInfoWindowLocation();
+	}
+
+	/**
+	 * @since 6.2.0
+	 * Used to be in {@link Polygon} and {@link Polyline}
+	 * Add the point at the end of the outline
+	 * If geodesic mode has been set, the long segments will follow the earth "great circle".
+	 */
+	public void addPoint(GeoPoint p){
+		mOutline.addPoint(p);
+	}
+
+	/**
+	 * @since 6.2.0
+	 * @return a direct link to the list of polygon's vertices,
+	 * which are the original points if we didn't use the geodesic feature
+	 * Warning: changes on this list may cause strange results on the display.
+	 */
+	public List<GeoPoint> getActualPoints(){
+		return mOutline.getPoints();
+	}
+
+    /**
+     * @since 6.2.0
+     * If the size of the Poly (width or height) projected on the screen is lower than the parameter,
+     * the Poly won't be displayed as a real Poly, but downgraded to a rectangle
+     * (or not displayed at all, depending on {@link #setDowngradeDisplay(boolean)}
+     */
+    public void setDowngradeMaximumPixelSize(final int pDowngradeMaximumPixelSize) {
+        mDowngradeMaximumPixelSize = pDowngradeMaximumPixelSize;
+    }
+
+    /**
+     * @since 6.2.0
+     * See {@link #setDowngradeMaximumPixelSize(int)}
+     */
+    public void setDowngradeDisplay(final boolean pDowngradeDisplay) {
+        mDowngradeDisplay = pDowngradeDisplay;
+    }
+
+    /**
+	 * @since 6.2.0
+	 */
+	private boolean isWorthDisplaying(final Projection pProjection, final int pMinimumPixelSize) {
+		final BoundingBox boundingBox = getBounds();
+		pProjection.toPixels(new GeoPoint(boundingBox.getLatNorth(), boundingBox.getLonEast()), mDowngradeTopLeft);
+		pProjection.toPixels(new GeoPoint(boundingBox.getLatSouth(), boundingBox.getLonWest()), mDowngradeBottomRight);
+		final double worldSize = pProjection.getWorldMapSize();
+		final long right = Math.round(mOutline.getCloserValue(mDowngradeTopLeft.x, mDowngradeBottomRight.x, worldSize));
+		final long bottom = Math.round(mOutline.getCloserValue(mDowngradeTopLeft.y, mDowngradeBottomRight.y, worldSize));
+		if (Math.abs(mDowngradeTopLeft.x - mDowngradeBottomRight.x) < pMinimumPixelSize) {
+			return false;
+		}
+		if (Math.abs(mDowngradeTopLeft.x - right) < pMinimumPixelSize) {
+			return false;
+		}
+		if (Math.abs(mDowngradeTopLeft.y - mDowngradeBottomRight.y) < pMinimumPixelSize) {
+			return false;
+		}
+		if (Math.abs(mDowngradeTopLeft.y - bottom) < pMinimumPixelSize) {
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * @since 6.2.0
+	 */
+	private void displayDowngrade(final Canvas pCanvas, final Projection pProjection) {
+		final BoundingBox boundingBox = mOutline.getBoundingBox();
+		pProjection.toPixels(new GeoPoint(boundingBox.getLatNorth(), boundingBox.getLonEast()), mDowngradeTopLeft);
+		pProjection.toPixels(new GeoPoint(boundingBox.getLatSouth(), boundingBox.getLonWest()), mDowngradeBottomRight);
+		final double worldSize = pProjection.getWorldMapSize();
+		long left = mDowngradeTopLeft.x;
+		long top = mDowngradeTopLeft.y;
+		final long right = Math.round(mOutline.getCloserValue(left, mDowngradeBottomRight.x, worldSize));
+		final long bottom = Math.round(mOutline.getCloserValue(top, mDowngradeBottomRight.y, worldSize));
+		final long width;
+		if (left == right) {
+			width = 1;
+		} else if (left > right) {
+			width = left - right;
+			left = right;
+		} else {
+			width = right - left;
+		}
+		final long height;
+		if (top == bottom) {
+			height = 1;
+		} else if (top > bottom) {
+			height = top - bottom;
+			top = bottom;
+		} else {
+			height = bottom - top;
+		}
+		mDowngradeCenter.set(left + width / 2, top + height / 2);
+		mOutline.getBestOffset(pProjection, mDowngradeOffset, mDowngradeCenter);
+		left += mDowngradeOffset.x;
+		top += mDowngradeOffset.y;
+
+		Paint paint = null;
+		if (mIsPaintOrPaintList) {
+			paint = getOutlinePaint();
+		} else if (getOutlinePaintLists().size() > 0) {
+			final PaintList paintList = getOutlinePaintLists().get(0);
+			paint = paintList.getPaint();
+			if (paint == null) { // polychromatic
+				paint = paintList.getPaint(0, left, top, left + width, top + height);
+			}
+		}
+		if (mFillPaint != null) {
+			pCanvas.drawRect(left, top, left + width, top + height, mFillPaint);
+		}
+		if (paint != null) {
+			pCanvas.drawRect(left, top, left + width, top + height, paint);
+		}
 	}
 }

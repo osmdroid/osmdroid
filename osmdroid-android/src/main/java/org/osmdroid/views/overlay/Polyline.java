@@ -4,13 +4,11 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.view.MotionEvent;
 
-import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * A polyline is a list of points, where line segments are drawn between consecutive points.
@@ -27,10 +25,7 @@ public class Polyline extends PolyOverlayWithIW {
 
     protected OnClickListener mOnClickListener;
 
-    private GeoPoint mInfoWindowLocation;
     private float mDensity = 1.0f;
-    private ArrayList<GeoPoint> mOriginalPoints = new ArrayList<>();
-    private boolean mEnablePointReduction=false;
 
 
     private float mDensityMultiplier = 1.0f;
@@ -74,13 +69,12 @@ public class Polyline extends PolyOverlayWithIW {
     }
 
     /**
-     * @return a copy of the points.
+     * @return a copy of the actual points
+     * @deprecated Use {@link #getActualPoints()} instead; copy the list if necessary
      */
+    @Deprecated
     public ArrayList<GeoPoint> getPoints() {
-        ArrayList<GeoPoint> result = new ArrayList<>(mOriginalPoints.size());
-        for (GeoPoint p:mOriginalPoints)
-            result.add(p);
-        return result;
+        return new ArrayList<>(getActualPoints());
     }
 
     /**
@@ -129,34 +123,6 @@ public class Polyline extends PolyOverlayWithIW {
 
     public void setDensityMultiplier(float multiplier) {
         mDensityMultiplier = multiplier;
-    }
-
-    /**
-     * Set the points.
-     * Note that a later change in the original points List will have no effect.
-     * To remove/change points, you must call setPoints again.
-     * If geodesic mode has been set, the long segments will follow the earth "great circle".
-     */
-    public void setPoints(List<GeoPoint> points) {
-
-        mOutline.clearPath();
-        mOriginalPoints = new ArrayList<>(points.size());
-        for (GeoPoint p:points) {
-            mOriginalPoints.add(p);
-        }
-        mOutline.setPoints(points);
-        setDefaultInfoWindowLocation();
-        mBounds= BoundingBox.fromGeoPointsSafe(points);
-
-    }
-
-    /**
-     * Add the point at the end.
-     * If geodesic mode has been set, the long segments will follow the earth "great circle".
-     */
-    public void addPoint(GeoPoint p){
-        mOriginalPoints.add(p);
-        mOutline.addPoint(p);
     }
 
     /**

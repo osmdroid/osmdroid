@@ -180,7 +180,8 @@ public class DefaultOverlayManager extends AbstractList<Overlay> implements Over
                     if (pMapView.getBoundingBox().overlaps(overlay.getBounds(), pMapView.getZoomLevelDouble()))
                         overlay.draw(c, pMapView, false);
                 } else {
-                    overlay.draw(c, pProjection);
+                    if (pProjection.getBoundingBox().overlaps(overlay.getBounds(), pProjection.getZoomLevel()))
+                        overlay.draw(c, pProjection);
                 }
             }
         }

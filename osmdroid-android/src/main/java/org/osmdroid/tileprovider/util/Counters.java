@@ -2,6 +2,9 @@ package org.osmdroid.tileprovider.util;
 
 import android.util.Log;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * The counters class is a simple container for tracking various internal statistics for osmdroid,
  * useful for troubleshooting osmdroid, finding memory leaks and more
@@ -23,6 +26,11 @@ public class Counters {
     public static int fileCacheOOM=0;
     public static int fileCacheHit=0;
 
+    /**
+     * @since 6.2.0
+     */
+    private static final Map<String, Integer> sMap = new HashMap<>();
+
     public static void printToLogcat() {
         Log.d(TAG, "countOOM " + countOOM);
         Log.d(TAG, "tileDownloadErrors " + tileDownloadErrors);
@@ -38,5 +46,36 @@ public class Counters {
         fileCacheMiss=0;
         fileCacheOOM=0;
         fileCacheHit=0;
+    }
+
+    /**
+     * @since 6.2.0
+     */
+    public static void reset(final String pTag) {
+        sMap.remove(pTag);
+    }
+
+    /**
+     * @since 6.2.0
+     */
+    public static void increment(final String pTag) {
+        final Integer value = sMap.get(pTag);
+        if (value == null) {
+            sMap.put(pTag, 1);
+        } else {
+            sMap.put(pTag, value + 1);
+        }
+    }
+
+    /**
+     * @since 6.2.0
+     */
+    public static int get(final String pTag) {
+        final Integer value = sMap.get(pTag);
+        if (value == null) {
+            return 0;
+        } else {
+            return value;
+        }
     }
 }

@@ -32,11 +32,12 @@ import android.graphics.Canvas;
 public class Projection implements IProjection {
 
 	/**
-	 * Size of the "projected" map: a virtual map with the largest zoom level
-	 * WARNING: `mProjectedMapSize` MUST NOT be a static member,
-	 * as it depends on {@link TileSystem#getTileSize()}
+	 * The size in pixels of a VERY large map, the "projected" map.
+	 * For optimization purpose, we may compute only once the projection of the GeoPoints
+	 * on this large map, and then just divide in order to get the projection on a corresponding
+	 * smaller map / smaller zoom
 	 */
-	public final double mProjectedMapSize = TileSystem.MapSize((double)TileSystem.projectionZoomLevel);
+	public static final double mProjectedMapSize = 1L << 60;
 	private long mOffsetX;
 	private long mOffsetY;
 	private long mScrollX;
@@ -444,8 +445,7 @@ public class Projection implements IProjection {
 	 * @since 6.0.0
 	 */
 	public double getProjectedPowerDifference() {
-		final double zoomDifference = TileSystem.projectionZoomLevel - getZoomLevel();
-		return TileSystem.getFactor(zoomDifference);
+		return mProjectedMapSize / getWorldMapSize();
 	}
 
 	/**
@@ -859,5 +859,12 @@ public class Projection implements IProjection {
 	 */
 	public int getHeight() {
 		return mIntrinsicScreenRectProjection.height();
+	}
+
+	/**
+	 * @since 6.2.0
+	 */
+	public double getWorldMapSize() {
+		return mMercatorMapSize;
 	}
 }
