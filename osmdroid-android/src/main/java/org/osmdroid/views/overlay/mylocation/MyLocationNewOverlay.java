@@ -49,8 +49,6 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 	protected Paint mPaint = new Paint();
 	protected Paint mCirclePaint = new Paint();
 
-	protected final float mScale;
-
 	protected Bitmap mPersonBitmap;
 	protected Bitmap mDirectionArrowBitmap;
 
@@ -97,7 +95,6 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 
 	public MyLocationNewOverlay(IMyLocationProvider myLocationProvider, MapView mapView) {
 		super();
-		mScale = mapView.getContext().getResources().getDisplayMetrics().density;
 
 		mMapView = mapView;
 		mMapController = mapView.getController();
@@ -106,11 +103,13 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 		mPaint.setFilterBitmap(true);
 
 
-		setDirectionArrow(((BitmapDrawable)mapView.getContext().getResources().getDrawable(R.drawable.person)).getBitmap(),
-				((BitmapDrawable)mapView.getContext().getResources().getDrawable(R.drawable.round_navigation_white_48)).getBitmap());
+		setPersonIcon(((BitmapDrawable)mapView.getContext().getResources().getDrawable(R.drawable.person)).getBitmap());
+		setDirectionIcon(((BitmapDrawable)mapView.getContext().getResources().getDrawable(R.drawable.round_navigation_white_48)).getBitmap());
 
 		// Calculate position of person icon's feet, scaled to screen density
-		mPersonHotspot = new PointF(24.0f * mScale + 0.5f, 39.0f * mScale + 0.5f);
+		mPersonHotspot = new PointF();
+		setPersonAnchor(.5f, .8125f); // anchor for the default icon
+		setDirectionAnchor(.5f, .5f); // anchor for the default icon
 
 		mHandler = new Handler(Looper.getMainLooper());
 		setMyLocationProvider(myLocationProvider);
@@ -118,17 +117,21 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 
 	/**
 	 * fix for https://github.com/osmdroid/osmdroid/issues/249
-	 * @param personBitmap
-	 * @param directionArrowBitmap
+	 * @deprecated Use {@link #setPersonIcon(Bitmap)}, {@link #setDirectionIcon(Bitmap)},
+	 * {@link #setPersonAnchor(float, float)} and {@link #setDirectionAnchor(float, float)} instead
      */
+	@Deprecated
 	public void setDirectionArrow(final Bitmap personBitmap, final Bitmap directionArrowBitmap){
-		this.mPersonBitmap = personBitmap;
-		this.mDirectionArrowBitmap=directionArrowBitmap;
+		setPersonIcon(personBitmap);
+		setDirectionIcon(directionArrowBitmap);
+		setDirectionAnchor(.5f, .5f);
+	}
 
-
-		mDirectionArrowCenterX = mDirectionArrowBitmap.getWidth() / 2.0f - 0.5f;
-		mDirectionArrowCenterY = mDirectionArrowBitmap.getHeight() / 2.0f - 0.5f;
-
+	/**
+	 * @since 6.2.0
+	 */
+	public void setDirectionIcon(final Bitmap pDirectionArrowBitmap){
+		mDirectionArrowBitmap = pDirectionArrowBitmap;
 	}
 
 	@Override
@@ -208,6 +211,10 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 		mMyLocationProvider = myLocationProvider;
 	}
 
+	/**
+	 * @deprecated Use {@link #setPersonAnchor(float, float)} instead
+	 */
+	@Deprecated
 	public void setPersonHotspot(float x, float y) {
 		mPersonHotspot.set(x, y);
 	}
@@ -528,12 +535,29 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 	}
      
      /**
-      * enabls you to change the my location 'person' icon at runtime. note that the
-      * hotspot is not updated with this method. see 
-      * {@link #setPersonHotspot}
-      * @param icon 
+      * enables you to change the my location 'person' icon at runtime. note that the
+      * hotspot is not updated with this method. see {@link #setPersonAnchor(float, float)}
       */
      public void setPersonIcon(Bitmap icon){
           mPersonBitmap = icon;
      }
+
+	/**
+	 * Anchors for the person icon
+	 * Expected values between 0 and 1, 0 being top/left, .5 center and 1 bottom/right
+	 * @since 6.2.0
+	 */
+	public void setPersonAnchor(final float pHorizontal, final float pVertical){
+		mPersonHotspot.set(mPersonBitmap.getWidth() * pHorizontal, mPersonBitmap.getHeight() * pVertical);
+	}
+
+	/**
+	 * Anchors for the direction icon
+	 * Expected values between 0 and 1, 0 being top/left, .5 center and 1 bottom/right
+	 * @since 6.2.0
+	 */
+	public void setDirectionAnchor(final float pHorizontal, final float pVertical){
+		mDirectionArrowCenterX = mDirectionArrowBitmap.getWidth() * pHorizontal;
+		mDirectionArrowCenterY = mDirectionArrowBitmap.getHeight() * pVertical;
+	}
 }
