@@ -24,7 +24,7 @@ import java.util.List;
 /**
  * Sample on how to use the ground mOverlay, which places a geospatially referenced image on the map,
  * scaling with zoom.
- *
+ * <p>
  * Related issues
  * <a href="https://github.com/osmdroid/osmdroid/issues/883">https://github.com/osmdroid/osmdroid/issues/883</a>
  * <a href="https://github.com/osmdroid/osmdroid/issues/684">https://github.com/osmdroid/osmdroid/issues/684</a>
@@ -33,11 +33,11 @@ import java.util.List;
  * @author Alex O'Ree
  */
 
-public class WeatherGroundOverlaySample extends BaseSampleFragment implements Runnable{
+public class WeatherGroundOverlaySample extends BaseSampleFragment implements Runnable {
     public static final String URL = "https://radar.weather.gov/Conus/RadarImg/latest_Small.gif";
 
-    private final GeoPoint mNorthEast = new GeoPoint(50.0,-127.5);
-    private final GeoPoint mSouthWest = new GeoPoint( 21.0, -66.5);
+    private final GeoPoint mNorthEast = new GeoPoint(50.0, -127.5);
+    private final GeoPoint mSouthWest = new GeoPoint(21.0, -66.5);
 
     private ConnectivityManager cm;
     private GroundOverlay mOverlay;
@@ -48,7 +48,7 @@ public class WeatherGroundOverlaySample extends BaseSampleFragment implements Ru
     }
 
     @Override
-    public void addOverlays(){
+    public void addOverlays() {
         super.addOverlays();
 
         mOverlay = new GroundOverlay();
@@ -77,14 +77,22 @@ public class WeatherGroundOverlaySample extends BaseSampleFragment implements Ru
         final NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         final boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
         if (!isConnected) {
-            Toast.makeText(getActivity(), "Cannot connect!", Toast.LENGTH_SHORT).show();
+            Activity act = getActivity();
+            if (act != null) {
+                act.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getActivity(), "Cannot connect!", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
             return;
         }
 
         URLConnection con;
-        InputStream is=null;
+        InputStream is = null;
         try {
-            final URL  url = new URL(URL);
+            final URL url = new URL(URL);
             con = url.openConnection();
 
             is = con.getInputStream();
@@ -93,7 +101,7 @@ public class WeatherGroundOverlaySample extends BaseSampleFragment implements Ru
             final Bitmap bitmap = BitmapFactory.decodeStream(is);
             mOverlay.setImage(bitmap);
             final Activity act = getActivity();
-            if (act!=null)
+            if (act != null) {
                 act.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -101,11 +109,12 @@ public class WeatherGroundOverlaySample extends BaseSampleFragment implements Ru
                         mMapView.invalidate();
                     }
                 });
+            }
         } catch (Throwable e) {
             Toast.makeText(getActivity(), "Cannot download the weather image!", Toast.LENGTH_SHORT).show();
             Log.e(TAG, "error fetching image", e);
         } finally {
-            if (is!=null) try {
+            if (is != null) try {
                 is.close();
             } catch (IOException e) {
                 //

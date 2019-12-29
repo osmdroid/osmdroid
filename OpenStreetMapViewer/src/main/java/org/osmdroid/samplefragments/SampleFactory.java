@@ -39,6 +39,7 @@ import org.osmdroid.samplefragments.data.SampleSimpleFastPointOverlay;
 import org.osmdroid.samplefragments.data.SampleSimpleLocation;
 import org.osmdroid.samplefragments.drawing.SampleDrawPolylineAsPath;
 import org.osmdroid.samplefragments.data.SampleSpeechBalloon;
+import org.osmdroid.samplefragments.drawing.ShowAdvancedPolylineStyles;
 import org.osmdroid.samplefragments.events.SampleAnimateToWithOrientation;
 import org.osmdroid.samplefragments.events.SampleMapCenterOffset;
 import org.osmdroid.samplefragments.events.SampleSnappable;
@@ -287,6 +288,7 @@ public final class SampleFactory implements ISampleFactory {
         mSamples.add(DrawPolygonWithoutVerticalWrapping.class);
         mSamples.add(SampleDrawPolylineWithoutVerticalWrapping.class);
         mSamples.add(DrawPolylineWithArrows.class);
+        mSamples.add(ShowAdvancedPolylineStyles.class);
         mSamples.add(DrawPolygonWithArrows.class);
 
         mSamples.add(StreetAddressFragment.class);  //map in a list view

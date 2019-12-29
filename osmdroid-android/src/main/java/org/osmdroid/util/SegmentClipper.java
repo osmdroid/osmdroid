@@ -18,6 +18,7 @@ public class SegmentClipper implements PointAccepter{
     private long mXMax;
     private long mYMax;
     private PointAccepter mPointAccepter;
+    private IntegerAccepter mIntegerAccepter;
     private final long[] cornerX = new long[4];
     private final long[] cornerY = new long[4];
     private final PointL mPoint0 = new PointL();
@@ -28,8 +29,10 @@ public class SegmentClipper implements PointAccepter{
      */
     private boolean mPathMode;
 
+    private int mCurrentSegmentIndex;
+
     public void set(final long pXMin, final long pYMin, final long pXMax, final long pYMax,
-                    final PointAccepter pPointAccepter, final boolean pPathMode) {
+                    final PointAccepter pPointAccepter, final IntegerAccepter pIntegerAccepter, final boolean pPathMode) {
         mXMin = pXMin;
         mYMin = pYMin;
         mXMax = pXMax;
@@ -39,12 +42,21 @@ public class SegmentClipper implements PointAccepter{
         cornerY[0] = cornerY[2] = mYMin;
         cornerY[1] = cornerY[3] = mYMax;
         mPointAccepter = pPointAccepter;
+        mIntegerAccepter = pIntegerAccepter;
         mPathMode = pPathMode;
+    }
+
+    public void set(final long pXMin, final long pYMin, final long pXMax, final long pYMax,
+                    final PointAccepter pPointAccepter, final boolean pPathMode) {
+        set(pXMin, pYMin, pXMax, pYMax, pPointAccepter, null, pPathMode);
     }
 
     @Override
     public void init() {
         mFirstPoint = true;
+        if (mIntegerAccepter != null) {
+            mIntegerAccepter.init();
+        }
         mPointAccepter.init();
     }
 
@@ -53,14 +65,19 @@ public class SegmentClipper implements PointAccepter{
         mPoint1.set(pX, pY);
         if (mFirstPoint) {
             mFirstPoint = false;
+            mCurrentSegmentIndex = 0;
         } else {
             clip(mPoint0.x, mPoint0.y, mPoint1.x, mPoint1.y);
+            mCurrentSegmentIndex ++;
         }
         mPoint0.set(mPoint1);
     }
 
     @Override
     public void end() {
+        if (mIntegerAccepter != null) {
+            mIntegerAccepter.end();
+        }
         mPointAccepter.end();
     }
 
@@ -178,6 +195,9 @@ public class SegmentClipper implements PointAccepter{
     }
 
     private void nextVertex(final long pX, final long pY) {
+        if (mIntegerAccepter != null) {
+            mIntegerAccepter.add(mCurrentSegmentIndex);
+        }
         mPointAccepter.add(pX, pY);
     }
 
