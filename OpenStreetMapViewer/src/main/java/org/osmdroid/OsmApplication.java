@@ -7,8 +7,6 @@ import android.support.multidex.MultiDex;
 import android.util.Log;
 import android.support.multidex.MultiDexApplication;
 
-import com.squareup.leakcanary.LeakCanary;
-
 import org.acra.ACRA;
 import org.acra.annotation.ReportsCrashes;
 import org.acra.collector.CrashReportData;
@@ -53,19 +51,6 @@ public class OsmApplication extends MultiDexApplication {
                 .build());
         }
 
-        try {
-            if (LeakCanary.isInAnalyzerProcess(this)) {
-                // This process is dedicated to LeakCanary for heap analysis.
-                // You should not init your app in this process.
-                return;
-            }
-            LeakCanary.install(this);
-        } catch (Throwable ex) {
-
-            //this can happen on androidx86 getExternalStorageDir is not writable or if there is a
-            //permission issue
-            ex.printStackTrace();
-        }
         Thread.currentThread().setUncaughtExceptionHandler(new OsmUncaughtExceptionHandler());
 
         //https://github.com/osmdroid/osmdroid/issues/366
