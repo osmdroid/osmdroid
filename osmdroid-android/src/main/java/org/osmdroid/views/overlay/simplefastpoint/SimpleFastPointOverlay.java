@@ -62,6 +62,11 @@ public class SimpleFastPointOverlay extends Overlay {
         }
     }
 
+    /** @return fast point overlay options (applied to all points) */
+    public SimpleFastPointOverlayOptions getStyle() {
+        return mStyle;
+    }
+
     public interface PointAdapter extends Iterable<IGeoPoint> {
         int size();
         IGeoPoint get(int i);
