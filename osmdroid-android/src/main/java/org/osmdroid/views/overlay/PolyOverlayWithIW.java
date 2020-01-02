@@ -4,6 +4,8 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
 
+import org.osmdroid.util.BoundingBox;
+import org.osmdroid.util.Distance;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.PointL;
 import org.osmdroid.views.MapView;
@@ -38,6 +40,11 @@ public abstract class PolyOverlayWithIW extends OverlayWithIW {
 	 * @since 6.2.0
 	 */
 	private boolean mIsPaintOrPaintList = true;
+    private final PointL mVisibilityProjectedCenter = new PointL();
+    private final PointL mVisibilityProjectedCorner = new PointL();
+    private final PointL mVisibilityRectangleCenter = new PointL();
+    private final PointL mVisibilityRectangleCorner = new PointL();
+
 
 	protected PolyOverlayWithIW(final MapView pMapView, final boolean pUsePath, final boolean pClosePath) {
 		super();
@@ -174,11 +181,49 @@ public abstract class PolyOverlayWithIW extends OverlayWithIW {
 
 	@Override
 	public void draw(final Canvas pCanvas, final Projection pProjection) {
+		if (!isVisible(pProjection)) {
+			return;
+		}
 		if (mPath != null) {
 			drawWithPath(pCanvas, pProjection);
 		} else {
 			drawWithLines(pCanvas, pProjection);
 		}
+	}
+
+	/**
+	 * @since 6.2.0
+     * We pre-check if it's worth computing and drawing a poly.
+     * How do we do that? As an approximation, we consider both the poly and the screen as disks.
+     * Then, we compute the distance between both centers: if it's greater than the sum of the radii
+     * the poly won't be visible.
+	 */
+	private boolean isVisible(final Projection pProjection) {
+        // projecting the center and a corner of the bounding box to the screen, close to the screen center
+		final BoundingBox boundingBox = getBounds();
+        pProjection.toProjectedPixels(boundingBox.getCenterLatitude(), boundingBox.getCenterLongitude(),
+                mVisibilityProjectedCenter);
+        pProjection.toProjectedPixels(boundingBox.getLatNorth(), boundingBox.getLonEast(),
+                mVisibilityProjectedCorner);
+        pProjection.getLongPixelsFromProjected(mVisibilityProjectedCenter,
+                pProjection.getProjectedPowerDifference(), true, mVisibilityRectangleCenter);
+        pProjection.getLongPixelsFromProjected(mVisibilityProjectedCorner,
+                pProjection.getProjectedPowerDifference(), true, mVisibilityRectangleCorner);
+
+        // computing the distance and the radii
+        final int screenCenterX = pProjection.getWidth() / 2;
+        final int screenCenterY = pProjection.getHeight() / 2;
+        final double radius = Math.sqrt(Distance.getSquaredDistanceToPoint(
+                mVisibilityRectangleCenter.x, mVisibilityRectangleCenter.y,
+                mVisibilityRectangleCorner.x, mVisibilityRectangleCorner.y));
+        final double distanceBetweenCenters = Math.sqrt(Distance.getSquaredDistanceToPoint(
+                mVisibilityRectangleCenter.x, mVisibilityRectangleCenter.y,
+                screenCenterX, screenCenterY));
+        final double screenRadius = Math.sqrt(Distance.getSquaredDistanceToPoint(
+                0, 0,
+                screenCenterX, screenCenterY));
+
+        return distanceBetweenCenters <= radius + screenRadius;
 	}
 
 	private void drawWithPath(final Canvas pCanvas, final Projection pProjection) {
