@@ -17,7 +17,6 @@ import org.osmdroid.api.IMapView;
 import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
-import org.osmdroid.views.overlay.FolderOverlay;
 import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.Overlay;
 import org.osmdroid.views.overlay.Polygon;
@@ -101,11 +100,8 @@ public class ShapeConverter {
                             pts.add(pts.get(0));    //force the polygon to close
 
                             polygon.setPoints(pts);
-                            try {
-                                BoundingBox boundingBox = BoundingBox.fromGeoPoints(polygon.getPoints());
-                                polygon.setSubDescription(boundingBox.toString());
-                            } catch (IllegalArgumentException e) {
-                            }
+                            final BoundingBox boundingBox = polygon.getBounds();
+                            polygon.setSubDescription(boundingBox.toString());
                             folder.add(polygon);
 
 

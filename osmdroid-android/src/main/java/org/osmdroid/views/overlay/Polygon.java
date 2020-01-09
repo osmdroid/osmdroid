@@ -91,14 +91,13 @@ public class Polygon extends PolyOverlayWithIW {
 	}
 
 	/**
-	 * @return a copy of the list of polygon's vertices.
+	 * @return the list of polygon's vertices.
 	 * Warning: changes on this list may cause strange results on the polygon display.
+	 * @deprecated Use {@link PolyOverlayWithIW#getActualPoints()} instead
 	 */
+	@Deprecated
 	public List<GeoPoint> getPoints(){
-		//TODO This is completely wrong:
-		// - this is not a copy, but a direct handler to the list itself.
-		// - if geodesic, the outline points are not identical to original points.
-		return mOutline.getPoints();
+		return getActualPoints();
 	}
 
 	/**
@@ -125,29 +124,8 @@ public class Polygon extends PolyOverlayWithIW {
 		mOutlinePaint.setStrokeWidth(width);
 	}
 
-	/**
-	 * Set the points of the polygon outline.
-	 * Note that a later change in the original points List will have no effect.
-	 * To remove/change points, you must call setPoints again.
-	 * If geodesic mode has been set, the long segments will follow the earth "great circle".
-	 */
-	public void setPoints(final List<GeoPoint> points) {
-		mOutline.setPoints(points);
-		setDefaultInfoWindowLocation();
-		mBounds= BoundingBox.fromGeoPointsSafe(points);
-	}
-
-	/**
-	 * Add the point at the end of the polygon outline.
-	 * If geodesic mode has been set, the long segments will follow the earth "great circle".
-	 */
-	public void addPoint(GeoPoint p){
-		mOutline.addPoint(p);
-	}
-
-
 	public void setHoles(List<? extends List<GeoPoint>> holes){
-		mHoles = new ArrayList<LinearRing>(holes.size());
+		mHoles = new ArrayList<>(holes.size());
 		for (List<GeoPoint> sourceHole:holes){
 			LinearRing newHole = new LinearRing(mPath);
 			newHole.setGeodesic(mOutline.isGeodesic());
@@ -161,7 +139,7 @@ public class Polygon extends PolyOverlayWithIW {
 	 * @return never null
 	 */
 	public List<List<GeoPoint>> getHoles(){
-		List<List<GeoPoint>> result = new ArrayList<List<GeoPoint>>(mHoles.size());
+		List<List<GeoPoint>> result = new ArrayList<>(mHoles.size());
 		for (LinearRing hole:mHoles){
 			result.add(hole.getPoints());
 			//TODO: completely wrong:

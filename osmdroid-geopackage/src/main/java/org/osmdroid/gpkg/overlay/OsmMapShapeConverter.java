@@ -809,7 +809,7 @@ public class OsmMapShapeConverter {
         MapView map, List<org.osmdroid.views.overlay.Polygon>  polygons, PolygonOptions opts) {
         org.osmdroid.gpkg.overlay.features.MultiPolygon multiPolygon = new org.osmdroid.gpkg.overlay.features.MultiPolygon();
         for (org.osmdroid.views.overlay.Polygon polygonOption : polygons) {
-            org.osmdroid.views.overlay.Polygon polygon = addPolygonToMap(map,polygonOption.getPoints(), polygonOption.getHoles(), opts);
+            org.osmdroid.views.overlay.Polygon polygon = addPolygonToMap(map,polygonOption.getActualPoints(), polygonOption.getHoles(), opts);
 
             if (polygon.getInfoWindow()==null)
                 polygon.setInfoWindow(new BasicInfoWindow(R.layout.bonuspack_bubble, map));

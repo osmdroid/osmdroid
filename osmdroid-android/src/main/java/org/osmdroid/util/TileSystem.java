@@ -58,7 +58,9 @@ abstract public class TileSystem {
     /**
      * @since 6.0.2
      * Used to be in the `TileSystem` class of another package
+	 * @deprecated Just don't use it anymore
      */
+    @Deprecated
 	public static final int projectionZoomLevel = primaryKeyMaxZoomLevel + 1;
 
 	/**

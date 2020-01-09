@@ -15,6 +15,12 @@ public class MilestoneLineDisplayer extends MilestoneDisplayer{
 
     private boolean mFirst = true;
 
+    /**
+     * @since 6.2.0
+     */
+    private long mPreviousX;
+    private long mPreviousY;
+
     private final LineDrawer mLineDrawer = new LineDrawer(256) {
         @Override
         public void flush() {
@@ -41,12 +47,16 @@ public class MilestoneLineDisplayer extends MilestoneDisplayer{
      */
     @Override
     public void draw(Canvas pCanvas, MilestoneStep pStep) {
+        final long nextX = pStep.getX();
+        final long nextY = pStep.getY();
         if (mFirst) {
             mFirst = false;
-        } else {
-            mLineDrawer.add(pStep.getX(), pStep.getY());
+        } else if (mPreviousX != nextX || mPreviousY != nextY) {
+            mLineDrawer.add(mPreviousX, mPreviousY);
+            mLineDrawer.add(nextX, nextY);
         }
-        mLineDrawer.add(pStep.getX(), pStep.getY());
+        mPreviousX = nextX;
+        mPreviousY = nextY;
     }
 
     @Override
