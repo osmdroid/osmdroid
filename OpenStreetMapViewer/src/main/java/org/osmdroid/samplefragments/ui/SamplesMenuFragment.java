@@ -18,6 +18,7 @@ import org.osmdroid.R;
 import org.osmdroid.model.IBaseActivity;
 import org.osmdroid.samplefragments.BaseSampleFragment;
 
+import java.lang.ref.WeakReference;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -44,7 +45,7 @@ public class SamplesMenuFragment extends Fragment {
     private List<IBaseActivity> additionActivitybasedSamples;
 
     ExpandableListAdapter listAdapter;
-    ExpandableListView expListView;
+    WeakReference<ExpandableListView> expListView;
     List<String> listDataHeader;
     HashMap<String, List<String>> listDataChild;
     Map<String, Object> titleSampleMap = new HashMap<>();
@@ -104,10 +105,11 @@ public class SamplesMenuFragment extends Fragment {
 
 
         // get the listview
-        expListView = root.findViewById(R.id.lvExp);
+        expListView = new WeakReference<>((ExpandableListView) root.findViewById(R.id.lvExp));
+
 
         // Listview on child click listener
-        expListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+        expListView.get().setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
 
             @Override
             public boolean onChildClick(ExpandableListView parent, View v,
@@ -159,7 +161,7 @@ public class SamplesMenuFragment extends Fragment {
         listAdapter = new ExpandableListAdapter(getActivity(), listDataHeader, listDataChild);
 
         // setting list adapter
-        expListView.setAdapter(listAdapter);
+        expListView.get().setAdapter(listAdapter);
     }
 
     /*

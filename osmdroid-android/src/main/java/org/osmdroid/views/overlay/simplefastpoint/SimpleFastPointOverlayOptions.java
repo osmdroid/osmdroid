@@ -185,4 +185,54 @@ public class SimpleFastPointOverlayOptions {
         mLabelPolicy = labelPolicy;
         return this;
     }
+
+    /* getters for the protected options, see setters for description */
+
+    public Paint getPointStyle() {
+        return mPointStyle;
+    }
+
+    public Paint getSelectedPointStyle() {
+        return mSelectedPointStyle;
+    }
+
+    public Paint getTextStyle() {
+        return mTextStyle;
+    }
+
+    public float getCircleRadius() {
+        return mCircleRadius;
+    }
+
+    public float getSelectedCircleRadius() {
+        return mSelectedCircleRadius;
+    }
+
+    public boolean isClickable() {
+        return mClickable;
+    }
+
+    public int getCellSize() {
+        return mCellSize;
+    }
+
+    public RenderingAlgorithm getAlgorithm() {
+        return mAlgorithm;
+    }
+
+    public Shape getSymbol() {
+        return mSymbol;
+    }
+
+    public LabelPolicy getLabelPolicy() {
+        return mLabelPolicy;
+    }
+
+    public int getMaxNShownLabels() {
+        return mMaxNShownLabels;
+    }
+
+    public int getMinZoomShowLabels() {
+        return mMinZoomShowLabels;
+    }
 }

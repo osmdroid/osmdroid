@@ -14,6 +14,7 @@ import org.osmdroid.util.PathBuilder;
 import org.osmdroid.util.PointAccepter;
 import org.osmdroid.util.PointL;
 import org.osmdroid.util.SegmentClipper;
+import org.osmdroid.util.SideOptimizationPointAccepter;
 import org.osmdroid.util.TileSystem;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
@@ -104,7 +105,7 @@ class LinearRing{
 	 */
 	public LinearRing(final Path pPath, final boolean pClosed) {
 		mPath = pPath;
-		mPointAccepter = new PathBuilder(pPath);
+		mPointAccepter = new SideOptimizationPointAccepter(new PathBuilder(pPath));
 		mIntegerAccepter = null;
 		mClosed = pClosed;
 	}
