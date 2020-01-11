@@ -1,6 +1,7 @@
 package org.osmdroid.views.overlay;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Point;
@@ -45,16 +46,17 @@ public abstract class PolyOverlayWithIW extends OverlayWithIW {
     private final PointL mVisibilityRectangleCenter = new PointL();
     private final PointL mVisibilityRectangleCorner = new PointL();
 
-
     /**
      * @since 6.2.0
      */
 	private int mDowngradeMaximumPixelSize;
+    private int mDowngradeMaximumRectanglePixelSize;
 	private boolean mDowngradeDisplay;
 	private final Point mDowngradeTopLeft = new Point();
 	private final Point mDowngradeBottomRight = new Point();
 	private final PointL mDowngradeCenter = new PointL();
 	private final PointL mDowngradeOffset = new PointL();
+    private float[] mDowngradeSegments;
 
 	protected PolyOverlayWithIW(final MapView pMapView, final boolean pUsePath, final boolean pClosePath) {
 		super();
@@ -198,7 +200,7 @@ public abstract class PolyOverlayWithIW extends OverlayWithIW {
 		}
 
 		if (mDowngradeMaximumPixelSize > 0) {
-			if (!isWorthDisplaying(pProjection, mDowngradeMaximumPixelSize)) {
+			if (!isWorthDisplaying(pProjection)) {
 				if (mDowngradeDisplay) {
 					displayDowngrade(pCanvas, pProjection);
 				}
@@ -270,10 +272,12 @@ public abstract class PolyOverlayWithIW extends OverlayWithIW {
 			mPath.setFillType(Path.FillType.EVEN_ODD); //for correct support of holes
 		}
 
-		if (mFillPaint != null) {
+		if (isVisible(mFillPaint)) {
 			pCanvas.drawPath(mPath, mFillPaint);
 		}
-		pCanvas.drawPath(mPath, mOutlinePaint);
+		if (isVisible(mOutlinePaint)) {
+			pCanvas.drawPath(mPath, mOutlinePaint);
+		}
 
 		for (final MilestoneManager milestoneManager : mMilestoneManagers) {
 			milestoneManager.draw(pCanvas);
@@ -368,17 +372,7 @@ public abstract class PolyOverlayWithIW extends OverlayWithIW {
 
     /**
      * @since 6.2.0
-     * If the size of the Poly (width or height) projected on the screen is lower than the parameter,
-     * the Poly won't be displayed as a real Poly, but downgraded to a rectangle
-     * (or not displayed at all, depending on {@link #setDowngradeDisplay(boolean)}
-     */
-    public void setDowngradeMaximumPixelSize(final int pDowngradeMaximumPixelSize) {
-        mDowngradeMaximumPixelSize = pDowngradeMaximumPixelSize;
-    }
-
-    /**
-     * @since 6.2.0
-     * See {@link #setDowngradeMaximumPixelSize(int)}
+     * See {@link #setDowngradePixelSizes(int, int)}
      */
     public void setDowngradeDisplay(final boolean pDowngradeDisplay) {
         mDowngradeDisplay = pDowngradeDisplay;
@@ -386,27 +380,49 @@ public abstract class PolyOverlayWithIW extends OverlayWithIW {
 
     /**
 	 * @since 6.2.0
+	 * If the size of the Poly (width or height) projected on the screen is lower than the parameter,
+	 * the Poly won't be displayed as a real Poly, but downgraded to an optimized list of segments
+	 * or an even more optimized rectangle
+	 * (or not displayed at all, depending on {@link #setDowngradeDisplay(boolean)}
+	 * @param pPolySize Size in pixels below which we will display an optimized list of segments
+	 * @param pRectangleSize Size in pixels below which we will display a mere rectangle (faster);
+	 *                       supposed to be lower than pPolySize
 	 */
-	private boolean isWorthDisplaying(final Projection pProjection, final int pMinimumPixelSize) {
+	public void setDowngradePixelSizes(final int pPolySize, final int pRectangleSize) {
+		mDowngradeMaximumRectanglePixelSize = pRectangleSize;
+		mDowngradeMaximumPixelSize = Math.max(pPolySize, pRectangleSize);
+	}
+
+	/**
+	 * @since 6.2.0
+	 */
+	private boolean isWorthDisplaying(final Projection pProjection) {
 		final BoundingBox boundingBox = getBounds();
 		pProjection.toPixels(new GeoPoint(boundingBox.getLatNorth(), boundingBox.getLonEast()), mDowngradeTopLeft);
 		pProjection.toPixels(new GeoPoint(boundingBox.getLatSouth(), boundingBox.getLonWest()), mDowngradeBottomRight);
 		final double worldSize = pProjection.getWorldMapSize();
 		final long right = Math.round(mOutline.getCloserValue(mDowngradeTopLeft.x, mDowngradeBottomRight.x, worldSize));
 		final long bottom = Math.round(mOutline.getCloserValue(mDowngradeTopLeft.y, mDowngradeBottomRight.y, worldSize));
-		if (Math.abs(mDowngradeTopLeft.x - mDowngradeBottomRight.x) < pMinimumPixelSize) {
+		if (Math.abs(mDowngradeTopLeft.x - mDowngradeBottomRight.x) < mDowngradeMaximumPixelSize) {
 			return false;
 		}
-		if (Math.abs(mDowngradeTopLeft.x - right) < pMinimumPixelSize) {
+		if (Math.abs(mDowngradeTopLeft.x - right) < mDowngradeMaximumPixelSize) {
 			return false;
 		}
-		if (Math.abs(mDowngradeTopLeft.y - mDowngradeBottomRight.y) < pMinimumPixelSize) {
+		if (Math.abs(mDowngradeTopLeft.y - mDowngradeBottomRight.y) < mDowngradeMaximumPixelSize) {
 			return false;
 		}
-		if (Math.abs(mDowngradeTopLeft.y - bottom) < pMinimumPixelSize) {
+		if (Math.abs(mDowngradeTopLeft.y - bottom) < mDowngradeMaximumPixelSize) {
 			return false;
 		}
 		return true;
+	}
+
+	/**
+	 * @since 6.2.0
+	 */
+	private boolean isVisible(final Paint pPaint) {
+		return pPaint != null && pPaint.getColor() != Color.TRANSPARENT;
 	}
 
 	/**
@@ -454,11 +470,47 @@ public abstract class PolyOverlayWithIW extends OverlayWithIW {
 				paint = paintList.getPaint(0, left, top, left + width, top + height);
 			}
 		}
-		if (mFillPaint != null) {
-			pCanvas.drawRect(left, top, left + width, top + height, mFillPaint);
+        if (!isVisible(paint)) {
+            return;
 		}
-		if (paint != null) {
+
+        final long maxWidthHeight = width > height ? width : height;
+        if (maxWidthHeight <= mDowngradeMaximumRectanglePixelSize) {
 			pCanvas.drawRect(left, top, left + width, top + height, paint);
+			return;
 		}
+
+		final float[] downgradeList = mOutline.computeDowngradePointList(mDowngradeMaximumPixelSize);
+		if (downgradeList == null || downgradeList.length == 0) {
+			return;
+		}
+		final int size = downgradeList.length * 2;
+		if (mDowngradeSegments == null || mDowngradeSegments.length < size) {
+			mDowngradeSegments = new float[size];
+		}
+		final float factor = maxWidthHeight * 1f / mDowngradeMaximumPixelSize;
+		int index = 0;
+		float firstX = 0;
+		float firstY = 0;
+		for (int i = 0 ; i < downgradeList.length ; ) {
+			float currentX = mDowngradeCenter.x + downgradeList[i ++] * factor;
+			float currentY = mDowngradeCenter.y + downgradeList[i ++] * factor;
+			if (index == 0) {
+				firstX = currentX;
+				firstY = currentY;
+			} else {
+				mDowngradeSegments[index ++] = currentX;
+				mDowngradeSegments[index ++] = currentY;
+			}
+			mDowngradeSegments[index ++] = currentX;
+			mDowngradeSegments[index ++] = currentY;
+		}
+		// close
+		mDowngradeSegments[index ++] = firstX;
+		mDowngradeSegments[index ++] = firstY;
+		if (index <= 4) {
+			return;
+		}
+		pCanvas.drawLines(mDowngradeSegments, 0, index, paint);
 	}
 }

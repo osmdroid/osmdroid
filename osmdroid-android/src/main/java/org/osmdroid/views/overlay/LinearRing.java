@@ -6,6 +6,7 @@ import android.graphics.Rect;
 
 import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.Distance;
+import org.osmdroid.util.ListPointAccepter;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.IntegerAccepter;
 import org.osmdroid.util.LineBuilder;
@@ -70,6 +71,14 @@ class LinearRing{
 	private final boolean mClosed;
 
 	/**
+     * @since 6.2.0
+     */
+    private float[] mDowngradePointList;
+    private int mDowngradePixelSize;
+    private long mProjectedWidth;
+    private long mProjectedHeight;
+
+    /**
 	 * Dedicated to `Path`
 	 */
 	public LinearRing(final Path pPath) {
@@ -114,8 +123,7 @@ class LinearRing{
 		mOriginalPoints.clear();
 		mProjectedPoints = null;
 		mDistances = null;
-        mProjectedPrecomputed = false;
-        mDistancesPrecomputed = false;
+		resetPrecomputations();
 		mPointAccepter.init();
 	}
 
@@ -163,8 +171,17 @@ class LinearRing{
 			addGreatCircle(prev, p, numberOfPoints);
 		}
 		mOriginalPoints.add(p);
-        mProjectedPrecomputed = false;
-        mDistancesPrecomputed = false;
+		resetPrecomputations();
+	}
+
+	/**
+	 * @since 6.2.0
+	 */
+	private void resetPrecomputations() {
+		mProjectedPrecomputed = false;
+		mDistancesPrecomputed = false;
+		mDowngradePixelSize = 0;
+		mDowngradePointList = null;
 	}
 
 	public void setPoints(final List<GeoPoint> points) {
@@ -574,6 +591,8 @@ class LinearRing{
 			previous.set(current.x, current.y);
 			index ++;
 		}
+		mProjectedWidth = maxX - minX;
+		mProjectedHeight = maxY - minY;
 		mProjectedCenter.set((minX + maxX) / 2, (minY + maxY) / 2);
 		mBoundingBox.set(north, east, south, west);
 	}
@@ -622,5 +641,40 @@ class LinearRing{
 			mPath.reset();
 		};
 		mPointsForMilestones.clear();
+	}
+
+	/**
+     * Computes the list of points of a polyline that would be the projection of the GeoPoints
+     * on a centered size*size square
+	 * @since 6.2.0
+	 */
+	float[] computeDowngradePointList(final int pSize) {
+		if (pSize == 0) {
+			return null;
+		}
+		if (mDowngradePixelSize == pSize) {
+			return mDowngradePointList;
+		}
+		computeProjected();
+		final long projectedSize = mProjectedWidth > mProjectedHeight ? mProjectedWidth : mProjectedHeight;
+		if (projectedSize == 0) {
+			return null;
+		}
+		final ListPointAccepter listPointAccepter = new ListPointAccepter(true);
+		final PointAccepter pointAccepter = new SideOptimizationPointAccepter(listPointAccepter);
+		final double factor = (projectedSize * 1.) / pSize;
+		for (int i = 0 ; i < mProjectedPoints.length ; ) {
+			final long x = mProjectedPoints[i ++];
+			final long y = mProjectedPoints[i ++];
+			final long squareX = Math.round((x - mProjectedCenter.x) / factor);
+			final long squareY = Math.round((y - mProjectedCenter.y) / factor);
+			pointAccepter.add(squareX, squareY);
+		}
+		mDowngradePixelSize = pSize;
+		mDowngradePointList = new float[listPointAccepter.getList().size()];
+		for (int i = 0 ; i < mDowngradePointList.length ; i ++) {
+			mDowngradePointList[i] = listPointAccepter.getList().get(i);
+		}
+		return mDowngradePointList;
 	}
 }
