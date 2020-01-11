@@ -117,7 +117,7 @@ public class SampleShapeFile extends SampleMapEventListener {
                     for (final Overlay item : folder) {
                         if (item instanceof PolyOverlayWithIW) {
                             final PolyOverlayWithIW poly = (PolyOverlayWithIW)item;
-                            poly.setDowngradeMaximumPixelSize(20);
+                            poly.setDowngradePixelSizes(50, 25);
                             poly.setDowngradeDisplay(true);
                             final Paint paint = poly.getOutlinePaint();
                             paint.setStyle(Paint.Style.STROKE);
