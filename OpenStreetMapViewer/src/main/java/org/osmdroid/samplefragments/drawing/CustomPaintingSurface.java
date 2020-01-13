@@ -127,7 +127,8 @@ public class CustomPaintingSurface extends View {
                     case PolylineAsPath:
                         final boolean asPath = drawingMode == Mode.PolylineAsPath;
                         final int color = Color.argb(100, 100, 100, 100);
-                        final Polyline line = new Polyline(map, asPath);
+                        final Polyline line = new Polyline(map);
+                        line.usePath(true);
                         line.setInfoWindow(
                                 new BasicInfoWindow(org.osmdroid.library.R.layout.bonuspack_bubble, map));
                         line.getOutlinePaint().setColor(color);

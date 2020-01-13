@@ -3,15 +3,11 @@ package org.osmdroid.views.overlay;
 
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.RectF;
-import android.graphics.Region;
-import android.view.MotionEvent;
 
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
-import org.osmdroid.views.Projection;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -193,47 +189,6 @@ public class Polygon extends PolyOverlayWithIW {
 		points.add(new GeoPoint(northLat, east.getLongitude()));
 		return points;
 	}
-	
-
-
-	/** Important note: this function returns correct results only if the Polygon has been drawn before,
-
-	 * and if the MapView positioning has not changed. 
-	 * @param event
-	 * @return true if the Polygon contains the event position. 
-	 */
-	public boolean contains(MotionEvent event){
-		if (mPath.isEmpty())
-			return false;
-		RectF bounds = new RectF(); //bounds of the Path
-		mPath.computeBounds(bounds, true);
-		Region region = new Region();
-		//Path has been computed in #draw (we assume that if it can be clicked, it has been drawn before). 
-		region.setPath(mPath, new Region((int)bounds.left, (int)bounds.top, 
-				(int) (bounds.right), (int) (bounds.bottom)));
-		return region.contains((int)event.getX(), (int)event.getY());
-	}
-
-	/**
-	 * Default listener for a single tap event on a Polygon:
-	 * set the infowindow at the tapped position, and open the infowindow (if any).
-	 * @param event
-	 * @param mapView
-	 * @return true if tapped
-	 */
-	@Override public boolean onSingleTapConfirmed(final MotionEvent event, final MapView mapView){
-		Projection pj = mapView.getProjection();
-		GeoPoint eventPos = (GeoPoint)pj.fromPixels((int)event.getX(), (int)event.getY());
-		boolean tapped = contains(event);
-		if (tapped) {
-			if (mOnClickListener == null) {
-				return onClickDefault(this, mapView, eventPos);
-			} else {
-				return mOnClickListener.onClick(this, mapView, eventPos);
-			}
-		} else
-			return tapped;
-	}
 
 	@Override public void onDetach(MapView mapView) {
 		super.onDetach(mapView);
@@ -263,5 +218,17 @@ public class Polygon extends PolyOverlayWithIW {
 	 */
 	public void setOnClickListener(OnClickListener listener) {
 		mOnClickListener = listener;
+	}
+
+	/**
+	 * @since 6.2.0
+	 */
+	@Override
+	protected boolean click(final MapView pMapView, final GeoPoint pEventPos) {
+		if (mOnClickListener == null) {
+			return onClickDefault(this, pMapView, pEventPos);
+		} else {
+			return mOnClickListener.onClick(this, pMapView, pEventPos);
+		}
 	}
 }

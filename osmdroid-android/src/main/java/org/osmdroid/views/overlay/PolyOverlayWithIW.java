@@ -5,6 +5,9 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Point;
+import android.graphics.RectF;
+import android.graphics.Region;
+import android.view.MotionEvent;
 
 import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.Distance;
@@ -33,8 +36,8 @@ public abstract class PolyOverlayWithIW extends OverlayWithIW {
 	private List<MilestoneManager> mMilestoneManagers = new ArrayList<>();
 	private GeoPoint mInfoWindowLocation;
 
-	private final LineDrawer mLineDrawer;
-	protected final Path mPath;
+	private LineDrawer mLineDrawer;
+	protected Path mPath;
 	protected float mDensity = 1.0f;
 
 	/**
@@ -58,24 +61,47 @@ public abstract class PolyOverlayWithIW extends OverlayWithIW {
 	private final PointL mDowngradeOffset = new PointL();
     private float[] mDowngradeSegments;
 
+    /**
+     * @since 6.2.0
+     * Used to be in {@link Polyline}
+     */
+    private float mDensityMultiplier = 1.0f;
+    private final boolean mClosePath;
+
 	protected PolyOverlayWithIW(final MapView pMapView, final boolean pUsePath, final boolean pClosePath) {
 		super();
+        mClosePath = pClosePath;
 		if (pMapView != null) {
 			setInfoWindow(pMapView.getRepository().getDefaultPolylineInfoWindow());
 			mDensity = pMapView.getContext().getResources().getDisplayMetrics().density;
 		}
-		if (pUsePath) {
-			mPath = new Path();
-			mLineDrawer = null;
-			mOutline = new LinearRing(mPath, pClosePath);
-		} else {
-			mPath = null;
-			mLineDrawer = new LineDrawer(256);
-			mOutline = new LinearRing(mLineDrawer, pClosePath);
-			////mOutline.clearPath();
-			mLineDrawer.setPaint(mOutlinePaint);
-		}
+		usePath(pUsePath);
 	}
+
+    /**
+     * @since 6.2.0
+     * Use Path or not for the display
+     * drawPath can be notoriously slower than drawLines, therefore when relevant "Polygon"s
+     * would be better off if displayed with drawLines.
+     * On the other hand, drawPath sometimes looks better, therefore when relevant "Polyline"s
+     * would be better off if displayed with drawPath
+     */
+	public void usePath(final boolean pUsePath) {
+		final ArrayList<GeoPoint> previousPoints = mOutline == null ? null : mOutline.getPoints();
+        if (pUsePath) {
+            mPath = new Path();
+            mLineDrawer = null;
+            mOutline = new LinearRing(mPath, mClosePath);
+        } else {
+            mPath = null;
+            mLineDrawer = new LineDrawer(256);
+            mOutline = new LinearRing(mLineDrawer, mClosePath);
+            mLineDrawer.setPaint(mOutlinePaint);
+        }
+        if (previousPoints != null) {
+			setPoints(previousPoints);
+		}
+    }
 
 	public void setVisible(boolean visible){
 		setEnabled(visible);
@@ -513,4 +539,86 @@ public abstract class PolyOverlayWithIW extends OverlayWithIW {
 		}
 		pCanvas.drawLines(mDowngradeSegments, 0, index, paint);
 	}
+
+	/**
+	 * @since 6.2.0
+	 */
+	protected abstract boolean click(final MapView pMapView, final GeoPoint pEventPos);
+
+    /**
+     * @since 6.2.0
+     * Used to be in {@link Polyline}
+     */
+	public void setDensityMultiplier(final float pDensityMultiplier) {
+        mDensityMultiplier = pDensityMultiplier;
+    }
+
+    /**
+     * Used to be if {@link Polygon}
+     * Important note: this function returns correct results only if the Poly has been drawn before,
+     * and if the MapView positioning has not changed.
+     * @return true if the Poly contains the event position.
+     */
+    public boolean contains(final MotionEvent pEvent){
+        if (mPath.isEmpty()) {
+			return false;
+		}
+        final RectF bounds = new RectF(); //bounds of the Path
+        mPath.computeBounds(bounds, true);
+        final Region region = new Region();
+        //Path has been computed in #draw (we assume that if it can be clicked, it has been drawn before).
+        region.setPath(mPath, new Region((int)bounds.left, (int)bounds.top,
+                (int) (bounds.right), (int) (bounds.bottom)));
+        return region.contains((int)pEvent.getX(), (int)pEvent.getY());
+    }
+
+    /**
+     * @since 6.2.0
+     * Used to be in {@link Polyline}
+     * Detection is done is screen coordinates.
+     * @param pTolerance in pixels
+     * @return true if the Poly is close enough to the point.
+     */
+    public boolean isCloseTo(final GeoPoint pPoint, final double pTolerance, final MapView pMapView) {
+        return getCloseTo(pPoint, pTolerance, pMapView) != null;
+    }
+
+    /**
+     * @since 6.2.0
+     * Used to be in {@link Polyline}
+     * Detection is done is screen coordinates.
+     * @param pTolerance in pixels
+     * @return the first GeoPoint of the Poly close enough to the point
+     */
+    public GeoPoint getCloseTo(final GeoPoint pPoint, final double pTolerance, final MapView pMapView) {
+        return mOutline.getCloseTo(pPoint, pTolerance, pMapView.getProjection(), mClosePath);
+    }
+
+    /**
+     * Used to be in both {@link Polyline} and {@link Polygon}
+     * Default listener for a single tap event on a Poly:
+     * set the infowindow at the tapped position, and open the infowindow (if any).
+     * @return true if tapped
+     */
+    @Override
+    public boolean onSingleTapConfirmed(final MotionEvent pEvent, final MapView pMapView){
+		final Projection projection = pMapView.getProjection();
+		final GeoPoint eventPos = (GeoPoint) projection.fromPixels((int)pEvent.getX(), (int)pEvent.getY());
+        final GeoPoint geoPoint;
+        if (mPath != null) {
+			final boolean tapped = contains(pEvent);
+			if (tapped) {
+				geoPoint = eventPos;
+			} else {
+				geoPoint = null;
+			}
+		} else {
+			final double tolerance = mOutlinePaint.getStrokeWidth() * mDensity * mDensityMultiplier;
+			geoPoint = getCloseTo(eventPos, tolerance, pMapView);
+		}
+        if (geoPoint != null) {
+            return click(pMapView, geoPoint);
+        }
+        return false;
+    }
 }
