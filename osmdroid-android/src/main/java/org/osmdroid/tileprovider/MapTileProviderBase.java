@@ -23,7 +23,9 @@ import org.osmdroid.util.TileSystem;
 import org.osmdroid.views.Projection;
 
 import java.util.Collection;
+import java.util.ConcurrentModificationException;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashSet;
 
 /**
@@ -152,11 +154,7 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback {
 		putTileIntoCache(pState.getMapTile(), pDrawable, ExpirableBitmapDrawable.UP_TO_DATE);
 
 		// tell our caller we've finished and it should update its view
-		for (final Handler handler : mTileRequestCompleteHandlers) {
-			if (handler != null) {
-				handler.sendEmptyMessage(MAPTILE_SUCCESS_ID);
-			}
-		}
+		sendMessage(MAPTILE_SUCCESS_ID);
 
 		if (Configuration.getInstance().isDebugTileProviders()) {
                Log.d(IMapView.LOGTAG,"MapTileProviderBase.mapTileRequestCompleted(): " + MapTileIndex.toString(pState.getMapTile()));
@@ -175,17 +173,9 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback {
 
 		if (mTileNotFoundImage!=null) {
 			putTileIntoCache(pState.getMapTile(), mTileNotFoundImage, ExpirableBitmapDrawable.NOT_FOUND);
-			for (final Handler handler : mTileRequestCompleteHandlers) {
-				if (handler != null) {
-					handler.sendEmptyMessage(MAPTILE_SUCCESS_ID);
-				}
-			}
+			sendMessage(MAPTILE_SUCCESS_ID);
 		} else {
-			for (final Handler handler : mTileRequestCompleteHandlers) {
-				if (handler != null) {
-					handler.sendEmptyMessage(MAPTILE_FAIL_ID);
-				}
-			}
+			sendMessage(MAPTILE_FAIL_ID);
 		}
 		if (Configuration.getInstance().isDebugTileProviders()) {
 			Log.d(IMapView.LOGTAG,"MapTileProviderBase.mapTileRequestFailed(): " + MapTileIndex.toString(pState.getMapTile()));
@@ -219,11 +209,7 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback {
 		putTileIntoCache(pState.getMapTile(), pDrawable, ExpirableBitmapDrawable.getState(pDrawable));
 
 		// tell our caller we've finished and it should update its view
-		for (final Handler handler : mTileRequestCompleteHandlers) {
-			if (handler != null) {
-				handler.sendEmptyMessage(MAPTILE_SUCCESS_ID);
-			}
-		}
+		sendMessage(MAPTILE_SUCCESS_ID);
 
 		if (Configuration.getInstance().isDebugTileProviders()) {
 			Log.d(IMapView.LOGTAG,"MapTileProviderBase.mapTileRequestExpiredTile(): " + MapTileIndex.toString(pState.getMapTile()));
@@ -508,5 +494,41 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback {
 		if (drawable != null) {
 			ExpirableBitmapDrawable.setState(drawable, ExpirableBitmapDrawable.EXPIRED);
 		}
+	}
+
+	/**
+	 * Concurrency exception management (cf. https://github.com/osmdroid/osmdroid/issues/1446)
+	 * Given the likelihood of consecutive ConcurrentModificationException's,
+	 * we just try again and 3 attempts are supposedly enough.
+	 * @since 6.2.0
+	 */
+	private void sendMessage(final int pMessageId) {
+		for(int attempt = 0 ; attempt < 3 ; attempt ++) {
+			if (sendMessageFailFast(pMessageId)) {
+				return;
+			}
+		}
+	}
+
+	/**
+	 * Concurrency exception management (cf. https://github.com/osmdroid/osmdroid/issues/1446)
+	 * Of course a for-each loop would make sense, but it's prone to concurrency issues.
+	 * @since 6.2.0
+	 * @return false if a ConcurrentModificationException was thrown
+	 */
+	@SuppressWarnings("ForLoopReplaceableByForEach")
+	private boolean sendMessageFailFast(final int pMessageId) {
+		for(final Iterator<Handler> iterator = mTileRequestCompleteHandlers.iterator(); iterator.hasNext() ; ) {
+			final Handler handler;
+			try {
+				handler = iterator.next();
+			} catch(final ConcurrentModificationException cme) {
+				return false;
+			}
+			if (handler != null) {
+				handler.sendEmptyMessage(pMessageId);
+			}
+		}
+		return true;
 	}
 }
