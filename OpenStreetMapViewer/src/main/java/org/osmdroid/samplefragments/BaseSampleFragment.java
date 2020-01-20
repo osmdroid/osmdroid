@@ -119,12 +119,11 @@ public abstract class BaseSampleFragment extends Fragment {
 
     @Override
     public void onDestroyView() {
-        super.onDestroyView();
         Log.d(TAG, "onDetach");
         if (mMapView != null)
             mMapView.onDetach();
         mMapView = null;
-
+        super.onDestroyView();
     }
 
     @Override

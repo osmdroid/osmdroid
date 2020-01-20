@@ -18,7 +18,6 @@ import org.osmdroid.R;
 import org.osmdroid.model.IBaseActivity;
 import org.osmdroid.samplefragments.BaseSampleFragment;
 
-import java.lang.ref.WeakReference;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -45,7 +44,7 @@ public class SamplesMenuFragment extends Fragment {
     private List<IBaseActivity> additionActivitybasedSamples;
 
     ExpandableListAdapter listAdapter;
-    WeakReference<ExpandableListView> expListView;
+    ExpandableListView expListView;
     List<String> listDataHeader;
     HashMap<String, List<String>> listDataChild;
     Map<String, Object> titleSampleMap = new HashMap<>();
@@ -105,11 +104,11 @@ public class SamplesMenuFragment extends Fragment {
 
 
         // get the listview
-        expListView = new WeakReference<>((ExpandableListView) root.findViewById(R.id.lvExp));
+        expListView = root.findViewById(R.id.lvExp);
 
 
         // Listview on child click listener
-        expListView.get().setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+        expListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
 
             @Override
             public boolean onChildClick(ExpandableListView parent, View v,
@@ -161,7 +160,7 @@ public class SamplesMenuFragment extends Fragment {
         listAdapter = new ExpandableListAdapter(getActivity(), listDataHeader, listDataChild);
 
         // setting list adapter
-        expListView.get().setAdapter(listAdapter);
+        expListView.setAdapter(listAdapter);
     }
 
     /*
@@ -230,9 +229,9 @@ public class SamplesMenuFragment extends Fragment {
 
     @Override
     public void onDestroyView() {
-        super.onDestroyView();
+        expListView = null;
         savedState = saveState();
-
+        super.onDestroyView();
     }
 
     private Bundle saveState() { /* called either from onDestroyView() or onSaveInstanceState() */
