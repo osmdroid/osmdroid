@@ -13,7 +13,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
-import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
@@ -49,12 +48,11 @@ public class CustomPaintingSurface extends View {
         PolylineAsPath
     }
     protected boolean withArrows=false;
-    private Bitmap  mBitmap;
     private Canvas  mCanvas;
     private Path    mPath;
     private MapView map;
     private List<Point> pts = new ArrayList<>();
-    private Paint mPaint;
+    private final Paint mPaint;
     private float mX, mY;
     private static final float TOUCH_TOLERANCE = 4;
 
@@ -64,21 +62,6 @@ public class CustomPaintingSurface extends View {
     public CustomPaintingSurface(Context context, AttributeSet attrs) {
         super(context,attrs);
         mPath = new Path();
-    }
-
-
-    @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        super.onSizeChanged(w, h, oldw, oldh);
-        mBitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
-        mCanvas = new Canvas(mBitmap);
-    }
-
-
-    @Override
-    protected void onDraw(Canvas canvas) {
-
-        mCanvas = new Canvas(mBitmap);
         mPaint = new Paint();
         mPaint.setAntiAlias(true);
         mPaint.setDither(true);
@@ -87,7 +70,19 @@ public class CustomPaintingSurface extends View {
         mPaint.setStrokeJoin(Paint.Join.ROUND);
         mPaint.setStrokeCap(Paint.Cap.ROUND);
         mPaint.setStrokeWidth(12);
+    }
 
+
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+        final Bitmap bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+        mCanvas = new Canvas(bitmap);
+    }
+
+
+    @Override
+    protected void onDraw(Canvas canvas) {
         canvas.drawPath(mPath, mPaint);
     }
     public void init(MapView mapView) {
@@ -132,7 +127,8 @@ public class CustomPaintingSurface extends View {
                     case PolylineAsPath:
                         final boolean asPath = drawingMode == Mode.PolylineAsPath;
                         final int color = Color.argb(100, 100, 100, 100);
-                        final Polyline line = new Polyline(map, asPath);
+                        final Polyline line = new Polyline(map);
+                        line.usePath(true);
                         line.setInfoWindow(
                                 new BasicInfoWindow(org.osmdroid.library.R.layout.bonuspack_bubble, map));
                         line.getOutlinePaint().setColor(color);
@@ -169,7 +165,7 @@ public class CustomPaintingSurface extends View {
                             ));
                             line.setMilestoneManagers(managers);
                         }
-                        line.setSubDescription(BoundingBox.fromGeoPoints(line.getPoints()).toString());
+                        line.setSubDescription(line.getBounds().toString());
                         map.getOverlayManager().add(line);
                         lastPolygon=null;
                         break;
@@ -195,7 +191,7 @@ public class CustomPaintingSurface extends View {
                             public boolean onClick(Polygon polygon, MapView mapView, GeoPoint eventPos) {
                                 lastPolygon = polygon;
                                 polygon.onClickDefault(polygon, mapView, eventPos);
-                                Toast.makeText(mapView.getContext(), "polygon with " + polygon.getPoints().size() + "pts was tapped", Toast.LENGTH_LONG).show();
+                                Toast.makeText(mapView.getContext(), "polygon with " + polygon.getActualPoints().size() + "pts was tapped", Toast.LENGTH_LONG).show();
                                 return false;
                             }
                         });

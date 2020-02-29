@@ -106,6 +106,7 @@ public class SamplesMenuFragment extends Fragment {
         // get the listview
         expListView = root.findViewById(R.id.lvExp);
 
+
         // Listview on child click listener
         expListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
 
@@ -228,9 +229,9 @@ public class SamplesMenuFragment extends Fragment {
 
     @Override
     public void onDestroyView() {
-        super.onDestroyView();
+        expListView = null;
         savedState = saveState();
-
+        super.onDestroyView();
     }
 
     private Bundle saveState() { /* called either from onDestroyView() or onSaveInstanceState() */

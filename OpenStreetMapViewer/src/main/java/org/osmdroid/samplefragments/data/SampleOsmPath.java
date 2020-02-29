@@ -1,7 +1,6 @@
 package org.osmdroid.samplefragments.data;
 
 import org.osmdroid.R;
-import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.events.MapListener;
 import org.osmdroid.events.ScrollEvent;
 import org.osmdroid.events.ZoomEvent;
@@ -10,7 +9,6 @@ import org.osmdroid.samplefragments.models.MyMapItem;
 import org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase;
 import org.osmdroid.tileprovider.tilesource.XYTileSource;
 import org.osmdroid.views.overlay.ItemizedIconOverlay;
-import org.osmdroid.views.overlay.PathOverlay;
 import org.osmdroid.views.overlay.infowindow.BasicInfoWindow;
 import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.Polygon;
@@ -20,8 +18,6 @@ import org.osmdroid.util.GeoPoint;
 
 import android.app.Activity;
 import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Paint.Style;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -40,14 +36,9 @@ public class SampleOsmPath extends BaseSampleFragment implements MapListener {
 	public static final String TITLE = "OsmPath drawing";
 
 	private BoundingBox sCentralParkBoundingBox;
-	private Paint sPaint;
 
 	public SampleOsmPath() {
 		sCentralParkBoundingBox = new BoundingBox(40.796788, -73.949232, 40.768094, -73.981762);
-
-		sPaint = new Paint();
-		sPaint.setColor(Color.argb(175, 255, 0, 0));
-		sPaint.setStyle(Style.FILL);
 	}
 	@Override
 	public String getSampleTitle() {
@@ -57,8 +48,8 @@ public class SampleOsmPath extends BaseSampleFragment implements MapListener {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 
-		mMapView.getController().setZoom(13);
-		mMapView.getController().setCenter(sCentralParkBoundingBox.getCenter());
+		mMapView.getController().setZoom(13.);
+		mMapView.getController().setCenter(sCentralParkBoundingBox.getCenterWithDateLine());
 
 		super.onActivityCreated(savedInstanceState);
 	}
@@ -70,14 +61,12 @@ public class SampleOsmPath extends BaseSampleFragment implements MapListener {
 		//we override this to force zoom to 22, even though mapnik dooesn't do that deep
 		OnlineTileSourceBase mapnik = new XYTileSource("Mapnik",
 				0, 22, 256, ".png", new String[] {
-				"http://a.tile.openstreetmap.org/",
-				"http://b.tile.openstreetmap.org/",
-				"http://c.tile.openstreetmap.org/" });
+				"https://a.tile.openstreetmap.org/",
+				"https://b.tile.openstreetmap.org/",
+				"https://c.tile.openstreetmap.org/" });
 		mMapView.getTileProvider().setTileSource(mapnik);
 
 
-		//mOsmPathOverlay = new OsmPathOverlay(context);
-		//mMapView.getOverlayManager().add(mOsmPathOverlay);
 		Polyline line = new Polyline(mMapView);
 		line.setTitle("Central Park, NYC");
 		line.setSubDescription(Polyline.class.getCanonicalName());
@@ -163,7 +152,7 @@ public class SampleOsmPath extends BaseSampleFragment implements MapListener {
 
 		List<MyMapItem> list = new ArrayList<>();
 		list.add(new MyMapItem("title","description", new GeoPoint(51.7875, 6.135278)));
-		ItemizedIconOverlay<MyMapItem> layer = new ItemizedIconOverlay<MyMapItem>(list, getResources().getDrawable(R.drawable.shgpuci), new ItemizedIconOverlay.OnItemGestureListener<MyMapItem>() {
+		ItemizedIconOverlay<MyMapItem> layer = new ItemizedIconOverlay<>(list, getResources().getDrawable(R.drawable.shgpuci), new ItemizedIconOverlay.OnItemGestureListener<MyMapItem>() {
 			@Override
 			public boolean onItemSingleTapUp(int index, MyMapItem item) {
 				return false;
@@ -175,21 +164,8 @@ public class SampleOsmPath extends BaseSampleFragment implements MapListener {
 			}
 		}, getActivity());
 
-		PathOverlay path = new PathOverlay(Color.RED, 200f);
-
-		List<IGeoPoint> pathpoints = new ArrayList<>();
-
-
-		pathpoints.add(new GeoPoint(50.7865, 6.135278));
-		pathpoints.add(new GeoPoint(50.7865, 6.135288));
-		pathpoints.add(new GeoPoint(51.7864, 6.235288));
-		pathpoints.add(new GeoPoint(51.7864, 6.235288));
-		pathpoints.add(new GeoPoint(51.7865, 6.235278));
-
-		path.addPoints(pathpoints);
-		mMapView.getOverlayManager().add(path);
 		mMapView.getOverlayManager().add(layer);
-		mMapView.setMapListener(this);
+		mMapView.addMapListener(this);
 
 	}
 
