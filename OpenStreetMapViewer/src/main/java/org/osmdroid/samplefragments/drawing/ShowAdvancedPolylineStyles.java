@@ -229,7 +229,7 @@ public class ShowAdvancedPolylineStyles extends BaseSampleFragment implements Vi
         mColorRanges.put(7.5f, Color.YELLOW);
         mColorRanges.put(10.0f, Color.GREEN);
         mListExamples.add(new AdvancedPolylineExample("Tram", "Ranges polyline with border showing a tram ride between airport and main train station.\n\nBorders: 5 m/s RED, 7.5 m/s YELLOW, 10.0 m/s GREEN.",
-                new ColorMappingRanges(mColorRanges),
+                new ColorMappingRanges(mColorRanges, true),
                 false, Color.BLACK, false,
                 getPoints("tram"), getScalars("tram")));
 
