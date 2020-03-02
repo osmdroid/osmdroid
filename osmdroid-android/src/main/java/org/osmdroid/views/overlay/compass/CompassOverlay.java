@@ -178,22 +178,22 @@ public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOr
         int frameBottom;
         if (mInCenter) {
             frameLeft = screenRect.left
-                + (int) Math.ceil(screenRect.exactCenterX() - mCompassFrameCenterX * mScale);
+                    + (int) Math.ceil(screenRect.exactCenterX() - mCompassFrameCenterX);
             frameTop = screenRect.top
-                + (int) Math.ceil(screenRect.exactCenterY() - mCompassFrameCenterY * mScale);
+                    + (int) Math.ceil(screenRect.exactCenterY() - mCompassFrameCenterY);
             frameRight = screenRect.left
-                + (int) Math.ceil(screenRect.exactCenterX() + mCompassFrameCenterX * mScale);
+                    + (int) Math.ceil(screenRect.exactCenterX() + mCompassFrameCenterX);
             frameBottom = screenRect.top
-                + (int) Math.ceil(screenRect.exactCenterY() + mCompassFrameCenterY * mScale);
+                    + (int) Math.ceil(screenRect.exactCenterY() + mCompassFrameCenterY);
         } else {
             frameLeft = screenRect.left
-                + (int) Math.ceil((mCompassCenterX - mCompassFrameCenterX) * mScale);
+                    + (int) Math.ceil(mCompassCenterX * mScale - mCompassFrameCenterX);
             frameTop = screenRect.top
-                + (int) Math.ceil((mCompassCenterY - mCompassFrameCenterY) * mScale);
+                    + (int) Math.ceil(mCompassCenterY * mScale - mCompassFrameCenterY);
             frameRight = screenRect.left
-                + (int) Math.ceil((mCompassCenterX + mCompassFrameCenterX) * mScale);
+                    + (int) Math.ceil(mCompassCenterX * mScale + mCompassFrameCenterX);
             frameBottom = screenRect.top
-                + (int) Math.ceil((mCompassCenterY + mCompassFrameCenterY) * mScale);
+                    + (int) Math.ceil(mCompassCenterY * mScale + mCompassFrameCenterY);
         }
 
         // Expand by 2 to cover stroke width
@@ -347,7 +347,7 @@ public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOr
 
     @Override
     public void onOrientationChanged(float orientation, IOrientationProvider source) {
-        if (Float.isNaN(mAzimuth) || Math.abs(mAzimuth - orientation) <= mAzimuthPrecision) {
+        if (Float.isNaN(mAzimuth) || Math.abs(mAzimuth - orientation) >= mAzimuthPrecision) {
             mAzimuth = orientation;
             this.invalidateCompass();
         }
