@@ -9,6 +9,7 @@ import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.CopyrightOverlay;
 import org.osmdroid.views.overlay.TilesOverlay;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -56,13 +57,14 @@ public class SampleWithTilesOverlay extends AppCompatActivity {
 		mMapView.getOverlays().add(copyrightOverlay);
 
 		// zoom to the netherlands
-		mMapView.getController().setZoom(7D);
-		mMapView.getController().setCenter(new GeoPoint(51.5, 5.4));
+		mMapView.getController().setZoom(8.);
+		mMapView.getController().setCenter(new GeoPoint(53.6, 5.3));
 
 		// Add tiles layer
 		MapTileProviderBasic provider = new MapTileProviderBasic(getApplicationContext());
-		provider.setTileSource(TileSourceFactory.FIETS_OVERLAY_NL);
+		provider.setTileSource(TileSourceFactory.PUBLIC_TRANSPORT);
 		TilesOverlay tilesOverlay = new TilesOverlay(provider, this.getBaseContext());
+		tilesOverlay.setLoadingBackgroundColor(Color.TRANSPARENT);
 		mMapView.getOverlays().add(tilesOverlay);
 	}
 

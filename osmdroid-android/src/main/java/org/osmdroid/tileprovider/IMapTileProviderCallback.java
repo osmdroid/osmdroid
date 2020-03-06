@@ -43,5 +43,5 @@ public interface IMapTileProviderCallback {
 	 *
 	 * @return true if data connection should be used, false otherwise
 	 */
-	public boolean useDataConnection();
+	boolean useDataConnection();
 }
