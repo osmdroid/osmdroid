@@ -296,7 +296,7 @@ public abstract class MapTileModuleProviderBase {
 			}
 			removeTileFromQueues(pState.getMapTile());
 			ExpirableBitmapDrawable.setState(pDrawable, ExpirableBitmapDrawable.SCALED);
-			pState.getCallback().mapTileRequestExpiredTile(pState, pDrawable);
+			pState.getCallback().mapTileRequestCompleted(pState, pDrawable);
 		}
 
 
