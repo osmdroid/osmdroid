@@ -148,12 +148,13 @@ public class TileSourceFactory {
 	public static final OnlineTileSourceBase ROADS_OVERLAY_NL = new XYTileSource("RoadsNL",
 			0, 18, 256, ".png",
 			new String[] { "https://overlay.openstreetmap.nl/roads/" },"© OpenStreetMap contributors");
-     
-     public static final OnlineTileSourceBase HIKEBIKEMAP = new XYTileSource("HikeBikeMap",
+
+	/**
+	 * 2020.03.12 there is also a "http://(a|b|c).tiles.wmflabs.org/hikebike/" version
+	 */
+    public static final OnlineTileSourceBase HIKEBIKEMAP = new XYTileSource("HikeBikeMap",
 			 0, 18, 256, ".png",
-			new String[] { "https://a.tiles.wmflabs.org/hikebike/",
-                    "https://b.tiles.wmflabs.org/hikebike/",
-                    "https://c.tiles.wmflabs.org/hikebike/"  });
+			new String[] { "https://tiles.wmflabs.org/hikebike/"  });
 
 	/**
 	 * This is actually another tile overlay
