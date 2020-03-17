@@ -30,7 +30,7 @@ import java.util.List;
  * @since 6.0.0
  * @author Fabrice Fontaine
  */
-class LinearRing{
+public class LinearRing{
 
 	/**
 	 * We build a virtual area [mClipMin, mClipMin, mClipMax, mClipMax]
@@ -398,7 +398,7 @@ class LinearRing{
 	/**
 	 * @since 6.2.0
 	 */
-	public double getCloserValue(final double pPrevious, double pNext, final double pWorldSize) {
+	public static double getCloserValue(final double pPrevious, double pNext, final double pWorldSize) {
 		while (Math.abs(pNext - pWorldSize - pPrevious) < Math.abs(pNext - pPrevious)) {
 			pNext -= pWorldSize;
 		}
