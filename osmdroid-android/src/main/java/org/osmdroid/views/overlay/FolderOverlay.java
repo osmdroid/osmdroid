@@ -5,8 +5,8 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.view.MotionEvent;
 
-import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.util.BoundingBox;
+import org.osmdroid.util.TileSystem;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
 
@@ -83,7 +83,14 @@ public class FolderOverlay extends Overlay {
 			maxLon = Math.max(maxLon, box.getLonEast());
 		}
 
-		mBounds= new BoundingBox(maxLat, maxLon, minLat, minLon);
+		if (minLat == Double.MAX_VALUE) { // no overlay
+			final TileSystem tileSystem = MapView.getTileSystem();
+			mBounds = new BoundingBox( // default values
+					tileSystem.getMaxLatitude(), tileSystem.getMaxLongitude(),
+					tileSystem.getMinLatitude(), tileSystem.getMinLongitude());
+		} else {
+			mBounds = new BoundingBox(maxLat, maxLon, minLat, minLon);
+		}
 	}
 
 	public boolean remove(Overlay item){
