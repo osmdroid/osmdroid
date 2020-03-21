@@ -512,7 +512,13 @@ public class LinearRing{
 		// that include the map orientation: the covered area would be smaller but still big enough
 		// Now we use the circle which contains the `MapView`'s 4 corners
 		final double radius = Math.sqrt(halfWidth * halfWidth + halfHeight * halfHeight);
-		final int scaledRadius = (int) (radius * (1 + border));
+		// cf. https://github.com/osmdroid/osmdroid/issues/1528
+		// People less lazy than me would not double the radius and rather fix the pixel coordinates:
+		// using Projection.getScreenCenterX() and Y() would certainly make sense
+		// instead of halfWidth and halfHeight, and that could improve performances
+		// to have a smaller radius (in that case, not doubled)
+		final double doubleRadius = 2 * radius;
+		final int scaledRadius = (int) (doubleRadius * (1 + border));
 		setClipArea(
 				halfWidth - scaledRadius, halfHeight - scaledRadius,
 				halfWidth + scaledRadius, halfHeight + scaledRadius
