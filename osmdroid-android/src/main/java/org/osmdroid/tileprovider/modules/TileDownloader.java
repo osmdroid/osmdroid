@@ -1,6 +1,7 @@
 package org.osmdroid.tileprovider.modules;
 
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -21,10 +22,17 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
+import java.net.InetAddress;
+import java.net.Socket;
 import java.net.URL;
 import java.net.UnknownHostException;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Map;
+
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLSocket;
+import javax.net.ssl.SSLSocketFactory;
 
 /**
  * @since 6.0.2
@@ -44,7 +52,7 @@ public class TileDownloader {
     public Drawable downloadTile(final long pMapTileIndex, final int redirectCount, final String targetUrl,
                                  final IFilesystemCache pFilesystemCache, final OnlineTileSourceBase pTileSource) throws CantContinueException {
 
-        //prevent infinite looping of redirects, rare but very possible for misconfigured servers
+        // prevent infinite looping of redirects, rare but very possible for misconfigured servers
         if (redirectCount>3) {
             return null;
         }
@@ -76,7 +84,16 @@ public class TileDownloader {
                 return null;
             }
 
-            //TODO in the future, it may be necessary to allow app's using this library to override the SSL socket factory. It would here somewhere
+            // Try to enable TLSv1.2 and/or disable SSLv3 on older devices
+            // see:
+            // https://stackoverflow.com/questions/33567596/android-https-web-service-communication-ssl-tls-1-2/33567745#33567745
+            // https://stackoverflow.com/questions/26649389/how-to-disable-sslv3-in-android-for-httpsurlconnection#29946540
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT_WATCH) {
+                SSLSocketFactory socketFactory = new CompatibilitySocketFactory(
+                        HttpsURLConnection.getDefaultSSLSocketFactory());
+                HttpsURLConnection.setDefaultSSLSocketFactory(socketFactory);
+            }
+
             if (Configuration.getInstance().getHttpProxy() != null) {
                 c = (HttpURLConnection) new URL(tileURLString).openConnection(Configuration.getInstance().getHttpProxy());
             } else {
@@ -89,12 +106,8 @@ public class TileDownloader {
             }
             c.connect();
 
-
             // Check to see if we got success
-
             if (c.getResponseCode() != 200) {
-
-
                 switch (c.getResponseCode()) {
                     case 301:
                     case 302:
@@ -133,10 +146,8 @@ public class TileDownloader {
                         return null;
                     }
                 }
-
-
-
             }
+
             String mime = c.getHeaderField("Content-Type");
             if (Configuration.getInstance().isDebugMapTileDownloader()) {
                 Log.d(IMapView.LOGTAG, tileURLString + " success, mime is " + mime );
@@ -159,8 +170,7 @@ public class TileDownloader {
             byteStream = new ByteArrayInputStream(data);
 
             // Save the data to the cache
-            //this is the only point in which we insert tiles to the db or local file system.
-
+            // this is the only point in which we insert tiles to the db or local file system.
             if (pFilesystemCache != null) {
                 pFilesystemCache.saveFile(pTileSource, pMapTileIndex, byteStream, expirationTime);
                 byteStream.reset();
@@ -260,5 +270,102 @@ public class TileDownloader {
         }
 
         return pNow + OpenStreetMapTileProviderConstants.DEFAULT_MAXIMUM_CACHED_FILE_AGE + extension;
+    }
+
+    /**
+     * Proxy for {@link SSLSocketFactory} that tries to enable TLSv1.2 and/or disable SSLv3 on
+     * older devices to improve security and compatibility with modern https server configurations
+     *
+     * @since 6.1.7
+     */
+    private static class CompatibilitySocketFactory extends SSLSocketFactory {
+        SSLSocketFactory sslSocketFactory;
+
+        CompatibilitySocketFactory(SSLSocketFactory sslSocketFactory) {
+            super();
+            this.sslSocketFactory = sslSocketFactory;
+        }
+
+        @Override
+        public String[] getDefaultCipherSuites() {
+            return sslSocketFactory.getDefaultCipherSuites();
+        }
+
+        @Override
+        public String[] getSupportedCipherSuites() {
+            return sslSocketFactory.getSupportedCipherSuites();
+        }
+
+        @Override
+        public Socket createSocket() throws IOException {
+            SSLSocket socket = (SSLSocket) sslSocketFactory.createSocket();
+            return upgradeTlsAndRemoveSsl(socket);
+        }
+
+        @Override
+        public Socket createSocket(Socket s, String host, int port, boolean autoClose) throws IOException {
+            SSLSocket socket = (SSLSocket) sslSocketFactory.createSocket(s, host, port, autoClose);
+            return upgradeTlsAndRemoveSsl(socket);
+        }
+
+        @Override
+        public Socket createSocket(String host, int port) throws IOException, UnknownHostException {
+            SSLSocket socket = (SSLSocket) sslSocketFactory.createSocket(host, port);
+            return upgradeTlsAndRemoveSsl(socket);
+        }
+
+        @Override
+        public Socket createSocket(String host, int port, InetAddress localHost, int localPort) throws IOException,
+                UnknownHostException {
+            SSLSocket socket = (SSLSocket) sslSocketFactory.createSocket(host, port, localHost, localPort);
+            return upgradeTlsAndRemoveSsl(socket);
+        }
+
+        @Override
+        public Socket createSocket(InetAddress host, int port) throws IOException {
+            SSLSocket socket = (SSLSocket) sslSocketFactory.createSocket(host, port);
+            return upgradeTlsAndRemoveSsl(socket);
+        }
+
+        @Override
+        public Socket createSocket(InetAddress address, int port, InetAddress localAddress, int localPort)
+                throws IOException {
+            SSLSocket socket = (SSLSocket) sslSocketFactory.createSocket(address, port, localAddress, localPort);
+            return upgradeTlsAndRemoveSsl(socket);
+        }
+
+        private SSLSocket upgradeTlsAndRemoveSsl(SSLSocket socket) {
+            String[] supportedProtocols = socket.getSupportedProtocols();
+            String[] enabledProtocols = socket.getEnabledProtocols();
+            String[] newEnabledProtocols;
+
+            int sslEnabled = Arrays.binarySearch(enabledProtocols, "SSLv3");
+            if (Arrays.binarySearch(supportedProtocols, "TLSv1.2") >= 0
+                    && Arrays.binarySearch(enabledProtocols, "TLSv1.2") < 0) {
+                if (sslEnabled >= 0) {
+                    enabledProtocols[sslEnabled] = "TLSv1.2";
+                    newEnabledProtocols = enabledProtocols;
+                } else {
+                    newEnabledProtocols = new String[enabledProtocols.length + 1];
+                    System.arraycopy(
+                            enabledProtocols, 0, newEnabledProtocols, 0, enabledProtocols.length);
+                    newEnabledProtocols[newEnabledProtocols.length - 1] = "TLSv1.2";
+                }
+            } else if (sslEnabled >= 0) {
+                newEnabledProtocols = new String[enabledProtocols.length-1];
+                System.arraycopy(enabledProtocols, 0, newEnabledProtocols, 0, sslEnabled);
+                if (newEnabledProtocols.length > sslEnabled) {
+                    System.arraycopy(
+                            enabledProtocols, sslEnabled + 1,
+                            newEnabledProtocols, sslEnabled,
+                            newEnabledProtocols.length - sslEnabled);
+                }
+            } else {
+                newEnabledProtocols = enabledProtocols;
+            }
+
+            socket.setEnabledProtocols(newEnabledProtocols);
+            return socket;
+        }
     }
 }
