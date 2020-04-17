@@ -188,9 +188,9 @@ public class ShapeConverter {
     }
     
     private static GeoPoint fixCritical (GeoPoint point){
-        if (point.getLatitude()>90.00 && point.getLatitude()<90.01)
+        if (point.getLatitude()>90.00)
             point.setLatitude(90.00);
-        else if (point.getLatitude()<-90.00 && point.getLatitude()>-90.01)
+        else if (point.getLatitude()<-90.00)
             point.setLatitude(-90.00);
         if (point.getLongitude()>180.00 && point.getLongitude()<180.01)
             point.setLongitude(180.00);
