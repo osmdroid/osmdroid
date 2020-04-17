@@ -66,7 +66,7 @@ public class ShapeConverter {
                     case POINT: {
                         PointShape aPoint = (PointShape) s;
                         Marker m = new Marker(map);
-                        m.setPosition(new GeoPoint(aPoint.getY(), aPoint.getX()));
+                        m.setPosition(fixCritical(new GeoPoint(aPoint.getY(), aPoint.getX())));
                         if (metadata != null) {
                             metadata.setStringCharset(Charset.defaultCharset());
                             m.setSnippet(metadata.toMap().toString());
@@ -95,7 +95,7 @@ public class ShapeConverter {
 
                             for (PointData p : points) {
                                 GeoPoint pt = new GeoPoint(p.getY(), p.getX());
-                                pts.add(pt);
+                                pts.add(fixCritical(pt));
                             }
                             pts.add(pts.get(0));    //force the polygon to close
 
@@ -123,7 +123,7 @@ public class ShapeConverter {
 
                             for (PointData p : points) {
                                 GeoPoint pt = new GeoPoint(p.getY(), p.getX());
-                                pts.add(pt);
+                                pts.add(fixCritical(pt));
                             }
                             line.setPoints(pts);
                             folder.add(line);
@@ -137,7 +137,7 @@ public class ShapeConverter {
                         PointData[] points = aPoint.getPoints();
                         for (PointData p : points) {
                             Marker m = new Marker(map);
-                            m.setPosition(new GeoPoint(p.getY(), p.getX()));
+                            m.setPosition(fixCritical(new GeoPoint(p.getY(), p.getX())));
                             if (metadata != null) {
                                 metadata.setStringCharset(Charset.defaultCharset());
                                 m.setSnippet(metadata.toMap().toString());
@@ -185,5 +185,18 @@ public class ShapeConverter {
         ValidationPreferences pref = new ValidationPreferences();
         pref.setMaxNumberOfPointsPerShape(200000);
         return convert(map, file, pref);
+    }
+    
+    private static GeoPoint fixCritical (GeoPoint point){
+        if (point.getLatitude()>90.00 && point.getLatitude()<90.01)
+            point.setLatitude(90.00);
+        else if (point.getLatitude()<-90.00 && point.getLatitude()>-90.01)
+            point.setLatitude(-90.00);
+        if (point.getLongitude()>180.00 && point.getLongitude()<180.01)
+            point.setLongitude(180.00);
+        else if (point.getLongitude()<-180.00 && point.getLongitude()>-180.01)
+            point.setLongitude(-180.00);
+
+        return point;
     }
 }
