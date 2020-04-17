@@ -39,7 +39,7 @@ import java.util.List;
  * @since 6.1.0
  */
 
-public class GridShapeConverter {
+public class ShapeConverter {
 
     /**
      *
