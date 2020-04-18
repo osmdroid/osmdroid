@@ -26,9 +26,10 @@ import org.osmdroid.views.overlay.Polyline;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
+
+import static java.lang.Math.abs;
 
 /**
  * https://github.com/osmdroid/osmdroid/issues/906
@@ -47,16 +48,16 @@ public class ShapeConverter {
      * @param file the shape file to be converted.
      * @param prefs  allows the client to relax the level of validation when reading a shape file.
      * @param fillColor fill color of polygon.
-     * @param outLineColor out line color of polyOverlay.
-     * @param width out line width of polyOverlay.
-     * @param getBubbleText customize titles, snippets, and sub-descriptions of bubbles.
+     * @param strokeColor out line color of polyOverlay.
+     * @param strokeWidth out line width of polyOverlay.
+     * @param shapeMetadataReader customize titles, snippets, and sub-descriptions of bubbles.
      *                      remember to handling bounding box if your shape file has both points and poly-overlays.
      *                      please also mind that getSnippet is called before getTitle, and before getSubDescription.
      * @return
      * @throws Exception
      */
     public static List<Overlay> convert(MapView map, File file, ValidationPreferences prefs,
-                                        int fillColor, int outLineColor, int width, GetBubbleText getBubbleText) throws Exception {
+                                        int fillColor, int strokeColor, int strokeWidth, ShapeMetadataReader shapeMetadataReader) throws Exception {
         List<Overlay> folder=new ArrayList<>();
 
         FileInputStream is = null;
@@ -85,12 +86,10 @@ public class ShapeConverter {
                         Marker m = new Marker(map);
                         m.setPosition(fixOutOfRange(new GeoPoint(aPoint.getY(), aPoint.getX())));
                         if (metadata != null) {
-                            metadata.setStringCharset(Charset.defaultCharset());
-                            String metaString = metadata.toMap().toString();
-
-                            m.setSnippet(getBubbleText.getSnippet(metaString, ""));
-                            m.setTitle(getBubbleText.getTitle(metaString, ""));
+                            shapeMetadataReader.read(metadata);
                         }
+                        m.setSnippet(shapeMetadataReader.getSnippet());
+                        m.setTitle(shapeMetadataReader.getTitle());
                         folder.add(m);
                     }
                     break;
@@ -112,20 +111,19 @@ public class ShapeConverter {
                             pts.add(pts.get(0));    //force the polygon to close
 
                             polygon.setPoints(pts); //points out of range should be fixed before this line.
-                            final BoundingBox boundingBox = polygon.getBounds();
-                            String boxString = boundingBox.toString();
                             if (metadata != null) {
-                                metadata.setStringCharset(Charset.defaultCharset());
-                                String metaString = metadata.toMap().toString();
-
-                                polygon.setSnippet(getBubbleText.getSnippet(metaString, boxString));
-                                polygon.setTitle(getBubbleText.getTitle(metaString, boxString));
-                                polygon.setSubDescription(getBubbleText.getSubDescription(metaString, boxString));
+                                shapeMetadataReader.read(metadata);
                             }
+                            polygon.setSnippet(shapeMetadataReader.getSnippet());
+                            polygon.setTitle(shapeMetadataReader.getTitle());
+
+                            shapeMetadataReader.setBoundingBox(polygon.getBounds());
+                            polygon.setSubDescription(shapeMetadataReader.getSubDescription());
+
                             polygon.getFillPaint().setColor(fillColor); //set fill color
                             Paint paint = polygon.getOutlinePaint();
-                            paint.setStrokeWidth(width);
-                            paint.setColor(outLineColor);
+                            paint.setStrokeWidth(strokeWidth);
+                            paint.setColor(strokeColor);
                             folder.add(polygon);
                         }
                     }
@@ -148,16 +146,17 @@ public class ShapeConverter {
                             final BoundingBox boundingBox = line.getBounds();
                             String boxString = boundingBox.toString();
                             if (metadata != null) {
-                                metadata.setStringCharset(Charset.defaultCharset());
-                                String metaString = metadata.toMap().toString();
-
-                                line.setSnippet(getBubbleText.getSnippet(metaString, boxString));
-                                line.setTitle(getBubbleText.getTitle(metaString, boxString));
-                                line.setSubDescription(getBubbleText.getSubDescription(metaString, boxString));
+                                shapeMetadataReader.read(metadata);
                             }
+                            line.setSnippet(shapeMetadataReader.getSnippet());
+                            line.setTitle(shapeMetadataReader.getTitle());
+
+                            shapeMetadataReader.setBoundingBox(line.getBounds());
+                            line.setSubDescription(shapeMetadataReader.getSubDescription());
+
                             Paint paint = line.getOutlinePaint();
-                            paint.setStrokeWidth(width);
-                            paint.setColor(outLineColor);
+                            paint.setStrokeWidth(strokeWidth);
+                            paint.setColor(strokeColor);
                             folder.add(line);
                         }
                     }
@@ -170,12 +169,10 @@ public class ShapeConverter {
                             Marker m = new Marker(map);
                             m.setPosition(fixOutOfRange(new GeoPoint(p.getY(), p.getX())));
                             if (metadata != null) {
-                                metadata.setStringCharset(Charset.defaultCharset());
-                                String metaString = metadata.toMap().toString();
-
-                                m.setSnippet(getBubbleText.getSnippet(metaString, ""));
-                                m.setTitle(getBubbleText.getTitle(metaString, ""));
+                                shapeMetadataReader.read(metadata);
                             }
+                            m.setSnippet(shapeMetadataReader.getSnippet());
+                            m.setTitle(shapeMetadataReader.getTitle());
                             folder.add(m);
                         }
                     }
@@ -203,54 +200,20 @@ public class ShapeConverter {
         return folder;
     }
 
-    private static GetBubbleText defaultBubbleText = new GetBubbleText() {
-        @Override
-        public String getTitle(String metadata, String boundingBox) {
-            String snippet = getSnippet(metadata, boundingBox);
-            if (snippet.length() > 100) {
-                return snippet.substring(0, 96) + "...";
-            }
-            return snippet;
-        }
-
-        @Override
-        public String getSubDescription(String metadata, String boundingBox) {
-            return boundingBox;
-        }
-
-        @Override
-        public String getSnippet(String metadata, String boundingBox) {
-            return metadata;
-        }
-    };
+    public static ValidationPreferences getDefaultValidationPreferences() {
+        final ValidationPreferences pref = new ValidationPreferences();
+        pref.setMaxNumberOfPointsPerShape(200000);
+        return pref;
+    }
 
     public static List<Overlay>  convert(MapView map, File file) throws Exception {
-        ValidationPreferences pref = new ValidationPreferences();
-        pref.setMaxNumberOfPointsPerShape(200000);
-        return convert(map, file, pref);
+        return convert(map, file, getDefaultValidationPreferences());
     }
 
     public static List<Overlay> convert(MapView map, File file, ValidationPreferences pref) throws Exception {
-        return convert(map, file, pref, Color.TRANSPARENT, Color.BLACK, 5, defaultBubbleText);
+        return convert(map, file, pref, Color.TRANSPARENT, Color.BLACK, 5, new DefaultShapeMetadataReader());
     }
 
-    public static List<Overlay> convert(MapView map, File file, int fillColor, int outLineColor, int width) throws Exception {
-        ValidationPreferences pref = new ValidationPreferences();
-        pref.setMaxNumberOfPointsPerShape(200000);
-        return convert(map, file, pref, fillColor, outLineColor, width, defaultBubbleText);
-    }
-
-    public static List<Overlay> convert(MapView map, File file, GetBubbleText getBubbleText) throws Exception {
-        ValidationPreferences pref = new ValidationPreferences();
-        pref.setMaxNumberOfPointsPerShape(200000);
-        return convert(map, file, pref, Color.TRANSPARENT, Color.BLACK, 5, getBubbleText);
-    }
-
-    public static List<Overlay> convert(MapView map, File file, int fillColor, int outLineColor, int width, GetBubbleText getBubbleText) throws Exception {
-        ValidationPreferences pref = new ValidationPreferences();
-        pref.setMaxNumberOfPointsPerShape(200000);
-        return convert(map, file, pref, fillColor, outLineColor, width, getBubbleText);
-    }
 
     private static GeoPoint fixOutOfRange(GeoPoint point){
         if (point.getLatitude()>90.00)
@@ -258,13 +221,14 @@ public class ShapeConverter {
         else if (point.getLatitude()<-90.00)
             point.setLatitude(-90.00);
 
-        if (point.getLongitude()>180.00){
-            double longitude = point.getLongitude() -360.00;
-            point.setLongitude(longitude);
-        } else if (point.getLongitude()<-180.00){
-            double longitude = point.getLongitude() +360.00;
+        if (abs(point.getLongitude())>180.00){
+            double longitude = point.getLongitude();
+            double diff = longitude > 0 ? -360 : 360;
+            while (abs(longitude) > 180)
+                longitude += diff;
             point.setLongitude(longitude);
         }
+
         return point;
     }
 }
