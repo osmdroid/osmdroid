@@ -34,6 +34,8 @@ public class DefaultShapeMetaSetter implements ShapeMetaSetter {
             subString = ((Marker) overlay).getPosition().toString();
         else if (shapeType.equals("org.osmdroid.views.overlay.Polygon") || shapeType.equals("org.osmdroid.views.overlay.Polyline"))
             subString = overlay.getBounds().toString();
+        else
+            subString = null;
 
         mOverlay = overlay;
     }
