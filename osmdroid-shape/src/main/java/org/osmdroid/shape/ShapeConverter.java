@@ -79,9 +79,7 @@ public class ShapeConverter {
                         m.setPosition(fixOutOfRange(new GeoPoint(aPoint.getY(), aPoint.getX())));
 
                         shapeMetaSetter.set(metadata, m);
-                        m.setSnippet(shapeMetaSetter.getSnippet());
-                        m.setTitle(shapeMetaSetter.getTitle());
-                        m.setSubDescription(shapeMetaSetter.getSubDescription());
+
                         folder.add(m);
                     }
                     break;
@@ -105,13 +103,7 @@ public class ShapeConverter {
                             polygon.setPoints(pts); //points out of range should be fixed before this line.
 
                             shapeMetaSetter.set(metadata, polygon);
-                            polygon.setSnippet(shapeMetaSetter.getSnippet());
-                            polygon.setTitle(shapeMetaSetter.getTitle());
 
-                            polygon.setSubDescription(shapeMetaSetter.getSubDescription());
-
-                            polygon.getFillPaint().set(shapeMetaSetter.getFillPaint());
-                            polygon.getOutlinePaint().set(shapeMetaSetter.getStrokePaint());
                             folder.add(polygon);
                         }
                     }
@@ -133,12 +125,7 @@ public class ShapeConverter {
                             line.setPoints(pts);//points out of range should be fixed before this line.
 
                             shapeMetaSetter.set(metadata, line);
-                            line.setSnippet(shapeMetaSetter.getSnippet());
-                            line.setTitle(shapeMetaSetter.getTitle());
 
-                            line.setSubDescription(shapeMetaSetter.getSubDescription());
-
-                            line.getOutlinePaint().set(shapeMetaSetter.getStrokePaint());
                             folder.add(line);
                         }
                     }
@@ -153,9 +140,7 @@ public class ShapeConverter {
                             m.setPosition(fixOutOfRange(new GeoPoint(p.getY(), p.getX())));
 
                             shapeMetaSetter.set(metadata, m);
-                            m.setSnippet(shapeMetaSetter.getSnippet());
-                            m.setTitle(shapeMetaSetter.getTitle());
-                            m.setSubDescription(shapeMetaSetter.getSubDescription());
+
                             folder.add(m);
                         }
                     }

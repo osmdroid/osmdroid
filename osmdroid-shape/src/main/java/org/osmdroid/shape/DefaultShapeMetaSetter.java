@@ -1,52 +1,29 @@
 package org.osmdroid.shape;
 
+import android.graphics.Color;
 import android.graphics.Paint;
 
 import net.iryndin.jdbf.core.DbfRecord;
 
 import org.osmdroid.views.overlay.Marker;
-import org.osmdroid.views.overlay.Overlay;
-import org.osmdroid.views.overlay.PolyOverlayWithIW;
 import org.osmdroid.views.overlay.Polygon;
+import org.osmdroid.views.overlay.Polyline;
 
 import java.nio.charset.Charset;
 import java.text.ParseException;
 
 public class DefaultShapeMetaSetter implements ShapeMetaSetter {
 
-    private String metaString;
-    private String subString;
-    private Overlay mOverlay;
-    private String shapeType;
-
-    @Override
-    public void set(DbfRecord metadata, Overlay overlay) throws ParseException {
-        if (metadata != null){
+    private String readDbf(DbfRecord metadata) throws ParseException {
+        if (metadata != null) {
             metadata.setStringCharset(Charset.defaultCharset());
-            metaString = metadata.toMap().toString();
-        } else{
-            metaString = "";
+            return metadata.toMap().toString();
+        } else {
+            return "";
         }
-
-        shapeType = overlay.getClass().getName();
-
-        if (shapeType.equals("org.osmdroid.views.overlay.Marker"))
-            subString = ((Marker) overlay).getPosition().toString();
-        else if (shapeType.equals("org.osmdroid.views.overlay.Polygon") || shapeType.equals("org.osmdroid.views.overlay.Polyline"))
-            subString = overlay.getBounds().toString();
-        else
-            subString = "";
-
-        mOverlay = overlay;
     }
 
-    @Override
-    public String getSnippet() {
-        return metaString;
-    }
-
-    @Override
-    public String getTitle() {
+    private String getTitle(String metaString) {
         if (metaString.length() > 100) {
             return metaString.substring(0, 96) + "...";
         }
@@ -54,21 +31,33 @@ public class DefaultShapeMetaSetter implements ShapeMetaSetter {
     }
 
     @Override
-    public String getSubDescription() {
-        return subString;
+    public void set(DbfRecord metadata, Marker marker) throws ParseException {
+        String snippet = readDbf(metadata);
+        marker.setSnippet(snippet);
+        marker.setTitle(getTitle(snippet));
+        marker.setSubDescription(marker.getPosition().toString());
     }
 
     @Override
-    public Paint getFillPaint() {
-        if (shapeType.equals("org.osmdroid.views.overlay.Polygon"))
-            return ((Polygon) mOverlay).getFillPaint();
-        return null;
+    public void set(DbfRecord metadata, Polygon polygon) throws ParseException {
+        String snippet = readDbf(metadata);
+        polygon.setSnippet(snippet);
+        polygon.setTitle(getTitle(snippet));
+        polygon.setSubDescription(polygon.getBounds().toString());
+        polygon.getFillPaint().setColor(Color.TRANSPARENT);
+        Paint paint = polygon.getOutlinePaint();
+        paint.setColor(Color.BLACK);
+        paint.setStrokeWidth(5);
     }
 
     @Override
-    public Paint getStrokePaint() {
-        if (shapeType.equals("org.osmdroid.views.overlay.Polygon") || shapeType.equals("org.osmdroid.views.overlay.Polyline"))
-            return ((PolyOverlayWithIW) mOverlay).getOutlinePaint();
-        return null;
+    public void set(DbfRecord metadata, Polyline polyline) throws ParseException {
+        String snippet = readDbf(metadata);
+        polyline.setSnippet(snippet);
+        polyline.setTitle(getTitle(snippet));
+        polyline.setSubDescription(polyline.getBounds().toString());
+        Paint paint = polyline.getOutlinePaint();
+        paint.setColor(Color.BLACK);
+        paint.setStrokeWidth(5);
     }
 }
