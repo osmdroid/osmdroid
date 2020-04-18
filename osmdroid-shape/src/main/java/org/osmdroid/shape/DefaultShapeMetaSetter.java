@@ -1,10 +1,8 @@
 package org.osmdroid.shape;
 
-import android.graphics.Color;
-import android.graphics.Paint;
-
 import net.iryndin.jdbf.core.DbfRecord;
 
+import org.osmdroid.util.BoundingBox;
 import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.Polygon;
 import org.osmdroid.views.overlay.Polyline;
@@ -14,50 +12,39 @@ import java.text.ParseException;
 
 public class DefaultShapeMetaSetter implements ShapeMetaSetter {
 
-    private String readDbf(DbfRecord metadata) throws ParseException {
-        if (metadata != null) {
-            metadata.setStringCharset(Charset.defaultCharset());
-            return metadata.toMap().toString();
-        } else {
-            return "";
+    private static String getSensibleTitle(String snippet) {
+        if (snippet.length() > 100) {
+            return snippet.substring(0, 96) + "...";
         }
-    }
-
-    private String getTitle(String metaString) {
-        if (metaString.length() > 100) {
-            return metaString.substring(0, 96) + "...";
-        }
-        return metaString;
+        return snippet;
     }
 
     @Override
     public void set(DbfRecord metadata, Marker marker) throws ParseException {
-        String snippet = readDbf(metadata);
-        marker.setSnippet(snippet);
-        marker.setTitle(getTitle(snippet));
-        marker.setSubDescription(marker.getPosition().toString());
+        if (metadata != null) {
+            metadata.setStringCharset(Charset.defaultCharset());
+            marker.setSnippet(metadata.toMap().toString());
+            marker.setTitle(getSensibleTitle(marker.getSnippet()));
+        }
     }
 
     @Override
     public void set(DbfRecord metadata, Polygon polygon) throws ParseException {
-        String snippet = readDbf(metadata);
-        polygon.setSnippet(snippet);
-        polygon.setTitle(getTitle(snippet));
-        polygon.setSubDescription(polygon.getBounds().toString());
-        polygon.getFillPaint().setColor(Color.TRANSPARENT);
-        Paint paint = polygon.getOutlinePaint();
-        paint.setColor(Color.BLACK);
-        paint.setStrokeWidth(5);
+        if (metadata != null) {
+            metadata.setStringCharset(Charset.defaultCharset());
+            polygon.setSnippet(metadata.toMap().toString());
+            polygon.setTitle(getSensibleTitle(polygon.getSnippet()));
+        }
+        final BoundingBox boundingBox = polygon.getBounds();
+        polygon.setSubDescription(boundingBox.toString());
     }
 
     @Override
     public void set(DbfRecord metadata, Polyline polyline) throws ParseException {
-        String snippet = readDbf(metadata);
-        polyline.setSnippet(snippet);
-        polyline.setTitle(getTitle(snippet));
-        polyline.setSubDescription(polyline.getBounds().toString());
-        Paint paint = polyline.getOutlinePaint();
-        paint.setColor(Color.BLACK);
-        paint.setStrokeWidth(5);
+        if (metadata != null) {
+            metadata.setStringCharset(Charset.defaultCharset());
+            polyline.setSnippet(metadata.toMap().toString());
+            polyline.setTitle(getSensibleTitle(polyline.getSnippet()));
+        }
     }
 }

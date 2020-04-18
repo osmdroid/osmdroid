@@ -100,7 +100,7 @@ public class ShapeConverter {
                             }
                             pts.add(pts.get(0));    //force the polygon to close
 
-                            polygon.setPoints(pts); //points out of range should be fixed before this line.
+                            polygon.setPoints(pts);
 
                             shapeMetaSetter.set(metadata, polygon);
 
@@ -122,7 +122,7 @@ public class ShapeConverter {
                                 pts.add(pt);
                             }
 
-                            line.setPoints(pts);//points out of range should be fixed before this line.
+                            line.setPoints(pts);
 
                             shapeMetaSetter.set(metadata, line);
 
