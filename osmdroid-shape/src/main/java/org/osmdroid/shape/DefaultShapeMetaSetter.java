@@ -25,7 +25,7 @@ public class DefaultShapeMetaSetter implements ShapeMetaSetter {
             metadata.setStringCharset(Charset.defaultCharset());
             metaString = metadata.toMap().toString();
         } else{
-            metaString = null;
+            metaString = "";
         }
 
         shapeType = overlay.getClass().getName();
@@ -35,7 +35,7 @@ public class DefaultShapeMetaSetter implements ShapeMetaSetter {
         else if (shapeType.equals("org.osmdroid.views.overlay.Polygon") || shapeType.equals("org.osmdroid.views.overlay.Polyline"))
             subString = overlay.getBounds().toString();
         else
-            subString = null;
+            subString = "";
 
         mOverlay = overlay;
     }
