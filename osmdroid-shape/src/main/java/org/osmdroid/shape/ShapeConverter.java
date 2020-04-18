@@ -50,10 +50,8 @@ public class ShapeConverter {
      * @param fillColor fill color of polygon.
      * @param strokeColor out line color of polyOverlay.
      * @param strokeWidth out line width of polyOverlay.
-     * @param shapeMetadataReader customize titles, snippets, and sub-descriptions of bubbles.
-     *                      remember to handling bounding box if your shape file has both points and poly-overlays.
-     *                      please also mind that getSnippet is called before getTitle, and before getSubDescription.
-     * @return
+     * @param shapeMetadataReader read metadata from file, and customize titles, snippets, and sub-descriptions of bubbles.
+     * @return an arraylist of all overlays from the shapefile.
      * @throws Exception
      */
     public static List<Overlay> convert(MapView map, File file, ValidationPreferences prefs,
