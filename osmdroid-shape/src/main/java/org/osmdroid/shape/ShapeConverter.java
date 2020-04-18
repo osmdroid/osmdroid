@@ -81,6 +81,7 @@ public class ShapeConverter {
                         shapeMetaSetter.set(metadata, m);
                         m.setSnippet(shapeMetaSetter.getSnippet());
                         m.setTitle(shapeMetaSetter.getTitle());
+                        m.setSubDescription(shapeMetaSetter.getSubDescription());
                         folder.add(m);
                     }
                     break;
@@ -154,6 +155,7 @@ public class ShapeConverter {
                             shapeMetaSetter.set(metadata, m);
                             m.setSnippet(shapeMetaSetter.getSnippet());
                             m.setTitle(shapeMetaSetter.getTitle());
+                            m.setSubDescription(shapeMetaSetter.getSubDescription());
                             folder.add(m);
                         }
                     }
