@@ -115,115 +115,6 @@ public class StorageUtils {
         return storageInfos;
     }
 
-    private static StorageInfo getPrimarySharedStorage() {
-        String primarySharedStoragePath = "";
-        boolean isPrimarySharedStorageNotRemovable = false;
-        String primarySharedStorageState = "";
-        boolean isPrimarySharedStorageReadonly = true;
-        boolean isPrimarySharedStorageAvailable = false;
-
-        try {
-            if (Environment.getExternalStorageDirectory() != null) {
-                primarySharedStoragePath = Environment.getExternalStorageDirectory().getPath();
-            }
-        } catch (Throwable ex) {
-            //trap for android studio layout editor and some for certain devices
-            //see https://github.com/osmdroid/osmdroid/issues/508
-            ex.printStackTrace();
-        }
-        try {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
-                isPrimarySharedStorageNotRemovable = !Environment.isExternalStorageRemovable();
-            }
-        } catch (Throwable ex) {
-            //trap for android studio layout editor and some for certain devices
-            //see https://github.com/osmdroid/osmdroid/issues/508
-            ex.printStackTrace();
-        }
-        try {
-            primarySharedStorageState = Environment.getExternalStorageState();
-        } catch (Throwable ex) {
-            //trap for android studio layout editor and some for certain devices
-            //see https://github.com/osmdroid/osmdroid/issues/508
-            ex.printStackTrace();
-        }
-        try {
-            isPrimarySharedStorageAvailable = primarySharedStorageState.equals(Environment.MEDIA_MOUNTED) || primarySharedStorageState.equals(Environment.MEDIA_MOUNTED_READ_ONLY);
-        } catch (Throwable ex) {
-            //trap for android studio layout editor and some for certain devices
-            //see https://github.com/osmdroid/osmdroid/issues/508
-            ex.printStackTrace();
-        }
-        try {
-            isPrimarySharedStorageReadonly = Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED_READ_ONLY);
-        } catch (Throwable ex) {
-            //trap for android studio layout editor and some for certain devices
-            //see https://github.com/osmdroid/osmdroid/issues/508
-            ex.printStackTrace();
-        }
-
-        StorageInfo primarySharedStorageInfo = null;
-        if (isPrimarySharedStorageAvailable) {
-            primarySharedStorageInfo = new StorageInfo(primarySharedStoragePath, isPrimarySharedStorageNotRemovable, isPrimarySharedStorageReadonly, -1);
-        }
-        return primarySharedStorageInfo;
-    }
-
-    private static List<StorageInfo> tryToFindOtherVoIdManagedStorages(String storagePathToIgnore) {
-        List<StorageInfo> storageInfos = new ArrayList<>();
-        BufferedReader bufferedReader = null;
-
-        try {
-            HashSet<String> paths = new HashSet<>();
-            bufferedReader = new BufferedReader(new FileReader("/proc/mounts"));
-            String line;
-            int currentDisplayNumber = 1;
-            Log.d(TAG, "/proc/mounts");
-            while ((line = bufferedReader.readLine()) != null) {
-                Log.d(TAG, line);
-                if (line.contains("vfat") || line.contains("/mnt")) {
-                    StringTokenizer tokens = new StringTokenizer(line, " ");
-                    String unused = tokens.nextToken(); //device
-                    String mountPoint = tokens.nextToken(); //mount point
-                    if (paths.contains(mountPoint)) {
-                        continue;
-                    }
-                    unused = tokens.nextToken(); //file system
-                    List<String> flags = Arrays.asList(tokens.nextToken().split(",")); //flags
-                    boolean readonly = flags.contains("ro");
-
-                    // if mountPoint is the primary shared storage, skip it
-                    if (mountPoint.equals(storagePathToIgnore)) {
-                        paths.add(storagePathToIgnore);
-                    } else if (line.contains("/dev/block/vold")) {
-                        if (!line.contains("/mnt/secure")
-                                && !line.contains("/mnt/asec")
-                                && !line.contains("/mnt/obb")
-                                && !line.contains("/dev/mapper")
-                                && !line.contains("tmpfs")) {
-                            paths.add(mountPoint);
-                            if (new File(mountPoint + File.separator).exists()) {
-                                storageInfos.add(new StorageInfo(mountPoint, false, readonly, currentDisplayNumber++));
-                            }
-                        }
-                    }
-                }
-            }
-        } catch (FileNotFoundException ex) {
-            ex.printStackTrace();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        } finally {
-            if (bufferedReader != null) {
-                try {
-                    bufferedReader.close();
-                } catch (IOException ignored) {
-                }
-            }
-        }
-        return storageInfos;
-    }
-
     /**
      * gets the best possible storage location by freespace
      *
@@ -389,6 +280,115 @@ public class StorageUtils {
         }
 
         return map;
+    }
+
+    private static StorageInfo getPrimarySharedStorage() {
+        String primarySharedStoragePath = "";
+        boolean isPrimarySharedStorageNotRemovable = false;
+        String primarySharedStorageState = "";
+        boolean isPrimarySharedStorageReadonly = true;
+        boolean isPrimarySharedStorageAvailable = false;
+
+        try {
+            if (Environment.getExternalStorageDirectory() != null) {
+                primarySharedStoragePath = Environment.getExternalStorageDirectory().getPath();
+            }
+        } catch (Throwable ex) {
+            //trap for android studio layout editor and some for certain devices
+            //see https://github.com/osmdroid/osmdroid/issues/508
+            ex.printStackTrace();
+        }
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
+                isPrimarySharedStorageNotRemovable = !Environment.isExternalStorageRemovable();
+            }
+        } catch (Throwable ex) {
+            //trap for android studio layout editor and some for certain devices
+            //see https://github.com/osmdroid/osmdroid/issues/508
+            ex.printStackTrace();
+        }
+        try {
+            primarySharedStorageState = Environment.getExternalStorageState();
+        } catch (Throwable ex) {
+            //trap for android studio layout editor and some for certain devices
+            //see https://github.com/osmdroid/osmdroid/issues/508
+            ex.printStackTrace();
+        }
+        try {
+            isPrimarySharedStorageAvailable = primarySharedStorageState.equals(Environment.MEDIA_MOUNTED) || primarySharedStorageState.equals(Environment.MEDIA_MOUNTED_READ_ONLY);
+        } catch (Throwable ex) {
+            //trap for android studio layout editor and some for certain devices
+            //see https://github.com/osmdroid/osmdroid/issues/508
+            ex.printStackTrace();
+        }
+        try {
+            isPrimarySharedStorageReadonly = Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED_READ_ONLY);
+        } catch (Throwable ex) {
+            //trap for android studio layout editor and some for certain devices
+            //see https://github.com/osmdroid/osmdroid/issues/508
+            ex.printStackTrace();
+        }
+
+        StorageInfo primarySharedStorageInfo = null;
+        if (isPrimarySharedStorageAvailable) {
+            primarySharedStorageInfo = new StorageInfo(primarySharedStoragePath, isPrimarySharedStorageNotRemovable, isPrimarySharedStorageReadonly, -1);
+        }
+        return primarySharedStorageInfo;
+    }
+
+    private static List<StorageInfo> tryToFindOtherVoIdManagedStorages(String storagePathToIgnore) {
+        List<StorageInfo> storageInfos = new ArrayList<>();
+        BufferedReader bufferedReader = null;
+
+        try {
+            HashSet<String> paths = new HashSet<>();
+            bufferedReader = new BufferedReader(new FileReader("/proc/mounts"));
+            String line;
+            int currentDisplayNumber = 1;
+            Log.d(TAG, "/proc/mounts");
+            while ((line = bufferedReader.readLine()) != null) {
+                Log.d(TAG, line);
+                if (line.contains("vfat") || line.contains("/mnt")) {
+                    StringTokenizer tokens = new StringTokenizer(line, " ");
+                    String unused = tokens.nextToken(); //device
+                    String mountPoint = tokens.nextToken(); //mount point
+                    if (paths.contains(mountPoint)) {
+                        continue;
+                    }
+                    unused = tokens.nextToken(); //file system
+                    List<String> flags = Arrays.asList(tokens.nextToken().split(",")); //flags
+                    boolean readonly = flags.contains("ro");
+
+                    // if mountPoint is the primary shared storage, skip it
+                    if (mountPoint.equals(storagePathToIgnore)) {
+                        paths.add(storagePathToIgnore);
+                    } else if (line.contains("/dev/block/vold")) {
+                        if (!line.contains("/mnt/secure")
+                                && !line.contains("/mnt/asec")
+                                && !line.contains("/mnt/obb")
+                                && !line.contains("/dev/mapper")
+                                && !line.contains("tmpfs")) {
+                            paths.add(mountPoint);
+                            if (new File(mountPoint + File.separator).exists()) {
+                                storageInfos.add(new StorageInfo(mountPoint, false, readonly, currentDisplayNumber++));
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (FileNotFoundException ex) {
+            ex.printStackTrace();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } finally {
+            if (bufferedReader != null) {
+                try {
+                    bufferedReader.close();
+                } catch (IOException ignored) {
+                }
+            }
+        }
+        return storageInfos;
     }
 
     private static Map<String, File> tryToGetMountedStoragesFromFilesystem() {
