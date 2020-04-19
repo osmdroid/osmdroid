@@ -332,28 +332,14 @@ public class StorageUtils {
 
         mounts.clear();
 
-        if (map.isEmpty()) {
-            map.put(SD_CARD, Environment.getExternalStorageDirectory());
-        }
-
         //ok now that we've done the dirty linux work, let's pull in the android bits
         if (!map.containsValue(Environment.getExternalStorageDirectory()))
             map.put(SD_CARD, Environment.getExternalStorageDirectory());
 
-        String primary_sd = System.getenv("EXTERNAL_STORAGE");
-        if (primary_sd != null) {
-            File t = new File(primary_sd);
-            if (t.exists() && !map.containsValue(t))
-                map.put(SD_CARD, t);
-        }
-
-        String secondary_sd = System.getenv("SECONDARY_STORAGE");
-        if (secondary_sd != null) {
-            String[] split = secondary_sd.split(File.pathSeparator);
-            for (String s : split) {
-                File t = new File(s);
-                if (t.exists() && !map.containsValue(t))
-                    map.put(SD_CARD, t);
+        Set<File> fromSystemEnv = tryToGetStorageFromSystemEnv();
+        for (File file : fromSystemEnv) {
+            if (file.exists() && !map.containsValue(file)) {
+                map.put(SD_CARD, file);
             }
         }
 
@@ -365,22 +351,11 @@ public class StorageUtils {
      */
     private static Set<File> getAllStorageLocationsRevised() {
         Set<File> map = new HashSet<>();
-        String primarySd = System.getenv("EXTERNAL_STORAGE");
-        if (primarySd != null) {
-            File t = new File(primarySd + File.separator);
-            if (isWritable(t)) {
-                map.add(t);
-            }
-        }
 
-        String secondarySd = System.getenv("SECONDARY_STORAGE");
-        if (secondarySd != null) {
-            String[] split = secondarySd.split(File.pathSeparator);
-            for (String s : split) {
-                File t = new File(s + File.separator);
-                if (isWritable(t)) {
-                    map.add(t);
-                }
+        Set<File> fromSystemEnv = tryToGetStorageFromSystemEnv();
+        for (File file : fromSystemEnv) {
+            if (isWritable(file)) {
+                map.add(file);
             }
         }
 
@@ -488,5 +463,25 @@ public class StorageUtils {
         vold.clear();
 
         return mounts;
+    }
+
+    private static Set<File> tryToGetStorageFromSystemEnv() {
+        Set<File> storages = new HashSet<>();
+        String primarySd = System.getenv("EXTERNAL_STORAGE");
+        if (primarySd != null) {
+            File t = new File(primarySd + File.separator);
+            storages.add(t);
+        }
+
+        String secondarySd = System.getenv("SECONDARY_STORAGE");
+        if (secondarySd != null) {
+            String[] split = secondarySd.split(File.pathSeparator);
+            for (String s : split) {
+                File t = new File(s + File.separator);
+                storages.add(t);
+            }
+        }
+
+        return storages;
     }
 }
