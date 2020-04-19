@@ -334,35 +334,7 @@ public class StorageUtils {
     public static Map<String, File> getAllStorageLocations() {
         Map<String, File> map = new HashMap<>(10);
 
-        List<String> mounts = getMounts();
-
-        List<String> mountHash = new ArrayList<>(10);
-
-        for (String mount : mounts) {
-            File root = new File(mount);
-            if (root.exists() && root.isDirectory() && root.canWrite()) {
-                File[] list = root.listFiles();
-                StringBuilder hash = new StringBuilder("[");
-                if (list != null) {
-                    for (File f : list) {
-                        hash.append(f.getName().hashCode()).append(":").append(f.length()).append(", ");
-                    }
-                }
-                hash.append("]");
-                if (!mountHash.contains(hash.toString())) {
-                    String key = SD_CARD + "_" + map.size();
-                    if (map.size() == 0) {
-                        key = SD_CARD;
-                    } else if (map.size() == 1) {
-                        key = EXTERNAL_SD_CARD;
-                    }
-                    mountHash.add(hash.toString());
-                    map.put(key, root);
-                }
-            }
-        }
-
-        mounts.clear();
+        map.putAll(tryToGetMountedStoragesFromFilesystem());
 
         //ok now that we've done the dirty linux work, let's pull in the android bits
         if (!map.containsValue(Environment.getExternalStorageDirectory()))
@@ -398,34 +370,19 @@ public class StorageUtils {
             }
         }
 
-        List<String> mounts = getMounts();
-        List<String> mountHash = new ArrayList<>(10);
-
-        for (String mount : mounts) {
-            File root = new File(mount);
-            if (root.exists() && root.isDirectory() && root.canWrite()) {
-                File[] list = root.listFiles();
-                StringBuilder hash = new StringBuilder("[");
-                if (list != null) {
-                    for (File f : list) {
-                        hash.append(f.getName().hashCode()).append(":").append(f.length()).append(", ");
-                    }
-                }
-                hash.append("]");
-                if (!mountHash.contains(hash.toString())) {
-                    mountHash.add(hash.toString());
-                    if (isWritable(root)) {
-                        map.add(root);
-                    }
-                }
+        Map<String, File> mounts = tryToGetMountedStoragesFromFilesystem();
+        for (File file : mounts.values()) {
+            if (isWritable(file)) {
+                map.add(file);
             }
         }
-        mounts.clear();
 
         return map;
     }
 
-    private static List<String> getMounts() {
+    private static Map<String, File> tryToGetMountedStoragesFromFilesystem() {
+        Map<String, File> map = new HashMap<>();
+
         List<String> mounts = new ArrayList<>(10);
         List<String> vold = new ArrayList<>(10);
         mounts.add("/mnt/sdcard");
@@ -444,19 +401,21 @@ public class StorageUtils {
 
                         // don't add the default mount path
                         // it's already in the list.
-                        if (!element.equals("/mnt/sdcard"))
+                        if (!element.equals("/mnt/sdcard")) {
                             mounts.add(element);
+                        }
                     }
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            if (scanner != null)
+            if (scanner != null) {
                 try {
                     scanner.close();
                 } catch (Exception ignored) {
                 }
+            }
             scanner = null;
         }
 
@@ -470,31 +429,60 @@ public class StorageUtils {
                         String[] lineElements = line.split(" ");
                         String element = lineElements[2];
 
-                        if (element.contains(":"))
+                        if (element.contains(":")) {
                             element = element.substring(0, element.indexOf(":"));
-                        if (!element.equals("/mnt/sdcard"))
+                        }
+                        if (!element.equals("/mnt/sdcard")) {
                             vold.add(element);
+                        }
                     }
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            if (scanner != null)
+            if (scanner != null) {
                 try {
                     scanner.close();
                 } catch (Exception ignored) {
                 }
+            }
         }
 
         for (int i = 0; i < mounts.size(); i++) {
             String mount = mounts.get(i);
-            if (!vold.contains(mount))
+            if (!vold.contains(mount)) {
                 mounts.remove(i--);
+            }
         }
         vold.clear();
 
-        return mounts;
+        List<String> mountHash = new ArrayList<>(10);
+        for (String mount : mounts) {
+            File root = new File(mount);
+            if (root.exists() && root.isDirectory() && root.canWrite()) {
+                File[] list = root.listFiles();
+                StringBuilder hash = new StringBuilder("[");
+                if (list != null) {
+                    for (File f : list) {
+                        hash.append(f.getName().hashCode()).append(":").append(f.length()).append(", ");
+                    }
+                }
+                hash.append("]");
+                if (!mountHash.contains(hash.toString())) {
+                    String key = SD_CARD + "_" + map.size();
+                    if (map.size() == 0) {
+                        key = SD_CARD;
+                    } else if (map.size() == 1) {
+                        key = EXTERNAL_SD_CARD;
+                    }
+                    mountHash.add(hash.toString());
+                    map.put(key, root);
+                }
+            }
+        }
+
+        return map;
     }
 
     private static Set<File> tryToGetStorageFromSystemEnv() {
