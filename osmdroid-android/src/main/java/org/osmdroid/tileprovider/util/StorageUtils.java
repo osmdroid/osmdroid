@@ -56,18 +56,7 @@ public class StorageUtils {
 
             if (!readonly) {
                 //confirm it's writable
-                File f = new File(path + File.separator + UUID.randomUUID().toString());
-                try {
-                    //noinspection ResultOfMethodCallIgnored
-                    f.createNewFile();
-                    //noinspection ResultOfMethodCallIgnored
-                    f.delete();
-                    this.readonly = false;
-                } catch (Throwable e) {
-                    this.readonly = true;
-                }
-            } else {
-                this.readonly = true;
+                this.readonly = !isWritable(new File(path));
             }
 
             StringBuilder res = new StringBuilder();
@@ -284,13 +273,13 @@ public class StorageUtils {
 
     public static boolean isWritable(File path) {
         try {
-            File tmp = new File(path.getAbsolutePath() + File.separator + "osm.tmp");
+            File tmp = new File(path.getAbsolutePath() + File.separator + UUID.randomUUID().toString());
             FileOutputStream fos = new FileOutputStream(tmp);
             fos.write("hi".getBytes());
             fos.close();
-            Log.i(TAG, path.getAbsolutePath() + " is writable");
             //noinspection ResultOfMethodCallIgnored
             tmp.delete();
+            Log.i(TAG, path.getAbsolutePath() + " is writable");
             return true;
         } catch (Throwable ex) {
             Log.i(TAG, path.getAbsolutePath() + " is NOT writable");
