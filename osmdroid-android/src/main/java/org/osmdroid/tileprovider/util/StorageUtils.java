@@ -83,12 +83,39 @@ public class StorageUtils {
     }
 
     /**
-     * Returns a {@link List} of {@link StorageInfo} all storage paths, writable or not.
+     * Returns a {@link List} of {@link StorageInfo} of all storage paths, writable or not.
      *
      * @return
      */
     public static List<StorageInfo> getStorageList() {
         List<StorageInfo> storageInfos = new ArrayList<>();
+
+        StorageInfo primarySharedStorageInfo = getPrimarySharedStorage();
+
+        if (primarySharedStorageInfo != null) {
+            storageInfos.add(primarySharedStorageInfo);
+        }
+
+        storageInfos.addAll(tryToFindOtherVoIdManagedStorages(primarySharedStorageInfo != null ? primarySharedStorageInfo.path : ""));
+
+        Set<File> allStorageLocationsRevised = getAllStorageLocationsRevised();
+        for (File next : allStorageLocationsRevised) {
+            boolean found = false;
+            for (int i = 0; i < storageInfos.size(); i++) {
+                if (storageInfos.get(i).path.equals(next.getAbsolutePath())) {
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                storageInfos.add(new StorageInfo(next.getAbsolutePath(), false, false, -1));
+            }
+        }
+
+        return storageInfos;
+    }
+
+    private static StorageInfo getPrimarySharedStorage() {
         String primarySharedStoragePath = "";
         boolean isPrimarySharedStorageNotRemovable = false;
         String primarySharedStorageState = "";
@@ -135,27 +162,11 @@ public class StorageUtils {
             ex.printStackTrace();
         }
 
+        StorageInfo primarySharedStorageInfo = null;
         if (isPrimarySharedStorageAvailable) {
-            storageInfos.add(new StorageInfo(primarySharedStoragePath, isPrimarySharedStorageNotRemovable, isPrimarySharedStorageReadonly, -1));
+            primarySharedStorageInfo = new StorageInfo(primarySharedStoragePath, isPrimarySharedStorageNotRemovable, isPrimarySharedStorageReadonly, -1);
         }
-
-        storageInfos.addAll(tryToFindOtherVoIdManagedStorages(primarySharedStoragePath));
-
-        Set<File> allStorageLocationsRevised = getAllStorageLocationsRevised();
-        for (File next : allStorageLocationsRevised) {
-            boolean found = false;
-            for (int i = 0; i < storageInfos.size(); i++) {
-                if (storageInfos.get(i).path.equals(next.getAbsolutePath())) {
-                    found = true;
-                    break;
-                }
-            }
-            if (!found) {
-                storageInfos.add(new StorageInfo(next.getAbsolutePath(), false, false, -1));
-            }
-        }
-
-        return storageInfos;
+        return primarySharedStorageInfo;
     }
 
     private static List<StorageInfo> tryToFindOtherVoIdManagedStorages(String storagePathToIgnore) {
