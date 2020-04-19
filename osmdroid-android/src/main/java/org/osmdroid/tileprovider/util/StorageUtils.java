@@ -285,7 +285,6 @@ public class StorageUtils {
     private static StorageInfo getPrimarySharedStorage() {
         String primarySharedStoragePath = "";
         boolean isPrimarySharedStorageNotRemovable = false;
-        String primarySharedStorageState = "";
         boolean isPrimarySharedStorageReadonly = true;
         boolean isPrimarySharedStorageAvailable = false;
 
@@ -308,14 +307,7 @@ public class StorageUtils {
             ex.printStackTrace();
         }
         try {
-            primarySharedStorageState = Environment.getExternalStorageState();
-        } catch (Throwable ex) {
-            //trap for android studio layout editor and some for certain devices
-            //see https://github.com/osmdroid/osmdroid/issues/508
-            ex.printStackTrace();
-        }
-        try {
-            isPrimarySharedStorageAvailable = primarySharedStorageState.equals(Environment.MEDIA_MOUNTED) || primarySharedStorageState.equals(Environment.MEDIA_MOUNTED_READ_ONLY);
+            isPrimarySharedStorageAvailable = isPrimarySharedStorageAvailable();
         } catch (Throwable ex) {
             //trap for android studio layout editor and some for certain devices
             //see https://github.com/osmdroid/osmdroid/issues/508
