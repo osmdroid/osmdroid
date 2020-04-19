@@ -110,9 +110,9 @@ public class DiagnosticsActivity extends AppCompatActivity
 
     private void probeStorage() {
         StringBuilder sb = new StringBuilder();
-        Iterator<File> iterator = StorageUtils.getAllStorageLocations().values().iterator();
-        while (iterator.hasNext()) {
-            sb.append(iterator.next()).append("\n");
+        List<StorageUtils.StorageInfo> storageInfos = StorageUtils.getStorageList();
+        for (StorageUtils.StorageInfo storageInfo : storageInfos) {
+            sb.append(storageInfo.path).append("\n");
         }
         output.setText(sb.toString());
     }
