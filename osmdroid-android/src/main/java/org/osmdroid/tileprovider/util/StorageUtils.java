@@ -83,7 +83,7 @@ public class StorageUtils {
     }
 
     /**
-     * returns all storage paths, writable or not
+     * Returns a {@link List} of {@link StorageInfo} all storage paths, writable or not.
      *
      * @return
      */
@@ -216,10 +216,11 @@ public class StorageUtils {
     /**
      * gets the best possible storage location by freespace
      *
-     * @return
+     * @deprecated As of 6.1.7, use {@link #getBestStorage()} instead.
      */
+    @Deprecated
     public static File getStorage() {
-        return getStorage(null);
+        return getBestStorage();
     }
 
     /**
@@ -227,7 +228,26 @@ public class StorageUtils {
      *
      * @return
      */
+    public static File getBestStorage() {
+       return getBestStorage(null);
+    }
+
+    /**
+     * gets the best possible storage location by freespace
+     *
+     * @deprecated As of 6.1.7, use {@link #getBestStorage(Context)} instead.
+     */
+    @Deprecated
     public static File getStorage(final Context context) {
+        return getBestStorage(context);
+    }
+
+    /**
+     * gets the best possible storage location by freespace
+     *
+     * @return
+     */
+    public static File getBestStorage(final Context context) {
         StorageInfo bestStorage = null;
         List<StorageInfo> storageList = getStorageList();
         for (int i = 0; i < storageList.size(); i++) {
@@ -261,9 +281,18 @@ public class StorageUtils {
     }
 
     /**
+     * @deprecated As of 6.1.7, use {@link #isPrimarySharedStorageAvailable()} instead.
      * @return True if the external storage is available. False otherwise.
      */
+    @Deprecated
     public static boolean isAvailable() {
+        return isPrimarySharedStorageAvailable();
+    }
+
+    /**
+     * @return True if the primary shared storage is available. False otherwise.
+     */
+    public static boolean isPrimarySharedStorageAvailable() {
         String state = Environment.getExternalStorageState();
         return Environment.MEDIA_MOUNTED.equals(state) || Environment.MEDIA_MOUNTED_READ_ONLY.equals(state);
     }
@@ -273,13 +302,16 @@ public class StorageUtils {
     }
 
     /**
-     * @return True if the external storage is writable. False otherwise.
+     * @return True if the primary shared storage is writable. False otherwise.
      */
     public static boolean isWritable() {
         String state = Environment.getExternalStorageState();
         return Environment.MEDIA_MOUNTED.equals(state);
     }
 
+    /**
+     * @return True if the path is writable. False otherwise.
+     */
     public static boolean isWritable(File path) {
         try {
             File tmp = new File(path.getAbsolutePath() + File.separator + UUID.randomUUID().toString());
@@ -297,7 +329,7 @@ public class StorageUtils {
     }
 
     /**
-     * @return A map of all storage locations available
+     * @return A {@link Map} of all storage locations available
      */
     public static Map<String, File> getAllStorageLocations() {
         Map<String, File> map = new HashMap<>(10);
@@ -347,7 +379,7 @@ public class StorageUtils {
     }
 
     /**
-     * @return A map of all storage locations available
+     * @return A {@link Set} of all storage locations available
      */
     private static Set<File> getAllStorageLocationsRevised() {
         Set<File> map = new HashSet<>();
