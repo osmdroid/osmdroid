@@ -127,7 +127,7 @@ public class StorageUtils {
      */
     @Deprecated
     public static File getStorage() {
-        return getBestStorage();
+        return getStorage(null);
     }
 
     /**
@@ -135,7 +135,7 @@ public class StorageUtils {
      *
      * @return
      */
-    public static File getBestStorage() {
+    public static StorageInfo getBestStorage() {
        return getBestStorage(null);
     }
 
@@ -146,7 +146,12 @@ public class StorageUtils {
      */
     @Deprecated
     public static File getStorage(final Context context) {
-        return getBestStorage(context);
+        StorageInfo bestStorage = getBestStorage(context);
+        if (bestStorage != null) {
+            return new File(bestStorage.path);
+        }
+
+        return null;
     }
 
     /**
@@ -154,7 +159,7 @@ public class StorageUtils {
      *
      * @return
      */
-    public static File getBestStorage(final Context context) {
+    public static StorageInfo getBestStorage(final Context context) {
         StorageInfo bestStorage = null;
         List<StorageInfo> storageList = getStorageList();
         for (int i = 0; i < storageList.size(); i++) {
@@ -171,14 +176,15 @@ public class StorageUtils {
             }
         }
         if (bestStorage != null) {
-            return new File(bestStorage.path);
+            return bestStorage;
         }
         //http://stackoverflow.com/questions/21230629/getfilesdir-vs-environment-getdatadirectory
         if (context != null) {
-            return new File(context.getDatabasePath("temp.sqlite").getAbsolutePath().replace("temp.sqlite", ""));
+            String dbPath = context.getDatabasePath("temp.sqlite").getAbsolutePath().replace("temp.sqlite", "");
+            return new StorageInfo(dbPath, true, false, -1);
         } else {
             try {
-                return Environment.getExternalStorageDirectory();
+                return getPrimarySharedStorage();
             } catch (Exception ex) {
                 //trap for android studio layout editor and some for certain devices
                 //see https://github.com/osmdroid/osmdroid/issues/508
