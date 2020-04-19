@@ -135,7 +135,33 @@ public class StorageUtils {
             ex.printStackTrace();
         }
 
+        if (isPrimarySharedStorageAvailable) {
+            storageInfos.add(new StorageInfo(primarySharedStoragePath, isPrimarySharedStorageNotRemovable, isPrimarySharedStorageReadonly, -1));
+        }
+
+        storageInfos.addAll(tryToFindOtherVoIdManagedStorages(primarySharedStoragePath));
+
+        Set<File> allStorageLocationsRevised = getAllStorageLocationsRevised();
+        for (File next : allStorageLocationsRevised) {
+            boolean found = false;
+            for (int i = 0; i < storageInfos.size(); i++) {
+                if (storageInfos.get(i).path.equals(next.getAbsolutePath())) {
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                storageInfos.add(new StorageInfo(next.getAbsolutePath(), false, false, -1));
+            }
+        }
+
+        return storageInfos;
+    }
+
+    private static List<StorageInfo> tryToFindOtherVoIdManagedStorages(String storagePathToIgnore) {
+        List<StorageInfo> storageInfos = new ArrayList<>();
         BufferedReader bufferedReader = null;
+
         try {
             HashSet<String> paths = new HashSet<>();
             bufferedReader = new BufferedReader(new FileReader("/proc/mounts"));
@@ -155,25 +181,22 @@ public class StorageUtils {
                     List<String> flags = Arrays.asList(tokens.nextToken().split(",")); //flags
                     boolean readonly = flags.contains("ro");
 
-                    if (mountPoint.equals(primarySharedStoragePath)) {
-                        paths.add(primarySharedStoragePath);
-                        storageInfos.add(0, new StorageInfo(primarySharedStoragePath, isPrimarySharedStorageNotRemovable, readonly, -1));
+                    // if mountPoint is the primary shared storage, skip it
+                    if (mountPoint.equals(storagePathToIgnore)) {
+                        paths.add(storagePathToIgnore);
                     } else if (line.contains("/dev/block/vold")) {
                         if (!line.contains("/mnt/secure")
-                            && !line.contains("/mnt/asec")
-                            && !line.contains("/mnt/obb")
-                            && !line.contains("/dev/mapper")
-                            && !line.contains("tmpfs")) {
+                                && !line.contains("/mnt/asec")
+                                && !line.contains("/mnt/obb")
+                                && !line.contains("/dev/mapper")
+                                && !line.contains("tmpfs")) {
                             paths.add(mountPoint);
-                            // if (isWritable(new File(mount_point+ File.separator)))
-                            storageInfos.add(new StorageInfo(mountPoint, false, readonly, currentDisplayNumber++));
+                            if (new File(mountPoint + File.separator).exists()) {
+                                storageInfos.add(new StorageInfo(mountPoint, false, readonly, currentDisplayNumber++));
+                            }
                         }
                     }
                 }
-            }
-
-            if (!paths.contains(primarySharedStoragePath) && isPrimarySharedStorageAvailable && primarySharedStoragePath.length() > 0) {
-                storageInfos.add(0, new StorageInfo(primarySharedStoragePath, isPrimarySharedStorageNotRemovable, isPrimarySharedStorageReadonly, -1));
             }
         } catch (FileNotFoundException ex) {
             ex.printStackTrace();
@@ -187,21 +210,6 @@ public class StorageUtils {
                 }
             }
         }
-
-        Set<File> allStorageLocationsRevised = getAllStorageLocationsRevised();
-        for (File next : allStorageLocationsRevised) {
-            boolean found = false;
-            for (int i = 0; i < storageInfos.size(); i++) {
-                if (storageInfos.get(i).path.equals(next.getAbsolutePath())) {
-                    found = true;
-                    break;
-                }
-            }
-            if (!found) {
-                storageInfos.add(new StorageInfo(next.getAbsolutePath(), false, false, -1));
-            }
-        }
-
         return storageInfos;
     }
 
