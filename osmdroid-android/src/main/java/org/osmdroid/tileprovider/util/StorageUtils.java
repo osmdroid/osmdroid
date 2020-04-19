@@ -220,32 +220,7 @@ public class StorageUtils {
      * @return
      */
     public static File getStorage() {
-        StorageInfo ptr = null;
-        List<StorageInfo> storageList = getStorageList();
-        for (int i = 0; i < storageList.size(); i++) {
-            StorageInfo storageInfo = storageList.get(i);
-            if (!storageInfo.readonly && isWritable(new File(storageInfo.path))) {
-                if (ptr != null) {
-                    //compare free space
-                    if (ptr.freeSpace < storageInfo.freeSpace) {
-                        ptr = storageInfo;
-                    }
-                } else {
-                    ptr = storageInfo;
-                }
-            }
-        }
-        if (ptr != null) {
-            return new File(ptr.path);
-        }
-        //http://stackoverflow.com/questions/21230629/getfilesdir-vs-environment-getdatadirectory
-        try {
-            return Environment.getExternalStorageDirectory();
-        } catch (Exception ex) {
-            //trap for android studio layout editor and some for certain devices
-            //see https://github.com/osmdroid/osmdroid/issues/508
-            return null;
-        }
+        return getStorage(null);
     }
 
     /**
@@ -273,7 +248,17 @@ public class StorageUtils {
             return new File(ptr.path);
         }
         //http://stackoverflow.com/questions/21230629/getfilesdir-vs-environment-getdatadirectory
-        return new File(ctx.getDatabasePath("temp.sqlite").getAbsolutePath().replace("temp.sqlite", ""));
+        if (ctx != null) {
+            return new File(ctx.getDatabasePath("temp.sqlite").getAbsolutePath().replace("temp.sqlite", ""));
+        } else {
+            try {
+                return Environment.getExternalStorageDirectory();
+            } catch (Exception ex) {
+                //trap for android studio layout editor and some for certain devices
+                //see https://github.com/osmdroid/osmdroid/issues/508
+                return null;
+            }
+        }
     }
 
     /**
@@ -318,74 +303,7 @@ public class StorageUtils {
     public static Map<String, File> getAllStorageLocations() {
         Map<String, File> map = new HashMap<>(10);
 
-        List<String> mMounts = new ArrayList<>(10);
-        List<String> mVold = new ArrayList<>(10);
-        mMounts.add("/mnt/sdcard");
-        mVold.add("/mnt/sdcard");
-
-        Scanner scanner = null;
-        try {
-            File mountFile = new File("/proc/mounts");
-            if (mountFile.exists()) {
-                scanner = new Scanner(mountFile);
-                while (scanner.hasNext()) {
-                    String line = scanner.nextLine();
-                    if (line.startsWith("/dev/block/vold/")) {
-                        String[] lineElements = line.split(" ");
-                        String element = lineElements[1];
-
-                        // don't add the default mount path
-                        // it's already in the list.
-                        if (!element.equals("/mnt/sdcard"))
-                            mMounts.add(element);
-                    }
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (scanner != null)
-                try {
-                    scanner.close();
-                } catch (Exception ignored) {
-                }
-            scanner = null;
-        }
-
-        try {
-            File voldFile = new File("/system/etc/vold.fstab");
-            if (voldFile.exists()) {
-                scanner = new Scanner(voldFile);
-                while (scanner.hasNext()) {
-                    String line = scanner.nextLine();
-                    if (line.startsWith("dev_mount")) {
-                        String[] lineElements = line.split(" ");
-                        String element = lineElements[2];
-
-                        if (element.contains(":"))
-                            element = element.substring(0, element.indexOf(":"));
-                        if (!element.equals("/mnt/sdcard"))
-                            mVold.add(element);
-                    }
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (scanner != null)
-                try {
-                    scanner.close();
-                } catch (Exception ignored) {
-                }
-            scanner = null;
-        }
-
-        for (int i = 0; i < mMounts.size(); i++) {
-            String mount = mMounts.get(i);
-            if (!mVold.contains(mount))
-                mMounts.remove(i--);
-        }
-        mVold.clear();
+        List<String> mMounts = getMounts();
 
         List<String> mountHash = new ArrayList<>(10);
 
@@ -474,6 +392,42 @@ public class StorageUtils {
             }
         }
 
+        List<String> mMounts = getMounts();
+
+        List<String> mountHash = new ArrayList<>(10);
+
+        for (String mount : mMounts) {
+            File root = new File(mount);
+            if (root.exists() && root.isDirectory() && root.canWrite()) {
+                File[] list = root.listFiles();
+                StringBuilder hash = new StringBuilder("[");
+                if (list != null) {
+                    for (File f : list) {
+                        hash.append(f.getName().hashCode()).append(":").append(f.length()).append(", ");
+                    }
+                }
+                hash.append("]");
+                if (!mountHash.contains(hash.toString())) {
+                    String key = SD_CARD + "_" + map.size();
+                    if (map.size() == 0) {
+                        key = SD_CARD;
+                    } else if (map.size() == 1) {
+                        key = EXTERNAL_SD_CARD;
+                    }
+                    mountHash.add(hash.toString());
+                    if (isWritable(root)) {
+                        map.add(root);
+                    }
+                }
+            }
+        }
+
+        mMounts.clear();
+
+        return map;
+    }
+
+    private static List<String> getMounts() {
         List<String> mMounts = new ArrayList<>(10);
         List<String> mVold = new ArrayList<>(10);
         mMounts.add("/mnt/sdcard");
@@ -543,36 +497,6 @@ public class StorageUtils {
         }
         mVold.clear();
 
-        List<String> mountHash = new ArrayList<>(10);
-
-        for (String mount : mMounts) {
-            File root = new File(mount);
-            if (root.exists() && root.isDirectory() && root.canWrite()) {
-                File[] list = root.listFiles();
-                StringBuilder hash = new StringBuilder("[");
-                if (list != null) {
-                    for (File f : list) {
-                        hash.append(f.getName().hashCode()).append(":").append(f.length()).append(", ");
-                    }
-                }
-                hash.append("]");
-                if (!mountHash.contains(hash.toString())) {
-                    String key = SD_CARD + "_" + map.size();
-                    if (map.size() == 0) {
-                        key = SD_CARD;
-                    } else if (map.size() == 1) {
-                        key = EXTERNAL_SD_CARD;
-                    }
-                    mountHash.add(hash.toString());
-                    if (isWritable(root)) {
-                        map.add(root);
-                    }
-                }
-            }
-        }
-
-        mMounts.clear();
-
-        return map;
+        return mMounts;
     }
 }
