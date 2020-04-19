@@ -44,7 +44,7 @@ public class StorageUtils {
         public boolean readonly;
         public final int display_number;
         public long freeSpace = 0;
-        String displayName;
+        public String displayName;
 
         public StorageInfo(String path, boolean internal, boolean readonly, int display_number) {
             this.path = path;
@@ -127,6 +127,7 @@ public class StorageUtils {
      */
     @Deprecated
     public static File getStorage() {
+        //noinspection deprecation
         return getStorage(null);
     }
 
