@@ -3,6 +3,7 @@ package org.osmdroid.tileprovider.util;
 import android.content.Context;
 import android.os.Build;
 import android.os.Environment;
+import android.os.StatFs;
 import android.util.Log;
 
 import java.io.BufferedReader;
@@ -50,7 +51,11 @@ public class StorageUtils {
             this.internal = internal;
 
             this.display_number = display_number;
-            if (Build.VERSION.SDK_INT >= 9) {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+                // gives more accurate information
+                this.freeSpace = new StatFs(path).getAvailableBytes();
+            } else if (Build.VERSION.SDK_INT >=  Build.VERSION_CODES.GINGERBREAD) {
                 this.freeSpace = new File(path).getFreeSpace();
             }
 
