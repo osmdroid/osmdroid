@@ -38,13 +38,12 @@ public class StorageUtils {
     private static final String TAG = "StorageUtils";
 
     public static class StorageInfo {
-
         public final String path;
         public final boolean internal;
         public boolean readonly;
         public final int display_number;
         public long freeSpace = 0;
-        String displayName = "";
+        String displayName;
 
         public StorageInfo(String path, boolean internal, boolean readonly, int display_number) {
             this.path = path;
@@ -54,6 +53,7 @@ public class StorageUtils {
             if (Build.VERSION.SDK_INT >= 9) {
                 this.freeSpace = new File(path).getFreeSpace();
             }
+
             if (!readonly) {
                 //confirm it's writable
                 File f = new File(path + File.separator + UUID.randomUUID().toString());
@@ -67,8 +67,9 @@ public class StorageUtils {
                     this.readonly = true;
                 }
             } else {
-                this.readonly = readonly;
+                this.readonly = true;
             }
+
             StringBuilder res = new StringBuilder();
             if (internal) {
                 res.append("Internal SD card");
@@ -136,7 +137,6 @@ public class StorageUtils {
             //see https://github.com/osmdroid/osmdroid/issues/508
             ex.printStackTrace();
         }
-
         try {
             def_path_readonly = Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED_READ_ONLY);
         } catch (Throwable ex) {
@@ -144,9 +144,10 @@ public class StorageUtils {
             //see https://github.com/osmdroid/osmdroid/issues/508
             ex.printStackTrace();
         }
+
         BufferedReader buf_reader = null;
         try {
-            HashSet<String> paths = new HashSet<String>();
+            HashSet<String> paths = new HashSet<>();
             buf_reader = new BufferedReader(new FileReader("/proc/mounts"));
             String line;
             int cur_display_number = 1;
@@ -408,12 +409,6 @@ public class StorageUtils {
                 }
                 hash.append("]");
                 if (!mountHash.contains(hash.toString())) {
-                    String key = SD_CARD + "_" + map.size();
-                    if (map.size() == 0) {
-                        key = SD_CARD;
-                    } else if (map.size() == 1) {
-                        key = EXTERNAL_SD_CARD;
-                    }
                     mountHash.add(hash.toString());
                     if (isWritable(root)) {
                         map.add(root);
@@ -487,7 +482,6 @@ public class StorageUtils {
                     scanner.close();
                 } catch (Exception ignored) {
                 }
-            scanner = null;
         }
 
         for (int i = 0; i < mMounts.size(); i++) {
