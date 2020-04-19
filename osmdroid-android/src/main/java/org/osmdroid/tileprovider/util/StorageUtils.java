@@ -194,7 +194,7 @@ public class StorageUtils {
     }
 
     /**
-     * @deprecated As of 6.1.7, use {@link #isPrimarySharedStorageAvailable()} instead.
+     * @deprecated As of 6.1.7, will be removed in the future.
      * @return True if the external storage is available. False otherwise.
      */
     @Deprecated
@@ -205,18 +205,24 @@ public class StorageUtils {
     /**
      * @return True if the primary shared storage is available. False otherwise.
      */
-    public static boolean isPrimarySharedStorageAvailable() {
+    private static boolean isPrimarySharedStorageAvailable() {
         String state = Environment.getExternalStorageState();
         return Environment.MEDIA_MOUNTED.equals(state) || Environment.MEDIA_MOUNTED_READ_ONLY.equals(state);
     }
 
+    /**
+     * @deprecated As of 6.1.7, will be removed in the future.
+     */
+    @Deprecated
     public static String getSdCardPath() {
         return Environment.getExternalStorageDirectory().getPath() + "/";
     }
 
     /**
      * @return True if the primary shared storage is writable. False otherwise.
+     * @deprecated As of 6.1.7, will be removed in the future.
      */
+    @Deprecated
     public static boolean isWritable() {
         String state = Environment.getExternalStorageState();
         return Environment.MEDIA_MOUNTED.equals(state);
@@ -243,6 +249,7 @@ public class StorageUtils {
 
     /**
      * @return A {@link Map} of all storage locations available
+     * @deprecated As of 6.1.7, will be removed in the future.
      */
     public static Map<String, File> getAllStorageLocations() {
         Map<String, File> map = new HashMap<>(10);
@@ -264,7 +271,7 @@ public class StorageUtils {
     }
 
     /**
-     * @return A {@link Set} of all storage locations available
+     * @return A {@link Set} of all writable storage locations available
      */
     private static Set<File> getAllStorageLocationsRevised() {
         Set<File> map = new HashSet<>();
