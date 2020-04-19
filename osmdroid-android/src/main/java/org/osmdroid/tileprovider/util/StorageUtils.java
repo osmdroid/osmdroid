@@ -23,15 +23,6 @@ import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.UUID;
 
-/**
- * Based on some of the responses from this question
- * http://stackoverflow.com/questions/5694933/find-an-external-sd-card-location/15612964#15612964
- * Returns the first storage mount point with the most space that is writable for use as the default
- * location for the osmdroid cache. If an external mount point is not available, application private
- * storage will be used
- * Created by alex on 10/19/16.
- */
-
 public class StorageUtils {
     public static final String SD_CARD = "sdCard";
     public static final String EXTERNAL_SD_CARD = "externalSdCard";
@@ -88,9 +79,13 @@ public class StorageUtils {
     }
 
     /**
-     * Returns a {@link List} of {@link StorageInfo} of all storage paths, writable or not.
+     * Attention! This method only gets storage locations that are context independent. Especially
+     * it does not return application specific paths like getFilesDir() or getCacheDir(), which
+     * might lead to problems especially on API29 and up due to scoped storage restrictions.
+     * For now it is advised to manually determine a proper cache location and set it via
+     * {@link org.osmdroid.config.IConfigurationProvider#setOsmdroidTileCache(File)}.
      *
-     * @return
+     * @return A {@link List} of {@link StorageInfo} of all storage paths, writable or not.
      */
     public static List<StorageInfo> getStorageList() {
         List<StorageInfo> storageInfos = new ArrayList<>();
@@ -103,7 +98,7 @@ public class StorageUtils {
         storageInfos.addAll(tryToFindOtherVoIdManagedStorages(
                 primarySharedStorageInfo != null ? primarySharedStorageInfo.path : ""));
 
-        Set<File> allStorageLocationsRevised = getAllStorageLocationsRevised();
+        Set<File> allStorageLocationsRevised = getAllWritableStorageLocations();
         for (File storageLocation : allStorageLocationsRevised) {
             boolean found = false;
             for (StorageInfo storageInfo : storageInfos) {
@@ -121,7 +116,13 @@ public class StorageUtils {
     }
 
     /**
-     * gets the best possible storage location by freespace
+     * Gets the best possible storage location by free space
+     *
+     * Attention! This method only gets storage locations that are context independent. Especially
+     * it does not return application specific paths like getFilesDir() or getCacheDir(), which
+     * might lead to problems especially on API29 and up due to scoped storage restrictions.
+     * For now it is advised to manually determine a proper cache location and set it via
+     * {@link org.osmdroid.config.IConfigurationProvider#setOsmdroidTileCache(File)}.
      *
      * @deprecated As of 6.1.7, use {@link #getBestStorage()} instead.
      */
@@ -132,16 +133,22 @@ public class StorageUtils {
     }
 
     /**
-     * gets the best possible storage location by freespace
+     * Gets the best possible storage location by free space
      *
-     * @return
+     * Attention! This method only gets storage locations that are context independent. Especially
+     * it does not return application specific paths like getFilesDir() or getCacheDir(), which
+     * might lead to problems especially on API29 and up due to scoped storage restrictions.
+     * For now it is advised to manually determine a proper cache location and set it via
+     * {@link org.osmdroid.config.IConfigurationProvider#setOsmdroidTileCache(File)}.
+     *
+     * @return A {@link StorageInfo} object.
      */
     public static StorageInfo getBestStorage() {
        return getBestStorage(null);
     }
 
     /**
-     * gets the best possible storage location by freespace
+     * Gets the best possible storage location by free space
      *
      * @deprecated As of 6.1.7, use {@link #getBestStorage(Context)} instead.
      */
@@ -156,9 +163,9 @@ public class StorageUtils {
     }
 
     /**
-     * gets the best possible storage location by freespace
+     * Gets the best possible storage location by free space
      *
-     * @return
+     * @return A {@link StorageInfo} object.
      */
     public static StorageInfo getBestStorage(final Context context) {
         StorageInfo bestStorage = null;
@@ -274,7 +281,7 @@ public class StorageUtils {
     /**
      * @return A {@link Set} of all writable storage locations available
      */
-    private static Set<File> getAllStorageLocationsRevised() {
+    private static Set<File> getAllWritableStorageLocations() {
         Set<File> map = new HashSet<>();
 
         Set<File> fromSystemEnv = tryToGetStorageFromSystemEnv();
