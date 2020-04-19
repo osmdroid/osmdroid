@@ -96,24 +96,24 @@ public class StorageUtils {
         List<StorageInfo> storageInfos = new ArrayList<>();
 
         StorageInfo primarySharedStorageInfo = getPrimarySharedStorage();
-
         if (primarySharedStorageInfo != null) {
             storageInfos.add(primarySharedStorageInfo);
         }
 
-        storageInfos.addAll(tryToFindOtherVoIdManagedStorages(primarySharedStorageInfo != null ? primarySharedStorageInfo.path : ""));
+        storageInfos.addAll(tryToFindOtherVoIdManagedStorages(
+                primarySharedStorageInfo != null ? primarySharedStorageInfo.path : ""));
 
         Set<File> allStorageLocationsRevised = getAllStorageLocationsRevised();
-        for (File next : allStorageLocationsRevised) {
+        for (File storageLocation : allStorageLocationsRevised) {
             boolean found = false;
-            for (int i = 0; i < storageInfos.size(); i++) {
-                if (storageInfos.get(i).path.equals(next.getAbsolutePath())) {
+            for (StorageInfo storageInfo : storageInfos) {
+                if (storageInfo.path.equals(storageLocation.getAbsolutePath())) {
                     found = true;
                     break;
                 }
             }
             if (!found) {
-                storageInfos.add(new StorageInfo(next.getAbsolutePath(), false, false, -1));
+                storageInfos.add(new StorageInfo(storageLocation.getAbsolutePath(), false, false, -1));
             }
         }
 
