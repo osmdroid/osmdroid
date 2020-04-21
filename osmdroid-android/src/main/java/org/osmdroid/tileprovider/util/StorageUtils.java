@@ -190,15 +190,9 @@ public class StorageUtils {
         if (context != null) {
             String dbPath = context.getDatabasePath("temp.sqlite").getAbsolutePath().replace("temp.sqlite", "");
             return new StorageInfo(dbPath, true, false, -1);
-        } else {
-            try {
-                return getPrimarySharedStorage();
-            } catch (Exception ex) {
-                //trap for android studio layout editor and some for certain devices
-                //see https://github.com/osmdroid/osmdroid/issues/508
-                return null;
-            }
         }
+
+        return null;
     }
 
     /**
