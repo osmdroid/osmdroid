@@ -26,7 +26,7 @@ public abstract class ColorMappingForScalar implements ColorMapping{
     /**
      * @since 6.1.7
      */
-    protected void clear() {
-        mColors.clear();
+    protected void set(final int pIndex, final float pScalar) {
+        mColors.set(pIndex, computeColor(pScalar));
     }
 }

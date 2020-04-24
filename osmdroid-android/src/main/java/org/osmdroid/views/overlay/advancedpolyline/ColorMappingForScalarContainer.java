@@ -57,9 +57,10 @@ public class ColorMappingForScalarContainer {
     }
 
     public void refresh() {
-        mInnerMapping.clear();
+        int i = 0;
         for (final float scalar : mScalars) {
-            mInnerMapping.add(scalar);
+            mInnerMapping.set(i, scalar);
+            i ++;
         }
     }
 }
