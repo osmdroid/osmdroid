@@ -4,7 +4,7 @@ import java.util.concurrent.Semaphore;
 
 public abstract class OnlineTileSourceBase extends BitmapTileSourceBase {
 
-	private final String mBaseUrls[];
+	private final String[] mBaseUrls;
 
 	/**
 	 * @since 6.1.0

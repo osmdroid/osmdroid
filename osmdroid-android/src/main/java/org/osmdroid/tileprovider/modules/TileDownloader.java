@@ -10,6 +10,7 @@ import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 import org.osmdroid.tileprovider.tilesource.BitmapTileSourceBase;
 import org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase;
+import org.osmdroid.tileprovider.tilesource.TileSourcePolicy;
 import org.osmdroid.tileprovider.util.Counters;
 import org.osmdroid.tileprovider.util.StreamUtils;
 import org.osmdroid.util.MapTileIndex;
@@ -160,10 +161,8 @@ public class TileDownloader {
 
             dataStream = new ByteArrayOutputStream();
             out = new BufferedOutputStream(dataStream, StreamUtils.IO_BUFFER_SIZE);
-            final long expirationTime = computeExpirationTime(
-                    c.getHeaderField(OpenStreetMapTileProviderConstants.HTTP_EXPIRES_HEADER),
-                    c.getHeaderField(OpenStreetMapTileProviderConstants.HTTP_CACHECONTROL_HEADER),
-                    System.currentTimeMillis());
+            final long expirationTime = pTileSource.getTileSourcePolicy().computeExpirationTime(
+                    c, System.currentTimeMillis());
             StreamUtils.copy(in, out);
             out.flush();
             final byte[] data = dataStream.toByteArray();
@@ -209,7 +208,9 @@ public class TileDownloader {
     /**
      * @since 6.0.3
      * @return the Epoch timestamp corresponding to the http header (in milliseconds), or null
+     * @deprecated Use {@link TileSourcePolicy#getHttpExpiresTime(String)} instead
      */
+    @Deprecated
     public Long getHttpExpiresTime(final String pHttpExpiresHeader) {
         if (pHttpExpiresHeader != null && pHttpExpiresHeader.length() > 0) {
             try {
@@ -226,7 +227,9 @@ public class TileDownloader {
     /**
      * @since 6.0.3
      * @return the max-age corresponding to the http header (in seconds), or null
+     * @deprecated Use {@link TileSourcePolicy#getHttpCacheControlDuration(String)} instead
      */
+    @Deprecated
     public Long getHttpCacheControlDuration(final String pHttpCacheControlHeader) {
         if (pHttpCacheControlHeader != null && pHttpCacheControlHeader.length() > 0) {
             try {
@@ -251,7 +254,9 @@ public class TileDownloader {
     /**
      * @since 6.0.3
      * @return the expiration time (as Epoch timestamp in milliseconds)
+     * @deprecated Use {@link TileSourcePolicy#computeExpirationTime(HttpURLConnection, long)} instead
      */
+    @Deprecated
     public long computeExpirationTime(final String pHttpExpiresHeader, final String pHttpCacheControlHeader, final long pNow) {
         final Long override=Configuration.getInstance().getExpirationOverrideDuration();
         if (override != null) {
