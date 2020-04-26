@@ -197,7 +197,7 @@ public class StorageUtils {
 
     /**
      * @deprecated As of 6.1.7, will be removed in the future.
-     * @return True if the external storage is available. False otherwise.
+     * @return True if the primary shared storage is available. False otherwise.
      */
     @Deprecated
     public static boolean isAvailable() {
@@ -214,6 +214,7 @@ public class StorageUtils {
 
     /**
      * @deprecated As of 6.1.7, will be removed in the future.
+     * @return The path of the primary shared storage.
      */
     @Deprecated
     public static String getSdCardPath() {
@@ -251,7 +252,7 @@ public class StorageUtils {
 
     /**
      * @return A {@link Map} of all storage locations available
-     * @deprecated As of 6.1.7, will be removed in the future.
+     * @deprecated As of 6.1.7, use {@link #getStorageList()} instead.
      */
     public static Map<String, File> getAllStorageLocations() {
         Map<String, File> map = new HashMap<>(10);
