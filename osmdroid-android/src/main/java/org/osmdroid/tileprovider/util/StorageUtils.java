@@ -1,5 +1,6 @@
 package org.osmdroid.tileprovider.util;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Build;
 import android.os.Environment;
@@ -40,7 +41,6 @@ public class StorageUtils {
         public StorageInfo(String path, boolean internal, boolean readonly, int display_number) {
             this.path = path;
             this.internal = internal;
-
             this.display_number = display_number;
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
@@ -76,18 +76,98 @@ public class StorageUtils {
         public void setDisplayName(String val) {
             displayName = val;
         }
+
+        @SuppressWarnings("EqualsReplaceableByObjectsCall") // requires API19
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+
+            StorageInfo that = (StorageInfo) o;
+
+            if (internal != that.internal) return false;
+            if (readonly != that.readonly) return false;
+            if (display_number != that.display_number) return false;
+            if (freeSpace != that.freeSpace) return false;
+            if (path != null ? !path.equals(that.path) : that.path != null) return false;
+            return displayName != null ? displayName.equals(that.displayName) : that.displayName == null;
+        }
+
+        @Override
+        public int hashCode() {
+            int result = path != null ? path.hashCode() : 0;
+            result = 31 * result + (internal ? 1 : 0);
+            result = 31 * result + (readonly ? 1 : 0);
+            result = 31 * result + display_number;
+            result = 31 * result + (int) (freeSpace ^ (freeSpace >>> 32));
+            result = 31 * result + (displayName != null ? displayName.hashCode() : 0);
+            return result;
+        }
     }
 
     /**
      * Attention! This method only gets storage locations that are context independent. Especially
      * it does not return application specific paths like getFilesDir() or getCacheDir(), which
-     * might lead to problems especially on API29 and up due to scoped storage restrictions.
-     * For now it is advised to manually determine a proper cache location and set it via
-     * {@link org.osmdroid.config.IConfigurationProvider#setOsmdroidTileCache(File)}.
+     * might lead to problems especially on API29 and up due to scoped storage restrictions, where
+     * this method will always return an empty list!
+     * It's always recommended to use {@link #getStorageList(Context)} instead!
      *
      * @return A {@link List} of {@link StorageInfo} of all storage paths, writable or not.
      */
     public static List<StorageInfo> getStorageList() {
+        return getStorageList(null);
+    }
+
+    /**
+     * Detects all available storage locations, writable or not.
+     *
+     * Attention! If context==null this method only gets storage locations that are context
+     * independent. Especially it will not return application specific paths like getFilesDir() or
+     * getCacheDir(), which might lead to problems especially on API29 and up due to scoped storage
+     * restrictions, where this is then guaranteed to return an empty list!
+     *
+     * @return A {@link List} of {@link StorageInfo} of all storage paths, writable or not.
+     */
+    public static List<StorageInfo> getStorageList(Context context) {
+        List<StorageInfo> storageInfos;
+        // only use this for Q and up for now, to not break behaviour on other versions
+        if (android.os.Build.VERSION.SDK_INT >= 29) {
+            if (context != null) {
+                storageInfos = getStorageListApi19(context);
+            } else {
+                // This is fallback for the case when targetSdk of the application is < 29
+                // In this case scoped storage restrictions are not enforced, even though device
+                // is API29. Will always return an empty list when targetSdk >= API29.
+                storageInfos = getStorageListPreApi19();
+            }
+        }
+        // use legacy behaviour but add locations from "modern" way of getting storage if context is
+        // available.
+        else if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            storageInfos = getStorageListPreApi19();
+            if (context != null) {
+                List<StorageInfo> storageInfosApi19 = getStorageListApi19(context);
+                // de-duplicate list and add additional ones
+                storageInfosApi19.removeAll(storageInfos);
+                storageInfos.addAll(storageInfosApi19);
+            }
+        }
+        // use legacy behaviour
+        else {
+            storageInfos = getStorageListPreApi19();
+            // make this consistent with the old getStorage(context) method's behaviour
+            if (storageInfos.size() == 0 && context != null) {
+                // http://stackoverflow.com/questions/21230629/getfilesdir-vs-environment-getdatadirectory
+                String dbPath = context.getDatabasePath("temp.sqlite").getAbsolutePath().replace("temp.sqlite", "");
+                if (isWritable(new File(dbPath))) {
+                    storageInfos.add(new StorageInfo(dbPath, true, false, -1));
+                }
+            }
+        }
+        return storageInfos;
+    }
+
+    private static List<StorageInfo> getStorageListPreApi19() {
         List<StorageInfo> storageInfos = new ArrayList<>();
 
         StorageInfo primarySharedStorageInfo = getPrimarySharedStorage();
@@ -115,16 +195,44 @@ public class StorageUtils {
         return storageInfos;
     }
 
+    @SuppressLint("NewApi")
+    private static List<StorageInfo> getStorageListApi19(Context context) {
+        ArrayList<StorageInfo> storageInfos = new ArrayList<>();
+
+        storageInfos.add(new StorageInfo(context.getFilesDir().getAbsolutePath(), true, false, -1));
+
+        ArrayList<File> storageDirs = new ArrayList<>();
+        File[] externalDirs = context.getExternalFilesDirs( null);
+
+        for (File externalDir : externalDirs) {
+            // "Returned paths may be null if a storage device is unavailable."
+            if (externalDir == null) {
+                continue;
+            }
+
+            String state = Environment.getStorageState(externalDir);
+            if (Environment.MEDIA_MOUNTED.equals(state)) {
+                storageDirs.add(externalDir);
+            }
+        }
+
+        for (File storageDir : storageDirs) {
+            storageInfos.add(new StorageInfo(storageDir.getAbsolutePath(), false, false, -1));
+        }
+
+        return storageInfos;
+    }
+
     /**
      * Gets the best possible storage location by free space
      *
      * Attention! This method only gets storage locations that are context independent. Especially
      * it does not return application specific paths like getFilesDir() or getCacheDir(), which
-     * might lead to problems especially on API29 and up due to scoped storage restrictions.
-     * For now it is advised to manually determine a proper cache location and set it via
-     * {@link org.osmdroid.config.IConfigurationProvider#setOsmdroidTileCache(File)}.
+     * might lead to problems especially on API29 and up due to scoped storage restrictions, where
+     * this method will always return null!
+     * It's always recommended to use {@link #getBestWritableStorage(Context)} instead!
      *
-     * @deprecated As of 6.1.7, use {@link #getBestStorage()} instead.
+     * @deprecated As of 6.1.7, use {@link #getBestWritableStorage()} instead.
      */
     @Deprecated
     public static File getStorage() {
@@ -143,18 +251,23 @@ public class StorageUtils {
      *
      * @return A {@link StorageInfo} object.
      */
-    public static StorageInfo getBestStorage() {
-       return getBestStorage(null);
+    public static StorageInfo getBestWritableStorage() {
+       return getBestWritableStorage(null);
     }
 
     /**
      * Gets the best possible storage location by free space
      *
-     * @deprecated As of 6.1.7, use {@link #getBestStorage(Context)} instead.
+     * Attention! If context==null this method only gets storage locations that are context
+     * independent. Especially it will not return application specific paths like getFilesDir() or
+     * getCacheDir(), which might lead to problems especially on API29 and up due to scoped storage
+     * restrictions, where this is then guaranteed to return null!
+     *
+     * @deprecated As of 6.1.7, use {@link #getBestWritableStorage(Context)} instead.
      */
     @Deprecated
     public static File getStorage(final Context context) {
-        StorageInfo bestStorage = getBestStorage(context);
+        StorageInfo bestStorage = getBestWritableStorage(context);
         if (bestStorage != null) {
             return new File(bestStorage.path);
         }
@@ -165,11 +278,16 @@ public class StorageUtils {
     /**
      * Gets the best possible storage location by free space
      *
+     * Attention! If context==null this method only gets storage locations that are context
+     * independent. Especially it will not return application specific paths like getFilesDir() or
+     * getCacheDir(), which might lead to problems especially on API29 and up due to scoped storage
+     * restrictions, where this is then guaranteed to return null!
+     *
      * @return A {@link StorageInfo} object.
      */
-    public static StorageInfo getBestStorage(final Context context) {
+    public static StorageInfo getBestWritableStorage(final Context context) {
         StorageInfo bestStorage = null;
-        List<StorageInfo> storageList = getStorageList();
+        List<StorageInfo> storageList = getStorageList(context);
         for (int i = 0; i < storageList.size(); i++) {
             StorageInfo currentStorage = storageList.get(i);
             if (!currentStorage.readonly && isWritable(new File(currentStorage.path))) {
@@ -183,16 +301,7 @@ public class StorageUtils {
                 }
             }
         }
-        if (bestStorage != null) {
-            return bestStorage;
-        }
-        //http://stackoverflow.com/questions/21230629/getfilesdir-vs-environment-getdatadirectory
-        if (context != null) {
-            String dbPath = context.getDatabasePath("temp.sqlite").getAbsolutePath().replace("temp.sqlite", "");
-            return new StorageInfo(dbPath, true, false, -1);
-        }
-
-        return null;
+        return bestStorage;
     }
 
     /**

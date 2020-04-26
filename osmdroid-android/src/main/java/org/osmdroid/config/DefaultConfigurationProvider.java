@@ -245,7 +245,7 @@ public class DefaultConfigurationProvider implements IConfigurationProvider {
     @Override
     public File getOsmdroidBasePath() {
         if (osmdroidBasePath==null)
-            osmdroidBasePath = new File(StorageUtils.getBestStorage().path, "osmdroid");
+            osmdroidBasePath = new File(StorageUtils.getBestWritableStorage().path, "osmdroid");
         try {
             osmdroidBasePath.mkdirs();
         }catch (Exception ex){
