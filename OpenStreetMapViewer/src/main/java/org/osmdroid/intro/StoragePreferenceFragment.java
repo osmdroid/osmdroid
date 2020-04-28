@@ -51,15 +51,11 @@ public class StoragePreferenceFragment extends Fragment implements View.OnClickL
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.intro_storage, container, false);
 
-        Configuration.getInstance().load(getContext(), PreferenceManager.getDefaultSharedPreferences(getContext()));
         textViewCacheDirectory = v.findViewById(R.id.textViewCacheDirectory);
-        textViewCacheDirectory.setText(Configuration.getInstance().getOsmdroidTileCache().toString());
-
         buttonSetCache = v.findViewById(R.id.buttonSetCache);
         buttonManualCacheEntry = v.findViewById(R.id.buttonManualCacheEntry);
         buttonSetCache.setOnClickListener(this);
         buttonManualCacheEntry.setOnClickListener(this);
-        textViewCacheDirectory.setText(Configuration.getInstance().getOsmdroidTileCache().toString());
         textViewCacheMaxSize = v.findViewById(R.id.textViewCacheMaxSize);
         textViewCacheFreeSpace = v.findViewById(R.id.textViewCacheFreeSpace);
         textViewCacheCurrentSize = v.findViewById(R.id.textViewCacheCurrentSize);
@@ -71,12 +67,12 @@ public class StoragePreferenceFragment extends Fragment implements View.OnClickL
     public void onResume() {
         super.onResume();
         updateStorage(getContext());
-        textViewCacheDirectory.setText(Configuration.getInstance().getOsmdroidTileCache().toString());
 
+        textViewCacheDirectory.setText(Configuration.getInstance().getOsmdroidTileCache().toString());
         textViewCacheMaxSize.setText(readableFileSize(Configuration.getInstance().getTileFileSystemCacheMaxBytes()));
         textViewCacheTrimSize.setText(readableFileSize(Configuration.getInstance().getTileFileSystemCacheTrimBytes()));
-
         textViewCacheFreeSpace.setText(readableFileSize(Configuration.getInstance().getOsmdroidTileCache().getFreeSpace()));
+
         File dbFile = new File(Configuration.getInstance().getOsmdroidTileCache().getAbsolutePath() + File.separator + SqlTileWriter.DATABASE_FILENAME);
         if (dbFile.exists()) {
             textViewCacheCurrentSize.setText(readableFileSize(dbFile.length()));
@@ -87,25 +83,18 @@ public class StoragePreferenceFragment extends Fragment implements View.OnClickL
 
     public void updateStorage(Context ctx) {
         //only needed for api23+ since we "should" have had permissions granted by now
-        //PreferenceActivity.resetSettings(ctx);
         Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
-
     }
 
-    // END PERMISSION CHECK
     @Override
     public void onClick(View v) {
-
         switch (v.getId()) {
-            case R.id.buttonManualCacheEntry: {
+            case R.id.buttonManualCacheEntry:
                 showManualEntry();
-            }
-            break;
-            case R.id.buttonSetCache: {
+                break;
+            case R.id.buttonSetCache:
                 showPickCacheFromList();
-            }
-            break;
-
+                break;
         }
     }
 
