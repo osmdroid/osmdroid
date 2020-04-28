@@ -110,7 +110,7 @@ public class DiagnosticsActivity extends AppCompatActivity
 
     private void probeStorage() {
         StringBuilder sb = new StringBuilder();
-        List<StorageUtils.StorageInfo> storageInfos = StorageUtils.getStorageList();
+        List<StorageUtils.StorageInfo> storageInfos = StorageUtils.getStorageList(this);
         for (StorageUtils.StorageInfo storageInfo : storageInfos) {
             sb.append(storageInfo.path).append("\n");
         }
