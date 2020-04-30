@@ -226,9 +226,9 @@ public class GeopackageSample extends BaseSampleFragment {
      *
      * @return
      */
-    protected static Set<File> findMapFiles() {
+    protected Set<File> findMapFiles() {
         Set<File> maps = new HashSet<>();
-        List<StorageUtils.StorageInfo> storageList = StorageUtils.getStorageList();
+        List<StorageUtils.StorageInfo> storageList = StorageUtils.getStorageList(getActivity());
         for (int i = 0; i < storageList.size(); i++) {
             File f = new File(storageList.get(i).path + File.separator + "osmdroid" + File.separator);
             if (f.exists()) {
@@ -238,14 +238,12 @@ public class GeopackageSample extends BaseSampleFragment {
         return maps;
     }
 
-    static private Collection<? extends File> scan(File f) {
+    private Collection<? extends File> scan(File f) {
         List<File> ret = new ArrayList<>();
         File[] files = f.listFiles(new FileFilter() {
             @Override
             public boolean accept(File pathname) {
-                if (pathname.getName().toLowerCase().endsWith(".gpkg"))
-                    return true;
-                return false;
+                return pathname.getName().toLowerCase().endsWith(".gpkg");
             }
         });
         if (files != null) {

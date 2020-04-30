@@ -244,12 +244,17 @@ public class DefaultConfigurationProvider implements IConfigurationProvider {
 
     @Override
     public File getOsmdroidBasePath() {
+        return getOsmdroidBasePath(null);
+    }
+
+    @Override
+    public File getOsmdroidBasePath(Context context) {
         if (osmdroidBasePath==null)
-            osmdroidBasePath = new File(StorageUtils.getStorage().getAbsolutePath(), "osmdroid");
+            osmdroidBasePath = new File(StorageUtils.getBestWritableStorage(context).path, "osmdroid");
         try {
             osmdroidBasePath.mkdirs();
         }catch (Exception ex){
-            Log.d(IMapView.LOGTAG, "Unable to create base path at " + osmdroidBasePath.getAbsolutePath(), ex);
+            Log.d(IMapView.LOGTAG, "Unable to create base path at " + osmdroidBasePath, ex);
             //IO/permissions issue
             //trap for android studio layout editor and some for certain devices
             //see https://github.com/osmdroid/osmdroid/issues/508
@@ -264,12 +269,17 @@ public class DefaultConfigurationProvider implements IConfigurationProvider {
 
     @Override
     public File getOsmdroidTileCache() {
+        return getOsmdroidTileCache(null);
+    }
+
+    @Override
+    public File getOsmdroidTileCache(Context context) {
         if (osmdroidTileCache==null)
-            osmdroidTileCache =  new File(getOsmdroidBasePath(), "tiles");
+            osmdroidTileCache =  new File(getOsmdroidBasePath(context), "tiles");
         try {
             osmdroidTileCache.mkdirs();
         }catch (Exception ex){
-            Log.d(IMapView.LOGTAG, "Unable to create tile cache path at " + osmdroidTileCache.getAbsolutePath(), ex);
+            Log.d(IMapView.LOGTAG, "Unable to create tile cache path at " + osmdroidTileCache, ex);
             //IO/permissions issue
             //trap for android studio layout editor and some for certain devices
             //see https://github.com/osmdroid/osmdroid/issues/508
@@ -302,8 +312,8 @@ public class DefaultConfigurationProvider implements IConfigurationProvider {
         //check to see if the shared preferences is set for the tile cache
         if (!prefs.contains("osmdroid.basePath")) {
             //this is the first time startup. run the discovery bit
-            File discoveredBasePath = getOsmdroidBasePath();
-            File discoveredCachePath = getOsmdroidTileCache();
+            File discoveredBasePath = getOsmdroidBasePath(ctx);
+            File discoveredCachePath = getOsmdroidTileCache(ctx);
             if (!discoveredBasePath.exists() || !StorageUtils.isWritable(discoveredBasePath)) {
                 //this should always be writable...
                 discoveredBasePath = new File(ctx.getFilesDir(), "osmdroid");
