@@ -80,7 +80,7 @@ dependencies {
     compile 'ch.acra:acra:4.7.0'
 
     //memory leak testing
-    debugCompile 'com.squareup.leakcanary:leakcanary-android:2.0'
+    debugCompile 'com.squareup.leakcanary:leakcanary-android:2.2'
 
     //on device testing
     androidTestCompile 'com.android.support.test:runner:0.4.+'
@@ -100,7 +100,7 @@ android.applicationVariants.all { variant ->
             group = 'nameofyourtaskgroup'
             description = 'Describe your task here.'
 
-            def adb = android.getAdbExe().toString()
+            def adb = android.getAdbExecutable().toString()
             def mypermission = 'android.permission.ACCESS_FINE_LOCATION'
             commandLine "$adb shell pm grant ${variant.applicationId} $mypermission".split(' ')
         }
@@ -117,7 +117,7 @@ android.applicationVariants.all { variant ->
             group = 'nameofyourtaskgroup'
             description = 'Describe your task here.'
 
-            def adb = android.getAdbExe().toString()
+            def adb = android.getAdbExecutable().toString()
             def mypermission = 'android.permission.WRITE_EXTERNAL_STORAGE '
             commandLine "$adb shell pm grant ${variant.applicationId} $mypermission".split(' ')
         }

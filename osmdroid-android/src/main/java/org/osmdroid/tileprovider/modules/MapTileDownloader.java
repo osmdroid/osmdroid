@@ -13,7 +13,6 @@ import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase;
 import org.osmdroid.util.UrlBackoff;
 
-import java.util.Date;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
@@ -142,39 +141,6 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 			// Otherwise shut down the tile downloader
 			mTileSource.set(null);
 		}
-	}
-
-	/**
-	 * @since 6.0.2
-	 */
-	private long computeExpirationTime(final String pHttpExpiresHeader) {
-		Long httpExpirationTime = null;
-		if (pHttpExpiresHeader != null && pHttpExpiresHeader.length() > 0) {
-			try {
-				final Date dateExpires = Configuration.getInstance().getHttpHeaderDateTimeFormat().parse(pHttpExpiresHeader);
-				httpExpirationTime = dateExpires.getTime();
-			} catch (final Exception ex) {
-				if (Configuration.getInstance().isDebugMapTileDownloader())
-					Log.d(IMapView.LOGTAG, "Unable to parse expiration tag for tile, using default, server returned " + pHttpExpiresHeader, ex);
-			}
-		}
-		return computeExpirationTime(httpExpirationTime);
-	}
-
-	/**
-	 * @since 6.0.2
-	 */
-	protected long computeExpirationTime(final Long pHttpExpiresTime) {
-		final Long override=Configuration.getInstance().getExpirationOverrideDuration();
-		final long now = System.currentTimeMillis();
-		if (override != null) {
-			return now + override;
-		}
-		final long extension = Configuration.getInstance().getExpirationExtendedDuration();
-		if (pHttpExpiresTime != null) {
-			return pHttpExpiresTime + extension;
-		}
-		return now + OpenStreetMapTileProviderConstants.DEFAULT_MAXIMUM_CACHED_FILE_AGE + extension;
 	}
 
 	// ===========================================================

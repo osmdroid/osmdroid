@@ -23,7 +23,7 @@
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/zoom_in"
+        android:src="@drawable/baseline_rotate_right_white_36"
         android:layout_below="@id/textViewCurrentLocation"
         android:layout_alignParentLeft="true"
         android:id="@+id/btnRotateLeft"
@@ -32,7 +32,7 @@
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/zoom_out"
+        android:src="@drawable/baseline_rotate_left_white_36"
         android:id="@+id/btnRotateRight"
         android:layout_below="@+id/btnRotateLeft"
         android:layout_alignParentLeft="true"

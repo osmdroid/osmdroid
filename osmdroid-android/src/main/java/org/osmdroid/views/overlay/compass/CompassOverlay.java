@@ -75,6 +75,21 @@ public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOr
     private boolean mOptionsMenuEnabled = true;
 
     protected final float mScale;
+
+    /**
+     * @since 6.20
+     * rendering lag, in milliseconds
+     * if the previous rendering was less than this value ago, we don't render again
+     */
+    private int mLastRenderLag = 500;
+
+    /**
+     * @since 6.20
+     * azimuth/bearing precision, in degrees
+     * if the previous bearing was equal to the new one, with this precision, we don't render again
+     */
+    private float mAzimuthPrecision = 0;
+
     // ===========================================================
     // Constructors
     // ===========================================================
@@ -100,10 +115,10 @@ public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOr
         else
             createPointerPicture();
 
-        mCompassFrameCenterX = mCompassFrameBitmap.getWidth() / 2 - 0.5f;
-        mCompassFrameCenterY = mCompassFrameBitmap.getHeight() / 2 - 0.5f;
-        mCompassRoseCenterX = mCompassRoseBitmap.getWidth() / 2 - 0.5f;
-        mCompassRoseCenterY = mCompassRoseBitmap.getHeight() / 2 - 0.5f;
+        mCompassFrameCenterX = mCompassFrameBitmap.getWidth() / 2f - 0.5f;
+        mCompassFrameCenterY = mCompassFrameBitmap.getHeight() / 2f - 0.5f;
+        mCompassRoseCenterX = mCompassRoseBitmap.getWidth() / 2f - 0.5f;
+        mCompassRoseCenterY = mCompassRoseBitmap.getHeight() / 2f - 0.5f;
 
         setOrientationProvider(orientationProvider);
     }
@@ -136,9 +151,24 @@ public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOr
         super.onDetach(mapView);
     }
 
+    /**
+     * @since 6.20
+     * rendering lag, in milliseconds
+     */
+    public void setLastRenderLag(final int pLastRenderLag) {
+        mLastRenderLag = pLastRenderLag;
+    }
+
+    /**
+     * @since 6.20
+     * azimuth/bearing precision, in degrees
+     */
+    public void setAzimuthPrecision(final float pAzimuthPrecision) {
+        mAzimuthPrecision = pAzimuthPrecision;
+    }
 
     private void invalidateCompass() {
-        if (mLastRender +500 > System.currentTimeMillis())
+        if (mLastRender + mLastRenderLag > System.currentTimeMillis())
             return;
         mLastRender = System.currentTimeMillis();
         Rect screenRect = mMapView.getProjection().getScreenRect();
@@ -148,22 +178,22 @@ public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOr
         int frameBottom;
         if (mInCenter) {
             frameLeft = screenRect.left
-                + (int) Math.ceil(screenRect.exactCenterX() - mCompassFrameCenterX * mScale);
+                    + (int) Math.ceil(screenRect.exactCenterX() - mCompassFrameCenterX);
             frameTop = screenRect.top
-                + (int) Math.ceil(screenRect.exactCenterY() - mCompassFrameCenterY * mScale);
+                    + (int) Math.ceil(screenRect.exactCenterY() - mCompassFrameCenterY);
             frameRight = screenRect.left
-                + (int) Math.ceil(screenRect.exactCenterX() + mCompassFrameCenterX * mScale);
+                    + (int) Math.ceil(screenRect.exactCenterX() + mCompassFrameCenterX);
             frameBottom = screenRect.top
-                + (int) Math.ceil(screenRect.exactCenterY() + mCompassFrameCenterY * mScale);
+                    + (int) Math.ceil(screenRect.exactCenterY() + mCompassFrameCenterY);
         } else {
             frameLeft = screenRect.left
-                + (int) Math.ceil((mCompassCenterX - mCompassFrameCenterX) * mScale);
+                    + (int) Math.ceil(mCompassCenterX * mScale - mCompassFrameCenterX);
             frameTop = screenRect.top
-                + (int) Math.ceil((mCompassCenterY - mCompassFrameCenterY) * mScale);
+                    + (int) Math.ceil(mCompassCenterY * mScale - mCompassFrameCenterY);
             frameRight = screenRect.left
-                + (int) Math.ceil((mCompassCenterX + mCompassFrameCenterX) * mScale);
+                    + (int) Math.ceil(mCompassCenterX * mScale + mCompassFrameCenterX);
             frameBottom = screenRect.top
-                + (int) Math.ceil((mCompassCenterY + mCompassFrameCenterY) * mScale);
+                    + (int) Math.ceil(mCompassCenterY * mScale + mCompassFrameCenterY);
         }
 
         // Expand by 2 to cover stroke width
@@ -317,8 +347,10 @@ public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOr
 
     @Override
     public void onOrientationChanged(float orientation, IOrientationProvider source) {
-        mAzimuth = orientation;
-        this.invalidateCompass();
+        if (Float.isNaN(mAzimuth) || Math.abs(mAzimuth - orientation) >= mAzimuthPrecision) {
+            mAzimuth = orientation;
+            this.invalidateCompass();
+        }
     }
 
     public boolean enableCompass(IOrientationProvider orientationProvider) {
@@ -442,13 +474,14 @@ public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOr
     }
 
     private int getDisplayOrientation() {
-        switch (mDisplay.getOrientation()) {
+        switch (mDisplay.getRotation()) {
             case Surface.ROTATION_90:
                 return 90;
             case Surface.ROTATION_180:
                 return 180;
             case Surface.ROTATION_270:
                 return 270;
+            case Surface.ROTATION_0:
             default:
                 return 0;
         }
