@@ -234,7 +234,7 @@ public interface IConfigurationProvider {
     /**
      * by default, maps to getOsmdroidBasePath() + "/tiles"
      * By default, it is defined in SD card, osmdroid directory.
-     * Sets the location where the tile cache is stored. Changes are only in effect when the @{link {@link org.osmdroid.views.MapView}}
+     * Sets the location where the tile cache is stored. Changes are only in effect when the {@link {@link org.osmdroid.views.MapView}}
      * is created. Changes made after it's creation (either pogrammatic or via layout inflator) have
      * no effect until the map is restarted or the {@link org.osmdroid.views.MapView#setTileProvider(MapTileProviderBase)}
      * is changed or recreated.
@@ -253,7 +253,7 @@ public interface IConfigurationProvider {
     /**
      * by default, maps to getOsmdroidBasePath() + "/tiles"
      * By default, it is defined in SD card, osmdroid directory.
-     * Sets the location where the tile cache is stored. Changes are only in effect when the @{link {@link org.osmdroid.views.MapView}}
+     * Sets the location where the tile cache is stored. Changes are only in effect when the {@link org.osmdroid.views.MapView}}
      * is created. Changes made after it's creation (either pogrammatic or via layout inflator) have
      * no effect until the map is restarted or the {@link org.osmdroid.views.MapView#setTileProvider(MapTileProviderBase)}
      * is changed or recreated.

@@ -22,8 +22,8 @@ public abstract class ColorMappingVariation extends ColorMappingForScalar{
      * @param start start of one HSL value
      * @param end end of one HSL value
      */
-    protected void init(final float scalarStart, final float scalarEnd,
-                        final float start, final float end) {
+    public void init(final float scalarStart, final float scalarEnd,
+                     final float start, final float end) {
 
         mScalarStart = scalarStart;
         mScalarEnd = scalarEnd;
@@ -31,7 +31,7 @@ public abstract class ColorMappingVariation extends ColorMappingForScalar{
         mEnd = end;
 
         // calc slope once here for linear interpolation
-        mSlope = (mEnd - mStart) / (mScalarEnd - mScalarStart);
+        mSlope = mScalarEnd == mScalarStart ? 1 : (mEnd - mStart) / (mScalarEnd - mScalarStart);
     }
 
     @Override
@@ -54,7 +54,7 @@ public abstract class ColorMappingVariation extends ColorMappingForScalar{
         } else {
             // scalar is between start and end
             // do a linear mapping
-            return scalar * mSlope + mStart;
+            return (scalar - mScalarStart) * mSlope + mStart;
         }
     }
 }
