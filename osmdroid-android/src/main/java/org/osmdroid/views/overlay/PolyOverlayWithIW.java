@@ -348,8 +348,10 @@ public abstract class PolyOverlayWithIW extends OverlayWithIW {
 
 	@Override
 	public void onDetach(MapView mapView) {
-		mOutline.clear();
-		mOutline = null;
+		if (mOutline != null) {
+			mOutline.clear();
+			mOutline = null;
+		}
 		mHoles.clear();
 		mMilestoneManagers.clear();
 		onDestroy();

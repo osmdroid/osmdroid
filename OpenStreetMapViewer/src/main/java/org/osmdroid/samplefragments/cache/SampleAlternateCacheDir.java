@@ -35,7 +35,7 @@ public class SampleAlternateCacheDir extends BaseSampleFragment {
         // an inflater call.
 
         //get the list of all mount points
-        List<StorageUtils.StorageInfo> storageList = StorageUtils.getStorageList();
+        List<StorageUtils.StorageInfo> storageList = StorageUtils.getStorageList(getActivity());
         //loop over them to find a writable location
         //or do whatever you need to do to select a new tile cache path.
 
