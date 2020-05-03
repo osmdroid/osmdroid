@@ -9,8 +9,8 @@ import org.junit.Test;
  */
 public class ColorMappingVariationTest {
 
-    final double delta = 1E-3;
-    ColorMappingVariation objTest = new ColorMappingVariation() {
+    private static final double delta = 1E-3;
+    private static final ColorMappingVariation objTest = new ColorMappingVariation() {
         @Override
         protected float getHue(float pScalar) {
             return 0;
