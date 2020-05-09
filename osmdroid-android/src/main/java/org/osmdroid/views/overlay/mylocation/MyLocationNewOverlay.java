@@ -294,9 +294,12 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 
 	@Override
 	public boolean onTouchEvent(final MotionEvent event, final MapView mapView) {
+		final boolean isSingleFingerDrag = (event.getAction() == MotionEvent.ACTION_MOVE)
+				&& (event.getPointerCount() == 1);
+
 		if (event.getAction() == MotionEvent.ACTION_DOWN && enableAutoStop) {
 			this.disableFollowLocation();
-		} else if (event.getAction() == MotionEvent.ACTION_MOVE && isFollowLocationEnabled()) {
+		} else if (isSingleFingerDrag && isFollowLocationEnabled()) {
 			return true;  // prevent the pan
 		}
 
