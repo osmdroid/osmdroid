@@ -104,20 +104,22 @@ public class ShowAdvancedPolylineStylesInvalidation extends BaseSampleFragment i
         paintBorder.setStrokeCap(Paint.Cap.ROUND);
         paintBorder.setAntiAlias(true);
 
-        // add points and scalar
+        // add points and scalars
         mPolyline.setPoints(points);
 
         scalars.clear();
-        scalars.add(10.0f);
+        scalars.add(0.0f);
         scalars.add(20.0f);
         scalars.add(10.0f);
         scalars.add(30.0f);
-        scalars.add(25.0f);
+        scalars.add(50.0f);
         scalars.add(25.0f);
         mMapping = new ColorMappingVariationHue(0,50, 0,120, 1.0f, 0.5f);
         mContainer = new ColorMappingForScalarContainer(mMapping);
+        // add scalars to mapping and container
         for (final float scalar : scalars) {
             mMapping.add(scalar);
+            mContainer.add(scalar);
         }
 
         final Paint paintMapping = new Paint();
@@ -133,7 +135,7 @@ public class ShowAdvancedPolylineStylesInvalidation extends BaseSampleFragment i
         mMapView.getOverlayManager().add(mPolyline);
         // force a redraw (normally triggered when map is moved for example)
         mMapView.invalidate();
-        textViewCurrentLocation.setText("Scalar range from 0 to 50.");
+        textViewCurrentLocation.setText("Scalar range from 0 to 50\nfor hue ranging from 0 to 120.");
         btnProceed.setText("Extend Polyline");
     }
 
@@ -147,10 +149,15 @@ public class ShowAdvancedPolylineStylesInvalidation extends BaseSampleFragment i
         mPolyline.addPoint(new GeoPoint(40.5, -11.5));
         mPolyline.addPoint(new GeoPoint(41.0, -11.0));
         mPolyline.addPoint(new GeoPoint(41.5, -11.5));
+        // add scalars to mapping and container
         mMapping.add(80.f);
         mMapping.add(60.f);
         mMapping.add(100.f);
         mMapping.add(100.f);
+        mContainer.add(80.f);
+        mContainer.add(60.f);
+        mContainer.add(100.f);
+        mContainer.add(100.f);
 
         // update mapping with scalar end updated from 50 to 100
         mMapping.init(0,100, 0,120);
@@ -160,7 +167,7 @@ public class ShowAdvancedPolylineStylesInvalidation extends BaseSampleFragment i
         mMapView.invalidate();
 
         // update UI
-        textViewCurrentLocation.setText("New scalar range from 0 to 100.");
+        textViewCurrentLocation.setText("New scalar range from 0 to 100\nfor hue ranging from 0 to 120.");
         btnProceed.setText("Reset Polyline");
 
     }
