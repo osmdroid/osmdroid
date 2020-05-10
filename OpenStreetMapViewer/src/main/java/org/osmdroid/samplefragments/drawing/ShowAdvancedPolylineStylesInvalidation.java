@@ -31,14 +31,14 @@ public class ShowAdvancedPolylineStylesInvalidation extends BaseSampleFragment i
     /*
      * Example data
      */
-    boolean mLineExtended = false;
-    TextView textViewCurrentLocation;
-    Button btnProceed;
-    Polyline mPolyline = null;
-    ColorMappingVariationHue mMapping = null;
-    ColorMappingForScalarContainer mContainer = null;
-    ArrayList<GeoPoint> points = new ArrayList<>();
-    ArrayList<Float> scalars = new ArrayList<>();
+    private boolean mLineExtended = false;
+    private TextView textViewCurrentLocation;
+    private Button btnProceed;
+    private Polyline mPolyline = null;
+    private ColorMappingVariationHue mMapping = null;
+    private ColorMappingForScalarContainer mContainer = null;
+    private ArrayList<GeoPoint> points = new ArrayList<>();
+    private ArrayList<Float> scalars = new ArrayList<>();
 
     @Override
     public String getSampleTitle() {
@@ -67,6 +67,7 @@ public class ShowAdvancedPolylineStylesInvalidation extends BaseSampleFragment i
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         centerToLine();
     }
 
