@@ -146,8 +146,10 @@ public class ShowAdvancedPolylineStylesInvalidation extends BaseSampleFragment i
         mPolyline.addPoint(new GeoPoint(40.0, -11.0));
         mPolyline.addPoint(new GeoPoint(40.5, -11.5));
         mPolyline.addPoint(new GeoPoint(41.0, -11.0));
+        mPolyline.addPoint(new GeoPoint(41.5, -11.5));
         mMapping.add(80.f);
         mMapping.add(60.f);
+        mMapping.add(100.f);
         mMapping.add(100.f);
 
         // update mapping with scalar end updated from 50 to 100
