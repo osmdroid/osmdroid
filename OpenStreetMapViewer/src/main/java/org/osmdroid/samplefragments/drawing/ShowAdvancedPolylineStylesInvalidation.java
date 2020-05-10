@@ -85,6 +85,7 @@ public class ShowAdvancedPolylineStylesInvalidation extends BaseSampleFragment i
             mContainer = null;
         }
 
+        // fill list with points
         points.clear();
         points.add(new GeoPoint(37.0, -11.0));
         points.add(new GeoPoint(37.5, -11.5));
@@ -96,6 +97,7 @@ public class ShowAdvancedPolylineStylesInvalidation extends BaseSampleFragment i
         // create new polyline
         mPolyline = new Polyline(mMapView, false, false);
 
+        // setup a black border
         final Paint paintBorder = new Paint();
         paintBorder.setColor(Color.BLACK);
         paintBorder.setAntiAlias(true);
@@ -106,9 +108,10 @@ public class ShowAdvancedPolylineStylesInvalidation extends BaseSampleFragment i
         paintBorder.setAntiAlias(true);
         mPolyline.getOutlinePaintLists().add(new MonochromaticPaintList(paintBorder));
 
-        // add points and scalars
+        // add points to line
         mPolyline.setPoints(points);
 
+        // fill list with scalars
         scalars.clear();
         scalars.add(0.0f);
         scalars.add(20.0f);
@@ -116,14 +119,19 @@ public class ShowAdvancedPolylineStylesInvalidation extends BaseSampleFragment i
         scalars.add(30.0f);
         scalars.add(50.0f);
         scalars.add(25.0f);
+
+        // setup mapping objects
         mMapping = new ColorMappingVariationHue(0,50, 0,120, 1.0f, 0.5f);
         mContainer = new ColorMappingForScalarContainer(mMapping);
+
         // add scalars to mapping and container
+        // you need to add the scalars to both lists
         for (final float scalar : scalars) {
             mMapping.add(scalar);
             mContainer.add(scalar);
         }
 
+        // setup the mapping
         final Paint paintMapping = new Paint();
         paintMapping.setAntiAlias(true);
         paintMapping.setStrokeWidth(20);
@@ -146,12 +154,12 @@ public class ShowAdvancedPolylineStylesInvalidation extends BaseSampleFragment i
      */
     private void extendAndInvalidateLine() {
 
-        // add new points with higher scalars
+        // add new points
         mPolyline.addPoint(new GeoPoint(40.0, -11.0));
         mPolyline.addPoint(new GeoPoint(40.5, -11.5));
         mPolyline.addPoint(new GeoPoint(41.0, -11.0));
         mPolyline.addPoint(new GeoPoint(41.5, -11.5));
-        // add scalars to mapping and container
+        // add scalars with higher values to mapping and container
         mMapping.add(80.f);
         mMapping.add(60.f);
         mMapping.add(100.f);
