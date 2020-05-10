@@ -18,6 +18,7 @@ import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.overlay.Polyline;
 import org.osmdroid.views.overlay.advancedpolyline.ColorMappingForScalarContainer;
 import org.osmdroid.views.overlay.advancedpolyline.ColorMappingVariationHue;
+import org.osmdroid.views.overlay.advancedpolyline.MonochromaticPaintList;
 import org.osmdroid.views.overlay.advancedpolyline.PolychromaticPaintList;
 
 import java.util.ArrayList;
@@ -103,6 +104,7 @@ public class ShowAdvancedPolylineStylesInvalidation extends BaseSampleFragment i
         paintBorder.setStrokeJoin(Paint.Join.ROUND);
         paintBorder.setStrokeCap(Paint.Cap.ROUND);
         paintBorder.setAntiAlias(true);
+        mPolyline.getOutlinePaintLists().add(new MonochromaticPaintList(paintBorder));
 
         // add points and scalars
         mPolyline.setPoints(points);
