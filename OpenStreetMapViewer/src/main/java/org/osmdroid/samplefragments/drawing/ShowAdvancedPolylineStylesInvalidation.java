@@ -183,8 +183,13 @@ public class ShowAdvancedPolylineStylesInvalidation extends BaseSampleFragment i
     }
 
     void centerToLine() {
-        mMapView.getController().setCenter(new GeoPoint(38.5, -11.5));
-        mMapView.getController().zoomTo(6.0f);
+        mMapView.post(new Runnable() {
+            @Override
+            public void run() {
+                mMapView.getController().setCenter(new GeoPoint(38.5, -11.5));
+                mMapView.getController().zoomTo(6.0f);
+            }
+        });
     }
 
     @Override
