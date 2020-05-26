@@ -9,6 +9,6 @@ android {
 }
 
 dependencies {
-    compile project(':osmdroid-android')
-    testCompile "junit:junit:${project.property('junit.version')}"
+    implementation project(':osmdroid-android')
+    testImplementation "junit:junit:${project.property('junit.version')}"
 }

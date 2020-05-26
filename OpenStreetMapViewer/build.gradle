@@ -30,39 +30,39 @@ android {
 
 
 dependencies {
-    compile "com.android.support:support-v4:${project.property('android-support.version')}"
-    compile project(':osmdroid-android')
-    compile project(':osmdroid-geopackage')
-    compile project(':osmdroid-mapsforge')
-    compile project(':osmdroid-wms')
-    compile project(':osmdroid-shape')
+    implementation "com.android.support:support-v4:${project.property('android-support.version')}"
+    implementation project(':osmdroid-android')
+    implementation project(':osmdroid-geopackage')
+    implementation project(':osmdroid-mapsforge')
+    implementation project(':osmdroid-wms')
+    implementation project(':osmdroid-shape')
 
-    compile 'mil.army.missioncommand:mil-sym-android-renderer:0.1.37'
+    implementation 'mil.army.missioncommand:mil-sym-android-renderer:0.1.37'
 
     //used for various demos for picking offline tile archives
-    compile 'com.github.angads25:filepicker:1.1.1'
+    implementation 'com.github.angads25:filepicker:1.1.1'
 
     //used for bookmark demo
-    compile group: 'com.opencsv', name: 'opencsv', version: '4.4'
+    implementation group: 'com.opencsv', name: 'opencsv', version: '4.4'
 
     //usual android stuff
-    compile "com.android.support:design:${project.property('android-support.version')}" //needed for UI menuing
-    compile "com.android.support:cardview-v7:${project.property('android-support.version')}"  //needed for samples only
-    compile "com.android.support:recyclerview-v7:${project.property('android-support.version')}" //needed for samples only
-    compile      'com.android.support:multidex:1.0.3'
+    implementation "com.android.support:design:${project.property('android-support.version')}" //needed for UI menuing
+    implementation "com.android.support:cardview-v7:${project.property('android-support.version')}"  //needed for samples only
+    implementation "com.android.support:recyclerview-v7:${project.property('android-support.version')}" //needed for samples only
+    implementation      'com.android.support:multidex:1.0.3'
 
-    compile "com.android.support:appcompat-v7:${project.property('android-support.version')}" //needed for UI menuing
+    implementation "com.android.support:appcompat-v7:${project.property('android-support.version')}" //needed for UI menuing
     //crash logging
-    compile 'ch.acra:acra:4.7.0'
+    implementation 'ch.acra:acra:4.7.0'
 
     //memory leak testing
-    debugCompile 'com.squareup.leakcanary:leakcanary-android:2.2'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.2'
 
     //on device testing
-    androidTestCompile 'com.android.support.test:runner:0.4.+'
-    androidTestCompile 'com.android.support.test:rules:0.4.+'
-    androidTestCompile 'com.android.support:multidex:1.0.3'
-    androidTestCompile "com.android.support:support-annotations:${project.property('android-support.version')}"
+    androidTestImplementation 'com.android.support.test:runner:0.4.+'
+    androidTestImplementation 'com.android.support.test:rules:0.4.+'
+    androidTestImplementation 'com.android.support:multidex:1.0.3'
+    androidTestImplementation "com.android.support:support-annotations:${project.property('android-support.version')}"
 }
 
 

@@ -20,10 +20,10 @@ android {
 }
 
 dependencies {
-    testCompile "junit:junit:${project.property('junit.version')}"
-    compile project(':osmdroid-android')
+    testImplementation "junit:junit:${project.property('junit.version')}"
+    implementation project(':osmdroid-android')
     //compile(group: 'org.apache.james', name: 'apache-mime4j', version: '0.6') {}
 
-//    compile 'com.google.android.gms:play-services:8.+'
-    compile 'com.google.android.gms:play-services-maps:8.+'
+//    implementation 'com.google.android.gms:play-services:8.+'
+    implementation 'com.google.android.gms:play-services-maps:8.+'
 }

@@ -25,22 +25,22 @@ android {
 
 
 dependencies {
-    testCompile "junit:junit:${project.property('junit.version')}"
+    testImplementation "junit:junit:${project.property('junit.version')}"
 
-    compile "com.android.support:appcompat-v7:${project.property('android-support.version')}"
+    implementation "com.android.support:appcompat-v7:${project.property('android-support.version')}"
     //this covers google maps v2 apis
-    //compile 'com.google.android.gms:play-services:8.+'
+    //implementation 'com.google.android.gms:play-services:8.+'
 
-    compile 'com.google.android.gms:play-services-maps:8.+'
+    implementation 'com.google.android.gms:play-services-maps:8.+'
 
-    compile "com.android.support:support-v4:${project.property('android-support.version')}"
-    compile "com.android.support:appcompat-v7:${project.property('android-support.version')}"
-    compile project(':osmdroid-android')
-    compile project(':osmdroid-third-party')
+    implementation "com.android.support:support-v4:${project.property('android-support.version')}"
+    implementation "com.android.support:appcompat-v7:${project.property('android-support.version')}"
+    implementation project(':osmdroid-android')
+    implementation project(':osmdroid-third-party')
 
-    androidTestCompile 'com.android.support.test:runner:0.4.+'
-    androidTestCompile 'com.android.support.test:rules:0.4.+'
-    androidTestCompile "com.android.support:support-annotations:${project.property('android-support.version')}"
+    androidTestImplementation 'com.android.support.test:runner:0.4.+'
+    androidTestImplementation 'com.android.support.test:rules:0.4.+'
+    androidTestImplementation "com.android.support:support-annotations:${project.property('android-support.version')}"
 }
 
 project.gradle.taskGraph.whenReady {
