@@ -8,9 +8,9 @@ android {
 
 dependencies {
    
-    testCompile 'junit:junit:4.13'
-    compile project(':osmdroid-android')
-    compile 'com.github.spyhunter99:jdbf:2.2.0'
+    testImplementation 'junit:junit:4.13'
+    implementation project(':osmdroid-android')
+    implementation 'com.github.spyhunter99:jdbf:2.2.0'
 
 }
 

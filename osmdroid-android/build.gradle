@@ -9,8 +9,8 @@ android {
 }
 
 dependencies {
-    testCompile "junit:junit:${project.property('junit.version')}"
-    testCompile "org.robolectric:robolectric:${project.property('robolectric.version')}"
+    testImplementation "junit:junit:${project.property('junit.version')}"
+    testImplementation "org.robolectric:robolectric:${project.property('robolectric.version')}"
 }
 import org.apache.tools.ant.filters.*
 task copyFiles(type: Copy) {
