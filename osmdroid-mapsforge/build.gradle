@@ -1,32 +1,8 @@
 description = "An Android library to display OpenStreetMap views using Mapsforge. May use non ASF licensed dependencies"
 apply plugin: 'com.android.library'
-apply from: "https://raw.githubusercontent.com/gradle-fury/gradle-fury/v1.1.4/gradle/android-support.gradle"
-
-// Attention! HACK!
-// In https://raw.githubusercontent.com/gradle-fury/gradle-fury/v1.1.4/gradle/android-support.gradle
-// we have a hack to prevent builds from failing due to missing signing config. This is done by
-// removing the signing task from the build if no keystore/pass is provided.
-//
-// At some point the signing task has been renamed from "validateReleaseSigning" to
-// "validateSigningRelease", thus obviously breaking the build again.
-//
-// The following is just a copy of the relevant code from android-support.gradle adapted to the new
-// name. This should be cleaned up in the future!
-afterEvaluate { project ->
-    tasks.each { task ->
-        if (isAndroidApplication) {
-            if ((task.name.toLowerCase().startsWith("assemble") && task.name.toLowerCase().contains('release'))
-                    || (task.name.toLowerCase().startsWith("bundle") && task.name.toLowerCase().contains('release'))
-                    || (task.name.toLowerCase().startsWith("package") && task.name.toLowerCase().contains('release'))
-                    || (task.name.equals("validateSigningRelease"))) {
-
-                task.setEnabled(canSign)
-            }
-        }
-    }
-}
 
 android {
+    compileSdkVersion = compileSdk
     defaultConfig {
         // mapsforge 0.8.0 has minSdk 10
         minSdkVersion 10

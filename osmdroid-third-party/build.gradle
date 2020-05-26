@@ -7,10 +7,10 @@
 
 description = 'DEPRECATED osmdroid 3rd party libraries and examples. May use non ASF licensed libraries as dependencies'
 apply plugin: 'com.android.library'
-apply from: "https://raw.githubusercontent.com/gradle-fury/gradle-fury/v1.1.4/gradle/android-support.gradle"
+
 android {
-    compileSdkVersion "Google Inc.:Google APIs:${project.property('android.targetSdkVersion')}"
-    buildToolsVersion "${project.property('android.buildToolsVersion')}"
+    compileSdkVersion = compileSdk
+
     defaultConfig {
         minSdkVersion 9
     }
