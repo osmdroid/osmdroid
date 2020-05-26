@@ -10,23 +10,20 @@ android {
 }
 
 dependencies {
-    //crash logging
-    //compile 'ch.acra:acra:4.7.0'
+    testImplementation 'junit:junit:4.13'
+    implementation project(':osmdroid-android')
 
-    testCompile 'junit:junit:4.13'
-    compile project(':osmdroid-android')
-
-    compile ("mil.nga.geopackage:geopackage-android:2.0.1"){
+    api ("mil.nga.geopackage:geopackage-android:2.0.1"){
         exclude group: 'com.google.android.gms', module:'play-services'
         exclude group: 'com.google.maps.android', module:'android-maps-utils'
         exclude group: 'com.android.support',module: 'support-v13'
     }
 
-    compile 'com.j256.ormlite:ormlite-android:5.0'
-    compile 'mil.nga.geopackage:geopackage-core:2.0.1'
-    compile 'ar.com.hjg:pngj:2.1.0'
-    compile 'mil.nga:tiff:1.0.3'
+    implementation 'com.j256.ormlite:ormlite-android:5.0'
+    api 'mil.nga.geopackage:geopackage-core:2.0.1'
+    implementation 'ar.com.hjg:pngj:2.1.0'
+    api 'mil.nga:tiff:1.0.3'
 
-    compile 'ar.com.hjg:pngj:2.1.0'
-    compile 'mil.nga:tiff:2.0.0'
+    implementation 'ar.com.hjg:pngj:2.1.0'
+    api 'mil.nga:tiff:2.0.0'
 }
