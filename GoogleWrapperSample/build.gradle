@@ -7,11 +7,10 @@
 description = 'DEPRECATED Example application for 3rd party utilities, including the Google wrapper sample, Bing map sources, etc'
 
 apply plugin: 'com.android.application'
-apply from: "https://raw.githubusercontent.com/gradle-fury/gradle-fury/v1.1.4/gradle/android-support.gradle"
 
 android {
-    buildToolsVersion "${project.property('android.buildToolsVersion')}"
-    compileSdkVersion "Google Inc.:Google APIs:${project.property('android.targetSdkVersion')}"
+
+    compileSdkVersion = compileSdk
 
     defaultConfig {
         applicationId "org.osmdroid.google.sample"
