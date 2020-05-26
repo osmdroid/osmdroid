@@ -1,31 +1,27 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
-
 buildscript {
     repositories {
         jcenter()
         mavenCentral()
         mavenLocal()
-        maven {
-            url 'https://maven.google.com/'
-            name 'Google'
-        }
+        google()
     }
     dependencies {
-            classpath "com.android.tools.build:gradle:${project.property('android-plugin.version')}"
+        classpath "com.android.tools.build:gradle:3.6.3"
     }
 }
 
+ext {
+    compileSdk = 26
+}
 
 allprojects {
     // NOTE: project.group and project.version must be defined before including
     // maven-support.gradle since it uses these values...
-    project.group = ( project.hasProperty('pom.groupId')
-            ? project.property('pom.groupId') : "" )
+    project.group = (project.hasProperty('pom.groupId')
+            ? project.property('pom.groupId') : "")
 
     project.version =
-            ( project.hasProperty('pom.version') ? project.property('pom.version') : "1.0" )
-
-    apply from: "https://raw.githubusercontent.com/gradle-fury/gradle-fury/v1.1.4/gradle/maven-support.gradle"
+            (project.hasProperty('pom.version') ? project.property('pom.version') : "1.0")
 
     // forces all changing dependencies (i.e. SNAPSHOTs) to automagicially download
     // (thanks, @BillBarnhill!)
@@ -51,24 +47,4 @@ allprojects {
         options.encoding = "UTF-8"
     }
 
-    if (project.hasProperty('profile') && project.profile.split(',').contains("ci")) {
-		apply from: "${rootDir}/gradle/quality.gradle"
-    }
-
 }
-
-
-apply from: "https://raw.githubusercontent.com/gradle-fury/gradle-fury/v1.1.4/gradle/encryption.gradle"
-
-apply from: "https://raw.githubusercontent.com/gradle-fury/gradle-fury/v1.1.4/gradle/site.gradle"
-
-
-//copy the readme into the site folder as the index
-task copyReadme() << {
-    copy{
-        from rootDir.absolutePath + "/README.md"
-        into rootDir.absolutePath + "/src/site/"
-        rename ("README.md", "index.md")
-    }
-}
-site.dependsOn copyReadme
