@@ -3,8 +3,13 @@ apply plugin: 'com.android.library'
 apply from: "https://raw.githubusercontent.com/gradle-fury/gradle-fury/v1.1.4/gradle/android-support.gradle"
 
 android {
+    compileSdkVersion = compileSdk
+    defaultConfig {
+        minSdkVersion 14
+    }
     lintOptions {
         abortOnError false
+        disable 'MissingTranslation','TypographyQuotes'
     }
 }
 

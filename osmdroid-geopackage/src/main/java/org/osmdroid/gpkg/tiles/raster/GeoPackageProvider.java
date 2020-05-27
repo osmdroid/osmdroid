@@ -1,7 +1,6 @@
 package org.osmdroid.gpkg.tiles.raster;
 
 import android.content.Context;
-import android.os.Build;
 import android.util.Log;
 
 import org.osmdroid.api.IMapView;
@@ -13,7 +12,6 @@ import org.osmdroid.tileprovider.modules.IFilesystemCache;
 import org.osmdroid.tileprovider.modules.INetworkAvailablityCheck;
 import org.osmdroid.tileprovider.modules.NetworkAvailabliltyCheck;
 import org.osmdroid.tileprovider.modules.SqlTileWriter;
-import org.osmdroid.tileprovider.modules.TileWriter;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.tileprovider.util.SimpleRegisterReceiver;
@@ -40,7 +38,7 @@ public class GeoPackageProvider extends MapTileProviderArray implements IMapTile
 
     public GeoPackageProvider(File[] db, Context context) {
         this(new SimpleRegisterReceiver(context), new NetworkAvailabliltyCheck(context),
-            TileSourceFactory.DEFAULT_TILE_SOURCE, context, null, db);
+                TileSourceFactory.DEFAULT_TILE_SOURCE, context, null, db);
     }
 
 
@@ -55,11 +53,7 @@ public class GeoPackageProvider extends MapTileProviderArray implements IMapTile
         if (cacheWriter != null) {
             tileWriter = cacheWriter;
         } else {
-            if (Build.VERSION.SDK_INT < 10) {
-                tileWriter = new TileWriter();
-            } else {
-                tileWriter = new SqlTileWriter();
-            }
+            tileWriter = new SqlTileWriter();
         }
 
         mTileProviderList.add(MapTileProviderBasic.getMapTileFileStorageProviderBase(pRegisterReceiver, pTileSource, tileWriter));
@@ -69,7 +63,7 @@ public class GeoPackageProvider extends MapTileProviderArray implements IMapTile
 
     }
 
-    public GeoPackageMapTileModuleProvider geoPackageMapTileModuleProvider(){
+    public GeoPackageMapTileModuleProvider geoPackageMapTileModuleProvider() {
         return geopackage;
     }
 
@@ -92,7 +86,7 @@ public class GeoPackageProvider extends MapTileProviderArray implements IMapTile
 
     public GeopackageRasterTileSource getTileSource(String database, String table) {
         Iterator<GeoPackage> iterator = geopackage.tileSources.iterator();
-        while (iterator.hasNext()){
+        while (iterator.hasNext()) {
             GeoPackage next = iterator.next();
             if (next.getName().equalsIgnoreCase(database)) {
                 //found the database
@@ -101,9 +95,9 @@ public class GeoPackageProvider extends MapTileProviderArray implements IMapTile
                     TileDao tileDao = next.getTileDao(table);
                     mil.nga.geopackage.BoundingBox boundingBox = tileDao.getBoundingBox();
                     ProjectionTransform transformation = tileDao.getProjection().getTransformation(tileDao.getProjection());
-                    boundingBox=transformation.transform(boundingBox);
-                    BoundingBox bounds =new BoundingBox(boundingBox.getMaxLatitude(),boundingBox.getMaxLongitude(),boundingBox.getMinLatitude(),boundingBox.getMinLongitude());
-                    return new GeopackageRasterTileSource(database,table, (int)tileDao.getMinZoom(),(int)tileDao.getMaxZoom(), bounds);
+                    boundingBox = transformation.transform(boundingBox);
+                    BoundingBox bounds = new BoundingBox(boundingBox.getMaxLatitude(), boundingBox.getMaxLongitude(), boundingBox.getMinLatitude(), boundingBox.getMinLongitude());
+                    return new GeopackageRasterTileSource(database, table, (int) tileDao.getMinZoom(), (int) tileDao.getMaxZoom(), bounds);
                 }
             }
         }
