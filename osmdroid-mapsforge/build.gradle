@@ -5,7 +5,7 @@ android {
     compileSdkVersion = compileSdk
     defaultConfig {
         // mapsforge 0.8.0 has minSdk 10
-        minSdkVersion 10
+        minSdkVersion 14
     }
 }
 
@@ -13,9 +13,9 @@ dependencies {
     testImplementation "junit:junit:${project.property('junit.version')}"
 
     //Mapsforge rendering and database support, which is LGPL
-    api 'org.mapsforge:mapsforge-map-android:0.11.0'
-    api 'org.mapsforge:mapsforge-map:0.11.0'
-    api 'org.mapsforge:mapsforge-themes:0.11.0'
+    api 'org.mapsforge:mapsforge-map-android:0.13.0'
+    api 'org.mapsforge:mapsforge-map:0.13.0'
+    api 'org.mapsforge:mapsforge-themes:0.13.0'
 
     //osmdroid which is ASF licensed
     implementation project(':osmdroid-android')

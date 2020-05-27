@@ -19,10 +19,10 @@ dependencies {
         exclude group: 'com.android.support',module: 'support-v13'
     }
 
-    implementation 'com.j256.ormlite:ormlite-android:5.0'
+    implementation 'com.j256.ormlite:ormlite-android:5.1'
     api 'mil.nga.geopackage:geopackage-core:2.0.1'
     implementation 'ar.com.hjg:pngj:2.1.0'
-    api 'mil.nga:tiff:1.0.3'
+    api 'mil.nga:tiff:2.0.0'
 
     implementation 'ar.com.hjg:pngj:2.1.0'
     api 'mil.nga:tiff:2.0.0'
