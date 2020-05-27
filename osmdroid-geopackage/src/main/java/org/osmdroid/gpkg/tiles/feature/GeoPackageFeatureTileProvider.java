@@ -3,14 +3,12 @@ package org.osmdroid.gpkg.tiles.feature;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.util.Log;
 
 import org.osmdroid.api.IMapView;
 import org.osmdroid.tileprovider.MapTileProviderBase;
 import org.osmdroid.tileprovider.modules.IFilesystemCache;
 import org.osmdroid.tileprovider.modules.SqlTileWriter;
-import org.osmdroid.tileprovider.modules.TileWriter;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.util.MapTileIndex;
 
@@ -32,13 +30,8 @@ public class GeoPackageFeatureTileProvider extends MapTileProviderBase {
         super(pTileSource);
 
         Log.i(IMapView.LOGTAG, "Geopackage support is BETA. Please report any issues");
-        if (Build.VERSION.SDK_INT < 10) {
-            tileWriter = new TileWriter();
-        } else {
-            tileWriter = new SqlTileWriter();
-        }
+        tileWriter = new SqlTileWriter();
     }
-
 
     @Override
     public Drawable getMapTile(final long pMapTileIndex) {

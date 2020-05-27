@@ -3,8 +3,12 @@ apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion = compileSdk
+    defaultConfig {
+        minSdkVersion 14
+    }
     lintOptions {
         abortOnError false
+        disable 'MissingTranslation','TypographyQuotes'
     }
 }
 
