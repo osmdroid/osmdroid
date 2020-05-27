@@ -26,6 +26,10 @@ android {
             java.srcDirs = ['../osmdroid-android-it/src/main/java']
         }
     }
+
+    lintOptions {
+        disable 'MissingTranslation','TypographyQuotes'
+    }
 }
 
 
