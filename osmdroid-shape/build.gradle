@@ -4,6 +4,9 @@ apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion = compileSdk
+    defaultConfig {
+        minSdkVersion 14
+    }
 }
 
 dependencies {
