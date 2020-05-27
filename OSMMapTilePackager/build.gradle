@@ -13,9 +13,9 @@ test {
 }
 
 dependencies {
-    implementation 'org.apache.httpcomponents:httpmime:4.0.1'
+    implementation 'org.apache.httpcomponents:httpmime:4.5.6'
     implementation 'org.apache.james:apache-mime4j:0.6'
-    implementation 'org.xerial:sqlite-jdbc:3.7.2'
+    implementation 'org.xerial:sqlite-jdbc:3.25.2'
 
 
     testImplementation "junit:junit:${project.property('junit.version')}"
