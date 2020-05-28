@@ -20,6 +20,9 @@ android {
     }
     lintOptions {
         abortOnError false
+        xmlReport false
+        htmlReport true
+        htmlOutput file("../lint-report-GoogleWrapperSample.html")
     }
 }
 
