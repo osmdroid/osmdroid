@@ -9,8 +9,9 @@ import java.util.Set;
 
 /**
  * Unit tests related to {@link MapTileListBorderComputer}
- * @since 6.0.2
+ *
  * @author Fabrice Fontaine
+ * @since 6.0.2
  * @deprecated Use {@link MapTileAreaBorderComputerTest} instead
  */
 
@@ -85,20 +86,20 @@ public class MapTileListBorderComputerTest {
 
     private void checkEquals(final MapTileList pMapTileList, final Set<Long> pSet) {
         Assert.assertEquals(pSet.size(), pMapTileList.getSize());
-        for (int i = 0 ; i < pMapTileList.getSize() ; i ++) {
+        for (int i = 0; i < pMapTileList.getSize(); i++) {
             Assert.assertTrue(pSet.contains(pMapTileList.get(i)));
         }
     }
 
     private void checkUnique(final MapTileList pMapTileList) {
         final Set<Long> set = new HashSet<>();
-        for (int i = 0 ; i < pMapTileList.getSize() ; i ++) {
+        for (int i = 0; i < pMapTileList.getSize(); i++) {
             Assert.assertTrue(set.add(pMapTileList.get(i)));
         }
     }
 
     private void checkZoom(final MapTileList pMapTileList, final int pZoom) {
-        for (int i = 0 ; i < pMapTileList.getSize() ; i ++) {
+        for (int i = 0; i < pMapTileList.getSize(); i++) {
             final long index = pMapTileList.get(i);
             Assert.assertEquals(pZoom, MapTileIndex.getZoom(index));
         }
@@ -106,8 +107,8 @@ public class MapTileListBorderComputerTest {
 
     private void add(final Set<Long> pSet, final int pZoom, final int pX, final int pY, final int pBorder) {
         final int power = 1 << pZoom;
-        for (int i = pX - pBorder ; i <= pX + pBorder ; i ++) {
-            for (int j = pY - pBorder ; j <= pY + pBorder ; j ++) {
+        for (int i = pX - pBorder; i <= pX + pBorder; i++) {
+            for (int j = pY - pBorder; j <= pY + pBorder; j++) {
                 pSet.add(MapTileIndex.getTileIndex(pZoom, (i + power) % power, (j + power) % power));
             }
         }
