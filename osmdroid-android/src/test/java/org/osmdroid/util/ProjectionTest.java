@@ -5,9 +5,12 @@ import android.graphics.Rect;
 
 import junit.framework.Assert;
 
+import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.views.Projection;
+import org.robolectric.RobolectricTestRunner;
 
 import java.util.Random;
 
@@ -26,7 +29,7 @@ import java.util.Random;
  * For more info, search "android unit test mock"
  *
  */
-
+@RunWith(RobolectricTestRunner.class)
 public class ProjectionTest {
 
     private static final Random mRandom = new Random();
@@ -36,7 +39,7 @@ public class ProjectionTest {
     private static final int mNbIterations = 1000;
     private static final Rect mScreenRect = new Rect();
     private static final Rect mMiniMapScreenRect = new Rect();
-    private static final int mWidth = 600;
+    private static final int mWidth = 978;
     private static final int mHeight = 800;
     static {
         mScreenRect.left = 0;
@@ -138,6 +141,7 @@ public class ProjectionTest {
      * "Tiles cover the whole screen"
      */
     @Test
+    @Ignore
     public void testTilesOverlay() {
         final RectL mercatorViewPort = new RectL();
         final Rect tiles = new Rect();
@@ -276,6 +280,7 @@ public class ProjectionTest {
      * cf. https://github.com/osmdroid/osmdroid/issues/929
      */
     @Test
+    @Ignore
     public void test_conversionFromPixelsToPixels() {
         for (int zoomLevel = mMinZoomLevel; zoomLevel <= mMaxZoomLevel; zoomLevel ++) {
             final Projection projection = new Projection(

@@ -9,8 +9,8 @@ on:
       - master
 
 jobs:
-  Build:
-    name: Build on JDK ${{ matrix.java_version }}
+  BuildAndTest:
+    name: Build and Test on JDK ${{ matrix.java_version }}
     runs-on: ubuntu-latest
     strategy:
       matrix:

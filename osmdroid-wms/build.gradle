@@ -6,6 +6,10 @@ android {
     defaultConfig {
         minSdkVersion Integer.parseInt(project.property('android.minSdkVersion'))
     }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
 }
 
 dependencies {
