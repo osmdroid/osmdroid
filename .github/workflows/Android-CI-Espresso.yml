@@ -48,13 +48,14 @@ jobs:
         uses: malinskiy/action-android/install-sdk@release/0.0.7
       - name: Build project
         run: ./gradlew lint --stacktrace
-      - name: Archive Lint report
-        uses: actions/upload-artifact@v2
-        with:
-          name: Lint-report
-          path: ./**/build/reports/lint-results.html
+#      - name: Archive Lint report
+#        uses: actions/upload-artifact@v2
+#        with:
+#          name: Lint-report
+#          path: ${{ github.workspace }}/lint-*.html
   Espresso:
     runs-on: macOS-latest
+    continue-on-error: true
     steps:
       - uses: actions/checkout@v2
         with:
@@ -68,7 +69,7 @@ jobs:
       - name: Run instrumentation tests
         uses: malinskiy/action-android/emulator-run-cmd@release/0.0.7
         with:
-          cmd: ./gradlew cAT --stacktrace
+          cmd: ./gradlew clean install -Pprofile=ci
           api: 28
           tag: default
           abi: x86

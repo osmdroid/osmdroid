@@ -30,6 +30,9 @@ android {
     lintOptions {
         abortOnError false
         disable 'MissingTranslation','TypographyQuotes'
+        xmlReport false
+        htmlReport true
+        htmlOutput file("../lint-report-OpenStreetMapViewer.html")
     }
 }
 
