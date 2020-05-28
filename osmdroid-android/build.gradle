@@ -5,6 +5,10 @@ apply from: "https://raw.githubusercontent.com/gradle-fury/gradle-fury/v1.1.4/gr
 android {
     lintOptions {
         abortOnError false
+        disable 'MissingTranslation','TypographyQuotes'
+        xmlReport false
+        htmlReport true
+        htmlOutput file("../lint-report-osmdroid.html")
     }
 }
 

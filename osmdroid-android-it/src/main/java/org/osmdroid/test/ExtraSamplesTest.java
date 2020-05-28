@@ -9,33 +9,43 @@
 
 package org.osmdroid.test;
 
+import android.support.test.rule.ActivityTestRule;
+import android.support.test.runner.AndroidJUnit4;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.test.ActivityInstrumentationTestCase2;
 import android.util.Log;
 
 import junit.framework.Assert;
 
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.osmdroid.ExtraSamplesActivity;
 import org.osmdroid.ISampleFactory;
 import org.osmdroid.OsmApplication;
 import org.osmdroid.bugtestfragments.BugFactory;
-import org.osmdroid.samplefragments.*;
+import org.osmdroid.samplefragments.BaseSampleFragment;
+import org.osmdroid.samplefragments.SampleFactory;
 import org.osmdroid.samplefragments.ui.SamplesMenuFragment;
 import org.osmdroid.tileprovider.util.Counters;
 
 import java.util.Random;
 
-public class ExtraSamplesTest extends ActivityInstrumentationTestCase2<ExtraSamplesActivity> {
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
-    public ExtraSamplesTest() {
-        super("org.osmdroid", ExtraSamplesActivity.class);
-    }
+@RunWith(AndroidJUnit4.class)
+public class ExtraSamplesTest {
+
+    @Rule
+    public final ActivityTestRule<ExtraSamplesActivity> activityTestRule =
+            new ActivityTestRule<>(ExtraSamplesActivity.class, true, false);
 
     /**
      * This tests every sample fragment in the app. See implementation notes on how to increase
      * the duration and iteration count for longer running tests and memory leak testing
      */
+    @Test
     public void testActivity() {
         ISampleFactory sampleFactory = SampleFactory.getInstance();
         executeTest(sampleFactory);
@@ -45,28 +55,27 @@ public class ExtraSamplesTest extends ActivityInstrumentationTestCase2<ExtraSamp
      * This tests every bug driver fragment in the app. See implementation notes on how to increase
      * the duration and iteration count for longer running tests and memory leak testing
      */
+    @Test
     public void testBugsDriversActivity() {
         ISampleFactory sampleFactory = BugFactory.getInstance();
         executeTest(sampleFactory);
     }
 
-    boolean ok =true;
+    private boolean ok = true;
 
-    private void executeTest(ISampleFactory sampleFactory){
+    private void executeTest(ISampleFactory sampleFactory) {
         Counters.reset();
-        final ExtraSamplesActivity activity = getActivity();
+        final ExtraSamplesActivity activity = activityTestRule.getActivity();
         assertNotNull(activity);
         final FragmentManager fm = activity.getSupportFragmentManager();
         Fragment frag = (fm.findFragmentByTag(ExtraSamplesActivity.SAMPLES_FRAGMENT_TAG));
         assertNotNull(frag);
 
         assertTrue(frag instanceof SamplesMenuFragment);
-        //SamplesMenuFragment samples = (SamplesMenuFragment) frag;
-
 
         int[] fireOrder = new int[sampleFactory.count()];
         for (int i = 0; i < sampleFactory.count(); i++) {
-            fireOrder[i]=i;
+            fireOrder[i] = i;
         }
         shuffleArray(fireOrder);
 
@@ -77,13 +86,12 @@ public class ExtraSamplesTest extends ActivityInstrumentationTestCase2<ExtraSamp
                 break;
             }
 
-
             for (int k = 0; k < 1; k++) {
                 Log.i(SamplesMenuFragment.TAG, k + "Memory allocation: Before load: Free: " + Runtime.getRuntime().freeMemory() + " Total:" + Runtime.getRuntime().totalMemory() + " Max:" + Runtime.getRuntime().maxMemory());
                 final BaseSampleFragment basefrag = sampleFactory.getSample(fireOrder[i]);
                 if (basefrag.skipOnCiTests())
                     break;
-                Log.i(SamplesMenuFragment.TAG, "loading fragment ("+i+"/" + sampleFactory.count()+") run " +k +" " + basefrag.getSampleTitle() + ", " + frag.getClass().getCanonicalName());
+                Log.i(SamplesMenuFragment.TAG, "loading fragment (" + i + "/" + sampleFactory.count() + ") run " + k + " " + basefrag.getSampleTitle() + ", " + frag.getClass().getCanonicalName());
 
                 Counters.printToLogcat();
                 if (Counters.countOOM > 0 || Counters.fileCacheOOM > 0) {
@@ -102,7 +110,7 @@ public class ExtraSamplesTest extends ActivityInstrumentationTestCase2<ExtraSamp
                             //this sleep is here to give the fragment enough time to start up and do something
 
                         } catch (Exception oom) {
-                            ok=false;
+                            ok = false;
                             oom.printStackTrace();
                             Assert.fail("Error popping fragment " + basefrag.getSampleTitle() + basefrag.getClass().getCanonicalName() + oom);
 
@@ -124,13 +132,13 @@ public class ExtraSamplesTest extends ActivityInstrumentationTestCase2<ExtraSamp
                         }
                     });
                 } catch (Exception oom) {
-                    ok=false;
+                    ok = false;
                     oom.printStackTrace();
                     Assert.fail("Error popping fragment " + basefrag.getSampleTitle() + basefrag.getClass().getCanonicalName() + oom);
 
                 }
 
-                Assert.assertTrue("the test failed",ok);
+                Assert.assertTrue("the test failed", ok);
 
 
                 System.gc();
@@ -142,14 +150,11 @@ public class ExtraSamplesTest extends ActivityInstrumentationTestCase2<ExtraSamp
     /**
      * src http://stackoverflow.com/questions/1519736/random-shuffling-of-an-array
      * Implementing Fisher–Yates shuffle
-     * @param ar
      */
-    static void shuffleArray(int[] ar)
-    {
+    private static void shuffleArray(int[] ar) {
         // If running on Java 6 or older, use `new Random()` on RHS here
         Random rnd = new Random();
-        for (int i = ar.length - 1; i > 0; i--)
-        {
+        for (int i = ar.length - 1; i > 0; i--) {
             int index = rnd.nextInt(i + 1);
             // Simple swap
             int a = ar[index];

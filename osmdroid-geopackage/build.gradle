@@ -32,6 +32,13 @@ android {
     defaultConfig {
         minSdkVersion 14
     }
+    lintOptions {
+        abortOnError false
+        disable 'InvalidPackage'
+        xmlReport false
+        htmlReport true
+        htmlOutput file("../lint-report-osmdroid-geopackage.html")
+    }
 }
 
 dependencies {

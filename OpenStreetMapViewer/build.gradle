@@ -50,6 +50,14 @@ android {
             java.srcDirs = ['../osmdroid-android-it/src/main/java']
         }
     }
+
+    lintOptions {
+        abortOnError false
+        disable 'MissingTranslation','TypographyQuotes'
+        xmlReport false
+        htmlReport true
+        htmlOutput file("../lint-report-OpenStreetMapViewer.html")
+    }
 }
 
 

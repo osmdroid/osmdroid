@@ -7,29 +7,37 @@
  */
 package org.osmdroid.test;
 
-import org.osmdroid.StarterMapActivity;
-import org.osmdroid.tileprovider.util.Counters;
-
-import android.test.ActivityInstrumentationTestCase2;
+import android.support.test.rule.ActivityTestRule;
+import android.support.test.runner.AndroidJUnit4;
 
 import junit.framework.Assert;
 
-public class MapActivityTest extends ActivityInstrumentationTestCase2<StarterMapActivity> {
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.osmdroid.StarterMapActivity;
+import org.osmdroid.tileprovider.util.Counters;
 
-    public MapActivityTest() {
-        super("org.osmdroid", StarterMapActivity.class);
-    }
+import static org.junit.Assert.assertNotNull;
 
+@RunWith(AndroidJUnit4.class)
+public class MapActivityTest {
+
+    @Rule
+    public final ActivityTestRule<StarterMapActivity> activityTestRule =
+            new ActivityTestRule<>(StarterMapActivity.class, true, false);
+
+    @Test
     public void testActivity() {
         Counters.reset();
-        StarterMapActivity activity = getActivity();
+        StarterMapActivity activity = activityTestRule.getActivity();
         assertNotNull(activity);
         try {
             Thread.sleep(5000);
-        } catch (InterruptedException e) {
+        } catch (InterruptedException ignored) {
         }
         Counters.printToLogcat();
-        if (Counters.countOOM > 0 || Counters.fileCacheOOM > 0){
+        if (Counters.countOOM > 0 || Counters.fileCacheOOM > 0) {
             Assert.fail("OOM Detected, aborting!");
         }
         activity.finish();
