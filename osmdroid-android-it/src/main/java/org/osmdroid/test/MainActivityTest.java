@@ -7,23 +7,32 @@
  */
 package org.osmdroid.test;
 
+import android.support.test.rule.ActivityTestRule;
+import android.support.test.runner.AndroidJUnit4;
+
 import org.junit.Assert;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.osmdroid.MainActivity;
 import org.osmdroid.tileprovider.util.Counters;
-import android.test.ActivityInstrumentationTestCase2;
 
-public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActivity> {
+import static org.junit.Assert.assertNotNull;
 
-    public MainActivityTest() {
-        super("org.osmdroid", MainActivity.class);
-    }
+@RunWith(AndroidJUnit4.class)
+public class MainActivityTest {
 
+    @Rule
+    public final ActivityTestRule<MainActivity> activityTestRule =
+            new ActivityTestRule<>(MainActivity.class, true, false);
+
+    @Test
     public void testActivity() {
         Counters.reset();
-        MainActivity activity = getActivity();
+        MainActivity activity = activityTestRule.getActivity();
         assertNotNull(activity);
         Counters.printToLogcat();
-        if (Counters.countOOM > 0 || Counters.fileCacheOOM > 0){
+        if (Counters.countOOM > 0 || Counters.fileCacheOOM > 0) {
             Assert.fail("OOM Detected, aborting!");
         }
         activity.finish();
