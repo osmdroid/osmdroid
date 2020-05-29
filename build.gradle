@@ -4,14 +4,33 @@ buildscript {
         mavenCentral()
         mavenLocal()
         google()
+        maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
     }
     dependencies {
         classpath "com.android.tools.build:gradle:3.6.3"
     }
 }
 
+plugins {
+    id 'checkstyle'
+}
+
 ext {
     compileSdk = 28
+}
+
+task checkstyle(type: Checkstyle) {
+    description = 'Check Java style with Checkstyle'
+    configFile = rootProject.file("config/checkstyle/checkstyle.xml")
+    source = './'
+    include '**/*.java'
+    exclude '**/build/generated/**'
+    classpath = files()
+    ignoreFailures = true
+}
+
+checkstyle {
+    toolVersion = "8.15"
 }
 
 allprojects {
