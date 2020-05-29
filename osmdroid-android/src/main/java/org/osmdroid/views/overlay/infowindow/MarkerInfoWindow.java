@@ -3,7 +3,6 @@ package org.osmdroid.views.overlay.infowindow;
 import org.osmdroid.api.IMapView;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
-import org.osmdroid.views.overlay.infowindow.BasicInfoWindow;
 
 import android.graphics.drawable.Drawable;
 import android.util.Log;
