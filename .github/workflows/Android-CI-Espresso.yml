@@ -47,6 +47,8 @@ jobs:
       - name: Install Android SDK
         uses: malinskiy/action-android/install-sdk@release/0.0.7
       - name: Build project
+        run: ./gradlew checkstyle
+      - name: Build project
         run: ./gradlew lint --stacktrace
 #      - name: Archive Lint report
 #        uses: actions/upload-artifact@v2
