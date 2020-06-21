@@ -34,22 +34,6 @@ checkstyle {
 }
 
 allprojects {
-    // NOTE: project.group and project.version must be defined before including
-    // maven-support.gradle since it uses these values...
-    project.group = (project.hasProperty('pom.groupId')
-            ? project.property('pom.groupId') : "")
-
-    project.version =
-            (project.hasProperty('pom.version') ? project.property('pom.version') : "1.0")
-
-    // forces all changing dependencies (i.e. SNAPSHOTs) to automatically download
-    // (thanks, @BillBarnhill!)
-    configurations.all {
-        resolutionStrategy {
-            cacheChangingModulesFor 0, 'seconds'
-        }
-    }
-
     repositories {
         jcenter()
         mavenCentral()
