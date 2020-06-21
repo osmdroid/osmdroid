@@ -71,7 +71,7 @@ jobs:
       - name: Run instrumentation tests
         uses: malinskiy/action-android/emulator-run-cmd@release/0.0.7
         with:
-          cmd: ./gradlew clean install -Pprofile=ci
+          cmd: ./gradlew cAT -Pprofile=ci --continue
           api: 28
           tag: default
           abi: x86
