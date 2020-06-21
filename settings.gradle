@@ -16,11 +16,11 @@ include ':OpenStreetMapViewer'
 include ':osmdroid-simple-map'
 
 //jdk specific tools and applications
-include ':OSMMapTilePackager'
-include ':osmdroid-server-jdk'
+//include ':OSMMapTilePackager'
+//include ':osmdroid-server-jdk'
 
 //dist package
-include ':osmdroid-dist'
+//include ':osmdroid-dist'
 
 //Sunset projects (Deprecated) 
 //include ':osmdroid-third-party'
