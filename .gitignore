@@ -49,3 +49,5 @@ OpenStreetMapViewer/src/androidTest/
 docs/
 *.orig
 osmdroid-android/src/main/java/org/osmdroid/OsmdroidBuildInfo.java
+
+lint*.html
