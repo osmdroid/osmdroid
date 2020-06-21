@@ -1,17 +1,12 @@
 package org.osmdroid.bugtestfragments;
 
-import android.content.DialogInterface;
-import android.graphics.Color;
-import android.support.v7.app.AlertDialog;
+import androidx.appcompat.app.AlertDialog;
 import android.widget.Toast;
 
-import org.osmdroid.events.MapEventsReceiver;
 import org.osmdroid.samplefragments.BaseSampleFragment;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.overlay.ItemizedIconOverlay;
 import org.osmdroid.views.overlay.ItemizedOverlayWithFocus;
-import org.osmdroid.views.overlay.MapEventsOverlay;
-import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.OverlayItem;
 
 import java.util.ArrayList;

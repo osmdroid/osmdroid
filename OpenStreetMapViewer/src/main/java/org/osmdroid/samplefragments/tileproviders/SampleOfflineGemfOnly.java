@@ -1,7 +1,7 @@
 package org.osmdroid.samplefragments.tileproviders;
 
 import android.os.Environment;
-import android.support.design.widget.Snackbar;
+import com.google.android.material.snackbar.Snackbar;
 import android.widget.Toast;
 
 import org.osmdroid.samplefragments.BaseSampleFragment;

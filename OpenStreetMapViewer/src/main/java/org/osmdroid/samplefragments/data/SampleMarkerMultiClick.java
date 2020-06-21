@@ -2,7 +2,7 @@ package org.osmdroid.samplefragments.data;
 
 import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
-import android.support.v7.app.AlertDialog;
+import androidx.appcompat.app.AlertDialog;
 
 import org.osmdroid.R;
 import org.osmdroid.api.IGeoPoint;

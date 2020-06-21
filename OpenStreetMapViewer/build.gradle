@@ -6,7 +6,7 @@ android {
     compileSdkVersion = compileSdk
     defaultConfig {
         applicationId 'org.osmdroid'
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
 
         minSdkVersion Integer.parseInt(project.property('android-minSdkForSupportLib.version'))
         multiDexEnabled = true
@@ -38,7 +38,7 @@ android {
 
 
 dependencies {
-    implementation "com.android.support:support-v4:${project.property('android-support.version')}"
+    implementation "androidx.legacy:legacy-support-v4:1.0.0"
     implementation project(':osmdroid-android')
     implementation project(':osmdroid-geopackage')
     implementation project(':osmdroid-mapsforge')
@@ -54,12 +54,12 @@ dependencies {
     implementation group: 'com.opencsv', name: 'opencsv', version: '4.4'
 
     //usual android stuff
-    implementation "com.android.support:design:${project.property('android-support.version')}" //needed for UI menuing
-    implementation "com.android.support:cardview-v7:${project.property('android-support.version')}"  //needed for samples only
-    implementation "com.android.support:recyclerview-v7:${project.property('android-support.version')}" //needed for samples only
-    implementation      'com.android.support:multidex:1.0.3'
+    implementation "com.google.android.material:material:1.0.0" //needed for UI menuing
+    implementation "androidx.cardview:cardview:1.0.0"  //needed for samples only
+    implementation "androidx.recyclerview:recyclerview:1.0.0" //needed for samples only
+    implementation 'androidx.multidex:multidex:2.0.0'
 
-    implementation "com.android.support:appcompat-v7:${project.property('android-support.version')}" //needed for UI menuing
+    implementation "androidx.appcompat:appcompat:1.0.0" //needed for UI menuing
     //crash logging
     implementation 'ch.acra:acra:4.7.0'
 
@@ -67,10 +67,10 @@ dependencies {
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.2'
 
     //on device testing
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test:rules:1.0.2'
-    androidTestImplementation 'com.android.support:multidex:1.0.3'
-    androidTestImplementation "com.android.support:support-annotations:${project.property('android-support.version')}"
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test:rules:1.1.1'
+    androidTestImplementation 'androidx.multidex:multidex:2.0.0'
+    androidTestImplementation "androidx.annotation:annotation:1.0.0"
 }
 
 

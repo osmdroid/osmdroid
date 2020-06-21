@@ -11,6 +11,6 @@ android {
 }
 
 dependencies {
-    implementation "com.android.support:appcompat-v7:${project.property('android-support.version')}"
+    implementation "androidx.appcompat:appcompat:1.0.0"
     implementation project(':osmdroid-android')
 }

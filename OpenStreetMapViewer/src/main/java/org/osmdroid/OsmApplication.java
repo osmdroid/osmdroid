@@ -3,9 +3,9 @@ package org.osmdroid;
 import android.content.Context;
 import android.os.Environment;
 import android.os.StrictMode;
-import android.support.multidex.MultiDex;
+import androidx.multidex.MultiDex;
 import android.util.Log;
-import android.support.multidex.MultiDexApplication;
+import androidx.multidex.MultiDexApplication;
 
 import org.acra.ACRA;
 import org.acra.annotation.ReportsCrashes;

@@ -1,7 +1,7 @@
 package org.osmdroid.data;
 
 import android.content.Context;
-import android.support.annotation.RawRes;
+import androidx.annotation.RawRes;
 
 import org.json.JSONException;
 import org.json.JSONObject;
