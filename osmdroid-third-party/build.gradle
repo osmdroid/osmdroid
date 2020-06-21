@@ -12,7 +12,7 @@ android {
     compileSdkVersion = compileSdk
 
     defaultConfig {
-        minSdkVersion 9
+        minSdkVersion 14
     }
     lintOptions {
         abortOnError false
