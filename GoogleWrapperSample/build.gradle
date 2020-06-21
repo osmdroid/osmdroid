@@ -14,7 +14,7 @@ android {
 
     defaultConfig {
         applicationId "org.osmdroid.google.sample"
-        minSdkVersion 9
+        minSdkVersion 14
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
     }
