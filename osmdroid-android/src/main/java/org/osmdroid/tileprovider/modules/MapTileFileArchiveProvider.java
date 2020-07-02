@@ -176,16 +176,18 @@ public class MapTileFileArchiveProvider extends MapTileFileStorageProviderBase {
 
           // path should be optionally configurable
           File cachePaths = Configuration.getInstance().getOsmdroidBasePath();
-          final File[] files = cachePaths.listFiles();
-          if (files != null) {
-               for (final File file : files) {
-                    final IArchiveFile archiveFile = ArchiveFileFactory.getArchiveFile(file);
-                    if (archiveFile != null) {
-                   		 archiveFile.setIgnoreTileSource(ignoreTileSource);
-                         mArchiveFiles.add(archiveFile);
-                    }
-               }
-          }
+          if (cachePaths != null) {
+			  final File[] files = cachePaths.listFiles();
+			  if (files != null) {
+				  for (final File file : files) {
+					  final IArchiveFile archiveFile = ArchiveFileFactory.getArchiveFile(file);
+					  if (archiveFile != null) {
+						  archiveFile.setIgnoreTileSource(ignoreTileSource);
+						  mArchiveFiles.add(archiveFile);
+					  }
+				  }
+			  }
+		  }
 	}
 
 	private synchronized InputStream getInputStream(final long pMapTileIndex,
