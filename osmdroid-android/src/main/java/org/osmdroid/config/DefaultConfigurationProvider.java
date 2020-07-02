@@ -249,11 +249,14 @@ public class DefaultConfigurationProvider implements IConfigurationProvider {
 
     @Override
     public File getOsmdroidBasePath(Context context) {
-        if (osmdroidBasePath==null)
-            osmdroidBasePath = new File(StorageUtils.getBestWritableStorage(context).path, "osmdroid");
         try {
-            osmdroidBasePath.mkdirs();
-        }catch (Exception ex){
+            if (osmdroidBasePath==null) {
+                StorageUtils.StorageInfo storageInfo = StorageUtils.getBestWritableStorage(context);
+                String pathToStorage = storageInfo.path;
+                osmdroidBasePath = new File(pathToStorage, "osmdroid");
+                osmdroidBasePath.mkdirs();
+            }
+        } catch (Exception ex){
             Log.d(IMapView.LOGTAG, "Unable to create base path at " + osmdroidBasePath, ex);
             //IO/permissions issue
             //trap for android studio layout editor and some for certain devices
