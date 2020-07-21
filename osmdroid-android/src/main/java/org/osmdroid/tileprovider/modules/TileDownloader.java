@@ -344,29 +344,25 @@ public class TileDownloader {
             String[] enabledProtocols = socket.getEnabledProtocols();
             String[] newEnabledProtocols;
 
-            int sslEnabled = Arrays.binarySearch(enabledProtocols, "SSLv3");
-            if (Arrays.binarySearch(supportedProtocols, "TLSv1.2") >= 0
-                    && Arrays.binarySearch(enabledProtocols, "TLSv1.2") < 0) {
-                if (sslEnabled >= 0) {
-                    enabledProtocols[sslEnabled] = "TLSv1.2";
-                    newEnabledProtocols = enabledProtocols;
-                } else {
-                    newEnabledProtocols = new String[enabledProtocols.length + 1];
-                    System.arraycopy(
-                            enabledProtocols, 0, newEnabledProtocols, 0, enabledProtocols.length);
-                    newEnabledProtocols[newEnabledProtocols.length - 1] = "TLSv1.2";
-                }
-            } else if (sslEnabled >= 0) {
-                newEnabledProtocols = new String[enabledProtocols.length-1];
-                System.arraycopy(enabledProtocols, 0, newEnabledProtocols, 0, sslEnabled);
-                if (newEnabledProtocols.length > sslEnabled) {
-                    System.arraycopy(
-                            enabledProtocols, sslEnabled + 1,
-                            newEnabledProtocols, sslEnabled,
-                            newEnabledProtocols.length - sslEnabled);
-                }
+            // If TLS 1.2 is supported just set it as the only enabled protocol an be done with it,
+            // as it's guaranteed to be the most modern protocol on devices on API<21 (1.3 only
+            // exists since August 2018)
+            if (Arrays.binarySearch(supportedProtocols, "TLSv1.2") >= 0) {
+                newEnabledProtocols = new String[]{"TLSv1.2"};
             } else {
-                newEnabledProtocols = enabledProtocols;
+                int sslEnabled = Arrays.binarySearch(enabledProtocols, "SSLv3");
+                if (sslEnabled >= 0) {
+                    newEnabledProtocols = new String[enabledProtocols.length-1];
+                    System.arraycopy(enabledProtocols, 0, newEnabledProtocols, 0, sslEnabled);
+                    if (newEnabledProtocols.length > sslEnabled) {
+                        System.arraycopy(
+                                enabledProtocols, sslEnabled + 1,
+                                newEnabledProtocols, sslEnabled,
+                                newEnabledProtocols.length - sslEnabled);
+                    }
+                } else {
+                    newEnabledProtocols = enabledProtocols;
+                }
             }
 
             socket.setEnabledProtocols(newEnabledProtocols);
