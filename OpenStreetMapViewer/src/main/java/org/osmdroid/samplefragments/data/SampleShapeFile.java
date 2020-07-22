@@ -1,6 +1,6 @@
 package org.osmdroid.samplefragments.data;
 
-import android.graphics.Color;
+import android.graphics.Paint;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,8 +18,8 @@ import org.osmdroid.tileprovider.modules.ArchiveFileFactory;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
-import org.osmdroid.views.overlay.FolderOverlay;
 import org.osmdroid.views.overlay.Overlay;
+import org.osmdroid.views.overlay.PolyOverlayWithIW;
 import org.osmdroid.views.overlay.Polygon;
 
 import java.io.File;
@@ -114,6 +114,17 @@ public class SampleShapeFile extends SampleMapEventListener {
                 //files is the array of the paths of files selected by the Application User.
                 try {
                     List<Overlay>  folder = ShapeConverter.convert(mMapView, new File(files[0]));
+                    for (final Overlay item : folder) {
+                        if (item instanceof PolyOverlayWithIW) {
+                            final PolyOverlayWithIW poly = (PolyOverlayWithIW)item;
+                            poly.setDowngradePixelSizes(50, 25);
+                            poly.setDowngradeDisplay(true);
+                            final Paint paint = poly.getOutlinePaint();
+                            paint.setStyle(Paint.Style.STROKE);
+                            paint.setStrokeJoin(Paint.Join.ROUND);
+                            paint.setStrokeCap(Paint.Cap.ROUND);
+                        }
+                    }
                     mMapView.getOverlayManager().addAll(folder);
                     mMapView.invalidate();
                 } catch (Exception e) {

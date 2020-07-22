@@ -200,9 +200,25 @@ public interface IConfigurationProvider {
      * Base path for osmdroid files. Zip/sqlite/mbtiles/etc files are in this folder.
      * Note: also used for offline tile sources
      *
+     * If no directory has been set before with {@link #setOsmdroidBasePath(File)} it tries
+     * to automatically detect one. On API>29 and for better results use
+     * {@link #getOsmdroidBasePath(Context)}
+     *
      * @return
      */
     File getOsmdroidBasePath();
+
+    /**
+     * Base path for osmdroid files. Zip/sqlite/mbtiles/etc files are in this folder.
+     * Note: also used for offline tile sources
+     *
+     * If no directory has been set before with {@link #setOsmdroidBasePath(File)} it tries
+     * to automatically detect one. Passing a context gives better results than
+     * {@link #getOsmdroidBasePath()} and is required to find any location on API29.
+     *
+     * @return
+     */
+    File getOsmdroidBasePath(Context context);
 
     /**
      * Base path for osmdroid files. Zip/sqlite/mbtiles/etc files are in this folder.
@@ -218,7 +234,7 @@ public interface IConfigurationProvider {
     /**
      * by default, maps to getOsmdroidBasePath() + "/tiles"
      * By default, it is defined in SD card, osmdroid directory.
-     * Sets the location where the tile cache is stored. Changes are only in effect when the @{link {@link org.osmdroid.views.MapView}}
+     * Sets the location where the tile cache is stored. Changes are only in effect when the {@link {@link org.osmdroid.views.MapView}}
      * is created. Changes made after it's creation (either pogrammatic or via layout inflator) have
      * no effect until the map is restarted or the {@link org.osmdroid.views.MapView#setTileProvider(MapTileProviderBase)}
      * is changed or recreated.
@@ -226,9 +242,32 @@ public interface IConfigurationProvider {
      * Note: basePath and tileCache directories can be changed independently
      * This has no effect on offline archives and can be changed independently
      *
+     * If no directory has been set before with {@link #setOsmdroidTileCache(File)} it tries
+     * to automatically detect one. On API>29 and for better results use
+     * {@link #getOsmdroidTileCache(Context)}
+     *
      * @return
      */
     File getOsmdroidTileCache();
+
+    /**
+     * by default, maps to getOsmdroidBasePath() + "/tiles"
+     * By default, it is defined in SD card, osmdroid directory.
+     * Sets the location where the tile cache is stored. Changes are only in effect when the {@link org.osmdroid.views.MapView}}
+     * is created. Changes made after it's creation (either pogrammatic or via layout inflator) have
+     * no effect until the map is restarted or the {@link org.osmdroid.views.MapView#setTileProvider(MapTileProviderBase)}
+     * is changed or recreated.
+     * <p>
+     * Note: basePath and tileCache directories can be changed independently
+     * This has no effect on offline archives and can be changed independently
+     *
+     * If no directory has been set before with {@link #setOsmdroidTileCache(File)} it tries
+     * to automatically detect one. Passing a context gives better results than
+     * {@link #getOsmdroidTileCache()} and is required to find any location on API29.
+     *
+     * @return
+     */
+    File getOsmdroidTileCache(Context context);
 
     /**
      * by default, maps to getOsmdroidBasePath() + "/tiles"

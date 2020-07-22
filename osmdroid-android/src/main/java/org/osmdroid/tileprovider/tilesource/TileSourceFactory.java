@@ -109,6 +109,19 @@ public class TileSourceFactory {
 			));
 	// max concurrent thread number is 2 (cf. https://operations.osmfoundation.org/policies/tiles/)
 
+	// let's be restrictive here
+	// see https://foundation.wikimedia.org/wiki/Maps_Terms_of_Use
+	public static final OnlineTileSourceBase WIKIMEDIA = new XYTileSource("Wikimedia",
+			1, 19, 256, ".png", new String[] {
+			"https://maps.wikimedia.org/osm-intl/" },
+			"Wikimedia maps | Map data © OpenStreetMap contributors",
+			new TileSourcePolicy(1,
+					TileSourcePolicy.FLAG_NO_BULK
+							| TileSourcePolicy.FLAG_NO_PREVENTIVE
+							| TileSourcePolicy.FLAG_USER_AGENT_MEANINGFUL
+							| TileSourcePolicy.FLAG_USER_AGENT_NORMALIZED
+			));
+
 	//they do not have ssl setup as of oct 2019
 	public static final OnlineTileSourceBase PUBLIC_TRANSPORT = new XYTileSource(
 			"OSMPublicTransport", 0, 17, 256, ".png",
@@ -148,12 +161,13 @@ public class TileSourceFactory {
 	public static final OnlineTileSourceBase ROADS_OVERLAY_NL = new XYTileSource("RoadsNL",
 			0, 18, 256, ".png",
 			new String[] { "https://overlay.openstreetmap.nl/roads/" },"© OpenStreetMap contributors");
-     
-     public static final OnlineTileSourceBase HIKEBIKEMAP = new XYTileSource("HikeBikeMap",
+
+	/**
+	 * 2020.03.12 there is also a "http://(a|b|c).tiles.wmflabs.org/hikebike/" version
+	 */
+    public static final OnlineTileSourceBase HIKEBIKEMAP = new XYTileSource("HikeBikeMap",
 			 0, 18, 256, ".png",
-			new String[] { "https://a.tiles.wmflabs.org/hikebike/",
-                    "https://b.tiles.wmflabs.org/hikebike/",
-                    "https://c.tiles.wmflabs.org/hikebike/"  });
+			new String[] { "https://tiles.wmflabs.org/hikebike/"  });
 
 	/**
 	 * This is actually another tile overlay
@@ -214,6 +228,7 @@ public class TileSourceFactory {
 	static {
 		mTileSources = new ArrayList<ITileSource>();
 		mTileSources.add(MAPNIK);
+		mTileSources.add(WIKIMEDIA);
 		mTileSources.add(PUBLIC_TRANSPORT);
 		mTileSources.add(HIKEBIKEMAP);
 		mTileSources.add(USGS_TOPO);

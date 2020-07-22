@@ -2,9 +2,11 @@ package org.osmdroid.tileprovider.modules;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 
 import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.BitmapPool;
@@ -241,13 +243,16 @@ public class MapTileApproximater extends MapTileModuleProviderBase {
 
     /**
      * Try to get a tile bitmap from the pool, otherwise allocate a new one
-     *
-     * @param pTileSizePx
-     * @return
      */
     public static Bitmap getTileBitmap(final int pTileSizePx) {
         final Bitmap bitmap = BitmapPool.getInstance().obtainSizedBitmapFromPool(pTileSizePx, pTileSizePx);
         if (bitmap != null) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR1) {
+                // without that, the retrieved bitmap forgets it allowed transparency
+                bitmap.setHasAlpha(true);
+            }
+            // without that, the bitmap keeps its previous contents when transparent content is copied on it
+            bitmap.eraseColor(Color.TRANSPARENT);
             return bitmap;
         }
         return Bitmap.createBitmap(pTileSizePx, pTileSizePx, Bitmap.Config.ARGB_8888);

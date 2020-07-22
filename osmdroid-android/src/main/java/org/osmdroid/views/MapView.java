@@ -205,6 +205,12 @@ public class MapView extends ViewGroup implements IMapView,
 					  MapTileProviderBase tileProvider,
 					  final Handler tileRequestCompleteHandler, final AttributeSet attrs, boolean hardwareAccelerated) {
 		super(context, attrs);
+
+		// Hacky workaround: If no storage location was set manually, we need to try to be
+		// the first to give DefaultConfigurationProvider a chance to detect the best storage
+		// location WITH a context. Otherwise there will be no valid cache directory on >API29!
+		Configuration.getInstance().getOsmdroidTileCache(context);
+
 		if(isInEditMode()){ 	//fix for edit mode in the IDE
 			mTileRequestCompleteHandler=null;
 			mController=null;

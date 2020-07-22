@@ -38,7 +38,7 @@ dependencies {
     //crash logging
     //compile 'ch.acra:acra:4.7.0'
 
-    testCompile 'junit:junit:4.12'
+    testCompile 'junit:junit:4.13'
     compile project(':osmdroid-android')
 
     compile ("mil.nga.geopackage:geopackage-android:2.0.1"){

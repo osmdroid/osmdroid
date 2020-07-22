@@ -16,7 +16,7 @@ public class BoundBoxTest {
     private static final TileSystem tileSystem = new TileSystemWebMercator();
 
     @Test
-    public void testBoundingBox() throws Exception{
+    public void testBoundingBox() {
 
         List<IGeoPoint> partialPolyLine = new ArrayList<>();
         partialPolyLine.add(new GeoPoint(1d,1d));
@@ -25,8 +25,8 @@ public class BoundBoxTest {
         partialPolyLine.add(new GeoPoint(-1d, -1d));
         partialPolyLine.add(new GeoPoint(0d, 0d));
         BoundingBox fromGeoPoints = BoundingBox.fromGeoPoints(partialPolyLine);
-        Assert.assertEquals(fromGeoPoints.getCenter().getLatitude(),0d, 0.000001d);
-        Assert.assertEquals(fromGeoPoints.getCenter().getLongitude(),0d, 0.000001d);
+        Assert.assertEquals(fromGeoPoints.getCenterWithDateLine().getLatitude(),0d, 0.000001d);
+        Assert.assertEquals(fromGeoPoints.getCenterWithDateLine().getLongitude(),0d, 0.000001d);
 
 
         Assert.assertEquals(fromGeoPoints.getLatNorth(),1d, 0.000001d);
@@ -36,15 +36,15 @@ public class BoundBoxTest {
     }
 
     @Test
-    public void testBoundingBoxMax() throws Exception{
+    public void testBoundingBoxMax() {
 
         List<IGeoPoint> partialPolyLine = new ArrayList<>();
         partialPolyLine.add(new GeoPoint(tileSystem.getMaxLatitude(),180d));
         partialPolyLine.add(new GeoPoint(tileSystem.getMinLatitude(),-180d));
 
         BoundingBox fromGeoPoints = BoundingBox.fromGeoPoints(partialPolyLine);
-        Assert.assertEquals(fromGeoPoints.getCenter().getLatitude(),0d, 0.000001d);
-        Assert.assertEquals(fromGeoPoints.getCenter().getLongitude(),0d, 0.000001d);
+        Assert.assertEquals(fromGeoPoints.getCenterWithDateLine().getLatitude(),0d, 0.000001d);
+        Assert.assertEquals(fromGeoPoints.getCenterWithDateLine().getLongitude(),0d, 0.000001d);
 
 
         Assert.assertEquals(fromGeoPoints.getLatNorth(),tileSystem.getMaxLatitude(), 0.000001d);
@@ -55,15 +55,15 @@ public class BoundBoxTest {
 
 
     @Test
-    public void testBoundingBoxAllNegs() throws Exception{
+    public void testBoundingBoxAllNegs() {
 
         List<IGeoPoint> partialPolyLine = new ArrayList<>();
         partialPolyLine.add(new GeoPoint(-46d,-46d));
         partialPolyLine.add(new GeoPoint(-45d,-45d));
 
         BoundingBox fromGeoPoints = BoundingBox.fromGeoPoints(partialPolyLine);
-        Assert.assertEquals(fromGeoPoints.getCenter().getLatitude(),-45.5d, 0.000001d);
-        Assert.assertEquals(fromGeoPoints.getCenter().getLongitude(),-45.5d, 0.000001d);
+        Assert.assertEquals(fromGeoPoints.getCenterWithDateLine().getLatitude(),-45.5d, 0.000001d);
+        Assert.assertEquals(fromGeoPoints.getCenterWithDateLine().getLongitude(),-45.5d, 0.000001d);
 
 
         Assert.assertEquals(fromGeoPoints.getLatNorth(),-45d, 0.000001d);
@@ -73,7 +73,7 @@ public class BoundBoxTest {
     }
 
     @Test
-    public void testBoundingBoxIrregular() throws Exception{
+    public void testBoundingBoxIrregular() {
         List<GeoPoint> points = new ArrayList<>();
         points.add(new GeoPoint(27.821134999999998,-97.21217899999999));
         points.add(new GeoPoint(27.822409999999998,-97.211607));
