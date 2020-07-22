@@ -7,11 +7,11 @@ osmdroid is a (almost) full/free replacement for Android's MapView (v1 API) clas
 <a href="https://play.google.com/store/apps/details?id=org.osmdroid">
 <img src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png" alt="Get it on F-Droid" height="90"></a>
 
-Current Release: **6.1.6 Mar 7st, 2020**
+Current Release: **6.1.7 June 21, 2020**
 
-Current Development version: 6.1.7-SNAPSHOT
+Current Development version: 6.1.8-SNAPSHOT
 
-Next Release Version (planned): 6.1.7
+Next Release Version (planned): 6.1.8
 
 Note: check your calendar, it may take up to a few days for all global mirrors to update.
 
