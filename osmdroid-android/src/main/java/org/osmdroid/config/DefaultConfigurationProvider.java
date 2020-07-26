@@ -334,8 +334,8 @@ public class DefaultConfigurationProvider implements IConfigurationProvider {
             save(ctx,prefs);
         } else {
             //normal startup, load user preferences and populate the config object
-            setOsmdroidBasePath(new File(prefs.getString("osmdroid.basePath", getOsmdroidBasePath().getAbsolutePath())));
-            setOsmdroidTileCache(new File(prefs.getString("osmdroid.cachePath", getOsmdroidTileCache().getAbsolutePath())));
+            setOsmdroidBasePath(new File(prefs.getString("osmdroid.basePath", getOsmdroidBasePath(ctx).getAbsolutePath())));
+            setOsmdroidTileCache(new File(prefs.getString("osmdroid.cachePath", getOsmdroidTileCache(ctx).getAbsolutePath())));
             setDebugMode(prefs.getBoolean("osmdroid.DebugMode", debugMode));
             setDebugMapTileDownloader(prefs.getBoolean("osmdroid.DebugDownloading", debugMapTileDownloader));
             setDebugMapView(prefs.getBoolean("osmdroid.DebugMapView", debugMapView));
