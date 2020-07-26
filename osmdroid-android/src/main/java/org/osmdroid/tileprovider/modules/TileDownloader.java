@@ -41,6 +41,8 @@ import javax.net.ssl.SSLSocketFactory;
  */
 public class TileDownloader {
 
+    private boolean compatibilitySocketFactorySet;
+
     public Drawable downloadTile(final long pMapTileIndex,
                                  final IFilesystemCache pFilesystemCache, final OnlineTileSourceBase pTileSource) throws CantContinueException {
         return downloadTile(pMapTileIndex, 0, pTileSource.getTileURLString(pMapTileIndex), pFilesystemCache, pTileSource);
@@ -89,10 +91,11 @@ public class TileDownloader {
             // see:
             // https://stackoverflow.com/questions/33567596/android-https-web-service-communication-ssl-tls-1-2/33567745#33567745
             // https://stackoverflow.com/questions/26649389/how-to-disable-sslv3-in-android-for-httpsurlconnection#29946540
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT_WATCH) {
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT_WATCH && !compatibilitySocketFactorySet) {
                 SSLSocketFactory socketFactory = new CompatibilitySocketFactory(
                         HttpsURLConnection.getDefaultSSLSocketFactory());
                 HttpsURLConnection.setDefaultSSLSocketFactory(socketFactory);
+                compatibilitySocketFactorySet = true;
             }
 
             if (Configuration.getInstance().getHttpProxy() != null) {
