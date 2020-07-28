@@ -129,12 +129,13 @@ public class StorageUtils {
      * @return A {@link List} of {@link StorageInfo} of all storage paths, writable or not.
      */
     public static List<StorageInfo> getStorageList(Context context) {
-        List<StorageInfo> storageInfos;
+        List<StorageInfo> storageInfos=null;
         // only use this for Q and up for now, to not break behaviour on other versions
         if (android.os.Build.VERSION.SDK_INT >= 29) {
             if (context != null) {
                 storageInfos = getStorageListApi19(context);
-            } else {
+            }
+            if (storageInfos==null || storageInfos.isEmpty()) {
                 // This is fallback for the case when targetSdk of the application is < 29
                 // In this case scoped storage restrictions are not enforced, even though device
                 // is API29. Will always return an empty list when targetSdk >= API29.
@@ -153,7 +154,7 @@ public class StorageUtils {
             }
         }
         // use legacy behaviour
-        else {
+        if (storageInfos==null || storageInfos.isEmpty()) {
             storageInfos = getStorageListPreApi19();
             // make this consistent with the old getStorage(context) method's behaviour
             if (storageInfos.size() == 0 && context != null) {
@@ -163,6 +164,9 @@ public class StorageUtils {
                     storageInfos.add(new StorageInfo(dbPath, true, false, -1));
                 }
             }
+        }
+        if (storageInfos==null || storageInfos.isEmpty()) {
+            Log.w(TAG, "Couldn't find a single location that is writable.");
         }
         return storageInfos;
     }

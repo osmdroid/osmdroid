@@ -252,9 +252,11 @@ public class DefaultConfigurationProvider implements IConfigurationProvider {
         try {
             if (osmdroidBasePath==null) {
                 StorageUtils.StorageInfo storageInfo = StorageUtils.getBestWritableStorage(context);
-                String pathToStorage = storageInfo.path;
-                osmdroidBasePath = new File(pathToStorage, "osmdroid");
-                osmdroidBasePath.mkdirs();
+                if (storageInfo!=null) {
+                    String pathToStorage = storageInfo.path;
+                    osmdroidBasePath = new File(pathToStorage, "osmdroid");
+                    osmdroidBasePath.mkdirs();
+                }
             }
         } catch (Exception ex){
             Log.d(IMapView.LOGTAG, "Unable to create base path at " + osmdroidBasePath, ex);
@@ -333,9 +335,13 @@ public class DefaultConfigurationProvider implements IConfigurationProvider {
             setUserAgentValue(ctx.getPackageName());
             save(ctx,prefs);
         } else {
+            File basePath = getOsmdroidBasePath(ctx);
             //normal startup, load user preferences and populate the config object
-            setOsmdroidBasePath(new File(prefs.getString("osmdroid.basePath", getOsmdroidBasePath(ctx).getAbsolutePath())));
-            setOsmdroidTileCache(new File(prefs.getString("osmdroid.cachePath", getOsmdroidTileCache(ctx).getAbsolutePath())));
+            if (basePath!=null) {
+                setOsmdroidBasePath(new File(prefs.getString("osmdroid.basePath", basePath.getAbsolutePath())));
+                setOsmdroidTileCache(new File(prefs.getString("osmdroid.cachePath", getOsmdroidTileCache(ctx).getAbsolutePath())));
+            } else
+                Log.w(IMapView.LOGTAG, "basePath is null, most likely the map won't load. Permissions? storage related issue?")
             setDebugMode(prefs.getBoolean("osmdroid.DebugMode", debugMode));
             setDebugMapTileDownloader(prefs.getBoolean("osmdroid.DebugDownloading", debugMapTileDownloader));
             setDebugMapView(prefs.getBoolean("osmdroid.DebugMapView", debugMapView));
