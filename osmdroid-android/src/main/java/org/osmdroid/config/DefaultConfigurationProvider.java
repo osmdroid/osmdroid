@@ -341,7 +341,7 @@ public class DefaultConfigurationProvider implements IConfigurationProvider {
                 setOsmdroidBasePath(new File(prefs.getString("osmdroid.basePath", basePath.getAbsolutePath())));
                 setOsmdroidTileCache(new File(prefs.getString("osmdroid.cachePath", getOsmdroidTileCache(ctx).getAbsolutePath())));
             } else
-                Log.w(IMapView.LOGTAG, "basePath is null, most likely the map won't load. Permissions? storage related issue?")
+                Log.w(IMapView.LOGTAG, "basePath is null, most likely the map won't load. Permissions? storage related issue?");
             setDebugMode(prefs.getBoolean("osmdroid.DebugMode", debugMode));
             setDebugMapTileDownloader(prefs.getBoolean("osmdroid.DebugDownloading", debugMapTileDownloader));
             setDebugMapView(prefs.getBoolean("osmdroid.DebugMapView", debugMapView));
