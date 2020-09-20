@@ -670,27 +670,7 @@ public class Projection implements IProjection {
 		// of course we could write mIntrinsicScreenRectProjection.centerX() and centerY()
 		// but we should keep writing it that way (cf. ProjectionTest)
 		fromPixels(getScreenCenterX(), getScreenCenterY(), mCurrentCenter);
-		IGeoPoint neGeoPoint = fromPixels(
-				mIntrinsicScreenRectProjection.right, mIntrinsicScreenRectProjection.top, null, true);
-		final TileSystem tileSystem = org.osmdroid.views.MapView.getTileSystem();
-		if (neGeoPoint.getLatitude() > tileSystem.getMaxLatitude()) {
-			neGeoPoint = new GeoPoint(tileSystem.getMaxLatitude(), neGeoPoint.getLongitude());
-		}
-		if (neGeoPoint.getLatitude() < tileSystem.getMinLatitude()) {
-			neGeoPoint = new GeoPoint(tileSystem.getMinLatitude(), neGeoPoint.getLongitude());
-		}
-		IGeoPoint swGeoPoint = fromPixels(
-				mIntrinsicScreenRectProjection.left, mIntrinsicScreenRectProjection.bottom, null, true);
-		if (swGeoPoint.getLatitude() > tileSystem.getMaxLatitude()) {
-			swGeoPoint = new GeoPoint(tileSystem.getMaxLatitude(), swGeoPoint.getLongitude());
-		}
-		if (swGeoPoint.getLatitude() < tileSystem.getMinLatitude()) {
-			swGeoPoint = new GeoPoint(tileSystem.getMinLatitude(), swGeoPoint.getLongitude());
-		}
 		
-		mBoundingBoxProjection.set(
-				neGeoPoint.getLatitude(), neGeoPoint.getLongitude(),
-				swGeoPoint.getLatitude(), swGeoPoint.getLongitude());
 		if (mOrientation != 0 && mOrientation != 180) {
 			GeometryMath.getBoundingBoxForRotatatedRectangle(
 					mIntrinsicScreenRectProjection, getScreenCenterX(), getScreenCenterY(),
@@ -703,6 +683,28 @@ public class Projection implements IProjection {
 			mScreenRectProjection.right = mIntrinsicScreenRectProjection.right;
 			mScreenRectProjection.bottom = mIntrinsicScreenRectProjection.bottom;
 		}
+		
+		IGeoPoint neGeoPoint = fromPixels(
+				mScreenRectProjection.right, mScreenRectProjection.top, null, true);
+		final TileSystem tileSystem = org.osmdroid.views.MapView.getTileSystem();
+		if (neGeoPoint.getLatitude() > tileSystem.getMaxLatitude()) {
+			neGeoPoint = new GeoPoint(tileSystem.getMaxLatitude(), neGeoPoint.getLongitude());
+		}
+		if (neGeoPoint.getLatitude() < tileSystem.getMinLatitude()) {
+			neGeoPoint = new GeoPoint(tileSystem.getMinLatitude(), neGeoPoint.getLongitude());
+		}
+		IGeoPoint swGeoPoint = fromPixels(
+				mScreenRectProjection.left, mScreenRectProjection.bottom, null, true);
+		if (swGeoPoint.getLatitude() > tileSystem.getMaxLatitude()) {
+			swGeoPoint = new GeoPoint(tileSystem.getMaxLatitude(), swGeoPoint.getLongitude());
+		}
+		if (swGeoPoint.getLatitude() < tileSystem.getMinLatitude()) {
+			swGeoPoint = new GeoPoint(tileSystem.getMinLatitude(), swGeoPoint.getLongitude());
+		}
+		
+		mBoundingBoxProjection.set(
+				neGeoPoint.getLatitude(), neGeoPoint.getLongitude(),
+				swGeoPoint.getLatitude(), swGeoPoint.getLongitude());
 	}
 
 	/**
