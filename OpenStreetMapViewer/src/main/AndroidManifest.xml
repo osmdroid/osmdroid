@@ -50,7 +50,7 @@
         -->
         <meta-data
             android:name="BING_KEY"
-            android:value="ApEqyap8rTa4WTNCNv-3pAGQc7XUsHS6595tuDI3MHR59QlahJ5bqYGYhMYJq6Ae" />
+            android:value="" />
 
         <!-- Mapquest tile source users:
          all applications based on this code should get their own MapQuest key
@@ -63,7 +63,7 @@
          Yes that's a MapBox token for MapQuest tiles.
          https://www.mapbox.com/studio/account/tokens/
          -->
-        <meta-data android:name="MAPQUEST_ACCESS_TOKEN" android:value="pk.eyJ1Ijoib3NtZHJvaWRidWdzIiwiYSI6ImNpcnE4eGJvYTBnbTF0Mm5rYXY3NGdwaXkifQ.VUOl3n5bL4-wdQo4RuTOvQ"/>
+        <meta-data android:name="MAPQUEST_ACCESS_TOKEN" android:value=""/>
 
         <!-- MapBox tile source users:
         all applications based on this code should get their own MapBox key
@@ -75,7 +75,7 @@
         https://www.mapbox.com/studio/account/tokens/
         -->
         <meta-data android:name="MAPBOX_MAPID" android:value="mapbox.mapbox-streets-v7"/>
-        <meta-data android:name="MAPBOX_ACCESS_TOKEN" android:value="pk.eyJ1Ijoib3NtZHJvaWRidWdzIiwiYSI6ImNpcnE4eGJvYTBnbTF0Mm5rYXY3NGdwaXkifQ.VUOl3n5bL4-wdQo4RuTOvQ"/>
+        <meta-data android:name="MAPBOX_ACCESS_TOKEN" android:value=""/>
 
 
         <!-- HERE We Go tile source users:
@@ -88,8 +88,8 @@
       https://www.mapbox.com/studio/account/tokens/
       -->
         <meta-data android:name="HEREWEGO_MAPID" android:value="hybrid.day"/>
-        <meta-data android:name="HEREWEGO_APPID" android:value="pPgiLUtfWpnzdXttl41x"/>
-        <meta-data android:name="HEREWEGO_APPCODE" android:value="7vQVuYZ4Rv9ipi6ILzduhQ"/>
+        <meta-data android:name="HEREWEGO_APPID" android:value=""/>
+        <meta-data android:name="HEREWEGO_APPCODE" android:value=""/>
         <!-- optional, use this to change the destination URL, default is shown below
             other known urls
                 base.maps.api.here.com
