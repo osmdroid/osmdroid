@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.os.Environment;
 import android.util.Log;
 
 import org.osmdroid.api.IMapView;
@@ -252,9 +253,17 @@ public class DefaultConfigurationProvider implements IConfigurationProvider {
         try {
             if (osmdroidBasePath==null) {
                 StorageUtils.StorageInfo storageInfo = StorageUtils.getBestWritableStorage(context);
-                String pathToStorage = storageInfo.path;
-                osmdroidBasePath = new File(pathToStorage, "osmdroid");
-                osmdroidBasePath.mkdirs();
+                if (storageInfo!=null) {
+                    String pathToStorage = storageInfo.path;
+                    osmdroidBasePath = new File(pathToStorage, "osmdroid");
+                    osmdroidBasePath.mkdirs();
+                } else {
+                    File osmdroidBasePath = new File(context.getExternalFilesDir(
+                        Environment.DIRECTORY_PICTURES), "osmdroid");
+                    if (!osmdroidBasePath.mkdirs()) {
+                        Log.e(IMapView.LOGTAG, "Directory not created");
+                    }
+                }
             }
         } catch (Exception ex){
             Log.d(IMapView.LOGTAG, "Unable to create base path at " + osmdroidBasePath, ex);
