@@ -161,7 +161,7 @@ public final class SampleFactory implements ISampleFactory {
         //9
         mSamples.add(SampleMilitaryIconsMarker.class);
         //10
-        mSamples.add(SampleMapBox.class);
+        //mSamples.add(SampleMapBox.class);
         //11
         mSamples.add(SampleJumboCache.class);
         //12
@@ -197,9 +197,9 @@ public final class SampleFactory implements ISampleFactory {
         //27
         mSamples.add(SampleFollowMe.class);
         //28
-        mSamples.add(SampleMapQuest.class);
+        //mSamples.add(SampleMapQuest.class);
         //29
-        mSamples.add(SampleHereWeGo.class);
+        //mSamples.add(SampleHereWeGo.class);
         //30
         mSamples.add(SampleCustomLoadingImage.class);
         //31
@@ -244,9 +244,9 @@ public final class SampleFactory implements ISampleFactory {
         //50
         mSamples.add(ScaleBarOnBottom.class);
         //51
-        mSamples.add(SampleBingHybrid.class);
+        //mSamples.add(SampleBingHybrid.class);
         //52
-        mSamples.add(SampleBingRoad.class);
+        //mSamples.add(SampleBingRoad.class);
         //53
         mSamples.add(Gridlines2.class);
         //54
