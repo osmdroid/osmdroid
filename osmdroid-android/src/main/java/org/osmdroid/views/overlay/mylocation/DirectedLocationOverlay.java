@@ -122,7 +122,7 @@ public class DirectedLocationOverlay extends Overlay {
 			pj.toPixels(this.mLocation, screenCoords);
 
 			if (this.mShowAccuracy && this.mAccuracy > 10) {
-				final float accuracyRadius = pj.metersToEquatorPixels(this.mAccuracy);
+				final float accuracyRadius = pj.metersToPixels(this.mAccuracy, mLocation.getLatitude(), pj.getZoomLevel());
 				/* Only draw if the DirectionArrow doesn't cover it. */
 				if (accuracyRadius > 8) {
 					/* Draw the inner shadow. */
