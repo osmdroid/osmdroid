@@ -40,6 +40,11 @@ import java.util.HashMap;
  */
 public abstract class MapTileProviderBase implements IMapTileProviderCallback {
 
+	private static int sApproximationBackgroundColor = Color.LTGRAY;
+
+	public static void setApproximationBackgroundColor(final int pColor) {
+		sApproximationBackgroundColor = pColor;
+	}
 
 	protected final MapTileCache mTileCache;
 	protected Handler mTileRequestCompleteHandler;
@@ -441,7 +446,7 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback {
 							if (bitmap == null) {
 								bitmap = MapTileApproximater.getTileBitmap(mTileSize);
 								canvas = new Canvas(bitmap);
-								canvas.drawColor(Color.LTGRAY);
+								canvas.drawColor(sApproximationBackgroundColor);
 							}
 							mDestRect.set(
 									x * mTileSize_2, y * mTileSize_2,
