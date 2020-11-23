@@ -212,7 +212,7 @@ public class OsmMapShapeConverter {
             line.getOutlinePaint().setColor(polylineOptions.getColor());
             line.setGeodesic(polylineOptions.isGeodesic());
             line.getOutlinePaint().setStrokeWidth(polylineOptions.getWidth());
-            line.setSubDescription(polygonOptions.getSubtitle());
+            line.setSubDescription(polylineOptions.getSubtitle());
         }
 
         List<GeoPoint> pts = new ArrayList<>();
