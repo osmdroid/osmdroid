@@ -41,13 +41,13 @@ import org.osmdroid.util.MapTileAreaZoomComputer;
 public class MapTileProviderBasic extends MapTileProviderArray implements IMapTileProviderCallback {
 
 	protected IFilesystemCache tileWriter;
-	private final INetworkAvailablityCheck mNetworkAvailabilityCheck;
+	private INetworkAvailablityCheck mNetworkAvailabilityCheck;
 
 	/**
 	 * @since 6.1.0
 	 */
-	private final MapTileDownloader mDownloaderProvider;
-	private final MapTileApproximater mApproximationProvider;
+	private MapTileDownloader mDownloaderProvider;
+	private MapTileApproximater mApproximationProvider;
 
 	/**
 	 * Creates a {@link MapTileProviderBasic}.
@@ -78,6 +78,14 @@ public class MapTileProviderBasic extends MapTileProviderArray implements IMapTi
 			final INetworkAvailablityCheck aNetworkAvailablityCheck, final ITileSource pTileSource,
 			final Context pContext, final IFilesystemCache cacheWriter) {
 		super(pTileSource, pRegisterReceiver);
+		init(pRegisterReceiver, aNetworkAvailablityCheck, pTileSource, pContext, cacheWriter);
+	}
+
+	protected void init(IRegisterReceiver pRegisterReceiver,
+						INetworkAvailablityCheck aNetworkAvailablityCheck,
+						ITileSource pTileSource,
+						Context pContext,
+						IFilesystemCache cacheWriter) {
 		mNetworkAvailabilityCheck = aNetworkAvailablityCheck;
 
 		if (cacheWriter != null) {
@@ -89,25 +97,24 @@ public class MapTileProviderBasic extends MapTileProviderArray implements IMapTi
 				tileWriter = new SqlTileWriter();
 			}
 		}
-		final MapTileAssetsProvider assetsProvider = new MapTileAssetsProvider(
-				pRegisterReceiver, pContext.getAssets(), pTileSource);
+		final MapTileFileStorageProviderBase assetsProvider =
+				createAssetsProvider(pRegisterReceiver, pTileSource, pContext);
 		mTileProviderList.add(assetsProvider);
 
 		final MapTileFileStorageProviderBase cacheProvider =
 				getMapTileFileStorageProviderBase(pRegisterReceiver, pTileSource, tileWriter);
 		mTileProviderList.add(cacheProvider);
 
-		final MapTileFileArchiveProvider archiveProvider = new MapTileFileArchiveProvider(
-				pRegisterReceiver, pTileSource);
+		final MapTileFileStorageProviderBase archiveProvider =
+				createArchiveProvider(pRegisterReceiver, pTileSource);
 		mTileProviderList.add(archiveProvider);
 
-		mApproximationProvider = new MapTileApproximater();
+		mApproximationProvider =
+				createApproximater(assetsProvider, cacheProvider, archiveProvider);
 		mTileProviderList.add(mApproximationProvider);
-		mApproximationProvider.addProvider(assetsProvider);
-		mApproximationProvider.addProvider(cacheProvider);
-		mApproximationProvider.addProvider(archiveProvider);
 
-		mDownloaderProvider = new MapTileDownloader(pTileSource, tileWriter, aNetworkAvailablityCheck);
+		mDownloaderProvider =
+				createDownloaderProvider(aNetworkAvailablityCheck, pTileSource);
 		mTileProviderList.add(mDownloaderProvider);
 
 		// protected-cache-tile computers
@@ -128,9 +135,35 @@ public class MapTileProviderBasic extends MapTileProviderArray implements IMapTi
 		setOfflineFirst(true);
 	}
 
+	protected MapTileApproximater createApproximater(MapTileFileStorageProviderBase assetsProvider, MapTileFileStorageProviderBase cacheProvider, MapTileFileStorageProviderBase archiveProvider) {
+		MapTileApproximater approximationProvider = new MapTileApproximater();
+		approximationProvider.addProvider(assetsProvider);
+		approximationProvider.addProvider(cacheProvider);
+		approximationProvider.addProvider(archiveProvider);
+		return approximationProvider;
+	}
+
+	protected MapTileFileStorageProviderBase createArchiveProvider(IRegisterReceiver pRegisterReceiver, ITileSource pTileSource) {
+		return new MapTileFileArchiveProvider(
+				pRegisterReceiver, pTileSource);
+	}
+
+	protected MapTileFileStorageProviderBase createAssetsProvider(IRegisterReceiver pRegisterReceiver, ITileSource pTileSource, Context pContext) {
+		return new MapTileAssetsProvider(
+				pRegisterReceiver, pContext.getAssets(), pTileSource);
+	}
+
 	@Override
 	public IFilesystemCache getTileWriter() {
 		return tileWriter;
+	}
+
+	/**
+	 * @since 6.1.7
+	 * allow customization of tile downloader per tile source
+	 */
+	protected MapTileDownloader createDownloaderProvider(INetworkAvailablityCheck aNetworkAvailablityCheck, ITileSource pTileSource) {
+		return new MapTileDownloader(pTileSource, this.tileWriter, aNetworkAvailablityCheck);
 	}
 
 	@Override
