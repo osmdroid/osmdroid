@@ -95,7 +95,7 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback {
 	 * Sets the default color for approximated tiles.
 	 *
 	 * @param pColor
-	 * 			the default color that will be shown for approximated tiles
+	 *            the default color that will be shown for approximated tiles
 	 */
 	public static void setApproximationBackgroundColor(final int pColor) {
 		sApproximationBackgroundColor = pColor;
