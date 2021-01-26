@@ -48,6 +48,8 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback {
 	public static final int MAPTILE_SUCCESS_ID = 0;
 	public static final int MAPTILE_FAIL_ID = MAPTILE_SUCCESS_ID + 1;
 
+	private static int sApproximationBackgroundColor = Color.LTGRAY;
+
 	protected final MapTileCache mTileCache;
 	private final Collection<Handler> mTileRequestCompleteHandlers = new LinkedHashSet<>();
 	protected boolean mUseDataConnection = true;
@@ -87,6 +89,16 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback {
 		}
 		mTileNotFoundImage=null;
 		clearTileCache();
+	}
+
+	/**
+	 * Sets the default color for approximated tiles.
+	 *
+	 * @param pColor
+	 *            the default color that will be shown for approximated tiles
+	 */
+	public static void setApproximationBackgroundColor(final int pColor) {
+		sApproximationBackgroundColor = pColor;
 	}
 
 	/**
@@ -470,7 +482,7 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback {
 							if (bitmap == null) {
 								bitmap = MapTileApproximater.getTileBitmap(mTileSize);
 								canvas = new Canvas(bitmap);
-								canvas.drawColor(Color.LTGRAY);
+								canvas.drawColor(sApproximationBackgroundColor);
 							}
 							mDestRect.set(
 									x * mTileSize_2, y * mTileSize_2,
