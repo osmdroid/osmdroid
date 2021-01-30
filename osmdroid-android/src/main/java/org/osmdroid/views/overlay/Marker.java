@@ -204,8 +204,8 @@ public class Marker extends OverlayWithIW {
 
 	/**
 	 *
-	 * @param anchorU WIDTH 0.0-1.0 precentage of the icon that offsets the logical center from the actual pixel center point
-	 * @param anchorV HEIGHT 0.0-1.0 precentage of the icon that offsets the logical center from the actual pixel center point
+	 * @param anchorU WIDTH 0.0-1.0 percentage of the icon that offsets the logical center from the actual pixel center point
+	 * @param anchorV HEIGHT 0.0-1.0 percentage of the icon that offsets the logical center from the actual pixel center point
 	 */
 	public void setAnchor(float anchorU, float anchorV){
 		mAnchorU = anchorU;
