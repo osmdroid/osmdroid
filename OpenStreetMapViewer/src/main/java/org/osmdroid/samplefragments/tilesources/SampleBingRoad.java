@@ -16,7 +16,7 @@ public class SampleBingRoad extends BaseSampleFragment {
     }
 
     @Override
-    public void addOverlays(){
+    public void addOverlays() {
         super.addOverlays();
         //this gets the key from the manifest
         BingMapTileSource.retrieveBingKey(this.getContext());

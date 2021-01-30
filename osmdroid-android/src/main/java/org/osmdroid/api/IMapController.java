@@ -3,132 +3,143 @@ package org.osmdroid.api;
 /**
  * An interface that resembles the Google Maps API MapController class and is implemented by the
  * osmdroid {@link org.osmdroid.views.MapController} class.
- * 
+ *
  * @author Neil Boyd
- * 
  */
 public interface IMapController {
-	void animateTo(IGeoPoint geoPoint);
+    void animateTo(IGeoPoint geoPoint);
 
-	void animateTo(int x, int y);
+    void animateTo(int x, int y);
 
-	void scrollBy(int x, int y);
-	void setCenter(IGeoPoint point);
-	@Deprecated
-	int setZoom(int zoomLevel);
+    void scrollBy(int x, int y);
 
-	/**
-	 *
-	 * @since 6.0
-	 */
-	double setZoom(final double pZoomLevel);
-	void stopAnimation(boolean jumpToFinish);
-	void stopPanning();
+    void setCenter(IGeoPoint point);
 
-	/**
-	 * zooms in 1 whole map zoom level
-	 * @return
-	 */
-	boolean zoomIn();
+    @Deprecated
+    int setZoom(int zoomLevel);
 
-	/**
-	 * zooms in 1 whole map zoom level with an adjustable zoom in animation speed
-	 * @since 6.0
-	 * @param animationSpeed in ms, if null the default is used
-	 * @return
-	 */
-	boolean zoomIn(Long animationSpeed);
+    /**
+     * @since 6.0
+     */
+    double setZoom(final double pZoomLevel);
 
-	boolean zoomInFixing(int xPixel, int yPixel, Long zoomAnimation);
+    void stopAnimation(boolean jumpToFinish);
 
-	/**
-	 * zooms in and centers the map to the given canvas coordinates
-	 * @param xPixel
-	 * @param yPixel
-	 * @return
-	 */
-	boolean zoomInFixing(int xPixel, int yPixel);
+    void stopPanning();
 
-	/**
-	 * zooms out 1 whole  map zoom level with adjustable zoom speed
-	 * @param animationSpeed in ms, if null the default is used
-	 * @since 6.0
-	 * @return
-	 */
-	boolean zoomOut(Long animationSpeed);
+    /**
+     * zooms in 1 whole map zoom level
+     *
+     * @return
+     */
+    boolean zoomIn();
 
-	/**
-	 * zooms out 1 whole map zoom level
-	 * @return
-	 */
-	boolean zoomOut();
+    /**
+     * zooms in 1 whole map zoom level with an adjustable zoom in animation speed
+     *
+     * @param animationSpeed in ms, if null the default is used
+     * @return
+     * @since 6.0
+     */
+    boolean zoomIn(Long animationSpeed);
 
-	/**
-	 * zooms out while centering the map canvas coordinates
-	 * @param xPixel
-	 * @param yPixel
-	 * @return
-	 */
-	boolean zoomOutFixing(int xPixel, int yPixel);
+    boolean zoomInFixing(int xPixel, int yPixel, Long zoomAnimation);
 
-	/**
-	 * zooms to the given zoom level (whole number) and animates the zoom motion
-	 * @param zoomLevel 0-Max zoom of the current map tile source, typically 22 or less
-	 * @return
-	 */
-	@Deprecated
-	boolean zoomTo(int zoomLevel);
+    /**
+     * zooms in and centers the map to the given canvas coordinates
+     *
+     * @param xPixel
+     * @param yPixel
+     * @return
+     */
+    boolean zoomInFixing(int xPixel, int yPixel);
 
-	/**
-	 * zooms to the given zoom level (whole number) and animates the zoom motion with adjustable zoom speed
-	 * @since 6.0
-	 * @param zoomLevel 0-Max zoom of the current map tile source, typically 22 or less
-	 * @param animationSpeed if null, the default is used
-	 * @return
-	 */
-	boolean zoomTo(int zoomLevel, Long animationSpeed);
+    /**
+     * zooms out 1 whole  map zoom level with adjustable zoom speed
+     *
+     * @param animationSpeed in ms, if null the default is used
+     * @return
+     * @since 6.0
+     */
+    boolean zoomOut(Long animationSpeed);
 
-	boolean zoomToFixing(int zoomLevel, int xPixel, int yPixel, Long zoomAnimationSpeed);
+    /**
+     * zooms out 1 whole map zoom level
+     *
+     * @return
+     */
+    boolean zoomOut();
 
-	boolean zoomTo(double pZoomLevel, Long animationSpeed);
+    /**
+     * zooms out while centering the map canvas coordinates
+     *
+     * @param xPixel
+     * @param yPixel
+     * @return
+     */
+    boolean zoomOutFixing(int xPixel, int yPixel);
 
-	/**
-	 * zooms to the given zoom level
-	 * @param pZoomLevel any real number between 0 and max zoom of the current tile source, typically 22 or less
-	 * @return
-	 */
-	boolean zoomTo(final double pZoomLevel);
+    /**
+     * zooms to the given zoom level (whole number) and animates the zoom motion
+     *
+     * @param zoomLevel 0-Max zoom of the current map tile source, typically 22 or less
+     * @return
+     */
+    @Deprecated
+    boolean zoomTo(int zoomLevel);
 
-	@Deprecated
-	boolean zoomToFixing(int zoomLevel, int xPixel, int yPixel);
+    /**
+     * zooms to the given zoom level (whole number) and animates the zoom motion with adjustable zoom speed
+     *
+     * @param zoomLevel      0-Max zoom of the current map tile source, typically 22 or less
+     * @param animationSpeed if null, the default is used
+     * @return
+     * @since 6.0
+     */
+    boolean zoomTo(int zoomLevel, Long animationSpeed);
 
-	boolean zoomToFixing(double zoomLevel, int xPixel, int yPixel, Long zoomAnimationSpeed);
+    boolean zoomToFixing(int zoomLevel, int xPixel, int yPixel, Long zoomAnimationSpeed);
 
-	/**
-	 * @since 6.0
-	 */
-	boolean zoomToFixing(final double pZoomLevel, final int pXPixel, final int pYPixel);
+    boolean zoomTo(double pZoomLevel, Long animationSpeed);
 
-	@Deprecated
-	void zoomToSpan(int latSpanE6, int lonSpanE6);
+    /**
+     * zooms to the given zoom level
+     *
+     * @param pZoomLevel any real number between 0 and max zoom of the current tile source, typically 22 or less
+     * @return
+     */
+    boolean zoomTo(final double pZoomLevel);
 
-	void zoomToSpan(double latSpan, double lonSpan);
+    @Deprecated
+    boolean zoomToFixing(int zoomLevel, int xPixel, int yPixel);
 
-	/**
-	 * @since 6.0.2
-	 * @param point
-	 * @param pZoom
-	 * @param pSpeed
-	 */
-	void animateTo(final IGeoPoint point, final Double pZoom, final Long pSpeed);
+    boolean zoomToFixing(double zoomLevel, int xPixel, int yPixel, Long zoomAnimationSpeed);
 
-	/**
-	 * @since 6.0.3
-	 */
-	void animateTo(final IGeoPoint point, final Double pZoom, final Long pSpeed, final Float pOrientation);
+    /**
+     * @since 6.0
+     */
+    boolean zoomToFixing(final double pZoomLevel, final int pXPixel, final int pYPixel);
 
-	/**
-	 * @since 6.1.0
-	 */
-	void animateTo(final IGeoPoint point, final Double pZoom, final Long pSpeed, final Float pOrientation, final Boolean pClockwise);
+    @Deprecated
+    void zoomToSpan(int latSpanE6, int lonSpanE6);
+
+    void zoomToSpan(double latSpan, double lonSpan);
+
+    /**
+     * @param point
+     * @param pZoom
+     * @param pSpeed
+     * @since 6.0.2
+     */
+    void animateTo(final IGeoPoint point, final Double pZoom, final Long pSpeed);
+
+    /**
+     * @since 6.0.3
+     */
+    void animateTo(final IGeoPoint point, final Double pZoom, final Long pSpeed, final Float pOrientation);
+
+    /**
+     * @since 6.1.0
+     */
+    void animateTo(final IGeoPoint point, final Double pZoom, final Long pSpeed, final Float pOrientation, final Boolean pClockwise);
 }

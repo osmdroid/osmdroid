@@ -33,7 +33,7 @@ public class SampleCacheDownloaderCustomUI extends BaseSampleFragment implements
     }
 
     ProgressDialog progressBar;
-    
+
     Button btnCache, executeJob;
     SeekBar zoom_min;
     SeekBar zoom_max;
@@ -41,7 +41,7 @@ public class SampleCacheDownloaderCustomUI extends BaseSampleFragment implements
     TextView cache_estimate;
     CacheManager mgr;
     AlertDialog downloadPrompt = null;
-    CacheManager.CacheManagerTask downloadingTask=null;
+    CacheManager.CacheManagerTask downloadingTask = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -153,11 +153,11 @@ public class SampleCacheDownloaderCustomUI extends BaseSampleFragment implements
         cache_east = view.findViewById(R.id.cache_east);
         cache_east.setText(boundingBox.getLonEast() + "");
         cache_north = view.findViewById(R.id.cache_north);
-        cache_north.setText(boundingBox.getLatNorth()  + "");
+        cache_north.setText(boundingBox.getLatNorth() + "");
         cache_south = view.findViewById(R.id.cache_south);
-        cache_south.setText(boundingBox.getLatSouth()  + "");
+        cache_south.setText(boundingBox.getLatSouth() + "");
         cache_west = view.findViewById(R.id.cache_west);
-        cache_west.setText(boundingBox.getLonWest()  + "");
+        cache_west.setText(boundingBox.getLonWest() + "");
         cache_estimate = view.findViewById(R.id.cache_estimate);
 
         //change listeners for both validation and to trigger the download estimation
@@ -354,7 +354,7 @@ public class SampleCacheDownloaderCustomUI extends BaseSampleFragment implements
 
     @Override
     public void onTaskFailed(int errors) {
-        if (progressBar!=null)
+        if (progressBar != null)
             progressBar.dismiss();
         progressBar = null;
         Toast.makeText(getActivity(), "Download complete with " + errors + " errors", Toast.LENGTH_LONG).show();

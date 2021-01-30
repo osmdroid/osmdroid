@@ -9,8 +9,9 @@ import java.util.LinkedHashSet;
 
 /**
  * To be used by some kind of {@link TilesOverlay}, in order to get a count of the tiles, by state
- * @since 6.1.0
+ *
  * @author Fabrice Fontaine
+ * @since 6.1.0
  */
 public class TileStates {
 
@@ -45,20 +46,24 @@ public class TileStates {
     }
 
     public void handleTile(final Drawable pDrawable) {
-        mTotal ++;
+        mTotal++;
         if (pDrawable == null) {
-            mNotFound ++;
+            mNotFound++;
         } else {
             final int state = ExpirableBitmapDrawable.getState(pDrawable);
-            switch(state) {
+            switch (state) {
                 case ExpirableBitmapDrawable.UP_TO_DATE:
-                    mUpToDate++; break;
+                    mUpToDate++;
+                    break;
                 case ExpirableBitmapDrawable.EXPIRED:
-                    mExpired++; break;
+                    mExpired++;
+                    break;
                 case ExpirableBitmapDrawable.SCALED:
-                    mScaled++; break;
+                    mScaled++;
+                    break;
                 case ExpirableBitmapDrawable.NOT_FOUND:
-                    mNotFound++; break;
+                    mNotFound++;
+                    break;
                 default:
                     throw new IllegalArgumentException("Unknown state: " + state);
             }

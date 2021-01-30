@@ -4,8 +4,8 @@ import android.content.Context;
 import android.os.Environment;
 import android.os.StrictMode;
 import android.support.multidex.MultiDex;
-import android.util.Log;
 import android.support.multidex.MultiDexApplication;
+import android.util.Log;
 
 import org.acra.ACRA;
 import org.acra.annotation.ReportsCrashes;
@@ -13,10 +13,6 @@ import org.acra.collector.CrashReportData;
 import org.acra.sender.ReportSender;
 import org.acra.sender.ReportSenderException;
 import org.osmdroid.config.Configuration;
-import org.osmdroid.tileprovider.tilesource.MapBoxTileSource;
-import org.osmdroid.tileprovider.tilesource.MapQuestTileSource;
-import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
-import org.osmdroid.tileprovider.tilesource.bing.BingMapTileSource;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -25,7 +21,7 @@ import java.io.PrintWriter;
 
 /**
  * This is the base application for the sample app. We only use to catch errors during development cycles
- *
+ * <p>
  * Also see note on setting the UserAgent value
  * Created by alex on 7/4/16.
  */
@@ -38,17 +34,17 @@ public class OsmApplication extends MultiDexApplication {
         super.onCreate();
         if (BuildConfig.DEBUG) {
             StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
-                .detectDiskReads()
-                .detectDiskWrites()
-                .detectNetwork()   // or .detectAll() for all detectable problems
-                .penaltyLog()
-                .build());
+                    .detectDiskReads()
+                    .detectDiskWrites()
+                    .detectNetwork()   // or .detectAll() for all detectable problems
+                    .penaltyLog()
+                    .build());
             StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
-                .detectLeakedSqlLiteObjects()
-                .detectLeakedClosableObjects()
-                .penaltyLog()
-                .penaltyDeath()
-                .build());
+                    .detectLeakedSqlLiteObjects()
+                    .detectLeakedClosableObjects()
+                    .penaltyLog()
+                    .penaltyDeath()
+                    .build());
         }
 
         Thread.currentThread().setUncaughtExceptionHandler(new OsmUncaughtExceptionHandler());
@@ -147,17 +143,17 @@ public class OsmApplication extends MultiDexApplication {
         public void send(Context context, CrashReportData crashReportData) throws ReportSenderException {
             try {
                 String rootDirectory = Environment.getExternalStorageDirectory()
-                    .getAbsolutePath();
+                        .getAbsolutePath();
                 File f = new File(rootDirectory
-                    + File.separatorChar
-                    + "osmdroid"
-                    + File.separatorChar);
+                        + File.separatorChar
+                        + "osmdroid"
+                        + File.separatorChar);
                 f.mkdirs();
                 f = new File(rootDirectory
-                    + File.separatorChar
-                    + "osmdroid"
-                    + File.separatorChar
-                    + "crash.log");
+                        + File.separatorChar
+                        + "osmdroid"
+                        + File.separatorChar
+                        + "crash.log");
                 if (f.exists())
                     f.delete();
 

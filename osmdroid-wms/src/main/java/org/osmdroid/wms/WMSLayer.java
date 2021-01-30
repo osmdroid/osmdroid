@@ -8,11 +8,12 @@ import java.util.List;
 /**
  * A simple data model for WMS layers
  * 1/10/16.
+ *
  * @author Alex O'Ree
  * @since 6.0.0
  */
 public class WMSLayer {
-    private int pixelSize=256;
+    private int pixelSize = 256;
     /**
      * the name goes in the url and is machine intrepretable
      */

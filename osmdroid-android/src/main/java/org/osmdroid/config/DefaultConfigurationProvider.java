@@ -25,22 +25,23 @@ import static org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConst
  * Default configuration provider for osmdroid
  * <a href="https://github.com/osmdroid/osmdroid/issues/481">Issue 481</a>
  * Created on 11/29/2016.
+ *
  * @author Alex O'Ree
- * @since 5.6
  * @see IConfigurationProvider
  * @see Configuration
+ * @since 5.6
  */
 public class DefaultConfigurationProvider implements IConfigurationProvider {
 
     public static final String DEFAULT_USER_AGENT = "osmdroid";
 
-    protected long gpsWaitTime =20000;
-    protected boolean debugMode= false;
+    protected long gpsWaitTime = 20000;
+    protected boolean debugMode = false;
     protected boolean debugMapView = false;
     protected boolean debugTileProviders = false;
-    protected boolean debugMapTileDownloader=false;
-    protected boolean isMapViewHardwareAccelerated=true;
-    protected String userAgentValue=DEFAULT_USER_AGENT;
+    protected boolean debugMapTileDownloader = false;
+    protected boolean isMapViewHardwareAccelerated = true;
+    protected String userAgentValue = DEFAULT_USER_AGENT;
     protected String userAgentHttpHeader = "User-Agent";
     private final Map<String, String> mAdditionalHttpRequestProperties = new HashMap<>();
     protected short cacheMapTileCount = 9;
@@ -54,12 +55,12 @@ public class DefaultConfigurationProvider implements IConfigurationProvider {
     protected File osmdroidBasePath;
     protected File osmdroidTileCache;
     protected long expirationAdder = 0;
-    protected Long expirationOverride=null;
-    protected Proxy httpProxy=null;
-    protected int animationSpeedDefault =1000;
-    protected int animationSpeedShort =500;
-    protected boolean mapViewRecycler=true;
-    protected short cacheTileOvershoot=0;
+    protected Long expirationOverride = null;
+    protected Proxy httpProxy = null;
+    protected int animationSpeedDefault = 1000;
+    protected int animationSpeedShort = 500;
+    protected boolean mapViewRecycler = true;
+    protected short cacheTileOvershoot = 0;
     protected long mTileGCFrequencyInMillis = 300000;
     protected int mTileGCBulkSize = 20;
     protected long mTileGCBulkPauseInMillis = 500;
@@ -70,12 +71,14 @@ public class DefaultConfigurationProvider implements IConfigurationProvider {
      */
     private String mNormalizedUserAgent;
 
-    public DefaultConfigurationProvider(){
+    public DefaultConfigurationProvider() {
 
 
     }
+
     /**
      * default is 20 seconds
+     *
      * @return time in ms
      */
     @Override
@@ -251,21 +254,21 @@ public class DefaultConfigurationProvider implements IConfigurationProvider {
     @Override
     public File getOsmdroidBasePath(Context context) {
         try {
-            if (osmdroidBasePath==null) {
+            if (osmdroidBasePath == null) {
                 StorageUtils.StorageInfo storageInfo = StorageUtils.getBestWritableStorage(context);
-                if (storageInfo!=null) {
+                if (storageInfo != null) {
                     String pathToStorage = storageInfo.path;
                     osmdroidBasePath = new File(pathToStorage, "osmdroid");
                     osmdroidBasePath.mkdirs();
                 } else {
                     File osmdroidBasePath = new File(context.getExternalFilesDir(
-                        Environment.DIRECTORY_PICTURES), "osmdroid");
+                            Environment.DIRECTORY_PICTURES), "osmdroid");
                     if (!osmdroidBasePath.mkdirs()) {
                         Log.e(IMapView.LOGTAG, "Directory not created");
                     }
                 }
             }
-        } catch (Exception ex){
+        } catch (Exception ex) {
             Log.d(IMapView.LOGTAG, "Unable to create base path at " + osmdroidBasePath, ex);
             //IO/permissions issue
             //trap for android studio layout editor and some for certain devices
@@ -286,11 +289,11 @@ public class DefaultConfigurationProvider implements IConfigurationProvider {
 
     @Override
     public File getOsmdroidTileCache(Context context) {
-        if (osmdroidTileCache==null)
-            osmdroidTileCache =  new File(getOsmdroidBasePath(context), "tiles");
+        if (osmdroidTileCache == null)
+            osmdroidTileCache = new File(getOsmdroidBasePath(context), "tiles");
         try {
             osmdroidTileCache.mkdirs();
-        }catch (Exception ex){
+        } catch (Exception ex) {
             Log.d(IMapView.LOGTAG, "Unable to create tile cache path at " + osmdroidTileCache, ex);
             //IO/permissions issue
             //trap for android studio layout editor and some for certain devices
@@ -334,13 +337,13 @@ public class DefaultConfigurationProvider implements IConfigurationProvider {
             }
 
             SharedPreferences.Editor edit = prefs.edit();
-            edit.putString("osmdroid.basePath",discoveredBasePath.getAbsolutePath());
-            edit.putString("osmdroid.cachePath",discoveredCachePath.getAbsolutePath());
+            edit.putString("osmdroid.basePath", discoveredBasePath.getAbsolutePath());
+            edit.putString("osmdroid.cachePath", discoveredCachePath.getAbsolutePath());
             commit(edit);
             setOsmdroidBasePath(discoveredBasePath);
             setOsmdroidTileCache(discoveredCachePath);
             setUserAgentValue(ctx.getPackageName());
-            save(ctx,prefs);
+            save(ctx, prefs);
         } else {
             //normal startup, load user preferences and populate the config object
             setOsmdroidBasePath(new File(prefs.getString("osmdroid.basePath", getOsmdroidBasePath(ctx).getAbsolutePath())));
@@ -353,21 +356,21 @@ public class DefaultConfigurationProvider implements IConfigurationProvider {
             setUserAgentValue(prefs.getString("osmdroid.userAgentValue", ctx.getPackageName()));
             load(prefs, mAdditionalHttpRequestProperties, "osmdroid.additionalHttpRequestProperty.");
             setGpsWaitTime(prefs.getLong("osmdroid.gpsWaitTime", gpsWaitTime));
-            setTileDownloadThreads((short)(prefs.getInt("osmdroid.tileDownloadThreads", tileDownloadThreads)));
-            setTileFileSystemThreads((short)(prefs.getInt("osmdroid.tileFileSystemThreads", tileFileSystemThreads)));
-            setTileDownloadMaxQueueSize((short)(prefs.getInt("osmdroid.tileDownloadMaxQueueSize", tileDownloadMaxQueueSize)));
-            setTileFileSystemMaxQueueSize((short)(prefs.getInt("osmdroid.tileFileSystemMaxQueueSize", tileFileSystemMaxQueueSize)));
-            setExpirationExtendedDuration((long)prefs.getLong("osmdroid.ExpirationExtendedDuration", expirationAdder));
-            setMapViewRecyclerFriendly((boolean)prefs.getBoolean("osmdroid.mapViewRecycler", mapViewRecycler));
+            setTileDownloadThreads((short) (prefs.getInt("osmdroid.tileDownloadThreads", tileDownloadThreads)));
+            setTileFileSystemThreads((short) (prefs.getInt("osmdroid.tileFileSystemThreads", tileFileSystemThreads)));
+            setTileDownloadMaxQueueSize((short) (prefs.getInt("osmdroid.tileDownloadMaxQueueSize", tileDownloadMaxQueueSize)));
+            setTileFileSystemMaxQueueSize((short) (prefs.getInt("osmdroid.tileFileSystemMaxQueueSize", tileFileSystemMaxQueueSize)));
+            setExpirationExtendedDuration((long) prefs.getLong("osmdroid.ExpirationExtendedDuration", expirationAdder));
+            setMapViewRecyclerFriendly((boolean) prefs.getBoolean("osmdroid.mapViewRecycler", mapViewRecycler));
             setAnimationSpeedDefault(prefs.getInt("osmdroid.ZoomSpeedDefault", animationSpeedDefault));
             setAnimationSpeedShort(prefs.getInt("osmdroid.animationSpeedShort", animationSpeedShort));
-            setCacheMapTileOvershoot((short)(prefs.getInt("osmdroid.cacheTileOvershoot", cacheTileOvershoot)));
+            setCacheMapTileOvershoot((short) (prefs.getInt("osmdroid.cacheTileOvershoot", cacheTileOvershoot)));
             setMapTileDownloaderFollowRedirects(prefs.getBoolean("osmdroid.TileDownloaderFollowRedirects", mTileDownloaderFollowRedirects));
 
             if (prefs.contains("osmdroid.ExpirationOverride")) {
-                expirationOverride = prefs.getLong("osmdroid.ExpirationOverride",-1);
-                if (expirationOverride!=null && expirationOverride==-1)
-                    expirationOverride=null;
+                expirationOverride = prefs.getLong("osmdroid.ExpirationOverride", -1);
+                if (expirationOverride != null && expirationOverride == -1)
+                    expirationOverride = null;
             }
 
         }
@@ -390,9 +393,9 @@ public class DefaultConfigurationProvider implements IConfigurationProvider {
             long freeSpace = getOsmdroidTileCache().getFreeSpace();
 
             //Log.i(TAG, "Current cache size is " + cacheSize + " free space is " + freeSpace);
-            if (getTileFileSystemCacheMaxBytes() > (freeSpace + cacheSize)){
-                setTileFileSystemCacheMaxBytes((long)((freeSpace + cacheSize) * 0.95));
-                setTileFileSystemCacheTrimBytes((long)((freeSpace + cacheSize) * 0.90));
+            if (getTileFileSystemCacheMaxBytes() > (freeSpace + cacheSize)) {
+                setTileFileSystemCacheMaxBytes((long) ((freeSpace + cacheSize) * 0.95));
+                setTileFileSystemCacheTrimBytes((long) ((freeSpace + cacheSize) * 0.90));
             }
         }
     }
@@ -400,25 +403,25 @@ public class DefaultConfigurationProvider implements IConfigurationProvider {
     @Override
     public void save(Context ctx, SharedPreferences prefs) {
         SharedPreferences.Editor edit = prefs.edit();
-        edit.putString("osmdroid.basePath",getOsmdroidBasePath().getAbsolutePath());
-        edit.putString("osmdroid.cachePath",getOsmdroidTileCache().getAbsolutePath());
-        edit.putBoolean("osmdroid.DebugMode",isDebugMode());
-        edit.putBoolean("osmdroid.DebugDownloading",isDebugMapTileDownloader());
-        edit.putBoolean("osmdroid.DebugMapView",isDebugMapView());
-        edit.putBoolean("osmdroid.DebugTileProvider",isDebugTileProviders());
+        edit.putString("osmdroid.basePath", getOsmdroidBasePath().getAbsolutePath());
+        edit.putString("osmdroid.cachePath", getOsmdroidTileCache().getAbsolutePath());
+        edit.putBoolean("osmdroid.DebugMode", isDebugMode());
+        edit.putBoolean("osmdroid.DebugDownloading", isDebugMapTileDownloader());
+        edit.putBoolean("osmdroid.DebugMapView", isDebugMapView());
+        edit.putBoolean("osmdroid.DebugTileProvider", isDebugTileProviders());
         edit.putBoolean("osmdroid.HardwareAcceleration", isMapViewHardwareAccelerated());
         edit.putBoolean("osmdroid.TileDownloaderFollowRedirects", isMapTileDownloaderFollowRedirects());
         edit.putString("osmdroid.userAgentValue", getUserAgentValue());
         save(prefs, edit, mAdditionalHttpRequestProperties, "osmdroid.additionalHttpRequestProperty.");
-        edit.putLong("osmdroid.gpsWaitTime",gpsWaitTime);
+        edit.putLong("osmdroid.gpsWaitTime", gpsWaitTime);
         edit.putInt("osmdroid.cacheMapTileCount", cacheMapTileCount);
         edit.putInt("osmdroid.tileDownloadThreads", tileDownloadThreads);
-        edit.putInt("osmdroid.tileFileSystemThreads",tileFileSystemThreads);
-        edit.putInt("osmdroid.tileDownloadMaxQueueSize",tileDownloadMaxQueueSize);
-        edit.putInt("osmdroid.tileFileSystemMaxQueueSize",tileFileSystemMaxQueueSize);
-        edit.putLong("osmdroid.ExpirationExtendedDuration",expirationAdder);
-        if (expirationOverride!=null)
-            edit.putLong("osmdroid.ExpirationOverride",expirationOverride);
+        edit.putInt("osmdroid.tileFileSystemThreads", tileFileSystemThreads);
+        edit.putInt("osmdroid.tileDownloadMaxQueueSize", tileDownloadMaxQueueSize);
+        edit.putInt("osmdroid.tileFileSystemMaxQueueSize", tileFileSystemMaxQueueSize);
+        edit.putLong("osmdroid.ExpirationExtendedDuration", expirationAdder);
+        if (expirationOverride != null)
+            edit.putLong("osmdroid.ExpirationOverride", expirationOverride);
         //TODO save other fields?
         edit.putInt("osmdroid.ZoomSpeedDefault", animationSpeedDefault);
         edit.putInt("osmdroid.animationSpeedShort", animationSpeedShort);
@@ -430,19 +433,19 @@ public class DefaultConfigurationProvider implements IConfigurationProvider {
     /**
      * Loading a map from preferences, using a prefix for the prefs keys
      *
-     * @since 5.6.5
      * @param pPrefs
      * @param pMap
      * @param pPrefix
+     * @since 5.6.5
      */
     private static void load(final SharedPreferences pPrefs,
                              final Map<String, String> pMap, final String pPrefix) {
         //potential fix for #1079   https://github.com/osmdroid/osmdroid/issues/1079
-        if (pPrefix==null || pMap==null) return;
+        if (pPrefix == null || pMap == null) return;
         pMap.clear();
 
         for (final String key : pPrefs.getAll().keySet()) {
-            if (key!=null && key.startsWith(pPrefix)) {
+            if (key != null && key.startsWith(pPrefix)) {
                 pMap.put(key.substring(pPrefix.length()), pPrefs.getString(key, null));
             }
         }
@@ -451,11 +454,11 @@ public class DefaultConfigurationProvider implements IConfigurationProvider {
     /**
      * Saving a map into preferences, using a prefix for the prefs keys
      *
-     * @since 5.6.5
      * @param pPrefs
      * @param pEdit
      * @param pMap
      * @param pPrefix
+     * @since 5.6.5
      */
     private static void save(final SharedPreferences pPrefs, final SharedPreferences.Editor pEdit,
                              final Map<String, String> pMap, final String pPrefix) {
@@ -480,20 +483,20 @@ public class DefaultConfigurationProvider implements IConfigurationProvider {
 
     @Override
     public long getExpirationExtendedDuration() {
-        return expirationAdder ;
+        return expirationAdder;
     }
 
     @Override
     public void setExpirationExtendedDuration(final long period) {
         if (period < 0)
-            expirationAdder=0;
+            expirationAdder = 0;
         else
-            expirationAdder=period;
+            expirationAdder = period;
     }
 
     @Override
     public void setExpirationOverrideDuration(Long period) {
-        expirationOverride=period;
+        expirationOverride = period;
     }
 
     @Override
@@ -503,7 +506,7 @@ public class DefaultConfigurationProvider implements IConfigurationProvider {
 
     @Override
     public void setAnimationSpeedDefault(int durationsMilliseconds) {
-        this.animationSpeedDefault =durationsMilliseconds;
+        this.animationSpeedDefault = durationsMilliseconds;
     }
 
     @Override
@@ -528,12 +531,12 @@ public class DefaultConfigurationProvider implements IConfigurationProvider {
 
     @Override
     public void setMapViewRecyclerFriendly(boolean enabled) {
-        this.mapViewRecycler=enabled;
+        this.mapViewRecycler = enabled;
     }
 
     @Override
     public void setCacheMapTileOvershoot(short value) {
-        this.cacheTileOvershoot=value;
+        this.cacheTileOvershoot = value;
     }
 
     @Override

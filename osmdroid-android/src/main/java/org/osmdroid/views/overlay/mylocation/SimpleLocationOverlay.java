@@ -1,12 +1,6 @@
 // Created by plusminus on 22:01:11 - 29.09.2008
 package org.osmdroid.views.overlay.mylocation;
 
-import org.osmdroid.library.R;
-import org.osmdroid.util.GeoPoint;
-import org.osmdroid.views.MapView;
-import org.osmdroid.views.Projection;
-import org.osmdroid.views.overlay.Overlay;
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -14,86 +8,97 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 
+import org.osmdroid.library.R;
+import org.osmdroid.util.GeoPoint;
+import org.osmdroid.views.MapView;
+import org.osmdroid.views.Projection;
+import org.osmdroid.views.overlay.Overlay;
+
 /**
- *
  * @author Nicolas Gramlich
- *
  */
 public class SimpleLocationOverlay extends Overlay {
-	// ===========================================================
-	// Constants
-	// ===========================================================
+    // ===========================================================
+    // Constants
+    // ===========================================================
 
-	// ===========================================================
-	// Fields
-	// ===========================================================
+    // ===========================================================
+    // Fields
+    // ===========================================================
 
-	protected final Paint mPaint = new Paint();
+    protected final Paint mPaint = new Paint();
 
-	protected Bitmap PERSON_ICON;
-	/** Coordinates the feet of the person are located. */
-	protected android.graphics.Point PERSON_HOTSPOT = new android.graphics.Point(24, 39);
+    protected Bitmap PERSON_ICON;
+    /**
+     * Coordinates the feet of the person are located.
+     */
+    protected android.graphics.Point PERSON_HOTSPOT = new android.graphics.Point(24, 39);
 
-	protected GeoPoint mLocation;
-	private final Point screenCoords = new Point();
+    protected GeoPoint mLocation;
+    private final Point screenCoords = new Point();
 
-	// ===========================================================
-	// Constructors
-	// ===========================================================
+    // ===========================================================
+    // Constructors
+    // ===========================================================
 
-	/** Use {@link #SimpleLocationOverlay(Bitmap) SimpleLocationOverlay}(((BitmapDrawable)ctx.getResources().getDrawable(R.drawable.person)).getBitmap()) instead. */
-	@Deprecated
-	public SimpleLocationOverlay(final Context ctx) {
-		this(((BitmapDrawable)ctx.getResources().getDrawable(R.drawable.person)).getBitmap());
-	}
+    /**
+     * Use {@link #SimpleLocationOverlay(Bitmap) SimpleLocationOverlay}(((BitmapDrawable)ctx.getResources().getDrawable(R.drawable.person)).getBitmap()) instead.
+     */
+    @Deprecated
+    public SimpleLocationOverlay(final Context ctx) {
+        this(((BitmapDrawable) ctx.getResources().getDrawable(R.drawable.person)).getBitmap());
+    }
 
-	public SimpleLocationOverlay(final Bitmap theIcon) {
-		super();
-		this.PERSON_ICON = theIcon;
-	}
+    public SimpleLocationOverlay(final Bitmap theIcon) {
+        super();
+        this.PERSON_ICON = theIcon;
+    }
 
-	// ===========================================================
-	// Getter & Setter
-	// ===========================================================
+    // ===========================================================
+    // Getter & Setter
+    // ===========================================================
 
-	public void setLocation(final GeoPoint mp) {
-		this.mLocation = mp;
-	}
+    public void setLocation(final GeoPoint mp) {
+        this.mLocation = mp;
+    }
 
-	public GeoPoint getMyLocation() {
-		return this.mLocation;
-	}
+    public GeoPoint getMyLocation() {
+        return this.mLocation;
+    }
 
-	// ===========================================================
-	// Methods from SuperClass/Interfaces
-	// ===========================================================
+    // ===========================================================
+    // Methods from SuperClass/Interfaces
+    // ===========================================================
 
-	@Override
-	public void onDetach(MapView mapView){
-		//https://github.com/osmdroid/osmdroid/issues/477
-		//commented out to prevent issues
-		//this.PERSON_ICON.recycle();
-	}
-	@Override
-	public void draw(final Canvas c, final Projection pj) {
-		if (this.mLocation != null) {
-			pj.toPixels(this.mLocation, screenCoords);
+    @Override
+    public void onDetach(MapView mapView) {
+        //https://github.com/osmdroid/osmdroid/issues/477
+        //commented out to prevent issues
+        //this.PERSON_ICON.recycle();
+    }
 
-			c.drawBitmap(PERSON_ICON, screenCoords.x - PERSON_HOTSPOT.x, screenCoords.y
-					- PERSON_HOTSPOT.y, this.mPaint);
-		}
-	}
+    @Override
+    public void draw(final Canvas c, final Projection pj) {
+        if (this.mLocation != null) {
+            pj.toPixels(this.mLocation, screenCoords);
 
-	// ===========================================================
-	// Methods
-	// ===========================================================
+            c.drawBitmap(PERSON_ICON, screenCoords.x - PERSON_HOTSPOT.x, screenCoords.y
+                    - PERSON_HOTSPOT.y, this.mPaint);
+        }
+    }
 
-	/** Coordinates the feet of the person are located. */
-	public void setPersonIcon(Bitmap bmp, Point hotspot){
-		this.PERSON_ICON=bmp;
-		this.PERSON_HOTSPOT=hotspot;
-	}
-	// ===========================================================
-	// Inner and Anonymous Classes
-	// ===========================================================
+    // ===========================================================
+    // Methods
+    // ===========================================================
+
+    /**
+     * Coordinates the feet of the person are located.
+     */
+    public void setPersonIcon(Bitmap bmp, Point hotspot) {
+        this.PERSON_ICON = bmp;
+        this.PERSON_HOTSPOT = hotspot;
+    }
+    // ===========================================================
+    // Inner and Anonymous Classes
+    // ===========================================================
 }

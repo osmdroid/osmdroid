@@ -5,6 +5,7 @@ import java.util.SortedMap;
 
 /**
  * Color mapping to map ranges to specific colors.
+ *
  * @author Matthias Dittmer
  */
 public class ColorMappingRanges extends ColorMappingForScalar {
@@ -40,7 +41,7 @@ public class ColorMappingRanges extends ColorMappingForScalar {
 
         }
         // assign last color if scalar is above highest border
-        if(lastArrayIndexFromLoop == mColorRanges.size()) {
+        if (lastArrayIndexFromLoop == mColorRanges.size()) {
             return mColorRanges.get(mColorRanges.lastKey());
         }
         return 0;

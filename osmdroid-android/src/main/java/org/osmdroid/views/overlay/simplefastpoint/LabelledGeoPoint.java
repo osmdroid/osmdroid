@@ -75,15 +75,15 @@ public class LabelledGeoPoint extends GeoPoint {
 
     public static final Parcelable.Creator<LabelledGeoPoint> CREATOR =
             new Parcelable.Creator<LabelledGeoPoint>() {
-        @Override
-        public LabelledGeoPoint createFromParcel(final Parcel in) {
-            return new LabelledGeoPoint(in);
-        }
+                @Override
+                public LabelledGeoPoint createFromParcel(final Parcel in) {
+                    return new LabelledGeoPoint(in);
+                }
 
-        @Override
-        public LabelledGeoPoint[] newArray(final int size) {
-            return new LabelledGeoPoint[size];
-        }
-    };
+                @Override
+                public LabelledGeoPoint[] newArray(final int size) {
+                    return new LabelledGeoPoint[size];
+                }
+            };
 
 }

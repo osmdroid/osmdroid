@@ -5,6 +5,7 @@ import org.junit.Test;
 
 /**
  * Simple tests for class ColorMappingVariation.
+ *
  * @author Matthias Dittmer
  */
 public class ColorMappingVariationTest {
@@ -48,7 +49,7 @@ public class ColorMappingVariationTest {
 
     @Test
     public void testScalarOffset() {
-        objTest.init(20,100,0,100);
+        objTest.init(20, 100, 0, 100);
         Assert.assertEquals(0, objTest.mapScalar(0), delta);
         Assert.assertEquals(37.5, objTest.mapScalar(50), delta);
         Assert.assertEquals(100, objTest.mapScalar(100), delta);
@@ -58,7 +59,7 @@ public class ColorMappingVariationTest {
 
     @Test
     public void testScalarNegative() {
-        objTest.init(-200,1000,0,100);
+        objTest.init(-200, 1000, 0, 100);
         Assert.assertEquals(16.6667, objTest.mapScalar(0), delta);
         Assert.assertEquals(58.3333, objTest.mapScalar(500), delta);
         Assert.assertEquals(100, objTest.mapScalar(1000), delta);
@@ -68,7 +69,7 @@ public class ColorMappingVariationTest {
 
     @Test
     public void testInverse() {
-        objTest.init(-200,1000,300,-100);
+        objTest.init(-200, 1000, 300, -100);
         Assert.assertEquals(300, objTest.mapScalar(-200), delta);
         Assert.assertEquals(233.333, objTest.mapScalar(0), delta);
         Assert.assertEquals(-100, objTest.mapScalar(1000), delta);

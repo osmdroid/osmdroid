@@ -4,11 +4,11 @@ import android.content.Context;
 import android.graphics.Color;
 
 import org.osmdroid.util.BoundingBox;
+import org.osmdroid.util.GeoPoint;
+import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.FolderOverlay;
 import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.Polyline;
-import org.osmdroid.util.GeoPoint;
-import org.osmdroid.views.MapView;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -16,22 +16,22 @@ import java.util.List;
 
 /**
  * Latitude/Longitude gridline overlay
- *
+ * <p>
  * It's not perfect and has issues with osmdroid's global wrap around (where north pole turns into the south pole).
  * There's probably room for more optimizations too, pull requests are welcome.
  *
+ * @see LatLonGridlineOverlay2
  * @since 5.2+
  * Created by alex on 12/15/15.
  * @deprecated see {@link LatLonGridlineOverlay2}
- * @see LatLonGridlineOverlay2
  */
 @Deprecated
 public class LatLonGridlineOverlay {
     final static DecimalFormat df = new DecimalFormat("#.#####");
     public static int lineColor = Color.BLACK;
-    public static int fontColor=Color.WHITE;
-    public static short fontSizeDp=24;
-    public static int backgroundColor=Color.BLACK;
+    public static int fontColor = Color.WHITE;
+    public static short fontSizeDp = 24;
+    public static int backgroundColor = Color.BLACK;
     public static float lineWidth = 1f;
     //extra debugging options
     public static boolean DEBUG = false;
@@ -40,7 +40,7 @@ public class LatLonGridlineOverlay {
     //used to adjust the number of grid lines displayed on screen
     private static float multiplier = 1f;
 
-    private static void applyMarkerAttributes(Marker m){
+    private static void applyMarkerAttributes(Marker m) {
         m.setTextLabelBackgroundColor(backgroundColor);
         m.setTextLabelFontSize(fontSizeDp);
         m.setTextLabelForegroundColor(fontColor);
@@ -179,7 +179,7 @@ public class LatLonGridlineOverlay {
                 gridlines.add(p);
 
 
-                Marker m =  new Marker(mapView);
+                Marker m = new Marker(mapView);
                 applyMarkerAttributes(m);
                 m.setRotation(-90f);
                 final String title = df.format(i) + (i > 0 ? "E" : "W");
@@ -230,7 +230,7 @@ public class LatLonGridlineOverlay {
 
                     gridlines.add(p);
 
-                    Marker m =  new Marker(mapView);
+                    Marker m = new Marker(mapView);
                     applyMarkerAttributes(m);
                     m.setRotation(-90f);
                     final String title = df.format(i) + (i > 0 ? "E" : "W");
@@ -243,7 +243,7 @@ public class LatLonGridlineOverlay {
 
                 for (double i = we_startpoint; i < 180; i = i + incrementor) {
 
-                    Marker m =  new Marker(mapView);
+                    Marker m = new Marker(mapView);
 
                     applyMarkerAttributes(m);
                     m.setRotation(-90f);
@@ -452,16 +452,17 @@ public class LatLonGridlineOverlay {
 
     /**
      * resets the settings
+     *
      * @since 5.6.3
      */
     public static void setDefaults() {
 
         lineColor = Color.BLACK;
-        fontColor=Color.WHITE;
-        backgroundColor=Color.BLACK;
+        fontColor = Color.WHITE;
+        backgroundColor = Color.BLACK;
         lineWidth = 1f;
-        fontSizeDp=32;
-        DEBUG=false;
-        DEBUG2=false;
+        fontSizeDp = 32;
+        DEBUG = false;
+        DEBUG2 = false;
     }
 }

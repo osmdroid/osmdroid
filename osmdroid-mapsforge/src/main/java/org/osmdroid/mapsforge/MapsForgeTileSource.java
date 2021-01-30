@@ -10,9 +10,9 @@ import org.mapsforge.core.model.Tile;
 import org.mapsforge.map.android.graphics.AndroidGraphicFactory;
 import org.mapsforge.map.android.graphics.AndroidTileBitmap;
 import org.mapsforge.map.datastore.MultiMapDataStore;
+import org.mapsforge.map.layer.hills.HillsRenderConfig;
 import org.mapsforge.map.layer.renderer.DirectRenderer;
 import org.mapsforge.map.layer.renderer.RendererJob;
-import org.mapsforge.map.layer.hills.HillsRenderConfig;
 import org.mapsforge.map.model.DisplayModel;
 import org.mapsforge.map.reader.MapFile;
 import org.mapsforge.map.rendertheme.InternalRenderTheme;
@@ -30,7 +30,7 @@ import java.io.File;
  * http://www.salidasoftware.com/how-to-render-mapsforge-tiles-in-osmdroid/
  *
  * @author Salida Software
- *         Adapted from code found here : http://www.sieswerda.net/2012/08/15/upping-the-developer-friendliness/
+ * Adapted from code found here : http://www.sieswerda.net/2012/08/15/upping-the-developer-friendliness/
  */
 public class MapsForgeTileSource extends BitmapTileSourceBase {
 
@@ -57,18 +57,18 @@ public class MapsForgeTileSource extends BitmapTileSourceBase {
      * @param maxZoom
      * @param tileSizePixels
      * @param file
-     * @param xmlRenderTheme the theme to render tiles with
-     * @param hillsRenderConfig the hillshading setup to be used (can be null)
-     * @param language preferred language for map labels as defined in ISO 639-1 or ISO 639-2 (can be null)
+     * @param xmlRenderTheme      the theme to render tiles with
+     * @param hillsRenderConfig   the hillshading setup to be used (can be null)
+     * @param language            preferred language for map labels as defined in ISO 639-1 or ISO 639-2 (can be null)
      */
     protected MapsForgeTileSource(String cacheTileSourceName, int minZoom, int maxZoom, int tileSizePixels, File[] file, XmlRenderTheme xmlRenderTheme, MultiMapDataStore.DataPolicy dataPolicy, HillsRenderConfig hillsRenderConfig, final String language) {
-        super(cacheTileSourceName, minZoom, maxZoom, tileSizePixels, ".png","© OpenStreetMap contributors");
+        super(cacheTileSourceName, minZoom, maxZoom, tileSizePixels, ".png", "© OpenStreetMap contributors");
 
         mapDatabase = new MultiMapDataStore(dataPolicy);
         for (int i = 0; i < file.length; i++)
             mapDatabase.addMapDataStore(new MapFile(file[i], language), false, false);
 
-        if (AndroidGraphicFactory.INSTANCE==null) {
+        if (AndroidGraphicFactory.INSTANCE == null) {
             throw new RuntimeException("Must call MapsForgeTileSource.createInstance(context.getApplication()); once before MapsForgeTileSource.createFromFiles().");
         }
 
@@ -110,21 +110,21 @@ public class MapsForgeTileSource extends BitmapTileSourceBase {
      * @param maxZoom
      * @param tileSizePixels
      * @param file
-     * @param xmlRenderTheme the theme to render tiles with
-     * @param hillsRenderConfig the hillshading setup to be used (can be null)
+     * @param xmlRenderTheme      the theme to render tiles with
+     * @param hillsRenderConfig   the hillshading setup to be used (can be null)
      */
     protected MapsForgeTileSource(String cacheTileSourceName, int minZoom, int maxZoom, int tileSizePixels, File[] file, XmlRenderTheme xmlRenderTheme, MultiMapDataStore.DataPolicy dataPolicy, HillsRenderConfig hillsRenderConfig) {
         this(cacheTileSourceName, minZoom, maxZoom, tileSizePixels, file, xmlRenderTheme, dataPolicy, hillsRenderConfig, null);
     }
 
-    public BoundingBox getBounds(){
+    public BoundingBox getBounds() {
         return mapDatabase.boundingBox();
     }
 
-    public org.osmdroid.util.BoundingBox getBoundsOsmdroid(){
+    public org.osmdroid.util.BoundingBox getBoundsOsmdroid() {
         BoundingBox boundingBox = mapDatabase.boundingBox();
-        final double latNorth= Math.min(MapView.getTileSystem().getMaxLatitude(),boundingBox.maxLatitude);
-        final double latSouth= Math.max(MapView.getTileSystem().getMinLatitude(),boundingBox.minLatitude);
+        final double latNorth = Math.min(MapView.getTileSystem().getMaxLatitude(), boundingBox.maxLatitude);
+        final double latSouth = Math.max(MapView.getTileSystem().getMinLatitude(), boundingBox.minLatitude);
         return new org.osmdroid.util.BoundingBox(
                 latNorth, boundingBox.maxLongitude,
                 latSouth, boundingBox.minLongitude);
@@ -200,9 +200,9 @@ public class MapsForgeTileSource extends BitmapTileSourceBase {
      * defined by this class are used, which is zoom = 3-20
      *
      * @param file
-     * @param theme     this can be null, in which case the default them will be used
-     * @param themeName when using a custom theme, this sets up the osmdroid caching correctly
-     * @param dataPolicy use this to override the default, which is "RETURN_ALL"
+     * @param theme             this can be null, in which case the default them will be used
+     * @param themeName         when using a custom theme, this sets up the osmdroid caching correctly
+     * @param dataPolicy        use this to override the default, which is "RETURN_ALL"
      * @param hillsRenderConfig the hillshading setup to be used (can be null)
      * @return
      */
@@ -223,11 +223,11 @@ public class MapsForgeTileSource extends BitmapTileSourceBase {
      * defined by this class are used, which is zoom = 3-20
      *
      * @param file
-     * @param theme this can be null, in which case the default them will be used
-     * @param themeName when using a custom theme, this sets up the osmdroid caching correctly
-     * @param dataPolicy use this to override the default, which is "RETURN_ALL"
+     * @param theme             this can be null, in which case the default them will be used
+     * @param themeName         when using a custom theme, this sets up the osmdroid caching correctly
+     * @param dataPolicy        use this to override the default, which is "RETURN_ALL"
      * @param hillsRenderConfig the hillshading setup to be used (can be null)
-     * @param language  preferred language for map labels as defined in ISO 639-1 or ISO 639-2 (can be null)
+     * @param language          preferred language for map labels as defined in ISO 639-1 or ISO 639-2 (can be null)
      * @return
      */
     public static MapsForgeTileSource createFromFiles(File[] file, XmlRenderTheme theme, String themeName, MultiMapDataStore.DataPolicy dataPolicy, HillsRenderConfig hillsRenderConfig, final String language) {
@@ -255,7 +255,7 @@ public class MapsForgeTileSource extends BitmapTileSourceBase {
         //}
 
 
-        if (mapDatabase==null)
+        if (mapDatabase == null)
             return null;
         try {
             //Draw the tile
@@ -276,11 +276,11 @@ public class MapsForgeTileSource extends BitmapTileSourceBase {
 
     public void dispose() {
         theme.decrementRefCount();
-        theme=null;
-        renderer=null;
-        if (mapDatabase!=null)
+        theme = null;
+        renderer = null;
+        if (mapDatabase != null)
             mapDatabase.close();
-        mapDatabase=null;
+        mapDatabase = null;
     }
 
     /**

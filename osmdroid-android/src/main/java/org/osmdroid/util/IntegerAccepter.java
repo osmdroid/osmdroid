@@ -2,8 +2,9 @@ package org.osmdroid.util;
 
 /**
  * A repository for integers
- * @since 6.2.0
+ *
  * @author Fabrice Fontaine
+ * @since 6.2.0
  */
 public class IntegerAccepter {
 
@@ -26,7 +27,8 @@ public class IntegerAccepter {
         return mValues[pIndex];
     }
 
-    public void end() { }
+    public void end() {
+    }
 
     public void flush() {
         mIndex = 0;

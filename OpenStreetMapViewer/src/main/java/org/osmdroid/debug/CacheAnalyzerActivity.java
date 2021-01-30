@@ -167,7 +167,7 @@ public class CacheAnalyzerActivity extends AppCompatActivity
 
     @Override
     public void run() {
-        if (cache==null)
+        if (cache == null)
             return;
         List<SqlTileWriterExt.SourceCount> sources = cache.getSources();
         final StringBuilder sb = new StringBuilder("Source: tile count\n");
@@ -183,7 +183,7 @@ public class CacheAnalyzerActivity extends AppCompatActivity
             sb.append("\n");
         }
         long expired = 0;
-        if (cache!=null)
+        if (cache != null)
             expired = cache.getRowCountExpired();
         sb.append("Expired tiles: " + expired);
 

@@ -8,13 +8,14 @@ import org.json.JSONObject;
 
 /**
  * {@link DataCountry} json loader
- * @since 6.0.3
+ *
  * @author Fabrice Fontaine
+ * @since 6.0.3
  */
-public class DataCountryLoader extends DataLoader<DataCountry>{
+public class DataCountryLoader extends DataLoader<DataCountry> {
 
     public DataCountryLoader(final Context pContext, final @RawRes int pResId)
-            throws Exception{
+            throws Exception {
         super(pContext, pResId);
     }
 

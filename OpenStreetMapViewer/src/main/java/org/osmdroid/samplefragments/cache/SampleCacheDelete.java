@@ -85,7 +85,7 @@ public class SampleCacheDelete extends BaseSampleFragment implements View.OnClic
     private void showCacheManagerDialog() {
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-            getActivity());
+                getActivity());
 
 
         // set title
@@ -94,23 +94,23 @@ public class SampleCacheDelete extends BaseSampleFragment implements View.OnClic
 
         // set dialog message
         alertDialogBuilder.setItems(new CharSequence[]{
-                getResources().getString(R.string.cache_current_size),
-                getResources().getString(R.string.cache_delete_area),
-                getResources().getString(R.string.cancel)
-            }, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                    switch (which) {
-                        case 0:
-                            showCurrentCacheInfo();
-                            break;
-                        case 1:
-                            downloadJobAlert();
-                        default:
-                            dialog.dismiss();
-                            break;
+                        getResources().getString(R.string.cache_current_size),
+                        getResources().getString(R.string.cache_delete_area),
+                        getResources().getString(R.string.cancel)
+                }, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which) {
+                            case 0:
+                                showCurrentCacheInfo();
+                                break;
+                            case 1:
+                                downloadJobAlert();
+                            default:
+                                dialog.dismiss();
+                                break;
+                        }
                     }
                 }
-            }
         );
 
 
@@ -187,11 +187,11 @@ public class SampleCacheDelete extends BaseSampleFragment implements View.OnClic
     private void updateEstimate(boolean startJob) {
         try {
             if (cache_east != null &&
-                cache_west != null &&
-                cache_north != null &&
-                cache_south != null &&
-                zoom_max != null &&
-                zoom_min != null) {
+                    cache_west != null &&
+                    cache_north != null &&
+                    cache_south != null &&
+                    zoom_max != null &&
+                    zoom_min != null) {
                 double n = Double.parseDouble(cache_north.getText().toString());
                 double s = Double.parseDouble(cache_south.getText().toString());
                 double e = Double.parseDouble(cache_east.getText().toString());
@@ -252,23 +252,23 @@ public class SampleCacheDelete extends BaseSampleFragment implements View.OnClic
             @Override
             public void run() {
                 final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-                    getActivity());
+                        getActivity());
 
 
                 // set title
                 alertDialogBuilder.setTitle(R.string.cache_manager)
-                    .setMessage("Cache Capacity (bytes): " + mgr.cacheCapacity() + "\n" +
-                        "Cache Usage (bytes): " + mgr.currentCacheUsage());
+                        .setMessage("Cache Capacity (bytes): " + mgr.cacheCapacity() + "\n" +
+                                "Cache Usage (bytes): " + mgr.currentCacheUsage());
 
                 // set dialog message
                 alertDialogBuilder.setItems(new CharSequence[]{
 
-                        getResources().getString(R.string.cancel)
-                    }, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
+                                getResources().getString(R.string.cancel)
+                        }, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
                         }
-                    }
                 );
 
 

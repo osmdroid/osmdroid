@@ -23,7 +23,6 @@ public class MapInScrollView extends BaseSampleFragment {
     }
 
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.map_scoll, null);
@@ -45,14 +44,14 @@ public class MapInScrollView extends BaseSampleFragment {
 
 
     @Override
-    public void onDestroyView(){
+    public void onDestroyView() {
         super.onDestroyView();
         Log.d(TAG, "onDetach");
 
     }
 
     @Override
-    public void onDestroy(){
+    public void onDestroy() {
         super.onDestroy();
         Log.d(TAG, "onDestroy");
 

@@ -27,7 +27,7 @@ public class Gridlines2 extends BaseSampleFragment {
         grids.setBackgroundColor(Color.BLACK);
         grids.setFontColor(Color.RED);
         grids.setLineColor(Color.RED);
-        grids.setFontSizeDp((short)14);
+        grids.setFontSizeDp((short) 14);
         mMapView.getOverlayManager().add(grids);
 
     }

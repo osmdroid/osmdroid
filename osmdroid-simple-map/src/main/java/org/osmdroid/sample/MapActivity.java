@@ -1,8 +1,8 @@
 package org.osmdroid.sample;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v7.app.AppCompatActivity;
 
 import org.osmdroid.config.Configuration;
 import org.osmdroid.simplemap.R;
@@ -19,7 +19,7 @@ public class MapActivity extends AppCompatActivity {
     private MapView mapView = null;
 
     @Override
-    public void onCreate(Bundle savedInstance){
+    public void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
         Configuration.getInstance().load(getApplicationContext(),
                 PreferenceManager.getDefaultSharedPreferences(getApplicationContext()));
@@ -29,21 +29,21 @@ public class MapActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
         Configuration.getInstance().load(getApplicationContext(),
                 PreferenceManager.getDefaultSharedPreferences(getApplicationContext()));
-        if (mapView!=null) {
+        if (mapView != null) {
             mapView.onResume();
         }
     }
 
     @Override
-    public void onPause(){
+    public void onPause() {
         super.onPause();
         Configuration.getInstance().save(getApplicationContext(),
                 PreferenceManager.getDefaultSharedPreferences(getApplicationContext()));
-        if (mapView!=null) {
+        if (mapView != null) {
             mapView.onPause();
         }
     }

@@ -2,6 +2,7 @@ package org.osmdroid.views.overlay.advancedpolyline;
 
 /**
  * Color mapping for luminance variation.
+ *
  * @author Matthias Dittmer
  */
 public class ColorMappingVariationLuminance extends ColorMappingVariation {
@@ -14,12 +15,13 @@ public class ColorMappingVariationLuminance extends ColorMappingVariation {
 
     /**
      * Constructor
-     * @param scalarStart start of scalar
-     * @param scalarEnd end of scalar
+     *
+     * @param scalarStart    start of scalar
+     * @param scalarEnd      end of scalar
      * @param luminanceStart luminance start value
-     * @param luminanceEnd luminance end value
-     * @param hue fixed hue value
-     * @param saturation fixed saturation value
+     * @param luminanceEnd   luminance end value
+     * @param hue            fixed hue value
+     * @param saturation     fixed saturation value
      */
     public ColorMappingVariationLuminance(
             final float scalarStart, final float scalarEnd, float luminanceStart, float luminanceEnd,

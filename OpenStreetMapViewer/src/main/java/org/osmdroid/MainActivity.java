@@ -91,19 +91,18 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/osmdroid/osmdroid/issues/new"));
                 startActivity(browserIntent);
                 break;
-            case 6:{
-                Intent i = new Intent(this,PreferenceActivity.class);
+            case 6: {
+                Intent i = new Intent(this, PreferenceActivity.class);
                 startActivity(i);
             }
-                break;
+            break;
             case 7:
                 this.startActivity(new Intent(this, BugsTestingActivity.class));
                 break;
             case 8:
                 this.startActivity(new Intent(this, DiagnosticsActivity.class));
                 break;
-            case 9:
-            {
+            case 9: {
                 //skip this nonsense
                 SharedPreferences.Editor edit = PreferenceManager.getDefaultSharedPreferences(this).edit();
                 edit.remove("osmdroid_first_ran");
@@ -114,19 +113,19 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 finish();
                 break;
             }
-            case 10:{
-                Intent i = new Intent(this,LicenseActivity.class);
+            case 10: {
+                Intent i = new Intent(this, LicenseActivity.class);
                 startActivity(i);
                 break;
             }
             case 11:
-                Intent starter = new Intent(this,CacheAnalyzerActivity.class);
-                startActivity(starter );
+                Intent starter = new Intent(this, CacheAnalyzerActivity.class);
+                startActivity(starter);
                 break;
         }
     }
 
-    public void onResume(){
+    public void onResume() {
         super.onResume();
         updateStorageInfo();
         checkForCrashLogs();
@@ -147,12 +146,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                switch (which){
+                switch (which) {
                     case DialogInterface.BUTTON_POSITIVE:
                         //Yes button clicked
                         Intent emailIntent = new Intent(Intent.ACTION_SEND);
                         emailIntent.setType("text/plain");
-                        emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[] {"osmdroidbugs@gmail.com"});
+                        emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"osmdroidbugs@gmail.com"});
                         emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Open Map crash log");
                         emailIntent.putExtra(Intent.EXTRA_TEXT, "Log data");
 
@@ -172,17 +171,18 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Crash logs");
         builder.setMessage("Sorry, it looks like we crashed at some point, would you mind sending us the" +
-            "crash log?").setPositiveButton("Yes", dialogClickListener)
-            .setNegativeButton("No", dialogClickListener).show();
+                "crash log?").setPositiveButton("Yes", dialogClickListener)
+                .setNegativeButton("No", dialogClickListener).show();
     }
 
     /**
      * refreshes the current osmdroid cache paths with user preferences plus soe logic to work around
      * file system permissions on api23 devices. it's primarily used for out android tests.
+     *
      * @param ctx
      * @return current cache size in bytes
      */
-    public static long updateStoragePreferences(Context ctx){
+    public static long updateStoragePreferences(Context ctx) {
 
         //loads the osmdroid config from the shared preferences object.
         //if this is the first time launching this app, all settings are set defaults with one exception,
@@ -204,7 +204,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     /**
      * gets storage state and current cache size
      */
-    private void updateStorageInfo(){
+    private void updateStorageInfo() {
 
         long cacheSize = updateStoragePreferences(this);
         //cache management ends here
@@ -213,7 +213,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         final String state = Environment.getExternalStorageState();
 
         boolean mSdCardAvailable = Environment.MEDIA_MOUNTED.equals(state);
-        tv.setText((mSdCardAvailable ? "Mounted" : "Not Available") );
+        tv.setText((mSdCardAvailable ? "Mounted" : "Not Available"));
         if (!mSdCardAvailable) {
             tv.setTextColor(Color.RED);
             tv.setTypeface(null, Typeface.BOLD);
@@ -224,6 +224,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         tv = findViewById(R.id.mainstorageInfo);
         tv.setText(Configuration.getInstance().getOsmdroidTileCache().getAbsolutePath() + "\n" +
-            "Cache size: " + Formatter.formatFileSize(this,cacheSize));
+                "Cache size: " + Formatter.formatFileSize(this, cacheSize));
     }
 }

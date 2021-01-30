@@ -5,10 +5,11 @@ import org.osmdroid.util.Distance;
 /**
  * Listing all the vertices' middle, provided that there are enough pixels between them
  * Created by Fabrice on 23/12/2017.
+ *
  * @since 6.0.0
  */
 
-public class MilestoneMiddleLister extends MilestoneLister{
+public class MilestoneMiddleLister extends MilestoneLister {
 
     private final double mMinimumSquaredPixelDistance;
 

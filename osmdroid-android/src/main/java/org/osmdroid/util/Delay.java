@@ -1,8 +1,8 @@
 package org.osmdroid.util;
 
 /**
- * @since 6.0.2
  * @author Fabrice Fontaine
+ * @since 6.0.2
  */
 public class Delay {
 
@@ -32,7 +32,7 @@ public class Delay {
         } else {
             duration = mDurations[mIndex];
             if (mIndex < mDurations.length - 1) {
-                mIndex ++;
+                mIndex++;
             }
         }
         mNextTime = now() + duration;

@@ -100,9 +100,9 @@ public class ModifierPicker implements View.OnClickListener, TextWatcher {
     EditText AO_ENGAGEMENT_BAR_edit = null;
     EditText SCC_SONAR_CLASSIFICATION_CONFIDENCE_edit = null;
     EditText CN_CPOF_NAME_LABEL_edit = null;
-    EditText COUNTRY_CODE_edit= null;
+    EditText COUNTRY_CODE_edit = null;
     Button milstd_modifier_apply = null;
-    Spinner echelon1,echelon2=null;
+    Spinner echelon1, echelon2 = null;
 
     public void show(Activity activity, SimpleSymbol symbol) {
         if (picker != null) {
@@ -115,7 +115,7 @@ public class ModifierPicker implements View.OnClickListener, TextWatcher {
 
         View view = View.inflate(activity, R.layout.milstd2525modifiers, null);
 
-        milstd_modifier_apply = view.findViewById(R.id.milstd_modifier_apply );
+        milstd_modifier_apply = view.findViewById(R.id.milstd_modifier_apply);
         milstd_modifier_apply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -213,11 +213,12 @@ public class ModifierPicker implements View.OnClickListener, TextWatcher {
 
     static boolean isDefined(EditText e) {
         String content = e.getText().toString();
-        if (content==null || content.length()==0)
+        if (content == null || content.length() == 0)
             return false;
         return true;
 
     }
+
     private void applyModifiers() {
         String baseCode = symbol.getBasicSymbolId();
         SparseArray<String> modifiers = symbol.getModifiers();
@@ -229,7 +230,7 @@ public class ModifierPicker implements View.OnClickListener, TextWatcher {
             SimpleSymbol.Echelon1 e1 = (SimpleSymbol.Echelon1) echelon1.getSelectedItem();
             SimpleSymbol.Echelon2 e2 = (SimpleSymbol.Echelon2) echelon2.getSelectedItem();
             String countryCode = COUNTRY_CODE_edit.getText().toString();
-            if (countryCode!=null && countryCode.length()==2) {
+            if (countryCode != null && countryCode.length() == 2) {
                 countryCode = countryCode.toUpperCase();
             } else countryCode = "--";
             code = code.substring(0, 10) + e1.getValue() + e2.getValue() + countryCode + "-";//FIXME
@@ -365,10 +366,8 @@ public class ModifierPicker implements View.OnClickListener, TextWatcher {
                 modifiers.put(ModifiersUnits.AB_FEINT_DUMMY_INDICATOR, AB_FEINT_DUMMY_INDICATOR_edit.getText().toString());
 
 
-
             if (isDefined(AC_INSTALLATION_edit))
                 modifiers.put(ModifiersUnits.AC_INSTALLATION, AC_INSTALLATION_edit.getText().toString());
-
 
 
             if (isDefined(AD_PLATFORM_TYPE_edit))
@@ -379,17 +378,12 @@ public class ModifierPicker implements View.OnClickListener, TextWatcher {
                 modifiers.put(ModifiersUnits.AE_EQUIPMENT_TEARDOWN_TIME, AE_EQUIPMENT_TEARDOWN_TIME_edit.getText().toString());
 
 
-
-
             if (isDefined(AF_COMMON_IDENTIFIER_edit))
                 modifiers.put(ModifiersUnits.AF_COMMON_IDENTIFIER, AF_COMMON_IDENTIFIER_edit.getText().toString());
 
 
-
-
             if (isDefined(AG_AUX_EQUIP_INDICATOR_edit))
                 modifiers.put(ModifiersUnits.AG_AUX_EQUIP_INDICATOR, AG_AUX_EQUIP_INDICATOR_edit.getText().toString());
-
 
 
             if (isDefined(AH_AREA_OF_UNCERTAINTY_edit))
@@ -400,10 +394,8 @@ public class ModifierPicker implements View.OnClickListener, TextWatcher {
                 modifiers.put(ModifiersUnits.AI_DEAD_RECKONING_TRAILER, AI_DEAD_RECKONING_TRAILER_edit.getText().toString());
 
 
-
             if (isDefined(AJ_SPEED_LEADER_edit))
                 modifiers.put(ModifiersUnits.AJ_SPEED_LEADER, AJ_SPEED_LEADER_edit.getText().toString());
-
 
 
             if (isDefined(AK_PAIRING_LINE_edit))
@@ -414,14 +406,12 @@ public class ModifierPicker implements View.OnClickListener, TextWatcher {
                 modifiers.put(ModifiersUnits.AL_OPERATIONAL_CONDITION, AL_OPERATIONAL_CONDITION_edit.getText().toString());
 
 
-
             if (isDefined(AL_OPERATIONAL_CONDITION_edit))
                 modifiers.put(ModifiersUnits.AL_OPERATIONAL_CONDITION, AL_OPERATIONAL_CONDITION_edit.getText().toString());
 
 
             if (isDefined(AL_OPERATIONAL_CONDITION_edit))
                 modifiers.put(ModifiersUnits.AL_OPERATIONAL_CONDITION, AL_OPERATIONAL_CONDITION_edit.getText().toString());
-
 
 
             if (isDefined(AL_OPERATIONAL_CONDITION_edit))
@@ -441,7 +431,7 @@ public class ModifierPicker implements View.OnClickListener, TextWatcher {
     }
 
     private void applyVisibility(String baseCode, View view) {
-        if (baseCode.charAt(0)!='W') {
+        if (baseCode.charAt(0) != 'W') {
             view.findViewById(R.id.COUNTRY_CODE).setVisibility(View.VISIBLE);
             view.findViewById(R.id.milstdspinner1).setVisibility(View.VISIBLE);
             view.findViewById(R.id.milstdspinner2).setVisibility(View.VISIBLE);

@@ -17,13 +17,24 @@
 package org.osmdroid.gpkg.overlay.features;
 
 
-
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.util.GeoPoint;
 
 import java.util.List;
 
-import static java.lang.Math.*;
+import static java.lang.Math.PI;
+import static java.lang.Math.abs;
+import static java.lang.Math.asin;
+import static java.lang.Math.atan;
+import static java.lang.Math.atan2;
+import static java.lang.Math.cos;
+import static java.lang.Math.exp;
+import static java.lang.Math.log;
+import static java.lang.Math.sin;
+import static java.lang.Math.sqrt;
+import static java.lang.Math.tan;
+import static java.lang.Math.toDegrees;
+import static java.lang.Math.toRadians;
 
 
 /**
@@ -31,7 +42,7 @@ import static java.lang.Math.*;
  * https://github.com/googlemaps/android-maps-utils/blob/master/library/src/com/google/maps/android/SphericalUtil.java
  * and
  * https://github.com/googlemaps/android-maps-utils/blob/master/library/src/com/google/maps/android/MathUtil.java
- *
+ * <p>
  * modified to use osmdroid's api set
  */
 class SphericalUtil {
@@ -51,6 +62,7 @@ class SphericalUtil {
 
     /**
      * Wraps the given value into the inclusive-exclusive interval between min and max.
+     *
      * @param n   The value to wrap.
      * @param min The minimum.
      * @param max The maximum.
@@ -61,6 +73,7 @@ class SphericalUtil {
 
     /**
      * Returns the non-negative remainder of x / m.
+     *
      * @param x The operand.
      * @param m The modulus.
      */
@@ -73,7 +86,7 @@ class SphericalUtil {
      * See http://en.wikipedia.org/wiki/Mercator_projection .
      */
     static double mercator(double lat) {
-        return log(tan(lat * 0.5 + PI/4));
+        return log(tan(lat * 0.5 + PI / 4));
     }
 
     /**
@@ -126,11 +139,13 @@ class SphericalUtil {
         return hav(lat1 - lat2) + hav(dLng) * cos(lat1) * cos(lat2);
     }
 
-    private SphericalUtil() {}
+    private SphericalUtil() {
+    }
 
     /**
      * Returns the heading from one LatLng to another LatLng. Headings are
      * expressed in degrees clockwise from North within the range [-180,180).
+     *
      * @return The heading in degrees clockwise from north.
      */
     public static double computeHeading(IGeoPoint from, IGeoPoint to) {
@@ -141,14 +156,15 @@ class SphericalUtil {
         double toLng = toRadians(to.getLongitude());
         double dLng = toLng - fromLng;
         double heading = atan2(
-            sin(dLng) * cos(toLat),
-            cos(fromLat) * sin(toLat) - sin(fromLat) * cos(toLat) * cos(dLng));
+                sin(dLng) * cos(toLat),
+                cos(fromLat) * sin(toLat) - sin(fromLat) * cos(toLat) * cos(dLng));
         return wrap(toDegrees(heading), -180, 180);
     }
 
     /**
      * Returns the LatLng resulting from moving a distance from an origin
      * in the specified heading (expressed in degrees clockwise from north).
+     *
      * @param from     The LatLng from which to start.
      * @param distance The distance to travel.
      * @param heading  The heading in degrees clockwise from north.
@@ -165,8 +181,8 @@ class SphericalUtil {
         double cosFromLat = cos(fromLat);
         double sinLat = cosDistance * sinFromLat + sinDistance * cosFromLat * cos(heading);
         double dLng = atan2(
-            sinDistance * cosFromLat * sin(heading),
-            cosDistance - sinFromLat * sinLat);
+                sinDistance * cosFromLat * sin(heading),
+                cosDistance - sinFromLat * sinLat);
         return new GeoPoint(toDegrees(asin(sinLat)), toDegrees(fromLng + dLng));
     }
 
@@ -175,6 +191,7 @@ class SphericalUtil {
      * meters travelled and original heading. Headings are expressed in degrees
      * clockwise from North. This function returns null when no solution is
      * available.
+     *
      * @param to       The destination IGeoPoint.
      * @param distance The distance travelled, in meters.
      * @param heading  The heading in degrees clockwise from north.
@@ -210,13 +227,14 @@ class SphericalUtil {
             return null;
         }
         double fromLngRadians = toRadians(to.getLongitude()) -
-            atan2(n3, n1 * cos(fromLatRadians) - n2 * sin(fromLatRadians));
+                atan2(n3, n1 * cos(fromLatRadians) - n2 * sin(fromLatRadians));
         return new GeoPoint(toDegrees(fromLatRadians), toDegrees(fromLngRadians));
     }
 
     /**
      * Returns the IGeoPoint which lies the given fraction of the way between the
      * origin IGeoPoint and the destination IGeoPoint.
+     *
      * @param from     The IGeoPoint from which to start.
      * @param to       The IGeoPoint toward which to travel.
      * @param fraction A fraction of the distance to travel.
@@ -264,7 +282,7 @@ class SphericalUtil {
      */
     static double computeAngleBetween(IGeoPoint from, IGeoPoint to) {
         return distanceRadians(toRadians(from.getLatitude()), toRadians(from.getLongitude()),
-            toRadians(to.getLatitude()), toRadians(to.getLongitude()));
+                toRadians(to.getLatitude()), toRadians(to.getLongitude()));
     }
 
     /**
@@ -297,6 +315,7 @@ class SphericalUtil {
 
     /**
      * Returns the area of a closed path on Earth.
+     *
      * @param path A closed path.
      * @return The path's area in square meters.
      */
@@ -308,6 +327,7 @@ class SphericalUtil {
      * Returns the signed area of a closed path on Earth. The sign of the area may be used to
      * determine the orientation of the path.
      * "inside" is the surface that does not contain the South Pole.
+     *
      * @param path A closed path.
      * @return The loop's area in square meters.
      */
@@ -322,7 +342,9 @@ class SphericalUtil {
      */
     static double computeSignedArea(List<IGeoPoint> path, double radius) {
         int size = path.size();
-        if (size < 3) { return 0; }
+        if (size < 3) {
+            return 0;
+        }
         double total = 0;
         IGeoPoint prev = path.get(size - 1);
         double prevTanLat = tan((PI / 2 - toRadians(prev.getLatitude())) / 2);

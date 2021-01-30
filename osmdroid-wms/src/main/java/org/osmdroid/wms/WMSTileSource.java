@@ -36,17 +36,17 @@ public class WMSTileSource extends OnlineTileSourceBase {
     // Size of square world map in meters, using WebMerc projection.
     private static final double MAP_SIZE = 20037508.34789244 * 2;
     final String WMS_FORMAT_STRING =
-        "%s" +
-            "&version=%s" +
-            "&request=GetMap" +
-            "&layers=%s" +
-            "&bbox=%f,%f,%f,%f" +
-            "&width=256" +
-            "&height=256" +
-            "&srs=%s" +
-            "&format=image/png" +
-            "&style=%s" +
-            "&transparent=true";
+            "%s" +
+                    "&version=%s" +
+                    "&request=GetMap" +
+                    "&layers=%s" +
+                    "&bbox=%f,%f,%f,%f" +
+                    "&width=256" +
+                    "&height=256" +
+                    "&srs=%s" +
+                    "&format=image/png" +
+                    "&style=%s" +
+                    "&transparent=true";
     private String layer = "";
     private String version = "1.1.0";
     private String srs = "EPSG:900913";   //used by geo server
@@ -78,12 +78,12 @@ public class WMSTileSource extends OnlineTileSourceBase {
         }
         if (layer.getStyles().isEmpty()) {
             WMSTileSource r = new WMSTileSource(layer.getName(), new String[]{endpoint.getBaseurl()}, layer.getName(),
-                endpoint.getWmsVersion(), srs, null, layer.getPixelSize());
+                    endpoint.getWmsVersion(), srs, null, layer.getPixelSize());
             return r;
         }
 
         WMSTileSource r = new WMSTileSource(layer.getName(), new String[]{endpoint.getBaseurl()}, layer.getName(),
-            endpoint.getWmsVersion(), srs, layer.getStyles().get(0), layer.getPixelSize());
+                endpoint.getWmsVersion(), srs, layer.getStyles().get(0), layer.getPixelSize());
         return r;
 
     }
@@ -105,7 +105,7 @@ public class WMSTileSource extends OnlineTileSourceBase {
 
     // Return a web Mercator bounding box given tile x/y indexes and a zoom
     // level.
-    public  double[] getBoundingBox(int x, int y, int zoom) {
+    public double[] getBoundingBox(int x, int y, int zoom) {
         double tileSize = MAP_SIZE / Math.pow(2, zoom);
         double minx = TILE_ORIGIN[ORIG_X] + x * tileSize;
         double maxx = TILE_ORIGIN[ORIG_X] + (x + 1) * tileSize;

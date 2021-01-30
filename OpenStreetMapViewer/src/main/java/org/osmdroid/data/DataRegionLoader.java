@@ -9,18 +9,19 @@ import org.osmdroid.util.BoundingBox;
 
 /**
  * {@link DataRegion} json loader
- * @since 6.0.2
+ *
  * @author Fabrice Fontaine
+ * @since 6.0.2
  */
-public class DataRegionLoader extends DataLoader<DataRegion>{
+public class DataRegionLoader extends DataLoader<DataRegion> {
 
     public DataRegionLoader(final Context pContext, final @RawRes int pResId)
-            throws Exception{
+            throws Exception {
         super(pContext, pResId);
     }
 
     @Override
-    protected DataRegion getItem(final String pKey, final JSONObject pJsonObject) throws JSONException{
+    protected DataRegion getItem(final String pKey, final JSONObject pJsonObject) throws JSONException {
         final String name = pJsonObject.getString("name");
         final double north = pJsonObject.getDouble("N");
         final double east = pJsonObject.getDouble("E");

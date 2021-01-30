@@ -26,13 +26,15 @@ import org.osmdroid.views.overlay.Overlay;
 /**
  * #394 #398 Demonstration how to load/update markers from
  * Async Background task.
- *
+ * <p>
  * Created by k3b on 01.09.2016.
  */
 public class AsyncTaskDemoFragment extends BaseSampleFragment {
     public static final String TAG = "osmAsync";
-	/** If there is more than 200 millisecs no zoom/scroll update markers */
-	protected static final int DEFAULT_INACTIVITY_DELAY_IN_MILLISECS = 200;
+    /**
+     * If there is more than 200 millisecs no zoom/scroll update markers
+     */
+    protected static final int DEFAULT_INACTIVITY_DELAY_IN_MILLISECS = 200;
 
     // ===========================================================
     // Constants
@@ -53,8 +55,8 @@ public class AsyncTaskDemoFragment extends BaseSampleFragment {
         super.addOverlays();
 
         mMapView.setTileSource(TileSourceFactory.MAPNIK);
-		
-		// If there is more than 200 millisecs no zoom/scroll update markers
+
+        // If there is more than 200 millisecs no zoom/scroll update markers
         mMapView.setMapListener(new DelayedMapListener(new MapListener() {
             @Override
             public boolean onScroll(ScrollEvent event) {
@@ -84,7 +86,7 @@ public class AsyncTaskDemoFragment extends BaseSampleFragment {
         mMapView.addOnFirstLayoutListener(new MapView.OnFirstLayoutListener() {
             @Override
             public void onFirstLayout(View v, int left, int top, int right, int bottom) {
-                mMapView.zoomToBoundingBox(new BoundingBox(56.0,7.0, 45.0, 16.0), false);
+                mMapView.zoomToBoundingBox(new BoundingBox(56.0, 7.0, 45.0, 16.0), false);
             }
         });
     }
@@ -126,24 +128,34 @@ public class AsyncTaskDemoFragment extends BaseSampleFragment {
     }
 
     //---------------------------------------------------------------
-    /** Load {@link FolderOverlay} with {@link IconOverlay}s in a Background Task {@link BackgroundMarkerLoaderTask}.
-     mCurrentBackgroundMarkerLoaderTask.cancel() allows aboarding the loading task on screen rotation.
-     There are 0 or one tasks running at a time. */
+    /**
+     * Load {@link FolderOverlay} with {@link IconOverlay}s in a Background Task {@link BackgroundMarkerLoaderTask}.
+     * mCurrentBackgroundMarkerLoaderTask.cancel() allows aboarding the loading task on screen rotation.
+     * There are 0 or one tasks running at a time.
+     */
     private BackgroundMarkerLoaderTask mCurrentBackgroundMarkerLoaderTask = null;
 
-    /** implementation detail: mMarkerIcon attached to each generated {@link IconOverlay}*/
+    /**
+     * implementation detail: mMarkerIcon attached to each generated {@link IconOverlay}
+     */
     private Drawable mMarkerIcon = null;
 
-    /** This must be reomoved from {@link org.osmdroid.views.MapView} when
-     * {@link BackgroundMarkerLoaderTask} finishes */
+    /**
+     * This must be reomoved from {@link org.osmdroid.views.MapView} when
+     * {@link BackgroundMarkerLoaderTask} finishes
+     */
     private FolderOverlay mCurrentBackgroundContentFolder = null;
 
-    /** if > 0 there where zoom/scroll events while {@link BackgroundMarkerLoaderTask} was active so
-     * {@link #reloadMarker()} bust be called again. */
-	private int mMissedMapZoomScrollUpdates = 0;
+    /**
+     * if > 0 there where zoom/scroll events while {@link BackgroundMarkerLoaderTask} was active so
+     * {@link #reloadMarker()} bust be called again.
+     */
+    private int mMissedMapZoomScrollUpdates = 0;
 
-	/** called by {@link org.osmdroid.views.MapView} if zoom or scroll has changed to
-     * reload marker for new visible region in the {@link org.osmdroid.views.MapView}  */
+    /**
+     * called by {@link org.osmdroid.views.MapView} if zoom or scroll has changed to
+     * reload marker for new visible region in the {@link org.osmdroid.views.MapView}
+     */
     private void reloadMarker() {
         // initialized
         if (mCurrentBackgroundMarkerLoaderTask == null) {
@@ -154,20 +166,24 @@ public class AsyncTaskDemoFragment extends BaseSampleFragment {
             reloadMarker(world, zoom);
         } else {
             // background load is already active. Remember that at least one scroll/zoom was missing
-			mMissedMapZoomScrollUpdates++;
-		}
+            mMissedMapZoomScrollUpdates++;
+        }
     }
 
-	/** called by MapView if zoom or scroll has changed to reload marker for new visible region */
+    /**
+     * called by MapView if zoom or scroll has changed to reload marker for new visible region
+     */
     private void reloadMarker(BoundingBox latLonArea, double zoom) {
-        Log.d(TAG,"reloadMarker " + latLonArea + ", zoom " + zoom);
+        Log.d(TAG, "reloadMarker " + latLonArea + ", zoom " + zoom);
         this.mCurrentBackgroundMarkerLoaderTask = new BackgroundMarkerLoaderTask();
         this.mCurrentBackgroundMarkerLoaderTask.execute(
                 latLonArea.getLatSouth(), latLonArea.getLatNorth(),
                 latLonArea.getLonEast(), latLonArea.getLonWest(), zoom);
     }
 
-	/** Implements load {@link FolderOverlay} with {@link IconOverlay}s in a Background Task. */
+    /**
+     * Implements load {@link FolderOverlay} with {@link IconOverlay}s in a Background Task.
+     */
     private class BackgroundMarkerLoaderTask extends AsyncTask<Double, Integer, FolderOverlay> {
 
         /**
@@ -197,9 +213,9 @@ public class AsyncTaskDemoFragment extends BaseSampleFragment {
                     latMax = latMin;
                     latMin = t;
                 }
-                if (latMax-latMin < 0.00001)
+                if (latMax - latMin < 0.00001)
                     return null;
-                    //this is a problem, abort https://github.com/osmdroid/osmdroid/issues/521
+                //this is a problem, abort https://github.com/osmdroid/osmdroid/issues/521
 
                 if (lonMin > lonMax) {
                     double t = lonMax;
@@ -208,11 +224,11 @@ public class AsyncTaskDemoFragment extends BaseSampleFragment {
                 }
                 int zoom = params[paramNo++].intValue();
 
-                Log.d(TAG,"async doInBackground" +
-                        " latMin=" +latMin+
-                        " ,latMax=" +latMax+
-                        " ,lonMin=" +lonMin+
-                        " ,lonMax=" +lonMax+
+                Log.d(TAG, "async doInBackground" +
+                        " latMin=" + latMin +
+                        " ,latMax=" + latMax +
+                        " ,lonMin=" + lonMin +
+                        " ,lonMax=" + lonMax +
                         ", zoom=" + zoom);
                 // simulate heavy computation ...
                 if (isCancelled())
@@ -227,8 +243,8 @@ public class AsyncTaskDemoFragment extends BaseSampleFragment {
                 //          AND poi.lon >= {lonMin} AND poi.lon <= {lonMax}
                 //          AND {zoom} >= poi.zoomMin AND {zoom} <= poi.zoomMax
 
-                double latStep = Math.abs(latMax-latMin) / 6;
-                double lonStep = Math.abs(lonMax-lonMin) / 6;
+                double latStep = Math.abs(latMax - latMin) / 6;
+                double lonStep = Math.abs(lonMax - lonMin) / 6;
                 for (double lat = latMin; lat <= latMax; lat += latStep) {
                     for (double lon = lonMin; lon <= lonMax; lon += lonStep) {
                         result.add(createMarker(lat, lon, zoom));
@@ -241,15 +257,15 @@ public class AsyncTaskDemoFragment extends BaseSampleFragment {
                 }
             } catch (Exception ex) {
                 // TODO more specific error handling
-                Log.e(TAG,"doInBackground  " + ex.getMessage(),ex);
+                Log.e(TAG, "doInBackground  " + ex.getMessage(), ex);
                 cancel(false);
             }
 
             if (!isCancelled()) {
-                Log.d(TAG,"doInBackground result " + result.getItems().size());
+                Log.d(TAG, "doInBackground result " + result.getItems().size());
                 return result;
             }
-            Log.d(TAG,"doInBackground cancelled");
+            Log.d(TAG, "doInBackground cancelled");
             return null;
         }
 
@@ -262,7 +278,7 @@ public class AsyncTaskDemoFragment extends BaseSampleFragment {
             mCurrentBackgroundMarkerLoaderTask = null;
             // there was map move/zoom while {@link BackgroundMarkerLoaderTask} was active. must reload
             if (mMissedMapZoomScrollUpdates > 0) {
-                Log.d(TAG,"onPostExecute: lost  " + mMissedMapZoomScrollUpdates + " MapZoomScrollUpdates. Reload items.");
+                Log.d(TAG, "onPostExecute: lost  " + mMissedMapZoomScrollUpdates + " MapZoomScrollUpdates. Reload items.");
                 mMissedMapZoomScrollUpdates = 0;
                 reloadMarker();
             }
@@ -270,14 +286,16 @@ public class AsyncTaskDemoFragment extends BaseSampleFragment {
     }
 
     private Overlay createMarker(double lat, double lon, int zoom) {
-        return new IconOverlay(new GeoPoint(lat,lon), mMarkerIcon);
+        return new IconOverlay(new GeoPoint(lat, lon), mMarkerIcon);
     }
 
-	/** called in gui thread by {@link BackgroundMarkerLoaderTask} after loading has finished. */
+    /**
+     * called in gui thread by {@link BackgroundMarkerLoaderTask} after loading has finished.
+     */
     private void showMarker(FolderOverlay newMarker) {
         boolean modified = false;
         if (this.mCurrentBackgroundContentFolder != null) {
-            Log.d(TAG,"showMarker remove old " + this.mCurrentBackgroundContentFolder.getItems().size());
+            Log.d(TAG, "showMarker remove old " + this.mCurrentBackgroundContentFolder.getItems().size());
             this.mMapView.getOverlays().remove(this.mCurrentBackgroundContentFolder);
             this.mCurrentBackgroundContentFolder.onDetach(mMapView);
             this.mCurrentBackgroundContentFolder = null;
@@ -286,7 +304,7 @@ public class AsyncTaskDemoFragment extends BaseSampleFragment {
 
         if (newMarker != null) {
             this.mCurrentBackgroundContentFolder = newMarker;
-            Log.d(TAG,"showMarker add new " + this.mCurrentBackgroundContentFolder.getItems().size() + ", isAnimating=" + mMapView.isAnimating());
+            Log.d(TAG, "showMarker add new " + this.mCurrentBackgroundContentFolder.getItems().size() + ", isAnimating=" + mMapView.isAnimating());
             mMapView.getOverlays().add(newMarker);
             modified = true;
         }
@@ -298,7 +316,7 @@ public class AsyncTaskDemoFragment extends BaseSampleFragment {
                 mMapView.invalidate();
             }
         }
-		
+
     }
 
     @Override

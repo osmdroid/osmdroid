@@ -7,10 +7,11 @@ import java.util.List;
 /**
  * Optimized version of List&lt;PointL&gt;
  * Created by Fabrice on 31/12/2017.
+ *
  * @since 6.0.0
  */
 
-public class ListPointL implements Iterable<PointL>{
+public class ListPointL implements Iterable<PointL> {
 
     private final List<PointL> mList = new ArrayList<>();
     private int mSize;
@@ -35,7 +36,7 @@ public class ListPointL implements Iterable<PointL>{
         } else {
             point = mList.get(mSize);
         }
-        mSize ++;
+        mSize++;
         point.set(pX, pY);
     }
 
@@ -52,7 +53,7 @@ public class ListPointL implements Iterable<PointL>{
 
             @Override
             public PointL next() {
-                return get(mIndex ++);
+                return get(mIndex++);
             }
 
             @Override

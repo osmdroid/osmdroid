@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.Map;
 
 /**
- *
  * EXPERIMENTAL!!
  *
  * <a href="https://github.com/osmdroid/osmdroid/issues/499">https://github.com/osmdroid/osmdroid/issues/499</a>
@@ -123,12 +122,11 @@ public class HeatMap extends BaseSampleFragment implements MapListener, Runnable
      */
     private void generateMap() {
 
-        if (getActivity()==null)  //java.lang.IllegalStateException: Fragment HeatMap{44f341d0} not attached to Activity
+        if (getActivity() == null)  //java.lang.IllegalStateException: Fragment HeatMap{44f341d0} not attached to Activity
             return;
         if (renderJobActive)
             return;
         renderJobActive = true;
-
 
 
         int densityDpi = (int) (dm.density * cellSizeInDp);
@@ -200,9 +198,9 @@ public class HeatMap extends BaseSampleFragment implements MapListener, Runnable
             }
         }
         Log.i(TAG, "render done , done " + (System.currentTimeMillis() - now));
-        if (getActivity()==null)    //java.lang.IllegalStateException: Fragment HeatMap{44f341d0} not attached to Activity
+        if (getActivity() == null)    //java.lang.IllegalStateException: Fragment HeatMap{44f341d0} not attached to Activity
             return;
-        if (mMapView==null)  //java.lang.IllegalStateException: Fragment HeatMap{44f341d0} not attached to Activity
+        if (mMapView == null)  //java.lang.IllegalStateException: Fragment HeatMap{44f341d0} not attached to Activity
             return;
         mMapView.post(new Runnable() {
             @Override
@@ -230,7 +228,7 @@ public class HeatMap extends BaseSampleFragment implements MapListener, Runnable
 
         for (int i = 0; i < 10000; i++) {
             pts.add(new GeoPoint((Math.random() * view.getLatitudeSpan()) + view.getLatSouth(),
-                (Math.random() * view.getLongitudeSpan()) + view.getLonWest()));
+                    (Math.random() * view.getLongitudeSpan()) + view.getLonWest()));
         }
         pts.add(new GeoPoint(0d, 0d));
         pts.add(new GeoPoint(0d, 0d));

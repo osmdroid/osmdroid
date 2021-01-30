@@ -25,7 +25,7 @@ public class SampleMapBootListener extends BaseSampleFragment implements MapView
     @Override
     public void onFirstLayout(View v, int left, int top, int right, int bottom) {
         Log.i("OsmBootUp", "onFirstLayout fired");
-        mMapView.zoomToBoundingBox(new BoundingBox(44d, -76d,43d, -77d), true);
+        mMapView.zoomToBoundingBox(new BoundingBox(44d, -76d, 43d, -77d), true);
     }
 
 

@@ -9,8 +9,9 @@ import java.util.Set;
 
 /**
  * Unit tests related to {@link MapTileAreaBorderComputer}
- * @since 6.0.3
+ *
  * @author Fabrice Fontaine
+ * @since 6.0.3
  */
 
 public class MapTileAreaBorderComputerTest {
@@ -82,8 +83,8 @@ public class MapTileAreaBorderComputerTest {
 
     private void add(final Set<Long> pSet, final int pZoom, final int pX, final int pY, final int pBorder) {
         final int power = 1 << pZoom;
-        for (int i = pX - pBorder ; i <= pX + pBorder ; i ++) {
-            for (int j = pY - pBorder ; j <= pY + pBorder ; j ++) {
+        for (int i = pX - pBorder; i <= pX + pBorder; i++) {
+            for (int j = pY - pBorder; j <= pY + pBorder; j++) {
                 pSet.add(MapTileIndex.getTileIndex(pZoom, (i + power) % power, (j + power) % power));
             }
         }

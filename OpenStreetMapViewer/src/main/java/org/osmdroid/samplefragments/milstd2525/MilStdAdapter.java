@@ -101,7 +101,7 @@ public class MilStdAdapter extends ArrayAdapter<SimpleSymbol> implements Filtera
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context
-            .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View rowView = inflater.inflate(R.layout.milstd2525searchitem, parent, false);
         ImageView milstd_search_result_preview = rowView.findViewById(R.id.milstd_search_result_preview);
         TextView milstd_search_result_title = rowView.findViewById(R.id.milstd_search_result_title);
@@ -119,7 +119,7 @@ public class MilStdAdapter extends ArrayAdapter<SimpleSymbol> implements Filtera
             milstd_search_result_hierarchy.setText(def.getHierarchy());
 
         SparseArray<String> attr = new SparseArray<>();
-        attr.put(MilStdAttributes.PixelSize, (int)(45 * density )+ "");
+        attr.put(MilStdAttributes.PixelSize, (int) (45 * density) + "");
         attr.put(MilStdAttributes.DrawAsIcon, "true");
 
         String code = def.getBasicSymbolId();

@@ -2,9 +2,10 @@ package org.osmdroid.views.overlay.advancedpolyline;
 
 /**
  * Color mapping for saturation variation.
+ *
  * @author Matthias Dittmer
  */
-public class ColorMappingVariationSaturation extends ColorMappingVariation{
+public class ColorMappingVariationSaturation extends ColorMappingVariation {
 
     /**
      * Fixed HSL values.
@@ -14,12 +15,13 @@ public class ColorMappingVariationSaturation extends ColorMappingVariation{
 
     /**
      * Constructor
-     * @param scalarStart start of scalar
-     * @param scalarEnd end of scalar
+     *
+     * @param scalarStart     start of scalar
+     * @param scalarEnd       end of scalar
      * @param saturationStart saturation start value
-     * @param saturationEnd saturation end value
-     * @param hue fixed hue value
-     * @param luminance fixed luminance value
+     * @param saturationEnd   saturation end value
+     * @param hue             fixed hue value
+     * @param luminance       fixed luminance value
      */
     public ColorMappingVariationSaturation(
             final float scalarStart, final float scalarEnd, float saturationStart, float saturationEnd,

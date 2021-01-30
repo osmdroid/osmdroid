@@ -40,7 +40,7 @@ public class GeoPackageProvider extends MapTileProviderArray implements IMapTile
 
     public GeoPackageProvider(File[] db, Context context) {
         this(new SimpleRegisterReceiver(context), new NetworkAvailabliltyCheck(context),
-            TileSourceFactory.DEFAULT_TILE_SOURCE, context, null, db);
+                TileSourceFactory.DEFAULT_TILE_SOURCE, context, null, db);
     }
 
 
@@ -69,7 +69,7 @@ public class GeoPackageProvider extends MapTileProviderArray implements IMapTile
 
     }
 
-    public GeoPackageMapTileModuleProvider geoPackageMapTileModuleProvider(){
+    public GeoPackageMapTileModuleProvider geoPackageMapTileModuleProvider() {
         return geopackage;
     }
 
@@ -92,7 +92,7 @@ public class GeoPackageProvider extends MapTileProviderArray implements IMapTile
 
     public GeopackageRasterTileSource getTileSource(String database, String table) {
         Iterator<GeoPackage> iterator = geopackage.tileSources.iterator();
-        while (iterator.hasNext()){
+        while (iterator.hasNext()) {
             GeoPackage next = iterator.next();
             if (next.getName().equalsIgnoreCase(database)) {
                 //found the database
@@ -101,9 +101,9 @@ public class GeoPackageProvider extends MapTileProviderArray implements IMapTile
                     TileDao tileDao = next.getTileDao(table);
                     mil.nga.geopackage.BoundingBox boundingBox = tileDao.getBoundingBox();
                     ProjectionTransform transformation = tileDao.getProjection().getTransformation(tileDao.getProjection());
-                    boundingBox=transformation.transform(boundingBox);
-                    BoundingBox bounds =new BoundingBox(boundingBox.getMaxLatitude(),boundingBox.getMaxLongitude(),boundingBox.getMinLatitude(),boundingBox.getMinLongitude());
-                    return new GeopackageRasterTileSource(database,table, (int)tileDao.getMinZoom(),(int)tileDao.getMaxZoom(), bounds);
+                    boundingBox = transformation.transform(boundingBox);
+                    BoundingBox bounds = new BoundingBox(boundingBox.getMaxLatitude(), boundingBox.getMaxLongitude(), boundingBox.getMinLatitude(), boundingBox.getMinLongitude());
+                    return new GeopackageRasterTileSource(database, table, (int) tileDao.getMinZoom(), (int) tileDao.getMaxZoom(), bounds);
                 }
             }
         }

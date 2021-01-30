@@ -4,8 +4,9 @@ import org.osmdroid.util.BoundingBox;
 
 /**
  * Data about a geo region, including its ISO 3166, its name and its geo bounding box
- * @since 6.0.2
+ *
  * @author Fabrice Fontaine
+ * @since 6.0.2
  */
 public class DataRegion {
 

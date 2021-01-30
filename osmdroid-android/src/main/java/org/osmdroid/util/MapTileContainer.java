@@ -1,8 +1,8 @@
 package org.osmdroid.util;
 
 /**
- * @since 6.0.2
  * @author Fabrice Fontaine
+ * @since 6.0.2
  */
 public interface MapTileContainer {
 

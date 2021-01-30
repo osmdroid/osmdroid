@@ -12,10 +12,11 @@ import org.osmdroid.views.Projection;
 /**
  * Place an image on the map, each corner (4) of the image being associated with a {@link GeoPoint}
  * or only top-left and bottom-right corners
- * @since 6.1.1
+ *
  * @author Fabrice Fontaine
  * Triggered by issue 1361 (https://github.com/osmdroid/osmdroid/issues/1361)
  * Inspired by {@link GroundOverlay2} and {@link GroundOverlay4}
+ * @since 6.1.1
  */
 public class GroundOverlay extends Overlay {
 
@@ -40,7 +41,7 @@ public class GroundOverlay extends Overlay {
         setTransparency(0.0f);
     }
 
-    public void setImage(final Bitmap pImage){
+    public void setImage(final Bitmap pImage) {
         mImage = pImage;
         mMatrixSrc = null;
     }
@@ -49,20 +50,20 @@ public class GroundOverlay extends Overlay {
         return mImage;
     }
 
-    public void setBearing(final float pBearing){
+    public void setBearing(final float pBearing) {
         mBearing = pBearing;
     }
 
-    public float getBearing(){
+    public float getBearing() {
         return mBearing;
     }
 
-    public void setTransparency(final float pTransparency){
+    public void setTransparency(final float pTransparency) {
         mTransparency = pTransparency;
-        mPaint.setAlpha(255-(int)(mTransparency * 255));
+        mPaint.setAlpha(255 - (int) (mTransparency * 255));
     }
 
-    public float getTransparency(){
+    public float getTransparency() {
         return mTransparency;
     }
 
@@ -84,7 +85,7 @@ public class GroundOverlay extends Overlay {
 
     @Override
     public void draw(final Canvas pCanvas, final Projection pProjection) {
-        if(mImage == null) {
+        if (mImage == null) {
             return;
         }
         computeMatrix(pProjection);
@@ -98,9 +99,9 @@ public class GroundOverlay extends Overlay {
         mTopRight = new GeoPoint(pTopRight);
         mBottomRight = new GeoPoint(pBottomRight);
         mBottomLeft = new GeoPoint(pBottomLeft);
-        mBounds= new BoundingBox(pTopLeft.getLatitude(),pTopRight.getLongitude(),
-            pBottomRight.getLatitude(),pTopLeft.getLongitude()
-            );
+        mBounds = new BoundingBox(pTopLeft.getLatitude(), pTopRight.getLongitude(),
+                pBottomRight.getLatitude(), pTopLeft.getLongitude()
+        );
     }
 
     public void setPosition(final GeoPoint pTopLeft, final GeoPoint pBottomRight) {
@@ -111,8 +112,8 @@ public class GroundOverlay extends Overlay {
         mTopRight = null;
         mBottomRight = new GeoPoint(pBottomRight);
         mBottomLeft = null;
-        mBounds= new BoundingBox(pTopLeft.getLatitude(),pBottomRight.getLongitude(),
-            pBottomRight.getLatitude(),pTopLeft.getLongitude()
+        mBounds = new BoundingBox(pTopLeft.getLatitude(), pBottomRight.getLongitude(),
+                pBottomRight.getLatitude(), pTopLeft.getLongitude()
         );
     }
 

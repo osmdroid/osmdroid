@@ -34,14 +34,14 @@ public abstract class IISTrackerBase extends SampleGridlines {
     Marker marker;
     SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss.SSS yyyy-MMM-dd");
 
-    JSONParser json=new JSONParser();
+    JSONParser json = new JSONParser();
     NumberFormat nf = new DecimalFormat("###.#####");
     ConnectivityManager cm;
 
     abstract boolean isMotionTrail();
 
-    boolean added=false;
-    int motionTrailCounter=0;
+    boolean added = false;
+    int motionTrailCounter = 0;
     Timer t;
     TimerTask task;
     Drawable icon;
@@ -57,7 +57,7 @@ public abstract class IISTrackerBase extends SampleGridlines {
         cm = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
 
         image = getResources().getDrawable(R.drawable.sfppt);
-        icon =getResources().getDrawable(R.drawable.sfppt_small);
+        icon = getResources().getDrawable(R.drawable.sfppt_small);
         //icon_old=getResources().getDrawable(R.drawable.sfppt_small);
         //icon_old.setAlpha(77);
 
@@ -69,10 +69,10 @@ public abstract class IISTrackerBase extends SampleGridlines {
 
     }
 
-     public void onResume(){
-         super.onResume();
-         startTask();
-     }
+    public void onResume() {
+        super.onResume();
+        startTask();
+    }
 
     private void startTask() {
         task = new TimerTask() {
@@ -90,13 +90,13 @@ public abstract class IISTrackerBase extends SampleGridlines {
                                         //motion trails on
                                         //only keep an icon on the map every 30 iterations
                                         //only keep a max of 500 icons on the map
-                                        boolean wasOpen=false;
-                                        if (marker!=null && marker.isInfoWindowShown()) {
+                                        boolean wasOpen = false;
+                                        if (marker != null && marker.isInfoWindowShown()) {
                                             marker.closeInfoWindow();
-                                            wasOpen=true;
+                                            wasOpen = true;
                                         }
                                         motionTrailCounter++;
-                                        if (motionTrailCounter!=30){
+                                        if (motionTrailCounter != 30) {
                                             //at 30 we keep the trail, otherwise remove it
                                             mMapView.getOverlayManager().remove(marker);
                                             marker.onDetach(mMapView);
@@ -104,7 +104,7 @@ public abstract class IISTrackerBase extends SampleGridlines {
                                         } else {
                                             //change the icon to something that makes it obvious that it's an old location
                                             marker.setAlpha(0.3f);
-                                            motionTrailCounter=0;
+                                            motionTrailCounter = 0;
                                         }
 
                                         marker = new Marker(mMapView);
@@ -118,12 +118,12 @@ public abstract class IISTrackerBase extends SampleGridlines {
                                         mMapView.getOverlayManager().add(marker);
                                         if (wasOpen)
                                             marker.showInfoWindow();
-                                        if (mMapView.getOverlayManager().size() > 500){
+                                        if (mMapView.getOverlayManager().size() > 500) {
                                             Overlay overlay = mMapView.getOverlayManager().get(1);
-                                            if (overlay instanceof Marker){
+                                            if (overlay instanceof Marker) {
                                                 mMapView.getOverlayManager().remove(overlay);
                                                 overlay.onDetach(mMapView);
-                                                overlay=null;
+                                                overlay = null;
                                             }
                                         }
 
@@ -212,7 +212,6 @@ public abstract class IISTrackerBase extends SampleGridlines {
         marker = null;
         super.onDestroyView();
     }
-
 
 
 }

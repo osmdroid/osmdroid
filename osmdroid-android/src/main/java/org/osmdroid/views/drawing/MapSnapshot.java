@@ -20,10 +20,11 @@ import java.util.List;
 
 /**
  * Create a bitmap in the background from {@link MapView}-like data but without a {@link MapView}
- * @since 6.1.0
+ *
  * @author Fabrice Fontaine
+ * @since 6.1.0
  */
-public class MapSnapshot implements Runnable{
+public class MapSnapshot implements Runnable {
 
     public interface MapSnapshotable {
         void callback(final MapSnapshot pMapSnapshot);
@@ -46,10 +47,10 @@ public class MapSnapshot implements Runnable{
      * and implicitly that you may have to wait, and need background downloads.
      * Cf. {@link ExpirableBitmapDrawable}
      */
-    public static final int INCLUDE_FLAG_UPTODATE   = 1;
-    public static final int INCLUDE_FLAG_EXPIRED    = 2;
-    public static final int INCLUDE_FLAG_SCALED     = 4;
-    public static final int INCLUDE_FLAG_NOTFOUND   = 8;
+    public static final int INCLUDE_FLAG_UPTODATE = 1;
+    public static final int INCLUDE_FLAG_EXPIRED = 2;
+    public static final int INCLUDE_FLAG_SCALED = 4;
+    public static final int INCLUDE_FLAG_NOTFOUND = 8;
     public static final int INCLUDE_FLAGS_ALL =
             INCLUDE_FLAG_UPTODATE + INCLUDE_FLAG_EXPIRED + INCLUDE_FLAG_SCALED + INCLUDE_FLAG_NOTFOUND;
 
@@ -194,7 +195,7 @@ public class MapSnapshot implements Runnable{
                     mapSnapshotable.callback(MapSnapshot.this);
                 }
             }
-        } while(refreshCheckEnd());
+        } while (refreshCheckEnd());
     }
 
     synchronized private boolean refreshCheckStart() {

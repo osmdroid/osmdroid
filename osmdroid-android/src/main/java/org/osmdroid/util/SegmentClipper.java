@@ -2,11 +2,12 @@ package org.osmdroid.util;
 
 /**
  * A tool to clip segments
- * @since 6.0.0
+ *
  * @author Fabrice Fontaine
+ * @since 6.0.0
  */
 
-public class SegmentClipper implements PointAccepter{
+public class SegmentClipper implements PointAccepter {
 
     // for optimization reasons: avoiding to create objects all the time
     private final PointL mOptimIntersection = new PointL();
@@ -68,7 +69,7 @@ public class SegmentClipper implements PointAccepter{
             mCurrentSegmentIndex = 0;
         } else {
             clip(mPoint0.x, mPoint0.y, mPoint1.x, mPoint1.y);
-            mCurrentSegmentIndex ++;
+            mCurrentSegmentIndex++;
         }
         mPoint0.set(mPoint1);
     }
@@ -120,19 +121,19 @@ public class SegmentClipper implements PointAccepter{
         // no point is on the screen
         int count = 0;
         if (intersection(pX0, pY0, pX1, pY1, mXMin, mYMin, mXMin, mYMax)) { // x mClipMin segment
-            final PointL point = count ++ == 0 ? mOptimIntersection1 : mOptimIntersection2;
+            final PointL point = count++ == 0 ? mOptimIntersection1 : mOptimIntersection2;
             point.set(mOptimIntersection);
         }
         if (intersection(pX0, pY0, pX1, pY1, mXMax, mYMin, mXMax, mYMax)) { // x mClipMax segment
-            final PointL point = count ++ == 0 ? mOptimIntersection1 : mOptimIntersection2;
+            final PointL point = count++ == 0 ? mOptimIntersection1 : mOptimIntersection2;
             point.set(mOptimIntersection);
         }
         if (intersection(pX0, pY0, pX1, pY1, mXMin, mYMin, mXMax, mYMin)) { // y mClipMin segment
-            final PointL point = count ++ == 0 ? mOptimIntersection1 : mOptimIntersection2;
+            final PointL point = count++ == 0 ? mOptimIntersection1 : mOptimIntersection2;
             point.set(mOptimIntersection);
         }
         if (intersection(pX0, pY0, pX1, pY1, mXMin, mYMax, mXMax, mYMax)) { // y mClipMax segment
-            final PointL point = count ++ == 0 ? mOptimIntersection1 : mOptimIntersection2;
+            final PointL point = count++ == 0 ? mOptimIntersection1 : mOptimIntersection2;
             point.set(mOptimIntersection);
         }
         if (count == 2) {
@@ -141,7 +142,7 @@ public class SegmentClipper implements PointAccepter{
             final double distance2 = Distance.getSquaredDistanceToPoint(
                     mOptimIntersection2.x, mOptimIntersection2.y, pX0, pY0);
             final PointL start = distance1 < distance2 ? mOptimIntersection1 : mOptimIntersection2;
-            final PointL end =  distance1 < distance2 ? mOptimIntersection2 : mOptimIntersection1;
+            final PointL end = distance1 < distance2 ? mOptimIntersection2 : mOptimIntersection1;
             if (mPathMode) {
                 nextVertex(clipX(pX0), clipY(pY0));
             }
@@ -225,6 +226,7 @@ public class SegmentClipper implements PointAccepter{
 
     /**
      * Gets the clip area corner which is the closest to the given segment
+     *
      * @since 6.0.0
      * We have a clip area and we have a segment with no intersection with this clip area.
      * The question is: how do we clip this segment?
@@ -240,7 +242,7 @@ public class SegmentClipper implements PointAccepter{
     private int getClosestCorner(final long pX0, final long pY0, final long pX1, final long pY1) {
         double min = Double.MAX_VALUE;
         int corner = 0;
-        for (int i = 0 ; i < cornerX.length ; i ++) {
+        for (int i = 0; i < cornerX.length; i++) {
             final double distance = Distance.getSquaredDistanceToSegment(
                     cornerX[i], cornerY[i],
                     pX0, pY0, pX1, pY1);
@@ -256,6 +258,7 @@ public class SegmentClipper implements PointAccepter{
      * Optimization for lines (as opposed to Path)
      * If both points are outside of the clip area and "on the same side of the outside" (sic)
      * we don't need to compute anything anymore as it won't draw a line in the end
+     *
      * @since 6.0.0
      */
     private boolean isOnTheSameSideOut(final long pX0, final long pY0, final long pX1, final long pY1) {

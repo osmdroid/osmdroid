@@ -5,6 +5,7 @@ import android.view.View;
 /**
  * Demos turning off map repeating
  * Map replication is OFF for this sample (only viewable for numerically lower zoom levels (higher altitude))
+ *
  * @since 6.0.0
  * Created by Maradox on 11/26/17.
  */

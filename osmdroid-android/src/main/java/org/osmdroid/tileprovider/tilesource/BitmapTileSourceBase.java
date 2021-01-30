@@ -125,7 +125,7 @@ public abstract class BitmapTileSourceBase implements ITileSource {
             // a BitmapDrawable from it
             BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
             BitmapPool.getInstance().applyReusableOptions(
-                bitmapOptions, realSize, realSize);
+                    bitmapOptions, realSize, realSize);
             final Bitmap bitmap;
             //fix for API 15 see https://github.com/osmdroid/osmdroid/issues/227
             if (Build.VERSION.SDK_INT == Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1)
@@ -196,7 +196,7 @@ public abstract class BitmapTileSourceBase implements ITileSource {
             // a BitmapDrawable from it
             BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
             BitmapPool.getInstance().applyReusableOptions(
-                bitmapOptions, realSize, realSize);
+                    bitmapOptions, realSize, realSize);
             final Bitmap bitmap = BitmapFactory.decodeStream(aFileInputStream, null, bitmapOptions);
             if (bitmap != null) {
                 return new ReusableBitmapDrawable(bitmap);

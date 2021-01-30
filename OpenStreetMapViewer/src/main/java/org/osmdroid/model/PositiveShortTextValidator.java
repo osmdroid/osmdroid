@@ -13,9 +13,11 @@ import android.widget.EditText;
 
 public class PositiveShortTextValidator implements TextWatcher {
     EditText parent;
-    public PositiveShortTextValidator(EditText parent){
+
+    public PositiveShortTextValidator(EditText parent) {
         this.parent = parent;
     }
+
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -30,11 +32,11 @@ public class PositiveShortTextValidator implements TextWatcher {
     public void afterTextChanged(Editable s) {
 
 
-        String txt=parent.getText().toString();
-        if (txt==null || txt.length()==0)
+        String txt = parent.getText().toString();
+        if (txt == null || txt.length() == 0)
             parent.setError("Not a valid number");
-        try{
-            short val=Short.parseShort(txt);
+        try {
+            short val = Short.parseShort(txt);
             if (val < 1) {
                 parent.setError("Must be at least 1");
             } else {

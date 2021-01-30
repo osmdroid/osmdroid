@@ -20,9 +20,11 @@ public class SampleOpenSeaMap extends BaseSampleFragment {
     public String getSampleTitle() {
         return "Open Sea Map";
     }
+
     MapTileProviderBasic mProvider;
+
     @Override
-    public void addOverlays(){
+    public void addOverlays() {
         super.addOverlays();
         mProvider = new MapTileProviderBasic(getContext());
         TilesOverlay seaMap = new TilesOverlay(mProvider, getContext());
@@ -32,17 +34,17 @@ public class SampleOpenSeaMap extends BaseSampleFragment {
         mProvider.setTileSource(TileSourceFactory.OPEN_SEAMAP);
         mMapView.getOverlays().add(seaMap);
         mMapView.postInvalidate();
-        mMapView.getController().setCenter(new GeoPoint(40.65716,-74.06507));
+        mMapView.getController().setCenter(new GeoPoint(40.65716, -74.06507));
         mMapView.getController().setZoom(18);
     }
 
     @Override
-    public void onDestroy(){
+    public void onDestroy() {
         super.onDestroy();
-        if (mMapView!=null)
+        if (mMapView != null)
             mMapView.onDetach();
-        mMapView=null;
-        if (mProvider!=null)
+        mMapView = null;
+        if (mProvider != null)
             mProvider.detach();
         mProvider = null;
     }

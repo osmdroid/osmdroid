@@ -9,14 +9,14 @@ import org.osmdroid.tileprovider.tilesource.bing.BingMapTileSource;
  * @author Alex O'Ree
  */
 
-public class SampleBingHybrid  extends BaseSampleFragment {
+public class SampleBingHybrid extends BaseSampleFragment {
     @Override
     public String getSampleTitle() {
         return "Bing Aerial with Labels";
     }
 
     @Override
-    public void addOverlays(){
+    public void addOverlays() {
         super.addOverlays();
         //this gets the key from the manifest
         BingMapTileSource.retrieveBingKey(this.getContext());

@@ -40,16 +40,15 @@ import static java.lang.Math.abs;
 public class ShapeConverter {
 
     /**
-     *
-     * @param map the MapView to which these overlays will be added.
-     * @param file the shape file to be converted.
-     * @param prefs  allows the client to relax the level of validation when reading a shape file.
+     * @param map             the MapView to which these overlays will be added.
+     * @param file            the shape file to be converted.
+     * @param prefs           allows the client to relax the level of validation when reading a shape file.
      * @param shapeMetaSetter customize titles, snippets, sub-descriptions of bubbles, and paint of overlays.
      * @return an arraylist of all overlays from the shapefile.
      * @throws Exception
      */
     public static List<Overlay> convert(MapView map, File file, ValidationPreferences prefs, ShapeMetaSetter shapeMetaSetter) throws Exception {
-        List<Overlay> folder=new ArrayList<>();
+        List<Overlay> folder = new ArrayList<>();
 
         FileInputStream is = null;
         FileInputStream dbfInputStream = null;
@@ -175,7 +174,7 @@ public class ShapeConverter {
         return pref;
     }
 
-    public static List<Overlay>  convert(MapView map, File file) throws Exception {
+    public static List<Overlay> convert(MapView map, File file) throws Exception {
         return convert(map, file, getDefaultValidationPreferences());
     }
 
@@ -185,13 +184,13 @@ public class ShapeConverter {
     }
 
 
-    private static GeoPoint fixOutOfRange(GeoPoint point){
-        if (point.getLatitude()>90.00)
+    private static GeoPoint fixOutOfRange(GeoPoint point) {
+        if (point.getLatitude() > 90.00)
             point.setLatitude(90.00);
-        else if (point.getLatitude()<-90.00)
+        else if (point.getLatitude() < -90.00)
             point.setLatitude(-90.00);
 
-        if (abs(point.getLongitude())>180.00){
+        if (abs(point.getLongitude()) > 180.00) {
             double longitude = point.getLongitude();
             double diff = longitude > 0 ? -360 : 360;
             while (abs(longitude) > 180)

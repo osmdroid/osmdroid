@@ -39,7 +39,7 @@ public class RecyclerCardView extends BaseSampleFragment {
 
 
         //Load Data And RecyclverView
-        ArrayList<Info> a ;
+        ArrayList<Info> a;
         ConstructorInfoData b = new ConstructorInfoData();
         a = b.obtainData();
         mRecyclerView = v.findViewById(R.id.recyclerView);

@@ -56,6 +56,7 @@ public final class SimplePointTheme implements SimpleFastPointOverlay.PointAdapt
 
     /**
      * NOTE: this iterator will be called very frequently, avoid complicated code.
+     *
      * @return
      */
     @Override

@@ -8,13 +8,13 @@ package org.osmdroid.events;
  * @author Theodore Hong
  */
 public interface MapListener {
-	/*
-	 * Called when a map is scrolled.
-	 */
-	public boolean onScroll(ScrollEvent event);
+    /*
+     * Called when a map is scrolled.
+     */
+    public boolean onScroll(ScrollEvent event);
 
-	/*
-	 * Called when a map is zoomed.
-	 */
-	public boolean onZoom(ZoomEvent event);
+    /*
+     * Called when a map is zoomed.
+     */
+    public boolean onZoom(ZoomEvent event);
 }

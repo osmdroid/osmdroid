@@ -15,22 +15,23 @@ import android.os.Bundle;
 import org.osmdroid.samplefragments.BaseSampleFragment;
 import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
+import org.osmdroid.views.overlay.Polyline;
 import org.osmdroid.views.overlay.milestones.MilestoneBitmapDisplayer;
 import org.osmdroid.views.overlay.milestones.MilestoneDisplayer;
+import org.osmdroid.views.overlay.milestones.MilestoneLineDisplayer;
 import org.osmdroid.views.overlay.milestones.MilestoneLister;
 import org.osmdroid.views.overlay.milestones.MilestoneManager;
 import org.osmdroid.views.overlay.milestones.MilestoneMeterDistanceLister;
 import org.osmdroid.views.overlay.milestones.MilestoneMeterDistanceSliceLister;
 import org.osmdroid.views.overlay.milestones.MilestonePathDisplayer;
-import org.osmdroid.views.overlay.milestones.MilestoneLineDisplayer;
 import org.osmdroid.views.overlay.milestones.MilestoneVertexLister;
-import org.osmdroid.views.overlay.Polyline;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Fabrice on 28/12/2017.
+ *
  * @since 6.0.0
  */
 
@@ -96,7 +97,7 @@ public class SampleRace extends BaseSampleFragment {
         percentageCompletion.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
-                mAnimatedMetersSoFar = (float)animation.getAnimatedValue();
+                mAnimatedMetersSoFar = (float) animation.getAnimatedValue();
                 slicerForPath.setMeterDistanceSlice(0, mAnimatedMetersSoFar);
                 slicerForIcon.setMeterDistanceSlice(mAnimatedMetersSoFar, mAnimatedMetersSoFar);
                 mMapView.invalidate();
@@ -147,6 +148,7 @@ public class SampleRace extends BaseSampleFragment {
 
     /**
      * Kilometer milestones
+     *
      * @since 6.0.2
      */
     private MilestoneManager getKilometerManager() {
@@ -161,8 +163,8 @@ public class SampleRace extends BaseSampleFragment {
                 new MilestoneDisplayer(0, false) {
                     @Override
                     protected void draw(final Canvas pCanvas, final Object pParameter) {
-                        final double meters = (double)pParameter;
-                        final int kilometers = (int)Math.round(meters / 1000);
+                        final double meters = (double) pParameter;
+                        final int kilometers = (int) Math.round(meters / 1000);
                         final boolean checked = meters < mAnimatedMetersSoFar || (kilometers == 10 && mAnimationEnded);
                         final Paint textPaint = checked ? textPaint2 : textPaint1;
                         final Paint backgroundPaint = checked ? backgroundPaint2 : backgroundPaint1;
@@ -179,6 +181,7 @@ public class SampleRace extends BaseSampleFragment {
 
     /**
      * Half-kilometer milestones
+     *
      * @since 6.0.2
      */
     private MilestoneManager getHalfKilometerManager() {
@@ -193,7 +196,7 @@ public class SampleRace extends BaseSampleFragment {
                 new MilestonePathDisplayer(0, true, arrowPath, backgroundPaint) {
                     @Override
                     protected void draw(final Canvas pCanvas, final Object pParameter) {
-                        final int halfKilometers = (int)Math.round(((double)pParameter / 500));
+                        final int halfKilometers = (int) Math.round(((double) pParameter / 500));
                         if (halfKilometers % 2 == 0) {
                             return;
                         }
@@ -205,6 +208,7 @@ public class SampleRace extends BaseSampleFragment {
 
     /**
      * Animated path
+     *
      * @since 6.0.2
      */
     private MilestoneManager getAnimatedPathManager(final MilestoneLister pMilestoneLister) {
@@ -214,6 +218,7 @@ public class SampleRace extends BaseSampleFragment {
 
     /**
      * Animated icon
+     *
      * @since 6.0.2
      */
     private MilestoneManager getAnimatedIconManager(final MilestoneLister pMilestoneLister,
@@ -227,6 +232,7 @@ public class SampleRace extends BaseSampleFragment {
 
     /**
      * Starting point
+     *
      * @since 6.0.2
      */
     private MilestoneManager getStartManager(final Bitmap pBitmap) {
@@ -236,7 +242,7 @@ public class SampleRace extends BaseSampleFragment {
                         pBitmap, pBitmap.getWidth() / 2, pBitmap.getHeight() / 2) {
                     @Override
                     protected void draw(final Canvas pCanvas, final Object pParameter) {
-                        if (0 != (int)pParameter) { // we only draw the start
+                        if (0 != (int) pParameter) { // we only draw the start
                             return;
                         }
                         super.draw(pCanvas, pParameter);
@@ -251,50 +257,50 @@ public class SampleRace extends BaseSampleFragment {
      */
     private List<GeoPoint> getGeoPoints() {
         final List<GeoPoint> pts = new ArrayList<>();
-        pts.add(new GeoPoint(48.85546563875735,2.359844067173981)); // saint paul
-        pts.add(new GeoPoint(48.85737826660179,2.351524365470226)); // hôtel de ville
-        pts.add(new GeoPoint(48.86253652215784,2.3354870181106264)); // louvre 1
-        pts.add(new GeoPoint(48.86292409137066,2.3356209116511195)); // louvre 2
-        pts.add(new GeoPoint(48.86989982398147,2.332474413449688)); // opéra loop 1
-        pts.add(new GeoPoint(48.87019045840439,2.3327154218225985)); // opéra loop 2
-        pts.add(new GeoPoint(48.87100070303335,2.332420856033508)); // opéra loop 3
-        pts.add(new GeoPoint(48.871987070089496,2.3330367663197364)); // opéra loop 4
-        pts.add(new GeoPoint(48.87285012531207,2.3319923967039813)); // opéra loop 5
-        pts.add(new GeoPoint(48.87270041271832,2.33134970770962)); // opéra loop 6
-        pts.add(new GeoPoint(48.87166121883793,2.330720408069368)); // opéra loop 7
-        pts.add(new GeoPoint(48.87096547527885,2.331885281871564)); // opéra loop 8
-        pts.add(new GeoPoint(48.87003193074662,2.3321932370146783)); // opéra loop 9
-        pts.add(new GeoPoint(48.86989982398147,2.332474413449688)); // opéra loop 10
-        pts.add(new GeoPoint(48.864306984328245,2.3350719481351234)); // rue de l'échelle 1
-        pts.add(new GeoPoint(48.86316191644713,2.3338401275626666)); // rue de l'échelle 2
-        pts.add(new GeoPoint(48.866209500723855,2.3235169355912433)); // rivoli
-        pts.add(new GeoPoint(48.866729156977776,2.3223118937268623)); // concorde
-        pts.add(new GeoPoint(48.86901910330005,2.3239721736289027)); // madeleine loop 1
-        pts.add(new GeoPoint(48.8691952486765,2.3249897645366104)); // madeleine loop 2
-        pts.add(new GeoPoint(48.87022568670458,2.325927019319977)); // madeleine loop 3
-        pts.add(new GeoPoint(48.870489898165346,2.32583329384164)); // madeleine loop 4
-        pts.add(new GeoPoint(48.87073649426996,2.3250165432446863)); // madeleine loop 5
-        pts.add(new GeoPoint(48.87075410823092,2.3247085881016005)); // madeleine loop 6
-        pts.add(new GeoPoint(48.86957395913612,2.323570493007452)); // madeleine loop 7
-        pts.add(new GeoPoint(48.86901910330005,2.3239721736289027)); // madeleine loop 8
-        pts.add(new GeoPoint(48.86664988772853,2.3224457872673554)); // concorde 1
-        pts.add(new GeoPoint(48.866183077380335,2.3231420336778967)); // concorde 2
-        pts.add(new GeoPoint(48.865610568177935,2.3231688123859726)); // concorde 3
-        pts.add(new GeoPoint(48.86398108306007,2.321307692173235)); // concorde 4
-        pts.add(new GeoPoint(48.863531864319754,2.3216022579623257)); // concorde 5
-        pts.add(new GeoPoint(48.86047157217769,2.3306186871927252)); // pont césaire
-        pts.add(new GeoPoint(48.859105908108276,2.336824405441064)); // mitterrand 1
-        pts.add(new GeoPoint(48.858679130445125,2.3402407938844476)); // mitterrand 2
-        pts.add(new GeoPoint(48.85792514768071,2.342640914879439)); // pont neuf
-        pts.add(new GeoPoint(48.8563361600739,2.3489338967683864)); // pont notre dame
-        pts.add(new GeoPoint(48.85582206974299,2.3509713700276507)); // pont d'arcole
-        pts.add(new GeoPoint(48.85403498622509,2.3547049339593116)); // pont louis philippe
-        pts.add(new GeoPoint(48.85303073607055,2.3575358780393856)); // pont marie
-        pts.add(new GeoPoint(48.852894107137885,2.358500835434853)); // quai des célestins 1
-        pts.add(new GeoPoint(48.85275705072659,2.3589590819111095)); // quai des célestins 2
-        pts.add(new GeoPoint(48.852639573503986,2.3594411333991445)); // quai des célestins 3
-        pts.add(new GeoPoint(48.85244769344759,2.3598755748636506)); // quai des célestins 4
-        pts.add(new GeoPoint(48.85215399805951,2.360375480110463)); // quai des célestins 5
+        pts.add(new GeoPoint(48.85546563875735, 2.359844067173981)); // saint paul
+        pts.add(new GeoPoint(48.85737826660179, 2.351524365470226)); // hôtel de ville
+        pts.add(new GeoPoint(48.86253652215784, 2.3354870181106264)); // louvre 1
+        pts.add(new GeoPoint(48.86292409137066, 2.3356209116511195)); // louvre 2
+        pts.add(new GeoPoint(48.86989982398147, 2.332474413449688)); // opéra loop 1
+        pts.add(new GeoPoint(48.87019045840439, 2.3327154218225985)); // opéra loop 2
+        pts.add(new GeoPoint(48.87100070303335, 2.332420856033508)); // opéra loop 3
+        pts.add(new GeoPoint(48.871987070089496, 2.3330367663197364)); // opéra loop 4
+        pts.add(new GeoPoint(48.87285012531207, 2.3319923967039813)); // opéra loop 5
+        pts.add(new GeoPoint(48.87270041271832, 2.33134970770962)); // opéra loop 6
+        pts.add(new GeoPoint(48.87166121883793, 2.330720408069368)); // opéra loop 7
+        pts.add(new GeoPoint(48.87096547527885, 2.331885281871564)); // opéra loop 8
+        pts.add(new GeoPoint(48.87003193074662, 2.3321932370146783)); // opéra loop 9
+        pts.add(new GeoPoint(48.86989982398147, 2.332474413449688)); // opéra loop 10
+        pts.add(new GeoPoint(48.864306984328245, 2.3350719481351234)); // rue de l'échelle 1
+        pts.add(new GeoPoint(48.86316191644713, 2.3338401275626666)); // rue de l'échelle 2
+        pts.add(new GeoPoint(48.866209500723855, 2.3235169355912433)); // rivoli
+        pts.add(new GeoPoint(48.866729156977776, 2.3223118937268623)); // concorde
+        pts.add(new GeoPoint(48.86901910330005, 2.3239721736289027)); // madeleine loop 1
+        pts.add(new GeoPoint(48.8691952486765, 2.3249897645366104)); // madeleine loop 2
+        pts.add(new GeoPoint(48.87022568670458, 2.325927019319977)); // madeleine loop 3
+        pts.add(new GeoPoint(48.870489898165346, 2.32583329384164)); // madeleine loop 4
+        pts.add(new GeoPoint(48.87073649426996, 2.3250165432446863)); // madeleine loop 5
+        pts.add(new GeoPoint(48.87075410823092, 2.3247085881016005)); // madeleine loop 6
+        pts.add(new GeoPoint(48.86957395913612, 2.323570493007452)); // madeleine loop 7
+        pts.add(new GeoPoint(48.86901910330005, 2.3239721736289027)); // madeleine loop 8
+        pts.add(new GeoPoint(48.86664988772853, 2.3224457872673554)); // concorde 1
+        pts.add(new GeoPoint(48.866183077380335, 2.3231420336778967)); // concorde 2
+        pts.add(new GeoPoint(48.865610568177935, 2.3231688123859726)); // concorde 3
+        pts.add(new GeoPoint(48.86398108306007, 2.321307692173235)); // concorde 4
+        pts.add(new GeoPoint(48.863531864319754, 2.3216022579623257)); // concorde 5
+        pts.add(new GeoPoint(48.86047157217769, 2.3306186871927252)); // pont césaire
+        pts.add(new GeoPoint(48.859105908108276, 2.336824405441064)); // mitterrand 1
+        pts.add(new GeoPoint(48.858679130445125, 2.3402407938844476)); // mitterrand 2
+        pts.add(new GeoPoint(48.85792514768071, 2.342640914879439)); // pont neuf
+        pts.add(new GeoPoint(48.8563361600739, 2.3489338967683864)); // pont notre dame
+        pts.add(new GeoPoint(48.85582206974299, 2.3509713700276507)); // pont d'arcole
+        pts.add(new GeoPoint(48.85403498622509, 2.3547049339593116)); // pont louis philippe
+        pts.add(new GeoPoint(48.85303073607055, 2.3575358780393856)); // pont marie
+        pts.add(new GeoPoint(48.852894107137885, 2.358500835434853)); // quai des célestins 1
+        pts.add(new GeoPoint(48.85275705072659, 2.3589590819111095)); // quai des célestins 2
+        pts.add(new GeoPoint(48.852639573503986, 2.3594411333991445)); // quai des célestins 3
+        pts.add(new GeoPoint(48.85244769344759, 2.3598755748636506)); // quai des célestins 4
+        pts.add(new GeoPoint(48.85215399805951, 2.360375480110463)); // quai des célestins 5
         return pts;
     }
 }

@@ -8,8 +8,9 @@ import org.junit.Test;
 
 /**
  * Unit tests related to {@link MapTileAreaZoomComputer}
- * @since 6.0.3
+ *
  * @author Fabrice Fontaine
+ * @since 6.0.3
  */
 
 public class MapTileAreaZoomComputerTest {
@@ -20,15 +21,15 @@ public class MapTileAreaZoomComputerTest {
         final MapTileArea dst = new MapTileArea();
         long size;
         int mapTileUpperBound;
-        for (int zoom = 0 ; zoom <= TileSystem.getMaximumZoomLevel() ; zoom ++) {
+        for (int zoom = 0; zoom <= TileSystem.getMaximumZoomLevel(); zoom++) {
             mapTileUpperBound = getMapTileUpperBound(zoom);
-            size = ((long)mapTileUpperBound) * mapTileUpperBound;
+            size = ((long) mapTileUpperBound) * mapTileUpperBound;
             if (size >= Integer.MAX_VALUE) {
                 return;
             }
-            for (int i = 0 ; i <= 1 ; i ++) {
+            for (int i = 0; i <= 1; i++) {
                 final Rect rect = new Rect();
-                switch(i) {
+                switch (i) {
                     case 0: // the world
                         rect.left = 0; // remember: don't use the rect.set() syntax for unit test (cf. ProjectionTest)
                         rect.top = 0;
@@ -53,7 +54,7 @@ public class MapTileAreaZoomComputerTest {
                         continue;
                     }
                     mapTileUpperBound = getMapTileUpperBound(newZoom);
-                    size = ((long)mapTileUpperBound) * mapTileUpperBound;
+                    size = ((long) mapTileUpperBound) * mapTileUpperBound;
                     if (size >= Integer.MAX_VALUE) {
                         return;
                     }

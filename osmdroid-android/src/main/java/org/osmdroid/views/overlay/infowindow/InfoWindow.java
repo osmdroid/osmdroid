@@ -9,8 +9,8 @@ import android.view.ViewGroup;
 import org.osmdroid.api.IMapView;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.util.GeoPoint;
-import org.osmdroid.views.drawing.MapSnapshot;
 import org.osmdroid.views.MapView;
+import org.osmdroid.views.drawing.MapSnapshot;
 
 import java.util.ArrayList;
 
@@ -65,16 +65,22 @@ public abstract class InfoWindow {
         mView = v;
         mView.setTag(this);
     }
-    /** Allows to link an Object (any Object) to this marker.
-     * This is particularly useful to handle custom InfoWindow. */
-    public void setRelatedObject(Object relatedObject){
+
+    /**
+     * Allows to link an Object (any Object) to this marker.
+     * This is particularly useful to handle custom InfoWindow.
+     */
+    public void setRelatedObject(Object relatedObject) {
         mRelatedObject = relatedObject;
     }
 
-    /** @return the related object. */
-    public Object getRelatedObject(){
+    /**
+     * @return the related object.
+     */
+    public Object getRelatedObject() {
         return mRelatedObject;
     }
+
     /**
      * may return null if the info window hasn't been attached yet
      *
@@ -110,10 +116,10 @@ public abstract class InfoWindow {
         mOffsetY = offsetY;
         onOpen(object);
         MapView.LayoutParams lp = new MapView.LayoutParams(
-            MapView.LayoutParams.WRAP_CONTENT,
-            MapView.LayoutParams.WRAP_CONTENT,
-            mPosition, MapView.LayoutParams.BOTTOM_CENTER,
-            mOffsetX, mOffsetY);
+                MapView.LayoutParams.WRAP_CONTENT,
+                MapView.LayoutParams.WRAP_CONTENT,
+                mPosition, MapView.LayoutParams.BOTTOM_CENTER,
+                mOffsetX, mOffsetY);
 
         if (mMapView != null && mView != null) {
             mMapView.addView(mView, lp);
@@ -127,7 +133,7 @@ public abstract class InfoWindow {
      * refresh the infowindow drawing. Must be called every time the view changes (drag, zoom,...).
      * Best practice is to call this method in the draw method of its overlay.
      */
-    public void draw(){
+    public void draw() {
         if (!mIsVisible)
             return;
         try {
@@ -137,7 +143,7 @@ public abstract class InfoWindow {
                     mPosition, MapView.LayoutParams.BOTTOM_CENTER,
                     mOffsetX, mOffsetY);
             mMapView.updateViewLayout(mView, lp); // supposed to work only on the UI Thread
-        } catch(Exception e) {
+        } catch (Exception e) {
             if (MapSnapshot.isUIThread()) {
                 throw e;
             }

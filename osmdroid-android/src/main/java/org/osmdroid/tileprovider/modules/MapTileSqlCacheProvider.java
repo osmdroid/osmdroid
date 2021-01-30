@@ -18,11 +18,11 @@ import java.util.concurrent.atomic.AtomicReference;
 /**
  * Sqlite based tile cache mechansism
  *
- * @since 5.1
  * @see SqlTileWriter
  * Created by alex on 1/16/16.
+ * @since 5.1
  */
-public class MapTileSqlCacheProvider  extends MapTileFileStorageProviderBase{
+public class MapTileSqlCacheProvider extends MapTileFileStorageProviderBase {
     // ===========================================================
     // Constants
     // ===========================================================
@@ -42,7 +42,7 @@ public class MapTileSqlCacheProvider  extends MapTileFileStorageProviderBase{
 
     @Deprecated
     public MapTileSqlCacheProvider(final IRegisterReceiver pRegisterReceiver,
-                                      final ITileSource pTileSource, final long pMaximumCachedFileAge) {
+                                   final ITileSource pTileSource, final long pMaximumCachedFileAge) {
         this(pRegisterReceiver, pTileSource);
     }
 
@@ -51,7 +51,7 @@ public class MapTileSqlCacheProvider  extends MapTileFileStorageProviderBase{
      * It and its friends are typically created and controlled by {@link MapTileProviderBase}.
      */
     public MapTileSqlCacheProvider(final IRegisterReceiver pRegisterReceiver,
-                                      final ITileSource pTileSource) {
+                                   final ITileSource pTileSource) {
         super(pRegisterReceiver,
                 Configuration.getInstance().getTileFileSystemThreads(),
                 Configuration.getInstance().getTileFileSystemMaxQueueSize());
@@ -108,9 +108,9 @@ public class MapTileSqlCacheProvider  extends MapTileFileStorageProviderBase{
 
     @Override
     protected void onMediaUnmounted() {
-        if (mWriter!=null)
+        if (mWriter != null)
             mWriter.onDetach();
-        mWriter=new SqlTileWriter();
+        mWriter = new SqlTileWriter();
     }
 
     @Override
@@ -121,9 +121,9 @@ public class MapTileSqlCacheProvider  extends MapTileFileStorageProviderBase{
     @Override
     public void detach() {
 
-        if (mWriter!=null)
+        if (mWriter != null)
             mWriter.onDetach();
-        mWriter=null;
+        mWriter = null;
         super.detach();
     }
 
@@ -151,14 +151,14 @@ public class MapTileSqlCacheProvider  extends MapTileFileStorageProviderBase{
     protected class TileLoader extends MapTileModuleProviderBase.TileLoader {
 
         @Override
-        public Drawable loadTile(final long pMapTileIndex) throws CantContinueException{
+        public Drawable loadTile(final long pMapTileIndex) throws CantContinueException {
 
             ITileSource tileSource = mTileSource.get();
             if (tileSource == null) {
                 return null;
             }
 
-            if (mWriter!=null) {
+            if (mWriter != null) {
                 try {
                     final Drawable result = mWriter.loadTile(tileSource, pMapTileIndex);
                     if (result == null) {

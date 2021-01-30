@@ -1,31 +1,31 @@
 /**
- The MIT License
-
- Permission is hereby granted, free of charge, to any person obtaining a copy
- of this software and associated documentation files (the "Software"), to deal
- in the Software without restriction, including without limitation the rights
- to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- copies of the Software, and to permit persons to whom the Software is
- furnished to do so, subject to the following conditions:
-
- The above copyright notice and this permission notice shall be included in all
- copies or substantial portions of the Software.
-
- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- SOFTWARE.
-
- This code was sourced from the National Geospatial Intelligency Agency and was
- originally licensed under the MIT license. It has been modified to support
- osmdroid's APIs.
-
- You can find the original code base here:
- https://github.com/ngageoint/geopackage-android-map
- https://github.com/ngageoint/geopackage-android
+ * The MIT License
+ * <p>
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * <p>
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ * <p>
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ * <p>
+ * This code was sourced from the National Geospatial Intelligency Agency and was
+ * originally licensed under the MIT license. It has been modified to support
+ * osmdroid's APIs.
+ * <p>
+ * You can find the original code base here:
+ * https://github.com/ngageoint/geopackage-android-map
+ * https://github.com/ngageoint/geopackage-android
  */
 
 package org.osmdroid.gpkg.overlay.features;
@@ -128,51 +128,50 @@ public class OsmDroidMapShape {
     /**
      * Removes all objects added to the map
 
-    public void remove() {
+     public void remove() {
 
-        switch (shapeType) {
+     switch (shapeType) {
 
-            case MARKER:
-                ((Marker) shape).remove();
-                break;
-            case POLYGON:
-                ((Polygon) shape).remove();
-                break;
-            case POLYLINE:
-                ((Polyline) shape).remove();
-                break;
-            case MULTI_MARKER:
-                ((MultiMarker) shape).remove();
-                break;
-            case MULTI_POLYLINE:
-                ((MultiPolyline) shape).remove();
-                break;
-            case MULTI_POLYGON:
-                ((MultiPolygon) shape).remove();
-                break;
-            case POLYLINE_MARKERS:
-                ((PolylineMarkers) shape).remove();
-                break;
-            case POLYGON_MARKERS:
-                ((PolygonMarkers) shape).remove();
-                break;
-            case MULTI_POLYLINE_MARKERS:
-                ((MultiPolylineMarkers) shape).remove();
-                break;
-            case MULTI_POLYGON_MARKERS:
-                ((MultiPolygonMarkers) shape).remove();
-                break;
-            case COLLECTION:
-                @SuppressWarnings("unchecked")
-                List<GoogleMapShape> shapeList = (List<GoogleMapShape>) shape;
-                for (GoogleMapShape shapeListItem : shapeList) {
-                    shapeListItem.remove();
-                }
-                break;
-            default:
-        }
+     case MARKER:
+     ((Marker) shape).remove();
+     break;
+     case POLYGON:
+     ((Polygon) shape).remove();
+     break;
+     case POLYLINE:
+     ((Polyline) shape).remove();
+     break;
+     case MULTI_MARKER:
+     ((MultiMarker) shape).remove();
+     break;
+     case MULTI_POLYLINE:
+     ((MultiPolyline) shape).remove();
+     break;
+     case MULTI_POLYGON:
+     ((MultiPolygon) shape).remove();
+     break;
+     case POLYLINE_MARKERS:
+     ((PolylineMarkers) shape).remove();
+     break;
+     case POLYGON_MARKERS:
+     ((PolygonMarkers) shape).remove();
+     break;
+     case MULTI_POLYLINE_MARKERS:
+     ((MultiPolylineMarkers) shape).remove();
+     break;
+     case MULTI_POLYGON_MARKERS:
+     ((MultiPolygonMarkers) shape).remove();
+     break;
+     case COLLECTION:
+     @SuppressWarnings("unchecked") List<GoogleMapShape> shapeList = (List<GoogleMapShape>) shape;
+     for (GoogleMapShape shapeListItem : shapeList) {
+     shapeListItem.remove();
+     }
+     break;
+     default:
+     }
 
-    }
+     }
      */
     /**
      * Updates visibility of all objects
@@ -182,80 +181,78 @@ public class OsmDroidMapShape {
 
     public void setVisible(boolean visible) {
 
-        switch (shapeType) {
+    switch (shapeType) {
 
-            case MARKER:
-                ((Marker) shape).setVisible(visible);
-                break;
-            case POLYGON:
-                ((Polygon) shape).setVisible(visible);
-                break;
-            case POLYLINE:
-                ((Polyline) shape).setVisible(visible);
-                break;
-            case MULTI_MARKER:
-                ((MultiMarker) shape).setVisible(visible);
-                break;
-            case MULTI_POLYLINE:
-                ((MultiPolyline) shape).setVisible(visible);
-                break;
-            case MULTI_POLYGON:
-                ((MultiPolygon) shape).setVisible(visible);
-                break;
-            case POLYLINE_MARKERS:
-                ((PolylineMarkers) shape).setVisible(visible);
-                break;
-            case POLYGON_MARKERS:
-                ((PolygonMarkers) shape).setVisible(visible);
-                break;
-            case MULTI_POLYLINE_MARKERS:
-                ((MultiPolylineMarkers) shape).setVisible(visible);
-                break;
-            case MULTI_POLYGON_MARKERS:
-                ((MultiPolygonMarkers) shape).setVisible(visible);
-                break;
-            case COLLECTION:
-                @SuppressWarnings("unchecked")
-                List<GoogleMapShape> shapeList = (List<GoogleMapShape>) shape;
-                for (GoogleMapShape shapeListItem : shapeList) {
-                    shapeListItem.setVisible(visible);
-                }
-                break;
-            default:
-        }
+    case MARKER:
+    ((Marker) shape).setVisible(visible);
+    break;
+    case POLYGON:
+    ((Polygon) shape).setVisible(visible);
+    break;
+    case POLYLINE:
+    ((Polyline) shape).setVisible(visible);
+    break;
+    case MULTI_MARKER:
+    ((MultiMarker) shape).setVisible(visible);
+    break;
+    case MULTI_POLYLINE:
+    ((MultiPolyline) shape).setVisible(visible);
+    break;
+    case MULTI_POLYGON:
+    ((MultiPolygon) shape).setVisible(visible);
+    break;
+    case POLYLINE_MARKERS:
+    ((PolylineMarkers) shape).setVisible(visible);
+    break;
+    case POLYGON_MARKERS:
+    ((PolygonMarkers) shape).setVisible(visible);
+    break;
+    case MULTI_POLYLINE_MARKERS:
+    ((MultiPolylineMarkers) shape).setVisible(visible);
+    break;
+    case MULTI_POLYGON_MARKERS:
+    ((MultiPolygonMarkers) shape).setVisible(visible);
+    break;
+    case COLLECTION:
+     @SuppressWarnings("unchecked") List<GoogleMapShape> shapeList = (List<GoogleMapShape>) shape;
+     for (GoogleMapShape shapeListItem : shapeList) {
+     shapeListItem.setVisible(visible);
+     }
+     break;
+     default:
+     }
 
-    }
+     }
      */
     /**
      * Updates all objects that could have changed from moved markers
 
-    public void update() {
+     public void update() {
 
-        switch (shapeType) {
+     switch (shapeType) {
 
-            case POLYLINE_MARKERS:
-                ((PolylineMarkers) shape).update();
-                break;
-            case POLYGON_MARKERS:
-                ((PolygonMarkers) shape).update();
-                break;
-            case MULTI_POLYLINE_MARKERS:
-                ((MultiPolylineMarkers) shape).update();
-                break;
-            case MULTI_POLYGON_MARKERS:
-                ((MultiPolygonMarkers) shape).update();
-                break;
-            case COLLECTION:
-                @SuppressWarnings("unchecked")
-                List<GoogleMapShape> shapeList = (List<GoogleMapShape>) shape;
-                for (GoogleMapShape shapeListItem : shapeList) {
-                    shapeListItem.update();
-                }
-                break;
-            default:
-        }
+     case POLYLINE_MARKERS:
+     ((PolylineMarkers) shape).update();
+     break;
+     case POLYGON_MARKERS:
+     ((PolygonMarkers) shape).update();
+     break;
+     case MULTI_POLYLINE_MARKERS:
+     ((MultiPolylineMarkers) shape).update();
+     break;
+     case MULTI_POLYGON_MARKERS:
+     ((MultiPolygonMarkers) shape).update();
+     break;
+     case COLLECTION:
+     @SuppressWarnings("unchecked") List<GoogleMapShape> shapeList = (List<GoogleMapShape>) shape;
+     for (GoogleMapShape shapeListItem : shapeList) {
+     shapeListItem.update();
+     }
+     break;
+     default:
+     }
 
-    } */
+     } */
 
     /**
      * Determines if the shape is in a valid state
@@ -293,7 +290,6 @@ public class OsmDroidMapShape {
 
         return valid;
     }
-
 
 
     public void setVisible(boolean visible) {

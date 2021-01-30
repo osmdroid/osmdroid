@@ -90,9 +90,9 @@ public class OfflinePickerSample extends BaseSampleFragment implements View.OnCl
     }
 
     @Override
-    public void onDestroy(){
+    public void onDestroy() {
         super.onDestroy();
-        if (tileWriter!=null)
+        if (tileWriter != null)
             tileWriter.onDetach();
     }
 
@@ -130,16 +130,18 @@ public class OfflinePickerSample extends BaseSampleFragment implements View.OnCl
         dialog.show();
     }
 
-    IFilesystemCache tileWriter=null;
+    IFilesystemCache tileWriter = null;
+
     /**
      * step two, configure our offline tile provider
+     *
      * @param files
      */
     private void setProviderConfig(String[] files) {
         if (files == null || files.length == 0)
             return;
         SimpleRegisterReceiver simpleRegisterReceiver = new SimpleRegisterReceiver(getContext());
-        if (tileWriter!=null)
+        if (tileWriter != null)
             tileWriter.onDetach();
 
         tileWriter = new SqlTileWriter();
@@ -201,12 +203,12 @@ public class OfflinePickerSample extends BaseSampleFragment implements View.OnCl
             geopackage = provider.geoPackageMapTileModuleProvider();
             providers.add(geopackage);
             List<GeopackageRasterTileSource> geotileSources = new ArrayList<>();
-            geotileSources.addAll( geopackage.getTileSources());
+            geotileSources.addAll(geopackage.getTileSources());
             tileSources.addAll(geotileSources);
             //TODO add feature tiles here too
         }
 
-        MapsForgeTileModuleProvider moduleProvider=null;
+        MapsForgeTileModuleProvider moduleProvider = null;
         if (!forgeMaps.isEmpty()) {
             //fire up the forge maps...
             XmlRenderTheme theme = null;
@@ -235,7 +237,7 @@ public class OfflinePickerSample extends BaseSampleFragment implements View.OnCl
             providers.add(geopackage);
             approximationProvider.addProvider(geopackage);
         }
-        if (moduleProvider!=null) {
+        if (moduleProvider != null) {
             providers.add(moduleProvider);
             approximationProvider.addProvider(moduleProvider);
         }

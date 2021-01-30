@@ -7,10 +7,11 @@ import android.graphics.Path;
 /**
  * Displayer of `MilestoneStep`s as `Path`s
  * Created by Fabrice Fontaine on 22/12/2017.
+ *
  * @since 6.0.0
  */
 
-public class MilestonePathDisplayer extends MilestoneDisplayer{
+public class MilestonePathDisplayer extends MilestoneDisplayer {
 
     private final Path mPath;
     private final Paint mPaint;

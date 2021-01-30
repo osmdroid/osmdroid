@@ -28,12 +28,13 @@ public class Bug164EndlessOnScolls extends BaseSampleFragment implements View.On
     public String getSampleTitle() {
         return "Bug #164 Endless onScroll callsScoll";
     }
+
     TextView textViewCurrentLocation;
     Button animateTo;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.map_with_locationbox164, container,false);
+        View root = inflater.inflate(R.layout.map_with_locationbox164, container, false);
         mMapView = root.findViewById(R.id.mapview);
         textViewCurrentLocation = root.findViewById(R.id.textViewCurrentLocation);
         animateTo = root.findViewById(R.id.animateTo);
@@ -43,8 +44,9 @@ public class Bug164EndlessOnScolls extends BaseSampleFragment implements View.On
     }
 
 
-    int callsScoll =0;
-    int callsZoom=0;
+    int callsScoll = 0;
+    int callsZoom = 0;
+
     protected void addOverlays() {
         super.addOverlays();
         //
@@ -67,22 +69,22 @@ public class Bug164EndlessOnScolls extends BaseSampleFragment implements View.On
         });
     }
 
-    private void updateInfo(){
+    private void updateInfo() {
         IGeoPoint mapCenter = mMapView.getMapCenter();
-        textViewCurrentLocation.setText(df.format(mapCenter.getLatitude())+","+
+        textViewCurrentLocation.setText(df.format(mapCenter.getLatitude()) + "," +
                 df.format(mapCenter.getLongitude())
-                +","+mMapView.getZoomLevelDouble() +"\nonScroll: " + callsScoll + " onZoom: "
+                + "," + mMapView.getZoomLevelDouble() + "\nonScroll: " + callsScoll + " onZoom: "
                 + callsZoom);
 
     }
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.animateTo){
+        if (v.getId() == R.id.animateTo) {
 
-            double lat = Math.random()*180d - 90;
-            double lon =Math.random()*360 - 180;
-            mMapView.getController().animateTo(new GeoPoint(lat,lon));
+            double lat = Math.random() * 180d - 90;
+            double lon = Math.random() * 360 - 180;
+            mMapView.getController().animateTo(new GeoPoint(lat, lon));
         }
     }
 }

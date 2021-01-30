@@ -8,12 +8,14 @@ import android.graphics.Color;
  * https://developer.android.com/reference/android/support/v4/graphics/ColorUtils (old support lib)
  * https://developer.android.com/reference/kotlin/androidx/core/graphics/ColorUtils (new Androidx lib)
  * Maybe include one lib directly.
+ *
  * @author Matthias Dittmer
  */
 public class ColorHelper {
 
     /**
      * Convert HSL to color value.
+     *
      * @param h float h value form HSL color
      * @param s float s value form HSL color
      * @param l float l value form HSL color
@@ -72,9 +74,10 @@ public class ColorHelper {
 
     /**
      * Constrain int value.
+     *
      * @param amount input value
-     * @param low lower bound
-     * @param high upper bound
+     * @param low    lower bound
+     * @param high   upper bound
      * @return constrained value
      */
     private static int constrain(int amount, int low, int high) {
@@ -83,9 +86,10 @@ public class ColorHelper {
 
     /**
      * Constrain float value.
+     *
      * @param amount input value
-     * @param low lower bound
-     * @param high upper bound
+     * @param low    lower bound
+     * @param high   upper bound
      * @return constrained value
      */
     public static float constrain(float amount, float low, float high) {

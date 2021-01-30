@@ -7,6 +7,10 @@ package org.osmdroid.server.jdk;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -21,10 +25,11 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
 
-import javax.ws.rs.*;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.WebApplicationException;
 
 /**
  * This is a REST web service (via Apache CXF) that provides 3 functions
@@ -33,107 +38,108 @@ import org.apache.commons.logging.LogFactory;
  * <li>serves from file system, a simple open layers slippy map that makes it easy to test to see if this thing is working
  * and let's you flip tiles sources using some jquery magic</li>
  * </ul>
+ *
  * @author <a href="mailto:alexoree@apache.org">Alex O'Ree</a>
  */
 @Path("/")
-@Produces({"image/png", "application/json", "text/html","text/css","text/javascript"})
+@Produces({"image/png", "application/json", "text/html", "text/css", "text/javascript"})
 @org.apache.cxf.jaxrs.model.wadl.Description("")
 public class TileFetcher {
 
-     private static final Log log = LogFactory.getLog(TileFetcher.class);
-     static ObjectMapper om = new ObjectMapper();
-     HashMap<String, Connection> connections = new HashMap<String, Connection>();
+    private static final Log log = LogFactory.getLog(TileFetcher.class);
+    static ObjectMapper om = new ObjectMapper();
+    HashMap<String, Connection> connections = new HashMap<String, Connection>();
 
-     public TileFetcher() throws Exception {
+    public TileFetcher() throws Exception {
 
-          initDatabases();
+        initDatabases();
 
-     }
+    }
 
-     private void initDatabases() throws Exception {
-          Properties p = new Properties();
-          FileInputStream fis = new FileInputStream("sources.properties");
-          p.load(fis);
-          fis.close();
-          fis = null;
+    private void initDatabases() throws Exception {
+        Properties p = new Properties();
+        FileInputStream fis = new FileInputStream("sources.properties");
+        p.load(fis);
+        fis.close();
+        fis = null;
 
-          Iterator<Map.Entry<Object, Object>> iterator = p.entrySet().iterator();
-          while (iterator.hasNext()) {
-               Map.Entry<Object, Object> next = iterator.next();
+        Iterator<Map.Entry<Object, Object>> iterator = p.entrySet().iterator();
+        while (iterator.hasNext()) {
+            Map.Entry<Object, Object> next = iterator.next();
 
-               String source = (String) next.getKey();
-               String filename = (String) next.getValue();
-               File db = new File(filename);
-               if (!db.exists()) {
-                    throw new FileNotFoundException("can't find the db " + filename + " current dir is " + new File(".").getAbsolutePath());
-               }
-               try {
-                    Connection conn1 = DriverManager.getConnection("jdbc:sqlite:" + filename);
-                    Statement stat = conn1.createStatement();
-                    stat.executeUpdate("CREATE TABLE IF NOT EXISTS tiles (key INTEGER PRIMARY KEY, provider TEXT, tile BLOB)");
-                    stat.close();
-                    System.out.println("adding " + source + " from file " + filename);
-                    connections.put(source, conn1);
-               } catch (SQLException e) {
-                    e.printStackTrace();
-                    //throw new Exception("unable to initialize db", e);
-               }
+            String source = (String) next.getKey();
+            String filename = (String) next.getValue();
+            File db = new File(filename);
+            if (!db.exists()) {
+                throw new FileNotFoundException("can't find the db " + filename + " current dir is " + new File(".").getAbsolutePath());
+            }
+            try {
+                Connection conn1 = DriverManager.getConnection("jdbc:sqlite:" + filename);
+                Statement stat = conn1.createStatement();
+                stat.executeUpdate("CREATE TABLE IF NOT EXISTS tiles (key INTEGER PRIMARY KEY, provider TEXT, tile BLOB)");
+                stat.close();
+                System.out.println("adding " + source + " from file " + filename);
+                connections.put(source, conn1);
+            } catch (SQLException e) {
+                e.printStackTrace();
+                //throw new Exception("unable to initialize db", e);
+            }
 
-          }
-     }
+        }
+    }
 
-     @GET
-     @Path("/sources")
-     @Produces("application/json")
-     @org.apache.cxf.jaxrs.model.wadl.Description("Returns a JSON string array of all available map sources")
-     public String getSourceList() throws WebApplicationException, JsonProcessingException {
-          System.out.println("getSourceList");
-          return om.writeValueAsString(connections.keySet());
-     }
+    @GET
+    @Path("/sources")
+    @Produces("application/json")
+    @org.apache.cxf.jaxrs.model.wadl.Description("Returns a JSON string array of all available map sources")
+    public String getSourceList() throws WebApplicationException, JsonProcessingException {
+        System.out.println("getSourceList");
+        return om.writeValueAsString(connections.keySet());
+    }
 
-     @GET//xyz no good
-     //zyx no good
-     //zxy closer
+    @GET//xyz no good
+    //zyx no good
+    //zxy closer
 
-     @Path("/{source}/{z}/{x}/{y}.png")
-     @Produces("image/png")
-     @org.apache.cxf.jaxrs.model.wadl.Description("Returns png of the specific map tile from the database")
-     public byte[] getImage(@PathParam("source") String id,
-             @PathParam("z") int z,
-             @PathParam("x") int x,
-             @PathParam("y") int y) throws WebApplicationException {
+    @Path("/{source}/{z}/{x}/{y}.png")
+    @Produces("image/png")
+    @org.apache.cxf.jaxrs.model.wadl.Description("Returns png of the specific map tile from the database")
+    public byte[] getImage(@PathParam("source") String id,
+                           @PathParam("z") int z,
+                           @PathParam("x") int x,
+                           @PathParam("y") int y) throws WebApplicationException {
 
-          Connection c = connections.get(id);
-          if (c == null) {
-               System.err.println(id + " isn't registered");
-               throw new WebApplicationException(new Exception(id + " is not a valid tile source"), 400);
-          }
-          try {
+        Connection c = connections.get(id);
+        if (c == null) {
+            System.err.println(id + " isn't registered");
+            throw new WebApplicationException(new Exception(id + " is not a valid tile source"), 400);
+        }
+        try {
 
-               PreparedStatement prep = c.prepareStatement("Select tile from tiles where key=?;");
+            PreparedStatement prep = c.prepareStatement("Select tile from tiles where key=?;");
 
-               long index = (((z << z) + x) << z) + y;
-               System.out.println("Fetching tile " + id + z + "/" + x + "/" + y + " as " + index);
-               prep.setLong(1, index);
-               ResultSet executeQuery = prep.executeQuery();
-               if (executeQuery.next()) {
-                    //Blob b= executeQuery.getBlob(1);
-                    //byte[] image=b.getBytes(0, (int)b.length());
-                    byte[] image2 = executeQuery.getBytes(1);
-                    //return image;
-                    return image2;
-               }
-               System.out.println(id + "Tile not found " + z + "/" + x + "/" + y + " as " + index);
-          } catch (Exception ex) {
-               ex.printStackTrace();
-          } finally {
+            long index = (((z << z) + x) << z) + y;
+            System.out.println("Fetching tile " + id + z + "/" + x + "/" + y + " as " + index);
+            prep.setLong(1, index);
+            ResultSet executeQuery = prep.executeQuery();
+            if (executeQuery.next()) {
+                //Blob b= executeQuery.getBlob(1);
+                //byte[] image=b.getBytes(0, (int)b.length());
+                byte[] image2 = executeQuery.getBytes(1);
+                //return image;
+                return image2;
+            }
+            System.out.println(id + "Tile not found " + z + "/" + x + "/" + y + " as " + index);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
 
-          }
-          throw new WebApplicationException(404);
+        }
+        throw new WebApplicationException(404);
 
-     }
-     
-     @GET
+    }
+
+    @GET
     @Path("/index.html")
     @Produces("text/html")
     @org.apache.cxf.jaxrs.model.wadl.Description("Returns a basic html viewer of the slippy map")
@@ -168,7 +174,8 @@ public class TileFetcher {
         return getFile("www/v3.5.0-dist/ol.css");
 
     }
-    public static String getFile(String f){
+
+    public static String getFile(String f) {
 
         StringBuilder sb = new StringBuilder();
         try {
@@ -178,7 +185,7 @@ public class TileFetcher {
                 sb.append((char) c);
             }
             r.close();
-        }catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
             System.err.println("Current dir is " + new File(".").getAbsolutePath());
         }

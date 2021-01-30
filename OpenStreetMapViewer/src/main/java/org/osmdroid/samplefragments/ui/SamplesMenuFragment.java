@@ -29,7 +29,7 @@ import java.util.Set;
 
 /**
  * http://www.androidhive.info/2013/07/android-expandable-list-view-tutorial/
- *
+ * <p>
  * created on 1/1/2017.
  *
  * @author Alex O'Ree
@@ -37,10 +37,10 @@ import java.util.Set;
 
 public class SamplesMenuFragment extends Fragment {
 
-    public final static String TAG="osmfragsample";
+    public final static String TAG = "osmfragsample";
 
     private Bundle savedState = null;
-    private ISampleFactory sampleFactory=null;
+    private ISampleFactory sampleFactory = null;
     private List<IBaseActivity> additionActivitybasedSamples;
 
     ExpandableListAdapter listAdapter;
@@ -50,16 +50,16 @@ public class SamplesMenuFragment extends Fragment {
     Map<String, Object> titleSampleMap = new HashMap<>();
 
     public static SamplesMenuFragment newInstance(ISampleFactory fac, List<IBaseActivity> additionActivitybasedSamples) {
-        SamplesMenuFragment x= new SamplesMenuFragment();
-        x.sampleFactory=fac;
-        x.additionActivitybasedSamples=additionActivitybasedSamples;
+        SamplesMenuFragment x = new SamplesMenuFragment();
+        x.sampleFactory = fac;
+        x.additionActivitybasedSamples = additionActivitybasedSamples;
         return x;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View root = inflater.inflate(R.layout.sample_menu_layout, container,false);
+        View root = inflater.inflate(R.layout.sample_menu_layout, container, false);
 
         //http://stackoverflow.com/a/15314508/1203182
 
@@ -68,27 +68,27 @@ public class SamplesMenuFragment extends Fragment {
 
         /* If the Fragment was destroyed inbetween (screen rotation), we need to recover the savedState first */
         /* However, if it was not, it stays in the instance from the last onDestroyView() and we don't want to overwrite it */
-        if(savedInstanceState != null && savedState == null) {
+        if (savedInstanceState != null && savedState == null) {
             savedState = savedInstanceState.getBundle(TAG);
         }
-        if(savedState != null) {
-            if (sampleFactory!=null){
+        if (savedState != null) {
+            if (sampleFactory != null) {
                 //do nothing
             } else {
-                String factory  = savedState.getString("factory");
+                String factory = savedState.getString("factory");
                 ArrayList<String> acts = null;
                 if (savedState.containsKey("acts"))
-                    acts=savedState.getStringArrayList("acts");
+                    acts = savedState.getStringArrayList("acts");
                 try {
                     Class<?> aClass = Class.forName(factory);
                     Method method = aClass.getMethod("getInstance");
                     sampleFactory = (ISampleFactory) method.invoke(null);
-                    if (acts==null) {
+                    if (acts == null) {
                         additionActivitybasedSamples = Collections.EMPTY_LIST;
                     } else {
                         //restore the list
                         additionActivitybasedSamples = new ArrayList<>();
-                        for (int i=0; i < acts.size(); i++){
+                        for (int i = 0; i < acts.size(); i++) {
                             additionActivitybasedSamples.add((IBaseActivity) Class.forName(acts.get(i)).newInstance());
                         }
                     }
@@ -114,24 +114,24 @@ public class SamplesMenuFragment extends Fragment {
             public boolean onChildClick(ExpandableListView parent, View v,
                                         int groupPosition, int childPosition, long id) {
                 String title = listDataChild.get(
-                    listDataHeader.get(groupPosition)).get(
-                    childPosition);
+                        listDataHeader.get(groupPosition)).get(
+                        childPosition);
                 Object o = titleSampleMap.get(title);
-                if (o!=null && o instanceof BaseSampleFragment) {
+                if (o != null && o instanceof BaseSampleFragment) {
                     // Replace Fragment with selected sample
                     BaseSampleFragment frag = (BaseSampleFragment) o;
                     Log.i(TAG, "loading fragment " + frag.getSampleTitle() + ", " + frag.getClass().getCanonicalName());
                     FragmentManager fm = getFragmentManager();
                     fm.beginTransaction().replace(org.osmdroid.R.id.samples_container, frag, ExtraSamplesActivity.SAMPLES_FRAGMENT_TAG)
-                        .addToBackStack(null).commit();
-                } else if (o!=null && o instanceof IBaseActivity && o instanceof Activity){
+                            .addToBackStack(null).commit();
+                } else if (o != null && o instanceof IBaseActivity && o instanceof Activity) {
                     IBaseActivity activity = (IBaseActivity) o;
                     Intent i = new Intent(getContext(), activity.getClass());
                     Log.i(TAG, "loading activity " + activity.getActivityTitle() + ", " + activity.getClass().getCanonicalName());
                     getActivity().startActivity(i);
-                } else if (o==null) {
+                } else if (o == null) {
                     //NOOP
-                } else{
+                } else {
                     Toast.makeText(getActivity(), "Example is of an unexpected type, please report this", Toast.LENGTH_LONG).show();
                 }
                 return false;
@@ -141,6 +141,7 @@ public class SamplesMenuFragment extends Fragment {
         return root;
 
     }
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -150,7 +151,7 @@ public class SamplesMenuFragment extends Fragment {
         //makes no sense, but that's Android for you.
 
         // preparing list data
-        boolean success=prepareListData();
+        boolean success = prepareListData();
         if (!success) {
             Activity act = getActivity();
             act.finish();
@@ -164,15 +165,15 @@ public class SamplesMenuFragment extends Fragment {
     }
 
     /*
-    * Preparing the list data
-    */
+     * Preparing the list data
+     */
     private boolean prepareListData() {
         Set<String> headers = new HashSet<>();
         listDataHeader = new ArrayList<String>();
 
         //category, content
         listDataChild = new HashMap<String, List<String>>();
-        if (sampleFactory==null || additionActivitybasedSamples==null) {
+        if (sampleFactory == null || additionActivitybasedSamples == null) {
             //getActivity().getSupportFragmentManager().popBackStack();
             return false;
         }
@@ -181,9 +182,9 @@ public class SamplesMenuFragment extends Fragment {
             final BaseSampleFragment f = sampleFactory.getSample(a);
             titleSampleMap.put(f.getSampleTitle(), f);
             String clz = f.getClass().getCanonicalName();
-            String[] bits=clz.split("\\.");
-            String group = bits[bits.length-2];
-            group=capitialize(group);
+            String[] bits = clz.split("\\.");
+            String group = bits[bits.length - 2];
+            group = capitialize(group);
 
             headers.add(group);
 
@@ -210,7 +211,7 @@ public class SamplesMenuFragment extends Fragment {
     }
 
     private String capitialize(String group) {
-        if (group.charAt(0) >= 'a' && group.charAt(0) <='z') {
+        if (group.charAt(0) >= 'a' && group.charAt(0) <= 'z') {
             String first = group.substring(0, 1).toUpperCase();
             group = first + group.substring(1);
         }
@@ -219,7 +220,7 @@ public class SamplesMenuFragment extends Fragment {
 
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
 
         //FragmentManager fm = getFragmentManager();
@@ -236,11 +237,11 @@ public class SamplesMenuFragment extends Fragment {
 
     private Bundle saveState() { /* called either from onDestroyView() or onSaveInstanceState() */
         Bundle state = new Bundle();
-        if (sampleFactory!=null)    //yup, hate android
+        if (sampleFactory != null)    //yup, hate android
             state.putString("factory", sampleFactory.getClass().getCanonicalName());
-        if (additionActivitybasedSamples!=null){
+        if (additionActivitybasedSamples != null) {
             ArrayList<String> actClasses = new ArrayList<>();
-            for (int i=0; i < additionActivitybasedSamples.size(); i++)
+            for (int i = 0; i < additionActivitybasedSamples.size(); i++)
                 actClasses.add(additionActivitybasedSamples.get(i).getClass().getCanonicalName());
             state.putStringArrayList("acts", actClasses);
         }

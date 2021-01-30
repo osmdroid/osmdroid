@@ -5,11 +5,12 @@ import java.util.List;
 
 /**
  * A {@link PointAccepter} that builds a {@link List} of {@link PointL} as a list of long, long
- * @since 6.2.0
+ *
  * @author Fabrice Fontaine
+ * @since 6.2.0
  */
 
-public class ListPointAccepter implements PointAccepter{
+public class ListPointAccepter implements PointAccepter {
 
     private final List<Long> mList = new ArrayList<>();
     private final PointL mLatestPoint = new PointL();

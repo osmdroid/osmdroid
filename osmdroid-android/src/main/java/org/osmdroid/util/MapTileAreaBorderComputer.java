@@ -2,8 +2,9 @@ package org.osmdroid.util;
 
 /**
  * Compute a map tile area from a map tile area source: the source with a border
- * @since 6.0.3
+ *
  * @author Fabrice Fontaine
+ * @since 6.0.3
  */
 
 public class MapTileAreaBorderComputer implements MapTileAreaComputer {

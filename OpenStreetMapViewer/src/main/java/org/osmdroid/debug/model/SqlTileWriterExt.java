@@ -53,8 +53,8 @@ public class SqlTileWriterExt extends SqlTileWriter {
                             + ",min(length(" + COLUMN_TILE + ")) "
                             + ",max(length(" + COLUMN_TILE + ")) "
                             + ",sum(length(" + COLUMN_TILE + ")) "
-                    + "from " + TABLE + " "
-                    + "group by " + COLUMN_PROVIDER, null);
+                            + "from " + TABLE + " "
+                            + "group by " + COLUMN_PROVIDER, null);
             while (cur.moveToNext()) {
                 final SourceCount c = new SourceCount();
                 c.source = cur.getString(0);
@@ -65,7 +65,7 @@ public class SqlTileWriterExt extends SqlTileWriter {
                 c.sizeAvg = c.sizeTotal / c.rowCount;
                 ret.add(c);
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             catchException(e);
         } finally {
             if (cur != null) {
@@ -77,8 +77,8 @@ public class SqlTileWriterExt extends SqlTileWriter {
 
     public long getRowCountExpired() {
         return getRowCount(
-        COLUMN_EXPIRES + "<?"
-                , new String[] {String.valueOf(System.currentTimeMillis())});
+                COLUMN_EXPIRES + "<?"
+                , new String[]{String.valueOf(System.currentTimeMillis())});
     }
 
     public static class SourceCount {

@@ -42,7 +42,7 @@ public class SampleAlternateCacheDir extends BaseSampleFragment {
         //then set it to the current tile cache location. must be done BEFORE creating the map
         //note this is before setContentView. The other option is it bounce the tile provider
         //via mMapView.setTileProvider();
-        
+
         //Configuration.getInstance().setOsmdroidTileCache(adrive);
 
 

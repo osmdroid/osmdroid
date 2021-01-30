@@ -13,7 +13,7 @@ import org.osmdroid.util.TileSystem;
  * Created by alex on 10/21/16.
  */
 
-public class Bug445Caching  extends BaseSampleFragment {
+public class Bug445Caching extends BaseSampleFragment {
 
     private static final GeoPoint center = new GeoPoint(52.2742, 0.21130);
     private static final int minZoom = 10; // should be high enough so that download is needed (cf. archive)
@@ -25,11 +25,12 @@ public class Bug445Caching  extends BaseSampleFragment {
         return "Bug 445 Ensure Caching works";
     }
 
-    SqlTileWriter writer=null;
+    SqlTileWriter writer = null;
+
     protected void addOverlays() {
         IFilesystemCache tileWriter = mMapView.getTileProvider().getTileWriter();
 
-        if (tileWriter instanceof SqlTileWriter){
+        if (tileWriter instanceof SqlTileWriter) {
             writer = (SqlTileWriter) tileWriter;
             writer.purgeCache();
 
@@ -38,13 +39,13 @@ public class Bug445Caching  extends BaseSampleFragment {
     }
 
     @Override
-    public boolean skipOnCiTests(){
+    public boolean skipOnCiTests() {
         return true;
     }
 
     @Override
     public void runTestProcedures() throws Exception {
-        if (writer==null)
+        if (writer == null)
             return;
         mMapView.setUseDataConnection(true);
         getActivity().runOnUiThread(new Runnable() {
@@ -61,12 +62,12 @@ public class Bug445Caching  extends BaseSampleFragment {
             throw new Exception("purge should remove all tiles, but " + count + " were found");
 
         int maxTilesNeeded = 0;
-        for (int zoom = minZoom ; zoom <= maxZoom ; zoom ++) {
+        for (int zoom = minZoom; zoom <= maxZoom; zoom++) {
             maxTilesNeeded += getMaxTileExpected(zoom);
         }
         mMapView.getTileProvider().ensureCapacity(maxTilesNeeded);
 
-        for (int zoom = minZoom ; zoom <= maxZoom ; zoom ++) {
+        for (int zoom = minZoom; zoom <= maxZoom; zoom++) {
             checkDownload(zoom);
         }
 
@@ -80,7 +81,7 @@ public class Bug445Caching  extends BaseSampleFragment {
 
         mMapView.setUseDataConnection(false);
 
-        for (int zoom = minZoom ; zoom <= maxZoom ; zoom ++) {
+        for (int zoom = minZoom; zoom <= maxZoom; zoom++) {
             checkCache(zoom);
         }
 
@@ -95,7 +96,7 @@ public class Bug445Caching  extends BaseSampleFragment {
     /**
      * @since 6.0.0
      */
-    private void checkDownload(final int pZoomLevel) throws Exception{
+    private void checkDownload(final int pZoomLevel) throws Exception {
         final long countBefore = getDbCount();
         getActivity().runOnUiThread(new Runnable() {
             @Override
@@ -124,7 +125,7 @@ public class Bug445Caching  extends BaseSampleFragment {
     /**
      * @since 6.0.0
      */
-    private void checkCache(final int pZoomLevel) throws Exception{
+    private void checkCache(final int pZoomLevel) throws Exception {
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -137,7 +138,7 @@ public class Bug445Caching  extends BaseSampleFragment {
             e.printStackTrace();
         }
         final long queueSize = mMapView.getTileProvider().getQueueSize();
-        if (queueSize > 0){
+        if (queueSize > 0) {
             throw new Exception(
                     "queue size is greater than expected: " + queueSize
                             + " for zoom level " + pZoomLevel);
@@ -197,7 +198,7 @@ public class Bug445Caching  extends BaseSampleFragment {
      * @since 6.0.0
      */
     private long getDbCount() {
-        final long count=writer.getRowCount(mMapView.getTileProvider().getTileSource().name());
+        final long count = writer.getRowCount(mMapView.getTileProvider().getTileSource().name());
         Log.i(TAG, "downloaded " + count + " tiles so far");
         return count;
     }

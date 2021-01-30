@@ -20,7 +20,7 @@ public class CacheAnalyzerTest extends ActivityInstrumentationTestCase2<CacheAna
         super("org.osmdroid", CacheAnalyzerActivity.class);
     }
 
-    public void testActivity() throws Throwable{
+    public void testActivity() throws Throwable {
         Counters.reset();
         final CacheAnalyzerActivity activity = getActivity();
 
@@ -34,7 +34,7 @@ public class CacheAnalyzerTest extends ActivityInstrumentationTestCase2<CacheAna
             public void run() {
                 TextView cacheStats = activity.findViewById(org.osmdroid.R.id.cacheStats);
 
-                String txt=cacheStats.getText().toString();
+                String txt = cacheStats.getText().toString();
                 Assert.assertNotEquals(txt, activity.getString(org.osmdroid.R.string.loading_stats));
                 activity.finish();
             }

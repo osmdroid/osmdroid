@@ -22,7 +22,7 @@ public class GeopackageRasterTileSource extends XYTileSource {
         Log.i(IMapView.LOGTAG, "Geopackage support is BETA. Please report any issues");
         this.database = database;
         this.tableDao = table;
-        this.bounds=bbox;
+        this.bounds = bbox;
     }
 
     public BoundingBox getBounds() {

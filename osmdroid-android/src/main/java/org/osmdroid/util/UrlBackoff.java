@@ -4,12 +4,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @since 6.0.2
  * @author Fabrice Fontaine
+ * @since 6.0.2
  */
 public class UrlBackoff {
 
-    private static final long[] mExponentialBackoffDurationInMillisDefault = new long[] {
+    private static final long[] mExponentialBackoffDurationInMillisDefault = new long[]{
             5000, 15000, 60000, 120000, 300000
     };
 

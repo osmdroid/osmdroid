@@ -16,35 +16,37 @@ import javax.xml.parsers.DocumentBuilderFactory;
 /**
  * This is the main entry point for working with WMS servers.
  * Sample code<br>
- *     <pre>
- HtpURLConnection c = null;
- InputStream is = null;
- WMSEndpoint endpoint = null;
- try {
-    c = (HttpURLConnection) new URL(youEditTextValue).openConnection();
-    is = c.getInputStream();
-    endpoint = WMSParser.parse(is);
-  } catch (Exception ex) {
-    ex.printStackTrace();
-  } finally {
-    if (is != null)
-        try { is.close(); } catch (Exception ex) { }
-    if (c != null)
-        try { c.disconnect(); } catch (Exception ex) { }
- }
+ * <pre>
+ * HtpURLConnection c = null;
+ * InputStream is = null;
+ * WMSEndpoint endpoint = null;
+ * try {
+ * c = (HttpURLConnection) new URL(youEditTextValue).openConnection();
+ * is = c.getInputStream();
+ * endpoint = WMSParser.parse(is);
+ * } catch (Exception ex) {
+ * ex.printStackTrace();
+ * } finally {
+ * if (is != null)
+ * try { is.close(); } catch (Exception ex) { }
+ * if (c != null)
+ * try { c.disconnect(); } catch (Exception ex) { }
+ * }
  *     </pre>
  * created on 8/25/2017.
  * https://github.com/osmdroid/osmdroid/issues/177
- *
+ * <p>
  * See also the sample usage in the "Open Map" demo
- * @since 6.0.0
+ *
  * @author Alex O'Ree
+ * @since 6.0.0
  */
 
 public class WMSParser {
 
     /**
      * note, the input stream remains open after calling this method, closing it is the caller's problem
+     *
      * @param inputStream
      * @return
      * @throws Exception
@@ -56,7 +58,7 @@ public class WMSParser {
         dBuilder.setEntityResolver(new EntityResolver() {
             @Override
             public InputSource resolveEntity(String publicId, String systemId)
-                throws SAXException, IOException {
+                    throws SAXException, IOException {
                 return new InputSource(new StringReader(""));
 
             }
@@ -64,7 +66,7 @@ public class WMSParser {
         Document doc = dBuilder.parse(inputStream);
 
 
-        Element element=doc.getDocumentElement();
+        Element element = doc.getDocumentElement();
         element.normalize();
 
         if (element.getNodeName().contains("WMT_MS_Capabilities")) {

@@ -8,8 +8,9 @@ import java.util.Random;
 
 /**
  * Unit tests related to {@link MapTileIndex}
- * @since 6.0.0
+ *
  * @author Fabrice Fontaine
+ * @since 6.0.0
  */
 
 public class MapTileIndexTest {
@@ -19,7 +20,7 @@ public class MapTileIndexTest {
     @Test
     public void testIndex() {
         final int iterations = 1000;
-        for (int i = 0 ; i < iterations ; i ++) {
+        for (int i = 0; i < iterations; i++) {
             final int zoom = getRandomZoom();
             final int x = getRandomXY(zoom);
             final int y = getRandomXY(zoom);

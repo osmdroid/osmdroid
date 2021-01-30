@@ -129,13 +129,11 @@ public class StarterMapFragment extends Fragment {
         mMapView.getOverlays().add(this.mLocationOverlay);
 
 
-
         //Mini map
         mMinimapOverlay = new MinimapOverlay(context, mMapView.getTileRequestCompleteHandler());
         mMinimapOverlay.setWidth(dm.widthPixels / 5);
         mMinimapOverlay.setHeight(dm.heightPixels / 5);
         mMapView.getOverlays().add(this.mMinimapOverlay);
-
 
 
         //Copyright overlay
@@ -145,11 +143,9 @@ public class StarterMapFragment extends Fragment {
         mMapView.getOverlays().add(this.mCopyrightOverlay);
 
 
-
-
         //On screen compass
         mCompassOverlay = new CompassOverlay(context, new InternalCompassOrientationProvider(context),
-            mMapView);
+                mMapView);
         mCompassOverlay.enableCompass();
         mMapView.getOverlays().add(this.mCompassOverlay);
 
@@ -159,7 +155,6 @@ public class StarterMapFragment extends Fragment {
         mScaleBarOverlay.setCentred(true);
         mScaleBarOverlay.setScaleBarOffset(dm.widthPixels / 2, 10);
         mMapView.getOverlays().add(this.mScaleBarOverlay);
-
 
 
         //support for map rotation
@@ -216,7 +211,7 @@ public class StarterMapFragment extends Fragment {
     public void onResume() {
         super.onResume();
         final String tileSourceName = mPrefs.getString(PREFS_TILE_SOURCE,
-            TileSourceFactory.DEFAULT_TILE_SOURCE.name());
+                TileSourceFactory.DEFAULT_TILE_SOURCE.name());
         try {
             final ITileSource tileSource = TileSourceFactory.getTileSource(tileSourceName);
             mMapView.setTileSource(tileSource);
@@ -234,7 +229,7 @@ public class StarterMapFragment extends Fragment {
 
         // Put "About" menu item last
         menu.add(0, MENU_ABOUT, Menu.CATEGORY_SECONDARY, org.osmdroid.R.string.about).setIcon(
-            android.R.drawable.ic_menu_info_details);
+                android.R.drawable.ic_menu_info_details);
 
         super.onCreateOptionsMenu(menu, inflater);
     }
@@ -254,14 +249,14 @@ public class StarterMapFragment extends Fragment {
         switch (item.getItemId()) {
             case MENU_ABOUT:
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
-                    .setTitle(org.osmdroid.R.string.app_name).setMessage(org.osmdroid.R.string.about_message)
-                    .setIcon(org.osmdroid.R.drawable.icon)
-                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                //
-                            }
-                        }
-                    );
+                        .setTitle(org.osmdroid.R.string.app_name).setMessage(org.osmdroid.R.string.about_message)
+                        .setIcon(org.osmdroid.R.drawable.icon)
+                        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int whichButton) {
+                                        //
+                                    }
+                                }
+                        );
                 builder.create().show();
                 return true;
         }

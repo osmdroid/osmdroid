@@ -35,12 +35,12 @@ import static org.osmdroid.intro.StorageAdapter.readableFileSize;
 
 public class StoragePreferenceFragment extends Fragment implements View.OnClickListener {
     Button buttonSetCache,
-        buttonManualCacheEntry;
+            buttonManualCacheEntry;
     TextView textViewCacheDirectory,
-        textViewCacheMaxSize,
-        textViewCacheFreeSpace,
-        textViewCacheCurrentSize,
-        textViewCacheTrimSize;
+            textViewCacheMaxSize,
+            textViewCacheFreeSpace,
+            textViewCacheCurrentSize,
+            textViewCacheTrimSize;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

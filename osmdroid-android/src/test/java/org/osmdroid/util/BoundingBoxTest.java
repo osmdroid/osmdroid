@@ -359,7 +359,7 @@ public class BoundingBoxTest {
 
 
         BoundingBox shouldWork = new BoundingBox(27.72243591897344, -97.24737167358398,
-            27.63730702015522, -97.30916976928711);
+                27.63730702015522, -97.30916976928711);
         Assert.assertTrue(shouldWork.overlaps(item, 4));
 
     }
@@ -369,8 +369,8 @@ public class BoundingBoxTest {
         BoundingBox item = new BoundingBox(27.696581, -97.243682999999, 27.688781, -97.253063);
 
         BoundingBox viewTop = new BoundingBox(
-            27.782999124172314, -97.24748611450195,
-            27.697917493482727, -97.30928421020508);
+                27.782999124172314, -97.24748611450195,
+                27.697917493482727, -97.30928421020508);
         Assert.assertTrue(viewTop.overlaps(item, 4));
     }
 

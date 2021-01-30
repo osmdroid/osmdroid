@@ -2,8 +2,9 @@ package org.osmdroid.util;
 
 /**
  * Compute a map tile area from a map tile area source: the source on another zoom level
- * @since 6.0.3
+ *
  * @author Fabrice Fontaine
+ * @since 6.0.3
  */
 
 public class MapTileAreaZoomComputer implements MapTileAreaComputer {
@@ -35,8 +36,8 @@ public class MapTileAreaZoomComputer implements MapTileAreaComputer {
         }
         out.set(destZoom,
                 pSource.getLeft() << mZoomDelta, pSource.getTop() << mZoomDelta,
-                ((1 + pSource.getRight()) << mZoomDelta) - 1, ((1 + pSource.getBottom()) << mZoomDelta) -1
-                );
+                ((1 + pSource.getRight()) << mZoomDelta) - 1, ((1 + pSource.getBottom()) << mZoomDelta) - 1
+        );
         return out;
     }
 }

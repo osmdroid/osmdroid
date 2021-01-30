@@ -7,10 +7,11 @@
  */
 package org.osmdroid.test;
 
+import android.test.ActivityInstrumentationTestCase2;
+
 import org.junit.Assert;
 import org.osmdroid.MainActivity;
 import org.osmdroid.tileprovider.util.Counters;
-import android.test.ActivityInstrumentationTestCase2;
 
 public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActivity> {
 
@@ -23,7 +24,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         MainActivity activity = getActivity();
         assertNotNull(activity);
         Counters.printToLogcat();
-        if (Counters.countOOM > 0 || Counters.fileCacheOOM > 0){
+        if (Counters.countOOM > 0 || Counters.fileCacheOOM > 0) {
             Assert.fail("OOM Detected, aborting!");
         }
         activity.finish();

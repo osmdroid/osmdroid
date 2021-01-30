@@ -44,18 +44,18 @@ public class Issue1444 extends BaseSampleFragment {
         ARRAY_Of_OverlayItems.add(MY_OverlayItem);
 
         ItemizedOverlayWithFocus<OverlayItem> myItemizedOverlayWithFocus = new ItemizedOverlayWithFocus<>(ARRAY_Of_OverlayItems,
-            new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
+                new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
 
-                @Override
-                public boolean onItemSingleTapUp(int index, OverlayItem item) {
-                    return false;
-                }
+                    @Override
+                    public boolean onItemSingleTapUp(int index, OverlayItem item) {
+                        return false;
+                    }
 
-                @Override
-                public boolean onItemLongPress(int index, OverlayItem item) {
-                    return false;
-                }
-            }, getContext());
+                    @Override
+                    public boolean onItemLongPress(int index, OverlayItem item) {
+                        return false;
+                    }
+                }, getContext());
 
         myItemizedOverlayWithFocus.setFocusItemsOnTap(true);
         myItemizedOverlayWithFocus.setFocusedItem(0);

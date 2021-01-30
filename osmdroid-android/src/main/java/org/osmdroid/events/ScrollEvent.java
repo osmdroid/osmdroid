@@ -21,9 +21,10 @@ public class ScrollEvent implements MapEvent {
     /**
      * note coordinates represent integer based scroll coordinates, not latitude/longitude. They are
      * subject to integer overflow and will be revisited in a later version of osmdroid to use long values.
-     *In some cases, osmdroid will always send a 0,0 coordinate.
+     * In some cases, osmdroid will always send a 0,0 coordinate.
      * As such, this event is more useful to be notified when the map moves, but not really where it ended up.
      * Use other functions in {@link MapView#getBoundingBox()} and {@link MapView#getMapCenter()} for that.
+     *
      * @param source
      * @param x
      * @param y

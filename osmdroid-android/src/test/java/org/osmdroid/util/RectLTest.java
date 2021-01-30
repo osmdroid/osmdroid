@@ -10,7 +10,7 @@ import java.util.Random;
 /**
  * @author Fabrice Fontaine
  * @since 6.0.2
-
+ * <p>
  * VERY IMPORTANT NOTICE
  * In class RectL, don't use syntaxes like Point.set, Point.offset or Point.center.
  * Use "Point.x=" and "Point.y=" syntaxes instead. Same for Rect.
@@ -20,7 +20,6 @@ import java.util.Random;
  * As a result, using it in Unit Test is a bit heavier.
  * I prefer the light version of unit test.
  * For more info, search "android unit test mock"
- *
  */
 
 public class RectLTest {
@@ -34,7 +33,7 @@ public class RectLTest {
      */
     @Test
     public void testGetRotatedCenter() {
-        for (int i = 0 ; i < mIterations ; i ++) {
+        for (int i = 0; i < mIterations; i++) {
             final long x = getRandomCoordinate();
             final long y = getRandomCoordinate();
             final double degrees = getRandomAngle();
@@ -49,7 +48,7 @@ public class RectLTest {
     @Test
     public void testGetRotated0() {
         final double degrees = 0;
-        for (int i = 0 ; i < mIterations ; i ++) {
+        for (int i = 0; i < mIterations; i++) {
             final long x = getRandomCoordinate();
             final long y = getRandomCoordinate();
             final long centerX = getRandomCoordinate();
@@ -66,7 +65,7 @@ public class RectLTest {
     @Test
     public void testGetRotated90() {
         final double degrees = 90;
-        for (int i = 0 ; i < mIterations ; i ++) {
+        for (int i = 0; i < mIterations; i++) {
             final long x = getRandomCoordinate();
             final long y = getRandomCoordinate();
             final long centerX = getRandomCoordinate();
@@ -83,7 +82,7 @@ public class RectLTest {
     @Test
     public void testGetRotated180() {
         final double degrees = 180;
-        for (int i = 0 ; i < mIterations ; i ++) {
+        for (int i = 0; i < mIterations; i++) {
             final long x = getRandomCoordinate();
             final long y = getRandomCoordinate();
             final long centerX = getRandomCoordinate();
@@ -100,7 +99,7 @@ public class RectLTest {
     @Test
     public void testGetRotated270() {
         final double degrees = 270;
-        for (int i = 0 ; i < mIterations ; i ++) {
+        for (int i = 0; i < mIterations; i++) {
             final long x = getRandomCoordinate();
             final long y = getRandomCoordinate();
             final long centerX = getRandomCoordinate();
@@ -118,7 +117,7 @@ public class RectLTest {
         final double degrees = 0;
         final RectL in = new RectL();
         final RectL out = new RectL();
-        for (int i = 0 ; i < mIterations ; i ++) {
+        for (int i = 0; i < mIterations; i++) {
             in.top = getRandomCoordinate();
             in.left = getRandomCoordinate();
             in.bottom = getRandomCoordinate();
@@ -141,7 +140,7 @@ public class RectLTest {
         final double degrees = 180;
         final RectL in = new RectL();
         final RectL out = new RectL();
-        for (int i = 0 ; i < mIterations ; i ++) {
+        for (int i = 0; i < mIterations; i++) {
             in.top = getRandomCoordinate();
             in.left = getRandomCoordinate();
             in.bottom = getRandomCoordinate();
@@ -166,23 +165,23 @@ public class RectLTest {
         final RectL out = new RectL();
 
         in.set(0, 0, 4, 6);
-        RectL.getBounds(in, 0,0, 180, out);
+        RectL.getBounds(in, 0, 0, 180, out);
         Assert.assertEquals(-6, out.top);
         Assert.assertEquals(0, out.bottom);
         Assert.assertEquals(-4, out.left);
         Assert.assertEquals(0, out.right);
 
         in.set(0, 0, 5, 7);
-        RectL.getBounds(in, 0,0, 90, out);
+        RectL.getBounds(in, 0, 0, 90, out);
         Assert.assertEquals(0, out.top);
         Assert.assertEquals(-7, out.left);
         Assert.assertEquals(5, out.bottom);
         Assert.assertEquals(0, out.right);
 
         in.set(0, 0, 8, 8);
-        RectL.getBounds(in, 0,0, 45, out);
+        RectL.getBounds(in, 0, 0, 45, out);
         Assert.assertEquals(0, out.top);
-        Assert.assertEquals(- Math.round(8 * Math.sqrt(2) / 2.), out.left);
+        Assert.assertEquals(-Math.round(8 * Math.sqrt(2) / 2.), out.left);
         Assert.assertEquals(Math.round(8 * Math.sqrt(2)), out.bottom);
         Assert.assertEquals(Math.round(8 * Math.sqrt(2) / 2.), out.right);
     }
@@ -196,7 +195,7 @@ public class RectLTest {
 
         in.bottom = 6;
         in.right = 4;
-        RectL.getBounds(in, 0,0, 180, out);
+        RectL.getBounds(in, 0, 0, 180, out);
         Assert.assertEquals(-6, out.top);
         Assert.assertEquals(0, out.bottom);
         Assert.assertEquals(-4, out.left);
@@ -204,7 +203,7 @@ public class RectLTest {
 
         in.bottom = 7;
         in.right = 5;
-        RectL.getBounds(in, 0,0, 90, out);
+        RectL.getBounds(in, 0, 0, 90, out);
         Assert.assertEquals(0, out.top);
         Assert.assertEquals(-7, out.left);
         Assert.assertEquals(5, out.bottom);
@@ -212,9 +211,9 @@ public class RectLTest {
 
         in.bottom = 8;
         in.right = 8;
-        RectL.getBounds(in, 0,0, 45, out);
+        RectL.getBounds(in, 0, 0, 45, out);
         Assert.assertEquals(0, out.top);
-        Assert.assertEquals(- Math.round(8 * Math.sqrt(2) / 2.), out.left);
+        Assert.assertEquals(-Math.round(8 * Math.sqrt(2) / 2.), out.left);
         Assert.assertEquals(Math.round(8 * Math.sqrt(2)), out.bottom);
         Assert.assertEquals(Math.round(8 * Math.sqrt(2) / 2.), out.right);
     }

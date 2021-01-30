@@ -24,16 +24,18 @@ import static org.osmdroid.samplefragments.events.SampleMapEventListener.df;
  * Drawing a polygon on screen with up to 1 hole
  * created on 8/26/2017.
  * Map replication is ON for this sample (only viewable for numerically lower zoom levels (higher altitude))
+ *
  * @author Alex O'Ree
  */
 
 public class DrawPolygonHoles extends BaseSampleFragment implements View.OnClickListener {
-    ImageButton painting,panning,holes;
+    ImageButton painting, panning, holes;
 
     TextView textViewCurrentLocation;
 
     ImageButton btnRotateLeft, btnRotateRight;
     CustomPaintingSurface paint;
+
     @Override
     public String getSampleTitle() {
         return "Draw a polygon with holes on screen";
@@ -135,8 +137,8 @@ public class DrawPolygonHoles extends BaseSampleFragment implements View.OnClick
     private void updateInfo() {
         IGeoPoint mapCenter = mMapView.getMapCenter();
         textViewCurrentLocation.setText(df.format(mapCenter.getLatitude()) + "," +
-            df.format(mapCenter.getLongitude())
-            + ",zoom=" + mMapView.getZoomLevelDouble() + ",angle=" + mMapView.getMapOrientation());
+                df.format(mapCenter.getLongitude())
+                + ",zoom=" + mMapView.getZoomLevelDouble() + ",angle=" + mMapView.getMapOrientation());
 
     }
 

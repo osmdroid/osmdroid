@@ -5,17 +5,18 @@ import org.osmdroid.views.overlay.SpeechBalloonOverlay;
 /**
  * Helper class for {@link SpeechBalloonOverlay}
  * whose main interest is method {@link #compute(RectL, PointL, double, PointL, PointL)}
- * @since 6.1.1
+ *
  * @author Fabrice Fontaine
+ * @since 6.1.1
  */
 public class SpeechBalloonHelper {
 
-    public static final int CORNER_INSIDE  = -1;
-    public static final int CORNER_NONE    = 0;
-    public static final int CORNER_LEFT    = 1;
-    public static final int CORNER_RIGHT   = 2;
-    public static final int CORNER_TOP     = 4;
-    public static final int CORNER_BOTTOM  = 8;
+    public static final int CORNER_INSIDE = -1;
+    public static final int CORNER_NONE = 0;
+    public static final int CORNER_LEFT = 1;
+    public static final int CORNER_RIGHT = 2;
+    public static final int CORNER_TOP = 4;
+    public static final int CORNER_BOTTOM = 8;
 
     private final PointL mTrianglePoint = new PointL();
     private RectL mRect;
@@ -24,6 +25,7 @@ public class SpeechBalloonHelper {
     /**
      * Computes the intersection between a rectangle and the triangle that starts from a Point
      * and goes to a circle centered on the rectangle's center
+     *
      * @return CORNER_INSIDE if the Point is within the rectangle, CORNER_NONE if both intersections
      * are on the same border, or a combination of CORNER_% that tells which rectangle's corner is
      * included between both intersections
@@ -82,6 +84,6 @@ public class SpeechBalloonHelper {
     private void computeCirclePoint(final PointL pDestination, final double pRadius,
                                     final double pAngle, final boolean pFirst) {
         MyMath.computeCirclePoint(mRect.centerX(), mRect.centerY(), pRadius,
-                pAngle + Math.PI/2 * (pFirst ? 1 : -1), pDestination);
+                pAngle + Math.PI / 2 * (pFirst ? 1 : -1), pDestination);
     }
 }

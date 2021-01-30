@@ -11,10 +11,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import org.osmdroid.R;
 import org.osmdroid.samplefragments.BaseSampleFragment;
@@ -33,19 +33,19 @@ public class SampleCacheDownloader extends BaseSampleFragment implements View.On
         return "Cache Manager";
     }
 
-    Button btnCache,executeJob;
+    Button btnCache, executeJob;
     SeekBar zoom_min;
     SeekBar zoom_max;
-    EditText cache_north, cache_south, cache_east,cache_west;
+    EditText cache_north, cache_south, cache_east, cache_west;
     TextView cache_estimate;
     CacheManager mgr;
-    AlertDialog downloadPrompt=null;
-    AlertDialog alertDialog=null;
+    AlertDialog downloadPrompt = null;
+    AlertDialog alertDialog = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View root = inflater.inflate(R.layout.sample_cachemgr, container,false);
+        View root = inflater.inflate(R.layout.sample_cachemgr, container, false);
 
         //prevent the action bar/toolbar menu in order to prevent tile source changes.
         //if this is enabled, playstore users could actually download large volumes of tiles
@@ -83,7 +83,7 @@ public class SampleCacheDownloader extends BaseSampleFragment implements View.On
     }
 
 
-    private void showCacheManagerDialog(){
+    private void showCacheManagerDialog() {
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                 getActivity());
@@ -91,16 +91,16 @@ public class SampleCacheDownloader extends BaseSampleFragment implements View.On
 
         // set title
         alertDialogBuilder.setTitle(R.string.cache_manager);
-                //.setMessage(R.string.cache_manager_description);
+        //.setMessage(R.string.cache_manager_description);
 
         // set dialog message
         alertDialogBuilder.setItems(new CharSequence[]{
-                getResources().getString(R.string.cache_current_size),
-                getResources().getString(R.string.cache_download),
-                getResources().getString(R.string.cancel)
+                        getResources().getString(R.string.cache_current_size),
+                        getResources().getString(R.string.cache_download),
+                        getResources().getString(R.string.cancel)
                 }, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        switch (which){
+                        switch (which) {
                             case 0:
                                 showCurrentCacheInfo();
                                 break;
@@ -123,7 +123,7 @@ public class SampleCacheDownloader extends BaseSampleFragment implements View.On
 
 
         //mgr.possibleTilesInArea(mMapView.getBoundingBox(), 0, 18);
-       // mgr.
+        // mgr.
     }
 
     private void downloadJobAlert() {
@@ -133,23 +133,23 @@ public class SampleCacheDownloader extends BaseSampleFragment implements View.On
         View view = View.inflate(getActivity(), R.layout.sample_cachemgr_input, null);
 
         BoundingBox boundingBox = mMapView.getBoundingBox();
-        zoom_max= view.findViewById(R.id.slider_zoom_max);
+        zoom_max = view.findViewById(R.id.slider_zoom_max);
         zoom_max.setMax((int) mMapView.getMaxZoomLevel());
         zoom_max.setOnSeekBarChangeListener(SampleCacheDownloader.this);
 
 
-        zoom_min= view.findViewById(R.id.slider_zoom_min);
+        zoom_min = view.findViewById(R.id.slider_zoom_min);
         zoom_min.setMax((int) mMapView.getMaxZoomLevel());
         zoom_min.setProgress((int) mMapView.getMinZoomLevel());
         zoom_min.setOnSeekBarChangeListener(SampleCacheDownloader.this);
-        cache_east= view.findViewById(R.id.cache_east);
-        cache_east.setText(boundingBox.getLonEast() +"");
-        cache_north= view.findViewById(R.id.cache_north);
-        cache_north.setText(boundingBox.getLatNorth() +"");
-        cache_south= view.findViewById(R.id.cache_south);
-        cache_south.setText(boundingBox.getLatSouth()  +"");
-        cache_west= view.findViewById(R.id.cache_west);
-        cache_west.setText(boundingBox.getLonWest()  +"");
+        cache_east = view.findViewById(R.id.cache_east);
+        cache_east.setText(boundingBox.getLonEast() + "");
+        cache_north = view.findViewById(R.id.cache_north);
+        cache_north.setText(boundingBox.getLatNorth() + "");
+        cache_south = view.findViewById(R.id.cache_south);
+        cache_south.setText(boundingBox.getLatSouth() + "");
+        cache_west = view.findViewById(R.id.cache_west);
+        cache_west.setText(boundingBox.getLonWest() + "");
         cache_estimate = view.findViewById(R.id.cache_estimate);
 
         //change listeners for both validation and to trigger the download estimation
@@ -157,24 +157,24 @@ public class SampleCacheDownloader extends BaseSampleFragment implements View.On
         cache_north.addTextChangedListener(this);
         cache_south.addTextChangedListener(this);
         cache_west.addTextChangedListener(this);
-        executeJob= view.findViewById(R.id.executeJob);
+        executeJob = view.findViewById(R.id.executeJob);
         executeJob.setOnClickListener(this);
         builder.setView(view);
         builder.setCancelable(true);
         builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
             @Override
             public void onCancel(DialogInterface dialog) {
-                cache_east=null;
-                cache_south=null;
-                cache_estimate=null;
-                cache_north=null;
-                cache_west=null;
-                executeJob=null;
-                zoom_min=null;
-                zoom_max=null;
+                cache_east = null;
+                cache_south = null;
+                cache_estimate = null;
+                cache_north = null;
+                cache_west = null;
+                executeJob = null;
+                zoom_min = null;
+                zoom_max = null;
             }
         });
-        downloadPrompt=builder.create();
+        downloadPrompt = builder.create();
         downloadPrompt.show();
 
 
@@ -200,14 +200,13 @@ public class SampleCacheDownloader extends BaseSampleFragment implements View.On
                 int zoommin = zoom_min.getProgress();
                 int zoommax = zoom_max.getProgress();
                 //nesw
-                BoundingBox bb= new BoundingBox(n, e, s, w);
+                BoundingBox bb = new BoundingBox(n, e, s, w);
                 int tilecount = mgr.possibleTilesInArea(bb, zoommin, zoommax);
                 cache_estimate.setText(tilecount + " tiles");
-                if (startJob)
-                {
-                    if ( downloadPrompt!=null) {
+                if (startJob) {
+                    if (downloadPrompt != null) {
                         downloadPrompt.dismiss();
-                        downloadPrompt=null;
+                        downloadPrompt = null;
                     }
 
                     //this triggers the download
@@ -240,13 +239,13 @@ public class SampleCacheDownloader extends BaseSampleFragment implements View.On
                 }
 
             }
-        }catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
 
     private void showCurrentCacheInfo() {
-        Toast.makeText(getActivity(), "Calculating..." ,Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), "Calculating...", Toast.LENGTH_SHORT).show();
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -256,7 +255,7 @@ public class SampleCacheDownloader extends BaseSampleFragment implements View.On
 
                 // set title
                 alertDialogBuilder.setTitle(R.string.cache_manager)
-                        .setMessage("Cache Capacity (bytes): " + mgr.cacheCapacity() + "\n"+
+                        .setMessage("Cache Capacity (bytes): " + mgr.cacheCapacity() + "\n" +
                                 "Cache Usage (bytes): " + mgr.currentCacheUsage());
 
                 // set dialog message
@@ -271,8 +270,6 @@ public class SampleCacheDownloader extends BaseSampleFragment implements View.On
                 );
 
 
-
-
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -285,7 +282,6 @@ public class SampleCacheDownloader extends BaseSampleFragment implements View.On
 
             }
         }).start();
-
 
 
     }
@@ -321,12 +317,12 @@ public class SampleCacheDownloader extends BaseSampleFragment implements View.On
     }
 
     @Override
-    public void onPause(){
+    public void onPause() {
         super.onPause();
-        if (alertDialog!=null && alertDialog.isShowing()){
+        if (alertDialog != null && alertDialog.isShowing()) {
             alertDialog.dismiss();
         }
-        if (downloadPrompt!=null && downloadPrompt.isShowing()){
+        if (downloadPrompt != null && downloadPrompt.isShowing()) {
             downloadPrompt.dismiss();
         }
     }
