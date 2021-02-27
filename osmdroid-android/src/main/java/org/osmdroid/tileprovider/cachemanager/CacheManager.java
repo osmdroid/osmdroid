@@ -838,7 +838,7 @@ public class CacheManager {
         return new CacheManagerAction() {
             @Override
             public boolean preCheck() {
-                if (mTileSource instanceof OnlineTileSourceBase) {
+                if (mTileSource!=null && mTileSource instanceof OnlineTileSourceBase) {
                     if (!((OnlineTileSourceBase) mTileSource).getTileSourcePolicy().acceptsBulkDownload()) {
                         throw new TileSourcePolicyException("This online tile source doesn't support bulk download");
                     }
