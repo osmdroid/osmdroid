@@ -166,52 +166,52 @@ ext.owaspIgnoreFailures = (
  */
 
 //dex count report APKs only for now
-task dexCountReport() << {
+task dexCountReport() {
+    doLast {
+        File outdir = new File("${buildDir}/reports/dex-count/");
 
-    File outdir = new File("${buildDir}/reports/dex-count/");
+        if (project.plugins.hasPlugin("com.android.application")) {
 
-    if (project.plugins.hasPlugin("com.android.application")) {
+            outdir.mkdirs();
 
-        outdir.mkdirs();
-
-        //List<String> apks = new ArrayList<>();
-        File[] list = new File(buildDir.absolutePath + "/outputs/apk/").listFiles(new FilenameFilter() {
-            @Override
-            boolean accept(File dir, String name) {
-                if (name.endsWith(".apk") && !name.contains("-unaligned"))
-                    return true;
-                return false;
-            }
-        });
-        if (list != null && list.length > 0) {
-            String[] files = new String[list.length];
-            for (int i = 0; i < list.length; i++) {
-                files[i] = list[i].absolutePath;
-            }
-
-            def dexcount = new com.github.spyhunter99.dex.Main();
-            dexcount.enableStdOut(false)
-            dexcount.enableFileOutput(true)
-            dexcount.setOutputDirectory(outdir)
-            dexcount.run(files);
-            List<CountData> results = dexcount.getData()
-            for (int k = 0; k < results.size(); k++) {
-                if (results.get(k).overallMetrics.methodCount > 60000 && 65536 < results.get(k).overallMetrics.methodCount) {
-                    logger.warn(results.get(k).fileName + ": Method count is near the limit: " + results.get(k).overallMetrics.methodCount)
+            //List<String> apks = new ArrayList<>();
+            File[] list = new File(buildDir.absolutePath + "/outputs/apk/").listFiles(new FilenameFilter() {
+                @Override
+                boolean accept(File dir, String name) {
+                    if (name.endsWith(".apk") && !name.contains("-unaligned"))
+                        return true;
+                    return false;
                 }
-                if (results.get(k).overallMetrics.fieldCount > 60000 && 65536 < results.get(k).overallMetrics.fieldCount) {
-                    logger.warn(results.get(k).fileName + ": Field count is near the limit: " + results.get(k).overallMetrics.fieldCount)
+            });
+            if (list != null && list.length > 0) {
+                String[] files = new String[list.length];
+                for (int i = 0; i < list.length; i++) {
+                    files[i] = list[i].absolutePath;
+                }
+
+                def dexcount = new com.github.spyhunter99.dex.Main();
+                dexcount.enableStdOut(false)
+                dexcount.enableFileOutput(true)
+                dexcount.setOutputDirectory(outdir)
+                dexcount.run(files);
+                List<CountData> results = dexcount.getData()
+                for (int k = 0; k < results.size(); k++) {
+                    if (results.get(k).overallMetrics.methodCount > 60000 && 65536 < results.get(k).overallMetrics.methodCount) {
+                        logger.warn(results.get(k).fileName + ": Method count is near the limit: " + results.get(k).overallMetrics.methodCount)
+                    }
+                    if (results.get(k).overallMetrics.fieldCount > 60000 && 65536 < results.get(k).overallMetrics.fieldCount) {
+                        logger.warn(results.get(k).fileName + ": Field count is near the limit: " + results.get(k).overallMetrics.fieldCount)
+                    }
                 }
             }
-        }
-        if (list != null && list.length == 1) {
-            //need to rename the singular output file to index.html
-            File report = new File(outdir.absolutePath + "/dex-count-report.html");
-            File index = new File(outdir.absolutePath + "/index.html");
-            Files.move(report.toPath(), index.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            if (list != null && list.length == 1) {
+                //need to rename the singular output file to index.html
+                File report = new File(outdir.absolutePath + "/dex-count-report.html");
+                File index = new File(outdir.absolutePath + "/index.html");
+                Files.move(report.toPath(), index.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            }
         }
     }
-
 }
 
 //dex count report APKs only for now
@@ -229,8 +229,10 @@ task dexCountReport() << {
 //produce a gradle provided dependency report
 import java.nio.file.StandardCopyOption
 
-task dependencyReportGradlePre() << {
-    new File("${buildDir}/reports/dependencies/").mkdirs();
+task dependencyReportGradlePre()  {
+    doLast {
+        new File("${buildDir}/reports/dependencies/").mkdirs();
+    }
 }
 
 task dependencyReportGradle(type: DependencyReportTask, dependsOn: dependencyReportGradlePre) {
@@ -238,20 +240,22 @@ task dependencyReportGradle(type: DependencyReportTask, dependsOn: dependencyRep
     outputFile = new File("${buildDir}/reports/dependencies/index.txt");
 }
 
-task dependencyReportTransform(dependsOn: dependencyReportGradle) << {
-    //strip out an absolute paths
-    String contents = readFile("${buildDir}/reports/dependencies/index.txt", Charset.defaultCharset());
-    contents = contents.replace(rootDir.absolutePath, ".");
+task dependencyReportTransform(dependsOn: dependencyReportGradle) {
+    doLast {
+        //strip out an absolute paths
+        String contents = readFile("${buildDir}/reports/dependencies/index.txt", Charset.defaultCharset());
+        contents = contents.replace(rootDir.absolutePath, ".");
 
-    //inject into template
-    String template = '<html><body>${body}</body></html>';
-    contents = template.replace('${body}', "<pre>" + StringEscapeUtils.escapeHtml4(contents) + "</pre>");
+        //inject into template
+        String template = '<html><body>${body}</body></html>';
+        contents = template.replace('${body}', "<pre>" + StringEscapeUtils.escapeHtml4(contents) + "</pre>");
 
-    //save it
-    String targetFileName = "${buildDir}/reports/dependencies/index.html"
-    PrintWriter out = new PrintWriter(targetFileName);
-    out.println(contents);
-    out.close()
+        //save it
+        String targetFileName = "${buildDir}/reports/dependencies/index.html"
+        PrintWriter out = new PrintWriter(targetFileName);
+        out.println(contents);
+        out.close()
+    }
 }
 afterEvaluate {
     try {
@@ -290,18 +294,20 @@ configurations {
 dependencies {
     javancss 'org.codehaus.javancss:javancss:33.54'
 }
-task javancss << {
-    new File("${buildDir}/reports/javancss/").mkdirs()
-    ant {
-        taskdef name: 'javancss', classname: 'javancss.JavancssAntTask', classpath: configurations.javancss.asPath
+task javancss {
+    doLast {
+        new File("${buildDir}/reports/javancss/").mkdirs()
+        ant {
+            taskdef name: 'javancss', classname: 'javancss.JavancssAntTask', classpath: configurations.javancss.asPath
 
-        javancss srcdir: 'src', includes: '**/*.java', packageMetrics: 'true', classMetrics: 'true', functionMetrics: 'true', abortOnFail: false, generateReport: true, outputfile: "${buildDir}/reports/javancss/main.xml", format: 'xml'
+            javancss srcdir: 'src', includes: '**/*.java', packageMetrics: 'true', classMetrics: 'true', functionMetrics: 'true', abortOnFail: false, generateReport: true, outputfile: "${buildDir}/reports/javancss/main.xml", format: 'xml'
+        }
+
+        ant.xslt(
+                in: "$reporting.baseDir/javancss/main.xml",
+                style: "$rootDir/config/javancss/javancss2html.xsl",
+                out: "$reporting.baseDir/javancss/index.html")
     }
-
-    ant.xslt(
-            in: "$reporting.baseDir/javancss/main.xml",
-            style: "$rootDir/config/javancss/javancss2html.xsl",
-            out: "$reporting.baseDir/javancss/index.html")
 }
 
 javancss.onlyIf { file('src').exists() }
@@ -352,28 +358,29 @@ task checkstyleAndroid(type: Checkstyle) {
 }
 
 
-task generateCheckstyleHtml() <<{
-    System.out.println("post processing checkstyle")
-    /* ugh this MIGHT solve the issue with gradle 2.2.1 and not auto generating the html report */
-    //fixes for android projects, but not non-android
+task generateCheckstyleHtml() {
+    doLast {
+        System.out.println("post processing checkstyle")
+        /* ugh this MIGHT solve the issue with gradle 2.2.1 and not auto generating the html report */
+        //fixes for android projects, but not non-android
 
-    File cs=new File(project.buildDir.absolutePath + "/reports/checkstyle/");
-    if (cs.exists()) {
-        File[] reports = cs.listFiles();
-        for (int i = 0; i < reports.length; i++) {
-            if (reports[i].getName().endsWith(".xml")) {
-                ant.xslt(in: reports[i],
-                        style: new File("${project.rootDir}/config/checkstyle/checkstyle-noframes-sorted.xsl"),
-                        out: new File(reports[i].parent, reports[i].getName().replace(".xml", ".html")))
+        File cs = new File(project.buildDir.absolutePath + "/reports/checkstyle/");
+        if (cs.exists()) {
+            File[] reports = cs.listFiles();
+            for (int i = 0; i < reports.length; i++) {
+                if (reports[i].getName().endsWith(".xml")) {
+                    ant.xslt(in: reports[i],
+                            style: new File("${project.rootDir}/config/checkstyle/checkstyle-noframes-sorted.xsl"),
+                            out: new File(reports[i].parent, reports[i].getName().replace(".xml", ".html")))
+                }
             }
-        }
-        for (int i = 0; i < reports.length; i++) {
-            if (reports[i].getName().endsWith(".xml") && reports[i].text.contains("<error ") && !project.ext.checkStyleIgnoreFailures) {
-                throw new GradleException("There were checkstyle warnings! For more info check $outputFile")
+            for (int i = 0; i < reports.length; i++) {
+                if (reports[i].getName().endsWith(".xml") && reports[i].text.contains("<error ") && !project.ext.checkStyleIgnoreFailures) {
+                    throw new GradleException("There were checkstyle warnings! For more info check $outputFile")
+                }
             }
         }
     }
-
 }
 
 afterEvaluate {
