@@ -48,7 +48,6 @@ import java.nio.file.Paths
 
 
 apply plugin: 'checkstyle'
-apply plugin: 'findbugs'
 apply plugin: 'pmd'
 apply plugin: 'jdepend'
 
@@ -64,9 +63,6 @@ buildscript {
         jcenter()
         mavenCentral()
         mavenLocal()
-        maven {
-            url "https://plugins.gradle.org/m2/"
-        }
     }
     dependencies {
         classpath 'org.apache.commons:commons-lang3:3.6'
@@ -75,6 +71,8 @@ buildscript {
         classpath 'org.owasp:dependency-check-gradle:1.4.5.1'
     }
 }
+
+apply plugin: 'com.github.spotbugs'
 
 
 ext.checkStyleEnable = (
@@ -89,22 +87,22 @@ ext.checkStyleIgnoreFailures = (
 );
 
 
-ext.findbugsEnable = (
+ext.spotbugsEnable = (
         hasProperty('quality.findbugs.enable')
                 ? Boolean.parseBoolean(project.property("quality.findbugs.enable"))
                 : true
 );
-ext.findbugsIgnoreFailures = (
+ext.spotbugsIgnoreFailures = (
         hasProperty('quality.findbugs.ignoreFailures')
                 ? Boolean.parseBoolean(project.property("quality.findbugs.ignoreFailures"))
                 : true
 );
-ext.findbugsEffort = (
+ext.spotbugsEffort = (
         hasProperty('quality.findbugs.effort')
                 ? project.property("quality.findbugs.effort")
                 : "max"
 );
-ext.findbugsReportLevel = (
+ext.spotbugsReportLevel = (
         hasProperty('quality.findbugs.reportLevel')
                 ? project.property("quality.findbugs.reportLevel")
                 : "high"
@@ -543,50 +541,22 @@ task pmdAndroid(type: Pmd) {
 
 
 
-/*
-#######                 ######
-#       # #    # #####  #     # #    #  ####   ####
-#       # ##   # #    # #     # #    # #    # #
-#####   # # #  # #    # ######  #    # #       ####
-#       # #  # # #    # #     # #    # #  ###      #
-#       # #   ## #    # #     # #    # #    # #    #
-#       # #    # #####  ######   ####   ####   ####
-
- */
-//<editor-fold desc="findbugs">
-//configure findbugs for 'normal' projects
-if (project.ext.findbugsEnable) {
-    findbugs {
-        ignoreFailures = project.ext.findbugsIgnoreFailures
+//    #####                      ######
+//   #     # #####   ####  ##### #     # #    #  ####   ####
+//   #       #    # #    #   #   #     # #    # #    # #
+//    #####  #    # #    #   #   ######  #    # #       ####
+//         # #####  #    #   #   #     # #    # #  ###      #
+//   #     # #      #    #   #   #     # #    # #    # #    #
+//    #####  #       ####    #   ######   ####   ####   ####
+//<editor-fold desc="spotbugs">
+//configure spotbugs for 'normal' projects
+if (project.ext.spotbugsEnable) {
+    spotbugs {
+        ignoreFailures = project.ext.spotbugsIgnoreFailures
         excludeFilter = new File("${project.rootDir}/config/findbugs/findbugs-filter.xml")
-        effort = project.ext.findbugsEffort
-        reportLevel = project.ext.findbugsReportLevel
+        effort = project.ext.spotbugsEffort
+        reportLevel = project.ext.spotbugsReportLevel
     }
-}
-//configure findbugs for 'android' projects...seriously?
-task findbugsAndroid(type: FindBugs) {
-    ignoreFailures = project.ext.findbugsIgnoreFailures
-    excludeFilter = new File("${project.rootDir}/config/findbugs/findbugs-filter.xml")
-    effort = project.ext.findbugsEffort
-    reportLevel = project.ext.findbugsReportLevel
-    classes = files("$project.buildDir/intermediates/classes")
-
-    source 'src'
-    include '**/*.java'
-    exclude '**/gen/**'
-
-    reports {
-        xml.enabled = false
-        html.enabled = true
-        xml {
-            destination "$project.buildDir/reports/findbugs/findbugs.xml"
-            xml.withMessages true
-        }
-        html {
-            destination "$project.buildDir/reports/findbugs/findbugs.html"
-        }
-    }
-    classpath = files()
 }
 //NOTE to post analysis is necessary, ignore failures does it job and fails the build if something
 //is wrong
@@ -654,15 +624,6 @@ afterEvaluate {
                 }
             }
         }
-    }
-}
-
-
-tasks.withType(FindBugs) {
-    reports {
-        xml.enabled false
-        html.enabled true
-        //html.stylesheet resources.text.fromFile('config/xsl/findbugs-custom.xsl')
     }
 }
 
