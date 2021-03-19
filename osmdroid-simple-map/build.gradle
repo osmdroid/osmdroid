@@ -3,6 +3,8 @@ description = 'Simple Map'
 apply plugin: 'com.android.application'
 
 android {
+    compileSdkVersion findProperty('android.compileSdkVersion').toInteger()
+
     defaultConfig {
         applicationId 'org.osmdroid.sample'
         minSdkVersion Integer.parseInt(project.property('android-minSdkForSupportLib.version'))

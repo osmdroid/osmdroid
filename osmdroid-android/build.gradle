@@ -2,6 +2,8 @@ description = 'An Android library to display OpenStreetMap views.'
 apply plugin: 'com.android.library'
 
 android {
+    compileSdkVersion findProperty('android.compileSdkVersion').toInteger()
+
     lintOptions {
         abortOnError false
     }

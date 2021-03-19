@@ -3,7 +3,7 @@ description = 'Shapefile support for osmdroid'
 apply plugin: 'com.android.library'
 
 android {
-
+    compileSdkVersion findProperty('android.compileSdkVersion').toInteger()
 }
 
 dependencies {

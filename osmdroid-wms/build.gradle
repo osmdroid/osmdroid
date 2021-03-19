@@ -2,6 +2,8 @@ description = 'OSMdroid Android WMS Client'
 apply plugin: 'com.android.library'
 
 android {
+    compileSdkVersion findProperty('android.compileSdkVersion').toInteger()
+
     defaultConfig {
         minSdkVersion Integer.parseInt(project.property('android.minSdkVersion'))
     }

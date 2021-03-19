@@ -3,6 +3,7 @@ description = 'Geopackage support for osmdroid'
 apply plugin: 'com.android.library'
 
 android {
+    compileSdkVersion findProperty('android.compileSdkVersion').toInteger()
 
     defaultConfig {
         minSdkVersion 14

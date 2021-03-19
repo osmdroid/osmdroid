@@ -3,6 +3,8 @@ description = 'OpenMap in the Play Store, the example app for using osmdroid'
 apply plugin: 'com.android.application'
 
 android {
+    compileSdkVersion findProperty('android.compileSdkVersion').toInteger()
+
     defaultConfig {
         applicationId 'org.osmdroid'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
