@@ -40,16 +40,12 @@ import java.nio.file.Paths
  *
  *
  *  addendum
- *  jdepend stuff came from here
- *
- *  https://github.com/azagniotov/stubby4j/blob/master/conf/gradle/jdepend.gradle
  */
 
 
 
 apply plugin: 'checkstyle'
 apply plugin: 'pmd'
-apply plugin: 'jdepend'
 
 
 //our MOTD
@@ -126,20 +122,6 @@ ext.pmdIgnoreFailures = (
                 : true
 );
 //TODO rulePriority
-
-
-ext.jdependEnable = (
-        hasProperty('quality.jdepend.enable')
-                ? Boolean.parseBoolean(project.property("quality.jdepend.enable"))
-                : true
-);
-ext.jdependIgnoreFailures = (
-        hasProperty('quality.jdepend.ignoreFailures')
-                ? Boolean.parseBoolean(project.property("quality.jdepend.ignoreFailures"))
-                : true
-);
-
-
 
 
 ext.dexcountEnable = (
@@ -333,69 +315,6 @@ afterEvaluate {
 }
 
 // END setup for java ncss
-//</editor-fold>
-
-
-
-
-
-
-//       ######
-//     # #     # ###### #####  ###### #    # #####
-//     # #     # #      #    # #      ##   # #    #
-//     # #     # #####  #    # #####  # #  # #    #
-//     # #     # #      #####  #      #  # # #    #
-//#    # #     # #      #      #      #   ## #    #
-// ####  ######  ###### #      ###### #    # #####
-
-
-//<editor-fold desc="jDepend">
-//configure jdepend for 'normal' projects
-jdepend {
-    ignoreFailures = project.ext.jdependIgnoreFailures
-}
-
-task jdependReport(group: 'verification', description: 'Generates a HTML report after executing jdepend checks.') << {
-    //check for 'parent' projects
-    if (new File("$reporting.baseDir/jdepend/main.xml").exists()) {
-        ant.xslt(
-                in: "$reporting.baseDir/jdepend/main.xml",
-                style: "$rootDir/config/jdepend/jdepend-report.xslt",
-                out: "$reporting.baseDir/jdepend/index.html")
-    }
-}
-
-afterEvaluate {
-    try {
-        check {
-            dependsOn += ['jdependReport']
-        }
-    } catch (Throwable t) {
-        logger.debug("failed to attach check on project" + project.name, t);
-    }
-}
-
-//configure jdepend for 'android' projects
-task jdependAndroidReport(group: 'verification', description: 'Generates a HTML report after executing jdepend checks.') << {
-    //check for 'parent' projects
-    if (new File("$reporting.baseDir/jdepend/main.xml").exists()) {
-        ant.xslt(
-                in: "$reporting.baseDir/jdepend/main.xml",
-                style: "$rootDir/config/jdepend/jdepend-report.xslt",
-                out: "$reporting.baseDir/jdepend/index.html")
-    }
-}
-
-task jdependAndroid(type: JDepend, dependsOn: 'compileDebugSources') {
-    classesDir file('build/intermediates/')
-    reports {
-        xml {
-            destination "$reporting.baseDir/jdepend/main.xml"
-        }
-    }
-}
-
-jdependAndroidReport.dependsOn jdependAndroid
 //</editor-fold>
 
 
@@ -616,8 +535,6 @@ afterEvaluate {
                         tasks.findByName('pmdAndroid').execute();
                     if (project.ext.checkStyleEnable)
                         tasks.findByName('checkstyleAndroid').execute();
-                    tasks.findByName('jdependAndroid').execute();
-                    tasks.findByName('jdependAndroidReport').execute();
                 }
                 if (project.plugins.hasPlugin("com.android.application")) {
                     tasks.findByName('dexCountReport').execute();
