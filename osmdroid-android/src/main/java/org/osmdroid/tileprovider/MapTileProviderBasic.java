@@ -41,13 +41,13 @@ import org.osmdroid.util.MapTileAreaZoomComputer;
 public class MapTileProviderBasic extends MapTileProviderArray implements IMapTileProviderCallback {
 
 	protected IFilesystemCache tileWriter;
-	private INetworkAvailablityCheck mNetworkAvailabilityCheck;
+	final private INetworkAvailablityCheck mNetworkAvailabilityCheck;
 
 	/**
 	 * @since 6.1.0
 	 */
-	private MapTileDownloader mDownloaderProvider;
-	private MapTileApproximater mApproximationProvider;
+	final private MapTileDownloader mDownloaderProvider;
+	final private MapTileApproximater mApproximationProvider;
 
 	/**
 	 * Creates a {@link MapTileProviderBasic}.
@@ -78,14 +78,7 @@ public class MapTileProviderBasic extends MapTileProviderArray implements IMapTi
 			final INetworkAvailablityCheck aNetworkAvailablityCheck, final ITileSource pTileSource,
 			final Context pContext, final IFilesystemCache cacheWriter) {
 		super(pTileSource, pRegisterReceiver);
-		init(pRegisterReceiver, aNetworkAvailablityCheck, pTileSource, pContext, cacheWriter);
-	}
 
-	protected void init(IRegisterReceiver pRegisterReceiver,
-						INetworkAvailablityCheck aNetworkAvailablityCheck,
-						ITileSource pTileSource,
-						Context pContext,
-						IFilesystemCache cacheWriter) {
 		mNetworkAvailabilityCheck = aNetworkAvailablityCheck;
 
 		if (cacheWriter != null) {
