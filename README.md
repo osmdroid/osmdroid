@@ -88,7 +88,7 @@ You can also build your project using the gradle option `--refreshDependencies`
 
 ## OK now what?
 
-Continue reading here, [How-to-use-the-osmdroid-library](https://github.com/osmdroid/osmdroid/wiki/How-to-use-the-osmdroid-library)
+Continue reading here, [How-to-use-the-osmdroid-library](https://github.com/osmdroid/osmdroid/wiki)
 
 Related and **important** wiki articles
  * [Change Log](https://github.com/osmdroid/osmdroid/wiki/Changelog)
