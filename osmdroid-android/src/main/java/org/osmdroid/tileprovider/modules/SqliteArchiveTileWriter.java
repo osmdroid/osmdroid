@@ -24,9 +24,10 @@ import java.io.InputStream;
  * Uses the same schema as MOBAC osm sqlite and the {@link DatabaseFileArchive}
  * <p>
  * https://github.com/osmdroid/osmdroid/issues/348
+ *
+ * @author Alex O'Ree
  * @see SqlTileWriter
  * @see DatabaseFileArchive
- * @author Alex O'Ree
  * @since 5.2 7/8/16.
  */
 public class SqliteArchiveTileWriter implements IFilesystemCache {
@@ -56,8 +57,8 @@ public class SqliteArchiveTileWriter implements IFilesystemCache {
     @Override
     public boolean saveFile(final ITileSource pTileSourceInfo, final long pMapTileIndex, final InputStream pStream, final Long pExpirationTime) {
 
-        if (mDatabase==null || !mDatabase.isOpen()) {
-            Log.d(IMapView.LOGTAG,"Skipping SqlArchiveTileWriter saveFile, database is closed");
+        if (mDatabase == null || !mDatabase.isOpen()) {
+            Log.d(IMapView.LOGTAG, "Skipping SqlArchiveTileWriter saveFile, database is closed");
             return false;
         }
         boolean returnValue = false;
@@ -70,7 +71,7 @@ public class SqliteArchiveTileWriter implements IFilesystemCache {
             byte[] buffer = new byte[512];
             int l;
             bos = new ByteArrayOutputStream();
-            while( (l = pStream.read(buffer)) != -1 )
+            while ((l = pStream.read(buffer)) != -1)
                 bos.write(buffer, 0, l);
             byte[] bits = bos.toByteArray(); // if a variable is required at all
 
@@ -82,7 +83,7 @@ public class SqliteArchiveTileWriter implements IFilesystemCache {
                 Log.d(IMapView.LOGTAG, "tile inserted " + pTileSourceInfo.name() + MapTileIndex.toString(pMapTileIndex));
         } catch (Throwable ex) {
             Log.e(IMapView.LOGTAG, "Unable to store cached tile from " + pTileSourceInfo.name() + " " + MapTileIndex.toString(pMapTileIndex), ex);
-        }  finally {
+        } finally {
             try {
                 bos.close();
             } catch (IOException e) {
@@ -127,49 +128,48 @@ public class SqliteArchiveTileWriter implements IFilesystemCache {
 
     /**
      * For optimization reasons
+     *
      * @since 5.6.5
      */
     private static final String[] queryColumns = {DatabaseFileArchive.COLUMN_TILE};
 
     /**
-     *
-     * @since 5.6.5
      * @param pPrimaryKeyParameters
      * @return
+     * @since 5.6.5
      */
     public Cursor getTileCursor(final String[] pPrimaryKeyParameters) {
-        if (mDatabase==null || !mDatabase.isOpen()) {
-            Log.w(IMapView.LOGTAG,"Skipping SqlArchiveTileWriter getTileCursor, database is closed");
+        if (mDatabase == null || !mDatabase.isOpen()) {
+            Log.w(IMapView.LOGTAG, "Skipping SqlArchiveTileWriter getTileCursor, database is closed");
             return null;
         }
         return mDatabase.query(DatabaseFileArchive.TABLE, queryColumns, SqlTileWriter.getPrimaryKey(), pPrimaryKeyParameters, null, null, null);
     }
 
     /**
-     *
      * @since 5.6.5
      */
     @Override
-    public Drawable loadTile(final ITileSource pTileSource, final long pMapTileIndex) throws Exception{
-        if (mDatabase==null || !mDatabase.isOpen()) {
-            Log.w(IMapView.LOGTAG,"Skipping SqlArchiveTileWriter loadTile, database is closed");
+    public Drawable loadTile(final ITileSource pTileSource, final long pMapTileIndex) throws Exception {
+        if (mDatabase == null || !mDatabase.isOpen()) {
+            Log.w(IMapView.LOGTAG, "Skipping SqlArchiveTileWriter loadTile, database is closed");
             return null;
         }
         InputStream inputStream = null;
         try {
             final long index = SqlTileWriter.getIndex(pMapTileIndex);
             final Cursor cur = getTileCursor(SqlTileWriter.getPrimaryKeyParameters(index, pTileSource));
-            if (cur==null)
+            if (cur == null)
                 return null;
-            byte[] bits=null;
+            byte[] bits = null;
 
-            if(cur.moveToFirst()) {
+            if (cur.moveToFirst()) {
                 bits = cur.getBlob(cur.getColumnIndex(DatabaseFileArchive.COLUMN_TILE));
             }
             cur.close();
-            if (bits==null) {
+            if (bits == null) {
                 if (Configuration.getInstance().isDebugMode()) {
-                    Log.d(IMapView.LOGTAG,"SqlCache - Tile doesn't exist: " +pTileSource.name() + MapTileIndex.toString(pMapTileIndex));
+                    Log.d(IMapView.LOGTAG, "SqlCache - Tile doesn't exist: " + pTileSource.name() + MapTileIndex.toString(pMapTileIndex));
                 }
                 return null;
             }

@@ -85,10 +85,11 @@ public class SampleDrawPolyline extends BaseSampleFragment implements View.OnCli
     private void updateInfo() {
         IGeoPoint mapCenter = mMapView.getMapCenter();
         textViewCurrentLocation.setText(df.format(mapCenter.getLatitude()) + "," +
-            df.format(mapCenter.getLongitude())
-            + ",zoom=" + mMapView.getZoomLevelDouble() + ",angle=" + mMapView.getMapOrientation());
+                df.format(mapCenter.getLongitude())
+                + ",zoom=" + mMapView.getZoomLevelDouble() + ",angle=" + mMapView.getMapOrientation());
 
     }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {

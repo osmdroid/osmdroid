@@ -120,7 +120,7 @@ public class SampleSimpleFastPointOverlay extends BaseSampleFragment {
         mMapView.postDelayed(new Runnable() {
             @Override
             public void run() {
-                if(mMapView != null && mMapView.getController() != null
+                if (mMapView != null && mMapView.getController() != null
                         && mMapView.getIntrinsicScreenRect(null).height() > 0)
                     mMapView.zoomToBoundingBox(sfpo.getBoundingBox().concat(sfpo1.getBoundingBox()), false);
             }

@@ -8,25 +8,28 @@ import android.os.Bundle;
  * and is implemented by the osmdroid {@link org.osmdroid.views.overlay.MyLocationOverlay} class.
  *
  * @author Neil Boyd
- *
  */
 @Deprecated
 public interface IMyLocationOverlay {
 
-	boolean enableMyLocation();
-	void disableMyLocation();
-	boolean	isMyLocationEnabled();
+    boolean enableMyLocation();
 
-	boolean enableCompass();
-	void disableCompass();
-	boolean	isCompassEnabled() ;
+    void disableMyLocation();
 
-	public float getOrientation();
+    boolean isMyLocationEnabled();
 
-	boolean	runOnFirstFix(Runnable runnable);
+    boolean enableCompass();
 
-	void onStatusChanged(String provider, int status, Bundle extras);
+    void disableCompass();
 
-	Location getLastFix();
+    boolean isCompassEnabled();
+
+    public float getOrientation();
+
+    boolean runOnFirstFix(Runnable runnable);
+
+    void onStatusChanged(String provider, int status, Bundle extras);
+
+    Location getLastFix();
 
 }

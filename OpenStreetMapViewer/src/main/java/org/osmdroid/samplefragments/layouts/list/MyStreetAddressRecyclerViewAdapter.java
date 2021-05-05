@@ -13,7 +13,7 @@ import java.util.List;
 
 /**
  * {@link RecyclerView.Adapter} that can display a {@link DummyItem} and makes a call to the
- 99% is this is boiler plate android studio generated stuff
+ * 99% is this is boiler plate android studio generated stuff
  */
 public class MyStreetAddressRecyclerViewAdapter extends RecyclerView.Adapter<MyStreetAddressRecyclerViewAdapter.ViewHolder> {
 
@@ -27,7 +27,7 @@ public class MyStreetAddressRecyclerViewAdapter extends RecyclerView.Adapter<MyS
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-            .inflate(R.layout.fragment_streetaddress, parent, false);
+                .inflate(R.layout.fragment_streetaddress, parent, false);
 
         return new ViewHolder(view);
     }

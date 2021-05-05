@@ -50,11 +50,11 @@ public class Polyline extends PolyOverlayWithIW {
     }
 
     /**
-     * @since 6.1.0
      * @param pUsePath true if you want the drawing to use Path instead of Canvas.drawLines
      *                 Not recommended in all cases, given the performances.
      *                 Useful though if you want clean alpha vertices
      *                 cf. https://github.com/osmdroid/osmdroid/issues/1280
+     * @since 6.1.0
      */
     public Polyline(final MapView pMapView, final boolean pUsePath) {
         this(pMapView, pUsePath, false);
@@ -113,7 +113,8 @@ public class Polyline extends PolyOverlayWithIW {
         mOnClickListener = listener;
     }
 
-    /** Internal method used to ensure that the infowindow will have a default position in all cases,
+    /**
+     * Internal method used to ensure that the infowindow will have a default position in all cases,
      * so that the user can call showInfoWindow even if no tap occured before.
      * Currently, set the position on the "middle" point of the polyline.
      */
@@ -137,8 +138,8 @@ public class Polyline extends PolyOverlayWithIW {
     }
 
     /**
-     * @since 6.0.3
      * @return aggregate distance (in meters)
+     * @since 6.0.3
      */
     public double getDistance() {
         return mOutline.getDistance();

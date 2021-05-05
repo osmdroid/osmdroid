@@ -3,11 +3,11 @@ package org.osmdroid.views.overlay.mylocation;
 import android.location.Location;
 
 public interface IMyLocationProvider {
-	boolean startLocationProvider(IMyLocationConsumer myLocationConsumer);
+    boolean startLocationProvider(IMyLocationConsumer myLocationConsumer);
 
-	void stopLocationProvider();
+    void stopLocationProvider();
 
-	Location getLastKnownLocation();
+    Location getLastKnownLocation();
 
-	void destroy();
+    void destroy();
 }

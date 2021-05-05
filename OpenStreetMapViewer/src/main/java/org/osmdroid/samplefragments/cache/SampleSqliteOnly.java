@@ -18,7 +18,7 @@ import java.util.Set;
 /**
  * test to force sqlite tiles only loaded
  * https://github.com/osmdroid/osmdroid/issues/272
- *
+ * <p>
  * requires API 11 or higher in order to function properly
  * Created by alex on 2/21/16.
  */

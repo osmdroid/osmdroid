@@ -28,6 +28,7 @@ import java.util.List;
 
 /**
  * Demo with the new "non repetitive milestones" feature - a map of all capitals of the EU
+ *
  * @author Fabrice Fontaine
  * @since 6.0.3
  */
@@ -35,14 +36,14 @@ public class SampleMilestonesNonRepetitive extends SampleMapEventListener {
 
     private double mAnimatedMetersSoFar;
     private boolean mAnimationEnded;
-    private final String[] mOrder = new String[] { // arbitrary order
-        "FRA", "LUX", "BEL", "NLD",
-        "GBR", "IRL",
-        "PRT", "ESP",
-        "MLT", "ITA", "HRV", "SVN",
-        "DEU", "DNK", "SWE", "FIN",
-        "EST", "LVA", "LTU", "POL", "CZE", "AUT", "SVK", "HUN",
-        "ROU", "BGR", "GRC", "CYP"
+    private final String[] mOrder = new String[]{ // arbitrary order
+            "FRA", "LUX", "BEL", "NLD",
+            "GBR", "IRL",
+            "PRT", "ESP",
+            "MLT", "ITA", "HRV", "SVN",
+            "DEU", "DNK", "SWE", "FIN",
+            "EST", "LVA", "LTU", "POL", "CZE", "AUT", "SVK", "HUN",
+            "ROU", "BGR", "GRC", "CYP"
     };
 
     // source https://en.wikipedia.org/wiki/Flag_of_Europe#Colours
@@ -63,7 +64,7 @@ public class SampleMilestonesNonRepetitive extends SampleMapEventListener {
         final LinkedHashMap<String, DataCountry> mList;
         try {
             mList = new DataCountryLoader(getActivity(), R.raw.data_country).getList();
-        } catch(Exception e) {
+        } catch (Exception e) {
             throw new IllegalArgumentException(e);
         }
         final Polyline polyline = new Polyline();
@@ -72,7 +73,7 @@ public class SampleMilestonesNonRepetitive extends SampleMapEventListener {
         int distancesIndex = 0;
         double distance1 = 0;
         GeoPoint previous = null;
-        for(final String country : mOrder) {
+        for (final String country : mOrder) {
             final GeoPoint capital = new GeoPoint(mList.get(country).getCapitalGeoPoint());
             if (distancesIndex == 0) {
                 distance1 = 0;
@@ -99,7 +100,7 @@ public class SampleMilestonesNonRepetitive extends SampleMapEventListener {
 
                     @Override
                     protected void draw(final Canvas pCanvas, final Object pParameter) {
-                        final double meters = (double)pParameter;
+                        final double meters = (double) pParameter;
                         final boolean checked = meters < mAnimatedMetersSoFar || mAnimationEnded;
                         if (!checked) {
                             return;
@@ -129,7 +130,7 @@ public class SampleMilestonesNonRepetitive extends SampleMapEventListener {
         polyline.setMilestoneManagers(managers);
 
         mMapView.getOverlayManager().add(polyline);
-        final float distance = (float)polyline.getDistance();
+        final float distance = (float) polyline.getDistance();
         final float fraction = 1f / 10; // fraction of the polyline to be displayed
         final ValueAnimator percentageCompletion = ValueAnimator.ofFloat(0, distance);
         percentageCompletion.setDuration(5000); // 5 seconds
@@ -137,7 +138,7 @@ public class SampleMilestonesNonRepetitive extends SampleMapEventListener {
         percentageCompletion.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
-                mAnimatedMetersSoFar = (float)animation.getAnimatedValue();
+                mAnimatedMetersSoFar = (float) animation.getAnimatedValue();
                 if (mAnimatedMetersSoFar < distance * fraction) {
                     slicerForPath.setMeterDistanceSlice(0, mAnimatedMetersSoFar);
                 } else if (mAnimatedMetersSoFar > distance * (1 - fraction)) {

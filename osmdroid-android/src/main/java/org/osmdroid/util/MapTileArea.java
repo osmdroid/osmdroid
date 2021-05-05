@@ -6,11 +6,12 @@ import java.util.Iterator;
 
 /**
  * An area of map tiles.
- * @since 6.0.3
+ *
  * @author Fabrice Fontaine
+ * @since 6.0.3
  */
 
-public class MapTileArea implements MapTileContainer, IterableWithSize<Long>{
+public class MapTileArea implements MapTileContainer, IterableWithSize<Long> {
 
     private int mZoom;
     private int mLeft;
@@ -100,7 +101,7 @@ public class MapTileArea implements MapTileContainer, IterableWithSize<Long>{
                 }
                 int x = mLeft + mIndex % mWidth;
                 int y = mTop + mIndex / mWidth;
-                mIndex ++;
+                mIndex++;
                 while (x >= mMapTileUpperBound) {
                     x -= mMapTileUpperBound;
                 }
@@ -129,7 +130,7 @@ public class MapTileArea implements MapTileContainer, IterableWithSize<Long>{
     }
 
     private boolean contains(int pValue, final int pFirst, final int pSize) {
-        while(pValue < pFirst) {
+        while (pValue < pFirst) {
             pValue += mMapTileUpperBound;
         }
         return pValue < pFirst + pSize;

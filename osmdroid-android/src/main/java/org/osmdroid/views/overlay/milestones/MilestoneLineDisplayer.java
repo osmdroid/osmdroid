@@ -7,11 +7,12 @@ import org.osmdroid.views.overlay.LineDrawer;
 
 /**
  * Display lines between milestone steps
- * @since 6.0.3
+ *
  * @author Fabrice Fontaine
+ * @since 6.0.3
  */
 
-public class MilestoneLineDisplayer extends MilestoneDisplayer{
+public class MilestoneLineDisplayer extends MilestoneDisplayer {
 
     private boolean mFirst = true;
 

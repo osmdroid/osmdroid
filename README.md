@@ -1,4 +1,4 @@
-# osmdroid [![Build Status](https://api.travis-ci.org/osmdroid/osmdroid.svg?branch=master)](https://travis-ci.org/osmdroid/osmdroid) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.osmdroid/osmdroid-android/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.osmdroid/osmdroid-android) [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-osmdroid-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/279)
+# osmdroid [![Build Status](https://api.travis-ci.org/osmdroid/osmdroid.svg?branch=master)](https://travis-ci.org/osmdroid/osmdroid) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.osmdroid/osmdroid-android/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.osmdroid/osmdroid-android) [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-osmdroid-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/279) [![SourceSpy Dashboard](https://sourcespy.com/shield.svg)](https://sourcespy.com/github/osmdroidosmdroid/)
 
 osmdroid is a (almost) full/free replacement for Android's MapView (v1 API) class. It also includes a modular tile provider system with support for numerous online and offline tile sources and overlay support with built-in overlays for plotting icons, tracking location, and drawing shapes.
 
@@ -7,11 +7,11 @@ osmdroid is a (almost) full/free replacement for Android's MapView (v1 API) clas
 <a href="https://play.google.com/store/apps/details?id=org.osmdroid">
 <img src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png" alt="Get it on F-Droid" height="90"></a>
 
-Current Release: **6.1.8 July 26, 2020**
+Current Release: **6.1.10 Jan 30, 2021**
 
-Current Development version: 6.1.9-SNAPSHOT
+Current Development version: 6.1.11-SNAPSHOT
 
-Next Release Version (planned): 6.1.9
+Next Release Version (planned): 6.1.11
 
 Note: check your calendar, it may take up to a few days for all global mirrors to update.
 
@@ -88,7 +88,7 @@ You can also build your project using the gradle option `--refreshDependencies`
 
 ## OK now what?
 
-Continue reading here, [How-to-use-the-osmdroid-library](https://github.com/osmdroid/osmdroid/wiki/How-to-use-the-osmdroid-library)
+Continue reading here, [How-to-use-the-osmdroid-library](https://github.com/osmdroid/osmdroid/wiki)
 
 Related and **important** wiki articles
  * [Change Log](https://github.com/osmdroid/osmdroid/wiki/Changelog)
@@ -107,7 +107,9 @@ If think you have a legitimate bug to report then go to the [Issues](https://git
 
 ## I want to contribute
 
-See our [contributing guide](https://github.com/osmdroid/osmdroid/blob/master/CONTRIBUTING.md)
+See our [contributing guide](https://github.com/osmdroid/osmdroid/blob/master/CONTRIBUTING.md) 
+
+For your reference, the [dashboard](https://sourcespy.com/github/osmdroidosmdroid/) provides a high level overview of the repository including structure of [UI classes](https://sourcespy.com/github/osmdroidosmdroid/xx-ouiswing-.html), [module dependencies](https://sourcespy.com/github/osmdroidosmdroid/xx-omodulesc-.html), [external libraries](https://sourcespy.com/github/osmdroidosmdroid/xx-ojavalibs-.html), and other components of the system.
 
 ## I want more!
 

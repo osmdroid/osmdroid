@@ -4,6 +4,7 @@ import java.util.List;
 
 /**
  * Color mapping to cycle through an array of colors.
+ *
  * @author Matthias Dittmer
  */
 public class ColorMappingCycle implements ColorMapping {
@@ -31,6 +32,7 @@ public class ColorMappingCycle implements ColorMapping {
      * but we also need to know the color of the next segment, which is the very first segment
      * That's why we need to know the number of segments.
      * Without that information, we would just give the next color of the cycle.
+     *
      * @param pGeoPointNumber Number of GeoPoints of the polyline
      */
     public void setGeoPointNumber(final int pGeoPointNumber) {

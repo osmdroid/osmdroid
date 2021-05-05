@@ -8,9 +8,8 @@ package org.osmdroid.samplefragments.layouts.rec;
 
 /**
  * This class content Data
- *
+ * <p>
  * TypeLayout: type of layout to generate in recyclerview
- *
  */
 
 public class Info {

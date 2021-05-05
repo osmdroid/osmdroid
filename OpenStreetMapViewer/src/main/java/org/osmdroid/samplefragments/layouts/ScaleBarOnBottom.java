@@ -19,7 +19,7 @@ public class ScaleBarOnBottom extends BaseSampleFragment {
     }
 
     @Override
-    public void addOverlays(){
+    public void addOverlays() {
         super.addOverlays();
         final Context context = this.getActivity();
         final DisplayMetrics dm = context.getResources().getDisplayMetrics();
@@ -30,7 +30,7 @@ public class ScaleBarOnBottom extends BaseSampleFragment {
 
         //api15 and up, 85 is right at the bottom
         //we are also adding 20dp padding for the overlay overlay which is added by the super class
-        scaleBarOverlay.setScaleBarOffset(dm.widthPixels / 2, dm.heightPixels - (int)(105*dm.density));
+        scaleBarOverlay.setScaleBarOffset(dm.widthPixels / 2, dm.heightPixels - (int) (105 * dm.density));
 
         scaleBarOverlay.setUnitsOfMeasure(ScaleBarOverlay.UnitsOfMeasure.imperial);
         mMapView.getOverlayManager().add(scaleBarOverlay);

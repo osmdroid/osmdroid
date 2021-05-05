@@ -35,7 +35,7 @@ public class AnimatedMarkerTypeEvaluator extends BaseSampleFragment implements V
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
 
-        View root = inflater.inflate(R.layout.sample_cachemgr, container,false);
+        View root = inflater.inflate(R.layout.sample_cachemgr, container, false);
         mMapView = new MapView(getActivity());
         ((LinearLayout) root.findViewById(R.id.mapview)).addView(mMapView);
         btnCache = root.findViewById(R.id.btnCache);
@@ -44,9 +44,8 @@ public class AnimatedMarkerTypeEvaluator extends BaseSampleFragment implements V
 
         marker = new Marker(mMapView);
         marker.setTitle("An animated marker");
-        marker.setPosition(new GeoPoint(0d,0d));
+        marker.setPosition(new GeoPoint(0d, 0d));
         mMapView.getOverlayManager().add(marker);
-
 
 
         return root;
@@ -63,15 +62,16 @@ public class AnimatedMarkerTypeEvaluator extends BaseSampleFragment implements V
         super.onPause();
     }
 
-    ObjectAnimator valueAnimator=null;
+    ObjectAnimator valueAnimator = null;
+
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.btnCache:
-                if (valueAnimator!=null && valueAnimator.isRunning())
+                if (valueAnimator != null && valueAnimator.isRunning())
                     valueAnimator.cancel();
                 GeoPoint random = new GeoPoint((Math.random() * 180) - 90, (Math.random() * 360) - 180);
-                valueAnimator = MarkerAnimation.animateMarkerToICS(mMapView,marker, random, new GeoPointInterpolator.Spherical());
+                valueAnimator = MarkerAnimation.animateMarkerToICS(mMapView, marker, random, new GeoPointInterpolator.Spherical());
                 break;
         }
     }

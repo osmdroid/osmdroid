@@ -15,11 +15,13 @@ public class MapSliderAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        switch (position){
+        switch (position) {
             case 0:
                 return new SimpleTextFragment();
-            case 1: return new MapFragment();
-            case 2: return new WebviewFragment();
+            case 1:
+                return new MapFragment();
+            case 2:
+                return new WebviewFragment();
         }
         return null;
     }

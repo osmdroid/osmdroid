@@ -36,8 +36,8 @@ import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
 
 /**
- * @since 6.0.2
  * @author Fabrice Fontaine
+ * @since 6.0.2
  */
 public class TileDownloader {
 
@@ -56,7 +56,7 @@ public class TileDownloader {
                                  final IFilesystemCache pFilesystemCache, final OnlineTileSourceBase pTileSource) throws CantContinueException {
 
         // prevent infinite looping of redirects, rare but very possible for misconfigured servers
-        if (redirectCount>3) {
+        if (redirectCount > 3) {
             return null;
         }
 
@@ -68,19 +68,19 @@ public class TileDownloader {
             userAgent = Configuration.getInstance().getUserAgentValue();
         }
         if (!pTileSource.getTileSourcePolicy().acceptsUserAgent(userAgent)) {
-            Log.e(IMapView.LOGTAG,"Please configure a relevant user agent; current value is: " + userAgent);
+            Log.e(IMapView.LOGTAG, "Please configure a relevant user agent; current value is: " + userAgent);
             return null;
         }
         InputStream in = null;
         OutputStream out = null;
-        HttpURLConnection c=null;
+        HttpURLConnection c = null;
         ByteArrayInputStream byteStream = null;
         ByteArrayOutputStream dataStream = null;
         try {
             final String tileURLString = targetUrl;
 
             if (Configuration.getInstance().isDebugMode()) {
-                Log.d(IMapView.LOGTAG,"Downloading Maptile from url: " + tileURLString);
+                Log.d(IMapView.LOGTAG, "Downloading Maptile from url: " + tileURLString);
             }
 
             if (TextUtils.isEmpty(tileURLString)) {
@@ -139,7 +139,7 @@ public class TileDownloader {
                                 return downloadTile(pMapTileIndex, redirectCount + 1, redirectUrl, pFilesystemCache, pTileSource);
                             }
                             break;
-                        }	//else follow through the normal path of aborting the download
+                        }    //else follow through the normal path of aborting the download
                     default: {
                         Log.w(IMapView.LOGTAG, "Problem downloading MapTile: " + MapTileIndex.toString(pMapTileIndex) + " HTTP response: " + c.getResponseMessage());
                         if (Configuration.getInstance().isDebugMapTileDownloader()) {
@@ -154,10 +154,10 @@ public class TileDownloader {
 
             String mime = c.getHeaderField("Content-Type");
             if (Configuration.getInstance().isDebugMapTileDownloader()) {
-                Log.d(IMapView.LOGTAG, tileURLString + " success, mime is " + mime );
+                Log.d(IMapView.LOGTAG, tileURLString + " success, mime is " + mime);
             }
-            if (mime!=null && !mime.toLowerCase().contains("image")) {
-                Log.w(IMapView.LOGTAG, tileURLString + " success, however the mime type does not appear to be an image " + mime );
+            if (mime != null && !mime.toLowerCase().contains("image")) {
+                Log.w(IMapView.LOGTAG, tileURLString + " success, however the mime type does not appear to be an image " + mime);
             }
 
             in = c.getInputStream();
@@ -179,38 +179,39 @@ public class TileDownloader {
             }
             return pTileSource.getDrawable(byteStream);
         } catch (final UnknownHostException e) {
-            Log.w(IMapView.LOGTAG,"UnknownHostException downloading MapTile: " + MapTileIndex.toString(pMapTileIndex) + " : " + e);
+            Log.w(IMapView.LOGTAG, "UnknownHostException downloading MapTile: " + MapTileIndex.toString(pMapTileIndex) + " : " + e);
             Counters.tileDownloadErrors++;
         } catch (final BitmapTileSourceBase.LowMemoryException e) {
             // low memory so empty the queue
             Counters.countOOM++;
-            Log.w(IMapView.LOGTAG,"LowMemoryException downloading MapTile: " + MapTileIndex.toString(pMapTileIndex) + " : " + e);
+            Log.w(IMapView.LOGTAG, "LowMemoryException downloading MapTile: " + MapTileIndex.toString(pMapTileIndex) + " : " + e);
             throw new CantContinueException(e);
         } catch (final FileNotFoundException e) {
             Counters.tileDownloadErrors++;
-            Log.w(IMapView.LOGTAG,"Tile not found: " + MapTileIndex.toString(pMapTileIndex) + " : " + e);
+            Log.w(IMapView.LOGTAG, "Tile not found: " + MapTileIndex.toString(pMapTileIndex) + " : " + e);
         } catch (final IOException e) {
             Counters.tileDownloadErrors++;
-            Log.w(IMapView.LOGTAG,"IOException downloading MapTile: " + MapTileIndex.toString(pMapTileIndex) + " : " + e);
+            Log.w(IMapView.LOGTAG, "IOException downloading MapTile: " + MapTileIndex.toString(pMapTileIndex) + " : " + e);
         } catch (final Throwable e) {
             Counters.tileDownloadErrors++;
-            Log.e(IMapView.LOGTAG,"Error downloading MapTile: " + MapTileIndex.toString(pMapTileIndex), e);
+            Log.e(IMapView.LOGTAG, "Error downloading MapTile: " + MapTileIndex.toString(pMapTileIndex), e);
         } finally {
             StreamUtils.closeStream(in);
             StreamUtils.closeStream(out);
             StreamUtils.closeStream(byteStream);
             StreamUtils.closeStream(dataStream);
-            try{
+            try {
                 c.disconnect();
-            } catch (Exception ex){}
+            } catch (Exception ex) {
+            }
         }
 
         return null;
     }
 
     /**
-     * @since 6.0.3
      * @return the Epoch timestamp corresponding to the http header (in milliseconds), or null
+     * @since 6.0.3
      * @deprecated Use {@link TileSourcePolicy#getHttpExpiresTime(String)} instead
      */
     @Deprecated
@@ -228,8 +229,8 @@ public class TileDownloader {
     }
 
     /**
-     * @since 6.0.3
      * @return the max-age corresponding to the http header (in seconds), or null
+     * @since 6.0.3
      * @deprecated Use {@link TileSourcePolicy#getHttpCacheControlDuration(String)} instead
      */
     @Deprecated
@@ -255,13 +256,13 @@ public class TileDownloader {
     }
 
     /**
-     * @since 6.0.3
      * @return the expiration time (as Epoch timestamp in milliseconds)
+     * @since 6.0.3
      * @deprecated Use {@link TileSourcePolicy#computeExpirationTime(HttpURLConnection, long)} instead
      */
     @Deprecated
     public long computeExpirationTime(final String pHttpExpiresHeader, final String pHttpCacheControlHeader, final long pNow) {
-        final Long override=Configuration.getInstance().getExpirationOverrideDuration();
+        final Long override = Configuration.getInstance().getExpirationOverrideDuration();
         if (override != null) {
             return pNow + override;
         }
@@ -355,7 +356,7 @@ public class TileDownloader {
             } else {
                 int sslEnabled = Arrays.binarySearch(enabledProtocols, "SSLv3");
                 if (sslEnabled >= 0) {
-                    newEnabledProtocols = new String[enabledProtocols.length-1];
+                    newEnabledProtocols = new String[enabledProtocols.length - 1];
                     System.arraycopy(enabledProtocols, 0, newEnabledProtocols, 0, sslEnabled);
                     if (newEnabledProtocols.length > sslEnabled) {
                         System.arraycopy(

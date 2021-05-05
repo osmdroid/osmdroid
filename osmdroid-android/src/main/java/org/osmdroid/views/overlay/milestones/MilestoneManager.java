@@ -6,10 +6,11 @@ import org.osmdroid.util.PointAccepter;
 
 /**
  * Created by Fabrice on 24/12/2017.
+ *
  * @since 6.0.0
  */
 
-public class MilestoneManager implements PointAccepter{
+public class MilestoneManager implements PointAccepter {
 
     private final MilestoneLister mLister;
     private final MilestoneDisplayer mDisplayer;

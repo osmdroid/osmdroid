@@ -6,8 +6,9 @@ import org.osmdroid.views.overlay.PaintList;
 
 /**
  * A {@link PaintList} with always the same color
- * @since 6.2.0
+ *
  * @author Fabrice Fontaine
+ * @since 6.2.0
  */
 public class MonochromaticPaintList implements PaintList {
 

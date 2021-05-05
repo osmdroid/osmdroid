@@ -35,7 +35,7 @@ import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
  * Created by alex on 10/21/16.
  */
 
-public class WeathForceActivity extends BaseActivity implements LocationListener, IOrientationConsumer,MapEventsReceiver {
+public class WeathForceActivity extends BaseActivity implements LocationListener, IOrientationConsumer, MapEventsReceiver {
     final String TAG = "WeathForceActivity";
     private CompassOverlay mCompassOverlay = null;
     private MyLocationNewOverlay mLocationOverlay;
@@ -200,7 +200,7 @@ public class WeathForceActivity extends BaseActivity implements LocationListener
 
         GeomagneticField gf = new GeomagneticField(lat, lon, alt, timeOfFix);
         trueNorth = orientationToMagneticNorth + gf.getDeclination();
-        gf=null;
+        gf = null;
         synchronized (trueNorth) {
             if (trueNorth > 360.0f) {
                 trueNorth = trueNorth - 360.0f;
@@ -232,11 +232,11 @@ public class WeathForceActivity extends BaseActivity implements LocationListener
             this.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    if (this!=null ) {
+                    if (this != null) {
                         Log.i(TAG
                                 , "GPS Speed: " + gpsspeed + "m/s  GPS Bearing: " + gpsbearing +
-                                "\nDevice Orientation: " + deviceOrientation + "  Compass heading: " + (int) orientationToMagneticNorth + "\n" +
-                                "True north: " + trueNorth.intValue() + " Map Orientation: " + (int) mMapView.getMapOrientation());
+                                        "\nDevice Orientation: " + deviceOrientation + "  Compass heading: " + (int) orientationToMagneticNorth + "\n" +
+                                        "True north: " + trueNorth.intValue() + " Map Orientation: " + (int) mMapView.getMapOrientation());
                     }
                 }
             });

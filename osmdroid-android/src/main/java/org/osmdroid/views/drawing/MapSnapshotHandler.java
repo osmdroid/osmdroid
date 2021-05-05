@@ -4,14 +4,14 @@ import android.os.Handler;
 import android.os.Message;
 
 import org.osmdroid.tileprovider.MapTileProviderBase;
-import org.osmdroid.views.drawing.MapSnapshot;
 
 /**
  * Custom-made {@link Handler} for {@link MapSnapshot}
- * @since 6.1.0
+ *
  * @author Fabrice Fontaine
+ * @since 6.1.0
  */
-public class MapSnapshotHandler  extends Handler {
+public class MapSnapshotHandler extends Handler {
 
     private MapSnapshot mMapSnapshot;
 

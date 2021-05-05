@@ -16,9 +16,8 @@ public class CompassRoseSample extends BaseSampleFragment {
     }
 
 
-
     @Override
-    public void addOverlays(){
+    public void addOverlays() {
         super.addOverlays();
         CompassOverlay overlay = new CompassOverlay(getContext(), mMapView);
         overlay.setPointerMode(false);

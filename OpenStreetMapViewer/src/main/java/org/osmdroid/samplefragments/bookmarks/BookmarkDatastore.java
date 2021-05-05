@@ -25,12 +25,12 @@ import java.util.UUID;
 public class BookmarkDatastore {
     protected File db_file;
 
-    public static final String TABLE="bookmarks";
-    public static final String COLUMN_ID="markerid";
-    public static final String COLUMN_LAT="lat";
-    public static final String COLUMN_LON="lon";
-    public static final String COLUMN_TITLE="title";
-    public static final String COLUMN_DESC="description";
+    public static final String TABLE = "bookmarks";
+    public static final String COLUMN_ID = "markerid";
+    public static final String COLUMN_LAT = "lat";
+    public static final String COLUMN_LON = "lon";
+    public static final String COLUMN_TITLE = "title";
+    public static final String COLUMN_DESC = "description";
     protected SQLiteDatabase mDatabase;
     public static final String DATABASE_FILENAME = "bookmarks.mDatabase";
 
@@ -43,11 +43,11 @@ public class BookmarkDatastore {
         try {
             mDatabase = SQLiteDatabase.openOrCreateDatabase(db_file, null);
             mDatabase.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE + " (" +
-                COLUMN_LAT+ " INTEGER , " +
-                COLUMN_LON + " INTEGER, " +
-                COLUMN_TITLE + " TEXT, " +
-                COLUMN_ID + " TEXT, " +
-                COLUMN_DESC+" TEXT, PRIMARY KEY (" + COLUMN_ID + ") );");
+                    COLUMN_LAT + " INTEGER , " +
+                    COLUMN_LON + " INTEGER, " +
+                    COLUMN_TITLE + " TEXT, " +
+                    COLUMN_ID + " TEXT, " +
+                    COLUMN_DESC + " TEXT, PRIMARY KEY (" + COLUMN_ID + ") );");
         } catch (Throwable ex) {
             Log.e(IMapView.LOGTAG, "Unable to start the bookmark database. Check external storage availability.", ex);
         }
@@ -59,19 +59,19 @@ public class BookmarkDatastore {
         try {
             //TODO order by title
             final Cursor cur = mDatabase.rawQuery("SELECT * FROM " + TABLE, null);
-            while(cur.moveToNext()) {
+            while (cur.moveToNext()) {
                 Marker m = new Marker(view);
                 m.setId(cur.getString(cur.getColumnIndex(COLUMN_ID)));
                 m.setTitle(cur.getString(cur.getColumnIndex(COLUMN_TITLE)));
                 m.setSubDescription(cur.getString(cur.getColumnIndex(COLUMN_DESC)));
-                m.setPosition(new GeoPoint(cur.getDouble(cur.getColumnIndex(COLUMN_LAT)),cur.getDouble(cur.getColumnIndex(COLUMN_LON))));
+                m.setPosition(new GeoPoint(cur.getDouble(cur.getColumnIndex(COLUMN_LAT)), cur.getDouble(cur.getColumnIndex(COLUMN_LON))));
                 m.setSnippet(m.getPosition().toDoubleString());
 
                 markers.add(m);
             }
             cur.close();
         } catch (final Exception e) {
-            Log.w(IMapView.LOGTAG,"Error getting tile sources: ", e);
+            Log.w(IMapView.LOGTAG, "Error getting tile sources: ", e);
         }
         return markers;
     }
@@ -95,7 +95,7 @@ public class BookmarkDatastore {
     public void addBookmark(String id, double lat, double lon, String title, String description) {
 
         ContentValues cv = new ContentValues();
-        if (id==null || id.length()==0)
+        if (id == null || id.length() == 0)
             cv.put(COLUMN_ID, UUID.randomUUID().toString());
         else {
             mDatabase.delete(TABLE, COLUMN_ID + "=?", new String[]{id});
@@ -110,8 +110,8 @@ public class BookmarkDatastore {
     }
 
     public void close() {
-        db_file=null;
+        db_file = null;
         mDatabase.close();
-        mDatabase= null;
+        mDatabase = null;
     }
 }

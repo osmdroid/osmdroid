@@ -19,6 +19,7 @@ import org.osmdroid.views.overlay.Overlay;
  * Demo of the new tile states feature:
  * - how many tiles are currently being displayed
  * - how many tiles in which state? [U: up to date, E: expired, S: scaled, N: not found]
+ *
  * @author Fabrice Fontaine
  * @since 6.1.0
  */
@@ -35,7 +36,7 @@ public class SampleTileStates extends BaseSampleFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        final View root = inflater.inflate(R.layout.map_with_locationbox, container,false);
+        final View root = inflater.inflate(R.layout.map_with_locationbox, container, false);
         mMapView = root.findViewById(R.id.mapview);
         mTextView = root.findViewById(R.id.textViewCurrentLocation);
         mTileStates = mMapView.getMapOverlay().getTileStates();
@@ -46,8 +47,8 @@ public class SampleTileStates extends BaseSampleFragment {
     protected void addOverlays() {
         super.addOverlays();
 
-        final Bitmap ok = ((BitmapDrawable)getResources().getDrawable(R.drawable.baseline_done_outline_black_36)).getBitmap();
-        final Bitmap ko = ((BitmapDrawable)getResources().getDrawable(R.drawable.twotone_warning_black_36)).getBitmap();
+        final Bitmap ok = ((BitmapDrawable) getResources().getDrawable(R.drawable.baseline_done_outline_black_36)).getBitmap();
+        final Bitmap ko = ((BitmapDrawable) getResources().getDrawable(R.drawable.twotone_warning_black_36)).getBitmap();
         mMapView.getOverlayManager().add(new Overlay() {
             @Override
             public void draw(Canvas c, Projection projection) {

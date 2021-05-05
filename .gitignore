@@ -29,7 +29,8 @@ proguard/
 *.iml
 *.ipr
 *.iws
-.idea/
+.idea/*
+!.idea/codeStyles/
 
 # Gradle
 build/

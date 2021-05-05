@@ -18,8 +18,8 @@ import android.widget.TextView;
 public class LicenseActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     TextView license;
     String[] values = new String[]{
-        "osmdroid", "geopackage",
-        "mapsforge", "ACRA", "leakcanary", "ormlite", "pngj"
+            "osmdroid", "geopackage",
+            "mapsforge", "ACRA", "leakcanary", "ormlite", "pngj"
     };
 
     @Override

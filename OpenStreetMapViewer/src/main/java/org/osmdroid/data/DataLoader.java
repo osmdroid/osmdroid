@@ -15,15 +15,16 @@ import java.util.LinkedHashMap;
 
 /**
  * {@link DataRegion} json loader
- * @since 6.0.2
+ *
  * @author Fabrice Fontaine
+ * @since 6.0.2
  */
 abstract public class DataLoader<T> {
 
     private final LinkedHashMap<String, T> mList = new LinkedHashMap<>();
 
     public DataLoader(final Context pContext, final @RawRes int pResId)
-            throws Exception{
+            throws Exception {
         load(getJsonString(pContext, pResId));
     }
 
@@ -36,7 +37,7 @@ abstract public class DataLoader<T> {
     private void load(final String pJson) throws Exception {
         final JSONObject root = new JSONObject(pJson);
         final Iterator<String> keys = root.keys();
-        while(keys.hasNext()) {
+        while (keys.hasNext()) {
             final String key = keys.next();
             final JSONObject region = root.getJSONObject(key);
             mList.put(key, getItem(key, region));

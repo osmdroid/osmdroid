@@ -24,7 +24,7 @@ import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
 /**
  * Based off the submission from https://github.com/2ndGAB
- *
+ * <p>
  * Source: https://github.com/2ndGAB/OSMCenterToMyPosition
  * Created by alex on 6/6/16.
  */
@@ -115,32 +115,37 @@ public class SampleFollowMe extends BaseSampleFragment implements LocationListen
     @Override
     public void onPause() {
         super.onPause();
-        try{
+        try {
             lm.removeUpdates(this);
-        }catch (Exception ex){}
+        } catch (Exception ex) {
+        }
 
         mCompassOverlay.disableCompass();
         mLocationOverlay.disableFollowLocation();
         mLocationOverlay.disableMyLocation();
         mScaleBarOverlay.enableScaleBar();
     }
+
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
         lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-        try{
+        try {
             //this fails on AVD 19s, even with the appcompat check, says no provided named gps is available
-            lm.requestLocationUpdates(LocationManager.GPS_PROVIDER,0l,0f,this);
-        }catch (Exception ex){}
+            lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0l, 0f, this);
+        } catch (Exception ex) {
+        }
 
-        try{
-            lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,0l,0f,this);
-        }catch (Exception ex){}
+        try {
+            lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0l, 0f, this);
+        } catch (Exception ex) {
+        }
 
         mLocationOverlay.enableFollowLocation();
         mLocationOverlay.enableMyLocation();
         mScaleBarOverlay.disableScaleBar();
     }
+
     @Override
     public String getSampleTitle() {
         return "Follow Me";
@@ -148,7 +153,7 @@ public class SampleFollowMe extends BaseSampleFragment implements LocationListen
 
     @Override
     public void onLocationChanged(Location location) {
-        currentLocation=location;
+        currentLocation = location;
     }
 
     @Override
@@ -165,17 +170,18 @@ public class SampleFollowMe extends BaseSampleFragment implements LocationListen
     public void onProviderDisabled(String provider) {
 
     }
-    @Override
-    public void onDestroyView(){
-        super.onDestroyView();
-        lm=null;
-        currentLocation=null;
 
-        mLocationOverlay=null;
-        mCompassOverlay=null;
-        mScaleBarOverlay=null;
-        mRotationGestureOverlay=null;
-        btCenterMap=null;
-        btFollowMe=null;
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        lm = null;
+        currentLocation = null;
+
+        mLocationOverlay = null;
+        mCompassOverlay = null;
+        mScaleBarOverlay = null;
+        mRotationGestureOverlay = null;
+        btCenterMap = null;
+        btFollowMe = null;
     }
 }

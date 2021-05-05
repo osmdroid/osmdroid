@@ -16,7 +16,7 @@ import org.osmdroid.R;
 
 /**
  * Intro activity, this is a simple intro to osmdroid, some legal stuff, tile storage preference, etc
- *
+ * <p>
  * created on 1/5/2017.
  *
  * @author Alex O'Ree
@@ -28,19 +28,18 @@ public class IntroActivity extends FragmentActivity implements View.OnClickListe
     IntroSliderAdapter adapter;
     Button next;
     Button prev;
-    int viewpagerCurrentPosition=0;
+    int viewpagerCurrentPosition = 0;
 
     @Override
-    public void onCreate(Bundle savedInstanced){
+    public void onCreate(Bundle savedInstanced) {
         super.onCreate(savedInstanced);
 
         //skip this nonsense
         if (PreferenceManager.getDefaultSharedPreferences(this).contains("osmdroid_first_ran")) {
-            Intent i  = new Intent(this, MainActivity.class);
+            Intent i = new Intent(this, MainActivity.class);
             startActivity(i);
             finish();
         }
-
 
 
         setContentView(R.layout.intro_frame);
@@ -49,7 +48,7 @@ public class IntroActivity extends FragmentActivity implements View.OnClickListe
         introviewpager.setAdapter(adapter);
         introviewpager.addOnPageChangeListener(this);
         introProgressBar = findViewById(R.id.introProgressBar);
-        introProgressBar.setMax(adapter.getCount()-1);
+        introProgressBar.setMax(adapter.getCount() - 1);
         introProgressBar.setProgress(0);
 
         next = findViewById(R.id.introNext);
@@ -60,13 +59,12 @@ public class IntroActivity extends FragmentActivity implements View.OnClickListe
     }
 
 
-
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.introNext:
-                if (viewpagerCurrentPosition+1 < adapter.getCount())
-                    introviewpager.setCurrentItem(viewpagerCurrentPosition+1, true);
+                if (viewpagerCurrentPosition + 1 < adapter.getCount())
+                    introviewpager.setCurrentItem(viewpagerCurrentPosition + 1, true);
                 else {
                     SharedPreferences.Editor edit = PreferenceManager.getDefaultSharedPreferences(this).edit();
                     edit.putString("osmdroid_first_ran", "yes");
@@ -78,8 +76,8 @@ public class IntroActivity extends FragmentActivity implements View.OnClickListe
                 }
                 break;
             case R.id.introPrev:
-                if (viewpagerCurrentPosition-1 >=0)
-                    introviewpager.setCurrentItem(viewpagerCurrentPosition-1, true);
+                if (viewpagerCurrentPosition - 1 >= 0)
+                    introviewpager.setCurrentItem(viewpagerCurrentPosition - 1, true);
 
 
                 break;
@@ -88,15 +86,15 @@ public class IntroActivity extends FragmentActivity implements View.OnClickListe
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-        viewpagerCurrentPosition=position;
+        viewpagerCurrentPosition = position;
         introProgressBar.setProgress(position);
-        if (position ==0) {
+        if (position == 0) {
             prev.setVisibility(View.INVISIBLE);
         } else {
             prev.setVisibility(View.VISIBLE);
         }
 
-        if (position == adapter.getCount()-1) {
+        if (position == adapter.getCount() - 1) {
             next.setText(R.string.done);
         } else {
             next.setText(R.string.next);

@@ -1,12 +1,15 @@
 package org.osmdroid.util;
 
 import java.util.ArrayList;
-/** Reduces the number of points in a shape using the Douglas-Peucker algorithm. <br>
- *
+
+/**
+ * Reduces the number of points in a shape using the Douglas-Peucker algorithm. <br>
+ * <p>
  * From: http://www.phpriot.com/articles/reducing-map-path-douglas-peucker-algorithm/4<br>
  * Ported from PHP to Java. "marked" array added to optimize.
- * @author M.Kergall
  *
+ * @author M.Kergall
+ * <p>
  * Generously dontated by osmbouspack
  * @since 6.0.0
  */
@@ -33,36 +36,35 @@ public class PointReducer {
      * @param tolerance The tolerance to decide whether or not
      *                  to keep a point, in the coordinate system
      *                  of the points (micro-degrees here)
+     * @param shape     The shape to reduce
      * @return the reduced shape
-     * @param    shape The shape to reduce
      */
-    public static ArrayList<GeoPoint> reduceWithTolerance(ArrayList<GeoPoint> shape, double tolerance)
-    {
+    public static ArrayList<GeoPoint> reduceWithTolerance(ArrayList<GeoPoint> shape, double tolerance) {
         int n = shape.size();
         // if a shape has 2 or less points it cannot be reduced
         if (tolerance <= 0 || n < 3) {
             return shape;
         }
 
-        boolean [] marked = new boolean[n]; //vertex indexes to keep will be marked as "true"
-        for (int i=1; i<n-1; i++)
+        boolean[] marked = new boolean[n]; //vertex indexes to keep will be marked as "true"
+        for (int i = 1; i < n - 1; i++)
             marked[i] = false;
         // automatically add the first and last point to the returned shape
-        marked[0] = marked[n-1] = true;
+        marked[0] = marked[n - 1] = true;
 
         // the first and last points in the original shape are
         // used as the entry point to the algorithm.
         douglasPeuckerReduction(
-            shape,             // original shape
-            marked,          // reduced shape
-            tolerance,         // tolerance
-            0,                  // index of first point
-            n-1  // index of last point
+                shape,             // original shape
+                marked,          // reduced shape
+                tolerance,         // tolerance
+                0,                  // index of first point
+                n - 1  // index of last point
         );
 
         // all done, return the reduced shape
         ArrayList<GeoPoint> newShape = new ArrayList<GeoPoint>(n); // the new shape to return
-        for (int i=0; i<n; i++){
+        for (int i = 0; i < n; i++) {
             if (marked[i])
                 newShape.add(shape.get(i));
         }
@@ -73,16 +75,15 @@ public class PointReducer {
      * Reduce the points in shape between the specified first and last
      * index. Mark the points to keep in marked[]
      *
-     * @param   shape	The original shape
-     * @param   marked	The points to keep (marked as true)
-     * @param   tolerance  The tolerance to determine if a point is kept
-     * @param   firstIdx   The index in original shape's point of
-     *                              the starting point for this line segment
-     * @param   lastIdx    The index in original shape's point of
-     *                     the ending point for this line segment
+     * @param shape     The original shape
+     * @param marked    The points to keep (marked as true)
+     * @param tolerance The tolerance to determine if a point is kept
+     * @param firstIdx  The index in original shape's point of
+     *                  the starting point for this line segment
+     * @param lastIdx   The index in original shape's point of
+     *                  the ending point for this line segment
      */
-    private static void douglasPeuckerReduction(ArrayList<GeoPoint> shape, boolean[] marked, double tolerance, int firstIdx, int lastIdx)
-    {
+    private static void douglasPeuckerReduction(ArrayList<GeoPoint> shape, boolean[] marked, double tolerance, int firstIdx, int lastIdx) {
         if (lastIdx <= firstIdx + 1) {
             // overlapping indexes, just return
             return;
@@ -126,29 +127,28 @@ public class PointReducer {
      * Calculate the orthogonal distance from the line joining the
      * lineStart and lineEnd points to point
      *
-     * @param   point      The point the distance is being calculated for
-     * @param   lineStart  The point that starts the line
-     * @param   lineEnd    The point that ends the line
-     * @return  The distance in points coordinate system
+     * @param point     The point the distance is being calculated for
+     * @param lineStart The point that starts the line
+     * @param lineEnd   The point that ends the line
+     * @return The distance in points coordinate system
      */
-    public static double orthogonalDistance(GeoPoint point, GeoPoint lineStart, GeoPoint lineEnd)
-    {
+    public static double orthogonalDistance(GeoPoint point, GeoPoint lineStart, GeoPoint lineEnd) {
         double area = Math.abs(
-            (
-                lineStart.getLatitude() * lineEnd.getLongitude()
-                    + lineEnd.getLatitude() * point.getLongitude()
-                    + point.getLatitude() * lineStart.getLongitude()
-                    - lineEnd.getLatitude() * lineStart.getLongitude()
-                    - point.getLatitude() * lineEnd.getLongitude()
-                    - lineStart.getLatitude() * point.getLongitude()
-            ) / 2.0
+                (
+                        lineStart.getLatitude() * lineEnd.getLongitude()
+                                + lineEnd.getLatitude() * point.getLongitude()
+                                + point.getLatitude() * lineStart.getLongitude()
+                                - lineEnd.getLatitude() * lineStart.getLongitude()
+                                - point.getLatitude() * lineEnd.getLongitude()
+                                - lineStart.getLatitude() * point.getLongitude()
+                ) / 2.0
         );
 
         double bottom = Math.hypot(
-            lineStart.getLatitude() - lineEnd.getLatitude(),
-            lineStart.getLongitude() - lineEnd.getLongitude()
+                lineStart.getLatitude() - lineEnd.getLatitude(),
+                lineStart.getLongitude() - lineEnd.getLongitude()
         );
 
-        return(area / bottom * 2.0);
+        return (area / bottom * 2.0);
     }
 }

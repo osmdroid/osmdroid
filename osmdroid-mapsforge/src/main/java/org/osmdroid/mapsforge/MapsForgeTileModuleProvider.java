@@ -21,6 +21,7 @@ import java.io.IOException;
 /**
  * Adapted from code from here: https://github.com/MKergall/osmbonuspack, which is LGPL
  * http://www.salidasoftware.com/how-to-render-mapsforge-tiles-in-osmdroid/
+ *
  * @author Salida Software
  * Adapted from code found here : http://www.sieswerda.net/2012/08/15/upping-the-developer-friendliness/
  */
@@ -38,8 +39,8 @@ public class MapsForgeTileModuleProvider extends MapTileFileStorageProviderBase 
     public MapsForgeTileModuleProvider(IRegisterReceiver receiverRegistrar, MapsForgeTileSource tileSource, IFilesystemCache tilewriter) {
 
         super(receiverRegistrar,
-            Configuration.getInstance().getTileFileSystemThreads(),
-            Configuration.getInstance().getTileFileSystemMaxQueueSize());
+                Configuration.getInstance().getTileFileSystemThreads(),
+                Configuration.getInstance().getTileFileSystemMaxQueueSize());
 
         this.tileSource = tileSource;
         this.tilewriter = tilewriter;
@@ -92,12 +93,12 @@ public class MapsForgeTileModuleProvider extends MapTileFileStorageProviderBase 
             String dbgPrefix = null;
             if (Configuration.getInstance().isDebugTileProviders()) {
                 dbgPrefix = "MapsForgeTileModuleProvider.TileLoader.loadTile(" + MapTileIndex.toString(pMapTileIndex) + "): ";
-                Log.d(IMapView.LOGTAG,dbgPrefix + "tileSource.renderTile");
+                Log.d(IMapView.LOGTAG, dbgPrefix + "tileSource.renderTile");
             }
-            Drawable image= tileSource.renderTile(pMapTileIndex);
-            if (image!=null && image instanceof BitmapDrawable) {
+            Drawable image = tileSource.renderTile(pMapTileIndex);
+            if (image != null && image instanceof BitmapDrawable) {
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                ((BitmapDrawable)image).getBitmap().compress(Bitmap.CompressFormat.PNG, 100, stream);
+                ((BitmapDrawable) image).getBitmap().compress(Bitmap.CompressFormat.PNG, 100, stream);
                 byte[] bitmapdata = stream.toByteArray();
                 try {
                     stream.close();
@@ -116,12 +117,12 @@ public class MapsForgeTileModuleProvider extends MapTileFileStorageProviderBase 
                     bais = new ByteArrayInputStream(bitmapdata);
                     tilewriter.saveFile(tileSource, pMapTileIndex, bais, null);
                 } catch (Exception ex) {
-                    Log.w(IMapView.LOGTAG,"forge error storing tile cache",ex);
+                    Log.w(IMapView.LOGTAG, "forge error storing tile cache", ex);
                 } finally {
-                    if (bais!=null)
-                        try{
+                    if (bais != null)
+                        try {
                             bais.close();
-                        }catch (IOException e) {
+                        } catch (IOException e) {
                             //NO OP
                         }
                 }

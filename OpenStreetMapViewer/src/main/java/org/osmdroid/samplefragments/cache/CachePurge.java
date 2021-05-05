@@ -18,8 +18,9 @@ import org.osmdroid.views.MapView;
  * Created by alex on 9/25/16.
  */
 
-public class CachePurge  extends BaseSampleFragment implements View.OnClickListener, Runnable {
+public class CachePurge extends BaseSampleFragment implements View.OnClickListener, Runnable {
     Button btnCache;
+
     @Override
     public String getSampleTitle() {
         return "How to purge the tile cache";
@@ -28,7 +29,7 @@ public class CachePurge  extends BaseSampleFragment implements View.OnClickListe
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View root = inflater.inflate(R.layout.sample_cachemgr, container,false);
+        View root = inflater.inflate(R.layout.sample_cachemgr, container, false);
 
         mMapView = new MapView(getActivity());
         ((LinearLayout) root.findViewById(R.id.mapview)).addView(mMapView);
@@ -52,9 +53,9 @@ public class CachePurge  extends BaseSampleFragment implements View.OnClickListe
     @Override
     public void run() {
         IFilesystemCache tileWriter = mMapView.getTileProvider().getTileWriter();
-        if (tileWriter instanceof SqlTileWriter){
+        if (tileWriter instanceof SqlTileWriter) {
             final boolean b = ((SqlTileWriter) tileWriter).purgeCache();
-            if (getActivity()!=null){
+            if (getActivity() != null) {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {

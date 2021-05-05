@@ -18,7 +18,7 @@ public class SepiaToneTiles extends BaseSampleFragment {
     }
 
     @Override
-    public void addOverlays(){
+    public void addOverlays() {
         super.addOverlays();
         final ColorMatrix matrixA = new ColorMatrix();
         // making image B&W

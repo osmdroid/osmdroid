@@ -15,8 +15,8 @@ import org.osmdroid.tileprovider.ExpirableBitmapDrawable;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.util.Counters;
 import org.osmdroid.tileprovider.util.StreamUtils;
-import org.osmdroid.util.MapTileIndex;
 import org.osmdroid.util.GarbageCollector;
+import org.osmdroid.util.MapTileIndex;
 import org.osmdroid.util.SplashScreenable;
 
 import java.io.BufferedInputStream;
@@ -30,8 +30,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import static org.osmdroid.tileprovider.modules.DatabaseFileArchive.COLUMN_PROVIDER;
 import static org.osmdroid.tileprovider.modules.DatabaseFileArchive.COLUMN_KEY;
+import static org.osmdroid.tileprovider.modules.DatabaseFileArchive.COLUMN_PROVIDER;
 import static org.osmdroid.tileprovider.modules.DatabaseFileArchive.COLUMN_TILE;
 import static org.osmdroid.tileprovider.modules.DatabaseFileArchive.TABLE;
 
@@ -42,17 +42,19 @@ import static org.osmdroid.tileprovider.modules.DatabaseFileArchive.TABLE;
  * <p>
  * If the database exceeds {@link Configuration#getInstance()#getTileFileSystemCacheTrimBytes()}
  * cache exceeds 600 Mb then it will be trimmed to 500 Mb by deleting files that expire first.
+ *
+ * @author Alex O'Ree
  * @see DatabaseFileArchive
  * @see SqliteArchiveTileWriter
- * @author Alex O'Ree
  * @since 5.1
  */
 public class SqlTileWriter implements IFilesystemCache, SplashScreenable {
     public static final String DATABASE_FILENAME = "cache.db";
-    public static final String COLUMN_EXPIRES ="expires";
-    public static final String COLUMN_EXPIRES_INDEX ="expires_index";
+    public static final String COLUMN_EXPIRES = "expires";
+    public static final String COLUMN_EXPIRES_INDEX = "expires_index";
 
-    private static boolean cleanOnStartup=true;
+    private static boolean cleanOnStartup = true;
+
     /*
       * disables cache purge of expired tiled on start up
      * if this is set to false, the database will only purge tiles if manually called or if
@@ -62,12 +64,13 @@ public class SqlTileWriter implements IFilesystemCache, SplashScreenable {
     @since 6.0.0
      */
     public static void setCleanupOnStart(boolean value) {
-        cleanOnStartup=value;
+        cleanOnStartup = value;
     }
+
     private static final Object mLock = new Object();
     protected static File db_file;
     protected static SQLiteDatabase mDb;
-    protected long lastSizeCheck=0;
+    protected long lastSizeCheck = 0;
     private final GarbageCollector garbageCollector = new GarbageCollector(new Runnable() {
         @Override
         public void run() {
@@ -75,7 +78,7 @@ public class SqlTileWriter implements IFilesystemCache, SplashScreenable {
         }
     });
 
-    static boolean hasInited=false;
+    static boolean hasInited = false;
 
     public SqlTileWriter() {
 
@@ -138,7 +141,7 @@ public class SqlTileWriter implements IFilesystemCache, SplashScreenable {
             byte[] buffer = new byte[512];
             int l;
             bos = new ByteArrayOutputStream();
-            while( (l = pStream.read(buffer)) != -1 )
+            while ((l = pStream.read(buffer)) != -1)
                 bos.write(buffer, 0, l);
             byte[] bits = bos.toByteArray(); // if a variable is required at all
 
@@ -149,7 +152,7 @@ public class SqlTileWriter implements IFilesystemCache, SplashScreenable {
             db.replaceOrThrow(TABLE, null, cv);
             if (Configuration.getInstance().isDebugMode())
                 Log.d(IMapView.LOGTAG, "tile inserted " + pTileSourceInfo.name() + MapTileIndex.toString(pMapTileIndex));
-            if (System.currentTimeMillis() > lastSizeCheck + Configuration.getInstance().getTileGCFrequencyInMillis()){
+            if (System.currentTimeMillis() > lastSizeCheck + Configuration.getInstance().getTileGCFrequencyInMillis()) {
                 lastSizeCheck = System.currentTimeMillis();
                 garbageCollector.gc();
             }
@@ -198,7 +201,8 @@ public class SqlTileWriter implements IFilesystemCache, SplashScreenable {
      * Now we use only one static instance of database, which should never be closed
      */
     @Override
-    public void onDetach() {}
+    public void onDetach() {
+    }
 
     /**
      * purges and deletes everything from the cache database
@@ -412,14 +416,15 @@ public class SqlTileWriter implements IFilesystemCache, SplashScreenable {
         if (tileSourceName == null) {
             return getRowCount(null, null);
         }
-        return getRowCount(COLUMN_PROVIDER + "=?", new String[] {tileSourceName});
+        return getRowCount(COLUMN_PROVIDER + "=?", new String[]{tileSourceName});
     }
 
 
     /**
      * Count cache tiles: helper method
-     * @since 6.0.2
+     *
      * @return the number of tiles, or -1 if a problem occurred
+     * @since 6.0.2
      */
     protected long getRowCount(final String pWhereClause, final String[] pWhereClauseArgs) {
         Cursor cursor = null;
@@ -446,31 +451,32 @@ public class SqlTileWriter implements IFilesystemCache, SplashScreenable {
 
     /**
      * Count cache tiles
+     *
      * @param pTileSourceName the tile source name (possibly null)
-     * @param pZoom the zoom level
-     * @param pInclude a collection of bounding boxes to include (possibly null/empty)
-     * @param pExclude a collection of bounding boxes to exclude (possibly null/empty)
-     * @since 6.0.2
+     * @param pZoom           the zoom level
+     * @param pInclude        a collection of bounding boxes to include (possibly null/empty)
+     * @param pExclude        a collection of bounding boxes to exclude (possibly null/empty)
      * @return the number of corresponding tiles in the cache
+     * @since 6.0.2
      */
     public long getRowCount(final String pTileSourceName, final int pZoom,
                             final Collection<Rect> pInclude, final Collection<Rect> pExclude) {
         return getRowCount(
                 getWhereClause(pZoom, pInclude, pExclude)
                         + (pTileSourceName != null ? " and " + COLUMN_PROVIDER + "=?" : "")
-                , pTileSourceName != null ? new String[] {pTileSourceName} : null);
+                , pTileSourceName != null ? new String[]{pTileSourceName} : null);
     }
 
     /**
-    * Returns the size of the database file in bytes.
-    */
+     * Returns the size of the database file in bytes.
+     */
     public long getSize() {
         return db_file.length();
     }
 
     /**
-    * Returns the expiry time of the tile that expires first.
-    */
+     * Returns the expiry time of the tile that expires first.
+     */
     public long getFirstExpiry() {
         final SQLiteDatabase db = getDb();
         if (db == null || !db.isOpen()) {
@@ -490,29 +496,28 @@ public class SqlTileWriter implements IFilesystemCache, SplashScreenable {
     }
 
     /**
-     *
-     * @since 5.6.5
+     * @return a composite key designed as a SQL primary key that includes X, Y and zoom
      * @see #extractXFromKeyInSQL(int)
      * @see #extractYFromKeyInSQL(int)
-     * @return a composite key designed as a SQL primary key that includes X, Y and zoom
+     * @since 5.6.5
      */
     public static long getIndex(final long pX, final long pY, final long pZ) {
         return ((pZ << pZ) + pX << pZ) + pY;
     }
 
     /**
-     * @since 6.0.2
-     * @see #getIndex(long, long, long)
      * @return the SQL formula to extract X from the table key for a given zoom level
+     * @see #getIndex(long, long, long)
+     * @since 6.0.2
      */
     protected static String extractXFromKeyInSQL(final int pZoom) {
         return "((" + COLUMN_KEY + ">>" + pZoom + ")%" + (1 << pZoom) + ")";
     }
 
     /**
-     * @since 6.0.2
-     * @see #getIndex(long, long, long)
      * @return the SQL formula to extract Y from the table key for a given zoom level
+     * @see #getIndex(long, long, long)
+     * @since 6.0.2
      */
     protected static String extractYFromKeyInSQL(final int pZoom) {
         return "(" + COLUMN_KEY + "%" + (1 << pZoom) + ")";
@@ -521,8 +526,9 @@ public class SqlTileWriter implements IFilesystemCache, SplashScreenable {
     /**
      * Gets the single column index value for a map tile
      * Unluckily, "map tile index" and "sql pk" don't match
-     * @since 5.6.5
+     *
      * @param pMapTileIndex
+     * @since 5.6.5
      */
     public static long getIndex(final long pMapTileIndex) {
         return getIndex(MapTileIndex.getX(pMapTileIndex), MapTileIndex.getY(pMapTileIndex), MapTileIndex.getZoom(pMapTileIndex));
@@ -533,7 +539,7 @@ public class SqlTileWriter implements IFilesystemCache, SplashScreenable {
         Cursor cursor = null;
         try {
             cursor = getTileCursor(getPrimaryKeyParameters(getIndex(pMapTileIndex), pTileSource), expireQueryColumn);
-            if(cursor.moveToNext()) {
+            if (cursor.moveToNext()) {
                 return cursor.getLong(0);
             }
         } catch (Exception ex) {
@@ -557,33 +563,30 @@ public class SqlTileWriter implements IFilesystemCache, SplashScreenable {
     }
 
     /**
-     *
-     * @since 5.6.5
      * @param pIndex
      * @param pTileSourceInfo
      * @return
+     * @since 5.6.5
      */
     public static String[] getPrimaryKeyParameters(final long pIndex, final ITileSource pTileSourceInfo) {
         return getPrimaryKeyParameters(pIndex, pTileSourceInfo.name());
     }
 
     /**
-     *
-     * @since 5.6.5
      * @param pIndex
      * @param pTileSourceInfo
      * @return
+     * @since 5.6.5
      */
     public static String[] getPrimaryKeyParameters(final long pIndex, final String pTileSourceInfo) {
         return new String[]{String.valueOf(pIndex), pTileSourceInfo};
     }
 
     /**
-     *
-     * @since 5.6.5
      * @param pPrimaryKeyParameters
      * @param pColumns
      * @return
+     * @since 5.6.5
      */
     public Cursor getTileCursor(final String[] pPrimaryKeyParameters, final String[] pColumns) {
         final SQLiteDatabase db = getDb();
@@ -592,35 +595,37 @@ public class SqlTileWriter implements IFilesystemCache, SplashScreenable {
 
     /**
      * For optimization reasons
+     *
      * @since 5.6.5
      */
     private static final String[] queryColumns = {DatabaseFileArchive.COLUMN_TILE, SqlTileWriter.COLUMN_EXPIRES};
 
     /**
      * For optimization reasons
+     *
      * @since 5.6.5
      */
     private static final String[] expireQueryColumn = {SqlTileWriter.COLUMN_EXPIRES};
 
     @Override
-    public Drawable loadTile(final ITileSource pTileSource, final long pMapTileIndex) throws Exception{
+    public Drawable loadTile(final ITileSource pTileSource, final long pMapTileIndex) throws Exception {
         byte[] bits = null;
         long expirationTimestamp = 0;
         Cursor cur = null;
         try {
             final long index = getIndex(pMapTileIndex);
             cur = getTileCursor(getPrimaryKeyParameters(index, pTileSource), queryColumns);
-            if (cur.moveToFirst()){
+            if (cur.moveToFirst()) {
                 bits = cur.getBlob(0);
                 expirationTimestamp = cur.getLong(1);
             }
-            if (bits==null) {
+            if (bits == null) {
                 if (Configuration.getInstance().isDebugMode()) {
-                    Log.d(IMapView.LOGTAG,"SqlCache - Tile doesn't exist: " +pTileSource.name() + MapTileIndex.toString(pMapTileIndex));
+                    Log.d(IMapView.LOGTAG, "SqlCache - Tile doesn't exist: " + pTileSource.name() + MapTileIndex.toString(pMapTileIndex));
                 }
                 return null;
             }
-        } catch(Exception ex) {
+        } catch (Exception ex) {
             catchException(ex);
             throw ex;
         } finally {
@@ -639,7 +644,7 @@ public class SqlTileWriter implements IFilesystemCache, SplashScreenable {
 
             if (fileExpired && drawable != null) {
                 if (Configuration.getInstance().isDebugMode()) {
-                    Log.d(IMapView.LOGTAG,"Tile expired: " + pTileSource.name() + MapTileIndex.toString(pMapTileIndex));
+                    Log.d(IMapView.LOGTAG, "Tile expired: " + pTileSource.name() + MapTileIndex.toString(pMapTileIndex));
                 }
                 ExpirableBitmapDrawable.setState(drawable, ExpirableBitmapDrawable.EXPIRED);
             }
@@ -652,11 +657,11 @@ public class SqlTileWriter implements IFilesystemCache, SplashScreenable {
     }
 
     /**
-     * @since 6.0.2
-     * @param pToBeDeleted Amount of bytes to delete (as tile blob size)
-     * @param pBulkSize Number of tiles to delete in bulk
-     * @param pPauseMillis Pause between bulk actions, in order not to play it not aggressive on the CPU
+     * @param pToBeDeleted      Amount of bytes to delete (as tile blob size)
+     * @param pBulkSize         Number of tiles to delete in bulk
+     * @param pPauseMillis      Pause between bulk actions, in order not to play it not aggressive on the CPU
      * @param pIncludeUnexpired Should we also delete tiles that are not expired?
+     * @since 6.0.2
      */
     public void runCleanupOperation(final long pToBeDeleted, final int pBulkSize,
                                     final long pPauseMillis, final boolean pIncludeUnexpired) {
@@ -665,7 +670,7 @@ public class SqlTileWriter implements IFilesystemCache, SplashScreenable {
         String sep;
         boolean first = true;
         final SQLiteDatabase db = getDb();
-        while(diff > 0) {
+        while (diff > 0) {
             if (first) {
                 first = false;
             } else {
@@ -688,7 +693,7 @@ public class SqlTileWriter implements IFilesystemCache, SplashScreenable {
                                 (pIncludeUnexpired ? "" : "AND " + COLUMN_EXPIRES + " < " + now + " ") +
                                 "ORDER BY " + COLUMN_EXPIRES + " ASC " +
                                 "LIMIT " + pBulkSize, null);
-            } catch(Exception e) {
+            } catch (Exception e) {
                 catchException(e);
                 return;
             }
@@ -696,7 +701,7 @@ public class SqlTileWriter implements IFilesystemCache, SplashScreenable {
             where.setLength(0);
             where.append(COLUMN_KEY + " in (");
             sep = "";
-            while(!cur.isAfterLast()) {
+            while (!cur.isAfterLast()) {
                 final long key = cur.getLong(0);
                 final long size = cur.getLong(1);
                 cur.moveToNext();
@@ -715,10 +720,10 @@ public class SqlTileWriter implements IFilesystemCache, SplashScreenable {
             where.append(')');
             try {
                 db.delete(TABLE, where.toString(), null);
-            } catch (SQLiteFullException e){
+            } catch (SQLiteFullException e) {
                 Log.e(IMapView.LOGTAG, "SQLiteFullException while cleanup.", e);
                 catchException(e);
-            } catch(Exception e) {
+            } catch (Exception e) {
                 catchException(e);
                 return;
             }
@@ -753,7 +758,7 @@ public class SqlTileWriter implements IFilesystemCache, SplashScreenable {
      * @since 6.0.2
      */
     public void refreshDb() {
-        synchronized(mLock) {
+        synchronized (mLock) {
             if (mDb != null) {
                 mDb.close();
                 mDb = null;
@@ -773,12 +778,12 @@ public class SqlTileWriter implements IFilesystemCache, SplashScreenable {
     }
 
     /**
-     * @since 6.0.2
      * @return true if it's a mere functional exception (poor SQL code for instance)
      * and false if it's something potentially more serious (no more SQLite database for instance)
+     * @since 6.0.2
      */
     public static boolean isFunctionalException(final SQLiteException pSQLiteException) {
-        switch(pSQLiteException.getClass().getSimpleName()) {
+        switch (pSQLiteException.getClass().getSimpleName()) {
             case "SQLiteBindOrColumnIndexOutOfRangeException":
             case "SQLiteBlobTooBigException":
             case "SQLiteConstraintException":
@@ -806,7 +811,7 @@ public class SqlTileWriter implements IFilesystemCache, SplashScreenable {
      * @since 6.0.2
      */
     private void createIndex(final SQLiteDatabase pDb) {
-        pDb.execSQL("CREATE INDEX IF NOT EXISTS " + COLUMN_EXPIRES_INDEX + " ON " + TABLE + " (" + COLUMN_EXPIRES +");");
+        pDb.execSQL("CREATE INDEX IF NOT EXISTS " + COLUMN_EXPIRES_INDEX + " ON " + TABLE + " (" + COLUMN_EXPIRES + ");");
     }
 
     /**
@@ -819,10 +824,10 @@ public class SqlTileWriter implements IFilesystemCache, SplashScreenable {
     }
 
     /**
-     * @since 6.0.2
      * @return the part of a SQL where clause used to restrict the selected tiles to
      * - a zoom
      * - a bounding box (possibly null)
+     * @since 6.0.2
      */
     protected StringBuilder getWhereClause(final int pZoom, final Rect pRect) {
         final long maxValueForZoom = -1 + (1 << (pZoom + 1));
@@ -862,11 +867,11 @@ public class SqlTileWriter implements IFilesystemCache, SplashScreenable {
     }
 
     /**
-     * @since 6.0.2
      * @return the part of a SQL where clause used to restrict the selected tiles to
      * - a zoom
      * - a collection of bounding boxes to include (possibly null/empty)
      * - a collection of bounding boxes to exclude (possibly null/empty)
+     * @since 6.0.2
      */
     protected StringBuilder getWhereClause(final int pZoom,
                                            final Collection<Rect> pInclude,
@@ -898,12 +903,13 @@ public class SqlTileWriter implements IFilesystemCache, SplashScreenable {
 
     /**
      * Delete cache tiles
-     * @since 6.0.2
+     *
      * @param pTileSourceName the tile source name (possibly null)
-     * @param pZoom the zoom level
-     * @param pInclude a collection of bounding boxes to include (possibly null/empty)
-     * @param pExclude a collection of bounding boxes to exclude (possibly null/empty)
+     * @param pZoom           the zoom level
+     * @param pInclude        a collection of bounding boxes to include (possibly null/empty)
+     * @param pExclude        a collection of bounding boxes to exclude (possibly null/empty)
      * @return the number of corresponding tiles deleted from the cache, or -1 if a problem occurred
+     * @since 6.0.2
      */
     public long delete(final String pTileSourceName, final int pZoom,
                        final Collection<Rect> pInclude, final Collection<Rect> pExclude) {
@@ -915,7 +921,7 @@ public class SqlTileWriter implements IFilesystemCache, SplashScreenable {
             return db.delete(TABLE,
                     getWhereClause(pZoom, pInclude, pExclude)
                             + (pTileSourceName != null ? " and " + COLUMN_PROVIDER + "=?" : ""),
-                    pTileSourceName != null ? new String[] {pTileSourceName} : null);
+                    pTileSourceName != null ? new String[]{pTileSourceName} : null);
         } catch (Exception ex) {
             catchException(ex);
             return 0;

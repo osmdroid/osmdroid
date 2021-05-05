@@ -19,30 +19,33 @@ import java.util.TimerTask;
 
 /**
  * https://github.com/osmdroid/osmdroid/issues/249
+ *
  * @author alex
  */
-public class SampleCustomIconDirectedLocationOverlay extends BaseSampleFragment implements LocationListener{
+public class SampleCustomIconDirectedLocationOverlay extends BaseSampleFragment implements LocationListener {
 
-    private boolean hasFix=false;
+    private boolean hasFix = false;
     private DirectedLocationOverlay overlay;
-     @Override
-     public String getSampleTitle() {
-          return "Directed Location Overlay";
-     }
+
     @Override
-    public void onResume(){
+    public String getSampleTitle() {
+        return "Directed Location Overlay";
+    }
+
+    @Override
+    public void onResume() {
         super.onResume();
         LocationManager lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
         try {
             //on API15 AVDs,network provider fails. no idea why
             lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
             lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
+        } catch (Exception ex) {
         }
-        catch (Exception ex){}
     }
 
     @Override
-    public void onPause(){
+    public void onPause() {
         super.onPause();
         LocationManager lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
         lm.removeUpdates(this);
@@ -63,24 +66,24 @@ public class SampleCustomIconDirectedLocationOverlay extends BaseSampleFragment 
     @Override
     public void onLocationChanged(Location location) {
         //after the first fix, schedule the task to change the icon
-        if (!hasFix){
+        if (!hasFix) {
             Toast.makeText(getActivity(), "Location fixed, scheduling icon change", Toast.LENGTH_LONG).show();
             TimerTask changeIcon = new TimerTask() {
                 @Override
                 public void run() {
                     Activity act = getActivity();
-                    if (act!=null)
-                    act.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            try {
-                                BitmapDrawable drawable = (BitmapDrawable) getResources().getDrawable(R.drawable.sfgpuci);
-                                overlay.setDirectionArrow(drawable.getBitmap());
-                            }catch (Throwable t){
-                                //insultates against crashing when the user rapidly switches fragments/activities
+                    if (act != null)
+                        act.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    BitmapDrawable drawable = (BitmapDrawable) getResources().getDrawable(R.drawable.sfgpuci);
+                                    overlay.setDirectionArrow(drawable.getBitmap());
+                                } catch (Throwable t) {
+                                    //insultates against crashing when the user rapidly switches fragments/activities
+                                }
                             }
-                        }
-                    });
+                        });
 
                 }
             };
@@ -88,9 +91,9 @@ public class SampleCustomIconDirectedLocationOverlay extends BaseSampleFragment 
             timer.schedule(changeIcon, 5000);
 
         }
-        hasFix=true;
+        hasFix = true;
         overlay.setBearing(location.getBearing());
-        overlay.setAccuracy((int)location.getAccuracy());
+        overlay.setAccuracy((int) location.getAccuracy());
         overlay.setLocation(new GeoPoint(location.getLatitude(), location.getLongitude()));
         mMapView.invalidate();
     }

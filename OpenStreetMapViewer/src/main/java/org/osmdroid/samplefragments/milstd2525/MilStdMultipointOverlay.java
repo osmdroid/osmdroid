@@ -27,12 +27,12 @@ import sec.web.render.SECWebRenderer;
 
 /**
  * This overlay does a few things that are unique to milstd graphics
- *
+ * <p>
  * The GeoPoints provided are the symbol's control points. These control
  * points are then converted into the graphic and then added to the map using a
  * folder overlay + markers, polylines and polygons.
- *
- *
+ * <p>
+ * <p>
  * created on 1/30/2018.
  *
  * @author Alex O'Ree
@@ -45,6 +45,7 @@ public class MilStdMultipointOverlay extends Overlay {
     private double mCurrentMapZoom = 0d;
     private IGeoPoint mCurrentCenter = null;
     protected FolderOverlay lastOverlay = null;
+
     public MilStdMultipointOverlay(SimpleSymbol symbol, ArrayList<GeoPoint> inputs) {
         this.symbol = symbol;
         this.inputGeoPoints = inputs;
@@ -87,8 +88,8 @@ public class MilStdMultipointOverlay extends Overlay {
         StringBuilder controlPts = new StringBuilder();
         //run the douglas pucker algorithm to reduce the points for performance reasons
         ArrayList<GeoPoint> inputGeoPoints = PointReducer.reduceWithTolerance(
-            this.inputGeoPoints,
-            tolerance
+                this.inputGeoPoints,
+                tolerance
         );
         //Log.d(IMapView.LOGTAG, "point size after " + inputGeoPoints.size());
 
@@ -108,9 +109,9 @@ public class MilStdMultipointOverlay extends Overlay {
         double scale = TileSystem.GroundResolution(map.getMapCenter().getLatitude(), map.getZoomLevelDouble());
         //"lowerLeftX,lowerLeftY,upperRightX,upperRightY."
         String bbox = boundingBox.getLonWest() + "," +
-            boundingBox.getLatSouth() + "," +
-            boundingBox.getLonEast() + "," +
-            boundingBox.getLatNorth();
+                boundingBox.getLatSouth() + "," +
+                boundingBox.getLonEast() + "," +
+                boundingBox.getLatNorth();
 
 
         SparseArray<String> modifiers = symbol.getModifiers();
@@ -133,7 +134,7 @@ public class MilStdMultipointOverlay extends Overlay {
         MilStdSymbol flot = SECWebRenderer.RenderMultiPointAsMilStdSymbol(id, name, description, symbolCode, controlPoints, altitudeMode, scale, bbox, modifiers, attributes, symStd);
 
         //convert the symbol into osmdroid's data structures
-        if (lastOverlay!=null) {
+        if (lastOverlay != null) {
             lastOverlay.onDetach(map);
         }
         lastOverlay = new FolderOverlay();
@@ -249,6 +250,6 @@ public class MilStdMultipointOverlay extends Overlay {
             }
         }
 
-        lastOverlay.draw(c,map, false);
+        lastOverlay.draw(c, map, false);
     }
 }

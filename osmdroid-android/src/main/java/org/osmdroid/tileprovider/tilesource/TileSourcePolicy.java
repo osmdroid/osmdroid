@@ -18,30 +18,31 @@ import java.util.Date;
  * <li>if it accepts bulk downloads</li>
  * <li>if the user agent must be normalized</li>
  * </ul>
- * @since 6.1.0
+ *
  * @author Fabrice Fontaine
+ * @since 6.1.0
  */
 public class TileSourcePolicy {
 
     /**
      * No bulk downloads allowed
      */
-    public static final int FLAG_NO_BULK                = 1;
+    public static final int FLAG_NO_BULK = 1;
 
     /**
      * Don't try to preventively download tiles that aren't currently displayed
      */
-    public static final int FLAG_NO_PREVENTIVE          = 2;
+    public static final int FLAG_NO_PREVENTIVE = 2;
 
     /**
      * Demands a user agent different from the default value
      */
-    public static final int FLAG_USER_AGENT_MEANINGFUL  = 4;
+    public static final int FLAG_USER_AGENT_MEANINGFUL = 4;
 
     /**
      * Uses the "normalized" user agent (package name + version)
      */
-    public static final int FLAG_USER_AGENT_NORMALIZED  = 8;
+    public static final int FLAG_USER_AGENT_NORMALIZED = 8;
 
     /**
      * maximum number of concurrent downloads
@@ -90,9 +91,9 @@ public class TileSourcePolicy {
     }
 
     /**
+     * @return the Epoch timestamp corresponding to the http header (in milliseconds), or null
      * @since 6.1.7
      * Used to be in {@link TileDownloader}
-     * @return the Epoch timestamp corresponding to the http header (in milliseconds), or null
      */
     public Long getHttpExpiresTime(final String pHttpExpiresHeader) {
         if (pHttpExpiresHeader != null && pHttpExpiresHeader.length() > 0) {
@@ -108,9 +109,9 @@ public class TileSourcePolicy {
     }
 
     /**
+     * @return the max-age corresponding to the http header (in seconds), or null
      * @since 6.1.7
      * Used to be in {@link TileDownloader}
-     * @return the max-age corresponding to the http header (in seconds), or null
      */
     public Long getHttpCacheControlDuration(final String pHttpCacheControlHeader) {
         if (pHttpCacheControlHeader != null && pHttpCacheControlHeader.length() > 0) {
@@ -134,12 +135,12 @@ public class TileSourcePolicy {
     }
 
     /**
+     * @return the expiration time (as Epoch timestamp in milliseconds)
      * @since 6.1.7
      * Used to be in {@link TileDownloader}
-     * @return the expiration time (as Epoch timestamp in milliseconds)
      */
     public long computeExpirationTime(final String pHttpExpiresHeader, final String pHttpCacheControlHeader, final long pNow) {
-        final Long override=Configuration.getInstance().getExpirationOverrideDuration();
+        final Long override = Configuration.getInstance().getExpirationOverrideDuration();
         if (override != null) {
             return pNow + override;
         }
@@ -159,8 +160,8 @@ public class TileSourcePolicy {
     }
 
     /**
-     * @since 6.1.7
      * @return the expiration time (as Epoch timestamp in milliseconds)
+     * @since 6.1.7
      */
     public long computeExpirationTime(final HttpURLConnection pHttpURLConnection, final long pNow) {
         final String expires = pHttpURLConnection.getHeaderField(OpenStreetMapTileProviderConstants.HTTP_EXPIRES_HEADER);

@@ -10,6 +10,8 @@ import java.text.ParseException;
 
 public interface ShapeMetaSetter {
     void set(DbfRecord metadata, Marker marker) throws ParseException;
+
     void set(DbfRecord metadata, Polygon polygon) throws ParseException;
+
     void set(DbfRecord metadata, Polyline polyline) throws ParseException;
 }

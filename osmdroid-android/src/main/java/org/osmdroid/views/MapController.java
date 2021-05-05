@@ -19,9 +19,9 @@ import org.osmdroid.events.MapListener;
 import org.osmdroid.events.ZoomEvent;
 import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
+import org.osmdroid.util.MyMath;
 import org.osmdroid.util.TileSystem;
 import org.osmdroid.views.MapView.OnFirstLayoutListener;
-import org.osmdroid.util.MyMath;
 
 import java.util.LinkedList;
 
@@ -45,7 +45,7 @@ public class MapController implements IMapController, OnFirstLayoutListener {
     // Zoom animations
     private ScaleAnimation mZoomInAnimationOld;
     private ScaleAnimation mZoomOutAnimationOld;
-    private double mTargetZoomLevel=0;
+    private double mTargetZoomLevel = 0;
 
     private Animator mCurrentAnimator;
 
@@ -69,9 +69,9 @@ public class MapController implements IMapController, OnFirstLayoutListener {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
             ZoomAnimationListener zoomAnimationListener = new ZoomAnimationListener(this);
             mZoomInAnimationOld = new ScaleAnimation(1, 2, 1, 2, Animation.RELATIVE_TO_SELF, 0.5f,
-                Animation.RELATIVE_TO_SELF, 0.5f);
+                    Animation.RELATIVE_TO_SELF, 0.5f);
             mZoomOutAnimationOld = new ScaleAnimation(1, 0.5f, 1, 0.5f, Animation.RELATIVE_TO_SELF,
-                0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+                    0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
             mZoomInAnimationOld.setDuration(Configuration.getInstance().getAnimationSpeedShort());
             mZoomOutAnimationOld.setDuration(Configuration.getInstance().getAnimationSpeedShort());
             mZoomInAnimationOld.setAnimationListener(zoomAnimationListener);
@@ -111,7 +111,7 @@ public class MapController implements IMapController, OnFirstLayoutListener {
             this.mMapView.setZoomLevel(curZoomLevel - MyMath.getNextSquareNumberAbove((float) diffNeeded));
         } else if (diffNeeded < 0.5) { // Can Zoom in
             this.mMapView.setZoomLevel(curZoomLevel
-                + MyMath.getNextSquareNumberAbove(1 / (float) diffNeeded) - 1);
+                    + MyMath.getNextSquareNumberAbove(1 / (float) diffNeeded) - 1);
         }
     }
 
@@ -196,8 +196,8 @@ public class MapController implements IMapController, OnFirstLayoutListener {
 
         if (!mMapView.isAnimating()) {
             mMapView.mIsFlinging = false;
-            final int xStart = (int)mMapView.getMapScrollX();
-            final int yStart = (int)mMapView.getMapScrollY();
+            final int xStart = (int) mMapView.getMapScrollX();
+            final int yStart = (int) mMapView.getMapScrollY();
 
             final int dx = x - mMapView.getWidth() / 2;
             final int dy = y - mMapView.getHeight() / 2;
@@ -254,8 +254,7 @@ public class MapController implements IMapController, OnFirstLayoutListener {
             if (mMapView.mIsAnimating.get()) {
                 if (jumpToTarget) {
                     currentAnimator.end();
-                }
-                else {
+                } else {
                     currentAnimator.cancel();
                 }
             }
@@ -337,7 +336,7 @@ public class MapController implements IMapController, OnFirstLayoutListener {
      */
     @Override
     public boolean zoomTo(int zoomLevel, Long animationSpeed) {
-        return zoomTo((double)zoomLevel, animationSpeed);
+        return zoomTo((double) zoomLevel, animationSpeed);
     }
 
     /**
@@ -371,7 +370,7 @@ public class MapController implements IMapController, OnFirstLayoutListener {
 
         double currentZoomLevel = mMapView.getZoomLevelDouble();
         boolean canZoom = zoomLevel < currentZoomLevel && mMapView.canZoomOut() ||
-            zoomLevel > currentZoomLevel && mMapView.canZoomIn();
+                zoomLevel > currentZoomLevel && mMapView.canZoomIn();
 
         if (!canZoom) {
             return false;
@@ -381,7 +380,7 @@ public class MapController implements IMapController, OnFirstLayoutListener {
             return false;
         }
         ZoomEvent event = null;
-        for (MapListener mapListener: mMapView.mListners) {
+        for (MapListener mapListener : mMapView.mListners) {
             mapListener.onZoom(event != null ? event : (event = new ZoomEvent(mMapView, zoomLevel)));
         }
         mMapView.setMultiTouchScaleInitPoint(xPixel, yPixel);
@@ -461,7 +460,7 @@ public class MapController implements IMapController, OnFirstLayoutListener {
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     private static class MapAnimatorListener
-        implements Animator.AnimatorListener, AnimatorUpdateListener {
+            implements Animator.AnimatorListener, AnimatorUpdateListener {
 
         private final GeoPoint mCenter = new GeoPoint(0., 0);
         private final MapController mMapController;
@@ -487,7 +486,7 @@ public class MapController implements IMapController, OnFirstLayoutListener {
                 mOrientationSpan = null;
             } else {
                 mOrientationStart = pOrientationStart;
-                mOrientationSpan = (float)org.osmdroid.util.MyMath.getAngleDifference(mOrientationStart, pOrientationEnd, pClockwise);
+                mOrientationSpan = (float) org.osmdroid.util.MyMath.getAngleDifference(mOrientationStart, pOrientationEnd, pClockwise);
             }
         }
 

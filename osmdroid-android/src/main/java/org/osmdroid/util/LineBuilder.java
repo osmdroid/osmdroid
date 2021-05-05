@@ -2,6 +2,7 @@ package org.osmdroid.util;
 
 /**
  * Created by Fabrice on 03/01/2018.
+ *
  * @since 6.0.0
  */
 
@@ -21,8 +22,8 @@ public abstract class LineBuilder implements PointAccepter {
 
     @Override
     public void add(final long pX, final long pY) {
-        mLines[mIndex ++] = pX;
-        mLines[mIndex ++] = pY;
+        mLines[mIndex++] = pX;
+        mLines[mIndex++] = pY;
         if (mIndex >= mLines.length) {
             innerFlush();
         }

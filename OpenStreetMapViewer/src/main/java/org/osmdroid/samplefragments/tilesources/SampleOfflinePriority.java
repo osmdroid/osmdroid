@@ -15,8 +15,9 @@ import org.osmdroid.views.MapView;
  * The typical difference is when you pan the map to places you've never been to.
  * In the Offline First demo, you'll see an approximation of the tile before the actual downloaded
  * In the Offline Second demo, you'll see a gray square before the actual downloaded
- * @since 6.1.0
+ *
  * @author Fabrice Fontaine
+ * @since 6.1.0
  */
 abstract public class SampleOfflinePriority extends BaseSampleFragment {
 

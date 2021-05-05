@@ -13,8 +13,8 @@ import org.osmdroid.views.MapView;
  * with the map view being inside of some kind of container which allows scrolling, such as
  * scroll view
  * recycler/card view
- *
- *
+ * <p>
+ * <p>
  * created on 1/3/2017.
  *
  * @author Alex O'Ree

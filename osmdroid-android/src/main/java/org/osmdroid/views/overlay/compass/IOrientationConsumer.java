@@ -1,10 +1,8 @@
 package org.osmdroid.views.overlay.compass;
 
 
-public interface IOrientationConsumer
-{
+public interface IOrientationConsumer {
     /**
-     *
      * @param orientation this is magnetic north, not true north
      * @param source
      */

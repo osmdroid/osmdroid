@@ -44,6 +44,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * created on 2/11/2018.
  * TODO it would be nice to have the ability to select an icon for the location
+ *
  * @author Alex O'Ree
  */
 
@@ -98,7 +99,7 @@ public class BookmarkSample extends BaseSampleFragment implements LocationListen
     }
 
     private void showDialog(GeoPoint p) {
-        if (addBookmark!=null)
+        if (addBookmark != null)
             addBookmark.dismiss();
 
         //TODO prompt for user input
@@ -106,12 +107,12 @@ public class BookmarkSample extends BaseSampleFragment implements LocationListen
 
         View view = View.inflate(getContext(), R.layout.bookmark_add_dialog, null);
         builder.setView(view);
-                final EditText lat = view.findViewById(R.id.bookmark_lat);
+        final EditText lat = view.findViewById(R.id.bookmark_lat);
         lat.setText(p.getLatitude() + "");
-                final EditText lon = view.findViewById(R.id.bookmark_lon);
+        final EditText lon = view.findViewById(R.id.bookmark_lon);
         lon.setText(p.getLongitude() + "");
-                final EditText title = view.findViewById(R.id.bookmark_title);
-                final EditText description = view.findViewById(R.id.bookmark_description);
+        final EditText title = view.findViewById(R.id.bookmark_title);
+        final EditText description = view.findViewById(R.id.bookmark_description);
 
         view.findViewById(R.id.bookmark_cancel).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -189,7 +190,7 @@ public class BookmarkSample extends BaseSampleFragment implements LocationListen
         }
     }
 
-        @Override
+    @Override
     public void onDestroy() {
         super.onDestroy();
         if (datastore != null)
@@ -197,13 +198,13 @@ public class BookmarkSample extends BaseSampleFragment implements LocationListen
         datastore = null;
         if (addBookmark != null)
             addBookmark.dismiss();
-        addBookmark= null;
+        addBookmark = null;
     }
 
 
     private static final int MENU_BOOKMARK_MY_LOCATION = Menu.FIRST;
-    private static final int MENU_BOOKMARK_IMPORT = MENU_BOOKMARK_MY_LOCATION+1;
-    private static final int MENU_BOOKMARK_EXPORT = MENU_BOOKMARK_IMPORT+1;
+    private static final int MENU_BOOKMARK_IMPORT = MENU_BOOKMARK_MY_LOCATION + 1;
+    private static final int MENU_BOOKMARK_EXPORT = MENU_BOOKMARK_IMPORT + 1;
     private static int MENU_LAST_ID = Menu.FIRST;
 
     @Override
@@ -216,7 +217,7 @@ public class BookmarkSample extends BaseSampleFragment implements LocationListen
         menu.add(0, MENU_BOOKMARK_EXPORT, Menu.NONE, "Export to CSV").setCheckable(false);
         MENU_LAST_ID++;
         try {
-            mMapView.getOverlayManager().onCreateOptionsMenu(menu, MENU_BOOKMARK_MY_LOCATION+1, mMapView);
+            mMapView.getOverlayManager().onCreateOptionsMenu(menu, MENU_BOOKMARK_MY_LOCATION + 1, mMapView);
         } catch (NullPointerException npe) {
             //can happen during CI tests and very rapid fragment switching
         }
@@ -237,19 +238,19 @@ public class BookmarkSample extends BaseSampleFragment implements LocationListen
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == MENU_BOOKMARK_MY_LOCATION) {
-         //TODO
-            if (currentLocation!=null) {
+            //TODO
+            if (currentLocation != null) {
                 GeoPoint pt = new GeoPoint(currentLocation.getLatitude(), currentLocation.getLongitude());
                 showDialog(pt);
                 return true;
             }
 
-        } else  if (item.getItemId() == MENU_BOOKMARK_IMPORT) {
+        } else if (item.getItemId() == MENU_BOOKMARK_IMPORT) {
             //TODO
             showFilePicker();
             return true;
 
-        }  else  if (item.getItemId() == MENU_BOOKMARK_EXPORT) {
+        } else if (item.getItemId() == MENU_BOOKMARK_EXPORT) {
             //TODO
             showFileExportPicker();
             return true;
@@ -263,7 +264,7 @@ public class BookmarkSample extends BaseSampleFragment implements LocationListen
 
     @Override
     public void onLocationChanged(Location location) {
-        currentLocation=location;
+        currentLocation = location;
         //mMyLocationOverlay.setLocation(new GeoPoint(location.getLatitude(), location.getLongitude()));
     }
 
@@ -282,7 +283,7 @@ public class BookmarkSample extends BaseSampleFragment implements LocationListen
 
     }
 
-    private void showFileExportPicker(){
+    private void showFileExportPicker() {
         DialogProperties properties = new DialogProperties();
         properties.selection_mode = DialogConfigs.SINGLE_MODE;
         properties.selection_type = DialogConfigs.DIR_SELECT;
@@ -296,7 +297,7 @@ public class BookmarkSample extends BaseSampleFragment implements LocationListen
             @Override
             public void onSelectedFilePaths(final String[] files) {
                 //files is the array of the paths of files selected by the Application User.
-                if (files.length==1){
+                if (files.length == 1) {
 
                     //now prompt for a file name
                     AlertDialog.Builder builder = new AlertDialog.Builder(BookmarkSample.this.getContext());
@@ -316,7 +317,7 @@ public class BookmarkSample extends BaseSampleFragment implements LocationListen
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             //save the file here.
-                            if (input.getText()==null)
+                            if (input.getText() == null)
                                 return;
                             new Thread(new Runnable() {
                                 @Override
@@ -349,7 +350,7 @@ public class BookmarkSample extends BaseSampleFragment implements LocationListen
         dialog.show();
     }
 
-    private void showFilePicker(){
+    private void showFilePicker() {
         DialogProperties properties = new DialogProperties();
         properties.selection_mode = DialogConfigs.SINGLE_MODE;
         properties.selection_type = DialogConfigs.FILE_SELECT;
@@ -372,7 +373,7 @@ public class BookmarkSample extends BaseSampleFragment implements LocationListen
             @Override
             public void onSelectedFilePaths(final String[] files) {
                 //files is the array of the paths of files selected by the Application User.
-                if (files.length==1)
+                if (files.length == 1)
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
@@ -386,38 +387,40 @@ public class BookmarkSample extends BaseSampleFragment implements LocationListen
         dialog.show();
     }
 
-    private boolean exportStatus=true;
+    private boolean exportStatus = true;
+
     /**
      * call me from a background thread
      */
     private void exportToCsv(File exportFile) {
         FileWriter fileWriter = null;
-        exportStatus=true;
+        exportStatus = true;
         try {
             fileWriter = new FileWriter(exportFile);
             CSVWriter writer = new CSVWriter(fileWriter);
             List<Marker> markers = datastore.getBookmarksAsMarkers(getmMapView());
-            String[] headers = new String[] {"Latitude","Longitude","Description","Title"};
+            String[] headers = new String[]{"Latitude", "Longitude", "Description", "Title"};
             writer.writeNext(headers);
-            for (Marker m: markers) {
+            for (Marker m : markers) {
                 String[] items = new String[4];
-                items[0] = m.getPosition().getLatitude()+"";
-                items[1] = m.getPosition().getLongitude()+"";
+                items[0] = m.getPosition().getLatitude() + "";
+                items[1] = m.getPosition().getLongitude() + "";
                 items[2] = m.getSubDescription();
                 items[3] = m.getTitle();
                 writer.writeNext(items);
             }
-        }catch (Exception ex) {
-            exportStatus=false;
+        } catch (Exception ex) {
+            exportStatus = false;
             ex.printStackTrace();
         } finally {
-            if (fileWriter!=null)
+            if (fileWriter != null)
                 try {
                     fileWriter.close();
-                }catch (Exception ex) {}
+                } catch (Exception ex) {
+                }
         }
         final Activity act = getActivity();
-        if (act!=null) {
+        if (act != null) {
             act.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -433,10 +436,10 @@ public class BookmarkSample extends BaseSampleFragment implements LocationListen
     /**
      * call me from a background thread
      */
-    private void importFromCsv(File importFile){
+    private void importFromCsv(File importFile) {
 
-        final AtomicInteger imported= new AtomicInteger();
-        final AtomicInteger failed= new AtomicInteger();
+        final AtomicInteger imported = new AtomicInteger();
+        final AtomicInteger failed = new AtomicInteger();
         FileReader fileReader = null;
         try {
             fileReader = new FileReader(importFile);
@@ -456,26 +459,27 @@ public class BookmarkSample extends BaseSampleFragment implements LocationListen
                     datastore.addBookmark(m);
                     getmMapView().getOverlayManager().add(m);
                     imported.getAndIncrement();
-                }catch (Exception ex) {
+                } catch (Exception ex) {
                     ex.printStackTrace();
                     failed.getAndIncrement();
                 }
             }
-        }catch (Exception ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
         } finally {
-            if (fileReader!=null)
+            if (fileReader != null)
                 try {
                     fileReader.close();
-                }catch (Exception ex) {}
+                } catch (Exception ex) {
+                }
         }
 
         final Activity act = getActivity();
-        if (act!=null) {
+        if (act != null) {
             act.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    Toast.makeText(act,"Import Complete: " + imported.get() + "/" + failed.get() + "(imported/failed)", Toast.LENGTH_LONG).show();
+                    Toast.makeText(act, "Import Complete: " + imported.get() + "/" + failed.get() + "(imported/failed)", Toast.LENGTH_LONG).show();
                 }
             });
         }

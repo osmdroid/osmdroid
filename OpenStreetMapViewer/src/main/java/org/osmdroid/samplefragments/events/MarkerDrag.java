@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 /**
  * Based on osmbonuspacks tutorial for dragging markers.
- *
+ * <p>
  * Long press to drag the marker, once you yet go, the new location added to a polyline to show it's
  * relative path
  * created on 1/14/2018.
@@ -24,11 +24,11 @@ public class MarkerDrag extends BaseSampleFragment {
     }
 
     @Override
-    public void addOverlays(){
+    public void addOverlays() {
         super.addOverlays();
         //0. Using the Marker overlay
         Marker startMarker = new Marker(mMapView);
-        startMarker.setPosition(new GeoPoint(0.0,0.0));
+        startMarker.setPosition(new GeoPoint(0.0, 0.0));
         startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
         startMarker.setTitle("Start point");
         startMarker.setDraggable(true);
@@ -51,17 +51,20 @@ public class MarkerDrag extends BaseSampleFragment {
             mMapView.getOverlays().add(mPolyline);
         }
 
-        @Override public void onMarkerDrag(Marker marker) {
+        @Override
+        public void onMarkerDrag(Marker marker) {
             //mTrace.add(marker.getPosition());
         }
 
-        @Override public void onMarkerDragEnd(Marker marker) {
+        @Override
+        public void onMarkerDragEnd(Marker marker) {
             mTrace.add(marker.getPosition());
             mPolyline.setPoints(mTrace);
             mMapView.invalidate();
         }
 
-        @Override public void onMarkerDragStart(Marker marker) {
+        @Override
+        public void onMarkerDragStart(Marker marker) {
             //mTrace.add(marker.getPosition());
         }
     }

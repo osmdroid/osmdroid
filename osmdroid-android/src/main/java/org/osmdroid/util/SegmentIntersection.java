@@ -2,8 +2,9 @@ package org.osmdroid.util;
 
 /**
  * A class dedicated to the computation of 2D segments intersection points
- * @since 6.0.0
+ *
  * @author Fabrice Fontaine
+ * @since 6.0.0
  */
 
 public class SegmentIntersection {
@@ -78,6 +79,7 @@ public class SegmentIntersection {
 
     /**
      * Checks if computed intersection is valid and sets output accordingly
+     *
      * @param pXI intersection x
      * @param pYI intersection y
      * @return true if OK

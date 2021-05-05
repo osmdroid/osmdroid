@@ -9,10 +9,11 @@ import org.osmdroid.views.overlay.advancedpolyline.MonochromaticPaintList;
 
 /**
  * Created by Fabrice on 04/01/2018.
+ *
  * @since 6.0.0
  */
 
-public class LineDrawer extends LineBuilder{
+public class LineDrawer extends LineBuilder {
 
     private IntegerAccepter mIntegerAccepter;
     private Canvas mCanvas;
@@ -41,7 +42,7 @@ public class LineDrawer extends LineBuilder{
     @Override
     public void flush() {
         final int nbSegments = getSize() / 4;
-        if(nbSegments == 0) {
+        if (nbSegments == 0) {
             additionalFlush();
             return;
         }
@@ -55,7 +56,7 @@ public class LineDrawer extends LineBuilder{
             additionalFlush();
             return;
         }
-        for (int i = 0; i < nbSegments * 4 ; i += 4) {
+        for (int i = 0; i < nbSegments * 4; i += 4) {
             final float x0 = lines[i];
             final float y0 = lines[i + 1];
             final float x1 = lines[i + 2];
@@ -76,16 +77,16 @@ public class LineDrawer extends LineBuilder{
     }
 
     /**
+     * @param pLines the input AND output array
+     * @param pSize  the initial number of coordinates
+     * @return the number of relevant coordinates
      * @since 6.2.0
      * Compact a float[] containing (x0,y0,x1,y1) segment coordinate quadruplets
      * by removing the single point cases (x0 == x1 && y0 == y1)
-     * @param pLines the input AND output array
-     * @param pSize the initial number of coordinates
-     * @return the number of relevant coordinates
      */
     private static int compact(final float[] pLines, final int pSize) {
         int dstIndex = 0;
-        for (int srcIndex = 0; srcIndex < pSize ; srcIndex += 4) {
+        for (int srcIndex = 0; srcIndex < pSize; srcIndex += 4) {
             final float x0 = pLines[srcIndex];
             final float y0 = pLines[srcIndex + 1];
             final float x1 = pLines[srcIndex + 2];

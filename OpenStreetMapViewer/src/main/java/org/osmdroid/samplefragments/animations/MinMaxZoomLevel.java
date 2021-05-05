@@ -1,11 +1,13 @@
 package org.osmdroid.samplefragments.animations;
 
 import android.widget.Toast;
-import java.util.Locale;
+
 import org.osmdroid.events.MapListener;
 import org.osmdroid.events.ScrollEvent;
 import org.osmdroid.events.ZoomEvent;
 import org.osmdroid.samplefragments.BaseSampleFragment;
+
+import java.util.Locale;
 
 /**
  * Demonstrates interaction of double tab zoom with maximum zoom level
@@ -40,7 +42,7 @@ public class MinMaxZoomLevel extends BaseSampleFragment implements MapListener {
     @Override
     public boolean onZoom(ZoomEvent zoomEvent) {
         String zoomLevel = String.format(Locale.getDefault(), "%.2f", zoomEvent.getZoomLevel());
-        Toast.makeText(getContext(), "Zoom to "+zoomLevel, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), "Zoom to " + zoomLevel, Toast.LENGTH_SHORT).show();
         return false;
     }
 

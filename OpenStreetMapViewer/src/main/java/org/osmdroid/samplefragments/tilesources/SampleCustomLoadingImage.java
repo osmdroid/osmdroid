@@ -5,6 +5,7 @@ import org.osmdroid.samplefragments.BaseSampleFragment;
 
 /**
  * Issue https://github.com/osmdroid/osmdroid/issues/330
+ *
  * @since 5.2+
  * Created by alex on 8/14/16.
  */

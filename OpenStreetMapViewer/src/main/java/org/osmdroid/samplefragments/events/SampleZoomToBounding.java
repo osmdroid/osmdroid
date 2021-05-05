@@ -34,7 +34,7 @@ public class SampleZoomToBounding extends BaseSampleFragment implements View.OnC
      * @since 6.1.0
      * south, north
      */
-    private final double[] mSampleLatitudes = new double[] {0, 85, -85, 0};
+    private final double[] mSampleLatitudes = new double[]{0, 85, -85, 0};
 
     /**
      * @since 6.1.0
@@ -45,7 +45,7 @@ public class SampleZoomToBounding extends BaseSampleFragment implements View.OnC
      * @since 6.1.0
      * west, east
      */
-    private final double[] mSampleLongitudes = new double[] {0, 10, 0, 10};
+    private final double[] mSampleLongitudes = new double[]{0, 10, 0, 10};
 
     /**
      * @since 6.1.0
@@ -60,7 +60,7 @@ public class SampleZoomToBounding extends BaseSampleFragment implements View.OnC
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View root = inflater.inflate(R.layout.sample_cachemgr, container,false);
+        View root = inflater.inflate(R.layout.sample_cachemgr, container, false);
 
         mMapView = new MapView(getActivity());
         ((LinearLayout) root.findViewById(R.id.mapview)).addView(mMapView);
@@ -115,6 +115,7 @@ public class SampleZoomToBounding extends BaseSampleFragment implements View.OnC
     /**
      * Add a succession of GeoPoint's, separated by an increment,
      * taken from the segment between two GeoPoint's
+     *
      * @since 6.0.0
      */
     private void addPoints(final List<GeoPoint> pPoints,
@@ -158,14 +159,14 @@ public class SampleZoomToBounding extends BaseSampleFragment implements View.OnC
 
     private double getRandomLongitude() {
         if (mSampleLongitudeIndex < mSampleLongitudes.length) {
-            return mSampleLongitudes[mSampleLongitudeIndex ++];
+            return mSampleLongitudes[mSampleLongitudeIndex++];
         }
         return tileSystem.getRandomLongitude(Math.random());
     }
 
     private double getRandomLatitude(final double pMinLatitude) {
         if (mSampleLatitudeIndex < mSampleLatitudes.length) {
-            return mSampleLatitudes[mSampleLatitudeIndex ++];
+            return mSampleLatitudes[mSampleLatitudeIndex++];
         }
         return tileSystem.getRandomLatitude(Math.random(), pMinLatitude);
     }

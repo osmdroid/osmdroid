@@ -19,24 +19,23 @@ import org.osmdroid.tileprovider.modules.TileWriter;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.tileprovider.util.SimpleRegisterReceiver;
-import org.osmdroid.util.MapTileIndex;
 import org.osmdroid.util.MapTileAreaBorderComputer;
 import org.osmdroid.util.MapTileAreaZoomComputer;
+import org.osmdroid.util.MapTileIndex;
 
 /**
  * This top-level tile provider implements a basic tile request chain which includes a
  * {@link MapTileFilesystemProvider} (a file-system cache), a {@link MapTileFileArchiveProvider}
  * (archive provider), and a {@link MapTileDownloader} (downloads map tiles via tile source).
- *
+ * <p>
  * Behavior change since osmdroid 5.3: If the device is less than API 10, the file system based cache and writer are used
  * otherwise, the sqlite based
  *
+ * @author Marc Kurtz
  * @see TileWriter
  * @see SqlTileWriter
  * @see MapTileFilesystemProvider
  * @see MapTileSqlCacheProvider
- * @author Marc Kurtz
- *
  */
 public class MapTileProviderBasic extends MapTileProviderArray implements IMapTileProviderCallback {
 

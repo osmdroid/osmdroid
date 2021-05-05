@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.util.Log;
+
 import org.osmdroid.api.IMapView;
 
 /**
@@ -20,19 +21,19 @@ public class ManifestUtil {
         final PackageManager pm = aContext.getPackageManager();
         try {
             final ApplicationInfo info = pm.getApplicationInfo(aContext.getPackageName(),
-					PackageManager.GET_META_DATA);
+                    PackageManager.GET_META_DATA);
             if (info.metaData == null) {
-                Log.i(IMapView.LOGTAG,"Key %s not found in manifest"+aKey);
+                Log.i(IMapView.LOGTAG, "Key %s not found in manifest" + aKey);
             } else {
                 final String value = info.metaData.getString(aKey);
                 if (value == null) {
-                    Log.i(IMapView.LOGTAG,"Key %s not found in manifest"+aKey);
+                    Log.i(IMapView.LOGTAG, "Key %s not found in manifest" + aKey);
                 } else {
                     return value.trim();
                 }
             }
         } catch (final PackageManager.NameNotFoundException e) {
-            Log.i(IMapView.LOGTAG,"Key %s not found in manifest" +aKey);
+            Log.i(IMapView.LOGTAG, "Key %s not found in manifest" + aKey);
         }
         return "";
     }

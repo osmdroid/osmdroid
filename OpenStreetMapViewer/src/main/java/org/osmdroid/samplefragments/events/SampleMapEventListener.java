@@ -23,10 +23,10 @@ import java.text.DecimalFormat;
  * https://github.com/osmdroid/osmdroid/issues/248
  * Created by alex on 2/22/16.
  */
-public class SampleMapEventListener extends BaseSampleFragment
-{
+public class SampleMapEventListener extends BaseSampleFragment {
     TextView textViewCurrentLocation;
     public static final DecimalFormat df = new DecimalFormat("#.000000");
+
     @Override
     public String getSampleTitle() {
         return "Map Event Listener";
@@ -35,7 +35,7 @@ public class SampleMapEventListener extends BaseSampleFragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View root = inflater.inflate(R.layout.map_with_locationbox, container,false);
+        View root = inflater.inflate(R.layout.map_with_locationbox, container, false);
 
         mMapView = root.findViewById(R.id.mapview);
         textViewCurrentLocation = root.findViewById(R.id.textViewCurrentLocation);
@@ -51,7 +51,7 @@ public class SampleMapEventListener extends BaseSampleFragment
         mMapView.addMapListener(new MapListener() {
             @Override
             public boolean onScroll(ScrollEvent event) {
-                Log.i(IMapView.LOGTAG, System.currentTimeMillis() + " onScroll " + event.getX() + "," +event.getY() );
+                Log.i(IMapView.LOGTAG, System.currentTimeMillis() + " onScroll " + event.getX() + "," + event.getY());
                 //Toast.makeText(getActivity(), "onScroll", Toast.LENGTH_SHORT).show();
                 updateInfo();
                 return true;
@@ -66,11 +66,11 @@ public class SampleMapEventListener extends BaseSampleFragment
         });
     }
 
-    private void updateInfo(){
+    private void updateInfo() {
         IGeoPoint mapCenter = mMapView.getMapCenter();
-        textViewCurrentLocation.setText(df.format(mapCenter.getLatitude())+","+
+        textViewCurrentLocation.setText(df.format(mapCenter.getLatitude()) + "," +
                 df.format(mapCenter.getLongitude())
-                +",zoom="+mMapView.getZoomLevelDouble() + "\nBounds: " + mMapView.getBoundingBox().toString());
+                + ",zoom=" + mMapView.getZoomLevelDouble() + "\nBounds: " + mMapView.getBoundingBox().toString());
 
     }
 }

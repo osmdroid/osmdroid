@@ -13,7 +13,7 @@ import java.net.URL;
 
 /**
  * Based an a SO answer, modified to meet needs
- *
+ * <p>
  * only suitable for small objects
  * http://stackoverflow.com/a/13196451/1203182
  *
@@ -48,7 +48,7 @@ public class JSONParser {
 
         try {
             BufferedReader reader = new BufferedReader(new InputStreamReader(
-                is, "iso-8859-1"), 8);
+                    is, "iso-8859-1"), 8);
             StringBuilder sb = new StringBuilder();
             String line = null;
             while ((line = reader.readLine()) != null) {
@@ -59,10 +59,11 @@ public class JSONParser {
 
         } catch (Exception e) {
             Log.e("Buffer Error", "Error converting result " + e.toString());
-        } finally{
+        } finally {
             try {
                 is.close();
-            }catch (Exception ex){}
+            } catch (Exception ex) {
+            }
         }
 
         // try parse the string to a JSON object

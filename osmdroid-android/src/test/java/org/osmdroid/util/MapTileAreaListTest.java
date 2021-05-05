@@ -10,8 +10,9 @@ import java.util.Random;
 
 /**
  * Unit tests related to {@link MapTileAreaList}
- * @since 6.0.3
+ *
  * @author Fabrice Fontaine
+ * @since 6.0.3
  */
 
 public class MapTileAreaListTest {
@@ -26,7 +27,7 @@ public class MapTileAreaListTest {
 
         final List<Integer> counts = new ArrayList<>();
         int count = 0;
-        for (int zoom = 0 ; zoom <= TileSystem.getMaximumZoomLevel() ; zoom ++) {
+        for (int zoom = 0; zoom <= TileSystem.getMaximumZoomLevel(); zoom++) {
             final int mapTileUpperBound = getMapTileUpperBound(zoom);
             final int number = mRandom.nextInt(mapTileUpperBound) % decentMax;
             final int size = (number + 1) * (number + 1);
@@ -34,8 +35,8 @@ public class MapTileAreaListTest {
             count += size;
             list.getList().add(new MapTileArea().set(zoom, 0, 0, number, number));
             Assert.assertEquals(count, list.size());
-            for (int x = 0 ; x <= number ; x ++) {
-                for (int y = 0 ; y <= number ; y ++) {
+            for (int x = 0; x <= number; x++) {
+                for (int y = 0; y <= number; y++) {
                     Assert.assertTrue(list.contains(MapTileIndex.getTileIndex(zoom, x, y)));
                 }
             }
@@ -46,7 +47,7 @@ public class MapTileAreaListTest {
         count = 0;
         int total = 0;
         for (final long mapTileIndex : list) {
-            total ++;
+            total++;
             final int newZoom = MapTileIndex.getZoom(mapTileIndex);
             if (zoom != newZoom) {
                 if (zoom != -1) {
@@ -55,9 +56,9 @@ public class MapTileAreaListTest {
                 count = 0;
                 zoom = newZoom;
             }
-            count ++;
+            count++;
         }
-        Assert.assertEquals((int)counts.get(zoom), count);
+        Assert.assertEquals((int) counts.get(zoom), count);
         Assert.assertEquals(list.size(), total);
     }
 

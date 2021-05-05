@@ -6,8 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 /**
- * @since 6.1.0
  * @author Fabrice Fontaine
+ * @since 6.1.0
  */
 
 public class SampleDrawPolylineAsPath extends SampleDrawPolyline {

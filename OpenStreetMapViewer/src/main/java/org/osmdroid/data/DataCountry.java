@@ -5,8 +5,9 @@ import org.osmdroid.util.GeoPoint;
 
 /**
  * Data about a country, including its ISO 3166-1 alpha-3, its name and its capital (name + lan/lon)
- * @since 6.0.3
+ *
  * @author Fabrice Fontaine
+ * @since 6.0.3
  */
 public class DataCountry {
 

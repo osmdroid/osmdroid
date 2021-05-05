@@ -12,13 +12,13 @@ import org.osmdroid.tileprovider.tilesource.MapBoxTileSource;
 
 /**
  * Example for accessing a MapBox map source
- *
+ * <p>
  * Created by alex on 10/18/15.
  */
-public class SampleMapBox   extends BaseSampleFragment {
+public class SampleMapBox extends BaseSampleFragment {
 
-    AlertDialog alertDialog=null;
-    View promptsView=null;
+    AlertDialog alertDialog = null;
+    View promptsView = null;
 
     @Override
     public String getSampleTitle() {
@@ -46,10 +46,9 @@ public class SampleMapBox   extends BaseSampleFragment {
         //End notes
 
 
-
         // get prompts.xml view
         LayoutInflater li = LayoutInflater.from(getActivity());
-         promptsView = li.inflate(R.layout.mapbox_prompt, null);
+        promptsView = li.inflate(R.layout.mapbox_prompt, null);
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                 getActivity());
@@ -68,11 +67,11 @@ public class SampleMapBox   extends BaseSampleFragment {
                 .setCancelable(false)
                 .setPositiveButton("OK",
                         new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog,int id) {
+                            public void onClick(DialogInterface dialog, int id) {
                                 // get user inputs and set the map source
                                 //this bit gets the key from the manifest
 
-                                MapBoxTileSource b=new MapBoxTileSource("MapBox",0,19,256, ".png");
+                                MapBoxTileSource b = new MapBoxTileSource("MapBox", 0, 19, 256, ".png");
                                 b.setMapboxMapid(userInputBoxId.getText().toString());
                                 b.setAccessToken(userInputToken.getText().toString());
                                 mMapView.setTileSource(b);
@@ -92,23 +91,22 @@ public class SampleMapBox   extends BaseSampleFragment {
         alertDialog.show();
 
 
-
     }
 
     @Override
-    public void onPause(){
+    public void onPause() {
         super.onPause();
-        if (alertDialog!=null && alertDialog.isShowing()){
+        if (alertDialog != null && alertDialog.isShowing()) {
             alertDialog.dismiss();
         }
     }
 
     @Override
-    public void onDestroyView(){
+    public void onDestroyView() {
         super.onDestroyView();
-        if (alertDialog!=null && alertDialog.isShowing()){
+        if (alertDialog != null && alertDialog.isShowing()) {
             alertDialog.dismiss();
-            alertDialog=null;
+            alertDialog = null;
         }
     }
 

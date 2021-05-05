@@ -7,6 +7,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * The principles are:
  * * it runs smoothly and asynchronously
  * * only one execution at the same time
+ *
  * @author Fabrice Fontaine
  * @since 6.0.2
  */

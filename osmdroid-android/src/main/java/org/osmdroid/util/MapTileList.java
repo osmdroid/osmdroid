@@ -2,11 +2,12 @@ package org.osmdroid.util;
 
 /**
  * An optimized list of map tile indices
- * @since 6.0.0
+ *
  * @author Fabrice Fontaine
+ * @since 6.0.0
  */
 
-public class MapTileList implements MapTileContainer{
+public class MapTileList implements MapTileContainer {
 
     private long[] mTileIndices;
     private int mSize;
@@ -25,7 +26,7 @@ public class MapTileList implements MapTileContainer{
 
     public void put(final long pTileIndex) {
         ensureCapacity(mSize + 1);
-        mTileIndices[mSize ++] = pTileIndex;
+        mTileIndices[mSize++] = pTileIndex;
     }
 
     /**
@@ -36,8 +37,8 @@ public class MapTileList implements MapTileContainer{
         final int spanX = (pRight - pLeft + 1) + (pRight < pLeft ? max : 0);
         final int spanY = (pBottom - pTop + 1) + (pBottom < pTop ? max : 0);
         ensureCapacity(getSize() + spanX * spanY);
-        for (int i = 0 ; i < spanX ; i ++) {
-            for (int j = 0 ; j < spanY ; j ++) {
+        for (int i = 0; i < spanX; i++) {
+            for (int j = 0; j < spanY; j++) {
                 final int x = (pLeft + i) % max;
                 final int y = (pTop + j) % max;
                 put(MapTileIndex.getTileIndex(pZoom, x, y));
@@ -60,7 +61,7 @@ public class MapTileList implements MapTileContainer{
         if (mTileIndices != null && mTileIndices.length >= pCapacity) {
             return;
         }
-        synchronized(this) {
+        synchronized (this) {
             final long[] tmp = new long[pCapacity];
             if (mTileIndices != null) {
                 System.arraycopy(mTileIndices, 0, tmp, 0, mTileIndices.length);
@@ -74,7 +75,7 @@ public class MapTileList implements MapTileContainer{
         if (mTileIndices == null) {
             return false;
         }
-        for (int i = 0 ; i < mSize ; i ++) {
+        for (int i = 0; i < mSize; i++) {
             if (mTileIndices[i] == pTileIndex) {
                 return true;
             }

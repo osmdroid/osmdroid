@@ -1,7 +1,7 @@
 package org.osmdroid.views.overlay.milestones;
 
-import org.osmdroid.util.PointL;
 import org.osmdroid.util.PointAccepter;
+import org.osmdroid.util.PointL;
 import org.osmdroid.views.util.constants.MathConstants;
 
 import java.util.ArrayList;
@@ -10,10 +10,11 @@ import java.util.List;
 /**
  * Creating a list of `MilestoneStep`s from a list of `PointL`
  * Created by Fabrice on 22/12/2017.
+ *
  * @since 6.0.0
  */
 
-public abstract class MilestoneLister implements PointAccepter{
+public abstract class MilestoneLister implements PointAccepter {
 
     private final List<MilestoneStep> mMilestones = new ArrayList<>();
     private final PointL mLatestPoint = new PointL();
@@ -50,7 +51,8 @@ public abstract class MilestoneLister implements PointAccepter{
     }
 
     @Override
-    public void end() {}
+    public void end() {
+    }
 
     protected void add(final MilestoneStep pMilestoneStep) {
         mMilestones.add(pMilestoneStep);
@@ -72,7 +74,7 @@ public abstract class MilestoneLister implements PointAccepter{
             }
             return 90;
         }
-        final double slope = ((double)(y1 - y0)) / (x1 - x0);
+        final double slope = ((double) (y1 - y0)) / (x1 - x0);
         final boolean isBeyondHalfPI = x1 < x0;
         return MathConstants.RAD2DEG * Math.atan(slope) + (isBeyondHalfPI ? 180 : 0);
     }

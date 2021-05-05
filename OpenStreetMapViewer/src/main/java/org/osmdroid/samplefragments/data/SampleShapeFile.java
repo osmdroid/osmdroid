@@ -75,7 +75,7 @@ public class SampleShapeFile extends SampleMapEventListener {
                 Polygon bounds = new Polygon(mMapView);
                 bounds.setPoints(pts);
                 bounds.setSubDescription(boundingBox.toString());
-               // bounds.setStrokeColor(Color.RED);
+                // bounds.setStrokeColor(Color.RED);
                 mMapView.getOverlayManager().add(bounds);
                 mMapView.invalidate();
                 return true;
@@ -113,10 +113,10 @@ public class SampleShapeFile extends SampleMapEventListener {
             public void onSelectedFilePaths(String[] files) {
                 //files is the array of the paths of files selected by the Application User.
                 try {
-                    List<Overlay>  folder = ShapeConverter.convert(mMapView, new File(files[0]));
+                    List<Overlay> folder = ShapeConverter.convert(mMapView, new File(files[0]));
                     for (final Overlay item : folder) {
                         if (item instanceof PolyOverlayWithIW) {
-                            final PolyOverlayWithIW poly = (PolyOverlayWithIW)item;
+                            final PolyOverlayWithIW poly = (PolyOverlayWithIW) item;
                             poly.setDowngradePixelSizes(50, 25);
                             poly.setDowngradeDisplay(true);
                             final Paint paint = poly.getOutlinePaint();

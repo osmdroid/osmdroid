@@ -17,10 +17,9 @@ import org.osmdroid.R;
 public class LogoFragment extends Fragment {
 
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.intro_main, container,false);
+        View v = inflater.inflate(R.layout.intro_main, container, false);
 
         return v;
     }

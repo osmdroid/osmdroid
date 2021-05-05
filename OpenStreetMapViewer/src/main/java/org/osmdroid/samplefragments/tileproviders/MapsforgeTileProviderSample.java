@@ -75,21 +75,21 @@ public class MapsforgeTileProviderSample extends BaseSampleFragment {
         if (maps == null || maps.length == 0) {
             //show a warning that no map files were found
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-                getContext());
+                    getContext());
 
             // set title
             alertDialogBuilder.setTitle("No Mapsforge files found");
 
             // set dialog message
             alertDialogBuilder
-                .setMessage("In order to render map tiles, you'll need to either create or obtain mapsforge .map files. See https://github.com/mapsforge/mapsforge for more info. Store them in "
-                    + Configuration.getInstance().getOsmdroidBasePath().getAbsolutePath())
-                .setCancelable(false)
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        if (alertDialog != null) alertDialog.dismiss();
-                    }
-                });
+                    .setMessage("In order to render map tiles, you'll need to either create or obtain mapsforge .map files. See https://github.com/mapsforge/mapsforge for more info. Store them in "
+                            + Configuration.getInstance().getOsmdroidBasePath().getAbsolutePath())
+                    .setCancelable(false)
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            if (alertDialog != null) alertDialog.dismiss();
+                        }
+                    });
 
 
             // create alert dialog
@@ -115,8 +115,8 @@ public class MapsforgeTileProviderSample extends BaseSampleFragment {
 
             fromFiles = MapsForgeTileSource.createFromFiles(maps, theme, "rendertheme-v4");
             forge = new MapsForgeTileProvider(
-                new SimpleRegisterReceiver(getContext()),
-                fromFiles, null);
+                    new SimpleRegisterReceiver(getContext()),
+                    fromFiles, null);
 
 
             mMapView.setTileProvider(forge);
@@ -142,10 +142,10 @@ public class MapsforgeTileProviderSample extends BaseSampleFragment {
     public void onDestroy() {
         super.onDestroy();
         if (alertDialog != null) {
-			alertDialog.hide();
-			alertDialog.dismiss();
-        	alertDialog = null;
-		}
+            alertDialog.hide();
+            alertDialog.dismiss();
+            alertDialog = null;
+        }
         if (fromFiles != null)
             fromFiles.dispose();
         if (forge != null)

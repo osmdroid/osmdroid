@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 /**
  * Displayer of `MilestoneStep`s
  * Created by Fabrice Fontaine on 22/12/2017.
+ *
  * @since 6.0.0
  */
 
@@ -48,10 +49,12 @@ public abstract class MilestoneDisplayer {
     /**
      * @since 6.0.2
      */
-    public void drawBegin(final Canvas pCanvas) {}
+    public void drawBegin(final Canvas pCanvas) {
+    }
 
     /**
      * @since 6.0.2
      */
-    public void drawEnd(final Canvas pCanvas) {}
+    public void drawEnd(final Canvas pCanvas) {
+    }
 }

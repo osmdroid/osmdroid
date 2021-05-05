@@ -52,10 +52,12 @@ public class SimpleSymbol {
 
         ;
         private final char character;
-        Echelon2(char c){
+
+        Echelon2(char c) {
             this.character = c;
         }
-        public char getValue(){
+
+        public char getValue() {
             return character;
         }
     }
@@ -75,10 +77,12 @@ public class SimpleSymbol {
 
         ;
         private final char character;
-        Echelon1(char c){
+
+        Echelon1(char c) {
             this.character = c;
         }
-        public char getValue(){
+
+        public char getValue() {
             return character;
         }
     }
@@ -95,13 +99,16 @@ public class SimpleSymbol {
 
         ;
         private final char character;
-        OrderOfBattle(char c){
+
+        OrderOfBattle(char c) {
             this.character = c;
         }
-        public char getValue(){
+
+        public char getValue() {
             return character;
         }
     }
+
     private OrderOfBattle orderOfBattle = OrderOfBattle.Null;
     private String countryCode = "--";
     private Echelon2 echelon2 = Echelon2.Null;

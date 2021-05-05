@@ -23,6 +23,7 @@ import java.util.List;
  * Doing so you get smoother when panning the map or zooming in/out
  * as the bitmaps are already in memory.
  * Cf. <a href="https://github.com/osmdroid/osmdroid/issues/930">#930</a>
+ *
  * @author Fabrice Fontaine
  * @since 6.0.2
  */
@@ -79,7 +80,7 @@ public class MapTilePreCache {
                     mTileAreas.getList().add(copy);
                 }
                 copy.set(area);
-                index ++;
+                index++;
             }
             while (index < mTileAreas.getList().size()) {
                 mTileAreas.getList().remove(mTileAreas.getList().size() - 1);
@@ -90,13 +91,14 @@ public class MapTilePreCache {
 
     /**
      * Get the next tile to search for
+     *
      * @return -1 if not found
      */
     private long next() {
-        while(true) {
+        while (true) {
             final long index;
             synchronized (mTileAreas) {
-                if(!mTileIndices.hasNext()) {
+                if (!mTileIndices.hasNext()) {
                     return -1;
                 }
                 index = mTileIndices.next();
@@ -117,7 +119,7 @@ public class MapTilePreCache {
                 if (provider instanceof MapTileDownloader) {
                     final ITileSource tileSource = ((MapTileDownloader) provider).getTileSource();
                     if (tileSource instanceof OnlineTileSourceBase) {
-                        if (!((OnlineTileSourceBase)tileSource).getTileSourcePolicy().acceptsPreventive()) {
+                        if (!((OnlineTileSourceBase) tileSource).getTileSourcePolicy().acceptsPreventive()) {
                             continue;
                         }
                     }

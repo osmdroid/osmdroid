@@ -24,7 +24,8 @@ public class DefaultOverlayManagerTest {
 
             @Override
             public void add() {
-                defaultOverlayManager.add(new Overlay() {});
+                defaultOverlayManager.add(new Overlay() {
+                });
             }
 
             @Override
@@ -103,7 +104,7 @@ public class DefaultOverlayManagerTest {
 
         private void test(final ListTest<T> pList) {
             mException = null;
-            for (int i = 0 ; i < LOOPS ; i ++) {
+            for (int i = 0; i < LOOPS; i++) {
                 pList.add();
             }
             final Thread remove = new Thread(new Runnable() {
@@ -113,7 +114,7 @@ public class DefaultOverlayManagerTest {
                         for (int i = 0; i < LOOPS; i++) {
                             pList.remove();
                         }
-                    } catch(final Exception e) {
+                    } catch (final Exception e) {
                         mException = e;
                     }
                 }
@@ -127,7 +128,7 @@ public class DefaultOverlayManagerTest {
                                 //
                             }
                         }
-                    } catch(final Exception e) {
+                    } catch (final Exception e) {
                         mException = e;
                     }
                 }
@@ -138,7 +139,7 @@ public class DefaultOverlayManagerTest {
             try {
                 remove.join();
                 loop.join();
-            } catch(final InterruptedException e) {
+            } catch (final InterruptedException e) {
                 //
             }
             final long end = System.currentTimeMillis();
@@ -169,10 +170,10 @@ public class DefaultOverlayManagerTest {
         }
 
         public ListIterator<T> reverseIterator() {
-            while(true) {
+            while (true) {
                 try {
                     return unprotectedReverseListIterator();
-                } catch(final IndexOutOfBoundsException e) {
+                } catch (final IndexOutOfBoundsException e) {
                     //
                 }
             }

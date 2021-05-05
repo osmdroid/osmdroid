@@ -14,8 +14,9 @@ import java.util.Set;
 /**
  * Repository for a MapView
  * Designed for "singleton-like" objects that need a clean detach
- * @since 6.0.3
+ *
  * @author Fabrice Fontaine
+ * @since 6.0.3
  */
 public class MapViewRepository {
 
@@ -73,13 +74,14 @@ public class MapViewRepository {
     /**
      * note: it's possible for this to return null during certain lifecycle events. Such as
      * invoke this method after {@link #onDetach()} has been called
+     *
      * @return
      */
     public Drawable getDefaultMarkerIcon() {
         if (mDefaultMarkerIcon == null) {
-            if (mMapView!=null) {
+            if (mMapView != null) {
                 Context context = mMapView.getContext();
-                if (context!=null) {
+                if (context != null) {
                     mDefaultMarkerIcon = context.getResources().getDrawable(R.drawable.marker_default);
                 }
             }

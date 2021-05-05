@@ -17,7 +17,6 @@ import org.osmdroid.samplefragments.layouts.list.dummy.DummyContent;
 /**
  * A fragment representing a list of Items.
  * 99% is this is boiler plate android studio generated stuff
-
  */
 public class StreetAddressFragment extends BaseSampleFragment {
 

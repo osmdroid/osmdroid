@@ -31,17 +31,17 @@ public class CirclePlottingOverlay extends Overlay {
     public boolean onLongPress(final MotionEvent e, final MapView mapView) {
 
         if (Configuration.getInstance().isDebugMapView()) {
-            Log.d(IMapView.LOGTAG,"CirclePlottingOverlay onLongPress");
+            Log.d(IMapView.LOGTAG, "CirclePlottingOverlay onLongPress");
         }
         GeoPoint pt = (GeoPoint) mapView.getProjection().fromPixels((int) e.getX(), (int) e.getY(), null);
-            /*
-             * <b>Note</b></b: when plotting a point off the map, the conversion from
-                 * screen coordinates to map coordinates will return values that are invalid from a latitude,longitude
-                 * perspective. Sometimes this is a wanted behavior and sometimes it isn't. We are leaving it up to you,
-                 * the developer using osmdroid to decide on what is right for your application. See
-                 * <a href="https://github.com/osmdroid/osmdroid/pull/722">https://github.com/osmdroid/osmdroid/pull/722</a>
-                 * for more information and the discussion associated with this.
-             */
+        /*
+         * <b>Note</b></b: when plotting a point off the map, the conversion from
+         * screen coordinates to map coordinates will return values that are invalid from a latitude,longitude
+         * perspective. Sometimes this is a wanted behavior and sometimes it isn't. We are leaving it up to you,
+         * the developer using osmdroid to decide on what is right for your application. See
+         * <a href="https://github.com/osmdroid/osmdroid/pull/722">https://github.com/osmdroid/osmdroid/pull/722</a>
+         * for more information and the discussion associated with this.
+         */
 
         //just in case the point is off the map, let's fix the coordinates
         if (pt.getLongitude() < -180)

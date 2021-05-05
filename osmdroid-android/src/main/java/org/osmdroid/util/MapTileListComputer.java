@@ -2,8 +2,9 @@ package org.osmdroid.util;
 
 /**
  * Compute a map tile list from a map tile list source
- * @since 6.0.2
+ *
  * @author Fabrice Fontaine
+ * @since 6.0.2
  * @deprecated Use {@link MapTileAreaComputer} instead
  */
 

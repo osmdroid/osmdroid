@@ -9,8 +9,9 @@ import java.util.Set;
 
 /**
  * Unit tests related to {@link MapTileListZoomComputer}
- * @since 6.0.2
+ *
  * @author Fabrice Fontaine
+ * @since 6.0.2
  * @deprecated Use {@link MapTileAreaZoomComputerTest} instead
  */
 
@@ -35,8 +36,8 @@ public class MapTileListZoomComputerTest {
         final int destPlus1XMax = (sourceXMax << 1) + 1;
         final int destPlus1YMin = sourceYMin << 1;
         final int destPlus1YMax = (sourceYMax << 1) + 1;
-        for (int i = sourceXMin ; i <= sourceXMax ; i ++) {
-            for (int j = sourceYMin ; j <= sourceYMax ; j ++) {
+        for (int i = sourceXMin; i <= sourceXMax; i++) {
+            for (int j = sourceYMin; j <= sourceYMax; j++) {
                 source.put(MapTileIndex.getTileIndex(sourceZoom, i, j));
             }
         }
@@ -44,7 +45,7 @@ public class MapTileListZoomComputerTest {
 
         // count checking
         final int minMaxDelta = 4;
-        for (int zoomDelta = -minMaxDelta ; zoomDelta < minMaxDelta ; zoomDelta ++) {
+        for (int zoomDelta = -minMaxDelta; zoomDelta < minMaxDelta; zoomDelta++) {
             final MapTileListZoomComputer computer = new MapTileListZoomComputer(zoomDelta);
             dest.clear();
             computer.computeFromSource(source, dest);
@@ -79,15 +80,15 @@ public class MapTileListZoomComputerTest {
     private void check(final HashSet<Long> pSet, final int pZoom,
                        final int pXMin, final int pXMax, final int pYMin, final int pYMax) {
         Assert.assertEquals((pXMax - pXMin + 1) * (pYMax - pYMin + 1), pSet.size());
-        for (int expectedX = pXMin ; expectedX <= pXMax ; expectedX ++) {
-            for (int expectedY = pYMax ; expectedY <= pYMax ; expectedY ++) {
+        for (int expectedX = pXMin; expectedX <= pXMax; expectedX++) {
+            for (int expectedY = pYMax; expectedY <= pYMax; expectedY++) {
                 Assert.assertTrue(pSet.contains(MapTileIndex.getTileIndex(pZoom, expectedX, expectedY)));
             }
         }
     }
 
     private void populateSet(final Set<Long> pSet, final MapTileList pMapTileList) {
-        for (int i = 0 ; i < pMapTileList.getSize() ; i ++) {
+        for (int i = 0; i < pMapTileList.getSize(); i++) {
             pSet.add(pMapTileList.get(i));
         }
     }

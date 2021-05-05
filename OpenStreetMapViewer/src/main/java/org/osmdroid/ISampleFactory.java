@@ -7,7 +7,7 @@ import org.osmdroid.samplefragments.BaseSampleFragment;
  */
 public interface ISampleFactory {
 
-    public BaseSampleFragment getSample(int index) ;
+    public BaseSampleFragment getSample(int index);
 
-    public int count() ;
+    public int count();
 }

@@ -50,14 +50,14 @@ import armyc2.c2sd.renderer.utilities.SymbolUtilities;
  * A sample that provides two ways to plot single point MIL-STD 2525 icons
  *
  * <ul>
- *     <li>Via direct user input, enter the symbol code, then the icon is plotted at screen center</li>
- *     <li>Via searchable picker, icons can then be plotted via long press</li>
+ * <li>Via direct user input, enter the symbol code, then the icon is plotted at screen center</li>
+ * <li>Via searchable picker, icons can then be plotted via long press</li>
  * </ul>
- *
+ * <p>
  * TODO
  * <ul>
- *     <li>More support for modifiers and attributes</li>
- *     <li>Multipoint symbols</li>
+ * <li>More support for modifiers and attributes</li>
+ * <li>Multipoint symbols</li>
  * </ul>
  * created on 12/22/2017.
  *
@@ -72,7 +72,7 @@ public class Plotter extends SampleGridlines implements View.OnClickListener, Te
     ImageButton painting, panning;
     MilStdCustomPaintingSurface paint;
     TextView textViewCurrentLocation;
-    SimpleSymbol lastSelectedSymbol=null;
+    SimpleSymbol lastSelectedSymbol = null;
     MilStdPointPlottingOverlay plotter = new MilStdPointPlottingOverlay();
     AlertDialog picker = null;
     TextView canRender = null;
@@ -86,7 +86,7 @@ public class Plotter extends SampleGridlines implements View.OnClickListener, Te
     RadioButton radio_milstd2525b = null;
     Button addIcon = null;
     Button cancelAddIcon = null;
-    int dpi=0;
+    int dpi = 0;
 
     public Plotter() {
         //init the renderer
@@ -100,7 +100,7 @@ public class Plotter extends SampleGridlines implements View.OnClickListener, Te
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View v = inflater.inflate(R.layout.map_with_location_milstd, container,false);
+        View v = inflater.inflate(R.layout.map_with_location_milstd, container, false);
 
         mMapView = v.findViewById(R.id.mapview);
         textViewCurrentLocation = v.findViewById(R.id.textViewCurrentLocation);
@@ -133,7 +133,7 @@ public class Plotter extends SampleGridlines implements View.OnClickListener, Te
         mMapView.addMapListener(new MapListener() {
             @Override
             public boolean onScroll(ScrollEvent event) {
-                Log.i(IMapView.LOGTAG, System.currentTimeMillis() + " onScroll " + event.getX() + "," +event.getY() );
+                Log.i(IMapView.LOGTAG, System.currentTimeMillis() + " onScroll " + event.getX() + "," + event.getY());
                 //Toast.makeText(getActivity(), "onScroll", Toast.LENGTH_SHORT).show();
                 updateInfo();
                 return true;
@@ -147,18 +147,18 @@ public class Plotter extends SampleGridlines implements View.OnClickListener, Te
             }
         });
         mMapView.getController().setZoom(15f);
-        mMapView.getController().setCenter(new GeoPoint(41.0,-77.0));
+        mMapView.getController().setCenter(new GeoPoint(41.0, -77.0));
         updateInfo();
         mMapView.getOverlayManager().add(plotter);
     }
 
-    private void updateInfo(){
+    private void updateInfo() {
         IGeoPoint mapCenter = mMapView.getMapCenter();
         textViewCurrentLocation.setText(
-            (plotter.def!=null ? plotter.def.getSymbolCode() +"\n" : "")+
-            df.format(mapCenter.getLatitude())+","+
-            df.format(mapCenter.getLongitude())
-            +",zoom="+mMapView.getZoomLevelDouble());
+                (plotter.def != null ? plotter.def.getSymbolCode() + "\n" : "") +
+                        df.format(mapCenter.getLatitude()) + "," +
+                        df.format(mapCenter.getLongitude())
+                        + ",zoom=" + mMapView.getZoomLevelDouble());
 
     }
 
@@ -377,19 +377,19 @@ public class Plotter extends SampleGridlines implements View.OnClickListener, Te
 
     @Override
     public void selected(SimpleSymbol def) {
-        if (def==null) {
+        if (def == null) {
             enablePanning();
         }
         if (def.canDraw()) {
             ModifierPicker picker = new ModifierPicker();
             picker.show(getActivity(), def);
 
-            if (def.getMaxPoints()==1) {
+            if (def.getMaxPoints() == 1) {
                 enablePanning();
                 plotter.setSymbol(def);
                 Toast.makeText(getActivity(), "Long press to plot!", Toast.LENGTH_SHORT).show();
             }
-            if (def.getMinPoints()>1) {
+            if (def.getMinPoints() > 1) {
                 enablePainting();
                 paint.setSymbol(def);
                 Toast.makeText(getActivity(), "Draw on the screen!", Toast.LENGTH_SHORT).show();

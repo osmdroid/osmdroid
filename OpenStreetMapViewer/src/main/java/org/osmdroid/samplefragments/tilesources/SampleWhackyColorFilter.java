@@ -27,8 +27,8 @@ public class SampleWhackyColorFilter extends BaseSampleFragment {
         //this.mMapView.getOverlayManager().getTilesOverlay().setColorFilter(adjustHue(160));
 
         ColorMatrix cm = new ColorMatrix();
-        float brightness =.5f;  // reduce color's by 50%. i.e. just make it darker
-        cm.set(new float[] {
+        float brightness = .5f;  // reduce color's by 50%. i.e. just make it darker
+        cm.set(new float[]{
                 brightness, 0, 0, 0, 0,    //red
                 0, brightness, 0, 0, 0,    //green
                 0, 0, brightness, 0, 0,    //blue
@@ -43,11 +43,11 @@ public class SampleWhackyColorFilter extends BaseSampleFragment {
      * Creates a HUE adjustment ColorFilter +- 180
      * http://groups.google.com/group/android-developers/browse_thread/thread/9e215c83c3819953
      * http://gskinner.com/blog/archives/2007/12/colormatrix_cla.html
+     *
      * @param value degrees to shift the hue.
      * @return
      */
-    public static ColorFilter adjustHue( float value )
-    {
+    public static ColorFilter adjustHue(float value) {
         ColorMatrix cm = new ColorMatrix();
 
         adjustHue(cm, value);
@@ -58,14 +58,13 @@ public class SampleWhackyColorFilter extends BaseSampleFragment {
     /**
      * http://groups.google.com/group/android-developers/browse_thread/thread/9e215c83c3819953
      * http://gskinner.com/blog/archives/2007/12/colormatrix_cla.html
+     *
      * @param cm
      * @param value
      */
-    public static void adjustHue(ColorMatrix cm, float value)
-    {
+    public static void adjustHue(ColorMatrix cm, float value) {
         value = cleanValue(value, 180f) / 180f * (float) Math.PI;
-        if (value == 0)
-        {
+        if (value == 0) {
             return;
         }
         float cosVal = (float) Math.cos(value);
@@ -83,8 +82,7 @@ public class SampleWhackyColorFilter extends BaseSampleFragment {
         cm.postConcat(new ColorMatrix(mat));
     }
 
-    protected static float cleanValue(float p_val, float p_limit)
-    {
+    protected static float cleanValue(float p_val, float p_limit) {
         return Math.min(p_limit, Math.max(-p_limit, p_val));
     }
 

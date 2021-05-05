@@ -4,10 +4,11 @@ import android.graphics.Path;
 
 /**
  * Created by Fabrice on 24/12/2017.
+ *
  * @since 6.0.0
  */
 
-public class PathBuilder implements PointAccepter{
+public class PathBuilder implements PointAccepter {
 
     private final Path mPath;
     private final PointL mLatestPoint = new PointL();
@@ -35,5 +36,6 @@ public class PathBuilder implements PointAccepter{
     }
 
     @Override
-    public void end() {}
+    public void end() {
+    }
 }

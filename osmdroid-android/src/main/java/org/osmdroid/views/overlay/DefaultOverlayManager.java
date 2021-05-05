@@ -383,7 +383,7 @@ public class DefaultOverlayManager extends AbstractList<Overlay> implements Over
     public void setOptionsMenusEnabled(final boolean pEnabled) {
         for (final Overlay overlay : mOverlayList) {
             if ((overlay instanceof IOverlayMenuProvider)
-                && ((IOverlayMenuProvider) overlay).isOptionsMenuEnabled()) {
+                    && ((IOverlayMenuProvider) overlay).isOptionsMenuEnabled()) {
                 ((IOverlayMenuProvider) overlay).setOptionsMenuEnabled(pEnabled);
             }
         }
@@ -432,15 +432,15 @@ public class DefaultOverlayManager extends AbstractList<Overlay> implements Over
             if (overlay instanceof IOverlayMenuProvider) {
                 final IOverlayMenuProvider overlayMenuProvider = (IOverlayMenuProvider) overlay;
                 if (overlayMenuProvider.isOptionsMenuEnabled() &&
-                    overlayMenuProvider.onOptionsItemSelected(item, menuIdOffset, mapView)) {
+                        overlayMenuProvider.onOptionsItemSelected(item, menuIdOffset, mapView)) {
                     return true;
                 }
             }
         }
 
         if (mTilesOverlay != null &&
-            mTilesOverlay.isOptionsMenuEnabled() &&
-            mTilesOverlay.onOptionsItemSelected(item, menuIdOffset, mapView)) {
+                mTilesOverlay.isOptionsMenuEnabled() &&
+                mTilesOverlay.onOptionsItemSelected(item, menuIdOffset, mapView)) {
             return true;
         }
 

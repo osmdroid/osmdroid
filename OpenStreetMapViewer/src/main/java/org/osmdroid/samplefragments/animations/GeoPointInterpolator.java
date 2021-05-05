@@ -21,7 +21,7 @@ public interface GeoPointInterpolator {
         @Override
         public GeoPoint interpolate(float fraction, GeoPoint a, GeoPoint b) {
             double lat = (b.getLatitude() - a.getLatitude()) * fraction + a.getLatitude();
-            double lng = (b.getLongitude()- a.getLongitude()) * fraction + a.getLongitude();
+            double lng = (b.getLongitude() - a.getLongitude()) * fraction + a.getLongitude();
             return new GeoPoint(lat, lng);
         }
     }
@@ -79,7 +79,7 @@ public interface GeoPointInterpolator {
             double dLat = fromLat - toLat;
             double dLng = fromLng - toLng;
             return 2 * asin(sqrt(pow(sin(dLat / 2), 2) +
-                cos(fromLat) * cos(toLat) * pow(sin(dLng / 2), 2)));
+                    cos(fromLat) * cos(toLat) * pow(sin(dLng / 2), 2)));
         }
     }
 }

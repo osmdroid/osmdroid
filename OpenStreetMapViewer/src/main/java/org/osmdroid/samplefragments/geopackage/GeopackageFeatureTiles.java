@@ -42,10 +42,11 @@ import static org.osmdroid.samplefragments.events.SampleMapEventListener.df;
 /**
  * One way for viewing geopackage tiles to the osmdroid view
  * converts geopackage features to rendered tiles for viewing in osmdroid
- *
+ * <p>
  * created on 8/19/2017.
- *@ since.6.0.0
+ *
  * @author Alex O'Ree
+ * @ since.6.0.0
  */
 
 public class GeopackageFeatureTiles extends BaseSampleFragment {
@@ -116,24 +117,24 @@ public class GeopackageFeatureTiles extends BaseSampleFragment {
         if (maps.length == 0) {
             //show a warning that no map files were found
             android.app.AlertDialog.Builder alertDialogBuilder = new android.app.AlertDialog.Builder(
-                getContext());
+                    getContext());
 
             // set title
             alertDialogBuilder.setTitle("No Geopackage files found");
 
             // set dialog message
             alertDialogBuilder
-                .setMessage("In order to render map tiles, you'll need to either create or obtain .gpkg files. See http://www.geopackage.org/ for more info. Place them in "
-                    + Configuration.getInstance().getOsmdroidBasePath().getAbsolutePath())
-                .setCancelable(false)
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        if (alertDialog != null) {
-                            alertDialog.hide();
-                            alertDialog.dismiss();
+                    .setMessage("In order to render map tiles, you'll need to either create or obtain .gpkg files. See http://www.geopackage.org/ for more info. Place them in "
+                            + Configuration.getInstance().getOsmdroidBasePath().getAbsolutePath())
+                    .setCancelable(false)
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            if (alertDialog != null) {
+                                alertDialog.hide();
+                                alertDialog.dismiss();
+                            }
                         }
-                    }
-                });
+                    });
 
 
             // create alert dialog
@@ -171,10 +172,10 @@ public class GeopackageFeatureTiles extends BaseSampleFragment {
                     if (!features.isEmpty()) {
                         for (int i = 0; i < features.size(); i++) {
                             GeoPackageFeatureTileProvider provider = new GeoPackageFeatureTileProvider(
-                                new XYTileSource(databases.get(k) + ":" + features.get(i),0,22,256,"png",new String[0])
+                                    new XYTileSource(databases.get(k) + ":" + features.get(i), 0, 22, 256, "png", new String[0])
                             );
-                            GeopackageFeatureTilesOverlay overlay = new GeopackageFeatureTilesOverlay(provider,getContext());
-                            overlay.setDatabaseAndFeatureTable(databases.get(k),  features.get(i));
+                            GeopackageFeatureTilesOverlay overlay = new GeopackageFeatureTilesOverlay(provider, getContext());
+                            overlay.setDatabaseAndFeatureTable(databases.get(k), features.get(i));
                             mMapView.getOverlayManager().add(overlay);
                         }
                     }
@@ -228,8 +229,8 @@ public class GeopackageFeatureTiles extends BaseSampleFragment {
         StringBuilder sb = new StringBuilder();
         IGeoPoint mapCenter = mMapView.getMapCenter();
         sb.append(df.format(mapCenter.getLatitude()) + "," +
-            df.format(mapCenter.getLongitude())
-            + ",zoom=" + mMapView.getZoomLevelDouble());
+                df.format(mapCenter.getLongitude())
+                + ",zoom=" + mMapView.getZoomLevelDouble());
 
         if (currentSource != null) {
             sb.append("\n");

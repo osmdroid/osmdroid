@@ -1,8 +1,6 @@
-
 /**
  * An {@link org.osmdroid.views.overlay.Overlay} is something shown on top of a
  * {@link org.osmdroid.views.MapView}.
- *
  */
 package org.osmdroid.views.overlay;
 

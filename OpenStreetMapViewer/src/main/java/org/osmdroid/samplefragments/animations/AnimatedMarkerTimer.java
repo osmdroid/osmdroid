@@ -32,7 +32,8 @@ public class AnimatedMarkerTimer extends BaseSampleFragment implements MapListen
     Marker marker;
     Timer t;
     TimerTask task;
-    boolean added=false;
+    boolean added = false;
+
     @Override
     public String getSampleTitle() {
         return "Animated Marker";
@@ -60,7 +61,6 @@ public class AnimatedMarkerTimer extends BaseSampleFragment implements MapListen
     }
 
 
-
     @Override
     public boolean onScroll(ScrollEvent scrollEvent) {
         return false;
@@ -72,7 +72,7 @@ public class AnimatedMarkerTimer extends BaseSampleFragment implements MapListen
     }
 
 
-    public void onResume(){
+    public void onResume() {
         super.onResume();
         startTask();
     }
@@ -83,9 +83,9 @@ public class AnimatedMarkerTimer extends BaseSampleFragment implements MapListen
             @Override
             public void run() {
                 GeoPoint current = marker.getPosition();
-                if (current==null)
+                if (current == null)
                     current = new GeoPoint(45d, -74d);
-                final GeoPoint location = new GeoPoint(current.getLatitude(), current.getLongitude()+0.0003);
+                final GeoPoint location = new GeoPoint(current.getLatitude(), current.getLongitude() + 0.0003);
                 if (location != null) {
                     Activity activity = getActivity();
                     if (activity != null) try {
@@ -94,18 +94,18 @@ public class AnimatedMarkerTimer extends BaseSampleFragment implements MapListen
                             public void run() {
                                 try {
 
-                                        marker.setPosition(location);
-                                        mMapView.getController().setCenter(location);
+                                    marker.setPosition(location);
+                                    mMapView.getController().setCenter(location);
 
-                                        if (marker.isInfoWindowShown()) {
-                                            marker.closeInfoWindow();
-                                            marker.showInfoWindow();
-                                        }
-                                        if (!added) {
-                                            //only add it once
-                                            mMapView.getOverlayManager().add(marker);
-                                            added = true;
-                                        }
+                                    if (marker.isInfoWindowShown()) {
+                                        marker.closeInfoWindow();
+                                        marker.showInfoWindow();
+                                    }
+                                    if (!added) {
+                                        //only add it once
+                                        mMapView.getOverlayManager().add(marker);
+                                        added = true;
+                                    }
 
 
                                 } catch (Exception ex) {
@@ -122,6 +122,7 @@ public class AnimatedMarkerTimer extends BaseSampleFragment implements MapListen
         t = new Timer();
         t.schedule(task, 1000, 1000);
     }
+
     @Override
     public void onPause() {
         super.onPause();

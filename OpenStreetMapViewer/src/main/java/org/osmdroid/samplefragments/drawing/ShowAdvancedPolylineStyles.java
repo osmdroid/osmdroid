@@ -40,9 +40,10 @@ import java.util.TreeMap;
 
 /**
  * Showing all modes of advanced polyline styles with example data.
+ *
  * @author Matthias Dittmer
  */
-public class ShowAdvancedPolylineStyles extends BaseSampleFragment implements View.OnClickListener{
+public class ShowAdvancedPolylineStyles extends BaseSampleFragment implements View.OnClickListener {
 
     /**
      * List with all examples.
@@ -70,7 +71,7 @@ public class ShowAdvancedPolylineStyles extends BaseSampleFragment implements Vi
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View root = inflater.inflate(R.layout.sample_cachemgr, container,false);
+        View root = inflater.inflate(R.layout.sample_cachemgr, container, false);
 
         mMapView = new MapView(getActivity());
         ((LinearLayout) root.findViewById(R.id.mapview)).addView(mMapView);
@@ -219,7 +220,7 @@ public class ShowAdvancedPolylineStyles extends BaseSampleFragment implements Vi
 
         // Cycle example
         mListExamples.add(new AdvancedPolylineExample("Coast", "Cycle polyline showing border of Italy coast line.\n\nColor cycle: GREEN, WHITE, RED.",
-                new ColorMappingCycle(new int[] {Color.GREEN, Color.WHITE, Color.RED}),
+                new ColorMappingCycle(new int[]{Color.GREEN, Color.WHITE, Color.RED}),
                 true, Color.BLACK, false,
                 getPoints("border_coast_italy"), null));
 
@@ -259,7 +260,7 @@ public class ShowAdvancedPolylineStyles extends BaseSampleFragment implements Vi
         hexagon.add(new GeoPoint(42.698611, 2.895556)); // Perpignan
         hexagon.add(new GeoPoint(43.481617, -1.556111)); // Biarritz
         hexagon.add(new GeoPoint(48.390833, -4.468889)); // Brest
-        final ColorMappingCycle colorMappingCycle = new ColorMappingCycle(new int[] { // rainbow
+        final ColorMappingCycle colorMappingCycle = new ColorMappingCycle(new int[]{ // rainbow
                 Color.RED,
                 Color.rgb(0xFF, 0x7f, 0), // orange
                 Color.YELLOW,
@@ -322,7 +323,7 @@ public class ShowAdvancedPolylineStyles extends BaseSampleFragment implements Vi
 
             for (int i = 0; i < array.length(); i++) {
                 final double scalar = array.getDouble(i);
-                scalars.add((float)scalar);
+                scalars.add((float) scalar);
             }
         } catch (Exception e) {
             e.printStackTrace();

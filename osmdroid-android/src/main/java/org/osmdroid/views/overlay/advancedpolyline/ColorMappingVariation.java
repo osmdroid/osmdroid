@@ -2,9 +2,10 @@ package org.osmdroid.views.overlay.advancedpolyline;
 
 /**
  * Abstract base class for color variation mappings.
+ *
  * @author Matthias Dittmer
  */
-public abstract class ColorMappingVariation extends ColorMappingForScalar{
+public abstract class ColorMappingVariation extends ColorMappingForScalar {
 
     /**
      * All mapping variables.
@@ -17,10 +18,11 @@ public abstract class ColorMappingVariation extends ColorMappingForScalar{
 
     /**
      * Init function will be called from sub classes.
+     *
      * @param scalarStart start of scalar
-     * @param scalarEnd end of scalar
-     * @param start start of one HSL value
-     * @param end end of one HSL value
+     * @param scalarEnd   end of scalar
+     * @param start       start of one HSL value
+     * @param end         end of one HSL value
      */
     public void init(final float scalarStart, final float scalarEnd,
                      final float start, final float end) {
@@ -40,16 +42,18 @@ public abstract class ColorMappingVariation extends ColorMappingForScalar{
     }
 
     protected abstract float getHue(final float pScalar);
+
     protected abstract float getSaturation(final float pScalar);
+
     protected abstract float getLuminance(final float pScalar);
 
     /**
      * Map a scalar with clipping on lower and upper bound.
      */
     protected float mapScalar(float scalar) {
-        if(scalar >= mScalarEnd) {
+        if (scalar >= mScalarEnd) {
             return mEnd;
-        } else if(scalar <= mScalarStart) {
+        } else if (scalar <= mScalarStart) {
             return mStart;
         } else {
             // scalar is between start and end
