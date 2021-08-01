@@ -23,14 +23,14 @@ import java.text.DecimalFormat;
 
 public class LatLonGridlineOverlay2 extends Overlay {
 
-    private DecimalFormat mDecimalFormatter = new DecimalFormat("#.#####");
+    protected DecimalFormat mDecimalFormatter = new DecimalFormat("#.#####");
     //used to adjust the number of grid lines displayed on screen
-    private float mMultiplier = 1f;
-    private final Paint mLinePaint = new Paint();
-    private final Paint mTextBackgroundPaint = new Paint();
-    private final Paint mTextPaint = new Paint();
-    private final GeoPoint mOptimizationGeoPoint = new GeoPoint(0., 0);
-    private final Point mOptimizationPoint = new Point();
+    protected float mMultiplier = 1f;
+    protected   Paint mLinePaint = new Paint();
+    protected Paint mTextBackgroundPaint = new Paint();
+    protected Paint mTextPaint = new Paint();
+    protected  GeoPoint mOptimizationGeoPoint = new GeoPoint(0., 0);
+    protected  Point mOptimizationPoint = new Point();
 
     public LatLonGridlineOverlay2() {
         mLinePaint.setAntiAlias(true);
@@ -181,6 +181,33 @@ public class LatLonGridlineOverlay2 extends Overlay {
     public void setFontSizeDp(short fontSizeDp) {
         mTextPaint.setTextSize(fontSizeDp);
     }
+
+    /**
+     * sets the text label paint styler
+     * see https://github.com/osmdroid/osmdroid/issues/1723
+     * @since 6.1.11
+     * @param paint
+     */
+    public void setTextStyle(Paint.Style paint) { mTextPaint.setStyle(paint);}
+
+    /**
+     * if for some reason there's missing setter for this class and you don't want to subclass it,
+     * you can override the paint object with this method. Only used for the text painter
+     * @since 6.1.11
+     * @param paint
+     */
+    public void setTextPaint(Paint paint) { mTextPaint= paint;}
+
+    /**
+     * getter for the Paint object. I'd suggest using the setter methods first or subclassing this class
+     * if you need to do something else but this will get you access to the live instance of the paint object
+     * which is used for drawing text labels
+     * @since 6.1.11
+     * @return
+     */
+    public Paint getTextPaint() { return mTextPaint;}
+
+
 
     /**
      * background color for the text labels
