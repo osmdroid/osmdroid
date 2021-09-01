@@ -9,22 +9,22 @@ import java.net.HttpURLConnection;
 import java.util.Random;
 
 /**
- * @since 6.1.7
  * @author Fabrice Fontaine
  * Used to be TileDownloaderTest
+ * @since 6.1.7
  */
 public class TileSourcePolicyTest {
 
-    private final long mCacheControlValue           = 172800; // in seconds
-    private final String[] mCacheControlStringOK    = {"max-age=172800, public", "public, max-age=172800", "max-age=172800"};
-    private final String[] mCacheControlStringKO    = {"max-age=, public", "public"};
+    private final long mCacheControlValue = 172800; // in seconds
+    private final String[] mCacheControlStringOK = {"max-age=172800, public", "public, max-age=172800", "max-age=172800"};
+    private final String[] mCacheControlStringKO = {"max-age=, public", "public"};
 
-    private final long mExpiresValue                = 1539971220000L;
-    private final String[] mExpiresStringOK         = {"Fri, 19 Oct 2018 17:47:00 GMT"};
-    private final String[] mExpiresStringKO         = {"Frfgi, 19 Oct 2018 17:47:00 GMT"};
+    private final long mExpiresValue = 1539971220000L;
+    private final String[] mExpiresStringOK = {"Fri, 19 Oct 2018 17:47:00 GMT"};
+    private final String[] mExpiresStringKO = {"Frfgi, 19 Oct 2018 17:47:00 GMT"};
 
     @Test
-    public void testGetHttpExpiresTime(){
+    public void testGetHttpExpiresTime() {
         final TileSourcePolicy tileSourcePolicy = new TileSourcePolicy();
         for (final String string : mExpiresStringOK) {
             Assert.assertEquals(mExpiresValue, (long) tileSourcePolicy.getHttpExpiresTime(string));
@@ -35,7 +35,7 @@ public class TileSourcePolicyTest {
     }
 
     @Test
-    public void testGetHttpCacheControlDuration(){
+    public void testGetHttpCacheControlDuration() {
         final TileSourcePolicy tileSourcePolicy = new TileSourcePolicy();
         for (final String string : mCacheControlStringOK) {
             Assert.assertEquals(mCacheControlValue, (long) tileSourcePolicy.getHttpCacheControlDuration(string));
@@ -46,14 +46,14 @@ public class TileSourcePolicyTest {
     }
 
     @Test
-    public void testComputeExpirationTime(){
+    public void testComputeExpirationTime() {
         final Random random = new Random();
         final int oneWeek = 7 * 24 * 3600 * 1000; // 7 days in milliseconds
         testComputeExpirationTimeHelper(null, random.nextInt(oneWeek));
-        testComputeExpirationTimeHelper((long)random.nextInt(oneWeek), random.nextInt(oneWeek));
+        testComputeExpirationTimeHelper((long) random.nextInt(oneWeek), random.nextInt(oneWeek));
     }
 
-    private void testComputeExpirationTimeHelper(final Long pOverride, final long pExtension){
+    private void testComputeExpirationTimeHelper(final Long pOverride, final long pExtension) {
         final TileSourcePolicy tileSourcePolicy = new TileSourcePolicy();
         final long now = System.currentTimeMillis();
         Configuration.getInstance().setExpirationOverrideDuration(pOverride);
@@ -128,7 +128,8 @@ public class TileSourcePolicyTest {
         final long thirtyMinutesInMillis = 30 * 60 * 1000;
         final HttpURLConnection dummyConnection = new HttpURLConnection(null) {
             @Override
-            public void disconnect() { }
+            public void disconnect() {
+            }
 
             @Override
             public boolean usingProxy() {
@@ -136,7 +137,8 @@ public class TileSourcePolicyTest {
             }
 
             @Override
-            public void connect() { }
+            public void connect() {
+            }
 
             @Override
             public String getHeaderField(String name) {

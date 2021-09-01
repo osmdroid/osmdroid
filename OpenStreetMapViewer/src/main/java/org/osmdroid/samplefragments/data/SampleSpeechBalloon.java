@@ -17,8 +17,9 @@ import java.util.List;
 
 /**
  * Demo around the new {@link SpeechBalloonOverlay} feature
- * @since 6.1.1
+ *
  * @author Fabrice Fontaine
+ * @since 6.1.1
  */
 public class SampleSpeechBalloon extends BaseSampleFragment {
 
@@ -36,7 +37,7 @@ public class SampleSpeechBalloon extends BaseSampleFragment {
     private BitmapDrawable mBitmapDrawable;
 
     @Override
-    public void addOverlays(){
+    public void addOverlays() {
         super.addOverlays();
 
         final int radius = 10;
@@ -61,7 +62,7 @@ public class SampleSpeechBalloon extends BaseSampleFragment {
         mDragForeground.setTextSize(30);
         mDragForeground.setAntiAlias(true);
 
-        add(new POI("Long click and drag me", new GeoPoint(43.1677094,	-1.23698415), -300, -90));
+        add(new POI("Long click and drag me", new GeoPoint(43.1677094, -1.23698415), -300, -90));
         add(new POI("Roncesvalles", new GeoPoint(43.01774243892033, -1.317764479899253)));
         add(new POI("Urdániz", new GeoPoint(42.9304266, -1.50463709)));
         add(new POI("Pamplona", new GeoPoint(42.81116477962334, -1.649884335366608), -200, -50));
@@ -145,6 +146,7 @@ public class SampleSpeechBalloon extends BaseSampleFragment {
         POI(String pTitle, GeoPoint pGeoPoint, int pOffsetX, int pOffsetY) {
             this(pTitle, pGeoPoint, true, pOffsetX, pOffsetY);
         }
+
         POI(String pTitle, GeoPoint pGeoPoint) {
             this(pTitle, pGeoPoint, false, 0, 0);
         }

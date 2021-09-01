@@ -2,8 +2,9 @@ package org.osmdroid.samplefragments.tilesources;
 
 /**
  * Offline Second demo
- * @since 6.1.0
+ *
  * @author Fabrice Fontaine
+ * @since 6.1.0
  */
 public class SampleOfflineSecond extends SampleOfflinePriority {
 

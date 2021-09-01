@@ -19,6 +19,7 @@ import org.osmdroid.views.MapView;
 /**
  * An example of importing stored on disk cache produced by osmdroid < 5.4 using the older TileWriter
  * class
+ *
  * @see org.osmdroid.tileprovider.modules.TileWriter
  * @see SqlTileWriter
  * Created by alex on 9/25/16.
@@ -26,17 +27,18 @@ import org.osmdroid.views.MapView;
 
 public class CacheImport extends BaseSampleFragment implements View.OnClickListener, Runnable {
 
-    boolean removeFromFileSystem=true;
+    boolean removeFromFileSystem = true;
     Button btnCache;
 
     @Override
     public String getSampleTitle() {
         return "Import the file system cache into the newer sql cache";
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View root = inflater.inflate(R.layout.sample_cachemgr, container,false);
+        View root = inflater.inflate(R.layout.sample_cachemgr, container, false);
 
         mMapView = new MapView(getActivity());
         ((LinearLayout) root.findViewById(R.id.mapview)).addView(mMapView);
@@ -56,14 +58,14 @@ public class CacheImport extends BaseSampleFragment implements View.OnClickListe
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
-                        switch (which){
+                        switch (which) {
                             case DialogInterface.BUTTON_POSITIVE:
                                 //Yes button clicked
                                 break;
 
                             case DialogInterface.BUTTON_NEGATIVE:
                                 //No button clicked
-                                removeFromFileSystem=false;
+                                removeFromFileSystem = false;
                                 break;
                         }
                         new Thread(CacheImport.this).start();
@@ -84,9 +86,9 @@ public class CacheImport extends BaseSampleFragment implements View.OnClickListe
     @Override
     public void run() {
         final IFilesystemCache tileWriter = mMapView.getTileProvider().getTileWriter();
-        if (tileWriter instanceof SqlTileWriter){
+        if (tileWriter instanceof SqlTileWriter) {
             final int[] b = ((SqlTileWriter) tileWriter).importFromFileCache(removeFromFileSystem);
-            if (getActivity()!=null){
+            if (getActivity() != null) {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -94,7 +96,6 @@ public class CacheImport extends BaseSampleFragment implements View.OnClickListe
                     }
                 });
             }
-
 
 
         }

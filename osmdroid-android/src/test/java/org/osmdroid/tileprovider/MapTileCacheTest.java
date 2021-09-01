@@ -16,8 +16,9 @@ import java.util.List;
 
 /**
  * Unit tests related to {@link MapTileCache}
- * @since 6.0.0
+ *
  * @author Fabrice Fontaine
+ * @since 6.0.0
  */
 
 public class MapTileCacheTest {
@@ -37,13 +38,13 @@ public class MapTileCacheTest {
         Assert.assertEquals(0, mapTileCache.getSize());
 
         // inserting items: the sizes should match
-        for (int i = 0 ; i < capacity + extra ; i ++) {
+        for (int i = 0; i < capacity + extra; i++) {
             mapTileCache.putTile(getMapTileIndex(i), drawable);
         }
         Assert.assertEquals(capacity + extra, mapTileCache.getSize());
 
         // same keys: the size is not supposed to grow
-        for (int i = 0 ; i < capacity + extra ; i ++) {
+        for (int i = 0; i < capacity + extra; i++) {
             mapTileCache.putTile(getMapTileIndex(i), drawable);
         }
         Assert.assertEquals(capacity + extra, mapTileCache.getSize());
@@ -62,7 +63,7 @@ public class MapTileCacheTest {
         mapTileArea.set(mZoom, 0, 0, 0, capacity - 1);
         mapTileCache.garbageCollection();
         Assert.assertEquals(capacity, mapTileCache.getSize());
-        for (int i = 0 ; i < capacity + extra ; i ++) {
+        for (int i = 0; i < capacity + extra; i++) {
             final Drawable value = mapTileCache.getMapTile(getMapTileIndex(i));
             if (i < capacity) {
                 Assert.assertNotNull(value);

@@ -2,8 +2,9 @@ package org.osmdroid.util;
 
 /**
  * Compute a map tile list from a map tile list source: its border
- * @since 6.0.2
+ *
  * @author Fabrice Fontaine
+ * @since 6.0.2
  * @deprecated Use {@link MapTileAreaBorderComputer} instead
  */
 
@@ -29,14 +30,14 @@ public class MapTileListBorderComputer implements MapTileListComputer {
     @Override
     public MapTileList computeFromSource(final MapTileList pSource, final MapTileList pReuse) {
         final MapTileList out = pReuse != null ? pReuse : new MapTileList();
-        for (int i = 0 ; i < pSource.getSize() ; i ++) {
+        for (int i = 0; i < pSource.getSize(); i++) {
             final long sourceIndex = pSource.get(i);
             final int zoom = MapTileIndex.getZoom(sourceIndex);
             final int sourceX = MapTileIndex.getX(sourceIndex);
             final int sourceY = MapTileIndex.getY(sourceIndex);
             final int power = 1 << zoom;
-            for (int j = -mBorder ; j <= mBorder ; j ++) {
-                for (int k = -mBorder ; k <= mBorder ; k ++) {
+            for (int j = -mBorder; j <= mBorder; j++) {
+                for (int k = -mBorder; k <= mBorder; k++) {
                     int destX = sourceX + j;
                     int destY = sourceY + k;
                     while (destX < 0) {

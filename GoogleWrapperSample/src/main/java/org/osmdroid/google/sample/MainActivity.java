@@ -45,7 +45,7 @@ public class MainActivity extends ListActivity {
         int code = api.isGooglePlayServicesAvailable(this);
         if (code == ConnectionResult.SUCCESS) {
             // Do Your Stuff Here
-            isGooglePlayServicesInstalled=true;
+            isGooglePlayServicesInstalled = true;
         }
         isV1Supported = MapFactory.isGoogleMapsV1Supported();
         isV2Supported = MapFactory.isGoogleMapsV2Supported(this);
@@ -71,8 +71,8 @@ public class MainActivity extends ListActivity {
                     Toast.makeText(this, "Not available on your device", Toast.LENGTH_LONG).show();
                 break;
             //case 1: MOVED
-              //  this.startActivity(new Intent(this, OsmMapActivity.class));
-                //break;
+            //  this.startActivity(new Intent(this, OsmMapActivity.class));
+            //break;
             case 1:
                 if (isGooglePlayServicesInstalled && isV1Supported) {
                     this.startActivity(new Intent(this, Googlev1WrapperSample.class));

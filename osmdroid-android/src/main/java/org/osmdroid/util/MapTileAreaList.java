@@ -6,11 +6,12 @@ import java.util.List;
 
 /**
  * A list of areas of map tiles
- * @since 6.0.3
+ *
  * @author Fabrice Fontaine
+ * @since 6.0.3
  */
 
-public class MapTileAreaList implements MapTileContainer, IterableWithSize<Long>{
+public class MapTileAreaList implements MapTileContainer, IterableWithSize<Long> {
 
     private final List<MapTileArea> mList = new ArrayList<>();
 
@@ -59,7 +60,7 @@ public class MapTileAreaList implements MapTileContainer, IterableWithSize<Long>
                     return mCurrent;
                 }
                 if (mIndex < mList.size()) {
-                    return mCurrent = mList.get(mIndex ++).iterator();
+                    return mCurrent = mList.get(mIndex++).iterator();
                 }
                 return null;
             }

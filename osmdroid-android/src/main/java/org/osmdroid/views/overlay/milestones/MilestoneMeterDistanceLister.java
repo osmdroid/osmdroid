@@ -6,10 +6,11 @@ import org.osmdroid.views.util.constants.MathConstants;
 /**
  * Listing every given meters of the `Path`
  * Created by Fabrice on 28/12/2017.
+ *
  * @since 6.0.0
  */
 
-public class MilestoneMeterDistanceLister extends MilestoneLister{
+public class MilestoneMeterDistanceLister extends MilestoneLister {
 
     private final double mNbMetersRecurrence;
     private double mDistance;
@@ -66,7 +67,7 @@ public class MilestoneMeterDistanceLister extends MilestoneLister{
         if (mNeededForNext == -1) {
             return;
         }
-        double currentDistance = getDistance(++ mIndex);
+        double currentDistance = getDistance(++mIndex);
         if (currentDistance == 0) {
             return;
         }
@@ -75,7 +76,7 @@ public class MilestoneMeterDistanceLister extends MilestoneLister{
         final double orientation = getOrientation(x0, y0, x1, y1);
         double x = x0;
         double y = y0;
-        while(true) {
+        while (true) {
             if (currentDistance < mNeededForNext) {
                 mDistance += currentDistance;
                 mNeededForNext -= currentDistance;
@@ -89,7 +90,7 @@ public class MilestoneMeterDistanceLister extends MilestoneLister{
             currentDistance -= mNeededForNext;
             x += mNeededForNext * Math.cos(MathConstants.DEG2RAD * orientation) * metersToPixels;
             y += mNeededForNext * Math.sin(MathConstants.DEG2RAD * orientation) * metersToPixels;
-            add((long)x, (long)y, orientation);
+            add((long) x, (long) y, orientation);
             mNeededForNext = getNewNeededForNext();
             if (mNeededForNext == -1) {
                 return;
@@ -108,7 +109,7 @@ public class MilestoneMeterDistanceLister extends MilestoneLister{
             return -1;
         }
         final double before = mMilestoneMetersIndex == 0 ? 0 : mMilestoneMeters[mMilestoneMetersIndex - 1];
-        final double needed = mMilestoneMeters[mMilestoneMetersIndex ++] - before;
+        final double needed = mMilestoneMeters[mMilestoneMetersIndex++] - before;
         if (needed < 0) {
             throw new IllegalArgumentException();
         }

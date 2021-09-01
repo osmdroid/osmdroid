@@ -30,77 +30,77 @@ import org.osmdroid.views.overlay.Overlay.Snappable;
 import java.util.LinkedList;
 
 /**
- * 
  * @author Marc Kurtz
  * @author Manuel Stahl
- * 
  */
 public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer,
-		IOverlayMenuProvider, Snappable {
+        IOverlayMenuProvider, Snappable {
 
-	// ===========================================================
-	// Constants
-	// ===========================================================
+    // ===========================================================
+    // Constants
+    // ===========================================================
 
-	// ===========================================================
-	// Fields
-	// ===========================================================
+    // ===========================================================
+    // Fields
+    // ===========================================================
 
-	protected Paint mPaint = new Paint();
-	protected Paint mCirclePaint = new Paint();
+    protected Paint mPaint = new Paint();
+    protected Paint mCirclePaint = new Paint();
 
 	protected Bitmap mPersonBitmap;
 	protected Bitmap mDirectionArrowBitmap;
 
-	protected MapView mMapView;
+    protected MapView mMapView;
 
-	private IMapController mMapController;
-	public IMyLocationProvider mMyLocationProvider;
+    private IMapController mMapController;
+    public IMyLocationProvider mMyLocationProvider;
 
-	private final LinkedList<Runnable> mRunOnFirstFix = new LinkedList<Runnable>();
-	private final Point mDrawPixel = new Point();
-	private final Point mSnapPixel = new Point();
-	private Handler mHandler;
-	private Object mHandlerToken = new Object();
+    private final LinkedList<Runnable> mRunOnFirstFix = new LinkedList<Runnable>();
+    private final Point mDrawPixel = new Point();
+    private final Point mSnapPixel = new Point();
+    private Handler mHandler;
+    private Object mHandlerToken = new Object();
 
-	/**
-	 * if true, when the user pans the map, follow my location will automatically disable
-	 * if false, when the user pans the map, the map will continue to follow current location
-	 */
-	protected boolean enableAutoStop=true;
-	private Location mLocation;
-	private final GeoPoint mGeoPoint = new GeoPoint(0, 0); // for reuse
-	private boolean mIsLocationEnabled = false;
-	protected boolean mIsFollowing = false; // follow location updates
-	protected boolean mDrawAccuracyEnabled = true;
+    /**
+     * if true, when the user pans the map, follow my location will automatically disable
+     * if false, when the user pans the map, the map will continue to follow current location
+     */
+    protected boolean enableAutoStop = true;
+    private Location mLocation;
+    private final GeoPoint mGeoPoint = new GeoPoint(0, 0); // for reuse
+    private boolean mIsLocationEnabled = false;
+    protected boolean mIsFollowing = false; // follow location updates
+    protected boolean mDrawAccuracyEnabled = true;
 
-	/** Coordinates the feet of the person are located scaled for display density. */
-	protected final PointF mPersonHotspot;
+    /**
+     * Coordinates the feet of the person are located scaled for display density.
+     */
+    protected final PointF mPersonHotspot;
 
-	protected float mDirectionArrowCenterX;
-	protected float mDirectionArrowCenterY;
+    protected float mDirectionArrowCenterX;
+    protected float mDirectionArrowCenterY;
 
-	public static final int MENU_MY_LOCATION = getSafeMenuId();
+    public static final int MENU_MY_LOCATION = getSafeMenuId();
 
-	private boolean mOptionsMenuEnabled = true;
+    private boolean mOptionsMenuEnabled = true;
 
-	private boolean wasEnabledOnPause=false;
-	// ===========================================================
-	// Constructors
-	// ===========================================================
+    private boolean wasEnabledOnPause = false;
+    // ===========================================================
+    // Constructors
+    // ===========================================================
 
-	public MyLocationNewOverlay(MapView mapView) {
-		this(new GpsMyLocationProvider(mapView.getContext()), mapView);
-	}
+    public MyLocationNewOverlay(MapView mapView) {
+        this(new GpsMyLocationProvider(mapView.getContext()), mapView);
+    }
 
 	public MyLocationNewOverlay(IMyLocationProvider myLocationProvider, MapView mapView) {
 		super();
 
-		mMapView = mapView;
-		mMapController = mapView.getController();
-		mCirclePaint.setARGB(0, 100, 100, 255);
-		mCirclePaint.setAntiAlias(true);
-		mPaint.setFilterBitmap(true);
+        mMapView = mapView;
+        mMapController = mapView.getController();
+        mCirclePaint.setARGB(0, 100, 100, 255);
+        mCirclePaint.setAntiAlias(true);
+        mPaint.setFilterBitmap(true);
 
 
 		setPersonIcon(((BitmapDrawable)mapView.getContext().getResources().getDrawable(R.drawable.person)).getBitmap());
@@ -111,9 +111,9 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 		setPersonAnchor(.5f, .8125f); // anchor for the default icon
 		setDirectionAnchor(.5f, .5f); // anchor for the default icon
 
-		mHandler = new Handler(Looper.getMainLooper());
-		setMyLocationProvider(myLocationProvider);
-	}
+        mHandler = new Handler(Looper.getMainLooper());
+        setMyLocationProvider(myLocationProvider);
+    }
 
 	/**
 	 * fix for https://github.com/osmdroid/osmdroid/issues/249

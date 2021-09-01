@@ -16,7 +16,7 @@ import java.util.Locale;
 
 public class FileDateUtil {
 
-     public static String getModifiedDate(long modified) {
+    public static String getModifiedDate(long modified) {
         return getModifiedDate(Locale.getDefault(), modified);
     }
 

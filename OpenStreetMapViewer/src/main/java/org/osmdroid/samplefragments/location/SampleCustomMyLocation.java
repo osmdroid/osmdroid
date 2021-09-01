@@ -30,7 +30,7 @@ public class SampleCustomMyLocation extends BaseSampleFragment implements Locati
     LocationManager mgr;
     Marker myLocation;
     boolean added = false;
-    boolean followme=true;
+    boolean followme = true;
 
     @Override
     public void addOverlays() {

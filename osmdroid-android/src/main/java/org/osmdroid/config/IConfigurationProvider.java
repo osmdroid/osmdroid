@@ -199,7 +199,7 @@ public interface IConfigurationProvider {
     /**
      * Base path for osmdroid files. Zip/sqlite/mbtiles/etc files are in this folder.
      * Note: also used for offline tile sources
-     *
+     * <p>
      * If no directory has been set before with {@link #setOsmdroidBasePath(File)} it tries
      * to automatically detect one. On API>29 and for better results use
      * {@link #getOsmdroidBasePath(Context)}
@@ -211,7 +211,7 @@ public interface IConfigurationProvider {
     /**
      * Base path for osmdroid files. Zip/sqlite/mbtiles/etc files are in this folder.
      * Note: also used for offline tile sources
-     *
+     * <p>
      * If no directory has been set before with {@link #setOsmdroidBasePath(File)} it tries
      * to automatically detect one. Passing a context gives better results than
      * {@link #getOsmdroidBasePath()} and is required to find any location on API29.
@@ -241,7 +241,7 @@ public interface IConfigurationProvider {
      * <p>
      * Note: basePath and tileCache directories can be changed independently
      * This has no effect on offline archives and can be changed independently
-     *
+     * <p>
      * If no directory has been set before with {@link #setOsmdroidTileCache(File)} it tries
      * to automatically detect one. On API>29 and for better results use
      * {@link #getOsmdroidTileCache(Context)}
@@ -260,7 +260,7 @@ public interface IConfigurationProvider {
      * <p>
      * Note: basePath and tileCache directories can be changed independently
      * This has no effect on offline archives and can be changed independently
-     *
+     * <p>
      * If no directory has been set before with {@link #setOsmdroidTileCache(File)} it tries
      * to automatically detect one. Passing a context gives better results than
      * {@link #getOsmdroidTileCache()} and is required to find any location on API29.
@@ -403,35 +403,41 @@ public interface IConfigurationProvider {
     /**
      * If true, the map view will set .setHasTransientState(true) for API 16+ devices.
      * This is now the default setting. Set to false if this is causing you issues
-     * @since 6.0.0
+     *
      * @return
+     * @since 6.0.0
      */
     boolean isMapViewRecyclerFriendly();
+
     /**
      * If true, the map view will set .setHasTransientState(true) for API 16+ devices.
      * This is now the default setting. Set to false if this is causing you issues
-     * @since 6.0.0
+     *
      * @return
+     * @since 6.0.0
      */
     void setMapViewRecyclerFriendly(boolean enabled);
 
     /**
      * In memory tile count, used by the tiles overlay
-     * @since 6.0.0
-     * @see org.osmdroid.views.overlay.TilesOverlay
+     *
      * @param value
+     * @see org.osmdroid.views.overlay.TilesOverlay
+     * @since 6.0.0
      */
     void setCacheMapTileOvershoot(short value);
 
     /**
      * In memory tile count, used by the tiles overlay
-     * @since 6.0.0
+     *
      * @return
+     * @since 6.0.0
      */
     short getCacheMapTileOvershoot();
 
     /**
      * Delay between tile garbage collection calls
+     *
      * @since 6.0.2
      */
     long getTileGCFrequencyInMillis();
@@ -443,6 +449,7 @@ public interface IConfigurationProvider {
 
     /**
      * Tile garbage collection bulk size
+     *
      * @since 6.0.2
      */
     int getTileGCBulkSize();
@@ -454,6 +461,7 @@ public interface IConfigurationProvider {
 
     /**
      * Pause during tile garbage collection bulk deletions
+     *
      * @since 6.0.2
      */
     long getTileGCBulkPauseInMillis();
@@ -465,10 +473,12 @@ public interface IConfigurationProvider {
 
     /**
      * enables/disables tile downloading following redirects. default is true
-     * @since 6.0.2
+     *
      * @param value
+     * @since 6.0.2
      */
     void setMapTileDownloaderFollowRedirects(boolean value);
+
     boolean isMapTileDownloaderFollowRedirects();
 
     /**

@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 /**
  * Displayer of `MilestoneStep`s as `Bitmap`s
  * Created by Fabrice Fontaine on 22/12/2017.
+ *
  * @since 6.0.0
  */
 
@@ -26,6 +27,6 @@ public class MilestoneBitmapDisplayer extends MilestoneDisplayer {
 
     @Override
     protected void draw(final Canvas pCanvas, final Object pParameter) {
-        pCanvas.drawBitmap(mBitmap, - mOffsetX, - mOffsetY, null);
+        pCanvas.drawBitmap(mBitmap, -mOffsetX, -mOffsetY, null);
     }
 }

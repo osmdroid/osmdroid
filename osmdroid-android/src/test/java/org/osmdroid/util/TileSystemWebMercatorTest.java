@@ -5,9 +5,9 @@ import junit.framework.Assert;
 import org.junit.Test;
 
 /**
- * @since 6.0.3
  * @author Fabrice Fontaine
  * Unit test class related to {@link TileSystemWebMercator}
+ * @since 6.0.3
  */
 public class TileSystemWebMercatorTest {
 

@@ -9,23 +9,23 @@ import org.osmdroid.views.overlay.mylocation.SimpleLocationOverlay;
 
 /**
  * see https://github.com/osmdroid/osmdroid/issues/477
- *
+ * <p>
  * Created by alex on 11/23/2016.
  */
 
-public class SampleSimpleLocation extends BaseSampleFragment{
+public class SampleSimpleLocation extends BaseSampleFragment {
     @Override
     public String getSampleTitle() {
         return "Simple Location Overlay (marker)";
     }
 
     @Override
-    public void addOverlays(){
+    public void addOverlays() {
         super.addOverlays();
         BitmapDrawable drawable = (BitmapDrawable) getResources().getDrawable(R.drawable.icon);
 
-        SimpleLocationOverlay layer = new SimpleLocationOverlay(drawable.getBitmap() );
-        layer.setLocation(new GeoPoint(38.8976763,-77.0365298));
+        SimpleLocationOverlay layer = new SimpleLocationOverlay(drawable.getBitmap());
+        layer.setLocation(new GeoPoint(38.8976763, -77.0365298));
         mMapView.getOverlayManager().add(layer);
     }
 }

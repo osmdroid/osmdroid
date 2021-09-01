@@ -12,13 +12,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 
-import org.osmdroid.views.MapView;
-
 /**
  * Default map view activity.
  *
  * @author Manuel Stahl
- *
  */
 public class StarterMapActivity extends AppCompatActivity {
     private static final String MAP_FRAGMENT_TAG = "org.osmdroid.MAP_FRAGMENT_TAG";
@@ -29,6 +26,7 @@ public class StarterMapActivity extends AppCompatActivity {
      * * that were computed when offline
      * * that could be replaced by downloaded tiles
      * * but as the display is not refreshed there's no try to get better tiles
+     *
      * @since 6.0
      */
     private final BroadcastReceiver networkReceiver = new BroadcastReceiver() {
@@ -36,7 +34,7 @@ public class StarterMapActivity extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
             try {
                 starterMapFragment.invalidateMapView();
-            } catch(NullPointerException e) {
+            } catch (NullPointerException e) {
                 // lazy handling of an improbable NPE
             }
         }
@@ -44,7 +42,9 @@ public class StarterMapActivity extends AppCompatActivity {
 
     private StarterMapFragment starterMapFragment;
 
-    /** Called when the activity is first created. */
+    /**
+     * Called when the activity is first created.
+     */
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,10 +62,10 @@ public class StarterMapActivity extends AppCompatActivity {
         registerReceiver(networkReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
 
         FragmentManager fm = this.getSupportFragmentManager();
-		if (fm.findFragmentByTag(MAP_FRAGMENT_TAG) == null) {
-			starterMapFragment = StarterMapFragment.newInstance();
-			fm.beginTransaction().add(org.osmdroid.R.id.map_container, starterMapFragment, MAP_FRAGMENT_TAG).commit();
-		}
+        if (fm.findFragmentByTag(MAP_FRAGMENT_TAG) == null) {
+            starterMapFragment = StarterMapFragment.newInstance();
+            fm.beginTransaction().add(org.osmdroid.R.id.map_container, starterMapFragment, MAP_FRAGMENT_TAG).commit();
+        }
     }
 
     @Override
@@ -78,12 +78,13 @@ public class StarterMapActivity extends AppCompatActivity {
      * small example of keyboard events on the mapview
      * page up = zoom out
      * page down = zoom in
+     *
      * @param keyCode
      * @param event
      * @return
      */
     @Override
-    public boolean onKeyUp (int keyCode, KeyEvent event){
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
         switch (keyCode) {
             case KeyEvent.KEYCODE_PAGE_DOWN:
                 starterMapFragment.zoomIn();
@@ -92,7 +93,7 @@ public class StarterMapActivity extends AppCompatActivity {
                 starterMapFragment.zoomOut();
                 return true;
         }
-        return super.onKeyUp(keyCode,event);
+        return super.onKeyUp(keyCode, event);
     }
 
     /**

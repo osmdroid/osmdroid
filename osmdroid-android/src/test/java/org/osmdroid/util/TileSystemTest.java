@@ -8,8 +8,8 @@ import org.junit.Test;
 import java.util.Random;
 
 /**
- * @since 6.0.0
  * @author Fabrice Fontaine
+ * @since 6.0.0
  */
 public class TileSystemTest {
 
@@ -30,9 +30,9 @@ public class TileSystemTest {
     @Test
     public void testGetX01FromLongitude() {
         final int iterations = 10;
-        for (int i = 0 ; i <= iterations ; i ++) {
+        for (int i = 0; i <= iterations; i++) {
             final double longitude = tileSystem.getMinLongitude() + i * (tileSystem.getMaxLongitude() - tileSystem.getMinLongitude()) / iterations;
-            checkXY01(((double)i) / iterations, tileSystem.getX01FromLongitude(longitude, true));
+            checkXY01(((double) i) / iterations, tileSystem.getX01FromLongitude(longitude, true));
         }
     }
 
@@ -52,7 +52,7 @@ public class TileSystemTest {
     @Test
     public void testLatitude() {
         final int iterations = 100;
-        for (int i = 0 ; i <= iterations ; i ++) {
+        for (int i = 0; i <= iterations; i++) {
             final double latitude = getRandomLatitude();
             checkLatitude(latitude, tileSystem.getLatitudeFromY01(tileSystem.getY01FromLatitude(latitude, true), true));
         }
@@ -64,9 +64,9 @@ public class TileSystemTest {
     @Test
     public void testGetLongitudeFromX01() {
         final int iterations = 10;
-        for (int i = 0 ; i <= iterations ; i ++) {
+        for (int i = 0; i <= iterations; i++) {
             final double longitude = tileSystem.getMinLongitude() + i * (tileSystem.getMaxLongitude() - tileSystem.getMinLongitude()) / iterations;
-            checkLongitude(longitude, tileSystem.getLongitudeFromX01(((double)i) / iterations, true));
+            checkLongitude(longitude, tileSystem.getLongitudeFromX01(((double) i) / iterations, true));
         }
         checkLongitude(tileSystem.getMinLongitude(), tileSystem.getLongitudeFromX01(0, true));
         checkLongitude(0, tileSystem.getLongitudeFromX01(0.5, true));
@@ -79,7 +79,7 @@ public class TileSystemTest {
     @Test
     public void testLongitude() {
         final int iterations = 100;
-        for (int i = 0 ; i <= iterations ; i ++) {
+        for (int i = 0; i <= iterations; i++) {
             final double longitude = getRandomLongitude();
             checkLongitude(longitude, tileSystem.getLongitudeFromX01(tileSystem.getX01FromLongitude(longitude, true), true));
         }
@@ -122,7 +122,7 @@ public class TileSystemTest {
         TileSystem.setTileSize(tileSize);
 
         final int iterations = 2000;
-        for (int i = 0 ; i < iterations ; i ++) {
+        for (int i = 0; i < iterations; i++) {
             final double north = getRandomLatitude();
             final double south = getRandomLatitude();
             final double east = getRandomLongitude();
@@ -154,8 +154,8 @@ public class TileSystemTest {
      */
     @Test
     public void test_MapSize() {
-        for (int zoomLevel = mMinZoomLevel ; zoomLevel <= mMaxZoomLevel ; zoomLevel ++) {
-            Assert.assertEquals(256L << zoomLevel, (long)TileSystem.MapSize((double)zoomLevel));
+        for (int zoomLevel = mMinZoomLevel; zoomLevel <= mMaxZoomLevel; zoomLevel++) {
+            Assert.assertEquals(256L << zoomLevel, (long) TileSystem.MapSize((double) zoomLevel));
         }
     }
 
@@ -168,7 +168,7 @@ public class TileSystemTest {
     public void test_groundResolution() {
         final double delta = 1e-4;
 
-        for (int zoomLevel = mMinZoomLevel ; zoomLevel <= mMaxZoomLevel ; zoomLevel ++) {
+        for (int zoomLevel = mMinZoomLevel; zoomLevel <= mMaxZoomLevel; zoomLevel++) {
             Assert.assertEquals(156543.034 / (1 << zoomLevel), TileSystem.GroundResolution(0, zoomLevel), delta);
         }
     }
@@ -182,7 +182,7 @@ public class TileSystemTest {
     public void test_groundMapScale() {
         final double delta = 1e-2;
 
-        for (int zoomLevel = mMinZoomLevel ; zoomLevel <= mMaxZoomLevel ; zoomLevel ++) {
+        for (int zoomLevel = mMinZoomLevel; zoomLevel <= mMaxZoomLevel; zoomLevel++) {
             Assert.assertEquals(591658710.9 / (1 << zoomLevel), TileSystem.MapScale(0, zoomLevel, 96), delta);
         }
     }
@@ -193,7 +193,7 @@ public class TileSystemTest {
      */
     @Test
     public void test_LatLongToPixelXY() {
-        final PointL point = tileSystem.getMercatorFromGeo(60, 60, TileSystem.MapSize((double)10), null, true);
+        final PointL point = tileSystem.getMercatorFromGeo(60, 60, TileSystem.MapSize((double) 10), null, true);
         Assert.assertEquals(174762, point.x);
         Assert.assertEquals(76126, point.y);
     }
@@ -209,7 +209,7 @@ public class TileSystemTest {
         final int levelOfDetail = 8;
         final double delta = 1E-3;
 
-        final GeoPoint point = tileSystem.getGeoFromMercator(pixelX, pixelY, TileSystem.MapSize((double)levelOfDetail), null, true, true);
+        final GeoPoint point = tileSystem.getGeoFromMercator(pixelX, pixelY, TileSystem.MapSize((double) levelOfDetail), null, true, true);
 
         Assert.assertEquals(-179.752807617187, point.getLongitude(), delta);
         Assert.assertEquals(85.0297584051224, point.getLatitude(), delta);
@@ -221,20 +221,20 @@ public class TileSystemTest {
      */
     @Test
     public void test_TileXYToQuadKey() {
-        Assert.assertEquals("2", TileSystem.TileXYToQuadKey(0,1, 1));
-        Assert.assertEquals("13", TileSystem.TileXYToQuadKey(3 ,1, 2));
-        Assert.assertEquals("213", TileSystem.TileXYToQuadKey(3 ,5, 3));
+        Assert.assertEquals("2", TileSystem.TileXYToQuadKey(0, 1, 1));
+        Assert.assertEquals("13", TileSystem.TileXYToQuadKey(3, 1, 2));
+        Assert.assertEquals("213", TileSystem.TileXYToQuadKey(3, 5, 3));
         String zero = "";
         String one = "";
         String two = "";
         String three = "";
-        for (int zoom = 1 ; zoom <= TileSystem.getMaximumZoomLevel() ; zoom ++) {
+        for (int zoom = 1; zoom <= TileSystem.getMaximumZoomLevel(); zoom++) {
             zero += "0";
             one += "1";
             two += "2";
             three += "3";
             final int maxTile = (1 << zoom) - 1;
-            Assert.assertEquals(zero, TileSystem.TileXYToQuadKey(0 ,0, zoom));
+            Assert.assertEquals(zero, TileSystem.TileXYToQuadKey(0, 0, zoom));
             Assert.assertEquals(one, TileSystem.TileXYToQuadKey(maxTile, 0, zoom));
             Assert.assertEquals(two, TileSystem.TileXYToQuadKey(0, maxTile, zoom));
             Assert.assertEquals(three, TileSystem.TileXYToQuadKey(maxTile, maxTile, zoom));
@@ -255,7 +255,7 @@ public class TileSystemTest {
         String one = "";
         String two = "";
         String three = "";
-        for (int zoom = 1 ; zoom <= TileSystem.getMaximumZoomLevel() ; zoom ++) {
+        for (int zoom = 1; zoom <= TileSystem.getMaximumZoomLevel(); zoom++) {
             zero += "0";
             one += "1";
             two += "2";

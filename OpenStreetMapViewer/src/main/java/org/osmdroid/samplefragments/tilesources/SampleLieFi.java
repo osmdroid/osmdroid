@@ -30,8 +30,9 @@ import org.osmdroid.views.MapView;
 
 /**
  * Lie Fi demo: we emulate a slow online source in order to show the offline first behavior
- * @since 6.0.2
+ *
  * @author Fabrice Fontaine
+ * @since 6.0.2
  */
 public class SampleLieFi extends BaseSampleFragment {
 
@@ -41,9 +42,9 @@ public class SampleLieFi extends BaseSampleFragment {
 
     @Override
     public String getSampleTitle() {
-          return "Lie Fi - slow online source";
-     }
-     
+        return "Lie Fi - slow online source";
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final MapTileProviderArray provider = new MapTileProviderLieFi(inflater.getContext());
@@ -71,12 +72,12 @@ public class SampleLieFi extends BaseSampleFragment {
 
         private MapTileProviderLieFi(final Context pContext) {
             this(new SimpleRegisterReceiver(pContext), new NetworkAvailabliltyCheck(pContext),
-                    TileSourceFactory.DEFAULT_TILE_SOURCE, pContext,null);
+                    TileSourceFactory.DEFAULT_TILE_SOURCE, pContext, null);
         }
 
         private MapTileProviderLieFi(final IRegisterReceiver pRegisterReceiver,
-                                    final INetworkAvailablityCheck aNetworkAvailablityCheck, final ITileSource pTileSource,
-                                    final Context pContext, final IFilesystemCache cacheWriter) {
+                                     final INetworkAvailablityCheck aNetworkAvailablityCheck, final ITileSource pTileSource,
+                                     final Context pContext, final IFilesystemCache cacheWriter) {
             super(pTileSource, pRegisterReceiver);
             mNetworkAvailabilityCheck = aNetworkAvailablityCheck;
 
@@ -116,12 +117,12 @@ public class SampleLieFi extends BaseSampleFragment {
         }
 
         @Override
-        public void detach(){
+        public void detach() {
             //https://github.com/osmdroid/osmdroid/issues/213
             //close the writer
-            if (tileWriter!=null)
+            if (tileWriter != null)
                 tileWriter.onDetach();
-            tileWriter=null;
+            tileWriter = null;
             super.detach();
         }
 
@@ -153,7 +154,7 @@ public class SampleLieFi extends BaseSampleFragment {
             protected Drawable downloadTile(long pMapTileIndex, int redirectCount, String targetUrl) throws CantContinueException {
                 try {
                     Thread.sleep(mLieFieLagInMillis);
-                } catch(InterruptedException e) {
+                } catch (InterruptedException e) {
                     //
                 }
                 return super.downloadTile(pMapTileIndex, redirectCount, targetUrl);

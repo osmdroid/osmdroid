@@ -95,7 +95,7 @@ public class GarbageCollectorTest {
     private void sleep(final long millis) {
         try {
             Thread.sleep(millis);
-        } catch(InterruptedException e) {
+        } catch (InterruptedException e) {
             //
         }
     }

@@ -5,8 +5,9 @@ import android.graphics.Rect;
 
 /**
  * A {@link android.graphics.Rect} with corners in long type instead of int
- * @since 6.0.0
+ *
  * @author Fabrice Fontaine
+ * @since 6.0.0
  */
 
 public class RectL {
@@ -16,7 +17,8 @@ public class RectL {
     public long right;
     public long bottom;
 
-    public RectL() {}
+    public RectL() {
+    }
 
     public RectL(final long pLeft, final long pTop, final long pRight, final long pBottom) {
         set(pLeft, pTop, pRight, pBottom);
@@ -87,7 +89,7 @@ public class RectL {
 
     @Override
     public String toString() {
-        return "RectL(" +left+", "+top+" - "+right+", "+bottom+")";
+        return "RectL(" + left + ", " + top + " - " + right + ", " + bottom + ")";
     }
 
     @Override
@@ -112,6 +114,7 @@ public class RectL {
      * Rough computation of the smaller {@link RectL} that contains a rotated {@link RectL}
      * Emulating {@link Canvas#getClipBounds(Rect)} after a canvas rotation
      * The code is supposed to be exactly the same as the Rect version, except for int/long
+     *
      * @since 6.0.2
      */
     public static RectL getBounds(final RectL pIn,
@@ -194,6 +197,7 @@ public class RectL {
      * Emulating {@link Canvas#getClipBounds(Rect)} after a canvas rotation
      * The code is supposed to be exactly the same as the RectL version, except for int/long
      * The code is written to run as fast as possible because it's constantly used when drawing markers
+     *
      * @since 6.0.2
      */
     public static Rect getBounds(final Rect pIn,
@@ -216,14 +220,14 @@ public class RectL {
         int outputY;
         inputX = pIn.left; // corner 1
         inputY = pIn.top;
-        outputX = (int)getRotatedX(inputX, inputY, pCenterX, pCenterY, cos, sin);
-        outputY = (int)getRotatedY(inputX, inputY, pCenterX, pCenterY, cos, sin);
+        outputX = (int) getRotatedX(inputX, inputY, pCenterX, pCenterY, cos, sin);
+        outputY = (int) getRotatedY(inputX, inputY, pCenterX, pCenterY, cos, sin);
         out.top = out.bottom = outputY;
         out.left = out.right = outputX;
         inputX = pIn.right; // corner 2
         inputY = pIn.top;
-        outputX = (int)getRotatedX(inputX, inputY, pCenterX, pCenterY, cos, sin);
-        outputY = (int)getRotatedY(inputX, inputY, pCenterX, pCenterY, cos, sin);
+        outputX = (int) getRotatedX(inputX, inputY, pCenterX, pCenterY, cos, sin);
+        outputY = (int) getRotatedY(inputX, inputY, pCenterX, pCenterY, cos, sin);
         if (out.top > outputY) {
             out.top = outputY;
         }
@@ -238,8 +242,8 @@ public class RectL {
         }
         inputX = pIn.right; // corner 3
         inputY = pIn.bottom;
-        outputX = (int)getRotatedX(inputX, inputY, pCenterX, pCenterY, cos, sin);
-        outputY = (int)getRotatedY(inputX, inputY, pCenterX, pCenterY, cos, sin);
+        outputX = (int) getRotatedX(inputX, inputY, pCenterX, pCenterY, cos, sin);
+        outputY = (int) getRotatedY(inputX, inputY, pCenterX, pCenterY, cos, sin);
         if (out.top > outputY) {
             out.top = outputY;
         }
@@ -254,8 +258,8 @@ public class RectL {
         }
         inputX = pIn.left; // corner 4
         inputY = pIn.bottom;
-        outputX = (int)getRotatedX(inputX, inputY, pCenterX, pCenterY, cos, sin);
-        outputY = (int)getRotatedY(inputX, inputY, pCenterX, pCenterY, cos, sin);
+        outputX = (int) getRotatedX(inputX, inputY, pCenterX, pCenterY, cos, sin);
+        outputY = (int) getRotatedY(inputX, inputY, pCenterX, pCenterY, cos, sin);
         if (out.top > outputY) {
             out.top = outputY;
         }
@@ -273,6 +277,7 @@ public class RectL {
 
     /**
      * Apply a rotation on a point and get the resulting X
+     *
      * @since 6.0.2
      */
     public static long getRotatedX(final long pX, final long pY,
@@ -286,6 +291,7 @@ public class RectL {
 
     /**
      * Apply a rotation on a point and get the resulting Y
+     *
      * @since 6.0.2
      */
     public static long getRotatedY(final long pX, final long pY,
@@ -299,6 +305,7 @@ public class RectL {
 
     /**
      * Apply a rotation on a point and get the resulting X
+     *
      * @since 6.0.2
      */
     public static long getRotatedX(final long pX, final long pY,
@@ -309,6 +316,7 @@ public class RectL {
 
     /**
      * Apply a rotation on a point and get the resulting Y
+     *
      * @since 6.0.2
      */
     public static long getRotatedY(final long pX, final long pY,

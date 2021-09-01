@@ -16,20 +16,21 @@ import java.text.DecimalFormat;
 
 /**
  * created on 2/7/2018.
- * @since 6.0.0
+ *
  * @author Alex O'Ree
+ * @since 6.0.0
  */
 
 public class LatLonGridlineOverlay2 extends Overlay {
 
-    private DecimalFormat mDecimalFormatter = new DecimalFormat("#.#####");
+    protected DecimalFormat mDecimalFormatter = new DecimalFormat("#.#####");
     //used to adjust the number of grid lines displayed on screen
-    private float mMultiplier = 1f;
-    private final Paint mLinePaint = new Paint();
-    private final Paint mTextBackgroundPaint = new Paint();
-    private final Paint mTextPaint = new Paint();
-    private final GeoPoint mOptimizationGeoPoint = new GeoPoint(0., 0);
-    private final Point mOptimizationPoint = new Point();
+    protected float mMultiplier = 1f;
+    protected   Paint mLinePaint = new Paint();
+    protected Paint mTextBackgroundPaint = new Paint();
+    protected Paint mTextPaint = new Paint();
+    protected  GeoPoint mOptimizationGeoPoint = new GeoPoint(0., 0);
+    protected  Point mOptimizationPoint = new Point();
 
     public LatLonGridlineOverlay2() {
         mLinePaint.setAntiAlias(true);
@@ -43,7 +44,7 @@ public class LatLonGridlineOverlay2 extends Overlay {
         setFontColor(Color.WHITE);
         setBackgroundColor(Color.BLACK);
         setLineWidth(1f);
-        setFontSizeDp((short)32);
+        setFontSizeDp((short) 32);
     }
 
     @Override
@@ -59,7 +60,7 @@ public class LatLonGridlineOverlay2 extends Overlay {
         final float screenHeight = pProjection.getHeight();
         final float screenCenterX = screenWidth / 2;
         final float screenCenterY = screenHeight / 2;
-        final float screenDiagonal = (float)Math.sqrt(screenWidth * screenWidth + screenHeight * screenHeight);
+        final float screenDiagonal = (float) Math.sqrt(screenWidth * screenWidth + screenHeight * screenHeight);
         final double screenRadius = screenDiagonal / 2;
         final double squaredScreenRadius = screenRadius * screenRadius;
         final float textOffsetX = screenWidth / 5;
@@ -68,16 +69,16 @@ public class LatLonGridlineOverlay2 extends Overlay {
         final float textDescent = mTextPaint.descent() + 0.5f;
         final float textHeight = textBaseline + textDescent;
 
-        for (int lineOrText = 0 ; lineOrText <= 1 ; lineOrText ++) { // draw lines first, then texts
+        for (int lineOrText = 0; lineOrText <= 1; lineOrText++) { // draw lines first, then texts
             for (int latOrLon = 0; latOrLon <= 1; latOrLon++) { // latitude then longitude lines
-                final float orientation = - pProjection.getOrientation() + (latOrLon == 0 ? 0 : 90);
+                final float orientation = -pProjection.getOrientation() + (latOrLon == 0 ? 0 : 90);
                 for (int increaseOrDecrease = 0; increaseOrDecrease <= 1; increaseOrDecrease++) { // in both directions
                     final double delta = increaseOrDecrease == 0 ? incrementor : -incrementor;
                     int latest = latOrLon == 0 ? Math.round(screenCenterY) : Math.round(screenCenterX); // as close to the screen center as possible
                     boolean stillVisible = true;
                     double longitude = startLongitude;
                     double latitude = startLatitude;
-                    for (int i = 0; stillVisible; i ++) {
+                    for (int i = 0; stillVisible; i++) {
                         if (i > 0) {
                             if (latOrLon == 1) {
                                 longitude += delta;
@@ -182,6 +183,33 @@ public class LatLonGridlineOverlay2 extends Overlay {
     }
 
     /**
+     * sets the text label paint styler
+     * see https://github.com/osmdroid/osmdroid/issues/1723
+     * @since 6.1.11
+     * @param paint
+     */
+    public void setTextStyle(Paint.Style paint) { mTextPaint.setStyle(paint);}
+
+    /**
+     * if for some reason there's missing setter for this class and you don't want to subclass it,
+     * you can override the paint object with this method. Only used for the text painter
+     * @since 6.1.11
+     * @param paint
+     */
+    public void setTextPaint(Paint paint) { mTextPaint= paint;}
+
+    /**
+     * getter for the Paint object. I'd suggest using the setter methods first or subclassing this class
+     * if you need to do something else but this will get you access to the live instance of the paint object
+     * which is used for drawing text labels
+     * @since 6.1.11
+     * @return
+     */
+    public Paint getTextPaint() { return mTextPaint;}
+
+
+
+    /**
      * background color for the text labels
      */
     public void setBackgroundColor(int backgroundColor) {
@@ -280,10 +308,10 @@ public class LatLonGridlineOverlay2 extends Overlay {
      */
     private double computeStartLatitude(final double pLatitude, final double pIncrementor) {
         double result = pIncrementor * Math.round(pLatitude / pIncrementor);
-        while(result > MapView.getTileSystem().getMaxLatitude()) {
+        while (result > MapView.getTileSystem().getMaxLatitude()) {
             result -= pIncrementor;
         }
-        while(result < MapView.getTileSystem().getMinLatitude()) {
+        while (result < MapView.getTileSystem().getMinLatitude()) {
             result += pIncrementor;
         }
         return result;

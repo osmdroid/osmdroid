@@ -14,7 +14,7 @@ public class SampleMapQuest extends BaseSampleFragment {
     }
 
     @Override
-    public void addOverlays(){
+    public void addOverlays() {
         super.addOverlays();
         mMapView.setTileSource(new MapQuestTileSource(getContext()));
     }

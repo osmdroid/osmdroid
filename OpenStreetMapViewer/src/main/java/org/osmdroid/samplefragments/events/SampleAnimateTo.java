@@ -61,7 +61,7 @@ public class SampleAnimateTo extends SampleMapEventListener {
 
         try {
             mList.addAll(new DataRegionLoader(getActivity(), R.raw.data_region_usstates).getList().values());
-        } catch(Exception e) {
+        } catch (Exception e) {
             throw new IllegalArgumentException(e);
         }
 
@@ -76,7 +76,7 @@ public class SampleAnimateTo extends SampleMapEventListener {
     @Override
     public void onResume() {
         super.onResume();
-        alive=true;
+        alive = true;
         //some explanation here.
         //we using a timer task with a delayed start up to move the map around. during CI tests
         //this fragment can crash the app if you navigate away from the fragment before the initial fire
@@ -131,7 +131,7 @@ public class SampleAnimateTo extends SampleMapEventListener {
      * @since 6.0.2
      */
     private void show() {
-        show(mIndex ++);
+        show(mIndex++);
     }
 
     /**
@@ -142,7 +142,7 @@ public class SampleAnimateTo extends SampleMapEventListener {
         final double zoomFallback = 12;
         final long animationSpeed = 2000;
         final boolean animated = true;
-        final DataRegion state = mList.get(pIndex% mList.size());
+        final DataRegion state = mList.get(pIndex % mList.size());
         final BoundingBox box = state.getBox();
         mMapView.zoomToBoundingBox(box, animated, borderSizeInPixels, zoomFallback, animationSpeed);
         Toast.makeText(getActivity(), state.getName(), Toast.LENGTH_SHORT).show();

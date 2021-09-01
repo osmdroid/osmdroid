@@ -4,8 +4,9 @@ package org.osmdroid.util;
  * Tools about 2D distance computation
  * Optimized code: we compute the square of the distance.
  * If you really want to know the distance, apply Math.sqrt
- * @since 6.0.0
+ *
  * @author Fabrice Fontaine
+ * @since 6.0.0
  */
 
 public class Distance {
@@ -57,10 +58,10 @@ public class Distance {
     }
 
     /**
-     * @since 6.0.3
-     * Projection factor on line AB from a point
      * @return 0 if projected to A, 1 if projected to B, [0,1] if projected inside segment [A,B],
      * &lt; 0 or &gt; 1 if projected outside of the segment
+     * @since 6.0.3
+     * Projection factor on line AB from a point
      */
     public static double getProjectionFactorToLine(
             final double pFromX, final double pFromY,
@@ -74,9 +75,9 @@ public class Distance {
     }
 
     /**
+     * @return [0, 1]; 0 if projected to A, 1 if projected to B
      * @since 6.0.3
      * Projection factor on segment AB from a point
-     * @return [0,1]; 0 if projected to A, 1 if projected to B
      */
     public static double getProjectionFactorToSegment(
             final double pFromX, final double pFromY,

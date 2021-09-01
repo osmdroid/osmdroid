@@ -13,13 +13,13 @@ import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 
 /**
- * @since 6.1.0
  * @author Fabrice Fontaine
+ * @since 6.1.0
  */
 public class SampleAnimateToWithOrientation extends BaseSampleFragment implements View.OnClickListener {
 
-    private static final float[] ORIENTATIONS = new float[] {30, 0, -30, 0, -30, 0};
-    private static final Boolean[] CLOCKWISES = new Boolean[] {null, null, null, null, Boolean.TRUE, Boolean.FALSE};
+    private static final float[] ORIENTATIONS = new float[]{30, 0, -30, 0, -30, 0};
+    private static final Boolean[] CLOCKWISES = new Boolean[]{null, null, null, null, Boolean.TRUE, Boolean.FALSE};
 
     private final GeoPoint MAP_CENTER = new GeoPoint(0., 0);
     private int mIndex = -1;
@@ -34,7 +34,7 @@ public class SampleAnimateToWithOrientation extends BaseSampleFragment implement
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        final View root = inflater.inflate(R.layout.sample_cachemgr, container,false);
+        final View root = inflater.inflate(R.layout.sample_cachemgr, container, false);
 
         mMapView = new MapView(getActivity());
         ((LinearLayout) root.findViewById(R.id.mapview)).addView(mMapView);
@@ -51,7 +51,7 @@ public class SampleAnimateToWithOrientation extends BaseSampleFragment implement
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.btnCache:
                 mMapView.getController().animateTo(MAP_CENTER, null, null, ORIENTATIONS[mIndex], CLOCKWISES[mIndex]);
                 next();
@@ -60,7 +60,7 @@ public class SampleAnimateToWithOrientation extends BaseSampleFragment implement
     }
 
     private void next() {
-        mIndex ++;
+        mIndex++;
         mIndex %= ORIENTATIONS.length;
         mLabel = "To " + ORIENTATIONS[mIndex] + " " +
                 (CLOCKWISES[mIndex] == null ? "" : CLOCKWISES[mIndex] ? "clockwise" : "anticlockwise");

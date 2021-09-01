@@ -43,16 +43,16 @@ public class SampleRotation extends BaseSampleFragment implements View.OnClickLi
     }
 
     @Override
-    public void addOverlays(){
+    public void addOverlays() {
         super.addOverlays();
 
         final DisplayMetrics dm = getActivity().getResources().getDisplayMetrics();
-        RotationGestureOverlay  mRotationGestureOverlay = new RotationGestureOverlay(mMapView);
+        RotationGestureOverlay mRotationGestureOverlay = new RotationGestureOverlay(mMapView);
         mRotationGestureOverlay.setEnabled(true);
         mMapView.getOverlays().add(mRotationGestureOverlay);
 
         ScaleBarOverlay mScaleBarOverlay = new ScaleBarOverlay(mMapView);
-        mScaleBarOverlay.setScaleBarOffset(0,(int)(40 * dm.density));
+        mScaleBarOverlay.setScaleBarOffset(0, (int) (40 * dm.density));
         mScaleBarOverlay.setCentred(true);
         mScaleBarOverlay.setScaleBarOffset(dm.widthPixels / 2, 10);
         mMapView.getOverlays().add(mScaleBarOverlay);
@@ -78,6 +78,6 @@ public class SampleRotation extends BaseSampleFragment implements View.OnClickLi
             break;
 
         }
-        textViewCurrentLocation.setText(mMapView.getMapOrientation()+"");
+        textViewCurrentLocation.setText(mMapView.getMapOrientation() + "");
     }
 }

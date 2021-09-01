@@ -1,6 +1,5 @@
 package org.osmdroid.samplefragments.drawing;
 
-import android.content.ContentValues;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
@@ -19,11 +18,13 @@ import org.osmdroid.views.overlay.advancedpolyline.ColorMappingForScalarContaine
 import org.osmdroid.views.overlay.advancedpolyline.ColorMappingVariationHue;
 import org.osmdroid.views.overlay.advancedpolyline.MonochromaticPaintList;
 import org.osmdroid.views.overlay.advancedpolyline.PolychromaticPaintList;
+
 import java.util.ArrayList;
 
 
 /**
  * Simple example to show scalar mapping invalidation.
+ *
  * @author Matthias Dittmer
  */
 public class ShowAdvancedPolylineStylesInvalidation extends BaseSampleFragment implements View.OnClickListener {
@@ -40,8 +41,8 @@ public class ShowAdvancedPolylineStylesInvalidation extends BaseSampleFragment i
     private String mInformation = "Scalar range from %d to %d\n" +
             "for hue ranging from %d to %d.\n" +
             "Showing speed from red (slow) to green (fast).";
-    private  String sProceed = "Extend Polyline";
-    private  String sReset = "Reset Polyline";
+    private String sProceed = "Extend Polyline";
+    private String sReset = "Reset Polyline";
     private final Paint paintBorder = new Paint();
     private final Paint paintMapping = new Paint();
 
@@ -146,7 +147,7 @@ public class ShowAdvancedPolylineStylesInvalidation extends BaseSampleFragment i
     private void initialSetupForLine() {
 
         // remove previous data
-        if(mPolyline != null) {
+        if (mPolyline != null) {
             // remove polyline
             mMapView.getOverlayManager().remove(mPolyline);
             mPolyline = null;
@@ -174,7 +175,7 @@ public class ShowAdvancedPolylineStylesInvalidation extends BaseSampleFragment i
         mMapView.getOverlayManager().add(mPolyline);
         // force a redraw (normally triggered when map is moved for example)
         mMapView.invalidate();
-        textInformation.setText(String.format(mInformation, MIN_SCALAR , MAX_SCALAR, MIN_HUE , MAX_HUE));
+        textInformation.setText(String.format(mInformation, MIN_SCALAR, MAX_SCALAR, MIN_HUE, MAX_HUE));
         btnProceed.setText(sProceed);
     }
 
@@ -197,7 +198,7 @@ public class ShowAdvancedPolylineStylesInvalidation extends BaseSampleFragment i
         mMapView.invalidate();
 
         // update UI
-        textInformation.setText(String.format(mInformation, MIN_SCALAR, MAX_SCALAR_EXTENDED, MIN_HUE , MAX_HUE));
+        textInformation.setText(String.format(mInformation, MIN_SCALAR, MAX_SCALAR_EXTENDED, MIN_HUE, MAX_HUE));
         btnProceed.setText(sReset);
 
     }

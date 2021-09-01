@@ -5,8 +5,8 @@ import junit.framework.Assert;
 import org.junit.Test;
 
 /**
- * @since 6.1.0
  * @author Fabrice Fontaine
+ * @since 6.1.0
  */
 public class MyMathTest {
 
@@ -70,7 +70,7 @@ public class MyMathTest {
         Assert.assertEquals(radius, -output.y);
 
         MyMath.computeCirclePoint(0, 0, radius, Math.PI / 4, output);
-        Assert.assertEquals((long)(radius * Math.sqrt(2) / 2), output.x);
-        Assert.assertEquals((long)(-radius * Math.sqrt(2) / 2), -output.y);
+        Assert.assertEquals((long) (radius * Math.sqrt(2) / 2), output.x);
+        Assert.assertEquals((long) (-radius * Math.sqrt(2) / 2), -output.y);
     }
 }

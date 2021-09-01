@@ -10,8 +10,9 @@ import java.util.Set;
 
 /**
  * Unit tests related to {@link MapTileArea}
- * @since 6.0.3
+ *
  * @author Fabrice Fontaine
+ * @since 6.0.3
  */
 
 public class MapTileAreaTest {
@@ -41,7 +42,7 @@ public class MapTileAreaTest {
         final MapTileArea area = new MapTileArea();
         for (int zoom = 0; zoom <= TileSystem.getMaximumZoomLevel(); zoom++) {
             final int mapTileUpperBound = getMapTileUpperBound(zoom);
-            final long size = ((long)mapTileUpperBound) * mapTileUpperBound;
+            final long size = ((long) mapTileUpperBound) * mapTileUpperBound;
             if (size >= Integer.MAX_VALUE) {
                 return;
             }
@@ -71,7 +72,7 @@ public class MapTileAreaTest {
         final MapTileArea area = new MapTileArea();
         for (int zoom = 0; zoom <= TileSystem.getMaximumZoomLevel(); zoom++) {
             final int mapTileUpperBound = getMapTileUpperBound(zoom);
-            final long size = ((long)mapTileUpperBound) * mapTileUpperBound;
+            final long size = ((long) mapTileUpperBound) * mapTileUpperBound;
             if (size >= Integer.MAX_VALUE) {
                 return;
             }
@@ -83,7 +84,7 @@ public class MapTileAreaTest {
             int count = 0;
             set.clear();
             for (final long mapTileIndex : area) {
-                count ++;
+                count++;
                 Assert.assertEquals(zoom, MapTileIndex.getZoom(mapTileIndex));
                 final int x = MapTileIndex.getX(mapTileIndex);
                 final int y = MapTileIndex.getY(mapTileIndex);
@@ -107,17 +108,17 @@ public class MapTileAreaTest {
         // checking if area is faster than list during initialization
         list.ensureCapacity(size * size);
         start = System.nanoTime();
-        list.put(zoom, 0, 0, size-1, size-1);
+        list.put(zoom, 0, 0, size - 1, size - 1);
         end = System.nanoTime();
         duration1 = end - start;
         start = System.nanoTime();
-        area.set(zoom, 0, 0, size-1, size-1);
+        area.set(zoom, 0, 0, size - 1, size - 1);
         end = System.nanoTime();
         duration2 = end - start;
         checkDuration(duration1, duration2);
 
         // find all items of the list
-        checkContainDuration(zoom, zoom, size - 1, size -1, list, area, true);
+        checkContainDuration(zoom, zoom, size - 1, size - 1, list, area, true);
 
         // cannot find any item on lower zooms
         checkContainDuration(0, zoom - 1, 0, 0, list, area, false);
@@ -137,9 +138,9 @@ public class MapTileAreaTest {
                                       final boolean pContains) {
         long start, end, duration1 = 0, duration2 = 0;
         boolean contains;
-        for (int zoom = pZoomMin ; zoom <= pZoomMax ; zoom ++) {
-            for (int x = 0 ; x <= pXMax ; x ++) {
-                for (int y = 0 ; y <= pYMax ; y ++) {
+        for (int zoom = pZoomMin; zoom <= pZoomMax; zoom++) {
+            for (int x = 0; x <= pXMax; x++) {
+                for (int y = 0; y <= pYMax; y++) {
                     final long mapTileIndex = MapTileIndex.getTileIndex(zoom, x, y);
 
                     start = System.nanoTime();
@@ -181,8 +182,8 @@ public class MapTileAreaTest {
     private void checkAll(final int pZoom, final MapTileArea pArea) {
         final int max = 1 << pZoom;
         Assert.assertEquals(max * max, pArea.size());
-        for (int x = 0 ; x < max ; x ++) {
-            for (int y = 0 ; y < max ; y ++) {
+        for (int x = 0; x < max; x++) {
+            for (int y = 0; y < max; y++) {
                 Assert.assertTrue(pArea.contains(MapTileIndex.getTileIndex(pZoom, x, y)));
             }
         }

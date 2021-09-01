@@ -6,8 +6,9 @@ import org.junit.Test;
 
 /**
  * Unit Test class for {@link SpeechBalloonHelper}
- * @since 6.1.1
+ *
  * @author Fabrice Fontaine
+ * @since 6.1.1
  */
 public class SpeechBalloonHelperTest {
 
@@ -38,25 +39,25 @@ public class SpeechBalloonHelperTest {
         Assert.assertEquals(0, intersection2.y);
 
         inputPoint.set(110, 110);
-        Assert.assertEquals(SpeechBalloonHelper.CORNER_BOTTOM |SpeechBalloonHelper.CORNER_RIGHT,
+        Assert.assertEquals(SpeechBalloonHelper.CORNER_BOTTOM | SpeechBalloonHelper.CORNER_RIGHT,
                 helper.compute(inputRect, inputPoint, radius, intersection1, intersection2));
         Assert.assertEquals(100, intersection1.x);
         Assert.assertEquals(100, intersection2.y);
 
         inputPoint.set(-10, -10);
-        Assert.assertEquals(SpeechBalloonHelper.CORNER_TOP |SpeechBalloonHelper.CORNER_LEFT,
+        Assert.assertEquals(SpeechBalloonHelper.CORNER_TOP | SpeechBalloonHelper.CORNER_LEFT,
                 helper.compute(inputRect, inputPoint, radius, intersection1, intersection2));
         Assert.assertEquals(0, intersection1.x);
         Assert.assertEquals(0, intersection2.y);
 
         inputPoint.set(-10, 110);
-        Assert.assertEquals(SpeechBalloonHelper.CORNER_BOTTOM |SpeechBalloonHelper.CORNER_LEFT,
+        Assert.assertEquals(SpeechBalloonHelper.CORNER_BOTTOM | SpeechBalloonHelper.CORNER_LEFT,
                 helper.compute(inputRect, inputPoint, radius, intersection1, intersection2));
         Assert.assertEquals(0, intersection2.x);
         Assert.assertEquals(100, intersection1.y);
 
         inputPoint.set(110, -10);
-        Assert.assertEquals(SpeechBalloonHelper.CORNER_TOP |SpeechBalloonHelper.CORNER_RIGHT,
+        Assert.assertEquals(SpeechBalloonHelper.CORNER_TOP | SpeechBalloonHelper.CORNER_RIGHT,
                 helper.compute(inputRect, inputPoint, radius, intersection1, intersection2));
         Assert.assertEquals(100, intersection2.x);
         Assert.assertEquals(0, intersection1.y);

@@ -22,12 +22,13 @@ import static org.osmdroid.samplefragments.events.SampleMapEventListener.df;
 /**
  * A simple sample to plot markers with a long press. It's a bit of noise this in the class
  * that is used to help the osmdroid devs troubleshoot things.
- *
+ * <p>
  * Map replication is ON for this sample (only viewable for numerically lower zoom levels (higher altitude))
- *
+ * <p>
  * created on 11/19/2017.
- * @since 6.0.0
+ *
  * @author Alex O'Ree
+ * @since 6.0.0
  */
 
 public class PressToPlot extends BaseSampleFragment implements View.OnClickListener, View.OnLongClickListener {
@@ -40,6 +41,7 @@ public class PressToPlot extends BaseSampleFragment implements View.OnClickListe
     public String getSampleTitle() {
         return "Long Press to Plot Marker";
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.layout_drawlines, null);
@@ -88,10 +90,11 @@ public class PressToPlot extends BaseSampleFragment implements View.OnClickListe
     private void updateInfo() {
         IGeoPoint mapCenter = mMapView.getMapCenter();
         textViewCurrentLocation.setText(df.format(mapCenter.getLatitude()) + "," +
-            df.format(mapCenter.getLongitude())
-            + ",zoom=" + mMapView.getZoomLevelDouble() + ",angle=" + mMapView.getMapOrientation());
+                df.format(mapCenter.getLongitude())
+                + ",zoom=" + mMapView.getZoomLevelDouble() + ",angle=" + mMapView.getMapOrientation());
 
     }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {

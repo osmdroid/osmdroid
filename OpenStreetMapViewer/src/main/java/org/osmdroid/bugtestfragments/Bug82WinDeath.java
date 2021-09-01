@@ -13,7 +13,7 @@ import org.osmdroid.views.overlay.Overlay;
 
 /**
  * See https://github.com/osmdroid/osmdroid/issues/82#issuecomment-229413838
- *
+ * <p>
  * Created by alex on 6/29/16.
  */
 public class Bug82WinDeath extends BaseSampleFragment {
@@ -21,6 +21,7 @@ public class Bug82WinDeath extends BaseSampleFragment {
     public String getSampleTitle() {
         return "Bug #82 WinDeath";
     }
+
     protected void addOverlays() {
         //
         MapOverlay overlay = new MapOverlay();
@@ -29,7 +30,6 @@ public class Bug82WinDeath extends BaseSampleFragment {
         mMapView.getController().setCenter(new GeoPoint(50.71838, -103.42443));
         mMapView.getController().setZoom(17);
     }
-
 
 
     public static class MapOverlay extends Overlay {

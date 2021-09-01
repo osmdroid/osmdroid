@@ -112,20 +112,20 @@ public class ListPicker implements View.OnClickListener, AdapterView.OnItemClick
             //TODO redraw all the icons?
             case R.id.milstd_search_affil_f:
                 charAffiliation = "F";
-                ((MilStdAdapter)milstd_search_results.getAdapter()).update(charAffiliation);
+                ((MilStdAdapter) milstd_search_results.getAdapter()).update(charAffiliation);
                 break;
             case R.id.milstd_search_affil_h:
                 charAffiliation = "H";
-                ((MilStdAdapter)milstd_search_results.getAdapter()).update(charAffiliation);
+                ((MilStdAdapter) milstd_search_results.getAdapter()).update(charAffiliation);
                 break;
             case R.id.milstd_search_affil_n:
                 charAffiliation = "N";
-                ((MilStdAdapter)milstd_search_results.getAdapter()).update(charAffiliation);
+                ((MilStdAdapter) milstd_search_results.getAdapter()).update(charAffiliation);
 
                 break;
             case R.id.milstd_search_affil_u:
                 charAffiliation = "U";
-                ((MilStdAdapter)milstd_search_results.getAdapter()).update(charAffiliation);
+                ((MilStdAdapter) milstd_search_results.getAdapter()).update(charAffiliation);
 
                 break;
         }
@@ -141,12 +141,12 @@ public class ListPicker implements View.OnClickListener, AdapterView.OnItemClick
             //modifiers are symbol specific
             //attributes are static and relatively simple
             if (def.getSymbolCode().startsWith("G") || def.getSymbolCode().startsWith("W")) {
-                if (SymbolUtilities.canSymbolHaveModifier(def.getBasicSymbolId(), ModifiersTG.A_SYMBOL_ICON, RendererSettings.getInstance().getSymbologyStandard())){
+                if (SymbolUtilities.canSymbolHaveModifier(def.getBasicSymbolId(), ModifiersTG.A_SYMBOL_ICON, RendererSettings.getInstance().getSymbologyStandard())) {
                     //render some text input
                 }
                 //etc
             } else {
-                if (SymbolUtilities.canSymbolHaveModifier(def.getBasicSymbolId(), ModifiersUnits.A_SYMBOL_ICON, RendererSettings.getInstance().getSymbologyStandard())){
+                if (SymbolUtilities.canSymbolHaveModifier(def.getBasicSymbolId(), ModifiersUnits.A_SYMBOL_ICON, RendererSettings.getInstance().getSymbologyStandard())) {
                     //render some text input
                 }
                 //etc
@@ -156,7 +156,7 @@ public class ListPicker implements View.OnClickListener, AdapterView.OnItemClick
             picker.dismiss();
             String code = def.getBasicSymbolId();
             if (code.charAt(1) == '*') {
-                code = code.substring(0,1) + charAffiliation + code.substring(2);
+                code = code.substring(0, 1) + charAffiliation + code.substring(2);
             }
             def.setSymbolCode(code);
             cb.selected(def);

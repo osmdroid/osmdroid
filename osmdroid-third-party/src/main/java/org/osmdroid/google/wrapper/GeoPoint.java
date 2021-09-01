@@ -8,47 +8,46 @@ import org.osmdroid.api.IGeoPoint;
  * {@link org.osmdroid.util.GeoPoint}.
  *
  * @author Neil Boyd
- *
  */
 @Deprecated
 public class GeoPoint implements IGeoPoint {
 
-	private final com.google.android.maps.GeoPoint mGeoPoint;
+    private final com.google.android.maps.GeoPoint mGeoPoint;
 
-	public GeoPoint(final com.google.android.maps.GeoPoint pGeoPoint) {
-		mGeoPoint = pGeoPoint;
-	}
+    public GeoPoint(final com.google.android.maps.GeoPoint pGeoPoint) {
+        mGeoPoint = pGeoPoint;
+    }
 
-	public int getLatitudeE6() {
-		return mGeoPoint.getLatitudeE6();
-	}
+    public int getLatitudeE6() {
+        return mGeoPoint.getLatitudeE6();
+    }
 
-	public int getLongitudeE6() {
-		return mGeoPoint.getLongitudeE6();
-	}
+    public int getLongitudeE6() {
+        return mGeoPoint.getLongitudeE6();
+    }
 
-	@Override
-	public double getLatitude() {
-		return mGeoPoint.getLatitudeE6() * 1E-6;
-	}
+    @Override
+    public double getLatitude() {
+        return mGeoPoint.getLatitudeE6() * 1E-6;
+    }
 
-	@Override
-	public double getLongitude() {
-		return mGeoPoint.getLongitudeE6() * 1E-6;
-	}
+    @Override
+    public double getLongitude() {
+        return mGeoPoint.getLongitudeE6() * 1E-6;
+    }
 
-	@Override
-	public boolean equals(final Object obj) {
-		if (obj == null) {
-			return false;
-		}
-		if (obj == this) {
-			return true;
-		}
-		if (obj.getClass() != getClass()) {
-			return false;
-		}
-		final GeoPoint rhs = (GeoPoint) obj;
-		return rhs.mGeoPoint.equals(this.mGeoPoint);
-	}
+    @Override
+    public boolean equals(final Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (obj == this) {
+            return true;
+        }
+        if (obj.getClass() != getClass()) {
+            return false;
+        }
+        final GeoPoint rhs = (GeoPoint) obj;
+        return rhs.mGeoPoint.equals(this.mGeoPoint);
+    }
 }

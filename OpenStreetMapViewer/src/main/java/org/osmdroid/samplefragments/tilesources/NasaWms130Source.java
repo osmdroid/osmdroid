@@ -10,10 +10,10 @@ import org.osmdroid.wms.WMSParser;
  * created on 8/20/2017.
  *
  * @author Alex O'Ree
- * @since 5.6.5
  * @see WMSLayer
  * @see WMSParser
  * @see WMSEndpoint
+ * @since 5.6.5
  */
 
 public class NasaWms130Source extends SampleWMSSource {
@@ -21,7 +21,8 @@ public class NasaWms130Source extends SampleWMSSource {
     public String getSampleTitle() {
         return "NASA WMS 1.3.0";
     }
-    protected String getDefaultUrl(){
+
+    protected String getDefaultUrl() {
         return "https://neo.sci.gsfc.nasa.gov/wms/wms?version=1.3.0&service=WMS&request=GetCapabilities";
     }
 

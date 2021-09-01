@@ -29,7 +29,8 @@ public abstract class BaseSampleFragment extends Fragment {
     private static int MENU_LAST_ID = Menu.FIRST; // Always set to last unused id
     public static final String TAG = "osmBaseFrag";
 
-    AlertDialog gotoLocationDialog=null;
+    AlertDialog gotoLocationDialog = null;
+
     public abstract String getSampleTitle();
 
     // ===========================================================
@@ -52,50 +53,50 @@ public abstract class BaseSampleFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mMapView = new MapView(inflater.getContext());
-            mMapView.setOnGenericMotionListener(new View.OnGenericMotionListener() {
-                /**
-                 * mouse wheel zooming ftw
-                 * http://stackoverflow.com/questions/11024809/how-can-my-view-respond-to-a-mousewheel
-                 * @param v
-                 * @param event
-                 * @return
-                 */
-                @Override
-                public boolean onGenericMotion(View v, MotionEvent event) {
-                    if (0 != (event.getSource() & InputDevice.SOURCE_CLASS_POINTER)) {
-                        switch (event.getAction()) {
-                            case MotionEvent.ACTION_SCROLL:
-                                if (event.getAxisValue(MotionEvent.AXIS_VSCROLL) < 0.0f)
-                                    mMapView.getController().zoomOut();
-                                else {
-                                    mMapView.getController().zoomIn();
-                                }
-                                return true;
-                        }
+        mMapView.setOnGenericMotionListener(new View.OnGenericMotionListener() {
+            /**
+             * mouse wheel zooming ftw
+             * http://stackoverflow.com/questions/11024809/how-can-my-view-respond-to-a-mousewheel
+             * @param v
+             * @param event
+             * @return
+             */
+            @Override
+            public boolean onGenericMotion(View v, MotionEvent event) {
+                if (0 != (event.getSource() & InputDevice.SOURCE_CLASS_POINTER)) {
+                    switch (event.getAction()) {
+                        case MotionEvent.ACTION_SCROLL:
+                            if (event.getAxisValue(MotionEvent.AXIS_VSCROLL) < 0.0f)
+                                mMapView.getController().zoomOut();
+                            else {
+                                mMapView.getController().zoomIn();
+                            }
+                            return true;
                     }
-                    return false;
                 }
-            });
+                return false;
+            }
+        });
         Log.d(TAG, "onCreateView");
         return mMapView;
     }
 
 
-	@Override
-	public void onPause(){
+    @Override
+    public void onPause() {
         if (mMapView != null) {
-		mMapView.onPause();
-	}
-		super.onPause();
-	}
+            mMapView.onPause();
+        }
+        super.onPause();
+    }
 
-	@Override
-	public void onResume(){
-		super.onResume();
-		if (mMapView != null) {
-		mMapView.onResume();
-	}
-	}
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mMapView != null) {
+            mMapView.onResume();
+        }
+    }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -111,11 +112,11 @@ public abstract class BaseSampleFragment extends Fragment {
             CopyrightOverlay copyrightOverlay = new CopyrightOverlay(getActivity());
             copyrightOverlay.setTextSize(10);
 
-			mMapView.getOverlays().add(copyrightOverlay);
-			mMapView.setMultiTouchControls(true);
-			mMapView.setTilesScaledToDpi(true);
-		}
-	}
+            mMapView.getOverlays().add(copyrightOverlay);
+            mMapView.setMultiTouchControls(true);
+            mMapView.setTilesScaledToDpi(true);
+        }
+    }
 
     @Override
     public void onDestroyView() {
@@ -130,7 +131,7 @@ public abstract class BaseSampleFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         Log.d(TAG, "onDestroy");
-        if (gotoLocationDialog!=null)
+        if (gotoLocationDialog != null)
             gotoLocationDialog.dismiss();
     }
 
@@ -219,21 +220,21 @@ public abstract class BaseSampleFragment extends Fragment {
             mMapView.setTilesScaledToDpi(!mMapView.isTilesScaledToDpi());
             mMapView.invalidate();
             return true;
-        } else if (item.getItemId() == MENU_ROTATE_CLOCKWISE){
+        } else if (item.getItemId() == MENU_ROTATE_CLOCKWISE) {
             float currentRotation = mMapView.getMapOrientation() + 10;
             if (currentRotation > 360)
-                currentRotation = currentRotation-360;
+                currentRotation = currentRotation - 360;
             mMapView.setMapOrientation(currentRotation, true);
 
             return true;
-        } else if (item.getItemId() == MENU_ROTATE_COUNTER_CLOCKWISE){
+        } else if (item.getItemId() == MENU_ROTATE_COUNTER_CLOCKWISE) {
             float currentRotation = mMapView.getMapOrientation() - 10;
             if (currentRotation < 0)
                 currentRotation = currentRotation + 360;
             mMapView.setMapOrientation(currentRotation, true);
             return true;
-        } else if (item.getItemId()==MENU_GOTO) {
-          //TODO dialog with lat/lon prompt
+        } else if (item.getItemId() == MENU_GOTO) {
+            //TODO dialog with lat/lon prompt
             //prompt for input params
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
@@ -263,7 +264,7 @@ public abstract class BaseSampleFragment extends Fragment {
                             throw new Exception();
                         GeoPoint pt = new GeoPoint(latd, lond);
                         mMapView.getController().animateTo(pt);
-                    }catch (Exception ex) {
+                    } catch (Exception ex) {
                         Toast.makeText(getActivity(), "Invalid input", Toast.LENGTH_SHORT).show();
                     }
                 }

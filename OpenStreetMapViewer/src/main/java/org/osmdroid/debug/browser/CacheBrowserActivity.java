@@ -16,8 +16,8 @@ import org.osmdroid.intro.StorageAdapter;
  * A simple view for browsing the osmdroid tile cache database
  * created on 12/20/2016.
  *
- * @see org.osmdroid.debug.CacheAnalyzerActivity
  * @author Alex O'Ree
+ * @see org.osmdroid.debug.CacheAnalyzerActivity
  * @since 5.6.2
  */
 

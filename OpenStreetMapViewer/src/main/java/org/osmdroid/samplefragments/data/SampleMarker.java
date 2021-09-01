@@ -23,7 +23,7 @@ import java.util.List;
  * An example on using osmbonuspack's Marker class by following the tutorial at
  * https://github.com/MKergall/osmbonuspack/wiki/Tutorial_0
  * https://github.com/MKergall/osmbonuspack/wiki/Tutorial_1
- *
+ * <p>
  * created on 12/29/2016.
  *
  * @author Alex O'Ree
@@ -36,7 +36,7 @@ public class SampleMarker extends BaseSampleFragment {
     }
 
     @Override
-    public void addOverlays(){
+    public void addOverlays() {
         super.addOverlays();
 
         final GeoPoint whiteHouse = new GeoPoint(38.8977, -77.0365);

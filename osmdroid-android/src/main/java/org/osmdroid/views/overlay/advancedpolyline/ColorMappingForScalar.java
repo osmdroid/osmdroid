@@ -5,10 +5,11 @@ import java.util.List;
 
 /**
  * An abstract {@link ColorMapping} populated by scalar data
- * @since 6.2.0
+ *
  * @author Fabrice Fontaine
+ * @since 6.2.0
  */
-public abstract class ColorMappingForScalar implements ColorMapping{
+public abstract class ColorMappingForScalar implements ColorMapping {
 
     private final List<Integer> mColors = new ArrayList<>();
 

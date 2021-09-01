@@ -23,11 +23,11 @@ import java.util.List;
  * There are three rendering algorithms:
  * NO_OPTIMIZATION: all points all drawn in every draw event
  * MEDIUM_OPTIMIZATION: not recommended for >10k points. Recalculates the grid index on each draw
- *     event and only draws one point per grid cell.
+ * event and only draws one point per grid cell.
  * MAXIMUM_OPTIMIZATION: for >10k points, only recalculates the grid on touch up, hence much faster.
- *     Performs well for 100k points.
- *
-  * TODO: a quadtree index would improve rendering speed!
+ * Performs well for 100k points.
+ * <p>
+ * TODO: a quadtree index would improve rendering speed!
  * TODO: an alternative to the CIRCLE shape, cause this is slow to render
  * Created by Miguel Porto on 25-10-2016.
  */
@@ -62,23 +62,28 @@ public class SimpleFastPointOverlay extends Overlay {
         }
     }
 
-    /** @return fast point overlay options (applied to all points) */
+    /**
+     * @return fast point overlay options (applied to all points)
+     */
     public SimpleFastPointOverlayOptions getStyle() {
         return mStyle;
     }
 
     public interface PointAdapter extends Iterable<IGeoPoint> {
         int size();
+
         IGeoPoint get(int i);
 
         /**
          * Whether this adapter has labels
+         *
          * @return
          */
         boolean isLabelled();
 
         /**
          * Whether the points are individually styled
+         *
          * @return
          */
         boolean isStyled();
@@ -93,15 +98,15 @@ public class SimpleFastPointOverlay extends Overlay {
         mPointList = pointList;
 
         Double east = null, west = null, north = null, south = null;
-        for(IGeoPoint p : mPointList) {
-            if(p == null) continue;
-            if(east == null || p.getLongitude() > east) east = p.getLongitude();
-            if(west == null || p.getLongitude() < west) west = p.getLongitude();
-            if(north == null || p.getLatitude() > north) north = p.getLatitude();
-            if(south == null || p.getLatitude() < south) south = p.getLatitude();
+        for (IGeoPoint p : mPointList) {
+            if (p == null) continue;
+            if (east == null || p.getLongitude() > east) east = p.getLongitude();
+            if (west == null || p.getLongitude() < west) west = p.getLongitude();
+            if (north == null || p.getLatitude() > north) north = p.getLatitude();
+            if (south == null || p.getLatitude() < south) south = p.getLatitude();
         }
 
-        if(east != null)
+        if (east != null)
             mBoundingBox = new BoundingBox(north, east, south, west);
         else
             mBoundingBox = null;
@@ -126,6 +131,7 @@ public class SimpleFastPointOverlay extends Overlay {
      * Re-calculates which points to be shown and their coordinates
      * TODO: this could be further optimized for speed, for example, the grid could be calculated
      * in geographic coordinates, instead of projected. N.B. the speed bottleneck is pj.toPixels()
+     *
      * @param pMapView
      */
     private void computeGrid(final MapView pMapView) {
@@ -136,7 +142,7 @@ public class SimpleFastPointOverlay extends Overlay {
         startProjection = pMapView.getProjection();
 
         // do not compute grid if BBox is the same
-        if(viewBBox.getLatNorth() != prevBoundingBox.getLatNorth()
+        if (viewBBox.getLatNorth() != prevBoundingBox.getLatNorth()
                 || viewBBox.getLatSouth() != prevBoundingBox.getLatSouth()
                 || viewBBox.getLonWest() != prevBoundingBox.getLonWest()
                 || viewBBox.getLonEast() != prevBoundingBox.getLonEast()) {
@@ -170,13 +176,13 @@ public class SimpleFastPointOverlay extends Overlay {
                     gridX = (int) Math.floor((float) mPositionPixels.x / mStyle.mCellSize);
                     gridY = (int) Math.floor((float) mPositionPixels.y / mStyle.mCellSize);
                     if (gridX >= gridWid || gridY >= gridHei || gridX < 0 || gridY < 0
-                        || gridBool[gridX][gridY])
+                            || gridBool[gridX][gridY])
                         continue;
                     gridBool[gridX][gridY] = true;
                     gridIndex.add(new StyledLabelledPoint(mPositionPixels
-                        , mPointList.isLabelled() ? ((LabelledGeoPoint) pt1).getLabel() : null
-                        , mPointList.isStyled() ? ((StyledLabelledGeoPoint) pt1).getPointStyle() : null
-                        , mPointList.isStyled() ? ((StyledLabelledGeoPoint) pt1).getTextStyle() : null
+                            , mPointList.isLabelled() ? ((LabelledGeoPoint) pt1).getLabel() : null
+                            , mPointList.isStyled() ? ((StyledLabelledGeoPoint) pt1).getPointStyle() : null
+                            , mPointList.isStyled() ? ((StyledLabelledGeoPoint) pt1).getTextStyle() : null
                     ));
                     numLabels++;
                 }
@@ -186,7 +192,7 @@ public class SimpleFastPointOverlay extends Overlay {
 
     @Override
     public boolean onTouchEvent(MotionEvent event, final MapView mapView) {
-        if(mStyle.mAlgorithm !=
+        if (mStyle.mAlgorithm !=
                 SimpleFastPointOverlayOptions.RenderingAlgorithm.MAXIMUM_OPTIMIZATION) return false;
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
@@ -213,38 +219,39 @@ public class SimpleFastPointOverlay extends Overlay {
      */
     @Override
     public boolean onSingleTapConfirmed(final MotionEvent event, final MapView mapView) {
-        if(!mStyle.mClickable) return false;
+        if (!mStyle.mClickable) return false;
         float hyp;
         Float minHyp = null;
         int closest = -1;
         Point tmp = new Point();
         Projection pj = mapView.getProjection();
 
-        for(int i = 0; i < mPointList.size(); i++) {
-            if(mPointList.get(i) == null) continue;
+        for (int i = 0; i < mPointList.size(); i++) {
+            if (mPointList.get(i) == null) continue;
             // TODO avoid projecting coordinates, do a test before calling next line
             pj.toPixels(mPointList.get(i), tmp);
-            if(Math.abs(event.getX() - tmp.x) > 50 || Math.abs(event.getY() - tmp.y) > 50) continue;
+            if (Math.abs(event.getX() - tmp.x) > 50 || Math.abs(event.getY() - tmp.y) > 50) continue;
             hyp = (event.getX() - tmp.x) * (event.getX() - tmp.x)
                     + (event.getY() - tmp.y) * (event.getY() - tmp.y);
-            if(minHyp == null || hyp < minHyp) {
+            if (minHyp == null || hyp < minHyp) {
                 minHyp = hyp;
                 closest = i;
             }
         }
-        if(minHyp == null) return false;
+        if (minHyp == null) return false;
         setSelectedPoint(closest);
         mapView.invalidate();
-        if(clickListener != null) clickListener.onClick(mPointList, closest);
+        if (clickListener != null) clickListener.onClick(mPointList, closest);
         return true;
     }
 
     /**
      * Sets the highlighted point. App must invalidate the MapView.
+     *
      * @param toSelect The index of the point (zero-based) in the original list.
      */
     public void setSelectedPoint(Integer toSelect) {
-        if(toSelect == null || toSelect < 0 || toSelect >= mPointList.size())
+        if (toSelect == null || toSelect < 0 || toSelect >= mPointList.size())
             mSelectedPoint = null;
         else
             mSelectedPoint = toSelect;
@@ -271,7 +278,7 @@ public class SimpleFastPointOverlay extends Overlay {
         boolean showLabels;
         Paint textStyle;
 
-        if(mStyle.mPointStyle != null || mPointList.isStyled()) {
+        if (mStyle.mPointStyle != null || mPointList.isStyled()) {
             switch (mStyle.mAlgorithm) {
                 case MAXIMUM_OPTIMIZATION:
                     // optimized for speed, recommended for > 10k points
@@ -377,11 +384,11 @@ public class SimpleFastPointOverlay extends Overlay {
             }
         }
 
-        if(mSelectedPoint != null && mSelectedPoint < mPointList.size() &&
+        if (mSelectedPoint != null && mSelectedPoint < mPointList.size() &&
                 mPointList.get(mSelectedPoint) != null
                 && mStyle.mSelectedPointStyle != null) {
             pj.toPixels(mPointList.get(mSelectedPoint), mPositionPixels);
-            if(mStyle.mSymbol == SimpleFastPointOverlayOptions.Shape.CIRCLE)
+            if (mStyle.mSymbol == SimpleFastPointOverlayOptions.Shape.CIRCLE)
                 canvas.drawCircle(mPositionPixels.x, mPositionPixels.y
                         , mStyle.mSelectedCircleRadius, mStyle.mSelectedPointStyle);
             else
@@ -396,14 +403,14 @@ public class SimpleFastPointOverlay extends Overlay {
     protected void drawPointAt(Canvas canvas, float x, float y, boolean showLabel, String label, Paint pointStyle, Paint textStyle, MapView pMapView) {
         canvas.save();
         canvas.rotate(-pMapView.getMapOrientation(), x, y);
-        if(mStyle.mSymbol == SimpleFastPointOverlayOptions.Shape.CIRCLE)
+        if (mStyle.mSymbol == SimpleFastPointOverlayOptions.Shape.CIRCLE)
             canvas.drawCircle(x, y, mStyle.mCircleRadius, pointStyle);
         else
             canvas.drawRect(x - mStyle.mCircleRadius, y - mStyle.mCircleRadius
                     , x + mStyle.mCircleRadius, y + mStyle.mCircleRadius
                     , pointStyle);
 
-        if(showLabel && label != null)
+        if (showLabel && label != null)
             canvas.drawText(label, x, y - mStyle.mCircleRadius - 5, textStyle);
         canvas.restore();
     }

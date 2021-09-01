@@ -5,11 +5,12 @@ import org.osmdroid.views.util.constants.MathConstants;
 
 /**
  * Listing the vertices for a slice of the path between two distances
+ *
  * @author Fabrice Fontaine
  * @since 6.0.2
  */
 
-public class MilestoneMeterDistanceSliceLister extends MilestoneLister{
+public class MilestoneMeterDistanceSliceLister extends MilestoneLister {
 
     private enum Step {
         STEP_INIT,
@@ -41,7 +42,7 @@ public class MilestoneMeterDistanceSliceLister extends MilestoneLister{
         if (mStep == Step.STEP_ENDED) {
             return;
         }
-        double currentDistance = getDistance(++ mIndex);
+        double currentDistance = getDistance(++mIndex);
         if (currentDistance == 0) {
             return;
         }

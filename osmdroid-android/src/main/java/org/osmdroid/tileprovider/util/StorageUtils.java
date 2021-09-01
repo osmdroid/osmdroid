@@ -46,7 +46,7 @@ public class StorageUtils {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
                 // gives more accurate information
                 this.freeSpace = new StatFs(path).getAvailableBytes();
-            } else if (Build.VERSION.SDK_INT >=  Build.VERSION_CODES.GINGERBREAD) {
+            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
                 this.freeSpace = new File(path).getFreeSpace();
             }
 
@@ -120,7 +120,7 @@ public class StorageUtils {
 
     /**
      * Detects all available storage locations, writable or not.
-     *
+     * <p>
      * Attention! If context==null this method only gets storage locations that are context
      * independent. Especially it will not return application specific paths like getFilesDir() or
      * getCacheDir(), which might lead to problems especially on API29 and up due to scoped storage
@@ -202,7 +202,7 @@ public class StorageUtils {
         storageInfos.add(new StorageInfo(context.getFilesDir().getAbsolutePath(), true, false, -1));
 
         ArrayList<File> storageDirs = new ArrayList<>();
-        File[] externalDirs = context.getExternalFilesDirs( null);
+        File[] externalDirs = context.getExternalFilesDirs(null);
 
         for (File externalDir : externalDirs) {
             // "Returned paths may be null if a storage device is unavailable."
@@ -225,7 +225,7 @@ public class StorageUtils {
 
     /**
      * Gets the best possible storage location by free space
-     *
+     * <p>
      * Attention! This method only gets storage locations that are context independent. Especially
      * it does not return application specific paths like getFilesDir() or getCacheDir(), which
      * might lead to problems especially on API29 and up due to scoped storage restrictions, where
@@ -242,7 +242,7 @@ public class StorageUtils {
 
     /**
      * Gets the best possible storage location by free space
-     *
+     * <p>
      * Attention! This method only gets storage locations that are context independent. Especially
      * it does not return application specific paths like getFilesDir() or getCacheDir(), which
      * might lead to problems especially on API29 and up due to scoped storage restrictions.
@@ -252,12 +252,12 @@ public class StorageUtils {
      * @return A {@link StorageInfo} object.
      */
     public static StorageInfo getBestWritableStorage() {
-       return getBestWritableStorage(null);
+        return getBestWritableStorage(null);
     }
 
     /**
      * Gets the best possible storage location by free space
-     *
+     * <p>
      * Attention! If context==null this method only gets storage locations that are context
      * independent. Especially it will not return application specific paths like getFilesDir() or
      * getCacheDir(), which might lead to problems especially on API29 and up due to scoped storage
@@ -277,7 +277,7 @@ public class StorageUtils {
 
     /**
      * Gets the best possible storage location by free space
-     *
+     * <p>
      * Attention! If context==null this method only gets storage locations that are context
      * independent. Especially it will not return application specific paths like getFilesDir() or
      * getCacheDir(), which might lead to problems especially on API29 and up due to scoped storage
@@ -305,8 +305,8 @@ public class StorageUtils {
     }
 
     /**
-     * @deprecated As of 6.1.7, will be removed in the future.
      * @return True if the primary shared storage is available. False otherwise.
+     * @deprecated As of 6.1.7, will be removed in the future.
      */
     @Deprecated
     public static boolean isAvailable() {
@@ -322,8 +322,8 @@ public class StorageUtils {
     }
 
     /**
-     * @deprecated As of 6.1.7, will be removed in the future.
      * @return The path of the primary shared storage.
+     * @deprecated As of 6.1.7, will be removed in the future.
      */
     @Deprecated
     public static String getSdCardPath() {

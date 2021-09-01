@@ -33,7 +33,7 @@ public class SampleCopyrightOverlay extends BaseSampleFragment {
         copyrightOverlay.setTextSize(20);
         copyrightOverlay.setAlignBottom(true);
         copyrightOverlay.setAlignRight(false);
-        copyrightOverlay.setOffset(20,40);
+        copyrightOverlay.setOffset(20, 40);
         //with align bottom and left, this should be 20dp from the bottom, 20dp from the left
 
         mMapView.getOverlays().add(copyrightOverlay);

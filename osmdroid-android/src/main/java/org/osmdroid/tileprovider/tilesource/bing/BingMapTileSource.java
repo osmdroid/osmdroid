@@ -106,7 +106,7 @@ public class BingMapTileSource extends QuadTreeTileSource implements IStyledTile
         mBingMapKey = key;
     }
 
-	/*-------------- overrides OnlineTileSourceBase ---------------------*/
+    /*-------------- overrides OnlineTileSourceBase ---------------------*/
 
     @Override
     public String getBaseUrl() {
@@ -170,7 +170,7 @@ public class BingMapTileSource extends QuadTreeTileSource implements IStyledTile
         return mImageryData.copyright;
     }
 
-	/*--------------- IStyledTileSource --------------------*/
+    /*--------------- IStyledTileSource --------------------*/
 
     @Override
     /**

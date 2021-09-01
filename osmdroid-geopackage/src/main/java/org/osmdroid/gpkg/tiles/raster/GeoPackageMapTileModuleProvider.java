@@ -130,11 +130,11 @@ public class GeoPackageMapTileModuleProvider extends MapTileModuleProviderBase {
                 ProjectionTransform transform = tileDao.getProjection().getTransformation(ProjectionConstants.EPSG_WORLD_GEODETIC_SYSTEM);
                 mil.nga.geopackage.BoundingBox boundingBox = transform.transform(tileDao.getBoundingBox());
                 BoundingBox bounds = new BoundingBox(Math.min(tileSystem.getMaxLatitude(), boundingBox.getMaxLatitude()),
-                    boundingBox.getMaxLongitude(),
-                    Math.max(tileSystem.getMinLatitude(), boundingBox.getMinLatitude()),
-                    boundingBox.getMinLongitude());
+                        boundingBox.getMaxLongitude(),
+                        Math.max(tileSystem.getMinLatitude(), boundingBox.getMinLatitude()),
+                        boundingBox.getMinLongitude());
 
-                srcs.add(new GeopackageRasterTileSource(databases.get(i), tileTables.get(k), (int)tileDao.getMinZoom(), (int)tileDao.getMaxZoom(), bounds));
+                srcs.add(new GeopackageRasterTileSource(databases.get(i), tileTables.get(k), (int) tileDao.getMinZoom(), (int) tileDao.getMaxZoom(), bounds));
             }
             open.close();
         }
@@ -160,10 +160,10 @@ public class GeoPackageMapTileModuleProvider extends MapTileModuleProviderBase {
             mil.nga.geopackage.BoundingBox boundingBox = transform.transform(tileDao.getBoundingBox());
 
             BoundingBox bounds = new BoundingBox(Math.min(tileSystem.getMaxLatitude(), boundingBox.getMaxLatitude()),
-                boundingBox.getMaxLongitude(),
-                Math.max(tileSystem.getMinLatitude(), boundingBox.getMinLatitude()),
-                boundingBox.getMinLongitude());
-            srcs.add(new GeopackageRasterTileSource(database, tileTables.get(k), (int)tileDao.getMinZoom(), (int)tileDao.getMaxZoom(), bounds));
+                    boundingBox.getMaxLongitude(),
+                    Math.max(tileSystem.getMinLatitude(), boundingBox.getMinLatitude()),
+                    boundingBox.getMinLongitude());
+            srcs.add(new GeopackageRasterTileSource(database, tileTables.get(k), (int) tileDao.getMinZoom(), (int) tileDao.getMaxZoom(), bounds));
 
         }
         open.close();

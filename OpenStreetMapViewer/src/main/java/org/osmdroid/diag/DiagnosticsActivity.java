@@ -1,7 +1,6 @@
 package org.osmdroid.diag;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.hardware.Sensor;
@@ -22,7 +21,6 @@ import android.widget.TextView;
 import org.osmdroid.R;
 import org.osmdroid.tileprovider.util.StorageUtils;
 
-import java.io.File;
 import java.util.Iterator;
 import java.util.List;
 

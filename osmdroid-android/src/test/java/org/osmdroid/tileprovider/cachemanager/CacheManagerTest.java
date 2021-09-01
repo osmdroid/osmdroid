@@ -83,16 +83,17 @@ public class CacheManagerTest {
     /**
      * An old way of collecting tile points for the given zoom. It's kept purely for testing against
      * the next implementation.
-     * @param pBB the given bounding box
+     *
+     * @param pBB        the given bounding box
      * @param pZoomLevel the given zoom level
      * @return the collection of matching points
      */
-    private static Collection<Long> getTilesCoverage(final BoundingBox pBB, final int pZoomLevel){
+    private static Collection<Long> getTilesCoverage(final BoundingBox pBB, final int pZoomLevel) {
         final Set<Long> result = new LinkedHashSet<>();
         final int mapTileUpperBound = 1 << pZoomLevel;
         final Rect rect = CacheManager.getTilesRect(pBB, pZoomLevel);
-        for (int j = rect.top ; j <= rect.bottom ; j ++) {
-            for (int i = rect.left ; i <= rect.right ; i ++) { // x incrementing first for the test
+        for (int j = rect.top; j <= rect.bottom; j++) {
+            for (int i = rect.left; i <= rect.right; i++) { // x incrementing first for the test
                 final int x = MyMath.mod(i, mapTileUpperBound);
                 final int y = MyMath.mod(j, mapTileUpperBound);
                 result.add(MapTileIndex.getTileIndex(pZoomLevel, x, y));
@@ -108,7 +109,7 @@ public class CacheManagerTest {
     public void testGetTilesRectSingleTile() {
         final TileSystem tileSystem = MapView.getTileSystem();
         final BoundingBox box = new BoundingBox();
-        for (int zoom = 0 ; zoom <= TileSystem.getMaximumZoomLevel() ; zoom ++) {
+        for (int zoom = 0; zoom <= TileSystem.getMaximumZoomLevel(); zoom++) {
             final double longitude = tileSystem.getRandomLongitude(mRandom.nextDouble());
             final double latitude = tileSystem.getRandomLatitude(mRandom.nextDouble());
             box.set(latitude, longitude, latitude, longitude); // single point
@@ -127,7 +128,7 @@ public class CacheManagerTest {
         final BoundingBox box = new BoundingBox( // whole world
                 tileSystem.getMaxLatitude(), tileSystem.getMaxLongitude(),
                 tileSystem.getMinLatitude(), tileSystem.getMinLongitude());
-        for (int zoom = 0 ; zoom <= TileSystem.getMaximumZoomLevel() ; zoom ++) {
+        for (int zoom = 0; zoom <= TileSystem.getMaximumZoomLevel(); zoom++) {
             final Rect rect = CacheManager.getTilesRect(box, zoom);
             Assert.assertEquals(0, rect.left);
             Assert.assertEquals(0, rect.top);

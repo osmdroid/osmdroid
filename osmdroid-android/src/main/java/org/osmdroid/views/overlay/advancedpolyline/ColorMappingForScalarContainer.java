@@ -15,8 +15,9 @@ import java.util.List;
  * * then call {@link #refresh()} and the colors ({@link ColorMapping#getColorForIndex(int)})
  * will reflect the new set-up
  * cf. https://github.com/osmdroid/osmdroid/issues/1551
- * @since 6.1.7
+ *
  * @author Fabrice Fontaine
+ * @since 6.1.7
  */
 public class ColorMappingForScalarContainer {
 
@@ -60,7 +61,7 @@ public class ColorMappingForScalarContainer {
         int i = 0;
         for (final float scalar : mScalars) {
             mInnerMapping.set(i, scalar);
-            i ++;
+            i++;
         }
     }
 }

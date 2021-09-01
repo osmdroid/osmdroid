@@ -12,9 +12,8 @@ import org.osmdroid.views.Projection;
 import java.util.Random;
 
 /**
- * @since 6.0.0
  * @author Fabrice Fontaine
- *
+ * <p>
  * VERY IMPORTANT NOTICE
  * In class Projection, don't use syntaxes like Point.set, Point.offset or Point.center.
  * Use "Point.x=" and "Point.y=" syntaxes instead. Same for Rect.
@@ -24,7 +23,7 @@ import java.util.Random;
  * As a result, using it in Unit Test is a bit heavier.
  * I prefer the light version of unit test.
  * For more info, search "android unit test mock"
- *
+ * @since 6.0.0
  */
 
 public class ProjectionTest {
@@ -38,6 +37,7 @@ public class ProjectionTest {
     private static final Rect mMiniMapScreenRect = new Rect();
     private static final int mWidth = 600;
     private static final int mHeight = 800;
+
     static {
         mScreenRect.left = 0;
         mScreenRect.top = 0;
@@ -48,6 +48,7 @@ public class ProjectionTest {
         mMiniMapScreenRect.right = mMiniMapScreenRect.left + mWidth / 4;
         mMiniMapScreenRect.bottom = mMiniMapScreenRect.top + mHeight / 4;
     }
+
     private static final TileSystem tileSystem = new TileSystemWebMercator();
 
     /**
@@ -55,9 +56,9 @@ public class ProjectionTest {
      */
     @Test
     public void testCenteredGeoPoint() {
-        for (int zoomLevel = mMinZoomLevel; zoomLevel <= mMaxZoomLevel; zoomLevel ++) {
+        for (int zoomLevel = mMinZoomLevel; zoomLevel <= mMaxZoomLevel; zoomLevel++) {
             final double mapSize = TileSystem.MapSize((double) zoomLevel);
-            for (int i = 0; i < mNbIterations; i ++) {
+            for (int i = 0; i < mNbIterations; i++) {
                 final GeoPoint geoPoint = getRandomGeoPoint();
                 final Projection projection = getRandomProjection(zoomLevel, geoPoint, 0, 0);
                 final Point pixel = projection.toPixels(geoPoint, null);
@@ -92,8 +93,8 @@ public class ProjectionTest {
         final int centerY = (mScreenRect.bottom + mScreenRect.top) / 2;
         final int miniCenterX = (mMiniMapScreenRect.right + mMiniMapScreenRect.left) / 2;
         final int miniCenterY = (mMiniMapScreenRect.bottom + mMiniMapScreenRect.top) / 2;
-        for (int zoomLevel = mMinZoomLevel + mMinimapZoomLevelDifference; zoomLevel <= mMaxZoomLevel; zoomLevel ++) {
-            for (int i = 0; i < mNbIterations; i ++) {
+        for (int zoomLevel = mMinZoomLevel + mMinimapZoomLevelDifference; zoomLevel <= mMaxZoomLevel; zoomLevel++) {
+            for (int i = 0; i < mNbIterations; i++) {
                 final Projection projection = getRandomProjection(zoomLevel);
                 final Projection miniMapProjection = projection.getOffspring(zoomLevel - mMinimapZoomLevelDifference, mMiniMapScreenRect);
 
@@ -111,9 +112,9 @@ public class ProjectionTest {
     @Test
     public void testPixelToGeoToPixel() {
         final int deltaPixel = 2;
-        for (int zoomLevel = mMinZoomLevel; zoomLevel <= mMaxZoomLevel; zoomLevel ++) {
-            final double mapSize = TileSystem.MapSize((double)zoomLevel);
-            for (int i = 0; i < mNbIterations; i ++) {
+        for (int zoomLevel = mMinZoomLevel; zoomLevel <= mMaxZoomLevel; zoomLevel++) {
+            final double mapSize = TileSystem.MapSize((double) zoomLevel);
+            for (int i = 0; i < mNbIterations; i++) {
                 final Point pixelIn = getRandomPixel(mapSize);
                 final Projection projection = getRandomProjection(zoomLevel);
                 final IGeoPoint geoPoint = projection.fromPixels(pixelIn.x, pixelIn.y);
@@ -142,7 +143,7 @@ public class ProjectionTest {
         final RectL mercatorViewPort = new RectL();
         final Rect tiles = new Rect();
         final Rect displayedTile = new Rect();
-        for (int iteration = 0; iteration < mNbIterations; iteration ++) {
+        for (int iteration = 0; iteration < mNbIterations; iteration++) {
             final double zoomLevel = getRandomZoom();
             final double tileSize = TileSystem.getTileSize(zoomLevel);
             final Projection projection = getRandomProjection(zoomLevel);
@@ -157,8 +158,8 @@ public class ProjectionTest {
 
             int previousX = 0;
             int previousY = 0;
-            for (int i = tiles.left ; i <= tiles.right ; i ++) {
-                for (int j = tiles.top ; j <= tiles.bottom ; j ++) {
+            for (int i = tiles.left; i <= tiles.right; i++) {
+                for (int j = tiles.top; j <= tiles.bottom; j++) {
                     projection.getPixelFromTile(i, j, displayedTile);
                     if (j == tiles.bottom) {
                         Assert.assertTrue(displayedTile.bottom >= mHeight);
@@ -217,8 +218,8 @@ public class ProjectionTest {
 
     private Point getRandomPixel(final double pMapSize) {
         final Point pixel = new Point();
-        pixel.x = mRandom.nextInt((int)Math.min(mWidth, (long) pMapSize));
-        pixel.y = mRandom.nextInt((int)Math.min(mHeight, (long) pMapSize));
+        pixel.x = mRandom.nextInt((int) Math.min(mWidth, (long) pMapSize));
+        pixel.y = mRandom.nextInt((int) Math.min(mHeight, (long) pMapSize));
         return pixel;
     }
 
@@ -249,7 +250,7 @@ public class ProjectionTest {
     }
 
     private float getRandomOrientation() {
-        return (float)getRandom(-180, 180);
+        return (float) getRandom(-180, 180);
     }
 
     private Projection getRandomProjection(
@@ -277,7 +278,7 @@ public class ProjectionTest {
      */
     @Test
     public void test_conversionFromPixelsToPixels() {
-        for (int zoomLevel = mMinZoomLevel; zoomLevel <= mMaxZoomLevel; zoomLevel ++) {
+        for (int zoomLevel = mMinZoomLevel; zoomLevel <= mMaxZoomLevel; zoomLevel++) {
             final Projection projection = new Projection(
                     zoomLevel,
                     new Rect(0, 0, 1080, 1536),

@@ -9,20 +9,20 @@ import org.osmdroid.samplefragments.BaseSampleFragment;
  */
 public class SampleZoomRounding extends BaseSampleFragment {
 
-	// ===========================================================
-	// Constants
-	// ===========================================================
+    // ===========================================================
+    // Constants
+    // ===========================================================
 
-	public static final String TITLE = "Zoom Rounding";
+    public static final String TITLE = "Zoom Rounding";
 
-	@Override
-	public String getSampleTitle() {
-		return TITLE;
-	}
+    @Override
+    public String getSampleTitle() {
+        return TITLE;
+    }
 
-	@Override
-	protected void addOverlays() {
-		super.addOverlays();
-		mMapView.setZoomRounding(true);
-	}
+    @Override
+    protected void addOverlays() {
+        super.addOverlays();
+        mMapView.setZoomRounding(true);
+    }
 }

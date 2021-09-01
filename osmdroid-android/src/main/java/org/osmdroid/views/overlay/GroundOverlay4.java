@@ -10,10 +10,11 @@ import org.osmdroid.views.Projection;
 
 /**
  * Place an image on the map, each corner of the image being associated with a {@link GeoPoint}
- * @since 6.1.1
+ *
  * @author Fabrice Fontaine
  * Triggered by issue 1361 (https://github.com/osmdroid/osmdroid/issues/1361)
  * Inspired by {@link GroundOverlay2}
+ * @since 6.1.1
  * @deprecated Use {@link GroundOverlay} instead
  */
 @Deprecated
@@ -44,26 +45,26 @@ public class GroundOverlay4 extends Overlay {
         return mImage;
     }
 
-    public float getBearing(){
+    public float getBearing() {
         return mBearing;
     }
 
-    public void setBearing(final float pBearing){
+    public void setBearing(final float pBearing) {
         mBearing = pBearing;
     }
 
-    public void setTransparency(final float pTransparency){
+    public void setTransparency(final float pTransparency) {
         mTransparency = pTransparency;
-        mPaint.setAlpha(255-(int)(mTransparency * 255));
+        mPaint.setAlpha(255 - (int) (mTransparency * 255));
     }
 
-    public float getTransparency(){
+    public float getTransparency() {
         return mTransparency;
     }
 
     @Override
     public void draw(final Canvas pCanvas, final Projection pProjection) {
-        if(mImage == null) {
+        if (mImage == null) {
             return;
         }
         computeMatrix(pProjection);
@@ -78,7 +79,7 @@ public class GroundOverlay4 extends Overlay {
     private GeoPoint mBottomRight;
     private GeoPoint mBottomLeft;
 
-    public void setImage(final Bitmap pImage){
+    public void setImage(final Bitmap pImage) {
         mImage = pImage;
         if (getImage() == null) {
             return;

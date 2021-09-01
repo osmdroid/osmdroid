@@ -21,9 +21,10 @@ import java.util.List;
 
 public class StorageAdapter extends ArrayAdapter {
     List<StorageUtils.StorageInfo> data;
+
     public StorageAdapter(Context context, List<StorageUtils.StorageInfo> data) {
         super(context, R.layout.layout_storage_device);
-        this.data=data;
+        this.data = data;
     }
 
     @Override
@@ -35,11 +36,12 @@ public class StorageAdapter extends ArrayAdapter {
     public Object getItem(int id) {
         return data.get(id);
     }
+
     public static String readableFileSize(long size) {
-        if(size <= 0) return "0";
-        final String[] units = new String[] { "B", "kB", "MB", "GB", "TB" };
-        int digitGroups = (int) (Math.log10(size)/Math.log10(1024));
-        return new DecimalFormat("#,##0.#").format(size/Math.pow(1024, digitGroups)) + " " + units[digitGroups];
+        if (size <= 0) return "0";
+        final String[] units = new String[]{"B", "kB", "MB", "GB", "TB"};
+        int digitGroups = (int) (Math.log10(size) / Math.log10(1024));
+        return new DecimalFormat("#,##0.#").format(size / Math.pow(1024, digitGroups)) + " " + units[digitGroups];
     }
 
     @Override
@@ -53,8 +55,8 @@ public class StorageAdapter extends ArrayAdapter {
         if (info != null) {
             // Find fields to populate in inflated template
             TextView drive = convertView.findViewById(R.id.storageName);
-            TextView frespace= convertView.findViewById(R.id.storageFreespace);
-            TextView path= convertView.findViewById(R.id.storagePath);
+            TextView frespace = convertView.findViewById(R.id.storageFreespace);
+            TextView path = convertView.findViewById(R.id.storagePath);
             drive.setText(info.getDisplayName());
             frespace.setText("Free space: " + readableFileSize(info.freeSpace));
             path.setText(info.path);

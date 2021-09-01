@@ -11,20 +11,20 @@ import java.util.Map;
  * Created by alex on 6/16/16.
  */
 public class Counters {
-    static final String TAG="osmCounters";
+    static final String TAG = "osmCounters";
     /**
      * out of memory errors
      */
-    public static int countOOM =0;
+    public static int countOOM = 0;
 
-    public static int tileDownloadErrors=0;
+    public static int tileDownloadErrors = 0;
 
-    public static int fileCacheSaveErrors=0;
+    public static int fileCacheSaveErrors = 0;
 
-    public static int fileCacheMiss=0;
+    public static int fileCacheMiss = 0;
 
-    public static int fileCacheOOM=0;
-    public static int fileCacheHit=0;
+    public static int fileCacheOOM = 0;
+    public static int fileCacheHit = 0;
 
     /**
      * @since 6.2.0
@@ -39,13 +39,14 @@ public class Counters {
         Log.d(TAG, "fileCacheOOM " + fileCacheOOM);
         Log.d(TAG, "fileCacheHit " + fileCacheHit);
     }
-    public static void reset(){
-        countOOM =0;
-        tileDownloadErrors=0;
-        fileCacheSaveErrors=0;
-        fileCacheMiss=0;
-        fileCacheOOM=0;
-        fileCacheHit=0;
+
+    public static void reset() {
+        countOOM = 0;
+        tileDownloadErrors = 0;
+        fileCacheSaveErrors = 0;
+        fileCacheMiss = 0;
+        fileCacheOOM = 0;
+        fileCacheHit = 0;
     }
 
     /**

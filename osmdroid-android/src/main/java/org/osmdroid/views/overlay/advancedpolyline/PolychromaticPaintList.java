@@ -8,8 +8,9 @@ import org.osmdroid.views.overlay.PaintList;
 
 /**
  * A real {@link PaintList} with potentially different colors for each segment, and linear gradients
- * @since 6.2.0
+ *
  * @author Fabrice Fontaine
+ * @since 6.2.0
  */
 public class PolychromaticPaintList implements PaintList {
 
@@ -18,9 +19,9 @@ public class PolychromaticPaintList implements PaintList {
     private final boolean mUseGradient;
 
     /**
-     * @param pPaint Basis Paint
+     * @param pPaint        Basis Paint
      * @param pColorMapping from where we get the color to use for each geo segment
-     * @param pUseGradient should we use a gradient from this segment's color to the next segment's
+     * @param pUseGradient  should we use a gradient from this segment's color to the next segment's
      */
     public PolychromaticPaintList(final Paint pPaint, final ColorMapping pColorMapping, final boolean pUseGradient) {
         mPaint = pPaint;

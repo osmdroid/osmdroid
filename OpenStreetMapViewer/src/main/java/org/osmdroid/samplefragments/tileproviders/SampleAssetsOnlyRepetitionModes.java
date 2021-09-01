@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+
 import org.osmdroid.R;
 import org.osmdroid.samplefragments.BaseSampleFragment;
 import org.osmdroid.util.BoundingBox;
@@ -39,20 +40,23 @@ public class SampleAssetsOnlyRepetitionModes extends BaseSampleFragment {
         limitBoundsCb.setChecked(false);
 
         horizontalCb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 mMapView.setHorizontalMapRepetitionEnabled(isChecked);
             }
         });
 
         verticalCb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 mMapView.setVerticalMapRepetitionEnabled(isChecked);
             }
         });
 
         limitBoundsCb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked) {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
                     mMapView.setScrollableAreaLimitDouble(new BoundingBox(
                             mMapView.getTileSystem().getMaxLatitude(), mMapView.getTileSystem().getMaxLongitude(),
                             mMapView.getTileSystem().getMinLatitude(), mMapView.getTileSystem().getMinLongitude()));

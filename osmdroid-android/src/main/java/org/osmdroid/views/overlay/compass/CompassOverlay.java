@@ -69,7 +69,7 @@ public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOr
     protected final float mCompassFrameCenterY;
     protected final float mCompassRoseCenterX;
     protected final float mCompassRoseCenterY;
-    protected long mLastRender =0;
+    protected long mLastRender = 0;
     public static final int MENU_COMPASS = getSafeMenuId();
 
     private boolean mOptionsMenuEnabled = true;
@@ -106,7 +106,7 @@ public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOr
 
         mMapView = mapView;
         final WindowManager windowManager = (WindowManager) context
-            .getSystemService(Context.WINDOW_SERVICE);
+                .getSystemService(Context.WINDOW_SERVICE);
         mDisplay = windowManager.getDefaultDisplay();
 
         createCompassFramePicture();
@@ -198,7 +198,7 @@ public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOr
 
         // Expand by 2 to cover stroke width
         mMapView.postInvalidateMapCoordinates(frameLeft - 2, frameTop - 2, frameRight + 2,
-            frameBottom + 2);
+                frameBottom + 2);
     }
 
     // ===========================================================
@@ -240,7 +240,7 @@ public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOr
     public void setOrientationProvider(IOrientationProvider orientationProvider) throws RuntimeException {
         if (orientationProvider == null)
             throw new RuntimeException(
-                "You must pass an IOrientationProvider to setOrientationProvider()");
+                    "You must pass an IOrientationProvider to setOrientationProvider()");
 
         if (isCompassEnabled())
             mOrientationProvider.stopOrientationProvider();
@@ -288,7 +288,7 @@ public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOr
     public void draw(Canvas c, Projection pProjection) {
         if (isCompassEnabled() && !Float.isNaN(mAzimuth)) {
             drawCompass(c, mMode * (mAzimuth + mAzimuthOffset + getDisplayOrientation()), pProjection
-                .getScreenRect());
+                    .getScreenRect());
         }
     }
 
@@ -310,10 +310,10 @@ public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOr
     public boolean onCreateOptionsMenu(final Menu pMenu, final int pMenuIdOffset,
                                        final MapView pMapView) {
         pMenu.add(0, MENU_COMPASS + pMenuIdOffset, Menu.NONE,
-            pMapView.getContext().getResources().getString(R.string.compass))
+                pMapView.getContext().getResources().getString(R.string.compass))
 
-            .setIcon(pMapView.getContext().getResources().getDrawable(R.drawable.ic_menu_compass))
-            .setCheckable(true);
+                .setIcon(pMapView.getContext().getResources().getDrawable(R.drawable.ic_menu_compass))
+                .setCheckable(true);
 
         return true;
     }
@@ -381,7 +381,7 @@ public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOr
 
     /**
      * Disable orientation updates.
-     *
+     * <p>
      * Note the behavior has changed since v6.0.0. This method no longer releases
      * references to the orientation provider. Instead, that happens in the onDetached
      * method.
@@ -422,8 +422,9 @@ public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOr
      * <li>true - a pointer arrow that indicates the device's real world orientation on the map (true)</li>
      * </ul>
      * A different picture is used in each case.
-     * @since 6.0.0
+     *
      * @param usePointArrow if true the pointer arrow is used, otherwise a compass rose is used
+     * @since 6.0.0
      */
     public void setPointerMode(boolean usePointArrow) {
         if (usePointArrow) {
@@ -436,8 +437,8 @@ public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOr
     }
 
     /**
-     * @since 6.0.0
      * @return true if we are in pointer mode, instead of compass mode
+     * @since 6.0.0
      */
     public boolean isPointerMode() {
         return mMode < 0;
@@ -508,7 +509,7 @@ public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOr
         if (mCompassFrameBitmap != null)
             mCompassFrameBitmap.recycle();
         mCompassFrameBitmap = Bitmap.createBitmap(picBorderWidthAndHeight, picBorderWidthAndHeight,
-            Config.ARGB_8888);
+                Config.ARGB_8888);
         final Canvas canvas = new Canvas(mCompassFrameBitmap);
 
         // draw compass inner circle and border
@@ -555,7 +556,7 @@ public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOr
         if (mCompassRoseBitmap != null)
             mCompassRoseBitmap.recycle();
         mCompassRoseBitmap = Bitmap.createBitmap(picBorderWidthAndHeight, picBorderWidthAndHeight,
-            Config.ARGB_8888);
+                Config.ARGB_8888);
         final Canvas canvas = new Canvas(mCompassRoseBitmap);
 
         // Triangle pointing north
@@ -603,7 +604,7 @@ public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOr
         if (mCompassRoseBitmap != null)
             mCompassRoseBitmap.recycle();
         mCompassRoseBitmap = Bitmap.createBitmap(picBorderWidthAndHeight, picBorderWidthAndHeight,
-            Config.ARGB_8888);
+                Config.ARGB_8888);
         final Canvas canvas = new Canvas(mCompassRoseBitmap);
 
         // Arrow comprised of 2 triangles
