@@ -571,7 +571,8 @@ public class Marker extends OverlayWithIW {
             pCanvas.save();
             pCanvas.rotate(pOrientation, pX, pY);
         }
-        if (mIcon instanceof BitmapDrawable) { // optimization 3: (about 15% faster)
+        /*
+        if (mIcon instanceof BitmapDrawable) { // optimization 3: (about 15% faster) - but introduces issue #1738
             final Paint paint;
             if (mAlpha == 1) {
                 paint = null;
@@ -584,10 +585,11 @@ public class Marker extends OverlayWithIW {
             }
             pCanvas.drawBitmap(((BitmapDrawable) mIcon).getBitmap(), offsetX, offsetY, paint);
         } else {
+        */
             mIcon.setAlpha((int) (mAlpha * 255));
             mIcon.setBounds(mRect);
             mIcon.draw(pCanvas);
-        }
+        //}
         if (pOrientation != 0) { // optimization 2: step 2/2
             pCanvas.restore();
         }
