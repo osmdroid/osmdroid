@@ -572,7 +572,8 @@ public class Marker extends OverlayWithIW {
             pCanvas.rotate(pOrientation, pX, pY);
         }
         /*
-        if (mIcon instanceof BitmapDrawable) { // optimization 3: (about 15% faster) - but introduces issue #1738
+        if (mIcon instanceof BitmapDrawable) { 
+            // optimization 3: (about 15% faster) - Unfortunate optimization with displayed size side effects: introduces issue #1738 
             final Paint paint;
             if (mAlpha == 1) {
                 paint = null;
