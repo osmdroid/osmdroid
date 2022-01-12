@@ -1,16 +1,23 @@
 package org.osmdroid.tileprovider.modules;
 
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
+import android.net.Uri;
+import android.os.Environment;
+import android.provider.DocumentsContract;
 import android.util.Log;
 
 import org.osmdroid.api.IMapView;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.util.MapTileIndex;
+import org.osmdroid.util.OsmUriHelper;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collections;
 import java.util.Set;
@@ -48,10 +55,45 @@ public class MBTilesFileArchive implements IArchiveFile {
                         SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READONLY));
     }
 
+    public static MBTilesFileArchive getDatabaseFileArchive(final Uri pFile, Context context) throws SQLiteException, IOException {
+        /* attempt 1 - failure.
+        Uri docUri = DocumentsContract.buildDocumentUriUsingTree(pFile,
+                DocumentsContract.getTreeDocumentId(pFile));
+        String path = OsmUriHelper.getPath(context, docUri);
+        path += File.separator + ArchiveFileFactory.getFileName(pFile, context);*/
+        InputStream inputStream = context.getContentResolver().openInputStream(pFile);
+
+        File file = File.createTempFile(ArchiveFileFactory.getFileName(pFile, context), "");
+
+        FileOutputStream outputStream = new FileOutputStream(file);
+        byte[] buff = new byte[1024];
+        int read;
+        while ((read = inputStream.read(buff, 0, buff.length)) > 0)
+            outputStream.write(buff, 0, read);
+        inputStream.close();
+        outputStream.close();
+        return new MBTilesFileArchive(
+                SQLiteDatabase.openDatabase(
+                        file.getPath(),
+                        null,
+                        SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READONLY));
+    }
+
     @Override
     public void init(File pFile) throws Exception {
         mDatabase = SQLiteDatabase.openDatabase(
                 pFile.getAbsolutePath(),
+                null,
+                SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READONLY);
+    }
+
+    @Override
+    public void init(Uri pFile, Context context) throws Exception {
+        Uri docUri = DocumentsContract.buildDocumentUriUsingTree(pFile,
+                DocumentsContract.getTreeDocumentId(pFile));
+        String path = OsmUriHelper.getPath(context, docUri);
+        mDatabase = SQLiteDatabase.openDatabase(
+                path,
                 null,
                 SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READONLY);
     }

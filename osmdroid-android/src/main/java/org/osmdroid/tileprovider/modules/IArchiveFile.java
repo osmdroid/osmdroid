@@ -1,5 +1,8 @@
 package org.osmdroid.tileprovider.modules;
 
+import android.content.Context;
+import android.net.Uri;
+
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 
 import java.io.File;
@@ -24,6 +27,8 @@ public interface IArchiveFile {
      * @throws Exception
      */
     void init(File pFile) throws Exception;
+
+    void init(Uri pFile, Context context) throws Exception;
 
     /**
      * Get the input stream for the requested tile and tile source.

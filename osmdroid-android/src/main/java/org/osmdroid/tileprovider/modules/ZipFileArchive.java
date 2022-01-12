@@ -1,10 +1,14 @@
 package org.osmdroid.tileprovider.modules;
 
+import android.content.Context;
+import android.net.Uri;
+import android.provider.DocumentsContract;
 import android.util.Log;
 
 import org.osmdroid.api.IMapView;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.util.MapTileIndex;
+import org.osmdroid.util.OsmUriHelper;
 
 import java.io.File;
 import java.io.IOException;
@@ -43,6 +47,15 @@ public class ZipFileArchive implements IArchiveFile {
     @Override
     public void init(File pFile) throws Exception {
         mZipFile = new ZipFile(pFile);
+    }
+
+    @Override
+    public void init(Uri pFile, Context context) throws Exception {
+        Uri docUri = DocumentsContract.buildDocumentUriUsingTree(pFile,
+                DocumentsContract.getTreeDocumentId(pFile));
+        String path = OsmUriHelper.getPath(context, docUri);
+        path += File.separator + ArchiveFileFactory.getFileName(pFile, context);
+        mZipFile = new ZipFile(path);
     }
 
     @Override

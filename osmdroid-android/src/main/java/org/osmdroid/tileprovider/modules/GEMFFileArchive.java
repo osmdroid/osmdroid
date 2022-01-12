@@ -1,5 +1,7 @@
 package org.osmdroid.tileprovider.modules;
 
+import android.content.Context;
+import android.net.Uri;
 import android.util.Log;
 
 import org.osmdroid.api.IMapView;
@@ -31,6 +33,11 @@ public class GEMFFileArchive implements IArchiveFile {
     @Override
     public void init(File pFile) throws Exception {
         mFile = new GEMFFile(pFile);
+    }
+
+    @Override
+    public void init(Uri pFile, Context context) throws Exception {
+        throw new Exception("URI files not available for GEM Files");
     }
 
     @Override

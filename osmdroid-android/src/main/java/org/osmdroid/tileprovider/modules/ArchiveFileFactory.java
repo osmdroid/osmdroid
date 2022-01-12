@@ -1,6 +1,10 @@
 package org.osmdroid.tileprovider.modules;
 
+import android.content.Context;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Build;
+import android.provider.OpenableColumns;
 import android.util.Log;
 
 import org.osmdroid.api.IMapView;
@@ -75,6 +79,55 @@ public class ArchiveFileFactory {
                 Log.e(IMapView.LOGTAG, "Error initializing archive file provider " + pFile.getAbsolutePath(), e);
             } catch (final Exception e) {
                 Log.e(IMapView.LOGTAG, "Error opening archive file " + pFile.getAbsolutePath(), e);
+            }
+        }
+
+
+        return null;
+    }
+
+    public static String getFileName(Uri uri, Context ctx) {
+        String result = null;
+        if (uri.getScheme().equals("content")) {
+            Cursor cursor = ctx.getContentResolver().query(uri, null, null, null, null);
+            try {
+                if (cursor != null && cursor.moveToFirst()) {
+                    result = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+                }
+            } finally {
+                cursor.close();
+            }
+        }
+        if (result == null) {
+            result = uri.getPath();
+            int cut = result.lastIndexOf('/');
+            if (cut != -1) {
+                result = result.substring(cut + 1);
+            }
+        }
+        return result;
+    }
+
+    public static IArchiveFile getArchiveFile(final Uri pFile, Context ctx) {
+
+        String extension = getFileName(pFile, ctx); //pFile.getName();
+        if (extension.contains(".")) {
+            try {
+                extension = extension.substring(extension.lastIndexOf(".") + 1);
+            } catch (Exception ex) {
+                //just to catch any potential out of index errors
+            }
+        }
+        Class<? extends IArchiveFile> aClass = extensionMap.get(extension.toLowerCase());
+        if (aClass != null) {
+            try {
+                IArchiveFile provider = aClass.newInstance();
+                provider.init(pFile, ctx);
+                return provider;
+            } catch (InstantiationException | IllegalAccessException e) {
+                Log.e(IMapView.LOGTAG, "Error initializing archive file provider " + pFile.getPath(), e);
+            } catch (final Exception e) {
+                Log.e(IMapView.LOGTAG, "Error opening archive file " + pFile.getPath(), e);
             }
         }
 
