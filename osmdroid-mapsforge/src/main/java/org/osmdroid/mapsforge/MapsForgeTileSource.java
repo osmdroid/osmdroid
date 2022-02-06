@@ -36,7 +36,7 @@ public class MapsForgeTileSource extends BitmapTileSourceBase {
 
     // Reasonable defaults ..
     public static int MIN_ZOOM = 3;
-    public static int MAX_ZOOM = 20;
+    public static int MAX_ZOOM = 29;
     public static final int TILE_SIZE_PIXELS = 256;
     private final DisplayModel model = new DisplayModel();
     private final float scale = DisplayModel.getDefaultUserScaleFactor();
