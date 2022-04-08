@@ -2,7 +2,6 @@ description = "A tool to package OpenStreetMap tiles"
 apply plugin: 'java'
 apply plugin: 'distribution'
 apply plugin: 'application'
-apply plugin: 'maven'
 
 mainClassName = "org.osmdroid.mtp.OSMMapTilePackager"
 
@@ -13,12 +12,12 @@ test {
 }
 
 dependencies {
-    compile 'org.apache.httpcomponents:httpmime:4.0.1'
-    compile 'org.apache.james:apache-mime4j:0.6'
-    compile 'org.xerial:sqlite-jdbc:3.7.2'
+    implementation 'org.apache.httpcomponents:httpmime:4.0.1'
+    implementation 'org.apache.james:apache-mime4j:0.6'
+    implementation 'org.xerial:sqlite-jdbc:3.7.2'
 
 
-    testCompile "junit:junit:${project.property('junit.version')}"
+    testImplementation "junit:junit:${project.property('junit.version')}"
 }
 
 //copy the instrumentation tests from the maven osmdroid-android-it src folder

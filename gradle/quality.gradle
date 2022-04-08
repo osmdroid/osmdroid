@@ -56,7 +56,6 @@ println "== Quality plugin active. Hold on to your butts...";
 
 buildscript {
     repositories {
-        jcenter()
         mavenCentral()
         mavenLocal()
     }

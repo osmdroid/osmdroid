@@ -1,6 +1,106 @@
+import javax.crypto.Cipher
+import javax.crypto.spec.SecretKeySpec
+
 description = 'OpenMap in the Play Store, the example app for using osmdroid'
 
 apply plugin: 'com.android.application'
+
+
+def hexToBytes(String s) {
+    //return s.getBytes();
+    return hexToBytes(s.toCharArray());
+}
+
+/**
+ * gets the master key
+ * @return
+ */
+def loadKey() {
+    String users_home = System.getProperty("user.home");
+    users_home = users_home.replace("\\", "/"); // to support all platforms.
+    users_home = users_home + "/.gradle/";
+    logger.debug("User home dir is " + users_home);
+    File gradlehome = new File(users_home);
+    //check for existing master key
+    File keys = new File(gradlehome.getAbsolutePath() + "/fury-keys.properties");
+
+    if (keys.exists()) {
+        //defined in rooDir/local.properties file
+        Properties properties = new Properties()
+
+        properties.load(keys.newDataInputStream())
+        if (properties.containsKey("FURY_MASTER_PASSWORD"))
+            return properties.getProperty("FURY_MASTER_PASSWORD");
+    }
+    //defined in the project gradle.properties file
+    if (hasProperty('FURY_MASTER_PASSWORD')) {
+        return FURY_MASTER_PASSWORD
+    }
+
+    return "";
+}
+def tryDecrypt(String ciphertext) {
+    //we're using {cipher} so trim off the first and last char
+    if (ciphertext==null) return null;
+    String textToDecrypt = ciphertext.substring(1, ciphertext.length() - 1);
+    try {
+        String text = decrypt(textToDecrypt, loadKey());
+        return text;
+    } catch (Exception ex) {
+        logger.warn("Decryption failure - input text was not encrypted or encrypted with a different key,", ex)
+    }
+    return ciphertext
+}
+
+def decrypt(String ciphertext, String key) {
+    byte[] raw = hexToBytes(key); //
+    SecretKeySpec skeySpec = new SecretKeySpec(raw, "AES");
+    Cipher cipher = Cipher.getInstance("AES");
+    cipher.init(Cipher.DECRYPT_MODE, skeySpec);
+    byte[] original = cipher.doFinal(hexToBytes(ciphertext));
+    return new String(original);
+}
+
+def hexToBytes(char[] hex) {
+    int length = hex.length / 2;
+    byte[] raw = new byte[length];
+    for (int i = 0; i < length; i++) {
+        int high = Character.digit(hex[i * 2], 16);
+        int low = Character.digit(hex[i * 2 + 1], 16);
+        int value = (high << 4) | low;
+        if (value > 127) {
+            value -= 256;
+        }
+        raw[i] = (byte) value;
+    }
+    return raw;
+}
+
+def mightBeEncrypted(String text) {
+    if (text == null)
+        return false;
+    if (text.length() == null)
+        return false;
+    if (text.startsWith("{") && text.endsWith("}"))
+        return true;
+    return false;
+}
+// another hack, import local.properties into the current context
+// used for crypto settings
+File local = new File("$rootDir/local.properties");
+Properties properties = new Properties();
+if (local.exists()) {
+    properties.load(local.newDataInputStream());
+    def iterator = properties.entrySet().iterator();
+    while (iterator.hasNext()) {
+
+        def next = iterator.next();
+        String k = next.getKey();
+        ext.set(k, next.value);
+
+    }
+
+}
 
 android {
     compileSdkVersion findProperty('android.compileSdkVersion').toInteger()
@@ -12,6 +112,10 @@ android {
         minSdkVersion Integer.parseInt(project.property('android-minSdkForSupportLib.version'))
         multiDexEnabled = true
     }
+    lintOptions {
+        abortOnError false
+    }
+
     testOptions {
         unitTests.all {
             // All the usual Gradle options.
@@ -27,43 +131,91 @@ android {
             java.srcDirs = ['../osmdroid-android-it/src/main/java']
         }
     }
+    packagingOptions{
+        pickFirst "androidsupportmultidexversion.txt"
+    }
+
+    signingConfigs {
+
+        release {
+            storeFile file(properties.getProperty("android.signingConfigs.release.storeFile"))
+            storePassword tryDecrypt(properties.getProperty("android.signingConfigs.release.storePassword"))
+            keyAlias properties.getProperty("android.signingConfigs.release.keyAlias")
+            keyPassword tryDecrypt(properties.getProperty("android.signingConfigs.release.keyPassword"))
+
+            // Optional, specify signing versions used
+           // v1SigningEnabled true
+            //v2SigningEnabled true
+        }
+    }
+
+    buildTypes {
+        release {
+            signingConfig signingConfigs.release
+        }
+    }
+
 }
 
-
 dependencies {
-    compile "com.android.support:support-v4:${project.property('android-support.version')}"
-    compile project(':osmdroid-android')
-    compile project(':osmdroid-geopackage')
-    compile project(':osmdroid-mapsforge')
-    compile project(':osmdroid-wms')
-    compile project(':osmdroid-shape')
+    //apparently google or gradle changed something so that
+    //transitive dependencies of submodules in the same project
+    //are not longer resolved...
 
-    compile 'mil.army.missioncommand:mil-sym-android-renderer:0.1.37'
+    //osmdroid-mapsforge
+    implementation 'org.mapsforge:mapsforge-map-android:0.11.0'
+    implementation 'org.mapsforge:mapsforge-map:0.11.0'
+    implementation 'org.mapsforge:mapsforge-themes:0.11.0'
+
+    //osmdroid-geopackage
+    implementation ("mil.nga.geopackage:geopackage-android:2.0.1"){
+        exclude group: 'com.google.android.gms', module:'play-services'
+        exclude group: 'com.google.maps.android', module:'android-maps-utils'
+        exclude group: 'com.android.support',module: 'support-v13'
+    }
+
+    implementation 'com.j256.ormlite:ormlite-android:5.0'
+    implementation 'mil.nga.geopackage:geopackage-core:2.0.1'
+    implementation 'ar.com.hjg:pngj:2.1.0'
+    implementation 'mil.nga:tiff:1.0.3'
+
+    implementation 'ar.com.hjg:pngj:2.1.0'
+    implementation 'mil.nga:tiff:2.0.0'
+    //end of geopackage
+
+    implementation "com.android.support:support-v4:${project.property('android-support.version')}"
+    implementation project(':osmdroid-android')
+    implementation project(':osmdroid-geopackage')
+    implementation project(':osmdroid-mapsforge')
+    implementation project(':osmdroid-wms')
+    implementation project(':osmdroid-shape')
+
+    implementation 'mil.army.missioncommand:mil-sym-android-renderer:0.1.39'
 
     //used for various demos for picking offline tile archives
-    compile 'com.github.angads25:filepicker:1.1.1'
+    implementation 'com.github.angads25:filepicker:1.1.1'
 
     //used for bookmark demo
-    compile group: 'com.opencsv', name: 'opencsv', version: '4.4'
+    implementation group: 'com.opencsv', name: 'opencsv', version: '4.4'
 
     //usual android stuff
-    compile "com.android.support:design:${project.property('android-support.version')}" //needed for UI menuing
-    compile "com.android.support:cardview-v7:${project.property('android-support.version')}"  //needed for samples only
-    compile "com.android.support:recyclerview-v7:${project.property('android-support.version')}" //needed for samples only
-    compile      'com.android.support:multidex:1.0.3'
+    implementation "com.android.support:design:${project.property('android-support.version')}" //needed for UI menuing
+    implementation "com.android.support:cardview-v7:${project.property('android-support.version')}"  //needed for samples only
+    implementation "com.android.support:recyclerview-v7:${project.property('android-support.version')}" //needed for samples only
+    implementation 'com.android.support:multidex:1.0.3'
 
-    compile "com.android.support:appcompat-v7:${project.property('android-support.version')}" //needed for UI menuing
+    implementation "com.android.support:appcompat-v7:${project.property('android-support.version')}" //needed for UI menuing
     //crash logging
-    compile 'ch.acra:acra:4.7.0'
+    implementation 'ch.acra:acra:4.7.0'
 
     //memory leak testing
-    debugCompile 'com.squareup.leakcanary:leakcanary-android:2.2'
+    implementation 'com.squareup.leakcanary:leakcanary-android:2.2'
 
     //on device testing
-    androidTestCompile 'com.android.support.test:runner:0.4.+'
-    androidTestCompile 'com.android.support.test:rules:0.4.+'
-    androidTestCompile 'com.android.support:multidex:1.0.3'
-    androidTestCompile "com.android.support:support-annotations:${project.property('android-support.version')}"
+    //FIXME androidTestCompile 'com.android.support.test:runner:0.4.+'
+    //FIXME androidTestCompile 'com.android.support.test:rules:0.4.+'
+    //FIXME androidTestCompile 'com.android.support:multidex:1.0.3'
+    //FIXME androidTestCompile "com.android.support:support-annotations:${project.property('android-support.version')}"
 }
 
 

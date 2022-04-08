@@ -2,13 +2,14 @@
 
 buildscript {
     repositories {
-        jcenter()
         mavenCentral()
         mavenLocal()
         maven {
             url 'https://maven.google.com/'
             name 'Google'
         }
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+        maven { url "https://repo.maven.apache.org/maven2" }
     }
     dependencies {
             classpath "com.android.tools.build:gradle:${project.property('android-plugin.version')}"
@@ -17,10 +18,11 @@ buildscript {
 
 // Set up the spotbugs plugin so we can apply it in a quality pass if needed
 plugins {
-    id  'com.github.spotbugs' version '4.7.0' apply false
+    id  'com.github.spotbugs' version '5.0.6' apply false
 }
 
 allprojects {
+    
     // NOTE: project.group and project.version must be defined before including
     // maven-support.gradle since it uses these values...
     project.group = ( project.hasProperty('pom.groupId')
@@ -38,15 +40,15 @@ allprojects {
     }
 
     repositories {
-        jcenter()
         mavenCentral()
         mavenLocal()
-        maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
-        maven { url "https://repo.maven.apache.org/maven2" }
         maven {
             url 'https://maven.google.com/'
             name 'Google'
         }
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+        maven { url "https://repo.maven.apache.org/maven2" }
+
     }
 
     tasks.withType(JavaCompile) {

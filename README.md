@@ -132,10 +132,12 @@ The [OSMBonusPack project](https://github.com/MKergall/osmbonuspack) adds additi
 [IIS Tracker](https://youtu.be/Jw8z1ke9Idk)
 
 ## Building from source and using the aar in your app
-Thanks to <a href="https://github.com/gradle-fury/gradle-fury">Gradle Fury</a>, this publishes the artifacts to mavenLocal.
+
+JDK11 is required
+
 
 ```
-./gradlew clean install
+./gradlew clean build
 ```
 
 In **your** root `build.gradle` file, add mavenLocal() if not present.
