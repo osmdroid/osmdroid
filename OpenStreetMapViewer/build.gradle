@@ -1,107 +1,8 @@
-import javax.crypto.Cipher
-import javax.crypto.spec.SecretKeySpec
 
 description = 'OpenMap in the Play Store, the example app for using osmdroid'
 
 apply plugin: 'com.android.application'
-
-
-def hexToBytes(String s) {
-    //return s.getBytes();
-    return hexToBytes(s.toCharArray());
-}
-
-/**
- * gets the master key
- * @return
- */
-def loadKey() {
-    String users_home = System.getProperty("user.home");
-    users_home = users_home.replace("\\", "/"); // to support all platforms.
-    users_home = users_home + "/.gradle/";
-    logger.debug("User home dir is " + users_home);
-    File gradlehome = new File(users_home);
-    //check for existing master key
-    File keys = new File(gradlehome.getAbsolutePath() + "/fury-keys.properties");
-
-    if (keys.exists()) {
-        //defined in rooDir/local.properties file
-        Properties properties = new Properties()
-
-        properties.load(keys.newDataInputStream())
-        if (properties.containsKey("FURY_MASTER_PASSWORD"))
-            return properties.getProperty("FURY_MASTER_PASSWORD");
-    }
-    //defined in the project gradle.properties file
-    if (hasProperty('FURY_MASTER_PASSWORD')) {
-        return FURY_MASTER_PASSWORD
-    }
-
-    return "";
-}
-def tryDecrypt(String ciphertext) {
-    //we're using {cipher} so trim off the first and last char
-    if (ciphertext==null) return null;
-    String textToDecrypt = ciphertext.substring(1, ciphertext.length() - 1);
-    try {
-        String text = decrypt(textToDecrypt, loadKey());
-        return text;
-    } catch (Exception ex) {
-        logger.warn("Decryption failure - input text was not encrypted or encrypted with a different key,", ex)
-    }
-    return ciphertext
-}
-
-def decrypt(String ciphertext, String key) {
-    byte[] raw = hexToBytes(key); //
-    SecretKeySpec skeySpec = new SecretKeySpec(raw, "AES");
-    Cipher cipher = Cipher.getInstance("AES");
-    cipher.init(Cipher.DECRYPT_MODE, skeySpec);
-    byte[] original = cipher.doFinal(hexToBytes(ciphertext));
-    return new String(original);
-}
-
-def hexToBytes(char[] hex) {
-    int length = hex.length / 2;
-    byte[] raw = new byte[length];
-    for (int i = 0; i < length; i++) {
-        int high = Character.digit(hex[i * 2], 16);
-        int low = Character.digit(hex[i * 2 + 1], 16);
-        int value = (high << 4) | low;
-        if (value > 127) {
-            value -= 256;
-        }
-        raw[i] = (byte) value;
-    }
-    return raw;
-}
-
-def mightBeEncrypted(String text) {
-    if (text == null)
-        return false;
-    if (text.length() == null)
-        return false;
-    if (text.startsWith("{") && text.endsWith("}"))
-        return true;
-    return false;
-}
-// another hack, import local.properties into the current context
-// used for crypto settings
-File local = new File("$rootDir/local.properties");
-Properties properties = new Properties();
-if (local.exists()) {
-    properties.load(local.newDataInputStream());
-    def iterator = properties.entrySet().iterator();
-    while (iterator.hasNext()) {
-
-        def next = iterator.next();
-        String k = next.getKey();
-        ext.set(k, next.value);
-
-    }
-
-}
-
+apply from: "$rootDir/gradle/android-signing.gradle"
 android {
     compileSdkVersion findProperty('android.compileSdkVersion').toInteger()
 
@@ -135,25 +36,7 @@ android {
         pickFirst "androidsupportmultidexversion.txt"
     }
 
-    signingConfigs {
 
-        release {
-            storeFile file(properties.getProperty("android.signingConfigs.release.storeFile"))
-            storePassword tryDecrypt(properties.getProperty("android.signingConfigs.release.storePassword"))
-            keyAlias properties.getProperty("android.signingConfigs.release.keyAlias")
-            keyPassword tryDecrypt(properties.getProperty("android.signingConfigs.release.keyPassword"))
-
-            // Optional, specify signing versions used
-           // v1SigningEnabled true
-            //v2SigningEnabled true
-        }
-    }
-
-    buildTypes {
-        release {
-            signingConfig signingConfigs.release
-        }
-    }
 
 }
 
@@ -190,7 +73,7 @@ dependencies {
     implementation project(':osmdroid-wms')
     implementation project(':osmdroid-shape')
 
-    implementation 'mil.army.missioncommand:mil-sym-android-renderer:0.1.39'
+    implementation 'io.github.missioncommand:mil-sym-android-renderer:0.1.48'
 
     //used for various demos for picking offline tile archives
     implementation 'com.github.angads25:filepicker:1.1.1'
