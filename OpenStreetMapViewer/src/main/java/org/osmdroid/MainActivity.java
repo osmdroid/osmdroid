@@ -220,7 +220,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
 
         tv = findViewById(R.id.version_text);
-        tv.setText("FIXME"); //BuildConfig.VERSION_NAME + " " + BuildConfig.BUILD_TYPE);
+        tv.setText(BuildConfig.VERSION_NAME + " " + BuildConfig.BUILD_TYPE);
 
         tv = findViewById(R.id.mainstorageInfo);
         tv.setText(Configuration.getInstance().getOsmdroidTileCache().getAbsolutePath() + "\n" +

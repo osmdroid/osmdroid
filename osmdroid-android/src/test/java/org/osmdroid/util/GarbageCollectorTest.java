@@ -1,8 +1,7 @@
 package org.osmdroid.util;
 
-import junit.framework.Assert;
 
-import org.junit.Ignore;
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.concurrent.atomic.AtomicInteger;
@@ -30,7 +29,6 @@ public class GarbageCollectorTest {
         Assert.assertEquals(0, mCount.get());
     }
 
-    @Ignore //FIXME
     @Test
     public void testFirst() {
         final GarbageCollector garbageCollector = new GarbageCollector(getAction());
