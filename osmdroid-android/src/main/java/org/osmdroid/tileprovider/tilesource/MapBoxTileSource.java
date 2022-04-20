@@ -24,7 +24,7 @@ public class MapBoxTileSource extends OnlineTileSourceBase {
     private static final String ACCESS_TOKEN = "MAPBOX_ACCESS_TOKEN";
 
     private static final String[] mapBoxBaseUrl = new String[]{
-            "https://api.mapbox.com/v4/"};
+            "https://api.mapbox.com/styles/v1/mapbox/"};
 
     private String mapBoxMapId = "";
     private String accessToken;
@@ -124,13 +124,14 @@ public class MapBoxTileSource extends OnlineTileSourceBase {
     public String getTileURLString(final long pMapTileIndex) {
         StringBuilder url = new StringBuilder(getBaseUrl());
         url.append(getMapBoxMapId());
-        url.append("/");
+        url.append("/tiles/");
         url.append(MapTileIndex.getZoom(pMapTileIndex));
         url.append("/");
         url.append(MapTileIndex.getX(pMapTileIndex));
         url.append("/");
         url.append(MapTileIndex.getY(pMapTileIndex));
-        url.append(".png");
+        //url.append(".png");
+        //url.append("@2x"); //for high-res?
         url.append("?access_token=").append(getAccessToken());
         String res = url.toString();
 
