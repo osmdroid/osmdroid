@@ -1,6 +1,10 @@
 description = 'Shapefile support for osmdroid'
 
 apply plugin: 'com.android.library'
+apply plugin: 'maven-publish'
+
+group = "com.github.osmdroid"
+version =  project.property("pom.version")
 
 android {
     compileSdkVersion findProperty('android.compileSdkVersion').toInteger()
@@ -11,13 +15,70 @@ android {
     lintOptions {
         abortOnError false
     }
+    buildTypes {
+        release {
+            minifyEnabled false
+        }
+    }
+
+    publishing {
+        singleVariant("release") {
+            withSourcesJar()
+            withJavadocJar()
+        }
+    }
 }
 
 dependencies {
    
     testImplementation 'junit:junit:4.13'
-    implementation project(':osmdroid-android')
-    implementation 'com.github.spyhunter99:jdbf:2.2.0'
+    api  project(':osmdroid-android' )
+    api 'com.github.spyhunter99:jdbf:2.2.0'
+
+}
+
+
+
+afterEvaluate {
+    publishing {
+
+        publications {
+            release(MavenPublication) {
+                from components.release
+                groupId project.property("pom.groupId")
+                artifactId project.name
+                version = project.property("pom.version")
+                pom {
+                    description =  project.description
+                    url = project.property("pom.url")
+
+                    //scm, organization and developers are injected via other mechanisms
+
+                    licenses {
+                        license {
+                            name=project.property("pom.licenses.license.0.name");
+                            url=project.property("pom.licenses.license.0.url");
+                            distribution==project.property("pom.licenses.license.0.distribution");
+                        }
+
+                    }
+                }
+            }
+        }
+    }
+
+
+}
+
+
+
+task androidSourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+}
+
+artifacts {
+//    archives packageReleaseJar
+    archives androidSourcesJar
 
 }
 

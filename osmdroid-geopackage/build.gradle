@@ -1,12 +1,29 @@
 description = 'Geopackage support for osmdroid'
 
 apply plugin: 'com.android.library'
+apply plugin: 'maven-publish'
+
+group = "com.github.osmdroid"
+version =  project.property("pom.version")
 
 android {
     compileSdkVersion findProperty('android.compileSdkVersion').toInteger()
 
     defaultConfig {
         minSdkVersion 14
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+        }
+    }
+
+
+    publishing {
+        singleVariant("release") {
+            withSourcesJar()
+            withJavadocJar()
+        }
     }
 }
 
@@ -15,19 +32,62 @@ dependencies {
     //implementation 'ch.acra:acra:4.7.0'
 
     testImplementation 'junit:junit:4.13'
-    implementation project(':osmdroid-android')
 
-    implementation ("mil.nga.geopackage:geopackage-android:2.0.1"){
+    api  project(':osmdroid-android')
+    api ("mil.nga.geopackage:geopackage-android:2.0.1"){
         exclude group: 'com.google.android.gms', module:'play-services'
         exclude group: 'com.google.maps.android', module:'android-maps-utils'
         exclude group: 'com.android.support',module: 'support-v13'
     }
 
-    implementation 'com.j256.ormlite:ormlite-android:5.0'
-    implementation 'mil.nga.geopackage:geopackage-core:2.0.1'
-    implementation 'ar.com.hjg:pngj:2.1.0'
-    implementation 'mil.nga:tiff:1.0.3'
+    api 'com.j256.ormlite:ormlite-android:5.0'
+    api 'mil.nga.geopackage:geopackage-core:2.0.1'
+    api 'ar.com.hjg:pngj:2.1.0'
+    api 'mil.nga:tiff:1.0.3'
 
-    implementation 'ar.com.hjg:pngj:2.1.0'
-    implementation 'mil.nga:tiff:2.0.0'
+    api 'ar.com.hjg:pngj:2.1.0'
+    api 'mil.nga:tiff:2.0.0'
 }
+
+task androidSourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+}
+
+artifacts {
+//    archives packageReleaseJar
+    archives androidSourcesJar
+
+}
+
+afterEvaluate {
+    publishing {
+
+        publications {
+            release(MavenPublication) {
+                from components.release
+                groupId project.property("pom.groupId")
+                artifactId project.name
+                version = project.property("pom.version")
+                pom {
+                    description =  project.description
+                    url = project.property("pom.url")
+
+                    //scm, organization and developers are injected via other mechanisms
+
+                    licenses {
+                        license {
+                            name=project.property("pom.licenses.license.0.name");
+                            url=project.property("pom.licenses.license.0.url");
+                            distribution==project.property("pom.licenses.license.0.distribution");
+                        }
+
+                    }
+                }
+            }
+        }
+    }
+
+
+}
+
+//apply from: "$rootDir/gradle/javadoc-aar.gradle"

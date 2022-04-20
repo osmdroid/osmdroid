@@ -1,5 +1,11 @@
 description = 'An Android library to display OpenStreetMap views.'
 apply plugin: 'com.android.library'
+apply plugin: "maven-publish"
+
+
+group = "com.github.osmdroid"
+version =  project.property("pom.version")
+
 
 android {
     compileSdkVersion findProperty('android.compileSdkVersion').toInteger()
@@ -10,12 +16,25 @@ android {
 	testOptions { 
        unitTests.returnDefaultValues = true
    }
+    buildTypes {
+        release {
+            minifyEnabled false
+        }
+    }
+    publishing {
+        singleVariant("release") {
+            withSourcesJar()
+            withJavadocJar()
+        }
+    }
 }
 
 dependencies {
     testImplementation "junit:junit:${project.property('junit.version')}"
     testImplementation "org.robolectric:robolectric:${project.property('robolectric.version')}"
 }
+
+
 import org.apache.tools.ant.filters.*
 task copyFiles(type: Copy) {
     from 'src/main/filtered/org/osmdroid'
@@ -26,6 +45,39 @@ task copyFiles(type: Copy) {
     ])
 }
 
+
+
+
+afterEvaluate {
+    publishing {
+
+        publications {
+            release(MavenPublication) {
+                from components.release
+                groupId project.property("pom.groupId")
+                artifactId project.name
+                version = project.property("pom.version")
+                pom {
+                    description =  project.description
+                    url = project.property("pom.url")
+
+                    //scm, organization and developers are injected via other mechanisms
+
+                    licenses {
+                        license {
+                            name=project.property("pom.licenses.license.0.name");
+                            url=project.property("pom.licenses.license.0.url");
+                            distribution==project.property("pom.licenses.license.0.distribution");
+                        }
+
+                    }
+                }
+            }
+        }
+    }
+
+
+}
 
 
 task androidSourcesJar(type: Jar) {
@@ -39,160 +91,4 @@ artifacts {
 }
 preBuild.dependsOn(copyFiles)
 
-
-
-configurations {
-    umljavadoc
-}
-
-dependencies {
-    umljavadoc 'org.umlgraph:umlgraph:5.6.6'
-}
-
-def isGraphvizDotAvailable() {
-
-    if (rootProject.hasProperty('isGraphvizDotAvailable')) {
-        return rootProject.ext.isGraphvizDotAvailable;
-    }
-    //if os is mac, return false becasue the DOT build for mac os isn't so great and will cause
-    //javadoc failures
-    String OS = System.getProperty("os.name", "generic").toLowerCase(Locale.ENGLISH);
-    if ((OS.indexOf("mac") >= 0) || (OS.indexOf("darwin") >= 0)) {
-        logger.warn("WARN - Graphviz/DOT has some issues with MacOS and may cause javadoc generation to fail. Just a heads up");
-    }
-
-    //if opt-in is not set or is false, return false
-    if (!project.hasProperty("fury.javadocs.umlgraph.enabled")) {
-        logger.info("UML Graph skipped, opt-in setting 'fury.javadocs.umlgraph.enabled' is not set");
-        rootProject.ext.isGraphvizDotAvailable = false;
-        return false;
-    }
-    if (project.property("fury.javadocs.umlgraph.enabled") == null) {
-        logger.info("UML Graph skipped, opt-in setting 'fury.javadocs.umlgraph.enabled' is not set");
-        rootProject.ext.isGraphvizDotAvailable = false;
-        return false;
-    }
-    if (!"true".equalsIgnoreCase(project.property("fury.javadocs.umlgraph.enabled"))) {
-        logger.info("UML Graph skipped, opt-in setting 'fury.javadocs.umlgraph.enabled' is not set");
-        rootProject.ext.isGraphvizDotAvailable = false;
-        return false;
-    }
-    try {
-        Runtime rt = Runtime.getRuntime();
-        Process proc = rt.exec("dot -?");
-        int exitVal = proc.waitFor();
-
-        if (exitVal == 0) {
-            logger.info("DOT is available");
-            rootProject.ext.isGraphvizDotAvailable = true;
-            return true;
-        }
-    } catch (Exception ex) {
-        //ex.printStackTrace();
-    }
-
-    logger.info("DOT is NOT available");
-    rootProject.ext.isGraphvizDotAvailable = false;
-    return false;
-}
-
-project.task("generateJavadocJarCopy",
-        dependsOn: "javadoc") {
-    description = 'Copies from src/doc-files for inclusion within javadocs, if it exists'
-
-    File f = new File(project.buildDir.absolutePath + "/../src/main/java");
-    if (f.exists()) {
-        copy {
-            from f.absolutePath
-            into "$project.buildDir/javadoc/release"
-            include "**/doc-files/*"
-        }
-    }
-    //and the variants
-    f = new File(project.buildDir.absolutePath + "/../src/release/java");
-    if (f.exists()) {
-        copy {
-            from f.absolutePath
-            into "$project.buildDir/javadoc/release/"
-            include "**/doc-files/*"
-        }
-    }
-
-}
-
-project.task("generateJavadocJar", type: Jar,
-        dependsOn: ["javadoc", "generateJavadocJarCopy"]) {
-
-    classifier "release-javadoc"
-
-    description = 'Assembles a JAR archive containing the generated Javadoc API documentation of $variant.name.'
-
-    exclude '**/BuildConfig.class'
-    exclude '**/R.class'
-
-    from "$project.buildDir/javadoc/release"
-}
-
-project.task("javadoc",
-
-type: Javadoc) {
-
-    doFirst {
-        configurations.implementation
-                .filter { it.name.endsWith('.aar') }
-                .each { aar ->
-                    copy {
-                        from zipTree(aar)
-                        include "**/classes.jar"
-                        into "$buildDir/tmp/aarsToJars/${aar.name.replace('.aar', '')}/"
-                    }
-                }
-    }
-
-    configurations.implementation.setCanBeResolved(true)
-    source = android.sourceSets.main.java.srcDirs
-    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-//    classpath = project.files(variant.javaCompile.classpath.files)
-  //  classpath += project.files(ext.androidJar)
-    classpath += project.files(android.getBootClasspath())
-    //classpath = sourceSets.all.runtimeClasspath
-    //classpath += project.files(android.)
-    classpath += configurations.implementation
-    classpath += fileTree(dir: "$buildDir/tmp/aarsToJars/")
-    classpath += files("build/intermediates/compile_r_class_jar/release/R.jar")
-    classpath += files("build/generated/source/buildConfig/release/release")
-    classpath += files("build/generated/source/r/buildConfig/release/release")
-    destinationDir = file("${project.buildDir}/outputs/javadoc/")
-    failOnError true
-    options.charSet 'UTF-8'
-    options.docEncoding 'UTF-8'
-    options.encoding 'UTF-8'
-    options.addBooleanOption 'Xdoclint:none', true
-    /*
-    //ONLY WORKS ON JDK<9
-    if (isGraphvizDotAvailable()) {
-
-        options {
-            doclet = 'org.umlgraph.doclet.UmlGraphDoc'
-            options.docletpath = configurations.umljavadoc.files.asType(List)
-            //looks like all of these settings are NOT passed to the doclet because of gradle.
-            //https://discuss.gradle.org/t/add-custom-javadoc-option-that-does-not-take-an-argument/5959/5
-            addStringOption('-inferrel')
-            addStringOption('-inferdep')
-            addStringOption('-qualify')
-            addStringOption('-postfixpackage')
-            addStringOption('-hide=java.*')
-            addStringOption('-collpackages=java.util.*')
-            addStringOption('-nodefontsize=9')
-            addStringOption('-nodefontpackagesize=7')
-
-        }
-    }*/
-    exclude '**/BuildConfig.java'
-    exclude '**/R.java'
-    exclude '**/doc-files/*'
-
-}
-
-//wires in the javadoc task
-tasks.named("build") { finalizedBy("generateJavadocJar") }
+//apply from: "$rootDir/gradle/javadoc-aar.gradle"

@@ -27,3 +27,4 @@ dependencies {
 //    compile 'com.google.android.gms:play-services:8.+'
     compile 'com.google.android.gms:play-services-maps:8.+'
 }
+apply from: "$rootDir/gradle/javadoc-aar.gradle"
