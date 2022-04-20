@@ -2,7 +2,7 @@ description = 'OSMdroid Android WMS Client'
 apply plugin: 'com.android.library'
 apply plugin: 'maven-publish'
 
-group = "com.github.osmdroid"
+group = project.property("pom.groupId")
 version =  project.property("pom.version")
 
 android {

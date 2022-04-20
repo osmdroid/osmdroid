@@ -2,7 +2,7 @@ description = "An Android library to display OpenStreetMap views using Mapsforge
 apply plugin: 'com.android.library'
 apply plugin: 'maven-publish'
 
-group = "com.github.osmdroid"
+group = project.property("pom.groupId")
 version =  project.property("pom.version")
 
 android {

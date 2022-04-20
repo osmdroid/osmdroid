@@ -3,7 +3,7 @@ description = 'Geopackage support for osmdroid'
 apply plugin: 'com.android.library'
 apply plugin: 'maven-publish'
 
-group = "com.github.osmdroid"
+group = project.property("pom.groupId")
 version =  project.property("pom.version")
 
 android {
@@ -25,13 +25,14 @@ android {
             withJavadocJar()
         }
     }
+
 }
 
 dependencies {
     //crash logging
     //implementation 'ch.acra:acra:4.7.0'
 
-    testImplementation 'junit:junit:4.13'
+    testImplementation 'junit:junit:4.13.2'
 
     api  project(':osmdroid-android')
     api ("mil.nga.geopackage:geopackage-android:2.0.1"){

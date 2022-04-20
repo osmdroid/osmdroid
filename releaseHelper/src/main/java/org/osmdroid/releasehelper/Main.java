@@ -90,7 +90,7 @@ public class Main {
         String groupHome = m2 + File.separator + groupId.replace(".", File.separator);
 
         //locate all modules in the gradle project that we need to publish
-        List<String> modules = findModules();
+        List<String> modules = findModules(false);
 
         //remove any commented out or disabled aars
         trim(modules, settingsGradle);
@@ -99,6 +99,7 @@ public class Main {
         copyToTarget(target, modules, groupHome, version);
 
         //inject our 'extra' javadoc content when needed
+        //note: mcafee sometimes flags this operation, should be ignorable
         injectJavadocJars(target, version, modules);
 
         //fix the poms
@@ -121,9 +122,34 @@ public class Main {
 
         layout.save(new FileWriter(file, false));
          */
+        
+        //copy just the apks in this case
+        modules = findModules(true);
+
+        //remove any commented out or disabled aars
+        trim(modules, settingsGradle);
+
+        //copy all those modules to our target folder
+        for (String module: modules) {
+            String folder = props.getProperty("pom.version").contains("-SNAPSHOT") ? "debug":"release";
+            File[] files = new File(module + "/build/outputs/apk/" + folder).listFiles(new FilenameFilter() {
+                @Override
+                public boolean accept(File dir, String name) {
+                    return name.endsWith(".apk");
+                }
+            });
+            if (files!=null) {
+                for (File f: files) {
+                    FileUtils.copyFileToDirectory(f, new File("target"));
+                }
+            }
+        }
+        //this gets uploaded to github
+        makeDistZip(props);
+
     }
 
-    private static List<String> findModules() throws Exception {
+    private static List<String> findModules(boolean apksOnly) throws Exception {
         List<String> r = new ArrayList<>();
         File cwd = new File(".");
         File[] list = cwd.listFiles(new FileFilter() {
@@ -144,8 +170,18 @@ public class Main {
                 if (files != null) {
                     for (File b : files) {
                         String content = FileUtils.readFileToString(b, "UTF-8");
-                        if (content.contains("com.android.library")) {
-                            r.add(f.getName());
+                        if (apksOnly) {
+                            if (content.contains("com.android.application")) {
+                                r.add(f.getName());
+                            }
+                        } else {
+                            if (content.contains("com.android.library")) {
+                                r.add(f.getName());
+                            } else if (content.contains("java")) {
+                                r.add(f.getName());
+                            } else if (content.contains("war")) {
+                                r.add(f.getName());
+                            }
                         }
                     }
                 }
@@ -320,6 +356,110 @@ public class Main {
         }
     }
 
+    private static void makeDistZip(Properties props) throws Exception {
+
+        System.out.println("making dist zip");
+
+        try (ArchiveOutputStream o = new JarArchiveOutputStream(new FileOutputStream(new File("osmdroid-dist-" + props.getProperty("pom.version") + ".zip")))) {
+            File[] apks = new File("target").listFiles(new FilenameFilter() {
+                @Override
+                public boolean accept(File dir, String name) {
+                    return name.endsWith(".apk");
+                }
+            });
+            for (File f : apks) {
+                // maybe skip directories for formats like AR that don't store directories
+                String entryName = "apk/" + f.getName();
+                entryName = entryName.replace("\\", "/");
+                if (entryName.startsWith("/")) {
+                    entryName = entryName.substring(1);
+                }
+                ArchiveEntry entry = o.createArchiveEntry(f, entryName);
+                // potentially add more flags to entry
+                o.putArchiveEntry(entry);
+                if (f.isFile()) {
+                    try (InputStream i = Files.newInputStream(f.toPath())) {
+                        IOUtils.copy(i, o);
+                    }
+                }
+                o.closeArchiveEntry();
+            }
+
+            File[] aar = new File("target").listFiles(new FilenameFilter() {
+                @Override
+                public boolean accept(File dir, String name) {
+                    return name.endsWith(".aar");
+                }
+            });
+            for (File f : aar) {
+                // maybe skip directories for formats like AR that don't store directories
+                String entryName = "aar/" + f.getName();
+                entryName = entryName.replace("\\", "/");
+                if (entryName.startsWith("/")) {
+                    entryName = entryName.substring(1);
+                }
+                ArchiveEntry entry = o.createArchiveEntry(f, entryName);
+                // potentially add more flags to entry
+                o.putArchiveEntry(entry);
+                if (f.isFile()) {
+                    try (InputStream i = Files.newInputStream(f.toPath())) {
+                        IOUtils.copy(i, o);
+                    }
+                }
+                o.closeArchiveEntry();
+            }
+            File[] libs = new File("target").listFiles(new FilenameFilter() {
+                @Override
+                public boolean accept(File dir, String name) {
+                    return name.endsWith(".jar") || name.endsWith(".war");
+                }
+            });
+            for (File f : libs) {
+                // maybe skip directories for formats like AR that don't store directories
+                String entryName = "libs/" + f.getName();
+                entryName = entryName.replace("\\", "/");
+                if (entryName.startsWith("/")) {
+                    entryName = entryName.substring(1);
+                }
+                ArchiveEntry entry = o.createArchiveEntry(f, entryName);
+                // potentially add more flags to entry
+                o.putArchiveEntry(entry);
+                if (f.isFile()) {
+                    try (InputStream i = Files.newInputStream(f.toPath())) {
+                        IOUtils.copy(i, o);
+                    }
+                }
+                o.closeArchiveEntry();
+            }
+
+            File[] zip = new File("target").listFiles(new FilenameFilter() {
+                @Override
+                public boolean accept(File dir, String name) {
+                    return name.endsWith(".zip");
+                }
+            });
+            for (File f : zip) {
+                // maybe skip directories for formats like AR that don't store directories
+                String entryName = "distributions/" + f.getName();
+                entryName = entryName.replace("\\", "/");
+                if (entryName.startsWith("/")) {
+                    entryName = entryName.substring(1);
+                }
+                ArchiveEntry entry = o.createArchiveEntry(f, entryName);
+                // potentially add more flags to entry
+                o.putArchiveEntry(entry);
+                if (f.isFile()) {
+                    try (InputStream i = Files.newInputStream(f.toPath())) {
+                        IOUtils.copy(i, o);
+                    }
+                }
+                o.closeArchiveEntry();
+            }
+
+            o.finish();
+        }
+    }
+
     private static void buildFileList(Collection<File> filesToArchive, File sourceDirectory) {
         File[] files = sourceDirectory.listFiles();
         if (files != null) {
@@ -413,112 +553,78 @@ public class Main {
                 if (model.getDependencies() == null) {
                     model.setDependencies(new ArrayList<>());
                 }
-                //locate the build.gradle file for this module
-                String artifactId = model.getArtifactId();
-                File gradle = new File(artifactId + "/build.gradle");
-                List<String> lines = FileUtils.readLines(gradle, "UTF-8");
-                for (int i = 0; i < lines.size(); i++) {
-                    String line = lines.get(i);
-                    line = line.trim();
-                    if (line.startsWith("//")) {
-                        continue;
-                    }
-                    if (line.startsWith("testImplementation")) {
-                        //ignore it for now
-                    }
-                    if (line.startsWith("api")) {
-                        line = line.replaceFirst("api ", "").trim();
-                        if (line.startsWith("project(")) {
-                            Dependency d = new Dependency();
-                            d.setGroupId(props.getProperty("pom.groupId"));
-                            d.setVersion(props.getProperty("pom.version"));
-                            String artifact = line.replace("project(':", "");
-                            artifact = artifact.replace("')", "");
-                            d.setArtifactId(artifactId);
-                            model.getDependencies().add(d);
-                        } else {
-                            line = line.replace("'", "");
-                            line = line.replace("\"", "");
-                            line = line.trim();
-                            if (line.startsWith("(")) {
-                                line = line.substring(1);
-                            }
+                if (model.getPackaging() == null) {
+                    model.setPackaging("jar");
+                }
 
-                            String[] parts = line.split(":");
-                            Dependency d = new Dependency();
-                            d.setGroupId(parts[0]);
-                            d.setArtifactId(parts[1]);
-                            d.setVersion(parts[2]);
-                            if (parts[2].contains(")")) {
-                                d.setVersion(parts[2].substring(0, parts[2].indexOf(")")));
-                            }
-                            if (line.endsWith("{")) {
-                                i++;
-                                line = lines.get(i).trim();
-                                while (!line.startsWith("}")) {
-                                    if (line.contains("exclude")) {
-                                        line = line.replaceFirst("exclude", "");
-                                        String[] parts2 = line.trim().split("\\,");
-                                        String group = null;
-                                        String artifact = null;
-                                        for (String s : parts2) {
-                                            if (s.trim().startsWith("group:")) {
-                                                group = s.trim().replace("group:", "").replace("'", "").replace("\"", "").trim();
-                                            }
-                                            if (s.trim().startsWith("module:")) {
-                                                artifact = s.trim().replace("module:", "").replace("'", "").replace("\"", "").trim();
-                                            }
+                if ("aar".equalsIgnoreCase(model.getPackaging())
+                        || "apk".equalsIgnoreCase(model.getPackaging())
+                        || "war".equalsIgnoreCase(model.getPackaging())) {
+                    //locate the build.gradle file for this module
+                    String artifactId = model.getArtifactId();
+                    File gradle = new File(artifactId + "/build.gradle");
+                    List<String> lines = FileUtils.readLines(gradle, "UTF-8");
+                    for (int i = 0; i < lines.size(); i++) {
+                        String line = lines.get(i);
+                        line = line.trim();
+                        if (line.startsWith("//")) {
+                            continue;
+                        }
+                        if (line.startsWith("testImplementation")) {
+                            //ignore it for now
+                        }
+                        if (line.startsWith("api")) {
+                            line = line.replaceFirst("api ", "").trim();
+                            if (line.startsWith("project(")) {
+                                addProjectDependency(props, line, model.getDependencies());
+
+                            } else {
+
+                                line = line.replace("'", "");
+                                line = line.replace("\"", "");
+                                line = line.trim();
+                                if (line.startsWith("(")) {
+                                    line = line.substring(1);
+                                }
+                                Dependency d = new Dependency();
+
+                                if (line.contains("group:") && line.contains("name:") && line.contains("version")) {
+                                    String[] parts = line.replace("implementation", "").replace("api", "").
+                                            trim().split(",");
+                                    String g = null;
+                                    String a = null;
+                                    String v = null;
+                                    for (String s : parts) {
+                                        if (s.contains("group:")) {
+                                            g = s.replace("group:", "").trim();
                                         }
-                                        if (group != null && artifact != null) {
-                                            if (d.getExclusions() == null) {
-                                                d.setExclusions(new ArrayList<>());
-                                            }
-                                            Exclusion e = new Exclusion();
-                                            e.setGroupId(group);
-                                            e.setArtifactId(artifactId);
-                                            d.getExclusions().add(e);
+                                        if (s.contains("name:")) {
+                                            a = s.replace("name:", "").trim();
+                                        }
+                                        if (s.contains("version:")) {
+                                            v = s.replace("version:", "").trim();
                                         }
                                     }
-                                    //exclusions
-                                    i++;
-                                    line = lines.get(i).trim();
+                                    if (g != null && a != null && v != null) {
+                                        d.setGroupId(g);
+                                        d.setArtifactId(a);
+                                        d.setVersion(v);
+                                        if (v.contains(")")) {
+                                            d.setVersion(v.substring(0, v.indexOf(")")));
+                                        }
+                                        model.getDependencies().add(d);
+                                    }
+                                } else {
+                                    String[] parts = line.split(":");
+                                    d.setGroupId(parts[0]);
+                                    d.setArtifactId(parts[1]);
+                                    d.setVersion(parts[2]);
+                                    if (parts[2].contains(")")) {
+                                        d.setVersion(parts[2].substring(0, parts[2].indexOf(")")));
+                                    }
+                                    model.getDependencies().add(d);
                                 }
-
-                            }
-                        }
-
-                    }
-                    if (line.startsWith("implementation")) {
-                        line = line.replaceFirst("implementation ", "").trim();
-                        if (line.startsWith("project(")) {
-                            Dependency d = new Dependency();
-                            d.setGroupId(props.getProperty("pom.groupId"));
-                            d.setVersion(props.getProperty("pom.version"));
-                            String artifact = line.replace("project(':", "");
-                            artifact = artifact.replace("')", "");
-                            d.setArtifactId(artifactId);
-                            model.getDependencies().add(d);
-                        } else {
-                            line = line.replace("'", "");
-                            line = line.replace("\"", "");
-                            line = line.trim();
-                            if (line.startsWith("(")) {
-                                line = line.substring(1);
-                            }
-
-                            String[] parts = line.split(":");
-                            Dependency d = new Dependency();
-                            d.setGroupId(parts[0]);
-                            d.setArtifactId(parts[1]);
-                            d.setVersion(parts[2]);
-                            if (parts[2].contains(")")) {
-                                d.setVersion(parts[2].substring(0, parts[2].indexOf(")")));
-                            }
-                            if (line.endsWith("{")) {
-                                i++;
-                                line = lines.get(i).trim();
-                                while (!line.startsWith("}")) {
-                                    //exclusions
+                                if (line.endsWith("{")) {
                                     i++;
                                     line = lines.get(i).trim();
                                     while (!line.startsWith("}")) {
@@ -536,6 +642,8 @@ public class Main {
                                                 }
                                             }
                                             if (group != null && artifact != null) {
+
+                                                model.getDependencies().add(d);
                                                 if (d.getExclusions() == null) {
                                                     d.setExclusions(new ArrayList<>());
                                                 }
@@ -549,17 +657,102 @@ public class Main {
                                         i++;
                                         line = lines.get(i).trim();
                                     }
+
+                                }
+                            }
+
+                        }
+                        if (line.startsWith("implementation")) {
+                            line = line.replaceFirst("implementation ", "").trim();
+                            if (line.startsWith("project(")) {
+                                addProjectDependency(props, line, model.getDependencies());
+                            } else {
+                                line = line.replace("'", "");
+                                line = line.replace("\"", "");
+                                line = line.trim();
+                                if (line.startsWith("(")) {
+                                    line = line.substring(1);
+                                }
+                                Dependency d = new Dependency();
+
+                                if (line.contains("group:") && line.contains("name:") && line.contains("version")) {
+                                    String[] parts = line.replace("implementation", "").replace("api", "").
+                                            trim().split(",");
+                                    String g = null;
+                                    String a = null;
+                                    String v = null;
+                                    for (String s : parts) {
+                                        if (s.contains("group:")) {
+                                            g = s.replace("group:", "").trim();
+                                        }
+                                        if (s.contains("name:")) {
+                                            a = s.replace("name:", "").trim();
+                                        }
+                                        if (s.contains("version:")) {
+                                            v = s.replace("version:", "").trim();
+                                        }
+                                    }
+                                    if (g != null && a != null && v != null) {
+                                        d.setGroupId(g);
+                                        d.setArtifactId(a);
+                                        d.setVersion(v);
+                                        if (v.contains(")")) {
+                                            d.setVersion(v.substring(0, v.indexOf(")")));
+                                        }
+                                        model.getDependencies().add(d);
+                                    }
+                                } else {
+                                    String[] parts = line.split(":");
+                                    d.setGroupId(parts[0]);
+                                    d.setArtifactId(parts[1]);
+                                    d.setVersion(parts[2]);
+                                    if (parts[2].contains(")")) {
+                                        d.setVersion(parts[2].substring(0, parts[2].indexOf(")")));
+                                    }
+                                    model.getDependencies().add(d);
+                                }
+                                if (line.endsWith("{")) {
+                                    i++;
+                                    line = lines.get(i).trim();
+                                    while (!line.startsWith("}")) {
+                                        if (line.contains("exclude")) {
+                                            line = line.replaceFirst("exclude", "");
+                                            String[] parts2 = line.trim().split("\\,");
+                                            String group = null;
+                                            String artifact = null;
+                                            for (String s : parts2) {
+                                                if (s.trim().startsWith("group:")) {
+                                                    group = s.trim().replace("group:", "").replace("'", "").replace("\"", "").trim();
+                                                }
+                                                if (s.trim().startsWith("module:")) {
+                                                    artifact = s.trim().replace("module:", "").replace("'", "").replace("\"", "").trim();
+                                                }
+                                            }
+                                            if (group != null && artifact != null) {
+
+                                                model.getDependencies().add(d);
+                                                if (d.getExclusions() == null) {
+                                                    d.setExclusions(new ArrayList<>());
+                                                }
+                                                Exclusion e = new Exclusion();
+                                                e.setGroupId(group);
+                                                e.setArtifactId(artifactId);
+                                                d.getExclusions().add(e);
+                                            }
+                                        }
+                                        //exclusions
+                                        i++;
+                                        line = lines.get(i).trim();
+                                    }
+
                                 }
 
                             }
-
-                            model.getDependencies().add(d);
-
                         }
+                        // if (line.startsWith("compile")) {
+                        //probably won't see this again
+                        //}
                     }
-                    // if (line.startsWith("compile")) {
-                    //probably won't see this again
-                    //}
                 }
 
                 MavenXpp3Writer writer = new MavenXpp3Writer();
@@ -592,6 +785,20 @@ public class Main {
                 throw new Exception("signing failed for " + f.getAbsolutePath());
             }
         }
+    }
+
+    private static void addProjectDependency(Properties props, String line, List<Dependency> dependencies) {
+        Dependency d = new Dependency();
+        d.setGroupId(props.getProperty("pom.groupId"));
+        d.setVersion(props.getProperty("pom.version"));
+        String artifact = line.replace("project(':", "");
+        artifact = artifact.replace("')", "");
+        d.setArtifactId(artifact);
+        dependencies.add(d);
+    }
+
+    private static void copyApksForDist(Properties props) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     static class StreamGobbler extends Thread {
@@ -691,6 +898,7 @@ public class Main {
     }
 
     private static void push(File target, Properties props) throws Exception {
+        System.out.println("publishing to nexus repo");
         String password = props.getProperty("NEXUS_PASSWORD");
         if (mightBeEncrypted(password)) {
             password = tryDecrypt(password);

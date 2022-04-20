@@ -18,7 +18,7 @@ if errorlevel 1 goto fail
 cd ..
 call  java -jar releaseHelper\target\releaseHelper-1.0-SNAPSHOT-jar-with-dependencies.jar
 if errorlevel 1 goto fail
-:goto success
+goto success
 rem sign all the artifacts
 
 rem hash all the signatures and artifacts 

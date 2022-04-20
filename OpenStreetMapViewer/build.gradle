@@ -3,15 +3,38 @@ description = 'OpenMap in the Play Store, the example app for using osmdroid'
 
 apply plugin: 'com.android.application'
 apply from: "$rootDir/gradle/android-signing.gradle"
+
+
+group = project.property("pom.groupId")
+version =  project.property("pom.version")
+
 android {
     compileSdkVersion findProperty('android.compileSdkVersion').toInteger()
 
+
     defaultConfig {
-        applicationId 'org.osmdroid'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
-        minSdkVersion Integer.parseInt(project.property('android-minSdkForSupportLib.version'))
+
+        applicationId project.group + "." +
+                project.name.toString().toLowerCase().replaceAll("[-]", ".")
+                        .replaceAll("[^a-zA-Z0-9\\.]", "")
+
+        minSdkVersion 14
         multiDexEnabled = true
+
+        compileSdkVersion(project.hasProperty('android.compileSdkVersion')
+                ? Integer.parseInt(project.property('android.compileSdkVersion')) : 23)
+
+        // default targetSdkVersion to API 23, if not provided
+        targetSdkVersion(project.hasProperty('android.targetSdkVersion')
+                ? Integer.parseInt(project.property('android.targetSdkVersion')) : 23)
+
+        // default versionCode o 1 if not provided
+        versionCode(project.hasProperty('android.versionCode')
+                ? Integer.parseInt(project.property('android.versionCode')) : 1)
+
+        versionName project.version
     }
     lintOptions {
         abortOnError false
@@ -39,6 +62,7 @@ android {
 
 
 }
+
 
 dependencies {
     //apparently google or gradle changed something so that
@@ -80,10 +104,10 @@ dependencies {
     implementation 'com.squareup.leakcanary:leakcanary-android:2.2'
 
     //on device testing
-    //FIXME androidTestCompile 'com.android.support.test:runner:0.4.+'
-    //FIXME androidTestCompile 'com.android.support.test:rules:0.4.+'
-    //FIXME androidTestCompile 'com.android.support:multidex:1.0.3'
-    //FIXME androidTestCompile "com.android.support:support-annotations:${project.property('android-support.version')}"
+    androidTestImplementation  'com.android.support.test:runner:0.4.+'
+    androidTestImplementation  'com.android.support.test:rules:0.4.+'
+    androidTestImplementation  'com.android.support:multidex:1.0.3'
+    androidTestImplementation  "com.android.support:support-annotations:${project.property('android-support.version')}"
 }
 
 

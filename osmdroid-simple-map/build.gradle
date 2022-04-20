@@ -1,17 +1,49 @@
-description = 'Simple Map'
+description = 'Simple osmdroid based map application'
 
 apply plugin: 'com.android.application'
+apply from: "$rootDir/gradle/android-signing.gradle"
+
+group = project.property("pom.groupId")
+version =  project.property("pom.version")
 
 android {
     compileSdkVersion findProperty('android.compileSdkVersion').toInteger()
+     defaultConfig {
 
-    defaultConfig {
-        applicationId 'org.osmdroid.sample'
-        minSdkVersion Integer.parseInt(project.property('android-minSdkForSupportLib.version'))
+         applicationId project.group + "." +
+                 project.name.toString().toLowerCase().replaceAll("[-]", ".")
+                         .replaceAll("[^a-zA-Z0-9\\.]", "")
+
+         minSdkVersion Integer.parseInt(project.property('android-minSdkForSupportLib.version'))
+         multiDexEnabled = true
+         compileSdkVersion(project.hasProperty('android.compileSdkVersion')
+                 ? Integer.parseInt(project.property('android.compileSdkVersion')) : 23)
+
+
+         minSdkVersion(14)
+
+
+         targetSdkVersion(project.hasProperty('android.targetSdkVersion')
+                 ? Integer.parseInt(project.property('android.targetSdkVersion')) : 23)
+
+
+         versionCode(project.hasProperty('android.versionCode')
+                 ? Integer.parseInt(project.property('android.versionCode')) : 1)
+
+         versionName project.version
+     }
+
+
+
+    lint {
+        baseline = file("lint-baseline.xml")
     }
 }
 
 dependencies {
-    implementation "com.android.support:appcompat-v7:${project.property('android-support.version')}"
+    implementation "androidx.appcompat:appcompat:1.4.1"
     implementation project(':osmdroid-android')
 }
+
+
+
