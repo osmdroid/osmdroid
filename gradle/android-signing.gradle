@@ -119,21 +119,42 @@ if (local.exists()) {
 
 }
 
+ext.canSign = project.hasProperty('android.signingConfigs.release.storeFile') &&
+        (project.property('android.signingConfigs.release.storeFile') != null) &&
+        !project.property('android.signingConfigs.release.storeFile').trim().isEmpty() &&
+        project.hasProperty('android.signingConfigs.release.storePassword') &&
+        (project.property('android.signingConfigs.release.storePassword') != null) &&
+        !project.property('android.signingConfigs.release.storePassword').trim().isEmpty() &&
+        project.hasProperty('android.signingConfigs.release.keyAlias') &&
+        (project.property('android.signingConfigs.release.keyAlias') != null) &&
+        !project.property('android.signingConfigs.release.keyAlias').trim().isEmpty() &&
+        project.hasProperty('android.signingConfigs.release.keyPassword') &&
+        (project.property('android.signingConfigs.release.keyPassword') != null) &&
+        !project.property('android.signingConfigs.release.keyPassword').trim().isEmpty();
+afterEvaluate { project ->
 
+    if (!canSign) {
+        if ((isAndroidProject) && !rootProject.hasProperty('noSigningConfigWarningDisplayed')) {
+            // only display this error message on the first pass...
+            println "\n\n==================================================================="
+            println "==> WARNING: No Android release signing configuration provided! <=="
+            println "===================================================================\n\n"
+        }
+    }
+}
 android {
 
 
     signingConfigs {
+        if (canSign) {
+            release {
+                storeFile file(properties.getProperty("android.signingConfigs.release.storeFile"))
+                storePassword tryDecrypt(properties.getProperty("android.signingConfigs.release.storePassword"))
+                keyAlias properties.getProperty("android.signingConfigs.release.keyAlias")
+                keyPassword tryDecrypt(properties.getProperty("android.signingConfigs.release.keyPassword"))
 
-        release {
-            storeFile file(properties.getProperty("android.signingConfigs.release.storeFile"))
-            storePassword tryDecrypt(properties.getProperty("android.signingConfigs.release.storePassword"))
-            keyAlias properties.getProperty("android.signingConfigs.release.keyAlias")
-            keyPassword tryDecrypt(properties.getProperty("android.signingConfigs.release.keyPassword"))
 
-            // Optional, specify signing versions used
-            // v1SigningEnabled true
-            //v2SigningEnabled true
+            }
         }
     }
 
