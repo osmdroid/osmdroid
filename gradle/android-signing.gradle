@@ -134,14 +134,13 @@ ext.canSign = project.hasProperty('android.signingConfigs.release.storeFile') &&
 afterEvaluate { project ->
 
     if (!canSign) {
-        if ((isAndroidProject) && !rootProject.hasProperty('noSigningConfigWarningDisplayed')) {
-            // only display this error message on the first pass...
-            println "\n\n==================================================================="
-            println "==> WARNING: No Android release signing configuration provided! <=="
-            println "===================================================================\n\n"
-        }
+        // only display this error message on the first pass...
+        println "\n\n==================================================================="
+        println "==> WARNING: No Android release signing configuration provided! <=="
+        println "===================================================================\n\n"
     }
 }
+
 android {
 
 
