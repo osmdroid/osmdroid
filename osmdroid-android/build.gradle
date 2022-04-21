@@ -91,4 +91,3 @@ artifacts {
 }
 preBuild.dependsOn(copyFiles)
 
-//apply from: "$rootDir/gradle/javadoc-aar.gradle"
