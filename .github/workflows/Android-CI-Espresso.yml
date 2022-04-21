@@ -34,29 +34,6 @@ jobs:
         with:
           name: UnitTest-report
           path: ${{ github.workspace }}/**/build/reports/tests/testDebugUnitTest
-  Check:
-    name: Check
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Install JDK ${{ matrix.java_version }}
-        uses: actions/setup-java@v1
-        with:
-          java-version: 11
-      - name: Install Android SDK
-        uses: malinskiy/action-android/install-sdk@release/0.1.2
-        env:
-          ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
-      - name: Build project
-        run: ./gradlew checkstyle
-      - name: Build project
-        run: ./gradlew lint
-#      - name: Archive Lint report
-#        uses: actions/upload-artifact@v2
-#        with:
-#          name: Lint-report
-#          path: ${{ github.workspace }}/lint-*.html
   Espresso:
     runs-on: macOS-latest
     continue-on-error: true
@@ -75,7 +52,7 @@ jobs:
       - name: Run instrumentation tests
         uses: malinskiy/action-android/emulator-run-cmd@release/0.1.2
         with:
-          cmd: ./gradlew clean build
+          cmd: ./gradlew clean assDeb
           api: 28
           tag: default
           abi: x86

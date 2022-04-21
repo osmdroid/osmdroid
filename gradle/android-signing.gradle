@@ -143,24 +143,28 @@ afterEvaluate { project ->
 
 
 if (ext.canSign) {
-android {
-    signingConfigs {
-            release {
-                storeFile file(properties.getProperty("android.signingConfigs.release.storeFile"))
-                storePassword tryDecrypt(properties.getProperty("android.signingConfigs.release.storePassword"))
-                keyAlias properties.getProperty("android.signingConfigs.release.keyAlias")
-                keyPassword tryDecrypt(properties.getProperty("android.signingConfigs.release.keyPassword"))
+	android {
+		signingConfigs {
+				release {
+					storeFile file(properties.getProperty("android.signingConfigs.release.storeFile"))
+					storePassword tryDecrypt(properties.getProperty("android.signingConfigs.release.storePassword"))
+					keyAlias properties.getProperty("android.signingConfigs.release.keyAlias")
+					keyPassword tryDecrypt(properties.getProperty("android.signingConfigs.release.keyPassword"))
 
 
-            }
-        }
-    }
+				}
+			}
+		}
+}
 
-    buildTypes {
-        release {
-            signingConfig signingConfigs.release
-        }
-    }
+if (ext.canSign) {
+	android {
+		buildTypes {
+			release {
+				signingConfig signingConfigs.release
+			}
+		}
+	}
 }
 
 
