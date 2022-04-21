@@ -55,20 +55,6 @@ allprojects {
         options.encoding = "UTF-8"
     }
 
-    if (project.hasProperty('profile') && project.profile.split(',').contains("ci")) {
-		apply from: "${rootDir}/gradle/quality.gradle"
-    }
 
 }
 
-//copy the readme into the site folder as the index
-task copyReadme() {
-    doLast {
-        copy {
-            from rootDir.absolutePath + "/README.md"
-            into rootDir.absolutePath + "/src/site/"
-            rename("README.md", "index.md")
-        }
-    }
-}
-//site.dependsOn copyReadme
