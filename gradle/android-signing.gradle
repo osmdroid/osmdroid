@@ -133,7 +133,7 @@ ext.canSign = project.hasProperty('android.signingConfigs.release.storeFile') &&
         !project.property('android.signingConfigs.release.keyPassword').trim().isEmpty();
 afterEvaluate { project ->
 
-    if (!canSign) {
+    if (!ext.canSign) {
         // only display this error message on the first pass...
         println "\n\n==================================================================="
         println "==> WARNING: No Android release signing configuration provided! <=="
@@ -141,11 +141,10 @@ afterEvaluate { project ->
     }
 }
 
+
+if (ext.canSign) {
 android {
-
-
     signingConfigs {
-        if (canSign) {
             release {
                 storeFile file(properties.getProperty("android.signingConfigs.release.storeFile"))
                 storePassword tryDecrypt(properties.getProperty("android.signingConfigs.release.storePassword"))
