@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        java_version: [1.8]
+        java_version: [11]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -23,7 +23,9 @@ jobs:
         with:
           java-version: ${{ matrix.java_version }}
       - name: Install Android SDK
-        uses: malinskiy/action-android/install-sdk@release/0.0.7
+        uses: malinskiy/action-android/install-sdk@release/0.1.2
+        env:
+          ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
       - name: Build project
         run: ./gradlew build
       - name: Archive UnitTest report
@@ -43,7 +45,9 @@ jobs:
         with:
           java-version: 11
       - name: Install Android SDK
-        uses: malinskiy/action-android/install-sdk@release/0.0.7
+        uses: malinskiy/action-android/install-sdk@release/0.1.2
+        env:
+          ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
       - name: Build project
         run: ./gradlew checkstyle
       - name: Build project
@@ -65,11 +69,13 @@ jobs:
         with:
           java-version: 11
       - name: Install Android SDK
-        uses: malinskiy/action-android/install-sdk@release/0.0.7
+        uses: malinskiy/action-android/install-sdk@release/0.1.2
+        env:
+          ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
       - name: Run instrumentation tests
-        uses: malinskiy/action-android/emulator-run-cmd@release/0.0.7
+        uses: malinskiy/action-android/emulator-run-cmd@release/0.1.2
         with:
-          cmd: ./gradlew clean install -Pprofile=ci
+          cmd: ./gradlew clean build
           api: 28
           tag: default
           abi: x86
