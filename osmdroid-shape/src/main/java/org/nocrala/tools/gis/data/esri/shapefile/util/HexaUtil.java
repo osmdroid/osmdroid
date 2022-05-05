@@ -1,10 +1,12 @@
 package org.nocrala.tools.gis.data.esri.shapefile.util;
 
+import java.util.Locale;
+
 public class HexaUtil {
 
     public static final byte[] stringToByteArray(final String orig) {
 
-        String txt = orig.toLowerCase();
+        String txt = orig.toLowerCase(Locale.getDefault());
 
         StringBuffer sb = new StringBuffer();
         for (int i = 0; i < txt.length(); i++) {

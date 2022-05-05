@@ -1,0 +1,343 @@
+import javax.crypto.Cipher
+import javax.crypto.spec.SecretKeySpec
+
+/*
+common functions for signing APK
+example usage
+    apply from: "$rootDir/gradle/android-signing.gradle"
+
+then put your data in local.properties
+    android.signingConfigs.release.storeFile=C:/projects/osmdroid/osmdroid-release-key.jks
+    android.signingConfigs.release.storePassword=
+    android.signingConfigs.release.keyPassword=
+    android.signingConfigs.release.keyAlias=alias_name
+
+optionally, encrypt your password, first generate a master key
+
+gradlew generateMasterKey
+then
+gradlew encryptPassword
+
+put the output, including the {} in local.properties as a replacement for the actual password
+
+ */
+
+
+def hexToBytes(String s) {
+    //return s.getBytes();
+    return hexToBytes(s.toCharArray());
+}
+
+/**
+ * gets the master key
+ * @return
+ */
+def loadKey() {
+    String users_home = System.getProperty("user.home");
+    users_home = users_home.replace("\\", "/"); // to support all platforms.
+    users_home = users_home + "/.gradle/";
+    logger.debug("User home dir is " + users_home);
+    File gradlehome = new File(users_home);
+    //check for existing master key
+    File keys = new File(gradlehome.getAbsolutePath() + "/fury-keys.properties");
+
+    if (keys.exists()) {
+        //defined in rooDir/local.properties file
+        Properties properties = new Properties()
+
+        properties.load(keys.newDataInputStream())
+        if (properties.containsKey("FURY_MASTER_PASSWORD"))
+            return properties.getProperty("FURY_MASTER_PASSWORD");
+    }
+    //defined in the project gradle.properties file
+    if (hasProperty('FURY_MASTER_PASSWORD')) {
+        return FURY_MASTER_PASSWORD
+    }
+
+    return "";
+}
+def tryDecrypt(String ciphertext) {
+    //we're using {cipher} so trim off the first and last char
+    if (ciphertext==null) return null;
+    String textToDecrypt = ciphertext.substring(1, ciphertext.length() - 1);
+    try {
+        String text = decrypt(textToDecrypt, loadKey());
+        return text;
+    } catch (Exception ex) {
+        logger.warn("Decryption failure - input text was not encrypted or encrypted with a different key,", ex)
+    }
+    return ciphertext
+}
+
+def decrypt(String ciphertext, String key) {
+    byte[] raw = hexToBytes(key); //
+    SecretKeySpec skeySpec = new SecretKeySpec(raw, "AES");
+    Cipher cipher = Cipher.getInstance("AES");
+    cipher.init(Cipher.DECRYPT_MODE, skeySpec);
+    byte[] original = cipher.doFinal(hexToBytes(ciphertext));
+    return new String(original);
+}
+
+def hexToBytes(char[] hex) {
+    int length = hex.length / 2;
+    byte[] raw = new byte[length];
+    for (int i = 0; i < length; i++) {
+        int high = Character.digit(hex[i * 2], 16);
+        int low = Character.digit(hex[i * 2 + 1], 16);
+        int value = (high << 4) | low;
+        if (value > 127) {
+            value -= 256;
+        }
+        raw[i] = (byte) value;
+    }
+    return raw;
+}
+
+def mightBeEncrypted(String text) {
+    if (text == null)
+        return false;
+    if (text.length() == null)
+        return false;
+    if (text.startsWith("{") && text.endsWith("}"))
+        return true;
+    return false;
+}
+// another hack, import local.properties into the current context
+// used for crypto settings
+File local = new File("$rootDir/local.properties");
+Properties properties = new Properties();
+if (local.exists()) {
+    properties.load(local.newDataInputStream());
+    def iterator = properties.entrySet().iterator();
+    while (iterator.hasNext()) {
+
+        def next = iterator.next();
+        String k = next.getKey();
+        ext.set(k, next.value);
+
+    }
+
+}
+
+ext.canSign = project.hasProperty('android.signingConfigs.release.storeFile') &&
+        (project.property('android.signingConfigs.release.storeFile') != null) &&
+        !project.property('android.signingConfigs.release.storeFile').trim().isEmpty() &&
+        project.hasProperty('android.signingConfigs.release.storePassword') &&
+        (project.property('android.signingConfigs.release.storePassword') != null) &&
+        !project.property('android.signingConfigs.release.storePassword').trim().isEmpty() &&
+        project.hasProperty('android.signingConfigs.release.keyAlias') &&
+        (project.property('android.signingConfigs.release.keyAlias') != null) &&
+        !project.property('android.signingConfigs.release.keyAlias').trim().isEmpty() &&
+        project.hasProperty('android.signingConfigs.release.keyPassword') &&
+        (project.property('android.signingConfigs.release.keyPassword') != null) &&
+        !project.property('android.signingConfigs.release.keyPassword').trim().isEmpty();
+afterEvaluate { project ->
+
+    if (!ext.canSign) {
+        // only display this error message on the first pass...
+        println "\n\n==================================================================="
+        println "==> WARNING: No Android release signing configuration provided! <=="
+        println "===================================================================\n\n"
+    }
+}
+
+
+if (ext.canSign) {
+	android {
+		signingConfigs {
+				release {
+					storeFile file(properties.getProperty("android.signingConfigs.release.storeFile"))
+					storePassword tryDecrypt(properties.getProperty("android.signingConfigs.release.storePassword"))
+					keyAlias properties.getProperty("android.signingConfigs.release.keyAlias")
+					keyPassword tryDecrypt(properties.getProperty("android.signingConfigs.release.keyPassword"))
+
+
+				}
+			}
+		}
+}
+
+if (ext.canSign) {
+	android {
+		buildTypes {
+			release {
+				signingConfig signingConfigs.release
+			}
+		}
+	}
+}
+
+
+
+import groovy.swing.SwingBuilder
+
+import javax.crypto.Cipher
+import javax.crypto.KeyGenerator
+import javax.crypto.SecretKey
+import javax.crypto.spec.SecretKeySpec
+
+/**=================================================================================================
+ * Common Gradle script encryption support borrowed from gradle fury
+ *
+ * @author Alex O'Ree
+ ================================================================================================= */
+
+
+// Issue 67 support password encryption,decryption
+
+task generateMasterKey(description: "Generates an encryption key", group: "Gradle Fury Crypto") {
+    doLast {
+        String users_home = System.getProperty("user.home");
+        users_home = users_home.replace("\\", "/"); // to support all platforms.
+        users_home = users_home + "/.gradle/";
+        System.out.println("User home dir is " + users_home);
+        File gradlehome = new File(users_home);
+        if (!gradlehome.exists()) {
+            gradlehome.mkdirs();
+        }
+
+        //check for existing master key
+        File keys = new File(gradlehome.getAbsolutePath() + "/fury-keys.properties");
+
+        Properties propertiesLocal = new Properties()
+        if (keys.exists()) {
+            propertiesLocal.load(new FileInputStream(keys));
+        }
+        if (propertiesLocal.containsKey("FURY_MASTER_PASSWORD")) {
+            throw new Exception("Master key already exists! Aborting...If you remove or overwrite it, all previously encrypted passwords will not be usable")
+        }
+
+        int keysize = 256;
+        KeyGenerator kgen;
+        String masterKey = null;
+        boolean success = false;
+        try {
+            kgen = KeyGenerator.getInstance("AES");
+            kgen.init(keysize);
+            SecretKey skey = kgen.generateKey();
+            byte[] raw = skey.getEncoded();
+            masterKey = asHex(raw);
+            String t = encrypt("TEST", masterKey);
+            String a = decrypt(t, masterKey);
+            if ("TEST".equalsIgnoreCase(a)) {
+                System.out.println("Master Key (AES256) generated\n" +
+                        "FURY_MASTER_PASSWORD=" + masterKey);
+                success = true;
+            }
+        } catch (Exception ex) {
+            System.out.println("I couldn't do AES256, you probably need to install the Java JCE, falling back to 128bit");
+            logger.info("Error generating 256bit key", ex);
+        }
+        if (!success) {
+            keysize = 128;
+            try {
+                kgen = KeyGenerator.getInstance("AES");
+                kgen.init(keysize);
+                SecretKey skey = kgen.generateKey();
+                byte[] raw = skey.getEncoded();
+                masterKey = asHex(raw);
+                String t = encrypt("TEST", masterKey);
+                String a = decrypt(t, masterKey);
+                if ("TEST".equalsIgnoreCase(a)) {
+                    System.out.println("Master Key (AES128) generated\n" +
+                            "FURY_MASTER_PASSWORD=" + masterKey);
+                    success = true;
+                }
+            } catch (Exception ex) {
+                logger.warn("Error generating 128bit key", ex);
+            }
+        }
+        if (success) {
+            propertiesLocal.setProperty("FURY_MASTER_PASSWORD", masterKey);
+            propertiesLocal.store(new FileOutputStream(keys), "");
+        } else {
+            throw new Exception("failed to generate a master key, run again with -i for more information")
+        }
+    }
+}
+
+/**
+ * mvn --encrypt-password
+ */
+task encryptPassword(description: "Encrypts a password", group: "Gradle Fury Crypto") {
+
+    doLast {
+        System.out.println("== Gradle Fury: ProTip: add '-PstoreField=xyz' to automatically write the cipher text to 'local.properties' as" +
+                " xyz={cipher text}");
+        System.out.println("== Gradle Fury: ProTip: add '-Ppassword=xyz' to use xyz as the text to encrypt instead of prompting");
+        String key = loadKey();
+        String password_input = "";
+        if (key == null || key.length() == 0) {
+            throw new Exception("You must run 'gradlew generateMasterKey to create a master key first!")
+        }
+        def console = System.console()
+
+        String cipher;
+        if (project.hasProperty('password')) {
+            password_input = password;
+        } else {
+            //need to ask for it
+            if (console) {
+                password_input = console.readPassword('> Enter Password: ')
+            } else {
+                System.setProperty('java.awt.headless', 'false')
+                new SwingBuilder().edt {
+                    dialog(modal: true, title: 'Enter password_input', alwaysOnTop: true, resizable: false, locationRelativeTo: null, pack: true, show: true) {
+                        vbox { // Put everything below each other
+                            label(text: "Please enter password_input:")
+                            def input1 = passwordField()
+                            button(defaultButton: true, text: 'OK', actionPerformed: {
+                                password_input = new String(input1.getPassword());
+                                //getPassword doesn't return a string
+                                dispose();
+                            })
+                        }
+                    }
+                }
+            }
+        }
+        cipher = encrypt(password_input, key);
+        System.out.println("Cipher Text is\n\t {" + cipher + "}");
+
+        if (project.hasProperty('storeField')) {
+            Properties p = new Properties();
+            File localProps = new File("local.properties");
+            if (localProps.exists()) {
+                p.load(new FileInputStream("local.properties"));
+            }
+            p.setProperty(storeField, "{" + cipher + "}");
+            p.store(new FileOutputStream("local.properties"), "");
+            System.out.println("Cipher text stored to local.properties");
+
+        }
+    }
+}
+
+def asHex(byte[] buf) {
+
+    //return new String(buf);
+    StringBuilder strbuf = new StringBuilder(buf.length * 2);
+    int i;
+
+    for (i = 0; i < buf.length; i++) {
+        if (((int) buf[i] & 0xff) < 0x10) {
+            strbuf.append("0");
+        }
+
+        strbuf.append(Long.toString((int) buf[i] & 0xff, 16));
+    }
+
+    return strbuf.toString();
+}
+
+
+def encrypt(String clearText, String key) {
+    byte[] raw = hexToBytes(key); //
+    SecretKeySpec skeySpec = new SecretKeySpec(raw, "AES");
+    // Instantiate the cipher
+    Cipher cipher = Cipher.getInstance("AES");
+    cipher.init(Cipher.ENCRYPT_MODE, skeySpec);
+    byte[] encrypted = cipher.doFinal(clearText.getBytes());
+    return asHex(encrypted);
+}
+

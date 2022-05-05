@@ -2,8 +2,10 @@ description = "A tool to package OpenStreetMap tiles"
 apply plugin: 'java'
 apply plugin: 'distribution'
 apply plugin: 'application'
-apply plugin: 'maven'
+apply plugin: 'maven-publish'
 
+group = project.property("pom.groupId")
+version =  project.property("pom.version")
 mainClassName = "org.osmdroid.mtp.OSMMapTilePackager"
 
 test {
@@ -12,13 +14,25 @@ test {
     }
 }
 
+java {
+    withSourcesJar()
+    withJavadocJar()
+}
+
+tasks.withType(Javadoc) {
+    failOnError false
+    options.addStringOption('Xdoclint:none', '-quiet')
+    options.addStringOption('encoding', 'UTF-8')
+    options.addStringOption('charSet', 'UTF-8')
+}
+
 dependencies {
-    compile 'org.apache.httpcomponents:httpmime:4.0.1'
-    compile 'org.apache.james:apache-mime4j:0.6'
-    compile 'org.xerial:sqlite-jdbc:3.7.2'
+    implementation 'org.apache.httpcomponents:httpmime:4.5.13'
+    implementation 'org.apache.james:apache-mime4j:0.8.7'
+    implementation 'org.xerial:sqlite-jdbc:3.36.0.3'
 
 
-    testCompile "junit:junit:${project.property('junit.version')}"
+    testImplementation "junit:junit:${project.property('junit.version')}"
 }
 
 //copy the instrumentation tests from the maven osmdroid-android-it src folder
@@ -66,3 +80,39 @@ compileJava.dependsOn preBuildTask1
 compileJava.dependsOn preBuildTask2
 compileJava.dependsOn preBuildTask3
 compileJava.dependsOn preBuildTask4
+
+afterEvaluate {
+    publishing {
+
+        publications {
+            release(MavenPublication) {
+                from components.java
+                groupId project.property("pom.groupId")
+                artifactId project.name
+                version = project.property("pom.version")
+                pom {
+                    description =  project.description
+                    url = project.property("pom.url")
+
+                    //scm, organization and developers are injected via other mechanisms
+
+                    licenses {
+                        license {
+                            name=project.property("pom.licenses.license.0.name");
+                            url=project.property("pom.licenses.license.0.url");
+                            distribution==project.property("pom.licenses.license.0.distribution");
+                        }
+
+                    }
+                }
+            }
+
+            pdZipPublication(MavenPublication) {
+                artifact "build/distributions/OSMMapTilePackager-" + project.property("pom.version") + ".zip"
+
+            }
+        }
+    }
+
+
+}

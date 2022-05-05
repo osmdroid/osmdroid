@@ -1,57 +1,94 @@
 description = 'Geopackage support for osmdroid'
 
 apply plugin: 'com.android.library'
-apply from: "https://raw.githubusercontent.com/gradle-fury/gradle-fury/v1.1.4/gradle/android-support.gradle"
+apply plugin: 'maven-publish'
 
-// Attention! HACK!
-// In https://raw.githubusercontent.com/gradle-fury/gradle-fury/v1.1.4/gradle/android-support.gradle
-// we have a hack to prevent builds from failing due to missing signing config. This is done by
-// removing the signing task from the build if no keystore/pass is provided.
-//
-// At some point the signing task has been renamed from "validateReleaseSigning" to
-// "validateSigningRelease", thus obviously breaking the build again.
-//
-// The following is just a copy of the relevant code from android-support.gradle adapted to the new
-// name. This should be cleaned up in the future!
-afterEvaluate { project ->
-    tasks.each { task ->
-        if (isAndroidApplication) {
-            if ((task.name.toLowerCase().startsWith("assemble") && task.name.toLowerCase().contains('release'))
-                    || (task.name.toLowerCase().startsWith("bundle") && task.name.toLowerCase().contains('release'))
-                    || (task.name.toLowerCase().startsWith("package") && task.name.toLowerCase().contains('release'))
-                    || (task.name.equals("validateSigningRelease"))) {
-
-                task.setEnabled(canSign)
-            }
-        }
-    }
-}
+group = project.property("pom.groupId")
+version =  project.property("pom.version")
 
 android {
+    compileSdkVersion findProperty('android.compileSdkVersion').toInteger()
 
     defaultConfig {
         minSdkVersion 14
     }
+    buildTypes {
+        release {
+            minifyEnabled false
+        }
+    }
+
+
+    publishing {
+        singleVariant("release") {
+            withSourcesJar()
+            withJavadocJar()
+        }
+    }
+
 }
 
 dependencies {
     //crash logging
-    //compile 'ch.acra:acra:4.7.0'
+    //implementation 'ch.acra:acra:4.7.0'
 
-    testCompile 'junit:junit:4.13'
-    compile project(':osmdroid-android')
+    testImplementation 'junit:junit:4.13.2'
 
-    compile ("mil.nga.geopackage:geopackage-android:2.0.1"){
+    api  project(':osmdroid-android')
+    api ("mil.nga.geopackage:geopackage-android:2.0.1"){
         exclude group: 'com.google.android.gms', module:'play-services'
         exclude group: 'com.google.maps.android', module:'android-maps-utils'
         exclude group: 'com.android.support',module: 'support-v13'
     }
 
-    compile 'com.j256.ormlite:ormlite-android:5.0'
-    compile 'mil.nga.geopackage:geopackage-core:2.0.1'
-    compile 'ar.com.hjg:pngj:2.1.0'
-    compile 'mil.nga:tiff:1.0.3'
+    api 'com.j256.ormlite:ormlite-android:5.0'
+    api 'mil.nga.geopackage:geopackage-core:2.0.1'
+    api 'ar.com.hjg:pngj:2.1.0'
+    api 'mil.nga:tiff:1.0.3'
 
-    compile 'ar.com.hjg:pngj:2.1.0'
-    compile 'mil.nga:tiff:2.0.0'
+    api 'ar.com.hjg:pngj:2.1.0'
+    api 'mil.nga:tiff:2.0.0'
 }
+
+task androidSourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+}
+
+artifacts {
+//    archives packageReleaseJar
+    archives androidSourcesJar
+
+}
+
+afterEvaluate {
+    publishing {
+
+        publications {
+            release(MavenPublication) {
+                from components.release
+                groupId project.property("pom.groupId")
+                artifactId project.name
+                version = project.property("pom.version")
+                pom {
+                    description =  project.description
+                    url = project.property("pom.url")
+
+                    //scm, organization and developers are injected via other mechanisms
+
+                    licenses {
+                        license {
+                            name=project.property("pom.licenses.license.0.name");
+                            url=project.property("pom.licenses.license.0.url");
+                            distribution==project.property("pom.licenses.license.0.distribution");
+                        }
+
+                    }
+                }
+            }
+        }
+    }
+
+
+}
+
+//apply from: "$rootDir/gradle/javadoc-aar.gradle"

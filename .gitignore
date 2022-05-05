@@ -48,5 +48,6 @@ OSMMapTilePackager/src/main/java/org/osmdroid/api/
 OpenStreetMapViewer/src/androidTest/
 
 docs/
-*.orig
 osmdroid-android/src/main/java/org/osmdroid/OsmdroidBuildInfo.java
+lint-report-*.html
+osmdroid-dist-*.zip

@@ -1,40 +1,49 @@
-description = 'Simple Map'
+description = 'Simple osmdroid based map application'
 
 apply plugin: 'com.android.application'
-apply from: "https://raw.githubusercontent.com/gradle-fury/gradle-fury/v1.1.4/gradle/android-support.gradle"
+apply from: "$rootDir/gradle/android-signing.gradle"
 
-// Attention! HACK!
-// In https://raw.githubusercontent.com/gradle-fury/gradle-fury/v1.1.4/gradle/android-support.gradle
-// we have a hack to prevent builds from failing due to missing signing config. This is done by
-// removing the signing task from the build if no keystore/pass is provided.
-//
-// At some point the signing task has been renamed from "validateReleaseSigning" to
-// "validateSigningRelease", thus obviously breaking the build again.
-//
-// The following is just a copy of the relevant code from android-support.gradle adapted to the new
-// name. This should be cleaned up in the future!
-afterEvaluate { project ->
-    tasks.each { task ->
-        if (isAndroidApplication) {
-            if ((task.name.toLowerCase().startsWith("assemble") && task.name.toLowerCase().contains('release'))
-                    || (task.name.toLowerCase().startsWith("bundle") && task.name.toLowerCase().contains('release'))
-                    || (task.name.toLowerCase().startsWith("package") && task.name.toLowerCase().contains('release'))
-                    || (task.name.equals("validateSigningRelease"))) {
-
-                task.setEnabled(canSign)
-            }
-        }
-    }
-}
+group = project.property("pom.groupId")
+version =  project.property("pom.version")
 
 android {
-    defaultConfig {
-        applicationId 'org.osmdroid.sample'
-        minSdkVersion Integer.parseInt(project.property('android-minSdkForSupportLib.version'))
+    compileSdkVersion findProperty('android.compileSdkVersion').toInteger()
+     defaultConfig {
+
+         applicationId project.group + "." +
+                 project.name.toString().toLowerCase().replaceAll("[-]", ".")
+                         .replaceAll("[^a-zA-Z0-9\\.]", "")
+
+         minSdkVersion Integer.parseInt(project.property('android-minSdkForSupportLib.version'))
+         multiDexEnabled = true
+         compileSdkVersion(project.hasProperty('android.compileSdkVersion')
+                 ? Integer.parseInt(project.property('android.compileSdkVersion')) : 23)
+
+
+         minSdkVersion(14)
+
+
+         targetSdkVersion(project.hasProperty('android.targetSdkVersion')
+                 ? Integer.parseInt(project.property('android.targetSdkVersion')) : 23)
+
+
+         versionCode(project.hasProperty('android.versionCode')
+                 ? Integer.parseInt(project.property('android.versionCode')) : 1)
+
+         versionName project.version
+     }
+
+
+
+    lint {
+        baseline = file("lint-baseline.xml")
     }
 }
 
 dependencies {
-    compile "com.android.support:appcompat-v7:${project.property('android-support.version')}"
-    compile project(':osmdroid-android')
+    implementation "androidx.appcompat:appcompat:1.4.1"
+    implementation project(':osmdroid-android')
 }
+
+
+

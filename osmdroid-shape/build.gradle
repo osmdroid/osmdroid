@@ -1,17 +1,84 @@
 description = 'Shapefile support for osmdroid'
 
 apply plugin: 'com.android.library'
-apply from: "https://raw.githubusercontent.com/gradle-fury/gradle-fury/v1.1.4/gradle/android-support.gradle"
+apply plugin: 'maven-publish'
+
+group = project.property("pom.groupId")
+version =  project.property("pom.version")
 
 android {
+    compileSdkVersion findProperty('android.compileSdkVersion').toInteger()
+    defaultConfig {
+        minSdkVersion Integer.parseInt(project.property('android-minSdkForSupportLib.version'))
+    }
 
+    lintOptions {
+        abortOnError false
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+        }
+    }
+
+    publishing {
+        singleVariant("release") {
+            withSourcesJar()
+            withJavadocJar()
+        }
+    }
 }
 
 dependencies {
    
-    testCompile 'junit:junit:4.13'
-    compile project(':osmdroid-android')
-    compile 'com.github.spyhunter99:jdbf:2.2.0'
+    testImplementation 'junit:junit:4.13'
+    api  project(':osmdroid-android' )
+    api 'com.github.spyhunter99:jdbf:2.2.0'
+
+}
+
+
+
+afterEvaluate {
+    publishing {
+
+        publications {
+            release(MavenPublication) {
+                from components.release
+                groupId project.property("pom.groupId")
+                artifactId project.name
+                version = project.property("pom.version")
+                pom {
+                    description =  project.description
+                    url = project.property("pom.url")
+
+                    //scm, organization and developers are injected via other mechanisms
+
+                    licenses {
+                        license {
+                            name=project.property("pom.licenses.license.0.name");
+                            url=project.property("pom.licenses.license.0.url");
+                            distribution==project.property("pom.licenses.license.0.distribution");
+                        }
+
+                    }
+                }
+            }
+        }
+    }
+
+
+}
+
+
+
+task androidSourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+}
+
+artifacts {
+//    archives packageReleaseJar
+    archives androidSourcesJar
 
 }
 

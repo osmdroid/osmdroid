@@ -1,17 +1,40 @@
 description = 'An Android library to display OpenStreetMap views.'
 apply plugin: 'com.android.library'
-apply from: "https://raw.githubusercontent.com/gradle-fury/gradle-fury/v1.1.4/gradle/android-support.gradle"
+apply plugin: "maven-publish"
+
+
+group = project.property("pom.groupId")
+version =  project.property("pom.version")
+
 
 android {
+    compileSdkVersion findProperty('android.compileSdkVersion').toInteger()
+
     lintOptions {
         abortOnError false
+    }
+	testOptions { 
+       unitTests.returnDefaultValues = true
+   }
+    buildTypes {
+        release {
+            minifyEnabled false
+        }
+    }
+    publishing {
+        singleVariant("release") {
+            withSourcesJar()
+            withJavadocJar()
+        }
     }
 }
 
 dependencies {
-    testCompile "junit:junit:${project.property('junit.version')}"
-    testCompile "org.robolectric:robolectric:${project.property('robolectric.version')}"
+    testImplementation "junit:junit:${project.property('junit.version')}"
+    testImplementation "org.robolectric:robolectric:${project.property('robolectric.version')}"
 }
+
+
 import org.apache.tools.ant.filters.*
 task copyFiles(type: Copy) {
     from 'src/main/filtered/org/osmdroid'
@@ -22,4 +45,49 @@ task copyFiles(type: Copy) {
     ])
 }
 
+
+
+
+afterEvaluate {
+    publishing {
+
+        publications {
+            release(MavenPublication) {
+                from components.release
+                groupId project.property("pom.groupId")
+                artifactId project.name
+                version = project.property("pom.version")
+                pom {
+                    description =  project.description
+                    url = project.property("pom.url")
+
+                    //scm, organization and developers are injected via other mechanisms
+
+                    licenses {
+                        license {
+                            name=project.property("pom.licenses.license.0.name");
+                            url=project.property("pom.licenses.license.0.url");
+                            distribution==project.property("pom.licenses.license.0.distribution");
+                        }
+
+                    }
+                }
+            }
+        }
+    }
+
+
+}
+
+
+task androidSourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+}
+
+artifacts {
+//    archives packageReleaseJar
+    archives androidSourcesJar
+
+}
 preBuild.dependsOn(copyFiles)
+

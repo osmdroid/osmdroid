@@ -129,7 +129,7 @@ public class Plotter extends SampleGridlines implements View.OnClickListener, Te
         super.addOverlays();
 
         String cacheDir = getActivity().getApplicationContext().getCacheDir().getAbsoluteFile().getAbsolutePath();
-        mir.init(cacheDir);
+        mir.init(getContext(), cacheDir);
         mMapView.addMapListener(new MapListener() {
             @Override
             public boolean onScroll(ScrollEvent event) {

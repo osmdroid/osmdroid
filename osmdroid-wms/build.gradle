@@ -1,38 +1,82 @@
 description = 'OSMdroid Android WMS Client'
 apply plugin: 'com.android.library'
-apply from: "https://raw.githubusercontent.com/gradle-fury/gradle-fury/v1.1.4/gradle/android-support.gradle"
+apply plugin: 'maven-publish'
 
-// Attention! HACK!
-// In https://raw.githubusercontent.com/gradle-fury/gradle-fury/v1.1.4/gradle/android-support.gradle
-// we have a hack to prevent builds from failing due to missing signing config. This is done by
-// removing the signing task from the build if no keystore/pass is provided.
-//
-// At some point the signing task has been renamed from "validateReleaseSigning" to
-// "validateSigningRelease", thus obviously breaking the build again.
-//
-// The following is just a copy of the relevant code from android-support.gradle adapted to the new
-// name. This should be cleaned up in the future!
-afterEvaluate { project ->
-    tasks.each { task ->
-        if (isAndroidApplication) {
-            if ((task.name.toLowerCase().startsWith("assemble") && task.name.toLowerCase().contains('release'))
-                    || (task.name.toLowerCase().startsWith("bundle") && task.name.toLowerCase().contains('release'))
-                    || (task.name.toLowerCase().startsWith("package") && task.name.toLowerCase().contains('release'))
-                    || (task.name.equals("validateSigningRelease"))) {
+group = project.property("pom.groupId")
+version =  project.property("pom.version")
 
-                task.setEnabled(canSign)
-            }
+android {
+    compileSdkVersion findProperty('android.compileSdkVersion').toInteger()
+    lintOptions {
+        abortOnError false
+    }
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+    defaultConfig {
+        minSdkVersion Integer.parseInt(project.property('android.minSdkVersion'))
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+        }
+    }
+
+    publishing {
+        singleVariant("release") {
+            withSourcesJar()
+            withJavadocJar()
         }
     }
 }
 
-android {
-    defaultConfig {
-        minSdkVersion Integer.parseInt(project.property('android.minSdkVersion'))
-    }
+dependencies {
+    //
+    api  project(':osmdroid-android' )
+    testImplementation "junit:junit:${project.property('junit.version')}"
 }
 
-dependencies {
-    compile project(':osmdroid-android')
-    testCompile "junit:junit:${project.property('junit.version')}"
+
+
+afterEvaluate {
+    publishing {
+
+        publications {
+            release(MavenPublication) {
+                from components.release
+                groupId project.property("pom.groupId")
+                artifactId project.name
+                version = project.property("pom.version")
+                pom {
+                    description =  project.description
+                    url = project.property("pom.url")
+
+                    //scm, organization and developers are injected via other mechanisms
+
+                    licenses {
+                        license {
+                            name=project.property("pom.licenses.license.0.name");
+                            url=project.property("pom.licenses.license.0.url");
+                            distribution==project.property("pom.licenses.license.0.distribution");
+                        }
+
+                    }
+                }
+            }
+        }
+    }
+
+
 }
+
+task androidSourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+}
+
+artifacts {
+//    archives packageReleaseJar
+    archives androidSourcesJar
+
+}
+
+

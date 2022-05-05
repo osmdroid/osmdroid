@@ -12,16 +12,9 @@ include ':osmdroid-shape'
 
 //sample apps
 include ':OpenStreetMapViewer'
-
 include ':osmdroid-simple-map'
 
 //jdk specific tools and applications
 include ':OSMMapTilePackager'
 include ':osmdroid-server-jdk'
 
-//dist package
-include ':osmdroid-dist'
-
-//Sunset projects (Deprecated) 
-//include ':osmdroid-third-party'
-//include ':GoogleWrapperSample'

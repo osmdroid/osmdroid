@@ -42,6 +42,9 @@ Be sure to replace `<VERSION>` with the last release version above.
 ```
 
 **Platform or API Level (API level 8 = Platform 2.2)**
+
+Note: this just assumes you need just osmdroid-android. Other modules require higher min SDK levels.
+
 ```xml
 <platform>8</platform>
 ```
@@ -131,11 +134,30 @@ The [OSMBonusPack project](https://github.com/MKergall/osmbonuspack) adds additi
 
 [IIS Tracker](https://youtu.be/Jw8z1ke9Idk)
 
-## Building from source and using the aar in your app
-Thanks to <a href="https://github.com/gradle-fury/gradle-fury">Gradle Fury</a>, this publishes the artifacts to mavenLocal.
+## Building from source for editing osmdroid 
+
+JDK11+ is required
+Gradle 7.4.2 is what we are currently using
+Android Studio Bumblebee
 
 ```
-./gradlew clean install
+./gradlew clean build
+```
+
+Then you can install and test the app using normal command line utils.
+
+Or just open Android studio.
+
+## Building from source and using the aar's in your app
+
+JDK11+ is required
+Gradle 7.4.2 is what we are currently using
+
+We recommend building from the command line.
+
+
+```
+./gradlew clean build publishToMavenLocal
 ```
 
 In **your** root `build.gradle` file, add mavenLocal() if not present.
@@ -154,4 +176,5 @@ Then in your APK or AAR project that needs osmdroid.
 ```
     compile 'org.osmdroid:osmdroid-android:<VERSION>-SNAPSHOT:debug@aar'
 ```
-Where VERSION is the version listed as the value for `pom.version` in `gradle.properties`. Note that when using the release versions from Maven Central, drop the `:debug@aar` part. When using a "release" version that you build locally with gradle, you'll need `:debug@aar` instead.
+Where VERSION is the version listed as the value for `pom.version` in osmdroid's `gradle.properties`. Note that when using the release versions from Maven Central, drop the `:debug@aar` part. When using a "release" version that you build locally with gradle, you'll need `:debug@aar` instead.
+
