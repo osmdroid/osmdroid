@@ -7,11 +7,11 @@ osmdroid is a (almost) full/free replacement for Android's MapView (v1 API) clas
 <a href="https://play.google.com/store/apps/details?id=org.osmdroid">
 <img src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png" alt="Get it on F-Droid" height="90"></a>
 
-Current Release: **6.1.11 Aug 01, 2021**
+Current Release: **6.1.12 May 14, 2022**
 
-Current Development version: 6.1.12-SNAPSHOT
+Current Development version: 6.1.13-SNAPSHOT
 
-Next Release Version (planned): 6.1.12
+Next Release Version (planned): 6.1.13
 
 Note: check your calendar, it may take up to a few days for all global mirrors to update.
 
@@ -139,6 +139,7 @@ The [OSMBonusPack project](https://github.com/MKergall/osmbonuspack) adds additi
 JDK11+ is required
 Gradle 7.4.2 is what we are currently using
 Android Studio Bumblebee
+(latest supported configuration as of May 2022)
 
 ```
 ./gradlew clean build
@@ -152,6 +153,7 @@ Or just open Android studio.
 
 JDK11+ is required
 Gradle 7.4.2 is what we are currently using
+(latest supported configuration as of May 2022)
 
 We recommend building from the command line.
 
