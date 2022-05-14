@@ -10,6 +10,10 @@ version =  project.property("pom.version")
 android {
     compileSdkVersion findProperty('android.compileSdkVersion').toInteger()
 
+    defaultConfig{
+        targetSdkVersion  findProperty('android.targetSdkVersion').toInteger()
+    }
+
     lintOptions {
         abortOnError false
     }
