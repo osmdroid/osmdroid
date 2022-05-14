@@ -39,183 +39,209 @@ import org.osmdroid.util.MapTileIndex;
  */
 public class MapTileProviderBasic extends MapTileProviderArray implements IMapTileProviderCallback {
 
-    protected IFilesystemCache tileWriter;
-    private final INetworkAvailablityCheck mNetworkAvailabilityCheck;
+	protected IFilesystemCache tileWriter;
+	final private INetworkAvailablityCheck mNetworkAvailabilityCheck;
 
-    /**
-     * @since 6.1.0
-     */
-    private final MapTileDownloader mDownloaderProvider;
-    private final MapTileApproximater mApproximationProvider;
+	/**
+	 * @since 6.1.0
+	 */
+	final private MapTileDownloader mDownloaderProvider;
+	final private MapTileApproximater mApproximationProvider;
 
-    /**
-     * Creates a {@link MapTileProviderBasic}.
-     */
-    public MapTileProviderBasic(final Context pContext) {
-        this(pContext, TileSourceFactory.DEFAULT_TILE_SOURCE);
-    }
+	/**
+	 * Creates a {@link MapTileProviderBasic}.
+	 */
+	public MapTileProviderBasic(final Context pContext) {
+		this(pContext, TileSourceFactory.DEFAULT_TILE_SOURCE);
+	}
 
-    /**
-     * Creates a {@link MapTileProviderBasic}.
-     */
-    public MapTileProviderBasic(final Context pContext, final ITileSource pTileSource) {
-        this(pContext, pTileSource, null);
-    }
+	/**
+	 * Creates a {@link MapTileProviderBasic}.
+	 */
+	public MapTileProviderBasic(final Context pContext, final ITileSource pTileSource) {
+		this(pContext, pTileSource, null);
+	}
 
-    /**
-     * Creates a {@link MapTileProviderBasic}.
-     */
-    public MapTileProviderBasic(final Context pContext, final ITileSource pTileSource, final IFilesystemCache cacheWriter) {
-        this(new SimpleRegisterReceiver(pContext), new NetworkAvailabliltyCheck(pContext),
-                pTileSource, pContext, cacheWriter);
-    }
+	/**
+	 * Creates a {@link MapTileProviderBasic}.
+	 */
+	public MapTileProviderBasic(final Context pContext, final ITileSource pTileSource, final IFilesystemCache cacheWriter) {
+		this(new SimpleRegisterReceiver(pContext), new NetworkAvailabliltyCheck(pContext),
+				pTileSource, pContext,cacheWriter);
+	}
 
-    /**
-     * Creates a {@link MapTileProviderBasic}.
-     */
-    public MapTileProviderBasic(final IRegisterReceiver pRegisterReceiver,
-                                final INetworkAvailablityCheck aNetworkAvailablityCheck, final ITileSource pTileSource,
-                                final Context pContext, final IFilesystemCache cacheWriter) {
-        super(pTileSource, pRegisterReceiver);
-        mNetworkAvailabilityCheck = aNetworkAvailablityCheck;
+	/**
+	 * Creates a {@link MapTileProviderBasic}.
+	 */
+	public MapTileProviderBasic(final IRegisterReceiver pRegisterReceiver,
+			final INetworkAvailablityCheck aNetworkAvailablityCheck, final ITileSource pTileSource,
+			final Context pContext, final IFilesystemCache cacheWriter) {
+		super(pTileSource, pRegisterReceiver);
 
-        if (cacheWriter != null) {
-            tileWriter = cacheWriter;
-        } else {
-            if (Build.VERSION.SDK_INT < 10) {
-                tileWriter = new TileWriter();
-            } else {
-                tileWriter = new SqlTileWriter();
-            }
-        }
-        final MapTileAssetsProvider assetsProvider = new MapTileAssetsProvider(
-                pRegisterReceiver, pContext.getAssets(), pTileSource);
-        mTileProviderList.add(assetsProvider);
+		mNetworkAvailabilityCheck = aNetworkAvailablityCheck;
 
-        final MapTileFileStorageProviderBase cacheProvider =
-                getMapTileFileStorageProviderBase(pRegisterReceiver, pTileSource, tileWriter);
-        mTileProviderList.add(cacheProvider);
+		if (cacheWriter != null) {
+			tileWriter = cacheWriter;
+		} else {
+			if (Build.VERSION.SDK_INT < 10) {
+				tileWriter = new TileWriter();
+			} else {
+				tileWriter = new SqlTileWriter();
+			}
+		}
+		final MapTileFileStorageProviderBase assetsProvider =
+				createAssetsProvider(pRegisterReceiver, pTileSource, pContext);
+		mTileProviderList.add(assetsProvider);
 
-        final MapTileFileArchiveProvider archiveProvider = new MapTileFileArchiveProvider(
-                pRegisterReceiver, pTileSource);
-        mTileProviderList.add(archiveProvider);
+		final MapTileFileStorageProviderBase cacheProvider =
+				getMapTileFileStorageProviderBase(pRegisterReceiver, pTileSource, tileWriter);
+		mTileProviderList.add(cacheProvider);
 
-        mApproximationProvider = new MapTileApproximater();
-        mTileProviderList.add(mApproximationProvider);
-        mApproximationProvider.addProvider(assetsProvider);
-        mApproximationProvider.addProvider(cacheProvider);
-        mApproximationProvider.addProvider(archiveProvider);
+		final MapTileFileStorageProviderBase archiveProvider =
+				createArchiveProvider(pRegisterReceiver, pTileSource);
+		mTileProviderList.add(archiveProvider);
 
-        mDownloaderProvider = new MapTileDownloader(pTileSource, tileWriter, aNetworkAvailablityCheck);
-        mTileProviderList.add(mDownloaderProvider);
+		mApproximationProvider =
+				createApproximater(assetsProvider, cacheProvider, archiveProvider);
+		mTileProviderList.add(mApproximationProvider);
 
-        // protected-cache-tile computers
-        getTileCache().getProtectedTileComputers().add(new MapTileAreaZoomComputer(-1));
-        getTileCache().getProtectedTileComputers().add(new MapTileAreaBorderComputer(1));
-        getTileCache().setAutoEnsureCapacity(false);
-        getTileCache().setStressedMemory(false);
+		mDownloaderProvider =
+				createDownloaderProvider(aNetworkAvailablityCheck, pTileSource);
+		mTileProviderList.add(mDownloaderProvider);
 
-        // pre-cache providers
-        getTileCache().getPreCache().addProvider(assetsProvider);
-        getTileCache().getPreCache().addProvider(cacheProvider);
-        getTileCache().getPreCache().addProvider(archiveProvider);
-        getTileCache().getPreCache().addProvider(mDownloaderProvider);
+		// protected-cache-tile computers
+		getTileCache().getProtectedTileComputers().add(new MapTileAreaZoomComputer(-1));
+		getTileCache().getProtectedTileComputers().add(new MapTileAreaBorderComputer(1));
+		getTileCache().setAutoEnsureCapacity(false);
+		getTileCache().setStressedMemory(false);
 
-        // tiles currently being processed
-        getTileCache().getProtectedTileContainers().add(this);
+		// pre-cache providers
+		getTileCache().getPreCache().addProvider(assetsProvider);
+		getTileCache().getPreCache().addProvider(cacheProvider);
+		getTileCache().getPreCache().addProvider(archiveProvider);
+		getTileCache().getPreCache().addProvider(mDownloaderProvider);
 
-        setOfflineFirst(true);
-    }
+		// tiles currently being processed
+		getTileCache().getProtectedTileContainers().add(this);
 
-    @Override
-    public IFilesystemCache getTileWriter() {
-        return tileWriter;
-    }
+		setOfflineFirst(true);
+	}
 
-    @Override
-    public void detach() {
-        //https://github.com/osmdroid/osmdroid/issues/213
-        //close the writer
-        if (tileWriter != null)
-            tileWriter.onDetach();
-        tileWriter = null;
-        super.detach();
-    }
+	protected MapTileApproximater createApproximater(MapTileFileStorageProviderBase assetsProvider, MapTileFileStorageProviderBase cacheProvider, MapTileFileStorageProviderBase archiveProvider) {
+		MapTileApproximater approximationProvider = new MapTileApproximater();
+		approximationProvider.addProvider(assetsProvider);
+		approximationProvider.addProvider(cacheProvider);
+		approximationProvider.addProvider(archiveProvider);
+		return approximationProvider;
+	}
 
-    /**
-     * @since 6.0.3
-     */
-    @Override
-    protected boolean isDowngradedMode(final long pMapTileIndex) {
-        if ((mNetworkAvailabilityCheck != null && !mNetworkAvailabilityCheck.getNetworkAvailable())
-                || !useDataConnection()) {
-            return true;
-        }
-        int zoomMin = -1;
-        int zoomMax = -1;
-        for (final MapTileModuleProviderBase provider : mTileProviderList) {
-            if (provider.getUsesDataConnection()) {
-                int tmp;
-                tmp = provider.getMinimumZoomLevel();
-                if (zoomMin == -1 || zoomMin > tmp) {
-                    zoomMin = tmp;
-                }
-                tmp = provider.getMaximumZoomLevel();
-                if (zoomMax == -1 || zoomMax < tmp) {
-                    zoomMax = tmp;
-                }
-            }
-        }
-        if (zoomMin == -1 || zoomMax == -1) {
-            return true;
-        }
-        final int zoom = MapTileIndex.getZoom(pMapTileIndex);
-        return zoom < zoomMin || zoom > zoomMax;
-    }
+	protected MapTileFileStorageProviderBase createArchiveProvider(IRegisterReceiver pRegisterReceiver, ITileSource pTileSource) {
+		return new MapTileFileArchiveProvider(
+				pRegisterReceiver, pTileSource);
+	}
 
-    /**
-     * @since 6.0.3
-     * cf. https://github.com/osmdroid/osmdroid/issues/1172
-     */
-    public static MapTileFileStorageProviderBase getMapTileFileStorageProviderBase(
-            final IRegisterReceiver pRegisterReceiver,
-            final ITileSource pTileSource,
-            final IFilesystemCache pTileWriter
-    ) {
-        if (pTileWriter instanceof TileWriter) {
-            return new MapTileFilesystemProvider(pRegisterReceiver, pTileSource);
-        }
-        return new MapTileSqlCacheProvider(pRegisterReceiver, pTileSource);
-    }
+	protected MapTileFileStorageProviderBase createAssetsProvider(IRegisterReceiver pRegisterReceiver, ITileSource pTileSource, Context pContext) {
+		return new MapTileAssetsProvider(
+				pRegisterReceiver, pContext.getAssets(), pTileSource);
+	}
 
-    /**
-     * @return true if possible and done
-     * @since 6.1.0
-     */
-    public boolean setOfflineFirst(final boolean pOfflineFirst) {
-        int downloaderIndex = -1;
-        int approximationIndex = -1;
-        int i = 0;
-        for (final MapTileModuleProviderBase provider : mTileProviderList) {
-            if (downloaderIndex == -1 && provider == mDownloaderProvider) {
-                downloaderIndex = i;
-            }
-            if (approximationIndex == -1 && provider == mApproximationProvider) {
-                approximationIndex = i;
-            }
-            i++;
-        }
-        if (downloaderIndex == -1 || approximationIndex == -1) {
-            return false;
-        }
-        if (approximationIndex < downloaderIndex && pOfflineFirst) {
-            return true;
-        }
-        if (approximationIndex > downloaderIndex && !pOfflineFirst) {
-            return true;
-        }
-        mTileProviderList.set(downloaderIndex, mApproximationProvider);
-        mTileProviderList.set(approximationIndex, mDownloaderProvider);
-        return true;
-    }
+	@Override
+	public IFilesystemCache getTileWriter() {
+		return tileWriter;
+	}
+
+	/**
+	 * @since 6.1.7
+	 * allow customization of tile downloader per tile source
+	 */
+	protected MapTileDownloader createDownloaderProvider(INetworkAvailablityCheck aNetworkAvailablityCheck, ITileSource pTileSource) {
+		return new MapTileDownloader(pTileSource, this.tileWriter, aNetworkAvailablityCheck);
+	}
+
+	@Override
+	public void detach(){
+		//https://github.com/osmdroid/osmdroid/issues/213
+		//close the writer
+		if (tileWriter!=null)
+			tileWriter.onDetach();
+		tileWriter=null;
+		super.detach();
+	}
+
+	/**
+	 * @since 6.0.3
+	 */
+	@Override
+	protected boolean isDowngradedMode(final long pMapTileIndex) {
+		if ((mNetworkAvailabilityCheck != null && !mNetworkAvailabilityCheck.getNetworkAvailable())
+				|| !useDataConnection()) {
+			return true;
+		}
+		int zoomMin = -1;
+		int zoomMax = -1;
+		for(final MapTileModuleProviderBase provider : mTileProviderList) {
+			if (provider.getUsesDataConnection()) {
+				int tmp;
+				tmp = provider.getMinimumZoomLevel();
+				if (zoomMin == -1 || zoomMin > tmp) {
+					zoomMin = tmp;
+				}
+				tmp = provider.getMaximumZoomLevel();
+				if (zoomMax == -1 || zoomMax < tmp) {
+					zoomMax = tmp;
+				}
+			}
+		}
+		if (zoomMin == -1 || zoomMax == -1) {
+			return true;
+		}
+		final int zoom = MapTileIndex.getZoom(pMapTileIndex);
+		return zoom < zoomMin || zoom > zoomMax;
+	}
+
+	/**
+	 * @since 6.0.3
+	 * cf. https://github.com/osmdroid/osmdroid/issues/1172
+	 */
+	public static MapTileFileStorageProviderBase getMapTileFileStorageProviderBase(
+			final IRegisterReceiver pRegisterReceiver,
+			final ITileSource pTileSource,
+			final IFilesystemCache pTileWriter
+	) {
+		if (pTileWriter instanceof TileWriter) {
+			return new MapTileFilesystemProvider(pRegisterReceiver, pTileSource);
+		}
+		return new MapTileSqlCacheProvider(pRegisterReceiver, pTileSource);
+	}
+
+	/**
+	 * @since 6.1.0
+	 * @return true if possible and done
+	 */
+	public boolean setOfflineFirst(final boolean pOfflineFirst) {
+		int downloaderIndex = -1;
+		int approximationIndex = -1;
+		int i = 0;
+		for(final MapTileModuleProviderBase provider : mTileProviderList) {
+			if (downloaderIndex == -1 && provider == mDownloaderProvider) {
+				downloaderIndex = i;
+			}
+			if (approximationIndex == -1 && provider == mApproximationProvider) {
+				approximationIndex = i;
+			}
+			i++;
+		}
+		if (downloaderIndex == -1 || approximationIndex == -1) {
+			return false;
+		}
+		if (approximationIndex < downloaderIndex && pOfflineFirst) {
+			return true;
+		}
+		if (approximationIndex > downloaderIndex && !pOfflineFirst) {
+			return true;
+		}
+		mTileProviderList.set(downloaderIndex, mApproximationProvider);
+		mTileProviderList.set(approximationIndex, mDownloaderProvider);
+		return true;
+	}
 }
