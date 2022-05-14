@@ -16,9 +16,7 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
 
-        applicationId project.group + "." +
-                project.name.toString().toLowerCase().replaceAll("[-]", ".")
-                        .replaceAll("[^a-zA-Z0-9\\.]", "")
+        applicationId "org.osmdroid"
 
         minSdkVersion 14
         multiDexEnabled = true
