@@ -428,7 +428,7 @@ public class DefaultConfigurationProvider implements IConfigurationProvider {
         edit.putInt("osmdroid.animationSpeedShort", animationSpeedShort);
         edit.putBoolean("osmdroid.mapViewRecycler", mapViewRecycler);
         edit.putInt("osmdroid.cacheTileOvershoot", cacheTileOvershoot);
-        edit.putBoolean(("osmdroid.enforceTileSystemBounds", enforceTileSystemBounds);
+        edit.putBoolean("osmdroid.enforceTileSystemBounds", enforceTileSystemBounds);
         commit(edit);
     }
 
