@@ -65,6 +65,7 @@ public class DefaultConfigurationProvider implements IConfigurationProvider {
     protected int mTileGCBulkSize = 20;
     protected long mTileGCBulkPauseInMillis = 500;
     protected boolean mTileDownloaderFollowRedirects = true;
+    protected boolean enforceTileSystemBounds = false;
 
     /**
      * @since 6.1.0
@@ -366,7 +367,7 @@ public class DefaultConfigurationProvider implements IConfigurationProvider {
             setAnimationSpeedShort(prefs.getInt("osmdroid.animationSpeedShort", animationSpeedShort));
             setCacheMapTileOvershoot((short) (prefs.getInt("osmdroid.cacheTileOvershoot", cacheTileOvershoot)));
             setMapTileDownloaderFollowRedirects(prefs.getBoolean("osmdroid.TileDownloaderFollowRedirects", mTileDownloaderFollowRedirects));
-
+            setEnforceTileSystemBounds(prefs.getBoolean("osmdroid.enforceTileSystemBounds", false));
             if (prefs.contains("osmdroid.ExpirationOverride")) {
                 expirationOverride = prefs.getLong("osmdroid.ExpirationOverride", -1);
                 if (expirationOverride != null && expirationOverride == -1)
@@ -427,6 +428,7 @@ public class DefaultConfigurationProvider implements IConfigurationProvider {
         edit.putInt("osmdroid.animationSpeedShort", animationSpeedShort);
         edit.putBoolean("osmdroid.mapViewRecycler", mapViewRecycler);
         edit.putInt("osmdroid.cacheTileOvershoot", cacheTileOvershoot);
+        edit.putBoolean(("osmdroid.enforceTileSystemBounds", enforceTileSystemBounds);
         commit(edit);
     }
 
@@ -590,6 +592,16 @@ public class DefaultConfigurationProvider implements IConfigurationProvider {
     @Override
     public String getNormalizedUserAgent() {
         return mNormalizedUserAgent;
+    }
+
+    @Override
+    public boolean isEnforceTileSystemBounds() {
+        return enforceTileSystemBounds;
+    }
+
+    @Override
+    public void setEnforceTileSystemBounds(boolean mValue) {
+        enforceTileSystemBounds = mValue;
     }
 
     /**

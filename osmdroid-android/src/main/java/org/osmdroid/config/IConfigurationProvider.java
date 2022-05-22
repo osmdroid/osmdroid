@@ -485,4 +485,31 @@ public interface IConfigurationProvider {
      * @since 6.1.0
      */
     String getNormalizedUserAgent();
+
+    /**
+     * Default is false for the DefaultConfigurationProvider<br><br>
+     * If true and a bounding box is beyond that of the {@link org.osmdroid.util.TileSystem},
+     * then an exception is thrown by checks in {@link org.osmdroid.util.BoundingBox}
+     * <br><br>
+     * If false, then no exception is thrown.<br><br>
+     * Historical note. Prior to late Feb 2018, which could have been around v6.0.2,
+     * the behavior was to NOT throw an exception, Starting with 6.0.2, it starting throwing.
+     * This caused a number of issues when importing content from other sources.<br>
+     * July 2022, this method was added to help reduce the pain associated with this with
+     * the default set to false (do not throw).<br><br>
+     *
+     * Keep in mind, that coordinates beyond that of the tile system may render inaccurately or
+     * have strange behavior.
+     *
+     * @since 6.1.14
+     * @return true = throw an exception when the bounding box is beyond the tile system, false = do not throw
+     */
+    boolean isEnforceTileSystemBounds();
+
+    /**
+     * See {@link #isEnforceTileSystemBounds()}.
+     * @since 6.1.14
+     * @param mValue
+     */
+    void setEnforceTileSystemBounds(boolean mValue);
 }
