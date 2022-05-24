@@ -6,6 +6,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import org.osmdroid.api.IGeoPoint;
+import org.osmdroid.config.Configuration;
 import org.osmdroid.views.MapView;
 
 import java.io.Serializable;
@@ -66,18 +67,18 @@ public class BoundingBox implements Parcelable, Serializable {
         mLatSouth = south;
         mLonWest = west;
         //validate the values
-        //  30 > 0 OK
-        // 30 < 0 not ok
+        if (Configuration.getInstance().isEnforceTileSystemBounds()) {
 
-        final TileSystem tileSystem = org.osmdroid.views.MapView.getTileSystem();
-        if (!tileSystem.isValidLatitude(north))
-            throw new IllegalArgumentException("north must be in " + tileSystem.toStringLatitudeSpan());
-        if (!tileSystem.isValidLatitude(south))
-            throw new IllegalArgumentException("south must be in " + tileSystem.toStringLatitudeSpan());
-        if (!tileSystem.isValidLongitude(west))
-            throw new IllegalArgumentException("west must be in " + tileSystem.toStringLongitudeSpan());
-        if (!tileSystem.isValidLongitude(east))
-            throw new IllegalArgumentException("east must be in " + tileSystem.toStringLongitudeSpan());
+            final TileSystem tileSystem = org.osmdroid.views.MapView.getTileSystem();
+            if (!tileSystem.isValidLatitude(north))
+                throw new IllegalArgumentException("north must be in " + tileSystem.toStringLatitudeSpan());
+            if (!tileSystem.isValidLatitude(south))
+                throw new IllegalArgumentException("south must be in " + tileSystem.toStringLatitudeSpan());
+            if (!tileSystem.isValidLongitude(west))
+                throw new IllegalArgumentException("west must be in " + tileSystem.toStringLongitudeSpan());
+            if (!tileSystem.isValidLongitude(east))
+                throw new IllegalArgumentException("east must be in " + tileSystem.toStringLongitudeSpan());
+        }
     }
 
     public BoundingBox clone() {
