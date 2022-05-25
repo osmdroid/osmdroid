@@ -8,9 +8,10 @@
 package org.osmdroid.views;
 
 import android.graphics.Point;
-import android.test.ActivityInstrumentationTestCase2;
-import android.test.UiThreadTest;
 
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
 import org.osmdroid.R;
 import org.osmdroid.StarterMapActivity;
 import org.osmdroid.tileprovider.util.Counters;
@@ -20,36 +21,43 @@ import org.osmdroid.util.TileSystemWebMercator;
 
 import java.util.Random;
 
+import androidx.test.rule.ActivityTestRule;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 /**
  * @author Neil Boyd
  */
-public class OpenStreetMapViewTest extends ActivityInstrumentationTestCase2<StarterMapActivity> {
+public class OpenStreetMapViewTest  {
+
+    @Rule
+    public ActivityTestRule<StarterMapActivity> activityRule =
+            new ActivityTestRule<>(StarterMapActivity.class);
 
     private static final Random random = new Random();
 
     private static final TileSystem tileSystem = new TileSystemWebMercator();
 
     public OpenStreetMapViewTest() {
-        super(StarterMapActivity.class);
         Counters.reset();
     }
 
     private MapView mOpenStreetMapView;
 
-    @Override
-    protected void setUp() throws Exception {
+    @Before
+    public void setUp() throws Exception {
 
         mOpenStreetMapView =
-                getActivity().findViewById(R.id.map_container).findViewWithTag("mapView");
+           activityRule.getActivity().findViewById(R.id.map_container).findViewWithTag("mapView");
 
-        super.setUp();
     }
 
     /**
      * This test will check whether calling setExpectedCenter() will position the maps so the location is
      * at the center of the screen.
      */
-    @UiThreadTest
+    @Test
     public void test_toMapPixels_0_0() {
         final int iterations = 100;
         final double minZoom = // minimum zoom in order to avoid the world map side effect

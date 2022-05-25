@@ -7,29 +7,33 @@
  */
 package org.osmdroid.test;
 
-import android.test.ActivityInstrumentationTestCase2;
 import android.widget.TextView;
 
 import org.junit.Assert;
+import org.junit.Rule;
+import org.junit.Test;
 import org.osmdroid.debug.CacheAnalyzerActivity;
 import org.osmdroid.tileprovider.util.Counters;
 
-public class CacheAnalyzerTest extends ActivityInstrumentationTestCase2<CacheAnalyzerActivity> {
+import androidx.test.rule.ActivityTestRule;
 
-    public CacheAnalyzerTest() {
-        super("org.osmdroid", CacheAnalyzerActivity.class);
-    }
+public class CacheAnalyzerTest  {
 
+    @Rule
+    public ActivityTestRule<CacheAnalyzerActivity> activityRule =
+            new ActivityTestRule<>(CacheAnalyzerActivity.class);
+
+    @Test
     public void testActivity() throws Throwable {
         Counters.reset();
-        final CacheAnalyzerActivity activity = getActivity();
+        final CacheAnalyzerActivity activity = activityRule.getActivity();
 
         try {
             Thread.sleep(2000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        runTestOnUiThread(new Runnable() {
+        activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 TextView cacheStats = activity.findViewById(org.osmdroid.R.id.cacheStats);
