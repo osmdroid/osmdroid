@@ -29,7 +29,7 @@ import static org.junit.Assert.assertTrue;
 /**
  * @author Neil Boyd
  */
-public class OpenStreetMapViewTest  {
+public class OpenStreetMapViewTest {
 
     @Rule
     public ActivityTestRule<StarterMapActivity> activityRule =
@@ -49,7 +49,7 @@ public class OpenStreetMapViewTest  {
     public void setUp() throws Exception {
 
         mOpenStreetMapView =
-           activityRule.getActivity().findViewById(R.id.map_container).findViewWithTag("mapView");
+                activityRule.getActivity().findViewById(R.id.map_container).findViewWithTag("mapView");
 
     }
 
@@ -59,18 +59,25 @@ public class OpenStreetMapViewTest  {
      */
     @Test
     public void test_toMapPixels_0_0() {
-        final int iterations = 100;
-        final double minZoom = // minimum zoom in order to avoid the world map side effect
-                Math.log(
-                        Math.max(mOpenStreetMapView.getWidth(), mOpenStreetMapView.getHeight())
-                                / (double) TileSystem.getTileSize())
-                        / Math.log(2);
-        for (int i = 0; i < iterations; i++) {
-            checkCenter(getRandomZoom(minZoom), getRandomGeoPoint());
-            checkCenter(getRandomZoom(minZoom), null);
-            checkCenter(null, getRandomGeoPoint());
-            checkCenter(null, null);
-        }
+        activityRule.getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+
+                final int iterations = 100;
+                final double minZoom = // minimum zoom in order to avoid the world map side effect
+                        Math.log(
+                                Math.max(mOpenStreetMapView.getWidth(), mOpenStreetMapView.getHeight())
+                                        / (double) TileSystem.getTileSize())
+                                / Math.log(2);
+                for (int i = 0; i < iterations; i++) {
+                    checkCenter(getRandomZoom(minZoom), getRandomGeoPoint());
+                    checkCenter(getRandomZoom(minZoom), null);
+                    checkCenter(null, getRandomGeoPoint());
+                    checkCenter(null, null);
+                }
+
+            }
+        });
     }
 
     /**
