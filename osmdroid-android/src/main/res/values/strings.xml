@@ -34,5 +34,14 @@
     <string name="format_distance_only_foot">ft</string>
 
     <string name="format_distance_value_unit">%1$s %2$s</string>
-
+    <string name="cacheManagerFailed">"Loading completed with %s errors.</string>
+    <string name="cacheManagerCleaningTitle">"Cleaning tiles</string>
+    <string name="cacheManagerCleanFailed">Cleaning failed. %s tiles deleted.</string>
+    <string name="cacheManagerDownloadingTitle">Downloading tiles</string>
+    <string name="cacheManagerUnsupportedSource">This online tile source doesn\'t support bulk download</string>
+    <string name="cacheManagerCancelTitle">Cancel map download</string>
+    <string name="cacheManagerCancelBody">Do you want to cancel the map download?</string>
+    <string name="cacheManagerYes">Yes</string>
+    <string name="cacheManagerNo">No</string>
+    <string name="cacheManagerHandlingMessage">Handling zoom level: %s (from %s to %s)</string>
 </resources>
