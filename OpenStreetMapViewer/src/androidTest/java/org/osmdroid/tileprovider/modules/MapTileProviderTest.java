@@ -91,7 +91,7 @@ public class MapTileProviderTest {
 
         @Override
         public int getMaximumZoomLevel() {
-            return 0;
+            return 10;
         }
 
         @Override
