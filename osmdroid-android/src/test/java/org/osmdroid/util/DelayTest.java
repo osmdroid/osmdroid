@@ -11,7 +11,7 @@ public class DelayTest {
 
     @Test
     public void testDelayOne() {
-        final long millis = 500;
+        final long millis = 5000;
         final Delay delay = new Delay(millis);
         for (int i = 0; i < 5; i++) {
             check(delay, millis);
