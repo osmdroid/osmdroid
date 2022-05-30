@@ -41,6 +41,7 @@ public class BugsTestingActivity extends AppCompatActivity {
         if (fm.findFragmentByTag(SAMPLES_FRAGMENT_TAG) == null) {
             List<IBaseActivity> extras = new ArrayList<>();
             extras.add(new WeathForceActivity());
+            extras.add(new Bug1783Activity());
             fragmentSamples = SamplesMenuFragment.newInstance(BugFactory.getInstance(), extras);
             fm.beginTransaction().add(org.osmdroid.R.id.samples_container, fragmentSamples, SAMPLES_FRAGMENT_TAG).commit();
         }

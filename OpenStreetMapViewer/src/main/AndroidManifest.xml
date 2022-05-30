@@ -1,58 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:tools="http://schemas.android.com/tools"
-    package="org.osmdroid">
-
-    <uses-sdk tools:overrideLibrary="mil.army.missioncommand,armyc2.c2sd.singlepointrenderer,org.osmdroid.gpkg,mil.nga.geopackage,org.osmdroid.mapsforge,android.support.v13,com.github.angads25.filepicker,android.support.v7.gridlayout" />
-
-    <supports-screens
-        android:anyDensity="true"
-        android:largeScreens="true"
-        android:normalScreens="true" />
-
-    <!-- PROTECTION_NORMAL permissions, automatically granted -->
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.INTERNET" />
-
-    <!-- DANGEROUS PERMISSIONS, must request -->
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
-    <uses-feature
-        android:name="android.hardware.location.network"
-        android:required="false" />
-    <uses-feature
-        android:name="android.hardware.location.gps"
-        android:required="false" />
-    <uses-feature
-        android:name="android.hardware.telephony"
-        android:required="false" />
-    <uses-feature
-        android:name="android.hardware.wifi"
-        android:required="false" />
+<manifest package="org.osmdroid"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <application
-        tools:replace="android:allowBackup"
-        android:allowBackup="true"
         android:name=".OsmApplication"
+        android:allowBackup="true"
         android:hardwareAccelerated="true"
-        android:largeHeap="true"
         android:icon="@drawable/icon"
-        android:theme="@style/AppTheme"
+        android:label="@string/app_name"
+        android:largeHeap="true"
         android:networkSecurityConfig="@xml/network_security_config"
-        android:label="@string/app_name">
-
-        <!-- Bing maps tile users:
+        android:theme="@style/AppTheme"
+        tools:replace="android:allowBackup">
+        <activity
+            android:name=".Bug1783Activity"
+            android:exported="false" />
+        <!--
+         Bing maps tile users:
         all applications based on this code should get their own Bing key
         DO NOT USE THIS KEY IN YOUR APP
         -->
-        <meta-data
-            android:name="BING_KEY"
-            android:value="" />
+        <activity
+            android:name=".intro.IntroActivity"
+            android:icon="@drawable/icon"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-        <!-- Mapquest tile source users:
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <!--
+ Mapquest tile source users:
          all applications based on this code should get their own MapQuest key
          see https://developer.mapquest.com however the access token they provide doesn't work for
          direct tile access, their web javascript api must handle it differently
@@ -62,60 +42,7 @@
          NOTE: to get this key, we had to go to MapBox's website
          Yes that's a MapBox token for MapQuest tiles.
          https://www.mapbox.com/studio/account/tokens/
-         -->
-        <meta-data android:name="MAPQUEST_ACCESS_TOKEN" android:value=""/>
-
-        <!-- MapBox tile source users:
-        all applications based on this code should get their own MapBox key
-        see https://www.mapbox.com/studio/account/tokens/
-
-        DO NOT USE THIS KEY IN YOUR APP
-
-        NOTE: to get this key, we had to go to MapBox's website
-        https://www.mapbox.com/studio/account/tokens/
         -->
-        <meta-data android:name="MAPBOX_MAPID" android:value="mapbox.mapbox-streets-v7"/>
-        <meta-data android:name="MAPBOX_ACCESS_TOKEN" android:value=""/>
-
-
-        <!-- HERE We Go tile source users:
-      all applications based on this code should get their own MapBox key
-      see https://www.mapbox.com/studio/account/tokens/
-
-      DO NOT USE THIS KEY IN YOUR APP
-
-      NOTE: to get this key, we had to go to MapBox's website
-      https://www.mapbox.com/studio/account/tokens/
-      -->
-        <meta-data android:name="HEREWEGO_MAPID" android:value="hybrid.day"/>
-        <meta-data android:name="HEREWEGO_APPID" android:value=""/>
-        <meta-data android:name="HEREWEGO_APPCODE" android:value=""/>
-        <!-- optional, use this to change the destination URL, default is shown below
-            other known urls
-                base.maps.api.here.com
-
-        <meta-data android:name="HEREWEGO_DOMAIN_OVERRIDE" android:value="aerial.maps.cit.api.here.com" />
-        -->
-
-
-
-
-        <uses-library
-            android:name="com.google.android.maps"
-            android:required="false" />
-
-        <activity android:name=".intro.IntroActivity"
-                  android:icon="@drawable/icon"
-                  android:label="@string/app_name"
-            >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-
-
-        </activity>
         <activity
             android:name=".MainActivity"
             android:icon="@drawable/icon"
@@ -126,6 +53,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <!--
+ MapBox tile source users:
+        all applications based on this code should get their own MapBox key
+        see https://www.mapbox.com/studio/account/tokens/
+
+        DO NOT USE THIS KEY IN YOUR APP
+
+        NOTE: to get this key, we had to go to MapBox's website
+        https://www.mapbox.com/studio/account/tokens/
+        -->
         <activity
             android:name=".StarterMapActivity"
             android:icon="@drawable/icon"
@@ -145,7 +82,16 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <!--
+ HERE We Go tile source users:
+      all applications based on this code should get their own MapBox key
+      see https://www.mapbox.com/studio/account/tokens/
 
+      DO NOT USE THIS KEY IN YOUR APP
+
+      NOTE: to get this key, we had to go to MapBox's website
+      https://www.mapbox.com/studio/account/tokens/
+        -->
         <activity
             android:name=".samples.SampleWithTilesOverlay"
             android:label="OSMapView with Tiles Overlay">
@@ -164,29 +110,43 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".BugsTestingActivity"
+        <activity
+            android:name=".BugsTestingActivity"
             android:label="Bug Drivers">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <!--
+ optional, use this to change the destination URL, default is shown below
+            other known urls
+                base.maps.api.here.com
+
+        <meta-data android:name="HEREWEGO_DOMAIN_OVERRIDE" android:value="aerial.maps.cit.api.here.com" />
+        -->
+        <activity
+            android:name=".debug.browser.CacheBrowserActivity"
+            android:label="Cache Browser">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 
-        <activity android:name=".debug.browser.CacheBrowserActivity"
-                  android:label="Cache Browser">
+        <activity
+            android:name=".debug.CacheAnalyzerActivity"
+            android:label="Cache Analyzer">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".debug.CacheAnalyzerActivity"
-                  android:label="Cache Analyzer">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".ExtraSamplesActivity"
+        <activity
+            android:name=".ExtraSamplesActivity"
             android:label="More Samples">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -194,7 +154,8 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".bugtestfragments.WeathForceActivity"
+        <activity
+            android:name=".bugtestfragments.WeathForceActivity"
             android:label="WeathForce Test">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -202,34 +163,85 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-
-
-        <activity android:name=".PreferenceActivity"
-                  android:windowSoftInputMode="stateHidden"
-            android:label="Open Map Preferences">
+        <activity
+            android:name=".PreferenceActivity"
+            android:label="Open Map Preferences"
+            android:windowSoftInputMode="stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".LicenseActivity"
-                  android:windowSoftInputMode="stateHidden"
-                  android:label="Licenses">
+        <activity
+            android:name=".LicenseActivity"
+            android:label="Licenses"
+            android:windowSoftInputMode="stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".diag.DiagnosticsActivity"
-                  android:label="Diagnostics">
+        <activity
+            android:name=".diag.DiagnosticsActivity"
+            android:label="Diagnostics">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-
+        <meta-data
+            android:name="BING_KEY"
+            android:value="" />
+        <meta-data
+            android:name="MAPQUEST_ACCESS_TOKEN"
+            android:value="" />
+        <meta-data
+            android:name="MAPBOX_MAPID"
+            android:value="mapbox.mapbox-streets-v7" />
+        <meta-data
+            android:name="MAPBOX_ACCESS_TOKEN"
+            android:value="" />
+        <meta-data
+            android:name="HEREWEGO_MAPID"
+            android:value="hybrid.day" />
+        <meta-data
+            android:name="HEREWEGO_APPID"
+            android:value="" />
+        <meta-data
+            android:name="HEREWEGO_APPCODE"
+            android:value="" />
+        <uses-library
+            android:name="com.google.android.maps"
+            android:required="false" />
     </application>
+
+    <supports-screens
+        android:anyDensity="true"
+        android:largeScreens="true"
+        android:normalScreens="true" /> <!-- PROTECTION_NORMAL permissions, automatically granted -->
+    <uses-feature
+        android:name="android.hardware.location.network"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.location.gps"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.telephony"
+        android:required="false" /> <!-- DANGEROUS PERMISSIONS, must request -->
+    <uses-feature
+        android:name="android.hardware.wifi"
+        android:required="false" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <uses-sdk tools:overrideLibrary="mil.army.missioncommand,armyc2.c2sd.singlepointrenderer,org.osmdroid.gpkg,mil.nga.geopackage,org.osmdroid.mapsforge,android.support.v13,com.github.angads25.filepicker,android.support.v7.gridlayout" />
 
 </manifest>
