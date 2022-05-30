@@ -11,15 +11,17 @@ package org.osmdroid.test;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.test.ActivityInstrumentationTestCase2;
 import android.util.Log;
 
 import junit.framework.Assert;
 
+import org.junit.Rule;
+import org.junit.Test;
 import org.osmdroid.ExtraSamplesActivity;
 import org.osmdroid.ISampleFactory;
 import org.osmdroid.OsmApplication;
 import org.osmdroid.bugtestfragments.BugFactory;
+import org.osmdroid.debug.browser.CacheBrowserActivity;
 import org.osmdroid.samplefragments.BaseSampleFragment;
 import org.osmdroid.samplefragments.SampleFactory;
 import org.osmdroid.samplefragments.ui.SamplesMenuFragment;
@@ -27,16 +29,24 @@ import org.osmdroid.tileprovider.util.Counters;
 
 import java.util.Random;
 
-public class ExtraSamplesTest extends ActivityInstrumentationTestCase2<ExtraSamplesActivity> {
+import androidx.test.rule.ActivityTestRule;
 
-    public ExtraSamplesTest() {
-        super("org.osmdroid", ExtraSamplesActivity.class);
-    }
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
+public class ExtraSamplesTest  {
+
+    @Rule
+    public ActivityTestRule<ExtraSamplesActivity> activityRule =
+            new ActivityTestRule<>(ExtraSamplesActivity.class);
+
+
 
     /**
      * This tests every sample fragment in the app. See implementation notes on how to increase
      * the duration and iteration count for longer running tests and memory leak testing
      */
+    @Test
     public void testActivity() {
         ISampleFactory sampleFactory = SampleFactory.getInstance();
         executeTest(sampleFactory);
@@ -46,6 +56,7 @@ public class ExtraSamplesTest extends ActivityInstrumentationTestCase2<ExtraSamp
      * This tests every bug driver fragment in the app. See implementation notes on how to increase
      * the duration and iteration count for longer running tests and memory leak testing
      */
+    @Test
     public void testBugsDriversActivity() {
         ISampleFactory sampleFactory = BugFactory.getInstance();
         executeTest(sampleFactory);
@@ -55,7 +66,7 @@ public class ExtraSamplesTest extends ActivityInstrumentationTestCase2<ExtraSamp
 
     private void executeTest(ISampleFactory sampleFactory) {
         Counters.reset();
-        final ExtraSamplesActivity activity = getActivity();
+        final ExtraSamplesActivity activity = activityRule.getActivity();
         assertNotNull(activity);
         final FragmentManager fm = activity.getSupportFragmentManager();
         Fragment frag = (fm.findFragmentByTag(ExtraSamplesActivity.SAMPLES_FRAGMENT_TAG));

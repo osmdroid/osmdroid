@@ -7,21 +7,28 @@
  */
 package org.osmdroid.test;
 
-import android.test.ActivityInstrumentationTestCase2;
+
 
 import org.junit.Assert;
+import org.junit.Rule;
+import org.junit.Test;
+import org.osmdroid.ExtraSamplesActivity;
 import org.osmdroid.MainActivity;
 import org.osmdroid.tileprovider.util.Counters;
 
-public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActivity> {
+import androidx.test.rule.ActivityTestRule;
 
-    public MainActivityTest() {
-        super("org.osmdroid", MainActivity.class);
-    }
+import static org.junit.Assert.assertNotNull;
 
+public class MainActivityTest  {
+    @Rule
+    public ActivityTestRule<MainActivity> activityRule =
+            new ActivityTestRule<>(MainActivity.class);
+
+    @Test
     public void testActivity() {
         Counters.reset();
-        MainActivity activity = getActivity();
+        MainActivity activity = activityRule.getActivity();
         assertNotNull(activity);
         Counters.printToLogcat();
         if (Counters.countOOM > 0 || Counters.fileCacheOOM > 0) {

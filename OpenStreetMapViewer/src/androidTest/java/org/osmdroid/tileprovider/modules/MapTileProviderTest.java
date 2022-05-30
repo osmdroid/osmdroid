@@ -9,8 +9,8 @@ package org.osmdroid.tileprovider.modules;
 
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.test.AndroidTestCase;
 
+import org.junit.Test;
 import org.osmdroid.tileprovider.IMapTileProviderCallback;
 import org.osmdroid.tileprovider.MapTileRequestState;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
@@ -20,10 +20,13 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
+
 /**
  * @author Neil Boyd
  */
-public class MapTileProviderTest extends AndroidTestCase {
+public class MapTileProviderTest {
+
 
     private final List<Long> mTiles = new LinkedList<>();
     private final List<MapTileModuleProviderBase> mProviders = new ArrayList<>();
@@ -88,7 +91,7 @@ public class MapTileProviderTest extends AndroidTestCase {
 
         @Override
         public int getMaximumZoomLevel() {
-            return 0;
+            return 10;
         }
 
         @Override
@@ -102,6 +105,7 @@ public class MapTileProviderTest extends AndroidTestCase {
         }
     };
 
+    @Test
     public void test_put_twice() {
 
         final long tile = MapTileIndex.getTileIndex(1, 1, 1);
@@ -119,6 +123,7 @@ public class MapTileProviderTest extends AndroidTestCase {
     /**
      * Test that the tiles are loaded in most recently accessed order.
      */
+    @Test
     public void test_order() throws InterruptedException {
 
         final long tile1 = MapTileIndex.getTileIndex(1, 1, 1);
@@ -160,6 +165,7 @@ public class MapTileProviderTest extends AndroidTestCase {
     /**
      * Test that adding the same tile more than once moves it up the queue.
      */
+    @Test
     public void test_jump_queue() throws InterruptedException {
         final long tile1 = MapTileIndex.getTileIndex(1, 1, 1);
         final long tile2 = MapTileIndex.getTileIndex(2, 2, 2);

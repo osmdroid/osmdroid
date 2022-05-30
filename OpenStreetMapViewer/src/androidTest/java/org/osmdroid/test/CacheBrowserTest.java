@@ -7,20 +7,24 @@
  */
 package org.osmdroid.test;
 
-import android.test.ActivityInstrumentationTestCase2;
-
+import org.junit.Rule;
+import org.junit.Test;
+import org.osmdroid.debug.CacheAnalyzerActivity;
 import org.osmdroid.debug.browser.CacheBrowserActivity;
 import org.osmdroid.tileprovider.util.Counters;
 
-public class CacheBrowserTest extends ActivityInstrumentationTestCase2<CacheBrowserActivity> {
+import androidx.test.rule.ActivityTestRule;
 
-    public CacheBrowserTest() {
-        super("org.osmdroid", CacheBrowserActivity.class);
-    }
+public class CacheBrowserTest {
 
+    @Rule
+    public ActivityTestRule<CacheBrowserActivity> activityRule =
+            new ActivityTestRule<>(CacheBrowserActivity.class);
+
+    @Test
     public void testActivity() {
         Counters.reset();
-        CacheBrowserActivity activity = getActivity();
+        CacheBrowserActivity activity = activityRule.getActivity();
 
         //TODO
         try {

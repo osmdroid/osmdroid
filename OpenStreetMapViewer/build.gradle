@@ -13,12 +13,13 @@ android {
 
 
     defaultConfig {
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
 
 
         applicationId "org.osmdroid"
 
-        minSdkVersion 14
+        minSdkVersion 21
         multiDexEnabled = true
 
         compileSdkVersion(project.hasProperty('android.compileSdkVersion')
@@ -48,13 +49,11 @@ android {
             }
         }
     }
-    sourceSets {
-        androidTest {
-            java.srcDirs = ['../osmdroid-android-it/src/main/java']
-        }
-    }
+    
     packagingOptions{
         pickFirst "androidsupportmultidexversion.txt"
+        pickFirst "META-INF/AL2.0"
+        pickFirst "META-INF/LGPL2.1"
     }
 
 
@@ -102,10 +101,18 @@ dependencies {
     implementation 'com.squareup.leakcanary:leakcanary-android:2.2'
 
     //on device testing
-    androidTestImplementation  'com.android.support.test:runner:0.4.+'
-    androidTestImplementation  'com.android.support.test:rules:0.4.+'
     androidTestImplementation  'com.android.support:multidex:1.0.3'
     androidTestImplementation  "com.android.support:support-annotations:${project.property('android-support.version')}"
+
+
+    androidTestImplementation "androidx.test:runner:1.4.0"
+    androidTestImplementation "androidx.test:rules:1.4.0"
+    // Optional -- UI testing with Espresso
+    androidTestImplementation "androidx.test.espresso:espresso-core:3.4.0"
+    // Optional -- UI testing with UI Automator
+    androidTestImplementation "androidx.test.uiautomator:uiautomator:2.2.0"
+    // Optional -- UI testing with Compose
+    androidTestImplementation "androidx.compose.ui:ui-test-junit4:1.1.1"
 }
 
 
