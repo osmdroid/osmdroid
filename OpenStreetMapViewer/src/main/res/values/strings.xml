@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="app_name" translatable="false">Open Map</string>
+    <string name="app_name" translatable="false">Open Map</string>
 
     <string name="unknown">Unknown</string>
     <string name="map_mode">Map Source</string>
