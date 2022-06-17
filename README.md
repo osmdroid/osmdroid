@@ -24,7 +24,7 @@ repositories {
 }
 
 dependencies {
-    compile 'org.osmdroid:osmdroid-android:<VERSION>'
+    implementation 'org.osmdroid:osmdroid-android:<VERSION>'
 }
 ```
 
@@ -64,7 +64,7 @@ repositories {
     }
 }
 dependencies {
-    compile 'org.osmdroid:osmdroid-android:<VERSION>-SNAPSHOT:debug@aar'
+    implementation 'org.osmdroid:osmdroid-android:<VERSION>-SNAPSHOT:debug@aar'
 }
 ```
 
