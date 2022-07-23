@@ -275,7 +275,7 @@ public class DefaultConfigurationProvider implements IConfigurationProvider {
             //trap for android studio layout editor and some for certain devices
             //see https://github.com/osmdroid/osmdroid/issues/508
         }
-        if (osmdroidBasePath==null)
+        if (osmdroidBasePath==null && context!=null)
             osmdroidBasePath =  context.getFilesDir();
         return osmdroidBasePath;
     }
