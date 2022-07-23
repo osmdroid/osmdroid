@@ -326,7 +326,8 @@ public class DefaultConfigurationProvider implements IConfigurationProvider {
         //cache management starts here
 
         //check to see if the shared preferences is set for the tile cache
-        if (!prefs.contains("osmdroid.basePath")) {
+        String basePathStr= prefs.getString("osmdroid.basePath", null);
+        if (basePathStr==null || !new File(basePathStr).exists()) {
             //this is the first time startup. run the discovery bit
             File discoveredBasePath = getOsmdroidBasePath(ctx);
             File discoveredCachePath = getOsmdroidTileCache(ctx);
