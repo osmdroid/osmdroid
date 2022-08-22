@@ -32,7 +32,7 @@ android {
 dependencies {
    
     testImplementation 'junit:junit:4.13'
-    api  project(':osmdroid-android' )
+    api  project(':osmdroid-android')
     api 'com.github.spyhunter99:jdbf:2.2.0'
 
 }

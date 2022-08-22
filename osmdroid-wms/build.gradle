@@ -32,7 +32,7 @@ android {
 
 dependencies {
     //
-    api  project(':osmdroid-android' )
+    api  project(':osmdroid-android')
     testImplementation "junit:junit:${project.property('junit.version')}"
 }
 

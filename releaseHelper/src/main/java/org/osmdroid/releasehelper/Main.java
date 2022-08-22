@@ -122,7 +122,6 @@ public class Main {
 
         layout.save(new FileWriter(file, false));
          */
-        
         //copy just the apks in this case
         modules = findModules(true);
 
@@ -130,16 +129,16 @@ public class Main {
         trim(modules, settingsGradle);
 
         //copy all those modules to our target folder
-        for (String module: modules) {
-            String folder = props.getProperty("pom.version").contains("-SNAPSHOT") ? "debug":"release";
+        for (String module : modules) {
+            String folder = props.getProperty("pom.version").contains("-SNAPSHOT") ? "debug" : "release";
             File[] files = new File(module + "/build/outputs/apk/" + folder).listFiles(new FilenameFilter() {
                 @Override
                 public boolean accept(File dir, String name) {
                     return name.endsWith(".apk");
                 }
             });
-            if (files!=null) {
-                for (File f: files) {
+            if (files != null) {
+                for (File f : files) {
                     FileUtils.copyFileToDirectory(f, new File("target"));
                 }
             }
@@ -279,7 +278,7 @@ public class Main {
 
     private static void unzipFolder(File archiveFile, File zipDestinationFolder) throws Exception {
         File targetDir = zipDestinationFolder;
-        try (ArchiveInputStream i = new JarArchiveInputStream(new FileInputStream(archiveFile))) {
+        try ( ArchiveInputStream i = new JarArchiveInputStream(new FileInputStream(archiveFile))) {
             ArchiveEntry entry = null;
             while ((entry = i.getNextEntry()) != null) {
                 if (!i.canReadEntryData(entry)) {
@@ -300,7 +299,7 @@ public class Main {
                         printError();
                         throw new IOException("failed to create directory " + parent);
                     }
-                    try (OutputStream o = Files.newOutputStream(f.toPath())) {
+                    try ( OutputStream o = Files.newOutputStream(f.toPath())) {
                         IOUtils.copy(i, o);
                     }
                 }
@@ -333,7 +332,7 @@ public class Main {
 
         buildFileList(filesToArchive, sourceDirectory);
         System.out.println("Compressing " + filesToArchive.size() + " files");
-        try (ArchiveOutputStream o = new JarArchiveOutputStream(new FileOutputStream(destinationJar))) {
+        try ( ArchiveOutputStream o = new JarArchiveOutputStream(new FileOutputStream(destinationJar))) {
 
             for (File f : filesToArchive) {
                 // maybe skip directories for formats like AR that don't store directories
@@ -346,7 +345,7 @@ public class Main {
                 // potentially add more flags to entry
                 o.putArchiveEntry(entry);
                 if (f.isFile()) {
-                    try (InputStream i = Files.newInputStream(f.toPath())) {
+                    try ( InputStream i = Files.newInputStream(f.toPath())) {
                         IOUtils.copy(i, o);
                     }
                 }
@@ -360,7 +359,7 @@ public class Main {
 
         System.out.println("making dist zip");
 
-        try (ArchiveOutputStream o = new JarArchiveOutputStream(new FileOutputStream(new File("osmdroid-dist-" + props.getProperty("pom.version") + ".zip")))) {
+        try ( ArchiveOutputStream o = new JarArchiveOutputStream(new FileOutputStream(new File("osmdroid-dist-" + props.getProperty("pom.version") + ".zip")))) {
             File[] apks = new File("target").listFiles(new FilenameFilter() {
                 @Override
                 public boolean accept(File dir, String name) {
@@ -378,7 +377,7 @@ public class Main {
                 // potentially add more flags to entry
                 o.putArchiveEntry(entry);
                 if (f.isFile()) {
-                    try (InputStream i = Files.newInputStream(f.toPath())) {
+                    try ( InputStream i = Files.newInputStream(f.toPath())) {
                         IOUtils.copy(i, o);
                     }
                 }
@@ -402,7 +401,7 @@ public class Main {
                 // potentially add more flags to entry
                 o.putArchiveEntry(entry);
                 if (f.isFile()) {
-                    try (InputStream i = Files.newInputStream(f.toPath())) {
+                    try ( InputStream i = Files.newInputStream(f.toPath())) {
                         IOUtils.copy(i, o);
                     }
                 }
@@ -425,7 +424,7 @@ public class Main {
                 // potentially add more flags to entry
                 o.putArchiveEntry(entry);
                 if (f.isFile()) {
-                    try (InputStream i = Files.newInputStream(f.toPath())) {
+                    try ( InputStream i = Files.newInputStream(f.toPath())) {
                         IOUtils.copy(i, o);
                     }
                 }
@@ -449,7 +448,7 @@ public class Main {
                 // potentially add more flags to entry
                 o.putArchiveEntry(entry);
                 if (f.isFile()) {
-                    try (InputStream i = Files.newInputStream(f.toPath())) {
+                    try ( InputStream i = Files.newInputStream(f.toPath())) {
                         IOUtils.copy(i, o);
                     }
                 }
@@ -612,7 +611,9 @@ public class Main {
                                         if (v.contains(")")) {
                                             d.setVersion(v.substring(0, v.indexOf(")")));
                                         }
-                                        model.getDependencies().add(d);
+                                        if (!contains(model.getDependencies(), d)) {
+                                            model.getDependencies().add(d);
+                                        }
                                     }
                                 } else {
                                     String[] parts = line.split(":");
@@ -622,7 +623,9 @@ public class Main {
                                     if (parts[2].contains(")")) {
                                         d.setVersion(parts[2].substring(0, parts[2].indexOf(")")));
                                     }
-                                    model.getDependencies().add(d);
+                                    if (!contains(model.getDependencies(), d)) {
+                                        model.getDependencies().add(d);
+                                    }
                                 }
                                 if (line.endsWith("{")) {
                                     i++;
@@ -649,7 +652,7 @@ public class Main {
                                                 }
                                                 Exclusion e = new Exclusion();
                                                 e.setGroupId(group);
-                                                e.setArtifactId(artifactId);
+                                                e.setArtifactId(artifact);
                                                 d.getExclusions().add(e);
                                             }
                                         }
@@ -699,7 +702,9 @@ public class Main {
                                         if (v.contains(")")) {
                                             d.setVersion(v.substring(0, v.indexOf(")")));
                                         }
-                                        model.getDependencies().add(d);
+                                        if (!contains(model.getDependencies(), d)) {
+                                            model.getDependencies().add(d);
+                                        }
                                     }
                                 } else {
                                     String[] parts = line.split(":");
@@ -709,7 +714,9 @@ public class Main {
                                     if (parts[2].contains(")")) {
                                         d.setVersion(parts[2].substring(0, parts[2].indexOf(")")));
                                     }
-                                    model.getDependencies().add(d);
+                                    if (!contains(model.getDependencies(), d)) {
+                                        model.getDependencies().add(d);
+                                    }
                                 }
                                 if (line.endsWith("{")) {
                                     i++;
@@ -736,7 +743,7 @@ public class Main {
                                                 }
                                                 Exclusion e = new Exclusion();
                                                 e.setGroupId(group);
-                                                e.setArtifactId(artifactId);
+                                                e.setArtifactId(artifact);
                                                 d.getExclusions().add(e);
                                             }
                                         }
@@ -793,12 +800,28 @@ public class Main {
         d.setVersion(props.getProperty("pom.version"));
         String artifact = line.replace("project(':", "");
         artifact = artifact.replace("')", "");
-        d.setArtifactId(artifact);
-        dependencies.add(d);
+        artifact = artifact.replace("'", "");
+        artifact = artifact.replace(")", "");
+        d.setArtifactId(artifact.trim());
+        //check to see if already have this and skip if needed
+        if (!contains(dependencies, d)) {
+            dependencies.add(d);
+        }
     }
 
     private static void copyApksForDist(Properties props) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private static boolean contains(List<Dependency> dependencies, Dependency d) {
+        for (Dependency dep : dependencies) {
+            if (dep.getGroupId().equals(d.getGroupId())
+                    && dep.getArtifactId().equals(d.getArtifactId())
+                    && dep.getVersion().equals(d.getVersion())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     static class StreamGobbler extends Thread {
