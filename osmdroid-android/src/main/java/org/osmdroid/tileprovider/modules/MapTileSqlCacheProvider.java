@@ -33,7 +33,7 @@ public class MapTileSqlCacheProvider extends MapTileFileStorageProviderBase {
     // ===========================================================
 
     private final AtomicReference<ITileSource> mTileSource = new AtomicReference<ITileSource>();
-    private SqlTileWriter mWriter;
+    private SqlTileWriter mWriter = new SqlTileWriter();
     private static final String[] columns = {DatabaseFileArchive.COLUMN_TILE, SqlTileWriter.COLUMN_EXPIRES};
 
     // ===========================================================
@@ -57,7 +57,19 @@ public class MapTileSqlCacheProvider extends MapTileFileStorageProviderBase {
                 Configuration.getInstance().getTileFileSystemMaxQueueSize());
 
         setTileSource(pTileSource);
-        mWriter = new SqlTileWriter();
+    }
+
+    /**
+     * Constructor that supports injecting custom {@link SqlTileWriter} implementation.
+     *
+     * @since 6.1.15
+     */
+    public MapTileSqlCacheProvider(final IRegisterReceiver pRegisterReceiver,
+                                   final ITileSource pTileSource,
+                                   final SqlTileWriter pTileWriter) {
+        this(pRegisterReceiver, pTileSource);
+
+        mWriter = pTileWriter;
     }
 
     // ===========================================================
@@ -110,7 +122,6 @@ public class MapTileSqlCacheProvider extends MapTileFileStorageProviderBase {
     protected void onMediaUnmounted() {
         if (mWriter != null)
             mWriter.onDetach();
-        mWriter = new SqlTileWriter();
     }
 
     @Override

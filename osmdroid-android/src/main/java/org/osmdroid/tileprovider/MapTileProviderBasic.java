@@ -203,15 +203,18 @@ public class MapTileProviderBasic extends MapTileProviderArray implements IMapTi
 	 * @since 6.0.3
 	 * cf. https://github.com/osmdroid/osmdroid/issues/1172
 	 */
-	public static MapTileFileStorageProviderBase getMapTileFileStorageProviderBase(
+	protected MapTileFileStorageProviderBase getMapTileFileStorageProviderBase(
 			final IRegisterReceiver pRegisterReceiver,
 			final ITileSource pTileSource,
 			final IFilesystemCache pTileWriter
 	) {
 		if (pTileWriter instanceof TileWriter) {
-			return new MapTileFilesystemProvider(pRegisterReceiver, pTileSource);
+			return new MapTileFilesystemProvider(pRegisterReceiver, pTileSource, (TileWriter) pTileWriter);
+		} else if (pTileWriter instanceof SqlTileWriter) {
+			return new MapTileSqlCacheProvider(pRegisterReceiver, pTileSource, (SqlTileWriter) pTileWriter);
+		} else {
+			return new MapTileSqlCacheProvider(pRegisterReceiver, pTileSource);
 		}
-		return new MapTileSqlCacheProvider(pRegisterReceiver, pTileSource);
 	}
 
 	/**

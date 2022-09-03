@@ -32,7 +32,7 @@ public class MapTileFilesystemProvider extends MapTileFileStorageProviderBase {
     // Fields
     // ===========================================================
 
-    private final TileWriter mWriter = new TileWriter();
+    private TileWriter mWriter = new TileWriter();
     private final AtomicReference<ITileSource> mTileSource = new AtomicReference<ITileSource>();
 
     // ===========================================================
@@ -68,6 +68,19 @@ public class MapTileFilesystemProvider extends MapTileFileStorageProviderBase {
         setTileSource(pTileSource);
 
         mWriter.setMaximumCachedFileAge(pMaximumCachedFileAge);
+    }
+
+    /**
+     * Constructor that supports injecting custom {@link TileWriter} implementation.
+     *
+     * @since 6.1.15
+     */
+    public MapTileFilesystemProvider(final IRegisterReceiver pRegisterReceiver,
+                                     final ITileSource aTileSource,
+                                     final TileWriter tileWriter) {
+        this(pRegisterReceiver, aTileSource);
+
+        this.mWriter = tileWriter;
     }
     // ===========================================================
     // Getter & Setter

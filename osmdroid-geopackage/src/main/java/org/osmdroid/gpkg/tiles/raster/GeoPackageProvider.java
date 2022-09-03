@@ -11,6 +11,9 @@ import org.osmdroid.tileprovider.MapTileProviderArray;
 import org.osmdroid.tileprovider.MapTileProviderBasic;
 import org.osmdroid.tileprovider.modules.IFilesystemCache;
 import org.osmdroid.tileprovider.modules.INetworkAvailablityCheck;
+import org.osmdroid.tileprovider.modules.MapTileFileStorageProviderBase;
+import org.osmdroid.tileprovider.modules.MapTileFilesystemProvider;
+import org.osmdroid.tileprovider.modules.MapTileSqlCacheProvider;
 import org.osmdroid.tileprovider.modules.NetworkAvailabliltyCheck;
 import org.osmdroid.tileprovider.modules.SqlTileWriter;
 import org.osmdroid.tileprovider.modules.TileWriter;
@@ -62,7 +65,14 @@ public class GeoPackageProvider extends MapTileProviderArray implements IMapTile
             }
         }
 
-        mTileProviderList.add(MapTileProviderBasic.getMapTileFileStorageProviderBase(pRegisterReceiver, pTileSource, tileWriter));
+        MapTileFileStorageProviderBase cacheProvider;
+        if (tileWriter instanceof TileWriter) {
+            cacheProvider = new MapTileFilesystemProvider(pRegisterReceiver, pTileSource);
+        } else {
+            cacheProvider = new MapTileSqlCacheProvider(pRegisterReceiver, pTileSource);
+        }
+        mTileProviderList.add(cacheProvider);
+
         geopackage = new GeoPackageMapTileModuleProvider(databases, pContext, tileWriter);
         mTileProviderList.add(geopackage);
 

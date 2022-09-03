@@ -11,7 +11,6 @@ import org.osmdroid.samplefragments.BaseSampleFragment;
 import org.osmdroid.tileprovider.IMapTileProviderCallback;
 import org.osmdroid.tileprovider.IRegisterReceiver;
 import org.osmdroid.tileprovider.MapTileProviderArray;
-import org.osmdroid.tileprovider.MapTileProviderBasic;
 import org.osmdroid.tileprovider.modules.CantContinueException;
 import org.osmdroid.tileprovider.modules.IFilesystemCache;
 import org.osmdroid.tileprovider.modules.INetworkAvailablityCheck;
@@ -20,8 +19,11 @@ import org.osmdroid.tileprovider.modules.MapTileAssetsProvider;
 import org.osmdroid.tileprovider.modules.MapTileDownloader;
 import org.osmdroid.tileprovider.modules.MapTileFileArchiveProvider;
 import org.osmdroid.tileprovider.modules.MapTileFileStorageProviderBase;
+import org.osmdroid.tileprovider.modules.MapTileFilesystemProvider;
+import org.osmdroid.tileprovider.modules.MapTileSqlCacheProvider;
 import org.osmdroid.tileprovider.modules.NetworkAvailabliltyCheck;
 import org.osmdroid.tileprovider.modules.SqlTileWriter;
+import org.osmdroid.tileprovider.modules.TileWriter;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.tileprovider.util.SimpleRegisterReceiver;
@@ -90,8 +92,12 @@ public class SampleLieFi extends BaseSampleFragment {
                     pRegisterReceiver, pContext.getAssets(), pTileSource);
             mTileProviderList.add(assetsProvider);
 
-            final MapTileFileStorageProviderBase cacheProvider =
-                    MapTileProviderBasic.getMapTileFileStorageProviderBase(pRegisterReceiver, pTileSource, tileWriter);
+            MapTileFileStorageProviderBase cacheProvider;
+            if (tileWriter instanceof TileWriter) {
+                cacheProvider = new MapTileFilesystemProvider(pRegisterReceiver, pTileSource);
+            } else {
+                cacheProvider = new MapTileSqlCacheProvider(pRegisterReceiver, pTileSource);
+            }
             mTileProviderList.add(cacheProvider);
 
             final MapTileFileArchiveProvider archiveProvider = new MapTileFileArchiveProvider(
