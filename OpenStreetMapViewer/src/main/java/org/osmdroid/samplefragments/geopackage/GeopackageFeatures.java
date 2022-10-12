@@ -43,7 +43,7 @@ import mil.nga.geopackage.features.user.FeatureCursor;
 import mil.nga.geopackage.features.user.FeatureDao;
 import mil.nga.geopackage.features.user.FeatureRow;
 import mil.nga.geopackage.geom.GeoPackageGeometryData;
-import mil.nga.wkb.geom.Geometry;
+import mil.nga.sf.Geometry;
 
 import static org.osmdroid.samplefragments.events.SampleMapEventListener.df;
 
