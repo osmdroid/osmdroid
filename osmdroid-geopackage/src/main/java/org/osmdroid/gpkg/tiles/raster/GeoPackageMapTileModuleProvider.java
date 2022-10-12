@@ -25,8 +25,8 @@ import java.util.List;
 import java.util.Set;
 
 import mil.nga.geopackage.GeoPackage;
+import mil.nga.geopackage.GeoPackageFactory;
 import mil.nga.geopackage.GeoPackageManager;
-import mil.nga.geopackage.factory.GeoPackageFactory;
 import mil.nga.geopackage.tiles.retriever.GeoPackageTile;
 import mil.nga.geopackage.tiles.retriever.GeoPackageTileRetriever;
 import mil.nga.geopackage.tiles.user.TileDao;
