@@ -99,7 +99,7 @@ public class GeoPackageProvider extends MapTileProviderArray implements IMapTile
                     mil.nga.geopackage.BoundingBox boundingBox = tileDao.getBoundingBox();
                     ProjectionTransform transformation = tileDao.getProjection().getTransformation(tileDao.getProjection());
                     double[] transformed = transformation.transform(boundingBox.getMinLongitude(), boundingBox.getMinLatitude(), boundingBox.getMaxLongitude(), boundingBox.getMaxLatitude());
-                    boundingBox = new mil.nga.geopackage.BoundingBox(transformed[0], transformed[1], transformed[2], transformed[4]);
+                    boundingBox = new mil.nga.geopackage.BoundingBox(transformed[0], transformed[1], transformed[2], transformed[3]);
                     BoundingBox bounds = new BoundingBox(boundingBox.getMaxLatitude(), boundingBox.getMaxLongitude(), boundingBox.getMinLatitude(), boundingBox.getMinLongitude());
                     return new GeopackageRasterTileSource(database, table, (int) tileDao.getMinZoom(), (int) tileDao.getMaxZoom(), bounds);
                 }

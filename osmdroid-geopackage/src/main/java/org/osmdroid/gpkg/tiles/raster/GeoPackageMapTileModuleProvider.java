@@ -130,7 +130,7 @@ public class GeoPackageMapTileModuleProvider extends MapTileModuleProviderBase {
 
                 ProjectionTransform transform = tileDao.getProjection().getTransformation(ProjectionConstants.EPSG_WORLD_GEODETIC_SYSTEM);
                 double[] transformed = transform.transform(tileDao.getBoundingBox().getMinLongitude(), tileDao.getBoundingBox().getMinLatitude(), tileDao.getBoundingBox().getMaxLongitude(), tileDao.getBoundingBox().getMaxLatitude());
-                mil.nga.geopackage.BoundingBox boundingBox = new mil.nga.geopackage.BoundingBox(transformed[0], transformed[1], transformed[2], transformed[4]);
+                mil.nga.geopackage.BoundingBox boundingBox = new mil.nga.geopackage.BoundingBox(transformed[0], transformed[1], transformed[2], transformed[3]);
                 BoundingBox bounds = new BoundingBox(Math.min(tileSystem.getMaxLatitude(), boundingBox.getMaxLatitude()),
                         boundingBox.getMaxLongitude(),
                         Math.max(tileSystem.getMinLatitude(), boundingBox.getMinLatitude()),
@@ -160,7 +160,7 @@ public class GeoPackageMapTileModuleProvider extends MapTileModuleProviderBase {
 
             ProjectionTransform transform = tileDao.getProjection().getTransformation(ProjectionConstants.EPSG_WORLD_GEODETIC_SYSTEM);
             double[] transformed = transform.transform(tileDao.getBoundingBox().getMinLongitude(), tileDao.getBoundingBox().getMinLatitude(), tileDao.getBoundingBox().getMaxLongitude(), tileDao.getBoundingBox().getMaxLatitude());
-            mil.nga.geopackage.BoundingBox boundingBox = new mil.nga.geopackage.BoundingBox(transformed[0], transformed[1], transformed[2], transformed[4]);
+            mil.nga.geopackage.BoundingBox boundingBox = new mil.nga.geopackage.BoundingBox(transformed[0], transformed[1], transformed[2], transformed[3]);
             BoundingBox bounds = new BoundingBox(Math.min(tileSystem.getMaxLatitude(), boundingBox.getMaxLatitude()),
                     boundingBox.getMaxLongitude(),
                     Math.max(tileSystem.getMinLatitude(), boundingBox.getMinLatitude()),
