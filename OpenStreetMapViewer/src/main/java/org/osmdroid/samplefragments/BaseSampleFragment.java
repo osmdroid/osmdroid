@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.InputDevice;
@@ -24,6 +23,8 @@ import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.TileSystem;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.CopyrightOverlay;
+
+import androidx.fragment.app.Fragment;
 
 public abstract class BaseSampleFragment extends Fragment {
     private static int MENU_LAST_ID = Menu.FIRST; // Always set to last unused id

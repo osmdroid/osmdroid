@@ -213,7 +213,7 @@ public class OfflinePickerSample extends BaseSampleFragment implements View.OnCl
             //fire up the forge maps...
             XmlRenderTheme theme = null;
             try {
-                theme = new AssetsRenderTheme(getContext().getApplicationContext(), "renderthemes/", "rendertheme-v4.xml");
+                theme = new AssetsRenderTheme(getContext().getApplicationContext().getAssets(), "renderthemes/", "rendertheme-v4.xml");
             } catch (Exception ex) {
                 ex.printStackTrace();
             }

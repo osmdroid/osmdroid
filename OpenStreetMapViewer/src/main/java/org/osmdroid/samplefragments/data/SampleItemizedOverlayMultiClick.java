@@ -3,7 +3,6 @@ package org.osmdroid.samplefragments.data;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
-import android.support.v7.app.AlertDialog;
 import android.widget.Toast;
 
 import org.osmdroid.api.IGeoPoint;
@@ -18,6 +17,8 @@ import org.osmdroid.views.overlay.OverlayItem;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.appcompat.app.AlertDialog;
 
 /**
  * @author Fabrice Fontaine

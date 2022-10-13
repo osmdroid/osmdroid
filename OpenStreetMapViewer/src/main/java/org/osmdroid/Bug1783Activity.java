@@ -1,13 +1,14 @@
 package org.osmdroid;
 
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.Button;
 
 import org.osmdroid.bugtestfragments.Bug1783MyLocationOverlayNPE;
 import org.osmdroid.model.IBaseActivity;
+
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentActivity;
 
 public class Bug1783Activity extends FragmentActivity implements IBaseActivity {
 

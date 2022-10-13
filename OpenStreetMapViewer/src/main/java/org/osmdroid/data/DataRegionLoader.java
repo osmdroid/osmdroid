@@ -1,11 +1,12 @@
 package org.osmdroid.data;
 
 import android.content.Context;
-import android.support.annotation.RawRes;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.osmdroid.util.BoundingBox;
+
+import androidx.annotation.RawRes;
 
 /**
  * {@link DataRegion} json loader

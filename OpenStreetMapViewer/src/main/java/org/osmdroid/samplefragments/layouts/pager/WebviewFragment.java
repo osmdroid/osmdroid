@@ -1,13 +1,14 @@
 package org.osmdroid.samplefragments.layouts.pager;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 
 import org.osmdroid.R;
+
+import androidx.fragment.app.Fragment;
 
 /**
  * Created by alex on 10/22/16.
