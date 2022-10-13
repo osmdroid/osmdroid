@@ -34,8 +34,8 @@ import java.util.List;
 import java.util.Set;
 
 import mil.nga.geopackage.GeoPackage;
+import mil.nga.geopackage.GeoPackageFactory;
 import mil.nga.geopackage.GeoPackageManager;
-import mil.nga.geopackage.factory.GeoPackageFactory;
 
 import static org.osmdroid.samplefragments.events.SampleMapEventListener.df;
 

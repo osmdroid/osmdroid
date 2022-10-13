@@ -45,8 +45,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import mil.nga.geopackage.GeoPackageFactory;
 import mil.nga.geopackage.GeoPackageManager;
-import mil.nga.geopackage.factory.GeoPackageFactory;
 
 /**
  * lets you pick one or more offline tile archives/providers
