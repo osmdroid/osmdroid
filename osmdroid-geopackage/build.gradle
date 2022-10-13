@@ -35,13 +35,13 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
 
     api  project(':osmdroid-android')
-    api ("mil.nga.geopackage:geopackage-android:6.5.0"){
+    api ("mil.nga.geopackage:geopackage-android:6.6.0"){
         exclude group: 'com.google.android.gms', module:'play-services'
         exclude group: 'com.google.maps.android', module:'android-maps-utils'
         exclude group: 'com.android.support',module: 'support-v13'
     }
 
-    api 'com.j256.ormlite:ormlite-android:5.0'
+    api 'com.j256.ormlite:ormlite-android:6.1'
     api 'mil.nga.geopackage:geopackage-core:6.5.0'
     api 'ar.com.hjg:pngj:2.1.0'
     api 'mil.nga:tiff:3.0.0'
