@@ -148,6 +148,14 @@ public class FolderOverlay extends Overlay {
             return false;
     }
 
+    @Override
+    public boolean onDoubleTap(MotionEvent e, MapView mapView) {
+        if (isEnabled())
+            return mOverlayManager.onDoubleTap(e, mapView);
+        else
+            return false;
+    }
+
     //TODO: implement other events...
 
     /**
