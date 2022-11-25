@@ -2,7 +2,6 @@ package org.osmdroid.samplefragments.data;
 
 import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
-import android.support.v7.app.AlertDialog;
 
 import org.osmdroid.R;
 import org.osmdroid.api.IGeoPoint;
@@ -16,6 +15,8 @@ import org.osmdroid.views.overlay.Marker;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.appcompat.app.AlertDialog;
 
 /**
  * @author Fabrice Fontaine

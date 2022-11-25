@@ -1,7 +1,6 @@
 package org.osmdroid.bugtestfragments;
 
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +11,8 @@ import org.osmdroid.ExtraSamplesActivity;
 import org.osmdroid.R;
 import org.osmdroid.samplefragments.BaseSampleFragment;
 import org.osmdroid.views.MapView;
+
+import androidx.fragment.app.FragmentManager;
 
 
 /**

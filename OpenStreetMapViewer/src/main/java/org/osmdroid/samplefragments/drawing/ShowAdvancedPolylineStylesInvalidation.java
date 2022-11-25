@@ -3,7 +3,6 @@ package org.osmdroid.samplefragments.drawing;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +19,8 @@ import org.osmdroid.views.overlay.advancedpolyline.MonochromaticPaintList;
 import org.osmdroid.views.overlay.advancedpolyline.PolychromaticPaintList;
 
 import java.util.ArrayList;
+
+import androidx.annotation.Nullable;
 
 
 /**

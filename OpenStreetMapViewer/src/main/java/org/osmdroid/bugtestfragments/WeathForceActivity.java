@@ -10,7 +10,6 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.Surface;
 import android.view.WindowManager;
@@ -29,6 +28,8 @@ import org.osmdroid.views.overlay.compass.IOrientationConsumer;
 import org.osmdroid.views.overlay.compass.IOrientationProvider;
 import org.osmdroid.views.overlay.compass.InternalCompassOrientationProvider;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
+
+import androidx.core.app.ActivityCompat;
 
 /**
  * http://stackoverflow.com/q/40112165/1203182

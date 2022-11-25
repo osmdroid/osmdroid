@@ -1,8 +1,6 @@
 package org.osmdroid.samplefragments.layouts;
 
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +12,9 @@ import org.osmdroid.samplefragments.layouts.rec.CustomRecycler;
 import org.osmdroid.samplefragments.layouts.rec.Info;
 
 import java.util.ArrayList;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * created on 1/13/2017.

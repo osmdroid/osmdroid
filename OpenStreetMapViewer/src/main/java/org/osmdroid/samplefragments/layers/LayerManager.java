@@ -1,7 +1,6 @@
 package org.osmdroid.samplefragments.layers;
 
 import android.os.Bundle;
-import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +28,8 @@ import org.osmdroid.views.overlay.Polyline;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+
+import androidx.drawerlayout.widget.DrawerLayout;
 
 /**
  * Views the current layers in a navigation drawer layout

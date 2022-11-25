@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
     <!-- header bar with some stats -->
 
-    <android.support.v7.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/my_toolbar"
         style="@style/ToolbarStyle"/>
 
