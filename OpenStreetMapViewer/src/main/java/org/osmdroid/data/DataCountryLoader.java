@@ -1,10 +1,11 @@
 package org.osmdroid.data;
 
 import android.content.Context;
-import android.support.annotation.RawRes;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import androidx.annotation.RawRes;
 
 /**
  * {@link DataCountry} json loader

@@ -1,7 +1,6 @@
 package org.osmdroid.data;
 
 import android.content.Context;
-import android.support.annotation.RawRes;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -12,6 +11,8 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+
+import androidx.annotation.RawRes;
 
 /**
  * {@link DataRegion} json loader

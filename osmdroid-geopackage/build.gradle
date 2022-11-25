@@ -4,7 +4,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'maven-publish'
 
 group = project.property("pom.groupId")
-version =  project.property("pom.version")
+version = project.property("pom.version")
 
 android {
     compileSdkVersion findProperty('android.compileSdkVersion').toInteger()
@@ -75,16 +75,16 @@ afterEvaluate {
                 artifactId project.name
                 version = project.property("pom.version")
                 pom {
-                    description =  project.description
+                    description = project.description
                     url = project.property("pom.url")
 
                     //scm, organization and developers are injected via other mechanisms
 
                     licenses {
                         license {
-                            name=project.property("pom.licenses.license.0.name");
-                            url=project.property("pom.licenses.license.0.url");
-                            distribution==project.property("pom.licenses.license.0.distribution");
+                            name = project.property("pom.licenses.license.0.name");
+                            url = project.property("pom.licenses.license.0.url");
+                            distribution == project.property("pom.licenses.license.0.distribution");
                         }
 
                     }

@@ -1,7 +1,6 @@
 package org.osmdroid.samplefragments.layers;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +11,8 @@ import org.osmdroid.R;
 import org.osmdroid.views.overlay.Overlay;
 import org.osmdroid.views.overlay.OverlayManager;
 import org.osmdroid.views.overlay.OverlayWithIW;
+
+import androidx.annotation.NonNull;
 
 /**
  * created on 2/18/2018.

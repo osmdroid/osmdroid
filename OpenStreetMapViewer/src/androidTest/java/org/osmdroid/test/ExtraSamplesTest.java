@@ -9,8 +9,6 @@
 
 package org.osmdroid.test;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.util.Log;
 
 import junit.framework.Assert;
@@ -29,6 +27,8 @@ import org.osmdroid.tileprovider.util.Counters;
 
 import java.util.Random;
 
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.test.rule.ActivityTestRule;
 
 import static org.junit.Assert.assertNotNull;

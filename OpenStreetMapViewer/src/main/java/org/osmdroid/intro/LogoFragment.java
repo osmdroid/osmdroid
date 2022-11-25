@@ -1,12 +1,13 @@
 package org.osmdroid.intro;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import org.osmdroid.R;
+
+import androidx.fragment.app.Fragment;
 
 /**
  * created on 1/5/2017.

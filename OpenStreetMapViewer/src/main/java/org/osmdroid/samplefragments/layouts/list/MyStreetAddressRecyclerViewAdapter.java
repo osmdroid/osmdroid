@@ -1,6 +1,5 @@
 package org.osmdroid.samplefragments.layouts.list;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +9,8 @@ import org.osmdroid.R;
 import org.osmdroid.samplefragments.layouts.list.dummy.DummyContent.DummyItem;
 
 import java.util.List;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * {@link RecyclerView.Adapter} that can display a {@link DummyItem} and makes a call to the

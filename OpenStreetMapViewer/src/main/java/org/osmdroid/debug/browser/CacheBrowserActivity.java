@@ -1,8 +1,6 @@
 package org.osmdroid.debug.browser;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -11,6 +9,9 @@ import org.osmdroid.R;
 import org.osmdroid.debug.model.SqlTileWriterExt;
 import org.osmdroid.debug.util.FileDateUtil;
 import org.osmdroid.intro.StorageAdapter;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 /**
  * A simple view for browsing the osmdroid tile cache database

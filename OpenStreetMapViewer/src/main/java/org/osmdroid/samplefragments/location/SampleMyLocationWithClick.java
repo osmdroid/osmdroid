@@ -1,6 +1,5 @@
 package org.osmdroid.samplefragments.location;
 
-import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.widget.Toast;
@@ -9,6 +8,8 @@ import org.osmdroid.samplefragments.BaseSampleFragment;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
+
+import androidx.fragment.app.FragmentActivity;
 
 /**
  * created on 1/13/2017.
