@@ -10,7 +10,7 @@ android {
     compileSdkVersion findProperty('android.compileSdkVersion').toInteger()
 
     defaultConfig {
-        minSdkVersion 14
+        minSdkVersion 23
     }
     buildTypes {
         release {
