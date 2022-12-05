@@ -131,7 +131,7 @@ public class MapBoxTileSource extends OnlineTileSourceBase {
 		url.append(MapTileIndex.getX(pMapTileIndex));
 		url.append("/");
 		url.append(MapTileIndex.getY(pMapTileIndex));
-		url.append(highDPI); //for high-res?
+		url.append(highDPI); //for high-DPI
 		url.append(mImageFilenameEnding);
 		url.append("?access_token=").append(getAccessToken());
 
