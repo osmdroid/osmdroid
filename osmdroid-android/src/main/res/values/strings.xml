@@ -43,5 +43,5 @@
     <string name="cacheManagerCancelBody">Do you want to cancel the map download?</string>
     <string name="cacheManagerYes">Yes</string>
     <string name="cacheManagerNo">No</string>
-    <string name="cacheManagerHandlingMessage">Handling zoom level: %s (from %s to %s)</string>
+    <string name="cacheManagerHandlingMessage">Handling zoom level: %1$s (from %2$s to %3$s)</string>
 </resources>
