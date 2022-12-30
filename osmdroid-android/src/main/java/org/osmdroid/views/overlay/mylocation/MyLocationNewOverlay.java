@@ -410,8 +410,7 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 	 * Disables "follow" functionality.
 	 */
 	public void disableFollowLocation() {
-		if (mMapController!=null)
-			mMapController.stopAnimation(false);
+		mMapController.stopAnimation(false);
 		mIsFollowing = false;
 	}
 
