@@ -202,7 +202,9 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-
+        <activity android:name=".Bug1783Activity"
+            android:exported="false">
+        </activity>
 
         <activity android:name=".PreferenceActivity"
                   android:windowSoftInputMode="stateHidden"
