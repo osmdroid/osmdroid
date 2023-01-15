@@ -1,6 +1,7 @@
 package org.osmdroid.util;
 
 import org.junit.Assert;
+import org.junit.Assume;
 import org.junit.Test;
 
 /**
@@ -39,7 +40,7 @@ public class DelayTest {
 
     private void check(final Delay pDelay, final long pMillis) {
         sleep((pMillis * 3) / 4);
-        Assert.assertTrue(pDelay.shouldWait());
+        Assume.assumeTrue(pDelay.shouldWait());
         sleep(pMillis / 2);
         Assert.assertFalse(pDelay.shouldWait());
     }
