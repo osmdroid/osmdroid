@@ -31,10 +31,10 @@ public class HEREWeGoTileSource extends OnlineTileSourceBase {
 
     private static final String COPYRIGHT = "© 1987 - 2019 HERE. All rights reserved.";
     private static final String[] mapBoxBaseUrl = new String[]{
-            "http://1.{domain}/maptile/2.1/maptile/newest/",
-            "http://2.{domain}/maptile/2.1/maptile/newest/",
-            "http://3.{domain}/maptile/2.1/maptile/newest/",
-            "http://4.{domain}/maptile/2.1/maptile/newest/"};
+            "https://1.{domain}/maptile/2.1/maptile/newest/",
+            "https://2.{domain}/maptile/2.1/maptile/newest/",
+            "https://3.{domain}/maptile/2.1/maptile/newest/",
+            "https://4.{domain}/maptile/2.1/maptile/newest/"};
 
     private String herewegoMapId = "hybrid.day";
     private String appId = "";
