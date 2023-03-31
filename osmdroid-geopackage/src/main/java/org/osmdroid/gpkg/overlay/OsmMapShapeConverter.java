@@ -55,25 +55,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 import mil.nga.geopackage.GeoPackageException;
-import mil.nga.geopackage.projection.Projection;
-import mil.nga.geopackage.projection.ProjectionConstants;
-import mil.nga.geopackage.projection.ProjectionTransform;
-import mil.nga.wkb.geom.CircularString;
-import mil.nga.wkb.geom.CompoundCurve;
-import mil.nga.wkb.geom.Curve;
-import mil.nga.wkb.geom.CurvePolygon;
-import mil.nga.wkb.geom.Geometry;
-import mil.nga.wkb.geom.GeometryCollection;
-import mil.nga.wkb.geom.GeometryType;
-import mil.nga.wkb.geom.LineString;
-import mil.nga.wkb.geom.MultiLineString;
-import mil.nga.wkb.geom.MultiPoint;
-import mil.nga.wkb.geom.MultiPolygon;
-import mil.nga.wkb.geom.Point;
-import mil.nga.wkb.geom.Polygon;
-import mil.nga.wkb.geom.PolyhedralSurface;
-import mil.nga.wkb.geom.TIN;
-import mil.nga.wkb.geom.Triangle;
+
+import mil.nga.proj.Projection;
+import mil.nga.proj.ProjectionConstants;
+import mil.nga.proj.ProjectionTransform;
+import mil.nga.sf.CircularString;
+import mil.nga.sf.CompoundCurve;
+import mil.nga.sf.Curve;
+import mil.nga.sf.CurvePolygon;
+import mil.nga.sf.Geometry;
+import mil.nga.sf.GeometryCollection;
+import mil.nga.sf.GeometryType;
+import mil.nga.sf.LineString;
+import mil.nga.sf.MultiLineString;
+import mil.nga.sf.MultiPoint;
+import mil.nga.sf.MultiPolygon;
+import mil.nga.sf.Point;
+import mil.nga.sf.Polygon;
+import mil.nga.sf.PolyhedralSurface;
+import mil.nga.sf.TIN;
+import mil.nga.sf.Triangle;
 /**
  * created on 8/19/2017.
  *
@@ -169,7 +170,8 @@ public class OsmMapShapeConverter {
      */
     public Point toWgs84(Point point) {
         if (projection != null) {
-            point = toWgs84.transform(point);
+            double[] transformedPoint = toWgs84.transform(point.getX(), point.getY());
+            point = new Point(transformedPoint[0], transformedPoint[1]);
         }
         return point;
     }
@@ -182,7 +184,8 @@ public class OsmMapShapeConverter {
      */
     public Point toProjection(Point point) {
         if (projection != null) {
-            point = fromWgs84.transform(point);
+            double[] transformedPoint = toWgs84.transform(point.getX(), point.getY());
+            point = new Point(transformedPoint[0], transformedPoint[1]);
         }
         return point;
     }
@@ -195,14 +198,12 @@ public class OsmMapShapeConverter {
      */
     public GeoPoint toLatLng2(Point point) {
         point = toWgs84(point);
-        GeoPoint latLng = new GeoPoint(point.getY(), point.getX());
-        return latLng;
+        return new GeoPoint(point.getY(), point.getX());
     }
 
     public GeoPoint toLatLng(Point point) {
         point = toWgs84(point);
-        GeoPoint latLng = new GeoPoint(point.getY(), point.getX());
-        return latLng;
+        return new GeoPoint(point.getY(), point.getX());
     }
 
 
@@ -716,7 +717,6 @@ public class OsmMapShapeConverter {
      * Add a Polygon to the map
      *
      * @param map
-
      * @return
      */
     public static org.osmdroid.views.overlay.Polygon addPolygonToMap(

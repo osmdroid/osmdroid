@@ -33,7 +33,8 @@ package org.osmdroid.gpkg.overlay.features;
 
 import java.util.List;
 
-import mil.nga.wkb.geom.GeometryType;
+import mil.nga.sf.GeometryType;
+
 
 /**
  * Google Map Shape

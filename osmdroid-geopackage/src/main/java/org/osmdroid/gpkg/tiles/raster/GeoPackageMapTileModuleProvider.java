@@ -7,6 +7,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 
+import org.locationtech.proj4j.ProjCoordinate;
 import org.osmdroid.api.IMapView;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.modules.IFilesystemCache;
@@ -24,13 +25,13 @@ import java.util.List;
 import java.util.Set;
 
 import mil.nga.geopackage.GeoPackage;
+import mil.nga.geopackage.GeoPackageFactory;
 import mil.nga.geopackage.GeoPackageManager;
-import mil.nga.geopackage.factory.GeoPackageFactory;
-import mil.nga.geopackage.projection.ProjectionConstants;
-import mil.nga.geopackage.projection.ProjectionTransform;
 import mil.nga.geopackage.tiles.retriever.GeoPackageTile;
 import mil.nga.geopackage.tiles.retriever.GeoPackageTileRetriever;
 import mil.nga.geopackage.tiles.user.TileDao;
+import mil.nga.proj.ProjectionConstants;
+import mil.nga.proj.ProjectionTransform;
 
 /**
  * Geopackage raster tile provider
@@ -59,9 +60,9 @@ public class GeoPackageMapTileModuleProvider extends MapTileModuleProviderBase {
 
 
         // Import database
-        for (int i = 0; i < pFile.length; i++) {
+        for (File file : pFile) {
             try {
-                manager.importGeoPackage((pFile[i]));
+                manager.importGeoPackage(file);
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
@@ -128,7 +129,8 @@ public class GeoPackageMapTileModuleProvider extends MapTileModuleProviderBase {
                 TileDao tileDao = open.getTileDao(tileTables.get(k));
 
                 ProjectionTransform transform = tileDao.getProjection().getTransformation(ProjectionConstants.EPSG_WORLD_GEODETIC_SYSTEM);
-                mil.nga.geopackage.BoundingBox boundingBox = transform.transform(tileDao.getBoundingBox());
+                double[] transformed = transform.transform(tileDao.getBoundingBox().getMinLongitude(), tileDao.getBoundingBox().getMinLatitude(), tileDao.getBoundingBox().getMaxLongitude(), tileDao.getBoundingBox().getMaxLatitude());
+                mil.nga.geopackage.BoundingBox boundingBox = new mil.nga.geopackage.BoundingBox(transformed[0], transformed[1], transformed[2], transformed[3]);
                 BoundingBox bounds = new BoundingBox(Math.min(tileSystem.getMaxLatitude(), boundingBox.getMaxLatitude()),
                         boundingBox.getMaxLongitude(),
                         Math.max(tileSystem.getMinLatitude(), boundingBox.getMinLatitude()),
@@ -157,8 +159,8 @@ public class GeoPackageMapTileModuleProvider extends MapTileModuleProviderBase {
             TileDao tileDao = open.getTileDao(tileTables.get(k));
 
             ProjectionTransform transform = tileDao.getProjection().getTransformation(ProjectionConstants.EPSG_WORLD_GEODETIC_SYSTEM);
-            mil.nga.geopackage.BoundingBox boundingBox = transform.transform(tileDao.getBoundingBox());
-
+            double[] transformed = transform.transform(tileDao.getBoundingBox().getMinLongitude(), tileDao.getBoundingBox().getMinLatitude(), tileDao.getBoundingBox().getMaxLongitude(), tileDao.getBoundingBox().getMaxLatitude());
+            mil.nga.geopackage.BoundingBox boundingBox = new mil.nga.geopackage.BoundingBox(transformed[0], transformed[1], transformed[2], transformed[3]);
             BoundingBox bounds = new BoundingBox(Math.min(tileSystem.getMaxLatitude(), boundingBox.getMaxLatitude()),
                     boundingBox.getMaxLongitude(),
                     Math.max(tileSystem.getMinLatitude(), boundingBox.getMinLatitude()),
@@ -174,11 +176,9 @@ public class GeoPackageMapTileModuleProvider extends MapTileModuleProviderBase {
     @Override
     public void detach() {
 
-
         if (tileSources != null) {
-            Iterator<GeoPackage> iterator = tileSources.iterator();
-            while (iterator.hasNext()) {
-                iterator.next().close();
+            for (GeoPackage tileSource : tileSources) {
+                tileSource.close();
             }
             tileSources.clear();
         }
@@ -191,11 +191,9 @@ public class GeoPackageMapTileModuleProvider extends MapTileModuleProviderBase {
         @Override
         public Drawable loadTile(final long pMapTileIndex) {
             try {
-                Drawable mapTile = getMapTile(pMapTileIndex);
-                return mapTile;
+                return getMapTile(pMapTileIndex);
             } catch (final Throwable e) {
                 Log.e(IMapView.LOGTAG, "Error loading tile", e);
-            } finally {
             }
 
             return null;
