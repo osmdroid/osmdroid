@@ -23,11 +23,12 @@ public class MapBoxTileSource extends OnlineTileSourceBase {
     //<meta-data android:name="MAPBOX_ACCESS_TOKEN" android:value="YOUR TOKEN" />
     private static final String ACCESS_TOKEN = "MAPBOX_ACCESS_TOKEN";
 
-    private static final String[] mapBoxBaseUrl = new String[]{
-            "https://api.mapbox.com/styles/v1/mapbox/"};
+	private static final String[] mapBoxBaseUrl = new String[]{
+			"https://api.mapbox.com/v4/"};
 
     private String mapBoxMapId = "";
     private String accessToken;
+    private String highDPI = "";
 
     /**
      * Creates a MapBox TileSource. You won't be able to use it until you set the access token and map id.
@@ -120,23 +121,22 @@ public class MapBoxTileSource extends OnlineTileSourceBase {
         return mapBoxMapId;
     }
 
-    @Override
-    public String getTileURLString(final long pMapTileIndex) {
-        StringBuilder url = new StringBuilder(getBaseUrl());
-        url.append(getMapBoxMapId());
-        url.append("/tiles/");
-        url.append(MapTileIndex.getZoom(pMapTileIndex));
-        url.append("/");
-        url.append(MapTileIndex.getX(pMapTileIndex));
-        url.append("/");
-        url.append(MapTileIndex.getY(pMapTileIndex));
-        //url.append(".png");
-        //url.append("@2x"); //for high-res?
-        url.append("?access_token=").append(getAccessToken());
-        String res = url.toString();
+	@Override
+	public String getTileURLString(final long pMapTileIndex) {
+		StringBuilder url = new StringBuilder(getBaseUrl());
+		url.append(getMapBoxMapId());
+		url.append("/");
+		url.append(MapTileIndex.getZoom(pMapTileIndex));
+		url.append("/");
+		url.append(MapTileIndex.getX(pMapTileIndex));
+		url.append("/");
+		url.append(MapTileIndex.getY(pMapTileIndex));
+		url.append(highDPI); //for high-DPI
+		url.append(mImageFilenameEnding);
+		url.append("?access_token=").append(getAccessToken());
 
-        return res;
-    }
+		return url.toString();
+	}
 
     public String getAccessToken() {
         return accessToken;
@@ -145,4 +145,12 @@ public class MapBoxTileSource extends OnlineTileSourceBase {
     public void setAccessToken(String accessTokeninput) {
         accessToken = accessTokeninput;
     }
+
+	public void enableHighDPI(boolean isHighDPI) {
+		if (isHighDPI) {
+			highDPI = "@2x";
+		} else {
+			highDPI = "";
+		}
+	}
 }
