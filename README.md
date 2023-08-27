@@ -183,3 +183,14 @@ Then in your APK or AAR project that needs osmdroid.
 ```
 Where VERSION is the version listed as the value for `pom.version` in osmdroid's `gradle.properties`. Note that when using the release versions from Maven Central, drop the `:debug@aar` part. When using a "release" version that you build locally with gradle, you'll need `:debug@aar` instead.
 
+
+# Support
+
+osmdroid is entirely community supported. There is no corporate sponsorship. No full time employees, no paid employees.
+It's all volunteer support, if that. If you see a problem, feel free to report, fix it and open a pull request. 
+You have access to 100% of the source code. Maps are **hard** to get right and this library isn't perfect.
+
+Please don't complain about slow response times or lack of support. You will be banned. No warnings, no second chances.
+
+We do NOT provide map data, map tiles, imagery, etc. That is all provided by a map tile ~~source~~ that you select or that you provide.
+Please don't complain about a map source showing you the wrong data. It's not the fault of this library. 
