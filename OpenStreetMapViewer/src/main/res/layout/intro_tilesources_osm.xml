@@ -14,13 +14,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="18dp"
-            android:text="Important information on Open Street Maps"
+            android:text="Important information on OpenStreetMap"
             />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
-            android:text="This demo application provides access to Open Street Map map tiles by default.
+            android:text="This demo application provides access to OpenStreetMap map tiles by default.
 \n\n
 OpenStreetMap® is open data, licensed under the Open Data Commons Open Database License (ODbL) by the OpenStreetMap Foundation (OSMF).
 \n\n
@@ -28,7 +28,7 @@ You are free to copy, distribute, transmit and adapt our data, as long as you cr
 \n\n
 The cartography in our map tiles, and our documentation, are licensed under the Creative Commons Attribution-ShareAlike 2.0 license (CC BY-SA).
 \n\n
-More information is available at http://www.openstreetmaps.org"
+More information is available at https://www.openstreetmap.org"
             />
 
 
