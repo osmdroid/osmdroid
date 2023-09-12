@@ -16,7 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
  * @author Alex O'Ree
  */
 
-public class MapActivity extends AppCompatActivity {
+public class MapActivity extends  android.app.Activity {
     private MapView mapView = null;
 
     @Override
