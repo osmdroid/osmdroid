@@ -26,6 +26,7 @@ import org.osmdroid.views.overlay.MinimapOverlay;
 import org.osmdroid.views.overlay.ScaleBarOverlay;
 import org.osmdroid.views.overlay.compass.CompassOverlay;
 import org.osmdroid.views.overlay.compass.InternalCompassOrientationProvider;
+import org.osmdroid.views.overlay.gestures.OneFingerZoomOverlay;
 import org.osmdroid.views.overlay.gestures.RotationGestureOverlay;
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
@@ -64,6 +65,7 @@ public class StarterMapFragment extends Fragment {
     private ScaleBarOverlay mScaleBarOverlay;
     private RotationGestureOverlay mRotationGestureOverlay;
     private CopyrightOverlay mCopyrightOverlay;
+    private OneFingerZoomOverlay mOneFingerZoomOverlay;
 
     public static StarterMapFragment newInstance() {
         return new StarterMapFragment();
@@ -163,6 +165,9 @@ public class StarterMapFragment extends Fragment {
         mRotationGestureOverlay.setEnabled(true);
         mMapView.getOverlays().add(this.mRotationGestureOverlay);
 
+        //support for one finger zoom
+        mOneFingerZoomOverlay = new OneFingerZoomOverlay();
+        mMapView.getOverlays().add(this.mOneFingerZoomOverlay);
 
         //needed for pinch zooms
         mMapView.setMultiTouchControls(true);
