@@ -118,6 +118,8 @@ public class MapsforgeTileProviderSample extends BaseSampleFragment {
                     new SimpleRegisterReceiver(getContext()),
                     fromFiles, null);
 
+            // with value of .5F the map tiles more closely resemble that of native MapsForge basic map
+            // fromFiles.setUserScaleFactor(.5F);
 
             mMapView.setTileProvider(forge);
 
