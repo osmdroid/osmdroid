@@ -30,9 +30,9 @@ dependencies {
     testImplementation "junit:junit:${project.property('junit.version')}"
 
     //Mapsforge rendering and database support, which is LGPL
-    api 'org.mapsforge:mapsforge-map-android:0.11.0'
-    api 'org.mapsforge:mapsforge-map:0.11.0'
-    api 'org.mapsforge:mapsforge-themes:0.11.0'
+    api 'org.mapsforge:mapsforge-map-android:0.20.0'
+    api 'org.mapsforge:mapsforge-map:0.20.0'
+    api 'org.mapsforge:mapsforge-themes:0.20.0'
 
     //osmdroid which is ASF licensed
     api  project(':osmdroid-android' )
