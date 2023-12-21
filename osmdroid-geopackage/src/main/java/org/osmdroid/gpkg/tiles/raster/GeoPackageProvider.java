@@ -4,6 +4,8 @@ import android.content.Context;
 import android.os.Build;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import org.osmdroid.api.IMapView;
 import org.osmdroid.tileprovider.IMapTileProviderCallback;
 import org.osmdroid.tileprovider.IRegisterReceiver;
@@ -111,7 +113,7 @@ public class GeoPackageProvider extends MapTileProviderArray implements IMapTile
 
 
     @Override
-    public void setTileSource(final ITileSource aTileSource) {
+    public void setTileSource(@NonNull final ITileSource aTileSource) {
         super.setTileSource(aTileSource);
         geopackage.setTileSource(aTileSource);
     }

@@ -2,6 +2,8 @@ package org.osmdroid.util;
 
 import android.graphics.Rect;
 
+import androidx.annotation.NonNull;
+
 import java.util.Iterator;
 
 /**
@@ -153,6 +155,7 @@ public class MapTileArea implements MapTileContainer, IterableWithSize<Long> {
         return Math.min(mMapTileUpperBound, pBottomRight - pTopLeft + 1);
     }
 
+    @NonNull
     @Override
     public String toString() {
         if (mWidth == 0) {

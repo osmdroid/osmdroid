@@ -65,6 +65,9 @@ package org.metalev.multitouch.controller;
 import android.util.Log;
 import android.view.MotionEvent;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import java.lang.reflect.Method;
 
 /**
@@ -493,10 +496,10 @@ public class MultiTouchController<T> {
     public static class PointInfo {
         // Multitouch information
         private int numPoints;
-        private float[] xs = new float[MAX_TOUCH_POINTS];
-        private float[] ys = new float[MAX_TOUCH_POINTS];
-        private float[] pressures = new float[MAX_TOUCH_POINTS];
-        private int[] pointerIds = new int[MAX_TOUCH_POINTS];
+        private final float[] xs = new float[MAX_TOUCH_POINTS];
+        private final float[] ys = new float[MAX_TOUCH_POINTS];
+        private final float[] pressures = new float[MAX_TOUCH_POINTS];
+        private final int[] pointerIds = new int[MAX_TOUCH_POINTS];
 
         // Midpoint of pinch operations
         private float xMid, yMid, pressureMid;
@@ -810,7 +813,7 @@ public class MultiTouchController<T> {
          * @param objPosAndScaleOut
          *            Output parameter: You need to call objPosAndScaleOut.set() to record the current position and scale of obj.
          */
-        public void getPositionAndScale(T obj, PositionAndScale objPosAndScaleOut);
+        public void getPositionAndScale(@NonNull T obj, @NonNull PositionAndScale objPosAndScaleOut);
 
         /**
          * Callback to update the position and scale (in object coords) of the currently-dragged object.
@@ -837,6 +840,6 @@ public class MultiTouchController<T> {
          * @param touchPoint
          *            The current touch point.
          */
-        public void selectObject(T obj, PointInfo touchPoint);
+        public void selectObject(@NonNull T obj, PointInfo touchPoint);
     }
 }

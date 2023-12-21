@@ -55,8 +55,9 @@ public class RotationGestureOverlay extends Overlay implements
     }
 
     @Override
-    public void onDetach(MapView map) {
+    public void onDestroy() {
         mMapView = null;
+        super.onDestroy();
     }
 
     @Override

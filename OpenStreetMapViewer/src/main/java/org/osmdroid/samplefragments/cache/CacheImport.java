@@ -51,8 +51,8 @@ public class CacheImport extends BaseSampleFragment implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btnCache:
+        final int cId = v.getId();
+        if (cId == R.id.btnCache) {
 
                 DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
                     @Override
@@ -76,9 +76,6 @@ public class CacheImport extends BaseSampleFragment implements View.OnClickListe
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 builder.setMessage("Would you like to remove the tiles from the file system after importing into the cache database?").setPositiveButton("Yes", dialogClickListener)
                         .setNegativeButton("No", dialogClickListener).show();
-
-
-                break;
 
         }
     }

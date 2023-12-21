@@ -6,6 +6,8 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import org.osmdroid.api.IMapView;
 import org.osmdroid.tileprovider.BitmapPool;
 import org.osmdroid.tileprovider.ReusableBitmapDrawable;
@@ -14,11 +16,13 @@ import org.osmdroid.util.MapTileIndex;
 
 import java.io.File;
 import java.io.InputStream;
+import java.util.LinkedHashMap;
 import java.util.Random;
 
 public abstract class BitmapTileSourceBase implements ITileSource {
 
     private static int globalOrdinal = 0;
+    private static final BitmapFactory.Options CONST_EMPTY_OPTION = new BitmapFactory.Options();
 
     private final int mMinimumZoomLevel;
     private final int mMaximumZoomLevel;
@@ -28,6 +32,7 @@ public abstract class BitmapTileSourceBase implements ITileSource {
     protected String mCopyright;
     protected final String mImageFilenameEnding;
     protected final Random random = new Random();
+    private static final LinkedHashMap<Long,BitmapFactory.Options> mBitmapOptionsCache = new LinkedHashMap<>(32, 0.1f, true);
 
     private final int mTileSizePixels;
 
@@ -176,6 +181,7 @@ public abstract class BitmapTileSourceBase implements ITileSource {
     @Override
     public Drawable getDrawable(final InputStream aFileInputStream) throws LowMemoryException {
         try {
+            final long cThreadId = Thread.currentThread().getId();
             // We need to determine the real tile size first..
             // Otherwise, if mTileSizePixel is not correct, we will never be able to reuse bitmaps
             // from the pool, as we request them with mTileSizePixels, while they are stored with
@@ -183,7 +189,12 @@ public abstract class BitmapTileSourceBase implements ITileSource {
             int realSize = mTileSizePixels;
             if (aFileInputStream.markSupported()) {
                 aFileInputStream.mark(1024 * 1024);
-                BitmapFactory.Options optSize = new BitmapFactory.Options();
+                final BitmapFactory.Options optSize;
+                synchronized (mBitmapOptionsCache) {
+                    if (mBitmapOptionsCache.containsKey(cThreadId)) optSize = mBitmapOptionsCache.get(cThreadId);
+                    else mBitmapOptionsCache.put(cThreadId, (optSize = new BitmapFactory.Options()));
+                }
+                resetOptions(optSize);
                 optSize.inJustDecodeBounds = true;
                 BitmapFactory.decodeStream(aFileInputStream, null, optSize);
                 realSize = optSize.outHeight;
@@ -192,9 +203,13 @@ public abstract class BitmapTileSourceBase implements ITileSource {
             }
 
 
-            // default implementation will load the file as a bitmap and create
-            // a BitmapDrawable from it
-            BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
+            // default implementation will load the file as a bitmap and create a BitmapDrawable from it
+            final BitmapFactory.Options bitmapOptions;
+            synchronized (mBitmapOptionsCache) {
+                if (mBitmapOptionsCache.containsKey(cThreadId)) bitmapOptions = mBitmapOptionsCache.get(cThreadId);
+                else mBitmapOptionsCache.put(cThreadId, (bitmapOptions = new BitmapFactory.Options()));
+            }
+            resetOptions(bitmapOptions);
             BitmapPool.getInstance().applyReusableOptions(
                     bitmapOptions, realSize, realSize);
             final Bitmap bitmap = BitmapFactory.decodeStream(aFileInputStream, null, bitmapOptions);
@@ -212,12 +227,9 @@ public abstract class BitmapTileSourceBase implements ITileSource {
     }
 
     public static final class LowMemoryException extends Exception {
-        private static final long serialVersionUID = 146526524087765134L;
-
         public LowMemoryException(final String pDetailMessage) {
             super(pDetailMessage);
         }
-
         public LowMemoryException(final Throwable pThrowable) {
             super(pThrowable);
         }
@@ -227,4 +239,38 @@ public abstract class BitmapTileSourceBase implements ITileSource {
     public String getCopyrightNotice() {
         return mCopyright;
     }
+
+    private void resetOptions(@NonNull final BitmapFactory.Options options) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            options.inBitmap = CONST_EMPTY_OPTION.inBitmap;
+            options.inMutable = CONST_EMPTY_OPTION.inMutable;
+        }
+        options.inJustDecodeBounds = CONST_EMPTY_OPTION.inJustDecodeBounds;
+        options.inSampleSize = CONST_EMPTY_OPTION.inSampleSize;
+        options.inPreferredConfig = CONST_EMPTY_OPTION.inPreferredConfig;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            options.inPreferredColorSpace = CONST_EMPTY_OPTION.inPreferredColorSpace;
+            options.outConfig = CONST_EMPTY_OPTION.outConfig;
+            options.outColorSpace = CONST_EMPTY_OPTION.outColorSpace;
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            options.inPremultiplied = CONST_EMPTY_OPTION.inPremultiplied;
+        }
+        options.inDither = CONST_EMPTY_OPTION.inDither;
+        options.inDensity = CONST_EMPTY_OPTION.inDensity;
+        options.inTargetDensity = CONST_EMPTY_OPTION.inTargetDensity;
+        options.inScreenDensity = CONST_EMPTY_OPTION.inScreenDensity;
+        options.inScaled = CONST_EMPTY_OPTION.inScaled;
+        options.inPurgeable = CONST_EMPTY_OPTION.inPurgeable;
+        options.inInputShareable = CONST_EMPTY_OPTION.inInputShareable;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD_MR1) {
+            options.inPreferQualityOverSpeed = CONST_EMPTY_OPTION.inPreferQualityOverSpeed;
+        }
+        options.outWidth = CONST_EMPTY_OPTION.outWidth;
+        options.outHeight = CONST_EMPTY_OPTION.outHeight;
+        options.outMimeType = CONST_EMPTY_OPTION.outMimeType;
+        options.inTempStorage = CONST_EMPTY_OPTION.inTempStorage;
+        options.mCancel = CONST_EMPTY_OPTION.mCancel;
+    }
+
 }

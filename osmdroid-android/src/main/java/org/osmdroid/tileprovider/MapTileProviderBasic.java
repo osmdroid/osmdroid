@@ -7,7 +7,7 @@ import org.osmdroid.tileprovider.modules.IFilesystemCache;
 import org.osmdroid.tileprovider.modules.INetworkAvailablityCheck;
 import org.osmdroid.tileprovider.modules.MapTileApproximater;
 import org.osmdroid.tileprovider.modules.MapTileAssetsProvider;
-import org.osmdroid.tileprovider.modules.MapTileDownloader;
+import org.osmdroid.tileprovider.modules.MapTileDownloaderProvider;
 import org.osmdroid.tileprovider.modules.MapTileFileArchiveProvider;
 import org.osmdroid.tileprovider.modules.MapTileFileStorageProviderBase;
 import org.osmdroid.tileprovider.modules.MapTileFilesystemProvider;
@@ -26,7 +26,7 @@ import org.osmdroid.util.MapTileIndex;
 /**
  * This top-level tile provider implements a basic tile request chain which includes a
  * {@link MapTileFilesystemProvider} (a file-system cache), a {@link MapTileFileArchiveProvider}
- * (archive provider), and a {@link MapTileDownloader} (downloads map tiles via tile source).
+ * (archive provider), and a {@link MapTileDownloaderProvider} (downloads map tiles via tile source).
  * <p>
  * Behavior change since osmdroid 5.3: If the device is less than API 10, the file system based cache and writer are used
  * otherwise, the sqlite based
@@ -45,7 +45,7 @@ public class MapTileProviderBasic extends MapTileProviderArray implements IMapTi
 	/**
 	 * @since 6.1.0
 	 */
-	final private MapTileDownloader mDownloaderProvider;
+	final private MapTileDownloaderProvider mDownloaderProvider;
 	final private MapTileApproximater mApproximationProvider;
 
 	/**
@@ -110,19 +110,21 @@ public class MapTileProviderBasic extends MapTileProviderArray implements IMapTi
 		mTileProviderList.add(mDownloaderProvider);
 
 		// protected-cache-tile computers
-		getTileCache().getProtectedTileComputers().add(new MapTileAreaZoomComputer(-1));
-		getTileCache().getProtectedTileComputers().add(new MapTileAreaBorderComputer(1));
-		getTileCache().setAutoEnsureCapacity(false);
-		getTileCache().setStressedMemory(false);
+		final MapTileCache cMapTileCache = getTileCache();
+		cMapTileCache.getProtectedTileComputers().add(new MapTileAreaZoomComputer(-1));
+		cMapTileCache.getProtectedTileComputers().add(new MapTileAreaBorderComputer(1));
+		cMapTileCache.setAutoEnsureCapacity(false);
+		cMapTileCache.setStressedMemory(false);
 
 		// pre-cache providers
-		getTileCache().getPreCache().addProvider(assetsProvider);
-		getTileCache().getPreCache().addProvider(cacheProvider);
-		getTileCache().getPreCache().addProvider(archiveProvider);
-		getTileCache().getPreCache().addProvider(mDownloaderProvider);
+		final MapTilePreCache cMapTilePreCache = cMapTileCache.getPreCache();
+		cMapTilePreCache.addProvider(assetsProvider);
+		cMapTilePreCache.addProvider(cacheProvider);
+		cMapTilePreCache.addProvider(archiveProvider);
+		cMapTilePreCache.addProvider(mDownloaderProvider);
 
 		// tiles currently being processed
-		getTileCache().getProtectedTileContainers().add(this);
+		cMapTileCache.getProtectedTileContainers().add(this);
 
 		setOfflineFirst(true);
 	}
@@ -154,8 +156,8 @@ public class MapTileProviderBasic extends MapTileProviderArray implements IMapTi
 	 * @since 6.1.7
 	 * allow customization of tile downloader per tile source
 	 */
-	protected MapTileDownloader createDownloaderProvider(INetworkAvailablityCheck aNetworkAvailablityCheck, ITileSource pTileSource) {
-		return new MapTileDownloader(pTileSource, this.tileWriter, aNetworkAvailablityCheck);
+	protected MapTileDownloaderProvider createDownloaderProvider(INetworkAvailablityCheck aNetworkAvailablityCheck, ITileSource pTileSource) {
+		return new MapTileDownloaderProvider(pTileSource, this.tileWriter, aNetworkAvailablityCheck);
 	}
 
 	@Override

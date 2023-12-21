@@ -7,9 +7,13 @@ group = project.property("pom.groupId")
 version =  project.property("pom.version")
 
 android {
+	namespace 'org.osmdroid.shape'
     compileSdkVersion findProperty('android.compileSdkVersion').toInteger()
+
     defaultConfig {
         minSdkVersion Integer.parseInt(project.property('android-minSdkForSupportLib.version'))
+        compileSdk findProperty('android.compileSdkVersion').toInteger()
+        targetSdkVersion  findProperty('android.targetSdkVersion').toInteger()
     }
 
     lintOptions {
@@ -30,8 +34,9 @@ android {
 }
 
 dependencies {
+    implementation("androidx.lifecycle:lifecycle-common:2.5.1")
    
-    testImplementation 'junit:junit:4.13'
+    testImplementation 'junit:junit:4.13.2'
     api  project(':osmdroid-android')
     api 'com.github.spyhunter99:jdbf:2.2.0'
 

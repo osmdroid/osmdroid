@@ -5,6 +5,7 @@ import android.util.Log;
 
 import org.osmdroid.api.IMapView;
 import org.osmdroid.config.Configuration;
+import org.osmdroid.tileprovider.IMapTileProviderCallback;
 import org.osmdroid.tileprovider.IRegisterReceiver;
 import org.osmdroid.tileprovider.MapTileProviderBase;
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
@@ -23,10 +24,12 @@ import java.util.concurrent.atomic.AtomicReference;
  * @since 5.1
  */
 public class MapTileSqlCacheProvider extends MapTileFileStorageProviderBase {
+
     // ===========================================================
     // Constants
     // ===========================================================
 
+    public static final String CONST_MAPTILEPROVIDER_SQLCACHE = "sqlcache";
 
     // ===========================================================
     // Fields
@@ -35,6 +38,7 @@ public class MapTileSqlCacheProvider extends MapTileFileStorageProviderBase {
     private final AtomicReference<ITileSource> mTileSource = new AtomicReference<ITileSource>();
     private SqlTileWriter mWriter;
     private static final String[] columns = {DatabaseFileArchive.COLUMN_TILE, SqlTileWriter.COLUMN_EXPIRES};
+    private final TileLoader mTileLoader = new TileLoader();
 
     // ===========================================================
     // Constructors
@@ -80,12 +84,12 @@ public class MapTileSqlCacheProvider extends MapTileFileStorageProviderBase {
 
     @Override
     protected String getThreadGroupName() {
-        return "sqlcache";
+        return CONST_MAPTILEPROVIDER_SQLCACHE;
     }
 
     @Override
     public TileLoader getTileLoader() {
-        return new TileLoader();
+        return mTileLoader;
     }
 
     @Override
@@ -181,5 +185,9 @@ public class MapTileSqlCacheProvider extends MapTileFileStorageProviderBase {
             }
             return null;
         }
+
+        @IMapTileProviderCallback.TILEPROVIDERTYPE
+        @Override
+        public final int getProviderType() { return IMapTileProviderCallback.TILEPROVIDERTYPE_SQL_CACHE; }
     }
 }

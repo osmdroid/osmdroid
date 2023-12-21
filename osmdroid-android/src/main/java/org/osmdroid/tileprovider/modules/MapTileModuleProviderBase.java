@@ -1,19 +1,29 @@
 package org.osmdroid.tileprovider.modules;
 
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 
+import androidx.annotation.CallSuper;
+import androidx.annotation.MainThread;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.UiThread;
+
 import org.osmdroid.api.IMapView;
 import org.osmdroid.config.Configuration;
+import org.osmdroid.config.IConfigurationProvider;
 import org.osmdroid.tileprovider.ExpirableBitmapDrawable;
+import org.osmdroid.tileprovider.IMapTileProviderCallback;
 import org.osmdroid.tileprovider.MapTileRequestState;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.util.MapTileIndex;
+import org.osmdroid.views.overlay.IViewBoundingBoxChangedListener;
 
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.RejectedExecutionException;
@@ -24,7 +34,8 @@ import java.util.concurrent.RejectedExecutionException;
  * @author Marc Kurtz
  * @author Neil Boyd
  */
-public abstract class MapTileModuleProviderBase {
+public abstract class MapTileModuleProviderBase implements IViewBoundingBoxChangedListener {
+    private static final String TAG = "MapTileModuleProviderBase";
 
     /**
      * Gets the human-friendly name assigned to this tile provider.
@@ -87,28 +98,26 @@ public abstract class MapTileModuleProviderBase {
     public abstract void setTileSource(ITileSource tileSource);
 
     private final ExecutorService mExecutor;
-
-    protected final Object mQueueLockObject = new Object();
-    protected final HashMap<Long, MapTileRequestState> mWorking;
-    protected final LinkedHashMap<Long, MapTileRequestState> mPending;
+    private final Object mQueueLockObject = new Object();
+    private final HashMap<Long, MapTileRequestState> mWorking;
+    private final LinkedHashMap<Long, MapTileRequestState> mPending;
+    @Nullable
+    private IMapTileProviderCallback mCallback = null;
+    private final Rect mLastViewBoundingBox = new Rect(0,0,0,0);
+    private final HashMap<Long,Long> mTilesOutOfViewBounds = new HashMap<>();
 
     public MapTileModuleProviderBase(int pThreadPoolSize, final int pPendingQueueSize) {
         if (pPendingQueueSize < pThreadPoolSize) {
             Log.w(IMapView.LOGTAG, "The pending queue size is smaller than the thread pool size. Automatically reducing the thread pool size.");
             pThreadPoolSize = pPendingQueueSize;
         }
-        mExecutor = Executors.newFixedThreadPool(pThreadPoolSize,
-                new ConfigurablePriorityThreadFactory(Thread.NORM_PRIORITY, getThreadGroupName()));
+        mExecutor = Executors.newFixedThreadPool(pThreadPoolSize, new ConfigurablePriorityThreadFactory(Thread.MIN_PRIORITY, getThreadGroupName()));
 
         mWorking = new HashMap<>();
-        mPending = new LinkedHashMap<Long, MapTileRequestState>(pPendingQueueSize + 2, 0.1f,
-                true) {
-
-            private static final long serialVersionUID = 6455337315681858866L;
-
+        mPending = new LinkedHashMap<Long, MapTileRequestState>(pPendingQueueSize + 2, 0.1f, true) {
+            /* commented out because this Pending queue is reduced when pending tiles goes OUTSIDE View boundaries
             @Override
-            protected boolean removeEldestEntry(
-                    final Map.Entry<Long, MapTileRequestState> pEldest) {
+            protected boolean removeEldestEntry(final Map.Entry<Long, MapTileRequestState> pEldest) {
                 if (size() <= pPendingQueueSize) {
                     return false;
                 }
@@ -120,34 +129,36 @@ public abstract class MapTileModuleProviderBase {
                         final MapTileRequestState state = mPending.get(mapTileIndex);
                         if (state != null) { // check for concurrency reasons
                             removeTileFromQueues(mapTileIndex);
-                            state.getCallback().mapTileRequestFailedExceedsMaxQueueSize(state);
+                            if (mCallback != null) mCallback.mapTileRequestFailedExceedsMaxQueueSize(state);
                             return false;
                         }
                     }
                 }
                 return false;
             }
+            */
         };
     }
 
-    public void loadMapTileAsync(final MapTileRequestState pState) {
+    public void loadMapTileAsync(final MapTileRequestState pState, final IMapTileProviderCallback callback) {
+        mCallback = callback;
         // Make sure we're not detached
         if (mExecutor.isShutdown())
             return;
 
         synchronized (mQueueLockObject) {
+            final Long cMapTileIndex = pState.getMapTileIndex();
+            if (cMapTileIndex == null) return;
             if (Configuration.getInstance().isDebugTileProviders()) {
-                Log.d(IMapView.LOGTAG, "MapTileModuleProviderBase.loadMaptileAsync() on provider: "
-                        + getName() + " for tile: " + MapTileIndex.toString(pState.getMapTile()));
-                if (mPending.containsKey(pState.getMapTile()))
-                    Log.d(IMapView.LOGTAG, "MapTileModuleProviderBase.loadMaptileAsync() tile already exists in request queue for modular provider. Moving to front of queue.");
+                Log.d(IMapView.LOGTAG, TAG+".loadMaptileAsync() on provider: " + getName() + " for tile: " + MapTileIndex.toString(pState));
+                if (mPending.containsKey(cMapTileIndex))
+                    Log.d(IMapView.LOGTAG, TAG+".loadMaptileAsync() tile already exists in request queue for modular provider. Moving to front of queue.");
                 else
-                    Log.d(IMapView.LOGTAG, "MapTileModuleProviderBase.loadMaptileAsync() adding tile to request queue for modular provider.");
+                    Log.d(IMapView.LOGTAG, TAG+".loadMaptileAsync() adding tile to request queue for modular provider.");
             }
 
-            // this will put the tile in the queue, or move it to the front of
-            // the queue if it's already present
-            mPending.put(pState.getMapTile(), pState);
+            // this will put the tile in the queue, or move it to the front of the queue if it's already present
+            mPending.put(cMapTileIndex, pState);
         }
         try {
             mExecutor.execute(getTileLoader());
@@ -172,11 +183,16 @@ public abstract class MapTileModuleProviderBase {
 
     }
 
+    public int getPendingCount() {
+        synchronized (mQueueLockObject) {
+            return mPending.size();
+        }
+    }
+
     protected void removeTileFromQueues(final long pMapTileIndex) {
         synchronized (mQueueLockObject) {
             if (Configuration.getInstance().isDebugTileProviders()) {
-                Log.d(IMapView.LOGTAG, "MapTileModuleProviderBase.removeTileFromQueues() on provider: "
-                        + getName() + " for tile: " + MapTileIndex.toString(pMapTileIndex));
+                Log.d(IMapView.LOGTAG, "MapTileModuleProviderBase.removeTileFromQueues() on provider: " + getName() + " for tile: " + MapTileIndex.toString(pMapTileIndex));
             }
             mPending.remove(pMapTileIndex);
             mWorking.remove(pMapTileIndex);
@@ -189,6 +205,11 @@ public abstract class MapTileModuleProviderBase {
      * as they become available. The key unimplemented method is 'loadTile'.
      */
     public abstract class TileLoader implements Runnable {
+        private static final String TAG = "TileLoader";
+        private final IConfigurationProvider mConfiguration = Configuration.getInstance();
+        public TileLoader() {
+
+        }
 
         /**
          * Actual load of the requested tile.
@@ -196,7 +217,7 @@ public abstract class MapTileModuleProviderBase {
          *
          * @return the tile if it was loaded successfully, or null if failed to
          * load and other tile providers need to be called
-         * @throws CantContinueException
+         * @throw CantContinueException
          * @since 6.0.0
          */
         public abstract Drawable loadTile(final long pMapTileIndex)
@@ -205,6 +226,7 @@ public abstract class MapTileModuleProviderBase {
         /**
          * @since 6.1.3
          */
+        @Nullable
         public Drawable loadTileIfReachable(final long pMapTileIndex)
                 throws CantContinueException {
             if (!isTileReachable(pMapTileIndex)) {
@@ -213,45 +235,54 @@ public abstract class MapTileModuleProviderBase {
             return loadTile(pMapTileIndex);
         }
 
+        @IMapTileProviderCallback.TILEPROVIDERTYPE
+        public abstract int getProviderType();
+
         @Deprecated
+        @Nullable
         protected Drawable loadTile(MapTileRequestState pState)
                 throws CantContinueException {
-            return loadTileIfReachable(pState.getMapTile());
+            final Long cMapTileIndex = pState.getMapTileIndex();
+            if (cMapTileIndex == null) return null;
+            return loadTileIfReachable(cMapTileIndex);
         }
 
+        @CallSuper
         protected void onTileLoaderInit() {
             // Do nothing by default
         }
 
+        @CallSuper
         protected void onTileLoaderShutdown() {
             // Do nothing by default
         }
 
+        @Nullable
         protected MapTileRequestState nextTile() {
 
             synchronized (mQueueLockObject) {
                 Long result = null;
 
                 // get the most recently accessed tile
-                // - the last item in the iterator that's not already being
-                // processed
-                Iterator<Long> iterator = mPending.keySet().iterator();
+                // - the last item in the iterator that's not already being processed
+                final Iterator<Long> iterator = mPending.keySet().iterator();
 
                 // TODO this iterates the whole list, make this faster...
+                Long cMapTileIndex;
                 while (iterator.hasNext()) {
-                    final Long mapTileIndex = iterator.next();
-                    if (!mWorking.containsKey(mapTileIndex)) {
-                        if (Configuration.getInstance().isDebugTileProviders()) {
-                            Log.d(IMapView.LOGTAG, "TileLoader.nextTile() on provider: " + getName()
-                                    + " found tile in working queue: " + MapTileIndex.toString(mapTileIndex));
+                    cMapTileIndex = iterator.next();
+                    if (!mWorking.containsKey(cMapTileIndex)) {
+                        if (this.mConfiguration.isDebugTileProviders()) {
+                            Log.d(IMapView.LOGTAG, TAG+".nextTile() on provider: " + getName()
+                                    + " found tile in working queue: " + MapTileIndex.toString(cMapTileIndex));
                         }
-                        result = mapTileIndex;
+                        result = cMapTileIndex;
                     }
                 }
 
                 if (result != null) {
-                    if (Configuration.getInstance().isDebugTileProviders()) {
-                        Log.d(IMapView.LOGTAG, "TileLoader.nextTile() on provider: " + getName()
+                    if (this.mConfiguration.isDebugTileProviders()) {
+                        Log.d(IMapView.LOGTAG, TAG+".nextTile() on provider: " + getName()
                                 + " adding tile to working queue: " + result);
                     }
                     mWorking.put(result, mPending.get(result));
@@ -261,17 +292,26 @@ public abstract class MapTileModuleProviderBase {
             }
         }
 
+        protected void onTileLoaderStart(@NonNull final MapTileRequestState pState, final int pending, final int working) {
+            if (this.mConfiguration.isDebugTileProviders()) {
+                Log.d(IMapView.LOGTAG, TAG+".tileLoaded() on provider: " + getName() + " starting loading tile: "
+                        + MapTileIndex.toString(pState));
+            }
+            if (mCallback != null) mCallback.mapTileRequestStarted(pState, pending, working);
+        }
         /**
          * A tile has loaded.
          */
-        protected void tileLoaded(final MapTileRequestState pState, final Drawable pDrawable) {
-            if (Configuration.getInstance().isDebugTileProviders()) {
-                Log.d(IMapView.LOGTAG, "TileLoader.tileLoaded() on provider: " + getName() + " with tile: "
-                        + MapTileIndex.toString(pState.getMapTile()));
+        protected void tileLoaded(final MapTileRequestState pState, final Drawable pDrawable, final IMapTileProviderCallback callback) {
+            if (this.mConfiguration.isDebugTileProviders()) {
+                Log.d(IMapView.LOGTAG, TAG+".tileLoaded() on provider: " + getName() + " with tile: "
+                        + MapTileIndex.toString(pState));
             }
-            removeTileFromQueues(pState.getMapTile());
+            final Long cMapTileIndex = pState.getMapTileIndex();
+            if (cMapTileIndex == null) return;
+            removeTileFromQueues(cMapTileIndex);
             ExpirableBitmapDrawable.setState(pDrawable, ExpirableBitmapDrawable.UP_TO_DATE);
-            pState.getCallback().mapTileRequestCompleted(pState, pDrawable);
+            if (mCallback != null) mCallback.mapTileRequestCompleted(pState, pDrawable);
         }
 
         /**
@@ -279,33 +319,50 @@ public abstract class MapTileModuleProviderBase {
          * Return it <b>and</b> send request to next provider.
          */
         protected void tileLoadedExpired(final MapTileRequestState pState, final Drawable pDrawable) {
-            if (Configuration.getInstance().isDebugTileProviders()) {
-                Log.d(IMapView.LOGTAG, "TileLoader.tileLoadedExpired() on provider: " + getName()
-                        + " with tile: " + MapTileIndex.toString(pState.getMapTile()));
+            if (this.mConfiguration.isDebugTileProviders()) {
+                Log.d(IMapView.LOGTAG, TAG+".tileLoadedExpired() on provider: " + getName()
+                        + " with tile: " + MapTileIndex.toString(pState));
             }
-            removeTileFromQueues(pState.getMapTile());
+            final Long cMapTileIndex = pState.getMapTileIndex();
+            if (cMapTileIndex == null) return;
+            removeTileFromQueues(cMapTileIndex);
             ExpirableBitmapDrawable.setState(pDrawable, ExpirableBitmapDrawable.EXPIRED);
-            pState.getCallback().mapTileRequestExpiredTile(pState, pDrawable);
+            if (mCallback != null) mCallback.mapTileRequestExpiredTile(pState, pDrawable);
         }
 
         protected void tileLoadedScaled(final MapTileRequestState pState, final Drawable pDrawable) {
-            if (Configuration.getInstance().isDebugTileProviders()) {
-                Log.d(IMapView.LOGTAG, "TileLoader.tileLoadedScaled() on provider: " + getName()
-                        + " with tile: " + MapTileIndex.toString(pState.getMapTile()));
+            if (this.mConfiguration.isDebugTileProviders()) {
+                Log.d(IMapView.LOGTAG, TAG+".tileLoadedScaled() on provider: " + getName()
+                        + " with tile: " + MapTileIndex.toString(pState));
             }
-            removeTileFromQueues(pState.getMapTile());
+            final Long cMapTileIndex = pState.getMapTileIndex();
+            if (cMapTileIndex == null) return;
+            removeTileFromQueues(cMapTileIndex);
             ExpirableBitmapDrawable.setState(pDrawable, ExpirableBitmapDrawable.SCALED);
-            pState.getCallback().mapTileRequestExpiredTile(pState, pDrawable);
+            if (mCallback != null) mCallback.mapTileRequestExpiredTile(pState, pDrawable);
         }
 
 
         protected void tileLoadedFailed(final MapTileRequestState pState) {
-            if (Configuration.getInstance().isDebugTileProviders()) {
-                Log.d(IMapView.LOGTAG, "TileLoader.tileLoadedFailed() on provider: " + getName()
-                        + " with tile: " + MapTileIndex.toString(pState.getMapTile()));
+            if (this.mConfiguration.isDebugTileProviders()) {
+                Log.d(IMapView.LOGTAG, TAG+".tileLoadedFailed() on provider: " + getName()
+                        + " with tile: " + MapTileIndex.toString(pState));
             }
-            removeTileFromQueues(pState.getMapTile());
-            pState.getCallback().mapTileRequestFailed(pState);
+            final Long cMapTileIndex = pState.getMapTileIndex();
+            if (cMapTileIndex == null) return;
+            removeTileFromQueues(cMapTileIndex);
+            if (mCallback != null) mCallback.mapTileRequestFailed(pState);
+        }
+
+        protected void tileDiscartedDueToOutOfViewBounds(final MapTileRequestState pState) {
+            if (this.mConfiguration.isDebugTileProviders()) {
+                Log.d(IMapView.LOGTAG, TAG+".tileDiscartedDueToOutOfViewBounds() on provider: " + getName()
+                        + " with tile: " + MapTileIndex.toString(pState));
+            }
+            final Long cMapTileIndex = pState.getMapTileIndex();
+            if (cMapTileIndex == null) return;
+            removeTileFromQueues(cMapTileIndex);
+            if (mCallback != null) mCallback.mapTileRequestDiscartedDueToOutOfViewBounds(pState);
         }
 
         /**
@@ -318,22 +375,39 @@ public abstract class MapTileModuleProviderBase {
 
             MapTileRequestState state;
             Drawable result = null;
+            @Nullable
+            Long cMapTileIndex;
             while ((state = nextTile()) != null) {
-                if (Configuration.getInstance().isDebugTileProviders()) {
-                    Log.d(IMapView.LOGTAG, "TileLoader.run() processing next tile: "
-                            + MapTileIndex.toString(state.getMapTile())
-                            + ", pending:" + mPending.size()
-                            + ", working:" + mWorking.size()
-                    );
+                cMapTileIndex = state.getMapTileIndex();
+                if (mConfiguration.isDebugTileProviders()) {
+                    Log.d(IMapView.LOGTAG, TAG+".run() processing next tile: " + MapTileIndex.toString(cMapTileIndex));
                 }
+                if (cMapTileIndex == null) continue;
                 try {
                     result = null;
-                    result = loadTileIfReachable(state.getMapTile());
+
+                    synchronized (mQueueLockObject) {
+                        onTileLoaderStart(state, mPending.size(), mWorking.size());
+
+                        if (mTilesOutOfViewBounds.containsKey(cMapTileIndex)) {
+                            if (mConfiguration.isDebugTileProviders()) {
+                                Log.d(IMapView.LOGTAG, TAG+".run() discarted tile "
+                                        + MapTileIndex.toString(cMapTileIndex)
+                                        + " because out of current view boundaries"
+                                );
+                            }
+                            tileDiscartedDueToOutOfViewBounds(state);
+                            mTilesOutOfViewBounds.remove(cMapTileIndex);
+                            continue;
+                        }
+                    }
+
+                    result = loadTileIfReachable(cMapTileIndex);
                 } catch (final CantContinueException e) {
-                    Log.i(IMapView.LOGTAG, "Tile loader can't continue: " + MapTileIndex.toString(state.getMapTile()), e);
+                    Log.i(IMapView.LOGTAG, "Tile loader can't continue: " + MapTileIndex.toString(cMapTileIndex), e);
                     clearQueue();
                 } catch (final Throwable e) {
-                    Log.i(IMapView.LOGTAG, "Error downloading tile: " + MapTileIndex.toString(state.getMapTile()), e);
+                    Log.i(IMapView.LOGTAG, "Error downloading tile: " + MapTileIndex.toString(cMapTileIndex), e);
                 }
 
                 if (result == null) {
@@ -343,11 +417,40 @@ public abstract class MapTileModuleProviderBase {
                 } else if (ExpirableBitmapDrawable.getState(result) == ExpirableBitmapDrawable.SCALED) {
                     tileLoadedScaled(state, result);
                 } else {
-                    tileLoaded(state, result);
+                    tileLoaded(state, result, mCallback);
                 }
             }
 
             onTileLoaderShutdown();
         }
     }
+
+    /** {@inheritDoc} */
+    @Override
+    @UiThread @MainThread
+    public void onViewBoundingBoxChanged(@NonNull final Rect fromBounds, final int fromZoom, @NonNull final Rect toBounds, final int toZoom) {
+        if (!mLastViewBoundingBox.equals(toBounds)) {
+            if (Configuration.getInstance().isDebugTileProviders()) {
+                Log.d(IMapView.LOGTAG, TAG+".onViewBoundingBoxChanged() on provider: " + getName());
+            }
+
+            synchronized (mQueueLockObject) {
+                final Iterator<Long> iterator = mPending.keySet().iterator();
+                Long cMapTileIndex;
+                int cX, cY, cZ;
+                while (iterator.hasNext()) {
+                    cMapTileIndex = iterator.next();
+                    cX = MapTileIndex.getX(cMapTileIndex);
+                    cY = MapTileIndex.getY(cMapTileIndex);
+                    cZ = MapTileIndex.getZoom(cMapTileIndex);
+                    if ((!toBounds.contains(cX, cY) && (cZ == fromZoom)) || (cZ != toZoom)) {
+                        mTilesOutOfViewBounds.put(cMapTileIndex, cMapTileIndex);
+                    }
+                }
+            }
+
+            mLastViewBoundingBox.set(toBounds);
+        }
+    }
+
 }

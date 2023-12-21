@@ -41,7 +41,7 @@ import java.util.Locale;
  * MapView map = new MapView(...);
  * ScaleBarOverlay scaleBar = new ScaleBarOverlay(map); // Thiw is an important change of calling!
  * <p>
- * map.getOverlays().add(scaleBar);
+ * map.getOverlayManager().add(scaleBar);
  * </code>
  * <p>
  * To Do List:
@@ -504,6 +504,8 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
         canvas.restore();
     }
 
+    private final Rect mXTextRect = new Rect();
+    private final Rect mYTextRect = new Rect();
     protected void rebuildBarPath(final Projection projection) {   //** modified to protected
         // We want the scale bar to be as long as the closest round-number miles/kilometers
         // to 1-inch at the latitude at the current center of the screen.
@@ -540,17 +542,15 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 
         // create text
         final String xMsg = scaleBarLengthText(xMetersAdjusted);
-        final Rect xTextRect = new Rect();
-        textPaint.getTextBounds(xMsg, 0, xMsg.length(), xTextRect);
-        int xTextSpacing = (int) (xTextRect.height() / 5.0);
+        textPaint.getTextBounds(xMsg, 0, xMsg.length(), mXTextRect);
+        int xTextSpacing = (int) (mXTextRect.height() / 5.0);
 
         // create text
         final String yMsg = scaleBarLengthText(yMetersAdjusted);
-        final Rect yTextRect = new Rect();
-        textPaint.getTextBounds(yMsg, 0, yMsg.length(), yTextRect);
-        int yTextSpacing = (int) (yTextRect.height() / 5.0);
-        int xTextHeight = xTextRect.height();
-        int yTextHeight = yTextRect.height();
+        textPaint.getTextBounds(yMsg, 0, yMsg.length(), mYTextRect);
+        int yTextSpacing = (int) (mYTextRect.height() / 5.0);
+        int xTextHeight = mXTextRect.height();
+        int yTextHeight = mYTextRect.height();
 
         barPath.rewind();
 
@@ -686,12 +686,13 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
     }
 
     @Override
-    public void onDetach(MapView mapView) {
+    public void onDestroy() {
         this.context = null;
         this.mMapView = null;
         barPaint = null;
         bgPaint = null;
         textPaint = null;
+        super.onDestroy();
     }
 
     /**

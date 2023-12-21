@@ -29,6 +29,7 @@ import org.osmdroid.tileprovider.modules.SqlTileWriter;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -48,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         Toolbar myToolbar = findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
         // Generate a ListView with Sample Maps
-        final ArrayList<String> list = new ArrayList<>();
+        final List<String> list = new ArrayList<>();
         list.add("OSMDroid Sample Map (Start Here)");
         list.add("Sample with ItemizedOverlay");
         list.add("Sample with TilesOverlay");
@@ -64,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         list.add("Cache Analyzer");
 
         ListView lv = findViewById(R.id.activitylist);
-        ArrayAdapter adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, list);
+        final ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, list);
 
         lv.setAdapter(adapter);
         lv.setOnItemClickListener(this);

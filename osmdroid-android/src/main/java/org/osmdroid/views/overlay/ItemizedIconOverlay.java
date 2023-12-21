@@ -44,12 +44,12 @@ public class ItemizedIconOverlay<Item extends OverlayItem> extends ItemizedOverl
                 pOnItemGestureListener, pContext);
     }
 
-    @Override
-    public void onDetach(MapView mapView) {
+    public void onDestroy() {
         if (mItemList != null)
             mItemList.clear();
         mItemList = null;
         mOnItemGestureListener = null;
+        super.onDestroy();
     }
 
     @Override

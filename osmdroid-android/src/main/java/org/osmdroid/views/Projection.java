@@ -6,6 +6,9 @@ import android.graphics.Point;
 import android.graphics.PointF;
 import android.graphics.Rect;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.api.IProjection;
 import org.osmdroid.util.BoundingBox;
@@ -71,7 +74,7 @@ public class Projection implements IProjection {
     Projection(MapView mapView) {
         this(
                 mapView.getZoomLevelDouble(), mapView.getIntrinsicScreenRect(null),
-                mapView.getExpectedCenter(),
+                mapView.getExpectedCenterLat(), mapView.getExpectedCenterLon(),
                 mapView.getMapScrollX(), mapView.getMapScrollY(),
                 mapView.getMapOrientation(),
                 mapView.isHorizontalMapRepetitionEnabled(), mapView.isVerticalMapRepetitionEnabled(),
@@ -85,7 +88,22 @@ public class Projection implements IProjection {
      */
     public Projection(
             final double pZoomLevel, final Rect pScreenRect,
-            final GeoPoint pCenter,
+            final IGeoPoint pCenter,
+            final long pScrollX, final long pScrollY,
+            final float pOrientation,
+            final boolean pHorizontalWrapEnabled, final boolean pVerticalWrapEnabled,
+            final TileSystem pTileSystem,
+            final int pMapCenterOffsetX, final int pMapCenterOffsetY) {
+        this(pZoomLevel, pScreenRect, pCenter.getLatitude(), pCenter.getLongitude(), pScrollX, pScrollY, pOrientation, pHorizontalWrapEnabled, pVerticalWrapEnabled, pTileSystem, pMapCenterOffsetX, pMapCenterOffsetY);
+    }
+
+    /**
+     * @since 6.1.18
+     */
+    public Projection(
+            final double pZoomLevel, final Rect pScreenRect,
+            final double pCenterLat,
+            final double pCenterLon,
             final long pScrollX, final long pScrollY,
             final float pOrientation,
             final boolean pHorizontalWrapEnabled, final boolean pVerticalWrapEnabled,
@@ -100,11 +118,10 @@ public class Projection implements IProjection {
         mMercatorMapSize = TileSystem.MapSize(mZoomLevelProjection);
         mTileSize = TileSystem.getTileSize(mZoomLevelProjection);
         mIntrinsicScreenRectProjection = pScreenRect;
-        final GeoPoint center = pCenter != null ? pCenter : new GeoPoint(0., 0);
         mScrollX = pScrollX;
         mScrollY = pScrollY;
-        mOffsetX = getScreenCenterX() - mScrollX - mTileSystem.getMercatorXFromLongitude(center.getLongitude(), mMercatorMapSize, this.horizontalWrapEnabled);
-        mOffsetY = getScreenCenterY() - mScrollY - mTileSystem.getMercatorYFromLatitude(center.getLatitude(), mMercatorMapSize, this.verticalWrapEnabled);
+        mOffsetX = getScreenCenterX() - mScrollX - mTileSystem.getMercatorXFromLongitude(pCenterLon, mMercatorMapSize, this.horizontalWrapEnabled);
+        mOffsetY = getScreenCenterY() - mScrollY - mTileSystem.getMercatorYFromLatitude(pCenterLat, mMercatorMapSize, this.verticalWrapEnabled);
         mOrientation = pOrientation;
         mRotateAndScaleMatrix.preRotate(mOrientation, getScreenCenterX(), getScreenCenterY());
         mRotateAndScaleMatrix.invert(mUnrotateAndScaleMatrix);
@@ -122,7 +139,26 @@ public class Projection implements IProjection {
             final int pMapCenterOffsetX, final int pMapCenterOffsetY) {
         this(
                 pZoomLevel, new Rect(0, 0, pWidth, pHeight),
-                pCenter,
+                pCenter.getLatitude(), pCenter.getLongitude(),
+                0, 0,
+                pOrientation,
+                pHorizontalWrapEnabled, pVerticalWrapEnabled,
+                MapView.getTileSystem(),
+                pMapCenterOffsetX, pMapCenterOffsetY);
+    }
+
+    /**
+     * @since 6.1.18
+     */
+    public Projection(
+            final double pZoomLevel, final int pWidth, final int pHeight,
+            final double pCenterLat, final double pCenterLon,
+            final float pOrientation,
+            final boolean pHorizontalWrapEnabled, final boolean pVerticalWrapEnabled,
+            final int pMapCenterOffsetX, final int pMapCenterOffsetY) {
+        this(
+                pZoomLevel, new Rect(0, 0, pWidth, pHeight),
+                pCenterLat, pCenterLon,
                 0, 0,
                 pOrientation,
                 pHorizontalWrapEnabled, pVerticalWrapEnabled,
@@ -193,7 +229,7 @@ public class Projection implements IProjection {
      * @param forceWrap
      * @return
      */
-    public IGeoPoint fromPixels(final int pPixelX, final int pPixelY, final GeoPoint pReuse, boolean forceWrap) {
+    public IGeoPoint fromPixels(final int pPixelX, final int pPixelY, @Nullable final GeoPoint pReuse, boolean forceWrap) {
         //reverting https://github.com/osmdroid/osmdroid/issues/459
         //due to relapse of https://github.com/osmdroid/osmdroid/issues/507
         //reverted functionality is now on the method fromPixelsRotationSensitive
@@ -203,15 +239,36 @@ public class Projection implements IProjection {
     }
 
     @Override
-    public Point toPixels(final IGeoPoint in, final Point reuse) {
+    public Point toPixels(@NonNull final IGeoPoint in, @Nullable final Point reuse) {
         return toPixels(in, reuse, false);
     }
 
-    public Point toPixels(final IGeoPoint in, final Point reuse, boolean forceWrap) {
+    @Override
+    public Point toPixels(final double lat, final double lon, @Nullable final Point out) {
+        return toPixels(lat, lon, out, false);
+    }
+
+    public Point toPixels(@NonNull final IGeoPoint in, @Nullable final Point reuse, boolean forceWrap) {
         final Point out = reuse != null ? reuse : new Point();
         out.x = TileSystem.truncateToInt(getLongPixelXFromLongitude(in.getLongitude(), forceWrap));
         out.y = TileSystem.truncateToInt(getLongPixelYFromLatitude(in.getLatitude(), forceWrap));
         return out;
+    }
+
+    public Point toPixels(final double lat, final double lon, @NonNull final Point point, final boolean forceWrap) {
+        point.set(
+                TileSystem.truncateToInt(getLongPixelXFromLongitude(lon, forceWrap)),
+                TileSystem.truncateToInt(getLongPixelYFromLatitude(lat, forceWrap))
+        );
+        return point;
+    }
+
+    public void toPixels(@NonNull final BoundingBox boundingBox, @NonNull final Point topLeft, @NonNull final Point bottomRight) {
+        toPixels(boundingBox, topLeft, bottomRight, false);
+    }
+    public void toPixels(@NonNull final BoundingBox boundingBox, @NonNull final Point topLeft, @NonNull final Point bottomRight, boolean forceWrap) {
+        toPixels(boundingBox.getLatNorth(), boundingBox.getLonEast(), topLeft, forceWrap);
+        toPixels(boundingBox.getLatSouth(), boundingBox.getLonWest(), bottomRight, forceWrap);
     }
 
     /**
@@ -298,7 +355,7 @@ public class Projection implements IProjection {
      * @deprecated Use {@link #getLongPixelsFromProjected(PointL, double, boolean, PointL)} instead
      */
     @Deprecated
-    public Point toPixelsFromProjected(final PointL in, final Point reuse) {
+    public Point toPixelsFromProjected(final PointL in, @Nullable final Point reuse) {
         final Point out = reuse != null ? reuse : new Point();
         final double power = getProjectedPowerDifference();
         final PointL tmp = new PointL();
@@ -312,14 +369,14 @@ public class Projection implements IProjection {
      * @deprecated Use {@link #getLongPixelsFromProjected(PointL, double, boolean, PointL)} instead
      */
     @Deprecated
-    public Point toPixelsFromMercator(final long pMercatorX, final long pMercatorY, final Point reuse) {
+    public Point toPixelsFromMercator(final long pMercatorX, final long pMercatorY, @Nullable final Point reuse) {
         final Point out = reuse != null ? reuse : new Point();
         out.x = TileSystem.truncateToInt(getLongPixelXFromMercator(pMercatorX, true));
         out.y = TileSystem.truncateToInt(getLongPixelYFromMercator(pMercatorY, true));
         return out;
     }
 
-    public PointL toMercatorPixels(final int pPixelX, final int pPixelY, final PointL reuse) {
+    public PointL toMercatorPixels(final int pPixelX, final int pPixelY, @Nullable final PointL reuse) {
         final PointL out = reuse != null ? reuse : new PointL();
         out.x = getCleanMercator(getMercatorXFromPixel(pPixelX), horizontalWrapEnabled);
         out.y = getCleanMercator(getMercatorYFromPixel(pPixelY), verticalWrapEnabled);
@@ -387,7 +444,7 @@ public class Projection implements IProjection {
     /**
      * @since 6.0.0
      */
-    private Point applyMatrixToPoint(final int pX, final int pY, final Point reuse, final Matrix pMatrix, final boolean pCondition) {
+    private Point applyMatrixToPoint(final int pX, final int pY, @Nullable final Point reuse, final Matrix pMatrix, final boolean pCondition) {
         final Point out = reuse != null ? reuse : new Point();
         if (pCondition) {
             mRotateScalePoints[0] = pX;
@@ -411,7 +468,7 @@ public class Projection implements IProjection {
     /**
      * @since 6.0.0
      */
-    public Rect getPixelFromTile(final int pTileX, final int pTileY, final Rect pReuse) {
+    public Rect getPixelFromTile(final int pTileX, final int pTileY, @Nullable final Rect pReuse) {
         final Rect out = pReuse != null ? pReuse : new Rect();
         out.left = TileSystem.truncateToInt(getLongPixelXFromMercator(getMercatorFromTile(pTileX), false));
         out.top = TileSystem.truncateToInt(getLongPixelYFromMercator(getMercatorFromTile(pTileY), false));
@@ -447,7 +504,7 @@ public class Projection implements IProjection {
      * @deprecated Use {@link #getLongPixelsFromProjected(PointL, double, boolean, PointL)} instead
      */
     @Deprecated
-    public Point getPixelsFromProjected(final PointL in, final double powerDifference, final Point reuse) {
+    public Point getPixelsFromProjected(final PointL in, final double powerDifference, @Nullable final Point reuse) {
         final Point out = reuse != null ? reuse : new Point();
         final PointL tmp = new PointL();
         getLongPixelsFromProjected(in, powerDifference, true, tmp);
@@ -463,7 +520,7 @@ public class Projection implements IProjection {
      *                        as close to the screen limits as possible?"
      * @since 6.0.0
      */
-    public PointL getLongPixelsFromProjected(final PointL in, final double powerDifference, final boolean pCloser, final PointL reuse) {
+    public PointL getLongPixelsFromProjected(final PointL in, final double powerDifference, final boolean pCloser, @Nullable final PointL reuse) {
         final PointL out = reuse != null ? reuse : new PointL();
         out.x = getLongPixelXFromMercator((long) (in.x / powerDifference), pCloser);
         out.y = getLongPixelYFromMercator((long) (in.y / powerDifference), pCloser);
@@ -543,7 +600,7 @@ public class Projection implements IProjection {
     /**
      * @since 6.0.0
      */
-    public RectL getMercatorViewPort(final RectL pReuse) {
+    public RectL getMercatorViewPort(@Nullable final RectL pReuse) {
         final RectL out = pReuse != null ? pReuse : new RectL();
 
         // in the standard case, that's all we need: the screen rect corners
@@ -554,15 +611,16 @@ public class Projection implements IProjection {
 
         // sometimes we need to expand beyond in order to get all visible tiles
         if (mOrientation != 0) {
-            final float scaleRotatePoints[] = new float[8];
-            scaleRotatePoints[0] = mIntrinsicScreenRectProjection.left;
-            scaleRotatePoints[1] = mIntrinsicScreenRectProjection.top;
-            scaleRotatePoints[2] = mIntrinsicScreenRectProjection.right;
-            scaleRotatePoints[3] = mIntrinsicScreenRectProjection.bottom;
-            scaleRotatePoints[4] = mIntrinsicScreenRectProjection.left;
-            scaleRotatePoints[5] = mIntrinsicScreenRectProjection.bottom;
-            scaleRotatePoints[6] = mIntrinsicScreenRectProjection.right;
-            scaleRotatePoints[7] = mIntrinsicScreenRectProjection.top;
+            final float[] scaleRotatePoints = new float[]{
+                    mIntrinsicScreenRectProjection.left,
+                    mIntrinsicScreenRectProjection.top,
+                    mIntrinsicScreenRectProjection.right,
+                    mIntrinsicScreenRectProjection.bottom,
+                    mIntrinsicScreenRectProjection.left,
+                    mIntrinsicScreenRectProjection.bottom,
+                    mIntrinsicScreenRectProjection.right,
+                    mIntrinsicScreenRectProjection.top
+            };
             mUnrotateAndScaleMatrix.mapPoints(scaleRotatePoints);
 
             for (int i = 0; i < 8; i += 2) {
@@ -706,7 +764,7 @@ public class Projection implements IProjection {
      *
      * @since 6.0.0
      */
-    public void adjustOffsets(final IGeoPoint pGeoPoint, final PointF pPixel) {
+    public void adjustOffsets(@Nullable final IGeoPoint pGeoPoint, @Nullable final PointF pPixel) {
         if (pPixel == null) {
             return;
         }

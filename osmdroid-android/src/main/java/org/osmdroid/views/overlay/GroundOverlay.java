@@ -99,7 +99,7 @@ public class GroundOverlay extends Overlay {
         mTopRight = new GeoPoint(pTopRight);
         mBottomRight = new GeoPoint(pBottomRight);
         mBottomLeft = new GeoPoint(pBottomLeft);
-        mBounds = new BoundingBox(pTopLeft.getLatitude(), pTopRight.getLongitude(),
+        mBounds.set(pTopLeft.getLatitude(), pTopRight.getLongitude(),
                 pBottomRight.getLatitude(), pTopLeft.getLongitude()
         );
     }
@@ -112,7 +112,7 @@ public class GroundOverlay extends Overlay {
         mTopRight = null;
         mBottomRight = new GeoPoint(pBottomRight);
         mBottomLeft = null;
-        mBounds = new BoundingBox(pTopLeft.getLatitude(), pBottomRight.getLongitude(),
+        mBounds.set(pTopLeft.getLatitude(), pBottomRight.getLongitude(),
                 pBottomRight.getLatitude(), pTopLeft.getLongitude()
         );
     }

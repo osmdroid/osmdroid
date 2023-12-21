@@ -3,6 +3,9 @@ package org.osmdroid.util;
 import android.graphics.Point;
 import android.graphics.Rect;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import org.osmdroid.views.util.constants.MathConstants;
 
 /**
@@ -14,18 +17,15 @@ public class GeometryMath {
     @Deprecated
     public static final double RAD2DEG = MathConstants.RAD2DEG;
 
-    public static final Rect getBoundingBoxForRotatatedRectangle(Rect rect, float angle, Rect reuse) {
-        return getBoundingBoxForRotatatedRectangle(rect, rect.centerX(), rect.centerY(), angle,
-                reuse);
+    public static Rect getBoundingBoxForRotatatedRectangle(@NonNull final Rect rect, float angle, @Nullable final Rect reuse) {
+        return getBoundingBoxForRotatatedRectangle(rect, rect.centerX(), rect.centerY(), angle, reuse);
     }
 
-    public static final Rect getBoundingBoxForRotatatedRectangle(Rect rect, Point centerPoint,
-                                                                 float angle, Rect reuse) {
+    public static Rect getBoundingBoxForRotatatedRectangle(@NonNull final Rect rect, @NonNull final Point centerPoint, float angle, @Nullable final Rect reuse) {
         return getBoundingBoxForRotatatedRectangle(rect, centerPoint.x, centerPoint.y, angle, reuse);
     }
 
-    public static final Rect getBoundingBoxForRotatatedRectangle(Rect rect, int centerX,
-                                                                 int centerY, float angle, Rect reuse) {
+    public static Rect getBoundingBoxForRotatatedRectangle(@NonNull final Rect rect, int centerX, int centerY, float angle, @Nullable Rect reuse) {
         if (reuse == null)
             reuse = new Rect();
 

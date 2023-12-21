@@ -54,14 +54,14 @@ public class CacheAnalyzerActivity extends AppCompatActivity
 
         cacheStats = findViewById(R.id.cacheStats);
 
-        final ArrayList<String> list = new ArrayList<>();
+        final List<String> list = new ArrayList<>();
         list.add("Browse the cache");
         list.add("Purge the cache");
         list.add("Purge a specific tile source");
         list.add("See the debug counters");
 
         ListView lv = findViewById(R.id.statslist);
-        ArrayAdapter adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, list);
+        final ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, list);
 
         lv.setAdapter(adapter);
         lv.setOnItemClickListener(this);

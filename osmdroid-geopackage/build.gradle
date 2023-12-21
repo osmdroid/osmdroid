@@ -7,17 +7,19 @@ group = project.property("pom.groupId")
 version = project.property("pom.version")
 
 android {
-    compileSdkVersion findProperty('android.compileSdkVersion').toInteger()
+	namespace 'org.osmdroid.gpkg'
 
     defaultConfig {
         minSdkVersion 23
+        compileSdk findProperty('android.compileSdkVersion').toInteger()
+        targetSdkVersion  findProperty('android.targetSdkVersion').toInteger()
     }
+
     buildTypes {
         release {
             minifyEnabled false
         }
     }
-
 
     publishing {
         singleVariant("release") {
@@ -34,6 +36,7 @@ android {
 dependencies {
     //crash logging
     //implementation 'ch.acra:acra:4.7.0'
+    implementation("androidx.lifecycle:lifecycle-common:2.5.1")
 
     testImplementation 'junit:junit:4.13.2'
 

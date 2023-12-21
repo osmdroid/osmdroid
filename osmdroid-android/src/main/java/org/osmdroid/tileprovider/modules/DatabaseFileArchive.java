@@ -13,6 +13,7 @@ import org.osmdroid.util.MapTileIndex;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -33,6 +34,7 @@ public class DatabaseFileArchive implements IArchiveFile {
     static final String[] tile_column = {"tile"};
     private SQLiteDatabase mDatabase;
     private boolean mIgnoreTileSource = false;
+    private final HashMap<String,String[]> mReusableTileSources = new HashMap<>();
 
     public DatabaseFileArchive() {
     }
@@ -90,8 +92,14 @@ public class DatabaseFileArchive implements IArchiveFile {
 
             Cursor cur;
             if (!mIgnoreTileSource) {
+                final String cKey = pTileSource.name();
+                final String[] cTileSource;
+                synchronized (mReusableTileSources) {
+                    if (mReusableTileSources.containsKey(cKey)) cTileSource = mReusableTileSources.get(cKey);
+                    else mReusableTileSources.put(cKey, (cTileSource = new String[]{ cKey }));
+                }
                 cur = mDatabase.query(TABLE, tile, COLUMN_KEY + " = " + index + " and "
-                        + COLUMN_PROVIDER + " = ?", new String[]{pTileSource.name()}, null, null, null);
+                        + COLUMN_PROVIDER + " = ?", cTileSource, null, null, null);
             } else {
                 cur = mDatabase.query(TABLE, tile, COLUMN_KEY + " = " + index, null, null, null, null);
             }

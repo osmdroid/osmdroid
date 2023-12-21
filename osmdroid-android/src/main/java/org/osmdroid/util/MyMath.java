@@ -1,6 +1,8 @@
 // Created by plusminus on 20:36:01 - 26.09.2008
 package org.osmdroid.util;
 
+import androidx.annotation.NonNull;
+
 import org.osmdroid.views.util.constants.MathConstants;
 
 /**
@@ -163,7 +165,7 @@ public class MyMath implements MathConstants {
      * Computes the point of a circle from its center, its radius and the angle
      */
     public static void computeCirclePoint(final long pCenterX, final long pCenterY, final double pRadius,
-                                          final double pAngle, final PointL pOutput) {
+                                          final double pAngle, @NonNull final PointL pOutput) {
         pOutput.x = pCenterX + (long) (pRadius * Math.cos(pAngle));
         pOutput.y = pCenterY + (long) (pRadius * Math.sin(pAngle));
     }

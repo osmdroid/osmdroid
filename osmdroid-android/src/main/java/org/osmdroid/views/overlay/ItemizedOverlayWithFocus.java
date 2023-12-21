@@ -397,9 +397,9 @@ public class ItemizedOverlayWithFocus<Item extends OverlayItem> extends Itemized
     }
 
     @Override
-    public void onDetach(MapView mapView) {
-        super.onDetach(mapView);
+    public void onDestroy() {
         this.mContext = null;
+        super.onDestroy();
     }
 
     // ===========================================================

@@ -7,6 +7,7 @@ import android.util.Log;
 
 import org.osmdroid.api.IMapView;
 import org.osmdroid.config.Configuration;
+import org.osmdroid.tileprovider.IMapTileProviderCallback;
 import org.osmdroid.tileprovider.IRegisterReceiver;
 import org.osmdroid.tileprovider.modules.IFilesystemCache;
 import org.osmdroid.tileprovider.modules.MapTileFileStorageProviderBase;
@@ -27,8 +28,11 @@ import java.io.IOException;
  */
 public class MapsForgeTileModuleProvider extends MapTileFileStorageProviderBase {
 
+    public static final String CONST_MAPTILEPROVIDER_MAPSFORGE = "mapsforgetilesprovider";
+
     protected MapsForgeTileSource tileSource;
     protected IFilesystemCache tilewriter;
+    private final TileLoader mTileLoader = new TileLoader();
 
     /**
      * Constructor
@@ -54,12 +58,12 @@ public class MapsForgeTileModuleProvider extends MapTileFileStorageProviderBase 
 
     @Override
     protected String getThreadGroupName() {
-        return "mapsforgetilesprovider";
+        return CONST_MAPTILEPROVIDER_MAPSFORGE;
     }
 
     @Override
     public TileLoader getTileLoader() {
-        return new TileLoader();
+        return mTileLoader;
     }
 
     @Override
@@ -85,7 +89,7 @@ public class MapsForgeTileModuleProvider extends MapTileFileStorageProviderBase 
         }
     }
 
-    private class TileLoader extends MapTileModuleProviderBase.TileLoader {
+    public class TileLoader extends MapTileModuleProviderBase.TileLoader {
 
         @Override
         public Drawable loadTile(final long pMapTileIndex) {
@@ -130,6 +134,10 @@ public class MapsForgeTileModuleProvider extends MapTileFileStorageProviderBase 
             }
             return image;
         }
+
+        @IMapTileProviderCallback.TILEPROVIDERTYPE
+        @Override
+        public final int getProviderType() { return IMapTileProviderCallback.TILEPROVIDERTYPE_MAPSFORGE; }
     }
 
 }

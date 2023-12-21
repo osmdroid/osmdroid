@@ -67,10 +67,10 @@ public abstract class NonAcceleratedOverlay extends Overlay {
     }
 
     @Override
-    public void onDetach(MapView mapView) {
+    public void onDestroy() {
         mBackingBitmap = null;
         mBackingCanvas = null;
-        super.onDetach(mapView);
+        super.onDestroy();
     }
 
     @Override

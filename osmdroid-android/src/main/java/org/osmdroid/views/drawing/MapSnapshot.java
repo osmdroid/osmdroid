@@ -4,6 +4,8 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.os.Looper;
 
+import androidx.annotation.NonNull;
+
 import org.osmdroid.tileprovider.ExpirableBitmapDrawable;
 import org.osmdroid.tileprovider.MapTileProviderBase;
 import org.osmdroid.tileprovider.TileStates;
@@ -252,7 +254,7 @@ public class MapSnapshot implements Runnable {
     private boolean mCurrentlyRunning;
     private boolean mAlreadyFinished;
 
-    private static boolean save(Bitmap pBitmap, File pFile) {
+    private static boolean save(@NonNull final Bitmap pBitmap, @NonNull final File pFile) {
         FileOutputStream out = null;
         try {
             out = new FileOutputStream(pFile.getAbsolutePath());

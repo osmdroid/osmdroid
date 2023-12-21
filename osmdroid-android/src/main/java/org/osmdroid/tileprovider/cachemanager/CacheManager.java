@@ -12,6 +12,8 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+
 import org.osmdroid.api.IMapView;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.library.R;
@@ -70,7 +72,7 @@ public class CacheManager {
     protected final IFilesystemCache mTileWriter;
     protected final int mMinZoomLevel;
     protected final int mMaxZoomLevel;
-    protected Set<CacheManagerTask> mPendingTasks = new HashSet<>();
+    protected final Set<CacheManagerTask> mPendingTasks = new HashSet<>();
     protected boolean verifyCancel = true;
 
     public CacheManager(final MapView mapView) throws TileSourcePolicyException {
@@ -272,7 +274,7 @@ public class CacheManager {
      *
      * @return list of tiles, sorted by ascending zoom level
      */
-    public static List<Long> getTilesCoverage(final ArrayList<GeoPoint> pGeoPoints,
+    public static List<Long> getTilesCoverage(final List<GeoPoint> pGeoPoints,
                                               final int pZoomMin, final int pZoomMax) {
         final List<Long> result = new ArrayList<>();
         for (int zoomLevel = pZoomMin; zoomLevel <= pZoomMax; zoomLevel++) {
@@ -286,7 +288,7 @@ public class CacheManager {
      * Computes the theoretical tiles covered by the list of points
      * Calculation done based on http://www.movable-type.co.uk/scripts/latlong.html
      */
-    public static Collection<Long> getTilesCoverage(final ArrayList<GeoPoint> pGeoPoints,
+    public static Collection<Long> getTilesCoverage(final List<GeoPoint> pGeoPoints,
                                                     final int pZoomLevel) {
         final Set<Long> result = new HashSet<>();
 
@@ -380,7 +382,7 @@ public class CacheManager {
      * @return the theoretical number of tiles covered by the list of points
      * Calculation done based on http://www.movable-type.co.uk/scripts/latlong.html
      */
-    public int possibleTilesCovered(final ArrayList<GeoPoint> pGeoPoints,
+    public int possibleTilesCovered(final List<GeoPoint> pGeoPoints,
                                     final int pZoomMin, final int pZoomMax) {
         return getTilesCoverage(pGeoPoints, pZoomMin, pZoomMax).size();
     }
@@ -694,7 +696,7 @@ public class CacheManager {
         private final IterableWithSize<Long> mTiles;
         private final int mZoomMin;
         private final int mZoomMax;
-        private final ArrayList<CacheManagerCallback> mCallbacks = new ArrayList<>();
+        private final List<CacheManagerCallback> mCallbacks = new ArrayList<>();
 
         private CacheManagerTask(final CacheManager pManager, final CacheManagerAction pAction,
                                  final IterableWithSize<Long> pTiles,
@@ -1028,7 +1030,7 @@ public class CacheManager {
     /**
      * @since 6.0.2
      */
-    public void setTileDownloader(final TileDownloader pTileDownloader) {
+    public void setTileDownloader(@NonNull final TileDownloader pTileDownloader) {
         mTileDownloader = pTileDownloader;
     }
 }

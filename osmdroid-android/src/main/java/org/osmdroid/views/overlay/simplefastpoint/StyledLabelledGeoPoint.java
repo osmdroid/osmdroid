@@ -3,6 +3,8 @@ package org.osmdroid.views.overlay.simplefastpoint;
 import android.graphics.Paint;
 import android.location.Location;
 
+import androidx.annotation.NonNull;
+
 import org.osmdroid.util.GeoPoint;
 
 /**
@@ -68,6 +70,7 @@ public class StyledLabelledGeoPoint extends LabelledGeoPoint {
         this.mTextStyle = mTextStyle;
     }
 
+    @NonNull
     @Override
     public StyledLabelledGeoPoint clone() {
         return new StyledLabelledGeoPoint(this.getLatitude(), this.getLongitude(), this.getAltitude()

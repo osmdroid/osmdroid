@@ -50,7 +50,7 @@ public class Bug512Marker extends BaseSampleFragment {
             public void run() {
                 marker.closeInfoWindow();
                 mMapView.getOverlayManager().remove(marker);
-                marker.onDetach(mMapView);
+                marker.onDestroy();
 
                 marker = new Marker(mMapView);
                 marker.setSnippet("Hello world, bug 512 part 2");
@@ -74,7 +74,7 @@ public class Bug512Marker extends BaseSampleFragment {
             public void run() {
                 marker.closeInfoWindow();
                 mMapView.getOverlayManager().remove(marker);
-                marker.onDetach(mMapView);
+                marker.onDestroy();
             }
         });
     }

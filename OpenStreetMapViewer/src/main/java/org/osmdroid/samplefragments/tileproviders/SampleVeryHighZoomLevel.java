@@ -32,7 +32,7 @@ public class SampleVeryHighZoomLevel extends BaseSampleFragment {
         final ScaleBarOverlay scaleBarOverlay = new ScaleBarOverlay(mMapView);
         scaleBarOverlay.setCentred(true);
         scaleBarOverlay.setScaleBarOffset(200, 10);
-        mMapView.getOverlays().add(scaleBarOverlay);
+        mMapView.getOverlayManager().add(scaleBarOverlay);
 
         final ITileSource tileSource = new XYTileSource(
                 "Abstract", 0, 29, 256, ".png", new String[]{"http://localhost/"}, "abstract data");

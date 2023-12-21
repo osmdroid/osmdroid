@@ -71,10 +71,11 @@ public class SimpleLocationOverlay extends Overlay {
     // ===========================================================
 
     @Override
-    public void onDetach(MapView mapView) {
+    public void onDestroy() {
         //https://github.com/osmdroid/osmdroid/issues/477
         //commented out to prevent issues
         //this.PERSON_ICON.recycle();
+        super.onDestroy();
     }
 
     @Override

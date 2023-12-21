@@ -1,6 +1,6 @@
 package org.osmdroid.samplefragments.layouts.rec;
 
-/**
+/*
  * created on 1/13/2017.
  *
  * @author PalilloKun
@@ -18,7 +18,9 @@ import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 /**
@@ -29,12 +31,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class CustomRecycler extends RecyclerView.Adapter<CustomRecycler.ViewHolder> {
 
-    public ArrayList<Info> data;
-    public Context contextActual;
-    public ArrayList<String> list;
+    public List<Info> data;
+    public List<String> list;
 
 
-    public CustomRecycler(ArrayList<Info> a) {
+    public CustomRecycler(List<Info> a) {
         data = a;
     }
 
@@ -45,11 +46,8 @@ public class CustomRecycler extends RecyclerView.Adapter<CustomRecycler.ViewHold
         }
     }
 
-    /*
-     *  Class for map layout
-     * */
-
-    public class MapViewHolder extends ViewHolder {
+    /** Class for map layout */
+    public static class MapViewHolder extends ViewHolder {
 
         MapView mapaShow;
 
@@ -60,10 +58,8 @@ public class CustomRecycler extends RecyclerView.Adapter<CustomRecycler.ViewHold
         }
     }
 
-    /*
-     * Class for infodata layout
-     * */
-    public class InfoDataViewHolder extends ViewHolder {
+    /** Class for infodata layout */
+    public static class InfoDataViewHolder extends ViewHolder {
 
         TextView TitleInfoTxt;
         TextView ContentInfodata;
@@ -78,7 +74,7 @@ public class CustomRecycler extends RecyclerView.Adapter<CustomRecycler.ViewHold
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
         View v;
 
         /*
@@ -114,7 +110,6 @@ public class CustomRecycler extends RecyclerView.Adapter<CustomRecycler.ViewHold
             Indicador.ContentInfodata.setText(dat.getContent());
         } else {
 
-            Info dat = data.get(position);
             MapViewHolder Indicador = (MapViewHolder) viewHolder;
             Indicador.mapaShow.setMultiTouchControls(true);
             Indicador.mapaShow.setClickable(false);
@@ -137,7 +132,7 @@ public class CustomRecycler extends RecyclerView.Adapter<CustomRecycler.ViewHold
     @Override
     public int getItemViewType(int position) {
         //return mDataSetTypes[position];
-        return Integer.valueOf(data.get(position).getTypeLayout());
+        return Integer.parseInt(data.get(position).getTypeLayout());
 
     }
 }

@@ -1,5 +1,7 @@
 package org.osmdroid.util;
 
+import androidx.annotation.Nullable;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -43,7 +45,12 @@ public class MapTileAreaList implements MapTileContainer, IterableWithSize<Long>
 
             @Override
             public Long next() {
-                final long result = getCurrent().next();
+                final Iterator<Long> cCurrent = getCurrent();
+                if (cCurrent == null) {
+                    mCurrent = null; // in order to force the next item
+                    return null;
+                }
+                final long result = cCurrent.next();
                 if (!getCurrent().hasNext()) {
                     mCurrent = null; // in order to force the next item
                 }
@@ -55,6 +62,7 @@ public class MapTileAreaList implements MapTileContainer, IterableWithSize<Long>
                 throw new UnsupportedOperationException();
             }
 
+            @Nullable
             private Iterator<Long> getCurrent() {
                 if (mCurrent != null) {
                     return mCurrent;

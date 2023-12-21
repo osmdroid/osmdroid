@@ -72,7 +72,7 @@ public class WeathForceActivity extends BaseActivity implements LocationListener
         mCompassOverlay = new CompassOverlay(this, new InternalCompassOrientationProvider(this),
                 mMapView);
         mCompassOverlay.enableCompass();
-        mMapView.getOverlays().add(this.mCompassOverlay);
+        mMapView.getOverlayManager().add(this.mCompassOverlay);
 
         addOverlays();
 
@@ -83,7 +83,7 @@ public class WeathForceActivity extends BaseActivity implements LocationListener
         Marker startMarker = new Marker(mMapView);
         startMarker.setPosition(startPoint);
         startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
-        mMapView.getOverlays().add(startMarker);
+        mMapView.getOverlayManager().add(startMarker);
 
 
         mMapView.invalidate();

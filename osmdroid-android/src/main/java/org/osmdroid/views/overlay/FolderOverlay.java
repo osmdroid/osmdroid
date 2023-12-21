@@ -5,11 +5,15 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.view.MotionEvent;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.TileSystem;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -63,9 +67,15 @@ public class FolderOverlay extends Overlay {
         return mOverlayManager;
     }
 
-    public boolean add(Overlay item) {
-
+    public boolean add(@Nullable final Overlay item) {
+        if (item == null) return false;
+        if (mOverlayManager.contains(item)) return true;
         boolean b = mOverlayManager.add(item);
+        if (b) recalculateBounds();
+        return b;
+    }
+    public boolean addAll(@NonNull final Collection<Overlay> items) {
+        boolean b = mOverlayManager.addAll(items);
         if (b) recalculateBounds();
         return b;
     }
@@ -87,15 +97,15 @@ public class FolderOverlay extends Overlay {
 
         if (minLat == Double.MAX_VALUE) { // no overlay
             final TileSystem tileSystem = MapView.getTileSystem();
-            mBounds = new BoundingBox( // default values
+            mBounds.set( // default values
                     tileSystem.getMaxLatitude(), tileSystem.getMaxLongitude(),
                     tileSystem.getMinLatitude(), tileSystem.getMinLongitude());
         } else {
-            mBounds = new BoundingBox(maxLat, maxLon, minLat, minLon);
+            mBounds.set(maxLat, maxLon, minLat, minLon);
         }
     }
 
-    public boolean remove(Overlay item) {
+    public boolean remove(@NonNull final Overlay item) {
         boolean b = mOverlayManager.remove(item);
         if (b) recalculateBounds();
         return b;
@@ -173,9 +183,7 @@ public class FolderOverlay extends Overlay {
     }
 
     @Override
-    public void onDetach(MapView mapView) {
-        if (mOverlayManager != null)
-            mOverlayManager.onDetach(mapView);
+    public void freeMemory(MapView mapView) {
         mOverlayManager = null;
     }
 

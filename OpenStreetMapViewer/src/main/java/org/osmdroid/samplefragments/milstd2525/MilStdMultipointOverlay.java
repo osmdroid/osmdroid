@@ -40,13 +40,13 @@ import sec.web.render.SECWebRenderer;
 
 public class MilStdMultipointOverlay extends Overlay {
     SimpleSymbol symbol;
-    ArrayList<GeoPoint> inputGeoPoints;
+    List<GeoPoint> inputGeoPoints;
     private float mCurrentMapRotation = 0;
     private double mCurrentMapZoom = 0d;
     private IGeoPoint mCurrentCenter = null;
     protected FolderOverlay lastOverlay = null;
 
-    public MilStdMultipointOverlay(SimpleSymbol symbol, ArrayList<GeoPoint> inputs) {
+    public MilStdMultipointOverlay(SimpleSymbol symbol, List<GeoPoint> inputs) {
         this.symbol = symbol;
         this.inputGeoPoints = inputs;
     }
@@ -87,7 +87,7 @@ public class MilStdMultipointOverlay extends Overlay {
 
         StringBuilder controlPts = new StringBuilder();
         //run the douglas pucker algorithm to reduce the points for performance reasons
-        ArrayList<GeoPoint> inputGeoPoints = PointReducer.reduceWithTolerance(
+        List<GeoPoint> inputGeoPoints = PointReducer.reduceWithTolerance(
                 this.inputGeoPoints,
                 tolerance
         );
@@ -135,7 +135,7 @@ public class MilStdMultipointOverlay extends Overlay {
 
         //convert the symbol into osmdroid's data structures
         if (lastOverlay != null) {
-            lastOverlay.onDetach(map);
+            lastOverlay.freeMemory(map);
         }
         lastOverlay = new FolderOverlay();
         for (int i = 0; i < flot.getSymbolShapes().size(); i++) {
@@ -143,9 +143,9 @@ public class MilStdMultipointOverlay extends Overlay {
 
             if (info != null) {
                 if (info.getFillColor() != null) {
-                    ArrayList<ArrayList<Point2D>> polylines = info.getPolylines();
+                    List<ArrayList<Point2D>> polylines = info.getPolylines();
                     if (polylines != null)
-                        for (ArrayList<Point2D> list : polylines) {
+                        for (List<Point2D> list : polylines) {
                             Polygon line = new Polygon(map);
                             List<GeoPoint> geoPoints = new ArrayList<>();
                             for (Point2D p : list) {

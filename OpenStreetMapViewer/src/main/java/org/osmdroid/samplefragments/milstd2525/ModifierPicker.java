@@ -634,27 +634,12 @@ public class ModifierPicker implements View.OnClickListener, TextWatcher {
 
     @Override
     public void onClick(View v) {
-
-        switch (v.getId()) {
-            case R.id.milstd_search_cancel:
-                picker.dismiss();
-                break;
-
-            case R.id.milstd_search_affil_f:
-                charAffiliation = "F";
-                break;
-            case R.id.milstd_search_affil_h:
-                charAffiliation = "H";
-                break;
-            case R.id.milstd_search_affil_n:
-                charAffiliation = "N";
-
-                break;
-            case R.id.milstd_search_affil_u:
-                charAffiliation = "U";
-
-                break;
-        }
+        final int cId = v.getId();
+        if (cId == R.id.milstd_search_cancel) picker.dismiss();
+        else if (cId == R.id.milstd_search_affil_f) charAffiliation = "F";
+        else if (cId == R.id.milstd_search_affil_h) charAffiliation = "H";
+        else if (cId == R.id.milstd_search_affil_n) charAffiliation = "N";
+        else if (cId == R.id.milstd_search_affil_u) charAffiliation = "U";
     }
 
 

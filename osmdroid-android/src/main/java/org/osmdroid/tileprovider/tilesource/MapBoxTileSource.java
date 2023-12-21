@@ -123,19 +123,17 @@ public class MapBoxTileSource extends OnlineTileSourceBase {
 
 	@Override
 	public String getTileURLString(final long pMapTileIndex) {
-		StringBuilder url = new StringBuilder(getBaseUrl());
-		url.append(getMapBoxMapId());
-		url.append("/");
-		url.append(MapTileIndex.getZoom(pMapTileIndex));
-		url.append("/");
-		url.append(MapTileIndex.getX(pMapTileIndex));
-		url.append("/");
-		url.append(MapTileIndex.getY(pMapTileIndex));
-		url.append(highDPI); //for high-DPI
-		url.append(mImageFilenameEnding);
-		url.append("?access_token=").append(getAccessToken());
 
-		return url.toString();
+        return getBaseUrl() + getMapBoxMapId() +
+                "/" +
+                MapTileIndex.getZoom(pMapTileIndex) +
+                "/" +
+                MapTileIndex.getX(pMapTileIndex) +
+                "/" +
+                MapTileIndex.getY(pMapTileIndex) +
+                highDPI + //for high-DPI
+                mImageFilenameEnding +
+                "?access_token=" + getAccessToken();
 	}
 
     public String getAccessToken() {

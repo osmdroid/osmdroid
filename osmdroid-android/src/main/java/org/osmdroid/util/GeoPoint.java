@@ -5,6 +5,9 @@ import android.location.Location;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.util.constants.GeoConstants;
 import org.osmdroid.views.util.constants.MathConstants;
@@ -21,7 +24,7 @@ public class GeoPoint implements IGeoPoint, MathConstants, GeoConstants, Parcela
     // Constants
     // ===========================================================
 
-    static final long serialVersionUID = 1L;
+
 
     // ===========================================================
     // Fields
@@ -59,11 +62,11 @@ public class GeoPoint implements IGeoPoint, MathConstants, GeoConstants, Parcela
         this.mAltitude = aAltitude;
     }
 
-    public GeoPoint(final Location aLocation) {
+    public GeoPoint(@NonNull final Location aLocation) {
         this(aLocation.getLatitude(), aLocation.getLongitude(), aLocation.getAltitude());
     }
 
-    public GeoPoint(final GeoPoint aGeopoint) {
+    public GeoPoint(@NonNull final GeoPoint aGeopoint) {
         this.mLatitude = aGeopoint.mLatitude;
         this.mLongitude = aGeopoint.mLongitude;
         this.mAltitude = aGeopoint.mAltitude;
@@ -72,58 +75,58 @@ public class GeoPoint implements IGeoPoint, MathConstants, GeoConstants, Parcela
     /**
      * @since 6.0.3
      */
-    public GeoPoint(final IGeoPoint pGeopoint) {
+    public GeoPoint(@NonNull final IGeoPoint pGeopoint) {
         this.mLatitude = pGeopoint.getLatitude();
         this.mLongitude = pGeopoint.getLongitude();
     }
 
-    public static GeoPoint fromDoubleString(final String s, final char spacer) {
+    public static GeoPoint fromDoubleString(@NonNull final String s, @NonNull final char spacer) {
         final int spacerPos1 = s.indexOf(spacer);
         final int spacerPos2 = s.indexOf(spacer, spacerPos1 + 1);
 
         if (spacerPos2 == -1) {
             return new GeoPoint(
                     (Double.parseDouble(s.substring(0, spacerPos1))),
-                    (Double.parseDouble(s.substring(spacerPos1 + 1, s.length()))));
+                    (Double.parseDouble(s.substring(spacerPos1 + 1))));
         } else {
             return new GeoPoint(
                     (Double.parseDouble(s.substring(0, spacerPos1))),
                     (Double.parseDouble(s.substring(spacerPos1 + 1, spacerPos2))),
-                    Double.parseDouble(s.substring(spacerPos2 + 1, s.length())));
+                    Double.parseDouble(s.substring(spacerPos2 + 1)));
         }
     }
 
-    public static GeoPoint fromInvertedDoubleString(final String s, final char spacer) {
+    public static GeoPoint fromInvertedDoubleString(@NonNull final String s, @NonNull final char spacer) {
         final int spacerPos1 = s.indexOf(spacer);
         final int spacerPos2 = s.indexOf(spacer, spacerPos1 + 1);
 
         if (spacerPos2 == -1) {
             return new GeoPoint(
-                    Double.parseDouble(s.substring(spacerPos1 + 1, s.length())),
+                    Double.parseDouble(s.substring(spacerPos1 + 1)),
                     Double.parseDouble(s.substring(0, spacerPos1)));
         } else {
             return new GeoPoint(
                     Double.parseDouble(s.substring(spacerPos1 + 1, spacerPos2)),
                     Double.parseDouble(s.substring(0, spacerPos1)),
-                    Double.parseDouble(s.substring(spacerPos2 + 1, s.length())));
+                    Double.parseDouble(s.substring(spacerPos2 + 1)));
 
         }
     }
 
     @Deprecated
-    public static GeoPoint fromIntString(final String s) {
+    public static GeoPoint fromIntString(@NonNull final String s) {
         final int commaPos1 = s.indexOf(',');
         final int commaPos2 = s.indexOf(',', commaPos1 + 1);
 
         if (commaPos2 == -1) {
             return new GeoPoint(
                     Integer.parseInt(s.substring(0, commaPos1)),
-                    Integer.parseInt(s.substring(commaPos1 + 1, s.length())));
+                    Integer.parseInt(s.substring(commaPos1 + 1)));
         } else {
             return new GeoPoint(
                     Integer.parseInt(s.substring(0, commaPos1)),
                     Integer.parseInt(s.substring(commaPos1 + 1, commaPos2)),
-                    Integer.parseInt(s.substring(commaPos2 + 1, s.length()))
+                    Integer.parseInt(s.substring(commaPos2 + 1))
             );
         }
     }
@@ -167,29 +170,29 @@ public class GeoPoint implements IGeoPoint, MathConstants, GeoConstants, Parcela
     // Methods from SuperClass/Interfaces
     // ===========================================================
 
+    /** @noinspection MethodDoesntCallSuperMethod*/
+    @NonNull
     @Override
     public GeoPoint clone() {
         return new GeoPoint(this.mLatitude, this.mLongitude, this.mAltitude);
     }
 
     public String toIntString() {
-        return new StringBuilder().
-                append(((int) (this.mLatitude * 1E6))).
-                append(",").
-                append(((int) (this.mLongitude * 1E6))).
-                append(",").
-                append((int) (this.mAltitude))
-                .toString();
+        return ((int) (this.mLatitude * 1E6)) +
+                "," +
+                ((int) (this.mLongitude * 1E6)) +
+                "," +
+                (int) (this.mAltitude);
     }
 
+    @NonNull
     @Override
     public String toString() {
-        return new StringBuilder().append(this.mLatitude).append(",").append(this.mLongitude).append(",").append(this.mAltitude)
-                .toString();
+        return this.mLatitude + "," + this.mLongitude + "," + this.mAltitude;
     }
 
     @Override
-    public boolean equals(final Object obj) {
+    public boolean equals(@Nullable final Object obj) {
         if (obj == null) {
             return false;
         }
@@ -251,11 +254,24 @@ public class GeoPoint implements IGeoPoint, MathConstants, GeoConstants, Parcela
      * @see <a href="http://www.movable-type.co.uk/scripts/gis-faq-5.1.html">GIS FAQ</a>
      * @since 6.0.0
      */
-    public double distanceToAsDouble(final IGeoPoint other) {
-        final double lat1 = DEG2RAD * getLatitude();
-        final double lat2 = DEG2RAD * other.getLatitude();
-        final double lon1 = DEG2RAD * getLongitude();
-        final double lon2 = DEG2RAD * other.getLongitude();
+    public double distanceToAsDouble(@NonNull final IGeoPoint other) {
+        return distanceToAsDouble(other.getLatitude(), other.getLongitude());
+    }
+    /**
+     * @return distance in meters
+     * @see <a href="https://en.wikipedia.org/wiki/Haversine_formula">Haversine formula</a>
+     * @see <a href="http://www.movable-type.co.uk/scripts/gis-faq-5.1.html">GIS FAQ</a>
+     * @since 6.0.0
+     */
+    public double distanceToAsDouble(final double lat, final double lon) {
+        return distanceToAsDouble(getLatitude(), getLongitude(), lat, lon);
+    }
+
+    public static double distanceToAsDouble(double lat1, double lon1, double lat2, double lon2) {
+        lat1 = DEG2RAD * lat1;
+        lat2 = DEG2RAD * lat2;
+        lon1 = DEG2RAD * lon1;
+        lon2 = DEG2RAD * lon2;
         return RADIUS_EARTH_METERS * 2 * Math.asin(Math.min(1, Math.sqrt(
                 Math.pow(Math.sin((lat2 - lat1) / 2), 2)
                         + Math.cos(lat1) * Math.cos(lat2)
@@ -267,7 +283,7 @@ public class GeoPoint implements IGeoPoint, MathConstants, GeoConstants, Parcela
      * @return bearing in degrees
      * @see <a href="http://groups.google.com/group/osmdroid/browse_thread/thread/d22c4efeb9188fe9/bc7f9b3111158dd">discussion</a>
      */
-    public double bearingTo(final IGeoPoint other) {
+    public double bearingTo(@NonNull final IGeoPoint other) {
         final double lat1 = Math.toRadians(this.mLatitude);
         final double long1 = Math.toRadians(this.mLongitude);
         final double lat2 = Math.toRadians(other.getLatitude());
@@ -311,19 +327,19 @@ public class GeoPoint implements IGeoPoint, MathConstants, GeoConstants, Parcela
         return new GeoPoint(lat2deg, lon2deg);
     }
 
-    public static GeoPoint fromCenterBetween(final GeoPoint geoPointA, final GeoPoint geoPointB) {
+    public static GeoPoint fromCenterBetween(@NonNull final GeoPoint geoPointA, @NonNull final GeoPoint geoPointB) {
         return new GeoPoint((geoPointA.getLatitude() + geoPointB.getLatitude()) / 2,
                 (geoPointA.getLongitude() + geoPointB.getLongitude()) / 2);
     }
 
     public String toDoubleString() {
-        return new StringBuilder().append(this.mLatitude).append(",")
-                .append(this.mLongitude).append(",").append(this.mAltitude).toString();
+        return this.mLatitude + "," +
+                this.mLongitude + "," + this.mAltitude;
     }
 
     public String toInvertedDoubleString() {
-        return new StringBuilder().append(this.mLongitude).append(",")
-                .append(this.mLatitude).append(",").append(this.mAltitude).toString();
+        return this.mLongitude + "," +
+                this.mLatitude + "," + this.mAltitude;
     }
 
     // ===========================================================

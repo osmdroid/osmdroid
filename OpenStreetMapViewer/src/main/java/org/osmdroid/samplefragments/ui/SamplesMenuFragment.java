@@ -77,7 +77,7 @@ public class SamplesMenuFragment extends Fragment {
                 //do nothing
             } else {
                 String factory = savedState.getString("factory");
-                ArrayList<String> acts = null;
+                List<String> acts = null;
                 if (savedState.containsKey("acts"))
                     acts = savedState.getStringArrayList("acts");
                 try {

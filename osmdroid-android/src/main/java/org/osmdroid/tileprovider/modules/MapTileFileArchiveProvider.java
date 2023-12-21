@@ -6,6 +6,7 @@ import android.util.Log;
 
 import org.osmdroid.api.IMapView;
 import org.osmdroid.config.Configuration;
+import org.osmdroid.tileprovider.IMapTileProviderCallback;
 import org.osmdroid.tileprovider.IRegisterReceiver;
 import org.osmdroid.tileprovider.MapTileProviderBase;
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
@@ -16,6 +17,7 @@ import org.osmdroid.util.MapTileIndex;
 import java.io.File;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
@@ -31,20 +33,20 @@ public class MapTileFileArchiveProvider extends MapTileFileStorageProviderBase {
     // Constants
     // ===========================================================
 
+    public static final String CONST_MAPTILEPROVIDER_FILEARCHIVE = "filearchive";
 
     // ===========================================================
     // Fields
     // ===========================================================
 
-    private final ArrayList<IArchiveFile> mArchiveFiles = new ArrayList<IArchiveFile>();
-
+    private final List<IArchiveFile> mArchiveFiles = new ArrayList<IArchiveFile>();
     private final AtomicReference<ITileSource> mTileSource = new AtomicReference<ITileSource>();
-
     /**
      * Disable the search of archives if specified in constructor
      */
     private final boolean mSpecificArchivesProvided;
     private final boolean ignoreTileSource;
+    private final TileLoader mTileLoader = new TileLoader();
 
     // ===========================================================
     // Constructors
@@ -60,9 +62,6 @@ public class MapTileFileArchiveProvider extends MapTileFileStorageProviderBase {
     }
 
     /**
-     * @param pRegisterReceiver
-     * @param pTileSource
-     * @param pArchives
      * @param ignoreTileSource  if true, tile source is ignored
      * @since 6.0.0
      */
@@ -112,12 +111,12 @@ public class MapTileFileArchiveProvider extends MapTileFileStorageProviderBase {
 
     @Override
     protected String getThreadGroupName() {
-        return "filearchive";
+        return CONST_MAPTILEPROVIDER_FILEARCHIVE;
     }
 
     @Override
     public TileLoader getTileLoader() {
-        return new TileLoader();
+        return mTileLoader;
     }
 
     @Override
@@ -233,8 +232,7 @@ public class MapTileFileArchiveProvider extends MapTileFileStorageProviderBase {
                     if (Configuration.getInstance().isDebugMode()) {
                         Log.d(IMapView.LOGTAG, "Use tile from archive: " + MapTileIndex.toString(pMapTileIndex));
                     }
-                    final Drawable drawable = tileSource.getDrawable(inputStream);
-                    returnValue = drawable;
+                    returnValue = tileSource.getDrawable(inputStream);
                 }
             } catch (final Throwable e) {
                 Log.e(IMapView.LOGTAG, "Error loading tile", e);
@@ -246,5 +244,9 @@ public class MapTileFileArchiveProvider extends MapTileFileStorageProviderBase {
 
             return returnValue;
         }
+
+        @IMapTileProviderCallback.TILEPROVIDERTYPE
+        @Override
+        public final int getProviderType() { return IMapTileProviderCallback.TILEPROVIDERTYPE_FILE_ARCHIVE; }
     }
 }

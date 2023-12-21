@@ -7,9 +7,12 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import org.locationtech.proj4j.ProjCoordinate;
 import org.osmdroid.api.IMapView;
 import org.osmdroid.config.Configuration;
+import org.osmdroid.tileprovider.IMapTileProviderCallback;
 import org.osmdroid.tileprovider.modules.IFilesystemCache;
 import org.osmdroid.tileprovider.modules.MapTileModuleProviderBase;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
@@ -39,14 +42,16 @@ import mil.nga.proj.ProjectionTransform;
  */
 public class GeoPackageMapTileModuleProvider extends MapTileModuleProviderBase {
 
+    public static final String CONST_MAPTILEPROVIDER_GEOPACKAGE = "Geopackage";
+
     private final TileSystem tileSystem = org.osmdroid.views.MapView.getTileSystem();
 
     //TileRetriever retriever;
     protected IFilesystemCache tileWriter = null;
     protected GeoPackageManager manager;
-
     protected GeopackageRasterTileSource currentTileSource;
     protected Set<GeoPackage> tileSources = new HashSet<>();
+    private final TileLoader mTileLoader = new TileLoader();
 
     public GeoPackageMapTileModuleProvider(File[] pFile,
                                            final Context context, IFilesystemCache cache) {
@@ -198,11 +203,15 @@ public class GeoPackageMapTileModuleProvider extends MapTileModuleProviderBase {
 
             return null;
         }
+
+        @IMapTileProviderCallback.TILEPROVIDERTYPE
+        @Override
+        public final int getProviderType() { return IMapTileProviderCallback.TILEPROVIDERTYPE_GEO_PACKAGE_FILE; }
     }
 
     @Override
     protected String getName() {
-        return "Geopackage";
+        return CONST_MAPTILEPROVIDER_GEOPACKAGE;
     }
 
     @Override
@@ -212,7 +221,7 @@ public class GeoPackageMapTileModuleProvider extends MapTileModuleProviderBase {
 
     @Override
     public TileLoader getTileLoader() {
-        return new TileLoader();
+        return mTileLoader;
     }
 
     @Override

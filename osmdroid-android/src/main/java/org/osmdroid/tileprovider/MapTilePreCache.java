@@ -3,7 +3,7 @@ package org.osmdroid.tileprovider;
 import android.graphics.drawable.Drawable;
 
 import org.osmdroid.tileprovider.modules.CantContinueException;
-import org.osmdroid.tileprovider.modules.MapTileDownloader;
+import org.osmdroid.tileprovider.modules.MapTileDownloaderProvider;
 import org.osmdroid.tileprovider.modules.MapTileModuleProviderBase;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase;
@@ -71,19 +71,20 @@ public class MapTilePreCache {
     private void refresh() {
         synchronized (mTileAreas) {
             int index = 0;
+            final List<MapTileArea> cMapTitleAreas = mTileAreas.getList();
             for (final MapTileArea area : mCache.getAdditionalMapTileList().getList()) {
                 final MapTileArea copy;
-                if (index < mTileAreas.getList().size()) {
-                    copy = mTileAreas.getList().get(index);
+                if (index < cMapTitleAreas.size()) {
+                    copy = cMapTitleAreas.get(index);
                 } else {
                     copy = new MapTileArea();
-                    mTileAreas.getList().add(copy);
+                    cMapTitleAreas.add(copy);
                 }
                 copy.set(area);
                 index++;
             }
-            while (index < mTileAreas.getList().size()) {
-                mTileAreas.getList().remove(mTileAreas.getList().size() - 1);
+            while (index < cMapTitleAreas.size()) {
+                cMapTitleAreas.remove(cMapTitleAreas.size() - 1);
             }
             mTileIndices = mTileAreas.iterator();
         }
@@ -116,8 +117,8 @@ public class MapTilePreCache {
     private void search(final long pMapTileIndex) {
         for (final MapTileModuleProviderBase provider : mProviders) {
             try {
-                if (provider instanceof MapTileDownloader) {
-                    final ITileSource tileSource = ((MapTileDownloader) provider).getTileSource();
+                if (provider instanceof MapTileDownloaderProvider) {
+                    final ITileSource tileSource = ((MapTileDownloaderProvider) provider).getTileSource();
                     if (tileSource instanceof OnlineTileSourceBase) {
                         if (!((OnlineTileSourceBase) tileSource).getTileSourcePolicy().acceptsPreventive()) {
                             continue;

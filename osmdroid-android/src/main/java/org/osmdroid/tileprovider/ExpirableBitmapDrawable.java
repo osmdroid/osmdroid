@@ -3,6 +3,12 @@ package org.osmdroid.tileprovider;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
+import android.util.LruCache;
+
+import androidx.annotation.NonNull;
+
+import java.util.HashMap;
 
 /**
  * A {@link BitmapDrawable} for a {@link org.osmdroid.util.MapTileIndex} that has a state to indicate its relevancy:
@@ -16,7 +22,8 @@ public class ExpirableBitmapDrawable extends BitmapDrawable {
     public static final int NOT_FOUND = -4;
     private static final int defaultStatus = UP_TO_DATE;
 
-    private static final int[] settableStatuses = new int[]{EXPIRED, SCALED, NOT_FOUND};
+    private static final int[] settableStatuses = new int[]{ EXPIRED, SCALED, NOT_FOUND };
+    private static final HashMap<Integer,int[]> mStatusCache = new HashMap<>();
 
     private int[] mState;
 
@@ -25,6 +32,7 @@ public class ExpirableBitmapDrawable extends BitmapDrawable {
         mState = new int[0];
     }
 
+    @NonNull
     @Override
     public int[] getState() {
         return mState;
@@ -36,7 +44,7 @@ public class ExpirableBitmapDrawable extends BitmapDrawable {
     }
 
     @Override
-    public boolean setState(final int[] pStateSet) {
+    public boolean setState(@NonNull final int[] pStateSet) {
         mState = pStateSet;
         return true;
     }
@@ -66,6 +74,14 @@ public class ExpirableBitmapDrawable extends BitmapDrawable {
     }
 
     public static void setState(final Drawable pTile, final int status) {
-        pTile.setState(new int[]{status});
+        int[] cFound;
+        synchronized (mStatusCache) {
+            cFound = mStatusCache.get(status);
+            if (cFound == null) {
+                cFound = new int[]{ status };
+                mStatusCache.put(status, cFound);
+            }
+        }
+        pTile.setState(cFound);
     }
 }

@@ -4,6 +4,8 @@ import android.location.Location;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.annotation.NonNull;
+
 import org.osmdroid.util.GeoPoint;
 
 /**
@@ -53,6 +55,7 @@ public class LabelledGeoPoint extends GeoPoint {
         this.mLabel = label;
     }
 
+    @NonNull
     @Override
     public LabelledGeoPoint clone() {
         return new LabelledGeoPoint(this.getLatitude(), this.getLongitude(), this.getAltitude()

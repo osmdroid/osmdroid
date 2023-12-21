@@ -117,7 +117,7 @@ public class CustomPaintingSurface extends View {
         mPath.reset();
         if (map != null) {
             Projection projection = map.getProjection();
-            ArrayList<GeoPoint> geoPoints = new ArrayList<>();
+            List<GeoPoint> geoPoints = new ArrayList<>();
             final Point unrotatedPoint = new Point();
             for (int i = 0; i < pts.size(); i++) {
                 projection.unrotateAndScalePoint(pts.get(i).x, pts.get(i).y, unrotatedPoint);

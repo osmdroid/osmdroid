@@ -2,11 +2,18 @@ package org.osmdroid.views.overlay;
 
 import android.graphics.Canvas;
 import android.graphics.Point;
+import android.graphics.Rect;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
+
+import androidx.annotation.MainThread;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.UiThread;
+import androidx.lifecycle.Lifecycle;
 
 import org.osmdroid.api.IMapView;
 import org.osmdroid.views.MapView;
@@ -20,16 +27,19 @@ import java.util.ListIterator;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
- * https://github.com/osmdroid/osmdroid/issues/154
+ * <a href="https://github.com/osmdroid/osmdroid/issues/154">...</a>
  *
  * @author dozd
  * @since 5.0.0
  */
 public class DefaultOverlayManager extends AbstractList<Overlay> implements OverlayManager {
 
+    @Nullable
     private TilesOverlay mTilesOverlay;
-
     private final CopyOnWriteArrayList<Overlay> mOverlayList;
+    @Nullable
+    private IViewBoundingBoxChangedListener mViewBoundingBoxChangedListener = null;
+    private Lifecycle mMapViewLifeCycle;
 
     public DefaultOverlayManager(final TilesOverlay tilesOverlay) {
         setTilesOverlay(tilesOverlay);
@@ -50,8 +60,8 @@ public class DefaultOverlayManager extends AbstractList<Overlay> implements Over
     public void add(final int pIndex, final Overlay pElement) {
         if (pElement == null) {
             //#396 fix, null check
-            Exception ex = new Exception();
-            Log.e(IMapView.LOGTAG, "Attempt to add a null overlay to the collection. This is probably a bug and should be reported!", ex);
+            Exception ex = new Exception("Attempt to add a null overlay to the collection. This is probably a bug and should be reported!");
+            Log.e(IMapView.LOGTAG, ex.getMessage(), ex);
         } else {
             mOverlayList.add(pIndex, pElement);
         }
@@ -63,26 +73,27 @@ public class DefaultOverlayManager extends AbstractList<Overlay> implements Over
     }
 
     @Override
-    public Overlay set(final int pIndex, final Overlay pElement) {
+    public Overlay set(final int pIndex, @NonNull final Overlay pElement) {
         //#396 fix, null check
+        //noinspection ConstantValue
         if (pElement == null) {
-            Exception ex = new Exception();
-            Log.e(IMapView.LOGTAG, "Attempt to set a null overlay to the collection. This is probably a bug and should be reported!", ex);
+            Exception ex = new Exception("Attempt to set a null overlay to the collection. This is probably a bug and should be reported!");
+            Log.e(IMapView.LOGTAG, ex.getMessage(), ex);
             return null;
         } else {
-            Overlay overlay = mOverlayList.set(pIndex, pElement);
-            return overlay;
+            return mOverlayList.set(pIndex, pElement);
         }
     }
 
-
+    @Nullable
     @Override
     public TilesOverlay getTilesOverlay() {
         return mTilesOverlay;
     }
 
     @Override
-    public void setTilesOverlay(final TilesOverlay tilesOverlay) {
+    public void setTilesOverlay(@Nullable final TilesOverlay tilesOverlay) {
+        if (mTilesOverlay != null) mTilesOverlay.onDestroy();
         mTilesOverlay = tilesOverlay;
     }
 
@@ -133,7 +144,7 @@ public class DefaultOverlayManager extends AbstractList<Overlay> implements Over
         return mOverlayList;
     }
 
-
+    @UiThread @MainThread
     @Override
     public void onDraw(final Canvas c, final MapView pMapView) {
         onDrawHelper(c, pMapView, pMapView.getProjection());
@@ -142,6 +153,7 @@ public class DefaultOverlayManager extends AbstractList<Overlay> implements Over
     /**
      * @since 6.1.0
      */
+    @UiThread @MainThread
     @Override
     public void onDraw(final Canvas c, final Projection pProjection) {
         onDrawHelper(c, null, pProjection);
@@ -152,13 +164,22 @@ public class DefaultOverlayManager extends AbstractList<Overlay> implements Over
      * @param pProjection may NOT be null
      * @since 6.1.0
      */
-    private void onDrawHelper(final Canvas c, final MapView pMapView, final Projection pProjection) {
+    @UiThread @MainThread
+    private void onDrawHelper(@NonNull final Canvas c, @Nullable final MapView pMapView, @NonNull final Projection pProjection) {
+        if (pMapView != null) setLifecycleFromMapView(pMapView);
         //fix for https://github.com/osmdroid/osmdroid/issues/904
-        if (mTilesOverlay != null)
+        if (mTilesOverlay != null) {
+            if (pMapView != null) mTilesOverlay.setMapViewLifecycle(pMapView);
             mTilesOverlay.protectDisplayedTilesForCache(c, pProjection);
+            mTilesOverlay.setViewBoundingBoxChangedListener(mViewBoundingBoxChangedListener);
+        }
         for (final Overlay overlay : mOverlayList) {
-            if (overlay != null && overlay.isEnabled() && overlay instanceof TilesOverlay) {
-                ((TilesOverlay) overlay).protectDisplayedTilesForCache(c, pProjection);
+            if (overlay != null) {
+                if (pMapView != null) overlay.setMapViewLifecycle(pMapView);
+                overlay.setViewBoundingBoxChangedListener(mViewBoundingBoxChangedListener);
+                if (overlay.isEnabled() && (overlay instanceof TilesOverlay)) {
+                    ((TilesOverlay) overlay).protectDisplayedTilesForCache(c, pProjection);
+                }
             }
         }
 
@@ -186,37 +207,8 @@ public class DefaultOverlayManager extends AbstractList<Overlay> implements Over
     }
 
     @Override
-    public void onDetach(final MapView pMapView) {
-        if (mTilesOverlay != null) {
-            mTilesOverlay.onDetach(pMapView);
-        }
-
-        for (final Overlay overlay : this.overlaysReversed()) {
-            overlay.onDetach(pMapView);
-        }
-        this.clear();
-    }
-
-    @Override
-    public void onPause() {
-        if (mTilesOverlay != null) {
-            mTilesOverlay.onPause();
-        }
-
-        for (final Overlay overlay : this.overlaysReversed()) {
-            overlay.onPause();
-        }
-    }
-
-    @Override
-    public void onResume() {
-        if (mTilesOverlay != null) {
-            mTilesOverlay.onResume();
-        }
-
-        for (final Overlay overlay : this.overlaysReversed()) {
-            overlay.onResume();
-        }
+    public void setMapViewLifecycle(@NonNull final MapView mapView) {
+        setLifecycleFromMapView(mapView);
     }
 
     @Override
@@ -445,6 +437,50 @@ public class DefaultOverlayManager extends AbstractList<Overlay> implements Over
         }
 
         return false;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public void setViewBoundingBoxChangedListener(@Nullable final IViewBoundingBoxChangedListener listener) {
+        mViewBoundingBoxChangedListener = listener;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public void onViewBoundingBoxChanged(@NonNull final Rect fromBounds, final int fromZoom, @NonNull final Rect toBounds, final int toZoom) {
+        if (mViewBoundingBoxChangedListener != null) mViewBoundingBoxChangedListener.onViewBoundingBoxChanged(fromBounds, fromZoom, toBounds, toZoom);
+    }
+
+    @NonNull
+    @Override
+    public Lifecycle getLifecycle() { return mMapViewLifeCycle; }
+
+    private void setLifecycleFromMapView(@NonNull final MapView mapView) {
+        if (mMapViewLifeCycle != null) return;
+        mMapViewLifeCycle = mapView.getLifecycle();
+        /*
+        mMapViewLifeCycle.addObserver(new DefaultLifecycleObserver() {
+            @Override
+            public void onResume(@NonNull final LifecycleOwner owner) {
+
+            }
+            @Override
+            public void onPause(@NonNull final LifecycleOwner owner) {
+
+            }
+            @Override
+            public void onDestroy(@NonNull final LifecycleOwner owner) {
+                DefaultOverlayManager.this.mMapViewLifeCycle.removeObserver(this);
+                DefaultOverlayManager.this.mMapViewLifeCycle = null;
+                DefaultOverlayManager.this.onDestroyInternal();
+            }
+        });
+        */
+    }
+
+    @Override
+    public void onDestroyInternal() {
+        this.clear();
     }
 
 }

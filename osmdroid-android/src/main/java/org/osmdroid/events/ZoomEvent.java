@@ -1,5 +1,7 @@
 package org.osmdroid.events;
 
+import androidx.annotation.NonNull;
+
 import org.osmdroid.views.MapView;
 
 /*
@@ -10,6 +12,15 @@ import org.osmdroid.views.MapView;
 public class ZoomEvent implements MapEvent {
     protected MapView source;
     protected double zoomLevel;
+
+    public static ZoomEvent newInstanceForReusablePool() {
+        return new ZoomEvent(null, 0);
+    }
+
+    public static void set(@NonNull final ZoomEvent zoomEvent, @NonNull final MapView mapView, final double zoomLevel) {
+        zoomEvent.source = mapView;
+        zoomEvent.zoomLevel = zoomLevel;
+    }
 
     public ZoomEvent(final MapView source, final double zoomLevel) {
         this.source = source;
@@ -29,6 +40,11 @@ public class ZoomEvent implements MapEvent {
      */
     public double getZoomLevel() {
         return zoomLevel;
+    }
+
+    public void set(@NonNull final MapView mapView, final double zoomLevel) {
+        source = mapView;
+        this.zoomLevel = zoomLevel;
     }
 
     @Override

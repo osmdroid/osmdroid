@@ -50,7 +50,7 @@ public class TileDownloader {
 
     /**
      * downloads a tile and follows http redirects
-     * Code used to be in MapTileDownloader.TileLoader.downloadTile
+     * Code used to be in MapTileDownloaderProvider.TileLoader.downloadTile
      */
     public Drawable downloadTile(final long pMapTileIndex, final int redirectCount, final String targetUrl,
                                  final IFilesystemCache pFilesystemCache, final OnlineTileSourceBase pTileSource) throws CantContinueException {

@@ -21,7 +21,7 @@ public class BatchExecutorGUI extends JFrame {
     // Constants
     // ===========================================================
 
-    private static final long serialVersionUID = 5863710966745357864L;
+    
 
     // ===========================================================
     // Fields

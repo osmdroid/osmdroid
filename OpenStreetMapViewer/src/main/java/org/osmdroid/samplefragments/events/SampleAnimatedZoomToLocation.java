@@ -18,6 +18,7 @@ import org.osmdroid.views.overlay.mylocation.IMyLocationConsumer;
 import org.osmdroid.views.overlay.mylocation.IMyLocationProvider;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Tyrone Tudehope
@@ -55,9 +56,8 @@ public class SampleAnimatedZoomToLocation extends BaseSampleFragment {
             public void onLocationChanged(Location location, IMyLocationProvider source) {
                 mGpsMyLocationProvider.stopLocationProvider();
                 if (mMyLocationOverlay == null) {
-                    final ArrayList<OverlayItem> items = new ArrayList<>();
-                    items.add(new OverlayItem("Me", "My Location",
-                            new GeoPoint(location)));
+                    final List<OverlayItem> items = new ArrayList<>();
+                    items.add(new OverlayItem("Me", "My Location", new GeoPoint(location)));
 
                     mMyLocationOverlay = new ItemizedOverlayWithFocus<>(items,
                             new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
@@ -78,7 +78,7 @@ public class SampleAnimatedZoomToLocation extends BaseSampleFragment {
                     mMyLocationOverlay.setFocusItemsOnTap(true);
                     mMyLocationOverlay.setFocusedItem(0);
 
-                    mMapView.getOverlays().add(mMyLocationOverlay);
+                    mMapView.getOverlayManager().add(mMyLocationOverlay);
 
                     mMapView.getController().setZoom(10);
                     IGeoPoint geoPoint = mMyLocationOverlay.getFocusedItem().getPoint();
@@ -89,11 +89,11 @@ public class SampleAnimatedZoomToLocation extends BaseSampleFragment {
 
         mRotationGestureOverlay = new RotationGestureOverlay(mMapView);
         mRotationGestureOverlay.setEnabled(false);
-        mMapView.getOverlays().add(mRotationGestureOverlay);
+        mMapView.getOverlayManager().add(mRotationGestureOverlay);
 
         MinimapOverlay miniMapOverlay = new MinimapOverlay(context,
                 mMapView.getTileRequestCompleteHandler());
-        mMapView.getOverlays().add(miniMapOverlay);
+        mMapView.getOverlayManager().add(miniMapOverlay);
     }
 
 }

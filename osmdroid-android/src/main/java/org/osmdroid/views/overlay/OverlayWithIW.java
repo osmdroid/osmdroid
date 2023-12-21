@@ -2,6 +2,8 @@ package org.osmdroid.views.overlay;
 
 import android.content.Context;
 
+import androidx.annotation.Nullable;
+
 import org.osmdroid.views.overlay.infowindow.BasicInfoWindow;
 import org.osmdroid.views.overlay.infowindow.InfoWindow;
 
@@ -23,7 +25,9 @@ public abstract class OverlayWithIW extends Overlay {
 
     //InfoWindow handling
     protected String mTitle, mSnippet, mSubDescription;
+    @Nullable
     protected InfoWindow mInfoWindow;
+    @Nullable
     protected Object mRelatedObject;
     protected String mId;
 
@@ -70,13 +74,14 @@ public abstract class OverlayWithIW extends Overlay {
      * Allows to link an Object (any Object) to this marker.
      * This is particularly useful to handle custom InfoWindow.
      */
-    public void setRelatedObject(Object relatedObject) {
+    public void setRelatedObject(@Nullable final Object relatedObject) {
         mRelatedObject = relatedObject;
     }
 
     /**
      * @return the related object.
      */
+    @Nullable
     public Object getRelatedObject() {
         return mRelatedObject;
     }
@@ -105,10 +110,11 @@ public abstract class OverlayWithIW extends Overlay {
      *                   This InfoWindow MUST be able to handle an OverlayWithIW (as BasicInfoWindow does).
      *                   Set it to null to remove an existing InfoWindow.
      */
-    public void setInfoWindow(InfoWindow infoWindow) {
+    public void setInfoWindow(@Nullable final InfoWindow infoWindow) {
         mInfoWindow = infoWindow;
     }
 
+    @Nullable
     public InfoWindow getInfoWindow() {
         return mInfoWindow;
     }

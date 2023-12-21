@@ -1,11 +1,14 @@
 package org.osmdroid.views;
 
+import android.app.Activity;
+import android.app.Application;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Point;
 import android.graphics.PointF;
 import android.graphics.Rect;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -17,6 +20,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Scroller;
 import android.widget.ZoomButtonsController;
+
+import androidx.annotation.ColorInt;
+import androidx.annotation.MainThread;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.UiThread;
+import androidx.lifecycle.DefaultLifecycleObserver;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.LifecycleRegistry;
 
 import org.metalev.multitouch.controller.MultiTouchController;
 import org.metalev.multitouch.controller.MultiTouchController.MultiTouchObjectCanvas;
@@ -38,16 +51,20 @@ import org.osmdroid.tileprovider.util.SimpleInvalidationHandler;
 import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.GeometryMath;
+import org.osmdroid.util.ReusablePool;
 import org.osmdroid.util.TileSystem;
 import org.osmdroid.util.TileSystemWebMercator;
 import org.osmdroid.views.overlay.DefaultOverlayManager;
+import org.osmdroid.views.overlay.IViewBoundingBoxChangedListener;
 import org.osmdroid.views.overlay.Overlay;
 import org.osmdroid.views.overlay.OverlayManager;
 import org.osmdroid.views.overlay.TilesOverlay;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -59,8 +76,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * @author and many other contributors
  * @since the begining
  */
-public class MapView extends ViewGroup implements IMapView,
-        MultiTouchObjectCanvas<Object> {
+public class MapView extends ViewGroup implements IMapView, MultiTouchObjectCanvas<Object>, LifecycleOwner {
 
     /**
      * Current zoom level for map tiles.
@@ -95,7 +111,6 @@ public class MapView extends ViewGroup implements IMapView,
 
     private final CustomZoomButtonsController mZoomController;
 
-
     private MultiTouchController<Object> mMultiTouchController;
 
     /**
@@ -111,8 +126,8 @@ public class MapView extends ViewGroup implements IMapView,
      * Current pinch gesture pixel (again, the middle of both fingers)
      * We must ensure that this pixel is the projection of {@link MapView#mMultiTouchScaleGeoPoint}
      */
-    private PointF mMultiTouchScaleCurrentPoint;
-
+    private final PointF mMultiTouchScaleCurrentPoint = new PointF();
+    private boolean mHasMultiTouchScaleCurrentPoint = false;
 
     // For rotation
     private float mapOrientation = 0;
@@ -146,13 +161,13 @@ public class MapView extends ViewGroup implements IMapView,
     private boolean horizontalMapRepetitionEnabled = true;
     private boolean verticalMapRepetitionEnabled = true;
 
-    private GeoPoint mCenter;
+    private double mCenterLat;
+    private double mCenterLon;
     private long mMapScrollX;
     private long mMapScrollY;
-    protected List<MapListener> mListners = new ArrayList<>();
+    protected final List<MapListener> mListeners = new ArrayList<>();
 
     private double mStartAnimationZoom;
-
 
     private boolean mZoomRounding;
 
@@ -161,16 +176,18 @@ public class MapView extends ViewGroup implements IMapView,
      */
     private final MapViewRepository mRepository = new MapViewRepository(this);
 
+    private final ReusablePool<ScrollEvent> mScrollEventsCache = new ReusablePool<>(new ReusablePool.IReusablePoolItemCallback<ScrollEvent>() {
+        @Override
+        public ScrollEvent newInstance() { return ScrollEvent.newInstanceForReusablePool(); }
+    }, 2);
+
+    private final LifecycleRegistry mLifecycleRegistry = new LifecycleRegistry(this);
+
     public interface OnFirstLayoutListener {
         /**
          * this generally means that the map is ready to go
-         *
-         * @param v
-         * @param left
-         * @param top
-         * @param right
-         * @param bottom
          */
+        @UiThread @MainThread
         void onFirstLayout(View v, int left, int top, int right, int bottom);
     }
 
@@ -182,18 +199,26 @@ public class MapView extends ViewGroup implements IMapView,
     private final Rect mRescaleScreenRect = new Rect(); // optimization
 
     /**
-     * @since 6.1.0
-     * cf. https://github.com/osmdroid/osmdroid/issues/1247
-     */
-    private boolean mDestroyModeOnDetach = true;
-
-    /**
      * @since 6.1.1
      * The map center used to be projected into the screen center.
      * Now we have a possible offset from the screen center; default offset is [0, 0].
      */
     private int mMapCenterOffsetX;
     private int mMapCenterOffsetY;
+
+    private final IViewBoundingBoxChangedListener mViewBoundingBoxChangedListener = new IViewBoundingBoxChangedListener() {
+        @UiThread @MainThread
+        @Override
+        public void onViewBoundingBoxChanged(@NonNull final Rect fromBounds, final int fromZoom, @NonNull final Rect toBounds, final int toZoom) {
+            for (final MapListener cMapListener : mListeners)
+                cMapListener.onViewBoundingBoxChanged(fromBounds, fromZoom, toBounds, toZoom);
+        }
+    };
+
+    private final Point mSnapPoint = new Point();
+
+    private final GeoPoint mReusableForZoomToBoundingBox = new GeoPoint(0d, 0d);
+    private final ZoomEvent mReusableZoomEvent = ZoomEvent.newInstanceForReusablePool();
 
     // ===========================================================
     // Constructors
@@ -227,6 +252,58 @@ public class MapView extends ViewGroup implements IMapView,
         if (!hardwareAccelerated && Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             this.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         }
+
+        if (context instanceof LifecycleOwner) {
+            ((LifecycleOwner)context).getLifecycle().addObserver(new DefaultLifecycleObserver() {
+                @Override public void onCreate(@NonNull final LifecycleOwner owner) { mLifecycleRegistry.setCurrentState(owner.getLifecycle().getCurrentState()); }
+                @Override public void onStart(@NonNull final LifecycleOwner owner) { mLifecycleRegistry.setCurrentState(owner.getLifecycle().getCurrentState()); }
+                @Override public void onResume(@NonNull final LifecycleOwner owner) {
+                    mLifecycleRegistry.setCurrentState(owner.getLifecycle().getCurrentState());
+                    MapView.this.onResume();
+                }
+                @Override
+                public void onPause(@NonNull final LifecycleOwner owner) {
+                    MapView.this.onPause();
+                    mLifecycleRegistry.setCurrentState(owner.getLifecycle().getCurrentState());
+                }
+                @Override
+                public void onStop(@NonNull final LifecycleOwner owner) { mLifecycleRegistry.setCurrentState(owner.getLifecycle().getCurrentState()); }
+                @Override
+                public void onDestroy(@NonNull final LifecycleOwner owner) {
+                    mTileProvider.detach();
+                    if (mZoomController != null) {
+                        mZoomController.onDetach();
+                    }
+
+                    //https://github.com/osmdroid/osmdroid/issues/390
+                    if (mTileRequestCompleteHandler instanceof SimpleInvalidationHandler) {
+                        ((SimpleInvalidationHandler) mTileRequestCompleteHandler).destroy();
+                    }
+                    mTileRequestCompleteHandler = null;
+                    if (mProjection != null)
+                        mProjection.detach();
+                    mProjection = null;
+                    mRepository.onDetach();
+                    mListeners.clear();
+
+                    mLifecycleRegistry.setCurrentState(owner.getLifecycle().getCurrentState());
+                    MapView.this.onDestroy();
+                }
+            });
+        } else if ((context instanceof android.app.Activity) && (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)) {
+            ((android.app.Activity)context).registerActivityLifecycleCallbacks(new Application.ActivityLifecycleCallbacks() {
+                @Override public void onActivityCreated(@NonNull final Activity activity, @Nullable final Bundle savedInstanceState) { mLifecycleRegistry.setCurrentState(Lifecycle.State.CREATED); }
+                @Override public void onActivityStarted(@NonNull final Activity activity) { mLifecycleRegistry.setCurrentState(Lifecycle.State.STARTED); }
+                @Override public void onActivityResumed(@NonNull final Activity activity) { mLifecycleRegistry.setCurrentState(Lifecycle.State.RESUMED); }
+                @Override public void onActivityPaused(@NonNull final Activity activity) { mLifecycleRegistry.setCurrentState(Lifecycle.State.STARTED); }
+                @Override public void onActivityStopped(@NonNull final Activity activity) { mLifecycleRegistry.setCurrentState(Lifecycle.State.CREATED); }
+                @Override public void onActivitySaveInstanceState(@NonNull final Activity activity, @NonNull final Bundle outState) { /*nothing*/ }
+                @Override public void onActivityDestroyed(@NonNull final Activity activity) { mLifecycleRegistry.setCurrentState(Lifecycle.State.DESTROYED); }
+            });
+        } else {
+            throw new IllegalStateException("MapView's context needs to implement some kind of Lifecycle");
+        }
+
         this.mController = new MapController(this);
         this.mScroller = new Scroller(context);
 
@@ -244,6 +321,8 @@ public class MapView extends ViewGroup implements IMapView,
 
         this.mMapOverlay = new TilesOverlay(mTileProvider, context, horizontalMapRepetitionEnabled, verticalMapRepetitionEnabled);
         mOverlayManager = new DefaultOverlayManager(mMapOverlay);
+        mOverlayManager.setMapViewLifecycle(this);
+        mOverlayManager.setViewBoundingBoxChangedListener(mViewBoundingBoxChangedListener);
 
         mZoomController = new CustomZoomButtonsController(this);
         mZoomController.setOnZoomListener(new MapViewZoomListener());
@@ -284,23 +363,23 @@ public class MapView extends ViewGroup implements IMapView,
     public MapView(final Context context,
                    final MapTileProviderBase aTileProvider,
                    final Handler tileRequestCompleteHandler) {
-        this(context, aTileProvider, tileRequestCompleteHandler,
-                null);
+        this(context, aTileProvider, tileRequestCompleteHandler, null);
     }
 
     // ===========================================================
     // Getter & Setter
     // ===========================================================
 
+    @NonNull
+    @Override
+    public Lifecycle getLifecycle() { return mLifecycleRegistry; }
+
     @Override
     public IMapController getController() {
         return this.mController;
     }
 
-    /**
-     * You can add/remove/reorder your Overlays using the List of {@link Overlay}. The first (index
-     * 0) Overlay gets drawn first, the one with the highest as the last one.
-     */
+    /** You can add/remove/reorder your Overlays using the List of {@link Overlay}. The first (index * 0) Overlay gets drawn first, the one with the highest as the last one. */
     public List<Overlay> getOverlays() {
         return this.getOverlayManager().overlays();
     }
@@ -309,8 +388,12 @@ public class MapView extends ViewGroup implements IMapView,
         return mOverlayManager;
     }
 
-    public void setOverlayManager(final OverlayManager overlayManager) {
+    public void setOverlayManager(@NonNull final OverlayManager overlayManager) {
+        if (Objects.equals(overlayManager, mOverlayManager)) return;
+        mOverlayManager.onDestroyInternal();
         mOverlayManager = overlayManager;
+        mOverlayManager.setMapViewLifecycle(this);
+        mOverlayManager.setViewBoundingBoxChangedListener(mViewBoundingBoxChangedListener);
     }
 
     public MapTileProviderBase getTileProvider() {
@@ -323,6 +406,12 @@ public class MapView extends ViewGroup implements IMapView,
 
     public Handler getTileRequestCompleteHandler() {
         return mTileRequestCompleteHandler;
+    }
+
+    public void setTileRequestCompleteHandler(@Nullable final Handler handler) {
+        final Collection<Handler> cHandlers = mTileProvider.getTileRequestCompleteHandlers();
+        cHandlers.clear();
+        cHandlers.add(mTileRequestCompleteHandler = handler);
     }
 
     @Override
@@ -343,7 +432,7 @@ public class MapView extends ViewGroup implements IMapView,
     /**
      * Gets the current bounds of the screen in <I>screen coordinates</I>.
      */
-    public Rect getScreenRect(final Rect reuse) {
+    public Rect getScreenRect(@Nullable final Rect reuse) {
         final Rect out = getIntrinsicScreenRect(reuse);
         if (this.getMapOrientation() != 0 && this.getMapOrientation() != 180) {
             GeometryMath.getBoundingBoxForRotatatedRectangle(out, out.centerX(), out.centerY(),
@@ -352,7 +441,7 @@ public class MapView extends ViewGroup implements IMapView,
         return out;
     }
 
-    public Rect getIntrinsicScreenRect(final Rect reuse) {
+    public Rect getIntrinsicScreenRect(@Nullable final Rect reuse) {
         final Rect out = reuse == null ? new Rect() : reuse;
         out.set(0, 0, getWidth(), getHeight());
         return out;
@@ -371,7 +460,7 @@ public class MapView extends ViewGroup implements IMapView,
         if (mProjection == null) {
             Projection localCopy = new Projection(this);
             mProjection = localCopy;
-            localCopy.adjustOffsets(mMultiTouchScaleGeoPoint, mMultiTouchScaleCurrentPoint);
+            localCopy.adjustOffsets(mMultiTouchScaleGeoPoint, (mHasMultiTouchScaleCurrentPoint ? mMultiTouchScaleCurrentPoint : null));
             if (mScrollableAreaLimitLatitude) {
                 localCopy.adjustOffsets(
                         mScrollableAreaLimitNorth, mScrollableAreaLimitSouth, true,
@@ -389,11 +478,9 @@ public class MapView extends ViewGroup implements IMapView,
 
     /**
      * Use {@link #resetProjection()} instead
-     *
-     * @param p
      */
     @Deprecated
-    protected void setProjection(Projection p) {
+    protected void setProjection(@NonNull final Projection p) {
         mProjection = p;
     }
 
@@ -405,7 +492,7 @@ public class MapView extends ViewGroup implements IMapView,
      * @deprecated use {@link IMapController#animateTo(IGeoPoint)} or {@link IMapController#setCenter(IGeoPoint)} instead
      */
     @Deprecated
-    void setMapCenter(final IGeoPoint aCenter) {
+    void setMapCenter(@NonNull final IGeoPoint aCenter) {
         getController().animateTo(aCenter);
     }
 
@@ -427,12 +514,8 @@ public class MapView extends ViewGroup implements IMapView,
     }
 
     /**
-     * if true, tiles are scaled to the current DPI of the display. This effectively
-     * makes it easier to read labels, how it may appear pixelated depending on the map
-     * source.<br>
+     * if true, tiles are scaled to the current DPI of the display. This effectively makes it easier to read labels, how it may appear pixelated depending on the map source.<br>
      * if false, tiles are rendered in their real size
-     *
-     * @param tilesScaledToDpi
      */
     public void setTilesScaledToDpi(boolean tilesScaledToDpi) {
         mTilesScaledToDpi = tilesScaledToDpi;
@@ -459,7 +542,7 @@ public class MapView extends ViewGroup implements IMapView,
         updateTileSizeForDensity(getTileProvider().getTileSource());
     }
 
-    private void updateTileSizeForDensity(final ITileSource aTileSource) {
+    private void updateTileSizeForDensity(@NonNull final ITileSource aTileSource) {
         int tile_size = aTileSource.getTileSizePixels();
         float density = getResources().getDisplayMetrics().density * 256 / tile_size;
         int size = (int) (tile_size * (isTilesScaledToDpi() ? density * mTilesScaleFactor : mTilesScaleFactor));
@@ -468,7 +551,7 @@ public class MapView extends ViewGroup implements IMapView,
         TileSystem.setTileSize(size);
     }
 
-    public void setTileSource(final ITileSource aTileSource) {
+    public void setTileSource(@NonNull final ITileSource aTileSource) {
         mTileProvider.setTileSource(aTileSource);
         updateTileSizeForDensity(aTileSource);
         this.checkZoomButtons();
@@ -502,11 +585,10 @@ public class MapView extends ViewGroup implements IMapView,
             getController().setCenter(centerGeoPoint);
 
             // snap for all snappables
-            final Point snapPoint = new Point();
             final Projection pj = getProjection();
             if (this.getOverlayManager().onSnapToItem((int) mMultiTouchScaleInitPoint.x,
-                    (int) mMultiTouchScaleInitPoint.y, snapPoint, this)) {
-                IGeoPoint geoPoint = pj.fromPixels(snapPoint.x, snapPoint.y, null, false);
+                    (int) mMultiTouchScaleInitPoint.y, mSnapPoint, this)) {
+                IGeoPoint geoPoint = pj.fromPixels(mSnapPoint.x, mSnapPoint.y, null, false);
                 getController().animateTo(geoPoint);
             }
 
@@ -516,9 +598,9 @@ public class MapView extends ViewGroup implements IMapView,
 
         // do callback on listener
         if (newZoomLevel != curZoomLevel) {
-            ZoomEvent event = null;
-            for (MapListener mapListener : mListners)
-                mapListener.onZoom(event != null ? event : (event = new ZoomEvent(this, newZoomLevel)));
+            mReusableZoomEvent.set(this, newZoomLevel);
+            for (MapListener mapListener : mListeners)
+                mapListener.onZoom(mReusableZoomEvent);
         }
 
         requestLayout(); // Allows any views fixed to a Location in the MapView to adjust
@@ -532,7 +614,7 @@ public class MapView extends ViewGroup implements IMapView,
      * center of zoom level 0.<br>
      * Suggestion: Check getIntrinsicScreenRect(null).getHeight() &gt; 0
      */
-    public void zoomToBoundingBox(final BoundingBox boundingBox, final boolean animated) {
+    public void zoomToBoundingBox(@NonNull final BoundingBox boundingBox, final boolean animated) {
         zoomToBoundingBox(boundingBox, animated, 0);
     }
 
@@ -544,21 +626,37 @@ public class MapView extends ViewGroup implements IMapView,
      * @param pAnimationSpeed     Animation duration, in milliseconds
      * @since 6.0.3
      */
-    public double zoomToBoundingBox(final BoundingBox pBoundingBox, final boolean pAnimated,
+    public double zoomToBoundingBox(@NonNull final BoundingBox pBoundingBox, final boolean pAnimated,
                                     final int pBorderSizeInPixels, final double pMaximumZoom,
-                                    final Long pAnimationSpeed) {
-        double nextZoom = mTileSystem.getBoundingBoxZoom(pBoundingBox, getWidth() - 2 * pBorderSizeInPixels, getHeight() - 2 * pBorderSizeInPixels);
+                                    @Nullable final Long pAnimationSpeed) {
+        return zoomToBoundingBox(pBoundingBox, pAnimated, pBorderSizeInPixels, pBorderSizeInPixels, pMaximumZoom, pAnimationSpeed);
+    }
+
+    /**
+     * @param pBoundingBox                  Bounding box we want to zoom to; may be a single {@link GeoPoint}
+     * @param pAnimated                     Animation or immediate action?
+     * @param pHorizontalBorderSizeInPixels Border size around the bounding box (horizontally)
+     * @param pVerticalBorderSizeInPixels   Border size around the bounding box (vertically)
+     * @param pMaximumZoom                  Maximum zoom we want from bounding box computation
+     * @param pAnimationSpeed               Animation duration, in milliseconds
+     * @since 6.1.18
+     */
+    public double zoomToBoundingBox(@NonNull final BoundingBox pBoundingBox, final boolean pAnimated,
+                                    final int pHorizontalBorderSizeInPixels, final int pVerticalBorderSizeInPixels, final double pMaximumZoom,
+                                    @Nullable final Long pAnimationSpeed) {
+        double nextZoom = mTileSystem.getBoundingBoxZoom(pBoundingBox, getWidth() - 2 * pHorizontalBorderSizeInPixels, getHeight() - 2 * pVerticalBorderSizeInPixels);
         if (nextZoom == Double.MIN_VALUE // e.g. single point bounding box
                 || nextZoom > pMaximumZoom) { // e.g. tiny bounding box
             nextZoom = pMaximumZoom;
         }
         nextZoom = Math.min(getMaxZoomLevel(), Math.max(nextZoom, getMinZoomLevel()));
-        final GeoPoint center = pBoundingBox.getCenterWithDateLine();
+        double centerLat = pBoundingBox.getCenterLatWithDateLine();
+        double centerLon = pBoundingBox.getCenterLonWithDateLine();
 
         // fine-tuning the latitude, cf. https://github.com/osmdroid/osmdroid/issues/1239
         final Projection projection = new Projection(
                 nextZoom, getWidth(), getHeight(),
-                center,
+                centerLat, centerLon,
                 getMapOrientation(),
                 isHorizontalMapRepetitionEnabled(), isVerticalMapRepetitionEnabled(),
                 getMapCenterOffsetX(), getMapCenterOffsetY());
@@ -571,14 +669,17 @@ public class MapView extends ViewGroup implements IMapView,
         final int offset = ((getHeight() - south) - north) / 2;
         if (offset != 0) {
             projection.adjustOffsets(0, offset);
-            projection.fromPixels(getWidth() / 2, getHeight() / 2, center);
+            mReusableForZoomToBoundingBox.setCoords(centerLat, centerLon);
+            projection.fromPixels(getWidth() / 2, getHeight() / 2, mReusableForZoomToBoundingBox);
+            centerLat = mReusableForZoomToBoundingBox.getLatitude();
+            centerLon = mReusableForZoomToBoundingBox.getLongitude();
         }
 
         if (pAnimated) {
-            getController().animateTo(center, nextZoom, pAnimationSpeed);
+            getController().animateTo(centerLat, centerLon, nextZoom, pAnimationSpeed);
         } else { // it's best to set the zoom first, so that the center is accurate
             getController().setZoom(nextZoom);
-            getController().setCenter(center);
+            getController().setCenter(centerLat, centerLon);
         }
         return nextZoom;
     }
@@ -586,7 +687,7 @@ public class MapView extends ViewGroup implements IMapView,
     /**
      * @since 6.0.0
      */
-    public void zoomToBoundingBox(final BoundingBox pBoundingBox, final boolean pAnimated, final int pBorderSizeInPixels) {
+    public void zoomToBoundingBox(@NonNull final BoundingBox pBoundingBox, final boolean pAnimated, final int pBorderSizeInPixels) {
         zoomToBoundingBox(pBoundingBox, pAnimated, pBorderSizeInPixels, getMaxZoomLevel(), null);
     }
 
@@ -642,7 +743,7 @@ public class MapView extends ViewGroup implements IMapView,
      * Set the minimum allowed zoom level, or pass null to use the minimum zoom level from the tile
      * provider.
      */
-    public void setMinZoomLevel(Double zoomLevel) {
+    public void setMinZoomLevel(@Nullable final Double zoomLevel) {
         mMinimumZoomLevel = zoomLevel;
     }
 
@@ -650,7 +751,7 @@ public class MapView extends ViewGroup implements IMapView,
      * Set the maximum allowed zoom level, or pass null to use the maximum zoom level from the tile
      * provider.
      */
-    public void setMaxZoomLevel(Double zoomLevel) {
+    public void setMaxZoomLevel(@Nullable final Double zoomLevel) {
         mMaximumZoomLevel = zoomLevel;
     }
 
@@ -672,7 +773,7 @@ public class MapView extends ViewGroup implements IMapView,
     }
 
     @Deprecated
-    boolean zoomInFixing(final IGeoPoint point) {
+    boolean zoomInFixing(@NonNull final IGeoPoint point) {
         Point coords = getProjection().toPixels(point, null);
         return getController().zoomInFixing(coords.x, coords.y);
     }
@@ -692,7 +793,7 @@ public class MapView extends ViewGroup implements IMapView,
     }
 
     @Deprecated
-    boolean zoomOutFixing(final IGeoPoint point) {
+    boolean zoomOutFixing(@NonNull final IGeoPoint point) {
         Point coords = getProjection().toPixels(point, null);
         return zoomOutFixing(coords.x, coords.y);
     }
@@ -722,7 +823,7 @@ public class MapView extends ViewGroup implements IMapView,
     /**
      * @since 6.0.3
      */
-    public IGeoPoint getMapCenter(GeoPoint pReuse) {
+    public IGeoPoint getMapCenter(@Nullable final GeoPoint pReuse) {
         return getProjection().fromPixels(getWidth() / 2, getHeight() / 2, pReuse, false);
     }
 
@@ -785,7 +886,7 @@ public class MapView extends ViewGroup implements IMapView,
      * @param boundingBox A lat/long bounding box to limit scrolling to, or null to remove any scrolling
      *                    limitations
      */
-    public void setScrollableAreaLimitDouble(BoundingBox boundingBox) {
+    public void setScrollableAreaLimitDouble(@Nullable final BoundingBox boundingBox) {
         if (boundingBox == null) {
             resetScrollableAreaLimitLatitude();
             resetScrollableAreaLimitLongitude();
@@ -825,8 +926,7 @@ public class MapView extends ViewGroup implements IMapView,
      * @param pExtraPixelHeight in pixels, enables scrolling this many pixels past the bounds
      * @since 6.0.0
      */
-    public void setScrollableAreaLimitLatitude(final double pNorth, final double pSouth,
-                                               final int pExtraPixelHeight) {
+    public void setScrollableAreaLimitLatitude(final double pNorth, final double pSouth, final int pExtraPixelHeight) {
         mScrollableAreaLimitLatitude = true;
         mScrollableAreaLimitNorth = pNorth;
         mScrollableAreaLimitSouth = pSouth;
@@ -841,8 +941,7 @@ public class MapView extends ViewGroup implements IMapView,
      * @param pExtraPixelWidth in pixels, enables scrolling this many pixels past the bounds
      * @since 6.0.0
      */
-    public void setScrollableAreaLimitLongitude(final double pWest, final double pEast,
-                                                final int pExtraPixelWidth) {
+    public void setScrollableAreaLimitLongitude(final double pWest, final double pEast, final int pExtraPixelWidth) {
         mScrollableAreaLimitLongitude = true;
         mScrollableAreaLimitWest = pWest;
         mScrollableAreaLimitEast = pEast;
@@ -864,7 +963,7 @@ public class MapView extends ViewGroup implements IMapView,
     }
 
 
-    public void invalidateMapCoordinates(Rect dirty) {
+    public void invalidateMapCoordinates(@NonNull final Rect dirty) {
         invalidateMapCoordinates(dirty.left, dirty.top, dirty.right, dirty.bottom, false);
     }
 
@@ -902,7 +1001,7 @@ public class MapView extends ViewGroup implements IMapView,
     @Override
     protected ViewGroup.LayoutParams generateDefaultLayoutParams() {
         return new MapView.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT, null, MapView.LayoutParams.BOTTOM_CENTER, 0, 0);
+                ViewGroup.LayoutParams.WRAP_CONTENT, null, null, MapView.LayoutParams.BOTTOM_CENTER, 0, 0);
     }
 
     @Override
@@ -929,9 +1028,9 @@ public class MapView extends ViewGroup implements IMapView,
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 
+    @UiThread @MainThread
     @Override
-    protected void onLayout(final boolean changed, final int l, final int t, final int r,
-                            final int b) {
+    protected void onLayout(final boolean changed, final int l, final int t, final int r, final int b) {
         myOnLayout(changed, l, t, r, b);
     }
 
@@ -941,8 +1040,8 @@ public class MapView extends ViewGroup implements IMapView,
      *
      * @since 6.0.0
      */
-    protected void myOnLayout(final boolean changed, final int l, final int t, final int r,
-                              final int b) {
+    @UiThread @MainThread
+    protected void myOnLayout(final boolean changed, final int l, final int t, final int r, final int b) {
         resetProjection();
         final int count = getChildCount();
 
@@ -953,7 +1052,7 @@ public class MapView extends ViewGroup implements IMapView,
                 final MapView.LayoutParams lp = (MapView.LayoutParams) child.getLayoutParams();
                 final int childHeight = child.getMeasuredHeight();
                 final int childWidth = child.getMeasuredWidth();
-                getProjection().toPixels(lp.geoPoint, mLayoutPoint);
+                getProjection().toPixels(lp.geoPointLat, lp.geoPointLon, mLayoutPoint);
                 // Apply rotation of mLayoutPoint around the center of the map
                 if (getMapOrientation() != 0) {
                     Point p = getProjection().rotateAndScalePoint(mLayoutPoint.x, mLayoutPoint.y,
@@ -1019,18 +1118,14 @@ public class MapView extends ViewGroup implements IMapView,
         resetProjection();
     }
 
-    /**
-     * enables you to add a listener for when the map is ready to go.
-     *
-     * @param listener
-     */
-    public void addOnFirstLayoutListener(OnFirstLayoutListener listener) {
+    /** Enables you to add a listener for when the map is ready to go */
+    public void addOnFirstLayoutListener(@NonNull final OnFirstLayoutListener listener) {
         // Don't add if we already have a layout
-        if (!isLayoutOccurred())
+        if (!isLayoutOccurred() && !mOnFirstLayoutListeners.contains(listener))
             mOnFirstLayoutListeners.add(listener);
     }
 
-    public void removeOnFirstLayoutListener(OnFirstLayoutListener listener) {
+    public void removeOnFirstLayoutListener(@NonNull final OnFirstLayoutListener listener) {
         mOnFirstLayoutListeners.remove(listener);
     }
 
@@ -1038,50 +1133,11 @@ public class MapView extends ViewGroup implements IMapView,
         return mLayoutOccurred;
     }
 
-    @Override
-    public void onAttachedToWindow() {
-        super.onAttachedToWindow();
-    }
+    protected void onResume() { /*nothing*/ }
 
-    /**
-     * activities/fragments using osmdroid should call this to release resources, pause gps, sensors, timers, etc
-     *
-     * @since 6.0.0
-     */
-    public void onPause() {
-        this.getOverlayManager().onPause();
-    }
+    protected void onPause() { /*nothing*/ }
 
-    /**
-     * activities/fragments using osmdroid should call this to release resources, pause gps, sensors, timers, etc
-     *
-     * @since 6.0.0
-     */
-    public void onResume() {
-        this.getOverlayManager().onResume();
-    }
-
-    /**
-     * destroys the map view, all references to listeners, all overlays, etc
-     */
-    public void onDetach() {
-        this.getOverlayManager().onDetach(this);
-        mTileProvider.detach();
-        if (mZoomController != null) {
-            mZoomController.onDetach();
-        }
-
-        //https://github.com/osmdroid/osmdroid/issues/390
-        if (mTileRequestCompleteHandler instanceof SimpleInvalidationHandler) {
-            ((SimpleInvalidationHandler) mTileRequestCompleteHandler).destroy();
-        }
-        mTileRequestCompleteHandler = null;
-        if (mProjection != null)
-            mProjection.detach();
-        mProjection = null;
-        mRepository.onDetach();
-        mListners.clear();
-    }
+    protected void onDestroy() { /*nothing*/ }
 
     @Override
     public boolean onKeyDown(final int keyCode, final KeyEvent event) {
@@ -1216,10 +1272,16 @@ public class MapView extends ViewGroup implements IMapView,
             myOnLayout(true, getLeft(), getTop(), getRight(), getBottom());
 
         // do callback on listener
-        ScrollEvent event = null;
-        for (MapListener mapListener : mListners) {
-            mapListener.onScroll(event != null ? event : (event = new ScrollEvent(this, x, y)));
+        raiseOnScrollEvent(x, y);
+    }
+
+    private void raiseOnScrollEvent(final int x, final int y) {
+        final ScrollEvent event = mScrollEventsCache.getFreeItemFromPoll();
+        ScrollEvent.set(event, this, x, y);
+        for (MapListener mapListener : mListeners) {
+            mapListener.onScroll(event);
         }
+        mScrollEventsCache.returnItemToPool(event);
     }
 
     /**
@@ -1231,11 +1293,12 @@ public class MapView extends ViewGroup implements IMapView,
     }
 
     @Override
-    public void setBackgroundColor(final int pColor) {
+    public void setBackgroundColor(@ColorInt final int pColor) {
         mMapOverlay.setLoadingBackgroundColor(pColor);
         invalidate();
     }
 
+    @UiThread @MainThread
     @Override
     protected void dispatchDraw(final Canvas c) {
         final long startMs = System.currentTimeMillis();
@@ -1267,14 +1330,6 @@ public class MapView extends ViewGroup implements IMapView,
         }
     }
 
-    @Override
-    protected void onDetachedFromWindow() {
-        if (mDestroyModeOnDetach) {
-            onDetach();
-        }
-        super.onDetachedFromWindow();
-    }
-
     // ===========================================================
     // Animation
     // ===========================================================
@@ -1294,7 +1349,7 @@ public class MapView extends ViewGroup implements IMapView,
     // ===========================================================
 
     @Override
-    public Object getDraggableObjectAtPoint(final PointInfo pt) {
+    public Object getDraggableObjectAtPoint(@NonNull final PointInfo pt) {
         if (this.isAnimating()) {
             // Zoom animations use the mMultiTouchScale variables to perform their animations so we
             // don't want to step on that.
@@ -1306,13 +1361,13 @@ public class MapView extends ViewGroup implements IMapView,
     }
 
     @Override
-    public void getPositionAndScale(final Object obj, final PositionAndScale objPosAndScaleOut) {
+    public void getPositionAndScale(@NonNull final Object obj, @NonNull final PositionAndScale objPosAndScaleOut) {
         startAnimation();
         objPosAndScaleOut.set(mMultiTouchScaleInitPoint.x, mMultiTouchScaleInitPoint.y, true, 1, false, 0, 0, false, 0);
     }
 
     @Override
-    public void selectObject(final Object obj, final PointInfo pt) {
+    public void selectObject(@NonNull final Object obj, @NonNull final PointInfo pt) {
         if (mZoomRounding) {
             mZoomLevel = Math.round(mZoomLevel);
             invalidate();
@@ -1321,8 +1376,8 @@ public class MapView extends ViewGroup implements IMapView,
     }
 
     @Override
-    public boolean setPositionAndScale(final Object obj, final PositionAndScale aNewObjPosAndScale,
-                                       final PointInfo aTouchPoint) {
+    public boolean setPositionAndScale(@NonNull final Object obj, @NonNull final PositionAndScale aNewObjPosAndScale,
+                                       @Nullable final PointInfo aTouchPoint) {
         setMultiTouchScaleCurrentPoint(aNewObjPosAndScale.getXOff(), aNewObjPosAndScale.getYOff());
         setMultiTouchScale(aNewObjPosAndScale.getScale());
         requestLayout(); // Allows any views fixed to a Location in the MapView to adjust
@@ -1334,7 +1389,7 @@ public class MapView extends ViewGroup implements IMapView,
      * @since 6.0.0
      */
     public void resetMultiTouchScale() {
-        mMultiTouchScaleCurrentPoint = null;
+        mHasMultiTouchScaleCurrentPoint = false;
     }
 
     /**
@@ -1351,7 +1406,8 @@ public class MapView extends ViewGroup implements IMapView,
      * @since 6.0.0
      */
     protected void setMultiTouchScaleCurrentPoint(final float pX, final float pY) {
-        mMultiTouchScaleCurrentPoint = new PointF(pX, pY);
+        mMultiTouchScaleCurrentPoint.set(pX, pY);
+        mHasMultiTouchScaleCurrentPoint = true;
     }
 
     /**
@@ -1373,28 +1429,26 @@ public class MapView extends ViewGroup implements IMapView,
      * @deprecated use addMapListener instead
      */
     @Deprecated
-    public void setMapListener(final MapListener ml) {
-        this.mListners.add(ml);
+    public void setMapListener(@NonNull final MapListener ml) {
+        this.mListeners.add(ml);
     }
 
     /**
      * Just like the old setMapListener, except it supports more than one
      *
-     * @param mapListener
      * @since 6.0.0
      */
-    public void addMapListener(MapListener mapListener) {
-        this.mListners.add(mapListener);
+    public void addMapListener(@NonNull final MapListener mapListener) {
+        if (!mListeners.contains(mapListener)) this.mListeners.add(mapListener);
     }
 
     /**
      * Removes a map listener
      *
-     * @param mapListener
      * @since 6.0.0
      */
-    public void removeMapListener(MapListener mapListener) {
-        this.mListners.remove(mapListener);
+    public void removeMapListener(@NonNull final MapListener mapListener) {
+        this.mListeners.remove(mapListener);
     }
 
 
@@ -1422,7 +1476,6 @@ public class MapView extends ViewGroup implements IMapView,
     }
 
     /**
-     * @return
      * @since 6.0.0
      */
     public boolean isHorizontalMapRepetitionEnabled() {
@@ -1433,7 +1486,6 @@ public class MapView extends ViewGroup implements IMapView,
      * If horizontalMapRepetition is enabled the map repeats in left/right direction and scrolling wraps around the
      * edges. If disabled the map is only shown once for the horizontal direction. Default is true.
      *
-     * @param horizontalMapRepetitionEnabled
      * @since 6.0.0
      */
     public void setHorizontalMapRepetitionEnabled(boolean horizontalMapRepetitionEnabled) {
@@ -1444,7 +1496,6 @@ public class MapView extends ViewGroup implements IMapView,
     }
 
     /**
-     * @return
      * @since 6.0.0
      */
     public boolean isVerticalMapRepetitionEnabled() {
@@ -1455,7 +1506,6 @@ public class MapView extends ViewGroup implements IMapView,
      * If verticalMapRepetition is enabled the map repeats in top/bottom direction and scrolling wraps around the
      * edges. If disabled the map is only shown once for the vertical direction. Default is true.
      *
-     * @param verticalMapRepetitionEnabled
      * @since 6.0.0
      */
     public void setVerticalMapRepetitionEnabled(boolean verticalMapRepetitionEnabled) {
@@ -1700,7 +1750,8 @@ public class MapView extends ViewGroup implements IMapView,
         /**
          * The location of the child within the map view.
          */
-        public IGeoPoint geoPoint;
+        public Double geoPointLat;
+        public Double geoPointLon;
 
         /**
          * The alignment the alignment of the view compared to the location.
@@ -1726,13 +1777,37 @@ public class MapView extends ViewGroup implements IMapView,
          * @param offsetY   the additional Y offset from the alignment location to draw the child within
          *                  the map view
          */
-        public LayoutParams(final int width, final int height, final IGeoPoint geoPoint,
+        @Deprecated
+        public LayoutParams(final int width, final int height, @NonNull final IGeoPoint geoPoint,
+                            final int alignment, final int offsetX, final int offsetY) {
+            this(width, height, geoPoint.getLatitude(), geoPoint.getLongitude(), alignment, offsetX, offsetY);
+        }
+        /**
+         * Creates a new set of layout parameters with the specified width, height and location.
+         *
+         * @param width     the width, either {@link #FILL_PARENT}, {@link #WRAP_CONTENT} or a fixed size
+         *                  in pixels
+         * @param height    the height, either {@link #FILL_PARENT}, {@link #WRAP_CONTENT} or a fixed size
+         *                  in pixels
+         * @param geoPointLat  the location of the child within the map view
+         * @param geoPointLon  the location of the child within the map view
+         * @param alignment the alignment of the view compared to the location {@link #BOTTOM_CENTER},
+         *                  {@link #BOTTOM_LEFT}, {@link #BOTTOM_RIGHT} {@link #TOP_CENTER},
+         *                  {@link #TOP_LEFT}, {@link #TOP_RIGHT}
+         * @param offsetX   the additional X offset from the alignment location to draw the child within
+         *                  the map view
+         * @param offsetY   the additional Y offset from the alignment location to draw the child within
+         *                  the map view
+         */
+        public LayoutParams(final int width, final int height, @Nullable final Double geoPointLat, @Nullable final Double geoPointLon,
                             final int alignment, final int offsetX, final int offsetY) {
             super(width, height);
-            if (geoPoint != null) {
-                this.geoPoint = geoPoint;
+            if ((geoPointLat != null) && (geoPointLon != null)) {
+                this.geoPointLat = geoPointLat;
+                this.geoPointLon = geoPointLon;
             } else {
-                this.geoPoint = new GeoPoint(0d, 0d);
+                this.geoPointLat = 0.0d;
+                this.geoPointLon = 0.0d;
             }
             this.alignment = alignment;
             this.offsetX = offsetX;
@@ -1747,13 +1822,14 @@ public class MapView extends ViewGroup implements IMapView,
          * @param c     the application environment
          * @param attrs the set of attributes fom which to extract the layout parameters values
          */
-        public LayoutParams(final Context c, final AttributeSet attrs) {
+        public LayoutParams(@NonNull final Context c, final AttributeSet attrs) {
             super(c, attrs);
-            this.geoPoint = new GeoPoint(0d, 0d);
+            this.geoPointLat = 0.0d;
+            this.geoPointLon = 0.0d;
             this.alignment = BOTTOM_CENTER;
         }
 
-        public LayoutParams(final ViewGroup.LayoutParams source) {
+        public LayoutParams(@NonNull final ViewGroup.LayoutParams source) {
             super(source);
         }
     }
@@ -1766,14 +1842,15 @@ public class MapView extends ViewGroup implements IMapView,
      * @see MapTileProviderBasic
      * @since 4.4
      */
-    public void setTileProvider(final MapTileProviderBase base) {
-        this.mTileProvider.detach();
+    public void setTileProvider(@NonNull final MapTileProviderBase base) {
+        mTileProvider.detach();
         mTileProvider.clearTileCache();
-        this.mTileProvider = base;
-        mTileProvider.getTileRequestCompleteHandlers().add(mTileRequestCompleteHandler);
+        mTileProvider = base;
+        final Collection<Handler> cHandlers = mTileProvider.getTileRequestCompleteHandlers();
+        if (!cHandlers.contains(mTileRequestCompleteHandler)) cHandlers.add(mTileRequestCompleteHandler);
         updateTileSizeForDensity(mTileProvider.getTileSource());
 
-        this.mMapOverlay = new TilesOverlay(mTileProvider, this.getContext(), horizontalMapRepetitionEnabled, verticalMapRepetitionEnabled);
+        mMapOverlay = new TilesOverlay(mTileProvider, this.getContext(), horizontalMapRepetitionEnabled, verticalMapRepetitionEnabled);
 
         mOverlayManager.setTilesOverlay(mMapOverlay);
         invalidate();
@@ -1786,7 +1863,7 @@ public class MapView extends ViewGroup implements IMapView,
      * @since 6.0.0
      */
     @Deprecated
-    public void setInitCenter(final IGeoPoint geoPoint) {
+    public void setInitCenter(@NonNull final IGeoPoint geoPoint) {
         setExpectedCenter(geoPoint);
     }
 
@@ -1815,8 +1892,38 @@ public class MapView extends ViewGroup implements IMapView,
      * @see #getMapCenter()
      * @since 6.0.0
      */
+    @Deprecated
     GeoPoint getExpectedCenter() {
-        return mCenter;
+        return new GeoPoint(mCenterLat, mCenterLon);
+    }
+
+    /**
+     * Should never be used except by the constructor of Projection.
+     * Most of the time you'll want to call {@link #getMapCenter()}.
+     * <p>
+     * This method gives to the Projection the desired map center, typically set by
+     * MapView.setExpectedCenter when you want to center a map on a particular point.
+     * <a href="https://github.com/osmdroid/osmdroid/issues/868">see issue 868</a>
+     *
+     * @see #getMapCenter()
+     * @since 6.0.0
+     */
+    double getExpectedCenterLat() {
+        return mCenterLat;
+    }
+    /**
+     * Should never be used except by the constructor of Projection.
+     * Most of the time you'll want to call {@link #getMapCenter()}.
+     * <p>
+     * This method gives to the Projection the desired map center, typically set by
+     * MapView.setExpectedCenter when you want to center a map on a particular point.
+     * <a href="https://github.com/osmdroid/osmdroid/issues/868">see issue 868</a>
+     *
+     * @see #getMapCenter()
+     * @since 6.0.0
+     */
+    double getExpectedCenterLon() {
+        return mCenterLon;
     }
 
     /**
@@ -1826,17 +1933,36 @@ public class MapView extends ViewGroup implements IMapView,
      *
      * @since 6.0.3
      */
-    public void setExpectedCenter(final IGeoPoint pGeoPoint, final long pOffsetX, final long pOffsetY) {
+    public void setExpectedCenter(@NonNull final IGeoPoint pGeoPoint, final long pOffsetX, final long pOffsetY) {
         final GeoPoint before = getProjection().getCurrentCenter();
-        mCenter = (GeoPoint) pGeoPoint;
+        mCenterLat = pGeoPoint.getLatitude();
+        mCenterLon = pGeoPoint.getLongitude();
         setMapScroll(-pOffsetX, -pOffsetY);
         resetProjection();
         final GeoPoint after = getProjection().getCurrentCenter();
         if (!after.equals(before)) {
-            ScrollEvent event = null;
-            for (MapListener mapListener : mListners) {
-                mapListener.onScroll(event != null ? event : (event = new ScrollEvent(this, 0, 0)));
-            }
+            raiseOnScrollEvent(0, 0);
+        }
+        invalidate();
+    }
+
+    /**
+     * Deferred setting of the expected next map center computed by the Projection's constructor,
+     * with no guarantee it will be 100% respected.
+     * <a href="https://github.com/osmdroid/osmdroid/issues/868">see issue 868</a>
+     *
+     * @since 6.1.18
+     */
+    public void setExpectedCenter(final double pGeoPointLat, final double pGeoPointLon, final long pOffsetX, final long pOffsetY) {
+        final Projection cProjection = getProjection();
+        final GeoPoint before = cProjection.getCurrentCenter();
+        mCenterLat = pGeoPointLat;
+        mCenterLon = pGeoPointLon;
+        setMapScroll(-pOffsetX, -pOffsetY);
+        resetProjection();
+        final GeoPoint after = cProjection.getCurrentCenter();
+        if (!after.equals(before)) {
+            raiseOnScrollEvent(0, 0);
         }
         invalidate();
     }
@@ -1844,8 +1970,15 @@ public class MapView extends ViewGroup implements IMapView,
     /**
      * @since 6.0.0
      */
-    public void setExpectedCenter(final IGeoPoint pGeoPoint) {
-        setExpectedCenter(pGeoPoint, 0, 0);
+    public void setExpectedCenter(@NonNull final IGeoPoint pGeoPoint) {
+        setExpectedCenter(pGeoPoint.getLatitude(), pGeoPoint.getLongitude(), 0, 0);
+    }
+
+    /**
+     * @since 6.1.18
+     */
+    public void setExpectedCenter(final double pGeoPointLat, final double pGeoPointLon) {
+        setExpectedCenter(pGeoPointLat, pGeoPointLon, 0, 0);
     }
 
     /**
@@ -1888,13 +2021,6 @@ public class MapView extends ViewGroup implements IMapView,
      */
     public TilesOverlay getMapOverlay() {
         return mMapOverlay;
-    }
-
-    /**
-     * @since 6.1.0
-     */
-    public void setDestroyMode(final boolean pOnDetach) {
-        mDestroyModeOnDetach = pOnDetach;
     }
 
     /**

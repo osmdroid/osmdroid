@@ -112,7 +112,7 @@ public class SampleSpeechBalloon extends BaseSampleFragment {
         marker.setTitle(pPOI.mTitle);
         marker.setPosition(pPOI.mGeoPoint);
         marker.setIcon(mBitmapDrawable);
-        mMapView.getOverlays().add(marker);
+        mMapView.getOverlayManager().add(marker);
         if (pPOI.mSpeechBalloon) {
             final SpeechBalloonOverlay speechBalloonOverlay = new SpeechBalloonOverlay();
             speechBalloonOverlay.setTitle(pPOI.mTitle);
@@ -124,7 +124,7 @@ public class SampleSpeechBalloon extends BaseSampleFragment {
             speechBalloonOverlay.setBackground(mBackground);
             speechBalloonOverlay.setDragForeground(mDragForeground);
             speechBalloonOverlay.setDragBackground(mDragBackground);
-            mMapView.getOverlays().add(speechBalloonOverlay);
+            mMapView.getOverlayManager().add(speechBalloonOverlay);
         }
     }
 

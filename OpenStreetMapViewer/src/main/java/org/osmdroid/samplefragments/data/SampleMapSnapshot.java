@@ -192,7 +192,7 @@ public class SampleMapSnapshot extends BaseSampleFragment {
     @Override
     public void onDetach() {
         mAdapter = null;
-        mScaleBarOverlay.onDetach(null);
+        mScaleBarOverlay.freeMemory(null);
         for (final String key : mMapSnapshots.keySet()) {
             final MapSnapshot mapSnapshot = mMapSnapshots.get(key);
             if (mapSnapshot != null) {

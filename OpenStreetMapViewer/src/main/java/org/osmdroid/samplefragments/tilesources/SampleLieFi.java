@@ -17,7 +17,7 @@ import org.osmdroid.tileprovider.modules.IFilesystemCache;
 import org.osmdroid.tileprovider.modules.INetworkAvailablityCheck;
 import org.osmdroid.tileprovider.modules.MapTileApproximater;
 import org.osmdroid.tileprovider.modules.MapTileAssetsProvider;
-import org.osmdroid.tileprovider.modules.MapTileDownloader;
+import org.osmdroid.tileprovider.modules.MapTileDownloaderProvider;
 import org.osmdroid.tileprovider.modules.MapTileFileArchiveProvider;
 import org.osmdroid.tileprovider.modules.MapTileFileStorageProviderBase;
 import org.osmdroid.tileprovider.modules.NetworkAvailabliltyCheck;
@@ -104,7 +104,7 @@ public class SampleLieFi extends BaseSampleFragment {
             approximationProvider.addProvider(cacheProvider);
             approximationProvider.addProvider(archiveProvider);
 
-            final MapTileDownloader downloaderProvider = new MapTileDownloaderLieFi(pTileSource, tileWriter,
+            final MapTileDownloaderProvider downloaderProvider = new MapTileDownloaderLieFiProvider(pTileSource, tileWriter,
                     aNetworkAvailablityCheck);
             mTileProviderList.add(downloaderProvider);
 
@@ -136,20 +136,20 @@ public class SampleLieFi extends BaseSampleFragment {
         }
     }
 
-    private class MapTileDownloaderLieFi extends MapTileDownloader {
+    private class MapTileDownloaderLieFiProvider extends MapTileDownloaderProvider {
 
-        private final MapTileDownloader.TileLoader mTileLoader = new TileLoader();
+        private final MapTileDownloaderProvider.TileLoader mTileLoader = new TileLoader();
 
-        MapTileDownloaderLieFi(ITileSource pTileSource, IFilesystemCache pFilesystemCache, INetworkAvailablityCheck pNetworkAvailablityCheck) {
+        MapTileDownloaderLieFiProvider(ITileSource pTileSource, IFilesystemCache pFilesystemCache, INetworkAvailablityCheck pNetworkAvailablityCheck) {
             super(pTileSource, pFilesystemCache, pNetworkAvailablityCheck);
         }
 
         @Override
-        public MapTileDownloader.TileLoader getTileLoader() {
+        public MapTileDownloaderProvider.TileLoader getTileLoader() {
             return mTileLoader;
         }
 
-        private class TileLoader extends MapTileDownloader.TileLoader {
+        private class TileLoader extends MapTileDownloaderProvider.TileLoader {
             @Override
             protected Drawable downloadTile(long pMapTileIndex, int redirectCount, String targetUrl) throws CantContinueException {
                 try {

@@ -109,9 +109,10 @@ public class DirectedLocationOverlay extends Overlay {
     // ===========================================================
 
     @Override
-    public void onDetach(MapView view) {
+    public void onDestroy() {
         mPaint = null;
         mAccuracyPaint = null;
+        super.onDestroy();
     }
 
     @Override

@@ -5,6 +5,7 @@ import android.util.Log;
 
 import org.osmdroid.api.IMapView;
 import org.osmdroid.config.Configuration;
+import org.osmdroid.tileprovider.IMapTileProviderCallback;
 import org.osmdroid.tileprovider.IRegisterReceiver;
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 import org.osmdroid.tileprovider.tilesource.BitmapTileSourceBase;
@@ -28,12 +29,15 @@ public class MapTileFilesystemProvider extends MapTileFileStorageProviderBase {
     // Constants
     // ===========================================================
 
+    public static final String CONST_MAPTILEPROVIDER_FILESISTEM = "filesystem";
+
     // ===========================================================
     // Fields
     // ===========================================================
 
     private final TileWriter mWriter = new TileWriter();
     private final AtomicReference<ITileSource> mTileSource = new AtomicReference<ITileSource>();
+    private final TileLoader mTileLoader = new TileLoader();
 
     // ===========================================================
     // Constructors
@@ -89,12 +93,12 @@ public class MapTileFilesystemProvider extends MapTileFileStorageProviderBase {
 
     @Override
     protected String getThreadGroupName() {
-        return "filesystem";
+        return CONST_MAPTILEPROVIDER_FILESISTEM;
     }
 
     @Override
     public TileLoader getTileLoader() {
-        return new TileLoader();
+        return mTileLoader;
     }
 
     @Override
@@ -124,7 +128,7 @@ public class MapTileFilesystemProvider extends MapTileFileStorageProviderBase {
         @Override
         public Drawable loadTile(final long pMapTileIndex) throws CantContinueException {
 
-            ITileSource tileSource = mTileSource.get();
+            final ITileSource tileSource = mTileSource.get();
             if (tileSource == null) {
                 return null;
             }
@@ -147,5 +151,9 @@ public class MapTileFilesystemProvider extends MapTileFileStorageProviderBase {
                 return null;
             }
         }
+
+        @IMapTileProviderCallback.TILEPROVIDERTYPE
+        @Override
+        public final int getProviderType() { return IMapTileProviderCallback.TILEPROVIDERTYPE_FILE_SYSTEM; }
     }
 }

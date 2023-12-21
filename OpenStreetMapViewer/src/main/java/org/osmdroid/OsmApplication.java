@@ -44,7 +44,7 @@ public class OsmApplication extends MultiDexApplication {
                     .detectLeakedSqlLiteObjects()
                     .detectLeakedClosableObjects()
                     .penaltyLog()
-                    .penaltyDeath()
+                    //.penaltyDeath()
                     .build());
         }
 

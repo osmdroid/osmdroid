@@ -1,64 +1,98 @@
 package org.osmdroid.tileprovider;
 
-import org.osmdroid.tileprovider.modules.MapTileModuleProviderBase;
+import android.os.SystemClock;
 
-import java.util.ArrayList;
-import java.util.Collections;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import org.osmdroid.tileprovider.modules.MapTileModuleProviderBase;
+import org.osmdroid.util.ReusablePoolDynamic;
+
 import java.util.List;
 
-public class MapTileRequestState {
+public final class MapTileRequestState implements ReusablePoolDynamic.ReusableItemSetInterface<Long> {
 
-    private final List<MapTileModuleProviderBase> mProviderQueue;
-    private final long mMapTileIndex;
-    private final IMapTileProviderCallback mCallback;
-    private int index;
+    @Nullable
+    private Long mMapTileIndex = null;
+    private int mCurrentProviderListIndex = 0;
+    @Nullable
     private MapTileModuleProviderBase mCurrentProvider;
+    private Long mStartLoadingMillis = 0L;
 
     /**
-     * @deprecated use {@link MapTileRequestState#MapTileRequestState(long, List, IMapTileProviderCallback)}  instead
+     * @deprecated use {@link MapTileRequestState#MapTileRequestState(Long, List, IMapTileProviderCallback)} instead
      */
     @Deprecated
-    public MapTileRequestState(final long pMapTleIndex,
+    public MapTileRequestState(final long pMapTileIndex,
                                final MapTileModuleProviderBase[] providers,
                                final IMapTileProviderCallback callback) {
-        mProviderQueue = new ArrayList<>();
-        Collections.addAll(mProviderQueue, providers);
-        mMapTileIndex = pMapTleIndex;
-        mCallback = callback;
+        mMapTileIndex = pMapTileIndex;
     }
 
     /**
      * @since 6.0
+     * @deprecated use {@link MapTileRequestState#MapTileRequestState(Long)} instead
      */
-    public MapTileRequestState(final long pMapTileIndex,
+    @Deprecated
+    public MapTileRequestState(@Nullable final Long pMapTileIndex,
                                final List<MapTileModuleProviderBase> providers,
                                final IMapTileProviderCallback callback) {
-        mProviderQueue = providers;
         mMapTileIndex = pMapTileIndex;
-        mCallback = callback;
+    }
+    /**
+     * @since 6.1.18
+     */
+    public MapTileRequestState(@Nullable final Long pMapTileIndex) {
+        mMapTileIndex = pMapTileIndex;
     }
 
     /**
      * @since 6.0.0
      */
-    public long getMapTile() {
+    @Nullable
+    public Long getMapTileIndex() {
         return mMapTileIndex;
     }
 
-    public IMapTileProviderCallback getCallback() {
-        return mCallback;
-    }
-
-    public boolean isEmpty() {
-        return mProviderQueue == null || index >= mProviderQueue.size();
-    }
-
-    public MapTileModuleProviderBase getNextProvider() {
-        mCurrentProvider = isEmpty() ? null : mProviderQueue.get(index++);
+    @Nullable
+    public MapTileModuleProviderBase getNextProvider(@Nullable final List<MapTileModuleProviderBase> providersList) {
+        mCurrentProvider = ((providersList == null) || (mCurrentProviderListIndex >= providersList.size())) ? null : providersList.get(mCurrentProviderListIndex++);
         return mCurrentProvider;
     }
 
+    @Nullable
     public MapTileModuleProviderBase getCurrentProvider() {
         return mCurrentProvider;
     }
+
+    public long getLoadingTimeMillis() {
+        return (SystemClock.elapsedRealtime() - mStartLoadingMillis);
+    }
+
+    @Nullable
+    @Override
+    public Long getKey() { return mMapTileIndex; }
+
+    @Override
+    public void set(@NonNull final Long key) {
+        mMapTileIndex = key;
+        mStartLoadingMillis = SystemClock.elapsedRealtime();
+        //------ same as reset() ------
+        mCurrentProviderListIndex = 0;
+        mCurrentProvider = null;
+        //-----------------------------
+    }
+
+    @Override
+    public void reset() {
+        mMapTileIndex = null;
+        mStartLoadingMillis = 0L;
+        //------ same as set() ------
+        mCurrentProviderListIndex = 0;
+        mCurrentProvider = null;
+        //---------------------------
+    }
+
+    @Override
+    public void freeMemory() { /*nothing*/ }
 }

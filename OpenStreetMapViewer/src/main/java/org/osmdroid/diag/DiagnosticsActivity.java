@@ -66,23 +66,12 @@ public class DiagnosticsActivity extends AppCompatActivity
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.diag_location:
-                probeLocation();
-                break;
-            case R.id.diag_orientation:
-                probeOrientation();
-                break;
-            case R.id.diag_permissions:
-                checkPermissions();
-                break;
-            case R.id.diag_storage:
-                probeStorage();
-                break;
-            case R.id.diag_gps:
-                probeGps();
-                break;
-        }
+        final int cId = v.getId();
+        if (cId == R.id.diag_location) probeLocation();
+        else if (cId == R.id.diag_orientation) probeOrientation();
+        else if (cId == R.id.diag_permissions) checkPermissions();
+        else if (cId == R.id.diag_storage) probeStorage();
+        else if (cId == R.id.diag_gps) probeGps();
     }
 
     public void onResume() {

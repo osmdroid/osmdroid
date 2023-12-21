@@ -96,10 +96,8 @@ public class GeopackageFeatureTilesOverlay extends TilesOverlay {
 
 
     @Override
-    public void onDetach(final MapView pMapView) {
-        super.onDetach(pMapView);
+    public void onDestroy() {
         if (geoPackage != null) {
-
             geoPackage.close();
             geoPackage = null;
         }
@@ -107,6 +105,7 @@ public class GeopackageFeatureTilesOverlay extends TilesOverlay {
         featureDao = null;
         featureTiles = null;
 
+        super.onDestroy();
     }
 
 

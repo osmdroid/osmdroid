@@ -66,13 +66,12 @@ public class AnimatedMarkerTypeEvaluator extends BaseSampleFragment implements V
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btnCache:
-                if (valueAnimator != null && valueAnimator.isRunning())
-                    valueAnimator.cancel();
-                GeoPoint random = new GeoPoint((Math.random() * 180) - 90, (Math.random() * 360) - 180);
-                valueAnimator = MarkerAnimation.animateMarkerToICS(mMapView, marker, random, new GeoPointInterpolator.Spherical());
-                break;
+        final int cId = v.getId();
+        if (cId == R.id.btnCache) {
+            if (valueAnimator != null && valueAnimator.isRunning())
+                valueAnimator.cancel();
+            GeoPoint random = new GeoPoint((Math.random() * 180) - 90, (Math.random() * 360) - 180);
+            valueAnimator = MarkerAnimation.animateMarkerToICS(mMapView, marker, random, new GeoPointInterpolator.Spherical());
         }
     }
 }

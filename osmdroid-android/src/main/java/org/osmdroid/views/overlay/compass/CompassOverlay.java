@@ -141,14 +141,14 @@ public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOr
     }
 
     @Override
-    public void onDetach(MapView mapView) {
+    public void onDestroy() {
         this.mMapView = null;
         sSmoothPaint = null;
         this.disableCompass();
         mOrientationProvider = null;
         mCompassFrameBitmap.recycle();
         mCompassRoseBitmap.recycle();
-        super.onDetach(mapView);
+        super.onDestroy();
     }
 
     /**

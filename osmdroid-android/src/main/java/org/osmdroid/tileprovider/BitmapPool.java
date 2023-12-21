@@ -7,8 +7,12 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import org.osmdroid.api.IMapView;
 import org.osmdroid.tileprovider.modules.ConfigurablePriorityThreadFactory;
+import org.osmdroid.util.ReusablePoolDynamic;
 
 import java.util.LinkedList;
 import java.util.concurrent.ExecutorService;
@@ -19,6 +23,39 @@ public class BitmapPool {
     private final LinkedList<Bitmap> mPool = new LinkedList<>();
     private final ExecutorService mExecutor = Executors.newFixedThreadPool(1,
             new ConfigurablePriorityThreadFactory(Thread.MIN_PRIORITY, getClass().getName()));
+    private final ReusablePoolDynamic<Drawable,LocalRunnable> mLocalRunnables = new ReusablePoolDynamic<Drawable, LocalRunnable>(new ReusablePoolDynamic.ReusableIndexCallback<Drawable>() {
+        @Override public ReusablePoolDynamic.ReusableItemSetInterface<Drawable> newInstance() { return new LocalRunnable(); }
+    }, 16);
+
+    private final class LocalRunnable implements Runnable, ReusablePoolDynamic.ReusableItemSetInterface<Drawable> {
+        private Drawable mDrawable;
+        @Override
+        public void run() {
+            syncRecycle(this.mDrawable);
+            mLocalRunnables.setItemElegibleToBeFreed(this, false);
+        }
+        @Nullable
+        @Override
+        public Drawable getKey() {
+            return this.mDrawable;
+        }
+        @Override
+        public void set(@NonNull final Drawable key) {
+            this.mDrawable = key;
+        }
+        @Override
+        public void reset() {
+            this.mDrawable = null;
+        }
+        @Override
+        public void freeMemory() {
+            if (this.mDrawable != null) {
+                if (mDrawable instanceof BitmapDrawable) {
+                    ((BitmapDrawable)mDrawable).getBitmap().recycle();
+                }
+            }
+        }
+    }
 
     //singleton: begin
     private BitmapPool() {
@@ -121,16 +158,11 @@ public class BitmapPool {
      * @since 6.0.0
      * The same code was duplicated in many places: now there's a unique entry point and it's async
      */
-    public void asyncRecycle(final Drawable pDrawable) {
+    public void asyncRecycle(@Nullable final Drawable pDrawable) {
         if (pDrawable == null) {
             return;
         }
-        mExecutor.execute(new Runnable() {
-            @Override
-            public void run() {
-                syncRecycle(pDrawable);
-            }
-        });
+        mExecutor.execute(mLocalRunnables.getFreeItemAndSet(pDrawable));
     }
 
     /**

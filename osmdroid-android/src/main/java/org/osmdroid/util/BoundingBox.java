@@ -15,6 +15,9 @@ import java.util.List;
 import static org.osmdroid.util.MyMath.gudermann;
 import static org.osmdroid.util.MyMath.gudermannInverse;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 /**
  * @author Nicolas Gramlich
  * @author Andreas Schildbach
@@ -25,7 +28,7 @@ public class BoundingBox implements Parcelable, Serializable {
     // Constants
     // ===========================================================
 
-    static final long serialVersionUID = 2L;
+
 
     // ===========================================================
     // Fields
@@ -40,12 +43,6 @@ public class BoundingBox implements Parcelable, Serializable {
     // Constructors
     // ===========================================================
 
-    /**
-     * @param north
-     * @param east
-     * @param south
-     * @param west
-     */
     public BoundingBox(final double north, final double east, final double south, final double west) {
         set(north, east, south, west);
     }
@@ -57,6 +54,8 @@ public class BoundingBox implements Parcelable, Serializable {
      */
     public BoundingBox() {
     }
+
+    public void set(@NonNull final GeoPoint geoPoint) { set(geoPoint.getLatitude(), geoPoint.getLongitude(), geoPoint.getLatitude(), geoPoint.getLongitude()); }
 
     /**
      * @since 6.0.0
@@ -81,6 +80,8 @@ public class BoundingBox implements Parcelable, Serializable {
         }
     }
 
+    /** @noinspection MethodDoesntCallSuperMethod*/
+    @NonNull
     public BoundingBox clone() {
         return new BoundingBox(this.mLatNorth, this.mLonEast, this.mLatSouth, this.mLonWest);
     }
@@ -88,12 +89,23 @@ public class BoundingBox implements Parcelable, Serializable {
     /**
      * @return the BoundingBox enclosing this BoundingBox and bb2 BoundingBox
      */
-    public BoundingBox concat(BoundingBox bb2) {
-        return new BoundingBox(
+    public BoundingBox concat(@NonNull final BoundingBox bb2) { return concat(bb2, null); }
+    /**
+     * @since 6.1.18
+     */
+    public BoundingBox concat(@NonNull final BoundingBox bb2, @Nullable final BoundingBox reusedOut) {
+        if (reusedOut == null) return new BoundingBox(
                 Math.max(this.mLatNorth, bb2.getLatNorth()),
                 Math.max(this.mLonEast, bb2.getLonEast()),
                 Math.min(this.mLatSouth, bb2.getLatSouth()),
                 Math.min(this.mLonWest, bb2.getLonWest()));
+        reusedOut.set(
+                Math.max(this.mLatNorth, bb2.getLatNorth()),
+                Math.max(this.mLonEast, bb2.getLonEast()),
+                Math.min(this.mLatSouth, bb2.getLatSouth()),
+                Math.min(this.mLonWest, bb2.getLonWest())
+        );
+        return reusedOut;
     }
 
     // ===========================================================
@@ -116,13 +128,29 @@ public class BoundingBox implements Parcelable, Serializable {
      *
      * @since 6.0.0
      */
+    @Deprecated
     public GeoPoint getCenterWithDateLine() {
         return new GeoPoint(getCenterLatitude(), getCenterLongitude());
     }
+    /**
+     * This version takes into consideration the date line
+     *
+     * @since 6.1.18
+     */
+    public double getCenterLatWithDateLine() {
+        return getCenterLatitude();
+    }
+    /**
+     * This version takes into consideration the date line
+     *
+     * @since 6.1.18
+     */
+    public double getCenterLonWithDateLine() {
+        return getCenterLongitude();
+    }
 
     public double getDiagonalLengthInMeters() {
-        return new GeoPoint(this.mLatNorth, this.mLonWest).distanceToAsDouble(new GeoPoint(
-                this.mLatSouth, this.mLonEast));
+        return GeoPoint.distanceToAsDouble(this.mLatNorth, this.mLonWest, this.mLatSouth, this.mLonEast);
     }
 
     public double getLatNorth() {
@@ -238,7 +266,7 @@ public class BoundingBox implements Parcelable, Serializable {
      * would be the lower left corner. {0,1} would be the upper right corner.
      */
     public PointF getRelativePositionOfGeoPointInBoundingBoxWithLinearInterpolation(
-            final double aLatitude, final double aLongitude, final PointF reuse) {
+            final double aLatitude, final double aLongitude, @Nullable final PointF reuse) {
         final PointF out = (reuse != null) ? reuse : new PointF();
         final float y = (float) ((this.mLatNorth - aLatitude) / getLatitudeSpan());
         final float x = 1 - (float) ((this.mLonEast - aLongitude) / getLongitudeSpan());
@@ -247,7 +275,7 @@ public class BoundingBox implements Parcelable, Serializable {
     }
 
     public PointF getRelativePositionOfGeoPointInBoundingBoxWithExactGudermannInterpolation(
-            final double aLatitude, final double aLongitude, final PointF reuse) {
+            final double aLatitude, final double aLongitude, @Nullable final PointF reuse) {
         final PointF out = (reuse != null) ? reuse : new PointF();
         final float y = (float) ((gudermannInverse(this.mLatNorth) - gudermannInverse(aLatitude)) / (gudermannInverse(this.mLatNorth) - gudermannInverse(this.mLatSouth)));
         final float x = 1 - (float) ((this.mLonEast - aLongitude) / getLongitudeSpan());
@@ -280,6 +308,15 @@ public class BoundingBox implements Parcelable, Serializable {
      * @return scaled bounding box
      */
     public BoundingBox increaseByScale(final float pBoundingboxPaddingRelativeScale) {
+        return increaseByScale(pBoundingboxPaddingRelativeScale, null);
+    }
+    /**
+     * Scale this bounding box by a given factor.
+     *
+     * @param pBoundingboxPaddingRelativeScale scale factor
+     * @return scaled bounding box
+     */
+    public BoundingBox increaseByScale(final float pBoundingboxPaddingRelativeScale, @Nullable final BoundingBox reusedOut) {
         if (pBoundingboxPaddingRelativeScale <= 0)
             throw new IllegalArgumentException("pBoundingboxPaddingRelativeScale must be positive");
         final TileSystem tileSystem = org.osmdroid.views.MapView.getTileSystem();
@@ -293,30 +330,42 @@ public class BoundingBox implements Parcelable, Serializable {
         final double lonSpanHalf = getLongitudeSpanWithDateLine() / 2 * pBoundingboxPaddingRelativeScale;
         final double latEast = tileSystem.cleanLongitude(lonCenter + lonSpanHalf);
         final double latWest = tileSystem.cleanLongitude(lonCenter - lonSpanHalf);
-        return new BoundingBox(latNorth, latEast, latSouth, latWest);
+        if (reusedOut == null) return new BoundingBox(latNorth, latEast, latSouth, latWest);
+        reusedOut.set(latNorth, latEast, latSouth, latWest);
+        return reusedOut;
     }
 
     // ===========================================================
     // Methods from SuperClass/Interfaces
     // ===========================================================
 
+    @NonNull
     @Override
     public String toString() {
-        return new StringBuffer().append("N:").append(this.mLatNorth).append("; E:")
-                .append(this.mLonEast).append("; S:").append(this.mLatSouth).append("; W:")
-                .append(this.mLonWest).toString();
+        return "N:" + this.mLatNorth + "; E:" +
+                this.mLonEast + "; S:" + this.mLatSouth + "; W:" +
+                this.mLonWest;
     }
 
     // ===========================================================
     // Methods
     // ===========================================================
 
-    public GeoPoint bringToBoundingBox(final double aLatitude, final double aLongitude) {
-        return new GeoPoint(Math.max(this.mLatSouth, Math.min(this.mLatNorth, aLatitude)),
-                Math.max(this.mLonWest, Math.min(this.mLonEast, aLongitude)));
+    public GeoPoint bringToBoundingBox(final double aLatitude, final double aLongitude) { return bringToBoundingBox(aLatitude, aLongitude, null); }
+    public GeoPoint bringToBoundingBox(final double aLatitude, final double aLongitude, @Nullable final GeoPoint reusedOut) {
+        if (reusedOut == null) return new GeoPoint(
+                Math.max(this.mLatSouth, Math.min(this.mLatNorth, aLatitude)),
+                Math.max(this.mLonWest, Math.min(this.mLonEast, aLongitude))
+        );
+        reusedOut.setCoords(
+                Math.max(this.mLatSouth, Math.min(this.mLatNorth, aLatitude)),
+                Math.max(this.mLonWest, Math.min(this.mLonEast, aLongitude))
+        );
+        return reusedOut;
     }
 
-    public static BoundingBox fromGeoPoints(final List<? extends IGeoPoint> partialPolyLine) {
+    public static BoundingBox fromGeoPoints(@NonNull final List<? extends IGeoPoint> partialPolyLine) { return fromGeoPoints(partialPolyLine, null); }
+    public static BoundingBox fromGeoPoints(@NonNull final List<? extends IGeoPoint> partialPolyLine, @Nullable final BoundingBox reusedOut) {
         double minLat = Double.MAX_VALUE;
         double minLon = Double.MAX_VALUE;
         double maxLat = -Double.MAX_VALUE;
@@ -331,10 +380,12 @@ public class BoundingBox implements Parcelable, Serializable {
             maxLon = Math.max(maxLon, longitude);
         }
 
-        return new BoundingBox(maxLat, maxLon, minLat, minLon);
+        if (reusedOut == null) return new BoundingBox(maxLat, maxLon, minLat, minLon);
+        reusedOut.set(maxLat, maxLon, minLat, minLon);
+        return reusedOut;
     }
 
-    public boolean contains(final IGeoPoint pGeoPoint) {
+    public boolean contains(@NonNull final IGeoPoint pGeoPoint) {
         return contains(pGeoPoint.getLatitude(), pGeoPoint.getLongitude());
     }
 
@@ -418,11 +469,8 @@ public class BoundingBox implements Parcelable, Serializable {
      * returns true if there is any overlap from this to the input bounding box
      * edges includes of a match
      * sensitive to vertical and horiztonal map wrapping
-     *
-     * @param pBoundingBox
-     * @return
      */
-    public boolean overlaps(final BoundingBox pBoundingBox, double pZoom) {
+    public boolean overlaps(@NonNull final BoundingBox pBoundingBox, final double pZoom) {
 
         //FIXME this is a total hack but it works around a number of issues related to vertical map
         //replication and horiztonal replication that can cause polygons to completely disappear when
@@ -509,16 +557,26 @@ public class BoundingBox implements Parcelable, Serializable {
         return latMatch && lonMatch;
     }
 
-    public static BoundingBox fromGeoPointsSafe(List<GeoPoint> points) {
+    public static BoundingBox fromGeoPointsSafe(@NonNull final List<GeoPoint> points) { return fromGeoPointsSafe(points, null); }
+    public static BoundingBox fromGeoPointsSafe(@NonNull final List<GeoPoint> points, @Nullable final BoundingBox reusedOut) {
         try {
-            return fromGeoPoints(points);
+            return fromGeoPoints(points, reusedOut);
         } catch (IllegalArgumentException e) {
             final TileSystem tileSystem = org.osmdroid.views.MapView.getTileSystem();
-            return new BoundingBox(tileSystem.getMaxLatitude(),
+            if (reusedOut == null) return new BoundingBox(
+                    tileSystem.getMaxLatitude(),
                     tileSystem.getMaxLongitude(),
                     tileSystem.getMinLatitude(),
                     tileSystem.getMinLongitude()
             );
+            reusedOut.set(
+                    tileSystem.getMaxLatitude(),
+                    tileSystem.getMaxLongitude(),
+                    tileSystem.getMinLatitude(),
+                    tileSystem.getMinLongitude()
+            );
+            return reusedOut;
         }
     }
+
 }

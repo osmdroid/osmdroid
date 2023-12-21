@@ -1,6 +1,7 @@
 package org.osmdroid.samplefragments.geopackage;
 
 import android.content.DialogInterface;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.InputDevice;
@@ -15,6 +16,7 @@ import org.osmdroid.R;
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.api.IMapView;
 import org.osmdroid.config.Configuration;
+import org.osmdroid.events.MapAdapter;
 import org.osmdroid.events.MapListener;
 import org.osmdroid.events.ScrollEvent;
 import org.osmdroid.events.ZoomEvent;
@@ -38,6 +40,8 @@ import mil.nga.geopackage.GeoPackageFactory;
 import mil.nga.geopackage.GeoPackageManager;
 
 import static org.osmdroid.samplefragments.events.SampleMapEventListener.df;
+
+import androidx.annotation.NonNull;
 
 /**
  * One way for viewing geopackage tiles to the osmdroid view
@@ -179,11 +183,12 @@ public class GeopackageFeatureTiles extends BaseSampleFragment {
                             mMapView.getOverlayManager().add(overlay);
                         }
                     }
+                    geoPackage.close();
                 }
             }
         }
 
-        mMapView.setMapListener(new MapListener() {
+        mMapView.addMapListener(new MapAdapter() {
             @Override
             public boolean onScroll(ScrollEvent event) {
                 Log.i(IMapView.LOGTAG, System.currentTimeMillis() + " onScroll " + event.getX() + "," + event.getY());

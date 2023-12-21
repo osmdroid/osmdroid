@@ -1,11 +1,16 @@
 package org.osmdroid.tileprovider;
 
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 import org.osmdroid.tileprovider.modules.IFilesystemCache;
 import org.osmdroid.tileprovider.modules.MapTileModuleProviderBase;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
+import org.osmdroid.util.ReusablePoolDynamic;
 import org.osmdroid.util.MapTileContainer;
 import org.osmdroid.util.MapTileIndex;
 
@@ -35,6 +40,7 @@ public class MapTileProviderArray extends MapTileProviderBase implements MapTile
     private final Map<Long, Integer> mWorking = new HashMap<>();
     private IRegisterReceiver mRegisterReceiver = null;
     protected final List<MapTileModuleProviderBase> mTileProviderList;
+    private final ReusablePoolDynamic<Long,MapTileRequestState> mReusablePoolDynamic;
 
     /**
      * @since 6.0.2
@@ -66,6 +72,12 @@ public class MapTileProviderArray extends MapTileProviderBase implements MapTile
         mRegisterReceiver = aRegisterReceiver;
         mTileProviderList = new ArrayList<>();
         Collections.addAll(mTileProviderList, pTileProviderArray);
+        mReusablePoolDynamic = new ReusablePoolDynamic<>(new ReusablePoolDynamic.ReusableIndexCallback<Long>() {
+            @Override
+            public ReusablePoolDynamic.ReusableItemSetInterface<Long> newInstance() {
+                return new MapTileRequestState(null);
+            }
+        }, 32);
     }
 
     @Override
@@ -131,8 +143,8 @@ public class MapTileProviderArray extends MapTileProviderBase implements MapTile
             mWorking.put(pMapTileIndex, WORKING_STATUS_STARTED);
         }
 
-        final MapTileRequestState state = new MapTileRequestState(pMapTileIndex, mTileProviderList, MapTileProviderArray.this);
-        runAsyncNextProvider(state);
+        final MapTileRequestState cCachedItem = mReusablePoolDynamic.getFreeItemAndSet(pMapTileIndex);
+        runAsyncNextProvider(cCachedItem, MapTileProviderArray.this);
 
         return tile;
     }
@@ -140,45 +152,70 @@ public class MapTileProviderArray extends MapTileProviderBase implements MapTile
     /**
      * @since 6.0.0
      */
-    private void remove(final long pMapTileIndex) {
+    private void remove(final MapTileRequestState pState) {
+        final Long cMapTileIndex = pState.getMapTileIndex();
+        if (cMapTileIndex == null) return;
         synchronized (mWorking) {
-            mWorking.remove(pMapTileIndex);
+            mWorking.remove(cMapTileIndex);
         }
+        mReusablePoolDynamic.setItemElegibleToBeFreed(pState, false);
     }
 
+    /** {@inheritDoc} */
+    @Override
+    public void mapTileRequestStarted(final MapTileRequestState aState, final int pending, final int working) {
+        super.mapTileRequestStarted(aState, pending, working);
+    }
+
+    /** {@inheritDoc} */
     @Override
     public void mapTileRequestCompleted(final MapTileRequestState aState, final Drawable aDrawable) {
         super.mapTileRequestCompleted(aState, aDrawable);
-        remove(aState.getMapTile());
+        remove(aState);
     }
 
+    /** {@inheritDoc} */
     @Override
     public void mapTileRequestFailed(final MapTileRequestState aState) {
-        runAsyncNextProvider(aState);
+        super.mapTileRequestFailed(aState);
+        runAsyncNextProvider(aState, MapTileProviderArray.this);
     }
 
+    /** {@inheritDoc} */
     @Override
     public void mapTileRequestFailedExceedsMaxQueueSize(final MapTileRequestState aState) {
-        super.mapTileRequestFailed(aState);
-        remove(aState.getMapTile());
+        super.mapTileRequestFailedExceedsMaxQueueSize(aState);
+        remove(aState);
     }
 
+    /** {@inheritDoc} */
     @Override
     public void mapTileRequestExpiredTile(MapTileRequestState aState, Drawable aDrawable) {
         super.mapTileRequestExpiredTile(aState, aDrawable);
+        final Long cMapTileIndex = aState.getMapTileIndex();
+        if (cMapTileIndex == null) return;
         synchronized (mWorking) {
-            mWorking.put(aState.getMapTile(), WORKING_STATUS_FOUND);
+            mWorking.put(cMapTileIndex, WORKING_STATUS_FOUND);
         }
 
         // Continue through the provider chain
-        runAsyncNextProvider(aState);
+        runAsyncNextProvider(aState, MapTileProviderArray.this);
     }
 
+    /** {@inheritDoc} */
+    @Override
+    public void mapTileRequestDiscartedDueToOutOfViewBounds(MapTileRequestState aState) {
+        super.mapTileRequestDiscartedDueToOutOfViewBounds(aState);
+        remove(aState);
+    }
+
+    /** {@inheritDoc} */
     @Override
     public IFilesystemCache getTileWriter() {
         return null;
     }
 
+    /** {@inheritDoc} */
     @Override
     public long getQueueSize() {
         synchronized (mWorking) {
@@ -190,21 +227,23 @@ public class MapTileProviderArray extends MapTileProviderBase implements MapTile
      * We want to not use a provider that doesn't exist anymore in the chain, and we want to not use
      * a provider that requires a data connection when one is not available.
      */
-    protected MapTileModuleProviderBase findNextAppropriateProvider(final MapTileRequestState aState) {
+    @Nullable
+    protected MapTileModuleProviderBase findNextAppropriateProvider(@NonNull final MapTileRequestState aState) {
         MapTileModuleProviderBase provider;
         boolean providerDoesntExist = false, providerCantGetDataConnection = false, providerCantServiceZoomlevel = false;
         // The logic of the while statement is
         // "Keep looping until you get null, or a provider that still exists
         // and has a data connection if it needs one and can service the zoom level,"
+        int zoomLevel;
         do {
-            provider = aState.getNextProvider();
+            provider = aState.getNextProvider(mTileProviderList);
             // Perform some checks to see if we can use this provider
             // If any of these are true, then that disqualifies the provider for this tile request.
             if (provider != null) {
                 providerDoesntExist = !this.getProviderExists(provider);
-                providerCantGetDataConnection = !useDataConnection()
-                        && provider.getUsesDataConnection();
-                int zoomLevel = MapTileIndex.getZoom(aState.getMapTile());
+                providerCantGetDataConnection = !useDataConnection() && provider.getUsesDataConnection();
+                //noinspection DataFlowIssue
+                zoomLevel = MapTileIndex.getZoom(aState.getMapTileIndex());
                 providerCantServiceZoomlevel = zoomLevel > provider.getMaximumZoomLevel()
                         || zoomLevel < provider.getMinimumZoomLevel();
             }
@@ -216,20 +255,33 @@ public class MapTileProviderArray extends MapTileProviderBase implements MapTile
     /**
      * @since 6.0.2
      */
-    private void runAsyncNextProvider(final MapTileRequestState pState) {
+    private void runAsyncNextProvider(@Nullable final MapTileRequestState pState, @NonNull final IMapTileProviderCallback callback) {
+        final Long cMapTileIndex;
+        if ((pState == null) || ((cMapTileIndex = pState.getMapTileIndex()) == null)) return;
         final MapTileModuleProviderBase nextProvider = findNextAppropriateProvider(pState);
         if (nextProvider != null) {
-            nextProvider.loadMapTileAsync(pState);
+            nextProvider.loadMapTileAsync(pState, callback);
             return;
         }
-        final Integer status; // as Integer (and not int) for concurrency reasons
+        final Integer status;
         synchronized (mWorking) {
-            status = mWorking.get(pState.getMapTile());
+            status = mWorking.get(cMapTileIndex);
         }
-        if (status != null && status == WORKING_STATUS_STARTED) {
-            super.mapTileRequestFailed(pState);
+        if (status != null) {
+            switch (status) {
+                case WORKING_STATUS_STARTED: {
+                    super.mapTileRequestFailed(pState);
+                    break;
+                }
+                case WORKING_STATUS_FOUND: {
+                    super.mapTileRequestDoneButUnknown(pState); //<-- needed to notify a "finish/done" operation on a State because
+                                                                // for each "Loading X,Y,Z tile" action a corresponding "Completed",
+                                                                // "Failed" OR a simple "Done" action is needed for "close" that specific request
+                    break;
+                }
+            }
         }
-        remove(pState.getMapTile());
+        remove(pState);
     }
 
     public boolean getProviderExists(final MapTileModuleProviderBase provider) {
@@ -263,13 +315,22 @@ public class MapTileProviderArray extends MapTileProviderBase implements MapTile
     }
 
     @Override
-    public void setTileSource(final ITileSource aTileSource) {
+    public void setTileSource(@NonNull final ITileSource aTileSource) {
         super.setTileSource(aTileSource);
 
         synchronized (mTileProviderList) {
             for (final MapTileModuleProviderBase tileProvider : mTileProviderList) {
                 tileProvider.setTileSource(aTileSource);
                 clearTileCache();
+            }
+        }
+    }
+
+    @Override
+    public void onViewBoundingBoxChanged(@NonNull final Rect fromBounds, final int fromZoom, @NonNull final Rect toBounds, final int toZoom) {
+        synchronized (mTileProviderList) {
+            for (final MapTileModuleProviderBase tileProvider : mTileProviderList) {
+                tileProvider.onViewBoundingBoxChanged(fromBounds, fromZoom, toBounds, toZoom);
             }
         }
     }

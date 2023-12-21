@@ -19,7 +19,7 @@ java {
     withJavadocJar()
 }
 
-tasks.withType(Javadoc) {
+tasks.withType(Javadoc).configureEach {
     failOnError false
     options.addStringOption('Xdoclint:none', '-quiet')
     options.addStringOption('encoding', 'UTF-8')
@@ -27,33 +27,42 @@ tasks.withType(Javadoc) {
 }
 
 dependencies {
+    constraints {
+        implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.8.0") {
+            because("kotlin-stdlib-jdk7 is now a part of kotlin-stdlib")
+        }
+        implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.0") {
+            because("kotlin-stdlib-jdk8 is now a part of kotlin-stdlib")
+        }
+    }
+
+    implementation("androidx.annotation:annotation:1.7.0")
     implementation 'org.apache.httpcomponents:httpmime:4.5.13'
     implementation 'org.apache.james:apache-mime4j:0.8.7'
     implementation 'org.xerial:sqlite-jdbc:3.36.0.3'
-
 
     testImplementation "junit:junit:${project.property('junit.version')}"
 }
 
 //copy the instrumentation tests from the maven osmdroid-android-it src folder
-task preBuildTask1(type: Copy) {
+tasks.register('preBuildTask1', Copy) {
+    dependsOn compileJava
     println("copying StreamUtils sources")
     description 'copy java classes from osmdroid-android.'
     from("${rootDir}/osmdroid-android/src/main/java/org/osmdroid/tileprovider/util/StreamUtils.java")
     into "src/main/java/org/osmdroid/tileprovider/util/"
-
 }
 
-task preBuildTask2(type: Copy) {
+tasks.register('preBuildTask2', Copy) {
+    dependsOn preBuildTask1
     println("copying GEMF sources")
     description 'copy java classes from osmdroid-android.'
     from("${rootDir}/osmdroid-android/src/main/java/org/osmdroid/util/GEMFFile.java")
     into "src/main/java/org/osmdroid/util/"
-
 }
 
-
-task preBuildTask3(type: Copy) {
+tasks.register('preBuildTask3', Copy) {
+    dependsOn preBuildTask2
     println("copying api sources")
     description 'copy java classes from osmdroid-android.'
     from("${rootDir}/osmdroid-android/src/main/java/org/osmdroid/api/") {
@@ -63,11 +72,10 @@ task preBuildTask3(type: Copy) {
         exclude 'IProjection.java'
     }
     into "src/main/java/org/osmdroid/api/"
-
 }
 
-
-task preBuildTask4(type: Delete) {
+tasks.register('preBuildTask4', Delete) {
+    dependsOn preBuildTask3
     println("removing android specific api sources")
     delete "${projectDir}/src/main/java/org/osmdroid/api/"
     delete "${projectDir}/src/main/java/org/osmdroid/api/IMyLocationOverlay.java"
@@ -75,11 +83,6 @@ task preBuildTask4(type: Delete) {
     delete "${projectDir}/src/main/java/org/osmdroid/api/Marker.java"
     delete "${projectDir}/src/main/java/org/osmdroid/api/IProjection.java"
 }
-
-compileJava.dependsOn preBuildTask1
-compileJava.dependsOn preBuildTask2
-compileJava.dependsOn preBuildTask3
-compileJava.dependsOn preBuildTask4
 
 afterEvaluate {
     publishing {

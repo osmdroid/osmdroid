@@ -149,7 +149,7 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 	}
 
 	@Override
-	public void onDetach(MapView mapView) {
+	public void onDestroy() {
 		this.disableMyLocation();
 		/*if (mPersonBitmap != null) {
 			mPersonBitmap.recycle();
@@ -170,7 +170,7 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 			mMyLocationProvider.destroy();
 
 		mMyLocationProvider = null;
-		super.onDetach(mapView);
+		super.onDestroy();
 	}
 
 	// ===========================================================

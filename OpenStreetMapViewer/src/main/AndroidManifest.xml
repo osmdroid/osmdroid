@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="org.osmdroid"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
     <application
@@ -24,7 +23,8 @@
         <activity
             android:name=".intro.IntroActivity"
             android:icon="@drawable/icon"
-            android:label="@string/app_name">
+            android:label="@string/app_name"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -46,7 +46,8 @@
         <activity
             android:name=".MainActivity"
             android:icon="@drawable/icon"
-            android:label="@string/app_name">
+            android:label="@string/app_name"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -66,7 +67,8 @@
         <activity
             android:name=".StarterMapActivity"
             android:icon="@drawable/icon"
-            android:label="OSMDroid Sample Map">
+            android:label="OSMDroid Sample Map"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -75,7 +77,8 @@
         </activity>
         <activity
             android:name=".samples.SampleWithMinimapItemizedoverlay"
-            android:label="OSMapView with ItemizedOverlay">
+            android:label="OSMapView with ItemizedOverlay"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -94,7 +97,8 @@
         -->
         <activity
             android:name=".samples.SampleWithTilesOverlay"
-            android:label="OSMapView with Tiles Overlay">
+            android:label="OSMapView with Tiles Overlay"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -103,7 +107,8 @@
         </activity>
         <activity
             android:name=".samples.SampleWithTilesOverlayAndCustomTileSource"
-            android:label="OSMapView with Custom Tiles">
+            android:label="OSMapView with Custom Tiles"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -112,7 +117,8 @@
         </activity>
         <activity
             android:name=".BugsTestingActivity"
-            android:label="Bug Drivers">
+            android:label="Bug Drivers"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -128,7 +134,8 @@
         -->
         <activity
             android:name=".debug.browser.CacheBrowserActivity"
-            android:label="Cache Browser">
+            android:label="Cache Browser"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -138,7 +145,8 @@
 
         <activity
             android:name=".debug.CacheAnalyzerActivity"
-            android:label="Cache Analyzer">
+            android:label="Cache Analyzer"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -147,7 +155,8 @@
         </activity>
         <activity
             android:name=".ExtraSamplesActivity"
-            android:label="More Samples">
+            android:label="More Samples"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -156,7 +165,8 @@
         </activity>
         <activity
             android:name=".bugtestfragments.WeathForceActivity"
-            android:label="WeathForce Test">
+            android:label="WeathForce Test"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -166,7 +176,8 @@
         <activity
             android:name=".PreferenceActivity"
             android:label="Open Map Preferences"
-            android:windowSoftInputMode="stateHidden">
+            android:windowSoftInputMode="stateHidden"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -176,7 +187,8 @@
         <activity
             android:name=".LicenseActivity"
             android:label="Licenses"
-            android:windowSoftInputMode="stateHidden">
+            android:windowSoftInputMode="stateHidden"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -185,7 +197,8 @@
         </activity>
         <activity
             android:name=".diag.DiagnosticsActivity"
-            android:label="Diagnostics">
+            android:label="Diagnostics"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 

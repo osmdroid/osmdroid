@@ -15,7 +15,7 @@ import java.util.LinkedHashSet;
  */
 public class TileStates {
 
-    private Collection<Runnable> mRunAfters = new LinkedHashSet<>();
+    private final Collection<Runnable> mRunAfters = new LinkedHashSet<>();
     private boolean mDone;
     private int mTotal;
     private int mUpToDate;

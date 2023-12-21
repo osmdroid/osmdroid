@@ -1,7 +1,6 @@
 package org.osmdroid.views.overlay;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -11,17 +10,25 @@ import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.util.TypedValue;
 import android.view.MotionEvent;
 
+import androidx.annotation.ColorInt;
+import androidx.annotation.MainThread;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.UiThread;
+
 import org.osmdroid.tileprovider.BitmapPool;
-import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.RectL;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.MapViewRepository;
 import org.osmdroid.views.Projection;
 import org.osmdroid.views.overlay.infowindow.MarkerInfoWindow;
+
+import java.util.LinkedHashMap;
 
 /**
  * A marker is an icon placed at a particular point on the map's surface that can have a popup-{@link org.osmdroid.views.overlay.infowindow.InfoWindow} (a bubble)
@@ -51,8 +58,9 @@ public class Marker extends OverlayWithIW {
     protected int mTextLabelFontSize = 24;
 
     /*attributes for standard features:*/
+    @Nullable
     protected Drawable mIcon;
-    protected GeoPoint mPosition;
+    protected final GeoPoint mPosition = new GeoPoint(0.0d, 0.0d);
     protected float mBearing;
     protected float mAnchorU, mAnchorV;
     protected float mIWAnchorU, mIWAnchorV;
@@ -63,13 +71,13 @@ public class Marker extends OverlayWithIW {
     protected OnMarkerDragListener mOnMarkerDragListener;
 
     /*attributes for non-standard features:*/
+    @Nullable
     protected Drawable mImage;
     protected boolean mPanToView;
     protected float mDragOffsetY;
 
     /*internals*/
     protected Point mPositionPixels;
-    protected Resources mResources;
 
     /**
      * @since 6.0.3
@@ -87,19 +95,27 @@ public class Marker extends OverlayWithIW {
     private boolean mDisplayed;
     private final Rect mRect = new Rect();
     private final Rect mOrientedMarkerRect = new Rect();
-    private Paint mPaint;
+    //private Paint mPaint;
+    private final Paint mBackgroundPaint = new Paint();
+    private final Paint mTextPaint = new Paint();
+    private final Canvas mImageCanvas = new Canvas();
+    private static final int CONST_TEXT_ICONS_CACHE_CAPACITY = 32;
+    private final LinkedHashMap<Long, BitmapDrawable> mTextIconsCache = new LinkedHashMap<Long, BitmapDrawable>(CONST_TEXT_ICONS_CACHE_CAPACITY, 0.1f, true) {
+        @Override
+        protected boolean removeEldestEntry(Entry eldest) {
+            return (mTextIconsCache.size() >= CONST_TEXT_ICONS_CACHE_CAPACITY);
+        }
+    };
 
-    public Marker(MapView mapView) {
+    public Marker(@NonNull final MapView mapView) {
         this(mapView, (mapView.getContext()));
     }
 
-    public Marker(MapView mapView, final Context resourceProxy) {
+    public Marker(@NonNull final MapView mapView, @Nullable final Context resourceProxy) {
         super();
         mMapViewRepository = mapView.getRepository();
-        mResources = mapView.getContext().getResources();
         mBearing = 0.0f;
         mAlpha = 1.0f; //opaque
-        mPosition = new GeoPoint(0.0, 0.0);
         mAnchorU = ANCHOR_CENTER;
         mAnchorV = ANCHOR_CENTER;
         mIWAnchorU = ANCHOR_CENTER;
@@ -112,6 +128,12 @@ public class Marker extends OverlayWithIW {
         mFlat = false; //billboard
         mOnMarkerClickListener = null;
         mOnMarkerDragListener = null;
+        mTextPaint.setAntiAlias(true);
+        mTextPaint.setTypeface(Typeface.DEFAULT_BOLD);
+        mTextPaint.setTextAlign(Paint.Align.LEFT);
+        this.setTextLabelFontSize(mTextLabelFontSize);
+        this.setTextLabelBackgroundColor(mTextLabelBackgroundColor);
+        this.setTextLabelForegroundColor(mTextLabelForegroundColor);
         setDefaultIcon();
         setInfoWindow(mMapViewRepository.getDefaultMarkerInfoWindow());
     }
@@ -127,7 +149,7 @@ public class Marker extends OverlayWithIW {
      *
      * @param icon if null, the default osmdroid marker is used.
      */
-    public void setIcon(final Drawable icon) {
+    public void setIcon(@Nullable final Drawable icon) {
         if (icon != null) {
             mIcon = icon;
         } else {
@@ -146,30 +168,33 @@ public class Marker extends OverlayWithIW {
     /**
      * @since 6.0.3
      */
+    @UiThread @MainThread
     public void setTextIcon(final String pText) {
-        final Paint background = new Paint();
-        background.setColor(mTextLabelBackgroundColor);
-        final Paint p = new Paint();
-        p.setTextSize(mTextLabelFontSize);
-        p.setColor(mTextLabelForegroundColor);
-        p.setAntiAlias(true);
-        p.setTypeface(Typeface.DEFAULT_BOLD);
-        p.setTextAlign(Paint.Align.LEFT);
-        final int width = (int) (p.measureText(pText) + 0.5f);
-        final float baseline = (int) (-p.ascent() + 0.5f);
-        final int height = (int) (baseline + p.descent() + 0.5f);
-        final Bitmap image = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-        final Canvas c = new Canvas(image);
-        c.drawPaint(background);
-        c.drawText(pText, 0, baseline, p);
-        mIcon = new BitmapDrawable(mResources, image);
+        final int width = (int) (mTextPaint.measureText(pText) + 0.5f);
+        final float baseline = (int) (-mTextPaint.ascent() + 0.5f);
+        final int height = (int) (baseline + mTextPaint.descent() + 0.5f);
+        BitmapDrawable imageDrawable = null;
+        final long cKey = (((long)width) << 32) | (height & 0xffffffffL);
+        if (mTextIconsCache.containsKey(cKey)) imageDrawable = mTextIconsCache.get(cKey);
+        Bitmap image;
+        if ((imageDrawable != null) && ((image = imageDrawable.getBitmap()) != null) &&
+                (width <= image.getWidth()) && (height <= image.getHeight()) &&
+                (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
+        ) {
+            image.reconfigure(width, height, image.getConfig());
+        } else image = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        mImageCanvas.setBitmap(image);
+        mImageCanvas.drawPaint(mBackgroundPaint);
+        mImageCanvas.drawText(pText, 0, baseline, mTextPaint);
+        mTextIconsCache.put(cKey, (imageDrawable = new BitmapDrawable(image)));
+        mIcon = imageDrawable;
         setAnchor(ANCHOR_CENTER, ANCHOR_CENTER);
     }
 
     /**
-     * @return
      * @since 6.0.0?
      */
+    @Nullable
     public Drawable getIcon() {
         return mIcon;
     }
@@ -180,16 +205,15 @@ public class Marker extends OverlayWithIW {
 
     /**
      * sets the location on the planet where the icon is rendered
-     *
-     * @param position
      */
-    public void setPosition(GeoPoint position) {
-        mPosition = position.clone();
+    public void setPosition(@NonNull final GeoPoint position) {
+        mPosition.setCoords(position.getLatitude(), position.getLongitude());
+        mPosition.setAltitude(position.getAltitude());
         if (isInfoWindowShown()) {
             closeInfoWindow();
             showInfoWindow();
         }
-        mBounds = new BoundingBox(position.getLatitude(), position.getLongitude(), position.getLatitude(), position.getLongitude());
+        mBounds.set(position);
     }
 
     public float getRotation() {
@@ -198,8 +222,6 @@ public class Marker extends OverlayWithIW {
 
     /**
      * rotates the icon in relation to the map
-     *
-     * @param rotation
      */
     public void setRotation(float rotation) {
         mBearing = rotation;
@@ -247,31 +269,30 @@ public class Marker extends OverlayWithIW {
      * Removes this Marker from the MapView.
      * Note that this method will operate only if the Marker is in the MapView overlays
      * (it should not be included in a container like a FolderOverlay).
-     *
-     * @param mapView
      */
-    public void remove(MapView mapView) {
-        mapView.getOverlays().remove(this);
+    public void remove(@NonNull final MapView mapView) {
+        mapView.getOverlayManager().remove(this);
     }
 
-    public void setOnMarkerClickListener(OnMarkerClickListener listener) {
+    public void setOnMarkerClickListener(@Nullable final OnMarkerClickListener listener) {
         mOnMarkerClickListener = listener;
     }
 
-    public void setOnMarkerDragListener(OnMarkerDragListener listener) {
+    public void setOnMarkerDragListener(@Nullable final OnMarkerDragListener listener) {
         mOnMarkerDragListener = listener;
     }
 
     /**
      * set an image to be shown in the InfoWindow  - this is not the marker icon
      */
-    public void setImage(Drawable image) {
+    public void setImage(@Nullable final Drawable image) {
         mImage = image;
     }
 
     /**
      * get the image to be shown in the InfoWindow - this is not the marker icon
      */
+    @Nullable
     public Drawable getImage() {
         return mImage;
     }
@@ -313,7 +334,7 @@ public class Marker extends OverlayWithIW {
      * shows the info window, if it's open, this will close and reopen it
      */
     public void showInfoWindow() {
-        if (mInfoWindow == null)
+        if ((mInfoWindow == null) || (mIcon == null))
             return;
         final int markerWidth = mIcon.getIntrinsicWidth();
         final int markerHeight = mIcon.getIntrinsicHeight();
@@ -336,7 +357,7 @@ public class Marker extends OverlayWithIW {
     public boolean isInfoWindowShown() {
         if (mInfoWindow instanceof MarkerInfoWindow) {
             MarkerInfoWindow iw = (MarkerInfoWindow) mInfoWindow;
-            return (iw != null) && iw.isOpen() && (iw.getMarkerReference() == this);
+            return iw.isOpen() && (iw.getMarkerReference() == this);
         } else
             return super.isInfoWindowOpen();
     }
@@ -352,52 +373,42 @@ public class Marker extends OverlayWithIW {
 
         float rotationOnScreen = (mFlat ? -mBearing : -pj.getOrientation() - mBearing);
         drawAt(canvas, mPositionPixels.x, mPositionPixels.y, rotationOnScreen);
-        if (isInfoWindowShown()) {
-            //showInfoWindow();
+        if (isInfoWindowShown() && (mInfoWindow != null)) {
             mInfoWindow.draw();
         }
     }
 
-    /**
-     * Null out the static references when the MapView is detached to prevent memory leaks.
-     */
     @Override
-    public void onDetach(MapView mapView) {
+    public void onDestroy() {
         BitmapPool.getInstance().asyncRecycle(mIcon);
         mIcon = null;
         BitmapPool.getInstance().asyncRecycle(mImage);
         //cleanDefaults();
         this.mOnMarkerClickListener = null;
         this.mOnMarkerDragListener = null;
-        this.mResources = null;
         setRelatedObject(null);
         if (isInfoWindowShown())
             closeInfoWindow();
-        //	//if we're using the shared info window, this will cause all instances to close
 
         mMapViewRepository = null;
         setInfoWindow(null);
-        onDestroy();
-
-
-        super.onDetach(mapView);
+        super.onDestroy();
     }
-
 
     /**
      * Prevent memory leaks and call this when you're done with the map
-     * reference https://github.com/MKergall/osmbonuspack/pull/210
+     * reference <a href="https://github.com/MKergall/osmbonuspack/pull/210">...</a>
      */
     @Deprecated
     public static void cleanDefaults() {
     }
 
-    public boolean hitTest(final MotionEvent event, final MapView mapView) {
+    public boolean hitTest(@NonNull final MotionEvent event, @Nullable final MapView mapView) {
         return mIcon != null && mDisplayed && mOrientedMarkerRect.contains((int) event.getX(), (int) event.getY()); // "!=null": fix for #1078
     }
 
     @Override
-    public boolean onSingleTapConfirmed(final MotionEvent event, final MapView mapView) {
+    public boolean onSingleTapConfirmed(@NonNull final MotionEvent event, @NonNull final MapView mapView) {
         boolean touched = hitTest(event, mapView);
         if (touched) {
             if (mOnMarkerClickListener == null) {
@@ -409,7 +420,7 @@ public class Marker extends OverlayWithIW {
             return touched;
     }
 
-    public void moveToEventPosition(final MotionEvent event, final MapView mapView) {
+    public void moveToEventPosition(@NonNull final MotionEvent event, @NonNull final MapView mapView) {
         float offsetY = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_MM, mDragOffsetY, mapView.getContext().getResources().getDisplayMetrics());
         final Projection pj = mapView.getProjection();
         setPosition((GeoPoint) pj.fromPixels((int) event.getX(), (int) (event.getY() - offsetY)));
@@ -417,7 +428,7 @@ public class Marker extends OverlayWithIW {
     }
 
     @Override
-    public boolean onLongPress(final MotionEvent event, final MapView mapView) {
+    public boolean onLongPress(@NonNull final MotionEvent event, @NonNull final MapView mapView) {
         boolean touched = hitTest(event, mapView);
         if (touched) {
             if (mDraggable) {
@@ -433,7 +444,7 @@ public class Marker extends OverlayWithIW {
     }
 
     @Override
-    public boolean onTouchEvent(final MotionEvent event, final MapView mapView) {
+    public boolean onTouchEvent(@NonNull final MotionEvent event, @NonNull final MapView mapView) {
         if (mDraggable && mIsDragged) {
             if (event.getAction() == MotionEvent.ACTION_UP) {
                 mIsDragged = false;
@@ -451,7 +462,7 @@ public class Marker extends OverlayWithIW {
             return false;
     }
 
-    public void setVisible(boolean visible) {
+    public void setVisible(final boolean visible) {
         if (visible)
             setAlpha(1f);
         else setAlpha(0f);
@@ -460,21 +471,21 @@ public class Marker extends OverlayWithIW {
     //-- Marker events listener interfaces ------------------------------------
 
     public interface OnMarkerClickListener {
-        abstract boolean onMarkerClick(Marker marker, MapView mapView);
+        boolean onMarkerClick(@NonNull Marker marker, @NonNull MapView mapView);
     }
 
     public interface OnMarkerDragListener {
-        abstract void onMarkerDrag(Marker marker);
+        void onMarkerDrag(@NonNull Marker marker);
 
-        abstract void onMarkerDragEnd(Marker marker);
+        void onMarkerDragEnd(@NonNull Marker marker);
 
-        abstract void onMarkerDragStart(Marker marker);
+        void onMarkerDragStart(@NonNull Marker marker);
     }
 
     /**
      * default behaviour when no click listener is set
      */
-    protected boolean onMarkerClickDefault(Marker marker, MapView mapView) {
+    protected boolean onMarkerClickDefault(@NonNull final Marker marker, @NonNull final MapView mapView) {
         marker.showInfoWindow();
         if (marker.mPanToView)
             mapView.getController().animateTo(marker.getPosition());
@@ -484,8 +495,6 @@ public class Marker extends OverlayWithIW {
     /**
      * used for when the icon is explicitly set to null and the title is not, this will
      * style the rendered text label
-     *
-     * @return
      */
     public int getTextLabelBackgroundColor() {
         return mTextLabelBackgroundColor;
@@ -494,18 +503,15 @@ public class Marker extends OverlayWithIW {
     /**
      * used for when the icon is explicitly set to null and the title is not, this will
      * style the rendered text label
-     *
-     * @return
      */
-    public void setTextLabelBackgroundColor(int mTextLabelBackgroundColor) {
-        this.mTextLabelBackgroundColor = mTextLabelBackgroundColor;
+    public void setTextLabelBackgroundColor(@ColorInt final int color) {
+        mTextLabelBackgroundColor = color;
+        mBackgroundPaint.setColor(color);
     }
 
     /**
      * used for when the icon is explicitly set to null and the title is not, this will
      * style the rendered text label
-     *
-     * @return
      */
     public int getTextLabelForegroundColor() {
         return mTextLabelForegroundColor;
@@ -514,18 +520,15 @@ public class Marker extends OverlayWithIW {
     /**
      * used for when the icon is explicitly set to null and the title is not, this will
      * style the rendered text label
-     *
-     * @return
      */
-    public void setTextLabelForegroundColor(int mTextLabelForegroundColor) {
-        this.mTextLabelForegroundColor = mTextLabelForegroundColor;
+    public void setTextLabelForegroundColor(@ColorInt final int color) {
+        mTextLabelForegroundColor = color;
+        mTextPaint.setColor(color);
     }
 
     /**
      * used for when the icon is explicitly set to null and the title is not, this will
      * style the rendered text label
-     *
-     * @return
      */
     public int getTextLabelFontSize() {
         return mTextLabelFontSize;
@@ -534,11 +537,10 @@ public class Marker extends OverlayWithIW {
     /**
      * used for when the icon is explicitly set to null and the title is not, this will
      * style the rendered text label
-     *
-     * @return
      */
-    public void setTextLabelFontSize(int mTextLabelFontSize) {
-        this.mTextLabelFontSize = mTextLabelFontSize;
+    public void setTextLabelFontSize(final int size) {
+        mTextLabelFontSize = size;
+        mTextPaint.setTextSize(size);
     }
 
     /**
@@ -553,7 +555,8 @@ public class Marker extends OverlayWithIW {
      *
      * @since 6.0.3
      */
-    protected void drawAt(final Canvas pCanvas, final int pX, final int pY, final float pOrientation) {
+    protected void drawAt(@NonNull final Canvas pCanvas, final int pX, final int pY, final float pOrientation) {
+        if (mIcon == null) return;
         final int markerWidth = mIcon.getIntrinsicWidth();
         final int markerHeight = mIcon.getIntrinsicHeight();
         final int offsetX = pX - Math.round(markerWidth * mAnchorU);

@@ -3,6 +3,9 @@ package org.osmdroid.util;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 /**
  * A {@link android.graphics.Rect} with corners in long type instead of int
  *
@@ -35,7 +38,7 @@ public class RectL {
         bottom = pBottom;
     }
 
-    public void set(final RectL pOther) {
+    public void set(@NonNull final RectL pOther) {
         left = pOther.left;
         top = pOther.top;
         right = pOther.right;
@@ -55,7 +58,7 @@ public class RectL {
         }
     }
 
-    public static boolean intersects(RectL a, RectL b) {
+    public static boolean intersects(@NonNull final RectL a, @NonNull final RectL b) {
         return a.left < b.right && b.left < a.right && a.top < b.bottom && b.top < a.bottom;
     }
 
@@ -87,13 +90,14 @@ public class RectL {
         return bottom - top;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "RectL(" + left + ", " + top + " - " + right + ", " + bottom + ")";
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(@Nullable Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
@@ -117,9 +121,9 @@ public class RectL {
      *
      * @since 6.0.2
      */
-    public static RectL getBounds(final RectL pIn,
+    public static RectL getBounds(@NonNull final RectL pIn,
                                   final long pCenterX, final long pCenterY, final double pDegrees,
-                                  final RectL pReuse) {
+                                  @Nullable final RectL pReuse) {
         final RectL out = pReuse != null ? pReuse : new RectL();
         if (pDegrees == 0) { // optimization
             out.top = pIn.top;
@@ -200,9 +204,9 @@ public class RectL {
      *
      * @since 6.0.2
      */
-    public static Rect getBounds(final Rect pIn,
+    public static Rect getBounds(@NonNull final Rect pIn,
                                  final int pCenterX, final int pCenterY, final double pDegrees,
-                                 final Rect pReuse) {
+                                 @Nullable final Rect pReuse) {
         final Rect out = pReuse != null ? pReuse : new Rect();
         if (pDegrees == 0) { // optimization
             out.top = pIn.top;
@@ -357,7 +361,7 @@ public class RectL {
     /**
      * @since 6.0.2
      */
-    public void union(final RectL pRect) {
+    public void union(@NonNull final RectL pRect) {
         union(pRect.left, pRect.top, pRect.right, pRect.bottom);
     }
 

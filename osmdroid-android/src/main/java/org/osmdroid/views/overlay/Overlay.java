@@ -10,6 +10,16 @@ import android.view.GestureDetector;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 
+import androidx.annotation.CallSuper;
+import androidx.annotation.MainThread;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RestrictTo;
+import androidx.annotation.UiThread;
+import androidx.lifecycle.DefaultLifecycleObserver;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleOwner;
+
 import org.osmdroid.api.IMapView;
 import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.TileSystem;
@@ -35,13 +45,13 @@ import java.util.concurrent.atomic.AtomicInteger;
  *
  * @author Nicolas Gramlich
  */
-public abstract class Overlay implements OverlayConstants {
+public abstract class Overlay implements OverlayConstants, IViewBoundingBoxChangedListener, LifecycleOwner {
 
     // ===========================================================
     // Constants
     // ===========================================================
 
-    private static AtomicInteger sOrdinal = new AtomicInteger();
+    private static final AtomicInteger sOrdinal = new AtomicInteger();
 
     // From Google Maps API
     protected static final float SHADOW_X_SKEW = -0.8999999761581421f;
@@ -54,7 +64,11 @@ public abstract class Overlay implements OverlayConstants {
     private static final Rect mRect = new Rect();
     private boolean mEnabled = true;
     private final TileSystem tileSystem = MapView.getTileSystem(); // used only for the default bounding box
-    protected BoundingBox mBounds = new BoundingBox(tileSystem.getMaxLatitude(), tileSystem.getMaxLongitude(), tileSystem.getMinLatitude(), tileSystem.getMinLongitude());
+    protected final BoundingBox mBounds = new BoundingBox(tileSystem.getMaxLatitude(), tileSystem.getMaxLongitude(), tileSystem.getMinLatitude(), tileSystem.getMinLongitude());
+    @Nullable
+    private IViewBoundingBoxChangedListener mBoundingBoxChangedListener = null;
+    @Nullable
+    private Lifecycle mMapViewLifeCycle = null;
 
     // ===========================================================
     // Constructors
@@ -74,13 +88,17 @@ public abstract class Overlay implements OverlayConstants {
     // Getter & Setter
     // ===========================================================
 
+    @NonNull
+    @Override
+    public Lifecycle getLifecycle() { return mMapViewLifeCycle; }
+
     /**
      * Gets the bounds of the overlay, useful for skipping draw cycles on overlays
      * that are not in the current bounding box of the view
      *
-     * @return
      * @since 6.0.0
      */
+    @NonNull
     public BoundingBox getBounds() {
         return mBounds;
     }
@@ -110,7 +128,7 @@ public abstract class Overlay implements OverlayConstants {
      *
      * @return an integer suitable to be used as a menu identifier
      */
-    protected final static int getSafeMenuId() {
+    protected static int getSafeMenuId() {
         return sOrdinal.getAndIncrement();
     }
 
@@ -121,7 +139,7 @@ public abstract class Overlay implements OverlayConstants {
      * @return an integer suitable to be used as a menu identifier
      * @see #getSafeMenuId()
      */
-    protected final static int getSafeMenuIdSequence(final int count) {
+    protected static int getSafeMenuIdSequence(final int count) {
         return sOrdinal.getAndAdd(count);
     }
 
@@ -137,6 +155,7 @@ public abstract class Overlay implements OverlayConstants {
      * changed for 5.6 to be public see https://github.com/osmdroid/osmdroid/issues/466
      * If possible, use {@link #draw(Canvas, Projection)} instead (cf. {@link MapSnapshot}
      */
+    @UiThread @MainThread
     public void draw(final Canvas pCanvas, final MapView pMapView, final boolean pShadow) {
         if (pShadow) {
             return;
@@ -147,6 +166,7 @@ public abstract class Overlay implements OverlayConstants {
     /**
      * @since 6.1.0
      */
+    @UiThread @MainThread
     public void draw(final Canvas pCanvas, final Projection pProjection) {
         // display nothing by default
     }
@@ -155,10 +175,11 @@ public abstract class Overlay implements OverlayConstants {
     // Methods
     // ===========================================================
 
-    /**
-     * Override to perform clean up of resources before shutdown. By default does nothing.
-     */
-    public void onDetach(final MapView mapView) {
+    /** {@inheritDoc} */
+    @CallSuper
+    @Override
+    public void onViewBoundingBoxChanged(@NonNull final Rect fromBounds, final int fromZoom, @NonNull final Rect toBounds, final int toZoom) {
+        if (mBoundingBoxChangedListener != null) mBoundingBoxChangedListener.onViewBoundingBoxChanged(fromBounds, fromZoom, toBounds, toZoom);
     }
 
     /**
@@ -300,26 +321,52 @@ public abstract class Overlay implements OverlayConstants {
         canvas.restore();
     }
 
-    /**
-     * Triggered on application lifecycle changes, assuming the mapview is triggered appropriately
-     * related issue https://github.com/osmdroid/osmdroid/issues/823
-     * https://github.com/osmdroid/osmdroid/issues/806
-     *
-     * @since 6.0.0
-     */
-    public void onPause() {
-
+    public void setMapViewLifecycle(@NonNull final MapView mapView) {
+        setLifecycleFromMapView(mapView);
     }
 
-    /**
-     * Triggered on application lifecycle changes, assuming the mapview is triggered appropriately
-     * related issue https://github.com/osmdroid/osmdroid/issues/823
-     * https://github.com/osmdroid/osmdroid/issues/806
-     *
-     * @since 6.0.0
-     */
-    public void onResume() {
+    private void setLifecycleFromMapView(@NonNull final MapView mapView) {
+        if (mMapViewLifeCycle != null) return;
+        mMapViewLifeCycle = mapView.getLifecycle();
+        mMapViewLifeCycle.addObserver(new DefaultLifecycleObserver() {
+            @Override public void onCreate(@NonNull final LifecycleOwner owner) { Overlay.this.onCreate(); }
+            @Override public void onStart(@NonNull final LifecycleOwner owner) { Overlay.this.onStart(); }
+            @Override public void onResume(@NonNull final LifecycleOwner owner) { Overlay.this.onResume(); }
+            @Override public void onPause(@NonNull final LifecycleOwner owner) { Overlay.this.onPause(); }
+            @Override public void onStop(@NonNull final LifecycleOwner owner) { Overlay.this.onStop(); }
+            @Override public void onDestroy(@NonNull final LifecycleOwner owner) { Overlay.this.onDestroy(); }
+        });
+    }
 
+    @RestrictTo(RestrictTo.Scope.LIBRARY)
+    @CallSuper
+    protected void onCreate() { /*nothing*/ }
+
+    @RestrictTo(RestrictTo.Scope.LIBRARY)
+    @CallSuper
+    protected void onStart() { /*nothing*/ }
+
+    @RestrictTo(RestrictTo.Scope.LIBRARY)
+    @CallSuper
+    protected void onResume() { /*nothing*/ }
+
+    @RestrictTo(RestrictTo.Scope.LIBRARY)
+    @CallSuper
+    protected void onPause() { /*nothing*/ }
+
+    @RestrictTo(RestrictTo.Scope.LIBRARY)
+    @CallSuper
+    protected void onStop() { /*nothing*/ }
+
+    /** Override to perform clean up of resources before shutdown. By default does nothing */
+    @RestrictTo(RestrictTo.Scope.LIBRARY)
+    @CallSuper
+    protected void onDestroy() { /*nothing*/ }
+
+    public void freeMemory(@NonNull final MapView mapView) { /*nothig*/ }
+
+    public void setViewBoundingBoxChangedListener(@Nullable final IViewBoundingBoxChangedListener listener) {
+        mBoundingBoxChangedListener = listener;
     }
 
     // ===========================================================

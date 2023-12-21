@@ -109,10 +109,11 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends Overlay 
     // ===========================================================
 
     @Override
-    public void onDetach(MapView mapView) {
+    public void onDestroy() {
         if (mDefaultMarker != null) {
             //release the bitmap
         }
+        super.onDestroy();
     }
 
     /**

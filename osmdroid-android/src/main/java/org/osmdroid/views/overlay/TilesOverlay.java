@@ -16,6 +16,8 @@ import android.view.MenuItem;
 import android.view.SubMenu;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+
 import org.osmdroid.api.IMapView;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.library.R;
@@ -120,6 +122,17 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
         setVerticalWrapEnabled(verticalWrapEnabled);
     }
 
+    @Override
+    public void onDestroy() {
+        this.mTileProvider.detach();
+        ctx = null;
+        BitmapPool.getInstance().asyncRecycle(mLoadingTile);
+        mLoadingTile = null;
+        BitmapPool.getInstance().asyncRecycle(userSelectedLoadingDrawable);
+        userSelectedLoadingDrawable = null;
+        super.onDestroy();
+    }
+
     /**
      * See issue https://github.com/osmdroid/osmdroid/issues/330
      * customizable override for the grey grid
@@ -129,16 +142,6 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
      */
     public void setLoadingDrawable(final Drawable drawable) {
         userSelectedLoadingDrawable = drawable;
-    }
-
-    @Override
-    public void onDetach(final MapView pMapView) {
-        this.mTileProvider.detach();
-        ctx = null;
-        BitmapPool.getInstance().asyncRecycle(mLoadingTile);
-        mLoadingTile = null;
-        BitmapPool.getInstance().asyncRecycle(userSelectedLoadingDrawable);
-        userSelectedLoadingDrawable = null;
     }
 
     public int getMinimumZoomLevel() {
@@ -171,7 +174,7 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
      *
      * @since 6.0.0
      */
-    public void protectDisplayedTilesForCache(final Canvas pCanvas, final Projection pProjection) {
+    public void protectDisplayedTilesForCache(final Canvas pCanvas, @NonNull final Projection pProjection) {
         if (!setViewPort(pCanvas, pProjection)) {
             return;
         }
@@ -187,7 +190,7 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
      * @return true if the tiles are to be drawn
      * @since 6.0.0
      */
-    protected boolean setViewPort(final Canvas pCanvas, final Projection pProjection) {
+    protected boolean setViewPort(final Canvas pCanvas, @NonNull final Projection pProjection) {
         setProjection(pProjection);
         getProjection().getMercatorViewPort(mViewPort);
         return true;
@@ -214,7 +217,7 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
      * than the upper-left corner). Once the tile is ready to be drawn, it is passed to
      * onTileReadyToDraw where custom manipulations can be made before drawing the tile.
      */
-    public void drawTiles(final Canvas c, final Projection projection, final double zoomLevel, final RectL viewPort) {
+    public void drawTiles(final Canvas c, @NonNull final Projection projection, final double zoomLevel, @NonNull final RectL viewPort) {
         mProjection = projection;
         mTileLooper.loop(zoomLevel, viewPort, c);
     }
@@ -234,9 +237,9 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
             super(horizontalWrapEnabled, verticalWrapEnabled);
         }
 
-        public void loop(final double pZoomLevel, final RectL pViewPort, final Canvas pCanvas) {
+        public void loop(final double pZoomLevel, @NonNull final RectL pViewPort, final Canvas pCanvas) {
             mCanvas = pCanvas;
-            loop(pZoomLevel, pViewPort);
+            super.loop(pZoomLevel, pViewPort);
         }
 
         @Override
@@ -251,7 +254,7 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
         }
 
         @Override
-        public void handleTile(final long pMapTileIndex, int pX, int pY) {
+        public void handleTile(final long pMapTileIndex, final int pX, final int pY, int tX, int tY, final int tZ) {
             Drawable currentMapTile = mTileProvider.getMapTile(pMapTileIndex);
             mTileStates.handleTile(currentMapTile);
             if (mCanvas == null) { // in case we just want to have the tiles downloaded, not displayed
@@ -274,7 +277,7 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
                         currentMapTile = getLoadingTile();
                         isReusable = false;
                     }
-                    onTileReadyToDraw(mCanvas, currentMapTile, mTileRect);
+                    onTileReadyToDraw(mCanvas, currentMapTile, mTileRect, tX, tY, tZ);
                 } finally {
                     if (isReusable)
                         reusableBitmapDrawable.finishUsingDrawable();
@@ -296,6 +299,11 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
         public void finaliseLoop() {
             mTileStates.finaliseLoop();
         }
+
+        @Override
+        protected IViewBoundingBoxChangedListener getViewBoundingBoxChangedListener() {
+            return TilesOverlay.this;
+        }
     }
 
     private final OverlayTileLooper mTileLooper = new OverlayTileLooper();
@@ -303,7 +311,7 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 
     private Rect mCanvasRect;
 
-    protected void setCanvasRect(final Rect pCanvasRect) {
+    protected void setCanvasRect(@NonNull final Rect pCanvasRect) {
         mCanvasRect = pCanvasRect;
     }
 
@@ -311,7 +319,7 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
         return mCanvasRect;
     }
 
-    protected void setProjection(final Projection pProjection) {
+    protected void setProjection(@NonNull final Projection pProjection) {
         mProjection = pProjection;
     }
 
@@ -319,8 +327,13 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
         return mProjection;
     }
 
+    @Override
+    public void onViewBoundingBoxChanged(@NonNull final Rect fromBounds, final int fromZoom, @NonNull final Rect toBounds, final int toZoom) {
+        /*1°*/mTileProvider.onViewBoundingBoxChanged(fromBounds, fromZoom, toBounds, toZoom);
+        /*2°*/super.onViewBoundingBoxChanged(fromBounds, fromZoom, toBounds, toZoom);
+    }
 
-    protected void onTileReadyToDraw(final Canvas c, final Drawable currentMapTile, final Rect tileRect) {
+    protected void onTileReadyToDraw(@NonNull final Canvas c, @NonNull final Drawable currentMapTile, @NonNull final Rect tileRect, final int tX, final int tY, final int tZ) {
         currentMapTile.setColorFilter(currentColorFilter);
         currentMapTile.setBounds(tileRect.left, tileRect.top, tileRect.right, tileRect.bottom);
         final Rect canvasRect = getCanvasRect();

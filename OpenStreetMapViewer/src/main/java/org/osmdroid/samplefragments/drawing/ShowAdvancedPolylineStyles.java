@@ -30,6 +30,7 @@ import org.osmdroid.views.overlay.advancedpolyline.MonochromaticPaintList;
 import org.osmdroid.views.overlay.advancedpolyline.PolychromaticPaintList;
 import org.osmdroid.views.overlay.infowindow.InfoWindow;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -48,7 +49,7 @@ public class ShowAdvancedPolylineStyles extends BaseSampleFragment implements Vi
     /**
      * List with all examples.
      */
-    ArrayList<AdvancedPolylineExample> mListExamples = new ArrayList<>();
+    List<AdvancedPolylineExample> mListExamples = new ArrayList<>();
 
     /**
      * JSON object holding the complete example data.
@@ -277,12 +278,14 @@ public class ShowAdvancedPolylineStyles extends BaseSampleFragment implements Vi
     }
 
     private void loadJSONDataFromAssets() {
+        InputStream inputStream = null;
+        Reader in = null;
         try {
-            InputStream inputStream = getContext().getAssets().open(JSON_EXAMPLE_DATA);
+            inputStream = getContext().getAssets().open(JSON_EXAMPLE_DATA);
             final int bufferSize = 1024;
             final char[] buffer = new char[bufferSize];
             final StringBuilder out = new StringBuilder();
-            Reader in = new InputStreamReader(inputStream, "UTF-8");
+            in = new InputStreamReader(inputStream, "UTF-8");
             for (; ; ) {
                 int rsz = in.read(buffer, 0, buffer.length);
                 if (rsz < 0)
@@ -295,11 +298,14 @@ public class ShowAdvancedPolylineStyles extends BaseSampleFragment implements Vi
 
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            if (in != null) { try { in.close(); } catch (IOException e) { /*nothing*/ } }
+            if (inputStream != null) { try { inputStream.close(); } catch (IOException e) { /*nothing*/ } }
         }
     }
 
-    private ArrayList<GeoPoint> getPoints(String identifier) {
-        ArrayList<GeoPoint> points = new ArrayList<>();
+    private List<GeoPoint> getPoints(String identifier) {
+        List<GeoPoint> points = new ArrayList<>();
         try {
             JSONObject example = (JSONObject) mData.get(identifier);
             JSONArray array = example.getJSONArray("geopoints");
@@ -315,8 +321,8 @@ public class ShowAdvancedPolylineStyles extends BaseSampleFragment implements Vi
         return points;
     }
 
-    private ArrayList<Float> getScalars(String identifier) {
-        ArrayList<Float> scalars = new ArrayList<>();
+    private List<Float> getScalars(String identifier) {
+        List<Float> scalars = new ArrayList<>();
         try {
             JSONObject example = (JSONObject) mData.get(identifier);
             JSONArray array = example.getJSONArray("scalars");

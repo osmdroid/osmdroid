@@ -1,5 +1,6 @@
 package org.osmdroid.samplefragments.events;
 
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import org.osmdroid.R;
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.api.IMapView;
+import org.osmdroid.events.MapAdapter;
 import org.osmdroid.events.MapListener;
 import org.osmdroid.events.ScrollEvent;
 import org.osmdroid.events.ZoomEvent;
@@ -19,6 +21,8 @@ import org.osmdroid.util.BoundingBox;
 import org.osmdroid.views.MapView;
 
 import static org.osmdroid.samplefragments.events.SampleMapEventListener.df;
+
+import androidx.annotation.NonNull;
 
 /**
  * Created by Dad on 10/28/2016.
@@ -101,7 +105,7 @@ on a button click
     @Override
     protected void addOverlays() {
         super.addOverlays();
-        mMapView.setMapListener(new MapListener() {
+        mMapView.addMapListener(new MapAdapter() {
             @Override
             public boolean onScroll(ScrollEvent event) {
                 Log.i(IMapView.LOGTAG, System.currentTimeMillis() + " onScroll " + event.getX() + "," + event.getY());

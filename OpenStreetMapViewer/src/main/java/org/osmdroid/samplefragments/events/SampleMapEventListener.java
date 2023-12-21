@@ -1,11 +1,14 @@
 package org.osmdroid.samplefragments.events;
 
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
 
 import org.osmdroid.R;
 import org.osmdroid.api.IGeoPoint;
@@ -49,6 +52,11 @@ public class SampleMapEventListener extends BaseSampleFragment {
 
         mMapView.setTileSource(TileSourceFactory.USGS_SAT);
         mMapView.addMapListener(new MapListener() {
+            @Override
+            public void onViewBoundingBoxChanged(@NonNull final Rect fromBounds, final int fromZoom, @NonNull final Rect toBounds, final int toZoom) {
+
+            }
+
             @Override
             public boolean onScroll(ScrollEvent event) {
                 Log.i(IMapView.LOGTAG, System.currentTimeMillis() + " onScroll " + event.getX() + "," + event.getY());

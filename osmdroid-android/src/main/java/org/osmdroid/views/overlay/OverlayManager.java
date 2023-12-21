@@ -7,6 +7,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 
+import androidx.annotation.MainThread;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RestrictTo;
+import androidx.annotation.UiThread;
+import androidx.lifecycle.LifecycleOwner;
+
 import org.osmdroid.api.IMapView;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
@@ -14,7 +21,7 @@ import org.osmdroid.views.drawing.MapSnapshot;
 
 import java.util.List;
 
-public interface OverlayManager extends List<Overlay> {
+public interface OverlayManager extends List<Overlay>, IViewBoundingBoxChangedListener, LifecycleOwner {
     Overlay get(int pIndex);
 
     int size();
@@ -41,6 +48,8 @@ public interface OverlayManager extends List<Overlay> {
      */
     void setTilesOverlay(TilesOverlay tilesOverlay);
 
+    void setViewBoundingBoxChangedListener(@Nullable IViewBoundingBoxChangedListener listener);
+
     List<Overlay> overlays();
 
     Iterable<Overlay> overlaysReversed();
@@ -48,14 +57,14 @@ public interface OverlayManager extends List<Overlay> {
     /**
      * If possible, use {@link #onDraw(Canvas, Projection)} instead (cf. {@link MapSnapshot}
      */
+    @UiThread @MainThread
     void onDraw(Canvas c, MapView pMapView);
 
     /**
      * @since 6.1.0
      */
+    @UiThread @MainThread
     void onDraw(Canvas c, Projection pProjection);
-
-    void onDetach(MapView pMapView);
 
     boolean onKeyDown(int keyCode, KeyEvent event, MapView pMapView);
 
@@ -95,14 +104,9 @@ public interface OverlayManager extends List<Overlay> {
 
     boolean onOptionsItemSelected(MenuItem item, int menuIdOffset, MapView mapView);
 
-    /**
-     * @since 6.0.0
-     */
-    void onPause();
+    void setMapViewLifecycle(@NonNull MapView mapView);
 
-    /**
-     * @since 6.0.0
-     */
-    void onResume();
+    @RestrictTo(RestrictTo.Scope.LIBRARY)
+    void onDestroyInternal();
 
 }

@@ -35,6 +35,7 @@ public class IconOverlay extends Overlay {
     protected boolean mFlat = false; //billboard;
 
     protected Point mPositionPixels = new Point();
+    private final Rect mRect = new Rect();
 
     /**
      * save to be called in non-gui-thread
@@ -62,9 +63,9 @@ public class IconOverlay extends Overlay {
         pj.toPixels(mPosition, mPositionPixels);
         int width = mIcon.getIntrinsicWidth();
         int height = mIcon.getIntrinsicHeight();
-        Rect rect = new Rect(0, 0, width, height);
-        rect.offset(-(int) (mAnchorU * width), -(int) (mAnchorV * height));
-        mIcon.setBounds(rect);
+        mRect.set(0, 0, width, height);
+        mRect.offset(-(int) (mAnchorU * width), -(int) (mAnchorV * height));
+        mIcon.setBounds(mRect);
 
         mIcon.setAlpha((int) (mAlpha * 255));
 

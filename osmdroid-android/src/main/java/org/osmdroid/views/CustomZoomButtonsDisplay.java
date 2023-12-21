@@ -8,13 +8,23 @@ import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.view.MotionEvent;
 
+import androidx.annotation.DrawableRes;
+import androidx.annotation.MainThread;
+import androidx.annotation.UiThread;
+
 import org.osmdroid.library.R;
+
+import java.util.HashMap;
 
 /**
  * @author Fabrice Fontaine
  * @since 6.1.0
  */
 public class CustomZoomButtonsDisplay {
+
+    private final HashMap<Integer,Bitmap> mHashMapBitmaps = new HashMap<>();
+    private final Canvas mCanvas = new Canvas();
+    private final Paint mBackgroundPaint = new Paint();
 
     public enum HorizontalPosition {LEFT, CENTER, RIGHT}
 
@@ -26,7 +36,7 @@ public class CustomZoomButtonsDisplay {
     private Bitmap mZoomOutBitmapEnabled;
     private Bitmap mZoomInBitmapDisabled;
     private Bitmap mZoomOutBitmapDisabled;
-    private Paint mAlphaPaint;
+    private final Paint mAlphaPaint = new Paint();
     private int mBitmapSize;
     private HorizontalPosition mHorizontalPosition;
     private VerticalPosition mVerticalPosition;
@@ -45,6 +55,7 @@ public class CustomZoomButtonsDisplay {
     public CustomZoomButtonsDisplay(final MapView pMapView) {
         mMapView = pMapView;
         // default values
+        mBackgroundPaint.setStyle(Paint.Style.FILL);
         setPositions(true, HorizontalPosition.CENTER, VerticalPosition.BOTTOM);
         setMarginPadding(.5f, .5f);
     }
@@ -102,25 +113,30 @@ public class CustomZoomButtonsDisplay {
         refreshPixelMargins();
     }
 
+    @UiThread @MainThread
     protected Bitmap getZoomBitmap(final boolean pInOrOut, final boolean pEnabled) {
         final Bitmap icon = getIcon(pInOrOut);
         mBitmapSize = icon.getWidth();
         refreshPixelMargins();
         final Bitmap bitmap = Bitmap.createBitmap(mBitmapSize, mBitmapSize, Bitmap.Config.ARGB_8888);
-        final Canvas canvas = new Canvas(bitmap);
-        final Paint backgroundPaint = new Paint();
-        backgroundPaint.setColor(pEnabled ? Color.WHITE : Color.LTGRAY);
-        backgroundPaint.setStyle(Paint.Style.FILL);
-        canvas.drawRect(0, 0, mBitmapSize - 1, mBitmapSize - 1, backgroundPaint);
-        canvas.drawBitmap(icon, 0, 0, null);
+        mCanvas.setBitmap(bitmap);
+        mBackgroundPaint.setColor(pEnabled ? Color.WHITE : Color.LTGRAY);
+        mCanvas.drawRect(0, 0, mBitmapSize - 1, mBitmapSize - 1, mBackgroundPaint);
+        mCanvas.drawBitmap(icon, 0, 0, null);
         return bitmap;
     }
 
+    @UiThread @MainThread
     protected Bitmap getIcon(final boolean pInOrOut) {
+        @DrawableRes
         final int resourceId = pInOrOut ? R.drawable.sharp_add_black_36 : R.drawable.sharp_remove_black_36;
-        return ((BitmapDrawable) mMapView.getResources().getDrawable(resourceId)).getBitmap();
+        if (mHashMapBitmaps.containsKey(resourceId)) return mHashMapBitmaps.get(resourceId);
+        final Bitmap res;
+        mHashMapBitmaps.put(resourceId, (res = ((BitmapDrawable) mMapView.getResources().getDrawable(resourceId)).getBitmap()));
+        return res;
     }
 
+    @UiThread @MainThread
     public void draw(final Canvas pCanvas, final float pAlpha01,
                      final boolean pZoomInEnabled, final boolean pZoomOutEnabled) {
         if (pAlpha01 == 0) {
@@ -130,9 +146,6 @@ public class CustomZoomButtonsDisplay {
         if (pAlpha01 == 1) {
             paint = null;
         } else {
-            if (mAlphaPaint == null) {
-                mAlphaPaint = new Paint();
-            }
             mAlphaPaint.setAlpha((int) (pAlpha01 * 255));
             paint = mAlphaPaint;
         }
@@ -198,6 +211,7 @@ public class CustomZoomButtonsDisplay {
         throw new IllegalArgumentException();
     }
 
+    @UiThread @MainThread
     private Bitmap getBitmap(final boolean pInOrOut, final boolean pEnabled) {
         if (mZoomInBitmapEnabled == null) {
             setBitmaps(

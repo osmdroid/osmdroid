@@ -32,7 +32,7 @@ public class SampleOpenSeaMap extends BaseSampleFragment {
         seaMap.setLoadingBackgroundColor(Color.TRANSPARENT);
         seaMap.setLoadingDrawable(null);
         mProvider.setTileSource(TileSourceFactory.OPEN_SEAMAP);
-        mMapView.getOverlays().add(seaMap);
+        mMapView.getOverlayManager().add(seaMap);
         mMapView.postInvalidate();
         mMapView.getController().setCenter(new GeoPoint(40.65716, -74.06507));
         mMapView.getController().setZoom(18);
@@ -41,8 +41,6 @@ public class SampleOpenSeaMap extends BaseSampleFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (mMapView != null)
-            mMapView.onDetach();
         mMapView = null;
         if (mProvider != null)
             mProvider.detach();

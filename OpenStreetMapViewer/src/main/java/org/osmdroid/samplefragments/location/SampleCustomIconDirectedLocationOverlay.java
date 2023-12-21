@@ -58,7 +58,7 @@ public class SampleCustomIconDirectedLocationOverlay extends BaseSampleFragment 
         overlay = new DirectedLocationOverlay(getActivity());
         overlay.setShowAccuracy(true);
         Toast.makeText(getActivity(), "Requires location services turned on", Toast.LENGTH_LONG).show();
-        mMapView.getOverlays().add(overlay);
+        mMapView.getOverlayManager().add(overlay);
 
 
     }
