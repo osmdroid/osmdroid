@@ -26,6 +26,11 @@ android {
             withJavadocJar()
         }
     }
+
+    compileOptions {
+        sourceCompatibility(JavaVersion.VERSION_17)
+        targetCompatibility(JavaVersion.VERSION_17)
+    }
 }
 
 dependencies {
@@ -34,24 +39,21 @@ dependencies {
     testImplementation "junit:junit:${project.property('junit.version')}"
 
     //Mapsforge rendering and database support, which is LGPL
-    api 'org.mapsforge:mapsforge-map-android:0.15.0'
-    api 'org.mapsforge:mapsforge-map:0.15.0'
+    api 'org.mapsforge:mapsforge-map-android:0.18.0'
+    api 'org.mapsforge:mapsforge-map:0.18.0'
     api 'org.mapsforge:mapsforge-themes:0.13.0'
 
     //osmdroid which is ASF licensed
     api  project(':osmdroid-android' )
 }
 
-
-
-task androidSourcesJar(type: Jar) {
+tasks.register('androidSourcesJar', Jar) {
     from android.sourceSets.main.java.srcDirs
 }
 
 artifacts {
 //    archives packageReleaseJar
     archives androidSourcesJar
-
 }
 
 afterEvaluate {

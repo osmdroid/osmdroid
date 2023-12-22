@@ -31,6 +31,11 @@ android {
             withJavadocJar()
         }
     }
+
+    compileOptions {
+        sourceCompatibility(JavaVersion.VERSION_17)
+        targetCompatibility(JavaVersion.VERSION_17)
+    }
 }
 
 dependencies {
@@ -41,8 +46,6 @@ dependencies {
     api 'com.github.spyhunter99:jdbf:2.2.0'
 
 }
-
-
 
 afterEvaluate {
     publishing {
@@ -71,13 +74,9 @@ afterEvaluate {
             }
         }
     }
-
-
 }
 
-
-
-task androidSourcesJar(type: Jar) {
+tasks.register('androidSourcesJar', Jar) {
     from android.sourceSets.main.java.srcDirs
 }
 

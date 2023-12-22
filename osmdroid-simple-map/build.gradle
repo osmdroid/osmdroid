@@ -21,11 +21,11 @@ android {
          compileSdk(project.hasProperty('android.compileSdkVersion')
                  ? findProperty('android.compileSdkVersion').toInteger() : 23)
 
-         // default targetSdkVersion to API 23, if not provided
+
          targetSdkVersion(project.hasProperty('android.targetSdkVersion')
                  ? findProperty('android.targetSdkVersion').toInteger() : 23)
 
-         // default versionCode o 1 if not provided
+
          versionCode(project.hasProperty('android.versionCode')
                  ? Integer.parseInt(project.property('android.versionCode')) : 1)
 
@@ -34,6 +34,11 @@ android {
 
     lint {
         baseline = file("lint-baseline.xml")
+    }
+
+    compileOptions {
+        sourceCompatibility(JavaVersion.VERSION_17)
+        targetCompatibility(JavaVersion.VERSION_17)
     }
 }
 

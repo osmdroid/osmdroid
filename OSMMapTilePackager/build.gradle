@@ -17,6 +17,9 @@ test {
 java {
     withSourcesJar()
     withJavadocJar()
+
+    sourceCompatibility(JavaVersion.VERSION_17)
+    targetCompatibility(JavaVersion.VERSION_17)
 }
 
 tasks.withType(Javadoc).configureEach {
@@ -28,15 +31,11 @@ tasks.withType(Javadoc).configureEach {
 
 dependencies {
     constraints {
-        implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.8.0") {
-            because("kotlin-stdlib-jdk7 is now a part of kotlin-stdlib")
-        }
-        implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.0") {
-            because("kotlin-stdlib-jdk8 is now a part of kotlin-stdlib")
-        }
+        implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.8.0") { because("kotlin-stdlib-jdk7 is now a part of kotlin-stdlib") }
+        implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.0") { because("kotlin-stdlib-jdk8 is now a part of kotlin-stdlib") }
     }
 
-    implementation("androidx.annotation:annotation:1.7.0")
+    implementation("androidx.annotation:annotation:1.7.1")
     implementation 'org.apache.httpcomponents:httpmime:4.5.13'
     implementation 'org.apache.james:apache-mime4j:0.8.7'
     implementation 'org.xerial:sqlite-jdbc:3.36.0.3'
@@ -45,43 +44,33 @@ dependencies {
 }
 
 //copy the instrumentation tests from the maven osmdroid-android-it src folder
-tasks.register('preBuildTask1', Copy) {
-    dependsOn compileJava
-    println("copying StreamUtils sources")
-    description 'copy java classes from osmdroid-android.'
-    from("${rootDir}/osmdroid-android/src/main/java/org/osmdroid/tileprovider/util/StreamUtils.java")
-    into "src/main/java/org/osmdroid/tileprovider/util/"
-}
-
-tasks.register('preBuildTask2', Copy) {
-    dependsOn preBuildTask1
-    println("copying GEMF sources")
-    description 'copy java classes from osmdroid-android.'
-    from("${rootDir}/osmdroid-android/src/main/java/org/osmdroid/util/GEMFFile.java")
-    into "src/main/java/org/osmdroid/util/"
-}
-
-tasks.register('preBuildTask3', Copy) {
-    dependsOn preBuildTask2
-    println("copying api sources")
-    description 'copy java classes from osmdroid-android.'
-    from("${rootDir}/osmdroid-android/src/main/java/org/osmdroid/api/") {
-        exclude 'IMyLocationOverlay.java'
-        exclude 'Polyline.java'
-        exclude 'Marker.java'
-        exclude 'IProjection.java'
+compileJava {
+    doFirst {
+        copy {
+            from("${rootDir}/osmdroid-android/src/main/java/org/osmdroid/tileprovider/util/StreamUtils.java")
+            into "src/main/java/org/osmdroid/tileprovider/util/"
+        }
+        copy {
+            from("${rootDir}/osmdroid-android/src/main/java/org/osmdroid/util/GEMFFile.java")
+            into "src/main/java/org/osmdroid/util/"
+        }
+        copy {
+            from("${rootDir}/osmdroid-android/src/main/java/org/osmdroid/api/") {
+                exclude 'IMyLocationOverlay.java'
+                exclude 'Polyline.java'
+                exclude 'Marker.java'
+                exclude 'IProjection.java'
+            }
+            into "src/main/java/org/osmdroid/api/"
+        }
+        delete {
+            delete "${projectDir}/src/main/java/org/osmdroid/api/"
+            delete "${projectDir}/src/main/java/org/osmdroid/api/IMyLocationOverlay.java"
+            delete "${projectDir}/src/main/java/org/osmdroid/api/Polyline.java"
+            delete "${projectDir}/src/main/java/org/osmdroid/api/Marker.java"
+            delete "${projectDir}/src/main/java/org/osmdroid/api/IProjection.java"
+        }
     }
-    into "src/main/java/org/osmdroid/api/"
-}
-
-tasks.register('preBuildTask4', Delete) {
-    dependsOn preBuildTask3
-    println("removing android specific api sources")
-    delete "${projectDir}/src/main/java/org/osmdroid/api/"
-    delete "${projectDir}/src/main/java/org/osmdroid/api/IMyLocationOverlay.java"
-    delete "${projectDir}/src/main/java/org/osmdroid/api/Polyline.java"
-    delete "${projectDir}/src/main/java/org/osmdroid/api/Marker.java"
-    delete "${projectDir}/src/main/java/org/osmdroid/api/IProjection.java"
 }
 
 afterEvaluate {
@@ -116,6 +105,5 @@ afterEvaluate {
             }
         }
     }
-
 
 }

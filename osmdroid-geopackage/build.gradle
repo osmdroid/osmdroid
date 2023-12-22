@@ -27,10 +27,17 @@ android {
             withJavadocJar()
         }
     }
+
     packagingOptions {
         excludes += "DebugProbesKt.bin"
         excludes += "com/j256/ormlite/core/LICENSE.txt"
     }
+
+    compileOptions {
+        sourceCompatibility(JavaVersion.VERSION_17)
+        targetCompatibility(JavaVersion.VERSION_17)
+    }
+
 }
 
 dependencies {
@@ -40,7 +47,7 @@ dependencies {
 
     testImplementation 'junit:junit:4.13.2'
 
-    api  project(':osmdroid-android')
+    api project(':osmdroid-android')
     api ("mil.nga.geopackage:geopackage-android:6.6.0"){
         exclude group: 'com.google.android.gms', module:'play-services'
         exclude group: 'com.google.maps.android', module:'android-maps-utils'
@@ -58,7 +65,7 @@ dependencies {
     api 'mil.nga:tiff:3.0.0'
 }
 
-task androidSourcesJar(type: Jar) {
+tasks.register('androidSourcesJar', Jar) {
     from android.sourceSets.main.java.srcDirs
 }
 
