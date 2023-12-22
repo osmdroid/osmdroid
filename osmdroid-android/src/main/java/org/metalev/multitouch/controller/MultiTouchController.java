@@ -493,10 +493,10 @@ public class MultiTouchController<T> {
     public static class PointInfo {
         // Multitouch information
         private int numPoints;
-        private float[] xs = new float[MAX_TOUCH_POINTS];
-        private float[] ys = new float[MAX_TOUCH_POINTS];
-        private float[] pressures = new float[MAX_TOUCH_POINTS];
-        private int[] pointerIds = new int[MAX_TOUCH_POINTS];
+        private final float[] xs = new float[MAX_TOUCH_POINTS];
+        private final float[] ys = new float[MAX_TOUCH_POINTS];
+        private final float[] pressures = new float[MAX_TOUCH_POINTS];
+        private final int[] pointerIds = new int[MAX_TOUCH_POINTS];
 
         // Midpoint of pinch operations
         private float xMid, yMid, pressureMid;

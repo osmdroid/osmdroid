@@ -16,12 +16,12 @@ buildscript {
     }
 }
 
-// Set up the spotbugs plugin so we can apply it in a quality pass if needed
 plugins {
-    id  'com.github.spotbugs' version '5.0.6' apply false
+    id 'com.github.spotbugs' version '5.0.6' apply false    // Set up the spotbugs plugin so we can apply it in a quality pass if needed
+    id 'org.jetbrains.kotlin.android' version '1.9.20' apply false
 }
 
-allprojects {
+allprojects { prj ->
     
     // NOTE: project.group and project.version must be defined before including
     // maven-support.gradle since it uses these values...
@@ -33,7 +33,7 @@ allprojects {
 
     // forces all changing dependencies (i.e. SNAPSHOTs) to automagicially download
     // (thanks, @BillBarnhill!)
-    configurations.all {
+    configurations.configureEach {
         resolutionStrategy {
             cacheChangingModulesFor 0, 'seconds'
         }
@@ -51,10 +51,11 @@ allprojects {
 
     }
 
-    tasks.withType(JavaCompile) {
-        options.encoding = "UTF-8"
+    tasks.withType(JavaCompile).tap {
+        configureEach {
+            options.encoding = "UTF-8"
+        }
     }
-
 
 }
 

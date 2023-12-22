@@ -51,11 +51,10 @@ public class SampleAnimateToWithOrientation extends BaseSampleFragment implement
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btnCache:
-                mMapView.getController().animateTo(MAP_CENTER, null, null, ORIENTATIONS[mIndex], CLOCKWISES[mIndex]);
-                next();
-                break;
+        final int cId = v.getId();
+        if (cId == R.id.btnCache) {
+            mMapView.getController().animateTo(MAP_CENTER, null, null, ORIENTATIONS[mIndex], CLOCKWISES[mIndex]);
+            next();
         }
     }
 

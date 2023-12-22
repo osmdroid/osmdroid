@@ -46,6 +46,7 @@ import org.osmdroid.views.overlay.OverlayManager;
 import org.osmdroid.views.overlay.TilesOverlay;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -1770,7 +1771,8 @@ public class MapView extends ViewGroup implements IMapView,
         this.mTileProvider.detach();
         mTileProvider.clearTileCache();
         this.mTileProvider = base;
-        mTileProvider.getTileRequestCompleteHandlers().add(mTileRequestCompleteHandler);
+        final Collection<Handler> cHandlers = mTileProvider.getTileRequestCompleteHandlers();
+        if (!cHandlers.contains(mTileRequestCompleteHandler)) cHandlers.add(mTileRequestCompleteHandler);
         updateTileSizeForDensity(mTileProvider.getTileSource());
 
         this.mMapOverlay = new TilesOverlay(mTileProvider, this.getContext(), horizontalMapRepetitionEnabled, verticalMapRepetitionEnabled);

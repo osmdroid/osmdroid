@@ -85,7 +85,7 @@ public class MapsForgeTileModuleProvider extends MapTileFileStorageProviderBase 
         }
     }
 
-    private class TileLoader extends MapTileModuleProviderBase.TileLoader {
+    public class TileLoader extends MapTileModuleProviderBase.TileLoader {
 
         @Override
         public Drawable loadTile(final long pMapTileIndex) {

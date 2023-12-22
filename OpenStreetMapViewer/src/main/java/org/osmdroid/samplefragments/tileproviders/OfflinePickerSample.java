@@ -329,17 +329,8 @@ public class OfflinePickerSample extends BaseSampleFragment implements View.OnCl
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.button1:
-                //pick files
-                promptForFiles();
-                break;
-
-            case R.id.button2:
-                //pick source
-                promptForTileSource();
-                break;
-        }
-
+        final int cId = v.getId();
+        if (cId == R.id.button1) promptForFiles();              //pick files
+        else if (cId == R.id.button2) promptForTileSource();    //pick source
     }
 }

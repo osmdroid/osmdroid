@@ -9,6 +9,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 
 import org.osmdroid.api.IMapView;
@@ -28,6 +29,8 @@ import java.util.ConcurrentModificationException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
+
+import androidx.annotation.Nullable;
 
 /**
  * This is an abstract class. The tile provider is responsible for:
@@ -146,7 +149,7 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback {
     public MapTileProviderBase(final ITileSource pTileSource,
                                final Handler pDownloadFinishedListener) {
         mTileCache = this.createTileCache();
-        mTileRequestCompleteHandlers.add(pDownloadFinishedListener);
+        if (pDownloadFinishedListener != null) mTileRequestCompleteHandlers.add(pDownloadFinishedListener);
         mTileSource = pTileSource;
     }
 
@@ -173,13 +176,14 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback {
     @Override
     public void mapTileRequestCompleted(final MapTileRequestState pState, final Drawable pDrawable) {
         // put the tile in the cache
-        putTileIntoCache(pState.getMapTile(), pDrawable, ExpirableBitmapDrawable.UP_TO_DATE);
+        final long cMapTileIndex = pState.getMapTile();
+        putTileIntoCache(cMapTileIndex, pDrawable, ExpirableBitmapDrawable.UP_TO_DATE);
 
         // tell our caller we've finished and it should update its view
-        sendMessage(MAPTILE_SUCCESS_ID);
+        sendMessage(MAPTILE_SUCCESS_ID, cMapTileIndex);
 
         if (Configuration.getInstance().isDebugTileProviders()) {
-            Log.d(IMapView.LOGTAG, "MapTileProviderBase.mapTileRequestCompleted(): " + MapTileIndex.toString(pState.getMapTile()));
+            Log.d(IMapView.LOGTAG, "MapTileProviderBase.mapTileRequestCompleted(): " + MapTileIndex.toString(cMapTileIndex));
         }
     }
 
@@ -191,15 +195,15 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback {
      */
     @Override
     public void mapTileRequestFailed(final MapTileRequestState pState) {
-
+        final long cMapTileIndex = pState.getMapTile();
         if (mTileNotFoundImage != null) {
-            putTileIntoCache(pState.getMapTile(), mTileNotFoundImage, ExpirableBitmapDrawable.NOT_FOUND);
-            sendMessage(MAPTILE_SUCCESS_ID);
+            putTileIntoCache(cMapTileIndex, mTileNotFoundImage, ExpirableBitmapDrawable.NOT_FOUND);
+            sendMessage(MAPTILE_SUCCESS_ID, cMapTileIndex);
         } else {
-            sendMessage(MAPTILE_FAIL_ID);
+            sendMessage(MAPTILE_FAIL_ID, cMapTileIndex);
         }
         if (Configuration.getInstance().isDebugTileProviders()) {
-            Log.d(IMapView.LOGTAG, "MapTileProviderBase.mapTileRequestFailed(): " + MapTileIndex.toString(pState.getMapTile()));
+            Log.d(IMapView.LOGTAG, "MapTileProviderBase.mapTileRequestFailed(): " + MapTileIndex.toString(cMapTileIndex));
         }
     }
 
@@ -224,13 +228,14 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback {
      */
     @Override
     public void mapTileRequestExpiredTile(MapTileRequestState pState, Drawable pDrawable) {
-        putTileIntoCache(pState.getMapTile(), pDrawable, ExpirableBitmapDrawable.getState(pDrawable));
+        final long cMapTileIndex = pState.getMapTile();
+        putTileIntoCache(cMapTileIndex, pDrawable, ExpirableBitmapDrawable.getState(pDrawable));
 
         // tell our caller we've finished and it should update its view
-        sendMessage(MAPTILE_SUCCESS_ID);
+        sendMessage(MAPTILE_SUCCESS_ID, cMapTileIndex);
 
         if (Configuration.getInstance().isDebugTileProviders()) {
-            Log.d(IMapView.LOGTAG, "MapTileProviderBase.mapTileRequestExpiredTile(): " + MapTileIndex.toString(pState.getMapTile()));
+            Log.d(IMapView.LOGTAG, "MapTileProviderBase.mapTileRequestExpiredTile(): " + MapTileIndex.toString(cMapTileIndex));
         }
     }
 
@@ -264,7 +269,8 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback {
      * @deprecated Use {@link #getTileRequestCompleteHandlers()} instead
      */
     @Deprecated
-    public void setTileRequestCompleteHandler(final Handler handler) {
+    public void setTileRequestCompleteHandler(@Nullable final Handler handler) {
+        if (handler == null) return;
         mTileRequestCompleteHandlers.clear();
         mTileRequestCompleteHandlers.add(handler);
     }
@@ -521,23 +527,20 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback {
      *
      * @since 6.2.0
      */
-    private void sendMessage(final int pMessageId) {
+    private void sendMessage(final int pMessageId, final long mapTileIndex) {
         for (int attempt = 0; attempt < 3; attempt++) {
-            if (sendMessageFailFast(pMessageId)) {
-                return;
-            }
+            if (sendMessageFailFast(pMessageId, mapTileIndex)) return;
         }
     }
 
     /**
-     * Concurrency exception management (cf. https://github.com/osmdroid/osmdroid/issues/1446)
+     * Concurrency exception management (cf. <a href="https://github.com/osmdroid/osmdroid/issues/1446">...</a>)
      * Of course a for-each loop would make sense, but it's prone to concurrency issues.
      *
      * @return false if a ConcurrentModificationException was thrown
      * @since 6.2.0
      */
-    @SuppressWarnings("ForLoopReplaceableByForEach")
-    private boolean sendMessageFailFast(final int pMessageId) {
+    private boolean sendMessageFailFast(final int pMessageId, final long mapTileIndex) {
         for (final Iterator<Handler> iterator = mTileRequestCompleteHandlers.iterator(); iterator.hasNext(); ) {
             final Handler handler;
             try {
@@ -546,7 +549,9 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback {
                 return false;
             }
             if (handler != null) {
-                handler.sendEmptyMessage(pMessageId);
+                final long cThreadId = Thread.currentThread().getId();
+                //Log.e(TAG, "__sendMessageFailFast("+pMessageId+": T="+cThreadId+" per Index="+mapTileIndex+")");
+                handler.sendMessage(Message.obtain(handler, pMessageId, (int)(cThreadId >> 32), (int)cThreadId, mapTileIndex));
             }
         }
         return true;

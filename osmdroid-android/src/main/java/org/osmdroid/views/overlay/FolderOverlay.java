@@ -10,6 +10,7 @@ import org.osmdroid.util.TileSystem;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -64,8 +65,12 @@ public class FolderOverlay extends Overlay {
     }
 
     public boolean add(Overlay item) {
-
         boolean b = mOverlayManager.add(item);
+        if (b) recalculateBounds();
+        return b;
+    }
+    public boolean addAll(Collection<Overlay> items) {
+        boolean b = mOverlayManager.addAll(items);
         if (b) recalculateBounds();
         return b;
     }

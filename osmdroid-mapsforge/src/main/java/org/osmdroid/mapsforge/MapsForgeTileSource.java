@@ -291,9 +291,4 @@ public class MapsForgeTileSource extends BitmapTileSourceBase {
             renderer.addTileRefresher(pDirectTileRefresher);
         }
     }
-
-    // for example a scaleFactor of .6F
-    public void setUserScaleFactor(float scaleFactor){
-        model.setUserScaleFactor(scaleFactor);
-    }
 }

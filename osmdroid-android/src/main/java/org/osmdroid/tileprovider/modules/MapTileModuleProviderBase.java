@@ -3,6 +3,7 @@ package org.osmdroid.tileprovider.modules;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 
+import androidx.annotation.CallSuper;
 import org.osmdroid.api.IMapView;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.ExpirableBitmapDrawable;
@@ -219,10 +220,12 @@ public abstract class MapTileModuleProviderBase {
             return loadTileIfReachable(pState.getMapTile());
         }
 
+        @CallSuper
         protected void onTileLoaderInit() {
             // Do nothing by default
         }
 
+        @CallSuper
         protected void onTileLoaderShutdown() {
             // Do nothing by default
         }
@@ -319,21 +322,22 @@ public abstract class MapTileModuleProviderBase {
             MapTileRequestState state;
             Drawable result = null;
             while ((state = nextTile()) != null) {
+                final long cMapTileIndex = state.getMapTile();
                 if (Configuration.getInstance().isDebugTileProviders()) {
                     Log.d(IMapView.LOGTAG, "TileLoader.run() processing next tile: "
-                            + MapTileIndex.toString(state.getMapTile())
+                            + MapTileIndex.toString(cMapTileIndex)
                             + ", pending:" + mPending.size()
                             + ", working:" + mWorking.size()
                     );
                 }
                 try {
                     result = null;
-                    result = loadTileIfReachable(state.getMapTile());
+                    result = loadTileIfReachable(cMapTileIndex);
                 } catch (final CantContinueException e) {
-                    Log.i(IMapView.LOGTAG, "Tile loader can't continue: " + MapTileIndex.toString(state.getMapTile()), e);
+                    Log.i(IMapView.LOGTAG, "Tile loader can't continue: " + MapTileIndex.toString(cMapTileIndex), e);
                     clearQueue();
                 } catch (final Throwable e) {
-                    Log.i(IMapView.LOGTAG, "Error downloading tile: " + MapTileIndex.toString(state.getMapTile()), e);
+                    Log.i(IMapView.LOGTAG, "Error downloading tile: " + MapTileIndex.toString(cMapTileIndex), e);
                 }
 
                 if (result == null) {

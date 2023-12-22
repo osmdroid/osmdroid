@@ -280,37 +280,17 @@ public class PreferenceActivity extends AppCompatActivity implements View.OnClic
 
     @Override
     public void onClick(View v) {
-
-        switch (v.getId()) {
-            case R.id.buttonManualCacheEntry: {
-                showManualEntry(textViewCacheDirectory);
-            }
-            break;
-            case R.id.buttonSetCache: {
-                showPickCacheFromList(textViewCacheDirectory, "tiles" + File.separator);
-            }
-            break;
-            case R.id.buttonPurgeCache: {
-                purgeCache();
-            }
-            break;
-            case R.id.buttonReset: {
-                resetSettings(this);
-                abortSave = true;
-                finish();
-            }
-            break;
-            case R.id.buttonManualBaseEntry: {
-                showManualEntry(textViewBaseDirectory);
-            }
-            break;
-            case R.id.buttonSetBase: {
-                showPickCacheFromList(textViewBaseDirectory, "");
-            }
-            break;
-
-
+        final int cId = v.getId();
+        if (cId == R.id.buttonManualCacheEntry) showManualEntry(textViewCacheDirectory);
+        else if (cId == R.id.buttonSetCache) showPickCacheFromList(textViewCacheDirectory, "tiles" + File.separator);
+        else if (cId == R.id.buttonPurgeCache) purgeCache();
+        else if (cId == R.id.buttonReset) {
+            resetSettings(this);
+            abortSave = true;
+            finish();
         }
+        else if (cId == R.id.buttonManualBaseEntry) showManualEntry(textViewBaseDirectory);
+        else if (cId == R.id.buttonSetBase) showPickCacheFromList(textViewBaseDirectory, "");
     }
 
     public static void resetSettings(Context ctx) {

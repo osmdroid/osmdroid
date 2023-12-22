@@ -110,19 +110,21 @@ public class MapTileProviderBasic extends MapTileProviderArray implements IMapTi
 		mTileProviderList.add(mDownloaderProvider);
 
 		// protected-cache-tile computers
-		getTileCache().getProtectedTileComputers().add(new MapTileAreaZoomComputer(-1));
-		getTileCache().getProtectedTileComputers().add(new MapTileAreaBorderComputer(1));
-		getTileCache().setAutoEnsureCapacity(false);
-		getTileCache().setStressedMemory(false);
+		final MapTileCache cMapTileCache = getTileCache();
+		cMapTileCache.getProtectedTileComputers().add(new MapTileAreaZoomComputer(-1));
+		cMapTileCache.getProtectedTileComputers().add(new MapTileAreaBorderComputer(1));
+		cMapTileCache.setAutoEnsureCapacity(false);
+		cMapTileCache.setStressedMemory(false);
 
 		// pre-cache providers
-		getTileCache().getPreCache().addProvider(assetsProvider);
-		getTileCache().getPreCache().addProvider(cacheProvider);
-		getTileCache().getPreCache().addProvider(archiveProvider);
-		getTileCache().getPreCache().addProvider(mDownloaderProvider);
+		final MapTilePreCache cMapTilePreCache = cMapTileCache.getPreCache();
+		cMapTilePreCache.addProvider(assetsProvider);
+		cMapTilePreCache.addProvider(cacheProvider);
+		cMapTilePreCache.addProvider(archiveProvider);
+		cMapTilePreCache.addProvider(mDownloaderProvider);
 
 		// tiles currently being processed
-		getTileCache().getProtectedTileContainers().add(this);
+		cMapTileCache.getProtectedTileContainers().add(this);
 
 		setOfflineFirst(true);
 	}

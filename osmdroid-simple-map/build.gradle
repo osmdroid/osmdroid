@@ -7,41 +7,48 @@ group = project.property("pom.groupId")
 version =  project.property("pom.version")
 
 android {
-    compileSdkVersion findProperty('android.compileSdkVersion').toInteger()
+     namespace 'org.osmdroid.simplemap'
+
      defaultConfig {
 
          applicationId project.group + "." +
                  project.name.toString().toLowerCase().replaceAll("[-]", ".")
                          .replaceAll("[^a-zA-Z0-9\\.]", "")
 
-         minSdkVersion Integer.parseInt(project.property('android-minSdkForSupportLib.version'))
          multiDexEnabled = true
-         compileSdkVersion(project.hasProperty('android.compileSdkVersion')
-                 ? Integer.parseInt(project.property('android.compileSdkVersion')) : 23)
+         minSdkVersion findProperty('android-minSdkForSupportLib.version').toInteger()
 
+         compileSdk(project.hasProperty('android.compileSdkVersion')
+                 ? findProperty('android.compileSdkVersion').toInteger() : 23)
 
-         minSdkVersion(14)
-
-
+         // default targetSdkVersion to API 23, if not provided
          targetSdkVersion(project.hasProperty('android.targetSdkVersion')
-                 ? Integer.parseInt(project.property('android.targetSdkVersion')) : 23)
+                 ? findProperty('android.targetSdkVersion').toInteger() : 23)
 
-
+         // default versionCode o 1 if not provided
          versionCode(project.hasProperty('android.versionCode')
                  ? Integer.parseInt(project.property('android.versionCode')) : 1)
 
          versionName project.version
      }
 
-
-
     lint {
         baseline = file("lint-baseline.xml")
+    }
+
+    compileOptions {
+        sourceCompatibility(JavaVersion.VERSION_17)
+        targetCompatibility(JavaVersion.VERSION_17)
     }
 }
 
 dependencies {
-    implementation "androidx.appcompat:appcompat:1.4.1"
+    constraints {
+        implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.8.0") { because("kotlin-stdlib-jdk7 is now a part of kotlin-stdlib") }
+        implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.0") { because("kotlin-stdlib-jdk8 is now a part of kotlin-stdlib") }
+    }
+
+    implementation "androidx.appcompat:appcompat:1.6.1"
     implementation project(':osmdroid-android')
 }
 

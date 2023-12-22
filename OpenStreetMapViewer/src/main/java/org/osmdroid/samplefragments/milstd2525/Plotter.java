@@ -263,69 +263,57 @@ public class Plotter extends SampleGridlines implements View.OnClickListener, Te
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.radio_milstd2525b:
-            case R.id.radio_milstd2525c:
-                if (((RadioButton) v).isChecked()) {
-                    RendererSettings.getInstance().setSymbologyStandard(RendererSettings.Symbology_2525C);
-                } else
-                    RendererSettings.getInstance().setSymbologyStandard(RendererSettings.Symbology_2525B);
-                break;
-            case R.id.cancelAddIcon:
-                picker.dismiss();
-                break;
-            case R.id.addIcon:
-                //from the menu, user entered code
-                String code = symbolCode.getText().toString();
-                int size = 128;
-                try {
-                    size = Integer.parseInt(symbolSize.getText().toString());
-                } catch (Exception ex) {
-                }
-                String baseCode = SymbolUtilities.getBasicSymbolID(code);
-                SymbolDef def = SymbolDefTable.getInstance().getSymbolDef(baseCode, RendererSettings.getInstance().getSymbologyStandard());
+        final int cId = v.getId();
+        if ((cId == R.id.radio_milstd2525b) || (cId == R.id.radio_milstd2525c)) {
+            if (((RadioButton) v).isChecked()) {
+                RendererSettings.getInstance().setSymbologyStandard(RendererSettings.Symbology_2525C);
+            } else
+                RendererSettings.getInstance().setSymbologyStandard(RendererSettings.Symbology_2525B);
+        } else if (cId == R.id.cancelAddIcon) picker.dismiss();
+        else if (cId == R.id.addIcon) {
+            //from the menu, user entered code
+            String code = symbolCode.getText().toString();
+            int size = 128;
+            try {
+                size = Integer.parseInt(symbolSize.getText().toString());
+            } catch (Exception ex) {
+            }
+            String baseCode = SymbolUtilities.getBasicSymbolID(code);
+            SymbolDef def = SymbolDefTable.getInstance().getSymbolDef(baseCode, RendererSettings.getInstance().getSymbologyStandard());
 
-                SparseArray<String> attr = new SparseArray<>();
-                attr.put(MilStdAttributes.PixelSize, size + "");
+            SparseArray<String> attr = new SparseArray<>();
+            attr.put(MilStdAttributes.PixelSize, size + "");
 
-                ImageInfo ii = mir.RenderIcon(code, new SparseArray<String>(), attr);
-                Marker m = new Marker(mMapView);
-                m.setPosition((GeoPoint) mMapView.getMapCenter());
-                m.setTitle(code);
-                if (def != null) {
-                    m.setSubDescription(def.getFullPath());
-                    m.setSnippet(def.getDescription() + "\n" + def.getHierarchy());
-                }
-                Drawable d = new BitmapDrawable(ii.getImage());
-                m.setImage(d);
-                m.setIcon(d);
-                int centerX = ii.getCenterPoint().x;    //pixel center position
-                //calculate what percentage of the center this value is
-                float realCenterX = (float) centerX / (float) ii.getImage().getWidth();
+            ImageInfo ii = mir.RenderIcon(code, new SparseArray<String>(), attr);
+            Marker m = new Marker(mMapView);
+            m.setPosition((GeoPoint) mMapView.getMapCenter());
+            m.setTitle(code);
+            if (def != null) {
+                m.setSubDescription(def.getFullPath());
+                m.setSnippet(def.getDescription() + "\n" + def.getHierarchy());
+            }
+            Drawable d = new BitmapDrawable(ii.getImage());
+            m.setImage(d);
+            m.setIcon(d);
+            int centerX = ii.getCenterPoint().x;    //pixel center position
+            //calculate what percentage of the center this value is
+            float realCenterX = (float) centerX / (float) ii.getImage().getWidth();
 
-                int centerY = ii.getCenterPoint().y;
-                float realCenterY = (float) centerY / (float) ii.getImage().getHeight();
-                m.setAnchor(realCenterX, realCenterY);
-                mMapView.getOverlayManager().add(m);
-                mMapView.invalidate();
-                picker.dismiss();
+            int centerY = ii.getCenterPoint().y;
+            float realCenterY = (float) centerY / (float) ii.getImage().getHeight();
+            m.setAnchor(realCenterX, realCenterY);
+            mMapView.getOverlayManager().add(m);
+            mMapView.invalidate();
+            picker.dismiss();
 
-                //TODO store the symbol code and size as an android preference
-                SharedPreferences.Editor edit = PreferenceManager.getDefaultSharedPreferences(getContext()).edit();
-                edit.putString("MILSTDCODE", code);
-                RendererSettings.getInstance().setDefaultPixelSize(size);
-                edit.putInt("MILSTDSIZE", size);
-                edit.commit();
-
-                break;
-            case R.id.enablePanning:
-                enablePanning();
-
-                break;
-            case R.id.enablePainting:
-                enablePainting();
-                break;
-        }
+            //TODO store the symbol code and size as an android preference
+            SharedPreferences.Editor edit = PreferenceManager.getDefaultSharedPreferences(getContext()).edit();
+            edit.putString("MILSTDCODE", code);
+            RendererSettings.getInstance().setDefaultPixelSize(size);
+            edit.putInt("MILSTDSIZE", size);
+            edit.commit();
+        } else if (cId == R.id.enablePanning) enablePanning();
+        else if (cId == R.id.enablePainting) enablePainting();
     }
 
     private void enablePanning() {

@@ -17,9 +17,12 @@ war {
 java {
     withSourcesJar()
     withJavadocJar()
+
+    sourceCompatibility(JavaVersion.VERSION_17)
+    targetCompatibility(JavaVersion.VERSION_17)
 }
 
-tasks.withType(Javadoc) {
+tasks.withType(Javadoc).configureEach {
     failOnError false
     options.addStringOption('Xdoclint:none', '-quiet')
     options.addStringOption('encoding', 'UTF-8')
@@ -45,7 +48,7 @@ distributions {
 
 
 description = "OpenStreetMaps Tile Server (JRE)"
-configurations.all {
+configurations.configureEach {
     resolutionStrategy{
         force 'javax.ws.rs:javax.ws.rs-api:2.0','javax.ws.rs:javax.ws.rs-api:2.0-m10'
         force 'javax.ws.rs:javax.ws.rs-api:2.0-m10','javax.ws.rs:javax.ws.rs-api:2.0-m10'
@@ -54,7 +57,7 @@ configurations.all {
 dependencies {
     implementation group: 'javax.servlet', name: 'servlet-api', version:'2.5'
     implementation group: 'commons-configuration', name: 'commons-configuration', version:'1.9'
-    implementation group: 'org.apache.commons', name: 'commons-lang3', version:'3.8.1'
+    implementation group: 'org.apache.commons', name: 'commons-lang3', version:'3.13.0'
     implementation group: 'commons-collections', name: 'commons-collections', version:'3.2.2'
     // https://mvnrepository.com/artifact/org.apache.cxf/cxf-rt-rs-client
     implementation group: 'org.apache.cxf', name: 'cxf-rt-rs-client', version: '3.5.2'
@@ -79,12 +82,12 @@ dependencies {
     implementation group: 'org.xerial', name: 'sqlite-jdbc', version:'3.36.0.3'
     implementation group: 'javax.servlet.jsp', name: 'jsp-api', version:'2.1'
     implementation group: 'org.glassfish.jersey.containers', name: 'jersey-container-servlet', version:'3.0.4'
-    implementation group: 'org.glassfish.jersey.core', name: 'jersey-client', version:'2.25.1'
+    implementation group: 'org.glassfish.jersey.core', name: 'jersey-client', version:'3.0.4'
     implementation group: 'org.glassfish.jersey.media', name: 'jersey-media-moxy', version:'2.35'
     implementation group: 'org.apache.cxf', name: 'cxf-rt-transports-http-jetty', version:'3.5.2'
     implementation group: 'org.slf4j', name: 'slf4j-jdk14', version:'1.7.10'
     implementation group: 'org.codehaus.jettison', name: 'jettison', version:'1.4.1'
-    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version:'2.13.2.2'
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version:'2.13.4'
 }
 
 

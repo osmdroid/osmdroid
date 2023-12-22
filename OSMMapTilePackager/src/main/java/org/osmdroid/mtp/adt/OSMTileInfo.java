@@ -41,11 +41,6 @@ public class OSMTileInfo {
         return new OSMTileInfo(this.x / 2, this.y / 2, this.zoom - 1);
     }
 
-    /**
-     * @param child
-     * @param parent
-     * @return
-     */
     public int getPositionInParent(final OSMTileInfo pParent) {
         final int childShouldUpperLeftX = pParent.x * 2;
         final int childShouldUpperLeftY = pParent.y * 2;

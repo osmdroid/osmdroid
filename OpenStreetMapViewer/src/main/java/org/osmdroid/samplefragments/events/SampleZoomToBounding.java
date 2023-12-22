@@ -80,35 +80,33 @@ public class SampleZoomToBounding extends BaseSampleFragment implements View.OnC
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btnCache:
-                boolean ok = false;
-                while (!ok) {
-                    final double south = getRandomLatitude(tileSystem.getMinLatitude());
-                    final double north = getRandomLatitude(south);
-                    final double west = getRandomLongitude();
-                    double east = getRandomLongitude();
-                    final BoundingBox boundingBox = new BoundingBox(north, east, south, west);
-                    final double zoom = tileSystem.getBoundingBoxZoom(boundingBox, mMapView.getWidth() - 2 * border, mMapView.getHeight() - 2 * border);
-                    ok = zoom >= mMapView.getMinZoomLevel() && zoom <= mMapView.getMaxZoomLevel();
-                    if (ok) {
-                        final String text = "with a border of " + border + " the computed zoom is " + zoom + " for box " + boundingBox;
-                        Toast.makeText(getActivity(), text, Toast.LENGTH_LONG).show();
-                        final List<GeoPoint> points = new ArrayList<>();
-                        if (west > east) {
-                            east += 360;
-                        }
-                        addPoints(points, north, west, north, east);
-                        addPoints(points, north, east, south, east);
-                        addPoints(points, south, east, south, west);
-                        addPoints(points, south, west, north, west);
-                        polygon.setPoints(points);
-                        mMapView.invalidate();
-                        mMapView.zoomToBoundingBox(boundingBox, true, border);
+        final int cId = v.getId();
+        if (cId == R.id.btnCache) {
+            boolean ok = false;
+            while (!ok) {
+                final double south = getRandomLatitude(tileSystem.getMinLatitude());
+                final double north = getRandomLatitude(south);
+                final double west = getRandomLongitude();
+                double east = getRandomLongitude();
+                final BoundingBox boundingBox = new BoundingBox(north, east, south, west);
+                final double zoom = tileSystem.getBoundingBoxZoom(boundingBox, mMapView.getWidth() - 2 * border, mMapView.getHeight() - 2 * border);
+                ok = zoom >= mMapView.getMinZoomLevel() && zoom <= mMapView.getMaxZoomLevel();
+                if (ok) {
+                    final String text = "with a border of " + border + " the computed zoom is " + zoom + " for box " + boundingBox;
+                    Toast.makeText(getActivity(), text, Toast.LENGTH_LONG).show();
+                    final List<GeoPoint> points = new ArrayList<>();
+                    if (west > east) {
+                        east += 360;
                     }
+                    addPoints(points, north, west, north, east);
+                    addPoints(points, north, east, south, east);
+                    addPoints(points, south, east, south, west);
+                    addPoints(points, south, west, north, west);
+                    polygon.setPoints(points);
+                    mMapView.invalidate();
+                    mMapView.zoomToBoundingBox(boundingBox, true, border);
                 }
-                break;
-
+            }
         }
     }
 
