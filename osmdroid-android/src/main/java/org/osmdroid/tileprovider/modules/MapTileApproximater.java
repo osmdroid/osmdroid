@@ -308,9 +308,7 @@ public class MapTileApproximater extends MapTileModuleProviderBase {
         return Bitmap.createBitmap(pTileSizePx, pTileSizePx, Bitmap.Config.ARGB_8888);
     }
 
-    /**
-     * @since 6.0.0
-     */
+    /** {@inheritDoc} */
     @Override
     public void detach() {
         super.detach();

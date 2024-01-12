@@ -1,5 +1,6 @@
 package org.osmdroid.tileprovider.modules;
 
+import android.content.Context;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
@@ -152,8 +153,15 @@ public abstract class MapTileModuleProviderBase implements IViewBoundingBoxChang
 
     /**
      * Detach, we're shutting down - Stops all workers.
+     * @deprecated Instead use/declare: {@link #detach(Context)}
      */
+    @Deprecated
     public void detach() {
+        //noinspection DataFlowIssue
+        this.detach(null);
+    }
+    /** @noinspection NullableProblems*/
+    public void detach(@NonNull final Context context) {
         this.clearQueue();
         this.mExecutor.shutdown();
     }

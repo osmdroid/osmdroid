@@ -22,6 +22,9 @@ import org.osmdroid.util.MapTileAreaBorderComputer;
 import org.osmdroid.util.MapTileAreaZoomComputer;
 import org.osmdroid.util.MapTileIndex;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 /**
  * This top-level tile provider implements a basic tile request chain which includes a
  * {@link MapTileFilesystemProvider} (a file-system cache), a {@link MapTileFileArchiveProvider}
@@ -50,53 +53,49 @@ public class MapTileProviderBasic extends MapTileProviderArray implements IMapTi
 	/**
 	 * Creates a {@link MapTileProviderBasic}.
 	 */
-	public MapTileProviderBasic(final Context pContext) {
+	public MapTileProviderBasic(@NonNull final Context pContext) {
 		this(pContext, TileSourceFactory.DEFAULT_TILE_SOURCE);
 	}
 
 	/**
 	 * Creates a {@link MapTileProviderBasic}.
 	 */
-	public MapTileProviderBasic(final Context pContext, final ITileSource pTileSource) {
+	public MapTileProviderBasic(@NonNull final Context pContext, final ITileSource pTileSource) {
 		this(pContext, pTileSource, null);
 	}
 
 	/**
 	 * Creates a {@link MapTileProviderBasic}.
 	 */
-	public MapTileProviderBasic(final Context pContext, final ITileSource pTileSource, final IFilesystemCache cacheWriter) {
-		this(new SimpleRegisterReceiver(pContext), new NetworkAvailabliltyCheck(pContext), pTileSource, pContext,cacheWriter);
+	public MapTileProviderBasic(@NonNull final Context pContext, final ITileSource pTileSource, @Nullable final IFilesystemCache cacheWriter) {
+		this(new SimpleRegisterReceiver(pContext), null, pTileSource, pContext, cacheWriter);
 	}
 
 	/**
 	 * Creates a {@link MapTileProviderBasic}.
 	 */
 	public MapTileProviderBasic(final IRegisterReceiver pRegisterReceiver,
-			final INetworkAvailablityCheck aNetworkAvailablityCheck, final ITileSource pTileSource,
-			final Context pContext, final IFilesystemCache cacheWriter) {
+								@Nullable final INetworkAvailablityCheck aNetworkAvailablityCheck, final ITileSource pTileSource,
+								@NonNull final Context pContext, @Nullable final IFilesystemCache cacheWriter) {
 		super(pTileSource, pRegisterReceiver);
 
-		mNetworkAvailabilityCheck = aNetworkAvailablityCheck;
+		mNetworkAvailabilityCheck = ((aNetworkAvailablityCheck != null) ? aNetworkAvailablityCheck : new NetworkAvailabliltyCheck(pContext));
 
 		if (cacheWriter != null) {
 			tileWriter = cacheWriter;
 		} else {
 			tileWriter = new SqlTileWriter();
 		}
-		final MapTileFileStorageProviderBase assetsProvider =
-				createAssetsProvider(pRegisterReceiver, pTileSource, pContext);
+		final MapTileFileStorageProviderBase assetsProvider = createAssetsProvider(pRegisterReceiver, pTileSource, pContext);
 		mTileProviderList.add(assetsProvider);
 
-		final MapTileFileStorageProviderBase cacheProvider =
-				getMapTileFileStorageProviderBase(pRegisterReceiver, pTileSource, tileWriter);
+		final MapTileFileStorageProviderBase cacheProvider = getMapTileFileStorageProviderBase(pRegisterReceiver, pTileSource, tileWriter);
 		mTileProviderList.add(cacheProvider);
 
-		final MapTileFileStorageProviderBase archiveProvider =
-				createArchiveProvider(pRegisterReceiver, pTileSource);
+		final MapTileFileStorageProviderBase archiveProvider = createArchiveProvider(pRegisterReceiver, pTileSource);
 		mTileProviderList.add(archiveProvider);
 
-		mApproximationProvider =
-				createApproximater(assetsProvider, cacheProvider, archiveProvider);
+		mApproximationProvider = createApproximater(assetsProvider, cacheProvider, archiveProvider);
 		mTileProviderList.add(mApproximationProvider);
 
 		mDownloaderProvider = createDownloaderProvider(aNetworkAvailablityCheck, pTileSource);
@@ -131,13 +130,11 @@ public class MapTileProviderBasic extends MapTileProviderArray implements IMapTi
 	}
 
 	protected MapTileFileStorageProviderBase createArchiveProvider(IRegisterReceiver pRegisterReceiver, ITileSource pTileSource) {
-		return new MapTileFileArchiveProvider(
-				pRegisterReceiver, pTileSource);
+		return new MapTileFileArchiveProvider(pRegisterReceiver, pTileSource);
 	}
 
 	protected MapTileFileStorageProviderBase createAssetsProvider(IRegisterReceiver pRegisterReceiver, ITileSource pTileSource, Context pContext) {
-		return new MapTileAssetsProvider(
-				pRegisterReceiver, pContext.getAssets(), pTileSource);
+		return new MapTileAssetsProvider(pRegisterReceiver, pContext.getAssets(), pTileSource);
 	}
 
 	@Override

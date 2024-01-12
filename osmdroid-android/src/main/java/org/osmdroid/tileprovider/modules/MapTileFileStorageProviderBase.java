@@ -8,14 +8,22 @@ import android.content.IntentFilter;
 import org.osmdroid.tileprovider.IRegisterReceiver;
 
 import androidx.annotation.CallSuper;
+import androidx.annotation.NonNull;
 
 public abstract class MapTileFileStorageProviderBase extends MapTileModuleProviderBase {
 
     private final IRegisterReceiver mRegisterReceiver;
     private MyBroadcastReceiver mBroadcastReceiver;
 
-    public MapTileFileStorageProviderBase(final IRegisterReceiver pRegisterReceiver,
-                                          final int pThreadPoolSize, final int pPendingQueueSize) {
+    /**
+     * @deprecated Use instead: {@link #MapTileFileStorageProviderBase(Context, IRegisterReceiver, int, int)}
+     */
+    @Deprecated
+    public MapTileFileStorageProviderBase(final IRegisterReceiver pRegisterReceiver, final int pThreadPoolSize, final int pPendingQueueSize) {
+        //noinspection DataFlowIssue
+        this(null, pRegisterReceiver, pThreadPoolSize, pPendingQueueSize);
+    }
+    public MapTileFileStorageProviderBase(@NonNull final Context context, final IRegisterReceiver pRegisterReceiver, final int pThreadPoolSize, final int pPendingQueueSize) {
         super(pThreadPoolSize, pPendingQueueSize);
 
         mRegisterReceiver = pRegisterReceiver;
@@ -25,17 +33,23 @@ public abstract class MapTileFileStorageProviderBase extends MapTileModuleProvid
         mediaFilter.addAction(Intent.ACTION_MEDIA_MOUNTED);
         mediaFilter.addAction(Intent.ACTION_MEDIA_UNMOUNTED);
         mediaFilter.addDataScheme("file");
-        pRegisterReceiver.registerReceiver(mBroadcastReceiver, mediaFilter);
+        pRegisterReceiver.registerReceiver(context, mBroadcastReceiver, mediaFilter);
     }
 
     @Override
     @CallSuper
-    public void detach() {
+    public void detach() { completare i parent usando la variante ...(Context...)
+        //noinspection DataFlowIssue
+        this.detach(null);
+    }
+    /** @noinspection NullableProblems*/
+    @Override
+    public void detach(@NonNull final Context context) {
         if (mBroadcastReceiver != null) {
-            mRegisterReceiver.unregisterReceiver(mBroadcastReceiver);
+            mRegisterReceiver.unregisterReceiver(context, mBroadcastReceiver);
             mBroadcastReceiver = null;
         }
-        super.detach();
+        super.detach(context);
     }
 
     protected void onMediaMounted() {
