@@ -95,17 +95,20 @@ public class Marker extends OverlayWithIW {
     private boolean mDisplayed;
     private final Rect mRect = new Rect();
     private final Rect mOrientedMarkerRect = new Rect();
+    private final Rect mCanvasClipBounds = new Rect();
     //private Paint mPaint;
     private final Paint mBackgroundPaint = new Paint();
     private final Paint mTextPaint = new Paint();
     private final Canvas mImageCanvas = new Canvas();
     private static final int CONST_TEXT_ICONS_CACHE_CAPACITY = 32;
-    private final LinkedHashMap<Long, BitmapDrawable> mTextIconsCache = new LinkedHashMap<Long, BitmapDrawable>(CONST_TEXT_ICONS_CACHE_CAPACITY, 0.1f, true) {
+    private final LinkedHashMap<Long, BitmapDrawable> mTextIconsCache = new LinkedHashMap<>(CONST_TEXT_ICONS_CACHE_CAPACITY, 0.1f, true) {
         @Override
         protected boolean removeEldestEntry(Entry eldest) {
             return (mTextIconsCache.size() >= CONST_TEXT_ICONS_CACHE_CAPACITY);
         }
     };
+    private final GeoPoint mLongPressReusableGeoPoint = new GeoPoint(0d, 0d, 0d);
+    private final GeoPoint mMoveReusableGeoPoint = new GeoPoint(0d, 0d, 0d);
 
     public Marker(@NonNull final MapView mapView) {
         this(mapView, (mapView.getContext()));
@@ -178,8 +181,7 @@ public class Marker extends OverlayWithIW {
         if (mTextIconsCache.containsKey(cKey)) imageDrawable = mTextIconsCache.get(cKey);
         Bitmap image;
         if ((imageDrawable != null) && ((image = imageDrawable.getBitmap()) != null) &&
-                (width <= image.getWidth()) && (height <= image.getHeight()) &&
-                (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
+                (width <= image.getWidth()) && (height <= image.getHeight())
         ) {
             image.reconfigure(width, height, image.getConfig());
         } else image = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
@@ -420,10 +422,10 @@ public class Marker extends OverlayWithIW {
             return touched;
     }
 
-    public void moveToEventPosition(@NonNull final MotionEvent event, @NonNull final MapView mapView) {
+    public void moveToEventPosition(@NonNull final MotionEvent event, @NonNull final MapView mapView, @NonNull final GeoPoint reuse) {
         float offsetY = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_MM, mDragOffsetY, mapView.getContext().getResources().getDisplayMetrics());
         final Projection pj = mapView.getProjection();
-        setPosition((GeoPoint) pj.fromPixels((int) event.getX(), (int) (event.getY() - offsetY)));
+        setPosition((GeoPoint) pj.fromPixels((int) event.getX(), (int) (event.getY() - offsetY), reuse));
         mapView.invalidate();
     }
 
@@ -437,7 +439,7 @@ public class Marker extends OverlayWithIW {
                 closeInfoWindow();
                 if (mOnMarkerDragListener != null)
                     mOnMarkerDragListener.onMarkerDragStart(this);
-                moveToEventPosition(event, mapView);
+                moveToEventPosition(event, mapView, mLongPressReusableGeoPoint);
             }
         }
         return touched;
@@ -452,7 +454,7 @@ public class Marker extends OverlayWithIW {
                     mOnMarkerDragListener.onMarkerDragEnd(this);
                 return true;
             } else if (event.getAction() == MotionEvent.ACTION_MOVE) {
-                moveToEventPosition(event, mapView);
+                moveToEventPosition(event, mapView, mMoveReusableGeoPoint);
                 if (mOnMarkerDragListener != null)
                     mOnMarkerDragListener.onMarkerDrag(this);
                 return true;
@@ -563,7 +565,8 @@ public class Marker extends OverlayWithIW {
         final int offsetY = pY - Math.round(markerHeight * mAnchorV);
         mRect.set(offsetX, offsetY, offsetX + markerWidth, offsetY + markerHeight);
         RectL.getBounds(mRect, pX, pY, pOrientation, mOrientedMarkerRect);
-        mDisplayed = Rect.intersects(mOrientedMarkerRect, pCanvas.getClipBounds());
+        pCanvas.getClipBounds(mCanvasClipBounds);
+        mDisplayed = Rect.intersects(mOrientedMarkerRect, mCanvasClipBounds);
         if (!mDisplayed) { // optimization 1: (much faster, depending on the proportions) don't try to display if the Marker is not visible
             return;
         }

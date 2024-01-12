@@ -213,7 +213,7 @@ public class CustomZoomButtonsDisplay {
 
     @UiThread @MainThread
     private Bitmap getBitmap(final boolean pInOrOut, final boolean pEnabled) {
-        if (mZoomInBitmapEnabled == null) {
+        if ((mZoomInBitmapEnabled == null) || (mZoomInBitmapDisabled == null) || (mZoomOutBitmapEnabled != null) || (mZoomOutBitmapDisabled != null)) {
             setBitmaps(
                     getZoomBitmap(true, true),
                     getZoomBitmap(true, false),
@@ -232,8 +232,7 @@ public class CustomZoomButtonsDisplay {
         if (mMapView.getMapOrientation() == 0) {
             mUnrotatedPoint.set((int) pMotionEvent.getX(), (int) pMotionEvent.getY());
         } else {
-            mMapView.getProjection().rotateAndScalePoint(
-                    (int) pMotionEvent.getX(), (int) pMotionEvent.getY(), mUnrotatedPoint);
+            mMapView.getProjection().rotateAndScalePoint((int) pMotionEvent.getX(), (int) pMotionEvent.getY(), mUnrotatedPoint);
         }
         return isTouched(mUnrotatedPoint.x, mUnrotatedPoint.y, pInOrOut);
     }

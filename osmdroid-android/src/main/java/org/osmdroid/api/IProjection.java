@@ -2,6 +2,8 @@ package org.osmdroid.api;
 
 import android.graphics.Point;
 
+import org.osmdroid.util.GeoPoint;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -37,8 +39,15 @@ public interface IProjection {
     /**
      * Create a new GeoPoint from pixel coordinates relative to the top-left of the MapView that
      * provided this PixelConverter.
+     * @deprecated Instead of this use: {@link #fromPixels(int, int, GeoPoint)}
      */
+    @Deprecated
     IGeoPoint fromPixels(int x, int y);
+    /**
+     * Create a new GeoPoint from pixel coordinates relative to the top-left of the MapView that
+     * provided this PixelConverter.
+     */
+    IGeoPoint fromPixels(int x, int y, @Nullable GeoPoint reuse);
 
     /**
      * Converts a distance in meters (along the equator) to one in (horizontal) pixels at the

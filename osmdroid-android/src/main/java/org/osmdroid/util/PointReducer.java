@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Reduces the number of points in a shape using the Douglas-Peucker algorithm. <br>
  * <p>
- * From: http://www.phpriot.com/articles/reducing-map-path-douglas-peucker-algorithm/4<br>
+ * From: <a href="http://www.phpriot.com/articles/reducing-map-path-douglas-peucker-algorithm/4">...</a><br>
  * Ported from PHP to Java. "marked" array added to optimize.
  *
  * @author M.Kergall
@@ -66,7 +66,7 @@ public class PointReducer {
         );
 
         // all done, return the reduced shape
-        List<GeoPoint> newShape = new ArrayList<GeoPoint>(n); // the new shape to return
+        List<GeoPoint> newShape = new ArrayList<>(n); // the new shape to return
         for (int i = 0; i < n; i++) {
             if (marked[i])
                 newShape.add(shape.get(i));

@@ -55,13 +55,13 @@ public class SqlTileWriter implements IFilesystemCache, SplashScreenable {
 
     private static boolean cleanOnStartup = true;
 
-    /*
-      * disables cache purge of expired tiled on start up
+    /**
+     * disables cache purge of expired tiled on start up
      * if this is set to false, the database will only purge tiles if manually called or if
      * the storage device runs out of space.
      *
      * expired tiles will continue to be overwritten as new versions are downloaded regardless
-    @since 6.0.0
+     * @since 6.0.0
      */
     public static void setCleanupOnStart(boolean value) {
         cleanOnStartup = value;
@@ -81,15 +81,12 @@ public class SqlTileWriter implements IFilesystemCache, SplashScreenable {
     static boolean hasInited = false;
 
     public SqlTileWriter() {
-
         getDb();
 
         if (!hasInited) {
             hasInited = true;
 
-            if (cleanOnStartup) {
-                garbageCollector.gc();
-            }
+            if (cleanOnStartup) garbageCollector.gc();
         }
     }
 
@@ -184,7 +181,7 @@ public class SqlTileWriter implements IFilesystemCache, SplashScreenable {
      * @since 5.6
      */
     public boolean exists(final String pTileSource, final long pMapTileIndex) {
-        return 1 == getRowCount(primaryKey, getPrimaryKeyParameters(getIndex(pMapTileIndex), pTileSource));
+        return getRowCount(primaryKey, getPrimaryKeyParameters(getIndex(pMapTileIndex), pTileSource)) == 1;
     }
 
     /**
@@ -201,8 +198,7 @@ public class SqlTileWriter implements IFilesystemCache, SplashScreenable {
      * Now we use only one static instance of database, which should never be closed
      */
     @Override
-    public void onDetach() {
-    }
+    public void onDetach() { /*nothing*/ }
 
     /**
      * purges and deletes everything from the cache database

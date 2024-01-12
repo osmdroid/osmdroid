@@ -106,13 +106,13 @@ public class MultiTouchController<T> {
 
     // ----------------------------------------------------------------------------------------------------------------------
 
-    MultiTouchObjectCanvas<T> objectCanvas;
+    private final MultiTouchObjectCanvas<T> objectCanvas;
 
     /** The current touch point */
-    private PointInfo mCurrPt;
+    private PointInfo mCurrPt = new PointInfo();
 
     /** The previous touch point */
-    private PointInfo mPrevPt;
+    private PointInfo mPrevPt = new PointInfo();
 
     /** Fields extracted from mCurrPt */
     private float mCurrPtX, mCurrPtY, mCurrPtDiam, mCurrPtWidth, mCurrPtHeight, mCurrPtAng;
@@ -141,7 +141,7 @@ public class MultiTouchController<T> {
     private T selectedObject = null;
 
     /** Current position and scale of the dragged object */
-    private PositionAndScale mCurrXform = new PositionAndScale();
+    private final PositionAndScale mCurrXform = new PositionAndScale();
 
     /** Drag/pinch start time and time to ignore spurious events until (to smooth over event noise) */
     private long mSettleStartTime, mSettleEndTime;
@@ -178,8 +178,6 @@ public class MultiTouchController<T> {
 
     /** Full constructor */
     public MultiTouchController(MultiTouchObjectCanvas<T> objectCanvas, boolean handleSingleTouchEvents) {
-        this.mCurrPt = new PointInfo();
-        this.mPrevPt = new PointInfo();
         this.handleSingleTouchEvents = handleSingleTouchEvents;
         this.objectCanvas = objectCanvas;
     }
@@ -237,8 +235,7 @@ public class MultiTouchController<T> {
             try {
                 ACTION_POINTER_UP = MotionEvent.class.getField("ACTION_POINTER_UP").getInt(null);
                 ACTION_POINTER_INDEX_SHIFT = MotionEvent.class.getField("ACTION_POINTER_INDEX_SHIFT").getInt(null);
-            } catch (Exception e) {
-            }
+            } catch (Exception ignored) { /*nothing*/ }
         }
     }
 
@@ -788,7 +785,7 @@ public class MultiTouchController<T> {
 
     // ------------------------------------------------------------------------------------
 
-    public static interface MultiTouchObjectCanvas<T> {
+    public interface MultiTouchObjectCanvas<T> {
 
         /**
          * See if there is a draggable object at the current point. Returns the object at the point, or null if nothing to drag. To start a multitouch
@@ -801,7 +798,7 @@ public class MultiTouchController<T> {
          * @return a reference to the object under the point being tested, or null to cancel the drag operation. If dragging/stretching the whole
          *         canvas (e.g. in a photo viewer), always return non-null, otherwise the stretch operation won't work.
          */
-        public T getDraggableObjectAtPoint(PointInfo touchPoint);
+        T getDraggableObjectAtPoint(PointInfo touchPoint);
 
         /**
          * Get the screen coords of the dragged object's origin, and scale multiplier to convert screen coords to obj coords. The job of this routine
@@ -813,7 +810,7 @@ public class MultiTouchController<T> {
          * @param objPosAndScaleOut
          *            Output parameter: You need to call objPosAndScaleOut.set() to record the current position and scale of obj.
          */
-        public void getPositionAndScale(@NonNull T obj, @NonNull PositionAndScale objPosAndScaleOut);
+        void getPositionAndScale(@NonNull T obj, @NonNull PositionAndScale objPosAndScaleOut);
 
         /**
          * Callback to update the position and scale (in object coords) of the currently-dragged object.
@@ -829,7 +826,7 @@ public class MultiTouchController<T> {
          * @return true if setting the position and scale of the object was successful, or false if the position or scale parameters are out of range
          *         for this object.
          */
-        public boolean setPositionAndScale(T obj, PositionAndScale newObjPosAndScale, PointInfo touchPoint);
+        boolean setPositionAndScale(T obj, PositionAndScale newObjPosAndScale, PointInfo touchPoint);
 
         /**
          * Select an object at the given point. Can be used to bring the object to top etc. Only called when first touchpoint goes down, not when
@@ -840,6 +837,6 @@ public class MultiTouchController<T> {
          * @param touchPoint
          *            The current touch point.
          */
-        public void selectObject(@NonNull T obj, PointInfo touchPoint);
+        void selectObject(@Nullable T obj, PointInfo touchPoint);
     }
 }

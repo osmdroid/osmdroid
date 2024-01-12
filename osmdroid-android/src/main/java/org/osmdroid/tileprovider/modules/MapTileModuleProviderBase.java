@@ -23,7 +23,6 @@ import org.osmdroid.views.overlay.IViewBoundingBoxChangedListener;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.RejectedExecutionException;
@@ -114,30 +113,7 @@ public abstract class MapTileModuleProviderBase implements IViewBoundingBoxChang
         mExecutor = Executors.newFixedThreadPool(pThreadPoolSize, new ConfigurablePriorityThreadFactory(Thread.MIN_PRIORITY, getThreadGroupName()));
 
         mWorking = new HashMap<>();
-        mPending = new LinkedHashMap<Long, MapTileRequestState>(pPendingQueueSize + 2, 0.1f, true) {
-            /* commented out because this Pending queue is reduced when pending tiles goes OUTSIDE View boundaries
-            @Override
-            protected boolean removeEldestEntry(final Map.Entry<Long, MapTileRequestState> pEldest) {
-                if (size() <= pPendingQueueSize) {
-                    return false;
-                }
-                // get the oldest tile that isn't in the mWorking queue
-                final Iterator<Long> iterator = mPending.keySet().iterator();
-                while (iterator.hasNext()) {
-                    final long mapTileIndex = iterator.next();
-                    if (!mWorking.containsKey(mapTileIndex)) {
-                        final MapTileRequestState state = mPending.get(mapTileIndex);
-                        if (state != null) { // check for concurrency reasons
-                            removeTileFromQueues(mapTileIndex);
-                            if (mCallback != null) mCallback.mapTileRequestFailedExceedsMaxQueueSize(state);
-                            return false;
-                        }
-                    }
-                }
-                return false;
-            }
-            */
-        };
+        mPending = new LinkedHashMap<>(pPendingQueueSize + 2, 0.1f, true);
     }
 
     public void loadMapTileAsync(final MapTileRequestState pState, final IMapTileProviderCallback callback) {
@@ -180,7 +156,6 @@ public abstract class MapTileModuleProviderBase implements IViewBoundingBoxChang
     public void detach() {
         this.clearQueue();
         this.mExecutor.shutdown();
-
     }
 
     public int getPendingCount() {
@@ -217,7 +192,6 @@ public abstract class MapTileModuleProviderBase implements IViewBoundingBoxChang
          *
          * @return the tile if it was loaded successfully, or null if failed to
          * load and other tile providers need to be called
-         * @throw CantContinueException
          * @since 6.0.0
          */
         public abstract Drawable loadTile(final long pMapTileIndex)

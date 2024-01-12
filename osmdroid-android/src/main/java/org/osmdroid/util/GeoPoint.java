@@ -80,7 +80,7 @@ public class GeoPoint implements IGeoPoint, MathConstants, GeoConstants, Parcela
         this.mLongitude = pGeopoint.getLongitude();
     }
 
-    public static GeoPoint fromDoubleString(@NonNull final String s, @NonNull final char spacer) {
+    public static GeoPoint fromDoubleString(@NonNull final String s, final char spacer) {
         final int spacerPos1 = s.indexOf(spacer);
         final int spacerPos2 = s.indexOf(spacer, spacerPos1 + 1);
 
@@ -96,7 +96,7 @@ public class GeoPoint implements IGeoPoint, MathConstants, GeoConstants, Parcela
         }
     }
 
-    public static GeoPoint fromInvertedDoubleString(@NonNull final String s, @NonNull final char spacer) {
+    public static GeoPoint fromInvertedDoubleString(@NonNull final String s, final char spacer) {
         final int spacerPos1 = s.indexOf(spacer);
         final int spacerPos2 = s.indexOf(spacer, spacerPos1 + 1);
 
@@ -120,13 +120,13 @@ public class GeoPoint implements IGeoPoint, MathConstants, GeoConstants, Parcela
 
         if (commaPos2 == -1) {
             return new GeoPoint(
-                    Integer.parseInt(s.substring(0, commaPos1)),
-                    Integer.parseInt(s.substring(commaPos1 + 1)));
+                    Double.parseDouble(s.substring(0, commaPos1)),
+                    Double.parseDouble(s.substring(commaPos1 + 1)));
         } else {
             return new GeoPoint(
-                    Integer.parseInt(s.substring(0, commaPos1)),
-                    Integer.parseInt(s.substring(commaPos1 + 1, commaPos2)),
-                    Integer.parseInt(s.substring(commaPos2 + 1))
+                    Double.parseDouble(s.substring(0, commaPos1)),
+                    Double.parseDouble(s.substring(commaPos1 + 1, commaPos2)),
+                    Double.parseDouble(s.substring(commaPos2 + 1))
             );
         }
     }
@@ -232,7 +232,7 @@ public class GeoPoint implements IGeoPoint, MathConstants, GeoConstants, Parcela
         out.writeDouble(mAltitude);
     }
 
-    public static final Parcelable.Creator<GeoPoint> CREATOR = new Parcelable.Creator<GeoPoint>() {
+    public static final Parcelable.Creator<GeoPoint> CREATOR = new Parcelable.Creator<>() {
         @Override
         public GeoPoint createFromParcel(final Parcel in) {
             return new GeoPoint(in);
@@ -290,8 +290,7 @@ public class GeoPoint implements IGeoPoint, MathConstants, GeoConstants, Parcela
         final double long2 = Math.toRadians(other.getLongitude());
         final double delta_long = long2 - long1;
         final double a = Math.sin(delta_long) * Math.cos(lat2);
-        final double b = Math.cos(lat1) * Math.sin(lat2) -
-                Math.sin(lat1) * Math.cos(lat2) * Math.cos(delta_long);
+        final double b = Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(delta_long);
         final double bearing = Math.toDegrees(Math.atan2(a, b));
         final double bearing_normalized = (bearing + 360) % 360;
         return bearing_normalized;
@@ -327,9 +326,20 @@ public class GeoPoint implements IGeoPoint, MathConstants, GeoConstants, Parcela
         return new GeoPoint(lat2deg, lon2deg);
     }
 
+    /**
+     * @deprecated Use instead: {@link #fromCenterBetween(GeoPoint, GeoPoint, GeoPoint)}
+     */
+    @Deprecated
     public static GeoPoint fromCenterBetween(@NonNull final GeoPoint geoPointA, @NonNull final GeoPoint geoPointB) {
-        return new GeoPoint((geoPointA.getLatitude() + geoPointB.getLatitude()) / 2,
-                (geoPointA.getLongitude() + geoPointB.getLongitude()) / 2);
+        return new GeoPoint((geoPointA.getLatitude() + geoPointB.getLatitude()) / 2d,
+                (geoPointA.getLongitude() + geoPointB.getLongitude()) / 2d);
+    }
+    public static GeoPoint fromCenterBetween(@NonNull final GeoPoint geoPointA, @NonNull final GeoPoint geoPointB, @Nullable final GeoPoint reuse) {
+        final double cLat = (geoPointA.getLatitude() + geoPointB.getLatitude()) / 2d;
+        final double cLon = (geoPointA.getLongitude() + geoPointB.getLongitude()) / 2d;
+        if (reuse == null) return new GeoPoint(cLat, cLon);
+        reuse.setCoords(cLat, cLon);
+        return reuse;
     }
 
     public String toDoubleString() {

@@ -32,11 +32,7 @@ public class GeoPackageFeatureTileProvider extends MapTileProviderBase {
         super(pTileSource);
 
         Log.i(IMapView.LOGTAG, "Geopackage support is BETA. Please report any issues");
-        if (Build.VERSION.SDK_INT < 10) {
-            tileWriter = new TileWriter();
-        } else {
-            tileWriter = new SqlTileWriter();
-        }
+        tileWriter = new SqlTileWriter();
     }
 
 

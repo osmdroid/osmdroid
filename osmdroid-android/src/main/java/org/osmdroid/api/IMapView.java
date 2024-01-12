@@ -10,7 +10,7 @@ import androidx.annotation.ColorInt;
  * @author Neil Boyd
  */
 public interface IMapView {
-    public final static String LOGTAG = "OsmDroid";
+    String LOGTAG = "OsmDroid";
 
     IMapController getController();
 

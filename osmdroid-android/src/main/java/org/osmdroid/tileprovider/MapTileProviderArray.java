@@ -72,7 +72,7 @@ public class MapTileProviderArray extends MapTileProviderBase implements MapTile
         mRegisterReceiver = aRegisterReceiver;
         mTileProviderList = new ArrayList<>();
         Collections.addAll(mTileProviderList, pTileProviderArray);
-        mReusablePoolDynamic = new ReusablePoolDynamic<>(new ReusablePoolDynamic.ReusableIndexCallback<Long>() {
+        mReusablePoolDynamic = new ReusablePoolDynamic<>(new ReusablePoolDynamic.ReusableIndexCallback<>() {
             @Override
             public ReusablePoolDynamic.ReusableItemSetInterface<Long> newInstance() {
                 return new MapTileRequestState(null);
@@ -85,7 +85,6 @@ public class MapTileProviderArray extends MapTileProviderBase implements MapTile
         synchronized (mTileProviderList) {
             for (final MapTileModuleProviderBase tileProvider : mTileProviderList) {
                 tileProvider.detach();
-
             }
         }
         synchronized (mWorking) {

@@ -1,5 +1,6 @@
 package org.osmdroid.tileprovider;
 
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -27,8 +28,16 @@ public class ExpirableBitmapDrawable extends BitmapDrawable {
 
     private int[] mState;
 
+    /**
+     * @deprecated This method does't take in count Screen Density, so try to use instead {@link #ExpirableBitmapDrawable(Resources, Bitmap)} if you have {@link android.content.Context} or {@link Resources} available
+     */
+    @Deprecated
     public ExpirableBitmapDrawable(final Bitmap pBitmap) {
         super(pBitmap);
+        mState = new int[0];
+    }
+    public ExpirableBitmapDrawable(@NonNull final Resources res, @NonNull final Bitmap pBitmap) {
+        super(res, pBitmap);
         mState = new int[0];
     }
 
@@ -54,7 +63,7 @@ public class ExpirableBitmapDrawable extends BitmapDrawable {
         return getState(pTile) == EXPIRED;
     }
 
-    public static int getState(final Drawable pTile) {
+    public static int getState(@NonNull final Drawable pTile) {
         for (final int statusItem : pTile.getState()) {
             for (final int statusReference : settableStatuses) {
                 if (statusItem == statusReference) {
@@ -73,7 +82,7 @@ public class ExpirableBitmapDrawable extends BitmapDrawable {
         setState(pTile, EXPIRED);
     }
 
-    public static void setState(final Drawable pTile, final int status) {
+    public static void setState(@NonNull final Drawable pTile, final int status) {
         int[] cFound;
         synchronized (mStatusCache) {
             cFound = mStatusCache.get(status);

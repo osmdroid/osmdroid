@@ -1,6 +1,9 @@
 package org.osmdroid.tileprovider;
 
+import android.content.res.Resources;
 import android.graphics.Bitmap;
+
+import androidx.annotation.NonNull;
 
 /**
  * A {@link ExpirableBitmapDrawable} class that allows keeping track of usage references. This
@@ -16,8 +19,14 @@ public class ReusableBitmapDrawable extends ExpirableBitmapDrawable {
     private boolean mBitmapRecycled = false;
     private int mUsageRefCount = 0;
 
+    /**
+     * @deprecated This method does't take in count Screen Density, so try to use instead {@link #ReusableBitmapDrawable(Resources, Bitmap)} if you have {@link android.content.Context} or {@link Resources} available
+     */
     public ReusableBitmapDrawable(Bitmap pBitmap) {
         super(pBitmap);
+    }
+    public ReusableBitmapDrawable(@NonNull final Resources res, @NonNull final Bitmap pBitmap) {
+        super(res, pBitmap);
     }
 
     public void beginUsingDrawable() {

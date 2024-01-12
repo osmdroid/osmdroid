@@ -2,6 +2,8 @@ package org.osmdroid.tileprovider.tilesource;
 
 import org.osmdroid.util.MapTileIndex;
 
+import androidx.annotation.NonNull;
+
 /**
  * An implementation of {@link org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase}
  */
@@ -33,6 +35,7 @@ public class XYTileSource extends OnlineTileSourceBase {
                 aImageFilenameEnding, aBaseUrl, copyright, pTileSourcePolicy);
     }
 
+    @NonNull
     @Override
     public String toString() {
         return name();

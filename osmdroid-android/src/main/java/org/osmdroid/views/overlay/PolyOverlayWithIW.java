@@ -22,7 +22,6 @@ import org.osmdroid.views.overlay.infowindow.InfoWindow;
 import org.osmdroid.views.overlay.milestones.MilestoneManager;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -530,7 +529,7 @@ public abstract class PolyOverlayWithIW extends OverlayWithIW {
             return;
         }
 
-        final long maxWidthHeight = width > height ? width : height;
+        final long maxWidthHeight = Math.max(width, height);
         if (maxWidthHeight <= mDowngradeMaximumRectanglePixelSize) {
             pCanvas.drawRect(left, top, left + width, top + height, paint);
             return;

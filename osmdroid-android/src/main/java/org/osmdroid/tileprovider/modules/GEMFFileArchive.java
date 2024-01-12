@@ -13,6 +13,8 @@ import java.io.InputStream;
 import java.util.HashSet;
 import java.util.Set;
 
+import androidx.annotation.NonNull;
+
 public class GEMFFileArchive implements IArchiveFile {
 
     private GEMFFile mFile;
@@ -58,10 +60,10 @@ public class GEMFFileArchive implements IArchiveFile {
     public void close() {
         try {
             mFile.close();
-        } catch (IOException e) {
-        }
+        } catch (IOException ignored) { /*nothing*/ }
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "GEMFFileArchive [mGEMFFile=" + mFile.getName() + "]";

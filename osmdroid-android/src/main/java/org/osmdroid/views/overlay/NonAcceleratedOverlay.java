@@ -75,9 +75,7 @@ public abstract class NonAcceleratedOverlay extends Overlay {
 
     @Override
     public final void draw(Canvas c, MapView osmv, boolean shadow) {
-        // First check to see if we want to use the backing bitmap
-        final boolean atLeastHoneycomb = Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB;
-        if (isUsingBackingBitmap() && atLeastHoneycomb && c.isHardwareAccelerated()) {
+        if (isUsingBackingBitmap() && c.isHardwareAccelerated()) {
             // Drawing a shadow layer would require a second backing Bitmap due to the way HW
             // accelerated drawBitmap works. One could extend this Overlay to implement that if
             // needed.
@@ -97,7 +95,6 @@ public abstract class NonAcceleratedOverlay extends Overlay {
                             Config.ARGB_8888);
                 } catch (OutOfMemoryError e) {
                     Log.e(IMapView.LOGTAG, "OutOfMemoryError creating backing bitmap in NonAcceleratedOverlay.");
-                    System.gc();
                     return;
                 }
 

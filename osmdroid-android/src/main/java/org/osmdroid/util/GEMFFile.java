@@ -1,5 +1,7 @@
 package org.osmdroid.util;
 
+import android.annotation.SuppressLint;
+
 import androidx.annotation.NonNull;
 
 import java.io.ByteArrayInputStream;
@@ -20,7 +22,7 @@ import java.util.TreeSet;
 /**
  * GEMF File handler class.
  * <p>
- * Reference: https://sites.google.com/site/abudden/android-map-store
+ * Reference: <a href="https://sites.google.com/site/abudden/android-map-store">...</a>
  * <p>
  * Do not reference any android specific code in this class, it is reused in the JRE
  * Tile Packager
@@ -53,17 +55,17 @@ public class GEMFFile {
     private final String mLocation;
 
     // All GEMF file parts for this archive
-    private final List<RandomAccessFile> mFiles = new ArrayList<RandomAccessFile>();
-    private final List<String> mFileNames = new ArrayList<String>();
+    private final List<RandomAccessFile> mFiles = new ArrayList<>();
+    private final List<String> mFileNames = new ArrayList<>();
 
     // Tile ranges represented within this archive
-    private final List<GEMFRange> mRangeData = new ArrayList<GEMFRange>();
+    private final List<GEMFRange> mRangeData = new ArrayList<>();
 
     // File sizes for offset calculation
-    private final List<Long> mFileSizes = new ArrayList<Long>();
+    private final List<Long> mFileSizes = new ArrayList<>();
 
     // List of tile sources within this archive
-    private final LinkedHashMap<Integer, String> mSources = new LinkedHashMap<Integer, String>();
+    private final LinkedHashMap<Integer, String> mSources = new LinkedHashMap<>();
 
     // Fields to restrict to a single source for reading
     private boolean mSourceLimited = false;
@@ -110,8 +112,7 @@ public class GEMFFile {
      * 		Each specified folder will be imported into the GEMF archive as a seperate
      * 		source. The name of the folder will be the name of the source in the archive.
      */
-    public GEMFFile(@NonNull final String pLocation, @NonNull final List<File> pSourceFolders)
-            throws FileNotFoundException, IOException {
+    public GEMFFile(@NonNull final String pLocation, @NonNull final List<File> pSourceFolders) throws FileNotFoundException, IOException {
         /*
          * 1. For each source folder
          *   1. Create array of zoom levels, X rows, Y rows
@@ -134,12 +135,12 @@ public class GEMFFile {
 
         // Create in-memory array of sources, X and Y values.
         final LinkedHashMap<String, LinkedHashMap<Integer, LinkedHashMap<Integer, LinkedHashMap<Integer, File>>>> dirIndex =
-                new LinkedHashMap<String, LinkedHashMap<Integer, LinkedHashMap<Integer, LinkedHashMap<Integer, File>>>>();
+                new LinkedHashMap<>();
 
         for (final File sourceDir : pSourceFolders) {
 
             final LinkedHashMap<Integer, LinkedHashMap<Integer, LinkedHashMap<Integer, File>>> zList =
-                    new LinkedHashMap<Integer, LinkedHashMap<Integer, LinkedHashMap<Integer, File>>>();
+                    new LinkedHashMap<>();
             final File[] cFileList;
             if ((cFileList = sourceDir.listFiles()) != null) {
                 for (final File zDir : cFileList) {
@@ -151,7 +152,7 @@ public class GEMFFile {
                     }
 
                     final LinkedHashMap<Integer, LinkedHashMap<Integer, File>> xList =
-                            new LinkedHashMap<Integer, LinkedHashMap<Integer, File>>();
+                            new LinkedHashMap<>();
 
                     final File[] cFileList2;
                     if ((cFileList2 = zDir.listFiles()) != null) {
@@ -164,7 +165,7 @@ public class GEMFFile {
                                 continue;
                             }
 
-                            final LinkedHashMap<Integer, File> yList = new LinkedHashMap<Integer, File>();
+                            final LinkedHashMap<Integer, File> yList = new LinkedHashMap<>();
                             final File[] cFileList3;
                             if ((cFileList3 = xDir.listFiles()) != null) {
                                 for (final File yFile : cFileList3) {
@@ -193,8 +194,8 @@ public class GEMFFile {
         }
 
         // Create a source index list
-        final LinkedHashMap<String, Integer> sourceIndex = new LinkedHashMap<String, Integer>();
-        final LinkedHashMap<Integer, String> indexSource = new LinkedHashMap<Integer, String>();
+        final LinkedHashMap<String, Integer> sourceIndex = new LinkedHashMap<>();
+        final LinkedHashMap<Integer, String> indexSource = new LinkedHashMap<>();
         int si = 0;
         for (final String source : dirIndex.keySet()) {
             sourceIndex.put(source, si);
@@ -203,18 +204,18 @@ public class GEMFFile {
         }
 
         // Create the range objects
-        final List<GEMFRange> ranges = new ArrayList<GEMFRange>();
+        final List<GEMFRange> ranges = new ArrayList<>();
 
         for (final String source : dirIndex.keySet()) {
             for (final Integer zoom : dirIndex.get(source).keySet()) {
 
                 // Get non-contiguous Y sets for each Z/X
                 final LinkedHashMap<List<Integer>, List<Integer>> ySets =
-                        new LinkedHashMap<List<Integer>, List<Integer>>();
+                        new LinkedHashMap<>();
 
-                for (final Integer x : new TreeSet<Integer>(dirIndex.get(source).get(zoom).keySet())) {
+                for (final Integer x : new TreeSet<>(dirIndex.get(source).get(zoom).keySet())) {
 
-                    final List<Integer> ySet = new ArrayList<Integer>();
+                    final List<Integer> ySet = new ArrayList<>();
                     for (final Integer y : dirIndex.get(source).get(zoom).get(x).keySet()) {
                         ySet.add(y);
                     }
@@ -226,7 +227,7 @@ public class GEMFFile {
                     Collections.sort(ySet);
 
                     if (!ySets.containsKey(ySet)) {
-                        ySets.put(ySet, new ArrayList<Integer>());
+                        ySets.put(ySet, new ArrayList<>());
                     }
 
                     ySets.get(ySet).add(x);
@@ -234,20 +235,20 @@ public class GEMFFile {
 
                 // For each Y set find contiguous X sets
                 final LinkedHashMap<List<Integer>, List<Integer>> xSets =
-                        new LinkedHashMap<List<Integer>, List<Integer>>();
+                        new LinkedHashMap<>();
 
                 for (final List<Integer> ySet : ySets.keySet()) {
 
-                    final TreeSet<Integer> xList = new TreeSet<Integer>(ySets.get(ySet));
+                    final TreeSet<Integer> xList = new TreeSet<>(ySets.get(ySet));
 
-                    List<Integer> xSet = new ArrayList<Integer>();
+                    List<Integer> xSet = new ArrayList<>();
                     for (int i = xList.first(); i < xList.last() + 1; ++i) {
                         if (xList.contains(i)) {
                             xSet.add(i);
                         } else {
                             if (xSet.size() > 0) {
                                 xSets.put(ySet, xSet);
-                                xSet = new ArrayList<Integer>();
+                                xSet = new ArrayList<>();
                             }
                         }
                     }
@@ -260,8 +261,8 @@ public class GEMFFile {
                 // For each contiguous X set, find contiguous Y sets and create GEMFRange object
                 for (final List<Integer> xSet : xSets.keySet()) {
 
-                    final TreeSet<Integer> yList = new TreeSet<Integer>(xSet);
-                    final TreeSet<Integer> xList = new TreeSet<Integer>(ySets.get(xSet));
+                    final TreeSet<Integer> yList = new TreeSet<>(xSet);
+                    final TreeSet<Integer> xList = new TreeSet<>(ySets.get(xSet));
 
                     GEMFRange range = new GEMFFile.GEMFRange();
                     range.zoom = zoom;
@@ -537,7 +538,7 @@ public class GEMFFile {
      * with specified Z/X/Y coordinates will be returned.
      */
     public void selectSource(final int pSource) {
-        if (mSources.containsKey(new Integer(pSource))) {
+        if (mSources.containsKey(pSource)) {
             mSourceLimited = true;
             mCurrentSource = pSource;
         }
@@ -554,7 +555,7 @@ public class GEMFFile {
      * Return list of zoom levels contained within this archive.
      */
     public Set<Integer> getZoomLevels() {
-        final Set<Integer> zoomLevels = new TreeSet<Integer>();
+        final Set<Integer> zoomLevels = new TreeSet<>();
 
         for (final GEMFRange rs : mRangeData) {
             zoomLevels.add(rs.zoom);
@@ -683,6 +684,7 @@ public class GEMFFile {
         Integer sourceIndex;
         Long offset;
 
+        @SuppressLint("DefaultLocale")
         @NonNull
         @Override
         public String toString() {

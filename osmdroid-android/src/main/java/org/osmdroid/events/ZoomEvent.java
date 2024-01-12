@@ -47,6 +47,7 @@ public class ZoomEvent implements MapEvent {
         this.zoomLevel = zoomLevel;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "ZoomEvent [source=" + source + ", zoomLevel=" + zoomLevel + "]";

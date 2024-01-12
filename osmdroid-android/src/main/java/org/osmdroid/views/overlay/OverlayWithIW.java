@@ -131,6 +131,7 @@ public abstract class OverlayWithIW extends Overlay {
             mInfoWindow = null;
             mRelatedObject = null;
         }
+        super.onDestroy();
     }
 
     public boolean isInfoWindowOpen() {

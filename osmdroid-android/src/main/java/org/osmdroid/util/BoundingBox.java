@@ -113,24 +113,33 @@ public class BoundingBox implements Parcelable, Serializable {
     // ===========================================================
 
     /**
-     * Use {@link #getCenterWithDateLine()} instead to take date line into consideration
+     * Use {@link #getCenterWithDateLine(GeoPoint)} instead to take date line into consideration
      *
      * @return GeoPoint center of this BoundingBox
      */
     @Deprecated
     public GeoPoint getCenter() {
-        return new GeoPoint((this.mLatNorth + this.mLatSouth) / 2.0,
-                (this.mLonEast + this.mLonWest) / 2.0);
+        return new GeoPoint((this.mLatNorth + this.mLatSouth) / 2d,
+                (this.mLonEast + this.mLonWest) / 2d);
     }
 
     /**
      * This version takes into consideration the date line
      *
      * @since 6.0.0
+     * @deprecated Use instead: {@link #getCenterWithDateLine(GeoPoint)}
      */
     @Deprecated
     public GeoPoint getCenterWithDateLine() {
         return new GeoPoint(getCenterLatitude(), getCenterLongitude());
+    }
+    /**
+     * This version takes into consideration the date line
+     */
+    public GeoPoint getCenterWithDateLine(@Nullable GeoPoint reuse) {
+        if (reuse != null) reuse.setCoords(getCenterLatitude(), getCenterLongitude());
+        else reuse = new GeoPoint(getCenterLatitude(), getCenterLongitude());
+        return reuse;
     }
     /**
      * This version takes into consideration the date line
@@ -165,7 +174,7 @@ public class BoundingBox implements Parcelable, Serializable {
      * @since 6.0.0
      */
     public double getCenterLatitude() {
-        return (mLatNorth + mLatSouth) / 2.0;
+        return (mLatNorth + mLatSouth) / 2d;
     }
 
     /**
@@ -216,9 +225,23 @@ public class BoundingBox implements Parcelable, Serializable {
      * Determines the height of the bounding box.
      *
      * @return latitude span in degrees
+     * @deprecated use {@link #getLatitudeSpanWithDateLine()}
      */
+    @Deprecated
     public double getLatitudeSpan() {
         return Math.abs(this.mLatNorth - this.mLatSouth);
+    }
+
+    /**
+     * Determines the height of the bounding box.
+     *
+     * @return latitude span in degrees
+     */
+    public double getLatitudeSpanWithDateLine() {
+        if (mLatSouth > mLatNorth)
+            return mLatSouth - mLatNorth;
+        else
+            return mLatSouth - mLatNorth + 180;
     }
 
     /**
@@ -258,9 +281,6 @@ public class BoundingBox implements Parcelable, Serializable {
     }
 
     /**
-     * @param aLatitude
-     * @param aLongitude
-     * @param reuse
      * @return relative position determined from the upper left corner.<br>
      * {0,0} would be the upper left corner. {1,1} would be the lower right corner. {1,0}
      * would be the lower left corner. {0,1} would be the upper right corner.
@@ -283,6 +303,10 @@ public class BoundingBox implements Parcelable, Serializable {
         return out;
     }
 
+    /**
+     * @deprecated Use instead: {@link #getGeoPointOfRelativePositionWithLinearInterpolation(float, float, GeoPoint)}
+     */
+    @Deprecated
     public GeoPoint getGeoPointOfRelativePositionWithLinearInterpolation(final float relX,
                                                                          final float relY) {
         final TileSystem tileSystem = MapView.getTileSystem();
@@ -290,7 +314,21 @@ public class BoundingBox implements Parcelable, Serializable {
         final double lon = this.mLonWest + (this.getLongitudeSpan() * relX);
         return new GeoPoint(tileSystem.cleanLatitude(lat), tileSystem.cleanLongitude(lon));
     }
+    public GeoPoint getGeoPointOfRelativePositionWithLinearInterpolation(final float relX,
+                                                                         final float relY,
+                                                                         @Nullable GeoPoint reuse) {
+        final TileSystem tileSystem = MapView.getTileSystem();
+        final double lat = tileSystem.cleanLatitude(this.mLatNorth - (this.getLatitudeSpan() * relY));
+        final double lon = tileSystem.cleanLongitude(this.mLonWest + (this.getLongitudeSpan() * relX));
+        if (reuse == null) reuse = new GeoPoint(lat, lon);
+        else reuse.setCoords(lat, lon);
+        return reuse;
+    }
 
+    /**
+     * @deprecated Use instead: {@link #getGeoPointOfRelativePositionWithLinearInterpolation(float, float, GeoPoint)}
+     */
+    @Deprecated
     public GeoPoint getGeoPointOfRelativePositionWithExactGudermannInterpolation(final float relX,
                                                                                  final float relY) {
         final TileSystem tileSystem = MapView.getTileSystem();
@@ -299,6 +337,18 @@ public class BoundingBox implements Parcelable, Serializable {
         final double lat = gudermann((gudSouth + (1 - relY) * (gudNorth - gudSouth)));
         final double lon = this.mLonWest + (this.getLongitudeSpan() * relX);
         return new GeoPoint(tileSystem.cleanLatitude(lat), tileSystem.cleanLongitude(lon));
+    }
+    public GeoPoint getGeoPointOfRelativePositionWithExactGudermannInterpolation(final float relX,
+                                                                                 final float relY,
+                                                                                 @Nullable GeoPoint reuse) {
+        final TileSystem tileSystem = MapView.getTileSystem();
+        final double gudNorth = gudermannInverse(this.mLatNorth);
+        final double gudSouth = gudermannInverse(this.mLatSouth);
+        final double lat = tileSystem.cleanLatitude(gudermann((gudSouth + (1 - relY) * (gudNorth - gudSouth))));
+        final double lon = tileSystem.cleanLongitude(this.mLonWest + (this.getLongitudeSpan() * relX));
+        if (reuse == null) reuse = new GeoPoint(lat, lon);
+        else reuse.setCoords(lat, lon);
+        return reuse;
     }
 
     /**
@@ -316,23 +366,23 @@ public class BoundingBox implements Parcelable, Serializable {
      * @param pBoundingboxPaddingRelativeScale scale factor
      * @return scaled bounding box
      */
-    public BoundingBox increaseByScale(final float pBoundingboxPaddingRelativeScale, @Nullable final BoundingBox reusedOut) {
+    public BoundingBox increaseByScale(final float pBoundingboxPaddingRelativeScale, @Nullable final BoundingBox reuse) {
         if (pBoundingboxPaddingRelativeScale <= 0)
             throw new IllegalArgumentException("pBoundingboxPaddingRelativeScale must be positive");
         final TileSystem tileSystem = org.osmdroid.views.MapView.getTileSystem();
         // out-of-bounds latitude will be clipped
         final double latCenter = getCenterLatitude();
-        final double latSpanHalf = getLatitudeSpan() / 2 * pBoundingboxPaddingRelativeScale;
+        final double latSpanHalf = getLatitudeSpan() / 2d * pBoundingboxPaddingRelativeScale;
         final double latNorth = tileSystem.cleanLatitude(latCenter + latSpanHalf);
         final double latSouth = tileSystem.cleanLatitude(latCenter - latSpanHalf);
         // out-of-bounds longitude will be wrapped around
         final double lonCenter = getCenterLongitude();
-        final double lonSpanHalf = getLongitudeSpanWithDateLine() / 2 * pBoundingboxPaddingRelativeScale;
+        final double lonSpanHalf = getLongitudeSpanWithDateLine() / 2d * pBoundingboxPaddingRelativeScale;
         final double latEast = tileSystem.cleanLongitude(lonCenter + lonSpanHalf);
         final double latWest = tileSystem.cleanLongitude(lonCenter - lonSpanHalf);
-        if (reusedOut == null) return new BoundingBox(latNorth, latEast, latSouth, latWest);
-        reusedOut.set(latNorth, latEast, latSouth, latWest);
-        return reusedOut;
+        if (reuse == null) return new BoundingBox(latNorth, latEast, latSouth, latWest);
+        reuse.set(latNorth, latEast, latSouth, latWest);
+        return reuse;
     }
 
     // ===========================================================
@@ -351,21 +401,29 @@ public class BoundingBox implements Parcelable, Serializable {
     // Methods
     // ===========================================================
 
+    /**
+     * @deprecated Use instead: {@link #bringToBoundingBox(double, double, GeoPoint)}
+     */
+    @Deprecated
     public GeoPoint bringToBoundingBox(final double aLatitude, final double aLongitude) { return bringToBoundingBox(aLatitude, aLongitude, null); }
-    public GeoPoint bringToBoundingBox(final double aLatitude, final double aLongitude, @Nullable final GeoPoint reusedOut) {
-        if (reusedOut == null) return new GeoPoint(
+    public GeoPoint bringToBoundingBox(final double aLatitude, final double aLongitude, @Nullable final GeoPoint reuse) {
+        if (reuse == null) return new GeoPoint(
                 Math.max(this.mLatSouth, Math.min(this.mLatNorth, aLatitude)),
                 Math.max(this.mLonWest, Math.min(this.mLonEast, aLongitude))
         );
-        reusedOut.setCoords(
+        reuse.setCoords(
                 Math.max(this.mLatSouth, Math.min(this.mLatNorth, aLatitude)),
                 Math.max(this.mLonWest, Math.min(this.mLonEast, aLongitude))
         );
-        return reusedOut;
+        return reuse;
     }
 
+    /**
+     * @deprecated Use instead: {@link #fromGeoPoints(List, BoundingBox)}
+     */
+    @Deprecated
     public static BoundingBox fromGeoPoints(@NonNull final List<? extends IGeoPoint> partialPolyLine) { return fromGeoPoints(partialPolyLine, null); }
-    public static BoundingBox fromGeoPoints(@NonNull final List<? extends IGeoPoint> partialPolyLine, @Nullable final BoundingBox reusedOut) {
+    public static BoundingBox fromGeoPoints(@NonNull final List<? extends IGeoPoint> partialPolyLine, @Nullable final BoundingBox reuse) {
         double minLat = Double.MAX_VALUE;
         double minLon = Double.MAX_VALUE;
         double maxLat = -Double.MAX_VALUE;
@@ -380,9 +438,9 @@ public class BoundingBox implements Parcelable, Serializable {
             maxLon = Math.max(maxLon, longitude);
         }
 
-        if (reusedOut == null) return new BoundingBox(maxLat, maxLon, minLat, minLon);
-        reusedOut.set(maxLat, maxLon, minLat, minLon);
-        return reusedOut;
+        if (reuse == null) return new BoundingBox(maxLat, maxLon, minLat, minLon);
+        reuse.set(maxLat, maxLon, minLat, minLon);
+        return reuse;
     }
 
     public boolean contains(@NonNull final IGeoPoint pGeoPoint) {
@@ -422,7 +480,7 @@ public class BoundingBox implements Parcelable, Serializable {
     // Parcelable
     // ===========================================================
 
-    public static final Parcelable.Creator<BoundingBox> CREATOR = new Parcelable.Creator<BoundingBox>() {
+    public static final Parcelable.Creator<BoundingBox> CREATOR = new Parcelable.Creator<>() {
         @Override
         public BoundingBox createFromParcel(final Parcel in) {
             return readFromParcel(in);
@@ -557,25 +615,29 @@ public class BoundingBox implements Parcelable, Serializable {
         return latMatch && lonMatch;
     }
 
+    /**
+     * @deprecated Use instead: {@link #fromGeoPointsSafe(List, BoundingBox)}
+     */
+    @Deprecated
     public static BoundingBox fromGeoPointsSafe(@NonNull final List<GeoPoint> points) { return fromGeoPointsSafe(points, null); }
-    public static BoundingBox fromGeoPointsSafe(@NonNull final List<GeoPoint> points, @Nullable final BoundingBox reusedOut) {
+    public static BoundingBox fromGeoPointsSafe(@NonNull final List<GeoPoint> points, @Nullable final BoundingBox reuse) {
         try {
-            return fromGeoPoints(points, reusedOut);
+            return fromGeoPoints(points, reuse);
         } catch (IllegalArgumentException e) {
             final TileSystem tileSystem = org.osmdroid.views.MapView.getTileSystem();
-            if (reusedOut == null) return new BoundingBox(
+            if (reuse == null) return new BoundingBox(
                     tileSystem.getMaxLatitude(),
                     tileSystem.getMaxLongitude(),
                     tileSystem.getMinLatitude(),
                     tileSystem.getMinLongitude()
             );
-            reusedOut.set(
+            reuse.set(
                     tileSystem.getMaxLatitude(),
                     tileSystem.getMaxLongitude(),
                     tileSystem.getMinLatitude(),
                     tileSystem.getMinLongitude()
             );
-            return reusedOut;
+            return reuse;
         }
     }
 

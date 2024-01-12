@@ -13,7 +13,6 @@ import android.graphics.drawable.BitmapDrawable;
 
 import org.osmdroid.library.R;
 import org.osmdroid.util.GeoPoint;
-import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
 import org.osmdroid.views.overlay.Overlay;
 

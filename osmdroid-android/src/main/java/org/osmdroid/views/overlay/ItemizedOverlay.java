@@ -44,14 +44,14 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends Overlay 
     private final Rect mRect = new Rect();
     private final Rect mMarkerRect = new Rect();
     private final Rect mOrientedMarkerRect = new Rect();
+    private final Rect mCanvasClipBounds = new Rect();
     private final Point mCurScreenCoords = new Point();
     protected boolean mDrawFocusedItem = true;
     private Item mFocusedItem;
     private boolean mPendingFocusChangedEvent = false;
     private OnFocusChangeListener mOnFocusChangeListener;
 
-    private Rect itemRect = new Rect();
-    private Rect screenRect = new Rect();
+    private final Rect itemRect = new Rect();
 
     // ===========================================================
     // Abstract methods
@@ -89,7 +89,7 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends Overlay 
 
         this.mDefaultMarker = pDefaultMarker;
 
-        mInternalItemList = new ArrayList<Item>();
+        mInternalItemList = new ArrayList<>();
     }
 
     // ===========================================================
@@ -193,18 +193,11 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends Overlay 
      *
      * @param canvas          what the item is drawn upon
      * @param item            the item to be drawn
-     * @param curScreenCoords
-     * @param pProjection
      * @return true if the item was actually drawn
      */
-    protected boolean onDrawItem(final Canvas canvas, final Item item, final Point curScreenCoords,
-                                 final Projection pProjection) {
-
-
-        final int state = (mDrawFocusedItem && (mFocusedItem == item) ? OverlayItem.ITEM_STATE_FOCUSED_MASK
-                : 0);
-        final Drawable marker = (item.getMarker(state) == null) ? getDefaultMarker(state) : item
-                .getMarker(state);
+    protected boolean onDrawItem(final Canvas canvas, final Item item, final Point curScreenCoords, final Projection pProjection) {
+        final int state = (mDrawFocusedItem && (mFocusedItem == item) ? OverlayItem.ITEM_STATE_FOCUSED_MASK : 0);
+        final Drawable marker = (item.getMarker(state) == null) ? getDefaultMarker(state) : item.getMarker(state);
         final HotspotPlace hotspot = item.getMarkerHotspot();
 
         boundToHotspot(marker, hotspot);
@@ -216,7 +209,8 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends Overlay 
         mMarkerRect.set(mRect);
         mRect.offset(x, y);
         RectL.getBounds(mRect, x, y, pProjection.getOrientation(), mOrientedMarkerRect);
-        final boolean displayed = Rect.intersects(mOrientedMarkerRect, canvas.getClipBounds());
+        canvas.getClipBounds(mCanvasClipBounds);
+        final boolean displayed = Rect.intersects(mOrientedMarkerRect, mCanvasClipBounds);
         if (displayed) {
             if (pProjection.getOrientation() != 0) { // optimization: step 1/2
                 canvas.save();
@@ -271,8 +265,7 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends Overlay 
      * @param hitY   y coordinate of point to check
      * @return true if the hit point is within the marker
      */
-    protected boolean hitTest(final Item item, final android.graphics.drawable.Drawable marker, final int hitX,
-                              final int hitY) {
+    protected boolean hitTest(final Item item, final android.graphics.drawable.Drawable marker, final int hitX, final int hitY) {
         return marker.getBounds().contains(hitX, hitY);
     }
 
@@ -392,11 +385,6 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends Overlay 
 
     /**
      * Calculates the screen rect for an item.
-     *
-     * @param item
-     * @param coords
-     * @param reuse
-     * @return
      */
     protected Rect calculateItemRect(Item item, Point coords, Rect reuse) {
         final Rect out = reuse != null ? reuse : new Rect();
@@ -481,7 +469,7 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends Overlay 
         mOnFocusChangeListener = l;
     }
 
-    public static interface OnFocusChangeListener {
+    public interface OnFocusChangeListener {
         void onFocusChanged(ItemizedOverlay<?> overlay, OverlayItem newFocus);
     }
 

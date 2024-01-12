@@ -19,15 +19,12 @@ public interface IFilesystemCache {
      * @param pTileSourceInfo a tile source
      * @param pMapTileIndex   a tile
      * @param pStream         an InputStream
-     * @return
      */
     boolean saveFile(final ITileSource pTileSourceInfo, final long pMapTileIndex,
                      final InputStream pStream, final Long pExpirationTime);
 
     /**
      * return true if the map file for download already exists
-     *
-     * @return
      */
     boolean exists(final ITileSource pTileSourceInfo, final long pMapTileIndex);
 
@@ -41,7 +38,7 @@ public interface IFilesystemCache {
 
     /**
      * Removes a tile from the cache, see issue
-     * https://github.com/osmdroid/osmdroid/issues/426
+     * <a href="https://github.com/osmdroid/osmdroid/issues/426">...</a>
      *
      * @return true if it was removed, false otherwise
      * @since 5.4.2

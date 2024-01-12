@@ -69,6 +69,7 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
     protected final Paint mDebugPaint = new Paint();
     private final Rect mTileRect = new Rect();
     protected final RectL mViewPort = new RectL();
+    private final Rect mCanvasClipBounds = new Rect();
 
     protected Projection mProjection;
     private boolean mOptionsMenuEnabled = true;
@@ -134,7 +135,7 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
     }
 
     /**
-     * See issue https://github.com/osmdroid/osmdroid/issues/330
+     * See issue <a href="https://github.com/osmdroid/osmdroid/issues/330">...</a>
      * customizable override for the grey grid
      *
      * @param drawable
@@ -342,7 +343,8 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
             return;
         }
         // Check to see if the drawing area intersects with the minimap area
-        if (!mIntersectionRect.setIntersect(c.getClipBounds(), canvasRect)) {
+        c.getClipBounds(mCanvasClipBounds);
+        if (!mIntersectionRect.setIntersect(mCanvasClipBounds, canvasRect)) {
             return;
         }
         // Save the current clipping bounds
@@ -497,10 +499,8 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
                 mLoadingTile = new BitmapDrawable(bitmap);
             } catch (final OutOfMemoryError e) {
                 Log.e(IMapView.LOGTAG, "OutOfMemoryError getting loading tile");
-                System.gc();
             } catch (final NullPointerException e) {
                 Log.e(IMapView.LOGTAG, "NullPointerException getting loading tile");
-                System.gc();
             }
         }
         return mLoadingTile;

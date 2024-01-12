@@ -90,11 +90,10 @@ public class MapTileCache {
      */
     public MapTileCache(final int aMaximumCacheSize) {
         ensureCapacity(aMaximumCacheSize);
-        mCachedTiles = new LinkedHashMap<Long, Drawable>(mCapacity, 0.1f, true) {
+        mCachedTiles = new LinkedHashMap<>(mCapacity, 0.1f, true) {
             @Override
             protected boolean removeEldestEntry(Entry<Long, Drawable> eldest) {
-                final boolean res = ((this.size() - mCapacity) > 0);
-                return res;
+                return ((this.size() - mCapacity) > 0);
             }
         };
         mPreCache = new MapTilePreCache(this);

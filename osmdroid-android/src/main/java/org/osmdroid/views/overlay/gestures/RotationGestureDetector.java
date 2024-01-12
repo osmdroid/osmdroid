@@ -5,6 +5,8 @@ import android.view.MotionEvent;
 import org.osmdroid.events.MapListener;
 import org.osmdroid.views.MapView;
 
+import androidx.annotation.NonNull;
+
 /**
  * heads up, this class is used internally by osmdroid, you're welcome to use but it the interface
  * {@link RotationListener} will not fire as expected. It is used internally by osmdroid. If you want
@@ -25,21 +27,21 @@ public class RotationGestureDetector {
     }
 
     protected float mRotation;
-    private RotationListener mListener;
+    private final RotationListener mListener;
     private boolean mEnabled = true;
 
-    public RotationGestureDetector(RotationListener listener) {
+    public RotationGestureDetector(@NonNull final RotationListener listener) {
         mListener = listener;
     }
 
-    private static float rotation(MotionEvent event) {
+    private static float rotation(@NonNull final MotionEvent event) {
         double delta_x = (event.getX(0) - event.getX(1));
         double delta_y = (event.getY(0) - event.getY(1));
         double radians = Math.atan2(delta_y, delta_x);
         return (float) Math.toDegrees(radians);
     }
 
-    public void onTouch(MotionEvent e) {
+    public void onTouch(@NonNull final MotionEvent e) {
         if (e.getPointerCount() != 2)
             return;
 

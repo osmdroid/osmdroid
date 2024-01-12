@@ -299,10 +299,8 @@ public class MapTileApproximater extends MapTileModuleProviderBase {
     public static Bitmap getTileBitmap(final int pTileSizePx) {
         final Bitmap bitmap = BitmapPool.getInstance().obtainSizedBitmapFromPool(pTileSizePx, pTileSizePx);
         if (bitmap != null) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR1) {
-                // without that, the retrieved bitmap forgets it allowed transparency
-                bitmap.setHasAlpha(true);
-            }
+            // without that, the retrieved bitmap forgets it allowed transparency
+            bitmap.setHasAlpha(true);
             // without that, the bitmap keeps its previous contents when transparent content is copied on it
             bitmap.eraseColor(Color.TRANSPARENT);
             return bitmap;

@@ -16,9 +16,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RestrictTo;
 import androidx.annotation.UiThread;
-import androidx.lifecycle.DefaultLifecycleObserver;
-import androidx.lifecycle.Lifecycle;
-import androidx.lifecycle.LifecycleOwner;
 
 import org.osmdroid.api.IMapView;
 import org.osmdroid.util.BoundingBox;
@@ -40,12 +37,11 @@ import java.util.concurrent.atomic.AtomicInteger;
  * {@link android.view.GestureDetector.SimpleOnGestureListener} and
  * {@link GestureDetector.OnGestureListener}. The difference is there is an additional argument for
  * the item.
- *
  * <img alt="Class diagram around Marker class" width="686" height="413" src='./doc-files/marker-classes.png' />
  *
  * @author Nicolas Gramlich
  */
-public abstract class Overlay implements OverlayConstants, IViewBoundingBoxChangedListener, LifecycleOwner {
+public abstract class Overlay implements OverlayConstants, IViewBoundingBoxChangedListener {
 
     // ===========================================================
     // Constants
@@ -67,8 +63,6 @@ public abstract class Overlay implements OverlayConstants, IViewBoundingBoxChang
     protected final BoundingBox mBounds = new BoundingBox(tileSystem.getMaxLatitude(), tileSystem.getMaxLongitude(), tileSystem.getMinLatitude(), tileSystem.getMinLongitude());
     @Nullable
     private IViewBoundingBoxChangedListener mBoundingBoxChangedListener = null;
-    @Nullable
-    private Lifecycle mMapViewLifeCycle = null;
 
     // ===========================================================
     // Constructors
@@ -87,10 +81,6 @@ public abstract class Overlay implements OverlayConstants, IViewBoundingBoxChang
     // ===========================================================
     // Getter & Setter
     // ===========================================================
-
-    @NonNull
-    @Override
-    public Lifecycle getLifecycle() { return mMapViewLifeCycle; }
 
     /**
      * Gets the bounds of the overlay, useful for skipping draw cycles on overlays
@@ -152,7 +142,7 @@ public abstract class Overlay implements OverlayConstants, IViewBoundingBoxChang
      * to lay down the shadow layer, and then again on all overlays with shadow=false. Callers
      * should check isEnabled() before calling draw(). By default, draws nothing.
      * <p>
-     * changed for 5.6 to be public see https://github.com/osmdroid/osmdroid/issues/466
+     * changed for 5.6 to be public see <a href="https://github.com/osmdroid/osmdroid/issues/466">...</a>
      * If possible, use {@link #draw(Canvas, Projection)} instead (cf. {@link MapSnapshot}
      */
     @UiThread @MainThread
@@ -219,7 +209,7 @@ public abstract class Overlay implements OverlayConstants, IViewBoundingBoxChang
         return false;
     }
 
-    /** GestureDetector.OnDoubleTapListener **/
+    /* GestureDetector.OnDoubleTapListener */
 
     /**
      * By default does nothing ({@code return false}). If you handled the Event, return {@code true}
@@ -248,7 +238,7 @@ public abstract class Overlay implements OverlayConstants, IViewBoundingBoxChang
         return false;
     }
 
-    /** OnGestureListener **/
+    /* OnGestureListener */
 
     /**
      * By default does nothing ({@code return false}). If you handled the Event, return {@code true}
@@ -288,9 +278,7 @@ public abstract class Overlay implements OverlayConstants, IViewBoundingBoxChang
         return false;
     }
 
-    public void onShowPress(final MotionEvent pEvent, final MapView pMapView) {
-        return;
-    }
+    public void onShowPress(final MotionEvent pEvent, final MapView pMapView) { /*nothing*/ }
 
     /**
      * By default does nothing ({@code return false}). If you handled the Event, return {@code true}
@@ -307,8 +295,8 @@ public abstract class Overlay implements OverlayConstants, IViewBoundingBoxChang
      * on the MapView passed to you in draw(Canvas, MapView, boolean).
      *
      * @param shadow          If true, draw only the drawable's shadow. Otherwise, draw the drawable itself.
-     * @param aMapOrientation
      */
+    @UiThread @MainThread
     protected synchronized static void drawAt(final Canvas canvas, final Drawable drawable,
                                               final int x, final int y, final boolean shadow,
                                               final float aMapOrientation) {
@@ -321,49 +309,43 @@ public abstract class Overlay implements OverlayConstants, IViewBoundingBoxChang
         canvas.restore();
     }
 
-    public void setMapViewLifecycle(@NonNull final MapView mapView) {
-        setLifecycleFromMapView(mapView);
-    }
-
-    private void setLifecycleFromMapView(@NonNull final MapView mapView) {
-        if (mMapViewLifeCycle != null) return;
-        mMapViewLifeCycle = mapView.getLifecycle();
-        mMapViewLifeCycle.addObserver(new DefaultLifecycleObserver() {
-            @Override public void onCreate(@NonNull final LifecycleOwner owner) { Overlay.this.onCreate(); }
-            @Override public void onStart(@NonNull final LifecycleOwner owner) { Overlay.this.onStart(); }
-            @Override public void onResume(@NonNull final LifecycleOwner owner) { Overlay.this.onResume(); }
-            @Override public void onPause(@NonNull final LifecycleOwner owner) { Overlay.this.onPause(); }
-            @Override public void onStop(@NonNull final LifecycleOwner owner) { Overlay.this.onStop(); }
-            @Override public void onDestroy(@NonNull final LifecycleOwner owner) { Overlay.this.onDestroy(); }
-        });
-    }
-
     @RestrictTo(RestrictTo.Scope.LIBRARY)
+    @UiThread @MainThread
     @CallSuper
     protected void onCreate() { /*nothing*/ }
 
     @RestrictTo(RestrictTo.Scope.LIBRARY)
+    @UiThread @MainThread
     @CallSuper
     protected void onStart() { /*nothing*/ }
 
     @RestrictTo(RestrictTo.Scope.LIBRARY)
+    @UiThread @MainThread
     @CallSuper
     protected void onResume() { /*nothing*/ }
 
     @RestrictTo(RestrictTo.Scope.LIBRARY)
+    @UiThread @MainThread
     @CallSuper
     protected void onPause() { /*nothing*/ }
 
     @RestrictTo(RestrictTo.Scope.LIBRARY)
+    @UiThread @MainThread
     @CallSuper
     protected void onStop() { /*nothing*/ }
 
     /** Override to perform clean up of resources before shutdown. By default does nothing */
     @RestrictTo(RestrictTo.Scope.LIBRARY)
+    @UiThread @MainThread
     @CallSuper
-    protected void onDestroy() { /*nothing*/ }
+    protected void onDestroy() {
+        mBoundingBoxChangedListener = null;
+    }
 
-    public void freeMemory(@NonNull final MapView mapView) { /*nothig*/ }
+    @CallSuper
+    public void freeMemory(@Nullable final MapView mapView) {
+        onDestroy();
+    }
 
     public void setViewBoundingBoxChangedListener(@Nullable final IViewBoundingBoxChangedListener listener) {
         mBoundingBoxChangedListener = listener;

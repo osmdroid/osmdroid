@@ -57,10 +57,7 @@ public abstract class BaseSampleFragment extends Fragment {
         mMapView.setOnGenericMotionListener(new View.OnGenericMotionListener() {
             /**
              * mouse wheel zooming ftw
-             * http://stackoverflow.com/questions/11024809/how-can-my-view-respond-to-a-mousewheel
-             * @param v
-             * @param event
-             * @return
+             * <a href="http://stackoverflow.com/questions/11024809/how-can-my-view-respond-to-a-mousewheel">...</a>
              */
             @Override
             public boolean onGenericMotion(View v, MotionEvent event) {
@@ -222,9 +219,9 @@ public abstract class BaseSampleFragment extends Fragment {
 
             View view = View.inflate(getActivity(), R.layout.gotolocation, null);
 
-            final EditText lat = (EditText) view.findViewById(R.id.latlonPicker_latitude);
-            final EditText lon = (EditText) view.findViewById(R.id.latlonPicker_longitude);
-            final Button cancel = (Button) view.findViewById(R.id.latlonPicker_cancel);
+            final EditText lat = view.findViewById(R.id.latlonPicker_latitude);
+            final EditText lon = view.findViewById(R.id.latlonPicker_longitude);
+            final Button cancel = view.findViewById(R.id.latlonPicker_cancel);
             cancel.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -232,7 +229,7 @@ public abstract class BaseSampleFragment extends Fragment {
                 }
             });
 
-            Button ok = (Button) view.findViewById(R.id.latlonPicker_ok);
+            Button ok = view.findViewById(R.id.latlonPicker_ok);
             ok.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

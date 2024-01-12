@@ -54,6 +54,7 @@ public class PointL {
     /**
      * @since 6.0.0
      */
+    @NonNull
     @Override
     public String toString() {
         return "PointL(" + x + ", " + y + ")";

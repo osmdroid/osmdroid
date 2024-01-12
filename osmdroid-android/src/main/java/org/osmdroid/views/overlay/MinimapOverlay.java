@@ -21,7 +21,7 @@ import org.osmdroid.views.Projection;
  * will create an under-sized cache.
  * <p>
  * Notice, this class has some problems when the parent map view is rotation enabled.
- * See https://github.com/osmdroid/osmdroid/issues/98 for a work around
+ * See <a href="https://github.com/osmdroid/osmdroid/issues/98">...</a> for a work around
  *
  * @author Marc Kurtz
  */

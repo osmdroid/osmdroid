@@ -82,7 +82,7 @@ public class OpenStreetMapTileProviderDirectTest  {
     @Test
     public void test_getMapTile_found() throws RemoteException, BitmapTileSourceBase.LowMemoryException, java.io.IOException {
         final long tile = MapTileIndex.getTileIndex(2, 3, 3);
-        if (Build.VERSION.SDK_INT >= 23)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
             return;
 
         // create a bitmap, draw something on it, write it to a file and put it in the cache
@@ -127,21 +127,15 @@ public class OpenStreetMapTileProviderDirectTest  {
         final Bitmap bitmap2 = ((BitmapDrawable) drawable).getBitmap();
         assertNotNull("Expect tile to be not null", bitmap2);
 
-        // compare a few things to see if it's the same bitmap
-        // commented out due to a number of intermitent failures on API8
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.FROYO) {
-            assertEquals("Compare config", bitmap1.getConfig(), bitmap2.getConfig());
-        }
+        assertEquals("Compare config", bitmap1.getConfig(), bitmap2.getConfig());
         assertEquals("Compare width", bitmap1.getWidth(), bitmap2.getWidth());
         assertEquals("Compare height", bitmap1.getHeight(), bitmap2.getHeight());
 
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.FROYO) {
-            // compare the total thing
-            final ByteBuffer bb1 = ByteBuffer.allocate(bitmap1.getWidth() * bitmap1.getHeight() * 4);
-            bitmap1.copyPixelsToBuffer(bb1);
-            final ByteBuffer bb2 = ByteBuffer.allocate(bitmap2.getWidth() * bitmap2.getHeight() * 4);
-            bitmap2.copyPixelsToBuffer(bb2);
-            assertEquals("Compare pixels", bb1, bb2);
-        }
+        // compare the total thing
+        final ByteBuffer bb1 = ByteBuffer.allocate(bitmap1.getWidth() * bitmap1.getHeight() * 4);
+        bitmap1.copyPixelsToBuffer(bb1);
+        final ByteBuffer bb2 = ByteBuffer.allocate(bitmap2.getWidth() * bitmap2.getHeight() * 4);
+        bitmap2.copyPixelsToBuffer(bb2);
+        assertEquals("Compare pixels", bb1, bb2);
     }
 }

@@ -7,6 +7,8 @@ import android.content.IntentFilter;
 
 import org.osmdroid.tileprovider.IRegisterReceiver;
 
+import androidx.annotation.CallSuper;
+
 public abstract class MapTileFileStorageProviderBase extends MapTileModuleProviderBase {
 
     private final IRegisterReceiver mRegisterReceiver;
@@ -27,6 +29,7 @@ public abstract class MapTileFileStorageProviderBase extends MapTileModuleProvid
     }
 
     @Override
+    @CallSuper
     public void detach() {
         if (mBroadcastReceiver != null) {
             mRegisterReceiver.unregisterReceiver(mBroadcastReceiver);
@@ -47,12 +50,9 @@ public abstract class MapTileFileStorageProviderBase extends MapTileModuleProvid
      * This broadcast receiver will recheck the sd card when the mount/unmount messages happen
      */
     private class MyBroadcastReceiver extends BroadcastReceiver {
-
         @Override
         public void onReceive(final Context aContext, final Intent aIntent) {
-
             final String action = aIntent.getAction();
-
             if (Intent.ACTION_MEDIA_MOUNTED.equals(action)) {
                 onMediaMounted();
             } else if (Intent.ACTION_MEDIA_UNMOUNTED.equals(action)) {

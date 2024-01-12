@@ -78,6 +78,7 @@ public class ScrollEvent implements MapEvent {
         return y;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "ScrollEvent [source=" + source + ", x=" + x + ", y=" + y + "]";

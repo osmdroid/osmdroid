@@ -29,7 +29,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 /**
- * http://www.androidhive.info/2013/07/android-expandable-list-view-tutorial/
+ * <a href="http://www.androidhive.info/2013/07/android-expandable-list-view-tutorial/">...</a>
  * <p>
  * created on 1/1/2017.
  *
@@ -170,10 +170,10 @@ public class SamplesMenuFragment extends Fragment {
      */
     private boolean prepareListData() {
         Set<String> headers = new HashSet<>();
-        listDataHeader = new ArrayList<String>();
+        listDataHeader = new ArrayList<>();
 
         //category, content
-        listDataChild = new HashMap<String, List<String>>();
+        listDataChild = new HashMap<>();
         if (sampleFactory == null || additionActivitybasedSamples == null) {
             //getActivity().getSupportFragmentManager().popBackStack();
             return false;
@@ -190,7 +190,7 @@ public class SamplesMenuFragment extends Fragment {
             headers.add(group);
 
             if (!listDataChild.containsKey(group)) {
-                listDataChild.put(group, new ArrayList<String>());
+                listDataChild.put(group, new ArrayList<>());
             }
             listDataChild.get(group).add(f.getSampleTitle());
         }
@@ -198,7 +198,7 @@ public class SamplesMenuFragment extends Fragment {
 
         if (!additionActivitybasedSamples.isEmpty()) {
             listDataHeader.add("Activities");
-            listDataChild.put("Activities", new ArrayList<String>());
+            listDataChild.put("Activities", new ArrayList<>());
             for (int a = 0; a < additionActivitybasedSamples.size(); a++) {
                 listDataChild.get("Activities").add(additionActivitybasedSamples.get(a).getActivityTitle());
                 titleSampleMap.put(additionActivitybasedSamples.get(a).getActivityTitle(), additionActivitybasedSamples.get(a));

@@ -20,7 +20,7 @@ public final class MapTileRequestState implements ReusablePoolDynamic.ReusableIt
     private Long mStartLoadingMillis = 0L;
 
     /**
-     * @deprecated use {@link MapTileRequestState#MapTileRequestState(Long, List, IMapTileProviderCallback)} instead
+     * @deprecated use {@link MapTileRequestState#MapTileRequestState(Long)} instead
      */
     @Deprecated
     public MapTileRequestState(final long pMapTileIndex,

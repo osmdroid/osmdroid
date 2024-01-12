@@ -656,9 +656,9 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
         switch (unitsOfMeasure) {
             default:
             case metric:
-                if (meters >= 1000 * 5) {
+                if (meters >= (1000 * 5)) {
                     return getConvertedScaleString(meters, UnitOfMeasure.kilometer, "%.0f");
-                } else if (meters >= 1000 / 5) {
+                } else if (meters >= (1000d / 5)) {
                     return getConvertedScaleString(meters, UnitOfMeasure.kilometer, "%.1f");
                 } else if (meters >= 20) {
                     return getConvertedScaleString(meters, UnitOfMeasure.meter, "%.0f");

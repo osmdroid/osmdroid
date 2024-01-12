@@ -586,7 +586,7 @@ abstract public class TileSystem {
      * @since 6.0.0
      */
     public GeoPoint getGeoFromMercator(final long pMercatorX, final long pMercatorY, final double pMapSize, @Nullable final GeoPoint pReuse, boolean horizontalWrapEnabled, boolean verticalWrapEnabled) {
-        final GeoPoint out = pReuse == null ? new GeoPoint(0., 0.) : pReuse;
+        final GeoPoint out = ((pReuse == null) ? new GeoPoint(0d, 0d) : pReuse);
         out.setLatitude(getLatitudeFromY01(getXY01FromMercator(pMercatorY, pMapSize, verticalWrapEnabled), verticalWrapEnabled));
         out.setLongitude(getLongitudeFromX01(getXY01FromMercator(pMercatorX, pMapSize, horizontalWrapEnabled), horizontalWrapEnabled));
         return out;

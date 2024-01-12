@@ -55,10 +55,7 @@ public class MapController implements IMapController, OnFirstLayoutListener {
 
     // Keep track of calls before initial layout
     private final ReplayController mReplayController;
-    private final ReusablePool<ZoomEvent> mZoomEventsCache = new ReusablePool<>(new ReusablePool.IReusablePoolItemCallback<ZoomEvent>() {
-        @Override
-        public ZoomEvent newInstance() { return ZoomEvent.newInstanceForReusablePool(); }
-    }, 2);
+    private final ReusablePool<ZoomEvent> mZoomEventsCache = new ReusablePool<>(ZoomEvent::newInstanceForReusablePool, 2);
 
     // ===========================================================
     // Constructors
@@ -71,19 +68,6 @@ public class MapController implements IMapController, OnFirstLayoutListener {
         mReplayController = new ReplayController();
         if (!mMapView.isLayoutOccurred()) {
             mMapView.addOnFirstLayoutListener(this);
-        }
-
-
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
-            ZoomAnimationListener zoomAnimationListener = new ZoomAnimationListener(this);
-            mZoomInAnimationOld = new ScaleAnimation(1, 2, 1, 2, Animation.RELATIVE_TO_SELF, 0.5f,
-                    Animation.RELATIVE_TO_SELF, 0.5f);
-            mZoomOutAnimationOld = new ScaleAnimation(1, 0.5f, 1, 0.5f, Animation.RELATIVE_TO_SELF,
-                    0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-            mZoomInAnimationOld.setDuration(Configuration.getInstance().getAnimationSpeedShort());
-            mZoomOutAnimationOld.setDuration(Configuration.getInstance().getAnimationSpeedShort());
-            mZoomInAnimationOld.setAnimationListener(zoomAnimationListener);
-            mZoomOutAnimationOld.setAnimationListener(zoomAnimationListener);
         }
     }
 
@@ -169,33 +153,25 @@ public class MapController implements IMapController, OnFirstLayoutListener {
             mReplayController.animateTo(pointLat, pointLon, pZoom, pSpeed, pOrientation, pClockwise);
             return;
         }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            final IGeoPoint currentCenter = mMapView.getProjection().getCurrentCenter();
-            final MapAnimatorListener mapAnimatorListener =
-                    new MapAnimatorListener(this,
-                            mMapView.getZoomLevelDouble(), pZoom,
-                            currentCenter.getLatitude(), currentCenter.getLongitude(),
-                            pointLat, pointLon,
-                            mMapView.getMapOrientation(), pOrientation, pClockwise);
-            final ValueAnimator mapAnimator = ValueAnimator.ofFloat(0, 1);
-            mapAnimator.addListener(mapAnimatorListener);
-            mapAnimator.addUpdateListener(mapAnimatorListener);
-            if (pSpeed == null) {
-                mapAnimator.setDuration(Configuration.getInstance().getAnimationSpeedDefault());
-            } else {
-                mapAnimator.setDuration(pSpeed);
-            }
-
-            if (mCurrentAnimator != null) {
-                mapAnimatorListener.onAnimationCancel(mCurrentAnimator);
-            }
-            mCurrentAnimator = mapAnimator;
-            mapAnimator.start();
-            return;
+        final IGeoPoint currentCenter = mMapView.getProjection().getCurrentCenter();
+        final MapAnimatorListener mapAnimatorListener =
+            new MapAnimatorListener(this,
+                mMapView.getZoomLevelDouble(), pZoom,
+                currentCenter.getLatitude(), currentCenter.getLongitude(),
+                pointLat, pointLon,
+                mMapView.getMapOrientation(), pOrientation, pClockwise);
+        final ValueAnimator mapAnimator = ValueAnimator.ofFloat(0, 1);
+        mapAnimator.addListener(mapAnimatorListener);
+        mapAnimator.addUpdateListener(mapAnimatorListener);
+        if (pSpeed == null) {
+            mapAnimator.setDuration(Configuration.getInstance().getAnimationSpeedDefault());
+        } else {
+            mapAnimator.setDuration(pSpeed);
         }
-        // TODO handle the zoom and orientation parts for the .3% of the population below HONEYCOMB (Feb. 2018)
-        Point p = mMapView.getProjection().toPixels(pointLat, pointLon, null);
-        animateTo(p.x, p.y);
+
+        if (mCurrentAnimator != null) mapAnimatorListener.onAnimationCancel(mCurrentAnimator);
+        mCurrentAnimator = mapAnimator;
+        mapAnimator.start();
     }
 
     /**
@@ -293,18 +269,12 @@ public class MapController implements IMapController, OnFirstLayoutListener {
                 stopPanning();
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            final Animator currentAnimator = this.mCurrentAnimator;
-            if (mMapView.mIsAnimating.get()) {
-                if (jumpToTarget) {
-                    currentAnimator.end();
-                } else {
-                    currentAnimator.cancel();
-                }
-            }
-        } else {
-            if (mMapView.mIsAnimating.get()) {
-                mMapView.clearAnimation();
+        final Animator currentAnimator = this.mCurrentAnimator;
+        if (mMapView.mIsAnimating.get()) {
+            if (jumpToTarget) {
+                currentAnimator.end();
+            } else {
+                currentAnimator.cancel();
             }
         }
     }
@@ -433,42 +403,21 @@ public class MapController implements IMapController, OnFirstLayoutListener {
         mMapView.startAnimation();
 
         float end = (float) Math.pow(2.0, zoomLevel - currentZoomLevel);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            final MapAnimatorListener zoomAnimatorListener = new MapAnimatorListener(this,
-                    currentZoomLevel, zoomLevel,
-                    null, null,
-                    null, null, null);
-            final ValueAnimator zoomToAnimator = ValueAnimator.ofFloat(0, 1);
-            zoomToAnimator.addListener(zoomAnimatorListener);
-            zoomToAnimator.addUpdateListener(zoomAnimatorListener);
-            if (zoomAnimationSpeed == null) {
-                zoomToAnimator.setDuration(Configuration.getInstance().getAnimationSpeedShort());
-            } else {
-                zoomToAnimator.setDuration(zoomAnimationSpeed);
-            }
-
-            mCurrentAnimator = zoomToAnimator;
-            zoomToAnimator.start();
-            return true;
-        }
-        mTargetZoomLevel = zoomLevel;
-        if (zoomLevel > currentZoomLevel)
-            mMapView.startAnimation(mZoomInAnimationOld);
-        else
-            mMapView.startAnimation(mZoomOutAnimationOld);
-        ScaleAnimation scaleAnimation;
-
-        scaleAnimation = new ScaleAnimation(
-                1f, end, //X
-                1f, end, //Y
-                Animation.RELATIVE_TO_SELF, 0.5f, //Pivot X
-                Animation.RELATIVE_TO_SELF, 0.5f); //Pivot Y
+        final MapAnimatorListener zoomAnimatorListener = new MapAnimatorListener(this,
+                currentZoomLevel, zoomLevel,
+                null, null,
+                null, null, null);
+        final ValueAnimator zoomToAnimator = ValueAnimator.ofFloat(0, 1);
+        zoomToAnimator.addListener(zoomAnimatorListener);
+        zoomToAnimator.addUpdateListener(zoomAnimatorListener);
         if (zoomAnimationSpeed == null) {
-            scaleAnimation.setDuration(Configuration.getInstance().getAnimationSpeedShort());
+            zoomToAnimator.setDuration(Configuration.getInstance().getAnimationSpeedShort());
         } else {
-            scaleAnimation.setDuration(zoomAnimationSpeed);
+            zoomToAnimator.setDuration(zoomAnimationSpeed);
         }
-        scaleAnimation.setAnimationListener(new ZoomAnimationListener(this));
+
+        mCurrentAnimator = zoomToAnimator;
+        zoomToAnimator.start();
         return true;
     }
 
@@ -493,14 +442,7 @@ public class MapController implements IMapController, OnFirstLayoutListener {
     protected void onAnimationEnd() {
         mMapView.mIsAnimating.set(false);
         mMapView.resetMultiTouchScale();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            mCurrentAnimator = null;
-        } else { // Fix for issue 477
-            mMapView.clearAnimation();
-            mZoomInAnimationOld.reset();
-            mZoomOutAnimationOld.reset();
-            setZoom(mTargetZoomLevel);
-        }
+        mCurrentAnimator = null;
         mMapView.invalidate();
     }
 

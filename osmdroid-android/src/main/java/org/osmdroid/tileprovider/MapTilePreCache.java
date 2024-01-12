@@ -34,13 +34,10 @@ public class MapTilePreCache {
     private final MapTileAreaList mTileAreas = new MapTileAreaList();
     private Iterator<Long> mTileIndices;
     private final MapTileCache mCache;
-    private final GarbageCollector mGC = new GarbageCollector(new Runnable() {
-        @Override
-        public void run() {
-            long next;
-            while ((next = next()) != -1) {
-                search(next);
-            }
+    private final GarbageCollector mGC = new GarbageCollector(() -> {
+        long next;
+        while ((next = next()) != -1) {
+            search(next);
         }
     });
 

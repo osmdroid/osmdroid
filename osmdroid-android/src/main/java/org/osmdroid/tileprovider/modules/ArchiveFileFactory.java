@@ -17,12 +17,9 @@ public class ArchiveFileFactory {
 
     static {
         extensionMap.put("zip", ZipFileArchive.class);
-        if (Build.VERSION.SDK_INT >= 10) {
-            extensionMap.put("sqlite", DatabaseFileArchive.class);
-            extensionMap.put("mbtiles", MBTilesFileArchive.class);
-            extensionMap.put("gemf", GEMFFileArchive.class);
-        }
-
+        extensionMap.put("sqlite", DatabaseFileArchive.class);
+        extensionMap.put("mbtiles", MBTilesFileArchive.class);
+        extensionMap.put("gemf", GEMFFileArchive.class);
     }
 
     /**
@@ -30,7 +27,6 @@ public class ArchiveFileFactory {
      * has a driver to read map tiles/data from that source.
      *
      * @param extension the file extension in question, minus the "."
-     * @return
      * @since 5.0
      */
     public static boolean isFileExtensionRegistered(String extension) {

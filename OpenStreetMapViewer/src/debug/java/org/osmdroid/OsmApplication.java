@@ -21,6 +21,7 @@ public class OsmApplication extends OsmApplicationBase {
 
     @Override
     protected void onCreation() {
+        /*
         StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
                 .detectDiskReads()
                 .detectDiskWrites()
@@ -33,6 +34,7 @@ public class OsmApplication extends OsmApplicationBase {
                 .penaltyLog()
                 .penaltyDeath()
                 .build());
+        */
     }
 
 }

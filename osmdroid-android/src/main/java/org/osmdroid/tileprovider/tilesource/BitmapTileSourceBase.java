@@ -108,6 +108,7 @@ public abstract class BitmapTileSourceBase implements ITileSource {
         return mTileSizePixels;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return name();
@@ -117,26 +118,31 @@ public abstract class BitmapTileSourceBase implements ITileSource {
     public Drawable getDrawable(final String aFilePath) throws LowMemoryException {
         //Log.d(IMapView.LOGTAG, aFilePath + " attempting to load bitmap");
         try {
+            final long cThreadId = Thread.currentThread().getId();
             // We need to determine the real tile size first..
             // Otherwise, if mTileSizePixel is not correct, we will never be able to reuse bitmaps
             // from the pool, as we request them with mTileSizePixels, while they are stored with
             // their real size
-            BitmapFactory.Options optSize = new BitmapFactory.Options();
-            optSize.inJustDecodeBounds = true;
+            final BitmapFactory.Options optSize;
+            synchronized (mBitmapOptionsCache) {
+                if (mBitmapOptionsCache.containsKey(cThreadId)) optSize = mBitmapOptionsCache.get(cThreadId);
+                else mBitmapOptionsCache.put(cThreadId, (optSize = new BitmapFactory.Options()));
+            }
+            //noinspection DataFlowIssue
+            resetOptions(optSize);
             BitmapFactory.decodeFile(aFilePath, optSize);
             int realSize = optSize.outHeight;
 
-            // default implementation will load the file as a bitmap and create
-            // a BitmapDrawable from it
-            BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
-            BitmapPool.getInstance().applyReusableOptions(
-                    bitmapOptions, realSize, realSize);
-            final Bitmap bitmap;
-            //fix for API 15 see https://github.com/osmdroid/osmdroid/issues/227
-            if (Build.VERSION.SDK_INT == Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1)
-                bitmap = BitmapFactory.decodeFile(aFilePath);
-            else
-                bitmap = BitmapFactory.decodeFile(aFilePath, bitmapOptions);
+            // default implementation will load the file as a bitmap and create a BitmapDrawable from it
+            final BitmapFactory.Options bitmapOptions;
+            synchronized (mBitmapOptionsCache) {
+                if (mBitmapOptionsCache.containsKey(cThreadId)) bitmapOptions = mBitmapOptionsCache.get(cThreadId);
+                else mBitmapOptionsCache.put(cThreadId, (bitmapOptions = new BitmapFactory.Options()));
+            }
+            //noinspection DataFlowIssue
+            resetOptions(bitmapOptions);
+            BitmapPool.getInstance().applyReusableOptions(bitmapOptions, realSize, realSize);
+            final Bitmap bitmap = BitmapFactory.decodeFile(aFilePath, bitmapOptions);
             if (bitmap != null) {
                 return new ReusableBitmapDrawable(bitmap);
             } else {
@@ -145,6 +151,7 @@ public abstract class BitmapTileSourceBase implements ITileSource {
                     // if we couldn't load it then it's invalid - delete it
                     Log.d(IMapView.LOGTAG, aFilePath + " is an invalid image file, deleting...");
                     try {
+                        //noinspection ResultOfMethodCallIgnored
                         new File(aFilePath).delete();
                     } catch (final Throwable e) {
                         Log.e(IMapView.LOGTAG, "Error deleting invalid file: " + aFilePath, e);
@@ -154,28 +161,24 @@ public abstract class BitmapTileSourceBase implements ITileSource {
             }
         } catch (final OutOfMemoryError e) {
             Log.e(IMapView.LOGTAG, "OutOfMemoryError loading bitmap: " + aFilePath);
-            System.gc();
             throw new LowMemoryException(e);
         } catch (final Exception e) {
             Log.e(IMapView.LOGTAG, "Unexpected error loading bitmap: " + aFilePath, e);
             Counters.tileDownloadErrors++;
-            System.gc();
         }
         return null;
     }
 
     @Override
     public String getTileRelativeFilenameString(final long pMapTileIndex) {
-        final StringBuilder sb = new StringBuilder();
-        sb.append(pathBase());
-        sb.append('/');
-        sb.append(MapTileIndex.getZoom(pMapTileIndex));
-        sb.append('/');
-        sb.append(MapTileIndex.getX(pMapTileIndex));
-        sb.append('/');
-        sb.append(MapTileIndex.getY(pMapTileIndex));
-        sb.append(imageFilenameEnding());
-        return sb.toString();
+        return pathBase() +
+                '/' +
+                MapTileIndex.getZoom(pMapTileIndex) +
+                '/' +
+                MapTileIndex.getX(pMapTileIndex) +
+                '/' +
+                MapTileIndex.getY(pMapTileIndex) +
+                imageFilenameEnding();
     }
 
     @Override
@@ -194,6 +197,7 @@ public abstract class BitmapTileSourceBase implements ITileSource {
                     if (mBitmapOptionsCache.containsKey(cThreadId)) optSize = mBitmapOptionsCache.get(cThreadId);
                     else mBitmapOptionsCache.put(cThreadId, (optSize = new BitmapFactory.Options()));
                 }
+                //noinspection DataFlowIssue
                 resetOptions(optSize);
                 optSize.inJustDecodeBounds = true;
                 BitmapFactory.decodeStream(aFileInputStream, null, optSize);
@@ -209,16 +213,15 @@ public abstract class BitmapTileSourceBase implements ITileSource {
                 if (mBitmapOptionsCache.containsKey(cThreadId)) bitmapOptions = mBitmapOptionsCache.get(cThreadId);
                 else mBitmapOptionsCache.put(cThreadId, (bitmapOptions = new BitmapFactory.Options()));
             }
+            //noinspection DataFlowIssue
             resetOptions(bitmapOptions);
-            BitmapPool.getInstance().applyReusableOptions(
-                    bitmapOptions, realSize, realSize);
+            BitmapPool.getInstance().applyReusableOptions(bitmapOptions, realSize, realSize);
             final Bitmap bitmap = BitmapFactory.decodeStream(aFileInputStream, null, bitmapOptions);
             if (bitmap != null) {
                 return new ReusableBitmapDrawable(bitmap);
             }
         } catch (final OutOfMemoryError e) {
             Log.e(IMapView.LOGTAG, "OutOfMemoryError loading bitmap");
-            System.gc();
             throw new LowMemoryException(e);
         } catch (Exception ex) {
             Log.w(IMapView.LOGTAG, "#547 Error loading bitmap" + pathBase(), ex);
@@ -241,10 +244,8 @@ public abstract class BitmapTileSourceBase implements ITileSource {
     }
 
     private void resetOptions(@NonNull final BitmapFactory.Options options) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            options.inBitmap = CONST_EMPTY_OPTION.inBitmap;
-            options.inMutable = CONST_EMPTY_OPTION.inMutable;
-        }
+        options.inBitmap = CONST_EMPTY_OPTION.inBitmap;
+        options.inMutable = CONST_EMPTY_OPTION.inMutable;
         options.inJustDecodeBounds = CONST_EMPTY_OPTION.inJustDecodeBounds;
         options.inSampleSize = CONST_EMPTY_OPTION.inSampleSize;
         options.inPreferredConfig = CONST_EMPTY_OPTION.inPreferredConfig;
@@ -253,9 +254,7 @@ public abstract class BitmapTileSourceBase implements ITileSource {
             options.outConfig = CONST_EMPTY_OPTION.outConfig;
             options.outColorSpace = CONST_EMPTY_OPTION.outColorSpace;
         }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            options.inPremultiplied = CONST_EMPTY_OPTION.inPremultiplied;
-        }
+        options.inPremultiplied = CONST_EMPTY_OPTION.inPremultiplied;
         options.inDither = CONST_EMPTY_OPTION.inDither;
         options.inDensity = CONST_EMPTY_OPTION.inDensity;
         options.inTargetDensity = CONST_EMPTY_OPTION.inTargetDensity;
@@ -263,9 +262,7 @@ public abstract class BitmapTileSourceBase implements ITileSource {
         options.inScaled = CONST_EMPTY_OPTION.inScaled;
         options.inPurgeable = CONST_EMPTY_OPTION.inPurgeable;
         options.inInputShareable = CONST_EMPTY_OPTION.inInputShareable;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD_MR1) {
-            options.inPreferQualityOverSpeed = CONST_EMPTY_OPTION.inPreferQualityOverSpeed;
-        }
+        options.inPreferQualityOverSpeed = CONST_EMPTY_OPTION.inPreferQualityOverSpeed;
         options.outWidth = CONST_EMPTY_OPTION.outWidth;
         options.outHeight = CONST_EMPTY_OPTION.outHeight;
         options.outMimeType = CONST_EMPTY_OPTION.outMimeType;

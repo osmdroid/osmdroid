@@ -42,9 +42,7 @@ public class NetworkAvailabliltyCheck implements INetworkAvailablityCheck {
         if (networkInfo.isConnected()) {
             return true;
         }
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.HONEYCOMB_MR2)
-            return mIsX86 && networkInfo.getType() == ConnectivityManager.TYPE_ETHERNET;
-        return false;
+        return mIsX86 && networkInfo.getType() == ConnectivityManager.TYPE_ETHERNET;
     }
 
     @Override

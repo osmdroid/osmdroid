@@ -54,6 +54,8 @@ public final class MapEventsAsync implements ViewModelStoreOwner {
     private final HashMap<Long,Long> mRemainingToResolve = new HashMap<>();
     private final HashMap<Integer,Integer> mPendingLoadingTypes = new HashMap<>();
     private long mLastLoadingTileProgression = 0L;
+    @Nullable
+    private MapView.OnFirstLayoutListener mOnFirstLayoutListener = null;
         //ViewModel
     private final ViewModelStore mViewModelStore = new ViewModelStore();
     private final MapEventsAsyncViewModel mMapEventsAsyncViewModel;
@@ -109,12 +111,10 @@ public final class MapEventsAsync implements ViewModelStoreOwner {
             @Override public void onPause(@NonNull final LifecycleOwner owner) { postToMainThread_OnPause(); }
         });
         mMapEventsAsyncListener = listener;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR1) {
-            mMapView.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
-                @Override public void onViewAttachedToWindow(@NonNull final View v) { onMapViewAttachedToWindow(mapView, listener, params); }
-                @Override public void onViewDetachedFromWindow(@NonNull final View v) { onMapViewDetachedFromWindow(mapView, listener, params); }
-            });
-        }
+        mMapView.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
+            @Override public void onViewAttachedToWindow(@NonNull final View v) { onMapViewAttachedToWindow(mapView, listener, params); }
+            @Override public void onViewDetachedFromWindow(@NonNull final View v) { onMapViewDetachedFromWindow(mapView, listener, params); }
+        });
         mMainThreadHandler = new Handler(Looper.getMainLooper(), new Handler.Callback() {
             private WorkingThread mWorkingThread;
             {
@@ -298,9 +298,7 @@ public final class MapEventsAsync implements ViewModelStoreOwner {
                 return mWorkingThread;
             }
         });
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            if (mapView.isAttachedToWindow()) this.onMapViewAttachedToWindow(mapView, listener, params);
-        } else this.onMapViewAttachedToWindow(mapView, listener, params);
+        if (mapView.isAttachedToWindow()) this.onMapViewAttachedToWindow(mapView, listener, params);
     }
 
     private void handleTileLoadingData(final int what, final int halfLongA, final int halfLongB, @Nullable final Long loadingTime_ms) {
@@ -385,7 +383,8 @@ public final class MapEventsAsync implements ViewModelStoreOwner {
                 return false;
             }
         });
-        mapView.addOnFirstLayoutListener(new MapView.OnFirstLayoutListener() {
+        if (mOnFirstLayoutListener != null) mapView.removeOnFirstLayoutListener(mOnFirstLayoutListener);
+        mapView.addOnFirstLayoutListener(mOnFirstLayoutListener = new MapView.OnFirstLayoutListener() {
             @Override
             public void onFirstLayout(@NonNull final View v, final int left, final int top, final int right, final int bottom) { postToMainThread_OnFirstLayout(left, top, right, bottom); }
         });
@@ -462,6 +461,10 @@ public final class MapEventsAsync implements ViewModelStoreOwner {
 
     private void onMapViewDetachedFromWindow(@NonNull final MapView mapView, @NonNull final MapEventsAsyncListener listener, @Nullable final ThreadParams params) {
         postToMainThread_OnDetachedFromWindow();
+        if (mOnFirstLayoutListener != null) {
+            mapView.removeOnFirstLayoutListener(mOnFirstLayoutListener);
+            mOnFirstLayoutListener = null;
+        }
     }
 
     private boolean postToMainThread(@TH_MAINMESSAGE final int what) { return mMainThreadHandler.sendEmptyMessage(what); }
@@ -528,7 +531,7 @@ public final class MapEventsAsync implements ViewModelStoreOwner {
     }
 
     @WorkerThread
-    public static final class WorkingThread extends Thread implements Handler.Callback {
+    private static final class WorkingThread extends Thread implements Handler.Callback {
         private static final String TAG = "WorkingThread";
 
         @Retention(RetentionPolicy.SOURCE)
@@ -688,33 +691,23 @@ public final class MapEventsAsync implements ViewModelStoreOwner {
         /** {@inheritDoc} */
         @WorkerThread
         @Override
-        public void onInitWorking(@NonNull final MapView mapView) {
-
-        }
+        public void onInitWorking(@NonNull final MapView mapView) { /*nothing*/ }
         /** {@inheritDoc} */
         @UiThread @MainThread
         @Override
-        public void onInitDone(@NonNull final MapView mapView) {
-
-        }
+        public void onInitDone(@NonNull final MapView mapView) { /*nothing*/ }
         /** {@inheritDoc} */
         @UiThread @MainThread
         @Override
-        public void onLoadingProgress(@LOADINGTYPE final int loadingType, final int percentage, @LOADINGTYPE final int otherRemainingTypes) {
-
-        }
+        public void onLoadingProgress(@LOADINGTYPE final int loadingType, final int percentage, @LOADINGTYPE final int otherRemainingTypes) { /*nothing*/ }
         /** {@inheritDoc} */
         @UiThread @MainThread
         @Override
-        public void onLoadingDone(@LOADINGTYPE final int loadingType, @LOADINGTYPE final int otherRemainingTypes) {
-
-        }
+        public void onLoadingDone(@LOADINGTYPE final int loadingType, @LOADINGTYPE final int otherRemainingTypes) { /*nothing*/ }
         /** {@inheritDoc} */
         @UiThread @MainThread
         @Override
-        public void onFirstLayout(final int left, final int top, final int right, final int bottom) {
-
-        }
+        public void onFirstLayout(final int left, final int top, final int right, final int bottom) { /*nothing*/ }
     }
 
     @Retention(RetentionPolicy.SOURCE)

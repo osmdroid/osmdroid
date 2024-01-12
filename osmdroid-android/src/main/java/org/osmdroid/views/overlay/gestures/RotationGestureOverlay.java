@@ -9,8 +9,9 @@ import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.IOverlayMenuProvider;
 import org.osmdroid.views.overlay.Overlay;
 
-public class RotationGestureOverlay extends Overlay implements
-        RotationGestureDetector.RotationListener, IOverlayMenuProvider {
+import androidx.annotation.NonNull;
+
+public class RotationGestureOverlay extends Overlay implements RotationGestureDetector.RotationListener, IOverlayMenuProvider {
     private final static boolean SHOW_ROTATE_MENU_ITEMS = false;
 
     private final static int MENU_ENABLED = getSafeMenuId();
@@ -25,11 +26,11 @@ public class RotationGestureOverlay extends Overlay implements
      * use {@link #RotationGestureOverlay(MapView)} instead.
      */
     @Deprecated
-    public RotationGestureOverlay(Context context, MapView mapView) {
+    public RotationGestureOverlay(final Context context, @NonNull final MapView mapView) {
         this(mapView);
     }
 
-    public RotationGestureOverlay(MapView mapView) {
+    public RotationGestureOverlay(@NonNull final MapView mapView) {
         super();
         mMapView = mapView;
         mRotationDetector = new RotationGestureDetector(this);
@@ -46,7 +47,7 @@ public class RotationGestureOverlay extends Overlay implements
     float currentAngle = 0f;
 
     @Override
-    public void onRotate(float deltaAngle) {
+    public void onRotate(final float deltaAngle) {
         currentAngle += deltaAngle;
         if (System.currentTimeMillis() - deltaTime > timeLastSet) {
             timeLastSet = System.currentTimeMillis();
@@ -99,8 +100,7 @@ public class RotationGestureOverlay extends Overlay implements
 
     @Override
     public boolean onPrepareOptionsMenu(final Menu pMenu, final int pMenuIdOffset, final MapView pMapView) {
-        pMenu.findItem(MENU_ENABLED + pMenuIdOffset).setTitle(
-                this.isEnabled() ? "Disable rotation" : "Enable rotation");
+        pMenu.findItem(MENU_ENABLED + pMenuIdOffset).setTitle(this.isEnabled() ? "Disable rotation" : "Enable rotation");
         return false;
     }
 

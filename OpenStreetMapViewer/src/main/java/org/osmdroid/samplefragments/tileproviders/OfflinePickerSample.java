@@ -109,8 +109,7 @@ public class OfflinePickerSample extends BaseSampleFragment implements View.OnCl
 
         Set<String> registeredExtensions = ArchiveFileFactory.getRegisteredExtensions();
         //api check
-        if (Build.VERSION.SDK_INT >= 14)
-            registeredExtensions.add("gpkg");
+        registeredExtensions.add("gpkg");
         registeredExtensions.add("map");
 
         String[] ret = new String[registeredExtensions.size()];

@@ -15,8 +15,8 @@ public abstract class TileLooper {
 
     protected final Rect mTiles = new Rect();
     protected int mTileZoomLevel;
-    private boolean horizontalWrapEnabled = true;
-    private boolean verticalWrapEnabled = true;
+    private boolean horizontalWrapEnabled;
+    private boolean verticalWrapEnabled;
     private final Rect mLastBoundingBox = new Rect();
     private int mLastZoom = -1;
     private final Rect mNewBoundingBox = new Rect();
@@ -26,7 +26,7 @@ public abstract class TileLooper {
         this(false, false);
     }
 
-    public TileLooper(boolean horizontalWrapEnabled, boolean verticalWrapEnabled) {
+    public TileLooper(final boolean horizontalWrapEnabled, final boolean verticalWrapEnabled) {
         this.horizontalWrapEnabled = horizontalWrapEnabled;
         this.verticalWrapEnabled = verticalWrapEnabled;
         mViewBoundingBoxChangedListener = getViewBoundingBoxChangedListener();

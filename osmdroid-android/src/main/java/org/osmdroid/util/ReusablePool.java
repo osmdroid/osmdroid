@@ -10,7 +10,7 @@ public class ReusablePool<T> {
     private final Object mSyncObj = new Object();
     private final IReusablePoolItemCallback<T> mCallback;
     private int mCapacity = 0;
-    private final LinkedList<T> mPool = new LinkedList<T>();
+    private final LinkedList<T> mPool = new LinkedList<>();
 
     public ReusablePool(@NonNull final IReusablePoolItemCallback<T> callback, final int initCapacity) {
         mCallback = callback;

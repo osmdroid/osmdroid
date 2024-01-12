@@ -38,7 +38,9 @@ public final class ReusablePoolDynamic<I,O extends ReusablePoolDynamic.ReusableI
     private final ConcurrentHashMap<Integer, ReusableItemSetInterfaceInternal<I>> mDeletionAndFreeMemoryHashMap = new ConcurrentHashMap<>();
     private int mFreeItemsDelay_ms = CONST_DEFAULT_FREE_ITEMS_DELAY_ms;
     private final Handler mHandler;
+    /** @noinspection FieldCanBeLocal*/
     private final Handler.Callback mHandlerCallback = new Handler.Callback() {
+        /** @noinspection SwitchStatementWithTooFewBranches, EnhancedSwitchMigration */
         @Override
         public boolean handleMessage(@NonNull final Message msg) {
             @THMESSAGE
@@ -122,7 +124,7 @@ public final class ReusablePoolDynamic<I,O extends ReusablePoolDynamic.ReusableI
     }
 
     public ReusablePoolDynamic(@NonNull final ReusableIndexCallback<I> callback, final int initialCapacity, final boolean execInNewThread, @Nullable final Handler handler, final int freeItemsDelay) {
-        mReusablePoolCallback = new ReusableIndexCallbackInternal<I>() {
+        mReusablePoolCallback = new ReusableIndexCallbackInternal<>() {
             @Override public ReusableItemSetInterfaceInternal<I> newInstance(final int index) { return new ReusableItemSetInterfaceInternal<>(index, callback.newInstance()); }
             @Override public void onCapacityChanged(final int capacity) { callback.onCapacityChanged(capacity); }
         };

@@ -8,7 +8,6 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
@@ -107,15 +106,6 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback {
     public void detach() {
         clearTileCache();
         if (mTileNotFoundImage != null) {
-            // Only recycle if we are running on a project less than 2.3.3 Gingerbread.
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.GINGERBREAD) {
-                if (mTileNotFoundImage instanceof BitmapDrawable) {
-                    final Bitmap bitmap = ((BitmapDrawable) mTileNotFoundImage).getBitmap();
-                    if (bitmap != null) {
-                        bitmap.recycle();
-                    }
-                }
-            }
             if (mTileNotFoundImage instanceof ReusableBitmapDrawable)
                 BitmapPool.getInstance().returnDrawableToPool((ReusableBitmapDrawable) mTileNotFoundImage);
         }

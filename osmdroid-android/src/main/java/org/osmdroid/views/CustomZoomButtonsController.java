@@ -50,26 +50,22 @@ public class CustomZoomButtonsController {
     public CustomZoomButtonsController(final MapView pMapView) {
         mMapView = pMapView;
         mDisplay = new CustomZoomButtonsDisplay(mMapView);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            mFadeOutAnimation = ValueAnimator.ofFloat(0, 1);
-            mFadeOutAnimation.setInterpolator(new LinearInterpolator());
-            mFadeOutAnimation.setDuration(mFadeOutAnimationDurationInMillis);
-            mFadeOutAnimation.addUpdateListener(
-                    new ValueAnimator.AnimatorUpdateListener() {
-                        @Override
-                        public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                            if (detached) {
-                                mFadeOutAnimation.cancel();
-                                return;
-                            }
-                            mAlpha01 = 1 - (float) valueAnimator.getAnimatedValue();
-                            invalidate();
+        mFadeOutAnimation = ValueAnimator.ofFloat(0, 1);
+        mFadeOutAnimation.setInterpolator(new LinearInterpolator());
+        mFadeOutAnimation.setDuration(mFadeOutAnimationDurationInMillis);
+        mFadeOutAnimation.addUpdateListener(
+                new ValueAnimator.AnimatorUpdateListener() {
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                        if (detached) {
+                            mFadeOutAnimation.cancel();
+                            return;
                         }
+                        mAlpha01 = 1 - (float) valueAnimator.getAnimatedValue();
+                        invalidate();
                     }
-            );
-        } else {
-            mFadeOutAnimation = null;
-        }
+                }
+        );
     }
 
     public void setZoomInEnabled(final boolean pEnabled) {
@@ -116,19 +112,12 @@ public class CustomZoomButtonsController {
         if (detached) {
             return;
         }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            mFadeOutAnimation.setStartDelay(0);
-            mFadeOutAnimation.start();
-        } else {
-            mAlpha01 = 0;
-            invalidate();
-        }
+        mFadeOutAnimation.setStartDelay(0);
+        mFadeOutAnimation.start();
     }
 
     private void stopFadeOut() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            mFadeOutAnimation.cancel();
-        }
+        mFadeOutAnimation.cancel();
     }
 
     private void invalidate() {

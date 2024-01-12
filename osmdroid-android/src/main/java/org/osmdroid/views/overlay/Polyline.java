@@ -57,7 +57,7 @@ public class Polyline extends PolyOverlayWithIW {
      * @param pUsePath true if you want the drawing to use Path instead of Canvas.drawLines
      *                 Not recommended in all cases, given the performances.
      *                 Useful though if you want clean alpha vertices
-     *                 cf. https://github.com/osmdroid/osmdroid/issues/1280
+     *                 cf. <a href="https://github.com/osmdroid/osmdroid/issues/1280">...</a>
      * @since 6.1.0
      */
     public Polyline(@Nullable final MapView pMapView, final boolean pUsePath) {

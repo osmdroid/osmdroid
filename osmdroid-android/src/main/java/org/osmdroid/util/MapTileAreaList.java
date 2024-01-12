@@ -32,7 +32,7 @@ public class MapTileAreaList implements MapTileContainer, IterableWithSize<Long>
 
     @Override
     public Iterator<Long> iterator() {
-        return new Iterator<Long>() {
+        return new Iterator<>() {
 
             private int mIndex;
             private Iterator<Long> mCurrent;

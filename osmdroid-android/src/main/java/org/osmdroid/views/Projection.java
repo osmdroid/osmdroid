@@ -54,6 +54,7 @@ public class Projection implements IProjection {
     private final double mZoomLevelProjection;
     private final Rect mScreenRectProjection = new Rect();
     private final Rect mIntrinsicScreenRectProjection;
+    private final GeoPoint mMetersToPixelsReuse = new GeoPoint(0d, 0d, 0d);
 
     private boolean horizontalWrapEnabled;
     private boolean verticalWrapEnabled;
@@ -196,9 +197,8 @@ public class Projection implements IProjection {
     }
 
     @Override
-    public IGeoPoint fromPixels(int x, int y) {
-        return fromPixels(x, y, null, false);
-    }
+    @Deprecated
+    public IGeoPoint fromPixels(int x, int y) { return fromPixels(x, y, null, false); }
 
     /**
      * note: if {@link MapView#setHorizontalMapRepetitionEnabled(boolean)} or
@@ -206,13 +206,9 @@ public class Projection implements IProjection {
      * can return values that beyond the max extents of the world. This may or may not be
      * desired. <a href="https://github.com/osmdroid/osmdroid/pull/722">https://github.com/osmdroid/osmdroid/pull/722</a>
      * for more information and the discussion associated with this.
-     *
-     * @param pPixelX
-     * @param pPixelY
-     * @param pReuse
-     * @return
      */
-    public IGeoPoint fromPixels(final int pPixelX, final int pPixelY, final GeoPoint pReuse) {
+    @Override
+    public IGeoPoint fromPixels(final int pPixelX, final int pPixelY, @Nullable final GeoPoint pReuse) {
         return fromPixels(pPixelX, pPixelY, pReuse, false);
     }
 
@@ -222,12 +218,6 @@ public class Projection implements IProjection {
      * can return values that beyond the max extents of the world. This may or may not be
      * desired. <a href="https://github.com/osmdroid/osmdroid/pull/722">https://github.com/osmdroid/osmdroid/pull/722</a>
      * for more information and the discussion associated with this.
-     *
-     * @param pPixelX
-     * @param pPixelY
-     * @param pReuse
-     * @param forceWrap
-     * @return
      */
     public IGeoPoint fromPixels(final int pPixelX, final int pPixelY, @Nullable final GeoPoint pReuse, boolean forceWrap) {
         //reverting https://github.com/osmdroid/osmdroid/issues/459
@@ -397,7 +387,7 @@ public class Projection implements IProjection {
      * screen, at the current zoom level. The return value may only be approximate.
      */
     public float metersToPixels(final float meters) {
-        return metersToPixels(meters, getBoundingBox().getCenterWithDateLine().getLatitude(), mZoomLevelProjection);
+        return metersToPixels(meters, getBoundingBox().getCenterWithDateLine(mMetersToPixelsReuse).getLatitude(), mZoomLevelProjection);
     }
 
     /**

@@ -17,6 +17,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
+import androidx.annotation.NonNull;
+
 /**
  * This is the OSMdroid style database provider. It's an extremely simply sqlite database schema.
  * CREATE TABLE tiles (key INTEGER PRIMARY KEY, provider TEXT, tile BLOB)
@@ -57,7 +59,7 @@ public class DatabaseFileArchive implements IArchiveFile {
     }
 
     public Set<String> getTileSources() {
-        Set<String> ret = new HashSet<String>();
+        Set<String> ret = new HashSet<>();
         try {
             final Cursor cur = mDatabase.rawQuery("SELECT distinct provider FROM " + TABLE, null);
             while (cur.moveToNext()) {
@@ -140,6 +142,7 @@ public class DatabaseFileArchive implements IArchiveFile {
         mDatabase.close();
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "DatabaseFileArchive [mDatabase=" + mDatabase.getPath() + "]";

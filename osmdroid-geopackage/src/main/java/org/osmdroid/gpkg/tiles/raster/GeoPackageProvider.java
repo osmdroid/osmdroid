@@ -56,11 +56,7 @@ public class GeoPackageProvider extends MapTileProviderArray implements IMapTile
         if (cacheWriter != null) {
             tileWriter = cacheWriter;
         } else {
-            if (Build.VERSION.SDK_INT < 10) {
-                tileWriter = new TileWriter();
-            } else {
-                tileWriter = new SqlTileWriter();
-            }
+            tileWriter = new SqlTileWriter();
         }
 
         mTileProviderList.add(MapTileProviderBasic.getMapTileFileStorageProviderBase(pRegisterReceiver, pTileSource, tileWriter));

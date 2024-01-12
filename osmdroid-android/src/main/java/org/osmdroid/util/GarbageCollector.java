@@ -59,21 +59,7 @@ public class GarbageCollector {
         if (mRunning.getAndSet(true)) {
             return false;
         }
-        /* commented out because creating a new Thread and Runnable each time is time and resource compsuming
-        final Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    mAction.run();
-                } finally {
-                    mRunning.set(false);
-                }
-            }
-        });
-        thread.setName(TAG);
-        thread.setPriority(Thread.MIN_PRIORITY);
-        thread.start();
-        */ensureThreadIsRunning().gc();
+        ensureThreadIsRunning().gc();
         return true;
     }
 

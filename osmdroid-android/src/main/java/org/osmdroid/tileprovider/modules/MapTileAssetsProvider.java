@@ -41,7 +41,7 @@ public class MapTileAssetsProvider extends MapTileFileStorageProviderBase {
     // ===========================================================
 
     private final AssetManager mAssets;
-    private final AtomicReference<ITileSource> mTileSource = new AtomicReference<ITileSource>();
+    private final AtomicReference<ITileSource> mTileSource = new AtomicReference<>();
     private final TileLoader mTileLoader;
 
     // ===========================================================
@@ -144,7 +144,7 @@ public class MapTileAssetsProvider extends MapTileFileStorageProviderBase {
                     //ExpirableBitmapDrawable.setDrawableExpired(drawable);
                 }
                 return drawable;
-            } catch (IOException e) {
+            } catch (IOException ignored) {
             } catch (final LowMemoryException e) {
                 throw new CantContinueException(e);
             } finally {

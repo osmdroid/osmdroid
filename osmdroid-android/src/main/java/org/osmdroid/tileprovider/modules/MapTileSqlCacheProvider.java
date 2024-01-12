@@ -35,15 +35,17 @@ public class MapTileSqlCacheProvider extends MapTileFileStorageProviderBase {
     // Fields
     // ===========================================================
 
-    private final AtomicReference<ITileSource> mTileSource = new AtomicReference<ITileSource>();
+    private final AtomicReference<ITileSource> mTileSource = new AtomicReference<>();
     private SqlTileWriter mWriter;
-    private static final String[] columns = {DatabaseFileArchive.COLUMN_TILE, SqlTileWriter.COLUMN_EXPIRES};
     private final TileLoader mTileLoader = new TileLoader();
 
     // ===========================================================
     // Constructors
     // ===========================================================
 
+    /**
+     * @deprecated Use instead: {@link #MapTileSqlCacheProvider(IRegisterReceiver, ITileSource)}
+     */
     @Deprecated
     public MapTileSqlCacheProvider(final IRegisterReceiver pRegisterReceiver,
                                    final ITileSource pTileSource, final long pMaximumCachedFileAge) {
@@ -106,14 +108,11 @@ public class MapTileSqlCacheProvider extends MapTileFileStorageProviderBase {
     }
 
     @Override
-    protected void onMediaMounted() {
-
-    }
+    protected void onMediaMounted() { /*nothing*/ }
 
     @Override
     protected void onMediaUnmounted() {
-        if (mWriter != null)
-            mWriter.onDetach();
+        if (mWriter != null) mWriter.onDetach();
         mWriter = new SqlTileWriter();
     }
 
@@ -124,9 +123,7 @@ public class MapTileSqlCacheProvider extends MapTileFileStorageProviderBase {
 
     @Override
     public void detach() {
-
-        if (mWriter != null)
-            mWriter.onDetach();
+        if (mWriter != null) mWriter.onDetach();
         mWriter = null;
         super.detach();
     }
@@ -140,9 +137,7 @@ public class MapTileSqlCacheProvider extends MapTileFileStorageProviderBase {
      */
     public boolean hasTile(final long pMapTileIndex) {
         ITileSource tileSource = mTileSource.get();
-        if (tileSource == null) {
-            return false;
-        }
+        if (tileSource == null) return false;
         return mWriter.getExpirationTimestamp(tileSource, pMapTileIndex) != null;
     }
 
@@ -158,18 +153,13 @@ public class MapTileSqlCacheProvider extends MapTileFileStorageProviderBase {
         public Drawable loadTile(final long pMapTileIndex) throws CantContinueException {
 
             ITileSource tileSource = mTileSource.get();
-            if (tileSource == null) {
-                return null;
-            }
+            if (tileSource == null) return null;
 
             if (mWriter != null) {
                 try {
                     final Drawable result = mWriter.loadTile(tileSource, pMapTileIndex);
-                    if (result == null) {
-                        Counters.fileCacheMiss++;
-                    } else {
-                        Counters.fileCacheHit++;
-                    }
+                    if (result == null) Counters.fileCacheMiss++;
+                    else Counters.fileCacheHit++;
                     return result;
                 } catch (final BitmapTileSourceBase.LowMemoryException e) {
                     // low memory so empty the queue

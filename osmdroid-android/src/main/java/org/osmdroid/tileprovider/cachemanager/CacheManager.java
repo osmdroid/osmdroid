@@ -13,6 +13,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import org.osmdroid.api.IMapView;
 import org.osmdroid.config.Configuration;
@@ -43,6 +44,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -237,8 +239,9 @@ public class CacheManager {
     static IterableWithSize<Long> getTilesCoverageIterable(final BoundingBox pBB,
                                                            final int pZoomMin, final int pZoomMax) {
         final MapTileAreaList list = new MapTileAreaList();
+        final Rect cReuse = new Rect();
         for (int zoomLevel = pZoomMin; zoomLevel <= pZoomMax; zoomLevel++) {
-            list.getList().add(new MapTileArea().set(zoomLevel, getTilesRect(pBB, zoomLevel)));
+            list.getList().add(new MapTileArea().set(zoomLevel, getTilesRect(pBB, zoomLevel, cReuse)));
         }
         return list;
     }
@@ -250,12 +253,27 @@ public class CacheManager {
      * @param pBB        the given bounding box
      * @param pZoomLevel the given zoom level
      * @return the {@link Rect} reflecting the tiles coverage
+     * @deprecated Use instead: {@link #getTilesRect(BoundingBox, int, Rect)}
      */
+    @Deprecated
     public static Rect getTilesRect(final BoundingBox pBB,
                                     final int pZoomLevel) {
+        return getTilesRect(pBB, pZoomLevel, null);
+    }
+    /**
+     * Retrieve upper left and lower right points(exclusive) corresponding to the tiles coverage for
+     * the selected zoom level.
+     *
+     * @param pBB        the given bounding box
+     * @param pZoomLevel the given zoom level
+     * @return the {@link Rect} reflecting the tiles coverage
+     */
+    public static Rect getTilesRect(final BoundingBox pBB,
+                                    final int pZoomLevel,
+                                    @Nullable Rect reuse) {
         final int mapTileUpperBound = 1 << pZoomLevel;
-        final int right = MapView.getTileSystem().getTileXFromLongitude(pBB.getLonEast(), pZoomLevel);
-        final int bottom = MapView.getTileSystem().getTileYFromLatitude(pBB.getLatSouth(), pZoomLevel);
+        int right = MapView.getTileSystem().getTileXFromLongitude(pBB.getLonEast(), pZoomLevel);
+        int bottom = MapView.getTileSystem().getTileYFromLatitude(pBB.getLatSouth(), pZoomLevel);
         final int left = MapView.getTileSystem().getTileXFromLongitude(pBB.getLonWest(), pZoomLevel);
         final int top = MapView.getTileSystem().getTileYFromLatitude(pBB.getLatNorth(), pZoomLevel);
         int width = right - left + 1; // handling the modulo
@@ -266,7 +284,11 @@ public class CacheManager {
         if (height <= 0) {
             height += mapTileUpperBound;
         }
-        return new Rect(left, top, left + width - 1, top + height - 1);
+        right = left + width - 1;
+        bottom = top + height - 1;
+        if (reuse == null) return new Rect(left, top, right, bottom);
+        else reuse.set(left, top, right, bottom);
+        return reuse;
     }
 
     /**
@@ -293,67 +315,64 @@ public class CacheManager {
         final Set<Long> result = new HashSet<>();
 
         GeoPoint prevPoint = null;
-        Point tile, prevTile = null;
+        final Point tile = new Point(-1, -1);
+        final Point prevTile = new Point(-2, -2);
 
         final int mapTileUpperBound = 1 << pZoomLevel;
+        final GeoPoint wayPoint = new GeoPoint(0d, 0d, 0d);
         for (GeoPoint geoPoint : pGeoPoints) {
 
             final double d = TileSystem.GroundResolution(geoPoint.getLatitude(), pZoomLevel);
 
             if (result.size() != 0) {
 
-                if (prevPoint != null) {
+                final double leadCoef = (geoPoint.getLatitude() - prevPoint.getLatitude()) / (geoPoint.getLongitude() - prevPoint.getLongitude());
+                final double brng;
+                if (geoPoint.getLongitude() > prevPoint.getLongitude()) {
+                    brng = Math.PI / 2 - Math.atan(leadCoef);
+                } else {
+                    brng = 3 * Math.PI / 2 - Math.atan(leadCoef);
+                }
 
-                    final double leadCoef = (geoPoint.getLatitude() - prevPoint.getLatitude()) / (geoPoint.getLongitude() - prevPoint.getLongitude());
-                    final double brng;
-                    if (geoPoint.getLongitude() > prevPoint.getLongitude()) {
-                        brng = Math.PI / 2 - Math.atan(leadCoef);
-                    } else {
-                        brng = 3 * Math.PI / 2 - Math.atan(leadCoef);
-                    }
+                wayPoint.setCoords(prevPoint.getLatitude(), prevPoint.getLongitude());
 
-                    final GeoPoint wayPoint = new GeoPoint(prevPoint.getLatitude(), prevPoint.getLongitude());
+                while ((((geoPoint.getLatitude() > prevPoint.getLatitude()) && (wayPoint.getLatitude() < geoPoint.getLatitude())) ||
+                        (geoPoint.getLatitude() < prevPoint.getLatitude()) && (wayPoint.getLatitude() > geoPoint.getLatitude())) &&
+                        (((geoPoint.getLongitude() > prevPoint.getLongitude()) && (wayPoint.getLongitude() < geoPoint.getLongitude())) ||
+                                ((geoPoint.getLongitude() < prevPoint.getLongitude()) && (wayPoint.getLongitude() > geoPoint.getLongitude())))) {
 
-                    while ((((geoPoint.getLatitude() > prevPoint.getLatitude()) && (wayPoint.getLatitude() < geoPoint.getLatitude())) ||
-                            (geoPoint.getLatitude() < prevPoint.getLatitude()) && (wayPoint.getLatitude() > geoPoint.getLatitude())) &&
-                            (((geoPoint.getLongitude() > prevPoint.getLongitude()) && (wayPoint.getLongitude() < geoPoint.getLongitude())) ||
-                                    ((geoPoint.getLongitude() < prevPoint.getLongitude()) && (wayPoint.getLongitude() > geoPoint.getLongitude())))) {
+                    final double prevLatRad = wayPoint.getLatitude() * Math.PI / 180.0;
+                    final double prevLonRad = wayPoint.getLongitude() * Math.PI / 180.0;
 
-                        final double prevLatRad = wayPoint.getLatitude() * Math.PI / 180.0;
-                        final double prevLonRad = wayPoint.getLongitude() * Math.PI / 180.0;
+                    final double latRad = Math.asin(Math.sin(prevLatRad) * Math.cos(d / GeoConstants.RADIUS_EARTH_METERS) + Math.cos(prevLatRad) * Math.sin(d / GeoConstants.RADIUS_EARTH_METERS) * Math.cos(brng));
+                    final double lonRad = prevLonRad + Math.atan2(Math.sin(brng) * Math.sin(d / GeoConstants.RADIUS_EARTH_METERS) * Math.cos(prevLatRad), Math.cos(d / GeoConstants.RADIUS_EARTH_METERS) - Math.sin(prevLatRad) * Math.sin(latRad));
 
-                        final double latRad = Math.asin(Math.sin(prevLatRad) * Math.cos(d / GeoConstants.RADIUS_EARTH_METERS) + Math.cos(prevLatRad) * Math.sin(d / GeoConstants.RADIUS_EARTH_METERS) * Math.cos(brng));
-                        final double lonRad = prevLonRad + Math.atan2(Math.sin(brng) * Math.sin(d / GeoConstants.RADIUS_EARTH_METERS) * Math.cos(prevLatRad), Math.cos(d / GeoConstants.RADIUS_EARTH_METERS) - Math.sin(prevLatRad) * Math.sin(latRad));
+                    wayPoint.setLatitude(((latRad * 180.0 / Math.PI)));
+                    wayPoint.setLongitude(((lonRad * 180.0 / Math.PI)));
 
-                        wayPoint.setLatitude(((latRad * 180.0 / Math.PI)));
-                        wayPoint.setLongitude(((lonRad * 180.0 / Math.PI)));
+                    tile.set(MapView.getTileSystem().getTileXFromLongitude(wayPoint.getLongitude(), pZoomLevel),
+                            MapView.getTileSystem().getTileYFromLatitude(wayPoint.getLatitude(), pZoomLevel));
 
-                        tile = new Point(
-                                MapView.getTileSystem().getTileXFromLongitude(wayPoint.getLongitude(), pZoomLevel),
-                                MapView.getTileSystem().getTileYFromLatitude(wayPoint.getLatitude(), pZoomLevel));
-
-                        if (!tile.equals(prevTile)) {
-//Log.d(Constants.APP_TAG, "New Tile lat " + tile.x + " lon " + tile.y);
-                            int ofsx = tile.x >= 0 ? 0 : -tile.x;
-                            int ofsy = tile.y >= 0 ? 0 : -tile.y;
-                            for (int xAround = tile.x + ofsx; xAround <= tile.x + 1 + ofsx; xAround++) {
-                                for (int yAround = tile.y + ofsy; yAround <= tile.y + 1 + ofsy; yAround++) {
-                                    final int tileY = MyMath.mod(yAround, mapTileUpperBound);
-                                    final int tileX = MyMath.mod(xAround, mapTileUpperBound);
-                                    result.add(MapTileIndex.getTileIndex(pZoomLevel, tileX, tileY));
-                                }
+                    if (!Objects.equals(tile, prevTile)) {
+                        //Log.d(Constants.APP_TAG, "New Tile lat " + tile.x + " lon " + tile.y);
+                        int ofsx = tile.x >= 0 ? 0 : -tile.x;
+                        int ofsy = tile.y >= 0 ? 0 : -tile.y;
+                        for (int xAround = tile.x + ofsx; xAround <= tile.x + 1 + ofsx; xAround++) {
+                            for (int yAround = tile.y + ofsy; yAround <= tile.y + 1 + ofsy; yAround++) {
+                                final int tileY = MyMath.mod(yAround, mapTileUpperBound);
+                                final int tileX = MyMath.mod(xAround, mapTileUpperBound);
+                                result.add(MapTileIndex.getTileIndex(pZoomLevel, tileX, tileY));
                             }
-
-                            prevTile = tile;
                         }
+
+                        prevTile.set(tile.x, tile.y);
                     }
                 }
 
             } else {
-                tile = new Point(
-                        MapView.getTileSystem().getTileXFromLongitude(geoPoint.getLongitude(), pZoomLevel),
+                tile.set(MapView.getTileSystem().getTileXFromLongitude(geoPoint.getLongitude(), pZoomLevel),
                         MapView.getTileSystem().getTileYFromLatitude(geoPoint.getLatitude(), pZoomLevel));
-                prevTile = tile;
+                prevTile.set(tile.x, tile.y);
 
                 int ofsx = tile.x >= 0 ? 0 : -tile.x;
                 int ofsy = tile.y >= 0 ? 0 : -tile.y;
@@ -545,11 +564,7 @@ public class CacheManager {
         return execute(task);
     }
 
-    /*
-     * verifyCancel decides wether user has to confirm the cancel action via a alert
-     *
-     * @param state
-     */
+    /** Decides wether user has to confirm the cancel action via a alert */
     public void setVerifyCancel(boolean state) {
         verifyCancel = state;
     }
@@ -566,7 +581,7 @@ public class CacheManager {
         /**
          * fired when the download job is done.
          */
-        public void onTaskComplete();
+        void onTaskComplete();
 
         /**
          * this is fired periodically, useful for updating dialogs, progress bars, etc
@@ -576,26 +591,26 @@ public class CacheManager {
          * @param zoomMin
          * @param zoomMax
          */
-        public void updateProgress(int progress, int currentZoomLevel, int zoomMin, int zoomMax);
+        void updateProgress(int progress, int currentZoomLevel, int zoomMin, int zoomMax);
 
         /**
          * as soon as the download is started, this is fired
          */
-        public void downloadStarted();
+        void downloadStarted();
 
         /**
          * this is fired right before the download starts
          *
          * @param total
          */
-        public void setPossibleTilesInArea(int total);
+        void setPossibleTilesInArea(int total);
 
         /**
          * this is fired when the task has been completed but had at least one download error.
          *
          * @param errors
          */
-        public void onTaskFailed(int errors);
+        void onTaskFailed(int errors);
     }
 
     public static abstract class CacheManagerDialog implements CacheManagerCallback {
@@ -967,17 +982,13 @@ public class CacheManager {
     /**
      * Remove all cached tiles in the specified area.
      */
-    public CacheManagerTask cleanAreaAsync(Context ctx, List<Long> tiles, int zoomMin, int zoomMax) {
+    public CacheManagerTask cleanAreaAsync(final Context ctx, @NonNull final List<Long> tiles, final int zoomMin, final int zoomMax) {
         final CacheManagerTask task = new CacheManagerTask(this, getCleaningAction(), tiles, zoomMin, zoomMax);
         task.addCallback(getCleaningDialog(ctx, task));
         return execute(task);
     }
 
-    /**
-     *
-     */
-
-    public BoundingBox extendedBoundsFromGeoPoints(ArrayList<GeoPoint> geoPoints, int minZoomLevel) {
+    public BoundingBox extendedBoundsFromGeoPoints(@NonNull final List<GeoPoint> geoPoints, final int minZoomLevel) {
         final BoundingBox bb = BoundingBox.fromGeoPoints(geoPoints);
         final int right = MapView.getTileSystem().getTileXFromLongitude(bb.getLonEast(), minZoomLevel);
         final int bottom = MapView.getTileSystem().getTileYFromLatitude(bb.getLatSouth(), minZoomLevel);

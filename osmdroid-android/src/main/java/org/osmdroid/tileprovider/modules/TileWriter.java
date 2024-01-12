@@ -1,16 +1,21 @@
 package org.osmdroid.tileprovider.modules;
 
 import android.graphics.drawable.Drawable;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.util.Log;
 
 import org.osmdroid.api.IMapView;
 import org.osmdroid.config.Configuration;
+import org.osmdroid.config.IConfigurationProvider;
 import org.osmdroid.tileprovider.ExpirableBitmapDrawable;
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.util.Counters;
 import org.osmdroid.tileprovider.util.StreamUtils;
 import org.osmdroid.util.MapTileIndex;
+import org.osmdroid.util.ReusablePoolDynamic;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -22,6 +27,10 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Objects;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 /**
  * An implementation of {@link IFilesystemCache}. It writes tiles to the file system cache. If the
@@ -41,12 +50,11 @@ public class TileWriter implements IFilesystemCache {
     // Fields
     // ===========================================================
 
-    /**
-     * amount of disk space used by tile cache
-     **/
-    private static long mUsedCacheSpace;
-    static boolean hasInited = false;
-    Thread initThread = null;
+    private static final Object mUsedCacheSpaceSyncObj = new Object();
+    /** amount of disk space used by tile cache **/
+    private static long mUsedCacheSpace = 0;
+    @Nullable
+    private WorkingThread mWorkingThread = null;
     private long mMaximumCachedFileAge;
 
     // ===========================================================
@@ -54,28 +62,18 @@ public class TileWriter implements IFilesystemCache {
     // ===========================================================
 
     public TileWriter() {
+        ensureThreadIsRunning(WorkingThread.TH_MESSAGE_INITIALIZATION, true);
+    }
 
-        if (!hasInited) {
-            hasInited = true;
-            // do this in the background because it takes a long time
-            initThread = new Thread() {
-                @Override
-                public void run() {
-                    mUsedCacheSpace = 0; // because it's static
-
-                    calculateDirectorySize(Configuration.getInstance().getOsmdroidTileCache());
-
-                    if (mUsedCacheSpace > Configuration.getInstance().getTileFileSystemCacheMaxBytes()) {
-                        cutCurrentCache();
-                    }
-                    if (Configuration.getInstance().isDebugMode()) {
-                        Log.d(IMapView.LOGTAG, "Finished init thread");
-                    }
-                }
-            };
-            initThread.setName("TileWriter#init");
-            initThread.setPriority(Thread.MIN_PRIORITY);
-            initThread.start();
+    /** @noinspection SynchronizationOnLocalVariableOrMethodParameter*/
+    private void ensureThreadIsRunning(final int startingWHAT, final boolean waitComplete) {
+        if ((mWorkingThread == null) || !mWorkingThread.isAlive() || mWorkingThread.isInterrupted()) {
+            final ReusablePoolDynamic.SyncObj<Boolean> cSyncObj = new ReusablePoolDynamic.SyncObj<>(Boolean.FALSE);
+            mWorkingThread = new WorkingThread(cSyncObj, startingWHAT);
+            mWorkingThread.start();
+            while ((cSyncObj.get() != Boolean.TRUE) && waitComplete) {
+                try { synchronized (cSyncObj) { cSyncObj.wait(); } } catch (Throwable e) { /*nothing*/ }
+            }
         }
     }
 
@@ -90,7 +88,9 @@ public class TileWriter implements IFilesystemCache {
      * @return size in bytes
      */
     public static long getUsedCacheSpace() {
-        return mUsedCacheSpace;
+        synchronized (mUsedCacheSpaceSyncObj) {
+            return mUsedCacheSpace;
+        }
     }
 
     public void setMaximumCachedFileAge(long mMaximumCachedFileAge) {
@@ -111,19 +111,22 @@ public class TileWriter implements IFilesystemCache {
             Log.d(IMapView.LOGTAG, "TileWrite " + file.getAbsolutePath());
         }
         final File parent = file.getParentFile();
-        if (!parent.exists() && !createFolderAndCheckIfExists(parent)) {
+        if ((parent == null) || (!parent.exists() && !createFolderAndCheckIfExists(parent))) {
             return false;
         }
 
         BufferedOutputStream outputStream = null;
         try {
-            outputStream = new BufferedOutputStream(new FileOutputStream(file.getPath()),
-                    StreamUtils.IO_BUFFER_SIZE);
+            outputStream = new BufferedOutputStream(new FileOutputStream(file.getPath()), StreamUtils.IO_BUFFER_SIZE);
             final long length = StreamUtils.copy(pStream, outputStream);
 
-            mUsedCacheSpace += length;
-            if (mUsedCacheSpace > Configuration.getInstance().getTileFileSystemCacheMaxBytes()) {
-                cutCurrentCache(); // TODO perhaps we should do this in the background
+            final long cSize;
+            synchronized (mUsedCacheSpaceSyncObj) {
+                mUsedCacheSpace += length;
+                cSize = mUsedCacheSpace;
+            }
+            if (cSize > Configuration.getInstance().getTileFileSystemCacheMaxBytes()) {
+                ensureThreadIsRunning(WorkingThread.TH_MESSAGE_EXECUTE_CUT_CURRENT_CACHE, false);
             }
         } catch (final IOException e) {
             Counters.fileCacheSaveErrors++;
@@ -139,11 +142,10 @@ public class TileWriter implements IFilesystemCache {
     @Override
     public void onDetach() {
 
-        if (initThread != null) {
+        if (mWorkingThread != null) {
             try {
-                initThread.interrupt();
-            } catch (Throwable t) {
-            }
+                mWorkingThread.interrupt();
+            } catch (Throwable ignored) { /*nothing*/ }
         }
     }
 
@@ -155,7 +157,6 @@ public class TileWriter implements IFilesystemCache {
             try {
                 return file.delete();
             } catch (Exception ex) {
-                //potential io exception
                 Log.i(IMapView.LOGTAG, "Unable to delete cached tile from " + pTileSource.name() + " " + MapTileIndex.toString(pMapTileIndex), ex);
             }
         }
@@ -206,112 +207,13 @@ public class TileWriter implements IFilesystemCache {
         }
     }
 
-    private void calculateDirectorySize(final File pDirectory) {
-        final File[] z = pDirectory.listFiles();
-        if (z != null) {
-            for (final File file : z) {
-                if (file.isFile()) {
-                    mUsedCacheSpace += file.length();
-                }
-                if (file.isDirectory() && !isSymbolicDirectoryLink(pDirectory, file)) {
-                    calculateDirectorySize(file); // *** recurse ***
-                }
-            }
-        }
-    }
-
-    /**
-     * Checks to see if it appears that a directory is a symbolic link. It does this by comparing
-     * the canonical path of the parent directory and the parent directory of the directory's
-     * canonical path. If they are equal, then they come from the same true parent. If not, then
-     * pDirectory is a symbolic link. If we get an exception, we err on the side of caution and
-     * return "true" expecting the calculateDirectorySize to now skip further processing since
-     * something went goofy.
-     */
-    private boolean isSymbolicDirectoryLink(final File pParentDirectory, final File pDirectory) {
-        try {
-            final String canonicalParentPath1 = pParentDirectory.getCanonicalPath();
-            final String canonicalParentPath2 = pDirectory.getCanonicalFile().getParent();
-            return !canonicalParentPath1.equals(canonicalParentPath2);
-        } catch (final IOException e) {
-            return true;
-        } catch (final NoSuchElementException e) {
-            // See: http://code.google.com/p/android/issues/detail?id=4961
-            // See: http://code.google.com/p/android/issues/detail?id=5807
-            return true;
-        }
-
-    }
-
-    private List<File> getDirectoryFileList(final File aDirectory) {
-        final List<File> files = new ArrayList<File>();
-
-        final File[] z = aDirectory.listFiles();
-        if (z != null) {
-            for (final File file : z) {
-                if (file.isFile()) {
-                    files.add(file);
-                }
-                if (file.isDirectory()) {
-                    files.addAll(getDirectoryFileList(file));
-                }
-            }
-        }
-
-        return files;
-    }
-
-    /**
-     * If the cache size is greater than the max then trim it down to the trim level. This method is
-     * synchronized so that only one thread can run it at a time.
-     */
-    private void cutCurrentCache() {
-
-        final File lock = Configuration.getInstance().getOsmdroidTileCache();
-        synchronized (lock) {
-
-            if (mUsedCacheSpace > Configuration.getInstance().getTileFileSystemCacheTrimBytes()) {
-
-                Log.d(IMapView.LOGTAG, "Trimming tile cache from " + mUsedCacheSpace + " to "
-                        + Configuration.getInstance().getTileFileSystemCacheTrimBytes());
-
-                final List<File> z = getDirectoryFileList(Configuration.getInstance().getOsmdroidTileCache());
-
-                // order list by files day created from old to new
-                final File[] files = z.toArray(new File[0]);
-                Arrays.sort(files, new Comparator<File>() {
-                    @Override
-                    public int compare(final File f1, final File f2) {
-                        return Long.valueOf(f1.lastModified()).compareTo(f2.lastModified());
-                    }
-                });
-
-                for (final File file : files) {
-                    if (mUsedCacheSpace <= Configuration.getInstance().getTileFileSystemCacheTrimBytes()) {
-                        break;
-                    }
-
-                    final long length = file.length();
-                    if (file.delete()) {
-                        if (Configuration.getInstance().isDebugTileProviders()) {
-                            Log.d(IMapView.LOGTAG, "Cache trim deleting " + file.getAbsolutePath());
-                        }
-                        mUsedCacheSpace -= length;
-                    }
-                }
-
-                Log.d(IMapView.LOGTAG, "Finished trimming tile cache");
-            }
-        }
-    }
-
     @Override
     public Long getExpirationTimestamp(final ITileSource pTileSource, final long pMapTileIndex) {
         return null;
     }
 
     @Override
-    public Drawable loadTile(final ITileSource pTileSource, final long pMapTileIndex) throws Exception {
+    public Drawable loadTile(@NonNull final ITileSource pTileSource, final long pMapTileIndex) throws Exception {
         // Check the tile source to see if its file is available and if so, then render the
         // drawable and return the tile
         final File file = getFile(pTileSource, pMapTileIndex);
@@ -335,4 +237,161 @@ public class TileWriter implements IFilesystemCache {
 
         return drawable;
     }
+
+    private static class WorkingThread extends Thread {
+        private static final String TAG = "WorkingThread";
+        private static final int TH_MESSAGE_INITIALIZATION = 1;
+        private static final int TH_MESSAGE_EXECUTE_CUT_CURRENT_CACHE = 2;
+        private final ReusablePoolDynamic.SyncObj<Boolean> mSyncObj;
+        private final int mStartingWHAT;
+        private Handler mHandler;
+        private final Comparator<File> mLastModifiedFileComparator = (f1, f2) -> Long.compare(f1.lastModified(), f2.lastModified());
+        private WorkingThread(@NonNull final ReusablePoolDynamic.SyncObj<Boolean> syncObj, final int startingWHAT) {
+            super(TAG + ".init");
+            setPriority(Thread.MIN_PRIORITY);
+            this.mSyncObj = syncObj;
+            this.mStartingWHAT = startingWHAT;
+        }
+        @Override
+        public void run() {
+            if (Configuration.getInstance().isDebugMode()) {
+                Log.d(IMapView.LOGTAG, "Started " + TAG + " thread");
+            }
+
+            Looper.prepare();
+
+            this.mHandler = new Handler(Objects.requireNonNull(Looper.myLooper()), new Handler.Callback() {
+                @Override
+                public boolean handleMessage(@NonNull final Message message) {
+                    switch (message.what) {
+                        case TH_MESSAGE_INITIALIZATION: {
+                            WorkingThread.this.calculateDirectorySize(Configuration.getInstance().getOsmdroidTileCache());
+                            final long cSize;
+                            synchronized (mUsedCacheSpaceSyncObj) {
+                                cSize = mUsedCacheSpace;
+                            }
+                            if (cSize > Configuration.getInstance().getTileFileSystemCacheMaxBytes()) {
+                                WorkingThread.this.cutCurrentCache();
+                            }
+                            synchronized (WorkingThread.this.mSyncObj) {
+                                WorkingThread.this.mSyncObj.set(Boolean.TRUE);
+                                WorkingThread.this.mSyncObj.notifyAll();
+                            }
+                            break;
+                        }
+                        case TH_MESSAGE_EXECUTE_CUT_CURRENT_CACHE: {
+                            cutCurrentCache();
+                            break;
+                        }
+                    }
+                    this.quitThread();
+                    return true;
+                }
+                private void quitThread() {
+                    final Looper cLooper = Looper.myLooper();
+                    if (cLooper == null) return;
+                    cLooper.quit();
+                }
+            });
+            this.postToWorkingThread(this.mStartingWHAT);
+
+            Looper.loop();
+
+            if (Configuration.getInstance().isDebugMode()) {
+                Log.d(IMapView.LOGTAG, "Finished " + TAG + " thread");
+            }
+        }
+
+        /**
+         * If the cache size is greater than the max then trim it down to the trim level. This method is
+         * synchronized so that only one thread can run it at a time.
+         */
+        private void cutCurrentCache() {
+            final IConfigurationProvider cConfiguration = Configuration.getInstance();
+            final File lock = cConfiguration.getOsmdroidTileCache();
+            long cSize;
+            synchronized (mUsedCacheSpaceSyncObj) {
+                cSize = mUsedCacheSpace;
+            }
+            if (cSize > cConfiguration.getTileFileSystemCacheTrimBytes()) {
+                Log.d(IMapView.LOGTAG, "Trimming tile cache from " + cSize + " to "
+                        + cConfiguration.getTileFileSystemCacheTrimBytes());
+
+                final List<File> z = getDirectoryFileList(cConfiguration.getOsmdroidTileCache());
+
+                // order list by files day created from old to new
+                final File[] files = z.toArray(new File[0]);
+                Arrays.sort(files, this.mLastModifiedFileComparator);
+
+                for (final File file : files) {
+                    if (cSize <= cConfiguration.getTileFileSystemCacheTrimBytes()) break;
+
+                    final long length = file.length();
+                    if (file.delete()) {
+                        if (cConfiguration.isDebugTileProviders()) {
+                            Log.d(IMapView.LOGTAG, "Cache trim deleting " + file.getAbsolutePath());
+                        }
+                        synchronized (mUsedCacheSpaceSyncObj) {
+                            mUsedCacheSpace -= length;
+                            cSize = mUsedCacheSpace;
+                        }
+                    }
+                }
+                Log.d(IMapView.LOGTAG, "Finished trimming tile cache");
+            }
+        }
+
+        private boolean postToWorkingThread(final int what) { return mHandler.sendEmptyMessage(what); }
+
+        private void calculateDirectorySize(final File pDirectory) {
+            final File[] z = pDirectory.listFiles();
+            if (z != null) {
+                for (final File file : z) {
+                    if (file.isFile()) {
+                        synchronized (mUsedCacheSpaceSyncObj) {
+                            mUsedCacheSpace += file.length();
+                        }
+                    }
+                    if (file.isDirectory() && !this.isSymbolicDirectoryLink(pDirectory, file)) {
+                        this.calculateDirectorySize(file); // *** recurse ***
+                    }
+                }
+            }
+        }
+
+        /**
+         * Checks to see if it appears that a directory is a symbolic link. It does this by comparing
+         * the canonical path of the parent directory and the parent directory of the directory's
+         * canonical path. If they are equal, then they come from the same true parent. If not, then
+         * pDirectory is a symbolic link. If we get an exception, we err on the side of caution and
+         * return "true" expecting the calculateDirectorySize to now skip further processing since
+         * something went goofy.
+         */
+        private boolean isSymbolicDirectoryLink(final File pParentDirectory, final File pDirectory) {
+            try {
+                final String canonicalParentPath1 = pParentDirectory.getCanonicalPath();
+                final String canonicalParentPath2 = pDirectory.getCanonicalFile().getParent();
+                return !canonicalParentPath1.equals(canonicalParentPath2);
+            } catch (final IOException e) {
+                return true;
+            } catch (final NoSuchElementException e) {
+                // See: http://code.google.com/p/android/issues/detail?id=4961
+                // See: http://code.google.com/p/android/issues/detail?id=5807
+                return true;
+            }
+        }
+
+        private List<File> getDirectoryFileList(final File aDirectory) {
+            final List<File> files = new ArrayList<>();
+            final File[] z = aDirectory.listFiles();
+            if (z != null) {
+                for (final File file : z) {
+                    if (file.isFile()) files.add(file);
+                    if (file.isDirectory()) files.addAll(getDirectoryFileList(file));
+                }
+            }
+            return files;
+        }
+    }
+
 }

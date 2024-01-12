@@ -21,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.Scroller;
 import android.widget.ZoomButtonsController;
 
+import androidx.annotation.CallSuper;
 import androidx.annotation.ColorInt;
 import androidx.annotation.MainThread;
 import androidx.annotation.NonNull;
@@ -153,7 +154,7 @@ public class MapView extends ViewGroup implements IMapView, MultiTouchObjectCanv
     private final Point mLayoutPoint = new Point();
 
     // Keep a set of listeners for when the maps have a layout
-    private final LinkedList<OnFirstLayoutListener> mOnFirstLayoutListeners = new LinkedList<MapView.OnFirstLayoutListener>();
+    private final LinkedList<OnFirstLayoutListener> mOnFirstLayoutListeners = new LinkedList<>();
 
     /* becomes true once onLayout has been called for the first time i.e. map is ready to go. */
     private boolean mLayoutOccurred = false;
@@ -176,12 +177,14 @@ public class MapView extends ViewGroup implements IMapView, MultiTouchObjectCanv
      */
     private final MapViewRepository mRepository = new MapViewRepository(this);
 
-    private final ReusablePool<ScrollEvent> mScrollEventsCache = new ReusablePool<>(new ReusablePool.IReusablePoolItemCallback<ScrollEvent>() {
+    private final ReusablePool<ScrollEvent> mScrollEventsCache = new ReusablePool<>(new ReusablePool.IReusablePoolItemCallback<>() {
         @Override
         public ScrollEvent newInstance() { return ScrollEvent.newInstanceForReusablePool(); }
     }, 2);
 
     private final LifecycleRegistry mLifecycleRegistry = new LifecycleRegistry(this);
+    @Nullable
+    private DefaultLifecycleObserver mContextLifecycleObserver = null;
 
     public interface OnFirstLayoutListener {
         /**
@@ -236,9 +239,8 @@ public class MapView extends ViewGroup implements IMapView, MultiTouchObjectCanv
                    final Handler tileRequestCompleteHandler, final AttributeSet attrs, boolean hardwareAccelerated) {
         super(context, attrs);
 
-        // Hacky workaround: If no storage location was set manually, we need to try to be
-        // the first to give DefaultConfigurationProvider a chance to detect the best storage
-        // location WITH a context. Otherwise there will be no valid cache directory on >API29!
+        /* Hacky workaround: If no storage location was set manually, we need to try to be the first to give DefaultConfigurationProvider a chance to detect the best storage
+           location WITH a context. Otherwise there will be no valid cache directory on >API_29! */
         Configuration.getInstance().getOsmdroidTileCache(context);
 
         if (isInEditMode()) {    //fix for edit mode in the IDE
@@ -249,56 +251,62 @@ public class MapView extends ViewGroup implements IMapView, MultiTouchObjectCanv
             mGestureDetector = null;
             return;
         }
-        if (!hardwareAccelerated && Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+        if (!hardwareAccelerated) {
             this.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         }
 
+        this.addOnAttachStateChangeListener(new OnAttachStateChangeListener() {
+            private boolean mWasAttachedToWindow = false;
+            @Override
+            public void onViewAttachedToWindow(@NonNull final View v) {
+                if (mLifecycleRegistry.getCurrentState() != Lifecycle.State.RESUMED) mLifecycleRegistry.setCurrentState(Lifecycle.State.RESUMED);
+                this.mWasAttachedToWindow = true;
+            }
+            @Override
+            public void onViewDetachedFromWindow(@NonNull final View v) {
+                if (this.mWasAttachedToWindow) {
+                    MapView.this.onPause();
+                    MapView.this.onDestroy();
+                    this.mWasAttachedToWindow = false;
+                }
+            }
+        });
+
         if (context instanceof LifecycleOwner) {
-            ((LifecycleOwner)context).getLifecycle().addObserver(new DefaultLifecycleObserver() {
-                @Override public void onCreate(@NonNull final LifecycleOwner owner) { mLifecycleRegistry.setCurrentState(owner.getLifecycle().getCurrentState()); }
-                @Override public void onStart(@NonNull final LifecycleOwner owner) { mLifecycleRegistry.setCurrentState(owner.getLifecycle().getCurrentState()); }
+            ((LifecycleOwner)context).getLifecycle().addObserver(mContextLifecycleObserver = new DefaultLifecycleObserver() {
+                @Override public void onCreate(@NonNull final LifecycleOwner owner) { mLifecycleRegistry.setCurrentState(Lifecycle.State.CREATED); }
+                @Override public void onStart(@NonNull final LifecycleOwner owner) { mLifecycleRegistry.setCurrentState(Lifecycle.State.STARTED); }
                 @Override public void onResume(@NonNull final LifecycleOwner owner) {
-                    mLifecycleRegistry.setCurrentState(owner.getLifecycle().getCurrentState());
+                    if (MapView.this.isAttachedToWindow()) mLifecycleRegistry.setCurrentState(Lifecycle.State.RESUMED);
                     MapView.this.onResume();
                 }
                 @Override
                 public void onPause(@NonNull final LifecycleOwner owner) {
                     MapView.this.onPause();
-                    mLifecycleRegistry.setCurrentState(owner.getLifecycle().getCurrentState());
+                    if (!MapView.this.isAttachedToWindow()) mLifecycleRegistry.setCurrentState(Lifecycle.State.STARTED);
                 }
                 @Override
-                public void onStop(@NonNull final LifecycleOwner owner) { mLifecycleRegistry.setCurrentState(owner.getLifecycle().getCurrentState()); }
+                public void onStop(@NonNull final LifecycleOwner owner) { mLifecycleRegistry.setCurrentState(Lifecycle.State.CREATED); }
                 @Override
-                public void onDestroy(@NonNull final LifecycleOwner owner) {
-                    mTileProvider.detach();
-                    if (mZoomController != null) {
-                        mZoomController.onDetach();
-                    }
-
-                    //https://github.com/osmdroid/osmdroid/issues/390
-                    if (mTileRequestCompleteHandler instanceof SimpleInvalidationHandler) {
-                        ((SimpleInvalidationHandler) mTileRequestCompleteHandler).destroy();
-                    }
-                    mTileRequestCompleteHandler = null;
-                    if (mProjection != null)
-                        mProjection.detach();
-                    mProjection = null;
-                    mRepository.onDetach();
-                    mListeners.clear();
-
-                    mLifecycleRegistry.setCurrentState(owner.getLifecycle().getCurrentState());
-                    MapView.this.onDestroy();
-                }
+                public void onDestroy(@NonNull final LifecycleOwner owner) { MapView.this.onDestroy(); }
             });
         } else if ((context instanceof android.app.Activity) && (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)) {
             ((android.app.Activity)context).registerActivityLifecycleCallbacks(new Application.ActivityLifecycleCallbacks() {
                 @Override public void onActivityCreated(@NonNull final Activity activity, @Nullable final Bundle savedInstanceState) { mLifecycleRegistry.setCurrentState(Lifecycle.State.CREATED); }
                 @Override public void onActivityStarted(@NonNull final Activity activity) { mLifecycleRegistry.setCurrentState(Lifecycle.State.STARTED); }
-                @Override public void onActivityResumed(@NonNull final Activity activity) { mLifecycleRegistry.setCurrentState(Lifecycle.State.RESUMED); }
-                @Override public void onActivityPaused(@NonNull final Activity activity) { mLifecycleRegistry.setCurrentState(Lifecycle.State.STARTED); }
+                @Override
+                public void onActivityResumed(@NonNull final Activity activity) {
+                    if (MapView.this.isAttachedToWindow()) mLifecycleRegistry.setCurrentState(Lifecycle.State.RESUMED);
+                    MapView.this.onResume();
+                }
+                @Override
+                public void onActivityPaused(@NonNull final Activity activity) {
+                    MapView.this.onPause();
+                    if (!MapView.this.isAttachedToWindow()) mLifecycleRegistry.setCurrentState(Lifecycle.State.STARTED);
+                }
                 @Override public void onActivityStopped(@NonNull final Activity activity) { mLifecycleRegistry.setCurrentState(Lifecycle.State.CREATED); }
                 @Override public void onActivitySaveInstanceState(@NonNull final Activity activity, @NonNull final Bundle outState) { /*nothing*/ }
-                @Override public void onActivityDestroyed(@NonNull final Activity activity) { mLifecycleRegistry.setCurrentState(Lifecycle.State.DESTROYED); }
+                @Override public void onActivityDestroyed(@NonNull final Activity activity) { MapView.this.onDestroy(); }
             });
         } else {
             throw new IllegalStateException("MapView's context needs to implement some kind of Lifecycle");
@@ -336,9 +344,7 @@ public class MapView extends ViewGroup implements IMapView, MultiTouchObjectCanv
 		see https://github.com/osmdroid/osmdroid/issues/588
 		https://github.com/osmdroid/osmdroid/issues/568
 		 */
-        if (Configuration.getInstance().isMapViewRecyclerFriendly())
-            if (Build.VERSION.SDK_INT >= 16)
-                this.setHasTransientState(true);
+        if (Configuration.getInstance().isMapViewRecyclerFriendly()) this.setHasTransientState(true);
 
         mZoomController.setVisibility(CustomZoomButtonsController.Visibility.SHOW_AND_FADEOUT);
     }
@@ -827,11 +833,7 @@ public class MapView extends ViewGroup implements IMapView, MultiTouchObjectCanv
         return getProjection().fromPixels(getWidth() / 2, getHeight() / 2, pReuse, false);
     }
 
-    /**
-     * rotates the map to the desired heading
-     *
-     * @param degrees
-     */
+    /** Rotates the map to the desired heading */
     public void setMapOrientation(float degrees) {
         setMapOrientation(degrees, true);
     }
@@ -1137,7 +1139,20 @@ public class MapView extends ViewGroup implements IMapView, MultiTouchObjectCanv
 
     protected void onPause() { /*nothing*/ }
 
-    protected void onDestroy() { /*nothing*/ }
+    @CallSuper
+    protected void onDestroy() {
+        mTileProvider.detach();
+        if (mZoomController != null) mZoomController.onDetach();
+        if (mTileRequestCompleteHandler instanceof SimpleInvalidationHandler) ((SimpleInvalidationHandler) mTileRequestCompleteHandler).destroy();
+        mTileRequestCompleteHandler = null;
+        if (mProjection != null) mProjection.detach();
+        mProjection = null;
+        mRepository.onDetach();
+        mListeners.clear();
+        if (mContextLifecycleObserver != null) ((LifecycleOwner)this.getContext()).getLifecycle().removeObserver(mContextLifecycleObserver);
+        mContextLifecycleObserver = null;
+        mLifecycleRegistry.setCurrentState(Lifecycle.State.DESTROYED);
+    }
 
     @Override
     public boolean onKeyDown(final int keyCode, final KeyEvent event) {
@@ -1230,14 +1245,7 @@ public class MapView extends ViewGroup implements IMapView, MultiTouchObjectCanv
             return ev;
 
         MotionEvent rotatedEvent = MotionEvent.obtain(ev);
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
-            getProjection().unrotateAndScalePoint((int) ev.getX(), (int) ev.getY(),
-                    mRotateScalePoint);
-            rotatedEvent.setLocation(mRotateScalePoint.x, mRotateScalePoint.y);
-        } else {
-            // This method is preferred since it will rotate historical touch events too
-            rotatedEvent.transform(getProjection().getInvertedScaleRotateCanvasMatrix());
-        }
+        rotatedEvent.transform(getProjection().getInvertedScaleRotateCanvasMatrix());
         return rotatedEvent;
     }
 
@@ -1300,7 +1308,7 @@ public class MapView extends ViewGroup implements IMapView, MultiTouchObjectCanv
 
     @UiThread @MainThread
     @Override
-    protected void dispatchDraw(final Canvas c) {
+    protected void dispatchDraw(@NonNull final Canvas c) {
         final long startMs = System.currentTimeMillis();
 
         // Reset the projection
@@ -1367,7 +1375,7 @@ public class MapView extends ViewGroup implements IMapView, MultiTouchObjectCanv
     }
 
     @Override
-    public void selectObject(@NonNull final Object obj, @NonNull final PointInfo pt) {
+    public void selectObject(@Nullable final Object obj, @NonNull final PointInfo pt) {
         if (mZoomRounding) {
             mZoomLevel = Math.round(mZoomLevel);
             invalidate();
@@ -1472,7 +1480,7 @@ public class MapView extends ViewGroup implements IMapView, MultiTouchObjectCanv
     }
 
     public void setMultiTouchControls(final boolean on) {
-        mMultiTouchController = on ? new MultiTouchController<Object>(this, false) : null;
+        mMultiTouchController = on ? new MultiTouchController<>(this, false) : null;
     }
 
     /**
@@ -1564,7 +1572,7 @@ public class MapView extends ViewGroup implements IMapView, MultiTouchObjectCanv
     private class MapViewGestureDetectorListener implements OnGestureListener {
 
         @Override
-        public boolean onDown(final MotionEvent e) {
+        public boolean onDown(@NonNull final MotionEvent e) {
 
             // Stop scrolling if we are in the middle of a fling!
             if (mIsFlinging) {
@@ -1584,7 +1592,7 @@ public class MapView extends ViewGroup implements IMapView, MultiTouchObjectCanv
         }
 
         @Override
-        public boolean onFling(final MotionEvent e1, final MotionEvent e2,
+        public boolean onFling(final MotionEvent e1, @NonNull final MotionEvent e2,
                                final float velocityX, final float velocityY) {
 
             if (!enableFling || pauseFling) {
@@ -1613,7 +1621,7 @@ public class MapView extends ViewGroup implements IMapView, MultiTouchObjectCanv
         }
 
         @Override
-        public void onLongPress(final MotionEvent e) {
+        public void onLongPress(@NonNull final MotionEvent e) {
             if (mMultiTouchController != null && mMultiTouchController.isPinching()) {
                 return;
             }
@@ -1621,7 +1629,7 @@ public class MapView extends ViewGroup implements IMapView, MultiTouchObjectCanv
         }
 
         @Override
-        public boolean onScroll(final MotionEvent e1, final MotionEvent e2, final float distanceX,
+        public boolean onScroll(final MotionEvent e1, @NonNull final MotionEvent e2, final float distanceX,
                                 final float distanceY) {
             if (MapView.this.getOverlayManager().onScroll(e1, e2, distanceX, distanceY,
                     MapView.this)) {
@@ -1633,12 +1641,12 @@ public class MapView extends ViewGroup implements IMapView, MultiTouchObjectCanv
         }
 
         @Override
-        public void onShowPress(final MotionEvent e) {
+        public void onShowPress(@NonNull final MotionEvent e) {
             MapView.this.getOverlayManager().onShowPress(e, MapView.this);
         }
 
         @Override
-        public boolean onSingleTapUp(final MotionEvent e) {
+        public boolean onSingleTapUp(@NonNull final MotionEvent e) {
             if (MapView.this.getOverlayManager().onSingleTapUp(e, MapView.this)) {
                 return true;
             }
@@ -1650,7 +1658,7 @@ public class MapView extends ViewGroup implements IMapView, MultiTouchObjectCanv
 
     private class MapViewDoubleClickListener implements GestureDetector.OnDoubleTapListener {
         @Override
-        public boolean onDoubleTap(final MotionEvent e) {
+        public boolean onDoubleTap(@NonNull final MotionEvent e) {
             if (MapView.this.getOverlayManager().onDoubleTap(e, MapView.this)) {
                 return true;
             }
@@ -1660,7 +1668,7 @@ public class MapView extends ViewGroup implements IMapView, MultiTouchObjectCanv
         }
 
         @Override
-        public boolean onDoubleTapEvent(final MotionEvent e) {
+        public boolean onDoubleTapEvent(@NonNull final MotionEvent e) {
             if (MapView.this.getOverlayManager().onDoubleTapEvent(e, MapView.this)) {
                 return true;
             }
@@ -1669,7 +1677,7 @@ public class MapView extends ViewGroup implements IMapView, MultiTouchObjectCanv
         }
 
         @Override
-        public boolean onSingleTapConfirmed(final MotionEvent e) {
+        public boolean onSingleTapConfirmed(@NonNull final MotionEvent e) {
             if (MapView.this.getOverlayManager().onSingleTapConfirmed(e, MapView.this)) {
                 return true;
             }
@@ -1838,7 +1846,6 @@ public class MapView extends ViewGroup implements IMapView, MultiTouchObjectCanv
     /**
      * enables you to programmatically set the tile provider (zip, assets, sqlite, etc)
      *
-     * @param base
      * @see MapTileProviderBasic
      * @since 4.4
      */
