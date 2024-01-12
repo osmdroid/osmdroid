@@ -42,7 +42,7 @@ public class GEMFFileArchive implements IArchiveFile {
 
 
     public Set<String> getTileSources() {
-        Set<String> ret = new HashSet<String>();
+        Set<String> ret = new HashSet<>();
         try {
             ret.addAll(mFile.getSources().values());
         } catch (final Exception e) {

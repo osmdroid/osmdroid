@@ -40,8 +40,7 @@ public class GeoPackageProvider extends MapTileProviderArray implements IMapTile
     protected IFilesystemCache tileWriter;
 
     public GeoPackageProvider(File[] db, Context context) {
-        this(new SimpleRegisterReceiver(context), new NetworkAvailabliltyCheck(context),
-                TileSourceFactory.DEFAULT_TILE_SOURCE, context, null, db);
+        this(new SimpleRegisterReceiver(context), new NetworkAvailabliltyCheck(context), TileSourceFactory.DEFAULT_TILE_SOURCE, context, null, db);
     }
 
 

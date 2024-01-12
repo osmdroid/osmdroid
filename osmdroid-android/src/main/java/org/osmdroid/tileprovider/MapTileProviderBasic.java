@@ -39,13 +39,13 @@ import org.osmdroid.util.MapTileIndex;
 public class MapTileProviderBasic extends MapTileProviderArray implements IMapTileProviderCallback {
 
 	protected IFilesystemCache tileWriter;
-	final private INetworkAvailablityCheck mNetworkAvailabilityCheck;
+	private final INetworkAvailablityCheck mNetworkAvailabilityCheck;
 
 	/**
 	 * @since 6.1.0
 	 */
-	final private MapTileDownloaderProvider mDownloaderProvider;
-	final private MapTileApproximater mApproximationProvider;
+	private final MapTileDownloaderProvider mDownloaderProvider;
+	private final MapTileApproximater mApproximationProvider;
 
 	/**
 	 * Creates a {@link MapTileProviderBasic}.
@@ -65,8 +65,7 @@ public class MapTileProviderBasic extends MapTileProviderArray implements IMapTi
 	 * Creates a {@link MapTileProviderBasic}.
 	 */
 	public MapTileProviderBasic(final Context pContext, final ITileSource pTileSource, final IFilesystemCache cacheWriter) {
-		this(new SimpleRegisterReceiver(pContext), new NetworkAvailabliltyCheck(pContext),
-				pTileSource, pContext,cacheWriter);
+		this(new SimpleRegisterReceiver(pContext), new NetworkAvailabliltyCheck(pContext), pTileSource, pContext,cacheWriter);
 	}
 
 	/**
@@ -100,8 +99,7 @@ public class MapTileProviderBasic extends MapTileProviderArray implements IMapTi
 				createApproximater(assetsProvider, cacheProvider, archiveProvider);
 		mTileProviderList.add(mApproximationProvider);
 
-		mDownloaderProvider =
-				createDownloaderProvider(aNetworkAvailablityCheck, pTileSource);
+		mDownloaderProvider = createDownloaderProvider(aNetworkAvailablityCheck, pTileSource);
 		mTileProviderList.add(mDownloaderProvider);
 
 		// protected-cache-tile computers
@@ -170,8 +168,7 @@ public class MapTileProviderBasic extends MapTileProviderArray implements IMapTi
 	 */
 	@Override
 	protected boolean isDowngradedMode(final long pMapTileIndex) {
-		if ((mNetworkAvailabilityCheck != null && !mNetworkAvailabilityCheck.getNetworkAvailable())
-				|| !useDataConnection()) {
+		if ((mNetworkAvailabilityCheck != null && !mNetworkAvailabilityCheck.getNetworkAvailable()) || !useDataConnection()) {
 			return true;
 		}
 		int zoomMin = -1;

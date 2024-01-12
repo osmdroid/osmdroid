@@ -176,8 +176,7 @@ public class MapTileDownloaderProvider extends MapTileModuleProviderBase {
                 return null;
             }
 
-            if (mNetworkAvailablityCheck != null
-                    && !mNetworkAvailablityCheck.getNetworkAvailable()) {
+            if ((mNetworkAvailablityCheck != null) && !mNetworkAvailablityCheck.getNetworkAvailable()) {
                 if (Configuration.getInstance().isDebugMode()) {
                     Log.d(IMapView.LOGTAG, "Skipping " + getName() + " due to NetworkAvailabliltyCheck.");
                 }
