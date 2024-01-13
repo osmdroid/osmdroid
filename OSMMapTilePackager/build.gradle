@@ -27,12 +27,12 @@ tasks.withType(Javadoc) {
 }
 
 dependencies {
-    implementation 'org.apache.httpcomponents:httpmime:4.5.13'
-    implementation 'org.apache.james:apache-mime4j:0.8.7'
-    implementation 'org.xerial:sqlite-jdbc:3.36.0.3'
+    implementation 'org.apache.httpcomponents:httpmime:4.5.14'
+    implementation 'org.apache.james:apache-mime4j:0.8.9'
+    implementation 'org.xerial:sqlite-jdbc:3.44.1.0'
 
 
-    testImplementation "junit:junit:${project.property('junit.version')}"
+    testImplementation "org.junit.vintage:junit-vintage-engine:${project.property('junit.version')}"
 }
 
 //copy the instrumentation tests from the maven osmdroid-android-it src folder

@@ -34,7 +34,7 @@ android {
 }
 
 dependencies {
-    testImplementation "junit:junit:${project.property('junit.version')}"
+    testImplementation "org.junit.vintage:junit-vintage-engine:${project.property('junit.version')}"
     testImplementation "org.robolectric:robolectric:${project.property('robolectric.version')}"
 }
 
@@ -94,4 +94,3 @@ artifacts {
 
 }
 preBuild.dependsOn(copyFiles)
-
