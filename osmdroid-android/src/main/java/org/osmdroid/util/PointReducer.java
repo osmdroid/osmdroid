@@ -18,6 +18,13 @@ import java.util.List;
  */
 public class PointReducer {
 
+	/**
+     * @deprecated Use instead: {@link #reduceWithTolerance(List, double)}
+     */
+    @Deprecated
+    public static ArrayList<GeoPoint> reduceWithTolerance(@NonNull final ArrayList<GeoPoint> shape, final double tolerance) {
+		return (ArrayList<GeoPoint>)reduceWithTolerance((List<GeoPoint>)shape, tolerance);
+	}
     /**
      * Reduce the number of points in a shape using the Douglas-Peucker algorithm
      * Suggested usage
@@ -66,7 +73,7 @@ public class PointReducer {
         );
 
         // all done, return the reduced shape
-        List<GeoPoint> newShape = new ArrayList<>(n); // the new shape to return
+        final List<GeoPoint> newShape = new ArrayList<>(n); // the new shape to return
         for (int i = 0; i < n; i++) {
             if (marked[i])
                 newShape.add(shape.get(i));
