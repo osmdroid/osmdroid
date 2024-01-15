@@ -1,5 +1,6 @@
 package org.osmdroid.tileprovider.modules;
 
+import android.content.Context;
 import android.content.res.AssetManager;
 import android.graphics.drawable.Drawable;
 
@@ -14,6 +15,8 @@ import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.concurrent.atomic.AtomicReference;
+
+import androidx.annotation.NonNull;
 
 /**
  * Implements a file system cache and provides cached tiles from Assets. This
@@ -48,24 +51,24 @@ public class MapTileAssetsProvider extends MapTileFileStorageProviderBase {
     // Constructors
     // ===========================================================
 
-    public MapTileAssetsProvider(final IRegisterReceiver pRegisterReceiver, final AssetManager pAssets) {
-        this(pRegisterReceiver, pAssets, TileSourceFactory.DEFAULT_TILE_SOURCE);
+    public MapTileAssetsProvider(@NonNull final Context context, final IRegisterReceiver pRegisterReceiver, final AssetManager pAssets) {
+        this(context, pRegisterReceiver, pAssets, TileSourceFactory.DEFAULT_TILE_SOURCE);
     }
-
-    public MapTileAssetsProvider(final IRegisterReceiver pRegisterReceiver,
+    public MapTileAssetsProvider(@NonNull final Context context,
+                                 final IRegisterReceiver pRegisterReceiver,
                                  final AssetManager pAssets,
                                  final ITileSource pTileSource) {
-        this(pRegisterReceiver, pAssets, pTileSource,
+        this(context, pRegisterReceiver, pAssets, pTileSource,
                 Configuration.getInstance().getTileDownloadThreads(),
                 Configuration.getInstance().getTileDownloadMaxQueueSize()
         );
     }
-
-    public MapTileAssetsProvider(final IRegisterReceiver pRegisterReceiver,
+    public MapTileAssetsProvider(@NonNull final Context context,
+                                 final IRegisterReceiver pRegisterReceiver,
                                  final AssetManager pAssets,
                                  final ITileSource pTileSource, int pThreadPoolSize,
                                  int pPendingQueueSize) {
-        super(pRegisterReceiver, pThreadPoolSize, pPendingQueueSize);
+        super(context, pRegisterReceiver, pThreadPoolSize, pPendingQueueSize);
         setTileSource(pTileSource);
 
         mAssets = pAssets;

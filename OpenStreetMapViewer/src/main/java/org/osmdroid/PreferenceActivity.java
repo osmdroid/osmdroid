@@ -223,7 +223,7 @@ public class PreferenceActivity extends AppCompatActivity implements View.OnClic
             ex.printStackTrace();
         }
         try {
-            Long val = Long.parseLong(overrideExpirationTime.getText().toString());
+            long val = Long.parseLong(overrideExpirationTime.getText().toString());
             if (val > 0)
                 Configuration.getInstance().setExpirationOverrideDuration(val);
             else
@@ -234,7 +234,7 @@ public class PreferenceActivity extends AppCompatActivity implements View.OnClic
         }
 
         try {
-            Long val = Long.parseLong(cacheMaxSize.getText().toString());
+            long val = Long.parseLong(cacheMaxSize.getText().toString());
             if (val > 0)
                 Configuration.getInstance().setTileFileSystemCacheMaxBytes(val);
         } catch (Exception ex) {
@@ -242,7 +242,7 @@ public class PreferenceActivity extends AppCompatActivity implements View.OnClic
         }
 
         try {
-            Long val = Long.parseLong(cacheTrimSize.getText().toString());
+            long val = Long.parseLong(cacheTrimSize.getText().toString());
             if (val > 0)
                 Configuration.getInstance().setTileFileSystemCacheTrimBytes(val);
         } catch (Exception ex) {
@@ -259,7 +259,7 @@ public class PreferenceActivity extends AppCompatActivity implements View.OnClic
         Configuration.getInstance().setOsmdroidBasePath(new File(textViewBaseDirectory.getText().toString()));
 
         try {
-            Integer val = Integer.parseInt(zoomSpeedDefault.getText().toString());
+            int val = Integer.parseInt(zoomSpeedDefault.getText().toString());
             if (val > 0)
                 Configuration.getInstance().setAnimationSpeedDefault(val);
         } catch (Exception ex) {
@@ -267,7 +267,7 @@ public class PreferenceActivity extends AppCompatActivity implements View.OnClic
         }
 
         try {
-            Integer val = Integer.parseInt(zoomSpeedShort.getText().toString());
+            int val = Integer.parseInt(zoomSpeedShort.getText().toString());
             if (val > 0)
                 Configuration.getInstance().setAnimationSpeedShort(val);
         } catch (Exception ex) {
@@ -318,7 +318,7 @@ public class PreferenceActivity extends AppCompatActivity implements View.OnClic
                             public void run() {
                                 SqlTileWriter sqlTileWriter = new SqlTileWriter();
                                 boolean b = sqlTileWriter.purgeCache();
-                                sqlTileWriter.onDetach();
+                                sqlTileWriter.onDetach(PreferenceActivity.this);
                                 final String title = b ? "SQL Cache purged" : "SQL Cache purge failed, see logcat for details";
                                 final int length = b ? Toast.LENGTH_SHORT : Toast.LENGTH_LONG;
                                 PreferenceActivity.this.runOnUiThread(new Runnable() {

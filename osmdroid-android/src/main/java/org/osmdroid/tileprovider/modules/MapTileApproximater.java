@@ -1,12 +1,12 @@
 package org.osmdroid.tileprovider.modules;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.util.Pair;
 
 import androidx.annotation.NonNull;
@@ -310,8 +310,8 @@ public class MapTileApproximater extends MapTileModuleProviderBase {
 
     /** {@inheritDoc} */
     @Override
-    public void detach() {
-        super.detach();
+    public void onDetach(@NonNull final Context context) {
         mProviders.clear();
+        super.onDetach(context);
     }
 }

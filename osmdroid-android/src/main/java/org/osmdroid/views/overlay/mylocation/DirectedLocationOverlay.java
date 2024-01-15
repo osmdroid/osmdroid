@@ -13,8 +13,11 @@ import android.graphics.drawable.BitmapDrawable;
 
 import org.osmdroid.library.R;
 import org.osmdroid.util.GeoPoint;
+import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
 import org.osmdroid.views.overlay.Overlay;
+
+import androidx.annotation.Nullable;
 
 /**
  * @author Nicolas Gramlich
@@ -67,11 +70,7 @@ public class DirectedLocationOverlay extends Overlay {
     // Getter & Setter
     // ===========================================================
 
-    /**
-     * fix for https://github.com/osmdroid/osmdroid/issues/249
-     *
-     * @param image
-     */
+    /** fix for <a href="https://github.com/osmdroid/osmdroid/issues/249">...</a> */
     public void setDirectionArrow(final Bitmap image) {
         this.DIRECTION_ARROW = image;
         this.DIRECTION_ARROW_CENTER_X = this.DIRECTION_ARROW.getWidth() / 2f - 0.5f;
@@ -108,10 +107,10 @@ public class DirectedLocationOverlay extends Overlay {
     // ===========================================================
 
     @Override
-    public void onDestroy() {
+    public void onDestroy(@Nullable final MapView mapView) {
         mPaint = null;
         mAccuracyPaint = null;
-        super.onDestroy();
+        super.onDestroy(mapView);
     }
 
     @Override

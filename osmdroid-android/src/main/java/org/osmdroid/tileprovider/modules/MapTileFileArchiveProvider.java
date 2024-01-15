@@ -1,6 +1,7 @@
 // Created by plusminus on 21:46:41 - 25.09.2008
 package org.osmdroid.tileprovider.modules;
 
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 
@@ -19,6 +20,8 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
+
+import androidx.annotation.NonNull;
 
 /**
  * A tile provider that can serve tiles from an archive using the supplied tile source. The tile
@@ -39,8 +42,8 @@ public class MapTileFileArchiveProvider extends MapTileFileStorageProviderBase {
     // Fields
     // ===========================================================
 
-    private final List<IArchiveFile> mArchiveFiles = new ArrayList<IArchiveFile>();
-    private final AtomicReference<ITileSource> mTileSource = new AtomicReference<ITileSource>();
+    private final List<IArchiveFile> mArchiveFiles = new ArrayList<>();
+    private final AtomicReference<ITileSource> mTileSource = new AtomicReference<>();
     /**
      * Disable the search of archives if specified in constructor
      */
@@ -52,22 +55,25 @@ public class MapTileFileArchiveProvider extends MapTileFileStorageProviderBase {
     // Constructors
     // ===========================================================
 
+    public MapTileFileArchiveProvider(@NonNull final Context context,
+                                      final IRegisterReceiver pRegisterReceiver,
+                                      final ITileSource pTileSource) {
+        this(context, pRegisterReceiver, pTileSource, null);
+    }
     /**
      * The tiles may be found on several media. This one works with tiles stored on the file system.
      * It and its friends are typically created and controlled by {@link MapTileProviderBase}.
      */
-    public MapTileFileArchiveProvider(final IRegisterReceiver pRegisterReceiver,
+    public MapTileFileArchiveProvider(@NonNull final Context context, final IRegisterReceiver pRegisterReceiver,
                                       final ITileSource pTileSource, final IArchiveFile[] pArchives) {
-        this(pRegisterReceiver, pTileSource, pArchives, false);
+        this(context, pRegisterReceiver, pTileSource, pArchives, false);
     }
-
     /**
      * @param ignoreTileSource  if true, tile source is ignored
-     * @since 6.0.0
      */
-    public MapTileFileArchiveProvider(final IRegisterReceiver pRegisterReceiver,
+    public MapTileFileArchiveProvider(@NonNull final Context context, final IRegisterReceiver pRegisterReceiver,
                                       final ITileSource pTileSource, final IArchiveFile[] pArchives, final boolean ignoreTileSource) {
-        super(pRegisterReceiver,
+        super(context, pRegisterReceiver,
                 Configuration.getInstance().getTileFileSystemThreads(),
                 Configuration.getInstance().getTileFileSystemMaxQueueSize());
 
@@ -84,11 +90,6 @@ public class MapTileFileArchiveProvider extends MapTileFileStorageProviderBase {
             }
         }
 
-    }
-
-    public MapTileFileArchiveProvider(final IRegisterReceiver pRegisterReceiver,
-                                      final ITileSource pTileSource) {
-        this(pRegisterReceiver, pTileSource, null);
     }
 
     // ===========================================================
@@ -133,14 +134,14 @@ public class MapTileFileArchiveProvider extends MapTileFileStorageProviderBase {
     }
 
     @Override
-    protected void onMediaMounted() {
+    protected void onMediaMounted(@NonNull final Context context) {
         if (!mSpecificArchivesProvided) {
             findArchiveFiles();
         }
     }
 
     @Override
-    protected void onMediaUnmounted() {
+    protected void onMediaUnmounted(@NonNull final Context context) {
         if (!mSpecificArchivesProvided) {
             findArchiveFiles();
         }
@@ -152,12 +153,12 @@ public class MapTileFileArchiveProvider extends MapTileFileStorageProviderBase {
     }
 
     @Override
-    public void detach() {
-        clearArcives();
-        super.detach();
+    protected void onDetach(@NonNull final Context context) {
+        clearArchives();
+        super.onDetach(context);
     }
 
-    private void clearArcives() {
+    private void clearArchives() {
         while (!mArchiveFiles.isEmpty()) {
             IArchiveFile t = mArchiveFiles.get(0);
             if (t != null)
@@ -171,7 +172,7 @@ public class MapTileFileArchiveProvider extends MapTileFileStorageProviderBase {
     // ===========================================================
 
     private void findArchiveFiles() {
-        clearArcives();
+        clearArchives();
 
         // path should be optionally configurable
         File cachePaths = Configuration.getInstance().getOsmdroidBasePath();

@@ -1,5 +1,6 @@
 package org.osmdroid.views.drawing;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.os.Looper;
@@ -125,11 +126,11 @@ public class MapSnapshot implements Runnable {
         return save(mBitmap, pFile);
     }
 
-    public void onDetach() {
+    public void onDetach(@NonNull final Context context) {
         mIsDetached = true;
         mProjection = null;
         mTileProvider.getTileRequestCompleteHandlers().remove(mHandler);
-        mTileProvider.detach();
+        mTileProvider.detach(context);
         mTileProvider = null;
         mHandler.destroy();
         mHandler = null;

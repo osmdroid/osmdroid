@@ -66,8 +66,7 @@ public class SampleOfflineOnly extends BaseSampleFragment {
 
                             //create the offline tile provider, it will only do offline file archives
                             //again using the first file
-                            OfflineTileProvider tileProvider = new OfflineTileProvider(new SimpleRegisterReceiver(getActivity()),
-                                    new File[]{list[i]});
+                            OfflineTileProvider tileProvider = new OfflineTileProvider(requireContext(), new SimpleRegisterReceiver(), new File[]{list[i]});
 
                             //tell osmdroid to use that provider instead of the default rig which is (asserts, cache, files/archives, online
                             mMapView.setTileProvider(tileProvider);

@@ -48,7 +48,7 @@ public class MapsforgeTileProviderSample extends BaseSampleFragment {
         setHasOptionsMenu(false);   //turn off the menu to prevent accidential tile source changes
         Log.d(TAG, "onCreate");
 
-        /**
+        /*
          * super important to configure some of the mapsforge settings first
          */
         MapsForgeTileSource.createInstance(this.getActivity().getApplication());
@@ -115,7 +115,8 @@ public class MapsforgeTileProviderSample extends BaseSampleFragment {
 
             fromFiles = MapsForgeTileSource.createFromFiles(maps, theme, "rendertheme-v4");
             forge = new MapsForgeTileProvider(
-                    new SimpleRegisterReceiver(getContext()),
+                    requireContext(),
+                    new SimpleRegisterReceiver(),
                     fromFiles, null);
 
 
@@ -149,17 +150,13 @@ public class MapsforgeTileProviderSample extends BaseSampleFragment {
         if (fromFiles != null)
             fromFiles.dispose();
         if (forge != null)
-            forge.detach();
+            forge.detach(requireContext());
         AndroidGraphicFactory.clearResourceMemoryCache();
     }
 
-    /**
-     * simple function to scan for paths that match /something/osmdroid/*.map to find mapforge database files
-     *
-     * @return
-     */
+    /** simple function to scan for paths that match /something/osmdroid/*.map to find mapforge database files */
     protected Set<File> findMapFiles() {
-        Set<File> maps = new HashSet<>();
+        final Set<File> maps = new HashSet<>();
         List<StorageUtils.StorageInfo> storageList = StorageUtils.getStorageList(getActivity());
         for (int i = 0; i < storageList.size(); i++) {
             File f = new File(storageList.get(i).path + File.separator + "osmdroid" + File.separator);

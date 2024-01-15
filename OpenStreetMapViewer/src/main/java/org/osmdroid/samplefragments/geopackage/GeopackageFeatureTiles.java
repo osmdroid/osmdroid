@@ -175,7 +175,7 @@ public class GeopackageFeatureTiles extends BaseSampleFragment {
                     // Query Features
                     if (!features.isEmpty()) {
                         for (int i = 0; i < features.size(); i++) {
-                            GeoPackageFeatureTileProvider provider = new GeoPackageFeatureTileProvider(
+                            GeoPackageFeatureTileProvider provider = new GeoPackageFeatureTileProvider(requireContext(),
                                     new XYTileSource(databases.get(k) + ":" + features.get(i), 0, 22, 256, "png", new String[0])
                             );
                             GeopackageFeatureTilesOverlay overlay = new GeopackageFeatureTilesOverlay(provider, getContext());

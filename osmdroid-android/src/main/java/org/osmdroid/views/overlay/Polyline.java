@@ -136,9 +136,9 @@ public class Polyline extends PolyOverlayWithIW {
     }
 
     @Override
-    public void onDestroy() {
+    public void onDestroy(@Nullable final MapView mapView) {
         mOnClickListener = null;
-        super.onDestroy();
+        super.onDestroy(mapView);
     }
 
     /**

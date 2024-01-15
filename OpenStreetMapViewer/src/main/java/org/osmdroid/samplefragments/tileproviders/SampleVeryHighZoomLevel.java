@@ -38,14 +38,14 @@ public class SampleVeryHighZoomLevel extends BaseSampleFragment {
                 "Abstract", 0, 29, 256, ".png", new String[]{"http://localhost/"}, "abstract data");
         mMapView.setUseDataConnection(false);
 
-        final MapTileAssetsProvider assetsProvider = new MapTileAssetsProvider(new SimpleRegisterReceiver(getContext()), getActivity().getAssets(), tileSource);
+        final MapTileAssetsProvider assetsProvider = new MapTileAssetsProvider(requireContext(), new SimpleRegisterReceiver(), requireContext().getAssets(), tileSource);
 
         final MapTileApproximater approximationProvider = new MapTileApproximater();
         approximationProvider.addProvider(assetsProvider);
 
         final MapTileProviderArray array = new MapTileProviderArray(
-                tileSource, new SimpleRegisterReceiver(getContext()),
-                new MapTileModuleProviderBase[]{assetsProvider, approximationProvider});
+                mMapView.getContext(), tileSource, new SimpleRegisterReceiver(),
+                new MapTileModuleProviderBase[]{ assetsProvider, approximationProvider });
 
         mMapView.setTileProvider(array);
 

@@ -1,5 +1,6 @@
 package org.osmdroid.tileprovider.modules;
 
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.util.Log;
@@ -52,26 +53,25 @@ public class MapTileDownloaderProvider extends MapTileModuleProviderBase {
     // Constructors
     // ===========================================================
 
-    public MapTileDownloaderProvider(final ITileSource pTileSource) {
-        this(pTileSource, null, null);
+    public MapTileDownloaderProvider(@NonNull final Context context, final ITileSource pTileSource) {
+        this(context, pTileSource, null, null);
     }
-
-    public MapTileDownloaderProvider(final ITileSource pTileSource, final IFilesystemCache pFilesystemCache) {
-        this(pTileSource, pFilesystemCache, null);
+    public MapTileDownloaderProvider(@NonNull final Context context, final ITileSource pTileSource, final IFilesystemCache pFilesystemCache) {
+        this(context, pTileSource, pFilesystemCache, null);
     }
-
-    public MapTileDownloaderProvider(final ITileSource pTileSource,
+    public MapTileDownloaderProvider(@NonNull final Context context,
+                                     final ITileSource pTileSource,
                                      final IFilesystemCache pFilesystemCache,
                                      final INetworkAvailablityCheck pNetworkAvailablityCheck) {
-        this(pTileSource, pFilesystemCache, pNetworkAvailablityCheck,
+        this(context, pTileSource, pFilesystemCache, pNetworkAvailablityCheck,
                 Configuration.getInstance().getTileDownloadThreads(),
                 Configuration.getInstance().getTileDownloadMaxQueueSize());
     }
-
-    public MapTileDownloaderProvider(final ITileSource pTileSource,
+    public MapTileDownloaderProvider(@NonNull final Context context,
+                                     final ITileSource pTileSource,
                                      final IFilesystemCache pFilesystemCache,
-                                     final INetworkAvailablityCheck pNetworkAvailablityCheck, int pThreadPoolSize,
-                                     int pPendingQueueSize) {
+                                     final INetworkAvailablityCheck pNetworkAvailablityCheck, final int pThreadPoolSize,
+                                     final int pPendingQueueSize) {
         super(pThreadPoolSize, pPendingQueueSize);
 
         mFilesystemCache = pFilesystemCache;
@@ -112,10 +112,10 @@ public class MapTileDownloaderProvider extends MapTileModuleProviderBase {
     }
 
     @Override
-    public void detach() {
-        super.detach();
+    protected void onDetach(@NonNull final Context context) {
         if (this.mFilesystemCache != null)
-            this.mFilesystemCache.onDetach();
+            this.mFilesystemCache.onDetach(context);
+        super.onDetach(context);
     }
 
     @Override

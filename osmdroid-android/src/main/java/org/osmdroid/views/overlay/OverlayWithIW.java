@@ -4,6 +4,7 @@ import android.content.Context;
 
 import androidx.annotation.Nullable;
 
+import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.infowindow.BasicInfoWindow;
 import org.osmdroid.views.overlay.infowindow.InfoWindow;
 
@@ -124,14 +125,14 @@ public abstract class OverlayWithIW extends Overlay {
             mInfoWindow.close();
     }
 
-    public void onDestroy() {
+    public void onDestroy(@Nullable final MapView mapView) {
         if (mInfoWindow != null) {
             mInfoWindow.close();
             mInfoWindow.onDetach();
             mInfoWindow = null;
             mRelatedObject = null;
         }
-        super.onDestroy();
+        super.onDestroy(mapView);
     }
 
     public boolean isInfoWindowOpen() {

@@ -1,5 +1,6 @@
 package org.osmdroid.tileprovider.modules;
 
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 
@@ -15,6 +16,8 @@ import org.osmdroid.tileprovider.util.Counters;
 import org.osmdroid.util.MapTileIndex;
 
 import java.util.concurrent.atomic.AtomicReference;
+
+import androidx.annotation.NonNull;
 
 /**
  * Sqlite based tile cache mechansism
@@ -44,23 +47,11 @@ public class MapTileSqlCacheProvider extends MapTileFileStorageProviderBase {
     // ===========================================================
 
     /**
-     * @deprecated Use instead: {@link #MapTileSqlCacheProvider(IRegisterReceiver, ITileSource)}
-     */
-    @Deprecated
-    public MapTileSqlCacheProvider(final IRegisterReceiver pRegisterReceiver,
-                                   final ITileSource pTileSource, final long pMaximumCachedFileAge) {
-        this(pRegisterReceiver, pTileSource);
-    }
-
-    /**
      * The tiles may be found on several media. This one works with tiles stored on database.
      * It and its friends are typically created and controlled by {@link MapTileProviderBase}.
      */
-    public MapTileSqlCacheProvider(final IRegisterReceiver pRegisterReceiver,
-                                   final ITileSource pTileSource) {
-        super(pRegisterReceiver,
-                Configuration.getInstance().getTileFileSystemThreads(),
-                Configuration.getInstance().getTileFileSystemMaxQueueSize());
+    public MapTileSqlCacheProvider(@NonNull final Context context, final IRegisterReceiver pRegisterReceiver, final ITileSource pTileSource) {
+        super(context, pRegisterReceiver, Configuration.getInstance().getTileFileSystemThreads(), Configuration.getInstance().getTileFileSystemMaxQueueSize());
 
         setTileSource(pTileSource);
         mWriter = new SqlTileWriter();
@@ -108,11 +99,11 @@ public class MapTileSqlCacheProvider extends MapTileFileStorageProviderBase {
     }
 
     @Override
-    protected void onMediaMounted() { /*nothing*/ }
+    protected void onMediaMounted(@NonNull final Context context) { /*nothing*/ }
 
     @Override
-    protected void onMediaUnmounted() {
-        if (mWriter != null) mWriter.onDetach();
+    protected void onMediaUnmounted(@NonNull final Context context) {
+        if (mWriter != null) mWriter.onDetach(context);
         mWriter = new SqlTileWriter();
     }
 
@@ -122,10 +113,10 @@ public class MapTileSqlCacheProvider extends MapTileFileStorageProviderBase {
     }
 
     @Override
-    public void detach() {
-        if (mWriter != null) mWriter.onDetach();
+    public void detach(@NonNull final Context context) {
+        if (mWriter != null) mWriter.onDetach(context);
         mWriter = null;
-        super.detach();
+        super.detach(context);
     }
 
     // ===========================================================

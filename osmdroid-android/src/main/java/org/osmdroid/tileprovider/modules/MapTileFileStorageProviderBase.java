@@ -7,7 +7,6 @@ import android.content.IntentFilter;
 
 import org.osmdroid.tileprovider.IRegisterReceiver;
 
-import androidx.annotation.CallSuper;
 import androidx.annotation.NonNull;
 
 public abstract class MapTileFileStorageProviderBase extends MapTileModuleProviderBase {
@@ -15,15 +14,7 @@ public abstract class MapTileFileStorageProviderBase extends MapTileModuleProvid
     private final IRegisterReceiver mRegisterReceiver;
     private MyBroadcastReceiver mBroadcastReceiver;
 
-    /**
-     * @deprecated Use instead: {@link #MapTileFileStorageProviderBase(Context, IRegisterReceiver, int, int)}
-     */
-    @Deprecated
-    public MapTileFileStorageProviderBase(final IRegisterReceiver pRegisterReceiver, final int pThreadPoolSize, final int pPendingQueueSize) {
-        //noinspection DataFlowIssue
-        this(null, pRegisterReceiver, pThreadPoolSize, pPendingQueueSize);
-    }
-    public MapTileFileStorageProviderBase(@NonNull final Context context, final IRegisterReceiver pRegisterReceiver, final int pThreadPoolSize, final int pPendingQueueSize) {
+    public MapTileFileStorageProviderBase(final Context context, final IRegisterReceiver pRegisterReceiver, final int pThreadPoolSize, final int pPendingQueueSize) {
         super(pThreadPoolSize, pPendingQueueSize);
 
         mRegisterReceiver = pRegisterReceiver;
@@ -33,16 +24,11 @@ public abstract class MapTileFileStorageProviderBase extends MapTileModuleProvid
         mediaFilter.addAction(Intent.ACTION_MEDIA_MOUNTED);
         mediaFilter.addAction(Intent.ACTION_MEDIA_UNMOUNTED);
         mediaFilter.addDataScheme("file");
-        pRegisterReceiver.registerReceiver(context, mBroadcastReceiver, mediaFilter);
+        if (pRegisterReceiver.registerReceiver(context, mBroadcastReceiver, mediaFilter) == null) {
+            mBroadcastReceiver = null;
+        }
     }
 
-    @Override
-    @CallSuper
-    public void detach() { completare i parent usando la variante ...(Context...)
-        //noinspection DataFlowIssue
-        this.detach(null);
-    }
-    /** @noinspection NullableProblems*/
     @Override
     public void detach(@NonNull final Context context) {
         if (mBroadcastReceiver != null) {
@@ -52,11 +38,11 @@ public abstract class MapTileFileStorageProviderBase extends MapTileModuleProvid
         super.detach(context);
     }
 
-    protected void onMediaMounted() {
+    protected void onMediaMounted(@NonNull final Context context) {
         // Do nothing by default. Override to handle.
     }
 
-    protected void onMediaUnmounted() {
+    protected void onMediaUnmounted(@NonNull final Context context) {
         // Do nothing by default. Override to handle.
     }
 
@@ -68,9 +54,9 @@ public abstract class MapTileFileStorageProviderBase extends MapTileModuleProvid
         public void onReceive(final Context aContext, final Intent aIntent) {
             final String action = aIntent.getAction();
             if (Intent.ACTION_MEDIA_MOUNTED.equals(action)) {
-                onMediaMounted();
+                onMediaMounted(aContext.getApplicationContext());
             } else if (Intent.ACTION_MEDIA_UNMOUNTED.equals(action)) {
-                onMediaUnmounted();
+                onMediaUnmounted(aContext.getApplicationContext());
             }
         }
     }

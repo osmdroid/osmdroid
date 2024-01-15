@@ -81,7 +81,7 @@ public class CacheAnalyzerActivity extends AppCompatActivity
 
     public void onPause() {
         super.onPause();
-        cache.onDetach();
+        cache.onDetach(this);
         cache = null;
         if (show != null)
             show.dismiss();
@@ -158,8 +158,7 @@ public class CacheAnalyzerActivity extends AppCompatActivity
     private void purgeCache() {
         SqlTileWriter sqlTileWriter = new SqlTileWriter();
         boolean b = sqlTileWriter.purgeCache();
-        sqlTileWriter.onDetach();
-        sqlTileWriter = null;
+        sqlTileWriter.onDetach(this);
         if (b)
             Toast.makeText(this, "SQL Cache purged", Toast.LENGTH_SHORT).show();
         else

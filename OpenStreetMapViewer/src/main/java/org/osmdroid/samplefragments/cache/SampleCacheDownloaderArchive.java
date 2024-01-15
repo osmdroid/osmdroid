@@ -246,14 +246,14 @@ public class SampleCacheDownloaderArchive extends BaseSampleFragment implements 
                         public void onTaskComplete() {
                             Toast.makeText(getActivity(), "Download complete!", Toast.LENGTH_LONG).show();
                             if (writer != null)
-                                writer.onDetach();
+                                writer.onDetach(getContext());
                         }
 
                         @Override
                         public void onTaskFailed(int errors) {
                             Toast.makeText(getActivity(), "Download complete with " + errors + " errors", Toast.LENGTH_LONG).show();
                             if (writer != null)
-                                writer.onDetach();
+                                writer.onDetach(getContext());
                         }
 
                         @Override

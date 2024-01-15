@@ -37,6 +37,7 @@ import org.osmdroid.events.MapListener;
 import org.osmdroid.events.ScrollEvent;
 import org.osmdroid.events.ZoomEvent;
 import org.osmdroid.samplefragments.data.SampleGridlines;
+import org.osmdroid.util.Bitmaps;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.overlay.Marker;
 
@@ -286,9 +287,9 @@ public class Plotter extends SampleGridlines implements View.OnClickListener, Te
             SymbolDef def = SymbolDefTable.getInstance().getSymbolDef(baseCode, RendererSettings.getInstance().getSymbologyStandard());
 
             SparseArray<String> attr = new SparseArray<>();
-            attr.put(MilStdAttributes.PixelSize, size + "");
+            attr.put(MilStdAttributes.PixelSize, String.valueOf(size));
 
-            ImageInfo ii = mir.RenderIcon(code, new SparseArray<String>(), attr);
+            ImageInfo ii = mir.RenderIcon(code, new SparseArray<>(), attr);
             Marker m = new Marker(mMapView);
             m.setPosition((GeoPoint) mMapView.getMapCenter());
             m.setTitle(code);
@@ -296,7 +297,7 @@ public class Plotter extends SampleGridlines implements View.OnClickListener, Te
                 m.setSubDescription(def.getFullPath());
                 m.setSnippet(def.getDescription() + "\n" + def.getHierarchy());
             }
-            Drawable d = new BitmapDrawable(ii.getImage());
+            Drawable d = Bitmaps.convertBitmapToDrawable(v.getContext(), ii.getImage());
             m.setImage(d);
             m.setIcon(d);
             int centerX = ii.getCenterPoint().x;    //pixel center position
@@ -353,7 +354,7 @@ public class Plotter extends SampleGridlines implements View.OnClickListener, Te
         //validate that the input is correct
 
         if (code == null || code.length() == 15) {
-            if (mir.CanRender(code, new SparseArray<String>(), new SparseArray<String>())) {
+            if (mir.CanRender(code, new SparseArray<>(), new SparseArray<>())) {
                 canRender.setText("");
                 addIcon.setEnabled(true);
             } else {

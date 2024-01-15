@@ -10,7 +10,6 @@ import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.util.TypedValue;
 import android.view.MotionEvent;
 
@@ -80,11 +79,6 @@ public class Marker extends OverlayWithIW {
     protected Point mPositionPixels;
 
     /**
-     * @since 6.0.3
-     */
-    private MapViewRepository mMapViewRepository;
-
-    /**
      * Usual values in the (U,V) coordinates system of the icon image
      */
     public static final float ANCHOR_CENTER = 0.5f, ANCHOR_LEFT = 0.0f, ANCHOR_TOP = 0.0f, ANCHOR_RIGHT = 1.0f, ANCHOR_BOTTOM = 1.0f;
@@ -109,6 +103,8 @@ public class Marker extends OverlayWithIW {
     };
     private final GeoPoint mLongPressReusableGeoPoint = new GeoPoint(0d, 0d, 0d);
     private final GeoPoint mMoveReusableGeoPoint = new GeoPoint(0d, 0d, 0d);
+    @Nullable
+    private static Drawable mDefaultMarkerIcon = null;
 
     public Marker(@NonNull final MapView mapView) {
         this(mapView, (mapView.getContext()));
@@ -116,7 +112,8 @@ public class Marker extends OverlayWithIW {
 
     public Marker(@NonNull final MapView mapView, @Nullable final Context resourceProxy) {
         super();
-        mMapViewRepository = mapView.getRepository();
+        final MapViewRepository cMapViewRepository = mapView.getRepository();
+        if (mDefaultMarkerIcon == null) mDefaultMarkerIcon = cMapViewRepository.getDefaultMarkerIcon();
         mBearing = 0.0f;
         mAlpha = 1.0f; //opaque
         mAnchorU = ANCHOR_CENTER;
@@ -138,7 +135,7 @@ public class Marker extends OverlayWithIW {
         this.setTextLabelBackgroundColor(mTextLabelBackgroundColor);
         this.setTextLabelForegroundColor(mTextLabelForegroundColor);
         setDefaultIcon();
-        setInfoWindow(mMapViewRepository.getDefaultMarkerInfoWindow());
+        setInfoWindow(cMapViewRepository.getDefaultMarkerInfoWindow());
     }
 
     /**
@@ -164,7 +161,7 @@ public class Marker extends OverlayWithIW {
      * @since 6.0.3
      */
     public void setDefaultIcon() {
-        mIcon = mMapViewRepository.getDefaultMarkerIcon();
+        mIcon = mDefaultMarkerIcon;
         setAnchor(ANCHOR_CENTER, ANCHOR_BOTTOM);
     }
 
@@ -357,8 +354,7 @@ public class Marker extends OverlayWithIW {
     }
 
     public boolean isInfoWindowShown() {
-        if (mInfoWindow instanceof MarkerInfoWindow) {
-            MarkerInfoWindow iw = (MarkerInfoWindow) mInfoWindow;
+        if (mInfoWindow instanceof MarkerInfoWindow iw) {
             return iw.isOpen() && (iw.getMarkerReference() == this);
         } else
             return super.isInfoWindowOpen();
@@ -381,7 +377,7 @@ public class Marker extends OverlayWithIW {
     }
 
     @Override
-    public void onDestroy() {
+    public void onDestroy(@Nullable final MapView mapView) {
         BitmapPool.getInstance().asyncRecycle(mIcon);
         mIcon = null;
         BitmapPool.getInstance().asyncRecycle(mImage);
@@ -392,9 +388,8 @@ public class Marker extends OverlayWithIW {
         if (isInfoWindowShown())
             closeInfoWindow();
 
-        mMapViewRepository = null;
         setInfoWindow(null);
-        super.onDestroy();
+        super.onDestroy(mapView);
     }
 
     /**
@@ -402,8 +397,7 @@ public class Marker extends OverlayWithIW {
      * reference <a href="https://github.com/MKergall/osmbonuspack/pull/210">...</a>
      */
     @Deprecated
-    public static void cleanDefaults() {
-    }
+    public static void cleanDefaults() { /*nothing*/ }
 
     public boolean hitTest(@NonNull final MotionEvent event, @Nullable final MapView mapView) {
         return mIcon != null && mDisplayed && mOrientedMarkerRect.contains((int) event.getX(), (int) event.getY()); // "!=null": fix for #1078
@@ -423,7 +417,7 @@ public class Marker extends OverlayWithIW {
     }
 
     public void moveToEventPosition(@NonNull final MotionEvent event, @NonNull final MapView mapView, @NonNull final GeoPoint reuse) {
-        float offsetY = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_MM, mDragOffsetY, mapView.getContext().getResources().getDisplayMetrics());
+        final float offsetY = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_MM, mDragOffsetY, mapView.getContext().getResources().getDisplayMetrics());
         final Projection pj = mapView.getProjection();
         setPosition((GeoPoint) pj.fromPixels((int) event.getX(), (int) (event.getY() - offsetY), reuse));
         mapView.invalidate();
@@ -431,7 +425,7 @@ public class Marker extends OverlayWithIW {
 
     @Override
     public boolean onLongPress(@NonNull final MotionEvent event, @NonNull final MapView mapView) {
-        boolean touched = hitTest(event, mapView);
+        final boolean touched = hitTest(event, mapView);
         if (touched) {
             if (mDraggable) {
                 //starts dragging mode:
@@ -478,9 +472,7 @@ public class Marker extends OverlayWithIW {
 
     public interface OnMarkerDragListener {
         void onMarkerDrag(@NonNull Marker marker);
-
         void onMarkerDragEnd(@NonNull Marker marker);
-
         void onMarkerDragStart(@NonNull Marker marker);
     }
 

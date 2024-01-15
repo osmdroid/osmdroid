@@ -16,6 +16,8 @@ import org.osmdroid.views.overlay.OverlayItem.HotspotPlace;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.Nullable;
+
 /**
  * Draws a list of {@link OverlayItem} as markers to a map. The item with the lowest index is drawn
  * as last and therefore the 'topmost' marker. It also gets checked for onTap first. This class is
@@ -109,11 +111,11 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends Overlay 
     // ===========================================================
 
     @Override
-    public void onDestroy() {
+    public void onDestroy(@Nullable final MapView mapView) {
         if (mDefaultMarker != null) {
             //release the bitmap
         }
-        super.onDestroy();
+        super.onDestroy(mapView);
     }
 
     /**

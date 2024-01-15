@@ -18,6 +18,8 @@ import org.osmdroid.views.overlay.OverlayItem.HotspotPlace;
 
 import java.util.List;
 
+import androidx.annotation.Nullable;
+
 /**
  * @param <Item>
  * @deprecated see {@link Marker}
@@ -397,9 +399,9 @@ public class ItemizedOverlayWithFocus<Item extends OverlayItem> extends Itemized
     }
 
     @Override
-    public void onDestroy() {
+    public void onDestroy(@Nullable final MapView mapView) {
         this.mContext = null;
-        super.onDestroy();
+        super.onDestroy(mapView);
     }
 
     // ===========================================================

@@ -1,5 +1,6 @@
 package org.osmdroid.tileprovider.modules;
 
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Looper;
@@ -140,8 +141,7 @@ public class TileWriter implements IFilesystemCache {
     }
 
     @Override
-    public void onDetach() {
-
+    public void onDetach(@NonNull final Context context) {
         if (mWorkingThread != null) {
             try {
                 mWorkingThread.interrupt();
@@ -152,7 +152,6 @@ public class TileWriter implements IFilesystemCache {
     @Override
     public boolean remove(final ITileSource pTileSource, final long pMapTileIndex) {
         final File file = getFile(pTileSource, pMapTileIndex);
-
         if (file.exists()) {
             try {
                 return file.delete();
@@ -308,7 +307,6 @@ public class TileWriter implements IFilesystemCache {
          */
         private void cutCurrentCache() {
             final IConfigurationProvider cConfiguration = Configuration.getInstance();
-            final File lock = cConfiguration.getOsmdroidTileCache();
             long cSize;
             synchronized (mUsedCacheSpaceSyncObj) {
                 cSize = mUsedCacheSpace;

@@ -22,17 +22,17 @@ public interface IMapTileProviderCallback extends IViewBoundingBoxChangedListene
     @Retention(RetentionPolicy.SOURCE)
     @IntDef(value={ TILEPROVIDERTYPE_NONE, TILEPROVIDERTYPE_APPROXIMATER, TILEPROVIDERTYPE_ASSET, TILEPROVIDERTYPE_FILE_ARCHIVE, TILEPROVIDERTYPE_FILE_SYSTEM, TILEPROVIDERTYPE_DOWNLOADER,
             TILEPROVIDERTYPE_SQL_CACHE, TILEPROVIDERTYPE_GEO_PACKAGE_FILE, TILEPROVIDERTYPE_MAPSFORGE })
-    public @interface TILEPROVIDERTYPE {}
-    public static final int TILEPROVIDERTYPE_NONE               = 1 << 23;  //<-- usually set when NO ANY Tile was found
-    public static final int TILEPROVIDERTYPE_APPROXIMATER       = 1 << 24;
-    public static final int TILEPROVIDERTYPE_ASSET              = 1 << 25;
-    public static final int TILEPROVIDERTYPE_FILE_ARCHIVE       = 1 << 26;
-    public static final int TILEPROVIDERTYPE_FILE_SYSTEM        = 1 << 27;
-    public static final int TILEPROVIDERTYPE_DOWNLOADER         = 1 << 28;
-    public static final int TILEPROVIDERTYPE_GEO_PACKAGE_FILE   = 1 << 29;
-    public static final int TILEPROVIDERTYPE_SQL_CACHE          = 1 << 30;
-    public static final int TILEPROVIDERTYPE_MAPSFORGE          = 1 << 31;
-    public static String decodeTileProviderName(@TILEPROVIDERTYPE final int providerType) {
+    @interface TILEPROVIDERTYPE {}
+    int TILEPROVIDERTYPE_NONE               = 1 << 23;  //<-- usually set when NO ANY Tile was found
+    int TILEPROVIDERTYPE_APPROXIMATER       = 1 << 24;
+    int TILEPROVIDERTYPE_ASSET              = 1 << 25;
+    int TILEPROVIDERTYPE_FILE_ARCHIVE       = 1 << 26;
+    int TILEPROVIDERTYPE_FILE_SYSTEM        = 1 << 27;
+    int TILEPROVIDERTYPE_DOWNLOADER         = 1 << 28;
+    int TILEPROVIDERTYPE_GEO_PACKAGE_FILE   = 1 << 29;
+    int TILEPROVIDERTYPE_SQL_CACHE          = 1 << 30;
+    int TILEPROVIDERTYPE_MAPSFORGE          = 1 << 31;
+    static String decodeTileProviderName(@TILEPROVIDERTYPE final int providerType) {
         switch (providerType) {
             case TILEPROVIDERTYPE_NONE              : return "NONE";
             case TILEPROVIDERTYPE_APPROXIMATER      : return MapTileApproximater.CONST_MAPTILEPROVIDER_APPROXIMATER.toUpperCase();

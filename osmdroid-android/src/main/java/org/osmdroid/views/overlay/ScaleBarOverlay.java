@@ -20,6 +20,8 @@ import org.osmdroid.views.Projection;
 import java.lang.reflect.Field;
 import java.util.Locale;
 
+import androidx.annotation.Nullable;
+
 /**
  * ScaleBarOverlay.java
  * <p>
@@ -686,13 +688,13 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
     }
 
     @Override
-    public void onDestroy() {
+    public void onDestroy(@Nullable final MapView mapView) {
         this.context = null;
         this.mMapView = null;
         barPaint = null;
         bgPaint = null;
         textPaint = null;
-        super.onDestroy();
+        super.onDestroy(mapView);
     }
 
     /**

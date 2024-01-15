@@ -1,6 +1,7 @@
 package org.osmdroid.tileprovider;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -88,6 +89,13 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback {
     private final ZoomInTileLooper mZoomInTileLooper = new ZoomInTileLooper();
     private final ZoomOutTileLooper mZoomOutTileLooper = new ZoomOutTileLooper();
 
+    public MapTileProviderBase(@NonNull final Context context, @NonNull final ITileSource pTileSource) { this(context, pTileSource, null); }
+    public MapTileProviderBase(@NonNull final Context context, @NonNull final ITileSource pTileSource, @Nullable final Handler pDownloadFinishedListener) {
+        mTileCache = this.createTileCache();
+        if (pDownloadFinishedListener != null) mTileRequestCompleteHandlers.add(pDownloadFinishedListener);
+        mTileSource = pTileSource;
+    }
+
     /**
      * Attempts to get a Drawable that represents a {@link MapTileIndex}. If the tile is not immediately
      * available this will return null and attempt to get the tile from known tile sources for
@@ -101,10 +109,12 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback {
 
     /**
      * classes that extend MapTileProviderBase must call this method to prevent memory leaks.
-     * Updated 5.2+
      */
-    public void detach() {
-        clearTileCache();
+    public final void detach(@NonNull final Context context) {
+        this.onDetach(context);
+    }
+    @CallSuper
+    protected void onDetach(@NonNull final Context context) {
         if (mTileNotFoundImage != null) {
             if (mTileNotFoundImage instanceof ReusableBitmapDrawable)
                 BitmapPool.getInstance().returnDrawableToPool((ReusableBitmapDrawable) mTileNotFoundImage);
@@ -161,17 +171,6 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback {
      */
     private MapTileCache createTileCache() {
         return new MapTileCache();
-    }
-
-    public MapTileProviderBase(final ITileSource pTileSource) {
-        this(pTileSource, null);
-    }
-
-    public MapTileProviderBase(final ITileSource pTileSource,
-                               @Nullable final Handler pDownloadFinishedListener) {
-        mTileCache = this.createTileCache();
-        if (pDownloadFinishedListener != null) mTileRequestCompleteHandlers.add(pDownloadFinishedListener);
-        mTileSource = pTileSource;
     }
 
     /**

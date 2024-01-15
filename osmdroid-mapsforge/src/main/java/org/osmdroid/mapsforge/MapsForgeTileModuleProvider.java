@@ -1,5 +1,6 @@
 package org.osmdroid.mapsforge;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -18,6 +19,8 @@ import org.osmdroid.util.MapTileIndex;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+
+import androidx.annotation.NonNull;
 
 /**
  * Adapted from code from here: https://github.com/MKergall/osmbonuspack, which is LGPL
@@ -40,9 +43,8 @@ public class MapsForgeTileModuleProvider extends MapTileFileStorageProviderBase 
      * @param receiverRegistrar
      * @param tileSource
      */
-    public MapsForgeTileModuleProvider(IRegisterReceiver receiverRegistrar, MapsForgeTileSource tileSource, IFilesystemCache tilewriter) {
-
-        super(receiverRegistrar,
+    public MapsForgeTileModuleProvider(@NonNull final Context context, IRegisterReceiver receiverRegistrar, MapsForgeTileSource tileSource, IFilesystemCache tilewriter) {
+        super(context, receiverRegistrar,
                 Configuration.getInstance().getTileFileSystemThreads(),
                 Configuration.getInstance().getTileFileSystemMaxQueueSize());
 

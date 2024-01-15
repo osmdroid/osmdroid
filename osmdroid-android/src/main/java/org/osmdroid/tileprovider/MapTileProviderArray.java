@@ -1,5 +1,6 @@
 package org.osmdroid.tileprovider;
 
+import android.content.Context;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 
@@ -48,26 +49,23 @@ public class MapTileProviderArray extends MapTileProviderBase implements MapTile
     private static final int WORKING_STATUS_STARTED = 0;
     private static final int WORKING_STATUS_FOUND = 1;
 
-    /**
-     * Creates an {@link MapTileProviderArray} with no tile providers.
-     *
-     * @param pRegisterReceiver a {@link IRegisterReceiver}
-     */
-    protected MapTileProviderArray(final ITileSource pTileSource,
+    /** Creates an {@link MapTileProviderArray} with no tile providers */
+    protected MapTileProviderArray(@NonNull final Context context,
+                                   final ITileSource pTileSource,
                                    final IRegisterReceiver pRegisterReceiver) {
-        this(pTileSource, pRegisterReceiver, new MapTileModuleProviderBase[0]);
+        this(context, pTileSource, pRegisterReceiver, new MapTileModuleProviderBase[0]);
     }
-
     /**
      * Creates an {@link MapTileProviderArray} with the specified tile providers.
      *
      * @param aRegisterReceiver  a {@link IRegisterReceiver}
      * @param pTileProviderArray an array of {@link MapTileModuleProviderBase}
      */
-    public MapTileProviderArray(final ITileSource pTileSource,
+    public MapTileProviderArray(@NonNull final Context context,
+                                final ITileSource pTileSource,
                                 final IRegisterReceiver aRegisterReceiver,
                                 final MapTileModuleProviderBase[] pTileProviderArray) {
-        super(pTileSource);
+        super(context, pTileSource);
 
         mRegisterReceiver = aRegisterReceiver;
         mTileProviderList = new ArrayList<>();
@@ -81,10 +79,10 @@ public class MapTileProviderArray extends MapTileProviderBase implements MapTile
     }
 
     @Override
-    public void detach() {
+    public void onDetach(@NonNull final Context context) {
         synchronized (mTileProviderList) {
             for (final MapTileModuleProviderBase tileProvider : mTileProviderList) {
-                tileProvider.detach();
+                tileProvider.detach(context);
             }
         }
         synchronized (mWorking) {
@@ -94,7 +92,7 @@ public class MapTileProviderArray extends MapTileProviderBase implements MapTile
             mRegisterReceiver.destroy();
             mRegisterReceiver = null;
         }
-        super.detach();
+        super.onDetach(context);
     }
 
     /**

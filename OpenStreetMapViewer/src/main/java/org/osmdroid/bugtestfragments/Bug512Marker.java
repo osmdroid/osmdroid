@@ -12,7 +12,6 @@ import org.osmdroid.views.overlay.Marker;
 
 public class Bug512Marker extends BaseSampleFragment {
 
-
     Marker marker = null;
 
     @Override
@@ -50,7 +49,7 @@ public class Bug512Marker extends BaseSampleFragment {
             public void run() {
                 marker.closeInfoWindow();
                 mMapView.getOverlayManager().remove(marker);
-                marker.onDestroy();
+                marker.onDestroy(mMapView);
 
                 marker = new Marker(mMapView);
                 marker.setSnippet("Hello world, bug 512 part 2");
@@ -74,7 +73,7 @@ public class Bug512Marker extends BaseSampleFragment {
             public void run() {
                 marker.closeInfoWindow();
                 mMapView.getOverlayManager().remove(marker);
-                marker.onDestroy();
+                marker.onDestroy(mMapView);
             }
         });
     }

@@ -103,16 +103,16 @@ public class DefaultOverlayManager extends AbstractList<Overlay> implements Over
                 case RESUMED: {
                     mTilesOverlay.onPause();
                     mTilesOverlay.onStop();
-                    mTilesOverlay.onDestroy();
+                    mTilesOverlay.onDestroy(null);  //TODO: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
                     break;
                 }
                 case STARTED: {
                     mTilesOverlay.onStop();
-                    mTilesOverlay.onDestroy();
+                    mTilesOverlay.onDestroy(null);
                     break;
                 }
                 case CREATED: {
-                    mTilesOverlay.onDestroy();
+                    mTilesOverlay.onDestroy(null);
                     break;
                 }
             }
@@ -511,8 +511,8 @@ public class DefaultOverlayManager extends AbstractList<Overlay> implements Over
             }
             @Override
             public void onDestroy(@NonNull final LifecycleOwner owner) {
-                for (final Overlay overlay : mOverlayList) { if (overlay == null) return; overlay.onDestroy(); }
-                if (mTilesOverlay != null) mTilesOverlay.onDestroy();
+                for (final Overlay overlay : mOverlayList) { if (overlay == null) return; overlay.onDestroy(mapView); }
+                if (mTilesOverlay != null) mTilesOverlay.onDestroy(mapView);
                 mMapViewLifeCycle.removeObserver(this);
                 mDefaultLifecycleObserver = null;
                 mMapViewLifeCycle = null;

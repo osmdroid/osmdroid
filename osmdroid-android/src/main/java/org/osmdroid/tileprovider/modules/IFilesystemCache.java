@@ -1,10 +1,13 @@
 package org.osmdroid.tileprovider.modules;
 
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 
 import java.io.InputStream;
+
+import androidx.annotation.NonNull;
 
 /**
  * Represents a write-only interface into a file system cache.
@@ -20,21 +23,16 @@ public interface IFilesystemCache {
      * @param pMapTileIndex   a tile
      * @param pStream         an InputStream
      */
-    boolean saveFile(final ITileSource pTileSourceInfo, final long pMapTileIndex,
-                     final InputStream pStream, final Long pExpirationTime);
+    boolean saveFile(ITileSource pTileSourceInfo, long pMapTileIndex,
+                     InputStream pStream, Long pExpirationTime);
 
     /**
      * return true if the map file for download already exists
      */
-    boolean exists(final ITileSource pTileSourceInfo, final long pMapTileIndex);
+    boolean exists(ITileSource pTileSourceInfo, long pMapTileIndex);
 
-    /**
-     * Used when the map engine is shutdown, use it to perform any clean up activities and to terminate
-     * any background threads
-     *
-     * @since 5.3
-     */
-    void onDetach();
+    /** Used when the map engine is shutdown, use it to perform any clean up activities and to terminate any background threads */
+    void onDetach(@NonNull Context context);
 
     /**
      * Removes a tile from the cache, see issue
@@ -43,7 +41,7 @@ public interface IFilesystemCache {
      * @return true if it was removed, false otherwise
      * @since 5.4.2
      */
-    boolean remove(ITileSource tileSource, final long pMapTileIndex);
+    boolean remove(ITileSource tileSource, long pMapTileIndex);
 
     /**
      * Gets the cache expiration timestamp of a tile
@@ -52,12 +50,12 @@ public interface IFilesystemCache {
      * or null if expiration timestamp is not supported or if the tile is not cached
      * @since 5.6.5
      */
-    Long getExpirationTimestamp(final ITileSource pTileSource, final long pMapTileIndex);
+    Long getExpirationTimestamp(ITileSource pTileSource, long pMapTileIndex);
 
     /**
      * Gets the tile drawable
      *
      * @since 6.0.0
      */
-    Drawable loadTile(final ITileSource pTileSource, final long pMapTileIndex) throws Exception;
+    Drawable loadTile(ITileSource pTileSource, long pMapTileIndex) throws Exception;
 }

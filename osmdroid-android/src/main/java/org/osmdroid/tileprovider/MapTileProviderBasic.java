@@ -68,7 +68,7 @@ public class MapTileProviderBasic extends MapTileProviderArray implements IMapTi
 	 * Creates a {@link MapTileProviderBasic}.
 	 */
 	public MapTileProviderBasic(@NonNull final Context pContext, final ITileSource pTileSource, @Nullable final IFilesystemCache cacheWriter) {
-		this(new SimpleRegisterReceiver(pContext), null, pTileSource, pContext, cacheWriter);
+		this(new SimpleRegisterReceiver(), null, pTileSource, pContext, cacheWriter);
 	}
 
 	/**
@@ -77,7 +77,7 @@ public class MapTileProviderBasic extends MapTileProviderArray implements IMapTi
 	public MapTileProviderBasic(final IRegisterReceiver pRegisterReceiver,
 								@Nullable final INetworkAvailablityCheck aNetworkAvailablityCheck, final ITileSource pTileSource,
 								@NonNull final Context pContext, @Nullable final IFilesystemCache cacheWriter) {
-		super(pTileSource, pRegisterReceiver);
+		super(pContext, pTileSource, pRegisterReceiver);
 
 		mNetworkAvailabilityCheck = ((aNetworkAvailablityCheck != null) ? aNetworkAvailablityCheck : new NetworkAvailabliltyCheck(pContext));
 
@@ -89,16 +89,16 @@ public class MapTileProviderBasic extends MapTileProviderArray implements IMapTi
 		final MapTileFileStorageProviderBase assetsProvider = createAssetsProvider(pRegisterReceiver, pTileSource, pContext);
 		mTileProviderList.add(assetsProvider);
 
-		final MapTileFileStorageProviderBase cacheProvider = getMapTileFileStorageProviderBase(pRegisterReceiver, pTileSource, tileWriter);
+		final MapTileFileStorageProviderBase cacheProvider = getMapTileFileStorageProviderBase(pContext, pRegisterReceiver, pTileSource, tileWriter);
 		mTileProviderList.add(cacheProvider);
 
-		final MapTileFileStorageProviderBase archiveProvider = createArchiveProvider(pRegisterReceiver, pTileSource);
+		final MapTileFileStorageProviderBase archiveProvider = createArchiveProvider(pRegisterReceiver, pTileSource, pContext);
 		mTileProviderList.add(archiveProvider);
 
 		mApproximationProvider = createApproximater(assetsProvider, cacheProvider, archiveProvider);
 		mTileProviderList.add(mApproximationProvider);
 
-		mDownloaderProvider = createDownloaderProvider(aNetworkAvailablityCheck, pTileSource);
+		mDownloaderProvider = createDownloaderProvider(pContext, aNetworkAvailablityCheck, pTileSource);
 		mTileProviderList.add(mDownloaderProvider);
 
 		// protected-cache-tile computers
@@ -129,12 +129,18 @@ public class MapTileProviderBasic extends MapTileProviderArray implements IMapTi
 		return approximationProvider;
 	}
 
-	protected MapTileFileStorageProviderBase createArchiveProvider(IRegisterReceiver pRegisterReceiver, ITileSource pTileSource) {
-		return new MapTileFileArchiveProvider(pRegisterReceiver, pTileSource);
+	@Deprecated
+	protected MapTileFileStorageProviderBase createArchiveProvider(@NonNull final IRegisterReceiver pRegisterReceiver, @NonNull final ITileSource pTileSource) {
+		//noinspection DataFlowIssue
+		return this.createArchiveProvider(pRegisterReceiver, pTileSource, null);
+	}
+	/** @noinspection NullableProblems*/
+	protected MapTileFileStorageProviderBase createArchiveProvider(@NonNull final IRegisterReceiver pRegisterReceiver, @NonNull final ITileSource pTileSource, @NonNull final Context pContext) {
+		return new MapTileFileArchiveProvider(pContext, pRegisterReceiver, pTileSource);
 	}
 
-	protected MapTileFileStorageProviderBase createAssetsProvider(IRegisterReceiver pRegisterReceiver, ITileSource pTileSource, Context pContext) {
-		return new MapTileAssetsProvider(pRegisterReceiver, pContext.getAssets(), pTileSource);
+	protected MapTileFileStorageProviderBase createAssetsProvider(@NonNull final IRegisterReceiver pRegisterReceiver, @NonNull final ITileSource pTileSource, @NonNull final Context pContext) {
+		return new MapTileAssetsProvider(pContext, pRegisterReceiver, pContext.getAssets(), pTileSource);
 	}
 
 	@Override
@@ -142,22 +148,17 @@ public class MapTileProviderBasic extends MapTileProviderArray implements IMapTi
 		return tileWriter;
 	}
 
-	/**
-	 * @since 6.1.7
-	 * allow customization of tile downloader per tile source
-	 */
-	protected MapTileDownloaderProvider createDownloaderProvider(INetworkAvailablityCheck aNetworkAvailablityCheck, ITileSource pTileSource) {
-		return new MapTileDownloaderProvider(pTileSource, this.tileWriter, aNetworkAvailablityCheck);
+	protected MapTileDownloaderProvider createDownloaderProvider(@NonNull final Context context, INetworkAvailablityCheck aNetworkAvailablityCheck, ITileSource pTileSource) {
+		return new MapTileDownloaderProvider(context, pTileSource, this.tileWriter, aNetworkAvailablityCheck);
 	}
 
 	@Override
-	public void detach(){
+	public void onDetach(@NonNull final Context context) {
 		//https://github.com/osmdroid/osmdroid/issues/213
-		//close the writer
-		if (tileWriter!=null)
-			tileWriter.onDetach();
-		tileWriter=null;
-		super.detach();
+		if (tileWriter != null)
+			tileWriter.onDetach(context);
+		tileWriter = null;
+		super.onDetach(context);
 	}
 
 	/**
@@ -195,14 +196,15 @@ public class MapTileProviderBasic extends MapTileProviderArray implements IMapTi
 	 * cf. <a href="https://github.com/osmdroid/osmdroid/issues/1172">...</a>
 	 */
 	public static MapTileFileStorageProviderBase getMapTileFileStorageProviderBase(
+			@NonNull final Context context,
 			final IRegisterReceiver pRegisterReceiver,
 			final ITileSource pTileSource,
 			final IFilesystemCache pTileWriter
 	) {
 		if (pTileWriter instanceof TileWriter) {
-			return new MapTileFilesystemProvider(pRegisterReceiver, pTileSource);
+			return new MapTileFilesystemProvider(context, pRegisterReceiver, pTileSource);
 		}
-		return new MapTileSqlCacheProvider(pRegisterReceiver, pTileSource);
+		return new MapTileSqlCacheProvider(context, pRegisterReceiver, pTileSource);
 	}
 
 	/**

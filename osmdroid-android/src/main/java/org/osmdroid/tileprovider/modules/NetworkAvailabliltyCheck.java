@@ -13,6 +13,8 @@ import android.os.Build;
 import android.util.Log;
 import android.util.Patterns;
 
+import org.osmdroid.tileprovider.util.SimpleRegisterReceiver;
+
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -236,11 +238,11 @@ public class NetworkAvailabliltyCheck implements INetworkAvailablityCheck {
         }
     }
 
-    private static final class NetworkStateManager {
-        @Nullable
-        private BroadcastReceiverNetwork mBroadcastReceiverNetwork = null;
+    private static final class NetworkStateManager extends SimpleRegisterReceiver {
+        private final BroadcastReceiverNetwork mBroadcastReceiverNetwork;
         private NetworkStateManager(@NonNull final BroadcastReceiverNetwork.NetworkListener listener) {
-            if (this.mBroadcastReceiverNetwork == null) this.mBroadcastReceiverNetwork = new BroadcastReceiverNetwork(listener);
+            super();
+            this.mBroadcastReceiverNetwork = new BroadcastReceiverNetwork(listener);
         }
         @NonNull
         private IntentFilter createBroadcastReceiverNetwork() {
@@ -248,24 +250,18 @@ public class NetworkAvailabliltyCheck implements INetworkAvailablityCheck {
             cIntentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
             return cIntentFilter;
         }
-        private boolean register(@NonNull final Context context) {
-            try {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                    context.getApplicationContext().registerReceiver(this.mBroadcastReceiverNetwork, this.createBroadcastReceiverNetwork(), Context.RECEIVER_EXPORTED);
-                } else {
-                    context.getApplicationContext().registerReceiver(this.mBroadcastReceiverNetwork, this.createBroadcastReceiverNetwork());
-                }
-                return true;
-            } catch (Exception e) { /*nothing*/ }
-            return false;
+        @Nullable
+        @Override
+        public Intent registerReceiver(@NonNull final Context context, @NonNull final BroadcastReceiver receiver, @NonNull IntentFilter filter) {
+            return super.registerReceiver(context, this.mBroadcastReceiverNetwork, this.createBroadcastReceiverNetwork());
         }
-        private boolean unregister(@NonNull final Context context) {
-            if (this.mBroadcastReceiverNetwork == null) return true;
-            try {
-                context.getApplicationContext().unregisterReceiver(this.mBroadcastReceiverNetwork);
-                return true;
-            } catch (Exception e) { /*nothing*/ }
-            return false;
+        private boolean register(@NonNull final Context context) {
+            if (this.mBroadcastReceiverNetwork == null) return false;
+            return (this.registerReceiver(context, this.mBroadcastReceiverNetwork, this.createBroadcastReceiverNetwork()) != null);
+        }
+        private void unregister(@NonNull final Context context) {
+            if (this.mBroadcastReceiverNetwork == null) return;
+            this.unregisterReceiver(context, this.mBroadcastReceiverNetwork);
         }
     }
     /*

@@ -1,5 +1,6 @@
 package org.osmdroid.tileprovider.modules;
 
+import android.content.Context;
 import android.util.Log;
 
 import org.osmdroid.api.IMapView;
@@ -12,6 +13,8 @@ import org.osmdroid.tileprovider.tilesource.FileBasedTileSource;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.NonNull;
 
 /**
  * Causes Osmdroid to load from tiles from only the referenced file sources and
@@ -27,8 +30,8 @@ public class OfflineTileProvider extends MapTileProviderArray implements IMapTil
      * Creates a {@link MapTileProviderBasic}.
      * throws with the source[] is null or empty
      */
-    public OfflineTileProvider(final IRegisterReceiver pRegisterReceiver, File[] source) {
-        super(FileBasedTileSource.getSource(source[0].getName()), pRegisterReceiver);
+    public OfflineTileProvider(@NonNull final Context context, final IRegisterReceiver pRegisterReceiver, File[] source) {
+        super(context, FileBasedTileSource.getSource(source[0].getName()), pRegisterReceiver);
         List<IArchiveFile> files = new ArrayList<>();
 
         for (final File file : source) {
@@ -41,7 +44,7 @@ public class OfflineTileProvider extends MapTileProviderArray implements IMapTil
         }
         archives = new IArchiveFile[files.size()];
         archives = files.toArray(archives);
-        final MapTileFileArchiveProvider mapTileFileArchiveProvider = new MapTileFileArchiveProvider(pRegisterReceiver, getTileSource(), archives);
+        final MapTileFileArchiveProvider mapTileFileArchiveProvider = new MapTileFileArchiveProvider(context, pRegisterReceiver, getTileSource(), archives);
         mTileProviderList.add(mapTileFileArchiveProvider);
 
         final MapTileApproximater approximationProvider = new MapTileApproximater();
@@ -54,13 +57,14 @@ public class OfflineTileProvider extends MapTileProviderArray implements IMapTil
         return archives;
     }
 
-    public void detach() {
+    @Override
+    public void onDetach(@NonNull final Context context) {
         if (archives != null) {
             for (final IArchiveFile file : archives) {
                 file.close();
             }
         }
-        super.detach();
+        super.onDetach(context);
     }
 
     @Override

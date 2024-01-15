@@ -7,9 +7,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 
-import androidx.annotation.NonNull;
-
-import org.locationtech.proj4j.ProjCoordinate;
 import org.osmdroid.api.IMapView;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.IMapTileProviderCallback;
@@ -23,10 +20,10 @@ import org.osmdroid.util.TileSystem;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import androidx.annotation.NonNull;
 import mil.nga.geopackage.GeoPackage;
 import mil.nga.geopackage.GeoPackageFactory;
 import mil.nga.geopackage.GeoPackageManager;
@@ -179,8 +176,7 @@ public class GeoPackageMapTileModuleProvider extends MapTileModuleProviderBase {
     }
 
     @Override
-    public void detach() {
-
+    public void onDetach(@NonNull final Context context) {
         if (tileSources != null) {
             for (GeoPackage tileSource : tileSources) {
                 tileSource.close();
@@ -188,6 +184,7 @@ public class GeoPackageMapTileModuleProvider extends MapTileModuleProviderBase {
             tileSources.clear();
         }
         manager = null;
+        super.onDetach(context);
     }
 
 

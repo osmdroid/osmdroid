@@ -151,19 +151,15 @@ public abstract class MapTileModuleProviderBase implements IViewBoundingBoxChang
         }
     }
 
-    /**
-     * Detach, we're shutting down - Stops all workers.
-     * @deprecated Instead use/declare: {@link #detach(Context)}
-     */
-    @Deprecated
-    public void detach() {
-        //noinspection DataFlowIssue
-        this.detach(null);
-    }
-    /** @noinspection NullableProblems*/
+    /** Detach, we're shutting down - Stops all workers. */
+    @CallSuper
     public void detach(@NonNull final Context context) {
-        this.clearQueue();
-        this.mExecutor.shutdown();
+        this.onDetach(context);
+    }
+    @CallSuper
+    protected void onDetach(@NonNull final Context context) {
+        clearQueue();
+        mExecutor.shutdown();
     }
 
     public int getPendingCount() {

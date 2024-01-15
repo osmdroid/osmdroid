@@ -14,6 +14,6 @@ public interface IViewBoundingBoxChangedListener {
      * (all coords are in Tile units)
      */
     @UiThread @MainThread
-    public void onViewBoundingBoxChanged(@NonNull Rect fromBounds, int fromZoom, @NonNull Rect toBounds, int toZoom);
+    void onViewBoundingBoxChanged(@NonNull Rect fromBounds, int fromZoom, @NonNull Rect toBounds, int toZoom);
 
 }

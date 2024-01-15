@@ -53,16 +53,13 @@ import static org.junit.Assert.assertTrue;
 public class OpenStreetMapTileProviderDirectTest  {
 
     @Rule
-    public ActivityTestRule<StarterMapActivity> activityRule =
-            new ActivityTestRule<>(StarterMapActivity.class);
+    public ActivityTestRule<StarterMapActivity> activityRule = new ActivityTestRule<>(StarterMapActivity.class);
 
     private MapTileProviderBasic mProvider;
 
     @Before
     public void setUp() throws Exception {
-
         mProvider = new MapTileProviderBasic(activityRule.getActivity());
-
     }
 
     @After

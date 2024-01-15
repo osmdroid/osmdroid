@@ -204,7 +204,7 @@ public class GeopackageSample extends BaseSampleFragment {
         alertDialog = null;
         this.currentSource = null;
         if (geoPackageProvider != null)
-            geoPackageProvider.detach();
+            geoPackageProvider.detach(requireContext());
 
     }
 
@@ -225,11 +225,7 @@ public class GeopackageSample extends BaseSampleFragment {
         textViewCurrentLocation.setText(sb.toString());
     }
 
-    /**
-     * simple function to scan for paths that match /something/osmdroid/*.map to find database files
-     *
-     * @return
-     */
+    /** simple function to scan for paths that match /something/osmdroid/*.map to find database files */
     protected Set<File> findMapFiles() {
         Set<File> maps = new HashSet<>();
         List<StorageUtils.StorageInfo> storageList = StorageUtils.getStorageList(getActivity());

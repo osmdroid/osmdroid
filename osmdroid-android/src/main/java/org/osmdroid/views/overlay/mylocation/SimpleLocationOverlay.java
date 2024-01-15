@@ -10,8 +10,11 @@ import android.graphics.drawable.BitmapDrawable;
 
 import org.osmdroid.library.R;
 import org.osmdroid.util.GeoPoint;
+import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
 import org.osmdroid.views.overlay.Overlay;
+
+import androidx.annotation.Nullable;
 
 /**
  * @author Nicolas Gramlich
@@ -70,11 +73,11 @@ public class SimpleLocationOverlay extends Overlay {
     // ===========================================================
 
     @Override
-    public void onDestroy() {
+    public void onDestroy(@Nullable final MapView mapView) {
         //https://github.com/osmdroid/osmdroid/issues/477
         //commented out to prevent issues
         //this.PERSON_ICON.recycle();
-        super.onDestroy();
+        super.onDestroy(mapView);
     }
 
     @Override

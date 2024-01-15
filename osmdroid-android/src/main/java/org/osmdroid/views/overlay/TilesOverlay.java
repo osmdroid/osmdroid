@@ -17,6 +17,7 @@ import android.view.SubMenu;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import org.osmdroid.api.IMapView;
 import org.osmdroid.config.Configuration;
@@ -47,10 +48,8 @@ import java.io.File;
 
 public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 
-
     public static final int MENU_MAP_MODE = getSafeMenuId();
-    public static final int MENU_TILE_SOURCE_STARTING_ID = getSafeMenuIdSequence(TileSourceFactory
-            .getTileSources().size());
+    public static final int MENU_TILE_SOURCE_STARTING_ID = getSafeMenuIdSequence(TileSourceFactory.getTileSources().size());
     public static final int MENU_OFFLINE = getSafeMenuId();
     /**
      * @since 6.1.0
@@ -58,7 +57,6 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
     public static final int MENU_SNAPSHOT = getSafeMenuId();
     public static final int MENU_STATES = getSafeMenuId();
 
-    private Context ctx;
     /**
      * Current tile source
      */
@@ -113,32 +111,28 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 
     public TilesOverlay(final MapTileProviderBase aTileProvider, final Context aContext, boolean horizontalWrapEnabled, boolean verticalWrapEnabled) {
         super();
-        this.ctx = aContext;
         if (aTileProvider == null) {
-            throw new IllegalArgumentException(
-                    "You must pass a valid tile provider to the tiles overlay.");
+            throw new IllegalArgumentException("You must pass a valid tile provider to the tiles overlay.");
         }
-        this.mTileProvider = aTileProvider;
+        mTileProvider = aTileProvider;
         setHorizontalWrapEnabled(horizontalWrapEnabled);
         setVerticalWrapEnabled(verticalWrapEnabled);
     }
 
     @Override
-    public void onDestroy() {
-        this.mTileProvider.detach();
-        ctx = null;
+    public void onDestroy(@Nullable final MapView mapView) {
+        mTileProvider.detach(mapView.getContext());
         BitmapPool.getInstance().asyncRecycle(mLoadingTile);
         mLoadingTile = null;
         BitmapPool.getInstance().asyncRecycle(userSelectedLoadingDrawable);
         userSelectedLoadingDrawable = null;
-        super.onDestroy();
+        super.onDestroy(mapView);
     }
 
     /**
      * See issue <a href="https://github.com/osmdroid/osmdroid/issues/330">...</a>
      * customizable override for the grey grid
      *
-     * @param drawable
      * @since 5.2+
      */
     public void setLoadingDrawable(final Drawable drawable) {
@@ -370,23 +364,19 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(final Menu pMenu, final int pMenuIdOffset,
-                                       final MapView pMapView) {
-        final SubMenu mapMenu = pMenu.addSubMenu(0, Menu.NONE, Menu.NONE,
-                R.string.map_mode).setIcon(R.drawable.ic_menu_mapmode);
+    public boolean onCreateOptionsMenu(final Menu pMenu, final int pMenuIdOffset, @NonNull final MapView pMapView) {
+        final Context cContext = pMapView.getContext();
+        final SubMenu mapMenu = pMenu.addSubMenu(0, Menu.NONE, Menu.NONE, R.string.map_mode).setIcon(R.drawable.ic_menu_mapmode);
 
         for (int a = 0; a < TileSourceFactory.getTileSources().size(); a++) {
             final ITileSource tileSource = TileSourceFactory.getTileSources().get(a);
-            mapMenu.add(MENU_MAP_MODE + pMenuIdOffset, MENU_TILE_SOURCE_STARTING_ID + a
-                    + pMenuIdOffset, Menu.NONE, tileSource.name());
+            mapMenu.add(MENU_MAP_MODE + pMenuIdOffset, MENU_TILE_SOURCE_STARTING_ID + a + pMenuIdOffset, Menu.NONE, tileSource.name());
         }
         mapMenu.setGroupCheckable(MENU_MAP_MODE + pMenuIdOffset, true, true);
 
-        if (ctx != null) {
-            final String title = ctx.getString(
-                    pMapView.useDataConnection() ? R.string.set_mode_offline
-                            : R.string.set_mode_online);
-            final Drawable icon = ctx.getResources().getDrawable(R.drawable.ic_menu_offline);
+        if (cContext != null) {
+            final String title = cContext.getString(pMapView.useDataConnection() ? R.string.set_mode_offline : R.string.set_mode_online);
+            final Drawable icon = cContext.getResources().getDrawable(R.drawable.ic_menu_offline);
             pMenu.add(0, MENU_OFFLINE + pMenuIdOffset, Menu.NONE, title).setIcon(icon);
             pMenu.add(0, MENU_SNAPSHOT + pMenuIdOffset, Menu.NONE, R.string.snapshot);
             pMenu.add(0, MENU_STATES + pMenuIdOffset, Menu.NONE, R.string.states);
@@ -395,31 +385,24 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
     }
 
     @Override
-    public boolean onPrepareOptionsMenu(final Menu pMenu, final int pMenuIdOffset,
-                                        final MapView pMapView) {
-        final int index = TileSourceFactory.getTileSources().indexOf(
-                pMapView.getTileProvider().getTileSource());
+    public boolean onPrepareOptionsMenu(final Menu pMenu, final int pMenuIdOffset, @NonNull final MapView pMapView) {
+        final int index = TileSourceFactory.getTileSources().indexOf(pMapView.getTileProvider().getTileSource());
         if (index >= 0) {
             pMenu.findItem(MENU_TILE_SOURCE_STARTING_ID + index + pMenuIdOffset).setChecked(true);
         }
 
-        pMenu.findItem(MENU_OFFLINE + pMenuIdOffset).setTitle(
-                pMapView.useDataConnection() ? R.string.set_mode_offline
-                        : R.string.set_mode_online);
+        pMenu.findItem(MENU_OFFLINE + pMenuIdOffset).setTitle(pMapView.useDataConnection() ? R.string.set_mode_offline : R.string.set_mode_online);
 
         return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(final MenuItem pItem, final int pMenuIdOffset,
-                                         final MapView pMapView) {
-
+    public boolean onOptionsItemSelected(final MenuItem pItem, final int pMenuIdOffset, @NonNull final MapView pMapView) {
         final int menuId = pItem.getItemId() - pMenuIdOffset;
         if ((menuId >= MENU_TILE_SOURCE_STARTING_ID)
                 && (menuId < MENU_TILE_SOURCE_STARTING_ID
                 + TileSourceFactory.getTileSources().size())) {
-            pMapView.setTileSource(TileSourceFactory.getTileSources().get(
-                    menuId - MENU_TILE_SOURCE_STARTING_ID));
+            pMapView.setTileSource(TileSourceFactory.getTileSources().get(menuId - MENU_TILE_SOURCE_STARTING_ID));
             return true;
         } else if (menuId == MENU_OFFLINE) {
             final boolean useDataConnection = !pMapView.useDataConnection();
@@ -437,7 +420,7 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
                     }
                     final File file = new File(Configuration.getInstance().getOsmdroidBasePath(), "snapshot.png");
                     pMapSketch.save(file);
-                    pMapSketch.onDetach();
+                    pMapSketch.onDetach(pMapView.getContext());
                 }
             }, MapSnapshot.INCLUDE_FLAG_UPTODATE, pMapView);
             Thread t = new Thread(mapSnapshot);

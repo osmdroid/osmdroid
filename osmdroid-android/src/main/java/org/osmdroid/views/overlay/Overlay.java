@@ -338,13 +338,13 @@ public abstract class Overlay implements OverlayConstants, IViewBoundingBoxChang
     @RestrictTo(RestrictTo.Scope.LIBRARY)
     @UiThread @MainThread
     @CallSuper
-    protected void onDestroy() {
+    protected void onDestroy(@Nullable final MapView mapView) {
         mBoundingBoxChangedListener = null;
     }
 
     @CallSuper
     public void freeMemory(@Nullable final MapView mapView) {
-        onDestroy();
+        onDestroy(mapView);
     }
 
     public void setViewBoundingBoxChangedListener(@Nullable final IViewBoundingBoxChangedListener listener) {

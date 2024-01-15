@@ -1141,7 +1141,7 @@ public class MapView extends ViewGroup implements IMapView, MultiTouchObjectCanv
 
     @CallSuper
     protected void onDestroy() {
-        mTileProvider.detach();
+        mTileProvider.detach(this.getContext());
         if (mZoomController != null) mZoomController.onDetach();
         if (mTileRequestCompleteHandler instanceof SimpleInvalidationHandler) ((SimpleInvalidationHandler) mTileRequestCompleteHandler).destroy();
         mTileRequestCompleteHandler = null;
@@ -1850,7 +1850,7 @@ public class MapView extends ViewGroup implements IMapView, MultiTouchObjectCanv
      * @since 4.4
      */
     public void setTileProvider(@NonNull final MapTileProviderBase base) {
-        mTileProvider.detach();
+        mTileProvider.detach(this.getContext());
         mTileProvider.clearTileCache();
         mTileProvider = base;
         final Collection<Handler> cHandlers = mTileProvider.getTileRequestCompleteHandlers();

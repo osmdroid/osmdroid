@@ -10,6 +10,7 @@ import org.osmdroid.views.overlay.IOverlayMenuProvider;
 import org.osmdroid.views.overlay.Overlay;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 public class RotationGestureOverlay extends Overlay implements RotationGestureDetector.RotationListener, IOverlayMenuProvider {
     private final static boolean SHOW_ROTATE_MENU_ITEMS = false;
@@ -56,9 +57,9 @@ public class RotationGestureOverlay extends Overlay implements RotationGestureDe
     }
 
     @Override
-    public void onDestroy() {
+    public void onDestroy(@Nullable final MapView mapView) {
         mMapView = null;
-        super.onDestroy();
+        super.onDestroy(mapView);
     }
 
     @Override
@@ -67,20 +68,17 @@ public class RotationGestureOverlay extends Overlay implements RotationGestureDe
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu pMenu, int pMenuIdOffset, MapView pMapView) {
-        pMenu.add(0, MENU_ENABLED + pMenuIdOffset, Menu.NONE, "Enable rotation").setIcon(
-                android.R.drawable.ic_menu_info_details);
+    public boolean onCreateOptionsMenu(Menu pMenu, int pMenuIdOffset, @NonNull final MapView pMapView) {
+        pMenu.add(0, MENU_ENABLED + pMenuIdOffset, Menu.NONE, "Enable rotation").setIcon(android.R.drawable.ic_menu_info_details);
         if (SHOW_ROTATE_MENU_ITEMS) {
-            pMenu.add(0, MENU_ROTATE_CCW + pMenuIdOffset, Menu.NONE,
-                    "Rotate maps counter clockwise").setIcon(android.R.drawable.ic_menu_rotate);
-            pMenu.add(0, MENU_ROTATE_CW + pMenuIdOffset, Menu.NONE, "Rotate maps clockwise")
-                    .setIcon(android.R.drawable.ic_menu_rotate);
+            pMenu.add(0, MENU_ROTATE_CCW + pMenuIdOffset, Menu.NONE, "Rotate maps counter clockwise").setIcon(android.R.drawable.ic_menu_rotate);
+            pMenu.add(0, MENU_ROTATE_CW + pMenuIdOffset, Menu.NONE, "Rotate maps clockwise").setIcon(android.R.drawable.ic_menu_rotate);
         }
         return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem pItem, int pMenuIdOffset, MapView pMapView) {
+    public boolean onOptionsItemSelected(MenuItem pItem, int pMenuIdOffset, @NonNull final MapView pMapView) {
         if (pItem.getItemId() == MENU_ENABLED + pMenuIdOffset) {
             if (this.isEnabled()) {
                 mMapView.setMapOrientation(0);
@@ -99,7 +97,7 @@ public class RotationGestureOverlay extends Overlay implements RotationGestureDe
     }
 
     @Override
-    public boolean onPrepareOptionsMenu(final Menu pMenu, final int pMenuIdOffset, final MapView pMapView) {
+    public boolean onPrepareOptionsMenu(final Menu pMenu, final int pMenuIdOffset, @NonNull final MapView pMapView) {
         pMenu.findItem(MENU_ENABLED + pMenuIdOffset).setTitle(this.isEnabled() ? "Disable rotation" : "Enable rotation");
         return false;
     }

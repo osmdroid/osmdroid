@@ -7,11 +7,12 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.PorterDuff.Mode;
-import android.os.Build;
 import android.util.Log;
 
 import org.osmdroid.api.IMapView;
 import org.osmdroid.views.MapView;
+
+import androidx.annotation.Nullable;
 
 /**
  * This will allow an {@link Overlay} that is not HW acceleration compatible to work in a HW
@@ -67,10 +68,10 @@ public abstract class NonAcceleratedOverlay extends Overlay {
     }
 
     @Override
-    public void onDestroy() {
+    public void onDestroy(@Nullable final MapView mapView) {
         mBackingBitmap = null;
         mBackingCanvas = null;
-        super.onDestroy();
+        super.onDestroy(mapView);
     }
 
     @Override

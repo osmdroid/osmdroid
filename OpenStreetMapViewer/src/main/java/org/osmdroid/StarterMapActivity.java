@@ -9,6 +9,8 @@ import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.view.KeyEvent;
 
+import org.osmdroid.tileprovider.util.SimpleRegisterReceiver;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
@@ -42,6 +44,7 @@ public class StarterMapActivity extends AppCompatActivity {
     };
 
     private StarterMapFragment starterMapFragment;
+    private SimpleRegisterReceiver mSimpleRegisterReceiver;
 
     /**
      * Called when the activity is first created.
@@ -60,7 +63,8 @@ public class StarterMapActivity extends AppCompatActivity {
 
         MainActivity.updateStoragePreferences(this);    //needed for unit tests
 
-        registerReceiver(networkReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+        mSimpleRegisterReceiver = new SimpleRegisterReceiver();
+        mSimpleRegisterReceiver.registerReceiver(this, networkReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
 
         FragmentManager fm = this.getSupportFragmentManager();
         if (fm.findFragmentByTag(MAP_FRAGMENT_TAG) == null) {
@@ -102,7 +106,7 @@ public class StarterMapActivity extends AppCompatActivity {
      */
     @Override
     protected void onDestroy() {
-        unregisterReceiver(networkReceiver);
+        mSimpleRegisterReceiver.unregisterReceiver(this, networkReceiver);
         super.onDestroy();
     }
 }

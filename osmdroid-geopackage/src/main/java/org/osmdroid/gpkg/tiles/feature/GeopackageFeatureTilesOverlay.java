@@ -10,6 +10,7 @@ import org.osmdroid.views.overlay.TilesOverlay;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.Nullable;
 import mil.nga.geopackage.GeoPackage;
 import mil.nga.geopackage.GeoPackageFactory;
 import mil.nga.geopackage.GeoPackageManager;
@@ -96,7 +97,7 @@ public class GeopackageFeatureTilesOverlay extends TilesOverlay {
 
 
     @Override
-    public void onDestroy() {
+    public void onDestroy(@Nullable final MapView mapView) {
         if (geoPackage != null) {
             geoPackage.close();
             geoPackage = null;
@@ -105,7 +106,7 @@ public class GeopackageFeatureTilesOverlay extends TilesOverlay {
         featureDao = null;
         featureTiles = null;
 
-        super.onDestroy();
+        super.onDestroy(mapView);
     }
 
 

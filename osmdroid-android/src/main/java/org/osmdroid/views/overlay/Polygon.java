@@ -12,6 +12,8 @@ import org.osmdroid.views.MapView;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.Nullable;
+
 /**
  * A polygon on the earth's surface that can have a
  * popup-{@link org.osmdroid.views.overlay.infowindow.InfoWindow} (a bubble).
@@ -196,9 +198,9 @@ public class Polygon extends PolyOverlayWithIW {
     }
 
     @Override
-    public void onDestroy() {
+    public void onDestroy(@Nullable final MapView mapView) {
         mOnClickListener = null;
-        super.onDestroy();
+        super.onDestroy(mapView);
     }
 
 

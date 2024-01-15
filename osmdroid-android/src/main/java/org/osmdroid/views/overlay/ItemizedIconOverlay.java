@@ -11,6 +11,8 @@ import org.osmdroid.views.MapView;
 
 import java.util.List;
 
+import androidx.annotation.Nullable;
+
 public class ItemizedIconOverlay<Item extends OverlayItem> extends ItemizedOverlay<Item> {
 
     protected List<Item> mItemList;
@@ -44,12 +46,12 @@ public class ItemizedIconOverlay<Item extends OverlayItem> extends ItemizedOverl
                 pOnItemGestureListener, pContext);
     }
 
-    public void onDestroy() {
+    public void onDestroy(@Nullable final MapView mapView) {
         if (mItemList != null)
             mItemList.clear();
         mItemList = null;
         mOnItemGestureListener = null;
-        super.onDestroy();
+        super.onDestroy(mapView);
     }
 
     @Override

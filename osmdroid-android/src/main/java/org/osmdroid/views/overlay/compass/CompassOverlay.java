@@ -24,8 +24,11 @@ import org.osmdroid.views.Projection;
 import org.osmdroid.views.overlay.IOverlayMenuProvider;
 import org.osmdroid.views.overlay.Overlay;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 /**
- * Note: the compass overlay causes issues on API 8 devices. See https://github.com/osmdroid/osmdroid/issues/218
+ * Note: the compass overlay causes issues on API 8 devices. See <a href="https://github.com/osmdroid/osmdroid/issues/218">...</a>
  * <p>
  * <br><br>
  * Note: this class can cause issues if you're also relying on {@link MapView#addOnFirstLayoutListener}
@@ -141,14 +144,14 @@ public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOr
     }
 
     @Override
-    public void onDestroy() {
+    public void onDestroy(@Nullable final MapView mapView) {
         this.mMapView = null;
         sSmoothPaint = null;
         this.disableCompass();
         mOrientationProvider = null;
         mCompassFrameBitmap.recycle();
         mCompassRoseBitmap.recycle();
-        super.onDestroy();
+        super.onDestroy(mapView);
     }
 
     /**
@@ -307,27 +310,21 @@ public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOr
     }
 
     @Override
-    public boolean onCreateOptionsMenu(final Menu pMenu, final int pMenuIdOffset,
-                                       final MapView pMapView) {
-        pMenu.add(0, MENU_COMPASS + pMenuIdOffset, Menu.NONE,
-                pMapView.getContext().getResources().getString(R.string.compass))
-
+    public boolean onCreateOptionsMenu(final Menu pMenu, final int pMenuIdOffset, @NonNull final MapView pMapView) {
+        pMenu.add(0, MENU_COMPASS + pMenuIdOffset, Menu.NONE, pMapView.getContext().getResources().getString(R.string.compass))
                 .setIcon(pMapView.getContext().getResources().getDrawable(R.drawable.ic_menu_compass))
                 .setCheckable(true);
-
         return true;
     }
 
     @Override
-    public boolean onPrepareOptionsMenu(final Menu pMenu, final int pMenuIdOffset,
-                                        final MapView pMapView) {
+    public boolean onPrepareOptionsMenu(final Menu pMenu, final int pMenuIdOffset, @NonNull final MapView pMapView) {
         pMenu.findItem(MENU_COMPASS + pMenuIdOffset).setChecked(this.isCompassEnabled());
         return false;
     }
 
     @Override
-    public boolean onOptionsItemSelected(final MenuItem pItem, final int pMenuIdOffset,
-                                         final MapView pMapView) {
+    public boolean onOptionsItemSelected(final MenuItem pItem, final int pMenuIdOffset, @NonNull final MapView pMapView) {
         final int menuId = pItem.getItemId() - pMenuIdOffset;
         if (menuId == MENU_COMPASS) {
             if (this.isCompassEnabled()) {
