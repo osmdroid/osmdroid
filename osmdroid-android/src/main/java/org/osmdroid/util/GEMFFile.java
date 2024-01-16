@@ -1,7 +1,5 @@
 package org.osmdroid.util;
 
-import android.annotation.SuppressLint;
-
 import androidx.annotation.NonNull;
 
 import java.io.ByteArrayInputStream;
@@ -684,7 +682,6 @@ public class GEMFFile {
         Integer sourceIndex;
         Long offset;
 
-        @SuppressLint("DefaultLocale")
         @NonNull
         @Override
         public String toString() {
