@@ -26,6 +26,7 @@ import androidx.annotation.ColorInt;
 import androidx.annotation.MainThread;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RestrictTo;
 import androidx.annotation.UiThread;
 import androidx.lifecycle.DefaultLifecycleObserver;
 import androidx.lifecycle.Lifecycle;
@@ -272,46 +273,6 @@ public class MapView extends ViewGroup implements IMapView, MultiTouchObjectCanv
             }
         });
 
-        if (context instanceof LifecycleOwner) {
-            ((LifecycleOwner)context).getLifecycle().addObserver(mContextLifecycleObserver = new DefaultLifecycleObserver() {
-                @Override public void onCreate(@NonNull final LifecycleOwner owner) { mLifecycleRegistry.setCurrentState(Lifecycle.State.CREATED); }
-                @Override public void onStart(@NonNull final LifecycleOwner owner) { mLifecycleRegistry.setCurrentState(Lifecycle.State.STARTED); }
-                @Override public void onResume(@NonNull final LifecycleOwner owner) {
-                    if (MapView.this.isAttachedToWindow()) mLifecycleRegistry.setCurrentState(Lifecycle.State.RESUMED);
-                    MapView.this.onResume();
-                }
-                @Override
-                public void onPause(@NonNull final LifecycleOwner owner) {
-                    MapView.this.onPause();
-                    if (!MapView.this.isAttachedToWindow()) mLifecycleRegistry.setCurrentState(Lifecycle.State.STARTED);
-                }
-                @Override
-                public void onStop(@NonNull final LifecycleOwner owner) { mLifecycleRegistry.setCurrentState(Lifecycle.State.CREATED); }
-                @Override
-                public void onDestroy(@NonNull final LifecycleOwner owner) { MapView.this.onDestroy(); }
-            });
-        } else if ((context instanceof android.app.Activity) && (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)) {
-            ((android.app.Activity)context).registerActivityLifecycleCallbacks(new Application.ActivityLifecycleCallbacks() {
-                @Override public void onActivityCreated(@NonNull final Activity activity, @Nullable final Bundle savedInstanceState) { mLifecycleRegistry.setCurrentState(Lifecycle.State.CREATED); }
-                @Override public void onActivityStarted(@NonNull final Activity activity) { mLifecycleRegistry.setCurrentState(Lifecycle.State.STARTED); }
-                @Override
-                public void onActivityResumed(@NonNull final Activity activity) {
-                    if (MapView.this.isAttachedToWindow()) mLifecycleRegistry.setCurrentState(Lifecycle.State.RESUMED);
-                    MapView.this.onResume();
-                }
-                @Override
-                public void onActivityPaused(@NonNull final Activity activity) {
-                    MapView.this.onPause();
-                    if (!MapView.this.isAttachedToWindow()) mLifecycleRegistry.setCurrentState(Lifecycle.State.STARTED);
-                }
-                @Override public void onActivityStopped(@NonNull final Activity activity) { mLifecycleRegistry.setCurrentState(Lifecycle.State.CREATED); }
-                @Override public void onActivitySaveInstanceState(@NonNull final Activity activity, @NonNull final Bundle outState) { /*nothing*/ }
-                @Override public void onActivityDestroyed(@NonNull final Activity activity) { MapView.this.onDestroy(); }
-            });
-        } else {
-            throw new IllegalStateException("MapView's context needs to implement some kind of Lifecycle");
-        }
-
         this.mController = new MapController(this);
         this.mScroller = new Scroller(context);
 
@@ -329,8 +290,74 @@ public class MapView extends ViewGroup implements IMapView, MultiTouchObjectCanv
 
         this.mMapOverlay = new TilesOverlay(mTileProvider, context, horizontalMapRepetitionEnabled, verticalMapRepetitionEnabled);
         mOverlayManager = new DefaultOverlayManager(mMapOverlay);
-        mOverlayManager.setMapViewLifecycle(this);
-        mOverlayManager.setViewBoundingBoxChangedListener(mViewBoundingBoxChangedListener);
+
+        if (context instanceof LifecycleOwner) {
+            ((LifecycleOwner)context).getLifecycle().addObserver(mContextLifecycleObserver = new DefaultLifecycleObserver() {
+                private boolean mInitialized = false;
+                @Override public void onCreate(@NonNull final LifecycleOwner owner) { mLifecycleRegistry.setCurrentState(Lifecycle.State.CREATED); this.init(); }
+                @Override public void onStart(@NonNull final LifecycleOwner owner) { mLifecycleRegistry.setCurrentState(Lifecycle.State.STARTED); this.init(); }
+                @Override public void onResume(@NonNull final LifecycleOwner owner) {
+                    if (MapView.this.isAttachedToWindow()) mLifecycleRegistry.setCurrentState(Lifecycle.State.RESUMED);
+                    this.init();
+                    MapView.this.onResume();
+                }
+                @Override
+                public void onPause(@NonNull final LifecycleOwner owner) {
+                    MapView.this.onPause();
+                    if (!MapView.this.isAttachedToWindow()) mLifecycleRegistry.setCurrentState(Lifecycle.State.STARTED);
+                }
+                @Override
+                public void onStop(@NonNull final LifecycleOwner owner) { mLifecycleRegistry.setCurrentState(Lifecycle.State.CREATED); }
+                @Override
+                public void onDestroy(@NonNull final LifecycleOwner owner) {
+                    MapView.this.onDestroy();
+                    this.destroy();
+                }
+                private void init() {
+                    if (this.mInitialized) return;
+                    MapView.this.onLifecycleInit();
+                    this.mInitialized = true;
+                }
+                private void destroy() {
+                    if (!this.mInitialized) return;
+                    MapView.this.onLifecycleDestroy();
+                }
+            });
+        } else if ((context instanceof android.app.Activity) && (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)) {
+            ((android.app.Activity)context).registerActivityLifecycleCallbacks(new Application.ActivityLifecycleCallbacks() {
+                private boolean mInitialized = false;
+                @Override public void onActivityCreated(@NonNull final Activity activity, @Nullable final Bundle savedInstanceState) { mLifecycleRegistry.setCurrentState(Lifecycle.State.CREATED); this.init(); }
+                @Override public void onActivityStarted(@NonNull final Activity activity) { mLifecycleRegistry.setCurrentState(Lifecycle.State.STARTED); this.init(); }
+                @Override
+                public void onActivityResumed(@NonNull final Activity activity) {
+                    if (MapView.this.isAttachedToWindow()) mLifecycleRegistry.setCurrentState(Lifecycle.State.RESUMED);
+                    this.init();
+                    MapView.this.onResume();
+                }
+                @Override
+                public void onActivityPaused(@NonNull final Activity activity) {
+                    MapView.this.onPause();
+                    if (!MapView.this.isAttachedToWindow()) mLifecycleRegistry.setCurrentState(Lifecycle.State.STARTED);
+                }
+                @Override public void onActivityStopped(@NonNull final Activity activity) { mLifecycleRegistry.setCurrentState(Lifecycle.State.CREATED); }
+                @Override public void onActivitySaveInstanceState(@NonNull final Activity activity, @NonNull final Bundle outState) { /*nothing*/ }
+                @Override public void onActivityDestroyed(@NonNull final Activity activity) {
+                    MapView.this.onDestroy();
+                    this.destroy();
+                }
+                private void init() {
+                    if (this.mInitialized) return;
+                    MapView.this.onLifecycleInit();
+                    this.mInitialized = true;
+                }
+                private void destroy() {
+                    if (!this.mInitialized) return;
+                    MapView.this.onLifecycleDestroy();
+                }
+            });
+        } else {
+            throw new IllegalStateException("MapView's context needs to implement some kind of Lifecycle");
+        }
 
         mZoomController = new CustomZoomButtonsController(this);
         mZoomController.setOnZoomListener(new MapViewZoomListener());
@@ -349,26 +376,28 @@ public class MapView extends ViewGroup implements IMapView, MultiTouchObjectCanv
         mZoomController.setVisibility(CustomZoomButtonsController.Visibility.SHOW_AND_FADEOUT);
     }
 
+    private void onLifecycleInit() {
+        mOverlayManager.setMapViewLifecycle(this);
+        mOverlayManager.setViewBoundingBoxChangedListener(mViewBoundingBoxChangedListener);
+    }
+    private void onLifecycleDestroy() {
+        mOverlayManager.setMapViewLifecycle(null);
+        mOverlayManager.setViewBoundingBoxChangedListener(null);
+    }
+
     /**
      * Constructor used by XML layout resource (uses default tile source).
      */
     public MapView(final Context context, final AttributeSet attrs) {
         this(context, null, null, attrs);
     }
-
     public MapView(final Context context) {
         this(context, null, null, null);
     }
-
-
-    public MapView(final Context context,
-                   final MapTileProviderBase aTileProvider) {
+    public MapView(final Context context, final MapTileProviderBase aTileProvider) {
         this(context, aTileProvider, null);
     }
-
-    public MapView(final Context context,
-                   final MapTileProviderBase aTileProvider,
-                   final Handler tileRequestCompleteHandler) {
+    public MapView(final Context context, final MapTileProviderBase aTileProvider, final Handler tileRequestCompleteHandler) {
         this(context, aTileProvider, tileRequestCompleteHandler, null);
     }
 
@@ -386,6 +415,7 @@ public class MapView extends ViewGroup implements IMapView, MultiTouchObjectCanv
     }
 
     /** You can add/remove/reorder your Overlays using the List of {@link Overlay}. The first (index * 0) Overlay gets drawn first, the one with the highest as the last one. */
+    @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP_PREFIX)
     public List<Overlay> getOverlays() {
         return this.getOverlayManager().overlays();
     }
@@ -398,8 +428,8 @@ public class MapView extends ViewGroup implements IMapView, MultiTouchObjectCanv
         if (Objects.equals(overlayManager, mOverlayManager)) return;
         mOverlayManager.onDestroyInternal();
         mOverlayManager = overlayManager;
-        mOverlayManager.setMapViewLifecycle(this);
-        mOverlayManager.setViewBoundingBoxChangedListener(mViewBoundingBoxChangedListener);
+        mLifecycleRegistry.setCurrentState(Lifecycle.State.DESTROYED);
+        mLifecycleRegistry.setCurrentState(getLifecycle().getCurrentState());
     }
 
     public MapTileProviderBase getTileProvider() {
@@ -434,15 +464,13 @@ public class MapView extends ViewGroup implements IMapView, MultiTouchObjectCanv
         return getProjection().getBoundingBox();
     }
 
-
     /**
      * Gets the current bounds of the screen in <I>screen coordinates</I>.
      */
     public Rect getScreenRect(@Nullable final Rect reuse) {
         final Rect out = getIntrinsicScreenRect(reuse);
         if (this.getMapOrientation() != 0 && this.getMapOrientation() != 180) {
-            GeometryMath.getBoundingBoxForRotatatedRectangle(out, out.centerX(), out.centerY(),
-                    this.getMapOrientation(), out);
+            GeometryMath.getBoundingBoxForRotatatedRectangle(out, out.centerX(), out.centerY(), this.getMapOrientation(), out);
         }
         return out;
     }
@@ -468,14 +496,10 @@ public class MapView extends ViewGroup implements IMapView, MultiTouchObjectCanv
             mProjection = localCopy;
             localCopy.adjustOffsets(mMultiTouchScaleGeoPoint, (mHasMultiTouchScaleCurrentPoint ? mMultiTouchScaleCurrentPoint : null));
             if (mScrollableAreaLimitLatitude) {
-                localCopy.adjustOffsets(
-                        mScrollableAreaLimitNorth, mScrollableAreaLimitSouth, true,
-                        mScrollableAreaLimitExtraPixelHeight);
+                localCopy.adjustOffsets(mScrollableAreaLimitNorth, mScrollableAreaLimitSouth, true, mScrollableAreaLimitExtraPixelHeight);
             }
             if (mScrollableAreaLimitLongitude) {
-                localCopy.adjustOffsets(
-                        mScrollableAreaLimitWest, mScrollableAreaLimitEast, false,
-                        mScrollableAreaLimitExtraPixelWidth);
+                localCopy.adjustOffsets(mScrollableAreaLimitWest, mScrollableAreaLimitEast, false, mScrollableAreaLimitExtraPixelWidth);
             }
             mImpossibleFlinging = localCopy.setMapScroll(this);
         }
@@ -592,8 +616,7 @@ public class MapView extends ViewGroup implements IMapView, MultiTouchObjectCanv
 
             // snap for all snappables
             final Projection pj = getProjection();
-            if (this.getOverlayManager().onSnapToItem((int) mMultiTouchScaleInitPoint.x,
-                    (int) mMultiTouchScaleInitPoint.y, mSnapPoint, this)) {
+            if (this.getOverlayManager().onSnapToItem((int) mMultiTouchScaleInitPoint.x, (int) mMultiTouchScaleInitPoint.y, mSnapPoint, this)) {
                 IGeoPoint geoPoint = pj.fromPixels(mSnapPoint.x, mSnapPoint.y, null, false);
                 getController().animateTo(geoPoint);
             }
@@ -700,8 +723,8 @@ public class MapView extends ViewGroup implements IMapView, MultiTouchObjectCanv
     /**
      * Get the current ZoomLevel for the map tiles.
      *
-     * @return the current ZoomLevel between 0 (equator) and 18/19(closest), depending on the tile
-     * source chosen.
+     * @return the current ZoomLevel between 0 (equator) and 18/19(closest), depending on the tile source chosen.
+     * @deprecated Use instead: {@link #getZoomLevelDouble()}
      */
     @Deprecated
     @Override
@@ -720,8 +743,7 @@ public class MapView extends ViewGroup implements IMapView, MultiTouchObjectCanv
     /**
      * Get the current ZoomLevel for the map tiles.
      *
-     * @param aPending if true and we're animating then return the zoom level that we're animating
-     *                 towards, otherwise return the current zoom level
+     * @param aPending if true and we're animating then return the zoom level that we're animating towards, otherwise return the current zoom level
      *                 Used to be an int - is a double since 6.0
      * @return the zoom level
      */
@@ -730,33 +752,23 @@ public class MapView extends ViewGroup implements IMapView, MultiTouchObjectCanv
         return getZoomLevelDouble();
     }
 
-    /**
-     * Get the minimum allowed zoom level for the maps.
-     */
+    /** Get the minimum allowed zoom level for the maps */
     public double getMinZoomLevel() {
         return mMinimumZoomLevel == null ? mMapOverlay.getMinimumZoomLevel() : mMinimumZoomLevel;
     }
 
-    /**
-     * Get the maximum allowed zoom level for the maps.
-     */
+    /** Get the maximum allowed zoom level for the maps */
     @Override
     public double getMaxZoomLevel() {
         return mMaximumZoomLevel == null ? mMapOverlay.getMaximumZoomLevel() : mMaximumZoomLevel;
     }
 
-    /**
-     * Set the minimum allowed zoom level, or pass null to use the minimum zoom level from the tile
-     * provider.
-     */
+    /** Set the minimum allowed zoom level, or pass null to use the minimum zoom level from the tile provider */
     public void setMinZoomLevel(@Nullable final Double zoomLevel) {
         mMinimumZoomLevel = zoomLevel;
     }
 
-    /**
-     * Set the maximum allowed zoom level, or pass null to use the maximum zoom level from the tile
-     * provider.
-     */
+    /** Set the maximum allowed zoom level, or pass null to use the maximum zoom level from the tile provider */
     public void setMaxZoomLevel(@Nullable final Double zoomLevel) {
         mMaximumZoomLevel = zoomLevel;
     }
@@ -771,7 +783,7 @@ public class MapView extends ViewGroup implements IMapView, MultiTouchObjectCanv
 
     /**
      * Zoom in by one zoom level.
-     * Use {@link MapController#zoomIn()}} instead
+     * @deprecated Use instead: {@link MapController#zoomIn()}}
      */
     @Deprecated
     boolean zoomIn() {
@@ -791,7 +803,7 @@ public class MapView extends ViewGroup implements IMapView, MultiTouchObjectCanv
 
     /**
      * Zoom out by one zoom level.
-     * Use {@link MapController#zoomOut()} instead
+     * @deprecated Use instead: {@link MapController#zoomOut()}
      */
     @Deprecated
     boolean zoomOut() {
@@ -873,8 +885,7 @@ public class MapView extends ViewGroup implements IMapView, MultiTouchObjectCanv
     /**
      * Set whether to use the network connection if it's available.
      *
-     * @param aMode if true use the network connection if it's available. if false don't use the
-     *              network connection even if it's available.
+     * @param aMode if true use the network connection if it's available. if false don't use the network connection even if it's available.
      */
     public void setUseDataConnection(final boolean aMode) {
         mMapOverlay.setUseDataConnection(aMode);
@@ -885,8 +896,7 @@ public class MapView extends ViewGroup implements IMapView, MultiTouchObjectCanv
      * limit zooming so it will be possible for the user to zoom out to an area that is larger than the
      * limited area.
      *
-     * @param boundingBox A lat/long bounding box to limit scrolling to, or null to remove any scrolling
-     *                    limitations
+     * @param boundingBox A lat/long bounding box to limit scrolling to, or null to remove any scrolling limitations
      */
     public void setScrollableAreaLimitDouble(@Nullable final BoundingBox boundingBox) {
         if (boundingBox == null) {
@@ -913,7 +923,7 @@ public class MapView extends ViewGroup implements IMapView, MultiTouchObjectCanv
     }
 
     /**
-     * sets the scroll limit
+     * Sets the scroll limit
      * Example:
      * To block vertical scroll of the view outside north/south poles:
      * mapView.setScrollableAreaLimitLatitude(MapView.getTileSystem().getMaxLatitude(),
@@ -936,7 +946,7 @@ public class MapView extends ViewGroup implements IMapView, MultiTouchObjectCanv
     }
 
     /**
-     * sets the scroll limit
+     * Sets the scroll limit
      *
      * @param pWest            decimal degrees longitude
      * @param pEast            decimal degrees longitude
@@ -963,7 +973,6 @@ public class MapView extends ViewGroup implements IMapView, MultiTouchObjectCanv
     public boolean isScrollableAreaLimitLongitude() {
         return mScrollableAreaLimitLongitude;
     }
-
 
     public void invalidateMapCoordinates(@NonNull final Rect dirty) {
         invalidateMapCoordinates(dirty.left, dirty.top, dirty.right, dirty.bottom, false);

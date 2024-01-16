@@ -309,33 +309,27 @@ public abstract class Overlay implements OverlayConstants, IViewBoundingBoxChang
         canvas.restore();
     }
 
-    @RestrictTo(RestrictTo.Scope.LIBRARY)
     @UiThread @MainThread
     @CallSuper
     protected void onCreate() { /*nothing*/ }
 
-    @RestrictTo(RestrictTo.Scope.LIBRARY)
     @UiThread @MainThread
     @CallSuper
     protected void onStart() { /*nothing*/ }
 
-    @RestrictTo(RestrictTo.Scope.LIBRARY)
     @UiThread @MainThread
     @CallSuper
     protected void onResume() { /*nothing*/ }
 
-    @RestrictTo(RestrictTo.Scope.LIBRARY)
     @UiThread @MainThread
     @CallSuper
     protected void onPause() { /*nothing*/ }
 
-    @RestrictTo(RestrictTo.Scope.LIBRARY)
     @UiThread @MainThread
     @CallSuper
     protected void onStop() { /*nothing*/ }
 
     /** Override to perform clean up of resources before shutdown. By default does nothing */
-    @RestrictTo(RestrictTo.Scope.LIBRARY)
     @UiThread @MainThread
     @CallSuper
     protected void onDestroy(@Nullable final MapView mapView) {

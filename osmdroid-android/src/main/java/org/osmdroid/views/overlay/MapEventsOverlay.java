@@ -34,7 +34,6 @@ public class MapEventsOverlay extends Overlay {
      *                 It must implement MapEventsReceiver interface.
      */
     public MapEventsOverlay(MapEventsReceiver receiver) {
-        super();
         mReceiver = receiver;
     }
 

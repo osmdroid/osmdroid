@@ -8,7 +8,6 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 
 import androidx.annotation.MainThread;
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RestrictTo;
 import androidx.annotation.UiThread;
@@ -50,6 +49,7 @@ public interface OverlayManager extends List<Overlay>, IViewBoundingBoxChangedLi
 
     void setViewBoundingBoxChangedListener(@Nullable IViewBoundingBoxChangedListener listener);
 
+    @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP_PREFIX)
     List<Overlay> overlays();
 
     Iterable<Overlay> overlaysReversed();
@@ -104,7 +104,7 @@ public interface OverlayManager extends List<Overlay>, IViewBoundingBoxChangedLi
 
     boolean onOptionsItemSelected(MenuItem item, int menuIdOffset, MapView mapView);
 
-    void setMapViewLifecycle(@NonNull MapView mapView);
+    void setMapViewLifecycle(@Nullable MapView mapView);
 
     @RestrictTo(RestrictTo.Scope.LIBRARY)
     void onDestroyInternal();
