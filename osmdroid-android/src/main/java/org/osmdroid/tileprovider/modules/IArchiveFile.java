@@ -19,8 +19,6 @@ public interface IArchiveFile {
 
     /**
      * initialize the file archive, such as performing initial scans, queries, opening a database, etc
-     *
-     * @param pFile
      * @throws Exception
      */
     void init(File pFile) throws Exception;
@@ -44,16 +42,15 @@ public interface IArchiveFile {
      * returns a list of tile source names that are available in the archive, if supported. If
      * not supported, return an empty set
      *
-     * @return
      * @since 5.0
      */
-    public Set<String> getTileSources();
+    Set<String> getTileSources();
 
 
     /**
      * @since 6.0
      * If set to true, tiles from this archive will be loaded regardless of their associated tile source name
      */
-    public void setIgnoreTileSource(boolean pIgnoreTileSource);
+    void setIgnoreTileSource(boolean pIgnoreTileSource);
 
 }

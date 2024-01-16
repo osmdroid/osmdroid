@@ -1,5 +1,7 @@
 package org.osmdroid.config;
 
+import androidx.annotation.NonNull;
+
 /**
  * Singleton class to get/set a configuration provider for osmdroid
  * <a href="https://github.com/osmdroid/osmdroid/issues/481">Issue 481</a>
@@ -33,7 +35,7 @@ public class Configuration {
      * @param instance
      * @see android.view.LayoutInflater
      */
-    public static void setConfigurationProvider(IConfigurationProvider instance) {
+    public static synchronized void setConfigurationProvider(@NonNull final IConfigurationProvider instance) {
         ref = instance;
     }
 }

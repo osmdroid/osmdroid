@@ -62,26 +62,22 @@ public class IntroActivity extends FragmentActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.introNext:
-                if (viewpagerCurrentPosition + 1 < adapter.getCount())
-                    introviewpager.setCurrentItem(viewpagerCurrentPosition + 1, true);
-                else {
-                    SharedPreferences.Editor edit = PreferenceManager.getDefaultSharedPreferences(this).edit();
-                    edit.putString("osmdroid_first_ran", "yes");
-                    edit.commit();
-                    //next to MainActivity
-                    Intent i = new Intent(this, MainActivity.class);
-                    startActivity(i);
-                    finish();   //prevent the back button from returning to this activity
-                }
-                break;
-            case R.id.introPrev:
-                if (viewpagerCurrentPosition - 1 >= 0)
-                    introviewpager.setCurrentItem(viewpagerCurrentPosition - 1, true);
-
-
-                break;
+        final int cId = v.getId();
+        if (cId == R.id.introNext) {
+            if (viewpagerCurrentPosition + 1 < adapter.getCount())
+                introviewpager.setCurrentItem(viewpagerCurrentPosition + 1, true);
+            else {
+                SharedPreferences.Editor edit = PreferenceManager.getDefaultSharedPreferences(this).edit();
+                edit.putString("osmdroid_first_ran", "yes");
+                edit.commit();
+                //next to MainActivity
+                Intent i = new Intent(this, MainActivity.class);
+                startActivity(i);
+                finish();   //prevent the back button from returning to this activity
+            }
+        } else if (cId == R.id.introPrev) {
+            if (viewpagerCurrentPosition - 1 >= 0)
+                introviewpager.setCurrentItem(viewpagerCurrentPosition - 1, true);
         }
     }
 

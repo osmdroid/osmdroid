@@ -49,7 +49,7 @@ import org.osmdroid.views.Projection;
  * @since 5.6.3
  */
 public class CopyrightOverlay extends Overlay {
-    private Paint paint;
+    private final Paint paint = new Paint();
     int xOffset = 10;
     int yOffset = 10;
     protected boolean alignBottom = true;
@@ -68,7 +68,6 @@ public class CopyrightOverlay extends Overlay {
         dm = resources.getDisplayMetrics();
 
         // Get paint
-        paint = new Paint();
         paint.setAntiAlias(true);
         paint.setTextSize(dm.density * 12);
     }

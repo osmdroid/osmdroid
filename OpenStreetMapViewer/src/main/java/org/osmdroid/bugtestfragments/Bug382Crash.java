@@ -44,7 +44,7 @@ public class Bug382Crash extends BaseSampleFragment {
         polygon.getOutlinePaint().setStrokeWidth(4);
         polygon.setInfoWindow(new BasicInfoWindow(R.layout.bonuspack_bubble, mMapView));
         polygon.setTitle("Polygon tapped!");
-        mMapView.getOverlays().add(polygon);
+        mMapView.getOverlayManager().add(polygon);
         mMapView.invalidate();
 
         polyline = new Polyline(mMapView);
@@ -53,7 +53,7 @@ public class Bug382Crash extends BaseSampleFragment {
         polyline.getOutlinePaint().setStrokeWidth(8);
         polyline.setInfoWindow(new BasicInfoWindow(R.layout.bonuspack_bubble, mMapView));
         polyline.setTitle("Polyline tapped!");
-        mMapView.getOverlays().add(polyline);
+        mMapView.getOverlayManager().add(polyline);
         mMapView.invalidate();
 
 

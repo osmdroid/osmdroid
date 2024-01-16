@@ -42,7 +42,7 @@ public class ListPointL implements Iterable<PointL> {
 
     @Override
     public Iterator<PointL> iterator() {
-        return new Iterator<PointL>() {
+        return new Iterator<>() {
 
             private int mIndex;
 

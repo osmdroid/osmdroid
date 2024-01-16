@@ -1,9 +1,11 @@
 package org.osmdroid.tileprovider.modules;
 
+import android.content.Context;
 import android.content.res.AssetManager;
 import android.graphics.drawable.Drawable;
 
 import org.osmdroid.config.Configuration;
+import org.osmdroid.tileprovider.IMapTileProviderCallback;
 import org.osmdroid.tileprovider.IRegisterReceiver;
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 import org.osmdroid.tileprovider.tilesource.BitmapTileSourceBase.LowMemoryException;
@@ -13,6 +15,8 @@ import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.concurrent.atomic.AtomicReference;
+
+import androidx.annotation.NonNull;
 
 /**
  * Implements a file system cache and provides cached tiles from Assets. This
@@ -33,39 +37,42 @@ public class MapTileAssetsProvider extends MapTileFileStorageProviderBase {
     // Constants
     // ===========================================================
 
+    public static final String CONST_MAPTILEPROVIDER_ASSETS = "assets";
+
     // ===========================================================
     // Fields
     // ===========================================================
 
     private final AssetManager mAssets;
-
-    private final AtomicReference<ITileSource> mTileSource = new AtomicReference<ITileSource>();
+    private final AtomicReference<ITileSource> mTileSource = new AtomicReference<>();
+    private final TileLoader mTileLoader;
 
     // ===========================================================
     // Constructors
     // ===========================================================
 
-    public MapTileAssetsProvider(final IRegisterReceiver pRegisterReceiver, final AssetManager pAssets) {
-        this(pRegisterReceiver, pAssets, TileSourceFactory.DEFAULT_TILE_SOURCE);
+    public MapTileAssetsProvider(@NonNull final Context context, final IRegisterReceiver pRegisterReceiver, final AssetManager pAssets) {
+        this(context, pRegisterReceiver, pAssets, TileSourceFactory.DEFAULT_TILE_SOURCE);
     }
-
-    public MapTileAssetsProvider(final IRegisterReceiver pRegisterReceiver,
+    public MapTileAssetsProvider(@NonNull final Context context,
+                                 final IRegisterReceiver pRegisterReceiver,
                                  final AssetManager pAssets,
                                  final ITileSource pTileSource) {
-        this(pRegisterReceiver, pAssets, pTileSource,
+        this(context, pRegisterReceiver, pAssets, pTileSource,
                 Configuration.getInstance().getTileDownloadThreads(),
                 Configuration.getInstance().getTileDownloadMaxQueueSize()
         );
     }
-
-    public MapTileAssetsProvider(final IRegisterReceiver pRegisterReceiver,
+    public MapTileAssetsProvider(@NonNull final Context context,
+                                 final IRegisterReceiver pRegisterReceiver,
                                  final AssetManager pAssets,
                                  final ITileSource pTileSource, int pThreadPoolSize,
                                  int pPendingQueueSize) {
-        super(pRegisterReceiver, pThreadPoolSize, pPendingQueueSize);
+        super(context, pRegisterReceiver, pThreadPoolSize, pPendingQueueSize);
         setTileSource(pTileSource);
 
         mAssets = pAssets;
+        mTileLoader = new TileLoader(mAssets);
     }
     // ===========================================================
     // Getter & Setter
@@ -87,12 +94,12 @@ public class MapTileAssetsProvider extends MapTileFileStorageProviderBase {
 
     @Override
     protected String getThreadGroupName() {
-        return "assets";
+        return CONST_MAPTILEPROVIDER_ASSETS;
     }
 
     @Override
     public TileLoader getTileLoader() {
-        return new TileLoader(mAssets);
+        return mTileLoader;
     }
 
     @Override
@@ -118,7 +125,7 @@ public class MapTileAssetsProvider extends MapTileFileStorageProviderBase {
     // ===========================================================
 
     protected class TileLoader extends MapTileModuleProviderBase.TileLoader {
-        private AssetManager mAssets = null;
+        private final AssetManager mAssets;
 
         public TileLoader(AssetManager pAssets) {
             mAssets = pAssets;
@@ -131,21 +138,30 @@ public class MapTileAssetsProvider extends MapTileFileStorageProviderBase {
                 return null;
             }
 
+            InputStream is = null;
             try {
-                InputStream is = mAssets.open(tileSource.getTileRelativeFilenameString(pMapTileIndex));
+                is = mAssets.open(tileSource.getTileRelativeFilenameString(pMapTileIndex));
                 final Drawable drawable = tileSource.getDrawable(is);
                 if (drawable != null) {
                     //https://github.com/osmdroid/osmdroid/issues/272 why was this set to expired?
                     //ExpirableBitmapDrawable.setDrawableExpired(drawable);
                 }
                 return drawable;
-            } catch (IOException e) {
+            } catch (IOException ignored) {
             } catch (final LowMemoryException e) {
                 throw new CantContinueException(e);
+            } finally {
+                if (is != null) {
+                    try { is.close(); } catch (Exception e) { /*nothing*/ }
+                }
             }
 
             // If we get here then there is no file in the file cache
             return null;
         }
+
+        @IMapTileProviderCallback.TILEPROVIDERTYPE
+        @Override
+        public final int getProviderType() { return IMapTileProviderCallback.TILEPROVIDERTYPE_ASSET; }
     }
 }

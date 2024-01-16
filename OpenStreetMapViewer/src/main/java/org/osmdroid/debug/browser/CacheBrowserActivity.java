@@ -60,7 +60,7 @@ public class CacheBrowserActivity extends AppCompatActivity {
 
     public void onPause() {
         super.onPause();
-        cache.onDetach();
+        cache.onDetach(this);
         cache = null;
     }
 }

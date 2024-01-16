@@ -26,7 +26,6 @@ import org.osmdroid.views.overlay.MinimapOverlay;
 import org.osmdroid.views.overlay.ScaleBarOverlay;
 import org.osmdroid.views.overlay.compass.CompassOverlay;
 import org.osmdroid.views.overlay.compass.InternalCompassOrientationProvider;
-import org.osmdroid.views.overlay.gestures.OneFingerZoomOverlay;
 import org.osmdroid.views.overlay.gestures.RotationGestureOverlay;
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
@@ -65,7 +64,6 @@ public class StarterMapFragment extends Fragment {
     private ScaleBarOverlay mScaleBarOverlay;
     private RotationGestureOverlay mRotationGestureOverlay;
     private CopyrightOverlay mCopyrightOverlay;
-    private OneFingerZoomOverlay mOneFingerZoomOverlay;
 
     public static StarterMapFragment newInstance() {
         return new StarterMapFragment();
@@ -82,16 +80,12 @@ public class StarterMapFragment extends Fragment {
         //Note! we are programmatically construction the map view
         //be sure to handle application lifecycle correct (see note in on pause)
         mMapView = new MapView(inflater.getContext());
-        mMapView.setDestroyMode(false);
         mMapView.setTag("mapView"); // needed for OpenStreetMapViewTest
 
         mMapView.setOnGenericMotionListener(new View.OnGenericMotionListener() {
             /**
              * mouse wheel zooming ftw
-             * http://stackoverflow.com/questions/11024809/how-can-my-view-respond-to-a-mousewheel
-             * @param v
-             * @param event
-             * @return
+             * <a href="http://stackoverflow.com/questions/11024809/how-can-my-view-respond-to-a-mousewheel">...</a>
              */
             @Override
             public boolean onGenericMotion(View v, MotionEvent event) {
@@ -129,45 +123,42 @@ public class StarterMapFragment extends Fragment {
         //note you have handle the permissions yourself, the overlay did not do it for you
         mLocationOverlay = new MyLocationNewOverlay(new GpsMyLocationProvider(context), mMapView);
         mLocationOverlay.enableMyLocation();
-        mMapView.getOverlays().add(this.mLocationOverlay);
+        mMapView.getOverlayManager().add(this.mLocationOverlay);
 
 
         //Mini map
         mMinimapOverlay = new MinimapOverlay(context, mMapView.getTileRequestCompleteHandler());
         mMinimapOverlay.setWidth(dm.widthPixels / 5);
         mMinimapOverlay.setHeight(dm.heightPixels / 5);
-        mMapView.getOverlays().add(this.mMinimapOverlay);
+        mMapView.getOverlayManager().add(this.mMinimapOverlay);
 
 
         //Copyright overlay
         mCopyrightOverlay = new CopyrightOverlay(context);
         //i hate this very much, but it seems as if certain versions of android and/or
         //device types handle screen offsets differently
-        mMapView.getOverlays().add(this.mCopyrightOverlay);
+        mMapView.getOverlayManager().add(this.mCopyrightOverlay);
 
 
         //On screen compass
         mCompassOverlay = new CompassOverlay(context, new InternalCompassOrientationProvider(context),
                 mMapView);
         mCompassOverlay.enableCompass();
-        mMapView.getOverlays().add(this.mCompassOverlay);
+        mMapView.getOverlayManager().add(this.mCompassOverlay);
 
 
         //map scale
         mScaleBarOverlay = new ScaleBarOverlay(mMapView);
         mScaleBarOverlay.setCentred(true);
         mScaleBarOverlay.setScaleBarOffset(dm.widthPixels / 2, 10);
-        mMapView.getOverlays().add(this.mScaleBarOverlay);
+        mMapView.getOverlayManager().add(this.mScaleBarOverlay);
 
 
         //support for map rotation
         mRotationGestureOverlay = new RotationGestureOverlay(mMapView);
         mRotationGestureOverlay.setEnabled(true);
-        mMapView.getOverlays().add(this.mRotationGestureOverlay);
+        mMapView.getOverlayManager().add(this.mRotationGestureOverlay);
 
-        //support for one finger zoom
-        mOneFingerZoomOverlay = new OneFingerZoomOverlay();
-        mMapView.getOverlays().add(this.mOneFingerZoomOverlay);
 
         //needed for pinch zooms
         mMapView.setMultiTouchControls(true);
@@ -200,17 +191,7 @@ public class StarterMapFragment extends Fragment {
         edit.putFloat(PREFS_ZOOM_LEVEL_DOUBLE, (float) mMapView.getZoomLevelDouble());
         edit.commit();
 
-        mMapView.onPause();
         super.onPause();
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        //this part terminates all of the overlays and background threads for osmdroid
-        //only needed when you programmatically create the map
-        mMapView.onDetach();
-
     }
 
     @Override
@@ -224,8 +205,6 @@ public class StarterMapFragment extends Fragment {
         } catch (final IllegalArgumentException e) {
             mMapView.setTileSource(TileSourceFactory.DEFAULT_TILE_SOURCE);
         }
-
-        mMapView.onResume();
     }
 
     @Override

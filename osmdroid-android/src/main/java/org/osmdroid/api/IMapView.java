@@ -1,6 +1,8 @@
 package org.osmdroid.api;
 
 
+import androidx.annotation.ColorInt;
+
 /**
  * An interface that resembles the Google Maps API MapView class
  * and is implemented by the osmdroid {@link org.osmdroid.views.MapView} class.
@@ -8,7 +10,7 @@ package org.osmdroid.api;
  * @author Neil Boyd
  */
 public interface IMapView {
-    public final static String LOGTAG = "OsmDroid";
+    String LOGTAG = "OsmDroid";
 
     IMapController getController();
 
@@ -32,6 +34,6 @@ public interface IMapView {
 
     // some methods from View
     // (well, just one for now)
-    void setBackgroundColor(int color);
+    void setBackgroundColor(@ColorInt int color);
 
 }

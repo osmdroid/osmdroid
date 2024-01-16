@@ -1,5 +1,7 @@
 package org.osmdroid.util;
 
+import androidx.annotation.Nullable;
+
 /**
  * @author Fabrice Fontaine
  * @since 6.0.2
@@ -17,7 +19,7 @@ public class Delay {
         next();
     }
 
-    public Delay(final long[] pDurations) {
+    public Delay(@Nullable final long[] pDurations) {
         if (pDurations == null || pDurations.length == 0) {
             throw new IllegalArgumentException();
         }

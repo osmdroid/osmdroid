@@ -13,7 +13,7 @@ import android.widget.Toast;
 import org.osmdroid.R;
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.api.IMapView;
-import org.osmdroid.events.MapListener;
+import org.osmdroid.events.MapAdapter;
 import org.osmdroid.events.ScrollEvent;
 import org.osmdroid.events.ZoomEvent;
 import org.osmdroid.samplefragments.BaseSampleFragment;
@@ -28,7 +28,9 @@ import org.osmdroid.views.overlay.Polyline;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 /**
@@ -77,16 +79,18 @@ public class LayerManager extends BaseSampleFragment {
                     mMapView.getController().animateTo(((Marker) overlay).getPosition());
 
                 } else if (overlay instanceof Polygon) {
-                    ((Polygon) overlay).showInfoWindow();
-                    mMapView.getController().animateTo(((Polygon) overlay).getInfoWindowLocation());
+                    final Polygon cPolygon = ((Polygon) overlay);
+                    cPolygon.showInfoWindow();
+                    mMapView.getController().animateTo(cPolygon.getInfoWindowLocationLat(), cPolygon.getInfoWindowLocationLon());
 
                 } else if (overlay instanceof Polyline) {
-                    ((Polyline) overlay).showInfoWindow();
-                    mMapView.getController().animateTo(((Polyline) overlay).getInfoWindowLocation());
+                    final Polyline cPolyline = ((Polyline) overlay);
+                    cPolyline.showInfoWindow();
+                    mMapView.getController().animateTo(cPolyline.getInfoWindowLocationLat(), cPolyline.getInfoWindowLocationLon());
 
-                } else {
-                    BoundingBox bounds = overlay.getBounds();
-                    mMapView.getController().animateTo(new GeoPoint(bounds.getCenterLatitude(), bounds.getCenterLongitude()));
+                } else if (overlay != null) {
+                    final BoundingBox bounds = overlay.getBounds();
+                    mMapView.getController().animateTo(bounds.getCenterLatitude(), bounds.getCenterLongitude());
 
                     //mMapView.getController().zoomToSpan(bounds.getLatitudeSpan(), bounds.getLongitudeSpan());
                 }
@@ -111,7 +115,7 @@ public class LayerManager extends BaseSampleFragment {
         updateInfo();
 
         mMapView.setTileSource(TileSourceFactory.USGS_SAT);
-        mMapView.addMapListener(new MapListener() {
+        mMapView.addMapListener(new MapAdapter() {
             @Override
             public boolean onScroll(ScrollEvent event) {
                 Log.i(IMapView.LOGTAG, System.currentTimeMillis() + " onScroll " + event.getX() + "," + event.getY());
@@ -138,7 +142,7 @@ public class LayerManager extends BaseSampleFragment {
         startMarker.setTitle("White House");
         startMarker.setSnippet("The White House is the official residence and principal workplace of the President of the United States.");
         startMarker.setSubDescription("1600 Pennsylvania Ave NW, Washington, DC 20500");
-        mMapView.getOverlays().add(startMarker);
+        mMapView.getOverlayManager().add(startMarker);
 
         startPoint = new GeoPoint(38.8719, -77.0563);
         startMarker = new Marker(mMapView);
@@ -150,12 +154,12 @@ public class LayerManager extends BaseSampleFragment {
         startMarker.setSubDescription("The Pentagon is the headquarters of the United States Department of Defense.");
         startMarker.setOnMarkerClickListener(new Marker.OnMarkerClickListener() {
             @Override
-            public boolean onMarkerClick(Marker marker, MapView mapView) {
+            public boolean onMarkerClick(@NonNull Marker marker, @NonNull MapView mapView) {
                 marker.showInfoWindow();
                 return true;
             }
         });
-        mMapView.getOverlays().add(startMarker);
+        mMapView.getOverlayManager().add(startMarker);
 
 
         startPoint = new GeoPoint(38.8895, -77.0353);
@@ -168,45 +172,45 @@ public class LayerManager extends BaseSampleFragment {
         startMarker.setSubDescription("Washington Monument.");
         startMarker.setOnMarkerClickListener(new Marker.OnMarkerClickListener() {
             @Override
-            public boolean onMarkerClick(Marker marker, MapView mapView) {
+            public boolean onMarkerClick(@NonNull Marker marker, @NonNull MapView mapView) {
                 Toast.makeText(getContext(), marker.getTitle() + " was clicked", Toast.LENGTH_LONG).show();
                 marker.showInfoWindow();
                 return true;
             }
         });
         //startMarker.setInfoWindow(new MarkerInfoWindow());
-        mMapView.getOverlays().add(startMarker);
+        mMapView.getOverlayManager().add(startMarker);
         Polyline mNorthPolyline = new Polyline();
         Polyline mSouthPolyline = new Polyline();
         Polyline mWestPolyline = new Polyline();
         Polyline mEastPolyline = new Polyline();
 
 
-        ArrayList<GeoPoint> list = new ArrayList<>();
+        List<GeoPoint> list = new ArrayList<>();
         BoundingBox sCentralParkBoundingBox = new BoundingBox(40.796788,
                 -73.949232, 40.768094, -73.981762);
         list.add(new GeoPoint(sCentralParkBoundingBox.getActualNorth(), -85));
         list.add(new GeoPoint(sCentralParkBoundingBox.getActualNorth(), -65));
         mNorthPolyline.setPoints(list);
-        mMapView.getOverlays().add(mNorthPolyline);
+        mMapView.getOverlayManager().add(mNorthPolyline);
 
         list.clear();
         list.add(new GeoPoint(sCentralParkBoundingBox.getActualSouth(), -85));
         list.add(new GeoPoint(sCentralParkBoundingBox.getActualSouth(), -65));
         mSouthPolyline.setPoints(list);
-        mMapView.getOverlays().add(mSouthPolyline);
+        mMapView.getOverlayManager().add(mSouthPolyline);
 
         list.clear();
         list.add(new GeoPoint(45, sCentralParkBoundingBox.getLonWest()));
         list.add(new GeoPoint(35, sCentralParkBoundingBox.getLonWest()));
         mWestPolyline.setPoints(list);
-        mMapView.getOverlays().add(mWestPolyline);
+        mMapView.getOverlayManager().add(mWestPolyline);
 
         list.clear();
         list.add(new GeoPoint(45, sCentralParkBoundingBox.getLonEast()));
         list.add(new GeoPoint(35, sCentralParkBoundingBox.getLonEast()));
         mEastPolyline.setPoints(list);
-        mMapView.getOverlays().add(mEastPolyline);
+        mMapView.getOverlayManager().add(mEastPolyline);
 
         mMapView.invalidate();
         Toast.makeText(this.mMapView.getContext(), "Swipe from the right", Toast.LENGTH_LONG).show();

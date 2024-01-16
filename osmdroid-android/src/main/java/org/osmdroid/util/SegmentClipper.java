@@ -1,5 +1,8 @@
 package org.osmdroid.util;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 /**
  * A tool to clip segments
  *
@@ -19,6 +22,7 @@ public class SegmentClipper implements PointAccepter {
     private long mXMax;
     private long mYMax;
     private PointAccepter mPointAccepter;
+    @Nullable
     private IntegerAccepter mIntegerAccepter;
     private final long[] cornerX = new long[4];
     private final long[] cornerY = new long[4];
@@ -33,7 +37,7 @@ public class SegmentClipper implements PointAccepter {
     private int mCurrentSegmentIndex;
 
     public void set(final long pXMin, final long pYMin, final long pXMax, final long pYMax,
-                    final PointAccepter pPointAccepter, final IntegerAccepter pIntegerAccepter, final boolean pPathMode) {
+                    @NonNull final PointAccepter pPointAccepter, @Nullable final IntegerAccepter pIntegerAccepter, final boolean pPathMode) {
         mXMin = pXMin;
         mYMin = pYMin;
         mXMax = pXMax;
@@ -48,7 +52,7 @@ public class SegmentClipper implements PointAccepter {
     }
 
     public void set(final long pXMin, final long pYMin, final long pXMax, final long pYMax,
-                    final PointAccepter pPointAccepter, final boolean pPathMode) {
+                    @NonNull final PointAccepter pPointAccepter, final boolean pPathMode) {
         set(pXMin, pYMin, pXMax, pYMax, pPointAccepter, null, pPathMode);
     }
 

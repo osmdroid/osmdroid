@@ -4,6 +4,8 @@ import android.location.LocationManager;
 
 import org.osmdroid.config.Configuration;
 
+import java.util.Objects;
+
 /**
  * A class to check whether we want to use a location. If there are multiple location providers,
  * i.e. network and GPS, then you want to ignore network locations shortly after a GPS location
@@ -27,7 +29,7 @@ public class NetworkLocationIgnorer {
      */
     public boolean shouldIgnore(final String pProvider, final long pTime) {
 
-        if (LocationManager.GPS_PROVIDER.equals(pProvider)) {
+        if (Objects.equals(LocationManager.GPS_PROVIDER, pProvider)) {
             mLastGps = pTime;
         } else {
             if (pTime < mLastGps + Configuration.getInstance().getGpsWaitTime()) {

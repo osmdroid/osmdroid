@@ -60,12 +60,12 @@ public class SampleWithMinimapItemizedoverlay extends AppCompatActivity {
         String copyrightNotice = mMapView.getTileProvider().getTileSource().getCopyrightNotice();
         CopyrightOverlay copyrightOverlay = new CopyrightOverlay(this);
         copyrightOverlay.setCopyrightNotice(copyrightNotice);
-        mMapView.getOverlays().add(copyrightOverlay);
+        mMapView.getOverlayManager().add(copyrightOverlay);
 
         /* Itemized Overlay */
         {
             /* Create a static ItemizedOverlay showing a some Markers on some cities. */
-            final ArrayList<OverlayItem> items = new ArrayList<>();
+            final List<OverlayItem> items = new ArrayList<>();
             items.add(new OverlayItem("Hannover", "SampleDescription",
                     new GeoPoint(52.370816, 9.735936)));
             items.add(new OverlayItem("Berlin", "SampleDescription",
@@ -98,14 +98,14 @@ public class SampleWithMinimapItemizedoverlay extends AppCompatActivity {
                             return true;
                         }
                     }, getApplicationContext());
-            this.mMapView.getOverlays().add(this.mMyLocationOverlay);
+            this.mMapView.getOverlayManager().add(this.mMyLocationOverlay);
         }
 
         /* MiniMap */
         {
             final MinimapOverlay miniMapOverlay = new MinimapOverlay(this,
                     mMapView.getTileRequestCompleteHandler());
-            this.mMapView.getOverlays().add(miniMapOverlay);
+            this.mMapView.getOverlayManager().add(miniMapOverlay);
         }
 
         /* list of items currently displayed */
@@ -131,11 +131,11 @@ public class SampleWithMinimapItemizedoverlay extends AppCompatActivity {
                     return true;
                 }
             };
-            mMapView.getOverlays().add(new MapEventsOverlay(mReceive));
+            mMapView.getOverlayManager().add(new MapEventsOverlay(mReceive));
 
             final RotationGestureOverlay rotationGestureOverlay = new RotationGestureOverlay(mMapView);
             rotationGestureOverlay.setEnabled(true);
-            mMapView.getOverlays().add(rotationGestureOverlay);
+            mMapView.getOverlayManager().add(rotationGestureOverlay);
         }
 
         // Default location and zoom level
@@ -151,15 +151,4 @@ public class SampleWithMinimapItemizedoverlay extends AppCompatActivity {
         return true;
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        mMapView.onPause();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        mMapView.onResume();
-    }
 }

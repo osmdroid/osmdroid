@@ -72,9 +72,9 @@ public class Bug1322 extends BaseSampleFragment {
                     }
                 }, getContext());
         mOverlay.setFocusItemsOnTap(true);
-        mMapView.getOverlays().add(mOverlay);
+        mMapView.getOverlayManager().add(mOverlay);
 
-        /*mMapView.getOverlays().add(new MapEventsOverlay(new MapEventsReceiver() {
+        /*mMapView.getOverlayManager().add(new MapEventsOverlay(new MapEventsReceiver() {
             @Override
             public boolean singleTapConfirmedHelper(GeoPoint p) {
                 if (mClicked.size() == 0) {
@@ -129,7 +129,7 @@ public class Bug1322 extends BaseSampleFragment {
         myLocationOverlay.setMarkerTitleForegroundColor(Color.WHITE);
         myLocationOverlay.setMarkerDescriptionForegroundColor(Color.WHITE);
         myLocationOverlay.setDescriptionBoxPadding(15);
-        mMapView.getOverlays().add(myLocationOverlay);
+        mMapView.getOverlayManager().add(myLocationOverlay);
         */
     }
 

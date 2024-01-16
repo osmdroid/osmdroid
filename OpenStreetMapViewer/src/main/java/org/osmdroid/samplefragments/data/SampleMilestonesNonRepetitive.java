@@ -8,6 +8,8 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 
+import androidx.annotation.NonNull;
+
 import org.osmdroid.R;
 import org.osmdroid.data.DataCountry;
 import org.osmdroid.data.DataCountryLoader;
@@ -69,12 +71,15 @@ public class SampleMilestonesNonRepetitive extends SampleMapEventListener {
         }
         final Polyline polyline = new Polyline();
         final List<GeoPoint> capitals = new ArrayList<>(mOrder.length);
-        final double distances[] = new double[mOrder.length];
+        final double[] distances = new double[mOrder.length];
         int distancesIndex = 0;
         double distance1 = 0;
         GeoPoint previous = null;
+        DataCountry cDataCountry;
         for (final String country : mOrder) {
-            final GeoPoint capital = new GeoPoint(mList.get(country).getCapitalGeoPoint());
+            cDataCountry = mList.get(country);
+            if (cDataCountry == null) continue;
+            final GeoPoint capital = new GeoPoint(cDataCountry.getCapitalGeoPoint());
             if (distancesIndex == 0) {
                 distance1 = 0;
             } else {
@@ -137,7 +142,7 @@ public class SampleMilestonesNonRepetitive extends SampleMapEventListener {
         percentageCompletion.setStartDelay(500); // .5 second
         percentageCompletion.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
+            public void onAnimationUpdate(@NonNull final ValueAnimator animation) {
                 mAnimatedMetersSoFar = (float) animation.getAnimatedValue();
                 if (mAnimatedMetersSoFar < distance * fraction) {
                     slicerForPath.setMeterDistanceSlice(0, mAnimatedMetersSoFar);

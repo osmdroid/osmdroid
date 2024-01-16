@@ -1,7 +1,11 @@
 package org.osmdroid.util;
 
+import android.annotation.SuppressLint;
 import android.location.Location;
 import android.location.LocationManager;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import org.osmdroid.config.Configuration;
 
@@ -18,7 +22,7 @@ public class LocationUtils {
      *
      * @return return the most recent location, or null if there's no known location
      */
-    public static Location getLastKnownLocation(final LocationManager pLocationManager) {
+    public static Location getLastKnownLocation(@Nullable final LocationManager pLocationManager) {
         if (pLocationManager == null) {
             return null;
         }
@@ -38,7 +42,8 @@ public class LocationUtils {
         }
     }
 
-    private static Location getLastKnownLocation(final LocationManager pLocationManager, final String pProvider) {
+    @SuppressLint("MissingPermission")
+    private static Location getLastKnownLocation(@NonNull final LocationManager pLocationManager, @NonNull final String pProvider) {
         try {
             if (!pLocationManager.isProviderEnabled(pProvider)) {
                 return null;

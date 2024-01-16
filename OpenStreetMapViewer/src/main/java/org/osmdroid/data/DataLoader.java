@@ -9,9 +9,11 @@ import java.io.BufferedInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RawRes;
 
 /**
@@ -35,7 +37,7 @@ abstract public class DataLoader<T> {
         return mList;
     }
 
-    private void load(final String pJson) throws Exception {
+    private void load(@NonNull final String pJson) throws Exception {
         final JSONObject root = new JSONObject(pJson);
         final Iterator<String> keys = root.keys();
         while (keys.hasNext()) {
@@ -45,19 +47,20 @@ abstract public class DataLoader<T> {
         }
     }
 
-    private String getJsonString(final Context pContext, final @RawRes int pResource)
+    private String getJsonString(@NonNull final Context pContext, @RawRes final int pResource)
             throws Exception {
         final InputStream is = pContext.getResources().openRawResource(pResource);
         final BufferedInputStream bis = new BufferedInputStream(is);
         final int bufferSize = 1024 * 64;
         final char[] buffer = new char[bufferSize];
         final StringBuilder out = new StringBuilder();
-        final Reader in = new InputStreamReader(bis, "UTF-8");
+        final Reader in = new InputStreamReader(bis, StandardCharsets.UTF_8);
         int read;
         while ((read = in.read(buffer, 0, buffer.length)) > 0) {
             out.append(buffer, 0, read);
         }
-        is.close();
+        try { is.close(); } catch (Exception e) { /*nothing*/ }
+        try { in.close(); } catch (Exception e) { /*nothing*/ }
         return out.toString();
     }
 }

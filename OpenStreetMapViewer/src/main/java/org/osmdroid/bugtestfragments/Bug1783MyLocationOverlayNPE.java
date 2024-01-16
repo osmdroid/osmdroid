@@ -31,7 +31,7 @@ public class Bug1783MyLocationOverlayNPE extends DialogFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         MapView  mapView = (MapView) view;
         myLocationNewOverlay = new MyLocationNewOverlay(mapView);
-        mapView.getOverlays().add(myLocationNewOverlay);
+        mapView.getOverlayManager().add(myLocationNewOverlay);
     }
 
 

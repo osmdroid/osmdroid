@@ -37,46 +37,40 @@ public class BitmapPoolTest {
 
     @Test
     public void testThatBitmapIsReusedForSameSize() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            bitmapPool.clearBitmapPool();
-            bitmapPool.returnDrawableToPool(new ReusableBitmapDrawable(bitmap));
+        bitmapPool.clearBitmapPool();
+        bitmapPool.returnDrawableToPool(new ReusableBitmapDrawable(bitmap));
 
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            bitmapPool.applyReusableOptions(options, bitmap.getWidth(), bitmap.getHeight());
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        bitmapPool.applyReusableOptions(options, bitmap.getWidth(), bitmap.getHeight());
 
-            Bitmap testBitmap = options.inBitmap;
-            assertNotNull(testBitmap);
-        }
+        Bitmap testBitmap = options.inBitmap;
+        assertNotNull(testBitmap);
     }
 
     @Test
     public void testThatBitmapIsNotReusedForDifferentSize() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            bitmapPool.clearBitmapPool();
-            bitmapPool.returnDrawableToPool(new ReusableBitmapDrawable(bitmap));
+        bitmapPool.clearBitmapPool();
+        bitmapPool.returnDrawableToPool(new ReusableBitmapDrawable(bitmap));
 
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            bitmapPool.applyReusableOptions(
-                    options, differentSizeBitmap.getWidth(), differentSizeBitmap.getHeight());
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        bitmapPool.applyReusableOptions(
+                options, differentSizeBitmap.getWidth(), differentSizeBitmap.getHeight());
 
-            Bitmap testBitmap = options.inBitmap;
-            assertNull(testBitmap);
-        }
+        Bitmap testBitmap = options.inBitmap;
+        assertNull(testBitmap);
     }
 
     @Test
     public void testThatBitmapPoolIsCleared() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            bitmapPool.clearBitmapPool();
-            bitmapPool.returnDrawableToPool(new ReusableBitmapDrawable(bitmap));
+        bitmapPool.clearBitmapPool();
+        bitmapPool.returnDrawableToPool(new ReusableBitmapDrawable(bitmap));
 
-            bitmapPool.clearBitmapPool();
+        bitmapPool.clearBitmapPool();
 
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            bitmapPool.applyReusableOptions(options, bitmap.getWidth(), bitmap.getHeight());
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        bitmapPool.applyReusableOptions(options, bitmap.getWidth(), bitmap.getHeight());
 
-            Bitmap testBitmap = options.inBitmap;
-            assertNull(testBitmap);
-        }
+        Bitmap testBitmap = options.inBitmap;
+        assertNull(testBitmap);
     }
 }

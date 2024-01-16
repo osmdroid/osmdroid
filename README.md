@@ -140,9 +140,9 @@ The [OSMBonusPack project](https://github.com/MKergall/osmbonuspack) adds additi
 ## Building from source for editing osmdroid 
 
 JDK11+ is required
-Gradle 7.4.2 is what we are currently using
-Android Studio Bumblebee
-(latest supported configuration as of May 2022)
+Gradle 7.4.2+ (this minimum is what we are currently using)
+Android Studio 2022.x+ (2022.3.1-Giraffe is what we are currently using)
+(latest supported configuration as of Oct 2023)
 
 ```
 ./gradlew clean build
@@ -155,10 +155,8 @@ Or just open Android studio.
 ## Building from source and using the aar's in your app
 
 JDK11+ is required
-Gradle 7.4.2 is what we are currently using
-(latest supported configuration as of May 2022)
-
-We recommend building from the command line.
+Gradle 7.4.2+ (this minimum is what we are currently using)
+(latest supported configuration as of Oct 2023)
 
 
 ```

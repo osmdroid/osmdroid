@@ -33,14 +33,73 @@ import java.util.List;
  * @author Alex O'Ree
  */
 
-public class WeatherGroundOverlaySample extends BaseSampleFragment implements Runnable {
-    public static final String URL = "https://radar.weather.gov/Conus/RadarImg/latest_Small.gif";
+public class WeatherGroundOverlaySample extends BaseSampleFragment {
+    public static final String URL = "https://www.google.com/images/branding/googlelogo/1x/googlelogo_light_color_272x92dp.png";
 
     private final GeoPoint mNorthEast = new GeoPoint(50.0, -127.5);
     private final GeoPoint mSouthWest = new GeoPoint(21.0, -66.5);
 
     private ConnectivityManager cm;
     private GroundOverlay mOverlay;
+    private final Runnable mRunnable = new Runnable() {
+        @Override
+        public void run() {
+            final NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+            final boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+            if (!isConnected) {
+                Activity act = getActivity();
+                if (act != null) {
+                    act.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getActivity(), "Cannot connect!", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+                return;
+            }
+
+            URLConnection con;
+            InputStream is = null;
+            try {
+                final URL url = new URL(URL);
+                con = url.openConnection();
+
+                is = con.getInputStream();
+                final BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inJustDecodeBounds = true;
+                final Bitmap bitmap = BitmapFactory.decodeStream(is);
+                mOverlay.setImage(bitmap);
+                final Activity act = getActivity();
+                if (act != null) {
+                    act.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getActivity(), "Weather image downloaded!", Toast.LENGTH_SHORT).show();
+                            mMapView.invalidate();
+                        }
+                    });
+                }
+            } catch (Throwable e) {
+                final Activity act = getActivity();
+                if (act != null) {
+                    act.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getActivity(), "Cannot download the weather image!", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+                Log.e(TAG, "error fetching image", e);
+            } finally {
+                if (is != null) try {
+                    is.close();
+                } catch (IOException e) {
+                    //
+                }
+            }
+        }
+    };
 
     @Override
     public String getSampleTitle() {
@@ -69,56 +128,7 @@ public class WeatherGroundOverlaySample extends BaseSampleFragment implements Ru
         });
 
         Toast.makeText(getActivity(), "Downloading the weather image...", Toast.LENGTH_SHORT).show();
-        new Thread(this).start();
+        new Thread(mRunnable).start();
     }
 
-    @Override
-    public void run() {
-        final NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        final boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
-        if (!isConnected) {
-            Activity act = getActivity();
-            if (act != null) {
-                act.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(getActivity(), "Cannot connect!", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-            return;
-        }
-
-        URLConnection con;
-        InputStream is = null;
-        try {
-            final URL url = new URL(URL);
-            con = url.openConnection();
-
-            is = con.getInputStream();
-            final BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inJustDecodeBounds = true;
-            final Bitmap bitmap = BitmapFactory.decodeStream(is);
-            mOverlay.setImage(bitmap);
-            final Activity act = getActivity();
-            if (act != null) {
-                act.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(getActivity(), "Weather image downloaded!", Toast.LENGTH_SHORT).show();
-                        mMapView.invalidate();
-                    }
-                });
-            }
-        } catch (Throwable e) {
-            Toast.makeText(getActivity(), "Cannot download the weather image!", Toast.LENGTH_SHORT).show();
-            Log.e(TAG, "error fetching image", e);
-        } finally {
-            if (is != null) try {
-                is.close();
-            } catch (IOException e) {
-                //
-            }
-        }
-    }
 }

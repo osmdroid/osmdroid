@@ -1,7 +1,7 @@
 // Created by plusminus on 00:37:01 - 19.12.2008
 package org.osmdroid.mtp.adt;
 
-public class OSMTileInfo {
+public final class OSMTileInfo {
     // ===========================================================
     // Constants
     // ===========================================================
@@ -21,16 +21,14 @@ public class OSMTileInfo {
     // Fields
     // ===========================================================
 
-    public final int x, y, zoom;
+    public int x, y, zoom;
 
     // ===========================================================
     // Constructors
     // ===========================================================
 
     public OSMTileInfo(final int x, final int y, final int zoom) {
-        this.x = x;
-        this.y = y;
-        this.zoom = zoom;
+        this.set(x, y, zoom);
     }
 
     // ===========================================================
@@ -41,11 +39,6 @@ public class OSMTileInfo {
         return new OSMTileInfo(this.x / 2, this.y / 2, this.zoom - 1);
     }
 
-    /**
-     * @param child
-     * @param parent
-     * @return
-     */
     public int getPositionInParent(final OSMTileInfo pParent) {
         final int childShouldUpperLeftX = pParent.x * 2;
         final int childShouldUpperLeftY = pParent.y * 2;
@@ -53,6 +46,12 @@ public class OSMTileInfo {
         int out = (childShouldUpperLeftX == this.x) ? POSITION_IN_PARENT_LEFT : POSITION_IN_PARENT_RIGHT;
         out += (childShouldUpperLeftY == this.y) ? POSITION_IN_PARENT_TOP : POSITION_IN_PARENT_BOTTOM;
         return out;
+    }
+
+    public void set(final int x, final int y, final int zoom) {
+        this.x = x;
+        this.y = y;
+        this.zoom = zoom;
     }
 
     // ===========================================================
@@ -76,11 +75,9 @@ public class OSMTileInfo {
 
     @Override
     public String toString() {
-        return new StringBuilder()
-                .append("z=").append(this.zoom)
-                .append(" x=").append(this.x)
-                .append(" y=").append(this.y)
-                .toString();
+        return "z=" + this.zoom +
+                " x=" + this.x +
+                " y=" + this.y;
     }
 
     // ===========================================================

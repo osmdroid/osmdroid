@@ -14,6 +14,9 @@ import org.osmdroid.views.Projection;
 
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 /**
  * {@link org.osmdroid.views.overlay.ClickableIconOverlay} is a clickable icon item on the
  * {@link org.osmdroid.views.MapView} containing {@link org.osmdroid.api.IGeoPoint},
@@ -26,12 +29,13 @@ import java.util.List;
  */
 public abstract class ClickableIconOverlay<DataType> extends IconOverlay {
     protected int mId = 0;
+    @Nullable
     private DataType mData = null;
 
     /**
      * save to be called in non-gui-thread
      */
-    protected ClickableIconOverlay(DataType data) {
+    protected ClickableIconOverlay(@Nullable final DataType data) {
         mData = data;
     }
 
@@ -43,7 +47,7 @@ public abstract class ClickableIconOverlay<DataType> extends IconOverlay {
     /**
      * used to recycle this
      */
-    public ClickableIconOverlay set(int id, IGeoPoint position, Drawable icon, DataType data) {
+    public ClickableIconOverlay<DataType> set(int id, IGeoPoint position, Drawable icon, DataType data) {
         set(position, icon);
         mId = id;
         mData = data;
@@ -55,18 +59,17 @@ public abstract class ClickableIconOverlay<DataType> extends IconOverlay {
      *
      * @return true, if this marker was taped.
      */
-    protected boolean hitTest(final MotionEvent event, final MapView mapView) {
+    protected boolean hitTest(@NonNull final MotionEvent event, @NonNull final MapView mapView) {
         final Projection pj = mapView.getProjection();
 
         // sometime at higher zoomlevels pj is null
-        if ((mPosition == null) || (mPositionPixels == null) || (pj == null)) return false;
+        if ((pj == null) || (mIcon == null)) return false;
 
         pj.toPixels(mPosition, mPositionPixels);
         final Rect screenRect = pj.getIntrinsicScreenRect();
         int x = -mPositionPixels.x + screenRect.left + (int) event.getX();
         int y = -mPositionPixels.y + screenRect.top + (int) event.getY();
-        boolean hit = mIcon.getBounds().contains(x, y);
-        return hit;
+        return mIcon.getBounds().contains(x, y);
     }
 
     /**
@@ -74,7 +77,7 @@ public abstract class ClickableIconOverlay<DataType> extends IconOverlay {
      * false: tap not handeled. A following overlay/map should handle the event.
      */
     @Override
-    public boolean onSingleTapConfirmed(final MotionEvent event, final MapView mapView) {
+    public boolean onSingleTapConfirmed(@NonNull final MotionEvent event, @NonNull final MapView mapView) {
         boolean touched = hitTest(event, mapView);
         if (touched) {
             return onMarkerClicked(mapView, mId, mPosition, mData);
@@ -88,7 +91,7 @@ public abstract class ClickableIconOverlay<DataType> extends IconOverlay {
      * , otherwise return {@code false}. If you returned {@code true} none of the following Overlays
      * or the underlying {@link MapView} has the chance to handle this event.
      */
-    public boolean onLongPress(final MotionEvent event, final MapView mapView) {
+    public boolean onLongPress(@NonNull final MotionEvent event, @NonNull final MapView mapView) {
         boolean touched = hitTest(event, mapView);
         if (touched) {
             return onMarkerLongPress(mapView, mId, mPosition, mData);
@@ -97,12 +100,12 @@ public abstract class ClickableIconOverlay<DataType> extends IconOverlay {
         }
     }
 
-    protected boolean onMarkerLongPress(MapView mapView, int markerId, IGeoPoint geoPosition, Object data) {
+    protected boolean onMarkerLongPress(@NonNull final MapView mapView, final int markerId, IGeoPoint geoPosition, Object data) {
         return false;
     }
 
-    public static ClickableIconOverlay find(List<ClickableIconOverlay> list, int id) {
-        for (ClickableIconOverlay item : list) {
+    public static ClickableIconOverlay<?> find(List<ClickableIconOverlay<?>> list, int id) {
+        for (ClickableIconOverlay<?> item : list) {
             if ((item != null) && (item.mId == id)) return item;
         }
         return null;

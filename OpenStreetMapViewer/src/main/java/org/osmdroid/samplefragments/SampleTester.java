@@ -25,7 +25,7 @@ public class SampleTester extends BaseSampleFragment implements MapView.OnFirstL
         mCompassOverlay = new CompassOverlay(getContext(), new InternalCompassOrientationProvider(getContext()),
                 mMapView);
         mCompassOverlay.enableCompass();
-        mMapView.getOverlays().add(this.mCompassOverlay);
+        mMapView.getOverlayManager().add(this.mCompassOverlay);
     }
 
     private CompassOverlay mCompassOverlay = null;

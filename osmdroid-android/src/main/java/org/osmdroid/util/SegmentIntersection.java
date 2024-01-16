@@ -1,5 +1,7 @@
 package org.osmdroid.util;
 
+import androidx.annotation.Nullable;
+
 /**
  * A class dedicated to the computation of 2D segments intersection points
  *
@@ -25,7 +27,7 @@ public class SegmentIntersection {
     public static boolean intersection(
             final double pXA, final double pYA, final double pXB, final double pYB,
             final double pXC, final double pYC, final double pXD, final double pYD,
-            final PointL pIntersection
+            @Nullable final PointL pIntersection
     ) {
         if (parallelSideEffect(pXA, pYA, pXB, pYB, pXC, pYC, pXD, pYD, pIntersection)) {
             return true;
@@ -48,7 +50,7 @@ public class SegmentIntersection {
     private static boolean parallelSideEffect(
             final double pXA, final double pYA, final double pXB, final double pYB,
             final double pXC, final double pYC, final double pXD, final double pYD,
-            final PointL pIntersection
+            @Nullable final PointL pIntersection
     ) {
         if (pXA == pXB) {
             return parallelSideEffectSameX(pXA, pYA, pXB, pYB, pXC, pYC, pXD, pYD, pIntersection);
@@ -87,7 +89,7 @@ public class SegmentIntersection {
     private static boolean check(
             final double pXA, final double pYA, final double pXB, final double pYB,
             final double pXC, final double pYC, final double pXD, final double pYD,
-            final PointL pIntersection,
+            @Nullable final PointL pIntersection,
             final double pXI, final double pYI
     ) {
         if (pXI < Math.min(pXA, pXB) || pXI > Math.max(pXA, pXB)) {
@@ -115,7 +117,7 @@ public class SegmentIntersection {
     private static boolean parallelSideEffectSameX(
             final double pXA, final double pYA, final double pXB, final double pYB,
             final double pXC, final double pYC, final double pXD, final double pYD,
-            final PointL pIntersection
+            @Nullable final PointL pIntersection
     ) {
         if (pXA != pXB) {
             return false;

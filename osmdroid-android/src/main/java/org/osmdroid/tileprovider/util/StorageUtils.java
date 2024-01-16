@@ -43,12 +43,7 @@ public class StorageUtils {
             this.internal = internal;
             this.display_number = display_number;
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-                // gives more accurate information
-                this.freeSpace = new StatFs(path).getAvailableBytes();
-            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
-                this.freeSpace = new File(path).getFreeSpace();
-            }
+            this.freeSpace = new StatFs(path).getAvailableBytes();
 
             if (!readonly) {
                 //confirm it's writable
@@ -131,7 +126,7 @@ public class StorageUtils {
     public static List<StorageInfo> getStorageList(Context context) {
         List<StorageInfo> storageInfos;
         // only use this for Q and up for now, to not break behaviour on other versions
-        if (android.os.Build.VERSION.SDK_INT >= 29) {
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             if (context != null) {
                 storageInfos = getStorageListApi19(context);
             } else {
@@ -141,27 +136,14 @@ public class StorageUtils {
                 storageInfos = getStorageListPreApi19();
             }
         }
-        // use legacy behaviour but add locations from "modern" way of getting storage if context is
-        // available.
-        else if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+        // use legacy behaviour but add locations from "modern" way of getting storage if context is available.
+        else {
             storageInfos = getStorageListPreApi19();
             if (context != null) {
                 List<StorageInfo> storageInfosApi19 = getStorageListApi19(context);
                 // de-duplicate list and add additional ones
                 storageInfosApi19.removeAll(storageInfos);
                 storageInfos.addAll(storageInfosApi19);
-            }
-        }
-        // use legacy behaviour
-        else {
-            storageInfos = getStorageListPreApi19();
-            // make this consistent with the old getStorage(context) method's behaviour
-            if (storageInfos.size() == 0 && context != null) {
-                // http://stackoverflow.com/questions/21230629/getfilesdir-vs-environment-getdatadirectory
-                String dbPath = context.getDatabasePath("temp.sqlite").getAbsolutePath().replace("temp.sqlite", "");
-                if (isWritable(new File(dbPath))) {
-                    storageInfos.add(new StorageInfo(dbPath, true, false, -1));
-                }
             }
         }
         return storageInfos;
@@ -428,9 +410,7 @@ public class StorageUtils {
             ex.printStackTrace();
         }
         try {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
-                isPrimarySharedStorageNotRemovable = !Environment.isExternalStorageRemovable();
-            }
+            isPrimarySharedStorageNotRemovable = !Environment.isExternalStorageRemovable();
         } catch (Throwable ex) {
             //trap for android studio layout editor and some for certain devices
             //see https://github.com/osmdroid/osmdroid/issues/508

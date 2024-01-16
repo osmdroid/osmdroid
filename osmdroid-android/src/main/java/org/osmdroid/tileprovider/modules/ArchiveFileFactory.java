@@ -1,6 +1,5 @@
 package org.osmdroid.tileprovider.modules;
 
-import android.os.Build;
 import android.util.Log;
 
 import org.osmdroid.api.IMapView;
@@ -13,16 +12,13 @@ import java.util.Set;
 
 public class ArchiveFileFactory {
 
-    static Map<String, Class<? extends IArchiveFile>> extensionMap = new HashMap<String, Class<? extends IArchiveFile>>();
+    static Map<String, Class<? extends IArchiveFile>> extensionMap = new HashMap<>();
 
     static {
         extensionMap.put("zip", ZipFileArchive.class);
-        if (Build.VERSION.SDK_INT >= 10) {
-            extensionMap.put("sqlite", DatabaseFileArchive.class);
-            extensionMap.put("mbtiles", MBTilesFileArchive.class);
-            extensionMap.put("gemf", GEMFFileArchive.class);
-        }
-
+        extensionMap.put("sqlite", DatabaseFileArchive.class);
+        extensionMap.put("mbtiles", MBTilesFileArchive.class);
+        extensionMap.put("gemf", GEMFFileArchive.class);
     }
 
     /**
@@ -30,7 +26,6 @@ public class ArchiveFileFactory {
      * has a driver to read map tiles/data from that source.
      *
      * @param extension the file extension in question, minus the "."
-     * @return
      * @since 5.0
      */
     public static boolean isFileExtensionRegistered(String extension) {
@@ -39,8 +34,6 @@ public class ArchiveFileFactory {
 
     /**
      * Registers a custom archive file provider
-     *
-     * @param provider
      * @param fileExtension without the dot
      * @since 5.0
      */
@@ -83,12 +76,9 @@ public class ArchiveFileFactory {
     }
 
     /**
-     * @return
      * @since 6.0.0
      */
     public static Set<String> getRegisteredExtensions() {
-        Set<String> r = new HashSet<>();
-        r.addAll(extensionMap.keySet());
-        return r;
+        return new HashSet<>(extensionMap.keySet());
     }
 }

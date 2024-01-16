@@ -10,6 +10,7 @@ import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.overlay.Polyline;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Marc Kurtz
@@ -52,31 +53,30 @@ public class SampleLimitedScrollArea extends BaseSampleFragment {
     protected void addOverlays() {
         super.addOverlays();
 
-        final ArrayList<GeoPoint> list = new ArrayList<>();
+        final List<GeoPoint> list = new ArrayList<>();
 
-        list.clear();
         list.add(new GeoPoint(sCentralParkBoundingBox.getActualNorth(), -85));
         list.add(new GeoPoint(sCentralParkBoundingBox.getActualNorth(), -65));
         mNorthPolyline.setPoints(list);
-        mMapView.getOverlays().add(mNorthPolyline);
+        mMapView.getOverlayManager().add(mNorthPolyline);
 
         list.clear();
         list.add(new GeoPoint(sCentralParkBoundingBox.getActualSouth(), -85));
         list.add(new GeoPoint(sCentralParkBoundingBox.getActualSouth(), -65));
         mSouthPolyline.setPoints(list);
-        mMapView.getOverlays().add(mSouthPolyline);
+        mMapView.getOverlayManager().add(mSouthPolyline);
 
         list.clear();
         list.add(new GeoPoint(45, sCentralParkBoundingBox.getLonWest()));
         list.add(new GeoPoint(35, sCentralParkBoundingBox.getLonWest()));
         mWestPolyline.setPoints(list);
-        mMapView.getOverlays().add(mWestPolyline);
+        mMapView.getOverlayManager().add(mWestPolyline);
 
         list.clear();
         list.add(new GeoPoint(45, sCentralParkBoundingBox.getLonEast()));
         list.add(new GeoPoint(35, sCentralParkBoundingBox.getLonEast()));
         mEastPolyline.setPoints(list);
-        mMapView.getOverlays().add(mEastPolyline);
+        mMapView.getOverlayManager().add(mEastPolyline);
 
         mMapView.getController().setZoom(13.);
 
@@ -95,13 +95,13 @@ public class SampleLimitedScrollArea extends BaseSampleFragment {
      * @since 6.0.0
      */
     private void setLimitScrollingLatitude(boolean pLimitScrolling) {
-        mMapView.getOverlays().remove(mNorthPolyline);
-        mMapView.getOverlays().remove(mSouthPolyline);
+        mMapView.getOverlayManager().remove(mNorthPolyline);
+        mMapView.getOverlayManager().remove(mSouthPolyline);
         if (pLimitScrolling) {
             mMapView.setScrollableAreaLimitLatitude(sCentralParkBoundingBox.getActualNorth(), sCentralParkBoundingBox.getActualSouth(), mMapView.getHeight() / 2);
             mMapView.setExpectedCenter(sCentralParkBoundingBox.getCenterWithDateLine());
-            mMapView.getOverlays().add(mNorthPolyline);
-            mMapView.getOverlays().add(mSouthPolyline);
+            mMapView.getOverlayManager().add(mNorthPolyline);
+            mMapView.getOverlayManager().add(mSouthPolyline);
         } else {
             mMapView.resetScrollableAreaLimitLatitude();
         }
@@ -112,13 +112,13 @@ public class SampleLimitedScrollArea extends BaseSampleFragment {
      * @since 6.0.0
      */
     private void setLimitScrollingLongitude(boolean pLimitScrolling) {
-        mMapView.getOverlays().remove(mWestPolyline);
-        mMapView.getOverlays().remove(mEastPolyline);
+        mMapView.getOverlayManager().remove(mWestPolyline);
+        mMapView.getOverlayManager().remove(mEastPolyline);
         if (pLimitScrolling) {
             mMapView.setScrollableAreaLimitLongitude(sCentralParkBoundingBox.getLonWest(), sCentralParkBoundingBox.getLonEast(), mMapView.getWidth() / 2);
             mMapView.setExpectedCenter(sCentralParkBoundingBox.getCenterWithDateLine());
-            mMapView.getOverlays().add(mWestPolyline);
-            mMapView.getOverlays().add(mEastPolyline);
+            mMapView.getOverlayManager().add(mWestPolyline);
+            mMapView.getOverlayManager().add(mEastPolyline);
         } else {
             mMapView.resetScrollableAreaLimitLongitude();
         }

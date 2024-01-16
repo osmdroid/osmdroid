@@ -93,19 +93,19 @@ public class SampleMilitaryIconsItemizedIcons extends BaseSampleFragment {
             //generates 50 randomized points
             addIcons(50);
 
-            mMapView.getOverlays().add(itemOverlay);
+            mMapView.getOverlayManager().add(itemOverlay);
 
             final RotationGestureOverlay mRotationGestureOverlay;
             mRotationGestureOverlay = new RotationGestureOverlay(mMapView);
             mRotationGestureOverlay.setEnabled(false);
-            mMapView.getOverlays().add(mRotationGestureOverlay);
+            mMapView.getOverlayManager().add(mRotationGestureOverlay);
         }
 
         /* MiniMap */
         {
             //      MinimapOverlay miniMapOverlay = new MinimapOverlay(context,
             //         mMapView.getTileRequestCompleteHandler());
-            //  mMapView.getOverlays().add(miniMapOverlay);
+            //  mMapView.getOverlayManager().add(miniMapOverlay);
         }
 
         // Zoom and center on the focused item.
@@ -165,7 +165,7 @@ public class SampleMilitaryIconsItemizedIcons extends BaseSampleFragment {
 
     private void addIcons(int count) {
         /* Create a static ItemizedOverlay showing some Markers on various cities. */
-        final ArrayList<OverlayItem> items = new ArrayList<>();
+        final List<OverlayItem> items = new ArrayList<>();
         for (int i = 0; i < count; i++) {
             double random_lon = (Math.random() * 360) - 180;
             double random_lat = (Math.random() * 180) - 90;

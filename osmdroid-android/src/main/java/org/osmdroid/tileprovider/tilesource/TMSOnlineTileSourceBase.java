@@ -27,15 +27,13 @@ public abstract class TMSOnlineTileSourceBase extends OnlineTileSourceBase {
     public String getTileRelativeFilenameString(final long pMapTileIndex) {
 
         int y_tms = (1 << MapTileIndex.getZoom(pMapTileIndex)) - MapTileIndex.getY(pMapTileIndex) - 1;
-        final StringBuilder sb = new StringBuilder();
-        sb.append(pathBase());
-        sb.append('/');
-        sb.append(MapTileIndex.getZoom(pMapTileIndex));
-        sb.append('/');
-        sb.append(MapTileIndex.getX(pMapTileIndex));
-        sb.append('/');
-        sb.append(y_tms);
-        sb.append(imageFilenameEnding());
-        return sb.toString();
+        return pathBase() +
+                '/' +
+                MapTileIndex.getZoom(pMapTileIndex) +
+                '/' +
+                MapTileIndex.getX(pMapTileIndex) +
+                '/' +
+                y_tms +
+                imageFilenameEnding();
     }
 }

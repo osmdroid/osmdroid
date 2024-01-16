@@ -38,7 +38,7 @@ public class PermissionsFragment extends Fragment implements View.OnClickListene
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.intro_permissions, container, false);
-        if (Build.VERSION.SDK_INT >= 23 && needsPermissions()) {
+        if ((Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) && needsPermissions()) {
             v.findViewById(R.id.askPermissions).setOnClickListener(this);
             v.findViewById(R.id.askPermissions).setVisibility(View.VISIBLE);
         } else {
@@ -51,7 +51,7 @@ public class PermissionsFragment extends Fragment implements View.OnClickListene
 
     @Override
     public void onClick(View v) {
-        if (Build.VERSION.SDK_INT >= 23) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             checkPermissions();
         } else {
             Configuration.getInstance().load(getContext(), PreferenceManager.getDefaultSharedPreferences(getContext()));

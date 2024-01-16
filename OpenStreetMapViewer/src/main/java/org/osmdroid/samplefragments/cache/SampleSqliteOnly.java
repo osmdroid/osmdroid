@@ -17,7 +17,7 @@ import java.util.Set;
 
 /**
  * test to force sqlite tiles only loaded
- * https://github.com/osmdroid/osmdroid/issues/272
+ * <a href="https://github.com/osmdroid/osmdroid/issues/272">...</a>
  * <p>
  * requires API 11 or higher in order to function properly
  * Created by alex on 2/21/16.
@@ -59,8 +59,7 @@ public class SampleSqliteOnly extends BaseSampleFragment {
 
                             //create the offline tile provider, it will only do offline file archives
                             //again using the first file
-                            OfflineTileProvider tileProvider = new OfflineTileProvider(new SimpleRegisterReceiver(getActivity()),
-                                    new File[]{list[i]});
+                            OfflineTileProvider tileProvider = new OfflineTileProvider(requireContext(), new SimpleRegisterReceiver(), new File[]{list[i]});
                             //tell osmdroid to use that provider instead of the default rig which is (asserts, cache, files/archives, online
                             mMapView.setTileProvider(tileProvider);
 

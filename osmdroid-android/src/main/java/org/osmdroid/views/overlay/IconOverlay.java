@@ -7,8 +7,12 @@ import android.graphics.drawable.Drawable;
 import android.view.MotionEvent;
 
 import org.osmdroid.api.IGeoPoint;
+import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 /**
  * {@link org.osmdroid.views.overlay.IconOverlay} is an icon placed at a particular
@@ -25,8 +29,9 @@ public class IconOverlay extends Overlay {
     public static final float ANCHOR_CENTER = 0.5f, ANCHOR_LEFT = 0.0f, ANCHOR_TOP = 0.0f, ANCHOR_RIGHT = 1.0f, ANCHOR_BOTTOM = 1.0f;
 
     /*attributes for standard features:*/
+    @Nullable
     protected Drawable mIcon = null;
-    protected IGeoPoint mPosition = null;
+    protected final GeoPoint mPosition = new GeoPoint(0d, 0d, 0d);
 
     protected float mBearing = 0.0f;
     protected float mAnchorU = ANCHOR_CENTER, mAnchorV = ANCHOR_CENTER;
@@ -34,7 +39,8 @@ public class IconOverlay extends Overlay {
 
     protected boolean mFlat = false; //billboard;
 
-    protected Point mPositionPixels = new Point();
+    protected final Point mPositionPixels = new Point();
+    private final Rect mRect = new Rect();
 
     /**
      * save to be called in non-gui-thread
@@ -45,7 +51,7 @@ public class IconOverlay extends Overlay {
     /**
      * save to be called in non-gui-thread
      */
-    public IconOverlay(IGeoPoint position, Drawable icon) {
+    public IconOverlay(@NonNull final IGeoPoint position, @NonNull final Drawable icon) {
         set(position, icon);
     }
 
@@ -54,17 +60,14 @@ public class IconOverlay extends Overlay {
      */
     @Override
     public void draw(Canvas canvas, Projection pj) {
-        if (mIcon == null)
-            return;
-        if (mPosition == null)
-            return;
+        if (mIcon == null) return;
 
         pj.toPixels(mPosition, mPositionPixels);
         int width = mIcon.getIntrinsicWidth();
         int height = mIcon.getIntrinsicHeight();
-        Rect rect = new Rect(0, 0, width, height);
-        rect.offset(-(int) (mAnchorU * width), -(int) (mAnchorV * height));
-        mIcon.setBounds(rect);
+        mRect.set(0, 0, width, height);
+        mRect.offset(-(int) (mAnchorU * width), -(int) (mAnchorV * height));
+        mIcon.setBounds(mRect);
 
         mIcon.setAlpha((int) (mAlpha * 255));
 
@@ -76,20 +79,23 @@ public class IconOverlay extends Overlay {
         return mPosition;
     }
 
-    public IconOverlay set(IGeoPoint position, Drawable icon) {
-        this.mPosition = position;
+    public IconOverlay set(@NonNull final IGeoPoint position, @NonNull final Drawable icon) {
+        this.mPosition.setCoords(position.getLatitude(), position.getLongitude());
         this.mIcon = icon;
         return this;
     }
 
-    public IconOverlay moveTo(final MotionEvent event, final MapView mapView) {
+    @Deprecated
+    public IconOverlay moveTo(@NonNull final MotionEvent event, @NonNull final MapView mapView) { return moveTo(event, mapView, null); }
+    public IconOverlay moveTo(@NonNull final MotionEvent event, @NonNull final MapView mapView, @Nullable GeoPoint reuse) {
         final Projection pj = mapView.getProjection();
-        moveTo(pj.fromPixels((int) event.getX(), (int) event.getY()), mapView);
+        if (reuse == null) reuse = new GeoPoint(0d, 0d, 0d);
+        moveTo(pj.fromPixels((int) event.getX(), (int) event.getY(), reuse), mapView);
         return this;
     }
 
-    public IconOverlay moveTo(final IGeoPoint position, final MapView mapView) {
-        mPosition = position;
+    public IconOverlay moveTo(@NonNull final IGeoPoint position, @NonNull final MapView mapView) {
+        mPosition.setCoords(position.getLatitude(), position.getLongitude());
         mapView.invalidate();
         return this;
     }

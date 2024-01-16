@@ -1,11 +1,14 @@
 package org.osmdroid.util;
 
+import androidx.annotation.NonNull;
+
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Reduces the number of points in a shape using the Douglas-Peucker algorithm. <br>
  * <p>
- * From: http://www.phpriot.com/articles/reducing-map-path-douglas-peucker-algorithm/4<br>
+ * From: <a href="http://www.phpriot.com/articles/reducing-map-path-douglas-peucker-algorithm/4">...</a><br>
  * Ported from PHP to Java. "marked" array added to optimize.
  *
  * @author M.Kergall
@@ -15,6 +18,13 @@ import java.util.ArrayList;
  */
 public class PointReducer {
 
+	/**
+     * @deprecated Use instead: {@link #reduceWithTolerance(List, double)}
+     */
+    @Deprecated
+    public static ArrayList<GeoPoint> reduceWithTolerance(@NonNull final ArrayList<GeoPoint> shape, final double tolerance) {
+		return (ArrayList<GeoPoint>)reduceWithTolerance((List<GeoPoint>)shape, tolerance);
+	}
     /**
      * Reduce the number of points in a shape using the Douglas-Peucker algorithm
      * Suggested usage
@@ -39,7 +49,7 @@ public class PointReducer {
      * @param shape     The shape to reduce
      * @return the reduced shape
      */
-    public static ArrayList<GeoPoint> reduceWithTolerance(ArrayList<GeoPoint> shape, double tolerance) {
+    public static List<GeoPoint> reduceWithTolerance(@NonNull final List<GeoPoint> shape, final double tolerance) {
         int n = shape.size();
         // if a shape has 2 or less points it cannot be reduced
         if (tolerance <= 0 || n < 3) {
@@ -63,7 +73,7 @@ public class PointReducer {
         );
 
         // all done, return the reduced shape
-        ArrayList<GeoPoint> newShape = new ArrayList<GeoPoint>(n); // the new shape to return
+        final List<GeoPoint> newShape = new ArrayList<>(n); // the new shape to return
         for (int i = 0; i < n; i++) {
             if (marked[i])
                 newShape.add(shape.get(i));
@@ -83,7 +93,7 @@ public class PointReducer {
      * @param lastIdx   The index in original shape's point of
      *                  the ending point for this line segment
      */
-    private static void douglasPeuckerReduction(ArrayList<GeoPoint> shape, boolean[] marked, double tolerance, int firstIdx, int lastIdx) {
+    private static void douglasPeuckerReduction(@NonNull final List<GeoPoint> shape, final boolean[] marked, final double tolerance, final int firstIdx, final int lastIdx) {
         if (lastIdx <= firstIdx + 1) {
             // overlapping indexes, just return
             return;
@@ -132,7 +142,7 @@ public class PointReducer {
      * @param lineEnd   The point that ends the line
      * @return The distance in points coordinate system
      */
-    public static double orthogonalDistance(GeoPoint point, GeoPoint lineStart, GeoPoint lineEnd) {
+    public static double orthogonalDistance(@NonNull final GeoPoint point, @NonNull final GeoPoint lineStart, @NonNull final GeoPoint lineEnd) {
         double area = Math.abs(
                 (
                         lineStart.getLatitude() * lineEnd.getLongitude()

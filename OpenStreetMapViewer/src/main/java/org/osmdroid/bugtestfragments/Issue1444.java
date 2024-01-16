@@ -40,7 +40,7 @@ public class Issue1444 extends BaseSampleFragment {
         OverlayItem MY_OverlayItem = new OverlayItem("1", "LABEL", "", myGeoPoint);
         MY_OverlayItem.setMarker(icons.get(1));
 
-        ArrayList<OverlayItem> ARRAY_Of_OverlayItems = new ArrayList<>();
+        List<OverlayItem> ARRAY_Of_OverlayItems = new ArrayList<>();
         ARRAY_Of_OverlayItems.add(MY_OverlayItem);
 
         ItemizedOverlayWithFocus<OverlayItem> myItemizedOverlayWithFocus = new ItemizedOverlayWithFocus<>(ARRAY_Of_OverlayItems,
@@ -59,7 +59,7 @@ public class Issue1444 extends BaseSampleFragment {
 
         myItemizedOverlayWithFocus.setFocusItemsOnTap(true);
         myItemizedOverlayWithFocus.setFocusedItem(0);
-        mMapView.getOverlays().add(myItemizedOverlayWithFocus);
+        mMapView.getOverlayManager().add(myItemizedOverlayWithFocus);
         mMapView.invalidate();
 
 

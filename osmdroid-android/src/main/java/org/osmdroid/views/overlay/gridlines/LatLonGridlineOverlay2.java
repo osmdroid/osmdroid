@@ -26,11 +26,11 @@ public class LatLonGridlineOverlay2 extends Overlay {
     protected DecimalFormat mDecimalFormatter = new DecimalFormat("#.#####");
     //used to adjust the number of grid lines displayed on screen
     protected float mMultiplier = 1f;
-    protected   Paint mLinePaint = new Paint();
+    protected Paint mLinePaint = new Paint();
     protected Paint mTextBackgroundPaint = new Paint();
     protected Paint mTextPaint = new Paint();
-    protected  GeoPoint mOptimizationGeoPoint = new GeoPoint(0., 0);
-    protected  Point mOptimizationPoint = new Point();
+    protected GeoPoint mOptimizationGeoPoint = new GeoPoint(0., 0);
+    protected Point mOptimizationPoint = new Point();
 
     public LatLonGridlineOverlay2() {
         mLinePaint.setAntiAlias(true);

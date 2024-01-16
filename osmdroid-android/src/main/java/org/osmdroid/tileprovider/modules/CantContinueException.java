@@ -9,7 +9,6 @@ package org.osmdroid.tileprovider.modules;
  * @since 6.0.2
  */
 public class CantContinueException extends Exception {
-    private static final long serialVersionUID = 146526524087765133L;
 
     public CantContinueException(final String pDetailMessage) {
         super(pDetailMessage);
@@ -18,4 +17,5 @@ public class CantContinueException extends Exception {
     public CantContinueException(final Throwable pThrowable) {
         super(pThrowable);
     }
+
 }

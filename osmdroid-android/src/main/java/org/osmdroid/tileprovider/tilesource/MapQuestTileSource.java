@@ -113,19 +113,16 @@ public class MapQuestTileSource extends OnlineTileSourceBase {
 
     @Override
     public String getTileURLString(final long pMapTileIndex) {
-        StringBuilder url = new StringBuilder(getBaseUrl());
-        url.append(getMapBoxMapId());
-        url.append("/");
-        url.append(MapTileIndex.getZoom(pMapTileIndex));
-        url.append("/");
-        url.append(MapTileIndex.getX(pMapTileIndex));
-        url.append("/");
-        url.append(MapTileIndex.getY(pMapTileIndex));
-        url.append(".png");
-        url.append("?access_token=").append(getAccessToken());
-        String res = url.toString();
 
-        return res;
+        return getBaseUrl() + getMapBoxMapId() +
+                "/" +
+                MapTileIndex.getZoom(pMapTileIndex) +
+                "/" +
+                MapTileIndex.getX(pMapTileIndex) +
+                "/" +
+                MapTileIndex.getY(pMapTileIndex) +
+                ".png" +
+                "?access_token=" + getAccessToken();
     }
 
     public String getAccessToken() {

@@ -28,7 +28,7 @@ public class OSMMapTilePackagerUI extends JFrame {
     // Constants
     // ===========================================================
 
-    private static final long serialVersionUID = 749039680990304151L;
+
 
     // ===========================================================
     // Fields

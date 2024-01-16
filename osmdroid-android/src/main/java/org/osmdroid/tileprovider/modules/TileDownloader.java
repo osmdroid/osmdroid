@@ -50,7 +50,7 @@ public class TileDownloader {
 
     /**
      * downloads a tile and follows http redirects
-     * Code used to be in MapTileDownloader.TileLoader.downloadTile
+     * Code used to be in MapTileDownloaderProvider.TileLoader.downloadTile
      */
     public Drawable downloadTile(final long pMapTileIndex, final int redirectCount, final String targetUrl,
                                  final IFilesystemCache pFilesystemCache, final OnlineTileSourceBase pTileSource) throws CantContinueException {
@@ -85,17 +85,6 @@ public class TileDownloader {
 
             if (TextUtils.isEmpty(tileURLString)) {
                 return null;
-            }
-
-            // Try to enable TLSv1.2 and/or disable SSLv3 on older devices
-            // see:
-            // https://stackoverflow.com/questions/33567596/android-https-web-service-communication-ssl-tls-1-2/33567745#33567745
-            // https://stackoverflow.com/questions/26649389/how-to-disable-sslv3-in-android-for-httpsurlconnection#29946540
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT_WATCH && !compatibilitySocketFactorySet) {
-                SSLSocketFactory socketFactory = new CompatibilitySocketFactory(
-                        HttpsURLConnection.getDefaultSSLSocketFactory());
-                HttpsURLConnection.setDefaultSSLSocketFactory(socketFactory);
-                compatibilitySocketFactorySet = true;
             }
 
             if (Configuration.getInstance().getHttpProxy() != null) {

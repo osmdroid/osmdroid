@@ -6,6 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.LayoutRes;
+import androidx.annotation.NonNull;
+
 import org.osmdroid.api.IMapView;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.util.GeoPoint;
@@ -13,6 +16,7 @@ import org.osmdroid.views.MapView;
 import org.osmdroid.views.drawing.MapSnapshot;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * {@link org.osmdroid.views.overlay.infowindow.InfoWindow} is a (pop-up-) View that can
@@ -41,14 +45,19 @@ public abstract class InfoWindow {
     protected boolean mIsVisible;
     protected MapView mMapView;
     protected Object mRelatedObject;
-    private GeoPoint mPosition;
+    private Double mPositionLat;
+    private Double mPositionLon;
     private int mOffsetX, mOffsetY;
+    private final MapView.LayoutParams mMapViewLayoutParams = new MapView.LayoutParams(
+            MapView.LayoutParams.WRAP_CONTENT, MapView.LayoutParams.WRAP_CONTENT,
+            0d, 0d, MapView.LayoutParams.BOTTOM_CENTER,
+            mOffsetX, mOffsetY);
 
     /**
      * @param layoutResId the id of the view resource.
      * @param mapView     the mapview on which is hooked the view
      */
-    public InfoWindow(int layoutResId, MapView mapView) {
+    public InfoWindow(@LayoutRes final int layoutResId, MapView mapView) {
         mMapView = mapView;
         mMapView.getRepository().add(this);
         mIsVisible = false;
@@ -108,21 +117,34 @@ public abstract class InfoWindow {
      * @param offsetX  (&offsetY) the offset of the view to the position, in pixels.
      *                 This allows to offset the view from the object position.
      */
-    public void open(Object object, GeoPoint position, int offsetX, int offsetY) {
+    public void open(Object object, @NonNull final GeoPoint position, final int offsetX, final int offsetY) {
+        this.open(object, position.getLatitude(), position.getLongitude(), offsetX, offsetY);
+    }
+    /**
+     * open the InfoWindow at the specified GeoPosition + offset.
+     * If it was already opened, close it before reopening.
+     *
+     * @param object   the graphical object on which is hooked the view
+     * @param positionLat to place the window on the map
+     * @param positionLon to place the window on the map
+     * @param offsetX  (&offsetY) the offset of the view to the position, in pixels.
+     *                 This allows to offset the view from the object position.
+     */
+    public void open(final Object object, final double positionLat, final double positionLon, final int offsetX, final int offsetY) {
         close(); //if it was already opened
         mRelatedObject = object;
-        mPosition = position;
+        mPositionLat = positionLat;
+        mPositionLon = positionLon;
         mOffsetX = offsetX;
         mOffsetY = offsetY;
         onOpen(object);
-        MapView.LayoutParams lp = new MapView.LayoutParams(
-                MapView.LayoutParams.WRAP_CONTENT,
-                MapView.LayoutParams.WRAP_CONTENT,
-                mPosition, MapView.LayoutParams.BOTTOM_CENTER,
-                mOffsetX, mOffsetY);
+        mMapViewLayoutParams.geoPointLat = mPositionLat;
+        mMapViewLayoutParams.geoPointLon = mPositionLon;
+        mMapViewLayoutParams.offsetX = mOffsetX;
+        mMapViewLayoutParams.offsetY = mOffsetY;
 
         if (mMapView != null && mView != null) {
-            mMapView.addView(mView, lp);
+            mMapView.addView(mView, mMapViewLayoutParams);
             mIsVisible = true;
         } else {
             Log.w(IMapView.LOGTAG, "Error trapped, InfoWindow.open mMapView: " + (mMapView == null ? "null" : "ok") + " mView: " + (mView == null ? "null" : "ok"));
@@ -137,12 +159,11 @@ public abstract class InfoWindow {
         if (!mIsVisible)
             return;
         try {
-            MapView.LayoutParams lp = new MapView.LayoutParams(
-                    MapView.LayoutParams.WRAP_CONTENT,
-                    MapView.LayoutParams.WRAP_CONTENT,
-                    mPosition, MapView.LayoutParams.BOTTOM_CENTER,
-                    mOffsetX, mOffsetY);
-            mMapView.updateViewLayout(mView, lp); // supposed to work only on the UI Thread
+            mMapViewLayoutParams.geoPointLat = mPositionLat;
+            mMapViewLayoutParams.geoPointLon = mPositionLon;
+            mMapViewLayoutParams.offsetX = mOffsetX;
+            mMapViewLayoutParams.offsetY = mOffsetY;
+            mMapView.updateViewLayout(mView, mMapViewLayoutParams); // supposed to work only on the UI Thread
         } catch (Exception e) {
             if (MapSnapshot.isUIThread()) {
                 throw e;
@@ -181,11 +202,9 @@ public abstract class InfoWindow {
 
     /**
      * close all InfoWindows currently opened on this MapView
-     *
-     * @param mapView
      */
     public static void closeAllInfoWindowsOn(MapView mapView) {
-        ArrayList<InfoWindow> opened = getOpenedInfoWindowsOn(mapView);
+        List<InfoWindow> opened = getOpenedInfoWindowsOn(mapView);
         for (InfoWindow infoWindow : opened) {
             infoWindow.close();
         }
@@ -193,13 +212,10 @@ public abstract class InfoWindow {
 
     /**
      * return all InfoWindows currently opened on this MapView
-     *
-     * @param mapView
-     * @return
      */
-    public static ArrayList<InfoWindow> getOpenedInfoWindowsOn(MapView mapView) {
+    public static List<InfoWindow> getOpenedInfoWindowsOn(MapView mapView) {
         int count = mapView.getChildCount();
-        ArrayList<InfoWindow> opened = new ArrayList<InfoWindow>(count);
+        List<InfoWindow> opened = new ArrayList<InfoWindow>(count);
         for (int i = 0; i < count; i++) {
             final View child = mapView.getChildAt(i);
             Object tag = child.getTag();

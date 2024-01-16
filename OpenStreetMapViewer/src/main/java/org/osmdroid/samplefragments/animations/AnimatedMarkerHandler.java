@@ -64,12 +64,10 @@ public class AnimatedMarkerHandler extends BaseSampleFragment implements View.On
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btnCache:
-
-                GeoPoint random = new GeoPoint((Math.random() * 180) - 90, (Math.random() * 360) - 180);
-                MarkerAnimation.animateMarkerToGB(mMapView, marker, random, new GeoPointInterpolator.Spherical());
-                break;
+        final int cId = v.getId();
+        if (cId == R.id.btnCache) {
+            GeoPoint random = new GeoPoint((Math.random() * 180) - 90, (Math.random() * 360) - 180);
+            MarkerAnimation.animateMarkerToGB(mMapView, marker, random, new GeoPointInterpolator.Spherical());
         }
     }
 }

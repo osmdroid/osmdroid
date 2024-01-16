@@ -19,6 +19,7 @@ import org.osmdroid.views.overlay.OverlayItem;
 import org.osmdroid.views.overlay.gestures.RotationGestureOverlay;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Nicolas Gramlich
@@ -66,7 +67,7 @@ public class SampleWithMinimapItemizedOverlayWithFocus extends BaseSampleFragmen
         final ItemizedOverlayWithFocus<OverlayItem> mMyLocationOverlay;
         {
             /* Create a static ItemizedOverlay showing some Markers on various cities. */
-            final ArrayList<OverlayItem> items = new ArrayList<>();
+            final List<OverlayItem> items = new ArrayList<>();
             items.add(new OverlayItem("Hannover", "Tiny SampleDescription", new GeoPoint(52.370816,
                     9.735936))); // Hannover
             items.add(new OverlayItem("Berlin", "This is a relatively short SampleDescription.",
@@ -108,19 +109,19 @@ public class SampleWithMinimapItemizedOverlayWithFocus extends BaseSampleFragmen
             mMyLocationOverlay.setMarkerDescriptionForegroundColor(Color.WHITE);
             mMyLocationOverlay.setDescriptionBoxPadding(15);
 
-            mMapView.getOverlays().add(mMyLocationOverlay);
+            mMapView.getOverlayManager().add(mMyLocationOverlay);
 
             final RotationGestureOverlay mRotationGestureOverlay;
             mRotationGestureOverlay = new RotationGestureOverlay(mMapView);
             mRotationGestureOverlay.setEnabled(false);
-            mMapView.getOverlays().add(mRotationGestureOverlay);
+            mMapView.getOverlayManager().add(mRotationGestureOverlay);
         }
 
         /* MiniMap */
         {
             MinimapOverlay miniMapOverlay = new MinimapOverlay(context,
                     mMapView.getTileRequestCompleteHandler());
-            mMapView.getOverlays().add(miniMapOverlay);
+            mMapView.getOverlayManager().add(miniMapOverlay);
         }
 
         // Zoom and center on the focused item.

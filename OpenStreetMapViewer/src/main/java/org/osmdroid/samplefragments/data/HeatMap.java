@@ -1,10 +1,14 @@
 package org.osmdroid.samplefragments.data;
 
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.util.DisplayMetrics;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import org.osmdroid.api.IGeoPoint;
+import org.osmdroid.events.MapAdapter;
 import org.osmdroid.events.MapListener;
 import org.osmdroid.events.ScrollEvent;
 import org.osmdroid.events.ZoomEvent;
@@ -59,7 +63,7 @@ import java.util.Map;
  * @since 5.6.3
  */
 
-public class HeatMap extends BaseSampleFragment implements MapListener, Runnable {
+public class HeatMap extends BaseSampleFragment {
     @Override
     public String getSampleTitle() {
         return "Heatmap with Async loading";
@@ -92,6 +96,50 @@ public class HeatMap extends BaseSampleFragment implements MapListener, Runnable
     //a pointer to the last render overlay, so that we can remove/replace it with the new one
     FolderOverlay heatmapOverlay = null;
 
+    private final MapAdapter mMapAdapter = new MapAdapter() {
+        @Override
+        public boolean onScroll(ScrollEvent event) {
+            lastMovement = System.currentTimeMillis();
+            needsDataRefresh = true;
+            return false;
+        }
+
+        @Override
+        public boolean onZoom(ZoomEvent event) {
+            lastMovement = System.currentTimeMillis();
+            needsDataRefresh = true;
+            return false;
+        }
+    };
+
+    private final Runnable mRunnable = new Runnable() {
+        /**
+         * handles the map movement rendering portions, prevents more than one render at a time,
+         * waits for the user to stop moving the map before triggering the render
+         */
+        @Override
+        public void run() {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+
+            }
+            //TODO replace me with a timer task
+            while (running) {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                if (needsDataRefresh) {
+                    if (System.currentTimeMillis() - lastMovement > 500) {
+                        generateMap();
+                        needsDataRefresh = false;
+                    }
+                }
+            }
+        }
+    };
 
     @Override
     public void addOverlays() {
@@ -99,7 +147,7 @@ public class HeatMap extends BaseSampleFragment implements MapListener, Runnable
         dm = getResources().getDisplayMetrics();
         mMapView.getController().setCenter(new GeoPoint(38.8977, -77.0365));
         mMapView.getController().setZoom(14);
-        mMapView.setMapListener(this);
+        mMapView.addMapListener(mMapAdapter);
     }
 
     @Override
@@ -112,7 +160,7 @@ public class HeatMap extends BaseSampleFragment implements MapListener, Runnable
     public void onResume() {
         super.onResume();
         running = true;
-        Thread t = new Thread(this);
+        Thread t = new Thread(mRunnable);
         t.start();
     }
 
@@ -333,52 +381,4 @@ public class HeatMap extends BaseSampleFragment implements MapListener, Runnable
         return 0;
     }
 
-    /**
-     * handles the map movement rendering portions, prevents more than one render at a time,
-     * waits for the user to stop moving the map before triggering the render
-     */
-    @Override
-    public boolean onScroll(ScrollEvent event) {
-        lastMovement = System.currentTimeMillis();
-        needsDataRefresh = true;
-        return false;
-    }
-
-    /**
-     * handles the map movement rendering portions, prevents more than one render at a time,
-     * waits for the user to stop moving the map before triggering the render
-     */
-    @Override
-    public boolean onZoom(ZoomEvent event) {
-        lastMovement = System.currentTimeMillis();
-        needsDataRefresh = true;
-        return false;
-    }
-
-    /**
-     * handles the map movement rendering portions, prevents more than one render at a time,
-     * waits for the user to stop moving the map before triggering the render
-     */
-    @Override
-    public void run() {
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-
-        }
-        //TODO replace me with a timer task
-        while (running) {
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            if (needsDataRefresh) {
-                if (System.currentTimeMillis() - lastMovement > 500) {
-                    generateMap();
-                    needsDataRefresh = false;
-                }
-            }
-        }
-    }
 }

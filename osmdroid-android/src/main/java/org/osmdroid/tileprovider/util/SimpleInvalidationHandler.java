@@ -4,6 +4,10 @@ import android.os.Handler;
 import android.os.Message;
 import android.view.View;
 
+import androidx.annotation.CallSuper;
+import androidx.annotation.MainThread;
+import androidx.annotation.UiThread;
+
 import org.osmdroid.tileprovider.MapTileProviderBase;
 
 public class SimpleInvalidationHandler extends Handler {
@@ -14,10 +18,14 @@ public class SimpleInvalidationHandler extends Handler {
         mView = pView;
     }
 
+    @CallSuper
+    @UiThread @MainThread
     @Override
     public void handleMessage(final Message msg) {
-        switch (msg.what) {
-            case MapTileProviderBase.MAPTILE_SUCCESS_ID:
+        @MapTileProviderBase.MAPTYPERESULT
+        final int cMapTypeResult = MapTileProviderBase.unmaskMapTypeResult(msg.what);
+        switch (cMapTypeResult) {
+            case MapTileProviderBase.MAPTYPERESULT_SUCCESS:
                 if (mView != null)
                     mView.invalidate();
                 break;

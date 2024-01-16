@@ -12,6 +12,7 @@ import org.osmdroid.samplefragments.layouts.rec.CustomRecycler;
 import org.osmdroid.samplefragments.layouts.rec.Info;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -40,7 +41,7 @@ public class RecyclerCardView extends BaseSampleFragment {
 
 
         //Load Data And RecyclverView
-        ArrayList<Info> a;
+        List<Info> a;
         ConstructorInfoData b = new ConstructorInfoData();
         a = b.obtainData();
         mRecyclerView = v.findViewById(R.id.recyclerView);

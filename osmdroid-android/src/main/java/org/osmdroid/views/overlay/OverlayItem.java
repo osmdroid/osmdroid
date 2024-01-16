@@ -24,8 +24,6 @@ public class OverlayItem {
     public static final int ITEM_STATE_PRESSED_MASK = 1;
     public static final int ITEM_STATE_SELECTED_MASK = 2;
 
-    protected static final Point DEFAULT_MARKER_SIZE = new Point(26, 94);
-
     /**
      * Indicates a hotspot for an area. This is where the origin (0,0) of a point will be located
      * relative to the area. In otherwords this acts as an offset. NONE indicates that no adjustment
@@ -53,7 +51,6 @@ public class OverlayItem {
     /**
      * @param aTitle    this should be <b>singleLine</b> (no <code>'\n'</code> )
      * @param aSnippet  a <b>multiLine</b> description ( <code>'\n'</code> possible)
-     * @param aGeoPoint
      */
     public OverlayItem(final String aTitle, final String aSnippet, final IGeoPoint aGeoPoint) {
         this(null, aTitle, aSnippet, aGeoPoint);

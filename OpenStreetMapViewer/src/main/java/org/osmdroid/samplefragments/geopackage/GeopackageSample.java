@@ -1,6 +1,7 @@
 package org.osmdroid.samplefragments.geopackage;
 
 import android.content.DialogInterface;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.InputDevice;
@@ -15,6 +16,7 @@ import org.osmdroid.R;
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.api.IMapView;
 import org.osmdroid.config.Configuration;
+import org.osmdroid.events.MapAdapter;
 import org.osmdroid.events.MapListener;
 import org.osmdroid.events.ScrollEvent;
 import org.osmdroid.events.ZoomEvent;
@@ -34,6 +36,8 @@ import java.util.List;
 import java.util.Set;
 
 import static org.osmdroid.samplefragments.events.SampleMapEventListener.df;
+
+import androidx.annotation.NonNull;
 
 /**
  * One way for viewing geopackage tiles to the osmdroid view
@@ -162,7 +166,7 @@ public class GeopackageSample extends BaseSampleFragment {
             }
         }
 
-        mMapView.setMapListener(new MapListener() {
+        mMapView.addMapListener(new MapAdapter() {
             @Override
             public boolean onScroll(ScrollEvent event) {
                 Log.i(IMapView.LOGTAG, System.currentTimeMillis() + " onScroll " + event.getX() + "," + event.getY());
@@ -200,7 +204,7 @@ public class GeopackageSample extends BaseSampleFragment {
         alertDialog = null;
         this.currentSource = null;
         if (geoPackageProvider != null)
-            geoPackageProvider.detach();
+            geoPackageProvider.detach(requireContext());
 
     }
 
@@ -221,11 +225,7 @@ public class GeopackageSample extends BaseSampleFragment {
         textViewCurrentLocation.setText(sb.toString());
     }
 
-    /**
-     * simple function to scan for paths that match /something/osmdroid/*.map to find database files
-     *
-     * @return
-     */
+    /** simple function to scan for paths that match /something/osmdroid/*.map to find database files */
     protected Set<File> findMapFiles() {
         Set<File> maps = new HashSet<>();
         List<StorageUtils.StorageInfo> storageList = StorageUtils.getStorageList(getActivity());

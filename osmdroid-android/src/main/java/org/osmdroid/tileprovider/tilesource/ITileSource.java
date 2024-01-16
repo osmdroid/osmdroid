@@ -55,21 +55,21 @@ public interface ITileSource {
      *
      * @return the minimum zoom level
      */
-    public int getMinimumZoomLevel();
+    int getMinimumZoomLevel();
 
     /**
      * Get the maximum zoom level this tile source can provide.
      *
      * @return the maximum zoom level
      */
-    public int getMaximumZoomLevel();
+    int getMaximumZoomLevel();
 
     /**
      * Get the tile size in pixels this tile source provides.
      *
      * @return the tile size in pixels
      */
-    public int getTileSizePixels();
+    int getTileSizePixels();
 
     /**
      * Returns an I18N sensitive string representing the copy right notice (if any) of the tile source

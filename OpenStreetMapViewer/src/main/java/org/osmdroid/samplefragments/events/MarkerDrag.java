@@ -1,11 +1,14 @@
 package org.osmdroid.samplefragments.events;
 
+import androidx.annotation.NonNull;
+
 import org.osmdroid.samplefragments.BaseSampleFragment;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.Polyline;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Based on osmbonuspacks tutorial for dragging markers.
@@ -33,13 +36,13 @@ public class MarkerDrag extends BaseSampleFragment {
         startMarker.setTitle("Start point");
         startMarker.setDraggable(true);
         startMarker.setOnMarkerDragListener(new OnMarkerDragListenerDrawer());
-        mMapView.getOverlays().add(startMarker);
+        mMapView.getOverlayManager().add(startMarker);
 
     }
 
     //0. Using the Marker and Polyline overlays - advanced options
     class OnMarkerDragListenerDrawer implements Marker.OnMarkerDragListener {
-        ArrayList<GeoPoint> mTrace;
+        List<GeoPoint> mTrace;
         Polyline mPolyline;
 
         OnMarkerDragListenerDrawer() {
@@ -48,23 +51,23 @@ public class MarkerDrag extends BaseSampleFragment {
             mPolyline.getOutlinePaint().setColor(0xAA0000FF);
             mPolyline.getOutlinePaint().setStrokeWidth(2.0f);
             mPolyline.setGeodesic(true);
-            mMapView.getOverlays().add(mPolyline);
+            mMapView.getOverlayManager().add(mPolyline);
         }
 
         @Override
-        public void onMarkerDrag(Marker marker) {
+        public void onMarkerDrag(@NonNull Marker marker) {
             //mTrace.add(marker.getPosition());
         }
 
         @Override
-        public void onMarkerDragEnd(Marker marker) {
+        public void onMarkerDragEnd(@NonNull Marker marker) {
             mTrace.add(marker.getPosition());
             mPolyline.setPoints(mTrace);
             mMapView.invalidate();
         }
 
         @Override
-        public void onMarkerDragStart(Marker marker) {
+        public void onMarkerDragStart(@NonNull Marker marker) {
             //mTrace.add(marker.getPosition());
         }
     }

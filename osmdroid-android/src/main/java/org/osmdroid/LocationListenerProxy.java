@@ -1,5 +1,6 @@
 package org.osmdroid;
 
+import android.annotation.SuppressLint;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -13,6 +14,7 @@ public class LocationListenerProxy implements LocationListener {
         mLocationManager = pLocationManager;
     }
 
+    @SuppressLint("MissingPermission")
     public boolean startListening(final LocationListener pListener, final long pUpdateTime,
                                   final float pUpdateDistance) {
         boolean result = false;
@@ -28,6 +30,7 @@ public class LocationListenerProxy implements LocationListener {
         return result;
     }
 
+    @SuppressLint("MissingPermission")
     public void stopListening() {
         mListener = null;
         mLocationManager.removeUpdates(this);

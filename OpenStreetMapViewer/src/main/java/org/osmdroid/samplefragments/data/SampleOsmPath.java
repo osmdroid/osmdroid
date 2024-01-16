@@ -2,10 +2,14 @@ package org.osmdroid.samplefragments.data;
 
 import android.app.Activity;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import org.osmdroid.R;
+import org.osmdroid.events.MapAdapter;
 import org.osmdroid.events.MapListener;
 import org.osmdroid.events.ScrollEvent;
 import org.osmdroid.events.ZoomEvent;
@@ -30,11 +34,31 @@ import java.util.List;
  *
  * @author Marc Kurtz
  */
-public class SampleOsmPath extends BaseSampleFragment implements MapListener {
+public class SampleOsmPath extends BaseSampleFragment {
 
     public static final String TITLE = "OsmPath drawing";
 
-    private BoundingBox sCentralParkBoundingBox;
+    private final BoundingBox sCentralParkBoundingBox;
+    private final MapAdapter mMapAdapter = new MapAdapter() {
+        @Override
+        public boolean onZoom(ZoomEvent event) {
+            Activity act = getActivity();
+            if (act != null) {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            Log.i("Zoomer", "zoom event triggered " + event.getZoomLevel());
+                            //Toast.makeText(getActivity(), "Zoom is " + event.getZoomLevel(), Toast.LENGTH_SHORT).show();
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                        }
+                    }
+                });
+            }
+            return true;
+        }
+    };
 
     public SampleOsmPath() {
         sCentralParkBoundingBox = new BoundingBox(40.796788, -73.949232, 40.768094, -73.981762);
@@ -105,7 +129,7 @@ public class SampleOsmPath extends BaseSampleFragment implements MapListener {
         marker.setIcon(getResources().getDrawable(R.drawable.sfgpuci));
         marker.setTitle("Start point");
         marker.setDraggable(true);
-        mMapView.getOverlays().add(marker);
+        mMapView.getOverlayManager().add(marker);
 
 
         //here, we create a polygon using polygon class, note that you need 4 points in order to make a rectangle
@@ -124,7 +148,7 @@ public class SampleOsmPath extends BaseSampleFragment implements MapListener {
         pts.add(new GeoPoint(40.878094, -73.971762));
         pts.add(new GeoPoint(40.878094, -73.959232));
         polygon.setPoints(pts);
-        mMapView.getOverlays().add(polygon);
+        mMapView.getOverlayManager().add(polygon);
 
 
         Marker m = new Marker(mMapView);
@@ -165,32 +189,8 @@ public class SampleOsmPath extends BaseSampleFragment implements MapListener {
         }, getActivity());
 
         mMapView.getOverlayManager().add(layer);
-        mMapView.addMapListener(this);
+        mMapView.addMapListener(mMapAdapter);
 
-    }
-
-    @Override
-    public boolean onScroll(ScrollEvent event) {
-        return false;
-    }
-
-    @Override
-    public boolean onZoom(final ZoomEvent event) {
-        Activity act = getActivity();
-        if (act != null) {
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        Log.i("Zoomer", "zoom event triggered " + event.getZoomLevel());
-                        //Toast.makeText(getActivity(), "Zoom is " + event.getZoomLevel(), Toast.LENGTH_SHORT).show();
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
-                    }
-                }
-            });
-        }
-        return true;
     }
 
     @Override

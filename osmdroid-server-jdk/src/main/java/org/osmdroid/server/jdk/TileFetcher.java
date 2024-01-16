@@ -179,16 +179,20 @@ public class TileFetcher {
     public static String getFile(String f) {
 
         StringBuilder sb = new StringBuilder();
+        FileInputStream r = null;
         try {
-            FileInputStream r = new FileInputStream(f);
-            int c = 0;
+            r = new FileInputStream(f);
+            int c;
             while ((c = r.read()) != -1) {
                 sb.append((char) c);
             }
-            r.close();
         } catch (Exception ex) {
             ex.printStackTrace();
             System.err.println("Current dir is " + new File(".").getAbsolutePath());
+        } finally {
+            if (r != null) {
+                try { r.close(); } catch (Exception e) { /*nothing*/ }
+            }
         }
         return sb.toString();
     }

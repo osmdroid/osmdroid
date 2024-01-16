@@ -70,7 +70,7 @@ public class SampleMilitaryIconsMarker extends BaseSampleFragment {
 
         mRotationGestureOverlay = new RotationGestureOverlay(mMapView);
         mRotationGestureOverlay.setEnabled(false);
-        mMapView.getOverlays().add(mRotationGestureOverlay);
+        mMapView.getOverlayManager().add(mRotationGestureOverlay);
 
         // Zoom and center on the focused item.
         mMapView.getController().setZoom(3);

@@ -122,8 +122,7 @@ public class SampleMapSnapshot extends BaseSampleFragment {
             if (mMapSnapshots.get(key) != null) {
                 return; // pending
             }
-            final double zoom = mTileSystem.getBoundingBoxZoom(
-                    pDataRegion.getBox(), mMapSize - 2 * mBorderSize, mMapSize - 2 * mBorderSize);
+            final double zoom = mTileSystem.getBoundingBoxZoom(pDataRegion.getBox(), mMapSize - 2 * mBorderSize, mMapSize - 2 * mBorderSize);
             final MapTileProviderBase mapTileProvider = new MapTileProviderBasic(getActivity());
             final MapSnapshot mapSnapshot = new MapSnapshot(new MapSnapshot.MapSnapshotable() {
                 @Override
@@ -133,7 +132,7 @@ public class SampleMapSnapshot extends BaseSampleFragment {
                     }
                     final Bitmap bitmap = Bitmap.createBitmap(pMapSnapshot.getBitmap());
                     mBitmaps.put(key, bitmap);
-                    mMapSnapshots.get(key).onDetach();
+                    mMapSnapshots.get(key).onDetach(requireContext());
                     mMapSnapshots.remove(key);
                     if (mAdapter == null) {
                         return;
@@ -192,11 +191,11 @@ public class SampleMapSnapshot extends BaseSampleFragment {
     @Override
     public void onDetach() {
         mAdapter = null;
-        mScaleBarOverlay.onDetach(null);
+        mScaleBarOverlay.freeMemory(null);
         for (final String key : mMapSnapshots.keySet()) {
             final MapSnapshot mapSnapshot = mMapSnapshots.get(key);
             if (mapSnapshot != null) {
-                mapSnapshot.onDetach();
+                mapSnapshot.onDetach(requireContext());
             }
         }
         mMapSnapshots.clear();

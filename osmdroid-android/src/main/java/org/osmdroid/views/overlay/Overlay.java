@@ -10,6 +10,13 @@ import android.view.GestureDetector;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 
+import androidx.annotation.CallSuper;
+import androidx.annotation.MainThread;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RestrictTo;
+import androidx.annotation.UiThread;
+
 import org.osmdroid.api.IMapView;
 import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.TileSystem;
@@ -30,18 +37,17 @@ import java.util.concurrent.atomic.AtomicInteger;
  * {@link android.view.GestureDetector.SimpleOnGestureListener} and
  * {@link GestureDetector.OnGestureListener}. The difference is there is an additional argument for
  * the item.
- *
  * <img alt="Class diagram around Marker class" width="686" height="413" src='./doc-files/marker-classes.png' />
  *
  * @author Nicolas Gramlich
  */
-public abstract class Overlay implements OverlayConstants {
+public abstract class Overlay implements OverlayConstants, IViewBoundingBoxChangedListener {
 
     // ===========================================================
     // Constants
     // ===========================================================
 
-    private static AtomicInteger sOrdinal = new AtomicInteger();
+    private static final AtomicInteger sOrdinal = new AtomicInteger();
 
     // From Google Maps API
     protected static final float SHADOW_X_SKEW = -0.8999999761581421f;
@@ -54,7 +60,9 @@ public abstract class Overlay implements OverlayConstants {
     private static final Rect mRect = new Rect();
     private boolean mEnabled = true;
     private final TileSystem tileSystem = MapView.getTileSystem(); // used only for the default bounding box
-    protected BoundingBox mBounds = new BoundingBox(tileSystem.getMaxLatitude(), tileSystem.getMaxLongitude(), tileSystem.getMinLatitude(), tileSystem.getMinLongitude());
+    protected final BoundingBox mBounds = new BoundingBox(tileSystem.getMaxLatitude(), tileSystem.getMaxLongitude(), tileSystem.getMinLatitude(), tileSystem.getMinLongitude());
+    @Nullable
+    private IViewBoundingBoxChangedListener mBoundingBoxChangedListener = null;
 
     // ===========================================================
     // Constructors
@@ -78,9 +86,9 @@ public abstract class Overlay implements OverlayConstants {
      * Gets the bounds of the overlay, useful for skipping draw cycles on overlays
      * that are not in the current bounding box of the view
      *
-     * @return
      * @since 6.0.0
      */
+    @NonNull
     public BoundingBox getBounds() {
         return mBounds;
     }
@@ -110,7 +118,7 @@ public abstract class Overlay implements OverlayConstants {
      *
      * @return an integer suitable to be used as a menu identifier
      */
-    protected final static int getSafeMenuId() {
+    protected static int getSafeMenuId() {
         return sOrdinal.getAndIncrement();
     }
 
@@ -121,7 +129,7 @@ public abstract class Overlay implements OverlayConstants {
      * @return an integer suitable to be used as a menu identifier
      * @see #getSafeMenuId()
      */
-    protected final static int getSafeMenuIdSequence(final int count) {
+    protected static int getSafeMenuIdSequence(final int count) {
         return sOrdinal.getAndAdd(count);
     }
 
@@ -134,9 +142,10 @@ public abstract class Overlay implements OverlayConstants {
      * to lay down the shadow layer, and then again on all overlays with shadow=false. Callers
      * should check isEnabled() before calling draw(). By default, draws nothing.
      * <p>
-     * changed for 5.6 to be public see https://github.com/osmdroid/osmdroid/issues/466
+     * changed for 5.6 to be public see <a href="https://github.com/osmdroid/osmdroid/issues/466">...</a>
      * If possible, use {@link #draw(Canvas, Projection)} instead (cf. {@link MapSnapshot}
      */
+    @UiThread @MainThread
     public void draw(final Canvas pCanvas, final MapView pMapView, final boolean pShadow) {
         if (pShadow) {
             return;
@@ -147,6 +156,7 @@ public abstract class Overlay implements OverlayConstants {
     /**
      * @since 6.1.0
      */
+    @UiThread @MainThread
     public void draw(final Canvas pCanvas, final Projection pProjection) {
         // display nothing by default
     }
@@ -155,10 +165,11 @@ public abstract class Overlay implements OverlayConstants {
     // Methods
     // ===========================================================
 
-    /**
-     * Override to perform clean up of resources before shutdown. By default does nothing.
-     */
-    public void onDetach(final MapView mapView) {
+    /** {@inheritDoc} */
+    @CallSuper
+    @Override
+    public void onViewBoundingBoxChanged(@NonNull final Rect fromBounds, final int fromZoom, @NonNull final Rect toBounds, final int toZoom) {
+        if (mBoundingBoxChangedListener != null) mBoundingBoxChangedListener.onViewBoundingBoxChanged(fromBounds, fromZoom, toBounds, toZoom);
     }
 
     /**
@@ -198,7 +209,7 @@ public abstract class Overlay implements OverlayConstants {
         return false;
     }
 
-    /** GestureDetector.OnDoubleTapListener **/
+    /* GestureDetector.OnDoubleTapListener */
 
     /**
      * By default does nothing ({@code return false}). If you handled the Event, return {@code true}
@@ -227,7 +238,7 @@ public abstract class Overlay implements OverlayConstants {
         return false;
     }
 
-    /** OnGestureListener **/
+    /* OnGestureListener */
 
     /**
      * By default does nothing ({@code return false}). If you handled the Event, return {@code true}
@@ -267,9 +278,7 @@ public abstract class Overlay implements OverlayConstants {
         return false;
     }
 
-    public void onShowPress(final MotionEvent pEvent, final MapView pMapView) {
-        return;
-    }
+    public void onShowPress(final MotionEvent pEvent, final MapView pMapView) { /*nothing*/ }
 
     /**
      * By default does nothing ({@code return false}). If you handled the Event, return {@code true}
@@ -286,8 +295,8 @@ public abstract class Overlay implements OverlayConstants {
      * on the MapView passed to you in draw(Canvas, MapView, boolean).
      *
      * @param shadow          If true, draw only the drawable's shadow. Otherwise, draw the drawable itself.
-     * @param aMapOrientation
      */
+    @UiThread @MainThread
     protected synchronized static void drawAt(final Canvas canvas, final Drawable drawable,
                                               final int x, final int y, final boolean shadow,
                                               final float aMapOrientation) {
@@ -300,26 +309,40 @@ public abstract class Overlay implements OverlayConstants {
         canvas.restore();
     }
 
-    /**
-     * Triggered on application lifecycle changes, assuming the mapview is triggered appropriately
-     * related issue https://github.com/osmdroid/osmdroid/issues/823
-     * https://github.com/osmdroid/osmdroid/issues/806
-     *
-     * @since 6.0.0
-     */
-    public void onPause() {
+    @UiThread @MainThread
+    @CallSuper
+    protected void onCreate() { /*nothing*/ }
 
+    @UiThread @MainThread
+    @CallSuper
+    protected void onStart() { /*nothing*/ }
+
+    @UiThread @MainThread
+    @CallSuper
+    protected void onResume() { /*nothing*/ }
+
+    @UiThread @MainThread
+    @CallSuper
+    protected void onPause() { /*nothing*/ }
+
+    @UiThread @MainThread
+    @CallSuper
+    protected void onStop() { /*nothing*/ }
+
+    /** Override to perform clean up of resources before shutdown. By default does nothing */
+    @UiThread @MainThread
+    @CallSuper
+    protected void onDestroy(@Nullable final MapView mapView) {
+        mBoundingBoxChangedListener = null;
     }
 
-    /**
-     * Triggered on application lifecycle changes, assuming the mapview is triggered appropriately
-     * related issue https://github.com/osmdroid/osmdroid/issues/823
-     * https://github.com/osmdroid/osmdroid/issues/806
-     *
-     * @since 6.0.0
-     */
-    public void onResume() {
+    @CallSuper
+    public void freeMemory(@Nullable final MapView mapView) {
+        onDestroy(mapView);
+    }
 
+    public void setViewBoundingBoxChangedListener(@Nullable final IViewBoundingBoxChangedListener listener) {
+        mBoundingBoxChangedListener = listener;
     }
 
     // ===========================================================

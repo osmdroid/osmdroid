@@ -19,7 +19,9 @@ import org.osmdroid.views.overlay.advancedpolyline.MonochromaticPaintList;
 import org.osmdroid.views.overlay.advancedpolyline.PolychromaticPaintList;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 
@@ -71,8 +73,8 @@ public class ShowAdvancedPolylineStylesInvalidation extends BaseSampleFragment i
     }
 
     // list holding the initial and extended data
-    private ArrayList<PointWithScalar> mInitialData;
-    private ArrayList<PointWithScalar> mExtendedData;
+    private List<PointWithScalar> mInitialData;
+    private List<PointWithScalar> mExtendedData;
 
     @Override
     public String getSampleTitle() {
@@ -205,7 +207,7 @@ public class ShowAdvancedPolylineStylesInvalidation extends BaseSampleFragment i
     }
 
     // add geopoint to polyline and scalar to container from provided list
-    private void addDataToPolyline(ArrayList<PointWithScalar> pData) {
+    private void addDataToPolyline(@NonNull final List<PointWithScalar> pData) {
         for (final PointWithScalar element : pData) {
             mPolyline.addPoint(element.mPoint);
             mContainer.add(element.mScalar);
@@ -217,7 +219,7 @@ public class ShowAdvancedPolylineStylesInvalidation extends BaseSampleFragment i
         mMapView.post(new Runnable() {
             @Override
             public void run() {
-                mMapView.getController().setCenter(new GeoPoint(38.5, -11.5));
+                mMapView.getController().setCenter(38.5, -11.5);
                 mMapView.getController().zoomTo(6.0f);
             }
         });

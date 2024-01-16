@@ -9,6 +9,9 @@ import android.graphics.RectF;
 import android.graphics.Region;
 import android.view.MotionEvent;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.Distance;
 import org.osmdroid.util.GeoPoint;
@@ -30,12 +33,15 @@ import java.util.List;
 public abstract class PolyOverlayWithIW extends OverlayWithIW {
 
     protected LinearRing mOutline;
-    protected List<LinearRing> mHoles = new ArrayList<>();
-    protected Paint mOutlinePaint = new Paint();
-    protected Paint mFillPaint;
+    protected final List<LinearRing> mHoles = new ArrayList<>();
+    protected final Paint mOutlinePaint = new Paint();
+    protected final Paint mFillPaint = new Paint();
     private final List<PaintList> mOutlinePaintLists = new ArrayList<>();
     private List<MilestoneManager> mMilestoneManagers = new ArrayList<>();
-    private GeoPoint mInfoWindowLocation;
+    @Nullable
+    private Double mInfoWindowLocationLat = null;
+    @Nullable
+    private Double mInfoWindowLocationLon = null;
 
     private LineDrawer mLineDrawer;
     protected Path mPath;
@@ -69,7 +75,7 @@ public abstract class PolyOverlayWithIW extends OverlayWithIW {
     private float mDensityMultiplier = 1.0f;
     private final boolean mClosePath;
 
-    protected PolyOverlayWithIW(final MapView pMapView, final boolean pUsePath, final boolean pClosePath) {
+    protected PolyOverlayWithIW(@Nullable final MapView pMapView, final boolean pUsePath, final boolean pClosePath) {
         super();
         mClosePath = pClosePath;
         if (pMapView != null) {
@@ -88,7 +94,7 @@ public abstract class PolyOverlayWithIW extends OverlayWithIW {
      * would be better off if displayed with drawPath
      */
     public void usePath(final boolean pUsePath) {
-        final ArrayList<GeoPoint> previousPoints = mOutline == null ? null : mOutline.getPoints();
+        final List<GeoPoint> previousPoints = mOutline == null ? null : mOutline.getPoints();
         if (pUsePath) {
             mPath = new Path();
             mLineDrawer = null;
@@ -168,26 +174,45 @@ public abstract class PolyOverlayWithIW extends OverlayWithIW {
      * Note that you can manually set this location with: setInfoWindowLocation
      */
     public void showInfoWindow() {
-        if (mInfoWindow != null && mInfoWindowLocation != null)
-            mInfoWindow.open(this, mInfoWindowLocation, 0, 0);
+        if ((mInfoWindow != null) && (mInfoWindowLocationLat != null) && (mInfoWindowLocationLon != null))
+            mInfoWindow.open(this, mInfoWindowLocationLat, mInfoWindowLocationLon, 0, 0);
     }
 
     /**
      * Sets the info window anchor point to a geopoint location
      */
-    public void setInfoWindowLocation(GeoPoint location) {
-        mInfoWindowLocation = location;
+    public void setInfoWindowLocation(@NonNull final GeoPoint location) {
+        mInfoWindowLocationLat = location.getLatitude();
+        mInfoWindowLocationLon = location.getLongitude();
     }
 
     /**
      * @return the geopoint location where the infowindow should point at.
      * Doesn't matter if the infowindow is currently opened or not.
      */
+    @Deprecated
+    @Nullable
     public GeoPoint getInfoWindowLocation() {
-        return mInfoWindowLocation;
+        return (((mInfoWindowLocationLat != null) && (mInfoWindowLocationLon != null)) ? new GeoPoint(mInfoWindowLocationLat, mInfoWindowLocationLon) : null);
+    }
+    /**
+     * @return the latitude location where the infowindow should point at.
+     * Doesn't matter if the infowindow is currently opened or not.
+     */
+    @Nullable
+    public Double getInfoWindowLocationLat() {
+        return mInfoWindowLocationLat;
+    }
+    /**
+     * @return the longitude location where the infowindow should point at.
+     * Doesn't matter if the infowindow is currently opened or not.
+     */
+    @Nullable
+    public Double getInfoWindowLocationLon() {
+        return mInfoWindowLocationLon;
     }
 
-    public void setMilestoneManagers(final List<MilestoneManager> pMilestoneManagers) {
+    public void setMilestoneManagers(@Nullable final List<MilestoneManager> pMilestoneManagers) {
         if (pMilestoneManagers == null) {
             if (mMilestoneManagers.size() > 0) {
                 mMilestoneManagers.clear();
@@ -212,13 +237,16 @@ public abstract class PolyOverlayWithIW extends OverlayWithIW {
     protected void setDefaultInfoWindowLocation() {
         int s = mOutline.getPoints().size();
         if (s == 0) {
-            mInfoWindowLocation = new GeoPoint(0.0, 0.0);
+            mInfoWindowLocationLat = 0.0d;
+            mInfoWindowLocationLon = 0.0d;
             return;
         }
-        if (mInfoWindowLocation == null) {
-            mInfoWindowLocation = new GeoPoint(0., 0);
+        if ((mInfoWindowLocationLat == null) || (mInfoWindowLocationLon == null)) {
+            mInfoWindowLocationLat = 0.0d;
+            mInfoWindowLocationLon = 0.0d;
         }
-        mOutline.getCenter(mInfoWindowLocation);
+        mInfoWindowLocationLat = mOutline.getCenterLat();
+        mInfoWindowLocationLon = mOutline.getCenterLon();
     }
 
     @Override
@@ -292,13 +320,11 @@ public abstract class PolyOverlayWithIW extends OverlayWithIW {
             milestoneManager.end();
         }
 
-        if (mHoles != null) {
-            for (final LinearRing hole : mHoles) {
-                hole.setClipArea(pProjection);
-                hole.buildPathPortion(pProjection, offset, mMilestoneManagers.size() > 0);
-            }
-            mPath.setFillType(Path.FillType.EVEN_ODD); //for correct support of holes
+        for (final LinearRing hole : mHoles) {
+            hole.setClipArea(pProjection);
+            hole.buildPathPortion(pProjection, offset, mMilestoneManagers.size() > 0);
         }
+        mPath.setFillType(Path.FillType.EVEN_ODD); //for correct support of holes
 
         if (isVisible(mFillPaint)) {
             pCanvas.drawPath(mPath, mFillPaint);
@@ -349,19 +375,20 @@ public abstract class PolyOverlayWithIW extends OverlayWithIW {
     }
 
     @Override
-    public void onDetach(MapView mapView) {
+    public void onDestroy(@Nullable final MapView mapView) {
         if (mOutline != null) {
             mOutline.clear();
             mOutline = null;
         }
         mHoles.clear();
         mMilestoneManagers.clear();
-        onDestroy();
+        super.onDestroy(mapView);
     }
 
     /**
      * @since 6.2.0
      */
+    @NonNull
     @Override
     public BoundingBox getBounds() {
         return mOutline.getBoundingBox();
@@ -386,7 +413,7 @@ public abstract class PolyOverlayWithIW extends OverlayWithIW {
      * Add the point at the end of the outline
      * If geodesic mode has been set, the long segments will follow the earth "great circle".
      */
-    public void addPoint(GeoPoint p) {
+    public void addPoint(@NonNull final GeoPoint p) {
         mOutline.addPoint(p);
     }
 
@@ -428,11 +455,10 @@ public abstract class PolyOverlayWithIW extends OverlayWithIW {
      */
     private boolean isWorthDisplaying(final Projection pProjection) {
         final BoundingBox boundingBox = getBounds();
-        pProjection.toPixels(new GeoPoint(boundingBox.getLatNorth(), boundingBox.getLonEast()), mDowngradeTopLeft);
-        pProjection.toPixels(new GeoPoint(boundingBox.getLatSouth(), boundingBox.getLonWest()), mDowngradeBottomRight);
+        pProjection.toPixels(boundingBox, mDowngradeTopLeft, mDowngradeBottomRight);
         final double worldSize = pProjection.getWorldMapSize();
-        final long right = Math.round(mOutline.getCloserValue(mDowngradeTopLeft.x, mDowngradeBottomRight.x, worldSize));
-        final long bottom = Math.round(mOutline.getCloserValue(mDowngradeTopLeft.y, mDowngradeBottomRight.y, worldSize));
+        final long right = Math.round(LinearRing.getCloserValue(mDowngradeTopLeft.x, mDowngradeBottomRight.x, worldSize));
+        final long bottom = Math.round(LinearRing.getCloserValue(mDowngradeTopLeft.y, mDowngradeBottomRight.y, worldSize));
         if (Math.abs(mDowngradeTopLeft.x - mDowngradeBottomRight.x) < mDowngradeMaximumPixelSize) {
             return false;
         }
@@ -460,13 +486,12 @@ public abstract class PolyOverlayWithIW extends OverlayWithIW {
      */
     private void displayDowngrade(final Canvas pCanvas, final Projection pProjection) {
         final BoundingBox boundingBox = mOutline.getBoundingBox();
-        pProjection.toPixels(new GeoPoint(boundingBox.getLatNorth(), boundingBox.getLonEast()), mDowngradeTopLeft);
-        pProjection.toPixels(new GeoPoint(boundingBox.getLatSouth(), boundingBox.getLonWest()), mDowngradeBottomRight);
+        pProjection.toPixels(boundingBox, mDowngradeTopLeft, mDowngradeBottomRight);
         final double worldSize = pProjection.getWorldMapSize();
         long left = mDowngradeTopLeft.x;
         long top = mDowngradeTopLeft.y;
-        final long right = Math.round(mOutline.getCloserValue(left, mDowngradeBottomRight.x, worldSize));
-        final long bottom = Math.round(mOutline.getCloserValue(top, mDowngradeBottomRight.y, worldSize));
+        final long right = Math.round(LinearRing.getCloserValue(left, mDowngradeBottomRight.x, worldSize));
+        final long bottom = Math.round(LinearRing.getCloserValue(top, mDowngradeBottomRight.y, worldSize));
         final long width;
         if (left == right) {
             width = 1;
@@ -504,7 +529,7 @@ public abstract class PolyOverlayWithIW extends OverlayWithIW {
             return;
         }
 
-        final long maxWidthHeight = width > height ? width : height;
+        final long maxWidthHeight = Math.max(width, height);
         if (maxWidthHeight <= mDowngradeMaximumRectanglePixelSize) {
             pCanvas.drawRect(left, top, left + width, top + height, paint);
             return;

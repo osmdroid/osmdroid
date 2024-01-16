@@ -1,5 +1,7 @@
 package org.osmdroid.events;
 
+import androidx.annotation.NonNull;
+
 import org.osmdroid.views.MapView;
 
 /*
@@ -14,6 +16,17 @@ import org.osmdroid.views.MapView;
  * @author Theodore Hong
  */
 public class ScrollEvent implements MapEvent {
+
+    public static ScrollEvent newInstanceForReusablePool() {
+        return new ScrollEvent(null, 0, 0);
+    }
+
+    public static void set(@NonNull final ScrollEvent scrollEvent, @NonNull final MapView mapView, final int x, final int y) {
+        scrollEvent.source = mapView;
+        scrollEvent.x = x;
+        scrollEvent.y = y;
+    }
+
     protected MapView source;
     protected int x;
     protected int y;
@@ -65,6 +78,7 @@ public class ScrollEvent implements MapEvent {
         return y;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "ScrollEvent [source=" + source + ", x=" + x + ", y=" + y + "]";

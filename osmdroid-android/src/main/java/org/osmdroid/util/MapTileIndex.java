@@ -1,5 +1,10 @@
 package org.osmdroid.util;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import org.osmdroid.tileprovider.MapTileRequestState;
+
 /**
  * Computes a map tile index as `long` to/from zoom/x/y
  * Algorithm unfortunately different from SqlTileWriter.getIndex for historical reasons.
@@ -13,7 +18,7 @@ package org.osmdroid.util;
 public class MapTileIndex {
 
     public static int mMaxZoomLevel = TileSystem.primaryKeyMaxZoomLevel;
-    private static int mModulo = 1 << mMaxZoomLevel;
+    private static final int mModulo = 1 << mMaxZoomLevel;
 
     public static long getTileIndex(final int pZoom, final int pX, final int pY) {
         checkValues(pZoom, pX, pY);
@@ -37,6 +42,7 @@ public class MapTileIndex {
     /**
      * @since 6.0.0
      */
+    @NonNull
     public static String toString(final int pZoom, final int pX, final int pY) {
         return "/" + pZoom + "/" + pX + "/" + pY;
     }
@@ -44,7 +50,19 @@ public class MapTileIndex {
     /**
      * @since 6.0.0
      */
-    public static String toString(final long pIndex) {
+    @NonNull
+    public static String toString(@Nullable final MapTileRequestState pState) {
+        final Long cMapTileIndex;
+        if ((pState == null) || ((cMapTileIndex = pState.getMapTileIndex()) == null)) return "NULL";
+        return toString(getZoom(cMapTileIndex), getX(cMapTileIndex), getY(cMapTileIndex));
+    }
+
+    /**
+     * @since 6.0.0
+     */
+    @NonNull
+    public static String toString(@Nullable final Long pIndex) {
+        if (pIndex == null) return "NULL";
         return toString(getZoom(pIndex), getX(pIndex), getY(pIndex));
     }
 
@@ -52,7 +70,7 @@ public class MapTileIndex {
      * @since 6.0.0
      */
     private static void checkValues(final int pZoom, final int pX, final int pY) {
-        if (pZoom < 0 || pZoom > mMaxZoomLevel) {
+        if ((pZoom < 0 || pZoom > mMaxZoomLevel) || (pZoom > 31)) {
             throwIllegalValue(pZoom, pZoom, "Zoom");
         }
         final long max = 1 << pZoom;

@@ -13,4 +13,5 @@ public interface PointAccepter {
     void add(final long pX, final long pY);
 
     void end();
+
 }

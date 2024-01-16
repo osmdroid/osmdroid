@@ -16,6 +16,8 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
 
+import androidx.annotation.NonNull;
+
 public class ZipFileArchive implements IArchiveFile {
 
     protected ZipFile mZipFile;
@@ -80,20 +82,18 @@ public class ZipFileArchive implements IArchiveFile {
      * Creating paths for ZIP scanning
      */
     private String getTileRelativeFilenameString(final long pMapTileIndex, final String pathBase) {
-        final StringBuilder sb = new StringBuilder();
-        sb.append(pathBase);
-        sb.append('/');
-        sb.append(MapTileIndex.getZoom(pMapTileIndex));
-        sb.append('/');
-        sb.append(MapTileIndex.getX(pMapTileIndex));
-        sb.append('/');
-        sb.append(MapTileIndex.getY(pMapTileIndex));
-        sb.append(".png");
-        return sb.toString();
+        return pathBase +
+                '/' +
+                MapTileIndex.getZoom(pMapTileIndex) +
+                '/' +
+                MapTileIndex.getX(pMapTileIndex) +
+                '/' +
+                MapTileIndex.getY(pMapTileIndex) +
+                ".png";
     }
 
     public Set<String> getTileSources() {
-        Set<String> ret = new HashSet<String>();
+        Set<String> ret = new HashSet<>();
         try {
             Enumeration<? extends ZipEntry> entries = mZipFile.entries();
             while (entries.hasMoreElements()) {
@@ -112,10 +112,10 @@ public class ZipFileArchive implements IArchiveFile {
     public void close() {
         try {
             mZipFile.close();
-        } catch (IOException e) {
-        }
+        } catch (IOException ignored) { /*nothing*/ }
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "ZipFileArchive [mZipFile=" + mZipFile.getName() + "]";

@@ -1,5 +1,8 @@
 package org.osmdroid.util;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 /**
  * Compute a map tile area from a map tile area source: the source with a border
  *
@@ -20,7 +23,7 @@ public class MapTileAreaBorderComputer implements MapTileAreaComputer {
     }
 
     @Override
-    public MapTileArea computeFromSource(final MapTileArea pSource, final MapTileArea pReuse) {
+    public MapTileArea computeFromSource(@NonNull final MapTileArea pSource, @Nullable final MapTileArea pReuse) {
         final MapTileArea out = pReuse != null ? pReuse : new MapTileArea();
         if (pSource.size() == 0) {
             out.reset();

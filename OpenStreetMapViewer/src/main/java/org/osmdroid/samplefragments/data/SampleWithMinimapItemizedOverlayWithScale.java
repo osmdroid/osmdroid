@@ -17,6 +17,7 @@ import org.osmdroid.views.overlay.OverlayItem;
 import org.osmdroid.views.overlay.gestures.RotationGestureOverlay;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Generates a ton of icons on the map, for scale testing
@@ -59,7 +60,7 @@ public class SampleWithMinimapItemizedOverlayWithScale extends BaseSampleFragmen
         final ItemizedOverlayWithFocus<OverlayItem> iconOverlay;
         {
             /* Create a static ItemizedOverlay showing some Markers on various cities. */
-            final ArrayList<OverlayItem> items = new ArrayList<>();
+            final List<OverlayItem> items = new ArrayList<>();
             for (int i = 0; i < 5000; i++) {
                 double random_lon = MapView.getTileSystem().getRandomLongitude(Math.random());
                 double random_lat = MapView.getTileSystem().getRandomLatitude(Math.random());
@@ -99,17 +100,17 @@ public class SampleWithMinimapItemizedOverlayWithScale extends BaseSampleFragmen
             iconOverlay.setFocusItemsOnTap(true);
             iconOverlay.setFocusedItem(0);
 
-            mMapView.getOverlays().add(iconOverlay);
+            mMapView.getOverlayManager().add(iconOverlay);
 
             final RotationGestureOverlay mRotationGestureOverlay;
             mRotationGestureOverlay = new RotationGestureOverlay(mMapView);
             mRotationGestureOverlay.setEnabled(false);
-            mMapView.getOverlays().add(mRotationGestureOverlay);
+            mMapView.getOverlayManager().add(mRotationGestureOverlay);
         }
 
         final RotationGestureOverlay rotationGestureOverlay = new RotationGestureOverlay(mMapView);
         rotationGestureOverlay.setEnabled(true);
-        mMapView.getOverlays().add(rotationGestureOverlay);
+        mMapView.getOverlayManager().add(rotationGestureOverlay);
 
         // Zoom and center on the focused item.
         mMapView.getController().setZoom(5.);

@@ -72,7 +72,7 @@ public class SampleSimpleFastPointOverlay extends BaseSampleFragment {
         });
 
         // add overlay
-        mMapView.getOverlays().add(sfpo);
+        mMapView.getOverlayManager().add(sfpo);
 
         // *****************************************************
         // Now add another layer with points individually styled
@@ -114,7 +114,7 @@ public class SampleSimpleFastPointOverlay extends BaseSampleFragment {
         final SimpleFastPointOverlay sfpo1 = new SimpleFastPointOverlay(individualStyledPointTheme, opt);
 
         // add overlay
-        mMapView.getOverlays().add(sfpo1);
+        mMapView.getOverlayManager().add(sfpo1);
 
         // zoom to both themes' bounding box
         mMapView.postDelayed(new Runnable() {

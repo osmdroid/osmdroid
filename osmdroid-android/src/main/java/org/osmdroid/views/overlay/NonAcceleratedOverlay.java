@@ -7,11 +7,12 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.PorterDuff.Mode;
-import android.os.Build;
 import android.util.Log;
 
 import org.osmdroid.api.IMapView;
 import org.osmdroid.views.MapView;
+
+import androidx.annotation.Nullable;
 
 /**
  * This will allow an {@link Overlay} that is not HW acceleration compatible to work in a HW
@@ -67,17 +68,15 @@ public abstract class NonAcceleratedOverlay extends Overlay {
     }
 
     @Override
-    public void onDetach(MapView mapView) {
+    public void onDestroy(@Nullable final MapView mapView) {
         mBackingBitmap = null;
         mBackingCanvas = null;
-        super.onDetach(mapView);
+        super.onDestroy(mapView);
     }
 
     @Override
     public final void draw(Canvas c, MapView osmv, boolean shadow) {
-        // First check to see if we want to use the backing bitmap
-        final boolean atLeastHoneycomb = Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB;
-        if (isUsingBackingBitmap() && atLeastHoneycomb && c.isHardwareAccelerated()) {
+        if (isUsingBackingBitmap() && c.isHardwareAccelerated()) {
             // Drawing a shadow layer would require a second backing Bitmap due to the way HW
             // accelerated drawBitmap works. One could extend this Overlay to implement that if
             // needed.
@@ -97,7 +96,6 @@ public abstract class NonAcceleratedOverlay extends Overlay {
                             Config.ARGB_8888);
                 } catch (OutOfMemoryError e) {
                     Log.e(IMapView.LOGTAG, "OutOfMemoryError creating backing bitmap in NonAcceleratedOverlay.");
-                    System.gc();
                     return;
                 }
 

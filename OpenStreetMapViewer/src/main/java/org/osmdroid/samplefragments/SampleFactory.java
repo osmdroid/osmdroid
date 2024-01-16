@@ -264,18 +264,15 @@ public final class SampleFactory implements ISampleFactory {
         //mSamples.add(NasaWms130Source.class);
         //mSamples.add(NasaWmsSrs.class);
         mSamples.add(AnimatedMarkerHandler.class);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH)
-            mSamples.add(AnimatedMarkerTypeEvaluator.class);
+        mSamples.add(AnimatedMarkerTypeEvaluator.class);
         mSamples.add(AnimatedMarkerValueAnimator.class);
 
         mSamples.add(MapsforgeTileProviderSample.class);
         mSamples.add(OfflinePickerSample.class);
         //59
-        if (Build.VERSION.SDK_INT >= 14) {
-            mSamples.add(GeopackageSample.class);
-            mSamples.add(GeopackageFeatures.class);
-            mSamples.add(GeopackageFeatureTiles.class);
-        }
+        mSamples.add(GeopackageSample.class);
+        mSamples.add(GeopackageFeatures.class);
+        mSamples.add(GeopackageFeatureTiles.class);
         // 60
         mSamples.add(SampleVeryHighZoomLevel.class);
         mSamples.add(MinMaxZoomLevel.class);
@@ -294,8 +291,7 @@ public final class SampleFactory implements ISampleFactory {
         mSamples.add(DrawCircle10km.class);
         mSamples.add(MarkerDrag.class);
         mSamples.add(SampleCacheDelete.class);
-        if (Build.VERSION.SDK_INT >= 15)
-            mSamples.add(Plotter.class);
+        mSamples.add(Plotter.class);
         mSamples.add(WeatherGroundOverlaySample.class);
         mSamples.add(SampleShapeFile.class);
         mSamples.add(CompassPointerSample.class);

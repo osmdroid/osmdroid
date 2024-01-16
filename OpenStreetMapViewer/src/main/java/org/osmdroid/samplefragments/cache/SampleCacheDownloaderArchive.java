@@ -79,16 +79,9 @@ public class SampleCacheDownloaderArchive extends BaseSampleFragment implements 
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.executeJob:
-                updateEstimate(true);
-                break;
-
-            case R.id.btnCache:
-                showCacheManagerDialog();
-                break;
-
-        }
+        final int cId = v.getId();
+        if (cId == R.id.executeJob) updateEstimate(true);
+        else if (cId == R.id.btnCache) showCacheManagerDialog();
     }
 
 
@@ -253,14 +246,14 @@ public class SampleCacheDownloaderArchive extends BaseSampleFragment implements 
                         public void onTaskComplete() {
                             Toast.makeText(getActivity(), "Download complete!", Toast.LENGTH_LONG).show();
                             if (writer != null)
-                                writer.onDetach();
+                                writer.onDetach(getContext());
                         }
 
                         @Override
                         public void onTaskFailed(int errors) {
                             Toast.makeText(getActivity(), "Download complete with " + errors + " errors", Toast.LENGTH_LONG).show();
                             if (writer != null)
-                                writer.onDetach();
+                                writer.onDetach(getContext());
                         }
 
                         @Override

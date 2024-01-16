@@ -2,93 +2,124 @@ package org.osmdroid.views.overlay;
 
 import android.graphics.Canvas;
 import android.graphics.Point;
-import android.util.Log;
+import android.graphics.Rect;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
+
+import androidx.annotation.MainThread;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RestrictTo;
+import androidx.annotation.UiThread;
+import androidx.lifecycle.DefaultLifecycleObserver;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleOwner;
 
 import org.osmdroid.api.IMapView;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
 import org.osmdroid.views.overlay.Overlay.Snappable;
 
-import java.util.AbstractList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
- * https://github.com/osmdroid/osmdroid/issues/154
+ * <a href="https://github.com/osmdroid/osmdroid/issues/154">...</a>
  *
  * @author dozd
  * @since 5.0.0
  */
-public class DefaultOverlayManager extends AbstractList<Overlay> implements OverlayManager {
+public class DefaultOverlayManager extends CopyOnWriteArrayList<Overlay> implements OverlayManager {
 
+    @Nullable
     private TilesOverlay mTilesOverlay;
+    @Nullable
+    private IViewBoundingBoxChangedListener mViewBoundingBoxChangedListener = null;
+    private Lifecycle mMapViewLifeCycle;
+    @Nullable
+    private DefaultLifecycleObserver mDefaultLifecycleObserver = null;
 
-    private final CopyOnWriteArrayList<Overlay> mOverlayList;
-
-    public DefaultOverlayManager(final TilesOverlay tilesOverlay) {
+    public DefaultOverlayManager(@Nullable final TilesOverlay tilesOverlay) {
         setTilesOverlay(tilesOverlay);
-        mOverlayList = new CopyOnWriteArrayList<>();
     }
 
     @Override
-    public Overlay get(final int pIndex) {
-        return mOverlayList.get(pIndex);
+    public boolean add(@Nullable final Overlay overlay) {
+        if (overlay == null) return false;
+        return super.add(overlay);
     }
 
     @Override
-    public int size() {
-        return mOverlayList.size();
+    public void add(final int pIndex, @Nullable final Overlay pElement) {
+        if (pElement == null) return;
+        super.add(pIndex, pElement);
     }
 
     @Override
-    public void add(final int pIndex, final Overlay pElement) {
-        if (pElement == null) {
-            //#396 fix, null check
-            Exception ex = new Exception();
-            Log.e(IMapView.LOGTAG, "Attempt to add a null overlay to the collection. This is probably a bug and should be reported!", ex);
-        } else {
-            mOverlayList.add(pIndex, pElement);
-        }
+    public boolean addAll(@Nullable final Collection<? extends Overlay> c) {
+        if (c == null) return false;
+        return super.addAll(c);
     }
 
     @Override
-    public Overlay remove(final int pIndex) {
-        return mOverlayList.remove(pIndex);
+    public boolean addAll(final int index, @Nullable final Collection<? extends Overlay> c) {
+        if (c == null) return false;
+        return super.addAll(index, c);
     }
 
     @Override
-    public Overlay set(final int pIndex, final Overlay pElement) {
-        //#396 fix, null check
-        if (pElement == null) {
-            Exception ex = new Exception();
-            Log.e(IMapView.LOGTAG, "Attempt to set a null overlay to the collection. This is probably a bug and should be reported!", ex);
-            return null;
-        } else {
-            Overlay overlay = mOverlayList.set(pIndex, pElement);
-            return overlay;
-        }
+    public boolean addIfAbsent(@Nullable final Overlay overlay) {
+        if (overlay == null) return false;
+        return super.addIfAbsent(overlay);
     }
 
+    @Override
+    public int addAllAbsent(@Nullable final Collection<? extends Overlay> c) {
+        if (c == null) return 0;
+        return super.addAllAbsent(c);
+    }
 
+    @Override
+    public boolean remove(@Nullable final Object o) {
+        if (o == null) return false;
+        return super.remove(o);
+    }
+
+    @Override
+    public boolean removeAll(@Nullable final Collection<?> c) {
+        if (c == null) return false;
+        return super.removeAll(c);
+    }
+
+    @Nullable
+    @Override
+    public Overlay set(final int pIndex, @Nullable final Overlay pElement) {
+        if (pElement == null) return null;
+        return super.set(pIndex, pElement);
+    }
+
+    @Nullable
     @Override
     public TilesOverlay getTilesOverlay() {
         return mTilesOverlay;
     }
 
     @Override
-    public void setTilesOverlay(final TilesOverlay tilesOverlay) {
+    public void setTilesOverlay(@Nullable final TilesOverlay tilesOverlay) {
+        if (mTilesOverlay != null) {
+            //TODO: check if there is something needed to do in this case
+        }
         mTilesOverlay = tilesOverlay;
     }
 
     @Override
     public Iterable<Overlay> overlaysReversed() {
-        return new Iterable<Overlay>() {
+        return new Iterable<>() {
 
             /**
              * @since 6.1.0
@@ -96,7 +127,7 @@ public class DefaultOverlayManager extends AbstractList<Overlay> implements Over
             private ListIterator<Overlay> bulletProofReverseListIterator() {
                 while (true) {
                     try {
-                        return mOverlayList.listIterator(mOverlayList.size());
+                        return DefaultOverlayManager.this.listIterator(DefaultOverlayManager.this.size());
                     } catch (final IndexOutOfBoundsException e) {
                         // thread-concurrency fix - in case an item is removed in a very inappropriate time
                         // cf. https://github.com/osmdroid/osmdroid/issues/1260
@@ -104,11 +135,12 @@ public class DefaultOverlayManager extends AbstractList<Overlay> implements Over
                 }
             }
 
+            @NonNull
             @Override
             public Iterator<Overlay> iterator() {
                 final ListIterator<Overlay> i = bulletProofReverseListIterator();
 
-                return new Iterator<Overlay>() {
+                return new Iterator<>() {
                     @Override
                     public boolean hasNext() {
                         return i.hasPrevious();
@@ -128,12 +160,13 @@ public class DefaultOverlayManager extends AbstractList<Overlay> implements Over
         };
     }
 
+    @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP_PREFIX)
     @Override
-    public List<Overlay> overlays() {
-        return mOverlayList;
+    public final List<Overlay> overlays() {
+        return this;
     }
 
-
+    @UiThread @MainThread
     @Override
     public void onDraw(final Canvas c, final MapView pMapView) {
         onDrawHelper(c, pMapView, pMapView.getProjection());
@@ -142,23 +175,29 @@ public class DefaultOverlayManager extends AbstractList<Overlay> implements Over
     /**
      * @since 6.1.0
      */
+    @UiThread @MainThread
     @Override
     public void onDraw(final Canvas c, final Projection pProjection) {
         onDrawHelper(c, null, pProjection);
     }
 
     /**
-     * @param pMapView    may be null
-     * @param pProjection may NOT be null
      * @since 6.1.0
      */
-    private void onDrawHelper(final Canvas c, final MapView pMapView, final Projection pProjection) {
+    @UiThread @MainThread
+    private void onDrawHelper(@NonNull final Canvas c, @Nullable final MapView pMapView, @NonNull final Projection pProjection) {
+        if (pMapView != null) setLifecycleFromMapView(pMapView);
         //fix for https://github.com/osmdroid/osmdroid/issues/904
-        if (mTilesOverlay != null)
+        if (mTilesOverlay != null) {
             mTilesOverlay.protectDisplayedTilesForCache(c, pProjection);
-        for (final Overlay overlay : mOverlayList) {
-            if (overlay != null && overlay.isEnabled() && overlay instanceof TilesOverlay) {
-                ((TilesOverlay) overlay).protectDisplayedTilesForCache(c, pProjection);
+            mTilesOverlay.setViewBoundingBoxChangedListener(mViewBoundingBoxChangedListener);
+        }
+        for (final Overlay overlay : this) {
+            if (overlay != null) {
+                overlay.setViewBoundingBoxChangedListener(mViewBoundingBoxChangedListener);
+                if (overlay.isEnabled() && (overlay instanceof TilesOverlay)) {
+                    ((TilesOverlay) overlay).protectDisplayedTilesForCache(c, pProjection);
+                }
             }
         }
 
@@ -172,7 +211,7 @@ public class DefaultOverlayManager extends AbstractList<Overlay> implements Over
         }
 
         //always pass false, the shadow parameter will be removed in a later version of osmdroid, this change should result in the on draw being called twice
-        for (final Overlay overlay : mOverlayList) {
+        for (final Overlay overlay : this) {
             //#396 fix, null check
             if (overlay != null && overlay.isEnabled()) {
                 if (pMapView != null) {
@@ -186,37 +225,8 @@ public class DefaultOverlayManager extends AbstractList<Overlay> implements Over
     }
 
     @Override
-    public void onDetach(final MapView pMapView) {
-        if (mTilesOverlay != null) {
-            mTilesOverlay.onDetach(pMapView);
-        }
-
-        for (final Overlay overlay : this.overlaysReversed()) {
-            overlay.onDetach(pMapView);
-        }
-        this.clear();
-    }
-
-    @Override
-    public void onPause() {
-        if (mTilesOverlay != null) {
-            mTilesOverlay.onPause();
-        }
-
-        for (final Overlay overlay : this.overlaysReversed()) {
-            overlay.onPause();
-        }
-    }
-
-    @Override
-    public void onResume() {
-        if (mTilesOverlay != null) {
-            mTilesOverlay.onResume();
-        }
-
-        for (final Overlay overlay : this.overlaysReversed()) {
-            overlay.onResume();
-        }
+    public void setMapViewLifecycle(@Nullable final MapView mapView) {
+        setLifecycleFromMapView(mapView);
     }
 
     @Override
@@ -381,7 +391,7 @@ public class DefaultOverlayManager extends AbstractList<Overlay> implements Over
 
     @Override
     public void setOptionsMenusEnabled(final boolean pEnabled) {
-        for (final Overlay overlay : mOverlayList) {
+        for (final Overlay overlay : this) {
             if ((overlay instanceof IOverlayMenuProvider)
                     && ((IOverlayMenuProvider) overlay).isOptionsMenuEnabled()) {
                 ((IOverlayMenuProvider) overlay).setOptionsMenuEnabled(pEnabled);
@@ -392,9 +402,10 @@ public class DefaultOverlayManager extends AbstractList<Overlay> implements Over
     @Override
     public boolean onCreateOptionsMenu(final Menu pMenu, final int menuIdOffset, final MapView mapView) {
         boolean result = true;
+        IOverlayMenuProvider overlayMenuProvider;
         for (final Overlay overlay : this.overlaysReversed()) {
             if (overlay instanceof IOverlayMenuProvider) {
-                final IOverlayMenuProvider overlayMenuProvider = (IOverlayMenuProvider) overlay;
+                overlayMenuProvider = (IOverlayMenuProvider) overlay;
                 if (overlayMenuProvider.isOptionsMenuEnabled()) {
                     result &= overlayMenuProvider.onCreateOptionsMenu(pMenu, menuIdOffset, mapView);
                 }
@@ -410,9 +421,10 @@ public class DefaultOverlayManager extends AbstractList<Overlay> implements Over
 
     @Override
     public boolean onPrepareOptionsMenu(final Menu pMenu, final int menuIdOffset, final MapView mapView) {
+        IOverlayMenuProvider overlayMenuProvider;
         for (final Overlay overlay : this.overlaysReversed()) {
             if (overlay instanceof IOverlayMenuProvider) {
-                final IOverlayMenuProvider overlayMenuProvider = (IOverlayMenuProvider) overlay;
+                overlayMenuProvider = (IOverlayMenuProvider) overlay;
                 if (overlayMenuProvider.isOptionsMenuEnabled()) {
                     overlayMenuProvider.onPrepareOptionsMenu(pMenu, menuIdOffset, mapView);
                 }
@@ -428,23 +440,87 @@ public class DefaultOverlayManager extends AbstractList<Overlay> implements Over
 
     @Override
     public boolean onOptionsItemSelected(final MenuItem item, final int menuIdOffset, final MapView mapView) {
+        IOverlayMenuProvider overlayMenuProvider;
         for (final Overlay overlay : this.overlaysReversed()) {
             if (overlay instanceof IOverlayMenuProvider) {
-                final IOverlayMenuProvider overlayMenuProvider = (IOverlayMenuProvider) overlay;
-                if (overlayMenuProvider.isOptionsMenuEnabled() &&
-                        overlayMenuProvider.onOptionsItemSelected(item, menuIdOffset, mapView)) {
+                overlayMenuProvider = (IOverlayMenuProvider) overlay;
+                if (overlayMenuProvider.isOptionsMenuEnabled() && overlayMenuProvider.onOptionsItemSelected(item, menuIdOffset, mapView)) {
                     return true;
                 }
             }
         }
 
-        if (mTilesOverlay != null &&
-                mTilesOverlay.isOptionsMenuEnabled() &&
-                mTilesOverlay.onOptionsItemSelected(item, menuIdOffset, mapView)) {
+        if (mTilesOverlay != null && mTilesOverlay.isOptionsMenuEnabled() && mTilesOverlay.onOptionsItemSelected(item, menuIdOffset, mapView)) {
             return true;
         }
 
         return false;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public void setViewBoundingBoxChangedListener(@Nullable final IViewBoundingBoxChangedListener listener) {
+        mViewBoundingBoxChangedListener = listener;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public void onViewBoundingBoxChanged(@NonNull final Rect fromBounds, final int fromZoom, @NonNull final Rect toBounds, final int toZoom) {
+        if (mViewBoundingBoxChangedListener != null) mViewBoundingBoxChangedListener.onViewBoundingBoxChanged(fromBounds, fromZoom, toBounds, toZoom);
+    }
+
+    @NonNull
+    @Override
+    public Lifecycle getLifecycle() { return mMapViewLifeCycle; }
+
+    private void setLifecycleFromMapView(@Nullable final MapView mapView) {
+        if (mMapViewLifeCycle != null) {
+            if (mDefaultLifecycleObserver != null) mMapViewLifeCycle.removeObserver(mDefaultLifecycleObserver);
+            return;
+        }
+        if (mapView == null) return;
+        mMapViewLifeCycle = mapView.getLifecycle();
+        mMapViewLifeCycle.addObserver(mDefaultLifecycleObserver = new DefaultLifecycleObserver() {
+            @Override
+            public void onCreate(@NonNull final LifecycleOwner owner) {
+                if (mTilesOverlay != null) mTilesOverlay.onCreate();
+                for (final Overlay overlay : DefaultOverlayManager.this) { if (overlay == null) return; overlay.onCreate(); }
+            }
+            @Override
+            public void onStart(@NonNull final LifecycleOwner owner) {
+                if (mTilesOverlay != null) mTilesOverlay.onStart();
+                for (final Overlay overlay : DefaultOverlayManager.this) { if (overlay == null) return; overlay.onStart(); }
+            }
+            @Override
+            public void onResume(@NonNull final LifecycleOwner owner) {
+                if (mTilesOverlay != null) mTilesOverlay.onResume();
+                for (final Overlay overlay : DefaultOverlayManager.this) { if (overlay == null) return; overlay.onResume(); }
+            }
+            @Override
+            public void onPause(@NonNull final LifecycleOwner owner) {
+                for (final Overlay overlay : DefaultOverlayManager.this) { if (overlay == null) return; overlay.onPause(); }
+                if (mTilesOverlay != null) mTilesOverlay.onPause();
+            }
+            @Override
+            public void onStop(@NonNull final LifecycleOwner owner) {
+                for (final Overlay overlay : DefaultOverlayManager.this) { if (overlay == null) return; overlay.onStop(); }
+                if (mTilesOverlay != null) mTilesOverlay.onStop();
+            }
+            @Override
+            public void onDestroy(@NonNull final LifecycleOwner owner) {
+                for (final Overlay overlay : DefaultOverlayManager.this) { if (overlay == null) return; overlay.onDestroy(mapView); }
+                if (mTilesOverlay != null) mTilesOverlay.onDestroy(mapView);
+                mMapViewLifeCycle.removeObserver(this);
+                mDefaultLifecycleObserver = null;
+                mMapViewLifeCycle = null;
+                onDestroyInternal();
+            }
+        });
+    }
+
+    @Override
+    public void onDestroyInternal() {
+        this.clear();
     }
 
 }
