@@ -43,7 +43,7 @@ android {
 dependencies {
     //crash logging
     //implementation 'ch.acra:acra:4.7.0'
-    implementation("androidx.lifecycle:lifecycle-common:2.5.1")
+    implementation("androidx.lifecycle:lifecycle-common:2.7.0")
 
     testImplementation 'junit:junit:4.13.2'
 

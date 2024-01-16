@@ -34,7 +34,7 @@ android {
 }
 
 dependencies {
-    implementation("androidx.lifecycle:lifecycle-common:2.5.1")
+    implementation("androidx.lifecycle:lifecycle-common:2.7.0")
 
     testImplementation "junit:junit:${project.property('junit.version')}"
 
