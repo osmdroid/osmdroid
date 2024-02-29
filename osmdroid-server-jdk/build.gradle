@@ -70,7 +70,7 @@ dependencies {
 
 
 
-    implementation group: 'org.springframework', name: 'spring-test', version:'6.1.3'
+    implementation group: 'org.springframework', name: 'spring-test', version:'6.1.4'
     implementation group: 'org.springframework', name: 'spring-context', version:'6.1.3'
     implementation group: 'commons-codec', name: 'commons-codec', version:'1.16.0'
 
