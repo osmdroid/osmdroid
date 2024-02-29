@@ -35,7 +35,7 @@ dependencies {
     //crash logging
     //implementation 'ch.acra:acra:4.7.0'
 
-    testImplementation 'org.junit.vintage:junit-vintage-engine:5.10.1'
+    testImplementation 'org.junit.vintage:junit-vintage-engine:5.10.2'
 
     api  project(':osmdroid-android')
     api ("mil.nga.geopackage:geopackage-android:6.7.3"){
