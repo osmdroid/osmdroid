@@ -64,9 +64,9 @@ dependencies {
 // https://mvnrepository.com/artifact/org.apache.cxf/cxf-rt-frontend-jaxws
     implementation group: 'org.apache.cxf', name: 'cxf-rt-frontend-jaxws', version: '4.0.3'
 // https://mvnrepository.com/artifact/org.apache.cxf/cxf-rt-transports-http
-    implementation group: 'org.apache.cxf', name: 'cxf-rt-transports-http', version: '4.0.3'
+    implementation group: 'org.apache.cxf', name: 'cxf-rt-transports-http', version: '4.0.4'
 // https://mvnrepository.com/artifact/org.apache.cxf/cxf-rt-transports-http-jetty
-    implementation group: 'org.apache.cxf', name: 'cxf-rt-transports-http-jetty', version: '4.0.3'
+    implementation group: 'org.apache.cxf', name: 'cxf-rt-transports-http-jetty', version: '4.0.4'
 
 
 
@@ -80,7 +80,7 @@ dependencies {
     implementation group: 'org.glassfish.jersey.containers', name: 'jersey-container-servlet', version:'3.1.5'
     implementation group: 'org.glassfish.jersey.core', name: 'jersey-client', version:'3.1.5'
     implementation group: 'org.glassfish.jersey.media', name: 'jersey-media-moxy', version:'3.1.5'
-    implementation group: 'org.apache.cxf', name: 'cxf-rt-transports-http-jetty', version:'4.0.3'
+    implementation group: 'org.apache.cxf', name: 'cxf-rt-transports-http-jetty', version:'4.0.4'
     implementation group: 'org.slf4j', name: 'slf4j-jdk14', version:'2.0.12'
     implementation group: 'org.codehaus.jettison', name: 'jettison', version:'1.5.4'
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version:'2.16.1'
