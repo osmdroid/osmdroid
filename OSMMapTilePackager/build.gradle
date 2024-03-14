@@ -28,7 +28,7 @@ tasks.withType(Javadoc) {
 
 dependencies {
     implementation 'org.apache.httpcomponents:httpmime:4.5.14'
-    implementation 'org.apache.james:apache-mime4j:0.8.9'
+    implementation 'org.apache.james:apache-mime4j:0.8.11'
     implementation 'org.xerial:sqlite-jdbc:3.45.1.0'
 
 
