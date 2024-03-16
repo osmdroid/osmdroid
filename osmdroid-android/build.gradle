@@ -31,11 +31,18 @@ android {
             withJavadocJar()
         }
     }
+    gradle.projectsEvaluated {
+        preBuild.dependsOn(copyFiles)
+    }
 }
 
 dependencies {
     testImplementation "org.junit.vintage:junit-vintage-engine:${project.property('junit.version')}"
     testImplementation "org.robolectric:robolectric:${project.property('robolectric.version')}"
+}
+
+task cleanCustomFiles(type: Delete) {
+    delete file('src/main/java/org/osmdroid/OsmdroidBuildInfo.java')
 }
 
 
@@ -48,8 +55,6 @@ task copyFiles(type: Copy) {
             "date": new Date().toString()
     ])
 }
-
-
 
 
 afterEvaluate {
@@ -93,4 +98,6 @@ artifacts {
     archives androidSourcesJar
 
 }
-preBuild.dependsOn(copyFiles)
+clean.dependsOn(copyFiles)
+build.dependsOn(copyFiles)
+copyFiles.dependsOn(cleanCustomFiles)
