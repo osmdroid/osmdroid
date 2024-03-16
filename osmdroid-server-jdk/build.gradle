@@ -58,7 +58,7 @@ dependencies {
     // https://mvnrepository.com/artifact/org.apache.cxf/cxf-rt-rs-client
     implementation group: 'org.apache.cxf', name: 'cxf-rt-rs-client', version: '4.0.3'
 // https://mvnrepository.com/artifact/org.apache.cxf/cxf-rt-rs-service-description
-    implementation group: 'org.apache.cxf', name: 'cxf-rt-rs-service-description', version: '4.0.3'
+    implementation group: 'org.apache.cxf', name: 'cxf-rt-rs-service-description', version: '4.0.4'
 // https://mvnrepository.com/artifact/org.apache.cxf/cxf-rt-rs-extension-providers
     implementation group: 'org.apache.cxf', name: 'cxf-rt-rs-extension-providers', version: '4.0.4'
 // https://mvnrepository.com/artifact/org.apache.cxf/cxf-rt-frontend-jaxws
