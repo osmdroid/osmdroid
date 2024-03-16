@@ -52,7 +52,7 @@ configurations.all {
 }
 dependencies {
     implementation group: 'jakarta.servlet', name: 'jakarta.servlet-api', version:'6.0.0'
-    implementation group: 'org.apache.commons', name: 'commons-configuration2', version:'2.9.0'
+    implementation group: 'org.apache.commons', name: 'commons-configuration2', version:'2.10.0'
     implementation group: 'org.apache.commons', name: 'commons-lang3', version:'3.14.0'
     implementation group: 'org.apache.commons', name: 'commons-collections4', version:'4.4'
     // https://mvnrepository.com/artifact/org.apache.cxf/cxf-rt-rs-client
