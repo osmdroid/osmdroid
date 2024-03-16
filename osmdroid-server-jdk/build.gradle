@@ -83,7 +83,7 @@ dependencies {
     implementation group: 'org.apache.cxf', name: 'cxf-rt-transports-http-jetty', version:'4.0.4'
     implementation group: 'org.slf4j', name: 'slf4j-jdk14', version:'2.0.12'
     implementation group: 'org.codehaus.jettison', name: 'jettison', version:'1.5.4'
-    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version:'2.16.1'
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version:'2.17.0'
 }
 
 
