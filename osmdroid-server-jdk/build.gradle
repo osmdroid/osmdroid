@@ -56,7 +56,7 @@ dependencies {
     implementation group: 'org.apache.commons', name: 'commons-lang3', version:'3.14.0'
     implementation group: 'org.apache.commons', name: 'commons-collections4', version:'4.4'
     // https://mvnrepository.com/artifact/org.apache.cxf/cxf-rt-rs-client
-    implementation group: 'org.apache.cxf', name: 'cxf-rt-rs-client', version: '4.0.3'
+    implementation group: 'org.apache.cxf', name: 'cxf-rt-rs-client', version: '4.0.4'
 // https://mvnrepository.com/artifact/org.apache.cxf/cxf-rt-rs-service-description
     implementation group: 'org.apache.cxf', name: 'cxf-rt-rs-service-description', version: '4.0.4'
 // https://mvnrepository.com/artifact/org.apache.cxf/cxf-rt-rs-extension-providers
