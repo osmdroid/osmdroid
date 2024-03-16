@@ -101,4 +101,3 @@ artifacts {
 clean.dependsOn(copyFiles)
 build.dependsOn(copyFiles)
 copyFiles.dependsOn(cleanCustomFiles)
-
