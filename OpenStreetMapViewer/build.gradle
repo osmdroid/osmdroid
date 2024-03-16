@@ -64,7 +64,7 @@ dependencies {
     //are not longer resolved...
 
     //osmdroid-mapsforge
-    implementation 'org.mapsforge:mapsforge-map-android:0.20.0'
+    implementation 'org.mapsforge:mapsforge-map-android:0.21.0'
     implementation 'org.mapsforge:mapsforge-map:0.20.0'
     implementation 'org.mapsforge:mapsforge-themes:0.20.0'
 
