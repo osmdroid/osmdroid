@@ -109,7 +109,7 @@ dependencies {
     // Optional -- UI testing with UI Automator
     androidTestImplementation "androidx.test.uiautomator:uiautomator:2.3.0"
     // Optional -- UI testing with Compose
-    androidTestImplementation "androidx.compose.ui:ui-test-junit4:1.6.0"
+    androidTestImplementation "androidx.compose.ui:ui-test-junit4:1.6.3"
 }
 
 
