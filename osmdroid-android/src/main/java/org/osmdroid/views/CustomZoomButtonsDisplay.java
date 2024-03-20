@@ -228,7 +228,8 @@ public class CustomZoomButtonsDisplay {
      * @since 6.1.3
      */
     public boolean isTouched(final MotionEvent pMotionEvent, final boolean pInOrOut) {
-        if (pMotionEvent.getAction() == MotionEvent.ACTION_UP) {
+        int action = pMotionEvent.getAction();
+        if (action == MotionEvent.ACTION_DOWN || action == MotionEvent.ACTION_UP) {
             return isTouched((int) pMotionEvent.getX(), (int) pMotionEvent.getY(), pInOrOut);
         } else {
             return false;
