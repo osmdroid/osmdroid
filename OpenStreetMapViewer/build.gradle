@@ -76,7 +76,7 @@ dependencies {
     implementation project(':osmdroid-wms')
     implementation project(':osmdroid-shape')
 
-    implementation 'io.github.missioncommand:mil-sym-android-renderer:0.1.56'
+    implementation 'io.github.missioncommand:mil-sym-android-renderer:0.1.57'
 
     //used for various demos for picking offline tile archives
     implementation 'com.github.angads25:filepicker:1.1.1'
