@@ -33,7 +33,7 @@ android {
 dependencies {
     //
     api  project(':osmdroid-android')
-    testImplementation "junit:junit:${project.property('junit.version')}"
+    testImplementation "org.junit.vintage:junit-vintage-engine:${project.property('junit.version')}"
 }
 
 
@@ -78,5 +78,3 @@ artifacts {
     archives androidSourcesJar
 
 }
-
-

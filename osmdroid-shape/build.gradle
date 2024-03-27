@@ -31,9 +31,9 @@ android {
 
 dependencies {
    
-    testImplementation 'junit:junit:4.13'
+    testImplementation 'org.junit.vintage:junit-vintage-engine:5.10.2'
     api  project(':osmdroid-android')
-    api 'com.github.spyhunter99:jdbf:2.2.0'
+    api 'com.github.spyhunter99:jdbf:2.2.4'
 
 }
 
@@ -81,4 +81,3 @@ artifacts {
     archives androidSourcesJar
 
 }
-

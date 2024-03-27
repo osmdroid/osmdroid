@@ -17,14 +17,14 @@ android {
          minSdkVersion Integer.parseInt(project.property('android-minSdkForSupportLib.version'))
          multiDexEnabled = true
          compileSdkVersion(project.hasProperty('android.compileSdkVersion')
-                 ? Integer.parseInt(project.property('android.compileSdkVersion')) : 23)
+                 ? Integer.parseInt(project.property('android.compileSdkVersion')) : 34)
 
 
          minSdkVersion(14)
 
 
          targetSdkVersion(project.hasProperty('android.targetSdkVersion')
-                 ? Integer.parseInt(project.property('android.targetSdkVersion')) : 23)
+                 ? Integer.parseInt(project.property('android.targetSdkVersion')) : 30)
 
 
          versionCode(project.hasProperty('android.versionCode')
@@ -41,7 +41,7 @@ android {
 }
 
 dependencies {
-    implementation "androidx.appcompat:appcompat:1.4.1"
+    implementation "androidx.appcompat:appcompat:1.6.1"
     implementation project(':osmdroid-android')
 }
 

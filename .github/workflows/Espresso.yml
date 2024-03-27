@@ -1,0 +1,29 @@
+name: Espresso
+
+on:
+  workflow_dispatch:
+
+jobs:
+  Espresso:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          java-version: 17
+          distribution: temurin
+      - uses: malinskiy/action-android/install-sdk@release/0.1.6
+        env:
+          ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+      - uses: malinskiy/action-android/emulator-run-cmd@release/0.1.6
+        with:
+          cmd: ./gradlew clean build connectedCheck
+          api: 29
+          tag: default
+          abi: x86
+      - uses: actions/upload-artifact@v4
+        if: ${{ always() }}
+        with:
+          name: Espresso-report
+          path: ./**/build/reports/androidTests/connected
