@@ -18,7 +18,7 @@ buildscript {
 
 // Set up the spotbugs plugin so we can apply it in a quality pass if needed
 plugins {
-    id  'com.github.spotbugs' version '5.0.6' apply false
+    id  'com.github.spotbugs' version '6.0.9' apply false
 }
 
 allprojects {
