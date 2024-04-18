@@ -75,7 +75,7 @@ dependencies {
     implementation group: 'commons-codec', name: 'commons-codec', version:'1.16.1'
 
     //implementation group: 'org.apache.cxf', name: 'cxf-rt-rs-extension-providers', version:'4.0.4'
-    implementation group: 'org.xerial', name: 'sqlite-jdbc', version:'3.45.2.0'
+    implementation group: 'org.xerial', name: 'sqlite-jdbc', version:'3.45.3.0'
     implementation group: 'jakarta.servlet.jsp', name: 'jakarta.servlet.jsp-api', version:'3.1.1'
     implementation group: 'org.glassfish.jersey.containers', name: 'jersey-container-servlet', version:'3.1.5'
     implementation group: 'org.glassfish.jersey.core', name: 'jersey-client', version:'3.1.5'
