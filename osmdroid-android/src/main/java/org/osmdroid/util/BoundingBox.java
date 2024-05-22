@@ -85,6 +85,34 @@ public class BoundingBox implements Parcelable, Serializable {
         return new BoundingBox(this.mLatNorth, this.mLonEast, this.mLatSouth, this.mLonWest);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        BoundingBox that = (BoundingBox) o;
+
+        if (Double.compare(mLatNorth, that.mLatNorth) != 0) return false;
+        if (Double.compare(mLatSouth, that.mLatSouth) != 0) return false;
+        if (Double.compare(mLonEast, that.mLonEast) != 0) return false;
+        return Double.compare(mLonWest, that.mLonWest) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        int result;
+        long temp;
+        temp = Double.doubleToLongBits(mLatNorth);
+        result = (int) (temp ^ (temp >>> 32));
+        temp = Double.doubleToLongBits(mLatSouth);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        temp = Double.doubleToLongBits(mLonEast);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        temp = Double.doubleToLongBits(mLonWest);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        return result;
+    }
+
     /**
      * @return the BoundingBox enclosing this BoundingBox and bb2 BoundingBox
      */
