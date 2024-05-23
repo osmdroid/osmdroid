@@ -71,7 +71,7 @@ dependencies {
 
 
     implementation group: 'org.springframework', name: 'spring-test', version:'6.1.5'
-    implementation group: 'org.springframework', name: 'spring-context', version:'6.1.5'
+    implementation group: 'org.springframework', name: 'spring-context', version:'6.1.8'
     implementation group: 'commons-codec', name: 'commons-codec', version:'1.16.1'
 
     //implementation group: 'org.apache.cxf', name: 'cxf-rt-rs-extension-providers', version:'4.0.4'
