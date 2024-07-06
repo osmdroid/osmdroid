@@ -16,6 +16,7 @@ import org.osmdroid.views.overlay.GroundOverlay;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
@@ -34,8 +35,8 @@ import java.util.List;
  */
 
 public class WeatherGroundOverlaySample extends BaseSampleFragment implements Runnable {
-    public static final String URL = "https://radar.weather.gov/Conus/RadarImg/latest_Small.gif";
-
+    public static final String URL = "https://radar.weather.gov/ridge/standard/CONUS_loop.gif";
+//https://radar.weather.gov/ridge/standard/KDOX_loop.gif
     private final GeoPoint mNorthEast = new GeoPoint(50.0, -127.5);
     private final GeoPoint mSouthWest = new GeoPoint(21.0, -66.5);
 
@@ -89,11 +90,12 @@ public class WeatherGroundOverlaySample extends BaseSampleFragment implements Ru
             return;
         }
 
-        URLConnection con;
+        HttpURLConnection con;
         InputStream is = null;
         try {
             final URL url = new URL(URL);
-            con = url.openConnection();
+            con = (HttpURLConnection) url.openConnection();
+            con.setRequestProperty("User-Agent","Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:127.0) Gecko/20100101 Firefox/127.0");
 
             is = con.getInputStream();
             final BitmapFactory.Options options = new BitmapFactory.Options();
@@ -111,7 +113,16 @@ public class WeatherGroundOverlaySample extends BaseSampleFragment implements Ru
                 });
             }
         } catch (Throwable e) {
-            Toast.makeText(getActivity(), "Cannot download the weather image!", Toast.LENGTH_SHORT).show();
+            try{
+            this.getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(getActivity(), "Cannot download the weather image!", Toast.LENGTH_SHORT).show();
+                }
+            });}catch (Throwable t) {
+                Log.e(TAG, "error showing toast from failure to fetch image", t);
+            }
+
             Log.e(TAG, "error fetching image", e);
         } finally {
             if (is != null) try {

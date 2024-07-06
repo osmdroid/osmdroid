@@ -344,11 +344,12 @@ public class StorageUtils {
      * @return True if the path is writable. False otherwise.
      */
     public static boolean isWritable(File path) {
+        FileOutputStream fos=null;
         try {
             File tmp = new File(path.getAbsolutePath() + File.separator + UUID.randomUUID().toString());
-            FileOutputStream fos = new FileOutputStream(tmp);
+            fos = new FileOutputStream(tmp);
             fos.write("hi".getBytes());
-            fos.close();
+
             //noinspection ResultOfMethodCallIgnored
             tmp.delete();
             Log.i(TAG, path.getAbsolutePath() + " is writable");
@@ -356,6 +357,10 @@ public class StorageUtils {
         } catch (Throwable ex) {
             Log.i(TAG, path.getAbsolutePath() + " is NOT writable");
             return false;
+        } finally {
+            if (fos!=null) {
+                try{fos.close();}catch (IOException e) {}
+            }
         }
     }
 

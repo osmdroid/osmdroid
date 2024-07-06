@@ -33,7 +33,7 @@ public class OsmApplication extends MultiDexApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-        if (BuildConfig.DEBUG) {
+        /*if (BuildConfig.DEBUG) {
             StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
                     .detectDiskReads()
                     .detectDiskWrites()
@@ -46,7 +46,7 @@ public class OsmApplication extends MultiDexApplication {
                     .penaltyLog()
                     .penaltyDeath()
                     .build());
-        }
+        }*/
 
         Thread.currentThread().setUncaughtExceptionHandler(new OsmUncaughtExceptionHandler());
 
