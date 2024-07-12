@@ -7,6 +7,7 @@ import android.util.DisplayMetrics;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.res.ResourcesCompat;
 
 import org.osmdroid.R;
 import org.osmdroid.samplefragments.BaseSampleFragment;
@@ -23,8 +24,8 @@ import java.util.List;
 
 /**
  * An example on using osmbonuspack's Marker class by following the tutorial at
- * https://github.com/MKergall/osmbonuspack/wiki/Tutorial_0
- * https://github.com/MKergall/osmbonuspack/wiki/Tutorial_1
+ * <a href="https://github.com/MKergall/osmbonuspack/wiki/Tutorial_0">...</a>
+ * <a href="https://github.com/MKergall/osmbonuspack/wiki/Tutorial_1">...</a>
  * <p>
  * created on 12/29/2016.
  *
@@ -45,7 +46,7 @@ public class SampleMarker extends BaseSampleFragment {
         final GeoPoint pentagon = new GeoPoint(38.8719, -77.0563);
         final GeoPoint washington = new GeoPoint(38.8895, -77.0353);
 
-        final DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
+        final DisplayMetrics displayMetrics = requireContext().getResources().getDisplayMetrics();
 
         final ScaleDiskOverlay scaleDiskOverlayWhiteHouse = new ScaleDiskOverlay(getContext(), whiteHouse, 2000, GeoConstants.UnitOfMeasure.foot);
         final Paint circlePaint = new Paint();
@@ -98,7 +99,7 @@ public class SampleMarker extends BaseSampleFragment {
         mMapView.getOverlayManager().add(new ScaleBarOverlay(mMapView));
 
         final List<GeoPoint> points = new ArrayList<>();
-        final Drawable drawable = getResources().getDrawable(R.drawable.marker_default);
+        final Drawable drawable = ResourcesCompat.getDrawable(getResources(), R.drawable.marker_default, null);
 
         GeoPoint startPoint = new GeoPoint(whiteHouse);
         points.add(startPoint);

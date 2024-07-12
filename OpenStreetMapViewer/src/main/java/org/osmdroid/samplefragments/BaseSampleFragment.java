@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.InputDevice;
 import android.view.LayoutInflater;
@@ -88,9 +87,9 @@ public abstract class BaseSampleFragment extends Fragment {
             addOverlays();
 
             final Context context = this.getActivity();
-            final DisplayMetrics dm = context.getResources().getDisplayMetrics();
+            //final DisplayMetrics dm = context.getResources().getDisplayMetrics();
 
-            CopyrightOverlay copyrightOverlay = new CopyrightOverlay(getActivity());
+            CopyrightOverlay copyrightOverlay = new CopyrightOverlay(requireContext());
             copyrightOverlay.setTextSize(10);
 
             mMapView.getOverlayManager().add(copyrightOverlay);
