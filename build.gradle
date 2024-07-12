@@ -17,7 +17,7 @@ buildscript {
 }
 
 plugins {
-    id 'com.github.spotbugs' version '6.0.6' apply false    // Set up the spotbugs plugin so we can apply it in a quality pass if needed
+    id 'com.github.spotbugs' version '6.0.9' apply false    // Set up the spotbugs plugin so we can apply it in a quality pass if needed
     id 'org.jetbrains.kotlin.android' version '1.9.22' apply false
 }
 

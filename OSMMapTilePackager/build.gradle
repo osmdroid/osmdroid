@@ -35,12 +35,12 @@ dependencies {
         implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.0") { because("kotlin-stdlib-jdk8 is now a part of kotlin-stdlib") }
     }
 
-    implementation("androidx.annotation:annotation:1.7.1")
-    implementation 'org.apache.httpcomponents:httpmime:4.5.13'
-    implementation 'org.apache.james:apache-mime4j:0.8.7'
-    implementation 'org.xerial:sqlite-jdbc:3.36.0.3'
+    implementation("androidx.annotation:annotation:1.8.0")
+    implementation 'org.apache.httpcomponents:httpmime:4.5.14'
+    implementation 'org.apache.james:apache-mime4j:0.8.11'
+    implementation 'org.xerial:sqlite-jdbc:3.45.2.0'
 
-    testImplementation "junit:junit:${project.property('junit.version')}"
+    testImplementation "org.junit.vintage:junit-vintage-engine:${project.property('junit.version')}"
 }
 
 //copy the instrumentation tests from the maven osmdroid-android-it src folder

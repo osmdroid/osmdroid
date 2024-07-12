@@ -32,27 +32,27 @@ android {
             withJavadocJar()
         }
     }
-    sourceSets {
-        main {
-            java {
-                exclude '**/*_old.java'
-                exclude '**/*_new.java'
-                exclude '**/*_backup.java'
-            }
-        }
-    }
+
     compileOptions {
         sourceCompatibility(JavaVersion.VERSION_17)
         targetCompatibility(JavaVersion.VERSION_17)
     }
+
+    gradle.projectsEvaluated {
+        preBuild.dependsOn(copyFiles)
+    }
 }
 
 dependencies {
-    testImplementation "junit:junit:${project.property('junit.version')}"
+    testImplementation "org.junit.vintage:junit-vintage-engine:${project.property('junit.version')}"
     testImplementation "org.robolectric:robolectric:${project.property('robolectric.version')}"
     implementation("androidx.annotation:annotation:1.7.1")
     implementation("androidx.lifecycle:lifecycle-common:2.7.0")
     implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
+}
+
+task cleanCustomFiles(type: Delete) {
+    delete file('src/main/java/org/osmdroid/OsmdroidBuildInfo.java')
 }
 
 import org.apache.tools.ant.filters.*
@@ -106,5 +106,6 @@ artifacts {
     archives androidSourcesJar
 
 }
-preBuild.dependsOn(copyFiles)
-
+clean.dependsOn(copyFiles)
+build.dependsOn(copyFiles)
+copyFiles.dependsOn(cleanCustomFiles)

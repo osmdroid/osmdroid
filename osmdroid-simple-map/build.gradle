@@ -25,7 +25,6 @@ android {
          targetSdkVersion(project.hasProperty('android.targetSdkVersion')
                  ? findProperty('android.targetSdkVersion').toInteger() : 23)
 
-
          versionCode(project.hasProperty('android.versionCode')
                  ? Integer.parseInt(project.property('android.versionCode')) : 1)
 
