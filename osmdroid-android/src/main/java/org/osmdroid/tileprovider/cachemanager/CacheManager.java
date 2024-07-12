@@ -174,8 +174,12 @@ public class CacheManager {
         }
     }
 
+    /** Returns <i>TRUE</i> if deletion was not possible */
+    private boolean deleteTileError(final long pMapTileIndex) {
+        return this.checkTile(pMapTileIndex) && !mTileWriter.remove(mTileSource, pMapTileIndex);
+    }
     public boolean deleteTile(final long pMapTileIndex) {
-        return mTileWriter.exists(mTileSource, pMapTileIndex) && mTileWriter.remove(mTileSource, pMapTileIndex);
+        return !this.checkTile(pMapTileIndex) || mTileWriter.remove(mTileSource, pMapTileIndex);
     }
 
     public boolean checkTile(final long pMapTileIndex) {
@@ -930,7 +934,7 @@ public class CacheManager {
 
             @Override
             public boolean tileAction(final long pMapTileIndex) {
-                return deleteTile(pMapTileIndex);
+                return deleteTileError(pMapTileIndex);
             }
         };
     }
