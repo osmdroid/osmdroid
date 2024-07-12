@@ -53,7 +53,7 @@ public class MinimapOverlay extends TilesOverlay {
         mTileProvider.getTileRequestCompleteHandlers().add(pTileRequestCompleteHandler);
 
         // Don't draw loading lines in the minimap
-        setLoadingLineColor(getLoadingBackgroundColor());
+        setLoadingLineColor(pContext, getLoadingBackgroundColor());
 
         // Scale the default size
         final float density = pContext.getResources().getDisplayMetrics().density;

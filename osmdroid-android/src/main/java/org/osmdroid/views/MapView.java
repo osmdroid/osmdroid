@@ -1309,7 +1309,7 @@ public class MapView extends ViewGroup implements IMapView, MultiTouchObjectCanv
 
     @Override
     public void setBackgroundColor(@ColorInt final int pColor) {
-        mMapOverlay.setLoadingBackgroundColor(pColor);
+        mMapOverlay.setLoadingBackgroundColor(getContext(), pColor);
         invalidate();
     }
 

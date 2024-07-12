@@ -70,7 +70,7 @@ public class SampleWithTilesOverlayAndCustomTileSource extends AppCompatActivity
         tileProvider.setTileSource(tileSource);
         tileProvider.getTileRequestCompleteHandlers().add(mMapView.getTileRequestCompleteHandler());
         final TilesOverlay tilesOverlay = new TilesOverlay(tileProvider, this.getBaseContext());
-        tilesOverlay.setLoadingBackgroundColor(Color.TRANSPARENT);
+        tilesOverlay.setLoadingBackgroundColor(this, Color.TRANSPARENT);
         mMapView.getOverlayManager().add(tilesOverlay);
     }
 

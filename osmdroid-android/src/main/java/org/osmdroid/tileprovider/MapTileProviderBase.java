@@ -176,8 +176,8 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback {
     /**
      * Sets the "sorry we can't load a tile for this location" image. If it's null, the default view
      * is shown, which is the standard grey grid controlled by the tiles overlay
-     * {@link org.osmdroid.views.overlay.TilesOverlay#setLoadingLineColor(int)} and
-     * {@link org.osmdroid.views.overlay.TilesOverlay#setLoadingBackgroundColor(int)}
+     * {@link org.osmdroid.views.overlay.TilesOverlay#setLoadingLineColor(Context, int)} and
+     * {@link org.osmdroid.views.overlay.TilesOverlay#setLoadingBackgroundColor(Context, int)}
      *
      * @since 5.2+
      */

@@ -152,7 +152,7 @@ public class LatLonGridlineOverlay {
                 applyMarkerAttributes(m);
                 final String title = df.format(i) + (i > 0 ? "N" : "S");
                 m.setTitle(title);
-                m.setTextIcon(title);
+                m.setTextIcon(ctx, title);
                 m.setPosition(new GeoPoint(i, west + incrementor));
                 gridlines.add(m);
             }
@@ -184,7 +184,7 @@ public class LatLonGridlineOverlay {
                 m.setRotation(-90f);
                 final String title = df.format(i) + (i > 0 ? "E" : "W");
                 m.setTitle(title);
-                m.setTextIcon(title);
+                m.setTextIcon(ctx, title);
                 m.setPosition(new GeoPoint(south + (incrementor), i));
                 gridlines.add(m);
             }
@@ -235,7 +235,7 @@ public class LatLonGridlineOverlay {
                     m.setRotation(-90f);
                     final String title = df.format(i) + (i > 0 ? "E" : "W");
                     m.setTitle(title);
-                    m.setTextIcon(title);
+                    m.setTextIcon(ctx, title);
                     m.setPosition(new GeoPoint(south + (incrementor), i));
                     gridlines.add(m);
                 }
@@ -249,7 +249,7 @@ public class LatLonGridlineOverlay {
                     m.setRotation(-90f);
                     final String title = df.format(i) + (i > 0 ? "E" : "W");
                     m.setTitle(title);
-                    m.setTextIcon(title);
+                    m.setTextIcon(ctx, title);
                     m.setPosition(new GeoPoint(south + (incrementor), i));
                     gridlines.add(m);
                 }
@@ -260,14 +260,7 @@ public class LatLonGridlineOverlay {
         return gridlines;
     }
 
-    /**
-     * gets the start and end points for a latitude line
-     *
-     * @param north
-     * @param south
-     * @param zoom
-     * @return
-     */
+    /** Gets the start and end points for a latitude line */
     private static double[] getStartEndPointsNS(double north, double south, int zoom) {
         //brute force when zoom is less than 10
         if (zoom < 10) {
@@ -326,14 +319,7 @@ public class LatLonGridlineOverlay {
     }
 
 
-    /**
-     * gets the start and stop point for a longitude line
-     *
-     * @param west
-     * @param east
-     * @param zoom
-     * @return
-     */
+    /** Gets the start and stop point for a longitude line */
     private static double[] getStartEndPointsWE(double west, double east, int zoom) {
 
         double incrementor = getIncrementor(zoom);

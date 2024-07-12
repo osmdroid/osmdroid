@@ -65,7 +65,7 @@ public class SampleWithTilesOverlay extends AppCompatActivity {
         MapTileProviderBasic provider = new MapTileProviderBasic(getApplicationContext());
         provider.setTileSource(TileSourceFactory.PUBLIC_TRANSPORT);
         TilesOverlay tilesOverlay = new TilesOverlay(provider, this.getBaseContext());
-        tilesOverlay.setLoadingBackgroundColor(Color.TRANSPARENT);
+        tilesOverlay.setLoadingBackgroundColor(this, Color.TRANSPARENT);
         mMapView.getOverlayManager().add(tilesOverlay);
     }
 

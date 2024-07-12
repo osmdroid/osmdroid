@@ -33,20 +33,14 @@ public class MarkerInfoWindow extends BasicInfoWindow {
     protected Marker mMarkerRef; //reference to the Marker on which it is opened. Null if none.
 
     /**
-     * @param layoutResId layout that must contain these ids: bubble_title,bubble_description,
-     *                    bubble_subdescription, bubble_image
-     * @param mapView
+     * @param layoutResId layout that must contain these ids: bubble_title,bubble_description, bubble_subdescription, bubble_image
      */
     public MarkerInfoWindow(int layoutResId, MapView mapView) {
         super(layoutResId, mapView);
         //mMarkerRef = null;
     }
 
-    /**
-     * reference to the Marker on which it is opened. Null if none.
-     *
-     * @return
-     */
+    /** Reference to the Marker on which it is opened. Null if none */
     public Marker getMarkerReference() {
         return mMarkerRef;
     }
@@ -61,7 +55,7 @@ public class MarkerInfoWindow extends BasicInfoWindow {
             return;
         }
         //handle image
-        ImageView imageView = (ImageView) mView.findViewById(mImageId /*R.id.image*/);
+        ImageView imageView = mView.findViewById(org.osmdroid.library.R.id.bubble_image);
         Drawable image = mMarkerRef.getImage();
         if (image != null) {
             imageView.setImageDrawable(image); //or setBackgroundDrawable(image)?

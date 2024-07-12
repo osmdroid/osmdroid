@@ -20,8 +20,8 @@ public class SampleInvertedTiles_NightMode extends BaseSampleFragment {
     @Override
     public void addOverlays() {
         this.mMapView.getOverlayManager().getTilesOverlay().setColorFilter(TilesOverlay.INVERT_COLORS);
-        this.mMapView.getOverlayManager().getTilesOverlay().setLoadingBackgroundColor(android.R.color.black);
-        this.mMapView.getOverlayManager().getTilesOverlay().setLoadingLineColor(Color.argb(255, 0, 255, 0));
+        this.mMapView.getOverlayManager().getTilesOverlay().setLoadingBackgroundColor(requireContext(), android.R.color.black);
+        this.mMapView.getOverlayManager().getTilesOverlay().setLoadingLineColor(requireContext(), Color.argb(255, 0, 255, 0));
     }
 
 }

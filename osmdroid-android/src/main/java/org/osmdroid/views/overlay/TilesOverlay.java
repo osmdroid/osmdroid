@@ -117,11 +117,12 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
         mTileProvider = aTileProvider;
         setHorizontalWrapEnabled(horizontalWrapEnabled);
         setVerticalWrapEnabled(verticalWrapEnabled);
+        prepareBackgroundTile(aContext);
     }
 
     @Override
     public void onDestroy(@Nullable final MapView mapView) {
-        mTileProvider.detach(mapView.getContext());
+        mTileProvider.detach((mapView != null) ? mapView.getContext() : null);
         BitmapPool.getInstance().asyncRecycle(mLoadingTile);
         mLoadingTile = null;
         BitmapPool.getInstance().asyncRecycle(userSelectedLoadingDrawable);
@@ -177,6 +178,29 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
         final int tileZoomLevel = TileSystem.getInputTileZoomLevel(mProjection.getZoomLevel());
         mTileProvider.getTileCache().getMapTileArea().set(tileZoomLevel, mProtectedTiles);
         mTileProvider.getTileCache().maintenance();
+    }
+
+    private void prepareBackgroundTile(@NonNull final Context context) {
+        if ((mLoadingTile != null) || (mLoadingBackgroundColor == Color.TRANSPARENT)) return;
+        try {
+            final int tileSize = ((mTileProvider.getTileSource() != null) ? mTileProvider.getTileSource().getTileSizePixels() : 256);
+            final Bitmap bitmap = Bitmap.createBitmap(tileSize, tileSize, Bitmap.Config.ARGB_8888);
+            final Canvas canvas = new Canvas(bitmap);
+            final Paint paint = new Paint();
+            canvas.drawColor(mLoadingBackgroundColor);
+            paint.setColor(mLoadingLineColor);
+            paint.setStrokeWidth(0);
+            final int lineSize = (tileSize / 16);
+            for (int a = 0; a < tileSize; a += lineSize) {
+                canvas.drawLine(0, a, tileSize, a, paint);
+                canvas.drawLine(a, 0, a, tileSize, paint);
+            }
+            mLoadingTile = new BitmapDrawable(context.getResources(), bitmap);
+        } catch (final OutOfMemoryError e) {
+            Log.e(IMapView.LOGTAG, "OutOfMemoryError getting loading tile");
+        } catch (final NullPointerException e) {
+            Log.e(IMapView.LOGTAG, "NullPointerException getting loading tile");
+        }
     }
 
     /**
@@ -281,12 +305,9 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 
             if (Configuration.getInstance().isDebugTileProviders()) {
                 mProjection.getPixelFromTile(pX, pY, mTileRect);
-                mCanvas.drawText(MapTileIndex.toString(pMapTileIndex), mTileRect.left + 1,
-                        mTileRect.top + mDebugPaint.getTextSize(), mDebugPaint);
-                mCanvas.drawLine(mTileRect.left, mTileRect.top, mTileRect.right, mTileRect.top,
-                        mDebugPaint);
-                mCanvas.drawLine(mTileRect.left, mTileRect.top, mTileRect.left, mTileRect.bottom,
-                        mDebugPaint);
+                mCanvas.drawText(MapTileIndex.toString(pMapTileIndex), mTileRect.left + 1, mTileRect.top + mDebugPaint.getTextSize(), mDebugPaint);
+                mCanvas.drawLine(mTileRect.left, mTileRect.top, mTileRect.right, mTileRect.top, mDebugPaint);
+                mCanvas.drawLine(mTileRect.left, mTileRect.top, mTileRect.left, mTileRect.bottom, mDebugPaint);
             }
         }
 
@@ -439,13 +460,13 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
     /**
      * Set the color to use to draw the background while we're waiting for the tile to load.
      *
-     * @param pLoadingBackgroundColor the color to use. If the value is {@link Color#TRANSPARENT} then there will be no
-     *                                loading tile.
+     * @param pLoadingBackgroundColor the color to use. If the value is {@link Color#TRANSPARENT} then there will be no loading tile.
      */
-    public void setLoadingBackgroundColor(final int pLoadingBackgroundColor) {
+    public void setLoadingBackgroundColor(@NonNull final Context context, final int pLoadingBackgroundColor) {
         if (mLoadingBackgroundColor != pLoadingBackgroundColor) {
             mLoadingBackgroundColor = pLoadingBackgroundColor;
             clearLoadingTile();
+            prepareBackgroundTile(context);
         }
     }
 
@@ -453,39 +474,16 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
         return mLoadingLineColor;
     }
 
-    public void setLoadingLineColor(final int pLoadingLineColor) {
+    public void setLoadingLineColor(@NonNull final Context context, final int pLoadingLineColor) {
         if (mLoadingLineColor != pLoadingLineColor) {
             mLoadingLineColor = pLoadingLineColor;
             clearLoadingTile();
+            prepareBackgroundTile(context);
         }
     }
 
     private Drawable getLoadingTile() {
-        if (userSelectedLoadingDrawable != null)
-            return userSelectedLoadingDrawable;
-        if (mLoadingTile == null && mLoadingBackgroundColor != Color.TRANSPARENT) {
-            try {
-                final int tileSize = mTileProvider.getTileSource() != null ? mTileProvider
-                        .getTileSource().getTileSizePixels() : 256;
-                final Bitmap bitmap = Bitmap.createBitmap(tileSize, tileSize,
-                        Bitmap.Config.ARGB_8888);
-                final Canvas canvas = new Canvas(bitmap);
-                final Paint paint = new Paint();
-                canvas.drawColor(mLoadingBackgroundColor);
-                paint.setColor(mLoadingLineColor);
-                paint.setStrokeWidth(0);
-                final int lineSize = tileSize / 16;
-                for (int a = 0; a < tileSize; a += lineSize) {
-                    canvas.drawLine(0, a, tileSize, a, paint);
-                    canvas.drawLine(a, 0, a, tileSize, paint);
-                }
-                mLoadingTile = new BitmapDrawable(bitmap);
-            } catch (final OutOfMemoryError e) {
-                Log.e(IMapView.LOGTAG, "OutOfMemoryError getting loading tile");
-            } catch (final NullPointerException e) {
-                Log.e(IMapView.LOGTAG, "NullPointerException getting loading tile");
-            }
-        }
+        if (userSelectedLoadingDrawable != null) return userSelectedLoadingDrawable;
         return mLoadingTile;
     }
 
@@ -501,7 +499,6 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
      * Use this to enable night mode or any other tile rendering adjustment as necessary. use null to clear.
      * INVERT_COLORS provides color inversion for convenience and to support the previous night mode
      *
-     * @param filter
      * @since 5.1
      */
     public void setColorFilter(ColorFilter filter) {

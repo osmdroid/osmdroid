@@ -28,8 +28,8 @@ public class SampleOpenSeaMap extends BaseSampleFragment {
         super.addOverlays();
         mProvider = new MapTileProviderBasic(requireContext());
         TilesOverlay seaMap = new TilesOverlay(mProvider, requireContext());
-        seaMap.setLoadingLineColor(Color.TRANSPARENT);
-        seaMap.setLoadingBackgroundColor(Color.TRANSPARENT);
+        seaMap.setLoadingLineColor(requireContext(), Color.TRANSPARENT);
+        seaMap.setLoadingBackgroundColor(requireContext(), Color.TRANSPARENT);
         seaMap.setLoadingDrawable(null);
         mProvider.setTileSource(TileSourceFactory.OPEN_SEAMAP);
         mMapView.getOverlayManager().add(seaMap);

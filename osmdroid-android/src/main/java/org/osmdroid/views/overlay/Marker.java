@@ -107,10 +107,6 @@ public class Marker extends OverlayWithIW {
     private static Drawable mDefaultMarkerIcon = null;
 
     public Marker(@NonNull final MapView mapView) {
-        this(mapView, (mapView.getContext()));
-    }
-
-    public Marker(@NonNull final MapView mapView, @Nullable final Context context) {
         super();
         final MapViewRepository cMapViewRepository = mapView.getRepository();
         if (mDefaultMarkerIcon == null) mDefaultMarkerIcon = cMapViewRepository.getDefaultMarkerIcon();
@@ -145,7 +141,7 @@ public class Marker extends OverlayWithIW {
      * Two exceptions:
      * - for text icons, the anchor is set to (center, center)
      * - for the default icon, the anchor is set to the corresponding position (the tip of the teardrop)
-     * Related methods: {@link #setTextIcon(String)}, {@link #setDefaultIcon()} and {@link #setAnchor(float, float)}
+     * Related methods: {@link #setTextIcon(Context, String)}, {@link #setDefaultIcon()} and {@link #setAnchor(float, float)}
      *
      * @param icon if null, the default osmdroid marker is used.
      */
@@ -169,7 +165,7 @@ public class Marker extends OverlayWithIW {
      * @since 6.0.3
      */
     @UiThread @MainThread
-    public void setTextIcon(final String pText) {
+    public void setTextIcon(@NonNull final Context context, final String pText) {
         final int width = (int) (mTextPaint.measureText(pText) + 0.5f);
         final float baseline = (int) (-mTextPaint.ascent() + 0.5f);
         final int height = (int) (baseline + mTextPaint.descent() + 0.5f);
@@ -185,7 +181,7 @@ public class Marker extends OverlayWithIW {
         mImageCanvas.setBitmap(image);
         mImageCanvas.drawPaint(mBackgroundPaint);
         mImageCanvas.drawText(pText, 0, baseline, mTextPaint);
-        mTextIconsCache.put(cKey, (imageDrawable = new BitmapDrawable(image)));
+        mTextIconsCache.put(cKey, (imageDrawable = new BitmapDrawable(context.getResources(), image)));
         mIcon = imageDrawable;
         setAnchor(ANCHOR_CENTER, ANCHOR_CENTER);
     }
@@ -381,6 +377,7 @@ public class Marker extends OverlayWithIW {
         BitmapPool.getInstance().asyncRecycle(mIcon);
         mIcon = null;
         BitmapPool.getInstance().asyncRecycle(mImage);
+        mImage = null;
         //cleanDefaults();
         this.mOnMarkerClickListener = null;
         this.mOnMarkerDragListener = null;
