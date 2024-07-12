@@ -37,11 +37,11 @@ public class MapTileProviderTest {
     private final IMapTileProviderCallback mTileProviderCallback = new IMapTileProviderCallback() {
 
         @Override
-        public void mapTileRequestStarted(final MapTileRequestState aState, final int pending, final int working) {
+        public void mapTileRequestStarted(@NonNull final MapTileRequestState aState, final int pending, final int working) {
         }
 
         @Override
-        public void mapTileRequestCompleted(final MapTileRequestState aState,
+        public void mapTileRequestCompleted(@NonNull final MapTileRequestState aState,
                                             final Drawable aDrawable) {
             final Long cMapTileIndex = aState.getMapTileIndex();
             if (cMapTileIndex == null) return;
@@ -49,24 +49,24 @@ public class MapTileProviderTest {
         }
 
         @Override
-        public void mapTileRequestFailed(final MapTileRequestState aState) {
+        public void mapTileRequestFailed(@NonNull final MapTileRequestState aState) {
         }
 
         @Override
-        public void mapTileRequestFailedExceedsMaxQueueSize(final MapTileRequestState aState) {
+        public void mapTileRequestFailedExceedsMaxQueueSize(@NonNull final MapTileRequestState aState) {
         }
 
         @Override
-        public void mapTileRequestExpiredTile(final MapTileRequestState aState, final Drawable aDrawable) {
+        public void mapTileRequestExpiredTile(@NonNull final MapTileRequestState aState, final Drawable aDrawable) {
         }
 
         @Override
-        public void mapTileRequestDoneButUnknown(MapTileRequestState aState) {
+        public void mapTileRequestDoneButUnknown(@NonNull final MapTileRequestState aState) {
 
         }
 
         @Override
-        public void mapTileRequestDiscartedDueToOutOfViewBounds(MapTileRequestState aState) {
+        public void mapTileRequestDiscartedDueToOutOfViewBounds(@NonNull final MapTileRequestState aState) {
 
         }
 

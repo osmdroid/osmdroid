@@ -187,7 +187,7 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback {
 
     @CallSuper
     @Override
-    public void mapTileRequestStarted(final MapTileRequestState pState, final int pending, final int working) {
+    public void mapTileRequestStarted(@NonNull final MapTileRequestState pState, final int pending, final int working) {
         final Long cMapTileIndex = pState.getMapTileIndex();
         if (cMapTileIndex == null) return;
         final MapTileModuleProviderBase cMapTileModuleProviderBase;
@@ -205,7 +205,7 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback {
      */
     @CallSuper
     @Override
-    public void mapTileRequestCompleted(final MapTileRequestState pState, final Drawable pDrawable) {
+    public void mapTileRequestCompleted(@NonNull final MapTileRequestState pState, final Drawable pDrawable) {
         // put the tile in the cache
         final Long cMapTileIndex = pState.getMapTileIndex();
         if (cMapTileIndex == null) return;
@@ -230,7 +230,7 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback {
      */
     @CallSuper
     @Override
-    public void mapTileRequestFailed(final MapTileRequestState pState) {
+    public void mapTileRequestFailed(@NonNull final MapTileRequestState pState) {
         final Long cMapTileIndex = pState.getMapTileIndex();
         if (cMapTileIndex == null) return;
         if (mTileNotFoundImage != null) {
@@ -249,7 +249,7 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback {
 
     @CallSuper
     @Override
-    public void mapTileRequestDoneButUnknown(final MapTileRequestState pState) {
+    public void mapTileRequestDoneButUnknown(@NonNull final MapTileRequestState pState) {
         final Long cMapTileIndex = pState.getMapTileIndex();
         if (cMapTileIndex == null) return;
         final MapTileModuleProviderBase cMapTileModuleProviderBase;
@@ -266,7 +266,7 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback {
      */
     @CallSuper
     @Override
-    public void mapTileRequestFailedExceedsMaxQueueSize(final MapTileRequestState pState) {
+    public void mapTileRequestFailedExceedsMaxQueueSize(@NonNull final MapTileRequestState pState) {
         mapTileRequestFailed(pState);
     }
 
@@ -280,7 +280,7 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback {
      */
     @CallSuper
     @Override
-    public void mapTileRequestExpiredTile(MapTileRequestState pState, Drawable pDrawable) {
+    public void mapTileRequestExpiredTile(@NonNull final MapTileRequestState pState, Drawable pDrawable) {
         final Long cMapTileIndex = pState.getMapTileIndex();
         if (cMapTileIndex == null) return;
         putTileIntoCache(cMapTileIndex, pDrawable, ExpirableBitmapDrawable.getState(pDrawable));
@@ -299,7 +299,7 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback {
     /** {@inheritDoc} */
     @CallSuper
     @Override
-    public void mapTileRequestDiscartedDueToOutOfViewBounds(MapTileRequestState pState) {
+    public void mapTileRequestDiscartedDueToOutOfViewBounds(@NonNull final MapTileRequestState pState) {
         final Long cMapTileIndex = pState.getMapTileIndex();
         if (cMapTileIndex == null) return;
 

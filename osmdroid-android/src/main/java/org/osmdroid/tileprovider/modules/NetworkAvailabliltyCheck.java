@@ -63,20 +63,14 @@ public class NetworkAvailabliltyCheck implements INetworkAvailablityCheck {
         }
     }
 
-    /** @noinspection deprecation*/
     @SuppressLint("MissingPermission")
     @Override
     public boolean getWiFiNetworkAvailable() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            final NetworkInfo cNetworkInfo = mConnectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-            return (cNetworkInfo != null) && cNetworkInfo.isConnected();
-        } else {
-            try {
-                if (mIsNetworkAvailable != null) return mIsNetworkAvailable;
-                return this.isNetworkWiFi();
-            } catch (IllegalAccessException e) {
-                return true;    // if we're unable to check network state, assume we have a network
-            }
+        try {
+            if (mIsNetworkAvailable != null) return mIsNetworkAvailable;
+            return this.isNetworkWiFi();
+        } catch (IllegalAccessException e) {
+            return true;    // if we're unable to check network state, assume we have a network
         }
     }
 
@@ -139,33 +133,27 @@ public class NetworkAvailabliltyCheck implements INetworkAvailablityCheck {
 
     /** Returns <i>TRUE</i> if there is an <b>WiFi</b> connection available and connected */
     @SuppressLint("MissingPermission")
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public static boolean isNetworkWiFi(@NonNull final Context context) throws IllegalAccessException {
         return isNetworkSpecific(context, ConnectivityManager.TYPE_WIFI);
     }
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public boolean isNetworkWiFi() throws IllegalAccessException {
         return this.isNetworkSpecific(ConnectivityManager.TYPE_WIFI);
     }
 
     /** Returns <i>TRUE</i> if there is an <b>Mobile</b> connection available and connected */
     @SuppressLint("MissingPermission")
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public static boolean isNetworkMobile(@NonNull final Context context) throws IllegalAccessException {
         return isNetworkSpecific(context, ConnectivityManager.TYPE_MOBILE);
     }
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public boolean isNetworkMobile() throws IllegalAccessException {
         return this.isNetworkSpecific(ConnectivityManager.TYPE_MOBILE);
     }
 
     /** Returns <i>TRUE</i> if there is an <b>Ethernet</b> connection available and connected */
     @SuppressLint("MissingPermission")
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public static boolean isNetworkEthernet(@NonNull final Context context) throws IllegalAccessException {
         return isNetworkSpecific(context, ConnectivityManager.TYPE_ETHERNET);
     }
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public boolean isNetworkEthernet() throws IllegalAccessException {
         return this.isNetworkSpecific(ConnectivityManager.TYPE_ETHERNET);
     }
@@ -175,7 +163,6 @@ public class NetworkAvailabliltyCheck implements INetworkAvailablityCheck {
      * @noinspection deprecation
      */
     @SuppressLint("MissingPermission")
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private static boolean isNetworkSpecific(@NonNull final Context context, final int connectivityManagerType) throws IllegalAccessException {
         if (context.getPackageManager().checkPermission(Manifest.permission.ACCESS_NETWORK_STATE, context.getPackageName()) != PackageManager.PERMISSION_GRANTED) throw new IllegalAccessException("No NETWORK_STATE permission granted");
         final ConnectivityManager cConnectivityManager = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -191,7 +178,6 @@ public class NetworkAvailabliltyCheck implements INetworkAvailablityCheck {
      * Returns <i>TRUE</i> if there is at most one connection
      * @noinspection deprecation
      */
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @SuppressLint("MissingPermission")
     public boolean isNetworkSpecific(final int connectivityManagerType) throws IllegalAccessException {
         if (mPackageManager.checkPermission(Manifest.permission.ACCESS_NETWORK_STATE, mPackageName) != PackageManager.PERMISSION_GRANTED) throw new IllegalAccessException("No NETWORK_STATE permission granted");
@@ -277,7 +263,6 @@ public class NetworkAvailabliltyCheck implements INetworkAvailablityCheck {
     */
 
     @SuppressLint({"MissingPermission", "LongLogTag"})
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public static boolean isURLReachable(@NonNull final Context context, @NonNull final String url, final int timeoutMilliseconds) {
         final URL cURL;
         try { cURL = new URL(url); } catch (MalformedURLException e) { return false; }

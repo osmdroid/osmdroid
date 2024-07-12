@@ -70,9 +70,7 @@ import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
- * This is the primary view for osmdroid. <br><br>
- * As of version 6.0.0, please respect the android view lifecycle by calling
- * {@link MapView#onPause()} and {@link MapView#onResume()} respectively
+ * This is the primary view for osmdroid
  *
  * @author plusminus on 17:45:56 - 25.09.2008
  * @author and many other contributors

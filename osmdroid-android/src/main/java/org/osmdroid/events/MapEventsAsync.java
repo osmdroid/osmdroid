@@ -2,7 +2,6 @@ package org.osmdroid.events;
 
 import android.annotation.SuppressLint;
 import android.graphics.Rect;
-import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
@@ -84,16 +83,16 @@ public final class MapEventsAsync implements ViewModelStoreOwner {
     private static int maskThMainMessage(@TH_MAINMESSAGE final int thMainMessage, @IMapTileProviderCallback.TILEPROVIDERTYPE final int providerType) { return (thMainMessage | providerType); }
     @SuppressLint("WrongConstant")
     @TH_MAINMESSAGE
-    public static int unmaskThMainMessage(final int messageWhat) { return (messageWhat & 0xFFFF); }
+    private static int unmaskThMainMessage(final int messageWhat) { return (messageWhat & 0xFFFF); }
     @SuppressLint("WrongConstant")
     @IMapTileProviderCallback.TILEPROVIDERTYPE
-    public static int unmaskTileProviderType(final int messageWhat) { return (messageWhat & 0xFFFF0000); }
+    private static int unmaskTileProviderType(final int messageWhat) { return (messageWhat & 0xFFFF0000); }
 
     @UiThread @MainThread
     public MapEventsAsync(@NonNull final MapView mapView, @NonNull final MapEventsAsyncListener listener, @Nullable final ThreadParams params) {
         mMapView = mapView;
         mMapEventsAsyncViewModel = new ViewModelProvider(this).get(MapEventsAsyncViewModel.class);
-        mMapEventsAsyncViewModel.mLoadingLiveData.observe(mapView, new Observer<Long>() {
+        mMapEventsAsyncViewModel.mLoadingLiveData.observe(mapView, new Observer<>() {
             @Override
             public void onChanged(@Nullable final Long value) {
                 if (value == null) return;
@@ -195,54 +194,6 @@ public final class MapEventsAsync implements ViewModelStoreOwner {
                          * - arg2: (int) half-long-B for mapTileIndex
                          * - obj: (long) loadingTime_ms
                          */
-                        /*
-                        @IMapTileProviderCallback.TILEPROVIDERTYPE
-                        final int cProviderType = unmaskTileProviderType(msg.what);
-                        final long cMapTileIndex = ((long)msg.arg1 << 32) | (msg.arg2 & 0xFFFFFFFFL);
-                        @Nullable
-                        Long cLoadingTime_ms = (Long)msg.obj;
-                        if (cLoadingTime_ms == null) cLoadingTime_ms = -1L;
-                        final int cX = MapTileIndex.getX(cMapTileIndex);
-                        final int cY = MapTileIndex.getY(cMapTileIndex);
-                        final int cZ = MapTileIndex.getZoom(cMapTileIndex);
-                        if (cUnmaskedWhat == TH_MAINMESSAGE_ONTILELOADING) {
-                            boolean cIsFirst = false;
-                            if (!MapEventsAsync.this.mRemainingToResolve.containsKey(cMapTileIndex)) {
-                                MapEventsAsync.this.mRemainingToResolve.put(cMapTileIndex, cMapTileIndex);
-                                cIsFirst = (MapEventsAsync.this.mRemainingToResolve.size() == 1);
-                                if (cIsFirst) MapEventsAsync.this.mPendingLoadingTypes.put(LOADINGTYPE_TILES, LOADINGTYPE_TILES);
-                                for (final TileLoadListener cTileListener : MapEventsAsync.this.mTileLoadListeners) cTileListener.onTileLoading(MapEventsAsync.this.mMapView, cX, cY, cZ, cProviderType);
-                            }
-                            final long cSystemClock;
-                            final boolean cIsTimerExpired = (((cSystemClock = SystemClock.elapsedRealtime()) - this.mLastLoadingTileProgression) >= 333/*ms* /);
-                            if (cIsFirst || cIsTimerExpired) {
-                                MapEventsAsync.this.postOnLoadingProgressToViewModel(LOADINGTYPE_TILES, null, null, null, (this.getCurrentPendingLoadingTypes() &~ LOADINGTYPE_TILES));
-                                this.mLastLoadingTileProgression = cSystemClock;
-                            }
-                        } else {
-                            for (final TileLoadListener cTileListener : MapEventsAsync.this.mTileLoadListeners) {
-                                if (cUnmaskedWhat == TH_MAINMESSAGE_ONTILELOADSUCCESS) cTileListener.onTileLoadSuccess(MapEventsAsync.this.mMapView, cX, cY, cZ, cProviderType, cLoadingTime_ms);
-                                else if (cUnmaskedWhat == TH_MAINMESSAGE_ONTILELOADCANCELLED) cTileListener.onTileLoadCancelled(MapEventsAsync.this.mMapView, cX, cY, cZ, cProviderType, cLoadingTime_ms);
-                                else cTileListener.onTileLoadFail(MapEventsAsync.this.mMapView, cX, cY, cZ, cProviderType, cLoadingTime_ms);
-                            }
-                            @Nullable
-                            final Long cRemoved = MapEventsAsync.this.mRemainingToResolve.remove(cMapTileIndex);
-                            if (cRemoved == null) {
-                                Log.e(TAG, "IIIIIIIIIIIIIIIIIIIIIIII:" + cMapTileIndex);
-                            }
-                        }
-                            //check final counter
-                        Log.e(TAG, "__remaining: " + MapEventsAsync.this.mRemainingToResolve.values());
-                        if (MapEventsAsync.this.mRemainingToResolve.size() == 0) {
-                            @LOADINGTYPE
-                            int cPendingLoadingTypes = this.getCurrentPendingLoadingTypes();
-                            if (MapEventsAsync.this.mRemainingToResolve.size() == 0) {
-                                cPendingLoadingTypes &=~ LOADINGTYPE_TILES;
-                                MapEventsAsync.this.mPendingLoadingTypes.remove(LOADINGTYPE_TILES);
-                            }
-                            MapEventsAsync.this.postToMainThread_OnLoadingDone(LOADINGTYPE_TILES, cPendingLoadingTypes);
-                        }
-                        */
                         handleTileLoadingData(msg.what, msg.arg1, msg.arg2, (Long)msg.obj);
                         break;
                     }
@@ -285,7 +236,7 @@ public final class MapEventsAsync implements ViewModelStoreOwner {
                 }
                 return false;
             }
-            /** @noinspection SynchronizationOnLocalVariableOrMethodParameter*/
+            /** @noinspection SynchronizationOnLocalVariableOrMethodParameter, UnusedReturnValue */
             private WorkingThread ensureThreadIsRunning() {
                 if ((mWorkingThread == null) || !mWorkingThread.isAlive() || mWorkingThread.isInterrupted()) {
                     final ReusablePoolDynamic.SyncObj<Boolean> cSyncObj = new ReusablePoolDynamic.SyncObj<>(Boolean.FALSE);
@@ -301,22 +252,26 @@ public final class MapEventsAsync implements ViewModelStoreOwner {
         if (mapView.isAttachedToWindow()) this.onMapViewAttachedToWindow(mapView, listener, params);
     }
 
+    @UiThread @MainThread
     private void handleTileLoadingData(final int what, final int halfLongA, final int halfLongB, @Nullable final Long loadingTime_ms) {
+        this.handleTileLoadingData(what, ((long)halfLongA << 32) | (halfLongB & 0xFFFFFFFFL), loadingTime_ms);
+    }
+    @UiThread @MainThread
+    private void handleTileLoadingData(final int what, final long mapTileIndex, @Nullable final Long loadingTime_ms) {
         @TH_MAINMESSAGE
         final int cUnmaskedWhat = unmaskThMainMessage(what);
         @IMapTileProviderCallback.TILEPROVIDERTYPE
         final int cProviderType = unmaskTileProviderType(what);
-        final long cMapTileIndex = ((long)halfLongA << 32) | (halfLongB & 0xFFFFFFFFL);
         @Nullable
         Long cLoadingTime_ms = loadingTime_ms;
         if (cLoadingTime_ms == null) cLoadingTime_ms = -1L;
-        final int cX = MapTileIndex.getX(cMapTileIndex);
-        final int cY = MapTileIndex.getY(cMapTileIndex);
-        final int cZ = MapTileIndex.getZoom(cMapTileIndex);
+        final int cX = MapTileIndex.getX(mapTileIndex);
+        final int cY = MapTileIndex.getY(mapTileIndex);
+        final int cZ = MapTileIndex.getZoom(mapTileIndex);
         if (cUnmaskedWhat == TH_MAINMESSAGE_ONTILELOADING) {
             boolean cIsFirst = false;
-            if (!this.mRemainingToResolve.containsKey(cMapTileIndex)) {
-                this.mRemainingToResolve.put(cMapTileIndex, cMapTileIndex);
+            if (!this.mRemainingToResolve.containsKey(mapTileIndex)) {
+                this.mRemainingToResolve.put(mapTileIndex, mapTileIndex);
                 cIsFirst = (this.mRemainingToResolve.size() == 1);
                 if (cIsFirst) this.mPendingLoadingTypes.put(LOADINGTYPE_TILES, LOADINGTYPE_TILES);
                 for (final TileLoadListener cTileListener : MapEventsAsync.this.mTileLoadListeners) cTileListener.onTileLoading(MapEventsAsync.this.mMapView, cX, cY, cZ, cProviderType);
@@ -333,20 +288,14 @@ public final class MapEventsAsync implements ViewModelStoreOwner {
                 else if (cUnmaskedWhat == TH_MAINMESSAGE_ONTILELOADCANCELLED) cTileListener.onTileLoadCancelled(MapEventsAsync.this.mMapView, cX, cY, cZ, cProviderType, cLoadingTime_ms);
                 else cTileListener.onTileLoadFail(MapEventsAsync.this.mMapView, cX, cY, cZ, cProviderType, cLoadingTime_ms);
             }
-            @Nullable
-            final Long cRemoved = this.mRemainingToResolve.remove(cMapTileIndex);
-            /*
-            if (cRemoved == null) {
-                Log.e(TAG, "IIIIIIIIIIIIIIIIIIIIIIII:" + cMapTileIndex);
-            }
-            */
+            this.mRemainingToResolve.remove(mapTileIndex);
         }
             //check final counter
         //Log.e(TAG, "__remaining: " + this.mRemainingToResolve.values());
-        if (this.mRemainingToResolve.size() == 0) {
+        if (this.mRemainingToResolve.isEmpty()) {
             @LOADINGTYPE
             int cPendingLoadingTypes = this.getCurrentPendingLoadingTypes();
-            if (this.mRemainingToResolve.size() == 0) {
+            if (this.mRemainingToResolve.isEmpty()) {
                 cPendingLoadingTypes &=~ LOADINGTYPE_TILES;
                 this.mPendingLoadingTypes.remove(LOADINGTYPE_TILES);
             }
@@ -368,7 +317,7 @@ public final class MapEventsAsync implements ViewModelStoreOwner {
             @UiThread @MainThread
             @Override
             public void onViewBoundingBoxChanged(@NonNull final Rect fromBounds, final int fromZoom, @NonNull final Rect toBounds, final int toZoom) {
-                postToMainThread_OnViewBoundingBoxChangedEvent(toBounds, fromZoom, toZoom);
+                postToMainThread_OnViewBoundingBoxChangedEvent(fromZoom, toZoom);
             }
             @UiThread @MainThread
             @Override
@@ -404,9 +353,7 @@ public final class MapEventsAsync implements ViewModelStoreOwner {
                          */
                         final long cMapTileIndex = (((long)msg.arg1 << 32) | (msg.arg2 & 0xFFFFFFFFL));
                         //Log.e(TAG, "__loading("+ IMapTileProviderCallback.decodeTileProviderName(cProviderType)+"): " + cMapTileIndex + " ("+MapTileIndex.getX(cMapTileIndex)+","+MapTileIndex.getY(cMapTileIndex)+","+MapTileIndex.getZoom(cMapTileIndex)+")");
-                        /*
-                        postToMainThread_OnTileLoading(msg.arg1, msg.arg2, cProviderType);
-                        */handleTileLoadingData(maskThMainMessage(TH_MAINMESSAGE_ONTILELOADING, cProviderType), msg.arg1, msg.arg2, 0L);
+                        handleTileLoadingData(maskThMainMessage(TH_MAINMESSAGE_ONTILELOADING, cProviderType), cMapTileIndex, 0L);
                         break;
                     }
                     case MapTileProviderBase.MAPTYPERESULT_FAIL                     :
@@ -418,7 +365,7 @@ public final class MapEventsAsync implements ViewModelStoreOwner {
                          * - arg2: (int) half-long-B for mapTileIndex
                          * - obj: (long) loadingTime_ms
                          */
-                        final long cMapTileIndex = (((long)msg.arg1 << 32) | (msg.arg2 & 0xFFFFFFFFL));
+                        //final long cMapTileIndex = (((long)msg.arg1 << 32) | (msg.arg2 & 0xFFFFFFFFL));
                         final long cLoadingTime_ms = (long)msg.obj;
                         final String cResult;
                         final int cWhat;
@@ -444,9 +391,7 @@ public final class MapEventsAsync implements ViewModelStoreOwner {
                     }
                     default: {
                         Log.e(TAG, "__unknown tile result: " + cMapTypeResult);
-                        /*
-                        postToMainThread_OnTileLoadCancelled(msg.arg1, msg.arg2, cProviderType, 0L);
-                        */handleTileLoadingData(maskThMainMessage(TH_MAINMESSAGE_ONTILELOADCANCELLED, cProviderType), msg.arg1, msg.arg2, 0L);
+                        handleTileLoadingData(maskThMainMessage(TH_MAINMESSAGE_ONTILELOADCANCELLED, cProviderType), msg.arg1, msg.arg2, 0L);
                     }
                 }
                 super.handleMessage(msg);
@@ -490,7 +435,7 @@ public final class MapEventsAsync implements ViewModelStoreOwner {
     @WorkerThread
     private boolean postToMainThread_OnScrollDone(@Nullable final Object callbackResult) { return postToMainThread(TH_MAINMESSAGE_ONSCROLLDONE, 0, 0, callbackResult, false, false, 0); }
     private boolean postToMainThread_OnZoom(@NonNull final ZoomEvent event) { return postToMainThread(TH_MAINMESSAGE_ONZOOM, 0, 0, event, false, false, 0); }
-    private boolean postToMainThread_OnViewBoundingBoxChangedEvent(@NonNull final Rect toBounds, final int fromZoom, final int toZoom) {
+    private boolean postToMainThread_OnViewBoundingBoxChangedEvent(final int fromZoom, final int toZoom) {
         return postToMainThread(TH_MAINMESSAGE_ONVIEWBOUNDINGBOXCHANGED, ((toZoom << 16) | (fromZoom & 0xFFFF)), 0, null, false, false, 0);
     }
     @WorkerThread
@@ -532,7 +477,7 @@ public final class MapEventsAsync implements ViewModelStoreOwner {
 
     @WorkerThread
     private static final class WorkingThread extends Thread implements Handler.Callback {
-        private static final String TAG = "WorkingThread";
+        private static final String TAG = MapEventsAsync.TAG + ".WorkingThread";
 
         @Retention(RetentionPolicy.SOURCE)
         @IntDef(value={ TH_WORKERMESSAGE_STARTED, TH_WORKERMESSAGE_QUIT, TH_WORKERMESSAGE_ONINIT, TH_WORKERMESSAGE_ONSCROLL, TH_WORKERMESSAGE_ONZOOM, TH_WORKERMESSAGE_ONPAUSE, TH_WORKERMESSAGE_ONRESUME })
@@ -647,7 +592,7 @@ public final class MapEventsAsync implements ViewModelStoreOwner {
     private boolean postToWorkingThread_Quit(@NonNull final WorkingThread workingThread) { return workingThread.postToWorkingThread(WorkingThread.TH_WORKERMESSAGE_QUIT); }
 
     /** Threads Parameter(s) */
-    private static class ThreadParams {
+    public static class ThreadParams {
         /* fill as you need */
     }
 
@@ -750,6 +695,10 @@ public final class MapEventsAsync implements ViewModelStoreOwner {
     private CallbackEvent<?> getCallbackEvent(@CALLBACKEVENTTYPE final int type) { return mCallbackEvents.get(type); }
 
     public interface ViewBoundingBoxChangedListener {
+        /**
+         * Event raised when there is a change in X,Y,Z Tiles boundaries (Zoom or Pan).
+         * Only INTEGER changes are detected so any non-integer value (like a Zoom value during animations) doesn't raise this Event.
+         */
         @UiThread @MainThread
         void onViewBoundingBoxChanged(int fromZoom, int toZoom);
     }

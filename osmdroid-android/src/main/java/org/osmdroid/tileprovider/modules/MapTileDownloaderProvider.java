@@ -208,11 +208,11 @@ public class MapTileDownloaderProvider extends MapTileModuleProviderBase {
         public final int getProviderType() { return IMapTileProviderCallback.TILEPROVIDERTYPE_DOWNLOADER; }
 
         @Override
-        protected void tileLoaded(final MapTileRequestState pState, final Drawable pDrawable, final IMapTileProviderCallback callback) {
+        protected void tileLoaded(@NonNull final MapTileRequestState pState, final Drawable pDrawable, final IMapTileProviderCallback callback) {
             final Long cMapTileIndex = pState.getMapTileIndex();
             if (cMapTileIndex == null) return;
             removeTileFromQueues(cMapTileIndex);
-            // don't return the tile because we'll wait for the fs provider to ask for it this prevent flickering when a load of delayed downloads complete for tiles that we might not even be interested in any more
+            // don't return the Tile because we'll wait for the fs provider to ask for it. This prevent flickering when a load of delayed downloads complete for tiles that we might not even be interested in any more
             if (callback != null) callback.mapTileRequestCompleted(pState, null);
             // We want to return the Bitmap to the BitmapPool if applicable
             BitmapPool.getInstance().asyncRecycle(pDrawable);

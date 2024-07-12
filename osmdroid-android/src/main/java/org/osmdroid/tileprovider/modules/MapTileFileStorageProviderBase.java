@@ -8,6 +8,7 @@ import android.content.IntentFilter;
 import org.osmdroid.tileprovider.IRegisterReceiver;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 public abstract class MapTileFileStorageProviderBase extends MapTileModuleProviderBase {
 
@@ -30,7 +31,8 @@ public abstract class MapTileFileStorageProviderBase extends MapTileModuleProvid
     }
 
     @Override
-    public void detach(@NonNull final Context context) {
+    public void detach(@Nullable final Context context) {
+        assert context != null : "Context is null";
         if (mBroadcastReceiver != null) {
             mRegisterReceiver.unregisterReceiver(context, mBroadcastReceiver);
             mBroadcastReceiver = null;

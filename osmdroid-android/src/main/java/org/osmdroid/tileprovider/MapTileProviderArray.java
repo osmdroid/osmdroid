@@ -149,7 +149,7 @@ public class MapTileProviderArray extends MapTileProviderBase implements MapTile
     /**
      * @since 6.0.0
      */
-    private void remove(final MapTileRequestState pState) {
+    private void remove(@NonNull final MapTileRequestState pState) {
         final Long cMapTileIndex = pState.getMapTileIndex();
         if (cMapTileIndex == null) return;
         synchronized (mWorking) {
@@ -160,34 +160,34 @@ public class MapTileProviderArray extends MapTileProviderBase implements MapTile
 
     /** {@inheritDoc} */
     @Override
-    public void mapTileRequestStarted(final MapTileRequestState aState, final int pending, final int working) {
+    public void mapTileRequestStarted(@NonNull final MapTileRequestState aState, final int pending, final int working) {
         super.mapTileRequestStarted(aState, pending, working);
     }
 
     /** {@inheritDoc} */
     @Override
-    public void mapTileRequestCompleted(final MapTileRequestState aState, final Drawable aDrawable) {
+    public void mapTileRequestCompleted(@NonNull final MapTileRequestState aState, final Drawable aDrawable) {
         super.mapTileRequestCompleted(aState, aDrawable);
         remove(aState);
     }
 
     /** {@inheritDoc} */
     @Override
-    public void mapTileRequestFailed(final MapTileRequestState aState) {
+    public void mapTileRequestFailed(@NonNull final MapTileRequestState aState) {
         super.mapTileRequestFailed(aState);
         runAsyncNextProvider(aState, MapTileProviderArray.this);
     }
 
     /** {@inheritDoc} */
     @Override
-    public void mapTileRequestFailedExceedsMaxQueueSize(final MapTileRequestState aState) {
+    public void mapTileRequestFailedExceedsMaxQueueSize(@NonNull final MapTileRequestState aState) {
         super.mapTileRequestFailedExceedsMaxQueueSize(aState);
         remove(aState);
     }
 
     /** {@inheritDoc} */
     @Override
-    public void mapTileRequestExpiredTile(MapTileRequestState aState, Drawable aDrawable) {
+    public void mapTileRequestExpiredTile(@NonNull final MapTileRequestState aState, Drawable aDrawable) {
         super.mapTileRequestExpiredTile(aState, aDrawable);
         final Long cMapTileIndex = aState.getMapTileIndex();
         if (cMapTileIndex == null) return;
@@ -201,7 +201,7 @@ public class MapTileProviderArray extends MapTileProviderBase implements MapTile
 
     /** {@inheritDoc} */
     @Override
-    public void mapTileRequestDiscartedDueToOutOfViewBounds(MapTileRequestState aState) {
+    public void mapTileRequestDiscartedDueToOutOfViewBounds(@NonNull final MapTileRequestState aState) {
         super.mapTileRequestDiscartedDueToOutOfViewBounds(aState);
         remove(aState);
     }

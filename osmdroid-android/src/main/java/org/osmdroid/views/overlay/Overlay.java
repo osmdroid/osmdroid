@@ -165,6 +165,7 @@ public abstract class Overlay implements OverlayConstants, IViewBoundingBoxChang
     // ===========================================================
 
     /** {@inheritDoc} */
+    @UiThread @MainThread
     @CallSuper
     @Override
     public void onViewBoundingBoxChanged(@NonNull final Rect fromBounds, final int fromZoom, @NonNull final Rect toBounds, final int toZoom) {

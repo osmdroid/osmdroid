@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable;
 import org.osmdroid.tileprovider.modules.CantContinueException;
 import org.osmdroid.tileprovider.modules.MapTileDownloaderProvider;
 import org.osmdroid.tileprovider.modules.MapTileModuleProviderBase;
+import org.osmdroid.tileprovider.modules.OutOfAllowedZoomException;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase;
 import org.osmdroid.util.GarbageCollector;
@@ -123,12 +124,10 @@ public class MapTilePreCache {
                     }
                 }
                 final Drawable drawable = provider.getTileLoader().loadTileIfReachable(pMapTileIndex);
-                if (drawable == null) {
-                    continue;
-                }
+                if (drawable == null) continue;
                 mCache.putTile(pMapTileIndex, drawable);
                 return;
-            } catch (CantContinueException exception) {
+            } catch (CantContinueException | OutOfAllowedZoomException exception) {
                 // just dismiss that lazily: we don't need to be severe here
             }
         }

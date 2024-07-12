@@ -37,6 +37,8 @@ import java.util.concurrent.RejectedExecutionException;
 public abstract class MapTileModuleProviderBase implements IViewBoundingBoxChangedListener {
     private static final String TAG = "MapTileModuleProviderBase";
 
+    private static final OutOfAllowedZoomException mOutOfAllowedZoomException = new OutOfAllowedZoomException("Tile is out of allowed zoom range");
+
     /**
      * Gets the human-friendly name assigned to this tile provider.
      *
@@ -87,7 +89,7 @@ public abstract class MapTileModuleProviderBase implements IViewBoundingBoxChang
      */
     public boolean isTileReachable(final long pMapTileIndex) {
         final int zoom = MapTileIndex.getZoom(pMapTileIndex);
-        return zoom >= getMinimumZoomLevel() && zoom <= getMaximumZoomLevel();
+        return ((zoom >= getMinimumZoomLevel()) && (zoom <= getMaximumZoomLevel()));
     }
 
     /**
@@ -153,7 +155,7 @@ public abstract class MapTileModuleProviderBase implements IViewBoundingBoxChang
 
     /** Detach, we're shutting down - Stops all workers. */
     @CallSuper
-    public void detach(@NonNull final Context context) {
+    public void detach(@Nullable final Context context) {
         this.onDetach(context);
     }
     @CallSuper
@@ -205,11 +207,8 @@ public abstract class MapTileModuleProviderBase implements IViewBoundingBoxChang
          * @since 6.1.3
          */
         @Nullable
-        public Drawable loadTileIfReachable(final long pMapTileIndex)
-                throws CantContinueException {
-            if (!isTileReachable(pMapTileIndex)) {
-                return null;
-            }
+        public Drawable loadTileIfReachable(final long pMapTileIndex) throws CantContinueException, OutOfAllowedZoomException {
+            if (!isTileReachable(pMapTileIndex)) throw mOutOfAllowedZoomException;
             return loadTile(pMapTileIndex);
         }
 
@@ -218,8 +217,7 @@ public abstract class MapTileModuleProviderBase implements IViewBoundingBoxChang
 
         @Deprecated
         @Nullable
-        protected Drawable loadTile(MapTileRequestState pState)
-                throws CantContinueException {
+        protected Drawable loadTile(MapTileRequestState pState) throws CantContinueException, OutOfAllowedZoomException {
             final Long cMapTileIndex = pState.getMapTileIndex();
             if (cMapTileIndex == null) return null;
             return loadTileIfReachable(cMapTileIndex);
@@ -280,7 +278,7 @@ public abstract class MapTileModuleProviderBase implements IViewBoundingBoxChang
         /**
          * A tile has loaded.
          */
-        protected void tileLoaded(final MapTileRequestState pState, final Drawable pDrawable, final IMapTileProviderCallback callback) {
+        protected void tileLoaded(@NonNull final MapTileRequestState pState, final Drawable pDrawable, final IMapTileProviderCallback callback) {
             if (this.mConfiguration.isDebugTileProviders()) {
                 Log.d(IMapView.LOGTAG, TAG+".tileLoaded() on provider: " + getName() + " with tile: "
                         + MapTileIndex.toString(pState));
@@ -296,7 +294,7 @@ public abstract class MapTileModuleProviderBase implements IViewBoundingBoxChang
          * A tile has loaded but it's expired.
          * Return it <b>and</b> send request to next provider.
          */
-        protected void tileLoadedExpired(final MapTileRequestState pState, final Drawable pDrawable) {
+        protected void tileLoadedExpired(@NonNull final MapTileRequestState pState, final Drawable pDrawable) {
             if (this.mConfiguration.isDebugTileProviders()) {
                 Log.d(IMapView.LOGTAG, TAG+".tileLoadedExpired() on provider: " + getName()
                         + " with tile: " + MapTileIndex.toString(pState));
@@ -308,7 +306,7 @@ public abstract class MapTileModuleProviderBase implements IViewBoundingBoxChang
             if (mCallback != null) mCallback.mapTileRequestExpiredTile(pState, pDrawable);
         }
 
-        protected void tileLoadedScaled(final MapTileRequestState pState, final Drawable pDrawable) {
+        protected void tileLoadedScaled(@NonNull final MapTileRequestState pState, final Drawable pDrawable) {
             if (this.mConfiguration.isDebugTileProviders()) {
                 Log.d(IMapView.LOGTAG, TAG+".tileLoadedScaled() on provider: " + getName()
                         + " with tile: " + MapTileIndex.toString(pState));
@@ -321,7 +319,7 @@ public abstract class MapTileModuleProviderBase implements IViewBoundingBoxChang
         }
 
 
-        protected void tileLoadedFailed(final MapTileRequestState pState) {
+        protected void tileLoadedFailed(@NonNull final MapTileRequestState pState) {
             if (this.mConfiguration.isDebugTileProviders()) {
                 Log.d(IMapView.LOGTAG, TAG+".tileLoadedFailed() on provider: " + getName()
                         + " with tile: " + MapTileIndex.toString(pState));
@@ -332,7 +330,7 @@ public abstract class MapTileModuleProviderBase implements IViewBoundingBoxChang
             if (mCallback != null) mCallback.mapTileRequestFailed(pState);
         }
 
-        protected void tileDiscartedDueToOutOfViewBounds(final MapTileRequestState pState) {
+        protected void tileDiscartedDueToOutOfViewBounds(@NonNull final MapTileRequestState pState) {
             if (this.mConfiguration.isDebugTileProviders()) {
                 Log.d(IMapView.LOGTAG, TAG+".tileDiscartedDueToOutOfViewBounds() on provider: " + getName()
                         + " with tile: " + MapTileIndex.toString(pState));
@@ -384,6 +382,10 @@ public abstract class MapTileModuleProviderBase implements IViewBoundingBoxChang
                 } catch (final CantContinueException e) {
                     Log.i(IMapView.LOGTAG, "Tile loader can't continue: " + MapTileIndex.toString(cMapTileIndex), e);
                     clearQueue();
+                } catch (final OutOfAllowedZoomException e) {
+                    tileDiscartedDueToOutOfViewBounds(state);
+                    mTilesOutOfViewBounds.remove(cMapTileIndex);
+                    continue;
                 } catch (final Throwable e) {
                     Log.i(IMapView.LOGTAG, "Error downloading tile: " + MapTileIndex.toString(cMapTileIndex), e);
                 }

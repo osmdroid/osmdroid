@@ -55,7 +55,7 @@ public interface IMapTileProviderCallback extends IViewBoundingBoxChangedListene
      * @param pending currently pending Tiles
      * @param working currently Tiles in download/load
      */
-    void mapTileRequestStarted(MapTileRequestState aState, int pending, int working);
+    void mapTileRequestStarted(@NonNull MapTileRequestState aState, int pending, int working);
 
     /**
      * The map tile request has completed.
@@ -63,42 +63,42 @@ public interface IMapTileProviderCallback extends IViewBoundingBoxChangedListene
      * @param aState    a state object
      * @param aDrawable a drawable
      */
-    void mapTileRequestCompleted(MapTileRequestState aState, Drawable aDrawable);
+    void mapTileRequestCompleted(@NonNull MapTileRequestState aState, Drawable aDrawable);
 
     /**
      * The map tile request has failed.
      *
      * @param aState a state object
      */
-    void mapTileRequestFailed(MapTileRequestState aState);
+    void mapTileRequestFailed(@NonNull MapTileRequestState aState);
 
     /**
      * The map tile request has failed - exceeds MaxQueueSize.
      *
      * @param aState a state object
      */
-    void mapTileRequestFailedExceedsMaxQueueSize(MapTileRequestState aState);
+    void mapTileRequestFailedExceedsMaxQueueSize(@NonNull MapTileRequestState aState);
 
     /**
      * The map tile request has produced an expired tile.
      *
      * @param aState a state object
      */
-    void mapTileRequestExpiredTile(MapTileRequestState aState, Drawable aDrawable);
+    void mapTileRequestExpiredTile(@NonNull MapTileRequestState aState, Drawable aDrawable);
 
     /**
      * The map tile request has been completed but Tile status is <i>unknown</i> or <i>not resolved</i>
      *
      * @param aState a state object
      */
-    void mapTileRequestDoneButUnknown(MapTileRequestState aState);
+    void mapTileRequestDoneButUnknown(@NonNull MapTileRequestState aState);
 
     /**
      * The map tile request has been discarted because its coords are outside current {@link org.osmdroid.views.MapView} view boundaries
      *
      * @param aState a state object
      */
-    void mapTileRequestDiscartedDueToOutOfViewBounds(MapTileRequestState aState);
+    void mapTileRequestDiscartedDueToOutOfViewBounds(@NonNull MapTileRequestState aState);
 
     /**
      * Returns true if the network connection should be used, false if not.
