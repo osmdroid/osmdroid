@@ -153,7 +153,7 @@ public class MapTileProviderBasic extends MapTileProviderArray implements IMapTi
 	}
 
 	@Override
-	public void onDetach(@NonNull final Context context) {
+	public void onDetach(@Nullable final Context context) {
 		//https://github.com/osmdroid/osmdroid/issues/213
 		if (tileWriter != null)
 			tileWriter.onDetach(context);

@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 /**
  * An implementation of {@link IFilesystemCache} based on the original TileWriter. It writes tiles to a sqlite database.
@@ -113,7 +114,7 @@ public class SqliteArchiveTileWriter implements IFilesystemCache {
     }
 
     @Override
-    public void onDetach(@NonNull final Context context) {
+    public void onDetach(@Nullable final Context context) {
         if (mDatabase != null)
             mDatabase.close();
     }

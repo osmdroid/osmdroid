@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import org.osmdroid.api.IMapView;
 import org.osmdroid.config.Configuration;
@@ -112,7 +113,7 @@ public class MapTileDownloaderProvider extends MapTileModuleProviderBase {
     }
 
     @Override
-    protected void onDetach(@NonNull final Context context) {
+    protected void onDetach(@Nullable final Context context) {
         if (this.mFilesystemCache != null)
             this.mFilesystemCache.onDetach(context);
         super.onDetach(context);
@@ -146,7 +147,7 @@ public class MapTileDownloaderProvider extends MapTileModuleProviderBase {
     // Inner and Anonymous Classes
     // ===========================================================
 
-    protected class TileLoader extends MapTileModuleProviderBase.TileLoader {
+    public class TileLoader extends MapTileModuleProviderBase.TileLoader {
 
         /**
          * downloads a tile and follows http redirects

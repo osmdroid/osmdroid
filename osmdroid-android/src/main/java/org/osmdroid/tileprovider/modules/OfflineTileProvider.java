@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 /**
  * Causes Osmdroid to load from tiles from only the referenced file sources and
@@ -58,7 +59,7 @@ public class OfflineTileProvider extends MapTileProviderArray implements IMapTil
     }
 
     @Override
-    public void onDetach(@NonNull final Context context) {
+    public void onDetach(@Nullable final Context context) {
         if (archives != null) {
             for (final IArchiveFile file : archives) {
                 file.close();

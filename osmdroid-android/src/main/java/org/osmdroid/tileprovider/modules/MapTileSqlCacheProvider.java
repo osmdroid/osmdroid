@@ -18,6 +18,7 @@ import org.osmdroid.util.MapTileIndex;
 import java.util.concurrent.atomic.AtomicReference;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 /**
  * Sqlite based tile cache mechansism
@@ -113,7 +114,7 @@ public class MapTileSqlCacheProvider extends MapTileFileStorageProviderBase {
     }
 
     @Override
-    public void detach(@NonNull final Context context) {
+    public void detach(@Nullable final Context context) {
         if (mWriter != null) mWriter.onDetach(context);
         mWriter = null;
         super.detach(context);

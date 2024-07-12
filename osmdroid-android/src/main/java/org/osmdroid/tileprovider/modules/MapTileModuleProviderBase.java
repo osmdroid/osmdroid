@@ -157,7 +157,7 @@ public abstract class MapTileModuleProviderBase implements IViewBoundingBoxChang
         this.onDetach(context);
     }
     @CallSuper
-    protected void onDetach(@NonNull final Context context) {
+    protected void onDetach(@Nullable final Context context) {
         clearQueue();
         mExecutor.shutdown();
     }

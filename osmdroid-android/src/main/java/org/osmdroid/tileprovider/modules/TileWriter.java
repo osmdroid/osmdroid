@@ -141,7 +141,7 @@ public class TileWriter implements IFilesystemCache {
     }
 
     @Override
-    public void onDetach(@NonNull final Context context) {
+    public void onDetach(@Nullable final Context context) {
         if (mWorkingThread != null) {
             try {
                 mWorkingThread.interrupt();

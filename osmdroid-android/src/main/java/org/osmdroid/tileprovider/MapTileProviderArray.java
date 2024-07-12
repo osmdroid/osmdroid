@@ -79,7 +79,7 @@ public class MapTileProviderArray extends MapTileProviderBase implements MapTile
     }
 
     @Override
-    public void onDetach(@NonNull final Context context) {
+    public void onDetach(@Nullable final Context context) {
         synchronized (mTileProviderList) {
             for (final MapTileModuleProviderBase tileProvider : mTileProviderList) {
                 tileProvider.detach(context);

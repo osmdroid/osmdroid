@@ -23,7 +23,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import mil.nga.geopackage.GeoPackage;
 import mil.nga.geopackage.GeoPackageFactory;
 import mil.nga.geopackage.GeoPackageManager;
@@ -176,7 +176,7 @@ public class GeoPackageMapTileModuleProvider extends MapTileModuleProviderBase {
     }
 
     @Override
-    public void onDetach(@NonNull final Context context) {
+    public void onDetach(@Nullable final Context context) {
         if (tileSources != null) {
             for (GeoPackage tileSource : tileSources) {
                 tileSource.close();

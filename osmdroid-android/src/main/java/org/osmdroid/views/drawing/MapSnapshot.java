@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.os.Looper;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import org.osmdroid.tileprovider.ExpirableBitmapDrawable;
 import org.osmdroid.tileprovider.MapTileProviderBase;
@@ -126,7 +127,7 @@ public class MapSnapshot implements Runnable {
         return save(mBitmap, pFile);
     }
 
-    public void onDetach(@NonNull final Context context) {
+    public void onDetach(@Nullable final Context context) {
         mIsDetached = true;
         mProjection = null;
         mTileProvider.getTileRequestCompleteHandlers().remove(mHandler);

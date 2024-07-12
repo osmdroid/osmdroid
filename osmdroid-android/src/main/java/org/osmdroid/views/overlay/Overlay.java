@@ -14,7 +14,6 @@ import androidx.annotation.CallSuper;
 import androidx.annotation.MainThread;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RestrictTo;
 import androidx.annotation.UiThread;
 
 import org.osmdroid.api.IMapView;

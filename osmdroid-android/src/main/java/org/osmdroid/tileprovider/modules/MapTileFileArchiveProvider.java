@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 /**
  * A tile provider that can serve tiles from an archive using the supplied tile source. The tile
@@ -153,7 +154,7 @@ public class MapTileFileArchiveProvider extends MapTileFileStorageProviderBase {
     }
 
     @Override
-    protected void onDetach(@NonNull final Context context) {
+    protected void onDetach(@Nullable final Context context) {
         clearArchives();
         super.onDetach(context);
     }

@@ -14,6 +14,7 @@ import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.util.MapTileIndex;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import mil.nga.geopackage.tiles.features.FeatureTiles;
 
 /**
@@ -75,7 +76,7 @@ public class GeoPackageFeatureTileProvider extends MapTileProviderBase {
     }
 
     @Override
-    public void onDetach(@NonNull final Context context) {
+    public void onDetach(@Nullable final Context context) {
         featureTiles = null;
         super.onDetach(context);
     }

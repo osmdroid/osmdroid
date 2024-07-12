@@ -110,11 +110,11 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback {
     /**
      * classes that extend MapTileProviderBase must call this method to prevent memory leaks.
      */
-    public final void detach(@NonNull final Context context) {
+    public final void detach(@Nullable final Context context) {
         this.onDetach(context);
     }
     @CallSuper
-    protected void onDetach(@NonNull final Context context) {
+    protected void onDetach(@Nullable final Context context) {
         if (mTileNotFoundImage != null) {
             if (mTileNotFoundImage instanceof ReusableBitmapDrawable)
                 BitmapPool.getInstance().returnDrawableToPool((ReusableBitmapDrawable) mTileNotFoundImage);

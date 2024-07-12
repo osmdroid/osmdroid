@@ -10,6 +10,7 @@ import android.graphics.drawable.Drawable;
 import android.util.Pair;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.BitmapPool;
@@ -310,7 +311,7 @@ public class MapTileApproximater extends MapTileModuleProviderBase {
 
     /** {@inheritDoc} */
     @Override
-    public void onDetach(@NonNull final Context context) {
+    public void onDetach(@Nullable final Context context) {
         mProviders.clear();
         super.onDetach(context);
     }

@@ -32,6 +32,7 @@ import java.util.Collection;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import static org.osmdroid.tileprovider.modules.DatabaseFileArchive.COLUMN_KEY;
 import static org.osmdroid.tileprovider.modules.DatabaseFileArchive.COLUMN_PROVIDER;
@@ -199,7 +200,7 @@ public class SqlTileWriter implements IFilesystemCache, SplashScreenable {
      * Now we use only one static instance of database, which should never be closed
      */
     @Override
-    public void onDetach(@NonNull final Context context) { /*nothing*/ }
+    public void onDetach(@Nullable final Context context) { /*nothing*/ }
 
     /**
      * purges and deletes everything from the cache database

@@ -29,6 +29,7 @@ import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 /**
  * Lie Fi demo: we emulate a slow online source in order to show the offline first behavior
@@ -114,7 +115,7 @@ public class SampleLieFi extends BaseSampleFragment {
         }
 
         @Override
-        public void onDetach(@NonNull final Context context) {
+        public void onDetach(@Nullable final Context context) {
             //https://github.com/osmdroid/osmdroid/issues/213
             //close the writer
             if (tileWriter != null)

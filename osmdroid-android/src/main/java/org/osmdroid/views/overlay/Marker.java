@@ -110,7 +110,7 @@ public class Marker extends OverlayWithIW {
         this(mapView, (mapView.getContext()));
     }
 
-    public Marker(@NonNull final MapView mapView, @Nullable final Context resourceProxy) {
+    public Marker(@NonNull final MapView mapView, @Nullable final Context context) {
         super();
         final MapViewRepository cMapViewRepository = mapView.getRepository();
         if (mDefaultMarkerIcon == null) mDefaultMarkerIcon = cMapViewRepository.getDefaultMarkerIcon();

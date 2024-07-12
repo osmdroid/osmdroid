@@ -15,6 +15,8 @@ import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
 
+import androidx.annotation.NonNull;
+
 /**
  * Draws a mini-map as an overlay layer. It currently uses its own MapTileProviderBasic or a tile
  * provider supplied to it. Do NOT share a tile provider amongst multiple tile drawing overlays - it
@@ -203,7 +205,7 @@ public class MinimapOverlay extends TilesOverlay {
     }
 
     @Override
-    protected boolean setViewPort(final Canvas pCanvas, final Projection pProjection) {
+    protected boolean setViewPort(final Canvas pCanvas, @NonNull final Projection pProjection) {
         final double zoomLevel = pProjection.getZoomLevel() - getZoomDifference();
         if (zoomLevel < mTileProvider.getMinimumZoomLevel()) {
             return false;

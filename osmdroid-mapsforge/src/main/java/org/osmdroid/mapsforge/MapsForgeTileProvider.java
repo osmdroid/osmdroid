@@ -14,6 +14,7 @@ import org.osmdroid.tileprovider.modules.SqlTileWriter;
 import org.osmdroid.util.MapTileIndex;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 /**
  * This lets you hook up multiple MapsForge files, it will render to the screen the first
@@ -65,7 +66,7 @@ public class MapsForgeTileProvider extends MapTileProviderArray {
     }
 
     @Override
-    public void onDetach(@NonNull final Context context) {
+    public void onDetach(@Nullable final Context context) {
         if (tileWriter != null)
             tileWriter.onDetach(context);
         tileWriter = null;

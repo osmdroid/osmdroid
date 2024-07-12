@@ -21,6 +21,7 @@ import org.osmdroid.util.BoundingBox;
 
 import java.io.File;
 
+import androidx.annotation.Nullable;
 import mil.nga.geopackage.GeoPackage;
 import mil.nga.geopackage.tiles.user.TileDao;
 import mil.nga.proj.ProjectionTransform;
@@ -74,7 +75,7 @@ public class GeoPackageProvider extends MapTileProviderArray implements IMapTile
     }
 
     @Override
-    public void onDetach(@NonNull final Context context) {
+    public void onDetach(@Nullable final Context context) {
         //https://github.com/osmdroid/osmdroid/issues/213
         //close the writer
         if (tileWriter != null)

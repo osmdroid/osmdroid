@@ -7,7 +7,7 @@ import org.osmdroid.tileprovider.tilesource.ITileSource;
 
 import java.io.InputStream;
 
-import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 /**
  * Represents a write-only interface into a file system cache.
@@ -32,7 +32,7 @@ public interface IFilesystemCache {
     boolean exists(ITileSource pTileSourceInfo, long pMapTileIndex);
 
     /** Used when the map engine is shutdown, use it to perform any clean up activities and to terminate any background threads */
-    void onDetach(@NonNull Context context);
+    void onDetach(@Nullable Context context);
 
     /**
      * Removes a tile from the cache, see issue

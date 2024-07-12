@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 /**
@@ -65,7 +66,7 @@ public class LayerManager extends BaseSampleFragment {
         mPlanetTitles = new String[]{"Layer 1", "Layer 2"};
         mDrawerLayout = root.findViewById(R.id.drawer_layout);
         mDrawerList = root.findViewById(R.id.left_drawer);
-        final OverlayAdapter adapter = new OverlayAdapter(getContext(), mMapView.getOverlayManager());
+        final OverlayAdapter adapter = new OverlayAdapter(requireContext(), mMapView.getOverlayManager());
         // Set the adapter for the list view
         mDrawerList.setAdapter(adapter);
         // Set the list's click listener
@@ -78,13 +79,11 @@ public class LayerManager extends BaseSampleFragment {
                     ((Marker) overlay).showInfoWindow();
                     mMapView.getController().animateTo(((Marker) overlay).getPosition());
 
-                } else if (overlay instanceof Polygon) {
-                    final Polygon cPolygon = ((Polygon) overlay);
+                } else if (overlay instanceof Polygon cPolygon) {
                     cPolygon.showInfoWindow();
                     mMapView.getController().animateTo(cPolygon.getInfoWindowLocationLat(), cPolygon.getInfoWindowLocationLon());
 
-                } else if (overlay instanceof Polyline) {
-                    final Polyline cPolyline = ((Polyline) overlay);
+                } else if (overlay instanceof Polyline cPolyline) {
                     cPolyline.showInfoWindow();
                     mMapView.getController().animateTo(cPolyline.getInfoWindowLocationLat(), cPolyline.getInfoWindowLocationLon());
 
@@ -132,13 +131,12 @@ public class LayerManager extends BaseSampleFragment {
             }
         });
 
-
         //add some simple markers, lines and polygons just to have something to populate the list
         GeoPoint startPoint = new GeoPoint(38.8977, -77.0365);  //white house
         Marker startMarker = new Marker(mMapView);
         startMarker.setPosition(startPoint);
         startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
-        startMarker.setIcon(getResources().getDrawable(R.drawable.icon));
+        startMarker.setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.icon, null));
         startMarker.setTitle("White House");
         startMarker.setSnippet("The White House is the official residence and principal workplace of the President of the United States.");
         startMarker.setSubDescription("1600 Pennsylvania Ave NW, Washington, DC 20500");
@@ -148,7 +146,7 @@ public class LayerManager extends BaseSampleFragment {
         startMarker = new Marker(mMapView);
         startMarker.setPosition(startPoint);
         startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
-        startMarker.setIcon(getResources().getDrawable(R.drawable.icon));
+        startMarker.setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.icon, null));
         startMarker.setTitle("Pentagon");
         startMarker.setSnippet("The Pentagon.");
         startMarker.setSubDescription("The Pentagon is the headquarters of the United States Department of Defense.");
@@ -166,7 +164,7 @@ public class LayerManager extends BaseSampleFragment {
         startMarker = new Marker(mMapView);
         startMarker.setPosition(startPoint);
         startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
-        startMarker.setIcon(getResources().getDrawable(R.drawable.icon));
+        startMarker.setIcon(ResourcesCompat.getDrawable(getResources(), R.drawable.icon, null));
         startMarker.setTitle("Washington Monument");
         startMarker.setSnippet("Washington Monument.");
         startMarker.setSubDescription("Washington Monument.");
