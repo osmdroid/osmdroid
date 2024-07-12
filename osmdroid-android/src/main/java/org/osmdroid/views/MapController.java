@@ -4,9 +4,6 @@ package org.osmdroid.views;
 import android.animation.Animator;
 import android.animation.ValueAnimator;
 import android.animation.ValueAnimator.AnimatorUpdateListener;
-import android.annotation.TargetApi;
-import android.graphics.Point;
-import android.os.Build;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
@@ -91,8 +88,8 @@ public class MapController implements IMapController, OnFirstLayoutListener {
         final BoundingBox bb = this.mMapView.getProjection().getBoundingBox();
         final double curZoomLevel = this.mMapView.getProjection().getZoomLevel();
 
-        final double curLatSpan = bb.getLatitudeSpan();
-        final double curLonSpan = bb.getLongitudeSpan();
+        final double curLatSpan = bb.getLatitudeSpanWithDateLine();
+        final double curLonSpan = bb.getLongitudeSpanWithDateLine();
 
         final double diffNeededLat = latSpan / curLatSpan; // i.e. 600/500 = 1,2
         final double diffNeededLon = lonSpan / curLonSpan; // i.e. 300/400 = 0,75
@@ -253,11 +250,7 @@ public class MapController implements IMapController, OnFirstLayoutListener {
         mMapView.getScroller().forceFinished(true);
     }
 
-    /**
-     * Stops a running animation.
-     *
-     * @param jumpToTarget
-     */
+    /** Stops a running animation */
     @Override
     public void stopAnimation(final boolean jumpToTarget) {
 
@@ -306,10 +299,7 @@ public class MapController implements IMapController, OnFirstLayoutListener {
     }
 
     /**
-     * @param xPixel
-     * @param yPixel
      * @param zoomAnimation if null, the default is used
-     * @return
      */
     @Override
     public boolean zoomInFixing(final int xPixel, final int yPixel, @Nullable final Long zoomAnimation) {
@@ -354,11 +344,8 @@ public class MapController implements IMapController, OnFirstLayoutListener {
     }
 
     /**
-     * @param zoomLevel
-     * @param xPixel
-     * @param yPixel
      * @param zoomAnimationSpeed time in milliseconds, if null, the default settings will be used
-     * @return
+     *
      * @since 6.0.0
      */
     @Override
@@ -402,7 +389,7 @@ public class MapController implements IMapController, OnFirstLayoutListener {
         mMapView.setMultiTouchScaleInitPoint(xPixel, yPixel);
         mMapView.startAnimation();
 
-        float end = (float) Math.pow(2.0, zoomLevel - currentZoomLevel);
+        //float end = (float) Math.pow(2.0, zoomLevel - currentZoomLevel);
         final MapAnimatorListener zoomAnimatorListener = new MapAnimatorListener(this,
                 currentZoomLevel, zoomLevel,
                 null, null,
@@ -446,9 +433,7 @@ public class MapController implements IMapController, OnFirstLayoutListener {
         mMapView.invalidate();
     }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    private static class MapAnimatorListener
-            implements Animator.AnimatorListener, AnimatorUpdateListener {
+    private static class MapAnimatorListener implements Animator.AnimatorListener, AnimatorUpdateListener {
 
         private final GeoPoint mCenter = new GeoPoint(0., 0);
         private final MapController mMapController;
@@ -567,13 +552,11 @@ public class MapController implements IMapController, OnFirstLayoutListener {
         ZoomToSpanPoint, AnimateToPoint, AnimateToGeoPoint, SetCenterPoint
     }
 
-    ;
-
     private class ReplayController {
-        private final ReusablePool<ReplayClass> mReusablePool = new ReusablePool<ReplayClass>(new ReusablePool.IReusablePoolItemCallback<ReplayClass>() {
+        private final ReusablePool<ReplayClass> mReusablePool = new ReusablePool<>(new ReusablePool.IReusablePoolItemCallback<>() {
             @Override public ReplayClass newInstance() { return new ReplayClass(); }
         }, 16);
-        private final LinkedList<ReplayClass> mReplayList = new LinkedList<ReplayClass>();
+        private final LinkedList<ReplayClass> mReplayList = new LinkedList<>();
 
         private void animateTo(@NonNull final IGeoPoint geoPoint, Double pZoom, Long pSpeed, Float pOrientation, Boolean pClockwise) {
             mReplayList.add(this.mReusablePool.getFreeItemFromPoll().set(ReplayType.AnimateToGeoPoint, null, null, geoPoint, pZoom, pSpeed, pOrientation, pClockwise));
@@ -584,7 +567,7 @@ public class MapController implements IMapController, OnFirstLayoutListener {
         }
 
         private void animateTo(int x, int y) {
-            mReplayList.add(this.mReusablePool.getFreeItemFromPoll().set(ReplayType.AnimateToPoint, x, y, null));
+            mReplayList.add(this.mReusablePool.getFreeItemFromPoll().set(ReplayType.AnimateToPoint, x, y));
         }
 
         private void setCenter(@NonNull final IGeoPoint geoPoint) {
@@ -595,11 +578,11 @@ public class MapController implements IMapController, OnFirstLayoutListener {
         }
 
         private void zoomToSpan(int x, int y) {
-            mReplayList.add(this.mReusablePool.getFreeItemFromPoll().set(ReplayType.ZoomToSpanPoint, x, y, null));
+            mReplayList.add(this.mReusablePool.getFreeItemFromPoll().set(ReplayType.ZoomToSpanPoint, x, y));
         }
 
         private void zoomToSpan(double x, double y) {
-            mReplayList.add(this.mReusablePool.getFreeItemFromPoll().set(ReplayType.ZoomToSpanPoint, (int) (x * 1E6), (int) (y * 1E6), null));
+            mReplayList.add(this.mReusablePool.getFreeItemFromPoll().set(ReplayType.ZoomToSpanPoint, (int) (x * 1E6), (int) (y * 1E6)));
         }
 
 
@@ -656,14 +639,17 @@ public class MapController implements IMapController, OnFirstLayoutListener {
             this.set(pReplayType, x, y, pGeoPoint, pZoom, pSpeed, pOrientation, pClockwise);
         }
 
-        private ReplayClass set(ReplayType mReplayType, @Nullable final Integer x, @Nullable final Integer y, @NonNull final IGeoPoint pGeoPoint) {
+        private ReplayClass set(ReplayType mReplayType, @Nullable final Integer x, @Nullable final Integer y) {
+            return this.set(mReplayType, x, y, null);
+        }
+        private ReplayClass set(ReplayType mReplayType, @Nullable final Integer x, @Nullable final Integer y, @Nullable final IGeoPoint pGeoPoint) {
             return this.set(mReplayType, x, y, pGeoPoint, null, null, null, null);
         }
-        private ReplayClass set(ReplayType pReplayType, @Nullable final Integer x, @Nullable final Integer y, @NonNull final IGeoPoint pGeoPoint,
+        private ReplayClass set(ReplayType pReplayType, @Nullable final Integer x, @Nullable final Integer y, @Nullable final IGeoPoint pGeoPoint,
                          Double pZoom, Long pSpeed, Float pOrientation, Boolean pClockwise) {
-            return this.set(pReplayType, x, y, pGeoPoint.getLatitude(), pGeoPoint.getLongitude(), pZoom, pSpeed, pOrientation, pClockwise);
+            return this.set(pReplayType, x, y, ((pGeoPoint != null) ? pGeoPoint.getLatitude() : null), ((pGeoPoint != null) ? pGeoPoint.getLongitude() : null), pZoom, pSpeed, pOrientation, pClockwise);
         }
-        private ReplayClass set(ReplayType mReplayType, @Nullable final Integer x, @Nullable final Integer y, final double mGeoPointLat, final double mGeoPointLon) {
+        private ReplayClass set(ReplayType mReplayType, @Nullable final Integer x, @Nullable final Integer y, @Nullable final Double mGeoPointLat, @Nullable final Double mGeoPointLon) {
             return this.set(mReplayType, x, y, mGeoPointLat, mGeoPointLon, null, null, null, null);
         }
         private ReplayClass set(ReplayType pReplayType, @Nullable final Integer x, @Nullable final Integer y, @Nullable final Double pGeoPointLat, @Nullable Double pGeoPointLon,
