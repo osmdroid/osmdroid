@@ -9,8 +9,7 @@ android {
 	namespace 'org.osmdroid.mapsforge'
 
     defaultConfig {
-        // mapsforge 0.8.0 has minSdk 10
-        minSdkVersion 10
+        minSdkVersion 21
         compileSdk findProperty('android.compileSdkVersion').toInteger()
         targetSdkVersion  findProperty('android.targetSdkVersion').toInteger()
     }
@@ -34,7 +33,7 @@ android {
 }
 
 dependencies {
-    implementation("androidx.lifecycle:lifecycle-common:2.7.0")
+    implementation("androidx.lifecycle:lifecycle-common:2.8.3")
 
     testImplementation "org.junit.vintage:junit-vintage-engine:${project.property('junit.version')}"
 

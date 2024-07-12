@@ -64,7 +64,7 @@ public class OpenStreetMapTileProviderDirectTest  {
 
     @After
     public void tearDown() throws Exception {
-        mProvider.detach();
+        mProvider.detach(activityRule.getActivity());
     }
 
     @Test

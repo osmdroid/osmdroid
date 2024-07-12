@@ -14,9 +14,6 @@ android {
         targetSdkVersion  findProperty('android.targetSdkVersion').toInteger()
     }
 
-    lintOptions {
-        abortOnError false
-    }
 
     testOptions {
         unitTests.returnDefaultValues = true
@@ -39,11 +36,14 @@ android {
         sourceCompatibility(JavaVersion.VERSION_17)
         targetCompatibility(JavaVersion.VERSION_17)
     }
+    lint {
+        abortOnError false
+    }
 
 }
 
 dependencies {
-    implementation("androidx.lifecycle:lifecycle-common:2.7.0")
+    implementation("androidx.lifecycle:lifecycle-common:2.8.3")
 
     api project(':osmdroid-android')
     testImplementation "org.junit.vintage:junit-vintage-engine:${project.property('junit.version')}"

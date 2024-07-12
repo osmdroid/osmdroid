@@ -27,11 +27,12 @@ android {
             withJavadocJar()
         }
     }
-
     packagingOptions {
-        excludes += "DebugProbesKt.bin"
-        excludes += "com/j256/ormlite/core/LICENSE.txt"
+        resources {
+            excludes += ['DebugProbesKt.bin', 'com/j256/ormlite/core/LICENSE.txt']
+        }
     }
+
 
     compileOptions {
         sourceCompatibility(JavaVersion.VERSION_17)
@@ -43,12 +44,12 @@ android {
 dependencies {
     //crash logging
     //implementation 'ch.acra:acra:4.7.0'
-    implementation("androidx.lifecycle:lifecycle-common:2.7.0")
+    implementation("androidx.lifecycle:lifecycle-common:2.8.3")
 
-    testImplementation 'org.junit.vintage:junit-vintage-engine:5.10.2'
+    testImplementation "org.junit.vintage:junit-vintage-engine:${project.property('junit.version')}"
 
     api project(':osmdroid-android')
-    api ("mil.nga.geopackage:geopackage-android:6.7.3"){
+    api ('mil.nga.geopackage:geopackage-android:6.7.4'){
         exclude group: 'com.google.android.gms', module:'play-services'
         exclude group: 'com.google.maps.android', module:'android-maps-utils'
         exclude group: 'com.android.support',module: 'support-v13'
@@ -57,7 +58,7 @@ dependencies {
         exclude group: 'com.j256.ormlite'
     }
 
-    api 'mil.nga.geopackage:geopackage-core:6.6.5'
+    api 'mil.nga.geopackage:geopackage-core:6.6.7'
     api 'ar.com.hjg:pngj:2.1.0'
     api 'mil.nga:tiff:3.0.0'
 

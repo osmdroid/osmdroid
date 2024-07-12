@@ -38,7 +38,7 @@ dependencies {
     implementation("androidx.annotation:annotation:1.8.0")
     implementation 'org.apache.httpcomponents:httpmime:4.5.14'
     implementation 'org.apache.james:apache-mime4j:0.8.11'
-    implementation 'org.xerial:sqlite-jdbc:3.45.2.0'
+    implementation "org.xerial:sqlite-jdbc:${project.property('xerial.sqlite.jdbc')}"
 
     testImplementation "org.junit.vintage:junit-vintage-engine:${project.property('junit.version')}"
 }

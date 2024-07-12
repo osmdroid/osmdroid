@@ -16,9 +16,6 @@ android {
         targetSdkVersion  findProperty('android.targetSdkVersion').toInteger()
     }
 
-    lintOptions {
-        abortOnError false
-    }
     buildTypes {
         release {
             minifyEnabled false
@@ -36,15 +33,17 @@ android {
         sourceCompatibility(JavaVersion.VERSION_17)
         targetCompatibility(JavaVersion.VERSION_17)
     }
+    lint {
+        abortOnError false
+    }
 }
 
 dependencies {
-    implementation("androidx.lifecycle:lifecycle-common:2.7.0")
+    implementation("androidx.lifecycle:lifecycle-common:2.8.3")
    
-    testImplementation 'org.junit.vintage:junit-vintage-engine:5.10.2'
+    testImplementation "org.junit.vintage:junit-vintage-engine:${project.property('junit.version')}"
     api  project(':osmdroid-android')
     api 'com.github.spyhunter99:jdbf:2.2.4'
-
 }
 
 afterEvaluate {

@@ -32,9 +32,6 @@ android {
 
         versionName project.version
     }
-    lintOptions {
-        abortOnError false
-    }
 
     buildFeatures {
         buildConfig = true
@@ -60,16 +57,19 @@ android {
             }
         }
     }
-
     packagingOptions {
-        pickFirst "androidsupportmultidexversion.txt"
-        pickFirst "META-INF/AL2.0"
-        pickFirst "META-INF/LGPL2.1"
+        resources {
+            pickFirsts += ['androidsupportmultidexversion.txt', 'META-INF/AL2.0', 'META-INF/LGPL2.1']
+        }
     }
+
 
     compileOptions {
         sourceCompatibility(JavaVersion.VERSION_17)
         targetCompatibility(JavaVersion.VERSION_17)
+    }
+    lint {
+        abortOnError false
     }
 }
 
@@ -93,40 +93,40 @@ dependencies {
     implementation project(':osmdroid-wms')
     implementation project(':osmdroid-shape')
 
-    implementation 'io.github.missioncommand:mil-sym-android-renderer:0.1.59'
+    implementation 'io.github.missioncommand:mil-sym-android-renderer:0.1.60'
 
     //used for various demos for picking offline tile archives
     implementation 'com.github.angads25:filepicker:1.1.1'
 
     //used for bookmark demo
-    implementation group: 'com.opencsv', name: 'opencsv', version: '5.8'
+    implementation group: 'com.opencsv', name: 'opencsv', version: '5.9'
 
     //usual android stuff
-    implementation "com.google.android.material:material:1.11.0" //needed for UI menuing
+    implementation "com.google.android.material:material:1.12.0" //needed for UI menuing
     implementation "androidx.cardview:cardview:1.0.0"
     implementation "androidx.recyclerview:recyclerview:1.3.2"
     implementation "androidx.multidex:multidex:2.0.1"
-    implementation "androidx.lifecycle:lifecycle-common:2.7.0"
+    implementation "androidx.lifecycle:lifecycle-common:2.8.3"
 
-    implementation "androidx.appcompat:appcompat:1.6.1"
+    implementation "androidx.appcompat:appcompat:1.7.0"
     //crash logging
     implementation 'ch.acra:acra:4.7.0'
 
     //memory leak testing
-    implementation 'com.squareup.leakcanary:leakcanary-android:2.13'
+    implementation 'com.squareup.leakcanary:leakcanary-android:2.14'
 
     //on device testing
     androidTestImplementation 'androidx.multidex:multidex:2.0.1'
-    androidTestImplementation "androidx.annotation:annotation:1.7.1"
+    androidTestImplementation "androidx.annotation:annotation:1.8.0"
 
-    androidTestImplementation "androidx.test:runner:1.5.2"
-    androidTestImplementation "androidx.test:rules:1.5.0"
+    androidTestImplementation "androidx.test:runner:1.6.1"
+    androidTestImplementation "androidx.test:rules:1.6.1"
     // Optional -- UI testing with Espresso
-    androidTestImplementation "androidx.test.espresso:espresso-core:3.5.1"
+    androidTestImplementation "androidx.test.espresso:espresso-core:3.6.1"
     // Optional -- UI testing with UI Automator
     androidTestImplementation "androidx.test.uiautomator:uiautomator:2.3.0"
     // Optional -- UI testing with Compose
-    androidTestImplementation "androidx.compose.ui:ui-test-junit4:1.6.5"
+    androidTestImplementation "androidx.compose.ui:ui-test-junit4:1.6.8"
 }
 
 //the following sets the required permissions for API 23+ devices and AVDs
