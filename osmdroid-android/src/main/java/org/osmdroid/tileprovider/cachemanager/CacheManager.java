@@ -178,8 +178,12 @@ public class CacheManager {
         }
     }
 
+    /** Returns <i>TRUE</i> if deletion was not possible */
+    private boolean deleteTileError(final long pMapTileIndex) {
+        return this.checkTile(pMapTileIndex) && !mTileWriter.remove(mTileSource, pMapTileIndex);
+    }
     public boolean deleteTile(final long pMapTileIndex) {
-        return mTileWriter.exists(mTileSource, pMapTileIndex) && mTileWriter.remove(mTileSource, pMapTileIndex);
+        return !this.checkTile(pMapTileIndex) || mTileWriter.remove(mTileSource, pMapTileIndex);
     }
 
     public boolean checkTile(final long pMapTileIndex) {
@@ -947,41 +951,25 @@ public class CacheManager {
 
             @Override
             public boolean tileAction(final long pMapTileIndex) {
-                return deleteTile(pMapTileIndex);
+                return deleteTileError(pMapTileIndex);
             }
         };
     }
 
-    /**
-     * Remove all cached tiles in the specified area.
-     *
-     * @param ctx
-     * @param bb
-     * @param zoomMin
-     * @param zoomMax
-     */
+    /** Remove all cached tiles in the specified area */
     public CacheManagerTask cleanAreaAsync(Context ctx, BoundingBox bb, int zoomMin, int zoomMax) {
         final CacheManagerTask task = new CacheManagerTask(this, getCleaningAction(), bb, zoomMin, zoomMax);
         task.addCallback(getCleaningDialog(ctx, task));
         return execute(task);
     }
 
-    /**
-     * Remove all cached tiles covered by the GeoPoints list.
-     *
-     * @param ctx
-     * @param geoPoints
-     * @param zoomMin
-     * @param zoomMax
-     */
+    /** Remove all cached tiles covered by the GeoPoints list */
     public CacheManagerTask cleanAreaAsync(final Context ctx, ArrayList<GeoPoint> geoPoints, int zoomMin, int zoomMax) {
         BoundingBox extendedBounds = extendedBoundsFromGeoPoints(geoPoints, zoomMin);
         return cleanAreaAsync(ctx, extendedBounds, zoomMin, zoomMax);
     }
 
-    /**
-     * Remove all cached tiles in the specified area.
-     */
+    /** Remove all cached tiles in the specified area */
     public CacheManagerTask cleanAreaAsync(final Context ctx, @NonNull final List<Long> tiles, final int zoomMin, final int zoomMax) {
         final CacheManagerTask task = new CacheManagerTask(this, getCleaningAction(), tiles, zoomMin, zoomMax);
         task.addCallback(getCleaningDialog(ctx, task));
