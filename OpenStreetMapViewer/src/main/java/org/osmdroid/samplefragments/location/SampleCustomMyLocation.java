@@ -23,6 +23,8 @@ import androidx.core.app.ActivityCompat;
  */
 
 public class SampleCustomMyLocation extends BaseSampleFragment implements LocationListener {
+    private static final String TAG = "SampleCustomMyLocation";
+
     @Override
     public String getSampleTitle() {
         return "Custom My Location Overlay";

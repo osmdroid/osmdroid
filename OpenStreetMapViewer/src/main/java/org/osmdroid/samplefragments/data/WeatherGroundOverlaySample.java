@@ -34,6 +34,8 @@ import java.util.List;
  */
 
 public class WeatherGroundOverlaySample extends BaseSampleFragment {
+    private static final String TAG = "WeatherGroundOverlaySample";
+
     public static final String URL = "https://www.google.com/images/branding/googlelogo/1x/googlelogo_light_color_272x92dp.png";
 
     private final GeoPoint mNorthEast = new GeoPoint(50.0, -127.5);

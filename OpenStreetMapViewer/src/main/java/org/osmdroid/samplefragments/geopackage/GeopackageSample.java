@@ -49,6 +49,8 @@ import androidx.annotation.NonNull;
  */
 
 public class GeopackageSample extends BaseSampleFragment {
+    private static final String TAG = "GeopackageSample";
+
     TextView textViewCurrentLocation;
 
     XYTileSource currentSource = null;

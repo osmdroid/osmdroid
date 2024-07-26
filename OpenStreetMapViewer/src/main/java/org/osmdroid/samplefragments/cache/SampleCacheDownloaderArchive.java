@@ -35,6 +35,8 @@ import java.io.File;
  */
 
 public class SampleCacheDownloaderArchive extends BaseSampleFragment implements View.OnClickListener, SeekBar.OnSeekBarChangeListener, TextWatcher {
+    private static final String TAG = "SampleCacheDownloaderArchive";
+
     @Override
     public String getSampleTitle() {
         return "Cache Manager Archival";

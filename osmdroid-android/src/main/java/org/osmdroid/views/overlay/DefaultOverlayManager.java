@@ -26,6 +26,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
@@ -43,6 +44,7 @@ public class DefaultOverlayManager extends CopyOnWriteArrayList<Overlay> impleme
     private Lifecycle mMapViewLifeCycle;
     @Nullable
     private DefaultLifecycleObserver mDefaultLifecycleObserver = null;
+    private final ConcurrentLinkedQueue<Overlay> mConcurrentOverlaysToRemove = new ConcurrentLinkedQueue<>();
 
     public DefaultOverlayManager(@Nullable final TilesOverlay tilesOverlay) {
         setTilesOverlay(tilesOverlay);
@@ -87,12 +89,14 @@ public class DefaultOverlayManager extends CopyOnWriteArrayList<Overlay> impleme
     @Override
     public boolean remove(@Nullable final Object o) {
         if (o == null) return false;
+        mConcurrentOverlaysToRemove.add((Overlay)o);
         return super.remove(o);
     }
 
     @Override
     public boolean removeAll(@Nullable final Collection<?> c) {
         if (c == null) return false;
+        mConcurrentOverlaysToRemove.addAll(this);
         return super.removeAll(c);
     }
 
@@ -115,6 +119,7 @@ public class DefaultOverlayManager extends CopyOnWriteArrayList<Overlay> impleme
             //TODO: check if there is something needed to do in this case
         }
         mTilesOverlay = tilesOverlay;
+        if ((mTilesOverlay != null) && (mMapViewLifeCycle != null)) mTilesOverlay.setLifecycleFromMapView(mMapViewLifeCycle);
     }
 
     @Override
@@ -169,6 +174,20 @@ public class DefaultOverlayManager extends CopyOnWriteArrayList<Overlay> impleme
     @UiThread @MainThread
     @Override
     public void onDraw(final Canvas c, final MapView pMapView) {
+            //raise Overlays REMOVED event
+        Overlay cOverlay;
+        while ((cOverlay = mConcurrentOverlaysToRemove.poll()) != null) {
+            if (!cOverlay.isMarkedAsRemoved()) continue;
+            cOverlay.onRemovedFromOverlayManager(this);
+            cOverlay.setIsAttachedToOverlayManager(Boolean.FALSE);
+        }
+            //raise Overlays ATTACHED event
+        for (final Overlay overlay : this) {
+            if (overlay.isAttachedToOverlayManager()) continue;
+            overlay.onAttachedToOverlayManager(this);
+            overlay.setIsAttachedToOverlayManager(Boolean.TRUE);
+        }
+            //normal drawing procedure
         onDrawHelper(c, pMapView, pMapView.getProjection());
     }
 
@@ -178,6 +197,20 @@ public class DefaultOverlayManager extends CopyOnWriteArrayList<Overlay> impleme
     @UiThread @MainThread
     @Override
     public void onDraw(final Canvas c, final Projection pProjection) {
+            //raise Overlays REMOVED event
+        Overlay cOverlay;
+        while ((cOverlay = mConcurrentOverlaysToRemove.poll()) != null) {
+            if (!cOverlay.isMarkedAsRemoved()) continue;
+            cOverlay.onRemovedFromOverlayManager(this);
+            cOverlay.setIsAttachedToOverlayManager(Boolean.FALSE);
+        }
+            //raise Overlays ATTACHED event
+        for (final Overlay overlay : this) {
+            if (overlay.isAttachedToOverlayManager()) continue;
+            overlay.onAttachedToOverlayManager(this);
+            overlay.setIsAttachedToOverlayManager(Boolean.TRUE);
+        }
+            //normal drawing procedure
         onDrawHelper(c, null, pProjection);
     }
 
@@ -195,6 +228,7 @@ public class DefaultOverlayManager extends CopyOnWriteArrayList<Overlay> impleme
         for (final Overlay overlay : this) {
             if (overlay != null) {
                 overlay.setViewBoundingBoxChangedListener(mViewBoundingBoxChangedListener);
+                overlay.setLifecycleFromMapView(mMapViewLifeCycle);
                 if (overlay.isEnabled() && (overlay instanceof TilesOverlay)) {
                     ((TilesOverlay) overlay).protectDisplayedTilesForCache(c, pProjection);
                 }
@@ -203,22 +237,16 @@ public class DefaultOverlayManager extends CopyOnWriteArrayList<Overlay> impleme
 
         //always pass false, the shadow parameter will be removed in a later version of osmdroid, this change should result in the on draw being called twice
         if (mTilesOverlay != null && mTilesOverlay.isEnabled()) {
-            if (pMapView != null) {
-                mTilesOverlay.draw(c, pMapView, false);
-            } else {
-                mTilesOverlay.draw(c, pProjection);
-            }
+            if (pMapView != null) mTilesOverlay.draw(c, pMapView, false);
+            else mTilesOverlay.draw(c, pProjection);
         }
 
         //always pass false, the shadow parameter will be removed in a later version of osmdroid, this change should result in the on draw being called twice
         for (final Overlay overlay : this) {
             //#396 fix, null check
             if (overlay != null && overlay.isEnabled()) {
-                if (pMapView != null) {
-                    overlay.draw(c, pMapView, false);
-                } else {
-                    overlay.draw(c, pProjection);
-                }
+                if (pMapView != null) overlay.draw(c, pMapView, false);
+                else overlay.draw(c, pProjection);
             }
         }
         //potential fix for #52 pMapView.invalidate();
@@ -335,8 +363,7 @@ public class DefaultOverlayManager extends CopyOnWriteArrayList<Overlay> impleme
     }
 
     @Override
-    public boolean onFling(final MotionEvent pEvent1, final MotionEvent pEvent2,
-                           final float pVelocityX, final float pVelocityY, final MapView pMapView) {
+    public boolean onFling(final MotionEvent pEvent1, final MotionEvent pEvent2, final float pVelocityX, final float pVelocityY, final MapView pMapView) {
         for (final Overlay overlay : this.overlaysReversed()) {
             if (overlay.onFling(pEvent1, pEvent2, pVelocityX, pVelocityY, pMapView)) {
                 return true;
@@ -358,8 +385,7 @@ public class DefaultOverlayManager extends CopyOnWriteArrayList<Overlay> impleme
     }
 
     @Override
-    public boolean onScroll(final MotionEvent pEvent1, final MotionEvent pEvent2,
-                            final float pDistanceX, final float pDistanceY, final MapView pMapView) {
+    public boolean onScroll(final MotionEvent pEvent1, final MotionEvent pEvent2, final float pDistanceX, final float pDistanceY, final MapView pMapView) {
         for (final Overlay overlay : this.overlaysReversed()) {
             if (overlay.onScroll(pEvent1, pEvent2, pDistanceX, pDistanceY, pMapView)) {
                 return true;
@@ -450,7 +476,7 @@ public class DefaultOverlayManager extends CopyOnWriteArrayList<Overlay> impleme
             }
         }
 
-        if (mTilesOverlay != null && mTilesOverlay.isOptionsMenuEnabled() && mTilesOverlay.onOptionsItemSelected(item, menuIdOffset, mapView)) {
+        if ((mTilesOverlay != null) && mTilesOverlay.isOptionsMenuEnabled() && mTilesOverlay.onOptionsItemSelected(item, menuIdOffset, mapView)) {
             return true;
         }
 
@@ -480,36 +506,31 @@ public class DefaultOverlayManager extends CopyOnWriteArrayList<Overlay> impleme
         }
         if (mapView == null) return;
         mMapViewLifeCycle = mapView.getLifecycle();
+        if (mTilesOverlay != null) mTilesOverlay.setLifecycleFromMapView(mMapViewLifeCycle);
         mMapViewLifeCycle.addObserver(mDefaultLifecycleObserver = new DefaultLifecycleObserver() {
             @Override
             public void onCreate(@NonNull final LifecycleOwner owner) {
-                if (mTilesOverlay != null) mTilesOverlay.onCreate();
                 for (final Overlay overlay : DefaultOverlayManager.this) { if (overlay == null) return; overlay.onCreate(); }
             }
             @Override
             public void onStart(@NonNull final LifecycleOwner owner) {
-                if (mTilesOverlay != null) mTilesOverlay.onStart();
                 for (final Overlay overlay : DefaultOverlayManager.this) { if (overlay == null) return; overlay.onStart(); }
             }
             @Override
             public void onResume(@NonNull final LifecycleOwner owner) {
-                if (mTilesOverlay != null) mTilesOverlay.onResume();
                 for (final Overlay overlay : DefaultOverlayManager.this) { if (overlay == null) return; overlay.onResume(); }
             }
             @Override
             public void onPause(@NonNull final LifecycleOwner owner) {
                 for (final Overlay overlay : DefaultOverlayManager.this) { if (overlay == null) return; overlay.onPause(); }
-                if (mTilesOverlay != null) mTilesOverlay.onPause();
             }
             @Override
             public void onStop(@NonNull final LifecycleOwner owner) {
                 for (final Overlay overlay : DefaultOverlayManager.this) { if (overlay == null) return; overlay.onStop(); }
-                if (mTilesOverlay != null) mTilesOverlay.onStop();
             }
             @Override
             public void onDestroy(@NonNull final LifecycleOwner owner) {
                 for (final Overlay overlay : DefaultOverlayManager.this) { if (overlay == null) return; overlay.onDestroy(mapView); }
-                if (mTilesOverlay != null) mTilesOverlay.onDestroy(mapView);
                 mMapViewLifeCycle.removeObserver(this);
                 mDefaultLifecycleObserver = null;
                 mMapViewLifeCycle = null;

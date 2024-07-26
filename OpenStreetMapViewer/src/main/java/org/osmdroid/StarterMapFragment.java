@@ -141,8 +141,7 @@ public class StarterMapFragment extends Fragment {
 
 
         //On screen compass
-        mCompassOverlay = new CompassOverlay(context, new InternalCompassOrientationProvider(context),
-                mMapView);
+        mCompassOverlay = new CompassOverlay(mMapView, new InternalCompassOrientationProvider(mMapView));
         mCompassOverlay.enableCompass();
         mMapView.getOverlayManager().add(this.mCompassOverlay);
 

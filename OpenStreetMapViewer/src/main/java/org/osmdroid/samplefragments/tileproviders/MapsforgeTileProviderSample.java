@@ -33,6 +33,8 @@ import java.util.Set;
  */
 
 public class MapsforgeTileProviderSample extends BaseSampleFragment {
+    private static final String TAG = "MapsforgeTileProviderSample";
+
     MapsForgeTileSource fromFiles = null;
     MapsForgeTileProvider forge = null;
     AlertDialog alertDialog = null;

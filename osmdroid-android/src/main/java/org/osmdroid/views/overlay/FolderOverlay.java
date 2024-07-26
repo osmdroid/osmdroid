@@ -119,53 +119,39 @@ public class FolderOverlay extends Overlay {
     @SuppressLint("WrongCall")
     @Override
     public void draw(final Canvas pCanvas, final MapView pMapView, final boolean pShadow) {
-        if (pShadow) {
-            return;
-        }
+        if (pShadow) return;
         mOverlayManager.onDraw(pCanvas, pMapView);
     }
 
     @Override
     public boolean onSingleTapUp(MotionEvent e, MapView mapView) {
-        if (isEnabled())
-            return mOverlayManager.onSingleTapUp(e, mapView);
-        else
-            return false;
+        if (isEnabled()) return mOverlayManager.onSingleTapUp(e, mapView);
+        else return false;
     }
 
     @Override
     public boolean onSingleTapConfirmed(MotionEvent e, MapView mapView) {
-        if (isEnabled())
-            return mOverlayManager.onSingleTapConfirmed(e, mapView);
-        else
-            return false;
+        if (isEnabled()) return mOverlayManager.onSingleTapConfirmed(e, mapView);
+        else return false;
     }
 
     @Override
     public boolean onLongPress(MotionEvent e, MapView mapView) {
-        if (isEnabled())
-            return mOverlayManager.onLongPress(e, mapView);
-        else
-            return false;
+        if (isEnabled()) return mOverlayManager.onLongPress(e, mapView);
+        else return false;
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent e, MapView mapView) {
-        if (isEnabled())
-            return mOverlayManager.onTouchEvent(e, mapView);
-        else
-            return false;
+        if (isEnabled()) return mOverlayManager.onTouchEvent(e, mapView);
+        else return false;
     }
 
     @Override
     public boolean onDoubleTap(MotionEvent e, MapView mapView) {
-        if (isEnabled())
-            return mOverlayManager.onDoubleTap(e, mapView);
-        else
-            return false;
+        if (isEnabled()) return mOverlayManager.onDoubleTap(e, mapView);
+        else return false;
     }
-
-    //TODO: implement other events...
 
     /**
      * Close all opened InfoWindows of overlays it contains.
@@ -173,11 +159,8 @@ public class FolderOverlay extends Overlay {
      */
     public void closeAllInfoWindows() {
         for (Overlay overlay : mOverlayManager) {
-            if (overlay instanceof FolderOverlay) {
-                ((FolderOverlay) overlay).closeAllInfoWindows();
-            } else if (overlay instanceof OverlayWithIW) {
-                ((OverlayWithIW) overlay).closeInfoWindow();
-            }
+            if (overlay instanceof FolderOverlay) ((FolderOverlay) overlay).closeAllInfoWindows();
+            else if (overlay instanceof OverlayWithIW) ((OverlayWithIW) overlay).closeInfoWindow();
         }
     }
 

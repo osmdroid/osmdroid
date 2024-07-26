@@ -1,9 +1,15 @@
 // Created by plusminus on 20:36:01 - 26.09.2008
 package org.osmdroid.util;
 
+import android.os.SystemClock;
+
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import org.osmdroid.views.util.constants.MathConstants;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Nicolas Gramlich
@@ -170,7 +176,63 @@ public class MyMath implements MathConstants {
         pOutput.y = pCenterY + (long) (pRadius * Math.sin(pAngle));
     }
 
-    // ===========================================================
-    // Inner and Anonymous Classes
-    // ===========================================================
+    /** Class that computes a Linear Interpolation between values that are WITHIN a specific time window */
+    public static final class LinearInterpolationWithAverage {
+        private final List<Long> mAzimuthsHistoryElapsedRealtime = new ArrayList<>();
+        private final List<Double> mAzimuthsHistory = new ArrayList<>();
+        private final List<Double> mOutputSmoothHistory = new ArrayList<>();
+        private final int mTimeWindow_ms;
+        private final Double[] mMinMax = new Double[]{ null, null };
+        private boolean mIsCircularMinMax = false;
+        @Nullable
+        private Double mLastInterpolatedValue = null;
+        public LinearInterpolationWithAverage() { this(1000/*millis*/); }
+        /**
+         * Constructor
+         * @param timeWindow_ms Specific the Time Window (in milliseconds) to exclude/remove (from computation) values that are OLTER_THAN this value
+         */
+        public LinearInterpolationWithAverage(final int timeWindow_ms) { this.mTimeWindow_ms = timeWindow_ms; }
+        public void addValue(final double value) {
+            final long cCurrentElapsedRealtime = SystemClock.elapsedRealtime();
+            if ((this.mLastInterpolatedValue == null) || (this.mIsCircularMinMax && (Math.abs(this.mLastInterpolatedValue - value) > ((this.mMinMax[1] - this.mMinMax[0]) * 0.2)))) {
+                this.mAzimuthsHistoryElapsedRealtime.clear();
+                this.mAzimuthsHistory.clear();
+                this.mOutputSmoothHistory.clear();
+            }
+                //remove old history values
+            for (int i=(this.mAzimuthsHistoryElapsedRealtime.size()-1); i>=0; i--) {
+                if (this.mAzimuthsHistoryElapsedRealtime.get(i) < (cCurrentElapsedRealtime - this.mTimeWindow_ms)) {
+                    this.mAzimuthsHistoryElapsedRealtime.remove(i);
+                    this.mAzimuthsHistory.remove(i);
+                    this.mOutputSmoothHistory.remove(i);
+                }
+            }
+                //add the newer one
+            this.mAzimuthsHistoryElapsedRealtime.add(SystemClock.elapsedRealtime());
+            this.mAzimuthsHistory.add(value);
+            this.mOutputSmoothHistory.add(value);
+        }
+        public LinearInterpolationWithAverage setMinMax(final double min, final double max) {
+            this.mMinMax[0] = min;
+            this.mMinMax[1] = max;
+            return this;
+        }
+        /** <i>TRUE</i>: when the <i>Max</i> value is passed then a "<i>Current - Max</i>" operation is done. Same, but at the opposite, for the <i>Min</i> value */
+        public LinearInterpolationWithAverage setIsCircularMinMax(final boolean value) {
+            this.mIsCircularMinMax = value;
+            return this;
+        }
+        public double getInterpolatedValue() {
+            double cLerp = 0.9;
+            for (int i=0; i<this.mAzimuthsHistory.size(); i++) this.mOutputSmoothHistory.set(i, ((this.mOutputSmoothHistory.get(i) * cLerp) + (this.mAzimuthsHistory.get(i) * (1-cLerp))));
+                //Average calculation
+            double res = 0;
+            for (int i=0; i<this.mOutputSmoothHistory.size(); i++) res += this.mOutputSmoothHistory.get(i);
+            res /= this.mOutputSmoothHistory.size();
+            this.mLastInterpolatedValue = res;
+            return res;
+        }
+
+    }
+
 }

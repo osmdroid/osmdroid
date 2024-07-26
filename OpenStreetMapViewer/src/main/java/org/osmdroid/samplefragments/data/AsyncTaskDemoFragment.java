@@ -33,7 +33,7 @@ import org.osmdroid.views.overlay.Overlay;
  * Created by k3b on 01.09.2016.
  */
 public class AsyncTaskDemoFragment extends BaseSampleFragment {
-    public static final String TAG = "osmAsync";
+    private static final String TAG = "osmAsync";
     /**
      * If there is more than 200 millisecs no zoom/scroll update markers
      */

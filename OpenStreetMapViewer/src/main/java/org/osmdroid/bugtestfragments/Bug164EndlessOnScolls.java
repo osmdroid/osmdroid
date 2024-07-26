@@ -27,6 +27,8 @@ import androidx.annotation.NonNull;
  */
 
 public class Bug164EndlessOnScolls extends BaseSampleFragment implements View.OnClickListener {
+    private static final String TAG = "Bug164EndlessOnScolls";
+
     @Override
     public String getSampleTitle() {
         return "Bug #164 Endless onScroll callsScoll";

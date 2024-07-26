@@ -62,6 +62,8 @@ import androidx.annotation.NonNull;
  */
 
 public class GeopackageFeatures extends BaseSampleFragment {
+    private static final String TAG = "GeopackageFeatures";
+
     TextView textViewCurrentLocation;
 
     XYTileSource currentSource = null;

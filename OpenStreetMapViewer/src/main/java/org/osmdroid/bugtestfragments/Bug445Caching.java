@@ -14,6 +14,7 @@ import org.osmdroid.util.TileSystem;
  */
 
 public class Bug445Caching extends BaseSampleFragment {
+    private static final String TAG = "Bug445Caching";
 
     private static final GeoPoint center = new GeoPoint(52.2742, 0.21130);
     private static final int minZoom = 10; // should be high enough so that download is needed (cf. archive)

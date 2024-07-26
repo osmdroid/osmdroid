@@ -26,8 +26,9 @@ import org.osmdroid.views.overlay.CopyrightOverlay;
 import androidx.fragment.app.Fragment;
 
 public abstract class BaseSampleFragment extends Fragment {
+    private static final String TAG = "BaseSampleFragment";
+
     private static int MENU_LAST_ID = Menu.FIRST; // Always set to last unused id
-    public static final String TAG = "osmBaseFrag";
 
     AlertDialog gotoLocationDialog = null;
 

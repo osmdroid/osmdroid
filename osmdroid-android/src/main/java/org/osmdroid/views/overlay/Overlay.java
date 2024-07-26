@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -15,6 +16,10 @@ import androidx.annotation.MainThread;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.UiThread;
+import androidx.lifecycle.DefaultLifecycleObserver;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleObserver;
+import androidx.lifecycle.LifecycleOwner;
 
 import org.osmdroid.api.IMapView;
 import org.osmdroid.util.BoundingBox;
@@ -41,6 +46,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @author Nicolas Gramlich
  */
 public abstract class Overlay implements OverlayConstants, IViewBoundingBoxChangedListener {
+    private static final String TAG = "Overlay";
 
     // ===========================================================
     // Constants
@@ -62,6 +68,10 @@ public abstract class Overlay implements OverlayConstants, IViewBoundingBoxChang
     protected final BoundingBox mBounds = new BoundingBox(tileSystem.getMaxLatitude(), tileSystem.getMaxLongitude(), tileSystem.getMinLatitude(), tileSystem.getMinLongitude());
     @Nullable
     private IViewBoundingBoxChangedListener mBoundingBoxChangedListener = null;
+    @Nullable
+    private LifecycleObserver mLifecycleObserver = null;
+    @Nullable
+    private Boolean mIsAttachedToOverlayManager = null;
 
     // ===========================================================
     // Constructors
@@ -146,9 +156,7 @@ public abstract class Overlay implements OverlayConstants, IViewBoundingBoxChang
      */
     @UiThread @MainThread
     public void draw(final Canvas pCanvas, final MapView pMapView, final boolean pShadow) {
-        if (pShadow) {
-            return;
-        }
+        if (pShadow) return;
         draw(pCanvas, pMapView.getProjection());
     }
 
@@ -309,6 +317,57 @@ public abstract class Overlay implements OverlayConstants, IViewBoundingBoxChang
         canvas.restore();
     }
 
+    public boolean isAttachedToOverlayManager() { return ((mIsAttachedToOverlayManager != null) && mIsAttachedToOverlayManager); }
+    protected void setIsAttachedToOverlayManager(@Nullable final Boolean value) { mIsAttachedToOverlayManager = value; }
+    public boolean isMarkedAsRemoved() { return (mIsAttachedToOverlayManager == Boolean.FALSE); }
+
+    /** Raised when it is Added to the {@link OverlayManager} and drown first time */
+    protected void onAttachedToOverlayManager(@NonNull final OverlayManager overlayManager) {
+        Log.e(TAG, "onAttachedToOverlayManager()");
+    }
+
+    /** Raised when it is Removed from the {@link OverlayManager} */
+    protected void onRemovedFromOverlayManager(@NonNull final OverlayManager overlayManager) {
+        Log.e(TAG, "onRemovedFromOverlayManager()");
+    }
+
+    protected void setLifecycleFromMapView(@NonNull final Lifecycle lifecycle) {
+        if (mLifecycleObserver != null) return;
+        lifecycle.addObserver(mLifecycleObserver = new DefaultLifecycleObserver() {
+            @Override
+            public void onCreate(@NonNull final LifecycleOwner owner) {
+                DefaultLifecycleObserver.super.onCreate(owner);
+                Overlay.this.onCreate();
+            }
+            @Override
+            public void onStart(@NonNull final LifecycleOwner owner) {
+                DefaultLifecycleObserver.super.onStart(owner);
+                Overlay.this.onStart();
+            }
+            @Override
+            public void onResume(@NonNull final LifecycleOwner owner) {
+                DefaultLifecycleObserver.super.onResume(owner);
+                Overlay.this.onResume();
+            }
+            @Override
+            public void onPause(@NonNull final LifecycleOwner owner) {
+                Overlay.this.onPause();
+                DefaultLifecycleObserver.super.onPause(owner);
+            }
+            @Override
+            public void onStop(@NonNull final LifecycleOwner owner) {
+                Overlay.this.onStop();
+                DefaultLifecycleObserver.super.onStop(owner);
+            }
+            @Override
+            public void onDestroy(@NonNull final LifecycleOwner owner) {
+                Overlay.this.onDestroy(null);
+                DefaultLifecycleObserver.super.onDestroy(owner);
+                lifecycle.removeObserver(this);
+            }
+        });
+    }
+
     @UiThread @MainThread
     @CallSuper
     protected void onCreate() { /*nothing*/ }
@@ -334,11 +393,13 @@ public abstract class Overlay implements OverlayConstants, IViewBoundingBoxChang
     @CallSuper
     protected void onDestroy(@Nullable final MapView mapView) {
         mBoundingBoxChangedListener = null;
+        mIsAttachedToOverlayManager = Boolean.FALSE;
     }
 
     @CallSuper
     public void freeMemory(@Nullable final MapView mapView) {
         onDestroy(mapView);
+        mIsAttachedToOverlayManager = null;
     }
 
     public void setViewBoundingBoxChangedListener(@Nullable final IViewBoundingBoxChangedListener listener) {

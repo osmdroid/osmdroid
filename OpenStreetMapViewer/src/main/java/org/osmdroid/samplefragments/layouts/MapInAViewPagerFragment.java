@@ -19,6 +19,8 @@ import androidx.viewpager.widget.ViewPager;
  */
 
 public class MapInAViewPagerFragment extends BaseSampleFragment {
+    private static final String TAG = "MapInAViewPagerFragment";
+
     ViewPager mPager;
     PagerAdapter mPagerAdapter;
 

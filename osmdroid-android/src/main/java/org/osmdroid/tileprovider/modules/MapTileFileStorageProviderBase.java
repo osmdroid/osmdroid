@@ -32,8 +32,8 @@ public abstract class MapTileFileStorageProviderBase extends MapTileModuleProvid
 
     @Override
     public void detach(@Nullable final Context context) {
-        assert context != null : "Context is null";
         if (mBroadcastReceiver != null) {
+            assert context != null : "Context is null";
             mRegisterReceiver.unregisterReceiver(context, mBroadcastReceiver);
             mBroadcastReceiver = null;
         }

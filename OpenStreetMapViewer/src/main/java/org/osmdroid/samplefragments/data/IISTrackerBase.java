@@ -27,6 +27,7 @@ import java.util.TimerTask;
  */
 
 public abstract class IISTrackerBase extends SampleGridlines {
+    private static final String TAG = "IISTrackerBase";
 
     final static String url_select = "http://api.open-notify.org/iss-now.json";
 

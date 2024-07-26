@@ -17,6 +17,8 @@ import org.osmdroid.samplefragments.BaseSampleFragment;
  */
 
 public class MapInScrollView extends BaseSampleFragment {
+    private static final String TAG = "MapInScrollView";
+
     @Override
     public String getSampleTitle() {
         return "Map in a scroll view";

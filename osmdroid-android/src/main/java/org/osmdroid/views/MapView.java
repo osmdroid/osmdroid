@@ -295,17 +295,20 @@ public class MapView extends ViewGroup implements IMapView, MultiTouchObjectCanv
                 @Override public void onCreate(@NonNull final LifecycleOwner owner) { mLifecycleRegistry.setCurrentState(Lifecycle.State.CREATED); this.init(); }
                 @Override public void onStart(@NonNull final LifecycleOwner owner) { mLifecycleRegistry.setCurrentState(Lifecycle.State.STARTED); this.init(); }
                 @Override public void onResume(@NonNull final LifecycleOwner owner) {
-                    if (MapView.this.isAttachedToWindow()) mLifecycleRegistry.setCurrentState(Lifecycle.State.RESUMED);
+                    mLifecycleRegistry.setCurrentState(Lifecycle.State.RESUMED);
                     this.init();
                     MapView.this.onResume();
                 }
                 @Override
                 public void onPause(@NonNull final LifecycleOwner owner) {
+verificare perchè non chiama mai qui
                     MapView.this.onPause();
-                    if (!MapView.this.isAttachedToWindow()) mLifecycleRegistry.setCurrentState(Lifecycle.State.STARTED);
+                    mLifecycleRegistry.setCurrentState(Lifecycle.State.STARTED);
                 }
                 @Override
-                public void onStop(@NonNull final LifecycleOwner owner) { mLifecycleRegistry.setCurrentState(Lifecycle.State.CREATED); }
+                public void onStop(@NonNull final LifecycleOwner owner) {
+                    mLifecycleRegistry.setCurrentState(Lifecycle.State.CREATED);
+                }
                 @Override
                 public void onDestroy(@NonNull final LifecycleOwner owner) {
                     MapView.this.onDestroy();
@@ -467,14 +470,14 @@ public class MapView extends ViewGroup implements IMapView, MultiTouchObjectCanv
      */
     public Rect getScreenRect(@Nullable final Rect reuse) {
         final Rect out = getIntrinsicScreenRect(reuse);
-        if (this.getMapOrientation() != 0 && this.getMapOrientation() != 180) {
+        if ((this.getMapOrientation() != 0) && (this.getMapOrientation() != 180)) {
             GeometryMath.getBoundingBoxForRotatatedRectangle(out, out.centerX(), out.centerY(), this.getMapOrientation(), out);
         }
         return out;
     }
 
     public Rect getIntrinsicScreenRect(@Nullable final Rect reuse) {
-        final Rect out = reuse == null ? new Rect() : reuse;
+        final Rect out = ((reuse == null) ? new Rect() : reuse);
         out.set(0, 0, getWidth(), getHeight());
         return out;
     }
@@ -666,12 +669,15 @@ public class MapView extends ViewGroup implements IMapView, MultiTouchObjectCanv
      * @param pVerticalBorderSizeInPixels   Border size around the bounding box (vertically)
      * @param pMaximumZoom                  Maximum zoom we want from bounding box computation
      * @param pAnimationSpeed               Animation duration, in milliseconds
+     *
+     * @return Returns <i>-1</i> if no any MapView Layout pass is already done yet
      * @since 6.1.18
      */
     public double zoomToBoundingBox(@NonNull final BoundingBox pBoundingBox, final boolean pAnimated,
                                     final int pHorizontalBorderSizeInPixels, final int pVerticalBorderSizeInPixels, final double pMaximumZoom,
                                     @Nullable final Long pAnimationSpeed) {
-        double nextZoom = mTileSystem.getBoundingBoxZoom(pBoundingBox, getWidth() - 2 * pHorizontalBorderSizeInPixels, getHeight() - 2 * pVerticalBorderSizeInPixels);
+        if (isLayoutOccurred()) return -1d;
+        double nextZoom = mTileSystem.getBoundingBoxZoom(pBoundingBox, (getWidth() - (2 * pHorizontalBorderSizeInPixels)), (getHeight() - (2 * pVerticalBorderSizeInPixels)));
         if (nextZoom == Double.MIN_VALUE // e.g. single point bounding box
                 || nextZoom > pMaximumZoom) { // e.g. tiny bounding box
             nextZoom = pMaximumZoom;
@@ -697,7 +703,7 @@ public class MapView extends ViewGroup implements IMapView, MultiTouchObjectCanv
         if (offset != 0) {
             projection.adjustOffsets(0, offset);
             mReusableForZoomToBoundingBox.setCoords(centerLat, centerLon);
-            projection.fromPixels(getWidth() / 2, getHeight() / 2, mReusableForZoomToBoundingBox);
+            projection.fromPixels((getWidth() / 2), (getHeight() / 2), mReusableForZoomToBoundingBox);
             centerLat = mReusableForZoomToBoundingBox.getLatitude();
             centerLon = mReusableForZoomToBoundingBox.getLongitude();
         }
@@ -987,18 +993,13 @@ public class MapView extends ViewGroup implements IMapView, MultiTouchObjectCanv
     private void invalidateMapCoordinates(int left, int top, int right, int bottom, boolean post) {
         mInvalidateRect.set(left, top, right, bottom);
 
-        final int centerX = getWidth() / 2;
-        final int centerY = getHeight() / 2;
+        final int centerX = (getWidth() / 2);
+        final int centerY = (getHeight() / 2);
 
-        if (this.getMapOrientation() != 0)
-            GeometryMath.getBoundingBoxForRotatatedRectangle(mInvalidateRect, centerX, centerY,
-                    this.getMapOrientation() + 180, mInvalidateRect);
+        if (this.getMapOrientation() != 0) GeometryMath.getBoundingBoxForRotatatedRectangle(mInvalidateRect, centerX, centerY, (this.getMapOrientation() + 180), mInvalidateRect);
 
-        if (post)
-            super.postInvalidate(mInvalidateRect.left, mInvalidateRect.top, mInvalidateRect.right,
-                    mInvalidateRect.bottom);
-        else
-            super.invalidate(mInvalidateRect);
+        if (post) super.postInvalidate(mInvalidateRect.left, mInvalidateRect.top, mInvalidateRect.right, mInvalidateRect.bottom);
+        else super.invalidate(mInvalidateRect);
     }
 
     /**
@@ -1064,8 +1065,7 @@ public class MapView extends ViewGroup implements IMapView, MultiTouchObjectCanv
                 getProjection().toPixels(lp.geoPointLat, lp.geoPointLon, mLayoutPoint);
                 // Apply rotation of mLayoutPoint around the center of the map
                 if (getMapOrientation() != 0) {
-                    Point p = getProjection().rotateAndScalePoint(mLayoutPoint.x, mLayoutPoint.y,
-                            null);
+                    Point p = getProjection().rotateAndScalePoint(mLayoutPoint.x, mLayoutPoint.y, null);
                     mLayoutPoint.x = p.x;
                     mLayoutPoint.y = p.y;
                 }
@@ -1248,8 +1248,7 @@ public class MapView extends ViewGroup implements IMapView, MultiTouchObjectCanv
     }
 
     private MotionEvent rotateTouchEvent(MotionEvent ev) {
-        if (this.getMapOrientation() == 0)
-            return ev;
+        if (this.getMapOrientation() == 0) return ev;
 
         MotionEvent rotatedEvent = MotionEvent.obtain(ev);
         rotatedEvent.transform(getProjection().getInvertedScaleRotateCanvasMatrix());
@@ -1283,8 +1282,7 @@ public class MapView extends ViewGroup implements IMapView, MultiTouchObjectCanv
         invalidate();
 
         // Force a layout, so that children are correctly positioned according to map orientation
-        if (getMapOrientation() != 0f)
-            myOnLayout(true, getLeft(), getTop(), getRight(), getBottom());
+        if (getMapOrientation() != 0f) myOnLayout(true, getLeft(), getTop(), getRight(), getBottom());
 
         // do callback on listener
         raiseOnScrollEvent(x, y);

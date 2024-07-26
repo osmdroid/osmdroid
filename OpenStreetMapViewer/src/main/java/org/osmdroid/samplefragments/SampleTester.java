@@ -9,6 +9,8 @@ import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.compass.CompassOverlay;
 import org.osmdroid.views.overlay.compass.InternalCompassOrientationProvider;
 
+import androidx.annotation.NonNull;
+
 /**
  * Created by alex on 9/14/16.
  */
@@ -20,10 +22,7 @@ public class SampleTester extends BaseSampleFragment implements MapView.OnFirstL
     }
 
     protected void addOverlays() {
-        //sorry for the spaghetti code this is to filter out the compass on api 8
-        //Note: the compass overlay causes issues on API 8 devices. See https://github.com/osmdroid/osmdroid/issues/218
-        mCompassOverlay = new CompassOverlay(getContext(), new InternalCompassOrientationProvider(getContext()),
-                mMapView);
+        mCompassOverlay = new CompassOverlay(mMapView, new InternalCompassOrientationProvider(mMapView));
         mCompassOverlay.enableCompass();
         mMapView.getOverlayManager().add(this.mCompassOverlay);
     }
@@ -38,7 +37,7 @@ public class SampleTester extends BaseSampleFragment implements MapView.OnFirstL
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull final View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mMapView.addOnFirstLayoutListener(this);
     }
@@ -46,22 +45,14 @@ public class SampleTester extends BaseSampleFragment implements MapView.OnFirstL
     @Override
     public void onPause() {
         super.onPause();
-        //sorry for the spaghetti code this is to filter out the compass on api 8
-        //Note: the compass overlay causes issues on API 8 devices. See https://github.com/osmdroid/osmdroid/issues/218
-        if (mCompassOverlay != null) {
-            this.mCompassOverlay.disableCompass();
-        }
+        if (mCompassOverlay != null) this.mCompassOverlay.disableCompass();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        //sorry for the spaghetti code this is to filter out the compass on api 8
-        //Note: the compass overlay causes issues on API 8 devices. See https://github.com/osmdroid/osmdroid/issues/218
-
         if (mCompassOverlay != null) {
-            //this call is needed because onPause, the orientation provider is destroyed to prevent context leaks
-            this.mCompassOverlay.setOrientationProvider(new InternalCompassOrientationProvider(getActivity()));
+            if (!this.mCompassOverlay.hasOrientationProvider()) this.mCompassOverlay.setOrientationProvider(new InternalCompassOrientationProvider(mMapView));
             this.mCompassOverlay.enableCompass();
         }
 

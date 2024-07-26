@@ -37,7 +37,7 @@ import androidx.appcompat.widget.Toolbar;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
-    public static final String TAG = "OSM";
+    private static final String TAG = "OSM";
 
     /**
      * Called when the activity is first created.

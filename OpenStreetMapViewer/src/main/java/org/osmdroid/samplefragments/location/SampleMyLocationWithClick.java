@@ -18,6 +18,8 @@ import androidx.fragment.app.FragmentActivity;
  */
 
 public class SampleMyLocationWithClick extends BaseSampleFragment {
+    private static final String TAG = "SampleMyLocationWithClick";
+
     @Override
     public String getSampleTitle() {
         return "MyLocationNewOverlay with Click";

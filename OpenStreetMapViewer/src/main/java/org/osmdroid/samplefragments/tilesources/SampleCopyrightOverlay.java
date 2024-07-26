@@ -15,7 +15,7 @@ import org.osmdroid.views.overlay.CopyrightOverlay;
  */
 
 public class SampleCopyrightOverlay extends BaseSampleFragment {
-
+    private static final String TAG = "SampleCopyrightOverlay";
 
     @Override
     public String getSampleTitle() {

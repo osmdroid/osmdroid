@@ -24,6 +24,7 @@ import java.util.TimerTask;
  */
 
 public class AnimatedMarkerTimer extends BaseSampleFragment {
+    private static final String TAG = "AnimatedMarkerTimer";
 
     boolean alive = true;
     FolderOverlay activeLatLonGrid;

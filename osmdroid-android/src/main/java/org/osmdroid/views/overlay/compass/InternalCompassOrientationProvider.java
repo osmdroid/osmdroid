@@ -1,29 +1,36 @@
 package org.osmdroid.views.overlay.compass;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
+import org.osmdroid.views.MapView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+@SuppressLint("LongLogTag")
 public class InternalCompassOrientationProvider implements SensorEventListener, IOrientationProvider {
+    private static final String TAG = "InternalCompassOrientationProvider";
+
     @Nullable
     private IOrientationConsumer mOrientationConsumer;
     private final SensorManager mSensorManager;
     private final Sensor mAccelerometerSensor;
     private final Sensor mMagnetometerSensor;
-    private float mAzimuth;
+    private float mOrientationDegrees;
     private float[] mGravity;
     private float[] mGeomagnetic;
     private final float[] R = new float[9];
     private final float[] I = new float[9];
     private final float[] orientation = new float[3];
 
-    public InternalCompassOrientationProvider(@NonNull final Context context) {
-        mSensorManager = (SensorManager)context.getSystemService(Context.SENSOR_SERVICE);
+    public InternalCompassOrientationProvider(@NonNull final MapView mapView) {
+        final Context cContext = mapView.getContext();
+        mSensorManager = (SensorManager)cContext.getSystemService(Context.SENSOR_SERVICE);
         mAccelerometerSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         mMagnetometerSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
         if ((mAccelerometerSensor == null) || (mMagnetometerSensor == null)) throw new RuntimeException("An Accelerometer AND a MagneticField are required for the Compass");
@@ -48,7 +55,7 @@ public class InternalCompassOrientationProvider implements SensorEventListener, 
     }
 
     @Override
-    public float getLastKnownOrientation() { return mAzimuth; }
+    public float getLastKnownOrientation() { return mOrientationDegrees; }
 
     @Override
     public void destroy() {
@@ -65,9 +72,10 @@ public class InternalCompassOrientationProvider implements SensorEventListener, 
         if ((mGravity != null) && (mGeomagnetic != null)) {
             if (SensorManager.getRotationMatrix(R, I, mGravity, mGeomagnetic)) {
                 SensorManager.getOrientation(R, orientation);
-                mAzimuth = ((float)Math.toDegrees(orientation[0]) + 180.0f); // <-- orientation contains: azimut, pitch and roll
-                if (mOrientationConsumer != null) mOrientationConsumer.onOrientationChanged(mAzimuth, this);
+                mOrientationDegrees = (float)((Math.toDegrees(orientation[0]) + 360) % 360);
+                if (mOrientationConsumer != null) mOrientationConsumer.onOrientationChanged(mOrientationDegrees, this);
             }
         }
     }
+
 }
