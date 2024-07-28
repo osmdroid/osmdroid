@@ -158,7 +158,7 @@ public class MilStdAdapter extends ArrayAdapter<SimpleSymbol> implements Filtera
             // NOTE: this function is *always* called from a background thread, and
             // not the UI thread.
             FilterResults results = new FilterResults();
-            ArrayList<SimpleSymbol> filteredArrayNames = new ArrayList<SimpleSymbol>();
+            List<SimpleSymbol> filteredArrayNames = new ArrayList<SimpleSymbol>();
 
             resetSymbols();
 

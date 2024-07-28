@@ -53,4 +53,5 @@ public class ListPointAccepter implements PointAccepter {
     @Override
     public void end() {
     }
+
 }

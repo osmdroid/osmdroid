@@ -13,7 +13,7 @@ import org.osmdroid.util.MapTileContainer;
 import org.osmdroid.util.MapTileList;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 /**
@@ -39,7 +39,7 @@ public class MapTileCache {
     }
 
     private TileRemovedListener mTileRemovedListener;
-    private final HashMap<Long, Drawable> mCachedTiles = new HashMap<>();
+    private final LinkedHashMap<Long, Drawable> mCachedTiles;
     /**
      * Tiles currently displayed
      */
@@ -48,10 +48,11 @@ public class MapTileCache {
      * Tiles neighbouring the tiles currently displayed (borders, zoom +-1, ...)
      */
     private final MapTileAreaList mAdditionalMapTileList = new MapTileAreaList();
-    /**
+    /* *
      * Tiles currently in the cache, without the concurrency side effects
-     */
+     * /
     private final MapTileList mGC = new MapTileList();
+    */
 
     private final List<MapTileAreaComputer> mComputers = new ArrayList<>();
 
@@ -74,6 +75,8 @@ public class MapTileCache {
      */
     private boolean mStressedMemory;
 
+    private final MapTileList mMapTileList = new MapTileList();
+
     // ===========================================================
     // Constructors
     // ===========================================================
@@ -87,6 +90,12 @@ public class MapTileCache {
      */
     public MapTileCache(final int aMaximumCacheSize) {
         ensureCapacity(aMaximumCacheSize);
+        mCachedTiles = new LinkedHashMap<>(mCapacity, 0.1f, true) {
+            @Override
+            protected boolean removeEldestEntry(Entry<Long, Drawable> eldest) {
+                return ((this.size() - mCapacity) > 0);
+            }
+        };
         mPreCache = new MapTilePreCache(this);
     }
 
@@ -111,6 +120,7 @@ public class MapTileCache {
     /**
      * @since 6.0.3
      */
+    @Deprecated
     public void setAutoEnsureCapacity(final boolean pAutoEnsureCapacity) {
         mAutoEnsureCapacity = pAutoEnsureCapacity;
     }
@@ -124,6 +134,7 @@ public class MapTileCache {
      * avoid OutOfMemoryException.
      * Should be set to false for better performances.
      */
+    @Deprecated
     public void setStressedMemory(final boolean pStressedMemory) {
         mStressedMemory = pStressedMemory;
     }
@@ -157,6 +168,7 @@ public class MapTileCache {
      * @since 6.0.0
      */
     public void garbageCollection() {
+        /*
         // number of tiles to remove from cache
         int toBeRemoved = Integer.MAX_VALUE; // MAX_VALUE for stressed memory case
         final int size = mCachedTiles.size();
@@ -190,8 +202,8 @@ public class MapTileCache {
             if (--toBeRemoved == 0) {
                 break;
             }
-            ;
         }
+        */
     }
 
     /**
@@ -267,10 +279,9 @@ public class MapTileCache {
      */
     public void clear() {
         // remove them all individually so that they get recycled
-        final MapTileList list = new MapTileList();
-        populateSyncCachedTiles(list);
-        for (int i = 0; i < list.getSize(); i++) {
-            final long index = list.get(i);
+        populateSyncCachedTiles(mMapTileList);
+        for (int i = 0; i < mMapTileList.getSize(); i++) {
+            final long index = mMapTileList.get(i);
             remove(index);
         }
 
@@ -287,8 +298,9 @@ public class MapTileCache {
         synchronized (mCachedTiles) {
             drawable = mCachedTiles.remove(pMapTileIndex);
         }
-        if (getTileRemovedListener() != null)
-            getTileRemovedListener().onTileRemoved(pMapTileIndex);
+        final TileRemovedListener cTileRemovedListener;
+        if ((cTileRemovedListener = getTileRemovedListener()) != null)
+            cTileRemovedListener.onTileRemoved(pMapTileIndex);
         BitmapPool.getInstance().asyncRecycle(drawable);
     }
 

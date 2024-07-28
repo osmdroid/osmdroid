@@ -7,14 +7,15 @@ group = project.property("pom.groupId")
 version =  project.property("pom.version")
 
 android {
+	namespace 'org.osmdroid.shape'
     compileSdkVersion findProperty('android.compileSdkVersion').toInteger()
+
     defaultConfig {
         minSdkVersion Integer.parseInt(project.property('android-minSdkForSupportLib.version'))
+        compileSdk findProperty('android.compileSdkVersion').toInteger()
+        targetSdkVersion  findProperty('android.targetSdkVersion').toInteger()
     }
 
-    lintOptions {
-        abortOnError false
-    }
     buildTypes {
         release {
             minifyEnabled false
@@ -27,17 +28,23 @@ android {
             withJavadocJar()
         }
     }
+
+    compileOptions {
+        sourceCompatibility(JavaVersion.VERSION_17)
+        targetCompatibility(JavaVersion.VERSION_17)
+    }
+    lint {
+        abortOnError false
+    }
 }
 
 dependencies {
+    implementation("androidx.lifecycle:lifecycle-common:2.8.4")
    
-    testImplementation 'org.junit.vintage:junit-vintage-engine:5.10.2'
+    testImplementation "org.junit.vintage:junit-vintage-engine:${project.property('junit.version')}"
     api  project(':osmdroid-android')
     api 'com.github.spyhunter99:jdbf:2.2.4'
-
 }
-
-
 
 afterEvaluate {
     publishing {
@@ -66,13 +73,9 @@ afterEvaluate {
             }
         }
     }
-
-
 }
 
-
-
-task androidSourcesJar(type: Jar) {
+tasks.register('androidSourcesJar', Jar) {
     from android.sourceSets.main.java.srcDirs
 }
 

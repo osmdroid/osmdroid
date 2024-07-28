@@ -132,12 +132,9 @@ public class ItemizedOverlayControlView extends LinearLayout {
     // ===========================================================
 
     public interface ItemizedOverlayControlViewListener {
-        public void onPrevious();
-
-        public void onNext();
-
-        public void onCenter();
-
-        public void onNavTo();
+        void onPrevious();
+        void onNext();
+        void onCenter();
+        void onNavTo();
     }
 }

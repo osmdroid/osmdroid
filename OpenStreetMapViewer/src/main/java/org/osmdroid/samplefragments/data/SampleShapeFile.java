@@ -35,7 +35,7 @@ import java.util.Set;
  */
 
 public class SampleShapeFile extends SampleMapEventListener {
-
+    private static final String TAG = "SampleShapeFile";
 
     @Override
     public String getSampleTitle() {

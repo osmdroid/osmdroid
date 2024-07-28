@@ -1,20 +1,23 @@
 package org.osmdroid.events;
 
-/*
- * The listener interface for receiving map movement events. To process a map event, either implement
- * this interface or extend MapAdapter, then register with the MapView using
- * setMapListener.
+import androidx.annotation.MainThread;
+import androidx.annotation.UiThread;
+
+import org.osmdroid.views.overlay.IViewBoundingBoxChangedListener;
+
+/**
+ * The listener interface for receiving map movement events.<br>
+ * To process a map event, either implement this interface or extend {@link MapAdapter}, then register with the MapView using <i>setMapListener()</i>.
  *
  * @author Theodore Hong
  */
-public interface MapListener {
-    /*
-     * Called when a map is scrolled.
-     */
-    public boolean onScroll(ScrollEvent event);
+@UiThread @MainThread
+public interface MapListener extends IViewBoundingBoxChangedListener {
 
-    /*
-     * Called when a map is zoomed.
-     */
-    public boolean onZoom(ZoomEvent event);
+    /** Called when a map is scrolled */
+    boolean onScroll(ScrollEvent event);
+
+    /** Called when a map is zoomed */
+    boolean onZoom(ZoomEvent event);
+
 }

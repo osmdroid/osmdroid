@@ -1,5 +1,8 @@
 package org.osmdroid.util;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 /**
  * Compute a map tile area from a map tile area source
  *
@@ -9,5 +12,5 @@ package org.osmdroid.util;
 
 public interface MapTileAreaComputer {
 
-    MapTileArea computeFromSource(final MapTileArea pSource, final MapTileArea pReuse);
+    MapTileArea computeFromSource(@NonNull MapTileArea pSource, @Nullable MapTileArea pReuse);
 }

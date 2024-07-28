@@ -76,7 +76,7 @@ public class BookmarkSample extends BaseSampleFragment implements LocationListen
         mMyLocationOverlay.setEnabled(true);
 
 
-        this.mMapView.getOverlays().add(mMyLocationOverlay);
+        this.mMapView.getOverlayManager().add(mMyLocationOverlay);
         //support long press to add a bookmark
 
         //TODO menu item to

@@ -5,16 +5,19 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.view.MotionEvent;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.TileSystem;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
  * A {@link org.osmdroid.views.overlay.FolderOverlay} is just a group of other {@link org.osmdroid.views.overlay.Overlay}s.
- *
  * <img alt="Class diagram around Marker class" width="686" height="413" src='./doc-files/marker-classes.png' />
  *
  * @author M.Kergall
@@ -63,9 +66,15 @@ public class FolderOverlay extends Overlay {
         return mOverlayManager;
     }
 
-    public boolean add(Overlay item) {
-
+    public boolean add(@Nullable final Overlay item) {
+        if (item == null) return false;
+        if (mOverlayManager.contains(item)) return true;
         boolean b = mOverlayManager.add(item);
+        if (b) recalculateBounds();
+        return b;
+    }
+    public boolean addAll(@NonNull final Collection<Overlay> items) {
+        boolean b = mOverlayManager.addAll(items);
         if (b) recalculateBounds();
         return b;
     }
@@ -87,15 +96,15 @@ public class FolderOverlay extends Overlay {
 
         if (minLat == Double.MAX_VALUE) { // no overlay
             final TileSystem tileSystem = MapView.getTileSystem();
-            mBounds = new BoundingBox( // default values
+            mBounds.set( // default values
                     tileSystem.getMaxLatitude(), tileSystem.getMaxLongitude(),
                     tileSystem.getMinLatitude(), tileSystem.getMinLongitude());
         } else {
-            mBounds = new BoundingBox(maxLat, maxLon, minLat, minLon);
+            mBounds.set(maxLat, maxLon, minLat, minLon);
         }
     }
 
-    public boolean remove(Overlay item) {
+    public boolean remove(@NonNull final Overlay item) {
         boolean b = mOverlayManager.remove(item);
         if (b) recalculateBounds();
         return b;
@@ -110,53 +119,39 @@ public class FolderOverlay extends Overlay {
     @SuppressLint("WrongCall")
     @Override
     public void draw(final Canvas pCanvas, final MapView pMapView, final boolean pShadow) {
-        if (pShadow) {
-            return;
-        }
+        if (pShadow) return;
         mOverlayManager.onDraw(pCanvas, pMapView);
     }
 
     @Override
     public boolean onSingleTapUp(MotionEvent e, MapView mapView) {
-        if (isEnabled())
-            return mOverlayManager.onSingleTapUp(e, mapView);
-        else
-            return false;
+        if (isEnabled()) return mOverlayManager.onSingleTapUp(e, mapView);
+        else return false;
     }
 
     @Override
     public boolean onSingleTapConfirmed(MotionEvent e, MapView mapView) {
-        if (isEnabled())
-            return mOverlayManager.onSingleTapConfirmed(e, mapView);
-        else
-            return false;
+        if (isEnabled()) return mOverlayManager.onSingleTapConfirmed(e, mapView);
+        else return false;
     }
 
     @Override
     public boolean onLongPress(MotionEvent e, MapView mapView) {
-        if (isEnabled())
-            return mOverlayManager.onLongPress(e, mapView);
-        else
-            return false;
+        if (isEnabled()) return mOverlayManager.onLongPress(e, mapView);
+        else return false;
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent e, MapView mapView) {
-        if (isEnabled())
-            return mOverlayManager.onTouchEvent(e, mapView);
-        else
-            return false;
+        if (isEnabled()) return mOverlayManager.onTouchEvent(e, mapView);
+        else return false;
     }
 
     @Override
     public boolean onDoubleTap(MotionEvent e, MapView mapView) {
-        if (isEnabled())
-            return mOverlayManager.onDoubleTap(e, mapView);
-        else
-            return false;
+        if (isEnabled()) return mOverlayManager.onDoubleTap(e, mapView);
+        else return false;
     }
-
-    //TODO: implement other events...
 
     /**
      * Close all opened InfoWindows of overlays it contains.
@@ -164,19 +159,15 @@ public class FolderOverlay extends Overlay {
      */
     public void closeAllInfoWindows() {
         for (Overlay overlay : mOverlayManager) {
-            if (overlay instanceof FolderOverlay) {
-                ((FolderOverlay) overlay).closeAllInfoWindows();
-            } else if (overlay instanceof OverlayWithIW) {
-                ((OverlayWithIW) overlay).closeInfoWindow();
-            }
+            if (overlay instanceof FolderOverlay) ((FolderOverlay) overlay).closeAllInfoWindows();
+            else if (overlay instanceof OverlayWithIW) ((OverlayWithIW) overlay).closeInfoWindow();
         }
     }
 
     @Override
-    public void onDetach(MapView mapView) {
-        if (mOverlayManager != null)
-            mOverlayManager.onDetach(mapView);
+    public void freeMemory(@Nullable final MapView mapView) {
         mOverlayManager = null;
+        super.freeMemory(mapView);
     }
 
 }

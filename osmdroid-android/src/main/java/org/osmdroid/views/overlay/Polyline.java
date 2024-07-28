@@ -3,6 +3,10 @@ package org.osmdroid.views.overlay;
 import android.graphics.Color;
 import android.graphics.Paint;
 
+import androidx.annotation.ColorInt;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 
@@ -33,14 +37,14 @@ public class Polyline extends PolyOverlayWithIW {
     /**
      * If MapView is null, infowindow popup will not function unless you set it yourself.
      */
-    public Polyline(MapView mapView) {
+    public Polyline(@Nullable final MapView mapView) {
         this(mapView, false);
     }
 
     /**
      * @since 6.2.0
      */
-    public Polyline(final MapView pMapView, final boolean pUsePath, final boolean pClosePath) {
+    public Polyline(@Nullable final MapView pMapView, final boolean pUsePath, final boolean pClosePath) {
         super(pMapView, pUsePath, pClosePath);
         //default as defined in Google API:
         mOutlinePaint.setColor(Color.BLACK);
@@ -53,10 +57,10 @@ public class Polyline extends PolyOverlayWithIW {
      * @param pUsePath true if you want the drawing to use Path instead of Canvas.drawLines
      *                 Not recommended in all cases, given the performances.
      *                 Useful though if you want clean alpha vertices
-     *                 cf. https://github.com/osmdroid/osmdroid/issues/1280
+     *                 cf. <a href="https://github.com/osmdroid/osmdroid/issues/1280">...</a>
      * @since 6.1.0
      */
-    public Polyline(final MapView pMapView, final boolean pUsePath) {
+    public Polyline(@Nullable final MapView pMapView, final boolean pUsePath) {
         this(pMapView, pUsePath, false);
     }
 
@@ -97,7 +101,7 @@ public class Polyline extends PolyOverlayWithIW {
      * @deprecated Use {{@link #getOutlinePaint()}} instead
      */
     @Deprecated
-    public void setColor(int color) {
+    public void setColor(@ColorInt final int color) {
         mOutlinePaint.setColor(color);
     }
 
@@ -105,11 +109,11 @@ public class Polyline extends PolyOverlayWithIW {
      * @deprecated Use {{@link #getOutlinePaint()}} instead
      */
     @Deprecated
-    public void setWidth(float width) {
+    public void setWidth(final float width) {
         mOutlinePaint.setStrokeWidth(width);
     }
 
-    public void setOnClickListener(OnClickListener listener) {
+    public void setOnClickListener(@Nullable OnClickListener listener) {
         mOnClickListener = listener;
     }
 
@@ -119,22 +123,22 @@ public class Polyline extends PolyOverlayWithIW {
      * Currently, set the position on the "middle" point of the polyline.
      */
     public interface OnClickListener {
-        abstract boolean onClick(Polyline polyline, MapView mapView, GeoPoint eventPos);
+        boolean onClick(@NonNull Polyline polyline, MapView mapView, GeoPoint eventPos);
     }
 
     /**
      * default behaviour when no click listener is set
      */
-    public boolean onClickDefault(Polyline polyline, MapView mapView, GeoPoint eventPos) {
+    public boolean onClickDefault(@NonNull final Polyline polyline, MapView mapView, GeoPoint eventPos) {
         polyline.setInfoWindowLocation(eventPos);
         polyline.showInfoWindow();
         return true;
     }
 
     @Override
-    public void onDetach(MapView mapView) {
-        super.onDetach(mapView);
+    public void onDestroy(@Nullable final MapView mapView) {
         mOnClickListener = null;
+        super.onDestroy(mapView);
     }
 
     /**

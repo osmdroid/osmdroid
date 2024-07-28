@@ -1,5 +1,6 @@
 package org.osmdroid.views.drawing;
 
+import android.annotation.SuppressLint;
 import android.os.Handler;
 import android.os.Message;
 
@@ -22,8 +23,10 @@ public class MapSnapshotHandler extends Handler {
 
     @Override
     public void handleMessage(final Message msg) {
-        switch (msg.what) {
-            case MapTileProviderBase.MAPTILE_SUCCESS_ID:
+        @MapTileProviderBase.MAPTYPERESULT
+        final int cMapTypeResult = MapTileProviderBase.unmaskMapTypeResult(msg.what);
+        switch (cMapTypeResult) {
+            case MapTileProviderBase.MAPTYPERESULT_SUCCESS:
                 final MapSnapshot mapSnapshot = mMapSnapshot;
                 if (mapSnapshot != null) { // in case it was destroyed just before
                     mapSnapshot.refreshASAP();

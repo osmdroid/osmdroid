@@ -6,11 +6,12 @@ group = project.property("pom.groupId")
 version =  project.property("pom.version")
 
 android {
-    compileSdkVersion findProperty('android.compileSdkVersion').toInteger()
+	namespace 'org.osmdroid.mapsforge'
 
     defaultConfig {
-        // mapsforge 0.8.0 has minSdk 10
-        minSdkVersion 10
+        minSdkVersion 21
+        compileSdk findProperty('android.compileSdkVersion').toInteger()
+        targetSdkVersion  findProperty('android.targetSdkVersion').toInteger()
     }
     buildTypes {
         release {
@@ -24,9 +25,16 @@ android {
             withJavadocJar()
         }
     }
+
+    compileOptions {
+        sourceCompatibility(JavaVersion.VERSION_17)
+        targetCompatibility(JavaVersion.VERSION_17)
+    }
 }
 
 dependencies {
+    implementation("androidx.lifecycle:lifecycle-common:2.8.4")
+
     testImplementation "org.junit.vintage:junit-vintage-engine:${project.property('junit.version')}"
 
     //Mapsforge rendering and database support, which is LGPL
@@ -38,16 +46,13 @@ dependencies {
     api  project(':osmdroid-android' )
 }
 
-
-
-task androidSourcesJar(type: Jar) {
+tasks.register('androidSourcesJar', Jar) {
     from android.sourceSets.main.java.srcDirs
 }
 
 artifacts {
 //    archives packageReleaseJar
     archives androidSourcesJar
-
 }
 
 afterEvaluate {

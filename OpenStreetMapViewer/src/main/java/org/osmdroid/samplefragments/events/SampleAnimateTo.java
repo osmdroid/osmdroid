@@ -42,7 +42,7 @@ public class SampleAnimateTo extends SampleMapEventListener {
         mScaleBarOverlay = new ScaleBarOverlay(mMapView);
         mScaleBarOverlay.setCentred(true);
         mScaleBarOverlay.setScaleBarOffset(dm.widthPixels / 2, 10);
-        mMapView.getOverlays().add(mScaleBarOverlay);
+        mMapView.getOverlayManager().add(mScaleBarOverlay);
 
         // according to https://www.flickr.com/places/info/12589342
         final GeoPoint manhattanCenter = new GeoPoint(40.7909, -73.9664);

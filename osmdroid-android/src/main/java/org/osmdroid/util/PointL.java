@@ -1,5 +1,8 @@
 package org.osmdroid.util;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 /**
  * A {@link android.graphics.Point} with coordinates in long type instead of int
  *
@@ -20,14 +23,14 @@ public class PointL {
         y = pY;
     }
 
-    public PointL(final PointL pOther) {
+    public PointL(@NonNull final PointL pOther) {
         set(pOther);
     }
 
     /**
      * @since 6.0.0
      */
-    public void set(final PointL pOther) {
+    public void set(@NonNull final PointL pOther) {
         x = pOther.x;
         y = pOther.y;
     }
@@ -51,6 +54,7 @@ public class PointL {
     /**
      * @since 6.0.0
      */
+    @NonNull
     @Override
     public String toString() {
         return "PointL(" + x + ", " + y + ")";
@@ -60,7 +64,7 @@ public class PointL {
      * @since 6.0.0
      */
     @Override
-    public boolean equals(Object object) {
+    public boolean equals(@Nullable final Object object) {
         if (this == object) {
             return true;
         }

@@ -1,6 +1,7 @@
 package org.osmdroid.samplefragments.data;
 
 import android.content.Context;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -8,6 +9,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+
+import androidx.annotation.NonNull;
 
 import org.osmdroid.R;
 import org.osmdroid.events.DelayedMapListener;
@@ -30,7 +33,7 @@ import org.osmdroid.views.overlay.Overlay;
  * Created by k3b on 01.09.2016.
  */
 public class AsyncTaskDemoFragment extends BaseSampleFragment {
-    public static final String TAG = "osmAsync";
+    private static final String TAG = "osmAsync";
     /**
      * If there is more than 200 millisecs no zoom/scroll update markers
      */
@@ -57,7 +60,12 @@ public class AsyncTaskDemoFragment extends BaseSampleFragment {
         mMapView.setTileSource(TileSourceFactory.MAPNIK);
 
         // If there is more than 200 millisecs no zoom/scroll update markers
-        mMapView.setMapListener(new DelayedMapListener(new MapListener() {
+        mMapView.addMapListener(new DelayedMapListener(new MapListener() {
+            @Override
+            public void onViewBoundingBoxChanged(@NonNull final Rect fromBounds, final int fromZoom, @NonNull final Rect toBounds, final int toZoom) {
+
+            }
+
             @Override
             public boolean onScroll(ScrollEvent event) {
                 reloadMarker();
@@ -78,7 +86,7 @@ public class AsyncTaskDemoFragment extends BaseSampleFragment {
         mMarkerIcon = context.getResources().getDrawable(R.drawable.person);
         mCurrentBackgroundContentFolder = new FolderOverlay();
 
-        mMapView.getOverlays().add(mCurrentBackgroundContentFolder);
+        mMapView.getOverlayManager().add(mCurrentBackgroundContentFolder);
 
         setHasOptionsMenu(true);
 
@@ -296,8 +304,8 @@ public class AsyncTaskDemoFragment extends BaseSampleFragment {
         boolean modified = false;
         if (this.mCurrentBackgroundContentFolder != null) {
             Log.d(TAG, "showMarker remove old " + this.mCurrentBackgroundContentFolder.getItems().size());
-            this.mMapView.getOverlays().remove(this.mCurrentBackgroundContentFolder);
-            this.mCurrentBackgroundContentFolder.onDetach(mMapView);
+            this.mMapView.getOverlayManager().remove(this.mCurrentBackgroundContentFolder);
+            this.mCurrentBackgroundContentFolder.freeMemory(mMapView);
             this.mCurrentBackgroundContentFolder = null;
             modified = true;
         }
@@ -305,7 +313,7 @@ public class AsyncTaskDemoFragment extends BaseSampleFragment {
         if (newMarker != null) {
             this.mCurrentBackgroundContentFolder = newMarker;
             Log.d(TAG, "showMarker add new " + this.mCurrentBackgroundContentFolder.getItems().size() + ", isAnimating=" + mMapView.isAnimating());
-            mMapView.getOverlays().add(newMarker);
+            mMapView.getOverlayManager().add(newMarker);
             modified = true;
         }
 

@@ -1,6 +1,5 @@
 package org.osmdroid.views.overlay.infowindow;
 
-import android.content.Context;
 import android.text.Html;
 import android.text.Spanned;
 import android.util.Log;
@@ -9,6 +8,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import org.osmdroid.api.IMapView;
+import org.osmdroid.library.R;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.OverlayWithIW;
@@ -28,33 +28,8 @@ import org.osmdroid.views.overlay.OverlayWithIW;
  */
 public class BasicInfoWindow extends InfoWindow {
 
-    /**
-     * resource id value meaning "undefined resource id"
-     */
-    public static final int UNDEFINED_RES_ID = 0;
-
-    static int mTitleId = UNDEFINED_RES_ID,
-            mDescriptionId = UNDEFINED_RES_ID,
-            mSubDescriptionId = UNDEFINED_RES_ID,
-            mImageId = UNDEFINED_RES_ID; //resource ids
-
-    private static void setResIds(Context context) {
-        String packageName = context.getPackageName(); //get application package name
-        mTitleId = context.getResources().getIdentifier("id/bubble_title", null, packageName);
-        mDescriptionId = context.getResources().getIdentifier("id/bubble_description", null, packageName);
-        mSubDescriptionId = context.getResources().getIdentifier("id/bubble_subdescription", null, packageName);
-        mImageId = context.getResources().getIdentifier("id/bubble_image", null, packageName);
-        if (mTitleId == UNDEFINED_RES_ID || mDescriptionId == UNDEFINED_RES_ID
-                || mSubDescriptionId == UNDEFINED_RES_ID || mImageId == UNDEFINED_RES_ID) {
-            Log.e(IMapView.LOGTAG, "BasicInfoWindow: unable to get res ids in " + packageName);
-        }
-    }
-
     public BasicInfoWindow(int layoutResId, MapView mapView) {
         super(layoutResId, mapView);
-
-        if (mTitleId == UNDEFINED_RES_ID)
-            setResIds(mapView.getContext());
 
         //default behavior: close it when clicking on the bubble:
         mView.setOnTouchListener(new View.OnTouchListener() {
@@ -77,7 +52,7 @@ public class BasicInfoWindow extends InfoWindow {
             Log.w(IMapView.LOGTAG, "Error trapped, BasicInfoWindow.open, mView is null!");
             return;
         }
-        TextView temp = ((TextView) mView.findViewById(mTitleId /*R.id.title*/));
+        TextView temp = (mView.findViewById(R.id.bubble_title));
 
         if (temp != null) temp.setText(title);
 
@@ -85,12 +60,12 @@ public class BasicInfoWindow extends InfoWindow {
         if (snippet == null)
             snippet = "";
         Spanned snippetHtml = Html.fromHtml(snippet);
-        ((TextView) mView.findViewById(mDescriptionId /*R.id.description*/)).setText(snippetHtml);
+        ((TextView) mView.findViewById(R.id.bubble_description)).setText(snippetHtml);
 
         //handle sub-description, hidding or showing the text view:
-        TextView subDescText = (TextView) mView.findViewById(mSubDescriptionId);
+        TextView subDescText = mView.findViewById(R.id.bubble_subdescription);
         String subDesc = overlay.getSubDescription();
-        if (subDesc != null && !("".equals(subDesc))) {
+        if (subDesc != null && !subDesc.isEmpty()) {
             subDescText.setText(Html.fromHtml(subDesc));
             subDescText.setVisibility(View.VISIBLE);
         } else {

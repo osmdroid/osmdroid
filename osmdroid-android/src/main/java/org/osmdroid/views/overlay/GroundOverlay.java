@@ -5,7 +5,6 @@ import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 
-import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.Projection;
 
@@ -14,8 +13,8 @@ import org.osmdroid.views.Projection;
  * or only top-left and bottom-right corners
  *
  * @author Fabrice Fontaine
- * Triggered by issue 1361 (https://github.com/osmdroid/osmdroid/issues/1361)
- * Inspired by {@link GroundOverlay2} and {@link GroundOverlay4}
+ * Triggered by issue 1361 (<a href="https://github.com/osmdroid/osmdroid/issues/1361">...</a>)
+ * Inspired by deprecated {@link GroundOverlay2} and {@link GroundOverlay4}
  * @since 6.1.1
  */
 public class GroundOverlay extends Overlay {
@@ -99,7 +98,7 @@ public class GroundOverlay extends Overlay {
         mTopRight = new GeoPoint(pTopRight);
         mBottomRight = new GeoPoint(pBottomRight);
         mBottomLeft = new GeoPoint(pBottomLeft);
-        mBounds = new BoundingBox(pTopLeft.getLatitude(), pTopRight.getLongitude(),
+        mBounds.set(pTopLeft.getLatitude(), pTopRight.getLongitude(),
                 pBottomRight.getLatitude(), pTopLeft.getLongitude()
         );
     }
@@ -112,7 +111,7 @@ public class GroundOverlay extends Overlay {
         mTopRight = null;
         mBottomRight = new GeoPoint(pBottomRight);
         mBottomLeft = null;
-        mBounds = new BoundingBox(pTopLeft.getLatitude(), pBottomRight.getLongitude(),
+        mBounds.set(pTopLeft.getLatitude(), pBottomRight.getLongitude(),
                 pBottomRight.getLatitude(), pTopLeft.getLongitude()
         );
     }

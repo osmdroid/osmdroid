@@ -17,6 +17,8 @@ import org.osmdroid.views.overlay.Overlay;
  * Created by alex on 6/29/16.
  */
 public class Bug82WinDeath extends BaseSampleFragment {
+    private static final String TAG = "Bug82WinDeath";
+
     @Override
     public String getSampleTitle() {
         return "Bug #82 WinDeath";

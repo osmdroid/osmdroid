@@ -1,5 +1,8 @@
 package org.osmdroid.util;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 /**
  * Compute a map tile area from a map tile area source: the source on another zoom level
  *
@@ -16,7 +19,7 @@ public class MapTileAreaZoomComputer implements MapTileAreaComputer {
     }
 
     @Override
-    public MapTileArea computeFromSource(final MapTileArea pSource, final MapTileArea pReuse) {
+    public MapTileArea computeFromSource(final @NonNull MapTileArea pSource, @Nullable final MapTileArea pReuse) {
         final MapTileArea out = pReuse != null ? pReuse : new MapTileArea();
         if (pSource.size() == 0) {
             out.reset();

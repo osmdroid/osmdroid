@@ -1,5 +1,8 @@
 package org.osmdroid.util;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import org.osmdroid.views.overlay.SpeechBalloonOverlay;
 
 /**
@@ -30,8 +33,8 @@ public class SpeechBalloonHelper {
      * are on the same border, or a combination of CORNER_% that tells which rectangle's corner is
      * included between both intersections
      */
-    public int compute(final RectL pInputRect, final PointL pInputPoint, final double pInputRadius,
-                       final PointL pOutputIntersection1, final PointL pOutputIntersection2) {
+    public int compute(@NonNull final RectL pInputRect, @NonNull final PointL pInputPoint, final double pInputRadius,
+                       @Nullable final PointL pOutputIntersection1, @Nullable final PointL pOutputIntersection2) {
         mRect = pInputRect;
         mPoint = pInputPoint;
 
@@ -51,7 +54,7 @@ public class SpeechBalloonHelper {
         return corner1 | corner2;
     }
 
-    private int checkIntersection(final PointL pIntersection) {
+    private int checkIntersection(@Nullable final PointL pIntersection) {
         if (mPoint.y <= mRect.top && checkIntersectionY(mRect.top, pIntersection)) {
             return CORNER_TOP;
         }
@@ -67,21 +70,21 @@ public class SpeechBalloonHelper {
         throw new IllegalArgumentException();
     }
 
-    private boolean checkIntersectionX(final long pX, final PointL pIntersection) {
+    private boolean checkIntersectionX(final long pX, @Nullable final PointL pIntersection) {
         return SegmentIntersection.intersection(
                 mPoint.x, mPoint.y, mTrianglePoint.x, mTrianglePoint.y,
                 pX, mRect.top, pX, mRect.bottom,
                 pIntersection);
     }
 
-    private boolean checkIntersectionY(final long pY, final PointL pIntersection) {
+    private boolean checkIntersectionY(final long pY, @Nullable final PointL pIntersection) {
         return SegmentIntersection.intersection(
                 mPoint.x, mPoint.y, mTrianglePoint.x, mTrianglePoint.y,
                 mRect.left, pY, mRect.right, pY,
                 pIntersection);
     }
 
-    private void computeCirclePoint(final PointL pDestination, final double pRadius,
+    private void computeCirclePoint(@NonNull final PointL pDestination, final double pRadius,
                                     final double pAngle, final boolean pFirst) {
         MyMath.computeCirclePoint(mRect.centerX(), mRect.centerY(), pRadius,
                 pAngle + Math.PI / 2 * (pFirst ? 1 : -1), pDestination);

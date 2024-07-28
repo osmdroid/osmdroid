@@ -17,7 +17,7 @@ import org.osmdroid.tileprovider.modules.IFilesystemCache;
 import org.osmdroid.tileprovider.modules.INetworkAvailablityCheck;
 import org.osmdroid.tileprovider.modules.MapTileApproximater;
 import org.osmdroid.tileprovider.modules.MapTileAssetsProvider;
-import org.osmdroid.tileprovider.modules.MapTileDownloader;
+import org.osmdroid.tileprovider.modules.MapTileDownloaderProvider;
 import org.osmdroid.tileprovider.modules.MapTileFileArchiveProvider;
 import org.osmdroid.tileprovider.modules.MapTileFileStorageProviderBase;
 import org.osmdroid.tileprovider.modules.NetworkAvailabliltyCheck;
@@ -27,6 +27,9 @@ import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.tileprovider.util.SimpleRegisterReceiver;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 /**
  * Lie Fi demo: we emulate a slow online source in order to show the offline first behavior
@@ -70,15 +73,14 @@ public class SampleLieFi extends BaseSampleFragment {
         private IFilesystemCache tileWriter;
         private final INetworkAvailablityCheck mNetworkAvailabilityCheck;
 
-        private MapTileProviderLieFi(final Context pContext) {
-            this(new SimpleRegisterReceiver(pContext), new NetworkAvailabliltyCheck(pContext),
-                    TileSourceFactory.DEFAULT_TILE_SOURCE, pContext, null);
+        private MapTileProviderLieFi(@NonNull final Context pContext) {
+            this(new SimpleRegisterReceiver(), new NetworkAvailabliltyCheck(pContext), TileSourceFactory.DEFAULT_TILE_SOURCE, pContext, null);
         }
 
         private MapTileProviderLieFi(final IRegisterReceiver pRegisterReceiver,
                                      final INetworkAvailablityCheck aNetworkAvailablityCheck, final ITileSource pTileSource,
                                      final Context pContext, final IFilesystemCache cacheWriter) {
-            super(pTileSource, pRegisterReceiver);
+            super(pContext, pTileSource, pRegisterReceiver);
             mNetworkAvailabilityCheck = aNetworkAvailablityCheck;
 
             if (cacheWriter != null) {
@@ -86,16 +88,13 @@ public class SampleLieFi extends BaseSampleFragment {
             } else {
                 tileWriter = new SqlTileWriter();
             }
-            final MapTileAssetsProvider assetsProvider = new MapTileAssetsProvider(
-                    pRegisterReceiver, pContext.getAssets(), pTileSource);
+            final MapTileAssetsProvider assetsProvider = new MapTileAssetsProvider(pContext, pRegisterReceiver, pContext.getAssets(), pTileSource);
             mTileProviderList.add(assetsProvider);
 
-            final MapTileFileStorageProviderBase cacheProvider =
-                    MapTileProviderBasic.getMapTileFileStorageProviderBase(pRegisterReceiver, pTileSource, tileWriter);
+            final MapTileFileStorageProviderBase cacheProvider = MapTileProviderBasic.getMapTileFileStorageProviderBase(pContext, pRegisterReceiver, pTileSource, tileWriter);
             mTileProviderList.add(cacheProvider);
 
-            final MapTileFileArchiveProvider archiveProvider = new MapTileFileArchiveProvider(
-                    pRegisterReceiver, pTileSource);
+            final MapTileFileArchiveProvider archiveProvider = new MapTileFileArchiveProvider(pContext, pRegisterReceiver, pTileSource);
             mTileProviderList.add(archiveProvider);
 
             final MapTileApproximater approximationProvider = new MapTileApproximater();
@@ -104,8 +103,7 @@ public class SampleLieFi extends BaseSampleFragment {
             approximationProvider.addProvider(cacheProvider);
             approximationProvider.addProvider(archiveProvider);
 
-            final MapTileDownloader downloaderProvider = new MapTileDownloaderLieFi(pTileSource, tileWriter,
-                    aNetworkAvailablityCheck);
+            final MapTileDownloaderProvider downloaderProvider = new MapTileDownloaderLieFiProvider(pContext, pTileSource, tileWriter, aNetworkAvailablityCheck);
             mTileProviderList.add(downloaderProvider);
 
             getTileCache().getProtectedTileContainers().add(this);
@@ -117,13 +115,13 @@ public class SampleLieFi extends BaseSampleFragment {
         }
 
         @Override
-        public void detach() {
+        public void onDetach(@Nullable final Context context) {
             //https://github.com/osmdroid/osmdroid/issues/213
             //close the writer
             if (tileWriter != null)
-                tileWriter.onDetach();
+                tileWriter.onDetach(context);
             tileWriter = null;
-            super.detach();
+            super.onDetach(context);
         }
 
         /**
@@ -131,25 +129,24 @@ public class SampleLieFi extends BaseSampleFragment {
          */
         @Override
         protected boolean isDowngradedMode(final long pMapTileIndex) {
-            return (mNetworkAvailabilityCheck != null && !mNetworkAvailabilityCheck.getNetworkAvailable())
-                    || !useDataConnection();
+            return (mNetworkAvailabilityCheck != null && !mNetworkAvailabilityCheck.getNetworkAvailable()) || !useDataConnection();
         }
     }
 
-    private class MapTileDownloaderLieFi extends MapTileDownloader {
+    private class MapTileDownloaderLieFiProvider extends MapTileDownloaderProvider {
 
-        private final MapTileDownloader.TileLoader mTileLoader = new TileLoader();
+        private final MapTileDownloaderProvider.TileLoader mTileLoader = new TileLoader();
 
-        MapTileDownloaderLieFi(ITileSource pTileSource, IFilesystemCache pFilesystemCache, INetworkAvailablityCheck pNetworkAvailablityCheck) {
-            super(pTileSource, pFilesystemCache, pNetworkAvailablityCheck);
+        MapTileDownloaderLieFiProvider(@NonNull final Context context, ITileSource pTileSource, IFilesystemCache pFilesystemCache, INetworkAvailablityCheck pNetworkAvailablityCheck) {
+            super(context, pTileSource, pFilesystemCache, pNetworkAvailablityCheck);
         }
 
         @Override
-        public MapTileDownloader.TileLoader getTileLoader() {
+        public MapTileDownloaderProvider.TileLoader getTileLoader() {
             return mTileLoader;
         }
 
-        private class TileLoader extends MapTileDownloader.TileLoader {
+        private class TileLoader extends MapTileDownloaderProvider.TileLoader {
             @Override
             protected Drawable downloadTile(long pMapTileIndex, int redirectCount, String targetUrl) throws CantContinueException {
                 try {

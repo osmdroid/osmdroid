@@ -6,9 +6,20 @@ import android.graphics.Canvas;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
+
+import androidx.annotation.CallSuper;
+import androidx.annotation.MainThread;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.UiThread;
+import androidx.lifecycle.DefaultLifecycleObserver;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleObserver;
+import androidx.lifecycle.LifecycleOwner;
 
 import org.osmdroid.api.IMapView;
 import org.osmdroid.util.BoundingBox;
@@ -30,18 +41,18 @@ import java.util.concurrent.atomic.AtomicInteger;
  * {@link android.view.GestureDetector.SimpleOnGestureListener} and
  * {@link GestureDetector.OnGestureListener}. The difference is there is an additional argument for
  * the item.
- *
  * <img alt="Class diagram around Marker class" width="686" height="413" src='./doc-files/marker-classes.png' />
  *
  * @author Nicolas Gramlich
  */
-public abstract class Overlay implements OverlayConstants {
+public abstract class Overlay implements OverlayConstants, IViewBoundingBoxChangedListener {
+    private static final String TAG = "Overlay";
 
     // ===========================================================
     // Constants
     // ===========================================================
 
-    private static AtomicInteger sOrdinal = new AtomicInteger();
+    private static final AtomicInteger sOrdinal = new AtomicInteger();
 
     // From Google Maps API
     protected static final float SHADOW_X_SKEW = -0.8999999761581421f;
@@ -54,7 +65,14 @@ public abstract class Overlay implements OverlayConstants {
     private static final Rect mRect = new Rect();
     private boolean mEnabled = true;
     private final TileSystem tileSystem = MapView.getTileSystem(); // used only for the default bounding box
-    protected BoundingBox mBounds = new BoundingBox(tileSystem.getMaxLatitude(), tileSystem.getMaxLongitude(), tileSystem.getMinLatitude(), tileSystem.getMinLongitude());
+    protected final BoundingBox mBounds = new BoundingBox(tileSystem.getMaxLatitude(), tileSystem.getMaxLongitude(), tileSystem.getMinLatitude(), tileSystem.getMinLongitude());
+    @Nullable
+    private IViewBoundingBoxChangedListener mBoundingBoxChangedListener = null;
+    @Nullable
+    private LifecycleObserver mLifecycleObserver = null;
+    /** <i>NULL</i> is the initial state that became <i>TRUE</i> when it is Attached/Added to OverlayManager and <i>FALSE</i> when the Overlay is marked to be removed from it */
+    @Nullable
+    private Boolean mIsAttachedToOverlayManager = null;
 
     // ===========================================================
     // Constructors
@@ -78,9 +96,9 @@ public abstract class Overlay implements OverlayConstants {
      * Gets the bounds of the overlay, useful for skipping draw cycles on overlays
      * that are not in the current bounding box of the view
      *
-     * @return
      * @since 6.0.0
      */
+    @NonNull
     public BoundingBox getBounds() {
         return mBounds;
     }
@@ -110,7 +128,7 @@ public abstract class Overlay implements OverlayConstants {
      *
      * @return an integer suitable to be used as a menu identifier
      */
-    protected final static int getSafeMenuId() {
+    protected static int getSafeMenuId() {
         return sOrdinal.getAndIncrement();
     }
 
@@ -121,7 +139,7 @@ public abstract class Overlay implements OverlayConstants {
      * @return an integer suitable to be used as a menu identifier
      * @see #getSafeMenuId()
      */
-    protected final static int getSafeMenuIdSequence(final int count) {
+    protected static int getSafeMenuIdSequence(final int count) {
         return sOrdinal.getAndAdd(count);
     }
 
@@ -134,19 +152,19 @@ public abstract class Overlay implements OverlayConstants {
      * to lay down the shadow layer, and then again on all overlays with shadow=false. Callers
      * should check isEnabled() before calling draw(). By default, draws nothing.
      * <p>
-     * changed for 5.6 to be public see https://github.com/osmdroid/osmdroid/issues/466
+     * changed for 5.6 to be public see <a href="https://github.com/osmdroid/osmdroid/issues/466">...</a>
      * If possible, use {@link #draw(Canvas, Projection)} instead (cf. {@link MapSnapshot}
      */
+    @UiThread @MainThread
     public void draw(final Canvas pCanvas, final MapView pMapView, final boolean pShadow) {
-        if (pShadow) {
-            return;
-        }
+        if (pShadow) return;
         draw(pCanvas, pMapView.getProjection());
     }
 
     /**
      * @since 6.1.0
      */
+    @UiThread @MainThread
     public void draw(final Canvas pCanvas, final Projection pProjection) {
         // display nothing by default
     }
@@ -155,10 +173,12 @@ public abstract class Overlay implements OverlayConstants {
     // Methods
     // ===========================================================
 
-    /**
-     * Override to perform clean up of resources before shutdown. By default does nothing.
-     */
-    public void onDetach(final MapView mapView) {
+    /** {@inheritDoc} */
+    @UiThread @MainThread
+    @CallSuper
+    @Override
+    public void onViewBoundingBoxChanged(@NonNull final Rect fromBounds, final int fromZoom, @NonNull final Rect toBounds, final int toZoom) {
+        if (mBoundingBoxChangedListener != null) mBoundingBoxChangedListener.onViewBoundingBoxChanged(fromBounds, fromZoom, toBounds, toZoom);
     }
 
     /**
@@ -198,7 +218,7 @@ public abstract class Overlay implements OverlayConstants {
         return false;
     }
 
-    /** GestureDetector.OnDoubleTapListener **/
+    /* GestureDetector.OnDoubleTapListener */
 
     /**
      * By default does nothing ({@code return false}). If you handled the Event, return {@code true}
@@ -227,7 +247,7 @@ public abstract class Overlay implements OverlayConstants {
         return false;
     }
 
-    /** OnGestureListener **/
+    /* OnGestureListener */
 
     /**
      * By default does nothing ({@code return false}). If you handled the Event, return {@code true}
@@ -267,9 +287,7 @@ public abstract class Overlay implements OverlayConstants {
         return false;
     }
 
-    public void onShowPress(final MotionEvent pEvent, final MapView pMapView) {
-        return;
-    }
+    public void onShowPress(final MotionEvent pEvent, final MapView pMapView) { /*nothing*/ }
 
     /**
      * By default does nothing ({@code return false}). If you handled the Event, return {@code true}
@@ -286,8 +304,8 @@ public abstract class Overlay implements OverlayConstants {
      * on the MapView passed to you in draw(Canvas, MapView, boolean).
      *
      * @param shadow          If true, draw only the drawable's shadow. Otherwise, draw the drawable itself.
-     * @param aMapOrientation
      */
+    @UiThread @MainThread
     protected synchronized static void drawAt(final Canvas canvas, final Drawable drawable,
                                               final int x, final int y, final boolean shadow,
                                               final float aMapOrientation) {
@@ -300,26 +318,90 @@ public abstract class Overlay implements OverlayConstants {
         canvas.restore();
     }
 
-    /**
-     * Triggered on application lifecycle changes, assuming the mapview is triggered appropriately
-     * related issue https://github.com/osmdroid/osmdroid/issues/823
-     * https://github.com/osmdroid/osmdroid/issues/806
-     *
-     * @since 6.0.0
-     */
-    public void onPause() {
+    public boolean isAttachedToOverlayManager() { return ((mIsAttachedToOverlayManager != null) && mIsAttachedToOverlayManager); }
+    protected void setIsAttachedToOverlayManager(@Nullable final Boolean value) { mIsAttachedToOverlayManager = value; }
+    /** @noinspection BooleanMethodIsAlwaysInverted*/
+    public boolean isMarkedAsRemoved() { return (mIsAttachedToOverlayManager == Boolean.FALSE); }
 
+    /** Raised when it is Added to the {@link OverlayManager} and drown first time */
+    protected void onAttachedToOverlayManager(@NonNull final OverlayManager overlayManager) { /*nothing*/ }
+
+    /** Raised when it is Removed from the {@link OverlayManager} */
+    protected void onRemovedFromOverlayManager(@NonNull final OverlayManager overlayManager) { /*nothing*/ }
+
+    protected void setLifecycleFromMapView(@NonNull final Lifecycle lifecycle) {
+        if (mLifecycleObserver != null) return;
+        lifecycle.addObserver(mLifecycleObserver = new DefaultLifecycleObserver() {
+            @Override
+            public void onCreate(@NonNull final LifecycleOwner owner) {
+                DefaultLifecycleObserver.super.onCreate(owner);
+                Overlay.this.onCreate();
+            }
+            @Override
+            public void onStart(@NonNull final LifecycleOwner owner) {
+                DefaultLifecycleObserver.super.onStart(owner);
+                Overlay.this.onStart();
+            }
+            @Override
+            public void onResume(@NonNull final LifecycleOwner owner) {
+                DefaultLifecycleObserver.super.onResume(owner);
+                Overlay.this.onResume();
+            }
+            @Override
+            public void onPause(@NonNull final LifecycleOwner owner) {
+                Overlay.this.onPause();
+                DefaultLifecycleObserver.super.onPause(owner);
+            }
+            @Override
+            public void onStop(@NonNull final LifecycleOwner owner) {
+                Overlay.this.onStop();
+                DefaultLifecycleObserver.super.onStop(owner);
+            }
+            @Override
+            public void onDestroy(@NonNull final LifecycleOwner owner) {
+                Overlay.this.onDestroy(null);
+                DefaultLifecycleObserver.super.onDestroy(owner);
+                lifecycle.removeObserver(this);
+            }
+        });
     }
 
-    /**
-     * Triggered on application lifecycle changes, assuming the mapview is triggered appropriately
-     * related issue https://github.com/osmdroid/osmdroid/issues/823
-     * https://github.com/osmdroid/osmdroid/issues/806
-     *
-     * @since 6.0.0
-     */
-    public void onResume() {
+    @UiThread @MainThread
+    @CallSuper
+    protected void onCreate() { /*nothing*/ }
 
+    @UiThread @MainThread
+    @CallSuper
+    protected void onStart() { /*nothing*/ }
+
+    @UiThread @MainThread
+    @CallSuper
+    protected void onResume() { /*nothing*/ }
+
+    @UiThread @MainThread
+    @CallSuper
+    protected void onPause() { /*nothing*/ }
+
+    @UiThread @MainThread
+    @CallSuper
+    protected void onStop() { /*nothing*/ }
+
+    /** Override to perform clean up of resources before shutdown. By default does nothing */
+    @UiThread @MainThread
+    @CallSuper
+    protected void onDestroy(@Nullable final MapView mapView) {
+        mBoundingBoxChangedListener = null;
+        mIsAttachedToOverlayManager = Boolean.FALSE;
+    }
+
+    @CallSuper
+    public void freeMemory(@Nullable final MapView mapView) {
+        onDestroy(mapView);
+        mIsAttachedToOverlayManager = null;
+    }
+
+    public void setViewBoundingBoxChangedListener(@Nullable final IViewBoundingBoxChangedListener listener) {
+        mBoundingBoxChangedListener = listener;
     }
 
     // ===========================================================

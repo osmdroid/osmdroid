@@ -51,13 +51,13 @@ public class SampleMapCenterOffset extends SampleMapEventListener {
             startMarker.setPosition(geoPoint);
             startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
             startMarker.setIcon(drawable);
-            mMapView.getOverlays().add(startMarker);
+            mMapView.getOverlayManager().add(startMarker);
         }
 
         mPaint.setColor(Color.RED);
         mPaint.setStrokeWidth(5);
 
-        mMapView.getOverlays().add(new Overlay() {
+        mMapView.getOverlayManager().add(new Overlay() {
 
             @Override
             public void draw(Canvas pCanvas, Projection pProjection) {

@@ -1,10 +1,12 @@
 package org.osmdroid.tileprovider.modules;
 
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 
 import org.osmdroid.api.IMapView;
 import org.osmdroid.config.Configuration;
+import org.osmdroid.tileprovider.IMapTileProviderCallback;
 import org.osmdroid.tileprovider.IRegisterReceiver;
 import org.osmdroid.tileprovider.MapTileProviderBase;
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
@@ -15,6 +17,9 @@ import org.osmdroid.util.MapTileIndex;
 
 import java.util.concurrent.atomic.AtomicReference;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 /**
  * Sqlite based tile cache mechansism
  *
@@ -23,38 +28,31 @@ import java.util.concurrent.atomic.AtomicReference;
  * @since 5.1
  */
 public class MapTileSqlCacheProvider extends MapTileFileStorageProviderBase {
+
     // ===========================================================
     // Constants
     // ===========================================================
 
+    public static final String CONST_MAPTILEPROVIDER_SQLCACHE = "sqlcache";
 
     // ===========================================================
     // Fields
     // ===========================================================
 
-    private final AtomicReference<ITileSource> mTileSource = new AtomicReference<ITileSource>();
+    private final AtomicReference<ITileSource> mTileSource = new AtomicReference<>();
     private SqlTileWriter mWriter;
-    private static final String[] columns = {DatabaseFileArchive.COLUMN_TILE, SqlTileWriter.COLUMN_EXPIRES};
+    private final TileLoader mTileLoader = new TileLoader();
 
     // ===========================================================
     // Constructors
     // ===========================================================
 
-    @Deprecated
-    public MapTileSqlCacheProvider(final IRegisterReceiver pRegisterReceiver,
-                                   final ITileSource pTileSource, final long pMaximumCachedFileAge) {
-        this(pRegisterReceiver, pTileSource);
-    }
-
     /**
      * The tiles may be found on several media. This one works with tiles stored on database.
      * It and its friends are typically created and controlled by {@link MapTileProviderBase}.
      */
-    public MapTileSqlCacheProvider(final IRegisterReceiver pRegisterReceiver,
-                                   final ITileSource pTileSource) {
-        super(pRegisterReceiver,
-                Configuration.getInstance().getTileFileSystemThreads(),
-                Configuration.getInstance().getTileFileSystemMaxQueueSize());
+    public MapTileSqlCacheProvider(@NonNull final Context context, final IRegisterReceiver pRegisterReceiver, final ITileSource pTileSource) {
+        super(context, pRegisterReceiver, Configuration.getInstance().getTileFileSystemThreads(), Configuration.getInstance().getTileFileSystemMaxQueueSize());
 
         setTileSource(pTileSource);
         mWriter = new SqlTileWriter();
@@ -80,12 +78,12 @@ public class MapTileSqlCacheProvider extends MapTileFileStorageProviderBase {
 
     @Override
     protected String getThreadGroupName() {
-        return "sqlcache";
+        return CONST_MAPTILEPROVIDER_SQLCACHE;
     }
 
     @Override
     public TileLoader getTileLoader() {
-        return new TileLoader();
+        return mTileLoader;
     }
 
     @Override
@@ -102,14 +100,11 @@ public class MapTileSqlCacheProvider extends MapTileFileStorageProviderBase {
     }
 
     @Override
-    protected void onMediaMounted() {
-
-    }
+    protected void onMediaMounted(@NonNull final Context context) { /*nothing*/ }
 
     @Override
-    protected void onMediaUnmounted() {
-        if (mWriter != null)
-            mWriter.onDetach();
+    protected void onMediaUnmounted(@NonNull final Context context) {
+        if (mWriter != null) mWriter.onDetach(context);
         mWriter = new SqlTileWriter();
     }
 
@@ -119,12 +114,10 @@ public class MapTileSqlCacheProvider extends MapTileFileStorageProviderBase {
     }
 
     @Override
-    public void detach() {
-
-        if (mWriter != null)
-            mWriter.onDetach();
+    public void detach(@Nullable final Context context) {
+        if (mWriter != null) mWriter.onDetach(context);
         mWriter = null;
-        super.detach();
+        super.detach(context);
     }
 
     // ===========================================================
@@ -136,9 +129,7 @@ public class MapTileSqlCacheProvider extends MapTileFileStorageProviderBase {
      */
     public boolean hasTile(final long pMapTileIndex) {
         ITileSource tileSource = mTileSource.get();
-        if (tileSource == null) {
-            return false;
-        }
+        if (tileSource == null) return false;
         return mWriter.getExpirationTimestamp(tileSource, pMapTileIndex) != null;
     }
 
@@ -154,18 +145,13 @@ public class MapTileSqlCacheProvider extends MapTileFileStorageProviderBase {
         public Drawable loadTile(final long pMapTileIndex) throws CantContinueException {
 
             ITileSource tileSource = mTileSource.get();
-            if (tileSource == null) {
-                return null;
-            }
+            if (tileSource == null) return null;
 
             if (mWriter != null) {
                 try {
                     final Drawable result = mWriter.loadTile(tileSource, pMapTileIndex);
-                    if (result == null) {
-                        Counters.fileCacheMiss++;
-                    } else {
-                        Counters.fileCacheHit++;
-                    }
+                    if (result == null) Counters.fileCacheMiss++;
+                    else Counters.fileCacheHit++;
                     return result;
                 } catch (final BitmapTileSourceBase.LowMemoryException e) {
                     // low memory so empty the queue
@@ -181,5 +167,9 @@ public class MapTileSqlCacheProvider extends MapTileFileStorageProviderBase {
             }
             return null;
         }
+
+        @IMapTileProviderCallback.TILEPROVIDERTYPE
+        @Override
+        public final int getProviderType() { return IMapTileProviderCallback.TILEPROVIDERTYPE_SQL_CACHE; }
     }
 }

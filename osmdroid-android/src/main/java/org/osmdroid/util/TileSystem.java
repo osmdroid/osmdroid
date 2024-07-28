@@ -3,6 +3,9 @@ package org.osmdroid.util;
 import android.graphics.Point;
 import android.graphics.Rect;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import org.osmdroid.util.constants.GeoConstants;
 
 /**
@@ -154,7 +157,7 @@ abstract public class TileSystem {
 
     @Deprecated
     public Point LatLongToPixelXY(
-            final double latitude, final double longitude, final int levelOfDetail, final Point reuse) {
+            final double latitude, final double longitude, final int levelOfDetail, @Nullable final Point reuse) {
         final Point out = (reuse == null ? new Point() : reuse);
         final int size = MapSize(levelOfDetail);
         out.x = truncateToInt(getMercatorXFromLongitude(longitude, size, true));
@@ -168,7 +171,7 @@ abstract public class TileSystem {
      */
     @Deprecated
     public PointL LatLongToPixelXY(
-            final double latitude, final double longitude, final double zoomLevel, final PointL reuse) {
+            final double latitude, final double longitude, final double zoomLevel, @Nullable final PointL reuse) {
         return LatLongToPixelXYMapSize(
                 wrap(latitude, -90, 90, 180),
                 wrap(longitude, -180, 180, 360),
@@ -181,7 +184,7 @@ abstract public class TileSystem {
      */
     @Deprecated
     public PointL LatLongToPixelXYMapSize(double latitude, double longitude,
-                                          final double mapSize, final PointL reuse) {
+                                          final double mapSize, @Nullable final PointL reuse) {
         return getMercatorFromGeo(latitude, longitude, mapSize, reuse, true);
     }
 
@@ -189,8 +192,7 @@ abstract public class TileSystem {
      * Use {@link TileSystem#getGeoFromMercator(long, long, double, GeoPoint, boolean, boolean)} instead
      */
     @Deprecated
-    public GeoPoint PixelXYToLatLong(
-            final int pixelX, final int pixelY, final int levelOfDetail, final GeoPoint reuse) {
+    public GeoPoint PixelXYToLatLong(final int pixelX, final int pixelY, final int levelOfDetail, @Nullable final GeoPoint reuse) {
         return getGeoFromMercator(pixelX, pixelY, MapSize(levelOfDetail), reuse, true, true);
     }
 
@@ -200,7 +202,7 @@ abstract public class TileSystem {
      */
     @Deprecated
     public GeoPoint PixelXYToLatLong(
-            final int pixelX, final int pixelY, final double zoomLevel, final GeoPoint reuse) {
+            final int pixelX, final int pixelY, final double zoomLevel, @Nullable final GeoPoint reuse) {
         return getGeoFromMercator(pixelX, pixelY, MapSize(zoomLevel), reuse, true, true);
     }
 
@@ -208,13 +210,9 @@ abstract public class TileSystem {
      * @since 6.0.0
      * Same as {@link #PixelXYToLatLong(int, int, double, GeoPoint) PixelXYToLatLong} but without wrap
      */
-    public GeoPoint PixelXYToLatLongWithoutWrap(
-            final int pixelX, final int pixelY, final double zoomLevel, final GeoPoint reuse) {
+    public GeoPoint PixelXYToLatLongWithoutWrap(final int pixelX, final int pixelY, final double zoomLevel, @Nullable final GeoPoint reuse) {
         final double mapSize = MapSize(zoomLevel);
-        return PixelXYToLatLongMapSizeWithoutWrap(
-                pixelX,
-                pixelY,
-                mapSize, reuse);
+        return PixelXYToLatLongMapSizeWithoutWrap(pixelX, pixelY, mapSize, reuse);
     }
 
     /**
@@ -263,7 +261,7 @@ abstract public class TileSystem {
      */
     @Deprecated
     public GeoPoint PixelXYToLatLongMapSize(final int pixelX, final int pixelY,
-                                            final double mapSize, final GeoPoint reuse, boolean horizontalWrapEnabled,
+                                            final double mapSize, @Nullable final GeoPoint reuse, boolean horizontalWrapEnabled,
                                             boolean verticalWrapEnabled) {
         return getGeoFromMercator(pixelX, pixelY, mapSize, reuse, horizontalWrapEnabled, verticalWrapEnabled);
     }
@@ -274,7 +272,7 @@ abstract public class TileSystem {
      * but without wrap
      */
     public GeoPoint PixelXYToLatLongMapSizeWithoutWrap(final int pixelX, final int pixelY,
-                                                       final double mapSize, final GeoPoint reuse) {
+                                                       final double mapSize, @Nullable final GeoPoint reuse) {
         final GeoPoint out = (reuse == null ? new GeoPoint(0., 0.) : reuse);
         final double x = (pixelX / (double) mapSize) - 0.5;
         final double y = 0.5 - (pixelY / (double) mapSize);
@@ -407,7 +405,7 @@ abstract public class TileSystem {
      * or Double.MIN_VALUE if bounding box is a single point
      * @since 6.0.0
      */
-    public double getBoundingBoxZoom(final BoundingBox pBoundingBox, final int pScreenWidth, final int pScreenHeight) {
+    public double getBoundingBoxZoom(@NonNull final BoundingBox pBoundingBox, final int pScreenWidth, final int pScreenHeight) {
         final double longitudeZoom = getLongitudeZoom(pBoundingBox.getLonEast(), pBoundingBox.getLonWest(), pScreenWidth);
         final double latitudeZoom = getLatitudeZoom(pBoundingBox.getLatNorth(), pBoundingBox.getLatSouth(), pScreenHeight);
         if (longitudeZoom == Double.MIN_VALUE) {
@@ -577,7 +575,7 @@ abstract public class TileSystem {
     /**
      * @since 6.0.0
      */
-    public PointL getMercatorFromGeo(final double pLatitude, final double pLongitude, final double pMapSize, final PointL pReuse, boolean wrapEnabled) {
+    public PointL getMercatorFromGeo(final double pLatitude, final double pLongitude, final double pMapSize, @Nullable final PointL pReuse, boolean wrapEnabled) {
         final PointL out = (pReuse == null ? new PointL() : pReuse);
         out.x = getMercatorXFromLongitude(pLongitude, pMapSize, wrapEnabled);
         out.y = getMercatorYFromLatitude(pLatitude, pMapSize, wrapEnabled);
@@ -587,8 +585,8 @@ abstract public class TileSystem {
     /**
      * @since 6.0.0
      */
-    public GeoPoint getGeoFromMercator(final long pMercatorX, final long pMercatorY, final double pMapSize, final GeoPoint pReuse, boolean horizontalWrapEnabled, boolean verticalWrapEnabled) {
-        final GeoPoint out = pReuse == null ? new GeoPoint(0., 0.) : pReuse;
+    public GeoPoint getGeoFromMercator(final long pMercatorX, final long pMercatorY, final double pMapSize, @Nullable final GeoPoint pReuse, boolean horizontalWrapEnabled, boolean verticalWrapEnabled) {
+        final GeoPoint out = ((pReuse == null) ? new GeoPoint(0d, 0d) : pReuse);
         out.setLatitude(getLatitudeFromY01(getXY01FromMercator(pMercatorY, pMapSize, verticalWrapEnabled), verticalWrapEnabled));
         out.setLongitude(getLongitudeFromX01(getXY01FromMercator(pMercatorX, pMapSize, horizontalWrapEnabled), horizontalWrapEnabled));
         return out;
@@ -635,7 +633,7 @@ abstract public class TileSystem {
     /**
      * @since 6.0.0
      */
-    public static Rect getTileFromMercator(final RectL pMercatorRect, final double pTileSize, final Rect pReuse) {
+    public static Rect getTileFromMercator(@NonNull final RectL pMercatorRect, final double pTileSize, @Nullable final Rect pReuse) {
         final Rect out = (pReuse == null ? new Rect() : pReuse);
         out.left = TileSystem.getTileFromMercator(pMercatorRect.left, pTileSize);
         out.top = TileSystem.getTileFromMercator(pMercatorRect.top, pTileSize);

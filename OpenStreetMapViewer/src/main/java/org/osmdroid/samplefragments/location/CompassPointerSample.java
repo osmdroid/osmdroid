@@ -19,7 +19,7 @@ public class CompassPointerSample extends BaseSampleFragment {
     @Override
     public void addOverlays() {
         super.addOverlays();
-        CompassOverlay overlay = new CompassOverlay(getContext(), mMapView);
+        CompassOverlay overlay = new CompassOverlay(mMapView);
         overlay.setPointerMode(true);
         overlay.enableCompass();
         mMapView.getOverlayManager().add(overlay);

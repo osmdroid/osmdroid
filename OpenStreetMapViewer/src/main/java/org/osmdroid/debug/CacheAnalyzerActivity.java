@@ -54,14 +54,14 @@ public class CacheAnalyzerActivity extends AppCompatActivity
 
         cacheStats = findViewById(R.id.cacheStats);
 
-        final ArrayList<String> list = new ArrayList<>();
+        final List<String> list = new ArrayList<>();
         list.add("Browse the cache");
         list.add("Purge the cache");
         list.add("Purge a specific tile source");
         list.add("See the debug counters");
 
         ListView lv = findViewById(R.id.statslist);
-        ArrayAdapter adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, list);
+        final ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, list);
 
         lv.setAdapter(adapter);
         lv.setOnItemClickListener(this);
@@ -81,7 +81,7 @@ public class CacheAnalyzerActivity extends AppCompatActivity
 
     public void onPause() {
         super.onPause();
-        cache.onDetach();
+        cache.onDetach(this);
         cache = null;
         if (show != null)
             show.dismiss();
@@ -158,8 +158,7 @@ public class CacheAnalyzerActivity extends AppCompatActivity
     private void purgeCache() {
         SqlTileWriter sqlTileWriter = new SqlTileWriter();
         boolean b = sqlTileWriter.purgeCache();
-        sqlTileWriter.onDetach();
-        sqlTileWriter = null;
+        sqlTileWriter.onDetach(this);
         if (b)
             Toast.makeText(this, "SQL Cache purged", Toast.LENGTH_SHORT).show();
         else

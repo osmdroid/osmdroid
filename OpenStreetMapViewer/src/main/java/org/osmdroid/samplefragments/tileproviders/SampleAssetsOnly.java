@@ -21,8 +21,8 @@ public class SampleAssetsOnly extends BaseSampleFragment {
     @Override
     public void addOverlays() {
         this.mMapView.setUseDataConnection(false);
-        MapTileAssetsProvider prov = new MapTileAssetsProvider(new SimpleRegisterReceiver(getContext()), getActivity().getAssets());
+        MapTileAssetsProvider prov = new MapTileAssetsProvider(requireContext(), new SimpleRegisterReceiver(), requireContext().getAssets());
 
-        this.mMapView.setTileProvider(new MapTileProviderArray(TileSourceFactory.MAPNIK, new SimpleRegisterReceiver(getContext()), new MapTileModuleProviderBase[]{prov}));
+        this.mMapView.setTileProvider(new MapTileProviderArray(requireContext(), TileSourceFactory.MAPNIK, new SimpleRegisterReceiver(), new MapTileModuleProviderBase[]{prov}));
     }
 }

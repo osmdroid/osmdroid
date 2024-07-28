@@ -15,13 +15,15 @@ import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
 
+import androidx.annotation.NonNull;
+
 /**
  * Draws a mini-map as an overlay layer. It currently uses its own MapTileProviderBasic or a tile
  * provider supplied to it. Do NOT share a tile provider amongst multiple tile drawing overlays - it
  * will create an under-sized cache.
  * <p>
  * Notice, this class has some problems when the parent map view is rotation enabled.
- * See https://github.com/osmdroid/osmdroid/issues/98 for a work around
+ * See <a href="https://github.com/osmdroid/osmdroid/issues/98">...</a> for a work around
  *
  * @author Marc Kurtz
  */
@@ -51,7 +53,7 @@ public class MinimapOverlay extends TilesOverlay {
         mTileProvider.getTileRequestCompleteHandlers().add(pTileRequestCompleteHandler);
 
         // Don't draw loading lines in the minimap
-        setLoadingLineColor(getLoadingBackgroundColor());
+        setLoadingLineColor(pContext, getLoadingBackgroundColor());
 
         // Scale the default size
         final float density = pContext.getResources().getDisplayMetrics().density;
@@ -203,7 +205,7 @@ public class MinimapOverlay extends TilesOverlay {
     }
 
     @Override
-    protected boolean setViewPort(final Canvas pCanvas, final Projection pProjection) {
+    protected boolean setViewPort(final Canvas pCanvas, @NonNull final Projection pProjection) {
         final double zoomLevel = pProjection.getZoomLevel() - getZoomDifference();
         if (zoomLevel < mTileProvider.getMinimumZoomLevel()) {
             return false;

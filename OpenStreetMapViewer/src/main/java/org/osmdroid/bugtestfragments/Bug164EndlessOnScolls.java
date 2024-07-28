@@ -1,5 +1,6 @@
 package org.osmdroid.bugtestfragments;
 
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,12 +19,16 @@ import org.osmdroid.util.GeoPoint;
 
 import static org.osmdroid.samplefragments.events.SampleMapEventListener.df;
 
+import androidx.annotation.NonNull;
+
 /**
  * <a href="https://github.com/osmdroid/osmdroid/issues/164">https://github.com/osmdroid/osmdroid/issues/164</a>
  * Created by alex on 8/28/16.
  */
 
 public class Bug164EndlessOnScolls extends BaseSampleFragment implements View.OnClickListener {
+    private static final String TAG = "Bug164EndlessOnScolls";
+
     @Override
     public String getSampleTitle() {
         return "Bug #164 Endless onScroll callsScoll";
@@ -50,7 +55,12 @@ public class Bug164EndlessOnScolls extends BaseSampleFragment implements View.On
     protected void addOverlays() {
         super.addOverlays();
         //
-        mMapView.setMapListener(new MapListener() {
+        mMapView.addMapListener(new MapListener() {
+            @Override
+            public void onViewBoundingBoxChanged(@NonNull final Rect fromBounds, final int fromZoom, @NonNull final Rect toBounds, final int toZoom) {
+
+            }
+
             @Override
             public boolean onScroll(ScrollEvent event) {
                 Log.i(TAG, "onScroll called");

@@ -154,7 +154,7 @@ public class DefaultOverlayManagerTest {
      * Emulating the use of a CopyOnWriteArrayList as in DefaultOverlayManager
      * This class works perfectly
      */
-    private class ListTest<T> {
+    private static class ListTest<T> {
         protected final CopyOnWriteArrayList<T> mList = new CopyOnWriteArrayList<>();
 
         public void add() {

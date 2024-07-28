@@ -26,26 +26,24 @@ public class SampleOpenSeaMap extends BaseSampleFragment {
     @Override
     public void addOverlays() {
         super.addOverlays();
-        mProvider = new MapTileProviderBasic(getContext());
-        TilesOverlay seaMap = new TilesOverlay(mProvider, getContext());
-        seaMap.setLoadingLineColor(Color.TRANSPARENT);
-        seaMap.setLoadingBackgroundColor(Color.TRANSPARENT);
+        mProvider = new MapTileProviderBasic(requireContext());
+        TilesOverlay seaMap = new TilesOverlay(mProvider, requireContext());
+        seaMap.setLoadingLineColor(requireContext(), Color.TRANSPARENT);
+        seaMap.setLoadingBackgroundColor(requireContext(), Color.TRANSPARENT);
         seaMap.setLoadingDrawable(null);
         mProvider.setTileSource(TileSourceFactory.OPEN_SEAMAP);
-        mMapView.getOverlays().add(seaMap);
+        mMapView.getOverlayManager().add(seaMap);
         mMapView.postInvalidate();
         mMapView.getController().setCenter(new GeoPoint(40.65716, -74.06507));
-        mMapView.getController().setZoom(18);
+        mMapView.getController().setZoom(18.0);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (mMapView != null)
-            mMapView.onDetach();
         mMapView = null;
         if (mProvider != null)
-            mProvider.detach();
+            mProvider.detach(requireContext());
         mProvider = null;
     }
 }

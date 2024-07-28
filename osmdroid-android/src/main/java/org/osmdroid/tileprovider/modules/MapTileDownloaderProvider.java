@@ -1,12 +1,17 @@
 package org.osmdroid.tileprovider.modules;
 
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import org.osmdroid.api.IMapView;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.BitmapPool;
+import org.osmdroid.tileprovider.IMapTileProviderCallback;
 import org.osmdroid.tileprovider.MapTileRequestState;
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
@@ -16,62 +21,58 @@ import org.osmdroid.util.UrlBackoff;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
- * The {@link MapTileDownloader} loads tiles from an HTTP server. It saves downloaded tiles to an
+ * The {@link MapTileDownloaderProvider} loads tiles from an HTTP server. It saves downloaded tiles to an
  * IFilesystemCache if available.
  *
  * @author Marc Kurtz
  * @author Nicolas Gramlich
  * @author Manuel Stahl
  */
-public class MapTileDownloader extends MapTileModuleProviderBase {
+public class MapTileDownloaderProvider extends MapTileModuleProviderBase {
 
     // ===========================================================
     // Constants
     // ===========================================================
+
+    public static final String CONST_MAPTILEPROVIDER_DOWNLOADER = "downloader";
 
     // ===========================================================
     // Fields
     // ===========================================================
 
     private final IFilesystemCache mFilesystemCache;
-
     private final AtomicReference<OnlineTileSourceBase> mTileSource = new AtomicReference<>();
-
     private final INetworkAvailablityCheck mNetworkAvailablityCheck;
-
     /**
      * @since 6.0.2
      */
     private final TileLoader mTileLoader = new TileLoader();
-
     private final UrlBackoff mUrlBackoff = new UrlBackoff();
-
     private TileDownloader mTileDownloader = new TileDownloader(); // default value
 
     // ===========================================================
     // Constructors
     // ===========================================================
 
-    public MapTileDownloader(final ITileSource pTileSource) {
-        this(pTileSource, null, null);
+    public MapTileDownloaderProvider(@NonNull final Context context, final ITileSource pTileSource) {
+        this(context, pTileSource, null, null);
     }
-
-    public MapTileDownloader(final ITileSource pTileSource, final IFilesystemCache pFilesystemCache) {
-        this(pTileSource, pFilesystemCache, null);
+    public MapTileDownloaderProvider(@NonNull final Context context, final ITileSource pTileSource, final IFilesystemCache pFilesystemCache) {
+        this(context, pTileSource, pFilesystemCache, null);
     }
-
-    public MapTileDownloader(final ITileSource pTileSource,
-                             final IFilesystemCache pFilesystemCache,
-                             final INetworkAvailablityCheck pNetworkAvailablityCheck) {
-        this(pTileSource, pFilesystemCache, pNetworkAvailablityCheck,
+    public MapTileDownloaderProvider(@NonNull final Context context,
+                                     final ITileSource pTileSource,
+                                     final IFilesystemCache pFilesystemCache,
+                                     final INetworkAvailablityCheck pNetworkAvailablityCheck) {
+        this(context, pTileSource, pFilesystemCache, pNetworkAvailablityCheck,
                 Configuration.getInstance().getTileDownloadThreads(),
                 Configuration.getInstance().getTileDownloadMaxQueueSize());
     }
-
-    public MapTileDownloader(final ITileSource pTileSource,
-                             final IFilesystemCache pFilesystemCache,
-                             final INetworkAvailablityCheck pNetworkAvailablityCheck, int pThreadPoolSize,
-                             int pPendingQueueSize) {
+    public MapTileDownloaderProvider(@NonNull final Context context,
+                                     final ITileSource pTileSource,
+                                     final IFilesystemCache pFilesystemCache,
+                                     final INetworkAvailablityCheck pNetworkAvailablityCheck, final int pThreadPoolSize,
+                                     final int pPendingQueueSize) {
         super(pThreadPoolSize, pPendingQueueSize);
 
         mFilesystemCache = pFilesystemCache;
@@ -103,7 +104,7 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 
     @Override
     protected String getThreadGroupName() {
-        return "downloader";
+        return CONST_MAPTILEPROVIDER_DOWNLOADER;
     }
 
     @Override
@@ -112,10 +113,10 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
     }
 
     @Override
-    public void detach() {
-        super.detach();
+    protected void onDetach(@Nullable final Context context) {
         if (this.mFilesystemCache != null)
-            this.mFilesystemCache.onDetach();
+            this.mFilesystemCache.onDetach(context);
+        super.onDetach(context);
     }
 
     @Override
@@ -146,7 +147,7 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
     // Inner and Anonymous Classes
     // ===========================================================
 
-    protected class TileLoader extends MapTileModuleProviderBase.TileLoader {
+    public class TileLoader extends MapTileModuleProviderBase.TileLoader {
 
         /**
          * downloads a tile and follows http redirects
@@ -176,9 +177,7 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
                 return null;
             }
 
-
-            if (mNetworkAvailablityCheck != null
-                    && !mNetworkAvailablityCheck.getNetworkAvailable()) {
+            if ((mNetworkAvailablityCheck != null) && !mNetworkAvailablityCheck.getNetworkAvailable()) {
                 if (Configuration.getInstance().isDebugMode()) {
                     Log.d(IMapView.LOGTAG, "Skipping " + getName() + " due to NetworkAvailabliltyCheck.");
                 }
@@ -204,13 +203,17 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 
         }
 
+        @IMapTileProviderCallback.TILEPROVIDERTYPE
         @Override
-        protected void tileLoaded(final MapTileRequestState pState, final Drawable pDrawable) {
-            removeTileFromQueues(pState.getMapTile());
-            // don't return the tile because we'll wait for the fs provider to ask for it
-            // this prevent flickering when a load of delayed downloads complete for tiles
-            // that we might not even be interested in any more
-            pState.getCallback().mapTileRequestCompleted(pState, null);
+        public final int getProviderType() { return IMapTileProviderCallback.TILEPROVIDERTYPE_DOWNLOADER; }
+
+        @Override
+        protected void tileLoaded(@NonNull final MapTileRequestState pState, final Drawable pDrawable, final IMapTileProviderCallback callback) {
+            final Long cMapTileIndex = pState.getMapTileIndex();
+            if (cMapTileIndex == null) return;
+            removeTileFromQueues(cMapTileIndex);
+            // don't return the Tile because we'll wait for the fs provider to ask for it. This prevent flickering when a load of delayed downloads complete for tiles that we might not even be interested in any more
+            if (callback != null) callback.mapTileRequestCompleted(pState, null);
             // We want to return the Bitmap to the BitmapPool if applicable
             BitmapPool.getInstance().asyncRecycle(pDrawable);
         }
@@ -220,7 +223,7 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
     /**
      * @since 6.0.2
      */
-    public void setTileDownloader(final TileDownloader pTileDownloader) {
+    public void setTileDownloader(@NonNull final TileDownloader pTileDownloader) {
         mTileDownloader = pTileDownloader;
     }
 }

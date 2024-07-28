@@ -4,6 +4,9 @@ import android.graphics.Path;
 import android.graphics.Point;
 import android.graphics.Rect;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.Distance;
 import org.osmdroid.util.GeoPoint;
@@ -22,6 +25,7 @@ import org.osmdroid.views.Projection;
 import org.osmdroid.views.util.constants.MathConstants;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -50,7 +54,7 @@ public class LinearRing {
      * from the current MapView's characteristics (width, height, scale, orientation)
      */
 
-    private final ArrayList<GeoPoint> mOriginalPoints = new ArrayList<>();
+    private final List<GeoPoint> mOriginalPoints = new ArrayList<>();
     private double[] mDistances;
     private long[] mProjectedPoints;
     private final PointL mProjectedCenter = new PointL();
@@ -78,6 +82,9 @@ public class LinearRing {
     private int mDowngradePixelSize;
     private long mProjectedWidth;
     private long mProjectedHeight;
+    private final PointL mReusablePrevious = new PointL();
+    private final PointL mReusableCurrent = new PointL();
+    private final GeoPoint mReusablePreviousGeo = new GeoPoint(0d, 0d);
 
     /**
      * Dedicated to `Path`
@@ -131,14 +138,17 @@ public class LinearRing {
     }
 
     protected void addGreatCircle(final GeoPoint startPoint, final GeoPoint endPoint, final int numberOfPoints) {
+        addGreatCircle(startPoint.getLatitude(), startPoint.getLongitude(), endPoint.getLatitude(), endPoint.getLongitude(), numberOfPoints);
+    }
+    protected void addGreatCircle(final Double startPointLat, final Double startPointLon, final Double endPointLat, final Double endPointLon, final int numberOfPoints) {
         //	adapted from page http://compastic.blogspot.co.uk/2011/07/how-to-draw-great-circle-on-map-in.html
         //	which was adapted from page http://maps.forum.nu/gm_flight_path.html
 
         // convert to radians
-        final double lat1 = startPoint.getLatitude() * MathConstants.DEG2RAD;
-        final double lon1 = startPoint.getLongitude() * MathConstants.DEG2RAD;
-        final double lat2 = endPoint.getLatitude() * MathConstants.DEG2RAD;
-        final double lon2 = endPoint.getLongitude() * MathConstants.DEG2RAD;
+        final double lat1 = startPointLat * MathConstants.DEG2RAD;
+        final double lon1 = startPointLon * MathConstants.DEG2RAD;
+        final double lat2 = endPointLat * MathConstants.DEG2RAD;
+        final double lon2 = endPointLon * MathConstants.DEG2RAD;
 
         final double d = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin((lat1 - lat2) / 2), 2) + Math.cos(lat1) * Math.cos(lat2)
                 * Math.pow(Math.sin((lon1 - lon2) / 2), 2)));
@@ -164,14 +174,14 @@ public class LinearRing {
         }
     }
 
-    public void addPoint(final GeoPoint p) {
+    public void addPoint(@NonNull final GeoPoint p) {
         if (mGeodesic && mOriginalPoints.size() > 0) {
             //add potential intermediate points:
-            GeoPoint prev = mOriginalPoints.get(mOriginalPoints.size() - 1);
+            final GeoPoint prev = mOriginalPoints.get(mOriginalPoints.size() - 1);
             final int greatCircleLength = (int) prev.distanceToAsDouble(p);
             //add one point for every 100kms of the great circle path
             final int numberOfPoints = greatCircleLength / 100000;
-            addGreatCircle(prev, p, numberOfPoints);
+            addGreatCircle(prev.getLatitude(), prev.getLongitude(), p.getLatitude(), p.getLongitude(), numberOfPoints);
         }
         mOriginalPoints.add(p);
         resetPrecomputations();
@@ -194,7 +204,7 @@ public class LinearRing {
         }
     }
 
-    public ArrayList<GeoPoint> getPoints() {
+    public List<GeoPoint> getPoints() {
         return mOriginalPoints;
     }
 
@@ -466,19 +476,22 @@ public class LinearRing {
             startY -= mapSize;
         }
         final double squaredTolerance = tolerance * tolerance;
-        final PointL point0 = new PointL();
-        final PointL point1 = new PointL();
+        long point0x = 0L;
+        long point0y = 0L;
+        long point1x = 0L;
+        long point1y = 0L;
         boolean first = true;
         int index = 0;
         for (final PointL point : mPointsForMilestones) {
-            point1.set(point);
+            point1x = point.x;
+            point1y = point.y;
             if (first) {
                 first = false;
             } else {
                 for (double x = startX; x < screenWidth; x += mapSize) {
                     for (double y = startY; y < screenHeight; y += mapSize) {
-                        final double projectionFactor = Distance.getProjectionFactorToSegment(x, y, point0.x, point0.y, point1.x, point1.y);
-                        final double squaredDistance = Distance.getSquaredDistanceToProjection(x, y, point0.x, point0.y, point1.x, point1.y, projectionFactor);
+                        final double projectionFactor = Distance.getProjectionFactorToSegment(x, y, point0x, point0y, point1x, point1y);
+                        final double squaredDistance = Distance.getSquaredDistanceToProjection(x, y, point0x, point0y, point1x, point1y, projectionFactor);
                         if (squaredTolerance > squaredDistance) {
                             final long pointAX = mProjectedPoints[2 * (index - 1)];
                             final long pointAY = mProjectedPoints[2 * (index - 1) + 1];
@@ -493,7 +506,8 @@ public class LinearRing {
                     }
                 }
             }
-            point0.set(point1);
+            point0x = point1x;
+            point0y = point1y;
             index++;
         }
         return null;
@@ -539,12 +553,18 @@ public class LinearRing {
     /**
      * @since 6.0.2
      */
-    public GeoPoint getCenter(final GeoPoint pReuse) {
+    public GeoPoint getCenter(@Nullable final GeoPoint pReuse) {
         final GeoPoint out = pReuse != null ? pReuse : new GeoPoint(0., 0);
         final BoundingBox boundingBox = getBoundingBox();
         out.setLatitude(boundingBox.getCenterLatitude());
         out.setLongitude(boundingBox.getCenterLongitude());
         return out;
+    }
+    public double getCenterLat() {
+        return getBoundingBox().getCenterLatitude();
+    }
+    public double getCenterLon() {
+        return getBoundingBox().getCenterLongitude();
     }
 
     /**
@@ -568,41 +588,39 @@ public class LinearRing {
         double south = 0;
         double west = 0;
         int index = 0;
-        final PointL previous = new PointL();
-        final PointL current = new PointL();
         final TileSystem tileSystem = MapView.getTileSystem();
         final double projectedMapSize = Projection.mProjectedMapSize;
         for (final GeoPoint currentGeo : mOriginalPoints) {
             final double latitude = currentGeo.getLatitude();
             final double longitude = currentGeo.getLongitude();
-            tileSystem.getMercatorFromGeo(latitude, longitude, projectedMapSize, current, false);
+            tileSystem.getMercatorFromGeo(latitude, longitude, projectedMapSize, mReusableCurrent, false);
             if (index == 0) {
-                minX = maxX = current.x;
-                minY = maxY = current.y;
+                minX = maxX = mReusableCurrent.x;
+                minY = maxY = mReusableCurrent.y;
                 north = south = latitude;
                 east = west = longitude;
             } else {
-                setCloserPoint(previous, current, projectedMapSize);
-                if (minX > current.x) {
-                    minX = current.x;
+                setCloserPoint(mReusablePrevious, mReusableCurrent, projectedMapSize);
+                if (minX > mReusableCurrent.x) {
+                    minX = mReusableCurrent.x;
                     west = longitude;
                 }
-                if (maxX < current.x) {
-                    maxX = current.x;
+                if (maxX < mReusableCurrent.x) {
+                    maxX = mReusableCurrent.x;
                     east = longitude;
                 }
-                if (minY > current.y) {
-                    minY = current.y;
+                if (minY > mReusableCurrent.y) {
+                    minY = mReusableCurrent.y;
                     north = latitude;
                 }
-                if (maxY < current.y) {
-                    maxY = current.y;
+                if (maxY < mReusableCurrent.y) {
+                    maxY = mReusableCurrent.y;
                     south = latitude;
                 }
             }
-            mProjectedPoints[2 * index] = current.x;
-            mProjectedPoints[2 * index + 1] = current.y;
-            previous.set(current.x, current.y);
+            mProjectedPoints[2 * index] = mReusableCurrent.x;
+            mProjectedPoints[2 * index + 1] = mReusableCurrent.y;
+            mReusablePrevious.set(mReusableCurrent.x, mReusableCurrent.y);
             index++;
         }
         mProjectedWidth = maxX - minX;
@@ -624,14 +642,14 @@ public class LinearRing {
             mDistances = new double[mOriginalPoints.size()];
         }
         int index = 0;
-        final GeoPoint previousGeo = new GeoPoint(0., 0);
+        mReusablePreviousGeo.setCoords(0d, 0d);
         for (final GeoPoint currentGeo : mOriginalPoints) {
             if (index == 0) {
                 mDistances[index] = 0;
             } else {
-                mDistances[index] = currentGeo.distanceToAsDouble(previousGeo);
+                mDistances[index] = currentGeo.distanceToAsDouble(mReusablePreviousGeo);
             }
-            previousGeo.setCoords(currentGeo.getLatitude(), currentGeo.getLongitude());
+            mReusablePreviousGeo.setCoords(currentGeo.getLatitude(), currentGeo.getLongitude());
             index++;
         }
     }
@@ -654,7 +672,6 @@ public class LinearRing {
         if (mPath != null) {
             mPath.reset();
         }
-        ;
         mPointsForMilestones.clear();
     }
 

@@ -1,19 +1,20 @@
 package org.osmdroid.gpkg.tiles.feature;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.util.Log;
 
 import org.osmdroid.api.IMapView;
 import org.osmdroid.tileprovider.MapTileProviderBase;
 import org.osmdroid.tileprovider.modules.IFilesystemCache;
 import org.osmdroid.tileprovider.modules.SqlTileWriter;
-import org.osmdroid.tileprovider.modules.TileWriter;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.util.MapTileIndex;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import mil.nga.geopackage.tiles.features.FeatureTiles;
 
 /**
@@ -28,15 +29,11 @@ public class GeoPackageFeatureTileProvider extends MapTileProviderBase {
     protected int minzoom = 0;
     protected FeatureTiles featureTiles = null;
 
-    public GeoPackageFeatureTileProvider(ITileSource pTileSource) {
-        super(pTileSource);
+    public GeoPackageFeatureTileProvider(@NonNull final Context context, @NonNull final ITileSource pTileSource) {
+        super(context, pTileSource);
 
         Log.i(IMapView.LOGTAG, "Geopackage support is BETA. Please report any issues");
-        if (Build.VERSION.SDK_INT < 10) {
-            tileWriter = new TileWriter();
-        } else {
-            tileWriter = new SqlTileWriter();
-        }
+        tileWriter = new SqlTileWriter();
     }
 
 
@@ -78,10 +75,9 @@ public class GeoPackageFeatureTileProvider extends MapTileProviderBase {
         minzoom = minZoom;
     }
 
-
     @Override
-    public void detach() {
-        super.detach();
+    public void onDetach(@Nullable final Context context) {
         featureTiles = null;
+        super.onDetach(context);
     }
 }

@@ -18,6 +18,9 @@ import org.osmdroid.views.overlay.OverlayItem.HotspotPlace;
 
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 /**
  * @param <Item>
  * @deprecated see {@link Marker}
@@ -31,7 +34,7 @@ public class ItemizedOverlayWithFocus<Item extends OverlayItem> extends Itemized
     // Constants
     // ===========================================================
 
-    private final int DEFAULTMARKER_BACKGROUNDCOLOR = Color.rgb(101, 185, 74);
+    private static final int DEFAULTMARKER_BACKGROUNDCOLOR = Color.rgb(101, 185, 74);
 
 
     // ===========================================================
@@ -60,21 +63,17 @@ public class ItemizedOverlayWithFocus<Item extends OverlayItem> extends Itemized
     private int fontSizePixels;
     private final Point mFocusedScreenCoords = new Point();
 
-    private Context mContext;
-
     private String UNKNOWN;
 
     // ===========================================================
     // Constructors
     // ===========================================================
 
-    public ItemizedOverlayWithFocus(final Context pContext, final List<Item> aList,
-                                    final OnItemGestureListener<Item> aOnItemTapListener) {
+    public ItemizedOverlayWithFocus(final Context pContext, final List<Item> aList, final OnItemGestureListener<Item> aOnItemTapListener) {
         this(aList, aOnItemTapListener, pContext);
     }
 
-    public ItemizedOverlayWithFocus(final List<Item> aList,
-                                    final OnItemGestureListener<Item> aOnItemTapListener, Context pContext) {
+    public ItemizedOverlayWithFocus(final List<Item> aList, final OnItemGestureListener<Item> aOnItemTapListener, Context pContext) {
         this(aList,
                 pContext.getResources().getDrawable(R.drawable.marker_default)
                 , null, NOT_SET,
@@ -86,7 +85,6 @@ public class ItemizedOverlayWithFocus<Item extends OverlayItem> extends Itemized
                                     final OnItemGestureListener<Item> aOnItemTapListener, Context pContext) {
 
         super(aList, pMarker, aOnItemTapListener, pContext);
-        mContext = pContext;
         if (pMarkerFocused == null) {
             this.mMarkerFocusedBase = boundToHotspot(
                     pContext.getResources().getDrawable(R.drawable.marker_default_focused_base)
@@ -98,20 +96,20 @@ public class ItemizedOverlayWithFocus<Item extends OverlayItem> extends Itemized
         this.mMarkerFocusedBackgroundColor = (pFocusedBackgroundColor != NOT_SET) ? pFocusedBackgroundColor
                 : DEFAULTMARKER_BACKGROUNDCOLOR;
 
-        calculateDrawSettings();
+        calculateDrawSettings(pContext);
 
         this.unSetFocusedItem();
     }
 
-    private void calculateDrawSettings() {
+    private void calculateDrawSettings(@NonNull final Context context) {
         //calculate font size based on DP
         fontSizePixels = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
-                FONT_SIZE_DP, mContext.getResources().getDisplayMetrics());
+                FONT_SIZE_DP, context.getResources().getDisplayMetrics());
         DESCRIPTION_LINE_HEIGHT = fontSizePixels + 5;
 
         //calculate max width based on screen width.
-        DESCRIPTION_MAXWIDTH = (int) (mContext.getResources().getDisplayMetrics().widthPixels * 0.8);
-        UNKNOWN = mContext.getResources().getString(R.string.unknown);
+        DESCRIPTION_MAXWIDTH = (int) (context.getResources().getDisplayMetrics().widthPixels * 0.8);
+        UNKNOWN = context.getResources().getString(R.string.unknown);
 
         this.mMarkerBackgroundPaint = new Paint(); // Color is set in onDraw(...)
 
@@ -129,38 +127,22 @@ public class ItemizedOverlayWithFocus<Item extends OverlayItem> extends Itemized
     // ===========================================================
 
 
-    /**
-     * default is 3 pixels
-     *
-     * @param value
-     */
+    /** default is 3 pixels */
     public void setDescriptionBoxPadding(int value) {
         DESCRIPTION_BOX_PADDING = value;
     }
 
-    /**
-     * default 3
-     *
-     * @param value
-     */
+    /** default 3 */
     public void setDescriptionBoxCornerWidth(int value) {
         DESCRIPTION_BOX_CORNERWIDTH = value;
     }
 
-    /**
-     * default is 2
-     *
-     * @param value
-     */
+    /** default is 2 */
     public void setDescriptionTitleExtraLineHeight(int value) {
         DESCRIPTION_TITLE_EXTRA_LINE_HEIGHT = value;
     }
 
-    /**
-     * default is a green like color
-     *
-     * @param value
-     */
+    /** default is a green like color */
     public void setMarkerBackgroundColor(int value) {
         mMarkerFocusedBackgroundColor = value;
     }
@@ -173,34 +155,22 @@ public class ItemizedOverlayWithFocus<Item extends OverlayItem> extends Itemized
         mDescriptionPaint.setColor(value);
     }
 
-    /**
-     * default is 14
-     *
-     * @param value
-     */
-    public void setFontSize(int value) {
+    /** default is 14 */
+    public void setFontSize(@NonNull final Context context, final int value) {
         FONT_SIZE_DP = value;
-        calculateDrawSettings();
+        calculateDrawSettings(context);
     }
 
-    /**
-     * in pixels, default is 600
-     *
-     * @param value
-     */
-    public void setDescriptionMaxWidth(int value) {
+    /** in pixels, default is 600 */
+    public void setDescriptionMaxWidth(@NonNull final Context context, final int value) {
         DESCRIPTION_MAXWIDTH = value;
-        calculateDrawSettings();
+        calculateDrawSettings(context);
     }
 
-    /**
-     * default is 30
-     *
-     * @param value
-     */
-    public void setDescriptionLineHeight(int value) {
+    /** default is 30 */
+    public void setDescriptionLineHeight(@NonNull final Context context, final int value) {
         DESCRIPTION_LINE_HEIGHT = value;
-        calculateDrawSettings();
+        calculateDrawSettings(context);
     }
 
     public Item getFocusedItem() {
@@ -271,16 +241,11 @@ public class ItemizedOverlayWithFocus<Item extends OverlayItem> extends Itemized
         markerFocusedBase.copyBounds(mRect);
         mRect.offset(mFocusedScreenCoords.x, mFocusedScreenCoords.y);
 
-        /* Strings of the OverlayItem, we need. */
-        final String itemTitle = (focusedItem.getTitle() == null) ? UNKNOWN : focusedItem
-                .getTitle();
-        final String itemDescription = (focusedItem.getSnippet() == null) ? UNKNOWN : focusedItem
-                .getSnippet();
+        /* Strings of the OverlayItem, we need */
+        final String itemTitle = (focusedItem.getTitle() == null) ? UNKNOWN : focusedItem.getTitle();
+        final String itemDescription = (focusedItem.getSnippet() == null) ? UNKNOWN : focusedItem.getSnippet();
 
-        /*
-         * Store the width needed for each char in the description to a float array. This is pretty
-         * efficient.
-         */
+        /* Store the width needed for each char in the description to a float array. This is pretty efficient */
         final float[] widths = new float[itemDescription.length()];
         this.mDescriptionPaint.getTextWidths(itemDescription, widths);
 
@@ -327,7 +292,7 @@ public class ItemizedOverlayWithFocus<Item extends OverlayItem> extends Itemized
                 }
             }
 
-            curLineWidth += charwidth;
+            curLineWidth += Math.round(charwidth);
         }
         /* Add the last line to the rest to the buffer. */
         if (i != lastStop) {
@@ -337,17 +302,14 @@ public class ItemizedOverlayWithFocus<Item extends OverlayItem> extends Itemized
         }
         final String[] lines = sb.toString().split("\n");
 
-        /*
-         * The title also needs to be taken into consideration for the width calculation.
-         */
+        /* The title also needs to be taken into consideration for the width calculation */
         final int titleWidth = (int) this.mDescriptionPaint.measureText(itemTitle);
 
         maxWidth = Math.max(maxWidth, titleWidth);
         final int descWidth = Math.min(maxWidth, DESCRIPTION_MAXWIDTH);
 
         /* Calculate the bounds of the Description box that needs to be drawn. */
-        final int descBoxLeft = mRect.left - descWidth / 2 - DESCRIPTION_BOX_PADDING
-                + mRect.width() / 2;
+        final int descBoxLeft = mRect.left - descWidth / 2 - DESCRIPTION_BOX_PADDING + mRect.width() / 2;
         final int descBoxRight = descBoxLeft + descWidth + 2 * DESCRIPTION_BOX_PADDING;
         final int descBoxBottom = mRect.top;
         final int descBoxTop = descBoxBottom - DESCRIPTION_TITLE_EXTRA_LINE_HEIGHT
@@ -378,10 +340,8 @@ public class ItemizedOverlayWithFocus<Item extends OverlayItem> extends Itemized
             descTextLineBottom -= DESCRIPTION_LINE_HEIGHT;
         }
         /* Draw the title. */
-        c.drawText(itemTitle, descLeft, descTextLineBottom - DESCRIPTION_TITLE_EXTRA_LINE_HEIGHT,
-                this.mTitlePaint);
-        c.drawLine(descBoxLeft, descTextLineBottom, descBoxRight, descTextLineBottom,
-                mDescriptionPaint);
+        c.drawText(itemTitle, descLeft, descTextLineBottom - DESCRIPTION_TITLE_EXTRA_LINE_HEIGHT, this.mTitlePaint);
+        c.drawLine(descBoxLeft, descTextLineBottom, descBoxRight, descTextLineBottom, mDescriptionPaint);
 
         /*
          * Finally draw the marker base. This is done in the end to make it look better.
@@ -397,9 +357,9 @@ public class ItemizedOverlayWithFocus<Item extends OverlayItem> extends Itemized
     }
 
     @Override
-    public void onDetach(MapView mapView) {
-        super.onDetach(mapView);
-        this.mContext = null;
+    public void onDestroy(@Nullable final MapView mapView) {
+        //...
+        super.onDestroy(mapView);
     }
 
     // ===========================================================

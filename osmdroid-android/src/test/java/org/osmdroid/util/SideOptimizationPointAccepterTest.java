@@ -16,7 +16,7 @@ import java.util.List;
 
 public class SideOptimizationPointAccepterTest {
 
-    class SimpleAccepter implements PointAccepter {
+    static class SimpleAccepter implements PointAccepter {
 
         private final List<PointL> mList = new ArrayList<>();
 

@@ -1,21 +1,27 @@
 package org.osmdroid.tileprovider.modules;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
+import android.util.Pair;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.BitmapPool;
 import org.osmdroid.tileprovider.ExpirableBitmapDrawable;
+import org.osmdroid.tileprovider.IMapTileProviderCallback;
 import org.osmdroid.tileprovider.ReusableBitmapDrawable;
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.util.MapTileIndex;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -29,8 +35,36 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 public class MapTileApproximater extends MapTileModuleProviderBase {
 
+    // ===========================================================
+    // Constants
+    // ===========================================================
+
+    public static final String CONST_MAPTILEPROVIDER_APPROXIMATER = "approximater";
+    private static final int CONST_THREAD_CANVAS_CACHE_SIZE = 32;
+
+    // ===========================================================
+    // Fields
+    // ===========================================================
+
     private final List<MapTileModuleProviderBase> mProviders = new CopyOnWriteArrayList<>();
     private int minZoomLevel;
+    private final TileLoader mTileLoader = new TileLoader();
+    private static final LinkedHashMap<Long,Canvas> mCanvasCache = new LinkedHashMap<Long,Canvas>(10, 0.1f, true) {
+        @Override
+        protected boolean removeEldestEntry(@NonNull final Entry eldest) {
+            return (mCanvasCache.size() >= CONST_THREAD_CANVAS_CACHE_SIZE);
+        }
+    };
+    private static final LinkedHashMap<Long, Pair<Rect,Rect>> mRectsCache = new LinkedHashMap<Long, Pair<Rect,Rect>>(10, 0.1f, true) {
+        @Override
+        protected boolean removeEldestEntry(@NonNull final Entry eldest) {
+            return (mRectsCache.size() >= CONST_THREAD_CANVAS_CACHE_SIZE);
+        }
+    };
+
+    // ===========================================================
+    // Constructors
+    // ===========================================================
 
     /**
      * @since 6.0.0
@@ -83,12 +117,12 @@ public class MapTileApproximater extends MapTileModuleProviderBase {
 
     @Override
     protected String getThreadGroupName() {
-        return "approximater";
+        return CONST_MAPTILEPROVIDER_APPROXIMATER;
     }
 
     @Override
     public TileLoader getTileLoader() {
-        return new TileLoader();
+        return mTileLoader;
     }
 
     @Override
@@ -119,6 +153,10 @@ public class MapTileApproximater extends MapTileModuleProviderBase {
             }
             return null;
         }
+
+        @IMapTileProviderCallback.TILEPROVIDERTYPE
+        @Override
+        public final int getProviderType() { return IMapTileProviderCallback.TILEPROVIDERTYPE_APPROXIMATER; }
     }
 
     /**
@@ -209,7 +247,14 @@ public class MapTileApproximater extends MapTileModuleProviderBase {
         }
         final int tileSizePixels = pSrcDrawable.getBitmap().getWidth();
         final Bitmap bitmap = getTileBitmap(tileSizePixels);
-        final Canvas canvas = new Canvas(bitmap);
+        final long cThreadId = Thread.currentThread().getId();
+        final Canvas cCanvas;
+        synchronized (mCanvasCache) {
+            if (mCanvasCache.containsKey(cThreadId)) cCanvas = mCanvasCache.get(cThreadId);
+            else mCanvasCache.put(cThreadId, (cCanvas = new Canvas()));
+        }
+        //noinspection DataFlowIssue
+        cCanvas.setBitmap(bitmap);
         final boolean isReusable = pSrcDrawable instanceof ReusableBitmapDrawable;
         final ReusableBitmapDrawable reusableBitmapDrawable = isReusable ?
                 (ReusableBitmapDrawable) pSrcDrawable : null;
@@ -225,9 +270,17 @@ public class MapTileApproximater extends MapTileModuleProviderBase {
                 } else {
                     final int srcX = (MapTileIndex.getX(pMapTileIndex) % (1 << pZoomDiff)) * srcSize;
                     final int srcY = (MapTileIndex.getY(pMapTileIndex) % (1 << pZoomDiff)) * srcSize;
-                    final Rect srcRect = new Rect(srcX, srcY, srcX + srcSize, srcY + srcSize);
-                    final Rect dstRect = new Rect(0, 0, tileSizePixels, tileSizePixels);
-                    canvas.drawBitmap(pSrcDrawable.getBitmap(), srcRect, dstRect, null);
+                    final Pair<Rect,Rect> cPair;
+                    synchronized (mRectsCache) {
+                        if (mRectsCache.containsKey(cThreadId)) cPair = mRectsCache.get(cThreadId);
+                        else mRectsCache.put(cThreadId, (cPair = new Pair<>(new Rect(), new Rect())));
+                    }
+                    //noinspection DataFlowIssue
+                    final Rect srcRect = cPair.first;
+                    final Rect dstRect = cPair.second;
+                    srcRect.set(srcX, srcY, srcX + srcSize, srcY + srcSize);
+                    dstRect.set(0, 0, tileSizePixels, tileSizePixels);
+                    cCanvas.drawBitmap(pSrcDrawable.getBitmap(), srcRect, dstRect, null);
                     success = true;
                 }
             }
@@ -247,10 +300,8 @@ public class MapTileApproximater extends MapTileModuleProviderBase {
     public static Bitmap getTileBitmap(final int pTileSizePx) {
         final Bitmap bitmap = BitmapPool.getInstance().obtainSizedBitmapFromPool(pTileSizePx, pTileSizePx);
         if (bitmap != null) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR1) {
-                // without that, the retrieved bitmap forgets it allowed transparency
-                bitmap.setHasAlpha(true);
-            }
+            // without that, the retrieved bitmap forgets it allowed transparency
+            bitmap.setHasAlpha(true);
             // without that, the bitmap keeps its previous contents when transparent content is copied on it
             bitmap.eraseColor(Color.TRANSPARENT);
             return bitmap;
@@ -258,12 +309,10 @@ public class MapTileApproximater extends MapTileModuleProviderBase {
         return Bitmap.createBitmap(pTileSizePx, pTileSizePx, Bitmap.Config.ARGB_8888);
     }
 
-    /**
-     * @since 6.0.0
-     */
+    /** {@inheritDoc} */
     @Override
-    public void detach() {
-        super.detach();
+    public void onDetach(@Nullable final Context context) {
         mProviders.clear();
+        super.onDetach(context);
     }
 }

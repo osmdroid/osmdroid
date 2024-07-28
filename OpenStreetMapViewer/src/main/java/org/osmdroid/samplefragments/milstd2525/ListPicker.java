@@ -104,30 +104,21 @@ public class ListPicker implements View.OnClickListener, AdapterView.OnItemClick
 
     @Override
     public void onClick(View v) {
-
-        switch (v.getId()) {
-            case R.id.milstd_search_cancel:
-                picker.dismiss();
-                break;
+        final int cId = v.getId();
+        if (cId == R.id.milstd_search_cancel) picker.dismiss();
+        else if (cId == R.id.milstd_search_affil_f) {
             //TODO redraw all the icons?
-            case R.id.milstd_search_affil_f:
-                charAffiliation = "F";
-                ((MilStdAdapter) milstd_search_results.getAdapter()).update(charAffiliation);
-                break;
-            case R.id.milstd_search_affil_h:
-                charAffiliation = "H";
-                ((MilStdAdapter) milstd_search_results.getAdapter()).update(charAffiliation);
-                break;
-            case R.id.milstd_search_affil_n:
-                charAffiliation = "N";
-                ((MilStdAdapter) milstd_search_results.getAdapter()).update(charAffiliation);
-
-                break;
-            case R.id.milstd_search_affil_u:
-                charAffiliation = "U";
-                ((MilStdAdapter) milstd_search_results.getAdapter()).update(charAffiliation);
-
-                break;
+            charAffiliation = "F";
+            ((MilStdAdapter) milstd_search_results.getAdapter()).update(charAffiliation);
+        } else if (cId == R.id.milstd_search_affil_h) {
+            charAffiliation = "H";
+            ((MilStdAdapter) milstd_search_results.getAdapter()).update(charAffiliation);
+        } else if (cId == R.id.milstd_search_affil_n) {
+            charAffiliation = "N";
+            ((MilStdAdapter) milstd_search_results.getAdapter()).update(charAffiliation);
+        } else if (cId == R.id.milstd_search_affil_u) {
+            charAffiliation = "U";
+            ((MilStdAdapter) milstd_search_results.getAdapter()).update(charAffiliation);
         }
     }
 

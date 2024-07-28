@@ -18,6 +18,8 @@ import org.osmdroid.views.MapView;
  */
 
 public class Bug419Zoom extends BaseSampleFragment implements View.OnClickListener {
+    private static final String TAG = "Bug419Zoom";
+
     @Override
     public String getSampleTitle() {
         return "Zoom scaling calculations";

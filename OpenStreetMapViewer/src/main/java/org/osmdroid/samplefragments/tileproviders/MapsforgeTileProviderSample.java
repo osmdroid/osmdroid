@@ -33,6 +33,8 @@ import java.util.Set;
  */
 
 public class MapsforgeTileProviderSample extends BaseSampleFragment {
+    private static final String TAG = "MapsforgeTileProviderSample";
+
     MapsForgeTileSource fromFiles = null;
     MapsForgeTileProvider forge = null;
     AlertDialog alertDialog = null;
@@ -48,7 +50,7 @@ public class MapsforgeTileProviderSample extends BaseSampleFragment {
         setHasOptionsMenu(false);   //turn off the menu to prevent accidential tile source changes
         Log.d(TAG, "onCreate");
 
-        /**
+        /*
          * super important to configure some of the mapsforge settings first
          */
         MapsForgeTileSource.createInstance(this.getActivity().getApplication());
@@ -115,11 +117,10 @@ public class MapsforgeTileProviderSample extends BaseSampleFragment {
 
             fromFiles = MapsForgeTileSource.createFromFiles(maps, theme, "rendertheme-v4");
             forge = new MapsForgeTileProvider(
-                    new SimpleRegisterReceiver(getContext()),
+                    requireContext(),
+                    new SimpleRegisterReceiver(),
                     fromFiles, null);
 
-            // with value of .5F the map tiles more closely resemble that of native MapsForge basic map
-            // fromFiles.setUserScaleFactor(.5F);
 
             mMapView.setTileProvider(forge);
 
@@ -151,17 +152,13 @@ public class MapsforgeTileProviderSample extends BaseSampleFragment {
         if (fromFiles != null)
             fromFiles.dispose();
         if (forge != null)
-            forge.detach();
+            forge.detach(requireContext());
         AndroidGraphicFactory.clearResourceMemoryCache();
     }
 
-    /**
-     * simple function to scan for paths that match /something/osmdroid/*.map to find mapforge database files
-     *
-     * @return
-     */
+    /** simple function to scan for paths that match /something/osmdroid/*.map to find mapforge database files */
     protected Set<File> findMapFiles() {
-        Set<File> maps = new HashSet<>();
+        final Set<File> maps = new HashSet<>();
         List<StorageUtils.StorageInfo> storageList = StorageUtils.getStorageList(getActivity());
         for (int i = 0; i < storageList.size(); i++) {
             File f = new File(storageList.get(i).path + File.separator + "osmdroid" + File.separator);

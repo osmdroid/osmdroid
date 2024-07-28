@@ -1,11 +1,14 @@
 package org.osmdroid.events;
 
+import android.graphics.Rect;
 import android.os.Handler;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import org.osmdroid.api.IMapView;
 
-/*
+/**
  * A MapListener that aggregates multiple events called in quick succession.
  * After an event arrives, if another event arrives within <code>delay</code> milliseconds,
  * the original event is discarded.  Otherwise, the event is propagated to the wrapped
@@ -79,6 +82,10 @@ public class DelayedMapListener implements MapListener {
         // set timer
         handler.postDelayed(callback, delay);
     }
+
+    /** {@inheritDoc} */
+    @Override
+    public void onViewBoundingBoxChanged(@NonNull final Rect fromBounds, final int fromZoom, @NonNull final Rect toBounds, final int toZoom) { /*nothing*/ }
 
     // Callback tasks
     private class CallbackTask implements Runnable {

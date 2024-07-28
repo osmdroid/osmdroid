@@ -7,6 +7,8 @@ import org.osmdroid.views.overlay.TilesOverlay;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 
+import androidx.annotation.NonNull;
+
 /**
  * To be used by some kind of {@link TilesOverlay}, in order to get a count of the tiles, by state
  *
@@ -15,7 +17,7 @@ import java.util.LinkedHashSet;
  */
 public class TileStates {
 
-    private Collection<Runnable> mRunAfters = new LinkedHashSet<>();
+    private final Collection<Runnable> mRunAfters = new LinkedHashSet<>();
     private boolean mDone;
     private int mTotal;
     private int mUpToDate;
@@ -94,6 +96,7 @@ public class TileStates {
         return mNotFound;
     }
 
+    @NonNull
     @Override
     public String toString() {
         if (mDone) {

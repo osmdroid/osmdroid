@@ -7,6 +7,7 @@
  */
 package org.osmdroid.tileprovider.modules;
 
+import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 
@@ -22,6 +23,8 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
+import androidx.annotation.NonNull;
+
 /**
  * @author Neil Boyd
  */
@@ -34,26 +37,47 @@ public class MapTileProviderTest {
     private final IMapTileProviderCallback mTileProviderCallback = new IMapTileProviderCallback() {
 
         @Override
-        public void mapTileRequestCompleted(final MapTileRequestState aState,
+        public void mapTileRequestStarted(@NonNull final MapTileRequestState aState, final int pending, final int working) {
+        }
+
+        @Override
+        public void mapTileRequestCompleted(@NonNull final MapTileRequestState aState,
                                             final Drawable aDrawable) {
-            mTiles.add(aState.getMapTile());
+            final Long cMapTileIndex = aState.getMapTileIndex();
+            if (cMapTileIndex == null) return;
+            mTiles.add(cMapTileIndex);
         }
 
         @Override
-        public void mapTileRequestFailed(final MapTileRequestState aState) {
+        public void mapTileRequestFailed(@NonNull final MapTileRequestState aState) {
         }
 
         @Override
-        public void mapTileRequestFailedExceedsMaxQueueSize(final MapTileRequestState aState) {
+        public void mapTileRequestFailedExceedsMaxQueueSize(@NonNull final MapTileRequestState aState) {
         }
 
         @Override
-        public void mapTileRequestExpiredTile(final MapTileRequestState aState, final Drawable aDrawable) {
+        public void mapTileRequestExpiredTile(@NonNull final MapTileRequestState aState, final Drawable aDrawable) {
+        }
+
+        @Override
+        public void mapTileRequestDoneButUnknown(@NonNull final MapTileRequestState aState) {
+
+        }
+
+        @Override
+        public void mapTileRequestDiscartedDueToOutOfViewBounds(@NonNull final MapTileRequestState aState) {
+
         }
 
         @Override
         public boolean useDataConnection() {
             return false;
+        }
+
+        @Override
+        public void onViewBoundingBoxChanged(@NonNull Rect fromBounds, int fromZoom, @NonNull Rect toBounds, int toZoom) {
+
         }
     };
 
@@ -75,6 +99,11 @@ public class MapTileProviderTest {
                     } catch (final InterruptedException e) {
                     }
                     return new BitmapDrawable();
+                }
+                @IMapTileProviderCallback.TILEPROVIDERTYPE
+                @Override
+                public int getProviderType() {
+                    return 0;
                 }
             };
         }
@@ -113,11 +142,11 @@ public class MapTileProviderTest {
         // request the same tile twice
         final MapTileRequestState state = new MapTileRequestState(tile, mProviders,
                 mTileProviderCallback);
-        mTileProvider.loadMapTileAsync(state);
-        mTileProvider.loadMapTileAsync(state);
+        mTileProvider.loadMapTileAsync(state, mTileProviderCallback);
+        mTileProvider.loadMapTileAsync(state, mTileProviderCallback);
 
         // check that is only one tile pending
-        assertEquals("One tile pending", 1, mTileProvider.mPending.size());
+        assertEquals("One tile pending", 1, mTileProvider.getPendingCount());
     }
 
     /**
@@ -133,15 +162,15 @@ public class MapTileProviderTest {
         // request the three tiles
         final MapTileRequestState state1 = new MapTileRequestState(tile1,
                 mProviders, mTileProviderCallback);
-        mTileProvider.loadMapTileAsync(state1);
+        mTileProvider.loadMapTileAsync(state1, mTileProviderCallback);
         Thread.sleep(100); // give the thread time to run
         final MapTileRequestState state2 = new MapTileRequestState(tile2,
                 mProviders, mTileProviderCallback);
-        mTileProvider.loadMapTileAsync(state2);
+        mTileProvider.loadMapTileAsync(state2, mTileProviderCallback);
         Thread.sleep(100); // give the thread time to run
         final MapTileRequestState state3 = new MapTileRequestState(tile3,
                 mProviders, mTileProviderCallback);
-        mTileProvider.loadMapTileAsync(state3);
+        mTileProvider.loadMapTileAsync(state3, mTileProviderCallback);
 
         // wait up to 10 seconds (because it takes 1 second for each tile + an extra
         // second)
@@ -174,19 +203,19 @@ public class MapTileProviderTest {
         // request tile1, tile2, tile3, then tile2 again
         final MapTileRequestState state1 = new MapTileRequestState(tile1,
                 mProviders, mTileProviderCallback);
-        mTileProvider.loadMapTileAsync(state1);
+        mTileProvider.loadMapTileAsync(state1, mTileProviderCallback);
         Thread.sleep(100); // give the thread time to run
         final MapTileRequestState state2 = new MapTileRequestState(tile2,
                 mProviders, mTileProviderCallback);
-        mTileProvider.loadMapTileAsync(state2);
+        mTileProvider.loadMapTileAsync(state2, mTileProviderCallback);
         Thread.sleep(100); // give the thread time to run
         final MapTileRequestState state3 = new MapTileRequestState(tile3,
                 mProviders, mTileProviderCallback);
-        mTileProvider.loadMapTileAsync(state3);
+        mTileProvider.loadMapTileAsync(state3, mTileProviderCallback);
         Thread.sleep(100); // give the thread time to run
         final MapTileRequestState state4 = new MapTileRequestState(tile2,
                 mProviders, mTileProviderCallback);
-        mTileProvider.loadMapTileAsync(state4);
+        mTileProvider.loadMapTileAsync(state4, mTileProviderCallback);
 
         // wait up to 10 seconds (because it takes 1 second for each tile + an extra
         // second)

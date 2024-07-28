@@ -6,16 +6,19 @@ group = project.property("pom.groupId")
 version =  project.property("pom.version")
 
 android {
-    compileSdkVersion findProperty('android.compileSdkVersion').toInteger()
-    lintOptions {
-        abortOnError false
+	namespace 'org.osmdroid.wms'
+
+    defaultConfig {
+        minSdkVersion findProperty('android.minSdkVersion').toInteger()
+        compileSdk findProperty('android.compileSdkVersion').toInteger()
+        targetSdkVersion  findProperty('android.targetSdkVersion').toInteger()
     }
+
+
     testOptions {
         unitTests.returnDefaultValues = true
     }
-    defaultConfig {
-        minSdkVersion Integer.parseInt(project.property('android.minSdkVersion'))
-    }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -28,15 +31,23 @@ android {
             withJavadocJar()
         }
     }
+
+    compileOptions {
+        sourceCompatibility(JavaVersion.VERSION_17)
+        targetCompatibility(JavaVersion.VERSION_17)
+    }
+    lint {
+        abortOnError false
+    }
+
 }
 
 dependencies {
-    //
-    api  project(':osmdroid-android')
+    implementation("androidx.lifecycle:lifecycle-common:2.8.4")
+
+    api project(':osmdroid-android')
     testImplementation "org.junit.vintage:junit-vintage-engine:${project.property('junit.version')}"
 }
-
-
 
 afterEvaluate {
     publishing {
@@ -69,7 +80,7 @@ afterEvaluate {
 
 }
 
-task androidSourcesJar(type: Jar) {
+tasks.register('androidSourcesJar', Jar) {
     from android.sourceSets.main.java.srcDirs
 }
 

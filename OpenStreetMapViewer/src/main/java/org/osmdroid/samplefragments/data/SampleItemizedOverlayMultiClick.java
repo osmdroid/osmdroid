@@ -51,7 +51,7 @@ public class SampleItemizedOverlayMultiClick extends BaseSampleFragment {
         }
         final BoundingBox box = BoundingBox.fromGeoPoints(geoPoints);
 
-        mMapView.getOverlays().add(new MapEventsOverlay(new MapEventsReceiver() {
+        mMapView.getOverlayManager().add(new MapEventsOverlay(new MapEventsReceiver() {
             @Override
             public boolean singleTapConfirmedHelper(GeoPoint p) {
                 if (mClicked.size() == 0) {
@@ -107,7 +107,7 @@ public class SampleItemizedOverlayMultiClick extends BaseSampleFragment {
         myLocationOverlay.setMarkerTitleForegroundColor(Color.WHITE);
         myLocationOverlay.setMarkerDescriptionForegroundColor(Color.WHITE);
         myLocationOverlay.setDescriptionBoxPadding(15);
-        mMapView.getOverlays().add(myLocationOverlay);
+        mMapView.getOverlayManager().add(myLocationOverlay);
 
         mMapView.post(new Runnable() {
             @Override

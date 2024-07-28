@@ -4,30 +4,32 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Build;
 
 import org.osmdroid.tileprovider.IRegisterReceiver;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 public class SimpleRegisterReceiver implements IRegisterReceiver {
 
-    private Context mContext;
+    public SimpleRegisterReceiver() { /*nothing*/ }
 
-    public SimpleRegisterReceiver(final Context pContext) {
-        super();
-        mContext = pContext;
+    @Nullable
+    @Override
+    public Intent registerReceiver(@NonNull final Context context, @NonNull final BroadcastReceiver receiver, @NonNull final IntentFilter filter) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            return context.getApplicationContext().registerReceiver(receiver, filter, Context.RECEIVER_EXPORTED);
+        } else {
+            return context.getApplicationContext().registerReceiver(receiver, filter);
+        }
+    }
+    @Override
+    public void unregisterReceiver(@NonNull final Context context, @NonNull final BroadcastReceiver receiver) {
+        context.getApplicationContext().unregisterReceiver(receiver);
     }
 
     @Override
-    public Intent registerReceiver(final BroadcastReceiver aReceiver, final IntentFilter aFilter) {
-        return mContext.registerReceiver(aReceiver, aFilter);
-    }
+    public void destroy() { /*nothing*/ }
 
-    @Override
-    public void unregisterReceiver(final BroadcastReceiver aReceiver) {
-        mContext.unregisterReceiver(aReceiver);
-    }
-
-    @Override
-    public void destroy() {
-        mContext = null;
-    }
 }

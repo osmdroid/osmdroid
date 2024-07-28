@@ -2,6 +2,11 @@ package org.osmdroid.api;
 
 import android.graphics.Point;
 
+import org.osmdroid.util.GeoPoint;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 /**
  * An interface that resembles the Google Maps API Projection interface and is implemented by the
  * osmdroid {@link  org.osmdroid.views.Projection} class.
@@ -18,13 +23,31 @@ public interface IProjection {
      * @param out A pre-existing object to use for the output; if null, a new Point will be
      *            allocated and returned.
      */
-    Point toPixels(IGeoPoint in, Point out);
+    Point toPixels(@NonNull IGeoPoint in, @Nullable Point out);
+
+    /**
+     * Converts the given {@link IGeoPoint} to onscreen pixel coordinates, relative to the top-left
+     * of the {@link org.osmdroid.views.MapView} that provided this Projection.
+     *
+     * @param inLat  The latitude to convert.
+     * @param inLon  The longitude to convert.
+     * @param out A pre-existing object to use for the output; if null, a new Point will be
+     *            allocated and returned.
+     */
+    Point toPixels(double inLat, double inLon, @Nullable Point out);
 
     /**
      * Create a new GeoPoint from pixel coordinates relative to the top-left of the MapView that
      * provided this PixelConverter.
+     * @deprecated Instead of this use: {@link #fromPixels(int, int, GeoPoint)}
      */
+    @Deprecated
     IGeoPoint fromPixels(int x, int y);
+    /**
+     * Create a new GeoPoint from pixel coordinates relative to the top-left of the MapView that
+     * provided this PixelConverter.
+     */
+    IGeoPoint fromPixels(int x, int y, @Nullable GeoPoint reuse);
 
     /**
      * Converts a distance in meters (along the equator) to one in (horizontal) pixels at the

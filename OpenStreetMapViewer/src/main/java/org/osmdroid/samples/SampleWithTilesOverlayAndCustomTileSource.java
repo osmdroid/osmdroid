@@ -52,7 +52,7 @@ public class SampleWithTilesOverlayAndCustomTileSource extends AppCompatActivity
         String copyrightNotice = mMapView.getTileProvider().getTileSource().getCopyrightNotice();
         CopyrightOverlay copyrightOverlay = new CopyrightOverlay(this);
         copyrightOverlay.setCopyrightNotice(copyrightNotice);
-        mMapView.getOverlays().add(copyrightOverlay);
+        mMapView.getOverlayManager().add(copyrightOverlay);
 
         mapContainer.addView(mMapView, new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT,
                 LayoutParams.MATCH_PARENT));
@@ -70,8 +70,8 @@ public class SampleWithTilesOverlayAndCustomTileSource extends AppCompatActivity
         tileProvider.setTileSource(tileSource);
         tileProvider.getTileRequestCompleteHandlers().add(mMapView.getTileRequestCompleteHandler());
         final TilesOverlay tilesOverlay = new TilesOverlay(tileProvider, this.getBaseContext());
-        tilesOverlay.setLoadingBackgroundColor(Color.TRANSPARENT);
-        mMapView.getOverlays().add(tilesOverlay);
+        tilesOverlay.setLoadingBackgroundColor(this, Color.TRANSPARENT);
+        mMapView.getOverlayManager().add(tilesOverlay);
     }
 
     @Override
@@ -80,15 +80,4 @@ public class SampleWithTilesOverlayAndCustomTileSource extends AppCompatActivity
         return true;
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        mMapView.onPause();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        mMapView.onResume();
-    }
 }

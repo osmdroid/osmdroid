@@ -55,7 +55,7 @@ public class SampleWithTilesOverlay extends AppCompatActivity {
         String copyrightNotice = mMapView.getTileProvider().getTileSource().getCopyrightNotice();
         CopyrightOverlay copyrightOverlay = new CopyrightOverlay(this);
         copyrightOverlay.setCopyrightNotice(copyrightNotice);
-        mMapView.getOverlays().add(copyrightOverlay);
+        mMapView.getOverlayManager().add(copyrightOverlay);
 
         // zoom to the netherlands
         mMapView.getController().setZoom(8.);
@@ -65,8 +65,8 @@ public class SampleWithTilesOverlay extends AppCompatActivity {
         MapTileProviderBasic provider = new MapTileProviderBasic(getApplicationContext());
         provider.setTileSource(TileSourceFactory.PUBLIC_TRANSPORT);
         TilesOverlay tilesOverlay = new TilesOverlay(provider, this.getBaseContext());
-        tilesOverlay.setLoadingBackgroundColor(Color.TRANSPARENT);
-        mMapView.getOverlays().add(tilesOverlay);
+        tilesOverlay.setLoadingBackgroundColor(this, Color.TRANSPARENT);
+        mMapView.getOverlayManager().add(tilesOverlay);
     }
 
     @Override
@@ -75,15 +75,4 @@ public class SampleWithTilesOverlay extends AppCompatActivity {
         return true;
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        mMapView.onPause();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        mMapView.onResume();
-    }
 }

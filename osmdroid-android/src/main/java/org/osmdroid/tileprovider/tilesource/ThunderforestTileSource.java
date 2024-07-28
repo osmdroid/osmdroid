@@ -97,18 +97,15 @@ public class ThunderforestTileSource extends OnlineTileSourceBase {
 
     @Override
     public String getTileURLString(final long pMapTileIndex) {
-        StringBuilder url = new StringBuilder(getBaseUrl().replace("{map}", urlMap[mMap]));
-        url.append(MapTileIndex.getZoom(pMapTileIndex));
-        url.append("/");
-        url.append(MapTileIndex.getX(pMapTileIndex));
-        url.append("/");
-        url.append(MapTileIndex.getY(pMapTileIndex));
-        url.append(".png?");
-        url.append("apikey=").append(mMapId);
-        String res = url.toString();
         //Log.d(IMapView.LOGTAG, res);
 
-        return res;
+        return getBaseUrl().replace("{map}", urlMap[mMap]) + MapTileIndex.getZoom(pMapTileIndex) +
+                "/" +
+                MapTileIndex.getX(pMapTileIndex) +
+                "/" +
+                MapTileIndex.getY(pMapTileIndex) +
+                ".png?" +
+                "apikey=" + mMapId;
     }
 
     /**

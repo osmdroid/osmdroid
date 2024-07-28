@@ -27,6 +27,7 @@ import java.util.TimerTask;
  */
 
 public abstract class IISTrackerBase extends SampleGridlines {
+    private static final String TAG = "IISTrackerBase";
 
     final static String url_select = "http://api.open-notify.org/iss-now.json";
 
@@ -99,7 +100,7 @@ public abstract class IISTrackerBase extends SampleGridlines {
                                         if (motionTrailCounter != 30) {
                                             //at 30 we keep the trail, otherwise remove it
                                             mMapView.getOverlayManager().remove(marker);
-                                            marker.onDetach(mMapView);
+                                            marker.freeMemory(mMapView);
 
                                         } else {
                                             //change the icon to something that makes it obvious that it's an old location
@@ -122,8 +123,7 @@ public abstract class IISTrackerBase extends SampleGridlines {
                                             Overlay overlay = mMapView.getOverlayManager().get(1);
                                             if (overlay instanceof Marker) {
                                                 mMapView.getOverlayManager().remove(overlay);
-                                                overlay.onDetach(mMapView);
-                                                overlay = null;
+                                                overlay.freeMemory(mMapView);
                                             }
                                         }
 
@@ -208,7 +208,7 @@ public abstract class IISTrackerBase extends SampleGridlines {
         if (t != null)
             t.cancel();
         t = null;
-        marker.onDetach(mMapView);
+        marker.freeMemory(mMapView);
         marker = null;
         super.onDestroyView();
     }

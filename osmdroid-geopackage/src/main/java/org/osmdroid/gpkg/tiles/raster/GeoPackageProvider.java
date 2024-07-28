@@ -1,8 +1,9 @@
 package org.osmdroid.gpkg.tiles.raster;
 
 import android.content.Context;
-import android.os.Build;
 import android.util.Log;
+
+import androidx.annotation.NonNull;
 
 import org.osmdroid.api.IMapView;
 import org.osmdroid.tileprovider.IMapTileProviderCallback;
@@ -13,7 +14,6 @@ import org.osmdroid.tileprovider.modules.IFilesystemCache;
 import org.osmdroid.tileprovider.modules.INetworkAvailablityCheck;
 import org.osmdroid.tileprovider.modules.NetworkAvailabliltyCheck;
 import org.osmdroid.tileprovider.modules.SqlTileWriter;
-import org.osmdroid.tileprovider.modules.TileWriter;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.tileprovider.util.SimpleRegisterReceiver;
@@ -21,6 +21,7 @@ import org.osmdroid.util.BoundingBox;
 
 import java.io.File;
 
+import androidx.annotation.Nullable;
 import mil.nga.geopackage.GeoPackage;
 import mil.nga.geopackage.tiles.user.TileDao;
 import mil.nga.proj.ProjectionTransform;
@@ -38,8 +39,7 @@ public class GeoPackageProvider extends MapTileProviderArray implements IMapTile
     protected IFilesystemCache tileWriter;
 
     public GeoPackageProvider(File[] db, Context context) {
-        this(new SimpleRegisterReceiver(context), new NetworkAvailabliltyCheck(context),
-                TileSourceFactory.DEFAULT_TILE_SOURCE, context, null, db);
+        this(new SimpleRegisterReceiver(), new NetworkAvailabliltyCheck(context), TileSourceFactory.DEFAULT_TILE_SOURCE, context, null, db);
     }
 
 
@@ -48,20 +48,16 @@ public class GeoPackageProvider extends MapTileProviderArray implements IMapTile
                               final Context pContext, final IFilesystemCache cacheWriter, File[] databases) {
 
 
-        super(pTileSource, pRegisterReceiver);
+        super(pContext, pTileSource, pRegisterReceiver);
         Log.i(IMapView.LOGTAG, "Geopackage support is BETA. Please report any issues");
 
         if (cacheWriter != null) {
             tileWriter = cacheWriter;
         } else {
-            if (Build.VERSION.SDK_INT < 10) {
-                tileWriter = new TileWriter();
-            } else {
-                tileWriter = new SqlTileWriter();
-            }
+            tileWriter = new SqlTileWriter();
         }
 
-        mTileProviderList.add(MapTileProviderBasic.getMapTileFileStorageProviderBase(pRegisterReceiver, pTileSource, tileWriter));
+        mTileProviderList.add(MapTileProviderBasic.getMapTileFileStorageProviderBase(pContext, pRegisterReceiver, pTileSource, tileWriter));
         geopackage = new GeoPackageMapTileModuleProvider(databases, pContext, tileWriter);
         mTileProviderList.add(geopackage);
 
@@ -79,14 +75,14 @@ public class GeoPackageProvider extends MapTileProviderArray implements IMapTile
     }
 
     @Override
-    public void detach() {
+    public void onDetach(@Nullable final Context context) {
         //https://github.com/osmdroid/osmdroid/issues/213
         //close the writer
         if (tileWriter != null)
-            tileWriter.onDetach();
+            tileWriter.onDetach(context);
         tileWriter = null;
-        geopackage.detach();
-        super.detach();
+        geopackage.detach(context);
+        super.onDetach(context);
     }
 
     public GeopackageRasterTileSource getTileSource(String database, String table) {
@@ -111,7 +107,7 @@ public class GeoPackageProvider extends MapTileProviderArray implements IMapTile
 
 
     @Override
-    public void setTileSource(final ITileSource aTileSource) {
+    public void setTileSource(@NonNull final ITileSource aTileSource) {
         super.setTileSource(aTileSource);
         geopackage.setTileSource(aTileSource);
     }

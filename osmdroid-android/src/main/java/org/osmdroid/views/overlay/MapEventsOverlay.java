@@ -17,7 +17,9 @@ import org.osmdroid.views.Projection;
  */
 public class MapEventsOverlay extends Overlay {
 
-    private MapEventsReceiver mReceiver;
+    private final MapEventsReceiver mReceiver;
+    private final GeoPoint mSingleTapReusableGeoPoint = new GeoPoint(0d,0d,0d);
+    private final GeoPoint mLongPressReusableGeoPoint = new GeoPoint(0d,0d,0d);
 
     /**
      * Use {@link #MapEventsOverlay(MapEventsReceiver)} instead
@@ -32,21 +34,20 @@ public class MapEventsOverlay extends Overlay {
      *                 It must implement MapEventsReceiver interface.
      */
     public MapEventsOverlay(MapEventsReceiver receiver) {
-        super();
         mReceiver = receiver;
     }
 
     @Override
     public boolean onSingleTapConfirmed(MotionEvent e, MapView mapView) {
         Projection proj = mapView.getProjection();
-        GeoPoint p = (GeoPoint) proj.fromPixels((int) e.getX(), (int) e.getY());
+        final GeoPoint p = (GeoPoint)proj.fromPixels((int)e.getX(), (int)e.getY(), mSingleTapReusableGeoPoint);
         return mReceiver.singleTapConfirmedHelper(p);
     }
 
     @Override
     public boolean onLongPress(MotionEvent e, MapView mapView) {
         Projection proj = mapView.getProjection();
-        GeoPoint p = (GeoPoint) proj.fromPixels((int) e.getX(), (int) e.getY());
+        final GeoPoint p = (GeoPoint)proj.fromPixels((int)e.getX(), (int)e.getY(), mLongPressReusableGeoPoint);
         //throw event to the receiver:
         return mReceiver.longPressHelper(p);
     }

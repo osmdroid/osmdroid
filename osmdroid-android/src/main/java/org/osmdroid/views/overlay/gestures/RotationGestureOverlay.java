@@ -9,8 +9,10 @@ import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.IOverlayMenuProvider;
 import org.osmdroid.views.overlay.Overlay;
 
-public class RotationGestureOverlay extends Overlay implements
-        RotationGestureDetector.RotationListener, IOverlayMenuProvider {
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+public class RotationGestureOverlay extends Overlay implements RotationGestureDetector.RotationListener, IOverlayMenuProvider {
     private final static boolean SHOW_ROTATE_MENU_ITEMS = false;
 
     private final static int MENU_ENABLED = getSafeMenuId();
@@ -25,11 +27,11 @@ public class RotationGestureOverlay extends Overlay implements
      * use {@link #RotationGestureOverlay(MapView)} instead.
      */
     @Deprecated
-    public RotationGestureOverlay(Context context, MapView mapView) {
+    public RotationGestureOverlay(final Context context, @NonNull final MapView mapView) {
         this(mapView);
     }
 
-    public RotationGestureOverlay(MapView mapView) {
+    public RotationGestureOverlay(@NonNull final MapView mapView) {
         super();
         mMapView = mapView;
         mRotationDetector = new RotationGestureDetector(this);
@@ -46,7 +48,7 @@ public class RotationGestureOverlay extends Overlay implements
     float currentAngle = 0f;
 
     @Override
-    public void onRotate(float deltaAngle) {
+    public void onRotate(final float deltaAngle) {
         currentAngle += deltaAngle;
         if (System.currentTimeMillis() - deltaTime > timeLastSet) {
             timeLastSet = System.currentTimeMillis();
@@ -55,8 +57,9 @@ public class RotationGestureOverlay extends Overlay implements
     }
 
     @Override
-    public void onDetach(MapView map) {
+    public void onDestroy(@Nullable final MapView mapView) {
         mMapView = null;
+        super.onDestroy(mapView);
     }
 
     @Override
@@ -65,20 +68,17 @@ public class RotationGestureOverlay extends Overlay implements
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu pMenu, int pMenuIdOffset, MapView pMapView) {
-        pMenu.add(0, MENU_ENABLED + pMenuIdOffset, Menu.NONE, "Enable rotation").setIcon(
-                android.R.drawable.ic_menu_info_details);
+    public boolean onCreateOptionsMenu(Menu pMenu, int pMenuIdOffset, @NonNull final MapView pMapView) {
+        pMenu.add(0, MENU_ENABLED + pMenuIdOffset, Menu.NONE, "Enable rotation").setIcon(android.R.drawable.ic_menu_info_details);
         if (SHOW_ROTATE_MENU_ITEMS) {
-            pMenu.add(0, MENU_ROTATE_CCW + pMenuIdOffset, Menu.NONE,
-                    "Rotate maps counter clockwise").setIcon(android.R.drawable.ic_menu_rotate);
-            pMenu.add(0, MENU_ROTATE_CW + pMenuIdOffset, Menu.NONE, "Rotate maps clockwise")
-                    .setIcon(android.R.drawable.ic_menu_rotate);
+            pMenu.add(0, MENU_ROTATE_CCW + pMenuIdOffset, Menu.NONE, "Rotate maps counter clockwise").setIcon(android.R.drawable.ic_menu_rotate);
+            pMenu.add(0, MENU_ROTATE_CW + pMenuIdOffset, Menu.NONE, "Rotate maps clockwise").setIcon(android.R.drawable.ic_menu_rotate);
         }
         return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem pItem, int pMenuIdOffset, MapView pMapView) {
+    public boolean onOptionsItemSelected(MenuItem pItem, int pMenuIdOffset, @NonNull final MapView pMapView) {
         if (pItem.getItemId() == MENU_ENABLED + pMenuIdOffset) {
             if (this.isEnabled()) {
                 mMapView.setMapOrientation(0);
@@ -97,9 +97,8 @@ public class RotationGestureOverlay extends Overlay implements
     }
 
     @Override
-    public boolean onPrepareOptionsMenu(final Menu pMenu, final int pMenuIdOffset, final MapView pMapView) {
-        pMenu.findItem(MENU_ENABLED + pMenuIdOffset).setTitle(
-                this.isEnabled() ? "Disable rotation" : "Enable rotation");
+    public boolean onPrepareOptionsMenu(final Menu pMenu, final int pMenuIdOffset, @NonNull final MapView pMapView) {
+        pMenu.findItem(MENU_ENABLED + pMenuIdOffset).setTitle(this.isEnabled() ? "Disable rotation" : "Enable rotation");
         return false;
     }
 

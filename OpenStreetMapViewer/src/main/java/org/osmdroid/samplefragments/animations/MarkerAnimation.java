@@ -51,7 +51,6 @@ public class MarkerAnimation {
         });
     }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR1)
     public static ValueAnimator animateMarkerToHC(final MapView map, final Marker marker, final GeoPoint finalPosition, final GeoPointInterpolator GeoPointInterpolator) {
         final GeoPoint startPosition = marker.getPosition();
 

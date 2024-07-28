@@ -1,8 +1,12 @@
 package org.osmdroid.views.drawing;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.os.Looper;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import org.osmdroid.tileprovider.ExpirableBitmapDrawable;
 import org.osmdroid.tileprovider.MapTileProviderBase;
@@ -123,11 +127,11 @@ public class MapSnapshot implements Runnable {
         return save(mBitmap, pFile);
     }
 
-    public void onDetach() {
+    public void onDetach(@Nullable final Context context) {
         mIsDetached = true;
         mProjection = null;
         mTileProvider.getTileRequestCompleteHandlers().remove(mHandler);
-        mTileProvider.detach();
+        mTileProvider.detach(context);
         mTileProvider = null;
         mHandler.destroy();
         mHandler = null;
@@ -252,7 +256,7 @@ public class MapSnapshot implements Runnable {
     private boolean mCurrentlyRunning;
     private boolean mAlreadyFinished;
 
-    private static boolean save(Bitmap pBitmap, File pFile) {
+    private static boolean save(@NonNull final Bitmap pBitmap, @NonNull final File pFile) {
         FileOutputStream out = null;
         try {
             out = new FileOutputStream(pFile.getAbsolutePath());

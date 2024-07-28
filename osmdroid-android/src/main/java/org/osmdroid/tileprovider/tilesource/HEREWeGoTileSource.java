@@ -148,22 +148,19 @@ public class HEREWeGoTileSource extends OnlineTileSourceBase {
 
     @Override
     public String getTileURLString(final long pMapTileIndex) {
-        StringBuilder url = new StringBuilder(getBaseUrl().replace("{domain}", domainOverride));
-        url.append(getHerewegoMapId());
-        url.append("/");
-        url.append(MapTileIndex.getZoom(pMapTileIndex));
-        url.append("/");
-        url.append(MapTileIndex.getX(pMapTileIndex));
-        url.append("/");
-        url.append(MapTileIndex.getY(pMapTileIndex));
-        url.append("/").append(getTileSizePixels()).append("/png8?");
-        url.append("app_id=").append(getAppId());
-        url.append("&app_code=").append(getAppCode());
-        url.append("&lg=pt-BR");
-        String res = url.toString();
         //System.out.println(res);
 
-        return res;
+        return getBaseUrl().replace("{domain}", domainOverride) + getHerewegoMapId() +
+                "/" +
+                MapTileIndex.getZoom(pMapTileIndex) +
+                "/" +
+                MapTileIndex.getX(pMapTileIndex) +
+                "/" +
+                MapTileIndex.getY(pMapTileIndex) +
+                "/" + getTileSizePixels() + "/png8?" +
+                "app_id=" + getAppId() +
+                "&app_code=" + getAppCode() +
+                "&lg=pt-BR";
     }
 
     public String getAppId() {

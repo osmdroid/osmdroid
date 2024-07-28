@@ -8,24 +8,23 @@ group = project.property("pom.groupId")
 version = project.property("pom.version")
 
 android {
-    compileSdkVersion findProperty('android.compileSdkVersion').toInteger()
-
+    namespace 'org.osmdroid'
 
     defaultConfig {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-
         applicationId "org.osmdroid"
 
-        minSdkVersion 21
         multiDexEnabled = true
 
-        compileSdkVersion(project.hasProperty('android.compileSdkVersion')
-                ? Integer.parseInt(project.property('android.compileSdkVersion')) : 34)
+        minSdkVersion 21
+
+        compileSdk(project.hasProperty('android.compileSdkVersion')
+                ? findProperty('android.compileSdkVersion').toInteger() : 23)
 
         // default targetSdkVersion to API 23, if not provided
         targetSdkVersion(project.hasProperty('android.targetSdkVersion')
-                ? Integer.parseInt(project.property('android.targetSdkVersion')) : 30)
+                ? findProperty('android.targetSdkVersion').toInteger() : 23)
 
         // default versionCode o 1 if not provided
         versionCode(project.hasProperty('android.versionCode')
@@ -33,8 +32,9 @@ android {
 
         versionName project.version
     }
-    lintOptions {
-        abortOnError false
+
+    buildFeatures {
+        buildConfig = true
     }
 
     testOptions {
@@ -48,77 +48,93 @@ android {
         }
     }
 
+    sourceSets {
+        main {
+            java {
+                exclude '**/*_old.java'
+                exclude '**/*_new.java'
+                exclude '**/*_backup.java'
+            }
+        }
+    }
     packagingOptions {
-        pickFirst "androidsupportmultidexversion.txt"
-        pickFirst "META-INF/AL2.0"
-        pickFirst "META-INF/LGPL2.1"
+        resources {
+            pickFirsts += ['androidsupportmultidexversion.txt', 'META-INF/AL2.0', 'META-INF/LGPL2.1']
+        }
     }
 
 
+    compileOptions {
+        sourceCompatibility(JavaVersion.VERSION_17)
+        targetCompatibility(JavaVersion.VERSION_17)
+    }
+    lint {
+        abortOnError false
+    }
 }
-
 
 dependencies {
     //apparently google or gradle changed something so that
     //transitive dependencies of submodules in the same project
     //are not longer resolved...
 
+    constraints {
+        implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.8.0") { because("kotlin-stdlib-jdk7 is now a part of kotlin-stdlib") }
+        implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.0") { because("kotlin-stdlib-jdk8 is now a part of kotlin-stdlib") }
+    }
     //osmdroid-mapsforge
     implementation 'org.mapsforge:mapsforge-map-android:0.21.0'
     implementation 'org.mapsforge:mapsforge-map:0.21.0'
     implementation 'org.mapsforge:mapsforge-themes:0.21.0'
 
-
-    implementation "androidx.legacy:legacy-support-v4:1.0.0"
     implementation project(':osmdroid-android')
     implementation project(':osmdroid-geopackage')
     implementation project(':osmdroid-mapsforge')
     implementation project(':osmdroid-wms')
     implementation project(':osmdroid-shape')
 
-    implementation 'io.github.missioncommand:mil-sym-android-renderer:0.1.59'
+    implementation 'io.github.missioncommand:mil-sym-android-renderer:0.1.60'
 
     //used for various demos for picking offline tile archives
     implementation 'com.github.angads25:filepicker:1.1.1'
 
     //used for bookmark demo
-    implementation group: 'com.opencsv', name: 'opencsv', version: '5.8'
+    implementation group: 'com.opencsv', name: 'opencsv', version: '5.9'
 
     //usual android stuff
-    implementation "com.google.android.material:material:1.11.0" //needed for UI menuing
+    implementation "com.google.android.material:material:1.12.0" //needed for UI menuing
     implementation "androidx.cardview:cardview:1.0.0"
     implementation "androidx.recyclerview:recyclerview:1.3.2"
-    implementation 'androidx.multidex:multidex:2.0.1'
+    implementation "androidx.multidex:multidex:2.0.1"
+    implementation "androidx.lifecycle:lifecycle-common:2.8.4"
 
-    implementation "androidx.appcompat:appcompat:1.6.1"
+    implementation "androidx.appcompat:appcompat:1.7.0"
     //crash logging
     implementation 'ch.acra:acra:4.7.0'
 
     //memory leak testing
-    implementation 'com.squareup.leakcanary:leakcanary-android:2.13'
+    implementation 'com.squareup.leakcanary:leakcanary-android:2.14'
 
     //on device testing
     androidTestImplementation 'androidx.multidex:multidex:2.0.1'
-    androidTestImplementation "androidx.annotation:annotation:1.3.0"
+    androidTestImplementation "androidx.annotation:annotation:1.8.1"
 
-
-    androidTestImplementation "androidx.test:runner:1.5.2"
-    androidTestImplementation "androidx.test:rules:1.5.0"
+    androidTestImplementation "androidx.test:runner:1.6.1"
+    androidTestImplementation "androidx.test:rules:1.6.1"
     // Optional -- UI testing with Espresso
-    androidTestImplementation "androidx.test.espresso:espresso-core:3.5.1"
+    androidTestImplementation "androidx.test.espresso:espresso-core:3.6.1"
     // Optional -- UI testing with UI Automator
     androidTestImplementation "androidx.test.uiautomator:uiautomator:2.3.0"
     // Optional -- UI testing with Compose
-    androidTestImplementation "androidx.compose.ui:ui-test-junit4:1.6.5"
+    androidTestImplementation "androidx.compose.ui:ui-test-junit4:1.6.8"
 }
-
 
 //the following sets the required permissions for API 23+ devices and AVDs
 
-android.applicationVariants.all { variant ->
+android.applicationVariants.configureEach { variant ->
     if (variant.getBuildType().name == "debug") {
-        task "configDevice${variant.name.capitalize()}"(type: Exec) {
-            dependsOn variant.install
+        tasks.register('configDevice${variant.name.capitalize()}', Exec) {
+            dependsOn variant.installProvider.get()
 
             group = 'nameofyourtaskgroup'
             description = 'Describe your task here.'
@@ -127,15 +143,16 @@ android.applicationVariants.all { variant ->
             def mypermission = 'android.permission.ACCESS_FINE_LOCATION'
             commandLine "$adb shell pm grant ${variant.applicationId} $mypermission".split(' ')
         }
-        variant.testVariant.connectedInstrumentTest.dependsOn "configDevice${variant.name.capitalize()}"
+        variant.testVariant.connectedInstrumentTestProvider.configure {
+            dependsOn "configDevice${variant.name.capitalize()}"
+        }
     }
 }
 
-
-android.applicationVariants.all { variant ->
+android.applicationVariants.configureEach { variant ->
     if (variant.getBuildType().name == "debug") {
-        task "configDevice2${variant.name.capitalize()}"(type: Exec) {
-            dependsOn variant.install
+        tasks.register('configDevice2${variant.name.capitalize()}', Exec) {
+            dependsOn variant.installProvider.get()
 
             group = 'nameofyourtaskgroup'
             description = 'Describe your task here.'
@@ -144,6 +161,8 @@ android.applicationVariants.all { variant ->
             def mypermission = 'android.permission.WRITE_EXTERNAL_STORAGE '
             commandLine "$adb shell pm grant ${variant.applicationId} $mypermission".split(' ')
         }
-        variant.testVariant.connectedInstrumentTest.dependsOn "configDevice2${variant.name.capitalize()}"
+        variant.testVariant.connectedInstrumentTestProvider.configure {
+            dependsOn "configDevice2${variant.name.capitalize()}"
+        }
     }
 }

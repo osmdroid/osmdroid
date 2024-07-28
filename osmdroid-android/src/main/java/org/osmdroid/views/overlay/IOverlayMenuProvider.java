@@ -5,21 +5,19 @@ import android.view.MenuItem;
 
 import org.osmdroid.views.MapView;
 
+import androidx.annotation.NonNull;
+
 public interface IOverlayMenuProvider {
-    public boolean onCreateOptionsMenu(final Menu pMenu, final int pMenuIdOffset,
-                                       final MapView pMapView);
 
-    public boolean onPrepareOptionsMenu(final Menu pMenu, final int pMenuIdOffset,
-                                        final MapView pMapView);
+    boolean onCreateOptionsMenu(Menu pMenu, int pMenuIdOffset, @NonNull MapView pMapView);
 
-    public boolean onOptionsItemSelected(final MenuItem pItem, final int pMenuIdOffset,
-                                         final MapView pMapView);
+    boolean onPrepareOptionsMenu(Menu pMenu, int pMenuIdOffset, @NonNull MapView pMapView);
 
-    /**
-     * Can be used to signal to external callers that this Overlay should not be used for providing
-     * option menu items.
-     */
-    public boolean isOptionsMenuEnabled();
+    boolean onOptionsItemSelected(MenuItem pItem, int pMenuIdOffset, @NonNull MapView pMapView);
 
-    public void setOptionsMenuEnabled(final boolean pOptionsMenuEnabled);
+    /** Can be used to signal to external callers that this Overlay should not be used for providing option menu items */
+    boolean isOptionsMenuEnabled();
+
+    void setOptionsMenuEnabled(boolean pOptionsMenuEnabled);
+
 }

@@ -29,6 +29,9 @@ import org.osmdroid.views.overlay.Overlay.Snappable;
 
 import java.util.LinkedList;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 /**
  * @author Marc Kurtz
  * @author Manuel Stahl
@@ -149,7 +152,7 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 	}
 
 	@Override
-	public void onDetach(MapView mapView) {
+	public void onDestroy(@Nullable final MapView mapView) {
 		this.disableMyLocation();
 		/*if (mPersonBitmap != null) {
 			mPersonBitmap.recycle();
@@ -170,7 +173,7 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 			mMyLocationProvider.destroy();
 
 		mMyLocationProvider = null;
-		super.onDetach(mapView);
+		super.onDestroy(mapView);
 	}
 
 	// ===========================================================
@@ -328,29 +331,21 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 	}
 
 	@Override
-	public boolean onCreateOptionsMenu(final Menu pMenu, final int pMenuIdOffset,
-			final MapView pMapView) {
-		pMenu.add(0, MENU_MY_LOCATION + pMenuIdOffset, Menu.NONE,
-				pMapView.getContext().getResources().getString(R.string.my_location)
-				)
-				.setIcon(
-						pMapView.getContext().getResources().getDrawable(R.drawable.ic_menu_mylocation)
-						)
+	public boolean onCreateOptionsMenu(final Menu pMenu, final int pMenuIdOffset, @NonNull final MapView pMapView) {
+		pMenu.add(0, MENU_MY_LOCATION + pMenuIdOffset, Menu.NONE, pMapView.getContext().getResources().getString(R.string.my_location))
+				.setIcon(pMapView.getContext().getResources().getDrawable(R.drawable.ic_menu_mylocation))
 				.setCheckable(true);
-
 		return true;
 	}
 
 	@Override
-	public boolean onPrepareOptionsMenu(final Menu pMenu, final int pMenuIdOffset,
-			final MapView pMapView) {
+	public boolean onPrepareOptionsMenu(final Menu pMenu, final int pMenuIdOffset, @NonNull final MapView pMapView) {
 		pMenu.findItem(MENU_MY_LOCATION + pMenuIdOffset).setChecked(this.isMyLocationEnabled());
 		return false;
 	}
 
 	@Override
-	public boolean onOptionsItemSelected(final MenuItem pItem, final int pMenuIdOffset,
-			final MapView pMapView) {
+	public boolean onOptionsItemSelected(final MenuItem pItem, final int pMenuIdOffset, @NonNull final MapView pMapView) {
 		final int menuId = pItem.getItemId() - pMenuIdOffset;
 		if (menuId == MENU_MY_LOCATION) {
 			if (this.isMyLocationEnabled()) {

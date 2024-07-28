@@ -1,10 +1,12 @@
 package org.osmdroid.tileprovider.modules;
 
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 
 import org.osmdroid.api.IMapView;
 import org.osmdroid.config.Configuration;
+import org.osmdroid.tileprovider.IMapTileProviderCallback;
 import org.osmdroid.tileprovider.IRegisterReceiver;
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 import org.osmdroid.tileprovider.tilesource.BitmapTileSourceBase;
@@ -14,6 +16,8 @@ import org.osmdroid.tileprovider.util.Counters;
 import org.osmdroid.util.MapTileIndex;
 
 import java.util.concurrent.atomic.AtomicReference;
+
+import androidx.annotation.NonNull;
 
 /**
  * Implements a file system cache and provides cached tiles. This functions as a tile provider by
@@ -28,43 +32,41 @@ public class MapTileFilesystemProvider extends MapTileFileStorageProviderBase {
     // Constants
     // ===========================================================
 
+    public static final String CONST_MAPTILEPROVIDER_FILESISTEM = "filesystem";
+
     // ===========================================================
     // Fields
     // ===========================================================
 
     private final TileWriter mWriter = new TileWriter();
-    private final AtomicReference<ITileSource> mTileSource = new AtomicReference<ITileSource>();
+    private final AtomicReference<ITileSource> mTileSource = new AtomicReference<>();
+    private final TileLoader mTileLoader = new TileLoader();
 
     // ===========================================================
     // Constructors
     // ===========================================================
 
-    public MapTileFilesystemProvider(final IRegisterReceiver pRegisterReceiver) {
-        this(pRegisterReceiver, TileSourceFactory.DEFAULT_TILE_SOURCE);
+    public MapTileFilesystemProvider(@NonNull final Context context, final IRegisterReceiver pRegisterReceiver) {
+        this(context, pRegisterReceiver, TileSourceFactory.DEFAULT_TILE_SOURCE);
     }
-
-    public MapTileFilesystemProvider(final IRegisterReceiver pRegisterReceiver,
+    public MapTileFilesystemProvider(@NonNull final Context context,
+                                     final IRegisterReceiver pRegisterReceiver,
                                      final ITileSource aTileSource) {
-        this(pRegisterReceiver, aTileSource, Configuration.getInstance().getExpirationExtendedDuration() + OpenStreetMapTileProviderConstants.DEFAULT_MAXIMUM_CACHED_FILE_AGE);
+        this(context, pRegisterReceiver, aTileSource, Configuration.getInstance().getExpirationExtendedDuration() + OpenStreetMapTileProviderConstants.DEFAULT_MAXIMUM_CACHED_FILE_AGE);
     }
-
-    public MapTileFilesystemProvider(final IRegisterReceiver pRegisterReceiver,
+    public MapTileFilesystemProvider(@NonNull final Context context,
+                                     final IRegisterReceiver pRegisterReceiver,
                                      final ITileSource pTileSource, final long pMaximumCachedFileAge) {
-        this(pRegisterReceiver, pTileSource, pMaximumCachedFileAge,
+        this(context, pRegisterReceiver, pTileSource, pMaximumCachedFileAge,
                 Configuration.getInstance().getTileFileSystemThreads(),
                 Configuration.getInstance().getTileFileSystemMaxQueueSize());
     }
-
-    /**
-     * Provides a file system based cache tile provider. Other providers can register and store data
-     * in the cache.
-     *
-     * @param pRegisterReceiver
-     */
-    public MapTileFilesystemProvider(final IRegisterReceiver pRegisterReceiver,
+    /** Provides a file system based cache tile provider. Other providers can register and store data in the cache */
+    public MapTileFilesystemProvider(@NonNull final Context context,
+                                     final IRegisterReceiver pRegisterReceiver,
                                      final ITileSource pTileSource, final long pMaximumCachedFileAge, int pThreadPoolSize,
                                      int pPendingQueueSize) {
-        super(pRegisterReceiver, pThreadPoolSize, pPendingQueueSize);
+        super(context, pRegisterReceiver, pThreadPoolSize, pPendingQueueSize);
         setTileSource(pTileSource);
 
         mWriter.setMaximumCachedFileAge(pMaximumCachedFileAge);
@@ -89,12 +91,12 @@ public class MapTileFilesystemProvider extends MapTileFileStorageProviderBase {
 
     @Override
     protected String getThreadGroupName() {
-        return "filesystem";
+        return CONST_MAPTILEPROVIDER_FILESISTEM;
     }
 
     @Override
     public TileLoader getTileLoader() {
-        return new TileLoader();
+        return mTileLoader;
     }
 
     @Override
@@ -124,7 +126,7 @@ public class MapTileFilesystemProvider extends MapTileFileStorageProviderBase {
         @Override
         public Drawable loadTile(final long pMapTileIndex) throws CantContinueException {
 
-            ITileSource tileSource = mTileSource.get();
+            final ITileSource tileSource = mTileSource.get();
             if (tileSource == null) {
                 return null;
             }
@@ -147,5 +149,9 @@ public class MapTileFilesystemProvider extends MapTileFileStorageProviderBase {
                 return null;
             }
         }
+
+        @IMapTileProviderCallback.TILEPROVIDERTYPE
+        @Override
+        public final int getProviderType() { return IMapTileProviderCallback.TILEPROVIDERTYPE_FILE_SYSTEM; }
     }
 }

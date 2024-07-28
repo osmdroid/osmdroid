@@ -1,6 +1,7 @@
 package org.osmdroid.tileprovider.modules;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
@@ -30,6 +31,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import static org.osmdroid.tileprovider.modules.DatabaseFileArchive.COLUMN_KEY;
 import static org.osmdroid.tileprovider.modules.DatabaseFileArchive.COLUMN_PROVIDER;
 import static org.osmdroid.tileprovider.modules.DatabaseFileArchive.COLUMN_TILE;
@@ -55,13 +59,13 @@ public class SqlTileWriter implements IFilesystemCache, SplashScreenable {
 
     private static boolean cleanOnStartup = true;
 
-    /*
-      * disables cache purge of expired tiled on start up
+    /**
+     * disables cache purge of expired tiled on start up
      * if this is set to false, the database will only purge tiles if manually called or if
      * the storage device runs out of space.
      *
      * expired tiles will continue to be overwritten as new versions are downloaded regardless
-    @since 6.0.0
+     * @since 6.0.0
      */
     public static void setCleanupOnStart(boolean value) {
         cleanOnStartup = value;
@@ -81,15 +85,12 @@ public class SqlTileWriter implements IFilesystemCache, SplashScreenable {
     static boolean hasInited = false;
 
     public SqlTileWriter() {
-
         getDb();
 
         if (!hasInited) {
             hasInited = true;
 
-            if (cleanOnStartup) {
-                garbageCollector.gc();
-            }
+            if (cleanOnStartup) garbageCollector.gc();
         }
     }
 
@@ -171,9 +172,7 @@ public class SqlTileWriter implements IFilesystemCache, SplashScreenable {
         } finally {
             try {
                 bos.close();
-            } catch (IOException e) {
-
-            }
+            } catch (IOException ignored) { /*nothing*/}
         }
         return false;
     }
@@ -184,7 +183,7 @@ public class SqlTileWriter implements IFilesystemCache, SplashScreenable {
      * @since 5.6
      */
     public boolean exists(final String pTileSource, final long pMapTileIndex) {
-        return 1 == getRowCount(primaryKey, getPrimaryKeyParameters(getIndex(pMapTileIndex), pTileSource));
+        return getRowCount(primaryKey, getPrimaryKeyParameters(getIndex(pMapTileIndex), pTileSource)) == 1;
     }
 
     /**
@@ -201,13 +200,10 @@ public class SqlTileWriter implements IFilesystemCache, SplashScreenable {
      * Now we use only one static instance of database, which should never be closed
      */
     @Override
-    public void onDetach() {
-    }
+    public void onDetach(@Nullable final Context context) { /*nothing*/ }
 
     /**
      * purges and deletes everything from the cache database
-     *
-     * @return
      * @since 5.6
      */
     public boolean purgeCache() {
@@ -227,7 +223,6 @@ public class SqlTileWriter implements IFilesystemCache, SplashScreenable {
     /**
      * purges and deletes all tiles from the given tile source name from the cache database
      *
-     * @return
      * @since 5.6.1
      */
     public boolean purgeCache(String mTileSourceName) {
@@ -249,8 +244,6 @@ public class SqlTileWriter implements IFilesystemCache, SplashScreenable {
      * on successful import, the tiles are removed from the file system.
      * <p>
      * This can take a long time, so consider running this off of the main thread.
-     *
-     * @return
      */
     public int[] importFromFileCache(boolean removeFromFileSystem) {
         final SQLiteDatabase db = getDb();
@@ -408,8 +401,6 @@ public class SqlTileWriter implements IFilesystemCache, SplashScreenable {
     /**
      * Returns the number of tiles in the cache for the specified tile source name
      *
-     * @param tileSourceName
-     * @return
      * @since 5.6
      */
     public long getRowCount(String tileSourceName) {
@@ -527,7 +518,6 @@ public class SqlTileWriter implements IFilesystemCache, SplashScreenable {
      * Gets the single column index value for a map tile
      * Unluckily, "map tile index" and "sql pk" don't match
      *
-     * @param pMapTileIndex
      * @since 5.6.5
      */
     public static long getIndex(final long pMapTileIndex) {
@@ -563,9 +553,6 @@ public class SqlTileWriter implements IFilesystemCache, SplashScreenable {
     }
 
     /**
-     * @param pIndex
-     * @param pTileSourceInfo
-     * @return
      * @since 5.6.5
      */
     public static String[] getPrimaryKeyParameters(final long pIndex, final ITileSource pTileSourceInfo) {
@@ -573,9 +560,6 @@ public class SqlTileWriter implements IFilesystemCache, SplashScreenable {
     }
 
     /**
-     * @param pIndex
-     * @param pTileSourceInfo
-     * @return
      * @since 5.6.5
      */
     public static String[] getPrimaryKeyParameters(final long pIndex, final String pTileSourceInfo) {
@@ -583,9 +567,6 @@ public class SqlTileWriter implements IFilesystemCache, SplashScreenable {
     }
 
     /**
-     * @param pPrimaryKeyParameters
-     * @param pColumns
-     * @return
      * @since 5.6.5
      */
     public Cursor getTileCursor(final String[] pPrimaryKeyParameters, final String[] pColumns) {

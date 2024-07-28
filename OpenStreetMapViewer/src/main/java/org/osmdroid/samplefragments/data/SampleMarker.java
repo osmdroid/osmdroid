@@ -6,6 +6,9 @@ import android.graphics.drawable.Drawable;
 import android.util.DisplayMetrics;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.core.content.res.ResourcesCompat;
+
 import org.osmdroid.R;
 import org.osmdroid.samplefragments.BaseSampleFragment;
 import org.osmdroid.util.BoundingBox;
@@ -21,8 +24,8 @@ import java.util.List;
 
 /**
  * An example on using osmbonuspack's Marker class by following the tutorial at
- * https://github.com/MKergall/osmbonuspack/wiki/Tutorial_0
- * https://github.com/MKergall/osmbonuspack/wiki/Tutorial_1
+ * <a href="https://github.com/MKergall/osmbonuspack/wiki/Tutorial_0">...</a>
+ * <a href="https://github.com/MKergall/osmbonuspack/wiki/Tutorial_1">...</a>
  * <p>
  * created on 12/29/2016.
  *
@@ -43,7 +46,7 @@ public class SampleMarker extends BaseSampleFragment {
         final GeoPoint pentagon = new GeoPoint(38.8719, -77.0563);
         final GeoPoint washington = new GeoPoint(38.8895, -77.0353);
 
-        final DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
+        final DisplayMetrics displayMetrics = requireContext().getResources().getDisplayMetrics();
 
         final ScaleDiskOverlay scaleDiskOverlayWhiteHouse = new ScaleDiskOverlay(getContext(), whiteHouse, 2000, GeoConstants.UnitOfMeasure.foot);
         final Paint circlePaint = new Paint();
@@ -66,7 +69,7 @@ public class SampleMarker extends BaseSampleFragment {
         scaleDiskOverlayWhiteHouse.setLabelOffsetRight((int) (-2 * displayMetrics.density));
         scaleDiskOverlayWhiteHouse.setDisplaySizeMin(100);
         scaleDiskOverlayWhiteHouse.setDisplaySizeMax(800);
-        mMapView.getOverlays().add(scaleDiskOverlayWhiteHouse);
+        mMapView.getOverlayManager().add(scaleDiskOverlayWhiteHouse);
 
         final ScaleDiskOverlay scaleDiskOverlayPentagon = new ScaleDiskOverlay(getContext(), pentagon, 1, GeoConstants.UnitOfMeasure.statuteMile);
         final Paint diskPaint2 = new Paint();
@@ -81,7 +84,7 @@ public class SampleMarker extends BaseSampleFragment {
         scaleDiskOverlayPentagon.setLabelOffsetTop((int) (2 * displayMetrics.density));
         scaleDiskOverlayPentagon.setDisplaySizeMin(100);
         scaleDiskOverlayPentagon.setDisplaySizeMax(800);
-        mMapView.getOverlays().add(scaleDiskOverlayPentagon);
+        mMapView.getOverlayManager().add(scaleDiskOverlayPentagon);
 
         final ScaleDiskOverlay scaleDiskOverlayWashington = new ScaleDiskOverlay(getContext(), washington, 2000, GeoConstants.UnitOfMeasure.foot);
         final Paint circlePaint2 = new Paint();
@@ -91,12 +94,12 @@ public class SampleMarker extends BaseSampleFragment {
         scaleDiskOverlayWashington.setCirclePaint2(circlePaint2);
         scaleDiskOverlayWashington.setDisplaySizeMin(100);
         scaleDiskOverlayWashington.setDisplaySizeMax(800);
-        mMapView.getOverlays().add(scaleDiskOverlayWashington);
+        mMapView.getOverlayManager().add(scaleDiskOverlayWashington);
 
-        mMapView.getOverlays().add(new ScaleBarOverlay(mMapView));
+        mMapView.getOverlayManager().add(new ScaleBarOverlay(mMapView));
 
         final List<GeoPoint> points = new ArrayList<>();
-        final Drawable drawable = getResources().getDrawable(R.drawable.marker_default);
+        final Drawable drawable = ResourcesCompat.getDrawable(getResources(), R.drawable.marker_default, null);
 
         GeoPoint startPoint = new GeoPoint(whiteHouse);
         points.add(startPoint);
@@ -107,7 +110,7 @@ public class SampleMarker extends BaseSampleFragment {
         startMarker.setTitle("White House");
         startMarker.setSnippet("The White House is the official residence and principal workplace of the President of the United States.");
         startMarker.setSubDescription("1600 Pennsylvania Ave NW, Washington, DC 20500");
-        mMapView.getOverlays().add(startMarker);
+        mMapView.getOverlayManager().add(startMarker);
 
         startPoint = new GeoPoint(pentagon);
         points.add(startPoint);
@@ -120,12 +123,12 @@ public class SampleMarker extends BaseSampleFragment {
         startMarker.setSubDescription("The Pentagon is the headquarters of the United States Department of Defense.");
         startMarker.setOnMarkerClickListener(new Marker.OnMarkerClickListener() {
             @Override
-            public boolean onMarkerClick(Marker marker, MapView mapView) {
+            public boolean onMarkerClick(@NonNull Marker marker, @NonNull MapView mapView) {
                 marker.showInfoWindow();
                 return true;
             }
         });
-        mMapView.getOverlays().add(startMarker);
+        mMapView.getOverlayManager().add(startMarker);
 
         startPoint = new GeoPoint(washington);
         points.add(startPoint);
@@ -139,14 +142,14 @@ public class SampleMarker extends BaseSampleFragment {
         startMarker.setRotation(45); // for demo purposes
         startMarker.setOnMarkerClickListener(new Marker.OnMarkerClickListener() {
             @Override
-            public boolean onMarkerClick(Marker marker, MapView mapView) {
+            public boolean onMarkerClick(@NonNull Marker marker, @NonNull MapView mapView) {
                 Toast.makeText(getContext(), marker.getTitle() + " was clicked", Toast.LENGTH_LONG).show();
                 marker.showInfoWindow();
                 return true;
             }
         });
         //startMarker.setInfoWindow(new MarkerInfoWindow());
-        mMapView.getOverlays().add(startMarker);
+        mMapView.getOverlayManager().add(startMarker);
 
 
         final BoundingBox boundingBox = BoundingBox.fromGeoPoints(points);

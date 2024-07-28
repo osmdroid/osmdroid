@@ -16,6 +16,7 @@ import org.osmdroid.views.overlay.Marker;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 
 /**
@@ -38,7 +39,7 @@ public class SampleMarkerMultiClick extends BaseSampleFragment {
     protected void addOverlays() {
         super.addOverlays();
 
-        mMapView.getOverlays().add(new MapEventsOverlay(new MapEventsReceiver() {
+        mMapView.getOverlayManager().add(new MapEventsOverlay(new MapEventsReceiver() {
             @Override
             public boolean singleTapConfirmedHelper(GeoPoint p) {
                 if (mClicked.size() == 0) {
@@ -57,7 +58,7 @@ public class SampleMarkerMultiClick extends BaseSampleFragment {
                     items[i] = item;
                     i++;
                 }
-                new AlertDialog.Builder(getActivity())
+                new AlertDialog.Builder(requireContext())
                         .setItems(titles, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
@@ -89,12 +90,12 @@ public class SampleMarkerMultiClick extends BaseSampleFragment {
             marker.setSnippet(data.getSnippet());
             marker.setOnMarkerClickListener(new Marker.OnMarkerClickListener() {
                 @Override
-                public boolean onMarkerClick(Marker marker, MapView mapView) {
+                public boolean onMarkerClick(@NonNull Marker marker, @NonNull MapView mapView) {
                     mClicked.add(marker);
                     return false;
                 }
             });
-            mMapView.getOverlays().add(marker);
+            mMapView.getOverlayManager().add(marker);
         }
 
         final BoundingBox box = BoundingBox.fromGeoPoints(geoPoints);
@@ -117,7 +118,7 @@ public class SampleMarkerMultiClick extends BaseSampleFragment {
         }
 
         @Override
-        public boolean onMarkerClickDefault(Marker marker, MapView mapView) { // made public
+        public boolean onMarkerClickDefault(@NonNull Marker marker, @NonNull MapView mapView) { // made public
             return super.onMarkerClickDefault(marker, mapView);
         }
     }

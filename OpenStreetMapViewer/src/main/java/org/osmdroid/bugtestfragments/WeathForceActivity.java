@@ -69,10 +69,9 @@ public class WeathForceActivity extends BaseActivity implements LocationListener
         mMapView.setTileSource(TileSourceFactory.MAPNIK);
 
 
-        mCompassOverlay = new CompassOverlay(this, new InternalCompassOrientationProvider(this),
-                mMapView);
+        mCompassOverlay = new CompassOverlay(mMapView, new InternalCompassOrientationProvider(mMapView));
         mCompassOverlay.enableCompass();
-        mMapView.getOverlays().add(this.mCompassOverlay);
+        mMapView.getOverlayManager().add(this.mCompassOverlay);
 
         addOverlays();
 
@@ -83,7 +82,7 @@ public class WeathForceActivity extends BaseActivity implements LocationListener
         Marker startMarker = new Marker(mMapView);
         startMarker.setPosition(startPoint);
         startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
-        mMapView.getOverlays().add(startMarker);
+        mMapView.getOverlayManager().add(startMarker);
 
 
         mMapView.invalidate();
@@ -140,7 +139,7 @@ public class WeathForceActivity extends BaseActivity implements LocationListener
             lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
         } catch (Exception ex) {
         }
-        compass = new InternalCompassOrientationProvider(this);
+        compass = new InternalCompassOrientationProvider(mMapView);
         compass.startOrientationProvider(this);
         mMapView.getController().zoomTo(14);
 
@@ -197,10 +196,10 @@ public class WeathForceActivity extends BaseActivity implements LocationListener
     Float trueNorth = 0f;
 
     @Override
-    public void onOrientationChanged(final float orientationToMagneticNorth, IOrientationProvider source) {
+    public void onOrientationChanged(final float azimuth, IOrientationProvider source) {
 
         GeomagneticField gf = new GeomagneticField(lat, lon, alt, timeOfFix);
-        trueNorth = orientationToMagneticNorth + gf.getDeclination();
+        trueNorth = azimuth + gf.getDeclination();
         gf = null;
         synchronized (trueNorth) {
             if (trueNorth > 360.0f) {
@@ -236,7 +235,7 @@ public class WeathForceActivity extends BaseActivity implements LocationListener
                     if (this != null) {
                         Log.i(TAG
                                 , "GPS Speed: " + gpsspeed + "m/s  GPS Bearing: " + gpsbearing +
-                                        "\nDevice Orientation: " + deviceOrientation + "  Compass heading: " + (int) orientationToMagneticNorth + "\n" +
+                                        "\nDevice Orientation: " + deviceOrientation + "  Compass heading: " + (int) azimuth + "\n" +
                                         "True north: " + trueNorth.intValue() + " Map Orientation: " + (int) mMapView.getMapOrientation());
                     }
                 }

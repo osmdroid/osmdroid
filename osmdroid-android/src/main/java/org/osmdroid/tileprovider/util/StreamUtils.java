@@ -5,6 +5,8 @@ import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Arrays;
+import java.util.LinkedHashMap;
 
 /**
  * don't use android classes here, since this class is used outside of android
@@ -20,6 +22,8 @@ public class StreamUtils {
     // ===========================================================
     // Fields
     // ===========================================================
+
+    private static final LinkedHashMap<Long,byte[]> mBytesCache = new LinkedHashMap<>(32, 0.1f, true);
 
     // ===========================================================
     // Constructors
@@ -54,7 +58,14 @@ public class StreamUtils {
      */
     public static long copy(final InputStream in, final OutputStream out) throws IOException {
         long length = 0;
-        final byte[] b = new byte[IO_BUFFER_SIZE];
+        final long cThreadId = Thread.currentThread().getId();
+        final byte[] b;
+        synchronized (mBytesCache) {
+            if (mBytesCache.containsKey(cThreadId)) {
+                b = mBytesCache.get(cThreadId);
+                Arrays.fill(b, (byte)0);
+            } else mBytesCache.put(cThreadId, (b = new byte[IO_BUFFER_SIZE]));
+        }
         int read;
         while ((read = in.read(b)) != -1) {
             out.write(b, 0, read);

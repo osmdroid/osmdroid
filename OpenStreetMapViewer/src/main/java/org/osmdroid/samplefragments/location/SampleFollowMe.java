@@ -29,7 +29,7 @@ import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
  * Created by alex on 6/6/16.
  */
 public class SampleFollowMe extends BaseSampleFragment implements LocationListener {
-
+    private static final String TAG = "SampleFollowMe";
 
     private MyLocationNewOverlay mLocationOverlay;
     private CompassOverlay mCompassOverlay;
@@ -56,8 +56,7 @@ public class SampleFollowMe extends BaseSampleFragment implements LocationListen
         final Context context = this.getActivity();
         final DisplayMetrics dm = context.getResources().getDisplayMetrics();
 
-        this.mCompassOverlay = new CompassOverlay(context, new InternalCompassOrientationProvider(context),
-                mMapView);
+        this.mCompassOverlay = new CompassOverlay(mMapView, new InternalCompassOrientationProvider(mMapView));
         this.mLocationOverlay = new MyLocationNewOverlay(new GpsMyLocationProvider(context),
                 mMapView);
 
@@ -72,9 +71,9 @@ public class SampleFollowMe extends BaseSampleFragment implements LocationListen
         mMapView.setTilesScaledToDpi(true);
         mMapView.setMultiTouchControls(true);
         mMapView.setFlingEnabled(true);
-        mMapView.getOverlays().add(this.mLocationOverlay);
-        mMapView.getOverlays().add(this.mCompassOverlay);
-        mMapView.getOverlays().add(this.mScaleBarOverlay);
+        mMapView.getOverlayManager().add(this.mLocationOverlay);
+        mMapView.getOverlayManager().add(this.mCompassOverlay);
+        mMapView.getOverlayManager().add(this.mScaleBarOverlay);
 
         mLocationOverlay.enableMyLocation();
         mLocationOverlay.enableFollowLocation();

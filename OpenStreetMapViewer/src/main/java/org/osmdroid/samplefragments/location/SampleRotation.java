@@ -49,34 +49,29 @@ public class SampleRotation extends BaseSampleFragment implements View.OnClickLi
         final DisplayMetrics dm = getActivity().getResources().getDisplayMetrics();
         RotationGestureOverlay mRotationGestureOverlay = new RotationGestureOverlay(mMapView);
         mRotationGestureOverlay.setEnabled(true);
-        mMapView.getOverlays().add(mRotationGestureOverlay);
+        mMapView.getOverlayManager().add(mRotationGestureOverlay);
 
         ScaleBarOverlay mScaleBarOverlay = new ScaleBarOverlay(mMapView);
         mScaleBarOverlay.setScaleBarOffset(0, (int) (40 * dm.density));
         mScaleBarOverlay.setCentred(true);
         mScaleBarOverlay.setScaleBarOffset(dm.widthPixels / 2, 10);
-        mMapView.getOverlays().add(mScaleBarOverlay);
+        mMapView.getOverlayManager().add(mScaleBarOverlay);
 
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btnRotateLeft: {
-                float angle = mMapView.getMapOrientation() + 10;
-                if (angle > 360)
-                    angle = 360 - angle;
-                mMapView.setMapOrientation(angle);
-            }
-            break;
-            case R.id.btnRotateRight: {
-                float angle = mMapView.getMapOrientation() - 10;
-                if (angle < 0)
-                    angle += 360f;
-                mMapView.setMapOrientation(angle);
-            }
-            break;
-
+        final int cId = v.getId();
+        if (cId == R.id.btnRotateLeft) {
+            float angle = mMapView.getMapOrientation() + 10;
+            if (angle > 360)
+                angle = 360 - angle;
+            mMapView.setMapOrientation(angle);
+        } else if (cId == R.id.btnRotateRight) {
+            float angle = mMapView.getMapOrientation() - 10;
+            if (angle < 0)
+                angle += 360f;
+            mMapView.setMapOrientation(angle);
         }
         textViewCurrentLocation.setText(mMapView.getMapOrientation() + "");
     }

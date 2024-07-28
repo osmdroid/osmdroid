@@ -310,9 +310,11 @@ public class OSMMapTilePackager {
         final DownloadManager dm = new DownloadManager(pBaseURL, pTempBaseURL, pThreadCount);
 
         /* For each zoomLevel. */
+        final OSMTileInfo upperLeft = new OSMTileInfo(0,0,0);
+        final OSMTileInfo lowerRight = new OSMTileInfo(0,0,0);
         for (int z = pMinZoom; z <= pMaxZoom; z++) {
-            final OSMTileInfo upperLeft = Util.getMapTileFromCoordinates(pNorth, pWest, z);
-            final OSMTileInfo lowerRight = Util.getMapTileFromCoordinates(pSouth, pEast, z);
+            Util.getMapTileFromCoordinates(pNorth, pWest, z, upperLeft);
+            Util.getMapTileFromCoordinates(pSouth, pEast, z, lowerRight);
 
             System.out.print("ZoomLevel: " + z + " ");
 
@@ -343,9 +345,11 @@ public class OSMMapTilePackager {
     public static int runFileExpecter(final int pMinZoom, final int pMaxZoom, final double pNorth, final double pSouth, final double pEast, final double pWest) {
         /* Calculate file-count. */
         int fileCnt = 0;
+        final OSMTileInfo upperLeft = new OSMTileInfo(0,0,0);
+        final OSMTileInfo lowerRight = new OSMTileInfo(0,0,0);
         for (int z = pMinZoom; z <= pMaxZoom; z++) {
-            final OSMTileInfo upperLeft = Util.getMapTileFromCoordinates(pNorth, pWest, z);
-            final OSMTileInfo lowerRight = Util.getMapTileFromCoordinates(pSouth, pEast, z);
+            Util.getMapTileFromCoordinates(pNorth, pWest, z, upperLeft);
+            Util.getMapTileFromCoordinates(pSouth, pEast, z, lowerRight);
 
             final int dx = lowerRight.x - upperLeft.x + 1;
             final int dy = lowerRight.y - upperLeft.y + 1;

@@ -1,5 +1,8 @@
 package org.osmdroid.api;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 /**
  * An interface that resembles the Google Maps API MapController class and is implemented by the
  * osmdroid {@link org.osmdroid.views.MapController} class.
@@ -7,13 +10,17 @@ package org.osmdroid.api;
  * @author Neil Boyd
  */
 public interface IMapController {
-    void animateTo(IGeoPoint geoPoint);
+
+    void animateTo(@NonNull IGeoPoint geoPoint);
+    /** Start animating the map towards the given point */
+    void animateTo(double lat, double lon);
 
     void animateTo(int x, int y);
 
     void scrollBy(int x, int y);
 
-    void setCenter(IGeoPoint point);
+    void setCenter(@NonNull IGeoPoint point);
+    void setCenter(double lat, double lon);
 
     @Deprecated
     int setZoom(int zoomLevel);
@@ -21,7 +28,7 @@ public interface IMapController {
     /**
      * @since 6.0
      */
-    double setZoom(final double pZoomLevel);
+    double setZoom(double pZoomLevel);
 
     void stopAnimation(boolean jumpToFinish);
 
@@ -41,9 +48,9 @@ public interface IMapController {
      * @return
      * @since 6.0
      */
-    boolean zoomIn(Long animationSpeed);
+    boolean zoomIn(@Nullable Long animationSpeed);
 
-    boolean zoomInFixing(int xPixel, int yPixel, Long zoomAnimation);
+    boolean zoomInFixing(int xPixel, int yPixel, @Nullable Long zoomAnimation);
 
     /**
      * zooms in and centers the map to the given canvas coordinates
@@ -61,7 +68,7 @@ public interface IMapController {
      * @return
      * @since 6.0
      */
-    boolean zoomOut(Long animationSpeed);
+    boolean zoomOut(@Nullable Long animationSpeed);
 
     /**
      * zooms out 1 whole map zoom level
@@ -96,11 +103,11 @@ public interface IMapController {
      * @return
      * @since 6.0
      */
-    boolean zoomTo(int zoomLevel, Long animationSpeed);
+    boolean zoomTo(int zoomLevel, @Nullable Long animationSpeed);
 
-    boolean zoomToFixing(int zoomLevel, int xPixel, int yPixel, Long zoomAnimationSpeed);
+    boolean zoomToFixing(int zoomLevel, int xPixel, int yPixel, @Nullable Long zoomAnimationSpeed);
 
-    boolean zoomTo(double pZoomLevel, Long animationSpeed);
+    boolean zoomTo(double pZoomLevel, @Nullable Long animationSpeed);
 
     /**
      * zooms to the given zoom level
@@ -108,17 +115,17 @@ public interface IMapController {
      * @param pZoomLevel any real number between 0 and max zoom of the current tile source, typically 22 or less
      * @return
      */
-    boolean zoomTo(final double pZoomLevel);
+    boolean zoomTo(double pZoomLevel);
 
     @Deprecated
     boolean zoomToFixing(int zoomLevel, int xPixel, int yPixel);
 
-    boolean zoomToFixing(double zoomLevel, int xPixel, int yPixel, Long zoomAnimationSpeed);
+    boolean zoomToFixing(double zoomLevel, int xPixel, int yPixel, @Nullable Long zoomAnimationSpeed);
 
     /**
      * @since 6.0
      */
-    boolean zoomToFixing(final double pZoomLevel, final int pXPixel, final int pYPixel);
+    boolean zoomToFixing(double pZoomLevel, int pXPixel, int pYPixel);
 
     @Deprecated
     void zoomToSpan(int latSpanE6, int lonSpanE6);
@@ -131,15 +138,22 @@ public interface IMapController {
      * @param pSpeed
      * @since 6.0.2
      */
-    void animateTo(final IGeoPoint point, final Double pZoom, final Long pSpeed);
+    void animateTo(@NonNull IGeoPoint point, Double pZoom, Long pSpeed);
+
+    void animateTo(@NonNull Double pointLat, @NonNull Double pointLon, Double pZoom, Long pSpeed);
 
     /**
      * @since 6.0.3
      */
-    void animateTo(final IGeoPoint point, final Double pZoom, final Long pSpeed, final Float pOrientation);
+    void animateTo(@NonNull IGeoPoint point, Double pZoom, Long pSpeed, Float pOrientation);
+
+    void animateTo(@NonNull Double pointLat, @NonNull Double pointLon, Double pZoom, Long pSpeed, Float pOrientation);
 
     /**
      * @since 6.1.0
      */
-    void animateTo(final IGeoPoint point, final Double pZoom, final Long pSpeed, final Float pOrientation, final Boolean pClockwise);
+    void animateTo(@NonNull IGeoPoint point, Double pZoom, Long pSpeed, Float pOrientation, Boolean pClockwise);
+
+    /** @since 6.1.18 */
+    void animateTo(double pointLat, double pointLon, Double pZoom, Long pSpeed, Float pOrientation, Boolean pClockwise);
 }

@@ -11,6 +11,8 @@ import org.osmdroid.views.MapView;
 
 import java.util.List;
 
+import androidx.annotation.Nullable;
+
 public class ItemizedIconOverlay<Item extends OverlayItem> extends ItemizedOverlay<Item> {
 
     protected List<Item> mItemList;
@@ -32,24 +34,22 @@ public class ItemizedIconOverlay<Item extends OverlayItem> extends ItemizedOverl
             final List<Item> pList,
             final org.osmdroid.views.overlay.ItemizedIconOverlay.OnItemGestureListener<Item> pOnItemGestureListener,
             final Context pContext) {
-        this(pList, pContext.getResources().getDrawable(R.drawable.marker_default), pOnItemGestureListener,
-                pContext);
+        this(pList, pContext.getResources().getDrawable(R.drawable.marker_default), pOnItemGestureListener, pContext);
     }
 
     public ItemizedIconOverlay(
             final Context pContext,
             final List<Item> pList,
             final org.osmdroid.views.overlay.ItemizedIconOverlay.OnItemGestureListener<Item> pOnItemGestureListener) {
-        this(pList, pContext.getResources().getDrawable(R.drawable.marker_default),
-                pOnItemGestureListener, pContext);
+        this(pList, pContext.getResources().getDrawable(R.drawable.marker_default), pOnItemGestureListener, pContext);
     }
 
-    @Override
-    public void onDetach(MapView mapView) {
+    public void onDestroy(@Nullable final MapView mapView) {
         if (mItemList != null)
             mItemList.clear();
         mItemList = null;
         mOnItemGestureListener = null;
+        super.onDestroy(mapView);
     }
 
     @Override
@@ -160,8 +160,7 @@ public class ItemizedIconOverlay<Item extends OverlayItem> extends ItemizedOverl
      * @param task
      * @return true if event is handled false otherwise
      */
-    private boolean activateSelectedItems(final MotionEvent event, final MapView mapView,
-                                          final ActiveItem task) {
+    private boolean activateSelectedItems(final MotionEvent event, final MapView mapView, final ActiveItem task) {
         final int eventX = Math.round(event.getX());
         final int eventY = Math.round(event.getY());
         for (int i = 0; i < this.mItemList.size(); ++i) {
@@ -184,13 +183,12 @@ public class ItemizedIconOverlay<Item extends OverlayItem> extends ItemizedOverl
      * <p>
      * Each of them returns true if the event was completely handled.
      */
-    public static interface OnItemGestureListener<T> {
-        public boolean onItemSingleTapUp(final int index, final T item);
-
-        public boolean onItemLongPress(final int index, final T item);
+    public interface OnItemGestureListener<T> {
+        boolean onItemSingleTapUp(final int index, final T item);
+        boolean onItemLongPress(final int index, final T item);
     }
 
-    public static interface ActiveItem {
-        public boolean run(final int aIndex);
+    public interface ActiveItem {
+        boolean run(final int aIndex);
     }
 }

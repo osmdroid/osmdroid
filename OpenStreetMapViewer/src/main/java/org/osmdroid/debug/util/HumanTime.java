@@ -68,11 +68,6 @@ import java.util.Iterator;
 public class HumanTime implements Externalizable, Comparable<HumanTime>, Cloneable {
 
     /**
-     * The serial version UID.
-     */
-    private static final long serialVersionUID = 5179328390732826722L;
-
-    /**
      * One second.
      */
     private static final long SECOND = 1000;

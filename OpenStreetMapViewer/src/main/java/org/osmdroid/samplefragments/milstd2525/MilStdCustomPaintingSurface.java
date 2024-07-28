@@ -1,7 +1,9 @@
 package org.osmdroid.samplefragments.milstd2525;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
@@ -9,6 +11,8 @@ import android.graphics.Point;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+
+import androidx.annotation.Nullable;
 
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
@@ -32,13 +36,14 @@ public class MilStdCustomPaintingSurface extends View {
         this.symbol = symbol;
     }
 
-
-    private Bitmap mBitmap;
-    private Canvas mCanvas;
-    private Path mPath;
-    private MapView map;
-    private List<Point> pts = new ArrayList<>();
-    private Paint mPaint;
+    @Nullable
+    private Bitmap mBitmap = null;
+    private final Canvas mCanvas = new Canvas();
+    private final Path mPath;
+    @Nullable
+    private MapView map = null;
+    private final List<Point> pts = new ArrayList<>();
+    private final Paint mPaint;
     private float mX, mY;
     private static final float TOUCH_TOLERANCE = 4;
 
@@ -46,22 +51,6 @@ public class MilStdCustomPaintingSurface extends View {
     public MilStdCustomPaintingSurface(Context context, AttributeSet attrs) {
         super(context, attrs);
         mPath = new Path();
-
-    }
-
-
-    @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        super.onSizeChanged(w, h, oldw, oldh);
-        mBitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
-        mCanvas = new Canvas(mBitmap);
-    }
-
-
-    @Override
-    protected void onDraw(Canvas canvas) {
-
-        mCanvas = new Canvas(mBitmap);
         mPaint = new Paint();
         mPaint.setAntiAlias(true);
         mPaint.setDither(true);
@@ -70,7 +59,22 @@ public class MilStdCustomPaintingSurface extends View {
         mPaint.setStrokeJoin(Paint.Join.ROUND);
         mPaint.setStrokeCap(Paint.Cap.ROUND);
         mPaint.setStrokeWidth(12);
+        setWillNotDraw(false);
+    }
 
+    @SuppressLint("DrawAllocation")
+    @Override
+    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+        super.onLayout(changed, left, top, right, bottom);
+        final int cWidth = (right-left);
+        final int cHeight = (bottom-top);
+        if ((mBitmap != null) && (cWidth <= mBitmap.getWidth()) && (cHeight <= mBitmap.getHeight())) mBitmap.reconfigure(cWidth, cHeight, Bitmap.Config.ARGB_8888);
+        else mBitmap = Bitmap.createBitmap(cWidth, cHeight, Bitmap.Config.ARGB_8888);
+        mCanvas.setBitmap(mBitmap);
+    }
+
+    @Override
+    protected void onDraw(Canvas canvas) {
         canvas.drawPath(mPath, mPaint);
     }
 
@@ -108,7 +112,7 @@ public class MilStdCustomPaintingSurface extends View {
             if (symbol != null && symbol.getMinPoints() <= pts.size()) {
 
 
-                ArrayList<GeoPoint> inputGeoPoints = new ArrayList<>();
+                List<GeoPoint> inputGeoPoints = new ArrayList<>();
                 final Point unrotatedPoint = new Point();
                 for (int i = 0; i < pts.size(); i++) {
                     projection.unrotateAndScalePoint(pts.get(i).x, pts.get(i).y, unrotatedPoint);

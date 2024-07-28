@@ -3,6 +3,9 @@ package org.osmdroid.views;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import org.osmdroid.library.R;
 import org.osmdroid.views.overlay.infowindow.BasicInfoWindow;
 import org.osmdroid.views.overlay.infowindow.InfoWindow;
@@ -27,11 +30,11 @@ public class MapViewRepository {
     private Drawable mDefaultMarkerIcon;
     private final Set<InfoWindow> mInfoWindowList = new HashSet<>();
 
-    public MapViewRepository(final MapView pMapView) {
+    public MapViewRepository(@NonNull final MapView pMapView) {
         mMapView = pMapView;
     }
 
-    public void add(final InfoWindow pInfoWindow) {
+    public void add(@NonNull final InfoWindow pInfoWindow) {
         mInfoWindowList.add(pInfoWindow);
     }
 
@@ -77,6 +80,7 @@ public class MapViewRepository {
      *
      * @return
      */
+    @Nullable
     public Drawable getDefaultMarkerIcon() {
         if (mDefaultMarkerIcon == null) {
             if (mMapView != null) {

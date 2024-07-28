@@ -1,6 +1,7 @@
 package org.osmdroid.tileprovider.modules;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.Drawable;
@@ -18,12 +19,15 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 /**
  * An implementation of {@link IFilesystemCache} based on the original TileWriter. It writes tiles to a sqlite database.
  * It does NOT support expiration and provides more of a MOBAC like functionality (non-expiring file archives).
  * Uses the same schema as MOBAC osm sqlite and the {@link DatabaseFileArchive}
  * <p>
- * https://github.com/osmdroid/osmdroid/issues/348
+ * <a href="https://github.com/osmdroid/osmdroid/issues/348">...</a>
  *
  * @author Alex O'Ree
  * @see SqlTileWriter
@@ -110,7 +114,7 @@ public class SqliteArchiveTileWriter implements IFilesystemCache {
     }
 
     @Override
-    public void onDetach() {
+    public void onDetach(@Nullable final Context context) {
         if (mDatabase != null)
             mDatabase.close();
     }
@@ -134,8 +138,6 @@ public class SqliteArchiveTileWriter implements IFilesystemCache {
     private static final String[] queryColumns = {DatabaseFileArchive.COLUMN_TILE};
 
     /**
-     * @param pPrimaryKeyParameters
-     * @return
      * @since 5.6.5
      */
     public Cursor getTileCursor(final String[] pPrimaryKeyParameters) {

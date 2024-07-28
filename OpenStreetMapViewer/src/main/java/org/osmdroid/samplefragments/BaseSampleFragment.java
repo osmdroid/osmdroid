@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.InputDevice;
 import android.view.LayoutInflater;
@@ -27,8 +26,9 @@ import org.osmdroid.views.overlay.CopyrightOverlay;
 import androidx.fragment.app.Fragment;
 
 public abstract class BaseSampleFragment extends Fragment {
+    private static final String TAG = "BaseSampleFragment";
+
     private static int MENU_LAST_ID = Menu.FIRST; // Always set to last unused id
-    public static final String TAG = "osmBaseFrag";
 
     AlertDialog gotoLocationDialog = null;
 
@@ -57,10 +57,7 @@ public abstract class BaseSampleFragment extends Fragment {
         mMapView.setOnGenericMotionListener(new View.OnGenericMotionListener() {
             /**
              * mouse wheel zooming ftw
-             * http://stackoverflow.com/questions/11024809/how-can-my-view-respond-to-a-mousewheel
-             * @param v
-             * @param event
-             * @return
+             * <a href="http://stackoverflow.com/questions/11024809/how-can-my-view-respond-to-a-mousewheel">...</a>
              */
             @Override
             public boolean onGenericMotion(View v, MotionEvent event) {
@@ -82,23 +79,6 @@ public abstract class BaseSampleFragment extends Fragment {
         return mMapView;
     }
 
-
-    @Override
-    public void onPause() {
-        if (mMapView != null) {
-            mMapView.onPause();
-        }
-        super.onPause();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (mMapView != null) {
-            mMapView.onResume();
-        }
-    }
-
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -108,12 +88,12 @@ public abstract class BaseSampleFragment extends Fragment {
             addOverlays();
 
             final Context context = this.getActivity();
-            final DisplayMetrics dm = context.getResources().getDisplayMetrics();
+            //final DisplayMetrics dm = context.getResources().getDisplayMetrics();
 
-            CopyrightOverlay copyrightOverlay = new CopyrightOverlay(getActivity());
+            CopyrightOverlay copyrightOverlay = new CopyrightOverlay(requireContext());
             copyrightOverlay.setTextSize(10);
 
-            mMapView.getOverlays().add(copyrightOverlay);
+            mMapView.getOverlayManager().add(copyrightOverlay);
             mMapView.setMultiTouchControls(true);
             mMapView.setTilesScaledToDpi(true);
         }
@@ -122,8 +102,6 @@ public abstract class BaseSampleFragment extends Fragment {
     @Override
     public void onDestroyView() {
         Log.d(TAG, "onDetach");
-        if (mMapView != null)
-            mMapView.onDetach();
         mMapView = null;
         super.onDestroyView();
     }
@@ -241,9 +219,9 @@ public abstract class BaseSampleFragment extends Fragment {
 
             View view = View.inflate(getActivity(), R.layout.gotolocation, null);
 
-            final EditText lat = (EditText) view.findViewById(R.id.latlonPicker_latitude);
-            final EditText lon = (EditText) view.findViewById(R.id.latlonPicker_longitude);
-            final Button cancel = (Button) view.findViewById(R.id.latlonPicker_cancel);
+            final EditText lat = view.findViewById(R.id.latlonPicker_latitude);
+            final EditText lon = view.findViewById(R.id.latlonPicker_longitude);
+            final Button cancel = view.findViewById(R.id.latlonPicker_cancel);
             cancel.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -251,7 +229,7 @@ public abstract class BaseSampleFragment extends Fragment {
                 }
             });
 
-            Button ok = (Button) view.findViewById(R.id.latlonPicker_ok);
+            Button ok = view.findViewById(R.id.latlonPicker_ok);
             ok.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

@@ -1,5 +1,6 @@
 package org.osmdroid.samplefragments.drawing;
 
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import org.osmdroid.R;
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.api.IMapView;
+import org.osmdroid.events.MapAdapter;
 import org.osmdroid.events.MapListener;
 import org.osmdroid.events.ScrollEvent;
 import org.osmdroid.events.ZoomEvent;
@@ -18,6 +20,8 @@ import org.osmdroid.samplefragments.BaseSampleFragment;
 import org.osmdroid.views.overlay.gestures.RotationGestureOverlay;
 
 import static org.osmdroid.samplefragments.events.SampleMapEventListener.df;
+
+import androidx.annotation.NonNull;
 
 /**
  * created on 12/27/2017.
@@ -47,7 +51,7 @@ public class DrawCircle10km extends BaseSampleFragment implements View.OnClickLi
         btnRotateLeft.setOnClickListener(this);
         textViewCurrentLocation = v.findViewById(R.id.textViewCurrentLocation);
         mMapView = v.findViewById(R.id.mapview);
-        mMapView.setMapListener(new MapListener() {
+        mMapView.addMapListener(new MapAdapter() {
             @Override
             public boolean onScroll(ScrollEvent event) {
                 Log.i(IMapView.LOGTAG, System.currentTimeMillis() + " onScroll " + event.getX() + "," + event.getY());
@@ -93,23 +97,19 @@ public class DrawCircle10km extends BaseSampleFragment implements View.OnClickLi
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-
-            case R.id.btnRotateLeft: {
-                float angle = mMapView.getMapOrientation() + 10;
-                if (angle > 360)
-                    angle = 360 - angle;
-                mMapView.setMapOrientation(angle);
-                updateInfo();
-            }
-            break;
-            case R.id.btnRotateRight: {
-                float angle = mMapView.getMapOrientation() - 10;
-                if (angle < 0)
-                    angle += 360f;
-                mMapView.setMapOrientation(angle);
-                updateInfo();
-            }
+        final int cId = v.getId();
+        if (cId == R.id.btnRotateLeft) {
+            float angle = mMapView.getMapOrientation() + 10;
+            if (angle > 360)
+                angle = 360 - angle;
+            mMapView.setMapOrientation(angle);
+            updateInfo();
+        } else if (cId == R.id.btnRotateRight) {
+            float angle = mMapView.getMapOrientation() - 10;
+            if (angle < 0)
+                angle += 360f;
+            mMapView.setMapOrientation(angle);
+            updateInfo();
         }
     }
 

@@ -68,13 +68,8 @@ public class FastZoomSpeedAnimations extends BaseSampleFragment implements View.
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btnRotateLeft:
-                mMapView.getController().zoomIn(100L);
-                break;
-            case R.id.btnRotateRight:
-                mMapView.getController().zoomOut(100L);
-                break;
-        }
+        final int cId = v.getId();
+        if (cId == R.id.btnRotateLeft) mMapView.getController().zoomIn(100L);
+        else if (cId == R.id.btnRotateRight) mMapView.getController().zoomOut(100L);
     }
 }
