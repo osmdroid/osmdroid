@@ -17,6 +17,7 @@ import androidx.annotation.ColorInt;
 import androidx.annotation.MainThread;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RestrictTo;
 import androidx.annotation.UiThread;
 
 import org.osmdroid.tileprovider.BitmapPool;
@@ -350,18 +351,14 @@ public class Marker extends OverlayWithIW {
     }
 
     public boolean isInfoWindowShown() {
-        if (mInfoWindow instanceof MarkerInfoWindow iw) {
-            return iw.isOpen() && (iw.getMarkerReference() == this);
-        } else
-            return super.isInfoWindowOpen();
+        if (mInfoWindow instanceof MarkerInfoWindow iw) return iw.isOpen() && (iw.getMarkerReference() == this);
+        else return super.isInfoWindowOpen();
     }
 
     @Override
     public void draw(Canvas canvas, Projection pj) {
-        if (mIcon == null)
-            return;
-        if (!isEnabled())
-            return;
+        if (mIcon == null) return;
+        if (!isEnabled()) return;
 
         pj.toPixels(mPosition, mPositionPixels);
 
@@ -373,6 +370,7 @@ public class Marker extends OverlayWithIW {
     }
 
     @Override
+    @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
     public void onDestroy(@Nullable final MapView mapView) {
         BitmapPool.getInstance().asyncRecycle(mIcon);
         mIcon = null;
@@ -382,8 +380,7 @@ public class Marker extends OverlayWithIW {
         this.mOnMarkerClickListener = null;
         this.mOnMarkerDragListener = null;
         setRelatedObject(null);
-        if (isInfoWindowShown())
-            closeInfoWindow();
+        if (isInfoWindowShown()) closeInfoWindow();
 
         setInfoWindow(null);
         super.onDestroy(mapView);
@@ -404,11 +401,8 @@ public class Marker extends OverlayWithIW {
     public boolean onSingleTapConfirmed(@NonNull final MotionEvent event, @NonNull final MapView mapView) {
         boolean touched = hitTest(event, mapView);
         if (touched) {
-            if (mOnMarkerClickListener == null) {
-                return onMarkerClickDefault(this, mapView);
-            } else {
-                return mOnMarkerClickListener.onMarkerClick(this, mapView);
-            }
+            if (mOnMarkerClickListener == null) return onMarkerClickDefault(this, mapView);
+            else return mOnMarkerClickListener.onMarkerClick(this, mapView);
         } else
             return touched;
     }

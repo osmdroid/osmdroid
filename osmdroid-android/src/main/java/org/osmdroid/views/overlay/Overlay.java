@@ -70,6 +70,7 @@ public abstract class Overlay implements OverlayConstants, IViewBoundingBoxChang
     private IViewBoundingBoxChangedListener mBoundingBoxChangedListener = null;
     @Nullable
     private LifecycleObserver mLifecycleObserver = null;
+    /** <i>NULL</i> is the initial state that became <i>TRUE</i> when it is Attached/Added to OverlayManager and <i>FALSE</i> when the Overlay is marked to be removed from it */
     @Nullable
     private Boolean mIsAttachedToOverlayManager = null;
 
@@ -319,17 +320,14 @@ public abstract class Overlay implements OverlayConstants, IViewBoundingBoxChang
 
     public boolean isAttachedToOverlayManager() { return ((mIsAttachedToOverlayManager != null) && mIsAttachedToOverlayManager); }
     protected void setIsAttachedToOverlayManager(@Nullable final Boolean value) { mIsAttachedToOverlayManager = value; }
+    /** @noinspection BooleanMethodIsAlwaysInverted*/
     public boolean isMarkedAsRemoved() { return (mIsAttachedToOverlayManager == Boolean.FALSE); }
 
     /** Raised when it is Added to the {@link OverlayManager} and drown first time */
-    protected void onAttachedToOverlayManager(@NonNull final OverlayManager overlayManager) {
-        Log.e(TAG, "onAttachedToOverlayManager()");
-    }
+    protected void onAttachedToOverlayManager(@NonNull final OverlayManager overlayManager) { /*nothing*/ }
 
     /** Raised when it is Removed from the {@link OverlayManager} */
-    protected void onRemovedFromOverlayManager(@NonNull final OverlayManager overlayManager) {
-        Log.e(TAG, "onRemovedFromOverlayManager()");
-    }
+    protected void onRemovedFromOverlayManager(@NonNull final OverlayManager overlayManager) { /*nothing*/ }
 
     protected void setLifecycleFromMapView(@NonNull final Lifecycle lifecycle) {
         if (mLifecycleObserver != null) return;

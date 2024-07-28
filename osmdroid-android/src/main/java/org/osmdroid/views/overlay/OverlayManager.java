@@ -49,7 +49,7 @@ public interface OverlayManager extends List<Overlay>, IViewBoundingBoxChangedLi
 
     void setViewBoundingBoxChangedListener(@Nullable IViewBoundingBoxChangedListener listener);
 
-    @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP_PREFIX)
+    @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
     List<Overlay> overlays();
 
     Iterable<Overlay> overlaysReversed();
@@ -106,7 +106,7 @@ public interface OverlayManager extends List<Overlay>, IViewBoundingBoxChangedLi
 
     void setMapViewLifecycle(@Nullable MapView mapView);
 
-    @RestrictTo(RestrictTo.Scope.LIBRARY)
+    @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
     void onDestroyInternal();
 
 }

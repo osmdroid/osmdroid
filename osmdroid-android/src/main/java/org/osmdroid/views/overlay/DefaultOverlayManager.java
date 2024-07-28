@@ -11,6 +11,7 @@ import android.view.MotionEvent;
 import androidx.annotation.MainThread;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.annotation.RestrictTo;
 import androidx.annotation.UiThread;
 import androidx.lifecycle.DefaultLifecycleObserver;
@@ -28,6 +29,8 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.function.Predicate;
+import java.util.function.UnaryOperator;
 
 /**
  * <a href="https://github.com/osmdroid/osmdroid/issues/154">...</a>
@@ -94,6 +97,36 @@ public class DefaultOverlayManager extends CopyOnWriteArrayList<Overlay> impleme
     }
 
     @Override
+    public Overlay remove(final int index) {
+        final Overlay cPrev = super.remove(index);
+        mConcurrentOverlaysToRemove.add(cPrev);
+        return cPrev;
+    }
+
+    @Override
+    @RequiresApi(api = android.os.Build.VERSION_CODES.N)
+    public boolean removeIf(@NonNull final Predicate<? super Overlay> filter) {
+        return super.removeIf(new Predicate<>() {
+            @Override
+            public boolean test(@NonNull final Overlay overlay) {
+                final boolean res = filter.test(overlay);
+                if (res) mConcurrentOverlaysToRemove.add(overlay);
+                return false;
+            }
+        });
+    }
+
+    @Override
+    public boolean retainAll(@NonNull final Collection<?> c) {
+        throw new RuntimeException("Not supported");
+    }
+
+    @Override
+    public void replaceAll(@NonNull final UnaryOperator<Overlay> operator) {
+        throw new RuntimeException("Not supported");
+    }
+
+    @Override
     public boolean removeAll(@Nullable final Collection<?> c) {
         if (c == null) return false;
         mConcurrentOverlaysToRemove.addAll(this);
@@ -104,7 +137,15 @@ public class DefaultOverlayManager extends CopyOnWriteArrayList<Overlay> impleme
     @Override
     public Overlay set(final int pIndex, @Nullable final Overlay pElement) {
         if (pElement == null) return null;
-        return super.set(pIndex, pElement);
+        final Overlay cPrev = super.set(pIndex, pElement);
+        mConcurrentOverlaysToRemove.add(cPrev);
+        return cPrev;
+    }
+
+    @Override
+    public void clear() {
+        mConcurrentOverlaysToRemove.addAll(this);
+        super.clear();
     }
 
     @Nullable
@@ -165,7 +206,7 @@ public class DefaultOverlayManager extends CopyOnWriteArrayList<Overlay> impleme
         };
     }
 
-    @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP_PREFIX)
+    @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
     @Override
     public final List<Overlay> overlays() {
         return this;
@@ -229,9 +270,7 @@ public class DefaultOverlayManager extends CopyOnWriteArrayList<Overlay> impleme
             if (overlay != null) {
                 overlay.setViewBoundingBoxChangedListener(mViewBoundingBoxChangedListener);
                 overlay.setLifecycleFromMapView(mMapViewLifeCycle);
-                if (overlay.isEnabled() && (overlay instanceof TilesOverlay)) {
-                    ((TilesOverlay) overlay).protectDisplayedTilesForCache(c, pProjection);
-                }
+                if (overlay.isEnabled() && (overlay instanceof TilesOverlay)) ((TilesOverlay) overlay).protectDisplayedTilesForCache(c, pProjection);
             }
         }
 
@@ -244,7 +283,7 @@ public class DefaultOverlayManager extends CopyOnWriteArrayList<Overlay> impleme
         //always pass false, the shadow parameter will be removed in a later version of osmdroid, this change should result in the on draw being called twice
         for (final Overlay overlay : this) {
             //#396 fix, null check
-            if (overlay != null && overlay.isEnabled()) {
+            if ((overlay != null) && overlay.isEnabled()) {
                 if (pMapView != null) overlay.draw(c, pMapView, false);
                 else overlay.draw(c, pProjection);
             }

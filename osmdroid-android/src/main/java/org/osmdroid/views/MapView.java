@@ -326,7 +326,7 @@ public class MapView extends ViewGroup implements IMapView, MultiTouchObjectCanv
     }
 
     /** You can add/remove/reorder your Overlays using the List of {@link Overlay}. The first (index * 0) Overlay gets drawn first, the one with the highest as the last one. */
-    @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP_PREFIX)
+    @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
     public List<Overlay> getOverlays() {
         return this.getOverlayManager().overlays();
     }
