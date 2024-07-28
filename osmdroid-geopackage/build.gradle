@@ -44,7 +44,7 @@ android {
 dependencies {
     //crash logging
     //implementation 'ch.acra:acra:4.7.0'
-    implementation("androidx.lifecycle:lifecycle-common:2.8.3")
+    implementation("androidx.lifecycle:lifecycle-common:2.8.4")
 
     testImplementation "org.junit.vintage:junit-vintage-engine:${project.property('junit.version')}"
 

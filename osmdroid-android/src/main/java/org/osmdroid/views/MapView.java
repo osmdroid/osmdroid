@@ -1,14 +1,10 @@
 package org.osmdroid.views;
 
-import android.app.Activity;
-import android.app.Application;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Point;
 import android.graphics.PointF;
 import android.graphics.Rect;
-import android.os.Build;
-import android.os.Bundle;
 import android.os.Handler;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -28,10 +24,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RestrictTo;
 import androidx.annotation.UiThread;
-import androidx.lifecycle.DefaultLifecycleObserver;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.LifecycleRegistry;
 
 import org.metalev.multitouch.controller.MultiTouchController;
 import org.metalev.multitouch.controller.MultiTouchController.MultiTouchObjectCanvas;
@@ -53,6 +47,7 @@ import org.osmdroid.tileprovider.util.SimpleInvalidationHandler;
 import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.GeometryMath;
+import org.osmdroid.util.MapViewLifecycleManager;
 import org.osmdroid.util.ReusablePool;
 import org.osmdroid.util.TileSystem;
 import org.osmdroid.util.TileSystemWebMercator;
@@ -77,6 +72,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * @since the begining
  */
 public class MapView extends ViewGroup implements IMapView, MultiTouchObjectCanvas<Object>, LifecycleOwner {
+    private static final String TAG = "MapView";
 
     /**
      * Current zoom level for map tiles.
@@ -181,9 +177,7 @@ public class MapView extends ViewGroup implements IMapView, MultiTouchObjectCanv
         public ScrollEvent newInstance() { return ScrollEvent.newInstanceForReusablePool(); }
     }, 2);
 
-    private final LifecycleRegistry mLifecycleRegistry = new LifecycleRegistry(this);
-    @Nullable
-    private DefaultLifecycleObserver mContextLifecycleObserver = null;
+    private final MapViewLifecycleManager mLifecycleManager = new MapViewLifecycleManager(this);
 
     public interface OnFirstLayoutListener {
         /**
@@ -226,16 +220,16 @@ public class MapView extends ViewGroup implements IMapView, MultiTouchObjectCanv
     // Constructors
     // ===========================================================
 
-    public MapView(final Context context,
+    public MapView(@NonNull final Context context,
                    MapTileProviderBase tileProvider,
                    final Handler tileRequestCompleteHandler, final AttributeSet attrs) {
         this(context, tileProvider, tileRequestCompleteHandler, attrs, Configuration.getInstance().isMapViewHardwareAccelerated());
 
     }
 
-    public MapView(final Context context,
+    public MapView(@NonNull final Context context,
                    MapTileProviderBase tileProvider,
-                   final Handler tileRequestCompleteHandler, final AttributeSet attrs, boolean hardwareAccelerated) {
+                   final Handler tileRequestCompleteHandler, final AttributeSet attrs, final boolean hardwareAccelerated) {
         super(context, attrs);
 
         /* Hacky workaround: If no storage location was set manually, we need to try to be the first to give DefaultConfigurationProvider a chance to detect the best storage
@@ -253,23 +247,6 @@ public class MapView extends ViewGroup implements IMapView, MultiTouchObjectCanv
         if (!hardwareAccelerated) {
             this.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         }
-
-        this.addOnAttachStateChangeListener(new OnAttachStateChangeListener() {
-            private boolean mWasAttachedToWindow = false;
-            @Override
-            public void onViewAttachedToWindow(@NonNull final View v) {
-                if (mLifecycleRegistry.getCurrentState() != Lifecycle.State.RESUMED) mLifecycleRegistry.setCurrentState(Lifecycle.State.RESUMED);
-                this.mWasAttachedToWindow = true;
-            }
-            @Override
-            public void onViewDetachedFromWindow(@NonNull final View v) {
-                if (this.mWasAttachedToWindow) {
-                    MapView.this.onPause();
-                    MapView.this.onDestroy();
-                    this.mWasAttachedToWindow = false;
-                }
-            }
-        });
 
         this.mController = new MapController(this);
         this.mScroller = new Scroller(context);
@@ -289,76 +266,7 @@ public class MapView extends ViewGroup implements IMapView, MultiTouchObjectCanv
         this.mMapOverlay = new TilesOverlay(mTileProvider, context, horizontalMapRepetitionEnabled, verticalMapRepetitionEnabled);
         mOverlayManager = new DefaultOverlayManager(mMapOverlay);
 
-        if (context instanceof LifecycleOwner) {
-            ((LifecycleOwner)context).getLifecycle().addObserver(mContextLifecycleObserver = new DefaultLifecycleObserver() {
-                private boolean mInitialized = false;
-                @Override public void onCreate(@NonNull final LifecycleOwner owner) { mLifecycleRegistry.setCurrentState(Lifecycle.State.CREATED); this.init(); }
-                @Override public void onStart(@NonNull final LifecycleOwner owner) { mLifecycleRegistry.setCurrentState(Lifecycle.State.STARTED); this.init(); }
-                @Override public void onResume(@NonNull final LifecycleOwner owner) {
-                    mLifecycleRegistry.setCurrentState(Lifecycle.State.RESUMED);
-                    this.init();
-                    MapView.this.onResume();
-                }
-                @Override
-                public void onPause(@NonNull final LifecycleOwner owner) {
-verificare perchè non chiama mai qui
-                    MapView.this.onPause();
-                    mLifecycleRegistry.setCurrentState(Lifecycle.State.STARTED);
-                }
-                @Override
-                public void onStop(@NonNull final LifecycleOwner owner) {
-                    mLifecycleRegistry.setCurrentState(Lifecycle.State.CREATED);
-                }
-                @Override
-                public void onDestroy(@NonNull final LifecycleOwner owner) {
-                    MapView.this.onDestroy();
-                    this.destroy();
-                }
-                private void init() {
-                    if (this.mInitialized) return;
-                    MapView.this.onLifecycleInit();
-                    this.mInitialized = true;
-                }
-                private void destroy() {
-                    if (!this.mInitialized) return;
-                    MapView.this.onLifecycleDestroy();
-                }
-            });
-        } else if ((context instanceof android.app.Activity) && (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)) {
-            ((android.app.Activity)context).registerActivityLifecycleCallbacks(new Application.ActivityLifecycleCallbacks() {
-                private boolean mInitialized = false;
-                @Override public void onActivityCreated(@NonNull final Activity activity, @Nullable final Bundle savedInstanceState) { mLifecycleRegistry.setCurrentState(Lifecycle.State.CREATED); this.init(); }
-                @Override public void onActivityStarted(@NonNull final Activity activity) { mLifecycleRegistry.setCurrentState(Lifecycle.State.STARTED); this.init(); }
-                @Override
-                public void onActivityResumed(@NonNull final Activity activity) {
-                    if (MapView.this.isAttachedToWindow()) mLifecycleRegistry.setCurrentState(Lifecycle.State.RESUMED);
-                    this.init();
-                    MapView.this.onResume();
-                }
-                @Override
-                public void onActivityPaused(@NonNull final Activity activity) {
-                    MapView.this.onPause();
-                    if (!MapView.this.isAttachedToWindow()) mLifecycleRegistry.setCurrentState(Lifecycle.State.STARTED);
-                }
-                @Override public void onActivityStopped(@NonNull final Activity activity) { mLifecycleRegistry.setCurrentState(Lifecycle.State.CREATED); }
-                @Override public void onActivitySaveInstanceState(@NonNull final Activity activity, @NonNull final Bundle outState) { /*nothing*/ }
-                @Override public void onActivityDestroyed(@NonNull final Activity activity) {
-                    MapView.this.onDestroy();
-                    this.destroy();
-                }
-                private void init() {
-                    if (this.mInitialized) return;
-                    MapView.this.onLifecycleInit();
-                    this.mInitialized = true;
-                }
-                private void destroy() {
-                    if (!this.mInitialized) return;
-                    MapView.this.onLifecycleDestroy();
-                }
-            });
-        } else {
-            throw new IllegalStateException("MapView's context needs to implement some kind of Lifecycle");
-        }
+        mLifecycleManager.updateLifecycle(context, this, false);
 
         mZoomController = new CustomZoomButtonsController(this);
         mZoomController.setOnZoomListener(new MapViewZoomListener());
@@ -377,11 +285,13 @@ verificare perchè non chiama mai qui
         mZoomController.setVisibility(CustomZoomButtonsController.Visibility.SHOW_AND_FADEOUT);
     }
 
-    private void onLifecycleInit() {
+    @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
+    public void onLifecycleInit() {
         mOverlayManager.setMapViewLifecycle(this);
         mOverlayManager.setViewBoundingBoxChangedListener(mViewBoundingBoxChangedListener);
     }
-    private void onLifecycleDestroy() {
+    @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
+    public void onLifecycleDestroy() {
         mOverlayManager.setMapViewLifecycle(null);
         mOverlayManager.setViewBoundingBoxChangedListener(null);
     }
@@ -408,7 +318,7 @@ verificare perchè non chiama mai qui
 
     @NonNull
     @Override
-    public Lifecycle getLifecycle() { return mLifecycleRegistry; }
+    public Lifecycle getLifecycle() { return mLifecycleManager.getLifecycle(); }
 
     @Override
     public IMapController getController() {
@@ -429,8 +339,7 @@ verificare perchè non chiama mai qui
         if (Objects.equals(overlayManager, mOverlayManager)) return;
         mOverlayManager.onDestroyInternal();
         mOverlayManager = overlayManager;
-        mLifecycleRegistry.setCurrentState(Lifecycle.State.DESTROYED);
-        mLifecycleRegistry.setCurrentState(getLifecycle().getCurrentState());
+        onLifecycleInit();
     }
 
     public MapTileProviderBase getTileProvider() {
@@ -465,9 +374,7 @@ verificare perchè non chiama mai qui
         return getProjection().getBoundingBox();
     }
 
-    /**
-     * Gets the current bounds of the screen in <I>screen coordinates</I>.
-     */
+    /** Gets the current bounds of the screen in <i>screen coordinates</i> */
     public Rect getScreenRect(@Nullable final Rect reuse) {
         final Rect out = getIntrinsicScreenRect(reuse);
         if ((this.getMapOrientation() != 0) && (this.getMapOrientation() != 180)) {
@@ -507,9 +414,7 @@ verificare perchè non chiama mai qui
         return mProjection;
     }
 
-    /**
-     * Use {@link #resetProjection()} instead
-     */
+    /** Use {@link #resetProjection()} instead */
     @Deprecated
     protected void setProjection(@NonNull final Projection p) {
         mProjection = p;
@@ -519,17 +424,13 @@ verificare perchè non chiama mai qui
         mProjection = null;
     }
 
-    /**
-     * @deprecated use {@link IMapController#animateTo(IGeoPoint)} or {@link IMapController#setCenter(IGeoPoint)} instead
-     */
+    /** @deprecated use {@link IMapController#animateTo(IGeoPoint)} or {@link IMapController#setCenter(IGeoPoint)} instead */
     @Deprecated
     void setMapCenter(@NonNull final IGeoPoint aCenter) {
         getController().animateTo(aCenter);
     }
 
-    /**
-     * @deprecated use {@link #setMapCenter(IGeoPoint)}
-     */
+    /** @deprecated use {@link #setMapCenter(IGeoPoint)} */
     @Deprecated
     void setMapCenter(final int aLatitudeE6, final int aLongitudeE6) {
         setMapCenter(new GeoPoint(aLatitudeE6, aLongitudeE6));
@@ -733,7 +634,7 @@ verificare perchè non chiama mai qui
     @Deprecated
     @Override
     public int getZoomLevel() {
-        return (int) getZoomLevelDouble();
+        return (int)getZoomLevelDouble();
     }
 
     /**
@@ -1120,8 +1021,10 @@ verificare perchè non chiama mai qui
         }
         if (!isLayoutOccurred()) {
             mLayoutOccurred = true;
-            for (OnFirstLayoutListener listener : mOnFirstLayoutListeners)
+            for (OnFirstLayoutListener listener : mOnFirstLayoutListeners) {
                 listener.onFirstLayout(this, l, t, r, b);
+                mLifecycleManager.updateLifecycle(this.getContext(), this, true);
+            }
             mOnFirstLayoutListeners.clear();
         }
         resetProjection();
@@ -1142,12 +1045,15 @@ verificare perchè non chiama mai qui
         return mLayoutOccurred;
     }
 
-    protected void onResume() { /*nothing*/ }
+    @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
+    public void onResume() { /*nothing*/ }
 
-    protected void onPause() { /*nothing*/ }
+    @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
+    public void onPause() { /*nothing*/ }
 
     @CallSuper
-    protected void onDestroy() {
+    @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
+    public void onDestroy() {
         mTileProvider.detach(this.getContext());
         if (mZoomController != null) mZoomController.onDetach();
         if (mTileRequestCompleteHandler instanceof SimpleInvalidationHandler) ((SimpleInvalidationHandler) mTileRequestCompleteHandler).destroy();
@@ -1156,9 +1062,6 @@ verificare perchè non chiama mai qui
         mProjection = null;
         mRepository.onDetach();
         mListeners.clear();
-        if (mContextLifecycleObserver != null) ((LifecycleOwner)this.getContext()).getLifecycle().removeObserver(mContextLifecycleObserver);
-        mContextLifecycleObserver = null;
-        mLifecycleRegistry.setCurrentState(Lifecycle.State.DESTROYED);
     }
 
     @Override

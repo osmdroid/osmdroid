@@ -46,9 +46,10 @@ android {
 dependencies {
     testImplementation "org.junit.vintage:junit-vintage-engine:${project.property('junit.version')}"
     testImplementation "org.robolectric:robolectric:${project.property('robolectric.version')}"
-    implementation("androidx.annotation:annotation:1.8.0")
-    implementation("androidx.lifecycle:lifecycle-common:2.8.3")
+    implementation("androidx.annotation:annotation:1.8.1")
+    implementation("androidx.lifecycle:lifecycle-common:2.8.4")
     implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
+    implementation 'androidx.appcompat:appcompat:1.7.0'
 }
 
 tasks.register('cleanCustomFiles', Delete) {

@@ -534,7 +534,7 @@ public class DefaultOverlayManager extends CopyOnWriteArrayList<Overlay> impleme
                 mMapViewLifeCycle.removeObserver(this);
                 mDefaultLifecycleObserver = null;
                 mMapViewLifeCycle = null;
-                onDestroyInternal();
+                DefaultOverlayManager.this.onDestroyInternal();
             }
         });
     }
