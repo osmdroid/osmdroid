@@ -480,7 +480,7 @@ public class MapView extends ViewGroup implements IMapView,
      * @param aZoomLevel the zoom level bound by the tile source
      *                   Used to be an int - is a double since 6.0
      */
-    double setZoomLevel(final double aZoomLevel) {
+    public double setZoomLevel(final double aZoomLevel) {
         final double newZoomLevel = Math.max(getMinZoomLevel(), Math.min(getMaxZoomLevel(), aZoomLevel));
         final double curZoomLevel = this.mZoomLevel;
 
