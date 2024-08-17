@@ -406,7 +406,7 @@ public class MapController implements IMapController, OnFirstLayoutListener {
             } else {
                 zoomToAnimator.setDuration(zoomAnimationSpeed);
             }
-            zoomToAnimator.setInterpolator(interpolator);
+            zoomToAnimator.setInterpolator(mInterpolator);
             mCurrentAnimator = zoomToAnimator;
 
             zoomToAnimator.start();
