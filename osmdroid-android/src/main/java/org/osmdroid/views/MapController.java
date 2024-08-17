@@ -171,7 +171,7 @@ public class MapController implements IMapController, OnFirstLayoutListener {
             if (mCurrentAnimator != null) {
                 mapAnimatorListener.onAnimationCancel(mCurrentAnimator);
             }
-            mapAnimator.setInterpolator(interpolator);
+            mapAnimator.setInterpolator(mInterpolator);
             mCurrentAnimator = mapAnimator;
             mapAnimator.start();
             return;
