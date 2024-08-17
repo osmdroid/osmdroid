@@ -52,7 +52,7 @@ public class MapController implements IMapController, OnFirstLayoutListener {
     private double mTargetZoomLevel = 0;
 
     private Animator mCurrentAnimator;
-    public TimeInterpolator interpolator = new AccelerateDecelerateInterpolator();
+    private TimeInterpolator mInterpolator;
 
     // Keep track of calls before initial layout
     private ReplayController mReplayController;
