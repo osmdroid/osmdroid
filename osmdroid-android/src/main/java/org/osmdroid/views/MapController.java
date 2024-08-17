@@ -2,14 +2,18 @@
 package org.osmdroid.views;
 
 import android.animation.Animator;
+import android.animation.TimeInterpolator;
 import android.animation.ValueAnimator;
 import android.animation.ValueAnimator.AnimatorUpdateListener;
 import android.annotation.TargetApi;
 import android.graphics.Point;
 import android.os.Build;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
+import android.view.animation.DecelerateInterpolator;
+import android.view.animation.Interpolator;
 import android.view.animation.ScaleAnimation;
 
 import org.osmdroid.api.IGeoPoint;
@@ -48,6 +52,7 @@ public class MapController implements IMapController, OnFirstLayoutListener {
     private double mTargetZoomLevel = 0;
 
     private Animator mCurrentAnimator;
+    private TimeInterpolator mInterpolator;
 
     // Keep track of calls before initial layout
     private ReplayController mReplayController;
@@ -166,6 +171,7 @@ public class MapController implements IMapController, OnFirstLayoutListener {
             if (mCurrentAnimator != null) {
                 mapAnimatorListener.onAnimationCancel(mCurrentAnimator);
             }
+            mapAnimator.setInterpolator(mInterpolator);
             mCurrentAnimator = mapAnimator;
             mapAnimator.start();
             return;
@@ -400,8 +406,9 @@ public class MapController implements IMapController, OnFirstLayoutListener {
             } else {
                 zoomToAnimator.setDuration(zoomAnimationSpeed);
             }
-
+            zoomToAnimator.setInterpolator(mInterpolator);
             mCurrentAnimator = zoomToAnimator;
+
             zoomToAnimator.start();
             return true;
         }
