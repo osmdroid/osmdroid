@@ -1,5 +1,5 @@
 @echo off
-echo BE SURE TO USE JDK11
+echo BE SURE TO USE JDK17
 echo Gradle does not honor exit codes and this script cannot detect
 echo a gradle build failure. Watch the output!
 

@@ -94,8 +94,6 @@ dependencies {
     //crash logging
     implementation 'ch.acra:acra:4.7.0'
 
-    //memory leak testing
-    implementation 'com.squareup.leakcanary:leakcanary-android:2.13'
 
     //on device testing
     androidTestImplementation 'androidx.multidex:multidex:2.0.1'
