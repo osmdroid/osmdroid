@@ -37,6 +37,7 @@ import org.apache.commons.compress.archivers.jar.JarArchiveInputStream;
 import org.apache.commons.compress.archivers.jar.JarArchiveOutputStream;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.SystemUtils;
 import org.apache.maven.model.CiManagement;
 import org.apache.maven.model.Dependency;
@@ -773,15 +774,17 @@ public class Main {
         
         for (File f : target.listFiles()) {
             Thread.sleep(500);
-            ProcessBuilder p = new ProcessBuilder(
-                    props.getProperty("GPG_PATH"),
+            String[] args =  {props.getProperty("GPG_PATH"),
                     "--always-trust",
+                    "--pinentry-mode=loopback",
                     "--yes",
                     "-a",
                     "--output",
                     f.getAbsolutePath() + ".asc",
                     "--detach-sig",
-                    f.getAbsolutePath().replace("\\\\", "\\").replace("\\","/")
+                    f.getCanonicalPath()};
+            System.out.println(StringUtils.join(args, " "));
+            ProcessBuilder p = new ProcessBuilder(args
             );
 
             Process proc = p.start();
