@@ -770,14 +770,18 @@ public class Main {
 
     private static void signFiles(File target, Properties props) throws Exception {
         System.out.println("signing files");
+        
         for (File f : target.listFiles()) {
+            Thread.sleep(500);
             ProcessBuilder p = new ProcessBuilder(
                     props.getProperty("GPG_PATH"),
+                    "--always-trust",
+                    "--yes",
                     "-a",
                     "--output",
                     f.getAbsolutePath() + ".asc",
                     "--detach-sig",
-                    f.getAbsolutePath()
+                    f.getAbsolutePath().replace("\\\\", "\\").replace("\\","/")
             );
 
             Process proc = p.start();

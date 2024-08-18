@@ -24,6 +24,7 @@
         <activity
             android:name=".intro.IntroActivity"
             android:icon="@drawable/icon"
+			android:exported="true"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -45,12 +46,13 @@
         -->
         <activity
             android:name=".MainActivity"
+			android:exported="true"
             android:icon="@drawable/icon"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
+
             </intent-filter>
         </activity>
         <!--
@@ -65,6 +67,7 @@
         -->
         <activity
             android:name=".StarterMapActivity"
+			android:exported="true"
             android:icon="@drawable/icon"
             android:label="OSMDroid Sample Map">
             <intent-filter>
@@ -75,6 +78,7 @@
         </activity>
         <activity
             android:name=".samples.SampleWithMinimapItemizedoverlay"
+			android:exported="true"
             android:label="OSMapView with ItemizedOverlay">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -94,6 +98,7 @@
         -->
         <activity
             android:name=".samples.SampleWithTilesOverlay"
+			android:exported="true"
             android:label="OSMapView with Tiles Overlay">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -103,6 +108,7 @@
         </activity>
         <activity
             android:name=".samples.SampleWithTilesOverlayAndCustomTileSource"
+			android:exported="true"
             android:label="OSMapView with Custom Tiles">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -112,6 +118,7 @@
         </activity>
         <activity
             android:name=".BugsTestingActivity"
+			android:exported="true"
             android:label="Bug Drivers">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -128,6 +135,7 @@
         -->
         <activity
             android:name=".debug.browser.CacheBrowserActivity"
+			android:exported="true"
             android:label="Cache Browser">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -138,6 +146,7 @@
 
         <activity
             android:name=".debug.CacheAnalyzerActivity"
+			android:exported="true"
             android:label="Cache Analyzer">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -147,6 +156,7 @@
         </activity>
         <activity
             android:name=".ExtraSamplesActivity"
+			android:exported="true"
             android:label="More Samples">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -156,6 +166,7 @@
         </activity>
         <activity
             android:name=".bugtestfragments.WeathForceActivity"
+			android:exported="true"
             android:label="WeathForce Test">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -166,6 +177,7 @@
         <activity
             android:name=".PreferenceActivity"
             android:label="Open Map Preferences"
+			android:exported="true"
             android:windowSoftInputMode="stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -176,6 +188,7 @@
         <activity
             android:name=".LicenseActivity"
             android:label="Licenses"
+			android:exported="true"
             android:windowSoftInputMode="stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -185,6 +198,7 @@
         </activity>
         <activity
             android:name=".diag.DiagnosticsActivity"
+			android:exported="true"
             android:label="Diagnostics">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -192,6 +206,9 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+		
+		
+		
         <meta-data
             android:name="BING_KEY"
             android:value="" />
@@ -243,5 +260,5 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <uses-sdk tools:overrideLibrary="mil.army.missioncommand,armyc2.c2sd.singlepointrenderer,org.osmdroid.gpkg,mil.nga.geopackage,org.osmdroid.mapsforge,android.support.v13,com.github.angads25.filepicker,android.support.v7.gridlayout" />
-
+>
 </manifest>
