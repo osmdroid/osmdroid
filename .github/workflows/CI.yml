@@ -17,7 +17,7 @@ jobs:
           java-version: 17
           distribution: temurin
           cache: gradle
-      - uses: malinskiy/action-android/install-sdk@release/0.1.6
+      - uses: malinskiy/action-android/install-sdk@release/0.1.7
         env:
           ACTIONS_ALLOW_UNSECURE_COMMANDS: true
       - run: ./gradlew build
