@@ -8,6 +8,7 @@ group = project.property("pom.groupId")
 version = project.property("pom.version")
 
 android {
+    namespace "org.osmdroid"
     compileSdkVersion findProperty('android.compileSdkVersion').toInteger()
 
 

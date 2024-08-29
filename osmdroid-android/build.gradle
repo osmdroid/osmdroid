@@ -8,6 +8,7 @@ version =  project.property("pom.version")
 
 
 android {
+    namespace "org.osmdroid.library"
     compileSdkVersion findProperty('android.compileSdkVersion').toInteger()
 
     defaultConfig{

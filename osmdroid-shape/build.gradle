@@ -7,6 +7,7 @@ group = project.property("pom.groupId")
 version =  project.property("pom.version")
 
 android {
+    namespace "org.osmdroid.shape"
     compileSdkVersion findProperty('android.compileSdkVersion').toInteger()
     defaultConfig {
         minSdkVersion Integer.parseInt(project.property('android-minSdkForSupportLib.version'))

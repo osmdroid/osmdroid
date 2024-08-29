@@ -1,6 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="org.osmdroid.simplemap">
+    xmlns:tools="http://schemas.android.com/tools" >
 
     <!-- PROTECTION_NORMAL permissions, automatically granted -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
