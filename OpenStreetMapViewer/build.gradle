@@ -115,35 +115,35 @@ dependencies {
 
 //the following sets the required permissions for API 23+ devices and AVDs
 
-android.applicationVariants.all { variant ->
-    if (variant.getBuildType().name == "debug") {
-        task "configDevice${variant.name.capitalize()}"(type: Exec) {
-            dependsOn variant.install
+//android.applicationVariants.all { variant ->
+//    if (variant.getBuildType().name == "debug") {
+//        task "configDevice${variant.name.capitalize()}"(type: Exec) {
+//            dependsOn variant.install
+//
+//            group = 'nameofyourtaskgroup'
+//            description = 'Describe your task here.'
+//
+//            def adb = android.getAdbExecutable().toString()
+//            def mypermission = 'android.permission.ACCESS_FINE_LOCATION'
+//            commandLine "$adb shell pm grant ${variant.applicationId} $mypermission".split(' ')
+//        }
+//        variant.testVariant.connectedInstrumentTest.dependsOn "configDevice${variant.name.capitalize()}"
+//    }
+//}
 
-            group = 'nameofyourtaskgroup'
-            description = 'Describe your task here.'
 
-            def adb = android.getAdbExecutable().toString()
-            def mypermission = 'android.permission.ACCESS_FINE_LOCATION'
-            commandLine "$adb shell pm grant ${variant.applicationId} $mypermission".split(' ')
-        }
-        variant.testVariant.connectedInstrumentTest.dependsOn "configDevice${variant.name.capitalize()}"
-    }
-}
-
-
-android.applicationVariants.all { variant ->
-    if (variant.getBuildType().name == "debug") {
-        task "configDevice2${variant.name.capitalize()}"(type: Exec) {
-            dependsOn variant.install
-
-            group = 'nameofyourtaskgroup'
-            description = 'Describe your task here.'
-
-            def adb = android.getAdbExecutable().toString()
-            def mypermission = 'android.permission.WRITE_EXTERNAL_STORAGE '
-            commandLine "$adb shell pm grant ${variant.applicationId} $mypermission".split(' ')
-        }
-        variant.testVariant.connectedInstrumentTest.dependsOn "configDevice2${variant.name.capitalize()}"
-    }
-}
+//android.applicationVariants.all { variant ->
+//    if (variant.getBuildType().name == "debug") {
+//        task "configDevice2${variant.name.capitalize()}"(type: Exec) {
+//            dependsOn variant.install
+//
+//            group = 'nameofyourtaskgroup'
+//            description = 'Describe your task here.'
+//
+//            def adb = android.getAdbExecutable().toString()
+//            def mypermission = 'android.permission.WRITE_EXTERNAL_STORAGE '
+//            commandLine "$adb shell pm grant ${variant.applicationId} $mypermission".split(' ')
+//        }
+//        variant.testVariant.connectedInstrumentTest.dependsOn "configDevice2${variant.name.capitalize()}"
+//    }
+//}
