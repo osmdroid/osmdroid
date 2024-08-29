@@ -1,3 +1,11 @@
+# This repo is up for adoption
+
+So, there's a few admins for this repo and really, none of us have time to maintain osmdroid. As such, we rely on community contributions.
+The Android environment is a constantly changing one and unfortunately, that also means frequent dependency updates, patches, API changes, etc.
+
+If you're interested in potentially become a maintainer, release manager, or anything else please contact us. If no one steps up, this repository will eventually be
+archived and set to read only. We know there's a ton of popular apps out there that use osmdroid and we'd hate to see this go to the way side or to leave any of those apps without a place to log issues and hopefully get them patched, but it is what it is.
+
 StandWithUkraine:
 [![Stand With Ukraine](https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/badges/StandWithUkraine.svg)](https://stand-with-ukraine.pp.ua)
 
