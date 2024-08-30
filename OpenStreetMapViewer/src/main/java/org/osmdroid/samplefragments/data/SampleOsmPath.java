@@ -81,7 +81,7 @@ public class SampleOsmPath extends BaseSampleFragment implements MapListener {
         pts.add(new GeoPoint(40.796788, -73.949232));
         line.setPoints(pts);
         line.setGeodesic(true);
-        line.setInfoWindow(new BasicInfoWindow(R.layout.bonuspack_bubble, mMapView));
+        line.setInfoWindow(new BasicInfoWindow(org.osmdroid.library.R.layout.bonuspack_bubble, mMapView));
         //Note, the info window will not show if you set the onclick listener
         //line can also attach click listeners to the line
 		/*
@@ -115,7 +115,7 @@ public class SampleOsmPath extends BaseSampleFragment implements MapListener {
         polygon.getFillPaint().setColor(Color.RED);
         polygon.setVisible(true);
         polygon.getOutlinePaint().setColor(Color.BLACK);
-        polygon.setInfoWindow(new BasicInfoWindow(R.layout.bonuspack_bubble, mMapView));
+        polygon.setInfoWindow(new BasicInfoWindow(org.osmdroid.library.R.layout.bonuspack_bubble, mMapView));
 
 
         pts = new ArrayList<>();
@@ -144,7 +144,7 @@ public class SampleOsmPath extends BaseSampleFragment implements MapListener {
         pts.add(new GeoPoint(51.7875, 6.135278));
         line.setPoints(pts);
         line.setGeodesic(true);
-        line.setInfoWindow(new BasicInfoWindow(R.layout.bonuspack_bubble, mMapView));
+        line.setInfoWindow(new BasicInfoWindow(org.osmdroid.library.R.layout.bonuspack_bubble, mMapView));
 
         mMapView.getOverlayManager().add(m);
         mMapView.getOverlayManager().add(line);
