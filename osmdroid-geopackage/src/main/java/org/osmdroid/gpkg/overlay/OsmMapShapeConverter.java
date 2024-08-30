@@ -692,7 +692,7 @@ public class OsmMapShapeConverter {
             m.setAlpha(options.getAlpha());
             m.setTitle(options.getTitle());
             m.setSubDescription(options.getSubdescription());
-            m.setInfoWindow(new BasicInfoWindow(R.layout.bonuspack_bubble, map));
+            m.setInfoWindow(new BasicInfoWindow(org.osmdroid.library.R.layout.bonuspack_bubble, map));
         }
         map.getOverlayManager().add(m);
         return m;
@@ -708,7 +708,7 @@ public class OsmMapShapeConverter {
     public static Polyline addPolylineToMap(MapView map,
                                             Polyline polyline) {
         if (polyline.getInfoWindow() == null)
-            polyline.setInfoWindow(new BasicInfoWindow(R.layout.bonuspack_bubble, map));
+            polyline.setInfoWindow(new BasicInfoWindow(org.osmdroid.library.R.layout.bonuspack_bubble, map));
         map.getOverlayManager().add(polyline);
         return polyline;
     }
@@ -732,7 +732,7 @@ public class OsmMapShapeConverter {
             polygon1.getOutlinePaint().setColor(options.getStrokeColor());
             polygon1.getOutlinePaint().setStrokeWidth(options.getStrokeWidth());
             polygon1.setSubDescription(options.getSubtitle());
-            polygon1.setInfoWindow(new BasicInfoWindow(R.layout.bonuspack_bubble, map));
+            polygon1.setInfoWindow(new BasicInfoWindow(org.osmdroid.library.R.layout.bonuspack_bubble, map));
 
         }
 
@@ -759,7 +759,7 @@ public class OsmMapShapeConverter {
             polygon.getOutlinePaint().setColor(options.getStrokeColor());
             polygon.getOutlinePaint().setStrokeWidth(options.getStrokeWidth());
             polygon.setSubDescription(options.getSubtitle());
-            polygon.setInfoWindow(new BasicInfoWindow(R.layout.bonuspack_bubble, map));
+            polygon.setInfoWindow(new BasicInfoWindow(org.osmdroid.library.R.layout.bonuspack_bubble, map));
 
         }
 
@@ -798,7 +798,7 @@ public class OsmMapShapeConverter {
 
         for (Polyline line : polylines) {
             if (line.getInfoWindow() == null)
-                line.setInfoWindow(new BasicInfoWindow(R.layout.bonuspack_bubble, map));
+                line.setInfoWindow(new BasicInfoWindow(org.osmdroid.library.R.layout.bonuspack_bubble, map));
             map.getOverlayManager().add(line);
             multiPolyline.add(line);
         }
@@ -813,7 +813,7 @@ public class OsmMapShapeConverter {
             org.osmdroid.views.overlay.Polygon polygon = addPolygonToMap(map, polygonOption.getActualPoints(), polygonOption.getHoles(), opts);
 
             if (polygon.getInfoWindow() == null)
-                polygon.setInfoWindow(new BasicInfoWindow(R.layout.bonuspack_bubble, map));
+                polygon.setInfoWindow(new BasicInfoWindow(org.osmdroid.library.R.layout.bonuspack_bubble, map));
             multiPolygon.add(polygon);
         }
         return multiPolygon;
