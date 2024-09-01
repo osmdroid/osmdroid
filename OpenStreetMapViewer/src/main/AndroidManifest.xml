@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="org.osmdroid"
+<manifest
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
@@ -260,5 +260,5 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <uses-sdk tools:overrideLibrary="mil.army.missioncommand,armyc2.c2sd.singlepointrenderer,org.osmdroid.gpkg,mil.nga.geopackage,org.osmdroid.mapsforge,android.support.v13,com.github.angads25.filepicker,android.support.v7.gridlayout" />
->
+
 </manifest>
