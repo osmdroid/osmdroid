@@ -7,7 +7,8 @@ group = project.property("pom.groupId")
 version = project.property("pom.version")
 
 android {
-    compileSdkVersion findProperty('android.compileSdkVersion').toInteger()
+    namespace "org.osmdroid.gpkg"
+    compileSdk findProperty('android.compileSdkVersion').toInteger()
 
     defaultConfig {
         minSdkVersion 23

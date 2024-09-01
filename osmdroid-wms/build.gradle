@@ -6,7 +6,8 @@ group = project.property("pom.groupId")
 version =  project.property("pom.version")
 
 android {
-    compileSdkVersion findProperty('android.compileSdkVersion').toInteger()
+    namespace "org.osmdroid.wms"
+    compileSdk findProperty('android.compileSdkVersion').toInteger()
     lintOptions {
         abortOnError false
     }
