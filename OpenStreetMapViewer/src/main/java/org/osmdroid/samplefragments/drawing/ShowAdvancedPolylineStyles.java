@@ -169,7 +169,7 @@ public class ShowAdvancedPolylineStyles extends BaseSampleFragment implements Vi
 
             // add infowindow
             final InfoWindowExample infoWindow;
-            infoWindow = new InfoWindowExample(R.layout.bonuspack_bubble, mMapView);
+            infoWindow = new InfoWindowExample(org.osmdroid.library.R.layout.bonuspack_bubble, mMapView);
             infoWindow.setText(title, description);
             mPolyline.setInfoWindow(infoWindow);
         }
@@ -196,8 +196,8 @@ public class ShowAdvancedPolylineStyles extends BaseSampleFragment implements Vi
         }
 
         public void setText(String title, String description) {
-            ((TextView) getView().findViewById(R.id.bubble_title)).setText(title);
-            ((TextView) getView().findViewById(R.id.bubble_description)).setText(description);
+            ((TextView) getView().findViewById(org.osmdroid.library.R.id.bubble_title)).setText(title);
+            ((TextView) getView().findViewById(org.osmdroid.library.R.id.bubble_description)).setText(description);
         }
 
         @Override
