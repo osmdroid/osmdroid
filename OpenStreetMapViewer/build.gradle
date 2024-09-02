@@ -19,7 +19,7 @@ android {
         applicationId "org.osmdroid"
 
         minSdkVersion 21
-        multiDexEnabled = true
+//        multiDexEnabled = true
 
         compileSdk(project.hasProperty('android.compileSdkVersion')
                 ? Integer.parseInt(project.property('android.compileSdkVersion')) : 34)
@@ -95,14 +95,14 @@ dependencies {
     implementation "androidx.recyclerview:recyclerview:1.3.2"
     implementation 'androidx.multidex:multidex:2.0.1'
 
-    implementation "androidx.appcompat:appcompat:1.6.1"
+    implementation "androidx.appcompat:appcompat:1.7.0"
     //crash logging
     implementation 'ch.acra:acra:4.7.0'
 
 
     //on device testing
 //    androidTestImplementation 'androidx.multidex:multidex:2.0.1'
-    androidTestImplementation "androidx.annotation:annotation:1.6.0"
+//    androidTestImplementation "androidx.annotation:annotation:1.8.2"
 
 
     androidTestImplementation "androidx.test:runner:1.6.2"
