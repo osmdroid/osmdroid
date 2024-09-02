@@ -56,7 +56,7 @@ dependencies {
     api 'mil.nga:tiff:3.0.0'
 }
 
-task androidSourcesJar(type: Jar) {
+tasks.register('androidSourcesJar', Jar) {
     from android.sourceSets.main.java.srcDirs
 }
 
