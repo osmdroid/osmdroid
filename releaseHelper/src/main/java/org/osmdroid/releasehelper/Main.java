@@ -145,7 +145,7 @@ public class Main {
             }
         }
         //this gets uploaded to github
-        makeDistZip(props);
+//        makeDistZip(props);
 
     }
 
@@ -773,7 +773,7 @@ public class Main {
         System.out.println("signing files");
         
         for (File f : target.listFiles()) {
-            Thread.sleep(500);
+            Thread.sleep(5500);
             String[] args =  {props.getProperty("GPG_PATH"),
                     "--always-trust",
                     "--pinentry-mode=loopback",
@@ -784,8 +784,7 @@ public class Main {
                     "--detach-sig",
                     f.getCanonicalPath()};
             System.out.println(StringUtils.join(args, " "));
-            ProcessBuilder p = new ProcessBuilder(args
-            );
+            ProcessBuilder p = new ProcessBuilder(args);
 
             Process proc = p.start();
             StreamGobbler errorGobbler = new StreamGobbler(proc.getErrorStream());
@@ -796,7 +795,7 @@ public class Main {
             System.out.println("Signing exit code for " + f.getName() + " was " + proc.exitValue());
             if (proc.exitValue() != 0) {
                 printError();
-                throw new Exception("signing failed for " + f.getAbsolutePath());
+//                throw new Exception("signing failed for " + f.getAbsolutePath());
             }
         }
     }

@@ -42,8 +42,9 @@ android {
 }
 
 dependencies {
-    implementation "androidx.appcompat:appcompat:1.6.1"
+//    implementation "androidx.appcompat:appcompat:1.7.0"
     implementation project(':osmdroid-android')
+    implementation 'androidx.preference:preference:1.2.1'
 }
 
 

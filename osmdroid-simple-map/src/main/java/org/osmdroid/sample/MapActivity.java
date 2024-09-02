@@ -1,13 +1,13 @@
 package org.osmdroid.sample;
 
 import android.os.Bundle;
-import android.preference.PreferenceManager;
+import androidx.preference.PreferenceManager;
 
 import org.osmdroid.config.Configuration;
 import org.osmdroid.simplemap.R;
 import org.osmdroid.views.MapView;
 
-import androidx.appcompat.app.AppCompatActivity;
+//import androidx.appcompat.app.AppCompatActivity;
 
 /**
  * Bare bones osmdroid example
