@@ -37,13 +37,15 @@ android {
 
 
     lint {
-        baseline = file("lint-baseline.xml")
+        //  baseline = file("lint-baseline.xml")
+        // commented out because pull request test on github caused build fail
     }
 }
 
 dependencies {
-    implementation "androidx.appcompat:appcompat:1.6.1"
+//    implementation "androidx.appcompat:appcompat:1.7.0"
     implementation project(':osmdroid-android')
+    implementation 'androidx.preference:preference:1.2.1'
 }
 
 
