@@ -24,7 +24,7 @@ android {
 
 
          targetSdkVersion(project.hasProperty('android.targetSdkVersion')
-                 ? Integer.parseInt(project.property('android.targetSdkVersion')) : 30)
+                 ? Integer.parseInt(project.property('android.targetSdkVersion')) : 34)
 
 
          versionCode(project.hasProperty('android.versionCode')

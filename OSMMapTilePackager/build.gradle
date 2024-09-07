@@ -27,9 +27,9 @@ tasks.withType(Javadoc) {
 }
 
 dependencies {
-    implementation 'org.apache.httpcomponents:httpmime:4.5.14'
+    implementation 'org.apache.httpcomponents.client5:httpclient5:5.3.1'
     implementation 'org.apache.james:apache-mime4j:0.8.11'
-    implementation 'org.xerial:sqlite-jdbc:3.46.0.0'
+    implementation 'org.xerial:sqlite-jdbc:3.46.1.0'
 
 
     testImplementation "org.junit.vintage:junit-vintage-engine:${project.property('junit.version')}"
