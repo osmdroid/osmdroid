@@ -7,7 +7,8 @@ group = project.property("pom.groupId")
 version =  project.property("pom.version")
 
 android {
-    compileSdkVersion findProperty('android.compileSdkVersion').toInteger()
+    namespace "org.osmdroid.simplemap"
+    compileSdk findProperty('android.compileSdkVersion').toInteger()
      defaultConfig {
 
          applicationId project.group + "." +
@@ -16,7 +17,7 @@ android {
 
          minSdkVersion Integer.parseInt(project.property('android-minSdkForSupportLib.version'))
          multiDexEnabled = true
-         compileSdkVersion(project.hasProperty('android.compileSdkVersion')
+         compileSdk(project.hasProperty('android.compileSdkVersion')
                  ? Integer.parseInt(project.property('android.compileSdkVersion')) : 34)
 
 
@@ -36,13 +37,15 @@ android {
 
 
     lint {
-        baseline = file("lint-baseline.xml")
+        //  baseline = file("lint-baseline.xml")
+        // commented out because pull request test on github caused build fail
     }
 }
 
 dependencies {
-    implementation "androidx.appcompat:appcompat:1.6.1"
+//    implementation "androidx.appcompat:appcompat:1.7.0"
     implementation project(':osmdroid-android')
+    implementation 'androidx.preference:preference:1.2.1'
 }
 
 

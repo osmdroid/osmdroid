@@ -8,7 +8,8 @@ group = project.property("pom.groupId")
 version = project.property("pom.version")
 
 android {
-    compileSdkVersion findProperty('android.compileSdkVersion').toInteger()
+    namespace "org.osmdroid"
+    compileSdk findProperty('android.compileSdkVersion').toInteger()
 
 
     defaultConfig {
@@ -18,9 +19,9 @@ android {
         applicationId "org.osmdroid"
 
         minSdkVersion 21
-        multiDexEnabled = true
+//        multiDexEnabled = true
 
-        compileSdkVersion(project.hasProperty('android.compileSdkVersion')
+        compileSdk(project.hasProperty('android.compileSdkVersion')
                 ? Integer.parseInt(project.property('android.compileSdkVersion')) : 34)
 
         // default targetSdkVersion to API 23, if not provided
@@ -46,6 +47,10 @@ android {
                 showStandardStreams = true
             }
         }
+    }
+
+    buildFeatures {
+        buildConfig = true
     }
 
     packagingOptions {
@@ -85,29 +90,29 @@ dependencies {
     implementation group: 'com.opencsv', name: 'opencsv', version: '5.8'
 
     //usual android stuff
-    implementation "com.google.android.material:material:1.11.0" //needed for UI menuing
+    implementation "com.google.android.material:material:1.12.0" //needed for UI menuing
     implementation "androidx.cardview:cardview:1.0.0"
     implementation "androidx.recyclerview:recyclerview:1.3.2"
     implementation 'androidx.multidex:multidex:2.0.1'
 
-    implementation "androidx.appcompat:appcompat:1.6.1"
+    implementation "androidx.appcompat:appcompat:1.7.0"
     //crash logging
     implementation 'ch.acra:acra:4.7.0'
 
 
     //on device testing
-    androidTestImplementation 'androidx.multidex:multidex:2.0.1'
-    androidTestImplementation "androidx.annotation:annotation:1.3.0"
+//    androidTestImplementation 'androidx.multidex:multidex:2.0.1'
+//    androidTestImplementation "androidx.annotation:annotation:1.8.2"
 
 
-    androidTestImplementation "androidx.test:runner:1.5.2"
-    androidTestImplementation "androidx.test:rules:1.5.0"
+    androidTestImplementation "androidx.test:runner:1.6.2"
+    androidTestImplementation "androidx.test:rules:1.6.1"
     // Optional -- UI testing with Espresso
-    androidTestImplementation "androidx.test.espresso:espresso-core:3.5.1"
+    androidTestImplementation "androidx.test.espresso:espresso-core:3.6.1"
     // Optional -- UI testing with UI Automator
     androidTestImplementation "androidx.test.uiautomator:uiautomator:2.3.0"
     // Optional -- UI testing with Compose
-    androidTestImplementation "androidx.compose.ui:ui-test-junit4:1.6.5"
+    androidTestImplementation "androidx.compose.ui:ui-test-junit4:1.6.8"
 }
 
 

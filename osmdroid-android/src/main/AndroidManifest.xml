@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-		package="org.osmdroid.library">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" >
 	<supports-screens android:largeScreens="true" android:normalScreens="true" android:anyDensity="true" />
 
 	<uses-feature android:name="android.hardware.location.network" android:required="false" />
