@@ -12,30 +12,24 @@ import java.io.File;
 
 public class TilePackagerTest {
 
-    @Ignore
+
     @Test
-    public void runBasicTest() {
+    public void runBasicTest()throws Exception {
         runTest("fr_mapnick_12.zip");
     }
 
-    @Ignore
+
     @Test
-    public void runBasicTestSql() {
+    public void runBasicTestSql()throws Exception {
         runTest("fr_mapnick_12.sql");
     }
 
-    @Ignore
-    @Test
-    public void runBasicTestGemf() {
-        runTest("fr_mapnick_12.gemf");
 
-    }
-
-    private void runTest(String outputFile) {
+    private void runTest(String outputFile) throws Exception{
         OSMMapTilePackager.main(new String[]{
 
                 "-force",
-                "-u", "https://b.tile.openstreetmap.org/%d/%d/%d.png",
+                "-u", "https://tiles.openstreetmap.org/%d/%d/%d.png",
                 "-t", "Mapnik",
                 "-d", outputFile,
                 "-zmax", "2",

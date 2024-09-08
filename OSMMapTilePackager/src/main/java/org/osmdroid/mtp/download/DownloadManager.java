@@ -1,16 +1,18 @@
 // Created by plusminus on 9:34:16 PM - Mar 5, 2009
 package org.osmdroid.mtp.download;
 
+import org.osmdroid.mtp.OSMMapTilePackager;
+import org.osmdroid.mtp.TileWriter;
 import org.osmdroid.mtp.adt.OSMTileInfo;
 import org.osmdroid.tileprovider.util.StreamUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.URL;
+import java.net.URLConnection;
 import java.util.Queue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -25,22 +27,26 @@ public class DownloadManager {
     // ===========================================================
     // Fields
     // ===========================================================
+    private static final Logger LOG = LoggerFactory.getLogger(DownloadManager.class);
 
     private final ExecutorService mThreadPool;
 
     private final Queue<OSMTileInfo> mQueue = new LinkedBlockingQueue<OSMTileInfo>();
 
     private final String mBaseURL;
-    private final String mDestinationURL;
-
+    private TileWriter writer;
+    private String sourceName;
+    private OSMMapTilePackager.TileJob job;
     // ===========================================================
     // Constructors
     // ===========================================================
 
-    public DownloadManager(final String pBaseURL, final String pDestinationURL, final int mThreads) {
+    public DownloadManager(String sourceName, final String pBaseURL, final int mThreads, TileWriter writer, OSMMapTilePackager.TileJob job) {
+        this.sourceName = sourceName;
         this.mBaseURL = pBaseURL;
-        this.mDestinationURL = pDestinationURL;
+        this.writer = writer;
         this.mThreadPool = Executors.newFixedThreadPool(mThreads);
+        this.job = job;
     }
 
     // ===========================================================
@@ -50,6 +56,11 @@ public class DownloadManager {
     public synchronized void add(final OSMTileInfo pTileInfo) {
         this.mQueue.add(pTileInfo);
         spawnNewThread();
+    }
+
+    public void cancel() {
+        mThreadPool.shutdownNow();
+        mQueue.clear();
     }
 
     private synchronized OSMTileInfo getNext() {
@@ -98,7 +109,6 @@ public class DownloadManager {
     private class DownloadRunner implements Runnable {
 
         private OSMTileInfo mTileInfo;
-        private File mDestinationFile;
 
         public DownloadRunner() {
         }
@@ -106,41 +116,41 @@ public class DownloadManager {
         private void init(final OSMTileInfo pTileInfo) {
             this.mTileInfo = pTileInfo;
             /* Create destination file. */
-            final String filename = String.format(DownloadManager.this.mDestinationURL, this.mTileInfo.zoom, this.mTileInfo.x, this.mTileInfo.y);
-            this.mDestinationFile = new File(filename);
-
-            final File parent = this.mDestinationFile.getParentFile();
-            parent.mkdirs();
         }
 
         @Override
         public void run() {
             InputStream in = null;
-            OutputStream out = null;
-
+            ByteArrayOutputStream baos = null;
             init(DownloadManager.this.getNext());
+            //this assumes z/x/y, but there's definitely z/y/x servers out there
+            final String finalURL = DownloadManager.this.mBaseURL.
+                    replace("{z}", this.mTileInfo.zoom + "").
+                    replace("{x}", this.mTileInfo.x + "").
+                    replace("{y}", this.mTileInfo.y + "");
 
-            if (mDestinationFile.exists()) {
-                return; // TODO issue 70 - make this an option
-            }
-
-            final String finalURL = String.format(DownloadManager.this.mBaseURL, this.mTileInfo.zoom, this.mTileInfo.x, this.mTileInfo.y);
 
             try {
-                in = new BufferedInputStream(new URL(finalURL).openStream(), StreamUtils.IO_BUFFER_SIZE);
+                URL url = new URL(finalURL);
+                URLConnection urlConnection = url.openConnection();
+                urlConnection.setRequestProperty("User-Agent", "Osmdroid Tile Packager ");
+                in = new BufferedInputStream(urlConnection.getInputStream(), StreamUtils.IO_BUFFER_SIZE);
+                baos = new ByteArrayOutputStream();
+                StreamUtils.copy(in, baos);
 
-                final FileOutputStream fileOut = new FileOutputStream(this.mDestinationFile);
-                out = new BufferedOutputStream(fileOut, StreamUtils.IO_BUFFER_SIZE);
-
-                StreamUtils.copy(in, out);
-
-                out.flush();
+                baos.flush();
+                in.close();
+                baos.close();
+                job.incProgress();
+                writer.write(this.mTileInfo.zoom, this.mTileInfo.x, this.mTileInfo.y, sourceName, baos.toByteArray());
             } catch (final Exception e) {
-                System.err.println("Error downloading: '" + this.mTileInfo + "' from URL: " + finalURL + " : " + e);
+                LOG.warn("Error downloading: '" + this.mTileInfo + "' from URL: " + finalURL + " : " + e);
+                job.incFailed();
                 DownloadManager.this.add(this.mTileInfo); // try again later
             } finally {
+
                 StreamUtils.closeStream(in);
-                StreamUtils.closeStream(out);
+                StreamUtils.closeStream(baos);
             }
         }
     }

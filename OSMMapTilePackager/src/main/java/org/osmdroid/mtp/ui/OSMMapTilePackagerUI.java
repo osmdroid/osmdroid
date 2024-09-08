@@ -472,10 +472,22 @@ public class OSMMapTilePackagerUI extends JFrame {
                 final String url = txtURL.getText();
                 final String destination = txtDestination.getText();
                 final String temp = txtTempFolder.getText();
-                final String appendix = txtFileAppendix.getText();
                 final int threads = Runtime.getRuntime().availableProcessors();
-
-                final int count = OSMMapTilePackager.runFileExpecter(minzoom, maxzoom, north, south, east, west);
+                OSMMapTilePackager.TileJob job = new OSMMapTilePackager.TileJob();
+                job.setDestinationFile(destination);
+                job.setTileSourceName("MapNick"); //?
+                job.setServerURL(url);
+                OSMMapTilePackager.Bounds b = new OSMMapTilePackager.Bounds();
+                b.setNorth(north);
+                b.setSouth(south);
+                b.setEast(east);
+                b.setWest(west);
+                b.setMinZoom(minzoom);
+                b.setMaxZoom(maxzoom);
+                job.getBounds().add(b);
+                final int count = OSMMapTilePackager.runFileExpecter(job);
+                final OSMMapTilePackager worker = new OSMMapTilePackager();
+                worker.setJob(job);
 
                 int dialogButton = JOptionPane.showConfirmDialog(null, "This will download " + count + " tiles. OK?", "Warning", JOptionPane.YES_NO_OPTION);
 
@@ -483,19 +495,21 @@ public class OSMMapTilePackagerUI extends JFrame {
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
-                            OSMMapTilePackager.execute(url, destination, temp, threads, appendix, minzoom, maxzoom, north, south, east, west, new OSMMapTilePackager.ProgressNotification() {
+                            worker.setCallbackNotification( new OSMMapTilePackager.ProgressNotification() {
                                 @Override
-                                public void updateProgress(String msg) {
+                                public void updateProgress(String msg, int tota, int complete, int failed) {
                                     lblStatus.setText(msg);
                                 }
                             });
+                            try{
+                                worker.execute();
+                            }catch (Exception ex) {
+
+                            }
 
                             int dialogButton2 = JOptionPane.showConfirmDialog(null, "All done, do you want delete the tile cache?", "Warning", JOptionPane.YES_NO_OPTION);
 
-                            if (dialogButton2 == JOptionPane.YES_OPTION) {
-                                OSMMapTilePackager.runCleanup(temp, false);
 
-                            }
                             lblStatus.setText("Done");
                         }
                     }).start();

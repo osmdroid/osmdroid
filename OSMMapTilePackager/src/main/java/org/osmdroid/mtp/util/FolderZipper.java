@@ -1,6 +1,7 @@
 // Created by plusminus on 2:17:46 AM - Mar 6, 2009
 package org.osmdroid.mtp.util;
 
+import org.osmdroid.mtp.TileWriter;
 import org.osmdroid.tileprovider.util.StreamUtils;
 
 import java.io.File;
@@ -11,72 +12,33 @@ import java.io.IOException;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-public class FolderZipper {
-    // ===========================================================
-    // Constants
-    // ===========================================================
+public class FolderZipper extends TileWriter {
+    final File pDestinationFile;
+    public FolderZipper(File pDestinationFile) {
+        this.pDestinationFile = pDestinationFile;
+    }
+     ZipOutputStream out=null;
 
-    // ===========================================================
-    // Fields
-    // ===========================================================
 
-    // ===========================================================
-    // Constructors
-    // ===========================================================
 
-    // ===========================================================
-    // Getter & Setter
-    // ===========================================================
+    @Override
+    public void open() throws Exception {
+        final ZipOutputStream out = new ZipOutputStream(new FileOutputStream(pDestinationFile));
 
-    // ===========================================================
-    // Methods from SuperClass/Interfaces
-    // ===========================================================
-
-    // ===========================================================
-    // Methods
-    // ===========================================================
-
-    public static void zipFolderToFile(final File pDestinationFile, final File pFolderToZip) {
-        try {
-            //create ZipOutputStream object
-            final ZipOutputStream out = new ZipOutputStream(new FileOutputStream(pDestinationFile));
-
-            String baseName = pFolderToZip.getParent();
-            if (baseName == null)
-                baseName = "";
-
-            addFolderToZip(pFolderToZip, out, baseName);
-
-            StreamUtils.closeStream(out);
-        } catch (final FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (final IOException e) {
-            e.printStackTrace();
-        }
     }
 
+    @Override
+    public void close() throws Exception {
+    out.close();
+    }
 
-    private static void addFolderToZip(final File folder, final ZipOutputStream zip, final String baseName) throws IOException {
-        final File[] files = folder.listFiles();
-        /* For each child (subdirectory/child-file). */
-        for (final File file : files) {
-            if (file.isDirectory()) {
-                /* If the file is a folder, do recursrion with this folder.*/
-                addFolderToZip(file, zip, baseName);
-            } else {
-                /* Otherwise zip it as usual. */
-                String name = file.getPath().substring(baseName.length());
-                if (name.startsWith(File.separator))
-                    name = name.substring(1);
-                System.out.println(name + " added");
-                final ZipEntry zipEntry = new ZipEntry(name);
-                zip.putNextEntry(zipEntry);
-                final FileInputStream fileIn = new FileInputStream(file);
-                StreamUtils.copy(fileIn, zip);
-                StreamUtils.closeStream(fileIn);
-                zip.closeEntry();
-            }
-        }
+    @Override
+    public synchronized void  write(long z, long x, long y, String name, byte[] bits) throws Exception {
+
+        final ZipEntry zipEntry = new ZipEntry(name);
+        out.putNextEntry(zipEntry);
+        out.write(bits);
+        out.closeEntry();
     }
 
     // ===========================================================

@@ -113,7 +113,11 @@ public class BatchExecutorGUI extends JFrame {
             final Thread runner = new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    OSMMapTilePackager.main(currentLine.split(" "));
+                    try {
+                        OSMMapTilePackager.main(currentLine.split(" "));
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
                     BatchExecutorGUI.this.incrementProgress();
                 }
             });

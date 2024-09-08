@@ -30,6 +30,7 @@ dependencies {
     implementation 'org.apache.httpcomponents:httpmime:4.5.14'
     implementation 'org.apache.james:apache-mime4j:0.8.11'
     implementation 'org.xerial:sqlite-jdbc:3.46.0.0'
+    implementation 'org.slf4j:slf4j-api:1.7.36'
 
 
     testImplementation "org.junit.vintage:junit-vintage-engine:${project.property('junit.version')}"
@@ -41,14 +42,6 @@ task preBuildTask1(type: Copy) {
     description 'copy java classes from osmdroid-android.'
     from("${rootDir}/osmdroid-android/src/main/java/org/osmdroid/tileprovider/util/StreamUtils.java")
     into "src/main/java/org/osmdroid/tileprovider/util/"
-
-}
-
-task preBuildTask2(type: Copy) {
-    println("copying GEMF sources")
-    description 'copy java classes from osmdroid-android.'
-    from("${rootDir}/osmdroid-android/src/main/java/org/osmdroid/util/GEMFFile.java")
-    into "src/main/java/org/osmdroid/util/"
 
 }
 
@@ -77,7 +70,6 @@ task preBuildTask4(type: Delete) {
 }
 
 compileJava.dependsOn preBuildTask1
-compileJava.dependsOn preBuildTask2
 compileJava.dependsOn preBuildTask3
 compileJava.dependsOn preBuildTask4
 

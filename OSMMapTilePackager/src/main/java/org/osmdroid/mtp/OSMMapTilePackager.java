@@ -5,22 +5,22 @@ import org.osmdroid.mtp.adt.OSMTileInfo;
 import org.osmdroid.mtp.download.DownloadManager;
 import org.osmdroid.mtp.ui.OSMMapTilePackagerUI;
 import org.osmdroid.mtp.util.DbCreator;
-import org.osmdroid.mtp.util.FolderDeleter;
-import org.osmdroid.mtp.util.FolderFileCounter;
 import org.osmdroid.mtp.util.FolderZipper;
 import org.osmdroid.mtp.util.Util;
-import org.osmdroid.util.GEMFFile;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class OSMMapTilePackager {
     // ===========================================================
     // Constants
     // ===========================================================
-
+    private static final Logger LOG = LoggerFactory.getLogger(OSMMapTilePackager.class);
     private static final int THREADCOUNT_DEFAULT = 2;
     private static boolean FORCE = false;
 
@@ -30,13 +30,14 @@ public class OSMMapTilePackager {
     // ===========================================================
     // Constructors
     // ===========================================================
-    public static void main(final String[] args) {
+    public static void main(final String[] args) throws Exception {
         if (args == null || args.length == 0) {
             printUsageAndExit();
         }
 
         /* Parsing will only start if this variable was set. */
         FORCE = false;
+        String name = null;
         String serverURL = null;
         String destinationFile = null;
         String tempFolder = null;
@@ -63,6 +64,13 @@ public class OSMMapTilePackager {
                         printUsageAndExit();
                     } else {
                         FORCE = true;
+                    }
+                } else if (args[i].equals("-n")) {
+                    i--;
+                    if (i >= args.length) {
+                        printUsageAndExit();
+                    } else {
+                        name = args[i + 1];
                     }
                 } else if (args[i].equals("-d")) {
                     if (i >= args.length) {
@@ -145,90 +153,251 @@ public class OSMMapTilePackager {
             printUsageAndExit();
         }
 
-        run(serverURL, destinationFile, tempFolder, threadCount, fileAppendix, minzoom, maxzoom, north, south, east, west);
+        OSMMapTilePackager exec = new OSMMapTilePackager();
+        TileJob runner = new TileJob();
+        runner.tileSourceName = name;
+        runner.serverURL = serverURL;
+        runner.destinationFile = destinationFile;
+        runner.threadCount = threadCount;
+        runner.bounds.add(new Bounds(maxzoom, minzoom, north, south, east, west));
+
+        runner.total = runFileExpecterWithAbort(runner);
+        exec.job = runner;
+        exec.execute();
     }
+
+    public TileJob getJob() {
+        return job;
+    }
+
+    public void setJob(TileJob job) {
+        this.job = job;
+    }
+
+    private TileJob job;
+
+    public static class TileJob {
+        public String getDestinationFile() {
+            return destinationFile;
+        }
+
+        public void setDestinationFile(String destinationFile) {
+            this.destinationFile = destinationFile;
+        }
+
+        public int getTotal() {
+            return total;
+        }
+
+        public void setTotal(int total) {
+            this.total = total;
+        }
+
+        public int getProgress() {
+            return progress.get();
+        }
+
+        public void setProgress(int progress) {
+            this.progress = new AtomicInteger(progress);
+        }
+
+        public String getServerURL() {
+            return serverURL;
+        }
+
+        public void setServerURL(String serverURL) {
+            this.serverURL = serverURL;
+        }
+
+        public int getThreadCount() {
+            return threadCount;
+        }
+
+        public void setThreadCount(int threadCount) {
+            this.threadCount = threadCount;
+        }
+
+        public String getTileSourceName() {
+            return tileSourceName;
+        }
+
+        public void setTileSourceName(String tileSourceName) {
+            this.tileSourceName = tileSourceName;
+        }
+
+        public List<Bounds> getBounds() {
+            return bounds;
+        }
+
+        public void setBounds(List<Bounds> bounds) {
+            this.bounds = bounds;
+        }
+
+        private String destinationFile;
+
+        private int total = 0;
+
+        public int getTilesFailed() {
+            return tilesFailed.get();
+        }
+
+        public void incFailed() {
+            this.tilesFailed.incrementAndGet();
+        }
+
+        public void setTilesFailed(int tilesFailed) {
+            this.tilesFailed = new AtomicInteger(tilesFailed);
+        }
+
+        private AtomicInteger tilesFailed = new AtomicInteger(0);
+        private AtomicInteger progress = new AtomicInteger(0);
+        private String serverURL;
+        private int threadCount;
+
+        private String tileSourceName;
+        private List<Bounds> bounds = new ArrayList<>();
+
+        public void incProgress() {
+            progress.incrementAndGet();
+        }
+    }
+
+    public static class Bounds {
+        public Bounds() {
+        }
+
+        public Bounds(int minZoom, int maxZoom, double north, double south, double east, double west) {
+            this.minZoom = minZoom;
+            this.maxZoom = maxZoom;
+            this.north = north;
+            this.south = south;
+            this.east = east;
+            this.west = west;
+        }
+
+        public int getMinZoom() {
+            return minZoom;
+        }
+
+        public void setMinZoom(int minZoom) {
+            this.minZoom = minZoom;
+        }
+
+        public int getMaxZoom() {
+            return maxZoom;
+        }
+
+        public void setMaxZoom(int maxZoom) {
+            this.maxZoom = maxZoom;
+        }
+
+        public double getNorth() {
+            return north;
+        }
+
+        public void setNorth(double north) {
+            this.north = north;
+        }
+
+        public double getSouth() {
+            return south;
+        }
+
+        public void setSouth(double south) {
+            this.south = south;
+        }
+
+        public double getEast() {
+            return east;
+        }
+
+        public void setEast(double east) {
+            this.east = east;
+        }
+
+        public double getWest() {
+            return west;
+        }
+
+        public void setWest(double west) {
+            this.west = west;
+        }
+
+        int minZoom;
+        int maxZoom;
+        double north;
+        double south;
+        double east;
+        double west;
+    }
+
+
+    public ProgressNotification getCallbackNotification() {
+        return callbackNotification;
+    }
+
+    public void setCallbackNotification(ProgressNotification callbackNotification) {
+        this.callbackNotification = callbackNotification;
+    }
+
+    private ProgressNotification callbackNotification;
 
     /**
      * this starts executing the download and packaging
-     *
-     * @param pServerURL
-     * @param pDestinationFile
-     * @param pTempFolder
-     * @param pThreadCount
-     * @param pFileAppendix
-     * @param pMinZoom
-     * @param pMaxZoom
-     * @param pNorth
-     * @param pSouth
-     * @param pEast
-     * @param pWest
      */
-    private static void run(final String pServerURL, final String pDestinationFile, final String pTempFolder, final int pThreadCount, final String pFileAppendix, final int pMinZoom, final int pMaxZoom, final double pNorth, final double pSouth, final double pEast, final double pWest) {
+    public void run() throws Exception {
 
-        new File(pTempFolder).mkdirs();
-
-        System.out.println("---------------------------");
-        runFileExpecterWithAbort(pMinZoom, pMaxZoom, pNorth, pSouth, pEast, pWest);
-        execute(pServerURL, pDestinationFile, pTempFolder, pThreadCount, pFileAppendix, pMinZoom, pMaxZoom, pNorth, pSouth, pEast, pWest, null);
-        if (pServerURL != null) {
-            runCleanup(pTempFolder, true);
+        File parentFile = new File(job.destinationFile).getParentFile();
+        if (!parentFile.exists()) {
+            if (!parentFile.mkdirs()) {
+                LOG.error("Failed to mkdirs at " + parentFile.getAbsolutePath());
+            }
         }
+        job.total = runFileExpecter(job);
+        execute();
 
+
+    }
+
+    public void cancel() {
+        dm.cancel();
     }
 
     public interface ProgressNotification {
 
-        void updateProgress(String msg);
+        void updateProgress(String msg,
+                            int perfecentComplete,
+                            int tilesProcessed,
+                            int tilesFailed);
     }
 
-    public static void execute(final String pServerURL, final String pDestinationFile,
-                               final String pTempFolder, final int pThreadCount, final String pFileAppendix,
-                               final int pMinZoom, final int pMaxZoom, final double pNorth, final double pSouth,
-                               final double pEast, final double pWest, final ProgressNotification callbackNotification) {
-        System.out.println("---------------------------");
-        if (pServerURL != null) {
-            runDownloading(pServerURL, pTempFolder, pThreadCount, pFileAppendix, pMinZoom, pMaxZoom, pNorth, pSouth, pEast, pWest, callbackNotification);
+
+    public void execute() throws Exception {
+        LOG.info("Starting job");
+        TileWriter writer = null;
+        if (job.destinationFile.endsWith(".zip")) {
+            writer = new FolderZipper(new File(job.destinationFile));
         } else {
-            System.out.println("using temporary directory content");
+            writer = new DbCreator(new File(job.destinationFile));
         }
-        System.out.println("---------------------------");
+        writer.open();
         if (callbackNotification != null) {
-            callbackNotification.updateProgress("Download complete, creating archive");
+            callbackNotification.updateProgress("Started", 0,
+                    job.getProgress(), job.getTilesFailed());
         }
-        if (pDestinationFile.endsWith(".zip")) {
-            runZipToFile(pTempFolder, pDestinationFile);
-        } else if (pDestinationFile.endsWith(".gemf")) {
-            runCreateGEMFFile(pTempFolder, pDestinationFile);
-        } else {
-            runCreateDb(pTempFolder, pDestinationFile);
+        for (Bounds b : job.bounds) {
+            runDownloading(job.tileSourceName, job.serverURL, job.threadCount, b.minZoom, b.maxZoom, b.north, b.south, b.east, b.west, callbackNotification, writer);
         }
-
-        System.out.println("---------------------------");
-
+        writer.close();
         if (callbackNotification != null) {
-            callbackNotification.updateProgress("Arching complete, deleting temp files");
-        }
-
-        System.out.println("---------------------------");
-    }
-
-    private static void runFileExistenceChecker(final int pExpectedFileCount, final String pTempFolder, final int pMinZoom, final int pMaxZoom, final double pNorth, final double pSouth, final double pEast, final double pWest) {
-
-        abortIfUserIsNotSure("This will check if the actual filecount is the same as the expected (" + pExpectedFileCount + ").");
-
-        /* Quickly count files in the tempFolder. */
-        System.out.print("Counting existing files ...");
-        final int actualFileCount = FolderFileCounter.getTotalRecursiveFileCount(new File(pTempFolder));
-        if (pExpectedFileCount == actualFileCount) {
-            System.out.println(" done.");
-        } else {
-            System.out.println(" FAIL!");
-            abortIfUserIsNotSure("Reason: Actual files:" + actualFileCount + "    Expected: " + pExpectedFileCount + ". Proceed?");
+            callbackNotification.updateProgress("Download complete, creating archive",
+                    100, job.getProgress(), job.getTilesFailed());
         }
     }
+
 
     private static void printUsageAndExit() {
-        System.out.println("Usage:\n"
+        LOG.info("Usage:\n"
                 + "-gui\tLaunch the GUI\n"
                 + "-u\t[OSM-style tile URL: http://_URL_/%d/%d/%d.png]\n"
                 + "-t\t[Temporary Folder]\n"
@@ -240,124 +409,76 @@ public class OSMMapTilePackager {
                 + "-s\t[South Latitude]\n"
                 + "-e\t[East Longitude]\n"
                 + "-w\t[West Longitude]\n"
+                + "-n\t[Tile source name]\n"
                 + "-nthreads\t[Number of Download-Threads. Default: 2]\n"
         );
         System.exit(0);
     }
 
-    // ===========================================================
-    // Getter & Setter
-    // ===========================================================
-    // ===========================================================
-    // Methods from SuperClass/Interfaces
-    // ===========================================================
-    // ===========================================================
-    // Methods
-    // ===========================================================
-    private static void runCreateGEMFFile(final String pTempFolder, final String pDestinationFile) {
-        try {
-            System.out.println("Creating GEMF archive from " + pTempFolder + " to " + pDestinationFile + " ...");
-            final List<File> sourceFolders = new ArrayList<File>();
-            sourceFolders.add(new File(pTempFolder));
-            final GEMFFile file = new GEMFFile(pDestinationFile, sourceFolders);
-            System.out.println(" done.");
-        } catch (final Exception e) {
-            e.printStackTrace();
-        }
-    }
 
-    private static void runZipToFile(final String pTempFolder, final String pDestinationFile) {
-        try {
-            System.out.print("Zipping files to " + pDestinationFile + " ...");
-            FolderZipper.zipFolderToFile(new File(pDestinationFile), new File(pTempFolder));
-            System.out.println(" done.");
-        } catch (final Exception e) {
-            e.printStackTrace();
-        }
-    }
+    DownloadManager dm;
 
-    private static void runCreateDb(final String pTempFolder, final String pDestinationFile) {
-        try {
-            System.out.print("Putting files into db : " + pDestinationFile + " ...");
-            DbCreator.putFolderToDb(new File(pDestinationFile), new File(pTempFolder));
-            System.out.println(" done.");
-        } catch (final Exception e) {
-            e.printStackTrace();
-        }
-    }
+    private void runDownloading(final String pName, final String pBaseURL, final int pThreadCount,
+                                final int pMinZoom, final int pMaxZoom, final double pNorth,
+                                final double pSouth, final double pEast, final double pWest, final ProgressNotification callbackNotification,
+                                TileWriter writer) {
 
-    public static void runCleanup(final String pTempFolder, boolean confirm) {
-        if (confirm)
-            abortIfUserIsNotSure("This will delete the temp folder: " + pTempFolder + " !");
-
-        /* deleteDirecto*/
-        System.out.print("Deleting temp folder ...");
-        FolderDeleter.deleteFolder(new File(pTempFolder));
-        System.out.println(" done.");
-    }
-
-    private static void runDownloading(final String pBaseURL, final String pTempFolder, final int pThreadCount,
-                                       final String pFileAppendix, final int pMinZoom, final int pMaxZoom, final double pNorth,
-                                       final double pSouth, final double pEast, final double pWest, final ProgressNotification callbackNotification) {
-        final String pTempBaseURL = pTempFolder
-                + File.separator + "%d"
-                + File.separator + "%d"
-                + File.separator + "%d"
-                + pBaseURL.substring(pBaseURL.lastIndexOf('.'))
-                + pFileAppendix
-                .replace(File.separator + File.separator, File.separator);
-
-        final DownloadManager dm = new DownloadManager(pBaseURL, pTempBaseURL, pThreadCount);
+        dm = new DownloadManager(pName, pBaseURL, pThreadCount, writer, job);
 
         /* For each zoomLevel. */
         for (int z = pMinZoom; z <= pMaxZoom; z++) {
             final OSMTileInfo upperLeft = Util.getMapTileFromCoordinates(pNorth, pWest, z);
             final OSMTileInfo lowerRight = Util.getMapTileFromCoordinates(pSouth, pEast, z);
 
-            System.out.print("ZoomLevel: " + z + " ");
+            LOG.debug("ZoomLevel: " + z + " ");
 
             for (int x = upperLeft.x; x <= lowerRight.x; x++) {
                 for (int y = upperLeft.y; y <= lowerRight.y; y++) {
                     if (callbackNotification != null) {
-                        callbackNotification.updateProgress("Downloading " + z + "/" + x + "/" + y);
+                        callbackNotification.updateProgress("Downloading " + z + "/" + x + "/" + y,
+                                job.total > 0 ? (int) ((double) ((double) job.getProgress() / (double) job.total)) * 100 : 0,
+                                job.getProgress(), job.getTilesFailed());
                     }
                     dm.add(new OSMTileInfo(x, y, z));
                 }
             }
             try {
                 dm.waitEmpty();
-                System.out.println(" done.");
+                LOG.info(" done.");
             } catch (final InterruptedException e) {
                 e.printStackTrace();
             }
         }
         try {
-            System.out.print("Awaiting termination of all threads ...");
+            LOG.info("Awaiting termination of all threads ...");
             dm.waitFinished();
-            System.out.println(" done.");
+            LOG.info(" done.");
         } catch (final InterruptedException e) {
             e.printStackTrace();
         }
     }
 
-    public static int runFileExpecter(final int pMinZoom, final int pMaxZoom, final double pNorth, final double pSouth, final double pEast, final double pWest) {
+    public static int runFileExpecter(TileJob job) {
         /* Calculate file-count. */
         int fileCnt = 0;
-        for (int z = pMinZoom; z <= pMaxZoom; z++) {
-            final OSMTileInfo upperLeft = Util.getMapTileFromCoordinates(pNorth, pWest, z);
-            final OSMTileInfo lowerRight = Util.getMapTileFromCoordinates(pSouth, pEast, z);
+        for (Bounds b : job.bounds) {
+            for (int z = b.minZoom; z <= b.maxZoom; z++) {
+                final OSMTileInfo upperLeft = Util.getMapTileFromCoordinates(b.north, b.west, z);
+                final OSMTileInfo lowerRight = Util.getMapTileFromCoordinates(b.south, b.east, z);
 
-            final int dx = lowerRight.x - upperLeft.x + 1;
-            final int dy = lowerRight.y - upperLeft.y + 1;
-            fileCnt += dx * dy;
+                final int dx = lowerRight.x - upperLeft.x + 1;
+                final int dy = lowerRight.y - upperLeft.y + 1;
+                fileCnt += dx * dy;
+            }
         }
-
         return fileCnt;
     }
 
-    private static int runFileExpecterWithAbort(final int pMinZoom, final int pMaxZoom, final double pNorth, final double pSouth, final double pEast, final double pWest) {
-        int cnt = runFileExpecter(pMinZoom, pMaxZoom, pNorth, pSouth, pEast, pWest);
-        System.out.println("Using the bounds of N,S,E,W = " + pNorth + "," + pSouth + "," + pEast + "," + pWest);
+    private static int runFileExpecterWithAbort(TileJob job) {
+        int cnt = 0;
+        for (Bounds b : job.bounds) {
+            cnt = runFileExpecter(job);
+        }
         abortIfUserIsNotSure("This will download: " + cnt + " Maptiles!");
         return cnt;
 
@@ -368,7 +489,7 @@ public class OSMMapTilePackager {
             return;
         }
 
-        System.out.println(message);
+        LOG.info(message);
         System.out.print("Are you sure? [Y/N] ?: ");
         try {
             java.awt.Toolkit.getDefaultToolkit().beep();
