@@ -6,9 +6,6 @@ The Android environment is a constantly changing one and unfortunately, that als
 If you're interested in potentially become a maintainer, release manager, or anything else please contact us. If no one steps up, this repository will eventually be
 archived and set to read only. We know there's a ton of popular apps out there that use osmdroid and we'd hate to see this go to the way side or to leave any of those apps without a place to log issues and hopefully get them patched, but it is what it is.
 
-StandWithUkraine:
-[![Stand With Ukraine](https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/badges/StandWithUkraine.svg)](https://stand-with-ukraine.pp.ua)
-
 # osmdroid [![Build Status](https://api.travis-ci.org/osmdroid/osmdroid.svg?branch=master)](https://travis-ci.org/osmdroid/osmdroid) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.osmdroid/osmdroid-android/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.osmdroid/osmdroid-android) [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-osmdroid-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/279) [![SourceSpy Dashboard](https://sourcespy.com/shield.svg)](https://sourcespy.com/github/osmdroidosmdroid/)
 
 osmdroid is a (almost) full/free replacement for Android's MapView (v1 API) class. It also includes a modular tile provider system with support for numerous online and offline tile sources and overlay support with built-in overlays for plotting icons, tracking location, and drawing shapes.
