@@ -36,7 +36,8 @@ dependencies {
 }
 
 //copy the instrumentation tests from the maven osmdroid-android-it src folder
-task preBuildTask1(type: Copy) {
+tasks.register('preBuildTask1', Copy) {
+    dependsOn ':osmdroid-android:copyFiles'
     println("copying StreamUtils sources")
     description 'copy java classes from osmdroid-android.'
     from("${rootDir}/osmdroid-android/src/main/java/org/osmdroid/tileprovider/util/StreamUtils.java")
@@ -44,7 +45,8 @@ task preBuildTask1(type: Copy) {
 
 }
 
-task preBuildTask2(type: Copy) {
+tasks.register('preBuildTask2', Copy) {
+    dependsOn ':osmdroid-android:copyFiles'
     println("copying GEMF sources")
     description 'copy java classes from osmdroid-android.'
     from("${rootDir}/osmdroid-android/src/main/java/org/osmdroid/util/GEMFFile.java")
@@ -53,7 +55,8 @@ task preBuildTask2(type: Copy) {
 }
 
 
-task preBuildTask3(type: Copy) {
+tasks.register('preBuildTask3', Copy) {
+    dependsOn ':osmdroid-android:copyFiles'
     println("copying api sources")
     description 'copy java classes from osmdroid-android.'
     from("${rootDir}/osmdroid-android/src/main/java/org/osmdroid/api/") {
@@ -67,7 +70,7 @@ task preBuildTask3(type: Copy) {
 }
 
 
-task preBuildTask4(type: Delete) {
+tasks.register('preBuildTask4', Delete) {
     println("removing android specific api sources")
     delete "${projectDir}/src/main/java/org/osmdroid/api/"
     delete "${projectDir}/src/main/java/org/osmdroid/api/IMyLocationOverlay.java"
@@ -76,6 +79,9 @@ task preBuildTask4(type: Delete) {
     delete "${projectDir}/src/main/java/org/osmdroid/api/IProjection.java"
 }
 
+sourcesJar.dependsOn(preBuildTask1)
+sourcesJar.dependsOn(preBuildTask2)
+sourcesJar.dependsOn(preBuildTask3)
 compileJava.dependsOn preBuildTask1
 compileJava.dependsOn preBuildTask2
 compileJava.dependsOn preBuildTask3
@@ -113,6 +119,6 @@ afterEvaluate {
             }
         }
     }
-
+    publishPdZipPublicationPublicationToMavenLocal.dependsOn(distZip)
 
 }

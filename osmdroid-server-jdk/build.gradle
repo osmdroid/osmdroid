@@ -121,6 +121,6 @@ afterEvaluate {
 
         }
     }
-
+    publishPdZipPublicationPublicationToMavenLocal.dependsOn(distZip)
 
 }

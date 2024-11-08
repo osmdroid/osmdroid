@@ -1,6 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="org.osmdroid.simplemap">
+    xmlns:tools="http://schemas.android.com/tools" >
 
     <!-- PROTECTION_NORMAL permissions, automatically granted -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -10,11 +9,11 @@
     <!-- DANGEROUS PERMISSIONS, must request -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28" />
 
     <application
-        android:allowBackup="false"
-        android:icon="@drawable/icon"
+        android:icon="@mipmap/icon"
         android:label="@string/app_name"
 		
         tools:ignore="GoogleAppIndexingWarning">
