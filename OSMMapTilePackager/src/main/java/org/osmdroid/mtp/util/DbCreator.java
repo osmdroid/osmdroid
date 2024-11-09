@@ -9,9 +9,9 @@ import java.sql.PreparedStatement;
 import java.sql.Statement;
 
 public class DbCreator extends TileWriter {
-    final File pDestinationFile;
-    Connection conn;
-    PreparedStatement prep;
+    private final File pDestinationFile;
+    private Connection conn;
+    private PreparedStatement prep;
 
     public DbCreator(final File pDestinationFile) {
         this.pDestinationFile = pDestinationFile;
@@ -24,7 +24,11 @@ public class DbCreator extends TileWriter {
         Class.forName("org.sqlite.JDBC");
         conn = DriverManager.getConnection("jdbc:sqlite:" + pDestinationFile);
         final Statement stat = conn.createStatement();
-        stat.execute("CREATE TABLE tiles (key INTEGER PRIMARY KEY, provider TEXT, tile BLOB)");
+        try {
+            stat.execute("CREATE TABLE tiles (key INTEGER PRIMARY KEY, provider TEXT, tile BLOB)");
+        }catch (Exception ex) {
+            ex.printStackTrace();
+        }
         stat.close();
         prep = conn.prepareStatement("insert into tiles values (?, ?, ?);");
     }
@@ -43,6 +47,7 @@ public class DbCreator extends TileWriter {
             prep.setString(2, name);
             prep.setBytes(3, image);
             prep.executeUpdate();
+            prep.clearParameters();
         }
     }
 }

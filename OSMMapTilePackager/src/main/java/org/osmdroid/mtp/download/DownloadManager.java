@@ -1,7 +1,6 @@
 // Created by plusminus on 9:34:16 PM - Mar 5, 2009
 package org.osmdroid.mtp.download;
 
-import org.osmdroid.mtp.OSMMapTilePackager;
 import org.osmdroid.mtp.TileWriter;
 import org.osmdroid.mtp.adt.OSMTileInfo;
 import org.osmdroid.tileprovider.util.StreamUtils;

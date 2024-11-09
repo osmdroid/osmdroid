@@ -42,7 +42,7 @@ public class OSMMapTilePackagerUI extends JFrame {
     private final JLabel lblTempFolder = new JLabel("Temp-Folder (and tile source name):");
     private final JTextField txtTempFolder = new JTextField();
     private final JButton cmdTempFolderBrowse = new JButton("Browse");
-    private final JTextField txtURL = new JTextField("https://b.tile.openstreetmap.org/%d/%d/%d.png");
+    private final JTextField txtURL = new JTextField("https://b.tile.openstreetmap.org/{x}/{x}/{y}.png");
     private final JButton cmdURLTest = new JButton("Test");
 
     private final JButton cmdExecute = new JButton("Execute");
@@ -140,10 +140,13 @@ public class OSMMapTilePackagerUI extends JFrame {
                 final int result = jfc.showSaveDialog(null);
                 if (result == JFileChooser.APPROVE_OPTION) {
                     final String absolutePath = jfc.getSelectedFile().getAbsolutePath();
-                    if (absolutePath.endsWith(".zip")) {
+                    if (!absolutePath.endsWith(".zip") &&
+                            !absolutePath.endsWith(".gemf") &&
+                            !absolutePath.endsWith(".sqlite")
+                    )
                         txtDestination.setText(absolutePath);
-                    } else {
-                        txtDestination.setText(absolutePath + ".zip");
+                    else {
+                       txtDestination.setText(absolutePath + ".sqlite");
                     }
                 }
             }
@@ -221,7 +224,10 @@ public class OSMMapTilePackagerUI extends JFrame {
             public void actionPerformed(final ActionEvent e) {
                 if (Desktop.isDesktopSupported()) {
                     try {
-                        Desktop.getDesktop().browse(new URI(String.format(txtURL.getText(), 0, 0, 0)));
+                        Desktop.getDesktop().browse(new URI((txtURL.getText().replace("{z}", "1")
+                                .replace("{y}", "1")
+                                .replace("{x}", "1")
+                                )));
                     } catch (final Throwable t) {
                         t.printStackTrace();
                     }
@@ -477,6 +483,7 @@ public class OSMMapTilePackagerUI extends JFrame {
                 job.setDestinationFile(destination);
                 job.setTileSourceName("MapNick"); //?
                 job.setServerURL(url);
+                job.setThreadCount(4);
                 OSMMapTilePackager.Bounds b = new OSMMapTilePackager.Bounds();
                 b.setNorth(north);
                 b.setSouth(south);
@@ -504,7 +511,7 @@ public class OSMMapTilePackagerUI extends JFrame {
                             try{
                                 worker.execute();
                             }catch (Exception ex) {
-
+                                 ex.printStackTrace();
                             }
 
                             int dialogButton2 = JOptionPane.showConfirmDialog(null, "All done, do you want delete the tile cache?", "Warning", JOptionPane.YES_NO_OPTION);
