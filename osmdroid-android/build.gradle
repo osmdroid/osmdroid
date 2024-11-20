@@ -8,7 +8,8 @@ version =  project.property("pom.version")
 
 
 android {
-    compileSdkVersion findProperty('android.compileSdkVersion').toInteger()
+    namespace "org.osmdroid.library"
+    compileSdk findProperty('android.compileSdkVersion').toInteger()
 
     defaultConfig{
         targetSdkVersion  findProperty('android.targetSdkVersion').toInteger()
@@ -41,18 +42,18 @@ dependencies {
     testImplementation "org.robolectric:robolectric:${project.property('robolectric.version')}"
 }
 
-task cleanCustomFiles(type: Delete) {
+tasks.register('cleanCustomFiles', Delete) {
     delete file('src/main/java/org/osmdroid/OsmdroidBuildInfo.java')
 }
 
 
 import org.apache.tools.ant.filters.*
-task copyFiles(type: Copy) {
+tasks.register('copyFiles', Copy) {
     from 'src/main/filtered/org/osmdroid'
     into 'src/main/java/org/osmdroid'
     filter(ReplaceTokens, tokens: [
             "pom.version": project.property("pom.version"),
-            "date": new Date().toString()
+            "date"       : new Date().toString()
     ])
 }
 
@@ -89,7 +90,9 @@ afterEvaluate {
 }
 
 
-task androidSourcesJar(type: Jar) {
+tasks.register('androidSourcesJar', Jar) {
+    dependsOn tasks.copyFiles
+    mustRunAfter tasks.copyFiles
     from android.sourceSets.main.java.srcDirs
 }
 
@@ -99,5 +102,7 @@ artifacts {
 
 }
 clean.dependsOn(copyFiles)
+// preBuild task is listed just after androidSourcesJar task in big list of builtin tasks
+preBuild.dependsOn(copyFiles)
 build.dependsOn(copyFiles)
 copyFiles.dependsOn(cleanCustomFiles)

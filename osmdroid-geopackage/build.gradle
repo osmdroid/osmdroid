@@ -7,7 +7,8 @@ group = project.property("pom.groupId")
 version = project.property("pom.version")
 
 android {
-    compileSdkVersion findProperty('android.compileSdkVersion').toInteger()
+    namespace "org.osmdroid.gpkg"
+    compileSdk findProperty('android.compileSdkVersion').toInteger()
 
     defaultConfig {
         minSdkVersion 23
@@ -55,7 +56,7 @@ dependencies {
     api 'mil.nga:tiff:3.0.0'
 }
 
-task androidSourcesJar(type: Jar) {
+tasks.register('androidSourcesJar', Jar) {
     from android.sourceSets.main.java.srcDirs
 }
 

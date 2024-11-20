@@ -7,7 +7,8 @@ group = project.property("pom.groupId")
 version =  project.property("pom.version")
 
 android {
-    compileSdkVersion findProperty('android.compileSdkVersion').toInteger()
+    namespace "org.osmdroid.shape"
+    compileSdk findProperty('android.compileSdkVersion').toInteger()
     defaultConfig {
         minSdkVersion Integer.parseInt(project.property('android-minSdkForSupportLib.version'))
     }
@@ -72,7 +73,7 @@ afterEvaluate {
 
 
 
-task androidSourcesJar(type: Jar) {
+tasks.register('androidSourcesJar', Jar) {
     from android.sourceSets.main.java.srcDirs
 }
 
