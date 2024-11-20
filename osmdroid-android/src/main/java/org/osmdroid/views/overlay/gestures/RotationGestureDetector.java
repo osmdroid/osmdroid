@@ -6,18 +6,21 @@ import org.osmdroid.events.MapListener;
 import org.osmdroid.views.MapView;
 
 /**
- * heads up, this class is used internally by osmdroid, you're welcome to use but it the interface
- * {@link RotationListener} will not fire as expected. It is used internally by osmdroid. If you want
- * to listen for rotation changes on the {@link org.osmdroid.views.MapView} then use {@link org.osmdroid.views.MapView#setMapListener(MapListener)}
- * and check for {@link MapView#getMapOrientation()}. See <a href="https://github.com/osmdroid/osmdroid/issues/628">https://github.com/osmdroid/osmdroid/issues/628</a>
+ * Heads up, this class is used internally by osmdroid. You're welcome to use it, but the interface
+ * {@link RotationListener} will not fire as expected because it is used internally by osmdroid.
+ * If you want to listen for rotation changes on the {@link org.osmdroid.views.MapView}, use
+ * {@link org.osmdroid.views.MapView#addMapListener(MapListener)} and check for
+ * {@link MapView#getMapOrientation()}.
+ * See <a href="https://github.com/osmdroid/osmdroid/issues/628">https://github.com/osmdroid/osmdroid/issues/628</a>
  */
 public class RotationGestureDetector {
 
     /**
-     * heads up, this class is used internally by osmdroid, you're welcome to use but it the interface
-     * {@link RotationListener} will not fire as expected. It is used internally by osmdroid. If you want
-     * to listen for rotation changes on the {@link org.osmdroid.views.MapView} then use {@link org.osmdroid.views.MapView#setMapListener(MapListener)}
-     * and check for {@link MapView#getMapOrientation()}
+     * Heads up, this class is used internally by osmdroid. You're welcome to use it, but the interface
+     * {@link RotationListener} will not fire as expected because it is used internally by osmdroid.
+     * If you want to listen for rotation changes on the {@link org.osmdroid.views.MapView}, use
+     * {@link org.osmdroid.views.MapView#addMapListener(MapListener)} and check for
+     * {@link MapView#getMapOrientation()}.
      * See <a href="https://github.com/osmdroid/osmdroid/issues/628">https://github.com/osmdroid/osmdroid/issues/628</a>
      */
     public interface RotationListener {
