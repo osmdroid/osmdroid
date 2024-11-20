@@ -1,10 +1,16 @@
-# This repo is up for adoption
+### osmdroid is now archived and will no longer receive updates or new releases
 
-So, there's a few admins for this repo and really, none of us have time to maintain osmdroid. As such, we rely on community contributions.
-The Android environment is a constantly changing one and unfortunately, that also means frequent dependency updates, patches, API changes, etc.
+While the project is now archived, the source code and documentation will remain available for those who wish to explore, fork, or maintain it independently.  
+This project launched at the same time as Android 1.0 to provide an alternative to Google Maps, using the same API with open map sources.
+A lot has changed since then and the effort to maintain this project has become untenable.
 
-If you're interested in potentially become a maintainer, release manager, or anything else please contact us. If no one steps up, this repository will eventually be
-archived and set to read only. We know there's a ton of popular apps out there that use osmdroid and we'd hate to see this go to the way side or to leave any of those apps without a place to log issues and hopefully get them patched, but it is what it is.
+We would like to thank every one of the
+[75+ contributors](https://github.com/osmdroid/osmdroid/graphs/contributors)
+over the last
+[16 years](https://code.google.com/archive/p/osmdroid/source/default/commits?page=15)
+who has contributed to the success of osmdroid.
+
+---
 
 # osmdroid [![Build Status](https://api.travis-ci.org/osmdroid/osmdroid.svg?branch=master)](https://travis-ci.org/osmdroid/osmdroid) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.osmdroid/osmdroid-android/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.osmdroid/osmdroid-android) [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-osmdroid-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/279) [![SourceSpy Dashboard](https://sourcespy.com/shield.svg)](https://sourcespy.com/github/osmdroidosmdroid/)
 
