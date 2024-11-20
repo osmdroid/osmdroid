@@ -243,6 +243,15 @@ public class Marker extends OverlayWithIW {
         return mFlat;
     }
 
+    public void setFocused(boolean mFocused) {
+        if (mIcon == null) return;
+        if (mFocused) {
+            mIcon.setState(new int[]{android.R.attr.state_focused});
+        } else {
+            mIcon.setState(new int[]{android.R.attr.state_single});
+        }
+    }
+
     /**
      * Removes this Marker from the MapView.
      * Note that this method will operate only if the Marker is in the MapView overlays
@@ -397,8 +406,15 @@ public class Marker extends OverlayWithIW {
     }
 
     @Override
+    public boolean onSingleTapUp(MotionEvent e, MapView mapView) {
+        setFocused(false);
+        return super.onSingleTapUp(e, mapView);
+    }
+
+    @Override
     public boolean onSingleTapConfirmed(final MotionEvent event, final MapView mapView) {
         boolean touched = hitTest(event, mapView);
+        setFocused(touched);
         if (touched) {
             if (mOnMarkerClickListener == null) {
                 return onMarkerClickDefault(this, mapView);
@@ -406,7 +422,7 @@ public class Marker extends OverlayWithIW {
                 return mOnMarkerClickListener.onMarkerClick(this, mapView);
             }
         } else
-            return touched;
+            return false;
     }
 
     public void moveToEventPosition(final MotionEvent event, final MapView mapView) {
